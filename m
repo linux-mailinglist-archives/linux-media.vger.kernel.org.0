@@ -2,159 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B8AA6EC6D0
-	for <lists+linux-media@lfdr.de>; Mon, 24 Apr 2023 09:09:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B89A66EC711
+	for <lists+linux-media@lfdr.de>; Mon, 24 Apr 2023 09:29:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231215AbjDXHJm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Apr 2023 03:09:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39520 "EHLO
+        id S229696AbjDXH31 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Apr 2023 03:29:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230415AbjDXHJl (ORCPT
+        with ESMTP id S229493AbjDXH30 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Apr 2023 03:09:41 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFC8FA0
-        for <linux-media@vger.kernel.org>; Mon, 24 Apr 2023 00:09:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682320179; x=1713856179;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=qEEa5v+ZwHqu4C4YBDv5KaxcTU2lTzEUvByPcyFxThA=;
-  b=jLaoPi0eT/qfpyiJfRTDsSLvCUK2BD801fvUjOXThSVlvm/s28ysORIv
-   +AbsAC8/FJ0VV358SNPCk+fkeH6b6mh/cECgR7XI3gaZLDlhhW4E0Rt+Q
-   5a5Rz0BaAJTatXFQ2QzjILKhTHmzyzBDAM7SbIEq3IPmEnVseS1jOvkOj
-   OAx+ql3S0aqswcx54u9c/LArpGE8qmF815IIwttGwq+FaoTvGEGGj2ViW
-   GUoNALfBIy1GWlczVk39ojpoKeeyRhe/2qkNNOWwj70Km0esqVgWL0Q/F
-   WGcyRP2lG/zwYk/QQjnXUauGdFKnpiH+n8qhsPUHAOVE/PprJBmRM1bfd
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="326699467"
-X-IronPort-AV: E=Sophos;i="5.99,222,1677571200"; 
-   d="scan'208";a="326699467"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 00:09:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="817151164"
-X-IronPort-AV: E=Sophos;i="5.99,222,1677571200"; 
-   d="scan'208";a="817151164"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orsmga004.jf.intel.com with ESMTP; 24 Apr 2023 00:09:38 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Mon, 24 Apr 2023 00:09:38 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Mon, 24 Apr 2023 00:09:37 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Mon, 24 Apr 2023 00:09:37 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.174)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Mon, 24 Apr 2023 00:09:37 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dOXvGHWNE/CyXYa5q9Wibxs0+WN+9HH2XqXsfZ/Mfz83yH+mtErxrGo7Dycwg4PcCEAl4MGqL7uzPtaqGqgn7Z0PtU6MwOoWvEG4Ds7ai19EbvOoi/eTkNnjLypyIW+mHcMygJEeV8LJAbfb4jAVjYLRll9giUN4adR6Z08Xfhknzg3wuPdGwKBdoXJJAIXQdtJ78N6c5ajNBDJdOvmnSiuPDmpWHZETJYJAt5nGZ0kAWLhhMmc+8qlJclsEj5FUI+Sse14dMpsqGPrgGF3FcuBGPj7HIVzkWhvBnwU1eOZVkwcQ3wIAvLmFIQBgwmCwJzT3O0pvQ9tzZV4LtmumIg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=J2o0CWFLFMO2qEYA1dAIOgGJEpnLG8BDN5/U0JndaHA=;
- b=F6RjOqnsF8M9+KKQpvk93Ct7Bfdsqr9J/Q1XZ5IGngcjleaGc8bXkrI7qxbNBRKtNvgkeh6fp0NQX8EdRsqZEEakQYyvhYvkH767Ti3BCPGeUFeRdfSED48rE7P6dkzQXQbjFXjGH5CJNBTPLMeWROoxjEmvb6XcOdbTrj1y2HxP8Rg7IcqFIYNE2PLKQ7Vou1ueWZ2VuDlES7CHlA5J4RuQRKc5ycFSkcda4IgLnbvRNxf8aE9UJ4SV0VMQOf7dPajOgrxKNBbY1cON5lhkFyJUKisj+j6Mi2gNZjJXW7D9XcUYNihEa1EcB+J9qidwnvcf2D22brFRczIZots58Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM6PR11MB4316.namprd11.prod.outlook.com (2603:10b6:5:205::16)
- by DM4PR11MB7328.namprd11.prod.outlook.com (2603:10b6:8:104::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.32; Mon, 24 Apr
- 2023 07:09:35 +0000
-Received: from DM6PR11MB4316.namprd11.prod.outlook.com
- ([fe80::7caa:b0e7:d0fb:c905]) by DM6PR11MB4316.namprd11.prod.outlook.com
- ([fe80::7caa:b0e7:d0fb:c905%5]) with mapi id 15.20.6319.033; Mon, 24 Apr 2023
- 07:09:35 +0000
-From:   "Wu, Wentong" <wentong.wu@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-CC:     "hdegoede@redhat.com" <hdegoede@redhat.com>,
-        "djrscally@gmail.com" <djrscally@gmail.com>,
-        "laurent.pinchart@ideasonboard.com" 
-        <laurent.pinchart@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "bingbu.cao@linux.intel.com" <bingbu.cao@linux.intel.com>,
-        "Wang, Zhifeng" <zhifeng.wang@intel.com>,
-        "Ye, Xiang" <xiang.ye@intel.com>,
-        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
-Subject: RE: [PATCH v5 1/3] media: pci: intel: ivsc: Add CSI submodule
-Thread-Topic: [PATCH v5 1/3] media: pci: intel: ivsc: Add CSI submodule
-Thread-Index: AQHZa1qb83vOHs0GwUmrsoEqBYfnoq85MxwAgACGYOCAAGOoAIAAAK2g
-Date:   Mon, 24 Apr 2023 07:09:34 +0000
-Message-ID: <DM6PR11MB431640E716F14528ACA35F5C8D679@DM6PR11MB4316.namprd11.prod.outlook.com>
-References: <1681096465-17287-1-git-send-email-wentong.wu@intel.com>
- <1681096465-17287-2-git-send-email-wentong.wu@intel.com>
- <ZEVj2Je9sNKDcBXn@kekkonen.localdomain>
- <DM6PR11MB4316D6790B4795647537A2E08D679@DM6PR11MB4316.namprd11.prod.outlook.com>
- <ZEYoKq4yaj0B//0u@kekkonen.localdomain>
-In-Reply-To: <ZEYoKq4yaj0B//0u@kekkonen.localdomain>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM6PR11MB4316:EE_|DM4PR11MB7328:EE_
-x-ms-office365-filtering-correlation-id: 8bcbfabc-107f-4051-df4b-08db4492db82
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: sNmxyJgnJyr+nkfjDLc4h8S+1TKqUSdHDOJrhZALJZF2piq3/9ZlW+IAcsFPlFG59qOoEU6lygsBMUDW7KQ/Z4pl80XCOAeOuOoyQNcSj99CERdyfUj5ghbWomn7npNFNJfXp5APtgjDjI9y0eSfuqbOgeqvo4NmBmJWxIOGcTnAwLGfyTb5ljTf3Ie7gpiCEC9o/hhGZaICQ5UW5h42YCsiqyzyfds0QrfARKQ8CXnW4ggenqafTTHKnO7i9iPngHnSj1/wXv2QVh9iyZAy4se4HBg8rrKz5GwRSAiZfmAzAbr4+E2fBkwVm1JsBaFV6p8GoUmlJX/P8gMX2HkZ3sFARwmW3DeP6py4JQ/nt/rblGfEbATFT3NhM/ty7JRFRcbjEyMmbwze4rGY9yG5UYsYVCANBYvN5X6Ue8i8BTveOrmCSSV5Q1K9VqQSIwre3YyBmm5eq8zqXuZe4n2lJgOIybA8FH8hrb/5OhbjSyhd7USXdqKI7f1HvN4Lh1dBMdX5mEma4AKVFmFh+K1O3us800W2XBnxQPPraQbCUG/zYsEsaPRqYff9+eOhnnMWyb3tIAg91KG3Ain6L04sjaLLLzaNSwdqY/V87iVpeYXrheieowT3o3HiduAd6ZtO
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4316.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(396003)(376002)(346002)(136003)(39860400002)(366004)(451199021)(2906002)(7696005)(71200400001)(55016003)(9686003)(6506007)(26005)(53546011)(186003)(76116006)(66946007)(66556008)(66476007)(66446008)(64756008)(8676002)(8936002)(316002)(41300700001)(6916009)(4326008)(478600001)(5660300002)(52536014)(54906003)(38070700005)(82960400001)(38100700002)(122000001)(86362001)(33656002)(83380400001)(66899021);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?qMYJ8w73j1Ue3QV0mSM7j8wTSggx1dVkmeUZRiki+nHfok8IKPIp6VIKjESD?=
- =?us-ascii?Q?iTqkXNcANOfqcPGdJUkzjqNgAOhlvxGU+BF0/rnfbNL1bHUKUjVFt7wHzae0?=
- =?us-ascii?Q?Y/tYrnw+kK5n8hcBacaHJl1+OX/0cNFSug79pqRmvQsSLxC3vPqUraBqrreU?=
- =?us-ascii?Q?DC+5NWuXf3v45q3OQ/yBgj9A7B0czFs37+MEqAfm9k/++pRQe9FJ6ofhAomu?=
- =?us-ascii?Q?embZMCIDA33iEb6zyVHYjf7f885yIsZkKq4gQRLQme/mJMlejhHdRTdyD2d7?=
- =?us-ascii?Q?Qb/TE3VrQPc4WYyOHNjpCmWCt52EXUDiAwaC8a4t9Fy7sJrUwadeubLAkuy4?=
- =?us-ascii?Q?tI7bCGGQl+vh00m7UzQ1iyMpEiznY4zfUMjopTLHpCVXMrQAn1dTJ1bM/lnp?=
- =?us-ascii?Q?hOmXbAoOulj3K+DruDVlPWdsLigiYKyQ06JxVsGR5CtX1n3pn0ynv3xsxfEX?=
- =?us-ascii?Q?PHKpTbUTee2w56ZhDwH2sYHdoUS3jTTsX0jo4suD9ErsGAy6iCRirTHxp1Ak?=
- =?us-ascii?Q?A15y53GtMAPwSOu4g3NdBmOSK3aSWLVToy1FrZW/z1wkFHb1ub8Tm2aINgWF?=
- =?us-ascii?Q?YJZH+oF/7M6RaqFGe7WzJB7rh7gbyq9yuycDQIPze49jne0O6iA3HwjnrnLS?=
- =?us-ascii?Q?qfIGU/IE7KadQQHP9OZoQfwG1xeZmIKETH2HQsFRoFDNNixBvKmkvXKuGZlo?=
- =?us-ascii?Q?4KXwJ/t9XQbXIGlAlpe8whkmL554sQ2Twi+p3jqoRnSPFnMlv7Ql5PrHNJah?=
- =?us-ascii?Q?YNjDZDlLhn2Gh+UDWWHan5Y+JoyAp9Bewbtxoy/RujO1l4RusinbLWoUcWQP?=
- =?us-ascii?Q?D/JFfJdQ6CB3E4Nb0anSTwBrI4GqRbXrM4f7+MyoooMEWc9mV3aXUhrVLJ45?=
- =?us-ascii?Q?MsUN/p3QzqSCXB0qxy5H5VuWmUltYRc01sTZ6+a2jPXjLKeGulkf4Jz5tvnC?=
- =?us-ascii?Q?qeSHUL0sHCZxFWf3K0Fcx7u3N3pNNbNM/jjfYfAcUtsfEs2qPOzdoJC+JwlY?=
- =?us-ascii?Q?hxdwrxmof/mj8/JpZzY19IErq5/3x2HsDmOmfdxF2syWLBKcCndrFeWYCMfh?=
- =?us-ascii?Q?fg1cVxE0kCdmH72gC2HIR0MKetfMZOWGmCShCSG5IgRMdR0JRinfGEENijsP?=
- =?us-ascii?Q?gKT5s9VH7OPpyJ7S1sTkYH88OBqYNbTZOsBatQ+dRmvRXGYq0FvwfB6X0boB?=
- =?us-ascii?Q?mHJ699ZERd/PCqcJ+0emqL3gT1gPkdCjQdB9XbSm8NFDDdjaBCaNfnJwp3Bj?=
- =?us-ascii?Q?rHd8HlCo5fkTy7TVZN5yrFkvU8pxCg029cJCTRMkE+TSsEfFEYmpWi3D6a0+?=
- =?us-ascii?Q?MDAyX6hspAHfcu1mSRx1S/PbMp1dsMimsMIHRL/Yihxir7oSoE/MmBbUuYna?=
- =?us-ascii?Q?6MMUnuZhJcgm/9i/zyyMm6p25lPpLX8Prwwz5i360h/+GXPgH+7jfjvOyAFQ?=
- =?us-ascii?Q?9dtViA5J6nmdQ7pN5uKmAIoCWSoyRNa748REeYivOsMGoxMeuGylW60ODi1U?=
- =?us-ascii?Q?Ju6oVPxMdLba5Irk6elwXZw3PUK1o8QLTlX7U1cXL5DfDD8Krak4NUqnv2U+?=
- =?us-ascii?Q?+lbp3t3g08rybvG6zXwOMs7g9fd9xRjA8VF4NV+I?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Mon, 24 Apr 2023 03:29:26 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29344E5E
+        for <linux-media@vger.kernel.org>; Mon, 24 Apr 2023 00:29:22 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6AFAA4AD;
+        Mon, 24 Apr 2023 09:29:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1682321350;
+        bh=raummT2vQZi2BS/eP9Gk7RD2npTJo5+cLoBkQxpTw7k=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=acKG8e3E1cDQmSnIrVBse3E3atBwBBQ1ZXSTmvF0QRRg2+fJncZ7n7nDRUjmKN7Zr
+         0VB4FPvwgf+XenriyNvwT5mwxMmkTUGqOzxf2Autb6pkLMscbD2NwjlKvCs+ip0x1W
+         HbZtUjBeyyQV3KzrcV7eE/Rs3Tfv3RLnSebXcK8o=
+Date:   Mon, 24 Apr 2023 10:29:32 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        satish.nagireddy@getcruise.com
+Subject: Re: [PATCH v4 2/8] media-ctl: Add support for routes and streams
+Message-ID: <20230424072932.GD4926@pendragon.ideasonboard.com>
+References: <20230421124428.393261-1-tomi.valkeinen@ideasonboard.com>
+ <20230421124428.393261-3-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4316.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8bcbfabc-107f-4051-df4b-08db4492db82
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Apr 2023 07:09:34.1616
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fvxI/C5hqjWdclRmpQQ+jJ6e5jlDEjV8hlkE9mnmfGlr7Pdm/gU0k2jCNd0E9ixtzwmzsqb84RyJFiA/TUVKpQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB7328
-X-OriginatorOrg: intel.com
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230421124428.393261-3-tomi.valkeinen@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_PDS_OTHER_BAD_TLD,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -162,286 +52,1077 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Tomi,
 
-> -----Original Message-----
-> From: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Sent: Monday, April 24, 2023 2:57 PM
-> To: Wu, Wentong <wentong.wu@intel.com>
->
-> > > > +
-> > > > +/* configure CSI-2 link between host and IVSC */ static int
-> > > > +csi_set_link_cfg(struct mei_csi *csi) {
-> > > > +	struct csi_cmd cmd =3D { 0 };
-> > > > +	size_t cmd_size;
-> > > > +	int ret;
-> > > > +
-> > > > +	cmd.cmd_id =3D CSI_SET_CONF;
-> > > > +	cmd.param.conf.nr_of_lanes =3D csi->nr_of_lanes;
-> > > > +	cmd.param.conf.link_freq =3D CSI_LINK_FREQ(csi->link_freq);
-> > > > +	cmd_size =3D sizeof(cmd.cmd_id) + sizeof(cmd.param.conf);
-> > >
-> > > Could you initialise this in variable declaration as I requested earl=
-ier?
-> > > The same for other similar cases.
-> >
-> > I believe we have discussed this on v3 patch set as below:
-> >
-> > 	> > > In some cases you're using memset and in others not. If you don'=
-t
-> need memset,
-> > 	> > > I'd prefer assigning the fields in variable declaration instead.
-> > 	> >
-> > 	> > The declaration will be like below, but it will break reverse x-ma=
-s
-> tree style.
-> > 	> >
-> > 	> > struct csi_cmd cmd =3D { 0 };
-> > 	> > size_t cmd_size =3D sizeof(cmd.cmd_id) + sizeof(cmd.param.param);
-> > 	> > int ret;
-> >
-> > 	> It's not a problem if you have a dependency.
->=20
-> Yes, I meant the non-Christmas tree (reverse or not) ordering is not an i=
-ssue.
-> Dependencies of course are of higher priority.
+Thank you for the patch.
 
-Thanks,=20
+On Fri, Apr 21, 2023 at 03:44:22PM +0300, Tomi Valkeinen wrote:
+> Add support to get and set subdev routes and to get and set
+> configurations per stream.
+> 
+> Based on work from Sakari Ailus <sakari.ailus@linux.intel.com>.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  utils/media-ctl/libmediactl.c   |  41 +++++
+>  utils/media-ctl/libv4l2subdev.c | 281 ++++++++++++++++++++++++++++----
+>  utils/media-ctl/media-ctl.c     | 121 ++++++++++++--
+>  utils/media-ctl/mediactl.h      |  16 ++
+>  utils/media-ctl/options.c       |  15 +-
+>  utils/media-ctl/options.h       |   1 +
+>  utils/media-ctl/v4l2subdev.h    |  58 ++++++-
+>  7 files changed, 476 insertions(+), 57 deletions(-)
+> 
+> diff --git a/utils/media-ctl/libmediactl.c b/utils/media-ctl/libmediactl.c
+> index a18b063e..c32fe56a 100644
+> --- a/utils/media-ctl/libmediactl.c
+> +++ b/utils/media-ctl/libmediactl.c
+> @@ -874,6 +874,47 @@ struct media_pad *media_parse_pad(struct media_device *media,
+>  	return &entity->pads[pad];
+>  }
+>  
+> +struct media_pad *media_parse_pad_stream(struct media_device *media,
+> +					 const char *p, unsigned int *stream,
+> +					 char **endp)
+> +{
+> +	struct media_pad *pad;
+> +	const char *orig_p = p;
+> +	char *ep;
+> +
+> +	pad = media_parse_pad(media, p, &ep);
+> +	if (pad == NULL)
+> +		return NULL;
+> +
+> +	p = ep;
+> +
+> +	if (*p == '/') {
+> +		unsigned int s;
+> +
+> +		p++;
+> +
+> +		s = strtoul(p, &ep, 10);
+> +
+> +		if (ep == p) {
+> +			media_dbg(media, "Unable to parse stream: '%s'\n", orig_p);
+> +			if (endp)
+> +				*endp = (char*)p;
+> +			return NULL;
+> +		}
+> +
+> +		*stream = s;
+> +
+> +		p++;
 
->=20
-> >
-> > >
-> > > > +
-> > > > +	mutex_lock(&csi->lock);
-> > > > +
-> > > > +	ret =3D mei_csi_send(csi, (u8 *)&cmd, cmd_size);
-> > > > +	/*
-> > > > +	 * wait configuration ready if download success. placing
-> > > > +	 * delay under mutex is to make sure current command flow
-> > > > +	 * completed before starting a possible new one.
-> > > > +	 */
-> > > > +	if (!ret)
-> > > > +		msleep(CSI_FW_READY_DELAY_MS);
-> > > > +
-> > > > +	mutex_unlock(&csi->lock);
-> > > > +
-> > > > +	return ret;
-> > > > +}
-> > > > +
-> > > > +static int mei_csi_pre_streamon(struct v4l2_subdev *sd, u32 flags)=
- {
-> > > > +	struct v4l2_querymenu qm =3D { .id =3D V4L2_CID_LINK_FREQ, };
-> > > > +	struct mei_csi *csi =3D sd_to_csi(sd);
-> > > > +	struct v4l2_ctrl *ctrl;
-> > > > +	int ret =3D 0;
-> > >
-> > > No need to initialise this, it is always set.
-> >
-> > ack, thanks
-> >
-> > >
-> > > > +
-> > > > +	if (!csi->remote)
-> > > > +		return -ENODEV;
-> > > > +
-> > > > +	ctrl =3D v4l2_ctrl_find(csi->remote->ctrl_handler, V4L2_CID_LINK_=
-FREQ);
-> > > > +	if (!ctrl)
-> > > > +		return -EINVAL;
-> > > > +	qm.index =3D v4l2_ctrl_g_ctrl(ctrl);
-> > > > +
-> > > > +	ret =3D v4l2_querymenu(csi->remote->ctrl_handler, &qm);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > >
-> > > Please use v4l2_get_link_freq() as already discussed.
-> >
-> > ack, thanks,
-> >
-> > >
-> > > Didn't we also discuss that you could do this in the s_stream() callb=
-ack?
-> >
-> > We don't need configure CSI2 link if call s_stream with enable =3D 0,
-> >
-> > But I'm ok to get this in s_stream, thanks
->=20
-> Yes, you should only query this if streaming is being enabled.
+Skip spaces at the end.
 
-Can we just query the link freq in mei_csi_notify_bound and record it?
+> +	} else {
+> +		*stream = 0;
+> +	}
+> +
+> +	if (endp)
+> +		*endp = (char*)p;
+> +
+> +	return pad;
+> +}
+> +
+>  struct media_link *media_parse_link(struct media_device *media,
+>  				    const char *p, char **endp)
+>  {
+> diff --git a/utils/media-ctl/libv4l2subdev.c b/utils/media-ctl/libv4l2subdev.c
+> index 63bb3d75..9205cfa4 100644
+> --- a/utils/media-ctl/libv4l2subdev.c
+> +++ b/utils/media-ctl/libv4l2subdev.c
+> @@ -64,7 +64,7 @@ void v4l2_subdev_close(struct media_entity *entity)
+>  }
+>  
+>  int v4l2_subdev_get_format(struct media_entity *entity,
+> -	struct v4l2_mbus_framefmt *format, unsigned int pad,
+> +	struct v4l2_mbus_framefmt *format, unsigned int pad, unsigned int stream,
+>  	enum v4l2_subdev_format_whence which)
+>  {
+>  	struct v4l2_subdev_format fmt;
+> @@ -76,6 +76,7 @@ int v4l2_subdev_get_format(struct media_entity *entity,
+>  
+>  	memset(&fmt, 0, sizeof(fmt));
+>  	fmt.pad = pad;
+> +	fmt.stream = stream;
+>  	fmt.which = which;
+>  
+>  	ret = ioctl(entity->fd, VIDIOC_SUBDEV_G_FMT, &fmt);
+> @@ -88,6 +89,7 @@ int v4l2_subdev_get_format(struct media_entity *entity,
+>  
+>  int v4l2_subdev_set_format(struct media_entity *entity,
+>  	struct v4l2_mbus_framefmt *format, unsigned int pad,
+> +	unsigned int stream,
+>  	enum v4l2_subdev_format_whence which)
+>  {
+>  	struct v4l2_subdev_format fmt;
+> @@ -99,6 +101,7 @@ int v4l2_subdev_set_format(struct media_entity *entity,
+>  
+>  	memset(&fmt, 0, sizeof(fmt));
+>  	fmt.pad = pad;
+> +	fmt.stream = stream;
+>  	fmt.which = which;
+>  	fmt.format = *format;
+>  
+> @@ -111,8 +114,8 @@ int v4l2_subdev_set_format(struct media_entity *entity,
+>  }
+>  
+>  int v4l2_subdev_get_selection(struct media_entity *entity,
+> -	struct v4l2_rect *rect, unsigned int pad, unsigned int target,
+> -	enum v4l2_subdev_format_whence which)
+> +	struct v4l2_rect *rect, unsigned int pad, unsigned int stream,
+> +	unsigned int target, enum v4l2_subdev_format_whence which)
+>  {
+>  	union {
+>  		struct v4l2_subdev_selection sel;
+> @@ -150,8 +153,8 @@ int v4l2_subdev_get_selection(struct media_entity *entity,
+>  }
+>  
+>  int v4l2_subdev_set_selection(struct media_entity *entity,
+> -	struct v4l2_rect *rect, unsigned int pad, unsigned int target,
+> -	enum v4l2_subdev_format_whence which)
+> +	struct v4l2_rect *rect, unsigned int pad, unsigned int stream,
+> +	unsigned int target, enum v4l2_subdev_format_whence which)
+>  {
+>  	union {
+>  		struct v4l2_subdev_selection sel;
+> @@ -165,6 +168,7 @@ int v4l2_subdev_set_selection(struct media_entity *entity,
+>  
+>  	memset(&u.sel, 0, sizeof(u.sel));
+>  	u.sel.pad = pad;
+> +	u.sel.stream = stream;
+>  	u.sel.target = target;
+>  	u.sel.which = which;
+>  	u.sel.r = *rect;
+> @@ -179,6 +183,7 @@ int v4l2_subdev_set_selection(struct media_entity *entity,
+>  
+>  	memset(&u.crop, 0, sizeof(u.crop));
+>  	u.crop.pad = pad;
+> +	u.crop.stream = stream;
+>  	u.crop.which = which;
+>  	u.crop.rect = *rect;
+>  
+> @@ -190,6 +195,69 @@ int v4l2_subdev_set_selection(struct media_entity *entity,
+>  	return 0;
+>  }
+>  
+> +int v4l2_subdev_set_routing(struct media_entity *entity,
+> +			    struct v4l2_subdev_route *routes,
+> +			    unsigned int num_routes)
+> +{
+> +	struct v4l2_subdev_routing routing = {
+> +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+> +		.routes = (uintptr_t)routes,
+> +		.num_routes = num_routes,
+> +	};
+> +	int ret;
+> +
+> +	ret = v4l2_subdev_open(entity);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = ioctl(entity->fd, VIDIOC_SUBDEV_S_ROUTING, &routing);
+> +	if (ret == -1)
+> +		return -errno;
+> +
+> +	return 0;
+> +}
+> +
+> +int v4l2_subdev_get_routing(struct media_entity *entity,
+> +			    struct v4l2_subdev_route **routes,
+> +			    unsigned int *num_routes)
 
->=20
-> >
-> > >
-> > > > +
-> > > > +	csi->link_freq =3D qm.value;
-> > > > +
-> > > > +	return ret;
-> > > > +}
-> > > > +
-> > > > +
-> > > > +static const struct v4l2_async_notifier_operations mei_csi_notify_=
-ops =3D {
-> > > > +	.bound =3D mei_csi_notify_bound,
-> > > > +	.unbind =3D mei_csi_notify_unbind, };
-> > > > +
-> > > > +static int mei_csi_init_control(struct mei_csi *csi) {
-> > > > +	v4l2_ctrl_handler_init(&csi->ctrl_handler, 1);
-> > > > +	csi->ctrl_handler.lock =3D &csi->lock;
-> > > > +
-> > > > +	csi->privacy_ctrl =3D v4l2_ctrl_new_std(&csi->ctrl_handler, NULL,
-> > > > +					      V4L2_CID_PRIVACY, 0, 1, 1, 0);
-> > > > +	if (csi->ctrl_handler.error)
-> > > > +		return csi->ctrl_handler.error;
-> > > > +	csi->privacy_ctrl->flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
-> > >
-> > > You should also add the LINK_FREQUENCY control. Make it U64 and and
-> > > VOLATILE, too. This way the driver's g_volatile_ctrl() gets called
-> > > when the control value is read.
-> >
-> > ack, thanks
-> >
-> > >
-> > > > +
-> > > > +	csi->subdev.ctrl_handler =3D &csi->ctrl_handler;
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +
-> > > > +static int mei_csi_parse_firmware(struct mei_csi *csi) {
-> > > > +	struct v4l2_fwnode_endpoint v4l2_ep =3D {
-> > > > +		.bus_type =3D V4L2_MBUS_CSI2_DPHY,
-> > > > +	};
-> > > > +	struct device *dev =3D &csi->cldev->dev;
-> > > > +	struct v4l2_async_subdev *asd;
-> > > > +	struct fwnode_handle *fwnode;
-> > > > +	struct fwnode_handle *ep;
-> > > > +	int ret;
-> > > > +
-> > > > +	ep =3D fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), 0, 0, 0);
-> > > > +	if (!ep) {
-> > > > +		dev_err(dev, "not connected to subdevice\n");
-> > > > +		return -EINVAL;
-> > > > +	}
-> > > > +
-> > > > +	ret =3D v4l2_fwnode_endpoint_parse(ep, &v4l2_ep);
-> > > > +	if (ret) {
-> > > > +		dev_err(dev, "could not parse v4l2 endpoint\n");
-> > > > +		fwnode_handle_put(ep);
-> > > > +		return -EINVAL;
-> > > > +	}
-> > > > +
-> > > > +	fwnode =3D fwnode_graph_get_remote_endpoint(ep);
-> > > > +	fwnode_handle_put(ep);
-> > > > +
-> > > > +	v4l2_async_nf_init(&csi->notifier);
-> > > > +	csi->notifier.ops =3D &mei_csi_notify_ops;
-> > > > +
-> > > > +	asd =3D v4l2_async_nf_add_fwnode(&csi->notifier, fwnode,
-> > > > +				       struct v4l2_async_subdev);
-> > > > +	if (IS_ERR(asd)) {
-> > > > +		fwnode_handle_put(fwnode);
-> > > > +		return PTR_ERR(asd);
-> > > > +	}
-> > > > +
-> > > > +	ret =3D v4l2_fwnode_endpoint_alloc_parse(fwnode, &v4l2_ep);
-> > >
-> > > It seems you're parsing the remote endpoint properties here. This
-> > > shouldn't be needed for any reason.
-> >
-> > We need sensor's lane number to configure IVSC's CSI2
-> >
-> > >
-> > > > +	fwnode_handle_put(fwnode);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > > +	csi->nr_of_lanes =3D v4l2_ep.bus.mipi_csi2.num_data_lanes;
-> > >
-> > > Instead the number of lanes comes from the local endpoint.
-> >
-> > The lane number of IVSC follows sensor's lane number, why local endpoin=
-t?
->=20
-> Because you shouldn't access other devices' endpoint properties in driver=
-s.
-> They are outside of the scope of the device's bindings.
+Move get before set.
 
-Ok, in v3 patch set, it was trying to get the lane number as below:
+> +{
+> +	struct v4l2_subdev_routing routing = {
+> +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+> +	};
+> +	struct v4l2_subdev_route *r;
+> +	int ret;
+> +
+> +	ret = v4l2_subdev_open(entity);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = ioctl(entity->fd, VIDIOC_SUBDEV_G_ROUTING, &routing);
+> +	if (ret == -1 && errno != ENOSPC)
+> +		return -errno;
+> +
+> +	if (!routing.num_routes) {
+> +		*routes = NULL;
+> +		*num_routes = 0;
+> +		return 0;
+> +	}
+> +
+> +	r = calloc(routing.num_routes, sizeof(*r));
+> +	if (!r)
+> +		return -ENOMEM;
+> +
+> +	routing.routes = (uintptr_t)r;
+> +	ret = ioctl(entity->fd, VIDIOC_SUBDEV_G_ROUTING, &routing);
+> +	if (ret) {
 
-	+	ret =3D v4l2_subdev_call(csi->remote, pad, get_mbus_config,
-	+			       csi->remote_pad, &mbus_config);
-	+	if (ret)
-	+		return ret;
-	+
-	+	if (mbus_config.type !=3D V4L2_MBUS_CSI2_DPHY)
-	+		return -EINVAL;
-	+
-	+	csi->nr_of_lanes =3D mbus_config.bus.mipi_csi2.num_data_lanes;
+		ret = -errno;
 
-Can we use above subdev_call in mei_csi_notify_bound to get lane number?
+> +		free(r);
+> +		return ret;
+> +	}
+> +
+> +	*num_routes = routing.num_routes;
+> +	*routes = r;
+> +
+> +	return 0;
+> +}
+> +
+>  int v4l2_subdev_get_dv_timings_caps(struct media_entity *entity,
+>  	struct v4l2_dv_timings_cap *caps)
+>  {
+> @@ -264,7 +332,7 @@ int v4l2_subdev_set_dv_timings(struct media_entity *entity,
+>  
+>  int v4l2_subdev_get_frame_interval(struct media_entity *entity,
+>  				   struct v4l2_fract *interval,
+> -				   unsigned int pad)
+> +				   unsigned int pad, unsigned int stream)
+>  {
+>  	struct v4l2_subdev_frame_interval ival;
+>  	int ret;
+> @@ -275,6 +343,7 @@ int v4l2_subdev_get_frame_interval(struct media_entity *entity,
+>  
+>  	memset(&ival, 0, sizeof(ival));
+>  	ival.pad = pad;
+> +	ival.stream = stream;
+>  
+>  	ret = ioctl(entity->fd, VIDIOC_SUBDEV_G_FRAME_INTERVAL, &ival);
+>  	if (ret < 0)
+> @@ -286,7 +355,7 @@ int v4l2_subdev_get_frame_interval(struct media_entity *entity,
+>  
+>  int v4l2_subdev_set_frame_interval(struct media_entity *entity,
+>  				   struct v4l2_fract *interval,
+> -				   unsigned int pad)
+> +				   unsigned int pad, unsigned int stream)
+>  {
+>  	struct v4l2_subdev_frame_interval ival;
+>  	int ret;
+> @@ -297,6 +366,7 @@ int v4l2_subdev_set_frame_interval(struct media_entity *entity,
+>  
+>  	memset(&ival, 0, sizeof(ival));
+>  	ival.pad = pad;
+> +	ival.stream = stream;
+>  	ival.interval = *interval;
+>  
+>  	ret = ioctl(entity->fd, VIDIOC_SUBDEV_S_FRAME_INTERVAL, &ival);
+> @@ -307,6 +377,153 @@ int v4l2_subdev_set_frame_interval(struct media_entity *entity,
+>  	return 0;
+>  }
+>  
+> +static int v4l2_subdev_parse_setup_route(struct media_device *media,
+> +					 struct v4l2_subdev_route *r,
+> +					 const char *p, char **endp)
 
-BR,
-Wentong
+At some point we should probably use a real parser...
 
->=20
-> >
-> > >
-> > > > +
-> > > > +	ret =3D v4l2_async_subdev_nf_register(&csi->subdev, &csi->notifie=
-r);
-> > > > +	if (ret)
-> > > > +		v4l2_async_nf_cleanup(&csi->notifier);
-> > > > +
-> > > > +	v4l2_fwnode_endpoint_free(&v4l2_ep);
-> > > > +
-> > > > +	return ret;
-> > > > +}
-> > > > +
-> > > > +static int mei_csi_probe(struct mei_cl_device *cldev,
-> > > > +			 const struct mei_cl_device_id *id) {
-> > > > +	struct device *dev =3D &cldev->dev;
-> > > > +	struct mei_csi *csi;
-> > > > +	int ret;
-> > > > +
-> > > > +	if (!dev_fwnode(dev))
-> > > > +		return -EPROBE_DEFER;
-> > > > +
-> > > > +	csi =3D devm_kzalloc(dev, sizeof(struct mei_csi), GFP_KERNEL);
-> > > > +	if (!csi)
-> > > > +		return -ENOMEM;
-> > > > +
-> > > > +	csi->cldev =3D cldev;
-> > > > +	mutex_init(&csi->lock);
-> > > > +	init_completion(&csi->cmd_completion);
-> > > > +
-> > > > +	mei_cldev_set_drvdata(cldev, csi);
-> > > > +
-> > > > +	ret =3D mei_cldev_enable(cldev);
-> > > > +	if (ret < 0) {
-> > > > +		dev_err(dev, "mei_cldev_enable failed: %d\n", ret);
-> > > > +		goto destroy_mutex;
-> > > > +	}
-> > > > +
-> > > > +	ret =3D mei_cldev_register_rx_cb(cldev, mei_csi_rx);
-> > > > +	if (ret) {
-> > > > +		dev_err(dev, "event cb registration failed: %d\n", ret);
-> > > > +		goto err_disable;
-> > > > +	}
-> > > > +
-> > > > +	ret =3D mei_csi_parse_firmware(csi);
-> > > > +	if (ret)
-> > > > +		goto err_disable;
-> > > > +
-> > > > +	csi->subdev.dev =3D &cldev->dev;
-> > > > +	v4l2_subdev_init(&csi->subdev, &mei_csi_subdev_ops);
-> > > > +	v4l2_set_subdevdata(&csi->subdev, csi);
-> > > > +	csi->subdev.flags =3D V4L2_SUBDEV_FL_HAS_DEVNODE;
-> > >
-> > > Please add V4L2_SUBDEV_FL_HAS_EVENTS for control events.
-> >
-> > ack, thanks
->=20
-> --
-> Kind regards,
->=20
-> Sakari Ailus
+> +{
+> +	char *end;
+> +
+> +	/* sink pad/stream */
+> +
+> +	r->sink_pad = strtoul(p, &end, 10);
+> +	if (*end != '/') {
+> +		media_dbg(media, "Expected '/'\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	p = end + 1;
+> +
+> +	r->sink_stream = strtoul(p, &end, 10);
+> +
+> +	for (; isspace(*end); ++end);
+> +
+> +	if (end[0] != '-' || end[1] != '>') {
+> +		media_dbg(media, "Expected '->'\n");
+> +		return -EINVAL;
+> +	}
+> +	p = end + 2;
+> +
+> +	/* source pad/stream */
+> +
+> +	r->source_pad = strtoul(p, &end, 10);
+> +	if (*end != '/') {
+> +		media_dbg(media, "Expected '/'\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	p = end + 1;
+> +
+> +	r->source_stream = strtoul(p, &end, 10);
+> +
+> +	/* flags */
+> +
+> +	for (; isspace(*end); ++end);
+> +
+> +	if (*end != '[') {
+> +		media_dbg(media, "Expected '['\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	for (end++; isspace(*end); ++end);
+> +
+> +	p = end;
+> +
+> +	r->flags = strtoul(p, &end, 0);
+> +	if (r->flags & ~(V4L2_SUBDEV_ROUTE_FL_ACTIVE)) {
+> +		media_dbg(media, "Bad route flags %#x\n", r->flags);
+> +		return -EINVAL;
+> +	}
+> +
+> +	for (; isspace(*end); ++end);
+> +
+> +	if (*end != ']') {
+> +		media_dbg(media, "Expected ']'\n");
+> +		return -EINVAL;
+> +	}
+> +	end++;
+
+Skip spaces at the end.
+
+> +
+> +	*endp = end;
+> +
+> +	return 0;
+> +}
+> +
+> +int v4l2_subdev_parse_setup_routes(struct media_device *media, const char *p)
+> +{
+> +	struct media_entity *entity;
+> +	struct v4l2_subdev_route *routes;
+> +	unsigned int num_routes;
+> +	char *end;
+> +	int ret;
+> +	int i;
+
+unsigned int
+
+> +
+> +	entity = media_parse_entity(media, p, &end);
+> +	if (!entity)
+> +		return -EINVAL;
+> +
+> +	p = end;
+> +
+> +	if (*p != '[') {
+> +		media_dbg(media, "Expected '['\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	p++;
+> +
+> +	routes = calloc(256, sizeof(routes[0]));
+> +	if (!routes)
+> +		return -ENOMEM;
+> +
+> +	num_routes = 0;
+> +
+> +	while (*p != 0) {
+> +		struct v4l2_subdev_route *r = &routes[num_routes];
+> +
+> +		ret = v4l2_subdev_parse_setup_route(media, r, p, &end);
+> +		if (ret)
+> +			goto out;
+> +
+> +		p = end;
+> +
+> +		num_routes++;
+> +
+> +		if (*p == ',') {
+> +			p++;
+> +			continue;
+> +		}
+> +
+> +		break;
+> +	}
+> +
+> +	if (*p != ']') {
+> +		media_dbg(media, "Expected ']'\n");
+> +		ret = -EINVAL;
+> +		goto out;
+> +	}
+> +
+> +	for (i = 0; i < num_routes; ++i) {
+> +		struct v4l2_subdev_route *r = &routes[i];
+> +
+> +		media_dbg(entity->media,
+> +			  "Setting up route %s : %u/%u -> %u/%u, flags 0x%8.8x\n",
+
+Flags are usually printed in "[0x%08x]" format.
+
+> +			  entity->info.name,
+> +			  r->sink_pad, r->sink_stream,
+> +			  r->source_pad, r->source_stream,
+> +			  r->flags);
+> +	}
+> +
+> +	ret = v4l2_subdev_set_routing(entity, routes, num_routes);
+> +	if (ret) {
+> +		media_dbg(entity->media, "VIDIOC_SUBDEV_S_ROUTING failed: %d\n",
+> +			  ret);
+> +		goto out;
+> +	}
+> +
+> +out:
+> +	free(routes);
+> +
+> +	return ret;
+> +}
+> +
+>  static int v4l2_subdev_parse_format(struct media_device *media,
+>  				    struct v4l2_mbus_framefmt *format,
+>  				    const char *p, char **endp)
+> @@ -442,7 +659,8 @@ static bool strhazit(const char *str, const char **p)
+>  }
+>  
+>  static struct media_pad *v4l2_subdev_parse_pad_format(
+> -	struct media_device *media, struct v4l2_mbus_framefmt *format,
+> +	struct media_device *media, unsigned int *stream,
+> +	struct v4l2_mbus_framefmt *format,
+>  	struct v4l2_rect *crop, struct v4l2_rect *compose,
+>  	struct v4l2_fract *interval, const char *p, char **endp)
+>  {
+> @@ -453,7 +671,7 @@ static struct media_pad *v4l2_subdev_parse_pad_format(
+>  
+>  	for (; isspace(*p); ++p);
+>  
+> -	pad = media_parse_pad(media, p, &end);
+> +	pad = media_parse_pad_stream(media, p, stream, &end);
+>  	if (pad == NULL) {
+>  		*endp = end;
+>  		return NULL;
+> @@ -675,6 +893,7 @@ static struct media_pad *v4l2_subdev_parse_pad_format(
+>  }
+>  
+>  static int set_format(struct media_pad *pad,
+> +		      unsigned int stream,
+>  		      struct v4l2_mbus_framefmt *format)
+>  {
+>  	int ret;
+> @@ -683,12 +902,12 @@ static int set_format(struct media_pad *pad,
+>  		return 0;
+>  
+>  	media_dbg(pad->entity->media,
+> -		  "Setting up format %s %ux%u on pad %s/%u\n",
+> +		  "Setting up format %s %ux%u on pad %s/%u/%u\n",
+>  		  v4l2_subdev_pixelcode_to_string(format->code),
+>  		  format->width, format->height,
+> -		  pad->entity->info.name, pad->index);
+> +		  pad->entity->info.name, pad->index, stream);
+>  
+> -	ret = v4l2_subdev_set_format(pad->entity, format, pad->index,
+> +	ret = v4l2_subdev_set_format(pad->entity, format, pad->index, stream,
+>  				     V4L2_SUBDEV_FORMAT_ACTIVE);
+>  	if (ret < 0) {
+>  		media_dbg(pad->entity->media,
+> @@ -705,8 +924,8 @@ static int set_format(struct media_pad *pad,
+>  	return 0;
+>  }
+>  
+> -static int set_selection(struct media_pad *pad, unsigned int target,
+> -			 struct v4l2_rect *rect)
+> +static int set_selection(struct media_pad *pad, unsigned int stream,
+> +			 unsigned int target, struct v4l2_rect *rect)
+>  {
+>  	int ret;
+>  
+> @@ -714,11 +933,11 @@ static int set_selection(struct media_pad *pad, unsigned int target,
+>  		return 0;
+>  
+>  	media_dbg(pad->entity->media,
+> -		  "Setting up selection target %u rectangle (%u,%u)/%ux%u on pad %s/%u\n",
+> +		  "Setting up selection target %u rectangle (%u,%u)/%ux%u on pad %s/%u/%u\n",
+>  		  target, rect->left, rect->top, rect->width, rect->height,
+> -		  pad->entity->info.name, pad->index);
+> +		  pad->entity->info.name, pad->index, stream);
+>  
+> -	ret = v4l2_subdev_set_selection(pad->entity, rect, pad->index,
+> +	ret = v4l2_subdev_set_selection(pad->entity, rect, pad->index, stream,
+>  					target, V4L2_SUBDEV_FORMAT_ACTIVE);
+>  	if (ret < 0) {
+>  		media_dbg(pad->entity->media,
+> @@ -734,7 +953,7 @@ static int set_selection(struct media_pad *pad, unsigned int target,
+>  	return 0;
+>  }
+>  
+> -static int set_frame_interval(struct media_pad *pad,
+> +static int set_frame_interval(struct media_pad *pad, unsigned int stream,
+>  			      struct v4l2_fract *interval)
+>  {
+>  	int ret;
+> @@ -743,11 +962,12 @@ static int set_frame_interval(struct media_pad *pad,
+>  		return 0;
+>  
+>  	media_dbg(pad->entity->media,
+> -		  "Setting up frame interval %u/%u on pad %s/%u\n",
+> +		  "Setting up frame interval %u/%u on pad %s/%u/%u\n",
+>  		  interval->numerator, interval->denominator,
+> -		  pad->entity->info.name, pad->index);
+> +		  pad->entity->info.name, pad->index, stream);
+>  
+> -	ret = v4l2_subdev_set_frame_interval(pad->entity, interval, pad->index);
+> +	ret = v4l2_subdev_set_frame_interval(pad->entity, interval, pad->index,
+> +					     stream);
+>  	if (ret < 0) {
+>  		media_dbg(pad->entity->media,
+>  			  "Unable to set frame interval: %s (%d)",
+> @@ -770,11 +990,13 @@ static int v4l2_subdev_parse_setup_format(struct media_device *media,
+>  	struct v4l2_rect crop = { -1, -1, -1, -1 };
+>  	struct v4l2_rect compose = crop;
+>  	struct v4l2_fract interval = { 0, 0 };
+> +	unsigned int stream;
+>  	unsigned int i;
+>  	char *end;
+>  	int ret;
+>  
+> -	pad = v4l2_subdev_parse_pad_format(media, &format, &crop, &compose,
+> +	pad = v4l2_subdev_parse_pad_format(media, &stream,
+> +					   &format, &crop, &compose,
+>  					   &interval, p, &end);
+>  	if (pad == NULL) {
+>  		media_print_streampos(media, p, end);
+> @@ -783,30 +1005,29 @@ static int v4l2_subdev_parse_setup_format(struct media_device *media,
+>  	}
+>  
+>  	if (pad->flags & MEDIA_PAD_FL_SINK) {
+> -		ret = set_format(pad, &format);
+> +		ret = set_format(pad, stream, &format);
+>  		if (ret < 0)
+>  			return ret;
+>  	}
+>  
+> -	ret = set_selection(pad, V4L2_SEL_TGT_CROP, &crop);
+> +	ret = set_selection(pad, stream, V4L2_SEL_TGT_CROP, &crop);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	ret = set_selection(pad, V4L2_SEL_TGT_COMPOSE, &compose);
+> +	ret = set_selection(pad, stream, V4L2_SEL_TGT_COMPOSE, &compose);
+>  	if (ret < 0)
+>  		return ret;
+>  
+>  	if (pad->flags & MEDIA_PAD_FL_SOURCE) {
+> -		ret = set_format(pad, &format);
+> +		ret = set_format(pad, stream, &format);
+>  		if (ret < 0)
+>  			return ret;
+>  	}
+>  
+> -	ret = set_frame_interval(pad, &interval);
+> +	ret = set_frame_interval(pad, stream, &interval);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -
+>  	/* If the pad is an output pad, automatically set the same format and
+>  	 * frame interval on the remote subdev input pads, if any.
+>  	 */
+> @@ -821,9 +1042,9 @@ static int v4l2_subdev_parse_setup_format(struct media_device *media,
+>  			if (link->source == pad &&
+>  			    link->sink->entity->info.type == MEDIA_ENT_T_V4L2_SUBDEV) {
+>  				remote_format = format;
+> -				set_format(link->sink, &remote_format);
+> +				set_format(link->sink, stream, &remote_format);
+>  
+> -				ret = set_frame_interval(link->sink, &interval);
+> +				ret = set_frame_interval(link->sink, stream, &interval);
+>  				if (ret < 0 && ret != -EINVAL && ret != -ENOTTY)
+>  					return ret;
+>  			}
+> diff --git a/utils/media-ctl/media-ctl.c b/utils/media-ctl/media-ctl.c
+> index 84ee7a83..831136a0 100644
+> --- a/utils/media-ctl/media-ctl.c
+> +++ b/utils/media-ctl/media-ctl.c
+> @@ -28,6 +28,7 @@
+>  #include <errno.h>
+>  #include <fcntl.h>
+>  #include <stdbool.h>
+> +#include <stdint.h>
+>  #include <stdio.h>
+>  #include <stdlib.h>
+>  #include <string.h>
+> @@ -75,23 +76,43 @@ static void print_flags(const struct flag_name *flag_names, unsigned int num_ent
+>  	}
+>  }
+>  
+> +static void v4l2_subdev_print_routes(struct media_entity *entity,
+> +				     struct v4l2_subdev_route *routes,
+> +				     unsigned int num_routes)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < num_routes; i++) {
+> +		const struct v4l2_subdev_route *r = &routes[i];
+
+Naming the variable 'route' would be more explicit.
+
+> +
+> +		if (i == 0)
+> +			printf("\troutes:\n");
+
+You could move this before the loop with
+
+	if (num_routes)
+		printf("\troutes:\n");
+
+> +
+> +		printf("\t\t%u/%u -> %u/%u [%s]\n",
+> +		       r->sink_pad, r->sink_stream,
+> +		       r->source_pad, r->source_stream,
+> +		       r->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE ? "ACTIVE" : "INACTIVE");
+> +	}
+> +}
+> +
+>  static void v4l2_subdev_print_format(struct media_entity *entity,
+> -	unsigned int pad, enum v4l2_subdev_format_whence which)
+> +	unsigned int pad, unsigned int stream,
+> +	enum v4l2_subdev_format_whence which)
+>  {
+>  	struct v4l2_mbus_framefmt format;
+>  	struct v4l2_fract interval = { 0, 0 };
+>  	struct v4l2_rect rect;
+>  	int ret;
+>  
+> -	ret = v4l2_subdev_get_format(entity, &format, pad, which);
+> +	ret = v4l2_subdev_get_format(entity, &format, pad, stream, which);
+>  	if (ret != 0)
+>  		return;
+>  
+> -	ret = v4l2_subdev_get_frame_interval(entity, &interval, pad);
+> +	ret = v4l2_subdev_get_frame_interval(entity, &interval, pad, stream);
+>  	if (ret != 0 && ret != -ENOTTY && ret != -EINVAL)
+>  		return;
+>  
+> -	printf("\t\t[fmt:%s/%ux%u",
+> +	printf("\t\t[stream:%u fmt:%s/%ux%u", stream,
+>  	       v4l2_subdev_pixelcode_to_string(format.code),
+>  	       format.width, format.height);
+>  
+> @@ -118,28 +139,28 @@ static void v4l2_subdev_print_format(struct media_entity *entity,
+>  			       v4l2_subdev_quantization_to_string(format.quantization));
+>  	}
+>  
+> -	ret = v4l2_subdev_get_selection(entity, &rect, pad,
+> +	ret = v4l2_subdev_get_selection(entity, &rect, pad, stream,
+>  					V4L2_SEL_TGT_CROP_BOUNDS,
+>  					which);
+>  	if (ret == 0)
+>  		printf("\n\t\t crop.bounds:(%u,%u)/%ux%u", rect.left, rect.top,
+>  		       rect.width, rect.height);
+>  
+> -	ret = v4l2_subdev_get_selection(entity, &rect, pad,
+> +	ret = v4l2_subdev_get_selection(entity, &rect, pad, stream,
+>  					V4L2_SEL_TGT_CROP,
+>  					which);
+>  	if (ret == 0)
+>  		printf("\n\t\t crop:(%u,%u)/%ux%u", rect.left, rect.top,
+>  		       rect.width, rect.height);
+>  
+> -	ret = v4l2_subdev_get_selection(entity, &rect, pad,
+> +	ret = v4l2_subdev_get_selection(entity, &rect, pad, stream,
+>  					V4L2_SEL_TGT_COMPOSE_BOUNDS,
+>  					which);
+>  	if (ret == 0)
+>  		printf("\n\t\t compose.bounds:(%u,%u)/%ux%u",
+>  		       rect.left, rect.top, rect.width, rect.height);
+>  
+> -	ret = v4l2_subdev_get_selection(entity, &rect, pad,
+> +	ret = v4l2_subdev_get_selection(entity, &rect, pad, stream,
+>  					V4L2_SEL_TGT_COMPOSE,
+>  					which);
+>  	if (ret == 0)
+> @@ -455,16 +476,58 @@ static void media_print_topology_dot(struct media_device *media)
+>  }
+>  
+>  static void media_print_pad_text(struct media_entity *entity,
+> -				 const struct media_pad *pad)
+> +				 const struct media_pad *pad,
+> +				 struct v4l2_subdev_route *routes,
+> +				 unsigned int num_routes)
+>  {
+> +	unsigned int i;
+> +	uint64_t printed_streams_mask;
+
+I'd swap those two variables. printed_streams_mask could be initialized
+to 0 here.
+
+> +
+>  	if (media_entity_type(entity) != MEDIA_ENT_T_V4L2_SUBDEV)
+>  		return;
+>  
+> -	v4l2_subdev_print_format(entity, pad->index, V4L2_SUBDEV_FORMAT_ACTIVE);
+> -	v4l2_subdev_print_pad_dv(entity, pad->index, V4L2_SUBDEV_FORMAT_ACTIVE);
+> +	if (!routes) {
+> +		v4l2_subdev_print_format(entity, pad->index, 0, V4L2_SUBDEV_FORMAT_ACTIVE);
+> +		v4l2_subdev_print_pad_dv(entity, pad->index, V4L2_SUBDEV_FORMAT_ACTIVE);
+> +
+> +		if (pad->flags & MEDIA_PAD_FL_SOURCE)
+> +			v4l2_subdev_print_subdev_dv(entity);
+> +
+> +		return;
+> +	}
+> +
+> +	printed_streams_mask = 0;
+> +
+> +	for (i = 0; i < num_routes; ++i) {
+> +		const struct v4l2_subdev_route *r = &routes[i];
+
+Naming the variable 'route' would be more explicit.
+
+> +		unsigned int stream;
+>  
+> -	if (pad->flags & MEDIA_PAD_FL_SOURCE)
+> -		v4l2_subdev_print_subdev_dv(entity);
+> +		if (!(r->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
+> +			continue;
+> +
+> +		if (pad->flags & MEDIA_PAD_FL_SINK) {
+> +			if (r->sink_pad != pad->index)
+> +				continue;
+> +
+> +			stream = r->sink_stream;
+> +		} else {
+> +			if (r->source_pad != pad->index)
+> +				continue;
+> +
+> +			stream = r->source_stream;
+> +		}
+> +
+> +		if (printed_streams_mask & (1 << stream))
+> +			continue;
+> +
+> +		v4l2_subdev_print_format(entity, pad->index, stream, V4L2_SUBDEV_FORMAT_ACTIVE);
+> +		v4l2_subdev_print_pad_dv(entity, pad->index, V4L2_SUBDEV_FORMAT_ACTIVE);
+> +
+> +		if (pad->flags & MEDIA_PAD_FL_SOURCE)
+> +			v4l2_subdev_print_subdev_dv(entity);
+
+v4l2_subdev_print_pad_dv() and v4l2_subdev_print_subdev_dv() don't
+depend on routes or streams, should they be printed outside of the loop
+?
+
+> +
+> +		printed_streams_mask |= (1 << stream);
+> +	}
+>  }
+>  
+>  static void media_print_topology_text_entity(struct media_device *media,
+> @@ -480,11 +543,17 @@ static void media_print_topology_text_entity(struct media_device *media,
+>  	unsigned int num_links = media_entity_get_links_count(entity);
+>  	unsigned int j, k;
+>  	unsigned int padding;
+> +	struct v4l2_subdev_route *routes = NULL;
+> +	unsigned int num_routes = 0;
+
+Move these two before 'j, k'.
+
+> +
+> +	if (media_entity_type(entity) == MEDIA_ENT_T_V4L2_SUBDEV)
+> +		v4l2_subdev_get_routing(entity, &routes, &num_routes);
+>  
+>  	padding = printf("- entity %u: ", info->id);
+> -	printf("%s (%u pad%s, %u link%s)\n", info->name,
+> +	printf("%s (%u pad%s, %u link%s, %u route%s)\n", info->name,
+
+Should we skip printing the number of routes when the entity isn't a
+subdev ?
+
+>  	       info->pads, info->pads > 1 ? "s" : "",
+> -	       num_links, num_links > 1 ? "s" : "");
+> +	       num_links, num_links > 1 ? "s" : "",
+> +	       num_routes, num_routes > 1 ? "s" : "");
+>  	printf("%*ctype %s subtype %s flags %x\n", padding, ' ',
+>  	       media_entity_type_to_string(info->type),
+>  	       media_entity_subtype_to_string(info->type),
+> @@ -492,12 +561,15 @@ static void media_print_topology_text_entity(struct media_device *media,
+>  	if (devname)
+>  		printf("%*cdevice node name %s\n", padding, ' ', devname);
+>  
+> +	if (media_entity_type(entity) == MEDIA_ENT_T_V4L2_SUBDEV)
+> +		v4l2_subdev_print_routes(entity, routes, num_routes);
+> +
+>  	for (j = 0; j < info->pads; j++) {
+>  		const struct media_pad *pad = media_entity_get_pad(entity, j);
+>  
+>  		printf("\tpad%u: %s\n", j, media_pad_type_to_string(pad->flags));
+>  
+> -		media_print_pad_text(entity, pad);
+> +		media_print_pad_text(entity, pad, routes, num_routes);
+>  
+>  		for (k = 0; k < num_links; k++) {
+>  			const struct media_link *link = media_entity_get_link(entity, k);
+> @@ -521,6 +593,8 @@ static void media_print_topology_text_entity(struct media_device *media,
+>  		}
+>  	}
+>  	printf("\n");
+> +
+> +	free(routes);
+>  }
+>  
+>  static void media_print_topology_text(struct media_device *media)
+> @@ -594,14 +668,16 @@ int main(int argc, char **argv)
+>  
+>  	if (media_opts.fmt_pad) {
+>  		struct media_pad *pad;
+> +		unsigned int stream;
+> +		char *p;
+>  
+> -		pad = media_parse_pad(media, media_opts.fmt_pad, NULL);
+> +		pad = media_parse_pad_stream(media, media_opts.fmt_pad, &stream, &p);
+>  		if (pad == NULL) {
+>  			printf("Pad '%s' not found\n", media_opts.fmt_pad);
+>  			goto out;
+>  		}
+>  
+> -		v4l2_subdev_print_format(pad->entity, pad->index,
+> +		v4l2_subdev_print_format(pad->entity, pad->index, stream,
+>  					 V4L2_SUBDEV_FORMAT_ACTIVE);
+>  	}
+>  
+> @@ -685,6 +761,15 @@ int main(int argc, char **argv)
+>  		}
+>  	}
+>  
+> +	if (media_opts.routes) {
+> +		ret = v4l2_subdev_parse_setup_routes(media, media_opts.routes);
+> +		if (ret) {
+> +			printf("Unable to setup routes: %s (%d)\n",
+> +			       strerror(-ret), -ret);
+> +			goto out;
+> +		}
+> +	}
+> +
+>  	if (media_opts.interactive) {
+>  		while (1) {
+>  			char buffer[32];
+> diff --git a/utils/media-ctl/mediactl.h b/utils/media-ctl/mediactl.h
+> index af360518..c0fc2962 100644
+> --- a/utils/media-ctl/mediactl.h
+> +++ b/utils/media-ctl/mediactl.h
+> @@ -394,6 +394,22 @@ struct media_entity *media_parse_entity(struct media_device *media,
+>  struct media_pad *media_parse_pad(struct media_device *media,
+>  				  const char *p, char **endp);
+>  
+> +/**
+> + * @brief Parse string to a pad and stream on the media device.
+> + * @param media - media device.
+> + * @param p - input string
+> + * @param stream - pointer to uint where the stream number is stored
+> + * @param endp - pointer to string where parsing ended
+> + *
+> + * Parse NULL terminated string describing a pad and stream and return its struct
+> + * media_pad instance and the stream number.
+> + *
+> + * @return Pointer to struct media_pad on success, NULL on failure.
+> + */
+> +struct media_pad *media_parse_pad_stream(struct media_device *media,
+> +					 const char *p, unsigned int *stream,
+> +					 char **endp);
+> +
+>  /**
+>   * @brief Parse string to a link on the media device.
+>   * @param media - media device.
+> diff --git a/utils/media-ctl/options.c b/utils/media-ctl/options.c
+> index 6d30d3dc..3c408a1b 100644
+> --- a/utils/media-ctl/options.c
+> +++ b/utils/media-ctl/options.c
+> @@ -63,6 +63,7 @@ static void usage(const char *argv0)
+>  	printf("    --get-v4l2 pad	Print the active format on a given pad\n");
+>  	printf("    --get-dv pad        Print detected and current DV timings on a given pad\n");
+>  	printf("    --set-dv pad	Configure DV timings on a given pad\n");
+> +	printf("-R, --set-routes routes Configure routes on a given subdev entity\n");
+>  	printf("-h, --help		Show verbose help and exit\n");
+>  	printf("-i, --interactive	Modify links interactively\n");
+>  	printf("-l, --links links	Comma-separated list of link descriptors to setup\n");
+> @@ -78,7 +79,7 @@ static void usage(const char *argv0)
+>  	printf("Links and formats are defined as\n");
+>  	printf("\tlinks           = link { ',' link } ;\n");
+>  	printf("\tlink            = pad '->' pad '[' flags ']' ;\n");
+> -	printf("\tpad             = entity ':' pad-number ;\n");
+> +	printf("\tpad             = entity ':' pad-number { '/' stream-number } ;\n");
+>  	printf("\tentity          = entity-number | ( '\"' entity-name '\"' ) ;\n");
+>  	printf("\n");
+>  	printf("\tv4l2            = pad '[' v4l2-properties ']' ;\n");
+> @@ -95,11 +96,16 @@ static void usage(const char *argv0)
+>  	printf("\trectangle       = '(' left ',' top, ')' '/' size ;\n");
+>  	printf("\tsize            = width 'x' height ;\n");
+>  	printf("\n");
+> +	printf("\troutes          = entity '[' route { ',' route } ']' ;\n");
+> +	printf("\troute           = pad-number '/' stream-number '->' pad-number '/' stream-number '[' route-flags ']' ;\n");
+> +	printf("\n");
+>  	printf("where the fields are\n");
+>  	printf("\tentity-number   Entity numeric identifier\n");
+>  	printf("\tentity-name     Entity name (string) \n");
+>  	printf("\tpad-number      Pad numeric identifier\n");
+> +	printf("\tstream-number   Stream numeric identifier\n");
+>  	printf("\tflags           Link flags (0: inactive, 1: active)\n");
+> +	printf("\troute-flags     Route flags (bitmask of route flags: active - 0x1)\n");
+>  	printf("\tfcc             Format FourCC\n");
+>  	printf("\twidth           Image width in pixels\n");
+>  	printf("\theight          Image height in pixels\n");
+> @@ -152,6 +158,7 @@ static struct option opts[] = {
+>  	{"get-v4l2", 1, 0, OPT_GET_FORMAT},
+>  	{"get-dv", 1, 0, OPT_GET_DV},
+>  	{"set-dv", 1, 0, OPT_SET_DV},
+> +	{"set-routes", 1, 0, 'R'},
+>  	{"help", 0, 0, 'h'},
+>  	{"interactive", 0, 0, 'i'},
+>  	{"links", 1, 0, 'l'},
+> @@ -237,7 +244,7 @@ int parse_cmdline(int argc, char **argv)
+>  	}
+>  
+>  	/* parse options */
+> -	while ((opt = getopt_long(argc, argv, "d:e:f:hil:prvV:",
+> +	while ((opt = getopt_long(argc, argv, "d:e:f:hil:prvV:R:",
+>  				  opts, NULL)) != -1) {
+>  		switch (opt) {
+>  		case 'd':
+> @@ -283,6 +290,10 @@ int parse_cmdline(int argc, char **argv)
+>  			media_opts.verbose = 1;
+>  			break;
+>  
+> +		case 'R':
+> +			media_opts.routes = optarg;
+> +			break;
+> +
+>  		case OPT_PRINT_DOT:
+>  			media_opts.print_dot = 1;
+>  			break;
+> diff --git a/utils/media-ctl/options.h b/utils/media-ctl/options.h
+> index 7e0556fc..753d0934 100644
+> --- a/utils/media-ctl/options.h
+> +++ b/utils/media-ctl/options.h
+> @@ -36,6 +36,7 @@ struct media_options
+>  	const char *fmt_pad;
+>  	const char *get_dv_pad;
+>  	const char *dv_pad;
+> +	const char *routes;
+>  };
+>  
+>  extern struct media_options media_opts;
+> diff --git a/utils/media-ctl/v4l2subdev.h b/utils/media-ctl/v4l2subdev.h
+> index a1813911..a8a6e7ad 100644
+> --- a/utils/media-ctl/v4l2subdev.h
+> +++ b/utils/media-ctl/v4l2subdev.h
+> @@ -64,7 +64,7 @@ void v4l2_subdev_close(struct media_entity *entity);
+>   * @return 0 on success, or a negative error code on failure.
+>   */
+>  int v4l2_subdev_get_format(struct media_entity *entity,
+> -	struct v4l2_mbus_framefmt *format, unsigned int pad,
+> +	struct v4l2_mbus_framefmt *format, unsigned int pad, unsigned int stream,
+
+Missing documentation for the new parameter. Same below.
+
+>  	enum v4l2_subdev_format_whence which);
+>  
+>  /**
+> @@ -86,6 +86,7 @@ int v4l2_subdev_get_format(struct media_entity *entity,
+>   */
+>  int v4l2_subdev_set_format(struct media_entity *entity,
+>  	struct v4l2_mbus_framefmt *format, unsigned int pad,
+> +	unsigned int stream,
+>  	enum v4l2_subdev_format_whence which);
+>  
+>  /**
+> @@ -107,8 +108,8 @@ int v4l2_subdev_set_format(struct media_entity *entity,
+>   * @return 0 on success, or a negative error code on failure.
+>   */
+>  int v4l2_subdev_get_selection(struct media_entity *entity,
+> -	struct v4l2_rect *rect, unsigned int pad, unsigned int target,
+> -	enum v4l2_subdev_format_whence which);
+> +	struct v4l2_rect *rect, unsigned int pad, unsigned int stream,
+> +	unsigned int target, enum v4l2_subdev_format_whence which);
+>  
+>  /**
+>   * @brief Set a selection rectangle on a pad.
+> @@ -129,8 +130,40 @@ int v4l2_subdev_get_selection(struct media_entity *entity,
+>   * @return 0 on success, or a negative error code on failure.
+>   */
+>  int v4l2_subdev_set_selection(struct media_entity *entity,
+> -	struct v4l2_rect *rect, unsigned int pad, unsigned int target,
+> -	enum v4l2_subdev_format_whence which);
+> +	struct v4l2_rect *rect, unsigned int pad, unsigned int stream,
+> +	unsigned int target, enum v4l2_subdev_format_whence which);
+> +
+> +/**
+> + * @brief Get the routing table of a subdev media entity.
+> + * @param entity - subdev-device media entity.
+> + * @param routes - routes of the subdev.
+> + * @param num_routes - number of routes.
+> + *
+> + * Get the routes of @a entity and return them in an allocated array in @a routes
+> + * and the number of routes in @a num_routes.
+> + *
+> + * The caller is responsible for freeing the routes array after use.
+> + *
+> + * @return 0 on success, or a negative error code on failure.
+> + */
+> +int v4l2_subdev_get_routing(struct media_entity *entity,
+> +			    struct v4l2_subdev_route **routes,
+> +			    unsigned int *num_routes);
+> +
+> +/**
+> + * @brief Set the routing table of a subdev media entity.
+> + * @param entity - subdev-device media entity.
+> + * @param routes - routes of the subdev.
+> + * @param num_routes - number of routes.
+> + *
+> + * Set the routes of @a entity. The routes are given in @a routes with the
+> + * length of @a num_routes.
+> + *
+> + * @return 0 on success, or a negative error code on failure.
+> + */
+> +int v4l2_subdev_set_routing(struct media_entity *entity,
+> +			    struct v4l2_subdev_route *route,
+> +			    unsigned int num_routes);
+>  
+>  /**
+>   * @brief Query the digital video capabilities of a pad.
+> @@ -200,7 +233,7 @@ int v4l2_subdev_set_dv_timings(struct media_entity *entity,
+>   */
+>  
+>  int v4l2_subdev_get_frame_interval(struct media_entity *entity,
+> -	struct v4l2_fract *interval, unsigned int pad);
+> +	struct v4l2_fract *interval, unsigned int pad, unsigned int stream);
+>  
+>  /**
+>   * @brief Set the frame interval on a sub-device.
+> @@ -217,7 +250,7 @@ int v4l2_subdev_get_frame_interval(struct media_entity *entity,
+>   * @return 0 on success, or a negative error code on failure.
+>   */
+>  int v4l2_subdev_set_frame_interval(struct media_entity *entity,
+> -	struct v4l2_fract *interval, unsigned int pad);
+> +	struct v4l2_fract *interval, unsigned int pad, unsigned int stream);
+>  
+>  /**
+>   * @brief Parse a string and apply format, crop and frame interval settings.
+> @@ -235,6 +268,17 @@ int v4l2_subdev_set_frame_interval(struct media_entity *entity,
+>   */
+>  int v4l2_subdev_parse_setup_formats(struct media_device *media, const char *p);
+>  
+> +/**
+> + * @brief Parse a string and apply route settings.
+> + * @param media - media device.
+> + * @param p - input string
+> + *
+> + * Parse string @a p and apply route settings to a subdev.
+> + *
+> + * @return 0 on success, or a negative error code on failure.
+> + */
+> +int v4l2_subdev_parse_setup_routes(struct media_device *media, const char *p);
+> +
+>  /**
+>   * @brief Convert media bus pixel code to string.
+>   * @param code - input string
+
+-- 
+Regards,
+
+Laurent Pinchart
