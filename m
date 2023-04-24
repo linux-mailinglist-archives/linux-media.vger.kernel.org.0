@@ -2,719 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 602726EC6C1
-	for <lists+linux-media@lfdr.de>; Mon, 24 Apr 2023 09:05:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C278A6EC6CB
+	for <lists+linux-media@lfdr.de>; Mon, 24 Apr 2023 09:07:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231251AbjDXHFf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Apr 2023 03:05:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37360 "EHLO
+        id S231248AbjDXHHP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Apr 2023 03:07:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231231AbjDXHFe (ORCPT
+        with ESMTP id S230415AbjDXHHM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Apr 2023 03:05:34 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B1D53AB8
-        for <linux-media@vger.kernel.org>; Mon, 24 Apr 2023 00:04:49 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3382F4AD;
-        Mon, 24 Apr 2023 09:04:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1682319874;
-        bh=kaPnLbfhkZ/EAqX1R+cGtqOvTsVIu4wqTmCb44U+BpU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=vrxxAw44fLOc6BctdMNxLLdt5w1CB9tcNP4IYKE2WsDxUA7Ru0Gfxn0XGeBuEusea
-         k0X4rbhvUHDhQpRqvwNy/nDFL9n4iP8HkBNRdnj24G49uLoJqoIS1fclhr0yHRihMG
-         IBoWj0e9EJs55g9j1tmohkQlw6PPP4dD+lc7cTq8=
-Date:   Mon, 24 Apr 2023 10:04:55 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        satish.nagireddy@getcruise.com
-Subject: Re: [PATCH v4 1/8] v4l2-ctl: Add routing and streams support
-Message-ID: <20230424070455.GC4926@pendragon.ideasonboard.com>
-References: <20230421124428.393261-1-tomi.valkeinen@ideasonboard.com>
- <20230421124428.393261-2-tomi.valkeinen@ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+        Mon, 24 Apr 2023 03:07:12 -0400
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2078.outbound.protection.outlook.com [40.107.220.78])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EC6F11A;
+        Mon, 24 Apr 2023 00:07:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MXRaI2kCUbWYbEdG7xflMGzxdCsqje7m5bvEevUtSn+13SiaaLhgZYTf1fsC7Aq+3ZyiaRfKmr0wUjPepcB1nr8YSf7WepWH1VI9Tqh02xR3FrfsQbkR43UvDNo/s/zOMGqC9RQ93IncYYxAPgbD9IkVYzFoiwAGKe9ZZ0TAH6ZO64AJgRZP0TKEUl1zk4jROZoDHHspyWYOjOXKF9e7eqrmKZZwViWEPJFlrrTC+EDXFKhDiVOLfHRabjHkGfzCp1cb7fOUXuFfrAo8dnld7MFQTvzfK+Z9iahmtiIc2U4U0//ehUjXnGu1ZkgKGP0fAnmoKproh30WXpog9jD/Aw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TpNBGrdokkydCBIl1gK/7Hn2VBcUenGXRQfpcjoEyUg=;
+ b=QoTWGgIsRmUkYKxAVliQBltlnOLHUO6fHEhNrPWBjUq7gOcKGH3pOS7ait/udsj+9BOz82mrAUMwkm3ipw2+1JTdeYLJMWmCkNRbTob983hoo+hAwbLMmttl2VuxrD1m26yjqO06v1oq/U2xFYvCzrTUexSSqlmNjUBlG6P7oOin2wk5J+7mwTv7uDbxG0DGNwxhZxS7betcx9ZFOxdaKvD/iJPYOjcutm/ipIsTBYjMqfTdxplFpdSaHRJDnoeivWoA1j5Y9vfki2QNGHXMpwMVxPVH43XTWe5rDcBjUgAjYM2Ut2EttQalpEfaXeXXj2NV0B8wvhI1ai/h9wgaeg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TpNBGrdokkydCBIl1gK/7Hn2VBcUenGXRQfpcjoEyUg=;
+ b=TywVTUX967UYpQxRzPf2yATHZ+xlSlxN8IhgIkk7lVJfJLV8ubYGObM+buMP4KUxwbUs0yyfmZdC1L547WAyu/OXlk4dO4ZqLDLTw9RfUS7sY7RY/Y4cG2+YgCpcDmN2y+H7mhV7zAK/Bxx5sgUbGPowsRa+vOa2Y/rKbw9/Jpc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by SN7PR12MB6744.namprd12.prod.outlook.com (2603:10b6:806:26c::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.32; Mon, 24 Apr
+ 2023 07:07:09 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::d2f8:7388:39c1:bbed]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::d2f8:7388:39c1:bbed%3]) with mapi id 15.20.6319.033; Mon, 24 Apr 2023
+ 07:07:09 +0000
+Message-ID: <ecc972c1-cf7d-cd99-805b-38dbf04adc79@amd.com>
+Date:   Mon, 24 Apr 2023 09:07:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] drm:amd:amdgpu: Fix missing bo unlock in failure path
+Content-Language: en-US
+To:     Sukrut Bellary <sukrut.bellary@linux.com>, daniel@ffwll.ch,
+        airlied@gmail.com, sumit.semwal@linaro.org, Hawking.Zhang@amd.com,
+        Julia.Lawall@inria.fr, dri-devel@lists.freedesktop.org
+Cc:     alexander.deucher@amd.com, Xinhui.Pan@amd.com,
+        amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20230424055910.15683-1-sukrut.bellary@linux.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20230424055910.15683-1-sukrut.bellary@linux.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230421124428.393261-2-tomi.valkeinen@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_PDS_OTHER_BAD_TLD,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-ClientProxiedBy: AM4PR0101CA0050.eurprd01.prod.exchangelabs.com
+ (2603:10a6:200:41::18) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SN7PR12MB6744:EE_
+X-MS-Office365-Filtering-Correlation-Id: 806e4d98-779d-499d-32a7-08db4492850a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hq3pI5sBYDmWj+UqNl7Td2VaPGmoyf79SSZN4lqkLnyvBbz9w/F4/wVb3HDy5cMbEMUBrWA5P6plIGWwKPycqJIIxYnjhP0Q3GLBrQYxQ9Fgm3UWf5GovAHoUcNnmqK/WiZQfLiZAOYx8oTwZDVSHD/vFIdyy3cWrRNTMzBE8ic6PWyN+EcRvW0kMv89iOL0JYwoPoWEPN+dteeqSwQjJ64Sk/Rld87pLyOWVRbezFya9P33HAX6ra+aZRHtoE7VRSSrpNu13Oat4Z2TO+J947iQdZeZq2fGrqQkEU+vaUYMgDaqaN0B17xxZTLmutia4s6Wfgmy3sjRv+tZ2L1WumFr/IoIbne1Y55mKlKr/OJORsnqraVfFu2MJR1DvoiBJPLDaaeKbPu+EKfenA7Dt0mK5slM3qQVQS3j+uU2VxjxuQtEnK8cIm7+txJWacno5jfsB/he/2fRRWJUhLc0BXQtwhIUwU6XRYReXenk1Llo5OYLv47UmPZrd48krXCROyKpms26H5wOrG1+eNkSP3utNZfK9vyb69n6cq+2cy47aTwEQmqyrayT3W2N74CQLDy+qPqTWThVdK/0b2J+w2JF7AyI/9PIz3aCOXg7Y/P+CHlcWR9RLRPw22N7bGOgYUH8OYsKy3J3UdYsxZhsrw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(39860400002)(366004)(346002)(376002)(136003)(451199021)(36756003)(8676002)(8936002)(478600001)(66476007)(66556008)(4326008)(66946007)(7416002)(316002)(41300700001)(2906002)(38100700002)(5660300002)(2616005)(86362001)(186003)(26005)(6506007)(6512007)(31686004)(31696002)(6486002)(6666004)(83380400001)(66574015)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eXRqdElrUk5aYmJzRk55d3BVM1NmclRGNVdXeDdxRmZIUS9ZSHI1SndLU1hM?=
+ =?utf-8?B?bjdTcG1PUVAvTG5pQkFzZ0NzM1RzaTRsUnNXejc5SFl6R21CZEFkdUE3UkJK?=
+ =?utf-8?B?TWN3N2UybXZQQ3VRZVB4bmZKbjZWalcvK1pTWnVXQjdjZ0RJb1ZtQ3NYdUVU?=
+ =?utf-8?B?c3FOR1lLY29JV3RFMm1KbEUvNXpXUWhpUno1aXpnL1VrQTAxYlZFVC9ZSzFk?=
+ =?utf-8?B?NVE5WFIrTk9yYi82Y3ZUQm9MaUExOXEvSEpHdVN5U2c0VHNicExHQUVxd1VB?=
+ =?utf-8?B?TnJiZU9uYm9DZURmMy9XSDRHMnZ4Qm0xYXUxbHhURkVpOHdjdmtiWGdVSW9z?=
+ =?utf-8?B?RjNJSmRUOU9BeHRndzhVWktyUmtGZlY4NDNxWkl6MnFQaW1PZE5tVm1QdHV1?=
+ =?utf-8?B?RXY3OCsyb01UZ2t2OUlWcGcvdUZJdFJ5M0JXOTZYY1R3a0lZbCttK1paeHlY?=
+ =?utf-8?B?cW5ScEt1elZOTkJLR2VZZmRiOVgwT0lyaGwyM0xlWENlSTdGNGd0UlpRSTNQ?=
+ =?utf-8?B?WGZXenQ2Z1hjNUljbFdZZWNzVGs1MWdSazd5N3AwSFlSZERCUVdCQXIvMmpU?=
+ =?utf-8?B?V3FPNzFlMVBvMjZHYjlqd0FaQnRlRTduaDdWblVpZHdudmx4amcwczV1ZkFa?=
+ =?utf-8?B?VU5mRkFWMGRpamUyclV5cTdxYzFHK1FGWWw1b2NaS0hMYUZLa1NFSWIxNlJ5?=
+ =?utf-8?B?UXlVQmNmZUNGdlZhckxQVGJSaXc4QXdSZjFQdWNUUlVMc2pkQlFyaFJteHhU?=
+ =?utf-8?B?eW95L0d3cE5nY1hyeElaWkErUThUUzFXeW9nTlVsZ3MzNnF0aXUrTE96bzg4?=
+ =?utf-8?B?cGFheFhMcmlqWTFSa2JGQzlVblhlMUFXVlpBdXFQWnBVdE1KNjdESHp2RGZH?=
+ =?utf-8?B?elEzNEJNaXpDZWE1cWxhVDVEb3FDUGp6c3ZiTXEzTTg2VzdySjd2SkZJVFhS?=
+ =?utf-8?B?c25vamJXeTU4WXNSWkdmV2wwKytwZ2t3alN2WlRTZ2pWQlBxTnNTYWttV2R2?=
+ =?utf-8?B?OEN0MFdRcldlczJ6L01RYndDRFFVcm1EMVpvTWlFU2VWdzk4dUx4ZTBtd1Z0?=
+ =?utf-8?B?YUI2Z0x1ZGEvY3QrVTl4NDdQTXl5dnZqVjlzRlZFL2VocmxkM2pRVGZDZ2tu?=
+ =?utf-8?B?bHVCUUdWeHljYWRjR2VZd2FNUEZxcGJNNk5CTTFPTE1iT3l4dWNnOExLeVlX?=
+ =?utf-8?B?NE5HZ1hIc0d5aE93TTdZc1Q0U3hoeTA4RkgxSVpKcjFFNjA0ZnN3WlY5VFNK?=
+ =?utf-8?B?V1RqSEVMbnJKaGd3Q1ZML2o4cFZDZnJSMi9TOE04cVY1Skw3dlhOYm9SQ1oy?=
+ =?utf-8?B?cmtjR2ZxaS91WTZWN0l5c1FZeGpWMS9Db2ZNczlKRC9KUDZLZTJRSE92blVI?=
+ =?utf-8?B?b2tDTERwcExzVFZJeVlOdWdSQk5CUzFuWGFtVW53TEt5bE9zWUZFYkNyQll0?=
+ =?utf-8?B?N2doeFQxLzBkdnpsNnN4aXJUYisvMjNyak5rbi9lcmozU0tHdjdqellPSUp6?=
+ =?utf-8?B?bFVYNnNsNDJ5YTV2Mkx1QlA5R0VQci81K09DeE5NZkN0UHRhbWF5aDhWVVlX?=
+ =?utf-8?B?eURWR2NCS2FYQlI0OFZqZFVWc1dMQTFVQWI3SU9FanNYNWsvNTh6UGFiZTdw?=
+ =?utf-8?B?cVlMc3dhV0NkaEl0OFpKYy90RmxLanVTU0FuTzE1UmtBclFYcVpYdG9xWTBa?=
+ =?utf-8?B?M1gvYlZLejdlOTU4UzdpT3BSZHhrVE0yNTlMYnkxaWZoV09idk5hNXBXakND?=
+ =?utf-8?B?bW13YWViR0orVTNyUjBnY0NKa1hubmhKTkcwaWNMaHJ1czJJYWo1QkxPNjV3?=
+ =?utf-8?B?RlU5MlJaSVpRTVMvSzMzWmc3WkZXZGN2a0JiRGpiTFBvZ1BXcGYxaXlYYVVw?=
+ =?utf-8?B?SXhnc1dhS3VNQ0taN0lySUo2eFptdzBYR09IbTg3VS93KzEzek5NOHA5cFlS?=
+ =?utf-8?B?eUdETS9rOFcvaWZqd0tIYUJtRFdRS1dkNmdUTGRxa2MxcFh6NnR0SDFNNW1s?=
+ =?utf-8?B?RFE5Wk9BcXdxaVFERnRnVVhOSzZ0UGZiYnF1WnduUlUycm9USC9UMkhvbEdp?=
+ =?utf-8?B?bnZsMStCZER2Y0FqeHJ2alE1KzY1WDRySkplQ0U5NVZpUjN4eXBCRzZnLzIz?=
+ =?utf-8?Q?8khU=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 806e4d98-779d-499d-32a7-08db4492850a
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2023 07:07:09.3232
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: u+K+nGjJfTgreM46x1b+QQdAKiQ+mQa5rg32FAu6JqyVnR60J/MRCv7IMUmqXoCf
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6744
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
+Am 24.04.23 um 07:59 schrieb Sukrut Bellary:
+> smatch warning - inconsistent handling of buffer object reserve
+> and unreserve.
+>
+> Signed-off-by: Sukrut Bellary <sukrut.bellary@linux.com>
 
-Thank you for the patch.
+For now that patch is Reviewed-by: Christian König 
+<christian.koenig@amd.com>.
 
-On Fri, Apr 21, 2023 at 03:44:21PM +0300, Tomi Valkeinen wrote:
-> Add support to get and set subdev routes and to get and set
-> configurations per stream.
-> 
-> Based on work from Jacopo Mondi <jacopo@jmondi.org> and
-> Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+But for the record mapping/unmapping the MQD like this is a very bad 
+idea in the first place.
+
+We could need to shuffle memory around for that during resume and that 
+is not something we really want to do.
+
+Christian.
+
 > ---
->  utils/v4l2-ctl/v4l2-ctl-subdev.cpp | 310 ++++++++++++++++++++++++++---
->  utils/v4l2-ctl/v4l2-ctl.cpp        |   2 +
->  utils/v4l2-ctl/v4l2-ctl.h          |   2 +
->  3 files changed, 281 insertions(+), 33 deletions(-)
-> 
-> diff --git a/utils/v4l2-ctl/v4l2-ctl-subdev.cpp b/utils/v4l2-ctl/v4l2-ctl-subdev.cpp
-> index 33cc1342..7ab64646 100644
-> --- a/utils/v4l2-ctl/v4l2-ctl-subdev.cpp
-> +++ b/utils/v4l2-ctl/v4l2-ctl-subdev.cpp
-> @@ -1,5 +1,13 @@
->  #include "v4l2-ctl.h"
->  
-> +#define ARRAY_SIZE(array) (sizeof(array) / sizeof((array)[0]))
-
-It would be nice to put the 14 implementations of this macro to a common
-header. Out of scope for this patch.
-
-> +
-> +/*
-> + * The max value comes from a check in the kernel source code
-> + * drivers/media/v4l2-core/v4l2-ioctl.c check_array_args()
-> + */
-> +#define NUM_ROUTES_MAX 256
-> +
->  struct mbus_name {
->  	const char *name;
->  	__u32 code;
-> @@ -19,45 +27,57 @@ static const struct mbus_name mbus_names[] = {
->  #define SelectionFlags 		(1L<<4)
->  
->  static __u32 list_mbus_codes_pad;
-> +static __u32 list_mbus_codes_stream = 0;
->  static __u32 get_fmt_pad;
-> +static __u32 get_fmt_stream = 0;
->  static __u32 get_sel_pad;
-> +static __u32 get_sel_stream = 0;
->  static __u32 get_fps_pad;
-> +static __u32 get_fps_stream = 0;
->  static int get_sel_target = -1;
->  static unsigned int set_selection;
->  static struct v4l2_subdev_selection vsel;
->  static unsigned int set_fmt;
->  static __u32 set_fmt_pad;
-> +static __u32 set_fmt_stream = 0;
->  static struct v4l2_mbus_framefmt ffmt;
->  static struct v4l2_subdev_frame_size_enum frmsize;
->  static struct v4l2_subdev_frame_interval_enum frmival;
->  static __u32 set_fps_pad;
-> +static __u32 set_fps_stream = 0;
->  static double set_fps;
-> +static struct v4l2_subdev_routing routing;
-> +static struct v4l2_subdev_route routes[NUM_ROUTES_MAX];
->  
->  void subdev_usage()
->  {
->  	printf("\nSub-Device options:\n"
-> -	       "  --list-subdev-mbus-codes <pad>\n"
-> +	       "  --list-subdev-mbus-codes pad=<pad>,stream=<stream>\n"
->  	       "                      display supported mediabus codes for this pad (0 is default)\n"
->  	       "                      [VIDIOC_SUBDEV_ENUM_MBUS_CODE]\n"
-> -	       "  --list-subdev-framesizes pad=<pad>,code=<code>\n"
-> +	       "  --list-subdev-framesizes pad=<pad>,stream=<stream>,code=<code>\n"
->  	       "                     list supported framesizes for this pad and code\n"
->  	       "                     [VIDIOC_SUBDEV_ENUM_FRAME_SIZE]\n"
->  	       "                     <code> is the value of the mediabus code\n"
-> -	       "  --list-subdev-frameintervals pad=<pad>,width=<w>,height=<h>,code=<code>\n"
-> +	       "  --list-subdev-frameintervals pad=<pad>,stream=<stream>,width=<w>,height=<h>,code=<code>\n"
->  	       "                     list supported frame intervals for this pad and code and\n"
->  	       "                     the given width and height [VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL]\n"
->  	       "                     <code> is the value of the mediabus code\n"
-> -	       "  --get-subdev-fmt [<pad>]\n"
-> -	       "     		     query the frame format for the given pad [VIDIOC_SUBDEV_G_FMT]\n"
-> -	       "  --get-subdev-selection pad=<pad>,target=<target>\n"
-> +	       "  --get-subdev-fmt pad=<pad>,stream=<stream>\n"
-> +	       "     		     query the frame format for the given pad and optional stream [VIDIOC_SUBDEV_G_FMT]\n"
-> +	       "		     <pad> the pad to get the format from\n"
-> +	       "		     <stream> the stream to get the format from (0 if not specified)\n"
-> +	       "  --get-subdev-selection pad=<pad>,stream=<stream>,target=<target>\n"
->  	       "                     query the frame selection rectangle [VIDIOC_SUBDEV_G_SELECTION]\n"
->  	       "                     See --set-subdev-selection command for the valid <target> values.\n"
-> -	       "  --get-subdev-fps [<pad>]\n"
-> +	       "  --get-subdev-fps pad=<pad>,stream=<stream>\n"
->  	       "                     query the frame rate [VIDIOC_SUBDEV_G_FRAME_INTERVAL]\n"
->  	       "  --set-subdev-fmt   (for testing only, otherwise use media-ctl)\n"
-> -	       "  --try-subdev-fmt pad=<pad>,width=<w>,height=<h>,code=<code>,field=<f>,colorspace=<c>,\n"
-> +	       "  --try-subdev-fmt pad=<pad>,stream=<stream>,width=<w>,height=<h>,code=<code>,field=<f>,colorspace=<c>,\n"
->  	       "                   xfer=<xf>,ycbcr=<y>,hsv=<hsv>,quantization=<q>\n"
-> -	       "                     set the frame format [VIDIOC_SUBDEV_S_FMT]\n"
-> +	       "                     set the frame format for the given pad and optional stream [VIDIOC_SUBDEV_S_FMT]\n"
-> +	       "                     <pad> the pad to get the format from\n"
-> +	       "                     <stream> the stream to get the format from (0 if not specified)\n"
->  	       "                     <code> is the value of the mediabus code\n"
->  	       "                     <f> can be one of the following field layouts:\n"
->  	       "                       any, none, top, bottom, interlaced, seq_tb, seq_bt,\n"
-> @@ -74,31 +94,74 @@ void subdev_usage()
->  	       "                     <q> can be one of the following quantization methods:\n"
->  	       "                       default, full-range, lim-range\n"
->  	       "  --set-subdev-selection (for testing only, otherwise use media-ctl)\n"
-> -	       "  --try-subdev-selection pad=<pad>,target=<target>,flags=<flags>,\n"
-> +	       "  --try-subdev-selection pad=<pad>,stream=<stream>,target=<target>,flags=<flags>,\n"
->  	       "                         top=<x>,left=<y>,width=<w>,height=<h>\n"
->  	       "                     set the video capture selection rectangle [VIDIOC_SUBDEV_S_SELECTION]\n"
->  	       "                     target=crop|crop_bounds|crop_default|compose|compose_bounds|\n"
->  	       "                            compose_default|compose_padded|native_size\n"
->  	       "                     flags=le|ge|keep-config\n"
-> -	       "  --set-subdev-fps pad=<pad>,fps=<fps> (for testing only, otherwise use media-ctl)\n"
-> +	       "  --set-subdev-fps pad=<pad>,stream=<stream>,fps=<fps> (for testing only, otherwise use media-ctl)\n"
->  	       "                     set the frame rate [VIDIOC_SUBDEV_S_FRAME_INTERVAL]\n"
-> +	       "  --get-routing      Print the route topology\n"
-> +	       "  --set-routing <routes>\n"
-> +	       "                     Comma-separated list of route descriptors to setup\n"
-> +	       "\n"
-> +	       "Routes are defined as\n"
-> +	       "	routes		= route { ',' route } ;\n"
-> +	       "	route		= sink '->' source '[' flags ']' ;\n"
-> +	       "	sink		= sink-pad '/' sink-stream ;\n"
-> +	       "	source		= source-pad '/' source-stream ;\n"
-> +	       "\n"
-> +	       "where\n"
-> +	       "	sink-pad	= Pad numeric identifier for sink\n"
-> +	       "	sink-stream	= Stream numeric identifier for sink\n"
-> +	       "	source-pad	= Pad numeric identifier for source\n"
-> +	       "	source-stream	= Stream numeric identifier for source\n"
-> +	       "	flags		= Route flags (0: inactive, 1: active)\n"
->  	       );
->  }
->  
->  void subdev_cmd(int ch, char *optarg)
->  {
->  	char *value, *subs;
-> +	char *endp;
->  
->  	switch (ch) {
->  	case OptListSubDevMBusCodes:
-> -		if (optarg)
-> -			list_mbus_codes_pad = strtoul(optarg, nullptr, 0);
-> +		if (optarg) {
-> +			/* Legacy pad-only parsing */
-> +			list_mbus_codes_pad = strtoul(optarg, &endp, 0);
-> +			if (*endp == 0)
-> +				break;
-> +		}
-> +
-> +		subs = optarg;
-> +		while (subs && *subs != '\0') {
-> +			static constexpr const char *subopts[] = {
-> +				"pad",
-> +				"stream",
-> +				nullptr
-> +			};
-> +
-> +			switch (parse_subopt(&subs, subopts, &value)) {
-> +			case 0:
-> +				list_mbus_codes_pad = strtoul(value, nullptr, 0);
-> +				break;
-> +			case 1:
-> +				list_mbus_codes_stream = strtoul(value, nullptr, 0);
-> +				break;
-> +			default:
-> +				subdev_usage();
-> +				std::exit(EXIT_FAILURE);
-> +			}
-> +		}
->  		break;
->  	case OptListSubDevFrameSizes:
->  		subs = optarg;
->  		while (*subs != '\0') {
->  			static constexpr const char *subopts[] = {
->  				"pad",
-> +				"stream",
->  				"code",
->  				nullptr
->  			};
-> @@ -108,6 +171,9 @@ void subdev_cmd(int ch, char *optarg)
->  				frmsize.pad = strtoul(value, nullptr, 0);
->  				break;
->  			case 1:
-> +				frmsize.stream = strtoul(value, nullptr, 0);
-> +				break;
-> +			case 2:
->  				frmsize.code = strtoul(value, nullptr, 0);
->  				break;
->  			default:
-> @@ -121,6 +187,7 @@ void subdev_cmd(int ch, char *optarg)
->  		while (*subs != '\0') {
->  			static constexpr const char *subopts[] = {
->  				"pad",
-> +				"stream",
->  				"code",
->  				"width",
->  				"height",
-> @@ -132,12 +199,15 @@ void subdev_cmd(int ch, char *optarg)
->  				frmival.pad = strtoul(value, nullptr, 0);
->  				break;
->  			case 1:
-> -				frmival.code = strtoul(value, nullptr, 0);
-> +				frmival.stream = strtoul(value, nullptr, 0);
->  				break;
->  			case 2:
-> -				frmival.width = strtoul(value, nullptr, 0);
-> +				frmival.code = strtoul(value, nullptr, 0);
->  				break;
->  			case 3:
-> +				frmival.width = strtoul(value, nullptr, 0);
-> +				break;
-> +			case 4:
->  				frmival.height = strtoul(value, nullptr, 0);
->  				break;
->  			default:
-> @@ -147,14 +217,40 @@ void subdev_cmd(int ch, char *optarg)
->  		}
->  		break;
->  	case OptGetSubDevFormat:
-> -		if (optarg)
-> -			get_fmt_pad = strtoul(optarg, nullptr, 0);
-> +		if (optarg) {
-> +			/* Legacy pad-only parsing */
-> +			get_fmt_pad = strtoul(optarg, &endp, 0);
-> +			if (*endp == 0)
-> +				break;
-> +		}
-> +
-> +		subs = optarg;
-> +		while (subs && *subs != '\0') {
-> +			static constexpr const char *subopts[] = {
-> +				"pad",
-> +				"stream",
-> +				nullptr
-> +			};
-> +
-> +			switch (parse_subopt(&subs, subopts, &value)) {
-> +			case 0:
-> +				get_fmt_pad = strtoul(value, nullptr, 0);
-> +				break;
-> +			case 1:
-> +				get_fmt_stream = strtoul(value, nullptr, 0);
-> +				break;
-> +			default:
-> +				subdev_usage();
-> +				std::exit(EXIT_FAILURE);
-> +			}
-> +		}
->  		break;
->  	case OptGetSubDevSelection:
->  		subs = optarg;
->  		while (*subs != '\0') {
->  			static constexpr const char *subopts[] = {
->  				"pad",
-> +				"stream",
->  				"target",
->  				nullptr
->  			};
-> @@ -165,6 +261,9 @@ void subdev_cmd(int ch, char *optarg)
->  				get_sel_pad = strtoul(value, nullptr, 0);
->  				break;
->  			case 1:
-> +				get_sel_stream = strtoul(value, nullptr, 0);
-> +				break;
-> +			case 2:
->  				if (parse_selection_target(value, target)) {
->  					fprintf(stderr, "Unknown selection target\n");
->  					subdev_usage();
-> @@ -179,8 +278,33 @@ void subdev_cmd(int ch, char *optarg)
->  		}
->  		break;
->  	case OptGetSubDevFPS:
-> -		if (optarg)
-> -			get_fps_pad = strtoul(optarg, nullptr, 0);
-> +		if (optarg) {
-> +			/* Legacy pad-only parsing */
-> +			get_fps_pad = strtoul(optarg, &endp, 0);
-> +			if (*endp == 0)
-> +				break;
-> +		}
-> +
-> +		subs = optarg;
-> +		while (subs && *subs != '\0') {
-> +			static constexpr const char *subopts[] = {
-> +				"pad",
-> +				"stream",
-> +				nullptr
-> +			};
-> +
-> +			switch (parse_subopt(&subs, subopts, &value)) {
-> +			case 0:
-> +				get_fps_pad = strtoul(value, nullptr, 0);
-> +				break;
-> +			case 1:
-> +				get_fps_stream = strtoul(value, nullptr, 0);
-> +				break;
-> +			default:
-> +				subdev_usage();
-> +				std::exit(EXIT_FAILURE);
-> +			}
-> +		}
->  		break;
->  	case OptSetSubDevFormat:
->  	case OptTrySubDevFormat:
-> @@ -198,6 +322,7 @@ void subdev_cmd(int ch, char *optarg)
->  				"quantization",
->  				"xfer",
->  				"pad",
-> +				"stream",
->  				nullptr
->  			};
->  
-> @@ -244,6 +369,9 @@ void subdev_cmd(int ch, char *optarg)
->  			case 9:
->  				set_fmt_pad = strtoul(value, nullptr, 0);
->  				break;
-> +			case 10:
-> +				set_fmt_stream = strtoul(value, nullptr, 0);
-> +				break;
->  			default:
->  				fprintf(stderr, "Unknown option\n");
->  				subdev_usage();
-> @@ -264,6 +392,7 @@ void subdev_cmd(int ch, char *optarg)
->  				"width",
->  				"height",
->  				"pad",
-> +				"stream",
->  				nullptr
->  			};
->  
-> @@ -298,6 +427,9 @@ void subdev_cmd(int ch, char *optarg)
->  			case 6:
->  				vsel.pad = strtoul(value, nullptr, 0);
->  				break;
-> +			case 7:
-> +				vsel.stream = strtoul(value, nullptr, 0);
-> +				break;
->  			default:
->  				fprintf(stderr, "Unknown option\n");
->  				subdev_usage();
-> @@ -311,6 +443,7 @@ void subdev_cmd(int ch, char *optarg)
->  		while (*subs != '\0') {
->  			static constexpr const char *subopts[] = {
->  				"pad",
-> +				"stream",
->  				"fps",
->  				nullptr
->  			};
-> @@ -320,6 +453,9 @@ void subdev_cmd(int ch, char *optarg)
->  				set_fps_pad = strtoul(value, nullptr, 0);
->  				break;
->  			case 1:
-> +				set_fps_stream = strtoul(value, nullptr, 0);
-> +				break;
-> +			case 2:
->  				set_fps = strtod(value, nullptr);
->  				break;
->  			default:
-> @@ -329,6 +465,47 @@ void subdev_cmd(int ch, char *optarg)
->  			}
->  		}
->  		break;
-> +	case OptSetRouting: {
-> +		struct v4l2_subdev_route *r;
-> +		char *end, *ref, *tok;
-> +		unsigned int flags;
-> +
-> +		memset(&routing, 0, sizeof(routing));
-> +		memset(routes, 0, sizeof(routes[0]) * NUM_ROUTES_MAX);
-> +		routing.which = V4L2_SUBDEV_FORMAT_ACTIVE;
-> +		routing.num_routes = 0;
-> +		routing.routes = (__u64)routes;
-> +
-> +		if (!optarg)
-> +			break;
-> +
-> +		r = (v4l2_subdev_route *)routing.routes;
-> +		ref = end = strdup(optarg);
-> +		while ((tok = strsep(&end, ",")) != NULL) {
-> +			if (sscanf(tok, "%u/%u -> %u/%u [%u]",
-> +				   &r->sink_pad, &r->sink_stream,
-> +				   &r->source_pad, &r->source_stream,
-> +				   &flags) != 5) {
-
-Requiring a space around '->' isn't nice, especially as it's not present
-in the help text. MC link parsing makes spaces optional, please do the
-same here.
-
-> +				free(ref);
-> +				fprintf(stderr, "Invalid route information specified\n");
-> +				subdev_usage();
-> +				std::exit(EXIT_FAILURE);
-> +			}
-> +
-> +			if (flags & ~(V4L2_SUBDEV_ROUTE_FL_ACTIVE)) {
-> +				fprintf(stderr, "Invalid route flags specified: %#x\n", flags);
-> +				subdev_usage();
-> +				std::exit(EXIT_FAILURE);
-> +			}
-> +
-> +			r->flags = flags;
-> +
-> +			r++;
-> +			routing.num_routes++;
-> +		}
-> +		free(ref);
-> +		break;
+>   drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
+> index 278416acf060..5de44d7e92de 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
+> @@ -4686,8 +4686,10 @@ static int gfx_v8_0_kiq_resume(struct amdgpu_device *adev)
+>   		return r;
+>   
+>   	r = amdgpu_bo_kmap(ring->mqd_obj, &ring->mqd_ptr);
+> -	if (unlikely(r != 0))
+> +	if (unlikely(r != 0)) {
+> +		amdgpu_bo_unreserve(ring->mqd_obj);
+>   		return r;
 > +	}
->  	default:
->  		break;
->  	}
-> @@ -394,6 +571,7 @@ void subdev_set(cv4l_fd &_fd)
->  
->  		memset(&fmt, 0, sizeof(fmt));
->  		fmt.pad = set_fmt_pad;
-> +		fmt.stream = set_fmt_stream;
->  		fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
->  
->  		if (doioctl(fd, VIDIOC_SUBDEV_G_FMT, &fmt) == 0) {
-> @@ -430,7 +608,7 @@ void subdev_set(cv4l_fd &_fd)
->  			else
->  				fmt.which = V4L2_SUBDEV_FORMAT_TRY;
->  
-> -			printf("ioctl: VIDIOC_SUBDEV_S_FMT (pad=%u)\n", fmt.pad);
-> +			printf("ioctl: VIDIOC_SUBDEV_S_FMT (pad=%u,stream=%u)\n", fmt.pad, fmt.stream);
->  			ret = doioctl(fd, VIDIOC_SUBDEV_S_FMT, &fmt);
->  			if (ret == 0 && (verbose || !options[OptSetSubDevFormat]))
->  				print_framefmt(fmt.format);
-> @@ -441,6 +619,7 @@ void subdev_set(cv4l_fd &_fd)
->  
->  		memset(&sel, 0, sizeof(sel));
->  		sel.pad = vsel.pad;
-> +		sel.stream = vsel.stream;
->  		sel.which = V4L2_SUBDEV_FORMAT_ACTIVE;
->  		sel.target = vsel.target;
->  
-> @@ -461,7 +640,7 @@ void subdev_set(cv4l_fd &_fd)
->  			else
->  				sel.which = V4L2_SUBDEV_FORMAT_TRY;
->  
-> -			printf("ioctl: VIDIOC_SUBDEV_S_SELECTION (pad=%u)\n", sel.pad);
-> +			printf("ioctl: VIDIOC_SUBDEV_S_SELECTION (pad=%u,stream=%u)\n", sel.pad, sel.stream);
->  			int ret = doioctl(fd, VIDIOC_SUBDEV_S_SELECTION, &sel);
->  			if (ret == 0 && (verbose || !options[OptSetSubDevSelection]))
->  				print_subdev_selection(sel);
-> @@ -472,6 +651,7 @@ void subdev_set(cv4l_fd &_fd)
->  
->  		memset(&fival, 0, sizeof(fival));
->  		fival.pad = set_fps_pad;
-> +		fival.stream = set_fps_stream;
->  
->  		if (set_fps <= 0) {
->  			fprintf(stderr, "invalid fps %f\n", set_fps);
-> @@ -482,7 +662,7 @@ void subdev_set(cv4l_fd &_fd)
->  		fival.interval.denominator = static_cast<uint32_t>(set_fps * fival.interval.numerator);
->  		printf("Note: --set-subdev-fps is only for testing.\n"
->  		       "Normally media-ctl is used to configure the video pipeline.\n");
-> -		printf("ioctl: VIDIOC_SUBDEV_S_FRAME_INTERVAL (pad=%u)\n", fival.pad);
-> +		printf("ioctl: VIDIOC_SUBDEV_S_FRAME_INTERVAL (pad=%u,stream=%u)\n", fival.pad, fival.stream);
->  		if (doioctl(fd, VIDIOC_SUBDEV_S_FRAME_INTERVAL, &fival) == 0) {
->  			if (!fival.interval.denominator || !fival.interval.numerator)
->  				printf("\tFrames per second: invalid (%d/%d)\n",
-> @@ -493,6 +673,55 @@ void subdev_set(cv4l_fd &_fd)
->  					fival.interval.denominator, fival.interval.numerator);
->  		}
->  	}
-> +	if (options[OptSetRouting]) {
-> +		if (doioctl(fd, VIDIOC_SUBDEV_S_ROUTING, &routing) == 0)
-> +			printf("Routing set\n");
-> +	}
-> +}
-> +
-> +struct flag_name {
-> +	__u32 flag;
-> +	const char *name;
-> +};
-> +
-> +static void print_flags(const struct flag_name *flag_names, unsigned int num_entries, __u32 flags)
-> +{
-> +	bool first = true;
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < num_entries; i++) {
-> +		if (!(flags & flag_names[i].flag))
-> +			continue;
-> +		if (!first)
-> +			printf(",");
-> +		printf("%s", flag_names[i].name);
-> +		flags &= ~flag_names[i].flag;
-> +		first = false;
-> +	}
-> +
-> +	if (flags) {
-> +		if (!first)
-> +			printf(",");
-> +		printf("0x%x", flags);
-> +	}
-> +}
+>   
+>   	gfx_v8_0_kiq_init_queue(ring);
+>   	amdgpu_bo_kunmap(ring->mqd_obj);
 
-This could also be a helper shared by multiple source files.
-
-> +
-> +static void print_routes(const struct v4l2_subdev_routing *r)
-> +{
-> +	unsigned int i;
-> +	struct v4l2_subdev_route *routes = (struct v4l2_subdev_route *)r->routes;
-> +
-> +	static const struct flag_name route_flags[] = {
-> +		{ V4L2_SUBDEV_ROUTE_FL_ACTIVE, "ACTIVE" },
-> +	};
-> +
-> +	for (i = 0; i < r->num_routes; i++) {
-> +		printf("%d/%d -> %d/%d [",
-
-The values are unsigned, %u.
-
-> +		       routes[i].sink_pad, routes[i].sink_stream,
-> +		       routes[i].source_pad, routes[i].source_stream);
-> +		print_flags(route_flags, ARRAY_SIZE(route_flags), routes[i].flags);
-> +		printf("]\n");
-> +	}
->  }
->  
->  void subdev_get(cv4l_fd &_fd)
-> @@ -505,8 +734,9 @@ void subdev_get(cv4l_fd &_fd)
->  		memset(&fmt, 0, sizeof(fmt));
->  		fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
->  		fmt.pad = get_fmt_pad;
-> +		fmt.stream = get_fmt_stream;
->  
-> -		printf("ioctl: VIDIOC_SUBDEV_G_FMT (pad=%u)\n", fmt.pad);
-> +		printf("ioctl: VIDIOC_SUBDEV_G_FMT (pad=%u, stream=%u)\n", fmt.pad, fmt.stream);
-
-In some places you have a space after the comma, in some places you
-don't. I prefer the space personally but I'm fine with either as long as
-it's consistent.
-
->  		if (doioctl(fd, VIDIOC_SUBDEV_G_FMT, &fmt) == 0)
->  			print_framefmt(fmt.format);
->  	}
-> @@ -518,8 +748,9 @@ void subdev_get(cv4l_fd &_fd)
->  		memset(&sel, 0, sizeof(sel));
->  		sel.which = V4L2_SUBDEV_FORMAT_ACTIVE;
->  		sel.pad = get_sel_pad;
-> +		sel.stream = get_sel_stream;
->  
-> -		printf("ioctl: VIDIOC_SUBDEV_G_SELECTION (pad=%u)\n", sel.pad);
-> +		printf("ioctl: VIDIOC_SUBDEV_G_SELECTION (pad=%u,stream=%u)\n", sel.pad, sel.stream);
->  		if (options[OptAll] || get_sel_target == -1) {
->  			while (valid_seltarget_at_idx(idx)) {
->  				sel.target = seltarget_at_idx(idx);
-> @@ -538,8 +769,9 @@ void subdev_get(cv4l_fd &_fd)
->  
->  		memset(&fival, 0, sizeof(fival));
->  		fival.pad = get_fps_pad;
-> +		fival.stream = get_fps_stream;
->  
-> -		printf("ioctl: VIDIOC_SUBDEV_G_FRAME_INTERVAL (pad=%u)\n", fival.pad);
-> +		printf("ioctl: VIDIOC_SUBDEV_G_FRAME_INTERVAL (pad=%u,stream=%u)\n", fival.pad, fival.stream);
->  		if (doioctl(fd, VIDIOC_SUBDEV_G_FRAME_INTERVAL, &fival) == 0) {
->  			if (!fival.interval.denominator || !fival.interval.numerator)
->  				printf("\tFrames per second: invalid (%d/%d)\n",
-> @@ -550,6 +782,17 @@ void subdev_get(cv4l_fd &_fd)
->  					fival.interval.denominator, fival.interval.numerator);
->  		}
->  	}
-> +
-> +	if (options[OptGetRouting]) {
-> +		memset(&routing, 0, sizeof(routing));
-> +		memset(routes, 0, sizeof(routes[0]) * NUM_ROUTES_MAX);
-> +		routing.which = V4L2_SUBDEV_FORMAT_ACTIVE;
-> +		routing.num_routes = NUM_ROUTES_MAX;
-> +		routing.routes = (__u64)routes;
-> +
-> +		if (doioctl(fd, VIDIOC_SUBDEV_G_ROUTING, &routing) == 0)
-> +			print_routes(&routing);
-> +	}
->  }
->  
->  static void print_mbus_code(__u32 code)
-> @@ -566,11 +809,12 @@ static void print_mbus_code(__u32 code)
->  		printf("\t0x%04x", code);
->  }
->  
-> -static void print_mbus_codes(int fd, __u32 pad)
-> +static void print_mbus_codes(int fd, __u32 pad, __u32 stream)
->  {
->  	struct v4l2_subdev_mbus_code_enum mbus_code = {};
->  
->  	mbus_code.pad = pad;
-> +	mbus_code.stream = stream;
->  	mbus_code.which = V4L2_SUBDEV_FORMAT_TRY;
->  
->  	for (;;) {
-> @@ -623,13 +867,13 @@ void subdev_list(cv4l_fd &_fd)
->  	int fd = _fd.g_fd();
->  
->  	if (options[OptListSubDevMBusCodes]) {
-> -		printf("ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=%u)\n",
-> -		       list_mbus_codes_pad);
-> -		print_mbus_codes(fd, list_mbus_codes_pad);
-> +		printf("ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=%u,stream=%u)\n",
-> +		       list_mbus_codes_pad, list_mbus_codes_stream);
-> +		print_mbus_codes(fd, list_mbus_codes_pad, list_mbus_codes_stream);
->  	}
->  	if (options[OptListSubDevFrameSizes]) {
-> -		printf("ioctl: VIDIOC_SUBDEV_ENUM_FRAME_SIZE (pad=%u)\n",
-> -		       frmsize.pad);
-> +		printf("ioctl: VIDIOC_SUBDEV_ENUM_FRAME_SIZE (pad=%u,stream=%u)\n",
-> +		       frmsize.pad, frmsize.stream);
->  		frmsize.index = 0;
->  		frmsize.which = V4L2_SUBDEV_FORMAT_TRY;
->  		while (test_ioctl(fd, VIDIOC_SUBDEV_ENUM_FRAME_SIZE, &frmsize) >= 0) {
-> @@ -638,8 +882,8 @@ void subdev_list(cv4l_fd &_fd)
->  		}
->  	}
->  	if (options[OptListSubDevFrameIntervals]) {
-> -		printf("ioctl: VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL (pad=%u)\n",
-> -		       frmival.pad);
-> +		printf("ioctl: VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL (pad=%u,stream=%u)\n",
-> +		       frmival.pad, frmival.stream);
->  		frmival.index = 0;
->  		frmival.which = V4L2_SUBDEV_FORMAT_TRY;
->  		while (test_ioctl(fd, VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL, &frmival) >= 0) {
-> diff --git a/utils/v4l2-ctl/v4l2-ctl.cpp b/utils/v4l2-ctl/v4l2-ctl.cpp
-> index 8585278f..1cfb50f7 100644
-> --- a/utils/v4l2-ctl/v4l2-ctl.cpp
-> +++ b/utils/v4l2-ctl/v4l2-ctl.cpp
-> @@ -64,6 +64,8 @@ static struct option long_options[] = {
->  	{"get-fmt-video-out", no_argument, nullptr, OptGetVideoOutFormat},
->  	{"set-fmt-video-out", required_argument, nullptr, OptSetVideoOutFormat},
->  	{"try-fmt-video-out", required_argument, nullptr, OptTryVideoOutFormat},
-> +	{"set-routing", required_argument, 0, OptSetRouting},
-> +	{"get-routing", no_argument, 0, OptGetRouting},
-
-Maybe get before set as for other options ?
-
->  	{"help", no_argument, nullptr, OptHelp},
->  	{"help-tuner", no_argument, nullptr, OptHelpTuner},
->  	{"help-io", no_argument, nullptr, OptHelpIO},
-> diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
-> index 8f2726ea..9396c974 100644
-> --- a/utils/v4l2-ctl/v4l2-ctl.h
-> +++ b/utils/v4l2-ctl/v4l2-ctl.h
-> @@ -191,6 +191,8 @@ enum Option {
->  	OptInfoEdid,
->  	OptShowEdid,
->  	OptFixEdidChecksums,
-> +	OptSetRouting,
-> +	OptGetRouting,
->  	OptFreqSeek,
->  	OptEncoderCmd,
->  	OptTryEncoderCmd,
-
--- 
-Regards,
-
-Laurent Pinchart
