@@ -2,48 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 259576EC791
-	for <lists+linux-media@lfdr.de>; Mon, 24 Apr 2023 10:04:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D483F6EC7E8
+	for <lists+linux-media@lfdr.de>; Mon, 24 Apr 2023 10:30:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229625AbjDXIEN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Apr 2023 04:04:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44418 "EHLO
+        id S230346AbjDXIa0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Apr 2023 04:30:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229522AbjDXIEL (ORCPT
+        with ESMTP id S230005AbjDXIaZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Apr 2023 04:04:11 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A64F10E7
-        for <linux-media@vger.kernel.org>; Mon, 24 Apr 2023 01:04:10 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 74800D80;
-        Mon, 24 Apr 2023 10:03:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1682323439;
-        bh=ddQzuGDLIezrB92/NQyi4NWH6I47TlkV32Xngesq0PI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jFkK1dhhGUW5dM3/hTFoakX+2elPLc+aN5SPm86i/gZsoi22Dr1i5ItAWp8cvtK54
-         7rlkjI2/32M0zwb9JWHYK2dNpUQjW8lqrcDFtyZOQiV+pHG31r+B5oH8l06oK+orP3
-         4A59IWENlgVJVrtNNQfnmQVAKMruqIsPwnX/5ElM=
-Date:   Mon, 24 Apr 2023 11:04:21 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        satish.nagireddy@getcruise.com
-Subject: Re: [PATCH v4 4/8] v4l2-ctl/compliance: Add simple routing test
-Message-ID: <20230424080421.GI4926@pendragon.ideasonboard.com>
-References: <20230421124428.393261-1-tomi.valkeinen@ideasonboard.com>
- <20230421124428.393261-5-tomi.valkeinen@ideasonboard.com>
+        Mon, 24 Apr 2023 04:30:25 -0400
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C80FA189;
+        Mon, 24 Apr 2023 01:30:23 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id 1BA80E126D;
+        Mon, 24 Apr 2023 01:30:23 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id OQNp4Wng5lcs; Mon, 24 Apr 2023 01:30:17 -0700 (PDT)
+From:   Martin Kepplinger <martin.kepplinger@puri.sm>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=puri.sm; s=comms;
+        t=1682325017; bh=1YtoU58GRKmxuR/4dCxeVqokfEQvi2oTrrPDApVPVK8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=qsuNnUxj1lIV/NgI+l9t/C5vCtbOg0DuXGrWO79JQKrafrPgcnxgX6/uTv4xmxsFB
+         skmytIbNH8zSgoLtzgnjbnlmKXV/SEce86VbdsLhWhPRBUBLRayAsdAHvjh1dWw22I
+         KwqNzf+JSU7VakbV3Obu2V3bEAZsGmoGaw+LMYdRO+jJj4jByBgb0pxAY9WioPxIc2
+         FULkxhExbxMttJkGa5nYhCjPSxTXcUWO624T1Gv3l3eX0cI4+jzNiXisVyl9juQ8tI
+         1LphlousT6CLE3c1V1fRPFTdWDQqoYxMgsMaO7NH4kCso+6ABzYee1zJUPst9FW4j5
+         4nAIugF4Bz3Tg==
+To:     mchehab@kernel.org, shawnguo@kernel.org, festevam@gmail.com,
+        slongerbeam@gmail.com, gregkh@linuxfoundation.org,
+        laurent.pinchart@ideasonboard.com, hverkuil-cisco@xs4all.nl,
+        rmfrfs@gmail.com
+Cc:     kernel@pengutronix.de, linux-imx@nxp.com, kernel@puri.sm,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Martin Kepplinger <martin.kepplinger@puri.sm>
+Subject: [PATCH] media: imx: Unstage the imx8mq-mipi-csi2 driver
+Date:   Mon, 24 Apr 2023 10:29:45 +0200
+Message-Id: <20230424082945.2580298-1-martin.kepplinger@puri.sm>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230421124428.393261-5-tomi.valkeinen@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -51,92 +53,128 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi,
+The imx8mq-mipi-csi2 mipi receiver driver is used and maintained. There
+is no reason to keep it in staging. The accompanying CSI bridge driver that
+uses it is in drivers/media/platform/nxp as well.
 
-Thank you for the patch.
+One TODO is to get rid of csi_state's "state" and "lock" variables. Especially
+make sure suspend/resume is working without them. That can very well be worked
+on from the new location.
 
-On Fri, Apr 21, 2023 at 03:44:24PM +0300, Tomi Valkeinen wrote:
-> Add a very simple test for
-> VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING.
-> 
-> We can't (at least at the moment) really know here what kind of routings
-> the driver would accept, but we can test a VIDIOC_SUBDEV_G_ROUTING call,
-> followed by a VIDIOC_SUBDEV_S_ROUTING call with the routing we
-> received.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  utils/v4l2-compliance/v4l2-compliance.cpp   | 12 ++++++++++++
->  utils/v4l2-compliance/v4l2-compliance.h     |  1 +
->  utils/v4l2-compliance/v4l2-test-subdevs.cpp | 16 ++++++++++++++++
->  3 files changed, 29 insertions(+)
-> 
-> diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
-> index a147604c..7c3a688b 100644
-> --- a/utils/v4l2-compliance/v4l2-compliance.cpp
-> +++ b/utils/v4l2-compliance/v4l2-compliance.cpp
-> @@ -1241,6 +1241,18 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
->  		node.is_passthrough_subdev = has_source && has_sink;
->  
->  		if (has_routes) {
-> +			printf("Sub-Device routing ioctls:\n");
-> +
-> +			for (unsigned which = V4L2_SUBDEV_FORMAT_TRY;
-> +				which <= V4L2_SUBDEV_FORMAT_ACTIVE; which++) {
-> +
-> +				printf("\ttest %s VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING: %s\n",
-> +						       which ? "Active" : "Try",
-> +						       ok(testSubDevRouting(&node, which)));
+Add a MAINTAINERS section for the imx8mq-mipi-csi2 mipi receiver driver.
+It shares the CSI Bridge driver with the one from imx7 and imx8mm so the
+sections overlap a bit.
 
-Weird indentation.
+Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+---
+ MAINTAINERS                                         | 13 +++++++++++++
+ drivers/media/platform/nxp/Kconfig                  | 11 +++++++++++
+ drivers/media/platform/nxp/Makefile                 |  1 +
+ .../imx => media/platform/nxp}/imx8mq-mipi-csi2.c   |  0
+ drivers/staging/media/imx/Kconfig                   | 12 +-----------
+ drivers/staging/media/imx/Makefile                  |  2 --
+ 6 files changed, 26 insertions(+), 13 deletions(-)
+ rename drivers/{staging/media/imx => media/platform/nxp}/imx8mq-mipi-csi2.c (100%)
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-> +			}
-> +
-> +			printf("\n");
-> +
->  			for (unsigned which = V4L2_SUBDEV_FORMAT_TRY;
->  				which <= V4L2_SUBDEV_FORMAT_ACTIVE; which++) {
->  
-> diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
-> index 0cd43980..35b2274b 100644
-> --- a/utils/v4l2-compliance/v4l2-compliance.h
-> +++ b/utils/v4l2-compliance/v4l2-compliance.h
-> @@ -375,6 +375,7 @@ int testSubDevEnum(struct node *node, unsigned which, unsigned pad, unsigned str
->  int testSubDevFormat(struct node *node, unsigned which, unsigned pad, unsigned stream);
->  int testSubDevSelection(struct node *node, unsigned which, unsigned pad, unsigned stream);
->  int testSubDevFrameInterval(struct node *node, unsigned pad, unsigned stream);
-> +int testSubDevRouting(struct node *node, unsigned which);
->  
->  // Buffer ioctl tests
->  int testReqBufs(struct node *node);
-> diff --git a/utils/v4l2-compliance/v4l2-test-subdevs.cpp b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
-> index 07192bda..962d9244 100644
-> --- a/utils/v4l2-compliance/v4l2-test-subdevs.cpp
-> +++ b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
-> @@ -551,3 +551,19 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad, unsigne
->  
->  	return have_sel ? 0 : ENOTTY;
->  }
-> +
-> +int testSubDevRouting(struct node *node, unsigned which)
-> +{
-> +	struct v4l2_subdev_routing routing = {};
-> +	struct v4l2_subdev_route routes[256] = {};
-> +
-> +	routing.which = which;
-> +	routing.routes = (__u64)&routes;
-> +	routing.num_routes = 256;
-> +
-> +	fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_ROUTING, &routing));
-> +
-> +	fail_on_test(doioctl(node, VIDIOC_SUBDEV_S_ROUTING, &routing));
-> +
-> +	return 0;
-> +}
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f50945bb7d1b..fcd48408fc1f 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12919,6 +12919,19 @@ F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
+ F:	drivers/media/platform/nxp/imx-mipi-csis.c
+ F:	drivers/media/platform/nxp/imx7-media-csi.c
+ 
++MEDIA DRIVERS FOR FREESCALE IMX8MQ
++M:	Martin Kepplinger <martin.kepplinger@puri.sm>
++R:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
++R:	Purism Kernel Team <kernel@puri.sm>
++L:	linux-media@vger.kernel.org
++S:	Maintained
++T:	git git://linuxtv.org/media_tree.git
++F:	Documentation/admin-guide/media/imx7.rst
++F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
++F:	Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
++F:	drivers/media/platform/nxp/imx7-media-csi.c
++F:	drivers/media/platform/nxp/imx8mq-mipi-csi.c
++
+ MEDIA DRIVERS FOR HELENE
+ M:	Abylay Ospan <aospan@netup.ru>
+ L:	linux-media@vger.kernel.org
+diff --git a/drivers/media/platform/nxp/Kconfig b/drivers/media/platform/nxp/Kconfig
+index a0ca6b297fb8..efa985ec8a5f 100644
+--- a/drivers/media/platform/nxp/Kconfig
++++ b/drivers/media/platform/nxp/Kconfig
+@@ -28,6 +28,17 @@ config VIDEO_IMX_MIPI_CSIS
+ 	  Video4Linux2 sub-device driver for the MIPI CSI-2 CSIS receiver
+ 	  v3.3/v3.6.3 found on some i.MX7 and i.MX8 SoCs.
+ 
++config VIDEO_IMX8MQ_MIPI_CSI2
++	tristate "NXP i.MX8MQ MIPI CSI-2 receiver"
++	depends on ARCH_MXC || COMPILE_TEST
++	depends on VIDEO_DEV
++	select MEDIA_CONTROLLER
++	select V4L2_FWNODE
++	select VIDEO_V4L2_SUBDEV_API
++	help
++	  Video4Linux2 driver for the MIPI CSI-2 receiver found on the i.MX8MQ
++	  SoC. The i.MX8MQ CSI Bridge is the same as on i.MX7.
++
+ source "drivers/media/platform/nxp/imx8-isi/Kconfig"
+ 
+ # mem2mem drivers
+diff --git a/drivers/media/platform/nxp/Makefile b/drivers/media/platform/nxp/Makefile
+index b8e672b75fed..4d90eb713652 100644
+--- a/drivers/media/platform/nxp/Makefile
++++ b/drivers/media/platform/nxp/Makefile
+@@ -5,6 +5,7 @@ obj-y += imx-jpeg/
+ obj-y += imx8-isi/
+ 
+ obj-$(CONFIG_VIDEO_IMX7_CSI) += imx7-media-csi.o
++obj-$(CONFIG_VIDEO_IMX8MQ_MIPI_CSI2) += imx8mq-mipi-csi2.o
+ obj-$(CONFIG_VIDEO_IMX_MIPI_CSIS) += imx-mipi-csis.o
+ obj-$(CONFIG_VIDEO_IMX_PXP) += imx-pxp.o
+ obj-$(CONFIG_VIDEO_MX2_EMMAPRP) += mx2_emmaprp.o
+diff --git a/drivers/staging/media/imx/imx8mq-mipi-csi2.c b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
+similarity index 100%
+rename from drivers/staging/media/imx/imx8mq-mipi-csi2.c
+rename to drivers/media/platform/nxp/imx8mq-mipi-csi2.c
+diff --git a/drivers/staging/media/imx/Kconfig b/drivers/staging/media/imx/Kconfig
+index 21fd79515042..5b393e29d29e 100644
+--- a/drivers/staging/media/imx/Kconfig
++++ b/drivers/staging/media/imx/Kconfig
+@@ -15,7 +15,7 @@ config VIDEO_IMX_MEDIA
+ 	  driver for the i.MX5/6 SOC.
+ 
+ if VIDEO_IMX_MEDIA
+-menu "i.MX5/6/7/8 Media Sub devices"
++menu "i.MX5/6 Media Sub devices"
+ 
+ config VIDEO_IMX_CSI
+ 	tristate "i.MX5/6 Camera Sensor Interface driver"
+@@ -25,13 +25,3 @@ config VIDEO_IMX_CSI
+ 	  A video4linux camera sensor interface driver for i.MX5/6.
+ endmenu
+ endif
+-
+-config VIDEO_IMX8MQ_MIPI_CSI2
+-	tristate "NXP i.MX8MQ MIPI CSI-2 receiver"
+-	depends on ARCH_MXC || COMPILE_TEST
+-	depends on VIDEO_DEV
+-	select MEDIA_CONTROLLER
+-	select V4L2_FWNODE
+-	select VIDEO_V4L2_SUBDEV_API
+-	help
+-	  V4L2 driver for the MIPI CSI-2 receiver found in the i.MX8MQ SoC.
+diff --git a/drivers/staging/media/imx/Makefile b/drivers/staging/media/imx/Makefile
+index 906a422aa656..b69951deff9a 100644
+--- a/drivers/staging/media/imx/Makefile
++++ b/drivers/staging/media/imx/Makefile
+@@ -13,5 +13,3 @@ obj-$(CONFIG_VIDEO_IMX_MEDIA) += imx-media-common.o
+ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-media.o
+ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-media-csi.o
+ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-mipi-csi2.o
+-
+-obj-$(CONFIG_VIDEO_IMX8MQ_MIPI_CSI2) += imx8mq-mipi-csi2.o
 -- 
-Regards,
+2.30.2
 
-Laurent Pinchart
