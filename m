@@ -2,78 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C1EBF6EC481
-	for <lists+linux-media@lfdr.de>; Mon, 24 Apr 2023 06:48:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 247BE6EC5D6
+	for <lists+linux-media@lfdr.de>; Mon, 24 Apr 2023 08:01:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230453AbjDXEs3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Apr 2023 00:48:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57168 "EHLO
+        id S230082AbjDXGBM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Apr 2023 02:01:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229507AbjDXEs2 (ORCPT
+        with ESMTP id S231542AbjDXGAL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Apr 2023 00:48:28 -0400
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 611122D48
-        for <linux-media@vger.kernel.org>; Sun, 23 Apr 2023 21:48:27 -0700 (PDT)
-Received: by mail-pg1-x534.google.com with SMTP id 41be03b00d2f7-5144043d9d1so2869216a12.3
-        for <linux-media@vger.kernel.org>; Sun, 23 Apr 2023 21:48:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682311707; x=1684903707;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oDVdWICwavrWQ8UAVYhe8ynFXsBBW1vVQ7W08zgiq24=;
-        b=S4MWetVyGuJkR+d2b+kETuR4GYLUQPumm3RGwW47pRXQFQOdLJT3+LLUxm17PBTJXE
-         C0bYbI64FWeQ/yT8FygGREvqUm3QQ/zjWDMJs/4QE55jDPon2nR6Nm8Q08UAzIsXw/iy
-         A/qMAu/+q0J/Jj4CLpdC8yjnSEIrFk6uQubGvqbgjDsruaSeaew6Ap+UhqZzmjvWjk9I
-         aCRnfVP5fiGGdWRV6fRFx/WguBhuFsOg8/MvvMIjS6c+gOuOqluL12bzxAU2Ac+9O2to
-         5/T6O+opC5niw0hh8v4g2B2MUz+/R3MBW5+5ANBM7s6tqFzymT0BkiqtRaTXcfymPbnt
-         tQhA==
+        Mon, 24 Apr 2023 02:00:11 -0400
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3704B40D5;
+        Sun, 23 Apr 2023 22:59:51 -0700 (PDT)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1a920d484bdso33953665ad.1;
+        Sun, 23 Apr 2023 22:59:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682311707; x=1684903707;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oDVdWICwavrWQ8UAVYhe8ynFXsBBW1vVQ7W08zgiq24=;
-        b=J+WEFRKh96iw3qvkIR7fBM5XFwbbFmZnZg/BfhlSNucj26JyHub8ibIDrKkeggby8A
-         UVwIo/t9t9+qiues6oPycboXUoBeDeIdrLbgZmHqi61vWZNccE1Kfaa9eehCdWv1kUsr
-         ZnV2ESOHh3REf7DMhfK5SByKhKOYW+eTmEjOK1gPH1E6aLevZVUv8ZM8TfG42Kop2nMj
-         sPfkPxsVBESQaAll1BI+ELONN2j0fyMlNTVcpdk2TRjZAqIBBWtwdysyRcQkwyXDg6Rw
-         OmhhJAGgWifl8nww90UzlRi+9UG1MEJbmrvJsOa7pLI8tqotJhB45QWjYOARJ92QH/eA
-         WlwA==
-X-Gm-Message-State: AAQBX9fhUScW5HsPERaWqVkUkTCYOXmdTYgNPnHdlDbxOLTGdzZzlLmV
-        AMGsgam2P7/8nUVPcrNBn29+KHJCKuT41qyOfo8=
-X-Google-Smtp-Source: AKy350ZoU4KjhhZ9bPPVymKEBwfYeN78cJHFsMrwLq87pewV4tMsahjBH7xnnM/ELOxol9uZPb8MmhASER0FLWBXiek=
-X-Received: by 2002:a17:90b:4d91:b0:23a:333c:6bab with SMTP id
- oj17-20020a17090b4d9100b0023a333c6babmr11588222pjb.23.1682311706870; Sun, 23
- Apr 2023 21:48:26 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1682315960; x=1684907960;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rZ2SfSlApMPG0JQkvL0AAuqyfaSDxsc4TPleUHWHX54=;
+        b=Bj6IflHqWM9RygSi8UEGI2g9c7+Bkd+8Rr6BnN5FQZTlu7Cm7QGxH8OUXtuMF+b9QP
+         39pt2qNTKyntQp4nS019DULMorprdQI03RM2/qW1jnrnLEF8By3JujbAj7/+x+P++LV7
+         uIwAnpbv5Uyl0OxaZ4SuKrALRb11325ebp0ds1/Y8tk32OFQ20hVSkqrvr5u4VtTGjbs
+         BwiNJF/zpnkav+MxSu+POcNM1DhXNP+4cMa5lMeEemwqz8EhhhWNl2rHHdQSO4Wuycvk
+         X6vR3zOtWQSRkQ0SzDaGhRx1l+0pkES3bJsjl5gzvYclJVv50J85BJHzZhZsUnwZ05iU
+         cD6Q==
+X-Gm-Message-State: AAQBX9f2gDZAGX8jEsHAWmcb4pXCA6o0DUq3myTOakKdWclum77hiiYJ
+        OV7ZuMMhQKdL59+ZQzGbRd8=
+X-Google-Smtp-Source: AKy350bZL1arZEunooIRRXsnKZi0bPLlYztinlCxzZ/LrCosNr+NxtGmjW+3SAzNg1ES3iuKdejZ3A==
+X-Received: by 2002:a17:903:30c3:b0:1a6:f1f3:e475 with SMTP id s3-20020a17090330c300b001a6f1f3e475mr10319987plc.55.1682315960069;
+        Sun, 23 Apr 2023 22:59:20 -0700 (PDT)
+Received: from dev-linux.lan (cpe-70-95-21-110.san.res.rr.com. [70.95.21.110])
+        by smtp.gmail.com with ESMTPSA id y7-20020a170902d64700b001a979121444sm850808plh.207.2023.04.23.22.59.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Apr 2023 22:59:19 -0700 (PDT)
+From:   Sukrut Bellary <sukrut.bellary@linux.com>
+To:     daniel@ffwll.ch, airlied@gmail.com, sumit.semwal@linaro.org,
+        Hawking.Zhang@amd.com, Julia.Lawall@inria.fr,
+        dri-devel@lists.freedesktop.org
+Cc:     Sukrut Bellary <sukrut.bellary@linux.com>,
+        alexander.deucher@amd.com, christian.koenig@amd.com,
+        Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: [PATCH] drm:amd:amdgpu: Fix missing bo unlock in failure path
+Date:   Sun, 23 Apr 2023 22:59:10 -0700
+Message-Id: <20230424055910.15683-1-sukrut.bellary@linux.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Received: by 2002:a05:6a10:234e:b0:49c:a5fa:37b5 with HTTP; Sun, 23 Apr 2023
- 21:48:26 -0700 (PDT)
-Reply-To: ninacoulibaly03@hotmail.com
-From:   nina coulibaly <ninacoulibaly004@gmail.com>
-Date:   Sun, 23 Apr 2023 21:48:26 -0700
-Message-ID: <CANcht-S5UB0CB3nXVDvrxwLeZv1bWbFSPSDtZ3uw_3kPuoq9BQ@mail.gmail.com>
-Subject: from nina coulibaly
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=2.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: **
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear,
+smatch warning - inconsistent handling of buffer object reserve
+and unreserve.
 
-I am interested to invest with you in your country with total trust
-and i hope you will give me total support, sincerity and commitment.
-Please get back to me as soon as possible so that i can give you my
-proposed details of funding and others.
+Signed-off-by: Sukrut Bellary <sukrut.bellary@linux.com>
+---
+ drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Best Regards.
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
+index 278416acf060..5de44d7e92de 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
+@@ -4686,8 +4686,10 @@ static int gfx_v8_0_kiq_resume(struct amdgpu_device *adev)
+ 		return r;
+ 
+ 	r = amdgpu_bo_kmap(ring->mqd_obj, &ring->mqd_ptr);
+-	if (unlikely(r != 0))
++	if (unlikely(r != 0)) {
++		amdgpu_bo_unreserve(ring->mqd_obj);
+ 		return r;
++	}
+ 
+ 	gfx_v8_0_kiq_init_queue(ring);
+ 	amdgpu_bo_kunmap(ring->mqd_obj);
+-- 
+2.34.1
 
-Mrs Nina Coulibaly
