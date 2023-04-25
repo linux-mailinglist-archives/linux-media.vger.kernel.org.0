@@ -2,588 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D10676EDDBC
-	for <lists+linux-media@lfdr.de>; Tue, 25 Apr 2023 10:13:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B2AE6EDE3E
+	for <lists+linux-media@lfdr.de>; Tue, 25 Apr 2023 10:36:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233543AbjDYINT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Apr 2023 04:13:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41004 "EHLO
+        id S233875AbjDYIgw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Apr 2023 04:36:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231189AbjDYINS (ORCPT
+        with ESMTP id S233073AbjDYIge (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Apr 2023 04:13:18 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3969549E8
-        for <linux-media@vger.kernel.org>; Tue, 25 Apr 2023 01:13:12 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AA199621C9
-        for <linux-media@vger.kernel.org>; Tue, 25 Apr 2023 08:13:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7856AC433EF;
-        Tue, 25 Apr 2023 08:13:10 +0000 (UTC)
-Message-ID: <b861df48-eb55-3e56-50ed-cb646cf6dd08@xs4all.nl>
-Date:   Tue, 25 Apr 2023 10:13:09 +0200
+        Tue, 25 Apr 2023 04:36:34 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA12B13F9E
+        for <linux-media@vger.kernel.org>; Tue, 25 Apr 2023 01:34:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1682411669; x=1713947669;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BjtGkYhttHB/7HGopTei/Bi5epK6Fh8biNPgKR1xZl0=;
+  b=j1AIsg/jO6JVzPfUdvKtkPgZUkDqCpIct1JadjdbY1BG2NtrCNSM462t
+   AuPscVkkDUrVe4r6dZaMLDm6FiRqO6Mqdtgrvtgw1sOSIlTAaBx97+alL
+   /IUKp6wb3cbuJ7ZJD/Zhb2cixqDx8r/AMZv2adoSaJfgzane30HbxdLE9
+   chsNBVUERnfzbirlMKH+i1Y+Df80wb5zS9AcsXOXhQyU6FwiVlhdnt8nO
+   pOOU3OiRl6Ef6ae6ujeQSnWEKrQeFhWNv7QEOZpnXjztFEG+vvEktfv9A
+   p991G1iuM2TNKLZ+eU6t5hRdHionDiVn013rKEP/g2SL7UeXAr6F4YtWu
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="327007978"
+X-IronPort-AV: E=Sophos;i="5.99,225,1677571200"; 
+   d="scan'208";a="327007978"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 01:32:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="867812333"
+X-IronPort-AV: E=Sophos;i="5.99,225,1677571200"; 
+   d="scan'208";a="867812333"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 01:32:48 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 95B9411FCA2;
+        Tue, 25 Apr 2023 11:32:45 +0300 (EEST)
+Date:   Tue, 25 Apr 2023 11:32:45 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>, hverkuil@xs4all.nl,
+        Francesco Dolcini <francesco@dolcini.it>,
+        aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>
+Subject: Re: [PATCH 01/18] media: v4l: async: Return async sub-devices to
+ subnotifier list
+Message-ID: <ZEeQLYuRSXCoDQ45@kekkonen.localdomain>
+References: <20230330115853.1628216-1-sakari.ailus@linux.intel.com>
+ <20230330115853.1628216-2-sakari.ailus@linux.intel.com>
+ <20230425012857.GK4921@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 00/13] bttv: convert to vb2
-Content-Language: en-US
-To:     Deborah Brouwer <deborah.brouwer@collabora.com>,
-        linux-media@vger.kernel.org
-References: <cover.1682379348.git.deborah.brouwer@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <cover.1682379348.git.deborah.brouwer@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230425012857.GK4921@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Deb!
+Hi Laurent,
 
-Thank you so much for working on this, once this is merged we can finally
-get rid of the old videobuf framework.
+On Tue, Apr 25, 2023 at 04:28:57AM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> Thank you for the patch.
+> 
+> On Thu, Mar 30, 2023 at 02:58:36PM +0300, Sakari Ailus wrote:
+> > When an async notifier is unregistered, the async sub-devices in the
+> > notifier's done list will disappear with the notifier. However this is
+> > currently also done to the sub-notifiers that remain registered. Their
+> > sub-devices only need to be unbound while the async sub-devices themselves
+> > need to be returned to the sub-notifier's waiting list. Do this now.
+> > 
+> > Fixes: 2cab00bb076b ("media: v4l: async: Allow binding notifiers to sub-devices")
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  drivers/media/v4l2-core/v4l2-async.c | 13 ++++++++-----
+> >  1 file changed, 8 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> > index 2f1b718a9189..008a2a3e312e 100644
+> > --- a/drivers/media/v4l2-core/v4l2-async.c
+> > +++ b/drivers/media/v4l2-core/v4l2-async.c
+> > @@ -414,7 +414,8 @@ static void v4l2_async_cleanup(struct v4l2_subdev *sd)
+> >  
+> >  /* Unbind all sub-devices in the notifier tree. */
+> >  static void
+> > -v4l2_async_nf_unbind_all_subdevs(struct v4l2_async_notifier *notifier)
+> > +v4l2_async_nf_unbind_all_subdevs(struct v4l2_async_notifier *notifier,
+> > +				 bool readd)
+> 
+> I've read this as "read d" and was wondering what it meant. Maybe
+> "re_add" would be a better variable name ?
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-I did an initial review and found a few minor issues. In the meantime I will
-be testing this series with some of my bttv hardware this week (I hope).
+Thank you.
 
-I will especially check for PAL support since you only could test with NTSC.
+The patch has been already merged and the argument will soon disappear with
+the async rework patchset.
 
+-- 
 Regards,
 
-	Hans
-
-On 25/04/2023 02:09, Deborah Brouwer wrote:
-> Hi,
-> This series converts the bttv driver to vb2.
-> 
-> I tested it with two cards:
-> Leadtek WinFast TV 2000 (has video, vbi and radio) and
-> Hauppauge WinTV (just video and vbi).
-> 
-> It applies on top of Hans' series to drop destructive overlay support:
-> 
-> git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.4b
-> 
-> Here are the v4l2-compliance results:
-> 
-> v4l2-compliance 1.25.0-5042, 64 bits, 64-bit time_t
-> v4l2-compliance SHA: 42567298311a 2023-04-21 08:43:10
-> 
-> Compliance test for bttv device /dev/video0:
-> 
-> Driver Info:
->   Driver name      : bttv
->   Card type        : BT878 video (Leadtek WinFast 20
->   Bus info         : PCI:0000:05:00.0
->   Driver version   : 6.3.0
->   Capabilities     : 0x85250011
->     Video Capture
->     VBI Capture
->     Tuner
->     Radio
->     Read/Write
->     Streaming
->     Extended Pix Format
->     Device Capabilities
->   Device Caps      : 0x05210001
->     Video Capture
->     Tuner
->     Read/Write
->     Streaming
->     Extended Pix Format
-> 
-> Required ioctls:
->   test VIDIOC_QUERYCAP: OK
->   test invalid ioctls: OK
-> 
-> Allow for multiple opens:
->   test second /dev/video0 open: OK
->   test VIDIOC_QUERYCAP: OK
->   test VIDIOC_G/S_PRIORITY: OK
->   test for unlimited opens: OK
-> 
-> Debug ioctls:
->   test VIDIOC_DBG_G/S_REGISTER: OK
->   test VIDIOC_LOG_STATUS: OK
-> 
-> Input ioctls:
->   test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK
->   test VIDIOC_G/S_FREQUENCY: OK
->   test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->   test VIDIOC_ENUMAUDIO: OK (Not Supported)
->   test VIDIOC_G/S/ENUMINPUT: OK
->   test VIDIOC_G/S_AUDIO: OK (Not Supported)
->   Inputs: 4 Audio Inputs: 0 Tuners: 1
-> 
-> Output ioctls:
->   test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->   test VIDIOC_G/S_FREQUENCY: OK
->   test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->   test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->   test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->   Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
->   test VIDIOC_ENUM/G/S/QUERY_STD: OK
->   test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
->   test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
->   test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Control ioctls (Input 0):
->   test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->   test VIDIOC_QUERYCTRL: OK
->   test VIDIOC_G/S_CTRL: OK
->   test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->   test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->   test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->   Standard Controls: 8 Private Controls: 10
-> 
-> Format ioctls (Input 0):
->   test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->   test VIDIOC_G/S_PARM: OK
->   test VIDIOC_G_FBUF: OK (Not Supported)
->   test VIDIOC_G_FMT: OK
->     warn: v4l2-test-formats.cpp(794): TRY_FMT cannot handle an invalid pixelformat.
->     warn: v4l2-test-formats.cpp(795): This may or may not be a problem. For more information see:
->     warn: v4l2-test-formats.cpp(796): http://www.mail-archive.com/linux-media@vger.kernel.org/msg56550.html
->   test VIDIOC_TRY_FMT: OK
->     warn: v4l2-test-formats.cpp(1157): S_FMT cannot handle an invalid pixelformat.
->     warn: v4l2-test-formats.cpp(1158): This may or may not be a problem. For more information see:
->     warn: v4l2-test-formats.cpp(1159): http://www.mail-archive.com/linux-media@vger.kernel.org/msg56550.html
->   test VIDIOC_S_FMT: OK
->   test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->   test Cropping: OK
->   test Composing: OK (Not Supported)
->   test Scaling: OK
-> 
-> Codec ioctls (Input 0):
->   test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->   test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->   test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls (Input 0):
->   test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->   test VIDIOC_EXPBUF: OK (Not Supported)
->   test Requests: OK (Not Supported)
-> 
-> Control ioctls (Input 1):
->   test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->   test VIDIOC_QUERYCTRL: OK
->   test VIDIOC_G/S_CTRL: OK
->   test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->   test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->   test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->   Standard Controls: 8 Private Controls: 10
-> 
-> Format ioctls (Input 1):
->   test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->   test VIDIOC_G/S_PARM: OK
->   test VIDIOC_G_FBUF: OK (Not Supported)
->   test VIDIOC_G_FMT: OK
->   test VIDIOC_TRY_FMT: OK
->   test VIDIOC_S_FMT: OK
->   test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->   test Cropping: OK
->   test Composing: OK (Not Supported)
->   test Scaling: OK
-> 
-> Codec ioctls (Input 1):
->   test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->   test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->   test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls (Input 1):
->   test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->   test VIDIOC_EXPBUF: OK (Not Supported)
->   test Requests: OK (Not Supported)
-> 
-> Control ioctls (Input 2):
->   test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->   test VIDIOC_QUERYCTRL: OK
->   test VIDIOC_G/S_CTRL: OK
->   test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->   test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->   test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->   Standard Controls: 8 Private Controls: 10
-> 
-> Format ioctls (Input 2):
->   test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->   test VIDIOC_G/S_PARM: OK
->   test VIDIOC_G_FBUF: OK (Not Supported)
->   test VIDIOC_G_FMT: OK
->   test VIDIOC_TRY_FMT: OK
->   test VIDIOC_S_FMT: OK
->   test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->   test Cropping: OK
->   test Composing: OK (Not Supported)
->   test Scaling: OK
-> 
-> Codec ioctls (Input 2):
->   test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->   test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->   test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls (Input 2):
->   test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->   test VIDIOC_EXPBUF: OK (Not Supported)
->   test Requests: OK (Not Supported)
-> 
-> Control ioctls (Input 3):
->   test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->   test VIDIOC_QUERYCTRL: OK
->   test VIDIOC_G/S_CTRL: OK
->   test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->   test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->   test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->   Standard Controls: 8 Private Controls: 10
-> 
-> Format ioctls (Input 3):
->   test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->   test VIDIOC_G/S_PARM: OK
->   test VIDIOC_G_FBUF: OK (Not Supported)
->   test VIDIOC_G_FMT: OK
->   test VIDIOC_TRY_FMT: OK
->   test VIDIOC_S_FMT: OK
->   test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->   test Cropping: OK
->   test Composing: OK (Not Supported)
->   test Scaling: OK
-> 
-> Codec ioctls (Input 3):
->   test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->   test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->   test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls (Input 3):
->   test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->   test VIDIOC_EXPBUF: OK (Not Supported)
->   test Requests: OK (Not Supported)
-> 
-> Total for bttv device /dev/video0: 111, Succeeded: 111, Failed: 0, Warnings: 6
-> 
-> v4l2-compliance 1.25.0-5042, 64 bits, 64-bit time_t
-> v4l2-compliance SHA: 42567298311a 2023-04-21 08:43:10
-> 
-> Compliance test for bttv device /dev/vbi0:
-> 
-> Driver Info:
->   Driver name      : bttv
->   Card type        : BT878 video (Leadtek WinFast 20
->   Bus info         : PCI:0000:05:00.0
->   Driver version   : 6.3.0
->   Capabilities     : 0x85250011
->     Video Capture
->     VBI Capture
->     Tuner
->     Radio
->     Read/Write
->     Streaming
->     Extended Pix Format
->     Device Capabilities
->   Device Caps      : 0x05210010
->     VBI Capture
->     Tuner
->     Read/Write
->     Streaming
->     Extended Pix Format
-> 
-> Required ioctls:
->   test VIDIOC_QUERYCAP: OK
->   test invalid ioctls: OK
-> 
-> Allow for multiple opens:
->   test second /dev/vbi0 open: OK
->   test VIDIOC_QUERYCAP: OK
->   test VIDIOC_G/S_PRIORITY: OK
->   test for unlimited opens: OK
-> 
-> Debug ioctls:
->   test VIDIOC_DBG_G/S_REGISTER: OK
->   test VIDIOC_LOG_STATUS: OK
-> 
-> Input ioctls:
->   test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK
->   test VIDIOC_G/S_FREQUENCY: OK
->   test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->   test VIDIOC_ENUMAUDIO: OK (Not Supported)
->   test VIDIOC_G/S/ENUMINPUT: OK
->   test VIDIOC_G/S_AUDIO: OK (Not Supported)
->   Inputs: 4 Audio Inputs: 0 Tuners: 1
-> 
-> Output ioctls:
->   test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->   test VIDIOC_G/S_FREQUENCY: OK
->   test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->   test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->   test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->   Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
->   test VIDIOC_ENUM/G/S/QUERY_STD: OK
->   test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
->   test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
->   test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Control ioctls (Input 0):
->   test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->   test VIDIOC_QUERYCTRL: OK
->   test VIDIOC_G/S_CTRL: OK
->   test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->   test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->   test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->   Standard Controls: 8 Private Controls: 10
-> 
-> Format ioctls (Input 0):
->   test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
->   test VIDIOC_G/S_PARM: OK (Not Supported)
->   test VIDIOC_G_FBUF: OK (Not Supported)
->   test VIDIOC_G_FMT: OK
->   test VIDIOC_TRY_FMT: OK
->   test VIDIOC_S_FMT: OK
->   test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->   test Cropping: OK (Not Supported)
->   test Composing: OK (Not Supported)
->   test Scaling: OK (Not Supported)
-> 
-> Codec ioctls (Input 0):
->   test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->   test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->   test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls (Input 0):
->   test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->   test VIDIOC_EXPBUF: OK (Not Supported)
->   test Requests: OK (Not Supported)
-> 
-> Control ioctls (Input 1):
->   test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->   test VIDIOC_QUERYCTRL: OK
->   test VIDIOC_G/S_CTRL: OK
->   test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->   test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->   test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->   Standard Controls: 8 Private Controls: 10
-> 
-> Format ioctls (Input 1):
->   test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
->   test VIDIOC_G/S_PARM: OK (Not Supported)
->   test VIDIOC_G_FBUF: OK (Not Supported)
->   test VIDIOC_G_FMT: OK
->   test VIDIOC_TRY_FMT: OK
->   test VIDIOC_S_FMT: OK
->   test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->   test Cropping: OK (Not Supported)
->   test Composing: OK (Not Supported)
->   test Scaling: OK (Not Supported)
-> 
-> Codec ioctls (Input 1):
->   test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->   test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->   test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls (Input 1):
->   test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->   test VIDIOC_EXPBUF: OK (Not Supported)
->   test Requests: OK (Not Supported)
-> 
-> Control ioctls (Input 2):
->   test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->   test VIDIOC_QUERYCTRL: OK
->   test VIDIOC_G/S_CTRL: OK
->   test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->   test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->   test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->   Standard Controls: 8 Private Controls: 10
-> 
-> Format ioctls (Input 2):
->   test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
->   test VIDIOC_G/S_PARM: OK (Not Supported)
->   test VIDIOC_G_FBUF: OK (Not Supported)
->   test VIDIOC_G_FMT: OK
->   test VIDIOC_TRY_FMT: OK
->   test VIDIOC_S_FMT: OK
->   test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->   test Cropping: OK (Not Supported)
->   test Composing: OK (Not Supported)
->   test Scaling: OK (Not Supported)
-> 
-> Codec ioctls (Input 2):
->   test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->   test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->   test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls (Input 2):
->   test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->   test VIDIOC_EXPBUF: OK (Not Supported)
->   test Requests: OK (Not Supported)
-> 
-> Control ioctls (Input 3):
->   test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->   test VIDIOC_QUERYCTRL: OK
->   test VIDIOC_G/S_CTRL: OK
->   test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->   test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->   test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->   Standard Controls: 8 Private Controls: 10
-> 
-> Format ioctls (Input 3):
->   test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
->   test VIDIOC_G/S_PARM: OK (Not Supported)
->   test VIDIOC_G_FBUF: OK (Not Supported)
->   test VIDIOC_G_FMT: OK
->   test VIDIOC_TRY_FMT: OK
->   test VIDIOC_S_FMT: OK
->   test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->   test Cropping: OK (Not Supported)
->   test Composing: OK (Not Supported)
->   test Scaling: OK (Not Supported)
-> 
-> Codec ioctls (Input 3):
->   test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->   test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->   test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls (Input 3):
->   test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->   test VIDIOC_EXPBUF: OK (Not Supported)
->   test Requests: OK (Not Supported)
-> 
-> Total for bttv device /dev/vbi0: 111, Succeeded: 111, Failed: 0, Warnings: 0
-> 
-> v4l2-compliance 1.25.0-5042, 64 bits, 64-bit time_t
-> v4l2-compliance SHA: 42567298311a 2023-04-21 08:43:10
-> 
-> Compliance test for bttv device /dev/radio0:
-> 
-> Driver Info:
->   Driver name      : bttv
->   Card type        : BT878 video (Leadtek WinFast 20
->   Bus info         : PCI:0000:05:00.0
->   Driver version   : 6.3.0
->   Capabilities     : 0x85250011
->     Video Capture
->     VBI Capture
->     Tuner
->     Radio
->     Read/Write
->     Streaming
->     Extended Pix Format
->     Device Capabilities
->   Device Caps      : 0x00250000
->     Tuner
->     Radio
->     Extended Pix Format
-> 
-> Required ioctls:
->   test VIDIOC_QUERYCAP: OK
->   test invalid ioctls: OK
-> 
-> Allow for multiple opens:
->   test second /dev/radio0 open: OK
->   test VIDIOC_QUERYCAP: OK
->   test VIDIOC_G/S_PRIORITY: OK
->   test for unlimited opens: OK
-> 
-> Debug ioctls:
->   test VIDIOC_DBG_G/S_REGISTER: OK
->   test VIDIOC_LOG_STATUS: OK
-> 
-> Input ioctls:
->   test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK
->   test VIDIOC_G/S_FREQUENCY: OK
->   test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->   test VIDIOC_ENUMAUDIO: OK (Not Supported)
->   test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
->   test VIDIOC_G/S_AUDIO: OK (Not Supported)
->   Inputs: 0 Audio Inputs: 0 Tuners: 1
-> 
-> Output ioctls:
->   test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->   test VIDIOC_G/S_FREQUENCY: OK
->   test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->   test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->   test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->   Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
->   test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->   test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
->   test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
->   test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Control ioctls:
->   test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->   test VIDIOC_QUERYCTRL: OK
->   test VIDIOC_G/S_CTRL: OK
->   test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->   test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->   test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->   Standard Controls: 2 Private Controls: 0
-> 
-> Format ioctls:
->   test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
->   test VIDIOC_G/S_PARM: OK (Not Supported)
->   test VIDIOC_G_FBUF: OK (Not Supported)
->   test VIDIOC_G_FMT: OK (Not Supported)
->   test VIDIOC_TRY_FMT: OK (Not Supported)
->   test VIDIOC_S_FMT: OK (Not Supported)
->   test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->   test Cropping: OK (Not Supported)
->   test Composing: OK (Not Supported)
->   test Scaling: OK (Not Supported)
-> 
-> Codec ioctls:
->   test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->   test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->   test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls:
->   test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
->   test VIDIOC_EXPBUF: OK (Not Supported)
->   test Requests: OK (Not Supported)
-> 
-> Total for bttv device /dev/radio0: 45, Succeeded: 45, Failed: 0, Warnings: 0
-> 
-> Deborah Brouwer (13):
->   media: bttv: use video_drvdata to get bttv
->   media: bttv: replace BUG with WARN_ON
->   media: bttv: radio use v4l2_fh instead of bttv_fh
->   media: bttv: move vid fmt/width/height out of fh
->   media: bttv: move vbi_fmt out of bttv_fh
->   media: bttv: move do_crop flag out of bttv_fh
->   media: bttv: remove format field from bttv_buffer
->   media: bttv: remove tvnorm field from bttv_buffer
->   media: bttv: remove crop info from bttv_buffer
->   media: bttv: move vbi_skip/vbi_count out of buffer
->   media: bttv: refactor bttv_set_dma()
->   media: bttv: use audio defaults for winfast2000
->   media: bttv: convert to vb2
-> 
->  drivers/media/pci/bt8xx/Kconfig           |   2 +-
->  drivers/media/pci/bt8xx/bttv-audio-hook.c |  10 +-
->  drivers/media/pci/bt8xx/bttv-driver.c     | 990 +++++++---------------
->  drivers/media/pci/bt8xx/bttv-risc.c       | 412 +++++----
->  drivers/media/pci/bt8xx/bttv-vbi.c        | 266 +++---
->  drivers/media/pci/bt8xx/bttvp.h           |  78 +-
->  6 files changed, 677 insertions(+), 1081 deletions(-)
-> 
-> 
-> base-commit: eeac8ede17557680855031c6f305ece2378af326
-> prerequisite-patch-id: 69cddf0b964a5c6299b9d2bcf0dcfa9d7565b291
-> prerequisite-patch-id: 5d97ec85b44b9766bd62d8579cb80c88925923a4
-> prerequisite-patch-id: 633d3c02b48cc594395a0cce311b52f39c8407c0
-> prerequisite-patch-id: d1077c4aaa0cb3f7f44f72a7eb6c15f761ebdc48
-> prerequisite-patch-id: 904419a08aeb3188dcc256acea2e3d94436948d5
-> prerequisite-patch-id: ec37f240e767b2a5d4c23a9b1b61947d48a7a487
-> prerequisite-patch-id: 7c4857cd34459d98c1025c6cd1b3a40940f22e7c
-> prerequisite-patch-id: b18f03790a5b31759c957481eda0f38c1c1e098d
-> prerequisite-patch-id: a424f90eb7f66ad8c9b141507a22e0ccaab55c53
-
+Sakari Ailus
