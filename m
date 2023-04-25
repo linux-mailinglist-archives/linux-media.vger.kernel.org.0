@@ -2,107 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EA206EEAE9
-	for <lists+linux-media@lfdr.de>; Wed, 26 Apr 2023 01:12:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F43F6EEB08
+	for <lists+linux-media@lfdr.de>; Wed, 26 Apr 2023 01:40:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236407AbjDYXMf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Apr 2023 19:12:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41580 "EHLO
+        id S236999AbjDYXk2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Apr 2023 19:40:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236373AbjDYXMe (ORCPT
+        with ESMTP id S236573AbjDYXkU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Apr 2023 19:12:34 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C328193D6
-        for <linux-media@vger.kernel.org>; Tue, 25 Apr 2023 16:12:08 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-4eed764a10cso6823440e87.0
-        for <linux-media@vger.kernel.org>; Tue, 25 Apr 2023 16:12:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20221208.gappssmtp.com; s=20221208; t=1682464325; x=1685056325;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=bnlCUsHYv+GW6Jb5eFvfXBx/9n4dlZPF0LLCiXTuzjA=;
-        b=XAeCr7CQIIthwaquJAw6kgyfKl1Z/ZE4If1wLhQxO8ySzqfwfv164Omz1UMhMKW6P4
-         ZlY0I51pLZw10lYjYHwQVPBkRrahMwL5ZQic0UOlIESFBqPRc1VtbuHu5Ya9uklOhu9K
-         siZeX+d5M9MhCEzBlK6ZVt0K1IBIJrt3cTGKUPo4zBSWPNhysZALlG/ak2xyhyVoyBZ6
-         2lskHtz8vzozIFkrEPGTsbDAtXih81xBlQNIpOcU5K1oKzq9KZAZ47yFi27raQzqI6rr
-         O4JfSr2Kp1PmvcCDPLt/4+Pal9JdkZ9egRW/2Jha/Tg6iovDmBwc9ZqLNORgAHEn/Mq3
-         9KSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682464325; x=1685056325;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bnlCUsHYv+GW6Jb5eFvfXBx/9n4dlZPF0LLCiXTuzjA=;
-        b=Uos111b00gggr0cBmuRpHn4P01ZLi0mUqEPaDJ7OQsMLkV9kx0KfuMHfrdXlkPmblP
-         vLCJO6ulEVGsqu/I5rzJYEGkQsRyiKod0T+MPjoHE+6VJJ5ql5URkE0YaEtodVuTAhPC
-         vwIjJK8moQ0pomhAPmFoxSaUxwUnD7TL/Eu/BwrrC5Ps3j5UoiMgK/8vaobkWSWJGUhu
-         BaROF+Cb6Cg5AlMK03I29wB4mC4Eq7LhuAsMSK/SMOH17nYpreHMx9PShueT7RzVEgc0
-         31oLoCkVvGZ1sgUnCom+wUHcQkoShPpi0F4l3KXo6k5/G2VetDczgQDxWWT6QehmTTek
-         Ul9Q==
-X-Gm-Message-State: AAQBX9f4PLDu2OX8LS0hOhCX3vq2LCbOYjTNSUiI2tTkFE3vkFFXLWe6
-        DAHvDDor37lma2Be94qSaYSvJA==
-X-Google-Smtp-Source: AKy350av3FYt4RiqWvZqDPiRUup7W009PUdsfgLIHczXAGjCl62iUz2J3Uut7VyvH2YCrO4VdnYUEw==
-X-Received: by 2002:ac2:4219:0:b0:4db:3e56:55c8 with SMTP id y25-20020ac24219000000b004db3e5655c8mr4802156lfh.59.1682464324873;
-        Tue, 25 Apr 2023 16:12:04 -0700 (PDT)
-Received: from localhost (h-46-59-89-207.A463.priv.bahnhof.se. [46.59.89.207])
-        by smtp.gmail.com with ESMTPSA id j20-20020a19f514000000b004efec2462b6sm1350975lfb.101.2023.04.25.16.12.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Apr 2023 16:12:03 -0700 (PDT)
-Date:   Wed, 26 Apr 2023 01:12:02 +0200
-From:   Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] media: rcar-isp: Add support for R-Car V4H
-Message-ID: <ZEheQia1H-OHkS8T@oden.dyn.berto.se>
-References: <20230211145436.3820935-1-niklas.soderlund+renesas@ragnatech.se>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230211145436.3820935-1-niklas.soderlund+renesas@ragnatech.se>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        Tue, 25 Apr 2023 19:40:20 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D58E18E90;
+        Tue, 25 Apr 2023 16:40:17 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3F94B63226;
+        Tue, 25 Apr 2023 23:40:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0F44FC4339B;
+        Tue, 25 Apr 2023 23:40:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1682466005;
+        bh=yDwXuW5UgMa9Q0v9GNn7yhV1yv+JJ89sxNBAP1VA4fg=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=Sg7sq14JifVJA3KcA5QRdxDAryb/DNkKXoKCnEIOCDG7klAfkDvXFNyDS8VHuV5fM
+         iiEgvz2p2/xYVZFh5k7nCNLpdx48E9gZgOSMrO1K4LwZT87wPQaQlDiffFqprXJYwa
+         KTmrnhpOpkHJSXZj3OUJcSrPWVpQr/X5ZP8aEM9JlKuXE+IIeHm0N4z4nQXHmDdXVP
+         WRIgHYk6Hb8/BaCvfoXr4KWqm2JVsujOlwr0IBdDMD434pSGn8YVT3ThiYyA0oP443
+         3uhlbUexGBPop61j5jP4k7eDT8GHlCrORpj3CH6HAVsEOLVCJ6LYbVIbumeSdeDNpg
+         PB9MRZiKx7tzg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id EBDC4E5FFC9;
+        Tue, 25 Apr 2023 23:40:04 +0000 (UTC)
+Subject: Re: [GIT PULL for v6.4-rc1] media updates
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20230425084238.5033de10@sal.lan>
+References: <20230425084238.5033de10@sal.lan>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20230425084238.5033de10@sal.lan>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.4-1
+X-PR-Tracked-Commit-Id: 73b41dc51fbeffa4a216b20193274cfe92b5d95b
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 4ea956963f4fca59050a22fcc65f00a85d586e63
+Message-Id: <168246600496.4872.6324170451111459189.pr-tracker-bot@kernel.org>
+Date:   Tue, 25 Apr 2023 23:40:04 +0000
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+The pull request you sent on Tue, 25 Apr 2023 08:42:45 +0100:
 
-gentle ping on this patch.
+> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.4-1
 
-On 2023-02-11 15:54:36 +0100, Niklas Söderlund wrote:
-> Add support for R-Car V4H. The ISP Channel Selector is used to route
-> channels to the different VIN modules. The ISP CS found in the V4H is
-> very similar to the one found on the V3U.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->  drivers/media/platform/renesas/rcar-isp.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/media/platform/renesas/rcar-isp.c b/drivers/media/platform/renesas/rcar-isp.c
-> index 10b3474f93a4..ed9d8ca56730 100644
-> --- a/drivers/media/platform/renesas/rcar-isp.c
-> +++ b/drivers/media/platform/renesas/rcar-isp.c
-> @@ -433,6 +433,7 @@ static int risp_probe_resources(struct rcar_isp *isp,
->  
->  static const struct of_device_id risp_of_id_table[] = {
->  	{ .compatible = "renesas,r8a779a0-isp" },
-> +	{ .compatible = "renesas,r8a779g0-isp" },
->  	{ /* sentinel */ },
->  };
->  MODULE_DEVICE_TABLE(of, risp_of_id_table);
-> -- 
-> 2.39.1
-> 
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/4ea956963f4fca59050a22fcc65f00a85d586e63
+
+Thank you!
 
 -- 
-Kind Regards,
-Niklas Söderlund
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
