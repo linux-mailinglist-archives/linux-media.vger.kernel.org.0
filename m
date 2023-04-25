@@ -2,99 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 23AD86EE49A
-	for <lists+linux-media@lfdr.de>; Tue, 25 Apr 2023 17:17:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4545B6EE662
+	for <lists+linux-media@lfdr.de>; Tue, 25 Apr 2023 19:11:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234278AbjDYPRH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Apr 2023 11:17:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45126 "EHLO
+        id S234365AbjDYRLR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Apr 2023 13:11:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234191AbjDYPRG (ORCPT
+        with ESMTP id S231337AbjDYRLQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Apr 2023 11:17:06 -0400
-Received: from mail-vk1-xa29.google.com (mail-vk1-xa29.google.com [IPv6:2607:f8b0:4864:20::a29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60A9C4EC5
-        for <linux-media@vger.kernel.org>; Tue, 25 Apr 2023 08:17:05 -0700 (PDT)
-Received: by mail-vk1-xa29.google.com with SMTP id 71dfb90a1353d-440445a48c7so2233612e0c.1
-        for <linux-media@vger.kernel.org>; Tue, 25 Apr 2023 08:17:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682435824; x=1685027824;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TJVJ5dnNAnzZeM2Nb3aK3AA1Pstz/NNRaH6Qyz+4Yms=;
-        b=QLdUBadz9BEGrDz9D071jmkpuvlXCbdGartCrSiqkegJFwkb0Q3a+EjCJ079r4b2VS
-         Sk83vjdXDEt0svGU4mWTN2i54Tx5f20f8WYnwnR6hkQNO+WvuMFKmizA0FZrW4hTjm2d
-         VlYxa0Cc7/38/Rdyn7BfBYNYnp0RyLDUjuTmXGXjJ53yIZ1BLDl4SvmskDh41ZVbFrQM
-         MVvfUT5nWlfudgWhWS4R6MR4D+PbZ++B5rCeQCToIrQoNBKZ9S+PBzX51yxh1+I3ngc8
-         DuiKBEKn84CdElICWnWx59tqmhSroYBdfb+dSLBXQMsoRta+n1DKYy6+NV0j9JAXKfw+
-         4l5g==
+        Tue, 25 Apr 2023 13:11:16 -0400
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 803FC10EF;
+        Tue, 25 Apr 2023 10:11:15 -0700 (PDT)
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-541b60e0a7fso3275841eaf.1;
+        Tue, 25 Apr 2023 10:11:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682435824; x=1685027824;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TJVJ5dnNAnzZeM2Nb3aK3AA1Pstz/NNRaH6Qyz+4Yms=;
-        b=YIQPTN/S6L9OqlMIjxOtmtyS2egj8CuvTjNMnU5q31xxTqQLVPqFkx0CLHQ0sgr5Fh
-         1ZPOi01i8Cg4vvMQNCEfErKHwMVHa0/OijEaSmJZ7FkfdDUoZY0ubornmihf78G5xGop
-         t7NJ0zlswYN02in9Qcx9hHhju7ehIaK7C/bZw0fTAa/fp1h4FrAxN6N0u+M3+G4cRQK/
-         D29YVVjngDE6CqLmzXtxJOzTkbb/WF06ckWaf/k3iYG3GmaX300LOD4XDTNlKVbWnNG6
-         1OykrVPX7mhNkef0oKzKW2i5V3b+ugoceuf39eIyBXs6H+P2gzm+mwAT2VjjOqzklWGK
-         5asg==
-X-Gm-Message-State: AAQBX9eE8HEtule/1hMsxbmQORL7bOqi1LF1uJ+/tXgjme9j/ADejYYo
-        mcQz0E2wsdYEnhqrOMd0jME70mU7F1gitmap6UQ=
-X-Google-Smtp-Source: AKy350Y9J55xaklWjuZG3nyUBvnFBJ2DNVA+YOH1dQFWMGofu1rVOLy+qYxOejL/jdI75wuygK6K8dGVipY6GzjD8xk=
-X-Received: by 2002:a1f:43d1:0:b0:443:ddb3:1512 with SMTP id
- q200-20020a1f43d1000000b00443ddb31512mr4809942vka.3.1682435824281; Tue, 25
- Apr 2023 08:17:04 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1682442675; x=1685034675;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JznrFddSiXYl35RQkX1Ob+FXcZh2odFUGHhxyWsmz3U=;
+        b=RbMplnaojXWnzlmjJYqOYUdqzNFq7JKF1tyDGGKvg8O7O6+LkyapAo2NdKZuEx96yR
+         pcu1FHLmDXSUvPwXsqrskS4TX3y5aeTmr62FPscV8bNH6npJ35uuBIYk6N0HLUO6UMS2
+         Zn/9yiBA2fMrLZbIK0XMWSdn5d9ExrK8AZjkoxV9ToVOc0+GCqoz2771XzKL2SqJJpbt
+         BDqqipXyBBNExZHywnTZbta90Od4KWnbVH+OvIWk+pYrbZQom9ArchcwwWOCiAEff8OT
+         ie69Yy5bH7Ze4u7zKqR8csgM7fsxI9gt3h3xGqzOHMA+hSFW530Yr0MLt07zab/lvxyN
+         MsCg==
+X-Gm-Message-State: AAQBX9dX6wAfrI4BGedfZoVCk63bxAhBPKou0uP5bfxH1QzgE+yyih1O
+        /r2pOmc0it1CSrRAZJld4g==
+X-Google-Smtp-Source: AKy350bgOPl+oy4SaF+mpNjV5TrXeqbf2NPWQoPRYCoX+lQDmvJLqcdERM7wdTosZkSr2nyPqt/LgA==
+X-Received: by 2002:a05:6820:553:b0:545:2420:2a77 with SMTP id n19-20020a056820055300b0054524202a77mr6961340ooj.6.1682442674596;
+        Tue, 25 Apr 2023 10:11:14 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id dk10-20020a0568303b0a00b006a60606de62sm5888288otb.52.2023.04.25.10.11.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Apr 2023 10:11:14 -0700 (PDT)
+Received: (nullmailer pid 1963762 invoked by uid 1000);
+        Tue, 25 Apr 2023 17:11:13 -0000
+Date:   Tue, 25 Apr 2023 12:11:13 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Wolfram Sang <wsa@kernel.org>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mike Pagano <mpagano@gentoo.org>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>,
+        Satish Nagireddy <satish.nagireddy@getcruise.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v11 4/7] dt-bindings: media: add TI DS90UB960 FPD-Link
+ III Deserializer
+Message-ID: <20230425171113.GA1957523-robh@kernel.org>
+References: <20230421101833.345984-1-tomi.valkeinen@ideasonboard.com>
+ <20230421101833.345984-5-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-Received: by 2002:a59:d9d0:0:b0:3c4:de51:d8bf with HTTP; Tue, 25 Apr 2023
- 08:17:03 -0700 (PDT)
-Reply-To: chiogb00@gmail.com
-From:   "Mrs.Elaine Lam Su Yen" <davidkjn1@gmail.com>
-Date:   Tue, 25 Apr 2023 17:17:03 +0200
-Message-ID: <CAAfY6sya0nE8JqXE7ia+rVxEJ2ouGpZtgrZR+OzpteniG1_nbg@mail.gmail.com>
-Subject: hi
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.7 required=5.0 tests=BAYES_40,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        HK_NAME_FM_MR_MRS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:a29 listed in]
-        [list.dnswl.org]
-        * -0.0 BAYES_40 BODY: Bayes spam probability is 20 to 40%
-        *      [score: 0.2346]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [davidkjn1[at]gmail.com]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [chiogb00[at]gmail.com]
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [davidkjn1[at]gmail.com]
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  1.5 HK_NAME_FM_MR_MRS No description available.
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230421101833.345984-5-tomi.valkeinen@ideasonboard.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-I Still went to hear from you thanks.Mrs.Elaine Lam Su Yen.
+On Fri, Apr 21, 2023 at 01:18:30PM +0300, Tomi Valkeinen wrote:
+> Add DT bindings for TI DS90UB960 FPD-Link III Deserializer.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  .../bindings/media/i2c/ti,ds90ub960.yaml      | 423 ++++++++++++++++++
+>  1 file changed, 423 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
+> new file mode 100644
+> index 000000000000..1d5362bea09a
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
+> @@ -0,0 +1,423 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/ti,ds90ub960.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Texas Instruments DS90UB9XX Family FPD-Link Deserializer Hubs
+> +
+> +maintainers:
+> +  - Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> +
+> +description:
+> +  The TI DS90UB9XX devices are FPD-Link video deserializers with I2C and GPIO
+> +  forwarding.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - ti,ds90ub960-q1
+> +      - ti,ds90ub9702-q1
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +    description:
+> +      Reference clock connected to the REFCLK pin.
+> +
+> +  clock-names:
+> +    items:
+> +      - const: refclk
+> +
+> +  powerdown-gpios:
+> +    maxItems: 1
+> +    description:
+> +      Specifier for the GPIO connected to the PDB pin.
+> +
+> +  i2c-alias-pool:
+> +    $ref: /schemas/i2c/i2c-atr.yaml#/properties/i2c-alias-pool
+
+This is not how we handle common properties (usually). Just reference 
+'/schemas/i2c/i2c-atr.yaml#' at the top level and use 
+unevaluatedProperties.
+
+Is there a limit to the number of entries for this device? If so, add 
+that here.
+
+Rob
