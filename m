@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E61F56ED933
-	for <lists+linux-media@lfdr.de>; Tue, 25 Apr 2023 02:10:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A0286ED934
+	for <lists+linux-media@lfdr.de>; Tue, 25 Apr 2023 02:11:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232369AbjDYAK5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Apr 2023 20:10:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38250 "EHLO
+        id S232815AbjDYAK6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Apr 2023 20:10:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232829AbjDYAKy (ORCPT
+        with ESMTP id S232845AbjDYAKz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Apr 2023 20:10:54 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ECAD9ED1
-        for <linux-media@vger.kernel.org>; Mon, 24 Apr 2023 17:10:52 -0700 (PDT)
+        Mon, 24 Apr 2023 20:10:55 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AB3759C5
+        for <linux-media@vger.kernel.org>; Mon, 24 Apr 2023 17:10:54 -0700 (PDT)
 Received: from localhost.localdomain (node-1w7jr9st5p2etziuntaazujnj.ipv6.telus.net [IPv6:2001:569:beb1:1500:c96f:992f:7c34:9ff])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: dbrouwer)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 5517D6603298;
-        Tue, 25 Apr 2023 01:10:50 +0100 (BST)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 60CC06603299;
+        Tue, 25 Apr 2023 01:10:52 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1682381451;
-        bh=G/mnDGt8/iXJzYAM4CvU6raAS/q/VpJkIaz/HN/98Ns=;
+        s=mail; t=1682381453;
+        bh=9WZsPFlylwNRpBEUoer7NblJzonev87cFIJAj44ZLKQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Ai2kmCOWyL3NqPiviq+1B8xzFtyFAJ8m/TdqvCKAY5qusqn4ywnHH2U0NKSP2aCNh
-         4u1VeVk8Gk6AClO6tV+9iQvATVwBkLHj8ONypcMws9OOG2idJZnOqXiii/Um6X+UCx
-         rUfEeCKsRHHHX+vLI40Efg3cvot4zxmDc2dFIcYPy0BSxV0VYthKFtD7pm5ZLbsVTM
-         sk/WUSxExORzV9jFGe28xL4V4lA51Wcs2swTb+4ozhL6QevJzEDORcv8JLH52of+RG
-         mU4fV1yQKtDyH8AUW0LNBUDLiq3wXfCLmripY0PAoOqI/rpux1Uj/UozBYwWTQexPb
-         N/Y8xaAX/m8TQ==
+        b=LWE0RjnanOe2y4u84DCJzyUemYf4SBck2Z06bICx/pSd27fh9vP6ffDHvdDMLjV//
+         8lDkDvguahVMD3zNgvMO4wY6NSd+2/XOkd6+oMjBgZTmCtcjM/akC0b91NjH+tsGRN
+         R2ogIIJOH7aQaVfqXIwX1ysMAm9/z9c28Or6Ti/zLUIYk99NgEhfmSHzHphaBxfzMS
+         5XvNuNYGok2bD5wHiTCeaVLpXVAKouJ6HQMQOvNtF/+9vYk+6+Bg6KYEPKw71UCH3f
+         wv9zYGLLzgc93z3x6USAt/NrxKYM5TNDDrRBKyC7tNX9nsp9vnCABLcLAPsqqmOiJy
+         1/sKpu9uUZUlA==
 From:   Deborah Brouwer <deborah.brouwer@collabora.com>
 To:     linux-media@vger.kernel.org
 Cc:     hverkuil@xs4all.nl, Deborah Brouwer <deborah.brouwer@collabora.com>
-Subject: [PATCH 09/13] media: bttv: remove crop info from bttv_buffer
-Date:   Mon, 24 Apr 2023 17:10:08 -0700
-Message-Id: <b6136f4b4e1f0c67b498e4e6687f44649966ea92.1682379348.git.deborah.brouwer@collabora.com>
+Subject: [PATCH 10/13] media: bttv: move vbi_skip/vbi_count out of buffer
+Date:   Mon, 24 Apr 2023 17:10:09 -0700
+Message-Id: <fc597cf3d0c94fe294ffb6c05f114b15e1f6a533.1682379348.git.deborah.brouwer@collabora.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <cover.1682379348.git.deborah.brouwer@collabora.com>
 References: <cover.1682379348.git.deborah.brouwer@collabora.com>
@@ -45,119 +45,116 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_PDS_OTHER_BAD_TLD,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Instead of storing the cropping parameters in each bttv buffer separately,
-just use the global bttv crop because it won't change per buffer.
+Instead of storing vbi_skip and vbi_count in each bttv buffer separately,
+move them to the main bttv struct as they won't change per buffer.
 
 Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
 ---
- drivers/media/pci/bt8xx/bttv-driver.c | 10 +++++-----
- drivers/media/pci/bt8xx/bttv-risc.c   | 12 ++++++------
- drivers/media/pci/bt8xx/bttvp.h       |  1 -
- 3 files changed, 11 insertions(+), 12 deletions(-)
+ drivers/media/pci/bt8xx/bttv-driver.c |  2 ++
+ drivers/media/pci/bt8xx/bttv-risc.c   |  4 ++--
+ drivers/media/pci/bt8xx/bttv-vbi.c    | 16 ++++++++--------
+ drivers/media/pci/bt8xx/bttvp.h       |  7 +++++--
+ 4 files changed, 17 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/media/pci/bt8xx/bttv-driver.c b/drivers/media/pci/bt8xx/bttv-driver.c
-index f32050849691..15825fedb4e0 100644
+index 15825fedb4e0..4d1e0743f193 100644
 --- a/drivers/media/pci/bt8xx/bttv-driver.c
 +++ b/drivers/media/pci/bt8xx/bttv-driver.c
-@@ -1554,15 +1554,15 @@ static int bttv_prepare_buffer(struct videobuf_queue *q,struct bttv *btv,
- 	if (buf->vb.width != width || buf->vb.height != height ||
- 	    buf->vb.field != field ||
- 	    btv->tvnorm != norm || btv->fmt != fmt ||
--	    buf->crop.top != c.rect.top ||
--	    buf->crop.left != c.rect.left ||
--	    buf->crop.width != c.rect.width ||
--	    buf->crop.height != c.rect.height) {
-+	    btv->crop[!!btv->do_crop].rect.top != c.rect.top ||
-+	    btv->crop[!!btv->do_crop].rect.left != c.rect.left ||
-+	    btv->crop[!!btv->do_crop].rect.width != c.rect.width ||
-+	    btv->crop[!!btv->do_crop].rect.height != c.rect.height) {
- 		buf->vb.width  = width;
- 		buf->vb.height = height;
- 		buf->vb.field  = field;
- 		btv->tvnorm    = norm;
--		buf->crop      = c.rect;
-+		btv->crop[!!btv->do_crop].rect = c.rect;
+@@ -3631,6 +3631,8 @@ static int bttv_probe(struct pci_dev *dev, const struct pci_device_id *pci_id)
+ 	btv->input = 0;
+ 	btv->tvnorm = 0; /* Index into bttv_tvnorms[] i.e. PAL. */
+ 	bttv_vbi_fmt_reset(&btv->vbi_fmt, btv->tvnorm);
++	btv->vbi_count[0] = VBI_DEFLINES;
++	btv->vbi_count[1] = VBI_DEFLINES;
+ 	btv->do_crop = 0;
+ 
+ 	v4l2_ctrl_new_std(hdl, &bttv_ctrl_ops,
+diff --git a/drivers/media/pci/bt8xx/bttv-risc.c b/drivers/media/pci/bt8xx/bttv-risc.c
+index e9bc6bcc7333..97248e340a28 100644
+--- a/drivers/media/pci/bt8xx/bttv-risc.c
++++ b/drivers/media/pci/bt8xx/bttv-risc.c
+@@ -525,12 +525,12 @@ bttv_buffer_activate_vbi(struct bttv *btv,
+ 			btwrite(crop,	BT848_O_CROP);
+ 		}
+ 
+-		if (vbi->vbi_count[0] > 0) {
++		if (btv->vbi_count[0] > 0) {
+ 			top = &vbi->top;
+ 			top_irq_flags = 4;
+ 		}
+ 
+-		if (vbi->vbi_count[1] > 0) {
++		if (btv->vbi_count[1] > 0) {
+ 			top_irq_flags = 0;
+ 			bottom = &vbi->bottom;
+ 			bottom_irq_flags = 4;
+diff --git a/drivers/media/pci/bt8xx/bttv-vbi.c b/drivers/media/pci/bt8xx/bttv-vbi.c
+index 4e7fd9a78ace..2fd990039adf 100644
+--- a/drivers/media/pci/bt8xx/bttv-vbi.c
++++ b/drivers/media/pci/bt8xx/bttv-vbi.c
+@@ -125,14 +125,14 @@ static int vbi_buffer_prepare(struct videobuf_queue *q,
+ 
+ 	redo_dma_risc = 0;
+ 
+-	if (buf->vbi_skip[0] != skip_lines0 ||
+-	    buf->vbi_skip[1] != skip_lines1 ||
+-	    buf->vbi_count[0] != fh->vbi_fmt.fmt.count[0] ||
+-	    buf->vbi_count[1] != fh->vbi_fmt.fmt.count[1]) {
+-		buf->vbi_skip[0] = skip_lines0;
+-		buf->vbi_skip[1] = skip_lines1;
+-		buf->vbi_count[0] = fh->vbi_fmt.fmt.count[0];
+-		buf->vbi_count[1] = fh->vbi_fmt.fmt.count[1];
++	if (btv->vbi_skip[0] != skip_lines0 ||
++	    btv->vbi_skip[1] != skip_lines1 ||
++	    btv->vbi_count[0] != fh->vbi_fmt.fmt.count[0] ||
++	    btv->vbi_count[1] != fh->vbi_fmt.fmt.count[1]) {
++		btv->vbi_skip[0] = skip_lines0;
++		btv->vbi_skip[1] = skip_lines1;
++		btv->vbi_count[0] = fh->vbi_fmt.fmt.count[0];
++		btv->vbi_count[1] = fh->vbi_fmt.fmt.count[1];
  		redo_dma_risc = 1;
  	}
  
-diff --git a/drivers/media/pci/bt8xx/bttv-risc.c b/drivers/media/pci/bt8xx/bttv-risc.c
-index 0a296dc1a7a5..e9bc6bcc7333 100644
---- a/drivers/media/pci/bt8xx/bttv-risc.c
-+++ b/drivers/media/pci/bt8xx/bttv-risc.c
-@@ -620,7 +620,7 @@ bttv_buffer_risc(struct bttv *btv, struct bttv_buffer *buf)
- 
- 		bttv_calc_geo(btv,&buf->geo,buf->vb.width,buf->vb.height,
- 			      V4L2_FIELD_HAS_BOTH(buf->vb.field),
--			      tvnorm,&buf->crop);
-+			      tvnorm, &btv->crop[!!btv->do_crop].rect);
- 
- 		switch (buf->vb.field) {
- 		case V4L2_FIELD_TOP:
-@@ -674,7 +674,7 @@ bttv_buffer_risc(struct bttv *btv, struct bttv_buffer *buf)
- 		case V4L2_FIELD_TOP:
- 			bttv_calc_geo(btv,&buf->geo,buf->vb.width,
- 				      buf->vb.height,/* both_fields */ 0,
--				      tvnorm,&buf->crop);
-+				      tvnorm, &btv->crop[!!btv->do_crop].rect);
- 			bttv_risc_planar(btv, &buf->top, dma->sglist,
- 					 0,buf->vb.width,0,buf->vb.height,
- 					 uoffset, voffset, btv->fmt->hshift,
-@@ -683,7 +683,7 @@ bttv_buffer_risc(struct bttv *btv, struct bttv_buffer *buf)
- 		case V4L2_FIELD_BOTTOM:
- 			bttv_calc_geo(btv,&buf->geo,buf->vb.width,
- 				      buf->vb.height,0,
--				      tvnorm,&buf->crop);
-+				      tvnorm, &btv->crop[!!btv->do_crop].rect);
- 			bttv_risc_planar(btv, &buf->bottom, dma->sglist,
- 					 0,buf->vb.width,0,buf->vb.height,
- 					 uoffset, voffset, btv->fmt->hshift,
-@@ -692,7 +692,7 @@ bttv_buffer_risc(struct bttv *btv, struct bttv_buffer *buf)
- 		case V4L2_FIELD_INTERLACED:
- 			bttv_calc_geo(btv,&buf->geo,buf->vb.width,
- 				      buf->vb.height,1,
--				      tvnorm,&buf->crop);
-+				      tvnorm, &btv->crop[!!btv->do_crop].rect);
- 			lines    = buf->vb.height >> 1;
- 			ypadding = buf->vb.width;
- 			cpadding = buf->vb.width >> btv->fmt->hshift;
-@@ -715,7 +715,7 @@ bttv_buffer_risc(struct bttv *btv, struct bttv_buffer *buf)
- 		case V4L2_FIELD_SEQ_TB:
- 			bttv_calc_geo(btv,&buf->geo,buf->vb.width,
- 				      buf->vb.height,1,
--				      tvnorm,&buf->crop);
-+				      tvnorm, &btv->crop[!!btv->do_crop].rect);
- 			lines    = buf->vb.height >> 1;
- 			ypadding = buf->vb.width;
- 			cpadding = buf->vb.width >> btv->fmt->hshift;
-@@ -746,7 +746,7 @@ bttv_buffer_risc(struct bttv *btv, struct bttv_buffer *buf)
- 		/* build risc code */
- 		buf->vb.field = V4L2_FIELD_SEQ_TB;
- 		bttv_calc_geo(btv,&buf->geo,tvnorm->swidth,tvnorm->sheight,
--			      1,tvnorm,&buf->crop);
-+			      1, tvnorm, &btv->crop[!!btv->do_crop].rect);
- 		bttv_risc_packed(btv, &buf->top,  dma->sglist,
- 				 /* offset */ 0, RAW_BPL, /* padding */ 0,
- 				 /* skip_lines */ 0, RAW_LINES);
 diff --git a/drivers/media/pci/bt8xx/bttvp.h b/drivers/media/pci/bt8xx/bttvp.h
-index bbb5fc060fad..b5bb69ab8ab0 100644
+index b5bb69ab8ab0..bce2401de9bd 100644
 --- a/drivers/media/pci/bt8xx/bttvp.h
 +++ b/drivers/media/pci/bt8xx/bttvp.h
-@@ -150,7 +150,6 @@ struct bttv_buffer {
+@@ -150,8 +150,6 @@ struct bttv_buffer {
  	struct bttv_geometry       geo;
  	struct btcx_riscmem        top;
  	struct btcx_riscmem        bottom;
--	struct v4l2_rect           crop;
- 	unsigned int               vbi_skip[2];
- 	unsigned int               vbi_count[2];
+-	unsigned int               vbi_skip[2];
+-	unsigned int               vbi_count[2];
  };
+ 
+ struct bttv_buffer_set {
+@@ -239,6 +237,8 @@ void bttv_dma_free(struct videobuf_queue *q, struct bttv *btv,
+ /* ---------------------------------------------------------- */
+ /* bttv-vbi.c                                                 */
+ 
++#define VBI_DEFLINES 16
++
+ int bttv_try_fmt_vbi_cap(struct file *file, void *fh, struct v4l2_format *f);
+ int bttv_g_fmt_vbi_cap(struct file *file, void *fh, struct v4l2_format *f);
+ int bttv_s_fmt_vbi_cap(struct file *file, void *fh, struct v4l2_format *f);
+@@ -447,6 +447,9 @@ struct bttv {
+ 	int width;
+ 	int height;
+ 	struct bttv_vbi_fmt vbi_fmt;
++	unsigned int vbi_skip[2];
++	unsigned int vbi_count[2];
++
+ 	/* Application called VIDIOC_S_SELECTION. */
+ 	int do_crop;
+ 
 -- 
 2.39.2
 
