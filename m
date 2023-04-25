@@ -2,115 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E13F56EE846
-	for <lists+linux-media@lfdr.de>; Tue, 25 Apr 2023 21:30:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 738656EE98D
+	for <lists+linux-media@lfdr.de>; Tue, 25 Apr 2023 23:23:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235519AbjDYTai (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Apr 2023 15:30:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50850 "EHLO
+        id S236365AbjDYVXq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Apr 2023 17:23:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235511AbjDYTah (ORCPT
+        with ESMTP id S236361AbjDYVXq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Apr 2023 15:30:37 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 027F235AC
-        for <linux-media@vger.kernel.org>; Tue, 25 Apr 2023 12:30:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=nbGpmVWQIaPTFwdaqQ8da+YgUxNs
-        05I7Ipa2cSbCS7w=; b=H9iI8VI0o/FU+06wcD9/E+np3Re9YKySXYeet/MOCbUi
-        UxkkRumqpS6/h5f1CGTPiR8GBB2tsSPKKhEsIEZngC2cWKNXKazyXXXgSi98psgh
-        o7pS/e49b+HLWJXK7wzQ6U5jR2LXhCKze7DxIA/5XSTmkcp/idLFtOnfYzv+VP4=
-Received: (qmail 1468238 invoked from network); 25 Apr 2023 21:30:29 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Apr 2023 21:30:29 +0200
-X-UD-Smtp-Session: l3s3148p1@UQz5Jy76CuAujnsI
-Date:   Tue, 25 Apr 2023 21:30:28 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] media: renesas: fdp1: Identify R-Car Gen2 versions
-Message-ID: <ZEgqVJo4yRWvb/7G@sai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <453e34f0eda526f79b0297952937dc0a0b5aacf8.1682435583.git.geert+renesas@glider.be>
+        Tue, 25 Apr 2023 17:23:46 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B417E16F37
+        for <linux-media@vger.kernel.org>; Tue, 25 Apr 2023 14:23:44 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-50685f1b6e0so11624263a12.0
+        for <linux-media@vger.kernel.org>; Tue, 25 Apr 2023 14:23:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682457823; x=1685049823;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vE40mJuVkISt0zg8IVAmmNvtPq9ArtEbvKSLEgCOttk=;
+        b=hDSA8BsYJVD6ujIVXaDnQ/GeVg/Ix65SNLT3rkoCAzLWz+sCwM95EH4gmNWGsRFP0m
+         Dm+aaSpSFCFgyv1aEy9l4xuQItcLLC6YBtmIymDZ7IvsVMHJhInMVn392CMC0GnioHER
+         PAwc41zf5GxrvJNGuhCNHIY694tx+d0fKiLY5R8uR/WAGVb3AgxFb92ZVVdDIUeRle75
+         Z8nqk3e1E/BJN95uafl4lf5wpG4MVKn2RJ20oBc9+njnp+kWU/62VpyTnrp+0OkdyVoF
+         Ir6gX3hZUtfpxZUjz7sIXJ/5U8n7UU+/I2bCBclruzH1b0qBb7nS96POIJx0HythCiQ8
+         5f2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682457823; x=1685049823;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vE40mJuVkISt0zg8IVAmmNvtPq9ArtEbvKSLEgCOttk=;
+        b=YjQ38r9zK2UJdeC6FxgOBFqqNzHDy+U/4qz4MI/l2Oe2d9im0WGrPK2i3zY4TCeOsg
+         /BprLfYv2H2GAMItOmIoi1mbdxKJdwoCZ3c5QkWKykwo+9zPUjL1rvdgU3F+oBrTyTLH
+         cV/RfppE790hZHYuWhNL/+9zDbr6gcs07OClfIHwkrI06UbF//Bm3u8zzKsov8DpakAz
+         QqKiXoTd+Fi6WjTojNrBrT53ea8DUWS3oaJH0VBghsN1lv8Ut6VNH222QOnhts0S/jUO
+         fIzy/0Xeq+IU40Gv3bl01eumJ460Ka/kI0gmNlSn7HR7Phn4X4zrF9g5QctYYC4e/kf5
+         Q/7g==
+X-Gm-Message-State: AAQBX9dEl7k04akDMmexpf6GF+n+XxapxJry4sjaQidNHDROcb7T6pbc
+        ZNfRclsUzW6y1FzPPoXRM45shUC6IpLQEz7d5t8=
+X-Google-Smtp-Source: AKy350bw6HmAxWrzJ4fyyErLB3XN8FtMU8ZcNK4ZHp33OO/xVFv20mytModTt5jwMgXWkrKJ3PENLqxIOJh7LeS8fsE=
+X-Received: by 2002:a17:907:2916:b0:878:481c:c49b with SMTP id
+ eq22-20020a170907291600b00878481cc49bmr13988005ejc.1.1682457823049; Tue, 25
+ Apr 2023 14:23:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="q+Z7SO+65lv9FBFe"
-Content-Disposition: inline
-In-Reply-To: <453e34f0eda526f79b0297952937dc0a0b5aacf8.1682435583.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+Received: by 2002:a17:907:d50b:b0:951:5ded:5d55 with HTTP; Tue, 25 Apr 2023
+ 14:23:42 -0700 (PDT)
+Reply-To: saguadshj564@gmail.com
+From:   Ms Nadage Lassou <nadagalassou@gmail.com>
+Date:   Tue, 25 Apr 2023 22:23:42 +0100
+Message-ID: <CAPu1PH_i_m1tMHcMj5e8BMGgxbESttcQpePg7jJjQHLn=1-_PQ@mail.gmail.com>
+Subject: REPLY BACK.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.4 required=5.0 tests=BAYES_40,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        SUBJ_ALL_CAPS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Greetings.
 
---q+Z7SO+65lv9FBFe
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Apr 25, 2023 at 05:15:02PM +0200, Geert Uytterhoeven wrote:
-> On R-Car M2-W:
->=20
->     rcar_fdp1 fe940000.fdp1: FDP1 Unidentifiable (0x02010101)
->     rcar_fdp1 fe944000.fdp1: FDP1 Unidentifiable (0x02010101)
->=20
-> Although the IP Internal Data Register on R-Car Gen2 is documented to
-> contain all zeros, the actual register contents seem to match the FDP1
-> version ID of R-Car H3 ES1.*, which has just been removed.
-> Fortunately this version is not used for any other purposes yet.
->=20
-> Fix this by re-adding the ID, now using an R-Car Gen2-specific name.
->=20
-> Fixes: af4273b43f2bd9ee ("media: renesas: fdp1: remove R-Car H3 ES1.* han=
-dling")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
->  /* Internal Data (HW Version) */
->  #define FD1_IP_INTDATA			0x0800
-> +#define FD1_IP_GEN2			0x02010101
-
-Maybe add a comment here saying that this is needed despite the
-information in the datasheets?
-
-
---q+Z7SO+65lv9FBFe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmRIKlQACgkQFA3kzBSg
-Kbb59g//aMlIWbSWMrMeTQTAlH7+J9Qum4Ck7XV5E6VqzS0mCGgcGBXNouzE2L4X
-z0MWMrMlehPZKQIGFZoCvioyFzdl5Hh/EdJw+RhF1HOoiLXrp6XzYPQ4Br/w++bP
-qHjRmpgT7MOYc/5JQMmzuk9MErxRaxxc9/Q5lPGo71yVGyc0NNetjdOKqBZrFdB/
-c8fQVfiHxFVSAfMFiP3ZeVLj0kEhQNKoBddKCz6orHfhpNvXgoFqhwPanQ7C54pH
-a3l7c99OW/r+cPjn+24Myfj0X+fTKvOw+YUg9s3XJT2oW1f/u99NYLBGnOl1CN1J
-up9sWyt5tteXURdJtcH7alSHrHWA7rHkGxSc7NLc/b74QPeft5PaM4lAulfV5BNQ
-QCWbZ79XM4Trx52LsdUtEjkiuRUXzYV7W1W+CZxpuFbrwVnSvk8mF4GCvFkrrJyc
-/aiRWO0HFm46XwJTQBaUEqthTHCS8RlRkfeuxi13ABH33xzpOopSfVzfpS4PdQEY
-PtWp5GAdmU6Z+RBt6LU8uNV8gunWYTYwucOI1SVnIFg4/jpsj3jYr3ng9fGUw95b
-bwlCyi1n9cCgu8je9NJXXhKrI0GyKg4uxJAiv/VUPv67BMjNWWSRUi/W2Rk4FTZ/
-6oVymCZ5v8d3Mu0F1mw7VXLGf9xNU+YaicM8QGk8nuEs/v1J50A=
-=rJ+e
------END PGP SIGNATURE-----
-
---q+Z7SO+65lv9FBFe--
+I am Ms Nadage Lassou,I have something important to discuss with you.
+i will send you the details once i hear from you.
+Thanks,
+Ms Nadage Lassou
