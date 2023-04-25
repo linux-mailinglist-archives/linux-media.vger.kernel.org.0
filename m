@@ -2,95 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E31196EE82B
-	for <lists+linux-media@lfdr.de>; Tue, 25 Apr 2023 21:24:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E13F56EE846
+	for <lists+linux-media@lfdr.de>; Tue, 25 Apr 2023 21:30:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235767AbjDYTYm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Apr 2023 15:24:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42770 "EHLO
+        id S235519AbjDYTai (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Apr 2023 15:30:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235711AbjDYTYZ (ORCPT
+        with ESMTP id S235511AbjDYTah (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Apr 2023 15:24:25 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27F7818EB6;
-        Tue, 25 Apr 2023 12:24:16 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C65E76313E;
-        Tue, 25 Apr 2023 19:24:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAE25C4339B;
-        Tue, 25 Apr 2023 19:24:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682450655;
-        bh=WqHhwYZkfR8EDEKqGRF5aPIvBjQ7WTC1wmxO9XyL0/g=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NiWg8PviVhTTSVXubSeYdzZPc99PeYtbJmMhd6bDcJWaRIgsrSnlYdKM72vPY5WBy
-         Ayla3GJ+jFu0sFz1SMPV0zsjZG1yJ0cqkBqGPRdz3BmkB6KCFQLmXnd4te/xd56zQ0
-         bsJCttYYbBjK463RqxMdFd4DDieOftDM8LfS8OiOwrHmSFthKE383mvnosXCRhFoS7
-         4N8cxpF2ypBdau5K5NjFG6Wj43zQyuCVsj9MdUwlFCnPwly9j9HlZrZNEC/gc/WFpl
-         r0+tsXZiwSAKa5GlkWofX/vwDhajhhUOrwcXhZUaCl7VLSe4cuGzhcZJylprc8B5/X
-         0LM3tm5//3RQQ==
-Date:   Tue, 25 Apr 2023 21:24:11 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
+        Tue, 25 Apr 2023 15:30:37 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 027F235AC
+        for <linux-media@vger.kernel.org>; Tue, 25 Apr 2023 12:30:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=nbGpmVWQIaPTFwdaqQ8da+YgUxNs
+        05I7Ipa2cSbCS7w=; b=H9iI8VI0o/FU+06wcD9/E+np3Re9YKySXYeet/MOCbUi
+        UxkkRumqpS6/h5f1CGTPiR8GBB2tsSPKKhEsIEZngC2cWKNXKazyXXXgSi98psgh
+        o7pS/e49b+HLWJXK7wzQ6U5jR2LXhCKze7DxIA/5XSTmkcp/idLFtOnfYzv+VP4=
+Received: (qmail 1468238 invoked from network); 25 Apr 2023 21:30:29 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Apr 2023 21:30:29 +0200
+X-UD-Smtp-Session: l3s3148p1@UQz5Jy76CuAujnsI
+Date:   Tue, 25 Apr 2023 21:30:28 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>,
-        Satish Nagireddy <satish.nagireddy@getcruise.com>,
-        Luca Ceresoli <luca@lucaceresoli.net>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v11 1/7] i2c: add I2C Address Translator (ATR) support
-Message-ID: <ZEgo2+0cA+tD2k7u@sai>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>, Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] media: renesas: fdp1: Identify R-Car Gen2 versions
+Message-ID: <ZEgqVJo4yRWvb/7G@sai>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>, Mike Pagano <mpagano@gentoo.org>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>,
-        Satish Nagireddy <satish.nagireddy@getcruise.com>,
-        Luca Ceresoli <luca@lucaceresoli.net>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-References: <20230421101833.345984-1-tomi.valkeinen@ideasonboard.com>
- <20230421101833.345984-2-tomi.valkeinen@ideasonboard.com>
- <20230425171347.GB1957523-robh@kernel.org>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <453e34f0eda526f79b0297952937dc0a0b5aacf8.1682435583.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="BXyp5TPXXYIx2AXH"
+        protocol="application/pgp-signature"; boundary="q+Z7SO+65lv9FBFe"
 Content-Disposition: inline
-In-Reply-To: <20230425171347.GB1957523-robh@kernel.org>
-X-Spam-Status: No, score=-7.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <453e34f0eda526f79b0297952937dc0a0b5aacf8.1682435583.git.geert+renesas@glider.be>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -98,44 +61,56 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---BXyp5TPXXYIx2AXH
+--q+Z7SO+65lv9FBFe
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
+On Tue, Apr 25, 2023 at 05:15:02PM +0200, Geert Uytterhoeven wrote:
+> On R-Car M2-W:
+>=20
+>     rcar_fdp1 fe940000.fdp1: FDP1 Unidentifiable (0x02010101)
+>     rcar_fdp1 fe944000.fdp1: FDP1 Unidentifiable (0x02010101)
+>=20
+> Although the IP Internal Data Register on R-Car Gen2 is documented to
+> contain all zeros, the actual register contents seem to match the FDP1
+> version ID of R-Car H3 ES1.*, which has just been removed.
+> Fortunately this version is not used for any other purposes yet.
+>=20
+> Fix this by re-adding the ID, now using an R-Car Gen2-specific name.
+>=20
+> Fixes: af4273b43f2bd9ee ("media: renesas: fdp1: remove R-Car H3 ES1.* han=
+dling")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> We do support some flags in the upper 16-bits of I2C addresses. Any of=20
-> those possibly needed here?
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-I2C_OWN_SLAVE_ADDRESS definately not. ATR is only for addresses on the
-remote bus while our own address is on the local bus.
+>  /* Internal Data (HW Version) */
+>  #define FD1_IP_INTDATA			0x0800
+> +#define FD1_IP_GEN2			0x02010101
 
-I2C_TEN_BIT_ADDRESS, only in theory. I have never seen a 10-bit address
-in the wild, so extremely unlikely that ATR hardware does support it.
-
-But then again, there is a slight chance that we add more flags in the
-future which might be relevant for ATR? So, u32 is probably a good
-thing to use nonetheless.
+Maybe add a comment here saying that this is needed despite the
+information in the datasheets?
 
 
---BXyp5TPXXYIx2AXH
+--q+Z7SO+65lv9FBFe
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmRIKNcACgkQFA3kzBSg
-Kba9kBAAoXLpnt2btqw4dEDjJLtIAQyuM4KlutOsE46L+ZiOwPM9DOBHhbLVyilG
-qFQqvT+96nHTFpUnQ/MC/mpFFZ9TPG86QGirha1pplDS0hocYsvbFN7OxxLAnoDy
-xDxRFoHA0fFLV4tzL97s/Jl6Ka6L1ubDHcg3drun38HzFkNJEd8hqG3tJNeSfo0u
-3F3LLPowCScp+oYlBw/SRXh9L8wmUkqegiDYVXf6TUfwevbBMCdhxVNEF06FA/MY
-f4wcZaGAgTuSJjSbUaCKuKT/mLIoI93z5YczpFHrcj4Pr8LZKggb0V5hqMAEhk4W
-WQUd9UxED5WMTcTK+/Jf7xSBM2qzTrpgwsOhv7bRlbSARimHjECU9uQUmYlFSFas
-QEs4MITjUxOmcS10hB/OJN5HBWfAC+fmCkXUMDDLMZT/DN+nosTUGwWYqMv7aouB
-HmfOagM83z5RkWnE7meR4qTx1UygnCNHJemm6MdaurVlsOeuk9LpFOP3EtEmUqWH
-KTTDJvaRFiMZxKZz3Y7/Dz/cGM5deKnMiY5goTyyK8eTqNhfqBGxlygmX6YV80yL
-LA/7tt4eZAW/qtO6SAssIuT13nuWNR5aRS9q3G0ZzaC42eHy1KoPr+EsStpR17Fm
-KELYexy53yT45oza3vXSj4M6oRbF+FRxl2Jwtj+rZhtEgKxjlj4=
-=Ao+h
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmRIKlQACgkQFA3kzBSg
+Kbb59g//aMlIWbSWMrMeTQTAlH7+J9Qum4Ck7XV5E6VqzS0mCGgcGBXNouzE2L4X
+z0MWMrMlehPZKQIGFZoCvioyFzdl5Hh/EdJw+RhF1HOoiLXrp6XzYPQ4Br/w++bP
+qHjRmpgT7MOYc/5JQMmzuk9MErxRaxxc9/Q5lPGo71yVGyc0NNetjdOKqBZrFdB/
+c8fQVfiHxFVSAfMFiP3ZeVLj0kEhQNKoBddKCz6orHfhpNvXgoFqhwPanQ7C54pH
+a3l7c99OW/r+cPjn+24Myfj0X+fTKvOw+YUg9s3XJT2oW1f/u99NYLBGnOl1CN1J
+up9sWyt5tteXURdJtcH7alSHrHWA7rHkGxSc7NLc/b74QPeft5PaM4lAulfV5BNQ
+QCWbZ79XM4Trx52LsdUtEjkiuRUXzYV7W1W+CZxpuFbrwVnSvk8mF4GCvFkrrJyc
+/aiRWO0HFm46XwJTQBaUEqthTHCS8RlRkfeuxi13ABH33xzpOopSfVzfpS4PdQEY
+PtWp5GAdmU6Z+RBt6LU8uNV8gunWYTYwucOI1SVnIFg4/jpsj3jYr3ng9fGUw95b
+bwlCyi1n9cCgu8je9NJXXhKrI0GyKg4uxJAiv/VUPv67BMjNWWSRUi/W2Rk4FTZ/
+6oVymCZ5v8d3Mu0F1mw7VXLGf9xNU+YaicM8QGk8nuEs/v1J50A=
+=rJ+e
 -----END PGP SIGNATURE-----
 
---BXyp5TPXXYIx2AXH--
+--q+Z7SO+65lv9FBFe--
