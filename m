@@ -2,189 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D7A76EE111
-	for <lists+linux-media@lfdr.de>; Tue, 25 Apr 2023 13:30:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 397516EE13A
+	for <lists+linux-media@lfdr.de>; Tue, 25 Apr 2023 13:47:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233936AbjDYLah (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Apr 2023 07:30:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40476 "EHLO
+        id S232240AbjDYLrO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Apr 2023 07:47:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233903AbjDYLag (ORCPT
+        with ESMTP id S232881AbjDYLrN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Apr 2023 07:30:36 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE4DC3C15
-        for <linux-media@vger.kernel.org>; Tue, 25 Apr 2023 04:30:34 -0700 (PDT)
+        Tue, 25 Apr 2023 07:47:13 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F121D59D1
+        for <linux-media@vger.kernel.org>; Tue, 25 Apr 2023 04:47:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682422235; x=1713958235;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=214pIIsWl80owSPIKrQBtwRUJHUwPyVnBUN1uYek/Qc=;
-  b=HfQkoTOpFXFoYQ5BI9aK8uAcOlVxbpbtgR4qVN26YxBJH3ArSgffsJqb
-   UcD2iZLKpQ2fL8Vi79gzn+6y/qR0uI5M02WGau5WCBYSqZ144LzmXeLI3
-   q7Go84U+LwHVeDX+QZDp3rSNqPVwneJMw/j5FnK9BmdZl0x+EO2JdcMOl
-   24YoqFPz0LdzQqnysbSiTHE4nF29Q1LitSJ9q7sjroj414B/TrIMZuNEF
-   qwwrxW5O4SdSMqZHLw+kLtQnWfXKhS7XZXItrdApSqtJtlynhdFfwDmvu
-   2+aemCnZWkaNsAcvne8pwZadTEXfjahua2QUIEGk9KquLBB+dCMqHTl7Q
+  t=1682423225; x=1713959225;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=sKyYFhBjGX0uckkU/nNAC7kYF8D32RV7iTuDsmROve8=;
+  b=XuMrhu1L30w9zHDj7O0GwEwNAVFOHN6ptwl0pgL8OvQVBQENRyf61p8y
+   MkJ62WN9oZecbFD1VTRd2vU5M+J99pZY+0P4hXalgFdJZny0CX+xzuc3S
+   R6dyMMaA1UeF37/D2coTSCh0Y0Sn5a9g5lU2gDYiP88gOGv65jWmE74XE
+   /bLcRo9R1uB2oRrTzIy5QNWO8bPvCxngi8gHAHBNkj/nO0wpZPOrPhrEF
+   eV3EUMXKdl6fXaPAZeZW6nsW36EuEMIOwN2VTt/ob/okwcrlVuDkOf5ne
+   BHkB2+l2tEUfwSjlCbFoOeKGZQD0uQRbA5Se2qOzv11oODVa8xlRFdIRK
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="330950511"
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="345493910"
 X-IronPort-AV: E=Sophos;i="5.99,225,1677571200"; 
-   d="scan'208";a="330950511"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 04:30:33 -0700
+   d="scan'208";a="345493910"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 04:47:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="696154782"
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="723992681"
 X-IronPort-AV: E=Sophos;i="5.99,225,1677571200"; 
-   d="scan'208";a="696154782"
+   d="scan'208";a="723992681"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 04:30:30 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id D3E3811FAD0;
-        Tue, 25 Apr 2023 14:30:27 +0300 (EEST)
-Date:   Tue, 25 Apr 2023 14:30:27 +0300
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 04:47:04 -0700
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id F134D11FAD0;
+        Tue, 25 Apr 2023 14:47:00 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1prH6Y-000SUd-FC; Tue, 25 Apr 2023 14:45:06 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     bingbu.cao@intel.com, linux-media@vger.kernel.org,
-        ilpo.jarvinen@linux.intel.com, tfiga@chromium.org,
-        senozhatsky@chromium.org, hdegoede@redhat.com,
-        bingbu.cao@linux.intel.com, tian.shu.qiu@intel.com,
-        hongju.wang@intel.com, daniel.h.kang@intel.com
-Subject: Re: [RFC PATCH 13/14] Documentation: add Intel IPU6 ISYS driver
- admin-guide doc
-Message-ID: <ZEe505AggPlLI+lQ@kekkonen.localdomain>
-References: <20230413100429.919622-1-bingbu.cao@intel.com>
- <20230413100429.919622-14-bingbu.cao@intel.com>
- <20230420144917.GD17497@pendragon.ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     jacopo.mondi@ideasonboard.com
+Subject: [PATCH 1/1] media: uapi: Fix [GS]_ROUTING ACTIVE flag value
+Date:   Tue, 25 Apr 2023 14:44:56 +0300
+Message-Id: <20230425114456.109482-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230420144917.GD17497@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+The value of the V4L2_SUBDEV_ROUTE_FL_ACTIVE is 1, not 0. Use hexadecimal
+numbers as is done elsewhere in the documentation.
 
-On Thu, Apr 20, 2023 at 05:49:17PM +0300, Laurent Pinchart wrote:
+Fixes: ea73eda50813 ("media: Documentation: Add GS_ROUTING documentation")
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ .../userspace-api/media/v4l/vidioc-subdev-g-routing.rst         | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-...
-
-> > +common driver which does PCI configuration, firmware loading and parsing,
-> > +firmware authentication, DMA mapping and IPU-MMU (internal Memory mapping Unit)
-> > +configuration. intel_ipu6_isys implements V4L2, Media Controller and V4L2
-> > +sub-device interfaces. The IPU6 ISYS driver supports camera sensors connected
-> > +to the IPU6 ISYS through V4L2 sub-device sensor drivers.
-> 
-> Will the intel_ipu6 driver also serve a future intel_ipu6_psys driver,
-> or is it specific to the ISYS ?
-
-intel-ipu6 contains common parts required by both ISYS and PSYS drivers.
-
-> 
-> > +
-> > +Input system driver
-> > +===================
-> > +
-> > +Input System driver mainly configure CSI2 DPHY, construct the firmware stream
-> 
-> s/^Input/The Input/
-> s/configure/configures the/
-> s/construct/constructs/
-> 
-> > +configuration and send commands to firmware and get response from hardware and
-> 
-> s/send/sends/
-> s/get response/gets responses/
-> 
-> > +firmware and then return buffers to user.
-> 
-> s/return/returns/
-> 
-> So control of the ISYS goes through the firmware, the driver doesn't
-> access the hardware directly ?
-
-Must of the low-level hardware control takes place through firmware, the
-ISYS driver uses direct register access mainly for the communication with
-the ISYS firmware and PHY configuration.
-
-> 
-> > +The ISYS is represented as several V4L2 sub-devices - 'Intel IPU6 CSI2 $port',
-> > +which provide V4L2 subdev interfaces to the user space, there are also several
-> > +video nodes for each CSI-2 stream capture - 'Intel IPU6 ISYS capture $num' which
-> > +provide interface to user to set formats, queue buffers and streaming.
-> > +
-> > +.. kernel-figure::  ipu6_isys_graph.svg
-> > +   :alt: ipu6 isys media graph
-> 
-> I see in the figure 6 CSI-2 receivers and 4 video nodes. Are those CSI-2
-> receivers independent of each other, or do they share SoCs pins ? For
-> instance, I'm thinking about a use case where you would have 4 data
-> lanes and 2 clock lanes, and support capturing from 2x 2-lanes sensors
-> with 2 CSI-2 RX, or 1x 4-lanes sensor with 1 CSI-2 RX. More generally,
-> can you document the input options of the ISYS ? For DT-based systems
-> I'd expect this information to be in the DT bindings, here it needs to
-> be documented separately.
-
-This is a to-do item (as noted on the cover page).
-
-The number of video nodes is also going to change with streams support.
-
-> 
-> On the video device node side, are there 4 independent hardware DMA
-> engines that can be dynamically connected to the different CSI-2
-> receivers, or is that what the current firmware version provide, with
-> the hardware able to capture more than 4 streams with firmware
-> modifications ?
-> 
-> > +
-> > +Capturing frames by IPU6 ISYS
-> > +------------------------------------
-> > +
-> > +IPU6 ISYS is used to capture frames from the camera sensors connected to the
-> > +CSI2 port. The supported input formats of ISYS are listed in table below:
-> 
-> s/port/ports/
-> 
-> > +
-> > +.. tabularcolumns:: |p{0.8cm}|p{4.0cm}|p{4.0cm}|
-> > +
-> > +.. flat-table::
-> > +    :header-rows: 1
-> > +
-> > +    * - IPU6 ISYS supported input formats
-> > +
-> > +    * - RGB565, RGB888
-> > +
-> > +    * - UYVY8, YUYV8
-> 
-> Unless I'm mistaken, CSI-2 doesn't have separate UYVY and YUYV formats.
-> Am I missing something ?
-> 
-> > +
-> > +    * - RAW8, RAW10, RAW12
-> 
-> Is embedded data capture supported ? More generically, can we capture
-> different data types and/or virtual channels from the same CSI-2 input ?
-
-Yes but not quite yet (streams support is pending).
-
-> 
-> What's the maximum resolution supported by the ISYS ? Are the DMA
-> engines independent, or would the maximum resolution be different if you
-> capture from a single camera sensor or multiple camera sensors at the
-> same time ?
-
-My understanding is they're independent, i.e. the maximum resolution isn't
-affected by what else is happening in the device.
-
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+index 68ca343c3b44a..2d6e3bbdd0404 100644
+--- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
++++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+@@ -122,7 +122,7 @@ for all the route entries and call ``VIDIOC_SUBDEV_G_ROUTING`` again.
+     :widths:       3 1 4
+ 
+     * - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+-      - 0
++      - 0x0001
+       - The route is enabled. Set by applications.
+ 
+ Return Value
 -- 
-Regards,
+2.30.2
 
-Sakari Ailus
