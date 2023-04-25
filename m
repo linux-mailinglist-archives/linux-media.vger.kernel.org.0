@@ -2,104 +2,206 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 635AA6ED9FD
-	for <lists+linux-media@lfdr.de>; Tue, 25 Apr 2023 03:45:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9B026EDA1E
+	for <lists+linux-media@lfdr.de>; Tue, 25 Apr 2023 04:00:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232940AbjDYBos (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Apr 2023 21:44:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43908 "EHLO
+        id S232950AbjDYCAr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Apr 2023 22:00:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233147AbjDYBoa (ORCPT
+        with ESMTP id S232675AbjDYCAq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Apr 2023 21:44:30 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A4833591
-        for <linux-media@vger.kernel.org>; Mon, 24 Apr 2023 18:44:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682387069; x=1713923069;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=omubxsXK/eOUZCgqLfodBjMeqUym9qI+Cu3Uf6rZ4PU=;
-  b=bgLgyr1O9Ro4LUhGvt5ZN5IMt2rEv+WtVOB/u+bJuELWBwjrIGjYaKUY
-   rgzPsPERs5ZDJ4B0OFJHeJ2e53qLjynFCZaVaiSw1hiWIJs0X5HsLtiHu
-   1+xJwQ3P6UbJyPcKBcsLcQMATuAnL7WZkyXx3fpIkC1KT+R8ZxdrotugP
-   9QipqwyachSaxxU+XWnZkFl9UPEuyQxNfl4q2TQqxewoO4Gxf1vKc+I6g
-   4cV2e8XT4gMCXAMIVxZx8EMv4M9I1ivdOAg5QmaYJZFBeA+YcZzz/w/5A
-   luPY+H7Y0rY5bQW05Pq16jjJBsDVxa/H7N3jELq+c5w3h2RKpOcjonHpi
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="345375435"
-X-IronPort-AV: E=Sophos;i="5.99,224,1677571200"; 
-   d="scan'208";a="345375435"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 18:44:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="687152241"
-X-IronPort-AV: E=Sophos;i="5.99,224,1677571200"; 
-   d="scan'208";a="687152241"
-Received: from shsensorbuild2.sh.intel.com ([10.239.134.197])
-  by orsmga007.jf.intel.com with ESMTP; 24 Apr 2023 18:44:26 -0700
-From:   Wentong Wu <wentong.wu@intel.com>
-To:     sakari.ailus@linux.intel.com, hdegoede@redhat.com,
-        djrscally@gmail.com, laurent.pinchart@ideasonboard.com,
-        linux-media@vger.kernel.org
-Cc:     bingbu.cao@linux.intel.com, zhifeng.wang@intel.com,
-        xiang.ye@intel.com, tian.shu.qiu@intel.com,
-        Wentong Wu <wentong.wu@intel.com>
-Subject: [PATCH v6 3/3] ACPI: delay enumeration of devices with a _DEP pointing to IVSC device
-Date:   Tue, 25 Apr 2023 09:43:59 +0800
-Message-Id: <1682387039-16674-4-git-send-email-wentong.wu@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1682387039-16674-1-git-send-email-wentong.wu@intel.com>
-References: <1682387039-16674-1-git-send-email-wentong.wu@intel.com>
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 24 Apr 2023 22:00:46 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC85940C3
+        for <linux-media@vger.kernel.org>; Mon, 24 Apr 2023 19:00:44 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8EBD375B;
+        Tue, 25 Apr 2023 04:00:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1682388031;
+        bh=llicNUJ2cpWbtgfUHeVjGBc1p66qThGwKbJPHId8tqE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=D8PAQiEj4ZGXEmJdusSPo9ABTds4/mvXs/0AmL5/pTcTEZAw0v5RD2dn53ibQhUne
+         X9a6HWZJSfSIMhx+q2AQaszKidQI6M4mYd0qfyEaZcmk2R7fd55m1s0O+nilfg7PRs
+         3o1eTReqecof/ysUKwaM9Pr3R6kzK5tfLSsyHhjg=
+Date:   Tue, 25 Apr 2023 05:00:52 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>, hverkuil@xs4all.nl,
+        Francesco Dolcini <francesco@dolcini.it>,
+        aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>
+Subject: Re: [PATCH 17/18] media: v4l: async: Set v4l2_device in async
+ notifier init
+Message-ID: <20230425020052.GA9443@pendragon.ideasonboard.com>
+References: <20230330115853.1628216-1-sakari.ailus@linux.intel.com>
+ <20230330115853.1628216-18-sakari.ailus@linux.intel.com>
+ <20230425003526.GD4921@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230425003526.GD4921@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Inside IVSC, switching ownership requires an interface with two
-different hardware modules, ACE and CSI. The software interface
-to these modules is based on Intel MEI framework. Usually mei
-client devices are dynamically created, so the info of consumers
-depending on mei client devices is not present in the firmware
-tables.
+On Tue, Apr 25, 2023 at 03:35:26AM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> Thank you for the patch.
+> 
+> On Thu, Mar 30, 2023 at 02:58:52PM +0300, Sakari Ailus wrote:
+> > Set the v4l2_device already in async notifier init, so struct device
+> > related to it will be available before the notifier is registered.
 
-This causes problems with the probe ordering with respect to
-drivers for consumers of these mei client devices. But on these
-camera sensor devices, the ACPI nodes describing the sensors all
-have a _DEP dependency on the matching mei bus ACPI device, so
-adding IVSC mei bus ACPI device to acpi_honor_dep_ids allows
-solving the probe-ordering problem by delaying the enumeration of
-ACPI-devices which have a _DEP dependency on an IVSC mei bus ACPI
-device.
+Also, please explain why this is needed.
 
-On TGL platform, the HID of IVSC mei bus ACPI device is INTC1059,
-and on ADL platform, the HID is INTC1095. So add both of them to
-acpi_honor_dep_ids.
+> > This patch has been mostly generated using the following command:
+> > 
+> > git grep -l v4l2_async_nf_init -- drivers/media/ drivers/staging/media/ |
+> > 	while read i; do perl -e '
+> > 	@a=<>; unlink("'$i'"); open(F, "> '$i'");
+> > 	for $f ({i=>"v4l2_async_nf_init", r=>"v4l2_async_nf_register"},
+> > 		{i=>"v4l2_async_subdev_nf_init",
+> > 		 r=>"v4l2_async_subdev_nf_register"} ) {
+> > 	my $b; @a = map { $b = "$1, $2" if
+> > 	s/$f->{r}\(([^,]*),\s*([^\)]*)\)/v4l2_async_nf_register\($2\)/;
+> > 	$_; } @a; @a = map { if (defined $b) {
+> > 	s/v4l2_async_nf_init\([^\)]*\)/$f->{i}\($b\)/;
+> > 	s/$f->{r}\(\K[^,]*,\s*//; }; $_; } @a; }; print F @a; close F;'
+> > 	< $i; done
+> 
+> You should learn coccinelle at some point :-)
+> 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  drivers/media/i2c/max9286.c                   |  4 +-
+> >  drivers/media/i2c/st-mipid02.c                |  4 +-
+> >  drivers/media/i2c/tc358746.c                  |  4 +-
+> >  drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |  4 +-
+> >  drivers/media/platform/atmel/atmel-isi.c      |  4 +-
+> >  drivers/media/platform/cadence/cdns-csi2rx.c  |  4 +-
+> >  drivers/media/platform/intel/pxa_camera.c     |  4 +-
+> >  drivers/media/platform/marvell/cafe-driver.c  |  2 +-
+> >  drivers/media/platform/marvell/mcam-core.c    |  2 +-
+> >  drivers/media/platform/marvell/mmp-driver.c   |  2 +-
+> >  .../platform/microchip/microchip-csi2dc.c     |  5 +--
+> >  .../microchip/microchip-sama5d2-isc.c         |  5 +--
+> >  .../microchip/microchip-sama7g5-isc.c         |  5 +--
+> >  drivers/media/platform/nxp/imx-mipi-csis.c    |  4 +-
+> >  drivers/media/platform/nxp/imx7-media-csi.c   |  4 +-
+> >  drivers/media/platform/qcom/camss/camss.c     |  5 +--
+> >  drivers/media/platform/renesas/rcar-isp.c     |  4 +-
+> >  .../platform/renesas/rcar-vin/rcar-core.c     |  8 ++--
+> >  .../platform/renesas/rcar-vin/rcar-csi2.c     |  4 +-
+> >  drivers/media/platform/renesas/rcar_drif.c    |  4 +-
+> >  drivers/media/platform/renesas/renesas-ceu.c  |  4 +-
+> >  .../platform/renesas/rzg2l-cru/rzg2l-core.c   |  4 +-
+> >  .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   |  4 +-
+> >  .../platform/rockchip/rkisp1/rkisp1-dev.c     |  4 +-
+> >  .../platform/samsung/exynos4-is/media-dev.c   |  5 +--
+> >  drivers/media/platform/st/stm32/stm32-dcmi.c  |  4 +-
+> >  .../platform/sunxi/sun4i-csi/sun4i_csi.c      |  4 +-
+> >  .../sunxi/sun6i-csi/sun6i_csi_bridge.c        |  6 +--
+> >  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   |  4 +-
+> >  .../sun8i_a83t_mipi_csi2.c                    |  4 +-
+> >  .../media/platform/ti/am437x/am437x-vpfe.c    |  4 +-
+> >  drivers/media/platform/ti/cal/cal.c           |  4 +-
+> >  .../media/platform/ti/davinci/vpif_capture.c  | 11 ++---
+> >  drivers/media/platform/ti/omap3isp/isp.c      |  4 +-
+> >  drivers/media/platform/video-mux.c            |  4 +-
+> >  drivers/media/platform/xilinx/xilinx-vipp.c   |  4 +-
+> >  drivers/media/v4l2-core/v4l2-async.c          | 43 +++++++------------
+> >  drivers/media/v4l2-core/v4l2-fwnode.c         |  4 +-
+> >  .../deprecated/atmel/atmel-sama5d2-isc.c      |  5 +--
+> >  drivers/staging/media/imx/imx-media-csi.c     |  4 +-
+> >  .../staging/media/imx/imx-media-dev-common.c  |  4 +-
+> >  drivers/staging/media/imx/imx6-mipi-csi2.c    |  4 +-
+> >  drivers/staging/media/imx/imx8mq-mipi-csi2.c  |  4 +-
+> >  .../media/sunxi/sun6i-isp/sun6i_isp_proc.c    |  4 +-
+> >  drivers/staging/media/tegra-video/vi.c        |  4 +-
+> >  include/media/v4l2-async.h                    | 35 +++++++++------
+> >  46 files changed, 129 insertions(+), 138 deletions(-)
+> 
+> [snip]
+> 
+> > diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
+> > index 750bf4ddb267..cf2082e17fc4 100644
+> > --- a/include/media/v4l2-async.h
+> > +++ b/include/media/v4l2-async.h
+> > @@ -159,6 +159,24 @@ void v4l2_async_debug_init(struct dentry *debugfs_dir);
+> >  /**
+> >   * v4l2_async_nf_init - Initialize a notifier.
+> >   *
+> > + * @v4l2_dev: pointer to &struct v4l2_device
+> > + * @notifier: pointer to &struct v4l2_async_notifier
+> > + *
+> > + * This function initializes the notifier @asc_list. It must be called
+> > + * before adding a subdevice to a notifier, using one of:
+> > + * v4l2_async_nf_add_fwnode_remote(),
+> > + * v4l2_async_nf_add_fwnode(),
+> > + * v4l2_async_nf_add_i2c(),
+> > + * __v4l2_async_nf_add_connection() or
+> > + * v4l2_async_nf_parse_fwnode_endpoints().
+> > + */
+> > +void v4l2_async_nf_init(struct v4l2_device *v4l2_dev,
+> > +			struct v4l2_async_notifier *notifier);
+> 
+> The function operates on a notifier, could we make it the first argument
+> ? Same for v4l2_async_subdev_nf_init().
+> 
+> > +
+> > +/**
+> > + * v4l2_async_subdev_nf_init - Initialize a sub-device notifier.
+> > + *
+> > + * @v4l2_dev: pointer to &struct v4l2_device
+> >   * @notifier: pointer to &struct v4l2_async_notifier
+> >   *
+> >   * This function initializes the notifier @asc_list. It must be called
+> > @@ -169,7 +187,8 @@ void v4l2_async_debug_init(struct dentry *debugfs_dir);
+> >   * __v4l2_async_nf_add_connection() or
+> >   * v4l2_async_nf_parse_fwnode_endpoints().
+> >   */
+> > -void v4l2_async_nf_init(struct v4l2_async_notifier *notifier);
+> > +void v4l2_async_subdev_nf_init(struct v4l2_subdev *sd,
+> > +			       struct v4l2_async_notifier *notifier);
+> >  
+> >  /**
+> >   * __v4l2_async_nf_add_connection() - Add an async subdev to the notifier's
+> > @@ -264,21 +283,9 @@ __v4l2_async_nf_add_i2c(struct v4l2_async_notifier *notifier,
+> >  /**
+> >   * v4l2_async_nf_register - registers a subdevice asynchronous notifier
+> >   *
+> > - * @v4l2_dev: pointer to &struct v4l2_device
+> > - * @notifier: pointer to &struct v4l2_async_notifier
+> > - */
+> > -int v4l2_async_nf_register(struct v4l2_device *v4l2_dev,
+> > -			   struct v4l2_async_notifier *notifier);
+> > -
+> > -/**
+> > - * v4l2_async_subdev_nf_register - registers a subdevice asynchronous
+> > - *					 notifier for a sub-device
+> > - *
+> > - * @sd: pointer to &struct v4l2_subdev
+> >   * @notifier: pointer to &struct v4l2_async_notifier
+> >   */
+> > -int v4l2_async_subdev_nf_register(struct v4l2_subdev *sd,
+> > -				  struct v4l2_async_notifier *notifier);
+> > +int v4l2_async_nf_register(struct v4l2_async_notifier *notifier);
+> >  
+> >  /**
+> >   * v4l2_async_nf_unregister - unregisters a subdevice
 
-Signed-off-by: Wentong Wu <wentong.wu@intel.com>
----
- drivers/acpi/scan.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
-index 2743444..89368d7 100644
---- a/drivers/acpi/scan.c
-+++ b/drivers/acpi/scan.c
-@@ -796,6 +796,8 @@ static const char * const acpi_ignore_dep_ids[] = {
- /* List of HIDs for which we honor deps of matching ACPI devs, when checking _DEP lists. */
- static const char * const acpi_honor_dep_ids[] = {
- 	"INT3472", /* Camera sensor PMIC / clk and regulator info */
-+	"INTC1059",
-+	"INTC1095",
- 	NULL
- };
- 
 -- 
-2.7.4
+Regards,
 
+Laurent Pinchart
