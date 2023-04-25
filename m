@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7179F6ED9CE
-	for <lists+linux-media@lfdr.de>; Tue, 25 Apr 2023 03:24:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F2946ED9D5
+	for <lists+linux-media@lfdr.de>; Tue, 25 Apr 2023 03:28:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231137AbjDYBYS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Apr 2023 21:24:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35658 "EHLO
+        id S233180AbjDYB2t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Apr 2023 21:28:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229755AbjDYBYS (ORCPT
+        with ESMTP id S233106AbjDYB2s (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Apr 2023 21:24:18 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 393F25276
-        for <linux-media@vger.kernel.org>; Mon, 24 Apr 2023 18:24:16 -0700 (PDT)
+        Mon, 24 Apr 2023 21:28:48 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDD855269
+        for <linux-media@vger.kernel.org>; Mon, 24 Apr 2023 18:28:47 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F2738814;
-        Tue, 25 Apr 2023 03:24:03 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2B65575B;
+        Tue, 25 Apr 2023 03:28:34 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1682385844;
-        bh=Kam2cRvt1vZu4trLTEI4Yg2bL90GLIOYqo/R2P27CV8=;
+        s=mail; t=1682386116;
+        bh=JxtwDg3PMzijXMZhPYjiDhByuVX9B04M9EF9PWn8Ev8=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=wBjG2/GNqjnKhpxCG9DVlHxol+6zq6Q7Jbc754W8q07SyYm+h+NUpSBSlovWI7//s
-         JVk+PIOpw1v5Sem8Zk2DyS18M5WogC6QUJhHFDMDpPBGFyL8FEtNaERcK0ivox5Akr
-         do4i4BpsFBqXDz4Zosd2E6jIJPIgbvr5goopUkZ8=
-Date:   Tue, 25 Apr 2023 04:24:26 +0300
+        b=Wi3kF4jM3yPh4Mf+29e6myMixSX4gqJBwLyHZ0J1sxD4lJT6z3AZR6/hExHv92M1T
+         bwwUdYcVLsSSAfGy2mA1jyBUcDXf4g2P3Oj5xBfOTKJEykygULA3fQGK3YVEV6dNiB
+         Vqc6YEg8vCFhhS3pP4FgPyxMoijIYQvibyNiq2/4=
+Date:   Tue, 25 Apr 2023 04:28:57 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     linux-media@vger.kernel.org,
@@ -34,15 +34,15 @@ Cc:     linux-media@vger.kernel.org,
         aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
         Todor Tomov <todor.too@gmail.com>,
         Hyun Kwon <hyun.kwon@xilinx.com>
-Subject: Re: [PATCH 06/18] media: v4l: async: Only pass match information for
- async subdev validation
-Message-ID: <20230425012426.GJ4921@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 01/18] media: v4l: async: Return async sub-devices to
+ subnotifier list
+Message-ID: <20230425012857.GK4921@pendragon.ideasonboard.com>
 References: <20230330115853.1628216-1-sakari.ailus@linux.intel.com>
- <20230330115853.1628216-7-sakari.ailus@linux.intel.com>
+ <20230330115853.1628216-2-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230330115853.1628216-7-sakari.ailus@linux.intel.com>
+In-Reply-To: <20230330115853.1628216-2-sakari.ailus@linux.intel.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
@@ -57,311 +57,79 @@ Hi Sakari,
 
 Thank you for the patch.
 
-On Thu, Mar 30, 2023 at 02:58:41PM +0300, Sakari Ailus wrote:
-> Pass only information required for sub-device matching to functions
-> checking whether the async sub-device already exists. Do the same for
-> debug message printing. This makes further changes to other aspects of
-> async sub-devices easier.
+On Thu, Mar 30, 2023 at 02:58:36PM +0300, Sakari Ailus wrote:
+> When an async notifier is unregistered, the async sub-devices in the
+> notifier's done list will disappear with the notifier. However this is
+> currently also done to the sub-notifiers that remain registered. Their
+> sub-devices only need to be unbound while the async sub-devices themselves
+> need to be returned to the sub-notifier's waiting list. Do this now.
 > 
+> Fixes: 2cab00bb076b ("media: v4l: async: Allow binding notifiers to sub-devices")
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > ---
->  drivers/media/v4l2-core/v4l2-async.c | 93 ++++++++++++++--------------
->  1 file changed, 46 insertions(+), 47 deletions(-)
+>  drivers/media/v4l2-core/v4l2-async.c | 13 ++++++++-----
+>  1 file changed, 8 insertions(+), 5 deletions(-)
 > 
 > diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> index fc9ae22e2b47..224ebf50f2d0 100644
+> index 2f1b718a9189..008a2a3e312e 100644
 > --- a/drivers/media/v4l2-core/v4l2-async.c
 > +++ b/drivers/media/v4l2-core/v4l2-async.c
-> @@ -62,14 +62,14 @@ static void v4l2_async_nf_call_destroy(struct v4l2_async_notifier *n,
->  }
+> @@ -414,7 +414,8 @@ static void v4l2_async_cleanup(struct v4l2_subdev *sd)
 >  
->  static bool match_i2c(struct v4l2_async_notifier *notifier,
-> -		      struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
-> +		      struct v4l2_subdev *sd, struct v4l2_async_match *match)
->  {
->  #if IS_ENABLED(CONFIG_I2C)
->  	struct i2c_client *client = i2c_verify_client(sd->dev);
->  
->  	return client &&
-> -		asd->match.i2c.adapter_id == client->adapter->nr &&
-> -		asd->match.i2c.address == client->addr;
-> +		match->i2c.adapter_id == client->adapter->nr &&
-> +		match->i2c.address == client->addr;
->  #else
->  	return false;
->  #endif
-> @@ -84,26 +84,26 @@ static struct device *notifier_dev(struct v4l2_async_notifier *notifier)
->  static bool
->  match_fwnode_one(struct v4l2_async_notifier *notifier,
->  		 struct v4l2_subdev *sd, struct fwnode_handle *sd_fwnode,
-> -		 struct v4l2_async_subdev *asd)
-> +		 struct v4l2_async_match *match)
->  {
->  	struct fwnode_handle *asd_dev_fwnode;
+>  /* Unbind all sub-devices in the notifier tree. */
+>  static void
+> -v4l2_async_nf_unbind_all_subdevs(struct v4l2_async_notifier *notifier)
+> +v4l2_async_nf_unbind_all_subdevs(struct v4l2_async_notifier *notifier,
+> +				 bool readd)
 
-match_dev_node, to remove references to asd ?
+I've read this as "read d" and was wondering what it meant. Maybe
+"re_add" would be a better variable name ?
 
->  	bool ret;
->  
->  	dev_dbg(sd->dev, "async: fwnode match: need %pfw, trying %pfw\n",
-> -		sd_fwnode, asd->match.fwnode);
-> +		sd_fwnode, match->fwnode);
->  
-> -	if (sd_fwnode == asd->match.fwnode) {
-> +	if (sd_fwnode == match->fwnode) {
->  		dev_dbg(sd->dev, "async: direct match found\n");
->  		return true;
->  	}
->  
-> -	if (!fwnode_graph_is_endpoint(asd->match.fwnode)) {
-> +	if (!fwnode_graph_is_endpoint(match->fwnode)) {
->  		dev_dbg(sd->dev,
->  			"async: async subdev fwnode not endpoint, no match\n");
-
-The reference to "subdev" could be dropped here too.
-
->  		return false;
->  	}
->  
-> -	asd_dev_fwnode = fwnode_graph_get_port_parent(asd->match.fwnode);
-> +	asd_dev_fwnode = fwnode_graph_get_port_parent(match->fwnode);
->  
->  	ret = sd_fwnode == asd_dev_fwnode;
->  
-> @@ -116,12 +116,12 @@ match_fwnode_one(struct v4l2_async_notifier *notifier,
->  }
->  
->  static bool match_fwnode(struct v4l2_async_notifier *notifier,
-> -			 struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
-> +			 struct v4l2_subdev *sd, struct v4l2_async_match *match)
->  {
->  	dev_dbg(sd->dev, "async: matching for notifier %pfw, sd %pfw\n",
->  		dev_fwnode(notifier_dev(notifier)), sd->fwnode);
->  
-> -	if (match_fwnode_one(notifier, sd, sd->fwnode, asd))
-> +	if (match_fwnode_one(notifier, sd, sd->fwnode, match))
->  		return true;
->  
->  	/* Also check the secondary fwnode. */
-> @@ -130,7 +130,7 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
->  
->  	dev_dbg(sd->dev, "async: trying secondary fwnode match\n");
->  
-> -	return match_fwnode_one(notifier, sd, sd->fwnode->secondary, asd);
-> +	return match_fwnode_one(notifier, sd, sd->fwnode->secondary, match);
->  }
->  
->  static LIST_HEAD(subdev_list);
-> @@ -142,7 +142,7 @@ v4l2_async_find_match(struct v4l2_async_notifier *notifier,
->  		      struct v4l2_subdev *sd)
->  {
->  	bool (*match)(struct v4l2_async_notifier *notifier,
-> -		      struct v4l2_subdev *sd, struct v4l2_async_subdev *asd);
-> +		      struct v4l2_subdev *sd, struct v4l2_async_match *match);
->  	struct v4l2_async_subdev *asd;
->  
->  	list_for_each_entry(asd, &notifier->waiting, list) {
-> @@ -161,7 +161,7 @@ v4l2_async_find_match(struct v4l2_async_notifier *notifier,
->  		}
->  
->  		/* match cannot be NULL here */
-> -		if (match(notifier, sd, asd))
-> +		if (match(notifier, sd, &asd->match))
->  			return asd;
->  	}
->  
-> @@ -169,20 +169,18 @@ v4l2_async_find_match(struct v4l2_async_notifier *notifier,
->  }
->  
->  /* Compare two async sub-device descriptors for equivalence */
-> -static bool asd_equal(struct v4l2_async_subdev *asd_x,
-> -		      struct v4l2_async_subdev *asd_y)
-> +static bool asd_equal(struct v4l2_async_match *match1,
-> +		      struct v4l2_async_match *match2)
-
-The function doesn't deal with asds anymore, let's rename it.
-v4l2_async_match_equal() could be a good name. Please also update the
-comment above the function.
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
 >  {
-> -	if (asd_x->match.type != asd_y->match.type)
-> +	if (match1->type != match2->type)
->  		return false;
+>  	struct v4l2_subdev *sd, *tmp;
 >  
-> -	switch (asd_x->match.type) {
-> +	switch (match1->type) {
->  	case V4L2_ASYNC_MATCH_I2C:
-> -		return asd_x->match.i2c.adapter_id ==
-> -			asd_y->match.i2c.adapter_id &&
-> -			asd_x->match.i2c.address ==
-> -			asd_y->match.i2c.address;
-> +		return match1->i2c.adapter_id == match2->i2c.adapter_id &&
-> +			match1->i2c.address == match2->i2c.address;
->  	case V4L2_ASYNC_MATCH_FWNODE:
-> -		return asd_x->match.fwnode == asd_y->match.fwnode;
-> +		return match1->fwnode == match2->fwnode;
->  	default:
->  		break;
->  	}
-> @@ -434,20 +432,20 @@ v4l2_async_nf_unbind_all_subdevs(struct v4l2_async_notifier *notifier,
->  /* See if an async sub-device can be found in a notifier's lists. */
->  static bool
->  __v4l2_async_nf_has_async_subdev(struct v4l2_async_notifier *notifier,
-> -				 struct v4l2_async_subdev *asd)
-> +				 struct v4l2_async_match *match)
-
-This function should be renamed to drop "subdev" as well.
-__v4l2_async_nf_has_match() is a candidate,
-__v4l2_async_nf_has_match_entry() is also an option to avoid implying
-that the function tests for a match between a subdev and a match entry.
-
->  {
-> -	struct v4l2_async_subdev *asd_y;
-> +	struct v4l2_async_subdev *asd;
->  	struct v4l2_subdev *sd;
+> @@ -423,9 +424,11 @@ v4l2_async_nf_unbind_all_subdevs(struct v4l2_async_notifier *notifier)
+>  			v4l2_async_find_subdev_notifier(sd);
 >  
-> -	list_for_each_entry(asd_y, &notifier->waiting, list)
-> -		if (asd_equal(asd, asd_y))
-> +	list_for_each_entry(asd, &notifier->waiting, list)
-> +		if (asd_equal(&asd->match, match))
->  			return true;
+>  		if (subdev_notifier)
+> -			v4l2_async_nf_unbind_all_subdevs(subdev_notifier);
+> +			v4l2_async_nf_unbind_all_subdevs(subdev_notifier, true);
 >  
->  	list_for_each_entry(sd, &notifier->done, async_list) {
->  		if (WARN_ON(!sd->asd))
->  			continue;
+>  		v4l2_async_nf_call_unbind(notifier, sd, sd->asd);
+> +		if (readd)
+> +			list_add_tail(&sd->asd->list, &notifier->waiting);
+>  		v4l2_async_cleanup(sd);
 >  
-> -		if (asd_equal(asd, sd->asd))
-> +		if (asd_equal(&sd->asd->match, match))
->  			return true;
->  	}
+>  		list_move(&sd->async_list, &subdev_list);
+> @@ -557,7 +560,7 @@ static int __v4l2_async_nf_register(struct v4l2_async_notifier *notifier)
+>  	/*
+>  	 * On failure, unbind all sub-devices registered through this notifier.
+>  	 */
+> -	v4l2_async_nf_unbind_all_subdevs(notifier);
+> +	v4l2_async_nf_unbind_all_subdevs(notifier, false);
 >  
-> @@ -460,49 +458,50 @@ __v4l2_async_nf_has_async_subdev(struct v4l2_async_notifier *notifier,
->   */
->  static bool
->  v4l2_async_nf_has_async_subdev(struct v4l2_async_notifier *notifier,
-> -			       struct v4l2_async_subdev *asd, bool skip_self)
-> +			       struct v4l2_async_match *match, bool skip_self)
-
-Same here.
-
->  {
-> -	struct v4l2_async_subdev *asd_y;
-> +	struct v4l2_async_subdev *asd;
->  
->  	lockdep_assert_held(&list_lock);
->  
->  	/* Check that an asd is not being added more than once. */
-> -	list_for_each_entry(asd_y, &notifier->asd_list, asd_list) {
-> -		if (asd == asd_y)
-> +	list_for_each_entry(asd, &notifier->asd_list, asd_list) {
-> +		if (&asd->match == match)
->  			break;
-> -		if (asd_equal(asd, asd_y))
-> +		if (asd_equal(&asd->match, match))
->  			return true;
->  	}
->  
->  	/* Check that an asd does not exist in other notifiers. */
->  	list_for_each_entry(notifier, &notifier_list, list)
-> -		if (__v4l2_async_nf_has_async_subdev(notifier, asd))
-> +		if (__v4l2_async_nf_has_async_subdev(notifier, match))
->  			return true;
->  
->  	return false;
->  }
->  
->  static int v4l2_async_nf_asd_valid(struct v4l2_async_notifier *notifier,
-> -				   struct v4l2_async_subdev *asd,
-> +				   struct v4l2_async_match *match,
->  				   bool skip_self)
-
-And here.
-
->  {
->  	struct device *dev =
->  		notifier->v4l2_dev ? notifier->v4l2_dev->dev : NULL;
->  
-> -	if (!asd)
-> +	if (!match)
->  		return -EINVAL;
->  
-> -	switch (asd->match.type) {
-> +	switch (match->type) {
->  	case V4L2_ASYNC_MATCH_I2C:
->  	case V4L2_ASYNC_MATCH_FWNODE:
-> -		if (v4l2_async_nf_has_async_subdev(notifier, asd, skip_self)) {
-> +		if (v4l2_async_nf_has_async_subdev(notifier, match,
-> +						   skip_self)) {
->  			dev_dbg(dev, "subdev descriptor already listed in this or other notifiers\n");
-
-"match descriptor" ?
-
->  			return -EEXIST;
->  		}
->  		break;
->  	default:
-> -		dev_err(dev, "Invalid match type %u on %p\n",
-> -			asd->match.type, asd);
-> +		dev_err(dev, "Invalid match type %u on %p\n", match->type,
-> +			match);
->  		return -EINVAL;
->  	}
->  
-> @@ -526,7 +525,7 @@ static int __v4l2_async_nf_register(struct v4l2_async_notifier *notifier)
->  	mutex_lock(&list_lock);
->  
->  	list_for_each_entry(asd, &notifier->asd_list, asd_list) {
-> -		ret = v4l2_async_nf_asd_valid(notifier, asd, true);
-> +		ret = v4l2_async_nf_asd_valid(notifier, &asd->match, true);
->  		if (ret)
->  			goto err_unlock;
->  
-> @@ -659,7 +658,7 @@ int __v4l2_async_nf_add_subdev(struct v4l2_async_notifier *notifier,
->  
->  	mutex_lock(&list_lock);
->  
-> -	ret = v4l2_async_nf_asd_valid(notifier, asd, false);
-> +	ret = v4l2_async_nf_asd_valid(notifier, &asd->match, false);
->  	if (ret)
->  		goto unlock;
->  
-> @@ -846,15 +845,15 @@ void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
->  EXPORT_SYMBOL(v4l2_async_unregister_subdev);
->  
->  static void print_waiting_subdev(struct seq_file *s,
-
-Same here. v4l2_async_print_match() or v4l2_async_print_match_entry()
-could be good names.
-
-In general, it would be useful to have a glossary of terms used in
-v4l2-async, and make sure they're used consistently.
-
-> -				 struct v4l2_async_subdev *asd)
-> +				 struct v4l2_async_match *match)
->  {
-> -	switch (asd->match.type) {
-> +	switch (match->type) {
->  	case V4L2_ASYNC_MATCH_I2C:
-> -		seq_printf(s, " [i2c] dev=%d-%04x\n", asd->match.i2c.adapter_id,
-> -			   asd->match.i2c.address);
-> +		seq_printf(s, " [i2c] dev=%d-%04x\n", match->i2c.adapter_id,
-> +			   match->i2c.address);
->  		break;
->  	case V4L2_ASYNC_MATCH_FWNODE: {
-> -		struct fwnode_handle *devnode, *fwnode = asd->match.fwnode;
-> +		struct fwnode_handle *devnode, *fwnode = match->fwnode;
->  
->  		devnode = fwnode_graph_is_endpoint(fwnode) ?
->  			  fwnode_graph_get_port_parent(fwnode) :
-> @@ -891,7 +890,7 @@ static int pending_subdevs_show(struct seq_file *s, void *data)
->  	list_for_each_entry(notif, &notifier_list, list) {
->  		seq_printf(s, "%s:\n", v4l2_async_nf_name(notif));
->  		list_for_each_entry(asd, &notif->waiting, list)
-> -			print_waiting_subdev(s, asd);
-> +			print_waiting_subdev(s, &asd->match);
->  	}
->  
+>  err_unlock:
 >  	mutex_unlock(&list_lock);
+> @@ -607,7 +610,7 @@ __v4l2_async_nf_unregister(struct v4l2_async_notifier *notifier)
+>  	if (!notifier || (!notifier->v4l2_dev && !notifier->sd))
+>  		return;
+>  
+> -	v4l2_async_nf_unbind_all_subdevs(notifier);
+> +	v4l2_async_nf_unbind_all_subdevs(notifier, false);
+>  
+>  	notifier->sd = NULL;
+>  	notifier->v4l2_dev = NULL;
+> @@ -805,7 +808,7 @@ int v4l2_async_register_subdev(struct v4l2_subdev *sd)
+>  	 */
+>  	subdev_notifier = v4l2_async_find_subdev_notifier(sd);
+>  	if (subdev_notifier)
+> -		v4l2_async_nf_unbind_all_subdevs(subdev_notifier);
+> +		v4l2_async_nf_unbind_all_subdevs(subdev_notifier, false);
+>  
+>  	if (sd->asd)
+>  		v4l2_async_nf_call_unbind(notifier, sd, sd->asd);
 
 -- 
 Regards,
