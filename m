@@ -2,134 +2,188 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 662276ED9EA
-	for <lists+linux-media@lfdr.de>; Tue, 25 Apr 2023 03:37:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CB2C6ED9FA
+	for <lists+linux-media@lfdr.de>; Tue, 25 Apr 2023 03:45:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232213AbjDYBhe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Apr 2023 21:37:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40954 "EHLO
+        id S231351AbjDYBon (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Apr 2023 21:44:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231137AbjDYBhd (ORCPT
+        with ESMTP id S231814AbjDYBoP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Apr 2023 21:37:33 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B3E1AF04
-        for <linux-media@vger.kernel.org>; Mon, 24 Apr 2023 18:37:32 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A6ABA75B;
-        Tue, 25 Apr 2023 03:37:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1682386640;
-        bh=njm0OL8+dmb62abu+M5aDKk6mNwcmLiA0c2AyFUFGEY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hl0b6CUsTgPChZJU5eY95FcNy2h4UEgDH5uJ4yCRpqOnl4TgQzYeAfCZeubkcYrTP
-         3lAszsR9h8tT2OoB0LY1kXgQ8V9vBBhvQH5CKpSWGLU843Thft8MTeVxmu1tovWaK7
-         pgxPPryBsq9S6pZJ5nfejAG0q1QQ7yvv7uZBYkdI=
-Date:   Tue, 25 Apr 2023 04:37:42 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>, hverkuil@xs4all.nl,
-        Francesco Dolcini <francesco@dolcini.it>,
-        aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>
-Subject: Re: [PATCH 03/18] media: v4l: async: Simplify async sub-device
- fwnode matching
-Message-ID: <20230425013742.GL4921@pendragon.ideasonboard.com>
-References: <20230330115853.1628216-1-sakari.ailus@linux.intel.com>
- <20230330115853.1628216-4-sakari.ailus@linux.intel.com>
- <dpw2fvycehgud3ijdzppy24bep2a54ceceksmifetczikdmgeq@ok4vru42ocvy>
- <ZDkz/DcjzayyokAQ@kekkonen.localdomain>
- <ZEbWdoATJN2JoK9B@oden.dyn.berto.se>
- <ZEbZcvaAp7ExU7KA@kekkonen.localdomain>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZEbZcvaAp7ExU7KA@kekkonen.localdomain>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        Mon, 24 Apr 2023 21:44:15 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B93173591
+        for <linux-media@vger.kernel.org>; Mon, 24 Apr 2023 18:44:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1682387054; x=1713923054;
+  h=from:to:cc:subject:date:message-id;
+  bh=QeSKqgl/US+8E9XKbIjAZaomIocSLdAA0R2u7AvuKYA=;
+  b=Oa+9OicMIBNkR18uh42hZP+27ya6DTr4Q+uQldPQ4B5wNms/5eGtokL/
+   yV61TssnQ+JMsWrIK/eJ99XloE5j+FaWwZ60nxcW7SxG/PP+OrXI7+MlY
+   7KbAWWZNNOCsgSVMbAqUHSHhzRHxm+1cemDKqQmQzEttzN9VmL8iH8VqZ
+   tUhtgYttC9Zqb7zk0vr405wyPwa0sPtkX277AdD2q8EWxjsVGt5s+sQi5
+   Td+uF1vVXfjLOdYPlUdY6QoairF7wYYTNg2GA+hNpx3sJ4R9eVDWMRKr3
+   QWQ/wy86sFPrtIYBD3Gb5K39dB23n0FRzGGYmdGXm4rIXJm6btMKnP8T9
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="345375351"
+X-IronPort-AV: E=Sophos;i="5.99,224,1677571200"; 
+   d="scan'208";a="345375351"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 18:44:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="687152114"
+X-IronPort-AV: E=Sophos;i="5.99,224,1677571200"; 
+   d="scan'208";a="687152114"
+Received: from shsensorbuild2.sh.intel.com ([10.239.134.197])
+  by orsmga007.jf.intel.com with ESMTP; 24 Apr 2023 18:44:11 -0700
+From:   Wentong Wu <wentong.wu@intel.com>
+To:     sakari.ailus@linux.intel.com, hdegoede@redhat.com,
+        djrscally@gmail.com, laurent.pinchart@ideasonboard.com,
+        linux-media@vger.kernel.org
+Cc:     bingbu.cao@linux.intel.com, zhifeng.wang@intel.com,
+        xiang.ye@intel.com, tian.shu.qiu@intel.com,
+        Wentong Wu <wentong.wu@intel.com>
+Subject: [PATCH v6 0/3] media: pci: intel: ivsc: Add driver of Intel Visual Sensing Controller(IVSC)
+Date:   Tue, 25 Apr 2023 09:43:56 +0800
+Message-Id: <1682387039-16674-1-git-send-email-wentong.wu@intel.com>
+X-Mailer: git-send-email 2.7.4
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Intel Visual Sensing Controller (IVSC), codenamed "Clover Falls", is a
+companion chip designed to provide secure and low power vision capability
+to IA platforms. IVSC is available in existing commercial platforms from
+multiple OEMs.
 
-On Mon, Apr 24, 2023 at 10:33:06PM +0300, Sakari Ailus wrote:
-> On Mon, Apr 24, 2023 at 09:20:22PM +0200, Niklas Söderlund wrote:
-> > On 2023-04-14 14:07:40 +0300, Sakari Ailus wrote:
-> > > On Thu, Apr 13, 2023 at 06:50:04PM +0200, Jacopo Mondi wrote:
-> > > > On Thu, Mar 30, 2023 at 02:58:38PM +0300, Sakari Ailus wrote:
-> > > > > V4L2 async sub-device matching originally used the device nodes only.
-> > > > > Endpoint nodes were taken into use instead as using the device nodes was
-> > > > > problematic for it was in some cases ambiguous which link might have been
-> > > > > in question.
-> > > > >
-> > > > > There is however no need to use endpoint nodes on both sides, as the async
-> > > > > sub-device's fwnode can always be trivially obtained using
-> > > > > fwnode_graph_get_remote_endpoint() when needed while what counts is
-> > > > > whether or not the link is between two device nodes, i.e. the device nodes
-> > > > > match.
-> > > > 
-> > > > As you know I'm a bit debated.
-> > > > 
-> > > > Strict endpoint-matching requires one subdev to be registed per each
-> > > > endpoint, and this is tedious for drivers that have to register a
-> > > > subdev for each of its endpoints
-> > > > 
-> > > > Allowing a subdev to be matched multiple times on different endpoints
-> > > > gives a way for lazy drivers to take a shortcut and simplify their
-> > > > topologies to a single subdev, when they would actually need more.
-> > > 
-> > > I'd say this is really about interface design, not being "lazy". It depends
-> > > on the sub-device. Ideally the framework should be also as easy for drivers
-> > > drivers to use as possible.
-> > > 
-> > > What is not supported, though, is multiple sub-devices with a single device
-> > > node. Do we need that? At least I don't think I came across a driver that
-> > > would.
-> > 
-> > If I understand you correctly about multiple sub-device from a single 
-> > device node, this exists today. The ADV748x driver have a single device 
-> > node in DT and register multiple sub-devices, one for each source 
-> > endpoint.
-> > 
-> > The ADV748x have two CSI-2 transmitters, one 4-lane and one 1-lane as 
-> > well as two different video capture "ports" one HDMI and one CVBS. Both 
-> > capture ports can be active at the same time and routed internally 
-> > inside the ADV748x to the two different CSI-2 transmitters.
-> > 
-> > In order todo this the ADV748x register multiple subdevices and modifies 
-> > the fwnode to be the endpoint instead of the device node. So the change 
-> > in this patch for ADV748x driver would break that driver.
-> 
-> Ah, indeed. I guess I'll need to support that case as well then. It doesn't
-> seem to be troublesome to implement, but I'm tempted making it a special
-> case: every other driver would apparently be fine matching with device
-> fwnode whereas doing endpoint-to-endpoint matching adds complexity to the
-> drivers. This patch removes about 100 lines of rather ugly code largely
-> from v4l2-async.
+The primary use case of IVSC is to bring in context awareness. IVSC
+interfaces directly with the platform main camera sensor via a CSI-2 link
+and processes the image data with the embedded AI engine. The detected
+events are sent over I2C to ISH (Intel Sensor Hub) for additional data
+fusion from multiple sensors. The fusion results are used to implement
+advanced use cases like:
+ - Face detection to unlock screen
+ - Detect user presence to manage backlight setting or waking up system
 
-It's only 50 lines from v4l2-async, and I don't think the code is uglier
-than the rest of the file :-) In general, I prefer implementing tricky
-code in the framework and simplifying drivers. I think our goals align
-there, the framework should do the right thing by default for the
-majority of cases. However, as Niklas pointed out, endpoint matching is
-needed for drivers that register multiple subdevs with external
-connections (such as the adv742x), and that's exactly why endpoint
-matching was added in the first place. I think this needs to be kept.
+Since the Image Processing Unit(IPU) used on the host processor needs to
+configure the CSI-2 link in normal camera usages, the CSI-2 link and
+camera sensor can only be used in mutually-exclusive ways by host IPU and
+IVSC. By default the IVSC owns the CSI-2 link and camera sensor. The IPU
+driver can take ownership of the CSI-2 link and camera sensor using the
+interfaces exported via v4l2 sub-device.
 
-> There are other issues in the set with connection-subdev relations, I'll
-> post v2 to address those as well.
+Switching ownership requires an interface with two different hardware
+modules inside IVSC. The software interface to these modules is via Intel
+MEI (The Intel Management Engine) commands. These two hardware modules
+have two different MEI UUIDs to enumerate. These hardware modules are:
+ - ACE (Algorithm Context Engine): This module is for algorithm computing
+when IVSC owns camera sensor. Also ACE module controls camera sensor's
+ownership. This hardware module is used to set ownership of camera sensor.
+ - CSI (Camera Serial Interface): This module is used to route camera
+sensor data either to IVSC or to host for IPU driver and application.
+
+IVSC also provides a privacy mode. When privacy mode is turned on, camera
+sensor can't be used. This means that both ACE and host IPU can't get
+image data. And when this mode is turned on, users are informed via v4l2
+control API.
+
+In summary, to acquire ownership of camera by IPU driver, first ACE
+module needs to be informed of ownership and then to setup MIPI CSI-2
+link for the camera sensor and IPU.
+
+Implementation:
+There are two different drivers to handle ACE and CSI hardware modules
+inside IVSC.
+ - ivsc_csi: MEI client driver to send commands and receive notifications
+from CSI module.
+ - ivsc_ace: MEI client driver to send commands and get status from ACE
+module.
+Interface is exposed via v4l2 sub-devcie APIs to acquire and release
+camera sensor and CSI-2 link.
+
+Below diagram shows connections of IVSC/ISH/IPU/Camera sensor.
+-----------------------------------------------------------------------------
+| Host Processor                                                            |
+|                                                                           |
+|       -----------------       -----------------       ---------------     |
+|       |               |       |               |       |             | I2C |
+|       |      IPU      |       |      ISH      |       |camera driver|--|  |
+|       |               |       |               |       |             |  |  |
+|       -----------------       -----------------       ---------------  |  |
+|               |                       |                      |         |  |
+|               |                       |               ---------------  |  |
+|               |                       |               |             |  |  |
+|               |                       |               | IVSC driver |  |  |
+|               |                       |               |             |  |  |
+|               |                       |               ---------------  |  |
+|               |                       |                      |         |  |
+----------------|-----------------------|----------------------|---------|---
+                | CSI                   | I2C                  |SPI      |
+                |                       |                      |         |
+----------------|-----------------------|----------------      |         |
+| IVSC          |                                       |      |         |
+|               |                                       |      |         |
+|       -----------------       -----------------       |      |         |
+|       |               |       |               |       |      |         |
+|       |      CSI      |       |      ACE      |       |------|         |
+|       |               |       |               |       |                |
+|       -----------------       -----------------       |                |
+|               |                       | I2C           |                |
+----------------|-----------------------|----------------                |
+                | CSI                   |                                |
+                |                       |                                |
+            --------------------------------                             |
+            |                              | I2C                         |
+            |         camera sensor        |-----------------------------|
+            |                              |
+            --------------------------------
+
+---
+v6:
+ - add V4L2_SUBDEV_FL_HAS_EVENTS flag for csi subdev
+ - add the LINK FREQUENCY volatile control
+ - query sensor link frequency with v4l2_get_link_freq api
+ - add error handling for creating device link
+ - fix coding style issues
+
+v5:
+ - probe mei_csi only after software node has been setup
+
+v4:
+ - call v4l2_ctrl_handler_free() if setting up the handler failed
+ - set V4L2_CTRL_FLAG_READ_ONLY for privacy_ctrl
+ - add dev_warn if failed to switch CSI-2 link to IVSC
+ - use v4l2_fwnode_endpoint_alloc_parse to get num_data_lanes
+ - add document about how sensor connected to IVSC is powered
+ - move lock to mei_ace_send
+ - check return value for device_link_add
+
+Wentong Wu (3):
+  media: pci: intel: ivsc: Add CSI submodule
+  media: pci: intel: ivsc: Add ACE submodule
+  ACPI: delay enumeration of devices with a _DEP pointing to IVSC device
+
+ drivers/acpi/scan.c                    |   2 +
+ drivers/media/pci/Kconfig              |   1 +
+ drivers/media/pci/intel/Makefile       |   2 +
+ drivers/media/pci/intel/ivsc/Kconfig   |  12 +
+ drivers/media/pci/intel/ivsc/Makefile  |   9 +
+ drivers/media/pci/intel/ivsc/mei_ace.c | 591 ++++++++++++++++++++++++
+ drivers/media/pci/intel/ivsc/mei_csi.c | 809 +++++++++++++++++++++++++++++++++
+ 7 files changed, 1426 insertions(+)
+ create mode 100644 drivers/media/pci/intel/ivsc/Kconfig
+ create mode 100644 drivers/media/pci/intel/ivsc/Makefile
+ create mode 100644 drivers/media/pci/intel/ivsc/mei_ace.c
+ create mode 100644 drivers/media/pci/intel/ivsc/mei_csi.c
 
 -- 
-Regards,
+2.7.4
 
-Laurent Pinchart
