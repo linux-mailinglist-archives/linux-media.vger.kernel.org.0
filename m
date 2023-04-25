@@ -2,43 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C63A6ED927
-	for <lists+linux-media@lfdr.de>; Tue, 25 Apr 2023 02:10:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEC446ED928
+	for <lists+linux-media@lfdr.de>; Tue, 25 Apr 2023 02:10:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231189AbjDYAKc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 24 Apr 2023 20:10:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37856 "EHLO
+        id S231351AbjDYAKg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 24 Apr 2023 20:10:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229756AbjDYAKb (ORCPT
+        with ESMTP id S229756AbjDYAKe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 24 Apr 2023 20:10:31 -0400
+        Mon, 24 Apr 2023 20:10:34 -0400
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90E8C4C16
-        for <linux-media@vger.kernel.org>; Mon, 24 Apr 2023 17:10:28 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15A324C16
+        for <linux-media@vger.kernel.org>; Mon, 24 Apr 2023 17:10:33 -0700 (PDT)
 Received: from localhost.localdomain (node-1w7jr9st5p2etziuntaazujnj.ipv6.telus.net [IPv6:2001:569:beb1:1500:c96f:992f:7c34:9ff])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: dbrouwer)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 8AD306603298;
-        Tue, 25 Apr 2023 01:10:25 +0100 (BST)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id D9B136603299;
+        Tue, 25 Apr 2023 01:10:30 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1682381426;
-        bh=ayxcKs5QhUJcr9D2VgZkVV/qoMm3+/Rfyglz/USLc3o=;
-        h=From:To:Cc:Subject:Date:From;
-        b=QjH84oj6CjaT0xQgsTpuVbrI8tEtqnlj0hGyKbl7veKdDuFxKUe3IuBqYmrcEO8q0
-         k4F+oWBievIf6rS7m6J49Zss7/ZbGTGVhINWpTSumCFUResrIqhpiHrt8cQ1C1unIj
-         s4uWQ8adR4Wza0TTbEINJScYlMNHcBYVNMaIYL1oOWAOpvKHaJOWECYV0FF2JDVPlF
-         5SphetkOMocMpnrYPWKCqQXXlfBAiwqSTOZ+bsbwKgbxUT+SEsfdjO6d+rFgZFsELM
-         12P7Um1bgHb/DKVuUNywiEpZxuAaB3m5f8lxE51ql7nO81s9T3rh9zJ+RT+Gr419IH
-         MqVpVifWa0ndQ==
+        s=mail; t=1682381431;
+        bh=f+I5kduJdZBgnu0fWXBIxXpi+9puK+yg22q6UGVq7+A=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=iCjFVD3rxBMApCtWkQECdM1jZEBdeUNhVWq1cJEGaDOr1uO4A3bnwia8a/DZ02VqR
+         +El6OnyAlVNYFY6Arfbij2T1xsAbKv9UkPx2M2fq+h6VdPUUIOoEapEvcJEpZ0gHjT
+         BzbLo9vjgCWoVUaR24bLCAkciNcOH6r++pZGJxS4X8UJX3N0NfcY5ZqHpDyMizX9YT
+         16vBdvYxhFtUwsBmxvGcnCfoGTw9TpfKFa+wLLGZmHycOM7kuV4HOI+BRpVvrYp5cA
+         vqTsOpPC+QB3o29/bIlZc+Y+iv4fEtQPlI13lpHMiPf5nQOOXOCBtSf0hdbIufztnV
+         aLappZdiiZgFw==
 From:   Deborah Brouwer <deborah.brouwer@collabora.com>
 To:     linux-media@vger.kernel.org
 Cc:     hverkuil@xs4all.nl, Deborah Brouwer <deborah.brouwer@collabora.com>
-Subject: [PATCH 00/13] bttv: convert to vb2
-Date:   Mon, 24 Apr 2023 17:09:59 -0700
-Message-Id: <cover.1682379348.git.deborah.brouwer@collabora.com>
+Subject: [PATCH 01/13] media: bttv: use video_drvdata to get bttv
+Date:   Mon, 24 Apr 2023 17:10:00 -0700
+Message-Id: <20d9807149058f26e54cc658e46a226838a62801.1682379348.git.deborah.brouwer@collabora.com>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <cover.1682379348.git.deborah.brouwer@collabora.com>
+References: <cover.1682379348.git.deborah.brouwer@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -51,531 +53,328 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-This series converts the bttv driver to vb2.
-
-I tested it with two cards:
-Leadtek WinFast TV 2000 (has video, vbi and radio) and
-Hauppauge WinTV (just video and vbi).
-
-It applies on top of Hans' series to drop destructive overlay support:
-
-git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.4b
-
-Here are the v4l2-compliance results:
-
-v4l2-compliance 1.25.0-5042, 64 bits, 64-bit time_t
-v4l2-compliance SHA: 42567298311a 2023-04-21 08:43:10
-
-Compliance test for bttv device /dev/video0:
-
-Driver Info:
-  Driver name      : bttv
-  Card type        : BT878 video (Leadtek WinFast 20
-  Bus info         : PCI:0000:05:00.0
-  Driver version   : 6.3.0
-  Capabilities     : 0x85250011
-    Video Capture
-    VBI Capture
-    Tuner
-    Radio
-    Read/Write
-    Streaming
-    Extended Pix Format
-    Device Capabilities
-  Device Caps      : 0x05210001
-    Video Capture
-    Tuner
-    Read/Write
-    Streaming
-    Extended Pix Format
-
-Required ioctls:
-  test VIDIOC_QUERYCAP: OK
-  test invalid ioctls: OK
-
-Allow for multiple opens:
-  test second /dev/video0 open: OK
-  test VIDIOC_QUERYCAP: OK
-  test VIDIOC_G/S_PRIORITY: OK
-  test for unlimited opens: OK
-
-Debug ioctls:
-  test VIDIOC_DBG_G/S_REGISTER: OK
-  test VIDIOC_LOG_STATUS: OK
-
-Input ioctls:
-  test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK
-  test VIDIOC_G/S_FREQUENCY: OK
-  test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-  test VIDIOC_ENUMAUDIO: OK (Not Supported)
-  test VIDIOC_G/S/ENUMINPUT: OK
-  test VIDIOC_G/S_AUDIO: OK (Not Supported)
-  Inputs: 4 Audio Inputs: 0 Tuners: 1
-
-Output ioctls:
-  test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-  test VIDIOC_G/S_FREQUENCY: OK
-  test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-  test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-  test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-  Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-  test VIDIOC_ENUM/G/S/QUERY_STD: OK
-  test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-  test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-  test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls (Input 0):
-  test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-  test VIDIOC_QUERYCTRL: OK
-  test VIDIOC_G/S_CTRL: OK
-  test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-  test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-  test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-  Standard Controls: 8 Private Controls: 10
-
-Format ioctls (Input 0):
-  test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-  test VIDIOC_G/S_PARM: OK
-  test VIDIOC_G_FBUF: OK (Not Supported)
-  test VIDIOC_G_FMT: OK
-    warn: v4l2-test-formats.cpp(794): TRY_FMT cannot handle an invalid pixelformat.
-    warn: v4l2-test-formats.cpp(795): This may or may not be a problem. For more information see:
-    warn: v4l2-test-formats.cpp(796): http://www.mail-archive.com/linux-media@vger.kernel.org/msg56550.html
-  test VIDIOC_TRY_FMT: OK
-    warn: v4l2-test-formats.cpp(1157): S_FMT cannot handle an invalid pixelformat.
-    warn: v4l2-test-formats.cpp(1158): This may or may not be a problem. For more information see:
-    warn: v4l2-test-formats.cpp(1159): http://www.mail-archive.com/linux-media@vger.kernel.org/msg56550.html
-  test VIDIOC_S_FMT: OK
-  test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-  test Cropping: OK
-  test Composing: OK (Not Supported)
-  test Scaling: OK
-
-Codec ioctls (Input 0):
-  test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-  test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-  test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls (Input 0):
-  test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-  test VIDIOC_EXPBUF: OK (Not Supported)
-  test Requests: OK (Not Supported)
-
-Control ioctls (Input 1):
-  test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-  test VIDIOC_QUERYCTRL: OK
-  test VIDIOC_G/S_CTRL: OK
-  test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-  test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-  test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-  Standard Controls: 8 Private Controls: 10
-
-Format ioctls (Input 1):
-  test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-  test VIDIOC_G/S_PARM: OK
-  test VIDIOC_G_FBUF: OK (Not Supported)
-  test VIDIOC_G_FMT: OK
-  test VIDIOC_TRY_FMT: OK
-  test VIDIOC_S_FMT: OK
-  test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-  test Cropping: OK
-  test Composing: OK (Not Supported)
-  test Scaling: OK
-
-Codec ioctls (Input 1):
-  test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-  test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-  test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls (Input 1):
-  test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-  test VIDIOC_EXPBUF: OK (Not Supported)
-  test Requests: OK (Not Supported)
-
-Control ioctls (Input 2):
-  test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-  test VIDIOC_QUERYCTRL: OK
-  test VIDIOC_G/S_CTRL: OK
-  test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-  test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-  test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-  Standard Controls: 8 Private Controls: 10
-
-Format ioctls (Input 2):
-  test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-  test VIDIOC_G/S_PARM: OK
-  test VIDIOC_G_FBUF: OK (Not Supported)
-  test VIDIOC_G_FMT: OK
-  test VIDIOC_TRY_FMT: OK
-  test VIDIOC_S_FMT: OK
-  test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-  test Cropping: OK
-  test Composing: OK (Not Supported)
-  test Scaling: OK
-
-Codec ioctls (Input 2):
-  test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-  test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-  test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls (Input 2):
-  test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-  test VIDIOC_EXPBUF: OK (Not Supported)
-  test Requests: OK (Not Supported)
-
-Control ioctls (Input 3):
-  test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-  test VIDIOC_QUERYCTRL: OK
-  test VIDIOC_G/S_CTRL: OK
-  test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-  test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-  test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-  Standard Controls: 8 Private Controls: 10
-
-Format ioctls (Input 3):
-  test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-  test VIDIOC_G/S_PARM: OK
-  test VIDIOC_G_FBUF: OK (Not Supported)
-  test VIDIOC_G_FMT: OK
-  test VIDIOC_TRY_FMT: OK
-  test VIDIOC_S_FMT: OK
-  test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-  test Cropping: OK
-  test Composing: OK (Not Supported)
-  test Scaling: OK
-
-Codec ioctls (Input 3):
-  test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-  test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-  test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls (Input 3):
-  test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-  test VIDIOC_EXPBUF: OK (Not Supported)
-  test Requests: OK (Not Supported)
-
-Total for bttv device /dev/video0: 111, Succeeded: 111, Failed: 0, Warnings: 6
-
-v4l2-compliance 1.25.0-5042, 64 bits, 64-bit time_t
-v4l2-compliance SHA: 42567298311a 2023-04-21 08:43:10
-
-Compliance test for bttv device /dev/vbi0:
-
-Driver Info:
-  Driver name      : bttv
-  Card type        : BT878 video (Leadtek WinFast 20
-  Bus info         : PCI:0000:05:00.0
-  Driver version   : 6.3.0
-  Capabilities     : 0x85250011
-    Video Capture
-    VBI Capture
-    Tuner
-    Radio
-    Read/Write
-    Streaming
-    Extended Pix Format
-    Device Capabilities
-  Device Caps      : 0x05210010
-    VBI Capture
-    Tuner
-    Read/Write
-    Streaming
-    Extended Pix Format
-
-Required ioctls:
-  test VIDIOC_QUERYCAP: OK
-  test invalid ioctls: OK
-
-Allow for multiple opens:
-  test second /dev/vbi0 open: OK
-  test VIDIOC_QUERYCAP: OK
-  test VIDIOC_G/S_PRIORITY: OK
-  test for unlimited opens: OK
-
-Debug ioctls:
-  test VIDIOC_DBG_G/S_REGISTER: OK
-  test VIDIOC_LOG_STATUS: OK
-
-Input ioctls:
-  test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK
-  test VIDIOC_G/S_FREQUENCY: OK
-  test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-  test VIDIOC_ENUMAUDIO: OK (Not Supported)
-  test VIDIOC_G/S/ENUMINPUT: OK
-  test VIDIOC_G/S_AUDIO: OK (Not Supported)
-  Inputs: 4 Audio Inputs: 0 Tuners: 1
-
-Output ioctls:
-  test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-  test VIDIOC_G/S_FREQUENCY: OK
-  test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-  test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-  test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-  Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-  test VIDIOC_ENUM/G/S/QUERY_STD: OK
-  test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-  test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-  test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls (Input 0):
-  test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-  test VIDIOC_QUERYCTRL: OK
-  test VIDIOC_G/S_CTRL: OK
-  test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-  test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-  test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-  Standard Controls: 8 Private Controls: 10
-
-Format ioctls (Input 0):
-  test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
-  test VIDIOC_G/S_PARM: OK (Not Supported)
-  test VIDIOC_G_FBUF: OK (Not Supported)
-  test VIDIOC_G_FMT: OK
-  test VIDIOC_TRY_FMT: OK
-  test VIDIOC_S_FMT: OK
-  test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-  test Cropping: OK (Not Supported)
-  test Composing: OK (Not Supported)
-  test Scaling: OK (Not Supported)
-
-Codec ioctls (Input 0):
-  test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-  test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-  test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls (Input 0):
-  test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-  test VIDIOC_EXPBUF: OK (Not Supported)
-  test Requests: OK (Not Supported)
-
-Control ioctls (Input 1):
-  test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-  test VIDIOC_QUERYCTRL: OK
-  test VIDIOC_G/S_CTRL: OK
-  test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-  test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-  test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-  Standard Controls: 8 Private Controls: 10
-
-Format ioctls (Input 1):
-  test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
-  test VIDIOC_G/S_PARM: OK (Not Supported)
-  test VIDIOC_G_FBUF: OK (Not Supported)
-  test VIDIOC_G_FMT: OK
-  test VIDIOC_TRY_FMT: OK
-  test VIDIOC_S_FMT: OK
-  test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-  test Cropping: OK (Not Supported)
-  test Composing: OK (Not Supported)
-  test Scaling: OK (Not Supported)
-
-Codec ioctls (Input 1):
-  test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-  test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-  test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls (Input 1):
-  test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-  test VIDIOC_EXPBUF: OK (Not Supported)
-  test Requests: OK (Not Supported)
-
-Control ioctls (Input 2):
-  test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-  test VIDIOC_QUERYCTRL: OK
-  test VIDIOC_G/S_CTRL: OK
-  test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-  test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-  test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-  Standard Controls: 8 Private Controls: 10
-
-Format ioctls (Input 2):
-  test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
-  test VIDIOC_G/S_PARM: OK (Not Supported)
-  test VIDIOC_G_FBUF: OK (Not Supported)
-  test VIDIOC_G_FMT: OK
-  test VIDIOC_TRY_FMT: OK
-  test VIDIOC_S_FMT: OK
-  test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-  test Cropping: OK (Not Supported)
-  test Composing: OK (Not Supported)
-  test Scaling: OK (Not Supported)
-
-Codec ioctls (Input 2):
-  test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-  test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-  test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls (Input 2):
-  test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-  test VIDIOC_EXPBUF: OK (Not Supported)
-  test Requests: OK (Not Supported)
-
-Control ioctls (Input 3):
-  test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-  test VIDIOC_QUERYCTRL: OK
-  test VIDIOC_G/S_CTRL: OK
-  test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-  test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-  test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-  Standard Controls: 8 Private Controls: 10
-
-Format ioctls (Input 3):
-  test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
-  test VIDIOC_G/S_PARM: OK (Not Supported)
-  test VIDIOC_G_FBUF: OK (Not Supported)
-  test VIDIOC_G_FMT: OK
-  test VIDIOC_TRY_FMT: OK
-  test VIDIOC_S_FMT: OK
-  test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-  test Cropping: OK (Not Supported)
-  test Composing: OK (Not Supported)
-  test Scaling: OK (Not Supported)
-
-Codec ioctls (Input 3):
-  test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-  test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-  test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls (Input 3):
-  test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-  test VIDIOC_EXPBUF: OK (Not Supported)
-  test Requests: OK (Not Supported)
-
-Total for bttv device /dev/vbi0: 111, Succeeded: 111, Failed: 0, Warnings: 0
-
-v4l2-compliance 1.25.0-5042, 64 bits, 64-bit time_t
-v4l2-compliance SHA: 42567298311a 2023-04-21 08:43:10
-
-Compliance test for bttv device /dev/radio0:
-
-Driver Info:
-  Driver name      : bttv
-  Card type        : BT878 video (Leadtek WinFast 20
-  Bus info         : PCI:0000:05:00.0
-  Driver version   : 6.3.0
-  Capabilities     : 0x85250011
-    Video Capture
-    VBI Capture
-    Tuner
-    Radio
-    Read/Write
-    Streaming
-    Extended Pix Format
-    Device Capabilities
-  Device Caps      : 0x00250000
-    Tuner
-    Radio
-    Extended Pix Format
-
-Required ioctls:
-  test VIDIOC_QUERYCAP: OK
-  test invalid ioctls: OK
-
-Allow for multiple opens:
-  test second /dev/radio0 open: OK
-  test VIDIOC_QUERYCAP: OK
-  test VIDIOC_G/S_PRIORITY: OK
-  test for unlimited opens: OK
-
-Debug ioctls:
-  test VIDIOC_DBG_G/S_REGISTER: OK
-  test VIDIOC_LOG_STATUS: OK
-
-Input ioctls:
-  test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK
-  test VIDIOC_G/S_FREQUENCY: OK
-  test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-  test VIDIOC_ENUMAUDIO: OK (Not Supported)
-  test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-  test VIDIOC_G/S_AUDIO: OK (Not Supported)
-  Inputs: 0 Audio Inputs: 0 Tuners: 1
-
-Output ioctls:
-  test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-  test VIDIOC_G/S_FREQUENCY: OK
-  test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-  test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-  test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-  Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-  test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-  test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-  test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-  test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls:
-  test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-  test VIDIOC_QUERYCTRL: OK
-  test VIDIOC_G/S_CTRL: OK
-  test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-  test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-  test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-  Standard Controls: 2 Private Controls: 0
-
-Format ioctls:
-  test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
-  test VIDIOC_G/S_PARM: OK (Not Supported)
-  test VIDIOC_G_FBUF: OK (Not Supported)
-  test VIDIOC_G_FMT: OK (Not Supported)
-  test VIDIOC_TRY_FMT: OK (Not Supported)
-  test VIDIOC_S_FMT: OK (Not Supported)
-  test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-  test Cropping: OK (Not Supported)
-  test Composing: OK (Not Supported)
-  test Scaling: OK (Not Supported)
-
-Codec ioctls:
-  test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-  test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-  test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls:
-  test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
-  test VIDIOC_EXPBUF: OK (Not Supported)
-  test Requests: OK (Not Supported)
-
-Total for bttv device /dev/radio0: 45, Succeeded: 45, Failed: 0, Warnings: 0
-
-Deborah Brouwer (13):
-  media: bttv: use video_drvdata to get bttv
-  media: bttv: replace BUG with WARN_ON
-  media: bttv: radio use v4l2_fh instead of bttv_fh
-  media: bttv: move vid fmt/width/height out of fh
-  media: bttv: move vbi_fmt out of bttv_fh
-  media: bttv: move do_crop flag out of bttv_fh
-  media: bttv: remove format field from bttv_buffer
-  media: bttv: remove tvnorm field from bttv_buffer
-  media: bttv: remove crop info from bttv_buffer
-  media: bttv: move vbi_skip/vbi_count out of buffer
-  media: bttv: refactor bttv_set_dma()
-  media: bttv: use audio defaults for winfast2000
-  media: bttv: convert to vb2
-
- drivers/media/pci/bt8xx/Kconfig           |   2 +-
- drivers/media/pci/bt8xx/bttv-audio-hook.c |  10 +-
- drivers/media/pci/bt8xx/bttv-driver.c     | 990 +++++++---------------
- drivers/media/pci/bt8xx/bttv-risc.c       | 412 +++++----
- drivers/media/pci/bt8xx/bttv-vbi.c        | 266 +++---
- drivers/media/pci/bt8xx/bttvp.h           |  78 +-
- 6 files changed, 677 insertions(+), 1081 deletions(-)
-
-
-base-commit: eeac8ede17557680855031c6f305ece2378af326
-prerequisite-patch-id: 69cddf0b964a5c6299b9d2bcf0dcfa9d7565b291
-prerequisite-patch-id: 5d97ec85b44b9766bd62d8579cb80c88925923a4
-prerequisite-patch-id: 633d3c02b48cc594395a0cce311b52f39c8407c0
-prerequisite-patch-id: d1077c4aaa0cb3f7f44f72a7eb6c15f761ebdc48
-prerequisite-patch-id: 904419a08aeb3188dcc256acea2e3d94436948d5
-prerequisite-patch-id: ec37f240e767b2a5d4c23a9b1b61947d48a7a487
-prerequisite-patch-id: 7c4857cd34459d98c1025c6cd1b3a40940f22e7c
-prerequisite-patch-id: b18f03790a5b31759c957481eda0f38c1c1e098d
-prerequisite-patch-id: a424f90eb7f66ad8c9b141507a22e0ccaab55c53
+Use video_drvdata(file) instead of fh->btv to get the bttv pointer
+wherever the bttv pointer will still be needed after the vb2 conversion.
+
+Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
+---
+ drivers/media/pci/bt8xx/bttv-driver.c | 77 ++++++++++-----------------
+ drivers/media/pci/bt8xx/bttv-vbi.c    |  8 +--
+ 2 files changed, 32 insertions(+), 53 deletions(-)
+
+diff --git a/drivers/media/pci/bt8xx/bttv-driver.c b/drivers/media/pci/bt8xx/bttv-driver.c
+index 734f02b91aa3..0d5fdb8479d5 100644
+--- a/drivers/media/pci/bt8xx/bttv-driver.c
++++ b/drivers/media/pci/bt8xx/bttv-driver.c
+@@ -1654,8 +1654,7 @@ static void radio_enable(struct bttv *btv)
+ 
+ static int bttv_s_std(struct file *file, void *priv, v4l2_std_id id)
+ {
+-	struct bttv_fh *fh  = priv;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 	unsigned int i;
+ 
+ 	for (i = 0; i < BTTV_TVNORMS; i++)
+@@ -1670,8 +1669,7 @@ static int bttv_s_std(struct file *file, void *priv, v4l2_std_id id)
+ 
+ static int bttv_g_std(struct file *file, void *priv, v4l2_std_id *id)
+ {
+-	struct bttv_fh *fh  = priv;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 
+ 	*id = btv->std;
+ 	return 0;
+@@ -1679,8 +1677,7 @@ static int bttv_g_std(struct file *file, void *priv, v4l2_std_id *id)
+ 
+ static int bttv_querystd(struct file *file, void *f, v4l2_std_id *id)
+ {
+-	struct bttv_fh *fh = f;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 
+ 	if (btread(BT848_DSTATUS) & BT848_DSTATUS_NUML)
+ 		*id &= V4L2_STD_625_50;
+@@ -1692,8 +1689,7 @@ static int bttv_querystd(struct file *file, void *f, v4l2_std_id *id)
+ static int bttv_enum_input(struct file *file, void *priv,
+ 					struct v4l2_input *i)
+ {
+-	struct bttv_fh *fh = priv;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 
+ 	if (i->index >= bttv_tvcards[btv->c.type].video_inputs)
+ 		return -EINVAL;
+@@ -1725,8 +1721,7 @@ static int bttv_enum_input(struct file *file, void *priv,
+ 
+ static int bttv_g_input(struct file *file, void *priv, unsigned int *i)
+ {
+-	struct bttv_fh *fh = priv;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 
+ 	*i = btv->input;
+ 
+@@ -1735,8 +1730,7 @@ static int bttv_g_input(struct file *file, void *priv, unsigned int *i)
+ 
+ static int bttv_s_input(struct file *file, void *priv, unsigned int i)
+ {
+-	struct bttv_fh *fh  = priv;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 
+ 	if (i >= bttv_tvcards[btv->c.type].video_inputs)
+ 		return -EINVAL;
+@@ -1748,8 +1742,7 @@ static int bttv_s_input(struct file *file, void *priv, unsigned int i)
+ static int bttv_s_tuner(struct file *file, void *priv,
+ 					const struct v4l2_tuner *t)
+ {
+-	struct bttv_fh *fh  = priv;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 
+ 	if (t->index)
+ 		return -EINVAL;
+@@ -1767,8 +1760,7 @@ static int bttv_s_tuner(struct file *file, void *priv,
+ static int bttv_g_frequency(struct file *file, void *priv,
+ 					struct v4l2_frequency *f)
+ {
+-	struct bttv_fh *fh  = priv;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 
+ 	if (f->tuner)
+ 		return -EINVAL;
+@@ -1804,8 +1796,7 @@ static void bttv_set_frequency(struct bttv *btv, const struct v4l2_frequency *f)
+ static int bttv_s_frequency(struct file *file, void *priv,
+ 					const struct v4l2_frequency *f)
+ {
+-	struct bttv_fh *fh  = priv;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 
+ 	if (f->tuner)
+ 		return -EINVAL;
+@@ -1817,8 +1808,7 @@ static int bttv_s_frequency(struct file *file, void *priv,
+ static int bttv_log_status(struct file *file, void *f)
+ {
+ 	struct video_device *vdev = video_devdata(file);
+-	struct bttv_fh *fh  = f;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 
+ 	v4l2_ctrl_handler_log_status(vdev->ctrl_handler, btv->c.v4l2_dev.name);
+ 	bttv_call_all(btv, core, log_status);
+@@ -1829,8 +1819,7 @@ static int bttv_log_status(struct file *file, void *f)
+ static int bttv_g_register(struct file *file, void *f,
+ 					struct v4l2_dbg_register *reg)
+ {
+-	struct bttv_fh *fh = f;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 
+ 	/* bt848 has a 12-bit register space */
+ 	reg->reg &= 0xfff;
+@@ -1843,8 +1832,7 @@ static int bttv_g_register(struct file *file, void *f,
+ static int bttv_s_register(struct file *file, void *f,
+ 					const struct v4l2_dbg_register *reg)
+ {
+-	struct bttv_fh *fh = f;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 
+ 	/* bt848 has a 12-bit register space */
+ 	btwrite(reg->val, reg->reg & 0xfff);
+@@ -2106,7 +2094,7 @@ static int bttv_try_fmt_vid_cap(struct file *file, void *priv,
+ {
+ 	const struct bttv_format *fmt;
+ 	struct bttv_fh *fh = priv;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 	enum v4l2_field field;
+ 	__s32 width, height;
+ 	__s32 height2;
+@@ -2165,7 +2153,7 @@ static int bttv_s_fmt_vid_cap(struct file *file, void *priv,
+ 	int retval;
+ 	const struct bttv_format *fmt;
+ 	struct bttv_fh *fh = priv;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 	__s32 width, height;
+ 	unsigned int width_mask, width_bias;
+ 	enum v4l2_field field;
+@@ -2209,8 +2197,7 @@ static int bttv_s_fmt_vid_cap(struct file *file, void *priv,
+ static int bttv_querycap(struct file *file, void  *priv,
+ 				struct v4l2_capability *cap)
+ {
+-	struct bttv_fh *fh = priv;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 
+ 	if (0 == v4l2)
+ 		return -EINVAL;
+@@ -2274,7 +2261,7 @@ static int bttv_querybuf(struct file *file, void *priv,
+ static int bttv_qbuf(struct file *file, void *priv, struct v4l2_buffer *b)
+ {
+ 	struct bttv_fh *fh = priv;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 	int res = bttv_resource(fh);
+ 
+ 	if (!check_alloc_btres_lock(btv, fh, res))
+@@ -2322,8 +2309,7 @@ static int bttv_streamoff(struct file *file, void *priv,
+ static int bttv_g_parm(struct file *file, void *f,
+ 				struct v4l2_streamparm *parm)
+ {
+-	struct bttv_fh *fh = f;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 
+ 	if (parm->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+ 		return -EINVAL;
+@@ -2337,8 +2323,7 @@ static int bttv_g_parm(struct file *file, void *f,
+ static int bttv_g_tuner(struct file *file, void *priv,
+ 				struct v4l2_tuner *t)
+ {
+-	struct bttv_fh *fh = priv;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 
+ 	if (0 != t->index)
+ 		return -EINVAL;
+@@ -2360,8 +2345,7 @@ static int bttv_g_tuner(struct file *file, void *priv,
+ static int bttv_g_pixelaspect(struct file *file, void *priv,
+ 			      int type, struct v4l2_fract *f)
+ {
+-	struct bttv_fh *fh = priv;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 
+ 	if (type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+ 		return -EINVAL;
+@@ -2374,7 +2358,7 @@ static int bttv_g_pixelaspect(struct file *file, void *priv,
+ static int bttv_g_selection(struct file *file, void *f, struct v4l2_selection *sel)
+ {
+ 	struct bttv_fh *fh = f;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 
+ 	if (sel->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+ 		return -EINVAL;
+@@ -2404,7 +2388,7 @@ static int bttv_g_selection(struct file *file, void *f, struct v4l2_selection *s
+ static int bttv_s_selection(struct file *file, void *f, struct v4l2_selection *sel)
+ {
+ 	struct bttv_fh *fh = f;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 	const struct v4l2_rect *b;
+ 	int retval;
+ 	struct bttv_crop c;
+@@ -2781,7 +2765,7 @@ static int radio_open(struct file *file)
+ static int radio_release(struct file *file)
+ {
+ 	struct bttv_fh *fh = file->private_data;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 	struct saa6588_command cmd;
+ 
+ 	file->private_data = NULL;
+@@ -2800,8 +2784,7 @@ static int radio_release(struct file *file)
+ 
+ static int radio_g_tuner(struct file *file, void *priv, struct v4l2_tuner *t)
+ {
+-	struct bttv_fh *fh = priv;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 
+ 	if (0 != t->index)
+ 		return -EINVAL;
+@@ -2823,8 +2806,7 @@ static int radio_g_tuner(struct file *file, void *priv, struct v4l2_tuner *t)
+ static int radio_s_tuner(struct file *file, void *priv,
+ 					const struct v4l2_tuner *t)
+ {
+-	struct bttv_fh *fh = priv;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 
+ 	if (0 != t->index)
+ 		return -EINVAL;
+@@ -2837,8 +2819,7 @@ static int radio_s_tuner(struct file *file, void *priv,
+ static int radio_s_hw_freq_seek(struct file *file, void *priv,
+ 					const struct v4l2_hw_freq_seek *a)
+ {
+-	struct bttv_fh *fh = priv;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 
+ 	if (btv->has_tea575x)
+ 		return snd_tea575x_s_hw_freq_seek(file, &btv->tea, a);
+@@ -2849,8 +2830,7 @@ static int radio_s_hw_freq_seek(struct file *file, void *priv,
+ static int radio_enum_freq_bands(struct file *file, void *priv,
+ 					 struct v4l2_frequency_band *band)
+ {
+-	struct bttv_fh *fh = priv;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 
+ 	if (btv->has_tea575x)
+ 		return snd_tea575x_enum_freq_bands(&btv->tea, band);
+@@ -2861,8 +2841,7 @@ static int radio_enum_freq_bands(struct file *file, void *priv,
+ static ssize_t radio_read(struct file *file, char __user *data,
+ 			 size_t count, loff_t *ppos)
+ {
+-	struct bttv_fh *fh = file->private_data;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 	struct saa6588_command cmd;
+ 
+ 	cmd.block_count = count / 3;
+@@ -2880,7 +2859,7 @@ static ssize_t radio_read(struct file *file, char __user *data,
+ static __poll_t radio_poll(struct file *file, poll_table *wait)
+ {
+ 	struct bttv_fh *fh = file->private_data;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 	__poll_t req_events = poll_requested_events(wait);
+ 	struct saa6588_command cmd;
+ 	__poll_t res = 0;
+diff --git a/drivers/media/pci/bt8xx/bttv-vbi.c b/drivers/media/pci/bt8xx/bttv-vbi.c
+index ce36a2c0f60b..24b28a05bfd9 100644
+--- a/drivers/media/pci/bt8xx/bttv-vbi.c
++++ b/drivers/media/pci/bt8xx/bttv-vbi.c
+@@ -299,8 +299,7 @@ static int try_fmt(struct v4l2_vbi_format *f, const struct bttv_tvnorm *tvnorm,
+ 
+ int bttv_try_fmt_vbi_cap(struct file *file, void *f, struct v4l2_format *frt)
+ {
+-	struct bttv_fh *fh = f;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 	const struct bttv_tvnorm *tvnorm;
+ 	__s32 crop_start;
+ 
+@@ -318,7 +317,7 @@ int bttv_try_fmt_vbi_cap(struct file *file, void *f, struct v4l2_format *frt)
+ int bttv_s_fmt_vbi_cap(struct file *file, void *f, struct v4l2_format *frt)
+ {
+ 	struct bttv_fh *fh = f;
+-	struct bttv *btv = fh->btv;
++	struct bttv *btv = video_drvdata(file);
+ 	const struct bttv_tvnorm *tvnorm;
+ 	__s32 start1, end;
+ 	int rc;
+@@ -367,10 +366,11 @@ int bttv_g_fmt_vbi_cap(struct file *file, void *f, struct v4l2_format *frt)
+ {
+ 	struct bttv_fh *fh = f;
+ 	const struct bttv_tvnorm *tvnorm;
++	struct bttv *btv = video_drvdata(file);
+ 
+ 	frt->fmt.vbi = fh->vbi_fmt.fmt;
+ 
+-	tvnorm = &bttv_tvnorms[fh->btv->tvnorm];
++	tvnorm = &bttv_tvnorms[btv->tvnorm];
+ 
+ 	if (tvnorm != fh->vbi_fmt.tvnorm) {
+ 		__s32 max_end;
 -- 
 2.39.2
 
