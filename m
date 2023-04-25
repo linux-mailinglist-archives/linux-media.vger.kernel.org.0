@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 796B56EDD2C
-	for <lists+linux-media@lfdr.de>; Tue, 25 Apr 2023 09:50:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 105AD6EDD2E
+	for <lists+linux-media@lfdr.de>; Tue, 25 Apr 2023 09:50:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233214AbjDYHuM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Apr 2023 03:50:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54990 "EHLO
+        id S233341AbjDYHuU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Apr 2023 03:50:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233209AbjDYHuG (ORCPT
+        with ESMTP id S233311AbjDYHuP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Apr 2023 03:50:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9C2A2D7B
-        for <linux-media@vger.kernel.org>; Tue, 25 Apr 2023 00:49:23 -0700 (PDT)
+        Tue, 25 Apr 2023 03:50:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A66F495
+        for <linux-media@vger.kernel.org>; Tue, 25 Apr 2023 00:49:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1682408962;
+        s=mimecast20190719; t=1682408968;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=gvKm/GKzTvSKmJLIRwrHdMpjShR/Gw/Pyls5+2QU2l0=;
-        b=aV7A4+bkbIIoUchsxZF6tO2q/bJV/wrECwhkIdr6tHG+Ydqts4JQfflO/dciHsPGuAYk4O
-        lctHvsjIMTn9O1wSvyJfhNJlP9UDPLxCj6J/9wvKXlL58Kc/5ynF6Q1Kg1XBOO5pRx0ITr
-        yw4YSWghf7NrtPGkoB2zW1s3K8/sIoA=
+        bh=gOJcr7Qsfj+7Fsru7Co8WtERENCAjTf9OL1IbvxGJ3M=;
+        b=fmqmi7ZMHM/FJUSlw5Cdlf1Fq0HAZZWnP2TqMyWxE/PA1d11IOkztZcchdzdxIw964fR6O
+        DyCPQR+S7BER8JeKU8jIOUDk5DmQ8kq/PxUS+y5Se+7ol7vXW2T1AupjVsJ6RTMyBz2x3X
+        nREQVlg8Er7dyixcfQlDyY7itspfdW0=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-423-DM2o_HeQP82WF2HcWK439Q-1; Tue, 25 Apr 2023 03:49:18 -0400
-X-MC-Unique: DM2o_HeQP82WF2HcWK439Q-1
+ us-mta-490-IPifzD0JPkWqNVoP7AQJxQ-1; Tue, 25 Apr 2023 03:49:24 -0400
+X-MC-Unique: IPifzD0JPkWqNVoP7AQJxQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3AF6829ABA13;
-        Tue, 25 Apr 2023 07:49:18 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6B2B83814955;
+        Tue, 25 Apr 2023 07:49:24 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.67.24.153])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 2B71414171B8;
-        Tue, 25 Apr 2023 07:49:14 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 4AB3914171B8;
+        Tue, 25 Apr 2023 07:49:20 +0000 (UTC)
 From:   Kate Hsuan <hpa@redhat.com>
 To:     Hans de Goede <hdegoede@redhat.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -45,9 +45,9 @@ To:     Hans de Goede <hdegoede@redhat.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
 Cc:     Kate Hsuan <hpa@redhat.com>
-Subject: [PATCH 2/5] staging: media: atomisp: runtime: frame: remove #ifdef ISP2401
-Date:   Tue, 25 Apr 2023 15:48:38 +0800
-Message-Id: <20230425074841.29063-3-hpa@redhat.com>
+Subject: [PATCH 3/5] staging: media: atomisp: sh_css_sp: Remove #ifdef ISP2401
+Date:   Tue, 25 Apr 2023 15:48:39 +0800
+Message-Id: <20230425074841.29063-4-hpa@redhat.com>
 In-Reply-To: <20230425074841.29063-1-hpa@redhat.com>
 References: <20230425074841.29063-1-hpa@redhat.com>
 MIME-Version: 1.0
@@ -63,46 +63,34 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The actions of ISP2401 and 2400 are determined at the runtime.
+The actions of ISP2401 and 2400 will be determined at the runtime.
 
 Signed-off-by: Kate Hsuan <hpa@redhat.com>
 ---
- .../media/atomisp/pci/runtime/frame/src/frame.c   | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ drivers/staging/media/atomisp/pci/sh_css_sp.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
-index 83bb42e05421..425e75f7dda7 100644
---- a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
-@@ -601,9 +601,9 @@ static void frame_init_qplane6_planes(struct ia_css_frame *frame)
- 
- static int frame_allocate_buffer_data(struct ia_css_frame *frame)
- {
--#ifdef ISP2401
--	IA_CSS_ENTER_LEAVE_PRIVATE("frame->data_bytes=%d\n", frame->data_bytes);
--#endif
-+	if (IS_ISP2401)
-+		IA_CSS_ENTER_LEAVE_PRIVATE("frame->data_bytes=%d\n", frame->data_bytes);
-+
- 	frame->data = hmm_alloc(frame->data_bytes);
- 	if (frame->data == mmgr_NULL)
- 		return -ENOMEM;
-@@ -635,11 +635,10 @@ static int frame_allocate_with_data(struct ia_css_frame **frame,
- 
- 	if (err) {
- 		kvfree(me);
--#ifndef ISP2401
--		return err;
--#else
--		me = NULL;
--#endif
-+		if (IS_ISP2401)
-+			me = NULL;
-+		else
-+			return err;
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.c b/drivers/staging/media/atomisp/pci/sh_css_sp.c
+index 0dd58a7fe2cc..297e1b981720 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_sp.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_sp.c
+@@ -952,12 +952,10 @@ sh_css_sp_init_stage(struct ia_css_binary *binary,
+ 		return 0;
  	}
  
- 	*frame = me;
+-#if defined(ISP2401)
+-	(void)continuous;
+-	sh_css_sp_stage.deinterleaved = 0;
+-#else
+-	sh_css_sp_stage.deinterleaved = ((stage == 0) && continuous);
+-#endif
++	if (IS_ISP2401)
++		sh_css_sp_stage.deinterleaved = 0;
++	else
++		sh_css_sp_stage.deinterleaved = ((stage == 0) && continuous);
+ 
+ 	initialize_stage_frames(&sh_css_sp_stage.frames);
+ 	/*
 -- 
 2.39.2
 
