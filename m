@@ -2,119 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 702066EDBBA
-	for <lists+linux-media@lfdr.de>; Tue, 25 Apr 2023 08:38:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89EE36EDC57
+	for <lists+linux-media@lfdr.de>; Tue, 25 Apr 2023 09:17:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233480AbjDYGie (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Apr 2023 02:38:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48332 "EHLO
+        id S230314AbjDYHRC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Apr 2023 03:17:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233461AbjDYGid (ORCPT
+        with ESMTP id S233082AbjDYHRB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Apr 2023 02:38:33 -0400
-Received: from mail-ua1-x936.google.com (mail-ua1-x936.google.com [IPv6:2607:f8b0:4864:20::936])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B89A34EF7
-        for <linux-media@vger.kernel.org>; Mon, 24 Apr 2023 23:38:32 -0700 (PDT)
-Received: by mail-ua1-x936.google.com with SMTP id a1e0cc1a2514c-77259202d1dso1373486241.1
-        for <linux-media@vger.kernel.org>; Mon, 24 Apr 2023 23:38:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1682404712; x=1684996712;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=x/4po1Ej3WlfOvU1adXzD1g1bzAX945MwQFA0TAxTFI=;
-        b=nFbieztOPswW5GxKKRLXOuztCpyAKY9mEjRZBMEICHGO1mEr4lOyasrgFTeqpGgjkM
-         ZVarB5HMqvVpOvv0t0+9B1RcIWFMy1IH+lchfuVbvAR5ex1IiPV2XfN06pd0Epa4XknE
-         WOuntHpjHKejNoMhtXaT2wWCOPaKUPevx4HHw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682404712; x=1684996712;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=x/4po1Ej3WlfOvU1adXzD1g1bzAX945MwQFA0TAxTFI=;
-        b=kCBZZmk2GLLrjcwBMFaDPr2RHwYxENtBeB1B22nJ/1bOLyTbesOfC046BtKVA4UjeA
-         xLdzkwJiuW+giq5zCDMbfWsGfmUiOT2V+NUy7HAAxHwOgR+EstTulIADnmCrm+uPJSyL
-         wUx507OvXs6CNdzNLGm17cLoK1RRRUpMiIssHKQxWko5JXBX55a8J9ZDfm6n5INV2Zyj
-         FN3VvXZztxOBQPB9ILG7ksHmgb+u/zwXIkyiVvUzzm+znm0wM8CzDssKJoerWH977tmX
-         s5c8j6sSsAmHbIBlhX3/BD6vSML36lsFDHDWaj/tCrjRWk7SHnbIZhHzmOOPhlwR+p9e
-         /h1w==
-X-Gm-Message-State: AAQBX9eR0MhnG6Q1V2H9EmXVJAExMBSoUdhZ9EhHFU74fEEFuJ65i55v
-        ZZH/4qg1Jv34iBjQJYNG4QD5LsFea1SYo83XxHCvPA==
-X-Google-Smtp-Source: AKy350bAqm4/VLyKdgzolsEnGjY/HHjmxsgcud09926UX90Ij1K67+wBUb5KDEvOlucOh39eKpAS/LkMZ7WwxRXo5PA=
-X-Received: by 2002:a1f:3f44:0:b0:43b:ef4d:f6c0 with SMTP id
- m65-20020a1f3f44000000b0043bef4df6c0mr4118847vka.0.1682404711878; Mon, 24 Apr
- 2023 23:38:31 -0700 (PDT)
+        Tue, 25 Apr 2023 03:17:01 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 883679001
+        for <linux-media@vger.kernel.org>; Tue, 25 Apr 2023 00:16:59 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 22F9862BDE
+        for <linux-media@vger.kernel.org>; Tue, 25 Apr 2023 07:16:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13CC4C433EF;
+        Tue, 25 Apr 2023 07:16:57 +0000 (UTC)
+Message-ID: <eeba026b-4588-4fd9-5aaa-54c5d1a39252@xs4all.nl>
+Date:   Tue, 25 Apr 2023 09:16:56 +0200
 MIME-Version: 1.0
-References: <20230422103905.1995271-1-treapking@chromium.org>
-In-Reply-To: <20230422103905.1995271-1-treapking@chromium.org>
-From:   Chen-Yu Tsai <wenst@chromium.org>
-Date:   Tue, 25 Apr 2023 14:38:20 +0800
-Message-ID: <CAGXv+5HszT12aSaupe0occaFSC-9pZUmaCiKagbFSA5++X3xcA@mail.gmail.com>
-Subject: Re: [PATCH] media: mediatek: vcodec: Only apply 4K frame sizes on
- decoder formats
-To:     Pin-yen Lin <treapking@chromium.org>
-Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "open list:ARM/Mediatek SoC support" <linux-kernel@vger.kernel.org>,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 04/13] media: bttv: move vid fmt/width/height out of fh
+Content-Language: en-US
+To:     Deborah Brouwer <deborah.brouwer@collabora.com>,
+        linux-media@vger.kernel.org
+References: <cover.1682379348.git.deborah.brouwer@collabora.com>
+ <afb29acfbe2d19446c49894ae99a412eab894f96.1682379348.git.deborah.brouwer@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <afb29acfbe2d19446c49894ae99a412eab894f96.1682379348.git.deborah.brouwer@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.9 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Apr 22, 2023 at 6:39=E2=80=AFPM Pin-yen Lin <treapking@chromium.org=
-> wrote:
->
-> When VCODEC_CAPABILITY_4K_DISABLED is not set in dec_capability, skip
-> formats that are not MTK_FMT_DEC so only decoder formats is updated in
-> mtk_init_vdec_params.
->
-> Fixes: e25528e1dbe5 ("media: mediatek: vcodec: Use 4K frame size when sup=
-ported by stateful decoder")
-> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+Hi Deb,
 
-Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
-
+On 25/04/2023 02:10, Deborah Brouwer wrote:
+> Instead of storing video format, width and height separately in each file
+> handle, move these fields to the main struct bttv. Use them wherever
+> possible in preparation for vb2 conversion which stops using separate bttv
+> file handles.
+> 
+> Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
 > ---
->
->  .../media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c   | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_statef=
-ul.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c
-> index 29991551cf61..0fbd030026c7 100644
-> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c
-> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c
-> @@ -584,6 +584,9 @@ static void mtk_init_vdec_params(struct mtk_vcodec_ct=
-x *ctx)
->
->         if (!(ctx->dev->dec_capability & VCODEC_CAPABILITY_4K_DISABLED)) =
-{
->                 for (i =3D 0; i < num_supported_formats; i++) {
-> +                       if (mtk_video_formats[i].type !=3D MTK_FMT_DEC)
-> +                               continue;
-> +
->                         mtk_video_formats[i].frmsize.max_width =3D
->                                 VCODEC_DEC_4K_CODED_WIDTH;
->                         mtk_video_formats[i].frmsize.max_height =3D
-> --
-> 2.40.0.634.g4ca3ef3211-goog
->
+>  drivers/media/pci/bt8xx/bttv-driver.c | 34 +++++++++++++--------------
+>  drivers/media/pci/bt8xx/bttvp.h       |  3 +++
+>  2 files changed, 20 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/media/pci/bt8xx/bttv-driver.c b/drivers/media/pci/bt8xx/bttv-driver.c
+> index e59f40dfccc3..7e7658a7ed40 100644
+> --- a/drivers/media/pci/bt8xx/bttv-driver.c
+> +++ b/drivers/media/pci/bt8xx/bttv-driver.c
+> @@ -2066,11 +2066,11 @@ static int bttv_g_fmt_vid_cap(struct file *file, void *priv,
+>  					struct v4l2_format *f)
+>  {
+>  	struct bttv_fh *fh  = priv;
+> +	struct bttv *btv = video_drvdata(file);
+>  
+> -	pix_format_set_size(&f->fmt.pix, fh->fmt,
+> -				fh->width, fh->height);
+> +	pix_format_set_size(&f->fmt.pix, btv->fmt, btv->width, btv->height);
+>  	f->fmt.pix.field        = fh->cap.field;
+> -	f->fmt.pix.pixelformat  = fh->fmt->fourcc;
+> +	f->fmt.pix.pixelformat  = btv->fmt->fourcc;
+>  	f->fmt.pix.colorspace   = V4L2_COLORSPACE_SMPTE170M;
+>  
+>  	return 0;
+> @@ -2190,6 +2190,9 @@ static int bttv_s_fmt_vid_cap(struct file *file, void *priv,
+>  	btv->init.fmt        = fmt;
+>  	btv->init.width      = f->fmt.pix.width;
+>  	btv->init.height     = f->fmt.pix.height;
+> +	btv->fmt = fmt;
+> +	btv->width = f->fmt.pix.width;
+> +	btv->height = f->fmt.pix.height;
+>  
+>  	return 0;
+>  }
+> @@ -2446,21 +2449,15 @@ static int bttv_s_selection(struct file *file, void *f, struct v4l2_selection *s
+>  
+>  	fh->do_crop = 1;
+>  
+> -	if (fh->width < c.min_scaled_width) {
+> -		fh->width = c.min_scaled_width;
+> -		btv->init.width = c.min_scaled_width;
+> -	} else if (fh->width > c.max_scaled_width) {
+> -		fh->width = c.max_scaled_width;
+> -		btv->init.width = c.max_scaled_width;
+> -	}
+> +	if (btv->width < c.min_scaled_width)
+> +		btv->width = c.min_scaled_width;
+> +	else if (btv->width > c.max_scaled_width)
+> +		btv->width = c.max_scaled_width;
+>  
+> -	if (fh->height < c.min_scaled_height) {
+> -		fh->height = c.min_scaled_height;
+> -		btv->init.height = c.min_scaled_height;
+> -	} else if (fh->height > c.max_scaled_height) {
+> -		fh->height = c.max_scaled_height;
+> -		btv->init.height = c.max_scaled_height;
+> -	}
+> +	if (btv->height < c.min_scaled_height)
+> +		btv->height = c.min_scaled_height;
+> +	else if (btv->height > c.max_scaled_height)
+> +		btv->height = c.max_scaled_height;
+>  
+>  	return 0;
+>  }
+> @@ -3636,6 +3633,9 @@ static int bttv_probe(struct pci_dev *dev, const struct pci_device_id *pci_id)
+>  	btv->init.fmt         = format_by_fourcc(V4L2_PIX_FMT_BGR24);
+>  	btv->init.width       = 320;
+>  	btv->init.height      = 240;
+> +	btv->fmt = format_by_fourcc(V4L2_PIX_FMT_BGR24);
+> +	btv->width = 320;
+> +	btv->height = 240;
+>  	btv->input = 0;
+>  
+>  	v4l2_ctrl_new_std(hdl, &bttv_ctrl_ops,
+> diff --git a/drivers/media/pci/bt8xx/bttvp.h b/drivers/media/pci/bt8xx/bttvp.h
+> index 717f002a41df..7f02dd5866d7 100644
+> --- a/drivers/media/pci/bt8xx/bttvp.h
+> +++ b/drivers/media/pci/bt8xx/bttvp.h
+> @@ -449,6 +449,9 @@ struct bttv {
+>  
+>  	unsigned int users;
+>  	struct bttv_fh init;
+> +	const struct bttv_format *fmt;
+> +	int width;
+> +	int height;
+>  
+>  	/* used to make dvb-bt8xx autoloadable */
+>  	struct work_struct request_module_wk;
+
+It's a bit odd: you add these fields to struct bttv, but they are not
+removed from bttv_fh. I suspect you only switched to these new fields
+in cases where they are needed for the vb2 conversion and kept the
+fields in bttv_fh to avoid having to change more code than is necessary
+for that?
+
+If so, that should be clearly documented in the commit log & subject
+line since it currently says 'moved', not 'copied'.
+
+The same question applies to patch 5.
+
+Regards,
+
+	Hans
