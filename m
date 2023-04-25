@@ -2,326 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D42F6EDBA7
-	for <lists+linux-media@lfdr.de>; Tue, 25 Apr 2023 08:34:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 702066EDBBA
+	for <lists+linux-media@lfdr.de>; Tue, 25 Apr 2023 08:38:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233471AbjDYGez (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Apr 2023 02:34:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46512 "EHLO
+        id S233480AbjDYGie (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Apr 2023 02:38:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233466AbjDYGey (ORCPT
+        with ESMTP id S233461AbjDYGid (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Apr 2023 02:34:54 -0400
-Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B5374EE2;
-        Mon, 24 Apr 2023 23:34:51 -0700 (PDT)
-Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
-        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
-        by fd01.gateway.ufhost.com (Postfix) with ESMTP id 55FB524E059;
-        Tue, 25 Apr 2023 14:34:49 +0800 (CST)
-Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX166.cuchost.com
- (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 25 Apr
- 2023 14:34:49 +0800
-Received: from [192.168.60.155] (180.164.60.184) by EXMBX073.cuchost.com
- (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 25 Apr
- 2023 14:34:48 +0800
-Message-ID: <f444f695-cd2b-a8e6-b22f-cfbe0cbeb55b@starfivetech.com>
-Date:   Tue, 25 Apr 2023 14:34:48 +0800
+        Tue, 25 Apr 2023 02:38:33 -0400
+Received: from mail-ua1-x936.google.com (mail-ua1-x936.google.com [IPv6:2607:f8b0:4864:20::936])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B89A34EF7
+        for <linux-media@vger.kernel.org>; Mon, 24 Apr 2023 23:38:32 -0700 (PDT)
+Received: by mail-ua1-x936.google.com with SMTP id a1e0cc1a2514c-77259202d1dso1373486241.1
+        for <linux-media@vger.kernel.org>; Mon, 24 Apr 2023 23:38:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1682404712; x=1684996712;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=x/4po1Ej3WlfOvU1adXzD1g1bzAX945MwQFA0TAxTFI=;
+        b=nFbieztOPswW5GxKKRLXOuztCpyAKY9mEjRZBMEICHGO1mEr4lOyasrgFTeqpGgjkM
+         ZVarB5HMqvVpOvv0t0+9B1RcIWFMy1IH+lchfuVbvAR5ex1IiPV2XfN06pd0Epa4XknE
+         WOuntHpjHKejNoMhtXaT2wWCOPaKUPevx4HHw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682404712; x=1684996712;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=x/4po1Ej3WlfOvU1adXzD1g1bzAX945MwQFA0TAxTFI=;
+        b=kCBZZmk2GLLrjcwBMFaDPr2RHwYxENtBeB1B22nJ/1bOLyTbesOfC046BtKVA4UjeA
+         xLdzkwJiuW+giq5zCDMbfWsGfmUiOT2V+NUy7HAAxHwOgR+EstTulIADnmCrm+uPJSyL
+         wUx507OvXs6CNdzNLGm17cLoK1RRRUpMiIssHKQxWko5JXBX55a8J9ZDfm6n5INV2Zyj
+         FN3VvXZztxOBQPB9ILG7ksHmgb+u/zwXIkyiVvUzzm+znm0wM8CzDssKJoerWH977tmX
+         s5c8j6sSsAmHbIBlhX3/BD6vSML36lsFDHDWaj/tCrjRWk7SHnbIZhHzmOOPhlwR+p9e
+         /h1w==
+X-Gm-Message-State: AAQBX9eR0MhnG6Q1V2H9EmXVJAExMBSoUdhZ9EhHFU74fEEFuJ65i55v
+        ZZH/4qg1Jv34iBjQJYNG4QD5LsFea1SYo83XxHCvPA==
+X-Google-Smtp-Source: AKy350bAqm4/VLyKdgzolsEnGjY/HHjmxsgcud09926UX90Ij1K67+wBUb5KDEvOlucOh39eKpAS/LkMZ7WwxRXo5PA=
+X-Received: by 2002:a1f:3f44:0:b0:43b:ef4d:f6c0 with SMTP id
+ m65-20020a1f3f44000000b0043bef4df6c0mr4118847vka.0.1682404711878; Mon, 24 Apr
+ 2023 23:38:31 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH v4 6/8] media: dt-bindings: Add bindings for JH7110 Camera
- Subsystem
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        "Todor Tomov" <todor.too@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "Ezequiel Garcia" <ezequiel@vanguardiasur.com.ar>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Eugen Hristev <eugen.hristev@collabora.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <changhuang.liang@starfivetech.com>
-References: <20230413035541.62129-1-jack.zhu@starfivetech.com>
- <20230413035541.62129-7-jack.zhu@starfivetech.com>
- <20230419061540.GB11679@pendragon.ideasonboard.com>
- <bf265594-3bd1-eba5-7a4a-910e331dcca8@starfivetech.com>
- <20230424120217.GA5444@pendragon.ideasonboard.com>
-From:   Jack Zhu <jack.zhu@starfivetech.com>
-In-Reply-To: <20230424120217.GA5444@pendragon.ideasonboard.com>
+References: <20230422103905.1995271-1-treapking@chromium.org>
+In-Reply-To: <20230422103905.1995271-1-treapking@chromium.org>
+From:   Chen-Yu Tsai <wenst@chromium.org>
+Date:   Tue, 25 Apr 2023 14:38:20 +0800
+Message-ID: <CAGXv+5HszT12aSaupe0occaFSC-9pZUmaCiKagbFSA5++X3xcA@mail.gmail.com>
+Subject: Re: [PATCH] media: mediatek: vcodec: Only apply 4K frame sizes on
+ decoder formats
+To:     Pin-yen Lin <treapking@chromium.org>
+Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "open list:ARM/Mediatek SoC support" <linux-kernel@vger.kernel.org>,
+        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [180.164.60.184]
-X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX073.cuchost.com
- (172.16.6.83)
-X-YovoleRuleAgent: yovoleflag
-X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Laurent,
+On Sat, Apr 22, 2023 at 6:39=E2=80=AFPM Pin-yen Lin <treapking@chromium.org=
+> wrote:
+>
+> When VCODEC_CAPABILITY_4K_DISABLED is not set in dec_capability, skip
+> formats that are not MTK_FMT_DEC so only decoder formats is updated in
+> mtk_init_vdec_params.
+>
+> Fixes: e25528e1dbe5 ("media: mediatek: vcodec: Use 4K frame size when sup=
+ported by stateful decoder")
+> Signed-off-by: Pin-yen Lin <treapking@chromium.org>
 
-On 2023/4/24 20:02, Laurent Pinchart wrote:
-> Hi Jack,
-> 
-> On Thu, Apr 20, 2023 at 04:51:39PM +0800, Jack Zhu wrote:
->> On 2023/4/19 14:15, Laurent Pinchart wrote:
->> > On Thu, Apr 13, 2023 at 11:55:39AM +0800, Jack Zhu wrote:
->> >> Add the bindings documentation for Starfive JH7110 Camera Subsystem
->> >> which is used for handing image sensor data.
->> >> 
->> >> Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
->> >> ---
->> >>  .../bindings/media/starfive,jh7110-camss.yaml | 164 ++++++++++++++++++
->> >>  MAINTAINERS                                   |   7 +
->> >>  2 files changed, 171 insertions(+)
->> >>  create mode 100644 Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
->> >> 
->> >> diff --git a/Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml b/Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
->> >> new file mode 100644
->> >> index 000000000000..4cd144f1b845
->> >> --- /dev/null
->> >> +++ b/Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
->> >> @@ -0,0 +1,164 @@
->> >> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> >> +
->> >> +%YAML 1.2
->> >> +---
->> >> +$id: http://devicetree.org/schemas/media/starfive,jh7110-camss.yaml#
->> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> >> +
->> >> +title: Starfive SoC CAMSS ISP
->> >> +
->> >> +maintainers:
->> >> +  - Jack Zhu <jack.zhu@starfivetech.com>
->> >> +  - Changhuang Liang <changhuang.liang@starfivetech.com>
->> >> +
->> >> +description:
->> >> +  The Starfive CAMSS ISP is a Camera interface for Starfive JH7110 SoC. It
->> >> +  consists of a VIN controller (Video In Controller, a top-level control until)
->> >> +  and an ISP.
->> >> +
->> >> +properties:
->> >> +  compatible:
->> >> +    const: starfive,jh7110-camss
->> >> +
->> >> +  reg:
->> >> +    maxItems: 2
->> >> +
->> >> +  reg-names:
->> >> +    items:
->> >> +      - const: syscon
->> >> +      - const: isp
->> >> +
->> >> +  clocks:
->> >> +    maxItems: 7
->> >> +
->> >> +  clock-names:
->> >> +    items:
->> >> +      - const: apb_func
->> >> +      - const: wrapper_clk_c
->> >> +      - const: dvp_inv
->> >> +      - const: axiwr
->> >> +      - const: mipi_rx0_pxl
->> >> +      - const: ispcore_2x
->> >> +      - const: isp_axi
->> >> +
->> >> +  resets:
->> >> +    maxItems: 6
->> >> +
->> >> +  reset-names:
->> >> +    items:
->> >> +      - const: wrapper_p
->> >> +      - const: wrapper_c
->> >> +      - const: axird
->> >> +      - const: axiwr
->> >> +      - const: isp_top_n
->> >> +      - const: isp_top_axi
->> >> +
->> >> +  power-domains:
->> >> +    items:
->> >> +      - description: JH7110 ISP Power Domain Switch Controller.
->> >> +
->> >> +  interrupts:
->> >> +    maxItems: 4
->> >> +
->> >> +  ports:
->> >> +    $ref: /schemas/graph.yaml#/properties/ports
->> >> +
->> >> +    properties:
->> >> +      port@0:
->> >> +        $ref: /schemas/graph.yaml#/$defs/port-base
->> >> +        unevaluatedProperties: false
->> >> +        description: Input port for receiving DVP data.
->> >> +
->> >> +        properties:
->> >> +          endpoint:
->> >> +            $ref: video-interfaces.yaml#
->> >> +            unevaluatedProperties: false
->> >> +
->> >> +            properties:
->> >> +              bus-width:
->> >> +                const: 8
->> >> +
->> >> +              data-shift:
->> >> +                const: 2
->> > 
->> > As far as I can tell, those two properties are not handled by the
->> > driver. I assume this is because the driver doesn't support the DVP
->> > input yet. That's fine, but it makes it a bit hard to review the device
->> > tree. Could you provide some information about the DVP hardware
->> > interface ? Does it support both BT.656 and sync signals, or just sync
->> > signals ? Are the polarities of the clock and h/v sync controllable ?
->> > Is the parallel input bus 8-bit wide or are other options supported ?
->> > And finally, what are you modelling with data-shift: 2 ?
->> 
->> Hello Laurent,
->> 
->> The DVP hardware supports BT.656 and sync signals, can control the
->> polarities of h/v sync, supports 8/10/12 bit wide, and data-shift: 2 is
->> line 9-2.
-> 
-> Thank you for the information. Endpoints for port@0 should then require
-> bus-type. The hsync-active and vsync-active should be listed with
-> default values and be optional. bus-width should have 8, 10 and 12 as
-> supported values, and be required, or have a default (I think making it
-> required is best). data-shift should list supported values too,
-> including 0, and be optional with a default of 0.
-> 
+Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
 
-Thank you for your suggestion. I will make the following modifications:
-
-            properties:
-              bus-type:
-                enum: [5, 6]
-
-              bus-width:
-                enum: [8, 10, 12]
-
-              data-shift:
-                enum: [0, 2]
-                default: 0
-
-              hsync-active:
-                enum: [0, 1]
-                default: 1
-
-              vsync-active:
-                enum: [0, 1]
-                default: 1
-            
-            required:
-              - bus-type
-              - bus-width
-
->> >> +
->> >> +      port@1:
->> >> +        $ref: /schemas/graph.yaml#/properties/port
->> >> +        description: Input port for receiving CSI data.
->> >> +
->> >> +    required:
->> >> +      - port@0
->> >> +      - port@1
->> >> +
->> >> +required:
->> >> +  - compatible
->> >> +  - reg
->> >> +  - reg-names
->> >> +  - clocks
->> >> +  - clock-names
->> >> +  - resets
->> >> +  - reset-names
->> >> +  - power-domains
->> >> +  - interrupts
->> >> +  - ports
->> >> +
->> >> +additionalProperties: false
->> >> +
->> >> +examples:
->> >> +  - |
->> >> +    isp@19840000 {
->> >> +        compatible = "starfive,jh7110-camss";
->> >> +        reg = <0x19840000 0x10000>,
->> >> +              <0x19870000 0x30000>;
->> >> +        reg-names = "syscon", "isp";
->> >> +        clocks = <&ispcrg 0>,
->> >> +                 <&ispcrg 13>,
->> >> +                 <&ispcrg 2>,
->> >> +                 <&ispcrg 12>,
->> >> +                 <&ispcrg 1>,
->> >> +                 <&syscrg 51>,
->> >> +                 <&syscrg 52>;
->> >> +        clock-names = "apb_func",
->> >> +                      "wrapper_clk_c",
->> >> +                      "dvp_inv",
->> >> +                      "axiwr",
->> >> +                      "mipi_rx0_pxl",
->> >> +                      "ispcore_2x",
->> >> +                      "isp_axi";
->> >> +        resets = <&ispcrg 0>,
->> >> +                 <&ispcrg 1>,
->> >> +                 <&ispcrg 10>,
->> >> +                 <&ispcrg 11>,
->> >> +                 <&syscrg 41>,
->> >> +                 <&syscrg 42>;
->> >> +        reset-names = "wrapper_p",
->> >> +                      "wrapper_c",
->> >> +                      "axird",
->> >> +                      "axiwr",
->> >> +                      "isp_top_n",
->> >> +                      "isp_top_axi";
->> >> +        power-domains = <&pwrc 5>;
->> >> +        interrupts = <92>, <87>, <88>, <90>;
->> >> +
->> >> +        ports {
->> >> +            #address-cells = <1>;
->> >> +            #size-cells = <0>;
->> >> +            port@0 {
->> >> +                reg = <0>;
->> >> +                vin_from_sc2235: endpoint {
->> >> +                    remote-endpoint = <&sc2235_to_vin>;
->> >> +                    bus-width = <8>;
->> >> +                    data-shift = <2>;
->> >> +                    hsync-active = <1>;
->> >> +                    vsync-active = <0>;
->> >> +                    pclk-sample = <1>;
->> >> +                };
->> >> +            };
->> >> +
->> >> +            port@1 {
->> >> +                reg = <1>;
->> >> +                vin_from_csi2rx: endpoint {
->> >> +                    remote-endpoint = <&csi2rx_to_vin>;
->> >> +                };
->> >> +            };
->> >> +        };
->> >> +    };
->> >> diff --git a/MAINTAINERS b/MAINTAINERS
->> >> index bbb8b5c0187b..b8c76b0d7eb3 100644
->> >> --- a/MAINTAINERS
->> >> +++ b/MAINTAINERS
->> >> @@ -19909,6 +19909,13 @@ M:	Ion Badulescu <ionut@badula.org>
->> >>  S:	Odd Fixes
->> >>  F:	drivers/net/ethernet/adaptec/starfire*
->> >>  
->> >> +STARFIVE CAMERA SUBSYSTEM DRIVER
->> >> +M:	Jack Zhu <jack.zhu@starfivetech.com>
->> >> +M:	Changhuang Liang <changhuang.liang@starfivetech.com>
->> >> +L:	linux-media@vger.kernel.org
->> >> +S:	Maintained
->> >> +F:	Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
->> >> +
->> >>  STARFIVE DEVICETREES
->> >>  M:	Emil Renner Berthing <kernel@esmil.dk>
->> >>  S:	Maintained
-> 
+> ---
+>
+>  .../media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c   | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_statef=
+ul.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c
+> index 29991551cf61..0fbd030026c7 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c
+> @@ -584,6 +584,9 @@ static void mtk_init_vdec_params(struct mtk_vcodec_ct=
+x *ctx)
+>
+>         if (!(ctx->dev->dec_capability & VCODEC_CAPABILITY_4K_DISABLED)) =
+{
+>                 for (i =3D 0; i < num_supported_formats; i++) {
+> +                       if (mtk_video_formats[i].type !=3D MTK_FMT_DEC)
+> +                               continue;
+> +
+>                         mtk_video_formats[i].frmsize.max_width =3D
+>                                 VCODEC_DEC_4K_CODED_WIDTH;
+>                         mtk_video_formats[i].frmsize.max_height =3D
+> --
+> 2.40.0.634.g4ca3ef3211-goog
+>
