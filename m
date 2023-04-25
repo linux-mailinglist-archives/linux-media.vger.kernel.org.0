@@ -2,140 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97FFC6EDD9C
-	for <lists+linux-media@lfdr.de>; Tue, 25 Apr 2023 10:06:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 033446EDDAF
+	for <lists+linux-media@lfdr.de>; Tue, 25 Apr 2023 10:10:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233478AbjDYIGX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Apr 2023 04:06:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37246 "EHLO
+        id S233448AbjDYIKp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Apr 2023 04:10:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233440AbjDYIGU (ORCPT
+        with ESMTP id S233416AbjDYIKn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Apr 2023 04:06:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE35526A8
-        for <linux-media@vger.kernel.org>; Tue, 25 Apr 2023 01:05:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1682409935;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=9PU53JLs34RDpaJOFo3CkyuewwR2BCedo/GKUCM3Jc4=;
-        b=I3Bw43wxo8/JadOAseA2nlLfROKVXHQp8maj5UtlfDLaF6x5k1gc4KjOAEQOvvNFy6u91/
-        WSjbNI08YSfxqEDHVz8mWelI/0DsmgWZcLbXSDnR6M//e3NQuUg/wj+a4+9+7k+cZsa9Ol
-        xCce5p+VSz0iKYzU4SRaHlwGoJyd36Y=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-288-mcgW5oMFM8yBkoQpE6mfgA-1; Tue, 25 Apr 2023 04:05:34 -0400
-X-MC-Unique: mcgW5oMFM8yBkoQpE6mfgA-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-94a348facbbso610737166b.1
-        for <linux-media@vger.kernel.org>; Tue, 25 Apr 2023 01:05:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682409932; x=1685001932;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9PU53JLs34RDpaJOFo3CkyuewwR2BCedo/GKUCM3Jc4=;
-        b=TTmMYY8Rx1HQ5/W23IBhT7BJ1Imce54PmEpZDq/zMUdIadXm4WgPFFuRexWirCqV8z
-         Dv4QnI+6GA6JfYXRLLJf5VAX2BaSiFBT0AcHCRtYPkxRLuydW8eeL1I1o92N2Nz4yfFS
-         4kFQ+0mf4SENYzJ1eVmJTWLb1lHyu6cwGdLKIbqEmsZ251fnuI0ogHQJLVA+FnbiYc/U
-         /PihBeipA4tLMCHTUmuY/HvpB4gqCDvAfKZYZ+c8YLSvr4RIolR4eaVj3TeKUcxSOArF
-         8mLnw831ALbXqrz5Ha6eKCvk937+rWeYzGdEAgIr19nw+WcPIW5poTOS/5vp+0IjVDPk
-         Z8ew==
-X-Gm-Message-State: AAQBX9f2yF6RXaFQ3EiPRaNDg6X5OmVcNUxor+vDEIr1hLh4p4JVPfpH
-        ThDymicH5Z6RnK/ORI8ppPmkvOCqNzkDW1BFfzi4aoaFp+dyW6gKCCOqBMBagsqkBUiPSg6Nudz
-        K/J7o1K786Coxw5S0Sk1rkzoBlu601u0=
-X-Received: by 2002:a17:907:270b:b0:90b:53f6:fd8b with SMTP id w11-20020a170907270b00b0090b53f6fd8bmr11991665ejk.31.1682409932728;
-        Tue, 25 Apr 2023 01:05:32 -0700 (PDT)
-X-Google-Smtp-Source: AKy350bRCq5hZ96Tbgkh9qaeJVY0zrWMxAPmfq6MWsJEGLDbjbQBFPDAa14/rwmdvjoBdGXTGEU2DQ==
-X-Received: by 2002:a17:907:270b:b0:90b:53f6:fd8b with SMTP id w11-20020a170907270b00b0090b53f6fd8bmr11991638ejk.31.1682409932381;
-        Tue, 25 Apr 2023 01:05:32 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id g23-20020a170906395700b0094f16a3ea9csm6413093eje.117.2023.04.25.01.05.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Apr 2023 01:05:31 -0700 (PDT)
-Message-ID: <d8da36f6-0796-ceef-8ea5-0ade836acda4@redhat.com>
-Date:   Tue, 25 Apr 2023 10:05:30 +0200
+        Tue, 25 Apr 2023 04:10:43 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 812EA2D76
+        for <linux-media@vger.kernel.org>; Tue, 25 Apr 2023 01:10:39 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1C8536275E
+        for <linux-media@vger.kernel.org>; Tue, 25 Apr 2023 08:10:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D84FC433A1;
+        Tue, 25 Apr 2023 08:10:37 +0000 (UTC)
+Message-ID: <d2e84f93-afc0-4006-aeb8-44be7c7ff55d@xs4all.nl>
+Date:   Tue, 25 Apr 2023 10:10:36 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v6 3/3] ACPI: delay enumeration of devices with a _DEP
- pointing to IVSC device
-To:     Wentong Wu <wentong.wu@intel.com>, sakari.ailus@linux.intel.com,
-        djrscally@gmail.com, laurent.pinchart@ideasonboard.com,
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 13/13] media: bttv: convert to vb2
+Content-Language: en-US
+To:     Deborah Brouwer <deborah.brouwer@collabora.com>,
         linux-media@vger.kernel.org
-Cc:     bingbu.cao@linux.intel.com, zhifeng.wang@intel.com,
-        xiang.ye@intel.com, tian.shu.qiu@intel.com
-References: <1682387039-16674-1-git-send-email-wentong.wu@intel.com>
- <1682387039-16674-4-git-send-email-wentong.wu@intel.com>
-Content-Language: en-US, nl
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <1682387039-16674-4-git-send-email-wentong.wu@intel.com>
+References: <cover.1682379348.git.deborah.brouwer@collabora.com>
+ <bc025f256d5ad3890e100b4d1359caa1f1447ad5.1682379348.git.deborah.brouwer@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <bc025f256d5ad3890e100b4d1359caa1f1447ad5.1682379348.git.deborah.brouwer@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Wentong,
+One compiler warning below:
 
-On 4/25/23 03:43, Wentong Wu wrote:
-> Inside IVSC, switching ownership requires an interface with two
-> different hardware modules, ACE and CSI. The software interface
-> to these modules is based on Intel MEI framework. Usually mei
-> client devices are dynamically created, so the info of consumers
-> depending on mei client devices is not present in the firmware
-> tables.
+On 25/04/2023 02:10, Deborah Brouwer wrote:
+> Convert this driver from the old videobuf framework to videobuf2.
 > 
-> This causes problems with the probe ordering with respect to
-> drivers for consumers of these mei client devices. But on these
-> camera sensor devices, the ACPI nodes describing the sensors all
-> have a _DEP dependency on the matching mei bus ACPI device, so
-> adding IVSC mei bus ACPI device to acpi_honor_dep_ids allows
-> solving the probe-ordering problem by delaying the enumeration of
-> ACPI-devices which have a _DEP dependency on an IVSC mei bus ACPI
-> device.
-> 
-> On TGL platform, the HID of IVSC mei bus ACPI device is INTC1059,
-> and on ADL platform, the HID is INTC1095. So add both of them to
-> acpi_honor_dep_ids.
-> 
-> Signed-off-by: Wentong Wu <wentong.wu@intel.com>
+> Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
 > ---
->  drivers/acpi/scan.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  drivers/media/pci/bt8xx/Kconfig       |   2 +-
+>  drivers/media/pci/bt8xx/bttv-driver.c | 805 ++++++++------------------
+>  drivers/media/pci/bt8xx/bttv-risc.c   | 265 +++++----
+>  drivers/media/pci/bt8xx/bttv-vbi.c    | 239 +++-----
+>  drivers/media/pci/bt8xx/bttvp.h       |  60 +-
+>  5 files changed, 491 insertions(+), 880 deletions(-)
 > 
-> diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
-> index 2743444..89368d7 100644
-> --- a/drivers/acpi/scan.c
-> +++ b/drivers/acpi/scan.c
-> @@ -796,6 +796,8 @@ static const char * const acpi_ignore_dep_ids[] = {
->  /* List of HIDs for which we honor deps of matching ACPI devs, when checking _DEP lists. */
->  static const char * const acpi_honor_dep_ids[] = {
->  	"INT3472", /* Camera sensor PMIC / clk and regulator info */
-> +	"INTC1059",
-> +	"INTC1095",
 
-Can you please add a short comment after these to explain what they are for,
-e.g.:
+<snip>
 
-	"INTC1059", /* IVSC (TGL) driver must be loaded to allow i2c access to camera sensors */
-	"INTC1095", /* IVSC (ADL) driver must be loaded to allow i2c access to camera sensors */
+> @@ -3414,6 +3055,35 @@ static void vdev_init(struct bttv *btv,
+>  		v4l2_disable_ioctl(vfd, VIDIOC_G_TUNER);
+>  		v4l2_disable_ioctl(vfd, VIDIOC_S_TUNER);
+>  	}
+> +
+> +	if (strcmp(type_name, "radio") == 0)
+> +		return 0;
+> +
+> +	if (strcmp(type_name, "video") == 0) {
+> +		q = &btv->capq;
+> +		q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+> +		q->ops = &bttv_video_qops;
+> +	}
+> +	if (strcmp(type_name, "vbi") == 0) {
+> +		q = &btv->vbiq;
+> +		q->type = V4L2_BUF_TYPE_VBI_CAPTURE;
+> +		q->ops = &bttv_vbi_qops;
+> +	}
 
->  	NULL
->  };
->  
+I'm getting a compiler warning here:
+
+drivers/media/pci/bt8xx/bttv-driver.c: In function 'vdev_init.isra':
+drivers/media/pci/bt8xx/bttv-driver.c:3080:16: warning: 'q' may be used uninitialized [-Wmaybe-uninitialized]
+ 3080 |         q->dev = &btv->c.pci->dev;
+      |         ~~~~~~~^~~~~~~~~~~~~~~~~~
+drivers/media/pci/bt8xx/bttv-driver.c:3044:27: note: 'q' was declared here
+ 3044 |         struct vb2_queue *q;
+      |                           ^
+
+I would change this to:
+
+	if (strcmp(type_name, "video") == 0) {
+		...
+	} else if (strcmp(type_name, "vbi") == 0) {
+		...
+	} else {
+		return -EINVAL;
+	}
+
+
+
+> +	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> +	q->io_modes = VB2_MMAP | VB2_USERPTR | VB2_READ | VB2_DMABUF;
+> +	q->mem_ops = &vb2_dma_sg_memops;
+> +	q->drv_priv = btv;
+> +	q->gfp_flags = __GFP_DMA32;
+> +	q->buf_struct_size = sizeof(struct bttv_buffer);
+> +	q->lock = &btv->lock;
+> +	q->min_buffers_needed = 2;
+> +	q->dev = &btv->c.pci->dev;
+> +	err = vb2_queue_init(q);
+> +	if (err)
+> +		return err;
+> +	vfd->queue = q;
+> +
+> +	return 0;
+>  }
 
 Regards,
 
-Hans
-
+	Hans
 
