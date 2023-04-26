@@ -2,47 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BFDDD6EEB70
-	for <lists+linux-media@lfdr.de>; Wed, 26 Apr 2023 02:32:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC2876EEB8D
+	for <lists+linux-media@lfdr.de>; Wed, 26 Apr 2023 02:42:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238430AbjDZAcG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Apr 2023 20:32:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47610 "EHLO
+        id S238470AbjDZAmf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Apr 2023 20:42:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236413AbjDZAcE (ORCPT
+        with ESMTP id S238473AbjDZAmc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Apr 2023 20:32:04 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18BE2B236;
-        Tue, 25 Apr 2023 17:32:03 -0700 (PDT)
+        Tue, 25 Apr 2023 20:42:32 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBE6518E98;
+        Tue, 25 Apr 2023 17:42:29 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DA23A2CF;
-        Wed, 26 Apr 2023 02:31:47 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A4A752CF;
+        Wed, 26 Apr 2023 02:42:15 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1682469108;
-        bh=J0H/I3MHC57rloZ2Y3S5PUrNrgy8f/8EJ9VwOYm2S10=;
+        s=mail; t=1682469736;
+        bh=SAag8aJ1BC2P1SaBmc5qNaPC4McLvWFziPkSyIfZDyE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YREWwOIE7IwcRZFehUJe5hzIshER8rKPV/zBWdvqT8YRPhPwcwWEK2/kKpnYy/oPD
-         0MHQFIDqEDkHAmxevwQ4vwN3JYfCvefeSzL2eHvLmjPQmgcbaTJi3A9ygbFDxmUWXd
-         VfqZrWUcKvyUZZRdADk7kX7VfKWQ/Rs73vhD6Fu8=
-Date:   Wed, 26 Apr 2023 03:32:10 +0300
+        b=HyfFHAUVzp5WOOOe9s4w7z+QX9JmODSto0YAh//2JlpEJKCNy5R0jkp8aP7VWSnV3
+         +YGKnO4T4w4bknDhTiz2ijHgC6De94EQXMDg5yjurqu5U8SBf30dYZUsWlkw0nHXlQ
+         V9O7m4kUrJXOWG0DDQoHFzDQFUT9GsU0RUQ7pwpc=
+Date:   Wed, 26 Apr 2023 03:42:37 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        wedsonaf@gmail.com, ojeda@kernel.org, mchehab@kernel.org,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, kernel@collabora.com
-Subject: Re: [PATCH 0/6] Initial Rust V4L2 support
-Message-ID: <20230426003210.GA31260@pendragon.ideasonboard.com>
-References: <20230406215615.122099-1-daniel.almeida@collabora.com>
- <136035a4-26df-1c14-e51e-406b4ee5fe33@xs4all.nl>
- <CANiq72kzgopREcNcAnjCBk2u9b9cJ4f_jPix6LWYSkcOV5kubw@mail.gmail.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] media: renesas: fdp1: Identify R-Car Gen2 versions
+Message-ID: <20230426004237.GA31537@pendragon.ideasonboard.com>
+References: <453e34f0eda526f79b0297952937dc0a0b5aacf8.1682435583.git.geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANiq72kzgopREcNcAnjCBk2u9b9cJ4f_jPix6LWYSkcOV5kubw@mail.gmail.com>
+In-Reply-To: <453e34f0eda526f79b0297952937dc0a0b5aacf8.1682435583.git.geert+renesas@glider.be>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
@@ -53,62 +51,60 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Apr 11, 2023 at 02:02:17PM +0200, Miguel Ojeda wrote:
-> On Tue, Apr 11, 2023 at 9:51 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
-> >
-> > One of my main concerns here is time: as subsystem maintainers we can barely
-> > keep up with all the incoming patches. Introducing support for a new language
-> > would add only more pressure. Even though these are mainly bindings (as I
-> > understand it), this would still require that every change to a C kAPI is
-> > duplicated in rust, requiring someone to do that work, and have maintainers
-> > with enough rust knowledge to verify it.
+Hi Geert,
 
-Another issue is that the V4L2 subsystem is plagued with lifetime
-management problems. I don't think rust bindings could be safely written
-for the MC and V4L2 subdev in-kernel APIs at the moment for instance.
-Sakari recently attempted to fix some of those issues (again), see [1].
-Progress is slow on this front because V4L2 is generally understaffed.
+Thank you for the patch.
 
-[1] https://lore.kernel.org//20230201214535.347075-1-sakari.ailus@linux.intel.com
-
-Now, I hope that mentioning "lifetime management problems" will be
-enough to nerd-snipe a rust enthusiast or two to help fix the C code in
-order to implement proper rust bindings on top ;-)
-
-> Indeed, that is one of the main costs.
+On Tue, Apr 25, 2023 at 05:15:02PM +0200, Geert Uytterhoeven wrote:
+> On R-Car M2-W:
 > 
-> One potential solution is to have somebody step up as the maintainer
-> of the Rust side (e.g. the author of the abstractions).
-
-That would certainly be a required step, but I don't think it would be
-enough. On good days I see the media subsystem as barely able to cope
-with the current load, on bad days it feels it's completely collapsing.
-
-We have homework to do when it comes to maintenance for the media
-subsystem, we're doing *really* badly at the moment regarding community
-management and attracting (and retaining) new core contributors. This is
-a topic I really want to discuss face to face during the media workshop
-in Prague (and I know that many people are looking forward to that
-discussion).
-
-> Of course, that will not make the work go to zero, since there still
-> needs to be some degree of communication even if the new maintainer
-> does all the Rust side work, but it may make it feasible, especially
-> if the abstracted parts of the C API do not change too frequently.
+>     rcar_fdp1 fe940000.fdp1: FDP1 Unidentifiable (0x02010101)
+>     rcar_fdp1 fe944000.fdp1: FDP1 Unidentifiable (0x02010101)
 > 
-> It is also an opportunity for existing maintainers to see how the Rust
-> side would work meanwhile the work gets done, and potentially a chance
-> to get a new maintainer involved with the whole subsystem in the
-> future.
+> Although the IP Internal Data Register on R-Car Gen2 is documented to
+> contain all zeros, the actual register contents seem to match the FDP1
+> version ID of R-Car H3 ES1.*, which has just been removed.
+> Fortunately this version is not used for any other purposes yet.
 > 
-> Some subsystems may want to give that maintainer a different
-> `MAINTAINERS` entry, e.g. as a child subsystem that sends PRs to the
-> main one and may be marked as "experimental". This is also a way to
-> see how the new abstractions work or not, giving maintainers more time
-> to decide whether to commit to a Rust side or not.
+> Fix this by re-adding the ID, now using an R-Car Gen2-specific name.
 > 
-> I don't mean to say it would be doable for the media subsystem, but
-> please consider it.
+> Fixes: af4273b43f2bd9ee ("media: renesas: fdp1: remove R-Car H3 ES1.* handling")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Version register contents verified on R-Car H2 ES1.0, R-Car M2-W ES1.0 &
+> ES3.0, and R-Car E2 ES1.0.  I couldn't get hold of an R-Car M2-N.
+> ---
+>  drivers/media/platform/renesas/rcar_fdp1.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/media/platform/renesas/rcar_fdp1.c b/drivers/media/platform/renesas/rcar_fdp1.c
+> index 99af68fddc9249f5..b0a694f9245cc2c6 100644
+> --- a/drivers/media/platform/renesas/rcar_fdp1.c
+> +++ b/drivers/media/platform/renesas/rcar_fdp1.c
+> @@ -254,6 +254,7 @@ MODULE_PARM_DESC(debug, "activate debug info");
+>  
+>  /* Internal Data (HW Version) */
+>  #define FD1_IP_INTDATA			0x0800
+> +#define FD1_IP_GEN2			0x02010101
+
+A comment as requested by Wolfram would be nice. I'd mention here that
+the same ID is used by H3 ES1.x. With that,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+>  #define FD1_IP_M3W			0x02010202
+>  #define FD1_IP_H3			0x02010203
+>  #define FD1_IP_M3N			0x02010204
+> @@ -2360,6 +2361,9 @@ static int fdp1_probe(struct platform_device *pdev)
+>  
+>  	hw_version = fdp1_read(fdp1, FD1_IP_INTDATA);
+>  	switch (hw_version) {
+> +	case FD1_IP_GEN2:
+> +		dprintk(fdp1, "FDP1 Version R-Car Gen2\n");
+> +		break;
+>  	case FD1_IP_M3W:
+>  		dprintk(fdp1, "FDP1 Version R-Car M3-W\n");
+>  		break;
 
 -- 
 Regards,
