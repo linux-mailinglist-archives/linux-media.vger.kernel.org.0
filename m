@@ -2,111 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 244416EF61F
-	for <lists+linux-media@lfdr.de>; Wed, 26 Apr 2023 16:15:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A4716EF672
+	for <lists+linux-media@lfdr.de>; Wed, 26 Apr 2023 16:31:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241279AbjDZOPw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Apr 2023 10:15:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55142 "EHLO
+        id S241176AbjDZObr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Apr 2023 10:31:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240825AbjDZOPu (ORCPT
+        with ESMTP id S240902AbjDZObp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Apr 2023 10:15:50 -0400
-X-Greylist: delayed 179 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 26 Apr 2023 07:15:48 PDT
-Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [85.215.255.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADAA765BE
-        for <linux-media@vger.kernel.org>; Wed, 26 Apr 2023 07:15:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1682518198; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=ijlpGLEz2OILCqlT2gnq14GC+DnSMwoDxbXOBw++eCQb5peTUvMU5mLQJDg5rUl9Vg
-    2EPwaNxUNX5YVNFGH8KrF4XwuC1Eo7VYoqId60LrskW3spLwWSk0TQmxskfOjovyZICv
-    ZXTF4bbfv0nCrEieikxFPFJtpxtGvIpTw+NAyO7X/4va775aeH9orxSBZ0V6qsLokbQ1
-    Q8P36cHRzXU/c+hb1Jl2oh6xQfyCYSZoWKjcdAo5/lGrylKoIe/meyLPnrpOaenhMmuK
-    r8eDANSyWzxPN2sl7eWKWQVsWYA8ayHp8IBwjAw7KRaSavZRXQfUbF4rz6mwoj/CuzV3
-    q0dQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1682518198;
-    s=strato-dkim-0002; d=strato.com;
-    h=Cc:Subject:From:To:Date:Message-ID:Cc:Date:From:Subject:Sender;
-    bh=0d+5dvz55ZyEQxxnr4MKzBQivCLHLxIs2uXNQ7//710=;
-    b=VRxNsWnHJh3+CVKT69FSGgXHLS6ctpATL1QVfY028i00zLVIhRR0ArCU1T42DTAAP2
-    9fK2CRwp6RPu3bdIBUozOOECyBfCDjYYzbkEO4BQphNRueig9QnDVXnWbLvb6qSaSDRR
-    4noeYsVI7MYMg4y+2GfDvEeTYSYmPeMNYhRU2Oy2eBchPVX+QrbZdi1Sb4HG8g1myBTv
-    dugYuv5oDQl7Yt1HEvDTpotCHl3Y4REYJPQfCMt1woFLWpWNnlqdxnP4p8XNbGWiRgr0
-    5k14Ct+wTolSGlcnRS4k0+nUODHnAQB3V84yNJlG3zogxVZhgUGvWnFaP1jpU1wwTnHC
-    kfIw==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo00
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1682518191;
-    s=strato-dkim-0002; d=xenosoft.de;
-    h=Cc:Subject:From:To:Date:Message-ID:Cc:Date:From:Subject:Sender;
-    bh=0d+5dvz55ZyEQxxnr4MKzBQivCLHLxIs2uXNQ7//710=;
-    b=WITmORowKYVrFy7uUP63yENBMfEoN0h1GG+QTIUfTA6RkilFgZgy6CO2vpe7Kthnz5
-    0cN9ugFE2pUsL0bwhnqwXAM1v1PDOgpJiPWMMIIya5sh4SyMiP3gvzKVyWKgIQtWi16+
-    35PTssz/2Hb5kkZxjs7nG/CJ2F6HzDheDvQhMLa8Cc7HbyJc+o6zyNv0zjT4Z7izQLPJ
-    IPz+xbP2GrDkK/46O+F9AD6O1QOE8AZCJxbSKHaVksrbcC8Bmu0d7IwYTzoeBF26QoPP
-    Y9H2jSkN3PSjVzHY2r56JI9SsZFnrK/aJ1/JY8ZgyMoXZRc5uYtKZBJIuspX86APAonH
-    ObpQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1682518191;
-    s=strato-dkim-0003; d=xenosoft.de;
-    h=Cc:Subject:From:To:Date:Message-ID:Cc:Date:From:Subject:Sender;
-    bh=0d+5dvz55ZyEQxxnr4MKzBQivCLHLxIs2uXNQ7//710=;
-    b=ak07ZdprOE4eIjn/jXuMPFBESeS2B1daka+dmZIRsiCMam77nBIb82+2hAixDb+Lim
-    rjHvM4jp5fy2jNIsjcCw==
-X-RZG-AUTH: ":L2QefEenb+UdBJSdRCXu93KJ1bmSGnhMdmOod1DhGM4l4Hio94KKxRySfLxnHfJ+Dkjp5DdBfio0GngadwiGvc0He8jojKcjHG7sNapFxmSgZQ=="
-Received: from [IPV6:2a02:8109:8980:4474:cd64:5f46:caee:cf85]
-    by smtp.strato.de (RZmta 49.4.0 AUTH)
-    with ESMTPSA id w2b3aez3QE9l3te
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-    Wed, 26 Apr 2023 16:09:47 +0200 (CEST)
-Message-ID: <94a617be-00b3-6dc8-eb7d-ae13c6fffae5@xenosoft.de>
-Date:   Wed, 26 Apr 2023 16:09:44 +0200
+        Wed, 26 Apr 2023 10:31:45 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7EE64EE6;
+        Wed, 26 Apr 2023 07:31:43 -0700 (PDT)
+Received: from [192.168.1.43] ([77.7.2.190]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MlfL0-1qaKbV2V0s-00inbM; Wed, 26 Apr 2023 16:31:35 +0200
+Message-ID: <9c11af81-cc30-dcc0-33cf-058d74080f1c@metux.net>
+Date:   Wed, 26 Apr 2023 16:31:34 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.0
-Content-Language: de-DE
-To:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl
-From:   Christian Zigotzky <chzigotzky@xenosoft.de>
-Subject: [BTTV] [FSL P50x0] [PASEMI] TV Time doesn't work anymore after
- dropping the overlay support
-Cc:     Darren Stevens <darren@stevens-zone.net>,
-        mad skateman <madskateman@gmail.com>,
-        "R.T.Dickinson" <rtd2@xtra.co.nz>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 0/6] Initial Rust V4L2 support
+Content-Language: tl
+To:     Hans Petter Selasky <hps@selasky.org>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        wedsonaf@gmail.com, ojeda@kernel.org, mchehab@kernel.org,
+        hverkuil@xs4all.nl
+Cc:     rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, kernel@collabora.com
+References: <20230406215615.122099-1-daniel.almeida@collabora.com>
+ <441a96cb-7dd1-0885-df64-933ebdb55e9e@selasky.org>
+From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
+In-Reply-To: <441a96cb-7dd1-0885-df64-933ebdb55e9e@selasky.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:Ow8I91kmxMh/ASGHlIt0oFQKmCEOyR3w3fqp/P6Qz4ZUIz/H16b
+ NJGi5boB95K44w9Kwc3RqLJqeOe3tkSQgK5GehEpaVqbt25AUrssVyhdsvp/lxhymleTgzw
+ ImtXEMiej4B6dh2UgQQCpdjUQNK6K8Vz1A4cmcGcKBMwlS2FpVpKBVtiy0xgRWXfrb6dl5D
+ RDM1NB3U+qvP2uOr0Ronw==
+UI-OutboundReport: notjunk:1;M01:P0:kDmh3DcH/z8=;EFi6kEKyvxwGd7krUNNdmsxKACj
+ RSDjpoQ0OaQVQkaS8bRMJJS9FUygLdSg+VxkE3OjlMjNPmLVgzavkDRqvMK7Qge9aJ0882vnQ
+ Iaklm8gkHnEUxeODuEQ/hqwVvMv2dMQSs+CLwz9zcBMgqV51KdcQCUBYt6UN7MXnLJ+IEYa+0
+ +/FqjwPgn4X5lefKjqbzW3DXrTNeLJHY66FtBKhKN47Bc0MOTW8XZ11IaqdcbI1QNbz0waP/E
+ M6VaJOQ/sRa6xnL5/kOmmfMB+rvZYpX22wJHgrWkx2lTRIHYRz6orUBLoeBymfb0OqyVgQeB5
+ sHpVxflbGLyqmIYqkA+FoAW25DS9g5+9KEKTlza4ErbOHKtI2APp3JpD4PKU26pa0zHX1B4Tb
+ iyC+cyteAhFy+OhWr260tQUtcU1Ha2g7urclstxIL3XobvWAmgny4xscWvp7x1m1D/VrbQIr7
+ QOZJDaPwh3m1QcCeULQzFA+BxigFC3koHbyqjmgHOst2z0yizFhBhK60OSDeXVoRxcIKyU2tr
+ wjyM/mUaOC3c2+AFPA7JcVomqxHkcd4epCRiob3AUp9D2pG/Eg9Zj3loqiY8jUE0QI9LvLhql
+ wJ6FxLJPWIaPvWkOg5VYgIfDzU7k27Jj9fdjWVJuG0+I/Wc2TK0xdwQzkeDHwFHZ8gV3FICPR
+ exBOiMBfXTTtAmSM030Q4ZOaHUrWC82jgtfo0t7TJQ==
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+On 08.04.23 21:43, Hans Petter Selasky wrote:
 
-TV Time doesn't work anymore on my Cyrus+ board with a FSL P50x0 PowerPC 
-SoC [1] and on my P.A. Semi Nemo board [2] after dropping the overlay 
-support [3]. It starts and then the whole computer freezes.
+> You assume that all 
+> code is running inside the kernel and needs to be perfect. 
 
-I use the following BTTV cards.
+Yes, of course. It's kernel code.
 
-- WinTV Express with a BT878A chip
-- Typhoon TView RDS + FM Stereo (BT878 chip)
+If you're borrowing kernel code for your userland stuff, than it's up
+to you to take care of it.
 
-It would be really nice if we could get the overlay support back, 
-because we love TV Time. [4]
+There is no such thing like stable/fixed in-kernel APIs - it always has
+been this way.
 
-We use TV Time with connected TV receivers and game consoles.
+> But I think 
+> you could just aswell implement the next USB webcam V4L2 driver in Perl 
+> for that sake.
 
-Thanks,
-Christian
+That would't be v4l anymore.
 
-[1] http://wiki.amiga.org/index.php?title=X5000
-[2] https://en.wikipedia.org/wiki/AmigaOne_X1000
-[3] 
-https://patchwork.kernel.org/project/linux-media/patch/20230302125731.1124945-4-hverkuil-cisco@xs4all.nl/
-[4] https://tvtime.sourceforge.net/
+> The reason for my point of view, is that I think most of the drivers in 
+> media/ should run in user-space, and not inside the kernel.
+
+Feel free to provide fully userspace drivers for those devices, but
+that's totally unrelated to kernel development (no matter whether you're
+copying over kernel code into your userland project).
+
+> The example of secure V4L2 programming is already here:
+> https://github.com/hselasky/webcamd
+
+BSD code is not in scope of the LKML.
+
+> I would rather like more drive on that, than flowing down the Rust 
+> stream.
+
+Orthogonal topic.
+
+> Rust is cool, Java is cool, VM's are cool. The only bad about 
+> cool things, is that they are so slow. For many years I completely 
+> avoided C++ code for the sake it is very slow to compile, compared to 
+> bare C code. And when looking at how Firefox is building using Rust, I 
+> am a little worried, why we need so much code in there!
+
+Yes, compiling Rust is slow, compared to C. That's the price for
+sophisticated optimizations. How often do you have to do a full
+recompile ?
+
+> Engineering energy would be much more focused, if hardware vendors could 
+> agree more about what binary formats to use for their device protocols, 
+
+Indeed. But we (kernel folks) have no influence on that. If we could,
+we'd already standardized HW interfaces for lots of things and so only
+a small percentage of the drivers we currently have, while still
+supporting the same number of HW (or even more). But unfortunately thats
+not under our control. Therefore offtopic.
+
+> than changing the coding language, so that now anyone can be let loose 
+> to program in the Linux kernel without risking any damage.
+
+AFAIK, this discussion isn't about changing the kernel's programming
+language, but just adding language bindings, so some new drivers could
+be written in that language. If this really happens and you really want
+a C implementation, feel free to send patches.
+
+> The goal for Linux driver development should be fewer drivers and not 
+> more. 
+
+Depends on specific case. We already have lots of drivers that support
+wide range of devices. But it doesn't make sense having monster drivers
+for entirely different devices.
+
+> I don't want Linux to become the next Microsoft, with gigabytes 
+> of drivers which are never used for anything.
+
+Actually, we're doing a pretty good job of generalizing things that can
+be generalized (if you find room for more improvements, feel free to
+send patches). Nobody here seriously intents dropping the subsystem and
+lib architectures in favour of monolithic monster drivers like in
+Windows world.
+
+> The webcamd daemon already is close to 6 MBytes big on amd64 on FreeBSD. 
+> Inside there is support for 510 drivers (counting =y keywords), built 
+> straight off Linus Torvalds:
+
+You have ~500 drivers in one 6MB binary and blame us for writing too
+much code ? Maybe you should think about modularization (which we do
+have in the kernel).
+
+And, btw, FreeBSD is completely off-topic here.
+
+> The USB video class is great, instead of tons of GSPCA devices, then 
+> yeah, we don't need to drag around so much legacy binaries, just to make 
+> everyone happy. What did Apple do? Custom PCI webcam devices? Why can't 
+> they just stick with virtual USB devices, and then have a dual 
+> configured device, one config for their own HD codec, and one config for 
+> people like me, just needing the framebuffer.
+
+Well, they just could have an USB device layered on-top of a tiny PCI-
+USB bridge. We're the wrong to blame - talk to Apple.
+
+
+--mtx
+
+-- 
+---
+Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
+werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
+GPG/PGP-Schlüssel zu.
+---
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
