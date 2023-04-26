@@ -2,108 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B6FB6EFA7E
-	for <lists+linux-media@lfdr.de>; Wed, 26 Apr 2023 20:55:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 298FD6EFA9C
+	for <lists+linux-media@lfdr.de>; Wed, 26 Apr 2023 21:06:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238826AbjDZSzm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Apr 2023 14:55:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33488 "EHLO
+        id S239005AbjDZTGg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Apr 2023 15:06:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239070AbjDZSzS (ORCPT
+        with ESMTP id S238479AbjDZTGe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Apr 2023 14:55:18 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D00F37EE7;
-        Wed, 26 Apr 2023 11:55:01 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-63b51fd2972so5904603b3a.3;
-        Wed, 26 Apr 2023 11:55:01 -0700 (PDT)
+        Wed, 26 Apr 2023 15:06:34 -0400
+Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com [IPv6:2001:4860:4864:20::34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3CB186B8
+        for <linux-media@vger.kernel.org>; Wed, 26 Apr 2023 12:06:28 -0700 (PDT)
+Received: by mail-oa1-x34.google.com with SMTP id 586e51a60fabf-18ecdb1f2aaso483743fac.1
+        for <linux-media@vger.kernel.org>; Wed, 26 Apr 2023 12:06:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682535301; x=1685127301;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=997wcZsLPXSjxvxtNnVAzBL/b0WavYLyXHx/RJFuEtg=;
-        b=aUuvqyNKlA5I0oZy805T2an9GEfL+KC6++nGq27+EUSXq9LK9+jWRy+fdW8XPL2BHV
-         2SLcXJEqYVAqbwqb6zBbRN2HtBf9xbb/NFq/KoRNZ/a/jPdc7SySEifL99a7Nkkq8bNz
-         fzsU4YXNX9ZJRaPwQm6X7I2sku4I8pis5Dw+gAaUYWb7zlnZ6tm6uRcoeD0zn++ssuZE
-         Hon/AWOHYo24U9K5xLPuozBb2Zt/PDDcNSJ3nSuKecJxTLNI8Tc+I3sPf38XSg0o7oz0
-         kb1vp0kQ7mgRLACpPno0hxGzV2baCHigl/G4J15x3YWnP+NdD9LfMRYDDFOsj01gQfqR
-         YQSA==
+        d=gmail.com; s=20221208; t=1682535988; x=1685127988;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=enjYQ1xRKll36ZQBsxot0VcX88RsU4QxjTsmFCXceCM=;
+        b=Brzy77aP36Pkcpy8M+Rz5Y+JRiNEFQ7TnbaX4Yq7e+2jYU+m0IEIU+pQQ9qiWFQpGx
+         x+2VL3iojsPBiVkD3UuaVI0/sQehxhkA7diN6ZcROPXsKtzb3ueyumegfxkD+UoilfEP
+         cu5JlkMmza13VJDctE5tpNkOqoNLLrdPNGTmZdX/SCYK2K831rke6guLoQgPwhaIdwsS
+         edJYq9GQ4vL/3yqTwwNN+PYLAmJtTrDIStWqfJaFQw+L4IK5NeDjRB7j2GB6DOsB94iD
+         Hjja60lBWUB8QBvm26NEuAIgViCcsnUdNX7dnI+WG6dopANxZn+5BQR0fgyeMMZ2LZeE
+         ebcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682535301; x=1685127301;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=997wcZsLPXSjxvxtNnVAzBL/b0WavYLyXHx/RJFuEtg=;
-        b=hBNh4rhAArSHguHxxfzXWIzfNf2CA1hzeexL2KJlTt7g3rJ0+4iKlvyNyjlVqpO4n4
-         UZlHatkLrVvpslyCfho60dbjbtk/8xaWlxUNHP7Ghi60D2+LN+mkS2CbS/rSTAegSVl8
-         dpmv53bbu5dTrp2rOQwfs23f6S42qujzH0lhvhpQRA0KHAW1U3vUZxlCssseAJ8lGDUz
-         f3wCpA8fJvnHCWxxArJBfXvkhIQXsOiIBVgIAFM+3Dns2W2oZoE+f5j0eEcb+f159+AT
-         mYJSCwjomU0sz/y4i5cfA0S4CRRT3zcP0QKepFwt3OJXQFxcdSHwjSCFOjsufBhGYSt2
-         uX9Q==
-X-Gm-Message-State: AAQBX9cJIXZKZNxSTpIoriTLJILjGPf/UhU+rFQImGEJApaFOn6LEFBb
-        8KOjiwfgI18NuF6wSfE+B8DOpy6ynGhoVQ==
-X-Google-Smtp-Source: AKy350Z0cJXW20DTfOvXiRpjr1pWWqpblVlGo4EGb5Y7ZS1Ssx3KNESQrFJo2MKIsbY+cizfJdt0Mw==
-X-Received: by 2002:a05:6a00:17a9:b0:63d:2f13:1f3 with SMTP id s41-20020a056a0017a900b0063d2f1301f3mr34588884pfg.33.1682535300748;
-        Wed, 26 Apr 2023 11:55:00 -0700 (PDT)
-Received: from stbirv-lnx-2.igp.broadcom.net ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id y72-20020a62644b000000b006372791d708sm11639254pfb.104.2023.04.26.11.54.58
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 26 Apr 2023 11:55:00 -0700 (PDT)
-From:   Justin Chen <justinpopo6@gmail.com>
-To:     netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        bcm-kernel-feedback-list@broadcom.com
-Cc:     justinpopo6@gmail.com, justin.chen@broadcom.com,
-        f.fainelli@gmail.com, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, opendmb@gmail.com,
-        andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
-        richardcochran@gmail.com, sumit.semwal@linaro.org,
-        christian.koenig@amd.com
-Subject: [PATCH v2 net-next 6/6] MAINTAINERS: ASP 2.0 Ethernet driver maintainers
-Date:   Wed, 26 Apr 2023 11:54:32 -0700
-Message-Id: <1682535272-32249-7-git-send-email-justinpopo6@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1682535272-32249-1-git-send-email-justinpopo6@gmail.com>
-References: <1682535272-32249-1-git-send-email-justinpopo6@gmail.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        d=1e100.net; s=20221208; t=1682535988; x=1685127988;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=enjYQ1xRKll36ZQBsxot0VcX88RsU4QxjTsmFCXceCM=;
+        b=QtoxxZ6osTexAFtEAq1mUYFhE1+rp7UrM6vZ3ZA2RU4i1kCafhnCcU4ZE/MfBsbYj8
+         6tqpP9mK6sP20ZIiV+DJIAnblSMPz/REg7PcRLl5jt66Vxi4N9WRCUYQ3Nhe2IxHTZW6
+         0uL9aMpgR/7if/vrPT7obOODRWmjuzsQ3GOf2iNYq7rG/0m7f47O9hqocdfJVFPJFgie
+         8KnEtemHtQp5YhmcrLQAktQXlDdldEm+JPvlTq+0d8sP3+Bd8/0ksYbWhOAR5dgx1Zpy
+         yBdctgFQGH63A1Oo7vkl5k6U19H5ht2j0wM8f4eHft2+OchLgSow0ztB1boZQZH44WIE
+         RabA==
+X-Gm-Message-State: AC+VfDwEE0gWl+3S0U5Dz/CLw1BhWmbWjSnRVOV7l91Mb8pVpvewnfl2
+        hdFZ5Sn1CsOwv+siMK1sj9WV5twhKSmYrbcgMXs=
+X-Google-Smtp-Source: ACHHUZ62o8vjFFRydcKhHGi5+j0L1cme29GFNm0BJknSReyU2DZE4OU4i60BQDp0OSzCWS04dCl2cezriat6v5s72aY=
+X-Received: by 2002:a05:6808:289:b0:38e:f305:3d40 with SMTP id
+ z9-20020a056808028900b0038ef3053d40mr1492716oic.1.1682535987866; Wed, 26 Apr
+ 2023 12:06:27 -0700 (PDT)
+MIME-Version: 1.0
+From:   Cheryl Roger <bestviewdataprovider3@gmail.com>
+Date:   Wed, 26 Apr 2023 14:06:16 -0500
+Message-ID: <CA+QguCy8zs12dxZ9fMEFr4yYAqjk2B_=Ko3pH_EG5n5CQAePZw@mail.gmail.com>
+Subject: RE: NTI Critical Care Exposition Attendees Email List- 2023
+To:     Cheryl Roger <bestviewdataprovider3@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FILL_THIS_FORM,
+        FILL_THIS_FORM_LONG,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add maintainers entry for ASP 2.0 Ethernet driver.
+Hi,
 
-Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
-Signed-off-by: Justin Chen <justinpopo6@gmail.com>
----
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Would you be interested in acquiring AACN's National Teaching
+Institute & Critical Care Exposition Attendees Data List-2023?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4fc57dfd5fd0..24cbe1c0fc06 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4189,6 +4189,15 @@ F:	drivers/net/mdio/mdio-bcm-unimac.c
- F:	include/linux/platform_data/bcmgenet.h
- F:	include/linux/platform_data/mdio-bcm-unimac.h
- 
-+BROADCOM ASP 2.0 ETHERNET DRIVER
-+M:	Justin Chen <justinpopo6@gmail.com>
-+M:	Florian Fainelli <f.fainelli@gmail.com>
-+L:	bcm-kernel-feedback-list@broadcom.com
-+L:	netdev@vger.kernel.org
-+S:	Supported
-+F:	Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
-+F:	drivers/net/ethernet/broadcom/asp2/
-+
- BROADCOM IPROC ARM ARCHITECTURE
- M:	Ray Jui <rjui@broadcom.com>
- M:	Scott Branden <sbranden@broadcom.com>
--- 
-2.7.4
+List Includes: Company Name, First Name, Last Name, Full Name, Contact
+Job Title, Verified Email Address, Website URL, Mailing address, Phone
+number, Industry and many more=E2=80=A6
 
+Number of Contacts: 11,429
+Cost: $ 1,526
+
+Kind Regards,
+Cheryl Roger
+Marketing Coordinator
