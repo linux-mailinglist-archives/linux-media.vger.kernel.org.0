@@ -2,57 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE4026EF041
-	for <lists+linux-media@lfdr.de>; Wed, 26 Apr 2023 10:30:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDB406EF042
+	for <lists+linux-media@lfdr.de>; Wed, 26 Apr 2023 10:30:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240114AbjDZIao (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Apr 2023 04:30:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49826 "EHLO
+        id S240143AbjDZIaw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Apr 2023 04:30:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230008AbjDZIam (ORCPT
+        with ESMTP id S240118AbjDZIav (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Apr 2023 04:30:42 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC4B33C2D
-        for <linux-media@vger.kernel.org>; Wed, 26 Apr 2023 01:30:40 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-b99f3aee8e0so9748949276.0
-        for <linux-media@vger.kernel.org>; Wed, 26 Apr 2023 01:30:40 -0700 (PDT)
+        Wed, 26 Apr 2023 04:30:51 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 266A83AB0
+        for <linux-media@vger.kernel.org>; Wed, 26 Apr 2023 01:30:46 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-b8ec97a706fso11666125276.3
+        for <linux-media@vger.kernel.org>; Wed, 26 Apr 2023 01:30:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1682497840; x=1685089840;
+        d=google.com; s=20221208; t=1682497845; x=1685089845;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nF4Yffb6o0bjGCl6ueVjEDUbI81vEW/Q29gvaIMznlY=;
-        b=cF3n8N0FgFCpJCm+rsQCbvEyAXZlJssOJnRcFnfE850nEF8bV5k9Y9U3sb/0Te6CrK
-         eb9schRbn4u8dXWU+2d3dDG7A7p8hONhrFUt9Xy2ktqYLbgaxGpZM2pgKrQ6toaeveET
-         CgDnnDQC2ECz32nZlpbO73Dxy2SSx0OUuBEx1Wh5q26FwEZFxqUOy5ZYe20HuqNwRXJR
-         SKfRuN2g6KiwIIraNRyw7YFtXciw3ZS0091x7c9bZyEVWSNgBylQn7m5f6urYCTxaOcC
-         JFc94Vfu/65v+cX+UBHyGMoKkuaC4K8N2jjnRz3Y6siXasmUnr202sdocjApiz5J5zoW
-         CfYw==
+        bh=hTJab1vS51qb6IR7ogXiCFtB0cB/FHUvyralFeYUvlU=;
+        b=KtXLIc5AiLVmPDBkbG85PVDnwz5Sqd0cTZtYDs63vSu78802EwXwG3B9KFRBMw3fG9
+         Tm/ht4k0RUlHnD3RYXOfxbP2/p8GeI/GiIxo4vratrkA58S374WfMbzEy+hxfwliP42J
+         o/8Xg5nX97zhUvmjHymXPxxMh6ChngYmDdBMlcl0OE+r7H2s0bNLDWwvNcz2k0XsTOFV
+         mL/M3q/nAlVEQTABeuSfvXwKVyKzNnKQ9sm9GrLhSKhwRylrS8aCMxj/teFGLTsxMhDt
+         uQnmDKX823lJz5AVbtc7Ec6AYUbL/xbcHCoJVek+wQaxVkTbRWdQTrmysDek4ZburqnO
+         2Yvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682497840; x=1685089840;
+        d=1e100.net; s=20221208; t=1682497845; x=1685089845;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nF4Yffb6o0bjGCl6ueVjEDUbI81vEW/Q29gvaIMznlY=;
-        b=J2Kj7ldGAf1LVvkgCIWvBuZLd5uGWs5QpidGUVH+/kSRYCOFKZ3Qywe0Qe7PkRxhIi
-         XbNW+5+tjyUXKCkLVwbVJvkVZEQ2P7fLTdub81rUuofKzkTm96WbJcfe3hihhSS59j/M
-         +gy4X1DoPKIG6h2lPkDLmf7UfqpWxbz/i+hPqb4SGsp8DUd4OviVsYNwpRYBehAGQFvB
-         AEJ34reL9DKqZC2J1f0jpFEjlCgvBEcEaijx2bfYrJxAcc8VdraTmaluG2jLDbT44jTE
-         4IPtNeRba+ejiA8T9aRMPTRs/+A5G35L5qlpNECWZNM+9K/sQ7kuhiTs/04uN97rKrcQ
-         SARA==
-X-Gm-Message-State: AC+VfDwndMOkv+HuuMTSsfVfNGDYvglXfwYIVBk6GDUDgg5Wvlxnpjgh
-        YXHgq4afIIz5GhC2OpJk0RarC81C2Kg=
-X-Google-Smtp-Source: ACHHUZ6O1xAqLJap9LlKxm+XUSGFQIAqngqLxqp9oOu/ZfKd8BU4e2euh+36VLnk4BgFV2IZovVBEROhx7o=
+        bh=hTJab1vS51qb6IR7ogXiCFtB0cB/FHUvyralFeYUvlU=;
+        b=bl8ytuoI6zdnj3TUw5k3hTO4UeQChHeQ8j3LGV7UCcFvI888vVnjMsp6Y8z/OlmQQu
+         uTZCIFnlLtdUejQDr+eJqlLLnzgCwHnM0V3x4Y6FPF3xx8e6d8GpeCzZvGdxx3+t2T+e
+         5jrSDqxQ1HXQLjt3foHO/jSMiZJygjEcWULqHEaSMKKCVxAsSx6oBXjp3No1yVKHtfET
+         5CrwY1Ay35xb3DuhklDUqCM+K2D8t66/tRontyjR5jwILdy0s3EAevWnQ2d+HM9uit4i
+         Cl0rVcdD7BmWYm4nirWiE+hNV3Jk0pQaTVOzK5dju3t/4Ocf95cjBx3+GPeohlmQZMli
+         Gc1w==
+X-Gm-Message-State: AAQBX9fixD7l7dCBa9Tk4VlLva0DsFhh0spqvpWtYZG7/PXBhDuPwZvl
+        +bvLW1F8ulGOcdOpGpv+apBaI0ydqpo=
+X-Google-Smtp-Source: AKy350YaaDoePQtgoKCL/YMGhdMzFx4PRCyfzEwfnXtinrNvq0U3Xx+WC4q0H9k6FwCoRP1RVUnNqGtxm1o=
 X-Received: from yunkec1.tok.corp.google.com ([2401:fa00:8f:203:1f4e:598b:ed:99bd])
- (user=yunkec job=sendgmr) by 2002:a05:690c:986:b0:54c:15ad:11e4 with SMTP id
- ce6-20020a05690c098600b0054c15ad11e4mr1101885ywb.0.1682497840209; Wed, 26 Apr
- 2023 01:30:40 -0700 (PDT)
-Date:   Wed, 26 Apr 2023 17:29:17 +0900
+ (user=yunkec job=sendgmr) by 2002:a25:7681:0:b0:b98:6352:be20 with SMTP id
+ r123-20020a257681000000b00b986352be20mr7881119ybc.0.1682497845253; Wed, 26
+ Apr 2023 01:30:45 -0700 (PDT)
+Date:   Wed, 26 Apr 2023 17:29:18 +0900
 In-Reply-To: <20230426082923.132909-1-yunkec@google.com>
 Mime-Version: 1.0
 References: <20230426082923.132909-1-yunkec@google.com>
 X-Mailer: git-send-email 2.40.1.495.gc816e09b53d-goog
-Message-ID: <20230426082923.132909-6-yunkec@google.com>
-Subject: [PATCH v11 05/11] media: uvcvideo: Add support for compound controls
+Message-ID: <20230426082923.132909-7-yunkec@google.com>
+Subject: [PATCH v11 06/11] v4l2-ctrls: add support for V4L2_CTRL_WHICH_MIN/MAX_VAL
 From:   Yunke Cao <yunkec@google.com>
 To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -72,370 +72,663 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Supports getting/setting current value.
-Supports getting default value.
-Handles V4L2_CTRL_FLAG_NEXT_COMPOUND.
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+Add the capability of retrieving the min and max values of a
+compound control.
+
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Yunke Cao <yunkec@google.com>
 ---
 Changelog since v10:
-- Rewrite some logic in __uvc_find_control().
-- Remove a duplicate check in __uvc_ctrl_get_compound_cur().
-- Thanks, Daniel!
-Changelog since v9:
-- Make __uvc_ctrl_set_compound() static.
-Changelog since v8:
 - No change.
+Changelog since v9:
+- No change.
+Changelog since v8:
+- Return ENODATA when min/max is not implemented. Document this behavior.
+- Created a shared helper function __v4l2_ctrl_type_op_init that takes "which"
+  as a parameter. Call it in def, min and max operations.
 Changelog since v7:
-- Fixed comments styles, indentation and a few other style issues.
-- Renamed uvc_g/set_array() to uvc_g/set_compound().
-- Moved size check to __uvc_ctrl_add_mapping().
-- After setting a new value, copy it back to user.
-- In __uvc_ctrl_set_compound(), check size before allocating.
+- Document that the definition of the min/max are provided by compound controls
+  are defined in control documentation.
+- Return error, instead of zeroed memory for v4l2_ctrl_ptr_create(NULL).
 
- drivers/media/usb/uvc/uvc_ctrl.c | 180 +++++++++++++++++++++++++++----
- drivers/media/usb/uvc/uvcvideo.h |   4 +
- 2 files changed, 165 insertions(+), 19 deletions(-)
+git am from https://lore.kernel.org/all/20191119113457.57833-3-hverkuil-cisco@xs4all.nl/
+- Fixed some merge conflits.
+- Fixed the build error in drivers/media/platform/qcom/venus.
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index 4984438d85ca..8f0401230649 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -884,6 +884,28 @@ static void uvc_set_le_value(struct uvc_control_mapping *mapping,
- 	}
+ .../media/v4l/vidioc-g-ext-ctrls.rst          |  11 +-
+ .../media/videodev2.h.rst.exceptions          |   2 +
+ drivers/media/i2c/imx214.c                    |   5 +-
+ .../media/platform/qcom/venus/venc_ctrls.c    |   9 +-
+ drivers/media/v4l2-core/v4l2-ctrls-api.c      |  57 +++++--
+ drivers/media/v4l2-core/v4l2-ctrls-core.c     | 156 +++++++++++++++---
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   4 +-
+ include/media/v4l2-ctrls.h                    |  34 +++-
+ include/uapi/linux/videodev2.h                |   2 +
+ 9 files changed, 236 insertions(+), 44 deletions(-)
+
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+index 927ef397f1ce..1cc21ee229aa 100644
+--- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
++++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+@@ -304,14 +304,21 @@ still cause this situation.
+       - Which value of the control to get/set/try.
+     * - :cspan:`2` ``V4L2_CTRL_WHICH_CUR_VAL`` will return the current value of
+ 	the control, ``V4L2_CTRL_WHICH_DEF_VAL`` will return the default
++	value of the control, ``V4L2_CTRL_WHICH_MIN_VAL`` will return the minimum
++	value of the control, ``V4L2_CTRL_WHICH_MAX_VAL`` will return the maximum
+ 	value of the control and ``V4L2_CTRL_WHICH_REQUEST_VAL`` indicates that
+ 	these controls have to be retrieved from a request or tried/set for
+ 	a request. In the latter case the ``request_fd`` field contains the
+ 	file descriptor of the request that should be used. If the device
+ 	does not support requests, then ``EACCES`` will be returned.
+ 
+-	When using ``V4L2_CTRL_WHICH_DEF_VAL`` be aware that you can only
+-	get the default value of the control, you cannot set or try it.
++	When using ``V4L2_CTRL_WHICH_DEF_VAL``, ``V4L2_CTRL_WHICH_MIN_VAL``
++	or ``V4L2_CTRL_WHICH_MAX_VAL`` be aware that you can only get the
++	default/minimum/maximum value of the control, you cannot set or try it.
++	The definition of minimum/maximum values for compound types are provided by
++	the control documentation. If the control documentation does not
++	document the meaning of minimum/maximum value, then it is not supported.
++	Querying its minmimum/maximum value will result in -ENODATA.
+ 
+ 	For backwards compatibility you can also use a control class here
+ 	(see :ref:`ctrl-class`). In that case all controls have to
+diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+index 828cca8e2daa..6295b0fa5716 100644
+--- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
++++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+@@ -563,6 +563,8 @@ ignore define V4L2_CTRL_DRIVER_PRIV
+ ignore define V4L2_CTRL_MAX_DIMS
+ ignore define V4L2_CTRL_WHICH_CUR_VAL
+ ignore define V4L2_CTRL_WHICH_DEF_VAL
++ignore define V4L2_CTRL_WHICH_MIN_VAL
++ignore define V4L2_CTRL_WHICH_MAX_VAL
+ ignore define V4L2_CTRL_WHICH_REQUEST_VAL
+ ignore define V4L2_OUT_CAP_CUSTOM_TIMINGS
+ ignore define V4L2_CID_MAX_CTRLS
+diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
+index 710c9fb515fd..bd11bd8105aa 100644
+--- a/drivers/media/i2c/imx214.c
++++ b/drivers/media/i2c/imx214.c
+@@ -1037,7 +1037,10 @@ static int imx214_probe(struct i2c_client *client)
+ 	imx214->unit_size = v4l2_ctrl_new_std_compound(&imx214->ctrls,
+ 				NULL,
+ 				V4L2_CID_UNIT_CELL_SIZE,
+-				v4l2_ctrl_ptr_create((void *)&unit_size));
++				v4l2_ctrl_ptr_create((void *)&unit_size),
++				v4l2_ctrl_ptr_create(NULL),
++				v4l2_ctrl_ptr_create(NULL));
++
+ 	ret = imx214->ctrls.error;
+ 	if (ret) {
+ 		dev_err(&client->dev, "%s control init failed (%d)\n",
+diff --git a/drivers/media/platform/qcom/venus/venc_ctrls.c b/drivers/media/platform/qcom/venus/venc_ctrls.c
+index 7468e43800a9..28eca8f9d148 100644
+--- a/drivers/media/platform/qcom/venus/venc_ctrls.c
++++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
+@@ -607,11 +607,16 @@ int venc_ctrl_init(struct venus_inst *inst)
+ 
+ 	v4l2_ctrl_new_std_compound(&inst->ctrl_handler, &venc_ctrl_ops,
+ 				   V4L2_CID_COLORIMETRY_HDR10_CLL_INFO,
+-				   v4l2_ctrl_ptr_create(&p_hdr10_cll));
++				   v4l2_ctrl_ptr_create(&p_hdr10_cll),
++				   v4l2_ctrl_ptr_create(NULL),
++				   v4l2_ctrl_ptr_create(NULL));
+ 
+ 	v4l2_ctrl_new_std_compound(&inst->ctrl_handler, &venc_ctrl_ops,
+ 				   V4L2_CID_COLORIMETRY_HDR10_MASTERING_DISPLAY,
+-				   v4l2_ctrl_ptr_create((void *)&p_hdr10_mastering));
++				   v4l2_ctrl_ptr_create((void *)&p_hdr10_mastering),
++				   v4l2_ctrl_ptr_create(NULL),
++				   v4l2_ctrl_ptr_create(NULL));
++
+ 
+ 	v4l2_ctrl_new_std_menu(&inst->ctrl_handler, &venc_ctrl_ops,
+ 			       V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD_TYPE,
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
+index 002ea6588edf..f8888568c5df 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
+@@ -94,6 +94,34 @@ static int def_to_user(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
+ 	return ptr_to_user(c, ctrl, ctrl->p_new);
  }
  
-+/*
-+ * Extract the byte array specified by mapping->offset and mapping->data_size
-+ * stored at 'data' to the output array 'data_out'.
-+ */
-+static int uvc_get_compound(struct uvc_control_mapping *mapping, const u8 *data,
-+			    u8 *data_out)
++/* Helper function: copy the minimum control value back to the caller */
++static int min_to_user(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
 +{
-+	memcpy(data_out, data + mapping->offset / 8, mapping->data_size / 8);
-+	return 0;
-+}
++	int idx, ret;
 +
-+/*
-+ * Copy the byte array 'data_in' to the destination specified by mapping->offset
-+ * and mapping->data_size stored at 'data'.
-+ */
-+static int uvc_set_compound(struct uvc_control_mapping *mapping,
-+			    const u8 *data_in, u8 *data)
-+{
-+	memcpy(data + mapping->offset / 8, data_in, mapping->data_size / 8);
-+	return 0;
-+}
-+
- static bool
- uvc_ctrl_mapping_is_compound(const struct uvc_control_mapping *mapping)
- {
-@@ -906,7 +928,7 @@ static int uvc_entity_match_guid(const struct uvc_entity *entity,
- 
- static void __uvc_find_control(struct uvc_entity *entity, u32 v4l2_id,
- 	struct uvc_control_mapping **mapping, struct uvc_control **control,
--	int next)
-+	int next, int next_compound)
- {
- 	struct uvc_control *ctrl;
- 	struct uvc_control_mapping *map;
-@@ -921,14 +943,16 @@ static void __uvc_find_control(struct uvc_entity *entity, u32 v4l2_id,
- 			continue;
- 
- 		list_for_each_entry(map, &ctrl->info.mappings, list) {
--			if ((map->id == v4l2_id) && !next) {
-+			if (map->id == v4l2_id && !next && !next_compound) {
- 				*control = ctrl;
- 				*mapping = map;
- 				return;
- 			}
- 
- 			if ((*mapping == NULL || (*mapping)->id > map->id) &&
--			    (map->id > v4l2_id) && next) {
-+			    (map->id > v4l2_id) &&
-+			    (uvc_ctrl_mapping_is_compound(map) ?
-+			     next_compound : next)) {
- 				*control = ctrl;
- 				*mapping = map;
- 			}
-@@ -942,6 +966,7 @@ static struct uvc_control *uvc_find_control(struct uvc_video_chain *chain,
- 	struct uvc_control *ctrl = NULL;
- 	struct uvc_entity *entity;
- 	int next = v4l2_id & V4L2_CTRL_FLAG_NEXT_CTRL;
-+	int next_compound = v4l2_id & V4L2_CTRL_FLAG_NEXT_COMPOUND;
- 
- 	*mapping = NULL;
- 
-@@ -950,12 +975,13 @@ static struct uvc_control *uvc_find_control(struct uvc_video_chain *chain,
- 
- 	/* Find the control. */
- 	list_for_each_entry(entity, &chain->entities, chain) {
--		__uvc_find_control(entity, v4l2_id, mapping, &ctrl, next);
--		if (ctrl && !next)
-+		__uvc_find_control(entity, v4l2_id, mapping, &ctrl, next,
-+				   next_compound);
-+		if (ctrl && !next && !next_compound)
- 			return ctrl;
- 	}
- 
--	if (ctrl == NULL && !next)
-+	if (!ctrl && !next && !next_compound)
- 		uvc_dbg(chain->dev, CONTROL, "Control 0x%08x not found\n",
- 			v4l2_id);
- 
-@@ -1101,12 +1127,59 @@ static int __uvc_ctrl_get_std(struct uvc_video_chain *chain,
- 	return 0;
- }
- 
-+static int __uvc_ctrl_get_compound(struct uvc_control_mapping *mapping,
-+				   struct uvc_control *ctrl,
-+				   int id,
-+				   struct v4l2_ext_control *xctrl)
-+{
-+	u8 size;
-+	u8 *data;
-+	int ret;
-+
-+	size = mapping->v4l2_size / 8;
-+	if (xctrl->size < size) {
-+		xctrl->size = size;
-+		return -ENOSPC;
-+	}
-+
-+	data = kmalloc(size, GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	ret = mapping->get_compound(mapping, uvc_ctrl_data(ctrl, id), data);
-+	if (ret < 0)
-+		goto out;
-+
-+	ret = copy_to_user(xctrl->ptr, data, size) ? -EFAULT : 0;
-+
-+out:
-+	kfree(data);
-+	return ret;
-+}
-+
-+static int __uvc_ctrl_get_compound_cur(struct uvc_video_chain *chain,
-+				       struct uvc_control *ctrl,
-+				       struct uvc_control_mapping *mapping,
-+				       struct v4l2_ext_control *xctrl)
-+{
-+	int ret;
-+
-+	ret = __uvc_ctrl_load_cur(chain, ctrl);
-+	if (ret < 0)
-+		return ret;
-+
-+	return __uvc_ctrl_get_compound(mapping, ctrl, UVC_CTRL_DATA_CURRENT,
-+				       xctrl);
-+}
-+
- static int __uvc_query_v4l2_class(struct uvc_video_chain *chain, u32 req_id,
- 				  u32 found_id)
- {
--	bool find_next = req_id & V4L2_CTRL_FLAG_NEXT_CTRL;
- 	unsigned int i;
- 
-+	bool find_next = req_id &
-+		(V4L2_CTRL_FLAG_NEXT_CTRL | V4L2_CTRL_FLAG_NEXT_COMPOUND);
-+
- 	req_id &= V4L2_CTRL_ID_MASK;
- 
- 	for (i = 0; i < ARRAY_SIZE(uvc_control_classes); i++) {
-@@ -1194,7 +1267,7 @@ int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
- 	}
- 
- 	__uvc_find_control(ctrl->entity, mapping->master_id, &master_map,
--			   &master_ctrl, 0);
-+			   &master_ctrl, 0, 0);
- 
- 	if (!master_ctrl || !(master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR))
- 		return 0;
-@@ -1262,7 +1335,7 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
- 
- 	if (mapping->master_id)
- 		__uvc_find_control(ctrl->entity, mapping->master_id,
--				   &master_map, &master_ctrl, 0);
-+				   &master_map, &master_ctrl, 0, 0);
- 	if (master_ctrl && (master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR)) {
- 		s32 val = 0;
- 		int ret;
-@@ -1278,6 +1351,15 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
- 				v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
- 	}
- 
-+	if (v4l2_ctrl->type >= V4L2_CTRL_COMPOUND_TYPES) {
-+		v4l2_ctrl->flags |= V4L2_CTRL_FLAG_HAS_PAYLOAD;
-+		v4l2_ctrl->default_value = 0;
-+		v4l2_ctrl->minimum = 0;
-+		v4l2_ctrl->maximum = 0;
-+		v4l2_ctrl->step = 0;
-+		return 0;
-+	}
-+
- 	if (!ctrl->cached) {
- 		int ret = uvc_ctrl_populate_cache(chain, ctrl);
- 		if (ret < 0)
-@@ -1530,7 +1612,7 @@ static void uvc_ctrl_send_slave_event(struct uvc_video_chain *chain,
- 	u32 changes = V4L2_EVENT_CTRL_CH_FLAGS;
- 	s32 val = 0;
- 
--	__uvc_find_control(master->entity, slave_id, &mapping, &ctrl, 0);
-+	__uvc_find_control(master->entity, slave_id, &mapping, &ctrl, 0, 0);
- 	if (ctrl == NULL)
- 		return;
- 
-@@ -1840,7 +1922,7 @@ static int uvc_ctrl_find_ctrl_idx(struct uvc_entity *entity,
- 
- 	for (i = 0; i < ctrls->count; i++) {
- 		__uvc_find_control(entity, ctrls->controls[i].id, &mapping,
--				   &ctrl_found, 0);
-+				   &ctrl_found, 0, 0);
- 		if (uvc_control == ctrl_found)
- 			return i;
- 	}
-@@ -1888,7 +1970,7 @@ int uvc_ctrl_get(struct uvc_video_chain *chain,
- 		return -EINVAL;
- 
- 	if (uvc_ctrl_mapping_is_compound(mapping))
--		return -EINVAL;
-+		return __uvc_ctrl_get_compound_cur(chain, ctrl, mapping, xctrl);
- 	else
- 		return __uvc_ctrl_get_std(chain, ctrl, mapping, &xctrl->value);
- }
-@@ -1909,6 +1991,22 @@ static int __uvc_ctrl_get_boundary_std(struct uvc_video_chain *chain,
- 	return 0;
- }
- 
-+static int __uvc_ctrl_get_boundary_compound(struct uvc_video_chain *chain,
-+					    struct uvc_control *ctrl,
-+					    struct uvc_control_mapping *mapping,
-+					    struct v4l2_ext_control *xctrl)
-+{
-+	int ret;
-+
-+	if (!ctrl->cached) {
-+		ret = uvc_ctrl_populate_cache(chain, ctrl);
-+		if (ret < 0)
++	for (idx = 0; idx < ctrl->elems; idx++) {
++		ret = ctrl->type_ops->minimum(ctrl, idx, ctrl->p_new);
++		if (ret)
 +			return ret;
 +	}
 +
-+	return __uvc_ctrl_get_compound(mapping, ctrl, UVC_CTRL_DATA_DEF, xctrl);
++	return ptr_to_user(c, ctrl, ctrl->p_new);
 +}
 +
- int uvc_ctrl_get_boundary(struct uvc_video_chain *chain,
- 			  struct v4l2_ext_control *xctrl)
++/* Helper function: copy the maximum control value back to the caller */
++static int max_to_user(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
++{
++	int idx, ret;
++
++	for (idx = 0; idx < ctrl->elems; idx++) {
++		ret = ctrl->type_ops->maximum(ctrl, idx, ctrl->p_new);
++		if (ret)
++			return ret;
++	}
++
++	return ptr_to_user(c, ctrl, ctrl->p_new);
++}
++
+ /* Helper function: copy the caller-provider value as the new control value */
+ static int user_to_new(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
  {
-@@ -1926,7 +2024,8 @@ int uvc_ctrl_get_boundary(struct uvc_video_chain *chain,
+@@ -229,8 +257,8 @@ static int prepare_ext_ctrls(struct v4l2_ctrl_handler *hdl,
+ 		cs->error_idx = i;
+ 
+ 		if (cs->which &&
+-		    cs->which != V4L2_CTRL_WHICH_DEF_VAL &&
+-		    cs->which != V4L2_CTRL_WHICH_REQUEST_VAL &&
++		    (cs->which < V4L2_CTRL_WHICH_DEF_VAL ||
++		     cs->which > V4L2_CTRL_WHICH_MAX_VAL) &&
+ 		    V4L2_CTRL_ID2WHICH(id) != cs->which) {
+ 			dprintk(vdev,
+ 				"invalid which 0x%x or control id 0x%x\n",
+@@ -368,8 +396,8 @@ static int prepare_ext_ctrls(struct v4l2_ctrl_handler *hdl,
+  */
+ static int class_check(struct v4l2_ctrl_handler *hdl, u32 which)
+ {
+-	if (which == 0 || which == V4L2_CTRL_WHICH_DEF_VAL ||
+-	    which == V4L2_CTRL_WHICH_REQUEST_VAL)
++	if (which == 0 || (which >= V4L2_CTRL_WHICH_DEF_VAL &&
++			   which <= V4L2_CTRL_WHICH_MAX_VAL))
+ 		return 0;
+ 	return find_ref_lock(hdl, which | 1) ? 0 : -EINVAL;
+ }
+@@ -389,10 +417,12 @@ int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
+ 	struct v4l2_ctrl_helper *helpers = helper;
+ 	int ret;
+ 	int i, j;
+-	bool is_default, is_request;
++	bool is_default, is_request, is_min, is_max;
+ 
+ 	is_default = (cs->which == V4L2_CTRL_WHICH_DEF_VAL);
+ 	is_request = (cs->which == V4L2_CTRL_WHICH_REQUEST_VAL);
++	is_min = (cs->which == V4L2_CTRL_WHICH_MIN_VAL);
++	is_max = (cs->which == V4L2_CTRL_WHICH_MAX_VAL);
+ 
+ 	cs->error_idx = cs->count;
+ 	cs->which = V4L2_CTRL_ID2WHICH(cs->which);
+@@ -432,13 +462,14 @@ int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
+ 
+ 		/*
+ 		 * g_volatile_ctrl will update the new control values.
+-		 * This makes no sense for V4L2_CTRL_WHICH_DEF_VAL and
++		 * This makes no sense for V4L2_CTRL_WHICH_DEF_VAL,
++		 * V4L2_CTRL_WHICH_MIN_VAL, V4L2_CTRL_WHICH_MAX_VAL and
+ 		 * V4L2_CTRL_WHICH_REQUEST_VAL. In the case of requests
+ 		 * it is v4l2_ctrl_request_complete() that copies the
+ 		 * volatile controls at the time of request completion
+ 		 * to the request, so you don't want to do that again.
+ 		 */
+-		if (!is_default && !is_request &&
++		if (!is_default && !is_request && !is_min && !is_max &&
+ 		    ((master->flags & V4L2_CTRL_FLAG_VOLATILE) ||
+ 		    (master->has_volatiles && !is_cur_manual(master)))) {
+ 			for (j = 0; j < master->ncontrols; j++)
+@@ -467,6 +498,10 @@ int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
+ 				ret = -ENOMEM;
+ 			else if (is_request && ref->p_req_valid)
+ 				ret = req_to_user(cs->controls + idx, ref);
++			else if (is_min)
++				ret = min_to_user(cs->controls + idx, ref->ctrl);
++			else if (is_max)
++				ret = max_to_user(cs->controls + idx, ref->ctrl);
+ 			else if (is_volatile)
+ 				ret = new_to_user(cs->controls + idx, ref->ctrl);
+ 			else
+@@ -564,9 +599,11 @@ int try_set_ext_ctrls_common(struct v4l2_fh *fh,
+ 
+ 	cs->error_idx = cs->count;
+ 
+-	/* Default value cannot be changed */
+-	if (cs->which == V4L2_CTRL_WHICH_DEF_VAL) {
+-		dprintk(vdev, "%s: cannot change default value\n",
++	/* Default/minimum/maximum values cannot be changed */
++	if (cs->which == V4L2_CTRL_WHICH_DEF_VAL ||
++	    cs->which == V4L2_CTRL_WHICH_MIN_VAL ||
++	    cs->which == V4L2_CTRL_WHICH_MAX_VAL) {
++		dprintk(vdev, "%s: cannot change default/min/max value\n",
+ 			video_device_node_name(vdev));
+ 		return -EINVAL;
  	}
- 
- 	if (uvc_ctrl_mapping_is_compound(mapping))
--		ret = -EINVAL;
-+		ret = __uvc_ctrl_get_boundary_compound(chain, ctrl, mapping,
-+						       xctrl);
- 	else
- 		ret = __uvc_ctrl_get_boundary_std(chain, ctrl, mapping, xctrl);
- 
-@@ -1935,6 +2034,34 @@ int uvc_ctrl_get_boundary(struct uvc_video_chain *chain,
- 	return ret;
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+index e7f232842376..4f11cd6855e5 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+@@ -177,29 +177,72 @@ static void std_init_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+ 	}
  }
  
-+static int __uvc_ctrl_set_compound(struct uvc_control_mapping *mapping,
-+				   struct v4l2_ext_control *xctrl,
-+				   struct uvc_control *ctrl)
+-void v4l2_ctrl_type_op_init(const struct v4l2_ctrl *ctrl, u32 from_idx,
++static int std_min_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+ 			    union v4l2_ctrl_ptr ptr)
 +{
-+	u8 *data;
-+	int ret;
++	void *p = ptr.p + idx * ctrl->elem_size;
 +
-+	if (xctrl->size != mapping->v4l2_size / 8)
++	if (!ctrl->p_min.p_const)
++		return -ENODATA;
++
++	memcpy(p, ctrl->p_min.p_const, ctrl->elem_size);
++	return 0;
++}
++
++static int std_max_compound(const struct v4l2_ctrl *ctrl, u32 idx,
++			    union v4l2_ctrl_ptr ptr)
++{
++	void *p = ptr.p + idx * ctrl->elem_size;
++
++	if (!ctrl->p_max.p_const)
++		return -ENODATA;
++
++	memcpy(p, ctrl->p_max.p_const, ctrl->elem_size);
++	return 0;
++}
++
++static int __v4l2_ctrl_type_op_init(const struct v4l2_ctrl *ctrl, u32 from_idx,
++				    u32 which, union v4l2_ctrl_ptr ptr)
+ {
+ 	unsigned int i;
+ 	u32 tot_elems = ctrl->elems;
+ 	u32 elems = tot_elems - from_idx;
++	s64 value;
++	int ret;
+ 
+ 	if (from_idx >= tot_elems)
+-		return;
 +		return -EINVAL;
 +
-+	data = kmalloc(xctrl->size, GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
++	switch (which) {
++	case V4L2_CTRL_WHICH_DEF_VAL:
++		value = ctrl->default_value;
++		break;
++	case V4L2_CTRL_WHICH_MAX_VAL:
++		value = ctrl->maximum;
++		break;
++	case V4L2_CTRL_WHICH_MIN_VAL:
++		value = ctrl->minimum;
++		break;
++	default:
++		return -EINVAL;
++	}
+ 
+ 	switch (ctrl->type) {
+ 	case V4L2_CTRL_TYPE_STRING:
++		if (which == V4L2_CTRL_WHICH_DEF_VAL)
++			value = ctrl->minimum;
 +
-+	ret = copy_from_user(data, xctrl->ptr, xctrl->size);
-+	if (ret < 0)
-+		goto out;
+ 		for (i = from_idx; i < tot_elems; i++) {
+ 			unsigned int offset = i * ctrl->elem_size;
+ 
+-			memset(ptr.p_char + offset, ' ', ctrl->minimum);
+-			ptr.p_char[offset + ctrl->minimum] = '\0';
++			memset(ptr.p_char + offset, ' ', value);
++			ptr.p_char[offset + value] = '\0';
+ 		}
+ 		break;
+ 	case V4L2_CTRL_TYPE_INTEGER64:
+-		if (ctrl->default_value) {
++		if (value) {
+ 			for (i = from_idx; i < tot_elems; i++)
+-				ptr.p_s64[i] = ctrl->default_value;
++				ptr.p_s64[i] = value;
+ 		} else {
+ 			memset(ptr.p_s64 + from_idx, 0, elems * sizeof(s64));
+ 		}
+@@ -209,9 +252,9 @@ void v4l2_ctrl_type_op_init(const struct v4l2_ctrl *ctrl, u32 from_idx,
+ 	case V4L2_CTRL_TYPE_MENU:
+ 	case V4L2_CTRL_TYPE_BITMASK:
+ 	case V4L2_CTRL_TYPE_BOOLEAN:
+-		if (ctrl->default_value) {
++		if (value) {
+ 			for (i = from_idx; i < tot_elems; i++)
+-				ptr.p_s32[i] = ctrl->default_value;
++				ptr.p_s32[i] = value;
+ 		} else {
+ 			memset(ptr.p_s32 + from_idx, 0, elems * sizeof(s32));
+ 		}
+@@ -221,32 +264,69 @@ void v4l2_ctrl_type_op_init(const struct v4l2_ctrl *ctrl, u32 from_idx,
+ 		memset(ptr.p_s32 + from_idx, 0, elems * sizeof(s32));
+ 		break;
+ 	case V4L2_CTRL_TYPE_U8:
+-		memset(ptr.p_u8 + from_idx, ctrl->default_value, elems);
++		memset(ptr.p_u8 + from_idx, value, elems);
+ 		break;
+ 	case V4L2_CTRL_TYPE_U16:
+-		if (ctrl->default_value) {
++		if (value) {
+ 			for (i = from_idx; i < tot_elems; i++)
+-				ptr.p_u16[i] = ctrl->default_value;
++				ptr.p_u16[i] = value;
+ 		} else {
+ 			memset(ptr.p_u16 + from_idx, 0, elems * sizeof(u16));
+ 		}
+ 		break;
+ 	case V4L2_CTRL_TYPE_U32:
+-		if (ctrl->default_value) {
++		if (value) {
+ 			for (i = from_idx; i < tot_elems; i++)
+-				ptr.p_u32[i] = ctrl->default_value;
++				ptr.p_u32[i] = value;
+ 		} else {
+ 			memset(ptr.p_u32 + from_idx, 0, elems * sizeof(u32));
+ 		}
+ 		break;
+ 	default:
+-		for (i = from_idx; i < tot_elems; i++)
+-			std_init_compound(ctrl, i, ptr);
++		for (i = from_idx; i < tot_elems; i++) {
++			switch (which) {
++			case V4L2_CTRL_WHICH_DEF_VAL:
++				std_init_compound(ctrl, i, ptr);
++				break;
++			case V4L2_CTRL_WHICH_MAX_VAL:
++				ret = std_max_compound(ctrl, i, ptr);
++				if (ret)
++					return ret;
++				break;
++			case V4L2_CTRL_WHICH_MIN_VAL:
++				ret = std_min_compound(ctrl, i, ptr);
++				if (ret)
++					return ret;
++				break;
++			}
++		}
+ 		break;
+ 	}
 +
-+	ret = mapping->set_compound(mapping, data,
-+			uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
-+
-+	__uvc_ctrl_get_compound(mapping, ctrl, UVC_CTRL_DATA_CURRENT, xctrl);
-+
-+out:
-+	kfree(data);
-+	return ret;
++	return 0;
 +}
 +
- int uvc_ctrl_set(struct uvc_fh *handle,
- 	struct v4l2_ext_control *xctrl)
++void v4l2_ctrl_type_op_init(const struct v4l2_ctrl *ctrl, u32 from_idx,
++			    union v4l2_ctrl_ptr ptr)
++{
++	__v4l2_ctrl_type_op_init(ctrl, from_idx, V4L2_CTRL_WHICH_DEF_VAL, ptr);
+ }
+ EXPORT_SYMBOL(v4l2_ctrl_type_op_init);
+ 
++static int v4l2_ctrl_type_op_minimum(const struct v4l2_ctrl *ctrl, u32 from_idx,
++				     union v4l2_ctrl_ptr ptr)
++{
++	return __v4l2_ctrl_type_op_init(ctrl, from_idx,
++					V4L2_CTRL_WHICH_MIN_VAL, ptr);
++}
++
++static int v4l2_ctrl_type_op_maximum(const struct v4l2_ctrl *ctrl, u32 from_idx,
++				     union v4l2_ctrl_ptr ptr)
++{
++	return __v4l2_ctrl_type_op_init(ctrl, from_idx,
++					V4L2_CTRL_WHICH_MAX_VAL, ptr);
++}
++
+ void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
  {
-@@ -2049,12 +2176,14 @@ int uvc_ctrl_set(struct uvc_fh *handle,
- 		       ctrl->info.size);
- 	}
- 
--	if (!uvc_ctrl_mapping_is_compound(mapping))
-+	if (!uvc_ctrl_mapping_is_compound(mapping)) {
- 		mapping->set(mapping, value,
- 			     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
--	else
--		return -EINVAL;
--
-+	} else {
-+		ret = __uvc_ctrl_set_compound(mapping, xctrl, ctrl);
-+		if (ret < 0)
-+			return ret;
-+	}
- 
- 	if (ctrl->info.flags & UVC_CTRL_FLAG_ASYNCHRONOUS)
- 		ctrl->handle = handle;
-@@ -2465,10 +2594,23 @@ static int __uvc_ctrl_add_mapping(struct uvc_video_chain *chain,
- 			goto err_nomem;
- 	}
- 
--	if (map->get == NULL)
-+	if (uvc_ctrl_mapping_is_compound(map)) {
-+		if (map->data_size != map->v4l2_size)
-+			return -EINVAL;
-+
-+		/* Only supports byte-aligned data. */
-+		if (WARN_ON(map->offset % 8 || map->data_size % 8))
-+			return -EINVAL;
-+	}
-+
-+	if (!map->get && !uvc_ctrl_mapping_is_compound(map))
- 		map->get = uvc_get_le_value;
--	if (map->set == NULL)
-+	if (!map->set && !uvc_ctrl_mapping_is_compound(map))
- 		map->set = uvc_set_le_value;
-+	if (!map->get_compound && uvc_ctrl_mapping_is_compound(map))
-+		map->get_compound = uvc_get_compound;
-+	if (!map->set_compound && uvc_ctrl_mapping_is_compound(map))
-+		map->set_compound = uvc_set_compound;
- 
- 	for (i = 0; i < ARRAY_SIZE(uvc_control_classes); i++) {
- 		if (V4L2_CTRL_ID2WHICH(uvc_control_classes[i]) ==
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 1c6c47ab94f0..8d36a3f8c52e 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -129,8 +129,12 @@ struct uvc_control_mapping {
- 
- 	s32 (*get)(struct uvc_control_mapping *mapping, u8 query,
- 		   const u8 *data);
-+	int (*get_compound)(struct uvc_control_mapping *mapping, const u8 *data,
-+			    u8 *data_out);
- 	void (*set)(struct uvc_control_mapping *mapping, s32 value,
- 		    u8 *data);
-+	int (*set_compound)(struct uvc_control_mapping *mapping, const u8 *data_in,
-+			    u8 *data);
+ 	union v4l2_ctrl_ptr ptr = ctrl->p_cur;
+@@ -1043,6 +1123,8 @@ EXPORT_SYMBOL(v4l2_ctrl_type_op_validate);
+ static const struct v4l2_ctrl_type_ops std_type_ops = {
+ 	.equal = v4l2_ctrl_type_op_equal,
+ 	.init = v4l2_ctrl_type_op_init,
++	.minimum = v4l2_ctrl_type_op_minimum,
++	.maximum = v4l2_ctrl_type_op_maximum,
+ 	.log = v4l2_ctrl_type_op_log,
+ 	.validate = v4l2_ctrl_type_op_validate,
  };
+@@ -1514,7 +1596,10 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+ 			s64 min, s64 max, u64 step, s64 def,
+ 			const u32 dims[V4L2_CTRL_MAX_DIMS], u32 elem_size,
+ 			u32 flags, const char * const *qmenu,
+-			const s64 *qmenu_int, const union v4l2_ctrl_ptr p_def,
++			const s64 *qmenu_int,
++			const union v4l2_ctrl_ptr p_def,
++			const union v4l2_ctrl_ptr p_min,
++			const union v4l2_ctrl_ptr p_max,
+ 			void *priv)
+ {
+ 	struct v4l2_ctrl *ctrl;
+@@ -1634,6 +1719,14 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+ 		handler_set_err(hdl, -ERANGE);
+ 		return NULL;
+ 	}
++
++	if ((!p_def.p_const && p_min.p_const) ||
++	    (p_min.p_const && !p_max.p_const) ||
++	    (!p_min.p_const && p_max.p_const)) {
++		handler_set_err(hdl, -EINVAL);
++		return NULL;
++	}
++
+ 	err = check_range(type, min, max, step, def);
+ 	if (err) {
+ 		handler_set_err(hdl, err);
+@@ -1675,6 +1768,8 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
  
- struct uvc_control {
+ 	if (type >= V4L2_CTRL_COMPOUND_TYPES && p_def.p_const)
+ 		sz_extra += elem_size;
++	if (type >= V4L2_CTRL_COMPOUND_TYPES && p_min.p_const)
++		sz_extra += elem_size * 2;
+ 
+ 	ctrl = kvzalloc(sizeof(*ctrl) + sz_extra, GFP_KERNEL);
+ 	if (ctrl == NULL) {
+@@ -1740,6 +1835,14 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+ 		memcpy(ctrl->p_def.p, p_def.p_const, elem_size);
+ 	}
+ 
++	if (type >= V4L2_CTRL_COMPOUND_TYPES &&
++	    p_min.p_const && p_max.p_const) {
++		ctrl->p_min.p = ctrl->p_def.p + elem_size;
++		memcpy(ctrl->p_min.p, p_min.p_const, elem_size);
++		ctrl->p_max.p = ctrl->p_min.p + elem_size;
++		memcpy(ctrl->p_max.p, p_max.p_const, elem_size);
++	}
++
+ 	ctrl->type_ops->init(ctrl, 0, ctrl->p_cur);
+ 	cur_to_new(ctrl);
+ 
+@@ -1790,7 +1893,8 @@ struct v4l2_ctrl *v4l2_ctrl_new_custom(struct v4l2_ctrl_handler *hdl,
+ 			type, min, max,
+ 			is_menu ? cfg->menu_skip_mask : step, def,
+ 			cfg->dims, cfg->elem_size,
+-			flags, qmenu, qmenu_int, cfg->p_def, priv);
++			flags, qmenu, qmenu_int, cfg->p_def, cfg->p_min,
++			cfg->p_max, priv);
+ 	if (ctrl)
+ 		ctrl->is_private = cfg->is_private;
+ 	return ctrl;
+@@ -1815,7 +1919,8 @@ struct v4l2_ctrl *v4l2_ctrl_new_std(struct v4l2_ctrl_handler *hdl,
+ 	}
+ 	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
+ 			     min, max, step, def, NULL, 0,
+-			     flags, NULL, NULL, ptr_null, NULL);
++			     flags, NULL, NULL, ptr_null, ptr_null,
++			     ptr_null, NULL);
+ }
+ EXPORT_SYMBOL(v4l2_ctrl_new_std);
+ 
+@@ -1848,7 +1953,8 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_menu(struct v4l2_ctrl_handler *hdl,
+ 	}
+ 	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
+ 			     0, max, mask, def, NULL, 0,
+-			     flags, qmenu, qmenu_int, ptr_null, NULL);
++			     flags, qmenu, qmenu_int, ptr_null, ptr_null,
++			     ptr_null, NULL);
+ }
+ EXPORT_SYMBOL(v4l2_ctrl_new_std_menu);
+ 
+@@ -1880,7 +1986,8 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_menu_items(struct v4l2_ctrl_handler *hdl,
+ 	}
+ 	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
+ 			     0, max, mask, def, NULL, 0,
+-			     flags, qmenu, NULL, ptr_null, NULL);
++			     flags, qmenu, NULL, ptr_null, ptr_null,
++			     ptr_null, NULL);
+ 
+ }
+ EXPORT_SYMBOL(v4l2_ctrl_new_std_menu_items);
+@@ -1888,7 +1995,9 @@ EXPORT_SYMBOL(v4l2_ctrl_new_std_menu_items);
+ /* Helper function for standard compound controls */
+ struct v4l2_ctrl *v4l2_ctrl_new_std_compound(struct v4l2_ctrl_handler *hdl,
+ 				const struct v4l2_ctrl_ops *ops, u32 id,
+-				const union v4l2_ctrl_ptr p_def)
++				const union v4l2_ctrl_ptr p_def,
++				const union v4l2_ctrl_ptr p_min,
++				const union v4l2_ctrl_ptr p_max)
+ {
+ 	const char *name;
+ 	enum v4l2_ctrl_type type;
+@@ -1902,7 +2011,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_compound(struct v4l2_ctrl_handler *hdl,
+ 	}
+ 	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
+ 			     min, max, step, def, NULL, 0,
+-			     flags, NULL, NULL, p_def, NULL);
++			     flags, NULL, NULL, p_def, p_min, p_max, NULL);
+ }
+ EXPORT_SYMBOL(v4l2_ctrl_new_std_compound);
+ 
+@@ -1926,7 +2035,8 @@ struct v4l2_ctrl *v4l2_ctrl_new_int_menu(struct v4l2_ctrl_handler *hdl,
+ 	}
+ 	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
+ 			     0, max, 0, def, NULL, 0,
+-			     flags, NULL, qmenu_int, ptr_null, NULL);
++			     flags, NULL, qmenu_int, ptr_null, ptr_null,
++			     ptr_null, NULL);
+ }
+ EXPORT_SYMBOL(v4l2_ctrl_new_int_menu);
+ 
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 87f163a89c80..1463d55fee0a 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -888,7 +888,9 @@ static bool check_ext_ctrls(struct v4l2_ext_controls *c, unsigned long ioctl)
+ 			return false;
+ 		break;
+ 	case V4L2_CTRL_WHICH_DEF_VAL:
+-		/* Default value cannot be changed */
++	case V4L2_CTRL_WHICH_MIN_VAL:
++	case V4L2_CTRL_WHICH_MAX_VAL:
++		/* Default, minimum or maximum value cannot be changed */
+ 		if (ioctl == VIDIOC_S_EXT_CTRLS ||
+ 		    ioctl == VIDIOC_TRY_EXT_CTRLS) {
+ 			c->error_idx = c->count;
+diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+index 1846caf9dd53..6feeb18411e4 100644
+--- a/include/media/v4l2-ctrls.h
++++ b/include/media/v4l2-ctrls.h
+@@ -125,6 +125,8 @@ struct v4l2_ctrl_ops {
+  *
+  * @equal: return true if all ctrl->elems array elements are equal.
+  * @init: initialize the value for array elements from from_idx to ctrl->elems.
++ * @minimum: set the value to the minimum value of the control.
++ * @maximum: set the value to the maximum value of the control.
+  * @log: log the value.
+  * @validate: validate the value for ctrl->new_elems array elements.
+  *	Return 0 on success and a negative value otherwise.
+@@ -134,6 +136,10 @@ struct v4l2_ctrl_type_ops {
+ 		      union v4l2_ctrl_ptr ptr1, union v4l2_ctrl_ptr ptr2);
+ 	void (*init)(const struct v4l2_ctrl *ctrl, u32 from_idx,
+ 		     union v4l2_ctrl_ptr ptr);
++	int (*minimum)(const struct v4l2_ctrl *ctrl, u32 idx,
++		       union v4l2_ctrl_ptr ptr);
++	int (*maximum)(const struct v4l2_ctrl *ctrl, u32 idx,
++		       union v4l2_ctrl_ptr ptr);
+ 	void (*log)(const struct v4l2_ctrl *ctrl);
+ 	int (*validate)(const struct v4l2_ctrl *ctrl, union v4l2_ctrl_ptr ptr);
+ };
+@@ -239,6 +245,12 @@ typedef void (*v4l2_ctrl_notify_fnc)(struct v4l2_ctrl *ctrl, void *priv);
+  * @p_def:	The control's default value represented via a union which
+  *		provides a standard way of accessing control types
+  *		through a pointer (for compound controls only).
++ * @p_min:	The control's minimum value represented via a union which
++ *		provides a standard way of accessing control types
++ *		through a pointer (for compound controls only).
++ * @p_max:	The control's maximum value represented via a union which
++ *		provides a standard way of accessing control types
++ *		through a pointer (for compound controls only).
+  * @p_cur:	The control's current value represented via a union which
+  *		provides a standard way of accessing control types
+  *		through a pointer.
+@@ -298,6 +310,8 @@ struct v4l2_ctrl {
+ 	} cur;
+ 
+ 	union v4l2_ctrl_ptr p_def;
++	union v4l2_ctrl_ptr p_min;
++	union v4l2_ctrl_ptr p_max;
+ 	union v4l2_ctrl_ptr p_new;
+ 	union v4l2_ctrl_ptr p_cur;
+ };
+@@ -417,6 +431,8 @@ struct v4l2_ctrl_handler {
+  * @step:	The control's step value for non-menu controls.
+  * @def:	The control's default value.
+  * @p_def:	The control's default value for compound controls.
++ * @p_min:	The control's minimum value for compound controls.
++ * @p_max:	The control's maximum value for compound controls.
+  * @dims:	The size of each dimension.
+  * @elem_size:	The size in bytes of the control.
+  * @flags:	The control's flags.
+@@ -446,6 +462,8 @@ struct v4l2_ctrl_config {
+ 	u64 step;
+ 	s64 def;
+ 	union v4l2_ctrl_ptr p_def;
++	union v4l2_ctrl_ptr p_min;
++	union v4l2_ctrl_ptr p_max;
+ 	u32 dims[V4L2_CTRL_MAX_DIMS];
+ 	u32 elem_size;
+ 	u32 flags;
+@@ -715,17 +733,23 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_menu_items(struct v4l2_ctrl_handler *hdl,
+  * @ops:       The control ops.
+  * @id:        The control ID.
+  * @p_def:     The control's default value.
++ * @p_min:     The control's minimum value.
++ * @p_max:     The control's maximum value.
+  *
+- * Sames as v4l2_ctrl_new_std(), but with support to compound controls, thanks
+- * to the @p_def field. Use v4l2_ctrl_ptr_create() to create @p_def from a
+- * pointer. Use v4l2_ctrl_ptr_create(NULL) if the default value of the
+- * compound control should be all zeroes.
++ * Same as v4l2_ctrl_new_std(), but with support to compound controls, thanks
++ * to the @p_def/min/max fields. Use v4l2_ctrl_ptr_create() to create
++ * @p_def/min/max from a pointer. Use v4l2_ctrl_ptr_create(NULL) if the
++ * default value of the compound control should be all zeroes. Use
++ * v4l2_ctrl_ptr_create(NULL) if the min/max value of the compound control
++ * is not defined, -ENODATA will be returned in this case.
+  *
+  */
+ struct v4l2_ctrl *v4l2_ctrl_new_std_compound(struct v4l2_ctrl_handler *hdl,
+ 					     const struct v4l2_ctrl_ops *ops,
+ 					     u32 id,
+-					     const union v4l2_ctrl_ptr p_def);
++					     const union v4l2_ctrl_ptr p_def,
++					     const union v4l2_ctrl_ptr p_min,
++					     const union v4l2_ctrl_ptr p_max);
+ 
+ /**
+  * v4l2_ctrl_new_int_menu() - Create a new standard V4L2 integer menu control.
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index ce2bd9ac4c47..8870303df713 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -1844,6 +1844,8 @@ struct v4l2_ext_controls {
+ #define V4L2_CTRL_WHICH_CUR_VAL   0
+ #define V4L2_CTRL_WHICH_DEF_VAL   0x0f000000
+ #define V4L2_CTRL_WHICH_REQUEST_VAL 0x0f010000
++#define V4L2_CTRL_WHICH_MIN_VAL   0x0f020000
++#define V4L2_CTRL_WHICH_MAX_VAL   0x0f030000
+ 
+ enum v4l2_ctrl_type {
+ 	V4L2_CTRL_TYPE_INTEGER	     = 1,
 -- 
 2.40.1.495.gc816e09b53d-goog
 
