@@ -2,24 +2,24 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A4716EF672
-	for <lists+linux-media@lfdr.de>; Wed, 26 Apr 2023 16:31:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B78C6EF69A
+	for <lists+linux-media@lfdr.de>; Wed, 26 Apr 2023 16:41:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241176AbjDZObr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Apr 2023 10:31:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40228 "EHLO
+        id S241313AbjDZOl2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Apr 2023 10:41:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240902AbjDZObp (ORCPT
+        with ESMTP id S241032AbjDZOl1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Apr 2023 10:31:45 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7EE64EE6;
-        Wed, 26 Apr 2023 07:31:43 -0700 (PDT)
+        Wed, 26 Apr 2023 10:41:27 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 998727280;
+        Wed, 26 Apr 2023 07:41:25 -0700 (PDT)
 Received: from [192.168.1.43] ([77.7.2.190]) by mrelayeu.kundenserver.de
  (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MlfL0-1qaKbV2V0s-00inbM; Wed, 26 Apr 2023 16:31:35 +0200
-Message-ID: <9c11af81-cc30-dcc0-33cf-058d74080f1c@metux.net>
-Date:   Wed, 26 Apr 2023 16:31:34 +0200
+ 1Mgvan-1qU1QJ17AT-00hOoH; Wed, 26 Apr 2023 16:41:18 +0200
+Message-ID: <62fa90f7-e465-8cd7-3007-dd5104bcabe5@metux.net>
+Date:   Wed, 26 Apr 2023 16:41:17 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
@@ -33,25 +33,27 @@ Cc:     rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org, kernel@collabora.com
 References: <20230406215615.122099-1-daniel.almeida@collabora.com>
  <441a96cb-7dd1-0885-df64-933ebdb55e9e@selasky.org>
-From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
-In-Reply-To: <441a96cb-7dd1-0885-df64-933ebdb55e9e@selasky.org>
+ <0ec4becd05c49e8f0bf214fbd62208ea67c2b4c3.camel@collabora.com>
+ <6fc0a0c6-a7c9-5350-9b9e-1ea9dab568d0@selasky.org>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+In-Reply-To: <6fc0a0c6-a7c9-5350-9b9e-1ea9dab568d0@selasky.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Ow8I91kmxMh/ASGHlIt0oFQKmCEOyR3w3fqp/P6Qz4ZUIz/H16b
- NJGi5boB95K44w9Kwc3RqLJqeOe3tkSQgK5GehEpaVqbt25AUrssVyhdsvp/lxhymleTgzw
- ImtXEMiej4B6dh2UgQQCpdjUQNK6K8Vz1A4cmcGcKBMwlS2FpVpKBVtiy0xgRWXfrb6dl5D
- RDM1NB3U+qvP2uOr0Ronw==
-UI-OutboundReport: notjunk:1;M01:P0:kDmh3DcH/z8=;EFi6kEKyvxwGd7krUNNdmsxKACj
- RSDjpoQ0OaQVQkaS8bRMJJS9FUygLdSg+VxkE3OjlMjNPmLVgzavkDRqvMK7Qge9aJ0882vnQ
- Iaklm8gkHnEUxeODuEQ/hqwVvMv2dMQSs+CLwz9zcBMgqV51KdcQCUBYt6UN7MXnLJ+IEYa+0
- +/FqjwPgn4X5lefKjqbzW3DXrTNeLJHY66FtBKhKN47Bc0MOTW8XZ11IaqdcbI1QNbz0waP/E
- M6VaJOQ/sRa6xnL5/kOmmfMB+rvZYpX22wJHgrWkx2lTRIHYRz6orUBLoeBymfb0OqyVgQeB5
- sHpVxflbGLyqmIYqkA+FoAW25DS9g5+9KEKTlza4ErbOHKtI2APp3JpD4PKU26pa0zHX1B4Tb
- iyC+cyteAhFy+OhWr260tQUtcU1Ha2g7urclstxIL3XobvWAmgny4xscWvp7x1m1D/VrbQIr7
- QOZJDaPwh3m1QcCeULQzFA+BxigFC3koHbyqjmgHOst2z0yizFhBhK60OSDeXVoRxcIKyU2tr
- wjyM/mUaOC3c2+AFPA7JcVomqxHkcd4epCRiob3AUp9D2pG/Eg9Zj3loqiY8jUE0QI9LvLhql
- wJ6FxLJPWIaPvWkOg5VYgIfDzU7k27Jj9fdjWVJuG0+I/Wc2TK0xdwQzkeDHwFHZ8gV3FICPR
- exBOiMBfXTTtAmSM030Q4ZOaHUrWC82jgtfo0t7TJQ==
+X-Provags-ID: V03:K1:Sa3AMuNG8WdeBgqUAVs2KtHI4Dk2mZJi+AcM13wq1T4mCJFlomF
+ Nl2J1o7G1HqDVOKgPbqJica18/CKR0OuBDRF+6eLtGcmORDgGiVrLYfLcgooFu/jbTWVcyQ
+ XuXbF2R7VwHpRO03zdFBo8wy7uBXwl7AeA6Y0bwvcz+diY1jwigdPI80Sg3b1OdZVlP7FsI
+ bdMm7mjNPGzjiE19k8uEg==
+UI-OutboundReport: notjunk:1;M01:P0:/CDVuJ8S2Lk=;NbIQR9K0/rzirW61wQVQ18ijocO
+ +dLHEb4xDdSZIS8LxMoivDw/r3EuIKPxjMmZNvSdMacL2D0W2HdFl0nyWFJgnhX7jETxETOCH
+ G+3t8FbpgIj7xE/8QqLkNGRwhFkVOGVEKaJFYvqcXbA2CbEVPtrv3ICdG7E5bac1wbGsUe5t4
+ XJTV8To8h0uid4CSsnf3RxT1tJLE7BQ+ClvmXoDr1yUggfL2MU+YTDL/FMLOMFJW6Zk2g5kGD
+ lJbLkUXJZAubHkKqChyALrO0/xIR0HRBKFPjC27VhHMzRnNzWEo0LuMWhNcny17aBrIBeuJn2
+ 3ZfW5RbYcF8U+OcNkLb+EE1WSfxSvB6mL1je1+cBwCd30Ah4oO4q+RM4+d1zHybeLBI6MLZ8/
+ bsRL3pYLU3/06OAVrmqqfaNM63TAdFBGGFepNcQONLZujuAyzT5cb+716ol85EdeDN+1a+Kgl
+ 95uFygGuhkyoyEmD4WauAyGOnKtwNPhptUlnfsHrvZbUekt1F7tHvAQ1IsqJK7odKEbhVANLE
+ /NBxlvMi5fcpSMhimVRcx0shw581807oQhoHzpmaChgK1/HTijHb0L3arxXOl0/nN6/7uiiRr
+ TiqKrXalWZXZHIocYfm6LbX8IjAjYRO4qoD7mSKvoxkpMOhraJLLMvrmJkHZfKRRCAwdzPQ1p
+ 7S+6Av1QkEjmmNmyXSaqfgxHSLeQrGERPDVb99hWOg==
 X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,NICE_REPLY_A,
         RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -61,104 +63,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 08.04.23 21:43, Hans Petter Selasky wrote:
+On 10.04.23 20:59, Hans Petter Selasky wrote:
 
-> You assume that all 
-> code is running inside the kernel and needs to be perfect. 
+> Adding a dependency to build the Rust compiler even to build one or two 
+> V4L2 device drivers, would mean a lot to my small hselasky/webcamd 
+> project. It already has to fetch a copy of the Linux kernel, and now has 
+> to bootstrap Rust from stage0 to stageN.
 
-Yes, of course. It's kernel code.
+Did it ever cross your mind, being a bit thankful that you can use our
+Linux code for your BSD project ?
 
-If you're borrowing kernel code for your userland stuff, than it's up
-to you to take care of it.
+Linux kernel code was never meant to be used anywhere outside the Linux
+kernel. It's cool to see that such things are possible, but that's
+really out of scope here.
 
-There is no such thing like stable/fixed in-kernel APIs - it always has
-been this way.
+> I personally say no. It's like 
+> XCode unfortunately. I download 100's of GBytes of upgrades to XCode, 
+> and barely upload one millionth worth of code back to Apple. It's not 
+> good. Software developers shouldn't have to download more stuff than 
+> they upload?
 
-> But I think 
-> you could just aswell implement the next USB webcam V4L2 driver in Perl 
-> for that sake.
+Where does the connection to Xcode come from ?
 
-That would't be v4l anymore.
+> Why not move Linux-V4L2 drivers to user-space? 
 
-> The reason for my point of view, is that I think most of the drivers in 
-> media/ should run in user-space, and not inside the kernel.
+Feel free to send patches.
 
-Feel free to provide fully userspace drivers for those devices, but
-that's totally unrelated to kernel development (no matter whether you're
-copying over kernel code into your userland project).
+>> The reality is that it isn't up to anyone to say who should or
+>> shouldn't become
+>> a kernel developer. The resources are out there for anyone to try, and
+>> if
+>> maintainers take in their patches, then that's the end of the story.
+> The GPLv2 license should not be the only reason behind Linux developers 
+> putting drivers in the kernel-space. I think moving more stuff to 
+> user-space would benefit a greater purpose.
 
-> The example of secure V4L2 programming is already here:
-> https://github.com/hselasky/webcamd
+I don't recall any specific case for the license being the primary
+reason for putting someting into the kernel instead of userland.
 
-BSD code is not in scope of the LKML.
-
-> I would rather like more drive on that, than flowing down the Rust 
-> stream.
-
-Orthogonal topic.
-
-> Rust is cool, Java is cool, VM's are cool. The only bad about 
-> cool things, is that they are so slow. For many years I completely 
-> avoided C++ code for the sake it is very slow to compile, compared to 
-> bare C code. And when looking at how Firefox is building using Rust, I 
-> am a little worried, why we need so much code in there!
-
-Yes, compiling Rust is slow, compared to C. That's the price for
-sophisticated optimizations. How often do you have to do a full
-recompile ?
-
-> Engineering energy would be much more focused, if hardware vendors could 
-> agree more about what binary formats to use for their device protocols, 
-
-Indeed. But we (kernel folks) have no influence on that. If we could,
-we'd already standardized HW interfaces for lots of things and so only
-a small percentage of the drivers we currently have, while still
-supporting the same number of HW (or even more). But unfortunately thats
-not under our control. Therefore offtopic.
-
-> than changing the coding language, so that now anyone can be let loose 
-> to program in the Linux kernel without risking any damage.
-
-AFAIK, this discussion isn't about changing the kernel's programming
-language, but just adding language bindings, so some new drivers could
-be written in that language. If this really happens and you really want
-a C implementation, feel free to send patches.
-
-> The goal for Linux driver development should be fewer drivers and not 
-> more. 
-
-Depends on specific case. We already have lots of drivers that support
-wide range of devices. But it doesn't make sense having monster drivers
-for entirely different devices.
-
-> I don't want Linux to become the next Microsoft, with gigabytes 
-> of drivers which are never used for anything.
-
-Actually, we're doing a pretty good job of generalizing things that can
-be generalized (if you find room for more improvements, feel free to
-send patches). Nobody here seriously intents dropping the subsystem and
-lib architectures in favour of monolithic monster drivers like in
-Windows world.
-
-> The webcamd daemon already is close to 6 MBytes big on amd64 on FreeBSD. 
-> Inside there is support for 510 drivers (counting =y keywords), built 
-> straight off Linus Torvalds:
-
-You have ~500 drivers in one 6MB binary and blame us for writing too
-much code ? Maybe you should think about modularization (which we do
-have in the kernel).
-
-And, btw, FreeBSD is completely off-topic here.
-
-> The USB video class is great, instead of tons of GSPCA devices, then 
-> yeah, we don't need to drag around so much legacy binaries, just to make 
-> everyone happy. What did Apple do? Custom PCI webcam devices? Why can't 
-> they just stick with virtual USB devices, and then have a dual 
-> configured device, one config for their own HD codec, and one config for 
-> people like me, just needing the framebuffer.
-
-Well, they just could have an USB device layered on-top of a tiny PCI-
-USB bridge. We're the wrong to blame - talk to Apple.
+If you want userland v4l drivers: feel free to send patches. Those
+should also be capable of directly passing around HW buffers between
+separate devices (eg. fg -> codec -> display), which often is
+performance critical in embedded devices.
 
 
 --mtx
