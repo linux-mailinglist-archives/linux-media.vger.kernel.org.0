@@ -2,252 +2,317 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 31E756EEEB6
-	for <lists+linux-media@lfdr.de>; Wed, 26 Apr 2023 09:01:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F92D6EEF4D
+	for <lists+linux-media@lfdr.de>; Wed, 26 Apr 2023 09:30:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239530AbjDZHA7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Apr 2023 03:00:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38984 "EHLO
+        id S239690AbjDZH37 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Apr 2023 03:29:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239463AbjDZHAz (ORCPT
+        with ESMTP id S240023AbjDZH3y (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Apr 2023 03:00:55 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5EA335AC;
-        Wed, 26 Apr 2023 00:00:36 -0700 (PDT)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 33Q34wA3004689;
-        Wed, 26 Apr 2023 07:00:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id; s=qcppdkim1;
- bh=qo4WKRh1ielD2GmzBgFz0jRL03eeC4YF6ehlpz+iMMA=;
- b=mzI/GNL2XzvYHO573Le5qoCYsN05DdWu3ePSQodirzkKNiP3qRPty0UDY8r6pfHrbmIS
- fQMXkb9foCVBoIawrFEK7yk0jUEdjh0eCU1Ggx8eueNyOuNXKIqYiUqrPKpkEURcYqoz
- Oc/Vpb9wZeuT7CECK7R6X8QgfVWIwuy934swnpr7s1flxTA7NTeyXTYQVhFwjgE8T4SF
- wRTSQ3hwGKBu9THBQ5rxbPdCWr0TokOBmbDb8raRD9RzK0ktLoyjxqqRXBasvMi4TrZ5
- VFZpHERaOFW/aOgXEgavKzj1AheZLACIJbjS4jYC3yEKi3iImDo6/cJUQiUXgLxcaTwU PQ== 
-Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3q6fs2t5du-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 26 Apr 2023 07:00:31 +0000
-Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-        by APBLRPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 33Q70RDZ001770;
-        Wed, 26 Apr 2023 07:00:27 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 3q48nkq4k8-1;
-        Wed, 26 Apr 2023 07:00:27 +0000
-Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 33Q70RuI001765;
-        Wed, 26 Apr 2023 07:00:27 GMT
-Received: from hu-sgudaval-hyd.qualcomm.com (hu-dikshita-hyd.qualcomm.com [10.213.110.13])
-        by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 33Q70RXc001764;
-        Wed, 26 Apr 2023 07:00:27 +0000
-Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 347544)
-        id 7037E339D; Wed, 26 Apr 2023 12:30:26 +0530 (+0530)
-From:   Dikshita Agarwal <quic_dikshita@quicinc.com>
-To:     linux-media@vger.kernel.org, stanimir.k.varbanov@gmail.com,
-        quic_vgarodia@quicinc.com, agross@kernel.org, andersson@kernel.org,
-        konrad.dybcio@linaro.org, mchehab@kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>
-Subject: [PATCH] venus: add support for 10 bit decoding.
-Date:   Wed, 26 Apr 2023 12:30:17 +0530
-Message-Id: <1682492417-20496-1-git-send-email-quic_dikshita@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: hDHBH8d4tcJNp5o3ccrkcV3GgBF74FIP
-X-Proofpoint-ORIG-GUID: hDHBH8d4tcJNp5o3ccrkcV3GgBF74FIP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-04-26_02,2023-04-26_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 impostorscore=0
- clxscore=1015 priorityscore=1501 malwarescore=0 mlxscore=0 suspectscore=0
- bulkscore=0 mlxlogscore=955 adultscore=0 lowpriorityscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2303200000
- definitions=main-2304260063
-X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        Wed, 26 Apr 2023 03:29:54 -0400
+Received: from mx.sberdevices.ru (mx.sberdevices.ru [45.89.227.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46D1910F3;
+        Wed, 26 Apr 2023 00:29:51 -0700 (PDT)
+Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
+        by mx.sberdevices.ru (Postfix) with ESMTP id 586EF5FD6E;
+        Wed, 26 Apr 2023 10:29:49 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
+        s=mail; t=1682494189;
+        bh=dHg7xkBb0HnprALeBYDMhRRSgdMSlw6mHB6uPNDkV88=;
+        h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+        b=Msu/wEcbvYUHe8F7DZlH1U9d7kSCIGKdKqtabrjPgcowqH3dmFdHNEKyHPCcxo55i
+         ps5J1CqZhwpGN+txNgtF7qxGSKb25ZJvYcBZMvjIPedilZaNk5IRwtYg3hiBHfRhNL
+         SRLvoM7ENjJHRkQS+vHcb9anIr2TLRi/Vs4MEzESPK1GiKep7nBTeHJJBvAyKSup3v
+         Y2T76DXCjkpBGw8F7qBnMPeaVSylFev9aF/Kt0F+avTAwHTQvdh+kDoplSWozOEVte
+         PIrZpJaCSvOEdH4hrWjTIaozJJClqGlFOxT8vdd9+KHbDkhSXXa6wK1y4TrgAwPRxD
+         rzaxeHPagOvqw==
+Received: from S-MS-EXCH01.sberdevices.ru (S-MS-EXCH01.sberdevices.ru [172.16.1.4])
+        by mx.sberdevices.ru (Postfix) with ESMTP;
+        Wed, 26 Apr 2023 10:29:47 +0300 (MSK)
+From:   Arseniy Krasnov <AVKrasnov@sberdevices.ru>
+To:     Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Arseniy Krasnov <AVKrasnov@sberdevices.ru>
+CC:     <oxffffaa@gmail.com>, <kernel@sberdevices.ru>,
+        <linux-mtd@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>
+Subject: [PATCH v1] mtd: rawnand: macronix: OTP access for MX30LFxG18AC
+Date:   Wed, 26 Apr 2023 10:24:52 +0300
+Message-ID: <20230426072455.3887717-1-AVKrasnov@sberdevices.ru>
+X-Mailer: git-send-email 2.35.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [172.16.1.6]
+X-ClientProxiedBy: S-MS-EXCH01.sberdevices.ru (172.16.1.4) To
+ S-MS-EXCH01.sberdevices.ru (172.16.1.4)
+X-KSMG-Rule-ID: 4
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Status: not scanned, disabled by settings
+X-KSMG-AntiSpam-Interceptor-Info: not scanned
+X-KSMG-AntiPhishing: not scanned, disabled by settings
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2023/04/26 04:45:00 #21166225
+X-KSMG-AntiVirus-Status: Clean, skipped
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-- Add support for V4L2_PIX_FMT_P010 color format.
-- Add handling of bit depth change from firmware.
-- Return P010 as preferred format for 10 bit decode.
+This adds support for OTP area access on MX30LFxG18AC chip series.
 
-Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+Signed-off-by: Arseniy Krasnov <AVKrasnov@sberdevices.ru>
 ---
- drivers/media/platform/qcom/venus/helpers.c        | 25 ++++++++++++++++++++++
- drivers/media/platform/qcom/venus/hfi_plat_bufs.h  |  3 +++
- .../media/platform/qcom/venus/hfi_plat_bufs_v6.c   |  9 +++++++-
- drivers/media/platform/qcom/venus/vdec.c           | 18 +++++++++++++---
- 4 files changed, 51 insertions(+), 4 deletions(-)
+ drivers/mtd/nand/raw/nand_macronix.c | 212 +++++++++++++++++++++++++++
+ 1 file changed, 212 insertions(+)
 
-diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-index ab6a29f..193215c 100644
---- a/drivers/media/platform/qcom/venus/helpers.c
-+++ b/drivers/media/platform/qcom/venus/helpers.c
-@@ -612,6 +612,8 @@ static u32 to_hfi_raw_fmt(u32 v4l2_fmt)
- 		return HFI_COLOR_FORMAT_NV12_UBWC;
- 	case V4L2_PIX_FMT_QC10C:
- 		return HFI_COLOR_FORMAT_YUV420_TP10_UBWC;
-+	case V4L2_PIX_FMT_P010:
-+		return HFI_COLOR_FORMAT_P010;
- 	default:
- 		break;
- 	}
-@@ -639,12 +641,16 @@ static int platform_get_bufreq(struct venus_inst *inst, u32 buftype,
- 	if (is_dec) {
- 		params.width = inst->width;
- 		params.height = inst->height;
-+		params.out_width = inst->out_width;
-+		params.out_height = inst->out_height;
- 		params.codec = inst->fmt_out->pixfmt;
- 		params.hfi_color_fmt = to_hfi_raw_fmt(inst->fmt_cap->pixfmt);
- 		params.dec.max_mbs_per_frame = mbs_per_frame_max(inst);
- 		params.dec.buffer_size_limit = 0;
- 		params.dec.is_secondary_output =
- 			inst->opb_buftype == HFI_BUFFER_OUTPUT2;
-+		if (params.dec.is_secondary_output)
-+			params.hfi_dpb_color_fmt = inst->dpb_fmt;
- 		params.dec.is_interlaced =
- 			inst->pic_struct != HFI_INTERLACE_FRAME_PROGRESSIVE;
- 	} else {
-@@ -1764,6 +1770,25 @@ int venus_helper_get_out_fmts(struct venus_inst *inst, u32 v4l2_fmt,
- 	if (!caps)
- 		return -EINVAL;
+diff --git a/drivers/mtd/nand/raw/nand_macronix.c b/drivers/mtd/nand/raw/nand_macronix.c
+index 1472f925f386..c0d12979933a 100644
+--- a/drivers/mtd/nand/raw/nand_macronix.c
++++ b/drivers/mtd/nand/raw/nand_macronix.c
+@@ -31,6 +31,20 @@
  
-+	if (inst->bit_depth == VIDC_BITDEPTH_10 &&
-+	    inst->session_type == VIDC_SESSION_TYPE_DEC) {
-+		found_ubwc =
-+			find_fmt_from_caps(caps, HFI_BUFFER_OUTPUT,
-+					   HFI_COLOR_FORMAT_YUV420_TP10_UBWC);
-+		found = find_fmt_from_caps(caps, HFI_BUFFER_OUTPUT2,
-+					   fmt);
-+		if (found_ubwc && found) {
-+			/*
-+			 * Hard-code DPB buffers to be 10bit UBWC
-+			 * until V4L2 is able to expose compressed/tiled
-+			 * formats to applications.
-+			 */
-+			*out_fmt = HFI_COLOR_FORMAT_YUV420_TP10_UBWC;
-+			*out2_fmt = fmt;
-+			return 0;
-+		}
-+	}
+ #define MXIC_CMD_POWER_DOWN 0xB9
+ 
++#define ONFI_FEATURE_ADDR_30LFXG18AC_OTP	0x90
++#define MACRONIX_30LFXG18AC_OTP_START_PAGE	0
++#define MACRONIX_30LFXG18AC_OTP_PAGES		30
++#define MACRONIX_30LFXG18AC_OTP_PAGE_SIZE	2112
++#define MACRONIX_30LFXG18AC_OTP_START_BYTE	\
++	(MACRONIX_30LFXG18AC_OTP_START_PAGE *	\
++	 MACRONIX_30LFXG18AC_OTP_PAGE_SIZE)
++#define MACRONIX_30LFXG18AC_OTP_SIZE_BYTES	\
++	(MACRONIX_30LFXG18AC_OTP_PAGES *	\
++	 MACRONIX_30LFXG18AC_OTP_PAGE_SIZE)
 +
- 	if (ubwc) {
- 		ubwc_fmt = fmt | HFI_COLOR_FORMAT_UBWC_BASE;
- 		found_ubwc = find_fmt_from_caps(caps, HFI_BUFFER_OUTPUT,
-diff --git a/drivers/media/platform/qcom/venus/hfi_plat_bufs.h b/drivers/media/platform/qcom/venus/hfi_plat_bufs.h
-index 52a51a3..25e6074 100644
---- a/drivers/media/platform/qcom/venus/hfi_plat_bufs.h
-+++ b/drivers/media/platform/qcom/venus/hfi_plat_bufs.h
-@@ -12,8 +12,11 @@
- struct hfi_plat_buffers_params {
- 	u32 width;
- 	u32 height;
-+	u32 out_width;
-+	u32 out_height;
- 	u32 codec;
- 	u32 hfi_color_fmt;
-+	u32 hfi_dpb_color_fmt;
- 	enum hfi_version version;
- 	u32 num_vpp_pipes;
- 	union {
-diff --git a/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c b/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
-index ea25c45..08caab1 100644
---- a/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
-+++ b/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
-@@ -1185,6 +1185,7 @@ static int bufreq_dec(struct hfi_plat_buffers_params *params, u32 buftype,
- 	enum hfi_version version = params->version;
- 	u32 codec = params->codec;
- 	u32 width = params->width, height = params->height, out_min_count;
-+	u32 out_width = params->out_width, out_height = params->out_height;
- 	struct dec_bufsize_ops *dec_ops;
- 	bool is_secondary_output = params->dec.is_secondary_output;
- 	bool is_interlaced = params->dec.is_interlaced;
-@@ -1235,7 +1236,13 @@ static int bufreq_dec(struct hfi_plat_buffers_params *params, u32 buftype,
- 		bufreq->count_min = out_min_count;
- 		bufreq->size =
- 			venus_helper_get_framesz_raw(params->hfi_color_fmt,
--						     width, height);
-+						     out_width, out_height);
++#define MACRONIX_30LFXG18AC_OTP_EN		BIT(0)
++#define MACRONIX_30LFXG18AC_OTP_LOCKED		BIT(1)
 +
-+		if (buftype == HFI_BUFFER_OUTPUT &&
-+		    params->dec.is_secondary_output)
-+			bufreq->size =
-+				venus_helper_get_framesz_raw(params->hfi_dpb_color_fmt,
-+							     out_width, out_height);
- 	} else if (buftype == HFI_BUFFER_INTERNAL_SCRATCH(version)) {
- 		bufreq->size = dec_ops->scratch(width, height, is_interlaced);
- 	} else if (buftype == HFI_BUFFER_INTERNAL_SCRATCH_1(version)) {
-diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-index 4ceaba3..99d0e96 100644
---- a/drivers/media/platform/qcom/venus/vdec.c
-+++ b/drivers/media/platform/qcom/venus/vdec.c
-@@ -43,6 +43,10 @@ static const struct venus_format vdec_formats[] = {
- 		.num_planes = 1,
- 		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
- 	}, {
-+		.pixfmt = V4L2_PIX_FMT_P010,
-+		.num_planes = 1,
-+		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
-+	}, {
- 		.pixfmt = V4L2_PIX_FMT_MPEG4,
- 		.num_planes = 1,
- 		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-@@ -697,6 +701,9 @@ static int vdec_set_work_route(struct venus_inst *inst)
+ struct nand_onfi_vendor_macronix {
+ 	u8 reserved;
+ 	u8 reliability_func;
+@@ -316,6 +330,203 @@ static void macronix_nand_deep_power_down_support(struct nand_chip *chip)
+ 	chip->ops.resume = mxic_nand_resume;
  }
  
- #define is_ubwc_fmt(fmt) (!!((fmt) & HFI_COLOR_FORMAT_UBWC_BASE))
-+#define is_10bit_ubwc_fmt(fmt) (!!((fmt) & HFI_COLOR_FORMAT_10_BIT_BASE & \
-+				    HFI_COLOR_FORMAT_UBWC_BASE))
++static int macronix_30lfxg18ac_get_otp_info(struct mtd_info *mtd, size_t len,
++					    size_t *retlen,
++					    struct otp_info *buf)
++{
++	if (len < sizeof(*buf))
++		return -EINVAL;
 +
- 
- static int vdec_output_conf(struct venus_inst *inst)
- {
-@@ -744,7 +751,7 @@ static int vdec_output_conf(struct venus_inst *inst)
- 		inst->opb_fmt = out2_fmt;
- 		inst->dpb_buftype = HFI_BUFFER_OUTPUT;
- 		inst->dpb_fmt = out_fmt;
--	} else if (is_ubwc_fmt(out2_fmt)) {
-+	} else if (is_ubwc_fmt(out2_fmt) || is_10bit_ubwc_fmt(out_fmt)) {
- 		inst->opb_buftype = HFI_BUFFER_OUTPUT;
- 		inst->opb_fmt = out_fmt;
- 		inst->dpb_buftype = HFI_BUFFER_OUTPUT2;
-@@ -1420,7 +1427,7 @@ static void vdec_buf_done(struct venus_inst *inst, unsigned int buf_type,
- static void vdec_event_change(struct venus_inst *inst,
- 			      struct hfi_event_data *ev_data, bool sufficient)
- {
--	static const struct v4l2_event ev = {
-+	struct v4l2_event ev = {
- 		.type = V4L2_EVENT_SOURCE_CHANGE,
- 		.u.src_change.changes = V4L2_EVENT_SRC_CH_RESOLUTION };
- 	struct device *dev = inst->core->dev_dec;
-@@ -1461,8 +1468,13 @@ static void vdec_event_change(struct venus_inst *inst,
- 	inst->out_width = ev_data->width;
- 	inst->out_height = ev_data->height;
- 
--	if (inst->bit_depth != ev_data->bit_depth)
-+	if (inst->bit_depth != ev_data->bit_depth) {
- 		inst->bit_depth = ev_data->bit_depth;
-+		if (inst->bit_depth == VIDC_BITDEPTH_10)
-+			inst->fmt_cap = &vdec_formats[3];
-+		else
-+			inst->fmt_cap = &vdec_formats[0];
++	/* Don't know how to check that OTP is locked. */
++	buf->locked = 0;
++	buf->start = MACRONIX_30LFXG18AC_OTP_START_BYTE;
++	buf->length = MACRONIX_30LFXG18AC_OTP_SIZE_BYTES;
++
++	*retlen = sizeof(*buf);
++
++	return 0;
++}
++
++static int macronix_30lfxg18ac_otp_enable(struct nand_chip *nand)
++{
++	uint8_t feature_buf[ONFI_SUBFEATURE_PARAM_LEN] = { 0 };
++
++	feature_buf[0] = MACRONIX_30LFXG18AC_OTP_EN;
++	return nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
++				 feature_buf);
++}
++
++static int macronix_30lfxg18ac_otp_disable(struct nand_chip *nand)
++{
++	uint8_t feature_buf[ONFI_SUBFEATURE_PARAM_LEN] = { 0 };
++
++	return nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
++				 feature_buf);
++}
++
++static int __macronix_30lfxg18ac_rw_otp(struct mtd_info *mtd,
++					loff_t offs_in_flash,
++					size_t len, size_t *retlen,
++					u_char *buf, bool write)
++{
++	struct nand_chip *nand;
++	size_t bytes_handled;
++	unsigned long page;
++	off_t offs_in_page;
++	void *dma_buf;
++	int ret;
++
++	/* 'nand_prog/read_page_op()' may use 'buf' as DMA buffer,
++	 * so allocate properly aligned memory for it. This is
++	 * needed because cross page accesses may lead to unaligned
++	 * buffer address for DMA.
++	 */
++	dma_buf = kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERNEL);
++	if (!dma_buf)
++		return -ENOMEM;
++
++	nand = mtd_to_nand(mtd);
++	nand_select_target(nand, 0);
++
++	ret = macronix_30lfxg18ac_otp_enable(nand);
++	if (ret)
++		goto out_otp;
++
++	page = offs_in_flash;
++	/* 'page' will be result of division. */
++	offs_in_page = do_div(page, MACRONIX_30LFXG18AC_OTP_PAGE_SIZE);
++	bytes_handled = 0;
++
++	while (bytes_handled < len &&
++	       page < MACRONIX_30LFXG18AC_OTP_PAGES) {
++		size_t bytes_to_handle;
++
++		bytes_to_handle = min_t(size_t, len - bytes_handled,
++					MACRONIX_30LFXG18AC_OTP_PAGE_SIZE -
++					offs_in_page);
++
++		if (write) {
++			memcpy(dma_buf, &buf[bytes_handled], bytes_to_handle);
++			ret = nand_prog_page_op(nand, page, offs_in_page,
++						dma_buf, bytes_to_handle);
++		} else {
++			ret = nand_read_page_op(nand, page, offs_in_page,
++						dma_buf, bytes_to_handle);
++			if (!ret)
++				memcpy(&buf[bytes_handled], dma_buf,
++				       bytes_to_handle);
++		}
++		if (ret)
++			goto out_otp;
++
++		bytes_handled += bytes_to_handle;
++		offs_in_page = 0;
++		page++;
 +	}
++
++	*retlen = bytes_handled;
++
++out_otp:
++	if (ret)
++		dev_err(&mtd->dev, "failed to perform OTP IO: %i\n", ret);
++
++	ret = macronix_30lfxg18ac_otp_disable(nand);
++	WARN(ret, "failed to leave OTP mode after %s\n",
++	     write ? "write" : "read");
++	nand_deselect_target(nand);
++	kfree(dma_buf);
++
++	return ret;
++}
++
++static int macronix_30lfxg18ac_write_otp(struct mtd_info *mtd, loff_t to,
++					 size_t len, size_t *rlen,
++					 const u_char *buf)
++{
++	return __macronix_30lfxg18ac_rw_otp(mtd, to, len, rlen, (u_char *)buf,
++					    true);
++}
++
++static int macronix_30lfxg18ac_read_otp(struct mtd_info *mtd, loff_t from,
++					size_t len, size_t *rlen,
++					u_char *buf)
++{
++	return __macronix_30lfxg18ac_rw_otp(mtd, from, len, rlen, buf, false);
++}
++
++static int macronix_30lfxg18ac_lock_otp(struct mtd_info *mtd, loff_t from,
++					size_t len)
++{
++	uint8_t feature_buf[ONFI_SUBFEATURE_PARAM_LEN] = { 0 };
++	struct nand_chip *nand;
++	int ret;
++
++	if (from != MACRONIX_30LFXG18AC_OTP_START_BYTE ||
++	    len != MACRONIX_30LFXG18AC_OTP_SIZE_BYTES)
++		return -EINVAL;
++
++	dev_dbg(&mtd->dev, "locking OTP\n");
++
++	nand = mtd_to_nand(mtd);
++	nand_select_target(nand, 0);
++
++	feature_buf[0] = MACRONIX_30LFXG18AC_OTP_EN |
++			 MACRONIX_30LFXG18AC_OTP_LOCKED;
++	ret = nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
++				feature_buf);
++	if (ret) {
++		dev_err(&mtd->dev,
++			"failed to lock OTP (set features): %i\n", ret);
++		nand_deselect_target(nand);
++		return ret;
++	}
++
++	/* Do dummy page prog with zero address. */
++	feature_buf[0] = 0;
++	ret = nand_prog_page_op(nand, 0, 0, feature_buf, 1);
++	if (ret)
++		dev_err(&mtd->dev,
++			"failed to lock OTP (page prog): %i\n", ret);
++
++	ret = macronix_30lfxg18ac_otp_disable(nand);
++	WARN(ret, "failed to leave OTP mode after lock\n");
++
++	nand_deselect_target(nand);
++
++	return ret;
++}
++
++static void macronix_nand_setup_otp(struct nand_chip *chip)
++{
++	static const char * const supported_otp_models[] = {
++		"MX30LF1G18AC",
++		"MX30LF2G18AC",
++		"MX30LF4G18AC",
++	};
++	struct mtd_info *mtd;
++
++	if (!chip->parameters.supports_set_get_features)
++		return;
++
++	if (match_string(supported_otp_models,
++			 ARRAY_SIZE(supported_otp_models),
++			 chip->parameters.model) < 0)
++		return;
++
++	bitmap_set(chip->parameters.get_feature_list,
++		   ONFI_FEATURE_ADDR_30LFXG18AC_OTP, 1);
++	bitmap_set(chip->parameters.set_feature_list,
++		   ONFI_FEATURE_ADDR_30LFXG18AC_OTP, 1);
++
++	mtd = nand_to_mtd(chip);
++	mtd->_get_fact_prot_info = macronix_30lfxg18ac_get_otp_info;
++	mtd->_read_fact_prot_reg = macronix_30lfxg18ac_read_otp;
++	mtd->_get_user_prot_info = macronix_30lfxg18ac_get_otp_info;
++	mtd->_read_user_prot_reg = macronix_30lfxg18ac_read_otp;
++	mtd->_write_user_prot_reg = macronix_30lfxg18ac_write_otp;
++	mtd->_lock_user_prot_reg = macronix_30lfxg18ac_lock_otp;
++}
++
+ static int macronix_nand_init(struct nand_chip *chip)
+ {
+ 	if (nand_is_slc(chip))
+@@ -325,6 +536,7 @@ static int macronix_nand_init(struct nand_chip *chip)
+ 	macronix_nand_onfi_init(chip);
+ 	macronix_nand_block_protection_support(chip);
+ 	macronix_nand_deep_power_down_support(chip);
++	macronix_nand_setup_otp(chip);
  
- 	if (inst->pic_struct != ev_data->pic_struct)
- 		inst->pic_struct = ev_data->pic_struct;
+ 	return 0;
+ }
 -- 
-2.7.4
+2.35.0
 
