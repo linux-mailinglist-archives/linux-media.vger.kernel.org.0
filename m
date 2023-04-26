@@ -2,236 +2,207 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE8136EF425
-	for <lists+linux-media@lfdr.de>; Wed, 26 Apr 2023 14:17:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B3B36EF50F
+	for <lists+linux-media@lfdr.de>; Wed, 26 Apr 2023 15:07:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240816AbjDZMRc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Apr 2023 08:17:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34388 "EHLO
+        id S241014AbjDZNG7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Apr 2023 09:06:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240073AbjDZMRb (ORCPT
+        with ESMTP id S241053AbjDZNGu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Apr 2023 08:17:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A108C2121
-        for <linux-media@vger.kernel.org>; Wed, 26 Apr 2023 05:16:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1682511401;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=N7JsSpHKRygF4heZCdYSw4B9AwIhapm0I11x8rY3w60=;
-        b=CZv2ponVg9Pw+UV9lX/utE/1ACp7njTAERfafxVoNFSMgfem6NNMoAVM61j5Fb0RqPUuoo
-        bFrzAT986WUEDu/JyIi2bl/m0WNOdTDfJCX1XEIv9+gkH3gw0xFFMq+v9jPPhE9BgVs2OU
-        m6A61bcTXel4Spdx8kBqDrb3Kq9pygI=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-358-Id5XJjesMRGEukA1rqCLwA-1; Wed, 26 Apr 2023 08:16:40 -0400
-X-MC-Unique: Id5XJjesMRGEukA1rqCLwA-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-94a341ee4fcso817115066b.0
-        for <linux-media@vger.kernel.org>; Wed, 26 Apr 2023 05:16:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682511399; x=1685103399;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=N7JsSpHKRygF4heZCdYSw4B9AwIhapm0I11x8rY3w60=;
-        b=kxunpRtvaA2fW07h76P7srse7V24U2xSmYy7zZJZytAllVeQQPVdDsAxF5BiHPHvn7
-         LTS21wUaJbkzPio+IHYbUaRvqtJxqQy3kmGA9ZmIka2LY39zEUjHzvabPQyG+t0vIagY
-         1YfTUaLAZ4GZhWOH9xJ9TxqGendyITKI8DKPHR4Rw1zvI/NOWg0z6OsXx6lQ2lPZPrE+
-         sOOnTBPFqePoheCuC6heauEJoUWWsMalcUjGIdYxDqviO1dT3xREUfPpa5kIRlLu8mgd
-         R+3yn7oeXX/98RxJZrU9oRn49HH3WmmLcFH1gXKe1V2Iq5sZr7v5ALnl4mGmMaGvPgkr
-         YsCg==
-X-Gm-Message-State: AAQBX9d/AbJ1g2+Dk5L0IcNwsJldFE6ogRzWinHw9xoky54KoFftTirv
-        lDpc2FdHIJ5Kc1QF7v0ZWGAkgdPSqdxEMlh1CGR3GQ/YOigwYB2pSXvDMc1lR/PnASV5YgIeVia
-        8hCKq2MEzSkuqfG5P7tqxz9YpI4Mng2U=
-X-Received: by 2002:a17:906:8a62:b0:94f:969e:c52b with SMTP id hy2-20020a1709068a6200b0094f969ec52bmr13910126ejc.74.1682511399042;
-        Wed, 26 Apr 2023 05:16:39 -0700 (PDT)
-X-Google-Smtp-Source: AKy350ZQCHJm7i0OVIE57JNbrh1L8v1afyTSLhVKP3rbcQGzwHLbYqyKZtimY1ZyU7Eu7k6wWilf0A==
-X-Received: by 2002:a17:906:8a62:b0:94f:969e:c52b with SMTP id hy2-20020a1709068a6200b0094f969ec52bmr13910112ejc.74.1682511398721;
-        Wed, 26 Apr 2023 05:16:38 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id la5-20020a170906ad8500b0094e877ec197sm8293858ejb.148.2023.04.26.05.16.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Apr 2023 05:16:38 -0700 (PDT)
-Message-ID: <68e8825f-f0d4-4ccd-ba8d-2587b5bc34ec@redhat.com>
-Date:   Wed, 26 Apr 2023 14:16:37 +0200
+        Wed, 26 Apr 2023 09:06:50 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E91A6A7F;
+        Wed, 26 Apr 2023 06:06:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1682514398; x=1714050398;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oVxuTR4A/wrlt9G6C/zKK3j09fIf1TBLj219Iy+IWg4=;
+  b=cZ1CJFmmJ8Tt1hKvS6cEQc1IySVLcvIP8wh6e41qv/0X4X/pgeThcTz3
+   cAl+qwWKE4AuVCW8PPHQVhgfRKMZqSZeACKslaB4RN8Z5x64l7dso3zoQ
+   r7rv6ov9YiWvOP0SDb3QF34n1Zs8xnF9Tq5pcZBo1Pf8EMGhMb6EoEIyZ
+   h6mufUH3JtMTZu/lpkxZFxaXLA1M0VIrILq4ZIk081Em7rzgVdxbSoJna
+   23x+i1Z3yNpjc9r2CNmQrsdnEbkAfddTQ3kVD3hV8nCu/ycfYIdH6vQmR
+   cMXTumocwcVs/+eIl800bI7Zo0Gg6d/da+fv1kDmcUalWcW+h+T2uKfz3
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="349033774"
+X-IronPort-AV: E=Sophos;i="5.99,228,1677571200"; 
+   d="scan'208";a="349033774"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2023 06:06:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="783323577"
+X-IronPort-AV: E=Sophos;i="5.99,228,1677571200"; 
+   d="scan'208";a="783323577"
+Received: from lkp-server01.sh.intel.com (HELO 041f065c1b1b) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 26 Apr 2023 06:06:33 -0700
+Received: from kbuild by 041f065c1b1b with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1preqv-0000AU-0U;
+        Wed, 26 Apr 2023 13:06:33 +0000
+Date:   Wed, 26 Apr 2023 21:06:23 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Arseniy Krasnov <AVKrasnov@sberdevices.ru>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        oxffffaa@gmail.com, kernel@sberdevices.ru,
+        linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v1] mtd: rawnand: macronix: OTP access for MX30LFxG18AC
+Message-ID: <202304262003.Lzpyh2BA-lkp@intel.com>
+References: <20230426072455.3887717-1-AVKrasnov@sberdevices.ru>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 5/5] staging: media: atomisp: sh_css_mipi: Remove #ifdef
- 2041
-Content-Language: en-US, nl
-To:     Kate Hsuan <hpa@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20230425074841.29063-1-hpa@redhat.com>
- <20230425074841.29063-6-hpa@redhat.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230425074841.29063-6-hpa@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230426072455.3887717-1-AVKrasnov@sberdevices.ru>
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kate,
+Hi Arseniy,
 
-On 4/25/23 09:48, Kate Hsuan wrote:
-> The actions of ISP2401 and 2400 are determined at the runtime.
-> 
-> Signed-off-by: Kate Hsuan <hpa@redhat.com>
-> ---
->  .../staging/media/atomisp/pci/sh_css_mipi.c   | 101 +++++++++---------
->  1 file changed, 49 insertions(+), 52 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-> index bc6e8598a776..9c9d3b27ded4 100644
-> --- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-> +++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+kernel test robot noticed the following build errors:
 
-<snip>
+[auto build test ERROR on mtd/nand/next]
+[also build test ERROR on linus/master v6.3 next-20230425]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> @@ -363,15 +360,15 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
->  		return -EINVAL;
->  	}
->  
-> -#ifdef ISP2401
-> -	if (pipe->stream->config.online) {
-> -		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-> -				    "allocate_mipi_frames(%p) exit: no buffers needed for 2401 pipe mode.\n",
-> -				    pipe);
-> -		return 0;
-> +	if (IS_ISP2401) {
-> +		if (pipe->stream->config.online) {
-> +			ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-> +					    "allocate_mipi_frames(%p) exit: no buffers needed for 2401 pipe mode.\n",
-> +					    pipe);
-> +			return 0;
-> +		}
->  	}
->  
-> -#endif
->  	if (pipe->stream->config.mode != IA_CSS_INPUT_MODE_BUFFERED_SENSOR) {
->  		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
->  				    "allocate_mipi_frames(%p) exit: no buffers needed for pipe mode.\n",
+url:    https://github.com/intel-lab-lkp/linux/commits/Arseniy-Krasnov/mtd-rawnand-macronix-OTP-access-for-MX30LFxG18AC/20230426-153143
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next
+patch link:    https://lore.kernel.org/r/20230426072455.3887717-1-AVKrasnov%40sberdevices.ru
+patch subject: [PATCH v1] mtd: rawnand: macronix: OTP access for MX30LFxG18AC
+config: i386-randconfig-a001-20230424 (https://download.01.org/0day-ci/archive/20230426/202304262003.Lzpyh2BA-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/3529f3465e99379489b59c035a8a0506c3756ef4
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Arseniy-Krasnov/mtd-rawnand-macronix-OTP-access-for-MX30LFxG18AC/20230426-153143
+        git checkout 3529f3465e99379489b59c035a8a0506c3756ef4
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/mtd/nand/raw/
 
-Please combine the 2 conditions with && instead of using nested if-s:
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304262003.Lzpyh2BA-lkp@intel.com/
 
-	if (IS_ISP2401 && pipe->stream->config.online) {
-		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-				    "allocate_mipi_frames(%p) exit: no buffers needed for 2401 pipe mode.\n",
-				    pipe);
-		return 0;
-	}
+All error/warnings (new ones prefixed by >>):
 
-
-> @@ -386,30 +383,30 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
->  		return -EINVAL;
->  	}
->  
-> -#ifdef ISP2401
-> -	err = calculate_mipi_buff_size(&pipe->stream->config,
-> -				       &my_css.mipi_frame_size[port]);
-> -	/*
-> -	 * 2401 system allows multiple streams to use same physical port. This is not
-> -	 * true for 2400 system. Currently 2401 uses MIPI buffers as a temporary solution.
-> -	 * TODO AM: Once that is changed (removed) this code should be removed as well.
-> -	 * In that case only 2400 related code should remain.
-> -	 */
-> -	if (ref_count_mipi_allocation[port] != 0) {
-> -		ref_count_mipi_allocation[port]++;
-> -		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-> -				    "allocate_mipi_frames(%p) leave: nothing to do, already allocated for this port (port=%d).\n",
-> -				    pipe, port);
-> -		return 0;
-> -	}
-> -#else
-> -	if (ref_count_mipi_allocation[port] != 0) {
-> -		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-> -				    "allocate_mipi_frames(%p) exit: already allocated for this port (port=%d).\n",
-> -				    pipe, port);
-> -		return 0;
-> +	if (IS_ISP2401) {
-> +		err = calculate_mipi_buff_size(&pipe->stream->config,
-> +					       &my_css.mipi_frame_size[port]);
-> +		/*
-> +		 * 2401 system allows multiple streams to use same physical port. This is not
-> +		 * true for 2400 system. Currently 2401 uses MIPI buffers as a temporary solution.
-> +		 * TODO AM: Once that is changed (removed) this code should be removed as well.
-> +		 * In that case only 2400 related code should remain.
-> +		 */
-> +		if (ref_count_mipi_allocation[port] != 0) {
-> +			ref_count_mipi_allocation[port]++;
-> +			ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-> +					    "allocate_mipi_frames(%p) leave: nothing to do, already allocated for this port (port=%d).\n",
-> +					    pipe, port);
-> +			return 0;
-> +		}
-> +	} else {
-> +		if (ref_count_mipi_allocation[port] != 0) {
-> +			ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-> +					    "allocate_mipi_frames(%p) exit: already allocated for this port (port=%d).\n",
-> +					    pipe, port);
-> +			return 0;
-> +		}
->  	}
-> -#endif
-
-The "if (ref_count_mipi_allocation[port] != 0) { log-message; return 0; }"
-block is shared between the ISP2400 and ISP2401. Except for one debug log
-message using "leave" and the other using "exit" these 2 blocks are 100%
-the same, so please pick one of the 2 log messages and move this block
-out of the if (IS_ISP2401) {} block (and drop the else branch).
-
-> @@ -534,18 +531,18 @@ free_mipi_frames(struct ia_css_pipe *pipe)
->  				ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
->  						    "free_mipi_frames(%p) exit (deallocated).\n", pipe);
->  			}
-> -#if defined(ISP2401)
->  			else {
-> -				/* 2401 system allows multiple streams to use same physical port. This is not
-> -				 * true for 2400 system. Currently 2401 uses MIPI buffers as a temporary solution.
-> -				 * TODO AM: Once that is changed (removed) this code should be removed as well.
-> -				 * In that case only 2400 related code should remain.
-> -				 */
-> -				ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-> -						    "free_mipi_frames(%p) leave: nothing to do, other streams still use this port (port=%d).\n",
-> -						    pipe, port);
-> +				if (IS_ISP2401) {
-> +					/* 2401 system allows multiple streams to use same physical port. This is not
-> +					 * true for 2400 system. Currently 2401 uses MIPI buffers as a temporary solution.
-> +					 * TODO AM: Once that is changed (removed) this code should be removed as well.
-> +					 * In that case only 2400 related code should remain.
-> +					 */
-> +					ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-> +							    "free_mipi_frames(%p) leave: nothing to do, other streams still use this port (port=%d).\n",
-> +							    pipe, port);
-> +				}
->  			}
-> -#endif
->  		}
->  	} else { /* pipe ==NULL */
->  		/* AM TEMP: free-ing all mipi buffers just like a legacy code. */
-
-Hmm maybe just drop the entire ia_css_debug_dtrace() call here
-instead of replace the #ifdef with if (IS_ISP2401) { } ?
-
-I don't see much value in the ia_css_debug_dtrace() call, so to
-me just dropping it seems best.
-
-Regards,
-
-Hans
+>> drivers/mtd/nand/raw/nand_macronix.c:384:12: error: implicit declaration of function 'kmalloc' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           dma_buf = kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERNEL);
+                     ^
+   drivers/mtd/nand/raw/nand_macronix.c:384:12: note: did you mean 'mm_alloc'?
+   include/linux/sched/mm.h:16:26: note: 'mm_alloc' declared here
+   extern struct mm_struct *mm_alloc(void);
+                            ^
+>> drivers/mtd/nand/raw/nand_macronix.c:384:10: warning: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
+           dma_buf = kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERNEL);
+                   ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/mtd/nand/raw/nand_macronix.c:437:2: error: implicit declaration of function 'kfree' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           kfree(dma_buf);
+           ^
+   1 warning and 2 errors generated.
 
 
+vim +/kmalloc +384 drivers/mtd/nand/raw/nand_macronix.c
+
+   366	
+   367	static int __macronix_30lfxg18ac_rw_otp(struct mtd_info *mtd,
+   368						loff_t offs_in_flash,
+   369						size_t len, size_t *retlen,
+   370						u_char *buf, bool write)
+   371	{
+   372		struct nand_chip *nand;
+   373		size_t bytes_handled;
+   374		unsigned long page;
+   375		off_t offs_in_page;
+   376		void *dma_buf;
+   377		int ret;
+   378	
+   379		/* 'nand_prog/read_page_op()' may use 'buf' as DMA buffer,
+   380		 * so allocate properly aligned memory for it. This is
+   381		 * needed because cross page accesses may lead to unaligned
+   382		 * buffer address for DMA.
+   383		 */
+ > 384		dma_buf = kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERNEL);
+   385		if (!dma_buf)
+   386			return -ENOMEM;
+   387	
+   388		nand = mtd_to_nand(mtd);
+   389		nand_select_target(nand, 0);
+   390	
+   391		ret = macronix_30lfxg18ac_otp_enable(nand);
+   392		if (ret)
+   393			goto out_otp;
+   394	
+   395		page = offs_in_flash;
+   396		/* 'page' will be result of division. */
+   397		offs_in_page = do_div(page, MACRONIX_30LFXG18AC_OTP_PAGE_SIZE);
+   398		bytes_handled = 0;
+   399	
+   400		while (bytes_handled < len &&
+   401		       page < MACRONIX_30LFXG18AC_OTP_PAGES) {
+   402			size_t bytes_to_handle;
+   403	
+   404			bytes_to_handle = min_t(size_t, len - bytes_handled,
+   405						MACRONIX_30LFXG18AC_OTP_PAGE_SIZE -
+   406						offs_in_page);
+   407	
+   408			if (write) {
+   409				memcpy(dma_buf, &buf[bytes_handled], bytes_to_handle);
+   410				ret = nand_prog_page_op(nand, page, offs_in_page,
+   411							dma_buf, bytes_to_handle);
+   412			} else {
+   413				ret = nand_read_page_op(nand, page, offs_in_page,
+   414							dma_buf, bytes_to_handle);
+   415				if (!ret)
+   416					memcpy(&buf[bytes_handled], dma_buf,
+   417					       bytes_to_handle);
+   418			}
+   419			if (ret)
+   420				goto out_otp;
+   421	
+   422			bytes_handled += bytes_to_handle;
+   423			offs_in_page = 0;
+   424			page++;
+   425		}
+   426	
+   427		*retlen = bytes_handled;
+   428	
+   429	out_otp:
+   430		if (ret)
+   431			dev_err(&mtd->dev, "failed to perform OTP IO: %i\n", ret);
+   432	
+   433		ret = macronix_30lfxg18ac_otp_disable(nand);
+   434		WARN(ret, "failed to leave OTP mode after %s\n",
+   435		     write ? "write" : "read");
+   436		nand_deselect_target(nand);
+ > 437		kfree(dma_buf);
+   438	
+   439		return ret;
+   440	}
+   441	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
