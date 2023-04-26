@@ -2,57 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BF7176EF043
-	for <lists+linux-media@lfdr.de>; Wed, 26 Apr 2023 10:30:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA6E06EF044
+	for <lists+linux-media@lfdr.de>; Wed, 26 Apr 2023 10:31:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240118AbjDZIax (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Apr 2023 04:30:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49888 "EHLO
+        id S239998AbjDZIbB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Apr 2023 04:31:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230008AbjDZIav (ORCPT
+        with ESMTP id S240149AbjDZIa7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Apr 2023 04:30:51 -0400
+        Wed, 26 Apr 2023 04:30:59 -0400
 Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 232CA3AAF
-        for <linux-media@vger.kernel.org>; Wed, 26 Apr 2023 01:30:51 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-b99f5daf7c5so3367881276.1
-        for <linux-media@vger.kernel.org>; Wed, 26 Apr 2023 01:30:51 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54ACC3A94
+        for <linux-media@vger.kernel.org>; Wed, 26 Apr 2023 01:30:56 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-b8f6bef3d4aso12970624276.0
+        for <linux-media@vger.kernel.org>; Wed, 26 Apr 2023 01:30:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1682497850; x=1685089850;
+        d=google.com; s=20221208; t=1682497855; x=1685089855;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=lebKifv5lt6ag6XdjNWl3IyrPv7ib44asZSlE3CJHVM=;
-        b=rejQ50owTpS6LrLGWbrnbFD3lm7s9qF9YK82F07kRwLBWWfsmtUZ1gy/J6eV87eB//
-         ezGBCu4na7UOpH/FTDWSL9ghKFmRbpYfFo56f6n1ouhpWRAK+jgV0hUBcI6HefkeyXUP
-         gnj+94CIlXObzns1RRtmTfXOrCBznQEHHk0xybiGzEz1s/a8bYaGnU0wyhDPbQAevGB7
-         b8dk76AFQyHgvlNre0TMLdcaUEZTElJ0pATF7Kg+2HKMfJ/V4OF/2WP0N9J2ej0PLGCV
-         x9U4xSfirauTQNO1cj6th+dhq/VJ6k+xOdHl6a2ZnMZp8YPVlvHmh9Y1hSQKJshUW2lL
-         TdOw==
+        bh=OnZcxqHSuUyKZf7x8wUyjkC3dplKZZ6UnGtX7jcH56Y=;
+        b=e1MUkYmlCCxr1zCApJDYBgTJzZWHGUSRlXQolg0lOUWfpcrZti7PrigONUuQGBNTFM
+         R82mK9iSVWRodBoqHqHeYM0otbQhctR9jKq2N457Ri/rahcETXfctyestmOP520iww0R
+         1VWsPuOgvj8CVbiXN1VS8nL6zrJ+/YqLyOIc1Hp2yZkJ5XQ+4z/ssItwmwod43bHHW8m
+         HuM8ckCTOQPoZrI5yJv28/h2MZb1A50uHUOWUM46XLLkCVSto0jYOcWFCzh7ejZkeNv/
+         Lugy/Q+iU8yabV8uKiEb+jWeFU4xaVGuItPvI4Ti26WMdU/5dTivEuboPq1kftrY4o8N
+         mVbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682497850; x=1685089850;
+        d=1e100.net; s=20221208; t=1682497855; x=1685089855;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lebKifv5lt6ag6XdjNWl3IyrPv7ib44asZSlE3CJHVM=;
-        b=JhQab3VtTGc8EScv/eKZC2eUQud0NiUcKxP2ruc2KQ59WOrRdY3O9nytkzZMFNePFe
-         gtPwwOzF9UIeArbTXzBWoJFTs3cbEqVIsclWFnoF7nbf3rEx58pufMuU85plS1o3pna8
-         X8dyf1TBP/d5lYzC16nID1yC9+k8Ip6AZXEX+s7F2xGjqFkLaS2q54stCMoaPdkIUJFG
-         erGEBbz0MLqp4xHAiGYLbv+PeDGUgSVokk2PrA9jq1UaynboefDCxlWek1EmQDW8BtCW
-         6zOXlRGwwN+M5VHOoFaErqIjxjeyOkO9gviaZSb5cy3m01d3Ljg26qfDnISDnrce+t/T
-         FHqQ==
-X-Gm-Message-State: AC+VfDxAk+XJ82n3uBK2Y2Cr4tvReAcUlFswBTBviW/W+43mYvAHpynR
-        4IvM2BF/fDpcCGRmznwamxCl0hUwvQg=
-X-Google-Smtp-Source: ACHHUZ7FH+b1J5qlY8+3uCEQycjqZLnE3fMCa0FvIiZNcOpy6YQ4O4n7//4VipGYFbLVRkVN5rU4OVf4cec=
+        bh=OnZcxqHSuUyKZf7x8wUyjkC3dplKZZ6UnGtX7jcH56Y=;
+        b=YA6zfzBpag91mnYlXjtTu8icFUV34ndL3F906hs5DVyREFKbLSrVbyQPQxtw0HQn31
+         YrNa5qk8qgGwVgdEPhwcsgkRbxkw0cQSJPD6jXcXPA5Spm65+PpVOatUiarzbc/dGEWh
+         fKWv+gKDC51OdYpuX4xNNbXG7pgVE98MU8wsjrg9c5OSdBdPxzSVV4ZfqVshBj3C4dMG
+         PKWKZNId6eBNweYSBFT4yP/fxLM+LXExdhW0WORSHaDzB8Hx8T4Jvg4ZjRCEErSlBLCJ
+         eHEI4ZMiPoGtqS6aqy21pSypOULEbq3EkDtZKCVnUiKkB9JWkwfxcWz7lZh7tbo+eyL0
+         /MIg==
+X-Gm-Message-State: AAQBX9cUlVfGAxn+V0kqfvG9tQtJ+z+9ehrd4sDJnan0jXIUs/SJsq63
+        K1o8CE/nQqeVGoA6NB8us5RgQngsIGA=
+X-Google-Smtp-Source: AKy350ZKSfwhFx9faNOqgdLUxtjPK4H0lK95GnLpSlugCfEZJEzGhNgkm1b9XyWgT5aPUzflOhPGwwDtnVU=
 X-Received: from yunkec1.tok.corp.google.com ([2401:fa00:8f:203:1f4e:598b:ed:99bd])
- (user=yunkec job=sendgmr) by 2002:a25:d790:0:b0:b99:f202:db79 with SMTP id
- o138-20020a25d790000000b00b99f202db79mr3231106ybg.12.1682497850402; Wed, 26
- Apr 2023 01:30:50 -0700 (PDT)
-Date:   Wed, 26 Apr 2023 17:29:19 +0900
+ (user=yunkec job=sendgmr) by 2002:a25:778d:0:b0:b99:4132:b5bc with SMTP id
+ s135-20020a25778d000000b00b994132b5bcmr9996967ybc.8.1682497855579; Wed, 26
+ Apr 2023 01:30:55 -0700 (PDT)
+Date:   Wed, 26 Apr 2023 17:29:20 +0900
 In-Reply-To: <20230426082923.132909-1-yunkec@google.com>
 Mime-Version: 1.0
 References: <20230426082923.132909-1-yunkec@google.com>
 X-Mailer: git-send-email 2.40.1.495.gc816e09b53d-goog
-Message-ID: <20230426082923.132909-8-yunkec@google.com>
-Subject: [PATCH v11 07/11] media: v4l2: document the usage of min/max for V4L2_CTRL_TYPE_RECT
+Message-ID: <20230426082923.132909-9-yunkec@google.com>
+Subject: [PATCH v11 08/11] media: uvcvideo: support V4L2_CTRL_WHICH_MIN/MAX_VAL
 From:   Yunke Cao <yunkec@google.com>
 To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -72,38 +72,154 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Document the default implementation of min/max for rectangle controls.
+Add support for V4L2_CTRL_WHICH_MIN/MAX_VAL in uvc driver.
+It is useful for the V4L2_CID_UVC_REGION_OF_INTEREST_RECT control.
 
-Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
 Signed-off-by: Yunke Cao <yunkec@google.com>
 ---
 Changelog since v10:
-- Added Reviewed-by from Daniel.
+- Added Reviewed-by from Sergey.
 Changelog since v9:
-- No change.
+- Revert a change in v7 that causes v4l2-compliance failure:
+- In uvc_ioctl_g_ext_ctrls(), when v4l2_which is not V4L2_CTRL_WHICH_*_VAL,
+- treat it the same as cur instead of returning EINVAL. This is the existing
+- behavior.
+- The change in v7 of returning EINVAL fails the check in
+- v4l2-compliance/v4l2-test-controls.cpp#L834.
 Changelog since v8:
-- New patch.
+- No change.
+Changelog since v7:
+- Address some comments.
 
- Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/media/usb/uvc/uvc_ctrl.c | 44 ++++++++++++++++++++++++++++----
+ drivers/media/usb/uvc/uvc_v4l2.c |  7 +++--
+ drivers/media/usb/uvc/uvcvideo.h |  3 ++-
+ 3 files changed, 46 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-index 58982cd382e3..efa07428ba7a 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-@@ -447,7 +447,11 @@ See also the examples in :ref:`control`.
-       - n/a
-       - A struct :c:type:`v4l2_rect`, containing a rectangle described by
- 	the position of its top-left corner, the width and the height. Units
--	depend on the use case.
-+	depend on the use case. Use ``V4L2_CTRL_WHICH_MIN_VAL`` and
-+	``V4L2_CTRL_WHICH_MAX_VAL`` to query the range of rectangle sizes. The
-+	top-left corner of the minimum and maximum rectangles should be the
-+	same. For example, a control can have a minimum rectangle of 1x1@0x0 and
-+	a maximum of 640x480@0x0.
-     * - ``V4L2_CTRL_TYPE_H264_SPS``
-       - n/a
-       - n/a
+diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+index 8f0401230649..109369ec2c42 100644
+--- a/drivers/media/usb/uvc/uvc_ctrl.c
++++ b/drivers/media/usb/uvc/uvc_ctrl.c
+@@ -1978,6 +1978,7 @@ int uvc_ctrl_get(struct uvc_video_chain *chain,
+ static int __uvc_ctrl_get_boundary_std(struct uvc_video_chain *chain,
+ 				       struct uvc_control *ctrl,
+ 				       struct uvc_control_mapping *mapping,
++				       u32 v4l2_which,
+ 				       struct v4l2_ext_control *xctrl)
+ {
+ 	struct v4l2_queryctrl qc = { .id = xctrl->id };
+@@ -1987,28 +1988,59 @@ static int __uvc_ctrl_get_boundary_std(struct uvc_video_chain *chain,
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	xctrl->value = qc.default_value;
++	switch (v4l2_which) {
++	case V4L2_CTRL_WHICH_DEF_VAL:
++		xctrl->value = qc.default_value;
++		break;
++	case V4L2_CTRL_WHICH_MIN_VAL:
++		xctrl->value = qc.minimum;
++		break;
++	case V4L2_CTRL_WHICH_MAX_VAL:
++		xctrl->value = qc.maximum;
++		break;
++	}
++
+ 	return 0;
+ }
+ 
+ static int __uvc_ctrl_get_boundary_compound(struct uvc_video_chain *chain,
+ 					    struct uvc_control *ctrl,
+ 					    struct uvc_control_mapping *mapping,
++					    u32 v4l2_which,
+ 					    struct v4l2_ext_control *xctrl)
+ {
++	u32 flag, id;
+ 	int ret;
+ 
++	switch (v4l2_which) {
++	case V4L2_CTRL_WHICH_DEF_VAL:
++		flag = UVC_CTRL_FLAG_GET_DEF;
++		id = UVC_CTRL_DATA_DEF;
++		break;
++	case V4L2_CTRL_WHICH_MIN_VAL:
++		flag = UVC_CTRL_FLAG_GET_MIN;
++		id = UVC_CTRL_DATA_MIN;
++		break;
++	case V4L2_CTRL_WHICH_MAX_VAL:
++		flag = UVC_CTRL_FLAG_GET_MAX;
++		id = UVC_CTRL_DATA_MAX;
++		break;
++	}
++
++	if (!(ctrl->info.flags & flag) && flag != UVC_CTRL_FLAG_GET_DEF)
++		return -EACCES;
++
+ 	if (!ctrl->cached) {
+ 		ret = uvc_ctrl_populate_cache(chain, ctrl);
+ 		if (ret < 0)
+ 			return ret;
+ 	}
+ 
+-	return __uvc_ctrl_get_compound(mapping, ctrl, UVC_CTRL_DATA_DEF, xctrl);
++	return __uvc_ctrl_get_compound(mapping, ctrl, id, xctrl);
+ }
+ 
+ int uvc_ctrl_get_boundary(struct uvc_video_chain *chain,
+-			  struct v4l2_ext_control *xctrl)
++			  struct v4l2_ext_control *xctrl, u32 v4l2_which)
+ {
+ 	struct uvc_control *ctrl;
+ 	struct uvc_control_mapping *mapping;
+@@ -2025,9 +2057,11 @@ int uvc_ctrl_get_boundary(struct uvc_video_chain *chain,
+ 
+ 	if (uvc_ctrl_mapping_is_compound(mapping))
+ 		ret = __uvc_ctrl_get_boundary_compound(chain, ctrl, mapping,
+-						       xctrl);
++						       v4l2_which, xctrl);
+ 	else
+-		ret = __uvc_ctrl_get_boundary_std(chain, ctrl, mapping, xctrl);
++		ret = __uvc_ctrl_get_boundary_std(chain, ctrl, mapping,
++						  v4l2_which, xctrl);
++
+ 
+ done:
+ 	mutex_unlock(&chain->ctrl_mutex);
+diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+index 77704bd21e5c..2aeb92e8621f 100644
+--- a/drivers/media/usb/uvc/uvc_v4l2.c
++++ b/drivers/media/usb/uvc/uvc_v4l2.c
+@@ -1093,9 +1093,12 @@ static int uvc_ioctl_g_ext_ctrls(struct file *file, void *fh,
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	if (ctrls->which == V4L2_CTRL_WHICH_DEF_VAL) {
++	switch (ctrls->which) {
++	case V4L2_CTRL_WHICH_DEF_VAL:
++	case V4L2_CTRL_WHICH_MIN_VAL:
++	case V4L2_CTRL_WHICH_MAX_VAL:
+ 		for (i = 0; i < ctrls->count; ++ctrl, ++i) {
+-			ret = uvc_ctrl_get_boundary(chain, ctrl);
++			ret = uvc_ctrl_get_boundary(chain, ctrl, ctrls->which);
+ 			if (ret < 0) {
+ 				ctrls->error_idx = i;
+ 				return ret;
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index 8d36a3f8c52e..69aba8873f65 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -790,7 +790,8 @@ static inline int uvc_ctrl_rollback(struct uvc_fh *handle)
+ 
+ int uvc_ctrl_get(struct uvc_video_chain *chain, struct v4l2_ext_control *xctrl);
+ int uvc_ctrl_get_boundary(struct uvc_video_chain *chain,
+-			  struct v4l2_ext_control *xctrl);
++			  struct v4l2_ext_control *xctrl,
++			  u32 v4l2_which);
+ int uvc_ctrl_set(struct uvc_fh *handle, struct v4l2_ext_control *xctrl);
+ int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
+ 			   const struct v4l2_ext_controls *ctrls,
 -- 
 2.40.1.495.gc816e09b53d-goog
 
