@@ -2,207 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B3B36EF50F
-	for <lists+linux-media@lfdr.de>; Wed, 26 Apr 2023 15:07:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CEDA6EF52C
+	for <lists+linux-media@lfdr.de>; Wed, 26 Apr 2023 15:11:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241014AbjDZNG7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Apr 2023 09:06:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40328 "EHLO
+        id S241095AbjDZNLA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Apr 2023 09:11:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241053AbjDZNGu (ORCPT
+        with ESMTP id S240850AbjDZNK4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Apr 2023 09:06:50 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E91A6A7F;
-        Wed, 26 Apr 2023 06:06:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682514398; x=1714050398;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oVxuTR4A/wrlt9G6C/zKK3j09fIf1TBLj219Iy+IWg4=;
-  b=cZ1CJFmmJ8Tt1hKvS6cEQc1IySVLcvIP8wh6e41qv/0X4X/pgeThcTz3
-   cAl+qwWKE4AuVCW8PPHQVhgfRKMZqSZeACKslaB4RN8Z5x64l7dso3zoQ
-   r7rv6ov9YiWvOP0SDb3QF34n1Zs8xnF9Tq5pcZBo1Pf8EMGhMb6EoEIyZ
-   h6mufUH3JtMTZu/lpkxZFxaXLA1M0VIrILq4ZIk081Em7rzgVdxbSoJna
-   23x+i1Z3yNpjc9r2CNmQrsdnEbkAfddTQ3kVD3hV8nCu/ycfYIdH6vQmR
-   cMXTumocwcVs/+eIl800bI7Zo0Gg6d/da+fv1kDmcUalWcW+h+T2uKfz3
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="349033774"
-X-IronPort-AV: E=Sophos;i="5.99,228,1677571200"; 
-   d="scan'208";a="349033774"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2023 06:06:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="783323577"
-X-IronPort-AV: E=Sophos;i="5.99,228,1677571200"; 
-   d="scan'208";a="783323577"
-Received: from lkp-server01.sh.intel.com (HELO 041f065c1b1b) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 26 Apr 2023 06:06:33 -0700
-Received: from kbuild by 041f065c1b1b with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1preqv-0000AU-0U;
-        Wed, 26 Apr 2023 13:06:33 +0000
-Date:   Wed, 26 Apr 2023 21:06:23 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Arseniy Krasnov <AVKrasnov@sberdevices.ru>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        oxffffaa@gmail.com, kernel@sberdevices.ru,
-        linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v1] mtd: rawnand: macronix: OTP access for MX30LFxG18AC
-Message-ID: <202304262003.Lzpyh2BA-lkp@intel.com>
-References: <20230426072455.3887717-1-AVKrasnov@sberdevices.ru>
+        Wed, 26 Apr 2023 09:10:56 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45168420C;
+        Wed, 26 Apr 2023 06:10:55 -0700 (PDT)
+Received: from [192.168.1.43] ([77.7.2.190]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1N1x2P-1qFlNr1zrd-012G3Y; Wed, 26 Apr 2023 15:10:26 +0200
+Message-ID: <0da49a77-14d8-cb9d-e36d-985699746b6b@metux.net>
+Date:   Wed, 26 Apr 2023 15:10:24 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230426072455.3887717-1-AVKrasnov@sberdevices.ru>
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 0/6] Initial Rust V4L2 support
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Willy Tarreau <w@1wt.eu>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        wedsonaf@gmail.com, ojeda@kernel.org, mchehab@kernel.org,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, kernel@collabora.com
+References: <20230406215615.122099-1-daniel.almeida@collabora.com>
+ <136035a4-26df-1c14-e51e-406b4ee5fe33@xs4all.nl>
+ <CANiq72kzgopREcNcAnjCBk2u9b9cJ4f_jPix6LWYSkcOV5kubw@mail.gmail.com>
+ <ZDVXbw/097jvjKvK@1wt.eu>
+ <CANiq72n8ZV_bs_xp5rNtar4vmfknJtZg4OHJW6vHuhVFmGs8mg@mail.gmail.com>
+ <ZDWQXDRknzFhngyk@1wt.eu>
+ <CANiq72n=s23naD4-UkmuLesekDTf4b5bsmWc+fYANYPq+X1R9w@mail.gmail.com>
+ <ZDXCeKkbPoZi5k6t@1wt.eu>
+ <CANiq72kceQ8aWk7mtB4MoepUr3hNzF34d=DfVzdeCLGRAZwE6g@mail.gmail.com>
+Content-Language: tl
+From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
+In-Reply-To: <CANiq72kceQ8aWk7mtB4MoepUr3hNzF34d=DfVzdeCLGRAZwE6g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:k1I93PH2PUWpwKhagL4rx9XvzvIexBdoYfikjsclZyVQuucR6wx
+ i8wD8puOVehsjkjcg1qTAOwNJHxBuXUQlCV39ybTptJuHIgRjTuffOzkQLUbQwTZogo7nbT
+ stEQXHuer89iS8rHiHhcY+UO26ZBos1+0I1yC6d4S5hVkAS8Ku/i+FyFIPnQXLnp/sed/rI
+ nGRgKGmKdhmsQuAyh7avA==
+UI-OutboundReport: notjunk:1;M01:P0:nVLRMWgcgFo=;DSdQltTDSvJfrn+jeB1nXeoVKzW
+ rYbjCT9UurdF5820GSw36hJv9dmZms5tOLorgZzas7xk10VOlwVYztvpwgX6EqSzQtF2tHxNM
+ WxV4GoVsYbmeXAjVg98CpelC2Dei6BfVrv3gBZigCYirVpHz/hHH3lcBLrjtffHG7LKvVIRh5
+ jNvkK+auju7lxybRHxlEFwGDZPNwEmBsybK28Rlo2WOf6tSfBirpuC6vjhzgrvEmaZClsizY1
+ jahWbdiTHYPdIfxjDh16i+r0G3cmOj+RUkReOzqLSy2giGmalJ/Nptx5Xdbl0mUDbjRaO0ruE
+ f7qv3FeUphYaTRHbdNqmkf1r8PtSrT8W0PAGTeeFhNZrm3fmprWkct1ea4BMTEr3nu8dmK3Iw
+ EgoFgnbN3umhIduCyrJSbbEkdl9FayCQQ1oQsIoEp0SzboBX6E/MyMb2JxDwwPXAI9DfydF2z
+ oo8eta7smAVWgLDGleJhoQKdjTh9/THuTd/Y/DcsgnSai97zupypSwoGYUio35yGZ8rAv3Czm
+ cSP5jZpQQs/UTLPbsz2eNHORkzSDVaUbkoU5u7aJi72Q11kUsN70t1JYCD4BEHnmsdUq7DyBp
+ bS0tcLCeFSDdV233vJEVyRCNCHyT2NUtsPuFMXf+8QmUldeVD8Jk9JurvktWgysjoDlQ/J/mR
+ rtrkbARgbFiUIx26sPJ2jFV/wQc0hxrNWgDqcULgpg==
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Arseniy,
+On 12.04.23 00:14, Miguel Ojeda wrote:
 
-kernel test robot noticed the following build errors:
+> But, yes, if Rust grows to be really successful within the kernel,
+> then at some point some basic understanding of Rust will be needed by
+> most kernel developers. I think that is fine, as long as there is
+> enough time to adjust.
 
-[auto build test ERROR on mtd/nand/next]
-[also build test ERROR on linus/master v6.3 next-20230425]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The tricky question is: how much time will be needed ?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Arseniy-Krasnov/mtd-rawnand-macronix-OTP-access-for-MX30LFxG18AC/20230426-153143
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next
-patch link:    https://lore.kernel.org/r/20230426072455.3887717-1-AVKrasnov%40sberdevices.ru
-patch subject: [PATCH v1] mtd: rawnand: macronix: OTP access for MX30LFxG18AC
-config: i386-randconfig-a001-20230424 (https://download.01.org/0day-ci/archive/20230426/202304262003.Lzpyh2BA-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/3529f3465e99379489b59c035a8a0506c3756ef4
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Arseniy-Krasnov/mtd-rawnand-macronix-OTP-access-for-MX30LFxG18AC/20230426-153143
-        git checkout 3529f3465e99379489b59c035a8a0506c3756ef4
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/mtd/nand/raw/
+Personally, I'm too overloaded for diving deeper into Rust anytime soon.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304262003.Lzpyh2BA-lkp@intel.com/
+I've recently managed giving up my reluctance against golang and doing
+some fun project w/ it (freecity, a simcity2000 clone), just to get some
+real hands-on experience (besides some smaller patches for other
+projects i've done over the years).
 
-All error/warnings (new ones prefixed by >>):
+Rust and golang share some common problems (when coming from traditional
+C + friends):
+* entirely different toolchain concept (workflows are very different
+   from what one's used from GCC + friends)
+* fast-moving target (one has to be careful to expect/use the right
+   toolchain version)
+* rarely understood by traditional kernel devs
+* distro/build engine integration/support still pretty infant,
+   especially in embedded world (very related to the toolchain update
+   problem)
 
->> drivers/mtd/nand/raw/nand_macronix.c:384:12: error: implicit declaration of function 'kmalloc' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           dma_buf = kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERNEL);
-                     ^
-   drivers/mtd/nand/raw/nand_macronix.c:384:12: note: did you mean 'mm_alloc'?
-   include/linux/sched/mm.h:16:26: note: 'mm_alloc' declared here
-   extern struct mm_struct *mm_alloc(void);
-                            ^
->> drivers/mtd/nand/raw/nand_macronix.c:384:10: warning: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
-           dma_buf = kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERNEL);
-                   ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/mtd/nand/raw/nand_macronix.c:437:2: error: implicit declaration of function 'kfree' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           kfree(dma_buf);
-           ^
-   1 warning and 2 errors generated.
+IMHO, before we can practically use Rust at greater scale in the kernel,
+the problems above need to be resolved first. And that's something that
+the Rust community (not the kernel community) should take care of.
+
+And beware: demanding newer toolchains (thus newer distros), just for
+building the kernel, can easily cause *huge* trouble many organisations,
+especially in embedded field. Linux is used in lots of highly safety
+critical environments that need special verification processes and so
+cannot easily upgrade toolchains. If Linux some day suddenly requires
+another language like Rust, those would be immediately cut-off from
+newer releases.
+
+Ergo: the whole process of adding Rust to the Kernel needs to be done
+very, very carefully.
+
+> To be clear, it is still up to each subsystem to decide whether to
+> take Rust code. What I meant by "if they can" is that, if they are
+> willing to, then ideally the code would go through their tree too. The
+> exception are core APIs, where I asked for flexibility from all sides,
+> so that those subsystems willing to try Rust do not get completely > blocked.
+
+For the reasons above, the subsystems shouldn't take those decisions
+lightly, even if they happen to be Rust experts - this could have a
+dramatic effect on downstreams.
+
+Maybe we should (for certain time) go a different path: move all new
+Rust stuff (except for bugfixes) to a separate downstream tree, that's
+rebased on mainline releases, but still let the patches fload through
+the corresponding subsystems.
 
 
-vim +/kmalloc +384 drivers/mtd/nand/raw/nand_macronix.c
-
-   366	
-   367	static int __macronix_30lfxg18ac_rw_otp(struct mtd_info *mtd,
-   368						loff_t offs_in_flash,
-   369						size_t len, size_t *retlen,
-   370						u_char *buf, bool write)
-   371	{
-   372		struct nand_chip *nand;
-   373		size_t bytes_handled;
-   374		unsigned long page;
-   375		off_t offs_in_page;
-   376		void *dma_buf;
-   377		int ret;
-   378	
-   379		/* 'nand_prog/read_page_op()' may use 'buf' as DMA buffer,
-   380		 * so allocate properly aligned memory for it. This is
-   381		 * needed because cross page accesses may lead to unaligned
-   382		 * buffer address for DMA.
-   383		 */
- > 384		dma_buf = kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERNEL);
-   385		if (!dma_buf)
-   386			return -ENOMEM;
-   387	
-   388		nand = mtd_to_nand(mtd);
-   389		nand_select_target(nand, 0);
-   390	
-   391		ret = macronix_30lfxg18ac_otp_enable(nand);
-   392		if (ret)
-   393			goto out_otp;
-   394	
-   395		page = offs_in_flash;
-   396		/* 'page' will be result of division. */
-   397		offs_in_page = do_div(page, MACRONIX_30LFXG18AC_OTP_PAGE_SIZE);
-   398		bytes_handled = 0;
-   399	
-   400		while (bytes_handled < len &&
-   401		       page < MACRONIX_30LFXG18AC_OTP_PAGES) {
-   402			size_t bytes_to_handle;
-   403	
-   404			bytes_to_handle = min_t(size_t, len - bytes_handled,
-   405						MACRONIX_30LFXG18AC_OTP_PAGE_SIZE -
-   406						offs_in_page);
-   407	
-   408			if (write) {
-   409				memcpy(dma_buf, &buf[bytes_handled], bytes_to_handle);
-   410				ret = nand_prog_page_op(nand, page, offs_in_page,
-   411							dma_buf, bytes_to_handle);
-   412			} else {
-   413				ret = nand_read_page_op(nand, page, offs_in_page,
-   414							dma_buf, bytes_to_handle);
-   415				if (!ret)
-   416					memcpy(&buf[bytes_handled], dma_buf,
-   417					       bytes_to_handle);
-   418			}
-   419			if (ret)
-   420				goto out_otp;
-   421	
-   422			bytes_handled += bytes_to_handle;
-   423			offs_in_page = 0;
-   424			page++;
-   425		}
-   426	
-   427		*retlen = bytes_handled;
-   428	
-   429	out_otp:
-   430		if (ret)
-   431			dev_err(&mtd->dev, "failed to perform OTP IO: %i\n", ret);
-   432	
-   433		ret = macronix_30lfxg18ac_otp_disable(nand);
-   434		WARN(ret, "failed to leave OTP mode after %s\n",
-   435		     write ? "write" : "read");
-   436		nand_deselect_target(nand);
- > 437		kfree(dma_buf);
-   438	
-   439		return ret;
-   440	}
-   441	
+--mtx
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+---
+Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
+werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
+GPG/PGP-Schlüssel zu.
+---
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
