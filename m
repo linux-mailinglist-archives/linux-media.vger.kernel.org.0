@@ -2,77 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F43F6EEB08
-	for <lists+linux-media@lfdr.de>; Wed, 26 Apr 2023 01:40:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BFDDD6EEB70
+	for <lists+linux-media@lfdr.de>; Wed, 26 Apr 2023 02:32:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236999AbjDYXk2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 25 Apr 2023 19:40:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50382 "EHLO
+        id S238430AbjDZAcG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 25 Apr 2023 20:32:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236573AbjDYXkU (ORCPT
+        with ESMTP id S236413AbjDZAcE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 25 Apr 2023 19:40:20 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D58E18E90;
-        Tue, 25 Apr 2023 16:40:17 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3F94B63226;
-        Tue, 25 Apr 2023 23:40:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0F44FC4339B;
-        Tue, 25 Apr 2023 23:40:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682466005;
-        bh=yDwXuW5UgMa9Q0v9GNn7yhV1yv+JJ89sxNBAP1VA4fg=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=Sg7sq14JifVJA3KcA5QRdxDAryb/DNkKXoKCnEIOCDG7klAfkDvXFNyDS8VHuV5fM
-         iiEgvz2p2/xYVZFh5k7nCNLpdx48E9gZgOSMrO1K4LwZT87wPQaQlDiffFqprXJYwa
-         KTmrnhpOpkHJSXZj3OUJcSrPWVpQr/X5ZP8aEM9JlKuXE+IIeHm0N4z4nQXHmDdXVP
-         WRIgHYk6Hb8/BaCvfoXr4KWqm2JVsujOlwr0IBdDMD434pSGn8YVT3ThiYyA0oP443
-         3uhlbUexGBPop61j5jP4k7eDT8GHlCrORpj3CH6HAVsEOLVCJ6LYbVIbumeSdeDNpg
-         PB9MRZiKx7tzg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id EBDC4E5FFC9;
-        Tue, 25 Apr 2023 23:40:04 +0000 (UTC)
-Subject: Re: [GIT PULL for v6.4-rc1] media updates
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20230425084238.5033de10@sal.lan>
-References: <20230425084238.5033de10@sal.lan>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20230425084238.5033de10@sal.lan>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.4-1
-X-PR-Tracked-Commit-Id: 73b41dc51fbeffa4a216b20193274cfe92b5d95b
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 4ea956963f4fca59050a22fcc65f00a85d586e63
-Message-Id: <168246600496.4872.6324170451111459189.pr-tracker-bot@kernel.org>
-Date:   Tue, 25 Apr 2023 23:40:04 +0000
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Tue, 25 Apr 2023 20:32:04 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18BE2B236;
+        Tue, 25 Apr 2023 17:32:03 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DA23A2CF;
+        Wed, 26 Apr 2023 02:31:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1682469108;
+        bh=J0H/I3MHC57rloZ2Y3S5PUrNrgy8f/8EJ9VwOYm2S10=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=YREWwOIE7IwcRZFehUJe5hzIshER8rKPV/zBWdvqT8YRPhPwcwWEK2/kKpnYy/oPD
+         0MHQFIDqEDkHAmxevwQ4vwN3JYfCvefeSzL2eHvLmjPQmgcbaTJi3A9ygbFDxmUWXd
+         VfqZrWUcKvyUZZRdADk7kX7VfKWQ/Rs73vhD6Fu8=
+Date:   Wed, 26 Apr 2023 03:32:10 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        wedsonaf@gmail.com, ojeda@kernel.org, mchehab@kernel.org,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, kernel@collabora.com
+Subject: Re: [PATCH 0/6] Initial Rust V4L2 support
+Message-ID: <20230426003210.GA31260@pendragon.ideasonboard.com>
+References: <20230406215615.122099-1-daniel.almeida@collabora.com>
+ <136035a4-26df-1c14-e51e-406b4ee5fe33@xs4all.nl>
+ <CANiq72kzgopREcNcAnjCBk2u9b9cJ4f_jPix6LWYSkcOV5kubw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANiq72kzgopREcNcAnjCBk2u9b9cJ4f_jPix6LWYSkcOV5kubw@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The pull request you sent on Tue, 25 Apr 2023 08:42:45 +0100:
+On Tue, Apr 11, 2023 at 02:02:17PM +0200, Miguel Ojeda wrote:
+> On Tue, Apr 11, 2023 at 9:51 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+> >
+> > One of my main concerns here is time: as subsystem maintainers we can barely
+> > keep up with all the incoming patches. Introducing support for a new language
+> > would add only more pressure. Even though these are mainly bindings (as I
+> > understand it), this would still require that every change to a C kAPI is
+> > duplicated in rust, requiring someone to do that work, and have maintainers
+> > with enough rust knowledge to verify it.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.4-1
+Another issue is that the V4L2 subsystem is plagued with lifetime
+management problems. I don't think rust bindings could be safely written
+for the MC and V4L2 subdev in-kernel APIs at the moment for instance.
+Sakari recently attempted to fix some of those issues (again), see [1].
+Progress is slow on this front because V4L2 is generally understaffed.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/4ea956963f4fca59050a22fcc65f00a85d586e63
+[1] https://lore.kernel.org//20230201214535.347075-1-sakari.ailus@linux.intel.com
 
-Thank you!
+Now, I hope that mentioning "lifetime management problems" will be
+enough to nerd-snipe a rust enthusiast or two to help fix the C code in
+order to implement proper rust bindings on top ;-)
+
+> Indeed, that is one of the main costs.
+> 
+> One potential solution is to have somebody step up as the maintainer
+> of the Rust side (e.g. the author of the abstractions).
+
+That would certainly be a required step, but I don't think it would be
+enough. On good days I see the media subsystem as barely able to cope
+with the current load, on bad days it feels it's completely collapsing.
+
+We have homework to do when it comes to maintenance for the media
+subsystem, we're doing *really* badly at the moment regarding community
+management and attracting (and retaining) new core contributors. This is
+a topic I really want to discuss face to face during the media workshop
+in Prague (and I know that many people are looking forward to that
+discussion).
+
+> Of course, that will not make the work go to zero, since there still
+> needs to be some degree of communication even if the new maintainer
+> does all the Rust side work, but it may make it feasible, especially
+> if the abstracted parts of the C API do not change too frequently.
+> 
+> It is also an opportunity for existing maintainers to see how the Rust
+> side would work meanwhile the work gets done, and potentially a chance
+> to get a new maintainer involved with the whole subsystem in the
+> future.
+> 
+> Some subsystems may want to give that maintainer a different
+> `MAINTAINERS` entry, e.g. as a child subsystem that sends PRs to the
+> main one and may be marked as "experimental". This is also a way to
+> see how the new abstractions work or not, giving maintainers more time
+> to decide whether to commit to a Rust side or not.
+> 
+> I don't mean to say it would be doable for the media subsystem, but
+> please consider it.
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Regards,
+
+Laurent Pinchart
