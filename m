@@ -2,204 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D81E86EF104
-	for <lists+linux-media@lfdr.de>; Wed, 26 Apr 2023 11:23:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE0096EF2E6
+	for <lists+linux-media@lfdr.de>; Wed, 26 Apr 2023 12:57:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240230AbjDZJXk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 26 Apr 2023 05:23:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48296 "EHLO
+        id S240010AbjDZK5R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 26 Apr 2023 06:57:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240215AbjDZJXg (ORCPT
+        with ESMTP id S229627AbjDZK5Q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 26 Apr 2023 05:23:36 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A85AE4C24;
-        Wed, 26 Apr 2023 02:23:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682500997; x=1714036997;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HVuw8vWnuoZFgy6Fr249eVM+tSLfwKH1nh0CZ35C6dk=;
-  b=MPBoDpF6LhTOLorCecepIHQGDnaTqE52+NHdeb3NlrcHSQVaeTZ8PrdR
-   v2qxwzHIljWXA6F1puRfSt7Tklywd8LU9evUmU0LOOschWvVYP1F7Vv5l
-   4pe5IKhuZ7dZgk5k8grucUONbcHIDXCH8I7AKcgdW5VY5r8pjssU3rm73
-   l5+kz4McfkxxgPZMSMIzmR8E0QhaaAXpxrOzkvWuAB3D//ZD8014l/SDY
-   IfiQY9jdW3kpBWw8GBpDNo6Ifah/bMqQofJ3v/Yp7LoWhkrsQpEyQJoyE
-   IX0h6kP8qYX+61TKU6efeF/2Q4GKDgu2zl225/akCLxYWs4dEcUpufSgX
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="327375952"
-X-IronPort-AV: E=Sophos;i="5.99,227,1677571200"; 
-   d="scan'208";a="327375952"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2023 02:22:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="687874590"
-X-IronPort-AV: E=Sophos;i="5.99,227,1677571200"; 
-   d="scan'208";a="687874590"
-Received: from lkp-server01.sh.intel.com (HELO 98ee5a99fc83) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 26 Apr 2023 02:22:43 -0700
-Received: from kbuild by 98ee5a99fc83 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1prbMI-0000Kg-1L;
-        Wed, 26 Apr 2023 09:22:42 +0000
-Date:   Wed, 26 Apr 2023 17:21:55 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Arseniy Krasnov <AVKrasnov@sberdevices.ru>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc:     oe-kbuild-all@lists.linux.dev, oxffffaa@gmail.com,
-        kernel@sberdevices.ru, linux-mtd@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v1] mtd: rawnand: macronix: OTP access for MX30LFxG18AC
-Message-ID: <202304261704.eyrD5KVk-lkp@intel.com>
-References: <20230426072455.3887717-1-AVKrasnov@sberdevices.ru>
+        Wed, 26 Apr 2023 06:57:16 -0400
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FC761992
+        for <linux-media@vger.kernel.org>; Wed, 26 Apr 2023 03:57:13 -0700 (PDT)
+Received: from ramsan.of.borg ([84.195.187.55])
+        by andre.telenet-ops.be with bizsmtp
+        id pNxA2900H1C8whw01NxAYU; Wed, 26 Apr 2023 12:57:11 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1prcRI-000Vqk-LL;
+        Wed, 26 Apr 2023 12:31:58 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1prcEE-0000N1-Sf;
+        Wed, 26 Apr 2023 12:18:26 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2] media: renesas: fdp1: Identify R-Car Gen2 versions
+Date:   Wed, 26 Apr 2023 12:18:24 +0200
+Message-Id: <2cd104d61289cafcf17d8f1b0dbf5de5778a0a0c.1682504219.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230426072455.3887717-1-AVKrasnov@sberdevices.ru>
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Arseniy,
+On R-Car M2-W:
 
-kernel test robot noticed the following build errors:
+    rcar_fdp1 fe940000.fdp1: FDP1 Unidentifiable (0x02010101)
+    rcar_fdp1 fe944000.fdp1: FDP1 Unidentifiable (0x02010101)
 
-[auto build test ERROR on mtd/nand/next]
-[also build test ERROR on linus/master v6.3 next-20230425]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Although the IP Internal Data Register on R-Car Gen2 is documented to
+contain all zeros, the actual register contents seem to match the FDP1
+version ID of R-Car H3 ES1.*, which has just been removed.
+Fortunately this version is not used for any other purposes yet.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Arseniy-Krasnov/mtd-rawnand-macronix-OTP-access-for-MX30LFxG18AC/20230426-153143
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next
-patch link:    https://lore.kernel.org/r/20230426072455.3887717-1-AVKrasnov%40sberdevices.ru
-patch subject: [PATCH v1] mtd: rawnand: macronix: OTP access for MX30LFxG18AC
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230426/202304261704.eyrD5KVk-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/3529f3465e99379489b59c035a8a0506c3756ef4
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Arseniy-Krasnov/mtd-rawnand-macronix-OTP-access-for-MX30LFxG18AC/20230426-153143
-        git checkout 3529f3465e99379489b59c035a8a0506c3756ef4
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/mtd/
+Fix this by re-adding the ID, now using an R-Car Gen2-specific name.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304261704.eyrD5KVk-lkp@intel.com/
+Fixes: af4273b43f2bd9ee ("media: renesas: fdp1: remove R-Car H3 ES1.* handling")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+---
+Version register contents verified on R-Car H2 ES1.0, R-Car M2-W ES1.0 &
+ES3.0, and R-Car E2 ES1.0.  I couldn't get hold of an R-Car M2-N.
 
-All error/warnings (new ones prefixed by >>):
+v2:
+  - Add Reviewed-by,
+  - Add comment.
+---
+ drivers/media/platform/renesas/rcar_fdp1.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-   drivers/mtd/nand/raw/nand_macronix.c: In function '__macronix_30lfxg18ac_rw_otp':
->> drivers/mtd/nand/raw/nand_macronix.c:384:19: error: implicit declaration of function 'kmalloc'; did you mean 'mm_alloc'? [-Werror=implicit-function-declaration]
-     384 |         dma_buf = kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERNEL);
-         |                   ^~~~~~~
-         |                   mm_alloc
->> drivers/mtd/nand/raw/nand_macronix.c:384:17: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     384 |         dma_buf = kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERNEL);
-         |                 ^
->> drivers/mtd/nand/raw/nand_macronix.c:437:9: error: implicit declaration of function 'kfree'; did you mean 'kvfree'? [-Werror=implicit-function-declaration]
-     437 |         kfree(dma_buf);
-         |         ^~~~~
-         |         kvfree
-   cc1: some warnings being treated as errors
-
-
-vim +384 drivers/mtd/nand/raw/nand_macronix.c
-
-   366	
-   367	static int __macronix_30lfxg18ac_rw_otp(struct mtd_info *mtd,
-   368						loff_t offs_in_flash,
-   369						size_t len, size_t *retlen,
-   370						u_char *buf, bool write)
-   371	{
-   372		struct nand_chip *nand;
-   373		size_t bytes_handled;
-   374		unsigned long page;
-   375		off_t offs_in_page;
-   376		void *dma_buf;
-   377		int ret;
-   378	
-   379		/* 'nand_prog/read_page_op()' may use 'buf' as DMA buffer,
-   380		 * so allocate properly aligned memory for it. This is
-   381		 * needed because cross page accesses may lead to unaligned
-   382		 * buffer address for DMA.
-   383		 */
- > 384		dma_buf = kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERNEL);
-   385		if (!dma_buf)
-   386			return -ENOMEM;
-   387	
-   388		nand = mtd_to_nand(mtd);
-   389		nand_select_target(nand, 0);
-   390	
-   391		ret = macronix_30lfxg18ac_otp_enable(nand);
-   392		if (ret)
-   393			goto out_otp;
-   394	
-   395		page = offs_in_flash;
-   396		/* 'page' will be result of division. */
-   397		offs_in_page = do_div(page, MACRONIX_30LFXG18AC_OTP_PAGE_SIZE);
-   398		bytes_handled = 0;
-   399	
-   400		while (bytes_handled < len &&
-   401		       page < MACRONIX_30LFXG18AC_OTP_PAGES) {
-   402			size_t bytes_to_handle;
-   403	
-   404			bytes_to_handle = min_t(size_t, len - bytes_handled,
-   405						MACRONIX_30LFXG18AC_OTP_PAGE_SIZE -
-   406						offs_in_page);
-   407	
-   408			if (write) {
-   409				memcpy(dma_buf, &buf[bytes_handled], bytes_to_handle);
-   410				ret = nand_prog_page_op(nand, page, offs_in_page,
-   411							dma_buf, bytes_to_handle);
-   412			} else {
-   413				ret = nand_read_page_op(nand, page, offs_in_page,
-   414							dma_buf, bytes_to_handle);
-   415				if (!ret)
-   416					memcpy(&buf[bytes_handled], dma_buf,
-   417					       bytes_to_handle);
-   418			}
-   419			if (ret)
-   420				goto out_otp;
-   421	
-   422			bytes_handled += bytes_to_handle;
-   423			offs_in_page = 0;
-   424			page++;
-   425		}
-   426	
-   427		*retlen = bytes_handled;
-   428	
-   429	out_otp:
-   430		if (ret)
-   431			dev_err(&mtd->dev, "failed to perform OTP IO: %i\n", ret);
-   432	
-   433		ret = macronix_30lfxg18ac_otp_disable(nand);
-   434		WARN(ret, "failed to leave OTP mode after %s\n",
-   435		     write ? "write" : "read");
-   436		nand_deselect_target(nand);
- > 437		kfree(dma_buf);
-   438	
-   439		return ret;
-   440	}
-   441	
-
+diff --git a/drivers/media/platform/renesas/rcar_fdp1.c b/drivers/media/platform/renesas/rcar_fdp1.c
+index 99af68fddc9249f5..d3bb3e71d61fd9dc 100644
+--- a/drivers/media/platform/renesas/rcar_fdp1.c
++++ b/drivers/media/platform/renesas/rcar_fdp1.c
+@@ -254,6 +254,8 @@ MODULE_PARM_DESC(debug, "activate debug info");
+ 
+ /* Internal Data (HW Version) */
+ #define FD1_IP_INTDATA			0x0800
++/* R-Car Gen2 HW manual says zero, but actual value matches R-Car H3 ES1.x */
++#define FD1_IP_GEN2			0x02010101
+ #define FD1_IP_M3W			0x02010202
+ #define FD1_IP_H3			0x02010203
+ #define FD1_IP_M3N			0x02010204
+@@ -2360,6 +2362,9 @@ static int fdp1_probe(struct platform_device *pdev)
+ 
+ 	hw_version = fdp1_read(fdp1, FD1_IP_INTDATA);
+ 	switch (hw_version) {
++	case FD1_IP_GEN2:
++		dprintk(fdp1, "FDP1 Version R-Car Gen2\n");
++		break;
+ 	case FD1_IP_M3W:
+ 		dprintk(fdp1, "FDP1 Version R-Car M3-W\n");
+ 		break;
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.34.1
+
