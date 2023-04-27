@@ -2,70 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CCB346F05FF
-	for <lists+linux-media@lfdr.de>; Thu, 27 Apr 2023 14:41:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61E526F07A4
+	for <lists+linux-media@lfdr.de>; Thu, 27 Apr 2023 16:40:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244016AbjD0Mk2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Apr 2023 08:40:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53812 "EHLO
+        id S244095AbjD0Okx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Apr 2023 10:40:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243989AbjD0MkP (ORCPT
+        with ESMTP id S243824AbjD0Okw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Apr 2023 08:40:15 -0400
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D83FE558B;
-        Thu, 27 Apr 2023 05:40:03 -0700 (PDT)
-Received: by mail-oi1-x22e.google.com with SMTP id 5614622812f47-38bef71c258so5762415b6e.2;
-        Thu, 27 Apr 2023 05:40:03 -0700 (PDT)
+        Thu, 27 Apr 2023 10:40:52 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD78E3C3F
+        for <linux-media@vger.kernel.org>; Thu, 27 Apr 2023 07:40:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682599203; x=1685191203;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=J6ET9XLS5jM/TyHq4+UE6o4i1yy/wsCl/8+/RTLOHqY=;
-        b=msyOC8BBuy7I5069cJ9Fs6UeK9SnEiNiykDGApouWwIVmp6W+w4i7EI0BD6bwq45Te
-         Mv8ooCvRm5eCzKziAc0k3FmoE9HbIC5yDZUY+pqJzuVCHk7IWnWr9+mXvwTTuj9l0Ncz
-         CMRlMc3859WHiODGKv/+0U7vSrJpu/RWfAH+SyiwNgsOLmX1BVdKgnoAV2YMsITtsmPL
-         iFdrpSLUmvyTf8WJnrfeTYpIh//v5KGODvIhdeuaNW1lM1XD3gmrZ34un2ub2iJvj1wM
-         LXVyWM9yoKcEjEPrVn+zY9Fu3t3uKe4w/r4/5m/2yU76S0mRQPAZCd3XfuQMVJwWXUBL
-         bGLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682599203; x=1685191203;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=J6ET9XLS5jM/TyHq4+UE6o4i1yy/wsCl/8+/RTLOHqY=;
-        b=Kld19s8fDpoQLWqialRfx9xhLvUM+DviHdi/j0Tsehp9xhghVVGn0NoI3ZxRdrqQeJ
-         6NuV0BfeEcBQ38PYgaQQNDndcfpEsCLlDLUIwnfcxYOEg8smFzh1ttAw/6yS8VmXHL87
-         4uKRxBJN08eOW7DQRh4e/bOZ61QJx/QRQe3fwnXd17laeu3R4PsLQ+rmjWWCDSx+b2Aq
-         M2GpjFmEwxBWONTIaBz+PD84GZlRp17gOQosRxAAOQ9BPZYWSboStIbspECUPGAA3pFS
-         wdLVATO6WhSY1bttgj7RQdne/FZjn1HaxcknDFwaUTjcoS9g+1xET3Ulwvf4GEe7W336
-         2O5g==
-X-Gm-Message-State: AC+VfDyiPYY95Im27WFsN+TevDgaayv8rwbpN2C36ct/Zt9nZ4/oajze
-        7IJFcHhvZgWb3oN2SZjNyYZRNNKdAalhA/ZagsYmAgD/
-X-Google-Smtp-Source: ACHHUZ5+5nq8G0fdCC1+vwj+KmJkfoWFgNBUEKtOzD2dq9+mpvse2ZJ72PF955P7xK8j8473xqe+Z9K5Jz67W2iX7LQ=
-X-Received: by 2002:aca:1307:0:b0:38e:2879:735b with SMTP id
- e7-20020aca1307000000b0038e2879735bmr563675oii.34.1682599203057; Thu, 27 Apr
- 2023 05:40:03 -0700 (PDT)
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1682606450; x=1714142450;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Q6KyPOTJaRiQ+7fvadFwTQ3C9h7dMTMsVROhkyPM1i8=;
+  b=RFuMxi9Xe1V9ii58TgzezkwHnvCdJh9ktrVWD57bMDD4pukj3ZmcYXuh
+   jlvLS70x2dmkYXavopksoGJ5NRJIfCYwBB0YCMT+DT9VTqOnIJniv8NiL
+   TU3nulh4vp8cNMoHW5SuGQiaTVGefraVCNsDmWPItwAo17wAZCVTV+KHR
+   t43NJ2JgWy2q/hf6BBcwEdNb4Tk9ou7H/frFZ9j0ESq2xKZmSzsekcKqb
+   T0FrT2luzfa2Udaayhbcwbydau7H1bO0GZNkhAKCE4TlUUYAAbeAGv9+F
+   i2B1SEqOf8mq4VojmhIk3FAG3l6uLxV9iogaTTPkvUbDRCAB0bV0ppNhK
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.99,230,1677538800"; 
+   d="scan'208";a="30608251"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+  by mx1-pgp.tq-group.com with ESMTP; 27 Apr 2023 16:40:49 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+  by tq-pgp-pr1.tq-net.de (PGP Universal service);
+  Thu, 27 Apr 2023 16:40:49 +0200
+X-PGP-Universal: processed;
+        by tq-pgp-pr1.tq-net.de on Thu, 27 Apr 2023 16:40:49 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1682606449; x=1714142449;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Q6KyPOTJaRiQ+7fvadFwTQ3C9h7dMTMsVROhkyPM1i8=;
+  b=CBrEvZ8Ma1IEkbV76ZmgohhDSglD1U/n3thJQTAqtEa+K3Ya60v5zqjO
+   aOPsU79NCCIaTm1Nh9LdEiMYIOkl1JMhhPnUhwM9mmLIhSrucXbJyggEA
+   4sXkJgzia6dlUfp+HZhdb6LgtuG2Gg4TGpOXS/oQvonrqMZgiFqvnZdaP
+   LMvyQy3PPNOI/YFiSInUufJiQ9U0hHwW/hCSZoU5akiFC/yoIDuzbgr6K
+   6ctQBucMoNUczpzXsgWhxpHouZrmTpYRyKffZIaPeG1+UgSKHjtJsyWwP
+   nHDD0KVTnnLkNTKJCZ6ALcV+a2psiqgjt4TDrevhI0YaFLg4OQCmpVnek
+   Q==;
+X-IronPort-AV: E=Sophos;i="5.99,230,1677538800"; 
+   d="scan'208";a="30608250"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 27 Apr 2023 16:40:49 +0200
+Received: from steina-w.localnet (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id E711C280056
+        for <linux-media@vger.kernel.org>; Thu, 27 Apr 2023 16:40:48 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     linux-media@vger.kernel.org
+Subject: v4l2-async: regression due to endpoint matching
+Date:   Thu, 27 Apr 2023 16:40:46 +0200
+Message-ID: <8360125.31r3eYUQgx@steina-w>
+Organization: TQ-Systems GmbH
 MIME-Version: 1.0
-References: <20230419122233.3440-1-hackyzh002@gmail.com> <CAF6NKda1Jy_wfxaVqWt-o75f1BO-o4JXHY9HS9_JtJ2FHztMmQ@mail.gmail.com>
-In-Reply-To: <CAF6NKda1Jy_wfxaVqWt-o75f1BO-o4JXHY9HS9_JtJ2FHztMmQ@mail.gmail.com>
-From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Thu, 27 Apr 2023 08:39:51 -0400
-Message-ID: <CADnq5_MfynMAPU8c-Lq1X_dcDOdRpjW6i=m-Qo8zsZZ=dO-62w@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] drm/amdgpu: Fix integer overflow in amdgpu_cs_pass1
-To:     whitehat002 whitehat002 <hackyzh002@gmail.com>
-Cc:     alexander.deucher@amd.com, Xinhui.Pan@amd.com,
-        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        sumit.semwal@linaro.org, linaro-mm-sig@lists.linaro.org,
-        dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
-        airlied@gmail.com, christian.koenig@amd.com,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+Content-Type: text/plain; charset="iso-8859-1"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,47 +77,67 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As per my prior reply, it has been applied.
+Hi all,
 
-Thanks,
+I have a setup on my TQMa6x (imx6q-mba6a.dts) with a tc358743 attached to t=
+he=20
+MIPI CSI input.
+I noticed that since commit 1f391df44607 ("media: v4l2-async: Use endpoints=
+ in=20
+__v4l2_async_nf_add_fwnode_remote()") the async subdevice probing does not=
+=20
+work anymore. If I revert that, it is working again, even on next-20230425.
 
-Alex
+$ cat /sys/kernel/debug/v4l2-async/pending_async_subdevices
+imx-media:
+ipu2_csi1:
+ipu2_csi0:
+ [fwnode] dev=3D21dc000.mipi, node=3D/soc/bus@2100000/mipi@21dc000/port@3/e=
+ndpoint
+ipu1_csi1:
+ [fwnode] dev=3D21dc000.mipi, node=3D/soc/bus@2100000/mipi@21dc000/port@2/e=
+ndpoint
+ipu1_csi0:
+imx6-mipi-csi2:
+ipu2_csi1_mux:
+ipu1_csi0_mux:
+ [fwnode] dev=3D21dc000.mipi, node=3D/soc/bus@2100000/mipi@21dc000/port@1/e=
+ndpoint
 
-On Thu, Apr 27, 2023 at 8:39=E2=80=AFAM whitehat002 whitehat002
-<hackyzh002@gmail.com> wrote:
->
-> hello
-> What is the current status of this patch, has it been applied?
->
->
-> hackyzh002 <hackyzh002@gmail.com> =E4=BA=8E2023=E5=B9=B44=E6=9C=8819=E6=
-=97=A5=E5=91=A8=E4=B8=89 20:23=E5=86=99=E9=81=93=EF=BC=9A
-> >
-> > The type of size is unsigned int, if size is 0x40000000, there will
-> > be an integer overflow, size will be zero after size *=3D sizeof(uint32=
-_t),
-> > will cause uninitialized memory to be referenced later.
-> >
-> > Signed-off-by: hackyzh002 <hackyzh002@gmail.com>
-> > ---
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/a=
-md/amdgpu/amdgpu_cs.c
-> > index 08eced097..89bcacc65 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> > @@ -192,7 +192,7 @@ static int amdgpu_cs_pass1(struct amdgpu_cs_parser =
-*p,
-> >         uint64_t *chunk_array_user;
-> >         uint64_t *chunk_array;
-> >         uint32_t uf_offset =3D 0;
-> > -       unsigned int size;
-> > +       size_t size;
-> >         int ret;
-> >         int i;
-> >
-> > --
-> > 2.34.1
-> >
+
+With revert:
+$ cat /sys/kernel/debug/v4l2-async/pending_async_subdevices
+imx-media:
+ipu2_csi1:
+ipu2_csi0:
+ipu1_csi1:
+ipu1_csi0:
+imx6-mipi-csi2:
+ipu2_csi1_mux:
+ipu1_csi0_mux:
+
+I also see these messages:
+> video-mux 20e0000.iomuxc-gpr:ipu2_csi1_mux: Consider updating driver vide=
+o-
+mux to match on endpoints
+> imx6-mipi-csi2 21dc000.mipi: Consider updating driver imx6-mipi-csi2 to=20
+match on endpoints
+> tc358743 0-000f: Consider updating driver tc358743 to match on endpoints
+> video-mux 20e0000.iomuxc-gpr:ipu1_csi0_mux: Consider updating driver vide=
+o-
+mux to match on endpoints
+
+But I'm unsure if this is related. As far as I can see match_fwnode_one doe=
+s=20
+match some nodes, but I do not know if they are the correct ones.
+Anyone has an idea what's wrong here?
+
+Best regards,
+Alexander
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
+
