@@ -2,75 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5C4A6F0352
-	for <lists+linux-media@lfdr.de>; Thu, 27 Apr 2023 11:24:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 840A76F0440
+	for <lists+linux-media@lfdr.de>; Thu, 27 Apr 2023 12:36:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243348AbjD0JXa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Apr 2023 05:23:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47076 "EHLO
+        id S243555AbjD0KgX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Apr 2023 06:36:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243312AbjD0JXP (ORCPT
+        with ESMTP id S243218AbjD0KgW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Apr 2023 05:23:15 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 251FC2119
-        for <linux-media@vger.kernel.org>; Thu, 27 Apr 2023 02:23:11 -0700 (PDT)
+        Thu, 27 Apr 2023 06:36:22 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D0A04EC9
+        for <linux-media@vger.kernel.org>; Thu, 27 Apr 2023 03:36:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682587392; x=1714123392;
+  t=1682591781; x=1714127781;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=VH7l9ym6TVS6TnDV5MZawl2wGGHPy9IAQbQo7Z+7dWU=;
-  b=iedT0i8EDD5lNArMfX3n1B7DogFbOUfXUcpl9sE2NX0mPMa0lVeQh1Nb
-   vtvrEuBTCzSmQ6WPHUGvdvkBTX5igfGudCKpsZ+ok0wDuTpuWmvWngORC
-   /gKRiULgddXGEYJjgQSxLSjNCarlllCw3RsKydehDFSnYaaGLC1OlSYx6
-   o0nV3cPM3gTGQTtV9AUjVD2vTyHkueamldl5QdVD2rdwGrnUVVSeB07GR
-   voRUrLDL4HmpVdqJ/W7BOikzXdHxcJOqJE7hyYZGFlOlQLY6/A6upBqrW
-   kswbczThrHvMa9k8KdMTCZyIpITCfesIYnRrVf1yzyLjcZRS61j72sGLE
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="346144848"
+   mime-version:in-reply-to;
+  bh=pghstpDsGfYqe3OZVCVowhlPio3t7L7mfjjH3Rs2uCQ=;
+  b=O9JxC0wrmh9+m+GtcdqZYeUHeaarSKrMEz0W5l7RAv5YTS8/tqwBN4vT
+   QxkjlvQnbsmr6Hz5+S2gIxukd+R+vtEv2FjM0+g0YP/otVNnVAzi0CO9y
+   4Mn0lexvLIp7d+7S0KXRTmoLR3dlc6wP5lh9sYkF4P9B18uNHhDKSvQQQ
+   d6ElmukjwqPgKKCzpQhVpPU492EXdRHsX2Q6rww0Le9yFIHqezaeiFo9A
+   Wg+bgdpgu46xd0EzBiSfIj2NrGwt2ZKBE716PLP790lkDfAx5AQK60Edv
+   Mii1vtJ5bE2QkaUzX2jlegh4i2QjejSQ6mc6tQ1Jg+MJS98uI4fzoJ9ZL
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="327009221"
 X-IronPort-AV: E=Sophos;i="5.99,230,1677571200"; 
-   d="scan'208";a="346144848"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 02:23:11 -0700
+   d="scan'208";a="327009221"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 03:36:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="763718355"
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="759061767"
 X-IronPort-AV: E=Sophos;i="5.99,230,1677571200"; 
-   d="scan'208";a="763718355"
+   d="scan'208";a="759061767"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 02:23:08 -0700
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 03:36:17 -0700
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 1A0F911FC9F;
-        Thu, 27 Apr 2023 12:23:06 +0300 (EEST)
-Date:   Thu, 27 Apr 2023 12:23:06 +0300
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 93BD811FC9F;
+        Thu, 27 Apr 2023 13:36:13 +0300 (EEST)
+Date:   Thu, 27 Apr 2023 13:36:13 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        linux-media@vger.kernel.org,
+Cc:     linux-media@vger.kernel.org,
         Philipp Zabel <p.zabel@pengutronix.de>, hverkuil@xs4all.nl,
         Francesco Dolcini <francesco@dolcini.it>,
         aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
         Todor Tomov <todor.too@gmail.com>,
         Hyun Kwon <hyun.kwon@xilinx.com>
-Subject: Re: [PATCH 03/18] media: v4l: async: Simplify async sub-device
- fwnode matching
-Message-ID: <ZEo++qRSSAoeJWi+@kekkonen.localdomain>
+Subject: Re: [PATCH 04/18] media: v4l: async: Make V4L2 async match
+ information a struct
+Message-ID: <ZEpQHc31yaPmjoof@kekkonen.localdomain>
 References: <20230330115853.1628216-1-sakari.ailus@linux.intel.com>
- <20230330115853.1628216-4-sakari.ailus@linux.intel.com>
- <dpw2fvycehgud3ijdzppy24bep2a54ceceksmifetczikdmgeq@ok4vru42ocvy>
- <ZDkz/DcjzayyokAQ@kekkonen.localdomain>
- <ZEbWdoATJN2JoK9B@oden.dyn.berto.se>
- <ZEbZcvaAp7ExU7KA@kekkonen.localdomain>
- <20230425013742.GL4921@pendragon.ideasonboard.com>
+ <20230330115853.1628216-5-sakari.ailus@linux.intel.com>
+ <20230425011057.GH4921@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230425013742.GL4921@pendragon.ideasonboard.com>
+In-Reply-To: <20230425011057.GH4921@pendragon.ideasonboard.com>
 X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
         SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -81,78 +73,199 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Laurent,
 
-On Tue, Apr 25, 2023 at 04:37:42AM +0300, Laurent Pinchart wrote:
+On Tue, Apr 25, 2023 at 04:10:57AM +0300, Laurent Pinchart wrote:
 > Hi Sakari,
 > 
-> On Mon, Apr 24, 2023 at 10:33:06PM +0300, Sakari Ailus wrote:
-> > On Mon, Apr 24, 2023 at 09:20:22PM +0200, Niklas Söderlund wrote:
-> > > On 2023-04-14 14:07:40 +0300, Sakari Ailus wrote:
-> > > > On Thu, Apr 13, 2023 at 06:50:04PM +0200, Jacopo Mondi wrote:
-> > > > > On Thu, Mar 30, 2023 at 02:58:38PM +0300, Sakari Ailus wrote:
-> > > > > > V4L2 async sub-device matching originally used the device nodes only.
-> > > > > > Endpoint nodes were taken into use instead as using the device nodes was
-> > > > > > problematic for it was in some cases ambiguous which link might have been
-> > > > > > in question.
-> > > > > >
-> > > > > > There is however no need to use endpoint nodes on both sides, as the async
-> > > > > > sub-device's fwnode can always be trivially obtained using
-> > > > > > fwnode_graph_get_remote_endpoint() when needed while what counts is
-> > > > > > whether or not the link is between two device nodes, i.e. the device nodes
-> > > > > > match.
-> > > > > 
-> > > > > As you know I'm a bit debated.
-> > > > > 
-> > > > > Strict endpoint-matching requires one subdev to be registed per each
-> > > > > endpoint, and this is tedious for drivers that have to register a
-> > > > > subdev for each of its endpoints
-> > > > > 
-> > > > > Allowing a subdev to be matched multiple times on different endpoints
-> > > > > gives a way for lazy drivers to take a shortcut and simplify their
-> > > > > topologies to a single subdev, when they would actually need more.
-> > > > 
-> > > > I'd say this is really about interface design, not being "lazy". It depends
-> > > > on the sub-device. Ideally the framework should be also as easy for drivers
-> > > > drivers to use as possible.
-> > > > 
-> > > > What is not supported, though, is multiple sub-devices with a single device
-> > > > node. Do we need that? At least I don't think I came across a driver that
-> > > > would.
-> > > 
-> > > If I understand you correctly about multiple sub-device from a single 
-> > > device node, this exists today. The ADV748x driver have a single device 
-> > > node in DT and register multiple sub-devices, one for each source 
-> > > endpoint.
-> > > 
-> > > The ADV748x have two CSI-2 transmitters, one 4-lane and one 1-lane as 
-> > > well as two different video capture "ports" one HDMI and one CVBS. Both 
-> > > capture ports can be active at the same time and routed internally 
-> > > inside the ADV748x to the two different CSI-2 transmitters.
-> > > 
-> > > In order todo this the ADV748x register multiple subdevices and modifies 
-> > > the fwnode to be the endpoint instead of the device node. So the change 
-> > > in this patch for ADV748x driver would break that driver.
-> > 
-> > Ah, indeed. I guess I'll need to support that case as well then. It doesn't
-> > seem to be troublesome to implement, but I'm tempted making it a special
-> > case: every other driver would apparently be fine matching with device
-> > fwnode whereas doing endpoint-to-endpoint matching adds complexity to the
-> > drivers. This patch removes about 100 lines of rather ugly code largely
-> > from v4l2-async.
+> Thank you for the patch.
 > 
-> It's only 50 lines from v4l2-async, and I don't think the code is uglier
-> than the rest of the file :-) In general, I prefer implementing tricky
-> code in the framework and simplifying drivers. I think our goals align
-> there, the framework should do the right thing by default for the
-> majority of cases. However, as Niklas pointed out, endpoint matching is
-> needed for drivers that register multiple subdevs with external
-> connections (such as the adv742x), and that's exactly why endpoint
-> matching was added in the first place. I think this needs to be kept.
+> On Thu, Mar 30, 2023 at 02:58:39PM +0300, Sakari Ailus wrote:
+> > Make V4L2 async match information a struct, making it easier to use it
+> > elsewhere outside the scope of struct v4l2_async_subdev.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  drivers/media/v4l2-core/v4l2-async.c  | 18 ++++++-------
+> >  drivers/media/v4l2-core/v4l2-fwnode.c |  2 +-
+> >  include/media/v4l2-async.h            | 39 ++++++++++++++++-----------
+> >  3 files changed, 33 insertions(+), 26 deletions(-)
+> > 
+> > diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> > index 13fe0bdc70b6..bb78e3618ab5 100644
+> > --- a/drivers/media/v4l2-core/v4l2-async.c
+> > +++ b/drivers/media/v4l2-core/v4l2-async.c
+> > @@ -147,7 +147,7 @@ v4l2_async_find_match(struct v4l2_async_notifier *notifier,
+> >  
+> >  	list_for_each_entry(asd, &notifier->waiting, list) {
+> >  		/* bus_type has been verified valid before */
+> > -		switch (asd->match_type) {
+> > +		switch (asd->match.type) {
+> >  		case V4L2_ASYNC_MATCH_I2C:
+> 
+> Renaming V4L2_ASYNC_MATCH_* to V4L2_ASYNC_MATCH_TYPE_* would be nice in
+> a separate patch.
 
-I'm certainly fine with keeping functionality that driver needs and indeed
-did not intend to break it. However I'd like to simplify this for majority
-of drivers, this one can use additional APIs to get the job done.
+I'll add one on top.
 
-I'll address this in v2.
+> 
+> >  			match = match_i2c;
+> >  			break;
+> > @@ -172,10 +172,10 @@ v4l2_async_find_match(struct v4l2_async_notifier *notifier,
+> >  static bool asd_equal(struct v4l2_async_subdev *asd_x,
+> >  		      struct v4l2_async_subdev *asd_y)
+> >  {
+> > -	if (asd_x->match_type != asd_y->match_type)
+> > +	if (asd_x->match.type != asd_y->match.type)
+> >  		return false;
+> >  
+> > -	switch (asd_x->match_type) {
+> > +	switch (asd_x->match.type) {
+> >  	case V4L2_ASYNC_MATCH_I2C:
+> >  		return asd_x->match.i2c.adapter_id ==
+> >  			asd_y->match.i2c.adapter_id &&
+> > @@ -494,7 +494,7 @@ static int v4l2_async_nf_asd_valid(struct v4l2_async_notifier *notifier,
+> >  	if (!asd)
+> >  		return -EINVAL;
+> >  
+> > -	switch (asd->match_type) {
+> > +	switch (asd->match.type) {
+> >  	case V4L2_ASYNC_MATCH_I2C:
+> >  	case V4L2_ASYNC_MATCH_FWNODE:
+> >  		if (v4l2_async_nf_has_async_subdev(notifier, asd, this_index)) {
+> > @@ -504,7 +504,7 @@ static int v4l2_async_nf_asd_valid(struct v4l2_async_notifier *notifier,
+> >  		break;
+> >  	default:
+> >  		dev_err(dev, "Invalid match type %u on %p\n",
+> > -			asd->match_type, asd);
+> > +			asd->match.type, asd);
+> >  		return -EINVAL;
+> >  	}
+> >  
+> > @@ -630,7 +630,7 @@ static void __v4l2_async_nf_cleanup(struct v4l2_async_notifier *notifier)
+> >  		return;
+> >  
+> >  	list_for_each_entry_safe(asd, tmp, &notifier->asd_list, asd_list) {
+> > -		switch (asd->match_type) {
+> > +		switch (asd->match.type) {
+> >  		case V4L2_ASYNC_MATCH_FWNODE:
+> >  			fwnode_handle_put(asd->match.fwnode);
+> >  			break;
+> > @@ -685,7 +685,7 @@ __v4l2_async_nf_add_fwnode(struct v4l2_async_notifier *notifier,
+> >  	if (!asd)
+> >  		return ERR_PTR(-ENOMEM);
+> >  
+> > -	asd->match_type = V4L2_ASYNC_MATCH_FWNODE;
+> > +	asd->match.type = V4L2_ASYNC_MATCH_FWNODE;
+> >  	asd->match.fwnode = fwnode_handle_get(fwnode);
+> >  
+> >  	ret = __v4l2_async_nf_add_subdev(notifier, asd);
+> > @@ -732,7 +732,7 @@ __v4l2_async_nf_add_i2c(struct v4l2_async_notifier *notifier, int adapter_id,
+> >  	if (!asd)
+> >  		return ERR_PTR(-ENOMEM);
+> >  
+> > -	asd->match_type = V4L2_ASYNC_MATCH_I2C;
+> > +	asd->match.type = V4L2_ASYNC_MATCH_I2C;
+> >  	asd->match.i2c.adapter_id = adapter_id;
+> >  	asd->match.i2c.address = address;
+> >  
+> > @@ -850,7 +850,7 @@ EXPORT_SYMBOL(v4l2_async_unregister_subdev);
+> >  static void print_waiting_subdev(struct seq_file *s,
+> >  				 struct v4l2_async_subdev *asd)
+> >  {
+> > -	switch (asd->match_type) {
+> > +	switch (asd->match.type) {
+> >  	case V4L2_ASYNC_MATCH_I2C:
+> >  		seq_printf(s, " [i2c] dev=%d-%04x\n", asd->match.i2c.adapter_id,
+> >  			   asd->match.i2c.address);
+> > diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+> > index 3d9533c1b202..e6bd63364bed 100644
+> > --- a/drivers/media/v4l2-core/v4l2-fwnode.c
+> > +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+> > @@ -811,7 +811,7 @@ v4l2_async_nf_fwnode_parse_endpoint(struct device *dev,
+> >  	if (!asd)
+> >  		return -ENOMEM;
+> >  
+> > -	asd->match_type = V4L2_ASYNC_MATCH_FWNODE;
+> > +	asd->match.type = V4L2_ASYNC_MATCH_FWNODE;
+> >  	asd->match.fwnode =
+> >  		fwnode_graph_get_remote_port_parent(endpoint);
+> >  	if (!asd->match.fwnode) {
+> > diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
+> > index 25eb1d138c06..0c4cffd081c9 100644
+> > --- a/include/media/v4l2-async.h
+> > +++ b/include/media/v4l2-async.h
+> > @@ -34,23 +34,38 @@ enum v4l2_async_match_type {
+> >  };
+> >  
+> >  /**
+> > - * struct v4l2_async_subdev - sub-device descriptor, as known to a bridge
+> > + * struct v4l2_async_match - async sub-device match information
+> 
+> The new structure name sounds like it stores data about an actual match,
+> while in reality it stores information for matching subdevs with
+> notifier entries. How about naming the structure v4l2_async_match_info,
+> or v4l2_async_match_descriptor or v4l2_async_match_desc ?
+
+v4l2_async_match_desc is shorter, I'll use that.
+
+> 
+> >   *
+> > - * @match_type:	type of match that will be used
+> > - * @match:	union of per-bus type matching data sets
+> > - * @match.fwnode:
+> > + * @type:	type of match that will be used
+> > + * @fwnode:
+> >   *		pointer to &struct fwnode_handle to be matched.
+> >   *		Used if @match_type is %V4L2_ASYNC_MATCH_FWNODE.
+> > - * @match.i2c:	embedded struct with I2C parameters to be matched.
+> > + * @i2c:	embedded struct with I2C parameters to be matched.
+> >   *		Both @match.i2c.adapter_id and @match.i2c.address
+> >   *		should be matched.
+> >   *		Used if @match_type is %V4L2_ASYNC_MATCH_I2C.
+> > - * @match.i2c.adapter_id:
+> > + * @i2c.adapter_id:
+> >   *		I2C adapter ID to be matched.
+> >   *		Used if @match_type is %V4L2_ASYNC_MATCH_I2C.
+> > - * @match.i2c.address:
+> > + * @i2c.address:
+> >   *		I2C address to be matched.
+> >   *		Used if @match_type is %V4L2_ASYNC_MATCH_I2C.
+> > + */
+> > +struct v4l2_async_match {
+> > +	enum v4l2_async_match_type type;
+> > +	union {
+> > +		struct fwnode_handle *fwnode;
+> > +		struct {
+> > +			int adapter_id;
+> > +			unsigned short address;
+> > +		} i2c;
+> > +	};
+> > +};
+> > +
+> > +/**
+> > + * struct v4l2_async_subdev - sub-device descriptor, as known to a bridge
+> > + *
+> > + * @match:	struct of match type and per-bus type matching data sets
+> >   * @asd_list:	used to add struct v4l2_async_subdev objects to the
+> >   *		master notifier @asd_list
+> >   * @list:	used to link struct v4l2_async_subdev objects, waiting to be
+> > @@ -61,15 +76,7 @@ enum v4l2_async_match_type {
+> >   * v4l2_async_subdev as its first member.
+> >   */
+> >  struct v4l2_async_subdev {
+> > -	enum v4l2_async_match_type match_type;
+> > -	union {
+> > -		struct fwnode_handle *fwnode;
+> > -		struct {
+> > -			int adapter_id;
+> > -			unsigned short address;
+> > -		} i2c;
+> > -	} match;
+> > -
+> > +	struct v4l2_async_match match;
+> >  	/* v4l2-async core private: not to be used by drivers */
+> >  	struct list_head list;
+> >  	struct list_head asd_list;
+> 
 
 -- 
 Regards,
