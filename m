@@ -2,108 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BD536F0202
-	for <lists+linux-media@lfdr.de>; Thu, 27 Apr 2023 09:46:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17A086F0230
+	for <lists+linux-media@lfdr.de>; Thu, 27 Apr 2023 09:59:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243123AbjD0HpY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Apr 2023 03:45:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53354 "EHLO
+        id S243185AbjD0H62 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Apr 2023 03:58:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243115AbjD0Hoy (ORCPT
+        with ESMTP id S242899AbjD0H61 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Apr 2023 03:44:54 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35650173E;
-        Thu, 27 Apr 2023 00:44:53 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-5050497df77so12525577a12.1;
-        Thu, 27 Apr 2023 00:44:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682581491; x=1685173491;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yN4Wi6us9tqsW8wES8TfgapwiSQM5W3hLxG1tm9HFuk=;
-        b=Z/MeeZiHBqR8BxiSLLgHCC/EH/QJKBpmBB+s+TiEbkHjNHGfQk8bgl3fEdk6cTAb8s
-         i5Rgr7ATOP4iz9wyQn6Aecx1h53Y7H/iWCEF3Xs1jE6x40FOT7R87qeSkCvdCDsnX3oM
-         o7J6sMW/R47q/Q95xro8n92wplp3kDXiWD2xJr75vZTJrwQUwzjwYHPZkolBOMlHwZC6
-         LeTwzxCIf4xH76inLIaInXPJhcTfXWNcXkwUyGxuN7+aEVNRnjZhgEnXr73M0Vyo7AoP
-         XYXo7mO5TFHAHW606Dt5BMF5OXx3j7KHPy0Q5SU2Njjve624+FyCJcm5dvnNRJ2HorOy
-         4yNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682581491; x=1685173491;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yN4Wi6us9tqsW8wES8TfgapwiSQM5W3hLxG1tm9HFuk=;
-        b=Xs0o8jtl5gc0o6pMBEJ9q1DaDsXlqHVsm2r+HsQulerMOJiI6KD+SDrb4MASIfynDr
-         N4Dm3vDZjNB35e3zyxTQ9TRmKsZeYisaZj+iw2/g11G24Y2NC/08NWmJ7HxeHC/RNiEI
-         Cp9Py60EjYiAHV9yZ+RjQ1bQrCuQvWIYS4uF1UCXF8VFVaCkmHzKgyNWIduRFMHRe9tC
-         v2nmXUKvzU+QafCrZTNSYUQHNwG6UQerqM3dQrartyT2JuDqxBnxF7nU4kxK8hBQfiyL
-         x6oxp1l8j84sVzrmsPeuTgQn0rTKWan+EXaCcvPt3sxyE5RHjo+ooFFT/NxJ6NIjNEk0
-         Tb1Q==
-X-Gm-Message-State: AC+VfDzQ8B8vn+VUITdNB+OxJYbrLWkCCYjv2O+P/0AETUXCjqHdFso2
-        4NP/BvrSspqzjZDR+eO1RIqoNlJKWxYW+EiS/S+gsoJIE4u0Fg==
-X-Google-Smtp-Source: ACHHUZ7Ivm3w6KJmjlpirXR7ZF+N4Jh+ldZEPc5yzcTHChvJ2LMc/imtrzBOL4rDvKcbf9E6AyOGILa+jzdbdHALb4Q=
-X-Received: by 2002:a17:907:961b:b0:94e:6a24:9463 with SMTP id
- gb27-20020a170907961b00b0094e6a249463mr909190ejc.28.1682581491617; Thu, 27
- Apr 2023 00:44:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230419122233.3440-1-hackyzh002@gmail.com>
-In-Reply-To: <20230419122233.3440-1-hackyzh002@gmail.com>
-From:   whitehat002 whitehat002 <hackyzh002@gmail.com>
-Date:   Thu, 27 Apr 2023 15:44:39 +0800
-Message-ID: <CAF6NKda1Jy_wfxaVqWt-o75f1BO-o4JXHY9HS9_JtJ2FHztMmQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] drm/amdgpu: Fix integer overflow in amdgpu_cs_pass1
-To:     alexander.deucher@amd.com
-Cc:     christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
-        daniel@ffwll.ch, sumit.semwal@linaro.org,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Thu, 27 Apr 2023 03:58:27 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5ACA1B9;
+        Thu, 27 Apr 2023 00:58:26 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 740BE1FDE6;
+        Thu, 27 Apr 2023 07:58:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1682582305; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=GuUVcD38jAMovH64SkqQKxX5RN0P/+TAtv2rdAFVBZ8=;
+        b=K6krzc3Liq3pUZjrA4chMtyqEZDkzcf0QkorM+i6l6FyLZgzipB6U/HsVINMSoW6lCE5V2
+        HwwshR8HOVWapMlJziDedAGlp/1KsArcUlX4PQOwUzemsVR96qFT3hpVNx412BoBvIhB0w
+        05rUwGrmxdxK+pdAgVMrQ5O8jh0cgEY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1682582305;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=GuUVcD38jAMovH64SkqQKxX5RN0P/+TAtv2rdAFVBZ8=;
+        b=AIZSk5c5RYTrgBpek0Ji9NMeTkNfmkc+jVxQs6HA8Tz5EfhPRI/ZsqjXdZRBRSuMB7oAeY
+        Xtij/Cpz1/1kWkAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4EE2D13910;
+        Thu, 27 Apr 2023 07:58:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id 1zdJEiErSmRmQwAAMHmgww
+        (envelope-from <tiwai@suse.de>); Thu, 27 Apr 2023 07:58:25 +0000
+Date:   Thu, 27 Apr 2023 09:58:24 +0200
+Message-ID: <87bkj9u57j.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Yu Hao <yhao016@ucr.edu>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: BUG: WARNING in dvb_frontend_get_event
+In-Reply-To: <CA+UBctCu7fXn4q41O_3=id1+OdyQ85tZY1x+TkT-6OVBL6KAUw@mail.gmail.com>
+References: <CA+UBctCu7fXn4q41O_3=id1+OdyQ85tZY1x+TkT-6OVBL6KAUw@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-hello
-What is the current status of this patch, has it been applied?
+On Tue, 18 Apr 2023 06:50:07 +0200,
+Yu Hao wrote:
+> 
+> Hello,
+> 
+> We found the following issue using syzkaller on Linux v6.2.0.
+> 
+> In the function `dvb_frontend_get_event`, function
+> `wait_event_interruptible` is called
+> and the condition is `dvb_frontend_test_event(fepriv, events)`.
+> In the function `dvb_frontend_test_event`, function
+> `down(&fepriv->sem);` is called.
+> However, function `wait_event_interruptible` would put the process to sleep.
+> And function `down(&fepriv->sem);` may block the process.
+> So there is the issue with "do not call blocking ops when !TASK_RUNNING".
+> 
+> The full report including the Syzkaller reproducer & C reproducer:
+> https://gist.github.com/ZHYfeng/4c5f8be6adc63b73dba68230d15ece2c
+
+FYI, CVE-2023-31084 was assigned to this bug, and I was involved now
+though distro's bug report.
+
+So, the use of semaphore together with wait_event*() macro doesn't
+look like a good idea.  A possible easy workaround would be to
+open-code the wait loop like below.
+
+Mauro, let me know if it's an acceptable workaround.  Then I'll submit
+a proper patch.
 
 
-hackyzh002 <hackyzh002@gmail.com> =E4=BA=8E2023=E5=B9=B44=E6=9C=8819=E6=97=
-=A5=E5=91=A8=E4=B8=89 20:23=E5=86=99=E9=81=93=EF=BC=9A
->
-> The type of size is unsigned int, if size is 0x40000000, there will
-> be an integer overflow, size will be zero after size *=3D sizeof(uint32_t=
-),
-> will cause uninitialized memory to be referenced later.
->
-> Signed-off-by: hackyzh002 <hackyzh002@gmail.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd=
-/amdgpu/amdgpu_cs.c
-> index 08eced097..89bcacc65 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> @@ -192,7 +192,7 @@ static int amdgpu_cs_pass1(struct amdgpu_cs_parser *p=
-,
->         uint64_t *chunk_array_user;
->         uint64_t *chunk_array;
->         uint32_t uf_offset =3D 0;
-> -       unsigned int size;
-> +       size_t size;
->         int ret;
->         int i;
->
-> --
-> 2.34.1
->
+thanks,
+
+Takashi
+
+-- 8< --
+--- a/drivers/media/dvb-core/dvb_frontend.c
++++ b/drivers/media/dvb-core/dvb_frontend.c
+@@ -293,14 +293,22 @@ static int dvb_frontend_get_event(struct dvb_frontend *fe,
+ 	}
+ 
+ 	if (events->eventw == events->eventr) {
+-		int ret;
++		struct wait_queue_entry wait;
++		int ret = 0;
+ 
+ 		if (flags & O_NONBLOCK)
+ 			return -EWOULDBLOCK;
+ 
+-		ret = wait_event_interruptible(events->wait_queue,
+-					       dvb_frontend_test_event(fepriv, events));
+-
++		init_waitqueue_entry(&wait, current);
++		add_wait_queue(&events->wait_queue, &wait);
++		while (!dvb_frontend_test_event(fepriv, events)) {
++			wait_woken(&wait, TASK_INTERRUPTIBLE, 0);
++			if (signal_pending(current)) {
++				ret = -ERESTARTSYS;
++				break;
++			}
++		}
++		remove_wait_queue(&events->wait_queue, &wait);
+ 		if (ret < 0)
+ 			return ret;
+ 	}
