@@ -2,183 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A701F6F0534
-	for <lists+linux-media@lfdr.de>; Thu, 27 Apr 2023 13:53:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CCB346F05FF
+	for <lists+linux-media@lfdr.de>; Thu, 27 Apr 2023 14:41:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243630AbjD0Lwr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Apr 2023 07:52:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49146 "EHLO
+        id S244016AbjD0Mk2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Apr 2023 08:40:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243612AbjD0Lwq (ORCPT
+        with ESMTP id S243989AbjD0MkP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Apr 2023 07:52:46 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36BE84C3D
-        for <linux-media@vger.kernel.org>; Thu, 27 Apr 2023 04:52:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682596363; x=1714132363;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZreUdP/tcpcBzT386aX3Rkh/8aqFIQvqgP6nZf/khyE=;
-  b=cpyWOOGoozvwEAz1UQpGNltfbfPMKMT1BzBy3+poB8nDMRKyKA0uW/4p
-   J4wXs+vNMEbaqt5RSQAL5ihY75oZ0pEcDH09VvsmUHok0SyNs5bHuqVtx
-   uetBA4qLMgiwuQWwD34XBsXDrAVNthS8jxUwcnmL5G/ZxgsmV+eKQTrxs
-   73a3PvDoenyw9fWQnNRmy5EwyQ/gzP/7JkzgpwKbwO8bsCUgFnf1Yt78z
-   Qo15gnfeMkNU4j7S2ZSQA3zaLWMxYCc3vXjpm2/hYAb/NfnmG5PdsIx1N
-   ZEcf7HMEBjKBJCh9dgEOmwcZgZZtqB730mksAPXfDKtQmO5vtSARANMLh
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="375395164"
-X-IronPort-AV: E=Sophos;i="5.99,230,1677571200"; 
-   d="scan'208";a="375395164"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 04:52:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="694354514"
-X-IronPort-AV: E=Sophos;i="5.99,230,1677571200"; 
-   d="scan'208";a="694354514"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 04:52:40 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 40BAA1224B5;
-        Thu, 27 Apr 2023 14:52:37 +0300 (EEST)
-Date:   Thu, 27 Apr 2023 14:52:37 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>, hverkuil@xs4all.nl,
-        Francesco Dolcini <francesco@dolcini.it>,
-        aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>
-Subject: Re: [PATCH 07/18] media: v4l: async: Clean up list heads and entries
-Message-ID: <ZEpiBX8b2rrO36vE@kekkonen.localdomain>
-References: <20230330115853.1628216-1-sakari.ailus@linux.intel.com>
- <20230330115853.1628216-8-sakari.ailus@linux.intel.com>
- <20230425004936.GE4921@pendragon.ideasonboard.com>
+        Thu, 27 Apr 2023 08:40:15 -0400
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D83FE558B;
+        Thu, 27 Apr 2023 05:40:03 -0700 (PDT)
+Received: by mail-oi1-x22e.google.com with SMTP id 5614622812f47-38bef71c258so5762415b6e.2;
+        Thu, 27 Apr 2023 05:40:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682599203; x=1685191203;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=J6ET9XLS5jM/TyHq4+UE6o4i1yy/wsCl/8+/RTLOHqY=;
+        b=msyOC8BBuy7I5069cJ9Fs6UeK9SnEiNiykDGApouWwIVmp6W+w4i7EI0BD6bwq45Te
+         Mv8ooCvRm5eCzKziAc0k3FmoE9HbIC5yDZUY+pqJzuVCHk7IWnWr9+mXvwTTuj9l0Ncz
+         CMRlMc3859WHiODGKv/+0U7vSrJpu/RWfAH+SyiwNgsOLmX1BVdKgnoAV2YMsITtsmPL
+         iFdrpSLUmvyTf8WJnrfeTYpIh//v5KGODvIhdeuaNW1lM1XD3gmrZ34un2ub2iJvj1wM
+         LXVyWM9yoKcEjEPrVn+zY9Fu3t3uKe4w/r4/5m/2yU76S0mRQPAZCd3XfuQMVJwWXUBL
+         bGLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682599203; x=1685191203;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=J6ET9XLS5jM/TyHq4+UE6o4i1yy/wsCl/8+/RTLOHqY=;
+        b=Kld19s8fDpoQLWqialRfx9xhLvUM+DviHdi/j0Tsehp9xhghVVGn0NoI3ZxRdrqQeJ
+         6NuV0BfeEcBQ38PYgaQQNDndcfpEsCLlDLUIwnfcxYOEg8smFzh1ttAw/6yS8VmXHL87
+         4uKRxBJN08eOW7DQRh4e/bOZ61QJx/QRQe3fwnXd17laeu3R4PsLQ+rmjWWCDSx+b2Aq
+         M2GpjFmEwxBWONTIaBz+PD84GZlRp17gOQosRxAAOQ9BPZYWSboStIbspECUPGAA3pFS
+         wdLVATO6WhSY1bttgj7RQdne/FZjn1HaxcknDFwaUTjcoS9g+1xET3Ulwvf4GEe7W336
+         2O5g==
+X-Gm-Message-State: AC+VfDyiPYY95Im27WFsN+TevDgaayv8rwbpN2C36ct/Zt9nZ4/oajze
+        7IJFcHhvZgWb3oN2SZjNyYZRNNKdAalhA/ZagsYmAgD/
+X-Google-Smtp-Source: ACHHUZ5+5nq8G0fdCC1+vwj+KmJkfoWFgNBUEKtOzD2dq9+mpvse2ZJ72PF955P7xK8j8473xqe+Z9K5Jz67W2iX7LQ=
+X-Received: by 2002:aca:1307:0:b0:38e:2879:735b with SMTP id
+ e7-20020aca1307000000b0038e2879735bmr563675oii.34.1682599203057; Thu, 27 Apr
+ 2023 05:40:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230425004936.GE4921@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20230419122233.3440-1-hackyzh002@gmail.com> <CAF6NKda1Jy_wfxaVqWt-o75f1BO-o4JXHY9HS9_JtJ2FHztMmQ@mail.gmail.com>
+In-Reply-To: <CAF6NKda1Jy_wfxaVqWt-o75f1BO-o4JXHY9HS9_JtJ2FHztMmQ@mail.gmail.com>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Thu, 27 Apr 2023 08:39:51 -0400
+Message-ID: <CADnq5_MfynMAPU8c-Lq1X_dcDOdRpjW6i=m-Qo8zsZZ=dO-62w@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] drm/amdgpu: Fix integer overflow in amdgpu_cs_pass1
+To:     whitehat002 whitehat002 <hackyzh002@gmail.com>
+Cc:     alexander.deucher@amd.com, Xinhui.Pan@amd.com,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        sumit.semwal@linaro.org, linaro-mm-sig@lists.linaro.org,
+        dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
+        airlied@gmail.com, christian.koenig@amd.com,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+As per my prior reply, it has been applied.
 
-On Tue, Apr 25, 2023 at 03:49:36AM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> Thank you for the patch.
-> 
-> On Thu, Mar 30, 2023 at 02:58:42PM +0300, Sakari Ailus wrote:
-> > The naming of list heads and list entries is confusing as they're named
-> > similarly. Use _head for list head and _list for list entries.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Thanks,
+
+Alex
+
+On Thu, Apr 27, 2023 at 8:39=E2=80=AFAM whitehat002 whitehat002
+<hackyzh002@gmail.com> wrote:
+>
+> hello
+> What is the current status of this patch, has it been applied?
+>
+>
+> hackyzh002 <hackyzh002@gmail.com> =E4=BA=8E2023=E5=B9=B44=E6=9C=8819=E6=
+=97=A5=E5=91=A8=E4=B8=89 20:23=E5=86=99=E9=81=93=EF=BC=9A
+> >
+> > The type of size is unsigned int, if size is 0x40000000, there will
+> > be an integer overflow, size will be zero after size *=3D sizeof(uint32=
+_t),
+> > will cause uninitialized memory to be referenced later.
+> >
+> > Signed-off-by: hackyzh002 <hackyzh002@gmail.com>
 > > ---
-> >  drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |  2 +-
-> >  .../platform/renesas/rcar-vin/rcar-core.c     |  2 +-
-> >  .../platform/renesas/rzg2l-cru/rzg2l-core.c   |  2 +-
-> >  drivers/media/platform/xilinx/xilinx-vipp.c   | 10 +--
-> >  drivers/media/v4l2-core/v4l2-async.c          | 66 +++++++++----------
-> >  .../staging/media/imx/imx-media-dev-common.c  |  2 +-
-> >  drivers/staging/media/tegra-video/vi.c        |  6 +-
-> >  include/media/v4l2-async.h                    | 21 +++---
-> >  8 files changed, 56 insertions(+), 55 deletions(-)
-> 
-> [snip]
-> 
-> > diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
-> > index 0c4cffd081c9..425280b4d387 100644
-> > --- a/include/media/v4l2-async.h
-> > +++ b/include/media/v4l2-async.h
-> > @@ -68,7 +68,7 @@ struct v4l2_async_match {
-> >   * @match:	struct of match type and per-bus type matching data sets
-> >   * @asd_list:	used to add struct v4l2_async_subdev objects to the
-> >   *		master notifier @asd_list
-> 
-> It's now called @asd_head.
-> 
-> > - * @list:	used to link struct v4l2_async_subdev objects, waiting to be
-> > + * @waiting_list: used to link struct v4l2_async_subdev objects, waiting to be
-> >   *		probed, to a notifier->waiting list
-> 
-> It's now called notifier->waiting_head.
-> 
-> Please double-check comments and documentation to catch other
-> occurrences.
-
-Sure.
-
-> 
-> >   *
-> >   * When this struct is used as a member in a driver specific struct,
-> > @@ -77,9 +77,10 @@ struct v4l2_async_match {
-> >   */
-> >  struct v4l2_async_subdev {
-> >  	struct v4l2_async_match match;
-> > +
-> >  	/* v4l2-async core private: not to be used by drivers */
-> > -	struct list_head list;
-> >  	struct list_head asd_list;
-> > +	struct list_head waiting_list;
-> >  };
-> >  
-> >  /**
-> > @@ -108,20 +109,20 @@ struct v4l2_async_notifier_operations {
-> >   * @v4l2_dev:	v4l2_device of the root notifier, NULL otherwise
-> >   * @sd:		sub-device that registered the notifier, NULL otherwise
-> >   * @parent:	parent notifier
-> > - * @asd_list:	master list of struct v4l2_async_subdev
-> > - * @waiting:	list of struct v4l2_async_subdev, waiting for their drivers
-> > - * @done:	list of struct v4l2_subdev, already probed
-> > - * @list:	member in a global list of notifiers
-> > + * @asd_head:	master list of struct v4l2_async_subdev
-> > + * @waiting_list: list of struct v4l2_async_subdev, waiting for their drivers
-> > + * @done_head:	list of struct v4l2_subdev, already probed
-> > + * @notifier_list: member in a global list of notifiers
-> >   */
-> >  struct v4l2_async_notifier {
-> >  	const struct v4l2_async_notifier_operations *ops;
-> >  	struct v4l2_device *v4l2_dev;
-> >  	struct v4l2_subdev *sd;
-> >  	struct v4l2_async_notifier *parent;
-> > -	struct list_head asd_list;
-> > -	struct list_head waiting;
-> > -	struct list_head done;
-> > -	struct list_head list;
-> > +	struct list_head asd_head;
-> > +	struct list_head waiting_head;
-> > +	struct list_head done_head;
-> > +	struct list_head notifier_list;
-> 
-> I find the _head suffix to still be confusing. How about the following ?
-> 
-> 	struct {
-> 		struct list_head all;
-> 		struct list_head waiting;
-> 		struct list_head done;
-> 	} asds;
-
-There are many list heads and entries in v4l2-async related structs and
-before this patch. _head is used for all list heads, _list for list
-entries. I prefer having _head as this way it is trivial to look for all
-instances of that list head, removing the _head part makes this much
-harder.
-
-How about using _entry for list entries instead?
-
-There doesn't seem to be much consistency in the kernel but in the majority
-of cases it is self-evident I guess.
-
--- 
-Regards,
-
-Sakari Ailus
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/a=
+md/amdgpu/amdgpu_cs.c
+> > index 08eced097..89bcacc65 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> > @@ -192,7 +192,7 @@ static int amdgpu_cs_pass1(struct amdgpu_cs_parser =
+*p,
+> >         uint64_t *chunk_array_user;
+> >         uint64_t *chunk_array;
+> >         uint32_t uf_offset =3D 0;
+> > -       unsigned int size;
+> > +       size_t size;
+> >         int ret;
+> >         int i;
+> >
+> > --
+> > 2.34.1
+> >
