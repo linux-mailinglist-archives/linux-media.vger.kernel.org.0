@@ -2,50 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A5976F0AEC
-	for <lists+linux-media@lfdr.de>; Thu, 27 Apr 2023 19:36:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A6526F0C08
+	for <lists+linux-media@lfdr.de>; Thu, 27 Apr 2023 20:37:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244395AbjD0RgQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Apr 2023 13:36:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40828 "EHLO
+        id S244575AbjD0ShK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Apr 2023 14:37:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244186AbjD0RgP (ORCPT
+        with ESMTP id S243558AbjD0ShJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Apr 2023 13:36:15 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AC6A4233
-        for <linux-media@vger.kernel.org>; Thu, 27 Apr 2023 10:36:11 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3551BC7E;
-        Thu, 27 Apr 2023 19:35:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1682616958;
-        bh=SQjmZYRa2mJwSPzRJYa+t1+T8gR/HkEAt4kOZSwhrBQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=D5ts9swQMCH3Y71aAKv7Rez2bAw/JDdeE4wxSgnlj9J0C+SqWHRWhyE51a76uq3TT
-         pcgU3B2AG72gy/CSQB5vgTehnIGsEF4c0S3PLrgySemY8qiWA9oHsVKbQYvGBRquaS
-         aSihdL0plSAu/b20gElua4Bu2wXmm2rf2LcEuccE=
-Date:   Thu, 27 Apr 2023 20:36:21 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>, hverkuil@xs4all.nl,
-        Francesco Dolcini <francesco@dolcini.it>,
-        aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>
-Subject: Re: [PATCH 07/18] media: v4l: async: Clean up list heads and entries
-Message-ID: <20230427173621.GE26786@pendragon.ideasonboard.com>
-References: <20230330115853.1628216-1-sakari.ailus@linux.intel.com>
- <20230330115853.1628216-8-sakari.ailus@linux.intel.com>
- <20230425004936.GE4921@pendragon.ideasonboard.com>
- <ZEpiBX8b2rrO36vE@kekkonen.localdomain>
+        Thu, 27 Apr 2023 14:37:09 -0400
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCA32E2;
+        Thu, 27 Apr 2023 11:37:07 -0700 (PDT)
+Received: by mail-yb1-xb34.google.com with SMTP id 3f1490d57ef6-b9a6869dd3cso2201891276.2;
+        Thu, 27 Apr 2023 11:37:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682620627; x=1685212627;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lFyU6RzzaWKzYQaB6d+4t8LyXp1LdQYNUdPNzYi7/h8=;
+        b=HtY/DrgzGk3h4mFu2d6z33PwyHYydkJ+NBB4QlHY2snwb9ss1G8DMKOSNLZYSfMBrf
+         L9HrRa7Qi91+ewz4uCqmCXi6PffsNxEgyy27JYm4IaOHWpQO1iFnJ39HPj7ADkgWhgXu
+         oO783CuL8Er/66b5OhJW0YrvGmtuekT+MqSgaRTW7JXAz7wWq8YUVAH1Q43yvLQszZnf
+         D1dVCT7sFkmekVAl/Jq4Ynk1RUeiK6oMDAqkk81qX2oJO5f0YuuUkuj5x4LhVtaW0r26
+         oa+BqOF/W4Hub1s/EKssPZgNx3t1rhfbFZe1tRO3R1ig17jjLn1SrheUS06MwRtb8fWp
+         JHwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682620627; x=1685212627;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lFyU6RzzaWKzYQaB6d+4t8LyXp1LdQYNUdPNzYi7/h8=;
+        b=hUUVXK2N9Nu9xmXRNcxsrVmbIMk6xP4ZVYvbVGR53xci3dBKNEesHQ5H5uSF3OroMR
+         bfJMaxlkq/jDgU0vS2jjqeKORNa2UJo4j1b7diqFCoU7XQvU/+442SjF+ADBMk1e2lA6
+         +UNmKKwIRsN+ydvCXgfH3xwLTY+j/RMbVG5FWV0+GAuPqVfy7kzr+xH/8Mqu0R/aGQB6
+         lf9fGKiQtK0MLAVu00FEfrVneODnxqvGoVc8FCbriTOZb6MDfyx1j6R5tV09U602Y9LB
+         Y9TQZ2ccLL/0/K9HYWEEoEhlL/X+mCBzN8sPbvkSlDVZvLgb3Nq3MmNZ54kZh3maFWvl
+         yvhg==
+X-Gm-Message-State: AC+VfDytp8Nj+tXH5yhgXyTEe+ie7AmVbVK3HGT9rJx39cb1hUdRbFtC
+        O/aeNxmuzV99AAiuXLU8IxMvE4Noq5I91dVvxKs=
+X-Google-Smtp-Source: ACHHUZ5kfpWpgI8QLz6dJm1lPtmJAogFkq7qb2Shv4MtdtAmRW5KuuaGfUGAHEbHc0k1Nb7jmHOxyKxgQj4ClUZRznA=
+X-Received: by 2002:a25:4907:0:b0:b92:2a56:bcc5 with SMTP id
+ w7-20020a254907000000b00b922a56bcc5mr1589957yba.56.1682620626836; Thu, 27 Apr
+ 2023 11:37:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZEpiBX8b2rrO36vE@kekkonen.localdomain>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+References: <1682535272-32249-1-git-send-email-justinpopo6@gmail.com>
+ <1682535272-32249-3-git-send-email-justinpopo6@gmail.com> <20230427171625.GA3172205-robh@kernel.org>
+In-Reply-To: <20230427171625.GA3172205-robh@kernel.org>
+From:   Justin Chen <justinpopo6@gmail.com>
+Date:   Thu, 27 Apr 2023 11:36:55 -0700
+Message-ID: <CAJx26kUGs7B=v10YEPAP3jPu6FXSBTn0oBhQkfoiGY0E-PvUjA@mail.gmail.com>
+Subject: Re: [PATCH v2 net-next 2/6] dt-bindings: net: Brcm ASP 2.0 Ethernet controller
+To:     Rob Herring <robh@kernel.org>
+Cc:     netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        bcm-kernel-feedback-list@broadcom.com, justin.chen@broadcom.com,
+        f.fainelli@gmail.com, davem@davemloft.net, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com,
+        krzysztof.kozlowski+dt@linaro.org, opendmb@gmail.com,
+        andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
+        richardcochran@gmail.com, sumit.semwal@linaro.org,
+        christian.koenig@amd.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,117 +78,221 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+On Thu, Apr 27, 2023 at 10:16=E2=80=AFAM Rob Herring <robh@kernel.org> wrot=
+e:
+>
+> On Wed, Apr 26, 2023 at 11:54:28AM -0700, Justin Chen wrote:
+> > From: Florian Fainelli <f.fainelli@gmail.com>
+> >
+> > Add a binding document for the Broadcom ASP 2.0 Ethernet
+> > controller.
+> >
+> > Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
+> > Signed-off-by: Justin Chen <justinpopo6@gmail.com>
+> > ---
+> >  .../devicetree/bindings/net/brcm,asp-v2.0.yaml     | 145 +++++++++++++=
+++++++++
+> >  1 file changed, 145 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/net/brcm,asp-v2.0=
+.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml b=
+/Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
+> > new file mode 100644
+> > index 000000000000..818d91692e6e
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
+> > @@ -0,0 +1,145 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/net/brcm,asp-v2.0.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Broadcom ASP 2.0 Ethernet controller
+> > +
+> > +maintainers:
+> > +  - Justin Chen <justinpopo6@gmail.com>
+> > +  - Florian Fainelli <f.fainelli@gmail.com>
+> > +
+> > +description: Broadcom Ethernet controller first introduced with 72165
+> > +
+> > +properties:
+> > +  '#address-cells':
+> > +    const: 1
+> > +  '#size-cells':
+> > +    const: 1
+> > +
+> > +  compatible:
+> > +    enum:
+> > +      - brcm,asp-v2.0
+> > +      - brcm,bcm72165-asp-v2.0
+> > +      - brcm,asp-v2.1
+> > +      - brcm,bcm74165-asp-v2.1
+>
+> You have 1 SoC per version, so what's the point of versions? If you have
+> more coming, then fine, but I'd expect it to be something like this:
+>
+> compatible =3D "brcm,bcm74165-asp-v2.1", "brcm,asp-v2.1";
+>
+> Also, the version in the SoC specific compatible is redundant. Just
+> "brcm,bcm74165-asp" is enough.
+>
+> v2.1 is not compatible with v2.0? What that means is would a client/OS
+> that only understands what v2.0 is work with v2.1 h/w? If so, you should
+> have fallback compatible.
+>
+v2.1 is not compatible with v2.0 unfortunately. So no, a client/OS
+that only understands v2.0 will not work with v2.1 h/w.
 
-On Thu, Apr 27, 2023 at 02:52:37PM +0300, Sakari Ailus wrote:
-> On Tue, Apr 25, 2023 at 03:49:36AM +0300, Laurent Pinchart wrote:
-> > On Thu, Mar 30, 2023 at 02:58:42PM +0300, Sakari Ailus wrote:
-> > > The naming of list heads and list entries is confusing as they're named
-> > > similarly. Use _head for list head and _list for list entries.
-> > > 
-> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > ---
-> > >  drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |  2 +-
-> > >  .../platform/renesas/rcar-vin/rcar-core.c     |  2 +-
-> > >  .../platform/renesas/rzg2l-cru/rzg2l-core.c   |  2 +-
-> > >  drivers/media/platform/xilinx/xilinx-vipp.c   | 10 +--
-> > >  drivers/media/v4l2-core/v4l2-async.c          | 66 +++++++++----------
-> > >  .../staging/media/imx/imx-media-dev-common.c  |  2 +-
-> > >  drivers/staging/media/tegra-video/vi.c        |  6 +-
-> > >  include/media/v4l2-async.h                    | 21 +++---
-> > >  8 files changed, 56 insertions(+), 55 deletions(-)
-> > 
-> > [snip]
-> > 
-> > > diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
-> > > index 0c4cffd081c9..425280b4d387 100644
-> > > --- a/include/media/v4l2-async.h
-> > > +++ b/include/media/v4l2-async.h
-> > > @@ -68,7 +68,7 @@ struct v4l2_async_match {
-> > >   * @match:	struct of match type and per-bus type matching data sets
-> > >   * @asd_list:	used to add struct v4l2_async_subdev objects to the
-> > >   *		master notifier @asd_list
-> > 
-> > It's now called @asd_head.
-> > 
-> > > - * @list:	used to link struct v4l2_async_subdev objects, waiting to be
-> > > + * @waiting_list: used to link struct v4l2_async_subdev objects, waiting to be
-> > >   *		probed, to a notifier->waiting list
-> > 
-> > It's now called notifier->waiting_head.
-> > 
-> > Please double-check comments and documentation to catch other
-> > occurrences.
-> 
-> Sure.
-> 
-> > 
-> > >   *
-> > >   * When this struct is used as a member in a driver specific struct,
-> > > @@ -77,9 +77,10 @@ struct v4l2_async_match {
-> > >   */
-> > >  struct v4l2_async_subdev {
-> > >  	struct v4l2_async_match match;
-> > > +
-> > >  	/* v4l2-async core private: not to be used by drivers */
-> > > -	struct list_head list;
-> > >  	struct list_head asd_list;
-> > > +	struct list_head waiting_list;
-> > >  };
-> > >  
-> > >  /**
-> > > @@ -108,20 +109,20 @@ struct v4l2_async_notifier_operations {
-> > >   * @v4l2_dev:	v4l2_device of the root notifier, NULL otherwise
-> > >   * @sd:		sub-device that registered the notifier, NULL otherwise
-> > >   * @parent:	parent notifier
-> > > - * @asd_list:	master list of struct v4l2_async_subdev
-> > > - * @waiting:	list of struct v4l2_async_subdev, waiting for their drivers
-> > > - * @done:	list of struct v4l2_subdev, already probed
-> > > - * @list:	member in a global list of notifiers
-> > > + * @asd_head:	master list of struct v4l2_async_subdev
-> > > + * @waiting_list: list of struct v4l2_async_subdev, waiting for their drivers
-> > > + * @done_head:	list of struct v4l2_subdev, already probed
-> > > + * @notifier_list: member in a global list of notifiers
-> > >   */
-> > >  struct v4l2_async_notifier {
-> > >  	const struct v4l2_async_notifier_operations *ops;
-> > >  	struct v4l2_device *v4l2_dev;
-> > >  	struct v4l2_subdev *sd;
-> > >  	struct v4l2_async_notifier *parent;
-> > > -	struct list_head asd_list;
-> > > -	struct list_head waiting;
-> > > -	struct list_head done;
-> > > -	struct list_head list;
-> > > +	struct list_head asd_head;
-> > > +	struct list_head waiting_head;
-> > > +	struct list_head done_head;
-> > > +	struct list_head notifier_list;
-> > 
-> > I find the _head suffix to still be confusing. How about the following ?
-> > 
-> > 	struct {
-> > 		struct list_head all;
-> > 		struct list_head waiting;
-> > 		struct list_head done;
-> > 	} asds;
-> 
-> There are many list heads and entries in v4l2-async related structs and
-> before this patch. _head is used for all list heads, _list for list
-> entries. I prefer having _head as this way it is trivial to look for all
-> instances of that list head, removing the _head part makes this much
-> harder.
-> 
-> How about using _entry for list entries instead?
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  ranges: true
+> > +
+> > +  interrupts:
+> > +    minItems: 1
+> > +    items:
+> > +      - description: RX/TX interrupt
+> > +      - description: Port 0 Wake-on-LAN
+> > +      - description: Port 1 Wake-on-LAN
+> > +
+> > +  clocks:
+> > +    maxItems: 1
+> > +
+> > +  ethernet-ports:
+>
+> The ethernet-switch.yaml schema doesn't work for you?
+>
+Technically it is not a switch. But it might work... If we use port to
+reference the unimac and reg to reference the ethernet channel. I
+rather not though, just cause it is not a switch, so calling it an
+ethernet-switch is confusing.
 
-I like that. I would have used _entry for the list entries, and _list
-for the list "heads". I don't like the _head suffix very much, as all of
-them are struct list_head instances. I won't nack the series for this
-though :-)
+> > +    type: object
+> > +    properties:
+> > +      '#address-cells':
+> > +        const: 1
+> > +      '#size-cells':
+> > +        const: 0
+> > +
+> > +    patternProperties:
+> > +      "^port@[0-9]+$":
+> > +        type: object
+> > +
+> > +        $ref: ethernet-controller.yaml#
+> > +
+> > +        properties:
+> > +          reg:
+> > +            maxItems: 1
+> > +            description: Port number
+> > +
+> > +          channel:
+> > +            maxItems: 1
+> > +            description: ASP channel number
+>
+> Not a standard property, so it needs a type and vendor prefix. However,
+> what's the difference between channel and port? Can the port numbers
+> correspond to the channels?
+>
+Port refers to the unimac. In our case we currently have a maximum of
+2. Channel refers to the ethernet hardware channel proper, in which we
+have many. So yes, you can have a port correlate to any channel.
 
-> There doesn't seem to be much consistency in the kernel but in the majority
-> of cases it is self-evident I guess.
+> > +
+> > +        required:
+> > +          - reg
+> > +          - channel
+> > +
+> > +    additionalProperties: false
+> > +
+> > +patternProperties:
+> > +  "^mdio@[0-9a-f]+$":
+> > +    type: object
+> > +    $ref: "brcm,unimac-mdio.yaml"
+>
+> Drop quotes.
+>
+> > +
+> > +    description:
+> > +      ASP internal UniMAC MDIO bus
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - clocks
+> > +  - ranges
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/interrupt-controller/irq.h>
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +
+> > +    ethernet@9c00000 {
+> > +        compatible =3D "brcm,asp-v2.0";
+> > +        reg =3D <0x9c00000 0x1fff14>;
+> > +        interrupts =3D <GIC_SPI 51 IRQ_TYPE_LEVEL_HIGH>;
+> > +        ranges;
+> > +        clocks =3D <&scmi 14>;
+> > +        #address-cells =3D <1>;
+> > +        #size-cells =3D <1>;
+> > +
+> > +        mdio@c614 {
+> > +            compatible =3D "brcm,asp-v2.0-mdio";
+> > +            reg =3D <0xc614 0x8>;
+>
+> You have 1:1 ranges, is that really what you want? That means 0xc614 is
+> an absolute address.
+Ack, will fix.
 
--- 
-Regards,
+Thanks for the review,
+Justin
 
-Laurent Pinchart
+>
+> > +            reg-names =3D "mdio";
+> > +            #address-cells =3D <1>;
+> > +            #size-cells =3D <0>;
+> > +
+> > +            phy0: ethernet-phy@1 {
+> > +                reg =3D <1>;
+> > +            };
+> > +       };
+> > +
+> > +        mdio@ce14 {
+> > +            compatible =3D "brcm,asp-v2.0-mdio";
+> > +            reg =3D <0xce14 0x8>;
+> > +            reg-names =3D "mdio";
+> > +            #address-cells =3D <1>;
+> > +            #size-cells =3D <0>;
+> > +
+> > +            phy1: ethernet-phy@1 {
+> > +                reg =3D <1>;
+> > +            };
+> > +        };
+> > +
+> > +        ethernet-ports {
+> > +            #address-cells =3D <1>;
+> > +            #size-cells =3D <0>;
+> > +
+> > +            port@0 {
+> > +                reg =3D <0>;
+> > +                channel =3D <8>;
+> > +                phy-mode =3D "rgmii";
+> > +                phy-handle =3D <&phy0>;
+> > +            };
+> > +
+> > +            port@1 {
+> > +                reg =3D <1>;
+> > +                channel =3D <9>;
+> > +                phy-mode =3D "rgmii";
+> > +                phy-handle =3D <&phy1>;
+> > +            };
+> > +        };
+> > +    };
+> > --
+> > 2.7.4
+> >
