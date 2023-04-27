@@ -2,67 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 53C5A6F033E
-	for <lists+linux-media@lfdr.de>; Thu, 27 Apr 2023 11:19:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5C4A6F0352
+	for <lists+linux-media@lfdr.de>; Thu, 27 Apr 2023 11:24:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243231AbjD0JTJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Apr 2023 05:19:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44104 "EHLO
+        id S243348AbjD0JXa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Apr 2023 05:23:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243215AbjD0JTH (ORCPT
+        with ESMTP id S243312AbjD0JXP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Apr 2023 05:19:07 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B457CE1
-        for <linux-media@vger.kernel.org>; Thu, 27 Apr 2023 02:19:05 -0700 (PDT)
+        Thu, 27 Apr 2023 05:23:15 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 251FC2119
+        for <linux-media@vger.kernel.org>; Thu, 27 Apr 2023 02:23:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682587145; x=1714123145;
+  t=1682587392; x=1714123392;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TRapMmPsrRRtoTwX8awfCINNPSS1zgZN59+ylf+pSvA=;
-  b=cmSw4j/HVbOVIfvS0sGxeu08Xz8YbAiYIYHYdedDtRgWcqYMt5v4xF+1
-   7y4tpnFtKtmNeRQyWxLaRyXcvCAjrimCuIecUi46trKCBbmRTD/e6gaVk
-   TKpKTkxx7/HpiLrZUmnvG35olLisNoiFA8gvML6G/vUbroLZxwPoU4adb
-   Z4n9MRXr3H2CSMolh5SbhznBKXLhK63MJlhcb3cKx7AKaR0Jnzoch8h8h
-   0ENGsQoUW0gqv+z210cxRi66cgmrDojDoo+CR4HFW4PiZzx+bZlSzcR+0
-   gMyCEzuY2Mv3KUfaOQmYpmFYOxsqNGaVNef838hg+YoHUTPyJPc7YxSdT
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="327700464"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=VH7l9ym6TVS6TnDV5MZawl2wGGHPy9IAQbQo7Z+7dWU=;
+  b=iedT0i8EDD5lNArMfX3n1B7DogFbOUfXUcpl9sE2NX0mPMa0lVeQh1Nb
+   vtvrEuBTCzSmQ6WPHUGvdvkBTX5igfGudCKpsZ+ok0wDuTpuWmvWngORC
+   /gKRiULgddXGEYJjgQSxLSjNCarlllCw3RsKydehDFSnYaaGLC1OlSYx6
+   o0nV3cPM3gTGQTtV9AUjVD2vTyHkueamldl5QdVD2rdwGrnUVVSeB07GR
+   voRUrLDL4HmpVdqJ/W7BOikzXdHxcJOqJE7hyYZGFlOlQLY6/A6upBqrW
+   kswbczThrHvMa9k8KdMTCZyIpITCfesIYnRrVf1yzyLjcZRS61j72sGLE
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="346144848"
 X-IronPort-AV: E=Sophos;i="5.99,230,1677571200"; 
-   d="scan'208";a="327700464"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 02:18:48 -0700
+   d="scan'208";a="346144848"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 02:23:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="671711846"
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="763718355"
 X-IronPort-AV: E=Sophos;i="5.99,230,1677571200"; 
-   d="scan'208";a="671711846"
+   d="scan'208";a="763718355"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 02:18:46 -0700
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 02:23:08 -0700
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id B49A011FC9F;
-        Thu, 27 Apr 2023 12:18:43 +0300 (EEST)
-Date:   Thu, 27 Apr 2023 12:18:43 +0300
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 1A0F911FC9F;
+        Thu, 27 Apr 2023 12:23:06 +0300 (EEST)
+Date:   Thu, 27 Apr 2023 12:23:06 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+Cc:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
         linux-media@vger.kernel.org,
         Philipp Zabel <p.zabel@pengutronix.de>, hverkuil@xs4all.nl,
         Francesco Dolcini <francesco@dolcini.it>,
         aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
         Todor Tomov <todor.too@gmail.com>,
         Hyun Kwon <hyun.kwon@xilinx.com>
-Subject: Re: [PATCH 02/18] media: v4l: async: Add some debug prints
-Message-ID: <ZEo980G94VUofYSp@kekkonen.localdomain>
+Subject: Re: [PATCH 03/18] media: v4l: async: Simplify async sub-device
+ fwnode matching
+Message-ID: <ZEo++qRSSAoeJWi+@kekkonen.localdomain>
 References: <20230330115853.1628216-1-sakari.ailus@linux.intel.com>
- <20230330115853.1628216-3-sakari.ailus@linux.intel.com>
- <hptfblbjryeq7xeyhzy7c6sqqpj25q3c4uw5xsyrjv6luqry7s@w5xehghs5c4o>
- <ZDkvHgdlIwx5h4ks@kekkonen.localdomain>
- <20230421081842.GH21943@pendragon.ideasonboard.com>
+ <20230330115853.1628216-4-sakari.ailus@linux.intel.com>
+ <dpw2fvycehgud3ijdzppy24bep2a54ceceksmifetczikdmgeq@ok4vru42ocvy>
+ <ZDkz/DcjzayyokAQ@kekkonen.localdomain>
+ <ZEbWdoATJN2JoK9B@oden.dyn.berto.se>
+ <ZEbZcvaAp7ExU7KA@kekkonen.localdomain>
+ <20230425013742.GL4921@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230421081842.GH21943@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230425013742.GL4921@pendragon.ideasonboard.com>
 X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
         SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
@@ -75,215 +81,80 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Laurent,
 
-On Fri, Apr 21, 2023 at 11:18:42AM +0300, Laurent Pinchart wrote:
-> Hello,
+On Tue, Apr 25, 2023 at 04:37:42AM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
 > 
-> On Fri, Apr 14, 2023 at 01:46:54PM +0300, Sakari Ailus wrote:
-> > On Thu, Apr 13, 2023 at 06:49:52PM +0200, Jacopo Mondi wrote:
-> > > On Thu, Mar 30, 2023 at 02:58:37PM +0300, Sakari Ailus wrote:
-> > > > Just add some debug prints for V4L2 async sub-device matching process.
-> > > > These might come useful in figuring out why things don't work as expected.
-> > > >
-> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > ---
-> > > >  drivers/media/v4l2-core/v4l2-async.c | 59 ++++++++++++++++++++++++----
-> > > >  1 file changed, 52 insertions(+), 7 deletions(-)
-> > > >
-> > > > diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> > > > index 008a2a3e312e..6dd426c2ca68 100644
-> > > > --- a/drivers/media/v4l2-core/v4l2-async.c
-> > > > +++ b/drivers/media/v4l2-core/v4l2-async.c
-> > > > @@ -75,6 +75,12 @@ static bool match_i2c(struct v4l2_async_notifier *notifier,
-> > > >  #endif
-> > > >  }
-> > > >
-> > > > +static struct device *notifier_dev(struct v4l2_async_notifier *notifier)
-> > > > +{
-> > > > +	return notifier->sd ? notifier->sd->dev : notifier->v4l2_dev ?
-> > > > +		notifier->v4l2_dev->dev : NULL;
-> 
-> Nested ?: operators can be confusing, I'd write
-> 
-> 	if (notifier->sd)
-> 		return notifier->sd->dev
-> 	if (notifier->v4l2_dev)
-> 		return notifier->v4l2_dev->dev;
-> 	return NULL;
-
-I don't mind. I can use that, I'll add some newlines, too.
-
-> 
-> > > > +}
-> > > > +
-> > > >  static bool
-> > > >  match_fwnode_one(struct v4l2_async_notifier *notifier,
-> > > >  		 struct v4l2_subdev *sd, struct fwnode_handle *sd_fwnode,
-> > > > @@ -86,13 +92,18 @@ match_fwnode_one(struct v4l2_async_notifier *notifier,
-> > > >  	bool sd_fwnode_is_ep;
-> > > >  	struct device *dev;
-> > > >
-> > > > +	dev_dbg(sd->dev, "async: fwnode match: need %pfw, trying %pfw\n",
-> 
-> "async:" is a bit too generic as a prefix. Maybe "v4l2_async:" or
-> "async_nf:" instead ?
-
-"v4l2-async"?
-
-> 
-> > > > +		sd_fwnode, asd->match.fwnode);
-> > > > +
-> > > >  	/*
-> > > >  	 * Both the subdev and the async subdev can provide either an endpoint
-> > > >  	 * fwnode or a device fwnode. Start with the simple case of direct
-> > > >  	 * fwnode matching.
-> > > >  	 */
-> > > > -	if (sd_fwnode == asd->match.fwnode)
-> > > > +	if (sd_fwnode == asd->match.fwnode) {
-> > > > +		dev_dbg(sd->dev, "async: direct match found\n");
-> > > >  		return true;
-> > > > +	}
-> > > >
-> > > >  	/*
-> > > >  	 * Otherwise, check if the sd fwnode and the asd fwnode refer to an
-> > > > @@ -105,8 +116,10 @@ match_fwnode_one(struct v4l2_async_notifier *notifier,
-> > > >  	sd_fwnode_is_ep = fwnode_graph_is_endpoint(sd_fwnode);
-> > > >  	asd_fwnode_is_ep = fwnode_graph_is_endpoint(asd->match.fwnode);
-> > > >
-> > > > -	if (sd_fwnode_is_ep == asd_fwnode_is_ep)
-> > > > +	if (sd_fwnode_is_ep == asd_fwnode_is_ep) {
-> > > > +		dev_dbg(sd->dev, "async: matching node types\n");
+> On Mon, Apr 24, 2023 at 10:33:06PM +0300, Sakari Ailus wrote:
+> > On Mon, Apr 24, 2023 at 09:20:22PM +0200, Niklas Söderlund wrote:
+> > > On 2023-04-14 14:07:40 +0300, Sakari Ailus wrote:
+> > > > On Thu, Apr 13, 2023 at 06:50:04PM +0200, Jacopo Mondi wrote:
+> > > > > On Thu, Mar 30, 2023 at 02:58:38PM +0300, Sakari Ailus wrote:
+> > > > > > V4L2 async sub-device matching originally used the device nodes only.
+> > > > > > Endpoint nodes were taken into use instead as using the device nodes was
+> > > > > > problematic for it was in some cases ambiguous which link might have been
+> > > > > > in question.
+> > > > > >
+> > > > > > There is however no need to use endpoint nodes on both sides, as the async
+> > > > > > sub-device's fwnode can always be trivially obtained using
+> > > > > > fwnode_graph_get_remote_endpoint() when needed while what counts is
+> > > > > > whether or not the link is between two device nodes, i.e. the device nodes
+> > > > > > match.
+> > > > > 
+> > > > > As you know I'm a bit debated.
+> > > > > 
+> > > > > Strict endpoint-matching requires one subdev to be registed per each
+> > > > > endpoint, and this is tedious for drivers that have to register a
+> > > > > subdev for each of its endpoints
+> > > > > 
+> > > > > Allowing a subdev to be matched multiple times on different endpoints
+> > > > > gives a way for lazy drivers to take a shortcut and simplify their
+> > > > > topologies to a single subdev, when they would actually need more.
+> > > > 
+> > > > I'd say this is really about interface design, not being "lazy". It depends
+> > > > on the sub-device. Ideally the framework should be also as easy for drivers
+> > > > drivers to use as possible.
+> > > > 
+> > > > What is not supported, though, is multiple sub-devices with a single device
+> > > > node. Do we need that? At least I don't think I came across a driver that
+> > > > would.
 > > > 
-> > > "matching node type" is misleading as it suggests a match has been
-> > > found. As both sd and asd are of the same type, I would use a
-> > > message similar to the above
+> > > If I understand you correctly about multiple sub-device from a single 
+> > > device node, this exists today. The ADV748x driver have a single device 
+> > > node in DT and register multiple sub-devices, one for each source 
+> > > endpoint.
 > > > 
-> > > 		dev_dbg(sd->dev, "async: direct match failed\n");
-> > 
-> > As it seems further matching attempts will always produce more debug
-> > prints, I'll just drop this altogether.
-> 
-> I'm not sure what you mean here. Isn't it useful to have an explicit
-> message on failure ? I like Jacopo's proposal.
-
-I'm fine with that.
-
-> 
-> > > >  		return false;
-> > > > +	}
-> > > >
-> > > >  	/*
-> > > >  	 * The sd and asd fwnodes are of different types. Get the device fwnode
-> > > > @@ -120,10 +133,15 @@ match_fwnode_one(struct v4l2_async_notifier *notifier,
-> > > >  		other_fwnode = sd_fwnode;
-> > > >  	}
-> > > >
-> > > > +	dev_dbg(sd->dev, "async: fwnode compat match, need %pfw, trying %pfw\n",
-> > > > +		dev_fwnode, other_fwnode);
-> > > > +
-> > > >  	fwnode_handle_put(dev_fwnode);
-> > > >
-> > > > -	if (dev_fwnode != other_fwnode)
-> > > > +	if (dev_fwnode != other_fwnode) {
-> > > > +		dev_dbg(sd->dev, "async: compat match not found\n");
+> > > The ADV748x have two CSI-2 transmitters, one 4-lane and one 1-lane as 
+> > > well as two different video capture "ports" one HDMI and one CVBS. Both 
+> > > capture ports can be active at the same time and routed internally 
+> > > inside the ADV748x to the two different CSI-2 transmitters.
 > > > 
-> > > and to be more consistent: "compat match failed"
+> > > In order todo this the ADV748x register multiple subdevices and modifies 
+> > > the fwnode to be the endpoint instead of the device node. So the change 
+> > > in this patch for ADV748x driver would break that driver.
 > > 
-> > I think it's in all cases either "found" or "not found" in this patch.
-> > 
-> > > >  		return false;
-> > > > +	}
-> > > >
-> > > >  	/*
-> > > >  	 * We have a heterogeneous match. Retrieve the struct device of the side
-> > > > @@ -143,12 +161,17 @@ match_fwnode_one(struct v4l2_async_notifier *notifier,
-> > > >  			   dev->driver->name);
-> > > >  	}
-> > > >
-> > > > +	dev_dbg(sd->dev, "async: compat match found\n");
-> > > > +
-> > > >  	return true;
-> > > >  }
-> > > >
-> > > >  static bool match_fwnode(struct v4l2_async_notifier *notifier,
-> > > >  			 struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
-> > > >  {
-> > > > +	dev_dbg(sd->dev, "async: matching for notifier %pfw, sd %pfw\n",
+> > Ah, indeed. I guess I'll need to support that case as well then. It doesn't
+> > seem to be troublesome to implement, but I'm tempted making it a special
+> > case: every other driver would apparently be fine matching with device
+> > fwnode whereas doing endpoint-to-endpoint matching adds complexity to the
+> > drivers. This patch removes about 100 lines of rather ugly code largely
+> > from v4l2-async.
 > 
-> Maybe mentioning "fwnode" here ?
+> It's only 50 lines from v4l2-async, and I don't think the code is uglier
+> than the rest of the file :-) In general, I prefer implementing tricky
+> code in the framework and simplifying drivers. I think our goals align
+> there, the framework should do the right thing by default for the
+> majority of cases. However, as Niklas pointed out, endpoint matching is
+> needed for drivers that register multiple subdevs with external
+> connections (such as the adv742x), and that's exactly why endpoint
+> matching was added in the first place. I think this needs to be kept.
 
-Yes. I'll remove "for", too.
+I'm certainly fine with keeping functionality that driver needs and indeed
+did not intend to break it. However I'd like to simplify this for majority
+of drivers, this one can use additional APIs to get the job done.
 
-> 
-> > > > +		dev_fwnode(notifier_dev(notifier)), sd->fwnode);
-> 
-> Is there a reason to print the notifier dev as a fwnode instead of using
-> dev_name() ?
-
-Yes. These strings are comparable to sub-device node names, so this should
-help figuring out what is the async sub-device being matched to. This is
-the case on both DT and ACPI.
-
-But see below.
-
-> 
-> I'm also wondering, wouldn't it be better to use notifier_dev(notifier)
-> as the dev argument to dev_dbg(), and print dev_name(sd->dev) in the
-> format string ? That's what you're doing below.
-
-Once there is a match, yes. But if that fails to happen, fwnodes are the
-most relevant...
-
-> 
-> Also, sd->fwnode is printed in match_fwnode_one(), so you could possibly
-> drop it from here.
-
-but yes, that's a good point. I'll drop printing fwnodes here.
-
-> 
-> > > > +
-> > > >  	if (match_fwnode_one(notifier, sd, sd->fwnode, asd))
-> > > >  		return true;
-> > > >
-> > > > @@ -156,6 +179,8 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
-> > > >  	if (IS_ERR_OR_NULL(sd->fwnode->secondary))
-> > > >  		return false;
-> > > >
-> > > > +	dev_dbg(sd->dev, "async: trying secondary fwnode match\n");
-> > > > +
-> > > >  	return match_fwnode_one(notifier, sd, sd->fwnode->secondary, asd);
-> > > >  }
-> > > >
-> > > > @@ -247,16 +272,21 @@ v4l2_async_nf_can_complete(struct v4l2_async_notifier *notifier)
-> > > >  {
-> > > >  	struct v4l2_subdev *sd;
-> > > >
-> > > > -	if (!list_empty(&notifier->waiting))
-> > > > +	if (!list_empty(&notifier->waiting)) {
-> > > > +		dev_dbg(notifier_dev(notifier), "async: waiting for subdevs\n");
-> > > >  		return false;
-> > > > +	}
-> > > >
-> > > >  	list_for_each_entry(sd, &notifier->done, async_list) {
-> > > >  		struct v4l2_async_notifier *subdev_notifier =
-> > > >  			v4l2_async_find_subdev_notifier(sd);
-> > > >
-> > > >  		if (subdev_notifier &&
-> > > > -		    !v4l2_async_nf_can_complete(subdev_notifier))
-> > > > +		    !v4l2_async_nf_can_complete(subdev_notifier)) {
-> > > > +			dev_dbg(notifier_dev(notifier),
-> > > > +				"async: cannot complete\n");
-> > > 
-> > > These two will be printed out a lot of times, don't they ?
-> > 
-> > That may be, if you have many async sub-devices. Perhaps these could be
-> > dropped --- the user will be able to find what is still pending via sysfs.
-> 
-> I'm fine with that. If you want to keep the message, can you print the
-> subdev_notifier dev in the message here ?
-
-I'll drop it for now.
+I'll address this in v2.
 
 -- 
-Kind regards,
+Regards,
 
 Sakari Ailus
