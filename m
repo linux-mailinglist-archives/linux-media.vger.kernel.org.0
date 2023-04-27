@@ -2,112 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 04DAD6F08F6
-	for <lists+linux-media@lfdr.de>; Thu, 27 Apr 2023 18:01:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87D676F0A0F
+	for <lists+linux-media@lfdr.de>; Thu, 27 Apr 2023 18:41:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243215AbjD0QBu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 27 Apr 2023 12:01:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44654 "EHLO
+        id S243972AbjD0QlP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 27 Apr 2023 12:41:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229591AbjD0QBp (ORCPT
+        with ESMTP id S243188AbjD0QlO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 27 Apr 2023 12:01:45 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9787F9
-        for <linux-media@vger.kernel.org>; Thu, 27 Apr 2023 09:01:43 -0700 (PDT)
-Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:1cf0:b3bc:c785:4625])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7BA2A802;
-        Thu, 27 Apr 2023 18:01:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1682611289;
-        bh=Totd5cRq6R7++FdncLTWyP5HSRi6U9NAp9eh95/NcLw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VjKnHdHIQiqI1F3dzF8BTxC9FHHqyFGVUVRr+ewgCRlIZmcpze4TgiodhWYpEmLsb
-         hYOqH8LMGX4kiKW8qtGflVdw4171Po8uQrSdG9I6kO8zthKSXj4jzOoB+5Y6jCpZCY
-         rpUMtlBEv71MDNlFp6c0Jct1Z7DxQkzr5ex/ub68=
-Date:   Thu, 27 Apr 2023 18:01:38 +0200
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: v4l2-async: regression due to endpoint matching
-Message-ID: <43vsiiq5qvbmpnmcclh5jjemgkgym65iezvpbyu5y7sdrx63lq@v63zg7c7udyi>
-References: <8360125.31r3eYUQgx@steina-w>
+        Thu, 27 Apr 2023 12:41:14 -0400
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B60DA10CA;
+        Thu, 27 Apr 2023 09:41:13 -0700 (PDT)
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-18ef8aa1576so1500257fac.0;
+        Thu, 27 Apr 2023 09:41:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682613673; x=1685205673;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zoXqR9PZ1avs7kHu6enGgrMVEUhKlRL5vCXLIEppgEU=;
+        b=X2+ME7girxyn4pvt6nK9ZLfO4bKdUW4QdaZYYpCvhSVcNxo+TQ0Syk/l4yd7b4nWJw
+         zGqEUkW/E7XPU4xRffDEbEqK9b40nnoRNSx3NuG3MaTKI78h2eKCApVG1hKXcn7egwDQ
+         XPyZbZYzJCYdrw/2Fno31M0di4Ri3okIioeLFFjFSs3yP3D94FRNRcGMpvXc7IIrKQA1
+         T7FRL8JXOvtn45u4siJZ+zzqiwbu9IR8e3V475kmvJo9yZO1VrGVRkta4txTxE8dQG5J
+         vPDrsiyPzskgmcl5A1NCWWaNem+EGRY8sDqFYJo1F7JxoE1c5XVzpBDDIwaQXDv3D9Dx
+         4RuA==
+X-Gm-Message-State: AC+VfDxFQ6llp8lWePfL+Nzubdf/0hZxcXgYkVMQ1xWbkKmVNIHHp3Fn
+        6NhnwvjlEfOWhzXfRiddLw==
+X-Google-Smtp-Source: ACHHUZ47DpFglUjiNAiLzj4XPOkbZQyF8LG/aBk2IROhfxLcGGCmwToIqKVopX4wpr2ibJU2hZAaig==
+X-Received: by 2002:a05:6870:5b26:b0:18f:df5:af8c with SMTP id ds38-20020a0568705b2600b0018f0df5af8cmr1278402oab.51.1682613671610;
+        Thu, 27 Apr 2023 09:41:11 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id dy14-20020a056870c78e00b0017197629658sm7789831oab.56.2023.04.27.09.41.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Apr 2023 09:41:11 -0700 (PDT)
+Received: (nullmailer pid 3144653 invoked by uid 1000);
+        Thu, 27 Apr 2023 16:41:10 -0000
+Date:   Thu, 27 Apr 2023 11:41:10 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     Wolfram Sang <wsa@kernel.org>, Mike Pagano <mpagano@gentoo.org>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Satish Nagireddy <satish.nagireddy@getcruise.com>,
+        linux-i2c@vger.kernel.org, Peter Rosin <peda@axentia.se>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        Rob Herring <robh+dt@kernel.org>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Mark Brown <broonie@kernel.org>, Marek Vasut <marex@denx.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Subject: Re: [PATCH v13 1/8] dt-bindings: i2c: Add I2C Address Translator
+ (ATR)
+Message-ID: <168261366946.3144600.7666973312286797211.robh@kernel.org>
+References: <20230426115114.156696-1-tomi.valkeinen@ideasonboard.com>
+ <20230426115114.156696-2-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8360125.31r3eYUQgx@steina-w>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230426115114.156696-2-tomi.valkeinen@ideasonboard.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alexander
 
-On Thu, Apr 27, 2023 at 04:40:46PM +0200, Alexander Stein wrote:
-> Hi all,
->
-> I have a setup on my TQMa6x (imx6q-mba6a.dts) with a tc358743 attached to the
-> MIPI CSI input.
-> I noticed that since commit 1f391df44607 ("media: v4l2-async: Use endpoints in
-> __v4l2_async_nf_add_fwnode_remote()") the async subdevice probing does not
-> work anymore. If I revert that, it is working again, even on next-20230425.
+On Wed, 26 Apr 2023 14:51:07 +0300, Tomi Valkeinen wrote:
+> Add bindings for I2C Address Translator. Only one property is added,
+> 'i2c-alias-pool', which can be used in the bindings for the device that
+> supports ATR.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Acked-by: Wolfram Sang <wsa@kernel.org>
+> ---
+>  .../devicetree/bindings/i2c/i2c-atr.yaml      | 34 +++++++++++++++++++
+>  1 file changed, 34 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/i2c/i2c-atr.yaml
+> 
 
-A similar issue has been discussed at
-https://www.spinics.net/lists/linux-media/msg223351.html
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-Unfortunately there was no conclusion as far as I can tell if not that
-imx6 is now broken
-
->
-> $ cat /sys/kernel/debug/v4l2-async/pending_async_subdevices
-> imx-media:
-> ipu2_csi1:
-> ipu2_csi0:
->  [fwnode] dev=21dc000.mipi, node=/soc/bus@2100000/mipi@21dc000/port@3/endpoint
-> ipu1_csi1:
->  [fwnode] dev=21dc000.mipi, node=/soc/bus@2100000/mipi@21dc000/port@2/endpoint
-> ipu1_csi0:
-> imx6-mipi-csi2:
-> ipu2_csi1_mux:
-> ipu1_csi0_mux:
->  [fwnode] dev=21dc000.mipi, node=/soc/bus@2100000/mipi@21dc000/port@1/endpoint
->
->
-> With revert:
-> $ cat /sys/kernel/debug/v4l2-async/pending_async_subdevices
-> imx-media:
-> ipu2_csi1:
-> ipu2_csi0:
-> ipu1_csi1:
-> ipu1_csi0:
-> imx6-mipi-csi2:
-> ipu2_csi1_mux:
-> ipu1_csi0_mux:
->
-> I also see these messages:
-> > video-mux 20e0000.iomuxc-gpr:ipu2_csi1_mux: Consider updating driver video-
-> mux to match on endpoints
-> > imx6-mipi-csi2 21dc000.mipi: Consider updating driver imx6-mipi-csi2 to
-> match on endpoints
-> > tc358743 0-000f: Consider updating driver tc358743 to match on endpoints
-> > video-mux 20e0000.iomuxc-gpr:ipu1_csi0_mux: Consider updating driver video-
-> mux to match on endpoints
->
-> But I'm unsure if this is related. As far as I can see match_fwnode_one does
-> match some nodes, but I do not know if they are the correct ones.
-> Anyone has an idea what's wrong here?
->
-> Best regards,
-> Alexander
-> --
-> TQ-Systems GmbH | Mühlstraße 2, Gut Delling | 82229 Seefeld, Germany
-> Amtsgericht München, HRB 105018
-> Geschäftsführer: Detlef Schneider, Rüdiger Stahl, Stefan Schneider
-> http://www.tq-group.com/
->
->
