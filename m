@@ -2,76 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A04D6F13DF
-	for <lists+linux-media@lfdr.de>; Fri, 28 Apr 2023 11:10:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 610046F1443
+	for <lists+linux-media@lfdr.de>; Fri, 28 Apr 2023 11:35:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229884AbjD1JKi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 28 Apr 2023 05:10:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44626 "EHLO
+        id S1345490AbjD1JfF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 28 Apr 2023 05:35:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229556AbjD1JKg (ORCPT
+        with ESMTP id S229680AbjD1JfD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 28 Apr 2023 05:10:36 -0400
-Received: from mail6.msi.com (mail6.msi.com [114.30.40.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5098E2D67
-        for <linux-media@vger.kernel.org>; Fri, 28 Apr 2023 02:10:32 -0700 (PDT)
-Received: from mail9.msi.com (mail9.msi.com [220.130.147.43])
-        by mail6.msi.com (Postfix) with ESMTPS id DE7FF5E06EF;
-        Fri, 28 Apr 2023 17:10:30 +0800 (CST)
-Received: from mail9.msi.com (localhost [127.0.0.1])
-        by postfix.imss91 (Postfix) with ESMTP id 5B84AF807BC;
-        Fri, 28 Apr 2023 17:10:30 +0800 (CST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 postfix.imss91 5B84AF807BC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=msi.com; s=20220711;
-        t=1682673030; bh=JlvTpF14E1+MVWiXGFn8oDovEZFDCXQIWRKRidF8gu8=;
-        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-        b=fg8R/p1izU+RMdE8R7OsfvGLpYfxPoD7CteEsFUoGVrJuFvlSAEFHJRWWHKsoobUH
-         qT/7GLlOlDDMalMto933JNkTkqgmqoK46liJO0MJtnJzUCBLE8Fjs9F1olZfFTOnTR
-         RaXPbj7GSb3NrX18LLgCqZqaEkLwsN9VSfYEd1OZiCyX0e06p/UV9qHtkEgecy1liz
-         ZONauum52kFYw0jH2JYSAGUzrmE3a6bff1UxJ1btTNq1Nwtfva3K9iw1XkbterKBEu
-         m+lTe+S1+NLJTmxNzZdLrg7aoH1lzL8463xrWauWwig4xtBSehX+Tg58h8Ki+gEHn4
-         0NqIV9iN5R4tg==
-Received: from EX2016A.msi.com.tw (unknown [172.16.0.54])
-        by mail9.msi.com (Postfix) with ESMTPS id 4E454F8069C;
-        Fri, 28 Apr 2023 17:10:30 +0800 (CST)
-Received: from EX2016A.msi.com.tw (172.16.0.54) by EX2016A.msi.com.tw
- (172.16.0.54) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Fri, 28 Apr
- 2023 17:10:30 +0800
-Received: from EX2016A.msi.com.tw ([::1]) by EX2016A.msi.com.tw
- ([fe80::cc96:ad54:6ca4:e0f4%5]) with mapi id 15.01.2507.023; Fri, 28 Apr 2023
- 17:10:30 +0800
-From:   =?utf-8?B?aGFyZHljaGVuZyjphK3mmJPmmJUp?= <hardycheng@msi.com>
-To:     'Ricardo Ribalda' <ribalda@chromium.org>
-CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: RE: UVCIOC_CTRL_MAP not work
-Thread-Topic: UVCIOC_CTRL_MAP not work
-Thread-Index: AQHZeagKEx6yhHYjHUmDjx3JEMz4jq9AYskPgAAFT8qAAAPLqoAAARMg
-Date:   Fri, 28 Apr 2023 09:10:29 +0000
-Message-ID: <2b50803b88ae4d00ac428e7da8c4020f@msi.com>
-References: <0477365efa0d45d7bddf9572d4f09c4c@msi.com>
- <CANiDSCsvuA4f8Kjzp27ncy+HXHft+chMeR5REFAjpj-G4Pc-JA@mail.gmail.com>
- <c19a2cb8f0d04f19bcc884f13b185261@msi.com>
- <CANiDSCuG+0w=8hRrcG-UPWhBJLL+As0j+KseShDrB=Dca9JXhw@mail.gmail.com>
- <25bb11b5e14a49718d97156c614c90e1@msi.com>
- <CANiDSCtRp2DZQ4=FCDp+BGMO6S4=-ukkL7bKFUF5Hp36m4aSog@mail.gmail.com>
- <f1f6c629d5184119b8bf1bb8172c5ac7@msi.com>
- <CANiDSCuBBgxWg=wffyQ-AB0u3rr4-secLWudpjC5iyypBn+Ryg@mail.gmail.com>
-In-Reply-To: <CANiDSCuBBgxWg=wffyQ-AB0u3rr4-secLWudpjC5iyypBn+Ryg@mail.gmail.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.113.50]
-Content-Type: multipart/mixed;
-        boundary="_002_2b50803b88ae4d00ac428e7da8c4020fmsicom_"
+        Fri, 28 Apr 2023 05:35:03 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A8B4449D
+        for <linux-media@vger.kernel.org>; Fri, 28 Apr 2023 02:35:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1682674501; x=1714210501;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eJlBPAFiiMEeUy6ZnofZgi7cuZZVDw1eG9RJiWAx+RM=;
+  b=ZX0D75rN2ejlTwVZF8l2mLYlFcVmgyMg0HSlYnt56El3IJyeKC6x24AG
+   Vf0FUovRmXmCKxLMzYw0BD8XiEiZcqAWiQTP+nMPgUpUXdlVwk+yiW4/M
+   YaxGoQEbk/LAwZB93rMLhdTpai52AITYz0TZMG5vmxx5UF+WtEf3pnUSi
+   N5ZIO4u+UFpKEtg/euJfQeKyJcrYx1JTogHEJCApteUAKJJNtPLTnd36g
+   N14CGtMzMPVHY8G1UxLqJNF+vnojB/H/CX7K1vJbp4z3g0nrVli9oVR9u
+   oV5mi0A71fAZBnL56x/xnsWhvbTOW6WzRiInGt+i2JZU0Q9frMbY+RKCn
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="413083875"
+X-IronPort-AV: E=Sophos;i="5.99,234,1677571200"; 
+   d="scan'208";a="413083875"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 02:34:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="869122565"
+X-IronPort-AV: E=Sophos;i="5.99,234,1677571200"; 
+   d="scan'208";a="869122565"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 02:33:12 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 7E59E11FCA0;
+        Fri, 28 Apr 2023 12:33:09 +0300 (EEST)
+Date:   Fri, 28 Apr 2023 12:33:09 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        linux-media@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>, hverkuil@xs4all.nl,
+        Francesco Dolcini <francesco@dolcini.it>,
+        aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>
+Subject: Re: [PATCH 08/18] media: v4l: async: Rename v4l2_async_subdev as
+ v4l2_async_connection
+Message-ID: <ZEuS1aqnTZg5OiAb@kekkonen.localdomain>
+References: <20230330115853.1628216-1-sakari.ailus@linux.intel.com>
+ <20230330115853.1628216-9-sakari.ailus@linux.intel.com>
+ <h3w7xv337qpplcosai4venkeqtjpbdvdeujbbhqfyzthe7ivyl@vdwlnaxppsuq>
+ <ZDlEdALIMuekuIxj@kekkonen.localdomain>
+ <20230425005950.GF4921@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-X-RCPT: <ribalda@chromium.org>, <linux-media@vger.kernel.org>
-X-TM-AS-GCONF: 00
-X-RCPT: <ribalda@chromium.org>, <internal@maedb.msi.com>, <linux-media@vger.kernel.org>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230425005950.GF4921@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,
         URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -79,282 +74,506 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---_002_2b50803b88ae4d00ac428e7da8c4020fmsicom_
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+Hi Laurent,
 
-SGkgUmljYXJkbywNCg0KU2VlbXMgbGlrZSBubyBtb3JlIG1lc3NhZ2Ugb2YgWFUgY29udHJvbHMs
-DQpJIHJ1biBteSBwcm9ncmFtIGluIHRpbWUgWzEwMjQ2LjU1NzQ2Ml0sIA0KdGhlIHJlbGV2YW50
-IG1lc3NhZ2UgaXMgYXMgZm9sbG93czoNClsxMDI0Ni41NTc0NjJdIHVzYiAxLTE6IHV2Y192NGwy
-X29wZW4NClsxMDI0Ni42MjUyNjBdIHVzYiAxLTE6IFJlc3VtaW5nIGludGVyZmFjZSAwDQpbMTAy
-NDYuNjI1MjY2XSB1c2IgMS0xOiBSZXN1bWluZyBpbnRlcmZhY2UgMQ0KWzEwMjQ2LjY0NTUxNV0g
-dXNiIDEtMTogdXZjX3Y0bDJfcmVsZWFzZQ0KDQpQbGVhc2UgY2hlY2sgYXR0YWNobWVudCBvZiBk
-bXNlZyBvdXRwdXQgYGRtZXNnXzIwMjMwNDI4LmxvZ2ANCg0KDQpCZXN0IFJlZ2FyZHMsDQpIYXJk
-eSMyMzc0DQoNCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IFJpY2FyZG8gUmli
-YWxkYSA8cmliYWxkYUBjaHJvbWl1bS5vcmc+IA0KU2VudDogRnJpZGF5LCBBcHJpbCAyOCwgMjAy
-MyA0OjU4IFBNDQpUbzogaGFyZHljaGVuZyjphK3mmJPmmJUpIDxoYXJkeWNoZW5nQG1zaS5jb20+
-DQpDYzogbGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnDQpTdWJqZWN0OiBSZTogVVZDSU9DX0NU
-UkxfTUFQIG5vdCB3b3JrDQoNCldoYXQgYWJvdXQ6DQoNCnJtbW9kIHV2Y3ZpZGVvDQptb2Rwcm9i
-ZSB1dmN2aWRlbyB0cmFjZT0weGZmZmZmZmZmDQoNCnRoZW4gcnVuIHlvdXIgcHJvZ3JhbQ0KDQpZ
-b3UgbWlnaHQgYmUgYWJsZSB0byBmaWd1cmUgb3V0IHdoYXQgeHUgY29udHJvbHMgYXJlIGRpc2Nv
-dmVyZWQuDQoNCg0KT24gRnJpLCAyOCBBcHIgMjAyMyBhdCAxMDo1MCwgaGFyZHljaGVuZyjphK3m
-mJPmmJUpIDxoYXJkeWNoZW5nQG1zaS5jb20+IHdyb3RlOg0KPg0KPiBIaSBSaWNhcmRvLA0KPg0K
-PiBUaGFuayB5b3UgZm9yIHN1Y2ggYSBxdWljayByZXBseS4NCj4gRm9sbG93IHlvdXIgYWR2aWNl
-LCBidXQgSSBqdXN0IGdvdCBmZXcgbG9ncyBpbiBkbWVzZw0KPg0KPiBbIDk0NTIuNjc3MzM3XSB1
-c2IgMS0xOiB1dmNfdjRsMl9vcGVuDQo+IFsgOTQ1Mi43MjUyNTRdIHVzYiAxLTE6IFJlc3VtaW5n
-IGludGVyZmFjZSAwIFsgOTQ1Mi43MjUyNThdIHVzYiAxLTE6IA0KPiBSZXN1bWluZyBpbnRlcmZh
-Y2UgMSBbIDk0NTIuNzUxOTcxXSB1c2IgMS0xOiB1dmNfdjRsMl9yZWxlYXNlIFsgDQo+IDk0NTUu
-MjM2OTczXSB1c2IgMS0xOiBTdXNwZW5kaW5nIGludGVyZmFjZSAxIFsgOTQ1NS4yMzY5NzddIHVz
-YiAxLTE6IA0KPiBTdXNwZW5kaW5nIGludGVyZmFjZSAwDQo+DQo+IElzIHRoZXJlIGFueSB3YXkg
-dG8gZ2V0IG1vcmUgZGVidWcgbWVzc2FnZSBhYm91dCB0aGlzIGlzc3VlPw0KPg0KPg0KPiBCZXN0
-IFJlZ2FyZHMsDQo+IEhhcmR5IzIzNzQNCj4NCj4NCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0t
-LS0NCj4gRnJvbTogUmljYXJkbyBSaWJhbGRhIDxyaWJhbGRhQGNocm9taXVtLm9yZz4NCj4gU2Vu
-dDogRnJpZGF5LCBBcHJpbCAyOCwgMjAyMyA0OjQ1IFBNDQo+IFRvOiBoYXJkeWNoZW5nKOmEreaY
-k+aYlSkgPGhhcmR5Y2hlbmdAbXNpLmNvbT4NCj4gQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVs
-Lm9yZw0KPiBTdWJqZWN0OiBSZTogVVZDSU9DX0NUUkxfTUFQIG5vdCB3b3JrDQo+DQo+IEhpIEhh
-cmR5DQo+DQo+IHRyeSBydW5uaW5nOg0KPg0KPiBlY2hvIDB4ZmZmZmZmZmYgPiAvc3lzL21vZHVs
-ZS91dmN2aWRlby9wYXJhbWV0ZXJzL3RyYWNlDQo+DQo+IGFuZCB0aGVuIHlvdXIgcHJvZ3JhbQ0K
-Pg0KPiBhbmQgdGhlbiBkbWVzZw0KPg0KPiBJdCB3aWxsIHRlbGwgeW91IHdoZXJlIGl0IGdvdCBz
-dG9jaw0KPg0KPiBSZWdhcmRzIQ0KPg0KPiBPbiBGcmksIDI4IEFwciAyMDIzIGF0IDEwOjM4LCBo
-YXJkeWNoZW5nKOmEreaYk+aYlSkgPGhhcmR5Y2hlbmdAbXNpLmNvbT4gd3JvdGU6DQo+ID4NCj4g
-PiBIaSBSaWNhcmRvLA0KPiA+DQo+ID4gU28gSSBtb2RpZnkgdGhlIGB1dmNfeHVfY29udHJvbF9t
-YXBwaW5nYCBzdHJ1Y3QgYXMgZm9sbG93czoNCj4gPiAoZnVsbCBjb2RlIHJlZmVyZW5jZSBhdHRh
-Y2htZW50IGB1dmNfeHVfdjRsX21hcHBpbmdfZGVtby5jYCkgc3RydWN0IA0KPiA+IHV2Y194dV9j
-b250cm9sX21hcHBpbmcgbWFwcGluZyA9IHsNCj4gPiAgICAgICAgIC5pZCA9IDB4MDEsDQo+ID4g
-ICAgICAgICAubmFtZSA9ICJNeSBFeHRlbnNpb24gVW5pdCIsDQo+ID4gICAgICAgICAuZW50aXR5
-ID0gezB4MTAsIDB4YmMsIDB4NDYsIDB4YmEsIDB4MjgsIDB4NWEsIDB4NGQsIDB4N2IsIDB4OTcs
-IDB4MGUsIDB4ZmQsIDB4OTEsIDB4NDYsIDB4YTUsIDB4MmYsIDB4MmR9LA0KPiA+ICAgICAgICAg
-LnNlbGVjdG9yID0gMHgwMSwNCj4gPiAgICAgICAgIC5zaXplID0gMzIsDQo+ID4gICAgICAgICAu
-b2Zmc2V0ID0gMCwNCj4gPiAgICAgICAgIC52NGwyX3R5cGUgPSBWNEwyX0NUUkxfVFlQRV9JTlRF
-R0VSLA0KPiA+ICAgICAgICAgLmRhdGFfdHlwZSA9IFVWQ19DVFJMX0RBVEFfVFlQRV9VTlNJR05F
-RCwNCj4gPiAgICAgICAgIC5tZW51X2luZm8gPSBOVUxMLA0KPiA+ICAgICAgICAgLm1lbnVfY291
-bnQgPSAwLA0KPiA+ICAgICAgICAgLnJlc2VydmVkID0gezB9LA0KPiA+IH07DQo+ID4NCj4gPiBB
-bmQgSSBnb3QgZGlmZmVyZW5jZSBlcnJvciBtZXNzYWdlIGBVVkNJT0NfQ1RSTF9NQVA6IE5vIHN1
-Y2ggZmlsZSBvciANCj4gPiBkaXJlY3RvcnlgIFBsZWFzZSBjaGVjayBhdHRhY2htZW50IGBzdHJh
-Y2VfMjAyMzA0MjhfMi5sb2dgIGZvciANCj4gPiBzdHJhY2Ugb3V0cHV0DQo+ID4NCj4gPg0KPiA+
-IEJlc3QgUmVnYXJkcywNCj4gPiBIYXJkeQ0KPiA+DQo+ID4NCj4gPiAtLS0tLU9yaWdpbmFsIE1l
-c3NhZ2UtLS0tLQ0KPiA+IEZyb206IFJpY2FyZG8gUmliYWxkYSA8cmliYWxkYUBjaHJvbWl1bS5v
-cmc+DQo+ID4gU2VudDogRnJpZGF5LCBBcHJpbCAyOCwgMjAyMyA0OjI2IFBNDQo+ID4gVG86IGhh
-cmR5Y2hlbmco6YSt5piT5piVKSA8aGFyZHljaGVuZ0Btc2kuY29tPg0KPiA+IENjOiBsaW51eC1t
-ZWRpYUB2Z2VyLmtlcm5lbC5vcmcNCj4gPiBTdWJqZWN0OiBSZTogVVZDSU9DX0NUUkxfTUFQIG5v
-dCB3b3JrDQo+ID4NCj4gPiBIaSBIYXJkeQ0KPiA+DQo+ID4gU2VlbXMgbGlrZSB5b3UgY2FuIG9u
-bHkgYWRkIG1hcHBpbmdzIGZvciAgVjRMMl9DVFJMX1RZUEVfSU5URUdFUiwgVjRMMl9DVFJMX1RZ
-UEVfQk9PTEVBTjpWNEwyX0NUUkxfVFlQRV9CVVRUT04gIGFuZCBWNEwyX0NUUkxfVFlQRV9NRU5V
-Lg0KPiA+IGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3Rv
-cnZhbGRzL2xpbnV4LmdpdC90DQo+ID4gcmUNCj4gPiBlL2RyaXZlcnMvbWVkaWEvdXNiL3V2Yy91
-dmNfdjRsMi5jI24xMzANCj4gPg0KPiA+IFlvdSBhcmUgdHJ5aW5nIHRvIGFkZCBhIG1hcCBmb3Ig
-YSBWNEwyX0NUUkxfVFlQRV9TVFJJTkcNCj4gPg0KPiA+IFJlZ2FyZHMNCj4gPg0KPiA+IE9uIEZy
-aSwgMjggQXByIDIwMjMgYXQgMTA6MjAsIGhhcmR5Y2hlbmco6YSt5piT5piVKSA8aGFyZHljaGVu
-Z0Btc2kuY29tPiB3cm90ZToNCj4gPiA+DQo+ID4gPiBIaSBSaWNhcmRvLA0KPiA+ID4NCj4gPiA+
-IFRoYW5rcyBmb3IgcmVwbHksDQo+ID4gPg0KPiA+ID4gSSByZXBsYWNlIGBfSU9XUigndScsIDB4
-MjAsIHN0cnVjdCB1dmNfeHVfY29udHJvbF9tYXBwaW5nKWAgdG8gYCANCj4gPiA+IFVWQ0lPQ19D
-VFJMX01BUGAgYW5kIGdvdCB0aGUgc2FtZSBlcnJvciwgUGxlYXNlIGNoZWNrIGF0dGFjaG1lbnQg
-DQo+ID4gPiBmb3IgY29tbWFuZCBvdXRwdXQgYHN0cmFjZSAtZiAuL3V2Y194dV92NGxfbWFwcGlu
-Z19kZW1vYA0KPiA+ID4NCj4gPiA+IEJlc3QgUmVnYXJkcywNCj4gPiA+IEhhcmR5DQo+ID4gPg0K
-PiA+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiA+IEZyb206IFJpY2FyZG8gUmli
-YWxkYSA8cmliYWxkYUBjaHJvbWl1bS5vcmc+DQo+ID4gPiBTZW50OiBGcmlkYXksIEFwcmlsIDI4
-LCAyMDIzIDQ6MDQgUE0NCj4gPiA+IFRvOiBoYXJkeWNoZW5nKOmEreaYk+aYlSkgPGhhcmR5Y2hl
-bmdAbXNpLmNvbT4NCj4gPiA+IENjOiBsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmcNCj4gPiA+
-IFN1YmplY3Q6IFJlOiBVVkNJT0NfQ1RSTF9NQVAgbm90IHdvcmsNCj4gPiA+DQo+ID4gPiBIaSBI
-YXJkeQ0KPiA+ID4NCj4gPiA+IFdoeSBhcmUgeW91IHVzaW5nOg0KPiA+ID4NCj4gPiA+IHJlc3Vs
-dCA9IGlvY3RsKGZkLCBfSU9XUigndScsIDB4MjAsIHN0cnVjdCANCj4gPiA+IHV2Y194dV9jb250
-cm9sX21hcHBpbmcpLCAmbWFwcGluZyk7DQo+ID4gPg0KPiA+ID4gaW5zdGVhZCBvZg0KPiA+ID4N
-Cj4gPiA+IHJlc3VsdCA9IGlvY3RsKGZkLCBVVkNJT0NfQ1RSTF9NQVAsICZtYXBwaW5nKTsNCj4g
-PiA+DQo+ID4gPiBDYW4geW91IHJldHVybiB0aGUgb3V0cHV0IG9mOg0KPiA+ID4NCj4gPiA+IHN0
-cmFjZSAtZiAgdXZjX3h1X3Y0bF9tYXBwaW5nX2RlbW8NCj4gPiA+DQo+ID4gPiBUaGFua3MhDQo+
-ID4gPg0KPiA+ID4gT24gRnJpLCAyOCBBcHIgMjAyMyBhdCAwOToxNSwgaGFyZHljaGVuZyjphK3m
-mJPmmJUpIDxoYXJkeWNoZW5nQG1zaS5jb20+IHdyb3RlOg0KPiA+ID4gPg0KPiA+ID4gPiBIaSwN
-Cj4gPiA+ID4NCj4gPiA+ID4gIyBFbnZpcm9ubWVudDoNCj4gPiA+ID4NCj4gPiA+ID4gT1MgPSBV
-YnVudHUgMjIuMDQgTFRTIChMaW51eCB2ZXJzaW9uIDUuMTkuMC00MS1nZW5lcmljKSBQcm9ncmFt
-IA0KPiA+ID4gPiBMYW5ndWFnZSA9IEMgTGFuZ3VhZ2UNCj4gPiA+ID4NCj4gPiA+ID4gIyBPdmVy
-dmlldzoNCj4gPiA+ID4NCj4gPiA+ID4gV2UgcGx1ZyBpbiBvdXIgVVZDIGNhbWVyYSB0byBQQywg
-YW5kIHRyeSB0byB1c2UgDQo+ID4gPiA+IGBVVkNJT0NfQ1RSTF9NQVBgIGZ1bmN0aW9uIG9uIFBD
-IHRvIGNyZWF0ZSB0aGUgdjRsMiBjb250cm9sIA0KPiA+ID4gPiBtYXBwaW5nLCBidXQgd2UgZ290
-IGVycm9yDQo+ID4gPiA+IGBVVkNJT0NfQ1RSTF9NQVA6IEluYXBwcm9wcmlhdGUgaW9jdGwgZm9y
-IGRldmljZWAgRGV2ZWxvcG1lbnQgDQo+ID4gPiA+IHdpdGggYEMgbGFuZ3VhZ2VgIGluIGBVYnVu
-dHUgMjIuMDQgTFRTYA0KPiA+ID4gPg0KPiA+ID4gPiAjIERlc2NyaXB0aW9uOg0KPiA+ID4gPg0K
-PiA+ID4gPiBXZSBoYXZlIGEgY3VzdG9tIFVWQyBjYW1lcmEgYW5kIHdlIGNhbiBtb2RpZnkgdGhl
-IGV4dGVuc2lvbg0KPiA+ID4gPiB1bml0KFhVKSBieSBvdXJzZWxmLiAoVVNCIGRlc2NyaXB0aW9u
-cyByZWZlcmVuY2UgYXR0YWNobWVudHMgDQo+ID4gPiA+IGB1dmNfeHVfZGVzY3JpcHRvci5QTkdg
-ICYgYHVzYl9kZWNyaXB0aW9ucy50eHRgKQ0KPiA+ID4gPg0KPiA+ID4gPiBXZSBtYWtlIHN1cmUg
-dGhhdCBVVkNJT0NfQ1RSTF9RVUVSWSBpcyB3b3JrIHRvIGNvbnRyb2wgb3VyIFhVIA0KPiA+ID4g
-PiBpdGVtIChkZW1vIGNvZGUgaW4gYXR0YWNobWVudCBgdXZjX3h1X2lvY3RsX2RlbW8uY2ApDQo+
-ID4gPiA+DQo+ID4gPiA+IGJ1dCBVVkNJT0NfQ1RSTF9NQVAgZnVuY3Rpb24gZmFpbCB3aXRoIGVy
-cm9yIG1lc3NhZ2UgYFVWQ0lPQ19DVFJMX01BUDoNCj4gPiA+ID4gSW5hcHByb3ByaWF0ZSBpb2N0
-bCBmb3IgZGV2aWNlYCAoZGVtbyBjb2RlIGluIGF0dGFjaG1lbnQNCj4gPiA+ID4gYHV2Y194dV92
-NGxfbWFwcGluZ19kZW1vLmNgKQ0KPiA+ID4gPg0KPiA+ID4gPiAjIFByb2JsZW1zOg0KPiA+ID4g
-Pg0KPiA+ID4gPiAxLiAgICAgIElzIFVWQ0lPQ19DVFJMX01BUCBmdW5jdGlvbiB1c2luZyBpbiB0
-aGUgUEMgaG9zdD8NCj4gPiA+ID4gMi4gICAgICBDYW4geW91IGZvdW5kIGFueSBzeW50YXggcHJv
-YmxlbSBpbiBvdXIgZGVtbyBjb2RlIGB1dmNfeHVfdjRsX21hcHBpbmdfZGVtby5jYD8NCj4gPiA+
-ID4gMy4gICAgICBJcyB0aGVyZSBhbnkgc2FtcGxlIGNvZGUgYWJvdXQgc3RydWN0IGB1dmNfeHVf
-Y29udHJvbF9tYXBwaW5nYCB1c2luZz8NCj4gPiA+ID4NCj4gPiA+ID4gTG9va2luZyBmb3J3YXJk
-IHRvIHlvdXIgcmVwbHksDQo+ID4gPiA+IEJlc3QgUmVnYXJkcywNCj4gPiA+ID4gSGFyZHkjMjM3
-NA0KPiA+ID4gPg0KPiA+ID4gPiAqKioqKkNPTkZJREVOVElBTCBJTkZPUk1BVElPTioqKioqDQo+
-ID4gPiA+DQo+ID4gPiA+IFRoaXMgZW1haWwgaXMgaW50ZW5kZWQgb25seSBmb3IgdGhlIHVzZSBv
-ZiB0aGUgcGVyc29uIG9yIGVudGl0eSANCj4gPiA+ID4gdG8gd2hvbSBpdCBpcyBhZGRyZXNzZWQg
-YW5kIGNvbnRhaW5zIGluZm9ybWF0aW9uIHRoYXQgbWF5IGJlIA0KPiA+ID4gPiBzdWJqZWN0IHRv
-IGFuZC9vciBtYXkgYmUgcmVzdHJpY3RlZCBmcm9tIGRpc2Nsb3N1cmUgYnkgY29udHJhY3QgDQo+
-ID4gPiA+IG9yIGFwcGxpY2FibGUgbGF3LiBJZiB5b3UgYXJlIG5vdCB0aGUgaW50ZW5kZWQgcmVj
-aXBpZW50IG9mIHRoaXMgDQo+ID4gPiA+IGVtYWlsLCBiZSBhZHZpc2VkIHRoYXQgYW55IGRpc2Ns
-b3N1cmUsIGNvcHksIGRpc3RyaWJ1dGlvbiBvciB1c2Ugb2YgdGhlIGNvbnRlbnRzIG9mIHRoaXMg
-bWVzc2FnZSBpcyBzdHJpY3RseSBwcm9oaWJpdGVkLg0KPiA+ID4gPiBJZiB5b3UgYXJlIG5vdCB0
-aGUgaW50ZW5kZWQgcmVjaXBpZW50IG9mIHRoaXMgZW1haWwsIHBsZWFzZSANCj4gPiA+ID4gbm90
-aWZ5IHRoZSBzZW5kZXIgdGhhdCB5b3UgaGF2ZSByZWNlaXZlZCB0aGlzIGluIGVycm9yIGJ5IA0K
-PiA+ID4gPiByZXBseWluZyB0byB0aGlzIG1lc3NhZ2UuIFRoZW4sIHBsZWFzZSBkZWxldGUgaXQg
-ZnJvbSB5b3VyIA0KPiA+ID4gPiBzeXN0ZW0uIE91ciBQcml2YWN5IFBvbGljeSBpcyBhdmFpbGFi
-bGUgaGVyZSBodHRwczovL3d3dy5tc2kuY29tL3BhZ2UvcHJpdmFjeS1wb2xpY3kuIFRoYW5rIHlv
-dS4NCj4gPiA+DQo+ID4gPg0KPiA+ID4NCj4gPiA+IC0tDQo+ID4gPiBSaWNhcmRvIFJpYmFsZGEN
-Cj4gPiA+DQo+ID4gPg0KPiA+ID4gKioqKipDT05GSURFTlRJQUwgSU5GT1JNQVRJT04qKioqKg0K
-PiA+ID4NCj4gPiA+IFRoaXMgZW1haWwgaXMgaW50ZW5kZWQgb25seSBmb3IgdGhlIHVzZSBvZiB0
-aGUgcGVyc29uIG9yIGVudGl0eSB0byANCj4gPiA+IHdob20gaXQgaXMgYWRkcmVzc2VkIGFuZCBj
-b250YWlucyBpbmZvcm1hdGlvbiB0aGF0IG1heSBiZSBzdWJqZWN0IA0KPiA+ID4gdG8gYW5kL29y
-IG1heSBiZSByZXN0cmljdGVkIGZyb20gZGlzY2xvc3VyZSBieSBjb250cmFjdCBvciANCj4gPiA+
-IGFwcGxpY2FibGUgbGF3LiBJZiB5b3UgYXJlIG5vdCB0aGUgaW50ZW5kZWQgcmVjaXBpZW50IG9m
-IHRoaXMgDQo+ID4gPiBlbWFpbCwgYmUgYWR2aXNlZCB0aGF0IGFueSBkaXNjbG9zdXJlLCBjb3B5
-LCBkaXN0cmlidXRpb24gb3IgdXNlIG9mIHRoZSBjb250ZW50cyBvZiB0aGlzIG1lc3NhZ2UgaXMg
-c3RyaWN0bHkgcHJvaGliaXRlZC4NCj4gPiA+IElmIHlvdSBhcmUgbm90IHRoZSBpbnRlbmRlZCBy
-ZWNpcGllbnQgb2YgdGhpcyBlbWFpbCwgcGxlYXNlIG5vdGlmeSANCj4gPiA+IHRoZSBzZW5kZXIg
-dGhhdCB5b3UgaGF2ZSByZWNlaXZlZCB0aGlzIGluIGVycm9yIGJ5IHJlcGx5aW5nIHRvIA0KPiA+
-ID4gdGhpcyBtZXNzYWdlLiBUaGVuLCBwbGVhc2UgZGVsZXRlIGl0IGZyb20geW91ciBzeXN0ZW0u
-IE91ciBQcml2YWN5IA0KPiA+ID4gUG9saWN5IGlzIGF2YWlsYWJsZSBoZXJlIGh0dHBzOi8vd3d3
-Lm1zaS5jb20vcGFnZS9wcml2YWN5LXBvbGljeS4gVGhhbmsgeW91Lg0KPiA+DQo+ID4NCj4gPg0K
-PiA+IC0tDQo+ID4gUmljYXJkbyBSaWJhbGRhDQo+ID4NCj4gPg0KPiA+ICoqKioqQ09ORklERU5U
-SUFMIElORk9STUFUSU9OKioqKioNCj4gPg0KPiA+IFRoaXMgZW1haWwgaXMgaW50ZW5kZWQgb25s
-eSBmb3IgdGhlIHVzZSBvZiB0aGUgcGVyc29uIG9yIGVudGl0eSB0byANCj4gPiB3aG9tIGl0IGlz
-IGFkZHJlc3NlZCBhbmQgY29udGFpbnMgaW5mb3JtYXRpb24gdGhhdCBtYXkgYmUgc3ViamVjdCB0
-byANCj4gPiBhbmQvb3IgbWF5IGJlIHJlc3RyaWN0ZWQgZnJvbSBkaXNjbG9zdXJlIGJ5IGNvbnRy
-YWN0IG9yIGFwcGxpY2FibGUgDQo+ID4gbGF3LiBJZiB5b3UgYXJlIG5vdCB0aGUgaW50ZW5kZWQg
-cmVjaXBpZW50IG9mIHRoaXMgZW1haWwsIGJlIGFkdmlzZWQgDQo+ID4gdGhhdCBhbnkgZGlzY2xv
-c3VyZSwgY29weSwgZGlzdHJpYnV0aW9uIG9yIHVzZSBvZiB0aGUgY29udGVudHMgb2YgdGhpcyBt
-ZXNzYWdlIGlzIHN0cmljdGx5IHByb2hpYml0ZWQuDQo+ID4gSWYgeW91IGFyZSBub3QgdGhlIGlu
-dGVuZGVkIHJlY2lwaWVudCBvZiB0aGlzIGVtYWlsLCBwbGVhc2Ugbm90aWZ5IA0KPiA+IHRoZSBz
-ZW5kZXIgdGhhdCB5b3UgaGF2ZSByZWNlaXZlZCB0aGlzIGluIGVycm9yIGJ5IHJlcGx5aW5nIHRv
-IHRoaXMgDQo+ID4gbWVzc2FnZS4gVGhlbiwgcGxlYXNlIGRlbGV0ZSBpdCBmcm9tIHlvdXIgc3lz
-dGVtLiBPdXIgUHJpdmFjeSBQb2xpY3kgDQo+ID4gaXMgYXZhaWxhYmxlIGhlcmUgaHR0cHM6Ly93
-d3cubXNpLmNvbS9wYWdlL3ByaXZhY3ktcG9saWN5LiBUaGFuayB5b3UuDQo+DQo+DQo+DQo+IC0t
-DQo+IFJpY2FyZG8gUmliYWxkYQ0KPg0KPg0KPiAqKioqKkNPTkZJREVOVElBTCBJTkZPUk1BVElP
-TioqKioqDQo+DQo+IFRoaXMgZW1haWwgaXMgaW50ZW5kZWQgb25seSBmb3IgdGhlIHVzZSBvZiB0
-aGUgcGVyc29uIG9yIGVudGl0eSB0byANCj4gd2hvbSBpdCBpcyBhZGRyZXNzZWQgYW5kIGNvbnRh
-aW5zIGluZm9ybWF0aW9uIHRoYXQgbWF5IGJlIHN1YmplY3QgdG8gDQo+IGFuZC9vciBtYXkgYmUg
-cmVzdHJpY3RlZCBmcm9tIGRpc2Nsb3N1cmUgYnkgY29udHJhY3Qgb3IgYXBwbGljYWJsZSANCj4g
-bGF3LiBJZiB5b3UgYXJlIG5vdCB0aGUgaW50ZW5kZWQgcmVjaXBpZW50IG9mIHRoaXMgZW1haWws
-IGJlIGFkdmlzZWQgDQo+IHRoYXQgYW55IGRpc2Nsb3N1cmUsIGNvcHksIGRpc3RyaWJ1dGlvbiBv
-ciB1c2Ugb2YgdGhlIGNvbnRlbnRzIG9mIHRoaXMgbWVzc2FnZSBpcyBzdHJpY3RseSBwcm9oaWJp
-dGVkLg0KPiBJZiB5b3UgYXJlIG5vdCB0aGUgaW50ZW5kZWQgcmVjaXBpZW50IG9mIHRoaXMgZW1h
-aWwsIHBsZWFzZSBub3RpZnkgdGhlIA0KPiBzZW5kZXIgdGhhdCB5b3UgaGF2ZSByZWNlaXZlZCB0
-aGlzIGluIGVycm9yIGJ5IHJlcGx5aW5nIHRvIHRoaXMgDQo+IG1lc3NhZ2UuIFRoZW4sIHBsZWFz
-ZSBkZWxldGUgaXQgZnJvbSB5b3VyIHN5c3RlbS4gT3VyIFByaXZhY3kgUG9saWN5IA0KPiBpcyBh
-dmFpbGFibGUgaGVyZSBodHRwczovL3d3dy5tc2kuY29tL3BhZ2UvcHJpdmFjeS1wb2xpY3kuIFRo
-YW5rIHlvdS4NCg0KDQoNCi0tDQpSaWNhcmRvIFJpYmFsZGENCg0KDQoqKioqKkNPTkZJREVOVElB
-TCBJTkZPUk1BVElPTioqKioqDQoNClRoaXMgZW1haWwgaXMgaW50ZW5kZWQgb25seSBmb3IgdGhl
-IHVzZSBvZiB0aGUgcGVyc29uIG9yIGVudGl0eSB0byB3aG9tIGl0IGlzDQphZGRyZXNzZWQgYW5k
-IGNvbnRhaW5zIGluZm9ybWF0aW9uIHRoYXQgbWF5IGJlIHN1YmplY3QgdG8gYW5kL29yIG1heSBi
-ZQ0KcmVzdHJpY3RlZCBmcm9tIGRpc2Nsb3N1cmUgYnkgY29udHJhY3Qgb3IgYXBwbGljYWJsZSBs
-YXcuIElmIHlvdSBhcmUgbm90IHRoZSANCmludGVuZGVkIHJlY2lwaWVudCBvZiB0aGlzIGVtYWls
-LCBiZSBhZHZpc2VkIHRoYXQgYW55IGRpc2Nsb3N1cmUsIGNvcHksIA0KZGlzdHJpYnV0aW9uIG9y
-IHVzZSBvZiB0aGUgY29udGVudHMgb2YgdGhpcyBtZXNzYWdlIGlzIHN0cmljdGx5IHByb2hpYml0
-ZWQuIA0KSWYgeW91IGFyZSBub3QgdGhlIGludGVuZGVkIHJlY2lwaWVudCBvZiB0aGlzIGVtYWls
-LCBwbGVhc2Ugbm90aWZ5IHRoZSBzZW5kZXIgDQp0aGF0IHlvdSBoYXZlIHJlY2VpdmVkIHRoaXMg
-aW4gZXJyb3IgYnkgcmVwbHlpbmcgdG8gdGhpcyBtZXNzYWdlLiBUaGVuLCANCnBsZWFzZSBkZWxl
-dGUgaXQgZnJvbSB5b3VyIHN5c3RlbS4gT3VyIFByaXZhY3kgUG9saWN5IGlzIGF2YWlsYWJsZSBo
-ZXJlIA0KaHR0cHM6Ly93d3cubXNpLmNvbS9wYWdlL3ByaXZhY3ktcG9saWN5LiBUaGFuayB5b3Uu
+On Tue, Apr 25, 2023 at 03:59:50AM +0300, Laurent Pinchart wrote:
+> Hi Sakari
+> 
+> On Fri, Apr 14, 2023 at 03:17:56PM +0300, Sakari Ailus wrote:
+> > On Fri, Apr 14, 2023 at 10:22:41AM +0200, Jacopo Mondi wrote:
+> > > On Thu, Mar 30, 2023 at 02:58:43PM +0300, Sakari Ailus wrote:
+> > > > This patch has been generated by:
+> > > >
+> > > > 	git grep -l v4l2_async_subdev | \
+> > > > 		while read i; do \
+> > > > 			spatch --sp-file async.spatch --in-place $i; done \
+> > > > 			perl -i -pe 's/v4l2_async_\Ksubdev/connection/g' $i \
+> > > > 		done
+> > > >
+> > > > While async.spatch looks like:
+> > > >
+> > > > @ name @
+> > > > @@
+> > > > - struct v4l2_async_subdev
+> > > > + struct v4l2_async_connection
+> > > >
+> > > > Additionally, __v4l2_async_nf_add_subdev() has been renamed as
+> > > > __v4l2_async_nf_add_connection(). Some manual editing has been performed
+> > > > as well.
+> 
+> The commit message fails to explain why.
 
---_002_2b50803b88ae4d00ac428e7da8c4020fmsicom_
-Content-Type: application/octet-stream; name="dmesg_20230428.log"
-Content-Description: dmesg_20230428.log
-Content-Disposition: attachment; filename="dmesg_20230428.log"; size=4936;
-	creation-date="Fri, 28 Apr 2023 09:01:56 GMT";
-	modification-date="Fri, 28 Apr 2023 09:08:32 GMT"
-Content-Transfer-Encoding: base64
+I'll add this for v2.
 
-WzEwMjI4LjEwMjQxNV0gdXNiY29yZTogZGVyZWdpc3RlcmluZyBpbnRlcmZhY2UgZHJpdmVyIHV2
-Y3ZpZGVvDQoNClsxMDIyOC4xNjYzOTVdIHVzYiAxLTE6IFJlc3VtaW5nIGludGVyZmFjZSAwDQoN
-ClsxMDIyOC4xNjYzOTldIHVzYiAxLTE6IFJlc3VtaW5nIGludGVyZmFjZSAxDQoNClsxMDIzOC41
-MTY0NDddIHVzYiAxLTE6IFByb2JpbmcgZ2VuZXJpYyBVVkMgZGV2aWNlIDENCg0KWzEwMjM4LjUx
-Njg5NV0gdXNiIDEtMTogRm91bmQgZm9ybWF0IFlVViA0OjI6MiAoWVVZVikNCg0KWzEwMjM4LjUx
-Njg5N10gdXNiIDEtMTogLSA2NDB4MzYwICgzMC4wIGZwcykNCg0KWzEwMjM4LjUxNjg5OV0gdXNi
-IDEtMTogRm91bmQgZm9ybWF0IE1KUEVHDQoNClsxMDIzOC41MTY5MDBdIHVzYiAxLTE6IC0gMTky
-MHgxMDgwICgzMC4wIGZwcykNCg0KWzEwMjM4LjUxNjkwMV0gdXNiIDEtMTogLSAxMjgweDcyMCAo
-MzAuMCBmcHMpDQoNClsxMDIzOC41MTY5MDJdIHVzYiAxLTE6IC0gMzg0MHgxNzEyICgzMC4wIGZw
-cykNCg0KWzEwMjM4LjUxNjkwM10gdXNiIDEtMTogLSAyNTYweDExMzYgKDMwLjAgZnBzKQ0KDQpb
-MTAyMzguNTE2OTA0XSB1c2IgMS0xOiAtIDI1NjB4MTQ0MCAoMzAuMCBmcHMpDQoNClsxMDIzOC41
-MTY5MDddIHVzYiAxLTE6IEZvdW5kIGEgU3RhdHVzIGVuZHBvaW50IChhZGRyIDg1KQ0KDQpbMTAy
-MzguNTE2OTA5XSB1c2IgMS0xOiBGb3VuZCBVVkMgMS4wMCBkZXZpY2UgQ3Vwb2xhMzYwIENhbWVy
-YSAoMjI0NToxMjMwKQ0KDQpbMTAyMzguNTE2OTExXSB1c2IgMS0xOiBTY2FubmluZyBVVkMgY2hh
-aW46DQoNClsxMDIzOC41MTY5MTJdICBPVCA2IDwtIFhVIDQgPC0gWFUgMyA8LSBQVSAyIDwtIElU
-IDENCg0KWzEwMjM4LjUxNjkxNV0gdXNiIDEtMTogRm91bmQgYSB2YWxpZCB2aWRlbyBjaGFpbiAo
-MSAtPiA2KQ0KDQpbMTAyMzguNTE2OTE4XSB1c2IgMS0xOiBBZGRlZCBjb250cm9sIDAwMDAwMDAw
-LTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDEwMS8yIHRvIGRldmljZSAxIGVudGl0eSAyDQoNClsx
-MDIzOC41MTk3NTNdIHVzYiAxLTE6IEFkZGluZyBtYXBwaW5nICdCcmlnaHRuZXNzJyB0byBjb250
-cm9sIDAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDEwMS8yDQoNClsxMDIzOC41MTk3
-NTZdIHVzYiAxLTE6IEFkZGVkIGNvbnRyb2wgMDAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDAw
-MDAwMTAxLzMgdG8gZGV2aWNlIDEgZW50aXR5IDINCg0KWzEwMjM4LjUyMTczOF0gdXNiIDEtMTog
-QWRkaW5nIG1hcHBpbmcgJ0NvbnRyYXN0JyB0byBjb250cm9sIDAwMDAwMDAwLTAwMDAtMDAwMC0w
-MDAwLTAwMDAwMDAwMDEwMS8zDQoNClsxMDIzOC41MjE3NDFdIHVzYiAxLTE6IEFkZGVkIGNvbnRy
-b2wgMDAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMTAxLzcgdG8gZGV2aWNlIDEgZW50
-aXR5IDINCg0KWzEwMjM4LjUyNDYzOF0gdXNiIDEtMTogQWRkaW5nIG1hcHBpbmcgJ1NhdHVyYXRp
-b24nIHRvIGNvbnRyb2wgMDAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMTAxLzcNCg0K
-WzEwMjM4LjUyNDY0MV0gdXNiIDEtMTogQWRkZWQgY29udHJvbCAwMDAwMDAwMC0wMDAwLTAwMDAt
-MDAwMC0wMDAwMDAwMDAxMDEvOCB0byBkZXZpY2UgMSBlbnRpdHkgMg0KDQpbMTAyMzguNTI4NTE3
-XSB1c2IgMS0xOiBBZGRpbmcgbWFwcGluZyAnU2hhcnBuZXNzJyB0byBjb250cm9sIDAwMDAwMDAw
-LTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDEwMS84DQoNClsxMDIzOC41Mjg1MTldIHVzYiAxLTE6
-IEFkZGVkIGNvbnRyb2wgMDAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMTAxLzkgdG8g
-ZGV2aWNlIDEgZW50aXR5IDINCg0KWzEwMjM4LjUzMzM2OV0gdXNiIDEtMTogQWRkaW5nIG1hcHBp
-bmcgJ0dhbW1hJyB0byBjb250cm9sIDAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDEw
-MS85DQoNClsxMDIzOC41MzMzNzNdIHVzYiAxLTE6IEFkZGVkIGNvbnRyb2wgMDAwMDAwMDAtMDAw
-MC0wMDAwLTAwMDAtMDAwMDAwMDAwMTAxLzEwIHRvIGRldmljZSAxIGVudGl0eSAyDQoNClsxMDIz
-OC41MzczNTRdIHVzYiAxLTE6IEFkZGluZyBtYXBwaW5nICdXaGl0ZSBCYWxhbmNlIFRlbXBlcmF0
-dXJlJyB0byBjb250cm9sIDAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDEwMS8xMA0K
-DQpbMTAyMzguNTM3MzU4XSB1c2IgMS0xOiBBZGRlZCBjb250cm9sIDAwMDAwMDAwLTAwMDAtMDAw
-MC0wMDAwLTAwMDAwMDAwMDEwMS8xIHRvIGRldmljZSAxIGVudGl0eSAyDQoNClsxMDIzOC41NDEz
-MTBdIHVzYiAxLTE6IEFkZGluZyBtYXBwaW5nICdCYWNrbGlnaHQgQ29tcGVuc2F0aW9uJyB0byBj
-b250cm9sIDAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDEwMS8xDQoNClsxMDIzOC41
-NDEzMTNdIHVzYiAxLTE6IEFkZGVkIGNvbnRyb2wgMDAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAw
-MDAwMDAwMTAxLzUgdG8gZGV2aWNlIDEgZW50aXR5IDINCg0KWzEwMjM4LjU0NTMwNF0gdXNiIDEt
-MTogQWRkaW5nIG1hcHBpbmcgJ1Bvd2VyIExpbmUgRnJlcXVlbmN5JyB0byBjb250cm9sIDAwMDAw
-MDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDEwMS81DQoNClsxMDIzOC41NDUzMDddIHVzYiAx
-LTE6IEFkZGVkIGNvbnRyb2wgMDAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMTAxLzEx
-IHRvIGRldmljZSAxIGVudGl0eSAyDQoNClsxMDIzOC41NDkxMzBdIHVzYiAxLTE6IEFkZGluZyBt
-YXBwaW5nICdXaGl0ZSBCYWxhbmNlLCBBdXRvbWF0aWMnIHRvIGNvbnRyb2wgMDAwMDAwMDAtMDAw
-MC0wMDAwLTAwMDAtMDAwMDAwMDAwMTAxLzExDQoNClsxMDIzOC41NDkxMzRdIHVzYiAxLTE6IEFk
-ZGVkIGNvbnRyb2wgMDAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAxLzIgdG8gZGV2
-aWNlIDEgZW50aXR5IDENCg0KWzEwMjM4LjU1MzAyOV0gdXNiIDEtMTogQWRkaW5nIG1hcHBpbmcg
-J0F1dG8gRXhwb3N1cmUnIHRvIGNvbnRyb2wgMDAwMDAwMDAtMDAwMC0wMDAwLTAwMDAtMDAwMDAw
-MDAwMDAxLzINCg0KWzEwMjM4LjU1MzAzM10gdXNiIDEtMTogQWRkZWQgY29udHJvbCAwMDAwMDAw
-MC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDEvMyB0byBkZXZpY2UgMSBlbnRpdHkgMQ0KDQpb
-MTAyMzguNTU1OTgwXSB1c2IgMS0xOiBBZGRpbmcgbWFwcGluZyAnRXhwb3N1cmUsIER5bmFtaWMg
-RnJhbWVyYXRlJyB0byBjb250cm9sIDAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAw
-MS8zDQoNClsxMDIzOC41NTU5ODNdIHVzYiAxLTE6IEFkZGVkIGNvbnRyb2wgMDAwMDAwMDAtMDAw
-MC0wMDAwLTAwMDAtMDAwMDAwMDAwMDAxLzQgdG8gZGV2aWNlIDEgZW50aXR5IDENCg0KWzEwMjM4
-LjU1ODk5MF0gdXNiIDEtMTogQWRkaW5nIG1hcHBpbmcgJ0V4cG9zdXJlIFRpbWUsIEFic29sdXRl
-JyB0byBjb250cm9sIDAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMS80DQoNClsx
-MDIzOC41NTg5OTNdIHVzYiAxLTE6IEFkZGVkIGNvbnRyb2wgMDAwMDAwMDAtMDAwMC0wMDAwLTAw
-MDAtMDAwMDAwMDAwMDAxLzExIHRvIGRldmljZSAxIGVudGl0eSAxDQoNClsxMDIzOC41NjI4MDBd
-IHVzYiAxLTE6IEFkZGluZyBtYXBwaW5nICdab29tLCBBYnNvbHV0ZScgdG8gY29udHJvbCAwMDAw
-MDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDEvMTENCg0KWzEwMjM4LjU2MjgwM10gdXNi
-IDEtMTogQWRkZWQgY29udHJvbCAwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDEv
-MTMgdG8gZGV2aWNlIDEgZW50aXR5IDENCg0KWzEwMjM4LjU2NTY4Ml0gdXNiIDEtMTogQWRkaW5n
-IG1hcHBpbmcgJ1BhbiwgQWJzb2x1dGUnIHRvIGNvbnRyb2wgMDAwMDAwMDAtMDAwMC0wMDAwLTAw
-MDAtMDAwMDAwMDAwMDAxLzEzDQoNClsxMDIzOC41NjU2ODVdIHVzYiAxLTE6IEFkZGluZyBtYXBw
-aW5nICdUaWx0LCBBYnNvbHV0ZScgdG8gY29udHJvbCAwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0w
-MDAwMDAwMDAwMDEvMTMNCg0KWzEwMjM4LjU4MzgyNF0gaW5wdXQ6IEN1cG9sYTM2MCBDYW1lcmEg
-YXMgL2RldmljZXMvcGNpMDAwMDowMC8wMDAwOjAwOjBiLjAvdXNiMS8xLTEvMS0xOjEuMC9pbnB1
-dC9pbnB1dDkNCg0KWzEwMjM4LjU4NDQ0MV0gdXNiIDEtMTogdXZjX3Y0bDJfb3Blbg0KDQpbMTAy
-MzguNTg0NDY2XSB1c2IgMS0xOiB1dmNfdjRsMl9yZWxlYXNlDQoNClsxMDIzOC41ODUyMzVdIHVz
-YiAxLTE6IFVWQyBkZXZpY2UgaW5pdGlhbGl6ZWQNCg0KWzEwMjM4LjU4OTkxNl0gdXNiY29yZTog
-cmVnaXN0ZXJlZCBuZXcgaW50ZXJmYWNlIGRyaXZlciB1dmN2aWRlbw0KDQpbMTAyMzguNjM0ODEz
-XSB1c2IgMS0xOiB1dmNfdjRsMl9vcGVuDQoNClsxMDIzOC42MzQ5MDhdIHVzYiAxLTE6IHV2Y192
-NGwyX3JlbGVhc2UNCg0KWzEwMjM4LjY0MTM2Nl0gdXNiIDEtMTogdXZjX3Y0bDJfb3Blbg0KDQpb
-MTAyMzguNjQzNzg2XSB1c2IgMS0xOiB1dmNfdjRsMl9vcGVuDQoNClsxMDIzOC42NDM3OTBdIHVz
-YiAxLTE6IHV2Y192NGwyX3JlbGVhc2UNCg0KWzEwMjM4LjY0MzgxNl0gdXNiIDEtMTogdXZjX3Y0
-bDJfb3Blbg0KDQpbMTAyMzguODI3NDE5XSB1c2IgMS0xOiB1dmNfdjRsMl9yZWxlYXNlDQoNClsx
-MDIzOC44Mjc0NjNdIHVzYiAxLTE6IHV2Y192NGwyX3JlbGVhc2UNCg0KWzEwMjQxLjA2NjgxOF0g
-dXNiIDEtMTogU3VzcGVuZGluZyBpbnRlcmZhY2UgMQ0KDQpbMTAyNDEuMDY2ODIyXSB1c2IgMS0x
-OiBTdXNwZW5kaW5nIGludGVyZmFjZSAwDQoNClsxMDI0Ni41NTc0NjJdIHVzYiAxLTE6IHV2Y192
-NGwyX29wZW4NCg0KWzEwMjQ2LjYyNTI2MF0gdXNiIDEtMTogUmVzdW1pbmcgaW50ZXJmYWNlIDAN
-Cg0KWzEwMjQ2LjYyNTI2Nl0gdXNiIDEtMTogUmVzdW1pbmcgaW50ZXJmYWNlIDENCg0KWzEwMjQ2
-LjY0NTUxNV0gdXNiIDEtMTogdXZjX3Y0bDJfcmVsZWFzZQ==
+> 
+> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > ---
+> > > >  .../driver-api/media/v4l2-subdev.rst          |  10 +-
+> > > >  drivers/media/i2c/max9286.c                   |   9 +-
+> > > >  drivers/media/i2c/st-mipid02.c                |   8 +-
+> > > >  drivers/media/i2c/tc358746.c                  |   6 +-
+> > > >  drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |  10 +-
+> > > >  drivers/media/platform/atmel/atmel-isi.c      |   8 +-
+> > > >  drivers/media/platform/atmel/atmel-isi.h      |   2 +-
+> > > >  drivers/media/platform/cadence/cdns-csi2rx.c  |   6 +-
+> > > >  drivers/media/platform/intel/pxa_camera.c     |  12 +-
+> > > >  drivers/media/platform/marvell/cafe-driver.c  |   5 +-
+> > > >  drivers/media/platform/marvell/mcam-core.c    |   4 +-
+> > > >  drivers/media/platform/marvell/mmp-driver.c   |   4 +-
+> > > >  .../platform/microchip/microchip-csi2dc.c     |   6 +-
+> > > >  .../platform/microchip/microchip-isc-base.c   |   4 +-
+> > > >  .../media/platform/microchip/microchip-isc.h  |   2 +-
+> > > >  .../microchip/microchip-sama5d2-isc.c         |   4 +-
+> > > >  .../microchip/microchip-sama7g5-isc.c         |   4 +-
+> > > >  drivers/media/platform/nxp/imx-mipi-csis.c    |   6 +-
+> > > >  drivers/media/platform/nxp/imx7-media-csi.c   |   6 +-
+> > > >  drivers/media/platform/qcom/camss/camss.c     |   2 +-
+> > > >  drivers/media/platform/qcom/camss/camss.h     |   2 +-
+> > > >  drivers/media/platform/renesas/rcar-isp.c     |   8 +-
+> > > >  .../platform/renesas/rcar-vin/rcar-core.c     |  18 +-
+> > > >  .../platform/renesas/rcar-vin/rcar-csi2.c     |   8 +-
+> > > >  .../platform/renesas/rcar-vin/rcar-vin.h      |   4 +-
+> > > >  drivers/media/platform/renesas/rcar_drif.c    |   8 +-
+> > > >  drivers/media/platform/renesas/renesas-ceu.c  |   6 +-
+> > > >  .../platform/renesas/rzg2l-cru/rzg2l-core.c   |  10 +-
+> > > >  .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |   2 +-
+> > > >  .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   |   8 +-
+> > > >  .../platform/rockchip/rkisp1/rkisp1-common.h  |   2 +-
+> > > >  .../platform/rockchip/rkisp1/rkisp1-dev.c     |   4 +-
+> > > >  .../platform/samsung/exynos4-is/media-dev.c   |   6 +-
+> > > >  .../platform/samsung/exynos4-is/media-dev.h   |   2 +-
+> > > >  drivers/media/platform/st/stm32/stm32-dcmi.c  |   8 +-
+> > > >  .../platform/sunxi/sun4i-csi/sun4i_csi.c      |   6 +-
+> > > >  .../sunxi/sun6i-csi/sun6i_csi_bridge.c        |   2 +-
+> > > >  .../sunxi/sun6i-csi/sun6i_csi_bridge.h        |   2 +-
+> > > >  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   |   6 +-
+> > > >  .../sun8i_a83t_mipi_csi2.c                    |   6 +-
+> > > >  .../media/platform/ti/am437x/am437x-vpfe.c    |   5 +-
+> > > >  .../media/platform/ti/am437x/am437x-vpfe.h    |   2 +-
+> > > >  drivers/media/platform/ti/cal/cal.c           |   6 +-
+> > > >  .../media/platform/ti/davinci/vpif_capture.c  |   7 +-
+> > > >  drivers/media/platform/ti/omap3isp/isp.h      |   2 +-
+> > > >  drivers/media/platform/video-mux.c            |   6 +-
+> > > >  drivers/media/platform/xilinx/xilinx-vipp.c   |  24 +--
+> > > >  drivers/media/v4l2-core/v4l2-async.c          | 166 +++++++++---------
+> > > >  drivers/media/v4l2-core/v4l2-fwnode.c         |  14 +-
+> > > >  .../media/deprecated/atmel/atmel-isc-base.c   |   4 +-
+> > > >  .../media/deprecated/atmel/atmel-isc.h        |   2 +-
+> > > >  .../deprecated/atmel/atmel-sama5d2-isc.c      |   4 +-
+> > > >  .../deprecated/atmel/atmel-sama7g5-isc.c      |   4 +-
+> > > >  drivers/staging/media/imx/imx-media-csi.c     |   6 +-
+> > > >  .../staging/media/imx/imx-media-dev-common.c  |   4 +-
+> > > >  drivers/staging/media/imx/imx-media-dev.c     |   2 +-
+> > > >  drivers/staging/media/imx/imx-media-of.c      |   4 +-
+> > > >  drivers/staging/media/imx/imx6-mipi-csi2.c    |   8 +-
+> > > >  drivers/staging/media/imx/imx8mq-mipi-csi2.c  |   6 +-
+> > > >  .../media/sunxi/sun6i-isp/sun6i_isp_proc.c    |   2 +-
+> > > >  .../media/sunxi/sun6i-isp/sun6i_isp_proc.h    |   2 +-
+> > > >  drivers/staging/media/tegra-video/vi.c        |  14 +-
+> > > >  drivers/staging/media/tegra-video/vi.h        |   2 +-
+> > > >  include/media/davinci/vpif_types.h            |   2 +-
+> > > >  include/media/v4l2-async.h                    |  78 ++++----
+> > > >  include/media/v4l2-fwnode.h                   |  10 +-
+> > > >  include/media/v4l2-subdev.h                   |   4 +-
+> > > >  67 files changed, 313 insertions(+), 313 deletions(-)
+> > > >
+> > > > diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
+> > > > index 260cfa8c3f3d..1c5cb1a637ab 100644
+> > > > --- a/Documentation/driver-api/media/v4l2-subdev.rst
+> > > > +++ b/Documentation/driver-api/media/v4l2-subdev.rst
+> > > > @@ -215,13 +215,13 @@ found in firmware. The notifier for the sub-device is unregistered with the
+> > > >  async sub-device.
+> > > >
+> > > >  These functions allocate an async sub-device descriptor which is of type struct
+> > > > -:c:type:`v4l2_async_subdev` embedded in a driver-specific struct. The &struct
+> > > > -:c:type:`v4l2_async_subdev` shall be the first member of this struct:
+> > > > +:c:type:`v4l2_async_connection` embedded in a driver-specific struct. The &struct
+> > > > +:c:type:`v4l2_async_connection` shall be the first member of this struct:
+> > > >
+> > > >  .. code-block:: c
+> > > >
+> > > >  	struct my_async_subdev {
+> > > > -		struct v4l2_async_subdev asd;
+> > > > +		struct v4l2_async_connection asd;
+> 
+> s/asd/asc/
 
---_002_2b50803b88ae4d00ac428e7da8c4020fmsicom_--
+Yes.
 
+> 
+> > > >  		...
+> > > >  	};
+> > > >
+> > > > @@ -244,10 +244,10 @@ notifier callback is called. After all subdevices have been located the
+> > > >  system the .unbind() method is called. All three callbacks are optional.
+> > > >
+> > > >  Drivers can store any type of custom data in their driver-specific
+> > > > -:c:type:`v4l2_async_subdev` wrapper. If any of that data requires special
+> > > > +:c:type:`v4l2_async_connection` wrapper. If any of that data requires special
+> > > >  handling when the structure is freed, drivers must implement the ``.destroy()``
+> > > >  notifier callback. The framework will call it right before freeing the
+> > > > -:c:type:`v4l2_async_subdev`.
+> > > > +:c:type:`v4l2_async_connection`.
+> > > >
+> > > >  Calling subdev operations
+> > > >  ~~~~~~~~~~~~~~~~~~~~~~~~~
+> > > > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> > > > index 2d0f43e3fb9f..13cb2537a06d 100644
+> > > 
+> > > [snip: I'll only comment framework changes as I presume if driver
+> > > changes compile, they're good]
+> > > 
+> > > > diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
+> > > > index 425280b4d387..9cf383e81a16 100644
+> > > > --- a/include/media/v4l2-async.h
+> > > > +++ b/include/media/v4l2-async.h
+> > > > @@ -63,23 +63,23 @@ struct v4l2_async_match {
+> > > >  };
+> > > >
+> > > >  /**
+> > > > - * struct v4l2_async_subdev - sub-device descriptor, as known to a bridge
+> > > > + * struct v4l2_async_connection - sub-device descriptor, as known to a bridge
+> > > >   *
+> > > >   * @match:	struct of match type and per-bus type matching data sets
+> > > > - * @asd_list:	used to add struct v4l2_async_subdev objects to the
+> > > > - *		master notifier @asd_list
+> > > > - * @waiting_list: used to link struct v4l2_async_subdev objects, waiting to be
+> > > > - *		probed, to a notifier->waiting list
+> > > > + * @asc_list:	used to add struct v4l2_async_connection objects to the
+> > > > + *		master notifier @asc_list
+> > > 
+> > > notifier asc_head
+> > 
+> > Thanks!
+> > 
+> > > > + * @waiting_list: used to link struct v4l2_async_connection objects, waiting to
+> > > > + *		be probed, to a notifier->waiting list
+> > > >   *
+> > > >   * When this struct is used as a member in a driver specific struct,
+> > > >   * the driver specific struct shall contain the &struct
+> > > > - * v4l2_async_subdev as its first member.
+> > > > + * v4l2_async_connection as its first member.
+> > > >   */
+> > > > -struct v4l2_async_subdev {
+> > > > +struct v4l2_async_connection {
+> > > >  	struct v4l2_async_match match;
+> > > >
+> > > >  	/* v4l2-async core private: not to be used by drivers */
+> > > > -	struct list_head asd_list;
+> > > > +	struct list_head asc_list;
+> > > >  	struct list_head waiting_list;
+> > > >  };
+> > > >
+> > > > @@ -89,17 +89,17 @@ struct v4l2_async_subdev {
+> > > 
+> > > For more context:
+> > > 
+> > >     * @bound:	        a subdevice driver has successfully probed one of the subdevices
+> > > >   * @complete:	All subdevices have been probed successfully. The complete
+> > > 
+> > > the usage of the term "subdevice" when referring to connection is
+> > > spread everywhere in documentation :/
+> 
+> I don't think I really like the name "connection" :-S Maybe that's
+> because it's not explained properly here, neither in the commit message
+> nor in the documentation. I may have better ideas when reviewing the
+
+Connection covers data links and ancillary links that in practice are
+created in bound callbacks. Feel free to propose something else. I'll add
+more description for this.
+
+> next patch, but I wonder if v4l2_async_nf_entry or v4l2_async_entry
+> would be a better name. It would also allow renaming the "asd" variables
+> to something more explicit.
+
+Nf entry is rather abstract, isn't it? Although that is not necessarily an
+issue: some of the current async sub-devices continue to be matched the
+same way, for association rather than for actual physical bus between them.
+
+> 
+> > > But I mostly wonder, and I guess this is a comment on the next patch:
+> > > do we now get multiple 'bound' calls for the same subdevice when
+> > > matched on multiple connections ?
+> > 
+> > Correct. That isn't an issue for current drivers as the API before this set
+> > only allowed a single downstream link per async sub-device. Some more of
+> > the documentation probably needs to be reworked due to this.
+> > 
+> > > >   *		callback is only executed for the root notifier.
+> > > >   * @unbind:	a subdevice is leaving
+> > > > - * @destroy:	the asd is about to be freed
+> > > > + * @destroy:	the asc is about to be freed
+> > > >   */
+> > > >  struct v4l2_async_notifier_operations {
+> > > >  	int (*bound)(struct v4l2_async_notifier *notifier,
+> > > >  		     struct v4l2_subdev *subdev,
+> > > > -		     struct v4l2_async_subdev *asd);
+> > > > +		     struct v4l2_async_connection *asc);
+> > > >  	int (*complete)(struct v4l2_async_notifier *notifier);
+> > > >  	void (*unbind)(struct v4l2_async_notifier *notifier,
+> > > >  		       struct v4l2_subdev *subdev,
+> > > > -		       struct v4l2_async_subdev *asd);
+> > > > -	void (*destroy)(struct v4l2_async_subdev *asd);
+> > > > +		       struct v4l2_async_connection *asc);
+> > > > +	void (*destroy)(struct v4l2_async_connection *asc);
+> > > >  };
+> > > >
+> > > >  /**
+> > > > @@ -109,7 +109,7 @@ struct v4l2_async_notifier_operations {
+> > > >   * @v4l2_dev:	v4l2_device of the root notifier, NULL otherwise
+> > > >   * @sd:		sub-device that registered the notifier, NULL otherwise
+> > > >   * @parent:	parent notifier
+> > > > - * @asd_head:	master list of struct v4l2_async_subdev
+> > > > + * @asc_head:	master list of struct v4l2_async_subdev
+> > > >   * @waiting_list: list of struct v4l2_async_subdev, waiting for their drivers
+> > > >   * @done_head:	list of struct v4l2_subdev, already probed
+> > > >   * @notifier_list: member in a global list of notifiers
+> > > > @@ -119,7 +119,7 @@ struct v4l2_async_notifier {
+> > > >  	struct v4l2_device *v4l2_dev;
+> > > >  	struct v4l2_subdev *sd;
+> > > >  	struct v4l2_async_notifier *parent;
+> > > > -	struct list_head asd_head;
+> > > > +	struct list_head asc_head;
+> > > >  	struct list_head waiting_head;
+> > > >  	struct list_head done_head;
+> > > >  	struct list_head notifier_list;
+> > > > @@ -137,75 +137,75 @@ void v4l2_async_debug_init(struct dentry *debugfs_dir);
+> > > >   *
+> > > >   * @notifier: pointer to &struct v4l2_async_notifier
+> > > >   *
+> > > > - * This function initializes the notifier @asd_list. It must be called
+> > > > + * This function initializes the notifier @asc_list. It must be called
+> > > >   * before adding a subdevice to a notifier, using one of:
+> > > >   * v4l2_async_nf_add_fwnode_remote(),
+> > > >   * v4l2_async_nf_add_fwnode(),
+> > > >   * v4l2_async_nf_add_i2c(),
+> > > > - * __v4l2_async_nf_add_subdev() or
+> > > > + * __v4l2_async_nf_add_connection() or
+> > > >   * v4l2_async_nf_parse_fwnode_endpoints().
+> > > >   */
+> > > >  void v4l2_async_nf_init(struct v4l2_async_notifier *notifier);
+> > > >
+> > > >  /**
+> > > > - * __v4l2_async_nf_add_subdev - Add an async subdev to the
+> > > > - *				notifier's master asd list.
+> > > > + * __v4l2_async_nf_add_connection() - Add an async subdev to the notifier's
+> > > > + *				      master asc list.
+> > > >   *
+> > > >   * @notifier: pointer to &struct v4l2_async_notifier
+> > > > - * @asd: pointer to &struct v4l2_async_subdev
+> > > > + * @asc: pointer to &struct v4l2_async_connection
+> > > >   *
+> > > >   * \warning: Drivers should avoid using this function and instead use one of:
+> > > >   * v4l2_async_nf_add_fwnode(),
+> > > >   * v4l2_async_nf_add_fwnode_remote() or
+> > > >   * v4l2_async_nf_add_i2c().
+> > > >   *
+> > > > - * Call this function before registering a notifier to link the provided @asd to
+> > > > - * the notifiers master @asd_list. The @asd must be allocated with k*alloc() as
+> > > > + * Call this function before registering a notifier to link the provided @asc to
+> > > > + * the notifiers master @asc_list. The @asc must be allocated with k*alloc() as
+> > > >   * it will be freed by the framework when the notifier is destroyed.
+> > > >   */
+> > > > -int __v4l2_async_nf_add_subdev(struct v4l2_async_notifier *notifier,
+> > > > -			       struct v4l2_async_subdev *asd);
+> > > > +int __v4l2_async_nf_add_connection(struct v4l2_async_notifier *notifier,
+> > > > +				   struct v4l2_async_connection *asc);
+> > > >
+> > > > -struct v4l2_async_subdev *
+> > > > +struct v4l2_async_connection *
+> > > >  __v4l2_async_nf_add_fwnode(struct v4l2_async_notifier *notifier,
+> > > >  			   struct fwnode_handle *fwnode,
+> > > > -			   unsigned int asd_struct_size);
+> > > > +			   unsigned int asc_struct_size);
+> > > >  /**
+> > > >   * v4l2_async_nf_add_fwnode - Allocate and add a fwnode async
+> > > > - *				subdev to the notifier's master asd_list.
+> > > > + *				subdev to the notifier's master asc_list.
+> > > >   *
+> > > >   * @notifier: pointer to &struct v4l2_async_notifier
+> > > >   * @fwnode: fwnode handle of the sub-device to be matched, pointer to
+> > > >   *	    &struct fwnode_handle
+> > > >   * @type: Type of the driver's async sub-device struct. The &struct
+> > > > - *	  v4l2_async_subdev shall be the first member of the driver's async
+> > > > + *	  v4l2_async_connection shall be the first member of the driver's async
+> > > >   *	  sub-device struct, i.e. both begin at the same memory address.
+> > > >   *
+> > > > - * Allocate a fwnode-matched asd of size asd_struct_size, and add it to the
+> > > > - * notifiers @asd_list. The function also gets a reference of the fwnode which
+> > > > + * Allocate a fwnode-matched asc of size asc_struct_size, and add it to the
+> > > > + * notifiers @asc_list. The function also gets a reference of the fwnode which
+> > > >   * is released later at notifier cleanup time.
+> > > >   */
+> > > >  #define v4l2_async_nf_add_fwnode(notifier, fwnode, type)		\
+> > > >  	((type *)__v4l2_async_nf_add_fwnode(notifier, fwnode, sizeof(type)))
+> > > >
+> > > > -struct v4l2_async_subdev *
+> > > > +struct v4l2_async_connection *
+> > > >  __v4l2_async_nf_add_fwnode_remote(struct v4l2_async_notifier *notif,
+> > > >  				  struct fwnode_handle *endpoint,
+> > > > -				  unsigned int asd_struct_size);
+> > > > +				  unsigned int asc_struct_size);
+> > > >  /**
+> > > >   * v4l2_async_nf_add_fwnode_remote - Allocate and add a fwnode
+> > > >   *						  remote async subdev to the
+> > > > - *						  notifier's master asd_list.
+> > > > + *						  notifier's master asc_list.
+> > > >   *
+> > > >   * @notifier: pointer to &struct v4l2_async_notifier
+> > > >   * @ep: local endpoint pointing to the remote sub-device to be matched,
+> > > >   *	pointer to &struct fwnode_handle
+> > > >   * @type: Type of the driver's async sub-device struct. The &struct
+> > > > - *	  v4l2_async_subdev shall be the first member of the driver's async
+> > > > + *	  v4l2_async_connection shall be the first member of the driver's async
+> > > >   *	  sub-device struct, i.e. both begin at the same memory address.
+> > > >   *
+> > > >   * Gets the remote endpoint of a given local endpoint, set it up for fwnode
+> > > > - * matching and adds the async sub-device to the notifier's @asd_list. The
+> > > > + * matching and adds the async sub-device to the notifier's @asc_list. The
+> > > >   * function also gets a reference of the fwnode which is released later at
+> > > >   * notifier cleanup time.
+> > > >   *
+> > > > @@ -215,19 +215,19 @@ __v4l2_async_nf_add_fwnode_remote(struct v4l2_async_notifier *notif,
+> > > >  #define v4l2_async_nf_add_fwnode_remote(notifier, ep, type) \
+> > > >  	((type *)__v4l2_async_nf_add_fwnode_remote(notifier, ep, sizeof(type)))
+> > > >
+> > > > -struct v4l2_async_subdev *
+> > > > +struct v4l2_async_connection *
+> > > >  __v4l2_async_nf_add_i2c(struct v4l2_async_notifier *notifier,
+> > > >  			int adapter_id, unsigned short address,
+> > > > -			unsigned int asd_struct_size);
+> > > > +			unsigned int asc_struct_size);
+> > > >  /**
+> > > >   * v4l2_async_nf_add_i2c - Allocate and add an i2c async
+> > > > - *				subdev to the notifier's master asd_list.
+> > > > + *				subdev to the notifier's master asc_list.
+> > > >   *
+> > > >   * @notifier: pointer to &struct v4l2_async_notifier
+> > > >   * @adapter: I2C adapter ID to be matched
+> > > >   * @address: I2C address of sub-device to be matched
+> > > >   * @type: Type of the driver's async sub-device struct. The &struct
+> > > > - *	  v4l2_async_subdev shall be the first member of the driver's async
+> > > > + *	  v4l2_async_connection shall be the first member of the driver's async
+> > > >   *	  sub-device struct, i.e. both begin at the same memory address.
+> > > >   *
+> > > >   * Same as v4l2_async_nf_add_fwnode() but for I2C matched
+> > > > @@ -275,7 +275,7 @@ void v4l2_async_nf_unregister(struct v4l2_async_notifier *notifier);
+> > > >   * v4l2_async_nf_add_fwnode_remote(),
+> > > >   * v4l2_async_nf_add_fwnode(),
+> > > >   * v4l2_async_nf_add_i2c(),
+> > > > - * __v4l2_async_nf_add_subdev() or
+> > > > + * __v4l2_async_nf_add_connection() or
+> > > >   * v4l2_async_nf_parse_fwnode_endpoints().
+> > > >   *
+> > > >   * There is no harm from calling v4l2_async_nf_cleanup() in other
+> > > > diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
+> > > > index 394d798f3dfa..ebb83154abd5 100644
+> > > > --- a/include/media/v4l2-fwnode.h
+> > > > +++ b/include/media/v4l2-fwnode.h
+> > > > @@ -23,7 +23,7 @@
+> > > >
+> > > >  struct fwnode_handle;
+> > > >  struct v4l2_async_notifier;
+> > > > -struct v4l2_async_subdev;
+> > > > +struct v4l2_async_connection;
+> > > >
+> > > >  /**
+> > > >   * struct v4l2_fwnode_endpoint - the endpoint data structure
+> > > > @@ -399,7 +399,7 @@ int v4l2_fwnode_device_parse(struct device *dev,
+> > > >   *
+> > > >   * @dev: pointer to &struct device
+> > > >   * @vep: pointer to &struct v4l2_fwnode_endpoint
+> > > > - * @asd: pointer to &struct v4l2_async_subdev
+> > > > + * @asd: pointer to &struct v4l2_async_connection
+> 
+> s/asd/asc/
+> 
+
+I'm rebasing Jacopo's patch early in the set so these changes will be
+eliminated.
+
+> > > >   *
+> > > >   * Return:
+> > > >   * * %0 on success
+> > > > @@ -409,7 +409,7 @@ int v4l2_fwnode_device_parse(struct device *dev,
+> > > >   */
+> > > >  typedef int (*parse_endpoint_func)(struct device *dev,
+> > > >  				  struct v4l2_fwnode_endpoint *vep,
+> > > > -				  struct v4l2_async_subdev *asd);
+> > > > +				  struct v4l2_async_connection *asd);
+> 
+> s/asd/asc/
+> 
+> > > >
+> > > >  /**
+> > > >   * v4l2_async_nf_parse_fwnode_endpoints - Parse V4L2 fwnode endpoints in a
+> > > 
+> > > Ah nice this function is DEPRECATED and not used anywhere anymore.
+> > > I'll send a patch on top of this series to drop it
+> > 
+> > Thanks! I'll toss it in.
+> > 
+> > > > @@ -417,8 +417,8 @@ typedef int (*parse_endpoint_func)(struct device *dev,
+> > > >   * @dev: the device the endpoints of which are to be parsed
+> > > >   * @notifier: notifier for @dev
+> > > >   * @asd_struct_size: size of the driver's async sub-device struct, including
+> > > > - *		     sizeof(struct v4l2_async_subdev). The &struct
+> > > > - *		     v4l2_async_subdev shall be the first member of
+> > > > + *		     sizeof(struct v4l2_async_connection). The &struct
+> > > > + *		     v4l2_async_connection shall be the first member of
+> > > >   *		     the driver's async sub-device struct, i.e. both
+> > > >   *		     begin at the same memory address.
+> > > >   * @parse_endpoint: Driver's callback function called on each V4L2 fwnode
+> > > > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> > > > index 17773be4a4ee..a2cce11dda5c 100644
+> > > > --- a/include/media/v4l2-subdev.h
+> > > > +++ b/include/media/v4l2-subdev.h
+> > > > @@ -1021,7 +1021,7 @@ struct v4l2_subdev_platform_data {
+> > > >   *	    either dev->of_node->fwnode or dev->fwnode (whichever is non-NULL).
+> > > >   * @async_list: Links this subdev to a global subdev_list or @notifier->done
+> > > >   *	list.
+> > > > - * @asd: Pointer to respective &struct v4l2_async_subdev.
+> > > > + * @asc: Pointer to respective &struct v4l2_async_connection.
+> > > 
+> > > this is still named 'asd' in code
+> > 
+> > Fixed.
+> 
+> "asd" used to stand for "Async SubDev". "asc" could be argued to stand
+> for "ASync Connection", but that's a weird acronym. Would "connection"
+> or "conn" be a better variable name ?
+
+I thought "asc" would be better distinguished by folks who already know
+v4l2-async and async sub-devices. I actually did use "conn" in early
+version of this set.
+
+> 
+> I'm also sure you'll dislike this, but I'd like driver code to be
+> changed to rename the variables too.
+
+I have no objections, however this can be done driver-by-driver once this
+set is merged. The set is already touching a large number of drivers, in
+various ways.
+
+In practice, an async connection is functionally equivalent to an async
+sub-device for existing drivers after all.
+
+> 
+> > > >   * @notifier: Pointer to the managing notifier.
+> > > >   * @subdev_notifier: A sub-device notifier implicitly registered for the sub-
+> > > >   *		     device using v4l2_async_register_subdev_sensor().
+> > > > @@ -1063,7 +1063,7 @@ struct v4l2_subdev {
+> > > >  	struct device *dev;
+> > > >  	struct fwnode_handle *fwnode;
+> > > >  	struct list_head async_list;
+> > > > -	struct v4l2_async_subdev *asd;
+> > > > +	struct v4l2_async_connection *asd;
+> > > >  	struct v4l2_async_notifier *notifier;
+> > > >  	struct v4l2_async_notifier *subdev_notifier;
+> > > >  	struct v4l2_subdev_platform_data *pdata;
+> 
+
+-- 
+Kind regards,
+
+Sakari Ailus
