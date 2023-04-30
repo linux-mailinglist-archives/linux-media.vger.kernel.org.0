@@ -2,106 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C71576F2708
-	for <lists+linux-media@lfdr.de>; Sun, 30 Apr 2023 00:44:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 627D96F27EC
+	for <lists+linux-media@lfdr.de>; Sun, 30 Apr 2023 09:17:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230381AbjD2Wom (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 29 Apr 2023 18:44:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37244 "EHLO
+        id S229576AbjD3HRK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 30 Apr 2023 03:17:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229498AbjD2Wok (ORCPT
+        with ESMTP id S229451AbjD3HRJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 29 Apr 2023 18:44:40 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D3B6E7C
-        for <linux-media@vger.kernel.org>; Sat, 29 Apr 2023 15:44:39 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3F7908C2;
-        Sun, 30 Apr 2023 00:44:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1682808263;
-        bh=TbPH9f2RuMwVJbJZm3VvGX6sleNaGRftgYyTGai1Fzk=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=jiAcbmOHFrhOMwv+MTL/CIp/au7oa+tUks6UO6W6nw6LRUhxF70F9xCzpSjWZDmou
-         ieEoNetNlru98BxV2JvoF/0BRmjljNnJ245pCQqbig8+9fgDJsFGq+ZTDyNkxnWauX
-         KfctyOiqRhO7hrIXQkcvBwmrQFgtwNst6IriG3Vs=
-Content-Type: text/plain; charset="utf-8"
+        Sun, 30 Apr 2023 03:17:09 -0400
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [IPv6:2001:470:ea4a:1:5054:ff:fec7:86e4])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F0E110DC;
+        Sun, 30 Apr 2023 00:17:07 -0700 (PDT)
+Message-ID: <bc9bcf4f-5075-8a60-e554-593df22d4a52@gentoo.org>
+Date:   Sun, 30 Apr 2023 09:17:09 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230425073346.636871-1-alexander.stein@ew.tq-group.com>
-References: <20230425073346.636871-1-alexander.stein@ew.tq-group.com>
-Subject: Re: [PATCH 1/1] media: tc358743: Add error code to error message
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
-        linux-media@vger.kernel.org
-To:     Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+From:   Matthias Schwarzott <zzam@gentoo.org>
+Subject: Re: [PATCH] media: ov5693: Simplify an error message
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Daniel Scally <djrscally@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
-Date:   Sat, 29 Apr 2023 23:44:34 +0100
-Message-ID: <168280827424.3916342.4864738241564255838@Monstersaurus>
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-media@vger.kernel.org
+References: <928f2f70de241d0fa66801b46d736ad0f881eb72.1681576102.git.christophe.jaillet@wanadoo.fr>
+ <b4aea4b5-d86a-1604-c646-346ea7b59476@gentoo.org>
+ <c140045b-967f-df56-22b7-8df11da97884@wanadoo.fr>
+Content-Language: en-GB
+In-Reply-To: <c140045b-967f-df56-22b7-8df11da97884@wanadoo.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-5.6 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Alexander Stein (2023-04-25 08:33:46)
-> Add the error code of a failed i2c transfer to the error message.
->=20
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> ---
->  drivers/media/i2c/tc358743.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
-> index 9197fa0b1bc2..ad6a72b2bcf5 100644
-> --- a/drivers/media/i2c/tc358743.c
-> +++ b/drivers/media/i2c/tc358743.c
-> @@ -133,8 +133,8 @@ static void i2c_rd(struct v4l2_subdev *sd, u16 reg, u=
-8 *values, u32 n)
-> =20
->         err =3D i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
->         if (err !=3D ARRAY_SIZE(msgs)) {
-> -               v4l2_err(sd, "%s: reading register 0x%x from 0x%x failed\=
-n",
-> -                               __func__, reg, client->addr);
-> +               v4l2_err(sd, "%s: reading register 0x%x from 0x%x failed:=
- %d\n",
+Am 21.04.23 um 17:50 schrieb Christophe JAILLET:
+> Le 21/04/2023 à 09:38, Matthias Schwarzott a écrit :
+>> Am 15.04.23 um 18:28 schrieb Christophe JAILLET:
+>>> dev_err_probe() already display the error code. There is no need to
+>>> duplicate it explicitly in the error message.
+>>>
+>>> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+>>> ---
+>>>   drivers/media/i2c/ov5693.c | 4 ++--
+>>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/media/i2c/ov5693.c b/drivers/media/i2c/ov5693.c
+>>> index e3c3bed69ad6..d23786afd754 100644
+>>> --- a/drivers/media/i2c/ov5693.c
+>>> +++ b/drivers/media/i2c/ov5693.c
+>>> @@ -404,8 +404,8 @@ static int ov5693_read_reg(struct ov5693_device 
+>>> *ov5693, u32 addr, u32 *value)
+>>>       ret = i2c_transfer(client->adapter, msg, 2);
+>>>       if (ret < 0)
+>>
+>> i2c_transfer returns the number of transmitted messages. So I think 
+>> the values 0 <= ret < 2 also need to be handled.
+> 
+> Ok, agreed.
+> 
+> If ok for you, I'll send a follow-up patch when/if this one is applied,
+> because what you spotted is unrelated to the dev_err_probe() behavior.
+> 
+Sure, fine for me.
+> CJ
+>>
+>>>           return dev_err_probe(&client->dev, ret,
+>>> -                     "Failed to read register 0x%04x: %d\n",
+>>> -                     addr & OV5693_REG_ADDR_MASK, ret);
+>>> +                     "Failed to read register 0x%04x\n",
+>>> +                     addr & OV5693_REG_ADDR_MASK);
+>>>       *value = 0;
+>>>       for (i = 0; i < len; ++i) {
+>>
+>>
+> 
 
-Hrm. I was going to ask if %pe [0] would be relevant to print the error, but
-these aren't quite PTR_ERR's ... just errors... Though it looks from
-lib/vscnprintf.c :: err_ptr() it would still work!
-
-[0] https://www.kernel.org/doc/html/latest/core-api/printk-formats.html#err=
-or-pointers
-
-So either way,
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-> +                               __func__, reg, client->addr, err);
->         }
->  }
-> =20
-> @@ -165,8 +165,8 @@ static void i2c_wr(struct v4l2_subdev *sd, u16 reg, u=
-8 *values, u32 n)
-> =20
->         err =3D i2c_transfer(client->adapter, &msg, 1);
->         if (err !=3D 1) {
-> -               v4l2_err(sd, "%s: writing register 0x%x from 0x%x failed\=
-n",
-> -                               __func__, reg, client->addr);
-> +               v4l2_err(sd, "%s: writing register 0x%x from 0x%x failed:=
- %d\n",
-> +                               __func__, reg, client->addr, err);
->                 return;
->         }
-> =20
-> --=20
-> 2.34.1
->
