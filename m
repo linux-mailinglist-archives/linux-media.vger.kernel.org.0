@@ -2,52 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 073C26F2D92
-	for <lists+linux-media@lfdr.de>; Mon,  1 May 2023 05:14:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B31C86F2DA1
+	for <lists+linux-media@lfdr.de>; Mon,  1 May 2023 05:14:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233052AbjEADOK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 30 Apr 2023 23:14:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37020 "EHLO
+        id S232632AbjEADOe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 30 Apr 2023 23:14:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232921AbjEADMT (ORCPT
+        with ESMTP id S232624AbjEADN2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 30 Apr 2023 23:12:19 -0400
+        Sun, 30 Apr 2023 23:13:28 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36593271E;
-        Sun, 30 Apr 2023 20:04:41 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1621E4207;
+        Sun, 30 Apr 2023 20:04:53 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C095C6119D;
-        Mon,  1 May 2023 03:04:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9962C433A1;
-        Mon,  1 May 2023 03:04:31 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7B64661029;
+        Mon,  1 May 2023 03:04:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1169AC433EF;
+        Mon,  1 May 2023 03:04:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682910273;
-        bh=YKojEJiiV1QvwHI5f0ezVGrRBJg+sS7nU5ba/bX9Vb8=;
+        s=k20201202; t=1682910290;
+        bh=quJj6Kjp5dtly2Oa933rNKFihtm6kQD5A+m1IyZH4Jc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JNTwHfRrJ8cnetVn+jV6xjHcnBFwb0cHcNYhjg3R0z8Yw/VPuSYLLXcYYf42WU7mW
-         7jd4rHcXG5qZDi7UKcwn6cPZ38YhLCkrnv6geGaXHo6te7TDglHvh1DZNwb2UFWBff
-         Ld7y4MFu9UBdjkCjivuLrlgzCGMg3w1drQVsSguWN3KoQLUicYYS8NUdXczG11ngkL
-         mNHcdjvndfdzzMWpBjVEMTZAuze+bm4dLyACBjFBbdanv4XSGEfDCdVKUqoCHk2rRR
-         2Sn9sTn6XWfRjnAw0q6t5zg9BibYzcNP9qAomwFBPXCBLzcadYGJ0PCy933/Ehkk9X
-         1OWyjXEHYxBOA==
+        b=d5ijVg2Nr5pyk8+f2l7o8yGTuzYzTBR0kpKASg4xPeuwBkMl9qS6bLRjE+7E404Iy
+         9z8+WvoqFhxD8SDGPIdsfp/x+wca1si7Vg21UGXY6R6fL0xl3FfA5BHaousorI8Cxx
+         1gFKEnCgPOdbdEJ1rNdS5DWtKFZhg6v6j+n413GlM3R0AaSeWrYHxifW0Y8UAId3cd
+         in5NsdLv7SEkAdLKL7tGIuV9VYhXNW2AycWrdUiRUe6CP5QEUK2+v35h8IhMhCoGMZ
+         KafI3pB8bfQU6KMwuMWnGdPEHHXOtCYqO/2R/x+luYDb6l3/IOQzRyMMd+IFOLaTDG
+         3yiH6c95A20HQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Wei Chen <harperchen1110@gmail.com>,
+Cc:     harperchen <harperchen1110@gmail.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, tiffany.lin@mediatek.com,
-        andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
-        matthias.bgg@gmail.com, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.1 33/33] media: mediatek: vcodec: Fix potential array out-of-bounds in decoder queue_setup
-Date:   Sun, 30 Apr 2023 23:02:27 -0400
-Message-Id: <20230501030227.3254266-33-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, daniel.lee.kruse@proton.me,
+        linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 05/17] media: cx23885: Fix a null-ptr-deref bug in buffer_prepare() and buffer_finish()
+Date:   Sun, 30 Apr 2023 23:04:22 -0400
+Message-Id: <20230501030435.3254695-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230501030227.3254266-1-sashal@kernel.org>
-References: <20230501030227.3254266-1-sashal@kernel.org>
+In-Reply-To: <20230501030435.3254695-1-sashal@kernel.org>
+References: <20230501030435.3254695-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -62,43 +59,107 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Wei Chen <harperchen1110@gmail.com>
+From: harperchen <harperchen1110@gmail.com>
 
-[ Upstream commit 8fbcf730cb89c3647f3365226fe7014118fa93c7 ]
+[ Upstream commit 47e8b73bc35d7c54642f78e498697692f6358996 ]
 
-variable *nplanes is provided by user via system call argument. The
-possible value of q_data->fmt->num_planes is 1-3, while the value
-of *nplanes can be 1-8. The array access by index i can cause array
-out-of-bounds.
+When the driver calls cx23885_risc_buffer() to prepare the buffer, the
+function call dma_alloc_coherent may fail, resulting in a empty buffer
+risc->cpu. Later when we free the buffer or access the buffer, null ptr
+deref is triggered.
 
-Fix this bug by checking *nplanes against the array size.
+This bug is similar to the following one:
+https://git.linuxtv.org/media_stage.git/commit/?id=2b064d91440b33fba5b452f2d1b31f13ae911d71.
 
-Signed-off-by: Wei Chen <harperchen1110@gmail.com>
+We believe the bug can be also dynamically triggered from user side.
+Similarly, we fix this by checking the return value of cx23885_risc_buffer()
+and the value of risc->cpu before buffer free.
+
+Signed-off-by: harperchen <harperchen1110@gmail.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/media/pci/cx23885/cx23885-core.c  |  4 +++-
+ drivers/media/pci/cx23885/cx23885-video.c | 13 +++++++------
+ 2 files changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-index 641f533c417fd..173407664cf42 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-@@ -753,6 +753,13 @@ int vb2ops_vdec_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
- 	}
+diff --git a/drivers/media/pci/cx23885/cx23885-core.c b/drivers/media/pci/cx23885/cx23885-core.c
+index a07b18f2034e9..8019cdf5dbae5 100644
+--- a/drivers/media/pci/cx23885/cx23885-core.c
++++ b/drivers/media/pci/cx23885/cx23885-core.c
+@@ -1325,7 +1325,9 @@ void cx23885_free_buffer(struct cx23885_dev *dev, struct cx23885_buffer *buf)
+ {
+ 	struct cx23885_riscmem *risc = &buf->risc;
  
- 	if (*nplanes) {
-+		if (vq->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
-+			if (*nplanes != q_data->fmt->num_planes)
-+				return -EINVAL;
-+		} else {
-+			if (*nplanes != 1)
-+				return -EINVAL;
-+		}
- 		for (i = 0; i < *nplanes; i++) {
- 			if (sizes[i] < q_data->sizeimage[i])
- 				return -EINVAL;
+-	dma_free_coherent(&dev->pci->dev, risc->size, risc->cpu, risc->dma);
++	if (risc->cpu)
++		dma_free_coherent(&dev->pci->dev, risc->size, risc->cpu, risc->dma);
++	memset(risc, 0, sizeof(*risc));
+ }
+ 
+ static void cx23885_tsport_reg_dump(struct cx23885_tsport *port)
+diff --git a/drivers/media/pci/cx23885/cx23885-video.c b/drivers/media/pci/cx23885/cx23885-video.c
+index a380e0920a21f..b01499f810697 100644
+--- a/drivers/media/pci/cx23885/cx23885-video.c
++++ b/drivers/media/pci/cx23885/cx23885-video.c
+@@ -342,6 +342,7 @@ static int queue_setup(struct vb2_queue *q,
+ 
+ static int buffer_prepare(struct vb2_buffer *vb)
+ {
++	int ret;
+ 	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+ 	struct cx23885_dev *dev = vb->vb2_queue->drv_priv;
+ 	struct cx23885_buffer *buf =
+@@ -358,12 +359,12 @@ static int buffer_prepare(struct vb2_buffer *vb)
+ 
+ 	switch (dev->field) {
+ 	case V4L2_FIELD_TOP:
+-		cx23885_risc_buffer(dev->pci, &buf->risc,
++		ret = cx23885_risc_buffer(dev->pci, &buf->risc,
+ 				sgt->sgl, 0, UNSET,
+ 				buf->bpl, 0, dev->height);
+ 		break;
+ 	case V4L2_FIELD_BOTTOM:
+-		cx23885_risc_buffer(dev->pci, &buf->risc,
++		ret = cx23885_risc_buffer(dev->pci, &buf->risc,
+ 				sgt->sgl, UNSET, 0,
+ 				buf->bpl, 0, dev->height);
+ 		break;
+@@ -391,21 +392,21 @@ static int buffer_prepare(struct vb2_buffer *vb)
+ 			line0_offset = 0;
+ 			line1_offset = buf->bpl;
+ 		}
+-		cx23885_risc_buffer(dev->pci, &buf->risc,
++		ret = cx23885_risc_buffer(dev->pci, &buf->risc,
+ 				sgt->sgl, line0_offset,
+ 				line1_offset,
+ 				buf->bpl, buf->bpl,
+ 				dev->height >> 1);
+ 		break;
+ 	case V4L2_FIELD_SEQ_TB:
+-		cx23885_risc_buffer(dev->pci, &buf->risc,
++		ret = cx23885_risc_buffer(dev->pci, &buf->risc,
+ 				sgt->sgl,
+ 				0, buf->bpl * (dev->height >> 1),
+ 				buf->bpl, 0,
+ 				dev->height >> 1);
+ 		break;
+ 	case V4L2_FIELD_SEQ_BT:
+-		cx23885_risc_buffer(dev->pci, &buf->risc,
++		ret = cx23885_risc_buffer(dev->pci, &buf->risc,
+ 				sgt->sgl,
+ 				buf->bpl * (dev->height >> 1), 0,
+ 				buf->bpl, 0,
+@@ -418,7 +419,7 @@ static int buffer_prepare(struct vb2_buffer *vb)
+ 		buf, buf->vb.vb2_buf.index,
+ 		dev->width, dev->height, dev->fmt->depth, dev->fmt->fourcc,
+ 		(unsigned long)buf->risc.dma);
+-	return 0;
++	return ret;
+ }
+ 
+ static void buffer_finish(struct vb2_buffer *vb)
 -- 
 2.39.2
 
