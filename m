@@ -2,58 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EF8A6F2D07
-	for <lists+linux-media@lfdr.de>; Mon,  1 May 2023 05:06:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BAD76F2CFE
+	for <lists+linux-media@lfdr.de>; Mon,  1 May 2023 05:06:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232605AbjEADGj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 30 Apr 2023 23:06:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57876 "EHLO
+        id S232101AbjEADGd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 30 Apr 2023 23:06:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232520AbjEADEK (ORCPT
+        with ESMTP id S232643AbjEADEl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 30 Apr 2023 23:04:10 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2300D19BD;
-        Sun, 30 Apr 2023 20:01:29 -0700 (PDT)
+        Sun, 30 Apr 2023 23:04:41 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFEDA46BB;
+        Sun, 30 Apr 2023 20:01:45 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 48107616DD;
-        Mon,  1 May 2023 02:59:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70184C433EF;
-        Mon,  1 May 2023 02:59:39 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E5AE561741;
+        Mon,  1 May 2023 03:00:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10293C4339E;
+        Mon,  1 May 2023 03:00:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682909980;
-        bh=YKojEJiiV1QvwHI5f0ezVGrRBJg+sS7nU5ba/bX9Vb8=;
+        s=k20201202; t=1682910040;
+        bh=3RQ3NpkUvKvMX1Q9TThOfZqbeNUdpgUUkq+Yf3PtgjM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=p9AzbP/kx+wSby7ytTnMivAm3jk1V+SGZZXz941qqCeaVX9eCs+7ZYNfAiDa/v+iJ
-         ThW+a+ZicUbSPKwJ5lWDqFIrytV1nZbsaktsHB8dSFAsOOidhwUoYo8RRSXr/xtLCg
-         npqYgTaCz5kS32kTyZe1s5mmErZHrztaoXsIZvPEbt8WlC+L8LZ0xMuBla+UUVx4IV
-         34NQQAGU7ZG4GRT4dLDIt5vb/JohOqqbgaMhz/4O2oV8j+HFjzysaPpCyPPnR03w43
-         EHsSUa/0J5X0mqRagA/PpqpgFG5M2UeIeqqLSKmcUZu30dFnq6ls7z/NbryxePF58T
-         hlQ3fAX5fzhPA==
+        b=c6P3RaN2FoHyF2LXRaIeoZideLQ65rTsD47uBPjGKn53oG/eP2mHeWarIl5JYhVDy
+         xgcUzx5L5vubo7jt+Eshd7hTjwX/mF3lbDBVwNCqCjhBLApATLZzr271YfkmPTZei6
+         Dw1LdmXRIx+WcqqLmbQ6zjKl0NO2vBTKc4FaHBqJrn0igGPwds4s6n+1EAC9IKPEl9
+         kwTehxlkgWkNK8vIuDgsLbzGyguaGFcnKEWwxFAezf/yjOAA02+ZmFGtp0BK5Hsn10
+         ifjmgzv5ZFdgXYaQswqnOHBNw14jt71gtmWwl/bAzngSQTm3R28sfn/QrdS/uG0cZP
+         veOLRlj6aKJJw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Wei Chen <harperchen1110@gmail.com>,
+Cc:     Kees Cook <keescook@chromium.org>,
+        Mirela Rabulea <mirela.rabulea@nxp.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, tiffany.lin@mediatek.com,
-        andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
-        matthias.bgg@gmail.com, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.3 42/44] media: mediatek: vcodec: Fix potential array out-of-bounds in decoder queue_setup
-Date:   Sun, 30 Apr 2023 22:56:30 -0400
-Message-Id: <20230501025632.3253067-42-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.2 12/37] media: imx-jpeg: Bounds check sizeimage access
+Date:   Sun, 30 Apr 2023 22:59:20 -0400
+Message-Id: <20230501025945.3253774-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230501025632.3253067-1-sashal@kernel.org>
-References: <20230501025632.3253067-1-sashal@kernel.org>
+In-Reply-To: <20230501025945.3253774-1-sashal@kernel.org>
+References: <20230501025945.3253774-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -62,43 +65,74 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Wei Chen <harperchen1110@gmail.com>
+From: Kees Cook <keescook@chromium.org>
 
-[ Upstream commit 8fbcf730cb89c3647f3365226fe7014118fa93c7 ]
+[ Upstream commit 474acc639fc8671fa4c1919d9e03253c82b6d321 ]
 
-variable *nplanes is provided by user via system call argument. The
-possible value of q_data->fmt->num_planes is 1-3, while the value
-of *nplanes can be 1-8. The array access by index i can cause array
-out-of-bounds.
+The call of mxc_jpeg_get_plane_size() from mxc_jpeg_dec_irq() sets
+plane_no argument to 1. The compiler sees that it's possible to end up
+with an access beyond the bounds of sizeimage, if mem_planes was too
+large:
 
-Fix this bug by checking *nplanes against the array size.
+        if (plane_no >= fmt->mem_planes)        // mem_planes = 2+
+                return 0;
 
-Signed-off-by: Wei Chen <harperchen1110@gmail.com>
+        if (fmt->mem_planes == fmt->comp_planes) // comp_planes != mem_planes
+                return q_data->sizeimage[plane_no];
+
+        if (plane_no < fmt->mem_planes - 1)     // mem_planes = 2
+                return q_data->sizeimage[plane_no];
+
+comp_planes == 0 or 1 is safe. comp_planes > 2 would be out of bounds.
+
+(This isn't currently possible given the contents of mxc_formats, though.)
+
+Silence the warning by bounds checking comp_planes for future
+robustness. Seen with GCC 13:
+
+In function 'mxc_jpeg_get_plane_size',
+    inlined from 'mxc_jpeg_dec_irq' at ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:729:14:
+../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:641:42: warning: array subscript 2 is above array bounds of 'u32[2]' {aka 'unsigned int[2]'} [-Warray-bounds=]
+  641 |                 size += q_data->sizeimage[i];
+      |                         ~~~~~~~~~~~~~~~~~^~~
+In file included from ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h:112,
+                 from ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:63:
+../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h: In function 'mxc_jpeg_dec_irq':
+../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h:84:41: note: while referencing 'sizeimage'
+   84 |         u32                             sizeimage[MXC_JPEG_MAX_PLANES];
+      |                                         ^~~~~~~~~
+
+Cc: Mirela Rabulea <mirela.rabulea@nxp.com>
+Cc: NXP Linux Team <linux-imx@nxp.com>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: linux-arm-kernel@lists.infradead.org
+Signed-off-by: Kees Cook <keescook@chromium.org>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-index 641f533c417fd..173407664cf42 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-@@ -753,6 +753,13 @@ int vb2ops_vdec_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
- 	}
+diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+index f085f14d676ad..c898116b763a2 100644
+--- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
++++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+@@ -637,6 +637,11 @@ static u32 mxc_jpeg_get_plane_size(struct mxc_jpeg_q_data *q_data, u32 plane_no)
+ 		return q_data->sizeimage[plane_no];
  
- 	if (*nplanes) {
-+		if (vq->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
-+			if (*nplanes != q_data->fmt->num_planes)
-+				return -EINVAL;
-+		} else {
-+			if (*nplanes != 1)
-+				return -EINVAL;
-+		}
- 		for (i = 0; i < *nplanes; i++) {
- 			if (sizes[i] < q_data->sizeimage[i])
- 				return -EINVAL;
+ 	size = q_data->sizeimage[fmt->mem_planes - 1];
++
++	/* Should be impossible given mxc_formats. */
++	if (WARN_ON_ONCE(fmt->comp_planes > ARRAY_SIZE(q_data->sizeimage)))
++		return size;
++
+ 	for (i = fmt->mem_planes; i < fmt->comp_planes; i++)
+ 		size += q_data->sizeimage[i];
+ 
 -- 
 2.39.2
 
