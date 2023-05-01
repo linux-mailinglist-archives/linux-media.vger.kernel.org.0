@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 710536F2DDA
-	for <lists+linux-media@lfdr.de>; Mon,  1 May 2023 05:17:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29F2C6F2DF9
+	for <lists+linux-media@lfdr.de>; Mon,  1 May 2023 05:18:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233226AbjEADRM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 30 Apr 2023 23:17:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43798 "EHLO
+        id S233430AbjEADSG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 30 Apr 2023 23:18:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233979AbjEADQc (ORCPT
+        with ESMTP id S233153AbjEADRD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 30 Apr 2023 23:16:32 -0400
+        Sun, 30 Apr 2023 23:17:03 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E1D33A92;
-        Sun, 30 Apr 2023 20:07:20 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9DF33A84;
+        Sun, 30 Apr 2023 20:07:40 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1DF25617E8;
-        Mon,  1 May 2023 03:06:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5927C433D2;
-        Mon,  1 May 2023 03:06:29 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AACB961831;
+        Mon,  1 May 2023 03:06:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34015C433EF;
+        Mon,  1 May 2023 03:06:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682910390;
-        bh=bP+Ris4in6Qv35KSOOnZpF99B3j71RWkrhDcpRyx4f0=;
+        s=k20201202; t=1682910412;
+        bh=GEC0UqnWm8e/URfsSrjeYYJ3rNGLEBmmEMv61vf3ze8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MoWnSTBTBfoqvfbAIvuv0j4HbeyFG0mL6EFWb/kCZ/UA1ElPJ+hC0VuNwxuL/CIFs
-         8DRfU31enOt2H3w+8gliZ0b+MvcgKAdI+O5BaXlABpCurrrqOc9PluPPIXjPG19muF
-         UOMSgUzvN6/6aK2aWwMKW8/IKuiPQlXapf4s7QtaIRnPq4BW5JeD9tBQLNnBUHl7vC
-         tbZrs2xchpp1chqlF7GWQ5WXuXejcpvIWojHuxEhHNPvkyuHS8l/eyyWg7a43gvPKZ
-         VaDPWmyKLM22eqIJx0A//8AvkJ7NpA0+76cMp0JHHPuQ8TUz6P+3wa1IMW5NlMi6aC
-         1xC/AHqxzFxmQ==
+        b=grrILO0zGXnlRe9s/Pl7+oC6EjrgyzUZX8/k0kzWjslP32T7W6voXDEQOhY50FcJ/
+         6HyoTACXzcZOEoUIwD65LzpsIAWG++SoB6ee6yzyJ03e6pDluctUSzl5lfGXzfj15C
+         SnZn12V4k0HzhZWrYiGJzTyi+KDMm90V+mwgep2geVYuzD3+WgQsi5GvxpUzMG93fv
+         YuernrxYuh65E6DYxEH2FYd9MJ5ExdEorTWY9uzMYCAeEv7Z3kfemEkwWvuipGFv1I
+         492AkM9g1ErQrKCq5Uz0hLXckW6oe5dn6ydat8Q+VvQ6EITLq7K+uoXyAtgw5Qu/4X
+         8hs9tE3raZe7Q==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
@@ -40,12 +40,12 @@ Cc:     =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?=
         Sasha Levin <sashal@kernel.org>, mchehab@kernel.org,
         bleung@chromium.org, linux-media@vger.kernel.org,
         chrome-platform@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.4 9/9] media: cros-ec-cec: Don't exit early in .remove() callback
-Date:   Sun, 30 Apr 2023 23:06:09 -0400
-Message-Id: <20230501030611.3255082-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 9/9] media: cros-ec-cec: Don't exit early in .remove() callback
+Date:   Sun, 30 Apr 2023 23:06:31 -0400
+Message-Id: <20230501030633.3255202-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230501030611.3255082-1-sashal@kernel.org>
-References: <20230501030611.3255082-1-sashal@kernel.org>
+In-Reply-To: <20230501030633.3255202-1-sashal@kernel.org>
+References: <20230501030633.3255202-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -82,10 +82,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/media/platform/cros-ec-cec/cros-ec-cec.c b/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
-index ae274a7aa3a94..dbdb57aea7457 100644
+index 1f35770245d1f..d273e1a23227b 100644
 --- a/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
 +++ b/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
-@@ -324,14 +324,16 @@ static int cros_ec_cec_remove(struct platform_device *pdev)
+@@ -315,14 +315,16 @@ static int cros_ec_cec_remove(struct platform_device *pdev)
  	struct device *dev = &pdev->dev;
  	int ret;
  
@@ -104,8 +104,8 @@ index ae274a7aa3a94..dbdb57aea7457 100644
 -		return ret;
 -	}
  
- 	cec_notifier_cec_adap_unregister(cros_ec_cec->notify);
  	cec_unregister_adapter(cros_ec_cec->adap);
+ 
 -- 
 2.39.2
 
