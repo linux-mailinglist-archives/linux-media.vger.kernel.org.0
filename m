@@ -2,49 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 327726F2C39
-	for <lists+linux-media@lfdr.de>; Mon,  1 May 2023 04:58:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53AF76F2C7E
+	for <lists+linux-media@lfdr.de>; Mon,  1 May 2023 05:00:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232288AbjEAC6f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 30 Apr 2023 22:58:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48408 "EHLO
+        id S232101AbjEADAd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 30 Apr 2023 23:00:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232238AbjEAC60 (ORCPT
+        with ESMTP id S232376AbjEAC72 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 30 Apr 2023 22:58:26 -0400
+        Sun, 30 Apr 2023 22:59:28 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 460C419B9;
-        Sun, 30 Apr 2023 19:57:57 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4A6C1BE5;
+        Sun, 30 Apr 2023 19:58:51 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 767F760E93;
-        Mon,  1 May 2023 02:57:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD4A5C433A0;
-        Mon,  1 May 2023 02:57:53 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C6322616F8;
+        Mon,  1 May 2023 02:58:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF9D5C4339B;
+        Mon,  1 May 2023 02:58:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682909874;
-        bh=0FgOAeLWITfHqxmvydovCvhdnSidBbTih1SuweCVZcc=;
+        s=k20201202; t=1682909931;
+        bh=hTYh1gt/OQMw4LzPSSg9pQwVxqfv+9i5wbpULGqbev8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=iFYac7n2BCJGwBIZuv6RrXOOu/JhyQfH2Gf5ZJ2TgSuSrfZ3GyLHPW3UOBu/hMFZ6
-         6u7KWBc/5ZluQ9fLg69NAfd8ya3qDXw5vg6WQWhaxQCteyNcxW1GgEfRckZUbZLVY8
-         lbQQo/U2cB+dEBskxktNlhxwY0jAjM7zQDxvp0Tnd8FCssuJW1eKRr5aAqQyRfRiCX
-         kFXlBywKlbTLNJH6O6KfpzMrHo+C500EtR1aDttLUcJ7AzGMOX1vs4gkt9kivraofM
-         sCNkKzr2hQZItr4r/TSspraF9LezObDg/cwxETPMAWCC/o0tZsC3720yXEcTWO42mu
-         hKkq1wDBg/jlg==
+        b=rxBtjN9j9fABt/HNcd6rft58KvziDrJ7jL27//AsZJPQSl6nj72AO3Jdw5oyvs2GE
+         AcG2gN/Old7fvCMOQC2QwPayyR/fFYFZz7dBfbVL20EHSMCKv5fJ74s+WBjD0LOXwK
+         c2DS6rONMY6d3BQlwrAZoM2VTy9/Do9el4FxYyC7wKsh4myvsmalB1pSq+vOflEMi3
+         vZCgpd00CvzvVRr6692b4Da5oU8t3Irg+NF0SAaKA6h797xqxsRXePdLEB0ag2rK3f
+         Hl/U8ixmZ+KWHhfAfEpK85wfv6uOjane0pAFBKqEevgxmAtOBTCX52Zm/N+mz8oUsg
+         X6Xi23eV5xggQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Tom Rix <trix@redhat.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, isely@pobox.com,
-        linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.3 16/44] media: pvrusb2: VIDEO_PVRUSB2 depends on DVB_CORE to use dvb_* symbols
-Date:   Sun, 30 Apr 2023 22:56:04 -0400
-Message-Id: <20230501025632.3253067-16-sashal@kernel.org>
+Cc:     =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sasha Levin <sashal@kernel.org>, mchehab@kernel.org,
+        bleung@chromium.org, groeck@chromium.org,
+        kevin.chiu.17802@gmail.com,
+        scott_chao@wistron.corp-partner.google.com,
+        zoey_wu@wistron.corp-partner.google.com,
+        hellojacky0226@hotmail.com, linux-media@vger.kernel.org,
+        chrome-platform@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.3 34/44] media: cros-ec-cec: Don't exit early in .remove() callback
+Date:   Sun, 30 Apr 2023 22:56:22 -0400
+Message-Id: <20230501025632.3253067-34-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230501025632.3253067-1-sashal@kernel.org>
 References: <20230501025632.3253067-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -58,42 +65,51 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Tom Rix <trix@redhat.com>
+From: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-[ Upstream commit 1107283b3351bef138cd12dbda1f999891cab7db ]
+[ Upstream commit 0ff7aee24e47beb4306ce050824b54147f2fabfa ]
 
-A rand config causes this link error
-vmlinux.o: In function `pvr2_dvb_create':
-(.text+0x8af1d2): undefined reference to `dvb_register_adapter'
+Exiting early in remove without releasing all acquired resources yields
+leaks. Note that e.g. memory allocated with devm_zalloc() is freed after
+.remove() returns, even if the return code was negative.
 
-The rand config has
-CONFIG_VIDEO_PVRUSB2=y
-CONFIG_VIDEO_DEV=y
-CONFIG_DVB_CORE=m
+While blocking_notifier_chain_unregister() won't fail and so the
+change is somewhat cosmetic, platform driver's .remove callbacks are
+about to be converted to return void. To prepare that, keep the error
+message but don't return early.
 
-VIDEO_PVRUSB2 should also depend on DVB_CORE.
-
-Signed-off-by: Tom Rix <trix@redhat.com>
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/usb/pvrusb2/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/usb/pvrusb2/Kconfig b/drivers/media/usb/pvrusb2/Kconfig
-index f2b64e49c5a20..9501b10b31aa5 100644
---- a/drivers/media/usb/pvrusb2/Kconfig
-+++ b/drivers/media/usb/pvrusb2/Kconfig
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- config VIDEO_PVRUSB2
- 	tristate "Hauppauge WinTV-PVR USB2 support"
--	depends on VIDEO_DEV && I2C
-+	depends on VIDEO_DEV && I2C && DVB_CORE
- 	select VIDEO_TUNER
- 	select VIDEO_TVEEPROM
- 	select VIDEO_CX2341X
+diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+index 6ebedc71d67d4..960432230bbf1 100644
+--- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
++++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+@@ -332,14 +332,16 @@ static int cros_ec_cec_remove(struct platform_device *pdev)
+ 	struct device *dev = &pdev->dev;
+ 	int ret;
+ 
++	/*
++	 * blocking_notifier_chain_unregister() only fails if the notifier isn't
++	 * in the list. We know it was added to it by .probe(), so there should
++	 * be no need for error checking. Be cautious and still check.
++	 */
+ 	ret = blocking_notifier_chain_unregister(
+ 			&cros_ec_cec->cros_ec->event_notifier,
+ 			&cros_ec_cec->notifier);
+-
+-	if (ret) {
++	if (ret)
+ 		dev_err(dev, "failed to unregister notifier\n");
+-		return ret;
+-	}
+ 
+ 	cec_notifier_cec_adap_unregister(cros_ec_cec->notify,
+ 					 cros_ec_cec->adap);
 -- 
 2.39.2
 
