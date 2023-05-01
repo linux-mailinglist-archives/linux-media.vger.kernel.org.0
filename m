@@ -2,110 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 29F2C6F2DF9
-	for <lists+linux-media@lfdr.de>; Mon,  1 May 2023 05:18:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A34866F2F1D
+	for <lists+linux-media@lfdr.de>; Mon,  1 May 2023 09:22:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233430AbjEADSG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 30 Apr 2023 23:18:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43754 "EHLO
+        id S232192AbjEAHWB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 May 2023 03:22:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233153AbjEADRD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 30 Apr 2023 23:17:03 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9DF33A84;
-        Sun, 30 Apr 2023 20:07:40 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AACB961831;
-        Mon,  1 May 2023 03:06:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34015C433EF;
-        Mon,  1 May 2023 03:06:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1682910412;
-        bh=GEC0UqnWm8e/URfsSrjeYYJ3rNGLEBmmEMv61vf3ze8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=grrILO0zGXnlRe9s/Pl7+oC6EjrgyzUZX8/k0kzWjslP32T7W6voXDEQOhY50FcJ/
-         6HyoTACXzcZOEoUIwD65LzpsIAWG++SoB6ee6yzyJ03e6pDluctUSzl5lfGXzfj15C
-         SnZn12V4k0HzhZWrYiGJzTyi+KDMm90V+mwgep2geVYuzD3+WgQsi5GvxpUzMG93fv
-         YuernrxYuh65E6DYxEH2FYd9MJ5ExdEorTWY9uzMYCAeEv7Z3kfemEkwWvuipGFv1I
-         492AkM9g1ErQrKCq5Uz0hLXckW6oe5dn6ydat8Q+VvQ6EITLq7K+uoXyAtgw5Qu/4X
-         8hs9tE3raZe7Q==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sasha Levin <sashal@kernel.org>, mchehab@kernel.org,
-        bleung@chromium.org, linux-media@vger.kernel.org,
-        chrome-platform@lists.linux.dev
-Subject: [PATCH AUTOSEL 4.19 9/9] media: cros-ec-cec: Don't exit early in .remove() callback
-Date:   Sun, 30 Apr 2023 23:06:31 -0400
-Message-Id: <20230501030633.3255202-9-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230501030633.3255202-1-sashal@kernel.org>
-References: <20230501030633.3255202-1-sashal@kernel.org>
+        with ESMTP id S230139AbjEAHWA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 May 2023 03:22:00 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17061E53;
+        Mon,  1 May 2023 00:21:58 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1ptNr8-0001Go-Es; Mon, 01 May 2023 09:21:54 +0200
+Message-ID: <dcd317db-3c24-895d-572b-1b139c370ff7@leemhuis.info>
+Date:   Mon, 1 May 2023 09:21:53 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Content-Language: en-US, de-DE
+To:     Shreeya Patel <shreeya.patel@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kernel@collabora.com, robert.mader@collabora.com,
+        nicolas.dufresne@collabora.co.uk, ezequiel@vanguardiasur.com.ar,
+        festevam@gmail.com, p.zabel@pengutronix.de, mchehab@kernel.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        hverkuil-cisco@xs4all.nl, linux-imx@nxp.com,
+        regressions@lists.linux.dev
+References: <20230220104849.398203-1-benjamin.gaignard@collabora.com>
+ <20230220104849.398203-2-benjamin.gaignard@collabora.com>
+ <26addb7d-bb9d-34e8-d4fe-e323ff488101@collabora.com>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [PATCH v9 1/6] media: verisilicon: Do not set context src/dst
+ formats in reset functions
+In-Reply-To: <26addb7d-bb9d-34e8-d4fe-e323ff488101@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1682925718;5ed265df;
+X-HE-SMSGID: 1ptNr8-0001Go-Es
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+On 27.04.23 00:19, Shreeya Patel wrote:
+> On 20/02/23 16:18, Benjamin Gaignard wrote:
+>> Setting context source and destination formats should only be done
+>> in hantro_set_fmt_out() and hantro_set_fmt_cap() after check that
+>> the targeted queue is not busy.
+>> Remove these calls from hantro_reset_encoded_fmt() and
+>> hantro_reset_raw_fmt() to clean the driver.
+>>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> 
+> KernelCI found this patch causes a regression in the
+> baseline.dmesg.alert test [1] on rk3399-rock-pi-4b [2],
+> see the bisection report for more details [3].
+> 
+> Let us know if you have any questions.
+> 
+> 
+> [1]
+> https://github.com/kernelci/kernelci-core/blob/main/config/rootfs/debos/overlays/baseline/opt/kernelci/dmesg.sh
+> [2] https://linux.kernelci.org/test/case/id/6442e825f19134d74c2e865d/
+> [3] https://groups.io/g/kernelci-results/message/40740
 
-[ Upstream commit 0ff7aee24e47beb4306ce050824b54147f2fabfa ]
+Thx for the report. FWIW, regzbot noticed there is a patch that refers
+to the culprit that might have been landed in next after your test ran
+for the last time (and meanwhile it was mainlined): f100ce3bbd6 ("media:
+verisilicon: Fix crash when probing encoder")
 
-Exiting early in remove without releasing all acquired resources yields
-leaks. Note that e.g. memory allocated with devm_zalloc() is freed after
-.remove() returns, even if the return code was negative.
+I wonder if that is related or might even fix the issue.
 
-While blocking_notifier_chain_unregister() won't fail and so the
-change is somewhat cosmetic, platform driver's .remove callbacks are
-about to be converted to return void. To prepare that, keep the error
-message but don't return early.
+Ciao, Thorsten
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/media/platform/cros-ec-cec/cros-ec-cec.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/media/platform/cros-ec-cec/cros-ec-cec.c b/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
-index 1f35770245d1f..d273e1a23227b 100644
---- a/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
-+++ b/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
-@@ -315,14 +315,16 @@ static int cros_ec_cec_remove(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	int ret;
- 
-+	/*
-+	 * blocking_notifier_chain_unregister() only fails if the notifier isn't
-+	 * in the list. We know it was added to it by .probe(), so there should
-+	 * be no need for error checking. Be cautious and still check.
-+	 */
- 	ret = blocking_notifier_chain_unregister(
- 			&cros_ec_cec->cros_ec->event_notifier,
- 			&cros_ec_cec->notifier);
--
--	if (ret) {
-+	if (ret)
- 		dev_err(dev, "failed to unregister notifier\n");
--		return ret;
--	}
- 
- 	cec_unregister_adapter(cros_ec_cec->adap);
- 
--- 
-2.39.2
-
+>> ---
+>>   drivers/media/platform/verisilicon/hantro_v4l2.c | 9 ++-------
+>>   1 file changed, 2 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c
+>> b/drivers/media/platform/verisilicon/hantro_v4l2.c
+>> index c0d427956210..d8aa42bd4cd4 100644
+>> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
+>> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+>> @@ -382,13 +382,10 @@ hantro_reset_encoded_fmt(struct hantro_ctx *ctx)
+>>         vpu_fmt = hantro_get_default_fmt(ctx, true);
+>>   -    if (ctx->is_encoder) {
+>> -        ctx->vpu_dst_fmt = vpu_fmt;
+>> +    if (ctx->is_encoder)
+>>           fmt = &ctx->dst_fmt;
+>> -    } else {
+>> -        ctx->vpu_src_fmt = vpu_fmt;
+>> +    else
+>>           fmt = &ctx->src_fmt;
+>> -    }
+>>         hantro_reset_fmt(fmt, vpu_fmt);
+>>       fmt->width = vpu_fmt->frmsize.min_width;
+>> @@ -408,11 +405,9 @@ hantro_reset_raw_fmt(struct hantro_ctx *ctx)
+>>       raw_vpu_fmt = hantro_get_default_fmt(ctx, false);
+>>         if (ctx->is_encoder) {
+>> -        ctx->vpu_src_fmt = raw_vpu_fmt;
+>>           raw_fmt = &ctx->src_fmt;
+>>           encoded_fmt = &ctx->dst_fmt;
+>>       } else {
+>> -        ctx->vpu_dst_fmt = raw_vpu_fmt;
+>>           raw_fmt = &ctx->dst_fmt;
+>>           encoded_fmt = &ctx->src_fmt;
+>>       }
+> 
+> 
