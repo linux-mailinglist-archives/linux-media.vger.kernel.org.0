@@ -2,64 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A8626F3192
-	for <lists+linux-media@lfdr.de>; Mon,  1 May 2023 15:38:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F9006F3199
+	for <lists+linux-media@lfdr.de>; Mon,  1 May 2023 15:44:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232459AbjEANil (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 May 2023 09:38:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58710 "EHLO
+        id S232517AbjEANoV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 May 2023 09:44:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232289AbjEANik (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 May 2023 09:38:40 -0400
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B91CA2
-        for <linux-media@vger.kernel.org>; Mon,  1 May 2023 06:38:39 -0700 (PDT)
-Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-63b46186c03so2923287b3a.3
-        for <linux-media@vger.kernel.org>; Mon, 01 May 2023 06:38:39 -0700 (PDT)
+        with ESMTP id S232208AbjEANoU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 May 2023 09:44:20 -0400
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10566A4
+        for <linux-media@vger.kernel.org>; Mon,  1 May 2023 06:44:19 -0700 (PDT)
+Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-642f5394651so99853b3a.3
+        for <linux-media@vger.kernel.org>; Mon, 01 May 2023 06:44:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1682948318; x=1685540318;
+        d=chromium.org; s=google; t=1682948658; x=1685540658;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=MSJWT7lvmfvzWH63TxV6x/8iCdXVLSBoqZ3ficZ3C8s=;
-        b=KCGYD7vXecv0OwO4pE0tATGrcoe329dta6let0vVZWHYD7Bxum2Ez47R1Vg/+vIRDg
-         DDUT0rl2heEbhPjCn8FefFZOJ2buVaLBu5F1LjJitbLiZlua4A6Tv45mebr5RCRSXIH6
-         qrJZrRM0/bvvv1y8UE5foqmFwq1pUdwfJS1SE=
+        bh=M5Nq4B26qJ9uXEAUYfro1DC0jOlI4nlPKmZK39ZdWy8=;
+        b=QkYy5wO4JEnWm9nXNGU3yPmpx1HEdA6JFr+fHewnB7AeRtlc5eBVOR7w0n541Lz6eh
+         ua/e1b2DyvBdC4+O3Y+R3tUPBpZHz9smrue3NsyJBSQOzjBXtO6Ku/9qRm7z8jVz0Exx
+         db/Wu/EsWPGf+04ROUtC66aal+rY4QxqbQkUo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682948318; x=1685540318;
+        d=1e100.net; s=20221208; t=1682948658; x=1685540658;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MSJWT7lvmfvzWH63TxV6x/8iCdXVLSBoqZ3ficZ3C8s=;
-        b=Coaq+1qQLD3UU3Znd+UCxmjyDu+dH5F0Lg8TVqiXVUWIK2xGDxlBzc6/DcWWdCYXF/
-         f/fxxZGGdfDSSGwtNFQHAVhi30dpjUiU5+em1F32CiVsopTIow6qZ9kwyU5+/HMJKmIO
-         ujW1bFdio2CeL77oQUuUUaWDNZzjq8/+iPbLM8EPTN0PSKvw0OXAIB0iknfWYgO82xwX
-         4iAGiHvpWS02V5jht6gk2Ob2/Jm0FZxqp0J8DGSR8TuabVq8j/y3amH1U5J2EQk4PGai
-         ALQ0gL03EJfZUj73OllIuTu5itvXk49N18sDWvQM+bRbgfDutxhcw4qUVG/qxVhkGC4k
-         MWLA==
-X-Gm-Message-State: AC+VfDyr3SFEU1puaMLXbsFUHA4MQEsOHJ2L3oaxpbheBPm5V9CybmMH
-        OlraMUvhyhXimuxd4alxSrGgL+RYNS3y6EI17sS9Lg==
-X-Google-Smtp-Source: ACHHUZ58QEghSd3XDMV9Pa56pgB2AKHoFORaBK6Izti+BDA/VDFQV0SzpdvD50slKzC5xWg2pkya0A==
-X-Received: by 2002:a05:6a21:7893:b0:f2:c2a3:3b4 with SMTP id bf19-20020a056a21789300b000f2c2a303b4mr16788995pzc.41.1682948318591;
-        Mon, 01 May 2023 06:38:38 -0700 (PDT)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com. [209.85.214.178])
-        by smtp.gmail.com with ESMTPSA id gw13-20020a17090b0a4d00b002470b9503desm19241273pjb.55.2023.05.01.06.38.38
+        bh=M5Nq4B26qJ9uXEAUYfro1DC0jOlI4nlPKmZK39ZdWy8=;
+        b=K3U1Kax/NkPOwX3AHd3chVsid+82VACZeSmjlUXie88dOv6coWE/YFkAMHUhf+jZp3
+         7riWlF4jORQccvznUupptLWV7fdC1P3zUKPF0/5i2S06fIj0X9GJHS13rxc9hwsAA0Cm
+         AhVqoeeq8FrjAAcp0cnATg3aD0LRoiT7395Y6bLWulbtyXaqPOvls8H92IcO9O21GT8l
+         mK/H9C8lqVaNPRcQP9wb6UUbxu+5cPcjxEue/xN+24c9X+xUhxavzkBibcYeVugTyuTj
+         UR2GGQnn2F8M5/m51dLAdvnL0Vb5eAQ+QaTyRd9WaJujsLHO4ZXnVR3xT/vJ3j1dvEoG
+         1yFg==
+X-Gm-Message-State: AC+VfDyiViXdty1bpNjWfxc6xorXwV5WM/3LETcWXhq1Q7bDZBFS0glW
+        AdLpqU3vhX41++q+I+t8FU4LbGzuo0Hya42YwCNDDg==
+X-Google-Smtp-Source: ACHHUZ69uG/iJqdC0GL/V/bEx0QZWsWS/HBh49aN0AMcftLpNqog8RmxdFuF/44Lv88mwD1S98kC1w==
+X-Received: by 2002:a05:6a00:1301:b0:641:699:f34c with SMTP id j1-20020a056a00130100b006410699f34cmr21063413pfu.17.1682948658232;
+        Mon, 01 May 2023 06:44:18 -0700 (PDT)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com. [209.85.210.179])
+        by smtp.gmail.com with ESMTPSA id j23-20020aa78d17000000b006414b2c9efasm3611156pfe.123.2023.05.01.06.44.17
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 May 2023 06:38:38 -0700 (PDT)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1aad6f2be8eso19281245ad.3
-        for <linux-media@vger.kernel.org>; Mon, 01 May 2023 06:38:38 -0700 (PDT)
-X-Received: by 2002:a17:903:32d0:b0:1aa:f6c3:bd39 with SMTP id
- i16-20020a17090332d000b001aaf6c3bd39mr3912356plr.20.1682948317516; Mon, 01
- May 2023 06:38:37 -0700 (PDT)
+        Mon, 01 May 2023 06:44:17 -0700 (PDT)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-642f5394651so99839b3a.3
+        for <linux-media@vger.kernel.org>; Mon, 01 May 2023 06:44:17 -0700 (PDT)
+X-Received: by 2002:a17:902:cece:b0:1ab:605:1b6b with SMTP id
+ d14-20020a170902cece00b001ab06051b6bmr99392plg.48.1682948657218; Mon, 01 May
+ 2023 06:44:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230420100958.10631-1-laurent.pinchart@ideasonboard.com> <20230420100958.10631-3-laurent.pinchart@ideasonboard.com>
-In-Reply-To: <20230420100958.10631-3-laurent.pinchart@ideasonboard.com>
+References: <20230420100958.10631-1-laurent.pinchart@ideasonboard.com> <20230420100958.10631-5-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20230420100958.10631-5-laurent.pinchart@ideasonboard.com>
 From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Mon, 1 May 2023 15:38:26 +0200
-X-Gmail-Original-Message-ID: <CANiDSCtwPcm9ie5XC=Kdfs96BDpey17g10R7yNmCTeBYL=FFLg@mail.gmail.com>
-Message-ID: <CANiDSCtwPcm9ie5XC=Kdfs96BDpey17g10R7yNmCTeBYL=FFLg@mail.gmail.com>
-Subject: Re: [PATCH v1 2/4] media: uvcvideo: Rename uvc_format 'frame' field
- to 'frames'
+Date:   Mon, 1 May 2023 15:44:06 +0200
+X-Gmail-Original-Message-ID: <CANiDSCu=_qmCe6L6nTE+Fx+9POjpOPVsoO2Wq0+ZTprzruGt1w@mail.gmail.com>
+Message-ID: <CANiDSCu=_qmCe6L6nTE+Fx+9POjpOPVsoO2Wq0+ZTprzruGt1w@mail.gmail.com>
+Subject: Re: [PATCH v1 4/4] media: uvcvideo: Constify descriptor buffers
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org,
         Kieran Bingham <kieran.bingham@ideasonboard.com>
@@ -77,173 +76,47 @@ X-Mailing-List: linux-media@vger.kernel.org
 On Thu, 20 Apr 2023 at 12:10, Laurent Pinchart
 <laurent.pinchart@ideasonboard.com> wrote:
 >
-> The uvc_format 'frame' field points to an array of frames. Rename it to
-> 'frames' to make this clearer.
+> There is no need to modify the content of UVC descriptor buffers during
+> parsing. Make all the corresponding pointers const to avoid unintended
+> modifications.
 >
 > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
->  drivers/media/usb/uvc/uvc_driver.c |  8 ++++----
->  drivers/media/usb/uvc/uvc_v4l2.c   | 32 +++++++++++++++---------------
->  drivers/media/usb/uvc/uvc_video.c  |  6 +++---
->  drivers/media/usb/uvc/uvcvideo.h   |  2 +-
->  4 files changed, 24 insertions(+), 24 deletions(-)
+>  drivers/media/usb/uvc/uvc_driver.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
 > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index 77d4403b0b4f..16a6ab437c6a 100644
+> index efc7a36a892e..ab7f2a0112d3 100644
 > --- a/drivers/media/usb/uvc/uvc_driver.c
 > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -339,8 +339,8 @@ static int uvc_parse_format(struct uvc_device *dev,
->                 ftype = 0;
+> @@ -221,7 +221,7 @@ static struct uvc_streaming *uvc_stream_new(struct uvc_device *dev,
 >
->                 /* Create a dummy frame descriptor. */
-> -               frame = &format->frame[0];
-> -               memset(&format->frame[0], 0, sizeof(format->frame[0]));
-> +               frame = &format->frames[0];
-> +               memset(&format->frames[0], 0, sizeof(format->frames[0]));
->                 frame->bFrameIntervalType = 1;
->                 frame->dwDefaultFrameInterval = 1;
->                 frame->dwFrameInterval = *intervals;
-> @@ -370,7 +370,7 @@ static int uvc_parse_format(struct uvc_device *dev,
->          */
->         while (buflen > 2 && buffer[1] == USB_DT_CS_INTERFACE &&
->                buffer[2] == ftype) {
-> -               frame = &format->frame[format->nframes];
-> +               frame = &format->frames[format->nframes];
->                 if (ftype != UVC_VS_FRAME_FRAME_BASED)
->                         n = buflen > 25 ? buffer[25] : 0;
->                 else
-> @@ -687,7 +687,7 @@ static int uvc_parse_streaming(struct uvc_device *dev,
->                 case UVC_VS_FORMAT_MJPEG:
->                 case UVC_VS_FORMAT_DV:
->                 case UVC_VS_FORMAT_FRAME_BASED:
-> -                       format->frame = frame;
-> +                       format->frames = frame;
->                         ret = uvc_parse_format(dev, streaming, format,
->                                 &interval, buffer, buflen);
->                         if (ret < 0)
-> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> index 6960d7ebd904..e7261b2543cb 100644
-> --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> @@ -255,14 +255,14 @@ static int uvc_v4l2_try_format(struct uvc_streaming *stream,
->         maxd = (unsigned int)-1;
+>  static int uvc_parse_format(struct uvc_device *dev,
+>         struct uvc_streaming *streaming, struct uvc_format *format,
+> -       struct uvc_frame *frames, u32 **intervals, unsigned char *buffer,
+> +       struct uvc_frame *frames, u32 **intervals, const unsigned char *buffer,
+>         int buflen)
+>  {
+>         struct usb_interface *intf = streaming->intf;
+> @@ -494,7 +494,7 @@ static int uvc_parse_streaming(struct uvc_device *dev,
+>         struct uvc_format *format;
+>         struct uvc_frame *frame;
+>         struct usb_host_interface *alts = &intf->altsetting[0];
+> -       unsigned char *_buffer, *buffer = alts->extra;
+> +       const unsigned char *_buffer, *buffer = alts->extra;
+>         int _buflen, buflen = alts->extralen;
+>         unsigned int nformats = 0, nframes = 0, nintervals = 0;
+>         unsigned int size, i, n, p;
+> @@ -1146,7 +1146,7 @@ static int uvc_parse_standard_control(struct uvc_device *dev,
+>  static int uvc_parse_control(struct uvc_device *dev)
+>  {
+>         struct usb_host_interface *alts = dev->intf->cur_altsetting;
+> -       unsigned char *buffer = alts->extra;
+> +       const unsigned char *buffer = alts->extra;
+>         int buflen = alts->extralen;
+>         int ret;
 >
->         for (i = 0; i < format->nframes; ++i) {
-> -               u16 w = format->frame[i].wWidth;
-> -               u16 h = format->frame[i].wHeight;
-> +               u16 w = format->frames[i].wWidth;
-> +               u16 h = format->frames[i].wHeight;
->
->                 d = min(w, rw) * min(h, rh);
->                 d = w*h + rw*rh - 2*d;
->                 if (d < maxd) {
->                         maxd = d;
-> -                       frame = &format->frame[i];
-> +                       frame = &format->frames[i];
->                 }
->
->                 if (maxd == 0)
-> @@ -331,8 +331,8 @@ static int uvc_v4l2_try_format(struct uvc_streaming *stream,
->                         probe->bFormatIndex);
->
->         for (i = 0; i < format->nframes; ++i) {
-> -               if (probe->bFrameIndex == format->frame[i].bFrameIndex) {
-> -                       frame = &format->frame[i];
-> +               if (probe->bFrameIndex == format->frames[i].bFrameIndex) {
-> +                       frame = &format->frames[i];
->                         break;
->                 }
->         }
-> @@ -501,19 +501,19 @@ static int uvc_v4l2_set_streamparm(struct uvc_streaming *stream,
->         for (i = 0; i < format->nframes && maxd != 0; i++) {
->                 u32 d, ival;
->
-> -               if (&format->frame[i] == stream->cur_frame)
-> +               if (&format->frames[i] == stream->cur_frame)
->                         continue;
->
-> -               if (format->frame[i].wWidth != stream->cur_frame->wWidth ||
-> -                   format->frame[i].wHeight != stream->cur_frame->wHeight)
-> +               if (format->frames[i].wWidth != stream->cur_frame->wWidth ||
-> +                   format->frames[i].wHeight != stream->cur_frame->wHeight)
->                         continue;
->
-> -               ival = uvc_try_frame_interval(&format->frame[i], interval);
-> +               ival = uvc_try_frame_interval(&format->frames[i], interval);
->                 d = abs((s32)ival - interval);
->                 if (d >= maxd)
->                         continue;
->
-> -               frame = &format->frame[i];
-> +               frame = &format->frames[i];
->                 probe.bFrameIndex = frame->bFrameIndex;
->                 probe.dwFrameInterval = ival;
->                 maxd = d;
-> @@ -1266,10 +1266,10 @@ static int uvc_ioctl_enum_framesizes(struct file *file, void *fh,
->
->         /* Skip duplicate frame sizes */
->         for (i = 0, index = 0; i < format->nframes; i++) {
-> -               if (frame && frame->wWidth == format->frame[i].wWidth &&
-> -                   frame->wHeight == format->frame[i].wHeight)
-> +               if (frame && frame->wWidth == format->frames[i].wWidth &&
-> +                   frame->wHeight == format->frames[i].wHeight)
->                         continue;
-> -               frame = &format->frame[i];
-> +               frame = &format->frames[i];
->                 if (index == fsize->index)
->                         break;
->                 index++;
-> @@ -1307,9 +1307,9 @@ static int uvc_ioctl_enum_frameintervals(struct file *file, void *fh,
->
->         index = fival->index;
->         for (i = 0; i < format->nframes; i++) {
-> -               if (format->frame[i].wWidth == fival->width &&
-> -                   format->frame[i].wHeight == fival->height) {
-> -                       frame = &format->frame[i];
-> +               if (format->frames[i].wWidth == fival->width &&
-> +                   format->frames[i].wHeight == fival->height) {
-> +                       frame = &format->frames[i];
->                         nintervals = frame->bFrameIntervalType ?: 1;
->                         if (index < nintervals)
->                                 break;
-> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> index af540f435099..34c781b7dee2 100644
-> --- a/drivers/media/usb/uvc/uvc_video.c
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -176,8 +176,8 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
->                 return;
->
->         for (i = 0; i < format->nframes; ++i) {
-> -               if (format->frame[i].bFrameIndex == ctrl->bFrameIndex) {
-> -                       frame = &format->frame[i];
-> +               if (format->frames[i].bFrameIndex == ctrl->bFrameIndex) {
-> +                       frame = &format->frames[i];
->                         break;
->                 }
->         }
-> @@ -2179,7 +2179,7 @@ int uvc_video_init(struct uvc_streaming *stream)
->          * descriptor is not found, use the first available frame.
->          */
->         for (i = format->nframes; i > 0; --i) {
-> -               frame = &format->frame[i-1];
-> +               frame = &format->frames[i-1];
->                 if (frame->bFrameIndex == probe->bFrameIndex)
->                         break;
->         }
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index 9c8bea8d405c..7b4bf52da19d 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -265,7 +265,7 @@ struct uvc_format {
->         u32 flags;
->
->         unsigned int nframes;
-> -       struct uvc_frame *frame;
-> +       struct uvc_frame *frames;
->  };
->
->  struct uvc_streaming_header {
 > --
 > Regards,
 >
