@@ -2,120 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A34866F2F1D
-	for <lists+linux-media@lfdr.de>; Mon,  1 May 2023 09:22:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2448A6F2FB1
+	for <lists+linux-media@lfdr.de>; Mon,  1 May 2023 11:05:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232192AbjEAHWB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 May 2023 03:22:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35312 "EHLO
+        id S231736AbjEAJFF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 May 2023 05:05:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230139AbjEAHWA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 May 2023 03:22:00 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17061E53;
-        Mon,  1 May 2023 00:21:58 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1ptNr8-0001Go-Es; Mon, 01 May 2023 09:21:54 +0200
-Message-ID: <dcd317db-3c24-895d-572b-1b139c370ff7@leemhuis.info>
-Date:   Mon, 1 May 2023 09:21:53 +0200
+        with ESMTP id S232384AbjEAJDi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 May 2023 05:03:38 -0400
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC31D10E4
+        for <linux-media@vger.kernel.org>; Mon,  1 May 2023 02:03:06 -0700 (PDT)
+Received: by mail-il1-f198.google.com with SMTP id e9e14a558f8ab-32b4607696aso35405605ab.1
+        for <linux-media@vger.kernel.org>; Mon, 01 May 2023 02:03:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682931762; x=1685523762;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8TRxn8Hy1NWPcJqiNoPbXlJR8Shf1orIfvYvY77Iwcc=;
+        b=ht7ycyrrwlc9PifPZGqhLybHHMhcAOCKcNE7UfbZzJUU32erZYnuk0kSQNN6sMslWb
+         3YVX6e0+bfknTSv9lnnCLYfwvNv5Dlk0a/5Aw8+5C+FZXFA1+3IvcEzpGiIUPQbt3Qbg
+         Cnd2kuXRPqUifzVh/CL2zD5Gjb0uR8uX9Y/KS6CiNAoJL9y7EjGKJYc9HyrBATfu1YQZ
+         jtK4sGmBMeq8XSqHgctghjxD+z4YSE3bUkWLB6RyZFUX+L2DYqio9HTkYueB6+0QGPCo
+         C9dFi5XEhHAk7GlRMaVqvuD3dypL6tn2vSZXdM1yqsjlvCNSYL2YHcRHnPBnQMYe2h4r
+         scuA==
+X-Gm-Message-State: AC+VfDwKfkmX/Qc/dEwoaN4YG3oqbkTsw2b10PRWkPD0NO3zoxTbBciF
+        x8WNmatn76R08q5F7Lmu5oznlDvauuCe+VyqzRkjUy9kAKqB
+X-Google-Smtp-Source: ACHHUZ7gP7vT5iBmGE8NuEp9huD7Ip/Aq05StbBuLGySxP7qpsorWO4B5GVBXeshS82V9esflBj+gVKhFgWiruDtHvf2OZZ63GsY
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Content-Language: en-US, de-DE
-To:     Shreeya Patel <shreeya.patel@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kernel@collabora.com, robert.mader@collabora.com,
-        nicolas.dufresne@collabora.co.uk, ezequiel@vanguardiasur.com.ar,
-        festevam@gmail.com, p.zabel@pengutronix.de, mchehab@kernel.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-        hverkuil-cisco@xs4all.nl, linux-imx@nxp.com,
-        regressions@lists.linux.dev
-References: <20230220104849.398203-1-benjamin.gaignard@collabora.com>
- <20230220104849.398203-2-benjamin.gaignard@collabora.com>
- <26addb7d-bb9d-34e8-d4fe-e323ff488101@collabora.com>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH v9 1/6] media: verisilicon: Do not set context src/dst
- formats in reset functions
-In-Reply-To: <26addb7d-bb9d-34e8-d4fe-e323ff488101@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1682925718;5ed265df;
-X-HE-SMSGID: 1ptNr8-0001Go-Es
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Received: by 2002:a05:6638:2152:b0:40f:9c3a:8ce2 with SMTP id
+ z18-20020a056638215200b0040f9c3a8ce2mr5749111jaj.5.1682931762773; Mon, 01 May
+ 2023 02:02:42 -0700 (PDT)
+Date:   Mon, 01 May 2023 02:02:42 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000e6c78e05fa9e15bd@google.com>
+Subject: [syzbot] Monthly media report (Apr 2023)
+From:   syzbot <syzbot+list8669f45a42328eab044d@syzkaller.appspotmail.com>
+To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 27.04.23 00:19, Shreeya Patel wrote:
-> On 20/02/23 16:18, Benjamin Gaignard wrote:
->> Setting context source and destination formats should only be done
->> in hantro_set_fmt_out() and hantro_set_fmt_cap() after check that
->> the targeted queue is not busy.
->> Remove these calls from hantro_reset_encoded_fmt() and
->> hantro_reset_raw_fmt() to clean the driver.
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> 
-> KernelCI found this patch causes a regression in the
-> baseline.dmesg.alert test [1] on rk3399-rock-pi-4b [2],
-> see the bisection report for more details [3].
-> 
-> Let us know if you have any questions.
-> 
-> 
-> [1]
-> https://github.com/kernelci/kernelci-core/blob/main/config/rootfs/debos/overlays/baseline/opt/kernelci/dmesg.sh
-> [2] https://linux.kernelci.org/test/case/id/6442e825f19134d74c2e865d/
-> [3] https://groups.io/g/kernelci-results/message/40740
+Hello media maintainers/developers,
 
-Thx for the report. FWIW, regzbot noticed there is a patch that refers
-to the culprit that might have been landed in next after your test ran
-for the last time (and meanwhile it was mainlined): f100ce3bbd6 ("media:
-verisilicon: Fix crash when probing encoder")
+This is a 31-day syzbot report for the media subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/media
 
-I wonder if that is related or might even fix the issue.
+During the period, 2 new issues were detected and 0 were fixed.
+In total, 17 issues are still open and 83 have been fixed so far.
 
-Ciao, Thorsten
+Some of the still happening issues:
 
->> ---
->>   drivers/media/platform/verisilicon/hantro_v4l2.c | 9 ++-------
->>   1 file changed, 2 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c
->> b/drivers/media/platform/verisilicon/hantro_v4l2.c
->> index c0d427956210..d8aa42bd4cd4 100644
->> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
->> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
->> @@ -382,13 +382,10 @@ hantro_reset_encoded_fmt(struct hantro_ctx *ctx)
->>         vpu_fmt = hantro_get_default_fmt(ctx, true);
->>   -    if (ctx->is_encoder) {
->> -        ctx->vpu_dst_fmt = vpu_fmt;
->> +    if (ctx->is_encoder)
->>           fmt = &ctx->dst_fmt;
->> -    } else {
->> -        ctx->vpu_src_fmt = vpu_fmt;
->> +    else
->>           fmt = &ctx->src_fmt;
->> -    }
->>         hantro_reset_fmt(fmt, vpu_fmt);
->>       fmt->width = vpu_fmt->frmsize.min_width;
->> @@ -408,11 +405,9 @@ hantro_reset_raw_fmt(struct hantro_ctx *ctx)
->>       raw_vpu_fmt = hantro_get_default_fmt(ctx, false);
->>         if (ctx->is_encoder) {
->> -        ctx->vpu_src_fmt = raw_vpu_fmt;
->>           raw_fmt = &ctx->src_fmt;
->>           encoded_fmt = &ctx->dst_fmt;
->>       } else {
->> -        ctx->vpu_dst_fmt = raw_vpu_fmt;
->>           raw_fmt = &ctx->dst_fmt;
->>           encoded_fmt = &ctx->src_fmt;
->>       }
-> 
-> 
+Ref Crashes Repro Title
+<1> 2277    Yes   KMSAN: uninit-value in dib3000mb_attach (2)
+                  https://syzkaller.appspot.com/bug?extid=c88fc0ebe0d5935c70da
+<2> 978     Yes   WARNING in get_vaddr_frames
+                  https://syzkaller.appspot.com/bug?extid=59a71007ccac79e8bb69
+<3> 397     Yes   WARNING in smsusb_term_device
+                  https://syzkaller.appspot.com/bug?extid=40ac6e73326e79ee8ecb
+<4> 98      Yes   general protection fault in ir_raw_event_store_with_filter
+                  https://syzkaller.appspot.com/bug?extid=34008406ee9a31b13c73
+<5> 32      Yes   inconsistent lock state in sync_info_debugfs_show
+                  https://syzkaller.appspot.com/bug?extid=007bfe0f3330f6e1e7d1
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
+
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
