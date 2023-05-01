@@ -2,185 +2,195 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B962F6F3640
-	for <lists+linux-media@lfdr.de>; Mon,  1 May 2023 20:51:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2FDF6F3887
+	for <lists+linux-media@lfdr.de>; Mon,  1 May 2023 21:55:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230429AbjEASvC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 May 2023 14:51:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36016 "EHLO
+        id S232785AbjEATzi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 May 2023 15:55:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230391AbjEASvB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 May 2023 14:51:01 -0400
-Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com [IPv6:2607:f8b0:4864:20::f34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0185F198A
-        for <linux-media@vger.kernel.org>; Mon,  1 May 2023 11:50:59 -0700 (PDT)
-Received: by mail-qv1-xf34.google.com with SMTP id 6a1803df08f44-5f45fad3be1so26834766d6.0
-        for <linux-media@vger.kernel.org>; Mon, 01 May 2023 11:50:59 -0700 (PDT)
+        with ESMTP id S232467AbjEATzh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 May 2023 15:55:37 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AB892107;
+        Mon,  1 May 2023 12:55:32 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-50a14564d17so42675000a12.0;
+        Mon, 01 May 2023 12:55:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1682967059; x=1685559059;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=1IrKN9yQpj4+PbmG8SIT7+msTT91q+chwYH/2Xg1TcE=;
-        b=hedcBqmnBA1oJcgDT5njSgePClDMmN8QAyNivh2nLGm+v/i2sPlqVp3U5VKsYqnUYR
-         m0G6n3KU6/FgXyabIdTEG8V5NZtTPZmovX+fA0zRg3ADpKxs1RXJ+0uQ1pI52B+/6K3F
-         d3CQ68ONqQs6A2L6Cy6Q0croWPiwQCxlko3PjRnH3Yvf8BHYtgkxF8NLaoxiCFltAW3K
-         xAz7toDwYAxnITtlvSD/yVCoPQ16dEgjmL9CV4ysdDL8t4t6oDTU+ElYNt6LxWaYm7f1
-         AK3nF7DoNNQPUT5elKQsRLnWOR+UYiR2IBN3GoM0m5x0z9tfhGWUDIx0qZ2hBiXeHa4f
-         aH8g==
+        d=gmail.com; s=20221208; t=1682970930; x=1685562930;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=R11iQvyL03GOSrYQIrHHw/DmH/A/XUw7XINQmYhJ5NI=;
+        b=peWCZZYGT1AxSPcYux7QrLuiRkQhYXkjUJi2FuQArobYQoTn9v/kN8dB6TUmneJdcv
+         /J+B22IzwHKPMifbMPXags92ZjQ/27VqZZxuChSpgYst6yJIFxKWVMlLTy9qjyU3RuRK
+         QPgU0Y4ClZhElCWA39agtUqu85kBdch4q3q5V6LnioZG+lUY5vdcvqtx6dCLfiYJC0rj
+         OwSm2gxKMNsZvzsh3OW5dQuMJCiUsE7/uqN9e2rNUigdFX61s/2viP/+Bl0LF19hRR7o
+         OywWxt9pKI63y636RxrmssOcsqxlaNP4czqX4Fi/IicxU7Xt0mS0IA1A31rAmOinGYc0
+         qc8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682967059; x=1685559059;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1IrKN9yQpj4+PbmG8SIT7+msTT91q+chwYH/2Xg1TcE=;
-        b=JmgCPsyma2cDjwsyGi3Pe2rnUPC2HKfYDdy+/yZI3t4jmCSO3RVkMfC871VItK/w7+
-         KTgPKP62rIiEPUhyvR7tUbYxhLFCfTjAaVe5j3FuRYlbA9qgoGIr10fgyoXFzeivKp2e
-         uJLkZya24paVx/M4BhyB/nYIPfA2BN+xTXxpQmKoGlxg5DCP7YBbHKhHktrS3tU1y/WV
-         lKcMFWnBRinmVkM6JINBUv2KA5rFj5kiy/mFDi1PFsLOzL80rtu9+TTUeLMZaPy4Qpay
-         iy4a6nr/rzs+WpxpSPKt15RM+sNCZ1PX5irUnat/SjsTSyYogs44ayZuGszdwR3JTvRT
-         7Irw==
-X-Gm-Message-State: AC+VfDwmurpaRczb5VeZtQCq6kkSQWcUycINyUYLfnKk3HRIOvXydr8G
-        owIDddnsiRNnX6E1r1MpUH/EYg==
-X-Google-Smtp-Source: ACHHUZ7+pfQxUxJ0ZORCmS00RcCCJYQW0hmZdX2fRHxGy1/XhbEh8T5qxYUBY1qFCNOil3VOV1HKWA==
-X-Received: by 2002:a05:6214:23c9:b0:619:ca55:9709 with SMTP id hr9-20020a05621423c900b00619ca559709mr1578917qvb.21.1682967058905;
-        Mon, 01 May 2023 11:50:58 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:15:199e::7a9])
-        by smtp.gmail.com with ESMTPSA id y4-20020a0ce044000000b0061b58b07130sm966247qvk.137.2023.05.01.11.50.58
+        d=1e100.net; s=20221208; t=1682970930; x=1685562930;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=R11iQvyL03GOSrYQIrHHw/DmH/A/XUw7XINQmYhJ5NI=;
+        b=Qwzmvqy048MOOD7f5radSzJhSlTXhhFdLeX8n3UCHKJcGo/9FHeV6QZQIIZpO7F00T
+         NvBelyxE1zwxSFLoeMLfK/xh9Nek6rKgdtga/On9IzH+i7mXN5suew9rKHZ4kgFNdvUI
+         Y37GSe7mcmcXQz7rNSPtm5mSar4GGbdLK7q1dZkdkp0Aqh5K0Yde0np6cZtnP+YTAr2H
+         aO/aelL53cdP2LZ/uZPw90fCHoJIv9z6P/ec0OJziRpcUivmXwBIsu1iYxbg+NKf11GD
+         2kk62H7yONN8Yf+kdUS7pWR2eTQzpWYrJmk9uOzmiHNLtK4RDq8jANS0tH0aNkc46+Dl
+         IoTA==
+X-Gm-Message-State: AC+VfDyPhiJCKetZvNAWl29Ggn1DbmwIaMWGtdh7vLs/PBDCAZq5+3cE
+        VCHl4u8y1PLgA14mWh9PHKg=
+X-Google-Smtp-Source: ACHHUZ4IveGs8ii8zhWZnuM7WomrlcQtno4lmtlx1/IanE/Cp9xLGFa/d5MzJoharVEa0KYhmSCi9A==
+X-Received: by 2002:a17:907:9285:b0:95f:969e:dc5a with SMTP id bw5-20020a170907928500b0095f969edc5amr15852297ejc.30.1682970930448;
+        Mon, 01 May 2023 12:55:30 -0700 (PDT)
+Received: from localhost.my.domain (83.8.115.30.ipv4.supernova.orange.pl. [83.8.115.30])
+        by smtp.gmail.com with ESMTPSA id og36-20020a1709071de400b009600ce4fb53sm6333650ejc.37.2023.05.01.12.55.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 May 2023 11:50:58 -0700 (PDT)
-Message-ID: <f4da6f1e5218db0417429a7fb5ebfdb95928e240.camel@ndufresne.ca>
-Subject: Re: [PATCH] media: verisilicon: Final fix for the crash when
- opening the driver
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org
-Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mon, 01 May 2023 12:55:29 -0700 (PDT)
+From:   Artur Weber <aweber.kernel@gmail.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Alim Akhtar <alim.akhtar@samsung.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Olof Johansson <olof@lixom.net>, soc@kernel.org,
+        Russell King <linux@armlinux.org.uk>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Kukjin Kim <kgene@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Date:   Mon, 01 May 2023 14:50:57 -0400
-In-Reply-To: <20230421104759.2236463-1-m.szyprowski@samsung.com>
-References: <CGME20230421104811eucas1p16ad5e11ebc4d305c6fab372d3743b6e1@eucas1p1.samsung.com>
-         <20230421104759.2236463-1-m.szyprowski@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1 (3.48.1-1.fc38) 
+        Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-phy@lists.infradead.org,
+        ~postmarketos/upstreaming@lists.sr.ht,
+        Artur Weber <aweber.kernel@gmail.com>
+Subject: [PATCH v3 00/13] Re-introduce Exynos4212 support and add Samsung Galaxy Tab 3 8.0 boards
+Date:   Mon,  1 May 2023 21:55:12 +0200
+Message-Id: <20230501195525.6268-1-aweber.kernel@gmail.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le vendredi 21 avril 2023 =C3=A0 12:47 +0200, Marek Szyprowski a =C3=A9crit=
-=C2=A0:
-> ctx->vpu_src_fmt is no more initialized before calling hantro_try_fmt()
-> so checking it led to crash the kernel. Simply use the provided 'fmt' as
-> a format for those checks.
->=20
-> This fixes the following issue observed on Odroid-M1 board:
->=20
->  Unable to handle kernel NULL pointer dereference at virtual address 0000=
-000000000008
->  Mem abort info:
->  ...
->  Modules linked in: crct10dif_ce hantro_vpu snd_soc_simple_card snd_soc_s=
-imple_card_utils v4l2_vp9 v4l2_h264 rockchip_saradc v4l2_mem2mem videobuf2_=
-dma_contig videobuf2_memops rtc_rk808 videobuf2_v4l2 industrialio_triggered=
-_buffer rockchip_thermal dwmac_rk stmmac_platform stmmac videodev kfifo_buf=
- display_connector videobuf2_common pcs_xpcs mc rockchipdrm analogix_dp dw_=
-mipi_dsi dw_hdmi drm_display_helper panfrost drm_shmem_helper gpu_sched ip_=
-tables x_tables ipv6
->  CPU: 3 PID: 176 Comm: v4l_id Not tainted 6.3.0-rc7-next-20230420 #13481
->  Hardware name: Hardkernel ODROID-M1 (DT)
->  pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=3D--)
->  pc : hantro_try_fmt+0xa0/0x278 [hantro_vpu]
->  lr : hantro_try_fmt+0x94/0x278 [hantro_vpu]
->  ...
->  Call trace:
->   hantro_try_fmt+0xa0/0x278 [hantro_vpu]
->   hantro_set_fmt_out+0x3c/0x298 [hantro_vpu]
->   hantro_reset_raw_fmt+0x98/0x128 [hantro_vpu]
->   hantro_set_fmt_cap+0x240/0x254 [hantro_vpu]
->   hantro_reset_encoded_fmt+0x94/0xcc [hantro_vpu]
->   hantro_reset_fmts+0x18/0x38 [hantro_vpu]
->   hantro_open+0xd4/0x20c [hantro_vpu]
->   v4l2_open+0x80/0x120 [videodev]
->   chrdev_open+0xc0/0x22c
->   do_dentry_open+0x13c/0x48c
->   vfs_open+0x2c/0x38
->   path_openat+0x550/0x934
->   do_filp_open+0x80/0x12c
->   do_sys_openat2+0xb4/0x168
->   __arm64_sys_openat+0x64/0xac
->   invoke_syscall+0x48/0x114
->   el0_svc_common+0x100/0x120
->   do_el0_svc+0x3c/0xa8
->   el0_svc+0x40/0xa8
->   el0t_64_sync_handler+0xb8/0xbc
->   el0t_64_sync+0x190/0x194
->  Code: 97fc8a7f f940aa80 52864a61 72a686c1 (b9400800)=20
->  ---[ end trace 0000000000000000 ]---
->=20
-> Fixes: db6f68b51e5c ("media: verisilicon: Do not set context src/dst form=
-ats in reset functions")
-> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> ---
-> It looks that I've missed the fact that the first fix merged as commit
-> f100ce3bbd6a ("media: verisilicon: Fix crash when probing encoder") did
-> not fix all the issues introduced by db6f68b51e5c ("media: verisilicon:
-> Do not set context src/dst formats in reset functions"). I'm really sorry
-> for that.
-> ---
->  drivers/media/platform/verisilicon/hantro_v4l2.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/m=
-edia/platform/verisilicon/hantro_v4l2.c
-> index 835518534e3b..618ea23a7d49 100644
-> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> @@ -313,17 +313,17 @@ static int hantro_try_fmt(const struct hantro_ctx *=
-ctx,
->  		/* Fill remaining fields */
->  		v4l2_fill_pixfmt_mp(pix_mp, fmt->fourcc, pix_mp->width,
->  				    pix_mp->height);
-> -		if (ctx->vpu_src_fmt->fourcc =3D=3D V4L2_PIX_FMT_H264_SLICE &&
-> +		if (fmt->fourcc =3D=3D V4L2_PIX_FMT_H264_SLICE &&
+This patches re-introduces the Exynos4212 platform and adds support
+for the Samsung Galaxy Tab 3 8.0 series of tablets that uses it:
 
-In this context, we have !coded, so fmt->fourcc will never be any of H264, =
-VP9
-or HEVC, so we'llnever allocate space for motion vector. I'm surprise you a=
-re
-getting anything working after that. What this code is trying to achieve is=
- to
-pad the size of raw images depending on the selected coded format (opposite
-queue).
+ - Samsung Galaxy Tab 3 8.0 WiFi (SM-T310/lt01wifi)
+ - Samsung Galaxy Tab 3 8.0 3G (SM-T311/lt013g)
+ - Samsung Galaxy Tab 3 8.0 LTE (SM-T315/lt01lte)
 
-I think the proper fix is to actually fix the default coded format setup. T=
-his
-will ensure that vpu_src_fmt is always valid. The same pointer can be used =
-in
-start-streaming it seems.
+What works:
 
->  		    !hantro_needs_postproc(ctx, fmt))
->  			pix_mp->plane_fmt[0].sizeimage +=3D
->  				hantro_h264_mv_size(pix_mp->width,
->  						    pix_mp->height);
-> -		else if (ctx->vpu_src_fmt->fourcc =3D=3D V4L2_PIX_FMT_VP9_FRAME &&
-> +		else if (fmt->fourcc =3D=3D V4L2_PIX_FMT_VP9_FRAME &&
->  			 !hantro_needs_postproc(ctx, fmt))
->  			pix_mp->plane_fmt[0].sizeimage +=3D
->  				hantro_vp9_mv_size(pix_mp->width,
->  						   pix_mp->height);
-> -		else if (ctx->vpu_src_fmt->fourcc =3D=3D V4L2_PIX_FMT_HEVC_SLICE &&
-> +		else if (fmt->fourcc =3D=3D V4L2_PIX_FMT_HEVC_SLICE &&
->  			 !hantro_needs_postproc(ctx, fmt))
->  			pix_mp->plane_fmt[0].sizeimage +=3D
->  				hantro_hevc_mv_size(pix_mp->width,
+ - Display and backlight
+ - Touchscreen (without touchkeys)
+ - GPIO buttons, hall sensor
+ - WiFi and Bluetooth
+ - USB, fuel gauge, charging
+ - Accelerometer and magnetometer
+ - WiFi model only: light sensor
+
+Display panel bindings used by the Tab3 DTSI are added in a separate
+patchset - "[PATCH 0/3] Add Samsung S6D7AA0 panel controller driver":
+https://lore.kernel.org/all/20230501185103.25939-1-aweber.kernel@gmail.com/
+
+LP855X binding updates used by the Tab3 DTSI are added in a separate
+patchset - "[PATCH 0/4] video: backlight: lp855x: modernize bindings":
+https://lore.kernel.org/all/20230429104534.28943-1-aweber.kernel@gmail.com/
+
+Changed in v2:
+ - Added note about display panel bindings to cover letter and
+   Tab3 DTSI commit
+
+Changed in v3:
+ - Addressed review comments
+ - Tab3 DTS tweaks (remove broken RTC, add CPU thermal node)
+ - Fixed typos in Exynos DTSIs
+
+Artur Weber (13):
+  dt-bindings: soc: samsung: add Exynos4212 PMU compatible
+  dt-bindings: clock: add Exynos4212 clock compatible
+  ARM: exynos: Re-introduce Exynos4212 support
+  soc: samsung: Re-introduce Exynos4212 support
+  clk: samsung: Add Exynos4212 compatible to CLKOUT driver
+  clk: samsung: Re-add support for Exynos4212 CPU clock
+  Revert "media: exynos4-is: Remove dependency on obsolete SoC support"
+  Revert "phy: Remove SOC_EXYNOS4212 dep. from PHY_EXYNOS4X12_USB"
+  ARM: dts: Move common Exynos4x12 definitions to exynos4x12.dtsi
+  ARM: dts: Re-introduce Exynos4212 DTSI
+  ARM: dts: exynos: Fix some typos in comments
+  dt-bindings: arm: samsung: Add Samsung Galaxy Tab3 family boards
+  ARM: dts: exynos: Add Samsung Galaxy Tab 3 8.0 boards
+
+ .../bindings/arm/samsung/samsung-boards.yaml  |   10 +
+ .../bindings/clock/samsung,exynos-clock.yaml  |    1 +
+ .../bindings/soc/samsung/exynos-pmu.yaml      |    5 +
+ arch/arm/boot/dts/Makefile                    |    3 +
+ arch/arm/boot/dts/exynos3250-pinctrl.dtsi     |    4 +-
+ arch/arm/boot/dts/exynos3250.dtsi             |    2 +-
+ arch/arm/boot/dts/exynos4.dtsi                |    2 +-
+ arch/arm/boot/dts/exynos4210-pinctrl.dtsi     |    4 +-
+ arch/arm/boot/dts/exynos4212-tab3-3g8.dts     |   29 +
+ arch/arm/boot/dts/exynos4212-tab3-lte8.dts    |   44 +
+ arch/arm/boot/dts/exynos4212-tab3-wifi8.dts   |   26 +
+ arch/arm/boot/dts/exynos4212-tab3.dtsi        | 1171 +++++++++++++++++
+ arch/arm/boot/dts/exynos4212.dtsi             |  157 +++
+ arch/arm/boot/dts/exynos4412.dtsi             |  646 +--------
+ ...2-pinctrl.dtsi => exynos4x12-pinctrl.dtsi} |    6 +-
+ .../dts/{exynos4412.dtsi => exynos4x12.dtsi}  |  165 +--
+ arch/arm/boot/dts/exynos5.dtsi                |    2 +-
+ arch/arm/boot/dts/exynos5250-pinctrl.dtsi     |    4 +-
+ arch/arm/boot/dts/exynos5250.dtsi             |    2 +-
+ arch/arm/boot/dts/exynos5260-pinctrl.dtsi     |    2 +-
+ arch/arm/boot/dts/exynos5410.dtsi             |    2 +-
+ arch/arm/boot/dts/exynos5420-pinctrl.dtsi     |    2 +-
+ arch/arm/boot/dts/exynos5420.dtsi             |    2 +-
+ arch/arm/boot/dts/exynos5800.dtsi             |    2 +-
+ arch/arm/boot/dts/s3c6400.dtsi                |    2 +-
+ arch/arm/boot/dts/s3c6410.dtsi                |    2 +-
+ arch/arm/boot/dts/s3c64xx.dtsi                |    2 +-
+ arch/arm/boot/dts/s5pv210-pinctrl.dtsi        |    2 +-
+ arch/arm/boot/dts/s5pv210.dtsi                |    2 +-
+ arch/arm/mach-exynos/Kconfig                  |    5 +
+ arch/arm/mach-exynos/common.h                 |    8 +
+ arch/arm/mach-exynos/exynos.c                 |    2 +
+ arch/arm/mach-exynos/firmware.c               |    8 +-
+ arch/arm/mach-exynos/pm.c                     |    2 +-
+ arch/arm/mach-exynos/suspend.c                |    4 +
+ drivers/clk/samsung/clk-exynos-clkout.c       |    3 +
+ drivers/clk/samsung/clk-exynos4.c             |   44 +-
+ .../media/platform/samsung/exynos4-is/Kconfig |    2 +-
+ .../platform/samsung/exynos4-is/fimc-core.c   |    2 +-
+ .../platform/samsung/exynos4-is/fimc-lite.c   |    2 +-
+ drivers/phy/samsung/Kconfig                   |    2 +-
+ drivers/soc/samsung/exynos-pmu.c              |    9 +
+ drivers/soc/samsung/exynos-pmu.h              |    2 +
+ drivers/soc/samsung/exynos4-pmu.c             |   13 +-
+ 44 files changed, 1534 insertions(+), 837 deletions(-)
+ create mode 100644 arch/arm/boot/dts/exynos4212-tab3-3g8.dts
+ create mode 100644 arch/arm/boot/dts/exynos4212-tab3-lte8.dts
+ create mode 100644 arch/arm/boot/dts/exynos4212-tab3-wifi8.dts
+ create mode 100644 arch/arm/boot/dts/exynos4212-tab3.dtsi
+ create mode 100644 arch/arm/boot/dts/exynos4212.dtsi
+ rename arch/arm/boot/dts/{exynos4412-pinctrl.dtsi => exynos4x12-pinctrl.dtsi} (99%)
+ copy arch/arm/boot/dts/{exynos4412.dtsi => exynos4x12.dtsi} (81%)
+
+
+base-commit: e154a338e16cc3b3bbd54c891253319d22383746
+-- 
+2.40.1
 
