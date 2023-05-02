@@ -2,132 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 12A886F455A
-	for <lists+linux-media@lfdr.de>; Tue,  2 May 2023 15:43:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D700D6F45B7
+	for <lists+linux-media@lfdr.de>; Tue,  2 May 2023 16:02:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234420AbjEBNnB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 May 2023 09:43:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34754 "EHLO
+        id S233981AbjEBOCi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 May 2023 10:02:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234536AbjEBNmi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 May 2023 09:42:38 -0400
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B8787283
-        for <linux-media@vger.kernel.org>; Tue,  2 May 2023 06:42:04 -0700 (PDT)
-Received: by mail-yb1-xb34.google.com with SMTP id 3f1490d57ef6-b992e28c141so5436034276.0
-        for <linux-media@vger.kernel.org>; Tue, 02 May 2023 06:42:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683034904; x=1685626904;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZF8J2g+vdvWtCVolMm0ili3y/hj63QFvGzYxEo1evOQ=;
-        b=K4mxB7SNYb+Z6lQBW6HSulhBefj5w8b3cj7vW4dHxDUA+ZH9uzESHELQTe/b9Voij4
-         56RN86llpvpV5X6D3OhSuFer+0W1wX0ppSjSkVs2zmTc1oW921xCd5PjIGBxlSG+mNr9
-         y7i5ksPp3fmbwRh7baentLAAF7dv0oa4PBzcX4njTOuWNrvaaVGHE+UzBWTfSvLVmCpH
-         XcJl959jWOgMNj6RaOfz9HnGvPGh1RUHkdMtVMO7am488pQbIK8wNtLIH312c5jMV0o4
-         tgqF2omPx7GZfvAzuPtiYouUUl+7XzUHGRzP32VmnGOL7d81HdDb0nYA4CNRlzCbfUQV
-         7pEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683034904; x=1685626904;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZF8J2g+vdvWtCVolMm0ili3y/hj63QFvGzYxEo1evOQ=;
-        b=bq/n8Q6e1J8lSSuOMeTFZG1VvNmkxf8PlWJdVYotkjhVbzCeS95okPkYGp6/HKxeWp
-         WC8jAUB1EOHsiN/jd10MaukXAUqL2rvZ++Vhyaakzm00oA5DEk3lvV5cdNwlCSx9ap6E
-         jnIiQRyxAvpnbzs5B1Ypd5nFc+/LKp6tRYyg0c7lNcVbxA+YMKUAWItdYEChTHoEdUN4
-         iMXQseSaZFeeO9IFX2LDn3Qt3zISEIBdfjkDPt7yyRJZ9qoGbwvAUEboYeXgBnX3/M1a
-         7TWc7BOZa7778FQP8foJ3RT2dN3arsluOcsZVQZd8yKsG9FwJjDWOttHUIlgpccZbFLz
-         uvRQ==
-X-Gm-Message-State: AC+VfDzV8wwVj2GqJs/kBXc2H+BGo2aKLMN81dzrvAx2gF1Ry8X0T7fo
-        wSbIDBiAyyk1YQp4YiKepZVVZfE+QjBexntb6EI=
-X-Google-Smtp-Source: ACHHUZ42iO6PrUoNvCxmFys6f4l96/PQVgewVnx2B7DBRAejKdTn5YjoSjpa51Wd2+CpB1WYUYWzvsAsLIgx98PG+ag=
-X-Received: by 2002:a25:b1a3:0:b0:b92:4703:8cf5 with SMTP id
- h35-20020a25b1a3000000b00b9247038cf5mr17037166ybj.50.1683034904563; Tue, 02
- May 2023 06:41:44 -0700 (PDT)
+        with ESMTP id S233817AbjEBOCh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 May 2023 10:02:37 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 499EA1AE;
+        Tue,  2 May 2023 07:02:35 -0700 (PDT)
+Received: from [IPV6:2405:201:0:21ea:73f6:2283:f432:3936] (unknown [IPv6:2405:201:0:21ea:73f6:2283:f432:3936])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: shreeya)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 8A12B6603232;
+        Tue,  2 May 2023 15:02:29 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1683036153;
+        bh=xq+GCvhWDrpI4kqWLTSjKMKXim4TcqGGOuePu/Nq+us=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=Mt6IWboNQ0mOLVpDukyzH4UNRI1F1ButfAO3t2pVQpqK0dNm87o1QXydpVJNNwMV2
+         CsgV8zzxN4MY6W+oLs1rqQztOBNk1tHs3vCCivnS1ri9bLC9l+gtKvrbn5ABYJdKZH
+         8uYRrlf21McuoEpn3kX0JQ22547y+gQnV5wKwTsPDHQr4wSrJMEuWpyOBhdX806MkE
+         aFcJiv6RMR9+ouhCse0WR/3uP6ZGOBmzihGpsoDEXQKcQcHHXgcWPD9bhukmCwex94
+         YZzPDFjUZ10zcZXXP8STALbsRodu7kd99cwh4qIw49SIgCZM0nbSMTX+RNf9t70Vje
+         Oe07oyFxXDyqg==
+Message-ID: <5cfdd715-a59a-3bb2-1bec-1cc59e9b05c4@collabora.com>
+Date:   Tue, 2 May 2023 19:32:25 +0530
 MIME-Version: 1.0
-References: <893a7e34-1d98-23e2-4d27-d25cb3ee5bf0@xs4all.nl> <9d4c52eb-103d-e89c-bba1-89cac0e53600@collabora.com>
-In-Reply-To: <9d4c52eb-103d-e89c-bba1-89cac0e53600@collabora.com>
-From:   Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Date:   Tue, 2 May 2023 15:41:28 +0200
-Message-ID: <CAPybu_1paGZaHBhLPuhc1m50xd2vB0NRtj73nrdzDTvkZuhO+g@mail.gmail.com>
-Subject: Re: [ANN] Request for Topics for a Media Summit June 26th
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v9 1/6] media: verisilicon: Do not set context src/dst
+ formats in reset functions
+To:     Linux regressions mailing list <regressions@lists.linux.dev>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kernel@collabora.com, robert.mader@collabora.com,
+        nicolas.dufresne@collabora.co.uk, ezequiel@vanguardiasur.com.ar,
+        festevam@gmail.com, p.zabel@pengutronix.de, mchehab@kernel.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        hverkuil-cisco@xs4all.nl, linux-imx@nxp.com,
+        kernelci@lists.linux.dev,
+        "gustavo.padovan@collabora.com" <gustavo.padovan@collabora.com>,
+        ricardo.canuelo@collabora.com,
+        Guillaume Charles Tucker <guillaume.tucker@collabora.com>,
+        denys.f@collabora.com
+References: <20230220104849.398203-1-benjamin.gaignard@collabora.com>
+ <20230220104849.398203-2-benjamin.gaignard@collabora.com>
+ <26addb7d-bb9d-34e8-d4fe-e323ff488101@collabora.com>
+ <dcd317db-3c24-895d-572b-1b139c370ff7@leemhuis.info>
+ <05da00c0-2180-62ee-6276-8553ad9341c4@collabora.com>
+ <5a070053-2151-56d7-26a2-03871e1e4e8e@leemhuis.info>
+Content-Language: en-US
+From:   Shreeya Patel <shreeya.patel@collabora.com>
+In-Reply-To: <5a070053-2151-56d7-26a2-03871e1e4e8e@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans
+Hi Thorsten,
 
-I would like to share the progress on KCAM from our end. It should
-take much less time than last year. Guesstimate than 15-20 minutes.
+On 02/05/23 16:42, Linux regression tracking (Thorsten Leemhuis) wrote:
+> On 02.05.23 08:56, Benjamin Gaignard wrote:
+>> Le 01/05/2023 à 09:21, Thorsten Leemhuis a écrit :
+>>> On 27.04.23 00:19, Shreeya Patel wrote:
+>>>> On 20/02/23 16:18, Benjamin Gaignard wrote:
+>>>>> Setting context source and destination formats should only be done
+>>>>> in hantro_set_fmt_out() and hantro_set_fmt_cap() after check that
+>>>>> the targeted queue is not busy.
+>>>>> Remove these calls from hantro_reset_encoded_fmt() and
+>>>>> hantro_reset_raw_fmt() to clean the driver.
+>>>>>
+>>>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>>>> KernelCI found this patch causes a regression in the
+>>>> baseline.dmesg.alert test [1] on rk3399-rock-pi-4b [2],
+>>>> see the bisection report for more details [3].
+>>>>
+>>>> Let us know if you have any questions.
+>>>>
+>>>> [1]
+>>>> https://github.com/kernelci/kernelci-core/blob/main/config/rootfs/debos/overlays/baseline/opt/kernelci/dmesg.sh
+>>>> [2] https://linux.kernelci.org/test/case/id/6442e825f19134d74c2e865d/
+>>>> [3] https://groups.io/g/kernelci-results/message/40740
+>>> Thx for the report. FWIW, regzbot noticed there is a patch that refers
+>>> to the culprit that might have been landed in next after your test ran
+>>> for the last time (and meanwhile it was mainlined): f100ce3bbd6 ("media:
+>>> verisilicon: Fix crash when probing encoder")
+>> Yes that patch should fix the probing issue.
+>> Marek is working on an additional one to fix pixel format negotiation
+>> but that doesn't impact the boot.
+> Great, thx for the reply.
+>
+> Shreeya, normally I believe developers in cases like this and would have
+> included
+>
+>   #regzbot fix: f100ce3bbd6
+>
+> in this mail (without the space in front of the #) to mark the
+> regression as resolved. Would that be okay for you and other kernel.ci
+> people? Or do you want to confirm this first?
 
-I am also trying to collect all the requirements that we are getting
-from vendors regarding V4L2. Guesstimate 10 minutes
-
-I am also very interested in some of the other topics :)
-
-Looking forward to meeting in Prague!
-
-
-
-
-On Fri, Apr 28, 2023 at 10:52=E2=80=AFAM Andrzej Pietrasiewicz
-<andrzej.p@collabora.com> wrote:
->
-> Hi Hans,
->
-> W dniu 3.03.2023 o 15:44, Hans Verkuil pisze:
-> > Hi all, >
->
-> <snip>
->
-> >
-> > So if you have a topic that you want to discuss, just reply. It would b=
-e
-> > very much appreciated if you can also add a guesstimate of the time you
-> > need for your topic.
-> >
->
-> I'd like to discuss "Stateless encoding in V4L2: Trying VP8".
->
-> I envision the discussion around these topics:
->
-> A)
-> - Introduction to stateless encoders and previous work in this area
->
-> https://github.com/bootlin/linux/tree/hantro/h264-encoding-v5.11
->
-> https://lore.kernel.org/linux-arm-kernel/20230309125651.23911-1-andrzej.p=
-@collabora.com/T/
->
-> - High level decisions
-> - Rate control
->
-> B)
-> - VP8 uAPI
->
-> C)
-> - Challenges
->
-> About time: Let's try 45 minutes. But of course it is only a guesstimate.
->
-> Regards,
->
-> Andrzej
+I checked the commit pointed out and also double checked with Benjamin 
+internally so
+we are good to mark this as fixed.
 
 
+#regzbot fix: f100ce3bbd6a
 
---=20
-Ricardo Ribalda
+
+Thanks,
+Shreeya Patel
+
+>
+> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+> --
+> Everything you wanna know about Linux kernel regression tracking:
+> https://linux-regtracking.leemhuis.info/about/#tldr
+> If I did something stupid, please tell me, as explained on that page.
