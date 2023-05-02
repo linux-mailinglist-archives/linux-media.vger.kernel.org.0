@@ -2,132 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 209B96F3BA4
-	for <lists+linux-media@lfdr.de>; Tue,  2 May 2023 03:06:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CCF86F3C5E
+	for <lists+linux-media@lfdr.de>; Tue,  2 May 2023 05:27:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232467AbjEBBGK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 May 2023 21:06:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52694 "EHLO
+        id S231799AbjEBD14 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 May 2023 23:27:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232991AbjEBBGI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 May 2023 21:06:08 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DFF83C19;
-        Mon,  1 May 2023 18:05:52 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-63b5465fc13so2389552b3a.3;
-        Mon, 01 May 2023 18:05:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682989551; x=1685581551;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=u6KvYmG6iKLAMHd7vkBOqn94kNNGYev+CUO7axt/3Ec=;
-        b=Gs+6By193FhxXRhpOqSjVLXXF7EyDRAAejY2VpLNrjFnvJlzkhj6XnGPVMwsw/Xq54
-         LyYhFqDbi/OvQNt97O4SXohp7Qo221vNnI4nseGo3J3zKbwBKOu/+dGBsfBaTiDfbXcC
-         BZGlPdIM+MxRu2XGepI7exzL41Kw48lPj6EVNjFDtkEjAnx/Lo5evCa8JnQrQRMg/xwi
-         pb7fFeCqwVNqT8+jK+5yGu+ptWjU5iygYwDBVFBBZrKCWDkxcrgox5Q8z445S+uvUDiv
-         6G//ZUlJC8UdPD3yT9Ir3R8WKMMqhPdZ/fvqKcsyPNBO3i923HA372U0ag9Yy+Tp5BCu
-         m3WA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682989551; x=1685581551;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=u6KvYmG6iKLAMHd7vkBOqn94kNNGYev+CUO7axt/3Ec=;
-        b=PWmpMPgVB5SxFlNpGLe25CxHVsQ6QgzjX867l8tY5LgOnnPzlgDF6hNI9wJZjEDKx5
-         YfHYOIDBBCoONwMbbu7OfAIp9sonVA3hOfQU1v09wx5C7bjuNQ6M7EqYjYuXi9Yu+QT1
-         /NfWRb11i/8Wo3dQXzAhEn/Qm9aIUO6rObMmSwC8Wqjp7ODLhVlLZEsFNAjGmJBlzQVT
-         ZSAjTAp6TUfHfEMqRBPpHWW2LmIwEySUEhzqzbeBaayM04TKBtqx/7+s67i1fxLDQs5+
-         ZleV2OkelXrlBpGOA1Z/eu+xOMef86nx9VZdeYCKmqd9msbHrEpE2LKFrGhV+pXa9w6M
-         SECg==
-X-Gm-Message-State: AC+VfDy4mrV4hW5OeGV1Nn1uiQK7QQnO0MYRJo2qBfG5M7ZMoGLWneCo
-        4GQ/7QUaHF56+nT/4xJb+ds8ShSM5dQkDegb
-X-Google-Smtp-Source: ACHHUZ4ngoQ7ohSxrNtlyRwdY/M+Wmel/KQQoo9L21BpjGtXxf0YTlp8Awswni/nvFNX47qFMBMitQ==
-X-Received: by 2002:a05:6a00:2e18:b0:62d:8376:3712 with SMTP id fc24-20020a056a002e1800b0062d83763712mr15725872pfb.28.1682989551282;
-        Mon, 01 May 2023 18:05:51 -0700 (PDT)
-Received: from yoga ([2400:1f00:13:5ac8:de82:eedb:43ac:e372])
-        by smtp.gmail.com with ESMTPSA id m15-20020a056a00080f00b00627e87f51a5sm16001440pfk.161.2023.05.01.18.05.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 May 2023 18:05:50 -0700 (PDT)
-Date:   Tue, 2 May 2023 06:35:43 +0530
-From:   Anup Sharma <anupnewsmail@gmail.com>
-To:     hverkuil@xs4all.nl, mchehab@kernel.org, gregkh@linuxfoundation.org
-Cc:     linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: media: usbvision: Remove comparision to NULL
-Message-ID: <ZFBh54sbwiRFKyG+@yoga>
+        with ESMTP id S230202AbjEBD1y (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 May 2023 23:27:54 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01B00358B
+        for <linux-media@vger.kernel.org>; Mon,  1 May 2023 20:27:52 -0700 (PDT)
+Received: from localhost.localdomain (node-1w7jr9st5p2etziuntaazujnj.ipv6.telus.net [IPv6:2001:569:beb1:1500:c96f:992f:7c34:9ff])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: dbrouwer)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 2DDE8660321C;
+        Tue,  2 May 2023 04:27:49 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1682998071;
+        bh=TO9YkEUgTZHoIy3KDfVjxbb0b7QTgZ2v+TZ9hOHz4Cg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=HjaPfRzpHdMS8mzXExkDYukHfhXqTmShu2rclDhvEv0LnYtVjUDHQFocH7ec5JV4b
+         Up7ewuFRcgkwlWa7xj+RAwUKqFUmX3lVNCBU+PdwjNR6J5mGFSHv+y8M/l2+m5lAvo
+         mFssPcjhMHhgHIwg6sbxeF8q95j8bX7Y/VZQmLIOSV0Y9EICp4HiXVdp5U35InAB3k
+         doPw5n7POaR2l/4r2ygUe7QK49CbLCdOWagi+knJYp4+lnUyR13PGTuhC+idbyFfVv
+         wRu8D8sEAJ54yK3PDloFLV2xhiNkfsFJg55FG6t02GK/bowCh0wEAbDihVmDV8kTew
+         A4HypiO5FrNcw==
+From:   Deborah Brouwer <deborah.brouwer@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     hverkuil@xs4all.nl, Deborah Brouwer <deborah.brouwer@collabora.com>
+Subject: [PATCH v2 00/13] bttv: convert to vb2
+Date:   Mon,  1 May 2023 20:27:18 -0700
+Message-Id: <cover.1682995256.git.deborah.brouwer@collabora.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Remove comparison to null in file usbvision-core.c and usbvision-i2c.c.
+This series converts the bttv driver to vb2.
 
-Signed-off-by: Anup Sharma <anupnewsmail@gmail.com>
----
- drivers/staging/media/usbvision/usbvision-core.c | 8 ++++----
- drivers/staging/media/usbvision/usbvision-i2c.c  | 2 +-
- 2 files changed, 5 insertions(+), 5 deletions(-)
+Compliance test results are the same as in v1:
+https://lore.kernel.org/linux-media/cover.1682379348.git.deborah.brouwer@collabora.com/
 
-diff --git a/drivers/staging/media/usbvision/usbvision-core.c b/drivers/staging/media/usbvision/usbvision-core.c
-index e35dee35b068..a38104b2a0f9 100644
---- a/drivers/staging/media/usbvision/usbvision-core.c
-+++ b/drivers/staging/media/usbvision/usbvision-core.c
-@@ -349,7 +349,7 @@ int usbvision_scratch_alloc(struct usb_usbvision *usbvision)
- {
- 	usbvision->scratch = vmalloc_32(scratch_buf_size);
- 	scratch_reset(usbvision);
--	if (usbvision->scratch == NULL) {
-+	if (!usbvision->scratch) {
- 		dev_err(&usbvision->dev->dev,
- 			"%s: unable to allocate %d bytes for scratch\n",
- 				__func__, scratch_buf_size);
-@@ -374,7 +374,7 @@ int usbvision_decompress_alloc(struct usb_usbvision *usbvision)
- 	int IFB_size = MAX_FRAME_WIDTH * MAX_FRAME_HEIGHT * 3 / 2;
- 
- 	usbvision->intra_frame_buffer = vmalloc_32(IFB_size);
--	if (usbvision->intra_frame_buffer == NULL) {
-+	if (!usbvision->intra_frame_buffer) {
- 		dev_err(&usbvision->dev->dev,
- 			"%s: unable to allocate %d for compr. frame buffer\n",
- 				__func__, IFB_size);
-@@ -2284,7 +2284,7 @@ int usbvision_init_isoc(struct usb_usbvision *usbvision)
- 		struct urb *urb;
- 
- 		urb = usb_alloc_urb(USBVISION_URB_FRAMES, GFP_KERNEL);
--		if (urb == NULL)
-+		if (!urb)
- 			return -ENOMEM;
- 		usbvision->sbuf[buf_idx].urb = urb;
- 		usbvision->sbuf[buf_idx].data =
-@@ -2343,7 +2343,7 @@ void usbvision_stop_isoc(struct usb_usbvision *usbvision)
- 	int buf_idx, err_code, reg_value;
- 	int sb_size = USBVISION_URB_FRAMES * usbvision->isoc_packet_size;
- 
--	if ((usbvision->streaming == stream_off) || (usbvision->dev == NULL))
-+	if ((usbvision->streaming == stream_off) || (!usbvision->dev))
- 		return;
- 
- 	/* Unschedule all of the iso td's */
-diff --git a/drivers/staging/media/usbvision/usbvision-i2c.c b/drivers/staging/media/usbvision/usbvision-i2c.c
-index 6e4df3335b1b..3bba93293463 100644
---- a/drivers/staging/media/usbvision/usbvision-i2c.c
-+++ b/drivers/staging/media/usbvision/usbvision-i2c.c
-@@ -233,7 +233,7 @@ int usbvision_i2c_register(struct usb_usbvision *usbvision)
- 				&usbvision->i2c_adap,
- 				"tuner", 0, v4l2_i2c_tuner_addrs(type));
- 
--		if (sd == NULL)
-+		if (!sd)
- 			return -ENODEV;
- 		if (usbvision->tuner_type != -1) {
- 			tun_setup.mode_mask = T_ANALOG_TV | T_RADIO;
+Changes since v1:
+- revised commit messages in patches 04/13 and 05/13
+to clearly explain treatment of format/width/height and
+certain vbi fields
+
+- In patch "media: bttv: refactor bttv_set_dma()": drop superfluous
+parentheses and rename the argument 'override' as 'start_capture'
+to be more descriptive of its function.
+
+- In patch "media: bttv: convert to vb2":
+  - use BT848_CAP_CTL_* when calling bttv_set_dma()
+  - fix compiler warning that vb2_queue may be uninitialized
+  - fix vbi sequence counter to avoid incrementing it twice
+if both video and vbi are streaming
+
+Deborah Brouwer (13):
+  media: bttv: use video_drvdata to get bttv
+  media: bttv: replace BUG with WARN_ON
+  media: bttv: radio use v4l2_fh instead of bttv_fh
+  media: bttv: copy vid fmt/width/height from fh
+  media: bttv: copy vbi_fmt from bttv_fh
+  media: bttv: move do_crop flag out of bttv_fh
+  media: bttv: remove format field from bttv_buffer
+  media: bttv: remove tvnorm field from bttv_buffer
+  media: bttv: remove crop info from bttv_buffer
+  media: bttv: move vbi_skip/vbi_count out of buffer
+  media: bttv: refactor bttv_set_dma()
+  media: bttv: use audio defaults for winfast2000
+  media: bttv: convert to vb2
+
+ drivers/media/pci/bt8xx/Kconfig           |   2 +-
+ drivers/media/pci/bt8xx/bttv-audio-hook.c |  10 +-
+ drivers/media/pci/bt8xx/bttv-driver.c     | 994 +++++++---------------
+ drivers/media/pci/bt8xx/bttv-risc.c       | 414 +++++----
+ drivers/media/pci/bt8xx/bttv-vbi.c        | 267 +++---
+ drivers/media/pci/bt8xx/bttvp.h           |  78 +-
+ 6 files changed, 683 insertions(+), 1082 deletions(-)
+
 -- 
-2.34.1
+2.39.2
 
