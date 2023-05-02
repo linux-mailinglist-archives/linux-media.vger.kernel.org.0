@@ -2,123 +2,278 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 25CD86F3DFC
-	for <lists+linux-media@lfdr.de>; Tue,  2 May 2023 08:58:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BA0D6F3F6A
+	for <lists+linux-media@lfdr.de>; Tue,  2 May 2023 10:44:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233018AbjEBG57 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 May 2023 02:57:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60644 "EHLO
+        id S233842AbjEBIoz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 May 2023 04:44:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232991AbjEBG56 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 May 2023 02:57:58 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70CC6D7
-        for <linux-media@vger.kernel.org>; Mon,  1 May 2023 23:57:56 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 51B99618AC
-        for <linux-media@vger.kernel.org>; Tue,  2 May 2023 06:57:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5CC8C4339B;
-        Tue,  2 May 2023 06:57:54 +0000 (UTC)
-Message-ID: <f23204ec-ff42-5907-fa28-c1975a87f4e6@xs4all.nl>
-Date:   Tue, 2 May 2023 08:57:52 +0200
+        with ESMTP id S233922AbjEBIou (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 May 2023 04:44:50 -0400
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6D5946AF;
+        Tue,  2 May 2023 01:44:48 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id 41be03b00d2f7-51fcf5d1e44so2999150a12.3;
+        Tue, 02 May 2023 01:44:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683017088; x=1685609088;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GeQ3YlDylA+SoWbDxm8aDmx/3NOWKe3tMJJA9yBoh7k=;
+        b=Z9H3Qcm1sOfVsUJ811IFgTkujKN/+n7Hthp+VKkZhJ458UuMk+IK1ygwnt6el+VDZi
+         ZeYPz2fYl1lEaCJ/SO6qct+aj0rPnrW4sjLJAES2uwP6NzNYTC8qfS1/kHvGD6cK0t86
+         IFicMkUXrC+pURw1vLc4lnEhWw9FJX7zQn23txsX+TlNdVU8W3DlJNCFjRTTChqJfiE6
+         t/6Lly8N3eR5DLNLtUmLk7lqxSkb19FhMkbqHLcATl48uJgLwFPNUIQFVA2iyNo6ZVUY
+         3nAj3HE2bVVW31GeFoiYJtjeXEM7WzCccRPx6GxYSF1yv35P26xowL/uMhNy1ipOFRws
+         UuNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683017088; x=1685609088;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GeQ3YlDylA+SoWbDxm8aDmx/3NOWKe3tMJJA9yBoh7k=;
+        b=a2/+2yUgVcugme6Fq7VhoQiqoeIyxDvAZMfkVCTma6DFEdeaKxrqBw6Q1RiuHooqAK
+         T2Rn8b2Ps59jVOttUGW/JU2Xt6ybWuF9U8poVQOIs/0P51abPlqihS9SewL4oeu6MM6C
+         IdwZmSz43F/30oqaZO9EQRflPFdlyDt/JeDMcBraWBgXkMDR2ihZNW9sKODP6+Vyk4gm
+         AKDJ/4+z2YZ6EdqNIbUBmy5Cow13XAkoch5ZAtx/KpluzreGqGi5JASpzxjnHQ7ezH4a
+         M4Z1FirJ4d0UJsKrQJpBQenKSHY+m/TqfnJIHvOKPjXijmN/Uli3/xg51/S5koG7bpQl
+         EFCg==
+X-Gm-Message-State: AC+VfDxgo6Ufsgjw4jLyQif/37dbQG9mFu2MaWEWtE7OK8vFo6USekKo
+        N97URRdiE5O5YCi6V1FX+Yg=
+X-Google-Smtp-Source: ACHHUZ5nu5cx8HImYBYhZJ7/FKDDXNGXg6NIXGlltQL24/2vP4MW8okl+Tqh80wDmI7wO5hoeTfb6g==
+X-Received: by 2002:a17:90b:1d01:b0:247:4f32:d108 with SMTP id on1-20020a17090b1d0100b002474f32d108mr17638457pjb.13.1683017088126;
+        Tue, 02 May 2023 01:44:48 -0700 (PDT)
+Received: from hcdev-d520mt2.. (60-250-192-107.hinet-ip.hinet.net. [60.250.192.107])
+        by smtp.gmail.com with ESMTPSA id v10-20020a17090a520a00b0023fcece8067sm7059039pjh.2.2023.05.02.01.44.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 May 2023 01:44:47 -0700 (PDT)
+From:   Marvin Lin <milkfafa@gmail.com>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        avifishman70@gmail.com, tmaimon77@gmail.com, tali.perry1@gmail.com,
+        venture@google.com, yuenn@google.com, benjaminfair@google.com,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        andrzej.p@collabora.com
+Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
+        kwliu@nuvoton.com, kflin@nuvoton.com,
+        Marvin Lin <milkfafa@gmail.com>
+Subject: [PATCH v12 0/7] Support Nuvoton NPCM Video Capture/Encode Engine
+Date:   Tue,  2 May 2023 16:44:23 +0800
+Message-Id: <20230502084430.234182-1-milkfafa@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [BTTV] [FSL P50x0] [PASEMI] TV Time doesn't work anymore after
- dropping the overlay support
-Content-Language: en-US
-To:     Christian Zigotzky <chzigotzky@xenosoft.de>,
-        linux-media@vger.kernel.org
-Cc:     Darren Stevens <darren@stevens-zone.net>,
-        mad skateman <madskateman@gmail.com>,
-        "R.T.Dickinson" <rtd2@xtra.co.nz>
-References: <94a617be-00b3-6dc8-eb7d-ae13c6fffae5@xenosoft.de>
- <cb82b6c1-035c-cc6b-2843-6b87ed6315ac@xenosoft.de>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <cb82b6c1-035c-cc6b-2843-6b87ed6315ac@xenosoft.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Christian,
+This patch series add DTS node, dt-bindings document and drivers for Video
+Capture/Differentiation Engine (VCD) and Encoding Compression Engine (ECE)
+present on Nuvoton NPCM SoCs.
 
-On 01/05/2023 17:20, Christian Zigotzky wrote:
-> Hello,
-> 
-> I created a patch for adding overlay support again. TV Time works without any problems again. [1]
-> 
-> Please find attached the patch for adding the removed overlay support back for BTTV cards.
-> 
-> Cheers,
-> Christian
-> 
-> [1]
-> - https://i.ibb.co/6NJmj1y/Kernel-6-4-alpha1-Power-PC.png
-> - https://i.ibb.co/7rx0MyD/Kernel-6-4-alpha2-Power-PC.png
-> 
-> 
-> On 26 April 2023 at 04:09 pm, Christian Zigotzky wrote:
->> Hello,
->>
->> TV Time doesn't work anymore on my Cyrus+ board with a FSL P50x0 PowerPC SoC [1] and on my P.A. Semi Nemo board [2] after dropping the overlay support [3]. It starts and then the whole computer
->> freezes.
+As described in the datasheet NPCM750D_DS_Rev_1.0, the VCD can capture a
+frame from digital video input and compare two frames in memory, and then
+the ECE can compress the frame data into HEXTITLE format which is defined
+in Remote Framebuffer Protocol (RFC 6143, chapter 7.7.4. Hextile Encoding).
 
-I really don't want to put destructive overlay support back, it should not
-be necessary. On an intel processor tvtime with bttv without overlay works
-fine, so why doesn't it for these boards?
+The output of v4l2-compliance:
+v4l2-compliance 1.23.0-4965, 64 bits, 64-bit time_t
+v4l2-compliance SHA: d0964d133053 2022-11-06 14:46:45
 
-I wonder if it is a big vs little endian issue that crops up when there is
-no overlay. At least, I assume these two boards are big endian?
+Compliance test for npcm-video device /dev/video0:
 
-Can you try to use v4l2-ctl to stream from bttv? E.g.: v4l2-ctl -d /dev/video0 --stream-mmap
+Driver Info:
+        Driver name      : npcm-video
+        Card type        : NPCM Video Engine
+        Bus info         : platform:npcm-video
+        Driver version   : 5.15.50
+        Capabilities     : 0x84200001
+                Video Capture
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04200001
+                Video Capture
+                Streaming
+                Extended Pix Format
 
-If that works (note that this just captures without showing the output), then
-the issue is likely with tvtime, not bttv. If v4l2-ctl fails, then try again
-after applying this series:
+Required ioctls:
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
 
-https://patchwork.linuxtv.org/project/linux-media/cover/cover.1682995256.git.deborah.brouwer@collabora.com/
+Allow for multiple opens:
+        test second /dev/video0 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
 
-If it still fails, then there is likely a big endian problem in the bttv
-driver that will need to be resolved.
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
 
-If it is tvtime, then run with --verbose: hopefully that will give an indication
-of which output driver it uses (Xv, DirectFB or SDL are the more likely candidates).
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 1 Audio Inputs: 0 Tuners: 0
 
-Note that I see no overlay support in the official tvtime repo:
-https://git.linuxtv.org/tvtime.git/
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
 
-It could be an output library that is handling that, though. But I need to know
-how it is set up on the boards you use.
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK
+        test VIDIOC_DV_TIMINGS_CAP: OK
+        test VIDIOC_G/S_EDID: OK (Not Supported)
 
-Regards,
+Control ioctls (Input 0):
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+                warn: v4l2-test-controls.cpp(1070): V4L2_CID_DV_RX_POWER_PRESENT not found for input 0
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 1 Private Controls: 2
 
-	Hans
+Format ioctls (Input 0):
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
 
->>
->> I use the following BTTV cards.
->>
->> - WinTV Express with a BT878A chip
->> - Typhoon TView RDS + FM Stereo (BT878 chip)
->>
->> It would be really nice if we could get the overlay support back, because we love TV Time. [4]
->>
->> We use TV Time with connected TV receivers and game consoles.
->>
->> Thanks,
->> Christian
->>
->> [1] http://wiki.amiga.org/index.php?title=X5000
->> [2] https://en.wikipedia.org/wiki/AmigaOne_X1000
->> [3] https://patchwork.kernel.org/project/linux-media/patch/20230302125731.1124945-4-hverkuil-cisco@xs4all.nl/
->> [4] https://tvtime.sourceforge.net/
+Codec ioctls (Input 0):
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+
+Total for npcm-video device /dev/video0: 45, Succeeded: 45, Failed: 0, Warnings: 1
+
+Changes in v12:
+  - Modify the flow for detecting resolution change and raise
+    V4L2_EVENT_SOURCE_CHANGE event.
+  - Add V4L2_PIX_FMT_RGB565 format support.
+
+Changes in v11:
+  - Replace "u8/u16/u32" with "unsigned int" for generic local variables.
+  - Correct subsystem prefixes, drop redundant words in commit subject, and
+    add more information in commit message.
+
+Changes in v10:
+  - drivers/media/platform/nuvoton/npcm-video.c
+    * Let short functions to be inline function.
+    * Correct return type of some functions, and properly handle return
+      value by callers.
+    * Correct the timing of removing rect_list and the flow of FIFO overrun
+      case in irq.
+    * Adjust line breaks, indentations, and style of variable declarations.
+
+Changes in v9:
+  - Change ECE node name to "video-codec".
+  - Drop redundant "bindings for" in commit subject of patch 2/7.
+  - Refine the format of VCD/ECE dt-binding document.
+
+Changes in v8:
+  - Let VCD/ECE to be 2 separate nodes and update dt-binding documents.
+  - Move register definitions out to a local header file.
+  - Driver refinements (add error handling for memory allocation, remove
+    unnecessary condition check and introduce "goto"s to handle similar
+    error recovery paths).
+  - Correct properties and typo in GFXI dt-binding document.
+
+Changes in v7:
+  - Add uapi documents for driver-specific controls.
+  - Implement driver-specific controls for switching capture mode and
+    getting the count of compressed HEXTILE rectangles.
+  - Drop unnecessary "enum_framesizes" and "enum_frameintervals" functions.
+  - Include the output of v4l2-compliance in cover letter.
+
+Changes in v6:
+  - Support NPCM845 and add compatible "nuvoton,npcm845-video".
+  - Correct pixel format to V4L2_PIX_FMT_HEXTILE which is newly added in
+    this patch series.
+
+Changes in v5:
+  - Simplify function prefix "nuvoton_" to "npcm_".
+  - Increase VCD_BUSY_TIMEOUT_US and ECE_POLL_TIMEOUT_US to 300ms to
+    prevent polling timeout when ECC is enabled or system is busy.
+
+Changes in v4:
+  - Fix compile warning reported by kernel test robot.
+
+Changes in v3:
+  - Add video driver entry in MAINTAINERS.
+  - Change config name to CONFIG_VIDEO_NPCM_VCD_ECE.
+  - Reduce the waiting time after resetting the VCD/ECE module.
+  - Correct data types of some variables.
+
+Changes in v2:
+  - Add Hextile document and locate with vendor formats.
+
+Marvin Lin (7):
+  ARM: dts: nuvoton: Add node for NPCM VCD and ECE engine
+  media: dt-bindings: nuvoton: Add NPCM VCD and ECE engine
+  dt-bindings: arm: nuvoton: Add NPCM GFXI
+  media: v4l: Add HEXTILE compressed format
+  media: v4l2-ctrls: Add user control base for Nuvoton NPCM controls
+  media: uapi: Add controls for NPCM video driver
+  media: nuvoton: Add driver for NPCM video capture and encode engine
+
+ .../bindings/arm/npcm/nuvoton,gfxi.yaml       |   39 +
+ .../bindings/media/nuvoton,npcm-ece.yaml      |   43 +
+ .../bindings/media/nuvoton,npcm-vcd.yaml      |   72 +
+ .../userspace-api/media/drivers/index.rst     |    1 +
+ .../media/drivers/npcm-video.rst              |   67 +
+ .../media/v4l/pixfmt-reserved.rst             |    7 +
+ MAINTAINERS                                   |   12 +
+ arch/arm/boot/dts/nuvoton-common-npcm7xx.dtsi |   23 +
+ drivers/media/platform/Kconfig                |    1 +
+ drivers/media/platform/Makefile               |    1 +
+ drivers/media/platform/nuvoton/Kconfig        |   15 +
+ drivers/media/platform/nuvoton/Makefile       |    2 +
+ drivers/media/platform/nuvoton/npcm-regs.h    |  183 ++
+ drivers/media/platform/nuvoton/npcm-video.c   | 1898 +++++++++++++++++
+ drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+ include/uapi/linux/npcm-video.h               |   41 +
+ include/uapi/linux/v4l2-controls.h            |    6 +
+ include/uapi/linux/videodev2.h                |    1 +
+ 18 files changed, 2413 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/arm/npcm/nuvoton,gfxi.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/nuvoton,npcm-ece.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/nuvoton,npcm-vcd.yaml
+ create mode 100644 Documentation/userspace-api/media/drivers/npcm-video.rst
+ create mode 100644 drivers/media/platform/nuvoton/Kconfig
+ create mode 100644 drivers/media/platform/nuvoton/Makefile
+ create mode 100644 drivers/media/platform/nuvoton/npcm-regs.h
+ create mode 100644 drivers/media/platform/nuvoton/npcm-video.c
+ create mode 100644 include/uapi/linux/npcm-video.h
+
+-- 
+2.34.1
 
