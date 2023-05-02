@@ -2,86 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 61B446F41D2
-	for <lists+linux-media@lfdr.de>; Tue,  2 May 2023 12:37:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7F406F4258
+	for <lists+linux-media@lfdr.de>; Tue,  2 May 2023 13:13:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233864AbjEBKh0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 May 2023 06:37:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39636 "EHLO
+        id S233817AbjEBLNH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 May 2023 07:13:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233819AbjEBKgf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 May 2023 06:36:35 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30DF55257
-        for <linux-media@vger.kernel.org>; Tue,  2 May 2023 03:36:12 -0700 (PDT)
-Received: from mail.ideasonboard.com (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BC03B9B9;
-        Tue,  2 May 2023 12:36:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1683023768;
-        bh=eKvwpX+TdTBVpJ/cJ+W524plrDuH7X1vhpSBOvAuQsg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hSTN9BZ/RiHLwzMTWRzOCbWkGM4MGWQ3dHLw4/v72C+9Ebv7bNc5m87FmlgYnn8rb
-         rGGeVYkGwKxUqoqjiFW0A5gyLkEFnf4vvcYOWca+glSUuXmSPVeEFTSm6FvDfRSayO
-         3eoskH0XflCKMv/WSBPFNF8S4gKxDGFb2L58jlvA=
-From:   Daniel Scally <dan.scally@ideasonboard.com>
-To:     Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Sylvain Petinot <sylvain.petinot@foss.st.com>,
-        Mickael Guene <mickael.guene@st.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Cc:     hugues.fruchet@foss.st.com, alain.volmat@foss.st.com,
-        Daniel Scally <dan.scally@ideasonboard.com>
-Subject: [PATCH 2/2] media: i2c: Propagate format from sink to source pad
-Date:   Tue,  2 May 2023 11:35:47 +0100
-Message-Id: <20230502103547.150918-3-dan.scally@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230502103547.150918-1-dan.scally@ideasonboard.com>
-References: <20230502103547.150918-1-dan.scally@ideasonboard.com>
+        with ESMTP id S233851AbjEBLM7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 May 2023 07:12:59 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 578C6F9;
+        Tue,  2 May 2023 04:12:57 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1ptnwE-0005l8-N6; Tue, 02 May 2023 13:12:54 +0200
+Message-ID: <5a070053-2151-56d7-26a2-03871e1e4e8e@leemhuis.info>
+Date:   Tue, 2 May 2023 13:12:51 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v9 1/6] media: verisilicon: Do not set context src/dst
+ formats in reset functions
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Shreeya Patel <shreeya.patel@collabora.com>
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        kernel@collabora.com, robert.mader@collabora.com,
+        nicolas.dufresne@collabora.co.uk, ezequiel@vanguardiasur.com.ar,
+        festevam@gmail.com, p.zabel@pengutronix.de, mchehab@kernel.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        hverkuil-cisco@xs4all.nl, linux-imx@nxp.com,
+        regressions@lists.linux.dev
+References: <20230220104849.398203-1-benjamin.gaignard@collabora.com>
+ <20230220104849.398203-2-benjamin.gaignard@collabora.com>
+ <26addb7d-bb9d-34e8-d4fe-e323ff488101@collabora.com>
+ <dcd317db-3c24-895d-572b-1b139c370ff7@leemhuis.info>
+ <05da00c0-2180-62ee-6276-8553ad9341c4@collabora.com>
+Content-Language: en-US, de-DE
+From:   "Linux regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+In-Reply-To: <05da00c0-2180-62ee-6276-8553ad9341c4@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1683025977;3af8922a;
+X-HE-SMSGID: 1ptnwE-0005l8-N6
+X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When setting formats on the sink pad, propagate the adjusted format
-over to the subdev's source pad. Use the MIPID02_SOURCE macro to fetch the pad's
-try format rather than relying on the pad field of the format to facilitate
-this - the function is specific to the source pad anyway.
+On 02.05.23 08:56, Benjamin Gaignard wrote:
+> Le 01/05/2023 à 09:21, Thorsten Leemhuis a écrit :
+>> On 27.04.23 00:19, Shreeya Patel wrote:
+>>> On 20/02/23 16:18, Benjamin Gaignard wrote:
+>>>> Setting context source and destination formats should only be done
+>>>> in hantro_set_fmt_out() and hantro_set_fmt_cap() after check that
+>>>> the targeted queue is not busy.
+>>>> Remove these calls from hantro_reset_encoded_fmt() and
+>>>> hantro_reset_raw_fmt() to clean the driver.
+>>>>
+>>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>>> KernelCI found this patch causes a regression in the
+>>> baseline.dmesg.alert test [1] on rk3399-rock-pi-4b [2],
+>>> see the bisection report for more details [3].
+>>>
+>>> Let us know if you have any questions.
+>>>
+>>> [1]
+>>> https://github.com/kernelci/kernelci-core/blob/main/config/rootfs/debos/overlays/baseline/opt/kernelci/dmesg.sh
+>>> [2] https://linux.kernelci.org/test/case/id/6442e825f19134d74c2e865d/
+>>> [3] https://groups.io/g/kernelci-results/message/40740
+>> Thx for the report. FWIW, regzbot noticed there is a patch that refers
+>> to the culprit that might have been landed in next after your test ran
+>> for the last time (and meanwhile it was mainlined): f100ce3bbd6 ("media:
+>> verisilicon: Fix crash when probing encoder")
+> 
+> Yes that patch should fix the probing issue.
+> Marek is working on an additional one to fix pixel format negotiation
+> but that doesn't impact the boot.
 
-Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
----
- drivers/media/i2c/st-mipid02.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Great, thx for the reply.
 
-diff --git a/drivers/media/i2c/st-mipid02.c b/drivers/media/i2c/st-mipid02.c
-index f20f87562bf1..04112f26bc9d 100644
---- a/drivers/media/i2c/st-mipid02.c
-+++ b/drivers/media/i2c/st-mipid02.c
-@@ -750,7 +750,7 @@ static void mipid02_set_fmt_source(struct v4l2_subdev *sd,
- 	if (format->which != V4L2_SUBDEV_FORMAT_TRY)
- 		return;
- 
--	*v4l2_subdev_get_try_format(sd, sd_state, format->pad) = format->format;
-+	*v4l2_subdev_get_try_format(sd, sd_state, MIPID02_SOURCE) = format->format;
- }
- 
- static void mipid02_set_fmt_sink(struct v4l2_subdev *sd,
-@@ -768,6 +768,9 @@ static void mipid02_set_fmt_sink(struct v4l2_subdev *sd,
- 		fmt = &bridge->fmt;
- 
- 	*fmt = format->format;
-+
-+	/* Propagate the format change to the source pad */
-+	mipid02_set_fmt_source(sd, sd_state, format);
- }
- 
- static int mipid02_set_fmt(struct v4l2_subdev *sd,
--- 
-2.34.1
+Shreeya, normally I believe developers in cases like this and would have
+included
 
+ #regzbot fix: f100ce3bbd6
+
+in this mail (without the space in front of the #) to mark the
+regression as resolved. Would that be okay for you and other kernel.ci
+people? Or do you want to confirm this first?
+
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
