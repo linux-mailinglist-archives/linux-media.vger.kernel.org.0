@@ -2,213 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 938496F4B49
-	for <lists+linux-media@lfdr.de>; Tue,  2 May 2023 22:24:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 361FF6F4BA0
+	for <lists+linux-media@lfdr.de>; Tue,  2 May 2023 22:52:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229962AbjEBUYT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 May 2023 16:24:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54582 "EHLO
+        id S229721AbjEBUwg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 May 2023 16:52:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229511AbjEBUYS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 May 2023 16:24:18 -0400
-Received: from smtp.smtpout.orange.fr (smtp-16.smtpout.orange.fr [80.12.242.16])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88D5219A5
-        for <linux-media@vger.kernel.org>; Tue,  2 May 2023 13:24:15 -0700 (PDT)
-Received: from [192.168.1.18] ([86.243.2.178])
-        by smtp.orange.fr with ESMTPA
-        id twXgppIyTDWLHtwXgpzUGe; Tue, 02 May 2023 22:24:13 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-        s=t20230301; t=1683059053;
-        bh=PMrwAhXdyGkz9ytuGeyKVuEYfwV4KQf3cPRbS20fhZU=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=MSxDoOzDIu/DiFTeig656t6lYDc/5KleISt5cSLrSnmdxSpe5lubkW36EctN9mU76
-         Iq2tRyJ3Y+QATWBHdIUf1fXn61S0We2PvD86m0W7tCTHOZ5SYyZlb7YapCbVQ9CWT2
-         dLGxi+FID4GpeRUO6V/7Hz7j16fTKyOeypOOc52E1rD/e+cUIP6IZxeSkiI/91Z6o2
-         2mfdT38mOIukQ6vGkb0XGT/fmgu2vXZpRJgZv1b6rKvSkLjL55EJ5PFEJ6X9tQ+UGg
-         4TILE30vzjSjVaj8aZ4kQ/Dbb71TypClXpVoxJWQGoV6FH0Nc1Buzo3gv9P3eRhQW0
-         b5tE4r1jDlVJA==
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Tue, 02 May 2023 22:24:13 +0200
-X-ME-IP: 86.243.2.178
-Message-ID: <b1ee9be3-60db-31ea-97dd-916dc80f237c@wanadoo.fr>
-Date:   Tue, 2 May 2023 22:24:08 +0200
+        with ESMTP id S229492AbjEBUwf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 May 2023 16:52:35 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CACCD1BC1;
+        Tue,  2 May 2023 13:52:33 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-94ef0a8546fso709981066b.1;
+        Tue, 02 May 2023 13:52:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683060752; x=1685652752;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VNIBDi9cX5m1XY06HfPo6MjnbSVQ9LD+YR4Pmsi5V1o=;
+        b=FKefYj9RO4YkvQeJxBIZ4V5jDtEH5tgeN4Da7uLSMZLQnW+gI6ocIjxYb+iBXY5nnz
+         wslr0Xzb7XEqmtRSypBoQAbt2b+NmByflqL+IIJXDiUNqSDEp9WZYaSESaSfCGRDVsTL
+         AyhjZ3cspla/vTrevLYItLxJhrHyab4X2hcMY+nE0XPXOZsgg8ty2dp56TZmTjJK/Le6
+         Btr1uQsJWn4U4Lv1NrIWBHdyDU+oueWnxSiaSixxAM4T7LFiknSpcJ6fOlpUJjvxrxmj
+         csJ3EsIR3zsBHPwmh/UgGcgl6M7GWJdQxx+6BSVDWZiKmHDy7oPwl6m8rh3T0odCIwDr
+         JPfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683060752; x=1685652752;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VNIBDi9cX5m1XY06HfPo6MjnbSVQ9LD+YR4Pmsi5V1o=;
+        b=Lrx0hAeZH9PuniilT+GBNY9Snr7RrJ1pp2h79Jdr1+ROVy70mASoI9hBLXngntzUeS
+         EPXWmBNBgVaW9JfSj7fyLSCxJmgs+5ID3r1cJ+uJi87sbaDOurr4pQLq9N6BUwmKVCy4
+         mnp+av7kSkxXJFfube8n9Zlf1uSTgGSoPu0nP8ELKOWl+1Cy6DhoyL5Qo2mBzz1uMgA8
+         t82F7g3CFFMEb6oxKMDYXk9RYfRbrmiAgPjpIOQm7ELL/qE6mC/nB3bX10W/QyWcJibG
+         135sT5SgmboWPdr6c7cibcxsUzFKvyUjBwG3zGR1j90nfu8oWtLHphAG9PH0R3j7Ns6Z
+         RQaw==
+X-Gm-Message-State: AC+VfDwvrIV9gIOOE6Ozx2tzrKj6GM51yINehrxrqxtQYYIZ0EQX2fB/
+        hFfYlzPkgs0fwTlL4q1Z5s8=
+X-Google-Smtp-Source: ACHHUZ7AbKyr4LGP/WwDfNoOVvrWGL/EQZ5T6bvoP2KL5poTf68C/6UHnpUmjlsQhY4gDc7hTyDfQw==
+X-Received: by 2002:a17:907:78b:b0:931:df8d:113 with SMTP id xd11-20020a170907078b00b00931df8d0113mr1166121ejb.26.1683060751893;
+        Tue, 02 May 2023 13:52:31 -0700 (PDT)
+Received: from [192.168.1.43] (hst-221-88.medicom.bg. [84.238.221.88])
+        by smtp.gmail.com with ESMTPSA id hg18-20020a1709072cd200b00965504665e2sm249627ejc.149.2023.05.02.13.52.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 May 2023 13:52:31 -0700 (PDT)
+Message-ID: <5a851116-561f-2d00-1310-2debc43ce249@gmail.com>
+Date:   Tue, 2 May 2023 23:52:28 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 net-next 3/6] net: bcmasp: Add support for ASP2.0
- Ethernet controller
-Content-Language: fr
-To:     Justin Chen <justinpopo6@gmail.com>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        bcm-kernel-feedback-list@broadcom.com
-Cc:     justin.chen@broadcom.com, f.fainelli@gmail.com,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, opendmb@gmail.com,
-        andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
-        richardcochran@gmail.com, sumit.semwal@linaro.org,
-        christian.koenig@amd.com
-References: <1682535272-32249-1-git-send-email-justinpopo6@gmail.com>
- <1682535272-32249-4-git-send-email-justinpopo6@gmail.com>
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <1682535272-32249-4-git-send-email-justinpopo6@gmail.com>
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] media: venus: only set H264_TRANSFORM_8X8 on supported
+ hfi versions
+To:     =?UTF-8?Q?Martin_D=c3=b8rum?= <dorum@noisolation.com>,
+        quic_vgarodia@quicinc.com
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
+References: <5D1EB136-0839-44BF-9F9B-A937237C9C96@noisolation.com>
+Content-Language: en-US, bg-BG
+From:   Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
+In-Reply-To: <5D1EB136-0839-44BF-9F9B-A937237C9C96@noisolation.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le 26/04/2023 à 20:54, Justin Chen a écrit :
-> Add support for the Broadcom ASP 2.0 Ethernet controller which is first
-> introduced with 72165. This controller features two distinct Ethernet
-> ports that can be independently operated.
+
+
+On 14.04.23 г. 13:12 ч., Martin Dørum wrote:
+> Setting the H264_TRANSFORM_8X8 property only works on HFI versions
+>> =4xx. The code used to unconditionally set the property in
+> venc_set_properties, which meant that initializing the encoder would
+> always fail unless the hfi_version was >=4xx.
 > 
-> This patch supports:
+> This patch changes venc_set_properties to only set the
+> H264_TRANSFORM_8X8 property if the hfi version is >=4xx.
 > 
-> - Wake-on-LAN using magic packets
-> - basic ethtool operations (link, counters, message level)
-> - MAC destination address filtering (promiscuous, ALL_MULTI, etc.)
+> Signed-off-by: Martin Dørum <dorum@noisolation.com>
 > 
-> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
-> Signed-off-by: Justin Chen <justinpopo6@gmail.com>
 > ---
+> 
+> I have an APQ8016-based board. Before this patch, the Venus driver
+> would simply fail with EINVAL when trying to request buffers
+> (VIDIOC_REQBUFS). With this patch, encoding works
+> (tested using gstreamer's v4l2h264enc).
+> 
+>   drivers/media/platform/qcom/venus/venc.c | 21 +++++++++++----------
+>   1 file changed, 11 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+> index cdb12546c4fa..b3df805a8c9c 100644
+> --- a/drivers/media/platform/qcom/venus/venc.c
+> +++ b/drivers/media/platform/qcom/venus/venc.c
+> @@ -672,16 +672,17 @@ static int venc_set_properties(struct venus_inst *inst)
+>   		if (ret)
+>   			return ret;
+> 
+> -		ptype = HFI_PROPERTY_PARAM_VENC_H264_TRANSFORM_8X8;
+> -		h264_transform.enable_type = 0;
+> -		if (ctr->profile.h264 == V4L2_MPEG_VIDEO_H264_PROFILE_HIGH ||
+> -		    ctr->profile.h264 == V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_HIGH)
+> -			h264_transform.enable_type = ctr->h264_8x8_transform;
+> -
+> -		ret = hfi_session_set_property(inst, ptype, &h264_transform);
+> -		if (ret)
+> -			return ret;
+> -
+> +		if (!IS_V1(inst->core) && !IS_V3(inst->core)) {
 
-[...]
+Instead of doing these checks here you could do:
 
-> +void bcmasp_disable_all_filters(struct bcmasp_intf *intf)
-> +{
-> +	struct bcmasp_priv *priv = intf->parent;
-> +	unsigned int i;
+diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c 
+b/drivers/media/platform/qcom/venus/hfi_cmds.c
+index bc3f8ff05840..2453e5c3d244 100644
+--- a/drivers/media/platform/qcom/venus/hfi_cmds.c
++++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
+@@ -1064,6 +1064,7 @@ static int pkt_session_set_property_1x(struct 
+hfi_session_set_property_pkt *pkt,
+                 break;
+         }
+         case HFI_PROPERTY_PARAM_VENC_HDR10_PQ_SEI:
++       case HFI_PROPERTY_PARAM_VENC_H264_TRANSFORM_8X8:
+                 return -ENOTSUPP;
 
-Hi,
+         /* FOLLOWING PROPERTIES ARE NOT IMPLEMENTED IN CORE YET */
 
-Nit: Some loop index are unsigned int, but most are int.
-This could be done consistantly.
-
+> +			ptype = HFI_PROPERTY_PARAM_VENC_H264_TRANSFORM_8X8;
+> +			h264_transform.enable_type = 0;
+> +			if (ctr->profile.h264 == V4L2_MPEG_VIDEO_H264_PROFILE_HIGH ||
+> +			    ctr->profile.h264 == V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_HIGH)
+> +				h264_transform.enable_type = ctr->h264_8x8_transform;
 > +
-> +	/* Disable all filters held by this port */
-> +	for (i = ASP_RX_FILT_MDA_RES_COUNT(intf); i < NUM_MDA_FILTERS; i++) {
-> +		if (priv->mda_filters[i].en &&
-> +		    priv->mda_filters[i].port == intf->port)
-> +			bcmasp_en_mda_filter(intf, 0, i);
-> +	}
-> +}
+> +			ret = hfi_session_set_property(inst, ptype, &h264_transform);
+> +			if (ret)
+> +				return ret;
+> +		}
+>   	}
+> 
+>   	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_H264 ||
+> --
+> 2.34.1
 
-[...]
-
-> +static int bcmasp_probe(struct platform_device *pdev)
-> +{
-> +	struct device_node *ports_node, *intf_node;
-> +	const struct bcmasp_plat_data *pdata;
-> +	struct device *dev = &pdev->dev;
-> +	int ret, i, count = 0, port;
-> +	struct bcmasp_priv *priv;
-> +	struct bcmasp_intf *intf;
-> +
-> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
-> +
-> +	priv->irq = platform_get_irq(pdev, 0);
-> +	if (priv->irq <= 0) {
-> +		dev_err(dev, "invalid interrupt\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	priv->clk = devm_clk_get_optional_enabled(dev, "sw_asp");
-> +	if (IS_ERR(priv->clk)) {
-> +		dev_err(dev, "failed to request clock\n");
-> +		return PTR_ERR(priv->clk);
-> +	}
-> +
-> +	/* Base from parent node */
-> +	priv->base = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(priv->base)) {
-> +		dev_err(dev, "failed to iomap\n");
-> +		return PTR_ERR(priv->base);
-> +	}
-> +
-> +	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(40));
-> +	if (ret)
-> +		ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
-
-I don't think that this fallback is needed.
-See [1].
-
-More over, using dev_err_probe() would slighly simplify the probe 
-function. (saves a few LoC, logs the error code in a human reading format)
-
-[1]: 
-https://lore.kernel.org/lkml/86bf852e-4220-52d4-259d-3455bc24def1@wanadoo.fr/T/#m022abc0051ede3ba1feeb06cefd59e2a8a5c7864
-
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "unable to set DMA mask: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-
-[...]
-
-> +static int __maybe_unused bcmasp_suspend(struct device *d)
-> +{
-> +	struct bcmasp_priv *priv = dev_get_drvdata(d);
-> +	struct bcmasp_intf *intf;
-> +	unsigned int i;
-
-Same
-
-> +	int ret = 0;
-
-no need to initialize, but it is mostmy a matter of taste.
-
-> +
-> +	for (i = 0; i < priv->intf_count; i++) {
-> +		intf = priv->intfs[i];
-> +		if (!intf)
-> +			continue;
-> +
-> +		ret = bcmasp_interface_suspend(intf);
-> +		if (ret)
-> +			break;
-> +	}
-> +
-> +	ret = clk_prepare_enable(priv->clk);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Whether Wake-on-LAN is enabled or not, we can always disable
-> +	 * the shared TX clock
-> +	 */
-> +	bcmasp_core_clock_set(priv, 0, ASP_CTRL_CLOCK_CTRL_ASP_TX_DISABLE);
-> +
-> +	bcmasp_core_clock_select(priv, true);
-> +
-> +	clk_disable_unprepare(priv->clk);
-> +
-> +	return ret;
-> +}
-> +
-> +static int __maybe_unused bcmasp_resume(struct device *d)
-> +{
-> +	struct bcmasp_priv *priv = dev_get_drvdata(d);
-> +	struct bcmasp_intf *intf;
-> +	unsigned int i;
-
-same
-
-> +	int ret = 0;
-
-no need to initialize, but it is mostmy a matter of taste.
-
-Just my 2c,
-CJ
-
-
+-- 
+regards,
+Stan
