@@ -2,122 +2,259 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F0C86F437B
-	for <lists+linux-media@lfdr.de>; Tue,  2 May 2023 14:15:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05B6F6F43AA
+	for <lists+linux-media@lfdr.de>; Tue,  2 May 2023 14:22:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234146AbjEBMPp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 May 2023 08:15:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43344 "EHLO
+        id S234189AbjEBMWM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 May 2023 08:22:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234105AbjEBMPn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 May 2023 08:15:43 -0400
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A94E8E4D
-        for <linux-media@vger.kernel.org>; Tue,  2 May 2023 05:15:42 -0700 (PDT)
-Received: by mail-ot1-x329.google.com with SMTP id 46e09a7af769-6a5ebf9f432so2607432a34.3
-        for <linux-media@vger.kernel.org>; Tue, 02 May 2023 05:15:42 -0700 (PDT)
+        with ESMTP id S233856AbjEBMWL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 May 2023 08:22:11 -0400
+Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com [IPv6:2607:f8b0:4864:20::1135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F16985240
+        for <linux-media@vger.kernel.org>; Tue,  2 May 2023 05:21:54 -0700 (PDT)
+Received: by mail-yw1-x1135.google.com with SMTP id 00721157ae682-555e853d3c5so34167467b3.2
+        for <linux-media@vger.kernel.org>; Tue, 02 May 2023 05:21:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683029742; x=1685621742;
-        h=content-transfer-encoding:to:subject:message-id:date:from:sender
+        d=linaro.org; s=google; t=1683030114; x=1685622114;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=UFDCcpPxDmkQZsud8dmALV/HSiV3stf7Ud3TXlSZ1wA=;
-        b=Em96I0iTF2A6o3J/ORbPNgTQDb/X5WPO2+3u9AnRSaUwbbtikDeHttGXBticraotaC
-         RhxV9mGQVQj4tjbfZx7r1ccBoX4O4NEcXfPXZXGh3l7H4Ft7kgSuhN/9jh5Qd5fVK5pH
-         ikn71Tk8SZC48NhHClOCCgBDxC8NICVFpEXA4QupryUHJnT6vJkIKOfcUNoxeQ73oBjg
-         zgCC9JjagCyBOzCTZ44ZuzraHsbJd5sIBDHB6btrLz1e3AumteJRJ2PgbQOqa0qJ0qzh
-         a9bVc0YVl9KTEs6ZtbqpI2qzB1dCaBWlv+CKMPu+ftaGeXXB7+eiNN6jsTIVYw0kvRCD
-         kxEw==
+        bh=v0ELEJaxmyMHE86NJZXf/OVqd45Nxv6qSnG8aCn1dms=;
+        b=y6cdTbHtduWu7yW0MFh2JTL5r7bTmocpHVvi/ntHauHi9Pq1/Lwpyp0tqSH90CEmtt
+         QVTGSTTKyr4dvyE/IFh4omLV7T6G3lUecQ+kbwN907BmQXh7YbYLGsqCeQyJiLuxtni7
+         OoALzyjcB4WMMAz14TWrXvVgqPbWh0npyEATXdnzWwdKvog1LWYiDb4zCMA5RMrIAx0Z
+         /PPzWNc01T6ShhCT9Sli1ILKVAZxRiePuqEzTPj3PEBo5fDDUvGKYnjwgFhApSWfbSYw
+         WQckJYCh0p3S1VlpxWWri4cE86+1r67CZD1DtT2C4MbfIanbqPtjn2Rwohx9ackRQtkV
+         a8DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683029742; x=1685621742;
-        h=content-transfer-encoding:to:subject:message-id:date:from:sender
+        d=1e100.net; s=20221208; t=1683030114; x=1685622114;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=UFDCcpPxDmkQZsud8dmALV/HSiV3stf7Ud3TXlSZ1wA=;
-        b=ROQ96DSzRYlYLs9WdL/q9CHniErepmxAHwJmvoHOyGbf+jbYUbg92O2k16LAus4UPt
-         Fv9fU7RKNdOaqnskdodX29uDtxrOqknPkavKXyN8eDzOa9PnU5B1tYBmFJGprXdatDwa
-         poHBo0xPz8jvmYbrzF/1lxfsUYUR93dt+LlYdV+J7mArlK2vmGDETYzAfV+hjY3deQya
-         nD7gnbyKkw6EVt3KOtJhVUb0IUM8ugNP15xr0yLMtMcsqu0LdrTCZSfAgdo6gBeUFyOV
-         Z2DPFGj6Iqgs58jCFilxJhycqnOZDkC8HwxJlzngGnQxINYZcufU7tGQHWMztIEcNQ7A
-         aZGw==
-X-Gm-Message-State: AC+VfDwLao2xvpBCBz2MVKQZ65PrRlJptvOeJzfKkxVMneK3LBv/N3cZ
-        o0Ou+cFHfiHk9h/P02umCwtBNYzEls/TzKbvu8k=
-X-Google-Smtp-Source: ACHHUZ7A6SbxrSbXo/QVeZo2lhTICROhzUdLaf9rigkMM+uiUSpVaVaKvSQGYPy7OvR9R+KnBp+8kdalZGV/1uhMq34=
-X-Received: by 2002:a05:6808:6:b0:38b:5349:e112 with SMTP id
- u6-20020a056808000600b0038b5349e112mr7478821oic.46.1683029741755; Tue, 02 May
- 2023 05:15:41 -0700 (PDT)
+        bh=v0ELEJaxmyMHE86NJZXf/OVqd45Nxv6qSnG8aCn1dms=;
+        b=Xwl7rutIxhtb9IUhozuMYt1R3l3OsEtfJ24vWJY/7lldkutscXh4/JW4pXAYAQZ4dl
+         zCAWIHGCW1z+qVJ6aw2+xAdc+ftRJJGIQq+i2vIYmDT9N0vGwREDxMOvVFCRPJGCtRCU
+         /ot1TugYWmu7w4g57bj3Dfx212yeMC8NPHkNyZ2UJhQNdgUtvhwkoezCum3+kzzhFGx2
+         4Gu3rkubYPZAO9w+q1gdNgFAy2iyfAFHqgpL6TJd/2qXG3bPT0D/Bpt45rKy2sampIjB
+         42lIpFth/5ANJP4/HgjanwcT+a3LgtFLISboyP4dnMbV2eqSgHko7IkLREngriMDCT8U
+         deDA==
+X-Gm-Message-State: AC+VfDxyAEvoFUF5zaDObhChKynxX231DFA829pjCLcbT88CK583gcDQ
+        3/Yo1MPN3/yWTCxpA0YGpVye1LvlBkec1kn/vpNO9g==
+X-Google-Smtp-Source: ACHHUZ54VmADvQKJKh71p0TlnN2S++HjGqYIsN12v/Jh03QvzM5HJOh/pgSCZ25PyQYThKrtg4nK0QGV68jadmQa8+Q=
+X-Received: by 2002:a81:4e0b:0:b0:55a:985e:8ad1 with SMTP id
+ c11-20020a814e0b000000b0055a985e8ad1mr2264034ywb.33.1683030114110; Tue, 02
+ May 2023 05:21:54 -0700 (PDT)
 MIME-Version: 1.0
-Sender: ericgloriapaul@gmail.com
-Received: by 2002:a05:6358:4903:b0:11a:758f:2411 with HTTP; Tue, 2 May 2023
- 05:15:41 -0700 (PDT)
-From:   Stepan CHERNOVETSKY <chernovetskyistepan@gmail.com>
-Date:   Tue, 2 May 2023 13:15:41 +0100
-X-Google-Sender-Auth: 8WASfav0oDciR8-v2NgO5GSztsc
-Message-ID: <CAApFGfT5BJC5HikDxBuWaOaLmtj1tR8g8GVbAKK9PMK+FuX7MQ@mail.gmail.com>
-Subject: Investment Inquiries.
-To:     undisclosed-recipients:;
+References: <1682492417-20496-1-git-send-email-quic_dikshita@quicinc.com> <4434859f-a5b2-a9da-8dad-3f2c4f48cd27@linaro.org>
+In-Reply-To: <4434859f-a5b2-a9da-8dad-3f2c4f48cd27@linaro.org>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date:   Tue, 2 May 2023 15:21:43 +0300
+Message-ID: <CAA8EJprKLxeHO98TayzaS-U+O9JYvVe1zDKU+XPmrKxkQ_Sp3w@mail.gmail.com>
+Subject: Re: [PATCH] venus: add support for 10 bit decoding.
+To:     Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc:     Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        linux-media@vger.kernel.org, stanimir.k.varbanov@gmail.com,
+        quic_vgarodia@quicinc.com, agross@kernel.org, andersson@kernel.org,
+        mchehab@kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=6.7 required=5.0 tests=ADVANCE_FEE_5_NEW,BAYES_50,
-        DEAR_SOMETHING,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:329 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4621]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [chernovetskyistepan[at]gmail.com]
-        *  2.0 DEAR_SOMETHING BODY: Contains 'Dear (something)'
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  1.0 ADVANCE_FEE_5_NEW Appears to be advance fee fraud (Nigerian
-        *      419)
-        *  3.1 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: ******
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Sir/Madam,
+On Tue, 2 May 2023 at 14:53, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
+>
+>
+>
+> On 26.04.2023 09:00, Dikshita Agarwal wrote:
+> > - Add support for V4L2_PIX_FMT_P010 color format.
+> > - Add handling of bit depth change from firmware.
+> > - Return P010 as preferred format for 10 bit decode.
+> Sounds like this should be 3 separate patches, preferably with
+> some insight in each commit message.
 
-Please do not be embarrassed for contacting you through this medium; I
-got your contact from Google people search and then decided to contact
-you. My goal is to establish a viable business relationship with you
-there in your country.
+Absolutely. I think there were several 'split one patch per feature'
+feedbacks for the previous series.
 
-I am  Mr Stepan CHERNOVETSKYI from Kyiv (Ukraine); I was a
-businessman, Investor and Founder of Chernovetskyi Investment Group
-(CIG) in Kyiv before Russia=E2=80=99s Invasion of my country. My business h=
-as
-been destroyed by the Russian military troops and there are no
-meaningful economic activities going on in my country.
+>
+> Konrad
+> >
+> > Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> > Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> > ---
+> >  drivers/media/platform/qcom/venus/helpers.c        | 25 ++++++++++++++++++++++
+> >  drivers/media/platform/qcom/venus/hfi_plat_bufs.h  |  3 +++
+> >  .../media/platform/qcom/venus/hfi_plat_bufs_v6.c   |  9 +++++++-
+> >  drivers/media/platform/qcom/venus/vdec.c           | 18 +++++++++++++---
+> >  4 files changed, 51 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
+> > index ab6a29f..193215c 100644
+> > --- a/drivers/media/platform/qcom/venus/helpers.c
+> > +++ b/drivers/media/platform/qcom/venus/helpers.c
+> > @@ -612,6 +612,8 @@ static u32 to_hfi_raw_fmt(u32 v4l2_fmt)
+> >               return HFI_COLOR_FORMAT_NV12_UBWC;
+> >       case V4L2_PIX_FMT_QC10C:
+> >               return HFI_COLOR_FORMAT_YUV420_TP10_UBWC;
+> > +     case V4L2_PIX_FMT_P010:
+> > +             return HFI_COLOR_FORMAT_P010;
+> >       default:
+> >               break;
+> >       }
+> > @@ -639,12 +641,16 @@ static int platform_get_bufreq(struct venus_inst *inst, u32 buftype,
+> >       if (is_dec) {
+> >               params.width = inst->width;
+> >               params.height = inst->height;
+> > +             params.out_width = inst->out_width;
+> > +             params.out_height = inst->out_height;
+> >               params.codec = inst->fmt_out->pixfmt;
+> >               params.hfi_color_fmt = to_hfi_raw_fmt(inst->fmt_cap->pixfmt);
+> >               params.dec.max_mbs_per_frame = mbs_per_frame_max(inst);
+> >               params.dec.buffer_size_limit = 0;
+> >               params.dec.is_secondary_output =
+> >                       inst->opb_buftype == HFI_BUFFER_OUTPUT2;
+> > +             if (params.dec.is_secondary_output)
+> > +                     params.hfi_dpb_color_fmt = inst->dpb_fmt;
+> >               params.dec.is_interlaced =
+> >                       inst->pic_struct != HFI_INTERLACE_FRAME_PROGRESSIVE;
+> >       } else {
+> > @@ -1764,6 +1770,25 @@ int venus_helper_get_out_fmts(struct venus_inst *inst, u32 v4l2_fmt,
+> >       if (!caps)
+> >               return -EINVAL;
+> >
+> > +     if (inst->bit_depth == VIDC_BITDEPTH_10 &&
+> > +         inst->session_type == VIDC_SESSION_TYPE_DEC) {
+> > +             found_ubwc =
+> > +                     find_fmt_from_caps(caps, HFI_BUFFER_OUTPUT,
+> > +                                        HFI_COLOR_FORMAT_YUV420_TP10_UBWC);
+> > +             found = find_fmt_from_caps(caps, HFI_BUFFER_OUTPUT2,
+> > +                                        fmt);
+> > +             if (found_ubwc && found) {
+> > +                     /*
+> > +                      * Hard-code DPB buffers to be 10bit UBWC
+> > +                      * until V4L2 is able to expose compressed/tiled
+> > +                      * formats to applications.
+> > +                      */
+> > +                     *out_fmt = HFI_COLOR_FORMAT_YUV420_TP10_UBWC;
+> > +                     *out2_fmt = fmt;
+> > +                     return 0;
+> > +             }
+> > +     }
+> > +
+> >       if (ubwc) {
+> >               ubwc_fmt = fmt | HFI_COLOR_FORMAT_UBWC_BASE;
+> >               found_ubwc = find_fmt_from_caps(caps, HFI_BUFFER_OUTPUT,
+> > diff --git a/drivers/media/platform/qcom/venus/hfi_plat_bufs.h b/drivers/media/platform/qcom/venus/hfi_plat_bufs.h
+> > index 52a51a3..25e6074 100644
+> > --- a/drivers/media/platform/qcom/venus/hfi_plat_bufs.h
+> > +++ b/drivers/media/platform/qcom/venus/hfi_plat_bufs.h
+> > @@ -12,8 +12,11 @@
+> >  struct hfi_plat_buffers_params {
+> >       u32 width;
+> >       u32 height;
+> > +     u32 out_width;
+> > +     u32 out_height;
+> >       u32 codec;
+> >       u32 hfi_color_fmt;
+> > +     u32 hfi_dpb_color_fmt;
+> >       enum hfi_version version;
+> >       u32 num_vpp_pipes;
+> >       union {
+> > diff --git a/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c b/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
+> > index ea25c45..08caab1 100644
+> > --- a/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
+> > +++ b/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
+> > @@ -1185,6 +1185,7 @@ static int bufreq_dec(struct hfi_plat_buffers_params *params, u32 buftype,
+> >       enum hfi_version version = params->version;
+> >       u32 codec = params->codec;
+> >       u32 width = params->width, height = params->height, out_min_count;
+> > +     u32 out_width = params->out_width, out_height = params->out_height;
+> >       struct dec_bufsize_ops *dec_ops;
+> >       bool is_secondary_output = params->dec.is_secondary_output;
+> >       bool is_interlaced = params->dec.is_interlaced;
+> > @@ -1235,7 +1236,13 @@ static int bufreq_dec(struct hfi_plat_buffers_params *params, u32 buftype,
+> >               bufreq->count_min = out_min_count;
+> >               bufreq->size =
+> >                       venus_helper_get_framesz_raw(params->hfi_color_fmt,
+> > -                                                  width, height);
+> > +                                                  out_width, out_height);
+> > +
+> > +             if (buftype == HFI_BUFFER_OUTPUT &&
+> > +                 params->dec.is_secondary_output)
+> > +                     bufreq->size =
+> > +                             venus_helper_get_framesz_raw(params->hfi_dpb_color_fmt,
+> > +                                                          out_width, out_height);
+> >       } else if (buftype == HFI_BUFFER_INTERNAL_SCRATCH(version)) {
+> >               bufreq->size = dec_ops->scratch(width, height, is_interlaced);
+> >       } else if (buftype == HFI_BUFFER_INTERNAL_SCRATCH_1(version)) {
+> > diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+> > index 4ceaba3..99d0e96 100644
+> > --- a/drivers/media/platform/qcom/venus/vdec.c
+> > +++ b/drivers/media/platform/qcom/venus/vdec.c
+> > @@ -43,6 +43,10 @@ static const struct venus_format vdec_formats[] = {
+> >               .num_planes = 1,
+> >               .type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
+> >       }, {
+> > +             .pixfmt = V4L2_PIX_FMT_P010,
+> > +             .num_planes = 1,
+> > +             .type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
+> > +     }, {
+> >               .pixfmt = V4L2_PIX_FMT_MPEG4,
+> >               .num_planes = 1,
+> >               .type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+> > @@ -697,6 +701,9 @@ static int vdec_set_work_route(struct venus_inst *inst)
+> >  }
+> >
+> >  #define is_ubwc_fmt(fmt) (!!((fmt) & HFI_COLOR_FORMAT_UBWC_BASE))
+> > +#define is_10bit_ubwc_fmt(fmt) (!!((fmt) & HFI_COLOR_FORMAT_10_BIT_BASE & \
+> > +                                 HFI_COLOR_FORMAT_UBWC_BASE))
+> > +
+> >
+> >  static int vdec_output_conf(struct venus_inst *inst)
+> >  {
+> > @@ -744,7 +751,7 @@ static int vdec_output_conf(struct venus_inst *inst)
+> >               inst->opb_fmt = out2_fmt;
+> >               inst->dpb_buftype = HFI_BUFFER_OUTPUT;
+> >               inst->dpb_fmt = out_fmt;
+> > -     } else if (is_ubwc_fmt(out2_fmt)) {
+> > +     } else if (is_ubwc_fmt(out2_fmt) || is_10bit_ubwc_fmt(out_fmt)) {
+> >               inst->opb_buftype = HFI_BUFFER_OUTPUT;
+> >               inst->opb_fmt = out_fmt;
+> >               inst->dpb_buftype = HFI_BUFFER_OUTPUT2;
+> > @@ -1420,7 +1427,7 @@ static void vdec_buf_done(struct venus_inst *inst, unsigned int buf_type,
+> >  static void vdec_event_change(struct venus_inst *inst,
+> >                             struct hfi_event_data *ev_data, bool sufficient)
+> >  {
+> > -     static const struct v4l2_event ev = {
+> > +     struct v4l2_event ev = {
+> >               .type = V4L2_EVENT_SOURCE_CHANGE,
+> >               .u.src_change.changes = V4L2_EVENT_SRC_CH_RESOLUTION };
+> >       struct device *dev = inst->core->dev_dec;
+> > @@ -1461,8 +1468,13 @@ static void vdec_event_change(struct venus_inst *inst,
+> >       inst->out_width = ev_data->width;
+> >       inst->out_height = ev_data->height;
+> >
+> > -     if (inst->bit_depth != ev_data->bit_depth)
+> > +     if (inst->bit_depth != ev_data->bit_depth) {
+> >               inst->bit_depth = ev_data->bit_depth;
+> > +             if (inst->bit_depth == VIDC_BITDEPTH_10)
+> > +                     inst->fmt_cap = &vdec_formats[3];
+> > +             else
+> > +                     inst->fmt_cap = &vdec_formats[0];
+> > +     }
+> >
+> >       if (inst->pic_struct != ev_data->pic_struct)
+> >               inst->pic_struct = ev_data->pic_struct;
 
-I am looking for your help and assistance to buy properties and other
-investment projects, I consider it necessary to diversify my
-investment project in your country, due to the invasion of Russia to
-my country, Ukraine and to safeguard the future of my family.
 
-Please, I would like to discuss with you the possibility of how we can
-work together as business partners and invest in your country through
-your assistance, if you can help me.
 
-Please, if you are interested in partnering with me, please respond
-urgently for more information.
-
-Yours Sincerely,
-Mr Stepan CHERNOVETSKYI Leonid.
-Chairman and founder of Chernovetskyi Investment Group (CIG)
+-- 
+With best wishes
+Dmitry
