@@ -2,100 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A7016F3AB9
-	for <lists+linux-media@lfdr.de>; Tue,  2 May 2023 00:49:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 209B96F3BA4
+	for <lists+linux-media@lfdr.de>; Tue,  2 May 2023 03:06:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232991AbjEAWts (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 May 2023 18:49:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41372 "EHLO
+        id S232467AbjEBBGK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 May 2023 21:06:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233192AbjEAWtp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 May 2023 18:49:45 -0400
-Received: from mail-ua1-x930.google.com (mail-ua1-x930.google.com [IPv6:2607:f8b0:4864:20::930])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AEFB40C5
-        for <linux-media@vger.kernel.org>; Mon,  1 May 2023 15:49:18 -0700 (PDT)
-Received: by mail-ua1-x930.google.com with SMTP id a1e0cc1a2514c-77d049b9040so10075980241.1
-        for <linux-media@vger.kernel.org>; Mon, 01 May 2023 15:49:18 -0700 (PDT)
+        with ESMTP id S232991AbjEBBGI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 May 2023 21:06:08 -0400
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DFF83C19;
+        Mon,  1 May 2023 18:05:52 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-63b5465fc13so2389552b3a.3;
+        Mon, 01 May 2023 18:05:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682981352; x=1685573352;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=j+uJ1+KwQjMpdNiCngwvlv2FTzZnzkokoCYASnN36NE=;
-        b=GQ4mfAt2fcSS6hW6mQLg2I26gYa6FZpOuqviEnjF2z2Y0+PeqLSnJWDHo1Rrl2QZCd
-         yibVKrJrpt8FWG0H51B4V/5WAqMu7C7Jlwu9acfOzbeLviVrHniH+OwOcXIKBV+RCZvv
-         DnSOoPscuG9HQHaAEb68B7FMJ1vU2sozhvA+BfH6idvCi1nK1MK9yFMuSe9PYmfX/P/M
-         0rZ5LOP1643lpIpTqPcJO0Cfxjk4qHoQZGMseg7AjC2T3HINPN2j11ePZVRXP3UIjrTp
-         gVJSVvSVOJP7SwPVMCJDvkUkT9yuyRi7vG3UqgT8pJaGVbQWPWEUYhsXzBV2e7PkcvDT
-         UNhg==
+        d=gmail.com; s=20221208; t=1682989551; x=1685581551;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=u6KvYmG6iKLAMHd7vkBOqn94kNNGYev+CUO7axt/3Ec=;
+        b=Gs+6By193FhxXRhpOqSjVLXXF7EyDRAAejY2VpLNrjFnvJlzkhj6XnGPVMwsw/Xq54
+         LyYhFqDbi/OvQNt97O4SXohp7Qo221vNnI4nseGo3J3zKbwBKOu/+dGBsfBaTiDfbXcC
+         BZGlPdIM+MxRu2XGepI7exzL41Kw48lPj6EVNjFDtkEjAnx/Lo5evCa8JnQrQRMg/xwi
+         pb7fFeCqwVNqT8+jK+5yGu+ptWjU5iygYwDBVFBBZrKCWDkxcrgox5Q8z445S+uvUDiv
+         6G//ZUlJC8UdPD3yT9Ir3R8WKMMqhPdZ/fvqKcsyPNBO3i923HA372U0ag9Yy+Tp5BCu
+         m3WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682981352; x=1685573352;
-        h=to:subject:message-id:date:from:reply-to:mime-version
+        d=1e100.net; s=20221208; t=1682989551; x=1685581551;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=j+uJ1+KwQjMpdNiCngwvlv2FTzZnzkokoCYASnN36NE=;
-        b=U36y0kWVEesYaZxYH4J1Xa5JnfjXBZPB24rvDDPZs1Xs9ps9P+7r905xIqtIBBqu2n
-         xwrEspXeHPOa8UzkQ3uCfm0FNLjYen33xe607o0GPsKthu34Kbq0/zBq64euFEdqa4ZT
-         E3nqzyU5ifGYLc6tPYA5FhEnJCZTgFbY3u2ggfed8ddCfWrlBgd9oThI/4OsVSdeSOa3
-         sUvatJ63FuVjlP2KQVaRvXN6q/D4cmvg5o41slwEjsBMkEiY/8XjZXvNu66rSz8h/XsZ
-         HDbkqQU8o/fXQSRQXHZBc8ErJZ2iYYFz4GH/0lpRNacU/rBrSZ5e8ajsGSxgIvYy5skr
-         7s5g==
-X-Gm-Message-State: AC+VfDyDieo0+9mPijqnXYLIhXigVL5qVptqLXf6z4kOYKT+gGbBkdRO
-        jTy8S0KkAXxJ5JW2DdAd5f3/7Zy/0m9Xml/UIbo=
-X-Google-Smtp-Source: ACHHUZ7JF3vDiMXV3JI2Tn+rOKgrfQNRVdy+c9QTtD2Ws+G9QPn1EkPcH06pJOXxQgO3A5iF6WnwKgmgPIWMyXRt8Ds=
-X-Received: by 2002:a1f:3d92:0:b0:43f:e623:952 with SMTP id
- k140-20020a1f3d92000000b0043fe6230952mr6174786vka.2.1682981352000; Mon, 01
- May 2023 15:49:12 -0700 (PDT)
+        bh=u6KvYmG6iKLAMHd7vkBOqn94kNNGYev+CUO7axt/3Ec=;
+        b=PWmpMPgVB5SxFlNpGLe25CxHVsQ6QgzjX867l8tY5LgOnnPzlgDF6hNI9wJZjEDKx5
+         YfHYOIDBBCoONwMbbu7OfAIp9sonVA3hOfQU1v09wx5C7bjuNQ6M7EqYjYuXi9Yu+QT1
+         /NfWRb11i/8Wo3dQXzAhEn/Qm9aIUO6rObMmSwC8Wqjp7ODLhVlLZEsFNAjGmJBlzQVT
+         ZSAjTAp6TUfHfEMqRBPpHWW2LmIwEySUEhzqzbeBaayM04TKBtqx/7+s67i1fxLDQs5+
+         ZleV2OkelXrlBpGOA1Z/eu+xOMef86nx9VZdeYCKmqd9msbHrEpE2LKFrGhV+pXa9w6M
+         SECg==
+X-Gm-Message-State: AC+VfDy4mrV4hW5OeGV1Nn1uiQK7QQnO0MYRJo2qBfG5M7ZMoGLWneCo
+        4GQ/7QUaHF56+nT/4xJb+ds8ShSM5dQkDegb
+X-Google-Smtp-Source: ACHHUZ4ngoQ7ohSxrNtlyRwdY/M+Wmel/KQQoo9L21BpjGtXxf0YTlp8Awswni/nvFNX47qFMBMitQ==
+X-Received: by 2002:a05:6a00:2e18:b0:62d:8376:3712 with SMTP id fc24-20020a056a002e1800b0062d83763712mr15725872pfb.28.1682989551282;
+        Mon, 01 May 2023 18:05:51 -0700 (PDT)
+Received: from yoga ([2400:1f00:13:5ac8:de82:eedb:43ac:e372])
+        by smtp.gmail.com with ESMTPSA id m15-20020a056a00080f00b00627e87f51a5sm16001440pfk.161.2023.05.01.18.05.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 May 2023 18:05:50 -0700 (PDT)
+Date:   Tue, 2 May 2023 06:35:43 +0530
+From:   Anup Sharma <anupnewsmail@gmail.com>
+To:     hverkuil@xs4all.nl, mchehab@kernel.org, gregkh@linuxfoundation.org
+Cc:     linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: media: usbvision: Remove comparision to NULL
+Message-ID: <ZFBh54sbwiRFKyG+@yoga>
 MIME-Version: 1.0
-Received: by 2002:a59:c707:0:b0:3b7:385b:ba93 with HTTP; Mon, 1 May 2023
- 15:49:11 -0700 (PDT)
-Reply-To: chiogb00@gmail.com
-From:   "Mrs.Elaine Lam Su Yen" <davidkjn1@gmail.com>
-Date:   Tue, 2 May 2023 00:49:11 +0200
-Message-ID: <CAAfY6swsGhYkRdNLMuShSQpN0EkR-XXR+Um-Jvb8SNXduOi-Dg@mail.gmail.com>
-Subject: Hi
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=6.5 required=5.0 tests=BAYES_50,BODY_SINGLE_WORD,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,HK_NAME_FM_MR_MRS,RCVD_IN_DNSWL_NONE,
-        SCC_BODY_SINGLE_WORD,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:930 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4972]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [davidkjn1[at]gmail.com]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [chiogb00[at]gmail.com]
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [davidkjn1[at]gmail.com]
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  1.5 HK_NAME_FM_MR_MRS No description available.
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  0.0 SCC_BODY_SINGLE_WORD No description available.
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-        *  0.0 BODY_SINGLE_WORD Message body is only one word (no spaces)
-X-Spam-Level: ******
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi
+Remove comparison to null in file usbvision-core.c and usbvision-i2c.c.
+
+Signed-off-by: Anup Sharma <anupnewsmail@gmail.com>
+---
+ drivers/staging/media/usbvision/usbvision-core.c | 8 ++++----
+ drivers/staging/media/usbvision/usbvision-i2c.c  | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/staging/media/usbvision/usbvision-core.c b/drivers/staging/media/usbvision/usbvision-core.c
+index e35dee35b068..a38104b2a0f9 100644
+--- a/drivers/staging/media/usbvision/usbvision-core.c
++++ b/drivers/staging/media/usbvision/usbvision-core.c
+@@ -349,7 +349,7 @@ int usbvision_scratch_alloc(struct usb_usbvision *usbvision)
+ {
+ 	usbvision->scratch = vmalloc_32(scratch_buf_size);
+ 	scratch_reset(usbvision);
+-	if (usbvision->scratch == NULL) {
++	if (!usbvision->scratch) {
+ 		dev_err(&usbvision->dev->dev,
+ 			"%s: unable to allocate %d bytes for scratch\n",
+ 				__func__, scratch_buf_size);
+@@ -374,7 +374,7 @@ int usbvision_decompress_alloc(struct usb_usbvision *usbvision)
+ 	int IFB_size = MAX_FRAME_WIDTH * MAX_FRAME_HEIGHT * 3 / 2;
+ 
+ 	usbvision->intra_frame_buffer = vmalloc_32(IFB_size);
+-	if (usbvision->intra_frame_buffer == NULL) {
++	if (!usbvision->intra_frame_buffer) {
+ 		dev_err(&usbvision->dev->dev,
+ 			"%s: unable to allocate %d for compr. frame buffer\n",
+ 				__func__, IFB_size);
+@@ -2284,7 +2284,7 @@ int usbvision_init_isoc(struct usb_usbvision *usbvision)
+ 		struct urb *urb;
+ 
+ 		urb = usb_alloc_urb(USBVISION_URB_FRAMES, GFP_KERNEL);
+-		if (urb == NULL)
++		if (!urb)
+ 			return -ENOMEM;
+ 		usbvision->sbuf[buf_idx].urb = urb;
+ 		usbvision->sbuf[buf_idx].data =
+@@ -2343,7 +2343,7 @@ void usbvision_stop_isoc(struct usb_usbvision *usbvision)
+ 	int buf_idx, err_code, reg_value;
+ 	int sb_size = USBVISION_URB_FRAMES * usbvision->isoc_packet_size;
+ 
+-	if ((usbvision->streaming == stream_off) || (usbvision->dev == NULL))
++	if ((usbvision->streaming == stream_off) || (!usbvision->dev))
+ 		return;
+ 
+ 	/* Unschedule all of the iso td's */
+diff --git a/drivers/staging/media/usbvision/usbvision-i2c.c b/drivers/staging/media/usbvision/usbvision-i2c.c
+index 6e4df3335b1b..3bba93293463 100644
+--- a/drivers/staging/media/usbvision/usbvision-i2c.c
++++ b/drivers/staging/media/usbvision/usbvision-i2c.c
+@@ -233,7 +233,7 @@ int usbvision_i2c_register(struct usb_usbvision *usbvision)
+ 				&usbvision->i2c_adap,
+ 				"tuner", 0, v4l2_i2c_tuner_addrs(type));
+ 
+-		if (sd == NULL)
++		if (!sd)
+ 			return -ENODEV;
+ 		if (usbvision->tuner_type != -1) {
+ 			tun_setup.mode_mask = T_ANALOG_TV | T_RADIO;
+-- 
+2.34.1
+
