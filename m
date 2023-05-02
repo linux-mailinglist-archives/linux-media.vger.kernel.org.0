@@ -2,155 +2,349 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 361FF6F4BA0
-	for <lists+linux-media@lfdr.de>; Tue,  2 May 2023 22:52:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64F776F4C26
+	for <lists+linux-media@lfdr.de>; Tue,  2 May 2023 23:27:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229721AbjEBUwg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 May 2023 16:52:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38456 "EHLO
+        id S229671AbjEBV1I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 May 2023 17:27:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229492AbjEBUwf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 May 2023 16:52:35 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CACCD1BC1;
-        Tue,  2 May 2023 13:52:33 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-94ef0a8546fso709981066b.1;
-        Tue, 02 May 2023 13:52:33 -0700 (PDT)
+        with ESMTP id S229502AbjEBV1H (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 May 2023 17:27:07 -0400
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59FB31710;
+        Tue,  2 May 2023 14:27:05 -0700 (PDT)
+Received: by mail-yb1-xb34.google.com with SMTP id 3f1490d57ef6-b9e2b65d006so3675071276.3;
+        Tue, 02 May 2023 14:27:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683060752; x=1685652752;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VNIBDi9cX5m1XY06HfPo6MjnbSVQ9LD+YR4Pmsi5V1o=;
-        b=FKefYj9RO4YkvQeJxBIZ4V5jDtEH5tgeN4Da7uLSMZLQnW+gI6ocIjxYb+iBXY5nnz
-         wslr0Xzb7XEqmtRSypBoQAbt2b+NmByflqL+IIJXDiUNqSDEp9WZYaSESaSfCGRDVsTL
-         AyhjZ3cspla/vTrevLYItLxJhrHyab4X2hcMY+nE0XPXOZsgg8ty2dp56TZmTjJK/Le6
-         Btr1uQsJWn4U4Lv1NrIWBHdyDU+oueWnxSiaSixxAM4T7LFiknSpcJ6fOlpUJjvxrxmj
-         csJ3EsIR3zsBHPwmh/UgGcgl6M7GWJdQxx+6BSVDWZiKmHDy7oPwl6m8rh3T0odCIwDr
-         JPfQ==
+        d=gmail.com; s=20221208; t=1683062824; x=1685654824;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=knJwrsz/sIaCpvJlUBXXveg4rz275IOOMyO2S8skkn0=;
+        b=FJFilFFe+xcy0Goi384A3gDjzqh7Mpu2K0IiO0fXyu9H/2M9/ZqZtN0+JfztjniGaH
+         xNFxefNlAxu0F1hRaQqHO6LVePxhrrk84DXos5DnbJhXTQj9WI8pYTLDH+7UiuwtOU6W
+         TognYxinD4urmTZ8fDh+xy2xLQLJ3LEJ+VfeAnujsiN2mi8nVBgrctHp/Bog+O7OCgKK
+         9a5v8WK/R0tYTuVJ5wd66LnWvGcSWQhcBYRrYQxGUZBVHCzK0JX1aFMPOQ01wWYNtsFB
+         fF5ri9piz9HbHyAYkVDkds+XtluySg97e/zBp6qKxjMh+Sh28za4YeWvxT2w3YX1G55D
+         ePVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683060752; x=1685652752;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VNIBDi9cX5m1XY06HfPo6MjnbSVQ9LD+YR4Pmsi5V1o=;
-        b=Lrx0hAeZH9PuniilT+GBNY9Snr7RrJ1pp2h79Jdr1+ROVy70mASoI9hBLXngntzUeS
-         EPXWmBNBgVaW9JfSj7fyLSCxJmgs+5ID3r1cJ+uJi87sbaDOurr4pQLq9N6BUwmKVCy4
-         mnp+av7kSkxXJFfube8n9Zlf1uSTgGSoPu0nP8ELKOWl+1Cy6DhoyL5Qo2mBzz1uMgA8
-         t82F7g3CFFMEb6oxKMDYXk9RYfRbrmiAgPjpIOQm7ELL/qE6mC/nB3bX10W/QyWcJibG
-         135sT5SgmboWPdr6c7cibcxsUzFKvyUjBwG3zGR1j90nfu8oWtLHphAG9PH0R3j7Ns6Z
-         RQaw==
-X-Gm-Message-State: AC+VfDwvrIV9gIOOE6Ozx2tzrKj6GM51yINehrxrqxtQYYIZ0EQX2fB/
-        hFfYlzPkgs0fwTlL4q1Z5s8=
-X-Google-Smtp-Source: ACHHUZ7AbKyr4LGP/WwDfNoOVvrWGL/EQZ5T6bvoP2KL5poTf68C/6UHnpUmjlsQhY4gDc7hTyDfQw==
-X-Received: by 2002:a17:907:78b:b0:931:df8d:113 with SMTP id xd11-20020a170907078b00b00931df8d0113mr1166121ejb.26.1683060751893;
-        Tue, 02 May 2023 13:52:31 -0700 (PDT)
-Received: from [192.168.1.43] (hst-221-88.medicom.bg. [84.238.221.88])
-        by smtp.gmail.com with ESMTPSA id hg18-20020a1709072cd200b00965504665e2sm249627ejc.149.2023.05.02.13.52.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 May 2023 13:52:31 -0700 (PDT)
-Message-ID: <5a851116-561f-2d00-1310-2debc43ce249@gmail.com>
-Date:   Tue, 2 May 2023 23:52:28 +0300
+        d=1e100.net; s=20221208; t=1683062824; x=1685654824;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=knJwrsz/sIaCpvJlUBXXveg4rz275IOOMyO2S8skkn0=;
+        b=DSNGZpaPrQDIoDo2WSwfINuRQEBTrMbiUY1HolxZfmTv6vsXRIKwPQsu2yvzO4FgbG
+         ivFTtct/UNbnfrmYYGME+a2vwBasF8BV0nPzxNNbRUicH8F0PzhaZ1HEiiFWOxyStQ7V
+         DBM0Y0H4uXWCYsiQnq1xnaDJIDjY7Un7k/b1sNfn87t7AVEh6kKHMWqIz40WsK2Tm05H
+         wsmWcQxRxTjuy1enKm+QhF8yd9bPv89jYErooHL2FK5j3pMuuIsmp0aNfkU8FiNJ/uos
+         i1HzqUOj4gj1KBJrndI1eADu/CEyeHJJOpw2SrfWyxMOhMuTc599mFrq3D9B6773196j
+         OySQ==
+X-Gm-Message-State: AC+VfDw0YuPlwhe0SH2P/GSzpajJWCBdwHV1xyp+veq025TwLHaxILW1
+        TobpIIl3dlEnC0IOPknAbpgA04ooEoA0bJSj0zM=
+X-Google-Smtp-Source: ACHHUZ67XFCw3cwTsEZASwArZ6eMGgnCmgBwASY6jVyY4SqJlTx9++fkBScoIcBRK/7P3UhkeQJ28OyjpkRGAs8HeYA=
+X-Received: by 2002:a25:58c4:0:b0:b99:e0ff:5f16 with SMTP id
+ m187-20020a2558c4000000b00b99e0ff5f16mr14580089ybb.18.1683062824368; Tue, 02
+ May 2023 14:27:04 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] media: venus: only set H264_TRANSFORM_8X8 on supported
- hfi versions
-To:     =?UTF-8?Q?Martin_D=c3=b8rum?= <dorum@noisolation.com>,
-        quic_vgarodia@quicinc.com
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
-References: <5D1EB136-0839-44BF-9F9B-A937237C9C96@noisolation.com>
-Content-Language: en-US, bg-BG
-From:   Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
-In-Reply-To: <5D1EB136-0839-44BF-9F9B-A937237C9C96@noisolation.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <1682535272-32249-1-git-send-email-justinpopo6@gmail.com>
+ <1682535272-32249-4-git-send-email-justinpopo6@gmail.com> <ZFFn3UdlapiTlCam@corigine.com>
+In-Reply-To: <ZFFn3UdlapiTlCam@corigine.com>
+From:   Justin Chen <justinpopo6@gmail.com>
+Date:   Tue, 2 May 2023 14:26:53 -0700
+Message-ID: <CAJx26kV9E7M5ULoPqT8eJ5byaUEZDtW6v25f3DT04xs4NGcd6g@mail.gmail.com>
+Subject: Re: [PATCH v2 net-next 3/6] net: bcmasp: Add support for ASP2.0
+ Ethernet controller
+To:     Simon Horman <simon.horman@corigine.com>
+Cc:     netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        bcm-kernel-feedback-list@broadcom.com, justin.chen@broadcom.com,
+        f.fainelli@gmail.com, davem@davemloft.net, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, opendmb@gmail.com,
+        andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
+        richardcochran@gmail.com, sumit.semwal@linaro.org,
+        christian.koenig@amd.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Tue, May 2, 2023 at 12:44=E2=80=AFPM Simon Horman <simon.horman@corigine=
+.com> wrote:
+>
+> On Wed, Apr 26, 2023 at 11:54:29AM -0700, Justin Chen wrote:
+> > Add support for the Broadcom ASP 2.0 Ethernet controller which is first
+> > introduced with 72165. This controller features two distinct Ethernet
+> > ports that can be independently operated.
+> >
+> > This patch supports:
+> >
+> > - Wake-on-LAN using magic packets
+> > - basic ethtool operations (link, counters, message level)
+> > - MAC destination address filtering (promiscuous, ALL_MULTI, etc.)
+> >
+> > Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
+> > Signed-off-by: Justin Chen <justinpopo6@gmail.com>
+>
+> ...
+>
+> > diff --git a/drivers/net/ethernet/broadcom/asp2/bcmasp.c b/drivers/net/=
+ethernet/broadcom/asp2/bcmasp.c
+>
+> ...
+>
+> > +static int bcmasp_netfilt_get_reg_offset(struct bcmasp_priv *priv,
+> > +                                      struct bcmasp_net_filter *nfilt,
+> > +                                      enum asp_netfilt_reg_type reg_ty=
+pe,
+> > +                                      u32 offset)
+> > +{
+> > +     u32 block_index, filter_sel;
+> > +
+> > +     if (offset < 32) {
+> > +             block_index =3D ASP_RX_FILTER_NET_L2;
+> > +             filter_sel =3D nfilt->hw_index;
+> > +     } else if (offset < 64) {
+> > +             block_index =3D ASP_RX_FILTER_NET_L2;
+> > +             filter_sel =3D nfilt->hw_index + 1;
+> > +     } else if (offset < 96) {
+> > +             block_index =3D ASP_RX_FILTER_NET_L3_0;
+> > +             filter_sel =3D nfilt->hw_index;
+> > +     } else if (offset < 128) {
+> > +             block_index =3D ASP_RX_FILTER_NET_L3_0;
+> > +             filter_sel =3D nfilt->hw_index + 1;
+> > +     } else if (offset < 160) {
+> > +             block_index =3D ASP_RX_FILTER_NET_L3_1;
+> > +             filter_sel =3D nfilt->hw_index;
+> > +     } else if (offset < 192) {
+> > +             block_index =3D ASP_RX_FILTER_NET_L3_1;
+> > +             filter_sel =3D nfilt->hw_index + 1;
+> > +     } else if (offset < 224) {
+> > +             block_index =3D ASP_RX_FILTER_NET_L4;
+> > +             filter_sel =3D nfilt->hw_index;
+> > +     } else if (offset < 256) {
+> > +             block_index =3D ASP_RX_FILTER_NET_L4;
+> > +             filter_sel =3D nfilt->hw_index + 1;
+> > +     }
+>
+> block_index and filter_sel are uninitialised if offset doesn't match any
+> of the conditions above. Can that happen?
+>
 
+Nope. This is a helper function for netfilter read and write reg, we
+check offset sizes in those functions.
 
-On 14.04.23 г. 13:12 ч., Martin Dørum wrote:
-> Setting the H264_TRANSFORM_8X8 property only works on HFI versions
->> =4xx. The code used to unconditionally set the property in
-> venc_set_properties, which meant that initializing the encoder would
-> always fail unless the hfi_version was >=4xx.
-> 
-> This patch changes venc_set_properties to only set the
-> H264_TRANSFORM_8X8 property if the hfi version is >=4xx.
-> 
-> Signed-off-by: Martin Dørum <dorum@noisolation.com>
-> 
-> ---
-> 
-> I have an APQ8016-based board. Before this patch, the Venus driver
-> would simply fail with EINVAL when trying to request buffers
-> (VIDIOC_REQBUFS). With this patch, encoding works
-> (tested using gstreamer's v4l2h264enc).
-> 
->   drivers/media/platform/qcom/venus/venc.c | 21 +++++++++++----------
->   1 file changed, 11 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-> index cdb12546c4fa..b3df805a8c9c 100644
-> --- a/drivers/media/platform/qcom/venus/venc.c
-> +++ b/drivers/media/platform/qcom/venus/venc.c
-> @@ -672,16 +672,17 @@ static int venc_set_properties(struct venus_inst *inst)
->   		if (ret)
->   			return ret;
-> 
-> -		ptype = HFI_PROPERTY_PARAM_VENC_H264_TRANSFORM_8X8;
-> -		h264_transform.enable_type = 0;
-> -		if (ctr->profile.h264 == V4L2_MPEG_VIDEO_H264_PROFILE_HIGH ||
-> -		    ctr->profile.h264 == V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_HIGH)
-> -			h264_transform.enable_type = ctr->h264_8x8_transform;
-> -
-> -		ret = hfi_session_set_property(inst, ptype, &h264_transform);
-> -		if (ret)
-> -			return ret;
-> -
-> +		if (!IS_V1(inst->core) && !IS_V3(inst->core)) {
+> > +
+> > +     switch (reg_type) {
+> > +     case ASP_NETFILT_MATCH:
+> > +             return ASP_RX_FILTER_NET_PAT(filter_sel, block_index,
+> > +                                          (offset % 32));
+> > +     case ASP_NETFILT_MASK:
+> > +             return ASP_RX_FILTER_NET_MASK(filter_sel, block_index,
+> > +                                           (offset % 32));
+> > +     default:
+> > +             return -EINVAL;
+> > +     }
+> > +}
+>
+> ...
+>
+> > +static void bcmasp_netfilt_tcpip4_wr(struct bcmasp_priv *priv,
+> > +                                  struct bcmasp_net_filter *nfilt,
+> > +                                  struct ethtool_tcpip4_spec *match,
+> > +                                  struct ethtool_tcpip4_spec *mask,
+> > +                                  u32 offset)
+> > +{
+> > +     __be16 val_16, mask_16;
+> > +
+> > +     val_16 =3D htons(ETH_P_IP);
+> > +     mask_16 =3D 0xFFFF;
+>
+> mask_17 is __be16, but 0xFFFF is host byte order.
+>
+> Please make sure there are no new warnings when building with W=3D1 C=3D1=
+.
+>
+> ...
+>
+> > +/* If no network filter found, return open filter.
+> > + * If no more open filters return NULL
+> > + */
+> > +struct bcmasp_net_filter *bcmasp_netfilt_get_init(struct bcmasp_intf *=
+intf,
+> > +                                               int loc, bool wake_filt=
+er,
+> > +                                               bool init)
+> > +{
+> > +     struct bcmasp_priv *priv =3D intf->parent;
+> > +     struct bcmasp_net_filter *nfilter =3D NULL;
+> > +     int i, open_index =3D -1;
+>
+> Please use reverse xmas tree - longest line to shortest - for local
+> variable declarations in networking code.
+>
+> You can check for this using https://github.com/ecree-solarflare/xmastree
+>
+> ...
+>
+> > +static int bcmasp_combine_set_filter(struct bcmasp_intf *intf,
+> > +                                  unsigned char *addr, unsigned char *=
+mask,
+> > +                                  int i)
+> > +{
+> > +     u64 addr1, addr2, mask1, mask2, mask3;
+> > +     struct bcmasp_priv *priv =3D intf->parent;
+> > +
+> > +     /* Switch to u64 to help with the calculations */
+> > +     addr1 =3D ether_addr_to_u64(priv->mda_filters[i].addr);
+> > +     mask1 =3D ether_addr_to_u64(priv->mda_filters[i].mask);
+> > +     addr2 =3D ether_addr_to_u64(addr);
+> > +     mask2 =3D ether_addr_to_u64(mask);
+> > +
+> > +     /* Check if one filter resides within the other */
+> > +     mask3 =3D mask1 & mask2;
+> > +     if (mask3 =3D=3D mask1 && ((addr1 & mask1) =3D=3D (addr2 & mask1)=
+)) {
+> > +             /* Filter 2 resides within fitler 1, so everthing is good=
+ */
+>
+> nit: s/fitler/filter/
+>
+> Please consider running ./scripts/checkpatch.pl --codespell
+>
+> ...
+>
+> > +static void bcmasp_update_mib_counters(struct bcmasp_intf *priv)
+> > +{
+> > +     int i, j =3D 0;
+> > +
+> > +     for (i =3D 0; i < BCMASP_STATS_LEN; i++) {
+> > +             const struct bcmasp_stats *s;
+> > +             u16 offset =3D 0;
+> > +             u32 val =3D 0;
+> > +             char *p;
+> > +
+> > +             s =3D &bcmasp_gstrings_stats[i];
+> > +             switch (s->type) {
+> > +             case BCMASP_STAT_NETDEV:
+> > +             case BCMASP_STAT_SOFT:
+> > +                     continue;
+> > +             case BCMASP_STAT_RUNT:
+> > +                     offset +=3D BCMASP_STAT_OFFSET;
+> > +                     fallthrough;
+> > +             case BCMASP_STAT_MIB_TX:
+> > +                     offset +=3D BCMASP_STAT_OFFSET;
+> > +                     fallthrough;
+> > +             case BCMASP_STAT_MIB_RX:
+> > +                     val =3D umac_rl(priv, UMC_MIB_START + j + offset)=
+;
+> > +                     offset =3D 0;     /* Reset Offset */
+> > +                     break;
+> > +             case BCMASP_STAT_RX_EDPKT:
+> > +                     val =3D rx_edpkt_core_rl(priv->parent, s->reg_off=
+set);
+> > +                     break;
+> > +             case BCMASP_STAT_RX_CTRL:
+> > +                     offset =3D bcmasp_stat_fixup_offset(priv, s);
+> > +                     if (offset !=3D ASP_RX_CTRL_FB_FILT_OUT_FRAME_COU=
+NT)
+> > +                             offset +=3D sizeof(u32) * priv->port;
+> > +                     val =3D rx_ctrl_core_rl(priv->parent, offset);
+> > +                     break;
+> > +             }
+> > +
+> > +             j +=3D s->stat_sizeof;
+> > +             p =3D (char *)priv + s->stat_offset;
+> > +             *(u32 *)p =3D val;
+>
+> Is p always 32bit aligned?
+>
 
-Instead of doing these checks here you could do:
+Nope. I can make sure it is 32 bit aligned.
 
-diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c 
-b/drivers/media/platform/qcom/venus/hfi_cmds.c
-index bc3f8ff05840..2453e5c3d244 100644
---- a/drivers/media/platform/qcom/venus/hfi_cmds.c
-+++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
-@@ -1064,6 +1064,7 @@ static int pkt_session_set_property_1x(struct 
-hfi_session_set_property_pkt *pkt,
-                 break;
-         }
-         case HFI_PROPERTY_PARAM_VENC_HDR10_PQ_SEI:
-+       case HFI_PROPERTY_PARAM_VENC_H264_TRANSFORM_8X8:
-                 return -ENOTSUPP;
+Acked, the other comments. Will submit v3 when net-next window is
+open. Thank you for the review.
 
-         /* FOLLOWING PROPERTIES ARE NOT IMPLEMENTED IN CORE YET */
+Justin
 
-> +			ptype = HFI_PROPERTY_PARAM_VENC_H264_TRANSFORM_8X8;
-> +			h264_transform.enable_type = 0;
-> +			if (ctr->profile.h264 == V4L2_MPEG_VIDEO_H264_PROFILE_HIGH ||
-> +			    ctr->profile.h264 == V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_HIGH)
-> +				h264_transform.enable_type = ctr->h264_8x8_transform;
-> +
-> +			ret = hfi_session_set_property(inst, ptype, &h264_transform);
-> +			if (ret)
-> +				return ret;
-> +		}
->   	}
-> 
->   	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_H264 ||
-> --
-> 2.34.1
-
--- 
-regards,
-Stan
+> > +     }
+> > +}
+> > +
+> > +static void bcmasp_get_ethtool_stats(struct net_device *dev,
+> > +                                  struct ethtool_stats *stats,
+> > +                                  u64 *data)
+> > +{
+> > +     struct bcmasp_intf *priv =3D netdev_priv(dev);
+> > +     int i, j =3D 0;
+> > +
+> > +     if (netif_running(dev))
+> > +             bcmasp_update_mib_counters(priv);
+> > +
+> > +     dev->netdev_ops->ndo_get_stats(dev);
+> > +
+> > +     for (i =3D 0; i < BCMASP_STATS_LEN; i++) {
+> > +             const struct bcmasp_stats *s;
+> > +             char *p;
+> > +
+> > +             s =3D &bcmasp_gstrings_stats[i];
+> > +             if (!bcmasp_stat_available(priv, s->type))
+> > +                     continue;
+> > +             if (s->type =3D=3D BCMASP_STAT_NETDEV)
+> > +                     p =3D (char *)&dev->stats;
+> > +             else
+> > +                     p =3D (char *)priv;
+> > +             p +=3D s->stat_offset;
+> > +             if (sizeof(unsigned long) !=3D sizeof(u32) &&
+> > +                 s->stat_sizeof =3D=3D sizeof(unsigned long))
+> > +                     data[j] =3D *(unsigned long *)p;
+> > +             else
+> > +                     data[j] =3D *(u32 *)p;
+>
+> Maybe memcpy would make this a little easier to read.
+>
+> > +             j++;
+> > +     }
+> > +}
+>
+> ...
+>
+> > diff --git a/drivers/net/ethernet/broadcom/asp2/bcmasp_intf.c b/drivers=
+/net/ethernet/broadcom/asp2/bcmasp_intf.c
+>
+> ...
+>
+> > +static int bcmasp_init_rx(struct bcmasp_intf *intf)
+> > +{
+> > +     struct device *kdev =3D &intf->parent->pdev->dev;
+> > +     struct net_device *ndev =3D intf->ndev;
+> > +     void *p;
+> > +     dma_addr_t dma;
+> > +     struct page *buffer_pg;
+> > +     u32 reg;
+> > +     int ret;
+> > +
+> > +     intf->rx_buf_order =3D get_order(RING_BUFFER_SIZE);
+> > +     buffer_pg =3D alloc_pages(GFP_KERNEL, intf->rx_buf_order);
+> > +
+> > +     dma =3D dma_map_page(kdev, buffer_pg, 0, RING_BUFFER_SIZE,
+> > +                        DMA_FROM_DEVICE);
+> > +     if (dma_mapping_error(kdev, dma)) {
+> > +             netdev_err(ndev, "Cannot allocate RX buffer\n");
+>
+> I think the core will log an error on allocation failure,
+> so the message above is not needed.
+>
+> > +             __free_pages(buffer_pg, intf->rx_buf_order);
+> > +             return -ENOMEM;
+> > +     }
+>
+> ...
