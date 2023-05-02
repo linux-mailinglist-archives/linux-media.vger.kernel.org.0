@@ -2,104 +2,254 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B7F406F4258
-	for <lists+linux-media@lfdr.de>; Tue,  2 May 2023 13:13:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 865326F4316
+	for <lists+linux-media@lfdr.de>; Tue,  2 May 2023 13:53:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233817AbjEBLNH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 May 2023 07:13:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59256 "EHLO
+        id S233669AbjEBLxP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 May 2023 07:53:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233851AbjEBLM7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 May 2023 07:12:59 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 578C6F9;
-        Tue,  2 May 2023 04:12:57 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1ptnwE-0005l8-N6; Tue, 02 May 2023 13:12:54 +0200
-Message-ID: <5a070053-2151-56d7-26a2-03871e1e4e8e@leemhuis.info>
-Date:   Tue, 2 May 2023 13:12:51 +0200
+        with ESMTP id S229936AbjEBLxO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 May 2023 07:53:14 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA2A749CD
+        for <linux-media@vger.kernel.org>; Tue,  2 May 2023 04:53:12 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id 2adb3069b0e04-4edcdfa8638so4422116e87.2
+        for <linux-media@vger.kernel.org>; Tue, 02 May 2023 04:53:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683028391; x=1685620391;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=r+vglhm+bDOJd4J/XyU1wbi0B7CYN6778bxrbgNwu8M=;
+        b=XpbJ0Jmb7b9iJiwUNXj980qlB0TLLKK5sJgEucCQyCrkpTSZ9jEyN6awif0qLS3ETi
+         nt3AtmxIdP3Wxi7fz5FPLH2byBEIOrIKdGrJtP5yg816D65k5XkCeSf6K7Hlbo44IP5i
+         4R1C4aYGcmh5x62dO06f7Xhh8ZdgBLvvuvqsOVpMHBu4MtkBryfFg7GMy+0W7g0B5k4W
+         HmOeu8DosClTVGXwq0+kWLCxwvM3RJPtPjcun7S4ca8zFX/jUSiNzZBG3FiEq5kPJPI4
+         C1QpO75fwREFLYcfpWQ7jSwJ0ORX5tuWYQI0b+cGBH+81bbKry4lv9sbnBmaaLJsVsuG
+         dW3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683028391; x=1685620391;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=r+vglhm+bDOJd4J/XyU1wbi0B7CYN6778bxrbgNwu8M=;
+        b=C5Q0mTLvKcxKt+iRwQq0SJ83pDPts6H6rvAPM0Z+TpkdS4KiQToKn4XIOyhrQQpn1u
+         w3uc4GWmANbtAX7EWEoBN1hboJXhyQ3IH0jz0Mhp4CDf25xUg5P1YNpqTXZMQvTnT+BE
+         N0cGhKNv0kl+dSxI7rxT1tUvF0T6hozuFBbFc680MLkkpD+0Pb+tg2BWXV/4GQ4OnTtm
+         y/sLfN1O99UDK67agFn1r+yxK+0aEGV+hixdKrmML5PeMeE5uyfTgpfXtYkls+tykJJw
+         ITFYic0EaRXIDJeMu7gdFh/EFJbxQPbvS7m153jRqhtVa6iMXyUVXZ3ezyEwkICfEkKu
+         2EJA==
+X-Gm-Message-State: AC+VfDzqTH/P6nDrl6EKzSbOCv4P4SuPI4MLSzb46VY5MifQdkkmIF7/
+        h6JKug0tLqZyFQfUSUjw+JffKQ4FK9KTKjWt6/c=
+X-Google-Smtp-Source: ACHHUZ4ISG19cH2dnrwpmI8cD5vPRDXErDC4hzJR3u8iZqSJ/XhHRvR86NiEt9QrNEd4xrEiJkOyEQ==
+X-Received: by 2002:ac2:4438:0:b0:4b3:d6e1:26bb with SMTP id w24-20020ac24438000000b004b3d6e126bbmr4633699lfl.29.1683028390665;
+        Tue, 02 May 2023 04:53:10 -0700 (PDT)
+Received: from [192.168.1.101] (abyl248.neoplus.adsl.tpnet.pl. [83.9.31.248])
+        by smtp.gmail.com with ESMTPSA id c20-20020ac25314000000b004f00d7fcf0fsm2693850lfh.26.2023.05.02.04.53.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 May 2023 04:53:10 -0700 (PDT)
+Message-ID: <4434859f-a5b2-a9da-8dad-3f2c4f48cd27@linaro.org>
+Date:   Tue, 2 May 2023 13:53:08 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v9 1/6] media: verisilicon: Do not set context src/dst
- formats in reset functions
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Shreeya Patel <shreeya.patel@collabora.com>
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        kernel@collabora.com, robert.mader@collabora.com,
-        nicolas.dufresne@collabora.co.uk, ezequiel@vanguardiasur.com.ar,
-        festevam@gmail.com, p.zabel@pengutronix.de, mchehab@kernel.org,
-        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-        hverkuil-cisco@xs4all.nl, linux-imx@nxp.com,
-        regressions@lists.linux.dev
-References: <20230220104849.398203-1-benjamin.gaignard@collabora.com>
- <20230220104849.398203-2-benjamin.gaignard@collabora.com>
- <26addb7d-bb9d-34e8-d4fe-e323ff488101@collabora.com>
- <dcd317db-3c24-895d-572b-1b139c370ff7@leemhuis.info>
- <05da00c0-2180-62ee-6276-8553ad9341c4@collabora.com>
-Content-Language: en-US, de-DE
-From:   "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <05da00c0-2180-62ee-6276-8553ad9341c4@collabora.com>
+ Thunderbird/102.10.1
+Subject: Re: [PATCH] venus: add support for 10 bit decoding.
+Content-Language: en-US
+To:     Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        linux-media@vger.kernel.org, stanimir.k.varbanov@gmail.com,
+        quic_vgarodia@quicinc.com, agross@kernel.org, andersson@kernel.org,
+        mchehab@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
+References: <1682492417-20496-1-git-send-email-quic_dikshita@quicinc.com>
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <1682492417-20496-1-git-send-email-quic_dikshita@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1683025977;3af8922a;
-X-HE-SMSGID: 1ptnwE-0005l8-N6
-X-Spam-Status: No, score=-3.3 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 02.05.23 08:56, Benjamin Gaignard wrote:
-> Le 01/05/2023 à 09:21, Thorsten Leemhuis a écrit :
->> On 27.04.23 00:19, Shreeya Patel wrote:
->>> On 20/02/23 16:18, Benjamin Gaignard wrote:
->>>> Setting context source and destination formats should only be done
->>>> in hantro_set_fmt_out() and hantro_set_fmt_cap() after check that
->>>> the targeted queue is not busy.
->>>> Remove these calls from hantro_reset_encoded_fmt() and
->>>> hantro_reset_raw_fmt() to clean the driver.
->>>>
->>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>> KernelCI found this patch causes a regression in the
->>> baseline.dmesg.alert test [1] on rk3399-rock-pi-4b [2],
->>> see the bisection report for more details [3].
->>>
->>> Let us know if you have any questions.
->>>
->>> [1]
->>> https://github.com/kernelci/kernelci-core/blob/main/config/rootfs/debos/overlays/baseline/opt/kernelci/dmesg.sh
->>> [2] https://linux.kernelci.org/test/case/id/6442e825f19134d74c2e865d/
->>> [3] https://groups.io/g/kernelci-results/message/40740
->> Thx for the report. FWIW, regzbot noticed there is a patch that refers
->> to the culprit that might have been landed in next after your test ran
->> for the last time (and meanwhile it was mainlined): f100ce3bbd6 ("media:
->> verisilicon: Fix crash when probing encoder")
+
+
+On 26.04.2023 09:00, Dikshita Agarwal wrote:
+> - Add support for V4L2_PIX_FMT_P010 color format.
+> - Add handling of bit depth change from firmware.
+> - Return P010 as preferred format for 10 bit decode.
+Sounds like this should be 3 separate patches, preferably with
+some insight in each commit message.
+
+Konrad
 > 
-> Yes that patch should fix the probing issue.
-> Marek is working on an additional one to fix pixel format negotiation
-> but that doesn't impact the boot.
-
-Great, thx for the reply.
-
-Shreeya, normally I believe developers in cases like this and would have
-included
-
- #regzbot fix: f100ce3bbd6
-
-in this mail (without the space in front of the #) to mark the
-regression as resolved. Would that be okay for you and other kernel.ci
-people? Or do you want to confirm this first?
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> ---
+>  drivers/media/platform/qcom/venus/helpers.c        | 25 ++++++++++++++++++++++
+>  drivers/media/platform/qcom/venus/hfi_plat_bufs.h  |  3 +++
+>  .../media/platform/qcom/venus/hfi_plat_bufs_v6.c   |  9 +++++++-
+>  drivers/media/platform/qcom/venus/vdec.c           | 18 +++++++++++++---
+>  4 files changed, 51 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
+> index ab6a29f..193215c 100644
+> --- a/drivers/media/platform/qcom/venus/helpers.c
+> +++ b/drivers/media/platform/qcom/venus/helpers.c
+> @@ -612,6 +612,8 @@ static u32 to_hfi_raw_fmt(u32 v4l2_fmt)
+>  		return HFI_COLOR_FORMAT_NV12_UBWC;
+>  	case V4L2_PIX_FMT_QC10C:
+>  		return HFI_COLOR_FORMAT_YUV420_TP10_UBWC;
+> +	case V4L2_PIX_FMT_P010:
+> +		return HFI_COLOR_FORMAT_P010;
+>  	default:
+>  		break;
+>  	}
+> @@ -639,12 +641,16 @@ static int platform_get_bufreq(struct venus_inst *inst, u32 buftype,
+>  	if (is_dec) {
+>  		params.width = inst->width;
+>  		params.height = inst->height;
+> +		params.out_width = inst->out_width;
+> +		params.out_height = inst->out_height;
+>  		params.codec = inst->fmt_out->pixfmt;
+>  		params.hfi_color_fmt = to_hfi_raw_fmt(inst->fmt_cap->pixfmt);
+>  		params.dec.max_mbs_per_frame = mbs_per_frame_max(inst);
+>  		params.dec.buffer_size_limit = 0;
+>  		params.dec.is_secondary_output =
+>  			inst->opb_buftype == HFI_BUFFER_OUTPUT2;
+> +		if (params.dec.is_secondary_output)
+> +			params.hfi_dpb_color_fmt = inst->dpb_fmt;
+>  		params.dec.is_interlaced =
+>  			inst->pic_struct != HFI_INTERLACE_FRAME_PROGRESSIVE;
+>  	} else {
+> @@ -1764,6 +1770,25 @@ int venus_helper_get_out_fmts(struct venus_inst *inst, u32 v4l2_fmt,
+>  	if (!caps)
+>  		return -EINVAL;
+>  
+> +	if (inst->bit_depth == VIDC_BITDEPTH_10 &&
+> +	    inst->session_type == VIDC_SESSION_TYPE_DEC) {
+> +		found_ubwc =
+> +			find_fmt_from_caps(caps, HFI_BUFFER_OUTPUT,
+> +					   HFI_COLOR_FORMAT_YUV420_TP10_UBWC);
+> +		found = find_fmt_from_caps(caps, HFI_BUFFER_OUTPUT2,
+> +					   fmt);
+> +		if (found_ubwc && found) {
+> +			/*
+> +			 * Hard-code DPB buffers to be 10bit UBWC
+> +			 * until V4L2 is able to expose compressed/tiled
+> +			 * formats to applications.
+> +			 */
+> +			*out_fmt = HFI_COLOR_FORMAT_YUV420_TP10_UBWC;
+> +			*out2_fmt = fmt;
+> +			return 0;
+> +		}
+> +	}
+> +
+>  	if (ubwc) {
+>  		ubwc_fmt = fmt | HFI_COLOR_FORMAT_UBWC_BASE;
+>  		found_ubwc = find_fmt_from_caps(caps, HFI_BUFFER_OUTPUT,
+> diff --git a/drivers/media/platform/qcom/venus/hfi_plat_bufs.h b/drivers/media/platform/qcom/venus/hfi_plat_bufs.h
+> index 52a51a3..25e6074 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_plat_bufs.h
+> +++ b/drivers/media/platform/qcom/venus/hfi_plat_bufs.h
+> @@ -12,8 +12,11 @@
+>  struct hfi_plat_buffers_params {
+>  	u32 width;
+>  	u32 height;
+> +	u32 out_width;
+> +	u32 out_height;
+>  	u32 codec;
+>  	u32 hfi_color_fmt;
+> +	u32 hfi_dpb_color_fmt;
+>  	enum hfi_version version;
+>  	u32 num_vpp_pipes;
+>  	union {
+> diff --git a/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c b/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
+> index ea25c45..08caab1 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
+> @@ -1185,6 +1185,7 @@ static int bufreq_dec(struct hfi_plat_buffers_params *params, u32 buftype,
+>  	enum hfi_version version = params->version;
+>  	u32 codec = params->codec;
+>  	u32 width = params->width, height = params->height, out_min_count;
+> +	u32 out_width = params->out_width, out_height = params->out_height;
+>  	struct dec_bufsize_ops *dec_ops;
+>  	bool is_secondary_output = params->dec.is_secondary_output;
+>  	bool is_interlaced = params->dec.is_interlaced;
+> @@ -1235,7 +1236,13 @@ static int bufreq_dec(struct hfi_plat_buffers_params *params, u32 buftype,
+>  		bufreq->count_min = out_min_count;
+>  		bufreq->size =
+>  			venus_helper_get_framesz_raw(params->hfi_color_fmt,
+> -						     width, height);
+> +						     out_width, out_height);
+> +
+> +		if (buftype == HFI_BUFFER_OUTPUT &&
+> +		    params->dec.is_secondary_output)
+> +			bufreq->size =
+> +				venus_helper_get_framesz_raw(params->hfi_dpb_color_fmt,
+> +							     out_width, out_height);
+>  	} else if (buftype == HFI_BUFFER_INTERNAL_SCRATCH(version)) {
+>  		bufreq->size = dec_ops->scratch(width, height, is_interlaced);
+>  	} else if (buftype == HFI_BUFFER_INTERNAL_SCRATCH_1(version)) {
+> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+> index 4ceaba3..99d0e96 100644
+> --- a/drivers/media/platform/qcom/venus/vdec.c
+> +++ b/drivers/media/platform/qcom/venus/vdec.c
+> @@ -43,6 +43,10 @@ static const struct venus_format vdec_formats[] = {
+>  		.num_planes = 1,
+>  		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
+>  	}, {
+> +		.pixfmt = V4L2_PIX_FMT_P010,
+> +		.num_planes = 1,
+> +		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
+> +	}, {
+>  		.pixfmt = V4L2_PIX_FMT_MPEG4,
+>  		.num_planes = 1,
+>  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+> @@ -697,6 +701,9 @@ static int vdec_set_work_route(struct venus_inst *inst)
+>  }
+>  
+>  #define is_ubwc_fmt(fmt) (!!((fmt) & HFI_COLOR_FORMAT_UBWC_BASE))
+> +#define is_10bit_ubwc_fmt(fmt) (!!((fmt) & HFI_COLOR_FORMAT_10_BIT_BASE & \
+> +				    HFI_COLOR_FORMAT_UBWC_BASE))
+> +
+>  
+>  static int vdec_output_conf(struct venus_inst *inst)
+>  {
+> @@ -744,7 +751,7 @@ static int vdec_output_conf(struct venus_inst *inst)
+>  		inst->opb_fmt = out2_fmt;
+>  		inst->dpb_buftype = HFI_BUFFER_OUTPUT;
+>  		inst->dpb_fmt = out_fmt;
+> -	} else if (is_ubwc_fmt(out2_fmt)) {
+> +	} else if (is_ubwc_fmt(out2_fmt) || is_10bit_ubwc_fmt(out_fmt)) {
+>  		inst->opb_buftype = HFI_BUFFER_OUTPUT;
+>  		inst->opb_fmt = out_fmt;
+>  		inst->dpb_buftype = HFI_BUFFER_OUTPUT2;
+> @@ -1420,7 +1427,7 @@ static void vdec_buf_done(struct venus_inst *inst, unsigned int buf_type,
+>  static void vdec_event_change(struct venus_inst *inst,
+>  			      struct hfi_event_data *ev_data, bool sufficient)
+>  {
+> -	static const struct v4l2_event ev = {
+> +	struct v4l2_event ev = {
+>  		.type = V4L2_EVENT_SOURCE_CHANGE,
+>  		.u.src_change.changes = V4L2_EVENT_SRC_CH_RESOLUTION };
+>  	struct device *dev = inst->core->dev_dec;
+> @@ -1461,8 +1468,13 @@ static void vdec_event_change(struct venus_inst *inst,
+>  	inst->out_width = ev_data->width;
+>  	inst->out_height = ev_data->height;
+>  
+> -	if (inst->bit_depth != ev_data->bit_depth)
+> +	if (inst->bit_depth != ev_data->bit_depth) {
+>  		inst->bit_depth = ev_data->bit_depth;
+> +		if (inst->bit_depth == VIDC_BITDEPTH_10)
+> +			inst->fmt_cap = &vdec_formats[3];
+> +		else
+> +			inst->fmt_cap = &vdec_formats[0];
+> +	}
+>  
+>  	if (inst->pic_struct != ev_data->pic_struct)
+>  		inst->pic_struct = ev_data->pic_struct;
