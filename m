@@ -2,274 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 04F6A6F44B5
-	for <lists+linux-media@lfdr.de>; Tue,  2 May 2023 15:09:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12A886F455A
+	for <lists+linux-media@lfdr.de>; Tue,  2 May 2023 15:43:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234122AbjEBNJd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 May 2023 09:09:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47760 "EHLO
+        id S234420AbjEBNnB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 May 2023 09:43:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234012AbjEBNJc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 May 2023 09:09:32 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2D684EF7;
-        Tue,  2 May 2023 06:09:26 -0700 (PDT)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 342Btr6M020977;
-        Tue, 2 May 2023 13:09:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=Per2UUiTroh2CJvOG4mI7mJYEEH8Ygu7mjGdo5v0RwM=;
- b=J/w7VDPPyPo4QBqCc3mCOwZCGonAxEOoI1r8SUGbs5HE7F0ZCUI13mLdc4P7QShPwPHq
- Z7Y8DPU6HCw6+n9+ecziwaLYWRM3s3pamdJGn+08+pzagr29hjxUR8fm9zz8xd8yRqtK
- Qo6RnJR4WVfGQVVfkPBDy1AiJ2EgNMoAakRR2lD6/a3BWWM8tSsTTAoLISG3oLzCqVdS
- AzdArPHpJRNp9nCOSNJ+uKz7an/Gm0b9DENGJul40vMoi+/d/MI9SJDt+dS2TBlK30zI
- JdtFmwTVEOuq7lan/MzYTJm+0essDzQl2FZO/rboqoxmXEFJBIhPGSsc6okBYR5VzJf2 ag== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qawct8vab-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 02 May 2023 13:09:21 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 342D9AmB029492
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 2 May 2023 13:09:10 GMT
-Received: from [10.50.15.186] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 2 May 2023
- 06:09:06 -0700
-Message-ID: <921b7030-58d8-4a18-d52b-c3d153891deb@quicinc.com>
-Date:   Tue, 2 May 2023 18:38:54 +0530
+        with ESMTP id S234536AbjEBNmi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 May 2023 09:42:38 -0400
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B8787283
+        for <linux-media@vger.kernel.org>; Tue,  2 May 2023 06:42:04 -0700 (PDT)
+Received: by mail-yb1-xb34.google.com with SMTP id 3f1490d57ef6-b992e28c141so5436034276.0
+        for <linux-media@vger.kernel.org>; Tue, 02 May 2023 06:42:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683034904; x=1685626904;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZF8J2g+vdvWtCVolMm0ili3y/hj63QFvGzYxEo1evOQ=;
+        b=K4mxB7SNYb+Z6lQBW6HSulhBefj5w8b3cj7vW4dHxDUA+ZH9uzESHELQTe/b9Voij4
+         56RN86llpvpV5X6D3OhSuFer+0W1wX0ppSjSkVs2zmTc1oW921xCd5PjIGBxlSG+mNr9
+         y7i5ksPp3fmbwRh7baentLAAF7dv0oa4PBzcX4njTOuWNrvaaVGHE+UzBWTfSvLVmCpH
+         XcJl959jWOgMNj6RaOfz9HnGvPGh1RUHkdMtVMO7am488pQbIK8wNtLIH312c5jMV0o4
+         tgqF2omPx7GZfvAzuPtiYouUUl+7XzUHGRzP32VmnGOL7d81HdDb0nYA4CNRlzCbfUQV
+         7pEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683034904; x=1685626904;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZF8J2g+vdvWtCVolMm0ili3y/hj63QFvGzYxEo1evOQ=;
+        b=bq/n8Q6e1J8lSSuOMeTFZG1VvNmkxf8PlWJdVYotkjhVbzCeS95okPkYGp6/HKxeWp
+         WC8jAUB1EOHsiN/jd10MaukXAUqL2rvZ++Vhyaakzm00oA5DEk3lvV5cdNwlCSx9ap6E
+         jnIiQRyxAvpnbzs5B1Ypd5nFc+/LKp6tRYyg0c7lNcVbxA+YMKUAWItdYEChTHoEdUN4
+         iMXQseSaZFeeO9IFX2LDn3Qt3zISEIBdfjkDPt7yyRJZ9qoGbwvAUEboYeXgBnX3/M1a
+         7TWc7BOZa7778FQP8foJ3RT2dN3arsluOcsZVQZd8yKsG9FwJjDWOttHUIlgpccZbFLz
+         uvRQ==
+X-Gm-Message-State: AC+VfDzV8wwVj2GqJs/kBXc2H+BGo2aKLMN81dzrvAx2gF1Ry8X0T7fo
+        wSbIDBiAyyk1YQp4YiKepZVVZfE+QjBexntb6EI=
+X-Google-Smtp-Source: ACHHUZ42iO6PrUoNvCxmFys6f4l96/PQVgewVnx2B7DBRAejKdTn5YjoSjpa51Wd2+CpB1WYUYWzvsAsLIgx98PG+ag=
+X-Received: by 2002:a25:b1a3:0:b0:b92:4703:8cf5 with SMTP id
+ h35-20020a25b1a3000000b00b9247038cf5mr17037166ybj.50.1683034904563; Tue, 02
+ May 2023 06:41:44 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] venus: add support for 10 bit decoding.
-To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>
-CC:     <linux-media@vger.kernel.org>, <stanimir.k.varbanov@gmail.com>,
-        <quic_vgarodia@quicinc.com>, <agross@kernel.org>,
-        <andersson@kernel.org>, <mchehab@kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>
-References: <1682492417-20496-1-git-send-email-quic_dikshita@quicinc.com>
- <4434859f-a5b2-a9da-8dad-3f2c4f48cd27@linaro.org>
- <CAA8EJprKLxeHO98TayzaS-U+O9JYvVe1zDKU+XPmrKxkQ_Sp3w@mail.gmail.com>
-Content-Language: en-US
-From:   Dikshita Agarwal <quic_dikshita@quicinc.com>
-In-Reply-To: <CAA8EJprKLxeHO98TayzaS-U+O9JYvVe1zDKU+XPmrKxkQ_Sp3w@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: HiwzFEeBNDNmCvOHX1uRumOoJ8vi_AcR
-X-Proofpoint-GUID: HiwzFEeBNDNmCvOHX1uRumOoJ8vi_AcR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-02_08,2023-04-27_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
- lowpriorityscore=0 priorityscore=1501 bulkscore=0 phishscore=0
- adultscore=0 mlxlogscore=999 impostorscore=0 malwarescore=0 suspectscore=0
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2305020112
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <893a7e34-1d98-23e2-4d27-d25cb3ee5bf0@xs4all.nl> <9d4c52eb-103d-e89c-bba1-89cac0e53600@collabora.com>
+In-Reply-To: <9d4c52eb-103d-e89c-bba1-89cac0e53600@collabora.com>
+From:   Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date:   Tue, 2 May 2023 15:41:28 +0200
+Message-ID: <CAPybu_1paGZaHBhLPuhc1m50xd2vB0NRtj73nrdzDTvkZuhO+g@mail.gmail.com>
+Subject: Re: [ANN] Request for Topics for a Media Summit June 26th
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Hans
 
-On 5/2/2023 5:51 PM, Dmitry Baryshkov wrote:
-> On Tue, 2 May 2023 at 14:53, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
->>
->>
->> On 26.04.2023 09:00, Dikshita Agarwal wrote:
->>> - Add support for V4L2_PIX_FMT_P010 color format.
->>> - Add handling of bit depth change from firmware.
->>> - Return P010 as preferred format for 10 bit decode.
->> Sounds like this should be 3 separate patches, preferably with
->> some insight in each commit message.
-> Absolutely. I think there were several 'split one patch per feature'
-> feedbacks for the previous series.
+I would like to share the progress on KCAM from our end. It should
+take much less time than last year. Guesstimate than 15-20 minutes.
 
-Sure Konrad and Dmitry, I will try to split this change into separate 
-patches.
+I am also trying to collect all the requirements that we are getting
+from vendors regarding V4L2. Guesstimate 10 minutes
 
-Thanks,
+I am also very interested in some of the other topics :)
 
-Dikshita
+Looking forward to meeting in Prague!
 
->> Konrad
->>> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
->>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
->>> ---
->>>   drivers/media/platform/qcom/venus/helpers.c        | 25 ++++++++++++++++++++++
->>>   drivers/media/platform/qcom/venus/hfi_plat_bufs.h  |  3 +++
->>>   .../media/platform/qcom/venus/hfi_plat_bufs_v6.c   |  9 +++++++-
->>>   drivers/media/platform/qcom/venus/vdec.c           | 18 +++++++++++++---
->>>   4 files changed, 51 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
->>> index ab6a29f..193215c 100644
->>> --- a/drivers/media/platform/qcom/venus/helpers.c
->>> +++ b/drivers/media/platform/qcom/venus/helpers.c
->>> @@ -612,6 +612,8 @@ static u32 to_hfi_raw_fmt(u32 v4l2_fmt)
->>>                return HFI_COLOR_FORMAT_NV12_UBWC;
->>>        case V4L2_PIX_FMT_QC10C:
->>>                return HFI_COLOR_FORMAT_YUV420_TP10_UBWC;
->>> +     case V4L2_PIX_FMT_P010:
->>> +             return HFI_COLOR_FORMAT_P010;
->>>        default:
->>>                break;
->>>        }
->>> @@ -639,12 +641,16 @@ static int platform_get_bufreq(struct venus_inst *inst, u32 buftype,
->>>        if (is_dec) {
->>>                params.width = inst->width;
->>>                params.height = inst->height;
->>> +             params.out_width = inst->out_width;
->>> +             params.out_height = inst->out_height;
->>>                params.codec = inst->fmt_out->pixfmt;
->>>                params.hfi_color_fmt = to_hfi_raw_fmt(inst->fmt_cap->pixfmt);
->>>                params.dec.max_mbs_per_frame = mbs_per_frame_max(inst);
->>>                params.dec.buffer_size_limit = 0;
->>>                params.dec.is_secondary_output =
->>>                        inst->opb_buftype == HFI_BUFFER_OUTPUT2;
->>> +             if (params.dec.is_secondary_output)
->>> +                     params.hfi_dpb_color_fmt = inst->dpb_fmt;
->>>                params.dec.is_interlaced =
->>>                        inst->pic_struct != HFI_INTERLACE_FRAME_PROGRESSIVE;
->>>        } else {
->>> @@ -1764,6 +1770,25 @@ int venus_helper_get_out_fmts(struct venus_inst *inst, u32 v4l2_fmt,
->>>        if (!caps)
->>>                return -EINVAL;
->>>
->>> +     if (inst->bit_depth == VIDC_BITDEPTH_10 &&
->>> +         inst->session_type == VIDC_SESSION_TYPE_DEC) {
->>> +             found_ubwc =
->>> +                     find_fmt_from_caps(caps, HFI_BUFFER_OUTPUT,
->>> +                                        HFI_COLOR_FORMAT_YUV420_TP10_UBWC);
->>> +             found = find_fmt_from_caps(caps, HFI_BUFFER_OUTPUT2,
->>> +                                        fmt);
->>> +             if (found_ubwc && found) {
->>> +                     /*
->>> +                      * Hard-code DPB buffers to be 10bit UBWC
->>> +                      * until V4L2 is able to expose compressed/tiled
->>> +                      * formats to applications.
->>> +                      */
->>> +                     *out_fmt = HFI_COLOR_FORMAT_YUV420_TP10_UBWC;
->>> +                     *out2_fmt = fmt;
->>> +                     return 0;
->>> +             }
->>> +     }
->>> +
->>>        if (ubwc) {
->>>                ubwc_fmt = fmt | HFI_COLOR_FORMAT_UBWC_BASE;
->>>                found_ubwc = find_fmt_from_caps(caps, HFI_BUFFER_OUTPUT,
->>> diff --git a/drivers/media/platform/qcom/venus/hfi_plat_bufs.h b/drivers/media/platform/qcom/venus/hfi_plat_bufs.h
->>> index 52a51a3..25e6074 100644
->>> --- a/drivers/media/platform/qcom/venus/hfi_plat_bufs.h
->>> +++ b/drivers/media/platform/qcom/venus/hfi_plat_bufs.h
->>> @@ -12,8 +12,11 @@
->>>   struct hfi_plat_buffers_params {
->>>        u32 width;
->>>        u32 height;
->>> +     u32 out_width;
->>> +     u32 out_height;
->>>        u32 codec;
->>>        u32 hfi_color_fmt;
->>> +     u32 hfi_dpb_color_fmt;
->>>        enum hfi_version version;
->>>        u32 num_vpp_pipes;
->>>        union {
->>> diff --git a/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c b/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
->>> index ea25c45..08caab1 100644
->>> --- a/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
->>> +++ b/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
->>> @@ -1185,6 +1185,7 @@ static int bufreq_dec(struct hfi_plat_buffers_params *params, u32 buftype,
->>>        enum hfi_version version = params->version;
->>>        u32 codec = params->codec;
->>>        u32 width = params->width, height = params->height, out_min_count;
->>> +     u32 out_width = params->out_width, out_height = params->out_height;
->>>        struct dec_bufsize_ops *dec_ops;
->>>        bool is_secondary_output = params->dec.is_secondary_output;
->>>        bool is_interlaced = params->dec.is_interlaced;
->>> @@ -1235,7 +1236,13 @@ static int bufreq_dec(struct hfi_plat_buffers_params *params, u32 buftype,
->>>                bufreq->count_min = out_min_count;
->>>                bufreq->size =
->>>                        venus_helper_get_framesz_raw(params->hfi_color_fmt,
->>> -                                                  width, height);
->>> +                                                  out_width, out_height);
->>> +
->>> +             if (buftype == HFI_BUFFER_OUTPUT &&
->>> +                 params->dec.is_secondary_output)
->>> +                     bufreq->size =
->>> +                             venus_helper_get_framesz_raw(params->hfi_dpb_color_fmt,
->>> +                                                          out_width, out_height);
->>>        } else if (buftype == HFI_BUFFER_INTERNAL_SCRATCH(version)) {
->>>                bufreq->size = dec_ops->scratch(width, height, is_interlaced);
->>>        } else if (buftype == HFI_BUFFER_INTERNAL_SCRATCH_1(version)) {
->>> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
->>> index 4ceaba3..99d0e96 100644
->>> --- a/drivers/media/platform/qcom/venus/vdec.c
->>> +++ b/drivers/media/platform/qcom/venus/vdec.c
->>> @@ -43,6 +43,10 @@ static const struct venus_format vdec_formats[] = {
->>>                .num_planes = 1,
->>>                .type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
->>>        }, {
->>> +             .pixfmt = V4L2_PIX_FMT_P010,
->>> +             .num_planes = 1,
->>> +             .type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
->>> +     }, {
->>>                .pixfmt = V4L2_PIX_FMT_MPEG4,
->>>                .num_planes = 1,
->>>                .type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
->>> @@ -697,6 +701,9 @@ static int vdec_set_work_route(struct venus_inst *inst)
->>>   }
->>>
->>>   #define is_ubwc_fmt(fmt) (!!((fmt) & HFI_COLOR_FORMAT_UBWC_BASE))
->>> +#define is_10bit_ubwc_fmt(fmt) (!!((fmt) & HFI_COLOR_FORMAT_10_BIT_BASE & \
->>> +                                 HFI_COLOR_FORMAT_UBWC_BASE))
->>> +
->>>
->>>   static int vdec_output_conf(struct venus_inst *inst)
->>>   {
->>> @@ -744,7 +751,7 @@ static int vdec_output_conf(struct venus_inst *inst)
->>>                inst->opb_fmt = out2_fmt;
->>>                inst->dpb_buftype = HFI_BUFFER_OUTPUT;
->>>                inst->dpb_fmt = out_fmt;
->>> -     } else if (is_ubwc_fmt(out2_fmt)) {
->>> +     } else if (is_ubwc_fmt(out2_fmt) || is_10bit_ubwc_fmt(out_fmt)) {
->>>                inst->opb_buftype = HFI_BUFFER_OUTPUT;
->>>                inst->opb_fmt = out_fmt;
->>>                inst->dpb_buftype = HFI_BUFFER_OUTPUT2;
->>> @@ -1420,7 +1427,7 @@ static void vdec_buf_done(struct venus_inst *inst, unsigned int buf_type,
->>>   static void vdec_event_change(struct venus_inst *inst,
->>>                              struct hfi_event_data *ev_data, bool sufficient)
->>>   {
->>> -     static const struct v4l2_event ev = {
->>> +     struct v4l2_event ev = {
->>>                .type = V4L2_EVENT_SOURCE_CHANGE,
->>>                .u.src_change.changes = V4L2_EVENT_SRC_CH_RESOLUTION };
->>>        struct device *dev = inst->core->dev_dec;
->>> @@ -1461,8 +1468,13 @@ static void vdec_event_change(struct venus_inst *inst,
->>>        inst->out_width = ev_data->width;
->>>        inst->out_height = ev_data->height;
->>>
->>> -     if (inst->bit_depth != ev_data->bit_depth)
->>> +     if (inst->bit_depth != ev_data->bit_depth) {
->>>                inst->bit_depth = ev_data->bit_depth;
->>> +             if (inst->bit_depth == VIDC_BITDEPTH_10)
->>> +                     inst->fmt_cap = &vdec_formats[3];
->>> +             else
->>> +                     inst->fmt_cap = &vdec_formats[0];
->>> +     }
->>>
->>>        if (inst->pic_struct != ev_data->pic_struct)
->>>                inst->pic_struct = ev_data->pic_struct;
+
+
+
+On Fri, Apr 28, 2023 at 10:52=E2=80=AFAM Andrzej Pietrasiewicz
+<andrzej.p@collabora.com> wrote:
 >
+> Hi Hans,
 >
+> W dniu 3.03.2023 o 15:44, Hans Verkuil pisze:
+> > Hi all, >
+>
+> <snip>
+>
+> >
+> > So if you have a topic that you want to discuss, just reply. It would b=
+e
+> > very much appreciated if you can also add a guesstimate of the time you
+> > need for your topic.
+> >
+>
+> I'd like to discuss "Stateless encoding in V4L2: Trying VP8".
+>
+> I envision the discussion around these topics:
+>
+> A)
+> - Introduction to stateless encoders and previous work in this area
+>
+> https://github.com/bootlin/linux/tree/hantro/h264-encoding-v5.11
+>
+> https://lore.kernel.org/linux-arm-kernel/20230309125651.23911-1-andrzej.p=
+@collabora.com/T/
+>
+> - High level decisions
+> - Rate control
+>
+> B)
+> - VP8 uAPI
+>
+> C)
+> - Challenges
+>
+> About time: Let's try 45 minutes. But of course it is only a guesstimate.
+>
+> Regards,
+>
+> Andrzej
+
+
+
+--=20
+Ricardo Ribalda
