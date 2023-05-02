@@ -2,72 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F05356F4702
-	for <lists+linux-media@lfdr.de>; Tue,  2 May 2023 17:23:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CA1F6F486F
+	for <lists+linux-media@lfdr.de>; Tue,  2 May 2023 18:37:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234154AbjEBPX1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 May 2023 11:23:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40976 "EHLO
+        id S234306AbjEBQhs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 May 2023 12:37:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234458AbjEBPXW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 May 2023 11:23:22 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 934862D4A
-        for <linux-media@vger.kernel.org>; Tue,  2 May 2023 08:23:10 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-94eff00bcdaso777056666b.1
-        for <linux-media@vger.kernel.org>; Tue, 02 May 2023 08:23:10 -0700 (PDT)
+        with ESMTP id S234375AbjEBQhU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 May 2023 12:37:20 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6274E78
+        for <linux-media@vger.kernel.org>; Tue,  2 May 2023 09:37:14 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-3f178da21afso26931025e9.1
+        for <linux-media@vger.kernel.org>; Tue, 02 May 2023 09:37:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=qtec.com; s=google; t=1683040989; x=1685632989;
+        d=linaro.org; s=google; t=1683045433; x=1685637433;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=in7oGMkwvpJ65egb+qHKpZvVlPweS5+XE7vqBfzdZX8=;
-        b=YXk6NsLPkgu/J1Mtl7MLaef+UGlAU58UCoQTcbIUWK76InqzmXsire+35OzRDXsUmj
-         oaR81JyssM6plerPQSppz0WfN4Lff5F47PobqL1aoRA8pLpl2sWzhLL/uXILSg3Av1Ew
-         Gn0j96axj6YMf1S+iWFIvzgtft0K3F8Cen4Fo+2xEWIAk+VeAOm0khgnWBOrPBNWjCUx
-         Am8RH6WwkmX0NsyycJQOD+qLLNnvErNV09qPds1ZPu4t1cgO//VNN0ZO9TEPZU0XN4W9
-         TpDNpPE9eVTxN2YzvxkalkNITZbJkE7kbAjkXiT565vP8M6PnDCFz2/GyGEjJCKu+497
-         OgiA==
+        bh=zwqdNjAxsqWdNF43eJm/VW7zQPj9015oX6KfsTDqztg=;
+        b=eNUp2crIS46e7N3KSjvRJrhQLNcLm1vPb0OJnqO7628nXtomN2YnCtYl/qhrHuyF9Q
+         UJTAHmMxFDx5KHuIyjmFzm5mW9wAZq1lmzbFzMhi/TRGULV2tUjnBzwxwFjq3LkiOAg2
+         fUpgCkzplFsMjK9xGn4EBuAVqd1+ePHSQw/3DNhxCdRAPOCnA2peHlbPsCz5coCH4Qs5
+         lXIbEYnrXuw+TZ+gyg1M8EypwAhR8iJQs7/EYlyAJUnNDKR7vhzYVZ/1ydMo0d3Ierhg
+         t9dNB4JVsjNrwygvbMrbj40XphsIjB/uyxwhUo5RbfkxEEBN3gBgvxj8xgGAj6GdXlac
+         yBKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683040989; x=1685632989;
+        d=1e100.net; s=20221208; t=1683045433; x=1685637433;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=in7oGMkwvpJ65egb+qHKpZvVlPweS5+XE7vqBfzdZX8=;
-        b=Lvac+8nHD/NnXToMUkXjSj+i5AwUf5HxMF7Hj7MeCgQalgz5FxU+qIEy1HzhxRZkB0
-         nK96WyBdZS7SothP0xm18QdwGtqCNas0v5PXMQu4gpWT7NvZ0WpWBeBRvOSAgRCoStB/
-         2hB78Bc5V3TePxB7KfteA7UBiipRIv+N57BDM0L5A4Thp3mPOAD8pWF5IbLp51av4pdu
-         84LchsrPRhVOfjQOlyTBmnA0FJiD0ULHLPUKvQsrKE7Mm7u/w3MkchaxX8xQ2PnGYv2A
-         YEao0Bhg7R0WV0GUaElzcZ4QNoL/FrWAQ8IjJgeCPXeyy2tlIpgOUDxnVxUiY6mfCph3
-         cIdA==
-X-Gm-Message-State: AC+VfDzotlilpQ5+WT+OHdGL8vZn9oB2raDfCcq/ZhEVsFa5Uy+l1TNI
-        C93H4vUCbMaFJf7GN2TOLSSMxRfKTSRCDjC7dTA=
-X-Google-Smtp-Source: ACHHUZ5phEnDKgU9MaBNZu3+NG+h7behvceldI5Eit5BbuNwZjmSR7U3wydjruMccuJTY59r4ZfQYw==
-X-Received: by 2002:a17:907:9415:b0:960:ddba:e5c5 with SMTP id dk21-20020a170907941500b00960ddbae5c5mr274205ejc.11.1683040988999;
-        Tue, 02 May 2023 08:23:08 -0700 (PDT)
-Received: from [192.168.2.95] (cpe.ge-3-0-8-100.ryvnqe10.dk.customer.tdc.net. [80.197.57.18])
-        by smtp.gmail.com with ESMTPSA id m5-20020a170906848500b0094ef96a6564sm16047618ejx.75.2023.05.02.08.23.08
+        bh=zwqdNjAxsqWdNF43eJm/VW7zQPj9015oX6KfsTDqztg=;
+        b=Bmikj8FWd59L/MSpbngdzSIuP3Oowufly2P7CTxCcoXywoDhl5PImWlmMErTAgZOa/
+         vHW+N6lXv6OSMLAQRSdW/p0Zirep1CtuHFty8rkCHkuFJ8h/iRLpZ4CzXsxr3HDNzZUJ
+         sz8lL4o/cy65GeBLwilNuDZcPNV1Dxd42eu7mHmrSgPcWTPb/EKJpbbQ1f6N10XzVKjw
+         oSlpyehtUN/4PxNcfIsQ18/JH/3fHIXu7THN1fzqUftcUbWaNVcCm0A3hJujwlBXAOvz
+         sD8ASXwPlv4VYnE8YJXbJRCsnipGw4ab71hRTEsD83tcnqWBOC7m+kF9/1lIHiKkxdU5
+         P7tw==
+X-Gm-Message-State: AC+VfDwF0crqW45tJHwiCWskW8WqPAiSF/ZpE1jzn+ZYxA/sHByD13E/
+        wphuei8Mvqa8fQNlb04BexZO2w==
+X-Google-Smtp-Source: ACHHUZ4Fe/oTsDtZ0c562/VZ5uzdNMNn2prXZBa/X9/pJeP957bny/AnzziQCqM6dsEBZio67V93rQ==
+X-Received: by 2002:a1c:7502:0:b0:3f2:54ae:6921 with SMTP id o2-20020a1c7502000000b003f254ae6921mr12863258wmc.2.1683045433269;
+        Tue, 02 May 2023 09:37:13 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id z9-20020a05600c114900b003f1745c7df3sm12742860wmz.23.2023.05.02.09.37.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 May 2023 08:23:08 -0700 (PDT)
-Message-ID: <4ed62c9b-f2e7-8640-6b32-f2399451c205@qtec.com>
-Date:   Tue, 2 May 2023 17:23:07 +0200
+        Tue, 02 May 2023 09:37:12 -0700 (PDT)
+Message-ID: <2e61e054-105c-ae22-77b8-a3f41fe3eff0@linaro.org>
+Date:   Tue, 2 May 2023 17:37:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 2/2] media: docs: vidioc-g-ext-ctrls.rst: Update p_s32 and
- p_s64 types
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] media: venus: only set H264_TRANSFORM_8X8 on supported
+ hfi versions
 Content-Language: en-US
-To:     mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org
-References: <20230501145707.4088026-1-dlp@qtec.com>
- <20230501145707.4088026-3-dlp@qtec.com>
-From:   Daniel Lundberg Pedersen <dlp@qtec.com>
-In-Reply-To: <20230501145707.4088026-3-dlp@qtec.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To:     =?UTF-8?Q?Martin_D=c3=b8rum?= <dorum@noisolation.com>,
+        stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        hverkuil-cisco@xs4all.nl
+References: <5D1EB136-0839-44BF-9F9B-A937237C9C96@noisolation.com>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <5D1EB136-0839-44BF-9F9B-A937237C9C96@noisolation.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,33 +76,68 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Forgot Signed-off-by.
-
-Signed-off-by: Daniel Lundberg Pedersen <dlp@qtec.com>
-
-On 01/05/2023 16:57, Daniel Lundberg Pedersen wrote:
-> The pointer types of p_s32 and p_s64 in v4l2_ext_control has been
-> updated, match the change in documentation.
-> ---
->  Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+On 14/04/2023 11:12, Martin Dørum wrote:
+> Setting the H264_TRANSFORM_8X8 property only works on HFI versions
+>> =4xx. The code used to unconditionally set the property in
+> venc_set_properties, which meant that initializing the encoder would
+> always fail unless the hfi_version was >=4xx.
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> index 5292d5e1a91f..6d85ec6a19b4 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> @@ -185,12 +185,12 @@ still cause this situation.
->        - ``p_u32``
->        - A pointer to a matrix control of unsigned 32-bit values. Valid if
->  	this control is of type ``V4L2_CTRL_TYPE_U32``.
-> -    * - __u32 *
-> +    * - __s32 *
->        - ``p_s32``
->        - A pointer to a matrix control of signed 32-bit values. Valid if
->          this control is of type ``V4L2_CTRL_TYPE_INTEGER`` and
->          ``V4L2_CTRL_FLAG_HAS_PAYLOAD`` is set.
-> -    * - __u32 *
-> +    * - __s64 *
->        - ``p_s64``
->        - A pointer to a matrix control of signed 64-bit values. Valid if
->          this control is of type ``V4L2_CTRL_TYPE_INTEGER64`` and
+> This patch changes venc_set_properties to only set the
+> H264_TRANSFORM_8X8 property if the hfi version is >=4xx.
+> 
+> Signed-off-by: Martin Dørum <dorum@noisolation.com>
+> 
+> ---
+> 
+> I have an APQ8016-based board. Before this patch, the Venus driver
+> would simply fail with EINVAL when trying to request buffers
+> (VIDIOC_REQBUFS). With this patch, encoding works
+> (tested using gstreamer's v4l2h264enc).
+> 
+>   drivers/media/platform/qcom/venus/venc.c | 21 +++++++++++----------
+>   1 file changed, 11 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+> index cdb12546c4fa..b3df805a8c9c 100644
+> --- a/drivers/media/platform/qcom/venus/venc.c
+> +++ b/drivers/media/platform/qcom/venus/venc.c
+> @@ -672,16 +672,17 @@ static int venc_set_properties(struct venus_inst *inst)
+>   		if (ret)
+>   			return ret;
+> 
+> -		ptype = HFI_PROPERTY_PARAM_VENC_H264_TRANSFORM_8X8;
+> -		h264_transform.enable_type = 0;
+> -		if (ctr->profile.h264 == V4L2_MPEG_VIDEO_H264_PROFILE_HIGH ||
+> -		    ctr->profile.h264 == V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_HIGH)
+> -			h264_transform.enable_type = ctr->h264_8x8_transform;
+> -
+> -		ret = hfi_session_set_property(inst, ptype, &h264_transform);
+> -		if (ret)
+> -			return ret;
+> -
+> +		if (!IS_V1(inst->core) && !IS_V3(inst->core)) {
+> +			ptype = HFI_PROPERTY_PARAM_VENC_H264_TRANSFORM_8X8;
+> +			h264_transform.enable_type = 0;
+> +			if (ctr->profile.h264 == V4L2_MPEG_VIDEO_H264_PROFILE_HIGH ||
+> +			    ctr->profile.h264 == V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_HIGH)
+> +				h264_transform.enable_type = ctr->h264_8x8_transform;
+> +
+> +			ret = hfi_session_set_property(inst, ptype, &h264_transform);
+> +			if (ret)
+> +				return ret;
+> +		}
+>   	}
+> 
+>   	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_H264 ||
+> --
+> 2.34.1
+
+I agree that a Fixes should be added.
+
+Fixes: bfee75f73c37 ("media: venus: venc: add support for 
+V4L2_CID_MPEG_VIDEO_H264_8X8_TRANSFORM control")
+
+When sending out your V2, please remember to cc -> Hans Verkuil 
+<hverkuil-cisco@xs4all.nl>
+
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
