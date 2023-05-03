@@ -2,59 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B5856F53D8
-	for <lists+linux-media@lfdr.de>; Wed,  3 May 2023 10:58:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D34D86F540D
+	for <lists+linux-media@lfdr.de>; Wed,  3 May 2023 11:11:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229849AbjECI57 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 May 2023 04:57:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42692 "EHLO
+        id S229575AbjECJLn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 May 2023 05:11:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229538AbjECI56 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 May 2023 04:57:58 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9424810D9
-        for <linux-media@vger.kernel.org>; Wed,  3 May 2023 01:57:56 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-3f192c23fffso30352865e9.3
-        for <linux-media@vger.kernel.org>; Wed, 03 May 2023 01:57:56 -0700 (PDT)
+        with ESMTP id S229486AbjECJLl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 May 2023 05:11:41 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A80459F1
+        for <linux-media@vger.kernel.org>; Wed,  3 May 2023 02:11:16 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-3f19ab99540so47506585e9.2
+        for <linux-media@vger.kernel.org>; Wed, 03 May 2023 02:11:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683104275; x=1685696275;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=linaro.org; s=google; t=1683105051; x=1685697051;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=DnRb7dDXP217oGo1HF2W6EYow19JwD0ZBlHKF/B0F1s=;
-        b=nKz9j4av6PvO4+KQsmLJhqBm9WWlR9U2fpFqJBZjLhWr8IKluihScR4lvkQ3kIGfhn
-         PQF9Q/gZTh0XeEwdphja6hPZaHh+V4RhppJWnmOV6AV9xwE5JurkKluq5ZjQtQfxZzG2
-         CIOhqbug02+l0xvqhAO/ZK7wMIhe1d0dngaavzg4LCEKs2VEjH7rQqOpmIQ9NC3S/KL0
-         TMUZLzVi1DK8ayaQE1F9Nk3PNQmojFW+E42S6d/TcaTX/IcyIJ4gn0bj1f2ClE8mc3Jw
-         e6dPPjEq7iioZZLel6UjJxFAYGMgndT0LnRsggaGrQ93zmj/pIoQweqHMYk0ueXuykJ+
-         qTnw==
+        bh=iaoC3PHQvk7zFvJs+Qr9k0+mYfQsIaix2pxrBYU29ms=;
+        b=CRXSobVpXSYru4BinE0vENUhBsSPob02mJj0ui0NK0K1IYwnS8+mEqufMpi3CoDpr+
+         O++pJbkG9jE8pqX7WHMDs+qSiRKg3fwWQvralelqiwZ0CiJ8Kk71jSxz2HigUFjlbCuv
+         bIgDbDf9vji2lR3EvAens+OxkJquZmtxuN/sbcLOtk8V3N5S/rhSxgeMiPa3FHnmxjzo
+         TTrQYQVlsNgwb/76C+07arw/mqUugXL4O9sPF+mdPiBaz4f3S+eNjHwtwe8xKcofG4sH
+         /e4rPPbPwpySqOjRHNhQHVq7MJAz/ukB4jLEvirSPQxbm3+zWqcvKIV4FgbDdn9lkXv0
+         ZYQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683104275; x=1685696275;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20221208; t=1683105051; x=1685697051;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DnRb7dDXP217oGo1HF2W6EYow19JwD0ZBlHKF/B0F1s=;
-        b=J49vcppnGq1Z4ephkmaXcrv5M8mWOnlFLG1cSa9jguTKFtvmw8m5mlJIMG+R3aZr9l
-         /aq09eplcF8YCqPsZpKk27zpzMaxyfz5TnrmfLVHRIx0XnrC6kW6D+WHKXI/9hQXtmRH
-         fBNIPLaoJkGBsl3LxrX5ddZpk3CQHKUWXBvIqWNVLBEWcgzn1Tc1QCQDWGLRF+1d984M
-         J6GPftl3J395ouB6Z6Eav7xjkztzuTGKhJi3r4rOv7n6N9R7axc3yiKnhtbOos307vWl
-         ftNQk4EuBIC9ZSdopvQ4zH/3Yo9iCFkdtmlB5VlL0voG+Hzz0F4GKs++kEWTIEUqCtpQ
-         bMoQ==
-X-Gm-Message-State: AC+VfDyUynyuNxn7HiHBAW8eCzkH9FO8zVXzrfAT/Yb8IZL/cw9ITzIR
-        ngzSb0oY0JcJDNEnAZPpgxrrhw==
-X-Google-Smtp-Source: ACHHUZ7rdLlv/3s8yG4JbblbnG+sbMkxQNNVv3adxxdOWjyGlPNDx1ClTj/QjF7GE76Jbpq26AhpKQ==
-X-Received: by 2002:a5d:4d44:0:b0:2fe:e435:4a17 with SMTP id a4-20020a5d4d44000000b002fee4354a17mr14436000wru.65.1683104275055;
-        Wed, 03 May 2023 01:57:55 -0700 (PDT)
+        bh=iaoC3PHQvk7zFvJs+Qr9k0+mYfQsIaix2pxrBYU29ms=;
+        b=kwCJ5dCZ/NECAawWE5KfsQIUuTwgnzReSu3bt9b1cI/T1qAY3DHjwdHoQ2x9C8HJQx
+         oBSfCjvzZ3avDe1mdBfjRpzeaMK4mk7ItVmcp81I06nvWvGmMWD54Du2DbPlw4FDLxuP
+         fTiVaL5bb5Og1BBryPIQjvJW0gtesIwTIH81jYBGAjKzuh3tEMpAQ0gAGCi1oNKugIdQ
+         x0DgtGfwC4IC0hsSYRt0YmXNlocP04jdyDWsWYUBFKUesdD8aSI0wqRI9PnYwTDhxCFI
+         o7s92K7soqTeHkEmqpbtPWnQx0edyP5vNnq0guc5AxrwrdUk+o2YFh2PHQUrZRsQGIbH
+         hyhA==
+X-Gm-Message-State: AC+VfDzm6L0oAyAWpbShWOW6ohm2mwyHa89FDq0+VwYWYLJRPo4/8Ak8
+        0yf3Bs/vbbXjv18ZhUZ7ImiNOw==
+X-Google-Smtp-Source: ACHHUZ58LnUQtXDejYI1/H8uC+LEG2o4vb+AEPcHMm57SC9SyHauaRURPd/g3/gMpOXT05bilczeZA==
+X-Received: by 2002:a1c:7208:0:b0:3f0:a06a:7593 with SMTP id n8-20020a1c7208000000b003f0a06a7593mr14737792wmc.11.1683105050998;
+        Wed, 03 May 2023 02:10:50 -0700 (PDT)
 Received: from [197.55.55.58] ([93.107.151.186])
-        by smtp.gmail.com with ESMTPSA id v15-20020a05600c214f00b003f18141a016sm1224227wml.18.2023.05.03.01.57.53
+        by smtp.gmail.com with ESMTPSA id x16-20020a05600c21d000b003f318be9442sm1257597wmj.40.2023.05.03.02.10.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 May 2023 01:57:54 -0700 (PDT)
-Message-ID: <36f2a720-976f-7c88-1bfb-6c226ec286d8@linaro.org>
-Date:   Wed, 3 May 2023 09:57:52 +0100
+        Wed, 03 May 2023 02:10:50 -0700 (PDT)
+Message-ID: <aa193282-b35f-6293-7b7c-c26ed3bd4699@linaro.org>
+Date:   Wed, 3 May 2023 10:10:48 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH 0/3] media: camss: Link CAMSS power domain on MSM8996
+Subject: Re: [PATCH 1/3] media: dt-bindings: media: camss: qcom,msm8996-camss:
+ Add CAMSS power domain and power-domain-names
+Content-Language: en-US
 To:     Yassine Oudjana <yassine.oudjana@gmail.com>,
         Robert Foss <rfoss@kernel.org>,
         Todor Tomov <todor.too@gmail.com>,
@@ -70,15 +72,15 @@ Cc:     Yassine Oudjana <y.oudjana@protonmail.com>,
         linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20230503072543.4837-1-y.oudjana@protonmail.com>
-Content-Language: en-US
+ <20230503072543.4837-2-y.oudjana@protonmail.com>
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20230503072543.4837-1-y.oudjana@protonmail.com>
+In-Reply-To: <20230503072543.4837-2-y.oudjana@protonmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-6.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -86,13 +88,53 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 03/05/2023 08:25, Yassine Oudjana wrote:
-> CAMSS on MSM8996 has been broken since commit
-> 46cc03175498 (media: camss: Split power domain management, 2022-07-04).
+> From: Yassine Oudjana <y.oudjana@protonmail.com>
+> 
+> Add the CAMSS power domain which is needed for the proper operation of CAMSS, and add
+> power-domain-names to ease fetching it as well as the other power domains.
+> 
+> Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
+> ---
+>   .../bindings/media/qcom,msm8996-camss.yaml          | 13 ++++++++++++-
+>   1 file changed, 12 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml b/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
+> index 8a10aa1cafc5..27c9a11f0df9 100644
+> --- a/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
+> +++ b/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
+> @@ -85,6 +85,13 @@ properties:
+>       items:
+>         - description: VFE0 GDSC - Video Front End, Global Distributed Switch Controller.
+>         - description: VFE1 GDSC - Video Front End, Global Distributed Switch Controller.
+> +      - description: CAMSS GDSC - Camera Subsystem, Global Distributed Switch Controller.
+> +
+> +  power-domain-names:
+> +    items:
+> +      - const: vfe0
+> +      - const: vfe1
+> +      - const: camss
+>   
+>     ports:
+>       $ref: /schemas/graph.yaml#/properties/ports
+> @@ -209,6 +216,7 @@ required:
+>     - interrupts
+>     - iommus
+>     - power-domains
+> +  - power-domain-names
+>     - reg
+>     - reg-names
+>     - vdda-supply
+> @@ -326,7 +334,10 @@ examples:
+>            <&vfe_smmu 3>;
+>   
+>         power-domains = <&mmcc VFE0_GDSC>,
+> -        <&mmcc VFE1_GDSC>;
+> +        <&mmcc VFE1_GDSC>,
+> +        <&mmcc CAMSS_GDSC>;
+> +
+> +      power-domain-names = "vfe0", "vfe1", "camss";
+>   
+>         reg = <0x00a34000 0x1000>,
+>           <0x00a00030 0x4>,
 
-Don't forget to run your patches through checkpatch --strict
-
-ERROR: Please use git commit description style 'commit <12+ chars of 
-sha1> ("<title line>")' - ie: 'Commit 46cc03175498 ("media: camss: Split 
-power domain management")'
-
-
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
