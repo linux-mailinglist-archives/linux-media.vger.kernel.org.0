@@ -2,104 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 07ACF6F6DB2
-	for <lists+linux-media@lfdr.de>; Thu,  4 May 2023 16:28:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B7286F70BB
+	for <lists+linux-media@lfdr.de>; Thu,  4 May 2023 19:18:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230344AbjEDO2e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 May 2023 10:28:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60148 "EHLO
+        id S230026AbjEDRS0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 May 2023 13:18:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230364AbjEDO2c (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 May 2023 10:28:32 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E76429018
-        for <linux-media@vger.kernel.org>; Thu,  4 May 2023 07:28:14 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-2f9b9aa9d75so404808f8f.0
-        for <linux-media@vger.kernel.org>; Thu, 04 May 2023 07:28:14 -0700 (PDT)
+        with ESMTP id S229697AbjEDRSX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 May 2023 13:18:23 -0400
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0094246B0
+        for <linux-media@vger.kernel.org>; Thu,  4 May 2023 10:18:18 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-4eff50911bfso900079e87.2
+        for <linux-media@vger.kernel.org>; Thu, 04 May 2023 10:18:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nexus-software-ie.20221208.gappssmtp.com; s=20221208; t=1683210493; x=1685802493;
+        d=linaro.org; s=google; t=1683220697; x=1685812697;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=DeYBoTOUVqJj803Ofa1fS+lSuPAgR5WnQRE3r1FG7lU=;
-        b=BSHwV5QrhS+DbQpHCP8+VaWtrikezygTm6Fh3fInKLZ2z6ncleQl166P7CW3qesgtQ
-         hVxyBYWY27Fz7feLW5IMVnXEoO24Qa/j4+JokhnGw6b1kiAhVlrDfV2+HoJ6BF9CNJyA
-         81fg4cFwNu2JvYUmDrqqvdpm7IgjjT8PQe87ERqKzh/ixQ3Ga2q0rsvRycgzk+OYgkRa
-         sj6utuHisHOe7vB4UXe8nkesIjI4aeXu6IH97Ag3o4NCyTMX4OOcWMQxJd+LZRfmrRw4
-         M4RPhfjekhDMs1zsEK0IEbXQfOxRQGHLvFAOAK7zcNY6TVFwstYu4lnvQxDsy75pZDkf
-         1ohQ==
+        bh=ydyx1GdsGCwv5KCUKCfbJnd97Kzneu6w6rXsPTn81eI=;
+        b=iyCx7DxjVrprI1HjHon8qcUNj/3kNRBnJZi32NW8/58NlhrpZVPdElQR+foWPWluSn
+         NYQl5rz8gmDzEfMRF21I9RPRHwDA1sHb03qxdgpVG8/gI5iO24XTvtDw5HeSyVXCWzd2
+         Hr7t0jDxC4PhY5q1h4ZHwRWzxKnSTSnOhzyG2sgOdsGRihj9fNynBrB5zL6xZB2JsFYc
+         Bram+l9udSKDtDh01jc5bGFoPrUiRUtF/VpNaJkO+PO4eUFw7Miy1+0Wmy3n8e9m0Cds
+         QQ+aSqEhULKDAwxjPybMkFnDU+Y78tQKhvyuZ6I8g+H1gJdsJxDgMa+cFI580x36gVKY
+         Hcxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683210493; x=1685802493;
+        d=1e100.net; s=20221208; t=1683220697; x=1685812697;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DeYBoTOUVqJj803Ofa1fS+lSuPAgR5WnQRE3r1FG7lU=;
-        b=VC/PJ2fLgyNg8MFMCDZTBC/9ge2v0UZ9DOuV4mkf3NWsQkSjUGtNCTFEdl37/0Iblt
-         T8vYZqmJD+A3B13UTwnnnlhkk9WBj0D5F8+P3oxKqiTp4K56/rYP4PsTpEZg0OXkaXnX
-         DHVifoIw9zQNrmOJfvhR1ne0bqfNNUQPPkjdm632RFXw16ISk0NUyiGVTFoWGU2GhmOg
-         U725ktY3MpuAtvmnYJvFkEjjJNUygZQ6qpQpaDNCQtJmsbxT544VaFfT8lpxC0vXQ6tn
-         IC++nPT9uyV0lrGhxpNx2jGXq1nDQrVZYuUVvZNoxUcVc+VzjzDi28K6ZTE0OvJ08Lxn
-         qIEA==
-X-Gm-Message-State: AC+VfDxmeepvBBTzE2TkQvbik5FansXZ1p+8c5ZwimOiQUoRu1597uq9
-        2SptVR8Gg4l+0EjCKv+5FkGsIA==
-X-Google-Smtp-Source: ACHHUZ4yZAMzfPUsO5Y9Mfbn5+au6koMHjJ0U46skIVR6HdLMxX+NXOuyrw+epY+bOVC2QPZOmWeMg==
-X-Received: by 2002:a5d:564e:0:b0:306:439e:e6c with SMTP id j14-20020a5d564e000000b00306439e0e6cmr2857959wrw.49.1683210493322;
-        Thu, 04 May 2023 07:28:13 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id u6-20020adff886000000b002f28de9f73bsm36996749wrp.55.2023.05.04.07.28.10
+        bh=ydyx1GdsGCwv5KCUKCfbJnd97Kzneu6w6rXsPTn81eI=;
+        b=YPvg2RB4pnBLfESmtmTR0XPqvpQS5psyBEA4Pb/Qu1KT2ML9RvwcAciiIBDzTXOU1B
+         pY2DVTsqML5oVV4S1uzGJ6vdGOPavAkCIRzlGRm940O5QInLa6FXHGwmBuf9eED3Ph6S
+         pjF8wTzAuR7dgNsM8ShqSKDBnLx4in0NeBd4tXixPx+7MBsdcOC5LGX1psVfMYQ75fu7
+         Up0rfGw8NTbI5mIC9VZQkCX8/hW/5yC0Mh6TxmLjIbGb9+SJWS647Y4X+MiFX+Kb2QG/
+         RR0yVw4MFkQ3fa8+yISF55oFGoYeOaR5W4HiWSOsJkmkrRNQKg99MjqnuqwThcPqfCmf
+         /Lzw==
+X-Gm-Message-State: AC+VfDzP+D+RnG9YKeC8xLgBc2dbD9CLX1clkurtwmOKZ8NULOuoB18y
+        Lv+n5J2+2IpPiIUdf2D3HRImeKLzwYt6NoI0RfY=
+X-Google-Smtp-Source: ACHHUZ5ssfT50ILMzEsxKpgixIlrOqcvEuA6cBO3L/j3snk5NZs8da2dQHx460ta/wwMMzdpGye1nw==
+X-Received: by 2002:ac2:51db:0:b0:4ec:9f24:3e5c with SMTP id u27-20020ac251db000000b004ec9f243e5cmr2044378lfm.2.1683220697209;
+        Thu, 04 May 2023 10:18:17 -0700 (PDT)
+Received: from [192.168.1.101] (abyl248.neoplus.adsl.tpnet.pl. [83.9.31.248])
+        by smtp.gmail.com with ESMTPSA id c17-20020ac24151000000b004cb43eb09dfsm6612921lfi.123.2023.05.04.10.18.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 May 2023 07:28:11 -0700 (PDT)
-Message-ID: <b79dcf81-2eb4-c376-e1a8-e947ffa6c70a@nexus-software.ie>
-Date:   Thu, 4 May 2023 15:28:10 +0100
+        Thu, 04 May 2023 10:18:16 -0700 (PDT)
+Message-ID: <0e0f3d0f-5d9a-12d0-3859-32cdb464d5e6@linaro.org>
+Date:   Thu, 4 May 2023 19:18:15 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH 0/4] venus: add support for 10 bit decoding
+ Thunderbird/102.10.1
+Subject: Re: [PATCH 1/4] venus: add support for V4L2_PIX_FMT_P010 color format
 Content-Language: en-US
-To:     Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
+To:     Dikshita Agarwal <quic_dikshita@quicinc.com>,
         linux-media@vger.kernel.org, stanimir.k.varbanov@gmail.com,
-        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        quic_vgarodia@quicinc.com, agross@kernel.org, andersson@kernel.org,
         mchehab@kernel.org
 Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
 References: <1683196599-3730-1-git-send-email-quic_dikshita@quicinc.com>
- <8df7f24b-9dbe-4491-bcb1-f53021bb482f@linaro.org>
- <66b8e665-1038-127a-1f4f-20d8fe7bcd8e@linaro.org>
- <facc9800-6af4-5cb3-bd22-b22b2250090a@quicinc.com>
-From:   Bryan O'Donoghue <pure.logic@nexus-software.ie>
-In-Reply-To: <facc9800-6af4-5cb3-bd22-b22b2250090a@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <1683196599-3730-2-git-send-email-quic_dikshita@quicinc.com>
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <1683196599-3730-2-git-send-email-quic_dikshita@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-6.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 04/05/2023 15:04, Vikash Garodia wrote:
->> Doh I see you did most of that - just missed the V2.
->>
->> Please remember to version your subsequent series. "git format-patch -v2"
+
+
+On 4.05.2023 12:36, Dikshita Agarwal wrote:
+> add V4L2_PIX_FMT_P010 as supported color format for decoder.
 > 
-> Does this qualify for a version upgrade when a single patch is 
-> subsequently raised as series ? IMO, the link
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> ---
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+
+Konrad
+>  drivers/media/platform/qcom/venus/helpers.c | 2 ++
+>  drivers/media/platform/qcom/venus/vdec.c    | 4 ++++
+>  2 files changed, 6 insertions(+)
 > 
-> to previous single patch in cover letter and then starting the series 
-> (as v0) seems to provide the required info.
-
-Hmm. I'd say any series should have an increment in it to differentiate, 
-with the exception being RESEND.
-
-Also you are splitting one patch into four.
-
-Looking through a bunch of email it might be not immediately obvious to 
-understand that the new series and old series differ, which is IMO how 
-the version numbers help others to know what's going on.
-
----
-bod
+> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
+> index ab6a29f..5946def 100644
+> --- a/drivers/media/platform/qcom/venus/helpers.c
+> +++ b/drivers/media/platform/qcom/venus/helpers.c
+> @@ -612,6 +612,8 @@ static u32 to_hfi_raw_fmt(u32 v4l2_fmt)
+>  		return HFI_COLOR_FORMAT_NV12_UBWC;
+>  	case V4L2_PIX_FMT_QC10C:
+>  		return HFI_COLOR_FORMAT_YUV420_TP10_UBWC;
+> +	case V4L2_PIX_FMT_P010:
+> +		return HFI_COLOR_FORMAT_P010;
+>  	default:
+>  		break;
+>  	}
+> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+> index 4ceaba3..687d62e 100644
+> --- a/drivers/media/platform/qcom/venus/vdec.c
+> +++ b/drivers/media/platform/qcom/venus/vdec.c
+> @@ -43,6 +43,10 @@ static const struct venus_format vdec_formats[] = {
+>  		.num_planes = 1,
+>  		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
+>  	}, {
+> +		.pixfmt = V4L2_PIX_FMT_P010,
+> +		.num_planes = 1,
+> +		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
+> +	}, {
+>  		.pixfmt = V4L2_PIX_FMT_MPEG4,
+>  		.num_planes = 1,
+>  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
