@@ -2,61 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 27AB96F66B0
-	for <lists+linux-media@lfdr.de>; Thu,  4 May 2023 10:03:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A39D86F66B6
+	for <lists+linux-media@lfdr.de>; Thu,  4 May 2023 10:03:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230291AbjEDIDB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 May 2023 04:03:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45416 "EHLO
+        id S230299AbjEDIDL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 May 2023 04:03:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230010AbjEDIC2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 May 2023 04:02:28 -0400
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E3E1421F
-        for <linux-media@vger.kernel.org>; Thu,  4 May 2023 01:01:53 -0700 (PDT)
-Received: by mail-lj1-x22d.google.com with SMTP id 38308e7fff4ca-2ac770a99e2so1985531fa.3
-        for <linux-media@vger.kernel.org>; Thu, 04 May 2023 01:01:53 -0700 (PDT)
+        with ESMTP id S230215AbjEDICb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 May 2023 04:02:31 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E66119B7
+        for <linux-media@vger.kernel.org>; Thu,  4 May 2023 01:01:56 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id 2adb3069b0e04-4ec9c7c6986so183608e87.0
+        for <linux-media@vger.kernel.org>; Thu, 04 May 2023 01:01:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683187313; x=1685779313;
+        d=linaro.org; s=google; t=1683187314; x=1685779314;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7/ezoAVw2YsuX0T7djrVDfZq5CgG+6MzZDD2YwmF/kg=;
-        b=kLenHnDCd0uBsKrSo1WGh78cZTh9Ra3zVmHLL4gndv8ZleajftHuLyHS3D5fezkMOr
-         WSMdKVvRSRukQniAoZj5cvlK1hmjJmwXsyAqZpccM38y9Ko8BEvOW/5buqQ0oAQ2LjxM
-         SnsjZW9r66m51bB0WBrMDS2jDAmUc0kCgZF4WSA9G68QKVr/3bj9j1TK8g4/U2G6G/qZ
-         EZPlPR56wdKsTspC1CaGZ9SZlpWCJcBahFv+edw1hr8IBmgpjEWOLEUr5b0l/G5Hh0O4
-         CC5DRGXbfNjfJwRkSiT+ShE2u1LxiLSzx0EpkQVupLKMXBXc6yleYaq5TvdSC6cSRvhc
-         Xckw==
+        bh=U/UccTAcuhBCUZ5FF6aUwvykUnIdd379ssRafTBI8b8=;
+        b=k2wfBVJ9WXNUj0tgbgW8gkMU+/1meB/9vIXZndgxm10dezJlhYaNqAPsHBh9q1qZXh
+         Kuzy0NH+RKCmcAn0b/jTlJi0hdiXCA3gFuqeN9yHD5AccDS8ZPHDOGwV0/CpD6CpSVeb
+         k7iUiSekl9SQqyFw58h/RnWjkyaeBgx9MPRTqAjdLjYST/x9x4IJv/EMWxMHjF5vOBjK
+         WnhfME2HEuhEMZEKe3g26jLri7ePZ7f3r05v2O3ejxVPa/+HQ1GN44m8ljadhbrCAa0C
+         sSMWTn65rUyY8YDNDnJvpVAyibwd/Z6wyf5b7wy+e4Tz53+i8b1Pc0ZV4+XGst10qHFg
+         hVuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683187313; x=1685779313;
+        d=1e100.net; s=20221208; t=1683187314; x=1685779314;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7/ezoAVw2YsuX0T7djrVDfZq5CgG+6MzZDD2YwmF/kg=;
-        b=ZssthcqWHKFxVx+aQhlaQazqs4GQ2eYB8TGEQpZld0+H7zfLtYADoiJ0U5VRp09WdC
-         s9I49B2RM2jEOK1FAUtIGb+/FpLgbsWMPTs7QHfHlw+tJ2720Mkmcacyf7AFAuDPvayy
-         t9BaloFhPoMWEaZm1Y2q5OjeHRN9Pw2iHhCPnlzgCO2ASHSMdB+ZhfdnUPSvu2CVuUTZ
-         +kS7mTMhhDCYt0v56NPN2i7Fux6M4i7zfOOW12oILCvisB4ZATI/5g8nX1348JCDIj8g
-         O18K6C0h3j5MZKsPyZkkxJ0WJ9ztfY/6dURiGpJdU6s26IFtk/IJ9HS2qvXAszuBMrIi
-         6FDw==
-X-Gm-Message-State: AC+VfDy/4i6cKPWJWny6bTGXHLwWJuiGR+SdSji3dF7HqHtU89ZsqNBo
-        H0sXIm9AiCrUL+IY6ucze+jMr1WOBgdMjQu1y3Q=
-X-Google-Smtp-Source: ACHHUZ7SjeFgvK6nG6qtBdpqsELpBYDXq4bDezFMSZJUZ+zWtJyorg/du54Mm4TQBT6B+si38l3WTA==
-X-Received: by 2002:ac2:5976:0:b0:4d8:6540:a731 with SMTP id h22-20020ac25976000000b004d86540a731mr1454565lfp.47.1683187312943;
-        Thu, 04 May 2023 01:01:52 -0700 (PDT)
+        bh=U/UccTAcuhBCUZ5FF6aUwvykUnIdd379ssRafTBI8b8=;
+        b=LkcrTw6JFHwGognlTb/HJ0/oEIc1hr+98BLbDCcKFH7kwNDDpfvxi8BTietbtVHCYN
+         8VKDxGyCw1EneKO7NRmleP4p0brusuDPaqooZnbgiKPlnyxzQTOpCDK6P/YKmSZnv4GW
+         NTRhVsUmCc0ydXAqH0n2/7pzu/0UO7X+tq7F4NgbyiUsvldrsSMGMRaajq8rkSVpZnOO
+         o9Q0MGOdMlQyK7VtdqPWH18SSgUFW/pTM+3kmsoOIxhQovozT8NNLk0oUn+SdRsJ0Lpl
+         dWwV1YLkf7nOEfSKQ7DGcUHAtK8/K6ESB4b9Q//0s0RwVdZs5hndj21XYsX7fGiNryWq
+         w9WQ==
+X-Gm-Message-State: AC+VfDyJutHyILkBephqlIPar2t8vvnIYRns0aqn+9+EDaeIu1FCYpxW
+        vseAuGp+FU61uTtBRz4PQaGjCw==
+X-Google-Smtp-Source: ACHHUZ6vO4z0T75jgR0++P5IOouAIDe27JjNuh4RcoH0KoDzBwzm0rdiclGAxrYSwR2VBML3esgORw==
+X-Received: by 2002:a19:ac08:0:b0:4ef:e990:8a53 with SMTP id g8-20020a19ac08000000b004efe9908a53mr1563858lfc.18.1683187314397;
+        Thu, 04 May 2023 01:01:54 -0700 (PDT)
 Received: from [192.168.1.101] (abyl248.neoplus.adsl.tpnet.pl. [83.9.31.248])
-        by smtp.gmail.com with ESMTPSA id n26-20020ac2491a000000b004edc512515fsm917165lfi.47.2023.05.04.01.01.51
+        by smtp.gmail.com with ESMTPSA id n26-20020ac2491a000000b004edc512515fsm917165lfi.47.2023.05.04.01.01.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 May 2023 01:01:52 -0700 (PDT)
+        Thu, 04 May 2023 01:01:54 -0700 (PDT)
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-Date:   Thu, 04 May 2023 10:01:13 +0200
-Subject: [PATCH v2 17/18] media: venus: Use newly-introduced
- hfi_buffer_requirements accessors
+Date:   Thu, 04 May 2023 10:01:14 +0200
+Subject: [PATCH v2 18/18] media: venus: hfi_venus: Restrict writing
+ SCIACMDARG3 to Venus V1/V2
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230228-topic-venus-v2-17-d95d14949c79@linaro.org>
+Message-Id: <20230228-topic-venus-v2-18-d95d14949c79@linaro.org>
 References: <20230228-topic-venus-v2-0-d95d14949c79@linaro.org>
 In-Reply-To: <20230228-topic-venus-v2-0-d95d14949c79@linaro.org>
 To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
@@ -78,11 +78,11 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Konrad Dybcio <konrad.dybcio@linaro.org>,
         Vikash Garodia <quic_vgarodia@quicinc.com>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1683187284; l=4434;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1683187284; l=1033;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=3DU/aHZTwApMpAzleBOxmDEmeu3wMrZY4AjWxSwH9y0=;
- b=9IA8yX1+nsMn6XchQoCxp1wd6G+ibq7ZxKdRzqfGpLjOauwbHOGMVdZCFeUChEHEN7xfLqT+s
- fwK2smrptb9BbTMppDZxwJGyF5mMRqzK8YhnFfv9x2mzqZuijYKnGRg
+ bh=Heez1R9g/upp/lte+28AqBemWtRoQ6abP6tBXj2nEJo=;
+ b=dlplnoZoob7e3VzE6E58BXJl+xaZE0aZvFCtEc6T9JXS3KuWqNZRqSdT20GugI1L0NPZI0gc8
+ ikoGUOm0MXWB6U7pfzKbOSW8+HPXRQE4CGqJwARcFQfYAN/c1rUZA2G
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -95,113 +95,30 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Now that we have a way which is independent of the HFI version to set
-the correct fields in hfi_buffer_requirements, use it!
+This write was last present on msm-3.10, which means before HFI3XX
+platforms were introduced. Guard it with an appropriate if condition.
+
+Does not seem to have any adverse effects on at least SM8250.
 
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- drivers/media/platform/qcom/venus/helpers.c        |  5 +++--
- .../media/platform/qcom/venus/hfi_plat_bufs_v6.c   | 22 +++++++++++-----------
- 2 files changed, 14 insertions(+), 13 deletions(-)
+ drivers/media/platform/qcom/venus/hfi_venus.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-index 1ce2624abc12..0268129ab9ac 100644
---- a/drivers/media/platform/qcom/venus/helpers.c
-+++ b/drivers/media/platform/qcom/venus/helpers.c
-@@ -667,6 +667,7 @@ int venus_helper_get_bufreq(struct venus_inst *inst, u32 type,
- 			    struct hfi_buffer_requirements *req)
- {
- 	u32 ptype = HFI_PROPERTY_CONFIG_BUFFER_REQUIREMENTS;
-+	enum hfi_version ver = inst->core->res->hfi_version;
- 	union hfi_get_property hprop;
- 	unsigned int i;
- 	int ret;
-@@ -674,12 +675,12 @@ int venus_helper_get_bufreq(struct venus_inst *inst, u32 type,
- 	memset(req, 0, sizeof(*req));
- 
- 	if (type == HFI_BUFFER_OUTPUT || type == HFI_BUFFER_OUTPUT2)
--		req->count_min = inst->fw_min_cnt;
-+		hfi_bufreq_set_count_min(req, ver, inst->fw_min_cnt);
- 
- 	ret = platform_get_bufreq(inst, type, req);
- 	if (!ret) {
- 		if (type == HFI_BUFFER_OUTPUT || type == HFI_BUFFER_OUTPUT2)
--			inst->fw_min_cnt = req->count_min;
-+			inst->fw_min_cnt = hfi_bufreq_get_count_min(req, ver);
- 		return 0;
+diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
+index d6df99a921bb..6405771568d1 100644
+--- a/drivers/media/platform/qcom/venus/hfi_venus.c
++++ b/drivers/media/platform/qcom/venus/hfi_venus.c
+@@ -462,7 +462,8 @@ static int venus_boot_core(struct venus_hfi_device *hdev)
  	}
  
-diff --git a/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c b/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
-index a9be31ec6927..5eb4032bc551 100644
---- a/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
-+++ b/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c
-@@ -1214,25 +1214,25 @@ static int bufreq_dec(struct hfi_plat_buffers_params *params, u32 buftype,
+ 	writel(mask_val, wrapper_base + WRAPPER_INTR_MASK);
+-	writel(1, cpu_cs_base + CPU_CS_SCIACMDARG3);
++	if (IS_V1(hdev->core))
++		writel(1, cpu_cs_base + CPU_CS_SCIACMDARG3);
  
- 	out_min_count = output_buffer_count(VIDC_SESSION_TYPE_DEC, codec);
- 	/* Max of driver and FW count */
--	out_min_count = max(out_min_count, bufreq->count_min);
-+	out_min_count = max(out_min_count, hfi_bufreq_get_count_min(bufreq, version));
- 
- 	bufreq->type = buftype;
- 	bufreq->region_size = 0;
--	bufreq->count_min = 1;
- 	bufreq->count_actual = 1;
--	bufreq->hold_count = 1;
-+	hfi_bufreq_set_count_min(bufreq, version, 1);
-+	hfi_bufreq_set_count_min_host(bufreq, version, 1);
- 	bufreq->contiguous = 1;
- 	bufreq->alignment = 256;
- 
- 	if (buftype == HFI_BUFFER_INPUT) {
--		bufreq->count_min = MIN_INPUT_BUFFERS;
-+		hfi_bufreq_set_count_min(bufreq, version, MIN_INPUT_BUFFERS);
- 		bufreq->size =
- 			calculate_dec_input_frame_size(width, height, codec,
- 						       max_mbs_per_frame,
- 						       buffer_size_limit);
- 	} else if (buftype == HFI_BUFFER_OUTPUT ||
- 		   buftype == HFI_BUFFER_OUTPUT2) {
--		bufreq->count_min = out_min_count;
-+		hfi_bufreq_set_count_min(bufreq, version, out_min_count);
- 		bufreq->size =
- 			venus_helper_get_framesz_raw(params->hfi_color_fmt,
- 						     width, height);
-@@ -1264,7 +1264,7 @@ static int bufreq_enc(struct hfi_plat_buffers_params *params, u32 buftype,
- 	u32 work_mode = params->enc.work_mode;
- 	u32 rc_type = params->enc.rc_type;
- 	u32 num_vpp_pipes = params->num_vpp_pipes;
--	u32 num_ref;
-+	u32 num_ref, count_min;
- 
- 	switch (codec) {
- 	case V4L2_PIX_FMT_H264:
-@@ -1284,21 +1284,21 @@ static int bufreq_enc(struct hfi_plat_buffers_params *params, u32 buftype,
- 
- 	bufreq->type = buftype;
- 	bufreq->region_size = 0;
--	bufreq->count_min = 1;
- 	bufreq->count_actual = 1;
--	bufreq->hold_count = 1;
-+	hfi_bufreq_set_count_min(bufreq, version, 1);
-+	hfi_bufreq_set_count_min_host(bufreq, version, 1);
- 	bufreq->contiguous = 1;
- 	bufreq->alignment = 256;
- 
- 	if (buftype == HFI_BUFFER_INPUT) {
--		bufreq->count_min = MIN_INPUT_BUFFERS;
-+		hfi_bufreq_set_count_min(bufreq, version, MIN_INPUT_BUFFERS);
- 		bufreq->size =
- 			venus_helper_get_framesz_raw(params->hfi_color_fmt,
- 						     width, height);
- 	} else if (buftype == HFI_BUFFER_OUTPUT ||
- 		   buftype == HFI_BUFFER_OUTPUT2) {
--		bufreq->count_min =
--			output_buffer_count(VIDC_SESSION_TYPE_ENC, codec);
-+		count_min = output_buffer_count(VIDC_SESSION_TYPE_ENC, codec);
-+		hfi_bufreq_set_count_min(bufreq, version, count_min);
- 		bufreq->size = calculate_enc_output_frame_size(width, height,
- 							       rc_type);
- 	} else if (buftype == HFI_BUFFER_INTERNAL_SCRATCH(version)) {
+ 	writel(BIT(VIDC_CTRL_INIT_CTRL_SHIFT), cpu_cs_base + VIDC_CTRL_INIT);
+ 	while (!ctrl_status && count < max_tries) {
 
 -- 
 2.40.1
