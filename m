@@ -2,61 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A1E176F6682
-	for <lists+linux-media@lfdr.de>; Thu,  4 May 2023 10:01:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3A6C6F6685
+	for <lists+linux-media@lfdr.de>; Thu,  4 May 2023 10:01:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229963AbjEDIBf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 May 2023 04:01:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43418 "EHLO
+        id S230017AbjEDIBm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 May 2023 04:01:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229935AbjEDIBc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 May 2023 04:01:32 -0400
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC7E319A8
-        for <linux-media@vger.kernel.org>; Thu,  4 May 2023 01:01:30 -0700 (PDT)
-Received: by mail-lj1-x22a.google.com with SMTP id 38308e7fff4ca-2a8dc00ade2so2146691fa.0
-        for <linux-media@vger.kernel.org>; Thu, 04 May 2023 01:01:30 -0700 (PDT)
+        with ESMTP id S229944AbjEDIBe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 May 2023 04:01:34 -0400
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EA5C3C17
+        for <linux-media@vger.kernel.org>; Thu,  4 May 2023 01:01:32 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id 38308e7fff4ca-2ac7ac8a4ffso2130511fa.0
+        for <linux-media@vger.kernel.org>; Thu, 04 May 2023 01:01:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683187289; x=1685779289;
+        d=linaro.org; s=google; t=1683187290; x=1685779290;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=wx5dYQRwBkTI+vIENabmZFidu+UG6bsoT2w/E9azkMk=;
-        b=Ms5+Av3job8E1NirdFNKWCSJStO92kIfaxqw+VlDjqCaZhN/Efha3zMGCWN79gHpm6
-         AYoNhZnRWQ9mpboNWew9+7ajEw1d4K/Xe6khT7s1u3m7cb81rm8QRb1qyBClKM4Bwdvk
-         XF1fy4+eiM9SKrtyWY7+hv1TyqVZhuSlHj7dsbVOcvP62ynjzhKFPx48lhLRjMvjiArs
-         PM3nsodeZfLfyymZbj+LVVubsodwoxVLtg/5F2SC9T4T7WA2AP7NdrmgNRgFB+1Sc2zG
-         p1GH22purCn1XKxIjU8l01PR8N/5xVG6bmsVO8uLsN0D/11cQ/5JBPi4rUk2bQePDbFp
-         v9ag==
+        bh=C1wrHdE9iKrmB/WxNypIy4J2UJNGNaaQcU0qAUemPII=;
+        b=WDHW2yNAhW01kMfJX7yGsyy6Gm+EE6cCAyf/9TIZh/Xbpz6NeleG58b44v9i/qahSH
+         EAs8+5YKk3uDuzqKIaNKUciaZ7kbWStZMrVSsK3t1IMJ86+PZGfrqNfJ8Ha/uP2O6CoE
+         3kVdb/6t4Mhaq0ippPDLk+I7PXd5NfJ6AzHy5jvkgSk5gC0+3zsOY44DlPi0W0BjGf7B
+         gsCAoWrwF+kqT5H2mroGxqsnJ4Y+HI1WYWBCJD6c34ATI3Drqx4KscXdGSqn+iO0MK3b
+         TEnwILA4FXpR5Dr5pyNomkfuYmBShqEbSjsmqUbjiFATvdZE/VGg51cWp1R/HAKIKyrw
+         8z7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683187289; x=1685779289;
+        d=1e100.net; s=20221208; t=1683187290; x=1685779290;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wx5dYQRwBkTI+vIENabmZFidu+UG6bsoT2w/E9azkMk=;
-        b=OpOYQVjtUHP3c5xBqHfEDFCOuACQ5cnIVDVURvRufD4Qq6kQyy5jLymdBv7HHNVGmA
-         C9Nh985t5tnGpO+2DDtY6/7Pw8+Cmc+IorCwwCjegjrP6Wkk9X/nqO6t8LCIyWs4xG9B
-         7j2ZGkZRyprl2y0pQeZYuS1NtcC7IR2ga14NYALavWzl4ShuxT2GwDDLdseXE18mPO51
-         KU/Uqroruim1+eIYkbwkIWxh77Khc85NmxjHu5W3rn5Lv2foYJYaygYSixVMl2gbxkBh
-         I9PrblqlcIWBL9lmZsKZ4Dc+iKzN5vTs3le2dUkVBYbHM9sF8D8NaCneeTFXrJQXf96s
-         pV5Q==
-X-Gm-Message-State: AC+VfDwdRWsdP4YVGxw0SLYzxmoJjwjj6MOfTyLkNAxBQdFHH5wERNGX
-        hZHbtXuq5GQFHby/G0Jb7vTDGQ==
-X-Google-Smtp-Source: ACHHUZ6CyMNlAZTEzik9cGKDzfRA1RlhDbXEVY0QlyDTBymjy/GmJD7hBMdMn0kMtxJXRttKUIbCgw==
-X-Received: by 2002:ac2:5237:0:b0:4ef:d573:c8a7 with SMTP id i23-20020ac25237000000b004efd573c8a7mr1613614lfl.32.1683187289004;
-        Thu, 04 May 2023 01:01:29 -0700 (PDT)
+        bh=C1wrHdE9iKrmB/WxNypIy4J2UJNGNaaQcU0qAUemPII=;
+        b=URXQqo6x3l0fz2vY2RZH3vjlhk5IP52Cfr3c50yDdnKmsWYB97MpJnz4LKS8uxZx9/
+         9oKOTDwdMV3vKFckRJvVWQdE4JyA/wlSDoM7cM9wIlMn6AKPra6skkj8mxEomLCkj1iQ
+         tsVsnnqxsQ9TD5IRWgYg+/7vtIZ/mmZgxXwO1Vs6RX+224OtuA43PQ+VfukmsXcCCdda
+         t5w3p2zKVJtkCgvL7/7hFTVm1AgV7ApTOtgPvWuW6/H7Z/SByHCIld9H1XvjpcdPO2z+
+         Wqc5A7pzjQp2b/O6ZW+YBerLg7nChz7uunTpdLTxAEuGKV9s4Wdjcz8n2K4Wv2BAv/DP
+         +Btg==
+X-Gm-Message-State: AC+VfDznP10YhP2HVMTY4IpOAmvx1BwyGtxzq1VlMimuySeDA6XJmF3r
+        bMI+n2LJpdy+8HB+Nk6/vfz6Nw==
+X-Google-Smtp-Source: ACHHUZ7AGjDXW8IJKxCiGE93VGJ9cDvW8UI3O+wuSm+ZqEPQzLp2QbdQzxnJsJrVCD2pYXeYbbBnFw==
+X-Received: by 2002:a05:651c:201:b0:2a8:e4d3:11e2 with SMTP id y1-20020a05651c020100b002a8e4d311e2mr711499ljn.39.1683187290499;
+        Thu, 04 May 2023 01:01:30 -0700 (PDT)
 Received: from [192.168.1.101] (abyl248.neoplus.adsl.tpnet.pl. [83.9.31.248])
-        by smtp.gmail.com with ESMTPSA id n26-20020ac2491a000000b004edc512515fsm917165lfi.47.2023.05.04.01.01.27
+        by smtp.gmail.com with ESMTPSA id n26-20020ac2491a000000b004edc512515fsm917165lfi.47.2023.05.04.01.01.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 May 2023 01:01:28 -0700 (PDT)
+        Thu, 04 May 2023 01:01:30 -0700 (PDT)
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-Date:   Thu, 04 May 2023 10:00:58 +0200
-Subject: [PATCH v2 02/18] media: venus: hfi_venus: Write to VIDC_CTRL_INIT
- after unmasking interrupts
+Date:   Thu, 04 May 2023 10:00:59 +0200
+Subject: [PATCH v2 03/18] media: venus: Remap bufreq fields on HFI6XX
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230228-topic-venus-v2-2-d95d14949c79@linaro.org>
+Message-Id: <20230228-topic-venus-v2-3-d95d14949c79@linaro.org>
 References: <20230228-topic-venus-v2-0-d95d14949c79@linaro.org>
 In-Reply-To: <20230228-topic-venus-v2-0-d95d14949c79@linaro.org>
 To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
@@ -79,11 +78,11 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Vikash Garodia <quic_vgarodia@quicinc.com>,
         stable@vger.kernel.org
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1683187284; l=1480;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1683187284; l=1455;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=0Uv5fE0exjmqzKoKkMe6XjqGKp8vRm4Af+NoaiadWoA=;
- b=p8XdYya25TcMY0FfaMTCVG6sx7I3fHtL6U+tbVXguByuFj0SbJNHB2/NIZMhEKfLrj5xnCFBx
- cYuHLgF7x4LD9tjzFro39MJA/tVrZd6hjnrRRYtXA4l4c3Km44/4ybo
+ bh=Y7O3kXJUMALOc0Q0JhoHuikwOvvLDtLGeWfKw337F/E=;
+ b=jCZB3nnLtzrwBc/9nUK3HW69Wl7+UodaZZct6VGWvDO/jIlFm2QK2OjGO7+uIAfMRHFqyHcBt
+ DsDW6iF+tIQDZ5vspOGLVJfq/1AzMQT9Pm7VLtQPpb7Nd3CdmnqIeSo
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -96,36 +95,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The downstream driver signals the hardware to be enabled only after the
-interrupts are unmasked, which... makes sense. Follow suit.
+Similarly to HFI4XX, the fields are remapped on 6XX as well. Fix it.
 
-Cc: stable@vger.kernel.org # v4.12+
-Fixes: d96d3f30c0f2 ("[media] media: venus: hfi: add Venus HFI files")
+Cc: stable@vger.kernel.org # v5.12+
+Fixes: 7ed9e0b3393c ("media: venus: hfi, vdec: v6 Add IS_V6() to existing IS_V4() if locations")
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- drivers/media/platform/qcom/venus/hfi_venus.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/qcom/venus/hfi_helper.h | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
-index bff435abd59b..8fc8f46dc390 100644
---- a/drivers/media/platform/qcom/venus/hfi_venus.c
-+++ b/drivers/media/platform/qcom/venus/hfi_venus.c
-@@ -453,7 +453,6 @@ static int venus_boot_core(struct venus_hfi_device *hdev)
- 	void __iomem *wrapper_base = hdev->core->wrapper_base;
- 	int ret = 0;
+diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
+index 105792a68060..e0c8f15644df 100644
+--- a/drivers/media/platform/qcom/venus/hfi_helper.h
++++ b/drivers/media/platform/qcom/venus/hfi_helper.h
+@@ -1170,11 +1170,14 @@ struct hfi_buffer_display_hold_count_actual {
  
--	writel(BIT(VIDC_CTRL_INIT_CTRL_SHIFT), cpu_cs_base + VIDC_CTRL_INIT);
- 	if (IS_V6(hdev->core)) {
- 		mask_val = readl(wrapper_base + WRAPPER_INTR_MASK);
- 		mask_val &= ~(WRAPPER_INTR_MASK_A2HWD_BASK_V6 |
-@@ -464,6 +463,7 @@ static int venus_boot_core(struct venus_hfi_device *hdev)
- 	writel(mask_val, wrapper_base + WRAPPER_INTR_MASK);
- 	writel(1, cpu_cs_base + CPU_CS_SCIACMDARG3);
+ /* HFI 4XX reorder the fields, use these macros */
+ #define HFI_BUFREQ_HOLD_COUNT(bufreq, ver)	\
+-	((ver) == HFI_VERSION_4XX ? 0 : (bufreq)->hold_count)
++	((ver) == HFI_VERSION_4XX || (ver) == HFI_VERSION_6XX \
++	? 0 : (bufreq)->hold_count)
+ #define HFI_BUFREQ_COUNT_MIN(bufreq, ver)	\
+-	((ver) == HFI_VERSION_4XX ? (bufreq)->hold_count : (bufreq)->count_min)
++	((ver) == HFI_VERSION_4XX || (ver) == HFI_VERSION_6XX \
++	? (bufreq)->hold_count : (bufreq)->count_min)
+ #define HFI_BUFREQ_COUNT_MIN_HOST(bufreq, ver)	\
+-	((ver) == HFI_VERSION_4XX ? (bufreq)->count_min : 0)
++	((ver) == HFI_VERSION_4XX || (ver) == HFI_VERSION_6XX \
++	? (bufreq)->count_min : 0)
  
-+	writel(BIT(VIDC_CTRL_INIT_CTRL_SHIFT), cpu_cs_base + VIDC_CTRL_INIT);
- 	while (!ctrl_status && count < max_tries) {
- 		ctrl_status = readl(cpu_cs_base + CPU_CS_SCIACMDARG0);
- 		if ((ctrl_status & CPU_CS_SCIACMDARG0_ERROR_STATUS_MASK) == 4) {
+ struct hfi_buffer_requirements {
+ 	u32 type;
 
 -- 
 2.40.1
