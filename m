@@ -2,170 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F3116F7EA5
-	for <lists+linux-media@lfdr.de>; Fri,  5 May 2023 10:22:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 618786F7F7C
+	for <lists+linux-media@lfdr.de>; Fri,  5 May 2023 11:03:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229789AbjEEIWW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 May 2023 04:22:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51092 "EHLO
+        id S230478AbjEEJDn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 May 2023 05:03:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229955AbjEEIWT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 May 2023 04:22:19 -0400
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2043.outbound.protection.outlook.com [40.107.92.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3C7217FFA;
-        Fri,  5 May 2023 01:22:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ScDgUOdTgRqUVWRncge3Rfbw4gZN7T6mAEtvv9aeZYJaNV6tQfbGgEs8ZwNKygP5ee5bRWyQSvXlYxuKEwQBSO7SFEZBiH0/bAipzTH5Za3cCeT7Ump/R/9lsY8Sh5C+ktYT+8o2hUxtypw6T+JaMoE1MmhGT6As6Tk6QSgbrGCieVdPUnQtfIUdpB2jKOtmae9xfzKNucxxgwSmYs7sUgjM4GU2dMzNmujvZfL9jdpkeW6o1k9MDf0SFdIL2Ap4N4zXmluu1hIDYwM3VdS1dkfgmnlerBTNDDWGk0n5/+J8qQgWRvK1xjFqpCMqr5Q3YdjrfgH1XdhBr15D98G9tQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eMTLRUBE22PZvio7ohPng+iJmf/3NLXCv9ILoDSK01w=;
- b=Yxjpdq+4In/BwntMZKdV2zgPCMi+LWaGkQt9uyjJbAM9THtAdXRnI8UgFIBbxKmAHjtABrbZBLsXjbcMzAjx7op/mhgjW0NiCAS2Gf24jQ/Jef/w7VXF6a0WNGD9ml2MNTEExQbdI1vYqIn09ws+rIeglefKU77MhBzf9PgGGuJhjzEz/YqPYJShwqlq8TO149XNVLPBgwbPQNigc9trJfVoZoQ1Z63fhweeEW8TNCH7OSeMvZCXZ5YUALz6UOJd4QzOaDfYoWr+dP/PIkDMsfBILXzx37ZouKZ3ho4U/4gporkw9RK/qkNrH+XIxviHMHienhhEsI2wnpvREK2OxA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eMTLRUBE22PZvio7ohPng+iJmf/3NLXCv9ILoDSK01w=;
- b=2SHX6eGQheLqQ3DoE6FLJDdHGYh4NhuJ0zdgpPpTMtF9ObIfeMs0JasgwZMQMpxR7NuaGXq9edyjVOsAkJvwKp+YUccgR3oHx1cj4g+MyZv76XeYAuetR0uqZFpkspYxohO82HF6vli8g5H+VHYkIJVhoxDXq/VRZQdkN0tTQSc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by CO6PR12MB5396.namprd12.prod.outlook.com (2603:10b6:303:139::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.22; Fri, 5 May
- 2023 08:22:14 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d2f8:7388:39c1:bbed]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d2f8:7388:39c1:bbed%3]) with mapi id 15.20.6363.026; Fri, 5 May 2023
- 08:22:14 +0000
-Message-ID: <b9ceed26-bf64-6314-3ec5-562542b2b1c6@amd.com>
-Date:   Fri, 5 May 2023 10:22:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] dma-buf/sync_file: Use fdget()
-Content-Language: en-US
-To:     ye.xingchen@zte.com.cn, sumit.semwal@linaro.org
-Cc:     gustavo@padovan.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org
-References: <202305051103396748797@zte.com.cn>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <202305051103396748797@zte.com.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0218.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ac::14) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+        with ESMTP id S229478AbjEEJDk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 May 2023 05:03:40 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3185218860;
+        Fri,  5 May 2023 02:03:39 -0700 (PDT)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3457inYD020612;
+        Fri, 5 May 2023 09:03:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=74mGx6giKbWdRN8nfSAqZDCC8vlmrxk/WzeQd3WiVco=;
+ b=iCqmLfUBqWMyfXuU/cIlTTOW8Qe2SEc14o9uXxgme7eHtRZRBqTVP3St1ZgHtlR6Shkt
+ MWlhk+/mBHTNTJZI22Nt/KeKHuPdoUYiqnbPmwyHJcVPOZeo8apFdyOnwowRvHBn1lN+
+ Wgz1RCjQHCiIVbwnkzBDP1EVtiynFq1Wps6eBH1kX0Z2Q3xFV13T5oV5isi5RR+iOHk/
+ vMsnB8ZuHEL3O3aRVx31LS8/oVEpmdx8ypIgsHz4umPyvEVVA8KknpGfd7Cto9aPkLgT
+ t1WSyTe5WHhkGrR3DzdPOz6LwCqU6r4z2wIXi3iWyENfb3kvIC8TgzeFI5a3GSUIatyT bw== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qcmm393p4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 05 May 2023 09:03:34 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34593XTU018315
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 5 May 2023 09:03:33 GMT
+Received: from [10.50.39.163] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 5 May 2023
+ 02:03:30 -0700
+Message-ID: <b5fa8e0a-1663-e386-cffe-e7feb16d8733@quicinc.com>
+Date:   Fri, 5 May 2023 14:33:20 +0530
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CO6PR12MB5396:EE_
-X-MS-Office365-Filtering-Correlation-Id: 923dfff2-fdc9-46d4-015f-08db4d41d504
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: CeZuozJvbHLGq2eI2j5xTc3YByrX2JMhCPdLrvgeI68npQabhZNL7whxvMoSU99pkqytk+yb83qvsmTOyXv3j01xU9uwLIlGjfgLn/7Epl2EmZsNFPUxze8vw88UHK4XTnDjJ/gdEyJXTFmJu3kDhTUmTc7ojh4Lg3XHyRF07mhb2IBzeCGp7Y1i1iSLY9Ch6UmXwpuVPBZtr9wdBDIatnQuxCQBRtpocLLJS8R52VvSr/+qC6HXrOS5NYsx5jNRibhqq5AZnFaT2ZurTD1s7mk+HLNg0W2+rVprxa1PqYwr62tMEywON05JF+IUG4cPWcBJzQnw49uB8ydWRJ8LNYXwowrtsqlkzNtqxReLEqPwOh0ag8bI4UQp8nyNiyOIbKPz5lIa0HCBrksGv+8YVEncw5KouILMey6MW8NPWXQ2adrbgHCyrXNrtRviGC/iR60loI612EMxKYWvLWm27ITjAYE3DrrVnUNYbJQOBEu44ThffWyb0jODf56Wo3aUhL2WtCXkVG30vYWpNZiHNDFB0+Yhatyah1eGMBKT1VTFGEaO9wiOpi4BrScqIDa+XFFxjt52QbPk+MTPmcrBQaGVgZFPcgOVEZGDT3APkICNV3ZmTmGTW505AGLthYPQ1nF3tVySDorMQ5kr6mObpg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(366004)(376002)(346002)(396003)(39860400002)(451199021)(31686004)(2906002)(4744005)(5660300002)(8676002)(8936002)(66556008)(66476007)(66946007)(478600001)(86362001)(6666004)(31696002)(316002)(41300700001)(4326008)(6486002)(36756003)(38100700002)(6506007)(186003)(2616005)(83380400001)(6512007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MGZVMkJmYlhIUXgya3NxN3UwN1NlRGhGNGtoYnRWSFNLRU9rUU95aVVzeEUw?=
- =?utf-8?B?VDFOZm9ERXhqT21jZ3YyV0pvaXk4T0NOMnY1RERiWGNtcWxjeG9xNVBMeW1j?=
- =?utf-8?B?cVRwdWxuSHpqT0M2cExQbTNKQTlpZXJPa0k1MEh2UTRXbVI5cFRWME50ZXVn?=
- =?utf-8?B?REZYZkNQOXp1aHZ4NFloRUt4Wmt5dDg2SmozREhOaGUvT0xYUzNvNWR5VTFG?=
- =?utf-8?B?NUM1QnJ2V0lqZk5BSzJPNmhuUmQ2cjVBWTZvOE1hbi8zTUViUGMxRENBSkMw?=
- =?utf-8?B?NDVFbnNOTFhBRWtDSzNjWkhLVDV6ZUx1eE1kV0E5VG81VDVRMHl6UnhmWTJX?=
- =?utf-8?B?em9LdVdOUjYzTnJDY3J2RE5lWkwrTUdCaXlQbnh5RVpOdzIvMFhFdzVyNy9G?=
- =?utf-8?B?Uml2VEIrMXowWDBDRHl3emtsQ2RVSHkrckhPWW9YQklqZFI1dXR4aVRpU1hW?=
- =?utf-8?B?L2FXandlc04xZDJJKzBiWE8yWkJVVlZIQ0d2eGZNWGc3K3U3V0FKWmNzWlJD?=
- =?utf-8?B?V0RTYk5mVjdOMHhoNjZndk53dDhmZmh0MDdxQXlTbmpxZjFjOGwvd0hsM1Rn?=
- =?utf-8?B?OW42QWpmS2JMeDNzc1ovbDlhd0hKd2tMQUc5ZElRM0dueEFaNzJFMklLRTZi?=
- =?utf-8?B?SHNCNmM0bStTaXNIRzNrNHNWZVRSV1JUUDJ1RlBZTVlkbUhkYzB6TGxWdzBD?=
- =?utf-8?B?VHBqNURldkJ5aUdjb3F5UWQ0SVRIbnY3QnRWQmZhMzZGVnhiNTdpUVZEYUVH?=
- =?utf-8?B?bDVoaTQySGdraGUwck9WM0tTTUFabVVWbkZHSm1FTUFwY2NOVE9xQ3pSYitI?=
- =?utf-8?B?aHFhQk0yMWhSV08xYk1jUTFKQUFSSUtxSGZnQzB4UEpZREU5SEQyVlR4bXU3?=
- =?utf-8?B?cVlaSVRBMUcwSWtGY3o5ZU9ZMjQwcGFzcEJscXgzOXZrU2tUOFB1MXlVVFRT?=
- =?utf-8?B?NlhFTU1rWVdQT1ZCYWZNWEoyQUJKY2ZvYitEM2NITEhURmxvSHA4MDJCUDRt?=
- =?utf-8?B?elNDZ2hsRVlIZjJCeVA5UHVFNFM4TXQxVWRLWWJLOWdRVVVmVmtOc1FDVTlM?=
- =?utf-8?B?SlVZZE9qTmszV3VEZkdOUVFGcFdhb1VVVVRyaGYvWHV5RFJjUHFIa3BycjEv?=
- =?utf-8?B?VlpuTHBqSHpSSUdzT3pJMUhocU9JT1NRcXhrWmpqTVVKOHRQRlNHMmc0ZVBX?=
- =?utf-8?B?cTNJOGZHWUZwbnFFOU5rQlluc292Um83K3dncTUrNWNETFNScktFenBLWXdk?=
- =?utf-8?B?V2piRDV2YVdkVFBsYWVySWhWVThRQkNvNG0vZEhMS0ZBengxLzk1bHZkMktP?=
- =?utf-8?B?RXBBcUQvZjVKVFJhR2ZhZlp1M1ZMRHVUdEgwSENqNXZWN3J1V3RPejRKUkhr?=
- =?utf-8?B?Y0FBcHc5U3BjRkNZQ2MydTIvaGxtemtGWHNBdDR3Mzk0ajRJZWhJNDB4ajRw?=
- =?utf-8?B?a01hUm1vbFRudWdNNjZ2cU1DTnh2anVlR01oSW12Y2tTU2hPM3ZnTGRVWkFS?=
- =?utf-8?B?aFcxNkkwZkJ5NTgwcmVTV0NVZTBOZjdYNkJMVE5mdERmV3R1OEsyMXg1SUY5?=
- =?utf-8?B?ei9MRzBlaTdxNzArcUwvMVY4a2tTUzJZSDhIc3FMYW5FQTVrM2NwVWhsV2pa?=
- =?utf-8?B?OE92c0FNVzViQWFrOGhKRkJ2RVl0MXNTQU5aREdlVktpcW5aL3RLOE9RTUtC?=
- =?utf-8?B?Z2VlUEVQbjVWTmh5OXZodWFpbGFHUHNKd0hwSVEvNnA1UW8xN1NFTGliVngv?=
- =?utf-8?B?T2NneTMyL2c3TXRDdkVEWG01Q1pNKzFmK3JLNVhsaFZVdmcrZWFhS204YXJC?=
- =?utf-8?B?NUd0QkRGWWxnOWZsMlFyT0FhRC8ySmcrdE4yYVJsdDFKNisrWHNxZjllTHVG?=
- =?utf-8?B?QTRhVno2RW40MCtmeURXMEM0eU50aGZ1R1pSdzRSUnZueWgreW1sVGxKNjk1?=
- =?utf-8?B?WnovSDFBQm5tUEd5T1FFbGxpUTdKaUYrekZsOTllWTlZZjN0MVFuMXlaOGZY?=
- =?utf-8?B?RGhFTnV4TURnU0ZGUFZVbDhqVlV4QmJ3UnMrWUt5QjN5ZE40T0l1M3pwRkdT?=
- =?utf-8?B?OFg5N04xUzZMTHlGbXF0TWdab0c4UWlNL0hqR3Z5citRVkVKbUJsbjFOVEEw?=
- =?utf-8?B?WHlNY1V6RzZ1QjNaYklmbDBHbVI3ZWhjWTlKYittdzdBZEtsN0Ftd1kvQ2Fu?=
- =?utf-8?Q?whLVLAvovFDMXawGaGBrQvhHGroyh1uuAlpzKmtAro/q?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 923dfff2-fdc9-46d4-015f-08db4d41d504
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2023 08:22:14.6999
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vImxtc28Vz0Alcwdog5Pe6zz5xBXM8fvJLAesKSNI4sA9ueGv4+8co25bbTfvvNN
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5396
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH 4/4] venus: return P010 as preferred format for 10 bit
+ decode
+To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
+        <linux-media@vger.kernel.org>, <stanimir.k.varbanov@gmail.com>,
+        <quic_vgarodia@quicinc.com>, <agross@kernel.org>,
+        <andersson@kernel.org>, <mchehab@kernel.org>
+CC:     <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>
+References: <1683196599-3730-1-git-send-email-quic_dikshita@quicinc.com>
+ <1683196599-3730-5-git-send-email-quic_dikshita@quicinc.com>
+ <02f5d449-a64b-8f5e-6b72-2fdf8d9bafbe@linaro.org>
+Content-Language: en-US
+From:   Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <02f5d449-a64b-8f5e-6b72-2fdf8d9bafbe@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: x5EAaqSF3P65jWAk0qpoxT0PiX3AGHPR
+X-Proofpoint-GUID: x5EAaqSF3P65jWAk0qpoxT0PiX3AGHPR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-05_15,2023-05-04_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 mlxscore=0
+ priorityscore=1501 impostorscore=0 adultscore=0 malwarescore=0
+ suspectscore=0 phishscore=0 clxscore=1015 bulkscore=0 spamscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2305050074
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 05.05.23 um 05:03 schrieb ye.xingchen@zte.com.cn:
-> From: Ye Xingchen <ye.xingchen@zte.com.cn>
->
-> convert the fget() use to fdget().
 
-Well the rational is missing. Why should we do that?
+On 5/4/2023 10:50 PM, Konrad Dybcio wrote:
+>
+> On 4.05.2023 12:36, Dikshita Agarwal wrote:
+>> If bit depth is detected as 10 bit by firmware, return
+>> P010 as preferred decoder format to the client.
+>>
+>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+>> ---
+>>   drivers/media/platform/qcom/venus/vdec.c | 7 ++++++-
+>>   1 file changed, 6 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+>> index 69f7f6e..ed11dc2 100644
+>> --- a/drivers/media/platform/qcom/venus/vdec.c
+>> +++ b/drivers/media/platform/qcom/venus/vdec.c
+>> @@ -1468,8 +1468,13 @@ static void vdec_event_change(struct venus_inst *inst,
+>>   	inst->out_width = ev_data->width;
+>>   	inst->out_height = ev_data->height;
+>>   
+>> -	if (inst->bit_depth != ev_data->bit_depth)
+>> +	if (inst->bit_depth != ev_data->bit_depth) {
+>>   		inst->bit_depth = ev_data->bit_depth;
+>> +		if (inst->bit_depth == VIDC_BITDEPTH_10)
+>> +			inst->fmt_cap = &vdec_formats[3];
+>> +		else
+>> +			inst->fmt_cap = &vdec_formats[0];
+> This doesn't scale and is very error-prone, please enumerate the
+> entries and assign it using the enumerator, like:
+>
+> enum {
+> 	VDEC_FORMAT_FOO,
+> 	...
+> };
+>
+> ... vdec_formats[] = {
+> 	[VDEC_FORMAT_FOO] = { foo, bar, baz }
+> }
+>
+> Konrad
 
-Christian.
+I agree, this can be improved but I would prefer making that change as 
+separate patch.
 
->
-> Signed-off-by: Ye Xingchen <ye.xingchen@zte.com.cn>
-> ---
->   drivers/dma-buf/sync_file.c | 10 +++++-----
->   1 file changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
-> index af57799c86ce..222b13b1bdb8 100644
-> --- a/drivers/dma-buf/sync_file.c
-> +++ b/drivers/dma-buf/sync_file.c
-> @@ -78,18 +78,18 @@ EXPORT_SYMBOL(sync_file_create);
->
->   static struct sync_file *sync_file_fdget(int fd)
->   {
-> -	struct file *file = fget(fd);
-> +	struct struct fd f = fdget(fd);
->
-> -	if (!file)
-> +	if (!f.file)
->   		return NULL;
->
-> -	if (file->f_op != &sync_file_fops)
-> +	if (f.file->f_op != &sync_file_fops)
->   		goto err;
->
-> -	return file->private_data;
-> +	return f.file->private_data;
->
->   err:
-> -	fput(file);
-> +	fdput(f);
->   	return NULL;
->   }
->
+As this is not only related to HDR 10 decoding, there are other places 
+in the code which will require similar change.
 
+Thanks,
+
+Dikshita
+
+>> +	}
+>>   
+>>   	if (inst->pic_struct != ev_data->pic_struct)
+>>   		inst->pic_struct = ev_data->pic_struct;
