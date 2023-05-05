@@ -2,89 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F0836F9225
-	for <lists+linux-media@lfdr.de>; Sat,  6 May 2023 14:55:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E15B76F9528
+	for <lists+linux-media@lfdr.de>; Sun,  7 May 2023 02:25:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231978AbjEFMzT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 6 May 2023 08:55:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37498 "EHLO
+        id S229797AbjEGAZr convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Sat, 6 May 2023 20:25:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231892AbjEFMzS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 6 May 2023 08:55:18 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B35D1816F;
-        Sat,  6 May 2023 05:55:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683377717; x=1714913717;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NQ6wCfyoHyDNspXQ5XCpgLu3HkADePGJt66eht8gTUY=;
-  b=YeDdrkpw+Li+Qxl6EOjOS9sODJuz4tNSj7JVPPsjgTTLPx3zewCVHbgB
-   yv72oSHDDkiaHPMGyvsStl9A8CG1mIYHdwfFnNXUlPZvkeioetqi6zmJQ
-   lgwJFkO1qgwV640mMAiYuS+OGKryGw0LGd2egRValrVwJfqm8h6HYYaY8
-   h+sLBuDm/8oRLswTryrR96Daqkun2cTuVAAeBLq6GxyNDM1oBkeO9RH1q
-   djpGgEgQKu3MJhd984ZdRg3cRQfxAJCtWTx1Gcv/Jo/vAzXS4r55vZW57
-   94dhXaILGlFQT1fCERG2ZLr0bjFg2SiT8Q2bLKmuAG5zmLBSxR8wunjdB
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="352434738"
-X-IronPort-AV: E=Sophos;i="5.99,255,1677571200"; 
-   d="scan'208";a="352434738"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2023 05:55:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="692031101"
-X-IronPort-AV: E=Sophos;i="5.99,255,1677571200"; 
-   d="scan'208";a="692031101"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 06 May 2023 05:55:16 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pvHRT-0000JF-1H;
-        Sat, 06 May 2023 12:55:15 +0000
-Date:   Sat, 6 May 2023 20:54:21 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [sailus-media-tree:metadata 10/11] htmldocs:
- Documentation/output/videodev2.h.rst:6: WARNING: undefined label:
- v4l2-fmt-flag-meta-line-based (if the link has no caption the label must
- precede a section header)
-Message-ID: <202305062027.tzv2gT5B-lkp@intel.com>
+        with ESMTP id S229441AbjEGAZq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 6 May 2023 20:25:46 -0400
+Received: from mail.bpip.go.id (unknown [103.166.134.2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 638B47D82
+        for <linux-media@vger.kernel.org>; Sat,  6 May 2023 17:25:44 -0700 (PDT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.bpip.go.id (Postfix) with ESMTP id 1B7B8BABB60;
+        Sat,  6 May 2023 07:31:00 +0700 (WIB)
+Received: from mail.bpip.go.id ([127.0.0.1])
+        by localhost (mail.bpip.go.id [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id 5Sop4SKaq2Cg; Sat,  6 May 2023 07:30:59 +0700 (WIB)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.bpip.go.id (Postfix) with ESMTP id 59242BAB02B;
+        Sat,  6 May 2023 07:21:16 +0700 (WIB)
+X-Amavis-Modified: Mail body modified (using disclaimer) - mail.bpip.go.id
+X-Virus-Scanned: amavisd-new at bpip.go.id
+Received: from mail.bpip.go.id ([127.0.0.1])
+        by localhost (mail.bpip.go.id [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id WkcuP6O28sOB; Sat,  6 May 2023 07:21:16 +0700 (WIB)
+Received: from [103.167.91.37] (unknown [103.167.91.37])
+        by mail.bpip.go.id (Postfix) with ESMTPSA id 017776DD710;
+        Sat,  6 May 2023 06:54:24 +0700 (WIB)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: Letzte Erinnerung
+To:     Recipients <persuratan@bpip.go.id>
+From:   "Qatar Foundation" <persuratan@bpip.go.id>
+Date:   Fri, 05 May 2023 16:54:20 -0700
+Reply-To: qf.qatarcares.org@gmail.com
+Message-Id: <20230505235425.017776DD710@mail.bpip.go.id>
+X-Spam-Status: Yes, score=6.0 required=5.0 tests=BAYES_50,
+        FREEMAIL_FORGED_REPLYTO,NIXSPAM_IXHASH,RCVD_IN_MSPIKE_H2,RCVD_IN_SBL,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.1 RCVD_IN_SBL RBL: Received via a relay in Spamhaus SBL
+        *      [103.167.91.37 listed in zen.spamhaus.org]
+        *  3.0 NIXSPAM_IXHASH http://www.nixspam.org/
+        * -0.0 RCVD_IN_MSPIKE_H2 RBL: Average reputation (+2)
+        *      [103.166.134.2 listed in wl.mailspike.net]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   edce6cf3cf2b2adb0c7717bb918cd84c5f2b4810
-commit: 26aac41bc63221fb4bc8cca72ae53da3a3d443e1 [10/11] media: v4l: Support line-based metadata capture
-reproduce:
-        git remote add sailus-media-tree git://linuxtv.org/sailus/media_tree.git
-        git fetch --no-tags sailus-media-tree metadata
-        git checkout 26aac41bc63221fb4bc8cca72ae53da3a3d443e1
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+Sehr geehrter Begünstigter,
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305062027.tzv2gT5B-lkp@intel.com/
+Sie wurden ausgewählt,  (995.000,00 €) von Katar Foundation zu erhalten, antworten Sie bitte mit Ihrem vollständigen Namen und Ihrer Adresse, um weitere Informationen zu erhalten. E-mail:qf.qatarcares.org@gmail.com
 
-All warnings (new ones prefixed by >>):
-
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-fmt-flag-meta-line-based (if the link has no caption the label must precede a section header)
-
-vim +6 Documentation/output/videodev2.h.rst
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Mit Freundlichen Grüßen,
+Herr Rashid Al-Naimi.
+Chief Executive Officer der Qatar Foundation Endowment.
+(null)
