@@ -2,55 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D6656F8940
-	for <lists+linux-media@lfdr.de>; Fri,  5 May 2023 21:02:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D0496F8957
+	for <lists+linux-media@lfdr.de>; Fri,  5 May 2023 21:13:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233462AbjEETCX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 May 2023 15:02:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39616 "EHLO
+        id S233064AbjEETM5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 May 2023 15:12:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233242AbjEETCV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 May 2023 15:02:21 -0400
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47A922270D
-        for <linux-media@vger.kernel.org>; Fri,  5 May 2023 12:02:14 -0700 (PDT)
-Received: by mail-lj1-x233.google.com with SMTP id 38308e7fff4ca-2ac82b07eb3so18865371fa.1
-        for <linux-media@vger.kernel.org>; Fri, 05 May 2023 12:02:14 -0700 (PDT)
+        with ESMTP id S233577AbjEETMm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 May 2023 15:12:42 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0D2522F44
+        for <linux-media@vger.kernel.org>; Fri,  5 May 2023 12:12:25 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-4ec8eca56cfso2435660e87.0
+        for <linux-media@vger.kernel.org>; Fri, 05 May 2023 12:12:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683313332; x=1685905332;
+        d=linaro.org; s=google; t=1683313944; x=1685905944;
         h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
          :content-language:user-agent:mime-version:date:message-id:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6DHrbJmJ6pFE60C2QgNVteL41mfnKZPzjw2eVnO1Z4E=;
-        b=wbc1s/lVAY5eMhASkedKn69kWnMmb5ObWL8voCRmaduIz0OsomcWxa8KL1PxlPktCT
-         zhh7URlrau+CosnPVUze8bJnMJVcSmkixbBBGpvFqL4yW3MybkhqcSmVaeQQWV1CbRKk
-         ncOi/y2+kPgTkRzJjEhE3gtYIFogYifpehGqAdVcbsT/renmsNTnLL2zpnzitOeh/HTz
-         EAfLuxfGAAVA2sXRUmj8fzfYqJWrFOqIpXDE7YPDo2vvggb86FjPdG2Lp9hZKYnOaJ5F
-         PcTsFIlzwU8rwBHJiN+P75WrJ08Uve5Iih0bFh0SsyHfO9qRhjLmzunBmkgt7ShRaUl6
-         HiMQ==
+        bh=xceCA2XEX2XYZr2wVtYbFEfoG8eDOlxoBa/XP0RVFQY=;
+        b=UhPl2UMUAS7synMssm2Xa7YoI0m0FvxnYT3MEZAmEV9W/N3OoIQL2HogKqaceAiUut
+         46eNYLbhA44jQmzgucA6ZDSzzS3HAIiOrLwVa1loVhY+rfpHmBHSE/wecQv1zHMgL4Am
+         gGJ5Th7rG4ymTi5aBKdZUedFq/bHcoQA4q6Al1Ez4btsoRrxopxe+pDA3IYhBqPgs98Z
+         1RmJM7JuMW1KyNIjVXdbI95sqNrNRdIjEffp07ZMmquvHmzVy2Pavgd61hXtSKMZjwTl
+         vqx6ksmQ6KmNlyvR8oS7iomKC3uLdFSi1YWBCEUnzGKI2CD/YMnpGpjFZPSOBcgsisA3
+         mdXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683313332; x=1685905332;
+        d=1e100.net; s=20221208; t=1683313944; x=1685905944;
         h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
          :content-language:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6DHrbJmJ6pFE60C2QgNVteL41mfnKZPzjw2eVnO1Z4E=;
-        b=h+Zh+xojAm24jfvTPJr9ZMS9zOd7NLU2ST8RJY0D7r2VAtIMyXmvkPuJVB8lHw122j
-         xif5lS8bK/DYa+xDnPJbVG4kG1Q0x0BhPoZgbEbPnnhu/768TWx9TYvz8YCMdGl5S9vX
-         RZ9hdhYti4/VglbY//W1nn2syZAUpcByrvokLuNL7uRfI3rm/40j5t/Aakrgl1K+m1Nw
-         2yIjlmqnlfrTI+An27cLNXpsCdStQsfN0rL5usTX3UWU+XKAC57LKcJBI4tG02RhG9ul
-         aIBykiNyV19dPlhIf57rhSpoGqYkIBvVHduSducB/MQph8cBpXMWu+kCnE3tDZMEI9nA
-         NuFg==
-X-Gm-Message-State: AC+VfDyLbkagj+qewg4vs2JqiTnLrKHsOwsgDlEYn6asXLGjxXnqFq+o
-        boxGYqh+hgLA0vXFAfKTUZpDVz2k8hXV9fIaL54=
-X-Google-Smtp-Source: ACHHUZ67+S12jX06Un8bG9MrIT2ZKsDicFuukUOr2ITOg4B0jHdAwdlOndt1hYOfU+QT+GRtKajvkw==
-X-Received: by 2002:a2e:818d:0:b0:2ac:7d7e:a503 with SMTP id e13-20020a2e818d000000b002ac7d7ea503mr749372ljg.36.1683313332494;
-        Fri, 05 May 2023 12:02:12 -0700 (PDT)
+        bh=xceCA2XEX2XYZr2wVtYbFEfoG8eDOlxoBa/XP0RVFQY=;
+        b=IXCSuRwInHPA5rHVroEyZqfUomSTI73mNWcZWbEuEbe6bfEMgvLYl+L57DvrIMhnLp
+         Fi1MQru2Icz3R6Ppo9USu5oS8m9JI/DThyUcBLv/wU2o+4MuiQbQpb4NMsjP5wbIR89l
+         Hlagz5fwHZJ3ka1RVuARTmP1iK3Z5ntCXnV3kea3sECY4y3U2bP07bbTBieEgZPGAjYN
+         oXRSEJc2XPi0oGtnnNw42gSCQg5KK1nUVmf0uaeq8wkKtdya9Muf7RBDMYUfFrg9wYlh
+         zyQVWl1Rd2/rY+pX0tBMGp0IlBEASDrQNQjAjHHvx8Se6WtgeWJEeYSGu6gCYuLlt8D3
+         ffMw==
+X-Gm-Message-State: AC+VfDzU3ZuqI8XEBK1QG82KYibcg8tiBLTMKTFI/5l5FyJtYORvwxhh
+        ACTE7VW6Wd9kueIzicotj5KY5Q==
+X-Google-Smtp-Source: ACHHUZ5mD0x/zoLuBQwU8xI4QgCZ1CDVaEBT6+NSbuoLZmgtGhPSO2BKq9FVxSxiEtX0/j9mfsJuDg==
+X-Received: by 2002:a19:f80c:0:b0:4d5:ae35:b221 with SMTP id a12-20020a19f80c000000b004d5ae35b221mr671427lff.34.1683313944137;
+        Fri, 05 May 2023 12:12:24 -0700 (PDT)
 Received: from [192.168.1.101] (abyl248.neoplus.adsl.tpnet.pl. [83.9.31.248])
-        by smtp.gmail.com with ESMTPSA id q23-20020a2e84d7000000b002a77f45cc00sm81417ljh.29.2023.05.05.12.02.10
+        by smtp.gmail.com with ESMTPSA id 10-20020ac2568a000000b004e9b307d2c8sm385026lfr.238.2023.05.05.12.12.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 May 2023 12:02:12 -0700 (PDT)
-Message-ID: <0abecab7-23a1-1095-ba82-b2309f5bd45c@linaro.org>
-Date:   Fri, 5 May 2023 21:02:10 +0200
+        Fri, 05 May 2023 12:12:23 -0700 (PDT)
+Message-ID: <2ccb46b8-db1c-5f4e-681c-7b1fe9fa8402@linaro.org>
+Date:   Fri, 5 May 2023 21:12:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.1
@@ -70,19 +70,19 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Stanimir Varbanov <stanimir.varbanov@linaro.org>,
         linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        stable@vger.kernel.org
+        Marijn Suijten <marijn.suijten@somainline.org>
 References: <20230228-topic-venus-v2-0-d95d14949c79@linaro.org>
- <20230228-topic-venus-v2-3-d95d14949c79@linaro.org>
- <14b47c1e-8092-b2f9-1a53-90c42b306de3@quicinc.com>
+ <20230228-topic-venus-v2-9-d95d14949c79@linaro.org>
+ <4a95547d-916a-3875-7752-f815429182e5@quicinc.com>
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: Re: [PATCH v2 03/18] media: venus: Remap bufreq fields on HFI6XX
-In-Reply-To: <14b47c1e-8092-b2f9-1a53-90c42b306de3@quicinc.com>
+Subject: Re: [PATCH v2 09/18] media: venus: hfi_venus: Fix version checks in
+ venus_halt_axi()
+In-Reply-To: <4a95547d-916a-3875-7752-f815429182e5@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-6.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -92,48 +92,53 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 
 
-On 5.05.2023 14:38, Vikash Garodia wrote:
-> On 5/4/2023 1:30 PM, Konrad Dybcio wrote:
->> Similarly to HFI4XX, the fields are remapped on 6XX as well. Fix it.
->>
->> Cc: stable@vger.kernel.org # v5.12+
->> Fixes: 7ed9e0b3393c ("media: venus: hfi, vdec: v6 Add IS_V6() to existing IS_V4() if locations")
->> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->> ---
->>   drivers/media/platform/qcom/venus/hfi_helper.h | 9 ++++++---
->>   1 file changed, 6 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
->> index 105792a68060..e0c8f15644df 100644
->> --- a/drivers/media/platform/qcom/venus/hfi_helper.h
->> +++ b/drivers/media/platform/qcom/venus/hfi_helper.h
->> @@ -1170,11 +1170,14 @@ struct hfi_buffer_display_hold_count_actual {
->>     /* HFI 4XX reorder the fields, use these macros */
->>   #define HFI_BUFREQ_HOLD_COUNT(bufreq, ver)    \
->> -    ((ver) == HFI_VERSION_4XX ? 0 : (bufreq)->hold_count)
->> +    ((ver) == HFI_VERSION_4XX || (ver) == HFI_VERSION_6XX \
->> +    ? 0 : (bufreq)->hold_count)
->>   #define HFI_BUFREQ_COUNT_MIN(bufreq, ver)    \
->> -    ((ver) == HFI_VERSION_4XX ? (bufreq)->hold_count : (bufreq)->count_min)
->> +    ((ver) == HFI_VERSION_4XX || (ver) == HFI_VERSION_6XX \
->> +    ? (bufreq)->hold_count : (bufreq)->count_min)
->>   #define HFI_BUFREQ_COUNT_MIN_HOST(bufreq, ver)    \
->> -    ((ver) == HFI_VERSION_4XX ? (bufreq)->count_min : 0)
->> +    ((ver) == HFI_VERSION_4XX || (ver) == HFI_VERSION_6XX \
->> +    ? (bufreq)->count_min : 0)
+On 5.05.2023 15:21, Vikash Garodia wrote:
 > 
-> This patch is not correct. The existing code handles the disparity of buffer requirement payload received from firmware.
+> On 5/4/2023 1:31 PM, Konrad Dybcio wrote:
+>> Only IRIS2(_1) should enter the until-now-IS_V6() path and the
+>> condition for skipping part of it should be IS_IRIS2_1 and not the
+>> number of VPP pipes. Fix that.
 > 
-> Its applicable only for V4.
+> Do not see any issue with existing code. IRIS2 with single pipe is IRIS2_1. This does not
 > 
-> For V6, driver does not rely on firmware to get the buffer requirement. Refer the buffer platform code for more details.
-OK right I can see, downstream has a condition for IRIS2/IRIS2_1,
-thanks for pointing this out!
+> quality as a fix to earlier implementation. Since this series introduces VPU versions,
+> 
+> IRIS2 with 1 pipe is being replaced with IRIS2_1.
+> 
+> -Vikash
+Right, I'll drop the fixes tags.
+
+Also, your email client seems to be inserting 2 newlines instead of 1.
+If you're using thunderbird, you may want to edit:
+
+mail.identity.(default or your mail identity idx).default.compose_html
+
+to `false`
+
+or you can use shift+enter as a half-measure
 
 Konrad
 > 
-> -Vikash
-> 
->>   struct hfi_buffer_requirements {
->>       u32 type;
+>>
+>> Fixes: 4b0b6e147dc9 ("media: venus: hfi: Add 6xx AXI halt logic")
+>> Fixes: 78d434ba8659 ("media: venus: hfi: Skip AON register programming for V6 1pipe")
+>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>> ---
+>>   drivers/media/platform/qcom/venus/hfi_venus.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
+>> index 9b840440a115..ca56b1a8eb71 100644
+>> --- a/drivers/media/platform/qcom/venus/hfi_venus.c
+>> +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
+>> @@ -549,10 +549,10 @@ static int venus_halt_axi(struct venus_hfi_device *hdev)
+>>       u32 mask_val;
+>>       int ret;
+>>   -    if (IS_V6(hdev->core)) {
+>> +    if (IS_IRIS2(hdev->core) || IS_IRIS2_1(hdev->core)) {
+>>           writel(0x3, cpu_cs_base + CPU_CS_X2RPMH_V6);
+>>   -        if (hdev->core->res->num_vpp_pipes == 1)
+>> +        if (IS_IRIS2_1(hdev->core))
+>>               goto skip_aon_mvp_noc;
+>>             writel(0x1, aon_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
 >>
