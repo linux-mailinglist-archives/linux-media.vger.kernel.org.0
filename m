@@ -2,51 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 21D736F8368
-	for <lists+linux-media@lfdr.de>; Fri,  5 May 2023 15:01:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C4046F83D7
+	for <lists+linux-media@lfdr.de>; Fri,  5 May 2023 15:22:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232279AbjEENBQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 May 2023 09:01:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60480 "EHLO
+        id S232462AbjEENWS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 May 2023 09:22:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229904AbjEENBP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 May 2023 09:01:15 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC56A1E988;
-        Fri,  5 May 2023 06:01:14 -0700 (PDT)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 345BmmTu030028;
-        Fri, 5 May 2023 13:00:42 GMT
+        with ESMTP id S231764AbjEENWR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 May 2023 09:22:17 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCB8F1F490;
+        Fri,  5 May 2023 06:22:15 -0700 (PDT)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 345Cv5Cd005378;
+        Fri, 5 May 2023 13:21:44 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : from : to : cc : references : in-reply-to :
+ mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=yppvM9mo+aLKslS+25R4RlpqOihLSCJGVrhyXbQmvrc=;
- b=HloXgDBzCnB++knWBwhtgy2fWpG7Z/E/1YWl/gMrjb1Lrh6C+EjMLF2y4wGhpbU+ZfLQ
- Gx0gHWHNG49LgYbwaVr4jm2GdjDphZIhplC8PnjxkBIASnu1Ub5F3Uh5dTfL8TOJm4OI
- hyLu4lZCasikEglQn7hxVsotVVfMKketqawvZQhjZ2A+9pnyypQ5fQcWIXEiRX8JSXaE
- eXKRtPDAaUNbDvlJQ+4OQmlbaSj5wNj4empAoTPiX6bKabWT7SRk/rBhjYvCrYKuolwe
- 4HypxzuRUE0WQ2+OVnqTAaz0mbdM84KWJ/d1X6830MGbZ9Itp4YEkFP4XJ449Yy6a2LI 9w== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qckf71mkg-1
+ bh=5EQVVhWshw5GFz8Sv8IEK/OzCkyfIIX+VeQOuoEZpIM=;
+ b=Zn3ENJaOZbYlGH9+gFrg/zSQwxdHFIYCJ+azLKhNc1O9Vo5sJPrOGdLCeNQevp+AkBUx
+ xlsuo+QbnAGIgUpBQ5/fmZMLSDFPUZqXirNMQRC363JNZuQK0HwBQUB/H6ggIWt6T/x+
+ XUtSjkMPEZgb5E7RKdoKXw+zOJfh0m5sQNiZiotXCe1sQgmGqkSdL4aaHOKdS9T1oWjh
+ 8cxBzbUVKlUB/5pFCanBRHIQyl9s8mMy1C5BXj4HEK8eIlzQ9Mz8mto3WuGRgu6YMCOp
+ LAO2AxFFo27wphXyQ0fvOcik4RZq74u6qdjgN4uoHl17dMulJ2YjgQq5tv628GMlWy7/ RQ== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qd28qg1hr-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 05 May 2023 13:00:42 +0000
+        Fri, 05 May 2023 13:21:43 +0000
 Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 345D0fMB008625
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 345DLg5F002203
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 5 May 2023 13:00:41 GMT
+        Fri, 5 May 2023 13:21:42 GMT
 Received: from [10.216.37.178] (10.80.80.8) by nasanex01a.na.qualcomm.com
  (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 5 May 2023
- 06:00:36 -0700
-Message-ID: <579f3480-1cbc-5688-7226-986205b5825e@quicinc.com>
-Date:   Fri, 5 May 2023 18:30:33 +0530
+ 06:21:37 -0700
+Message-ID: <4a95547d-916a-3875-7752-f815429182e5@quicinc.com>
+Date:   Fri, 5 May 2023 18:51:34 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v2 06/18] media: venus: firmware: Leave a clue for
- homegrown porters
+Subject: Re: [PATCH v2 09/18] media: venus: hfi_venus: Fix version checks in
+ venus_halt_axi()
 Content-Language: en-US
-From:   Vikash Garodia <quic_vgarodia@quicinc.com>
 To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
         Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
         Andy Gross <agross@kernel.org>,
@@ -64,30 +63,30 @@ CC:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         <linux-kernel@vger.kernel.org>,
         "Marijn Suijten" <marijn.suijten@somainline.org>
 References: <20230228-topic-venus-v2-0-d95d14949c79@linaro.org>
- <20230228-topic-venus-v2-6-d95d14949c79@linaro.org>
- <ef50ac6c-a635-7f83-c484-a4f91b5e5d12@quicinc.com>
-In-Reply-To: <ef50ac6c-a635-7f83-c484-a4f91b5e5d12@quicinc.com>
+ <20230228-topic-venus-v2-9-d95d14949c79@linaro.org>
+From:   Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <20230228-topic-venus-v2-9-d95d14949c79@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nasanex01a.na.qualcomm.com (10.52.223.231)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: YIpR0oCdUPuyh5BPzjeJAS4uaiEDZiEa
-X-Proofpoint-ORIG-GUID: YIpR0oCdUPuyh5BPzjeJAS4uaiEDZiEa
+X-Proofpoint-GUID: rX-Ct0MZMASKWsBwev-uRV7u6U6rVVHx
+X-Proofpoint-ORIG-GUID: rX-Ct0MZMASKWsBwev-uRV7u6U6rVVHx
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-05-05_20,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 spamscore=0
- bulkscore=0 phishscore=0 adultscore=0 malwarescore=0 mlxlogscore=999
- suspectscore=0 priorityscore=1501 lowpriorityscore=0 impostorscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2305050108
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 impostorscore=0
+ adultscore=0 suspectscore=0 malwarescore=0 mlxscore=0 spamscore=0
+ mlxlogscore=999 bulkscore=0 clxscore=1015 priorityscore=1501
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2305050111
+X-Spam-Status: No, score=-6.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -95,41 +94,44 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-On 5/5/2023 6:27 PM, Vikash Garodia wrote:
+On 5/4/2023 1:31 PM, Konrad Dybcio wrote:
+> Only IRIS2(_1) should enter the until-now-IS_V6() path and the
+> condition for skipping part of it should be IS_IRIS2_1 and not the
+> number of VPP pipes. Fix that.
+
+Do not see any issue with existing code. IRIS2 with single pipe is 
+IRIS2_1. This does not
+
+quality as a fix to earlier implementation. Since this series introduces 
+VPU versions,
+
+IRIS2 with 1 pipe is being replaced with IRIS2_1.
+
+-Vikash
+
 >
-> On 5/4/2023 1:31 PM, Konrad Dybcio wrote:
->> Leave a clue about where the seemingly magic values come from, as it
->> is not obvious and requires some digging downstream..
-Rephrase the commit text.
->> Reviewed-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
->> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> Reviewed-by: Vikash Garodia <quic_vgarodia@quicinc.com>
->> ---
->>   drivers/media/platform/qcom/venus/firmware.c | 7 +++++++
->>   1 file changed, 7 insertions(+)
->>
->> diff --git a/drivers/media/platform/qcom/venus/firmware.c 
->> b/drivers/media/platform/qcom/venus/firmware.c
->> index cfb11c551167..a4cd919e1dbe 100644
->> --- a/drivers/media/platform/qcom/venus/firmware.c
->> +++ b/drivers/media/platform/qcom/venus/firmware.c
->> @@ -241,6 +241,13 @@ int venus_boot(struct venus_core *core)
->>           return ret;
->>         if (core->use_tz && res->cp_size) {
->> +        /*
->> +         * Clues for porting using downstream data:
->> +         * cp_start = 0
->> +         * cp_size = venus_ns/virtual-addr-pool[0] (yes, addr not size)
+> Fixes: 4b0b6e147dc9 ("media: venus: hfi: Add 6xx AXI halt logic")
+> Fixes: 78d434ba8659 ("media: venus: hfi: Skip AON register programming for V6 1pipe")
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
+>   drivers/media/platform/qcom/venus/hfi_venus.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> The field is the start address of ns context bank. Since the cp_start 
-> is 0, the start address for (next) non-secure context bank
+> diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
+> index 9b840440a115..ca56b1a8eb71 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_venus.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
+> @@ -549,10 +549,10 @@ static int venus_halt_axi(struct venus_hfi_device *hdev)
+>   	u32 mask_val;
+>   	int ret;
+>   
+> -	if (IS_V6(hdev->core)) {
+> +	if (IS_IRIS2(hdev->core) || IS_IRIS2_1(hdev->core)) {
+>   		writel(0x3, cpu_cs_base + CPU_CS_X2RPMH_V6);
+>   
+> -		if (hdev->core->res->num_vpp_pipes == 1)
+> +		if (IS_IRIS2_1(hdev->core))
+>   			goto skip_aon_mvp_noc;
+>   
+>   		writel(0x1, aon_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
 >
-> is interpreted as size of the (previous) content protection region.
->
->> +         * cp_nonpixel_start = venus_sec_non_pixel/virtual-addr-pool[0]
->> +         * cp_nonpixel_size = venus_sec_non_pixel/virtual-addr-pool[1]
->> +         */
->>           ret = qcom_scm_mem_protect_video_var(res->cp_start,
->>                                res->cp_size,
->>                                res->cp_nonpixel_start,
->>
