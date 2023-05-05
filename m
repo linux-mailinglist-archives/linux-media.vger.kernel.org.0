@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E60346F8A67
-	for <lists+linux-media@lfdr.de>; Fri,  5 May 2023 22:51:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8DC46F8A69
+	for <lists+linux-media@lfdr.de>; Fri,  5 May 2023 22:51:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233361AbjEEUvL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 May 2023 16:51:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41242 "EHLO
+        id S233368AbjEEUvN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 May 2023 16:51:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233353AbjEEUvJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 May 2023 16:51:09 -0400
+        with ESMTP id S233344AbjEEUvK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 May 2023 16:51:10 -0400
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9F0A26B8
-        for <linux-media@vger.kernel.org>; Fri,  5 May 2023 13:51:07 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CC4B4EFF
+        for <linux-media@vger.kernel.org>; Fri,  5 May 2023 13:51:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683319868; x=1714855868;
+  t=1683319869; x=1714855869;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=8mpFQYl0KqTMrMzyVFyTM0F32U0wvrwOXaXSzU205RM=;
-  b=RG9lr4CkJ84rSxc6QGZ9ZFqQjMc9NwmPM74KNiExvZAr2WnPFRvqqOMJ
-   PNBx7m6H0vjq+Bh9OHgy66aAtGALWVIkTMyY7/yEyBOdRqXx86lNTGw2w
-   ADtPw0nno/SNcBOlnmVtc2FDuoVnVJbXp25n7KpD1s7+/utcWf7vJp1JK
-   pRFPl05xFM/HvU0rZNup+sIsSKMEkto327MM4WwAU+Lj8OPAy1fovEBMi
-   DhziEYlVkzMwgzmX2mg1djpUl+DBQRF5VaPlNUg2bfWKNF5Uo3g6X/aFS
-   b7765Bu5ulttrzV3+BJGLwabVGMd3qPB/I7rl3kgiZrwdWcuk1FgjpYqo
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="352346071"
+  bh=5pBhdVLsjBvV23LtAYJ/Lqj+fpSnmsQVgSjUXYNeuMI=;
+  b=B/FS+5e0mWInhA/aQx/Z2AV6u0TEXKO5NHRrIAuklYc8vnCFqG0CPnNT
+   IdiP9cg910wYOIQ/8OT1c2iNY+zkUQizl+gQivCJ2xaT76AkIa85/av27
+   OcntABYUqOG5inScI/WfLM+vZfu7kNyD8te+b6I2shgsywIXWnZefYpg4
+   aND/FolpO5bFjZOD6TGdCIZGu319nIJmkh8WMSiFj4lxD69PWvedIw9/q
+   AeOV6qCP9uJxAatJ+e0tStAz/tpZTF9yjBbK+UE5qhOgG4oFW1jeMMlge
+   ddPu/SkAaXHso+lK2Wq5cctKRGVTQXZbvtz1YXOTYjC1hE8YIHsbW+5Qi
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="352346075"
 X-IronPort-AV: E=Sophos;i="5.99,253,1677571200"; 
-   d="scan'208";a="352346071"
+   d="scan'208";a="352346075"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
   by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 13:51:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="762602660"
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="762602663"
 X-IronPort-AV: E=Sophos;i="5.99,253,1677571200"; 
-   d="scan'208";a="762602660"
+   d="scan'208";a="762602663"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 13:51:05 -0700
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 13:51:06 -0700
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 4E820121435;
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 14310121525;
         Fri,  5 May 2023 23:51:03 +0300 (EEST)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     laurent.pinchart@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
         bingbu.cao@intel.com
-Subject: [PATCH 2/3] media: Documentation: Rename meta format files
-Date:   Fri,  5 May 2023 23:51:00 +0300
-Message-Id: <20230505205101.54569-3-sakari.ailus@linux.intel.com>
+Subject: [PATCH 3/3] media: uapi: Use unsigned int values for assigning bits in u32 fields
+Date:   Fri,  5 May 2023 23:51:01 +0300
+Message-Id: <20230505205101.54569-4-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230505205101.54569-1-sakari.ailus@linux.intel.com>
 References: <20230505205101.54569-1-sakari.ailus@linux.intel.com>
@@ -63,102 +63,93 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Rename meta format files, using "metafmt" prefix instead of "pixfmt-meta".
-These are metadata formats, not pixel formats.
+Use unsigned int values annoted by "U" for u32 fields. While this is a
+good practice, there doesn't appear to be a bug that this patch would fix.
+
+The patch has been generated using the following command:
+
+	perl -i -pe 's/\([0-9]+\K <</U <</g' -- include/uapi/linux/media.h
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Bingbu Cao <bingbu.cao@intel.com>
-Cc: Dafna Hirschfeld <dafna@fastmail.com>
 ---
- .../userspace-api/media/v4l/meta-formats.rst       | 14 +++++++-------
- .../v4l/{pixfmt-meta-d4xx.rst => metafmt-d4xx.rst} |  0
- ...-meta-intel-ipu3.rst => metafmt-intel-ipu3.rst} |  0
- .../{pixfmt-meta-rkisp1.rst => metafmt-rkisp1.rst} |  0
- .../v4l/{pixfmt-meta-uvc.rst => metafmt-uvc.rst}   |  0
- .../{pixfmt-meta-vivid.rst => metafmt-vivid.rst}   |  0
- ...xfmt-meta-vsp1-hgo.rst => metafmt-vsp1-hgo.rst} |  0
- ...xfmt-meta-vsp1-hgt.rst => metafmt-vsp1-hgt.rst} |  0
- MAINTAINERS                                        |  4 ++--
- 9 files changed, 9 insertions(+), 9 deletions(-)
- rename Documentation/userspace-api/media/v4l/{pixfmt-meta-d4xx.rst => metafmt-d4xx.rst} (100%)
- rename Documentation/userspace-api/media/v4l/{pixfmt-meta-intel-ipu3.rst => metafmt-intel-ipu3.rst} (100%)
- rename Documentation/userspace-api/media/v4l/{pixfmt-meta-rkisp1.rst => metafmt-rkisp1.rst} (100%)
- rename Documentation/userspace-api/media/v4l/{pixfmt-meta-uvc.rst => metafmt-uvc.rst} (100%)
- rename Documentation/userspace-api/media/v4l/{pixfmt-meta-vivid.rst => metafmt-vivid.rst} (100%)
- rename Documentation/userspace-api/media/v4l/{pixfmt-meta-vsp1-hgo.rst => metafmt-vsp1-hgo.rst} (100%)
- rename Documentation/userspace-api/media/v4l/{pixfmt-meta-vsp1-hgt.rst => metafmt-vsp1-hgt.rst} (100%)
+ include/uapi/linux/media.h | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
-index fff25357fe86..0bb61fc5bc00 100644
---- a/Documentation/userspace-api/media/v4l/meta-formats.rst
-+++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
-@@ -12,10 +12,10 @@ These formats are used for the :ref:`metadata` interface only.
- .. toctree::
-     :maxdepth: 1
+diff --git a/include/uapi/linux/media.h b/include/uapi/linux/media.h
+index 3ddadaea849f..edb8dfef9eba 100644
+--- a/include/uapi/linux/media.h
++++ b/include/uapi/linux/media.h
+@@ -140,8 +140,8 @@ struct media_device_info {
+ #define MEDIA_ENT_F_DV_ENCODER			(MEDIA_ENT_F_BASE + 0x6002)
  
--    pixfmt-meta-d4xx
--    pixfmt-meta-intel-ipu3
--    pixfmt-meta-rkisp1
--    pixfmt-meta-uvc
--    pixfmt-meta-vsp1-hgo
--    pixfmt-meta-vsp1-hgt
--    pixfmt-meta-vivid
-+    metafmt-d4xx
-+    metafmt-intel-ipu3
-+    metafmt-rkisp1
-+    metafmt-uvc
-+    metafmt-vsp1-hgo
-+    metafmt-vsp1-hgt
-+    metafmt-vivid
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst b/Documentation/userspace-api/media/v4l/metafmt-d4xx.rst
-similarity index 100%
-rename from Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst
-rename to Documentation/userspace-api/media/v4l/metafmt-d4xx.rst
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-meta-intel-ipu3.rst b/Documentation/userspace-api/media/v4l/metafmt-intel-ipu3.rst
-similarity index 100%
-rename from Documentation/userspace-api/media/v4l/pixfmt-meta-intel-ipu3.rst
-rename to Documentation/userspace-api/media/v4l/metafmt-intel-ipu3.rst
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-meta-rkisp1.rst b/Documentation/userspace-api/media/v4l/metafmt-rkisp1.rst
-similarity index 100%
-rename from Documentation/userspace-api/media/v4l/pixfmt-meta-rkisp1.rst
-rename to Documentation/userspace-api/media/v4l/metafmt-rkisp1.rst
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-meta-uvc.rst b/Documentation/userspace-api/media/v4l/metafmt-uvc.rst
-similarity index 100%
-rename from Documentation/userspace-api/media/v4l/pixfmt-meta-uvc.rst
-rename to Documentation/userspace-api/media/v4l/metafmt-uvc.rst
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-meta-vivid.rst b/Documentation/userspace-api/media/v4l/metafmt-vivid.rst
-similarity index 100%
-rename from Documentation/userspace-api/media/v4l/pixfmt-meta-vivid.rst
-rename to Documentation/userspace-api/media/v4l/metafmt-vivid.rst
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-meta-vsp1-hgo.rst b/Documentation/userspace-api/media/v4l/metafmt-vsp1-hgo.rst
-similarity index 100%
-rename from Documentation/userspace-api/media/v4l/pixfmt-meta-vsp1-hgo.rst
-rename to Documentation/userspace-api/media/v4l/metafmt-vsp1-hgo.rst
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-meta-vsp1-hgt.rst b/Documentation/userspace-api/media/v4l/metafmt-vsp1-hgt.rst
-similarity index 100%
-rename from Documentation/userspace-api/media/v4l/pixfmt-meta-vsp1-hgt.rst
-rename to Documentation/userspace-api/media/v4l/metafmt-vsp1-hgt.rst
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e25ebb7c781b..546826109900 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10359,7 +10359,7 @@ L:	linux-media@vger.kernel.org
- S:	Maintained
- F:	Documentation/admin-guide/media/ipu3.rst
- F:	Documentation/admin-guide/media/ipu3_rcb.svg
--F:	Documentation/userspace-api/media/v4l/pixfmt-meta-intel-ipu3.rst
-+F:	Documentation/userspace-api/media/v4l/metafmt-intel-ipu3.rst
- F:	drivers/staging/media/ipu3/
+ /* Entity flags */
+-#define MEDIA_ENT_FL_DEFAULT			(1 << 0)
+-#define MEDIA_ENT_FL_CONNECTOR			(1 << 1)
++#define MEDIA_ENT_FL_DEFAULT			(1U << 0)
++#define MEDIA_ENT_FL_CONNECTOR			(1U << 1)
  
- INTEL IXP4XX CRYPTO SUPPORT
-@@ -18026,7 +18026,7 @@ L:	linux-rockchip@lists.infradead.org
- S:	Maintained
- F:	Documentation/admin-guide/media/rkisp1.rst
- F:	Documentation/devicetree/bindings/media/rockchip-isp1.yaml
--F:	Documentation/userspace-api/media/v4l/pixfmt-meta-rkisp1.rst
-+F:	Documentation/userspace-api/media/v4l/metafmt-rkisp1.rst
- F:	drivers/media/platform/rockchip/rkisp1
- F:	include/uapi/linux/rkisp1-config.h
+ /* OR with the entity id value to find the next entity */
+ #define MEDIA_ENT_ID_FLAG_NEXT			(1U << 31)
+@@ -205,9 +205,9 @@ struct media_entity_desc {
+ 	};
+ };
+ 
+-#define MEDIA_PAD_FL_SINK			(1 << 0)
+-#define MEDIA_PAD_FL_SOURCE			(1 << 1)
+-#define MEDIA_PAD_FL_MUST_CONNECT		(1 << 2)
++#define MEDIA_PAD_FL_SINK			(1U << 0)
++#define MEDIA_PAD_FL_SOURCE			(1U << 1)
++#define MEDIA_PAD_FL_MUST_CONNECT		(1U << 2)
+ 
+ struct media_pad_desc {
+ 	__u32 entity;		/* entity ID */
+@@ -216,14 +216,14 @@ struct media_pad_desc {
+ 	__u32 reserved[2];
+ };
+ 
+-#define MEDIA_LNK_FL_ENABLED			(1 << 0)
+-#define MEDIA_LNK_FL_IMMUTABLE			(1 << 1)
+-#define MEDIA_LNK_FL_DYNAMIC			(1 << 2)
++#define MEDIA_LNK_FL_ENABLED			(1U << 0)
++#define MEDIA_LNK_FL_IMMUTABLE			(1U << 1)
++#define MEDIA_LNK_FL_DYNAMIC			(1U << 2)
+ 
+ #define MEDIA_LNK_FL_LINK_TYPE			(0xf << 28)
+-#  define MEDIA_LNK_FL_DATA_LINK		(0 << 28)
+-#  define MEDIA_LNK_FL_INTERFACE_LINK		(1 << 28)
+-#  define MEDIA_LNK_FL_ANCILLARY_LINK		(2 << 28)
++#  define MEDIA_LNK_FL_DATA_LINK		(0U << 28)
++#  define MEDIA_LNK_FL_INTERFACE_LINK		(1U << 28)
++#  define MEDIA_LNK_FL_ANCILLARY_LINK		(2U << 28)
+ 
+ struct media_link_desc {
+ 	struct media_pad_desc source;
+@@ -293,7 +293,7 @@ struct media_links_enum {
+  * struct media_device_info.
+  */
+ #define MEDIA_V2_ENTITY_HAS_FLAGS(media_version) \
+-	((media_version) >= ((4 << 16) | (19 << 8) | 0))
++	((media_version) >= ((4U << 16) | (19U << 8) | 0))
+ 
+ struct media_v2_entity {
+ 	__u32 id;
+@@ -328,7 +328,7 @@ struct media_v2_interface {
+  * struct media_device_info.
+  */
+ #define MEDIA_V2_PAD_HAS_INDEX(media_version) \
+-	((media_version) >= ((4 << 16) | (19 << 8) | 0))
++	((media_version) >= ((4U << 16) | (19U << 8) | 0))
+ 
+ struct media_v2_pad {
+ 	__u32 id;
+@@ -432,7 +432,7 @@ struct media_v2_topology {
+ #define MEDIA_INTF_T_ALSA_TIMER                (MEDIA_INTF_T_ALSA_BASE + 7)
+ 
+ /* Obsolete symbol for media_version, no longer used in the kernel */
+-#define MEDIA_API_VERSION			((0 << 16) | (1 << 8) | 0)
++#define MEDIA_API_VERSION			((0U << 16) | (1U << 8) | 0)
+ 
+ #endif
  
 -- 
 2.30.2
