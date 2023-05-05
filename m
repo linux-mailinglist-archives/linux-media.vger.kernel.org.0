@@ -2,153 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 361E56F7E85
-	for <lists+linux-media@lfdr.de>; Fri,  5 May 2023 10:15:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F3116F7EA5
+	for <lists+linux-media@lfdr.de>; Fri,  5 May 2023 10:22:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230474AbjEEIPW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 May 2023 04:15:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48570 "EHLO
+        id S229789AbjEEIWW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 May 2023 04:22:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231142AbjEEIOu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 May 2023 04:14:50 -0400
-Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3BAF18866;
-        Fri,  5 May 2023 01:14:18 -0700 (PDT)
-Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
-        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
-        by fd01.gateway.ufhost.com (Postfix) with ESMTP id 3570E7FFE;
-        Fri,  5 May 2023 16:14:16 +0800 (CST)
-Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX166.cuchost.com
- (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 5 May
- 2023 16:14:16 +0800
-Received: from [192.168.60.114] (180.164.60.184) by EXMBX073.cuchost.com
- (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 5 May
- 2023 16:14:15 +0800
-Message-ID: <817b8919-e9dd-cf2a-41e0-9b50747ab4cf@starfivetech.com>
-Date:   Fri, 5 May 2023 16:14:15 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+        with ESMTP id S229955AbjEEIWT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 May 2023 04:22:19 -0400
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2043.outbound.protection.outlook.com [40.107.92.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3C7217FFA;
+        Fri,  5 May 2023 01:22:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ScDgUOdTgRqUVWRncge3Rfbw4gZN7T6mAEtvv9aeZYJaNV6tQfbGgEs8ZwNKygP5ee5bRWyQSvXlYxuKEwQBSO7SFEZBiH0/bAipzTH5Za3cCeT7Ump/R/9lsY8Sh5C+ktYT+8o2hUxtypw6T+JaMoE1MmhGT6As6Tk6QSgbrGCieVdPUnQtfIUdpB2jKOtmae9xfzKNucxxgwSmYs7sUgjM4GU2dMzNmujvZfL9jdpkeW6o1k9MDf0SFdIL2Ap4N4zXmluu1hIDYwM3VdS1dkfgmnlerBTNDDWGk0n5/+J8qQgWRvK1xjFqpCMqr5Q3YdjrfgH1XdhBr15D98G9tQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eMTLRUBE22PZvio7ohPng+iJmf/3NLXCv9ILoDSK01w=;
+ b=Yxjpdq+4In/BwntMZKdV2zgPCMi+LWaGkQt9uyjJbAM9THtAdXRnI8UgFIBbxKmAHjtABrbZBLsXjbcMzAjx7op/mhgjW0NiCAS2Gf24jQ/Jef/w7VXF6a0WNGD9ml2MNTEExQbdI1vYqIn09ws+rIeglefKU77MhBzf9PgGGuJhjzEz/YqPYJShwqlq8TO149XNVLPBgwbPQNigc9trJfVoZoQ1Z63fhweeEW8TNCH7OSeMvZCXZ5YUALz6UOJd4QzOaDfYoWr+dP/PIkDMsfBILXzx37ZouKZ3ho4U/4gporkw9RK/qkNrH+XIxviHMHienhhEsI2wnpvREK2OxA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eMTLRUBE22PZvio7ohPng+iJmf/3NLXCv9ILoDSK01w=;
+ b=2SHX6eGQheLqQ3DoE6FLJDdHGYh4NhuJ0zdgpPpTMtF9ObIfeMs0JasgwZMQMpxR7NuaGXq9edyjVOsAkJvwKp+YUccgR3oHx1cj4g+MyZv76XeYAuetR0uqZFpkspYxohO82HF6vli8g5H+VHYkIJVhoxDXq/VRZQdkN0tTQSc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by CO6PR12MB5396.namprd12.prod.outlook.com (2603:10b6:303:139::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.22; Fri, 5 May
+ 2023 08:22:14 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::d2f8:7388:39c1:bbed]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::d2f8:7388:39c1:bbed%3]) with mapi id 15.20.6363.026; Fri, 5 May 2023
+ 08:22:14 +0000
+Message-ID: <b9ceed26-bf64-6314-3ec5-562542b2b1c6@amd.com>
+Date:   Fri, 5 May 2023 10:22:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v4 0/8] Add StarFive Camera Subsystem driver
+Subject: Re: [PATCH] dma-buf/sync_file: Use fdget()
 Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        "Todor Tomov" <todor.too@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Eugen Hristev <eugen.hristev@collabora.com>
-CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <changhuang.liang@starfivetech.com>
-References: <20230413035541.62129-1-jack.zhu@starfivetech.com>
- <14c06503-621f-2477-7b15-b17f1890ecfe@starfivetech.com>
- <7bd29805-11e7-68ee-aa47-68bae2a2fb38@starfivetech.com>
- <925bf170-bb54-b427-976a-87e0dca230da@linaro.org>
-From:   Jack Zhu <jack.zhu@starfivetech.com>
-In-Reply-To: <925bf170-bb54-b427-976a-87e0dca230da@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     ye.xingchen@zte.com.cn, sumit.semwal@linaro.org
+Cc:     gustavo@padovan.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org
+References: <202305051103396748797@zte.com.cn>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <202305051103396748797@zte.com.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [180.164.60.184]
-X-ClientProxiedBy: EXCAS064.cuchost.com (172.16.6.24) To EXMBX073.cuchost.com
- (172.16.6.83)
-X-YovoleRuleAgent: yovoleflag
-X-Spam-Status: No, score=-6.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-ClientProxiedBy: FR0P281CA0218.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:ac::14) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CO6PR12MB5396:EE_
+X-MS-Office365-Filtering-Correlation-Id: 923dfff2-fdc9-46d4-015f-08db4d41d504
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: CeZuozJvbHLGq2eI2j5xTc3YByrX2JMhCPdLrvgeI68npQabhZNL7whxvMoSU99pkqytk+yb83qvsmTOyXv3j01xU9uwLIlGjfgLn/7Epl2EmZsNFPUxze8vw88UHK4XTnDjJ/gdEyJXTFmJu3kDhTUmTc7ojh4Lg3XHyRF07mhb2IBzeCGp7Y1i1iSLY9Ch6UmXwpuVPBZtr9wdBDIatnQuxCQBRtpocLLJS8R52VvSr/+qC6HXrOS5NYsx5jNRibhqq5AZnFaT2ZurTD1s7mk+HLNg0W2+rVprxa1PqYwr62tMEywON05JF+IUG4cPWcBJzQnw49uB8ydWRJ8LNYXwowrtsqlkzNtqxReLEqPwOh0ag8bI4UQp8nyNiyOIbKPz5lIa0HCBrksGv+8YVEncw5KouILMey6MW8NPWXQ2adrbgHCyrXNrtRviGC/iR60loI612EMxKYWvLWm27ITjAYE3DrrVnUNYbJQOBEu44ThffWyb0jODf56Wo3aUhL2WtCXkVG30vYWpNZiHNDFB0+Yhatyah1eGMBKT1VTFGEaO9wiOpi4BrScqIDa+XFFxjt52QbPk+MTPmcrBQaGVgZFPcgOVEZGDT3APkICNV3ZmTmGTW505AGLthYPQ1nF3tVySDorMQ5kr6mObpg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(366004)(376002)(346002)(396003)(39860400002)(451199021)(31686004)(2906002)(4744005)(5660300002)(8676002)(8936002)(66556008)(66476007)(66946007)(478600001)(86362001)(6666004)(31696002)(316002)(41300700001)(4326008)(6486002)(36756003)(38100700002)(6506007)(186003)(2616005)(83380400001)(6512007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MGZVMkJmYlhIUXgya3NxN3UwN1NlRGhGNGtoYnRWSFNLRU9rUU95aVVzeEUw?=
+ =?utf-8?B?VDFOZm9ERXhqT21jZ3YyV0pvaXk4T0NOMnY1RERiWGNtcWxjeG9xNVBMeW1j?=
+ =?utf-8?B?cVRwdWxuSHpqT0M2cExQbTNKQTlpZXJPa0k1MEh2UTRXbVI5cFRWME50ZXVn?=
+ =?utf-8?B?REZYZkNQOXp1aHZ4NFloRUt4Wmt5dDg2SmozREhOaGUvT0xYUzNvNWR5VTFG?=
+ =?utf-8?B?NUM1QnJ2V0lqZk5BSzJPNmhuUmQ2cjVBWTZvOE1hbi8zTUViUGMxRENBSkMw?=
+ =?utf-8?B?NDVFbnNOTFhBRWtDSzNjWkhLVDV6ZUx1eE1kV0E5VG81VDVRMHl6UnhmWTJX?=
+ =?utf-8?B?em9LdVdOUjYzTnJDY3J2RE5lWkwrTUdCaXlQbnh5RVpOdzIvMFhFdzVyNy9G?=
+ =?utf-8?B?Uml2VEIrMXowWDBDRHl3emtsQ2RVSHkrckhPWW9YQklqZFI1dXR4aVRpU1hW?=
+ =?utf-8?B?L2FXandlc04xZDJJKzBiWE8yWkJVVlZIQ0d2eGZNWGc3K3U3V0FKWmNzWlJD?=
+ =?utf-8?B?V0RTYk5mVjdOMHhoNjZndk53dDhmZmh0MDdxQXlTbmpxZjFjOGwvd0hsM1Rn?=
+ =?utf-8?B?OW42QWpmS2JMeDNzc1ovbDlhd0hKd2tMQUc5ZElRM0dueEFaNzJFMklLRTZi?=
+ =?utf-8?B?SHNCNmM0bStTaXNIRzNrNHNWZVRSV1JUUDJ1RlBZTVlkbUhkYzB6TGxWdzBD?=
+ =?utf-8?B?VHBqNURldkJ5aUdjb3F5UWQ0SVRIbnY3QnRWQmZhMzZGVnhiNTdpUVZEYUVH?=
+ =?utf-8?B?bDVoaTQySGdraGUwck9WM0tTTUFabVVWbkZHSm1FTUFwY2NOVE9xQ3pSYitI?=
+ =?utf-8?B?aHFhQk0yMWhSV08xYk1jUTFKQUFSSUtxSGZnQzB4UEpZREU5SEQyVlR4bXU3?=
+ =?utf-8?B?cVlaSVRBMUcwSWtGY3o5ZU9ZMjQwcGFzcEJscXgzOXZrU2tUOFB1MXlVVFRT?=
+ =?utf-8?B?NlhFTU1rWVdQT1ZCYWZNWEoyQUJKY2ZvYitEM2NITEhURmxvSHA4MDJCUDRt?=
+ =?utf-8?B?elNDZ2hsRVlIZjJCeVA5UHVFNFM4TXQxVWRLWWJLOWdRVVVmVmtOc1FDVTlM?=
+ =?utf-8?B?SlVZZE9qTmszV3VEZkdOUVFGcFdhb1VVVVRyaGYvWHV5RFJjUHFIa3BycjEv?=
+ =?utf-8?B?VlpuTHBqSHpSSUdzT3pJMUhocU9JT1NRcXhrWmpqTVVKOHRQRlNHMmc0ZVBX?=
+ =?utf-8?B?cTNJOGZHWUZwbnFFOU5rQlluc292Um83K3dncTUrNWNETFNScktFenBLWXdk?=
+ =?utf-8?B?V2piRDV2YVdkVFBsYWVySWhWVThRQkNvNG0vZEhMS0ZBengxLzk1bHZkMktP?=
+ =?utf-8?B?RXBBcUQvZjVKVFJhR2ZhZlp1M1ZMRHVUdEgwSENqNXZWN3J1V3RPejRKUkhr?=
+ =?utf-8?B?Y0FBcHc5U3BjRkNZQ2MydTIvaGxtemtGWHNBdDR3Mzk0ajRJZWhJNDB4ajRw?=
+ =?utf-8?B?a01hUm1vbFRudWdNNjZ2cU1DTnh2anVlR01oSW12Y2tTU2hPM3ZnTGRVWkFS?=
+ =?utf-8?B?aFcxNkkwZkJ5NTgwcmVTV0NVZTBOZjdYNkJMVE5mdERmV3R1OEsyMXg1SUY5?=
+ =?utf-8?B?ei9MRzBlaTdxNzArcUwvMVY4a2tTUzJZSDhIc3FMYW5FQTVrM2NwVWhsV2pa?=
+ =?utf-8?B?OE92c0FNVzViQWFrOGhKRkJ2RVl0MXNTQU5aREdlVktpcW5aL3RLOE9RTUtC?=
+ =?utf-8?B?Z2VlUEVQbjVWTmh5OXZodWFpbGFHUHNKd0hwSVEvNnA1UW8xN1NFTGliVngv?=
+ =?utf-8?B?T2NneTMyL2c3TXRDdkVEWG01Q1pNKzFmK3JLNVhsaFZVdmcrZWFhS204YXJC?=
+ =?utf-8?B?NUd0QkRGWWxnOWZsMlFyT0FhRC8ySmcrdE4yYVJsdDFKNisrWHNxZjllTHVG?=
+ =?utf-8?B?QTRhVno2RW40MCtmeURXMEM0eU50aGZ1R1pSdzRSUnZueWgreW1sVGxKNjk1?=
+ =?utf-8?B?WnovSDFBQm5tUEd5T1FFbGxpUTdKaUYrekZsOTllWTlZZjN0MVFuMXlaOGZY?=
+ =?utf-8?B?RGhFTnV4TURnU0ZGUFZVbDhqVlV4QmJ3UnMrWUt5QjN5ZE40T0l1M3pwRkdT?=
+ =?utf-8?B?OFg5N04xUzZMTHlGbXF0TWdab0c4UWlNL0hqR3Z5citRVkVKbUJsbjFOVEEw?=
+ =?utf-8?B?WHlNY1V6RzZ1QjNaYklmbDBHbVI3ZWhjWTlKYittdzdBZEtsN0Ftd1kvQ2Fu?=
+ =?utf-8?Q?whLVLAvovFDMXawGaGBrQvhHGroyh1uuAlpzKmtAro/q?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 923dfff2-fdc9-46d4-015f-08db4d41d504
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2023 08:22:14.6999
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vImxtc28Vz0Alcwdog5Pe6zz5xBXM8fvJLAesKSNI4sA9ueGv4+8co25bbTfvvNN
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5396
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Am 05.05.23 um 05:03 schrieb ye.xingchen@zte.com.cn:
+> From: Ye Xingchen <ye.xingchen@zte.com.cn>
+>
+> convert the fget() use to fdget().
 
+Well the rational is missing. Why should we do that?
 
-On 2023/5/5 14:40, Krzysztof Kozlowski wrote:
-> On 05/05/2023 07:57, Jack Zhu wrote:
->> 
->> 
->> On 2023/4/24 19:19, Jack Zhu wrote:
->>>
->>>
->>> On 2023/4/13 11:55, Jack Zhu wrote:
->>>> Hi,
->>>>
->>>> This patch series adds support for the StarFive Camera Subsystem
->>>> found on StarFive JH7110 SoC.
->>>>
->>>> The driver implements V4L2, Media controller and V4L2 subdev interfaces.
->>>> Camera sensor using V4L2 subdev interface in the kernel is supported.
->>>>
->>>> The driver is tested on VisionFive V2 board with IMX219 camera sensor.
->>>> GStreamer 1.18.5 with v4l2src plugin is supported.
->>>>
->>>> Changes since v3:
->>>> Patch 1:
->>>> - Modified port@0 and port@1 properties.
->>>> - Extended the port@0 example with appropriate properties.
->>>> - Added 'port@0' for 'required'
->>>> Patch 2:
->>>> - Modified spelling errors.
->>>> Patch 3:
->>>> - Merged patch 5 into the patch with an explanation for compatible in
->>>>   commit msg.
->>>> Patch 6:
->>>> - Asserted pixel_rst[i] reset in the loop after the err_disable_pixclk
->>>>   label.
->>>> - Modified Code Style for getting sys_rst and p_rst.
->>>> - Renamed clk_name to name and modified the relevant code.
->>>> Patch 9:
->>>> - Added static for stfcamss_get_mem_res function.
->>>> - Added static for isp_close function.
->>>> - Fixed implicit conversion warning for stf_vin_map_isp_pad function.
->>>> - Dropped unused variables.
->>>>
->>>>   v3: https://lore.kernel.org/all/20230331121826.96973-1-jack.zhu@starfivetech.com/
->>>>
->>>
->>> Hello everyone,
->>>
->>> From the current review status, the patches related to the CSI module
->>> have 'reviewed-by' tags. I would like to know if it is okay to add
->>> patches 1-5 from this series to a PR first.
->>>
->>> Thank you!
->>>
->>> Jack
->>>
->> 
->> Hello Mauro, Laurent, Maxime, Rob, Krzysztof, Robert, Todor and Philipp,
->> 
->> Can you give me some suggestions and comments on the previous request
->> to commit CSI related patches first? Thank you for your time.
-> 
-> You received very specific feedback, so know you decided to ignore it?
-> 
-> No, implement what you were asked for.
-> 
+Christian.
 
-Hi Krzysztof,
+>
+> Signed-off-by: Ye Xingchen <ye.xingchen@zte.com.cn>
+> ---
+>   drivers/dma-buf/sync_file.c | 10 +++++-----
+>   1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
+> index af57799c86ce..222b13b1bdb8 100644
+> --- a/drivers/dma-buf/sync_file.c
+> +++ b/drivers/dma-buf/sync_file.c
+> @@ -78,18 +78,18 @@ EXPORT_SYMBOL(sync_file_create);
+>
+>   static struct sync_file *sync_file_fdget(int fd)
+>   {
+> -	struct file *file = fget(fd);
+> +	struct struct fd f = fdget(fd);
+>
+> -	if (!file)
+> +	if (!f.file)
+>   		return NULL;
+>
+> -	if (file->f_op != &sync_file_fops)
+> +	if (f.file->f_op != &sync_file_fops)
+>   		goto err;
+>
+> -	return file->private_data;
+> +	return f.file->private_data;
+>
+>   err:
+> -	fput(file);
+> +	fdput(f);
+>   	return NULL;
+>   }
+>
 
-Thank you for your comments.
-
-I am talking about CSI-related patches 1-5, not including the patches
-6-8. The CSI module is a relatively functionally independent hardware
-module. The CSI-related patches 1-5 already have 'reviewed-by' tags,
-and there are no unprocessed comments left. So, made the previous
-request. Please let me know if I understand something wrong.
-
-I don't want to ignore any comments, I will continue to modify the isp
-patches 6-8 in subsequent versions according to your comments. The
-ISP-related patches are being prepared.
-
-Jack
-
-> Best regards,
-> Krzysztof
-> 
