@@ -2,78 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5EF96F8131
-	for <lists+linux-media@lfdr.de>; Fri,  5 May 2023 13:04:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CDFEA6F82D9
+	for <lists+linux-media@lfdr.de>; Fri,  5 May 2023 14:24:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231891AbjEELEE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 May 2023 07:04:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53714 "EHLO
+        id S231932AbjEEMYi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 May 2023 08:24:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231843AbjEELEA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 May 2023 07:04:00 -0400
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EC121A1F3
-        for <linux-media@vger.kernel.org>; Fri,  5 May 2023 04:03:55 -0700 (PDT)
-Received: by mail-lj1-x231.google.com with SMTP id 38308e7fff4ca-2ac733b813fso17912241fa.1
-        for <linux-media@vger.kernel.org>; Fri, 05 May 2023 04:03:55 -0700 (PDT)
+        with ESMTP id S229717AbjEEMYh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 May 2023 08:24:37 -0400
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F398919D5F
+        for <linux-media@vger.kernel.org>; Fri,  5 May 2023 05:24:35 -0700 (PDT)
+Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-50bc3088b7aso3232119a12.3
+        for <linux-media@vger.kernel.org>; Fri, 05 May 2023 05:24:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683284633; x=1685876633;
+        d=linaro.org; s=google; t=1683289474; x=1685881474;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=39X7dUvktFxvsRvvQrNLxeaQEBittcm8Hyobx5nr4hw=;
-        b=hIVxsoPqL7V47QEAUFn1yE5a9klWN+/jO41j0LOr57Vd5Z3/rm8BhV2knjx0TvvGOl
-         H5odHCr8hXCUJrxWwZiRevAfOb7GppfpIgEXeSFy6Wezv0ZCpmviwNedd1XdV5BghA1u
-         esoWX7zhf4NJgZqwTfGt1JgLa5rAs7F/Xv5dBUGWuB//skYW3goKbQQiDhLFDjlHCbf/
-         d4QOZvyGciUPjF/JzGFMqKddlIFUrzWprWxv+6ywjIeV9TSKjkUXZk86O5O67izVdtzT
-         QzqwAtAazaSuflJw0I7qNrkCq5ZaIRPzfHQ9OSAjuAyQ7dN/OFuqzhFjpaXib2geSnAg
-         8zBw==
+        bh=R+J3eJ9rAr0Anc7jTVTfZv8HQJ6Km2BEzdl+jDxdnjQ=;
+        b=mpCXaWYjwVF9T60fJELXiXgOGrRUxFskLmWMmGjFsVr9pYVHGh41sHvSANfySraYPq
+         FxjzoDK6hqOED6ZaAVZBINZ4balvN2lT5yS85N+DOg1fr1QfsLciGevJmi6gYk/oie6H
+         LLzcBuyJ/IsYPvH72reKvHe+tR+PJyYjVL9Bcqt9IQsKeKRGCtNI8d9qudPm+zheV4Rv
+         iosiPVoFfbjAgOewjWz8OZRSrXDPXgF7jM09jJULUtf6ZbQWrEkrot6xonH6/5Uo53kX
+         fLXJp+2UGcaIrx3tDLvPOC3Gwj9n1hmnLqk7Jh55a+9Yps+CKv2Ab3NMKwmaVB8dT994
+         023g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683284633; x=1685876633;
+        d=1e100.net; s=20221208; t=1683289474; x=1685881474;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=39X7dUvktFxvsRvvQrNLxeaQEBittcm8Hyobx5nr4hw=;
-        b=dq160cEk/WeAT5mwzsfWzfWTBW0pt9wnHRlDInZmg0qWncUjPsXUg2ELI39mhTTKgb
-         Pxu9UC9vxe193JLtjX73V2o2FGm7WuJI/g+SLPHOEE8XRxXvotIrtwnZOMEXJ9J8n+0e
-         SeC0ZmiqwmUChXf2TdAgQLsKfFSgAUGerEFx6cQYkxsTpkHvFb3K3p5GTGCrfHMXlvTS
-         ro8f8xPddxnTlm3MBGT8IeraCYXUQwsFA0DaXael1pW1wgY0eCin/2HNBn+ElYnHOPKn
-         hGkYJkAZf/ytSEEO4fBjO7zE0D7+y7AJISIsJV9yWGcD2X9aS5OzijrbcKBx24MRjqRO
-         Jf3Q==
-X-Gm-Message-State: AC+VfDyyQBP7hWqlYuyUc8gMTmr1p8ytHEpyYXXpaQMrhP+tn2n1yYSr
-        I8ynDzc2hCvnhVK+norlMNcDFw==
-X-Google-Smtp-Source: ACHHUZ4WzW9bQUhry35vqW7lgQk0kjjA2dj9hZvmrt9u4/l6nt0mjxtNFlh54XylD1TR1rOSzJ7GaA==
-X-Received: by 2002:a2e:9e95:0:b0:2a8:d13d:8902 with SMTP id f21-20020a2e9e95000000b002a8d13d8902mr298037ljk.12.1683284633569;
-        Fri, 05 May 2023 04:03:53 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5? (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
-        by smtp.gmail.com with ESMTPSA id s7-20020a2e83c7000000b002ab0d1c9412sm274267ljh.139.2023.05.05.04.03.52
+        bh=R+J3eJ9rAr0Anc7jTVTfZv8HQJ6Km2BEzdl+jDxdnjQ=;
+        b=CA92F3pcWpAtFC7UDm5/ltI4hy5yR1wEhgQT7bePQvGEjGeyyUzUFbpwYznxn+p/DQ
+         W3zUF5gwMGaATFpyQ0PsMXOD/pNoIvNFbG5EH7x74nPgCS33PbgavSqvU1XD76nVHVsD
+         g40f2fgUQscot8+toYdfFNaOsNgH1dba0kqPAFJ0WlgUROlhLaXtmz5/c4vqqztJXxIW
+         ZLG8rA9ceLCq2v9RPxuTtJ5cbu6VxCCDcocwWjxqNUDQK29qreR32Ee5Hx2K3eIP6Fbz
+         QbVAAXCw1R/Xi6Mm7vFeGltlAbeCGVHHwQsQWO3nnqlPjE9Re+KQOQkXwnEF7YJ7J+On
+         NMuw==
+X-Gm-Message-State: AC+VfDx20O4HPkFyOHsFOwmnalxuXw8QXT0/12mm9PsVBsD3mqS7fStN
+        MDll/h3ocKhWSYVxGihZKDGqOw==
+X-Google-Smtp-Source: ACHHUZ7XXQzqvBr/9IQJvWOwjqwXpa8SpSp8T8lg2RLLJpcPx3Ukf+D9VGZzyq30KdybZpFJrCr9Rw==
+X-Received: by 2002:a05:6402:398:b0:50b:c4b7:ee7c with SMTP id o24-20020a056402039800b0050bc4b7ee7cmr1177934edv.36.1683289474481;
+        Fri, 05 May 2023 05:24:34 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:52e:24ce:bbc1:127d? ([2a02:810d:15c0:828:52e:24ce:bbc1:127d])
+        by smtp.gmail.com with ESMTPSA id n24-20020a056402061800b0050bd245d39esm2909078edv.6.2023.05.05.05.24.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 May 2023 04:03:53 -0700 (PDT)
-Message-ID: <af78ea4f-94b8-84dc-47ee-ae00c40a0ee9@linaro.org>
-Date:   Fri, 5 May 2023 14:03:52 +0300
+        Fri, 05 May 2023 05:24:33 -0700 (PDT)
+Message-ID: <ef7ab2dd-8f6c-a7f2-7aa6-90fe1caa96b4@linaro.org>
+Date:   Fri, 5 May 2023 14:24:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 4/4] venus: return P010 as preferred format for 10 bit
- decode
-Content-Language: en-GB
-To:     Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        linux-media@vger.kernel.org, stanimir.k.varbanov@gmail.com,
-        quic_vgarodia@quicinc.com, agross@kernel.org, andersson@kernel.org,
-        mchehab@kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-References: <1683196599-3730-1-git-send-email-quic_dikshita@quicinc.com>
- <1683196599-3730-5-git-send-email-quic_dikshita@quicinc.com>
- <02f5d449-a64b-8f5e-6b72-2fdf8d9bafbe@linaro.org>
- <b5fa8e0a-1663-e386-cffe-e7feb16d8733@quicinc.com>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <b5fa8e0a-1663-e386-cffe-e7feb16d8733@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ Thunderbird/102.10.1
+Subject: Re: [PATCH v4 0/8] Add StarFive Camera Subsystem driver
+Content-Language: en-US
+To:     Jack Zhu <jack.zhu@starfivetech.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Eugen Hristev <eugen.hristev@collabora.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, changhuang.liang@starfivetech.com
+References: <20230413035541.62129-1-jack.zhu@starfivetech.com>
+ <14c06503-621f-2477-7b15-b17f1890ecfe@starfivetech.com>
+ <7bd29805-11e7-68ee-aa47-68bae2a2fb38@starfivetech.com>
+ <925bf170-bb54-b427-976a-87e0dca230da@linaro.org>
+ <817b8919-e9dd-cf2a-41e0-9b50747ab4cf@starfivetech.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <817b8919-e9dd-cf2a-41e0-9b50747ab4cf@starfivetech.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-6.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -81,70 +89,92 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 05/05/2023 12:03, Dikshita Agarwal wrote:
+On 05/05/2023 10:14, Jack Zhu wrote:
 > 
-> On 5/4/2023 10:50 PM, Konrad Dybcio wrote:
->>
->> On 4.05.2023 12:36, Dikshita Agarwal wrote:
->>> If bit depth is detected as 10 bit by firmware, return
->>> P010 as preferred decoder format to the client.
+> 
+> On 2023/5/5 14:40, Krzysztof Kozlowski wrote:
+>> On 05/05/2023 07:57, Jack Zhu wrote:
 >>>
->>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
->>> ---
->>>   drivers/media/platform/qcom/venus/vdec.c | 7 ++++++-
->>>   1 file changed, 6 insertions(+), 1 deletion(-)
 >>>
->>> diff --git a/drivers/media/platform/qcom/venus/vdec.c 
->>> b/drivers/media/platform/qcom/venus/vdec.c
->>> index 69f7f6e..ed11dc2 100644
->>> --- a/drivers/media/platform/qcom/venus/vdec.c
->>> +++ b/drivers/media/platform/qcom/venus/vdec.c
->>> @@ -1468,8 +1468,13 @@ static void vdec_event_change(struct 
->>> venus_inst *inst,
->>>       inst->out_width = ev_data->width;
->>>       inst->out_height = ev_data->height;
->>> -    if (inst->bit_depth != ev_data->bit_depth)
->>> +    if (inst->bit_depth != ev_data->bit_depth) {
->>>           inst->bit_depth = ev_data->bit_depth;
->>> +        if (inst->bit_depth == VIDC_BITDEPTH_10)
->>> +            inst->fmt_cap = &vdec_formats[3];
->>> +        else
->>> +            inst->fmt_cap = &vdec_formats[0];
->> This doesn't scale and is very error-prone, please enumerate the
->> entries and assign it using the enumerator, like:
+>>> On 2023/4/24 19:19, Jack Zhu wrote:
+>>>>
+>>>>
+>>>> On 2023/4/13 11:55, Jack Zhu wrote:
+>>>>> Hi,
+>>>>>
+>>>>> This patch series adds support for the StarFive Camera Subsystem
+>>>>> found on StarFive JH7110 SoC.
+>>>>>
+>>>>> The driver implements V4L2, Media controller and V4L2 subdev interfaces.
+>>>>> Camera sensor using V4L2 subdev interface in the kernel is supported.
+>>>>>
+>>>>> The driver is tested on VisionFive V2 board with IMX219 camera sensor.
+>>>>> GStreamer 1.18.5 with v4l2src plugin is supported.
+>>>>>
+>>>>> Changes since v3:
+>>>>> Patch 1:
+>>>>> - Modified port@0 and port@1 properties.
+>>>>> - Extended the port@0 example with appropriate properties.
+>>>>> - Added 'port@0' for 'required'
+>>>>> Patch 2:
+>>>>> - Modified spelling errors.
+>>>>> Patch 3:
+>>>>> - Merged patch 5 into the patch with an explanation for compatible in
+>>>>>   commit msg.
+>>>>> Patch 6:
+>>>>> - Asserted pixel_rst[i] reset in the loop after the err_disable_pixclk
+>>>>>   label.
+>>>>> - Modified Code Style for getting sys_rst and p_rst.
+>>>>> - Renamed clk_name to name and modified the relevant code.
+>>>>> Patch 9:
+>>>>> - Added static for stfcamss_get_mem_res function.
+>>>>> - Added static for isp_close function.
+>>>>> - Fixed implicit conversion warning for stf_vin_map_isp_pad function.
+>>>>> - Dropped unused variables.
+>>>>>
+>>>>>   v3: https://lore.kernel.org/all/20230331121826.96973-1-jack.zhu@starfivetech.com/
+>>>>>
+>>>>
+>>>> Hello everyone,
+>>>>
+>>>> From the current review status, the patches related to the CSI module
+>>>> have 'reviewed-by' tags. I would like to know if it is okay to add
+>>>> patches 1-5 from this series to a PR first.
+>>>>
+>>>> Thank you!
+>>>>
+>>>> Jack
+>>>>
+>>>
+>>> Hello Mauro, Laurent, Maxime, Rob, Krzysztof, Robert, Todor and Philipp,
+>>>
+>>> Can you give me some suggestions and comments on the previous request
+>>> to commit CSI related patches first? Thank you for your time.
 >>
->> enum {
->>     VDEC_FORMAT_FOO,
->>     ...
->> };
+>> You received very specific feedback, so know you decided to ignore it?
 >>
->> ... vdec_formats[] = {
->>     [VDEC_FORMAT_FOO] = { foo, bar, baz }
->> }
+>> No, implement what you were asked for.
 >>
->> Konrad
 > 
-> I agree, this can be improved but I would prefer making that change as 
-> separate patch.
-
-Good!
-
+> Hi Krzysztof,
 > 
-> As this is not only related to HDR 10 decoding, there are other places 
-> in the code which will require similar change.
-
-Please fix them first. Adding more cruft is not a good way to go.
-
+> Thank you for your comments.
 > 
-> Thanks,
-> 
-> Dikshita
-> 
->>> +    }
->>>       if (inst->pic_struct != ev_data->pic_struct)
->>>           inst->pic_struct = ev_data->pic_struct;
+> I am talking about CSI-related patches 1-5, not including the patches
+> 6-8. The CSI module is a relatively functionally independent hardware
+> module. The CSI-related patches 1-5 already have 'reviewed-by' tags,
+> and there are no unprocessed comments left. So, made the previous
+> request. Please let me know if I understand something wrong.
 
--- 
-With best wishes
-Dmitry
+You pinged also me, so we talk about bindings. You got comments to fix,
+so if you are not going to fix them, the patches will not get accepted.
+
+> I don't want to ignore any comments, I will continue to modify the isp
+> patches 6-8 in subsequent versions according to your comments. The
+> ISP-related patches are being prepared.
+
+And how are these patches related to me and Rob?
+
+Best regards,
+Krzysztof
 
