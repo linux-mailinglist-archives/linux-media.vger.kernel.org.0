@@ -2,120 +2,241 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 00A886F7C75
-	for <lists+linux-media@lfdr.de>; Fri,  5 May 2023 07:38:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C641A6F7C9B
+	for <lists+linux-media@lfdr.de>; Fri,  5 May 2023 07:57:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229577AbjEEFiA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 May 2023 01:38:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60664 "EHLO
+        id S230327AbjEEF5z convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 5 May 2023 01:57:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbjEEFh7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 May 2023 01:37:59 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7442411B76
-        for <linux-media@vger.kernel.org>; Thu,  4 May 2023 22:37:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683265078; x=1714801078;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jVZnykSRCjTw3ZkY47aWRHXYxYSJAsL6WhFZ4OTnre8=;
-  b=FQLL5E86EYTo78XEVel3yZ8wpE2hXUGTahMCq54nTs3itCIs9WnccA6h
-   bpknLAsRV4LXNP2uEb8zIX+6yHKAVbKST1rzNKhX5sxIojTRtcjEXxlK6
-   Bz0/iw/GFExqoKPFBXyPwk5zDBjUYIIZqh7ozn4SzQQzEdvzdMiNeQTI+
-   EB0I7Fq+vT3zwUe1McRhMIhGQ/l0C7GmALhZ6xQy4vrt8HVJRjLJdC8bF
-   wOGuESPkSGRnlx17lKlIzf7NvW4Xdqa6r+OTWrFV6rBOwxgM5EwDCyeE3
-   RhzdrRq6YC6CmYnctLnNHz7SklQopX/8a/GtNtIyWttD8g/tBm8XXdOWq
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="414666600"
-X-IronPort-AV: E=Sophos;i="5.99,250,1677571200"; 
-   d="scan'208";a="414666600"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2023 22:37:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="809072461"
-X-IronPort-AV: E=Sophos;i="5.99,250,1677571200"; 
-   d="scan'208";a="809072461"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2023 22:37:56 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 5A07A1205F7;
-        Fri,  5 May 2023 08:37:53 +0300 (EEST)
-Date:   Fri, 5 May 2023 08:37:53 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/1] media: i2c: ov5670: Fix conditions for clock access
-Message-ID: <ZFSWMYjiUSo2YzLT@kekkonen.localdomain>
-References: <20230502125150.720051-1-sakari.ailus@linux.intel.com>
- <wbs5vvxshzludcyopgwbsr6sj2m4wnkwa4jyseb7fgspoy636k@4sg4hv4h6c6c>
+        with ESMTP id S230055AbjEEF5x (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 May 2023 01:57:53 -0400
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A796E11DB9;
+        Thu,  4 May 2023 22:57:50 -0700 (PDT)
+Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
+        by fd01.gateway.ufhost.com (Postfix) with ESMTP id EE8CA24DD6E;
+        Fri,  5 May 2023 13:57:48 +0800 (CST)
+Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX166.cuchost.com
+ (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 5 May
+ 2023 13:57:48 +0800
+Received: from [192.168.60.114] (180.164.60.184) by EXMBX073.cuchost.com
+ (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 5 May
+ 2023 13:57:47 +0800
+Message-ID: <7bd29805-11e7-68ee-aa47-68bae2a2fb38@starfivetech.com>
+Date:   Fri, 5 May 2023 13:57:46 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <wbs5vvxshzludcyopgwbsr6sj2m4wnkwa4jyseb7fgspoy636k@4sg4hv4h6c6c>
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v4 0/8] Add StarFive Camera Subsystem driver
+From:   Jack Zhu <jack.zhu@starfivetech.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        "Todor Tomov" <todor.too@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Eugen Hristev <eugen.hristev@collabora.com>
+CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <changhuang.liang@starfivetech.com>
+References: <20230413035541.62129-1-jack.zhu@starfivetech.com>
+ <14c06503-621f-2477-7b15-b17f1890ecfe@starfivetech.com>
+Content-Language: en-US
+In-Reply-To: <14c06503-621f-2477-7b15-b17f1890ecfe@starfivetech.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS064.cuchost.com (172.16.6.24) To EXMBX073.cuchost.com
+ (172.16.6.83)
+X-YovoleRuleAgent: yovoleflag
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-6.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
 
-On Wed, May 03, 2023 at 09:25:37AM +0200, Jacopo Mondi wrote:
-> Hi Sakari
-> 
-> On Tue, May 02, 2023 at 03:51:50PM +0300, Sakari Ailus wrote:
-> > Leftovers from the earlier fix. Fix also the conditions for reading the
-> > clock-frequency property as well as accessing the clock.
-> >
-> > Fixes: 8df08ba4a331 ("media: ov5670: Fix probe on ACPI")
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  drivers/media/i2c/ov5670.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov5670.c
-> > index c5e783a06f06c..5437cf32a7b3a 100644
-> > --- a/drivers/media/i2c/ov5670.c
-> > +++ b/drivers/media/i2c/ov5670.c
-> > @@ -2661,9 +2661,9 @@ static int ov5670_probe(struct i2c_client *client)
-> >  	}
-> >
-> >  	ov5670->xvclk = devm_clk_get_optional(&client->dev, NULL);
-> > -	if (!IS_ERR_OR_NULL(ov5670->xvclk))
-> > +	if (!IS_ERR(ov5670->xvclk))
-> 
-> Can't clk_get_optional() return NULL in the case the clock source is not
-> available ?
-> 
-> Also, if !CONFIG_HAVE_CLK devm_clk_get_optional() returns 0.
 
-Correct. And in that case the clock-frequency property should be read
-instead.
+On 2023/4/24 19:19, Jack Zhu wrote:
+> 
+> 
+> On 2023/4/13 11:55, Jack Zhu wrote:
+>> Hi,
+>> 
+>> This patch series adds support for the StarFive Camera Subsystem
+>> found on StarFive JH7110 SoC.
+>> 
+>> The driver implements V4L2, Media controller and V4L2 subdev interfaces.
+>> Camera sensor using V4L2 subdev interface in the kernel is supported.
+>> 
+>> The driver is tested on VisionFive V2 board with IMX219 camera sensor.
+>> GStreamer 1.18.5 with v4l2src plugin is supported.
+>> 
+>> Changes since v3:
+>> Patch 1:
+>> - Modified port@0 and port@1 properties.
+>> - Extended the port@0 example with appropriate properties.
+>> - Added 'port@0' for 'required'
+>> Patch 2:
+>> - Modified spelling errors.
+>> Patch 3:
+>> - Merged patch 5 into the patch with an explanation for compatible in
+>>   commit msg.
+>> Patch 6:
+>> - Asserted pixel_rst[i] reset in the loop after the err_disable_pixclk
+>>   label.
+>> - Modified Code Style for getting sys_rst and p_rst.
+>> - Renamed clk_name to name and modified the relevant code.
+>> Patch 9:
+>> - Added static for stfcamss_get_mem_res function.
+>> - Added static for isp_close function.
+>> - Fixed implicit conversion warning for stf_vin_map_isp_pad function.
+>> - Dropped unused variables.
+>> 
+>>   v3: https://lore.kernel.org/all/20230331121826.96973-1-jack.zhu@starfivetech.com/
+>> 
+> 
+> Hello everyone,
+> 
+> From the current review status, the patches related to the CSI module
+> have 'reviewed-by' tags. I would like to know if it is okay to add
+> patches 1-5 from this series to a PR first.
+> 
+> Thank you!
+> 
+> Jack
+> 
 
-> 
-> I would then keep the _OR_NULL() part
-> 
-> >  		input_clk = clk_get_rate(ov5670->xvclk);
-> > -	else if (PTR_ERR(ov5670->xvclk) == -ENOENT)
-> > +	else if (!ov5670->xvclk)
-> 
-> While here it's probably correct, we only want to read
-> "clock-frequency" if xvclk == NULL (when either the clock providere is
-> not there, or !CONFIG_HAVE_CLK)
-> 
-> >  		device_property_read_u32(&client->dev, "clock-frequency",
-> >  					 &input_clk);
-> >  	else
-> 
-> Everything else is an error (in example, -EPROBE_DEFER)
-> 
+Hello Mauro, Laurent, Maxime, Rob, Krzysztof, Robert, Todor and Philipp,
 
--- 
-Regards,
+Can you give me some suggestions and comments on the previous request
+to commit CSI related patches first? Thank you for your time.
 
-Sakari Ailus
+Jack
+
+>> Changes since v2:
+>> - Rebased on v6.3-rc1.
+>> Patch 1:
+>> - Modified spelling errors.
+>> - Added port@0.
+>> - Modified '$ref' of port.
+>> - Added 'ports' to 'required'.
+>> - Dropped 'stfcamss' label in example.
+>> - Added port@0 in example.
+>> - Added MAINTAINERS file.
+>> Patch 2:
+>> - Split this patch into three new patches.
+>> - Modified compatible property.
+>> - Replaced clock names with the existing names.
+>> - Modified 'bus-type' and 'clock-lanes'
+>> - Added port@2 - port@4
+>> - Dropped 'csi2rx' label in example.
+>> Patch 3:
+>> - Updated rst and dot file as three pipelines were deleted.
+>> Patch 4:
+>> - Split this patch into three new patches.
+>> - Dropped .s_power() and .get_fmt().
+>> - Dropped CSI-2 DT support.
+>> - Dropped v4l2_device_register_subdev_nodes().
+>> - Used assigned-clock-rates in DT to set clk value.
+>> - Modified 'compatible' field.
+>> Patch 5:
+>> - Deleted three pipelines. 
+>> - Modified 'stfcamss_clocks'/'stfcamss_resets' struct.
+>> - Dropped stfcamss_find_sensor() function.
+>> - Removed redundant code from stfcamss_of_parse_endpoint_node().
+>> - Modified spelling errors.
+>> - Rewrote stfcamss_reg_media_subdev_node() function.
+>> - Modified stfcamss_subdev_notifier_bound().
+>> - Modified stfcamss_probe() function.
+>> - Dropped stfcamss_suspend() and stfcamss_resume().
+>> - Dropped dev_info() in stfcamss_remove() function.
+>> - Added 'stf_' prefix for enum subdev_type.
+>> - Moved all includes to the top in stf_camss.h file.
+>> - Dropped unused fields in stfcamss struct.
+>> - Replaced Custom logging macros with regular macros.
+>> - Rewrote register read and write functions.
+>> - Used lowercase for all hex constants.
+>> - Used macro to name registers.
+>> - Dropped unused ioctl and stf_isp_ioctl.h file.
+>> 
+>>   v2: https://lore.kernel.org/all/20230310120553.60586-1-jack.zhu@starfivetech.com/
+>> 
+>> Changes since v1:
+>> - Deleted starfive,jh7110-mipi-csi2.yaml.
+>> - Converted cdns,csi2rx.txt to cdns,csi2rx.yaml and added ‘resets’
+>>   properties.
+>> - Added ‘cdns,csi2rx.yaml’ in ‘CADENCE MIPI-CSI2 BRIDGES’ entry.
+>> - The following contents were modified in starfive,jh7110-camss.yaml:
+>>   dropped quotes from ’id’ and ‘schema’; dropped ‘|’ for ‘description’;
+>>   corrected the wrong or redundant words: ‘a ISP’, ‘PD ISP’;
+>>   dropped ‘minItems’ for ‘reg’, ‘clocks’, ‘resets’ and ‘interrupts’;
+>>   dropped the '_clk' and 'rst_' prefix about the 'clock-names' and
+>>   'reset-names';
+>>   changed ‘endpoint@1’ to ‘endpoint’; updated examples;
+>> - Updated Subject for some patches.
+>> - Merged patch 6, 7, 8, 9, 10, 11 into one patch.
+>> 
+>> Jack Zhu (8):
+>>   media: dt-bindings: cadence-csi2rx: Convert to DT schema
+>>   media: dt-bindings: cadence-csi2rx: Add resets property
+>>   media: cadence: Add operation on reset
+>>   media: cadence: Add support for external dphy
+>>   media: cadence: Add support for JH7110 SoC
+>>   media: dt-bindings: Add bindings for JH7110 Camera Subsystem
+>>   media: admin-guide: Add starfive_camss.rst for Starfive Camera
+>>     Subsystem
+>>   media: starfive: Add Starfive Camera Subsystem driver
+>> 
+>>  .../admin-guide/media/starfive_camss.rst      |   57 +
+>>  .../media/starfive_camss_graph.dot            |   16 +
+>>  .../admin-guide/media/v4l-drivers.rst         |    1 +
+>>  .../devicetree/bindings/media/cdns,csi2rx.txt |  100 --
+>>  .../bindings/media/cdns,csi2rx.yaml           |  201 +++
+>>  .../bindings/media/starfive,jh7110-camss.yaml |  164 +++
+>>  MAINTAINERS                                   |   10 +
+>>  drivers/media/platform/Kconfig                |    1 +
+>>  drivers/media/platform/Makefile               |    1 +
+>>  drivers/media/platform/cadence/cdns-csi2rx.c  |  107 +-
+>>  drivers/media/platform/starfive/Kconfig       |   18 +
+>>  drivers/media/platform/starfive/Makefile      |   14 +
+>>  drivers/media/platform/starfive/stf_camss.c   |  477 +++++++
+>>  drivers/media/platform/starfive/stf_camss.h   |  150 +++
+>>  drivers/media/platform/starfive/stf_common.h  |   18 +
+>>  drivers/media/platform/starfive/stf_isp.c     |  737 +++++++++++
+>>  drivers/media/platform/starfive/stf_isp.h     |  999 +++++++++++++++
+>>  .../media/platform/starfive/stf_isp_hw_ops.c  |  715 +++++++++++
+>>  drivers/media/platform/starfive/stf_video.c   |  989 ++++++++++++++
+>>  drivers/media/platform/starfive/stf_video.h   |   89 ++
+>>  drivers/media/platform/starfive/stf_vin.c     | 1138 +++++++++++++++++
+>>  drivers/media/platform/starfive/stf_vin.h     |  174 +++
+>>  .../media/platform/starfive/stf_vin_hw_ops.c  |  211 +++
+>>  23 files changed, 6272 insertions(+), 115 deletions(-)
+>>  create mode 100644 Documentation/admin-guide/media/starfive_camss.rst
+>>  create mode 100644 Documentation/admin-guide/media/starfive_camss_graph.dot
+>>  delete mode 100644 Documentation/devicetree/bindings/media/cdns,csi2rx.txt
+>>  create mode 100644 Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
+>>  create mode 100644 Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
+>>  create mode 100644 drivers/media/platform/starfive/Kconfig
+>>  create mode 100644 drivers/media/platform/starfive/Makefile
+>>  create mode 100644 drivers/media/platform/starfive/stf_camss.c
+>>  create mode 100644 drivers/media/platform/starfive/stf_camss.h
+>>  create mode 100644 drivers/media/platform/starfive/stf_common.h
+>>  create mode 100644 drivers/media/platform/starfive/stf_isp.c
+>>  create mode 100644 drivers/media/platform/starfive/stf_isp.h
+>>  create mode 100644 drivers/media/platform/starfive/stf_isp_hw_ops.c
+>>  create mode 100644 drivers/media/platform/starfive/stf_video.c
+>>  create mode 100644 drivers/media/platform/starfive/stf_video.h
+>>  create mode 100644 drivers/media/platform/starfive/stf_vin.c
+>>  create mode 100644 drivers/media/platform/starfive/stf_vin.h
+>>  create mode 100644 drivers/media/platform/starfive/stf_vin_hw_ops.c
+>> 
