@@ -2,93 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C3136F85AD
-	for <lists+linux-media@lfdr.de>; Fri,  5 May 2023 17:29:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B2336F86C9
+	for <lists+linux-media@lfdr.de>; Fri,  5 May 2023 18:33:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232840AbjEEP3f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 May 2023 11:29:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59848 "EHLO
+        id S232955AbjEEQdZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 May 2023 12:33:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232805AbjEEP3c (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 May 2023 11:29:32 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1A4DA5F4;
-        Fri,  5 May 2023 08:29:27 -0700 (PDT)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 345DnXX8017298;
-        Fri, 5 May 2023 15:28:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=BieRpCSj/d7y3We7CfAN6ykwkElaxu/ernWEbwjTbM8=;
- b=VTAhHKH0vmsea2ASR/SsCJF0NJhrhau2x1iKieQyGZ/+Pnpw7y/bHlL/v7iL2TYYXUzk
- yIStJvmhnKSfFdq4OPJOSQjzLhpHTaPWKjKWUOIVqmzN+3UFBfQO3jxT9wV34puOgpEQ
- 2I724ndp1mgoZqz3AiAwF1p6IY+UkExxFIRWt0UAfrFMXXj24BeXL4CO68FWM0+b/yYE
- kKaWEIdy5ZZjxYo1FjRH3MQr/qU6x3hzG5mnGIGtj7rQd7fpon20iSLt46F+drlNWv4V
- jARcop1uTsqvhJ18EfHpK99jjIUEpCFz6rzNXfsn3Nd00dLp06FLjGi0I8zsOj4+CUXV XA== 
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qcmm39x3u-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 05 May 2023 15:28:53 +0000
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 345FSq7g007681
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 5 May 2023 15:28:52 GMT
-Received: from [10.216.37.178] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 5 May 2023
- 08:28:47 -0700
-Message-ID: <7b3ba193-c705-e8e2-f3b5-87e9c3cd5650@quicinc.com>
-Date:   Fri, 5 May 2023 20:58:44 +0530
-MIME-Version: 1.0
+        with ESMTP id S232583AbjEEQdY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 May 2023 12:33:24 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01olkn2039.outbound.protection.outlook.com [40.92.98.39])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C597118FF4
+        for <linux-media@vger.kernel.org>; Fri,  5 May 2023 09:33:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TJxswzdLfXZKM50diugjdUc7rH7Lxyo96X8cyS2VevQfYJfkB//8knxSZjnKutYo1SLcOFv1JPVi91m9UXdzOQFPGycfjOl75rYyVYts5MPFh18RnIcrO2Jm34sFd6hxodxgADcs4JmtNzJn9cb8QA/aaMHcHj+18YHNdPWlup1RI56LM3P2Fz6m2G63vtmDfyRt4Ik/0LWnUORza+jC27EJeb2YJhl4m4959T2l0padh4l6TsSKwa4+16PMsQCeIUaubdZLHrEWeDRvU3mlau4LdXIBjQm72jHsHstpcIJcbpLGXkG9QCjiKa6tMIgeCrfZnCr/QeENeIIqoBmAxw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=l70l+YlSHOANlI1ic3f0EpCK6FoE/pXRci9XK/DXRHc=;
+ b=hpTA23iUilO8HT9NVQ48HncdDtTdhySFHzZZdlemf9V3+qPeKT8cH0RDXLwQolXew2THjQ4zjecivyNwFbaJOejzJFKKgERDMBTQ6XaSQkx8BUfhAqdvZ0HlslTuPgXmO1XhS4x0T4mGshjhhREGO0qDy8dxtU+YfjQ/89P8XxTm5g50nnmgytNQvtg1yD8b4BeC9+yEw3Osaz3Xi9WI3nW7UfC65pqB5ZGX3z0uQFdE+uu22RfDwFsWLbVLIB0VgunWx6QUUTeknc2Hlzx/3/k5ct1yfZemUmoRy7VDlWz6CyqIncMAqRo7nuXsGUQgkJPmMJOrbhTLb2B2qeOlkg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=l70l+YlSHOANlI1ic3f0EpCK6FoE/pXRci9XK/DXRHc=;
+ b=MOSkz5kcFdb+wjRRm2BfSXMOz2Fb2BmsreKZ9f9g7z7w0NABl4ZM0KPbGMtXz4+6xI2yIU7AI+MhKJuOq9DR10UoOCjVHuX4MFUbqxMug/B2ex+Y/a3lIY+sgjp/6FeFnYJO0TiZvvQ+ThOeifU3Uxh2Is0npd3arzuyfVhCyuPUhk+ZIVhMPuiMNPKAZmLtzXFh7VtLFpNfGizLvW3JezF3tu75ZeoSCvE4lRH8/9m+2wgaNAW9CwY1j+qNzoB1dapheiiMR7LX8U0wjNzipsZgrYYLWF3+hVSGilUH+NaQ0Uqdzi/VGkBFW9U/v0DIQtPFBdkOIUyoWXdFz/4HgA==
+Received: from TY3P286MB2886.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:311::6)
+ by TY3P286MB3515.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:3af::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.27; Fri, 5 May
+ 2023 16:33:18 +0000
+Received: from TY3P286MB2886.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::fc81:7c1f:480d:d0d3]) by TY3P286MB2886.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::fc81:7c1f:480d:d0d3%7]) with mapi id 15.20.6363.027; Fri, 5 May 2023
+ 16:33:18 +0000
+Message-ID: <TY3P286MB2886879B6489BA89D9CD6B78A3729@TY3P286MB2886.JPNP286.PROD.OUTLOOK.COM>
+Date:   Sat, 6 May 2023 00:33:13 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 09/18] media: venus: hfi_venus: Fix version checks in
- venus_halt_axi()
+ Thunderbird/102.10.1
+To:     andrzej.p@collabora.com
+Cc:     ezequiel@vanguardiasur.com.ar, heiko@sntech.de,
+        kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        mchehab@kernel.org, p.zabel@pengutronix.de
+References: <20230309125651.23911-3-andrzej.p@collabora.com>
+Subject: Re: [RFC 2/2] media: rkvdec: Add VP8 encoder
 Content-Language: en-US
-To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC:     Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        "Bjorn Andersson" <andersson@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dikshita Agarwal <dikshita@qti.qualcomm.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Mansur Alisha Shaik <mansur@codeaurora.org>,
-        Jonathan Marek <jonathan@marek.ca>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        "Marijn Suijten" <marijn.suijten@somainline.org>
-References: <20230228-topic-venus-v2-0-d95d14949c79@linaro.org>
- <20230228-topic-venus-v2-9-d95d14949c79@linaro.org>
- <4a95547d-916a-3875-7752-f815429182e5@quicinc.com>
- <CAA8EJpqBn9odiEfUak0OQUkMU2aSKc6rf07joYOKML0EhM-JKA@mail.gmail.com>
-From:   Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <CAA8EJpqBn9odiEfUak0OQUkMU2aSKc6rf07joYOKML0EhM-JKA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From:   guan wentao <otgwt@outlook.com>
+In-Reply-To: <20230309125651.23911-3-andrzej.p@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: fXEheDa0LuvaCr4E2zuPOCuTpXNik7SO
-X-Proofpoint-GUID: fXEheDa0LuvaCr4E2zuPOCuTpXNik7SO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-05_22,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=704 mlxscore=0
- priorityscore=1501 impostorscore=0 adultscore=0 malwarescore=0
- suspectscore=0 phishscore=0 clxscore=1011 bulkscore=0 spamscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2305050129
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-TMN:  [tBBFBEeFsjHgkBvDk5Upvx/V4SqNSJ7z]
+X-ClientProxiedBy: SG3P274CA0001.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:be::13)
+ To TY3P286MB2886.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:311::6)
+X-Microsoft-Original-Message-ID: <0dc6f024-35ea-3426-627e-8b4554b59610@outlook.com>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY3P286MB2886:EE_|TY3P286MB3515:EE_
+X-MS-Office365-Filtering-Correlation-Id: 971e8dfb-5038-4859-b298-08db4d866ebc
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: F28LcA78yALoVaA/ypjgyR8mmMSPHIjMuYGCNJ+G2dkk72Kl3pTFRFIG62eEeCv9hGRCrsQLAE4XDTUkgSnpKF3fkw9nsPYwc19juNinQcrBSxXHDu24knVKNxLhlVBQHoXsbkIt0WZlA55Zz82I9LnHDrOv+zuPJ9BMhALYAhB9i6ktKbg1nCOfCD57R4wYCnZaqyOMZas5kDEjBv6RwbnEO18gaSRyjP6tuqVBtSoEYGeYXpDd1vOOXP8T2TYgKNZ1PTPzwhViA1RWhPo2O7++qZ6QG4GTbRM6UPOkGXlsRl+sBYgLSCoD8/l37iZPSsRvNc52h7+fq/DNgMR+0w1dnIxZyKT/p5vwCE6SxDBeKTtvhRWVNA0lHrLq8cjt/8oX/dIC0XvHVYKkTl042eOu1Zt6fc+EiCVf0tyM284qxN4Z6EeUVVq8N2nlUv+0Kwmr+P/2GhjknwouLtERgEb3dL6b5Ao0OXwdiv63uQbLvx+zmCPrs0O8CCeF+XZaluuM/h/qk1iPb40ALi6l42aeP87rHTgbrXBR3LTEQNPeTZV6zDm6auHiB9QnPBe+Djf+PWC6v4OQCQ30u2fe50hJG6h/1wkCybgJz9RtKG0=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QzBUSWlpL0JBVnNjZ2x1YVpkb3pUd2dQWTYwK0NPVWRrU2dtK1dYNkl6aE5F?=
+ =?utf-8?B?dFBXQVJvL0Y1RXFGL0l3VnZnZEl1NGVDN2Z3TjloeUU4WGRXd0hIaW82RWdZ?=
+ =?utf-8?B?QXpXYzdQN2o2VG1qNnVMMFUxQU1TSEF3L0p2WVI3SHlQL0hnaUtmWk12UER3?=
+ =?utf-8?B?ZXlKNjlsaU5QTXZYTC9XZkZqeGYrYzJ4ZGtkZWc1QVpTZ3ZYeFhzQ2psRGcw?=
+ =?utf-8?B?QWVVOW9Dek03Mlo3bUxOVkc4ekxXYzljNVNYNFNwc1lGZ1B4aXk4L0pyVmor?=
+ =?utf-8?B?RDJ5bTg0S09TdlZSUTVtOHYrQ2d2K2J3b2xZRGh4N2QwMUtSNjZXV1ZSUFFI?=
+ =?utf-8?B?QUhPaSsvWmFsUnVuM2ZRNHRLVnhsdXJ2cllZZFVJSFhseTI4cWpTYkQzR01r?=
+ =?utf-8?B?VUhoYTl5SDNDVmhnVEREZDNWUy9sQjJWRWc4cVhSenQvNm11aG1VZXVWZy95?=
+ =?utf-8?B?ekVKaVcwdFFMZnBhL2RqbjdVbS8zYTQzbWJoUUtiOVlCcEE1UkV2dE9lUTh6?=
+ =?utf-8?B?dU9YU2JNRlNvdEQ2NlpoMXpqL0g3SzExdFZITXJia2ZlWkdnN1J6MjJQZzhs?=
+ =?utf-8?B?cEoxOUdxMG90dnQ3M1BieVF4QjFLMy9oOElzdmdBdDFpbzBLQTZxeFVNZk1k?=
+ =?utf-8?B?N1o0QWhLSnRyNUxnVXJ2U3BBYkRNcGwyRXNiUWlTc2NWeEtMZzNaYmlpZ3U1?=
+ =?utf-8?B?WXFtV3djRGJxRjZkSlppbm9LOXZkSjNVSDlHWldCQUFlMzZEUk1qdks2Ry9x?=
+ =?utf-8?B?QTZpR2E2eDRUY2hHYjV1Y0t2MUxLMXpUQ0EyYzVtMUoxV2xlL1Yxb1RXR0tS?=
+ =?utf-8?B?c2dYRlJldmVPa0g0Y1h0dkRyRnVwNExmN2lQTlJXZllsMlkzZUswaTVUQXNl?=
+ =?utf-8?B?dGM2ZVdPWUZYcENQTnFqWElPN0NYdnNwem85K1JveDB1c1NJNGdPdUltZ1BD?=
+ =?utf-8?B?TWFMVm83emc1SCtWUmQ0VFJqaWlub1ZiK0xURSt3Y2taWC9KSy9BaUVrUE5F?=
+ =?utf-8?B?Ylo5TUJBM0NwWklEWXQ3Tk5mYVlTenlIbVdsUnFPM29YZW5QY1VWU0xaVmk0?=
+ =?utf-8?B?NXBNMUNuQTVsZnV5SUpmOTJ3dXROSzYvU1F5eDhZZkV1Y3h3SE9nS2xLTXAv?=
+ =?utf-8?B?WEdkNmZ2OWJnSUR4bEdMNWVNRDNKRjFXeDFuZUF4MnErZUNaV1RzaFlRNmMw?=
+ =?utf-8?B?SVJIN09nYmdjOWlYN0IwYnhXTVEwNlJySFVlN3ZIQjdFNUk3elJaUHBqdmd0?=
+ =?utf-8?B?b1JGbm1pWUp1Tms3c1BNMUxqWmcvbUsyUUZ2K21zZ0JNajRUT3BZdTdVY3Zu?=
+ =?utf-8?B?aDgxeXRqOXltZWZUZTd2cGxnc3kwRW1jL3FBbFpBNSsyMFJwSU1hUGx3amhQ?=
+ =?utf-8?B?RXB4LzVWSU1ZZW9MelJ3ejNpM3d1eHFCSlJTcmw3YTg3M0NHcDBlMDFZQ21t?=
+ =?utf-8?B?clA2NnpyR2RBQkRiWVMvdVAwN0x5OGQwdFc1VXd3ZW85UW9jWHZVWWphckxx?=
+ =?utf-8?B?d2YrOTVWMTZiajFpUEZtMkJZL1hrcXdpQWZwSW9mczVwSzhrb0NNWGI4Umxu?=
+ =?utf-8?B?Y1Z5Q0FCRC8veDNUTW5NZzQ1UTZMVHlNcWYwN25ubkw2Y1VPYXFPR2o1QzZP?=
+ =?utf-8?B?QVVTdi9Bbml3YWY0akpqUlJWcE4zUmc9PQ==?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 971e8dfb-5038-4859-b298-08db4d866ebc
+X-MS-Exchange-CrossTenant-AuthSource: TY3P286MB2886.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2023 16:33:18.3557
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3P286MB3515
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_MUA_MOZILLA,
+        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SORTED_RECIPS,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -96,33 +114,20 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5/5/2023 8:13 PM, Dmitry Baryshkov wrote:
-> On Fri, 5 May 2023 at 16:22, Vikash Garodia <quic_vgarodia@quicinc.com> wrote:
->>
->> On 5/4/2023 1:31 PM, Konrad Dybcio wrote:
->>> Only IRIS2(_1) should enter the until-now-IS_V6() path and the
->>> condition for skipping part of it should be IS_IRIS2_1 and not the
->>> number of VPP pipes. Fix that.
->> Do not see any issue with existing code. IRIS2 with single pipe is
->> IRIS2_1. This does not
->>
->> quality as a fix to earlier implementation. Since this series introduces
->> VPU versions,
->>
->> IRIS2 with 1 pipe is being replaced with IRIS2_1.
-> Could you please fix the line wrapping of your emails. It becomes hard
-> to read them otherwise.
+Hi Andrzej,when I looked at this func:
 
-My apologies for the inconvenience. Tried to set the email wrap config, but it 
-does not take
+> +static void rockchip_vpu2_vp8_enc_update_entropy(struct hantro_ctx *ctx)
 
-an effect on my email client. Will try playing around a bit with it and fix it.
 
-Meanwhile go through the comments and if you can align them with minimal effort, we
+> +				for (l = 2; l--;) {
+> +					old_p = entropy->coeff_prob[i][j][k][l];
+> +					old_p = coeff_update_prob[i][j][k][l];
+> +
 
-can continue to discuss on the same.
+The second "old_p" in "old_p = coeff_update_prob[i][j][k][l];" is very strange,
+it may be "upd_p", and it is broken 5 years in
+https://github.com/rockchip-linux/mpp/blob/develop/mpp/hal/vpu/vp8e/hal_vp8e_entropy.c
 
--Vikash
+Best Regards
+guan wentao
 
->
->
