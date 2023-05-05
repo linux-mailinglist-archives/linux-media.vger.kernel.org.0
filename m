@@ -2,49 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B0146F830B
-	for <lists+linux-media@lfdr.de>; Fri,  5 May 2023 14:35:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BCFC6F831A
+	for <lists+linux-media@lfdr.de>; Fri,  5 May 2023 14:38:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232226AbjEEMe7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 May 2023 08:34:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47932 "EHLO
+        id S232192AbjEEMiw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 May 2023 08:38:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231256AbjEEMe6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 May 2023 08:34:58 -0400
+        with ESMTP id S229717AbjEEMit (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 May 2023 08:38:49 -0400
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 064BC11617;
-        Fri,  5 May 2023 05:34:56 -0700 (PDT)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 345A4oOE005613;
-        Fri, 5 May 2023 12:34:23 GMT
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01C4B156A0;
+        Fri,  5 May 2023 05:38:48 -0700 (PDT)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 345BcTsS029081;
+        Fri, 5 May 2023 12:38:19 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=X8NZfGhkVFzqWy48BbSWeT6UMskFhaL7zr2tKXSo8GU=;
- b=D7z4WyAGZMuUyfqPnN0hxAajbpxKyw9KWC1aJef3jBBVGo4yihongx2XP1k/uKFjVNBB
- SCRacamlI5wmSOkePMfC534LBz8AbTfFA11txQIgYfYEHRbsguraLlsB/sNRHmzMr+yz
- e4pzixRt7ZEdXURTf2+Nd/Kkbgm/DdFEac8UgWBXNtyMoEuQ2/bHmdHhUJDDLwi4julD
- /IHMsFiUVojYkMy9ZhF8Mdq4glnnobfzCreE8b9iZ+89kTJgC3kWKdC53i82pne38KSw
- Iur96gCeSNsX0Ap57F+c6afmBvCcPJk009KcjGt/Vcpga6EXgsa2enrxTTbvRKUnju2j Jw== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qckf71k32-1
+ bh=6L57UHlfbZbQrLrdI9ayMjXGqDK0qe/6DbxerSWEKMU=;
+ b=Vb5bBo2qSEU4V4jBDd3Ccw6Xf33VjVI4yMsJGf7VoeRi+/1kOwm+IzoFA7Sq4qNKxwuZ
+ miJtzJMqHOrNNI7Zypptnd0mUalMHxIZBnlDTFYnH+J/BATlmPlGAP3pDCWoEnKzE1xb
+ e5pq3MjxtkJOY0ZQ9YjoGgd0HW53KlWuHU6qIqMblJPeujxP2ug0SqjEZ3prGF8NU+V4
+ e0Gpfqx73sEPCd2PPk1onrQe/QywftjBGol7dgahGI/xkxK+86Mp1VooXGx+DDHvWEdF
+ D3oT7jw7MEVIyTZf5t+Km4oyVfmSUAjdrkUkRbIGACDRwY8fsiPv04UC62tqs0XLZXpl dw== 
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qcumk8s21-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 05 May 2023 12:34:23 +0000
+        Fri, 05 May 2023 12:38:19 +0000
 Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 345CY1sb024830
+        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 345CcI2U020107
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 5 May 2023 12:34:01 GMT
+        Fri, 5 May 2023 12:38:18 GMT
 Received: from [10.216.37.178] (10.80.80.8) by nasanex01a.na.qualcomm.com
  (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 5 May 2023
- 05:33:56 -0700
-Message-ID: <bfda6e09-2674-8ef1-11b2-83f631329c51@quicinc.com>
-Date:   Fri, 5 May 2023 18:03:53 +0530
+ 05:38:13 -0700
+Message-ID: <14b47c1e-8092-b2f9-1a53-90c42b306de3@quicinc.com>
+Date:   Fri, 5 May 2023 18:08:10 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v2 02/18] media: venus: hfi_venus: Write to VIDC_CTRL_INIT
- after unmasking interrupts
+Subject: Re: [PATCH v2 03/18] media: venus: Remap bufreq fields on HFI6XX
 Content-Language: en-US
 To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
         Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
@@ -64,25 +63,25 @@ CC:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Marijn Suijten" <marijn.suijten@somainline.org>,
         <stable@vger.kernel.org>
 References: <20230228-topic-venus-v2-0-d95d14949c79@linaro.org>
- <20230228-topic-venus-v2-2-d95d14949c79@linaro.org>
+ <20230228-topic-venus-v2-3-d95d14949c79@linaro.org>
 From:   Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <20230228-topic-venus-v2-2-d95d14949c79@linaro.org>
+In-Reply-To: <20230228-topic-venus-v2-3-d95d14949c79@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nasanex01a.na.qualcomm.com (10.52.223.231)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: Si63i5Km24FYJ4uw_es7YWiiE2dW9e3l
-X-Proofpoint-ORIG-GUID: Si63i5Km24FYJ4uw_es7YWiiE2dW9e3l
+X-Proofpoint-GUID: 4Hqr9V9-nXwCbkluKArb0wqxPGfYLs9r
+X-Proofpoint-ORIG-GUID: 4Hqr9V9-nXwCbkluKArb0wqxPGfYLs9r
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-05-05_20,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 spamscore=0
- bulkscore=0 phishscore=0 adultscore=0 malwarescore=0 mlxlogscore=999
- suspectscore=0 priorityscore=1501 lowpriorityscore=0 impostorscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
+ impostorscore=0 bulkscore=0 priorityscore=1501 lowpriorityscore=0
+ mlxlogscore=934 clxscore=1015 adultscore=0 suspectscore=0 malwarescore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2303200000 definitions=main-2305050104
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
@@ -94,46 +93,46 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
 On 5/4/2023 1:30 PM, Konrad Dybcio wrote:
-> The downstream driver signals the hardware to be enabled only after the
-> interrupts are unmasked, which... makes sense. Follow suit.
-
-Rephrase the commit text,
-
-1. No need to mention downstream driver, if something is buggy, fix it.
-
-2. Avoid "..." and lets make it more formal.
-
-> Cc: stable@vger.kernel.org # v4.12+
-> Fixes: d96d3f30c0f2 ("[media] media: venus: hfi: add Venus HFI files")
+> Similarly to HFI4XX, the fields are remapped on 6XX as well. Fix it.
+>
+> Cc: stable@vger.kernel.org # v5.12+
+> Fixes: 7ed9e0b3393c ("media: venus: hfi, vdec: v6 Add IS_V6() to existing IS_V4() if locations")
 > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 > ---
->   drivers/media/platform/qcom/venus/hfi_venus.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/media/platform/qcom/venus/hfi_helper.h | 9 ++++++---
+>   1 file changed, 6 insertions(+), 3 deletions(-)
 >
-> diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
-> index bff435abd59b..8fc8f46dc390 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_venus.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
-> @@ -453,7 +453,6 @@ static int venus_boot_core(struct venus_hfi_device *hdev)
->   	void __iomem *wrapper_base = hdev->core->wrapper_base;
->   	int ret = 0;
+> diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
+> index 105792a68060..e0c8f15644df 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_helper.h
+> +++ b/drivers/media/platform/qcom/venus/hfi_helper.h
+> @@ -1170,11 +1170,14 @@ struct hfi_buffer_display_hold_count_actual {
 >   
-> -	writel(BIT(VIDC_CTRL_INIT_CTRL_SHIFT), cpu_cs_base + VIDC_CTRL_INIT);
->   	if (IS_V6(hdev->core)) {
->   		mask_val = readl(wrapper_base + WRAPPER_INTR_MASK);
->   		mask_val &= ~(WRAPPER_INTR_MASK_A2HWD_BASK_V6 |
-> @@ -464,6 +463,7 @@ static int venus_boot_core(struct venus_hfi_device *hdev)
->   	writel(mask_val, wrapper_base + WRAPPER_INTR_MASK);
->   	writel(1, cpu_cs_base + CPU_CS_SCIACMDARG3);
->   
-> +	writel(BIT(VIDC_CTRL_INIT_CTRL_SHIFT), cpu_cs_base + VIDC_CTRL_INIT);
->   	while (!ctrl_status && count < max_tries) {
->   		ctrl_status = readl(cpu_cs_base + CPU_CS_SCIACMDARG0);
->   		if ((ctrl_status & CPU_CS_SCIACMDARG0_ERROR_STATUS_MASK) == 4) {
+>   /* HFI 4XX reorder the fields, use these macros */
+>   #define HFI_BUFREQ_HOLD_COUNT(bufreq, ver)	\
+> -	((ver) == HFI_VERSION_4XX ? 0 : (bufreq)->hold_count)
+> +	((ver) == HFI_VERSION_4XX || (ver) == HFI_VERSION_6XX \
+> +	? 0 : (bufreq)->hold_count)
+>   #define HFI_BUFREQ_COUNT_MIN(bufreq, ver)	\
+> -	((ver) == HFI_VERSION_4XX ? (bufreq)->hold_count : (bufreq)->count_min)
+> +	((ver) == HFI_VERSION_4XX || (ver) == HFI_VERSION_6XX \
+> +	? (bufreq)->hold_count : (bufreq)->count_min)
+>   #define HFI_BUFREQ_COUNT_MIN_HOST(bufreq, ver)	\
+> -	((ver) == HFI_VERSION_4XX ? (bufreq)->count_min : 0)
+> +	((ver) == HFI_VERSION_4XX || (ver) == HFI_VERSION_6XX \
+> +	? (bufreq)->count_min : 0)
 
-Above code looks good.
+This patch is not correct. The existing code handles the disparity of 
+buffer requirement payload received from firmware.
+
+Its applicable only for V4.
+
+For V6, driver does not rely on firmware to get the buffer requirement. 
+Refer the buffer platform code for more details.
 
 -Vikash
 
+>   struct hfi_buffer_requirements {
+>   	u32 type;
+>
