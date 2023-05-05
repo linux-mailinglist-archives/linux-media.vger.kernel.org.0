@@ -2,48 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BCFC6F831A
-	for <lists+linux-media@lfdr.de>; Fri,  5 May 2023 14:38:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A5A6E6F8343
+	for <lists+linux-media@lfdr.de>; Fri,  5 May 2023 14:50:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232192AbjEEMiw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 May 2023 08:38:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49404 "EHLO
+        id S232270AbjEEMu3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 May 2023 08:50:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229717AbjEEMit (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 May 2023 08:38:49 -0400
+        with ESMTP id S232135AbjEEMu2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 May 2023 08:50:28 -0400
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01C4B156A0;
-        Fri,  5 May 2023 05:38:48 -0700 (PDT)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 345BcTsS029081;
-        Fri, 5 May 2023 12:38:19 GMT
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C0CDA1;
+        Fri,  5 May 2023 05:50:27 -0700 (PDT)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 345CHDW8025318;
+        Fri, 5 May 2023 12:49:52 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=6L57UHlfbZbQrLrdI9ayMjXGqDK0qe/6DbxerSWEKMU=;
- b=Vb5bBo2qSEU4V4jBDd3Ccw6Xf33VjVI4yMsJGf7VoeRi+/1kOwm+IzoFA7Sq4qNKxwuZ
- miJtzJMqHOrNNI7Zypptnd0mUalMHxIZBnlDTFYnH+J/BATlmPlGAP3pDCWoEnKzE1xb
- e5pq3MjxtkJOY0ZQ9YjoGgd0HW53KlWuHU6qIqMblJPeujxP2ug0SqjEZ3prGF8NU+V4
- e0Gpfqx73sEPCd2PPk1onrQe/QywftjBGol7dgahGI/xkxK+86Mp1VooXGx+DDHvWEdF
- D3oT7jw7MEVIyTZf5t+Km4oyVfmSUAjdrkUkRbIGACDRwY8fsiPv04UC62tqs0XLZXpl dw== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qcumk8s21-1
+ bh=aD+qcCGrJp8zKWQgqR40XTDjzZ5ZkOMlUIl4zYjx5Yo=;
+ b=IKfl9TWOR34xZLn9OCMsPSKeUsTOQ5J9mTFG/0lCTRewWi1Q3pmGqji98HeIUcwCuEXs
+ f/SwZnv7GMsqWjP3Eh5SMKiNEft8GE9Jh3A9STeTpAjbay8TGkL28zHH6KozYuTBwgfE
+ 2RMsl5ru5mlsYvZzF+PSKN2gaepr6/YESwPh4SNYarU3ZPHWbuiN2H1S1PMdJ0oQuPR+
+ 5O5kNeO6XbMrOpoD9c9extbcgq/Mkb11aOWbdIE0gcu5JpK/9aJJBcA786gRTjuBFVgz
+ ZGXorHwTYfkWpOxZTj3wWG9GhQn87hJkXCTiljDTCQh8WYL3LPCedPmAWCtilOvj08Mp IQ== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qce6mjf58-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 05 May 2023 12:38:19 +0000
+        Fri, 05 May 2023 12:49:52 +0000
 Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 345CcI2U020107
+        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 345Cnpj6026316
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 5 May 2023 12:38:18 GMT
+        Fri, 5 May 2023 12:49:52 GMT
 Received: from [10.216.37.178] (10.80.80.8) by nasanex01a.na.qualcomm.com
  (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 5 May 2023
- 05:38:13 -0700
-Message-ID: <14b47c1e-8092-b2f9-1a53-90c42b306de3@quicinc.com>
-Date:   Fri, 5 May 2023 18:08:10 +0530
+ 05:49:47 -0700
+Message-ID: <110eadd8-facd-09a8-2e8c-80811c2087fb@quicinc.com>
+Date:   Fri, 5 May 2023 18:19:44 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v2 03/18] media: venus: Remap bufreq fields on HFI6XX
+Subject: Re: [PATCH v2 04/18] media: venus: Introduce VPU version distinction
 Content-Language: en-US
 To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
         Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
@@ -60,29 +60,28 @@ CC:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Stanimir Varbanov <stanimir.varbanov@linaro.org>,
         <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>,
-        "Marijn Suijten" <marijn.suijten@somainline.org>,
-        <stable@vger.kernel.org>
+        "Marijn Suijten" <marijn.suijten@somainline.org>
 References: <20230228-topic-venus-v2-0-d95d14949c79@linaro.org>
- <20230228-topic-venus-v2-3-d95d14949c79@linaro.org>
+ <20230228-topic-venus-v2-4-d95d14949c79@linaro.org>
 From:   Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <20230228-topic-venus-v2-3-d95d14949c79@linaro.org>
+In-Reply-To: <20230228-topic-venus-v2-4-d95d14949c79@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nasanex01a.na.qualcomm.com (10.52.223.231)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 4Hqr9V9-nXwCbkluKArb0wqxPGfYLs9r
-X-Proofpoint-ORIG-GUID: 4Hqr9V9-nXwCbkluKArb0wqxPGfYLs9r
+X-Proofpoint-GUID: q9k3_aTFB4oqMXOWnn6OzgNJfSHvmwXi
+X-Proofpoint-ORIG-GUID: q9k3_aTFB4oqMXOWnn6OzgNJfSHvmwXi
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-05-05_20,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
- impostorscore=0 bulkscore=0 priorityscore=1501 lowpriorityscore=0
- mlxlogscore=934 clxscore=1015 adultscore=0 suspectscore=0 malwarescore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2305050104
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxscore=0
+ lowpriorityscore=0 priorityscore=1501 spamscore=0 phishscore=0
+ mlxlogscore=999 impostorscore=0 suspectscore=0 adultscore=0 malwarescore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2305050107
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -93,46 +92,68 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5/4/2023 1:30 PM, Konrad Dybcio wrote:
-> Similarly to HFI4XX, the fields are remapped on 6XX as well. Fix it.
+On 5/4/2023 1:31 PM, Konrad Dybcio wrote:
+> The Video Processing Unit hardware version is the differentiator,
+> based on which we should decide which code paths to take in hw
+we -> video driver
+> init. Up until now, we've relied on HFI versions, but that was
+
+not just hw init, aspects like power sequence, buffer calculations, etc 
+would
+
+rely on hardware version.
+
+Once the above comments are addressed, you can put
+
+Reviewed-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+
+> just a happy accident between recent SoCs. Add a field in the
+> res struct and add correlated definitions that will be used to
+> account for the aforementioned differences.
 >
-> Cc: stable@vger.kernel.org # v5.12+
-> Fixes: 7ed9e0b3393c ("media: venus: hfi, vdec: v6 Add IS_V6() to existing IS_V4() if locations")
 > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 > ---
->   drivers/media/platform/qcom/venus/hfi_helper.h | 9 ++++++---
->   1 file changed, 6 insertions(+), 3 deletions(-)
+>   drivers/media/platform/qcom/venus/core.h | 15 +++++++++++++++
+>   1 file changed, 15 insertions(+)
 >
-> diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
-> index 105792a68060..e0c8f15644df 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_helper.h
-> +++ b/drivers/media/platform/qcom/venus/hfi_helper.h
-> @@ -1170,11 +1170,14 @@ struct hfi_buffer_display_hold_count_actual {
+> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+> index 4f81669986ba..62c310b7dee6 100644
+> --- a/drivers/media/platform/qcom/venus/core.h
+> +++ b/drivers/media/platform/qcom/venus/core.h
+> @@ -48,6 +48,14 @@ struct bw_tbl {
+>   	u32 peak_10bit;
+>   };
 >   
->   /* HFI 4XX reorder the fields, use these macros */
->   #define HFI_BUFREQ_HOLD_COUNT(bufreq, ver)	\
-> -	((ver) == HFI_VERSION_4XX ? 0 : (bufreq)->hold_count)
-> +	((ver) == HFI_VERSION_4XX || (ver) == HFI_VERSION_6XX \
-> +	? 0 : (bufreq)->hold_count)
->   #define HFI_BUFREQ_COUNT_MIN(bufreq, ver)	\
-> -	((ver) == HFI_VERSION_4XX ? (bufreq)->hold_count : (bufreq)->count_min)
-> +	((ver) == HFI_VERSION_4XX || (ver) == HFI_VERSION_6XX \
-> +	? (bufreq)->hold_count : (bufreq)->count_min)
->   #define HFI_BUFREQ_COUNT_MIN_HOST(bufreq, ver)	\
-> -	((ver) == HFI_VERSION_4XX ? (bufreq)->count_min : 0)
-> +	((ver) == HFI_VERSION_4XX || (ver) == HFI_VERSION_6XX \
-> +	? (bufreq)->count_min : 0)
-
-This patch is not correct. The existing code handles the disparity of 
-buffer requirement payload received from firmware.
-
-Its applicable only for V4.
-
-For V6, driver does not rely on firmware to get the buffer requirement. 
-Refer the buffer platform code for more details.
-
--Vikash
-
->   struct hfi_buffer_requirements {
->   	u32 type;
+> +enum vpu_version {
+> +	VPU_VERSION_AR50,
+> +	VPU_VERSION_AR50_LITE,
+> +	VPU_VERSION_IRIS1,
+> +	VPU_VERSION_IRIS2,
+> +	VPU_VERSION_IRIS2_1,
+> +};
+> +
+>   struct venus_resources {
+>   	u64 dma_mask;
+>   	const struct freq_tbl *freq_tbl;
+> @@ -71,6 +79,7 @@ struct venus_resources {
+>   	const char * const resets[VIDC_RESETS_NUM_MAX];
+>   	unsigned int resets_num;
+>   	enum hfi_version hfi_version;
+> +	enum vpu_version vpu_version;
+>   	u8 num_vpp_pipes;
+>   	u32 max_load;
+>   	unsigned int vmem_id;
+> @@ -481,6 +490,12 @@ struct venus_inst {
+>   #define IS_V4(core)	((core)->res->hfi_version == HFI_VERSION_4XX)
+>   #define IS_V6(core)	((core)->res->hfi_version == HFI_VERSION_6XX)
+>   
+> +#define IS_AR50(core)		((core)->res->vpu_version == VPU_VERSION_AR50)
+> +#define IS_AR50_LITE(core)	((core)->res->vpu_version == VPU_VERSION_AR50_LITE)
+> +#define IS_IRIS1(core)		((core)->res->vpu_version == VPU_VERSION_IRIS1)
+> +#define IS_IRIS2(core)		((core)->res->vpu_version == VPU_VERSION_IRIS2)
+> +#define IS_IRIS2_1(core)	((core)->res->vpu_version == VPU_VERSION_IRIS2_1)
+> +
+>   #define ctrl_to_inst(ctrl)	\
+>   	container_of((ctrl)->handler, struct venus_inst, ctrl_handler)
+>   
 >
