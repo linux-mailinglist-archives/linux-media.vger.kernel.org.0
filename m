@@ -2,36 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 640206F8DB9
-	for <lists+linux-media@lfdr.de>; Sat,  6 May 2023 03:45:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BC7D6F8DFE
+	for <lists+linux-media@lfdr.de>; Sat,  6 May 2023 04:26:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232741AbjEFBpP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 May 2023 21:45:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34034 "EHLO
+        id S232391AbjEFC0D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 May 2023 22:26:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231936AbjEFBpN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 May 2023 21:45:13 -0400
-Received: from mail.nfschina.com (unknown [42.101.60.195])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id CA0C249D4;
-        Fri,  5 May 2023 18:45:11 -0700 (PDT)
-Received: from localhost.localdomain (unknown [180.167.10.98])
-        by mail.nfschina.com (Maildata Gateway V2.8.8) with ESMTPA id E76F8180104BD0;
-        Sat,  6 May 2023 09:44:55 +0800 (CST)
-X-MD-Sfrom: suhui@nfschina.com
-X-MD-SrcIP: 180.167.10.98
-From:   Su Hui <suhui@nfschina.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Baisong Zhong <zhongbaisong@huawei.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org, Su Hui <suhui@nfschina.com>
-Subject: [PATCH]  media: dvb-usb: remove unnecessary (void*) conversions
-Date:   Sat,  6 May 2023 09:44:47 +0800
-Message-Id: <20230506014447.32746-1-suhui@nfschina.com>
-X-Mailer: git-send-email 2.30.2
+        with ESMTP id S231278AbjEFC0B (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 May 2023 22:26:01 -0400
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5419976AA;
+        Fri,  5 May 2023 19:25:42 -0700 (PDT)
+Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
+        by fd01.gateway.ufhost.com (Postfix) with ESMTP id 5C2937F8A;
+        Sat,  6 May 2023 10:25:35 +0800 (CST)
+Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX166.cuchost.com
+ (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Sat, 6 May
+ 2023 10:25:35 +0800
+Received: from [192.168.60.114] (180.164.60.184) by EXMBX073.cuchost.com
+ (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Sat, 6 May
+ 2023 10:25:34 +0800
+Message-ID: <84b67a9f-d6d3-f584-3160-8edccc6bef83@starfivetech.com>
+Date:   Sat, 6 May 2023 10:25:34 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v4 0/8] Add StarFive Camera Subsystem driver
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        "Todor Tomov" <todor.too@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Eugen Hristev <eugen.hristev@collabora.com>
+CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <changhuang.liang@starfivetech.com>
+References: <20230413035541.62129-1-jack.zhu@starfivetech.com>
+ <14c06503-621f-2477-7b15-b17f1890ecfe@starfivetech.com>
+ <7bd29805-11e7-68ee-aa47-68bae2a2fb38@starfivetech.com>
+ <925bf170-bb54-b427-976a-87e0dca230da@linaro.org>
+ <817b8919-e9dd-cf2a-41e0-9b50747ab4cf@starfivetech.com>
+ <ef7ab2dd-8f6c-a7f2-7aa6-90fe1caa96b4@linaro.org>
+From:   Jack Zhu <jack.zhu@starfivetech.com>
+In-Reply-To: <ef7ab2dd-8f6c-a7f2-7aa6-90fe1caa96b4@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS064.cuchost.com (172.16.6.24) To EXMBX073.cuchost.com
+ (172.16.6.83)
+X-YovoleRuleAgent: yovoleflag
+X-Spam-Status: No, score=-6.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -39,113 +69,108 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-No need cast (void*) to (struct az6027_device_state *) or
-(struct dw2102_state *).
 
-Signed-off-by: Su Hui <suhui@nfschina.com>
----
- drivers/media/usb/dvb-usb/az6027.c | 16 ++++++++--------
- drivers/media/usb/dvb-usb/dw2102.c |  4 ++--
- 2 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/media/usb/dvb-usb/az6027.c b/drivers/media/usb/dvb-usb/az6027.c
-index 7d78ee09be5e..f7a6ab29e530 100644
---- a/drivers/media/usb/dvb-usb/az6027.c
-+++ b/drivers/media/usb/dvb-usb/az6027.c
-@@ -408,7 +408,7 @@ static int az6027_ci_read_attribute_mem(struct dvb_ca_en50221 *ca,
- 					int address)
- {
- 	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
--	struct az6027_device_state *state = (struct az6027_device_state *)d->priv;
-+	struct az6027_device_state *state = d->priv;
- 
- 	int ret;
- 	u8 req;
-@@ -481,7 +481,7 @@ static int az6027_ci_read_cam_control(struct dvb_ca_en50221 *ca,
- 				      u8 address)
- {
- 	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
--	struct az6027_device_state *state = (struct az6027_device_state *)d->priv;
-+	struct az6027_device_state *state = d->priv;
- 
- 	int ret;
- 	u8 req;
-@@ -527,7 +527,7 @@ static int az6027_ci_write_cam_control(struct dvb_ca_en50221 *ca,
- 				       u8 value)
- {
- 	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
--	struct az6027_device_state *state = (struct az6027_device_state *)d->priv;
-+	struct az6027_device_state *state = d->priv;
- 
- 	int ret;
- 	u8 req;
-@@ -589,7 +589,7 @@ static int CI_CamReady(struct dvb_ca_en50221 *ca, int slot)
- static int az6027_ci_slot_reset(struct dvb_ca_en50221 *ca, int slot)
- {
- 	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
--	struct az6027_device_state *state = (struct az6027_device_state *)d->priv;
-+	struct az6027_device_state *state = d->priv;
- 
- 	int ret, i;
- 	u8 req;
-@@ -645,7 +645,7 @@ static int az6027_ci_slot_shutdown(struct dvb_ca_en50221 *ca, int slot)
- static int az6027_ci_slot_ts_enable(struct dvb_ca_en50221 *ca, int slot)
- {
- 	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
--	struct az6027_device_state *state = (struct az6027_device_state *)d->priv;
-+	struct az6027_device_state *state = d->priv;
- 
- 	int ret;
- 	u8 req;
-@@ -674,7 +674,7 @@ static int az6027_ci_slot_ts_enable(struct dvb_ca_en50221 *ca, int slot)
- static int az6027_ci_poll_slot_status(struct dvb_ca_en50221 *ca, int slot, int open)
- {
- 	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
--	struct az6027_device_state *state = (struct az6027_device_state *)d->priv;
-+	struct az6027_device_state *state = d->priv;
- 	int ret;
- 	u8 req;
- 	u16 value;
-@@ -719,7 +719,7 @@ static void az6027_ci_uninit(struct dvb_usb_device *d)
- 	if (NULL == d)
- 		return;
- 
--	state = (struct az6027_device_state *)d->priv;
-+	state = d->priv;
- 	if (NULL == state)
- 		return;
- 
-@@ -735,7 +735,7 @@ static void az6027_ci_uninit(struct dvb_usb_device *d)
- static int az6027_ci_init(struct dvb_usb_adapter *a)
- {
- 	struct dvb_usb_device *d = a->dev;
--	struct az6027_device_state *state = (struct az6027_device_state *)d->priv;
-+	struct az6027_device_state *state = d->priv;
- 	int ret;
- 
- 	deb_info("%s", __func__);
-diff --git a/drivers/media/usb/dvb-usb/dw2102.c b/drivers/media/usb/dvb-usb/dw2102.c
-index 0ca764282c76..d34d53c651c2 100644
---- a/drivers/media/usb/dvb-usb/dw2102.c
-+++ b/drivers/media/usb/dvb-usb/dw2102.c
-@@ -903,7 +903,7 @@ static int su3000_streaming_ctrl(struct dvb_usb_adapter *adap, int onoff)
- 
- static int su3000_power_ctrl(struct dvb_usb_device *d, int i)
- {
--	struct dw2102_state *state = (struct dw2102_state *)d->priv;
-+	struct dw2102_state *state = d->priv;
- 	int ret = 0;
- 
- 	info("%s: %d, initialized %d", __func__, i, state->initialized);
-@@ -2576,7 +2576,7 @@ static int dw2102_probe(struct usb_interface *intf,
- static void dw2102_disconnect(struct usb_interface *intf)
- {
- 	struct dvb_usb_device *d = usb_get_intfdata(intf);
--	struct dw2102_state *st = (struct dw2102_state *)d->priv;
-+	struct dw2102_state *st = d->priv;
- 	struct i2c_client *client;
- 
- 	/* remove I2C client for tuner */
--- 
-2.30.2
+On 2023/5/5 20:24, Krzysztof Kozlowski wrote:
+> On 05/05/2023 10:14, Jack Zhu wrote:
+>> 
+>> 
+>> On 2023/5/5 14:40, Krzysztof Kozlowski wrote:
+>>> On 05/05/2023 07:57, Jack Zhu wrote:
+>>>>
+>>>>
+>>>> On 2023/4/24 19:19, Jack Zhu wrote:
+>>>>>
+>>>>>
+>>>>> On 2023/4/13 11:55, Jack Zhu wrote:
+>>>>>> Hi,
+>>>>>>
+>>>>>> This patch series adds support for the StarFive Camera Subsystem
+>>>>>> found on StarFive JH7110 SoC.
+>>>>>>
+>>>>>> The driver implements V4L2, Media controller and V4L2 subdev interfaces.
+>>>>>> Camera sensor using V4L2 subdev interface in the kernel is supported.
+>>>>>>
+>>>>>> The driver is tested on VisionFive V2 board with IMX219 camera sensor.
+>>>>>> GStreamer 1.18.5 with v4l2src plugin is supported.
+>>>>>>
+>>>>>> Changes since v3:
+>>>>>> Patch 1:
+>>>>>> - Modified port@0 and port@1 properties.
+>>>>>> - Extended the port@0 example with appropriate properties.
+>>>>>> - Added 'port@0' for 'required'
+>>>>>> Patch 2:
+>>>>>> - Modified spelling errors.
+>>>>>> Patch 3:
+>>>>>> - Merged patch 5 into the patch with an explanation for compatible in
+>>>>>>   commit msg.
+>>>>>> Patch 6:
+>>>>>> - Asserted pixel_rst[i] reset in the loop after the err_disable_pixclk
+>>>>>>   label.
+>>>>>> - Modified Code Style for getting sys_rst and p_rst.
+>>>>>> - Renamed clk_name to name and modified the relevant code.
+>>>>>> Patch 9:
+>>>>>> - Added static for stfcamss_get_mem_res function.
+>>>>>> - Added static for isp_close function.
+>>>>>> - Fixed implicit conversion warning for stf_vin_map_isp_pad function.
+>>>>>> - Dropped unused variables.
+>>>>>>
+>>>>>>   v3: https://lore.kernel.org/all/20230331121826.96973-1-jack.zhu@starfivetech.com/
+>>>>>>
+>>>>>
+>>>>> Hello everyone,
+>>>>>
+>>>>> From the current review status, the patches related to the CSI module
+>>>>> have 'reviewed-by' tags. I would like to know if it is okay to add
+>>>>> patches 1-5 from this series to a PR first.
+>>>>>
+>>>>> Thank you!
+>>>>>
+>>>>> Jack
+>>>>>
+>>>>
+>>>> Hello Mauro, Laurent, Maxime, Rob, Krzysztof, Robert, Todor and Philipp,
+>>>>
+>>>> Can you give me some suggestions and comments on the previous request
+>>>> to commit CSI related patches first? Thank you for your time.
+>>>
+>>> You received very specific feedback, so know you decided to ignore it?
+>>>
+>>> No, implement what you were asked for.
+>>>
+>> 
+>> Hi Krzysztof,
+>> 
+>> Thank you for your comments.
+>> 
+>> I am talking about CSI-related patches 1-5, not including the patches
+>> 6-8. The CSI module is a relatively functionally independent hardware
+>> module. The CSI-related patches 1-5 already have 'reviewed-by' tags,
+>> and there are no unprocessed comments left. So, made the previous
+>> request. Please let me know if I understand something wrong.
+> 
+> You pinged also me, so we talk about bindings. You got comments to fix,
 
+Hello Krzysztof,
+
+Sorry, I'm not sure, the 'comments to fix' refers to your comments in
+patch 6?
+
+> so if you are not going to fix them, the patches will not get accepted.
+> 
+>> I don't want to ignore any comments, I will continue to modify the isp
+>> patches 6-8 in subsequent versions according to your comments. The
+>> ISP-related patches are being prepared.
+> 
+> And how are these patches related to me and Rob?
+> 
+
+Yes, there are bindings files related to ISP.
+
+Maybe I need to split the series into two separate series, a CSI
+series(patches 1-5) and an ISP series(patches 6-8). Does this make it
+easier for the CSI patches 1-5 to integrate into the main line?
+
+> Best regards,
+> Krzysztof
+> 
