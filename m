@@ -2,111 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB1756F8E37
-	for <lists+linux-media@lfdr.de>; Sat,  6 May 2023 05:09:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42B566F8F8E
+	for <lists+linux-media@lfdr.de>; Sat,  6 May 2023 08:58:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231182AbjEFDJg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 May 2023 23:09:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34544 "EHLO
+        id S229872AbjEFG6H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 6 May 2023 02:58:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231285AbjEFDJa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 May 2023 23:09:30 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 680337EFF;
-        Fri,  5 May 2023 20:09:17 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DFD0B6135B;
-        Sat,  6 May 2023 03:09:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D93AC4339C;
-        Sat,  6 May 2023 03:09:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1683342556;
-        bh=94DSp8k+H3J+AqmROh/Y6LXMjAfEDuNgrjATTUqIGf0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Oi4A+bM3GJYMILFGv9WW2BLv73UjF4glWlr9rNrPlG4q2hxKa1PVStT77yBASYe+i
-         mRna95Xpo0cXMDq+kLuwMf7YEJd6s+Ng82m+AjTtDUd1+w2ueB0UKGaWBYNCRKNlQ5
-         aSaTyJZQM9yaEZpWQl9gPn0u4wMa2vYSTp7d7g5+6rxZJY63VNcMGC1FMdM6WINudX
-         wNRi2C/MSuxHjKRZzXJqB3NBk2yFCyEl0qS5KCRY/6yfzVvL1zvzwI3NCFtUfPv6bI
-         eAw026lpC2qCHucsoZiYoJ++/CDr6gePHHdCxIPrAd2eKs0CRe6YEq9wcaXlYYcX7n
-         xt1eDaqzRv14g==
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-965ab8ed1fcso440627266b.2;
-        Fri, 05 May 2023 20:09:16 -0700 (PDT)
-X-Gm-Message-State: AC+VfDyl/trj4YruYMS6Pd96paZ3+iKS8vJMOakv6nwpaBrUWz76NCMq
-        4dBvVZw5Ef2qIWqgLDvQVX6XNsHze9fmS23ybrw=
-X-Google-Smtp-Source: ACHHUZ5q66Rt3kuFcvOCHyf5q3SCTx0oegflyWNX/hW3kcg5FLjFyT6/1CH0s9pr7aacP/qFhtu3dHWdoaSL+Fp2GWY=
-X-Received: by 2002:a17:907:720f:b0:933:1134:be1e with SMTP id
- dr15-20020a170907720f00b009331134be1emr2995754ejc.53.1683342554618; Fri, 05
- May 2023 20:09:14 -0700 (PDT)
+        with ESMTP id S229973AbjEFG6E (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 6 May 2023 02:58:04 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA588AD17
+        for <linux-media@vger.kernel.org>; Fri,  5 May 2023 23:58:01 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (133-32-181-51.west.xps.vectant.ne.jp [133.32.181.51])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 16186547;
+        Sat,  6 May 2023 08:57:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1683356275;
+        bh=ixc+cEbkLuav8xSr6URWM1IgqaAn73YHFEuPynh4hdY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Svayg9njbZLjcKpLjeA6XAi9BF9j8IPN4jQfIVK3Pf64icMqXaL7PEFAL4IBsvtlA
+         lF4/zju+DEKPWilxCvHXrida9k2Wf2ByZ95dmpG/PVoQtBvKXoO2cyK2OHT8MTKdzZ
+         aOg5kzWtcrSMw4LV/WbuUuZAU+ssHi7sTs1wBwzM=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v2] media: uvcvideo: Don't expose unsupported formats to userspace
+Date:   Sat,  6 May 2023 09:58:09 +0300
+Message-Id: <20230506065809.24645-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20230504080406.1213623-1-suijingfeng@loongson.cn> <20230504080406.1213623-2-suijingfeng@loongson.cn>
-In-Reply-To: <20230504080406.1213623-2-suijingfeng@loongson.cn>
-From:   Huacai Chen <chenhuacai@kernel.org>
-Date:   Sat, 6 May 2023 11:09:04 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H4zKGkd2JUyYTDKBEGFEO5V+oRz8iuzF9w+ivz0t6+CFw@mail.gmail.com>
-Message-ID: <CAAhV-H4zKGkd2JUyYTDKBEGFEO5V+oRz8iuzF9w+ivz0t6+CFw@mail.gmail.com>
-Subject: Re: [PATCH v12 1/2] MAINTAINERS: add maintainers for DRM LOONGSON driver
-To:     Sui Jingfeng <suijingfeng@loongson.cn>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian Koenig <christian.koenig@amd.com>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        linaro-mm-sig@lists.linaro.org, loongson-kernel@lists.loongnix.cn,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        nathan@kernel.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi, Jingfeng,
+When the uvcvideo driver encounters a format descriptor with an unknown
+format GUID, it creates a corresponding struct uvc_format instance with
+the fcc field set to 0. Since commit 50459f103edf ("media: uvcvideo:
+Remove format descriptions"), the driver relies on the V4L2 core to
+provide the format description string, which the V4L2 core can't do
+without a valid 4CC. This triggers a WARN_ON.
 
-I think you should exchange the order of these two patches.
+As a format with a zero 4CC can't be selected, it is unusable for
+applications. Ignore the format completely without creating a uvc_format
+instance, which fixes the warning.
 
+Fixes: 50459f103edf ("media: uvcvideo: Remove format descriptions")
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+Changes since v1:
 
-Huacai
+- Fix streaming->nformats
+---
+ drivers/media/usb/uvc/uvc_driver.c | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-On Thu, May 4, 2023 at 4:04=E2=80=AFPM Sui Jingfeng <suijingfeng@loongson.c=
-n> wrote:
->
->  This patch add myself as maintainer to drm loongson driver
->
-> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
-> ---
->  MAINTAINERS | 7 +++++++
->  1 file changed, 7 insertions(+)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 73b3298b7232..1f5aa8756d87 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6922,6 +6922,13 @@ T:       git git://anongit.freedesktop.org/drm/drm=
--misc
->  F:     drivers/gpu/drm/lima/
->  F:     include/uapi/drm/lima_drm.h
->
-> +DRM DRIVERS FOR LOONGSON
-> +M:     Sui Jingfeng <suijingfeng@loongson.cn>
-> +L:     dri-devel@lists.freedesktop.org
-> +S:     Supported
-> +T:     git git://anongit.freedesktop.org/drm/drm-misc
-> +F:     drivers/gpu/drm/loongson/
-> +
->  DRM DRIVERS FOR MEDIATEK
->  M:     Chun-Kuang Hu <chunkuang.hu@kernel.org>
->  M:     Philipp Zabel <p.zabel@pengutronix.de>
-> --
-> 2.25.1
->
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 4be6dfeaa295..8a9cfd5a0077 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -251,14 +251,17 @@ static int uvc_parse_format(struct uvc_device *dev,
+ 		/* Find the format descriptor from its GUID. */
+ 		fmtdesc = uvc_format_by_guid(&buffer[5]);
+ 
+-		if (fmtdesc != NULL) {
+-			format->fcc = fmtdesc->fcc;
+-		} else {
++		if (!fmtdesc) {
++			/*
++			 * Unknown video formats are not fatal errors, the
++			 * caller will skip this descriptor.
++			 */
+ 			dev_info(&streaming->intf->dev,
+ 				 "Unknown video format %pUl\n", &buffer[5]);
+-			format->fcc = 0;
++			return 0;
+ 		}
+ 
++		format->fcc = fmtdesc->fcc;
+ 		format->bpp = buffer[21];
+ 
+ 		/*
+@@ -675,7 +678,7 @@ static int uvc_parse_streaming(struct uvc_device *dev,
+ 	interval = (u32 *)&frame[nframes];
+ 
+ 	streaming->format = format;
+-	streaming->nformats = nformats;
++	streaming->nformats = 0;
+ 
+ 	/* Parse the format descriptors. */
+ 	while (buflen > 2 && buffer[1] == USB_DT_CS_INTERFACE) {
+@@ -689,7 +692,10 @@ static int uvc_parse_streaming(struct uvc_device *dev,
+ 				&interval, buffer, buflen);
+ 			if (ret < 0)
+ 				goto error;
++			if (!ret)
++				break;
+ 
++			streaming->nformats++;
+ 			frame += format->nframes;
+ 			format++;
+ 
+
+base-commit: 423f331364bfbcd1212b78ac9052894ff5213ac9
+-- 
+Regards,
+
+Laurent Pinchart
+
