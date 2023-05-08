@@ -2,142 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD38D6FB43E
-	for <lists+linux-media@lfdr.de>; Mon,  8 May 2023 17:47:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 553006FB508
+	for <lists+linux-media@lfdr.de>; Mon,  8 May 2023 18:26:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234594AbjEHPr4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 May 2023 11:47:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58192 "EHLO
+        id S234111AbjEHQ0p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 May 2023 12:26:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234436AbjEHPrv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 May 2023 11:47:51 -0400
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0801EA266;
-        Mon,  8 May 2023 08:47:43 -0700 (PDT)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 348Fl3jg054523;
-        Mon, 8 May 2023 10:47:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1683560823;
-        bh=ThTMpPXBEPh4HdHzswHAKDf5fokfeMb5MpOdHcvdqgE=;
-        h=Date:Subject:To:CC:References:From:In-Reply-To;
-        b=cAwMBQtt+9p61ybgcF82DbpMQgD20dsGzxfdQiMdlKtBtnVK2UXR045dEAVRh0lw2
-         sTOwAqMYxGlLQJ385l3l0Bl8nRyL358LToNs2y2d5uPVKZa1Lk3e+hQ4572pQfyh7L
-         0GnxlXQCzr1YRXEg2m0XQFvatQYp7I0Uu4DaPNUU=
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 348Fl3t3121784
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 8 May 2023 10:47:03 -0500
-Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 8
- May 2023 10:47:03 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Mon, 8 May 2023 10:47:03 -0500
-Received: from [10.250.149.252] (ileaxei01-snat2.itg.ti.com [10.180.69.6])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 348FkvEU003096;
-        Mon, 8 May 2023 10:46:58 -0500
-Message-ID: <a80f540a-492a-0585-9ed1-de3397535e07@ti.com>
-Date:   Mon, 8 May 2023 21:16:56 +0530
+        with ESMTP id S233886AbjEHQ0n (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 May 2023 12:26:43 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FB4965BA
+        for <linux-media@vger.kernel.org>; Mon,  8 May 2023 09:26:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683563202; x=1715099202;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LqgwrsNtqlG8aSZwgtjR2pmLsYq6bgo6pMq1nXF+Be4=;
+  b=KWJObXQOhRa6hbQMlPfcu+F+iBBSTQB1Ea7bdWRzPxLdAG3338m5BFCt
+   zbF+YuMqWXTwpSWeG+oH50zUBiWEoNF0YvguP1vzhQb03zLtGZCmdKVU3
+   8qQlwPekKkX/NYJFc/FU7I18lEejivTjJTU9mgAkPwxqPW6Jxc57UbAGK
+   8GgzQR1OJwm2BnlVz19SiED/lbyjGLtyM9ccRdLUSeZdDb9iYYzwiNgz9
+   NennfRZwq0TsKIVZBpF3stj4gHE40vBkLADYX50fQ7X6tsRBW3/RZhy4I
+   n6BkaQQJf77F1A+0v368NnCvRSbjwY4RrjMdjRsI+6TcVf2gUzWvSYTRP
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="349727191"
+X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
+   d="scan'208";a="349727191"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 09:26:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="872858079"
+X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
+   d="scan'208";a="872858079"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 09:26:15 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id F1F7E1203DA;
+        Mon,  8 May 2023 19:26:12 +0300 (EEST)
+Date:   Mon, 8 May 2023 19:26:12 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        bingbu.cao@intel.com, hongju.wang@intel.com
+Subject: Re: [RFC 3/7] media: uapi: v4l: Document source routes
+Message-ID: <ZFkipK0F5sCYv8tt@kekkonen.localdomain>
+References: <20230505215257.60704-1-sakari.ailus@linux.intel.com>
+ <20230505215257.60704-4-sakari.ailus@linux.intel.com>
+ <5b7038ce-d897-931f-2c6e-30bdd1a30342@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: Build regressions/improvements in v6.4-rc1
-Content-Language: en-US
-To:     Pratyush Yadav <pratyush@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     <linux-kernel@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Tudor Ambarus <tudor.ambarus@linaro.org>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        <linux-um@lists.infradead.org>, <linux-media@vger.kernel.org>,
-        <linux-mtd@lists.infradead.org>, <linux-xfs@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-phy@lists.infradead.org>, <sparclinux@vger.kernel.org>
-References: <CAHk-=wiUxm-NZ1si8dXWVTTJ9n3c+1SRTC0V+Lk7hOE4bDVwJQ@mail.gmail.com>
- <20230508115727.2597864-1-geert@linux-m68k.org>
- <749c2fc2-93dc-585-3826-dea581602d6e@linux-m68k.org>
- <mafs035466ebk.fsf@amazon.de>
-From:   "Raghavendra, Vignesh" <vigneshr@ti.com>
-In-Reply-To: <mafs035466ebk.fsf@amazon.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Spam-Status: No, score=-6.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5b7038ce-d897-931f-2c6e-30bdd1a30342@ideasonboard.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Moi,
 
+On Mon, May 08, 2023 at 01:33:24PM +0300, Tomi Valkeinen wrote:
+> On 06/05/2023 00:52, Sakari Ailus wrote:
+> > Document how internal pads are used on source routes.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >   .../userspace-api/media/v4l/dev-subdev.rst     | 18 ++++++++++++++++++
+> >   .../media/v4l/vidioc-subdev-g-routing.rst      |  5 +++++
+> >   include/uapi/linux/v4l2-subdev.h               |  6 +++++-
+> >   3 files changed, 28 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > index a4f1df7093e8..395e06d2f0f2 100644
+> > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > @@ -551,6 +551,24 @@ A stream at a specific point in the media pipeline is identified by the
+> >   sub-device and a (pad, stream) pair. For sub-devices that do not support
+> >   multiplexed streams the 'stream' field is always 0.
+> > +.. _v4l2-subdev-source-routes:
+> > +
+> > +Source routes
+> > +^^^^^^^^^^^^^
+> > +
+> > +Cases where a single sub-device pad is a source of multiple streams are special
+> > +as there is no sink pad for such a route. In those cases, an internal pad is
+> > +used as the sink pad. Such pads have the :ref:`MEDIA_PAD_FL_INTERNAL_SOURCE
+> > +<MEDIA-PAD-FL-INTERNAL-SOURCE>` flag set.
+> > +
+> > +Internal pads have all the properties of a sink pad in such case, including
+> > +formats and selections. The format in this case is the source format of the
+> > +stream. An internal pad always has a single stream only (0).
+> > +
+> > +Generally source routes are not modifiable but they can be activated and
+> > +inactivated using the :ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> > +<v4l2-subdev-routing-flags>` flag, depending on driver capabilities.
+> > +
+> 
+> I find the above chapter a bit difficult to read, but I think we need to
+> conclude on the internal-pad vs internal-source-pad discussion first.
+> However, one point/question:
+> 
+> You write that there's only one stream in an internal pad. I wonder if
+> that's a good or a necessary limitation... Do you see that allowing multiple
+> streams brings extra complexity? It's still up to each driver to decide how
+> many streams they support (most would just support a single one), so each
+> driver can easily enforce that limit.
 
-On 5/8/2023 8:49 PM, Pratyush Yadav wrote:
-> On Mon, May 08 2023, Geert Uytterhoeven wrote:
-> 
->> On Mon, 8 May 2023, Geert Uytterhoeven wrote:
->>> Below is the list of build error/warning regressions/improvements in
->>> v6.4-rc1[1] compared to v6.3[2].
->>>
->>> Summarized:
->>>  - build errors: +9/-16
->>>  - build warnings: +1/-1439
->>>
->>> Happy fixing! ;-)
->>>
->>> Thanks to the linux-next team for providing the build service.
->>>
->>> [1] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/ac9a78681b921877518763ba0e89202254349d1b/ (all 152 configs)
->>> [2] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/457391b0380335d5e9a5babdec90ac53928b23b4/ (all 152 configs)
->>>
->>>
-> [...]
->>
->>>  + /kisskb/src/drivers/mtd/spi-nor/spansion.c: error: 'op' is used uninitialized [-Werror=uninitialized]:  => 495:27, 364:27
-> 
-> Hmm, I don't get why we get this warning. Line 495 is in
-> s25fs256t_post_bfpt_fixup(). It declares 'op' and then it does
-> 
->     op = (struct spi_mem_op)
->         CYPRESS_NOR_RD_ANY_REG_OP(nor->params->addr_mode_nbytes,
->                       SPINOR_REG_CYPRESS_ARCFN, 1,
->                       nor->bouncebuf);
->     ret = spi_nor_read_any_reg(nor, &op, nor->reg_proto);
-> 
+Good question. As we don't seem to have a tangible reason to allow it, I'd
+deny it until there's a use case.
 
-Not all the fields of struct get initialized if you assign later on in
-the function vs at the time of declaration... For example cmd.dtr isn't
-explicitly set to any value here and may have garbage?
+Or did you have a use case in mind?
+
+I thought indicating which streams will be bound together (i.e. either are
+all disabled or enabled) could be one, but I'm not sure we need that at the
+moment at least.
+
 > 
-> which initializes 'op' before using it. Same with line 364 which is in
-> the function cypress_nor_set_addr_mode_nbytes().
-> 
-> Even the compiler warnings [0] don't seem to make much sense to me:
-> 
->     /kisskb/src/drivers/mtd/spi-nor/spansion.c: In function 's25fs256t_post_bfpt_fixup':
->     /kisskb/src/drivers/mtd/spi-nor/spansion.c:495:27: error: 'op' is used uninitialized [-Werror=uninitialized]
->     495 |         struct spi_mem_op op;
->         |                           ^~
->     /kisskb/src/drivers/mtd/spi-nor/spansion.c:495:27: note: 'op' declared here
->     495 |         struct spi_mem_op op;
->         |                           ^~
-> 
-> [0] http://kisskb.ellerman.id.au/kisskb/buildresult/14922057/
-> 
->>
->> um-x86_64-gcc12/um-allyesconfig
->>
-> [...]
-> 
+> I'm fine with starting with only single-stream support, but if we later need
+> to loosen that restriction, I wonder if it'll be difficult if we have
+> specified that there can be only one stream. I.e. will the drivers and the
+> userspace depend on that limit.
+
+We can always allow what wasn't allowed previously so that's a non-issue,
+really. But it needs to bring new functionality, otherwise there's no
+reason to do that.
+
+-- 
+Kind regards,
+
+Sakari Ailus
