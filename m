@@ -2,101 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DDDC6FAFA3
-	for <lists+linux-media@lfdr.de>; Mon,  8 May 2023 14:07:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E7C0E6FAFB9
+	for <lists+linux-media@lfdr.de>; Mon,  8 May 2023 14:14:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233184AbjEHMHk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 May 2023 08:07:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42554 "EHLO
+        id S233822AbjEHMOx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 May 2023 08:14:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233170AbjEHMHj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 May 2023 08:07:39 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C06631EF4
-        for <linux-media@vger.kernel.org>; Mon,  8 May 2023 05:07:37 -0700 (PDT)
-Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 11576755;
-        Mon,  8 May 2023 14:07:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1683547649;
-        bh=irPNjqbCQvTLmC8QV8q6VYnZ+P40B749u4zsLO4Qh8s=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=iAQGJHllwQTFeeHUTlExIUOFiktCXFjenBdCVTfZuZ1LCNZLZ3O4FCp+cTCFYQZZ8
-         ShKtnWHYNWdF6MyFijEZGWBs6sBWuzC0FUDr1FQOy+s/CYXXVoKI6A9WL4ywXoRYIL
-         M53TO3B8PNwQdbdqMK3SBDblHUjxeQp/Pb4WDD+s=
-Message-ID: <568aea8d-4173-218e-5315-6aa02bef8121@ideasonboard.com>
-Date:   Mon, 8 May 2023 15:07:31 +0300
+        with ESMTP id S233819AbjEHMOq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 May 2023 08:14:46 -0400
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4947138444
+        for <linux-media@vger.kernel.org>; Mon,  8 May 2023 05:14:45 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:6a18:41e7:fcfe:24c0])
+        by albert.telenet-ops.be with bizsmtp
+        id uCEY2900F2WBekD06CEYzh; Mon, 08 May 2023 14:14:43 +0200
+Received: from geert (helo=localhost)
+        by ramsan.of.borg with local-esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1pvzlA-001VjV-5u;
+        Mon, 08 May 2023 14:14:32 +0200
+Date:   Mon, 8 May 2023 14:14:32 +0200 (CEST)
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+To:     linux-kernel@vger.kernel.org
+cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Tudor Ambarus <tudor.ambarus@linaro.org>,
+        Pratyush Yadav <pratyush@kernel.org>,
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        linux-um@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-mtd@lists.infradead.org, linux-xfs@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
+        sparclinux@vger.kernel.org
+Subject: Re: Build regressions/improvements in v6.4-rc1
+In-Reply-To: <20230508115727.2597864-1-geert@linux-m68k.org>
+Message-ID: <749c2fc2-93dc-585-3826-dea581602d6e@linux-m68k.org>
+References: <CAHk-=wiUxm-NZ1si8dXWVTTJ9n3c+1SRTC0V+Lk7hOE4bDVwJQ@mail.gmail.com> <20230508115727.2597864-1-geert@linux-m68k.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [RFC 1/7] media: mc: Add INTERNAL_SOURCE pad type flag
-Content-Language: en-US
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        bingbu.cao@intel.com, hongju.wang@intel.com
-References: <20230505215257.60704-1-sakari.ailus@linux.intel.com>
- <20230505215257.60704-2-sakari.ailus@linux.intel.com>
- <e41293d2-2b2b-1c3a-e3e9-1384369b1fcc@ideasonboard.com>
- <ZFjlQ9oKmjuLRf+4@kekkonen.localdomain>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <ZFjlQ9oKmjuLRf+4@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 08/05/2023 15:04, Sakari Ailus wrote:
-> Hi Tomi,
-> 
-> Thank you for the review.
-> 
-> On Mon, May 08, 2023 at 12:52:24PM +0300, Tomi Valkeinen wrote:
->> On 06/05/2023 00:52, Sakari Ailus wrote:
->>> Internal source pads will be used as routing endpoints in V4L2
->>> [GS]_ROUTING IOCTLs, to indicate that the stream begins in the entity.
->>>
->>> Also prevent creating links to pads that have been flagged as internal.
->>>
->>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->>> ---
->>>    .../userspace-api/media/mediactl/media-types.rst          | 7 +++++++
->>>    drivers/media/mc/mc-entity.c                              | 8 +++++++-
->>>    include/uapi/linux/media.h                                | 1 +
->>>    3 files changed, 15 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/Documentation/userspace-api/media/mediactl/media-types.rst b/Documentation/userspace-api/media/mediactl/media-types.rst
->>> index 0ffeece1e0c8..c724139ad46c 100644
->>> --- a/Documentation/userspace-api/media/mediactl/media-types.rst
->>> +++ b/Documentation/userspace-api/media/mediactl/media-types.rst
->>> @@ -361,6 +361,7 @@ Types and flags used to represent the media graph elements
->>>    .. _MEDIA-PAD-FL-SINK:
->>>    .. _MEDIA-PAD-FL-SOURCE:
->>>    .. _MEDIA-PAD-FL-MUST-CONNECT:
->>> +.. _MEDIA-PAD-FL-INTERNAL-SOURCE:
->>>    .. flat-table:: Media pad flags
->>>        :header-rows:  0
->>> @@ -382,6 +383,12 @@ Types and flags used to represent the media graph elements
->>>    	  when this flag isn't set; the absence of the flag doesn't imply
->>>    	  there is none.
->>> +    *  -  ``MEDIA_PAD_FL_INTERNAL_SOURCE``
->>> +       -  This flag indicates an internal pad that has no external
->>> +	  connections. Such a pad may not be connected with a link. The internal
->>
->> "must not"? Or "shall not"?
-> 
-> I think "may not" is appropriate. I'd be fine with shall, too, albeit it
-> wouldn't change the meaning in practice.
+On Mon, 8 May 2023, Geert Uytterhoeven wrote:
+> Below is the list of build error/warning regressions/improvements in
+> v6.4-rc1[1] compared to v6.3[2].
+>
+> Summarized:
+>  - build errors: +9/-16
+>  - build warnings: +1/-1439
+>
+> Happy fixing! ;-)
+>
+> Thanks to the linux-next team for providing the build service.
+>
+> [1] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/ac9a78681b921877518763ba0e89202254349d1b/ (all 152 configs)
+> [2] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/457391b0380335d5e9a5babdec90ac53928b23b4/ (all 152 configs)
+>
+>
+> *** ERRORS ***
+>
+> 9 error regressions:
+>  + /kisskb/src/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c: error: 'mxc_isi_pm_resume' defined but not used [-Werror=unused-function]:  => 328:12
+>  + /kisskb/src/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c: error: 'mxc_isi_pm_suspend' defined but not used [-Werror=unused-function]:  => 314:12
 
-Ok. I don't speak standardize, and I'm not a native English speaker. But 
-to me "may not be connected" sounds like it is possibly not connected, 
-but also that it is possible for it to be connected.
+sparc64-gcc{5,11}/sparc-allmodconfig
+(fix was available before the merge window)
 
-  Tomi
+>  + /kisskb/src/drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c: error: "CONFIG_ARCH_DMA_ADDR_T_64BIT" is not defined [-Werror=undef]:  => 66:5, 33:5, 51:5
+>  + /kisskb/src/drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c: error: "CONFIG_ARCH_DMA_ADDR_T_64BIT" is not defined, evaluates to 0 [-Werror=undef]:  => 51:5, 66:5, 33:5
 
+mips-gcc{8,11}/mips-allmodconfig
+xtensa-gcc11/xtensa-allmodconfig
+powerpc-gcc5/ppc32_allmodconfig
+(fix was available before the merge window)
+
+>  + /kisskb/src/drivers/mtd/spi-nor/spansion.c: error: 'op' is used uninitialized [-Werror=uninitialized]:  => 495:27, 364:27
+
+um-x86_64-gcc12/um-allyesconfig
+
+>  + /kisskb/src/fs/xfs/scrub/scrub.h: error: initializer element is not constant:  => 112:28
+
+powerpc-gcc5/ppc64_book3e_allmodconfig
+powerpc-gcc5/powerpc-allmodconfig
+powerpc-gcc5/ppc32_allmodconfig
+powerpc-gcc5/powerpc-allyesconfig
+powerpc-gcc5/ppc64le_allmodconfig
+arm64-gcc5/arm64-allmodconfig
+(fix sent)
+
+>  + error: modpost: "__floatunsidf" [drivers/phy/mediatek/phy-mtk-hdmi-drv.ko] undefined!:  => N/A
+>  + error: modpost: "__gedf2" [drivers/phy/mediatek/phy-mtk-hdmi-drv.ko] undefined!:  => N/A
+>  + error: modpost: "__ltdf2" [drivers/phy/mediatek/phy-mtk-hdmi-drv.ko] undefined!:  => N/A
+
+sparc64-gcc5/sparc64-allmodconfig
+
+Gr{oetje,eeting}s,
+
+ 						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+ 							    -- Linus Torvalds
