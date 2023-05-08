@@ -2,148 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 515AA6FB50A
-	for <lists+linux-media@lfdr.de>; Mon,  8 May 2023 18:27:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 988A26FB52B
+	for <lists+linux-media@lfdr.de>; Mon,  8 May 2023 18:35:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233886AbjEHQ1w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 May 2023 12:27:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57688 "EHLO
+        id S234061AbjEHQfN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 May 2023 12:35:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231784AbjEHQ1u (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 May 2023 12:27:50 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9C3E46B0
-        for <linux-media@vger.kernel.org>; Mon,  8 May 2023 09:27:48 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id 4fb4d7f45d1cf-50bceaf07b8so9027109a12.3
-        for <linux-media@vger.kernel.org>; Mon, 08 May 2023 09:27:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1683563267; x=1686155267;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CVAb8RwSaMOd+9poMiDAevwfkVDh6+GTnWJJXhYlKlU=;
-        b=YygbuWtNNJDGGTerxd1XY58zcRT8L+jhp2xHX2PSueoIB3Ny3YlOCIl/xU7trGiGqE
-         YEpymOVxo4hEirocz0sCTP4XTn2gsHAYRHgucTxQCGYHvSgWr3lncMSuSDnTA0SkgFq8
-         iDIVvGrQ2E0NdKPmBKA6GEo8qraxogjKCMmNk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683563267; x=1686155267;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CVAb8RwSaMOd+9poMiDAevwfkVDh6+GTnWJJXhYlKlU=;
-        b=WkVDrmtuArpvKQhhUYW+HJWIz69oGZULxsHNAXG0khEhq2u55EGfgo6HsNN3pcyovD
-         aL0cfpfUkX/2N7V/Y6wLy6kEEEa7HirKQntyh1Yekarpo5gq5ytfIgP1F3N8HIRO9/Zt
-         pD0xgM6PNZYMjOs69WjaYQy4xIaA0fSqYcAcRzluyYeGy6hV9UmfI9mKEp7ZtcR4bd8V
-         3EB+MqkElQh4yCaBbOQfqO31bwXNjtvHcrlKYcuoTC32GnqAIXj+HPzNpNQRGGEa/jfQ
-         iJmWQXF+acGwPrk/4PacDPaZnfPRutVR66CX92+5ownsbV7etR5U66Z5s6jxhQvFoDjP
-         IhZQ==
-X-Gm-Message-State: AC+VfDxd8yjru9Ru3EN3GxYgpA45jC4/lp21ZsyAbSVQYUgUJF/T7eVv
-        iirpQtF08zO5WxLizBAnLGMxN+/GQMF17we+FL58Yw==
-X-Google-Smtp-Source: ACHHUZ7OUkmk/VMvuKVTpqqFUQFiI2WwVV0E6a/vtbC9HXENjcYjC6WvQSVJRWZLSGFERv3G8YWQfw==
-X-Received: by 2002:aa7:c849:0:b0:50b:c88b:b227 with SMTP id g9-20020aa7c849000000b0050bc88bb227mr7624293edt.35.1683563267175;
-        Mon, 08 May 2023 09:27:47 -0700 (PDT)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com. [209.85.218.51])
-        by smtp.gmail.com with ESMTPSA id i3-20020aa7c9c3000000b0050bc37ff74asm6433730edt.44.2023.05.08.09.27.45
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 May 2023 09:27:46 -0700 (PDT)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-965ab8ed1fcso856621966b.2
-        for <linux-media@vger.kernel.org>; Mon, 08 May 2023 09:27:45 -0700 (PDT)
-X-Received: by 2002:a17:907:8692:b0:967:142b:ff07 with SMTP id
- qa18-20020a170907869200b00967142bff07mr3121227ejc.21.1683563265068; Mon, 08
- May 2023 09:27:45 -0700 (PDT)
+        with ESMTP id S232527AbjEHQfM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 May 2023 12:35:12 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA2185BA9
+        for <linux-media@vger.kernel.org>; Mon,  8 May 2023 09:35:09 -0700 (PDT)
+Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1DAD77CE;
+        Mon,  8 May 2023 18:35:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1683563701;
+        bh=Ah8EKEdtOi7ibGdC5ouQQmEHf6T86vIY1FW/Mpt0sgY=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=k6NhCiw+AXUdsQVPlvaKthw/vukFIsatGFXPTyXAdgpCPZzecxYEuxB7pFSEQH/A/
+         cEo6+ptxD9pHa1DEbiyB8G5jCooIo/lQqrjwhL6CPWvF2yfPJv7KG+8mmNv+IUCW1S
+         M+XbzSBQnDAWriHiBY+gTiWiI+1O10yQ2fXe/H0s=
+Message-ID: <b3b8d45f-1cc4-1aa7-6f75-de4841fd5981@ideasonboard.com>
+Date:   Mon, 8 May 2023 19:35:04 +0300
 MIME-Version: 1.0
-References: <ZElaVmxDsOkZj2DK@debian> <51cff63a-3a04-acf5-8264-bb19b0bee8a3@leemhuis.info>
-In-Reply-To: <51cff63a-3a04-acf5-8264-bb19b0bee8a3@leemhuis.info>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Mon, 8 May 2023 09:27:28 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgzU8_dGn0Yg+DyX7ammTkDUCyEJ4C=NvnHRhxKWC7Wpw@mail.gmail.com>
-Message-ID: <CAHk-=wgzU8_dGn0Yg+DyX7ammTkDUCyEJ4C=NvnHRhxKWC7Wpw@mail.gmail.com>
-Subject: Re: mainline build failure due to cf21f328fcaf ("media: nxp: Add
- i.MX8 ISI driver")
-To:     Linux regressions mailing list <regressions@lists.linux.dev>
-Cc:     "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [RFC 3/7] media: uapi: v4l: Document source routes
+Content-Language: en-US
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        bingbu.cao@intel.com, hongju.wang@intel.com
+References: <20230505215257.60704-1-sakari.ailus@linux.intel.com>
+ <20230505215257.60704-4-sakari.ailus@linux.intel.com>
+ <5b7038ce-d897-931f-2c6e-30bdd1a30342@ideasonboard.com>
+ <ZFkipK0F5sCYv8tt@kekkonen.localdomain>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <ZFkipK0F5sCYv8tt@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, May 8, 2023 at 3:55=E2=80=AFAM Linux regression tracking #adding
-(Thorsten Leemhuis) <regressions@leemhuis.info> wrote:
->
-> Thanks for the report. The fixes (see the mail from Laurent) apparently
-> are still not mainlined (or am I missing something?), so let me add this
-> report to the tracking to ensure this is not forgotten:
+On 08/05/2023 19:26, Sakari Ailus wrote:
+> Moi,
+> 
+> On Mon, May 08, 2023 at 01:33:24PM +0300, Tomi Valkeinen wrote:
+>> On 06/05/2023 00:52, Sakari Ailus wrote:
+>>> Document how internal pads are used on source routes.
+>>>
+>>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+>>> ---
+>>>    .../userspace-api/media/v4l/dev-subdev.rst     | 18 ++++++++++++++++++
+>>>    .../media/v4l/vidioc-subdev-g-routing.rst      |  5 +++++
+>>>    include/uapi/linux/v4l2-subdev.h               |  6 +++++-
+>>>    3 files changed, 28 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+>>> index a4f1df7093e8..395e06d2f0f2 100644
+>>> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+>>> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+>>> @@ -551,6 +551,24 @@ A stream at a specific point in the media pipeline is identified by the
+>>>    sub-device and a (pad, stream) pair. For sub-devices that do not support
+>>>    multiplexed streams the 'stream' field is always 0.
+>>> +.. _v4l2-subdev-source-routes:
+>>> +
+>>> +Source routes
+>>> +^^^^^^^^^^^^^
+>>> +
+>>> +Cases where a single sub-device pad is a source of multiple streams are special
+>>> +as there is no sink pad for such a route. In those cases, an internal pad is
+>>> +used as the sink pad. Such pads have the :ref:`MEDIA_PAD_FL_INTERNAL_SOURCE
+>>> +<MEDIA-PAD-FL-INTERNAL-SOURCE>` flag set.
+>>> +
+>>> +Internal pads have all the properties of a sink pad in such case, including
+>>> +formats and selections. The format in this case is the source format of the
+>>> +stream. An internal pad always has a single stream only (0).
+>>> +
+>>> +Generally source routes are not modifiable but they can be activated and
+>>> +inactivated using the :ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE
+>>> +<v4l2-subdev-routing-flags>` flag, depending on driver capabilities.
+>>> +
+>>
+>> I find the above chapter a bit difficult to read, but I think we need to
+>> conclude on the internal-pad vs internal-source-pad discussion first.
+>> However, one point/question:
+>>
+>> You write that there's only one stream in an internal pad. I wonder if
+>> that's a good or a necessary limitation... Do you see that allowing multiple
+>> streams brings extra complexity? It's still up to each driver to decide how
+>> many streams they support (most would just support a single one), so each
+>> driver can easily enforce that limit.
+> 
+> Good question. As we don't seem to have a tangible reason to allow it, I'd
+> deny it until there's a use case.
+> 
+> Or did you have a use case in mind?
+> 
+> I thought indicating which streams will be bound together (i.e. either are
+> all disabled or enabled) could be one, but I'm not sure we need that at the
+> moment at least.
 
-Gaah. I was intending to apply the patch directly before rc1, but then
-I forgot about this issue.
+I don't have nothing concrete in mind. Maybe a TPG which also generates 
+some kind of metadata. But that could be implemented as two internal pads.
 
-Mauro: I'm currently really *really* fed up with the media tree. This
-exact same thing happened last merge window, where the media tree
-caused pointless build errors, and it took way too long to get the
-fixes the proper ways.
+>> I'm fine with starting with only single-stream support, but if we later need
+>> to loosen that restriction, I wonder if it'll be difficult if we have
+>> specified that there can be only one stream. I.e. will the drivers and the
+>> userspace depend on that limit.
+> 
+> We can always allow what wasn't allowed previously so that's a non-issue,
+> really. But it needs to bring new functionality, otherwise there's no
+> reason to do that.
 
-If something doesn't even build, it should damn well be fixed ASAP.
+It's not always that easy. If the drivers and the userspace expect that 
+there's a single route with ID 0, and then with a new kernel there are 
+more streams or the single stream is ID 1, things could go wrong.
 
-Last release it was imx290.c and PM support being disabled, and I had
-to apply the fix manually because it continued to not come in the
-proper way.
+  Tomi
 
-See commit 7b50567bdcad ("media: i2c: imx290: fix conditional function
-defintions").
-
-But also see commit b928db940448 ("media: i2c: imx290: fix conditional
-function definitions"), which you *did* commit, but note this on that
-commit:
-
-    AuthorDate: Tue Feb 7 17:13
-    CommitDate: Sat Mar 18 08:44
-
-so it took you a MONTH AND A HALF to react to a build failure.
-
-And see this:
-
-    git name-rev b928db940448
-    b928db940448 tags/v6.4-rc1~161^2~458
-
-ie that build fix that you finally committed came in *AFTER* the 6.3
-release, even though the bug it fixes was introduced in the 6.3 merge
-window:
-
-    git name-rev 02852c01f654
-    02852c01f654 tags/v6.3-rc1~72^2~2^2~193
-
-and now we're in the *EXACT*SAME* situation, with me applying a build
-fix directly, because you couldn't get it fixed in a timely manner.
-
-End result: you and the media tree is on my shit-list, and I will not
-take any pull requests from you that aren't just fixes.
-
-Not just this release, but the next one.
-
-Because I'm completely and utterly fed up with you ignoring
-fundamental "it doesn't even build" issues.
-
-If you can't be bothered fix the build issues that get introduced
-during the merge window, then I'm not going to merge new stuff from
-you.
-
-It's *that* simple.
-
-                  Linus
