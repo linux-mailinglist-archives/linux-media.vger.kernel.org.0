@@ -2,84 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A63C66F9E6D
-	for <lists+linux-media@lfdr.de>; Mon,  8 May 2023 05:56:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0EF96F9E9E
+	for <lists+linux-media@lfdr.de>; Mon,  8 May 2023 06:13:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232234AbjEHD4G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 7 May 2023 23:56:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54686 "EHLO
+        id S232527AbjEHENr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 May 2023 00:13:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231879AbjEHD4F (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 7 May 2023 23:56:05 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B9CC5FC6;
-        Sun,  7 May 2023 20:56:03 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AC59161E4E;
-        Mon,  8 May 2023 03:56:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E4EF0C4339C;
-        Mon,  8 May 2023 03:56:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1683518162;
-        bh=/oCN6Snro+5jKdEaSS2H/1Stk2he2z97oOjDuxIMUgc=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=GhJrpVYlr7iUIGEy5SEwSY1iBsiX51a36ZQfT7K2T98jvLtFSggiz9cNjj9fgqXzD
-         2sWCfb5rr6ofL4Jg3VD+mxKR4P4FEf+Nm3I1QzRbDyckaq0Vf1IMOz/s0vDvrNRER3
-         kSEXDH9zfbJ34VtBPYeo2bwv3ONT6fej6Lmr2IilL2mPO9b+ed9RjH0j7szSVaW/zT
-         dFqChcEQsw+2KCEmZHwu7HGYAxVSMjdcNnSNwRObSucIoZiUEup1G8HjW+WjiL41Rw
-         KExaBxII4/unfGroboQMg1RoN9xGa2thAwldXeASRIwIO/lsm5Atd41SChbXIErT6e
-         esCKThzm1AL7Q==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C8542E26D26;
-        Mon,  8 May 2023 03:56:01 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] media: platform: cros-ec: Add aurash to the match table
-From:   patchwork-bot+chrome-platform@kernel.org
-Message-Id: <168351816181.5651.18369881388504503057.git-patchwork-notify@kernel.org>
-Date:   Mon, 08 May 2023 03:56:01 +0000
-References: <20230223054138.267849-1-zoey_wu@wistron.corp-partner.google.com>
-In-Reply-To: <20230223054138.267849-1-zoey_wu@wistron.corp-partner.google.com>
-To:     Zoey Wu <zoey_wu@wistron.corp-partner.google.com>
-Cc:     hverkuil-cisco@xs4all.nl, mchehab@kernel.org, bleung@chromium.org,
-        groeck@chromium.org, scott_chao@wistron.corp-partner.google.com,
-        ajye_huang@compal.corp-partner.google.com,
-        hellojacky0226@hotmail.com, linux-media@vger.kernel.org,
-        chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        with ESMTP id S229852AbjEHENp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 May 2023 00:13:45 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1E3C4488;
+        Sun,  7 May 2023 21:13:43 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id 4fb4d7f45d1cf-50bc1612940so7743794a12.2;
+        Sun, 07 May 2023 21:13:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683519222; x=1686111222;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kC/utfZ9fQhbpGbbmjC75yjL4GQLhxn8VaJ5T9oPJN4=;
+        b=X+bSHPjbHLPk1qA8Aao6jbLomI98279x8hPmZFq7jfOjREhlmBwkiJKeb9HJyPtNu7
+         TM50+f5UDWF51BRscQpo4jfNa4S1BYW1SgiBW99OfJzS8y8HkqMlYXe3ppAoNW5BAGoA
+         PtUezP9Knqz8sTlJ+W0+6fS3FQtlVeae+EpUD69go9KI3hP/RwS/3uUS47pa3l4we2RQ
+         Fwa1Leg7yjpj+CjFaKttckbxSC0uoAMBwam48T4Ww6E5PQY4YDeQicJLc5RSMsto3xnh
+         qE0aeD38QIbmAjbpA7MuRa/USVfklyGyp/ldYhXT+4coW9ifggLtLHj74qId7Uiyf4t5
+         Y4sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683519222; x=1686111222;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kC/utfZ9fQhbpGbbmjC75yjL4GQLhxn8VaJ5T9oPJN4=;
+        b=aeK9YeUaz2B9aR/RBKSmiZ+MmkI/Wa/G9/IIWy/sEIIeEx1RNFD8bLsAf1XKCzbE5r
+         osNmo0PHFKIHZ63XelehF/kA4OlBeMsdU4UjLrVemZTT8W8o+sz+KebnNrHnCxxMKCeU
+         9lXcxAXmbYIdZxdwKABYEjZhDv4PXhQyBJwPl+V75/xJY9tPlFJaHhwbcOTzRAB9XJtJ
+         pa02PS7WSK9vrNSV2nxGeLfrtMcbMu9d/WZ9aTMi+Gx5gbPTxoHGY1cEwiXqfPwikZ8v
+         vcoMZGNOOj2/qcbjb9Hy2KRgNQC27kQPGF2j4+u9fkpDY6D7iX+1aqzw8tBbQk8hxEbQ
+         yl7A==
+X-Gm-Message-State: AC+VfDzkdQ9BTONkk1ZuhqOLUMtDfYHY8obwwbgJbj6gqhF5tfzoNyPZ
+        2dSKMG54ak0R3YiSHbsiyJo=
+X-Google-Smtp-Source: ACHHUZ5B2XVJMuK0mzQwjZNfFsjp4f/1CnkLkrvqQbu+FtRNNBkxDLHdC0EWGLGqzdgE1wB69nQatQ==
+X-Received: by 2002:a17:907:2d0b:b0:94a:6953:602d with SMTP id gs11-20020a1709072d0b00b0094a6953602dmr9559962ejc.37.1683519222168;
+        Sun, 07 May 2023 21:13:42 -0700 (PDT)
+Received: from felia.fritz.box ([2a02:810d:7e40:14b0:8906:f99a:ce33:2033])
+        by smtp.gmail.com with ESMTPSA id w20-20020a170907271400b00965b0eb7b0csm4392834ejk.103.2023.05.07.21.13.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 07 May 2023 21:13:41 -0700 (PDT)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marcel Hasler <mahasler@gmail.com>, linux-media@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] media: stk1160: Simplify the build config definition
+Date:   Mon,  8 May 2023 06:13:39 +0200
+Message-Id: <20230508041339.19571-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello:
+Commit dfb9f94e8e5e ("[media] stk1160: Build as a module if SND is m and
+audio support is selected") had to introduce some complex config dependency
+handling to compile for all combinations of configs VIDEO_STK1160 and
+VIDEO_STK1160_AC97.
 
-This patch was applied to chrome-platform/linux.git (for-next)
-by Mauro Carvalho Chehab <mchehab@kernel.org>:
+Later, commit e36e6b5f26c1 ("[media] stk1160: Remove stk1160-mixer and
+setup internal AC97 codec automatically") removes the config
+VIDEO_STK1160_AC97, which renders the previous dependency handling
+unnecessary. The commit already simplified the dependency of the remaining
+config VIDEO_STK1160, but it misses the opportunity to merge VIDEO_STK1160
+and VIDEO_STK1160_COMMON.
 
-On Thu, 23 Feb 2023 13:41:38 +0800 you wrote:
-> The Google aurash device uses the same approach as the Google Brask
-> which enables the HDMI CEC via the cros-ec-cec driver.
-> 
-> Signed-off-by: Zoey Wu <zoey_wu@wistron.corp-partner.google.com>
-> ---
->  drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 2 ++
->  1 file changed, 2 insertions(+)
+So, do that now and simplify the build config definition of the STK1160 USB
+video capture support.
 
-Here is the summary with links:
-  - media: platform: cros-ec: Add aurash to the match table
-    https://git.kernel.org/chrome-platform/c/46ff24efe04a
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+ drivers/media/usb/stk1160/Kconfig | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
-You are awesome, thank you!
+diff --git a/drivers/media/usb/stk1160/Kconfig b/drivers/media/usb/stk1160/Kconfig
+index 4f50fb7db7b9..bf7c16baa9f8 100644
+--- a/drivers/media/usb/stk1160/Kconfig
++++ b/drivers/media/usb/stk1160/Kconfig
+@@ -1,8 +1,9 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-config VIDEO_STK1160_COMMON
++config VIDEO_STK1160
+ 	tristate "STK1160 USB video capture support"
+ 	depends on VIDEO_DEV && I2C
+-
++	select VIDEOBUF2_VMALLOC
++	select VIDEO_SAA711X
+ 	help
+ 	  This is a video4linux driver for STK1160 based video capture devices.
+ 
+@@ -12,10 +13,3 @@ config VIDEO_STK1160_COMMON
+ 	  This driver only provides support for video capture. For audio
+ 	  capture, you need to select the snd-usb-audio driver (i.e.
+ 	  CONFIG_SND_USB_AUDIO).
+-
+-config VIDEO_STK1160
+-	tristate
+-	depends on VIDEO_STK1160_COMMON
+-	default y
+-	select VIDEOBUF2_VMALLOC
+-	select VIDEO_SAA711X
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.17.1
 
