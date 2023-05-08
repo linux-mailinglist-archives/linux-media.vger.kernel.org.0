@@ -2,60 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4790C6FAFDE
-	for <lists+linux-media@lfdr.de>; Mon,  8 May 2023 14:24:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9981A6FAFFC
+	for <lists+linux-media@lfdr.de>; Mon,  8 May 2023 14:29:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233084AbjEHMY0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 May 2023 08:24:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54166 "EHLO
+        id S231784AbjEHM3I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 May 2023 08:29:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234133AbjEHMYP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 May 2023 08:24:15 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D90153610C
-        for <linux-media@vger.kernel.org>; Mon,  8 May 2023 05:24:14 -0700 (PDT)
+        with ESMTP id S234157AbjEHM3E (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 May 2023 08:29:04 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E4153A2B7
+        for <linux-media@vger.kernel.org>; Mon,  8 May 2023 05:28:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683548654; x=1715084654;
+  t=1683548919; x=1715084919;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=otUFpG1LZ/vCHxZLMds1TUz2Uvh9sI4kOmOh51F9tCQ=;
-  b=nM4VQCgf3NBFzIYkHTUtzu60zCKZka93r0S660FIKglxMtWgyKaNwGl1
-   rCZgSXaXBSXWiEEpaCsB3U5oknrLFJauEnbFgLud1/J/jwzY8BZ1ZVmeg
-   IdzM4Fc8N59wann5C7F8CzzFm4kkEY3oTN0fY80/FixkdZS0qipzlflDJ
-   tPHPLuihFjtr/vepr7pOekq/l4Ledu2w7VTHfCzRfUwnF3E0mW91w5V/5
-   akH44L5HApNG6RwsH3Ix1FBast3CM1vEpZCPqv4eEYBYTCHNT9OsqKidF
-   mHUkr8uDCUGgVV1RdPoO40P+uhLT4nsRp11QJgurFRb1fGCD52kiHO6aM
+  bh=9KuFWC2D/VFm+eENMWQKXZKbATP8NlMfjHpspq4lips=;
+  b=dpqXoI5T0pfBIfQitEwSRKcHP+IUQqaFLUJIjrMd+zfr28nC3KfP/XKh
+   VB4rDjV/kGIJ1P9wNePRoS3yTm1G+fOhSRKJtC4NvSEiNQR2eFLP6fqfe
+   hOBjWOM9PTsFvpAIGYiK1Bl/W/82Zox65hG+mcIyePkMz8gnSJGofQg7e
+   84sbxJJ1GEclM6Co/e50MUWgDBfUyx0Y+cTmW3pgy0hMUxcVOW2yhEiRF
+   QWDnAnn7jZcZw7EdmfO0DUsxS4/uEsvxsFW/6zM5IvnrGP7xuAJRhYBxz
+   JfAyWN72e17x1D9gHM5XXmUGQbz1vSB1FYVcyd4T6N25zVCALcjGOybIt
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="377721724"
+X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="338852403"
 X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
-   d="scan'208";a="377721724"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 05:24:14 -0700
+   d="scan'208";a="338852403"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 05:28:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="822651801"
+X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="729063094"
 X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
-   d="scan'208";a="822651801"
+   d="scan'208";a="729063094"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 05:24:12 -0700
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 05:28:28 -0700
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 247B41203DA;
-        Mon,  8 May 2023 15:24:10 +0300 (EEST)
-Date:   Mon, 8 May 2023 15:24:10 +0300
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 1E6DC1203DA;
+        Mon,  8 May 2023 15:28:26 +0300 (EEST)
+Date:   Mon, 8 May 2023 15:28:26 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
         bingbu.cao@intel.com, hongju.wang@intel.com
-Subject: Re: [RFC 2/7] media: v4l: subdev: Support INTERNAL_SOURCE pads in
- routing IOCTLs
-Message-ID: <ZFjp6jtJk4WIeXCx@kekkonen.localdomain>
+Subject: Re: [RFC 1/7] media: mc: Add INTERNAL_SOURCE pad type flag
+Message-ID: <ZFjq6ohCFLcx4K+n@kekkonen.localdomain>
 References: <20230505215257.60704-1-sakari.ailus@linux.intel.com>
- <20230505215257.60704-3-sakari.ailus@linux.intel.com>
- <691a9d35-218f-4eef-ddb0-5834f1e222c8@ideasonboard.com>
+ <20230505215257.60704-2-sakari.ailus@linux.intel.com>
+ <e41293d2-2b2b-1c3a-e3e9-1384369b1fcc@ideasonboard.com>
+ <ZFjlQ9oKmjuLRf+4@kekkonen.localdomain>
+ <568aea8d-4173-218e-5315-6aa02bef8121@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <691a9d35-218f-4eef-ddb0-5834f1e222c8@ideasonboard.com>
+In-Reply-To: <568aea8d-4173-218e-5315-6aa02bef8121@ideasonboard.com>
 X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
@@ -66,66 +67,55 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Moi,
-
-On Mon, May 08, 2023 at 01:14:07PM +0300, Tomi Valkeinen wrote:
-> On 06/05/2023 00:52, Sakari Ailus wrote:
-> > Take the new INTERNAL_SOURCE pad flag into account in validating routing
-> > IOCTL argument. Effectively this is a SINK pad in this respect. Due to the
-> > union there's no need to check for the particular name.
+On Mon, May 08, 2023 at 03:07:31PM +0300, Tomi Valkeinen wrote:
+> On 08/05/2023 15:04, Sakari Ailus wrote:
+> > Hi Tomi,
+> > 
+> > Thank you for the review.
+> > 
+> > On Mon, May 08, 2023 at 12:52:24PM +0300, Tomi Valkeinen wrote:
+> > > On 06/05/2023 00:52, Sakari Ailus wrote:
+> > > > Internal source pads will be used as routing endpoints in V4L2
+> > > > [GS]_ROUTING IOCTLs, to indicate that the stream begins in the entity.
+> > > > 
+> > > > Also prevent creating links to pads that have been flagged as internal.
+> > > > 
+> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > ---
+> > > >    .../userspace-api/media/mediactl/media-types.rst          | 7 +++++++
+> > > >    drivers/media/mc/mc-entity.c                              | 8 +++++++-
+> > > >    include/uapi/linux/media.h                                | 1 +
+> > > >    3 files changed, 15 insertions(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/Documentation/userspace-api/media/mediactl/media-types.rst b/Documentation/userspace-api/media/mediactl/media-types.rst
+> > > > index 0ffeece1e0c8..c724139ad46c 100644
+> > > > --- a/Documentation/userspace-api/media/mediactl/media-types.rst
+> > > > +++ b/Documentation/userspace-api/media/mediactl/media-types.rst
+> > > > @@ -361,6 +361,7 @@ Types and flags used to represent the media graph elements
+> > > >    .. _MEDIA-PAD-FL-SINK:
+> > > >    .. _MEDIA-PAD-FL-SOURCE:
+> > > >    .. _MEDIA-PAD-FL-MUST-CONNECT:
+> > > > +.. _MEDIA-PAD-FL-INTERNAL-SOURCE:
+> > > >    .. flat-table:: Media pad flags
+> > > >        :header-rows:  0
+> > > > @@ -382,6 +383,12 @@ Types and flags used to represent the media graph elements
+> > > >    	  when this flag isn't set; the absence of the flag doesn't imply
+> > > >    	  there is none.
+> > > > +    *  -  ``MEDIA_PAD_FL_INTERNAL_SOURCE``
+> > > > +       -  This flag indicates an internal pad that has no external
+> > > > +	  connections. Such a pad may not be connected with a link. The internal
+> > > 
+> > > "must not"? Or "shall not"?
+> > 
+> > I think "may not" is appropriate. I'd be fine with shall, too, albeit it
+> > wouldn't change the meaning in practice.
 > 
-> What union? The one you add in the next patch?
+> Ok. I don't speak standardize, and I'm not a native English speaker. But to
+> me "may not be connected" sounds like it is possibly not connected, but also
+> that it is possible for it to be connected.
 
-Oops. I think we can reorder the patches.
-
-> 
-> As a concept the internal source pads sound good, and they work in practice
-> in my tests. But this union is what grates me a bit. We have a flag,
-> MEDIA_PAD_FL_INTERNAL_SOURCE, which tells which field of the union to use,
-> and then we go and do not use the new union field. Well, and also the
-> naming, as we normally have source and sink pads, but now we also have
-> internal source pads, which are actually identical to sink pads...
-
-The union still should be used by the user space. We're testing flags here
-and those flags are the same independently of the INTERNAL_SOURCE flag.
-
-I'm fine by not adding that union though, but for the user space I think
-it's better we have it: explaining that the sink_pad has a different
-meaning if that flag is set is harder than making it a union member.
-
-> 
-> I understand the idea and reasoning, but the two points above do confuse me
-> and I'm sure would confuse others also.
-> 
-> I wonder if it would be less or more confusing to simplify this by just
-> adding a MEDIA_PAD_FL_INTERNAL, which could be applied to either a source or
-> a sink pad, and would prevent linking to it. The flag would indicate that
-> the stream from/to that pad is generated/consumed internally. (I don't know
-> when you would need an internal pad to consume data, but... who knows, the
-> need might pop up =).
-
-This is another option. But I envision there will be more compatibility
-issues. Although... generally using such hardware requires knowledge of the
-device, and we haven't obviously had any support for devices needing this
-functionality in the tree. So in the end it might not matter much.
-
-> 
-> That would mean that an "internal sink pad" would generate a data stream,
-> i.e. it's a "source", but I think a normal sink pad is almost the same
-> anyway: when considering entity's internal routing, the normal sink pad is a
-> "source", and the same logic would apply with the internal pads too.
-> 
-> An internal sink pad that generates a stream is a bit more confusing than an
-> internal source pad, but I think that confusion is less than the rest of the
-> confusion in the code-side that comes with the internal source pads.
-
-I prefer having the possible sources of the confusion in the framework than
-in the drivers. Therefore I think INTERNAL_SOURCE flag is a (slightly)
-better option.
-
-I wonder what Llaurent thinks.
+Ah, yes, I think you're actually right. But that is what I thought when
+writing the text. ;-) Shall we use shall, then?
 
 -- 
-Kind regards,
-
 Sakari Ailus
