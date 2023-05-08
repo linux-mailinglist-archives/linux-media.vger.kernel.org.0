@@ -2,118 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A0EF96F9E9E
-	for <lists+linux-media@lfdr.de>; Mon,  8 May 2023 06:13:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 564B76F9FAA
+	for <lists+linux-media@lfdr.de>; Mon,  8 May 2023 08:19:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232527AbjEHENr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 May 2023 00:13:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34462 "EHLO
+        id S232542AbjEHGTg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 May 2023 02:19:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229852AbjEHENp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 May 2023 00:13:45 -0400
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1E3C4488;
-        Sun,  7 May 2023 21:13:43 -0700 (PDT)
-Received: by mail-ed1-x533.google.com with SMTP id 4fb4d7f45d1cf-50bc1612940so7743794a12.2;
-        Sun, 07 May 2023 21:13:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683519222; x=1686111222;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kC/utfZ9fQhbpGbbmjC75yjL4GQLhxn8VaJ5T9oPJN4=;
-        b=X+bSHPjbHLPk1qA8Aao6jbLomI98279x8hPmZFq7jfOjREhlmBwkiJKeb9HJyPtNu7
-         TM50+f5UDWF51BRscQpo4jfNa4S1BYW1SgiBW99OfJzS8y8HkqMlYXe3ppAoNW5BAGoA
-         PtUezP9Knqz8sTlJ+W0+6fS3FQtlVeae+EpUD69go9KI3hP/RwS/3uUS47pa3l4we2RQ
-         Fwa1Leg7yjpj+CjFaKttckbxSC0uoAMBwam48T4Ww6E5PQY4YDeQicJLc5RSMsto3xnh
-         qE0aeD38QIbmAjbpA7MuRa/USVfklyGyp/ldYhXT+4coW9ifggLtLHj74qId7Uiyf4t5
-         Y4sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683519222; x=1686111222;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kC/utfZ9fQhbpGbbmjC75yjL4GQLhxn8VaJ5T9oPJN4=;
-        b=aeK9YeUaz2B9aR/RBKSmiZ+MmkI/Wa/G9/IIWy/sEIIeEx1RNFD8bLsAf1XKCzbE5r
-         osNmo0PHFKIHZ63XelehF/kA4OlBeMsdU4UjLrVemZTT8W8o+sz+KebnNrHnCxxMKCeU
-         9lXcxAXmbYIdZxdwKABYEjZhDv4PXhQyBJwPl+V75/xJY9tPlFJaHhwbcOTzRAB9XJtJ
-         pa02PS7WSK9vrNSV2nxGeLfrtMcbMu9d/WZ9aTMi+Gx5gbPTxoHGY1cEwiXqfPwikZ8v
-         vcoMZGNOOj2/qcbjb9Hy2KRgNQC27kQPGF2j4+u9fkpDY6D7iX+1aqzw8tBbQk8hxEbQ
-         yl7A==
-X-Gm-Message-State: AC+VfDzkdQ9BTONkk1ZuhqOLUMtDfYHY8obwwbgJbj6gqhF5tfzoNyPZ
-        2dSKMG54ak0R3YiSHbsiyJo=
-X-Google-Smtp-Source: ACHHUZ5B2XVJMuK0mzQwjZNfFsjp4f/1CnkLkrvqQbu+FtRNNBkxDLHdC0EWGLGqzdgE1wB69nQatQ==
-X-Received: by 2002:a17:907:2d0b:b0:94a:6953:602d with SMTP id gs11-20020a1709072d0b00b0094a6953602dmr9559962ejc.37.1683519222168;
-        Sun, 07 May 2023 21:13:42 -0700 (PDT)
-Received: from felia.fritz.box ([2a02:810d:7e40:14b0:8906:f99a:ce33:2033])
-        by smtp.gmail.com with ESMTPSA id w20-20020a170907271400b00965b0eb7b0csm4392834ejk.103.2023.05.07.21.13.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 May 2023 21:13:41 -0700 (PDT)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marcel Hasler <mahasler@gmail.com>, linux-media@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] media: stk1160: Simplify the build config definition
-Date:   Mon,  8 May 2023 06:13:39 +0200
-Message-Id: <20230508041339.19571-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S232222AbjEHGTf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 May 2023 02:19:35 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95B131BF0
+        for <linux-media@vger.kernel.org>; Sun,  7 May 2023 23:19:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683526773; x=1715062773;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YU18EssMs3b40m8TS3cuOS9PvgPSjKoI5IMIexXSjAg=;
+  b=fCUFSVqnF2U0mtoRLCoBbC1waDUQ04WXo6KkgL5CHXxYjQAuL5Vwhyv8
+   rgbpCknKB356PGQyZA9ZKi3DvFoVvXCW7WdNA/xikEIo/ZQfwkSf9s4NB
+   vQW3pA+Ch+Zh4BZ4keWneQzXistSWzHq/8o4LwAtBxj1eTNcs+uYrdjlk
+   n599ZB8tQv8yCq7LtaGpLRhNyofz16OGIL/qFNqR+UB/VByykD6gwJSFc
+   qro3y3Hwhse7TNgA7BMV8onKodHDoSUq4uiUbjdk839X4qmA8j1snkLMe
+   D1W2+yULMBhd635AVX2LnaBd8Yicqm2n4bGGTFkmRdaA0JpYdhMesh7JB
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="334006044"
+X-IronPort-AV: E=Sophos;i="5.99,258,1677571200"; 
+   d="scan'208";a="334006044"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2023 23:19:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="944709296"
+X-IronPort-AV: E=Sophos;i="5.99,258,1677571200"; 
+   d="scan'208";a="944709296"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2023 23:19:28 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 2C36C1203DA;
+        Mon,  8 May 2023 09:19:24 +0300 (EEST)
+Date:   Mon, 8 May 2023 09:19:24 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
+        bingbu.cao@intel.com
+Subject: Re: [PATCH 3/3] media: uapi: Use unsigned int values for assigning
+ bits in u32 fields
+Message-ID: <ZFiUbA8xRIsR6KHV@kekkonen.localdomain>
+References: <20230505205101.54569-1-sakari.ailus@linux.intel.com>
+ <20230505205101.54569-4-sakari.ailus@linux.intel.com>
+ <20230506113223.GC17474@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230506113223.GC17474@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Commit dfb9f94e8e5e ("[media] stk1160: Build as a module if SND is m and
-audio support is selected") had to introduce some complex config dependency
-handling to compile for all combinations of configs VIDEO_STK1160 and
-VIDEO_STK1160_AC97.
+Hi Laurent,
 
-Later, commit e36e6b5f26c1 ("[media] stk1160: Remove stk1160-mixer and
-setup internal AC97 codec automatically") removes the config
-VIDEO_STK1160_AC97, which renders the previous dependency handling
-unnecessary. The commit already simplified the dependency of the remaining
-config VIDEO_STK1160, but it misses the opportunity to merge VIDEO_STK1160
-and VIDEO_STK1160_COMMON.
+On Sat, May 06, 2023 at 02:32:23PM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> Thank you for the patch.
+> 
+> On Fri, May 05, 2023 at 11:51:01PM +0300, Sakari Ailus wrote:
+> > Use unsigned int values annoted by "U" for u32 fields. While this is a
+> > good practice, there doesn't appear to be a bug that this patch would fix.
+> > 
+> > The patch has been generated using the following command:
+> > 
+> > 	perl -i -pe 's/\([0-9]+\K <</U <</g' -- include/uapi/linux/media.h
+> 
+> How about using the _BITUL() macro from include/uapi/linux/const.h ?
 
-So, do that now and simplify the build config definition of the STK1160 USB
-video capture support.
+These are u32 whereas _BITUL makes an unsigned long. Int (as in U) is 32
+bits on all platforms where Linux is used AFAIK.
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
- drivers/media/usb/stk1160/Kconfig | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+And thanks for the review!
 
-diff --git a/drivers/media/usb/stk1160/Kconfig b/drivers/media/usb/stk1160/Kconfig
-index 4f50fb7db7b9..bf7c16baa9f8 100644
---- a/drivers/media/usb/stk1160/Kconfig
-+++ b/drivers/media/usb/stk1160/Kconfig
-@@ -1,8 +1,9 @@
- # SPDX-License-Identifier: GPL-2.0-only
--config VIDEO_STK1160_COMMON
-+config VIDEO_STK1160
- 	tristate "STK1160 USB video capture support"
- 	depends on VIDEO_DEV && I2C
--
-+	select VIDEOBUF2_VMALLOC
-+	select VIDEO_SAA711X
- 	help
- 	  This is a video4linux driver for STK1160 based video capture devices.
- 
-@@ -12,10 +13,3 @@ config VIDEO_STK1160_COMMON
- 	  This driver only provides support for video capture. For audio
- 	  capture, you need to select the snd-usb-audio driver (i.e.
- 	  CONFIG_SND_USB_AUDIO).
--
--config VIDEO_STK1160
--	tristate
--	depends on VIDEO_STK1160_COMMON
--	default y
--	select VIDEOBUF2_VMALLOC
--	select VIDEO_SAA711X
 -- 
-2.17.1
+Kind regards,
 
+Sakari Ailus
