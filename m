@@ -2,119 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E7C0E6FAFB9
-	for <lists+linux-media@lfdr.de>; Mon,  8 May 2023 14:14:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4790C6FAFDE
+	for <lists+linux-media@lfdr.de>; Mon,  8 May 2023 14:24:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233822AbjEHMOx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 May 2023 08:14:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47092 "EHLO
+        id S233084AbjEHMY0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 May 2023 08:24:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233819AbjEHMOq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 May 2023 08:14:46 -0400
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4947138444
-        for <linux-media@vger.kernel.org>; Mon,  8 May 2023 05:14:45 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:6a18:41e7:fcfe:24c0])
-        by albert.telenet-ops.be with bizsmtp
-        id uCEY2900F2WBekD06CEYzh; Mon, 08 May 2023 14:14:43 +0200
-Received: from geert (helo=localhost)
-        by ramsan.of.borg with local-esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1pvzlA-001VjV-5u;
-        Mon, 08 May 2023 14:14:32 +0200
-Date:   Mon, 8 May 2023 14:14:32 +0200 (CEST)
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-To:     linux-kernel@vger.kernel.org
-cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Tudor Ambarus <tudor.ambarus@linaro.org>,
-        Pratyush Yadav <pratyush@kernel.org>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        linux-um@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-xfs@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
-        sparclinux@vger.kernel.org
-Subject: Re: Build regressions/improvements in v6.4-rc1
-In-Reply-To: <20230508115727.2597864-1-geert@linux-m68k.org>
-Message-ID: <749c2fc2-93dc-585-3826-dea581602d6e@linux-m68k.org>
-References: <CAHk-=wiUxm-NZ1si8dXWVTTJ9n3c+1SRTC0V+Lk7hOE4bDVwJQ@mail.gmail.com> <20230508115727.2597864-1-geert@linux-m68k.org>
+        with ESMTP id S234133AbjEHMYP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 May 2023 08:24:15 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D90153610C
+        for <linux-media@vger.kernel.org>; Mon,  8 May 2023 05:24:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683548654; x=1715084654;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=otUFpG1LZ/vCHxZLMds1TUz2Uvh9sI4kOmOh51F9tCQ=;
+  b=nM4VQCgf3NBFzIYkHTUtzu60zCKZka93r0S660FIKglxMtWgyKaNwGl1
+   rCZgSXaXBSXWiEEpaCsB3U5oknrLFJauEnbFgLud1/J/jwzY8BZ1ZVmeg
+   IdzM4Fc8N59wann5C7F8CzzFm4kkEY3oTN0fY80/FixkdZS0qipzlflDJ
+   tPHPLuihFjtr/vepr7pOekq/l4Ledu2w7VTHfCzRfUwnF3E0mW91w5V/5
+   akH44L5HApNG6RwsH3Ix1FBast3CM1vEpZCPqv4eEYBYTCHNT9OsqKidF
+   mHUkr8uDCUGgVV1RdPoO40P+uhLT4nsRp11QJgurFRb1fGCD52kiHO6aM
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="377721724"
+X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
+   d="scan'208";a="377721724"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 05:24:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="822651801"
+X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
+   d="scan'208";a="822651801"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 05:24:12 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 247B41203DA;
+        Mon,  8 May 2023 15:24:10 +0300 (EEST)
+Date:   Mon, 8 May 2023 15:24:10 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        bingbu.cao@intel.com, hongju.wang@intel.com
+Subject: Re: [RFC 2/7] media: v4l: subdev: Support INTERNAL_SOURCE pads in
+ routing IOCTLs
+Message-ID: <ZFjp6jtJk4WIeXCx@kekkonen.localdomain>
+References: <20230505215257.60704-1-sakari.ailus@linux.intel.com>
+ <20230505215257.60704-3-sakari.ailus@linux.intel.com>
+ <691a9d35-218f-4eef-ddb0-5834f1e222c8@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <691a9d35-218f-4eef-ddb0-5834f1e222c8@ideasonboard.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 8 May 2023, Geert Uytterhoeven wrote:
-> Below is the list of build error/warning regressions/improvements in
-> v6.4-rc1[1] compared to v6.3[2].
->
-> Summarized:
->  - build errors: +9/-16
->  - build warnings: +1/-1439
->
-> Happy fixing! ;-)
->
-> Thanks to the linux-next team for providing the build service.
->
-> [1] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/ac9a78681b921877518763ba0e89202254349d1b/ (all 152 configs)
-> [2] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/457391b0380335d5e9a5babdec90ac53928b23b4/ (all 152 configs)
->
->
-> *** ERRORS ***
->
-> 9 error regressions:
->  + /kisskb/src/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c: error: 'mxc_isi_pm_resume' defined but not used [-Werror=unused-function]:  => 328:12
->  + /kisskb/src/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c: error: 'mxc_isi_pm_suspend' defined but not used [-Werror=unused-function]:  => 314:12
+Moi,
 
-sparc64-gcc{5,11}/sparc-allmodconfig
-(fix was available before the merge window)
+On Mon, May 08, 2023 at 01:14:07PM +0300, Tomi Valkeinen wrote:
+> On 06/05/2023 00:52, Sakari Ailus wrote:
+> > Take the new INTERNAL_SOURCE pad flag into account in validating routing
+> > IOCTL argument. Effectively this is a SINK pad in this respect. Due to the
+> > union there's no need to check for the particular name.
+> 
+> What union? The one you add in the next patch?
 
->  + /kisskb/src/drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c: error: "CONFIG_ARCH_DMA_ADDR_T_64BIT" is not defined [-Werror=undef]:  => 66:5, 33:5, 51:5
->  + /kisskb/src/drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c: error: "CONFIG_ARCH_DMA_ADDR_T_64BIT" is not defined, evaluates to 0 [-Werror=undef]:  => 51:5, 66:5, 33:5
+Oops. I think we can reorder the patches.
 
-mips-gcc{8,11}/mips-allmodconfig
-xtensa-gcc11/xtensa-allmodconfig
-powerpc-gcc5/ppc32_allmodconfig
-(fix was available before the merge window)
+> 
+> As a concept the internal source pads sound good, and they work in practice
+> in my tests. But this union is what grates me a bit. We have a flag,
+> MEDIA_PAD_FL_INTERNAL_SOURCE, which tells which field of the union to use,
+> and then we go and do not use the new union field. Well, and also the
+> naming, as we normally have source and sink pads, but now we also have
+> internal source pads, which are actually identical to sink pads...
 
->  + /kisskb/src/drivers/mtd/spi-nor/spansion.c: error: 'op' is used uninitialized [-Werror=uninitialized]:  => 495:27, 364:27
+The union still should be used by the user space. We're testing flags here
+and those flags are the same independently of the INTERNAL_SOURCE flag.
 
-um-x86_64-gcc12/um-allyesconfig
+I'm fine by not adding that union though, but for the user space I think
+it's better we have it: explaining that the sink_pad has a different
+meaning if that flag is set is harder than making it a union member.
 
->  + /kisskb/src/fs/xfs/scrub/scrub.h: error: initializer element is not constant:  => 112:28
+> 
+> I understand the idea and reasoning, but the two points above do confuse me
+> and I'm sure would confuse others also.
+> 
+> I wonder if it would be less or more confusing to simplify this by just
+> adding a MEDIA_PAD_FL_INTERNAL, which could be applied to either a source or
+> a sink pad, and would prevent linking to it. The flag would indicate that
+> the stream from/to that pad is generated/consumed internally. (I don't know
+> when you would need an internal pad to consume data, but... who knows, the
+> need might pop up =).
 
-powerpc-gcc5/ppc64_book3e_allmodconfig
-powerpc-gcc5/powerpc-allmodconfig
-powerpc-gcc5/ppc32_allmodconfig
-powerpc-gcc5/powerpc-allyesconfig
-powerpc-gcc5/ppc64le_allmodconfig
-arm64-gcc5/arm64-allmodconfig
-(fix sent)
+This is another option. But I envision there will be more compatibility
+issues. Although... generally using such hardware requires knowledge of the
+device, and we haven't obviously had any support for devices needing this
+functionality in the tree. So in the end it might not matter much.
 
->  + error: modpost: "__floatunsidf" [drivers/phy/mediatek/phy-mtk-hdmi-drv.ko] undefined!:  => N/A
->  + error: modpost: "__gedf2" [drivers/phy/mediatek/phy-mtk-hdmi-drv.ko] undefined!:  => N/A
->  + error: modpost: "__ltdf2" [drivers/phy/mediatek/phy-mtk-hdmi-drv.ko] undefined!:  => N/A
+> 
+> That would mean that an "internal sink pad" would generate a data stream,
+> i.e. it's a "source", but I think a normal sink pad is almost the same
+> anyway: when considering entity's internal routing, the normal sink pad is a
+> "source", and the same logic would apply with the internal pads too.
+> 
+> An internal sink pad that generates a stream is a bit more confusing than an
+> internal source pad, but I think that confusion is less than the rest of the
+> confusion in the code-side that comes with the internal source pads.
 
-sparc64-gcc5/sparc64-allmodconfig
+I prefer having the possible sources of the confusion in the framework than
+in the drivers. Therefore I think INTERNAL_SOURCE flag is a (slightly)
+better option.
 
-Gr{oetje,eeting}s,
+I wonder what Llaurent thinks.
 
- 						Geert
+-- 
+Kind regards,
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
- 							    -- Linus Torvalds
+Sakari Ailus
