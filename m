@@ -2,210 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 17E376FBAFC
-	for <lists+linux-media@lfdr.de>; Tue,  9 May 2023 00:23:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F1B46FBCB0
+	for <lists+linux-media@lfdr.de>; Tue,  9 May 2023 03:51:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233766AbjEHWXw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 May 2023 18:23:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54036 "EHLO
+        id S233944AbjEIBvF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 May 2023 21:51:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233333AbjEHWXv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 May 2023 18:23:51 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97B75618A
-        for <linux-media@vger.kernel.org>; Mon,  8 May 2023 15:23:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683584630; x=1715120630;
-  h=date:from:to:cc:subject:message-id;
-  bh=3vP+6skQRvD5IQn887xDQennC9KXNheAthnWVNbWItY=;
-  b=FBbP+7gVctr5P+IfUYKdUvy6ph6I+zYNwoK5dUGaN1gsOFqoKsb370Q/
-   bbt4cTuBe9F5utYl1QpjgHqLfrvLAPra4hmx2RsE5fE8QlFDsesX9hVE+
-   EUggoKRrP90mKX3O9jr7G95b/1MKFrG08eSVal8/rvs8c8grVUevJEovO
-   u5CwC9GDobPOgJxYiZX1piO/hZiet4YE98X8i0V3nXBPEJmYtturnMVhu
-   CcpBZgKPLkWepkTCyB3lgNPR54aia4VOfhNdoKb568GZcZqhwkeqYCl2m
-   5KzbLF3CL10+vuUv/iFiG6B8eih1mYVjAViGXpgWJwHir/JTWWEmqOIi6
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="349802548"
-X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
-   d="scan'208";a="349802548"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 15:23:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="1028572881"
-X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
-   d="scan'208";a="1028572881"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 08 May 2023 15:23:49 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pw9Gh-0001Rc-2u;
-        Mon, 08 May 2023 22:23:43 +0000
-Date:   Tue, 09 May 2023 06:23:05 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org
-Subject: [sailus-media-tree:fixes] BUILD SUCCESS
- a87275ba15b3ad515131b0241f412e69d94e9c44
-Message-ID: <20230508222305.RH-Li%lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        with ESMTP id S233842AbjEIBuy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 May 2023 21:50:54 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FB43AD0E;
+        Mon,  8 May 2023 18:50:44 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1aafa03f541so51937305ad.0;
+        Mon, 08 May 2023 18:50:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683597043; x=1686189043;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NrqNc+2n+X33D/fyVH+5OCxvofzF9jLKnUEj7w+cHec=;
+        b=qTyTEfIWrUl9clnLrbs+ALzV4ZhzxV2eoI+Kuj2xBGhIyJVv0N3NVspv9peRBOHID1
+         sPkT+dUsRKrBL8q+TKygynxiD3IlS0YGAOBz9jbme2oVJmrHo2yX8wKEVovFxi2mbUs1
+         W1f3bGszis45Hl34x16mfSstXnM+F5hYajB0Es9XjcBl7GezD8hH6OtU8lXC7ZfsV7YA
+         2mFqfp3eQXVWdIGW049QdLTN4oSAzkXW/VD1LLM3R9+jfT+9kWH800fo7mv0VFmRDCA3
+         UuThLAjMEfwOxJjQol6FL2YKoUUsoTWU3mcZmhsGwqo1zqvatM1efVr/wx419Z5hOMom
+         bT1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683597043; x=1686189043;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=NrqNc+2n+X33D/fyVH+5OCxvofzF9jLKnUEj7w+cHec=;
+        b=XFC+oOKBrNS7AMwdBrqepBVUoyRcjgD5dEFuv+Qdz4trGSBPWpgi8mTingmoGuMjKf
+         6UGtUt/1qcd/fNXWMOJs8kZgkA5rf+4a/IP9vBRSDokeifaPvYLJVdydR3/MVLNKACmW
+         cCcMukwPDK3+cT8Ug4jiMteP1mL6yU1qtmVFj6e+6h12KrV9JeWD7U8cjxe5GufrZpQ4
+         EydtDy7VfXG/IbZMC3feh9RMEoPlLw1onXsqmi2CGulBWl+vKzTI3ICZpsZA2tYN0KZ3
+         k7rG021yqDYyCmf++8jlgfExjCfxSDeLajZ+uBx+qNXm/7k9atxYa6hYCM/FSPF0Tn8q
+         OqFg==
+X-Gm-Message-State: AC+VfDz3cratzc3W5h0IyT3QVMXskbb6MsiPFwkABjxEASEsGX7TypJP
+        LCfgD1j1JhiCAh5QhEKOrv4=
+X-Google-Smtp-Source: ACHHUZ42FE//i0L4Sin9FHyiLrlzv+HHMIgvNF2bWG8qG5oOI+1HoQR2s8x4fTKQKdTgTqSRlejXAQ==
+X-Received: by 2002:a17:903:2289:b0:1a6:84be:a08f with SMTP id b9-20020a170903228900b001a684bea08fmr14901133plh.64.1683597043293;
+        Mon, 08 May 2023 18:50:43 -0700 (PDT)
+Received: from localhost (2603-800c-1a02-1bae-a7fa-157f-969a-4cde.res6.spectrum.com. [2603:800c:1a02:1bae:a7fa:157f:969a:4cde])
+        by smtp.gmail.com with ESMTPSA id b4-20020a170902d50400b001a9af8ddb64sm123818plg.298.2023.05.08.18.50.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 May 2023 18:50:42 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+From:   Tejun Heo <tj@kernel.org>
+To:     jiangshanlai@gmail.com
+Cc:     linux-kernel@vger.kernel.org, kernel-team@meta.com,
+        Tejun Heo <tj@kernel.org>, Ming Qian <ming.qian@nxp.com>,
+        Shijie Qin <shijie.qin@nxp.com>,
+        Zhou Peng <eagle.zhou@nxp.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: [PATCH 04/13] media: amphion: Use alloc_ordered_workqueue() to create ordered workqueues
+Date:   Mon,  8 May 2023 15:50:23 -1000
+Message-Id: <20230509015032.3768622-5-tj@kernel.org>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230509015032.3768622-1-tj@kernel.org>
+References: <20230509015032.3768622-1-tj@kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git fixes
-branch HEAD: a87275ba15b3ad515131b0241f412e69d94e9c44  media: uapi: Fix [GS]_ROUTING ACTIVE flag value
+BACKGROUND
+==========
 
-elapsed time: 833m
+When multiple work items are queued to a workqueue, their execution order
+doesn't match the queueing order. They may get executed in any order and
+simultaneously. When fully serialized execution - one by one in the queueing
+order - is needed, an ordered workqueue should be used which can be created
+with alloc_ordered_workqueue().
 
-configs tested: 134
-configs skipped: 8
+However, alloc_ordered_workqueue() was a later addition. Before it, an
+ordered workqueue could be obtained by creating an UNBOUND workqueue with
+@max_active==1. This originally was an implementation side-effect which was
+broken by 4c16bd327c74 ("workqueue: restore WQ_UNBOUND/max_active==1 to be
+ordered"). Because there were users that depended on the ordered execution,
+5c0338c68706 ("workqueue: restore WQ_UNBOUND/max_active==1 to be ordered")
+made workqueue allocation path to implicitly promote UNBOUND workqueues w/
+@max_active==1 to ordered workqueues.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+While this has worked okay, overloading the UNBOUND allocation interface
+this way creates other issues. It's difficult to tell whether a given
+workqueue actually needs to be ordered and users that legitimately want a
+min concurrency level wq unexpectedly gets an ordered one instead. With
+planned UNBOUND workqueue updates to improve execution locality and more
+prevalence of chiplet designs which can benefit from such improvements, this
+isn't a state we wanna be in forever.
 
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r025-20230507   gcc  
-alpha                randconfig-r026-20230507   gcc  
-arc                              allyesconfig   gcc  
-arc          buildonly-randconfig-r005-20230507   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r004-20230508   gcc  
-arc                  randconfig-r043-20230507   gcc  
-arc                  randconfig-r043-20230508   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                  randconfig-r006-20230507   clang
-arm                  randconfig-r026-20230508   clang
-arm                  randconfig-r046-20230507   gcc  
-arm                  randconfig-r046-20230508   clang
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                randconfig-r013-20230507   clang
-arm64                randconfig-r016-20230507   clang
-csky                                defconfig   gcc  
-csky                 randconfig-r003-20230507   gcc  
-hexagon      buildonly-randconfig-r004-20230508   clang
-hexagon              randconfig-r015-20230508   clang
-hexagon              randconfig-r023-20230507   clang
-hexagon              randconfig-r031-20230507   clang
-hexagon              randconfig-r036-20230508   clang
-hexagon              randconfig-r041-20230507   clang
-hexagon              randconfig-r041-20230508   clang
-hexagon              randconfig-r045-20230507   clang
-hexagon              randconfig-r045-20230508   clang
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-r001-20230508   clang
-i386         buildonly-randconfig-r005-20230508   clang
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-a001-20230508   clang
-i386                 randconfig-a002-20230508   clang
-i386                 randconfig-a003-20230508   clang
-i386                 randconfig-a004-20230508   clang
-i386                 randconfig-a005-20230508   clang
-i386                 randconfig-a006-20230508   clang
-i386                 randconfig-a011-20230508   gcc  
-i386                 randconfig-a012-20230508   gcc  
-i386                 randconfig-a013-20230508   gcc  
-i386                 randconfig-a014-20230508   gcc  
-i386                 randconfig-a015-20230508   gcc  
-i386                 randconfig-a016-20230508   gcc  
-i386                 randconfig-r035-20230508   clang
-ia64                             allmodconfig   gcc  
-ia64                                defconfig   gcc  
-ia64                 randconfig-r014-20230508   gcc  
-ia64                 randconfig-r021-20230507   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch            randconfig-r034-20230508   gcc  
-m68k                             allmodconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                 randconfig-r006-20230508   gcc  
-m68k                 randconfig-r013-20230508   gcc  
-m68k                 randconfig-r024-20230507   gcc  
-microblaze           randconfig-r022-20230507   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips         buildonly-randconfig-r003-20230507   clang
-mips                 randconfig-r004-20230507   clang
-mips                 randconfig-r034-20230507   clang
-nios2                               defconfig   gcc  
-nios2                randconfig-r003-20230508   gcc  
-nios2                randconfig-r005-20230507   gcc  
-nios2                randconfig-r005-20230508   gcc  
-nios2                randconfig-r015-20230507   gcc  
-nios2                randconfig-r031-20230508   gcc  
-openrisc     buildonly-randconfig-r001-20230507   gcc  
-openrisc             randconfig-r001-20230507   gcc  
-openrisc             randconfig-r012-20230508   gcc  
-parisc                              defconfig   gcc  
-parisc               randconfig-r002-20230508   gcc  
-parisc               randconfig-r011-20230507   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc      buildonly-randconfig-r004-20230507   clang
-powerpc              randconfig-r022-20230508   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r014-20230507   clang
-riscv                randconfig-r025-20230508   gcc  
-riscv                randconfig-r035-20230507   gcc  
-riscv                randconfig-r042-20230507   clang
-riscv                randconfig-r042-20230508   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r002-20230507   gcc  
-s390                 randconfig-r032-20230507   gcc  
-s390                 randconfig-r044-20230507   clang
-s390                 randconfig-r044-20230508   gcc  
-sh                               allmodconfig   gcc  
-sh           buildonly-randconfig-r002-20230507   gcc  
-sh                   randconfig-r012-20230507   gcc  
-sparc                               defconfig   gcc  
-sparc                randconfig-r032-20230508   gcc  
-sparc                randconfig-r033-20230507   gcc  
-sparc64      buildonly-randconfig-r006-20230507   gcc  
-sparc64              randconfig-r011-20230508   gcc  
-sparc64              randconfig-r036-20230507   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-r002-20230508   clang
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-a001-20230508   clang
-x86_64               randconfig-a002-20230508   clang
-x86_64               randconfig-a003-20230508   clang
-x86_64               randconfig-a004-20230508   clang
-x86_64               randconfig-a005-20230508   clang
-x86_64               randconfig-a006-20230508   clang
-x86_64               randconfig-a011-20230508   gcc  
-x86_64               randconfig-a012-20230508   gcc  
-x86_64               randconfig-a013-20230508   gcc  
-x86_64               randconfig-a014-20230508   gcc  
-x86_64               randconfig-a015-20230508   gcc  
-x86_64               randconfig-a016-20230508   gcc  
-x86_64               randconfig-r033-20230508   clang
-x86_64                               rhel-8.3   gcc  
-xtensa               randconfig-r016-20230508   gcc  
-xtensa               randconfig-r021-20230508   gcc  
+This patch series audits all callsites that create an UNBOUND workqueue w/
+@max_active==1 and converts them to alloc_ordered_workqueue() as necessary.
 
+WHAT TO LOOK FOR
+================
+
+The conversions are from
+
+  alloc_workqueue(WQ_UNBOUND | flags, 1, args..)
+
+to
+
+  alloc_ordered_workqueue(flags, args...)
+
+which don't cause any functional changes. If you know that fully ordered
+execution is not ncessary, please let me know. I'll drop the conversion and
+instead add a comment noting the fact to reduce confusion while conversion
+is in progress.
+
+If you aren't fully sure, it's completely fine to let the conversion
+through. The behavior will stay exactly the same and we can always
+reconsider later.
+
+As there are follow-up workqueue core changes, I'd really appreciate if the
+patch can be routed through the workqueue tree w/ your acks. Thanks.
+
+Signed-off-by: Tejun Heo <tj@kernel.org>
+Cc: Ming Qian <ming.qian@nxp.com>
+Cc: Shijie Qin <shijie.qin@nxp.com>
+Cc: Zhou Peng <eagle.zhou@nxp.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+---
+ drivers/media/platform/amphion/vpu_core.c | 2 +-
+ drivers/media/platform/amphion/vpu_v4l2.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/platform/amphion/vpu_core.c b/drivers/media/platform/amphion/vpu_core.c
+index de23627a119a..43d85a54268b 100644
+--- a/drivers/media/platform/amphion/vpu_core.c
++++ b/drivers/media/platform/amphion/vpu_core.c
+@@ -254,7 +254,7 @@ static int vpu_core_register(struct device *dev, struct vpu_core *core)
+ 	if (vpu_core_is_exist(vpu, core))
+ 		return 0;
+ 
+-	core->workqueue = alloc_workqueue("vpu", WQ_UNBOUND | WQ_MEM_RECLAIM, 1);
++	core->workqueue = alloc_ordered_workqueue("vpu", WQ_MEM_RECLAIM);
+ 	if (!core->workqueue) {
+ 		dev_err(core->dev, "fail to alloc workqueue\n");
+ 		return -ENOMEM;
+diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/amphion/vpu_v4l2.c
+index 6773b885597c..a48edb445eea 100644
+--- a/drivers/media/platform/amphion/vpu_v4l2.c
++++ b/drivers/media/platform/amphion/vpu_v4l2.c
+@@ -740,7 +740,7 @@ int vpu_v4l2_open(struct file *file, struct vpu_inst *inst)
+ 	inst->fh.ctrl_handler = &inst->ctrl_handler;
+ 	file->private_data = &inst->fh;
+ 	inst->state = VPU_CODEC_STATE_DEINIT;
+-	inst->workqueue = alloc_workqueue("vpu_inst", WQ_UNBOUND | WQ_MEM_RECLAIM, 1);
++	inst->workqueue = alloc_ordered_workqueue("vpu_inst", WQ_MEM_RECLAIM);
+ 	if (inst->workqueue) {
+ 		INIT_WORK(&inst->msg_work, vpu_inst_run_work);
+ 		ret = kfifo_init(&inst->msg_fifo,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.40.1
+
