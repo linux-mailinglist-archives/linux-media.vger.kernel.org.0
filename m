@@ -2,69 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 93B8C6FC191
-	for <lists+linux-media@lfdr.de>; Tue,  9 May 2023 10:21:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F027A6FC1B1
+	for <lists+linux-media@lfdr.de>; Tue,  9 May 2023 10:25:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234335AbjEIIVn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 May 2023 04:21:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37730 "EHLO
+        id S234486AbjEIIZn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 May 2023 04:25:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229527AbjEIIVm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 9 May 2023 04:21:42 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F6301FC9;
-        Tue,  9 May 2023 01:21:38 -0700 (PDT)
+        with ESMTP id S229520AbjEIIZD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 9 May 2023 04:25:03 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A094CD87C;
+        Tue,  9 May 2023 01:24:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683620498; x=1715156498;
+  t=1683620698; x=1715156698;
   h=message-id:subject:from:to:cc:date:mime-version:
    content-transfer-encoding;
-  bh=iL32OTVxfsKf0MiPlMkD5VCv+3BZXtsc3yvc0K3cIjA=;
-  b=aKCU8lp1lRWDS2Dv2E6nRvDZ5vp/qWpqDkU2vxwmzcDJW0bdLom9QlLf
-   ZORv7rdPiVv5+Lc5v7LDzrK/8FgdoyFEE/sZmIDpAxo9JIKHZdgdLxs+L
-   KpuaLf0d68TnzeiRg/K1MSnLwvfncg38Fy3dlUS7aj+74/m2qwMJT4Cfy
-   Ot96Ojpd7LT6guVy4jksV+XtNyBMEQ927DesfGgMIJ3Bfm0cQhxbOLGj6
-   WUrUzRLvYdjVFIWhrTNymq+jBpygztsPNRSUajmMKVyIxY3DKu8oAbAph
-   1Pm9VdNgMpwI6Yt2Xq1ZjRgprmFYDNyj6vGxoznIDTJljzEfGyXFXYLqz
+  bh=I6eWs+Z/cQ7dIAU3foLfsuSl4im8KJV9KCABsD9OpQQ=;
+  b=kwkE+CARt1v3T+fvTOzva53dCuJHQ2BBe59sz3CyIBKZG7upq3LI/t4b
+   mFdtsqwYCLInUd/w+IQLZp0BSKcjCS0w5WdjM/JZRvPvATUoSHK6pbMBr
+   mJ0AovI15O2UMRVt4ttCmdX6HLmP+9R240+cpenYb3UI64bVT2vfNLZZV
+   t7vTISu8lwMmherc2DZ+e4n6PDq6qBM2J/FYW95nNh8hERLKMjr5Vo5PF
+   zaayY7DSe25Htw+2ygS5rkrBag/Rq72VQxFuS5FAQGtEEaq0A6o4fOpQE
+   dcYz/xrmsptmw1bS4kyNIVLmKNy9vKaJwMlyHN8AK+4R8I7+a9I2dEO/s
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="349871441"
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="334285812"
 X-IronPort-AV: E=Sophos;i="5.99,261,1677571200"; 
-   d="scan'208,223";a="349871441"
+   d="scan'208";a="334285812"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 01:21:34 -0700
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 01:24:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="873081495"
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="873082191"
 X-IronPort-AV: E=Sophos;i="5.99,261,1677571200"; 
-   d="scan'208,223";a="873081495"
+   d="scan'208";a="873082191"
 Received: from dperchan-mobl1.ger.corp.intel.com (HELO terminus) ([143.185.115.141])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 01:21:31 -0700
-Message-ID: <86fe33984f12ff5eec5c0418e927ab93d0b71759.camel@intel.com>
-Subject: [PATCH] media: uapi: v4l: Intel metadata format update
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 01:24:55 -0700
+Message-ID: <e16ddf4fdb83f30899e575b218e524f6346a9f50.camel@intel.com>
+Subject: [PATCH v2] media: uapi: v4l: Intel metadata format update
 From:   Dmitry Perchanov <dmitry.perchanov@intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     mchehab@kernel.org, linux-kernel@vger.kernel.org,
         sakari.ailus@iki.fi, laurent.pinchart@ideasonboard.com,
         evgeni.raikhel@intel.com, demisrael@gmail.com,
-        Sakari Ailus <sakari.ailus@intel.com>
-Date:   Tue, 09 May 2023 11:21:20 +0300
+        sakari.ailus@intel.com
+Date:   Tue, 09 May 2023 11:24:53 +0300
 User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
-
-From be3b4d3505530496a5079c88e3c76da3a688ee8a Mon Sep 17 00:00:00 2001
-From: Dmitry Perchanov <dmitry.perchanov@intel.com>
-Date: Tue, 9 May 2023 11:09:11 +0300
-Subject: [PATCH] media: uapi: v4l: Intel metadata format update
 
 Update metadata structure for Intel RealSense UVC/MIPI cameras.
 Compliant to Intel Configuration version 3.
