@@ -2,57 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E76E26FCEA0
-	for <lists+linux-media@lfdr.de>; Tue,  9 May 2023 21:37:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A4B26FD00D
+	for <lists+linux-media@lfdr.de>; Tue,  9 May 2023 22:50:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234622AbjEIThv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 May 2023 15:37:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58750 "EHLO
+        id S235584AbjEIUuY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 May 2023 16:50:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229673AbjEIThu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 9 May 2023 15:37:50 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71E6D4498;
-        Tue,  9 May 2023 12:37:49 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0046B63699;
-        Tue,  9 May 2023 19:37:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BBD5C433D2;
-        Tue,  9 May 2023 19:37:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1683661068;
-        bh=akCksvr0VjMzfpNXHRrnyFAk16WkbynjlwtjEJ3KVuI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uiZaoA0ZMCn8YT38oDVNemHbnOLJJc8Xe0jtAjsS6E8uHSOpT4wAtzVwBrE+JqMW6
-         IAIfcJK9ZtGuIqK/QJUgwhN7tq3tguJRUdNbWzpZ/XWgsy63a/ngeKFl64w3vdyltg
-         8sLW6Ajlqd56aO5WpiEKEkZzEmgZHe4lTbGgsU5yc9T6hc5NnPn+dqxFVyYyVTvXDy
-         vebNZZILxwbArlWJHdS5c+REff+KkgDWVX3d9AgcVFqd11sxBmdFPPsUh/pp+JSAK5
-         k7FiqFjkr5xWLO8G2KrtUxDHOh+Koj8eGtanyGQvO+nOTO7GVpAoHnNyOLisvhpcfW
-         toiXh6KBDtESA==
-Date:   Tue, 9 May 2023 20:37:43 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2] dt-bindings: i2c: maxim,max96712: Require setting
- bus-type property
-Message-ID: <20230509-entree-gratify-102945de8004@spud>
-References: <20230509190031.769298-1-niklas.soderlund+renesas@ragnatech.se>
+        with ESMTP id S235381AbjEIUtv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 9 May 2023 16:49:51 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73CF86587;
+        Tue,  9 May 2023 13:49:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683665367; x=1715201367;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=E51vTbxqfe9pTuaL+Otbb55IlTlhk/XxE5WfOD7sxvM=;
+  b=kgPbwS+Kgx64cnUDLx8zo9RN8t32TPiRWYFKjVxCrntPvVhbxbIpD6NL
+   lf0Rv6sB3w96T6Y3o64RmWCzRBlkhiiARvAfttVdF5ro7VnCHmvPSmC3/
+   vECq+J0MXtWKwXd+HVx6ojmgqq8lp+vfdTAeuzVs9Uyi2l8Ab2HaEV+aL
+   DviE4OomBcWe3egF9BYZUIFv2Mg5V2P0r5G9Cd1VqT+gBe1yuF+h1Cae1
+   PB8GRvwiWkC648tm90QNsEBsr3WuDqmrowQmDIZvNBugt06uNmDI6FRpx
+   YJnp+nIAS8ge9U+h0wgnJV80bq7Jg6F/+UTUsW4B64Ubo7tsr6Rgkl3oM
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="350081313"
+X-IronPort-AV: E=Sophos;i="5.99,262,1677571200"; 
+   d="scan'208";a="350081313"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 13:49:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="649486471"
+X-IronPort-AV: E=Sophos;i="5.99,262,1677571200"; 
+   d="scan'208";a="649486471"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 13:49:24 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id B5BD612279B;
+        Tue,  9 May 2023 23:49:21 +0300 (EEST)
+Date:   Tue, 9 May 2023 23:49:21 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
+        andriy.shevchenko@linux.intel.com, heikki.krogerus@linux.intel.com
+Subject: Re: [PATCH v8 01/10] ACPI: scan: Remove the second DSDT traversal
+Message-ID: <ZFqx0SB71Ht3IpQ3@kekkonen.localdomain>
+References: <20230329100951.1522322-1-sakari.ailus@linux.intel.com>
+ <20230329100951.1522322-2-sakari.ailus@linux.intel.com>
+ <CAJZ5v0gzSjDS16Sq9oAs_9BSEgmM6VPPFF4vrd2cyK++UP7=_w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ijz5PjfBL5MnLr2G"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230509190031.769298-1-niklas.soderlund+renesas@ragnatech.se>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJZ5v0gzSjDS16Sq9oAs_9BSEgmM6VPPFF4vrd2cyK++UP7=_w@mail.gmail.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -60,93 +66,46 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Rafael,
 
---ijz5PjfBL5MnLr2G
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you for the review.
 
-On Tue, May 09, 2023 at 09:00:31PM +0200, Niklas S=F6derlund wrote:
-> The MAX96712 can support both a CSI-2 C-PHY and D-PHY bus. The initial
-> staging driver however only supported D-PHY and the bus-type property
-> was left optional.
->=20
-> In preparation for adding C-PHY support to the staging driver make the
-> bus-type property mandatory as it is needed to select the correct PHY
-> mode. Without the bus-type property present, the driver falls-back to
-> D-PHY mode, so the change is functionally backward compatible with old
-> DTS files lacking the property.
->=20
-> The only in-tree DTS file (renesas/r8a779a0-falcon-csi-dsi.dtsi) that
-> lacked the property uses D-PHY and have been updated.
->=20
-> Signed-off-by: Niklas S=F6derlund <niklas.soderlund+renesas@ragnatech.se>
+On Tue, May 09, 2023 at 08:06:28PM +0200, Rafael J. Wysocki wrote:
+> On Wed, Mar 29, 2023 at 12:10 PM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Collect the devices with _DEP into a list and continue processing them
+> > after a full traversal, instead of doing a full second traversal of the
+> > tree.
+> >
+> > This makes the second DSDT traversal pass unnecessary as we already have
+> > the nodes we're interested in in a linked list.
+> 
+> The second traversal of the ACPI namespace (it may not be just the
+> DSDT at that point to be precise) is not really about _DEP handling.
+> In fact, the latter has been added on top of it.
+> 
+> It is about the PCI enumeration.  Namely, when acpi_pci_root_add()
+> runs for the PCI host bridge object in the ACPI namespace, the entire
+> device hierarchy below it is walked and all of the ACPI device objects
+> corresponding to the PCI devices on the bus are assumed to be present.
+> This means that all of the ACPI device objects need to be created in
+> the first walk, without binding any ACPI drivers or scan handlers to
+> them, and the second walk is to find out what is actually represented
+> by those objects.
+> 
+> It cannot be eliminated in any simple way.
 
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+My understanding still remains that this patch does not (or other patches
+in this set) change the above. It is just how those nodes are reached:
+instead of traversing the entire tree and ignoring the devices that have
+already an acpi_device created for them, a linked list of devices of
+interest is traversed.
 
-Thanks,
-Conor.
+Of course it is possible that I have missed something. The codebase isn't
+entirely trivial.
 
-> ---
-> * Changes since v1
-> - Use symbolic names in comments for the bus-type properties.
-> - Improve the commit message.
-> - Rebased to v6.4-rc1.
-> ---
->  .../devicetree/bindings/media/i2c/maxim,max96712.yaml      | 7 +++++++
->  1 file changed, 7 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.y=
-aml b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-> index 444f24838d3d..6c72e77b927c 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-> @@ -65,9 +65,14 @@ properties:
-> =20
->              properties:
->                data-lanes: true
-> +              bus-type:
-> +                enum:
-> +                  - 1 # MEDIA_BUS_TYPE_CSI2_CPHY
-> +                  - 4 # MEDIA_BUS_TYPE_CSI2_DPHY
-> =20
->              required:
->                - data-lanes
-> +              - bus-type
-> =20
->      required:
->        - port@4
-> @@ -82,6 +87,7 @@ additionalProperties: false
->  examples:
->    - |
->      #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/media/video-interfaces.h>
-> =20
->      i2c@e6508000 {
->              #address-cells =3D <1>;
-> @@ -101,6 +107,7 @@ examples:
->                              port@4 {
->                                      reg =3D <4>;
->                                      max96712_out0: endpoint {
-> +                                            bus-type =3D <MEDIA_BUS_TYPE=
-_CSI2_DPHY>;
->                                              clock-lanes =3D <0>;
->                                              data-lanes =3D <1 2 3 4>;
->                                              remote-endpoint =3D <&csi40_=
-in>;
-> --=20
-> 2.40.1
->=20
+-- 
+Kind regards,
 
---ijz5PjfBL5MnLr2G
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZFqhBwAKCRB4tDGHoIJi
-0r38AQDVJu9s/FIx72+R+64/GqQ+NfgcJEGkp/fdhNEm5F0INAD+P8PL/myzv9di
-+HO9Xl1q62kKPFmjWmpuUY7kFF9SYg0=
-=PEWr
------END PGP SIGNATURE-----
-
---ijz5PjfBL5MnLr2G--
+Sakari Ailus
