@@ -2,108 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D3FD6FCB3C
-	for <lists+linux-media@lfdr.de>; Tue,  9 May 2023 18:21:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC6D86FCCEA
+	for <lists+linux-media@lfdr.de>; Tue,  9 May 2023 19:42:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229550AbjEIQU7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 May 2023 12:20:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45614 "EHLO
+        id S229667AbjEIRmG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 May 2023 13:42:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229523AbjEIQU6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 9 May 2023 12:20:58 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B16B01BDF
-        for <linux-media@vger.kernel.org>; Tue,  9 May 2023 09:20:56 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-96622bca286so691286066b.1
-        for <linux-media@vger.kernel.org>; Tue, 09 May 2023 09:20:56 -0700 (PDT)
+        with ESMTP id S229523AbjEIRmF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 9 May 2023 13:42:05 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E800C40DE
+        for <linux-media@vger.kernel.org>; Tue,  9 May 2023 10:42:01 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-96649b412easo496043566b.0
+        for <linux-media@vger.kernel.org>; Tue, 09 May 2023 10:42:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=yngvason.is; s=google; t=1683649255; x=1686241255;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ysxcmg33z3TkJckY07k1ph9gX5Ru2lXBSM10WSn2Y84=;
-        b=MjeR4objWi9sLS3I39DMB9r46lT5HhDY7guiAfUZVxOniuuwBwfN+45MNRcCpt041B
-         U5HNAkGqAa271lIcJTogCEAs1uEAn3vhLcCy2R9eHqdpB6RdBYZ8EoCA/HhIGcS8xuCe
-         wS14dZ61cXE733flLNeGhMMWqw1sgIPmPLABc=
+        d=linaro.org; s=google; t=1683654120; x=1686246120;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mgSfezJnFheHWxl/J/jtAx9CEBA9nZXTq9vupUNGWSQ=;
+        b=lRC7iU5SK3AyepBwA/3/NM8aYtocWUOdo7lkdukNvXDY4Jytb85mFREGFNsTrtQ8+j
+         szziW02hihhrpUODgNheXG3gP74Z8t+sHnn0Eb2icPma5NcrzR5G2rYx+NUOeKP52tEG
+         WIJLi6DQSmFhy59cZx8SugPE+sfAaRzkNp5K/qL3umIoGqQGjgJuPXKcn0BDXRCVBqX2
+         5LMf+vPOpJ/BnboXLCMwO0/mL1b5jyE1uYGfXMzdaR2AcPgbi9SQzOlnFQIdKYq1hVG9
+         jYH+NA48cM96FtvteXPLLgUkYc5Cuk6oeXCP2bfYAG/k6DeHLlFW356ohpQvYXETL/AI
+         LEdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683649255; x=1686241255;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ysxcmg33z3TkJckY07k1ph9gX5Ru2lXBSM10WSn2Y84=;
-        b=MQgoyVA2KSgYXo5MWFmZDbTMqSqtCqKKWuB7uPjSK1+su327KpGHguYYj3M2sWaP/W
-         U9BJL2kmt8dwLirl52pinR6OrmFZIyr1H9tl7C2NAm8iCWUnmW5T3NynMwekeWHKc2/X
-         OK+xDkopDADsI7/GAY8OGrEat6vKqg2sSgy+2DX3t+kTm2PX5MeWpcPLmFjlcvpmSqt3
-         LH5tVhQNGkYPircUxdY+F/7FketCwi74pvROqTLf4wrEdZvuIf4mS0dIaqPxogA935Nv
-         AP2qGWht7FySv6Gd+nZuBx2SCRBiSS+CN3H08JvqSZIWQ5p1v9mjL4xDamJwfZScbJ8T
-         wSMQ==
-X-Gm-Message-State: AC+VfDyhXlIgdPirInR4w8UcIJONgfvt0zMwwrO/fRcEWIbj1DFzPGGF
-        b8n//g1/GJ2cKNXbYd6hod4iUICrRDIAjfDU1RWgng==
-X-Google-Smtp-Source: ACHHUZ52QCNDL1Ci8BCyrOTEQb8eZsqVdnhZAyNLAaXBqcBc60ReLpuautNWnH/j+udl16dNhDFHii+8x0rZVK1O1qI=
-X-Received: by 2002:a17:906:eec5:b0:965:bdd1:1d22 with SMTP id
- wu5-20020a170906eec500b00965bdd11d22mr12055164ejb.68.1683649255241; Tue, 09
- May 2023 09:20:55 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1683654120; x=1686246120;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mgSfezJnFheHWxl/J/jtAx9CEBA9nZXTq9vupUNGWSQ=;
+        b=aV2DWCxSXBkyPz/pcepkth+VGQL79gTZaljE8a4VxYAXOSTHlQDjCNf9QOq+V3C+yz
+         Q37sxx1rPCx4IrH13hztGWmodv1Pn7ZRQD0+qTafVpWXGlBXyo87wOJM1C467dMIA+Jc
+         yrBB/fEqmLRbOI6bY0cP+TtMpsdzHjhPwtk1nJvRjzGyu+YkEZ5kHE+YIlebYmDCRzHt
+         pPOGMfp0JEO4hKh2jvGOy3aclUvz8381f1b5RMxrKIxUKfMqW65BjKIOirsv7BeA/CBL
+         D6n+cglXg8Awv1Fp0wa2d55q8XzdXV3UG5ZLSnYCnRa75jK83r5e3iWL45BlH84Q6E3v
+         qM1g==
+X-Gm-Message-State: AC+VfDwphhKIkXuEOjctjyJZeKoRS4ZK0aAe4nI3K79H6z95p0tyPZBX
+        OPZnXm2IewVlEMIUjFWW1IK7kw==
+X-Google-Smtp-Source: ACHHUZ7eebYnB6rhiI+xoinXTZKwvRZJY07rLy5XPSTfTbZWrjT1idLyIRNVuDPZtkAUIN71D6Aavg==
+X-Received: by 2002:a17:907:6d20:b0:969:e304:441d with SMTP id sa32-20020a1709076d2000b00969e304441dmr3709171ejc.4.1683654120430;
+        Tue, 09 May 2023 10:42:00 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:d0d5:7818:2f46:5e76? ([2a02:810d:15c0:828:d0d5:7818:2f46:5e76])
+        by smtp.gmail.com with ESMTPSA id 13-20020a170906328d00b00969f44bbef1sm960264ejw.89.2023.05.09.10.41.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 May 2023 10:41:59 -0700 (PDT)
+Message-ID: <254dcea1-636a-550d-59ae-5889ffe49f6c@linaro.org>
+Date:   Tue, 9 May 2023 19:41:58 +0200
 MIME-Version: 1.0
-References: <20230509150249.824440-1-andri@yngvason.is> <20230509150249.824440-2-andri@yngvason.is>
-In-Reply-To: <20230509150249.824440-2-andri@yngvason.is>
-From:   Andri Yngvason <andri@yngvason.is>
-Date:   Tue, 9 May 2023 16:20:19 +0000
-Message-ID: <CAFNQBQyta=tmDDFFtvpBxRV+to73mqs2zKZ9VOojTNnOE60zgg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] media: verisilicon: rockchip_vpu2_hw_jpeg_enc: Add
- data_offset to source addresses
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v3 07/13] Revert "media: exynos4-is: Remove dependency on
+ obsolete SoC support"
+Content-Language: en-US
+To:     Artur Weber <aweber.kernel@gmail.com>
+Cc:     Alim Akhtar <alim.akhtar@samsung.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Olof Johansson <olof@lixom.net>, soc@kernel.org,
+        Russell King <linux@armlinux.org.uk>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Kukjin Kim <kgene@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org
-Cc:     Michael Tretter <m.tretter@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-phy@lists.infradead.org,
+        ~postmarketos/upstreaming@lists.sr.ht
+References: <20230501195525.6268-1-aweber.kernel@gmail.com>
+ <20230501195525.6268-8-aweber.kernel@gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230501195525.6268-8-aweber.kernel@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-=C3=BEri., 9. ma=C3=AD 2023 kl. 15:03 skrifa=C3=B0i Andri Yngvason <andri@y=
-ngvason.is>:
->
-> This accommodates planes that are backed by a single dmabuf.
->
-> Signed-off-by: Andri Yngvason <andri@yngvason.is>
+On 01/05/2023 21:55, Artur Weber wrote:
+> Support for the Exynos4212 SoC was originally dropped as there were
+> no boards using it. We will be adding a device that uses it, so add
+> it back.
+> 
+> This reverts commit 2d41a0c9ae51ac363d107f2510022106e7234b33.
+> 
+> Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
 > ---
->  drivers/media/platform/verisilicon/rockchip_vpu2_hw_jpeg_enc.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/media/platform/verisilicon/rockchip_vpu2_hw_jpeg_enc=
-.c b/drivers/media/platform/verisilicon/rockchip_vpu2_hw_jpeg_enc.c
-> index 52c76fb91c56..716c248dc2bf 100644
-> --- a/drivers/media/platform/verisilicon/rockchip_vpu2_hw_jpeg_enc.c
-> +++ b/drivers/media/platform/verisilicon/rockchip_vpu2_hw_jpeg_enc.c
-> @@ -99,7 +99,8 @@ static void rockchip_vpu2_jpeg_enc_set_buffers(struct h=
-antro_dev *vpu,
->         vepu_write_relaxed(vpu, size_left, VEPU_REG_STR_BUF_LIMIT);
->
->         for (i =3D 0; i < num_planes; i++) {
-> -               src =3D vb2_dma_contig_plane_dma_addr(src_buf, i);
-> +               src =3D vb2_dma_contig_plane_dma_addr(src_buf, i) +
-> +                       src_buf->planes[i].data_offset;
->                 vepu_write_relaxed(vpu, src, __vepu_reg_addr_for_plane(i)=
-);
->         }
->  }
-> --
-> 2.40.1
->
+>  drivers/media/platform/samsung/exynos4-is/Kconfig     | 2 +-
+>  drivers/media/platform/samsung/exynos4-is/fimc-core.c | 2 +-
+>  drivers/media/platform/samsung/exynos4-is/fimc-lite.c | 2 +-
 
-I see now that there is already a patch submitted for this:
-https://marc.info/?l=3Dlinux-arm-kernel&m=3D167992346404789&w=3D2
+Subject:
+media: Revert "media: Remove dependency on obsolete SoC support"
 
-Let's continue with that instead. I can confirm though, that setting
-the offset works fine for me.
+I assume this will go via media tree. If not, let me know.
 
-Regards,
-Andri
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+
+Best regards,
+Krzysztof
+
