@@ -2,245 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F33E66FC092
-	for <lists+linux-media@lfdr.de>; Tue,  9 May 2023 09:40:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93B8C6FC191
+	for <lists+linux-media@lfdr.de>; Tue,  9 May 2023 10:21:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234098AbjEIHkO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 May 2023 03:40:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56466 "EHLO
+        id S234335AbjEIIVn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 May 2023 04:21:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229484AbjEIHkN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 9 May 2023 03:40:13 -0400
-Received: from mail.nfschina.com (unknown [42.101.60.195])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 3C0C183D2;
-        Tue,  9 May 2023 00:40:08 -0700 (PDT)
-Received: from localhost.localdomain (unknown [180.167.10.98])
-        by mail.nfschina.com (Maildata Gateway V2.8.8) with ESMTPA id 3A4C418013AEE1;
-        Tue,  9 May 2023 15:40:05 +0800 (CST)
-X-MD-Sfrom: suhui@nfschina.com
-X-MD-SrcIP: 180.167.10.98
-From:   Su Hui <suhui@nfschina.com>
-To:     auro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Baisong Zhong <zhongbaisong@huawei.com>,
-        Jakub Kicinski <kuba@kernel.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        Su Hui <suhui@nfschina.com>
-Subject: [PATCH] media: usb: remove unnecessary (void*) conversions
-Date:   Tue,  9 May 2023 15:40:01 +0800
-Message-Id: <20230509074001.136455-1-suhui@nfschina.com>
-X-Mailer: git-send-email 2.30.2
+        with ESMTP id S229527AbjEIIVm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 9 May 2023 04:21:42 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F6301FC9;
+        Tue,  9 May 2023 01:21:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683620498; x=1715156498;
+  h=message-id:subject:from:to:cc:date:mime-version:
+   content-transfer-encoding;
+  bh=iL32OTVxfsKf0MiPlMkD5VCv+3BZXtsc3yvc0K3cIjA=;
+  b=aKCU8lp1lRWDS2Dv2E6nRvDZ5vp/qWpqDkU2vxwmzcDJW0bdLom9QlLf
+   ZORv7rdPiVv5+Lc5v7LDzrK/8FgdoyFEE/sZmIDpAxo9JIKHZdgdLxs+L
+   KpuaLf0d68TnzeiRg/K1MSnLwvfncg38Fy3dlUS7aj+74/m2qwMJT4Cfy
+   Ot96Ojpd7LT6guVy4jksV+XtNyBMEQ927DesfGgMIJ3Bfm0cQhxbOLGj6
+   WUrUzRLvYdjVFIWhrTNymq+jBpygztsPNRSUajmMKVyIxY3DKu8oAbAph
+   1Pm9VdNgMpwI6Yt2Xq1ZjRgprmFYDNyj6vGxoznIDTJljzEfGyXFXYLqz
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="349871441"
+X-IronPort-AV: E=Sophos;i="5.99,261,1677571200"; 
+   d="scan'208,223";a="349871441"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 01:21:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="873081495"
+X-IronPort-AV: E=Sophos;i="5.99,261,1677571200"; 
+   d="scan'208,223";a="873081495"
+Received: from dperchan-mobl1.ger.corp.intel.com (HELO terminus) ([143.185.115.141])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 01:21:31 -0700
+Message-ID: <86fe33984f12ff5eec5c0418e927ab93d0b71759.camel@intel.com>
+Subject: [PATCH] media: uapi: v4l: Intel metadata format update
+From:   Dmitry Perchanov <dmitry.perchanov@intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     mchehab@kernel.org, linux-kernel@vger.kernel.org,
+        sakari.ailus@iki.fi, laurent.pinchart@ideasonboard.com,
+        evgeni.raikhel@intel.com, demisrael@gmail.com,
+        Sakari Ailus <sakari.ailus@intel.com>
+Date:   Tue, 09 May 2023 11:21:20 +0300
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-No need cast (void*) to (struct dvb_usb_device *),
-(struct filter_info *) or (struct az6027_device_state *).
+From be3b4d3505530496a5079c88e3c76da3a688ee8a Mon Sep 17 00:00:00 2001
+From: Dmitry Perchanov <dmitry.perchanov@intel.com>
+Date: Tue, 9 May 2023 11:09:11 +0300
+Subject: [PATCH] media: uapi: v4l: Intel metadata format update
 
-Signed-off-by: Su Hui <suhui@nfschina.com>
+Update metadata structure for Intel RealSense UVC/MIPI cameras.
+Compliant to Intel Configuration version 3.
+
+Signed-off-by: Dmitry Perchanov <dmitry.perchanov@intel.com>
 ---
- drivers/media/usb/dvb-usb-v2/az6007.c   | 16 ++++++++--------
- drivers/media/usb/dvb-usb/az6027.c      | 18 +++++++++---------
- drivers/media/usb/dvb-usb/pctv452e.c    |  4 ++--
- drivers/media/usb/ttusb-dec/ttusb_dec.c |  2 +-
- 4 files changed, 20 insertions(+), 20 deletions(-)
+ .../media/v4l/pixfmt-meta-d4xx.rst            | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/usb/dvb-usb-v2/az6007.c b/drivers/media/usb/dvb-usb-v2/az6007.c
-index 62ee09f28a0b..81a498d24075 100644
---- a/drivers/media/usb/dvb-usb-v2/az6007.c
-+++ b/drivers/media/usb/dvb-usb-v2/az6007.c
-@@ -248,7 +248,7 @@ static int az6007_ci_read_attribute_mem(struct dvb_ca_en50221 *ca,
- 					int slot,
- 					int address)
- {
--	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
-+	struct dvb_usb_device *d = ca->data;
- 	struct az6007_device_state *state = d_to_priv(d);
- 
- 	int ret;
-@@ -290,7 +290,7 @@ static int az6007_ci_write_attribute_mem(struct dvb_ca_en50221 *ca,
- 					 int address,
- 					 u8 value)
- {
--	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
-+	struct dvb_usb_device *d = ca->data;
- 	struct az6007_device_state *state = d_to_priv(d);
- 
- 	int ret;
-@@ -321,7 +321,7 @@ static int az6007_ci_read_cam_control(struct dvb_ca_en50221 *ca,
- 				      int slot,
- 				      u8 address)
- {
--	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
-+	struct dvb_usb_device *d = ca->data;
- 	struct az6007_device_state *state = d_to_priv(d);
- 
- 	int ret;
-@@ -367,7 +367,7 @@ static int az6007_ci_write_cam_control(struct dvb_ca_en50221 *ca,
- 				       u8 address,
- 				       u8 value)
- {
--	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
-+	struct dvb_usb_device *d = ca->data;
- 	struct az6007_device_state *state = d_to_priv(d);
- 
- 	int ret;
-@@ -398,7 +398,7 @@ static int az6007_ci_write_cam_control(struct dvb_ca_en50221 *ca,
- 
- static int CI_CamReady(struct dvb_ca_en50221 *ca, int slot)
- {
--	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
-+	struct dvb_usb_device *d = ca->data;
- 
- 	int ret;
- 	u8 req;
-@@ -429,7 +429,7 @@ static int CI_CamReady(struct dvb_ca_en50221 *ca, int slot)
- 
- static int az6007_ci_slot_reset(struct dvb_ca_en50221 *ca, int slot)
- {
--	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
-+	struct dvb_usb_device *d = ca->data;
- 	struct az6007_device_state *state = d_to_priv(d);
- 
- 	int ret, i;
-@@ -485,7 +485,7 @@ static int az6007_ci_slot_shutdown(struct dvb_ca_en50221 *ca, int slot)
- 
- static int az6007_ci_slot_ts_enable(struct dvb_ca_en50221 *ca, int slot)
- {
--	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
-+	struct dvb_usb_device *d = ca->data;
- 	struct az6007_device_state *state = d_to_priv(d);
- 
- 	int ret;
-@@ -514,7 +514,7 @@ static int az6007_ci_slot_ts_enable(struct dvb_ca_en50221 *ca, int slot)
- 
- static int az6007_ci_poll_slot_status(struct dvb_ca_en50221 *ca, int slot, int open)
- {
--	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
-+	struct dvb_usb_device *d = ca->data;
- 	struct az6007_device_state *state = d_to_priv(d);
- 	int ret;
- 	u8 req;
-diff --git a/drivers/media/usb/dvb-usb/az6027.c b/drivers/media/usb/dvb-usb/az6027.c
-index f7a6ab29e530..9d0847190748 100644
---- a/drivers/media/usb/dvb-usb/az6027.c
-+++ b/drivers/media/usb/dvb-usb/az6027.c
-@@ -407,7 +407,7 @@ static int az6027_ci_read_attribute_mem(struct dvb_ca_en50221 *ca,
- 					int slot,
- 					int address)
- {
--	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
-+	struct dvb_usb_device *d = ca->data;
- 	struct az6027_device_state *state = d->priv;
- 
- 	int ret;
-@@ -449,8 +449,8 @@ static int az6027_ci_write_attribute_mem(struct dvb_ca_en50221 *ca,
- 					 int address,
- 					 u8 value)
- {
--	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
--	struct az6027_device_state *state = (struct az6027_device_state *)d->priv;
-+	struct dvb_usb_device *d = ca->data;
-+	struct az6027_device_state *state = d->priv;
- 
- 	int ret;
- 	u8 req;
-@@ -480,7 +480,7 @@ static int az6027_ci_read_cam_control(struct dvb_ca_en50221 *ca,
- 				      int slot,
- 				      u8 address)
- {
--	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
-+	struct dvb_usb_device *d = ca->data;
- 	struct az6027_device_state *state = d->priv;
- 
- 	int ret;
-@@ -526,7 +526,7 @@ static int az6027_ci_write_cam_control(struct dvb_ca_en50221 *ca,
- 				       u8 address,
- 				       u8 value)
- {
--	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
-+	struct dvb_usb_device *d = ca->data;
- 	struct az6027_device_state *state = d->priv;
- 
- 	int ret;
-@@ -557,7 +557,7 @@ static int az6027_ci_write_cam_control(struct dvb_ca_en50221 *ca,
- 
- static int CI_CamReady(struct dvb_ca_en50221 *ca, int slot)
- {
--	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
-+	struct dvb_usb_device *d = ca->data;
- 
- 	int ret;
- 	u8 req;
-@@ -588,7 +588,7 @@ static int CI_CamReady(struct dvb_ca_en50221 *ca, int slot)
- 
- static int az6027_ci_slot_reset(struct dvb_ca_en50221 *ca, int slot)
- {
--	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
-+	struct dvb_usb_device *d = ca->data;
- 	struct az6027_device_state *state = d->priv;
- 
- 	int ret, i;
-@@ -644,7 +644,7 @@ static int az6027_ci_slot_shutdown(struct dvb_ca_en50221 *ca, int slot)
- 
- static int az6027_ci_slot_ts_enable(struct dvb_ca_en50221 *ca, int slot)
- {
--	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
-+	struct dvb_usb_device *d = ca->data;
- 	struct az6027_device_state *state = d->priv;
- 
- 	int ret;
-@@ -673,7 +673,7 @@ static int az6027_ci_slot_ts_enable(struct dvb_ca_en50221 *ca, int slot)
- 
- static int az6027_ci_poll_slot_status(struct dvb_ca_en50221 *ca, int slot, int open)
- {
--	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
-+	struct dvb_usb_device *d = ca->data;
- 	struct az6027_device_state *state = d->priv;
- 	int ret;
- 	u8 req;
-diff --git a/drivers/media/usb/dvb-usb/pctv452e.c b/drivers/media/usb/dvb-usb/pctv452e.c
-index 42763c12cf29..2aab49003493 100644
---- a/drivers/media/usb/dvb-usb/pctv452e.c
-+++ b/drivers/media/usb/dvb-usb/pctv452e.c
-@@ -159,7 +159,7 @@ static int tt3650_ci_msg_locked(struct dvb_ca_en50221 *ca,
- 				u8 cmd, u8 *data, unsigned int write_len,
- 				unsigned int read_len)
- {
--	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
-+	struct dvb_usb_device *d = ca->data;
- 	struct pctv452e_state *state = d->priv;
- 	int ret;
- 
-@@ -292,7 +292,7 @@ static int tt3650_ci_slot_ts_enable(struct dvb_ca_en50221 *ca, int slot)
- 
- static int tt3650_ci_slot_reset(struct dvb_ca_en50221 *ca, int slot)
- {
--	struct dvb_usb_device *d = (struct dvb_usb_device *)ca->data;
-+	struct dvb_usb_device *d = ca->data;
- 	struct pctv452e_state *state = d->priv;
- 	u8 buf[1];
- 	int ret;
-diff --git a/drivers/media/usb/ttusb-dec/ttusb_dec.c b/drivers/media/usb/ttusb-dec/ttusb_dec.c
-index 38822cedd93a..6bf2e7e0f6d2 100644
---- a/drivers/media/usb/ttusb-dec/ttusb_dec.c
-+++ b/drivers/media/usb/ttusb-dec/ttusb_dec.c
-@@ -1128,7 +1128,7 @@ static int ttusb_dec_stop_sec_feed(struct dvb_demux_feed *dvbdmxfeed)
- {
- 	struct ttusb_dec *dec = dvbdmxfeed->demux->priv;
- 	u8 b0[] = { 0x00, 0x00 };
--	struct filter_info *finfo = (struct filter_info *)dvbdmxfeed->priv;
-+	struct filter_info *finfo = dvbdmxfeed->priv;
- 	unsigned long flags;
- 
- 	b0[1] = finfo->stream_id;
--- 
-2.30.2
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst b/D=
+ocumentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst
+index 4e437ba97a0e..b5decde640c1 100644
+--- a/Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst
++++ b/Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst
+@@ -12,7 +12,7 @@ Intel D4xx UVC Cameras Metadata
+ Description
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+ =
+
+-Intel D4xx (D435 and other) cameras include per-frame metadata in their UVC
++Intel D4xx (D435, D455 and others) cameras include per-frame metadata in t=
+heir UVC
+ payload headers, following the Microsoft(R) UVC extension proposal [1_]. T=
+hat
+ means, that the private D4XX metadata, following the standard UVC header, =
+is
+ organised in blocks. D4XX cameras implement several standard block types,
+@@ -26,6 +26,8 @@ V4L2_META_FMT_UVC with the only difference, that it also =
+includes proprietary
+ payload header data. D4xx cameras use bulk transfers and only send one pay=
+load
+ per frame, therefore their headers cannot be larger than 255 bytes.
+ =
+
++This document implements Intel Configuration version 3.
++
+ Below are proprietary Microsoft style metadata types, used by D4xx cameras,
+ where all fields are in little endian order:
+ =
+
+@@ -43,7 +45,7 @@ where all fields are in little endian order:
+     * - __u32 ID
+       - 0x80000000
+     * - __u32 Size
+-      - Size in bytes (currently 56)
++      - Size in bytes (currently 60)
+     * - __u32 Version
+       - Version of this structure. The documentation herein corresponds to
+         version xxx. The version number will be incremented when new field=
+s are
+@@ -72,8 +74,11 @@ where all fields are in little endian order:
+       - Bottom border of the AE Region of Interest
+     * - __u32 Preset
+       - Preset selector value, default: 0, unless changed by the user
+-    * - __u32 Laser mode
++    * - __u8 Emitter mode
+       - 0: off, 1: on
++    * - __u8 RFU byte
++    * - __u16 LED Power
++      - Led power value 0-360 (F416 SKU)
+     * - :cspan:`1` *Capture Timing*
+     * - __u32 ID
+       - 0x80000001
+@@ -124,6 +129,14 @@ where all fields are in little endian order:
+       - Requested frame rate per second
+     * - __u16 Trigger
+       - Byte 0: bit 0: depth and RGB are synchronised, bit 1: external tri=
+gger
++    * - __u16 Calibration count
++    * - __u8 GPIO input data
++      - GPIO readout
++      - Supported from FW 5.12.7.0
++    * - __u32 Sub-preset info
++      - Sub-preset choice information
++    * - __u8 reserved
++      - RFU byte.
+ =
+
+ .. _1:
+ =
+
+-- =
+
+2.25.1
+
+
+---------------------------------------------------------------------
+Intel Israel (74) Limited
+
+This e-mail and any attachments may contain confidential material for
+the sole use of the intended recipient(s). Any review or distribution
+by others is strictly prohibited. If you are not the intended
+recipient, please contact the sender and delete all copies.
 
