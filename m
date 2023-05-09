@@ -2,53 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 75A516FCD67
-	for <lists+linux-media@lfdr.de>; Tue,  9 May 2023 20:10:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 500906FCD6E
+	for <lists+linux-media@lfdr.de>; Tue,  9 May 2023 20:10:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235038AbjEISKG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 May 2023 14:10:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36866 "EHLO
+        id S235163AbjEISKX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 May 2023 14:10:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235040AbjEISJ6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 9 May 2023 14:09:58 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 248B949F8
+        with ESMTP id S234627AbjEISKA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 9 May 2023 14:10:00 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B61B94EC5
         for <linux-media@vger.kernel.org>; Tue,  9 May 2023 11:09:51 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id 4fb4d7f45d1cf-50bcb4a81ceso11262436a12.2
-        for <linux-media@vger.kernel.org>; Tue, 09 May 2023 11:09:50 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id 4fb4d7f45d1cf-50bc3a2d333so9583585a12.0
+        for <linux-media@vger.kernel.org>; Tue, 09 May 2023 11:09:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683655789; x=1686247789;
+        d=linaro.org; s=google; t=1683655791; x=1686247791;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=n6Mk+624yxmJZhHaO1qWp2thr1eQhOU4HhCuia9Oec4=;
-        b=gnn4JGqkuL8679yPpfpJdLY0T1E3exoerCewjeQWuzGfcaQBijpRSoJjdv7PKTg3Sy
-         Mr499xZTPJvKc3McHFl/2hOG7VqPYfzv9aMhAh/UdAVJ0JbAQv/e6W1KlN6e5OZOc4JQ
-         X9k9nod95QBEbjCPVdfD2pUVSLu1p6D2C+nB2wxq2S7lTXW5b4mmUtsFgfisFgbNP5kL
-         VOKmBxCYBb+iZJtTaRMdF84Dl0G08u2Bd2c8IRTziwDnV4M1FEXFr7zztZGL0YkAxr/n
-         qBRd95ga2VNqB4uS9X5fqnxSwIU3XxPet8Nkjfjqix6bUGegq85AY/8X/H9RDvpFIwdO
-         iOww==
+        bh=iy+cbzzMQuxCTrCfzjntf6kXXVEyP3ei1AGAzgxK3L0=;
+        b=NPeP8kTFznlWkRMqcClddaeKDzmkjQbgNMwJxBfaSCN0pSkjTnuATgpYWNKk8HP1kH
+         pGGpL46W7oww6yNoG0OKriH7VQgtwHYt4Kktq40HB1/WXQhC3ObC8//5Ui/BVPtsoOop
+         BBWNXAKjB8XeYJNq5O9CnOS+QIYEprH8BtQHesWyflL+5DB3+7asFS01Vk59YlI5LxHX
+         ANBO+LgErYOlDkUucmnl7hE5hasWOhl4EmRs7qf3idPoO0yM3EBiLPLK85/mDn/MnPT4
+         N3cZsT3Ld5wsNGYiZZgufpWcr4fawSbi7+0LnsyLiEHvPZbMFT3BBnwkfqqHtZmhLDA3
+         +d6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683655789; x=1686247789;
+        d=1e100.net; s=20221208; t=1683655791; x=1686247791;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=n6Mk+624yxmJZhHaO1qWp2thr1eQhOU4HhCuia9Oec4=;
-        b=Lq9ObOElTUi9HQOE8WWkxapYEtAnIShL0rH2vwRAUw+K9AZME/mtDXC69bKk3cz2aW
-         88oPcK4gQvSp1bNuXjDzWFAjn0AaIKrqdE61Hge0GqltaVp+9elUFTYk10vKFFgobyn0
-         wC1K//SOEDU7Loynj3/pTXNhMj3KeUp+sKPXZTEXD0aeQt3KsKlJmka4BRjzqNBKBMTb
-         qUuiyOs+XANICoaJEF3eJURACt7qI/EItirauBVAbltx72ybry1fzDc563iEtISMTfz0
-         rGHjUP2uD1SFyKmTLO+Vdzwwwr2nkkk33LGCRMYx9rs+gKgHa96uAz91j6mdhKi0sH9z
-         iG6A==
-X-Gm-Message-State: AC+VfDz7mhUB9feALik4oF3ojd5GBIwixT0uNJ6XpIjtGSm8Oe/JNKsP
-        4MoxUpMO298ofuImt5Ds4IY+ng==
-X-Google-Smtp-Source: ACHHUZ5Jg/H32sCIUzGZPIgCeMhANkCcCtIqqsjY4T3Eu0k8izMnFpTqj3Zeqww7zEiNewdh7JADeA==
-X-Received: by 2002:aa7:dbca:0:b0:50b:d557:d446 with SMTP id v10-20020aa7dbca000000b0050bd557d446mr11080825edt.2.1683655789189;
-        Tue, 09 May 2023 11:09:49 -0700 (PDT)
+        bh=iy+cbzzMQuxCTrCfzjntf6kXXVEyP3ei1AGAzgxK3L0=;
+        b=Dpl+W+Bf0ZBWwPchBC1KWnuDRZcS2dGk1slmAbUTs2jGwAHbv6ShRJJT+rbo7/rBXL
+         t6DUwz3mqfecoGd/iGEzId4WIUYgTpdDBqtSV8Dh0y8twPxGpy+IHwd2R1H1c//fM9TM
+         xMblEWEXw12ntkfoIYlFVgi0W46QuFjU+niS/lVf/XznGzBWnB5njAB6C66JmuDLbDAt
+         VQNZ76MmF7ADf0E8J+praYAipau7rrVH8Whqek8yY1VrNzPidkiTzZRSyQtt/JSMsOkj
+         69SB0hEOhpjoCut9ciFxIjn0zEZAd2/sL3sgTw7bUc7rOtZ3alhesz+utu20seKD5RTN
+         huwg==
+X-Gm-Message-State: AC+VfDxVwjktnmqJMhbVq0RXNeMGQm+TNaSm+ih6welC+sHNIzCgU/DJ
+        URcEDLoLgRUrtj3uMF9iZ77oew==
+X-Google-Smtp-Source: ACHHUZ47HeppV/iVh2N6EUDsOtopv6N36J1VqvXDHLRSjrs44zgmwmyzGrm7QSIaJADtmRvpEvSKuA==
+X-Received: by 2002:aa7:d45a:0:b0:50b:c4fb:770f with SMTP id q26-20020aa7d45a000000b0050bc4fb770fmr10993092edr.34.1683655790926;
+        Tue, 09 May 2023 11:09:50 -0700 (PDT)
 Received: from krzk-bin.. ([2a02:810d:15c0:828:d0d5:7818:2f46:5e76])
-        by smtp.gmail.com with ESMTPSA id dy28-20020a05640231fc00b0050d8b5757d1sm1015286edb.54.2023.05.09.11.09.47
+        by smtp.gmail.com with ESMTPSA id dy28-20020a05640231fc00b0050d8b5757d1sm1015286edb.54.2023.05.09.11.09.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 May 2023 11:09:48 -0700 (PDT)
+        Tue, 09 May 2023 11:09:50 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Artur Weber <aweber.kernel@gmail.com>
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
@@ -72,12 +72,12 @@ Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         linux-pm@vger.kernel.org, linux-media@vger.kernel.org,
         linux-phy@lists.infradead.org,
         ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: (subset) [PATCH v3 06/13] clk: samsung: Re-add support for Exynos4212 CPU clock
-Date:   Tue,  9 May 2023 20:09:33 +0200
-Message-Id: <168365575565.242810.17090653188259271875.b4-ty@linaro.org>
+Subject: Re: (subset) [PATCH v3 09/13] ARM: dts: Move common Exynos4x12 definitions to exynos4x12.dtsi
+Date:   Tue,  9 May 2023 20:09:34 +0200
+Message-Id: <168365575565.242810.17999495054025034304.b4-ty@linaro.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230501195525.6268-7-aweber.kernel@gmail.com>
-References: <20230501195525.6268-1-aweber.kernel@gmail.com> <20230501195525.6268-7-aweber.kernel@gmail.com>
+In-Reply-To: <20230501195525.6268-10-aweber.kernel@gmail.com>
+References: <20230501195525.6268-1-aweber.kernel@gmail.com> <20230501195525.6268-10-aweber.kernel@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -92,20 +92,21 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-On Mon, 01 May 2023 21:55:18 +0200, Artur Weber wrote:
-> Support for the Exynos4212 SoC was originally dropped as there were
-> no boards using it. We will be adding a device that uses it, so add
-> it back.
+On Mon, 01 May 2023 21:55:21 +0200, Artur Weber wrote:
+> In preparation for the re-introduction of the Exynos4212, move
+> their shared definitions to a separate file. Rename the pinctrl
+> definitions accordingly, and adapt the Exynos4412 DTSI to these
+> changes.
 > 
-> This reverts commit c9194fb623b0158029a268376df09fe28a2a2b05.
-> 
+> This reverts part of commit bca9085e0ae9 ("ARM: dts: exynos:
+> remove Exynos4212 support (dead code)").
 > 
 > [...]
 
 Applied, thanks!
 
-[06/13] clk: samsung: Re-add support for Exynos4212 CPU clock
-        https://git.kernel.org/krzk/linux/c/40b4ffe5e921a8db911a7e5ffe3ad8da86ac0dfd
+[09/13] ARM: dts: Move common Exynos4x12 definitions to exynos4x12.dtsi
+        https://git.kernel.org/krzk/linux/c/b4354b9761437ba136329e3f2ea1386e8d483e1c
 
 Best regards,
 -- 
