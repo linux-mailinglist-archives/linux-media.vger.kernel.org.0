@@ -2,146 +2,205 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C90F36FE2B2
-	for <lists+linux-media@lfdr.de>; Wed, 10 May 2023 18:43:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 713B56FE412
+	for <lists+linux-media@lfdr.de>; Wed, 10 May 2023 20:35:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235912AbjEJQnr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 May 2023 12:43:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33360 "EHLO
+        id S235814AbjEJSfe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 May 2023 14:35:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232464AbjEJQnp (ORCPT
+        with ESMTP id S229461AbjEJSfc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 May 2023 12:43:45 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD98110CF
-        for <linux-media@vger.kernel.org>; Wed, 10 May 2023 09:43:43 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pwmuc-0006yl-CH; Wed, 10 May 2023 18:43:34 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pwmuY-002XCA-O2; Wed, 10 May 2023 18:43:30 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1pwmuY-003ALi-5f; Wed, 10 May 2023 18:43:30 +0200
-Date:   Wed, 10 May 2023 18:43:30 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Fei Shao <fshao@chromium.org>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH] media: mediatek: vcodec: Convert mtk_vcodec_dec_hw
- platform remove callback
-Message-ID: <20230510164330.z2ygkl7vws6fci75@pengutronix.de>
-References: <20230510233117.1.I7047714f92ef7569bd21f118ae6aee20b3175a92@changeid>
+        Wed, 10 May 2023 14:35:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CADF63C01
+        for <linux-media@vger.kernel.org>; Wed, 10 May 2023 11:34:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1683743676;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=/iU/YWG6JLDsm9YIhsB7LJaDut8Cwu8yDR8xjDvAXcg=;
+        b=WlpeB5CaIAqpc1PXLEINmHJkmCtjuhR+JCl/LDAa8Knz+CCRE1el7HkFZl47Z+fam6nO2T
+        RlnKtcr8vbZgtAJFxQRGELBb7NY1FjM7QRkINUuunBD1IZ6FusGfH4ZQ0AzRRGr5+F3QGD
+        CIDv5FELaIjMMSI356d0NRbP/cqaZDw=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-198-gOYA7TnuOt244xoZQ3YXBA-1; Wed, 10 May 2023 14:34:35 -0400
+X-MC-Unique: gOYA7TnuOt244xoZQ3YXBA-1
+Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-50bc456a94dso7141161a12.1
+        for <linux-media@vger.kernel.org>; Wed, 10 May 2023 11:34:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683743674; x=1686335674;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/iU/YWG6JLDsm9YIhsB7LJaDut8Cwu8yDR8xjDvAXcg=;
+        b=bfT5BWeM3rzfzhIYa1l2BoKYLbW2iN2heby1/PPTOQcniN90o61BRwV42low4IKkW9
+         2ajDjJhhnL1q3beyfKHoFQumpbo2fm5aVq+aFmFeBNa90S9upZHP0I3nZg9b0w6mi4qd
+         lPvFImVvzo2ZFL4GmXrVsJepE4rb+mIOfDLVWMDmXzDnjU0XEiici4q9iQyLFd1FRdQX
+         IbtDBbDkYcOVcMRgrMijWxniMBiyZhh/rEnKEaIiorDrDOWTgnmJGo01u36onre3M/X2
+         RnnV7XWcwtQN5Q57jO2CxfMntsWNT6ftmFyiqzDippnXwu00ntwaFQ5JIevaH4xBBzdY
+         NcWg==
+X-Gm-Message-State: AC+VfDwtXSs1euKvWBcslliMGePbJXP+aCVCq0bdxtNhif0qdoYLzH4o
+        vQE7kkIPhdRyR7mLXELlf/9tFugop7aCbHsSsjXocdSC27syWr/Qf7V5ImKKGjx9V68e3y4NZEr
+        5YIBxY5N2s3M9nCuS6RbWwR0=
+X-Received: by 2002:a17:907:3e1d:b0:94e:dd30:54b5 with SMTP id hp29-20020a1709073e1d00b0094edd3054b5mr19182239ejc.6.1683743674283;
+        Wed, 10 May 2023 11:34:34 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5WOGXEy9sVcpQStRmbMON/2R0sniDUjFU0xVPyA22Sel+zGCAdR6lKMI/BSi3TjyXz1XWNlQ==
+X-Received: by 2002:a17:907:3e1d:b0:94e:dd30:54b5 with SMTP id hp29-20020a1709073e1d00b0094edd3054b5mr19182221ejc.6.1683743673887;
+        Wed, 10 May 2023 11:34:33 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id q17-20020a056402033100b00509dfb39b52sm2186904edw.37.2023.05.10.11.34.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 May 2023 11:34:33 -0700 (PDT)
+Message-ID: <b718122b-7935-d0e2-4e1d-a09e0943a84b@redhat.com>
+Date:   Wed, 10 May 2023 20:34:32 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="q7mthi6fgfcgjjj5"
-Content-Disposition: inline
-In-Reply-To: <20230510233117.1.I7047714f92ef7569bd21f118ae6aee20b3175a92@changeid>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2 5/5] staging: media: atomisp: sh_css_mipi: Remove
+ #ifdef 2041
+Content-Language: en-US, nl
+To:     Kate Hsuan <hpa@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20230508062632.34537-1-hpa@redhat.com>
+ <20230508062632.34537-5-hpa@redhat.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230508062632.34537-5-hpa@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Kate,
 
---q7mthi6fgfcgjjj5
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-[expanding the audience a bit for more expertise]
-
-Hello,
-
-On Wed, May 10, 2023 at 11:31:35PM +0800, Fei Shao wrote:
-> This aligns with [1] and converts the platform remove callback to
-> .remove_new(), which returns void.
->=20
-> [1]: commit a3afc5b10661 ("media: mtk_vcodec_dec_drv: Convert to
->      platform remove callback returning void")
->=20
-> Signed-off-by: Fei Shao <fshao@chromium.org>
->=20
+On 5/8/23 08:26, Kate Hsuan wrote:
+> The actions of ISP2401 and 2400 are determined at the runtime.
+> 
+> Signed-off-by: Kate Hsuan <hpa@redhat.com>
 > ---
->=20
->  drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.c b=
-/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.c
-> index b753bf54ebd9..bd5743723da6 100644
-> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.c
-> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.c
-> @@ -193,16 +193,14 @@ static int mtk_vdec_hw_probe(struct platform_device=
- *pdev)
->  	return ret;
->  }
-> =20
-> -static int mtk_vdec_hw_remove(struct platform_device *pdev)
-> +static void mtk_vdec_hw_remove(struct platform_device *pdev)
->  {
->  	pm_runtime_disable(&pdev->dev);
-> -
-> -	return 0;
->  }
-> =20
->  static struct platform_driver mtk_vdec_driver =3D {
->  	.probe	=3D mtk_vdec_hw_probe,
-> -	.remove =3D mtk_vdec_hw_remove,
-> +	.remove_new =3D mtk_vdec_hw_remove,
->  	.driver	=3D {
->  		.name	=3D "mtk-vdec-comp",
->  		.of_match_table =3D mtk_vdec_hw_match,
+>  .../staging/media/atomisp/pci/sh_css_mipi.c   | 65 ++++++-------------
+>  1 file changed, 20 insertions(+), 45 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+> index bc6e8598a776..52a1ed63e9a5 100644
+> --- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+> +++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+> @@ -386,30 +381,22 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
+>  		return -EINVAL;
+>  	}
+>  
+> -#ifdef ISP2401
+> -	err = calculate_mipi_buff_size(&pipe->stream->config,
+> -				       &my_css.mipi_frame_size[port]);
 
-While the patch looks fine, I wonder if having a remove callback just to
-do pm_runtime_disable() is worth keeping it. Doesn't the core care for
-things like that? I grepped a bit around, device_unbind_cleanup() is
-called after device_remove() which calls pm_runtime_reinit(). Does that
-mean calling pm_runtime_disable in .remove() is useless? In that case,
-you could just drop the .remove() callback.
+Before you changes this code always run ISP2401, now it only runs
+when (ref_count_mipi_allocation[port] != 0) is not true.
 
-Best regards
-Uwe
+So this statement should stay here in the code, just prefixed
+with a if (IS_ISP2401) condition.
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+> -	/*
+> -	 * 2401 system allows multiple streams to use same physical port. This is not
+> -	 * true for 2400 system. Currently 2401 uses MIPI buffers as a temporary solution.
+> -	 * TODO AM: Once that is changed (removed) this code should be removed as well.
+> -	 * In that case only 2400 related code should remain.
+> -	 */
+> -	if (ref_count_mipi_allocation[port] != 0) {
+> -		ref_count_mipi_allocation[port]++;
+> -		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+> -				    "allocate_mipi_frames(%p) leave: nothing to do, already allocated for this port (port=%d).\n",
+> -				    pipe, port);
+> -		return 0;
+> -	}
+> -#else
+>  	if (ref_count_mipi_allocation[port] != 0) {
+>  		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+>  				    "allocate_mipi_frames(%p) exit: already allocated for this port (port=%d).\n",
+>  				    pipe, port);
+>  		return 0;
+> +	} else {
+> +		/*
+> +		 * 2401 system allows multiple streams to use same physical port. This is not
+> +		 * true for 2400 system. Currently 2401 uses MIPI buffers as a temporary solution.
+> +		 * TODO AM: Once that is changed (removed) this code should be removed as well.
+> +		 * In that case only 2400 related code should remain.
+> +		 */
 
---q7mthi6fgfcgjjj5
-Content-Type: application/pgp-signature; name="signature.asc"
+This comment block actually belongs to the if (ref_count_mipi_allocation[port] != 0)
+check, the code executed if that check passes was actually different between
+the ISP2400 and ISP2401 (my bad, sorry). The ISP2401 case did an extra:
 
------BEGIN PGP SIGNATURE-----
+		ref_count_mipi_allocation[port]++;
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmRbybEACgkQj4D7WH0S
-/k7BlggAtOk4RsuBv4L9tAsMlhTGVIueKXhZIiBT1IZ0G0tp9SBTwlWNxwIay133
-Q1RFJRhgq7GTusiGx3dw62EeiF9Wxaqa7W+uB9GrAfPs5k8qRyiU/LC27sAfjg9x
-eS4MkSR3dw7iN7wB1DSEiitHVOYXdq+zZ5aqhNNzQZE3DymxwR91cxuK+gG1k/ax
-c4Izpg74XIDk8Q1CrUo1A1N5CQ0qKS1NRRlfZy/7/DjIYzG+tjrhSoUO/h4AQOtR
-lxTcA9knL0vx0NPs7o18g9ZngmMUTtQWgADLgJfFlPcyWs5CABUAnF3Nkafa9nNS
-nLsTffuOpkHKy4mmgrnT0qEGFaGqRA==
-=gg+q
------END PGP SIGNATURE-----
+when (ref_count_mipi_allocation[port] != 0), so we need to add:
 
---q7mthi6fgfcgjjj5--
+		if (IS_ISP2401)
+			ref_count_mipi_allocation[port]++;
+
+above the return 0 above.
+
+> +		if (IS_ISP2401)
+> +			err = calculate_mipi_buff_size(&pipe->stream->config,
+> +						       &my_css.mipi_frame_size[port]);
+
+I have fixed this all up while merging your series and the new
+diff for this code-block now looks like this:
+
+@@ -386,9 +381,10 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
+ 		return -EINVAL;
+ 	}
+ 
+-#ifdef ISP2401
+-	err = calculate_mipi_buff_size(&pipe->stream->config,
+-				       &my_css.mipi_frame_size[port]);
++	if (IS_ISP2401)
++		err = calculate_mipi_buff_size(&pipe->stream->config,
++					       &my_css.mipi_frame_size[port]);
++
+ 	/*
+ 	 * 2401 system allows multiple streams to use same physical port. This is not
+ 	 * true for 2400 system. Currently 2401 uses MIPI buffers as a temporary solution.
+@@ -396,20 +392,14 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
+ 	 * In that case only 2400 related code should remain.
+ 	 */
+ 	if (ref_count_mipi_allocation[port] != 0) {
+-		ref_count_mipi_allocation[port]++;
++		if (IS_ISP2401)
++			ref_count_mipi_allocation[port]++;
++
+ 		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+ 				    "allocate_mipi_frames(%p) leave: nothing to do, already allocated for this port (port=%d).\n",
+ 				    pipe, port);
+ 		return 0;
+ 	}
+-#else
+-	if (ref_count_mipi_allocation[port] != 0) {
+-		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-				    "allocate_mipi_frames(%p) exit: already allocated for this port (port=%d).\n",
+-				    pipe, port);
+-		return 0;
+-	}
+-#endif
+ 
+ 	ref_count_mipi_allocation[port]++;
+ 
+
+
+Regards,
+
+Hans
+
