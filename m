@@ -2,123 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 44C636FDDB1
-	for <lists+linux-media@lfdr.de>; Wed, 10 May 2023 14:24:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37DDA6FDE4F
+	for <lists+linux-media@lfdr.de>; Wed, 10 May 2023 15:17:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236982AbjEJMYM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 May 2023 08:24:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60008 "EHLO
+        id S236747AbjEJNRI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 May 2023 09:17:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236526AbjEJMYK (ORCPT
+        with ESMTP id S229740AbjEJNRG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 May 2023 08:24:10 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C74AF1
-        for <linux-media@vger.kernel.org>; Wed, 10 May 2023 05:24:08 -0700 (PDT)
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B5A61547;
-        Wed, 10 May 2023 14:23:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1683721439;
-        bh=Tq/E0D16LMa4khfwAPURm85utx+SG5Sc4UA5JxEc57s=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=KI6NVXxjBGiRqiBUkZfD/Kkrd9+J+biJAO86/xBYHpaMOFlZxYYZES2j2DNofHvZG
-         2xlvDQU8RezuWNs8A/8l8aTeFoKLdxxUtbGeCTN5gwI5mQi+iScatdmM5SfczpIdaE
-         yBcDMsXFd8WyEGmJmUZWo0z81M7u7WwDWSC7KgaI=
-Message-ID: <83d132b4-827a-310f-806b-4ba58f6146c1@ideasonboard.com>
-Date:   Wed, 10 May 2023 13:24:02 +0100
+        Wed, 10 May 2023 09:17:06 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77D5B61B2;
+        Wed, 10 May 2023 06:17:04 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 143526341D;
+        Wed, 10 May 2023 13:17:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08706C433EF;
+        Wed, 10 May 2023 13:17:00 +0000 (UTC)
+Message-ID: <88ff9837-36e3-b16f-537f-af21f738383a@xs4all.nl>
+Date:   Wed, 10 May 2023 15:16:58 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 2/2] media: i2c: Propagate format from sink to source pad
+ Thunderbird/102.8.0
+Subject: Re: mainline build failure due to cf21f328fcaf ("media: nxp: Add
+ i.MX8 ISI driver")
 Content-Language: en-US
-To:     Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Sylvain Petinot <sylvain.petinot@foss.st.com>,
-        Mickael Guene <mickael.guene@st.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Cc:     hugues.fruchet@foss.st.com, alain.volmat@foss.st.com
-References: <20230502103547.150918-1-dan.scally@ideasonboard.com>
- <20230502103547.150918-3-dan.scally@ideasonboard.com>
- <67e9d3ee-88d9-c1d5-8b8d-928d047fb9f9@foss.st.com>
-From:   Dan Scally <dan.scally@ideasonboard.com>
-In-Reply-To: <67e9d3ee-88d9-c1d5-8b8d-928d047fb9f9@foss.st.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux regressions mailing list <regressions@lists.linux.dev>,
+        "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>
+References: <ZElaVmxDsOkZj2DK@debian>
+ <51cff63a-3a04-acf5-8264-bb19b0bee8a3@leemhuis.info>
+ <CAHk-=wgzU8_dGn0Yg+DyX7ammTkDUCyEJ4C=NvnHRhxKWC7Wpw@mail.gmail.com>
+ <20230510090527.25e26127@sal.lan>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20230510090527.25e26127@sal.lan>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Benjamin
-
-On 10/05/2023 12:22, Benjamin Mugnier wrote:
-> Hi Daniel,
->
-> Thank you for your patch.
->
-> On 5/2/23 12:35, Daniel Scally wrote:
->> When setting formats on the sink pad, propagate the adjusted format
->> over to the subdev's source pad. Use the MIPID02_SOURCE macro to fetch the pad's
->> try format rather than relying on the pad field of the format to facilitate
->> this - the function is specific to the source pad anyway.
+On 10/05/2023 10:05, Mauro Carvalho Chehab wrote:
+> Hi Linus,
+> 
+> Em Mon, 8 May 2023 09:27:28 -0700
+> Linus Torvalds <torvalds@linux-foundation.org> escreveu:
+> 
+>> On Mon, May 8, 2023 at 3:55 AM Linux regression tracking #adding
+>> (Thorsten Leemhuis) <regressions@leemhuis.info> wrote:
+>>>
+>>> Thanks for the report. The fixes (see the mail from Laurent) apparently
+>>> are still not mainlined (or am I missing something?), so let me add this
+>>> report to the tracking to ensure this is not forgotten:  
 >>
->> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
->> ---
->>   drivers/media/i2c/st-mipid02.c | 5 ++++-
->>   1 file changed, 4 insertions(+), 1 deletion(-)
+>> Gaah. I was intending to apply the patch directly before rc1, but then
+>> I forgot about this issue.
 >>
->> diff --git a/drivers/media/i2c/st-mipid02.c b/drivers/media/i2c/st-mipid02.c
->> index f20f87562bf1..04112f26bc9d 100644
->> --- a/drivers/media/i2c/st-mipid02.c
->> +++ b/drivers/media/i2c/st-mipid02.c
->> @@ -750,7 +750,7 @@ static void mipid02_set_fmt_source(struct v4l2_subdev *sd,
->>   	if (format->which != V4L2_SUBDEV_FORMAT_TRY)
->>   		return;
->>   
->> -	*v4l2_subdev_get_try_format(sd, sd_state, format->pad) = format->format;
->> +	*v4l2_subdev_get_try_format(sd, sd_state, MIPID02_SOURCE) = format->format;
->>   }
->>   
->>   static void mipid02_set_fmt_sink(struct v4l2_subdev *sd,
->> @@ -768,6 +768,9 @@ static void mipid02_set_fmt_sink(struct v4l2_subdev *sd,
->>   		fmt = &bridge->fmt;
->>   
->>   	*fmt = format->format;
->> +
->> +	/* Propagate the format change to the source pad */
->> +	mipid02_set_fmt_source(sd, sd_state, format);
->>   }
->>   
->>   static int mipid02_set_fmt(struct v4l2_subdev *sd,
-> By running checkpatch, I got 2 warnings :
->
-> $ ./scripts/checkpatch.pl --strict --max-line-length=80
-> WARNING: Possible unwrapped commit description (prefer a maximum 75
-> chars per line)
-> #7:
-> over to the subdev's source pad. Use the MIPID02_SOURCE macro to fetch
-> the pad's
->
-> WARNING: line length of 83 exceeds 80 columns
-> #25: FILE: drivers/media/i2c/st-mipid02.c:753:
-> +	*v4l2_subdev_get_try_format(sd, sd_state, MIPID02_SOURCE) =
-> format->format;
->
-> Could you fix these in version 2 ? st-mipid02.c has other styling issues
-> but I'd like not to add new ones ;)
+>> Mauro: I'm currently really *really* fed up with the media tree. This
+>> exact same thing happened last merge window, where the media tree
+>> caused pointless build errors, and it took way too long to get the
+>> fixes the proper ways.
+>>
+>> If something doesn't even build, it should damn well be fixed ASAP.
+>>
+>> Last release it was imx290.c and PM support being disabled, and I had
+>> to apply the fix manually because it continued to not come in the
+>> proper way.
+>>
+>> See commit 7b50567bdcad ("media: i2c: imx290: fix conditional function
+>> defintions").
+>>
+>> But also see commit b928db940448 ("media: i2c: imx290: fix conditional
+>> function definitions"), which you *did* commit, but note this on that
+>> commit:
+>>
+>>     AuthorDate: Tue Feb 7 17:13
+>>     CommitDate: Sat Mar 18 08:44
+>>
+>> so it took you a MONTH AND A HALF to react to a build failure.
+>>
+>> And see this:
+>>
+>>     git name-rev b928db940448
+>>     b928db940448 tags/v6.4-rc1~161^2~458
+>>
+>> ie that build fix that you finally committed came in *AFTER* the 6.3
+>> release, even though the bug it fixes was introduced in the 6.3 merge
+>> window:
+>>
+>>     git name-rev 02852c01f654
+>>     02852c01f654 tags/v6.3-rc1~72^2~2^2~193
+>>
+>> and now we're in the *EXACT*SAME* situation, with me applying a build
+>> fix directly, because you couldn't get it fixed in a timely manner.
+> 
+> Sorry for the mess. I'll work to improve the process to avoid this
+> to happen again.
+> 
+> FYI, in order to reduce build issues, we have a Jenkins instance
+> doing builds with gcc and CLANG at the media stage tree, before we even merge
+> them at the main media development tree. They run with allyesconfig for
+> x86_64 arch, with W=1:
+> 
+> 	https://builder.linuxtv.org/job/media_stage_clang/
+> 	https://builder.linuxtv.org/job/media_stage_gcc/
+> 
+> And another CI job testing bisect breakages as I receive pull requests,
+> applying patch per patch and using both allyesconfig and allmodconfig,
+> also on x86_64 arch with W=1:
+> 
+> 	https://builder.linuxtv.org/job/patchwork/
+> 
+> The rule is to not merge stuff on media tree if any of those jobs
+> fail. I also fast-forward merging patches whose subject states that
+> the build has failed.
+> 
+> In order to help with that, on normal situation, I usually take one week
+> to merge stuff from media_stage into media_tree, doing rebases at
+> media_stage if needed to avoid git bisect build breakages at media_tree
+> (which is from where I send my update PRs to you).
+> 
+> Unfortunately, currently we don't have resources to do multiple randconfig
+> on Jenkins, as the build machines on the server are very slow. Yet, I'll
+> add CONFIG_PM disabled to the test set, as it seems to be a recurrent source
+> of troubles those days. I'll also try to identify a couple of other 
+> randconfigs that would help to catch earlier problems like that.
+> If some other problematic Kconfig variables comes to your mind, please
+> feel free to suggest them for us to add to the CI automation.
+> 
+> -
+> 
+> In the specific case of this fixup patch, I didn't identify it as a build
+> issue, so it followed the usual workflow. We have a huge number of patches
+> for media, and it usually takes some time to handle all of them. This one
+> just followed the normal flow, as it didn't break Jenkins builds nor the
+> subject mentioned anything about build breakage.
 
+In the end it was my fault: I pushed the fix to our staging tree thinking
+that there was enough time for it to be included in the PR for 6.4.
+But I was wrong, the window for that closed a week earlier (which Mauro
+even documented!). So Mauro never knew that this patch had to be included
+in the PR to you. The right procedure would have been for me to tell Mauro
+about this patch. Hopefully this will be the first and also last time that
+I make that mistake.
 
-Sure thing - thanks for the review
+We do have a major problem with too many incoming patches and not enough
+maintainers & time. Some of it can be improved with better procedures and
+testing, but that won't help the often slow code review times. It will be a
+big topic during the upcoming media mini summit in Prague.
 
->
-> Other than that, the code looks fine for me.
->
->
-> Thank you.
->
+Regards,
+
+	Hans
