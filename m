@@ -2,56 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DCC86FDA4E
-	for <lists+linux-media@lfdr.de>; Wed, 10 May 2023 11:03:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE8FB6FDAAB
+	for <lists+linux-media@lfdr.de>; Wed, 10 May 2023 11:23:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236912AbjEJJDJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 May 2023 05:03:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54506 "EHLO
+        id S236593AbjEJJXh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 May 2023 05:23:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236146AbjEJJDH (ORCPT
+        with ESMTP id S236859AbjEJJXV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 May 2023 05:03:07 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4D92E4A;
-        Wed, 10 May 2023 02:03:03 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1pwfir-0000w9-Vv; Wed, 10 May 2023 11:02:58 +0200
-Message-ID: <742856c0-ab93-1a6c-4fc8-9451c0908930@leemhuis.info>
-Date:   Wed, 10 May 2023 11:02:57 +0200
+        Wed, 10 May 2023 05:23:21 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A9A27EF9
+        for <linux-media@vger.kernel.org>; Wed, 10 May 2023 02:22:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683710577; x=1715246577;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1MPetMSix/zL+cBgS9SwgQotafIZUXKQbz3w0iATODE=;
+  b=Sz112XcRCJvyddyGPsoniTMy0fBAuPdI11YOOAj+OmCcAZx+mN4lQYGr
+   TxW2LaQYWFefWQqFbH4bU6LUO/D98zR/OONkQrUJI5C8NNslB4uEi2hT2
+   eEc7R0VoQxrFJo2MoVBSd8wKE50xDB7z7DXFh/KpNbik+Pmp4GqDZLI2P
+   MNKeCJWvXsH23msIAm8sBuF5O/mbRXn4/mJDmrBNbdMaeCasYNvxicymq
+   fcAjNHFBBBw5wqZ09esM4fbHI8B45QgZe2X8qMIWpRR69G729C4Kz98v1
+   6P4SVw/ZHxuKJgs/7ScDOFNvUnDbVdVyZ4PoEOxzma02YxCkGKPpLDVXB
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="329789267"
+X-IronPort-AV: E=Sophos;i="5.99,264,1677571200"; 
+   d="scan'208";a="329789267"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2023 02:22:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="843441899"
+X-IronPort-AV: E=Sophos;i="5.99,264,1677571200"; 
+   d="scan'208";a="843441899"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 10 May 2023 02:22:23 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pwg1f-00035i-0j;
+        Wed, 10 May 2023 09:22:23 +0000
+Date:   Wed, 10 May 2023 17:21:45 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Lucas De Marchi <lucas.demarchi@intel.com>
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: [mlankhorst:dumpcg 16612/16889] drivers/gpu/drm/xe/.kunitconfig:
+ warning: ignored by one of the .gitignore files
+Message-ID: <202305101759.Fm4liH8e-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: mainline build failure due to cf21f328fcaf ("media: nxp: Add
- i.MX8 ISI driver")
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux regressions mailing list <regressions@lists.linux.dev>,
-        "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>
-References: <ZElaVmxDsOkZj2DK@debian>
- <51cff63a-3a04-acf5-8264-bb19b0bee8a3@leemhuis.info>
- <CAHk-=wgzU8_dGn0Yg+DyX7ammTkDUCyEJ4C=NvnHRhxKWC7Wpw@mail.gmail.com>
- <20230510090527.25e26127@sal.lan>
-Content-Language: en-US, de-DE
-From:   "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <20230510090527.25e26127@sal.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1683709383;f0523dc6;
-X-HE-SMSGID: 1pwfir-0000w9-Vv
-X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -59,47 +65,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10.05.23 10:05, Mauro Carvalho Chehab wrote:
-> Em Mon, 8 May 2023 09:27:28 -0700
-> Linus Torvalds <torvalds@linux-foundation.org> escreveu:
->> On Mon, May 8, 2023 at 3:55 AM Linux regression tracking #adding
->> (Thorsten Leemhuis) <regressions@leemhuis.info> wrote:
->>>
->>> Thanks for the report. The fixes (see the mail from Laurent) apparently
->>> are still not mainlined (or am I missing something?), so let me add this
->>> report to the tracking to ensure this is not forgotten:  
->>
->> Gaah. I was intending to apply the patch directly before rc1, but then
->> I forgot about this issue.
->>
->> Mauro: I'm currently really *really* fed up with the media tree. This
->> exact same thing happened last merge window, where the media tree
->> caused pointless build errors, and it took way too long to get the
->> fixes the proper ways.
-> [...]
->
-> In the specific case of this fixup patch, I didn't identify it as a build
-> issue, so it followed the usual workflow. We have a huge number of patches
-> for media, and it usually takes some time to handle all of them. This one
-> just followed the normal flow, as it didn't break Jenkins builds nor the
-> subject mentioned anything about build breakage.
+tree:   git://people.freedesktop.org/~mlankhorst/linux dumpcg
+head:   169b450351c6705039540a916fccb470d26ec34c
+commit: cbe1c4c8c2c35d80aee7c14305d20acb85f8f7cd [16612/16889] drm/xe: Add min config for kunit integration ARCH=um
+config: arc-randconfig-r043-20230509 (https://download.01.org/0day-ci/archive/20230510/202305101759.Fm4liH8e-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add mlankhorst git://people.freedesktop.org/~mlankhorst/linux
+        git fetch --no-tags mlankhorst dumpcg
+        git checkout cbe1c4c8c2c35d80aee7c14305d20acb85f8f7cd
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
 
-Makes me wonder again if we should start adding
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305101759.Fm4liH8e-lkp@intel.com/
 
- CC: regressions@lists.linux.dev
+All warnings (new ones prefixed by >>):
 
-to any patches that fix regressions, that way maintainers and reviewers
-would have something to filter for -- and I would become aware of all
-regression fixes in the work, too.
+   drivers/clk/.kunitconfig: warning: ignored by one of the .gitignore files
+   drivers/gpu/drm/tests/.kunitconfig: warning: ignored by one of the .gitignore files
+   drivers/gpu/drm/vc4/tests/.kunitconfig: warning: ignored by one of the .gitignore files
+>> drivers/gpu/drm/xe/.kunitconfig: warning: ignored by one of the .gitignore files
+   drivers/hid/.kunitconfig: warning: ignored by one of the .gitignore files
+   fs/ext4/.kunitconfig: warning: ignored by one of the .gitignore files
+   fs/fat/.kunitconfig: warning: ignored by one of the .gitignore files
+   kernel/kcsan/.kunitconfig: warning: ignored by one of the .gitignore files
+   lib/kunit/.kunitconfig: warning: ignored by one of the .gitignore files
+   mm/kfence/.kunitconfig: warning: ignored by one of the .gitignore files
+   net/sunrpc/.kunitconfig: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/.gitignore: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/Makefile: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/run_tags_test.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/tags_test.c: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/kvm/.gitignore: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/kvm/Makefile: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/kvm/config: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/kvm/settings: warning: ignored by one of the .gitignore files
 
-Ciao, Thorsten
-
-P.S.: BTW, let me tell regzbot that Linus merged the fix for the build
-failure.
-
-#regzbot fix: ba0ad6ed89f
-
-FWIW, the one for the gcc warnings[1] Laurent mentioned elsewhere in
-this thread is not merged yet afaics.
-
-[1] https://lore.kernel.org/all/20230418092007.2902984-1-arnd@kernel.org/
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
