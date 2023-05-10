@@ -2,56 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 37DDA6FDE4F
-	for <lists+linux-media@lfdr.de>; Wed, 10 May 2023 15:17:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2177F6FE01C
+	for <lists+linux-media@lfdr.de>; Wed, 10 May 2023 16:25:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236747AbjEJNRI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 May 2023 09:17:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55022 "EHLO
+        id S237447AbjEJOZw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 May 2023 10:25:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229740AbjEJNRG (ORCPT
+        with ESMTP id S237445AbjEJOZs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 May 2023 09:17:06 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77D5B61B2;
-        Wed, 10 May 2023 06:17:04 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 143526341D;
-        Wed, 10 May 2023 13:17:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08706C433EF;
-        Wed, 10 May 2023 13:17:00 +0000 (UTC)
-Message-ID: <88ff9837-36e3-b16f-537f-af21f738383a@xs4all.nl>
-Date:   Wed, 10 May 2023 15:16:58 +0200
+        Wed, 10 May 2023 10:25:48 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4EA949F7
+        for <linux-media@vger.kernel.org>; Wed, 10 May 2023 07:25:16 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1pwkkh-0006JQ-Mn; Wed, 10 May 2023 16:25:11 +0200
+Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1pwkkf-0001aC-Qi; Wed, 10 May 2023 16:25:09 +0200
+Date:   Wed, 10 May 2023 16:25:09 +0200
+From:   Michael Grzeschik <mgr@pengutronix.de>
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        m.szyprowski@samsung.com, kernel@pengutronix.de,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Subject: Re: [PATCH] media: videobuf2-dma-sg: use v{un,}map instead of
+ vm_{un,}map_ram
+Message-ID: <20230510142509.GA14356@pengutronix.de>
+References: <20221120234441.550908-1-m.grzeschik@pengutronix.de>
+ <5e585a78-15c8-fd17-bc34-96f7ed18f592@xs4all.nl>
+ <CAAFQd5Aicurw-pjYpWJK_qNemy1qszvN4rL=TfAuxhOdAOTGNg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: mainline build failure due to cf21f328fcaf ("media: nxp: Add
- i.MX8 ISI driver")
-Content-Language: en-US
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux regressions mailing list <regressions@lists.linux.dev>,
-        "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>
-References: <ZElaVmxDsOkZj2DK@debian>
- <51cff63a-3a04-acf5-8264-bb19b0bee8a3@leemhuis.info>
- <CAHk-=wgzU8_dGn0Yg+DyX7ammTkDUCyEJ4C=NvnHRhxKWC7Wpw@mail.gmail.com>
- <20230510090527.25e26127@sal.lan>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20230510090527.25e26127@sal.lan>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="sdtB3X0nJg68CQEu"
+Content-Disposition: inline
+In-Reply-To: <CAAFQd5Aicurw-pjYpWJK_qNemy1qszvN4rL=TfAuxhOdAOTGNg@mail.gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -60,115 +58,119 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/05/2023 10:05, Mauro Carvalho Chehab wrote:
-> Hi Linus,
-> 
-> Em Mon, 8 May 2023 09:27:28 -0700
-> Linus Torvalds <torvalds@linux-foundation.org> escreveu:
-> 
->> On Mon, May 8, 2023 at 3:55 AM Linux regression tracking #adding
->> (Thorsten Leemhuis) <regressions@leemhuis.info> wrote:
->>>
->>> Thanks for the report. The fixes (see the mail from Laurent) apparently
->>> are still not mainlined (or am I missing something?), so let me add this
->>> report to the tracking to ensure this is not forgotten:  
->>
->> Gaah. I was intending to apply the patch directly before rc1, but then
->> I forgot about this issue.
->>
->> Mauro: I'm currently really *really* fed up with the media tree. This
->> exact same thing happened last merge window, where the media tree
->> caused pointless build errors, and it took way too long to get the
->> fixes the proper ways.
->>
->> If something doesn't even build, it should damn well be fixed ASAP.
->>
->> Last release it was imx290.c and PM support being disabled, and I had
->> to apply the fix manually because it continued to not come in the
->> proper way.
->>
->> See commit 7b50567bdcad ("media: i2c: imx290: fix conditional function
->> defintions").
->>
->> But also see commit b928db940448 ("media: i2c: imx290: fix conditional
->> function definitions"), which you *did* commit, but note this on that
->> commit:
->>
->>     AuthorDate: Tue Feb 7 17:13
->>     CommitDate: Sat Mar 18 08:44
->>
->> so it took you a MONTH AND A HALF to react to a build failure.
->>
->> And see this:
->>
->>     git name-rev b928db940448
->>     b928db940448 tags/v6.4-rc1~161^2~458
->>
->> ie that build fix that you finally committed came in *AFTER* the 6.3
->> release, even though the bug it fixes was introduced in the 6.3 merge
->> window:
->>
->>     git name-rev 02852c01f654
->>     02852c01f654 tags/v6.3-rc1~72^2~2^2~193
->>
->> and now we're in the *EXACT*SAME* situation, with me applying a build
->> fix directly, because you couldn't get it fixed in a timely manner.
-> 
-> Sorry for the mess. I'll work to improve the process to avoid this
-> to happen again.
-> 
-> FYI, in order to reduce build issues, we have a Jenkins instance
-> doing builds with gcc and CLANG at the media stage tree, before we even merge
-> them at the main media development tree. They run with allyesconfig for
-> x86_64 arch, with W=1:
-> 
-> 	https://builder.linuxtv.org/job/media_stage_clang/
-> 	https://builder.linuxtv.org/job/media_stage_gcc/
-> 
-> And another CI job testing bisect breakages as I receive pull requests,
-> applying patch per patch and using both allyesconfig and allmodconfig,
-> also on x86_64 arch with W=1:
-> 
-> 	https://builder.linuxtv.org/job/patchwork/
-> 
-> The rule is to not merge stuff on media tree if any of those jobs
-> fail. I also fast-forward merging patches whose subject states that
-> the build has failed.
-> 
-> In order to help with that, on normal situation, I usually take one week
-> to merge stuff from media_stage into media_tree, doing rebases at
-> media_stage if needed to avoid git bisect build breakages at media_tree
-> (which is from where I send my update PRs to you).
-> 
-> Unfortunately, currently we don't have resources to do multiple randconfig
-> on Jenkins, as the build machines on the server are very slow. Yet, I'll
-> add CONFIG_PM disabled to the test set, as it seems to be a recurrent source
-> of troubles those days. I'll also try to identify a couple of other 
-> randconfigs that would help to catch earlier problems like that.
-> If some other problematic Kconfig variables comes to your mind, please
-> feel free to suggest them for us to add to the CI automation.
-> 
-> -
-> 
-> In the specific case of this fixup patch, I didn't identify it as a build
-> issue, so it followed the usual workflow. We have a huge number of patches
-> for media, and it usually takes some time to handle all of them. This one
-> just followed the normal flow, as it didn't break Jenkins builds nor the
-> subject mentioned anything about build breakage.
 
-In the end it was my fault: I pushed the fix to our staging tree thinking
-that there was enough time for it to be included in the PR for 6.4.
-But I was wrong, the window for that closed a week earlier (which Mauro
-even documented!). So Mauro never knew that this patch had to be included
-in the PR to you. The right procedure would have been for me to tell Mauro
-about this patch. Hopefully this will be the first and also last time that
-I make that mistake.
+--sdtB3X0nJg68CQEu
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-We do have a major problem with too many incoming patches and not enough
-maintainers & time. Some of it can be improved with better procedures and
-testing, but that won't help the often slow code review times. It will be a
-big topic during the upcoming media mini summit in Prague.
+Sorry for the late comeback, however here are some thoughts.
+
+On Fri, Dec 02, 2022 at 06:01:02PM +0900, Tomasz Figa wrote:
+>On Thu, Nov 24, 2022 at 10:35 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>>
+>> On 21/11/2022 00:44, Michael Grzeschik wrote:
+>> > The comments before the vm_map_ram function state that it should be us=
+ed
+>> > for up to 256 KB only, and video buffers are definitely much larger. It
+>> > recommends using vmap in that case.
+>> >
+>> > Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+>> > ---
+>> >  drivers/media/common/videobuf2/videobuf2-dma-sg.c | 7 ++++---
+>>
+>> drivers/media/common/videobuf2/videobuf2-vmalloc.c uses it as well,
+>> probably also incorrectly. It makes sense to change that one as well.
+>
+>Comparing vm_map_ram() and vmap(..., VM_MAP, PAGE_KERNEL), for blocks
+>bigger than VMAP_MAX_ALLOC they're equivalent and for smaller blocks
+>the former should be faster, so I don't see what's wrong with the
+>current code.
+
+I got another comment on this from Andrzej Pietrasiewicz
+where he expands the comment on the use of vmap over vm_map_ram.
+
+https://lore.kernel.org/linux-media/64375ff4-dbbb-3d5b-eaf6-32d6780fd496@co=
+llabora.com
+
+As I understand this, we should probably update the vm_map_ram to vmap,
+due to the expectation that video buffers are long-living objects.
+
+Since there are some more places that would probably need to be updated
+if we should decide to use vmap over vm_map_ram in the whole
+videbuf2-* users, I would like to clarify on this before making
+a series.
 
 Regards,
+Michael
 
-	Hans
+>> >  1 file changed, 4 insertions(+), 3 deletions(-)
+>> >
+>> > diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drive=
+rs/media/common/videobuf2/videobuf2-dma-sg.c
+>> > index dcb8de5ab3e84a..e86621fba350f3 100644
+>> > --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+>> > +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+>> > @@ -188,7 +188,7 @@ static void vb2_dma_sg_put(void *buf_priv)
+>> >               dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir,
+>> >                                 DMA_ATTR_SKIP_CPU_SYNC);
+>> >               if (buf->vaddr)
+>> > -                     vm_unmap_ram(buf->vaddr, buf->num_pages);
+>> > +                     vunmap(buf->vaddr);
+>> >               sg_free_table(buf->dma_sgt);
+>> >               while (--i >=3D 0)
+>> >                       __free_page(buf->pages[i]);
+>> > @@ -289,7 +289,7 @@ static void vb2_dma_sg_put_userptr(void *buf_priv)
+>> >              __func__, buf->num_pages);
+>> >       dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir, DMA_ATTR_SKIP_CPU=
+_SYNC);
+>> >       if (buf->vaddr)
+>> > -             vm_unmap_ram(buf->vaddr, buf->num_pages);
+>> > +             vunmap(buf->vaddr);
+>> >       sg_free_table(buf->dma_sgt);
+>> >       if (buf->dma_dir =3D=3D DMA_FROM_DEVICE ||
+>> >           buf->dma_dir =3D=3D DMA_BIDIRECTIONAL)
+>> > @@ -312,7 +312,8 @@ static void *vb2_dma_sg_vaddr(struct vb2_buffer *v=
+b, void *buf_priv)
+>> >                       ret =3D dma_buf_vmap(buf->db_attach->dmabuf, &ma=
+p);
+>> >                       buf->vaddr =3D ret ? NULL : map.vaddr;
+>> >               } else {
+>> > -                     buf->vaddr =3D vm_map_ram(buf->pages, buf->num_p=
+ages, -1);
+>> > +                     buf->vaddr =3D vmap(buf->pages, buf->num_pages, =
+VM_MAP,
+>> > +                                       PAGE_KERNEL);
+>> >               }
+>> >       }
+>> >
+>>
+>
+
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
+--sdtB3X0nJg68CQEu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmRbqUIACgkQC+njFXoe
+LGQdJRAAwPrIEAQ/PU5Lp14o7hRfUXZQsFECknFBKTb2EtBn6MVrEVDr9kO5lmeA
+/ZW4g1t/+TY30B+cRyeifVsNJfaarXz5Wf8R/P3CUTtvsr1jksUniIqNaRp9Kz/y
+9TdFdF9xujajTGrp/Fc7qfsMenB1QcfXyDQ9kH7c+krSEvj1tqBrXVmVbtEbeYg7
+k9Vd8y3OF/RwqaRKiq2hzMFV0IXmuTTeQsTQ2BecRcBaR6ltRBk9zitNJOF7av5B
+9DMCwzbJvBNhoVo+u3fGb9fuPTVMy9B5RRCFKEFSe/aBwPzJHRmS08H4AgDzEkwg
+B1CNrlGijLwONa306TFP2d6ARfJc1HlOqGqxEm97i1iKsclBGupI3UBAo5HWcDxQ
+HnDSrbmdJccTqTTpb4pON7oBiokKj3sZ5Ku9rFldy7Lsbn3CCSJYdonJb8MLUifS
+THXm0magV6AFChZWk1290MgCbKIaypbIJ9YUqFtgKQ9UaEJtaBl+jXtVW0/7PBEo
+pKprfwvsd+g8sVWCdSapoxYPUwP/6XBqp5F8Y0AfJanedLMkQZimEQg3Ii+Smc5T
+HYO9vTDe5Yv0MOkoMmcqlrHNhWXmd1i7h+BZwURiSjG817psYOxTBVW+nM5eK3KL
+0OTH9w9AEGLDgxaeuTYnanC58oG2Ho3ucn+F0UWqMnZ1Qe5l5Hk=
+=UL6W
+-----END PGP SIGNATURE-----
+
+--sdtB3X0nJg68CQEu--
