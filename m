@@ -2,58 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FCEC6FEC34
-	for <lists+linux-media@lfdr.de>; Thu, 11 May 2023 09:02:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD2746FEC65
+	for <lists+linux-media@lfdr.de>; Thu, 11 May 2023 09:10:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237325AbjEKHCz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 May 2023 03:02:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36084 "EHLO
+        id S231610AbjEKHK5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 May 2023 03:10:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237267AbjEKHCn (ORCPT
+        with ESMTP id S229903AbjEKHKz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 May 2023 03:02:43 -0400
+        Thu, 11 May 2023 03:10:55 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 662C06A45;
-        Thu, 11 May 2023 00:02:06 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (softbank126090219015.bbtec.net [126.90.219.15])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EBCEB2D8;
-        Thu, 11 May 2023 09:01:51 +0200 (CEST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADD4A173B
+        for <linux-media@vger.kernel.org>; Thu, 11 May 2023 00:10:54 -0700 (PDT)
+Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:1cf0:b3bc:c785:4625])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6FE238BE;
+        Thu, 11 May 2023 09:10:45 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1683788512;
-        bh=A53poAkEzuZFNXT7uUwb/MQQ1q82De35S8dPpNeNMFw=;
+        s=mail; t=1683789045;
+        bh=LFe/Q2MjCT80TI79PHrSd5b7km9SSA0xEug5jgBx5LQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uYvBVRioIKXTcd3whT3QMKDfyN2fBBN0M2th3KQTSInnTx02R+pheW+HwOUQSwbql
-         sXUz/Vj5x3Uuvr2LT9ycDtMI6kWs/Ux49DW2ZsssugCBGjDriS065qaEBfr8I/TGNW
-         WWlDl1vgQAyZUr4G0r3C2m4jBIwHoRmH11Q7PHZo=
-Date:   Thu, 11 May 2023 10:01:56 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>,
-        Linux regressions mailing list <regressions@lists.linux.dev>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>
-Subject: Re: mainline build failure due to cf21f328fcaf ("media: nxp: Add
- i.MX8 ISI driver")
-Message-ID: <20230511070156.GQ11711@pendragon.ideasonboard.com>
-References: <ZElaVmxDsOkZj2DK@debian>
- <51cff63a-3a04-acf5-8264-bb19b0bee8a3@leemhuis.info>
- <CAHk-=wgzU8_dGn0Yg+DyX7ammTkDUCyEJ4C=NvnHRhxKWC7Wpw@mail.gmail.com>
- <20230510090527.25e26127@sal.lan>
- <742856c0-ab93-1a6c-4fc8-9451c0908930@leemhuis.info>
- <20230511074606.0349fc69@sal.lan>
+        b=pMDybcp284jlWGooSIBrK2MOpKp3e/L9mmFO2+bDaqpZJYTwoyaMLpgGyd8lDRfnO
+         4wzSAmxk2XnBkYgOjJTngVjX1lTlUbTqFzlHttJVTiUOhHY6LmQdP5tVFSTpStFr6O
+         mc7INRqg86O5AkxKbh4gfE+Jt0UI326UDS8rLOu4=
+Date:   Thu, 11 May 2023 09:10:50 +0200
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     guoniu.zhou@oss.nxp.com
+Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
+        slongerbeam@gmail.com, jacopo.mondi@ideasonboard.com,
+        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH v3] media: ov5640: correct comments for default VGA to
+ avoid confusion
+Message-ID: <xepxkc6m7x6k53o2vvhrhaxujutcyzl3jwcbuqwqu6vgj3ptjb@yjolpdlo2uts>
+References: <20230509065645.2827855-1-guoniu.zhou@oss.nxp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230511074606.0349fc69@sal.lan>
+In-Reply-To: <20230509065645.2827855-1-guoniu.zhou@oss.nxp.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -63,150 +48,54 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, May 11, 2023 at 07:46:06AM +0100, Mauro Carvalho Chehab wrote:
-> Em Wed, 10 May 2023 11:02:57 +0200 "Linux regression tracking (Thorsten Leemhuis)" escreveu:
-> > On 10.05.23 10:05, Mauro Carvalho Chehab wrote:
-> > > Em Mon, 8 May 2023 09:27:28 -0700
-> > > Linus Torvalds <torvalds@linux-foundation.org> escreveu:  
-> > >> On Mon, May 8, 2023 at 3:55 AM Linux regression tracking #adding
-> > >> (Thorsten Leemhuis) <regressions@leemhuis.info> wrote:  
-> > >>>
-> > >>> Thanks for the report. The fixes (see the mail from Laurent) apparently
-> > >>> are still not mainlined (or am I missing something?), so let me add this
-> > >>> report to the tracking to ensure this is not forgotten:    
-> > >>
-> > >> Gaah. I was intending to apply the patch directly before rc1, but then
-> > >> I forgot about this issue.
-> > >>
-> > >> Mauro: I'm currently really *really* fed up with the media tree. This
-> > >> exact same thing happened last merge window, where the media tree
-> > >> caused pointless build errors, and it took way too long to get the
-> > >> fixes the proper ways.  
-> > > [...]
-> > >
-> > > In the specific case of this fixup patch, I didn't identify it as a build
-> > > issue, so it followed the usual workflow. We have a huge number of patches
-> > > for media, and it usually takes some time to handle all of them. This one
-> > > just followed the normal flow, as it didn't break Jenkins builds nor the
-> > > subject mentioned anything about build breakage.  
-> > 
-> > Makes me wonder again if we should start adding
-> > 
-> >  CC: regressions@lists.linux.dev
-> > 
-> > to any patches that fix regressions, that way maintainers and reviewers
-> > would have something to filter for -- and I would become aware of all
-> > regression fixes in the work, too.
-> 
-> Having some way that could be parsed by e-mail filters would be
-> nice. 
+Hello Guoniu Zhou
 
-The presence of a Fixes: tag is already a strong indication that the
-patch should be prioritized. Looking at the last 10 kernel releases,
-here's the number of commits with a Fixes: tag in drivers/media/:
+On Tue, May 09, 2023 at 02:56:45PM +0800, guoniu.zhou@oss.nxp.com wrote:
+> From: "Guoniu.zhou" <guoniu.zhou@nxp.com>
+>
+> When OV5640 work at DVP mode, the default initialization settings
+> make it output 30 frames per second. But when it work at CSI-2 mode
+> the default link frequency will make it output 60 frames per second,
+> so correct the comments to make it more clear.
+>
+> Signed-off-by: Guoniu.zhou <guoniu.zhou@nxp.com>
 
-v5.14 - v5.15:    19
-v5.15 - v5.16:    36
-v5.16 - v5.17:    50
-v5.17 - v5.18:    49
-v5.18 - v5.19:    25
-v5.19 - v6.0:     44
-v6.0  - v6.1:     35
-v6.1  - v6.2:     72
-v6.2  - v6.3:     39
-v6.3  - v6.4-rc1: 39
+Thank you!
 
-Some are likely not regressions and wouldn't need to be treated with the
-highest priority, but keeping an eye on patches with a Fixes: tag seems
-doable.
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-There's also the issue of regression fixes missing a Fixes: tag, but I
-doubt those would get CC: regressions@lists.linux.dev, so from a mail
-filtering point of view, that wouldn't help.
-
-> > Ciao, Thorsten
-> > 
-> > P.S.: BTW, let me tell regzbot that Linus merged the fix for the build
-> > failure.
-> > 
-> > #regzbot fix: ba0ad6ed89f
-> > 
-> > FWIW, the one for the gcc warnings[1] Laurent mentioned elsewhere in
-> > this thread is not merged yet afaics.
-> > 
-> > [1] https://lore.kernel.org/all/20230418092007.2902984-1-arnd@kernel.org/
-> 
-> Just sent a pull request.
-> 
-> Btw, I did some changes at linux-media Jenkins instance to help early
-> track some extra build issues. They're all against
-> https://git.linuxtv.org/media_stage.git/, which is the tree where we place
-> media patches that are ready. We move them later, after a couple of days
-> to https://git.linuxtv.org/media_tree.git/. So, if something bad happens,
-> we have a chance to fix before setting them into a stone. With such
-> changes, we now have:
-> 
-> 1. https://builder.linuxtv.org/job/patchwork/
-> 
->    This is a pre-merge test. It tests patch per patch the PRs with patch
->    sets ready to be merged, with W=1, allyesconfig/almodconfig[1] on x86_64. 
->    Builds drivers/media and drivers/staging/media. 
->    This is there already for a long time;
-> 
-> 2. https://builder.linuxtv.org/job/media_stage_clang/
-> 
->    Checks build with clang-12 on x86_64 with W=1. Builds drivers/media
->    and drivers/staging/media with allyesconfig[1].
-> 
->    It was building with WERROR disabled, as some core macros were
->    producing errors at the time I created it (and for a while).
->    It was modified to enable WERROR as well. 
-> 
-> 3. https://builder.linuxtv.org/job/media_stage_gcc-pipeline/ 
-> 
->    It replaces another job that was just doing builds for x86_64
->    with W=1. Builds drivers/media and drivers/staging/media with
->    different configurations[1]:
->       x86_64: allyesconfig, allmodconfig, almodconfig with PM disabled;
->       arm32: allyesconfig
->       arm64: allyesconfig
-> 
-> 4. https://builder.linuxtv.org/job/linux-media/
-> 
->    Does full builds with different configurations[1]:
->       x86_64: allyesconfig, allmodconfig, almodconfig with PM disabled;
->       arm32: allyesconfig
->       arm64: allyesconfig
->       docs: htmldocs and pdfdocs
-> 
-> I hope this will help avoiding future build regressions from our side.
-> Feel free to suggest a couple of other configs that we might add to
-> jobs (3) and (4).
-> 
-> I'm still adjusting the pipeline for (4), but currently, it is failing
-> on an issue that seems unrelated with the media subsystem with gcc 10.2.1:
-> 
-> 	  AR      drivers/built-in.a
-> 	  AR      built-in.a
-> 	  AR      vmlinux.a
-> 	  LD      vmlinux.o
-> 	vmlinux.o: warning: objtool: vmx_vcpu_enter_exit+0x2d8: call to vmread_error_trampoline() leaves .noinstr.text section
-> 	vmlinux.o: warning: objtool: lkdtm_UNSET_SMEP+0xe1: relocation to !ENDBR: native_write_cr4+0x40
->       
-> Is this a known regression? The media-stage tree is on the top of
-> Kernel 6.4-rc1.
-> 
-> Regards,
-> Mauro
-> 
-> -
-> 
-> [1] On all builds, the jobs disable some symbols that should not affect
->     media subsystem, to speedup the builds:
-> 
->    scripts/config -d MODULE_SIG -d KEYS -d IMA -d CONFIG_DEBUG_INFO -d SYSTEM_TRUSTED_KEYRING -d MODVERSIONS
-
--- 
-Regards,
-
-Laurent Pinchart
+> ---
+> v2->v3:
+>   1) modify patch title from "fix incorrect frame frate issue for
+>      defulat VGA" to "correct comments for default VGA to avoid
+>      confusion" to make it more accurate description about this
+>      patch.
+>   2) remove code change about frame_interval parameters
+>   3) remove tag since my misunderstand
+>   4) update commit log
+>
+> v1->v2:
+>   1) fix typo issue(s/runn/run)
+>   2) keep original OV5640 default link frequency
+>   3) correct comments and frame_interval parameters to match actual
+>      frame rate
+> ---
+>  drivers/media/i2c/ov5640.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> index 1536649b9e90..e9100988a028 100644
+> --- a/drivers/media/i2c/ov5640.c
+> +++ b/drivers/media/i2c/ov5640.c
+> @@ -3851,7 +3851,7 @@ static int ov5640_probe(struct i2c_client *client)
+>
+>  	/*
+>  	 * default init sequence initialize sensor to
+> -	 * YUV422 UYVY VGA@30fps
+> +	 * YUV422 UYVY VGA(30FPS in parallel mode, 60 in MIPI CSI-2 mode)
+>  	 */
+>  	sensor->frame_interval.numerator = 1;
+>  	sensor->frame_interval.denominator = ov5640_framerates[OV5640_30_FPS];
+> --
+> 2.37.1
+>
