@@ -2,112 +2,203 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E4CD46FEBD5
-	for <lists+linux-media@lfdr.de>; Thu, 11 May 2023 08:41:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C0366FEBDF
+	for <lists+linux-media@lfdr.de>; Thu, 11 May 2023 08:46:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236438AbjEKGlI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 May 2023 02:41:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49996 "EHLO
+        id S236884AbjEKGqR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 May 2023 02:46:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229609AbjEKGlI (ORCPT
+        with ESMTP id S236549AbjEKGqP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 May 2023 02:41:08 -0400
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [IPv6:2a03:a000:7:0:5054:ff:fe1c:15ff])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CC39103;
-        Wed, 10 May 2023 23:41:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:
-        Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-        Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description;
-        bh=RtWxN7e4QjgKeMqyRm8+weDfqFq3jfnkuzd3W1qjtiM=; b=jw/mMH9qT+/rpGk7mfI4YGlPGe
-        uWTb2lZmqfZIuwVdgWuQnLtmQkWFasYr7kqa7CUIFVCLKRFtUvi1n8Qd+6fMBYIIAbvrl/GdFxv2J
-        lqAmLygNJHA+XCTSh+mldXiQG+o7dI8T8FS5MrntPj1B3P2ekHWFpwYFdC4tjvXb2QUArkaE0igA9
-        oZtyK6diEXw40KxwmYst51pwkoEifoIuQGmWWNdXLmKJ3cCOtTTeK1EclD5jXQT9bgdhOYp/vs0Fz
-        UBoWWTUbFlQsarbW1h9IC4EJZW1ubTxAV15CCwSdzwFvYrZWcxDjqD9Lezep+zRrsTgNjjVxyMM2m
-        zJpZGunw==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
-        id 1pwzyw-001dzq-0x;
-        Thu, 11 May 2023 06:40:54 +0000
-Date:   Thu, 11 May 2023 07:40:54 +0100
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc:     ye.xingchen@zte.com.cn, sumit.semwal@linaro.org,
-        gustavo@padovan.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dma-buf/sync_file: Use fdget()
-Message-ID: <20230511064054.GM3390869@ZenIV>
-References: <202305051103396748797@zte.com.cn>
- <b9ceed26-bf64-6314-3ec5-562542b2b1c6@amd.com>
+        Thu, 11 May 2023 02:46:15 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D6C64C13;
+        Wed, 10 May 2023 23:46:14 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C71B763F35;
+        Thu, 11 May 2023 06:46:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39502C433D2;
+        Thu, 11 May 2023 06:46:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1683787573;
+        bh=IVpbV+z9YGskfzW19j0+bVKEYWgiU3nQ/4t5bI4Ex9Y=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=JN4WBZ9UViPjCxYnQfYCefKlJ1XQX1q9CxTPb2vznnv2P2LSHUsvJ9et0CD6Yb6uJ
+         pXVEEIvSv8+cG5Xkz2kKMI1pG4chJn9D+WpBcPLSpm9zE1+NJU+RxOrjNnVI3d3+9X
+         XBIm0wNq5tY5FpwsAfyg3cb3KoBHzk+VwmEMvh//gP7kJHps8jF0oO/KfHa9uQvFKZ
+         t8U3faC4xVOVX+AXCs3jkxudLRLYG2VvHvLtJgEq1SWMbOq41Amr/ywFlfnm8OebEc
+         wYa0ym67nUKgcc1p7V7Ikd0QGAy1GXdmJ9x1b32G2QLMT1nZDXes53rEQifvcC4jS3
+         k+fVVzWcfsOjw==
+Date:   Thu, 11 May 2023 07:46:06 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     "Linux regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+Cc:     Linux regressions mailing list <regressions@lists.linux.dev>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>
+Subject: Re: mainline build failure due to cf21f328fcaf ("media: nxp: Add
+ i.MX8 ISI driver")
+Message-ID: <20230511074606.0349fc69@sal.lan>
+In-Reply-To: <742856c0-ab93-1a6c-4fc8-9451c0908930@leemhuis.info>
+References: <ZElaVmxDsOkZj2DK@debian>
+        <51cff63a-3a04-acf5-8264-bb19b0bee8a3@leemhuis.info>
+        <CAHk-=wgzU8_dGn0Yg+DyX7ammTkDUCyEJ4C=NvnHRhxKWC7Wpw@mail.gmail.com>
+        <20230510090527.25e26127@sal.lan>
+        <742856c0-ab93-1a6c-4fc8-9451c0908930@leemhuis.info>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b9ceed26-bf64-6314-3ec5-562542b2b1c6@amd.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, May 05, 2023 at 10:22:09AM +0200, Christian König wrote:
-> Am 05.05.23 um 05:03 schrieb ye.xingchen@zte.com.cn:
-> > From: Ye Xingchen <ye.xingchen@zte.com.cn>
-> > 
-> > convert the fget() use to fdget().
-> 
-> Well the rational is missing. Why should we do that?
+Em Wed, 10 May 2023 11:02:57 +0200
+"Linux regression tracking (Thorsten Leemhuis)" <regressions@leemhuis.info>=
+ escreveu:
 
-We very definitely should not.  The series appears to be
-pure cargo-culting and it's completely wrong.
+> On 10.05.23 10:05, Mauro Carvalho Chehab wrote:
+> > Em Mon, 8 May 2023 09:27:28 -0700
+> > Linus Torvalds <torvalds@linux-foundation.org> escreveu: =20
+> >> On Mon, May 8, 2023 at 3:55=E2=80=AFAM Linux regression tracking #addi=
+ng
+> >> (Thorsten Leemhuis) <regressions@leemhuis.info> wrote: =20
+> >>>
+> >>> Thanks for the report. The fixes (see the mail from Laurent) apparent=
+ly
+> >>> are still not mainlined (or am I missing something?), so let me add t=
+his
+> >>> report to the tracking to ensure this is not forgotten:   =20
+> >>
+> >> Gaah. I was intending to apply the patch directly before rc1, but then
+> >> I forgot about this issue.
+> >>
+> >> Mauro: I'm currently really *really* fed up with the media tree. This
+> >> exact same thing happened last merge window, where the media tree
+> >> caused pointless build errors, and it took way too long to get the
+> >> fixes the proper ways. =20
+> > [...]
+> >
+> > In the specific case of this fixup patch, I didn't identify it as a bui=
+ld
+> > issue, so it followed the usual workflow. We have a huge number of patc=
+hes
+> > for media, and it usually takes some time to handle all of them. This o=
+ne
+> > just followed the normal flow, as it didn't break Jenkins builds nor the
+> > subject mentioned anything about build breakage. =20
+>=20
+> Makes me wonder again if we should start adding
+>=20
+>  CC: regressions@lists.linux.dev
+>=20
+> to any patches that fix regressions, that way maintainers and reviewers
+> would have something to filter for -- and I would become aware of all
+> regression fixes in the work, too.
 
-There is such thing as unwarranted use of fget().  Under some
-conditions converting to fdget() is legitimate *and* is an
-improvement.  HOWEVER, those conditions are not met in this case.
+Having some way that could be parsed by e-mail filters would be
+nice.=20
 
-Background: references in descriptor table do contribute to
-struct file refcount.  fget() finds the reference by descriptor
-and returns it, having bumped the refcount.  In case when
-descriptor table is shared, we must do that - otherwise e.g.
-close() or dup2() from another thread could very well have
-destroyed the struct file we'd just found.  However, if
-descriptor table is *NOT* shared, there's no need to mess
-with refcount at all.  Provided that
-	* we are not grabbing the reference to keep it (stash
-into some data structure, etc.); as soon as we return from
-syscall, the reference in descriptor table is fair game for
-e.g. close(2).  Or exit(2), for that matter.
-	* we remember whether it was shared or not - we can't
-just recheck that when we are done with the file; after all,
-descriptor table might have been shared when we looked the file up,
-but another thread might've died since then and left it not
-shared anymore.
-	* we do not rip the same reference out of our descriptor
-table ourselves - not without seriously convoluted precautions.
-Very few places in the kernel can lead to closing descriptors,
-so in practice it only becomes a problem when a particularly
-ugly ioctl decides that it would be neat to close some descriptor(s).
-Example of such convolutions: binder_deferred_fd_close().
+>=20
+> Ciao, Thorsten
+>=20
+> P.S.: BTW, let me tell regzbot that Linus merged the fix for the build
+> failure.
+>=20
+> #regzbot fix: ba0ad6ed89f
+>=20
+> FWIW, the one for the gcc warnings[1] Laurent mentioned elsewhere in
+> this thread is not merged yet afaics.
+>=20
+> [1] https://lore.kernel.org/all/20230418092007.2902984-1-arnd@kernel.org/
 
-fdget() returns a pair that consists of struct file reference
-*AND* indication whether we have grabbed a reference.  fdput()
-takes such pair.
+Just sent a pull request.
 
-Both are inlined, and compiler is smart enough to split the
-pair into two separate local variables.  The underlying
-primitive actually stashes the "have grabbed the refcount"
-into the LSB of returned word; see __to_fd() in include/linux/file.h
-for details.  It really generates a decent code and a plenty of
-places where we want a file by descriptor are just fine with it.
+Btw, I did some changes at linux-media Jenkins instance to help early
+track some extra build issues. They're all against
+https://git.linuxtv.org/media_stage.git/, which is the tree where we place
+media patches that are ready. We move them later, after a couple of days
+to https://git.linuxtv.org/media_tree.git/. So, if something bad happens,
+we have a chance to fix before setting them into a stone. With such
+changes, we now have:
 
-This patch is flat-out broken, since it loses the "have we bumped
-the refcount" information - the callers do not get it.
+1. https://builder.linuxtv.org/job/patchwork/
 
-It might be possible to massage the calling conventions to enable
-the conversion to fdget(), but it's not obvious that result would
-be cleaner and in any case, the patch in question doesn't even
-try that.
+   This is a pre-merge test. It tests patch per patch the PRs with patch
+   sets ready to be merged, with W=3D1, allyesconfig/almodconfig[1] on x86_=
+64.=20
+   Builds drivers/media and drivers/staging/media.=20
+   This is there already for a long time;
+
+2. https://builder.linuxtv.org/job/media_stage_clang/
+
+   Checks build with clang-12 on x86_64 with W=3D1. Builds drivers/media
+   and drivers/staging/media with allyesconfig[1].
+
+   It was building with WERROR disabled, as some core macros were
+   producing errors at the time I created it (and for a while).
+   It was modified to enable WERROR as well.=20
+
+3. https://builder.linuxtv.org/job/media_stage_gcc-pipeline/=20
+
+   It replaces another job that was just doing builds for x86_64
+   with W=3D1. Builds drivers/media and drivers/staging/media with
+   different configurations[1]:
+      x86_64: allyesconfig, allmodconfig, almodconfig with PM disabled;
+      arm32: allyesconfig
+      arm64: allyesconfig
+
+4. https://builder.linuxtv.org/job/linux-media/
+
+   Does full builds with different configurations[1]:
+      x86_64: allyesconfig, allmodconfig, almodconfig with PM disabled;
+      arm32: allyesconfig
+      arm64: allyesconfig
+      docs: htmldocs and pdfdocs
+
+I hope this will help avoiding future build regressions from our side.
+Feel free to suggest a couple of other configs that we might add to
+jobs (3) and (4).
+
+I'm still adjusting the pipeline for (4), but currently, it is failing
+on an issue that seems unrelated with the media subsystem with gcc 10.2.1:
+
+	  AR      drivers/built-in.a
+	  AR      built-in.a
+	  AR      vmlinux.a
+	  LD      vmlinux.o
+	vmlinux.o: warning: objtool: vmx_vcpu_enter_exit+0x2d8: call to vmread_err=
+or_trampoline() leaves .noinstr.text section
+	vmlinux.o: warning: objtool: lkdtm_UNSET_SMEP+0xe1: relocation to !ENDBR: =
+native_write_cr4+0x40
+     =20
+Is this a known regression? The media-stage tree is on the top of
+Kernel 6.4-rc1.
+
+Regards,
+Mauro
+
+-
+
+[1] On all builds, the jobs disable some symbols that should not affect
+    media subsystem, to speedup the builds:
+
+   scripts/config -d MODULE_SIG -d KEYS -d IMA -d CONFIG_DEBUG_INFO -d SYST=
+EM_TRUSTED_KEYRING -d MODVERSIONS
