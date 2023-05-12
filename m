@@ -2,124 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CEC86FFF26
-	for <lists+linux-media@lfdr.de>; Fri, 12 May 2023 05:01:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66703700596
+	for <lists+linux-media@lfdr.de>; Fri, 12 May 2023 12:33:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239813AbjELDB2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 May 2023 23:01:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45354 "EHLO
+        id S240837AbjELKc1 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 12 May 2023 06:32:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239487AbjELDBZ (ORCPT
+        with ESMTP id S240385AbjELKbe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 May 2023 23:01:25 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08C9B1B4
-        for <linux-media@vger.kernel.org>; Thu, 11 May 2023 20:01:23 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-3f42c86543bso27628835e9.3
-        for <linux-media@vger.kernel.org>; Thu, 11 May 2023 20:01:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683860481; x=1686452481;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wNH+qT+d278L8EuW7+gJj57wNou4ngN3N+y41xL0bJg=;
-        b=bsfwLbTBcF81MZeJ5Eya6UvNOwMn6NFXp1BWVwwh6WeMzLswrcetweYtitBfRV1LJp
-         kqX1FbImeeNtFUS04GbjkFfj/YrFVwqRF22Cyq/SdOkfCAGbnve4GGykWMnzo47LnOdm
-         QvCC2CjXm+ApHY7cqpoa+x4BDadq1gxPbpKZ9g9/6EEUnO4eZ+EbAr68dvWhfyEIWhnF
-         pkCRdkTN03AuRWSyXUi540JrbEbX+n5fQ4tYV+ZClNXxeloLqkJ5vRHPjCWzExCU3Lda
-         uhi0Ezs/upGKHHkPNC1JGdxg58qYjfkQGIweMuDMJF2hL387Ypfxq8HN5yvW1aAq9hnv
-         QI0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683860481; x=1686452481;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wNH+qT+d278L8EuW7+gJj57wNou4ngN3N+y41xL0bJg=;
-        b=Ts0I9EgUJsFqmzjg1IPvPXbiZNmRDgYigkHJaE2XXWo6gegjLQyaKcOekF8N/Q3561
-         iqI0oxkrSMakPjYUPbAaI/2gEh9TMULvbCZ11sJLI7Z2c3y1ix9t2PQqDd7gY4bNe8+f
-         s365b8miDbZ/o0kVgVrXckF+cQ3UdJnc6BiFDX6xinhsJ5h9vqzNQXZHicd0ptcokGK/
-         hOT9uEBOwnV5tic790Fg+jIsbC9lDG5RwSC8a0E6z4aD3If5hak1CbbMBFVUCesNXjRE
-         n1l1bBHsdVjg46p9s9Sx5qICctI+J/GFHLljbIgUOuZrF0Hahc6quV8I4UZjmawzN+FR
-         B4Vg==
-X-Gm-Message-State: AC+VfDy+yOeSifNH3tiOkdDTer45/D9im9s4AG7wUHuJaCKU9JHSRlup
-        /07Yl6biUiwgPn+HWs/swD/zJQ==
-X-Google-Smtp-Source: ACHHUZ44za2uY/t0ZeDVI7Cub+JKSvmiDla/DY0bj3D5erE9BCthF8KD3B45b2eRZNuru7kPL/TL5Q==
-X-Received: by 2002:a5d:6149:0:b0:306:2fd1:a929 with SMTP id y9-20020a5d6149000000b003062fd1a929mr15785049wrt.7.1683860481429;
-        Thu, 11 May 2023 20:01:21 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id w12-20020a05600c474c00b003f07ef4e3e0sm14458610wmo.0.2023.05.11.20.01.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 May 2023 20:01:20 -0700 (PDT)
-Message-ID: <f9904e82-4756-2add-3c7e-e019ce966515@linaro.org>
-Date:   Fri, 12 May 2023 04:01:19 +0100
+        Fri, 12 May 2023 06:31:34 -0400
+Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B57E840F7;
+        Fri, 12 May 2023 03:31:28 -0700 (PDT)
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+        by ex01.ufhost.com (Postfix) with ESMTP id 8548124E327;
+        Fri, 12 May 2023 18:27:06 +0800 (CST)
+Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 12 May
+ 2023 18:26:38 +0800
+Received: from xiaofei.localdomain (180.164.60.184) by EXMBX073.cuchost.com
+ (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Fri, 12 May
+ 2023 18:26:37 +0800
+From:   Jack Zhu <jack.zhu@starfivetech.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <jack.zhu@starfivetech.com>,
+        <changhuang.liang@starfivetech.com>
+Subject: [PATCH v1 0/5] Add support for external dphy
+Date:   Fri, 12 May 2023 18:26:32 +0800
+Message-ID: <20230512102637.50917-1-jack.zhu@starfivetech.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 00/18] Venus QoL / maintainability fixes
-Content-Language: en-US
-To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dikshita Agarwal <dikshita@qti.qualcomm.com>,
-        Mansur Alisha Shaik <mansur@codeaurora.org>,
-        Jonathan Marek <jonathan@marek.ca>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        stable@vger.kernel.org
-References: <20230228-topic-venus-v2-0-d95d14949c79@linaro.org>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20230228-topic-venus-v2-0-d95d14949c79@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX073.cuchost.com
+ (172.16.6.83)
+X-YovoleRuleAgent: yovoleflag
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 04/05/2023 09:00, Konrad Dybcio wrote:
-> Tested on 8250, but pretty please test it on your boards too!
+This series adds support for external D-PHY and JH7110 SoC which has a Cadence
+MIPI-CSI2 RX controller. The driver is tested on VisionFive V2 board.
 
-What's the definition of test here ?
+PLEASE NOTE: this patch series was spun off from the v4 of another series that
+included CSI and ISP driver. You can check the comments for earlier version in
+the link below. I'm sorry that the first version link has been lost.
 
-I ran this
+v4 link: https://lore.kernel.org/all/20230413035541.62129-1-jack.zhu@starfivetech.com/
+v3 link: https://lore.kernel.org/all/20230331121826.96973-1-jack.zhu@starfivetech.com/
+v2 link: https://lore.kernel.org/all/20230310120553.60586-1-jack.zhu@starfivetech.com/
 
-ffplay -codec:video h264_v4l2m2m FantasticFour-ROTSS.mp4
+Current review status:
+  - cdns,csi2rx.yaml:
+      Reviewed by: Krzysztof Kozlowski
+      Reviewed by: Laurent Pinchart
+  - cdns-csi2rx.c
+      Reviewed by: Laurent Pinchart
+  - MAINTAINERS
+      Reviewed by: Krzysztof Kozlowski
+      Reviewed by: Laurent Pinchart
 
-and this
+Thanks to everyone who reviewed my work !
 
-ffplay -codec:video vp8_v4l2m2m /mnt/big-buck-bunny_trailer.webm
+Jack Zhu (5):
+  media: dt-bindings: cadence-csi2rx: Convert to DT schema
+  media: dt-bindings: cadence-csi2rx: Add resets property
+  media: cadence: Add operation on reset
+  media: cadence: Add support for external dphy
+  media: cadence: Add support for JH7110 SoC
 
-on db410c with no errors. Then again I applied and disapplied the 8x8 
-264 fix to that branch and saw no discernable difference so I'm not very 
-confident we have good coverage.
+ .../devicetree/bindings/media/cdns,csi2rx.txt | 100 ---------
+ .../bindings/media/cdns,csi2rx.yaml           | 201 ++++++++++++++++++
+ MAINTAINERS                                   |   1 +
+ drivers/media/platform/cadence/cdns-csi2rx.c  | 107 ++++++++--
+ 4 files changed, 294 insertions(+), 115 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/cdns,csi2rx.txt
+ create mode 100644 Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
 
-@Stan @Vikash could you give some suggested tests for coverage here ?
+-- 
+2.34.1
 
-@Konrad - get a db410c !
-
-My superficial first-pass on this series looks good but, before giving a 
-Tested-by here, I think we should define a set of coverage tests, run 
-them - the upper end on sm8250 and lower end msm8916 "makes sense to me"
-
-20? different gstreamer tests at different formats and different sizes 
-on our selected platforms db410c, rb5, rb3 I have - also an 820 I 
-haven't booted and an enforce sdm660.
-
-Which tests will we use to validate this series and subsequent series to 
-ensure we don't have more regressions ?
-
----
-bod
