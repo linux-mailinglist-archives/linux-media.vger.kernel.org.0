@@ -2,281 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F094700C83
-	for <lists+linux-media@lfdr.de>; Fri, 12 May 2023 18:04:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9EF7700D17
+	for <lists+linux-media@lfdr.de>; Fri, 12 May 2023 18:35:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241635AbjELQEo convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 12 May 2023 12:04:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43114 "EHLO
+        id S235208AbjELQf2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 May 2023 12:35:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241171AbjELQEl (ORCPT
+        with ESMTP id S235216AbjELQf1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 May 2023 12:04:41 -0400
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BF3626BF;
-        Fri, 12 May 2023 09:04:40 -0700 (PDT)
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-50bcd46bf47so2361570a12.0;
-        Fri, 12 May 2023 09:04:40 -0700 (PDT)
+        Fri, 12 May 2023 12:35:27 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A520593EB
+        for <linux-media@vger.kernel.org>; Fri, 12 May 2023 09:35:17 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-9660af2499dso1594813566b.0
+        for <linux-media@vger.kernel.org>; Fri, 12 May 2023 09:35:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683909316; x=1686501316;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Oj3vBLYi0VGg7znZN4GARmcXM9pKwrBpVwIV9KkQbec=;
+        b=cX9t50W3qWgc+/ZaeMekhrhK1HUSgn6pR9RA6For+1pKOyNl38tWsLSYOfttWTB89c
+         Vr2S7zudABZH+b7KSDqiMNpgQAWPYU7rpl+r5I9fF147w2jcxg6cRplVOIq4PYhRJSuX
+         1H2dQdesYD3RgRF+wtsb5y2D+cBLKlR/go2UbTI757Xu/FfM2oQTSbndCZzd6iGc2Wvh
+         Wg+KeqlAtEUQbqigYT559PDPA5RPd2OVmYiP4zXf3PP3bsJ6e/ZtLEtAfaGvZO3NIjOc
+         L4BCIFXPgs9MbOyq4n0ZUayjP7HhqQcTqVmuYAtJnYBi9943hkimGEBt6m7DAqjRCsuJ
+         ZEpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683907478; x=1686499478;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0XoqJaUFP1Hw2OJCBuV44nR0f113Cthlu5ULmbzGnNk=;
-        b=lYBkPM+6PvhcZKQ5W9xIQJxRBvGrrPfgHGhY/fynZYtHfl7EELDup3aCZWFpQHu2W4
-         TS7wONdyyvGC/jskJEpQxOzfhsq5EiPNdoszgQ4BNFsE/plbimSnzFUioFRjAXCry8ad
-         YvFA0hF5mGEp5PrD1ZBgazALSb65/qgmKF6jVhimCHcK5lU3MNxUupv2XuVPQSks26gB
-         upL0Ue/tH/82RXSK/mD3tkFeGHP4fArGpJq//DPf8jhkfZS0OvQGSEAjNl81140nYxIb
-         gNW+qvD8cbdip89OTfdzuQyVdljiIAX0jrpHLMMLaGyTu4kgJLUuD/znvHXhZw+4+oFm
-         AUxQ==
-X-Gm-Message-State: AC+VfDxmZL94rGflxoPK8VAlfhTbApmhik/skWtwP6hcMRH+WUN43TpF
-        pFcbZy2O7FkE7OaqkfgjqJ390TGLsllxrFFq28y+Fj/x
-X-Google-Smtp-Source: ACHHUZ5JMNmN5ef/02EKDml82v5uTzXU1nMK52fXiZ1UnN47XyKpP9WfiKcU+y1QrUJDEyNMlWgLg7BE1nzH748SgCY=
-X-Received: by 2002:a17:906:217:b0:94f:66af:b1f7 with SMTP id
- 23-20020a170906021700b0094f66afb1f7mr20181354ejd.1.1683907478301; Fri, 12 May
- 2023 09:04:38 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1683909316; x=1686501316;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Oj3vBLYi0VGg7znZN4GARmcXM9pKwrBpVwIV9KkQbec=;
+        b=U4S7d/XGwQaRIb9gvAdTJNGG9lZNhBsS/RgLqcz3oHi6W59E9iPwMzlVN0Mi6Zn9FP
+         GD0v8K/GD0DPUwUHRTG0Jl4iOPhHHLn3t1NfaXOxAtNtob9E18omECtTncUTwaxNerVg
+         Chqrq8Pa+hgL5BemXim3r+Wq+WOpyvSLHzJGwGIPFlVGUMtifqJ7nslJm9HBXGpt1bGm
+         17xU9LbXNMi0s6P1EnIuSwtkAa3HQ+wfkRDA0n91hrdSJ2Y1dHJC2FkVVgsQgzQVC0vR
+         4zmJxZS8DQoBNtyV8SxqZDmfiU0NuqtcabFhJSXI/j6eF9lfscrV1lVhGXe+SPX6xyBn
+         VPqQ==
+X-Gm-Message-State: AC+VfDww/gk6RN2nr5iLx9dP5i0+4GypQXoFBWRNbZCQE4k//jZjUVD3
+        32Lg7WG271/4F2Kph8cmGTYcDg==
+X-Google-Smtp-Source: ACHHUZ4ot459mbkMzA1b+DbStmTsgAlYaGVvjjMaw+ecLAMB38L9UcblvQxLt2/wAAYALelHBjLbFA==
+X-Received: by 2002:a17:907:3e9e:b0:96a:29c0:8515 with SMTP id hs30-20020a1709073e9e00b0096a29c08515mr8774854ejc.58.1683909315994;
+        Fri, 12 May 2023 09:35:15 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:7ede:fc7b:2328:3883? ([2a02:810d:15c0:828:7ede:fc7b:2328:3883])
+        by smtp.gmail.com with ESMTPSA id lt14-20020a170906fa8e00b0094efdfe60dcsm5490714ejb.206.2023.05.12.09.35.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 May 2023 09:35:15 -0700 (PDT)
+Message-ID: <98a77653-ec58-56c4-9893-3b424f67c87e@linaro.org>
+Date:   Fri, 12 May 2023 18:35:12 +0200
 MIME-Version: 1.0
-References: <20230329100951.1522322-1-sakari.ailus@linux.intel.com> <20230329100951.1522322-3-sakari.ailus@linux.intel.com>
-In-Reply-To: <20230329100951.1522322-3-sakari.ailus@linux.intel.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Fri, 12 May 2023 18:04:26 +0200
-Message-ID: <CAJZ5v0gG1Zc8h8Lt_tKJp8u7b-nH0Rxt=2j9RqptMVc8r0vL7Q@mail.gmail.com>
-Subject: Re: [PATCH v8 02/10] ACPI: property: Parse data node string
- references in properties
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
-        rafael@kernel.org, andriy.shevchenko@linux.intel.com,
-        heikki.krogerus@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 01/28] media: cec: ch7322: drop of_match_ptr for ID table
+Content-Language: en-US
+To:     Joe Tessler <jrt@google.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Wenyou Yang <wenyou.yang@microchip.com>,
+        Bin Liu <bin.liu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        Yong Deng <yong.deng@magewell.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-rockchip@lists.infradead.org
+References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Mar 29, 2023 at 12:10 PM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Add support for parsing property references using strings, besides
-> reference objects that were previously supported. This allows also
-> referencing data nodes which was not possible with reference objects.
->
-> Also add pr_fmt() macro to prefix printouts.
->
-> While at it, update copyright.
-
-Although I said that it looked good to me, some minor improvements can
-still be made.
-
-First off, the above changelog is a bit terse.
-
-I think that it would help to provide an example of device properties
-that would not be parsed properly before the change and can be parsed
-now.
-
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+On 12/03/2023 14:12, Krzysztof Kozlowski wrote:
+> The driver can match only via the DT table so the table should be always
+> used and the of_match_ptr does not have any sense (this also allows ACPI
+> matching via PRP0001, even though it might not be relevant here).
+> 
+>   drivers/media/cec/i2c/ch7322.c:583:34: error: ‘ch7322_of_match’ defined but not used [-Werror=unused-const-variable=]
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
->  drivers/acpi/property.c | 110 ++++++++++++++++++++++++++++++++++------
->  1 file changed, 94 insertions(+), 16 deletions(-)
->
-> diff --git a/drivers/acpi/property.c b/drivers/acpi/property.c
-> index b8d9eb9a433e..08831ffba26c 100644
-> --- a/drivers/acpi/property.c
-> +++ b/drivers/acpi/property.c
-> @@ -2,14 +2,17 @@
->  /*
->   * ACPI device specific properties support.
->   *
-> - * Copyright (C) 2014, Intel Corporation
-> + * Copyright (C) 2014-2023, Intel Corporation
->   * All rights reserved.
->   *
->   * Authors: Mika Westerberg <mika.westerberg@linux.intel.com>
-> - *          Darren Hart <dvhart@linux.intel.com>
-> - *          Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> + *         Darren Hart <dvhart@linux.intel.com>
-> + *         Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-I'm not sure if the whitespace change here is really useful.
+Hans, Sakari,
 
-> + *         Sakari Ailus <sakari.ailus@linux.intel.com>
->   */
->
-> +#define pr_fmt(fmt) "ACPI: " fmt
-> +
->  #include <linux/acpi.h>
->  #include <linux/device.h>
->  #include <linux/export.h>
-> @@ -795,7 +798,8 @@ acpi_fwnode_get_named_child_node(const struct fwnode_handle *fwnode,
->  static int acpi_get_ref_args(struct fwnode_reference_args *args,
->                              struct fwnode_handle *ref_fwnode,
->                              const union acpi_object **element,
-> -                            const union acpi_object *end, size_t num_args)
-> +                            const union acpi_object *end, size_t num_args,
-> +                            bool subnode_string)
+Can you pick up the patchset? There was positive feedback:
+https://patchwork.linuxtv.org/project/linux-media/patch/20230312131318.351173-1-krzysztof.kozlowski@linaro.org/
 
-The meaning of the new argument isn't really clear.  it would be good
-to somehow help a casual reader of the code to find this out more
-easily.
+but it seems it was not applied.
 
->  {
->         u32 nargs = 0, i;
->
-> @@ -803,13 +807,16 @@ static int acpi_get_ref_args(struct fwnode_reference_args *args,
->          * Find the referred data extension node under the
->          * referred device node.
->          */
-> -       for (; *element < end && (*element)->type == ACPI_TYPE_STRING;
-> -            (*element)++) {
-> -               const char *child_name = (*element)->string.pointer;
-> -
-> -               ref_fwnode = acpi_fwnode_get_named_child_node(ref_fwnode, child_name);
-> -               if (!ref_fwnode)
-> -                       return -EINVAL;
-> +       if (subnode_string) {
-> +               for (; *element < end && (*element)->type == ACPI_TYPE_STRING;
-> +                    (*element)++) {
-> +                       const char *child_name = (*element)->string.pointer;
-> +
-> +                       ref_fwnode = acpi_fwnode_get_named_child_node(ref_fwnode,
-> +                                                                     child_name);
-> +                       if (!ref_fwnode)
-> +                               return -EINVAL;
-> +               }
->         }
->
->         /*
-> @@ -820,7 +827,8 @@ static int acpi_get_ref_args(struct fwnode_reference_args *args,
->         for (i = 0; (*element) + i < end && i < num_args; i++) {
->                 acpi_object_type type = (*element)[i].type;
->
-> -               if (type == ACPI_TYPE_LOCAL_REFERENCE)
-> +               if (type == ACPI_TYPE_LOCAL_REFERENCE ||
-> +                   (!subnode_string && type == ACPI_TYPE_STRING))
->                         break;
->
->                 if (type == ACPI_TYPE_INTEGER)
-> @@ -844,6 +852,43 @@ static int acpi_get_ref_args(struct fwnode_reference_args *args,
->         return 0;
->  }
->
-> +static struct fwnode_handle *
-> +acpi_parse_string_ref(const struct fwnode_handle *fwnode, const char *refstring)
-> +{
-> +       acpi_handle scope, handle;
-> +       struct acpi_data_node *dn;
-> +       struct acpi_device *device;
-> +       acpi_status status;
-> +
-> +       if (is_acpi_device_node(fwnode)) {
-> +               scope = to_acpi_device_node(fwnode)->handle;
-> +       } else if (is_acpi_data_node(fwnode)) {
-> +               scope = to_acpi_data_node(fwnode)->handle;
-> +       } else {
-> +               pr_debug("bad node type for node %pfw\n", fwnode);
-> +               return ERR_PTR(-EINVAL);
-> +       }
-> +
-> +       status = acpi_get_handle(scope, refstring, &handle);
-> +       if (ACPI_FAILURE(status)) {
-> +               acpi_handle_debug(scope, "can't get handle for %s", refstring);
-> +               return ERR_PTR(-EINVAL);
-> +       }
-> +
-> +       device = acpi_fetch_acpi_dev(handle);
-> +       if (device)
-> +               return acpi_fwnode_handle(device);
-> +
-> +       status = acpi_get_data_full(handle, acpi_nondev_subnode_tag,
-> +                                   (void **)&dn, NULL);
-> +       if (ACPI_FAILURE(status) || !dn) {
-> +               acpi_handle_debug(handle, "can't find subnode");
-> +               return ERR_PTR(-EINVAL);
-> +       }
-> +
-> +       return &dn->fwnode;
+Best regards,
+Krzysztof
 
-So on failure this function always returns the same error code.  Can
-it return NULL instead which can be translated into an error code by
-the caller?
-
-> +}
-> +
->  /**
->   * __acpi_node_get_property_reference - returns handle to the referenced object
->   * @fwnode: Firmware node to get the property from
-> @@ -886,6 +931,7 @@ int __acpi_node_get_property_reference(const struct fwnode_handle *fwnode,
->         const union acpi_object *element, *end;
->         const union acpi_object *obj;
->         const struct acpi_device_data *data;
-> +       struct fwnode_handle *ref_fwnode;
->         struct acpi_device *device;
->         int ret, idx = 0;
->
-> @@ -909,16 +955,29 @@ int __acpi_node_get_property_reference(const struct fwnode_handle *fwnode,
->
->                 args->fwnode = acpi_fwnode_handle(device);
->                 args->nargs = 0;
-> +               return 0;
-> +       case ACPI_TYPE_STRING:
-> +               if (index)
-> +                       return -ENOENT;
-> +
-> +               ref_fwnode = acpi_parse_string_ref(fwnode, obj->string.pointer);
-> +               if (IS_ERR(ref_fwnode))
-> +                       return PTR_ERR(ref_fwnode);
-> +
-> +               args->fwnode = ref_fwnode;
-> +               args->nargs = 0;
-> +
->                 return 0;
->         case ACPI_TYPE_PACKAGE:
->                 /*
->                  * If it is not a single reference, then it is a package of
-> -                * references followed by number of ints as follows:
-> +                * references, followed by number of ints as follows:
->                  *
->                  *  Package () { REF, INT, REF, INT, INT }
->                  *
-> -                * The index argument is then used to determine which reference
-> -                * the caller wants (along with the arguments).
-> +                * Here, REF may be either a local reference or a string. The
-> +                * index argument is then used to determine which reference the
-> +                * caller wants (along with the arguments).
->                  */
->                 break;
->         default:
-> @@ -942,7 +1001,26 @@ int __acpi_node_get_property_reference(const struct fwnode_handle *fwnode,
->
->                         ret = acpi_get_ref_args(idx == index ? args : NULL,
->                                                 acpi_fwnode_handle(device),
-> -                                               &element, end, num_args);
-> +                                               &element, end, num_args, true);
-> +                       if (ret < 0)
-> +                               return ret;
-> +
-> +                       if (idx == index)
-> +                               return 0;
-> +
-> +                       break;
-> +               case ACPI_TYPE_STRING:
-> +                       ref_fwnode =
-> +                               acpi_parse_string_ref(fwnode,
-> +                                                     element->string.pointer);
-> +                       if (IS_ERR(ref_fwnode))
-> +                               return PTR_ERR(ref_fwnode);
-> +
-> +                       element++;
-> +
-> +                       ret = acpi_get_ref_args(idx == index ? args : NULL,
-> +                                               ref_fwnode, &element, end,
-> +                                               num_args, false);
->                         if (ret < 0)
->                                 return ret;
->
-> --
