@@ -2,136 +2,213 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E9EF7700D17
-	for <lists+linux-media@lfdr.de>; Fri, 12 May 2023 18:35:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A5DF2700E25
+	for <lists+linux-media@lfdr.de>; Fri, 12 May 2023 19:55:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235208AbjELQf2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 May 2023 12:35:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60242 "EHLO
+        id S238045AbjELRy7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 May 2023 13:54:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235216AbjELQf1 (ORCPT
+        with ESMTP id S231166AbjELRy6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 May 2023 12:35:27 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A520593EB
-        for <linux-media@vger.kernel.org>; Fri, 12 May 2023 09:35:17 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-9660af2499dso1594813566b.0
-        for <linux-media@vger.kernel.org>; Fri, 12 May 2023 09:35:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683909316; x=1686501316;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Oj3vBLYi0VGg7znZN4GARmcXM9pKwrBpVwIV9KkQbec=;
-        b=cX9t50W3qWgc+/ZaeMekhrhK1HUSgn6pR9RA6For+1pKOyNl38tWsLSYOfttWTB89c
-         Vr2S7zudABZH+b7KSDqiMNpgQAWPYU7rpl+r5I9fF147w2jcxg6cRplVOIq4PYhRJSuX
-         1H2dQdesYD3RgRF+wtsb5y2D+cBLKlR/go2UbTI757Xu/FfM2oQTSbndCZzd6iGc2Wvh
-         Wg+KeqlAtEUQbqigYT559PDPA5RPd2OVmYiP4zXf3PP3bsJ6e/ZtLEtAfaGvZO3NIjOc
-         L4BCIFXPgs9MbOyq4n0ZUayjP7HhqQcTqVmuYAtJnYBi9943hkimGEBt6m7DAqjRCsuJ
-         ZEpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683909316; x=1686501316;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Oj3vBLYi0VGg7znZN4GARmcXM9pKwrBpVwIV9KkQbec=;
-        b=U4S7d/XGwQaRIb9gvAdTJNGG9lZNhBsS/RgLqcz3oHi6W59E9iPwMzlVN0Mi6Zn9FP
-         GD0v8K/GD0DPUwUHRTG0Jl4iOPhHHLn3t1NfaXOxAtNtob9E18omECtTncUTwaxNerVg
-         Chqrq8Pa+hgL5BemXim3r+Wq+WOpyvSLHzJGwGIPFlVGUMtifqJ7nslJm9HBXGpt1bGm
-         17xU9LbXNMi0s6P1EnIuSwtkAa3HQ+wfkRDA0n91hrdSJ2Y1dHJC2FkVVgsQgzQVC0vR
-         4zmJxZS8DQoBNtyV8SxqZDmfiU0NuqtcabFhJSXI/j6eF9lfscrV1lVhGXe+SPX6xyBn
-         VPqQ==
-X-Gm-Message-State: AC+VfDww/gk6RN2nr5iLx9dP5i0+4GypQXoFBWRNbZCQE4k//jZjUVD3
-        32Lg7WG271/4F2Kph8cmGTYcDg==
-X-Google-Smtp-Source: ACHHUZ4ot459mbkMzA1b+DbStmTsgAlYaGVvjjMaw+ecLAMB38L9UcblvQxLt2/wAAYALelHBjLbFA==
-X-Received: by 2002:a17:907:3e9e:b0:96a:29c0:8515 with SMTP id hs30-20020a1709073e9e00b0096a29c08515mr8774854ejc.58.1683909315994;
-        Fri, 12 May 2023 09:35:15 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:7ede:fc7b:2328:3883? ([2a02:810d:15c0:828:7ede:fc7b:2328:3883])
-        by smtp.gmail.com with ESMTPSA id lt14-20020a170906fa8e00b0094efdfe60dcsm5490714ejb.206.2023.05.12.09.35.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 May 2023 09:35:15 -0700 (PDT)
-Message-ID: <98a77653-ec58-56c4-9893-3b424f67c87e@linaro.org>
-Date:   Fri, 12 May 2023 18:35:12 +0200
+        Fri, 12 May 2023 13:54:58 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26C287ED2;
+        Fri, 12 May 2023 10:54:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683914096; x=1715450096;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zLCsGs+3Z9nE6N7JKCXE/0NerOE+D5BL5BJhMpo79zk=;
+  b=WyoR+0JTBuVsZgY8zxOQE/pFUvApHx+tP5K+gJWlqyrpG6PTnpOMfQ4N
+   OqllCB5kSuDKxsRoOb4Gv/PQpE3Pe8CfHvHt2nBUu+vIwRCF0ytSKwMtt
+   z+83UH2MZWwWx0loO78aZrPy1+5zrXAgXqUgpZveGCnrjAXOtdJRtGa/9
+   kaGqrq4y6cCW/v+1mQzz7AVh5l+1UoZBuQljTbjM1JX95Tc5Xqt3VupBy
+   v3rHYf0dGscPb1nJvzxjCpmowgOX1Kjxoz+rwY5V9MqHTvTFC/6KIj9/j
+   g8MRiGnq/dXoVPYxWYkbjTdJ2zdNTa4bZZeY6cLhUd1AWT/oAgJM4x+1Z
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="378990138"
+X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
+   d="scan'208";a="378990138"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 10:54:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="703254820"
+X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
+   d="scan'208";a="703254820"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 12 May 2023 10:54:53 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1pxWyi-00050w-0m;
+        Fri, 12 May 2023 17:54:52 +0000
+Date:   Sat, 13 May 2023 01:54:30 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Perchanov <dmitry.perchanov@intel.com>,
+        linux-media@vger.kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev, mchehab@kernel.org,
+        linux-kernel@vger.kernel.org, sakari.ailus@iki.fi,
+        laurent.pinchart@ideasonboard.com, evgeni.raikhel@intel.com,
+        demisrael@gmail.com, sakari.ailus@intel.com
+Subject: Re: [PATCH v2] media: uapi: v4l: Intel metadata format update
+Message-ID: <202305130121.0QxAqCO3-lkp@intel.com>
+References: <e16ddf4fdb83f30899e575b218e524f6346a9f50.camel@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 01/28] media: cec: ch7322: drop of_match_ptr for ID table
-Content-Language: en-US
-To:     Joe Tessler <jrt@google.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Wenyou Yang <wenyou.yang@microchip.com>,
-        Bin Liu <bin.liu@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Patrice Chotard <patrice.chotard@foss.st.com>,
-        Yong Deng <yong.deng@magewell.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-rockchip@lists.infradead.org
-References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e16ddf4fdb83f30899e575b218e524f6346a9f50.camel@intel.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/03/2023 14:12, Krzysztof Kozlowski wrote:
-> The driver can match only via the DT table so the table should be always
-> used and the of_match_ptr does not have any sense (this also allows ACPI
-> matching via PRP0001, even though it might not be relevant here).
-> 
->   drivers/media/cec/i2c/ch7322.c:583:34: error: ‘ch7322_of_match’ defined but not used [-Werror=unused-const-variable=]
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
+Hi Dmitry,
 
-Hans, Sakari,
+kernel test robot noticed the following build warnings:
 
-Can you pick up the patchset? There was positive feedback:
-https://patchwork.linuxtv.org/project/linux-media/patch/20230312131318.351173-1-krzysztof.kozlowski@linaro.org/
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on sailus-media-tree/streams linus/master v6.4-rc1 next-20230512]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-but it seems it was not applied.
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Perchanov/media-uapi-v4l-Intel-metadata-format-update/20230509-162624
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/e16ddf4fdb83f30899e575b218e524f6346a9f50.camel%40intel.com
+patch subject: [PATCH v2] media: uapi: v4l: Intel metadata format update
+reproduce:
+        # https://github.com/intel-lab-lkp/linux/commit/9380782b719cdcafc3d26c5166e52cdcbae8fca7
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Dmitry-Perchanov/media-uapi-v4l-Intel-metadata-format-update/20230509-162624
+        git checkout 9380782b719cdcafc3d26c5166e52cdcbae8fca7
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-Best regards,
-Krzysztof
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305130121.0QxAqCO3-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
+
+>> Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst:37: WARNING: "flat-table" widths do not match the number of columns in table (3).
+
+vim +37 Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst
+
+94fa831e3b359f2 Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Mauro Carvalho Chehab 2019-03-29   35  
+94fa831e3b359f2 Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Mauro Carvalho Chehab 2019-03-29   36  
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  @37  .. flat-table:: D4xx metadata
+94fa831e3b359f2 Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Mauro Carvalho Chehab 2019-03-29   38      :widths: 1 2
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   39      :header-rows:  1
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   40      :stub-columns: 0
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   41  
+94fa831e3b359f2 Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Mauro Carvalho Chehab 2019-03-29   42      * - **Field**
+94fa831e3b359f2 Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Mauro Carvalho Chehab 2019-03-29   43        - **Description**
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   44      * - :cspan:`1` *Depth Control*
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   45      * - __u32 ID
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   46        - 0x80000000
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   47      * - __u32 Size
+9380782b719cdca Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst Dmitry Perchanov      2023-05-09   48        - Size in bytes (currently 60)
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   49      * - __u32 Version
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   50        - Version of this structure. The documentation herein corresponds to
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   51          version xxx. The version number will be incremented when new fields are
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   52          added.
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   53      * - __u32 Flags
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   54        - A bitmask of flags: see [2_] below
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   55      * - __u32 Gain
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   56        - Gain value in internal units, same as the V4L2_CID_GAIN control, used to
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   57  	capture the frame
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   58      * - __u32 Exposure
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   59        - Exposure time (in microseconds) used to capture the frame
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   60      * - __u32 Laser power
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   61        - Power of the laser LED 0-360, used for depth measurement
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   62      * - __u32 AE mode
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   63        - 0: manual; 1: automatic exposure
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   64      * - __u32 Exposure priority
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   65        - Exposure priority value: 0 - constant frame rate
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   66      * - __u32 AE ROI left
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   67        - Left border of the AE Region of Interest (all ROI values are in pixels
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   68  	and lie between 0 and maximum width or height respectively)
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   69      * - __u32 AE ROI right
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   70        - Right border of the AE Region of Interest
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   71      * - __u32 AE ROI top
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   72        - Top border of the AE Region of Interest
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   73      * - __u32 AE ROI bottom
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   74        - Bottom border of the AE Region of Interest
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   75      * - __u32 Preset
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   76        - Preset selector value, default: 0, unless changed by the user
+9380782b719cdca Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst Dmitry Perchanov      2023-05-09   77      * - __u8 Emitter mode
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   78        - 0: off, 1: on
+9380782b719cdca Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst Dmitry Perchanov      2023-05-09   79      * - __u8 RFU byte
+9380782b719cdca Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst Dmitry Perchanov      2023-05-09   80      * - __u16 LED Power
+9380782b719cdca Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst Dmitry Perchanov      2023-05-09   81        - Led power value 0-360 (F416 SKU)
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   82      * - :cspan:`1` *Capture Timing*
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   83      * - __u32 ID
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   84        - 0x80000001
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   85      * - __u32 Size
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   86        - Size in bytes (currently 40)
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   87      * - __u32 Version
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   88        - Version of this structure. The documentation herein corresponds to
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   89          version xxx. The version number will be incremented when new fields are
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   90          added.
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   91      * - __u32 Flags
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   92        - A bitmask of flags: see [3_] below
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   93      * - __u32 Frame counter
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   94        - Monotonically increasing counter
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   95      * - __u32 Optical time
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   96        - Time in microseconds from the beginning of a frame till its middle
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   97      * - __u32 Readout time
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   98        - Time, used to read out a frame in microseconds
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03   99      * - __u32 Exposure time
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  100        - Frame exposure time in microseconds
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  101      * - __u32 Frame interval
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  102        - In microseconds = 1000000 / framerate
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  103      * - __u32 Pipe latency
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  104        - Time in microseconds from start of frame to data in USB buffer
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  105      * - :cspan:`1` *Configuration*
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  106      * - __u32 ID
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  107        - 0x80000002
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  108      * - __u32 Size
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  109        - Size in bytes (currently 40)
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  110      * - __u32 Version
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  111        - Version of this structure. The documentation herein corresponds to
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  112          version xxx. The version number will be incremented when new fields are
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  113          added.
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  114      * - __u32 Flags
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  115        - A bitmask of flags: see [4_] below
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  116      * - __u8 Hardware type
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  117        - Camera hardware version [5_]
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  118      * - __u8 SKU ID
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  119        - Camera hardware configuration [6_]
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  120      * - __u32 Cookie
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  121        - Internal synchronisation
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  122      * - __u16 Format
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  123        - Image format code [7_]
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  124      * - __u16 Width
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  125        - Width in pixels
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  126      * - __u16 Height
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  127        - Height in pixels
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  128      * - __u16 Framerate
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  129        - Requested frame rate per second
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  130      * - __u16 Trigger
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  131        - Byte 0: bit 0: depth and RGB are synchronised, bit 1: external trigger
+9380782b719cdca Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst Dmitry Perchanov      2023-05-09  132      * - __u16 Calibration count
+9380782b719cdca Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst Dmitry Perchanov      2023-05-09  133      * - __u8 GPIO input data
+9380782b719cdca Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst Dmitry Perchanov      2023-05-09  134        - GPIO readout
+9380782b719cdca Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst Dmitry Perchanov      2023-05-09  135        - Supported from FW 5.12.7.0
+9380782b719cdca Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst Dmitry Perchanov      2023-05-09  136      * - __u32 Sub-preset info
+9380782b719cdca Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst Dmitry Perchanov      2023-05-09  137        - Sub-preset choice information
+9380782b719cdca Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst Dmitry Perchanov      2023-05-09  138      * - __u8 reserved
+9380782b719cdca Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst Dmitry Perchanov      2023-05-09  139        - RFU byte.
+6ea0d588d35b55e Documentation/media/uapi/v4l/pixfmt-meta-d4xx.rst          Guennadi Liakhovetski 2018-08-03  140  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
