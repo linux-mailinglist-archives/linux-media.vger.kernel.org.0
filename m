@@ -2,422 +2,759 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BFEB70078A
-	for <lists+linux-media@lfdr.de>; Fri, 12 May 2023 14:20:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61FB870086D
+	for <lists+linux-media@lfdr.de>; Fri, 12 May 2023 14:50:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240607AbjELMUc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 May 2023 08:20:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49140 "EHLO
+        id S240915AbjELMu4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 May 2023 08:50:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240338AbjELMU3 (ORCPT
+        with ESMTP id S240512AbjELMux (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 May 2023 08:20:29 -0400
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on20711.outbound.protection.outlook.com [IPv6:2a01:111:f403:704b::711])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 164407DA2
-        for <linux-media@vger.kernel.org>; Fri, 12 May 2023 05:19:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DlZlmy/BWizPSNW6ScfZXXslcHQ/9JTOkQ8mXVyUQ5+EAQ+WUN+2eGpDOpLvm/Lnwc44ZrJu0yxbL3pqZNjxnd/4RzQkrqdZLbSVNyRwAobQxyWLvlxh3GHVgE1fB74YreGsq4VPs0Ms12irAJVqidSMvSG5ZcVyQfwif1J2rMdIj1OUjNxAnvUIRyQbYRLlp/IP5A8mKq9qwuQudjOqX8lQBzQLT4aKQ+IiyNjCkNtvpYxLppIkKE03kO/iy3+nZyLEmaRUh7Y1J4BJRQx5oYpJHUG+ddNk3VilGmUTdnCJhPsv6AZyCX18OwX1/25xOvoZVoTGhrODtcSbAUQ1xQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Dzb96zEL4ql44vkE/KlUwmKutNA4cv6+cI8JIlKyRlc=;
- b=Czn3ylTokMIYeuF910MFCv+o6zVepLfk8XUZ+ZIgghLlVXcA+eOD3+eKcdXZxExfap4teOtrXoOsHn6ZCYkpNHcPbomanmVAy6G6qTYW2w2rQxh+eX05bXz82qbMykpG7kqZwKeoOINZd+qf1aJBetpcP5jF9FX9zGw0gOChEjkicKsy7kK/H2Bp15KbptpolpVfag6UDliYAb+S2HW+r1/2xH4AVOfVOIx5ZON7NXGxVk46GHjkCvJr6EqHJbDxP/9oBuz/pWDP5LGTELrHQx7ud5tbjFm9z8v73jXz4ZZE2KxF6tzYcMNgXTn3XA31orf2phH7+nsXuSpAl0Yx2Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amlogic.com; dmarc=pass action=none header.from=amlogic.com;
- dkim=pass header.d=amlogic.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amlogic.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Dzb96zEL4ql44vkE/KlUwmKutNA4cv6+cI8JIlKyRlc=;
- b=DWX4eNDpP73WG6NPKpS1gWdXU0ncViId0t7dpifOjf5hGhTRhBepYLCj4sH3HPx9YEqoiK6Ri6ZkLbaUA66565xg+Yuh/e3z3JOoyIsRBl+wgqAHe5yiuWP3CtLvGSiSZKwQk2V7MeA42QfN6r/vkDrOPsu0+189crySRwu9rNc5OGBeI86E5CJP1phh10IupykqkuzRKO4/OkXWGH7X3E40qTbXwEYGTNt9bH88EWsesoJh+U8PUJXqx5yLl5dM+5wRsXw7ch18W301qSsRj6zaP5OPmWRDNY4uaA2cvhGPxs3hZATHj4nUYjGOBff9izyemeiDqBNi9Y1cbYzbnA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amlogic.com;
-Received: from SG2PR03MB5085.apcprd03.prod.outlook.com (2603:1096:4:ae::22) by
- SEYPR03MB7779.apcprd03.prod.outlook.com (2603:1096:101:139::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6387.21; Fri, 12 May 2023 12:19:35 +0000
-Received: from SG2PR03MB5085.apcprd03.prod.outlook.com
- ([fe80::e773:48e1:2124:a436]) by SG2PR03MB5085.apcprd03.prod.outlook.com
- ([fe80::e773:48e1:2124:a436%4]) with mapi id 15.20.6363.033; Fri, 12 May 2023
- 12:19:35 +0000
-Message-ID: <712e2962-073a-b6c2-8f58-d1ceffdc77d2@amlogic.com>
-Date:   Fri, 12 May 2023 20:19:10 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] media: rc: meson-ir: support MMIO regmaps to access
- registers
-To:     neil.armstrong@linaro.org, Sean Young <sean@mess.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc:     linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        Qianggui.Song@amlogic.com, Yonghui.Yu@amlogic.com,
-        kelvin.zhang@amlogic.com
-References: <20230511034333.26800-1-zelong.dong@amlogic.com>
- <62dd9a2f-6417-746c-0c8b-7424bda9e151@linaro.org>
-From:   Zelong Dong <Zelong.Dong@amlogic.com>
-In-Reply-To: <62dd9a2f-6417-746c-0c8b-7424bda9e151@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: TY2PR02CA0005.apcprd02.prod.outlook.com
- (2603:1096:404:56::17) To SG2PR03MB5085.apcprd03.prod.outlook.com
- (2603:1096:4:ae::22)
+        Fri, 12 May 2023 08:50:53 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3248219AD
+        for <linux-media@vger.kernel.org>; Fri, 12 May 2023 05:50:50 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-3f42769a0c1so56918085e9.2
+        for <linux-media@vger.kernel.org>; Fri, 12 May 2023 05:50:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683895848; x=1686487848;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tvLnaD/Ah7NIOY2zgAqAWPPu5jFI32rjX1UXqRVJnCA=;
+        b=mt/Jx2mBQig3RR/Ku5jYfqHSgC41yD43+dJ4nuFzba1NeJfLnsGFaZ4PZ3sE53yHpA
+         mkKn5P62OTikpxEHrEiUPgx5/KQlsHdf60RZpgxep172nXwkZk0CEOLEkp1nw0RpmrOI
+         wHAnEK1JrIT5Fehy8sIYp3CgHGM1HBDMZkQaKdHg3nbIqHJoYNMoKZzURqCUMcq6p/pl
+         LBR4DMPY06iNGvnPkOgwzUxBnca9xdsgqIwMJLGgZWTefp16YEFqeMKBuB9mwI7FJQNc
+         gmE59P5tmktHUtLjrzcKxlrv/uBhIV/HnBeOJSAn2uM1jbSNqX5+uuinaD/xvvjnau4a
+         pv0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683895848; x=1686487848;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tvLnaD/Ah7NIOY2zgAqAWPPu5jFI32rjX1UXqRVJnCA=;
+        b=ULyKWdqURfGtBjX72lPPFWm13DpftDfPLG71Fyqvsj16ILsfBbSa6bo0VxjC+FJKlI
+         Eg12zt91VeMW4K7oM7qM4YA5njDcGgvDporq7PbayBP6bJ1FF7fKCE/K85HOYT7Lho7m
+         V/xGuiW9y5YpgmkgwcLFsvHVDwBe51pDI69KI25w3YDk+OBuBgl6lbGZKyuwOFM/CWMI
+         G2LUXIN3DP/pLh0NFNbMfgaiJiYjYP+niaN4g8rTgamB45lNZqQi/9C9Vu6yjKf3P7+v
+         vZVbINPhKvuyjxPB4vI5XS2zzzQadjpBVAx4445z9HcgA5vHHsqe7+9AVgm4VXMp6NAC
+         r1aw==
+X-Gm-Message-State: AC+VfDythD6dnORdS5RvRf90SDy5yccn+J0002jmamqpnpQs3MVt7BYK
+        jR6X4bTIqqxamfSiYF9J/N0q7Q==
+X-Google-Smtp-Source: ACHHUZ4Ss102W4AFbLcs3K26EbJC32yJQbf3/PL5GH/2zWzdgGhzotkwNSUVtbjS2TAmn5+qdtlzaQ==
+X-Received: by 2002:a1c:7304:0:b0:3f1:8223:6683 with SMTP id d4-20020a1c7304000000b003f182236683mr15590537wmb.40.1683895848531;
+        Fri, 12 May 2023 05:50:48 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id s7-20020a1cf207000000b003f1733feb3dsm28466046wmc.0.2023.05.12.05.50.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 May 2023 05:50:47 -0700 (PDT)
+Message-ID: <ca7e84ff-bdb3-8b37-d52d-7afd2c576c98@linaro.org>
+Date:   Fri, 12 May 2023 13:50:46 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SG2PR03MB5085:EE_|SEYPR03MB7779:EE_
-X-MS-Office365-Filtering-Correlation-Id: e223a093-57dc-44d3-e98b-08db52e32575
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: C9Q3ac7rwIDBaRwV2Aj1z8i8bYOs45fzNLiydGmCLnKKJv/7sTFRrtXH3E+df8qMUAIeHp1Qt2JBNF6lsqZtRxHb0z9cxX+4hvw1l4DGalucqWhYxkt0zXIkbksAPi1k3zrq8TeDmLwcM+/mB+yHg/XrM6leXu2NhTMOrQmIYYby8oEU+NW8rTMmV/k2uVhjJZSjv1RX+hTP3u8SyYBUfx4DUsocWhCLpd9Zaqcu8byfRoyarpOygFFkvpGqYcqF5J/sEDKT4BxyHZ8wnZ1fJlupoxn/SfN3qjJRnHbV++2vF6vzUQ1VRsWYTnBmMX8YRgBH1M/gjLkHFIlNyxQmHihOww6go6WW0zzK6c/IV2Z8cfgX+S4VhNFzLjrrT2zEaNX965UcozLjUZyY9Wv1rif3Yxshs2l2gQe1AZoyEuqZrXmFWa5B86uBsUREUnVndy85riuZxpTQn+6VPoGQy4d5yg5QdqAS8MRKPPDqe5lJIUKbl+9qcAQ1JXt3taAFHdteoiq6zidIB8W3BluJ0owDWnnsMCr2zEUc+kHInpTvRj3KZCBA7goPKJfGe9xbMLisWbD58qo+wmDi2WYJTD8jHTP47rI2IPqNthh0o6vlvV0KLb6lxpmsI/+XQIFaRoRTLMow/9klD5M5Kc/jrf4O6bNmwNyJ+u72E+3T0YclGz2G0V0bT+IPCs5r0Bjc
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PR03MB5085.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(39850400004)(136003)(396003)(366004)(376002)(451199021)(36756003)(8936002)(8676002)(41300700001)(316002)(5660300002)(6666004)(6486002)(2616005)(966005)(66476007)(66946007)(66556008)(38100700002)(31696002)(4326008)(31686004)(2906002)(110136005)(86362001)(478600001)(83380400001)(107886003)(26005)(6506007)(53546011)(6512007)(186003)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V2Z5cjM5ZGxIZzZzRE1uTnkxY1habGNEZXVuRmI0Y3gydjlWSE8vbnN6bnpm?=
- =?utf-8?B?RzQxUXplM0FpQnVSYUdpQ3MyU3JEQS85c2QxeEJ3M29kQmRwNU9FS3dCRTJ6?=
- =?utf-8?B?b2pJZThZdXcxcW9DTnR1djV0UXZ6eWtVZldnN2k1UXBpL01Zb3FqeVRkb2lQ?=
- =?utf-8?B?SUtkRnZwcWdWays0Um93MUdURXp5RnB5Yjl5N1NEa0FwOU51dDI4NGxSb3JI?=
- =?utf-8?B?RENheXBnZmloSUVvT2lNV2FYK2RIMTJiK2hsNzB1UWJEdXcvYkdiN0JFOVBy?=
- =?utf-8?B?M3VacENncUNBZVpRQzhXNHF2Mzl0U2NMTCtSSkd0OEFFVUFnb0EySEdWeFRR?=
- =?utf-8?B?NXFJeTFzem5aN0dRNTZmQ1plWnRnT3R6RTl2d0VLTFNKK1M0UlBpSVVtSHZp?=
- =?utf-8?B?dUJKMFhSOFlnNmdTcy8zWU9TdVQ2SUJLaUFGYzc5d3lBSmQ0QWhmbFY0ZnI5?=
- =?utf-8?B?VlZ1RlpLdHRGall0b2tNZlpXazNqY3lKeWpiSGpxN3hPMk95eVoxQWNjRCtV?=
- =?utf-8?B?Mm96aHNGS3VEK1ZyTWFLa2pZOU9DUFA3cml1eENIcnpENlIrV2Q2Z2VuVi84?=
- =?utf-8?B?TFQ0OHdKSGlRaHBlbjFYYWJYcTBmKys0a1pGSjBLYjFvN3gzSEx1VExYK1Ur?=
- =?utf-8?B?U1B3VnBPVGxsNUNqWFVvRkZjYnMxdW96MitvRjdhSWJuckVheVlYZ01MZ2dB?=
- =?utf-8?B?T0pLQU1FRjJiS3hCcEFJbTFGUElQZmhUR3V1aW15b05NSTVXNy94dGR3TFE3?=
- =?utf-8?B?TEtocEg5aVFGelRpWEtkTFlvUHh4enkxbmY2cnFBdWNmR2tOSnhPYmJ5MHUw?=
- =?utf-8?B?TFQwWW82Nng5RXdVRWJhVUozTm4yNllVMjNRM1A2Z1UwSVZpdlhnUnBCZnp0?=
- =?utf-8?B?RlhyRzZUVWEwZHBJbzExa2g0OUhKYWZDYVB4eHpnNXY4Q1FNczFzMWxqaGI5?=
- =?utf-8?B?RXNmUmZkdmxkQ0g5Tnd3YVpNMUdTUHFuRnNxRi9Mc29QbmwrZE9sQWlxZ3Uz?=
- =?utf-8?B?ZGxWNUFLbElYV1RZaUcyN2ZJTjZheHZTL1poM09HejBDRFpPdjdVcm82REdN?=
- =?utf-8?B?WTk5YjF5dzU3bGNFRW05NlQ2SkpGN21PM2h2RmRYMmhsakxtaUE1b2xCY1VZ?=
- =?utf-8?B?QjhJZEZPQXJQOC9zMkYza3lFYmxxb1NxdWJPM1NpUDJ3MU93Sk05b3ZEVTVQ?=
- =?utf-8?B?UnFnaVRlcU16NVczb3A2Vnl4bDNtN3FWc1lOSUpzWXhBOXBJa0tEUE1jNWp3?=
- =?utf-8?B?TkM3eTBqLzIyeitZT2R6QUtveGhoRnNzb1NLVlk1TEFHQXBHWGFZeWV2Ni9I?=
- =?utf-8?B?T1ZlYWVoeEZYdTk5L2FRRnoyVHI4UndpL2NLdEdMQTBtWDdsUWJVMWNSZEZI?=
- =?utf-8?B?Sk9ZNDZsWFZ1VTVraDFXdnBtNFoxRXV0Ly9FMDU1MEQweTlwWDZaZVZHd0R1?=
- =?utf-8?B?VkRkbW10Z09NM2xDNE8rY25udHlvNzMzVm8vc2RVZ0hGazZ5czRabDlmc2xt?=
- =?utf-8?B?b0txdFJITHl6aWtFamR5T1lBUXRKTURiRWlTNm1lS0RXelR5cjE4MjBmdHVY?=
- =?utf-8?B?MVdPMER6SW0vYnNlbk0vc3lmZk5Kb1IranlsczI0WWxJQkdRdFhTUk5sMjZv?=
- =?utf-8?B?V1JPRXlzSEFQNis0N3pRdzNUbzBIWDVYdHN2L2JzTkMzY0NVeUUzQno4N2Nu?=
- =?utf-8?B?Z25KSTlYa1dGTzlGU3FqeE0vWGtJL28zc0Y0eDUrcWw5dHp4K1k1TmRJVk9M?=
- =?utf-8?B?RTRreURVQ0lhcHRpTytuMlhTajV2bm5zNks2UjJsZEhybVpQT0tJdVRYcCtG?=
- =?utf-8?B?RmI0UE1sa0lWVkN6MVR0amsvUEt0OE5GNENEWjJLZHF3ZDNSTUZURzJlMUZk?=
- =?utf-8?B?T3N1Z3ZwYjVkMVcyelVIKzVxd2JTbUx4dDI0MWRveXBWbzVxL25RVFU2TWdT?=
- =?utf-8?B?R0dTSFNvZHB2V2RLQ0lxQmhFVjl2N1RwNis2TGRBYnRhNGZXcDNtbzlHTWpu?=
- =?utf-8?B?QnZ4bysvMXJxZmwzb2JaZ2UyNmdRWnpxd0NFVkxWQWdUWXlnY0lBcEMvb3A1?=
- =?utf-8?B?NU1mWEM3U1lDc0t3cEpXNGpaOWcvaU5zaXVjY1loNkU5bStJQjdqQit4RzhD?=
- =?utf-8?Q?duPQa4elOr+ncn/bfb7GL4Znn?=
-X-OriginatorOrg: amlogic.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e223a093-57dc-44d3-e98b-08db52e32575
-X-MS-Exchange-CrossTenant-AuthSource: SG2PR03MB5085.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2023 12:19:34.7443
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0df2add9-25ca-4b3a-acb4-c99ddf0b1114
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1DTyn2cqcwjeNO/NJKrVKHAVs4RhdIwxH97D+iz98FmsA1ifJej6MSH0DhSA+MNVMW2V2pPPkrJGcZJ3I6pPvg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR03MB7779
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v5 3/6] media: starfive: Add basic driver
+Content-Language: en-US
+To:     Jack Zhu <jack.zhu@starfivetech.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Eugen Hristev <eugen.hristev@collabora.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, changhuang.liang@starfivetech.com
+References: <20230512102844.51084-1-jack.zhu@starfivetech.com>
+ <20230512102844.51084-4-jack.zhu@starfivetech.com>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20230512102844.51084-4-jack.zhu@starfivetech.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thanks for your review.
+On 12/05/2023 11:28, Jack Zhu wrote:
+> Add basic platform driver for StarFive Camera Subsystem.
+> 
+> Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
 
-在 2023/5/11 16:31, Neil Armstrong 写道:
-> [你通常不会收到来自 neil.armstrong@linaro.org 的电子邮件。请访问 
-> https://aka.ms/LearnAboutSenderIdentification，以了解这一点为什么很重要]
-> 
-> [ EXTERNAL EMAIL ]
-> 
-> Hi,
-> 
-> Thanks for splitting the regmap conversion in a separate change.
-> 
-> On 11/05/2023 05:43, zelong dong wrote:
->> From: Zelong Dong <zelong.dong@amlogic.com>
->>
->> Supports MMIO regmaps to access controller registers in Meson IR driver.
->> And rename register macro for identify more clearly. >
->> Signed-off-by: Zelong Dong <zelong.dong@amlogic.com>
->> ---
->>   drivers/media/rc/meson-ir.c | 128 ++++++++++++++++++++----------------
->>   1 file changed, 70 insertions(+), 58 deletions(-)
->>
->> diff --git a/drivers/media/rc/meson-ir.c b/drivers/media/rc/meson-ir.c
->> index 4b769111f78e..045d78f0862c 100644
->> --- a/drivers/media/rc/meson-ir.c
->> +++ b/drivers/media/rc/meson-ir.c
->> @@ -14,6 +14,7 @@
->>   #include <linux/platform_device.h>
->>   #include <linux/spinlock.h>
->>   #include <linux/bitfield.h>
->> +#include <linux/regmap.h>
->>
->>   #include <media/rc-core.h>
->>
->> @@ -24,57 +25,50 @@
->>   #define IR_DEC_LDR_IDLE             0x04
->>   #define IR_DEC_LDR_REPEAT   0x08
->>   #define IR_DEC_BIT_0                0x0c
->> +
-> 
-> Please move the cleanup/renames to a separate patch
-> 
->>   #define IR_DEC_REG0         0x10
->> -#define IR_DEC_FRAME         0x14
->> -#define IR_DEC_STATUS                0x18
->> -#define IR_DEC_REG1          0x1c
->> -/* only available on Meson 8b and newer */
->> -#define IR_DEC_REG2          0x20
->> +#define IR_DEC_REG0_BASE_TIME        GENMASK(11, 0)
->>
->> -#define REG0_RATE_MASK               GENMASK(11, 0)
->> +#define IR_DEC_FRAME         0x14
->>
->> -#define DECODE_MODE_NEC              0x0
->> -#define DECODE_MODE_RAW              0x2
->> +#define IR_DEC_STATUS                0x18
->> +#define IR_DEC_STATUS_PULSE  BIT(8)
->>
->> +#define IR_DEC_REG1          0x1c
->> +#define IR_DEC_REG1_TIME_IV  GENMASK(28, 16)
->> +#define IR_DEC_REG1_ENABLE   BIT(15)
->>   /* Meson 6b uses REG1 to configure the mode */
->> -#define REG1_MODE_MASK               GENMASK(8, 7)
->> -#define REG1_MODE_SHIFT              7
->> +#define IR_DEC_REG1_MODE     GENMASK(8, 7)
->> +#define IR_DEC_REG1_IRQSEL   GENMASK(3, 2)
->> +#define IR_DEC_REG1_RESET    BIT(0)
->>
->> +/* only available on Meson 8b and newer */
-> 
-> Same, please move new comments/cleanup/renames to a separate patch.
+A couple of nits below
 
-OK, and can I append more register macros?
-These macros are unused in this patchset, but they should be used in 
-next patchset about HW IR decoder.
+Other than those
 
-> 
->> +#define IR_DEC_REG2          0x20
->>   /* Meson 8b / GXBB use REG2 to configure the mode */
->> -#define REG2_MODE_MASK               GENMASK(3, 0)
->> -#define REG2_MODE_SHIFT              0
->> -
->> -#define REG1_TIME_IV_MASK    GENMASK(28, 16)
->> -
->> -#define REG1_IRQSEL_MASK     GENMASK(3, 2)
->> -#define REG1_IRQSEL_NEC_MODE 0
->> -#define REG1_IRQSEL_RISE_FALL        1
->> -#define REG1_IRQSEL_FALL     2
->> -#define REG1_IRQSEL_RISE     3
->> +#define IR_DEC_REG2_MODE     GENMASK(3, 0)
->>
->> -#define REG1_RESET           BIT(0)
->> -#define REG1_ENABLE          BIT(15)
->> +#define DEC_MODE_NEC         0x0
->> +#define DEC_MODE_RAW         0x2
->>
->> -#define STATUS_IR_DEC_IN     BIT(8)
->> +#define IRQSEL_NEC_MODE              0
->> +#define IRQSEL_RISE_FALL     1
->> +#define IRQSEL_FALL          2
->> +#define IRQSEL_RISE          3
->>
->> -#define MESON_TRATE          10      /* us */
->> +#define MESON_RAW_TRATE              10      /* us */
->> +#define MESON_HW_TRATE               20      /* us */
->>
->>   struct meson_ir {
->> -     void __iomem    *reg;
->> +     struct regmap   *reg;
->>       struct rc_dev   *rc;
->>       spinlock_t      lock;
->>   };
->>
->> -static void meson_ir_set_mask(struct meson_ir *ir, unsigned int reg,
->> -                           u32 mask, u32 value)
->> -{
->> -     u32 data;
->> -
->> -     data = readl(ir->reg + reg);
->> -     data &= ~mask;
->> -     data |= (value & mask);
->> -     writel(data, ir->reg + reg);
->> -}
->> +static struct regmap_config meson_ir_regmap_config = {
->> +     .reg_bits = 32,
->> +     .val_bits = 32,
->> +     .reg_stride = 4,
->> +};
->>
->>   static irqreturn_t meson_ir_irq(int irqno, void *dev_id)
->>   {
->> @@ -84,12 +78,12 @@ static irqreturn_t meson_ir_irq(int irqno, void 
->> *dev_id)
->>
->>       spin_lock(&ir->lock);
->>
->> -     duration = readl_relaxed(ir->reg + IR_DEC_REG1);
->> -     duration = FIELD_GET(REG1_TIME_IV_MASK, duration);
->> -     rawir.duration = duration * MESON_TRATE;
->> +     regmap_read(ir->reg, IR_DEC_REG1, &duration);
->> +     duration = FIELD_GET(IR_DEC_REG1_TIME_IV, duration);
->> +     rawir.duration = duration * MESON_RAW_TRATE;
->>
->> -     status = readl_relaxed(ir->reg + IR_DEC_STATUS);
->> -     rawir.pulse = !!(status & STATUS_IR_DEC_IN);
->> +     regmap_read(ir->reg, IR_DEC_STATUS, &status);
->> +     rawir.pulse = !!(status & IR_DEC_STATUS_PULSE);
->>
->>       ir_raw_event_store_with_timeout(ir->rc, &rawir);
->>
->> @@ -102,6 +96,8 @@ static int meson_ir_probe(struct platform_device 
->> *pdev)
->>   {
->>       struct device *dev = &pdev->dev;
->>       struct device_node *node = dev->of_node;
->> +     struct resource *res;
->> +     void __iomem *res_start;
->>       const char *map_name;
->>       struct meson_ir *ir;
->>       int irq, ret;
->> @@ -110,7 +106,17 @@ static int meson_ir_probe(struct platform_device 
->> *pdev)
->>       if (!ir)
->>               return -ENOMEM;
->>
->> -     ir->reg = devm_platform_ioremap_resource(pdev, 0);
->> +     res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
->> +     if (IS_ERR_OR_NULL(res)) {
->> +             dev_err(&pdev->dev, "get mem resource error, %ld\n",
->> +                     PTR_ERR(res));
->> +             return PTR_ERR(res);
->> +     }
->> +
->> +     res_start = devm_ioremap_resource(&pdev->dev, res);
-> 
-> Use devm_platform_ioremap_resource() instead
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
-OK.
+> ---
+>   MAINTAINERS                                  |   1 +
+>   drivers/media/platform/Kconfig               |   1 +
+>   drivers/media/platform/Makefile              |   1 +
+>   drivers/media/platform/starfive/Kconfig      |  19 +
+>   drivers/media/platform/starfive/Makefile     |   9 +
+>   drivers/media/platform/starfive/stf_camss.c  | 372 +++++++++++++++++++
+>   drivers/media/platform/starfive/stf_camss.h  | 153 ++++++++
+>   drivers/media/platform/starfive/stf_common.h |  18 +
+>   8 files changed, 574 insertions(+)
+>   create mode 100644 drivers/media/platform/starfive/Kconfig
+>   create mode 100644 drivers/media/platform/starfive/Makefile
+>   create mode 100644 drivers/media/platform/starfive/stf_camss.c
+>   create mode 100644 drivers/media/platform/starfive/stf_camss.h
+>   create mode 100644 drivers/media/platform/starfive/stf_common.h
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 71291dc58671..33a752569942 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -20077,6 +20077,7 @@ L:	linux-media@vger.kernel.org
+>   S:	Maintained
+>   F:	Documentation/admin-guide/media/starfive_camss.rst
+>   F:	Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
+> +F:	drivers/media/platform/starfive/
+>   
+>   STARFIVE DEVICETREES
+>   M:	Emil Renner Berthing <kernel@esmil.dk>
+> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+> index ee579916f874..627eaa0ab3ee 100644
+> --- a/drivers/media/platform/Kconfig
+> +++ b/drivers/media/platform/Kconfig
+> @@ -80,6 +80,7 @@ source "drivers/media/platform/renesas/Kconfig"
+>   source "drivers/media/platform/rockchip/Kconfig"
+>   source "drivers/media/platform/samsung/Kconfig"
+>   source "drivers/media/platform/st/Kconfig"
+> +source "drivers/media/platform/starfive/Kconfig"
+>   source "drivers/media/platform/sunxi/Kconfig"
+>   source "drivers/media/platform/ti/Kconfig"
+>   source "drivers/media/platform/verisilicon/Kconfig"
+> diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
+> index 5453bb868e67..5a038498a370 100644
+> --- a/drivers/media/platform/Makefile
+> +++ b/drivers/media/platform/Makefile
+> @@ -23,6 +23,7 @@ obj-y += renesas/
+>   obj-y += rockchip/
+>   obj-y += samsung/
+>   obj-y += st/
+> +obj-y += starfive/
+>   obj-y += sunxi/
+>   obj-y += ti/
+>   obj-y += verisilicon/
+> diff --git a/drivers/media/platform/starfive/Kconfig b/drivers/media/platform/starfive/Kconfig
+> new file mode 100644
+> index 000000000000..1a2293475bd2
+> --- /dev/null
+> +++ b/drivers/media/platform/starfive/Kconfig
+> @@ -0,0 +1,19 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +
+> +comment "Starfive media platform drivers"
+> +
+> +config VIDEO_STARFIVE_CAMSS
+> +	tristate "Starfive Camera Subsystem driver"
+> +	depends on V4L_PLATFORM_DRIVERS
+> +	depends on VIDEO_DEV && OF
+> +	depends on DMA_CMA
+> +	select MEDIA_CONTROLLER
+> +	select VIDEO_V4L2_SUBDEV_API
+> +	select VIDEOBUF2_DMA_CONTIG
+> +	select V4L2_FWNODE
+> +	help
+> +	   Enable this to support for the Starfive Camera subsystem
+> +	   found on Starfive JH7110 SoC.
+> +
+> +	   To compile this driver as a module, choose M here: the
+> +	   module will be called stf-camss.
+> diff --git a/drivers/media/platform/starfive/Makefile b/drivers/media/platform/starfive/Makefile
+> new file mode 100644
+> index 000000000000..796775fa52f4
+> --- /dev/null
+> +++ b/drivers/media/platform/starfive/Makefile
+> @@ -0,0 +1,9 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +#
+> +# Makefile for StarFive camera subsystem driver.
+> +#
+> +
+> +starfive-camss-objs += \
+> +		stf_camss.o
+> +
+> +obj-$(CONFIG_VIDEO_STARFIVE_CAMSS) += starfive-camss.o \
+> diff --git a/drivers/media/platform/starfive/stf_camss.c b/drivers/media/platform/starfive/stf_camss.c
+> new file mode 100644
+> index 000000000000..ba3a2bc8a8ab
+> --- /dev/null
+> +++ b/drivers/media/platform/starfive/stf_camss.c
+> @@ -0,0 +1,372 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * stf_camss.c
+> + *
+> + * Starfive Camera Subsystem driver
+> + *
+> + * Copyright (C) 2021-2023 StarFive Technology Co., Ltd.
+> + */
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/of_graph.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/videodev2.h>
+> +#include <media/media-device.h>
+> +#include <media/v4l2-async.h>
+> +#include <media/v4l2-fwnode.h>
+> +#include <media/v4l2-mc.h>
+> +
+> +#include "stf_camss.h"
+> +
+> +static const char * const stfcamss_clocks[] = {
+> +	"clk_apb_func",
+> +	"clk_wrapper_clk_c",
+> +	"clk_dvp_inv",
+> +	"clk_axiwr",
+> +	"clk_mipi_rx0_pxl",
+> +	"clk_ispcore_2x",
+> +	"clk_isp_axi",
+> +};
+> +
+> +static const char * const stfcamss_resets[] = {
+> +	"rst_wrapper_p",
+> +	"rst_wrapper_c",
+> +	"rst_axird",
+> +	"rst_axiwr",
+> +	"rst_isp_top_n",
+> +	"rst_isp_top_axi",
+> +};
+> +
+> +static int stfcamss_get_mem_res(struct platform_device *pdev,
+> +				struct stfcamss *stfcamss)
+> +{
+> +	stfcamss->syscon_base =
+> +		devm_platform_ioremap_resource_byname(pdev, "syscon");
+> +	if (IS_ERR(stfcamss->syscon_base))
+> +		return PTR_ERR(stfcamss->syscon_base);
+> +
+> +	stfcamss->isp_base =
+> +		devm_platform_ioremap_resource_byname(pdev, "isp");
+> +	if (IS_ERR(stfcamss->isp_base))
+> +		return PTR_ERR(stfcamss->isp_base);
+> +
+> +	return 0;
+> +}
+> +
+> +/*
+> + * stfcamss_of_parse_endpoint_node - Parse port endpoint node
+> + * @dev: Device
+> + * @node: Device node to be parsed
+> + * @csd: Parsed data from port endpoint node
+> + *
+> + * Return 0 on success or a negative error code on failure
+> + */
+> +static int stfcamss_of_parse_endpoint_node(struct device *dev,
+> +					   struct device_node *node,
+> +					   struct stfcamss_async_subdev *csd)
+> +{
+> +	struct v4l2_fwnode_endpoint vep = { { 0 } };
+> +
+> +	v4l2_fwnode_endpoint_parse(of_fwnode_handle(node), &vep);
+> +	dev_dbg(dev, "vep.base.port = 0x%x, id = 0x%x\n",
+> +		vep.base.port, vep.base.id);
+> +
+> +	csd->port = vep.base.port;
+> +
+> +	return 0;
+> +}
+> +
+> +/*
+> + * stfcamss_of_parse_ports - Parse ports node
+> + * @stfcamss: STFCAMSS device
+> + *
+> + * Return number of "port" nodes found in "ports" node
+> + */
+> +static int stfcamss_of_parse_ports(struct stfcamss *stfcamss)
+> +{
+> +	struct device *dev = stfcamss->dev;
+> +	struct device_node *node = NULL;
+> +	struct device_node *remote = NULL;
+> +	int ret, num_subdevs = 0;
+> +
+> +	for_each_endpoint_of_node(dev->of_node, node) {
+> +		struct stfcamss_async_subdev *csd;
+> +
+> +		if (!of_device_is_available(node))
+> +			continue;
+> +
+> +		remote = of_graph_get_remote_port_parent(node);
+> +		if (!remote) {
+> +			dev_err(dev, "Cannot get remote parent\n");
+> +			ret = -EINVAL;
+> +			goto err_cleanup;
+> +		}
+> +
+> +		csd = v4l2_async_nf_add_fwnode(&stfcamss->notifier,
+> +					       of_fwnode_handle(remote),
+> +					       struct stfcamss_async_subdev);
+> +		of_node_put(remote);
+> +		if (IS_ERR(csd)) {
+> +			ret = PTR_ERR(csd);
+> +			goto err_cleanup;
+> +		}
+> +
+> +		ret = stfcamss_of_parse_endpoint_node(dev, node, csd);
+> +		if (ret < 0)
+> +			goto err_cleanup;
+> +
+> +		num_subdevs++;
+> +	}
+> +
+> +	return num_subdevs;
+> +
+> +err_cleanup:
+> +	of_node_put(node);
+> +	return ret;
+> +}
+> +
+> +static int stfcamss_subdev_notifier_bound(struct v4l2_async_notifier *async,
+> +					  struct v4l2_subdev *subdev,
+> +					  struct v4l2_async_subdev *asd)
+> +{
+> +	struct stfcamss *stfcamss =
+> +		container_of(async, struct stfcamss, notifier);
+> +	struct host_data *host_data = &stfcamss->host_data;
+> +	struct media_entity *source;
+> +	int i, j;
+> +
+> +	source = &subdev->entity;
+> +
+> +	for (i = 0; i < source->num_pads; i++) {
+> +		if (source->pads[i].flags & MEDIA_PAD_FL_SOURCE)
+> +			break;
+> +	}
+> +
+> +	if (i == source->num_pads) {
+> +		dev_err(stfcamss->dev, "No source pad in external entity\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	for (j = 0; host_data->host_entity[j] && (j < HOST_ENTITY_MAX); j++) {
+> +		struct media_entity *input;
+> +		int ret;
+> +
+> +		input = host_data->host_entity[j];
+> +
+> +		ret = media_create_pad_link(
+> +			source,
+> +			i,
+> +			input,
+> +			STF_PAD_SINK,
+> +			source->function == MEDIA_ENT_F_CAM_SENSOR ?
+> +			MEDIA_LNK_FL_IMMUTABLE | MEDIA_LNK_FL_ENABLED :
+> +			0);
+> +		if (ret < 0) {
+> +			dev_err(stfcamss->dev,
+> +				"Failed to link %s->%s entities: %d\n",
+> +				source->name, input->name, ret);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int stfcamss_subdev_notifier_complete(struct v4l2_async_notifier *ntf)
+> +{
+> +	struct stfcamss *stfcamss =
+> +		container_of(ntf, struct stfcamss, notifier);
+> +
+> +	return v4l2_device_register_subdev_nodes(&stfcamss->v4l2_dev);
+> +}
+> +
+> +static const struct v4l2_async_notifier_operations
+> +stfcamss_subdev_notifier_ops = {
+> +	.bound = stfcamss_subdev_notifier_bound,
+> +	.complete = stfcamss_subdev_notifier_complete,
+> +};
+> +
+> +static const struct media_device_ops stfcamss_media_ops = {
+> +	.link_notify = v4l2_pipeline_link_notify,
+> +};
+> +
+> +static void stfcamss_mc_init(struct platform_device *pdev,
+> +			     struct stfcamss *stfcamss)
+> +{
+> +	stfcamss->media_dev.dev = stfcamss->dev;
+> +	strscpy(stfcamss->media_dev.model, "Starfive Camera Subsystem",
+> +		sizeof(stfcamss->media_dev.model));
+> +	snprintf(stfcamss->media_dev.bus_info,
+> +		 sizeof(stfcamss->media_dev.bus_info),
+> +		 "%s:%s", dev_bus_name(&pdev->dev), pdev->name);
+> +	stfcamss->media_dev.hw_revision = 0x01;
+> +	stfcamss->media_dev.ops = &stfcamss_media_ops;
+> +	media_device_init(&stfcamss->media_dev);
+> +
+> +	stfcamss->v4l2_dev.mdev = &stfcamss->media_dev;
+> +}
+> +
+> +/*
+> + * stfcamss_probe - Probe STFCAMSS platform device
+> + * @pdev: Pointer to STFCAMSS platform device
+> + *
+> + * Return 0 on success or a negative error code on failure
+> + */
+> +static int stfcamss_probe(struct platform_device *pdev)
+> +{
+> +	struct stfcamss *stfcamss;
+> +	struct device *dev = &pdev->dev;
+> +	int ret = 0, i, num_subdevs;
+> +
+> +	stfcamss = devm_kzalloc(dev, sizeof(*stfcamss), GFP_KERNEL);
+> +	if (!stfcamss)
+> +		return -ENOMEM;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(stfcamss->irq); ++i) {
+> +		stfcamss->irq[i] = platform_get_irq(pdev, i);
+> +		if (stfcamss->irq[i] < 0)
+> +			return dev_err_probe(&pdev->dev, stfcamss->irq[i],
+> +					     "Failed to get clock%d", i);
+> +	}
+> +
+> +	stfcamss->nclks = ARRAY_SIZE(stfcamss->sys_clk);
+> +	for (i = 0; i < ARRAY_SIZE(stfcamss->sys_clk); ++i)
 
-> 
->> +     meson_ir_regmap_config.max_register = resource_size(res) - 4;
->> +     ir->reg = devm_regmap_init_mmio(&pdev->dev, res_start,
->> +                                     &meson_ir_regmap_config);
->>       if (IS_ERR(ir->reg))
->>               return PTR_ERR(ir->reg);
->>
->> @@ -131,7 +137,7 @@ static int meson_ir_probe(struct platform_device 
->> *pdev)
->>       map_name = of_get_property(node, "linux,rc-map-name", NULL);
->>       ir->rc->map_name = map_name ? map_name : RC_MAP_EMPTY;
->>       ir->rc->allowed_protocols = RC_PROTO_BIT_ALL_IR_DECODER;
->> -     ir->rc->rx_resolution = MESON_TRATE;
->> +     ir->rc->rx_resolution = MESON_RAW_TRATE;
-> 
-> This should go in a separate patch with a Fixes tag
+Why use ARRAY_SIZE twice - you just derived stfcamss->nclks
 
-Why it need to be with a Fixes tag?
-MESON_RAW_TRATE is same as MESON_TRATE, I rename it for distinguish HW 
-and SW decoder timing resolution.
-MESON_HW_TRATE is 0x13, which was used in the nether modification.
+> +		stfcamss->sys_clk[i].id = stfcamss_clocks[i];
+> +	ret = devm_clk_bulk_get(dev, stfcamss->nclks, stfcamss->sys_clk);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to get clk controls\n");
+> +		return ret;
+> +	}
+> +
+> +	stfcamss->nrsts = ARRAY_SIZE(stfcamss->sys_rst);
+> +	for (i = 0; i < ARRAY_SIZE(stfcamss->sys_rst); ++i)
 
-> 
->>       ir->rc->min_timeout = 1;
->>       ir->rc->timeout = IR_DEFAULT_TIMEOUT;
->>       ir->rc->max_timeout = 10 * IR_DEFAULT_TIMEOUT;
->> @@ -153,24 +159,28 @@ static int meson_ir_probe(struct platform_device 
->> *pdev)
->>       }
->>
->>       /* Reset the decoder */
->> -     meson_ir_set_mask(ir, IR_DEC_REG1, REG1_RESET, REG1_RESET);
->> -     meson_ir_set_mask(ir, IR_DEC_REG1, REG1_RESET, 0);
->> +     regmap_update_bits(ir->reg, IR_DEC_REG1, IR_DEC_REG1_RESET,
->> +                        IR_DEC_REG1_RESET);
->> +     regmap_update_bits(ir->reg, IR_DEC_REG1, IR_DEC_REG1_RESET, 0);
->>
->>       /* Set general operation mode (= raw/software decoding) */
->>       if (of_device_is_compatible(node, "amlogic,meson6-ir"))
->> -             meson_ir_set_mask(ir, IR_DEC_REG1, REG1_MODE_MASK,
->> -                               FIELD_PREP(REG1_MODE_MASK, 
->> DECODE_MODE_RAW));
->> +             regmap_update_bits(ir->reg, IR_DEC_REG1, IR_DEC_REG1_MODE,
->> +                                FIELD_PREP(IR_DEC_REG1_MODE, 
->> DEC_MODE_RAW));
->>       else
->> -             meson_ir_set_mask(ir, IR_DEC_REG2, REG2_MODE_MASK,
->> -                               FIELD_PREP(REG2_MODE_MASK, 
->> DECODE_MODE_RAW));
->> +             regmap_update_bits(ir->reg, IR_DEC_REG2, IR_DEC_REG2_MODE,
->> +                                FIELD_PREP(IR_DEC_REG2_MODE, 
->> DEC_MODE_RAW));
->>
->>       /* Set rate */
->> -     meson_ir_set_mask(ir, IR_DEC_REG0, REG0_RATE_MASK, MESON_TRATE - 
->> 1);
->> +     regmap_update_bits(ir->reg, IR_DEC_REG0, IR_DEC_REG0_BASE_TIME,
->> +                        FIELD_PREP(IR_DEC_REG0_BASE_TIME,
->> +                                   MESON_RAW_TRATE - 1));
->>       /* IRQ on rising and falling edges */
->> -     meson_ir_set_mask(ir, IR_DEC_REG1, REG1_IRQSEL_MASK,
->> -                       FIELD_PREP(REG1_IRQSEL_MASK, 
->> REG1_IRQSEL_RISE_FALL));
->> +     regmap_update_bits(ir->reg, IR_DEC_REG1, IR_DEC_REG1_IRQSEL,
->> +                        FIELD_PREP(IR_DEC_REG1_IRQSEL, 
->> IRQSEL_RISE_FALL));
->>       /* Enable the decoder */
->> -     meson_ir_set_mask(ir, IR_DEC_REG1, REG1_ENABLE, REG1_ENABLE);
->> +     regmap_update_bits(ir->reg, IR_DEC_REG1, IR_DEC_REG1_ENABLE,
->> +                        IR_DEC_REG1_ENABLE);
->>
->>       dev_info(dev, "receiver initialized\n");
->>
->> @@ -184,7 +194,7 @@ static int meson_ir_remove(struct platform_device 
->> *pdev)
->>
->>       /* Disable the decoder */
->>       spin_lock_irqsave(&ir->lock, flags);
->> -     meson_ir_set_mask(ir, IR_DEC_REG1, REG1_ENABLE, 0);
->> +     regmap_update_bits(ir->reg, IR_DEC_REG1, IR_DEC_REG1_ENABLE, 0);
->>       spin_unlock_irqrestore(&ir->lock, flags);
->>
->>       return 0;
->> @@ -204,14 +214,16 @@ static void meson_ir_shutdown(struct 
->> platform_device *pdev)
->>        * bootloader a chance to power the system back on
->>        */
->>       if (of_device_is_compatible(node, "amlogic,meson6-ir"))
->> -             meson_ir_set_mask(ir, IR_DEC_REG1, REG1_MODE_MASK,
->> -                               DECODE_MODE_NEC << REG1_MODE_SHIFT);
->> +             regmap_update_bits(ir->reg, IR_DEC_REG1, IR_DEC_REG1_MODE,
->> +                                FIELD_PREP(IR_DEC_REG1_MODE, 
->> DEC_MODE_NEC));
->>       else
->> -             meson_ir_set_mask(ir, IR_DEC_REG2, REG2_MODE_MASK,
->> -                               DECODE_MODE_NEC << REG2_MODE_SHIFT);
->> +             regmap_update_bits(ir->reg, IR_DEC_REG2, IR_DEC_REG2_MODE,
->> +                                FIELD_PREP(IR_DEC_REG2_MODE, 
->> DEC_MODE_NEC));
->>
->>       /* Set rate to default value */
->> -     meson_ir_set_mask(ir, IR_DEC_REG0, REG0_RATE_MASK, 0x13);
->> +     regmap_update_bits(ir->reg, IR_DEC_REG0, IR_DEC_REG0_BASE_TIME,
->> +                        FIELD_PREP(IR_DEC_REG0_BASE_TIME,
->> +                                   MESON_HW_TRATE - 1));
->>
->>       spin_unlock_irqrestore(&ir->lock, flags);
->>   }
-> 
-> Thanks,
-> Neil
+i < stfcamss->nrsts
+
+> +		stfcamss->sys_rst[i].id = stfcamss_resets[i];
+> +	ret = devm_reset_control_bulk_get_shared(dev, stfcamss->nrsts,
+> +						 stfcamss->sys_rst);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to get reset controls\n");
+> +		return ret;
+> +	}
+> +
+> +	ret = stfcamss_get_mem_res(pdev, stfcamss);
+> +	if (ret) {
+> +		dev_err(dev, "Could not map registers\n");
+> +		return ret;
+> +	}
+> +
+> +	stfcamss->dev = dev;
+> +	platform_set_drvdata(pdev, stfcamss);
+> +
+> +	v4l2_async_nf_init(&stfcamss->notifier);
+> +
+> +	num_subdevs = stfcamss_of_parse_ports(stfcamss);
+> +	if (num_subdevs < 0) {
+> +		dev_err(dev, "Failed to find subdevices\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	stfcamss_mc_init(pdev, stfcamss);
+> +
+> +	ret = v4l2_device_register(stfcamss->dev, &stfcamss->v4l2_dev);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to register V4L2 device: %d\n", ret);
+> +		goto err_cleanup_notifier;
+> +	}
+> +
+> +	ret = media_device_register(&stfcamss->media_dev);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to register media device: %d\n", ret);
+> +		goto err_unregister_device;
+> +	}
+> +
+> +	stfcamss->notifier.ops = &stfcamss_subdev_notifier_ops;
+> +	ret = v4l2_async_nf_register(&stfcamss->v4l2_dev, &stfcamss->notifier);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to register async subdev nodes: %d\n",
+> +			ret);
+> +		goto err_unregister_media_dev;
+> +	}
+> +
+> +	pm_runtime_enable(dev);
+> +
+> +	return 0;
+> +
+> +err_unregister_media_dev:
+> +	media_device_unregister(&stfcamss->media_dev);
+> +err_unregister_device:
+> +	v4l2_device_unregister(&stfcamss->v4l2_dev);
+> +err_cleanup_notifier:
+> +	v4l2_async_nf_cleanup(&stfcamss->notifier);
+> +	return ret;
+> +}
+> +
+> +/*
+> + * stfcamss_remove - Remove STFCAMSS platform device
+> + * @pdev: Pointer to STFCAMSS platform device
+> + *
+> + * Always returns 0.
+> + */
+> +static int stfcamss_remove(struct platform_device *pdev)
+> +{
+> +	struct stfcamss *stfcamss = platform_get_drvdata(pdev);
+> +
+> +	v4l2_device_unregister(&stfcamss->v4l2_dev);
+> +	media_device_cleanup(&stfcamss->media_dev);
+> +	pm_runtime_disable(&pdev->dev);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id stfcamss_of_match[] = {
+> +	{ .compatible = "starfive,jh7110-camss" },
+> +	{ /* sentinel */ },
+> +};
+> +
+> +MODULE_DEVICE_TABLE(of, stfcamss_of_match);
+> +
+> +static int __maybe_unused stfcamss_runtime_suspend(struct device *dev)
+> +{
+> +	struct stfcamss *stfcamss = dev_get_drvdata(dev);
+> +
+> +	reset_control_assert(stfcamss->sys_rst[STF_RST_ISP_TOP_AXI].rstc);
+> +	reset_control_assert(stfcamss->sys_rst[STF_RST_ISP_TOP_N].rstc);
+> +	clk_disable_unprepare(stfcamss->sys_clk[STF_CLK_ISP_AXI].clk);
+> +	clk_disable_unprepare(stfcamss->sys_clk[STF_CLK_ISPCORE_2X].clk);
+> +
+> +	return 0;
+> +}
+> +
+> +static int __maybe_unused stfcamss_runtime_resume(struct device *dev)
+> +{
+> +	struct stfcamss *stfcamss = dev_get_drvdata(dev);
+> +
+> +	clk_prepare_enable(stfcamss->sys_clk[STF_CLK_ISPCORE_2X].clk);
+> +	clk_prepare_enable(stfcamss->sys_clk[STF_CLK_ISP_AXI].clk);
+> +	reset_control_deassert(stfcamss->sys_rst[STF_RST_ISP_TOP_N].rstc);
+> +	reset_control_deassert(stfcamss->sys_rst[STF_RST_ISP_TOP_AXI].rstc);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct dev_pm_ops stfcamss_pm_ops = {
+> +	SET_RUNTIME_PM_OPS(stfcamss_runtime_suspend,
+> +			   stfcamss_runtime_resume,
+> +			   NULL)
+> +};
+> +
+> +static struct platform_driver stfcamss_driver = {
+> +	.probe = stfcamss_probe,
+> +	.remove = stfcamss_remove,
+> +	.driver = {
+> +		.name = DRV_NAME,
+> +		.pm = &stfcamss_pm_ops,
+> +		.of_match_table = of_match_ptr(stfcamss_of_match),
+> +	},
+> +};
+> +
+> +module_platform_driver(stfcamss_driver);
+> +
+> +MODULE_AUTHOR("StarFive Corporation");
+> +MODULE_DESCRIPTION("StarFive Camera Subsystem driver");
+> +MODULE_LICENSE("GPL");
+> diff --git a/drivers/media/platform/starfive/stf_camss.h b/drivers/media/platform/starfive/stf_camss.h
+> new file mode 100644
+> index 000000000000..8f39cd65950c
+> --- /dev/null
+> +++ b/drivers/media/platform/starfive/stf_camss.h
+> @@ -0,0 +1,153 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * stf_camss.h
+> + *
+> + * Starfive Camera Subsystem driver
+> + *
+> + * Copyright (C) 2021-2023 StarFive Technology Co., Ltd.
+> + */
+> +
+> +#ifndef STF_CAMSS_H
+> +#define STF_CAMSS_H
+> +
+> +#include <linux/clk.h>
+> +#include <linux/delay.h>
+> +#include <linux/reset.h>
+> +#include <media/v4l2-device.h>
+> +
+> +#include "stf_common.h"
+> +
+> +#define DRV_NAME     "starfive-camss"
+> +#define STF_DVP_NAME "stf_dvp"
+> +#define STF_CSI_NAME "cdns_csi2rx"
+> +#define STF_ISP_NAME "stf_isp"
+> +#define STF_VIN_NAME "stf_vin"
+> +
+> +#define STF_PAD_SINK   0
+> +#define STF_PAD_SRC    1
+> +#define STF_PADS_NUM   2
+> +
+> +enum port_num {
+> +	PORT_NUMBER_DVP_SENSOR = 0,
+> +	PORT_NUMBER_CSI2RX
+> +};
+> +
+> +enum stf_clk {
+> +	STF_CLK_APB_FUNC = 0,
+> +	STF_CLK_WRAPPER_CLK_C,
+> +	STF_CLK_DVP_INV,
+> +	STF_CLK_AXIWR,
+> +	STF_CLK_MIPI_RX0_PXL,
+> +	STF_CLK_ISPCORE_2X,
+> +	STF_CLK_ISP_AXI,
+> +	STF_CLK_NUM
+> +};
+> +
+> +enum stf_rst {
+> +	STF_RST_WRAPPER_P = 0,
+> +	STF_RST_WRAPPER_C,
+> +	STF_RST_AXIRD,
+> +	STF_RST_AXIWR,
+> +	STF_RST_ISP_TOP_N,
+> +	STF_RST_ISP_TOP_AXI,
+> +	STF_RST_NUM
+> +};
+> +
+> +enum stf_irq {
+> +	STF_IRQ_VINWR = 0,
+> +	STF_IRQ_ISP,
+> +	STF_IRQ_ISPCSIL,
+> +	STF_IRQ_NUM
+> +};
+> +
+> +#define HOST_ENTITY_MAX		2
+> +
+> +struct host_data {
+> +	struct media_entity *host_entity[HOST_ENTITY_MAX];
+> +};
+> +
+> +struct stfcamss {
+> +	struct v4l2_device v4l2_dev;
+> +	struct media_device media_dev;
+> +	struct media_pipeline pipe;
+> +	struct device *dev;
+> +	struct v4l2_async_notifier notifier;
+> +	struct host_data host_data;
+> +	void __iomem *syscon_base;
+> +	void __iomem *isp_base;
+> +	int irq[STF_IRQ_NUM];
+> +	struct clk_bulk_data sys_clk[STF_CLK_NUM];
+> +	int nclks;
+> +	struct reset_control_bulk_data sys_rst[STF_RST_NUM];
+> +	int nrsts;
+> +};
+> +
+> +struct stfcamss_async_subdev {
+> +	struct v4l2_async_subdev asd;  /* must be first */
+> +	enum port_num port;
+> +};
+> +
+> +static inline u32 stf_isp_reg_read(struct stfcamss *stfcamss, u32 reg)
+> +{
+> +	return ioread32(stfcamss->isp_base + reg);
+> +}
+> +
+> +static inline void stf_isp_reg_write(struct stfcamss *stfcamss,
+> +				     u32 reg, u32 val)
+> +{
+> +	iowrite32(val, stfcamss->isp_base + reg);
+> +}
+> +
+> +static inline void stf_isp_reg_write_delay(struct stfcamss *stfcamss,
+> +					   u32 reg, u32 val, u32 delay)
+> +{
+> +	iowrite32(val, stfcamss->isp_base + reg);
+> +	usleep_range(1000 * delay, 1000 * delay + 100);
+> +}
+> +
+> +static inline void stf_isp_reg_set_bit(struct stfcamss *stfcamss,
+> +				       u32 reg, u32 mask, u32 val)
+> +{
+> +	u32 value;
+> +
+> +	value = ioread32(stfcamss->isp_base + reg) & ~mask;
+> +	val &= mask;
+> +	val |= value;
+> +	iowrite32(val, stfcamss->isp_base + reg);
+> +}
+> +
+> +static inline void stf_isp_reg_set(struct stfcamss *stfcamss, u32 reg, u32 mask)
+> +{
+> +	iowrite32(ioread32(stfcamss->isp_base + reg) | mask,
+> +		  stfcamss->isp_base + reg);
+> +}
+> +
+> +static inline u32 stf_syscon_reg_read(struct stfcamss *stfcamss, u32 reg)
+> +{
+> +	return ioread32(stfcamss->syscon_base + reg);
+> +}
+> +
+> +static inline void stf_syscon_reg_write(struct stfcamss *stfcamss,
+> +					u32 reg, u32 val)
+> +{
+> +	iowrite32(val, stfcamss->syscon_base + reg);
+> +}
+> +
+> +static inline void stf_syscon_reg_set_bit(struct stfcamss *stfcamss,
+> +					  u32 reg, u32 bit_mask)
+> +{
+> +	u32 value;
+> +
+> +	value = ioread32(stfcamss->syscon_base + reg);
+> +	iowrite32(value | bit_mask, stfcamss->syscon_base + reg);
+> +}
+> +
+> +static inline void stf_syscon_reg_clear_bit(struct stfcamss *stfcamss,
+> +					    u32 reg, u32 bit_mask)
+> +{
+> +	u32 value;
+> +
+> +	value = ioread32(stfcamss->syscon_base + reg);
+> +	iowrite32(value & ~bit_mask, stfcamss->syscon_base + reg);
+> +}
+> +#endif /* STF_CAMSS_H */
+> diff --git a/drivers/media/platform/starfive/stf_common.h b/drivers/media/platform/starfive/stf_common.h
+> new file mode 100644
+> index 000000000000..e04fca2d9cd4
+> --- /dev/null
+> +++ b/drivers/media/platform/starfive/stf_common.h
+> @@ -0,0 +1,18 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * stf_common.h
+> + *
+> + * StarFive Camera Subsystem - Common definitions
+> + *
+> + * Copyright (C) 2021-2023 StarFive Technology Co., Ltd.
+> + */
+> +
+> +#ifndef STF_COMMON_H
+> +#define STF_COMMON_H
+> +
+> +enum stf_subdev_type {
+> +	STF_SUBDEV_TYPE_VIN,
+> +	STF_SUBDEV_TYPE_ISP,
+> +};
+> +
+> +#endif /* STF_COMMON_H */
+
