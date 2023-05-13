@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 561CF7016B7
-	for <lists+linux-media@lfdr.de>; Sat, 13 May 2023 14:34:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 444D57016B6
+	for <lists+linux-media@lfdr.de>; Sat, 13 May 2023 14:34:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238960AbjEMMee (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 13 May 2023 08:34:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41468 "EHLO
+        id S238931AbjEMMed (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 13 May 2023 08:34:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238375AbjEMMec (ORCPT
+        with ESMTP id S238824AbjEMMec (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Sat, 13 May 2023 08:34:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBF7E3C04
-        for <linux-media@vger.kernel.org>; Sat, 13 May 2023 05:32:47 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B10843C05
+        for <linux-media@vger.kernel.org>; Sat, 13 May 2023 05:32:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
         s=mimecast20190719; t=1683981167;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=SThSvCJh2rAK3p94zjaOcZSOufwhnlQlx3PiD3xmtf4=;
-        b=U+lW30oT2rtjpztrIrCpBYArKd2GCeuYhzXDPx+14jafeKQy/GBhS6+DhWqsGeGwQ2ymC3
-        iUWkAHE94yWwUAV3ImYH5QK7aol9LDIlotwEVzakb+kSg6Eds0kRt0KcYXmHuDq3TcV1to
-        Og6ENwEQozBP5Wd679cn+f5XaEGZg1I=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=79xSuKMxmoYF70mR/91cZt3n6nLoVTK+Lt85gp1eulI=;
+        b=h5RJkR36bkdsHlSEVClH1VaC6XAtKA0EZ6TiFT9gmGOgCx3jLbObu9gD/EHwK+roicMfqI
+        EeokQ1s0qSCdlp3dLirYzw0hR/woYBuwye8bH/G+RUQkjnzvw1TAp0HQKgjOYC9eg5ufFO
+        s6cvQg79uG8tH9BNcDogZiEfLiv0/Vw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-362-uA-eH7vUOYavmhP88F86Hw-1; Sat, 13 May 2023 08:32:41 -0400
-X-MC-Unique: uA-eH7vUOYavmhP88F86Hw-1
+ us-mta-73-nj0fox-hMUaLwqqIe_0hZA-1; Sat, 13 May 2023 08:32:43 -0400
+X-MC-Unique: nj0fox-hMUaLwqqIe_0hZA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2EC343C025CC;
-        Sat, 13 May 2023 12:32:41 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EB0D685A588;
+        Sat, 13 May 2023 12:32:42 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.46])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 9EA3E40C2076;
-        Sat, 13 May 2023 12:32:39 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 62DAE40C2076;
+        Sat, 13 May 2023 12:32:41 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -48,9 +48,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>, Kate Hsuan <hpa@redhat.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 22/30] media: atomisp: Remove atomisp_streaming_count()
-Date:   Sat, 13 May 2023 14:31:51 +0200
-Message-Id: <20230513123159.33234-23-hdegoede@redhat.com>
+Subject: [PATCH 23/30] media: atomisp: Simplify atomisp_isr() and recovery_work()
+Date:   Sat, 13 May 2023 14:31:52 +0200
+Message-Id: <20230513123159.33234-24-hdegoede@redhat.com>
 In-Reply-To: <20230513123159.33234-1-hdegoede@redhat.com>
 References: <20230513123159.33234-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -58,98 +58,210 @@ Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-atomisp_streaming_count() is just an alias for isp->asd.streaming now,
-replace it with directly checking that and remove the helper.
+Both atomisp_isr() and recovery_work() now have a combination of:
+
+1. "if (!isp->asd.streaming) goto out;" code at the top
+2. "if (sp->asd.streaming) {}" blocks in the body which are jumped over
+   by the goto out.
+
+This means that the "if (sp->asd.streaming) {}" blocks are always
+executed if they are not jumped over by the goto.
+
+Remove the unnecessary "if (sp->asd.streaming)" checks and
+re-indent the code.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_cmd.c   | 6 +++---
- drivers/staging/media/atomisp/pci/atomisp_drvfs.c | 2 +-
- drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 5 -----
- drivers/staging/media/atomisp/pci/atomisp_ioctl.h | 2 --
- 4 files changed, 4 insertions(+), 11 deletions(-)
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 128 +++++++-----------
+ 1 file changed, 50 insertions(+), 78 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 1482184a9ea5..b2bc9bc050ba 100644
+index b2bc9bc050ba..c0c2247f02a4 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -472,7 +472,7 @@ irqreturn_t atomisp_isr(int irq, void *dev)
- 
- 	clear_irq_reg(isp);
- 
--	if (!atomisp_streaming_count(isp))
-+	if (!isp->asd.streaming)
+@@ -475,36 +475,28 @@ irqreturn_t atomisp_isr(int irq, void *dev)
+ 	if (!isp->asd.streaming)
  		goto out_nowake;
  
- 	if (isp->asd.streaming) {
-@@ -947,7 +947,7 @@ void atomisp_assert_recovery_work(struct work_struct *work)
+-	if (isp->asd.streaming) {
+-		if (irq_infos & IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF) {
+-			atomic_inc(&isp->asd.sof_count);
+-			atomisp_sof_event(&isp->asd);
+-
+-			/* If sequence_temp and sequence are the same
+-			 * there where no frames lost so we can increase
+-			 * sequence_temp.
+-			 * If not then processing of frame is still in progress
+-			 * and driver needs to keep old sequence_temp value.
+-			 * NOTE: There is assumption here that ISP will not
+-			 * start processing next frame from sensor before old
+-			 * one is completely done. */
+-			if (atomic_read(&isp->asd.sequence) ==
+-			    atomic_read(&isp->asd.sequence_temp))
+-				atomic_set(&isp->asd.sequence_temp,
+-					   atomic_read(&isp->asd.sof_count));
+-		}
+-		if (irq_infos & IA_CSS_IRQ_INFO_EVENTS_READY)
+-			atomic_set(&isp->asd.sequence,
+-				   atomic_read(&isp->asd.sequence_temp));
+-	}
+-
+ 	if (irq_infos & IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF) {
+-		dev_dbg_ratelimited(isp->dev,
+-				    "irq:0x%x (SOF)\n",
+-				    irq_infos);
++		atomic_inc(&isp->asd.sof_count);
++		atomisp_sof_event(&isp->asd);
++
++		/*
++		 * If sequence_temp and sequence are the same there where no frames
++		 * lost so we can increase sequence_temp.
++		 * If not then processing of frame is still in progress and driver
++		 * needs to keep old sequence_temp value.
++		 * NOTE: There is assumption here that ISP will not start processing
++		 * next frame from sensor before old one is completely done.
++		 */
++		if (atomic_read(&isp->asd.sequence) == atomic_read(&isp->asd.sequence_temp))
++			atomic_set(&isp->asd.sequence_temp, atomic_read(&isp->asd.sof_count));
++
++		dev_dbg_ratelimited(isp->dev, "irq:0x%x (SOF)\n", irq_infos);
+ 		irq_infos &= ~IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF;
+ 	}
  
- 	mutex_lock(&isp->mutex);
++	if (irq_infos & IA_CSS_IRQ_INFO_EVENTS_READY)
++		atomic_set(&isp->asd.sequence, atomic_read(&isp->asd.sequence_temp));
++
+ 	if ((irq_infos & IA_CSS_IRQ_INFO_INPUT_SYSTEM_ERROR) ||
+ 	    (irq_infos & IA_CSS_IRQ_INFO_IF_ERROR)) {
+ 		/* handle mipi receiver error */
+@@ -941,7 +933,6 @@ void atomisp_assert_recovery_work(struct work_struct *work)
+ 						  assert_recovery_work);
+ 	struct pci_dev *pdev = to_pci_dev(isp->dev);
+ 	enum ia_css_pipe_id css_pipe_id;
+-	bool stream_restart = false;
+ 	unsigned long flags;
+ 	int ret;
  
--	if (!atomisp_streaming_count(isp))
-+	if (!isp->asd.streaming)
- 		goto out_unlock;
+@@ -952,33 +943,25 @@ void atomisp_assert_recovery_work(struct work_struct *work)
  
  	atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF, false);
-@@ -1074,7 +1074,7 @@ irqreturn_t atomisp_isr_thread(int irq, void *isp_ptr)
  
- 	spin_lock_irqsave(&isp->lock, flags);
+-	if (isp->asd.streaming || isp->asd.stream_prepared) {
+-		stream_restart = true;
++	spin_lock_irqsave(&isp->lock, flags);
++	isp->asd.streaming = false;
++	spin_unlock_irqrestore(&isp->lock, flags);
  
--	if (!atomisp_streaming_count(isp)) {
-+	if (!isp->asd.streaming) {
- 		spin_unlock_irqrestore(&isp->lock, flags);
- 		return IRQ_HANDLED;
+-		spin_lock_irqsave(&isp->lock, flags);
+-		isp->asd.streaming = false;
+-		spin_unlock_irqrestore(&isp->lock, flags);
++	/* stream off sensor */
++	ret = v4l2_subdev_call(isp->inputs[isp->asd.input_curr].camera, video, s_stream, 0);
++	if (ret)
++		dev_warn(isp->dev, "Stopping sensor stream failed: %d\n", ret);
+ 
+-		/* stream off sensor */
+-		ret = v4l2_subdev_call(
+-			  isp->inputs[isp->asd.input_curr].
+-			  camera, video, s_stream, 0);
+-		if (ret)
+-			dev_warn(isp->dev,
+-				 "can't stop streaming on sensor!\n");
++	atomisp_clear_css_buffer_counters(&isp->asd);
+ 
+-		atomisp_clear_css_buffer_counters(&isp->asd);
++	css_pipe_id = atomisp_get_css_pipe_id(&isp->asd);
++	atomisp_css_stop(&isp->asd, css_pipe_id, true);
+ 
+-		css_pipe_id = atomisp_get_css_pipe_id(&isp->asd);
+-		atomisp_css_stop(&isp->asd, css_pipe_id, true);
+-
+-		isp->asd.preview_exp_id = 1;
+-		isp->asd.postview_exp_id = 1;
+-		/* notify HAL the CSS reset */
+-		dev_dbg(isp->dev,
+-			"send reset event to %s\n", isp->asd.subdev.devnode->name);
+-		atomisp_reset_event(&isp->asd);
+-	}
++	isp->asd.preview_exp_id = 1;
++	isp->asd.postview_exp_id = 1;
++	/* notify HAL the CSS reset */
++	dev_dbg(isp->dev, "send reset event to %s\n", isp->asd.subdev.devnode->name);
++	atomisp_reset_event(&isp->asd);
+ 
+ 	/* clear irq */
+ 	disable_isp_irq(hrt_isp_css_irq_sp);
+@@ -991,45 +974,34 @@ void atomisp_assert_recovery_work(struct work_struct *work)
+ 	/* reset ISP and restore its state */
+ 	atomisp_reset(isp);
+ 
+-	if (stream_restart) {
+-		atomisp_css_input_set_mode(&isp->asd, IA_CSS_INPUT_MODE_BUFFERED_SENSOR);
++	atomisp_css_input_set_mode(&isp->asd, IA_CSS_INPUT_MODE_BUFFERED_SENSOR);
+ 
+-		css_pipe_id = atomisp_get_css_pipe_id(&isp->asd);
+-		if (atomisp_css_start(&isp->asd, css_pipe_id, true)) {
+-			dev_warn(isp->dev,
+-				 "start SP failed, so do not set streaming to be enable!\n");
+-		} else {
+-			spin_lock_irqsave(&isp->lock, flags);
+-			isp->asd.streaming = true;
+-			spin_unlock_irqrestore(&isp->lock, flags);
+-		}
+-
+-		atomisp_csi2_configure(&isp->asd);
++	css_pipe_id = atomisp_get_css_pipe_id(&isp->asd);
++	if (atomisp_css_start(&isp->asd, css_pipe_id, true)) {
++		dev_warn(isp->dev, "start SP failed, so do not set streaming to be enable!\n");
++	} else {
++		spin_lock_irqsave(&isp->lock, flags);
++		isp->asd.streaming = true;
++		spin_unlock_irqrestore(&isp->lock, flags);
  	}
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_drvfs.c b/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
-index 3ddc935ec01d..1df534bf54d3 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
-@@ -69,7 +69,7 @@ static inline int iunit_dump_dbgopt(struct atomisp_device *isp,
- 		}
  
- 		if (opt & OPTION_BIN_RUN) {
--			if (atomisp_streaming_count(isp)) {
-+			if (isp->asd.streaming) {
- 				atomisp_css_dump_sp_raw_copy_linecount(true);
- 				atomisp_css_debug_dump_isp_binary();
- 			} else {
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index 020d4184375f..6a062b86d18a 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -599,11 +599,6 @@ static int atomisp_enum_input(struct file *file, void *fh,
- 	return 0;
- }
++	atomisp_csi2_configure(&isp->asd);
++
+ 	atomisp_css_irq_enable(isp, IA_CSS_IRQ_INFO_CSS_RECEIVER_SOF,
+ 			       atomisp_css_valid_sof(isp));
  
--unsigned int atomisp_streaming_count(struct atomisp_device *isp)
--{
--	return isp->asd.streaming;
--}
--
- /*
-  * get input are used to get current primary/secondary camera
-  */
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.h b/drivers/staging/media/atomisp/pci/atomisp_ioctl.h
-index db6da77df06b..997fa61589ab 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.h
-@@ -47,8 +47,6 @@ enum ia_css_pipe_id atomisp_get_css_pipe_id(struct atomisp_sub_device
+ 	if (atomisp_freq_scaling(isp, ATOMISP_DFS_MODE_AUTO, true) < 0)
+ 		dev_dbg(isp->dev, "DFS auto failed while recovering!\n");
  
- extern const struct v4l2_ioctl_ops atomisp_ioctl_ops;
+-	if (stream_restart) {
+-		/*
+-		 * dequeueing buffers is not needed. CSS will recycle
+-		 * buffers that it has.
+-		 */
+-		atomisp_flush_video_pipe(&isp->asd.video_out, VB2_BUF_STATE_ERROR, false);
++	/* Dequeueing buffers is not needed, CSS will recycle buffers that it has */
++	atomisp_flush_video_pipe(&isp->asd.video_out, VB2_BUF_STATE_ERROR, false);
  
--unsigned int atomisp_streaming_count(struct atomisp_device *isp);
--
- /* compat_ioctl for 32bit userland app and 64bit kernel */
- long atomisp_compat_ioctl32(struct file *file,
- 			    unsigned int cmd, unsigned long arg);
+-		/* Requeue unprocessed per-frame parameters. */
+-		atomisp_recover_params_queue(&isp->asd.video_out);
++	/* Requeue unprocessed per-frame parameters. */
++	atomisp_recover_params_queue(&isp->asd.video_out);
+ 
+-		ret = v4l2_subdev_call(
+-			  isp->inputs[isp->asd.input_curr].camera, video,
+-			  s_stream, 1);
+-		if (ret)
+-			dev_warn(isp->dev,
+-				 "can't start streaming on sensor!\n");
+-	}
++	ret = v4l2_subdev_call(isp->inputs[isp->asd.input_curr].camera, video, s_stream, 1);
++	if (ret)
++		dev_err(isp->dev, "Starting sensor stream failed: %d\n", ret);
+ 
+ out_unlock:
+ 	mutex_unlock(&isp->mutex);
 -- 
 2.40.1
 
