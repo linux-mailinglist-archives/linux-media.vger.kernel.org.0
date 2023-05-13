@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B9D170169E
-	for <lists+linux-media@lfdr.de>; Sat, 13 May 2023 14:33:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A94F7016A0
+	for <lists+linux-media@lfdr.de>; Sat, 13 May 2023 14:33:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238341AbjEMMdn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 13 May 2023 08:33:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41468 "EHLO
+        id S238458AbjEMMdr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 13 May 2023 08:33:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238330AbjEMMdm (ORCPT
+        with ESMTP id S238351AbjEMMdq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 13 May 2023 08:33:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3723635A7
-        for <linux-media@vger.kernel.org>; Sat, 13 May 2023 05:32:21 -0700 (PDT)
+        Sat, 13 May 2023 08:33:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1C4E35AD
+        for <linux-media@vger.kernel.org>; Sat, 13 May 2023 05:32:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1683981140;
+        s=mimecast20190719; t=1683981141;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=lzdrXK6oeA34c/66GxXyok5qrrDVLIpLKDmpnsDktXA=;
-        b=Dwee3iaIhlbORZplZto5qPB1Uf9NTm2MD4JlnybOPavUTkCDzlXnLGzPD9Gv81yq7rmwxA
-        lMDQxwRA8OQ/z5xrIhgRmO0pNzMh5MeHqlw8jYnZm1bn51G6DcLbS8GeDc/U9Hq9+u0/90
-        55sgaesoPTNwITifbV7bAexcxoshrMA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=1ibCteOXmiKokLNO+WmNhtH9B7unOCl7Rzmto+UMSNc=;
+        b=Lwa+NpI7ZRYPwDL0X08QyRdz6VJoMTbo4R2aRxEEIXLSEiUjtD9gSOtmSZ3RHyzGnoGuVQ
+        eDjHaqoCXV4GgSZCafxFPcMNq1Q8U1deGvNtDd1deLiNNJH7FtGE9sRLtGqqM13wDAfXDx
+        syPCsQR/43ajfx81yGemDcSOti6xqXk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-207-2HO30du8MUSPPGro02toOQ-1; Sat, 13 May 2023 08:32:17 -0400
-X-MC-Unique: 2HO30du8MUSPPGro02toOQ-1
+ us-mta-290-ephvlO8CPHaZrYY-n7jGHQ-1; Sat, 13 May 2023 08:32:18 -0400
+X-MC-Unique: ephvlO8CPHaZrYY-n7jGHQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7648E3800C48;
-        Sat, 13 May 2023 12:32:16 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3EAA2802A95;
+        Sat, 13 May 2023 12:32:18 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.46])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E3F7040C2076;
-        Sat, 13 May 2023 12:32:14 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id AAA8F40C2076;
+        Sat, 13 May 2023 12:32:16 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -48,9 +48,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>, Kate Hsuan <hpa@redhat.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 08/30] media: atomisp: Rename video_out_preview to video_out
-Date:   Sat, 13 May 2023 14:31:37 +0200
-Message-Id: <20230513123159.33234-9-hdegoede@redhat.com>
+Subject: [PATCH 09/30] media: atomisp: Remove source_pad parameter from functions and structs
+Date:   Sat, 13 May 2023 14:31:38 +0200
+Message-Id: <20230513123159.33234-10-hdegoede@redhat.com>
 In-Reply-To: <20230513123159.33234-1-hdegoede@redhat.com>
 References: <20230513123159.33234-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -58,232 +58,407 @@ Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Now that we have only 1 /dev/video# node for output for all different
-run-modes (with only 1 run-mode at a time) using video_out_preview for
-the remaining atomisp_pipe does not properly reflect that this is
-*the* output pipe. Fo the following renames to fix the naming:
+Now that there is only 1 source-pad for an asd there is no need
+to have a parameter for this in various places.
 
-s/video_out_preview/video_out/
-s/ATOMISP_SUBDEV_PAD_SOURCE_PREVIEW/ATOMISP_SUBDEV_PAD_SOURCE/
+Remove the source_pad function parameter and
+atomisp_sub_device.capture_pad data member.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../staging/media/atomisp/pci/atomisp_cmd.c   |  6 ++--
- .../media/atomisp/pci/atomisp_compat_css20.c  |  2 +-
- .../staging/media/atomisp/pci/atomisp_fops.c  |  4 +--
- .../staging/media/atomisp/pci/atomisp_ioctl.c |  2 +-
- .../media/atomisp/pci/atomisp_subdev.c        | 34 ++++++++-----------
- .../media/atomisp/pci/atomisp_subdev.h        |  5 ++-
- 6 files changed, 23 insertions(+), 30 deletions(-)
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 44 ++++++++-----------
+ .../media/atomisp/pci/atomisp_compat.h        |  4 +-
+ .../media/atomisp/pci/atomisp_compat_css20.c  |  4 +-
+ .../staging/media/atomisp/pci/atomisp_fops.c  |  7 ++-
+ .../staging/media/atomisp/pci/atomisp_ioctl.c | 13 +++---
+ .../media/atomisp/pci/atomisp_subdev.c        | 25 ++---------
+ .../media/atomisp/pci/atomisp_subdev.h        |  5 +--
+ 7 files changed, 33 insertions(+), 69 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 3d6e0d0c7eaa..8cd94189052f 100644
+index 8cd94189052f..3dcf81e431cb 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -643,7 +643,7 @@ void atomisp_flush_video_pipe(struct atomisp_video_pipe *pipe, enum vb2_buffer_s
- /* Returns queued buffers back to video-core */
- void atomisp_flush_bufs_and_wakeup(struct atomisp_sub_device *asd)
- {
--	atomisp_flush_video_pipe(&asd->video_out_preview, VB2_BUF_STATE_ERROR, false);
-+	atomisp_flush_video_pipe(&asd->video_out, VB2_BUF_STATE_ERROR, false);
- }
- 
- /* clean out the parameters that did not apply */
-@@ -1032,7 +1032,7 @@ static void __atomisp_css_recover(struct atomisp_device *isp, bool isp_timeout)
- 		atomisp_flush_bufs_and_wakeup(&isp->asd);
- 
- 		/* Requeue unprocessed per-frame parameters. */
--		atomisp_recover_params_queue(&isp->asd.video_out_preview);
-+		atomisp_recover_params_queue(&isp->asd.video_out);
- 
- 		ret = v4l2_subdev_call(
- 			  isp->inputs[isp->asd.input_curr].camera, video,
-@@ -1293,7 +1293,7 @@ static void atomisp_update_capture_mode(struct atomisp_sub_device *asd)
- 		atomisp_css_capture_set_mode(asd, IA_CSS_CAPTURE_MODE_ADVANCED);
- 	else if (asd->params.low_light)
- 		atomisp_css_capture_set_mode(asd, IA_CSS_CAPTURE_MODE_LOW_LIGHT);
--	else if (asd->video_out_preview.sh_fmt == IA_CSS_FRAME_FORMAT_RAW)
-+	else if (asd->video_out.sh_fmt == IA_CSS_FRAME_FORMAT_RAW)
- 		atomisp_css_capture_set_mode(asd, IA_CSS_CAPTURE_MODE_RAW);
- 	else
- 		atomisp_css_capture_set_mode(asd, IA_CSS_CAPTURE_MODE_PRIMARY);
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index 8e8caa99ce72..d5b9c0fda69a 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -1958,7 +1958,7 @@ void atomisp_css_stop(struct atomisp_sub_device *asd,
- 		list_splice_init(&asd->metadata_ready[i], &asd->metadata[i]);
+@@ -229,8 +229,8 @@ int atomisp_freq_scaling(struct atomisp_device *isp,
+ 		goto done;
  	}
  
--	atomisp_flush_params_queue(&asd->video_out_preview);
-+	atomisp_flush_params_queue(&asd->video_out);
- 	atomisp_free_css_parameters(&asd->params.css_param);
- 	memset(&asd->params.css_param, 0, sizeof(asd->params.css_param));
- }
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-index 99152db236a1..ccd96464ebfa 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-@@ -362,7 +362,7 @@ int atomisp_qbuffers_to_css(struct atomisp_sub_device *asd)
- 		pipe_id = IA_CSS_PIPE_ID_CAPTURE;
- 	}
+-	curr_rules.width = isp->asd.fmt[isp->asd.capture_pad].fmt.width;
+-	curr_rules.height = isp->asd.fmt[isp->asd.capture_pad].fmt.height;
++	curr_rules.width = isp->asd.fmt[ATOMISP_SUBDEV_PAD_SOURCE].fmt.width;
++	curr_rules.height = isp->asd.fmt[ATOMISP_SUBDEV_PAD_SOURCE].fmt.height;
+ 	curr_rules.fps = fps;
+ 	curr_rules.run_mode = isp->asd.run_mode->val;
  
--	atomisp_q_video_buffers_to_css(asd, &asd->video_out_preview,
-+	atomisp_q_video_buffers_to_css(asd, &asd->video_out,
- 				       ATOMISP_INPUT_STREAM_GENERAL,
- 				       IA_CSS_BUFFER_TYPE_OUTPUT_FRAME, pipe_id);
- 	return 0;
-@@ -494,7 +494,7 @@ static void atomisp_subdev_init_struct(struct atomisp_sub_device *asd)
-  */
- static unsigned int atomisp_subdev_users(struct atomisp_sub_device *asd)
- {
--	return asd->video_out_preview.users;
-+	return asd->video_out.users;
+@@ -1548,13 +1548,12 @@ void atomisp_free_internal_buffers(struct atomisp_sub_device *asd)
  }
  
- unsigned int atomisp_dev_users(struct atomisp_device *isp)
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index 3068f1a317f3..1684ea6ad735 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -618,7 +618,7 @@ static int atomisp_enum_input(struct file *file, void *fh,
- static unsigned int
- atomisp_subdev_streaming_count(struct atomisp_sub_device *asd)
+ static void atomisp_update_grid_info(struct atomisp_sub_device *asd,
+-				     enum ia_css_pipe_id pipe_id,
+-				     int source_pad)
++				     enum ia_css_pipe_id pipe_id)
  {
--	return vb2_start_streaming_called(&asd->video_out_preview.vb_queue);
-+	return vb2_start_streaming_called(&asd->video_out.vb_queue);
- }
+ 	struct atomisp_device *isp = asd->isp;
+ 	int err;
  
- unsigned int atomisp_streaming_count(struct atomisp_device *isp)
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-index d510fdd8389c..fb145044e9a4 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-@@ -355,7 +355,7 @@ static const char *atomisp_pad_str(unsigned int pad)
+-	if (atomisp_css_get_grid_info(asd, pipe_id, source_pad))
++	if (atomisp_css_get_grid_info(asd, pipe_id))
+ 		return;
+ 
+ 	/* We must free all buffers because they no longer match
+@@ -4105,8 +4104,7 @@ static int css_input_resolution_changed(struct atomisp_sub_device *asd,
+ 
+ static int atomisp_set_fmt_to_isp(struct video_device *vdev,
+ 				  struct ia_css_frame_info *output_info,
+-				  struct v4l2_pix_format *pix,
+-				  unsigned int source_pad)
++				  struct v4l2_pix_format *pix)
  {
- 	static const char *const pad_str[] = {
- 		"ATOMISP_SUBDEV_PAD_SINK",
--		"ATOMISP_SUBDEV_PAD_SOURCE_PREVIEW",
-+		"ATOMISP_SUBDEV_PAD_SOURCE",
- 	};
- 
- 	if (pad >= ARRAY_SIZE(pad_str))
-@@ -431,7 +431,7 @@ int atomisp_subdev_set_selection(struct v4l2_subdev *sd,
- 			struct v4l2_rect tmp = *crop[pad];
- 
- 			atomisp_subdev_set_selection(sd, sd_state, which,
--						     ATOMISP_SUBDEV_PAD_SOURCE_PREVIEW,
-+						     ATOMISP_SUBDEV_PAD_SOURCE,
- 						     V4L2_SEL_TGT_COMPOSE, flags, &tmp);
- 		}
- 
-@@ -593,7 +593,7 @@ void atomisp_subdev_set_ffmt(struct v4l2_subdev *sd,
- 
- 		break;
- 	}
--	case ATOMISP_SUBDEV_PAD_SOURCE_PREVIEW:
-+	case ATOMISP_SUBDEV_PAD_SOURCE:
- 		__ffmt->code = ffmt->code;
- 		break;
- 	}
-@@ -900,12 +900,10 @@ static int isp_subdev_init_entities(struct atomisp_sub_device *asd)
- 	sd->flags |= V4L2_SUBDEV_FL_HAS_EVENTS | V4L2_SUBDEV_FL_HAS_DEVNODE;
- 
- 	pads[ATOMISP_SUBDEV_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
--	pads[ATOMISP_SUBDEV_PAD_SOURCE_PREVIEW].flags = MEDIA_PAD_FL_SOURCE;
-+	pads[ATOMISP_SUBDEV_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
- 
--	asd->fmt[ATOMISP_SUBDEV_PAD_SINK].fmt.code =
--	    MEDIA_BUS_FMT_SBGGR10_1X10;
--	asd->fmt[ATOMISP_SUBDEV_PAD_SOURCE_PREVIEW].fmt.code =
--	    MEDIA_BUS_FMT_SBGGR10_1X10;
-+	asd->fmt[ATOMISP_SUBDEV_PAD_SINK].fmt.code = MEDIA_BUS_FMT_SBGGR10_1X10;
-+	asd->fmt[ATOMISP_SUBDEV_PAD_SOURCE].fmt.code = MEDIA_BUS_FMT_SBGGR10_1X10;
- 
- 	me->ops = &isp_subdev_media_ops;
- 	me->function = MEDIA_ENT_F_PROC_VIDEO_ISP;
-@@ -913,13 +911,11 @@ static int isp_subdev_init_entities(struct atomisp_sub_device *asd)
- 	if (ret < 0)
+ 	struct camera_mipi_info *mipi_info;
+ 	struct atomisp_device *isp = video_get_drvdata(vdev);
+@@ -4279,7 +4277,7 @@ static int atomisp_set_fmt_to_isp(struct video_device *vdev,
  		return ret;
+ 	}
  
--	ret = atomisp_init_subdev_pipe(asd, &asd->video_out_preview,
--				       V4L2_BUF_TYPE_VIDEO_CAPTURE);
-+	ret = atomisp_init_subdev_pipe(asd, &asd->video_out, V4L2_BUF_TYPE_VIDEO_CAPTURE);
+-	atomisp_update_grid_info(asd, pipe_id, source_pad);
++	atomisp_update_grid_info(asd, pipe_id);
+ 	return 0;
+ }
+ 
+@@ -4303,7 +4301,7 @@ static void atomisp_get_dis_envelop(struct atomisp_sub_device *asd,
+ }
+ 
+ static void atomisp_check_copy_mode(struct atomisp_sub_device *asd,
+-				    int source_pad, const struct v4l2_pix_format *f)
++				    const struct v4l2_pix_format *f)
+ {
+ 	struct v4l2_mbus_framefmt *sink, *src;
+ 
+@@ -4316,7 +4314,7 @@ static void atomisp_check_copy_mode(struct atomisp_sub_device *asd,
+ 	sink = atomisp_subdev_get_ffmt(&asd->subdev, NULL,
+ 				       V4L2_SUBDEV_FORMAT_ACTIVE, ATOMISP_SUBDEV_PAD_SINK);
+ 	src = atomisp_subdev_get_ffmt(&asd->subdev, NULL,
+-				      V4L2_SUBDEV_FORMAT_ACTIVE, source_pad);
++				      V4L2_SUBDEV_FORMAT_ACTIVE, ATOMISP_SUBDEV_PAD_SOURCE);
+ 
+ 	if (sink->code == src->code && sink->width == f->width && sink->height == f->height)
+ 		asd->copy_mode = true;
+@@ -4439,7 +4437,6 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
+ 		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+ 	};
+ 	struct v4l2_rect isp_sink_crop;
+-	u16 source_pad = atomisp_subdev_source_pad(vdev);
+ 	struct v4l2_subdev_fh fh;
+ 	int ret;
+ 
+@@ -4447,12 +4444,9 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
  	if (ret)
  		return ret;
  
--	ret = atomisp_video_init(&asd->video_out_preview, "PREVIEW",
--				 ATOMISP_RUN_MODE_PREVIEW);
-+	ret = atomisp_video_init(&asd->video_out, "PREVIEW", ATOMISP_RUN_MODE_PREVIEW);
- 	if (ret < 0)
- 		return ret;
+-	if (source_pad >= ATOMISP_SUBDEV_PADS_NUM)
+-		return -EINVAL;
+-
+ 	dev_dbg(isp->dev,
+-		"setting resolution %ux%u on pad %u bytesperline %u\n",
+-		f->fmt.pix.width, f->fmt.pix.height, source_pad, f->fmt.pix.bytesperline);
++		"setting resolution %ux%u bytesperline %u\n",
++		f->fmt.pix.width, f->fmt.pix.height, f->fmt.pix.bytesperline);
  
-@@ -981,9 +977,8 @@ int atomisp_create_pads_links(struct atomisp_device *isp)
- 			return ret;
+ 	v4l2_fh_init(&fh.vfh, vdev);
+ 
+@@ -4501,9 +4495,9 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
+ 	isp_source_fmt.code = format_bridge->mbus_code;
+ 	atomisp_subdev_set_ffmt(&asd->subdev, fh.state,
+ 				V4L2_SUBDEV_FORMAT_ACTIVE,
+-				source_pad, &isp_source_fmt);
++				ATOMISP_SUBDEV_PAD_SOURCE, &isp_source_fmt);
+ 
+-	if (!atomisp_subdev_format_conversion(asd, source_pad)) {
++	if (!atomisp_subdev_format_conversion(asd)) {
+ 		padding_w = 0;
+ 		padding_h = 0;
+ 	}
+@@ -4511,8 +4505,6 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
+ 	atomisp_get_dis_envelop(asd, f->fmt.pix.width, f->fmt.pix.height,
+ 				&dvs_env_w, &dvs_env_h);
+ 
+-	asd->capture_pad = source_pad;
+-
+ 	ret = atomisp_set_fmt_to_snr(vdev, &f->fmt.pix,
+ 				     padding_w, padding_h, dvs_env_w, dvs_env_h);
+ 	if (ret) {
+@@ -4523,7 +4515,7 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
+ 
+ 	atomisp_csi_lane_config(isp);
+ 
+-	atomisp_check_copy_mode(asd, source_pad, &f->fmt.pix);
++	atomisp_check_copy_mode(asd, &f->fmt.pix);
+ 
+ 	isp_sink_crop = *atomisp_subdev_get_rect(&asd->subdev, NULL,
+ 			V4L2_SUBDEV_FORMAT_ACTIVE,
+@@ -4534,7 +4526,7 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
+ 	 * width or height) bigger than the desired result. */
+ 	if (isp_sink_crop.width * 9 / 10 < f->fmt.pix.width ||
+ 	    isp_sink_crop.height * 9 / 10 < f->fmt.pix.height ||
+-	    (atomisp_subdev_format_conversion(asd, source_pad) &&
++	    (atomisp_subdev_format_conversion(asd) &&
+ 	     (asd->run_mode->val == ATOMISP_RUN_MODE_VIDEO ||
+ 	      asd->vfpp->val == ATOMISP_VFPP_DISABLE_SCALER))) {
+ 		isp_sink_crop.width = f->fmt.pix.width;
+@@ -4548,7 +4540,7 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
+ 					     &isp_sink_crop);
+ 		atomisp_subdev_set_selection(&asd->subdev, fh.state,
+ 					     V4L2_SUBDEV_FORMAT_ACTIVE,
+-					     source_pad, V4L2_SEL_TGT_COMPOSE,
++					     ATOMISP_SUBDEV_PAD_SOURCE, V4L2_SEL_TGT_COMPOSE,
+ 					     0, &isp_sink_crop);
+ 	} else if (IS_MOFD) {
+ 		struct v4l2_rect main_compose = {0};
+@@ -4567,7 +4559,7 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
+ 
+ 		atomisp_subdev_set_selection(&asd->subdev, fh.state,
+ 					     V4L2_SUBDEV_FORMAT_ACTIVE,
+-					     source_pad,
++					     ATOMISP_SUBDEV_PAD_SOURCE,
+ 					     V4L2_SEL_TGT_COMPOSE, 0,
+ 					     &main_compose);
+ 	} else {
+@@ -4605,12 +4597,12 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
+ 
+ 		atomisp_subdev_set_selection(&asd->subdev, fh.state,
+ 					     V4L2_SUBDEV_FORMAT_ACTIVE,
+-					     source_pad,
++					     ATOMISP_SUBDEV_PAD_SOURCE,
+ 					     V4L2_SEL_TGT_COMPOSE, 0,
+ 					     &main_compose);
  	}
  
--	ret = media_create_pad_link(&isp->asd.subdev.entity,
--				    ATOMISP_SUBDEV_PAD_SOURCE_PREVIEW,
--				    &isp->asd.video_out_preview.vdev.entity, 0, 0);
-+	ret = media_create_pad_link(&isp->asd.subdev.entity, ATOMISP_SUBDEV_PAD_SOURCE,
-+				    &isp->asd.video_out.vdev.entity, 0, 0);
- 	if (ret < 0)
- 		return ret;
+-	ret = atomisp_set_fmt_to_isp(vdev, &output_info, &f->fmt.pix, source_pad);
++	ret = atomisp_set_fmt_to_isp(vdev, &output_info, &f->fmt.pix);
+ 	if (ret) {
+ 		dev_warn(isp->dev, "Can't set format on ISP. Error %d\n", ret);
+ 		return -EINVAL;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat.h b/drivers/staging/media/atomisp/pci/atomisp_compat.h
+index 218e8ac276c8..168c42956c29 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat.h
+@@ -113,8 +113,7 @@ void atomisp_css_free_metadata_buffer(struct atomisp_metadata_buf
+ 				      *metadata_buf);
  
-@@ -1015,7 +1010,7 @@ void atomisp_subdev_unregister_entities(struct atomisp_sub_device *asd)
- {
- 	atomisp_subdev_cleanup_entities(asd);
- 	v4l2_device_unregister_subdev(&asd->subdev);
--	atomisp_video_unregister(&asd->video_out_preview);
-+	atomisp_video_unregister(&asd->video_out);
+ int atomisp_css_get_grid_info(struct atomisp_sub_device *asd,
+-			      enum ia_css_pipe_id pipe_id,
+-			      int source_pad);
++			      enum ia_css_pipe_id pipe_id);
+ 
+ int atomisp_alloc_3a_output_buf(struct atomisp_sub_device *asd);
+ 
+@@ -276,7 +275,6 @@ int atomisp_css_video_configure_output(struct atomisp_sub_device *asd,
+ 				       enum ia_css_frame_format format);
+ 
+ int atomisp_get_css_frame_info(struct atomisp_sub_device *asd,
+-			       u16 source_pad,
+ 			       struct ia_css_frame_info *frame_info);
+ 
+ int atomisp_css_video_configure_viewfinder(struct atomisp_sub_device *asd,
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+index d5b9c0fda69a..416cc45bd472 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+@@ -1328,8 +1328,7 @@ void atomisp_css_free_stat_buffers(struct atomisp_sub_device *asd)
  }
  
- int atomisp_subdev_register_subdev(struct atomisp_sub_device *asd,
-@@ -1029,10 +1024,9 @@ int atomisp_subdev_register_video_nodes(struct atomisp_sub_device *asd,
+ int atomisp_css_get_grid_info(struct atomisp_sub_device *asd,
+-			      enum ia_css_pipe_id pipe_id,
+-			      int source_pad)
++			      enum ia_css_pipe_id pipe_id)
  {
+ 	struct ia_css_pipe_info p_info;
+ 	struct ia_css_grid_info old_info;
+@@ -2432,7 +2431,6 @@ static unsigned int atomisp_get_pipe_index(struct atomisp_sub_device *asd)
+ }
+ 
+ int atomisp_get_css_frame_info(struct atomisp_sub_device *asd,
+-			       u16 source_pad,
+ 			       struct ia_css_frame_info *frame_info)
+ {
+ 	struct ia_css_pipe_info info;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+index ccd96464ebfa..39eba99feee0 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+@@ -47,7 +47,6 @@ static int atomisp_queue_setup(struct vb2_queue *vq,
+ 			       unsigned int sizes[], struct device *alloc_devs[])
+ {
+ 	struct atomisp_video_pipe *pipe = container_of(vq, struct atomisp_video_pipe, vb_queue);
+-	u16 source_pad = atomisp_subdev_source_pad(&pipe->vdev);
  	int ret;
  
--	asd->video_out_preview.vdev.v4l2_dev = vdev;
--	asd->video_out_preview.vdev.device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
--	ret = video_register_device(&asd->video_out_preview.vdev,
--				    VFL_TYPE_VIDEO, -1);
-+	asd->video_out.vdev.v4l2_dev = vdev;
-+	asd->video_out.vdev.device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
-+	ret = video_register_device(&asd->video_out.vdev, VFL_TYPE_VIDEO, -1);
- 	if (ret < 0)
- 		goto error;
+ 	mutex_lock(&pipe->asd->isp->mutex); /* for get_css_frame_info() / set_fmt() */
+@@ -56,7 +55,7 @@ static int atomisp_queue_setup(struct vb2_queue *vq,
+ 	 * When VIDIOC_S_FMT has not been called before VIDIOC_REQBUFS, then
+ 	 * this will fail. Call atomisp_set_fmt() ourselves and try again.
+ 	 */
+-	ret = atomisp_get_css_frame_info(pipe->asd, source_pad, &pipe->frame_info);
++	ret = atomisp_get_css_frame_info(pipe->asd, &pipe->frame_info);
+ 	if (ret) {
+ 		struct v4l2_format f = {
+ 			.fmt.pix.pixelformat = V4L2_PIX_FMT_YUV420,
+@@ -68,7 +67,7 @@ static int atomisp_queue_setup(struct vb2_queue *vq,
+ 		if (ret)
+ 			goto out;
  
+-		ret = atomisp_get_css_frame_info(pipe->asd, source_pad, &pipe->frame_info);
++		ret = atomisp_get_css_frame_info(pipe->asd, &pipe->frame_info);
+ 		if (ret)
+ 			goto out;
+ 	}
+@@ -654,7 +653,7 @@ static int atomisp_release(struct file *file)
+ done:
+ 	atomisp_subdev_set_selection(&asd->subdev, fh.state,
+ 				     V4L2_SUBDEV_FORMAT_ACTIVE,
+-				     atomisp_subdev_source_pad(vdev),
++				     ATOMISP_SUBDEV_PAD_SOURCE,
+ 				     V4L2_SEL_TGT_COMPOSE, 0,
+ 				     &clear_compose);
+ 	mutex_unlock(&isp->mutex);
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index 1684ea6ad735..8e2b5b647670 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -1131,7 +1131,7 @@ static unsigned int atomisp_sensor_start_stream(struct atomisp_sub_device *asd)
+ 
+ 	if (asd->run_mode->val == ATOMISP_RUN_MODE_VIDEO ||
+ 	    (asd->run_mode->val == ATOMISP_RUN_MODE_STILL_CAPTURE &&
+-	     !atomisp_is_mbuscode_raw(asd->fmt[asd->capture_pad].fmt.code)))
++	     !atomisp_is_mbuscode_raw(asd->fmt[ATOMISP_SUBDEV_PAD_SOURCE].fmt.code)))
+ 		return 2;
+ 	else
+ 		return 1;
+@@ -1159,7 +1159,6 @@ int atomisp_start_streaming(struct vb2_queue *vq, unsigned int count)
+ {
+ 	struct atomisp_video_pipe *pipe = vq_to_pipe(vq);
+ 	struct atomisp_sub_device *asd = pipe->asd;
+-	struct video_device *vdev = &pipe->vdev;
+ 	struct atomisp_device *isp = asd->isp;
+ 	struct pci_dev *pdev = to_pci_dev(isp->dev);
+ 	enum ia_css_pipe_id css_pipe_id;
+@@ -1167,9 +1166,9 @@ int atomisp_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 	unsigned long irqflags;
+ 	int ret;
+ 
+-	mutex_lock(&isp->mutex);
++	dev_dbg(isp->dev, "Start stream\n");
+ 
+-	dev_dbg(isp->dev, "Start stream on pad %d\n", atomisp_subdev_source_pad(vdev));
++	mutex_lock(&isp->mutex);
+ 
+ 	ret = atomisp_pipe_check(pipe, false);
+ 	if (ret)
+@@ -1291,7 +1290,6 @@ void atomisp_stop_streaming(struct vb2_queue *vq)
+ {
+ 	struct atomisp_video_pipe *pipe = vq_to_pipe(vq);
+ 	struct atomisp_sub_device *asd = pipe->asd;
+-	struct video_device *vdev = &pipe->vdev;
+ 	struct atomisp_device *isp = asd->isp;
+ 	struct pci_dev *pdev = to_pci_dev(isp->dev);
+ 	enum ia_css_pipe_id css_pipe_id;
+@@ -1300,10 +1298,9 @@ void atomisp_stop_streaming(struct vb2_queue *vq)
+ 	unsigned long flags;
+ 	int ret;
+ 
++	dev_dbg(isp->dev, "Stop stream\n");
++
+ 	mutex_lock(&isp->mutex);
+-
+-	dev_dbg(isp->dev, "Stop stream on pad %d\n", atomisp_subdev_source_pad(vdev));
+-
+ 	/*
+ 	 * There is no guarantee that the buffers queued to / owned by the ISP
+ 	 * will properly be returned to the queue when stopping. Set a flag to
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+index fb145044e9a4..1c5e489b4405 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+@@ -117,35 +117,19 @@ const struct atomisp_in_fmt_conv *atomisp_find_in_fmt_conv_by_atomisp_in_fmt(
+ 	return NULL;
+ }
+ 
+-bool atomisp_subdev_format_conversion(struct atomisp_sub_device *asd,
+-				      unsigned int source_pad)
++bool atomisp_subdev_format_conversion(struct atomisp_sub_device *asd)
+ {
+ 	struct v4l2_mbus_framefmt *sink, *src;
+ 
+ 	sink = atomisp_subdev_get_ffmt(&asd->subdev, NULL,
+-				       V4L2_SUBDEV_FORMAT_ACTIVE,
+-				       ATOMISP_SUBDEV_PAD_SINK);
++				       V4L2_SUBDEV_FORMAT_ACTIVE, ATOMISP_SUBDEV_PAD_SINK);
+ 	src = atomisp_subdev_get_ffmt(&asd->subdev, NULL,
+-				      V4L2_SUBDEV_FORMAT_ACTIVE, source_pad);
++				      V4L2_SUBDEV_FORMAT_ACTIVE, ATOMISP_SUBDEV_PAD_SOURCE);
+ 
+ 	return atomisp_is_mbuscode_raw(sink->code)
+ 	       && !atomisp_is_mbuscode_raw(src->code);
+ }
+ 
+-uint16_t atomisp_subdev_source_pad(struct video_device *vdev)
+-{
+-	struct media_link *link;
+-	u16 ret = 0;
+-
+-	list_for_each_entry(link, &vdev->entity.links, list) {
+-		if (link->source) {
+-			ret = link->source->index;
+-			break;
+-		}
+-	}
+-	return ret;
+-}
+-
+ /*
+  * V4L2 subdev operations
+  */
+@@ -404,8 +388,7 @@ int atomisp_subdev_set_selection(struct v4l2_subdev *sd,
+ 			padding_h = 12;
+ 		}
+ 
+-		if (atomisp_subdev_format_conversion(isp_sd,
+-						     isp_sd->capture_pad)
++		if (atomisp_subdev_format_conversion(isp_sd)
+ 		    && crop[pad]->width && crop[pad]->height) {
+ 			crop[pad]->width -= padding_w;
+ 			crop[pad]->height -= padding_h;
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.h b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-index 2be594a8e733..c4f312c55a4a 100644
+index c4f312c55a4a..ee7d0ee5d6e4 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_subdev.h
 +++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-@@ -32,7 +32,7 @@
- #define ATOMISP_MAX_EXP_ID     (250)
- 
- #define ATOMISP_SUBDEV_PAD_SINK			0
--#define ATOMISP_SUBDEV_PAD_SOURCE_PREVIEW	1
-+#define ATOMISP_SUBDEV_PAD_SOURCE		1
- #define ATOMISP_SUBDEV_PADS_NUM			2
- 
- struct atomisp_in_fmt_conv {
-@@ -244,8 +244,7 @@ struct atomisp_sub_device {
- 	u16 capture_pad; /* main capture pad; defines much of isp config */
+@@ -241,7 +241,6 @@ struct atomisp_sub_device {
+ 	struct v4l2_subdev subdev;
+ 	struct media_pad pads[ATOMISP_SUBDEV_PADS_NUM];
+ 	struct atomisp_pad_format fmt[ATOMISP_SUBDEV_PADS_NUM];
+-	u16 capture_pad; /* main capture pad; defines much of isp config */
  
  	unsigned int output;
--	struct atomisp_video_pipe video_out_preview; /* preview output */
--	/* struct isp_subdev_params params; */
-+	struct atomisp_video_pipe video_out;
- 	struct atomisp_device *isp;
- 	struct v4l2_ctrl_handler ctrl_handler;
- 	struct v4l2_ctrl *run_mode;
+ 	struct atomisp_video_pipe video_out;
+@@ -340,9 +339,7 @@ const struct atomisp_in_fmt_conv
+ 	atomisp_in_fmt);
+ 
+ const struct atomisp_in_fmt_conv *atomisp_find_in_fmt_conv_compressed(u32 code);
+-bool atomisp_subdev_format_conversion(struct atomisp_sub_device *asd,
+-				      unsigned int source_pad);
+-uint16_t atomisp_subdev_source_pad(struct video_device *vdev);
++bool atomisp_subdev_format_conversion(struct atomisp_sub_device *asd);
+ 
+ /* Get pointer to appropriate format */
+ struct v4l2_mbus_framefmt
 -- 
 2.40.1
 
