@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 12E9C70169F
-	for <lists+linux-media@lfdr.de>; Sat, 13 May 2023 14:33:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C87D57016A1
+	for <lists+linux-media@lfdr.de>; Sat, 13 May 2023 14:33:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238353AbjEMMdq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 13 May 2023 08:33:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41500 "EHLO
+        id S238623AbjEMMds (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 13 May 2023 08:33:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238330AbjEMMdp (ORCPT
+        with ESMTP id S238348AbjEMMdq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 13 May 2023 08:33:45 -0400
+        Sat, 13 May 2023 08:33:46 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C011B35B8
-        for <linux-media@vger.kernel.org>; Sat, 13 May 2023 05:32:24 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 589473A89
+        for <linux-media@vger.kernel.org>; Sat, 13 May 2023 05:32:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1683981144;
+        s=mimecast20190719; t=1683981147;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=DapL5BRvh+yWg9dp4bmdu30CsoBCEbuaDPr4vxVl/WM=;
-        b=UfxhrJEVllQEEWa4KqtHv30Nx0LAcmofzGSjOBdyRz6T777ZCvC7dADdEAhpSOX+8Lhazl
-        JcoeKNpi9BwyhW4673nJbrhxPB2+C56h9M3JnU66SqawJDsOhbyZC9HPWOfnRQq9uql2du
-        95Vq24KoLrQecM2I/mbQ4m0s4DOmZAE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=sWXGSa0z5CFwYizucVe2FkHyOf8pOSXomUvLZFl67kY=;
+        b=K8PFLt/WZPjXFFuBEHssQsRN8ozXx+jeqa3uIUl7fLR4VHog+hjl5lkQCemnS+dJLxSGNC
+        f3MJ6CvwNKj8x2SmGaO3e/Yh5eQdz8gRoAPz37Fkt1ThaH6rOJ9/ZDeew9mrf4jYqYdljJ
+        qG7IDqWixemqcbZJUkJsFlobuDsBrvM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-364--unlTPw1Nayf8-yjYlPkFw-1; Sat, 13 May 2023 08:32:20 -0400
-X-MC-Unique: -unlTPw1Nayf8-yjYlPkFw-1
+ us-mta-176-lmN8cbe8OP-dVY1aTNeJ0A-1; Sat, 13 May 2023 08:32:22 -0400
+X-MC-Unique: lmN8cbe8OP-dVY1aTNeJ0A-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0741A29AA3B0;
-        Sat, 13 May 2023 12:32:20 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BFFFC857E60;
+        Sat, 13 May 2023 12:32:21 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.46])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 72B8340C2076;
-        Sat, 13 May 2023 12:32:18 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3AE0240C2076;
+        Sat, 13 May 2023 12:32:20 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -48,9 +48,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>, Kate Hsuan <hpa@redhat.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 10/30] media: atomisp: Remove 1 line atomisp_flush_bufs_and_wakeup() helper
-Date:   Sat, 13 May 2023 14:31:39 +0200
-Message-Id: <20230513123159.33234-11-hdegoede@redhat.com>
+Subject: [PATCH 11/30] media: atomisp: Remove atomisp_subdev_register_video_nodes() helper
+Date:   Sat, 13 May 2023 14:31:40 +0200
+Message-Id: <20230513123159.33234-12-hdegoede@redhat.com>
 In-Reply-To: <20230513123159.33234-1-hdegoede@redhat.com>
 References: <20230513123159.33234-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -66,54 +66,74 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-After recent changes this now is just a wrapper around
-atomisp_flush_video_pipe(). Make its single caller call
-atomisp_flush_video_pipe() directly and drop the helper.
+Now that there is only 1 /dev/video# node left there is no need to
+do this in a helper. Just make atomisp_register_device_nodes()
+call ideo_register_device() directly.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_cmd.c | 8 +-------
- drivers/staging/media/atomisp/pci/atomisp_cmd.h | 1 -
- 2 files changed, 1 insertion(+), 8 deletions(-)
+ .../staging/media/atomisp/pci/atomisp_subdev.c | 18 ------------------
+ .../staging/media/atomisp/pci/atomisp_subdev.h |  2 --
+ .../staging/media/atomisp/pci/atomisp_v4l2.c   |  4 +++-
+ 3 files changed, 3 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 3dcf81e431cb..42a2a8f0da06 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -640,12 +640,6 @@ void atomisp_flush_video_pipe(struct atomisp_video_pipe *pipe, enum vb2_buffer_s
- 	spin_unlock_irqrestore(&pipe->irq_lock, irqflags);
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+index 1c5e489b4405..98292530e330 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+@@ -1002,24 +1002,6 @@ int atomisp_subdev_register_subdev(struct atomisp_sub_device *asd,
+ 	return v4l2_device_register_subdev(vdev, &asd->subdev);
  }
  
--/* Returns queued buffers back to video-core */
--void atomisp_flush_bufs_and_wakeup(struct atomisp_sub_device *asd)
+-int atomisp_subdev_register_video_nodes(struct atomisp_sub_device *asd,
+-					struct v4l2_device *vdev)
 -{
--	atomisp_flush_video_pipe(&asd->video_out, VB2_BUF_STATE_ERROR, false);
+-	int ret;
+-
+-	asd->video_out.vdev.v4l2_dev = vdev;
+-	asd->video_out.vdev.device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
+-	ret = video_register_device(&asd->video_out.vdev, VFL_TYPE_VIDEO, -1);
+-	if (ret < 0)
+-		goto error;
+-
+-	return 0;
+-
+-error:
+-	atomisp_subdev_unregister_entities(asd);
+-	return ret;
 -}
 -
- /* clean out the parameters that did not apply */
- void atomisp_flush_params_queue(struct atomisp_video_pipe *pipe)
+ /*
+  * atomisp_subdev_init - ISP Subdevice  initialization.
+  * @dev: Device pointer specific to the ATOM ISP.
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.h b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
+index ee7d0ee5d6e4..28afcdd41ef3 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_subdev.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
+@@ -367,8 +367,6 @@ void atomisp_subdev_cleanup_pending_events(struct atomisp_sub_device *asd);
+ void atomisp_subdev_unregister_entities(struct atomisp_sub_device *asd);
+ int atomisp_subdev_register_subdev(struct atomisp_sub_device *asd,
+ 				   struct v4l2_device *vdev);
+-int atomisp_subdev_register_video_nodes(struct atomisp_sub_device *asd,
+-					struct v4l2_device *vdev);
+ int atomisp_subdev_init(struct atomisp_device *isp);
+ void atomisp_subdev_cleanup(struct atomisp_device *isp);
+ int atomisp_create_pads_links(struct atomisp_device *isp);
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+index 4370d560308e..f914ab9068c1 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+@@ -1016,7 +1016,9 @@ static int atomisp_register_device_nodes(struct atomisp_device *isp)
  {
-@@ -1029,7 +1023,7 @@ static void __atomisp_css_recover(struct atomisp_device *isp, bool isp_timeout)
- 		 * dequeueing buffers is not needed. CSS will recycle
- 		 * buffers that it has.
- 		 */
--		atomisp_flush_bufs_and_wakeup(&isp->asd);
-+		atomisp_flush_video_pipe(&isp->asd.video_out, VB2_BUF_STATE_ERROR, false);
+ 	int err;
  
- 		/* Requeue unprocessed per-frame parameters. */
- 		atomisp_recover_params_queue(&isp->asd.video_out);
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.h b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-index cbe2f48d3dfa..1cb973ddf2dc 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-@@ -59,7 +59,6 @@ int atomisp_buffers_in_css(struct atomisp_video_pipe *pipe);
- void atomisp_buffer_done(struct ia_css_frame *frame, enum vb2_buffer_state state);
- void atomisp_flush_video_pipe(struct atomisp_video_pipe *pipe, enum vb2_buffer_state state,
- 			      bool warn_on_css_frames);
--void atomisp_flush_bufs_and_wakeup(struct atomisp_sub_device *asd);
- void atomisp_clear_css_buffer_counters(struct atomisp_sub_device *asd);
+-	err = atomisp_subdev_register_video_nodes(&isp->asd, &isp->v4l2_dev);
++	isp->asd.video_out.vdev.v4l2_dev = &isp->v4l2_dev;
++	isp->asd.video_out.vdev.device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
++	err = video_register_device(&isp->asd.video_out.vdev, VFL_TYPE_VIDEO, -1);
+ 	if (err)
+ 		return err;
  
- /* Interrupt functions */
 -- 
 2.40.1
 
