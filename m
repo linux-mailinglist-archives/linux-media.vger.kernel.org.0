@@ -2,48 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A0E070196C
-	for <lists+linux-media@lfdr.de>; Sat, 13 May 2023 20:51:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2948701997
+	for <lists+linux-media@lfdr.de>; Sat, 13 May 2023 22:08:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229820AbjEMSvi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 13 May 2023 14:51:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40190 "EHLO
+        id S230342AbjEMUII (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 13 May 2023 16:08:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbjEMSvh (ORCPT
+        with ESMTP id S229548AbjEMUIH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 13 May 2023 14:51:37 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 859019E
-        for <linux-media@vger.kernel.org>; Sat, 13 May 2023 11:51:36 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1A4C7604AD
-        for <linux-media@vger.kernel.org>; Sat, 13 May 2023 18:51:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 077D1C433EF
-        for <linux-media@vger.kernel.org>; Sat, 13 May 2023 18:51:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684003895;
-        bh=97d4R7zjbGFKd5isYOhVmxH7pFXwwy0keaTWp9qWr3s=;
-        h=Date:From:To:Subject:From;
-        b=UZVGBRVjMK+TY4AEX8N9eJtRRmjMLt1zeMelTHj3PltjuCEvRXpaRyYIG3CRsk/YP
-         EthXw6sXsnDr4WKv5Y7pqNXeBrHaojRt9v8u0ff9/EogqeTDhVHIDJfxi4OmtgHP6X
-         9IGFGX7Z1Mpa1Pag3hGc174w6R7hyLVMnx4eCLpJuD1HWQXTqaYfnocfNjkOswcnxQ
-         CS+l1Yec1yRSvgC1SaLyVPOOMp+RKZuz/bW9zn0ak1oVppa0Khco45O8s6YVzjTBi+
-         +BKPOo1nZmc8YxoGlAyXt/NS3R9/+F6ivtEXfdjfFEken5HnNmWkz9JNw/tc2p7+5w
-         AFTEPo1WWpEPw==
-Date:   Sat, 13 May 2023 19:51:31 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL] dvb fixes and cleanups
-Message-ID: <20230513195131.2f3ff7d3@sal.lan>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
+        Sat, 13 May 2023 16:08:07 -0400
+Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 268CC2107
+        for <linux-media@vger.kernel.org>; Sat, 13 May 2023 13:08:06 -0700 (PDT)
+Received: by mail-qk1-x72a.google.com with SMTP id af79cd13be357-757741ca000so808002085a.2
+        for <linux-media@vger.kernel.org>; Sat, 13 May 2023 13:08:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684008485; x=1686600485;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SdNmNHC84vpIL/xdTBhXhO5chobgOJLGt1mZTKwHFw4=;
+        b=C3mmC+HVXHxPik65w0WLQ0CQXp9DTDAWWCXkkxuuT0indLJBs1nd8J56dwR03qmKNk
+         5DwMf1/8apfVocyaTpMQuDbCRBL7e0Pm0+lxmNkQcDwfQ2TBjf4gn/ttn5ixOkpTXJrI
+         WVOrEehQN9P1HVJ/MLnxy8+9IR2iiNyL51fPFfI5g0FseI/4GPyN2f86njI8gn0oHjHB
+         e3yVwvHp6+D8JVB3sxFBp8cZI2+6G+zLMdjUsSD1YFWAiZHbKBwu/xpUF/h0/srjO6ti
+         +bzbdvnkK8wkz+8MOtVIS548HrVaLQiwu3UIaQY5cceKPJsrf5P8WvXqJpeI1e6ZXCPl
+         1k8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684008485; x=1686600485;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SdNmNHC84vpIL/xdTBhXhO5chobgOJLGt1mZTKwHFw4=;
+        b=WxEMBnR/dMX8mpcgENDob5R3/7q+zlnFZjjvu1Ug60YztycyjSrjd5GOYhA2AWw+Jz
+         7ZgnWpwm7IoaMcPAN9LeEeqBDUHUw7KU4Hwo1CJwuSALaDsue6nFPz2JD8BJFK3tmAwF
+         rwOc4FVrTvbn7ysFFPQcN51XOObp7+mltoIAqkwGf0baQ1fvQAd3QZYe1raaBeIcp9FR
+         46v+G2w44uDpaKKS2Fks/eMwc7ed+tZ35MOPilm7xosiPtvRztLzGo1JMogRCgfGZBRN
+         LZKQ4iAGzClW4I1uIY8EFF/18Rlilw75W6rlhClFaO8VheeMkjbMW5UvpHFGfRvWOHJd
+         lvhQ==
+X-Gm-Message-State: AC+VfDwFooTu9//atlWzyKWAjZvDyuTNYomuvoR94Hrcawf4Tyj3QLo0
+        tmw2QlMWon0ij8fAWd6Xui6BoujLZCCqAEHJXe0=
+X-Google-Smtp-Source: ACHHUZ45u+MZKaF7R2aAfAlewh/oC5OhIc/IL4auXfoEwJ9Rz3s16Dd2aXw6gbPxV2rl2x29RqzuTgV4VfS0ZgFvij8=
+X-Received: by 2002:a05:6214:d03:b0:623:46d8:535 with SMTP id
+ 3-20020a0562140d0300b0062346d80535mr4198128qvh.34.1684008485187; Sat, 13 May
+ 2023 13:08:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+References: <20230513123159.33234-1-hdegoede@redhat.com> <20230513123159.33234-6-hdegoede@redhat.com>
+In-Reply-To: <20230513123159.33234-6-hdegoede@redhat.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sat, 13 May 2023 23:07:29 +0300
+Message-ID: <CAHp75Ve=G_-8vdtVdK61zhPs45j44sFgF0JwZHV0XW9fMWXwQw@mail.gmail.com>
+Subject: Re: [PATCH 05/30] media: atomisp: Replace source-pad checks with
+ run-mode checks
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -51,90 +76,70 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit ae3c253f595b31ff30d55b4c50b4470e56bc4e0d:
+On Sat, May 13, 2023 at 3:32=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
+ wrote:
+>
+> Currently atomisp behavior is determined by a mix of which /dev/video# no=
+de
+> (which isp-subdev source-pad) is opened + which run-mode is set.
+> With various combinations not being allowed and likely leading to crashes
+> due to lack of error checking.
+>
+> Now that we no longer support continuous mode and thus no longer support
+> streaming from 2 /dev/video# nodes at the same time, there is no need
+> to have a separate /dev/video# node for each run-mode. Instead the plan i=
+s
+> to support the 3 different run-modes on a single /dev/video# node.
+> Since we are moving to a single isp-subdev source-pad, the behavior shoul=
+d
+> then be solely and consistently be defined by the run-mode.
+>
+> Replace various source-pad checks with run-mode checks in preparation for
+> moving to a single source-pad. In some places the new run-mode checks
+> overlap with existing run-mode checks and the checks are folded together
+> into a single check.
+>
+> This removes handling of the ATOMISP_SUBDEV_PAD_SOURCE_VF source-pad,
+> this source-pad was only useful for continuous mode, for which support ha=
+s
+> been removed.
+>
+> Note that currently the only run-mode which we actually have been able to
+> get to work is the video-capture with scaler aka preview mode and as such
+> that is also the only run-mode tested. This patch is intended to preserve
+> the current (known to not work 100%) behavior of the other run-modes, so
+> that those maybe can be enabled later.
 
-  media: platform: mtk-mdp3: work around unused-variable warning (2023-05-08 12:11:25 +0100)
+...
 
-are available in the Git repository at:
+> @@ -5005,16 +4993,11 @@ static int atomisp_get_pipe_id(struct atomisp_vid=
+eo_pipe *pipe)
 
-  git://linuxtv.org/mchehab/experimental.git dvb_fixes
+It seems to me that all 'else':s in this function are redundant.
+At least you can probably drop them either here or in a separate change.
 
-for you to fetch changes up to 1a18c0512de2f4002e8b0084ad28cce662bb57e7:
+>                 return IA_CSS_PIPE_ID_VIDEO;
+>         } else if (asd->vfpp->val =3D=3D ATOMISP_VFPP_DISABLE_LOWLAT) {
+>                 return IA_CSS_PIPE_ID_CAPTURE;
+> -       } else if (pipe =3D=3D &asd->video_out_video_capture) {
+> +       } else if (asd->run_mode->val =3D=3D ATOMISP_RUN_MODE_VIDEO) {
+>                 return IA_CSS_PIPE_ID_VIDEO;
+> -       } else if (pipe =3D=3D &asd->video_out_vf) {
+> -               return IA_CSS_PIPE_ID_CAPTURE;
+> -       } else if (pipe =3D=3D &asd->video_out_preview) {
+> -               if (asd->run_mode->val =3D=3D ATOMISP_RUN_MODE_VIDEO)
+> -                       return IA_CSS_PIPE_ID_VIDEO;
+> -               else
+> -                       return IA_CSS_PIPE_ID_PREVIEW;
+> -       } else if (pipe =3D=3D &asd->video_out_capture) {
+> +       } else if (asd->run_mode->val =3D=3D ATOMISP_RUN_MODE_PREVIEW) {
+> +               return IA_CSS_PIPE_ID_PREVIEW;
+> +       } else if (asd->run_mode->val =3D=3D ATOMISP_RUN_MODE_STILL_CAPTU=
+RE) {
+>                 if (asd->copy_mode)
+>                         return IA_CSS_PIPE_ID_COPY;
+>                 else
 
-  media: dvb: bump DVB API version (2023-05-13 18:28:04 +0100)
-
-PS.: This is meant to trigger builder.linuxtv.org.
-
-----------------------------------------------------------------
-Arnd Bergmann (1):
-      media: pvrusb2: fix DVB_CORE dependency
-
-Athanasios Oikonomou (2):
-      media: dvb: add missing DVB-S2X FEC parameter values
-      media: dvb: bump DVB API version
-
-Duoming Zhou (1):
-      media: netup_unidvb: fix use-after-free bug caused by del_timer()
-
-Hyunwoo Kim (4):
-      media: ttusb-dec: fix memory leak in ttusb_dec_exit_dvb()
-      media: dvb-core: Fix use-after-free due to race condition occurring in dvb_frontend
-      media: dvb-core: Fix use-after-free due to race condition occurring in dvb_net
-      media: dvb-core: Fix use-after-free due to race condition occurring in dvb_register_device()
-
-Krzysztof Kozlowski (1):
-      media: mn88443x: fix !CONFIG_OF error by drop of_match_ptr from ID table
-
-Mauro Carvalho Chehab (3):
-      media: dvbdev: fix most coding style issues
-      media: dvbdev.h: do some kernel-doc cleanups
-      media: dw2102: return -EIO instead of -1 for mac address read errors
-
-Takashi Iwai (1):
-      media: dvb-core: Fix kernel WARNING for blocking operation in wait_event*()
-
-Wei Chen (6):
-      media: dvb-usb: az6027: fix three null-ptr-deref in az6027_i2c_xfer()
-      media: dvb-usb-v2: ec168: fix null-ptr-deref in ec168_i2c_xfer()
-      media: dvb-usb-v2: ce6230: fix null-ptr-deref in ce6230_i2c_master_xfer()
-      media: dvb-usb: digitv: fix null-ptr-deref in digitv_i2c_xfer()
-      media: dvb-usb: dw2102: fix uninit-value in su3000_read_mac_address
-      media: netup_unidvb: fix irq init by register it at the end of probe
-
-YongSu Yoo (2):
-      media: dvb_demux: fix a bug for the continuity counter
-      media: dvb_ca_en50221: fix a size write bug
-
-Yu Zhe (2):
-      media: c8sectpfe: dvb: remove unnecessary (void*) conversions
-      media: dvb-usb: remove unnecessary (void*) conversions
-
-Zhang Shurong (1):
-      media: dvb-usb-v2: rtl28xxu: fix null-ptr-deref in rtl28xxu_i2c_xfer
-
- drivers/media/dvb-core/dvb_ca_en50221.c                  |  12 ++--
- drivers/media/dvb-core/dvb_demux.c                       |   4 +-
- drivers/media/dvb-core/dvb_frontend.c                    |  55 ++++++++++++++---
- drivers/media/dvb-core/dvb_net.c                         |  38 +++++++++++-
- drivers/media/dvb-core/dvbdev.c                          | 221 ++++++++++++++++++++++++++++++++++++++----------------------------
- drivers/media/dvb-frontends/mn88443x.c                   |   2 +-
- drivers/media/pci/netup_unidvb/netup_unidvb_core.c       |  19 +++---
- drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c |   4 +-
- drivers/media/usb/dvb-usb-v2/ce6230.c                    |   8 +++
- drivers/media/usb/dvb-usb-v2/ec168.c                     |  12 ++++
- drivers/media/usb/dvb-usb-v2/rtl28xxu.c                  |  20 ++++++
- drivers/media/usb/dvb-usb/af9005-fe.c                    |   3 +-
- drivers/media/usb/dvb-usb/az6027.c                       |  46 ++++++++------
- drivers/media/usb/dvb-usb/digitv.c                       |   4 ++
- drivers/media/usb/dvb-usb/dtt200u-fe.c                   |   2 +-
- drivers/media/usb/dvb-usb/dw2102.c                       |  26 ++++----
- drivers/media/usb/dvb-usb/opera1.c                       |   3 +-
- drivers/media/usb/dvb-usb/pctv452e.c                     |  20 +++---
- drivers/media/usb/pvrusb2/Kconfig                        |   1 +
- drivers/media/usb/ttusb-dec/ttusb_dec.c                  |   3 +-
- include/media/dvb_frontend.h                             |   6 +-
- include/media/dvb_net.h                                  |   4 ++
- include/media/dvbdev.h                                   |  21 ++++++-
- include/uapi/linux/dvb/frontend.h                        |   8 +++
- include/uapi/linux/dvb/version.h                         |   2 +-
- 25 files changed, 366 insertions(+), 178 deletions(-)
+--=20
+With Best Regards,
+Andy Shevchenko
