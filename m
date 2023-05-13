@@ -2,58 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C29DB701773
-	for <lists+linux-media@lfdr.de>; Sat, 13 May 2023 15:39:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BEF4701777
+	for <lists+linux-media@lfdr.de>; Sat, 13 May 2023 15:42:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234642AbjEMNi6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 13 May 2023 09:38:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35470 "EHLO
+        id S234642AbjEMNmo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 13 May 2023 09:42:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233685AbjEMNi4 (ORCPT
+        with ESMTP id S237196AbjEMNmn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 13 May 2023 09:38:56 -0400
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C36BF1736
-        for <linux-media@vger.kernel.org>; Sat, 13 May 2023 06:38:55 -0700 (PDT)
-Received: by mail-qk1-x72c.google.com with SMTP id af79cd13be357-757742c2e5fso667292785a.1
-        for <linux-media@vger.kernel.org>; Sat, 13 May 2023 06:38:55 -0700 (PDT)
+        Sat, 13 May 2023 09:42:43 -0400
+Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com [IPv6:2607:f8b0:4864:20::f2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA1E319B0
+        for <linux-media@vger.kernel.org>; Sat, 13 May 2023 06:42:41 -0700 (PDT)
+Received: by mail-qv1-xf2d.google.com with SMTP id 6a1803df08f44-61b2f654b54so53476946d6.3
+        for <linux-media@vger.kernel.org>; Sat, 13 May 2023 06:42:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683985135; x=1686577135;
+        d=gmail.com; s=20221208; t=1683985361; x=1686577361;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iP/xjhOGCEWodxWCKUQcVzDPFWWe6m70q3NDT9usq1c=;
-        b=PxM3/4NnM1HGl1zpifqWIlnZMJ5AtYZPMnUwGeWmO4VyQtRRWA21HW9P7MJd4+HwR/
-         4tyCnecnDx7UNDMNAz1KfBXP1rsMPdajfqedYAWG1YNSyKHrZOMht4x/S3w+2sn13WED
-         I2zq3AsBWJ7K0KLRy5LiVJTIg0aO+x5aNnRnAqPgkq7hEfxn9+ZPAe7mz88sQF8m8Bk7
-         wGysaL1v7raipSAq9y3eDfk45AVxwzEhyfV08gSKFBZkO11XEOdbDt+Nn8jKQGIJQgeL
-         irRNpm3oVpkLywvT/xki63veHBgyS6io5YdnJz7Q8DmfzadW011GU2GzxEl5odVBmzF5
-         Fz+g==
+        bh=W9n9OPZK/Iq5/AvEHwDdmPCSm1nxzOD7m50GKmpv90c=;
+        b=RdExWfRSmwpY4uvQ0SpfaUKirnNAqdkW90kv/UMv754CQLbR4wVZHYDkcIQeAjJJOd
+         oHu6r0ww0sa6Jh0KObFSmPelS+XDtkGl2Zc12LKtlEjMW/ON5AbGuEafSahPJryggHNm
+         pSETN+EYkOjyHR0337iVphu/6N6lrF5FfIOpoVYETe/A1HhsckqdpPuHjBG6w1+2nVE+
+         vjZrGc5d+Wr6OJ27MOrMpbZZXPPSTiGVAtJ9hlGcKGSY13uDqQ96HfCR40VujNHlw54n
+         A8eVyYTej2WMfdTi29WG+GJfKgkr7WFwkJoyYyJ+ZLBd3gXQkM+T6BXSvQgMqba94xwG
+         DTFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683985135; x=1686577135;
+        d=1e100.net; s=20221208; t=1683985361; x=1686577361;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iP/xjhOGCEWodxWCKUQcVzDPFWWe6m70q3NDT9usq1c=;
-        b=d8dqWb0Mvmw51txOhd268qnv2trHHcRFUkDQCb1uiB6kPLmNLh1LetH+QGRuVX6LyG
-         zTksJyCmZCEHhyXdOQuvB8XRGP4oiF2Pl5CZIgf4DZsG4tVnUEjMzh2+wpThfWL/3PC+
-         6ROdviD6bvSsZ27y/YNbX+3DQeiACLfSOPEktLim6UX7vmJcyVftfVm94GHw/i9X+sUt
-         t1MsOVSQ0UyOgHkx3uusZYrxfz3mP8+gHgvQP33FYStopkHEUsPLKWWTu747FCrAwXM6
-         t3AmDrRaQ1Yeimn4z4s0Bnql/CT2AOfhOrR04v/vI0Xbbn4xWUdg9f+kzeUR9LQL/x4k
-         QPNQ==
-X-Gm-Message-State: AC+VfDyFUqp38AwIY1PumEAnNo0qo1loI2Kp5ztwri5OCqxBg0Rl5TNs
-        zkOt6Olm3bkFKc2ZGY3HqjJSbYG0E7fNh4srayE=
-X-Google-Smtp-Source: ACHHUZ6mrdkS0p/F4N/xrBokQ6SExd+idrDSSHjSbM0JjbqSiw5BMCANG4D+KW+qGUq8ZLcpZWD219dxreihT9TfHUs=
-X-Received: by 2002:a05:6214:20ec:b0:621:331b:f55d with SMTP id
- 12-20020a05621420ec00b00621331bf55dmr25728307qvk.19.1683985134789; Sat, 13
- May 2023 06:38:54 -0700 (PDT)
+        bh=W9n9OPZK/Iq5/AvEHwDdmPCSm1nxzOD7m50GKmpv90c=;
+        b=dRtZlJElYpUMcDvf0KViAcJqyLXPB1BpRNEC/oN++eQPtMW41xUVICMqfbDsKNoijx
+         MRHL79aUDhVYVOxJH0tvG7Q+hUvTHBvZdm3Ltm/ZoHNosZbY2Mfhdi5PoDuugOZa9V97
+         GpBx0FhNcIcyYMqouR4rCueztyHfFJxkQUP3bJI5TygkJ4pdk4ZVrzixpbvpCcRlBHP1
+         8njMb3FQPEE4n9/Vyx/P2MI4YgaQv4ARtv0iCsyDLyVev0/0eHd1A8O7jX+5HKCBpCEd
+         cX5ofmJyiFlu8mvckdTrrZWUAlXDQ8rPlBxmcxpkgEt/XfiXHwRGQg+uGVncWpibEsaK
+         lILQ==
+X-Gm-Message-State: AC+VfDyquzeStrbsXvdcvO/O9UEoWlvvmZWdFWxYCHyG3lbxbnuouDrE
+        UZSTgWXQqwo0SnA0wd1KV4zABjNYjc2S0zym5fo=
+X-Google-Smtp-Source: ACHHUZ607kcymJixsQMDAPOP3jvl4vp9y9glbZG2CpGrMTkvmfvfAGfmAJVfpBWzXijAeWwxXAzlPJDtP0UK8fBEjRk=
+X-Received: by 2002:a05:6214:4104:b0:5a3:cbc6:8145 with SMTP id
+ kc4-20020a056214410400b005a3cbc68145mr38088865qvb.19.1683985360821; Sat, 13
+ May 2023 06:42:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230513123159.33234-1-hdegoede@redhat.com> <20230513123159.33234-7-hdegoede@redhat.com>
-In-Reply-To: <20230513123159.33234-7-hdegoede@redhat.com>
+References: <20230513123159.33234-1-hdegoede@redhat.com> <20230513123159.33234-8-hdegoede@redhat.com>
+In-Reply-To: <20230513123159.33234-8-hdegoede@redhat.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 13 May 2023 16:38:18 +0300
-Message-ID: <CAHp75VdFzAzbTLQby8rRkg6yoPbA5xy11pH1Mr7c8ExrgBJFmw@mail.gmail.com>
-Subject: Re: [PATCH 06/30] media: atomisp: Register only 1 /dev/video# node
+Date:   Sat, 13 May 2023 16:42:04 +0300
+Message-ID: <CAHp75Vf5kMrYarWCKr3SJ+5fFVtqVAnf7kQ0dGOnLB-_C7=5jQ@mail.gmail.com>
+Subject: Re: [PATCH 07/30] media: atomisp: Drop atomisp_is_vf_pipe()
 To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -78,20 +78,34 @@ X-Mailing-List: linux-media@vger.kernel.org
 On Sat, May 13, 2023 at 3:32=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
  wrote:
 >
-> Now that we no longer support continuous mode and thus no longer support
-> streaming from 2 /dev/video# nodes at the same time, there is no need
-> to have a separate /dev/video# node (+ matching v4l2-subdev pads)
-> for each run-mode.
+> Since there only is one /dev/video# node now (no more continuous mode),
+> there are now no longer separate main capture + view-finder pipes.
+>
+> We are now always on the main pipe, so atomisp_is_vf_pipe() should
+> always return false now. Drop any checks using it, replacing them
+> with the code-path for a false return.
 
-> Keep the video_out_preview /dev/video0 device and remove
+...
 
-> the video_out_video_capture / video_out_video_vf / video_out_capture
+> +       if (arg->per_frame_setting) {
+>                 /*
+>                  * Per-frame setting enabled, we allocate a new parameter
+>                  * buffer to cache the parameters and only when frame buf=
+fers
 
-video_out_vf I assume.
+...
 
-> video-devices (atomisp_pipe-s) and also remove the matching
-> ATOMISP_SUBDEV_PAD_SOURCE_VIDEO / ATOMISP_SUBDEV_PAD_SOURCE_VF /
-> ATOMISP_SUBDEV_PAD_SOURCE_CAPTURE source-pads.
+> -       if (!(arg->per_frame_setting && !atomisp_is_vf_pipe(pipe))) {
+> +       if (!arg->per_frame_setting) {
+
+I'm wondering if we can make the conditional positive as in the above
+chunk, so the below will go to the else branch. It might be that both
+of them can be united (haven't checked the full context though).
+
+>                 /* indicate to CSS that we have parameters to be updated =
+*/
+>                 asd->params.css_update_params_needed =3D true;
+>         } else {
 
 --=20
 With Best Regards,
