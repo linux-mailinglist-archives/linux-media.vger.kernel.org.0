@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D2CF87016A2
-	for <lists+linux-media@lfdr.de>; Sat, 13 May 2023 14:33:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 229697016AC
+	for <lists+linux-media@lfdr.de>; Sat, 13 May 2023 14:34:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238496AbjEMMdu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 13 May 2023 08:33:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41580 "EHLO
+        id S238790AbjEMMd7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 13 May 2023 08:33:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238374AbjEMMdq (ORCPT
+        with ESMTP id S238348AbjEMMdu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 13 May 2023 08:33:46 -0400
+        Sat, 13 May 2023 08:33:50 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC1233A8E
-        for <linux-media@vger.kernel.org>; Sat, 13 May 2023 05:32:29 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B77D03A9B
+        for <linux-media@vger.kernel.org>; Sat, 13 May 2023 05:32:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1683981149;
+        s=mimecast20190719; t=1683981151;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=Y2pdsMkQtZiydY64bbIRar2WBol6/oWQ5LxtqS2y+w4=;
-        b=ApF5mwzVi0PwcxRiah1onYUEp3iniXX3BHaSr7ri3SpjdNbe2Nncvdc8+AvJ8Pg8r8eoa+
-        IcCdQbQXDxd1ham+DL6dHv/GWZydCfaR3vM85bzsC9xch8ebvMJ6uRzW4I0VCX50gB3kX1
-        QJpZD6WUovO1Oo6ONUWGOlECSm7x0IY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=heqcN4jTMo6yfHmwFTyUUf1HPQ6qbBteOI7JTQsqDpA=;
+        b=ipVcB+EMG4SXU39LlUAI6q/6KllWScZdrRhMHyQ/r7SR3EOAN2k9l5byqea1dS720q2Qnf
+        17j9uL4xLoRxlq845fEOWXrfK749pTiLzAlgmfIlJ+DCqSbUVMjlE6plFrGyQ3Mqo17mbB
+        Lts7CNPV3qqX2mQvxs7cHTmSMnhJZ6Y=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-426-3YrEQhzYMSGX7XCF5nY8QQ-1; Sat, 13 May 2023 08:32:25 -0400
-X-MC-Unique: 3YrEQhzYMSGX7XCF5nY8QQ-1
+ us-mta-424-H8Y3IY0ZOIGnodFoV6pxXA-1; Sat, 13 May 2023 08:32:27 -0400
+X-MC-Unique: H8Y3IY0ZOIGnodFoV6pxXA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 494EA88B767;
-        Sat, 13 May 2023 12:32:25 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0E43E3C025CC;
+        Sat, 13 May 2023 12:32:27 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.46])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id B91BD40C2076;
-        Sat, 13 May 2023 12:32:23 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7D57740C2076;
+        Sat, 13 May 2023 12:32:25 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -48,9 +48,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>, Kate Hsuan <hpa@redhat.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 13/30] media: atomisp: Remove unused mipi_frame_size field from atomisp_[sub_]device
-Date:   Sat, 13 May 2023 14:31:42 +0200
-Message-Id: <20230513123159.33234-14-hdegoede@redhat.com>
+Subject: [PATCH 14/30] media: atomisp: Remove isp_timeout flag
+Date:   Sat, 13 May 2023 14:31:43 +0200
+Message-Id: <20230513123159.33234-15-hdegoede@redhat.com>
 In-Reply-To: <20230513123159.33234-1-hdegoede@redhat.com>
 References: <20230513123159.33234-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -66,61 +66,103 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Both the atomisp_device and the atomisp_sub_device structs have
-an used mipi_frame_size field, remove the field from both.
+isp_timeout only ever gets set in __atomisp_css_recover() and then
+immediately gets cleared again after calling atomisp_reset().
+
+All this happens with isp->mutex held.
+
+The only consumer of isp->isp_timeout is atomisp_stop_streaming(), which
+also holds isp->mutex and which is *not* called by atomisp_reset().
+
+Since both hold isp->mutex and since __atomisp_css_recover() clears
+isp_timeout before releasing the mutex, atomisp_stop_streaming() can
+never see isp_timeout being true, so just remove the flag.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_fops.c     | 2 --
- drivers/staging/media/atomisp/pci/atomisp_internal.h | 1 -
- drivers/staging/media/atomisp/pci/atomisp_subdev.h   | 2 --
- 3 files changed, 5 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c      | 8 +++-----
+ drivers/staging/media/atomisp/pci/atomisp_internal.h | 2 --
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c    | 7 +------
+ 3 files changed, 4 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-index 39eba99feee0..37d8c8af3e8c 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-@@ -448,7 +448,6 @@ static void atomisp_dev_init_struct(struct atomisp_device *isp)
- 	unsigned int i;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 42a2a8f0da06..ea07ddcdd7f1 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -935,7 +935,7 @@ void atomisp_buf_done(struct atomisp_sub_device *asd, int error,
+ 		atomisp_qbuffers_to_css(asd);
+ }
  
- 	isp->isp_fatal_error = false;
--	isp->mipi_frame_size = 0;
+-static void __atomisp_css_recover(struct atomisp_device *isp, bool isp_timeout)
++static void __atomisp_css_recover(struct atomisp_device *isp)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(isp->dev);
+ 	enum ia_css_pipe_id css_pipe_id;
+@@ -992,9 +992,7 @@ static void __atomisp_css_recover(struct atomisp_device *isp, bool isp_timeout)
+ 			       isp->saved_regs.i_control | MRFLD_PCI_I_CONTROL_SRSE_RESET_MASK);
  
- 	for (i = 0; i < isp->input_cnt; i++)
- 		isp->inputs[i].asd = NULL;
-@@ -478,7 +477,6 @@ static void atomisp_subdev_init_struct(struct atomisp_sub_device *asd)
- 	/* Add for channel */
- 	asd->input_curr = 0;
+ 	/* reset ISP and restore its state */
+-	isp->isp_timeout = true;
+ 	atomisp_reset(isp);
+-	isp->isp_timeout = false;
  
--	asd->mipi_frame_size = 0;
- 	asd->copy_mode = false;
+ 	if (stream_restart) {
+ 		atomisp_css_input_set_mode(&isp->asd, IA_CSS_INPUT_MODE_BUFFERED_SENSOR);
+@@ -1043,14 +1041,14 @@ void atomisp_assert_recovery_work(struct work_struct *work)
+ 						  assert_recovery_work);
  
- 	asd->stream_prepared = false;
+ 	mutex_lock(&isp->mutex);
+-	__atomisp_css_recover(isp, true);
++	__atomisp_css_recover(isp);
+ 	mutex_unlock(&isp->mutex);
+ }
+ 
+ void atomisp_css_flush(struct atomisp_device *isp)
+ {
+ 	/* Start recover */
+-	__atomisp_css_recover(isp, false);
++	__atomisp_css_recover(isp);
+ 
+ 	dev_dbg(isp->dev, "atomisp css flush done\n");
+ }
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_internal.h b/drivers/staging/media/atomisp/pci/atomisp_internal.h
-index e531f0c71a15..cec0ac92726e 100644
+index cec0ac92726e..3d4f0f632f44 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_internal.h
 +++ b/drivers/staging/media/atomisp/pci/atomisp_internal.h
-@@ -211,7 +211,6 @@ struct atomisp_device {
+@@ -204,8 +204,6 @@ struct atomisp_device {
+ 	struct atomisp_regs saved_regs;
+ 	struct atomisp_css_env css_env;
  
- 	spinlock_t lock; /* Protects asd.streaming */
+-	/* isp timeout status flag */
+-	bool isp_timeout;
+ 	bool isp_fatal_error;
+ 	struct work_struct assert_recovery_work;
  
--	unsigned int mipi_frame_size;
- 	const struct atomisp_dfs_config *dfs;
- 	unsigned int hpll_freq;
- 	unsigned int running_freq;
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.h b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-index 28afcdd41ef3..a702890003f9 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
-@@ -304,8 +304,6 @@ struct atomisp_sub_device {
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index 8e2b5b647670..e0a8616ecf05 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -1369,11 +1369,7 @@ void atomisp_stop_streaming(struct vb2_queue *vq)
+ 	/*
+ 	 * ISP work around, need to reset isp
+ 	 * Is it correct time to reset ISP when first node does streamoff?
+-	 */
+-	if (isp->isp_timeout)
+-		dev_err(isp->dev, "%s: Resetting with WA activated",
+-			__func__);
+-	/*
++	 *
+ 	 * It is possible that the other asd stream is in the stage
+ 	 * that v4l2_setfmt is just get called on it, which will
+ 	 * create css stream on that stream. But at this point, there
+@@ -1403,7 +1399,6 @@ void atomisp_stop_streaming(struct vb2_queue *vq)
+ 		}
+ 	}
  
- 	unsigned int latest_preview_exp_id; /* CSS ZSL/SDV raw buffer id */
- 
--	unsigned int mipi_frame_size;
--
- 	bool copy_mode; /* CSI2+ use copy mode */
- 
- 	int raw_buffer_bitmap[ATOMISP_MAX_EXP_ID / 32 +
+-	isp->isp_timeout = false;
+ out_unlock:
+ 	mutex_unlock(&isp->mutex);
+ }
 -- 
 2.40.1
 
