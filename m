@@ -2,59 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1760C701901
-	for <lists+linux-media@lfdr.de>; Sat, 13 May 2023 20:09:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C13B701943
+	for <lists+linux-media@lfdr.de>; Sat, 13 May 2023 20:36:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237200AbjEMSJa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 13 May 2023 14:09:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49286 "EHLO
+        id S230085AbjEMSgd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 13 May 2023 14:36:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237273AbjEMSJO (ORCPT
+        with ESMTP id S229449AbjEMSgc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 13 May 2023 14:09:14 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91FEE46A0;
-        Sat, 13 May 2023 11:09:07 -0700 (PDT)
+        Sat, 13 May 2023 14:36:32 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 721131FCB
+        for <linux-media@vger.kernel.org>; Sat, 13 May 2023 11:36:31 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2320D60B4A;
-        Sat, 13 May 2023 18:09:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C5A8C4339B;
-        Sat, 13 May 2023 18:09:04 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0D62961D4B
+        for <linux-media@vger.kernel.org>; Sat, 13 May 2023 18:36:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75B06C433D2;
+        Sat, 13 May 2023 18:36:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684001346;
-        bh=wT2fUHM1k0O+v6UkjWQ+uwgWRy1V21/bwijOGAblZx4=;
+        s=k20201202; t=1684002990;
+        bh=Ahm9mCVPAvZiQsxx8Wq10F5G/H10vgNoWViQjrCIoFI=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=AiPGMkDLmhVSDOe4TCDo2/fwNXnNQeZqRFER9UzpG2T894t8U/bbnBPoXAOaIl9Jm
-         la7moPigivxNlMK+6rlG+QK15wKjBP31FtoE1ocTndMMKubJy1AdBT/VRs+oGDkN/t
-         hRqDyePsXASImLXxKkwYhl+PYpIiKiZLhRKosk8wcEUv3PfKRLAaTcgBjyifCDJu0K
-         OgJ5GsU8cCtVMPSQt+O1k79Sm++Mq64GSgDHNvjnQ/5om0TVhKI36/JLJ2Vb4BCqh9
-         5qtHqWkArtVY8OLKvdwSfUy8xvP9EZWKORv6F5DwvlqFhdHUBArBsI9rsgXSstw67R
-         CmSqv+sF1GVVw==
-Date:   Sat, 13 May 2023 19:09:01 +0100
+        b=ND6lLVTRHsU/HokDjvEAHBaCcrETPiCFmm1bfNyLnY9q6CoLBSMkhJVYDT+ZGhb88
+         eJcHW2VWe2chxBsYJFvKYS6TT3jd4+mj+UVK3/Tdj6VsVRMU14ph5Dd5gz8gM5eH+r
+         876vGmiFrSj1CO666tIsUYxkecHcttmcOzMXoEMsgD9/6VdyQUskl6rUp8+AN8YayR
+         xJVfciOdqQ8u3F4dbxK5y37T7l5eM+Icbj56Km0ftX+KtWBxOYA/vOC72/nMbx3HaK
+         6UCP5rTmHLbg6fyLF3DFg980RBlfjeNnSzVfgLKVLOxMzvDjPMF01DDdTEjHAVOPG/
+         b+kEgwLZ8pf6w==
+Date:   Sat, 13 May 2023 19:36:26 +0100
 From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Lee Jones <lee@kernel.org>
-Cc:     Takashi Iwai <tiwai@suse.de>, Hyunwoo Kim <imv4bel@gmail.com>,
-        kernel@tuxforce.de, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, cai.huoqing@linux.dev
-Subject: Re: [PATCH v3 0/4] Fix multiple race condition vulnerabilities in
- dvb-core and device driver
-Message-ID: <20230513190901.0f403933@sal.lan>
-In-Reply-To: <20230309171714.GS9667@google.com>
-References: <20221117045925.14297-1-imv4bel@gmail.com>
-        <87lema8ocn.wl-tiwai@suse.de>
-        <Y/YXbNgBhhWhfjwS@google.com>
-        <Y/3mT9uSsuviT+sa@google.com>
-        <20230307103659.GA347928@google.com>
-        <20230309011525.49ac3399@coco.lan>
-        <20230309171714.GS9667@google.com>
+To:     Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     linux-media@vger.kernel.org, kernel@pengutronix.de
+Subject: Re: [PATCH] media: Switch i2c drivers back to use .probe()
+Message-ID: <20230513193626.48ed9a28@sal.lan>
+In-Reply-To: <20230513175931.159764-1-u.kleine-koenig@pengutronix.de>
+References: <20230513175931.159764-1-u.kleine-koenig@pengutronix.de>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -63,40 +55,59 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Lee,
+Em Sat, 13 May 2023 19:59:31 +0200
+Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de> escreveu:
 
-Em Thu, 9 Mar 2023 17:17:14 +0000
-Lee Jones <lee@kernel.org> escreveu:
+> After commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
+> call-back type"), all drivers being converted to .probe_new() and then
+> 03c835f498b5 ("i2c: Switch .probe() to not take an id parameter") convert
+> back to (the new) .probe() to be able to eventually drop .probe_new() from
+> struct i2c_driver.
+>=20
+> Doing some minor cleanups en passant (whitespace cleanups, drop & from
+> function pointers.)
+>=20
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> ---
+> Hello,
+>=20
+> this patch was generated using coccinelle, but I aligned the result to
+> the per-file indention.
+>=20
+> If you don't like the cleanups that are orthogonal to this patch, just
+> tell me, then I can drop this change from the patch. Also if you want it
+> split per driver or directory for improved patch count numbers, please
+> tell me.
+>=20
+> Also I didn't Cc: all the individual maintainers to not exceed the
+> allowed length of To: and Cc:. If this patch will be split I can extend
+> the audience accordingly.
 
-> > > Still nothing heard from the author or any maintainer.  
-> >
-> > We're currently lacking a sub-maintainer for dvb. Changes at the
-> > DVB mutexes have been problematic and require tests on some
-> > devices, specially on those with multiple frontends.
-> >
-> > I'll try to find some time to review and test those patches.  
-> 
-> Thank you Mauro, I fully appreciate the struggles and the effort.
+Sounds good to me.=20
 
-It took more time than I originally anticipated, as I had to setup
-a way to test it here with some DVB-T devices, but I reviewed the
-code and tested it.
+> diff --git a/drivers/media/i2c/ov5648.c b/drivers/media/i2c/ov5648.c
+> index 17465fcf28e3..7b26ba72ff2a 100644
+> --- a/drivers/media/i2c/ov5648.c
+> +++ b/drivers/media/i2c/ov5648.c
+> @@ -2616,7 +2616,7 @@ static struct i2c_driver ov5648_driver =3D {
+>  		.of_match_table =3D ov5648_of_match,
+>  		.pm =3D &ov5648_pm_ops,
+>  	},
+> -	.probe_new =3D ov5648_probe,
+> +	.probe =3D ov5648_probe,
+>  	.remove	 =3D ov5648_remove,
+>  };
 
-I'm placing the patches I picked at this series:
+Nit: you should probably remove the extra spaces from .remove
+or align .probe here.
 
-	https://lore.kernel.org/lkml/53558de2b5c4f4ee6bfcfbe34e27071c2d0073d5.1684000646.git.mchehab@kernel.org/T/#t
+-
 
-They seemed to work fine. I tested using two devices:
+Are you planning to merge this via I2C tree?
+If so:
 
-	USB ID 2013:0246 PCTV Systems PCTV 74E
-	USB ID 2040:5200 Hauppauge NovaT 500Stick
-
-The second one has two DVB-T independent devices on it.
-
-I did some tests of removing and re-inserting them with the
-devices closed and with the device opened and streamed. I didn't
-find any regressions. I didn't try to use kmemleak or KASAN to
-detect UAF conditions, though.
+Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 
 Regards,
 Mauro
+
