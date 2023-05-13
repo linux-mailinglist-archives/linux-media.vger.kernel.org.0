@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E3FF7016B0
-	for <lists+linux-media@lfdr.de>; Sat, 13 May 2023 14:34:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E55727016B2
+	for <lists+linux-media@lfdr.de>; Sat, 13 May 2023 14:34:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238676AbjEMMe1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 13 May 2023 08:34:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41702 "EHLO
+        id S232757AbjEMMe3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 13 May 2023 08:34:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231736AbjEMMe0 (ORCPT
+        with ESMTP id S238074AbjEMMe0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Sat, 13 May 2023 08:34:26 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FCC93AA6
-        for <linux-media@vger.kernel.org>; Sat, 13 May 2023 05:32:37 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9B273AA9
+        for <linux-media@vger.kernel.org>; Sat, 13 May 2023 05:32:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1683981156;
+        s=mimecast20190719; t=1683981158;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=4qQC9AZk1hyB/CxFkDpkzzL8TjfgWZyDGsM1vODpQzw=;
-        b=Q954ba6XWO0Oe+cuMhZTmq34m9BcBGqup6vCvP+tHU01iSHs9O+0CadDTpB4FQP158dfzI
-        MuFcu/qiJcAFN5SrRN5thMcCI6CimErtCgrDWbiIoMU/wcJfnrJXrHzS7t26Ds5ptnGgQ/
-        MS/JaoJihPNr/wUREpbvAwIOHqMjG/M=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=LqAldjOfwG7MT23v8Xbiayp11klirrHcL2cSmqNlQUk=;
+        b=CgZ5Yvw+QN302xqYtWgCVe0rxTZsAzkuosdXj0xiX/A4IY7m3Pt5kk2xhtGvaTvK/8Bbuz
+        5pWRMsWiRukdpskOMgHSo8n7OQWuBp4LCc0Lhv2fKQkYs3psAY/ByNXUrESZYi2ICQsk6Y
+        rHH6KJPxYGROBuRs2xvfn0GhGa+wz/E=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-126-omNpJGPbOJ-1ludP0wc_og-1; Sat, 13 May 2023 08:32:33 -0400
-X-MC-Unique: omNpJGPbOJ-1ludP0wc_og-1
+ us-mta-526-V-Wz8FxKNxC609ARaia2kQ-1; Sat, 13 May 2023 08:32:34 -0400
+X-MC-Unique: V-Wz8FxKNxC609ARaia2kQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 58538857E60;
-        Sat, 13 May 2023 12:32:32 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 229721C060EB;
+        Sat, 13 May 2023 12:32:34 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.46])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C8DFC40C2076;
-        Sat, 13 May 2023 12:32:30 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 8C49340C2076;
+        Sat, 13 May 2023 12:32:32 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -48,9 +48,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>, Kate Hsuan <hpa@redhat.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 17/30] media: atomisp: Simplify atomisp_css_[start|stop]()
-Date:   Sat, 13 May 2023 14:31:46 +0200
-Message-Id: <20230513123159.33234-18-hdegoede@redhat.com>
+Subject: [PATCH 18/30] media: atomisp: Simplify atomisp_open() and atomisp_release()
+Date:   Sat, 13 May 2023 14:31:47 +0200
+Message-Id: <20230513123159.33234-19-hdegoede@redhat.com>
 In-Reply-To: <20230513123159.33234-1-hdegoede@redhat.com>
 References: <20230513123159.33234-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -67,131 +67,106 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Now that continuous mode is gone and we only have 1 /dev/video# node,
-the videobuf2 core guarantees that atomisp_css_[start|stop]() will
-only be called one at a time.
+combined with only allowing 1 open of that /dev/video# node for now,
+there is no need to check for other (sub)dev / pipe users.
 
-So there is no need for atomisp_streaming_count() counts.
+Remove the unnecessary checks for a nice cleanup.
 
-When reqbufs has been done then the streams are guaranteed to be created,
-and streaming cannot be started without reqbufs so there is no need for
-atomisp_css_start() to check if it needs to create the streams.
-
-Use this to clean-up atomisp_css_[start|stop]().
-
-While at it also fix atomisp_css_start() not re-creating the streams
-on an error, breaking the guarantee that the streams are always there
-after a succesfull reqbufs call.
+Note we also don't need to set asd->streaming to disabled since
+the vb2_fop_release() call done by atomisp_release() will have called
+atomisp_stop_streaming() already at this point (if necessary) and
+that will have already done this.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../media/atomisp/pci/atomisp_compat_css20.c  | 68 ++++++-------------
- 1 file changed, 20 insertions(+), 48 deletions(-)
+ .../staging/media/atomisp/pci/atomisp_fops.c  | 26 -------------------
+ 1 file changed, 26 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index 43760fcc0d43..092262e1b7ec 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -1001,42 +1001,17 @@ int atomisp_css_start(struct atomisp_sub_device *asd,
- 		wbinvd();
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+index 37d8c8af3e8c..ef1a5ad30ace 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+@@ -532,11 +532,6 @@ static int atomisp_open(struct file *file)
+ 		return -EBUSY;
  	}
  
--	/*
--	 * For dual steam case, it is possible that:
--	 * 1: for this stream, it is at the stage that:
--	 * - after set_fmt is called
--	 * - before stream on is called
--	 * 2: for the other stream, the stream off is called which css reset
--	 * has been done.
--	 *
--	 * Thus the stream created in set_fmt get destroyed and need to be
--	 * recreated in the next stream on.
--	 */
--	if (!asd->stream_prepared) {
--		ret = atomisp_create_pipes_stream(asd);
--		if (ret)
--			return ret;
+-	if (atomisp_dev_users(isp)) {
+-		dev_dbg(isp->dev, "skip init isp in open\n");
+-		goto init_subdev;
 -	}
--	/*
--	 * SP can only be started one time
--	 * if atomisp_subdev_streaming_count() tell there already has some
--	 * subdev at streamming, then SP should already be started previously,
--	 * so need to skip start sp procedure
--	 */
--	if (atomisp_streaming_count(isp)) {
--		dev_dbg(isp->dev, "skip start sp\n");
--	} else {
--		if (!sh_css_hrt_system_is_idle())
--			dev_err(isp->dev, "CSS HW not idle before starting SP\n");
--		if (ia_css_start_sp()) {
--			dev_err(isp->dev, "start sp error.\n");
--			ret = -EINVAL;
--			goto start_err;
--		} else {
--			sp_is_started = true;
--		}
-+	if (!sh_css_hrt_system_is_idle())
-+		dev_err(isp->dev, "CSS HW not idle before starting SP\n");
-+
-+	if (ia_css_start_sp()) {
-+		dev_err(isp->dev, "start sp error.\n");
-+		ret = -EINVAL;
-+		goto start_err;
+-
+ 	/* runtime power management, turn on ISP */
+ 	ret = pm_runtime_resume_and_get(vdev->v4l2_dev->dev);
+ 	if (ret < 0) {
+@@ -552,19 +547,12 @@ static int atomisp_open(struct file *file)
+ 		goto css_error;
  	}
  
-+	sp_is_started = true;
-+
- 	for (i = 0; i < ATOMISP_INPUT_STREAM_NUM; i++) {
- 		if (asd->stream_env[i].stream) {
- 			if (ia_css_stream_start(asd->stream_env[i]
-@@ -1054,16 +1029,15 @@ int atomisp_css_start(struct atomisp_sub_device *asd,
+-init_subdev:
+-	if (atomisp_subdev_users(asd))
+-		goto done;
+-
+ 	atomisp_subdev_init_struct(asd);
+ 	/* Ensure that a mode is set */
+ 	v4l2_ctrl_s_ctrl(asd->run_mode, pipe->default_run_mode);
+ 
+-done:
+ 	pipe->users++;
+ 	mutex_unlock(&isp->mutex);
+-
+-
  	return 0;
  
- start_err:
--	atomisp_destroy_pipes_stream_force(asd);
--
--	/* css 2.0 API limitation: ia_css_stop_sp() could be only called after
--	 * destroy all pipes
--	 */
+ css_error:
+@@ -583,7 +571,6 @@ static int atomisp_release(struct file *file)
+ 	struct atomisp_sub_device *asd = pipe->asd;
+ 	struct v4l2_subdev_fh fh;
+ 	struct v4l2_rect clear_compose = {0};
+-	unsigned long flags;
+ 	int ret;
+ 
+ 	v4l2_fh_init(&fh.vfh, vdev);
+@@ -598,8 +585,6 @@ static int atomisp_release(struct file *file)
+ 	mutex_lock(&isp->mutex);
+ 
+ 	pipe->users--;
+-	if (pipe->users)
+-		goto done;
+ 
  	/*
--	 * SP can not be stop if other streams are in use
-+	 * CSS 2.0 API limitation: ia_css_stop_sp() can only be called after
-+	 * destroying all pipes.
- 	 */
--	if ((atomisp_streaming_count(isp) == 0) && sp_is_started)
-+	if (sp_is_started) {
-+		atomisp_destroy_pipes_stream_force(asd);
- 		ia_css_stop_sp();
-+		atomisp_create_pipes_stream(asd);
-+	}
+ 	 * A little trick here:
+@@ -616,9 +601,6 @@ static int atomisp_release(struct file *file)
+ 					ATOMISP_SUBDEV_PAD_SINK, &isp_sink_fmt);
+ 	}
  
- 	return ret;
- }
-@@ -1843,20 +1817,18 @@ int atomisp_css_input_configure_port(
- void atomisp_css_stop(struct atomisp_sub_device *asd,
- 		      enum ia_css_pipe_id pipe_id, bool in_reset)
- {
--	struct atomisp_device *isp = asd->isp;
- 	unsigned long irqflags;
- 	unsigned int i;
+-	if (atomisp_subdev_users(asd))
+-		goto done;
+-
+ 	atomisp_css_free_stat_buffers(asd);
+ 	atomisp_free_internal_buffers(asd);
  
--	/* if is called in atomisp_reset(), force destroy streams and pipes */
-+	/*
-+	 * CSS 2.0 API limitation: ia_css_stop_sp() can only be called after
-+	 * destroying all pipes.
-+	 */
+@@ -632,13 +614,6 @@ static int atomisp_release(struct file *file)
+ 		isp->inputs[asd->input_curr].asd = NULL;
+ 	}
+ 
+-	spin_lock_irqsave(&isp->lock, flags);
+-	asd->streaming = ATOMISP_DEVICE_STREAMING_DISABLED;
+-	spin_unlock_irqrestore(&isp->lock, flags);
+-
+-	if (atomisp_dev_users(isp))
+-		goto done;
+-
  	atomisp_destroy_pipes_stream_force(asd);
  
- 	atomisp_init_raw_buffer_bitmap(asd);
+ 	ret = v4l2_subdev_call(isp->flash, core, s_power, 0);
+@@ -648,7 +623,6 @@ static int atomisp_release(struct file *file)
+ 	if (pm_runtime_put_sync(vdev->v4l2_dev->dev) < 0)
+ 		dev_err(isp->dev, "Failed to power off device\n");
  
--	/*
--	 * SP can not be stop if other streams are in use
--	 */
--	if (atomisp_streaming_count(isp) == 0)
--		ia_css_stop_sp();
-+	ia_css_stop_sp();
- 
- 	if (!in_reset) {
- 		struct atomisp_stream_env *stream_env;
+-done:
+ 	atomisp_subdev_set_selection(&asd->subdev, fh.state,
+ 				     V4L2_SUBDEV_FORMAT_ACTIVE,
+ 				     ATOMISP_SUBDEV_PAD_SOURCE,
 -- 
 2.40.1
 
