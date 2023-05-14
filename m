@@ -2,139 +2,192 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A33F7701BFE
-	for <lists+linux-media@lfdr.de>; Sun, 14 May 2023 08:37:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37E2A701C8B
+	for <lists+linux-media@lfdr.de>; Sun, 14 May 2023 11:22:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229526AbjENGhg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 14 May 2023 02:37:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45450 "EHLO
+        id S233095AbjENJWR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 14 May 2023 05:22:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbjENGhg (ORCPT
+        with ESMTP id S229611AbjENJWQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 14 May 2023 02:37:36 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F37AE1FEA
-        for <linux-media@vger.kernel.org>; Sat, 13 May 2023 23:37:34 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8764F60FBB
-        for <linux-media@vger.kernel.org>; Sun, 14 May 2023 06:37:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87393C433EF
-        for <linux-media@vger.kernel.org>; Sun, 14 May 2023 06:37:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684046253;
-        bh=WxevrsrvpypFsflJ1uU+MKO129b+oJlF7ON/8dZFXuk=;
-        h=Date:From:To:Subject:From;
-        b=onuQfGML8y0HLyjJOQtmtbd9BbGhrxFN1GIRcCtinsc6MxmiZOAL3FfZcIrbgOzAz
-         +pwZoqIAMu5FpzVXW449y3UvAq9ErrzYrqgSbVSALHtZqo/xZhMf4K5YCQ85k2TMGb
-         ImMYfIyYDH+WdrFS5WX5JzMVCHWRoA66vqjs6NGHRIXv5YB4webkUL79yJnxpSgwY+
-         Sl4nkVJe34p4HV+1TUcrAm385mhBBNfuBB3BOrYlTVVgh9BkfI+wdSsffV7b14Su5L
-         7ojW8yy0lBkuEsJfZo0PB/GP1/uVLOla4HZJ6gha08ITUOD/EjD7q1oc3epI4Dd5Cv
-         478tuIVeLRNZg==
-Date:   Sun, 14 May 2023 07:37:30 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL v2] dvb fixes and cleanups
-Message-ID: <20230514073730.050d4d16@sal.lan>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
+        Sun, 14 May 2023 05:22:16 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4514FD7
+        for <linux-media@vger.kernel.org>; Sun, 14 May 2023 02:22:14 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1py7vg-002oot-8w; Sun, 14 May 2023 09:22:12 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1py7ve-007l3a-7U; Sun, 14 May 2023 09:22:10 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL v2] dvb fixes and cleanups (#91834)
+Date:   Sun, 14 May 2023 09:22:09 +0000
+Message-Id: <20230514092209.1849135-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230514073730.050d4d16@sal.lan>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit ae3c253f595b31ff30d55b4c50b4470e56bc4e0d:
+From: builder@linuxtv.org
 
-  media: platform: mtk-mdp3: work around unused-variable warning (2023-05-08 12:11:25 +0100)
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20230514073730.050d4d16@sal.lan/
+Build log: https://builder.linuxtv.org/job/patchwork/306126/
+Build time: 00:00:14
+Link: https://lore.kernel.org/linux-media/20230514073730.050d4d16@sal.lan
 
-are available in the Git repository at:
+error: FETCH_HEAD: cannot verify a non-tag object of type commit.
 
-  git://linuxtv.org/mchehab/experimental.git dvb_fixes
+Summary: got 10/24 patches with issues, being 6 at build time, plus one error when buinding PDF document
 
-for you to fetch changes up to acef4b1231bb6badf8a09dfd7a94d65e015aa700:
+Error/warnings:
 
-  media: dvb: bump DVB API version (2023-05-14 07:34:36 +0100)
+patches/0001-media-pvrusb2-fix-DVB_CORE-dependency.patch:
 
-PS.: This is meant to trigger builder.linuxtv.org.
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:212 gc0310_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:416 ov2680_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3013 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3112 atomisp_cp_morph_table() warn: missing unwind goto?
 
-----------------------------------------------------------------
-Arnd Bergmann (1):
-      media: pvrusb2: fix DVB_CORE dependency
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2775 mxc_jpeg_probe() warn: missing unwind goto?
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000004Kb sm_state_count = 1973994
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 57 seconds
+	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
+	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
+	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2864 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
 
-Athanasios Oikonomou (2):
-      media: dvb: add missing DVB-S2X FEC parameter values
-      media: dvb: bump DVB API version
+   checkpatch.pl:
+	$ cat patches/0001-media-pvrusb2-fix-DVB_CORE-dependency.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:11: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
 
-Duoming Zhou (1):
-      media: netup_unidvb: fix use-after-free at del_timer()
+patches/0005-media-dvb-usb-v2-ec168-fix-null-ptr-deref-in-ec168_i.patch:
 
-Hyunwoo Kim (4):
-      media: ttusb-dec: fix memory leak in ttusb_dec_exit_dvb()
-      media: dvb-core: Fix use-after-free on race condition at dvb_frontend
-      media: dvb-core: Fix use-after-free due on race condition at dvb_net
-      media: dvb-core: Fix use-after-free due to race at dvb_register_device()
+   checkpatch.pl:
+	$ cat patches/0005-media-dvb-usb-v2-ec168-fix-null-ptr-deref-in-ec168_i.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:12: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
 
-Krzysztof Kozlowski (1):
-      media: mn88443x: fix !CONFIG_OF error by drop of_match_ptr from ID table
+patches/0006-media-dvb-usb-v2-ce6230-fix-null-ptr-deref-in-ce6230.patch:
 
-Mauro Carvalho Chehab (3):
-      media: dvbdev: fix most coding style issues
-      media: dvbdev.h: do some kernel-doc cleanups
-      media: dw2102: return -EIO instead of -1 for mac address read errors
+   checkpatch.pl:
+	$ cat patches/0006-media-dvb-usb-v2-ce6230-fix-null-ptr-deref-in-ce6230.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:13: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
 
-Takashi Iwai (1):
-      media: dvb-core: Fix kernel WARNING for blocking operation in wait_event*()
+patches/0008-media-dvb-usb-digitv-fix-null-ptr-deref-in-digitv_i2.patch:
 
-Wei Chen (6):
-      media: dvb-usb: az6027: fix three null-ptr-deref in az6027_i2c_xfer()
-      media: dvb-usb-v2: ec168: fix null-ptr-deref in ec168_i2c_xfer()
-      media: dvb-usb-v2: ce6230: fix null-ptr-deref in ce6230_i2c_master_xfer()
-      media: dvb-usb: digitv: fix null-ptr-deref in digitv_i2c_xfer()
-      media: dvb-usb: dw2102: fix uninit-value in su3000_read_mac_address
-      media: netup_unidvb: fix irq init by register it at the end of probe
+   checkpatch.pl:
+	$ cat patches/0008-media-dvb-usb-digitv-fix-null-ptr-deref-in-digitv_i2.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:13: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
 
-YongSu Yoo (2):
-      media: dvb_demux: fix a bug for the continuity counter
-      media: dvb_ca_en50221: fix a size write bug
+patches/0014-media-dvb-core-Fix-use-after-free-on-race-condition-.patch:
 
-Yu Zhe (2):
-      media: c8sectpfe: dvb: remove unnecessary (void*) conversions
-      media: dvb-usb: remove unnecessary (void*) conversions
+    allyesconfig: return code #0:
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2831 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000004Kb sm_state_count = 1965893
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 59 seconds
 
-Zhang Shurong (1):
-      media: dvb-usb-v2: rtl28xxu: fix null-ptr-deref in rtl28xxu_i2c_xfer
+   checkpatch.pl:
+	$ cat patches/0014-media-dvb-core-Fix-use-after-free-on-race-condition-.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:17: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+	-:185: CHECK: struct mutex definition without comment
 
- drivers/media/dvb-core/dvb_ca_en50221.c            |  12 +-
- drivers/media/dvb-core/dvb_demux.c                 |   4 +-
- drivers/media/dvb-core/dvb_frontend.c              |  69 +++++--
- drivers/media/dvb-core/dvb_net.c                   |  38 +++-
- drivers/media/dvb-core/dvbdev.c                    | 221 ++++++++++++---------
- drivers/media/dvb-frontends/mn88443x.c             |   2 +-
- drivers/media/pci/netup_unidvb/netup_unidvb_core.c |  19 +-
- .../platform/st/sti/c8sectpfe/c8sectpfe-core.c     |   4 +-
- drivers/media/usb/dvb-usb-v2/ce6230.c              |   8 +
- drivers/media/usb/dvb-usb-v2/ec168.c               |  12 ++
- drivers/media/usb/dvb-usb-v2/rtl28xxu.c            |  20 ++
- drivers/media/usb/dvb-usb/af9005-fe.c              |   3 +-
- drivers/media/usb/dvb-usb/az6027.c                 |  46 +++--
- drivers/media/usb/dvb-usb/digitv.c                 |   4 +
- drivers/media/usb/dvb-usb/dtt200u-fe.c             |   2 +-
- drivers/media/usb/dvb-usb/dw2102.c                 |  26 +--
- drivers/media/usb/dvb-usb/opera1.c                 |   3 +-
- drivers/media/usb/dvb-usb/pctv452e.c               |  20 +-
- drivers/media/usb/pvrusb2/Kconfig                  |   1 +
- drivers/media/usb/ttusb-dec/ttusb_dec.c            |   3 +-
- include/media/dvb_frontend.h                       |   6 +-
- include/media/dvb_net.h                            |   4 +
- include/media/dvbdev.h                             |  21 +-
- include/uapi/linux/dvb/frontend.h                  |   8 +
- include/uapi/linux/dvb/version.h                   |   2 +-
- 25 files changed, 375 insertions(+), 183 deletions(-)
+patches/0015-media-dvb-core-Fix-use-after-free-due-on-race-condit.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000024Kb sm_state_count = 1963085
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 55 seconds
+
+   checkpatch.pl:
+	$ cat patches/0015-media-dvb-core-Fix-use-after-free-due-on-race-condit.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:127: CHECK: struct mutex definition without comment
+
+patches/0016-media-dvb-core-Fix-use-after-free-due-to-race-at-dvb.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2858 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000032Kb sm_state_count = 1966723
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 57 seconds
+
+   checkpatch.pl:
+	$ cat patches/0016-media-dvb-core-Fix-use-after-free-due-to-race-at-dvb.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:24: WARNING: Reported-by: should be immediately followed by Closes: with a URL to the report
+	-:25: WARNING: Reported-by: should be immediately followed by Closes: with a URL to the report
+	-:49: WARNING: struct file_operations should normally be const
+	-:58: WARNING: space prohibited between function name and open parenthesis '('
+	-:58: ERROR: do not use assignment in if condition
+	-:80: CHECK: Alignment should match open parenthesis
+	-:91: CHECK: Comparison to NULL could be written "!dvbdevfops"
+	-:99: CHECK: Prefer kzalloc(sizeof(*new_node)...) over kzalloc(sizeof(struct dvbdevfops_node)...)
+	-:110: WARNING: space prohibited between function name and open parenthesis '('
+	-:131: WARNING: space prohibited between function name and open parenthesis '('
+	-:155: WARNING: space prohibited between function name and open parenthesis '('
+	-:176: WARNING: space prohibited between function name and open parenthesis '('
+	-:214: WARNING: space prohibited between function name and open parenthesis '('
+	-:238: WARNING: struct file_operations should normally be const
+
+patches/0019-media-dvbdev.h-do-some-kernel-doc-cleanups.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2846 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000020Kb sm_state_count = 1965253
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 59 seconds
+
+   checkpatch.pl:
+	$ cat patches/0019-media-dvbdev.h-do-some-kernel-doc-cleanups.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:8: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+
+patches/0023-media-dvb-add-missing-DVB-S2X-FEC-parameter-values.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2858 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000024Kb sm_state_count = 1963386
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 58 seconds
+
+   checkpatch.pl:
+	$ cat patches/0023-media-dvb-add-missing-DVB-S2X-FEC-parameter-values.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:7: ERROR: Please use git commit description style 'commit <12+ chars of sha1> ("<title line>")' - ie: 'commit 6508a50fe84f ("media: dvb: add DVB-C2 and DVB-S2X parameter values")'
+	-:9: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+
+patches/0024-media-dvb-bump-DVB-API-version.patch:
+
+   checkpatch.pl:
+	$ cat patches/0024-media-dvb-bump-DVB-API-version.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:9: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+
+
+Error #512 when building PDF docs
+
