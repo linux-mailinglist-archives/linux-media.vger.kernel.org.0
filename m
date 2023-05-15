@@ -2,155 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 21F86702DFF
-	for <lists+linux-media@lfdr.de>; Mon, 15 May 2023 15:23:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4633702E00
+	for <lists+linux-media@lfdr.de>; Mon, 15 May 2023 15:23:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242106AbjEONXK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 May 2023 09:23:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39584 "EHLO
+        id S238641AbjEONXc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 May 2023 09:23:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242229AbjEONWu (ORCPT
+        with ESMTP id S233122AbjEONXZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 May 2023 09:22:50 -0400
-Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4F79270A
-        for <linux-media@vger.kernel.org>; Mon, 15 May 2023 06:22:26 -0700 (PDT)
-Received: by mail-qv1-xf2b.google.com with SMTP id 6a1803df08f44-61b71b7803bso60789856d6.1
-        for <linux-media@vger.kernel.org>; Mon, 15 May 2023 06:22:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1684156945; x=1686748945;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ih+ONeuLoQlofj5jBvFIq2LZeRGufL+gLK0QYElCanI=;
-        b=VxsV0k9v7dCvwcviqdNaa8MPGJ7iLQzxtTJTSHRRyck3guwx/LtinsGQk2oYtGcrf1
-         xqtAf1P1r999qziKTpphufIKr9/pSUCQGQa3/OQe8Ka96j7NxmvRzUTTw2uVBKCzZwsq
-         S/GVBNSpKBt2ITPxxRi/6HMItqQlwNg7Syh48=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684156945; x=1686748945;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ih+ONeuLoQlofj5jBvFIq2LZeRGufL+gLK0QYElCanI=;
-        b=QoBxWWOEY53aT+So8otfSUW/Lryug5QjuHce2T133z4bt/cPlMZpCy5hF3K97BnP4x
-         wPvACLyymJQfMXdjeWdAL03wQo2nSZRXfix6jJzEIDyfETcHnMW//7hJgkQM2MHUA5Dm
-         GKQvzN7a6q6Wypu+zlzO0PDGOWOWqufHkR0AfFMMhq0dmebl3o77Ll4PQdTBo+aXHcr9
-         i/cnw91adTMmG5xxahkdHs8rYaW0QXxpa/Z424AIbpgx45IV1BbQTlkF7vxmwCA0tfS2
-         UVoyTXM8MBuUXZij1fLmbK63x+fIE++ufv9fr7nrORgbbR3qPKS2KE1pxAe4g7IAQJ9P
-         YKdw==
-X-Gm-Message-State: AC+VfDw9zxQ1sCpIanGyXSIsWHlV0h8wsShNeA+AgmEO5Hmi4b3IT3PP
-        ZUUDarnV/kPqn/t5behpYJnrSTeAxmzvKfua+gI=
-X-Google-Smtp-Source: ACHHUZ5899y4IQGPJ/zSnqeS0kQjjzlPRScfitxV/0tWZ7eQEva7nFeXJRO+TNHZVIvuMm+MA6s2mw==
-X-Received: by 2002:a05:6214:f2a:b0:5e0:7ecb:8ffb with SMTP id iw10-20020a0562140f2a00b005e07ecb8ffbmr53749634qvb.8.1684156945436;
-        Mon, 15 May 2023 06:22:25 -0700 (PDT)
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com. [209.85.219.42])
-        by smtp.gmail.com with ESMTPSA id l18-20020a0ce512000000b006215c5bb2e9sm3463014qvm.70.2023.05.15.06.22.24
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 May 2023 06:22:25 -0700 (PDT)
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-619bebafb65so60813836d6.0
-        for <linux-media@vger.kernel.org>; Mon, 15 May 2023 06:22:24 -0700 (PDT)
-X-Received: by 2002:a05:6214:c62:b0:623:7132:af03 with SMTP id
- t2-20020a0562140c6200b006237132af03mr987699qvj.42.1684156944338; Mon, 15 May
- 2023 06:22:24 -0700 (PDT)
+        Mon, 15 May 2023 09:23:25 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8342A118
+        for <linux-media@vger.kernel.org>; Mon, 15 May 2023 06:23:24 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pyYAc-003MdA-QE; Mon, 15 May 2023 13:23:22 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1pyYAY-001xYC-Gj; Mon, 15 May 2023 13:23:19 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT FIXES FOR 6.4] Client capability field kerneldoc (#91842)
+Date:   Mon, 15 May 2023 13:23:17 +0000
+Message-Id: <20230515132318.467194-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <ZGIpc8VRwPh0c47I@valkosipuli.retiisi.eu>
+References: 
 MIME-Version: 1.0
-References: <20230506071427.28108-1-laurent.pinchart@ideasonboard.com> <20230506071427.28108-6-laurent.pinchart@ideasonboard.com>
-In-Reply-To: <20230506071427.28108-6-laurent.pinchart@ideasonboard.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Mon, 15 May 2023 15:22:13 +0200
-X-Gmail-Original-Message-ID: <CANiDSCsLvcsym2nscNuw3oZsZvAnuWO8OD9PGk3==5Wn6oU2rw@mail.gmail.com>
-Message-ID: <CANiDSCsLvcsym2nscNuw3oZsZvAnuWO8OD9PGk3==5Wn6oU2rw@mail.gmail.com>
-Subject: Re: [PATCH v2 5/7] media: uvcvideo: Increment intervals pointer at
- end of parsing
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+From: builder@linuxtv.org
 
-On Sat, 6 May 2023 at 09:14, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> The intervals pointer is incremented for each interval when parsing the
-> format descriptor. This doesn't cause any issue as such, but gets in the
-> way of constifying some pointers. Modify the parsing code to index the
-> intervals pointer as an array and increment it in one go at end of
-> parsing.
->
-> Careful readers will notice that the maxIntervalIndex variable is set to
-> 1 instead of n - 2 when bFrameIntervalType has a zero value. This is
-> functionally equivalent, as n is equal to 3 in that case.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvc_driver.c | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index 446bd8ff128c..11e4fa007f3f 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -370,6 +370,8 @@ static int uvc_parse_format(struct uvc_device *dev,
->          */
->         while (buflen > 2 && buffer[1] == USB_DT_CS_INTERFACE &&
->                buffer[2] == ftype) {
-> +               unsigned int maxIntervalIndex;
-> +
->                 frame = &format->frames[format->nframes];
->                 if (ftype != UVC_VS_FRAME_FRAME_BASED)
->                         n = buflen > 25 ? buffer[25] : 0;
-> @@ -418,7 +420,7 @@ static int uvc_parse_format(struct uvc_device *dev,
->
->                 for (i = 0; i < n; ++i) {
->                         interval = get_unaligned_le32(&buffer[26+4*i]);
-> -                       *(*intervals)++ = interval ? interval : 1;
-> +                       (*intervals)[i] = interval ? interval : 1;
->                 }
->
->                 /*
-> @@ -440,11 +442,11 @@ static int uvc_parse_format(struct uvc_device *dev,
->                                 * frame->wWidth * frame->wHeight / 8;
->
->                 /* Clamp the default frame interval to the boundaries. */
-> -               n -= frame->bFrameIntervalType ? 1 : 2;
-> +               maxIntervalIndex = frame->bFrameIntervalType ? n - 1 : 1;
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/ZGIpc8VRwPh0c47I@valkosipuli.retiisi.eu/
+Build log: https://builder.linuxtv.org/job/patchwork/306456/
+Build time: 00:26:38
+Link: https://lore.kernel.org/linux-media/ZGIpc8VRwPh0c47I@valkosipuli.retiisi.eu
 
-Maybe it is worth mentioning that bFrameIntervalType == 0 is a
-continuous interval. idex 0 is min and 1 is max.
+gpg: Signature made Mon 15 May 2023 12:42:05 PM UTC
+gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
+gpg:                issuer "sakari.ailus@linux.intel.com"
+gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [full]
 
->                 frame->dwDefaultFrameInterval =
->                         clamp(frame->dwDefaultFrameInterval,
->                               frame->dwFrameInterval[0],
-> -                             frame->dwFrameInterval[n]);
-> +                             frame->dwFrameInterval[maxIntervalIndex]);
->
->                 /*
->                  * Some devices report frame intervals that are not functional.
-> @@ -463,6 +465,8 @@ static int uvc_parse_format(struct uvc_device *dev,
->                         (100000000 / frame->dwDefaultFrameInterval) % 10);
->
->                 format->nframes++;
-> +               *intervals += n;
-> +
->                 buflen -= buffer[0];
->                 buffer += buffer[0];
->         }
-> --
-> Regards,
->
-> Laurent Pinchart
->
+Summary: got 1/1 patches with issues, being 1 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-media-v4l2-subdev-Fix-missing-kerneldoc-for-client_c.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:416 ov2680_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:212 gc0310_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3013 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3112 atomisp_cp_morph_table() warn: missing unwind goto?
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2775 mxc_jpeg_probe() warn: missing unwind goto?
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000004Kb sm_state_count = 1963797
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 56 seconds
+	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
+	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
+	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2864 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
 
 
--- 
-Ricardo Ribalda
+Error #512 when building PDF docs
+
