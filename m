@@ -2,164 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EEC2702C7B
-	for <lists+linux-media@lfdr.de>; Mon, 15 May 2023 14:16:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7324702C8F
+	for <lists+linux-media@lfdr.de>; Mon, 15 May 2023 14:21:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241472AbjEOMQj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 May 2023 08:16:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45850 "EHLO
+        id S240712AbjEOMVt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 May 2023 08:21:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241567AbjEOMQi (ORCPT
+        with ESMTP id S229679AbjEOMVs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 May 2023 08:16:38 -0400
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AC44E58
-        for <linux-media@vger.kernel.org>; Mon, 15 May 2023 05:16:26 -0700 (PDT)
-Received: by mail-qt1-x832.google.com with SMTP id d75a77b69052e-3f392680773so45917271cf.0
-        for <linux-media@vger.kernel.org>; Mon, 15 May 2023 05:16:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1684152985; x=1686744985;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=a3jRoFLpEphCslfhTHT5iJ8BhqxLIeAAp+162LOWmgg=;
-        b=kiRm5CNaJCotXZz72cyshkOoxPSlMkJsKqX8jF2T8m0ZOS/XbO+8Bsg3BZCFOyXp0q
-         7cpw0tp29TmLQ91rPF7cIsbZh2JevkWblU+MtEjfDKn+YxpBg90J0DbCfdf6RhyTAXl6
-         zAls09exzkm/ygiTpLegtgs8riqJQ6RfgEoJk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684152985; x=1686744985;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=a3jRoFLpEphCslfhTHT5iJ8BhqxLIeAAp+162LOWmgg=;
-        b=B/F/hMtS4EFgagE+V+rWowmS7jElz5AWaEsPagq/y0wLlS0c+hwkP2tAEG0+4O64g1
-         nUsd8nU1cNVXtGKGYQYVSSxF/25OSMzecEaxjoR3rFvzbT4T5L3eKq0TBmAy+xu6w/K9
-         PxTowOz9jftDNifVN7mrXL2eor9lQWRJD1CMiTbRvIgkA0H+socpXKuptaKTIyAuQfqA
-         0FgQsOHZQ05F5WeAGMS5y3Fm3KlHkgsZEfTJ/qG+dsVeJP6laRxdJDXcV8ab0uzf/d3c
-         FdPdyeX282Jfqw1vMKXw+3TiIbvuFOFLzjTV5E4HBy1/fX6tXpu/XZeuVyruuX7rXkTQ
-         B20A==
-X-Gm-Message-State: AC+VfDxmgHSaxDEmao9FJxzSwxOz8zNs7sI8F+XnlsXGDWPmCamVRG7x
-        O2ZX8d+fy3Je5qKpzuvNuV7st8/SaBocrnSS8SA=
-X-Google-Smtp-Source: ACHHUZ5Tn1TPrAwybrm7uwb41XOsKHOXG3ToL9Y9UyYxtNsmioM38B+y2ShuGcNxjBiJS4ooz7HYkQ==
-X-Received: by 2002:ac8:59ce:0:b0:3f5:2788:8adb with SMTP id f14-20020ac859ce000000b003f527888adbmr7174933qtf.7.1684152985323;
-        Mon, 15 May 2023 05:16:25 -0700 (PDT)
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com. [209.85.219.45])
-        by smtp.gmail.com with ESMTPSA id e4-20020ac84904000000b003f1f87814a4sm4764014qtq.84.2023.05.15.05.16.24
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 May 2023 05:16:24 -0700 (PDT)
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-61b79b93ac5so56626116d6.0
-        for <linux-media@vger.kernel.org>; Mon, 15 May 2023 05:16:24 -0700 (PDT)
-X-Received: by 2002:a05:6214:1c8e:b0:615:a18b:d5af with SMTP id
- ib14-20020a0562141c8e00b00615a18bd5afmr47200979qvb.35.1684152984193; Mon, 15
- May 2023 05:16:24 -0700 (PDT)
+        Mon, 15 May 2023 08:21:48 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D8751B1
+        for <linux-media@vger.kernel.org>; Mon, 15 May 2023 05:21:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1684153308; x=1715689308;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=dopmhLkZ7yo60I2xXF2pcGe3gHu0tC5yUeCfqkjU2NM=;
+  b=UBJRQS8h6FXFeND/Plh/9BoSWleGsQ+Fi6vQQTxPSRC8qZ0fdTlCYZQf
+   qvBRe3I354BTOWJX2Mx5mFsbjZ32hzZYsydBOx5rrYIghmJ+sVeacb8D/
+   bW2BWtIZNhX24JqrM3iNDJEyQUchCpASqqZMQbBVZIt49Du7NHwBImoYg
+   R+wiS7jcf26weX3qKqZVOILDUqpxIssyNwOGG0q1Aw6nfW+03xzbtUeBC
+   Wkcl5hmqtFJ8el6vvHwRm5MFicQpukbsrXGvIVta6tei/5XvQLAUMedT3
+   5zk5EAtDINf6Ney8IoPuLSGN6kDQdLKJ3nof+hAIlX99yBaUsG84M4CKT
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="437525793"
+X-IronPort-AV: E=Sophos;i="5.99,276,1677571200"; 
+   d="scan'208";a="437525793"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2023 05:21:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="845245443"
+X-IronPort-AV: E=Sophos;i="5.99,276,1677571200"; 
+   d="scan'208";a="845245443"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2023 05:21:47 -0700
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 89B35120279;
+        Mon, 15 May 2023 15:21:44 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1pyXCs-002Tgk-1h; Mon, 15 May 2023 15:21:38 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     bingbu.cao@intel.com
+Subject: [PATCH v3 1/1] media: pci: ipu3-cio2: Obtain remote pad from endpoint
+Date:   Mon, 15 May 2023 15:21:27 +0300
+Message-Id: <20230515122127.590733-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20230506071427.28108-1-laurent.pinchart@ideasonboard.com> <20230506071427.28108-5-laurent.pinchart@ideasonboard.com>
-In-Reply-To: <20230506071427.28108-5-laurent.pinchart@ideasonboard.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Mon, 15 May 2023 14:16:13 +0200
-X-Gmail-Original-Message-ID: <CANiDSCteCqAz9Go3kt8FVmPDuXRbZ-rs7XsWx=yZNhwtLhq_sA@mail.gmail.com>
-Message-ID: <CANiDSCteCqAz9Go3kt8FVmPDuXRbZ-rs7XsWx=yZNhwtLhq_sA@mail.gmail.com>
-Subject: Re: [PATCH v2 4/7] media: uvcvideo: Reorganize format descriptor parsing
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, 6 May 2023 at 09:14, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Format descriptor parsing has grown over time and now mixes parsing of
-> frame intervals with various quirk handling. Reorganize it to make the
-> code easier to follow, by parsing frame intervals first, and then
-> applying fixes and quirks. No functional change is intended.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvc_driver.c | 40 +++++++++++++++++++-----------
->  1 file changed, 25 insertions(+), 15 deletions(-)
->
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index 9e597bbbfe07..446bd8ff128c 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -405,8 +405,27 @@ static int uvc_parse_format(struct uvc_device *dev,
->                                 get_unaligned_le32(&buffer[17]);
->                         frame->bFrameIntervalType = buffer[21];
->                 }
-> +
-> +               /*
-> +                * Copy the frame intervals.
-> +                *
-> +                * Some bogus devices report dwMinFrameInterval equal to
-> +                * dwMaxFrameInterval and have dwFrameIntervalStep set to
-> +                * zero. Setting all null intervals to 1 fixes the problem and
-> +                * some other divisions by zero that could happen.
-> +                */
->                 frame->dwFrameInterval = *intervals;
->
-> +               for (i = 0; i < n; ++i) {
-> +                       interval = get_unaligned_le32(&buffer[26+4*i]);
-> +                       *(*intervals)++ = interval ? interval : 1;
-> +               }
-> +
-> +               /*
-> +                * Apply more fixes, quirks and workarounds to handle incorrect
-> +                * or broken descriptors.
-> +                */
-> +
->                 /*
->                  * Several UVC chipsets screw up dwMaxVideoFrameBufferSize
->                  * completely. Observed behaviours range from setting the
-> @@ -420,27 +439,18 @@ static int uvc_parse_format(struct uvc_device *dev,
->                         frame->dwMaxVideoFrameBufferSize = format->bpp
->                                 * frame->wWidth * frame->wHeight / 8;
->
-> -               /*
-> -                * Some bogus devices report dwMinFrameInterval equal to
-> -                * dwMaxFrameInterval and have dwFrameIntervalStep set to
-> -                * zero. Setting all null intervals to 1 fixes the problem and
-> -                * some other divisions by zero that could happen.
-> -                */
-> -               for (i = 0; i < n; ++i) {
-> -                       interval = get_unaligned_le32(&buffer[26+4*i]);
-> -                       *(*intervals)++ = interval ? interval : 1;
-> -               }
-> -
-> -               /*
-> -                * Make sure that the default frame interval stays between
-> -                * the boundaries.
-> -                */
-> +               /* Clamp the default frame interval to the boundaries. */
->                 n -= frame->bFrameIntervalType ? 1 : 2;
->                 frame->dwDefaultFrameInterval =
->                         clamp(frame->dwDefaultFrameInterval,
->                               frame->dwFrameInterval[0],
->                               frame->dwFrameInterval[n]);
->
-> +               /*
-> +                * Some devices report frame intervals that are not functional.
-> +                * If the corresponding quirk is set, restrict operation to the
-> +                * first interval only.
-> +                */
->                 if (dev->quirks & UVC_QUIRK_RESTRICT_FRAME_RATE) {
->                         frame->bFrameIntervalType = 1;
->                         frame->dwFrameInterval[0] =
-> --
-> Regards,
->
-> Laurent Pinchart
->
+Use the endpoint fwnode to find out the remote pad, instead of using the
+first source pad found. Also improve error messages.
 
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+Oh well. Hopefully this is final then.
 
+since v2:
+- Use remote fwnode for finding the remote pad, not local.
+
+ drivers/media/pci/intel/ipu3/ipu3-cio2-main.c | 28 ++++++++-----------
+ 1 file changed, 12 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
+index 39a8022eec396..2743ecc9b8e4b 100644
+--- a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
++++ b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
+@@ -1418,31 +1418,27 @@ static int cio2_notifier_complete(struct v4l2_async_notifier *notifier)
+ 	struct sensor_async_subdev *s_asd;
+ 	struct v4l2_async_connection *asd;
+ 	struct cio2_queue *q;
+-	unsigned int pad;
+ 	int ret;
+ 
+ 	list_for_each_entry(asd, &cio2->notifier.done_list, asc_entry) {
+ 		s_asd = to_sensor_asd(asd);
+ 		q = &cio2->queue[s_asd->csi2.port];
+ 
+-		for (pad = 0; pad < q->sensor->entity.num_pads; pad++)
+-			if (q->sensor->entity.pads[pad].flags &
+-						MEDIA_PAD_FL_SOURCE)
+-				break;
+-
+-		if (pad == q->sensor->entity.num_pads) {
+-			dev_err(dev, "failed to find src pad for %s\n",
+-				q->sensor->name);
+-			return -ENXIO;
++		ret = media_entity_get_fwnode_pad(&q->sensor->entity,
++						  s_asd->asd.match.fwnode,
++						  MEDIA_PAD_FL_SOURCE);
++		if (ret < 0) {
++			dev_err(dev, "no pad for endpoint %pfw (%d)\n",
++				s_asd->asd.match.fwnode, ret);
++			return ret;
+ 		}
+ 
+-		ret = media_create_pad_link(
+-				&q->sensor->entity, pad,
+-				&q->subdev.entity, CIO2_PAD_SINK,
+-				0);
++		ret = media_create_pad_link(&q->sensor->entity, ret,
++					    &q->subdev.entity, CIO2_PAD_SINK,
++					    0);
+ 		if (ret) {
+-			dev_err(dev, "failed to create link for %s\n",
+-				q->sensor->name);
++			dev_err(dev, "failed to create link for %s (endpoint %pfw, error %d)\n",
++				q->sensor->name, s_asd->asd.match.fwnode, ret);
+ 			return ret;
+ 		}
+ 	}
 -- 
-Ricardo Ribalda
+2.30.2
+
