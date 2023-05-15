@@ -2,61 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D7324702C8F
-	for <lists+linux-media@lfdr.de>; Mon, 15 May 2023 14:21:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C1AC702D00
+	for <lists+linux-media@lfdr.de>; Mon, 15 May 2023 14:45:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240712AbjEOMVt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 May 2023 08:21:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49052 "EHLO
+        id S241683AbjEOMpr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 May 2023 08:45:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229679AbjEOMVs (ORCPT
+        with ESMTP id S241497AbjEOMpq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 May 2023 08:21:48 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D8751B1
-        for <linux-media@vger.kernel.org>; Mon, 15 May 2023 05:21:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684153308; x=1715689308;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=dopmhLkZ7yo60I2xXF2pcGe3gHu0tC5yUeCfqkjU2NM=;
-  b=UBJRQS8h6FXFeND/Plh/9BoSWleGsQ+Fi6vQQTxPSRC8qZ0fdTlCYZQf
-   qvBRe3I354BTOWJX2Mx5mFsbjZ32hzZYsydBOx5rrYIghmJ+sVeacb8D/
-   bW2BWtIZNhX24JqrM3iNDJEyQUchCpASqqZMQbBVZIt49Du7NHwBImoYg
-   R+wiS7jcf26weX3qKqZVOILDUqpxIssyNwOGG0q1Aw6nfW+03xzbtUeBC
-   Wkcl5hmqtFJ8el6vvHwRm5MFicQpukbsrXGvIVta6tei/5XvQLAUMedT3
-   5zk5EAtDINf6Ney8IoPuLSGN6kDQdLKJ3nof+hAIlX99yBaUsG84M4CKT
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="437525793"
-X-IronPort-AV: E=Sophos;i="5.99,276,1677571200"; 
-   d="scan'208";a="437525793"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2023 05:21:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="845245443"
-X-IronPort-AV: E=Sophos;i="5.99,276,1677571200"; 
-   d="scan'208";a="845245443"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2023 05:21:47 -0700
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 89B35120279;
-        Mon, 15 May 2023 15:21:44 +0300 (EEST)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
-        (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1pyXCs-002Tgk-1h; Mon, 15 May 2023 15:21:38 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+        Mon, 15 May 2023 08:45:46 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D52C7A6
+        for <linux-media@vger.kernel.org>; Mon, 15 May 2023 05:45:44 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4QKfH96vQNzyPb
+        for <linux-media@vger.kernel.org>; Mon, 15 May 2023 15:45:39 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1684154742;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=De/Vo8DD7V+EZxrHDlBjlm2W90YrDMSUGdakNLdhb98=;
+        b=ueV1g8QD05dIb9DkrHW7wvIxcniGd3E80nBRiexapcngCsBXzZLBFCk+wtYWZiH9IFsY1K
+        S8NP0tknD82mtlwqTSmO5nGD5h8dkilKpTmyLUlJeDcnOh0AmC/0ZQoNbN5KKlwF97dTrE
+        XPKVIUNfGfOb8zJznLwgPaEY9kXpZtI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1684154742;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=De/Vo8DD7V+EZxrHDlBjlm2W90YrDMSUGdakNLdhb98=;
+        b=NocMBXCTHsLu9N/9/qmTZevnWZnVz/MlhSsySFBkRWAsM+jA6CfwT4x2itsk1XsOqxYgmi
+        p5j4o9vxhpFJXRSw8uQXu78CP1E3e4ACsx12rfore+tafj0st6WBvnqqI6DjVRR6xIa4eA
+        Nq0vhY+UxqOEOV7AJxbJGprblTTi6QE=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1684154742; a=rsa-sha256; cv=none;
+        b=OAIE/QnLai7HHlHMJrXRmb/niUsj6+dOmogEtbdVuJuFEuzYH4Z0tVRXc5DTAdm5nROQzL
+        bNBT7UW3xT1JKpG674m/cuQ+sqfjgRz+5ywEg1P8eWGe6n3SlwUvscs4SUdzWIh+9STFh0
+        QigGN3BFi64DKkaJyMzb4KMo6zP3Q7w=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 6CFE0634C94
+        for <linux-media@vger.kernel.org>; Mon, 15 May 2023 15:45:39 +0300 (EEST)
+Date:   Mon, 15 May 2023 15:45:39 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
 To:     linux-media@vger.kernel.org
-Cc:     bingbu.cao@intel.com
-Subject: [PATCH v3 1/1] media: pci: ipu3-cio2: Obtain remote pad from endpoint
-Date:   Mon, 15 May 2023 15:21:27 +0300
-Message-Id: <20230515122127.590733-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
+Subject: [GIT FIXES FOR 6.4] Client capability field kerneldoc
+Message-ID: <ZGIpc8VRwPh0c47I@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,67 +69,36 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use the endpoint fwnode to find out the remote pad, instead of using the
-first source pad found. Also improve error messages.
+Hi Mauro,
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
-Oh well. Hopefully this is final then.
+This adds the missing client_capability field kerneldoc.
 
-since v2:
-- Use remote fwnode for finding the remote pad, not local.
+Please pull.
 
- drivers/media/pci/intel/ipu3/ipu3-cio2-main.c | 28 ++++++++-----------
- 1 file changed, 12 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-index 39a8022eec396..2743ecc9b8e4b 100644
---- a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-+++ b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-@@ -1418,31 +1418,27 @@ static int cio2_notifier_complete(struct v4l2_async_notifier *notifier)
- 	struct sensor_async_subdev *s_asd;
- 	struct v4l2_async_connection *asd;
- 	struct cio2_queue *q;
--	unsigned int pad;
- 	int ret;
- 
- 	list_for_each_entry(asd, &cio2->notifier.done_list, asc_entry) {
- 		s_asd = to_sensor_asd(asd);
- 		q = &cio2->queue[s_asd->csi2.port];
- 
--		for (pad = 0; pad < q->sensor->entity.num_pads; pad++)
--			if (q->sensor->entity.pads[pad].flags &
--						MEDIA_PAD_FL_SOURCE)
--				break;
--
--		if (pad == q->sensor->entity.num_pads) {
--			dev_err(dev, "failed to find src pad for %s\n",
--				q->sensor->name);
--			return -ENXIO;
-+		ret = media_entity_get_fwnode_pad(&q->sensor->entity,
-+						  s_asd->asd.match.fwnode,
-+						  MEDIA_PAD_FL_SOURCE);
-+		if (ret < 0) {
-+			dev_err(dev, "no pad for endpoint %pfw (%d)\n",
-+				s_asd->asd.match.fwnode, ret);
-+			return ret;
- 		}
- 
--		ret = media_create_pad_link(
--				&q->sensor->entity, pad,
--				&q->subdev.entity, CIO2_PAD_SINK,
--				0);
-+		ret = media_create_pad_link(&q->sensor->entity, ret,
-+					    &q->subdev.entity, CIO2_PAD_SINK,
-+					    0);
- 		if (ret) {
--			dev_err(dev, "failed to create link for %s\n",
--				q->sensor->name);
-+			dev_err(dev, "failed to create link for %s (endpoint %pfw, error %d)\n",
-+				q->sensor->name, s_asd->asd.match.fwnode, ret);
- 			return ret;
- 		}
- 	}
+The following changes since commit ac9a78681b921877518763ba0e89202254349d1b:
+
+  Linux 6.4-rc1 (2023-05-07 13:34:35 -0700)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/fixes-6.4-1-signed
+
+for you to fetch changes up to 0d8e6aeab60ae2a91b904cb38ae997be2831b11d:
+
+  media: v4l2-subdev: Fix missing kerneldoc for client_caps (2023-05-08 13:22:47 +0300)
+
+----------------------------------------------------------------
+Client capability flag field fix for 6.4
+
+----------------------------------------------------------------
+Tomi Valkeinen (1):
+      media: v4l2-subdev: Fix missing kerneldoc for client_caps
+
+ include/media/v4l2-subdev.h | 1 +
+ 1 file changed, 1 insertion(+)
+
 -- 
-2.30.2
+Kind regards,
 
+Sakari Ailus
