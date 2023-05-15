@@ -2,51 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED5887030C5
-	for <lists+linux-media@lfdr.de>; Mon, 15 May 2023 17:00:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DCC57031AC
+	for <lists+linux-media@lfdr.de>; Mon, 15 May 2023 17:36:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239748AbjEOPAB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 May 2023 11:00:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45428 "EHLO
+        id S242364AbjEOPgt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 May 2023 11:36:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239675AbjEOO77 (ORCPT
+        with ESMTP id S242240AbjEOPgo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 May 2023 10:59:59 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7F39173E
-        for <linux-media@vger.kernel.org>; Mon, 15 May 2023 07:59:57 -0700 (PDT)
-Received: from localhost (node-1w7jr9st5p2esmclet71ntnwp.ipv6.telus.net [IPv6:2001:569:beb1:1500:6f9d:3a5c:4d25:e949])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        Mon, 15 May 2023 11:36:44 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27CC619BC
+        for <linux-media@vger.kernel.org>; Mon, 15 May 2023 08:36:42 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: dbrouwer)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 7729066031C5;
-        Mon, 15 May 2023 15:59:55 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1684162796;
-        bh=zcuP5Ib39UdYaG+lgGcUGf2SeO8EWSAkOOkKsg9SaPE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aPuZ83rKGFJtsMdldm0fT4K4WW7toI1Wqdw2p3Rid5rMB2TVKuWlWPEzlltGB5wLF
-         Y5oMcDUWpqhQwBiByukmb5dQXhbyXjeALhNCJWjmPiwAd6Q/6nFy0IXwPRfqxjFOJA
-         nJZ+jZYKwpRWhl0h6QXXfzKsCxvUYpLwtJW7Mf143nzKCpZlO2rvCWu6GKrsCaEXHv
-         NCaxXXCLxf3FSfSBbNNVL1CNVgJFYlMTCFmi3T/OWIhy/U04okds+a2K4pzz184TV+
-         AiZ1Xc4WivwCKMZ/bzUK5uChnlU9MFESOQoykcjssZi2RRjDBalAUNPHr17eSFk96W
-         2SXmHpDQPrxGw==
-Date:   Mon, 15 May 2023 07:59:50 -0700
-From:   Deborah Brouwer <deborah.brouwer@collabora.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 13/13] media: bttv: convert to vb2
-Message-ID: <ZGJAa/0Y1u9gAuoV@db550>
-References: <cover.1682995256.git.deborah.brouwer@collabora.com>
- <b9c14229f95f8100a2fb17f4991163b513ad8691.1682995256.git.deborah.brouwer@collabora.com>
- <3286f56e-012b-44bd-b3dd-9b91a24d1a8c@xs4all.nl>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B36CB62093
+        for <linux-media@vger.kernel.org>; Mon, 15 May 2023 15:36:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D733DC4339B
+        for <linux-media@vger.kernel.org>; Mon, 15 May 2023 15:36:40 +0000 (UTC)
+Message-ID: <31a7735b-ef7b-da92-fe17-871ef21ef6b6@xs4all.nl>
+Date:   Mon, 15 May 2023 17:36:38 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3286f56e-012b-44bd-b3dd-9b91a24d1a8c@xs4all.nl>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [ANN] Media Summit June 26th: Draft Agenda
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -54,89 +42,97 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, May 11, 2023 at 05:29:14PM +0200, Hans Verkuil wrote:
-> Hi Deb,
-> 
-> When testing this I was wondering why the sequence counter didn't detect dropped
-> frames (which happens when you start/stop a vbi stream while streaming video).
-> 
-> On 02/05/2023 05:27, Deborah Brouwer wrote:
-> > -static void bttv_field_count(struct bttv *btv)
-> > -{
-> > -	int need_count = 0;
-> > -
-> > -	if (btv->users)
-> > -		need_count++;
-> > -
-> > -	if (need_count) {
-> > -		/* start field counter */
-> > -		btor(BT848_INT_VSYNC,BT848_INT_MASK);
-> > -	} else {
-> > -		/* stop field counter */
-> > -		btand(~BT848_INT_VSYNC,BT848_INT_MASK);
-> > -		btv->field_count = 0;
-> > -	}
-> > -}
-> 
-> This is the root cause: this function is used to turn on VSYNC interrupts
-> and in the interrupt handler the field_count is incremented.
-> 
-> In the vb1 version of this driver this field_count is passed on to vb1, which
-> uses it to set the sequence counter to field_count / 2.
-> 
-> By removing this function the VSYNC irq is never enabled and so field_count is
-> always 0. So I think in bttv the seqnr field should be dropped and the field_count
-> mechanism re-instated.
-> 
-> Comparing the number of dropped frames when starting/stopping vbi it looks like
-> in both cases (vb1 and vb2) one frame is dropped when starting vbi. But when
-> stopping vbi no frames are dropped in the vb1 case, but 3 in the vb2 case.
+Hi all,
 
-Ok, I used btv->field_count >> 1 to set the sequence numbers and I added VSYNC to
-the interrupt mask when start_streaming() is called. I can see the dropped video frames
-in v4l2-ctl when vbi starts and stops (or vice versa), but I am not sure if this means
-that we are actually dropping any valid, captured pixels.
+Here is my initial stab at a agenda for the media summit. As always, it
+is subject to change and all times are guesstimates!
 
-The internal FIELD change signal (even/odd) that is picked up by VSYNC seems to run
-independently from capturing. For example, out of curiosity, I added VSYNC to the
-interrupt mask at probe, and it starts to increment field_count (and so the sequence
-numbers) immediately and continuously even though capture isn't enabled.
+8:45-9:15: get settled :-)
 
-So I am wondering if field_count is a totally reliable way to assign sequence numbers
-to the buffers. For example, using field_count, the buffer sequence numbers start with
-3 instead of 0 in both vb1 and vb2 (sometimes it starts at 2 in vb2).
-Maybe the reason for this is that the field signal (even/odd) continues to be sent while
-the captured pixels are being input into the chip's FIFO buffer. The FIFO buffer is
-preparing the pixels for output by adding the timing/control
-information but hasn't yet made them available to be picked up by the DMA controller for
-output to memory. So, there is a disconnect, when streaming starts, between field_count
-(which keeps incrementing) and the actual availability of pixels.
+9:15-9:25: Hans: Quick introduction
 
-Maybe there is a similar disconnect happening when vbi starts or stops. Instead of actually
-dropping pixels what we really have is just a delay in the RISC program that has to cycle
-through its instructions. vb2 has made this a bit worse when streaming stops because we wait
-for all the buffers to finish. I will investigate more if there is an easy way to fix this in vb2
-without changing the RISC program.
+9:25-10:15: Daniel Almeida: Rust V4L2 support
 
-> 
-> Another thing I discovered is that for PAL the vcr_hack control has to be enabled,
-> otherwise the video is full of glitches. This was present before your series, and
-> happens even with a video signal from a proper PAL video generator, so this is really
-> strange. I can't remember that I needed this in the past, but it has been years
-> since I last tested it.
-> 
-> PAL capture is fine for Top/Bottom/Alternate settings, it only fails for Interlaced
-> and Sequential Top/Bottom capture modes.
+    Discuss the potential blockers as well as the roadmap and priorities for
+    bindings. Present what is currently supported and what isn't in the Rust
+    code for V4L2. Identify potential candidates for new drivers that can be
+    written in Rust. Discuss about maintainership issues related to Rust in V4L2.
 
-Interesting to know that this happened in your tests also.
-Obviously the easy solution would be just to enable the vcr_hack by default.
-It removes the last four scan lines and so prevents the risc program
-counter from getting stuck at a buffer memory address (which definitely
-causes dropped frames) instead of returning to the main risc program address.
+10:15-10:30: Break
 
-> 
-> When I have more time I will dig into this a bit more.
-> 
-> Regards,
-> 
-> 	Hans
+10:30-11:15 Hans & Hsia-Jun Li: "Add extended fmt and buffer" patch series
+
+    https://patchwork.linuxtv.org/project/linux-media/cover/20230206043308.28365-1-ayaka@soulik.info/
+
+    We've been postponing the work on this, but I think we need to decide how to
+    proceed since pixel formats and single vs multi planar is getting to be a nightmare.
+
+    More details from Hsia-Jun Li:
+
+    1. v4l2 header would only maintain the codec format and pixel format in bus.
+    2. the pixel formats would be maintained by the DirectRender, those M
+       variant would not be supported in the new extend pixel format API.
+    3. The number of plane for a pixel format would also responds for its data
+       layout. Ex. NV12 = 2 planes(luma, chroma), I420 = 3 planes(Y, U, V).
+    4. Userspace that supports new extend API could access those driver didn't
+       adapt the new API, kernel would have a backward compatible layer. While
+       the opposite backward compatible is not offered (old API userspace can't
+       access the driver support the new API).
+
+    [optional part]
+    5. An alloc flag would be introduced for allocating those M variant buf.
+       https://lore.kernel.org/lkml/20230322105226.122467-1-randy.li@synaptics.com/
+    6. Stateless codec format would be a modifier to the stateful codec format.
+       We could support different packing mode here.
+
+11:15-11:30: Break
+
+11:30-12:15: Andrzej Pietrasiewicz: Stateless Encoders: VP8
+
+    - Introduction to stateless encoders and previous work in this area
+
+    https://github.com/bootlin/linux/tree/hantro/h264-encoding-v5.11
+
+    https://lore.kernel.org/linux-arm-kernel/20230309125651.23911-1-andrzej.p@collabora.com/T/
+
+    - High level decisions
+    - Rate control
+    - VP8 uAPI
+    - Challenges
+
+12:15-13:30: lunch
+
+13:30-14:00: Ricardo Ribalda Delgado: KCAM update
+
+    I would like to share the progress on KCAM from our end.
+
+    I am also trying to collect all the requirements that we are getting
+    from vendors regarding V4L2.
+
+14:00-14:??: Sakari: generic line-based metadata formats:
+
+    https://lore.kernel.org/linux-media/20230505215257.60704-1-sakari.ailus@linux.intel.com/T/#t
+
+14:??-??:??: Hans et al: Subsystem development process
+
+    How to improve it? How do we get more maintainers? It's not working very
+    well at the moment. Present what currently maintainers do w.r.t. tooling.
+    How to harmonize that?
+
+Final short topic: Hans: Should we keep the media summit together with the ELCE conference?
+    Or organize it separately, and ask a company like Cisco, Intel or Collabora
+    to organize a room. What would work best? Anything to improve on this?
+
+We have the room until 18:30, but (fingers crossed) I hope to finish before that.
+
+The "Add extended fmt and buffer" and the "Subsystem development process" are
+*very* hard to predict. I want to limit the initial discussion of the that first
+topic to 45-60 minutes, and continue (if needed) in the afternoon after the discussion
+about the subsystem development process. We will have see how it goes.
+
+Please reply with corrections, questions, etc. to this email. I'll update the agenda
+over time.
+
+Regards,
+
+	Hans
