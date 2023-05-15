@@ -2,87 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 17D3A70258B
-	for <lists+linux-media@lfdr.de>; Mon, 15 May 2023 08:57:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78142702654
+	for <lists+linux-media@lfdr.de>; Mon, 15 May 2023 09:47:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239768AbjEOG5t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 May 2023 02:57:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55516 "EHLO
+        id S238273AbjEOHrP convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 15 May 2023 03:47:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238149AbjEOG5c (ORCPT
+        with ESMTP id S238286AbjEOHq6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 May 2023 02:57:32 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D61C30D8;
-        Sun, 14 May 2023 23:56:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684133783; x=1715669783;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2s/sQUrgk3zH2BjViwKh9Ia0HIryBCXLFC30hNYcXq4=;
-  b=TXfrif3v3w8x5mammNTK55vAiKfWj6ulvg4oftbDDhTjGink/DvXpRyf
-   GDyD84YiX52K1iQ/vHYm+D569va9gHrlBIRgqWCiMw/KQOQFu+4wRliP7
-   Hq00mpdcxN/kRBEzV0H/9AiH+tu8ovyybWbYXeEq1jV6B3cdYR8D7eCgH
-   ceboKZVrvfqi0fFeJ6UhruvI6E/KG0Dg7kmFHxBuu8ku3UIchmqXJG/QJ
-   QHn/rUojH0mRmjBGXyvYgbuLVfPCIMTPZsDAFpA2q4jp9ZlyMIfdyuIcJ
-   i2TxFHRfGNhm+nDD2KUAXu38bU6R6h03hDP/C4cwNLL+0N+oW+P3frazn
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10710"; a="331497689"
-X-IronPort-AV: E=Sophos;i="5.99,275,1677571200"; 
-   d="scan'208";a="331497689"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2023 23:54:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10710"; a="812831530"
-X-IronPort-AV: E=Sophos;i="5.99,275,1677571200"; 
-   d="scan'208";a="812831530"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2023 23:54:46 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 92E74120279;
-        Mon, 15 May 2023 09:54:43 +0300 (EEST)
-Date:   Mon, 15 May 2023 06:54:43 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: v4l2-subdev.h: document client_caps at struct
- v4l2_subdev_fh
-Message-ID: <ZGHXM8dtTxBPzVUM@kekkonen.localdomain>
-References: <382ce82fe2b186c7d8067d8b4e945a947c7c7047.1684130460.git.mchehab@kernel.org>
+        Mon, 15 May 2023 03:46:58 -0400
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C20F9C;
+        Mon, 15 May 2023 00:46:56 -0700 (PDT)
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-ba7854ff5abso2411023276.2;
+        Mon, 15 May 2023 00:46:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684136815; x=1686728815;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=x+sesuhYFb2sMrWYAczp8907eYFIY/Qn6ML1DW9XCIk=;
+        b=T7ycIbK7Dz+UPVbKp9pXyMWIuYuH4y4+1rU6eehIoztmpbM35thJFu5+c3uJ5NSkZi
+         4NVKXw5136jwqCdgOIv6zlt36ILStuGqrWtYmVNMh1s1NiusS2F/HxSL+jY+4MPApd49
+         L7wXYYHsluCdlA/w3iM9PzwLTawrHQYwtjNaELAmFPTLGmNwaKmobuwTSuFjFg8+jJW4
+         +6gv47lIaGhQWirnlHJvDd3eaAU8WJy9ET6ZGqspElWss8ABziYHxAcDL4N9iyTX/vsS
+         SfVxggIUI6LLjyUDgHg06LzLuV3YSZebN5vZdxuSolJF483GfIt6WgpPUGx3xubGcj/Z
+         DyPw==
+X-Gm-Message-State: AC+VfDy7w9gLAtCIpNmJ4OaqgEj/aS0RifcfbexJ5O5oKVp9JFvLo6Cf
+        TlplE8wwDilPLyNP/Mm6YSe4up+gBSCWjw==
+X-Google-Smtp-Source: ACHHUZ4p/UuEVpPL7oTnhZWORoxfzjoPLJTqeEFE0Obf+G4hjIxpYJ58Cg8rpAVWoyVVD1XQQCyzsw==
+X-Received: by 2002:a05:6902:1008:b0:b94:bbf1:fec7 with SMTP id w8-20020a056902100800b00b94bbf1fec7mr31436113ybt.47.1684136814953;
+        Mon, 15 May 2023 00:46:54 -0700 (PDT)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
+        by smtp.gmail.com with ESMTPSA id n188-20020a2540c5000000b00b9eeffa1abfsm1759045yba.39.2023.05.15.00.46.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 May 2023 00:46:53 -0700 (PDT)
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-ba7854ff5abso2410931276.2;
+        Mon, 15 May 2023 00:46:53 -0700 (PDT)
+X-Received: by 2002:a25:d308:0:b0:b92:3ed2:1cae with SMTP id
+ e8-20020a25d308000000b00b923ed21caemr33787915ybf.12.1684136812848; Mon, 15
+ May 2023 00:46:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <382ce82fe2b186c7d8067d8b4e945a947c7c7047.1684130460.git.mchehab@kernel.org>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <ZElaVmxDsOkZj2DK@debian> <51cff63a-3a04-acf5-8264-bb19b0bee8a3@leemhuis.info>
+ <CAHk-=wgzU8_dGn0Yg+DyX7ammTkDUCyEJ4C=NvnHRhxKWC7Wpw@mail.gmail.com>
+ <20230510090527.25e26127@sal.lan> <55d5ec29-f30f-4596-a3b9-7e5b8adf0582@kernel.org>
+In-Reply-To: <55d5ec29-f30f-4596-a3b9-7e5b8adf0582@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 15 May 2023 09:46:41 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV=b8j=X3XEBWsAghsHrPT58xp7peaMiTZisqf7wRJf3w@mail.gmail.com>
+Message-ID: <CAMuHMdV=b8j=X3XEBWsAghsHrPT58xp7peaMiTZisqf7wRJf3w@mail.gmail.com>
+Subject: Re: mainline build failure due to cf21f328fcaf ("media: nxp: Add
+ i.MX8 ISI driver")
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux regressions mailing list <regressions@lists.linux.dev>,
+        "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hi Krzysztof,
 
-On Mon, May 15, 2023 at 07:01:11AM +0100, Mauro Carvalho Chehab wrote:
-> Gets rid of this documentation warning:
-> 
-> 	./include/media/v4l2-subdev.h:1130: warning: Function parameter or member 'client_caps' not described in 'v4l2_subdev_fh'
-> 
-> By adding a documentation about such new field.
-> 
-> Fixes: f57fa2959244 ("media: v4l2-subdev: Add new ioctl for client capabilities")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+On Sun, May 14, 2023 at 1:01 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> On 10/05/2023 10:05, Mauro Carvalho Chehab wrote:
+> > And another CI job testing bisect breakages as I receive pull requests,
+> > applying patch per patch and using both allyesconfig and allmodconfig,
+> > also on x86_64 arch with W=1:
+> >
+> >       https://builder.linuxtv.org/job/patchwork/
+> >
+> > The rule is to not merge stuff on media tree if any of those jobs
+> > fail. I also fast-forward merging patches whose subject states that
+> > the build has failed.
+> >
+> > In order to help with that, on normal situation, I usually take one week
+> > to merge stuff from media_stage into media_tree, doing rebases at
+> > media_stage if needed to avoid git bisect build breakages at media_tree
+> > (which is from where I send my update PRs to you).
+> >
+> > Unfortunately, currently we don't have resources to do multiple randconfig
+>
+> Is you media staging tree included in LKP (kernel test robot)? You would
+> get huge build coverage after every push to your staging repo.
 
-Tomi has sent a patch for this which I'm planning to include in my next PR:
+As (multiple[*[) fixes for the build issues were submitted before the
+opening of the merge window, there must have been some build coverage,
+with even some people acting upon it...
 
-<URL:https://lore.kernel.org/linux-media/20230418105924.126608-1-tomi.valkeinen@ideasonboard.com/#t>
+[*] General note, not limited to media: please apply build fixes and
+    regression fixes ASAP, to avoid multiple people running into the
+    same issues, and spending time on bisecting, investigating,
+    fixing, ...
+    Thanks a lot!
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Regards,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Sakari Ailus
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
