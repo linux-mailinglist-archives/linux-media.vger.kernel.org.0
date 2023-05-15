@@ -2,68 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DA6670306D
-	for <lists+linux-media@lfdr.de>; Mon, 15 May 2023 16:46:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 928757030A3
+	for <lists+linux-media@lfdr.de>; Mon, 15 May 2023 16:55:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234849AbjEOOqA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 May 2023 10:46:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38366 "EHLO
+        id S240334AbjEOOzd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 May 2023 10:55:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230052AbjEOOqA (ORCPT
+        with ESMTP id S234849AbjEOOzc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 May 2023 10:46:00 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D702E55
-        for <linux-media@vger.kernel.org>; Mon, 15 May 2023 07:45:59 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C5B1B61F74
-        for <linux-media@vger.kernel.org>; Mon, 15 May 2023 14:45:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C131EC433D2;
-        Mon, 15 May 2023 14:45:57 +0000 (UTC)
-Message-ID: <08e68650-e388-bdd9-b0f2-2ad7e0421789@xs4all.nl>
-Date:   Mon, 15 May 2023 16:45:56 +0200
+        Mon, 15 May 2023 10:55:32 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98A6610C2;
+        Mon, 15 May 2023 07:55:30 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1pyZbg-0007JP-V0; Mon, 15 May 2023 16:55:25 +0200
+Message-ID: <1079eef3-b770-8d65-1dd8-70d5d476417f@leemhuis.info>
+Date:   Mon, 15 May 2023 16:55:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [ANN] Request for Topics for a Media Summit June 26th
-Content-Language: en-US
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <893a7e34-1d98-23e2-4d27-d25cb3ee5bf0@xs4all.nl>
- <ZF96/ZebSx7eaABw@valkosipuli.retiisi.eu>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <ZF96/ZebSx7eaABw@valkosipuli.retiisi.eu>
+ Thunderbird/102.10.0
+Subject: Re: mainline build failure due to cf21f328fcaf ("media: nxp: Add
+ i.MX8 ISI driver")
+Content-Language: en-US, de-DE
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux regressions mailing list <regressions@lists.linux.dev>,
+        "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>
+References: <ZElaVmxDsOkZj2DK@debian>
+ <51cff63a-3a04-acf5-8264-bb19b0bee8a3@leemhuis.info>
+ <CAHk-=wgzU8_dGn0Yg+DyX7ammTkDUCyEJ4C=NvnHRhxKWC7Wpw@mail.gmail.com>
+ <20230510090527.25e26127@sal.lan>
+ <55d5ec29-f30f-4596-a3b9-7e5b8adf0582@kernel.org>
+ <CAMuHMdV=b8j=X3XEBWsAghsHrPT58xp7peaMiTZisqf7wRJf3w@mail.gmail.com>
+From:   Thorsten Leemhuis <regressions@leemhuis.info>
+In-Reply-To: <CAMuHMdV=b8j=X3XEBWsAghsHrPT58xp7peaMiTZisqf7wRJf3w@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1684162530;f13a0cd8;
+X-HE-SMSGID: 1pyZbg-0007JP-V0
+X-Spam-Status: No, score=-5.7 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
-
-On 13/05/2023 13:56, Sakari Ailus wrote:
-> Hi Hans,
+On 15.05.23 09:46, Geert Uytterhoeven wrote:
+> On Sun, May 14, 2023 at 1:01 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>> On 10/05/2023 10:05, Mauro Carvalho Chehab wrote:
+>>> And another CI job testing bisect breakages as I receive pull requests,
+>>> applying patch per patch and using both allyesconfig and allmodconfig,
+>>> also on x86_64 arch with W=1:
+>>>
+>>>       https://builder.linuxtv.org/job/patchwork/
+>>>
+>>> The rule is to not merge stuff on media tree if any of those jobs
+>>> fail. I also fast-forward merging patches whose subject states that
+>>> the build has failed.
+>>>
+>>> In order to help with that, on normal situation, I usually take one week
+>>> to merge stuff from media_stage into media_tree, doing rebases at
+>>> media_stage if needed to avoid git bisect build breakages at media_tree
+>>> (which is from where I send my update PRs to you).
+>>>
+>>> Unfortunately, currently we don't have resources to do multiple randconfig
+>>
+>> Is you media staging tree included in LKP (kernel test robot)? You would
+>> get huge build coverage after every push to your staging repo.
 > 
-> On Fri, Mar 03, 2023 at 03:44:00PM +0100, Hans Verkuil wrote:
->> So, if you have topics for the meeting, just reply!
+> As (multiple[*[) fixes for the build issues were submitted before the
+> opening of the merge window, there must have been some build coverage,
+> with even some people acting upon it...
 > 
-> Thank you for organising this.
-> 
-> I'd like to propose to discuss generic line-based metadata formats in the
-> meeting:
-> <URL:https://lore.kernel.org/linux-media/20230505215257.60704-1-sakari.ailus@linux.intel.com/T/#t>.
-> 
+> [*] General note, not limited to media: please apply build fixes and
+>     regression fixes ASAP, to avoid multiple people running into the
+>     same issues, and spending time on bisecting, investigating,
+>     fixing, ...
+>     Thanks a lot!
 
-Do you have a guesstimate how much time this topic will take?
+FWIW, I proposed a rewritten section of
+Documentation/process/handling-regressions.rst that is closely related
+to this. The new text says:
 
-Regards,
+```
++ * Do not consider regressions from the current cycle as something that
+can wait
++   till the end of the cycle, as the issue might discourage or prevent
+users and
++   CI systems from testing mainline now or generally.
+[...]
++ * Aim to mainline a fix within two or three days, if the issue is
+severe or
++   bothering many users -- either in general or in prevalent conditions
+like a
++   particular hardware environment, distribution, or stable/longterm
+series.```
 
-	Hans
+For details and context see
+https://lore.kernel.org/linux-doc/6971680941a5b7b9cb0c2839c75b5cc4ddb2d162.1684139586.git.linux@leemhuis.info/
+
+Let me known if you think I should be more explicit; I could simply add
+a "this includes, but is not limited to fixes for build errors" to the
+second segment mentioned above. But well, that yet again would make the
+text longer. :-(
+
+Ciao, Thorsten
