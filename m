@@ -2,94 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 37357702D09
-	for <lists+linux-media@lfdr.de>; Mon, 15 May 2023 14:47:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21F86702DFF
+	for <lists+linux-media@lfdr.de>; Mon, 15 May 2023 15:23:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241947AbjEOMrv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 May 2023 08:47:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37178 "EHLO
+        id S242106AbjEONXK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 May 2023 09:23:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241853AbjEOMrp (ORCPT
+        with ESMTP id S242229AbjEONWu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 May 2023 08:47:45 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A62431988;
-        Mon, 15 May 2023 05:47:44 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (dkzdf0gkyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4506:4f15::1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 4QKfKS5SbSzyPb;
-        Mon, 15 May 2023 15:47:40 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1684154861;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=sSA3913DuCO0/eMlMUnC+nc7ji/ix7/NNOwKqmCuNPQ=;
-        b=b6iW/CemkILtaAUVqZlsi++gn+TQdLcs/pfSA732LIiLHXBkAOJjp7O4qy3qEEuM1+m3gb
-        nWvFPvEyidOBenNH2QvNQyeR50bjJxuhsppZ43lTZWLTzZLepvRFgPbdcj3CQ+ZD6iY6vz
-        xmbi/MuFZQ+pUhQUQTUb66+geejF3YA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1684154861;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=sSA3913DuCO0/eMlMUnC+nc7ji/ix7/NNOwKqmCuNPQ=;
-        b=idIF0JVUo8XxpqArRKS5CeV962mnP1yBd73pJwZtCHz4wdQ19ERQy4daQ+Rn5pl6DmBXJ9
-        hYNhC0CWvnI7FgvbmYzsXQF0naz5rvt0OEhry2/pXDZaqtEWcdbMBb9XJXCcFjDyNZhJmp
-        uhCQsodg3UuhpchsRw9LV8xKkyLkoN0=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1684154861; a=rsa-sha256; cv=none;
-        b=kFbxI8+smJ4oMXFh4AOFMYWFViaNQ2VXG6FbGB65xs2vwhUgfhD+D6tkIwAP3wEVVkbu0a
-        2KzQcDyK1fM4WNtmp/Neg062Iv2yMmbOAB1x/cm5nOI7f9QxJDNEOqpdtF2mOYO1bIjt3v
-        ai/PtVm39vxOaYtFGKXDFSXOhbCG3Fo=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 3FAB9634C94;
-        Mon, 15 May 2023 15:47:40 +0300 (EEST)
-Date:   Mon, 15 May 2023 15:47:40 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Dmitry Perchanov <dmitry.perchanov@intel.com>
-Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
-        linux-kernel@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        evgeni.raikhel@intel.com, demisrael@gmail.com
-Subject: Re: [PATCH v3] media: uapi: v4l: Intel metadata format update
-Message-ID: <ZGIp7E94eAW7UFSP@valkosipuli.retiisi.eu>
-References: <7e0e6a37eee28185ec2fbd4f1d42569c8da6726d.camel@intel.com>
+        Mon, 15 May 2023 09:22:50 -0400
+Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4F79270A
+        for <linux-media@vger.kernel.org>; Mon, 15 May 2023 06:22:26 -0700 (PDT)
+Received: by mail-qv1-xf2b.google.com with SMTP id 6a1803df08f44-61b71b7803bso60789856d6.1
+        for <linux-media@vger.kernel.org>; Mon, 15 May 2023 06:22:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1684156945; x=1686748945;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ih+ONeuLoQlofj5jBvFIq2LZeRGufL+gLK0QYElCanI=;
+        b=VxsV0k9v7dCvwcviqdNaa8MPGJ7iLQzxtTJTSHRRyck3guwx/LtinsGQk2oYtGcrf1
+         xqtAf1P1r999qziKTpphufIKr9/pSUCQGQa3/OQe8Ka96j7NxmvRzUTTw2uVBKCzZwsq
+         S/GVBNSpKBt2ITPxxRi/6HMItqQlwNg7Syh48=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684156945; x=1686748945;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ih+ONeuLoQlofj5jBvFIq2LZeRGufL+gLK0QYElCanI=;
+        b=QoBxWWOEY53aT+So8otfSUW/Lryug5QjuHce2T133z4bt/cPlMZpCy5hF3K97BnP4x
+         wPvACLyymJQfMXdjeWdAL03wQo2nSZRXfix6jJzEIDyfETcHnMW//7hJgkQM2MHUA5Dm
+         GKQvzN7a6q6Wypu+zlzO0PDGOWOWqufHkR0AfFMMhq0dmebl3o77Ll4PQdTBo+aXHcr9
+         i/cnw91adTMmG5xxahkdHs8rYaW0QXxpa/Z424AIbpgx45IV1BbQTlkF7vxmwCA0tfS2
+         UVoyTXM8MBuUXZij1fLmbK63x+fIE++ufv9fr7nrORgbbR3qPKS2KE1pxAe4g7IAQJ9P
+         YKdw==
+X-Gm-Message-State: AC+VfDw9zxQ1sCpIanGyXSIsWHlV0h8wsShNeA+AgmEO5Hmi4b3IT3PP
+        ZUUDarnV/kPqn/t5behpYJnrSTeAxmzvKfua+gI=
+X-Google-Smtp-Source: ACHHUZ5899y4IQGPJ/zSnqeS0kQjjzlPRScfitxV/0tWZ7eQEva7nFeXJRO+TNHZVIvuMm+MA6s2mw==
+X-Received: by 2002:a05:6214:f2a:b0:5e0:7ecb:8ffb with SMTP id iw10-20020a0562140f2a00b005e07ecb8ffbmr53749634qvb.8.1684156945436;
+        Mon, 15 May 2023 06:22:25 -0700 (PDT)
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com. [209.85.219.42])
+        by smtp.gmail.com with ESMTPSA id l18-20020a0ce512000000b006215c5bb2e9sm3463014qvm.70.2023.05.15.06.22.24
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 May 2023 06:22:25 -0700 (PDT)
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-619bebafb65so60813836d6.0
+        for <linux-media@vger.kernel.org>; Mon, 15 May 2023 06:22:24 -0700 (PDT)
+X-Received: by 2002:a05:6214:c62:b0:623:7132:af03 with SMTP id
+ t2-20020a0562140c6200b006237132af03mr987699qvj.42.1684156944338; Mon, 15 May
+ 2023 06:22:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7e0e6a37eee28185ec2fbd4f1d42569c8da6726d.camel@intel.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20230506071427.28108-1-laurent.pinchart@ideasonboard.com> <20230506071427.28108-6-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20230506071427.28108-6-laurent.pinchart@ideasonboard.com>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Mon, 15 May 2023 15:22:13 +0200
+X-Gmail-Original-Message-ID: <CANiDSCsLvcsym2nscNuw3oZsZvAnuWO8OD9PGk3==5Wn6oU2rw@mail.gmail.com>
+Message-ID: <CANiDSCsLvcsym2nscNuw3oZsZvAnuWO8OD9PGk3==5Wn6oU2rw@mail.gmail.com>
+Subject: Re: [PATCH v2 5/7] media: uvcvideo: Increment intervals pointer at
+ end of parsing
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dmitry,
+Hi Laurent
 
-On Sun, May 14, 2023 at 12:36:50PM +0300, Dmitry Perchanov wrote:
-> Update metadata structure for Intel RealSense UVC/MIPI cameras.
-> Compliant to Intel Configuration version 3.
-> 
-> Signed-off-by: Dmitry Perchanov <dmitry.perchanov@intel.com>
+On Sat, 6 May 2023 at 09:14, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> The intervals pointer is incremented for each interval when parsing the
+> format descriptor. This doesn't cause any issue as such, but gets in the
+> way of constifying some pointers. Modify the parsing code to index the
+> intervals pointer as an array and increment it in one go at end of
+> parsing.
+>
+> Careful readers will notice that the maxIntervalIndex variable is set to
+> 1 instead of n - 2 when bFrameIntervalType has a zero value. This is
+> functionally equivalent, as n is equal to 3 in that case.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index 446bd8ff128c..11e4fa007f3f 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -370,6 +370,8 @@ static int uvc_parse_format(struct uvc_device *dev,
+>          */
+>         while (buflen > 2 && buffer[1] == USB_DT_CS_INTERFACE &&
+>                buffer[2] == ftype) {
+> +               unsigned int maxIntervalIndex;
+> +
+>                 frame = &format->frames[format->nframes];
+>                 if (ftype != UVC_VS_FRAME_FRAME_BASED)
+>                         n = buflen > 25 ? buffer[25] : 0;
+> @@ -418,7 +420,7 @@ static int uvc_parse_format(struct uvc_device *dev,
+>
+>                 for (i = 0; i < n; ++i) {
+>                         interval = get_unaligned_le32(&buffer[26+4*i]);
+> -                       *(*intervals)++ = interval ? interval : 1;
+> +                       (*intervals)[i] = interval ? interval : 1;
+>                 }
+>
+>                 /*
+> @@ -440,11 +442,11 @@ static int uvc_parse_format(struct uvc_device *dev,
+>                                 * frame->wWidth * frame->wHeight / 8;
+>
+>                 /* Clamp the default frame interval to the boundaries. */
+> -               n -= frame->bFrameIntervalType ? 1 : 2;
+> +               maxIntervalIndex = frame->bFrameIntervalType ? n - 1 : 1;
 
-Could you reply my comments on v2 and use my @intel.com address going
-forward?
+Maybe it is worth mentioning that bFrameIntervalType == 0 is a
+continuous interval. idex 0 is min and 1 is max.
 
-Thanks.
+>                 frame->dwDefaultFrameInterval =
+>                         clamp(frame->dwDefaultFrameInterval,
+>                               frame->dwFrameInterval[0],
+> -                             frame->dwFrameInterval[n]);
+> +                             frame->dwFrameInterval[maxIntervalIndex]);
+>
+>                 /*
+>                  * Some devices report frame intervals that are not functional.
+> @@ -463,6 +465,8 @@ static int uvc_parse_format(struct uvc_device *dev,
+>                         (100000000 / frame->dwDefaultFrameInterval) % 10);
+>
+>                 format->nframes++;
+> +               *intervals += n;
+> +
+>                 buflen -= buffer[0];
+>                 buffer += buffer[0];
+>         }
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
+
 
 -- 
-Kind regards,
-
-Sakari Ailus
+Ricardo Ribalda
