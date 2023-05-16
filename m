@@ -2,185 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE1187046D3
-	for <lists+linux-media@lfdr.de>; Tue, 16 May 2023 09:47:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF42F7046D9
+	for <lists+linux-media@lfdr.de>; Tue, 16 May 2023 09:48:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230435AbjEPHrG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 May 2023 03:47:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46020 "EHLO
+        id S231375AbjEPHsG convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Tue, 16 May 2023 03:48:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230393AbjEPHrF (ORCPT
+        with ESMTP id S230393AbjEPHsF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 May 2023 03:47:05 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7265C30F3
-        for <linux-media@vger.kernel.org>; Tue, 16 May 2023 00:47:03 -0700 (PDT)
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F394DFB;
-        Tue, 16 May 2023 09:46:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1684223210;
-        bh=fR7cJlC88xq5Y7AiRo5u4PlMVymvPc3FoU4IOrmZmlc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=G06byGP5wTgfIVnETgwHEyb+VKlo66Khlr+k2yB01xpHFQ2V01pvx9tUItXSwFXwG
-         WAwA9cOVhQYQDe2tf1oh0KlEsfaDseVrXKToQq4RTzBJj7461uH0wK/y203pWDvslZ
-         vdROp5Tyykc0jKaYYubNroqkvJJCIusuWiBJmKCk=
-Date:   Tue, 16 May 2023 09:46:57 +0200
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Jai Luthra <j-luthra@ti.com>
-Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        "Guoniu . zhou" <guoniu.zhou@nxp.com>, slongerbeam@gmail.com,
-        linux-media@vger.kernel.org, mchehab@kernel.org
-Subject: Re: [PATCH 0/2] media: ov5640: drive-by frame_interval cleanups
-Message-ID: <20230516074653.pf6kg3ebvrqvdnbv@lati>
-References: <20230505071619.63229-1-jacopo.mondi@ideasonboard.com>
- <52b0df19-ed9e-14cc-f9ab-e4a1d453524a@ti.com>
+        Tue, 16 May 2023 03:48:05 -0400
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4784330F8;
+        Tue, 16 May 2023 00:48:04 -0700 (PDT)
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-ba6d024a196so4754024276.2;
+        Tue, 16 May 2023 00:48:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684223283; x=1686815283;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=f07seKr4m5/OlhMAPO3dIAn75k2cEFtJb88wHoo4wJk=;
+        b=DwSMOLKrO0Q+bPw8lZhiQtcEcePWeXgTBYQG7PRg3QS5sSaovyPeHUNB8Mth+FFzal
+         Wjc5S1JfKHzGiaM52+srZwgLRauVWBoiFaLkLqs0N5xpHvOmrmW3sn6iKfMg5EWUysgB
+         j8Bz/srMCTUzwVORVGVPsPaLfOXHf7lhGvKtqugmmopx1Ezxr+DzJGGjq2pA19sHseOu
+         VrWfbaFtGdZXuEWEOYVOFLBUCBdpZGXblq1/o7pgUZ3ZWLBXEx18mmTeJgyPbS1xjRH+
+         LIwTrRF9ykQDstDmg1aAqlhL8U+z3V7boi+DTK0jylQcVujddsFf18l6kob3mNlRfTT/
+         Dw5A==
+X-Gm-Message-State: AC+VfDzpm/qbGhJq2ldHKcP/Kpr670VyKXxis6H7gTaihn4TxUi8lLdZ
+        bt51pyk+lQHONKLYPX4Nahl61lCdIp4/KQ==
+X-Google-Smtp-Source: ACHHUZ4Yo0dwPK7wYz4qOo3GLc7igKcdc78KtvLDgXPjDV5r7LcWYwJFncJKQ4C3e6VeXZDEMqPn5g==
+X-Received: by 2002:a81:4897:0:b0:55a:e0db:5604 with SMTP id v145-20020a814897000000b0055ae0db5604mr33791437ywa.26.1684223283091;
+        Tue, 16 May 2023 00:48:03 -0700 (PDT)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
+        by smtp.gmail.com with ESMTPSA id o8-20020a817308000000b00559f9e9eabcsm420982ywc.98.2023.05.16.00.48.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 May 2023 00:48:00 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-55dc3431c64so111243467b3.2;
+        Tue, 16 May 2023 00:48:00 -0700 (PDT)
+X-Received: by 2002:a0d:df45:0:b0:55a:671b:4685 with SMTP id
+ i66-20020a0ddf45000000b0055a671b4685mr32388112ywe.46.1684223280201; Tue, 16
+ May 2023 00:48:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="yoiex3hgc56scxbr"
-Content-Disposition: inline
-In-Reply-To: <52b0df19-ed9e-14cc-f9ab-e4a1d453524a@ti.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20230513165227.13117-1-biju.das.jz@bp.renesas.com> <20230513165227.13117-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230513165227.13117-2-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 16 May 2023 09:47:48 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVYPZftcTP5E0f1uwkTsunn9KAOtLeDNqiFoKx+m7OQDg@mail.gmail.com>
+Message-ID: <CAMuHMdVYPZftcTP5E0f1uwkTsunn9KAOtLeDNqiFoKx+m7OQDg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/5] i2c: Enhance i2c_new_ancillary_device API
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Wolfram Sang <wsa@kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Lee Jones <lee@kernel.org>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Antonio Borneo <antonio.borneo@foss.st.com>,
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        dri-devel@lists.freedesktop.org, linux-i2c@vger.kernel.org,
+        linux-media@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Biju,
 
---yoiex3hgc56scxbr
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Subject: Re: [PATCH 0/2] media: ov5640: drive-by frame_interval cleanups
-MIME-Version: 1.0
-
-Hi Jai,
-   thanks for testing
-
-On Mon, May 15, 2023 at 05:25:55PM +0530, Jai Luthra wrote:
-> Hi Jacopo, Guoniu,
+On Sat, May 13, 2023 at 6:52 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Renesas PMIC RAA215300 exposes two separate i2c devices, one for the main
+> device and another for rtc device.
 >
-> On 05/05/23 12:46, Jacopo Mondi wrote:
-> > While looking at Guoniu Zhou patches I noticed that there were a few cleanups
-> > related to the usage of frame_interval fileds for MIPI CSI-2 framerate
-> > calculations.
-> >
-> > No functional changes intended, just cleanups.
-> >
-> > Guoniu: could you please test these on your setup as well ? A tested-by tag
-> > would be useful!
-> >
+> Enhance i2c_new_ancillary_device() to instantiate a real device.
+> (eg: Instantiate rtc device from PMIC driver)
 >
-> Thanks for the latest fixes!
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v3:
+>  * New patch
+
+Thanks for your patch!
+
+Looks correct to me, so
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Some suggestions for improvement below...
+
+> --- a/drivers/i2c/i2c-core-base.c
+> +++ b/drivers/i2c/i2c-core-base.c
+> @@ -1153,7 +1157,27 @@ struct i2c_client *i2c_new_ancillary_device(struct i2c_client *client,
+>         }
 >
-> Testing on my setup (CSI module w/ 2 lanes), I notice two weird issues and
-> wonder if you see the same behavior on your setups?
->
-> Issue 1
-> -------
->
-> On a fresh boot the sensor streams at 60fps, and checking link_freq from
-> v4l2-ctl I get 384Mhz. But G_FRAME_INTERVAL returns 30FPS when using
-> `media-ctl -p`:
-> [stream:0 fmt:UYVY8_1X16/640x480@1/30]
+>         dev_dbg(&client->adapter->dev, "Address for %s : 0x%x\n", name, addr);
+> -       return i2c_new_dummy_device(client->adapter, addr);
+> +
+> +       if (aux_device_name) {
+> +               struct i2c_board_info info;
+> +               size_t aux_device_name_len = strlen(aux_device_name);
+> +
+> +               if (aux_device_name_len > I2C_NAME_SIZE - 1) {
+> +                       dev_err(&client->adapter->dev, "Invalid device name\n");
+> +                       return ERR_PTR(-EINVAL);
+> +               }
 
-the g/s_frame_interval calls are not relevant for MIPI CSI-2
+strscpy() return value?
 
-I wonder if we should/could return -EINVAL in this case
+> +
+> +               memset(&info, 0, sizeof(struct i2c_board_info));
 
+The call to memset() would not be needed if info would be initialized
+at declaration time, i.e.
 
->
-> Issue 2
-> -------
->
-> If I manually set the frame interval to @1/60 using media-ctl, and then
-> stream it - actual framerate gets reduced to 30FPS:
+    struct i2c_board_info info = { .addr = addr };
 
-Ah this shouldn't happen. s_frame_interval -should not- modify the
-timings on a CSI-2 setup
+Or, use I2C_BOARD_INFO(), to guarantee initialization is aligned
+with whatever future changes made to i2c_board_info? But that relies
+on providing the name at declaration time, which we already have in
+i2c_new_dummy_device().
 
-If not returning -EINVAL, we should at least return immediately
+So I suggest to add a name parameter to i2c_new_dummy_device(),
+rename it to __i2c_new_dummy_device(), and create a wrapper for
+compatibility with existing users:
 
->
-> root@am62xx-evm:~# yavta -s 640x480 -f UYVY /dev/video0 -c5
-> ....
-> 0 (0) [-] any 0 614400 B 401.488754 401.488855 12.719 fps ts mono/EoF
-> 1 (1) [-] any 1 614400 B 401.522057 401.522147 30.027 fps ts mono/EoF
-> 2 (2) [-] any 2 614400 B 401.555434 401.555584 29.961 fps ts mono/EoF
-> 3 (3) [-] any 3 614400 B 401.588723 401.588814 30.040 fps ts mono/EoF
-> 4 (4) [-] any 4 614400 B 401.622051 401.622135 30.005 fps ts mono/EoF
-> Captured 5 frames in 0.212005 seconds (23.584252 fps, 14490164.140730 B/s).
-> 8 buffers released.
->
-> After setting frame interval to @1/60, the link-frequency got reduced to
-> 192Mhz, which probably explains the low framerate.
->
-> root@am62xx-evm:~# v4l2-ctl -d /dev/v4l-subdev2 -C link_frequency
-> link_frequency: 19 (192000000 0xb71b000)
->
-> I will take a deeper look at update_pixel_rate() function to try and fix
-> this - but wanted to confirm if this also happens on your CSI sensors?
->
-> I also repeated same tests without this series and still saw both issues. In
-> fact Issue 2 was worse because the sensor did not stream *at all* if I
-> changed frame interval to @1/60. My guess is PATCH 2/2 fixes that by not
-> updating the VBLANK using the DVP values.
+    struct i2c_client *__i2c_new_dummy_device(struct i2c_adapter
+*adapter, u16 address,
+                                             const char *name)
+    {
+            struct i2c_board_info info = {
+                    I2C_BOARD_INFO("dummy", address),
+            };
 
-Probably yes, and this confirms to me that we should return early in
-s_frame_interval if we're CSI-2 (or if this doesn't contradict the
-specification even return an error).
+            if (name) {
+                    ssize_ret = strscpy(info.type, name, sizeof(info.type));
 
-Thanks
-   j
+                    if (ret < 0)
+                            return ERR_PTR(dev_err_probe(&client->adapter->dev,
+                                           ret, "Invalid device name\n");
+            }
 
->
-> For the series:
->
-> Tested-by: Jai Luthra <j-luthra@ti.com>
->
-> Thanks,
-> Jai
->
-> > Thanks
-> >    j
-> >
-> > Jacopo Mondi (2):
-> >    media: ov5640: Remove unused 'framerate' parameter
-> >    media: ov5640: Drop dead code using frame_interval
-> >
-> >   drivers/media/i2c/ov5640.c | 17 +----------------
-> >   1 file changed, 1 insertion(+), 16 deletions(-)
-> >
-> > --
-> > 2.40.1
-> >
+            return i2c_new_client_device(adapter, &info);
+    }
 
+> +
+> +               memcpy(info.type, aux_device_name, aux_device_name_len);
+> +               info.addr = addr;
+> +
+> +               i2c_aux_client = i2c_new_client_device(client->adapter, &info);
+> +       } else {
+> +               i2c_aux_client = i2c_new_dummy_device(client->adapter, addr);
+> +       }
+> +
+> +       return i2c_aux_client;
+>  }
+>  EXPORT_SYMBOL_GPL(i2c_new_ancillary_device);
 
+Gr{oetje,eeting}s,
 
+                        Geert
 
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
---yoiex3hgc56scxbr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAmRjNPEACgkQcjQGjxah
-Vjy8eQ//TDcOUeXTFMEM4neP6PBlXT1V7ZazbsvvambJP7z26woa0+p8MALbi37Q
-Y5kas7u8BkQK8xyatL7DQIwnZ/9lj5OyvnmqC4Ok4/hY+Mv2gzK1KritGWNg/PnI
-2Smjpr+U+F5tEYKVr8dlzJlkU7j6m7cZxP8g3+zY/WhXXIQrWuqYWZcBiD/58rRl
-AMzzs8bm+XUCJGSIPdiPjNEspTowkeax0PLHEjUWtohKS1Q4NvywZRDLmOqcNgiy
-BeMfrft+dNxff9SuB4eLSJ4YIBLOhmyu+i1k6r1Ykmpr+flzqNLT3R2njpQcE1fa
-jRBILoNfSKlN4Ph1bTx7/XZhAiX2Eab6t/kLV53MpIRQudFSe3x8eX2BwCiFSa+0
-Yrd2AhDpIQFfdqWDjulaEeg4eHXL4gidQOCpYeZqgMQ6z4viQzRX3u178JkDNPFg
-J4BCkqJJswNLgNp0Lbw945qPxQfk8lKE1/xW89YUaPuUEK4EzSWo9sKkJtMOLxAg
-bJZRfngcnzXJOOTvN8yYP/Jj2Qe8EqmgtLqqthUaekzjPcNFdOHTDF2fICzb+y+q
-XjcgaZol28ZuoGrxHo1dBKmOfWkCEzvDgiczCmEkP8nGvvEa0pw9IJAfHHGvBIQ+
-f3MoFpTyqtPJ5TFlMo23tEAES0jfF0lrYT5R4TfdvadBXkkxg3w=
-=4UNY
------END PGP SIGNATURE-----
-
---yoiex3hgc56scxbr--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
