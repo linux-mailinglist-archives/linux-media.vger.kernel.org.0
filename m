@@ -2,128 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DF2C704E38
-	for <lists+linux-media@lfdr.de>; Tue, 16 May 2023 14:55:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 22CAB704E6F
+	for <lists+linux-media@lfdr.de>; Tue, 16 May 2023 14:59:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233106AbjEPMy7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 May 2023 08:54:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36378 "EHLO
+        id S232983AbjEPM7Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 May 2023 08:59:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233136AbjEPMyg (ORCPT
+        with ESMTP id S232966AbjEPM7X (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 May 2023 08:54:36 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3CDE619B;
-        Tue, 16 May 2023 05:54:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684241666; x=1715777666;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=p0He5tvXte4d1JieMjl6lshdqriX6UhheHjawnPStNw=;
-  b=mkPTIPL7qDoyTx3qt1qARcNjHKuuBs4P0JzQIb+KTS2MvtN28yhXJq8e
-   17O9JlUIH2JS5W4uq/Be8PEqj7I1lsE2OrtoDOtWYs7OSyDbRplKprJhs
-   o/1A/7ZYRSB3yz4W/Be+yXyzY8YTc7BqlyyHC01SM7hOsghPlOlLI3b9Z
-   2ZxoAdbaFT3eWkEvPxBgdjmhbiQuD6Ai/Sj8MKvGw9vN53kmCxF+8DB8o
-   qZRQG67B9IiMjOulpFPPwmHYojssLfY64upgApmimxhE1LX8Xm694CACx
-   E96l3KreGakWfdzMI30ywxNLwpm5qy9V70EDfAYUEYT1VxSQatWU6s45F
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="340833564"
-X-IronPort-AV: E=Sophos;i="5.99,278,1677571200"; 
-   d="scan'208";a="340833564"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2023 05:54:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="678835489"
-X-IronPort-AV: E=Sophos;i="5.99,278,1677571200"; 
-   d="scan'208";a="678835489"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2023 05:54:07 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id A5109120279;
-        Tue, 16 May 2023 15:44:34 +0300 (EEST)
-Date:   Tue, 16 May 2023 12:44:34 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>,
-        Satish Nagireddy <satish.nagireddy@getcruise.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v13 6/8] media: i2c: add DS90UB960 driver
-Message-ID: <ZGN6sjseR/GHs2dM@kekkonen.localdomain>
-References: <20230426115114.156696-1-tomi.valkeinen@ideasonboard.com>
- <20230426115114.156696-7-tomi.valkeinen@ideasonboard.com>
+        Tue, 16 May 2023 08:59:23 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 989C25248;
+        Tue, 16 May 2023 05:59:01 -0700 (PDT)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34GBJqJU003802;
+        Tue, 16 May 2023 12:57:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=ooIszafhZntFwAFrRjm+YK/b9Svr96m9RF4ZndvUYGQ=;
+ b=i7GGjjh0fv+QPXFP6cwv0q9yKvXiuAjH2LuT/XlPi7DNou94D9/LKiucip0FwvOXEupe
+ zus59nguv9Yn6JHXN2N4ZckCh/RsRcm/ySazFtA1e0p8U1kKJlpusSNfvjdhoDfgluLX
+ KRieEmo5joSr58Kb7YFXjeiAKrCHAZ1Q7m4X040AW4KJGi2+0LuMFTdYFB3hwfwl8hfM
+ ZjHqEZTkPpcaorjqsXjr1vY7pPYwOs1V9t9I8gNSOt4BoS9gjjbtvHuIyBkO0cu8dhOo
+ joS1CO8oSx6SDSIrWaeEDbFemdYyRaQJn8vCz6Yb1ihBvxTufwzwXTHbcGW3Qd0mM3A6 bQ== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qkkde321x-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 16 May 2023 12:57:42 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34GCvf7Q013666
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 16 May 2023 12:57:42 GMT
+Received: from [10.252.212.215] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 16 May
+ 2023 05:57:36 -0700
+Message-ID: <049c7e3e-eaf2-0253-bf5b-83b9e8f949ab@quicinc.com>
+Date:   Tue, 16 May 2023 18:27:33 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230426115114.156696-7-tomi.valkeinen@ideasonboard.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2 00/18] Venus QoL / maintainability fixes
+Content-Language: en-US
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        "Bjorn Andersson" <andersson@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Dikshita Agarwal <dikshita@qti.qualcomm.com>,
+        Mansur Alisha Shaik <mansur@codeaurora.org>,
+        Jonathan Marek <jonathan@marek.ca>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>
+CC:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        "Marijn Suijten" <marijn.suijten@somainline.org>,
+        <stable@vger.kernel.org>
+References: <20230228-topic-venus-v2-0-d95d14949c79@linaro.org>
+ <f9904e82-4756-2add-3c7e-e019ce966515@linaro.org>
+From:   Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <f9904e82-4756-2add-3c7e-e019ce966515@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: qUj_6eWhD4UKgMSzasX94rUMbBJsya9s
+X-Proofpoint-ORIG-GUID: qUj_6eWhD4UKgMSzasX94rUMbBJsya9s
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-16_06,2023-05-16_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ phishscore=0 suspectscore=0 bulkscore=0 clxscore=1015 impostorscore=0
+ mlxscore=0 mlxlogscore=653 malwarescore=0 spamscore=0 adultscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305160108
+X-Spam-Status: No, score=-5.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Moi,
 
-Thanks for the update.
+On 5/12/2023 8:31 AM, Bryan O'Donoghue wrote:
+> On 04/05/2023 09:00, Konrad Dybcio wrote:
+>> Tested on 8250, but pretty please test it on your boards too!
+> 
+> What's the definition of test here ?
+> 
+> I ran this
+> 
+> ffplay -codec:video h264_v4l2m2m FantasticFour-ROTSS.mp4
+> 
+> and this
+> 
+> ffplay -codec:video vp8_v4l2m2m /mnt/big-buck-bunny_trailer.webm
+> 
+> on db410c with no errors. Then again I applied and disapplied the 8x8 264 fix to
+> that branch and saw no discernable difference so I'm not very confident we have
+> good coverage.
+> 
+> @Stan @Vikash could you give some suggested tests for coverage here ?
 
-On Wed, Apr 26, 2023 at 02:51:12PM +0300, Tomi Valkeinen wrote:
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index 256d55bb2b1d..80de6c3a6492 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -1611,4 +1611,25 @@ config VIDEO_THS7303
->  
->  endmenu
->  
-> +#
-> +# Video serializers and deserializers (e.g. FPD-Link)
-> +#
-> +
-> +menu "Video serializers and deserializers"
-> +
-> +config VIDEO_DS90UB960
-> +	tristate "TI FPD-Link III/IV Deserializers"
-> +	depends on OF && I2C && VIDEO_DEV
-> +	select I2C_ATR
-> +	select MEDIA_CONTROLLER
-> +	select OF_GPIO
+I could think of below test aspects for this series
+1. Suspend Resume
+2. Concurrency test
+3. Module load -> video usecase -> module unload -> module load -> video
+usecase. This would ensure video firmware is reloaded and functional.
+4. Video playback and encode for all supported resolution and codecs.
+5. In general, video playback with more test content.
 
-I think GPIOLIB would be more appropriate. OF as such should be fine as
-ACPI support probably requires something else, too.
+I would be testing the series with stability test suite on CrOS. That would be
+either on sc7180 or sc7280 setup.
 
-> +	select REGMAP_I2C
-> +	select V4L2_FWNODE
-> +	select VIDEO_V4L2_SUBDEV_API
-> +	help
-> +	  Device driver for the Texas Instruments DS90UB960
-> +	  FPD-Link III Deserializer and DS90UB9702 FPD-Link IV Deserializer.
-> +
-> +endmenu
-> +
+Konrad, you can post the new version as one patch needs to be dropped. Test can
+be done on the new version. There are few patches in the series pending review,
+which can be done in parallel.
 
--- 
-Kind regards,
+-Vikash
 
-Sakari Ailus
+> 
+> @Konrad - get a db410c !
+> 
+> My superficial first-pass on this series looks good but, before giving a
+> Tested-by here, I think we should define a set of coverage tests, run them - the
+> upper end on sm8250 and lower end msm8916 "makes sense to me"
+> 
+> 20? different gstreamer tests at different formats and different sizes on our
+> selected platforms db410c, rb5, rb3 I have - also an 820 I haven't booted and an
+> enforce sdm660.
+> 
+> Which tests will we use to validate this series and subsequent series to ensure
+> we don't have more regressions ?
+> 
+> ---
+> bod
