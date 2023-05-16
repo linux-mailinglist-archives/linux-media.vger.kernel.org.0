@@ -2,160 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B2534704D53
-	for <lists+linux-media@lfdr.de>; Tue, 16 May 2023 14:05:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6D4B704D7E
+	for <lists+linux-media@lfdr.de>; Tue, 16 May 2023 14:10:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232835AbjEPMFf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 May 2023 08:05:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59516 "EHLO
+        id S233173AbjEPMKa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 May 2023 08:10:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232849AbjEPMFb (ORCPT
+        with ESMTP id S232537AbjEPMK3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 May 2023 08:05:31 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59A7149DC
-        for <linux-media@vger.kernel.org>; Tue, 16 May 2023 05:05:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684238729; x=1715774729;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=e6tv+E2xti9q/2bG6FKz4Hw+IAFefXgb4pG0FB7G0hM=;
-  b=YDyWQJ7Y8rRbKMyRkMofFbN4tAw60F1Ol7zar1nhYQ8HaQmd0SqVsNlz
-   7C2/ro3dNQ1R+ascmW6sONrhIiO83ZB4vu/ShucjEGN2dZBCPzUVw9vvr
-   tRjOkD2qJ7eqh7ysl+xg4/ANCdjiiprSSRlTwCdfGm/RKfVzBDXrifQch
-   BYWE3NpcDTOQE0mGLNxRd1SOcRualt7tA9Rh4F/p5JPZ3NuEjniuPkQ21
-   GwHpoR4PH//PbPZF2C+b4xGhjG2pBq4HBaK0HiHeE48v1LkGo+StU6QE3
-   VNORsFISXG/arWl+HPuy6O4FbVEWGCkwMhinNW2ysBh5z9XGfjNXWPQM9
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="437799641"
-X-IronPort-AV: E=Sophos;i="5.99,278,1677571200"; 
-   d="scan'208";a="437799641"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2023 05:05:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="771011614"
-X-IronPort-AV: E=Sophos;i="5.99,278,1677571200"; 
-   d="scan'208";a="771011614"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2023 05:05:28 -0700
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id EE6E0120279
-        for <linux-media@vger.kernel.org>; Tue, 16 May 2023 15:05:25 +0300 (EEST)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
-        (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1pytQb-002ZLj-OK
-        for linux-media@vger.kernel.org; Tue, 16 May 2023 15:05:17 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Subject: [PATCH v2 1/1] media: uapi: Use unsigned int values for assigning bits in u32 fields
-Date:   Tue, 16 May 2023 15:05:07 +0300
-Message-Id: <20230516120507.612494-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
+        Tue, 16 May 2023 08:10:29 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D06797
+        for <linux-media@vger.kernel.org>; Tue, 16 May 2023 05:10:27 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkzdf0gkyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4506:4f15::1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4QLFRz4cdTzyV4;
+        Tue, 16 May 2023 15:10:22 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1684239025;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ci1nr36X99DsIx7ILyMPFPbcqY2I/qdIfU1SZlnYTlo=;
+        b=gQiWtn88MUMJ1BMcBrgRWuM3VZ7v7TmVw4NO+92J1adL1AZm3mCtKOGDsv+zSUxn+Qtji8
+        e1iAwXOXHrQ/3FU/fx1m+ZPH8N+4LsGCJF+vsG7Rh+gm/tjW4GXdkPEI39eYd4kQGYtFIS
+        qNuCfukZvMsUfcYogAfqwQxaLLLdhUI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1684239025;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ci1nr36X99DsIx7ILyMPFPbcqY2I/qdIfU1SZlnYTlo=;
+        b=PNBNK8jpGvaDdaw1b0I+i+1GEi4Cv2hbab5R+5B0G93DKqCJ64Jg6od2Q7jq4Q+bzQfFKH
+        Jn8yVrmgBfCdwyxudp2IvXEFNRZ4A9mQlgf1plNeirJbp9EIj2PW/hhJ2u3Hy36WPQ7nQB
+        rDUrHRelBhO8ie8cij6ES3D6GhfW24Q=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1684239025; a=rsa-sha256; cv=none;
+        b=Lt+DZPSnmKdFOn4U4W7ER6H2LnW3kunj0L+YuHC2FrLUOvjTrG21RfX6yccB57aAo9LfMq
+        wS7CcKNfq7tr1zZPUG6uo1OYxtyIlw0ffGHZGTQ4/4f6Oyjl9cMwbgqJpdMUdVNtT8Zafg
+        Bx8tdxfR0OsfFOPVdD31SiV0WOK4EtY=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id F03AE634C94;
+        Tue, 16 May 2023 15:10:21 +0300 (EEST)
+Date:   Tue, 16 May 2023 15:10:21 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/1] media: tc358743: fix cleanup path
+Message-ID: <ZGNyrZ0ZrBBSSrY1@valkosipuli.retiisi.eu>
+References: <20230502140612.2256850-1-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230502140612.2256850-1-alexander.stein@ew.tq-group.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use unsigned int values annoted by "U" for u32 fields. While this is a
-good practice, there doesn't appear to be a bug that this patch would fix.
+Hi Alexander,
 
-The patch has been generated using the following command:
+On Tue, May 02, 2023 at 04:06:11PM +0200, Alexander Stein wrote:
+> When allocating a cec adapter, v4l2_async_register_subdev was called
+> already. Remove subdev from async list upon cec error.
+> 
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> ---
+> I don't reallylike that __maybe_unused after the label, but I don't know
+> of any other way to get rid of the warning of unused label if CEC
+> support is disabled.
 
-The patch has been generated using the following command:
+Thanks for the patch.
 
-	perl -i -pe 's/\([0-9]+\K <</U <</g; s/\|\s*0\K\)/U\)/' \
-		include/uapi/linux/media.h
+There seem to be other issues to fix in the driver: registering the async
+sub-device here makes it possible to give user space with access to this
+device already here, before an interrupt is registered or the control
+handler is set up.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- include/uapi/linux/media.h | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+How about instead moving the async sub-device registration at the very end
+of probe()?
 
-diff --git a/include/uapi/linux/media.h b/include/uapi/linux/media.h
-index 3ddadaea849f9..1c80b1d6bbaf3 100644
---- a/include/uapi/linux/media.h
-+++ b/include/uapi/linux/media.h
-@@ -140,8 +140,8 @@ struct media_device_info {
- #define MEDIA_ENT_F_DV_ENCODER			(MEDIA_ENT_F_BASE + 0x6002)
- 
- /* Entity flags */
--#define MEDIA_ENT_FL_DEFAULT			(1 << 0)
--#define MEDIA_ENT_FL_CONNECTOR			(1 << 1)
-+#define MEDIA_ENT_FL_DEFAULT			(1U << 0)
-+#define MEDIA_ENT_FL_CONNECTOR			(1U << 1)
- 
- /* OR with the entity id value to find the next entity */
- #define MEDIA_ENT_ID_FLAG_NEXT			(1U << 31)
-@@ -205,9 +205,9 @@ struct media_entity_desc {
- 	};
- };
- 
--#define MEDIA_PAD_FL_SINK			(1 << 0)
--#define MEDIA_PAD_FL_SOURCE			(1 << 1)
--#define MEDIA_PAD_FL_MUST_CONNECT		(1 << 2)
-+#define MEDIA_PAD_FL_SINK			(1U << 0)
-+#define MEDIA_PAD_FL_SOURCE			(1U << 1)
-+#define MEDIA_PAD_FL_MUST_CONNECT		(1U << 2)
- 
- struct media_pad_desc {
- 	__u32 entity;		/* entity ID */
-@@ -216,14 +216,14 @@ struct media_pad_desc {
- 	__u32 reserved[2];
- };
- 
--#define MEDIA_LNK_FL_ENABLED			(1 << 0)
--#define MEDIA_LNK_FL_IMMUTABLE			(1 << 1)
--#define MEDIA_LNK_FL_DYNAMIC			(1 << 2)
-+#define MEDIA_LNK_FL_ENABLED			(1U << 0)
-+#define MEDIA_LNK_FL_IMMUTABLE			(1U << 1)
-+#define MEDIA_LNK_FL_DYNAMIC			(1U << 2)
- 
- #define MEDIA_LNK_FL_LINK_TYPE			(0xf << 28)
--#  define MEDIA_LNK_FL_DATA_LINK		(0 << 28)
--#  define MEDIA_LNK_FL_INTERFACE_LINK		(1 << 28)
--#  define MEDIA_LNK_FL_ANCILLARY_LINK		(2 << 28)
-+#  define MEDIA_LNK_FL_DATA_LINK		(0U << 28)
-+#  define MEDIA_LNK_FL_INTERFACE_LINK		(1U << 28)
-+#  define MEDIA_LNK_FL_ANCILLARY_LINK		(2U << 28)
- 
- struct media_link_desc {
- 	struct media_pad_desc source;
-@@ -293,7 +293,7 @@ struct media_links_enum {
-  * struct media_device_info.
-  */
- #define MEDIA_V2_ENTITY_HAS_FLAGS(media_version) \
--	((media_version) >= ((4 << 16) | (19 << 8) | 0))
-+	((media_version) >= ((4U << 16) | (19U << 8) | 0U))
- 
- struct media_v2_entity {
- 	__u32 id;
-@@ -328,7 +328,7 @@ struct media_v2_interface {
-  * struct media_device_info.
-  */
- #define MEDIA_V2_PAD_HAS_INDEX(media_version) \
--	((media_version) >= ((4 << 16) | (19 << 8) | 0))
-+	((media_version) >= ((4U << 16) | (19U << 8) | 0U))
- 
- struct media_v2_pad {
- 	__u32 id;
-@@ -432,7 +432,7 @@ struct media_v2_topology {
- #define MEDIA_INTF_T_ALSA_TIMER                (MEDIA_INTF_T_ALSA_BASE + 7)
- 
- /* Obsolete symbol for media_version, no longer used in the kernel */
--#define MEDIA_API_VERSION			((0 << 16) | (1 << 8) | 0)
-+#define MEDIA_API_VERSION			((0U << 16) | (1U << 8) | 0U)
- 
- #endif
- 
+> 
+>  drivers/media/i2c/tc358743.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
+> index ad6a72b2bcf5..86fc7bf12685 100644
+> --- a/drivers/media/i2c/tc358743.c
+> +++ b/drivers/media/i2c/tc358743.c
+> @@ -2106,7 +2106,7 @@ static int tc358743_probe(struct i2c_client *client)
+>  		CEC_CAP_DEFAULTS | CEC_CAP_MONITOR_ALL, CEC_MAX_LOG_ADDRS);
+>  	if (IS_ERR(state->cec_adap)) {
+>  		err = PTR_ERR(state->cec_adap);
+> -		goto err_hdl;
+> +		goto err_async;
+>  	}
+>  	irq_mask |= MASK_CEC_RMSK | MASK_CEC_TMSK;
+>  #endif
+> @@ -2162,6 +2162,8 @@ static int tc358743_probe(struct i2c_client *client)
+>  		flush_work(&state->work_i2c_poll);
+>  	cancel_delayed_work(&state->delayed_work_enable_hotplug);
+>  	mutex_destroy(&state->confctl_mutex);
+> +err_async: __maybe_unused
+> +	v4l2_async_unregister_subdev(sd);
+>  err_hdl:
+>  	media_entity_cleanup(&sd->entity);
+>  	v4l2_ctrl_handler_free(&state->hdl);
+
 -- 
-2.30.2
+Kind regards,
 
+Sakari Ailus
