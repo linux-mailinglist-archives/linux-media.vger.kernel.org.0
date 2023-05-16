@@ -2,112 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F03F7049DE
-	for <lists+linux-media@lfdr.de>; Tue, 16 May 2023 11:57:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 312E7704A30
+	for <lists+linux-media@lfdr.de>; Tue, 16 May 2023 12:12:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232297AbjEPJ47 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 May 2023 05:56:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33184 "EHLO
+        id S231862AbjEPKMa convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Tue, 16 May 2023 06:12:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232261AbjEPJ4d (ORCPT
+        with ESMTP id S230419AbjEPKMa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 May 2023 05:56:33 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 567C63588
-        for <linux-media@vger.kernel.org>; Tue, 16 May 2023 02:56:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684230990; x=1715766990;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Gd7HLGVvz+OjG/PZbl0woujGyowsfis9oXa7ZUQbEH8=;
-  b=YdlC5yeH8ht/HeauDQGqCNsbBv+ap8dqjaTSSwFgfOqyKTu51Jy72yDS
-   Wvvf7Dx2mENSUiSdCgJMirpDC3KZUHL9UxFQ2/K4MWwXFARr+/UD2KTSI
-   t70vjD7gDUIhfPm46ntpLIuBaraeesEP/ZyvkbytxdyRjd4wH8yDg8gAu
-   KD1d3F9IxNF2lZjLUczoY00pcnySOdqafE16ofzmoXOW7BQickPQAPzx6
-   oBgwC/vTIs8YhixHGDP5i1m3p8A2vFytB8WslMwAQrTkvkwBNjtP9KsVu
-   Rnovx1BOEvlrfRglDoOv2CjzaEC95mDCcI86xdAKdgV1NxXXn1IbrQigR
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="354601608"
-X-IronPort-AV: E=Sophos;i="5.99,278,1677571200"; 
-   d="scan'208";a="354601608"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2023 02:55:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="731931883"
-X-IronPort-AV: E=Sophos;i="5.99,278,1677571200"; 
-   d="scan'208";a="731931883"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2023 02:55:48 -0700
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 96716122FC0;
-        Tue, 16 May 2023 12:55:36 +0300 (EEST)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
-        (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1pyrOy-002ZBQ-K4; Tue, 16 May 2023 12:55:28 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com,
-        Philipp Zabel <p.zabel@pengutronix.de>, hverkuil@xs4all.nl,
-        Francesco Dolcini <francesco@dolcini.it>,
-        aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>, bingbu.cao@intel.com
-Subject: [PATCH v2 31/31] media: Documentation: v4l: Document sub-device notifiers
-Date:   Tue, 16 May 2023 12:55:17 +0300
-Message-Id: <20230516095517.611711-32-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230516095517.611711-1-sakari.ailus@linux.intel.com>
-References: <20230516095517.611711-1-sakari.ailus@linux.intel.com>
+        Tue, 16 May 2023 06:12:30 -0400
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75509E6A;
+        Tue, 16 May 2023 03:12:28 -0700 (PDT)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-50c079eb705so3465666a12.1;
+        Tue, 16 May 2023 03:12:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684231947; x=1686823947;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5F3t+I70HkGPNqWn1Cxy/keylC97OBDE6YM4DG0f+rk=;
+        b=PQT8DrH4ZP1HFMPAyg7CmTaqZDt2D2njsJFH46R0oYJvgO30f2iHwehhbsOjTI4hoF
+         +Q3VWwYMXPtePDuXavhexUsrwweFL7f5CudmyWUdC7AwW0aYJTx10qj6GJxpOtS00uQY
+         8FOBg8IrEIPFlMiuZacacPKksT4w/YPiQhf8qKu3oMIjkFMgfNDKw9dCkPn1Nus+qkjR
+         i380l0kOKlu/jU5bCHlfiMDTgjTP0SixjtNBap/Eykil4Q+R8uAPmTmybeo6f0sH5NzM
+         iwVGqY4aXRsXtbKClBIzVS/jA9gFoE6R7f8zzhxsYfMrluYXq3WX26MWFrTHAd0JmOl+
+         b9ng==
+X-Gm-Message-State: AC+VfDz4Hj3jgkTC7jmhMuIZoaW9GnLo3rVPp28u6phZStUjz620xlUC
+        7FG6WGHb68NQKbJQdZxZQeWYkIxXb6Kxk8AkMpE=
+X-Google-Smtp-Source: ACHHUZ5yjVAJpur1QhPthzZl9+7b01OXZNKtWF/FtkuaM/uZwU381npEbIc/6Tyi0jSlY7DOzaDgHdPk71BSVXpKsTs=
+X-Received: by 2002:a17:906:73dc:b0:94f:4ec3:f0f5 with SMTP id
+ n28-20020a17090673dc00b0094f4ec3f0f5mr8908817ejl.4.1684231946583; Tue, 16 May
+ 2023 03:12:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230329100951.1522322-1-sakari.ailus@linux.intel.com>
+ <20230329100951.1522322-4-sakari.ailus@linux.intel.com> <1865464.tdWV9SEqCh@kreacher>
+ <ZGNFgXM/463ycI6R@kekkonen.localdomain>
+In-Reply-To: <ZGNFgXM/463ycI6R@kekkonen.localdomain>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 16 May 2023 12:12:13 +0200
+Message-ID: <CAJZ5v0jcZsANJr5n7pAM2KR4c_kLkhbDC_docOA8iTVNq_WshA@mail.gmail.com>
+Subject: Re: [PATCH v8 03/10] ACPI: property: Parse _CRS CSI-2 descriptor
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
+        rafael@kernel.org, andriy.shevchenko@linux.intel.com,
+        heikki.krogerus@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Document that sub-device notifiers are now registered using
-v4l2_async_subdev_nf_init(). No documentation is changed as it seems that
-sub-device notifiers were not documented apart from kernel-doc comments.
+Hi Sakari,
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- Documentation/driver-api/media/v4l2-subdev.rst | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+On Tue, May 16, 2023 at 10:57 AM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> Hi Rafael,
+>
+> On Mon, May 15, 2023 at 06:45:10PM +0200, Rafael J. Wysocki wrote:
+> > On Wednesday, March 29, 2023 12:09:44 PM CEST Sakari Ailus wrote:
+> > > Parse newly added ACPI _CRS CSI-2 descriptor for CSI-2 and camera
+> > > configuration, associate it with appropriate devices and allocate memory for
+> > > software nodes needed to create a DT-like data structure for drivers.
+> >
+> > It occurred to me, that there would be so many things I would like to change
+> > in this patch, so it would be better to create my own version of it, which
+> > is appended.
+> >
+> > It is based on
+> >
+> > https://patchwork.kernel.org/project/linux-acpi/patch/2694293.mvXUDI8C0e@kreacher/
+> >
+> > that has just been posted.
+> >
+> > IIUC, the idea is to extract the ACPI handle for each resource source in every
+> > _CRS CSI-2 resource descriptor and count how many times each handle appears in
+> > a CSI-2 context, either because it is referenced from a _CRS CSI-2 resource
+> > descriptor (as a "resource source"), or because its device object has CSI-2
+> > resource descriptors in _CRS.
+>
+> Correct.
+>
+> >
+> > This allows a set of software nodes to be allocated for each of these handles.
+> >
+> > If I got that totally wrong, please let me know.  Otherwise, I will rework the
+> > remaining patches in the series to match this one.
+>
+> It seems about right. I mostly see renames, moving the code around,
+> using the existing dependency list and then parsing sub-tree for _CRS CSI-2
+> objects right from the bus scan callback.
+>
+> It seems you've also moved the structs from internal.h to what is now
+> called mipi-disco-imaging.c.
 
-diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
-index 83d3d29608136..d62b341642c96 100644
---- a/Documentation/driver-api/media/v4l2-subdev.rst
-+++ b/Documentation/driver-api/media/v4l2-subdev.rst
-@@ -193,9 +193,7 @@ picked up by bridge drivers.
- Bridge drivers in turn have to register a notifier object. This is
- performed using the :c:func:`v4l2_async_nf_register` call. To
- unregister the notifier the driver has to call
--:c:func:`v4l2_async_nf_unregister`. The former of the two functions
--takes two arguments: a pointer to struct :c:type:`v4l2_device` and a
--pointer to struct :c:type:`v4l2_async_notifier`.
-+:c:func:`v4l2_async_nf_unregister`.
- 
- Before registering the notifier, bridge drivers must do two things: first, the
- notifier must be initialized using the :c:func:`v4l2_async_nf_init`.
-@@ -204,6 +202,12 @@ that the bridge device needs for its operation. Several functions are available
- to add subdevice descriptors to a notifier, depending on the type of device and
- the needs of the driver.
- 
-+For a sub-device driver to register a notifier, the process is otherwise similar
-+to that of a bridge driver, apart from that the notifier is initialised using
-+:c:func:`v4l2_async_subdev_nf_init` instead. A sub-device notifier may complete
-+only after the V4L2 device becomes available, i.e. there's a path via async
-+sub-devices and notifiers to that root notifier.
-+
- :c:func:`v4l2_async_nf_add_fwnode`, :c:func:`v4l2_async_nf_add_fwnode_remote`
- :c:and func:`v4l2_async_nf_add_i2c` are for registering their async sub-devices
- :c:with the notifier.
--- 
-2.30.2
+No, I haven't moved anything in this direction, I've just dropped them.
 
+They can be added in the next patches if needed.
+
+> They'll be later needed in e.g. scan.c. At
+> least I'd use names that indicate they're related to scanning the bus:
+> they're not needed after this is done.
+>
+> I don't have objections to you reworking the rest, but given the number of
+> non-trivial changes, will it work after this? :-)
+
+Probably not right from the start, but after some minor adjustments it
+should work, unless I've missed something significant.
+
+> I can also do this, although I would un-do some of the changes in this patch in order to
+> prepare for the rest (such as moving the structs from internal.h).
+>
+> See e.g. "ACPI: scan: Generate software nodes based on MIPI DisCo for
+> Imaging", I think it's the 6th patch.
+
+I will.
+
+Thanks!
