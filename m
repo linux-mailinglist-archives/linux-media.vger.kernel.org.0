@@ -2,129 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A6D4B704D7E
-	for <lists+linux-media@lfdr.de>; Tue, 16 May 2023 14:10:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2D40704DA5
+	for <lists+linux-media@lfdr.de>; Tue, 16 May 2023 14:21:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233173AbjEPMKa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 May 2023 08:10:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36576 "EHLO
+        id S232714AbjEPMVd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 May 2023 08:21:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232537AbjEPMK3 (ORCPT
+        with ESMTP id S231549AbjEPMVc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 May 2023 08:10:29 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D06797
-        for <linux-media@vger.kernel.org>; Tue, 16 May 2023 05:10:27 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (dkzdf0gkyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4506:4f15::1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        Tue, 16 May 2023 08:21:32 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A193B4698
+        for <linux-media@vger.kernel.org>; Tue, 16 May 2023 05:21:30 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 4QLFRz4cdTzyV4;
-        Tue, 16 May 2023 15:10:22 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1684239025;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ci1nr36X99DsIx7ILyMPFPbcqY2I/qdIfU1SZlnYTlo=;
-        b=gQiWtn88MUMJ1BMcBrgRWuM3VZ7v7TmVw4NO+92J1adL1AZm3mCtKOGDsv+zSUxn+Qtji8
-        e1iAwXOXHrQ/3FU/fx1m+ZPH8N+4LsGCJF+vsG7Rh+gm/tjW4GXdkPEI39eYd4kQGYtFIS
-        qNuCfukZvMsUfcYogAfqwQxaLLLdhUI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1684239025;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ci1nr36X99DsIx7ILyMPFPbcqY2I/qdIfU1SZlnYTlo=;
-        b=PNBNK8jpGvaDdaw1b0I+i+1GEi4Cv2hbab5R+5B0G93DKqCJ64Jg6od2Q7jq4Q+bzQfFKH
-        Jn8yVrmgBfCdwyxudp2IvXEFNRZ4A9mQlgf1plNeirJbp9EIj2PW/hhJ2u3Hy36WPQ7nQB
-        rDUrHRelBhO8ie8cij6ES3D6GhfW24Q=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1684239025; a=rsa-sha256; cv=none;
-        b=Lt+DZPSnmKdFOn4U4W7ER6H2LnW3kunj0L+YuHC2FrLUOvjTrG21RfX6yccB57aAo9LfMq
-        wS7CcKNfq7tr1zZPUG6uo1OYxtyIlw0ffGHZGTQ4/4f6Oyjl9cMwbgqJpdMUdVNtT8Zafg
-        Bx8tdxfR0OsfFOPVdD31SiV0WOK4EtY=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id F03AE634C94;
-        Tue, 16 May 2023 15:10:21 +0300 (EEST)
-Date:   Tue, 16 May 2023 15:10:21 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/1] media: tc358743: fix cleanup path
-Message-ID: <ZGNyrZ0ZrBBSSrY1@valkosipuli.retiisi.eu>
-References: <20230502140612.2256850-1-alexander.stein@ew.tq-group.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3753F62BEB
+        for <linux-media@vger.kernel.org>; Tue, 16 May 2023 12:21:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54918C433EF
+        for <linux-media@vger.kernel.org>; Tue, 16 May 2023 12:21:29 +0000 (UTC)
+Message-ID: <b075cb4d-b486-3b6e-1ea2-3031b9bcda02@xs4all.nl>
+Date:   Tue, 16 May 2023 14:21:27 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230502140612.2256850-1-alexander.stein@ew.tq-group.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [ANN] Media Summit June 26th: Draft Agenda v2
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alexander,
+Hi all,
 
-On Tue, May 02, 2023 at 04:06:11PM +0200, Alexander Stein wrote:
-> When allocating a cec adapter, v4l2_async_register_subdev was called
-> already. Remove subdev from async list upon cec error.
-> 
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> ---
-> I don't reallylike that __maybe_unused after the label, but I don't know
-> of any other way to get rid of the warning of unused label if CEC
-> support is disabled.
+Here is my initial stab at a agenda for the media summit. As always, it
+is subject to change and all times are guesstimates!
 
-Thanks for the patch.
+----------------------------------------------------------------------
+v2:
+- Reserve 45 minutes for Sakari's topic.
+- Update "Subsystem development process" topic.
+----------------------------------------------------------------------
 
-There seem to be other issues to fix in the driver: registering the async
-sub-device here makes it possible to give user space with access to this
-device already here, before an interrupt is registered or the control
-handler is set up.
+8:45-9:15: get settled :-)
 
-How about instead moving the async sub-device registration at the very end
-of probe()?
+9:15-9:25: Hans: Quick introduction
 
-> 
->  drivers/media/i2c/tc358743.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
-> index ad6a72b2bcf5..86fc7bf12685 100644
-> --- a/drivers/media/i2c/tc358743.c
-> +++ b/drivers/media/i2c/tc358743.c
-> @@ -2106,7 +2106,7 @@ static int tc358743_probe(struct i2c_client *client)
->  		CEC_CAP_DEFAULTS | CEC_CAP_MONITOR_ALL, CEC_MAX_LOG_ADDRS);
->  	if (IS_ERR(state->cec_adap)) {
->  		err = PTR_ERR(state->cec_adap);
-> -		goto err_hdl;
-> +		goto err_async;
->  	}
->  	irq_mask |= MASK_CEC_RMSK | MASK_CEC_TMSK;
->  #endif
-> @@ -2162,6 +2162,8 @@ static int tc358743_probe(struct i2c_client *client)
->  		flush_work(&state->work_i2c_poll);
->  	cancel_delayed_work(&state->delayed_work_enable_hotplug);
->  	mutex_destroy(&state->confctl_mutex);
-> +err_async: __maybe_unused
-> +	v4l2_async_unregister_subdev(sd);
->  err_hdl:
->  	media_entity_cleanup(&sd->entity);
->  	v4l2_ctrl_handler_free(&state->hdl);
+9:25-10:15: Daniel Almeida: Rust V4L2 support
 
--- 
-Kind regards,
+    Discuss the potential blockers as well as the roadmap and priorities for
+    bindings. Present what is currently supported and what isn't in the Rust
+    code for V4L2. Identify potential candidates for new drivers that can be
+    written in Rust. Discuss about maintainership issues related to Rust in V4L2.
 
-Sakari Ailus
+10:15-10:30: Break
+
+10:30-11:15 Hans & Hsia-Jun Li: "Add extended fmt and buffer" patch series
+
+    https://patchwork.linuxtv.org/project/linux-media/cover/20230206043308.28365-1-ayaka@soulik.info/
+
+    We've been postponing the work on this, but I think we need to decide how to
+    proceed since pixel formats and single vs multi planar is getting to be a nightmare.
+
+    More details from Hsia-Jun Li:
+
+    1. v4l2 header would only maintain the codec format and pixel format in bus.
+    2. the pixel formats would be maintained by the DirectRender, those M
+       variant would not be supported in the new extend pixel format API.
+    3. The number of plane for a pixel format would also responds for its data
+       layout. Ex. NV12 = 2 planes(luma, chroma), I420 = 3 planes(Y, U, V).
+    4. Userspace that supports new extend API could access those driver didn't
+       adapt the new API, kernel would have a backward compatible layer. While
+       the opposite backward compatible is not offered (old API userspace can't
+       access the driver support the new API).
+
+    [optional part]
+    5. An alloc flag would be introduced for allocating those M variant buf.
+       https://lore.kernel.org/lkml/20230322105226.122467-1-randy.li@synaptics.com/
+    6. Stateless codec format would be a modifier to the stateful codec format.
+       We could support different packing mode here.
+
+11:15-11:30: Break
+
+11:30-12:15: Andrzej Pietrasiewicz: Stateless Encoders: VP8
+
+    - Introduction to stateless encoders and previous work in this area
+
+    https://github.com/bootlin/linux/tree/hantro/h264-encoding-v5.11
+
+    https://lore.kernel.org/linux-arm-kernel/20230309125651.23911-1-andrzej.p@collabora.com/T/
+
+    - High level decisions
+    - Rate control
+    - VP8 uAPI
+    - Challenges
+
+12:15-13:30: lunch
+
+13:30-14:00: Ricardo Ribalda Delgado: KCAM update
+
+    I would like to share the progress on KCAM from our end.
+
+    I am also trying to collect all the requirements that we are getting
+    from vendors regarding V4L2.
+
+14:00-14:45: Sakari: generic line-based metadata formats:
+
+    https://lore.kernel.org/linux-media/20230505215257.60704-1-sakari.ailus@linux.intel.com/T/#t
+
+14:45-??:??: Mauro & sub-maintainers: Subsystem development process
+
+    How to improve it? How do we get more maintainers? It's not working very
+    well at the moment.
+
+    Mauro will present how the media CI works today.
+    Hans will present how the daily build scripts work.
+
+    Can this be harmonized?
+
+Final short topic: Hans: Should we keep the media summit together with the ELCE conference?
+    Or organize it separately, and ask a company like Cisco, Intel or Collabora
+    to organize a room. What would work best? Anything to improve on this?
+
+We have the room until 18:30, but (fingers crossed) I hope to finish before that.
+
+The "Add extended fmt and buffer" and the "Subsystem development process" are
+*very* hard to predict. I want to limit the initial discussion of the that first
+topic to 45-60 minutes, and continue (if needed) in the afternoon after the discussion
+about the subsystem development process. We will have see how it goes.
+
+Please reply with corrections, questions, etc. to this email. I'll update the agenda
+over time.
+
+Regards,
+
+	Hans
