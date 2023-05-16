@@ -2,154 +2,234 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC633704E92
-	for <lists+linux-media@lfdr.de>; Tue, 16 May 2023 15:03:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0332704EF4
+	for <lists+linux-media@lfdr.de>; Tue, 16 May 2023 15:13:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233020AbjEPNDS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 May 2023 09:03:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48452 "EHLO
+        id S233528AbjEPNNj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 May 2023 09:13:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233401AbjEPNDQ (ORCPT
+        with ESMTP id S233491AbjEPNNf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 May 2023 09:03:16 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36CEF4EED;
-        Tue, 16 May 2023 06:02:46 -0700 (PDT)
-Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 398454A9;
-        Tue, 16 May 2023 15:02:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1684242150;
-        bh=TlNdBKkLAEInokDFjqPTsQOhyqAowP6vdWV3DseKRdI=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=F3jTIoCqLOBdBANGTURE8Lv4rZHMVH+exMuINBzmHL0WuJKXKceSIRHg1mu1duOJl
-         AIa/708sqhAtsqNlybfXBoUtQ3AsizEdrakqpYdyou2gDHe8mNNZFBC/f13zR8FgI8
-         fsEZZIhHBXlS/o0OU37q/DGcj79CxsxtG+4pFXmg=
-Message-ID: <80f05939-1cc8-e435-138d-b2f519c3b407@ideasonboard.com>
-Date:   Tue, 16 May 2023 16:02:37 +0300
+        Tue, 16 May 2023 09:13:35 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33C6630CB;
+        Tue, 16 May 2023 06:13:07 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkzdf0gkyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4506:4f15::1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4QLGrD3mD1zyV4;
+        Tue, 16 May 2023 16:13:00 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1684242782;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=sbd9ltx5AKn2hDGKb0zuSHqdFaCWrJ2OpCnzUf0+qec=;
+        b=qep8IK91tmmoQ+Ge8/jF14ROCUbRC928wTpUW/aT1Hpo/Xib94lDSdk9ZGebBxzOqbdOzC
+        YpNm1TOJhVyhv8YNh6MNP9xVvU0yV/l+jlcUBluvoQ1Rf1qfOqlRKPS+G0ODyYLMagO7W+
+        u01dtoNV39OOW9YiwOv7G6xvrbuYqhw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1684242782;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=sbd9ltx5AKn2hDGKb0zuSHqdFaCWrJ2OpCnzUf0+qec=;
+        b=Je/kIVqSfSDO+YyTJYmp/un0vYNCH7ZkXt0efTpQR/BfkBeD804ud7rV6Wre30kzUVemYu
+        PlPW3rldDeYl1832OHTH9itJa210dzWFPTeFF4//FhyRbGc+r/NsBYTZgEXNMYLRLYqNmG
+        +WsJCxaUDjjdTbHceu9FjtmNvuc18b0=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1684242782; a=rsa-sha256; cv=none;
+        b=dnqGNJ5Po03vB2WUck47B5fuyebGlYKONt0axV8x8MfebwXT//htFOyrwd6yZZUNzfLV+5
+        ZdFYKjHnGDPpHppbSOTYOVIOn0SYIyPD4jZpIgqn1VDk5gd7AoK0kFO1sF+DIK3+x2Erao
+        PzSHhN/MtVH2bdDHHvJE9a6VNFUQ9aE=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 83942634C94;
+        Tue, 16 May 2023 16:12:59 +0300 (EEST)
+Date:   Tue, 16 May 2023 16:12:59 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] media: rcar-csi2: Add support for C-PHY on R-Car
+ V4H
+Message-ID: <ZGOBW8y3OAJJDyGd@valkosipuli.retiisi.eu>
+References: <20230424185934.438059-1-niklas.soderlund+renesas@ragnatech.se>
+ <20230424185934.438059-4-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v13 6/8] media: i2c: add DS90UB960 driver
-To:     Ludwig Zenz <lzenz@dh-electronics.com>
-Cc:     Matti.Vaittinen@fi.rohmeurope.com, andriy.shevchenko@intel.com,
-        andriy.shevchenko@linux.intel.com, broonie@kernel.org,
-        devicetree@vger.kernel.org, hverkuil@xs4all.nl, khalasa@piap.pl,
-        krzysztof.kozlowski+dt@linaro.org,
-        laurent.pinchart+renesas@ideasonboard.com, lgirdwood@gmail.com,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, luca.ceresoli@bootlin.com,
-        m.tretter@pengutronix.de, marex@denx.de, mchehab@kernel.org,
-        mpagano@gentoo.org, peda@axentia.se, robh+dt@kernel.org,
-        sakari.ailus@linux.intel.com, satish.nagireddy@getcruise.com,
-        wsa@kernel.org
-References: <20230426115114.156696-7-tomi.valkeinen@ideasonboard.com>
- <20230516123549.3120-1-lzenz@dh-electronics.com>
-Content-Language: en-US
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20230516123549.3120-1-lzenz@dh-electronics.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230424185934.438059-4-niklas.soderlund+renesas@ragnatech.se>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hejssan!
 
-On 16/05/2023 15:35, Ludwig Zenz wrote:
-> On Wed, 26 Apr 2023 14:51:12 +0300, Tomi Valkeinen wrote:
-> 
-> [...]
-> 
->>   +static int ub960_configure_ports_for_streaming(struct ub960_data *priv,
->>   +					       struct v4l2_subdev_state *state)
->>   +{
->>   +	u8 fwd_ctl;
->>   +	struct {
->>   +		u32 num_streams;
->>   +		u8 pixel_dt;
->>   +		u8 meta_dt;
->>   +		u32 meta_lines;
->>   +		u32 tx_port;
->>   +	} rx_data[UB960_MAX_RX_NPORTS] = {};
->>   +	u8 vc_map[UB960_MAX_RX_NPORTS] = {};
->>   +	struct v4l2_subdev_route *route;
->>   +	unsigned int nport;
->>   +	int ret;
->>   +
->>   +	ret = ub960_validate_stream_vcs(priv);
->>   +	if (ret)
->>   +		return ret;
->>   +
->>   +	ub960_get_vc_maps(priv, state, vc_map);
->>   +
->>   +	for_each_active_route(&state->routing, route) {
->>   +		struct ub960_rxport *rxport;
->>   +		struct ub960_txport *txport;
->>   +		struct v4l2_mbus_framefmt *fmt;
->>   +		const struct ub960_format_info *ub960_fmt;
->>   +		unsigned int nport;
->>   +
->>   +		nport = ub960_pad_to_port(priv, route->sink_pad);
->>   +
->>   +		rxport = priv->rxports[nport];
->>   +		if (!rxport)
->>   +			return -EINVAL;
->>   +
->>   +		txport = priv->txports[ub960_pad_to_port(priv, route->source_pad)];
->>   +		if (!txport)
->>   +			return -EINVAL;
->>   +
->>   +		rx_data[nport].tx_port = ub960_pad_to_port(priv, route->source_pad);
->>   +
->>   +		rx_data[nport].num_streams++;
->>   +
->>   +		/* For the rest, we are only interested in parallel busses */
->>   +		if (rxport->rx_mode == RXPORT_MODE_CSI2_SYNC ||
->>   +		    rxport->rx_mode == RXPORT_MODE_CSI2_ASYNC)
->>   +			continue;
->>   +
->>   +		if (rx_data[nport].num_streams > 2)
->>   +			return -EPIPE;
->>   +
->>   +		fmt = v4l2_subdev_state_get_stream_format(state,
->>   +							  route->sink_pad,
->>   +							  route->sink_stream);
->>   +		if (!fmt)
->>   +			return -EPIPE;
->>   +
->>   +		ub960_fmt = ub960_find_format(fmt->code);
->>   +		if (!ub960_fmt)
->>   +			return -EPIPE;
->>   +
->>   +		if (ub960_fmt->meta) {
->>   +			if (fmt->height > 3) {
->>   +				dev_err(&priv->client->dev,
->>   +					"rx%u: unsupported metadata height %u\n",
->>   +					nport, fmt->height);
->>   +				return -EPIPE;
->>   +			}
->>   +
->>   +			rx_data[nport].meta_dt = ub960_fmt->datatype;
->>   +			rx_data[nport].meta_lines = fmt->height;
->>   +		} else {
->>   +			rx_data[nport].pixel_dt = ub960_fmt->datatype;
->>   +		}
->>   +	}
->>   +
->>   +	/* Configure RX ports */
->>   +
->>   +	fwd_ctl = 0;
-> 
-> Hello, I have only used the first RX port in my setup (ds90ub933 to ds90ub964). The logic for activating/deactivating the Rx ports did not work for me. My suggestion is:
+On Mon, Apr 24, 2023 at 08:59:34PM +0200, Niklas Söderlund wrote:
+> @@ -645,6 +755,10 @@ static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp,
+>  	mbps = v4l2_ctrl_g_ctrl_int64(ctrl) * bpp;
+>  	do_div(mbps, lanes * 1000000);
+>  
+> +	/* Adjust for C-PHY */
+> +	if (priv->cphy)
+> +		do_div(mbps, 2.8);
 
-Why doesn't it work? What happens?
+This will divide by 2. I suppose that's not intentional??
 
-  Tomi
+> +
+>  	return mbps;
+>  }
+>  
+> @@ -833,6 +947,170 @@ static int rcsi2_start_receiver_gen3(struct rcar_csi2 *priv)
+>  	return 0;
+>  }
+>  
+> +static int rcsi2_wait_phy_start_v4h(struct rcar_csi2 *priv, u32 match)
+> +{
+> +	unsigned int timeout;
+> +	u32 status;
+> +
+> +	for (timeout = 0; timeout <= 10; timeout++) {
+> +		status = rcsi2_read(priv, V4H_ST_PHYST_REG);
+> +		if ((status & match) == match)
+> +			return 0;
+> +
+> +		usleep_range(1000, 2000);
+> +	}
+> +
+> +	return -ETIMEDOUT;
+> +}
+> +
+> +static int rcsi2_c_phy_setting_v4h(struct rcar_csi2 *priv, int msps)
+> +{
+> +	const struct rcsi2_cphy_setting *conf;
+> +
+> +	for (conf = cphy_setting_table_r8a779g0; conf->msps != 0; conf++) {
+> +		if (conf->msps > msps)
+> +			break;
+> +	}
+> +
+> +	if (!conf->msps) {
+> +		dev_err(priv->dev, "Unsupported PHY speed for msps setting (%u Msps)", msps);
+> +		return -ERANGE;
+> +	}
+> +
+> +	/* C-PHY specific */
+> +	rcsi2_write16(priv, V4H_CORE_DIG_RW_COMMON_REG(7), 0x0155);
+> +	rcsi2_write16(priv, V4H_PPI_STARTUP_RW_COMMON_DPHY_REG(7), 0x0068);
+> +	rcsi2_write16(priv, V4H_PPI_STARTUP_RW_COMMON_DPHY_REG(8), 0x0010);
+> +
+> +	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_0_RW_LP_0_REG, 0x463c);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_1_RW_LP_0_REG, 0x463c);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_2_RW_LP_0_REG, 0x463c);
+> +
+> +	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_0_RW_HS_RX_REG(0), 0x00d5);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_1_RW_HS_RX_REG(0), 0x00d5);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_2_RW_HS_RX_REG(0), 0x00d5);
+> +
+> +	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_0_RW_HS_RX_REG(1), 0x0013);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_1_RW_HS_RX_REG(1), 0x0013);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_2_RW_HS_RX_REG(1), 0x0013);
+> +
+> +	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_0_RW_HS_RX_REG(5), 0x0013);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_1_RW_HS_RX_REG(5), 0x0013);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_2_RW_HS_RX_REG(5), 0x0013);
+> +
+> +	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_0_RW_HS_RX_REG(6), 0x000a);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_1_RW_HS_RX_REG(6), 0x000a);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_2_RW_HS_RX_REG(6), 0x000a);
+> +
+> +	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_0_RW_HS_RX_REG(2), conf->rx2);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_1_RW_HS_RX_REG(2), conf->rx2);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_2_RW_HS_RX_REG(2), conf->rx2);
+> +
+> +	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANE0_CTRL_2_REG(2), 0x0001);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANE1_CTRL_2_REG(2), 0);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANE2_CTRL_2_REG(2), 0x0001);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANE3_CTRL_2_REG(2), 0x0001);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANE4_CTRL_2_REG(2), 0);
+> +
+> +	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO0_REG(0), conf->trio0);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO1_REG(0), conf->trio0);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO2_REG(0), conf->trio0);
+> +
+> +	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO0_REG(2), conf->trio2);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO1_REG(2), conf->trio2);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO2_REG(2), conf->trio2);
+> +
+> +	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO0_REG(1), conf->trio1);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO1_REG(1), conf->trio1);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_RW_TRIO2_REG(1), conf->trio1);
+> +
+> +	/*
+> +	 * Configure pin-swap.
+> +	 * TODO: This registers is not documented yet, the values should depend
+> +	 * on the 'clock-lanes' and 'data-lanes' devicetree properties.
+> +	 */
+> +	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_1_RW_CFG_0_REG, 0xf5);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_CLANE_1_RW_HS_TX_6_REG, 0x5000);
+> +
+> +	/* Leave Shutdown mode */
+> +	rcsi2_write(priv, V4H_DPHY_RSTZ_REG, BIT(0));
+> +	rcsi2_write(priv, V4H_PHY_SHUTDOWNZ_REG, BIT(0));
+> +
+> +	/* Wait for calibration */
+> +	if (rcsi2_wait_phy_start_v4h(priv, V4H_ST_PHYST_ST_PHY_READY)) {
+> +		dev_err(priv->dev, "PHY calibration failed\n");
+> +		return -ETIMEDOUT;
+> +	}
+> +
+> +	/* C-PHY setting - analog programing*/
+> +	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANE0_CTRL_2_REG(9), conf->lane29);
+> +	rcsi2_write16(priv, V4H_CORE_DIG_IOCTRL_RW_AFE_LANE0_CTRL_2_REG(7), conf->lane27);
+> +
+> +	return 0;
+> +}
+> +
+> +static int rcsi2_start_receiver_v4h(struct rcar_csi2 *priv)
+> +{
+> +	const struct rcar_csi2_format *format;
+> +	unsigned int msps, lanes;
+> +	int ret;
+> +
+> +	/* Calculate parameters */
+> +	format = rcsi2_code_to_fmt(priv->mf.code);
 
+Can this not be NULL? I guess not?
+
+> +
+> +	ret = rcsi2_get_active_lanes(priv, &lanes);
+> +	if (ret)
+> +		return ret;
+> +
+> +	msps = rcsi2_calc_mbps(priv, format->bpp, lanes);
+> +	if (msps < 0)
+> +		return msps;
+> +
+> +	/* Reset LINK and PHY*/
+> +	rcsi2_write(priv, V4H_CSI2_RESETN_REG, 0);
+> +	rcsi2_write(priv, V4H_DPHY_RSTZ_REG, 0);
+> +	rcsi2_write(priv, V4H_PHY_SHUTDOWNZ_REG, 0);
+
+-- 
+Hälsningar,
+
+Sakari Ailus
