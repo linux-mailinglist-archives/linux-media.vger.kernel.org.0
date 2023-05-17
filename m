@@ -2,99 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 085CF7069A0
-	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 15:20:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4116706A33
+	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 15:51:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231962AbjEQNUn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 May 2023 09:20:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59824 "EHLO
+        id S231644AbjEQNvF convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 17 May 2023 09:51:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232154AbjEQNUf (ORCPT
+        with ESMTP id S230205AbjEQNvE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 May 2023 09:20:35 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76E0393C1
-        for <linux-media@vger.kernel.org>; Wed, 17 May 2023 06:20:24 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1pzH4o-005cpM-T8; Wed, 17 May 2023 13:20:22 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1pzH4l-004KAs-UJ; Wed, 17 May 2023 13:20:20 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT FIXES FOR 6.4 v2] V4L2 fixes for 6.4 (#91898)
-Date:   Wed, 17 May 2023 13:20:19 +0000
-Message-Id: <20230517132019.1030816-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <ZGTPurnmJ4KQfjrr@valkosipuli.retiisi.eu>
-References: 
+        Wed, 17 May 2023 09:51:04 -0400
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 392C51BFB;
+        Wed, 17 May 2023 06:51:00 -0700 (PDT)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-94f9cd65b1aso19319466b.0;
+        Wed, 17 May 2023 06:51:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684331458; x=1686923458;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rAMn7RtSs7++/a6MSYIC0QwcL3rxFuXCit+8RcyQnpU=;
+        b=JbuSW/RcFcyEzav9vwnCWXwWZK3pxK36vRilT6cn5UhRoo0deZs96fxMKrWSYDTAYz
+         2GutmWmT6c82rQJ6jjFol1HNUNsrXE0ObugM+QHHmJzX4iGRp/QIe0lGhABVdGuFphWi
+         wLgkcIg1FLrF3MvSShDH4e8bX6BU4HEoiRwMu8pmqLI5cdqX+D8wNzEtothTUHXuxDM1
+         fA0n8krLzV8nyHcaJlguXjIpfMBdV3UdxnVlW8g8AUFkfq40FpVCakuTyWl8U2zg1oGZ
+         XBgr9cT7siDwuI4rHiRa8YTdXZ+GDNmMHFQULDLXlGTplOaoa3xwF3Nx3cQF4jPa0oM4
+         Zr0Q==
+X-Gm-Message-State: AC+VfDw0sFxjINC9t+GWjNFV8bVCictT7Yas7koA4cwNsTZu0BKgw9Fc
+        as/VyWd0H4hwQ1KUaBvt37tePjIEj5MsoBaYzVk=
+X-Google-Smtp-Source: ACHHUZ59Svgboz6WtxTqGlKEZyehkjrVMW+IwZXTZzdKAMiG6xA/cncl/Q3NsfW3myaOpDRZNDoB/MALiWlyoRXprok=
+X-Received: by 2002:a17:906:ce:b0:965:bc62:fe38 with SMTP id
+ 14-20020a17090600ce00b00965bc62fe38mr2312292eji.7.1684331458265; Wed, 17 May
+ 2023 06:50:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20230329100951.1522322-1-sakari.ailus@linux.intel.com>
+ <20230329100951.1522322-6-sakari.ailus@linux.intel.com> <CAJZ5v0gxqs3+ofqX0PGmM=3HOi96ioyYJis+RL2oACPq6rggEA@mail.gmail.com>
+ <ZGS+RzCGl7Y3p6N/@kekkonen.localdomain> <CAJZ5v0i73bdo7oxv_hrj0qM0PQuk9cbRLQ4jqPbKn7V4nMqOhQ@mail.gmail.com>
+In-Reply-To: <CAJZ5v0i73bdo7oxv_hrj0qM0PQuk9cbRLQ4jqPbKn7V4nMqOhQ@mail.gmail.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Wed, 17 May 2023 15:50:47 +0200
+Message-ID: <CAJZ5v0hG-qGa==9cQz2-xK01JJxL2UZuL9u=5yaDo3rW9eL9eQ@mail.gmail.com>
+Subject: Re: [PATCH v8 05/10] ACPI: property: Prepare generating swnodes for
+ ACPI and DisCo for Imaging
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
+        andriy.shevchenko@linux.intel.com, heikki.krogerus@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+On Wed, May 17, 2023 at 2:22 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
+>
+> On Wed, May 17, 2023 at 1:54 PM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/ZGTPurnmJ4KQfjrr@valkosipuli.retiisi.eu/
-Build log: https://builder.linuxtv.org/job/patchwork/307026/
-Build time: 00:18:27
-Link: https://lore.kernel.org/linux-media/ZGTPurnmJ4KQfjrr@valkosipuli.retiisi.eu
+[cut]
 
-gpg: Signature made Wed 17 May 2023 12:57:35 PM UTC
-gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
-gpg:                issuer "sakari.ailus@linux.intel.com"
-gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [full]
+> > > > +                       local_port = &local_swnodes->ports[local_index];
+> > > > +                       local_node = &local_swnodes->nodes[ACPI_DEVICE_SWNODE_EP(local_index)];
+> > > > +                       local_port->remote_ep_ref[0] = SOFTWARE_NODE_REFERENCE(local_node);
+> > >
+> > > This looks odd.  Is local_port pointing to its own node as a remote
+> > > endpont, or am I confused?
+> >
+> > This is a reference to a software node that will be, in turn, referenced by
+> > the "remote-endpoint" property entry in the remote node. Look for
+> > ACPI_DEVICE_SWNODE_EP_REMOTE_EP a few lines below these.
+>
+> To be precise, IIUC, it is going to be the "remote-endpoint" value for
+> the remote node.
+>
+> OK, thanks for the explanation.  This isn't exactly straightforward TBH.
 
-Summary: got 2/3 patches with issues, being 1 at build time, plus one error when buinding PDF document
-
-Error/warnings:
-
-patches/0001-media-v4l2-subdev-Fix-missing-kerneldoc-for-client_c.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:416 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:212 gc0310_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3013 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3112 atomisp_cp_morph_table() warn: missing unwind goto?
-
-    allyesconfig: return code #0:
-	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
-	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2775 mxc_jpeg_probe() warn: missing unwind goto?
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2864 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000020Kb sm_state_count = 1963958
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 56 seconds
-	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
-	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
-
-patches/0003-staging-media-imx-initialize-hs_settle-to-avoid-warn.patch:
-
-   checkpatch.pl:
-	$ cat patches/0003-staging-media-imx-initialize-hs_settle-to-avoid-warn.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:9: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-	-:40: WARNING: From:/Signed-off-by: email address mismatch: 'From: Hans Verkuil <hverkuil@xs4all.nl>' != 'Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>'
-
-
-Error #512 when building PDF docs
-
+So I'd arrange it so that the value of the "remote-endpoint" property
+in a given node is stored in that node (the value itself being a
+reference to another endpoint).
