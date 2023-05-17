@@ -2,83 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C33A970709F
-	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 20:21:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 584B77070F3
+	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 20:39:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229775AbjEQSVK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 May 2023 14:21:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51216 "EHLO
+        id S229675AbjEQSj3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 May 2023 14:39:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229517AbjEQSVI (ORCPT
+        with ESMTP id S229493AbjEQSj2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 May 2023 14:21:08 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B34693D9;
-        Wed, 17 May 2023 11:21:03 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (dkzdf0gkyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4506:4f15::1])
+        Wed, 17 May 2023 14:39:28 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D7767AA7;
+        Wed, 17 May 2023 11:39:16 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4QM1d935d4z49Q47;
-        Wed, 17 May 2023 21:21:01 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1684347661;
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4QM2246QrlzyWs;
+        Wed, 17 May 2023 21:39:08 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1684348752;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=LQDStvIbW7UGWuPy2yJ4GFYZJS+LxAH2lk+n1n4DGtU=;
-        b=QJ4bDUPke+hqm25eN0peiCWpEhHv2l+qMs2EV15uHEP/l10jL1Cl95vXxLVlMFUmDkvguw
-        CXvBU60+kfZQECPxVVJSD+htmudhrz+oPoePIVYVA5BxFowd0Z9TQc4w8l9pVBiDLk4d3t
-        ARf/NlPdQXiDNCGDygM/cbGQoZr6Vl8XM25H6I5vP1Td25+gKhvc0ORO3vuW4laNS2q2JE
-        0v7Uuf+UhYPplc4BoElXYoGQosC1nNgz4NqMeLNrEsWuk1ngFM9IE6bbVjqcOHd2Q/C4Be
-        9PATwkJkhSVZQGzbd19bBs1SOjDSsPm53dcrLXlP6vZFtdfJjHLNLJdjVfMUTQ==
+        bh=8YcIUdxitzihe1t5/ZGI9wvkvaRoi0KQ1Kz7/8cndvM=;
+        b=BzxLMX11TUdNJlNteF/kvfYKG3TEVjtCurDgWBTYDdYZKDCEZ9YyAOIQR6+CrneeYyv4ib
+        tgv74KUKpnn+QmDxoO641Oxe/FYb5tOSr7fIUglT5RWliWV4/UILXig+2n/iCmGHKXo9LE
+        GT58Ldcjv8pgMzsZxNiOqU6hNkjJM6M=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1684347661;
+        s=meesny; t=1684348752;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=LQDStvIbW7UGWuPy2yJ4GFYZJS+LxAH2lk+n1n4DGtU=;
-        b=jqc2Kre3ntvqCmwH/e4vZt8H6sihFv9jff8xDCQfjulSqijtFf+b0DYTEc1fC8Rm4LbhxV
-        498gntV3EgVnRQv5FjDwFhYW70ukbTDndFGREGLcxc4uBSdQ+v3jb2Fm99BMMn9V2dFH8s
-        wweS1o2YfTvxV9hZIVATzjwAh4BxC/MAqqeZLDLvnTpr1r5FxiAxQ0Q7Je3THyR7WklMm+
-        NLUbtsToT9rzYeVqYHquUY8DB2DNIn2azmyRkVw2kbyrFNp6irBZ5OKF0IUVViD1Nj9NzP
-        A7Ecl7X8h31kvXRNr5fbr9hH5aLlSM87+yAofSVxIS2GnS1xL7ieIdrndJCtug==
+        bh=8YcIUdxitzihe1t5/ZGI9wvkvaRoi0KQ1Kz7/8cndvM=;
+        b=xIILG9xexUktDZ/49ewHgLVaOAmhxn3+MdP5YT7g2vanlcaMsSBCvUd4/izV7CSrkIdbxY
+        rXivjcUOCRvrevUoVJbC0+ZS4yKrRJxcdVzYyaof2P/42jINz8aEPGquPvx30Wez63EzRM
+        KxUQKX8pugKm2srcobeZs0s/+7zet+s=
 ARC-Authentication-Results: i=1;
         ORIGINATING;
         auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1684347661; a=rsa-sha256;
-        cv=none;
-        b=AM1Ph2iur9qQRcG2eTc3eKOw9eY/7nF0CHrhsofRZDg5Y/20018SJk4mtAZcuHgOkuMzWE
-        LB+tSLn2fWcQanEu1ffy2/OZAIqZXw/hdlQ0abbC8ZLksObmxTQtUyoE044lTHH9HiQhVx
-        pxRMYkxsus/7C8lOGxRMoCPbJrjU8yTrsLEUVOiRhFAZWQfC/QcX9nQX0Si8mjsXN8ibHi
-        jn8EU99YexCcubRc2vRWltxWWGYQU6ebag3cxfLTBotVLGIE08xhRN19oPv2eO1SvqAjts
-        E5j0FYKci46IYUphqHcHHUr8yNO/cgJMh3d3azWgtKY22mNQF5aYLxZEP2oz8w==
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1684348752; a=rsa-sha256; cv=none;
+        b=v3KzjL4T/vcd4IpVf0JO6WN6RbQfWLq+PzjJMPvg3pzKOjjB+tkwwgpeRe9ZPEzhG46TEF
+        FNxXniXOogtG6J0m/8OmE6uneLBkNV8Mfzf62y5Cv0WX4Enjzu1j5Tof0WM02WumLXW4Q/
+        ovc3DM5euPh/p36XrY/MZG/AewfLYeU=
 Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id DE522634C94;
-        Wed, 17 May 2023 21:21:00 +0300 (EEST)
-Date:   Wed, 17 May 2023 21:21:00 +0300
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 28A6F634C94;
+        Wed, 17 May 2023 21:39:08 +0300 (EEST)
+Date:   Wed, 17 May 2023 21:39:08 +0300
 From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Patrice Chotard <patrice.chotard@foss.st.com>,
+To:     Michael Tretter <m.tretter@pengutronix.de>
+Cc:     Jacob Chen <jacob-chen@iotwrt.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: Re: [PATCH] media: c8sectpfe: convert to gpio descriptors
-Message-ID: <ZGUbDFssUwXKTiDt@valkosipuli.retiisi.eu>
-References: <20230130131003.668888-1-arnd@kernel.org>
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Heiko Stuebner <heiko@sntech.de>, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+Subject: Re: [PATCH RESEND 2/2] arm64: dts: rockchip: Add RGA2 support to
+ rk356x
+Message-ID: <ZGUfTP1EXtlJbtxJ@valkosipuli.retiisi.eu>
+References: <20230119-rk3568-rga-v1-0-43d4d14365e6@pengutronix.de>
+ <20230119-rk3568-rga-v1-2-43d4d14365e6@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230130131003.668888-1-arnd@kernel.org>
+In-Reply-To: <20230119-rk3568-rga-v1-2-43d4d14365e6@pengutronix.de>
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
@@ -89,25 +85,22 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Arnd,
+Hi folks,
 
-On Mon, Jan 30, 2023 at 02:09:47PM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On Fri, Jan 20, 2023 at 10:14:22AM +0100, Michael Tretter wrote:
+> The rk3568 also features a RGA2 block. Add the necessary device tree
+> node.
 > 
-> The gpio usage in the function is fairly straightforward,
-> but the normal gpiod_get() interface cannot be used here
-> since the gpio is referenced by a child node of the device.
-> 
-> Using devm_fwnode_gpiod_get_index() is the best alternative
-> here.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Acked-by: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 
-I've picked
-<URL:https://patchwork.linuxtv.org/project/linux-media/patch/20230130131003.668888-1-arnd@kernel.org/>
-instead. I hope that's fine. Also cc Dmitry.
+Can this patch be merged via the media tree? I don't expect merging the
+other one via a different tree being an issue either, so alternatively to
+the 1st patch:
+
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
 -- 
-Kind regards,
+Regards,
 
 Sakari Ailus
