@@ -2,47 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 25BC37063C6
-	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 11:15:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AEC77063D0
+	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 11:16:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229795AbjEQJPY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 May 2023 05:15:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58452 "EHLO
+        id S229604AbjEQJQW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 May 2023 05:16:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbjEQJPW (ORCPT
+        with ESMTP id S229489AbjEQJQT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 May 2023 05:15:22 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3783B421E
-        for <linux-media@vger.kernel.org>; Wed, 17 May 2023 02:15:21 -0700 (PDT)
+        Wed, 17 May 2023 05:16:19 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A96CAA0
+        for <linux-media@vger.kernel.org>; Wed, 17 May 2023 02:16:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684314921; x=1715850921;
+  t=1684314978; x=1715850978;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=kGE7ZRbJzVpizDNGn70/uCxjIzhYxMOxxl9F1PmV6YM=;
-  b=hmTReD4oOhvyC+glNSULG44j5jrVADmizr8DuR0SvoWrkoWXTuFmUADC
-   /b5CvblxECnWTJmQGys7aumn2D2hyYRNzyRcYQvyzm4n78OI0Q0fAHiLQ
-   +hdQSJJNi2CTyC5MeeIIrgQp8TEGXEURlRChNMZGxthOldJ73Tuhn1rRe
-   sjmV0nGNxSoaqHJpGzUD/TFKYAQkE7K4m0uvOCY44QKwvhkwZMolSOBwT
-   7SWKM/CYOdIXph4s9kvqosB4dajdSc692WjmReVYTN9t4ulv7KUVJ+Zir
-   jrkLoEq6c5kRDHHS3aNS7PsgIhOg0FEfkCwMQDHXUiXQ5WT3LSBrMMDs4
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10712"; a="349210921"
+  bh=wiVhv/OUNNuKF0BiuMxOWVyNdjj1PJ9IOYZ/CyINDjU=;
+  b=JSLcZuXg12WUHzq7PFd5yXTCgkO68RTNMm+u/7sBsWXU+arb+tfzprFh
+   4inpDwYftdEgxdUuqyFnyOdwCi4TqLR4jcUrgD3piuX7hki/LLtytvfxu
+   pwPSBYkKaQtGKY6IRshfRmhcuLh+tZmXA25exQKksZvPLiyZTGfBKJ0mS
+   6F3IswsUP5FVsvZZRchqcXdnEMEhi1BO4fIgEoGqAka6Zn9KSGCc8IPOJ
+   Sgn1WE2bD8whXkdrdUeqXmiCh0WzRJT/czIt2LTbeKyVd6Qtm0WR2m2Wv
+   B7oMo4rmzUB/R2kDH4+f+9DnHEFQsJl1DOaJzeu3lynyiEga/m43dl+MA
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10712"; a="350543867"
 X-IronPort-AV: E=Sophos;i="5.99,281,1677571200"; 
-   d="scan'208";a="349210921"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2023 02:15:20 -0700
+   d="scan'208";a="350543867"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2023 02:16:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10712"; a="679193201"
+X-IronPort-AV: E=McAfee;i="6600,9927,10712"; a="766701941"
 X-IronPort-AV: E=Sophos;i="5.99,281,1677571200"; 
-   d="scan'208";a="679193201"
+   d="scan'208";a="766701941"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2023 02:15:17 -0700
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2023 02:16:15 -0700
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 73B4D120279;
-        Wed, 17 May 2023 12:15:14 +0300 (EEST)
-Date:   Wed, 17 May 2023 09:15:14 +0000
+        by kekkonen.fi.intel.com (Postfix) with SMTP id D4574120279;
+        Wed, 17 May 2023 12:16:12 +0300 (EEST)
+Date:   Wed, 17 May 2023 09:16:12 +0000
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Alexander Stein <alexander.stein@ew.tq-group.com>
 Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
@@ -51,9 +51,9 @@ Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
         aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
         Todor Tomov <todor.too@gmail.com>,
         Hyun Kwon <hyun.kwon@xilinx.com>, bingbu.cao@intel.com,
-        niklas.soderlund@ragnatech.de
+        niklas.soderlund@ragnatech.se
 Subject: Re: [PATCH v2 00/31] Separate links and async sub-devices
-Message-ID: <ZGSbIkkOV/03lria@kekkonen.localdomain>
+Message-ID: <ZGSbXGBUa9JPmRXC@kekkonen.localdomain>
 References: <20230516095517.611711-1-sakari.ailus@linux.intel.com>
  <3501011.QJadu78ljV@steina-w>
 MIME-Version: 1.0
@@ -71,6 +71,8 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Alexander,
+
+(Resending, fixed Niklas's e-mail.)
 
 On Wed, May 17, 2023 at 09:57:59AM +0200, Alexander Stein wrote:
 > Hi Sakari,
