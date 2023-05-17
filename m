@@ -2,108 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 48760705B1F
-	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 01:17:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4A3E705C24
+	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 03:02:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231137AbjEPXRE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 May 2023 19:17:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52450 "EHLO
+        id S230078AbjEQBCz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 May 2023 21:02:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229518AbjEPXRC (ORCPT
+        with ESMTP id S229635AbjEQBCx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 May 2023 19:17:02 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CC9D448C;
-        Tue, 16 May 2023 16:17:01 -0700 (PDT)
+        Tue, 16 May 2023 21:02:53 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4557E1BFD;
+        Tue, 16 May 2023 18:02:52 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9780463848;
-        Tue, 16 May 2023 23:17:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFDC5C433EF;
-        Tue, 16 May 2023 23:16:53 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DB20264073;
+        Wed, 17 May 2023 01:02:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF893C433EF;
+        Wed, 17 May 2023 01:02:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684279020;
-        bh=zCFk9ckmMwoH0fK8TjR+DgTP01W/heIVljzahFq+A38=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=NICfEbOp4ULW5GEyU9ohb43NabVga42QJFmD77gToi4aEEmSR4l23+0E6WVSr+LG9
-         t5+BAjOEL6PQZ0svP9qh+u4sTZapXD2zezdB6CH2J6m2hVn7D7iO3XqzZY/EWCDhwJ
-         DEbBC96l0uq2HKlTsqmZPc/xkBFpLCnzN5uv5diojginclAUxcz68Op66s+MLJD+mc
-         lly1L8n6Xgcayt36KyXXYITiWlon+A1YCip9Drmo8s70vIqb2MrTzlJbH91J06QHS1
-         ClKINgaDfe9Wp3LKGUtPjq6lkZ1EA+qETfcYX5XYF6zsbpu57WZXYJC3pjoiIssXkj
-         9S0PnO9uDsqWg==
-Message-ID: <174a6ed0-1a2a-40d1-9a14-8bbbdd6e582c@kernel.org>
-Date:   Wed, 17 May 2023 08:16:52 +0900
+        s=k20201202; t=1684285371;
+        bh=nVMhlmmUXfL1NdxdVCdqZzrzgKQ9uLWQHIfd1j3SZzA=;
+        h=Date:From:To:Cc:Subject:From;
+        b=AMP3rdH1zjSserQL0c9yAZPalpvwfhgz/4bMBrVqJE2dS6Ln6f/w24UpmFrinkwaG
+         MOW9rbW8RAsq4t6F+zAId0LrfuI/Fc3EcDNvhMYPjiu+RcI0rbEmkdy7fqZiSRsx6I
+         TQp1QqVq6YAKat7pbiwEp0AvhX2B6xZUB5+9pe2jiQYe+NCJKjK2XhGGpakPwJ2qbr
+         GJQnJRk5u78PDtRIVhh4P8Z0wXTNe37uc5cn8rZsoytD27gs7/ijuQz21G530mkx1u
+         Pd5HjfJJVLAdUxX8a1guhBCKCoeMRuxccDt5LheXXoWdLYXVvR64bnUGEK8QVO2VQQ
+         5ydG6NC7cR25g==
+Date:   Tue, 16 May 2023 19:03:39 -0600
+From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        linux-hardening@vger.kernel.org
+Subject: [PATCH][next] media: venus: hfi_cmds: Replace fake flex-array with
+ flexible-array member
+Message-ID: <ZGQn63U4IeRUiJWb@work>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] dt-bindings: xilinx: Switch xilinx.com emails to amd.com
-To:     Michal Simek <michal.simek@amd.com>, piyush.mehta@amd.com,
-        nava.kishore.manne@amd.com, sai.krishna.potthuri@amd.com,
-        shubhrajyoti.datta@amd.com, vishal.sagar@amd.com,
-        kalyani.akula@amd.com, bharat.kumar.gogada@amd.com,
-        linux-kernel@vger.kernel.org, monstr@monstr.eu,
-        michal.simek@xilinx.com, git@xilinx.com
-Cc:     Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Jolly Shah <jolly.shah@xilinx.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        Manish Narani <manish.narani@xilinx.com>,
-        Mark Brown <broonie@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Moritz Fischer <mdf@kernel.org>,
-        Rajan Vaja <rajan.vaja@xilinx.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Srinivas Neeli <srinivas.neeli@amd.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tom Rix <trix@redhat.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Wu Hao <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-clk@vger.kernel.org, linux-crypto@vger.kernel.org,
-        linux-fpga@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-ide@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-watchdog@vger.kernel.org
-References: <f5b2bd1e78407e4128fc8f0b5874ba723e710a88.1684245058.git.michal.simek@amd.com>
-Content-Language: en-US
-From:   Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <f5b2bd1e78407e4128fc8f0b5874ba723e710a88.1684245058.git.michal.simek@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-9.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5/16/23 22:51, Michal Simek wrote:
-> @xilinx.com is still working but better to switch to new amd.com after
-> AMD/Xilinx acquisition.
-> 
-> Signed-off-by: Michal Simek <michal.simek@amd.com>
-Acked-by: Damien Le Moal <dlemoal@kernel.org>
+One-element arrays are deprecated, and we are replacing them with flexible
+array members instead. So, replace one-element arrays with flexible-array
+members in struct hfi_sys_set_resource_pkt, and refactor the rest of
+the code, accordingly.
+
+This helps with the ongoing efforts to tighten the FORTIFY_SOURCE
+routines on memcpy() and help us make progress towards globally
+enabling -fstrict-flex-arrays=3 [1].
+
+The only binary differences seen before/after changes are the
+following:
+
+     17ba:      mov    %rbx,%rdi
+     17bd:      call   17c2 <pkt_sys_set_resource+0x42>
+                        17be: R_X86_64_PLT32    __tsan_write4-0x4
+-    17c2:      movl   $0x14,(%rbx)
++    17c2:      movl   $0x10,(%rbx)
+     17c8:      lea    0x4(%rbx),%rdi
+     17cc:      call   17d1 <pkt_sys_set_resource+0x51>
+                        17cd: R_X86_64_PLT32    __tsan_write4-0x4
+
+which is expected once this accounts for the following line of code
+at  drivers/media/platform/qcom/venus/hfi_cmds.c:73
+
+73         pkt->hdr.size = sizeof(*pkt);
+
+and as *pkt is of type struct hfi_sys_set_resource_pkt, sizeof(*pkt) is
+reduced by 4 bytes, due to the flex-array transformation.
+
+Link: https://github.com/KSPP/linux/issues/79
+Link: https://github.com/KSPP/linux/issues/293
+Link: https://gcc.gnu.org/pipermail/gcc-patches/2022-October/602902.html [1]
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+---
+ drivers/media/platform/qcom/venus/hfi_cmds.c | 2 +-
+ drivers/media/platform/qcom/venus/hfi_cmds.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
+index 3f74d518ad08..7c82e212434e 100644
+--- a/drivers/media/platform/qcom/venus/hfi_cmds.c
++++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
+@@ -83,7 +83,7 @@ int pkt_sys_set_resource(struct hfi_sys_set_resource_pkt *pkt, u32 id, u32 size,
+ 		res->size = size;
+ 		res->mem = addr;
+ 		pkt->resource_type = HFI_RESOURCE_OCMEM;
+-		pkt->hdr.size += sizeof(*res) - sizeof(u32);
++		pkt->hdr.size += sizeof(*res);
+ 		break;
+ 	}
+ 	case VIDC_RESOURCE_NONE:
+diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.h b/drivers/media/platform/qcom/venus/hfi_cmds.h
+index ba74d03eb9cd..dd9c5066442d 100644
+--- a/drivers/media/platform/qcom/venus/hfi_cmds.h
++++ b/drivers/media/platform/qcom/venus/hfi_cmds.h
+@@ -56,7 +56,7 @@ struct hfi_sys_set_resource_pkt {
+ 	struct hfi_pkt_hdr hdr;
+ 	u32 resource_handle;
+ 	u32 resource_type;
+-	u32 resource_data[1];
++	u32 resource_data[];
+ };
+ 
+ struct hfi_sys_release_resource_pkt {
+-- 
+2.34.1
+
