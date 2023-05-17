@@ -2,112 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 886A67068CA
-	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 14:59:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A31E7068D9
+	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 15:04:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230446AbjEQM7u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 May 2023 08:59:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41278 "EHLO
+        id S231851AbjEQNES (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 May 2023 09:04:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231847AbjEQM7p (ORCPT
+        with ESMTP id S231215AbjEQNEQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 May 2023 08:59:45 -0400
+        Wed, 17 May 2023 09:04:16 -0400
 Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F9BA5595
-        for <linux-media@vger.kernel.org>; Wed, 17 May 2023 05:59:40 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AFD110D4;
+        Wed, 17 May 2023 06:04:14 -0700 (PDT)
 Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 4QLtVM0VyQzyWs;
-        Wed, 17 May 2023 15:59:39 +0300 (EEST)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4QLtbV1QG8zyVk;
+        Wed, 17 May 2023 16:04:05 +0300 (EEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1684328379;
+        t=1684328652;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-        bh=4BVXROiqDxwJB+ROp37yBdlBPBulgaDbE2Syx6FvEA0=;
-        b=FJf5RD0hJ1eNV2/iuIrGs4lqophP6TFJf2UUMN7x4BUAtalvRZlY3fr/vaWJUqW4XcJyg6
-        dy7HTXAa78XPmLBYzx/ZXsDxS+dvO+OmQPLOGsPC2zIWFDKlnicLhotHpbCFU2I92VqqAq
-        KccUyIjyeCGYdzrZSEadGs9jAI8ZI8o=
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=qroAO/01zVC5BeUS1oPJjvMgFXQbPQ5wLZQknG7YiBc=;
+        b=KI5xLqxAreFfTVONtxIvWUWwB6MTDQj7RtmKmQdExNpcu0TTzvVSri6CgDzfn/Cvel5yIF
+        peJPQn6GiZwvSCe1d9YgeARR10JKXstw9T0rA85J5gW4iNziKdRCMcnWXYP0+H6llDqTu+
+        dlJg7YsYYMHPUazplrk3fr+MLlrvNQ8=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1684328379;
+        s=meesny; t=1684328652;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-        bh=4BVXROiqDxwJB+ROp37yBdlBPBulgaDbE2Syx6FvEA0=;
-        b=CvG2dW5ln9adMDijapWKlY4YioMJP8QBNc1JVRbip8grNcW1l7+f5JpkYm2WUrCEJMW1hR
-        cl0WuhJpxc1bA+zatYTCDxiHG+DR7UpBPItx1QKz3Uxw7DQqKLBBU1A1x9lW7dgqA7Kgdb
-        V0E4xcY/1ZSkMflu7Bieft5uQVUyibY=
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=qroAO/01zVC5BeUS1oPJjvMgFXQbPQ5wLZQknG7YiBc=;
+        b=tq4IDVw8v8U/8GsVfhSpzk5/qRBC75wFpFFUJgfBv9u3M7Nh/LDCouHEa/Yf2TAbdyN9RL
+        s9DHY+YDHwdk5UhlkrhBxeP2H2uUN2GWxD/ThDKmfJpRrOdCf8iI3cZweO5gCffPclWh3T
+        72d3B2jMq4cIupzPEIlKtqOR6tjzSWQ=
 ARC-Authentication-Results: i=1;
         ORIGINATING;
         auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1684328379; a=rsa-sha256; cv=none;
-        b=FJHOVoKiV3RZoOfrYtYmgs2rXm61rN08ZEb9uZ20rqbz8+jQuU4NzjQvXf/+xU2hGg8b41
-        umi2ROH9yGPH/1vboV5YHCbum68359RwX1Ug4NvW3nQhgaBRV/Ka+P7p6UfomdhrqWCWYd
-        pkvYDVwEovlKhpbiQniGd691Bmt2al4=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1684328652; a=rsa-sha256; cv=none;
+        b=NhylTHQjTF5WnCPKZ7JS9gpIQVkp7jw/Go3W19TSMVVJzM3XuHh1EGsfnax0pohXqM0PST
+        9D9wqdiwjRp9aDijZ5JN+bmSBC6eMjAtZznB5usfmHDH3gVQKs7r3mGmGqix5OK1JPosO8
+        b8VJFUZikNPWWHwmwu7R15M7dw0pr0I=
 Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id AB170634C94;
-        Wed, 17 May 2023 15:59:38 +0300 (EEST)
-Date:   Wed, 17 May 2023 15:59:38 +0300
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 4BC90634C94;
+        Wed, 17 May 2023 16:04:05 +0300 (EEST)
+Date:   Wed, 17 May 2023 16:04:05 +0300
 From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     linux-media@vger.kernel.org
-Cc:     Media Submaintainers <media-submaintainers@linuxtv.org>
-Subject: [GIT FIXES FOR 6.4 v2] V4L2 fixes for 6.4
-Message-ID: <ZGTPurnmJ4KQfjrr@valkosipuli.retiisi.eu>
+To:     Lorenzo Stoakes <lstoakes@gmail.com>
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        David Hildenbrand <david@redhat.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Leon Romanovsky <leon@kernel.org>,
+        Christian Benvenuti <benve@cisco.com>,
+        Nelson Escobar <neescoba@cisco.com>,
+        Bernard Metzler <bmt@zurich.ibm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+        Pavel Begunkov <asml.silence@gmail.com>,
+        Bjorn Topel <bjorn@kernel.org>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+        Jonathan Lemon <jonathan.lemon@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        linuxppc-dev@lists.ozlabs.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, kvm@vger.kernel.org,
+        netdev@vger.kernel.org, io-uring@vger.kernel.org,
+        bpf@vger.kernel.org, John Hubbard <jhubbard@nvidia.com>
+Subject: Re: [PATCH v5 5/6] mm/gup: remove vmas parameter from
+ pin_user_pages()
+Message-ID: <ZGTQxbiFnTADjLgv@valkosipuli.retiisi.eu>
+References: <cover.1684097001.git.lstoakes@gmail.com>
+ <acd4a8c735c9bc1c736e1a52a9a036db5cc7d462.1684097002.git.lstoakes@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <acd4a8c735c9bc1c736e1a52a9a036db5cc7d462.1684097002.git.lstoakes@gmail.com>
 X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+On Sun, May 14, 2023 at 10:26:58PM +0100, Lorenzo Stoakes wrote:
+> We are now in a position where no caller of pin_user_pages() requires the
+> vmas parameter at all, so eliminate this parameter from the function and
+> all callers.
+> 
+> This clears the way to removing the vmas parameter from GUP altogether.
+> 
+> Acked-by: David Hildenbrand <david@redhat.com>
+> Acked-by: Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com> (for qib)
+> Signed-off-by: Lorenzo Stoakes <lstoakes@gmail.com>
 
-This set includes fixes for 6.4.
-
-Please pull.
-
-
-The following changes since commit ac9a78681b921877518763ba0e89202254349d1b:
-
-  Linux 6.4-rc1 (2023-05-07 13:34:35 -0700)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/sailus/media_tree.git tags/fixes-6.4-2.1-signed
-
-for you to fetch changes up to a9b5a8a05f0143a48c7bf1d06e9f62bf5e0fdde0:
-
-  staging: media: imx: initialize hs_settle to avoid warning (2023-05-17 15:57:07 +0300)
-
-----------------------------------------------------------------
-V4L2 fixes for 6.4
-
-----------------------------------------------------------------
-Hans Verkuil (1):
-      staging: media: imx: initialize hs_settle to avoid warning
-
-Tomi Valkeinen (1):
-      media: v4l2-subdev: Fix missing kerneldoc for client_caps
-
-Vaishnav Achath (1):
-      media: v4l2-mc: Drop subdev check in v4l2_create_fwnode_links_to_pad()
-
- drivers/media/v4l2-core/v4l2-mc.c            | 3 +--
- drivers/staging/media/imx/imx8mq-mipi-csi2.c | 2 +-
- include/media/v4l2-subdev.h                  | 1 +
- 3 files changed, 3 insertions(+), 3 deletions(-)
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com> # drivers/media
 
 -- 
-Kind regards,
-
 Sakari Ailus
