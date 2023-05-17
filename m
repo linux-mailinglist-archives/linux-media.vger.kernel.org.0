@@ -2,271 +2,253 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 15065706501
-	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 12:19:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C35D7065B8
+	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 12:56:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230270AbjEQKTX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 May 2023 06:19:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44556 "EHLO
+        id S229654AbjEQK4N convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 17 May 2023 06:56:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230269AbjEQKTV (ORCPT
+        with ESMTP id S229501AbjEQK4M (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 May 2023 06:19:21 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEC1C4209
-        for <linux-media@vger.kernel.org>; Wed, 17 May 2023 03:19:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684318759; x=1715854759;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=HbbjNO/esOoBzuUeH1yMm8e9ugoKfqIlJgQg8bLkums=;
-  b=GM/jwbO1gcEkIAqG31zbakVLPdXoZFoPSayQpLXXupX15BdDHeIziWVP
-   J63odtZ2HMtwiFnCF0gMsoHbBuQPymo6UC1q2Safx/lpb3ds2VEPtgPMF
-   ZsPUzoHnQxW53AQe1jdzsuJgdULyIxAsszqVBBhnkjLPYOPYy7dvTNnAH
-   PNGlaXk52jhKjgiVLq+UzDu8KZ69M6EMAuxMiN43lO9LMa83j6iAPR+PM
-   NRuO63QOI2kUaFAn5BYhVyBvuZtKcwvI+wavBJiW7IXXmYoGVKpWoIwGB
-   YE4vWLooU/KbvSaOL0cgPlmMnpJyxfRAegHliPvdFpb4WjutXcLNFpRKd
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10712"; a="354888970"
-X-IronPort-AV: E=Sophos;i="5.99,281,1677571200"; 
-   d="scan'208";a="354888970"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2023 03:19:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10712"; a="948215939"
-X-IronPort-AV: E=Sophos;i="5.99,281,1677571200"; 
-   d="scan'208";a="948215939"
-Received: from icg-kernel3.bj.intel.com ([172.16.126.100])
-  by fmsmga006.fm.intel.com with ESMTP; 17 May 2023 03:19:16 -0700
-From:   bingbu.cao@intel.com
-To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        dan.scally@ideasonboard.com
-Cc:     wentong.wu@intel.com, bingbu.cao@intel.com,
-        bingbu.cao@linux.intel.com
-Subject: [PATCH] media: intel: rename and move cio2-bridge out of ipu3
-Date:   Wed, 17 May 2023 18:30:04 +0800
-Message-Id: <20230517103004.724264-1-bingbu.cao@intel.com>
-X-Mailer: git-send-email 2.40.1
+        Wed, 17 May 2023 06:56:12 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BEFF5FE4;
+        Wed, 17 May 2023 03:55:45 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-94a342f4c8eso14033066b.0;
+        Wed, 17 May 2023 03:55:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684320836; x=1686912836;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xKeIw/TnmDyhGpNbAO0p58BQHrPamjgDrY0g2l07eRY=;
+        b=YA0jolfdBpzLdpwFIW1vWSImIF5ItU8MgADgSzLKG+P8MxmjpiVncJoGEc6z5O+7SK
+         wlrsgpPOp7lZKFbL9D3GcCVt0fdW3YIjFngk72BTJaCO5BXzb7uE9c52m1vxihX4m96R
+         x6ucvs+QJICvYdLYmGm/I+Y6Gb/qmUGr6v/aSsB3Iv2BeiEItb0yoI+Wru+mI+XqKkga
+         3uOBl8dUPEl8y4EGn0Bvpio3EWVEOTUWiSalwQy4Vgc1bzvDxuWddKsHcXYyM5jv5cWn
+         tpVKM8lqile8uP6tHHN7x4J9pr/qYzLF9Rf/B2RBNceRSSZG3OirnGgS5JnuJiWWoIhi
+         9jew==
+X-Gm-Message-State: AC+VfDwqjKb1LfyX0SG3hJzKVWfO2QUKgM96XtdNBIyMbIvcRaqcBq7t
+        aLJKsT7cQ4WgABVCQfiSNXBGY+mF158BZr9J6xcpV9Dv
+X-Google-Smtp-Source: ACHHUZ4LxpbW1jraJut4i5Wm/5u3WDcNDacpknWnMUrPNwimm8L89RgY83qhLDbzI8SIOSb+JmulDt3NsHAzkhJXD1U=
+X-Received: by 2002:a17:906:72c6:b0:953:2918:71e7 with SMTP id
+ m6-20020a17090672c600b00953291871e7mr1504751ejl.5.1684320835519; Wed, 17 May
+ 2023 03:53:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20230329100951.1522322-1-sakari.ailus@linux.intel.com> <20230329100951.1522322-6-sakari.ailus@linux.intel.com>
+In-Reply-To: <20230329100951.1522322-6-sakari.ailus@linux.intel.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Wed, 17 May 2023 12:53:43 +0200
+Message-ID: <CAJZ5v0gxqs3+ofqX0PGmM=3HOi96ioyYJis+RL2oACPq6rggEA@mail.gmail.com>
+Subject: Re: [PATCH v8 05/10] ACPI: property: Prepare generating swnodes for
+ ACPI and DisCo for Imaging
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
+        rafael@kernel.org, andriy.shevchenko@linux.intel.com,
+        heikki.krogerus@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Bingbu Cao <bingbu.cao@intel.com>
+On Wed, Mar 29, 2023 at 12:10 PM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> Prepare generating software nodes for information parsed from ACPI _CRS for
+> CSI-2 as well as MIPI DisCo for Imaging spec. The software nodes are
+> compliant with existing ACPI or DT definitions and are parsed by relevant
+> drivers without changes.
+>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/acpi/internal.h |   3 +
+>  drivers/acpi/mipi.c     | 358 +++++++++++++++++++++++++++++++++++++++-
+>  drivers/acpi/scan.c     |  21 ++-
+>  include/acpi/acpi_bus.h |  70 ++++++++
+>  4 files changed, 449 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/acpi/internal.h b/drivers/acpi/internal.h
+> index aa5f9c69dbbe..1634a177c75e 100644
+> --- a/drivers/acpi/internal.h
+> +++ b/drivers/acpi/internal.h
+> @@ -304,9 +304,12 @@ static inline void acpi_init_lpit(void) { }
+>                         ACPI _CRS CSI2 and MIPI DisCo for Imaging conversion
+>    -------------------------------------------------------------------------- */
+>
+> +#define MIPI_IMG_PORT_PREFIX "mipi-img-port-"
+> +
+>  void acpi_crs_csi2_swnodes_del_free(void);
+>  void acpi_bus_scan_check_crs_csi2(acpi_handle handle, struct acpi_scan_context *ctx);
+>  void acpi_bus_scan_crs_csi2_release(struct list_head *crs_csi2_handles);
+>  void acpi_bus_scan_crs_csi2(struct acpi_scan_context_csi2 *ctx);
+> +void acpi_init_swnodes(struct acpi_device *device);
+>
+>  #endif /* _ACPI_INTERNAL_H_ */
+> diff --git a/drivers/acpi/mipi.c b/drivers/acpi/mipi.c
+> index d719c879eb83..03079f78bd2c 100644
+> --- a/drivers/acpi/mipi.c
+> +++ b/drivers/acpi/mipi.c
+> @@ -3,7 +3,8 @@
+>   * MIPI DisCo for Imaging support.
+>   *
+>   * Support MIPI DisCo for Imaging by parsing ACPI _CRS CSI2 records and DisCo
+> - * for Imaging data structures.
+> + * for Imaging data structures and generating nodes and properties using
+> + * software nodes compliant with DT definitions of the similar scope.
+>   *
+>   * Also see <URL:https://www.mipi.org/specifications/mipi-disco-imaging>.
+>   *
+> @@ -20,6 +21,8 @@
+>  #include <linux/sort.h>
+>  #include <linux/string.h>
+>
+> +#include <media/v4l2-fwnode.h>
+> +
+>  #include "internal.h"
+>
+>  /* Temporary ACPI device handle to software node data structure mapping */
+> @@ -31,6 +34,18 @@ struct crs_csi2_swnodes {
+>
+>  static LIST_HEAD(crs_csi2_swnodes);
+>
+> +/* Obtain pre-allocated software nodes for an ACPI device handle */
+> +static struct acpi_device_software_nodes *crs_csi2_swnode_get(acpi_handle handle)
+> +{
+> +       struct crs_csi2_swnodes *swnodes;
+> +
+> +       list_for_each_entry(swnodes, &crs_csi2_swnodes, list)
+> +               if (swnodes->handle == handle)
+> +                       return swnodes->ads;
+> +
+> +       return NULL;
+> +}
+> +
+>  static void crs_csi2_swnode_del_free(struct crs_csi2_swnodes *swnodes)
+>  {
+>         list_del(&swnodes->list);
+> @@ -166,6 +181,35 @@ struct acpi_handle_ref {
+>
+>  #define NO_CSI2_PORT (UINT_MAX - 1)
+>
+> +/*
+> + * Return next free entry in ports array of a software nodes related to an ACPI
+> + * device.
+> + */
+> +static unsigned int next_csi2_port_index(struct acpi_device_software_nodes *ads,
+> +                                        unsigned int port_nr)
+> +{
+> +       unsigned int i;
+> +
+> +       for (i = 0; i < ads->num_ports; i++) {
+> +               struct acpi_device_software_node_port *port = &ads->ports[i];
+> +
+> +               if (port->port_nr == port_nr)
+> +                       return i;
+> +
+> +               if (port->port_nr == NO_CSI2_PORT) {
+> +                       port->port_nr = port_nr;
+> +                       return i;
+> +               }
+> +       }
+> +
+> +       return NO_CSI2_PORT;
+> +}
+> +
+> +/* Print graph port name into a buffer, return non-zero if failed. */
+> +#define GRAPH_PORT_NAME(var, num)                                          \
+> +       (snprintf((var), sizeof(var), SWNODE_GRAPH_PORT_NAME_FMT, (num)) >= \
+> +        sizeof(var))
+> +
+>  static int crs_handle_cmp(const void *__a, const void *__b)
+>  {
+>         const struct acpi_handle_ref *a = __a, *b = __b;
+> @@ -258,6 +302,9 @@ static void acpi_crs_csi2_alloc_fill_swnodes(size_t ports_count, acpi_handle han
+>                           ports_count);
+>  }
+>
+> +#define ACPI_CRS_CSI2_PHY_TYPE_C       0
+> +#define ACPI_CRS_CSI2_PHY_TYPE_D       1
+> +
+>  /**
+>   * acpi_bus_scan_crs_csi2 - Construct software nodes out of ACPI _CRS CSI2
+>   *                         resource descriptors
+> @@ -274,6 +321,8 @@ static void acpi_crs_csi2_alloc_fill_swnodes(size_t ports_count, acpi_handle han
+>   * 3. Allocate memory for swnodes each ACPI device requires later on, and
+>   *    generate a list of such allocations.
+>   *
+> + * 4. Set up properties for software nodes.
+> + *
+>   * Note that struct acpi_device may not be available yet at this time.
+>   *
+>   * acpi_scan_lock in scan.c must be held when calling this function.
+> @@ -339,5 +388,312 @@ void acpi_bus_scan_crs_csi2(struct acpi_scan_context_csi2 *ctx)
+>                 this_count = this->count;
+>         }
+>
+> +       /*
+> +        * Allocate and set up necessary software nodes for each device and set
+> +        * up properties from _CRS CSI2 descriptor.
+> +        */
+> +       list_for_each_entry(csi2, &ctx->crs_csi2_head, list) {
+> +               struct acpi_device_software_nodes *local_swnodes;
+> +               struct crs_csi2_instance *inst;
+> +
+> +               local_swnodes = crs_csi2_swnode_get(csi2->handle);
+> +               if (WARN_ON_ONCE(!local_swnodes))
+> +                       continue;
+> +
+> +               list_for_each_entry(inst, &csi2->buses, list) {
+> +                       struct acpi_device_software_nodes *remote_swnodes;
+> +                       struct acpi_device_software_node_port *local_port;
+> +                       struct acpi_device_software_node_port *remote_port;
+> +                       struct software_node *local_node, *remote_node;
+> +                       unsigned int local_index, remote_index;
+> +                       unsigned int bus_type;
+> +
+> +                       remote_swnodes = crs_csi2_swnode_get(inst->remote_handle);
+> +                       if (WARN_ON_ONCE(!remote_swnodes))
+> +                               continue;
+> +
+> +                       local_index = next_csi2_port_index(local_swnodes, inst->csi2.local_port_instance);
+> +                       remote_index = next_csi2_port_index(remote_swnodes, inst->csi2.resource_source.index);
+> +
+> +                       if (WARN_ON_ONCE(local_index >= local_swnodes->num_ports) ||
+> +                           WARN_ON_ONCE(remote_index >= remote_swnodes->num_ports))
+> +                               goto out_free;
+> +
+> +                       switch (inst->csi2.phy_type) {
+> +                       case ACPI_CRS_CSI2_PHY_TYPE_C:
+> +                               bus_type = V4L2_FWNODE_BUS_TYPE_CSI2_CPHY;
+> +                               break;
+> +                       case ACPI_CRS_CSI2_PHY_TYPE_D:
+> +                               bus_type = V4L2_FWNODE_BUS_TYPE_CSI2_DPHY;
+> +                               break;
+> +                       default:
+> +                               acpi_handle_info(csi2->handle,
+> +                                                "ignoring CSI-2 PHY type %u\n",
+> +                                                inst->csi2.phy_type);
+> +                               continue;
+> +                       }
+> +
+> +                       local_port = &local_swnodes->ports[local_index];
+> +                       local_node = &local_swnodes->nodes[ACPI_DEVICE_SWNODE_EP(local_index)];
+> +                       local_port->remote_ep_ref[0] = SOFTWARE_NODE_REFERENCE(local_node);
 
-cio2 bridge was involved along with IPU3. However, in fact all Intel
-IPUs besides IPU3 CIO2 need this bridge driver. This patch move
-bridge driver out of ipu3 directory and rename as ipu-bridge. Then
-it can be worked with IPU3 and other Intel IPUs.
+This looks odd.  Is local_port pointing to its own node as a remote
+endpont, or am I confused?
 
-Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
----
- drivers/media/pci/Kconfig                     |  1 +
- drivers/media/pci/intel/Kconfig               | 19 +++++++++++++++++++
- drivers/media/pci/intel/Makefile              |  4 ++--
- .../{ipu3/cio2-bridge.c => ipu-bridge.c}      |  5 +++--
- .../{ipu3/cio2-bridge.h => ipu-bridge.h}      |  8 +++++++-
- drivers/media/pci/intel/ipu3/Kconfig          | 19 -------------------
- drivers/media/pci/intel/ipu3/Makefile         |  1 -
- drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |  4 +++-
- drivers/media/pci/intel/ipu3/ipu3-cio2.h      |  6 ------
- 9 files changed, 35 insertions(+), 32 deletions(-)
- create mode 100644 drivers/media/pci/intel/Kconfig
- rename drivers/media/pci/intel/{ipu3/cio2-bridge.c => ipu-bridge.c} (99%)
- rename drivers/media/pci/intel/{ipu3/cio2-bridge.h => ipu-bridge.h} (94%)
+> +                       local_port->crs_csi2_local = true;
+> +
+> +                       remote_port = &remote_swnodes->ports[remote_index];
+> +                       remote_node = &remote_swnodes->nodes[ACPI_DEVICE_SWNODE_EP(remote_index)];
+> +                       remote_port->remote_ep_ref[0] = SOFTWARE_NODE_REFERENCE(remote_node);
 
-diff --git a/drivers/media/pci/Kconfig b/drivers/media/pci/Kconfig
-index 480194543d05..06bcd9c1ca99 100644
---- a/drivers/media/pci/Kconfig
-+++ b/drivers/media/pci/Kconfig
-@@ -73,6 +73,7 @@ config VIDEO_PCI_SKELETON
- 	  Enable build of the skeleton PCI driver, used as a reference
- 	  when developing new drivers.
- 
-+source "drivers/media/pci/intel/Kconfig"
- source "drivers/media/pci/intel/ipu3/Kconfig"
- 
- endif #MEDIA_PCI_SUPPORT
-diff --git a/drivers/media/pci/intel/Kconfig b/drivers/media/pci/intel/Kconfig
-new file mode 100644
-index 000000000000..47bd69c6c9f9
---- /dev/null
-+++ b/drivers/media/pci/intel/Kconfig
-@@ -0,0 +1,19 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+config IPU_BRIDGE
-+	bool "Intel IPU Sensors Bridge"
-+	depends on VIDEO_IPU3_CIO2 && ACPI
-+	depends on I2C
-+	help
-+	  This extension provides an API for the Intel IPU driver to create
-+	  connections to cameras that are hidden in the SSDB buffer in ACPI.
-+	  It can be used to enable support for cameras in detachable / hybrid
-+	  devices that ship with Windows.
-+
-+	  Say Y here if your device is a detachable / hybrid laptop that comes
-+	  with Windows installed by the OEM, for example:
-+
-+		- Microsoft Surface models (except Surface Pro 3)
-+		- The Lenovo Miix line (for example the 510, 520, 710 and 720)
-+		- Dell 7285
-+
-+	  If in doubt, say N here.
-diff --git a/drivers/media/pci/intel/Makefile b/drivers/media/pci/intel/Makefile
-index 0b4236c4db49..951191a7e401 100644
---- a/drivers/media/pci/intel/Makefile
-+++ b/drivers/media/pci/intel/Makefile
-@@ -1,6 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0-only
- #
--# Makefile for the IPU3 cio2 and ImGU drivers
-+# Makefile for the IPU drivers
- #
--
-+obj-$(CONFIG_IPU_BRIDGE) += ipu-bridge.o
- obj-y	+= ipu3/
-diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
-similarity index 99%
-rename from drivers/media/pci/intel/ipu3/cio2-bridge.c
-rename to drivers/media/pci/intel/ipu-bridge.c
-index 3c2accfe5455..6fdc79e1f970 100644
---- a/drivers/media/pci/intel/ipu3/cio2-bridge.c
-+++ b/drivers/media/pci/intel/ipu-bridge.c
-@@ -8,7 +8,7 @@
- #include <linux/property.h>
- #include <media/v4l2-fwnode.h>
- 
--#include "cio2-bridge.h"
-+#include "ipu-bridge.h"
- 
- /*
-  * Extend this array with ACPI Hardware IDs of devices known to be working
-@@ -431,7 +431,7 @@ static int cio2_bridge_sensors_are_ready(void)
- 	return ready;
- }
- 
--int cio2_bridge_init(struct pci_dev *cio2)
-+int ipu_bridge_init(struct pci_dev *cio2)
- {
- 	struct device *dev = &cio2->dev;
- 	struct fwnode_handle *fwnode;
-@@ -492,3 +492,4 @@ int cio2_bridge_init(struct pci_dev *cio2)
- 
- 	return ret;
- }
-+EXPORT_SYMBOL_NS_GPL(ipu_bridge_init, INTEL_IPU_BRIDGE);
-diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.h b/drivers/media/pci/intel/ipu-bridge.h
-similarity index 94%
-rename from drivers/media/pci/intel/ipu3/cio2-bridge.h
-rename to drivers/media/pci/intel/ipu-bridge.h
-index b76ed8a641e2..a86e80c0bbbe 100644
---- a/drivers/media/pci/intel/ipu3/cio2-bridge.h
-+++ b/drivers/media/pci/intel/ipu-bridge.h
-@@ -6,7 +6,7 @@
- #include <linux/property.h>
- #include <linux/types.h>
- 
--#include "ipu3-cio2.h"
-+#include "ipu3/ipu3-cio2.h"
- 
- struct i2c_client;
- 
-@@ -143,4 +143,10 @@ struct cio2_bridge {
- 	struct cio2_sensor sensors[CIO2_NUM_PORTS];
- };
- 
-+#if IS_ENABLED(CONFIG_IPU_BRIDGE)
-+int ipu_bridge_init(struct pci_dev *cio2);
-+#else
-+static inline int ipu_bridge_init(struct pci_dev *cio2) { return 0; }
-+#endif
-+
- #endif
-diff --git a/drivers/media/pci/intel/ipu3/Kconfig b/drivers/media/pci/intel/ipu3/Kconfig
-index 65b0c1598fbf..9be06ee81ff0 100644
---- a/drivers/media/pci/intel/ipu3/Kconfig
-+++ b/drivers/media/pci/intel/ipu3/Kconfig
-@@ -17,22 +17,3 @@ config VIDEO_IPU3_CIO2
- 	  Say Y or M here if you have a Skylake/Kaby Lake SoC with MIPI CSI-2
- 	  connected camera.
- 	  The module will be called ipu3-cio2.
--
--config CIO2_BRIDGE
--	bool "IPU3 CIO2 Sensors Bridge"
--	depends on VIDEO_IPU3_CIO2 && ACPI
--	depends on I2C
--	help
--	  This extension provides an API for the ipu3-cio2 driver to create
--	  connections to cameras that are hidden in the SSDB buffer in ACPI.
--	  It can be used to enable support for cameras in detachable / hybrid
--	  devices that ship with Windows.
--
--	  Say Y here if your device is a detachable / hybrid laptop that comes
--	  with Windows installed by the OEM, for example:
--
--		- Microsoft Surface models (except Surface Pro 3)
--		- The Lenovo Miix line (for example the 510, 520, 710 and 720)
--		- Dell 7285
--
--	  If in doubt, say N here.
-diff --git a/drivers/media/pci/intel/ipu3/Makefile b/drivers/media/pci/intel/ipu3/Makefile
-index 933777e6ea8a..429d516452e4 100644
---- a/drivers/media/pci/intel/ipu3/Makefile
-+++ b/drivers/media/pci/intel/ipu3/Makefile
-@@ -2,4 +2,3 @@
- obj-$(CONFIG_VIDEO_IPU3_CIO2) += ipu3-cio2.o
- 
- ipu3-cio2-y += ipu3-cio2-main.o
--ipu3-cio2-$(CONFIG_CIO2_BRIDGE) += cio2-bridge.o
-diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-index 3c84cb121632..03a7ab4d2e69 100644
---- a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-+++ b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-@@ -29,6 +29,7 @@
- #include <media/v4l2-ioctl.h>
- #include <media/videobuf2-dma-sg.h>
- 
-+#include "../ipu-bridge.h"
- #include "ipu3-cio2.h"
- 
- struct ipu3_cio2_fmt {
-@@ -1727,7 +1728,7 @@ static int cio2_pci_probe(struct pci_dev *pci_dev,
- 			return -EINVAL;
- 		}
- 
--		r = cio2_bridge_init(pci_dev);
-+		r = ipu_bridge_init(pci_dev);
- 		if (r)
- 			return r;
- 	}
-@@ -2060,3 +2061,4 @@ MODULE_AUTHOR("Yuning Pu <yuning.pu@intel.com>");
- MODULE_AUTHOR("Yong Zhi <yong.zhi@intel.com>");
- MODULE_LICENSE("GPL v2");
- MODULE_DESCRIPTION("IPU3 CIO2 driver");
-+MODULE_IMPORT_NS(INTEL_IPU_BRIDGE);
-diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.h b/drivers/media/pci/intel/ipu3/ipu3-cio2.h
-index 3a1f394e05aa..d731ce8adbe3 100644
---- a/drivers/media/pci/intel/ipu3/ipu3-cio2.h
-+++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.h
-@@ -459,10 +459,4 @@ static inline struct cio2_queue *vb2q_to_cio2_queue(struct vb2_queue *vq)
- 	return container_of(vq, struct cio2_queue, vbq);
- }
- 
--#if IS_ENABLED(CONFIG_CIO2_BRIDGE)
--int cio2_bridge_init(struct pci_dev *cio2);
--#else
--static inline int cio2_bridge_init(struct pci_dev *cio2) { return 0; }
--#endif
--
- #endif
--- 
-2.40.1
-
+Analogously here.
