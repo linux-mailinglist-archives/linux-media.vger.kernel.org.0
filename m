@@ -2,152 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4470B70706D
-	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 20:08:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C33A970709F
+	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 20:21:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229957AbjEQSH7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 May 2023 14:07:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42734 "EHLO
+        id S229775AbjEQSVK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 May 2023 14:21:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229942AbjEQSH6 (ORCPT
+        with ESMTP id S229517AbjEQSVI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 May 2023 14:07:58 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1BACB0;
-        Wed, 17 May 2023 11:07:57 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Wed, 17 May 2023 14:21:08 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B34693D9;
+        Wed, 17 May 2023 11:21:03 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkzdf0gkyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4506:4f15::1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5BB23649E3;
-        Wed, 17 May 2023 18:07:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59121C433EF;
-        Wed, 17 May 2023 18:07:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684346876;
-        bh=fFAQZam9M9GaiJNW3WGAqDih6/zmyl0kx8ysWpMj0WQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=k/QWdDVAs6ecpvp4JtgSMAgngJmiD4LVWf5EX+ggp09aHS5JhVJO5AZTR2rqwtvuD
-         PrZnBWsZTppJ8mC2sjtxPM0KR3WVmVR5DVqEahaByES2GmBUmfAT9tEVgE+xeICORj
-         VL+Z7nx1GkhOtWfwiiSwspOq92zj3kkvziWfsvcW1ltbfJLXd4fTXbJkCufDva4lW1
-         sbblEy8ZZ9oTGSRzNmGfoPZp98C3AV27Qraaaru72/6gwJvTS4b9yNc1UeCoI+DXKH
-         2BOBwCiDhQgxmjrpCDIbLp6SCC3CinzTinq64wh7Qktj1ggE55sEIeUEDX+pcQHNpE
-         G1DybcnsONI0w==
-Date:   Wed, 17 May 2023 12:08:46 -0600
-From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4QM1d935d4z49Q47;
+        Wed, 17 May 2023 21:21:01 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1684347661;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=LQDStvIbW7UGWuPy2yJ4GFYZJS+LxAH2lk+n1n4DGtU=;
+        b=QJ4bDUPke+hqm25eN0peiCWpEhHv2l+qMs2EV15uHEP/l10jL1Cl95vXxLVlMFUmDkvguw
+        CXvBU60+kfZQECPxVVJSD+htmudhrz+oPoePIVYVA5BxFowd0Z9TQc4w8l9pVBiDLk4d3t
+        ARf/NlPdQXiDNCGDygM/cbGQoZr6Vl8XM25H6I5vP1Td25+gKhvc0ORO3vuW4laNS2q2JE
+        0v7Uuf+UhYPplc4BoElXYoGQosC1nNgz4NqMeLNrEsWuk1ngFM9IE6bbVjqcOHd2Q/C4Be
+        9PATwkJkhSVZQGzbd19bBs1SOjDSsPm53dcrLXlP6vZFtdfJjHLNLJdjVfMUTQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1684347661;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=LQDStvIbW7UGWuPy2yJ4GFYZJS+LxAH2lk+n1n4DGtU=;
+        b=jqc2Kre3ntvqCmwH/e4vZt8H6sihFv9jff8xDCQfjulSqijtFf+b0DYTEc1fC8Rm4LbhxV
+        498gntV3EgVnRQv5FjDwFhYW70ukbTDndFGREGLcxc4uBSdQ+v3jb2Fm99BMMn9V2dFH8s
+        wweS1o2YfTvxV9hZIVATzjwAh4BxC/MAqqeZLDLvnTpr1r5FxiAxQ0Q7Je3THyR7WklMm+
+        NLUbtsToT9rzYeVqYHquUY8DB2DNIn2azmyRkVw2kbyrFNp6irBZ5OKF0IUVViD1Nj9NzP
+        A7Ecl7X8h31kvXRNr5fbr9hH5aLlSM87+yAofSVxIS2GnS1xL7ieIdrndJCtug==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1684347661; a=rsa-sha256;
+        cv=none;
+        b=AM1Ph2iur9qQRcG2eTc3eKOw9eY/7nF0CHrhsofRZDg5Y/20018SJk4mtAZcuHgOkuMzWE
+        LB+tSLn2fWcQanEu1ffy2/OZAIqZXw/hdlQ0abbC8ZLksObmxTQtUyoE044lTHH9HiQhVx
+        pxRMYkxsus/7C8lOGxRMoCPbJrjU8yTrsLEUVOiRhFAZWQfC/QcX9nQX0Si8mjsXN8ibHi
+        jn8EU99YexCcubRc2vRWltxWWGYQU6ebag3cxfLTBotVLGIE08xhRN19oPv2eO1SvqAjts
+        E5j0FYKci46IYUphqHcHHUr8yNO/cgJMh3d3azWgtKY22mNQF5aYLxZEP2oz8w==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id DE522634C94;
+        Wed, 17 May 2023 21:21:00 +0300 (EEST)
+Date:   Wed, 17 May 2023 21:21:00 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Patrice Chotard <patrice.chotard@foss.st.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH][next] media: venus: hfi_cmds: Replace fake flex-array
- with flexible-array member
-Message-ID: <ZGUYLoqwrcVsjiaH@work>
-References: <ZGQn63U4IeRUiJWb@work>
- <202305171049.9AB52166@keescook>
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: Re: [PATCH] media: c8sectpfe: convert to gpio descriptors
+Message-ID: <ZGUbDFssUwXKTiDt@valkosipuli.retiisi.eu>
+References: <20230130131003.668888-1-arnd@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202305171049.9AB52166@keescook>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230130131003.668888-1-arnd@kernel.org>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, May 17, 2023 at 10:50:53AM -0700, Kees Cook wrote:
-> On Tue, May 16, 2023 at 07:03:39PM -0600, Gustavo A. R. Silva wrote:
-> > One-element arrays are deprecated, and we are replacing them with flexible
-> > array members instead. So, replace one-element arrays with flexible-array
-> > members in struct hfi_sys_set_resource_pkt, and refactor the rest of
-> > the code, accordingly.
-> > 
-> > This helps with the ongoing efforts to tighten the FORTIFY_SOURCE
-> > routines on memcpy() and help us make progress towards globally
-> > enabling -fstrict-flex-arrays=3 [1].
-> > 
-> > The only binary differences seen before/after changes are the
-> > following:
-> > 
-> >      17ba:      mov    %rbx,%rdi
-> >      17bd:      call   17c2 <pkt_sys_set_resource+0x42>
-> >                         17be: R_X86_64_PLT32    __tsan_write4-0x4
-> > -    17c2:      movl   $0x14,(%rbx)
-> > +    17c2:      movl   $0x10,(%rbx)
-> >      17c8:      lea    0x4(%rbx),%rdi
-> >      17cc:      call   17d1 <pkt_sys_set_resource+0x51>
-> >                         17cd: R_X86_64_PLT32    __tsan_write4-0x4
-> > 
-> > which is expected once this accounts for the following line of code
-> > at  drivers/media/platform/qcom/venus/hfi_cmds.c:73
-> > 
-> > 73         pkt->hdr.size = sizeof(*pkt);
-> > 
-> > and as *pkt is of type struct hfi_sys_set_resource_pkt, sizeof(*pkt) is
-> > reduced by 4 bytes, due to the flex-array transformation.
-> 
-> Based on the other place that was subtracting the 1 element, this looks
+Hi Arnd,
 
-Do you mean the one you commented on yesterday?
+On Mon, Jan 30, 2023 at 02:09:47PM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> The gpio usage in the function is fairly straightforward,
+> but the normal gpiod_get() interface cannot be used here
+> since the gpio is referenced by a child node of the device.
+> 
+> Using devm_fwnode_gpiod_get_index() is the best alternative
+> here.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-https://lore.kernel.org/linux-hardening/ZGPk3PpvYzjD1+0%2F@work/ this?
+I've picked
+<URL:https://patchwork.linuxtv.org/project/linux-media/patch/20230130131003.668888-1-arnd@kernel.org/>
+instead. I hope that's fine. Also cc Dmitry.
 
---
-Gustavo
+-- 
+Kind regards,
 
-> like hfi_cmds.c:73 is an existing sizing bug that is now fixed with this
-> patch, yes?
-> 
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> 
-> -Kees
-> 
-> > 
-> > Link: https://github.com/KSPP/linux/issues/79
-> > Link: https://github.com/KSPP/linux/issues/293
-> > Link: https://gcc.gnu.org/pipermail/gcc-patches/2022-October/602902.html [1]
-> > Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-> > ---
-> >  drivers/media/platform/qcom/venus/hfi_cmds.c | 2 +-
-> >  drivers/media/platform/qcom/venus/hfi_cmds.h | 2 +-
-> >  2 files changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
-> > index 3f74d518ad08..7c82e212434e 100644
-> > --- a/drivers/media/platform/qcom/venus/hfi_cmds.c
-> > +++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
-> > @@ -83,7 +83,7 @@ int pkt_sys_set_resource(struct hfi_sys_set_resource_pkt *pkt, u32 id, u32 size,
-> >  		res->size = size;
-> >  		res->mem = addr;
-> >  		pkt->resource_type = HFI_RESOURCE_OCMEM;
-> > -		pkt->hdr.size += sizeof(*res) - sizeof(u32);
-> > +		pkt->hdr.size += sizeof(*res);
-> >  		break;
-> >  	}
-> >  	case VIDC_RESOURCE_NONE:
-> > diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.h b/drivers/media/platform/qcom/venus/hfi_cmds.h
-> > index ba74d03eb9cd..dd9c5066442d 100644
-> > --- a/drivers/media/platform/qcom/venus/hfi_cmds.h
-> > +++ b/drivers/media/platform/qcom/venus/hfi_cmds.h
-> > @@ -56,7 +56,7 @@ struct hfi_sys_set_resource_pkt {
-> >  	struct hfi_pkt_hdr hdr;
-> >  	u32 resource_handle;
-> >  	u32 resource_type;
-> > -	u32 resource_data[1];
-> > +	u32 resource_data[];
-> >  };
-> >  
-> >  struct hfi_sys_release_resource_pkt {
-> > -- 
-> > 2.34.1
-> > 
-> 
-> -- 
-> Kees Cook
+Sakari Ailus
