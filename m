@@ -2,104 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF7BD706F84
-	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 19:34:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F5CE706FF2
+	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 19:50:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229867AbjEQRe1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 May 2023 13:34:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44126 "EHLO
+        id S229939AbjEQRu5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 May 2023 13:50:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229866AbjEQReY (ORCPT
+        with ESMTP id S229739AbjEQRu4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 May 2023 13:34:24 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39B201FFE;
-        Wed, 17 May 2023 10:34:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684344863; x=1715880863;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=J1vTwWXDWOmB5KTcRXHCtG0ov/EzmpZpuFt2eQ7PAKw=;
-  b=LFsPrCBUnAXcJVJI6oPECJ3aomwnqNRMc7yVX+BkmJEMyEdOJxmd1zhc
-   wzoo4KKkSrbw8Zh4Fh36GCqzDOD59EpjfC/fEU9hSOGALFMGyVjlz8rC1
-   xgKNWfkTJSPxJswO7TnWpH1Zwj1Fu+9CcX/BFvjYNYLAdnVJtiCQXcCr1
-   8w24/fjufI3kMYw80nmbpVGjF+3LZuO/yDg/eCdEWxbtybw8BuBnhzHsT
-   R92SB0gHdDWmSFfeLnxbClx4eH8DcKnrnvUXZwYzPgrYgoJXa9v6rekwf
-   2mD3G8M6UdqxmVtcSuKoQHQulRaKjUZZmDZvjCjRnpdxdiN45soq1nkYZ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10713"; a="336384339"
-X-IronPort-AV: E=Sophos;i="5.99,282,1677571200"; 
-   d="scan'208";a="336384339"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2023 10:34:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10713"; a="846175229"
-X-IronPort-AV: E=Sophos;i="5.99,282,1677571200"; 
-   d="scan'208";a="846175229"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2023 10:34:21 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 6F1DD120C45;
-        Wed, 17 May 2023 20:34:18 +0300 (EEST)
-Date:   Wed, 17 May 2023 17:34:18 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
-        andriy.shevchenko@linux.intel.com, heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH v8 05/10] ACPI: property: Prepare generating swnodes for
- ACPI and DisCo for Imaging
-Message-ID: <ZGUQGo/5A5+ET4OP@kekkonen.localdomain>
-References: <20230329100951.1522322-1-sakari.ailus@linux.intel.com>
- <20230329100951.1522322-6-sakari.ailus@linux.intel.com>
- <CAJZ5v0gxqs3+ofqX0PGmM=3HOi96ioyYJis+RL2oACPq6rggEA@mail.gmail.com>
- <ZGS+RzCGl7Y3p6N/@kekkonen.localdomain>
- <CAJZ5v0i73bdo7oxv_hrj0qM0PQuk9cbRLQ4jqPbKn7V4nMqOhQ@mail.gmail.com>
- <CAJZ5v0hG-qGa==9cQz2-xK01JJxL2UZuL9u=5yaDo3rW9eL9eQ@mail.gmail.com>
+        Wed, 17 May 2023 13:50:56 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DE0713E
+        for <linux-media@vger.kernel.org>; Wed, 17 May 2023 10:50:55 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-643a1fed360so767373b3a.3
+        for <linux-media@vger.kernel.org>; Wed, 17 May 2023 10:50:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1684345854; x=1686937854;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=zUT9us1DezRMsnLU4PSux8SpLZ48zmMBvlSSjJkncm4=;
+        b=QjotMdSjQZIecoNUy/osx/x608ogH3q/xE1ordj7EdXGfExtIiozjxWLezNEvttun/
+         x0j8Ew+Eskxu3YuyfNq1LQjCMKoZVu1jnkJRW/IruBQ9tArjYXLG/EFXEp/6ys4DMIPH
+         +1H38AiggKVfv62qiG0zTd3sh6gpXwE47efmE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684345854; x=1686937854;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zUT9us1DezRMsnLU4PSux8SpLZ48zmMBvlSSjJkncm4=;
+        b=Tky4YEIVHMtbXmBGPrMv3+zvLPerY5KH7gBZKTNaT3XIvXE26uuQYcKvpcWqY6o+Iq
+         Yh4VHSN6jx8HAjDsPKncGuE7WzmpIDxqCDHvzsV3u58DZrMp474ari8ttVwuNbtUJFFN
+         c23f6OiZKxqAYL6V3OcAdiL+IwAzX/VHc+bKBu2TaNVE90sbe5vyjSs83bxY3S47sF0N
+         ksFDL+/BDPxguaXbSnNibQnEBN4x6bpbIi6FtRnQLGKrbWHFj90BeBaQXNX0T6UC0iYC
+         7MaFSJx+T1z3ywVtxZgfvyRnIS5mro+nIkGuN+F5ytn7A2x+EnZ3Ab8XBncajLbYhCoz
+         SgvQ==
+X-Gm-Message-State: AC+VfDz+f3Mylgv0eYBfNtmqvWQR1VBIKOtW7Ve3D3hHjL/kqWVfRt8p
+        naMAT0XEIz1Hs0/QkYAsbGnL3GddmBl/i/iaduE=
+X-Google-Smtp-Source: ACHHUZ5atc4t6+629ifcijOHATQmHDJlghJcNepJv1I/ddk3F3smO/swEB2POcnGNWpIegFFZScYBw==
+X-Received: by 2002:a05:6a20:441c:b0:100:bee5:c80d with SMTP id ce28-20020a056a20441c00b00100bee5c80dmr44711959pzb.25.1684345854541;
+        Wed, 17 May 2023 10:50:54 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id b23-20020aa78117000000b0063d670ad850sm6041141pfi.92.2023.05.17.10.50.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 May 2023 10:50:54 -0700 (PDT)
+Date:   Wed, 17 May 2023 10:50:53 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH][next] media: venus: hfi_cmds: Replace fake flex-array
+ with flexible-array member
+Message-ID: <202305171049.9AB52166@keescook>
+References: <ZGQn63U4IeRUiJWb@work>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJZ5v0hG-qGa==9cQz2-xK01JJxL2UZuL9u=5yaDo3rW9eL9eQ@mail.gmail.com>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <ZGQn63U4IeRUiJWb@work>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, May 17, 2023 at 03:50:47PM +0200, Rafael J. Wysocki wrote:
-> On Wed, May 17, 2023 at 2:22 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
-> >
-> > On Wed, May 17, 2023 at 1:54 PM Sakari Ailus
-> > <sakari.ailus@linux.intel.com> wrote:
+On Tue, May 16, 2023 at 07:03:39PM -0600, Gustavo A. R. Silva wrote:
+> One-element arrays are deprecated, and we are replacing them with flexible
+> array members instead. So, replace one-element arrays with flexible-array
+> members in struct hfi_sys_set_resource_pkt, and refactor the rest of
+> the code, accordingly.
 > 
-> [cut]
+> This helps with the ongoing efforts to tighten the FORTIFY_SOURCE
+> routines on memcpy() and help us make progress towards globally
+> enabling -fstrict-flex-arrays=3 [1].
 > 
-> > > > > +                       local_port = &local_swnodes->ports[local_index];
-> > > > > +                       local_node = &local_swnodes->nodes[ACPI_DEVICE_SWNODE_EP(local_index)];
-> > > > > +                       local_port->remote_ep_ref[0] = SOFTWARE_NODE_REFERENCE(local_node);
-> > > >
-> > > > This looks odd.  Is local_port pointing to its own node as a remote
-> > > > endpont, or am I confused?
-> > >
-> > > This is a reference to a software node that will be, in turn, referenced by
-> > > the "remote-endpoint" property entry in the remote node. Look for
-> > > ACPI_DEVICE_SWNODE_EP_REMOTE_EP a few lines below these.
-> >
-> > To be precise, IIUC, it is going to be the "remote-endpoint" value for
-> > the remote node.
-> >
-> > OK, thanks for the explanation.  This isn't exactly straightforward TBH.
+> The only binary differences seen before/after changes are the
+> following:
 > 
-> So I'd arrange it so that the value of the "remote-endpoint" property
-> in a given node is stored in that node (the value itself being a
-> reference to another endpoint).
+>      17ba:      mov    %rbx,%rdi
+>      17bd:      call   17c2 <pkt_sys_set_resource+0x42>
+>                         17be: R_X86_64_PLT32    __tsan_write4-0x4
+> -    17c2:      movl   $0x14,(%rbx)
+> +    17c2:      movl   $0x10,(%rbx)
+>      17c8:      lea    0x4(%rbx),%rdi
+>      17cc:      call   17d1 <pkt_sys_set_resource+0x51>
+>                         17cd: R_X86_64_PLT32    __tsan_write4-0x4
+> 
+> which is expected once this accounts for the following line of code
+> at  drivers/media/platform/qcom/venus/hfi_cmds.c:73
+> 
+> 73         pkt->hdr.size = sizeof(*pkt);
+> 
+> and as *pkt is of type struct hfi_sys_set_resource_pkt, sizeof(*pkt) is
+> reduced by 4 bytes, due to the flex-array transformation.
 
-Fine for me.
+Based on the other place that was subtracting the 1 element, this looks
+like hfi_cmds.c:73 is an existing sizing bug that is now fixed with this
+patch, yes?
+
+Reviewed-by: Kees Cook <keescook@chromium.org>
+
+-Kees
+
+> 
+> Link: https://github.com/KSPP/linux/issues/79
+> Link: https://github.com/KSPP/linux/issues/293
+> Link: https://gcc.gnu.org/pipermail/gcc-patches/2022-October/602902.html [1]
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> ---
+>  drivers/media/platform/qcom/venus/hfi_cmds.c | 2 +-
+>  drivers/media/platform/qcom/venus/hfi_cmds.h | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
+> index 3f74d518ad08..7c82e212434e 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_cmds.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
+> @@ -83,7 +83,7 @@ int pkt_sys_set_resource(struct hfi_sys_set_resource_pkt *pkt, u32 id, u32 size,
+>  		res->size = size;
+>  		res->mem = addr;
+>  		pkt->resource_type = HFI_RESOURCE_OCMEM;
+> -		pkt->hdr.size += sizeof(*res) - sizeof(u32);
+> +		pkt->hdr.size += sizeof(*res);
+>  		break;
+>  	}
+>  	case VIDC_RESOURCE_NONE:
+> diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.h b/drivers/media/platform/qcom/venus/hfi_cmds.h
+> index ba74d03eb9cd..dd9c5066442d 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_cmds.h
+> +++ b/drivers/media/platform/qcom/venus/hfi_cmds.h
+> @@ -56,7 +56,7 @@ struct hfi_sys_set_resource_pkt {
+>  	struct hfi_pkt_hdr hdr;
+>  	u32 resource_handle;
+>  	u32 resource_type;
+> -	u32 resource_data[1];
+> +	u32 resource_data[];
+>  };
+>  
+>  struct hfi_sys_release_resource_pkt {
+> -- 
+> 2.34.1
+> 
 
 -- 
-Sakari Ailus
+Kees Cook
