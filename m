@@ -2,136 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CBF21706F6E
-	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 19:29:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF7BD706F84
+	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 19:34:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229456AbjEQR3O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 May 2023 13:29:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40692 "EHLO
+        id S229867AbjEQRe1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 May 2023 13:34:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229475AbjEQR3I (ORCPT
+        with ESMTP id S229866AbjEQReY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 May 2023 13:29:08 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81A8D9037;
-        Wed, 17 May 2023 10:28:50 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E2B7A6498B;
-        Wed, 17 May 2023 17:28:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3619C4339B;
-        Wed, 17 May 2023 17:28:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684344523;
-        bh=C3rhU6ql3cfx2nqHQAamUs5eDbPSPa+ws3rxF+aWa1s=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RD5m7lY8p7R/XOcqyBVFFZfqAIWQot+4Wz9y1pVEPguZz2/zJZLnuJutREWwZWyNY
-         8dvbV1paGoF2P0cxi6Uhrp5PFkO1JcmumAbu0u+pR+SmGiC96WQYfYVph3FNqAyNJO
-         g8+KA1tA0og4KZkEz20nLQ6lUA4RKKJ6JKWYCuSSoKkLOb7jU/skUjv2Sq9R7JC12Y
-         k6wrrngs03G61v7aIAMQsOHNgQxLFr/Av1eu2qQt6F99nsjB89kk8KazKnTkI3+bzA
-         0ttHn01LOdkGQ/rvn9VobAo0bcVV9/GLcaQWQ0AhBh8CG/27P16Ji+ywYPDyAASVPX
-         W5hLvuK5Yeb2w==
-Date:   Wed, 17 May 2023 18:28:36 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-Cc:     Alexandre Bailon <abailon@baylibre.com>, airlied@gmail.com,
-        daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
-        mripard@kernel.org, tzimmermann@suse.de, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        matthias.bgg@gmail.com, sumit.semwal@linaro.org,
-        christian.koenig@amd.com, jstephan@baylibre.com,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, khilman@baylibre.com,
-        nbelin@baylibre.com, bero@baylibre.com
-Subject: Re: [PATCH 7/7] dt-bindings: Add bidings for mtk,apu-drm
-Message-ID: <20230517-deceptive-filtrate-9acd07071371@spud>
-References: <20230517145237.295461-1-abailon@baylibre.com>
- <20230517145237.295461-8-abailon@baylibre.com>
- <c32f0c3f-b43a-7045-38cc-2c11c7bb571e@collabora.com>
+        Wed, 17 May 2023 13:34:24 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39B201FFE;
+        Wed, 17 May 2023 10:34:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1684344863; x=1715880863;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=J1vTwWXDWOmB5KTcRXHCtG0ov/EzmpZpuFt2eQ7PAKw=;
+  b=LFsPrCBUnAXcJVJI6oPECJ3aomwnqNRMc7yVX+BkmJEMyEdOJxmd1zhc
+   wzoo4KKkSrbw8Zh4Fh36GCqzDOD59EpjfC/fEU9hSOGALFMGyVjlz8rC1
+   xgKNWfkTJSPxJswO7TnWpH1Zwj1Fu+9CcX/BFvjYNYLAdnVJtiCQXcCr1
+   8w24/fjufI3kMYw80nmbpVGjF+3LZuO/yDg/eCdEWxbtybw8BuBnhzHsT
+   R92SB0gHdDWmSFfeLnxbClx4eH8DcKnrnvUXZwYzPgrYgoJXa9v6rekwf
+   2mD3G8M6UdqxmVtcSuKoQHQulRaKjUZZmDZvjCjRnpdxdiN45soq1nkYZ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10713"; a="336384339"
+X-IronPort-AV: E=Sophos;i="5.99,282,1677571200"; 
+   d="scan'208";a="336384339"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2023 10:34:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10713"; a="846175229"
+X-IronPort-AV: E=Sophos;i="5.99,282,1677571200"; 
+   d="scan'208";a="846175229"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2023 10:34:21 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 6F1DD120C45;
+        Wed, 17 May 2023 20:34:18 +0300 (EEST)
+Date:   Wed, 17 May 2023 17:34:18 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
+        andriy.shevchenko@linux.intel.com, heikki.krogerus@linux.intel.com
+Subject: Re: [PATCH v8 05/10] ACPI: property: Prepare generating swnodes for
+ ACPI and DisCo for Imaging
+Message-ID: <ZGUQGo/5A5+ET4OP@kekkonen.localdomain>
+References: <20230329100951.1522322-1-sakari.ailus@linux.intel.com>
+ <20230329100951.1522322-6-sakari.ailus@linux.intel.com>
+ <CAJZ5v0gxqs3+ofqX0PGmM=3HOi96ioyYJis+RL2oACPq6rggEA@mail.gmail.com>
+ <ZGS+RzCGl7Y3p6N/@kekkonen.localdomain>
+ <CAJZ5v0i73bdo7oxv_hrj0qM0PQuk9cbRLQ4jqPbKn7V4nMqOhQ@mail.gmail.com>
+ <CAJZ5v0hG-qGa==9cQz2-xK01JJxL2UZuL9u=5yaDo3rW9eL9eQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="DPep3TX9ZmccIKnm"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <c32f0c3f-b43a-7045-38cc-2c11c7bb571e@collabora.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJZ5v0hG-qGa==9cQz2-xK01JJxL2UZuL9u=5yaDo3rW9eL9eQ@mail.gmail.com>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Wed, May 17, 2023 at 03:50:47PM +0200, Rafael J. Wysocki wrote:
+> On Wed, May 17, 2023 at 2:22 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
+> >
+> > On Wed, May 17, 2023 at 1:54 PM Sakari Ailus
+> > <sakari.ailus@linux.intel.com> wrote:
+> 
+> [cut]
+> 
+> > > > > +                       local_port = &local_swnodes->ports[local_index];
+> > > > > +                       local_node = &local_swnodes->nodes[ACPI_DEVICE_SWNODE_EP(local_index)];
+> > > > > +                       local_port->remote_ep_ref[0] = SOFTWARE_NODE_REFERENCE(local_node);
+> > > >
+> > > > This looks odd.  Is local_port pointing to its own node as a remote
+> > > > endpont, or am I confused?
+> > >
+> > > This is a reference to a software node that will be, in turn, referenced by
+> > > the "remote-endpoint" property entry in the remote node. Look for
+> > > ACPI_DEVICE_SWNODE_EP_REMOTE_EP a few lines below these.
+> >
+> > To be precise, IIUC, it is going to be the "remote-endpoint" value for
+> > the remote node.
+> >
+> > OK, thanks for the explanation.  This isn't exactly straightforward TBH.
+> 
+> So I'd arrange it so that the value of the "remote-endpoint" property
+> in a given node is stored in that node (the value itself being a
+> reference to another endpoint).
 
---DPep3TX9ZmccIKnm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fine for me.
 
-On Wed, May 17, 2023 at 05:04:00PM +0200, AngeloGioacchino Del Regno wrote:
-> Il 17/05/23 16:52, Alexandre Bailon ha scritto:
-> > This adds the device tree bindings for the APU DRM driver.
-> >=20
-> > Signed-off-by: Alexandre Bailon <abailon@baylibre.com>
-> > Reviewed-by: Julien Stephan <jstephan@baylibre.com>
-> > ---
-> >   .../devicetree/bindings/gpu/mtk,apu-drm.yaml  | 38 +++++++++++++++++++
->=20
-> mediatek,mt(model)-apu.yaml
->=20
-> >   1 file changed, 38 insertions(+)
-> >   create mode 100644 Documentation/devicetree/bindings/gpu/mtk,apu-drm.=
-yaml
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml b/D=
-ocumentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
-> > new file mode 100644
-> > index 000000000000..6f432d3ea478
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
-> > @@ -0,0 +1,38 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/gpu/mediatek,apu-drm.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: AI Processor Unit DRM
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: mediatek,apu-drm
->=20
-> const: mediatek,mt8195-apu (or whatever else).
-
-Aye, and drop the references to DRM in the title field too (and add the
-vendor name?).
-
->=20
-> ...besides, I don't think that this patch even belongs to this series? :-)
-> Spoiler alert! :-)
-
-Well, I do not know what this means - but if it is being respun as part
-of some other work, a description field should be added to the binding.
-
-Cheers,
-Conor.
-
-
---DPep3TX9ZmccIKnm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZGUOxAAKCRB4tDGHoIJi
-0tq/AQCEx0ykFfDTB4Fn6jIhxnkBk2YlIWinWZykIWz+PlyIaQD7B+GkFiVdN1GH
-F6vvIFXtMcll02nyunl0Xx5gYXvbzAQ=
-=+2H9
------END PGP SIGNATURE-----
-
---DPep3TX9ZmccIKnm--
+-- 
+Sakari Ailus
