@@ -2,130 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 028AA707221
-	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 21:27:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 488F0707257
+	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 21:38:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229759AbjEQT1S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 May 2023 15:27:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45864 "EHLO
+        id S229638AbjEQTim (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 May 2023 15:38:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230135AbjEQT1C (ORCPT
+        with ESMTP id S229680AbjEQTij (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 May 2023 15:27:02 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3D74DC4E;
-        Wed, 17 May 2023 12:26:22 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (dkzdf0gkyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4506:4f15::1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4QM34W2J3tz49Q4J;
-        Wed, 17 May 2023 22:26:19 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1684351579;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=/YiOntKiq1t2aKqRxB/vNZKyQYA7kVVSMg4c0ahwgfE=;
-        b=lP3edUuKvfOT3j9P9WCTsbYy1hDSxAjcOOSl3Zr7R/lFUnMA6BLPAIxu6el1oKDOPstOc1
-        qYjxrMy9I6VBxm1TMubJxf75qXJRqAnwTje1Ut+EbnReFqg/ISbNDzCScGxC67dxZLck+K
-        UWkaSMD4rXkwghAT24c8+Imnxg1waGSOaX/uJm7664u/GgDTgLGyox98LmrKOLUbZRme7O
-        ETBYVcuYvgBkdvXfqd92Og2Cbb1YrCvYdEdbce+xfko9nzAnj5FbhPdBS9rZMaP+i9eXbF
-        AjXz3TwyPKyIG5ejJub+c70LgYOe0/vlGgnK0yOqpBtRVPtVq5bfs6BlOKntrQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1684351579;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=/YiOntKiq1t2aKqRxB/vNZKyQYA7kVVSMg4c0ahwgfE=;
-        b=uUn3WgrAZKxXYSfoJCCdHrj8DjGF6VzQmeuUS/+P7tzcAqmLfhrXKpBnen5GXF+M+pfPBf
-        x3bCM0vBvbITCwoImVGrROwTN13Q0pn8/F1Tk3pO+Vkr1YKojIvXMshc/Sb+jXIpoGPePb
-        arWBHCug7SSL3ycavtNVNXJat9Ql0/804VpsUB1BG5ZjhwjjPk7tZFxR96yGktyNayPHwN
-        +JXVlNET+JGwxKDH3gbszf6Ai3zZc5rGSfpLJt1eJ18XrVEYfgG5Qnbx0z04I6RoU3VOMR
-        8btiyMJR8qCljQPQcAERZkKx4Fg5r5Mp6i928IDfmNenVXat04AX36yC6yIBvg==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1684351579; a=rsa-sha256;
-        cv=none;
-        b=hhovqfl84Yjvt+r8jS2uB88oxqxrMkh2YoN+3gMkCiBbir35b8VLX/0B+GRrsIf/3B40az
-        BLHiqxvZJvCijLqVVdqu9TDC2o90jm2wmAVjYrZ8vqgTdN4N7WL/RO3qHul6nC2OI08MxQ
-        OLteKGQ6wWH3rB9UrSN9SZvqtM3ahOQ1UTXN69IP5bdKw1wQ5lwQZzYTa1VqMq9px/LTA/
-        oTXyRSTElOcv1FgXcEBGKhW3WnWbY90Xz8lfP0gU52HPtPS90fjbKcFQ25we02HqVDalzJ
-        hmgjPi37jXvgedwPuV3SW80nPOjxC0ScJqXst7cy92tefAEDhQUWQt5qtnKC5A==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id E3F55634C94;
-        Wed, 17 May 2023 22:26:17 +0300 (EEST)
-Date:   Wed, 17 May 2023 22:26:17 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Arnd Bergmann <arnd@kernel.org>,
-        Patrice Chotard <patrice.chotard@foss.st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: c8sectpfe: convert to gpio descriptors
-Message-ID: <ZGUqWZoxXRGGJ9Kv@valkosipuli.retiisi.eu>
-References: <20230130131003.668888-1-arnd@kernel.org>
- <ZGUbDFssUwXKTiDt@valkosipuli.retiisi.eu>
- <ZGUnBfqBLWkD7ZgD@google.com>
+        Wed, 17 May 2023 15:38:39 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55E2FA5D3
+        for <linux-media@vger.kernel.org>; Wed, 17 May 2023 12:38:19 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-965ab8ed1fcso204709466b.2
+        for <linux-media@vger.kernel.org>; Wed, 17 May 2023 12:38:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1684352298; x=1686944298;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rYmCHe0UBx3C/dX8F6gPo606NtkPLb/fdOD1RWdJzkg=;
+        b=bbeQg4UD9JQf6erRpGuPGkJefSXLT4EZPw4GEbdgBk0mXwtrOrR9bcUXhDi2lPmrN2
+         SY7yGEyaW4rOcHsYnmhfbfOIS6WJ1P72cT7qjNOpW9e9rc3FGcQFKOsbTXyqHZrtQ899
+         lqRpczEhCKHYqw4X4HXrLygrQOA/mDNmvSVqGhyLDEWHWAB/zQr8JeHGMe+cc++jTX3+
+         eSn13zJdh+MYPqS1jaJc+8KRvKuuUOk4u1xn97NQgP9w5RgbAMncMp8edZUiMeKMhSn8
+         2tX7xLkDwu4v49tQ/OTjPCt9qR94Xz6440yAu01sLictaBqTjYddsFD9G6rN0sIRFkMS
+         RaSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684352298; x=1686944298;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rYmCHe0UBx3C/dX8F6gPo606NtkPLb/fdOD1RWdJzkg=;
+        b=aSmHvDwVNUJkseRv3rQlORAID5w2TEItSKqjjPEEgNi6OdmUptWesiTpnfkvuKlh1L
+         k3mbs+kwCicLRYbZGooPklM2OA/EhwoH6Ce6IFud8Xx6EwukJp8rrjKmK69ghGy2lckq
+         1T4wFlJ9WkpNU+44LzjhioIYElt34s58IjiV9udeC8jwVNWHiU1MczPMRvLEwKWkxD2A
+         UsvdlyKXLy7+Hwbxyyx+802OyNobTdvefGHmf7zxYZe4a3y6JCzYnAl19Kp0oOgITVHr
+         X9GCi1dWKE9QR9T0cMiRD9zbvS+xgCi7PGF0+stjWq0xPqflQyauFJ8upiSw1Z4P9R1I
+         Wdfg==
+X-Gm-Message-State: AC+VfDyjTOXYvBm/vz/aW20g20KNqpo6h/ARpI5NqcV1xkbLnEl9TO2D
+        m19A7McxYvJqm2jKmCFh1CLrQA==
+X-Google-Smtp-Source: ACHHUZ6obEbka8NNsbD0h9cxmp9F7B27iNr6Z+hy4ts3KoIhfXd8UU80M7LYR8OdkLm5EMLFayAcTw==
+X-Received: by 2002:a17:907:97d0:b0:96a:2210:add8 with SMTP id js16-20020a17090797d000b0096a2210add8mr25616124ejc.8.1684352297680;
+        Wed, 17 May 2023 12:38:17 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:d7a:e7cc:21b3:c435? ([2a02:810d:15c0:828:d7a:e7cc:21b3:c435])
+        by smtp.gmail.com with ESMTPSA id h15-20020a1709067ccf00b0094f23480619sm12833636ejp.172.2023.05.17.12.38.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 May 2023 12:38:17 -0700 (PDT)
+Message-ID: <f0469fcb-a1ef-77a2-a8ab-40ab8d91bff7@linaro.org>
+Date:   Wed, 17 May 2023 21:38:15 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZGUnBfqBLWkD7ZgD@google.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 7/7] dt-bindings: Add bidings for mtk,apu-drm
+Content-Language: en-US
+To:     Alexandre Bailon <abailon@baylibre.com>, airlied@gmail.com,
+        daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+        mripard@kernel.org, tzimmermann@suse.de
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, matthias.bgg@gmail.com,
+        angelogioacchino.delregno@collabora.com, sumit.semwal@linaro.org,
+        christian.koenig@amd.com, jstephan@baylibre.com,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, khilman@baylibre.com,
+        nbelin@baylibre.com, bero@baylibre.com
+References: <20230517145237.295461-1-abailon@baylibre.com>
+ <20230517145237.295461-8-abailon@baylibre.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230517145237.295461-8-abailon@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dmitry,
-
-On Wed, May 17, 2023 at 12:12:05PM -0700, Dmitry Torokhov wrote:
-> On Wed, May 17, 2023 at 09:21:00PM +0300, Sakari Ailus wrote:
-> > Hi Arnd,
-> > 
-> > On Mon, Jan 30, 2023 at 02:09:47PM +0100, Arnd Bergmann wrote:
-> > > From: Arnd Bergmann <arnd@arndb.de>
-> > > 
-> > > The gpio usage in the function is fairly straightforward,
-> > > but the normal gpiod_get() interface cannot be used here
-> > > since the gpio is referenced by a child node of the device.
-> > > 
-> > > Using devm_fwnode_gpiod_get_index() is the best alternative
-> > > here.
-> > > 
-> > > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> > 
-> > I've picked
-> > <URL:https://patchwork.linuxtv.org/project/linux-media/patch/20230130131003.668888-1-arnd@kernel.org/>
-> > instead. I hope that's fine. Also cc Dmitry.
+On 17/05/2023 16:52, Alexandre Bailon wrote:
+> This adds the device tree bindings for the APU DRM driver.
 > 
-> What do you mean "instead"? This is the exact patch that started this
-> thread, and it is broken (uses wrong name of the GPIO and wrong polarity).
+> Signed-off-by: Alexandre Bailon <abailon@baylibre.com>
+> Reviewed-by: Julien Stephan <jstephan@baylibre.com>
+
+There are so many errors in this patch... that for sure it was not
+tested. Reduced review, except what was already said:
+
+> ---
+>  .../devicetree/bindings/gpu/mtk,apu-drm.yaml  | 38 +++++++++++++++++++
+>  1 file changed, 38 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
 > 
-> I'd much rather you picked up
-> https://lore.kernel.org/all/Y92VLGLQJZ%2FUDRx1@google.com/
-> 
-> Thanks.
+> diff --git a/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml b/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
+> new file mode 100644
+> index 000000000000..6f432d3ea478
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
+> @@ -0,0 +1,38 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/gpu/mediatek,apu-drm.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: AI Processor Unit DRM
+> +
+> +properties:
+> +  compatible:
+> +    const: mediatek,apu-drm
 
-Ah, the URL in my e-mail was wrong. I have
-<URL:https://patchwork.linuxtv.org/project/linux-media/patch/Y92VLGLQJZ/UDRx1@google.com/>,
-i.e. the same patch.
+drm is not hardware. Drop everywhere or explain the acronym. If you
+explain it like Linux explains, then: drm is not hardware.
 
--- 
-Regards,
+> +
+> +  remoteproc:
+> +    maxItems: 2
+> +    description:
+> +      Handle to remoteproc devices controlling the APU
 
-Sakari Ailus
+Missing type/ref. Does not look like generic property, so missing vendor
+prefix.
+
+> +
+> +  iova:
+> +    maxItems: 1
+> +    description:
+> +      Address and size of virtual memory that could used by the APU
+
+So it is a reg?
+
+> +
+> +required:
+> +  - compatible
+> +  - remoteproc
+> +  - iova
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    apu@0 {
+
+Where is reg? @0 says you have it...
+
+> +      compatible = "mediatek,apu-drm";
+> +      remoteproc = <&vpu0>, <&vpu1>;
+> +      iova = <0 0x60000000 0 0x10000000>;
+
+Why would you store virtual address, not real, in DT? Let's say you have
+some randomization like KASLR. How is it going to work? Drop, it is not
+hardware property.
+
+Best regards,
+Krzysztof
+
