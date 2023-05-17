@@ -2,88 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DCC277066AE
-	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 13:30:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 22DE47066DB
+	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 13:36:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231329AbjEQL37 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 17 May 2023 07:29:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47178 "EHLO
+        id S229670AbjEQLgL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 May 2023 07:36:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231319AbjEQL36 (ORCPT
+        with ESMTP id S231299AbjEQLgG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 May 2023 07:29:58 -0400
-Received: from mout.perfora.net (mout.perfora.net [74.208.4.196])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F10D130F6
-        for <linux-media@vger.kernel.org>; Wed, 17 May 2023 04:29:55 -0700 (PDT)
-Received: from [10.0.0.124] ([31.10.206.125]) by mrelay.perfora.net
- (mreueus002 [74.208.5.2]) with ESMTPSA (Nemesis) id 0MGknn-1pv4Gk3wxN-00Dal9;
- Wed, 17 May 2023 13:24:08 +0200
-Message-ID: <7b015114450646f6ead6bdfbe9301e3bbf596d05.camel@ziswiler.com>
-Subject: Re: [PATCH v2 00/31] Separate links and async sub-devices
-From:   Marcel Ziswiler <marcel@ziswiler.com>
-To:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl,
-        Francesco Dolcini <francesco@dolcini.it>,
-        aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>, bingbu.cao@intel.com
-Date:   Wed, 17 May 2023 13:24:01 +0200
-In-Reply-To: <2234496be65fd2a5aeccac278f6c37ddf104514e.camel@pengutronix.de>
-References: <20230516095517.611711-1-sakari.ailus@linux.intel.com>
-         <2234496be65fd2a5aeccac278f6c37ddf104514e.camel@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.48.1 (by Flathub.org) 
+        Wed, 17 May 2023 07:36:06 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36AA840E1
+        for <linux-media@vger.kernel.org>; Wed, 17 May 2023 04:36:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1684323363; x=1715859363;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RdW9ny9ld8DPIZ+2+Jdwe9xBIlNPQy3byzod4HDlDq8=;
+  b=c02UsZOzDA4mJIZAkE4LmC0+SKbePm7RjlHsHMOXgD23I91+HTx3XLVU
+   yQXw4oNnmZ9d1qIZqvRu4p1EfV6peDZwbTtSWR0AGiNM4UxJgYpOqsy01
+   GvNFktyqkGVw8G2H8U3LIIX0Lk/BaaEExo+sM3PLvZFGbyx56yCtQGRJf
+   A63l54c2m5o4Pdt/srtlMNT9YKJUn4G37wiVAYQZJq+cvbCC0BaT3YKlT
+   DSX26Jd0kwa22rgM+pnnGlWoKhYh0C2LBxn/6m3Pbg1QaEEjrbNr746BE
+   dWl4FD99CZYl+amAjb2VN1sxDz2jq8QFg/QFxECJShKRtPq+2zirl5Dwl
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10712"; a="354903820"
+X-IronPort-AV: E=Sophos;i="5.99,281,1677571200"; 
+   d="scan'208";a="354903820"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2023 04:36:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10712"; a="695833721"
+X-IronPort-AV: E=Sophos;i="5.99,281,1677571200"; 
+   d="scan'208";a="695833721"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2023 04:35:59 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 1850F120279;
+        Wed, 17 May 2023 14:35:57 +0300 (EEST)
+Date:   Wed, 17 May 2023 11:35:57 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     bingbu.cao@intel.com
+Cc:     linux-media@vger.kernel.org, dan.scally@ideasonboard.com,
+        wentong.wu@intel.com, bingbu.cao@linux.intel.com
+Subject: Re: [PATCH] media: intel: rename and move cio2-bridge out of ipu3
+Message-ID: <ZGS8HZmQXuaExrwE@kekkonen.localdomain>
+References: <20230517103004.724264-1-bingbu.cao@intel.com>
 MIME-Version: 1.0
-X-Provags-ID: V03:K1:qS3xEpDyCqzMHJo0tBG4yt62uV84WDyLWiHRhLMPnN7yXjFX591
- encqLJCErI6C72pwGuRhOXmp0DCNEz1SIZVNBqccXtvGL731G1FbHZyEETpWw2cyflQe8hX
- mGg5oLshVJLLvvuN6Ob4KskGEnX2aMkbAl9YMQLahIMJVB2B7cvQzPFPCFTqTsKnVdV2Ixa
- jie9E2FYdoC5QvjgnfVbA==
-UI-OutboundReport: notjunk:1;M01:P0:HvfRuw1dPi0=;tK34FG1LsHqg1YZm67Uu+XUQsuL
- PBL1ln1AKqFNo9BtZ4KZ9V2f7Drx0SVnD5AtcFvXM0ZTV8OT4/jS4uEISnMNQlGAvJgf4LboL
- Z3sGo4euzuc4VuNv2AAsiZuDqL5sRHtYeEf0/I7npCRSlMcAk8KFiQ1gV9/B+bUDoVICSb+Rg
- g5YQZlIxl84cMHaYhuJYnM7ruh6kAF/Cd0t6N1q+FG9VIGnyFud8THSkmwVdM/6qsdavDr8O2
- DnuvlQ01Jeh55It7w983ih3jx2Uq2HpqC21gMMRBRmtGfqDVZQMd07T/1eviaZGjn4+9cfdhz
- xbc8lRR1bCBIXouduUuQ5+j7D84TqRcsVZiu6chECXOfwBm7h1mVjV6t1vkHAIEZABeYElEIJ
- X6n8Z9FQ5MRaYCoDN7Xa4+BIEDBjlVaerCjlILM7VxuJJ7aU8lGnzQHSCrKyalKHXJBoaoF+Q
- 03D6zNR57uThkjfgx+mOblc8cQHTs3XW3m0zJE0DV9wzHZlO32+Z/NuQWKtUGQ6kJa3gIreDS
- wkt571tgtDal7+uq6T1cDhwO2zsFbWHiqs4aR2DfEybMYFJOJdOxKOHVLQzzCdWWEIQpWHH8c
- mDtcaBUU/qjGKvsyGWH0epH89vi7l+eUlC87aCyvJrYrBHFIgn81smD76Q3vOnD7oSipBcQ5D
- sUKFQfhLTUvi1widAXKyHF3L29CtcZnPRAjvA0RNZQ==
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230517103004.724264-1-bingbu.cao@intel.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Philipp
+Hi Bingbu,
 
-On Wed, 2023-05-17 at 11:43 +0200, Philipp Zabel wrote:
-> Hi Sakari,
+Thanks for the patch.
+
+On Wed, May 17, 2023 at 06:30:04PM +0800, bingbu.cao@intel.com wrote:
+> From: Bingbu Cao <bingbu.cao@intel.com>
 > 
-> On Di, 2023-05-16 at 12:54 +0300, Sakari Ailus wrote:
-> > Hi all,
-> > 
-> > This set adds support for multiple downstream links in an async
-> > sub-device, by separating the sub-device registration from the link
-> > creation.
+> cio2 bridge was involved along with IPU3. However, in fact all Intel
+> IPUs besides IPU3 CIO2 need this bridge driver. This patch move
+> bridge driver out of ipu3 directory and rename as ipu-bridge. Then
+> it can be worked with IPU3 and other Intel IPUs.
 > 
-> thank you, capture works again on i.MX6QP (tested with TC358764).
+> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
 
-You probably meant TC358743 being HDMI/CSI as TC358764 is DSI/LVDS, right?
+Could you also rename the names used internally? I.e. cio -> ipu? But not
+renaming actual CIO2 dependencies, they should be handled in separate patch
+(or patches). It'd be nice to see them in the same set.
 
-> Tested-by: Philipp Zabel <p.zabel@pengutronix.de> # imx6qp
+-- 
+Kind regards,
 
-Thanks!
-
-> regards
-> Philipp
-
-Cheers
-
-Marcel
+Sakari Ailus
