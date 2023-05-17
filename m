@@ -2,127 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AFAD87067F8
-	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 14:22:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 936F070681E
+	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 14:29:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231590AbjEQMWi convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 17 May 2023 08:22:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38012 "EHLO
+        id S231389AbjEQM3z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 May 2023 08:29:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231348AbjEQMWh (ORCPT
+        with ESMTP id S231726AbjEQM3t (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 May 2023 08:22:37 -0400
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D13A13C0C;
-        Wed, 17 May 2023 05:22:36 -0700 (PDT)
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-94a342f4c8eso16452566b.0;
-        Wed, 17 May 2023 05:22:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684326155; x=1686918155;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=n9vpLl8En2po1hgvgZ4Kq++UySWYhDbpCJOGRfNDmMg=;
-        b=VSVDF+VG5uPW4areUnP9uGpzNgtRYJ8+9AdhdN50OlQFhnwEICzWQZDjVmopt2e+yz
-         fqGtyrnMX0G0N6wHRtoAukGvhca0lvkdRcIeu/Ll9FahHVD9U+vt36e2pBgNEvTOGyvV
-         o6sdqBiTUv/Y8uL3qXo61l0AparC0lPNB2ClLx2/q6gp8ZKAZCBHQAb5i/xXqX40h9BZ
-         uE6iimra5gxWuwy8e23UMWEt6JwVcCtWGfOSE/GihMoxwpRVNoA3xfRgI+Zyjxmtx2+u
-         bc5690rhZvfDsJAdZ/5lgGNX2Ehwp69a3bXELmB/kbdu896cXt1A8+M4APPt7ExPdzzQ
-         Xjbw==
-X-Gm-Message-State: AC+VfDw4/ETuQ2H6mutPDd0wEj15xGxFnrNcmqMDjJJZrqntc0ZckPCd
-        TfuAgjfy/NdFUJenxjAzW5qUtkVPS+FHmQ1nVebVz/MxQgA=
-X-Google-Smtp-Source: ACHHUZ4r4R3Jz/cbFYFAFk/SLndjdWbI6379aMs7l1kQwehJXS/lZy++1xQRLQjnnpsmXwgYSLDVnxgeXbeYjWd8gOo=
-X-Received: by 2002:a17:906:7391:b0:966:1f60:fd32 with SMTP id
- f17-20020a170906739100b009661f60fd32mr1762981ejl.6.1684326155140; Wed, 17 May
- 2023 05:22:35 -0700 (PDT)
+        Wed, 17 May 2023 08:29:49 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8AB45256
+        for <linux-media@vger.kernel.org>; Wed, 17 May 2023 05:29:45 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkzdf0gkyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4506:4f15::1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4QLsqp37bDzyVk;
+        Wed, 17 May 2023 15:29:42 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1684326582;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+        bh=bdemlHwCK93xQnovEQDrKgK2Ownn54BUHi83ql6TcX0=;
+        b=ajicNLoZEi5xfPDLkslGS/MWBFDupx2qC82CiBL9KKlVEcnsa32D/x0sE0hE+zTWxb+ZTu
+        nuqaZYwsUA5vp7mYFFBKlf83UbgmmFOrjZoU8y8BlvyqhD8dAtiRJwyeAoBpNiZh1MGW4p
+        RAGuigXfb1TZUziek4ruJ3XM28ePFwQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1684326582;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+        bh=bdemlHwCK93xQnovEQDrKgK2Ownn54BUHi83ql6TcX0=;
+        b=llo45GoF9LsrUrOIFx3R4lTHCWPDoD1ebdY1QkI12zFApJX/JUI2aY2BDLg+bWHWu5GhHa
+        VVI/aO/44dL7SGfAKoHJvZ1jQF1yg0AVlTvBFE9nbyVv+BgtTp/8B6XlS6dEjoAhS9WD8H
+        RlthRuEHTyX3tctQ69frmj2mqJ4CcUw=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1684326582; a=rsa-sha256; cv=none;
+        b=y5fUUMwbGLFzyupr7BYe0fFUL22Qpt1I6qzUUm3A4kbRttuGsT3W6zd9nOBU17WXXD6zdw
+        ZCw13lWuoy6VwsgvsbeLW/K4Q0XKNZ0nN+U7xBCiLE3QtWJQ1XxafvlCQhxMvG1n6qcquu
+        JB0gBIjgAgAVTqeFLmDx4d6kUkzjbnw=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 7AEE3634C94;
+        Wed, 17 May 2023 15:29:41 +0300 (EEST)
+Date:   Wed, 17 May 2023 15:29:41 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Cc:     Media Submaintainers <media-submaintainers@linuxtv.org>
+Subject: [GIT FIXES FOR 6.4] V4L2 fixes for 6.4
+Message-ID: <ZGTItbiccvPAbhkl@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-References: <20230329100951.1522322-1-sakari.ailus@linux.intel.com>
- <20230329100951.1522322-6-sakari.ailus@linux.intel.com> <CAJZ5v0gxqs3+ofqX0PGmM=3HOi96ioyYJis+RL2oACPq6rggEA@mail.gmail.com>
- <ZGS+RzCGl7Y3p6N/@kekkonen.localdomain>
-In-Reply-To: <ZGS+RzCGl7Y3p6N/@kekkonen.localdomain>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Wed, 17 May 2023 14:22:23 +0200
-Message-ID: <CAJZ5v0i73bdo7oxv_hrj0qM0PQuk9cbRLQ4jqPbKn7V4nMqOhQ@mail.gmail.com>
-Subject: Re: [PATCH v8 05/10] ACPI: property: Prepare generating swnodes for
- ACPI and DisCo for Imaging
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
-        andriy.shevchenko@linux.intel.com, heikki.krogerus@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, May 17, 2023 at 1:54 PM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Hi Rafael,
->
-> Thanks for the review.
->
-> On Wed, May 17, 2023 at 12:53:43PM +0200, Rafael J. Wysocki wrote:
-> > > +       list_for_each_entry(csi2, &ctx->crs_csi2_head, list) {
-> > > +               struct acpi_device_software_nodes *local_swnodes;
-> > > +               struct crs_csi2_instance *inst;
-> > > +
-> > > +               local_swnodes = crs_csi2_swnode_get(csi2->handle);
-> > > +               if (WARN_ON_ONCE(!local_swnodes))
-> > > +                       continue;
-> > > +
-> > > +               list_for_each_entry(inst, &csi2->buses, list) {
-> > > +                       struct acpi_device_software_nodes *remote_swnodes;
-> > > +                       struct acpi_device_software_node_port *local_port;
-> > > +                       struct acpi_device_software_node_port *remote_port;
-> > > +                       struct software_node *local_node, *remote_node;
-> > > +                       unsigned int local_index, remote_index;
-> > > +                       unsigned int bus_type;
-> > > +
-> > > +                       remote_swnodes = crs_csi2_swnode_get(inst->remote_handle);
-> > > +                       if (WARN_ON_ONCE(!remote_swnodes))
-> > > +                               continue;
-> > > +
-> > > +                       local_index = next_csi2_port_index(local_swnodes, inst->csi2.local_port_instance);
-> > > +                       remote_index = next_csi2_port_index(remote_swnodes, inst->csi2.resource_source.index);
-> > > +
-> > > +                       if (WARN_ON_ONCE(local_index >= local_swnodes->num_ports) ||
-> > > +                           WARN_ON_ONCE(remote_index >= remote_swnodes->num_ports))
-> > > +                               goto out_free;
-> > > +
-> > > +                       switch (inst->csi2.phy_type) {
-> > > +                       case ACPI_CRS_CSI2_PHY_TYPE_C:
-> > > +                               bus_type = V4L2_FWNODE_BUS_TYPE_CSI2_CPHY;
-> > > +                               break;
-> > > +                       case ACPI_CRS_CSI2_PHY_TYPE_D:
-> > > +                               bus_type = V4L2_FWNODE_BUS_TYPE_CSI2_DPHY;
-> > > +                               break;
-> > > +                       default:
-> > > +                               acpi_handle_info(csi2->handle,
-> > > +                                                "ignoring CSI-2 PHY type %u\n",
-> > > +                                                inst->csi2.phy_type);
-> > > +                               continue;
-> > > +                       }
-> > > +
-> > > +                       local_port = &local_swnodes->ports[local_index];
-> > > +                       local_node = &local_swnodes->nodes[ACPI_DEVICE_SWNODE_EP(local_index)];
-> > > +                       local_port->remote_ep_ref[0] = SOFTWARE_NODE_REFERENCE(local_node);
-> >
-> > This looks odd.  Is local_port pointing to its own node as a remote
-> > endpont, or am I confused?
->
-> This is a reference to a software node that will be, in turn, referenced by
-> the "remote-endpoint" property entry in the remote node. Look for
-> ACPI_DEVICE_SWNODE_EP_REMOTE_EP a few lines below these.
+Hi Mauro,
 
-To be precise, IIUC, it is going to be the "remote-endpoint" value for
-the remote node.
+This set includes fixes for 6.4, including compile fixes.
 
-OK, thanks for the explanation.  This isn't exactly straightforward TBH.
+Please pull.
+
+
+The following changes since commit ac9a78681b921877518763ba0e89202254349d1b:
+
+  Linux 6.4-rc1 (2023-05-07 13:34:35 -0700)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/fixes-6.4-2-signed
+
+for you to fetch changes up to b82b6df4937ee625ba99ee231a3ab6ba98356ca6:
+
+  staging: media: imx: initialize hs_settle to avoid warning (2023-05-16 16:41:05 +0300)
+
+----------------------------------------------------------------
+V4L2 fixees for 6.4
+
+----------------------------------------------------------------
+Hans Verkuil (1):
+      staging: media: imx: initialize hs_settle to avoid warning
+
+Palmer Dabbelt (2):
+      media: nxp: imx8-isi: Fix unusued function warnings
+      media: nxp: imx8-isi: Fix undefined config warnings
+
+Tomi Valkeinen (1):
+      media: v4l2-subdev: Fix missing kerneldoc for client_caps
+
+Vaishnav Achath (1):
+      media: v4l2-mc: Drop subdev check in v4l2_create_fwnode_links_to_pad()
+
+ drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c | 4 ++--
+ drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c   | 6 +++---
+ drivers/media/v4l2-core/v4l2-mc.c                   | 3 +--
+ drivers/staging/media/imx/imx8mq-mipi-csi2.c        | 2 +-
+ include/media/v4l2-subdev.h                         | 1 +
+ 5 files changed, 8 insertions(+), 8 deletions(-)
+
+-- 
+Kind regards,
+
+Sakari Ailus
