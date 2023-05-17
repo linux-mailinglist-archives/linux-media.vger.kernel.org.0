@@ -2,87 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A4116706A33
-	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 15:51:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C94C0706A7D
+	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 16:04:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231644AbjEQNvF convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 17 May 2023 09:51:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53048 "EHLO
+        id S231283AbjEQOEN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 May 2023 10:04:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230205AbjEQNvE (ORCPT
+        with ESMTP id S229707AbjEQOEM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 May 2023 09:51:04 -0400
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 392C51BFB;
-        Wed, 17 May 2023 06:51:00 -0700 (PDT)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-94f9cd65b1aso19319466b.0;
-        Wed, 17 May 2023 06:51:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684331458; x=1686923458;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rAMn7RtSs7++/a6MSYIC0QwcL3rxFuXCit+8RcyQnpU=;
-        b=JbuSW/RcFcyEzav9vwnCWXwWZK3pxK36vRilT6cn5UhRoo0deZs96fxMKrWSYDTAYz
-         2GutmWmT6c82rQJ6jjFol1HNUNsrXE0ObugM+QHHmJzX4iGRp/QIe0lGhABVdGuFphWi
-         wLgkcIg1FLrF3MvSShDH4e8bX6BU4HEoiRwMu8pmqLI5cdqX+D8wNzEtothTUHXuxDM1
-         fA0n8krLzV8nyHcaJlguXjIpfMBdV3UdxnVlW8g8AUFkfq40FpVCakuTyWl8U2zg1oGZ
-         XBgr9cT7siDwuI4rHiRa8YTdXZ+GDNmMHFQULDLXlGTplOaoa3xwF3Nx3cQF4jPa0oM4
-         Zr0Q==
-X-Gm-Message-State: AC+VfDw0sFxjINC9t+GWjNFV8bVCictT7Yas7koA4cwNsTZu0BKgw9Fc
-        as/VyWd0H4hwQ1KUaBvt37tePjIEj5MsoBaYzVk=
-X-Google-Smtp-Source: ACHHUZ59Svgboz6WtxTqGlKEZyehkjrVMW+IwZXTZzdKAMiG6xA/cncl/Q3NsfW3myaOpDRZNDoB/MALiWlyoRXprok=
-X-Received: by 2002:a17:906:ce:b0:965:bc62:fe38 with SMTP id
- 14-20020a17090600ce00b00965bc62fe38mr2312292eji.7.1684331458265; Wed, 17 May
- 2023 06:50:58 -0700 (PDT)
+        Wed, 17 May 2023 10:04:12 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B922E58;
+        Wed, 17 May 2023 07:04:11 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4QLvwg1DH4z49Q47;
+        Wed, 17 May 2023 17:04:03 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1684332243;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=F9dB5jfPE0ZTFCjOnm24Lze21kK2ZvFO8Uv2gcQfgfY=;
+        b=K66yeZ1o6g42gX3bNGnxD3PL6onWkDhVcqbb4//yDM5OVbrJO6Mb9BmSKWqTG0av8GKmJ4
+        tvPrcE0kXyhjjeA+UaTYjZMvfv7a3Ds9aXYxbET00sc/WRg6uCUlIJljzNsmrZ/aj4P2Sg
+        6P95ebWDMpR73Vt/VFp7F5qBC+lqFWXzvdLehoY65cAIjxQ5RsyRiHFJDeyNg2fj0x8FOT
+        IsjLqqFsQO2zRvvsOnG+qAlG9/EaWV6a+UbLPgzGdUOBHq4uibpJOs01hxZ3jUmX/pI98X
+        AZwDMWMGRlW5lqgkfKkDKg3Cd/lt2WSL+bCRfX6ijjnzmqp/K2EAdMIRAagKpg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1684332243;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=F9dB5jfPE0ZTFCjOnm24Lze21kK2ZvFO8Uv2gcQfgfY=;
+        b=v523sTRIXZpWFCe4PqZWhgSv4kTAQYjGRoxHaFQIzJZrKFvLLPTDLYl3Yb69zNftUvrQeg
+        Kwuhqo2Jcme4714QO/2gVY4i7i9iyzzH5iBOsPUchZB4wPzgFjzL+cWxSD5knYmtquL2ZE
+        oOU7pv2wPmU+LP6jOrbIP+gszp4JD+FGVhG3b8omdeRBCPBjMNbygY/j3yzvijswWfeIxg
+        EuxqSaojsoMIGgkL0AJIXjIy9au3KWoXSPb5YrCyJds136aE5ki+bzPZp/u4JW2Da6Fl35
+        xNHRbkQsoRsWoIuutbAr133aSs9pfVv2kPSQndJVFyuWKSUXwqWIAD6IBl+6DA==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1684332243; a=rsa-sha256;
+        cv=none;
+        b=qQBl3cRVCUGD1iDNIfJPyhRAIO8xrdyQx3uEezI1IiygR1az9UeQCF6s1QXxAAjH79dDey
+        u3e6un9WVBfAw2285yjy2RLAne4/z/M5odAE4z2iQ3J440E4WLph05t1lULOTa5LIu0zOy
+        rz5EfovJqwieUIYnRfJXd6pw22WL9tVvGBGECRsHlAd/fa0mNx2zTwi2vbBbWZ7XAxsdDJ
+        JTGxKGnU2TvyhBdAkGiOH1FBw6W6zvpRNUh3gvAz/S61UZKgS4sVlPurtQXNNJ/7OEvmN+
+        iRGppv3k6vpTP1gFXcKQQ8e9xeYigpJXOEo+T7PXsdBl6hpo64qwJUcAu25/lg==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 8C066634C94;
+        Wed, 17 May 2023 17:04:02 +0300 (EEST)
+Date:   Wed, 17 May 2023 17:04:02 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     shravan kumar <shravan.chippa@microchip.com>
+Cc:     paul.j.murphy@intel.com, daniele.alessandrelli@intel.com,
+        mchehab@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+        linux-imx@nxp.com, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v13 1/1] media: i2c: imx334: update pixel, hblank and
+ link frequency
+Message-ID: <ZGTe0ldLYb4QYZGp@valkosipuli.retiisi.eu>
+References: <20230414123311.23923-1-shravan.chippa@microchip.com>
+ <20230414123311.23923-2-shravan.chippa@microchip.com>
 MIME-Version: 1.0
-References: <20230329100951.1522322-1-sakari.ailus@linux.intel.com>
- <20230329100951.1522322-6-sakari.ailus@linux.intel.com> <CAJZ5v0gxqs3+ofqX0PGmM=3HOi96ioyYJis+RL2oACPq6rggEA@mail.gmail.com>
- <ZGS+RzCGl7Y3p6N/@kekkonen.localdomain> <CAJZ5v0i73bdo7oxv_hrj0qM0PQuk9cbRLQ4jqPbKn7V4nMqOhQ@mail.gmail.com>
-In-Reply-To: <CAJZ5v0i73bdo7oxv_hrj0qM0PQuk9cbRLQ4jqPbKn7V4nMqOhQ@mail.gmail.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Wed, 17 May 2023 15:50:47 +0200
-Message-ID: <CAJZ5v0hG-qGa==9cQz2-xK01JJxL2UZuL9u=5yaDo3rW9eL9eQ@mail.gmail.com>
-Subject: Re: [PATCH v8 05/10] ACPI: property: Prepare generating swnodes for
- ACPI and DisCo for Imaging
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
-        andriy.shevchenko@linux.intel.com, heikki.krogerus@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230414123311.23923-2-shravan.chippa@microchip.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, May 17, 2023 at 2:22 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
->
-> On Wed, May 17, 2023 at 1:54 PM Sakari Ailus
-> <sakari.ailus@linux.intel.com> wrote:
+On Fri, Apr 14, 2023 at 06:03:11PM +0530, shravan kumar wrote:
+> From: Shravan Chippa <shravan.chippa@microchip.com>
+> 
+> Update pixel_rate and link frequency for 1920x1080@30
+> while changing mode.
+> 
+> Update vblank value while changing mode
+> 
+> Add support to handle multiple link frequencies.
+> 
+> Add dummy ctrl cases for pixel_rate and link frequency
+> to avoid error while changing the modes dynamically.
+> 
+> Update default link frequency from device tree max link
+> frequency value.
+> 
+> Update init_cfg() function to update the link frequency
+> menu_skip_mask value.
+> 
+> Suggested-by: Sakari Ailus <sakari.ailus@iki.fi>
+> Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
 
-[cut]
+Applied with the following diff:
 
-> > > > +                       local_port = &local_swnodes->ports[local_index];
-> > > > +                       local_node = &local_swnodes->nodes[ACPI_DEVICE_SWNODE_EP(local_index)];
-> > > > +                       local_port->remote_ep_ref[0] = SOFTWARE_NODE_REFERENCE(local_node);
-> > >
-> > > This looks odd.  Is local_port pointing to its own node as a remote
-> > > endpont, or am I confused?
-> >
-> > This is a reference to a software node that will be, in turn, referenced by
-> > the "remote-endpoint" property entry in the remote node. Look for
-> > ACPI_DEVICE_SWNODE_EP_REMOTE_EP a few lines below these.
->
-> To be precise, IIUC, it is going to be the "remote-endpoint" value for
-> the remote node.
->
-> OK, thanks for the explanation.  This isn't exactly straightforward TBH.
+diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
+index d4c9986aee597..93fc1716e00a1 100644
+--- a/drivers/media/i2c/imx334.c
++++ b/drivers/media/i2c/imx334.c
+@@ -118,6 +118,7 @@ struct imx334_mode {
+  * @vblank: Vertical blanking in lines
+  * @cur_mode: Pointer to current selected sensor mode
+  * @mutex: Mutex for serializing sensor controls
++ * @menu_skip_mask: Menu skip mask for link_freq_ctrl
+  * @cur_code: current selected format code
+  * @streaming: Flag indicating streaming state
+  */
 
-So I'd arrange it so that the value of the "remote-endpoint" property
-in a given node is stored in that node (the value itself being a
-reference to another endpoint).
+
+-- 
+Sakari Ailus
