@@ -2,96 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7318470639D
-	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 11:09:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25BC37063C6
+	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 11:15:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229796AbjEQJJn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 May 2023 05:09:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55674 "EHLO
+        id S229795AbjEQJPY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 May 2023 05:15:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229717AbjEQJJl (ORCPT
+        with ESMTP id S229489AbjEQJPW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 May 2023 05:09:41 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ABC13C30
-        for <linux-media@vger.kernel.org>; Wed, 17 May 2023 02:09:40 -0700 (PDT)
-Received: from localhost (89-26-75-29.dyn.cablelink.at [89.26.75.29])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sebastianfricke)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 291BE660574E;
-        Wed, 17 May 2023 10:09:39 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1684314579;
-        bh=KhMKHw6VBypOsTVSGKL3RZYwyQ43LhJ49oCQ+vKndCE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Jp/w9kl+Sy/gmDsw6/1688BH+h+dckxvpoZqlqz9g8RG8LmfQxoUnd8jQpzm3n68p
-         lPpMsKrtWun+rzt+JEug3jrptHSx9ZXQLVYpKODEVhJGmJPSwphgrX/P7lHcmYECUL
-         510hVbRjK4aIdxagWQzwRfUKLk9P5dmn++QUgdRS787etBs0Mt/EAybi8x3qgnQ3Yp
-         mwoFKW3ccnwBZ3c+KBDx34Ip0QuaHIBULbBOcwrXUX5lw95QEBSvrx/9gE4zaZE6ih
-         Y7FxysV7fEHLU8WPuU9pSxqMyXIwipfMdSzVnosE6s8I2EEzwX3ljaeuuxViaaiHM3
-         cF49mconBoN/A==
-Date:   Wed, 17 May 2023 11:09:36 +0200
-From:   Sebastian Fricke <sebastian.fricke@collabora.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [ANN] Media Summit June 26th: Please let me know if you will
- attend
-Message-ID: <20230517090936.2ht4y4omdifpvvob@basti-XPS-13-9310>
-References: <aec8b9e1-25d4-d0bc-63b6-68ff06e06683@xs4all.nl>
+        Wed, 17 May 2023 05:15:22 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3783B421E
+        for <linux-media@vger.kernel.org>; Wed, 17 May 2023 02:15:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1684314921; x=1715850921;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kGE7ZRbJzVpizDNGn70/uCxjIzhYxMOxxl9F1PmV6YM=;
+  b=hmTReD4oOhvyC+glNSULG44j5jrVADmizr8DuR0SvoWrkoWXTuFmUADC
+   /b5CvblxECnWTJmQGys7aumn2D2hyYRNzyRcYQvyzm4n78OI0Q0fAHiLQ
+   +hdQSJJNi2CTyC5MeeIIrgQp8TEGXEURlRChNMZGxthOldJ73Tuhn1rRe
+   sjmV0nGNxSoaqHJpGzUD/TFKYAQkE7K4m0uvOCY44QKwvhkwZMolSOBwT
+   7SWKM/CYOdIXph4s9kvqosB4dajdSc692WjmReVYTN9t4ulv7KUVJ+Zir
+   jrkLoEq6c5kRDHHS3aNS7PsgIhOg0FEfkCwMQDHXUiXQ5WT3LSBrMMDs4
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10712"; a="349210921"
+X-IronPort-AV: E=Sophos;i="5.99,281,1677571200"; 
+   d="scan'208";a="349210921"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2023 02:15:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10712"; a="679193201"
+X-IronPort-AV: E=Sophos;i="5.99,281,1677571200"; 
+   d="scan'208";a="679193201"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2023 02:15:17 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 73B4D120279;
+        Wed, 17 May 2023 12:15:14 +0300 (EEST)
+Date:   Wed, 17 May 2023 09:15:14 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        Philipp Zabel <p.zabel@pengutronix.de>, hverkuil@xs4all.nl,
+        Francesco Dolcini <francesco@dolcini.it>,
+        aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>, bingbu.cao@intel.com,
+        niklas.soderlund@ragnatech.de
+Subject: Re: [PATCH v2 00/31] Separate links and async sub-devices
+Message-ID: <ZGSbIkkOV/03lria@kekkonen.localdomain>
+References: <20230516095517.611711-1-sakari.ailus@linux.intel.com>
+ <3501011.QJadu78ljV@steina-w>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aec8b9e1-25d4-d0bc-63b6-68ff06e06683@xs4all.nl>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <3501011.QJadu78ljV@steina-w>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Hans,
+Hi Alexander,
 
-On 15.05.2023 16:34, Hans Verkuil wrote:
->Hi all,
->
->We organized a Media Summit on Monday June 26th in Prague. It is held
->at the Holiday Inn close by the conference centre where the Embedded
->Open Source Summit is held (1).
->
->Holiday Inn Prague Congress Centre - Meeting room "E"
->Na Pankráci 1684/ 15, 140 00 Praha 4-Nusle
->https://www.ihg.com/holidayinn/hotels/us/en/prague/prgnp/hoteldetail
->
->We have room for about 20 people, so let me know if you plan to attend
->in person. That way we know how many people we'll get.
+On Wed, May 17, 2023 at 09:57:59AM +0200, Alexander Stein wrote:
+> Hi Sakari,
+> 
+> thanks for the update. That's awesome, device setup on media-ctl works again 
+> on TQMa6x (i.MX6).
+> For the record, below is what the media-ctl dot looks like. I was able to 
+> capture data on ipu1_csi0_capture device.
+> 
+> Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com> #imx6q
 
-I would like to attend the summit.
+Thanks for testing!
 
-Sincerely,
-Sebastian Fricke
+I'll wait for Niklas to test them, too. V1 inadvertly broke the adv748x
+driver, that should be now fixed.
 
->
->Regarding remote participation: only if there is really no other way.
->Meeting face-to-face once a year is important IMHO, and attending remotely
->is a poor substitute. That said, if it is really necessary to set something
->up, then I can do the same I did in Dublin, setting up a Webex meeting.
->That worked reasonably well, except that I will need to bring a better
->speaker since I learned that the laptop speaker was pretty bad.
->
->If you do want to participate remotely, please let me know as well.
->
->I'll post a separate email with the draft Agenda for the media summit.
->
->Hope to see you all in Prague!
->
->Regards,
->
->	Hans
->
->(1) https://events.linuxfoundation.org/embedded-open-source-summit/
+(But please avoid top posting.)
+
+-- 
+Kind regards,
+
+Sakari Ailus
