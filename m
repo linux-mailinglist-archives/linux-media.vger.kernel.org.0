@@ -2,62 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A27907073C6
-	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 23:15:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F166D7073C8
+	for <lists+linux-media@lfdr.de>; Wed, 17 May 2023 23:15:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230078AbjEQVPN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 May 2023 17:15:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52224 "EHLO
+        id S230116AbjEQVPP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 May 2023 17:15:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229895AbjEQVOx (ORCPT
+        with ESMTP id S229905AbjEQVOy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 May 2023 17:14:53 -0400
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C54EB903C
+        Wed, 17 May 2023 17:14:54 -0400
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9E587ED5
         for <linux-media@vger.kernel.org>; Wed, 17 May 2023 14:14:44 -0700 (PDT)
-Received: by mail-lj1-x22c.google.com with SMTP id 38308e7fff4ca-2af12685274so5802211fa.2
+Received: by mail-lj1-x235.google.com with SMTP id 38308e7fff4ca-2af16426065so1121971fa.0
         for <linux-media@vger.kernel.org>; Wed, 17 May 2023 14:14:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1684358083; x=1686950083;
+        d=linaro.org; s=google; t=1684358084; x=1686950084;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CAf0/qoqHKUIRtb0ngzMvnNiZNHVa6Jfr73oUt0pxKM=;
-        b=FVnA6WsFW0zoAzCv6H+kbO9qraBaPBYxHMIKkzbr+A4UZdYwJCAxegNCMXkU3RVmfV
-         ZFTz+XxYV2woaFChYQS6OGVtdO3DhC74kdmYxWG9gUWpeV/OaoXQQfF98vjG1DK4atAW
-         3S/G9YiaiR12TsQuudU/mAa8g4PDor/ch2Ex9OE+O/UZIaTcYwXgKrMOSW0Jx/5aZLxI
-         c9n703kwEtkI6+x2DJ2ntcOFcWX5C3ACg0oR6V8pTHli+PCXdrxb8rnCc67AcGyZbYJP
-         S+6uqgYK7jqIrVWZWjM/dXJF7kgF/y0K6XSogSJXOe+oFjLg7YB4HgR8CXRXt/osgBJJ
-         pEhA==
+        bh=tD8sADHcRsSq9QkDCRoE5JuqMpJE24bgCDvH91fnaag=;
+        b=fWK4a3TxhnR4+vQWwKc78ULZk+l86K9r2wgGO6X4lcc9RvVrbaXbO5dXP3zbbpB2yk
+         zrP5bqY/OoAwP6hAl59TRupUlWJ5wuP3TjNCzNT6HOTig4g1u9ZvaA3DPmGzFb8Lp6pD
+         Pkfgc1GXRcuCxuI0+F2/R+vYZlgEoPZ13y5MCQF29S6KEyS/7pMjUKzKrFl57tDJ6X/1
+         zuxWu3dAxbRhKVQ84UXTV+kDGau6C0PTgoXI7oBr4I9d9d5GSIWf5hMUE3T82ERohHS3
+         +qhxvIWW/5iCPliEYUSZbQ9Pmw8FZLGZnyVA30knI/Sbub8b/89E/ivqE2s2R8fWkfdw
+         qkWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684358083; x=1686950083;
+        d=1e100.net; s=20221208; t=1684358084; x=1686950084;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CAf0/qoqHKUIRtb0ngzMvnNiZNHVa6Jfr73oUt0pxKM=;
-        b=I5+x1u/NgyNiSG1deLQp9zqEH6BT2MFjE86DQOM03riaHo4ogBSTtxXk0feC1tk6cm
-         XsMWaIaMkb7BaLUltlfUZwgpVGZ1xQfy3xt7O8YmHXmS70kw4NXqdnx/Mqy57MnNtvkr
-         nlN4FcLJ8EG6LDM0ka4K8uGDbC+3dzvQS7IbO6J9N/I6M3XGHWv6RMxJEZx8/7bsHgT+
-         2phHvp5vGE0kV5DXcf7iVBRRLox9R+Vmm0RMihKX4PyeXfvTRps2+2P+G50r4W1vfS4P
-         UDkX+mPC/56SzJ1a8x1C8QXuF8ZFP5fW+360BT2KxpKf/SH72y22EtrFvp7tuzkMAvdS
-         5w7g==
-X-Gm-Message-State: AC+VfDxEafOXXmqYWwYqrGT+5gTiESxGPUGc1k5fXijInDGMa2UyxWUn
-        fMITPG7k/EopskgN1AM5Cq+l0A==
-X-Google-Smtp-Source: ACHHUZ5rRoX8gPjScShdz/mReax4WkVRDeJh8uSlCs+7I6yB2tMGKVvdW8+P+3Ns2nGjlTFTZ6+hGg==
-X-Received: by 2002:a2e:b709:0:b0:2ad:f8d:dea with SMTP id j9-20020a2eb709000000b002ad0f8d0deamr10982653ljo.11.1684358082955;
-        Wed, 17 May 2023 14:14:42 -0700 (PDT)
+        bh=tD8sADHcRsSq9QkDCRoE5JuqMpJE24bgCDvH91fnaag=;
+        b=k/kVfc/ukWbUlgRHcjoL/EeGHN7TLtWA5Nb5+qTPqG8swEUCZONnfhIVeJQlsSRR53
+         Z5S240IVQc60ZBy1RfKttjGFm4KZwkucr6ubsesNHpGBULPvfsqsHtMb466BmUDVeOw4
+         opTbA9dGrT8j9yBLsruJKewhTRC1oIgFh1bkAgsm1TavuzPUbdT6GoKAwZBwfD0A7tGf
+         2J9LF2xHFZLByvF00kcioXt4EO9mAgihxpE7wG+PaOkOi15K5i9VkbkNOnGIKNRIuhYO
+         0C2S9rwqAq8kbW8Ivdfo8GZ0a1t0zbCDyLnYSFPPfpuYppFH9VrPg+LUYnPOLiRPkNG3
+         31zw==
+X-Gm-Message-State: AC+VfDz5GwS+V2LU8WHXQgGpWTlLxpYjR5IL8Wnbv25KnqRPDePJXpVG
+        ++5WDtr2cqIOMrCXGFa8LZbiUg==
+X-Google-Smtp-Source: ACHHUZ6Naxvu6Tu1jSreFZzq+4Iz+YoCyM5FeYh/8C4RBaOpE3flhosbS+/uIFvU2nHNrRodddS1Lg==
+X-Received: by 2002:a2e:81ce:0:b0:2ac:829f:487e with SMTP id s14-20020a2e81ce000000b002ac829f487emr10903563ljg.21.1684358084503;
+        Wed, 17 May 2023 14:14:44 -0700 (PDT)
 Received: from [192.168.1.101] (abxi58.neoplus.adsl.tpnet.pl. [83.9.2.58])
-        by smtp.gmail.com with ESMTPSA id l5-20020a2e8345000000b002ac88e29049sm4781142ljh.43.2023.05.17.14.14.41
+        by smtp.gmail.com with ESMTPSA id l5-20020a2e8345000000b002ac88e29049sm4781142ljh.43.2023.05.17.14.14.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 May 2023 14:14:42 -0700 (PDT)
+        Wed, 17 May 2023 14:14:44 -0700 (PDT)
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-Date:   Wed, 17 May 2023 23:14:24 +0200
-Subject: [PATCH v3 11/17] media: venus: hfi_venus: Sanitize
- venus_cpu_idle_and_pc_ready() per-VPU-version
+Date:   Wed, 17 May 2023 23:14:25 +0200
+Subject: [PATCH v3 12/17] media: venus: firmware: Correct IS_V6() checks
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230228-topic-venus-v3-11-6092ae43b58f@linaro.org>
+Message-Id: <20230228-topic-venus-v3-12-6092ae43b58f@linaro.org>
 References: <20230228-topic-venus-v3-0-6092ae43b58f@linaro.org>
 In-Reply-To: <20230228-topic-venus-v3-0-6092ae43b58f@linaro.org>
 To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
@@ -79,43 +78,80 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Konrad Dybcio <konrad.dybcio@linaro.org>,
         Vikash Garodia <quic_vgarodia@quicinc.com>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1684358064; l=913;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1684358064; l=2239;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=i7kHJHgzddaQidXryK/eoAjtHGCE1SThJBvwoun4KlE=;
- b=e+RcPjLVdkjjddFqjj7bF91NbgkvCaQSbjYiEeroR0nMP6OKy6b8cZbS93u9/4Grita12S1d7
- LJqrf41c3VXDnn8T0wdfZxe+4bbXeTQQZhgCPIn9YOG+wkTcBQogMUh
+ bh=hZ+hgztR9wHWbz6QthMQ1eS50eS1f+OVy6D5ufbrrY8=;
+ b=+RHQ9L/G1CxdtabVF8ID0djAkMzXA+4Uw4nLISy3nZw7hJ1zjcr/tvzoO2cg/oqgCnbcq0bV+
+ PG8dhBwIRkMDRCcw28F2yE07u7O0KnqbnLcY8Y8RuzxkGr4o22PgAja
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Replace the general IS_V6 checks with more specific VPU version checks.
+Most of these checks should have checked for TZ presence (or well,
+absence), as we shouldn't really be doing things that the black box
+does for us on non-CrOS platforms.
 
+The IS_V6() check in venus_shutdown_no_tz() should have checked
+whether the core version is IRIS2_1 (so, SC7280). Correct that.
+
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- drivers/media/platform/qcom/venus/hfi_venus.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/qcom/venus/firmware.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
-index 2db5361cd5df..105d49fb72be 100644
---- a/drivers/media/platform/qcom/venus/hfi_venus.c
-+++ b/drivers/media/platform/qcom/venus/hfi_venus.c
-@@ -1557,7 +1557,7 @@ static bool venus_cpu_idle_and_pc_ready(struct venus_hfi_device *hdev)
- 	void __iomem *cpu_cs_base = hdev->core->cpu_cs_base;
- 	u32 ctrl_status, cpu_status;
+diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
+index 572b649c56f3..ceb917f2e0d4 100644
+--- a/drivers/media/platform/qcom/venus/firmware.c
++++ b/drivers/media/platform/qcom/venus/firmware.c
+@@ -29,7 +29,11 @@ static void venus_reset_cpu(struct venus_core *core)
+ 	u32 fw_size = core->fw.mapped_mem_size;
+ 	void __iomem *wrapper_base;
  
--	if (IS_V6(hdev->core))
-+	if (IS_IRIS2(hdev->core) || IS_IRIS2_1(hdev->core))
- 		cpu_status = readl(wrapper_tz_base + WRAPPER_TZ_CPU_STATUS_V6);
+-	if (IS_V6(core))
++	/*
++	 * When there's no Qualcomm TZ (like on Chromebooks), the OS is
++	 * responsible for bringing up the hardware instead.
++	 */
++	if (!core->use_tz)
+ 		wrapper_base = core->wrapper_tz_base;
  	else
- 		cpu_status = readl(wrapper_base + WRAPPER_CPU_STATUS);
+ 		wrapper_base = core->wrapper_base;
+@@ -41,7 +45,7 @@ static void venus_reset_cpu(struct venus_core *core)
+ 	writel(fw_size, wrapper_base + WRAPPER_NONPIX_START_ADDR);
+ 	writel(fw_size, wrapper_base + WRAPPER_NONPIX_END_ADDR);
+ 
+-	if (IS_V6(core)) {
++	if (!core->use_tz) {
+ 		/* Bring XTSS out of reset */
+ 		writel(0, wrapper_base + WRAPPER_TZ_XTSS_SW_RESET);
+ 	} else {
+@@ -67,7 +71,7 @@ int venus_set_hw_state(struct venus_core *core, bool resume)
+ 	if (resume) {
+ 		venus_reset_cpu(core);
+ 	} else {
+-		if (IS_V6(core))
++		if (!core->use_tz)
+ 			writel(WRAPPER_XTSS_SW_RESET_BIT,
+ 			       core->wrapper_tz_base + WRAPPER_TZ_XTSS_SW_RESET);
+ 		else
+@@ -179,7 +183,7 @@ static int venus_shutdown_no_tz(struct venus_core *core)
+ 	void __iomem *wrapper_base = core->wrapper_base;
+ 	void __iomem *wrapper_tz_base = core->wrapper_tz_base;
+ 
+-	if (IS_V6(core)) {
++	if (IS_IRIS2_1(core)) {
+ 		/* Assert the reset to XTSS */
+ 		reg = readl(wrapper_tz_base + WRAPPER_TZ_XTSS_SW_RESET);
+ 		reg |= WRAPPER_XTSS_SW_RESET_BIT;
 
 -- 
 2.40.1
