@@ -2,42 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B45AC7084F1
-	for <lists+linux-media@lfdr.de>; Thu, 18 May 2023 17:33:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5197470851E
+	for <lists+linux-media@lfdr.de>; Thu, 18 May 2023 17:38:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231411AbjERPd3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 May 2023 11:33:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55322 "EHLO
+        id S231298AbjERPi1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 May 2023 11:38:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231218AbjERPd2 (ORCPT
+        with ESMTP id S230036AbjERPiZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 May 2023 11:33:28 -0400
+        Thu, 18 May 2023 11:38:25 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95701123
-        for <linux-media@vger.kernel.org>; Thu, 18 May 2023 08:32:37 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4E63D2
+        for <linux-media@vger.kernel.org>; Thu, 18 May 2023 08:37:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1684423956;
+        s=mimecast20190719; t=1684424260;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=5E+wv57I+Cweh/lUUslprHQqaBNepL0KFdc/bDsD5bw=;
-        b=bgeeEgIO9DSxViy5WhyZh8Muf1L3W7MKZ9cAzUVbT9XgQFPdnHihqdXczqW90/GQhCApt/
-        fE+F9OSiN8dxWbqQIms/GEYAxmKEl9JN6++yxoVZwAknPy8Alfiy/rhCOY5ZTtgAzIKyI1
-        h45DlFehJ3OgDElparboA6DWGmx+Grk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+         content-transfer-encoding:content-transfer-encoding;
+        bh=o45RGhwWcKE3UDH1wYnwhfDfQMq4g3gl8O4X2nbyYl4=;
+        b=dBko2wOmY1mczIHs0Ejx7R7sBBAvktKPKXAl3lcbuQJ3+LE/rK/xCCbdhJA/q+d1hHK6E6
+        M64odMjaQUnM8hdYPs21rW/NV5jr7898njPsKkvA6JLW5KNS1m8JrwluoGWHXlUIVkyyZt
+        nuTUXwlhfgypEQVBv+Vkdhe2ak9s7aM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-94-f8VJXqblPJie2XTIyWv7VA-1; Thu, 18 May 2023 11:32:33 -0400
-X-MC-Unique: f8VJXqblPJie2XTIyWv7VA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+ us-mta-520-RCIy7N6hOsanTztEf9hPPw-1; Thu, 18 May 2023 11:37:36 -0400
+X-MC-Unique: RCIy7N6hOsanTztEf9hPPw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 77891802666;
-        Thu, 18 May 2023 15:32:32 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 016383C0ED40;
+        Thu, 18 May 2023 15:37:36 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.133])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id ED1C940C6EC4;
-        Thu, 18 May 2023 15:32:30 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 76C3063F5F;
+        Thu, 18 May 2023 15:37:34 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -48,14 +47,12 @@ Cc:     Hans de Goede <hdegoede@redhat.com>, Kate Hsuan <hpa@redhat.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 9/9] media: Move gc0310 sensor drivers to drivers/media/i2c/
-Date:   Thu, 18 May 2023 17:32:14 +0200
-Message-Id: <20230518153214.194976-10-hdegoede@redhat.com>
-In-Reply-To: <20230518153214.194976-1-hdegoede@redhat.com>
-References: <20230518153214.194976-1-hdegoede@redhat.com>
+Subject: [PATCH 0/9] media: atomisp: Add support for v4l2-async sensor registration
+Date:   Thu, 18 May 2023 17:37:24 +0200
+Message-Id: <20230518153733.195306-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
@@ -66,88 +63,55 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The atomisp gc0310 sensor driver has now been fully converted to
-a standard v4l2 sensor driver. Move it to drivers/media/i2c/
-to reflect this.
+Hi All,
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/media/i2c/Kconfig                              | 10 ++++++++++
- drivers/media/i2c/Makefile                             |  1 +
- .../i2c/atomisp-gc0310.c => media/i2c/gc0310.c}        |  0
- drivers/staging/media/atomisp/i2c/Kconfig              |  8 --------
- drivers/staging/media/atomisp/i2c/Makefile             |  1 -
- 5 files changed, 11 insertions(+), 9 deletions(-)
- rename drivers/{staging/media/atomisp/i2c/atomisp-gc0310.c => media/i2c/gc0310.c} (100%)
+I'm quite happy to present this patch series which makes it possible
+to use v4l2-async sensor registration together with the atomisp code :)
 
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 0e5a69d5d7ff..8f55155afe67 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -47,6 +47,16 @@ config VIDEO_AR0521
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called ar0521.
- 
-+config VIDEO_GC0310
-+	tristate "GalaxyCore GC0310 sensor support"
-+	depends on I2C && VIDEO_DEV
-+	select MEDIA_CONTROLLER
-+	select VIDEO_V4L2_SUBDEV_API
-+	select V4L2_FWNODE
-+	help
-+	  This is a Video4Linux2 sensor-level driver for the GalaxyCore
-+	  GC0310 0.3MP sensor.
-+
- config VIDEO_HI556
- 	tristate "Hynix Hi-556 sensor support"
- 	depends on I2C && VIDEO_DEV
-diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index 2a68bfb621b0..1376b0558228 100644
---- a/drivers/media/i2c/Makefile
-+++ b/drivers/media/i2c/Makefile
-@@ -33,6 +33,7 @@ obj-$(CONFIG_VIDEO_DW9719) += dw9719.o
- obj-$(CONFIG_VIDEO_DW9768) += dw9768.o
- obj-$(CONFIG_VIDEO_DW9807_VCM) += dw9807-vcm.o
- obj-$(CONFIG_VIDEO_ET8EK8) += et8ek8/
-+obj-$(CONFIG_VIDEO_GC0310) += gc0310.o
- obj-$(CONFIG_VIDEO_HI556) += hi556.o
- obj-$(CONFIG_VIDEO_HI846) += hi846.o
- obj-$(CONFIG_VIDEO_HI847) += hi847.o
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/media/i2c/gc0310.c
-similarity index 100%
-rename from drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-rename to drivers/media/i2c/gc0310.c
-diff --git a/drivers/staging/media/atomisp/i2c/Kconfig b/drivers/staging/media/atomisp/i2c/Kconfig
-index e726101b24e4..16b6b808d4a7 100644
---- a/drivers/staging/media/atomisp/i2c/Kconfig
-+++ b/drivers/staging/media/atomisp/i2c/Kconfig
-@@ -49,14 +49,6 @@ config VIDEO_ATOMISP_MT9M114
- 
- 	  It currently only works with the atomisp driver.
- 
--config VIDEO_ATOMISP_GC0310
--	tristate "GC0310 sensor support"
--	depends on ACPI
--	depends on I2C && VIDEO_DEV
--	help
--	  This is a Video4Linux2 sensor-level driver for the Galaxycore
--	  GC0310 0.3MP sensor.
--
- config VIDEO_ATOMISP_OV2680
- 	tristate "Omnivision OV2680 sensor support"
- 	depends on ACPI
-diff --git a/drivers/staging/media/atomisp/i2c/Makefile b/drivers/staging/media/atomisp/i2c/Makefile
-index 8d022986e199..5c5c8acd73cf 100644
---- a/drivers/staging/media/atomisp/i2c/Makefile
-+++ b/drivers/staging/media/atomisp/i2c/Makefile
-@@ -8,7 +8,6 @@ obj-$(CONFIG_VIDEO_ATOMISP_MT9M114)    += atomisp-mt9m114.o
- obj-$(CONFIG_VIDEO_ATOMISP_GC2235)     += atomisp-gc2235.o
- obj-$(CONFIG_VIDEO_ATOMISP_OV2722)     += atomisp-ov2722.o
- obj-$(CONFIG_VIDEO_ATOMISP_OV2680)     += atomisp-ov2680.o
--obj-$(CONFIG_VIDEO_ATOMISP_GC0310)     += atomisp-gc0310.o
- 
- obj-$(CONFIG_VIDEO_ATOMISP_MSRLIST_HELPER) += atomisp-libmsrlisthelper.o
- 
+This has been tested with both the gc0310 and the ov2680 sensor drivers.
+
+For now it also is still possible to use the old atomisp_gmin_platform
+based sensor drivers. This is mainly intended for testing while moving
+other sensor drivers over to runtime-pm + v4l2-async.
+
+Regards,
+
+Hans
+
+
+Hans de Goede (9):
+  media: atomisp: Drop MRFLD_PORT_NUM define
+  media: atomisp: Remove unused fields from struct atomisp_input_subdev
+  media: atomisp: Remove atomisp_video_init() parametrization
+  media: atomisp: Rename __get_mipi_port() to
+    atomisp_port_to_mipi_port()
+  media: atomisp: Store number of sensor lanes per port in struct
+    atomisp_device
+  media: atomisp: Delay mapping sensors to inputs till
+    atomisp_register_device_nodes()
+  media: atomisp: Move pad linking to atomisp_register_device_nodes()
+  media: atomisp: Allow camera_mipi_info to be NULL
+  media: atomisp: Add support for v4l2-async sensor registration
+
+ drivers/staging/media/atomisp/Makefile        |   1 +
+ .../atomisp/include/linux/atomisp_platform.h  |   1 +
+ .../staging/media/atomisp/pci/atomisp-regs.h  |   1 -
+ .../staging/media/atomisp/pci/atomisp_cmd.c   |  41 +-
+ .../staging/media/atomisp/pci/atomisp_cmd.h   |   4 +-
+ .../staging/media/atomisp/pci/atomisp_csi2.c  |  10 +-
+ .../staging/media/atomisp/pci/atomisp_csi2.h  |  64 ++
+ .../media/atomisp/pci/atomisp_csi2_bridge.c   | 592 ++++++++++++++++++
+ .../staging/media/atomisp/pci/atomisp_fops.c  |   2 +-
+ .../media/atomisp/pci/atomisp_gmin_platform.c |   2 +
+ .../media/atomisp/pci/atomisp_internal.h      |  11 +-
+ .../staging/media/atomisp/pci/atomisp_ioctl.c |   2 +-
+ .../media/atomisp/pci/atomisp_subdev.c        |  37 +-
+ .../media/atomisp/pci/atomisp_subdev.h        |   3 -
+ .../staging/media/atomisp/pci/atomisp_v4l2.c  | 220 +++----
+ .../staging/media/atomisp/pci/atomisp_v4l2.h  |   4 +-
+ 16 files changed, 793 insertions(+), 202 deletions(-)
+ create mode 100644 drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
+
 -- 
 2.40.1
 
