@@ -2,334 +2,489 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A038707FB3
-	for <lists+linux-media@lfdr.de>; Thu, 18 May 2023 13:38:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50356708295
+	for <lists+linux-media@lfdr.de>; Thu, 18 May 2023 15:25:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231501AbjERLim (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 May 2023 07:38:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60312 "EHLO
+        id S231336AbjERNZF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 May 2023 09:25:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231461AbjERLiZ (ORCPT
+        with ESMTP id S231715AbjERNZD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 May 2023 07:38:25 -0400
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D3B7830EC;
-        Thu, 18 May 2023 04:37:05 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.99,285,1677510000"; 
-   d="scan'208";a="159842740"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 18 May 2023 20:36:59 +0900
-Received: from localhost.localdomain (unknown [10.226.92.79])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 727B84004467;
-        Thu, 18 May 2023 20:36:51 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Wolfram Sang <wsa@kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Corey Minyard <cminyard@mvista.com>,
-        =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
-        Antonio Borneo <antonio.borneo@foss.st.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        dri-devel@lists.freedesktop.org, linux-i2c@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v4 01/11] i2c: Enhance i2c_new_ancillary_device API
-Date:   Thu, 18 May 2023 12:36:33 +0100
-Message-Id: <20230518113643.420806-2-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230518113643.420806-1-biju.das.jz@bp.renesas.com>
-References: <20230518113643.420806-1-biju.das.jz@bp.renesas.com>
+        Thu, 18 May 2023 09:25:03 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 25C63BB;
+        Thu, 18 May 2023 06:25:01 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9F2041FB;
+        Thu, 18 May 2023 06:25:45 -0700 (PDT)
+Received: from [10.57.82.163] (unknown [10.57.82.163])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2CFDC3F7BD;
+        Thu, 18 May 2023 06:24:57 -0700 (PDT)
+Message-ID: <33cf3d3e-1f3c-0f92-aff1-2441e4bfb793@arm.com>
+Date:   Thu, 18 May 2023 14:24:53 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_FILL_THIS_FORM_SHORT,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH 4/7] drm/apu: Add support of IOMMU
+Content-Language: en-GB
+To:     Alexandre Bailon <abailon@baylibre.com>, airlied@gmail.com,
+        daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+        mripard@kernel.org, tzimmermann@suse.de
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, matthias.bgg@gmail.com,
+        angelogioacchino.delregno@collabora.com, sumit.semwal@linaro.org,
+        christian.koenig@amd.com, jstephan@baylibre.com,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, khilman@baylibre.com,
+        nbelin@baylibre.com, bero@baylibre.com
+References: <20230517145237.295461-1-abailon@baylibre.com>
+ <20230517145237.295461-5-abailon@baylibre.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20230517145237.295461-5-abailon@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Renesas PMIC RAA215300 exposes two separate i2c devices, one for the main
-device and another for rtc device.
+On 2023-05-17 15:52, Alexandre Bailon wrote:
+> Some APU devices are behind an IOMMU.
+> For some of these devices, we can't use DMA API because
+> they use static addresses so we have to manually use
+> IOMMU API to correctly map the buffers.
 
-Enhance i2c_new_ancillary_device() to instantiate a real device.
-(eg: Instantiate rtc device from PMIC driver)
+Except you still need to use the DMA for the sake of cache coherency and 
+any other aspects :(
 
-Added helper function __i2c_new_dummy_device to share the code
-between i2c_new_dummy_device and i2c_new_ancillary_device().
+> This adds support of IOMMU.
+> 
+> Signed-off-by: Alexandre Bailon <abailon@baylibre.com>
+> Reviewed-by: Julien Stephan <jstephan@baylibre.com>
+> ---
+>   drivers/gpu/drm/apu/apu_drv.c      |   4 +
+>   drivers/gpu/drm/apu/apu_gem.c      | 174 +++++++++++++++++++++++++++++
+>   drivers/gpu/drm/apu/apu_internal.h |  16 +++
+>   drivers/gpu/drm/apu/apu_sched.c    |  28 +++++
+>   include/uapi/drm/apu_drm.h         |  12 +-
+>   5 files changed, 233 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/apu/apu_drv.c b/drivers/gpu/drm/apu/apu_drv.c
+> index b6bd340b2bc8..a0dce785a02a 100644
+> --- a/drivers/gpu/drm/apu/apu_drv.c
+> +++ b/drivers/gpu/drm/apu/apu_drv.c
+> @@ -23,6 +23,10 @@ static const struct drm_ioctl_desc ioctls[] = {
+>   			  DRM_RENDER_ALLOW),
+>   	DRM_IOCTL_DEF_DRV(APU_GEM_DEQUEUE, ioctl_gem_dequeue,
+>   			  DRM_RENDER_ALLOW),
+> +	DRM_IOCTL_DEF_DRV(APU_GEM_IOMMU_MAP, ioctl_gem_iommu_map,
+> +			  DRM_RENDER_ALLOW),
+> +	DRM_IOCTL_DEF_DRV(APU_GEM_IOMMU_UNMAP, ioctl_gem_iommu_unmap,
+> +			  DRM_RENDER_ALLOW),
+>   };
+>   
+>   DEFINE_DRM_GEM_DMA_FOPS(apu_drm_ops);
+> diff --git a/drivers/gpu/drm/apu/apu_gem.c b/drivers/gpu/drm/apu/apu_gem.c
+> index 0e7b3b27942c..0a91363754c5 100644
+> --- a/drivers/gpu/drm/apu/apu_gem.c
+> +++ b/drivers/gpu/drm/apu/apu_gem.c
+> @@ -2,6 +2,9 @@
+>   //
+>   // Copyright 2020 BayLibre SAS
+>   
+> +#include <linux/iommu.h>
+> +#include <linux/iova.h>
+> +
+>   #include <drm/drm_gem_dma_helper.h>
+>   
+>   #include <uapi/drm/apu_drm.h>
+> @@ -42,6 +45,7 @@ int ioctl_gem_new(struct drm_device *dev, void *data,
+>   	 */
+>   	apu_obj->size = args->size;
+>   	apu_obj->offset = 0;
+> +	apu_obj->iommu_refcount = 0;
+>   	mutex_init(&apu_obj->mutex);
+>   
+>   	ret = drm_gem_handle_create(file_priv, gem_obj, &args->handle);
+> @@ -54,3 +58,173 @@ int ioctl_gem_new(struct drm_device *dev, void *data,
+>   
+>   	return 0;
+>   }
+> +
+> +void apu_bo_iommu_unmap(struct apu_drm *apu_drm, struct apu_gem_object *obj)
+> +{
+> +	int iova_pfn;
+> +	int i;
+> +
+> +	if (!obj->iommu_sgt)
+> +		return;
+> +
+> +	mutex_lock(&obj->mutex);
+> +	obj->iommu_refcount--;
+> +	if (obj->iommu_refcount) {
+> +		mutex_unlock(&obj->mutex);
+> +		return;
+> +	}
+> +
+> +	iova_pfn = PHYS_PFN(obj->iova);
 
-Also added helper function __i2c_new_client_device() to pass parent dev
-parameter, so that the ancillary device can assign its parent during
-creation.
+Using mm layer operations on IOVAs looks wrong. In practice I don't 
+think it's ultimately harmful, other than potentially making less 
+efficient use of IOVA space if the CPU page size is larger than the 
+IOMMU page size, but it's still a bad code smell when you're using an 
+IOVA abstraction that is deliberately decoupled from CPU pages.
 
-Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v3->v4:
- * Dropped Rb tag from Geert as there are new changes.
- * Introduced __i2c_new_dummy_device() to share the code between
-   i2c_new_dummy_device and i2c_new_ancillary_device().
- * Introduced __i2c_new_client_device() to pass parent dev
-   parameter, so that the ancillary device can assign its parent during
-   creation.
-v3:
- * New patch
+> +	for (i = 0; i < obj->iommu_sgt->nents; i++) {
+> +		iommu_unmap(apu_drm->domain, PFN_PHYS(iova_pfn),
+> +			    PAGE_ALIGN(obj->iommu_sgt->sgl[i].length));
+> +		iova_pfn += PHYS_PFN(PAGE_ALIGN(obj->iommu_sgt->sgl[i].length));
 
-Ref:
- https://patchwork.kernel.org/project/linux-renesas-soc/patch/20230505172530.357455-5-biju.das.jz@bp.renesas.com/
----
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c |  6 +-
- drivers/i2c/i2c-core-base.c                  | 90 +++++++++++++-------
- drivers/media/i2c/adv748x/adv748x-core.c     |  2 +-
- drivers/media/i2c/adv7604.c                  |  3 +-
- include/linux/i2c.h                          |  3 +-
- 5 files changed, 67 insertions(+), 37 deletions(-)
+You can unmap a set of IOVA-contiguous mappings as a single range with 
+one call.
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index ddceafa7b637..86306b010a0a 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -1072,7 +1072,7 @@ static int adv7511_init_cec_regmap(struct adv7511 *adv)
- 	int ret;
- 
- 	adv->i2c_cec = i2c_new_ancillary_device(adv->i2c_main, "cec",
--						ADV7511_CEC_I2C_ADDR_DEFAULT);
-+				    ADV7511_CEC_I2C_ADDR_DEFAULT, NULL);
- 	if (IS_ERR(adv->i2c_cec))
- 		return PTR_ERR(adv->i2c_cec);
- 
-@@ -1261,7 +1261,7 @@ static int adv7511_probe(struct i2c_client *i2c)
- 	adv7511_packet_disable(adv7511, 0xffff);
- 
- 	adv7511->i2c_edid = i2c_new_ancillary_device(i2c, "edid",
--					ADV7511_EDID_I2C_ADDR_DEFAULT);
-+					ADV7511_EDID_I2C_ADDR_DEFAULT, NULL);
- 	if (IS_ERR(adv7511->i2c_edid)) {
- 		ret = PTR_ERR(adv7511->i2c_edid);
- 		goto uninit_regulators;
-@@ -1271,7 +1271,7 @@ static int adv7511_probe(struct i2c_client *i2c)
- 		     adv7511->i2c_edid->addr << 1);
- 
- 	adv7511->i2c_packet = i2c_new_ancillary_device(i2c, "packet",
--					ADV7511_PACKET_I2C_ADDR_DEFAULT);
-+					ADV7511_PACKET_I2C_ADDR_DEFAULT, NULL);
- 	if (IS_ERR(adv7511->i2c_packet)) {
- 		ret = PTR_ERR(adv7511->i2c_packet);
- 		goto err_i2c_unregister_edid;
-diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-index ae3af738b03f..f6d2a975f8b9 100644
---- a/drivers/i2c/i2c-core-base.c
-+++ b/drivers/i2c/i2c-core-base.c
-@@ -893,24 +893,10 @@ int i2c_dev_irq_from_resources(const struct resource *resources,
- 	return 0;
- }
- 
--/**
-- * i2c_new_client_device - instantiate an i2c device
-- * @adap: the adapter managing the device
-- * @info: describes one I2C device; bus_num is ignored
-- * Context: can sleep
-- *
-- * Create an i2c device. Binding is handled through driver model
-- * probe()/remove() methods.  A driver may be bound to this device when we
-- * return from this function, or any later moment (e.g. maybe hotplugging will
-- * load the driver module).  This call is not appropriate for use by mainboard
-- * initialization logic, which usually runs during an arch_initcall() long
-- * before any i2c_adapter could exist.
-- *
-- * This returns the new i2c client, which may be saved for later use with
-- * i2c_unregister_device(); or an ERR_PTR to describe the error.
-- */
--struct i2c_client *
--i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *info)
-+static struct i2c_client *
-+__i2c_new_client_device(struct i2c_adapter *adap,
-+			struct i2c_board_info const *info,
-+			struct device *dev)
- {
- 	struct i2c_client	*client;
- 	int			status;
-@@ -944,7 +930,7 @@ i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *inf
- 	if (status)
- 		goto out_err;
- 
--	client->dev.parent = &client->adapter->dev;
-+	client->dev.parent = dev ? dev : &client->adapter->dev;
- 	client->dev.bus = &i2c_bus_type;
- 	client->dev.type = &i2c_client_type;
- 	client->dev.of_node = of_node_get(info->of_node);
-@@ -984,6 +970,28 @@ i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *inf
- 	kfree(client);
- 	return ERR_PTR(status);
- }
-+
-+/**
-+ * i2c_new_client_device - instantiate an i2c device
-+ * @adap: the adapter managing the device
-+ * @info: describes one I2C device; bus_num is ignored
-+ * Context: can sleep
-+ *
-+ * Create an i2c device. Binding is handled through driver model
-+ * probe()/remove() methods.  A driver may be bound to this device when we
-+ * return from this function, or any later moment (e.g. maybe hotplugging will
-+ * load the driver module).  This call is not appropriate for use by mainboard
-+ * initialization logic, which usually runs during an arch_initcall() long
-+ * before any i2c_adapter could exist.
-+ *
-+ * This returns the new i2c client, which may be saved for later use with
-+ * i2c_unregister_device(); or an ERR_PTR to describe the error.
-+ */
-+struct i2c_client *
-+i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *info)
-+{
-+	return __i2c_new_client_device(adap, info, NULL);
-+}
- EXPORT_SYMBOL_GPL(i2c_new_client_device);
- 
- /**
-@@ -1054,6 +1062,25 @@ static struct i2c_driver dummy_driver = {
- 	.id_table	= dummy_id,
- };
- 
-+static struct i2c_client *__i2c_new_dummy_device(struct i2c_adapter *adapter,
-+						 u16 address, const char *name,
-+						 struct device *dev)
-+{
-+	struct i2c_board_info info = {
-+		I2C_BOARD_INFO("dummy", address),
-+	};
-+
-+	if (name) {
-+		ssize_t ret = strscpy(info.type, name, sizeof(info.type));
-+
-+		if (ret < 0)
-+			return ERR_PTR(dev_err_probe(&adapter->dev, ret,
-+						     "Invalid device name\n"));
-+	}
-+
-+	return __i2c_new_client_device(adapter, &info, dev);
-+}
-+
- /**
-  * i2c_new_dummy_device - return a new i2c device bound to a dummy driver
-  * @adapter: the adapter managing the device
-@@ -1074,11 +1101,7 @@ static struct i2c_driver dummy_driver = {
-  */
- struct i2c_client *i2c_new_dummy_device(struct i2c_adapter *adapter, u16 address)
- {
--	struct i2c_board_info info = {
--		I2C_BOARD_INFO("dummy", address),
--	};
--
--	return i2c_new_client_device(adapter, &info);
-+	return __i2c_new_dummy_device(adapter, address, NULL, NULL);
- }
- EXPORT_SYMBOL_GPL(i2c_new_dummy_device);
- 
-@@ -1122,15 +1145,17 @@ EXPORT_SYMBOL_GPL(devm_i2c_new_dummy_device);
-  * @client: Handle to the primary client
-  * @name: Handle to specify which secondary address to get
-  * @default_addr: Used as a fallback if no secondary address was specified
-+ * @aux_device_name: Ancillary device name
-  * Context: can sleep
-  *
-  * I2C clients can be composed of multiple I2C slaves bound together in a single
-  * component. The I2C client driver then binds to the master I2C slave and needs
-- * to create I2C dummy clients to communicate with all the other slaves.
-+ * to create I2C ancillary clients to communicate with all the other slaves.
-  *
-- * This function creates and returns an I2C dummy client whose I2C address is
-- * retrieved from the platform firmware based on the given slave name. If no
-- * address is specified by the firmware default_addr is used.
-+ * This function creates and returns an I2C ancillary client whose I2C address
-+ * is retrieved from the platform firmware based on the given slave name. If no
-+ * address is specified by the firmware default_addr is used. If no aux_device_
-+ * name is specified by the firmware, it will create an I2C dummy client.
-  *
-  * On DT-based platforms the address is retrieved from the "reg" property entry
-  * cell whose "reg-names" value matches the slave name.
-@@ -1139,8 +1164,9 @@ EXPORT_SYMBOL_GPL(devm_i2c_new_dummy_device);
-  * i2c_unregister_device(); or an ERR_PTR to describe the error.
-  */
- struct i2c_client *i2c_new_ancillary_device(struct i2c_client *client,
--						const char *name,
--						u16 default_addr)
-+					    const char *name,
-+					    u16 default_addr,
-+					    const char *aux_device_name)
- {
- 	struct device_node *np = client->dev.of_node;
- 	u32 addr = default_addr;
-@@ -1153,7 +1179,9 @@ struct i2c_client *i2c_new_ancillary_device(struct i2c_client *client,
- 	}
- 
- 	dev_dbg(&client->adapter->dev, "Address for %s : 0x%x\n", name, addr);
--	return i2c_new_dummy_device(client->adapter, addr);
-+	return __i2c_new_dummy_device(client->adapter, addr,
-+				      aux_device_name ? aux_device_name : NULL,
-+				      &client->dev);
- }
- EXPORT_SYMBOL_GPL(i2c_new_ancillary_device);
- 
-diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
-index 4498d78a2357..5bdf7b0c6bf3 100644
---- a/drivers/media/i2c/adv748x/adv748x-core.c
-+++ b/drivers/media/i2c/adv748x/adv748x-core.c
-@@ -186,7 +186,7 @@ static int adv748x_initialise_clients(struct adv748x_state *state)
- 		state->i2c_clients[i] = i2c_new_ancillary_device(
- 				state->client,
- 				adv748x_default_addresses[i].name,
--				adv748x_default_addresses[i].default_addr);
-+				adv748x_default_addresses[i].default_addr, NULL);
- 
- 		if (IS_ERR(state->i2c_clients[i])) {
- 			adv_err(state, "failed to create i2c client %u\n", i);
-diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
-index 3d0898c4175e..63fa44c9d27c 100644
---- a/drivers/media/i2c/adv7604.c
-+++ b/drivers/media/i2c/adv7604.c
-@@ -2935,7 +2935,8 @@ static struct i2c_client *adv76xx_dummy_client(struct v4l2_subdev *sd,
- 	else
- 		new_client = i2c_new_ancillary_device(client,
- 				adv76xx_default_addresses[page].name,
--				adv76xx_default_addresses[page].default_addr);
-+				adv76xx_default_addresses[page].default_addr,
-+				NULL);
- 
- 	if (!IS_ERR(new_client))
- 		io_write(sd, io_reg, new_client->addr << 1);
-diff --git a/include/linux/i2c.h b/include/linux/i2c.h
-index 13a1ce38cb0c..0ce344724209 100644
---- a/include/linux/i2c.h
-+++ b/include/linux/i2c.h
-@@ -489,7 +489,8 @@ devm_i2c_new_dummy_device(struct device *dev, struct i2c_adapter *adap, u16 addr
- struct i2c_client *
- i2c_new_ancillary_device(struct i2c_client *client,
- 			 const char *name,
--			 u16 default_addr);
-+			 u16 default_addr,
-+			 const char *aux_device_name);
- 
- void i2c_unregister_device(struct i2c_client *client);
- 
--- 
-2.25.1
+> +	}
+> +
+> +	sg_free_table(obj->iommu_sgt);
+> +	kfree(obj->iommu_sgt);
+> +
+> +	free_iova(&apu_drm->iovad, PHYS_PFN(obj->iova));
+> +	mutex_unlock(&obj->mutex);
+> +}
+> +
+> +static struct sg_table *apu_get_sg_table(struct drm_gem_object *obj)
+> +{
+> +	if (obj->funcs)
+> +		return obj->funcs->get_sg_table(obj);
+> +	return NULL;
+> +}
+> +
+> +int apu_bo_iommu_map(struct apu_drm *apu_drm, struct drm_gem_object *obj)
+> +{
+> +	struct apu_gem_object *apu_obj = to_apu_bo(obj);
+> +	struct scatterlist *sgl;
+> +	phys_addr_t phys;
+> +	int total_buf_space;
+> +	int iova_pfn;
+> +	int iova;
+> +	int ret;
+> +	int i;
+> +
+> +	mutex_lock(&apu_obj->mutex);
+> +	apu_obj->iommu_refcount++;
+> +	if (apu_obj->iommu_refcount != 1) {
+> +		mutex_unlock(&apu_obj->mutex);
+> +		return 0;
+> +	}
+> +
+> +	apu_obj->iommu_sgt = apu_get_sg_table(obj);
+> +	if (IS_ERR(apu_obj->iommu_sgt)) {
+> +		mutex_unlock(&apu_obj->mutex);
+> +		return PTR_ERR(apu_obj->iommu_sgt);
+> +	}
+> +
+> +	total_buf_space = obj->size;
+> +	iova_pfn = alloc_iova_fast(&apu_drm->iovad,
+> +				   total_buf_space >> PAGE_SHIFT,
+> +				   apu_drm->iova_limit_pfn, true);
 
+If you need things mapped at specific addresses like the commit message 
+claims, the DMA IOVA allocator is a terrible tool for the job. DRM 
+already has its own more flexible abstraction for address space 
+management in the form of drm_mm, so as a DRM driver it would seem a lot 
+more sensible to use one of those.
+
+And even if you could justify using this allocator, I can't imagine 
+there's any way you'd need the _fast version (further illustrated by the 
+fact that you're freeing the IOVAs wrongly for that).
+
+> +	apu_obj->iova = PFN_PHYS(iova_pfn);
+> +
+> +	if (!iova_pfn) {
+> +		dev_err(apu_drm->dev, "Failed to allocate iova address\n");
+> +		mutex_unlock(&apu_obj->mutex);
+> +		return -ENOMEM;
+> +	}
+> +
+> +	iova = apu_obj->iova;
+> +	sgl = apu_obj->iommu_sgt->sgl;
+> +	for (i = 0; i < apu_obj->iommu_sgt->nents; i++) {
+> +		phys = page_to_phys(sg_page(&sgl[i]));
+> +		ret =
+> +		    iommu_map(apu_drm->domain, PFN_PHYS(iova_pfn), phys,
+> +			      PAGE_ALIGN(sgl[i].length), IOMMU_READ | IOMMU_WRITE,
+> +			      GFP_KERNEL);
+> +		if (ret) {
+> +			dev_err(apu_drm->dev, "Failed to iommu map\n");
+> +			free_iova(&apu_drm->iovad, iova_pfn);
+> +			mutex_unlock(&apu_obj->mutex);
+> +			return ret;
+> +		}
+> +		iova += sgl[i].offset + sgl[i].length;
+> +		iova_pfn += PHYS_PFN(PAGE_ALIGN(sgl[i].length));
+
+This looks a lot like it should just be iommu_map_sg(). Also it makes me 
+suspicious of the relationship between obj->size and the sgtable - if 
+the size is already pre-calculated to include any required padding then 
+why can't the caller just provide aligned SG segments in the first 
+place? Conversely if it's the original un-padded size, then any padding 
+you *do* add at this point means you're going to overrun the allocated 
+IOVA space.
+
+> +	}
+> +	mutex_unlock(&apu_obj->mutex);
+> +
+> +	return 0;
+> +}
+> +
+> +int ioctl_gem_iommu_map(struct drm_device *dev, void *data,
+> +			struct drm_file *file_priv)
+> +{
+> +	struct apu_drm *apu_drm = dev->dev_private;
+> +	struct drm_apu_gem_iommu_map *args = data;
+> +	struct drm_gem_object **bos;
+> +	void __user *bo_handles;
+> +	u64 *das;
+> +	int ret;
+> +	int i;
+> +
+> +	if (!apu_drm->domain)
+> +		return -ENODEV;
+> +
+> +	das = kvmalloc_array(args->bo_handle_count, sizeof(*das), GFP_KERNEL);
+
+Does anything prevent userspace passing random numbers and being able to 
+cause arbitrarily large allocations of unaccounted kernel memory here?
+
+> +	if (!das)
+> +		return -ENOMEM;
+> +
+> +	bo_handles = (void __user *)(uintptr_t) args->bo_handles;
+> +	ret = drm_gem_objects_lookup(file_priv, bo_handles,
+> +				     args->bo_handle_count, &bos);
+> +	if (ret) {
+> +		kvfree(das);
+> +		return ret;
+> +	}
+> +
+> +	for (i = 0; i < args->bo_handle_count; i++) {
+> +		ret = apu_bo_iommu_map(apu_drm, bos[i]);
+> +		if (ret) {
+> +			/* TODO: handle error */
+
+Yes, that would be a good thing to do.
+
+> +			break;
+> +		}
+> +		das[i] = to_apu_bo(bos[i])->iova + to_apu_bo(bos[i])->offset;
+> +	}
+> +
+> +	if (copy_to_user((void *)args->bo_device_addresses, das,
+> +			 args->bo_handle_count * sizeof(u64))) {
+> +		ret = -EFAULT;
+> +		DRM_DEBUG("Failed to copy device addresses\n");
+> +		goto out;
+> +	}
+> +
+> +out:
+> +	kvfree(das);
+> +	kvfree(bos);
+> +
+> +	return 0;
+> +}
+> +
+> +int ioctl_gem_iommu_unmap(struct drm_device *dev, void *data,
+> +			  struct drm_file *file_priv)
+> +{
+> +	struct apu_drm *apu_drm = dev->dev_private;
+> +	struct drm_apu_gem_iommu_map *args = data;
+> +	struct drm_gem_object **bos;
+> +	void __user *bo_handles;
+> +	int ret;
+> +	int i;
+> +
+> +	if (!apu_drm->domain)
+> +		return -ENODEV;
+> +
+> +	bo_handles = (void __user *)(uintptr_t) args->bo_handles;
+> +	ret = drm_gem_objects_lookup(file_priv, bo_handles,
+> +				     args->bo_handle_count, &bos);
+> +	if (ret)
+> +		return ret;
+> +
+> +	for (i = 0; i < args->bo_handle_count; i++)
+> +		apu_bo_iommu_unmap(apu_drm, to_apu_bo(bos[i]));
+> +
+> +	kvfree(bos);
+> +
+> +	return 0;
+> +}
+> diff --git a/drivers/gpu/drm/apu/apu_internal.h b/drivers/gpu/drm/apu/apu_internal.h
+> index 021a3efdedf2..ea4183f3fb15 100644
+> --- a/drivers/gpu/drm/apu/apu_internal.h
+> +++ b/drivers/gpu/drm/apu/apu_internal.h
+> @@ -2,6 +2,9 @@
+>   #ifndef __APU_INTERNAL_H__
+>   #define __APU_INTERNAL_H__
+>   
+> +#include <linux/iommu.h>
+> +#include <linux/iova.h>
+> +
+>   #include <drm/drm_drv.h>
+>   #include <drm/drm_gem_dma_helper.h>
+>   #include <drm/gpu_scheduler.h>
+> @@ -9,7 +12,10 @@
+>   struct apu_gem_object {
+>   	struct drm_gem_dma_object base;
+>   	struct mutex mutex;
+> +	struct sg_table *iommu_sgt;
+> +	int iommu_refcount;
+>   	size_t size;
+> +	u32 iova;
+
+Really? "Common infrastructure that could be re-used to support many 
+accelerators", in 2023, that still assumes 32-bit addressing?
+
+>   	u32 offset;
+>   };
+>   
+> @@ -35,6 +41,10 @@ struct apu_drm {
+>   	struct drm_device base;
+>   	struct device *dev;
+>   
+> +	struct iommu_domain *domain;
+
+Oh, nothing ever allocates this domain or attaches to it, so this is all 
+dead code :(
+
+> +	struct iova_domain iovad;
+> +	int iova_limit_pfn;
+
+(and nothing initialises these either)
+
+> +
+>   	struct list_head cores;
+>   	struct list_head node;
+>   
+> @@ -165,12 +175,18 @@ struct apu_gem_object *to_apu_bo(struct drm_gem_object *obj);
+>   struct drm_gem_object *apu_gem_create_object(struct drm_device *dev,
+>   					     size_t size);
+>   
+> +int apu_bo_iommu_map(struct apu_drm *apu_drm, struct drm_gem_object *obj);
+> +void apu_bo_iommu_unmap(struct apu_drm *apu_drm, struct apu_gem_object *obj);
+>   int ioctl_gem_new(struct drm_device *dev, void *data,
+>   		  struct drm_file *file_priv);
+>   int ioctl_gem_user_new(struct drm_device *dev, void *data,
+>   		       struct drm_file *file_priv);
+>   struct dma_buf *apu_gem_prime_export(struct drm_gem_object *gem,
+>   				     int flags);
+> +int ioctl_gem_iommu_map(struct drm_device *dev, void *data,
+> +			struct drm_file *file_priv);
+> +int ioctl_gem_iommu_unmap(struct drm_device *dev, void *data,
+> +			  struct drm_file *file_priv);
+>   int ioctl_gem_queue(struct drm_device *dev, void *data,
+>   		    struct drm_file *file_priv);
+>   int ioctl_gem_dequeue(struct drm_device *dev, void *data,
+> diff --git a/drivers/gpu/drm/apu/apu_sched.c b/drivers/gpu/drm/apu/apu_sched.c
+> index 13b6fbd00bd8..716d4b7f2d55 100644
+> --- a/drivers/gpu/drm/apu/apu_sched.c
+> +++ b/drivers/gpu/drm/apu/apu_sched.c
+> @@ -117,6 +117,8 @@ static void apu_job_cleanup(struct kref *ref)
+>   			struct apu_gem_object *apu_obj;
+>   
+>   			apu_obj = to_apu_bo(job->bos[i]);
+> +			if (job->apu->domain)
+> +				apu_bo_iommu_unmap(job->apu, apu_obj);
+>   			drm_gem_object_put(job->bos[i]);
+>   		}
+>   
+> @@ -397,6 +399,7 @@ static int apu_lookup_bos(struct drm_device *dev, struct drm_file *file_priv,
+>   			  struct drm_apu_gem_queue *args, struct apu_job *job)
+>   {
+>   	void __user *bo_handles;
+> +	unsigned int i;
+>   	int ret;
+>   
+>   	job->bo_count = args->bo_handle_count;
+> @@ -413,6 +416,31 @@ static int apu_lookup_bos(struct drm_device *dev, struct drm_file *file_priv,
+>   	bo_handles = (void __user *)(uintptr_t) args->bo_handles;
+>   	ret = drm_gem_objects_lookup(file_priv, bo_handles,
+>   				     job->bo_count, &job->bos);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (!job->apu->domain)
+> +		return 0;
+> +
+> +	for (i = 0; i < job->bo_count; i++) {
+> +		ret = apu_bo_iommu_map(job->apu, job->bos[i]);
+> +		if (ret)
+> +			goto err_iommu_map;
+> +	}
+> +
+> +	return ret;
+> +
+> +err_iommu_map:
+> +	kvfree(job->implicit_fences);
+> +	for (i = 0; i < job->bo_count; i++) {
+> +		struct apu_gem_object *apu_obj;
+> +
+> +		apu_obj = to_apu_bo(job->bos[i]);
+> +		if (job->apu->domain)
+
+If the domain *did* ever exist, but could suddenly disappear at any 
+point after you've decided to go ahead and start mapping things into it, 
+then there is a heck of a lot of sychronisation missing from this whole 
+infrastructure.
+
+Thanks,
+Robin.
+
+> +			apu_bo_iommu_unmap(job->apu, apu_obj);
+> +		drm_gem_object_put(job->bos[i]);
+> +	}
+> +	kvfree(job->bos);
+>   
+>   	return ret;
+>   }
+> diff --git a/include/uapi/drm/apu_drm.h b/include/uapi/drm/apu_drm.h
+> index c47000097040..0ecc739d8aed 100644
+> --- a/include/uapi/drm/apu_drm.h
+> +++ b/include/uapi/drm/apu_drm.h
+> @@ -41,6 +41,12 @@ struct drm_apu_gem_dequeue {
+>   	__u64 data;
+>   };
+>   
+> +struct drm_apu_gem_iommu_map {
+> +	__u64 bo_handles;
+> +	__u32 bo_handle_count;
+> +	__u64 bo_device_addresses;
+> +};
+> +
+>   struct apu_job_event {
+>   	struct drm_event base;
+>   	__u32 out_sync;
+> @@ -57,12 +63,16 @@ struct drm_apu_state {
+>   #define DRM_APU_GEM_NEW			0x01
+>   #define DRM_APU_GEM_QUEUE		0x02
+>   #define DRM_APU_GEM_DEQUEUE		0x03
+> -#define DRM_APU_NUM_IOCTLS		0x04
+> +#define DRM_APU_GEM_IOMMU_MAP		0x04
+> +#define DRM_APU_GEM_IOMMU_UNMAP		0x05
+> +#define DRM_APU_NUM_IOCTLS		0x06
+>   
+>   #define DRM_IOCTL_APU_STATE		DRM_IOWR(DRM_COMMAND_BASE + DRM_APU_STATE, struct drm_apu_state)
+>   #define DRM_IOCTL_APU_GEM_NEW		DRM_IOWR(DRM_COMMAND_BASE + DRM_APU_GEM_NEW, struct drm_apu_gem_new)
+>   #define DRM_IOCTL_APU_GEM_QUEUE		DRM_IOWR(DRM_COMMAND_BASE + DRM_APU_GEM_QUEUE, struct drm_apu_gem_queue)
+>   #define DRM_IOCTL_APU_GEM_DEQUEUE	DRM_IOWR(DRM_COMMAND_BASE + DRM_APU_GEM_DEQUEUE, struct drm_apu_gem_dequeue)
+> +#define DRM_IOCTL_APU_GEM_IOMMU_MAP	DRM_IOWR(DRM_COMMAND_BASE + DRM_APU_GEM_IOMMU_MAP, struct drm_apu_gem_iommu_map)
+> +#define DRM_IOCTL_APU_GEM_IOMMU_UNMAP	DRM_IOWR(DRM_COMMAND_BASE + DRM_APU_GEM_IOMMU_UNMAP, struct drm_apu_gem_iommu_map)
+>   
+>   #if defined(__cplusplus)
+>   }
