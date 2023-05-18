@@ -2,289 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 638D8707EB0
-	for <lists+linux-media@lfdr.de>; Thu, 18 May 2023 13:01:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF256707F12
+	for <lists+linux-media@lfdr.de>; Thu, 18 May 2023 13:22:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230169AbjERLBc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 May 2023 07:01:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39872 "EHLO
+        id S230185AbjERLWd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 May 2023 07:22:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229989AbjERLB3 (ORCPT
+        with ESMTP id S230071AbjERLWc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 May 2023 07:01:29 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD9E610CF
-        for <linux-media@vger.kernel.org>; Thu, 18 May 2023 04:01:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684407687; x=1715943687;
-  h=date:from:to:cc:subject:message-id;
-  bh=89ATr854VuqP8I5jCWcNkIpnTBSLdomFTrHOi7JueB4=;
-  b=j6JJnEzMfaFdDFIT3Cl3PlqmL49YZvamSFUcKYzue5q/GWdfDn5L7J2I
-   AyVg+NSlL0IkvI1BVweJ09Iw1VjsUNhnSlJlidxigVtvOakTkcliEU5Oy
-   GvdC8jlFtCMQdm4ItZx8YrsjrJ/5vlvUa9YXAxrnEfUSSr0PIBx1ro87b
-   ceWEjP0SinRmph8yDGEB2QBt1nzB69IKnBJcIcGeG/2EuyGDievR8kM4G
-   pK1o8VQ+TMaJWwBKTzkDkI7j9/jdY1R5ppPsa/FrWhX1RwSNPr92cIy8L
-   gjZ23qr+d87qZ3y72nueosGRUPtd961T1vNxrU4WOFj1ApAXQDhOFA5mr
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10713"; a="380240971"
-X-IronPort-AV: E=Sophos;i="5.99,285,1677571200"; 
-   d="scan'208";a="380240971"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2023 04:01:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10713"; a="771831882"
-X-IronPort-AV: E=Sophos;i="5.99,285,1677571200"; 
-   d="scan'208";a="771831882"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 18 May 2023 04:01:24 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1pzbNs-0009wF-0E;
-        Thu, 18 May 2023 11:01:24 +0000
-Date:   Thu, 18 May 2023 19:00:48 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org
-Subject: [sailus-media-tree:master] BUILD SUCCESS WITH WARNING
- c8b61d183159f253e78769cf33ffd2ff3176545d
-Message-ID: <20230518110048.R_2xn%lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Thu, 18 May 2023 07:22:32 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E818EE7A
+        for <linux-media@vger.kernel.org>; Thu, 18 May 2023 04:22:30 -0700 (PDT)
+Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1DD632C6;
+        Thu, 18 May 2023 13:22:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1684408936;
+        bh=vRLIOXLm2MltG/P/TmFzzGjm2xLzY9an1fBn0l9W6nA=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=UoRjuo3vcAi51jkIJp0efrTnWK5RBgt8xtliAdBZopIsyvZCXhjBeC0QGkTMHo3Da
+         bG+3N4e19BYGxMO49DQjz7BEuGkIy8Q4moGl50UeAkcOgGTmM9bLhQgBRHEH9FA8Cv
+         AeGpDpdySiu5+sOnmbaXfrX7EwpFmrMj29RhiP5I=
+Message-ID: <de0ace0f-7d8c-756f-92e7-e4f455e5114d@ideasonboard.com>
+Date:   Thu, 18 May 2023 14:22:25 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] media: v4l2-subdev: Fix missing kerneldoc for client_caps
+Content-Language: en-US
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+References: <20230418105924.126608-1-tomi.valkeinen@ideasonboard.com>
+ <20230518094131.7d5057b7@sal.lan>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20230518094131.7d5057b7@sal.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: INFO setup_repo_specs: /db/releases/20230517200055/lkp-src/repo/*/sailus-media-tree
-git://linuxtv.org/sailus/media_tree.git master
-branch HEAD: c8b61d183159f253e78769cf33ffd2ff3176545d  media: sti: c8sectpfe: drop of_match_ptr() to avoid unused variables
+On 18/05/2023 11:41, Mauro Carvalho Chehab wrote:
+> Em Tue, 18 Apr 2023 13:59:24 +0300
+> Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> escreveu:
+> 
+>> Add missing kernel doc for the new 'client_caps' field in struct
+>> v4l2_subdev_fh.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> ---
+>>   include/media/v4l2-subdev.h | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+>> index cfd19e72d0fc..9d0a6a993fb0 100644
+>> --- a/include/media/v4l2-subdev.h
+>> +++ b/include/media/v4l2-subdev.h
+>> @@ -1119,6 +1119,7 @@ struct v4l2_subdev {
+>>    * @vfh: pointer to &struct v4l2_fh
+>>    * @state: pointer to &struct v4l2_subdev_state
+>>    * @owner: module pointer to the owner of this file handle
+>> + * @client_caps: bitmask of V4L2_SUBDEV_CLIENT_CAP_*
+> 
+> Did you actually check this patch? Adding an asterisk at the end
+> should hit a Sphinx warning, as asterisk is the italic markup.
+> So, it seems to me that this patch is actually replacing one warning
+> by another one!
 
-Warning reports:
+htmldocs compiles fine for me, without warnings (from this piece of 
+code), and the resulting html looks ok. pdfdocs doesn't compile, but I 
+have no clue why it fails, and it fails without this patch too.
 
-https://lore.kernel.org/oe-kbuild-all/202305181219.ZaHSdh6o-lkp@intel.com
+> Also, it is not pointing the patch this was supposed to be fixing.
 
-Warning: (recently discovered and may have been fixed)
+That's true.
 
-drivers/media/platform/renesas/rcar-vin/rcar-csi2.c:760:16: warning: implicit conversion from 'double' to 'uint32_t' (aka 'unsigned int') changes value from 2.8 to 2 [-Wliteral-conversion]
+> Btw, I actually did a fix for it already, while I was working to fix
+> some issues on Jenkins. See below. If you're ok with that, please add
+> your A-B or R-B. Otherwise, submit another one, after testing that
+> Sphinx won't be printing an additional warning.
+> 
+> Regards,
+> Mauro
+> 
+> ---
+> 
+> [PATCH] media: v4l2-subdev.h: document client_caps at struct v4l2_subdev_fh
+> 
+> Gets rid of this documentation warning:
+> 
+> 	./include/media/v4l2-subdev.h:1130: warning: Function parameter or member 'client_caps' not described in 'v4l2_subdev_fh'
+> 
+> By adding a documentation about such new field.
+> 
+> Fixes: f57fa2959244 ("media: v4l2-subdev: Add new ioctl for client capabilities")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> 
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index cfd19e72d0fc..62362da0d604 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -1119,6 +1119,9 @@ struct v4l2_subdev {
+>    * @vfh: pointer to &struct v4l2_fh
+>    * @state: pointer to &struct v4l2_subdev_state
+>    * @owner: module pointer to the owner of this file handle
+> + * @client_caps:
+> + *	client capabilities to inform the kernel of the behavior
+> + *	of the client as set by VIDIOC_SUBDEV_S_CLIENT_CAP.
+>    */
+>   struct v4l2_subdev_fh {
+>   	struct v4l2_fh vfh;
 
-Warning ids grouped by kconfigs:
+I'm fine with this version too.
 
-clang_recent_errors
-`-- powerpc-allyesconfig
-    `-- drivers-media-platform-renesas-rcar-vin-rcar-csi2.c:warning:implicit-conversion-from-double-to-uint32_t-(aka-unsigned-int-)-changes-value-from-.-to
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-elapsed time: 732m
+  Tomi
 
-configs tested: 200
-configs skipped: 15
-
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha        buildonly-randconfig-r001-20230517   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r012-20230517   gcc  
-alpha                randconfig-r015-20230517   gcc  
-arc                              allyesconfig   gcc  
-arc          buildonly-randconfig-r002-20230517   gcc  
-arc          buildonly-randconfig-r006-20230517   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r003-20230517   gcc  
-arc                  randconfig-r022-20230517   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                       imx_v6_v7_defconfig   gcc  
-arm                        keystone_defconfig   gcc  
-arm                        mvebu_v5_defconfig   clang
-arm                            qcom_defconfig   gcc  
-arm                  randconfig-r036-20230517   gcc  
-arm                  randconfig-r046-20230517   clang
-arm                           sama5_defconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                randconfig-r003-20230517   clang
-arm64                randconfig-r012-20230517   gcc  
-arm64                randconfig-r014-20230517   gcc  
-arm64                randconfig-r022-20230518   clang
-arm64                randconfig-r023-20230517   gcc  
-csky         buildonly-randconfig-r005-20230517   gcc  
-csky                                defconfig   gcc  
-csky                 randconfig-r001-20230517   gcc  
-csky                 randconfig-r013-20230517   gcc  
-hexagon              randconfig-r022-20230517   clang
-hexagon              randconfig-r035-20230517   clang
-hexagon              randconfig-r041-20230517   clang
-hexagon              randconfig-r045-20230517   clang
-i386                             allyesconfig   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                          randconfig-a002   clang
-i386                          randconfig-a004   clang
-i386                          randconfig-a006   clang
-i386                          randconfig-a012   gcc  
-i386                          randconfig-a014   gcc  
-i386                          randconfig-a016   gcc  
-ia64                             allmodconfig   gcc  
-ia64         buildonly-randconfig-r003-20230517   gcc  
-ia64         buildonly-randconfig-r004-20230517   gcc  
-ia64                                defconfig   gcc  
-ia64                 randconfig-r014-20230517   gcc  
-ia64                 randconfig-r016-20230517   gcc  
-ia64                 randconfig-r036-20230517   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch            randconfig-r001-20230517   gcc  
-loongarch            randconfig-r005-20230517   gcc  
-m68k                             alldefconfig   gcc  
-m68k                             allmodconfig   gcc  
-m68k                         apollo_defconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                          multi_defconfig   gcc  
-m68k                        mvme16x_defconfig   gcc  
-m68k                 randconfig-r005-20230517   gcc  
-m68k                 randconfig-r011-20230517   gcc  
-m68k                 randconfig-r023-20230517   gcc  
-m68k                 randconfig-r024-20230517   gcc  
-m68k                 randconfig-r034-20230517   gcc  
-microblaze   buildonly-randconfig-r002-20230517   gcc  
-microblaze   buildonly-randconfig-r003-20230517   gcc  
-microblaze           randconfig-r003-20230517   gcc  
-microblaze           randconfig-r021-20230517   gcc  
-microblaze           randconfig-r025-20230517   gcc  
-microblaze           randconfig-r031-20230517   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                          ath79_defconfig   clang
-mips         buildonly-randconfig-r005-20230517   gcc  
-mips                     decstation_defconfig   gcc  
-mips                            gpr_defconfig   gcc  
-mips                        maltaup_defconfig   clang
-mips                 randconfig-r006-20230517   gcc  
-mips                 randconfig-r015-20230517   clang
-mips                 randconfig-r025-20230517   clang
-nios2                         10m50_defconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                randconfig-r004-20230517   gcc  
-nios2                randconfig-r011-20230517   gcc  
-nios2                randconfig-r025-20230517   gcc  
-openrisc             randconfig-r001-20230517   gcc  
-openrisc             randconfig-r002-20230517   gcc  
-openrisc             randconfig-r003-20230517   gcc  
-openrisc             randconfig-r013-20230517   gcc  
-openrisc             randconfig-r035-20230517   gcc  
-parisc                           alldefconfig   gcc  
-parisc                              defconfig   gcc  
-parisc               randconfig-r013-20230517   gcc  
-parisc               randconfig-r026-20230517   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                       eiger_defconfig   gcc  
-powerpc                        fsp2_defconfig   clang
-powerpc                  iss476-smp_defconfig   gcc  
-powerpc              randconfig-r011-20230517   gcc  
-powerpc              randconfig-r014-20230517   gcc  
-powerpc              randconfig-r016-20230517   gcc  
-powerpc              randconfig-r025-20230518   clang
-powerpc                     sequoia_defconfig   gcc  
-powerpc                     tqm5200_defconfig   clang
-powerpc                      tqm8xx_defconfig   gcc  
-powerpc                      walnut_defconfig   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                               defconfig   gcc  
-riscv             nommu_k210_sdcard_defconfig   gcc  
-riscv                randconfig-r024-20230517   gcc  
-riscv                randconfig-r026-20230517   gcc  
-riscv                randconfig-r032-20230517   clang
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390         buildonly-randconfig-r003-20230517   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r004-20230517   clang
-s390                 randconfig-r021-20230517   gcc  
-s390                 randconfig-r022-20230517   gcc  
-s390                 randconfig-r026-20230517   gcc  
-s390                 randconfig-r031-20230517   clang
-s390                 randconfig-r032-20230517   clang
-sh                               allmodconfig   gcc  
-sh           buildonly-randconfig-r004-20230517   gcc  
-sh           buildonly-randconfig-r005-20230517   gcc  
-sh           buildonly-randconfig-r006-20230517   gcc  
-sh                        dreamcast_defconfig   gcc  
-sh                ecovec24-romimage_defconfig   gcc  
-sh                            migor_defconfig   gcc  
-sh                          r7780mp_defconfig   gcc  
-sh                   randconfig-r002-20230517   gcc  
-sh                   randconfig-r013-20230517   gcc  
-sh                   randconfig-r022-20230517   gcc  
-sh                   randconfig-r024-20230517   gcc  
-sh                           se7619_defconfig   gcc  
-sh                           se7722_defconfig   gcc  
-sh                           se7780_defconfig   gcc  
-sh                   secureedge5410_defconfig   gcc  
-sh                           sh2007_defconfig   gcc  
-sh                        sh7763rdp_defconfig   gcc  
-sh                   sh7770_generic_defconfig   gcc  
-sh                             shx3_defconfig   gcc  
-sh                          urquell_defconfig   gcc  
-sparc        buildonly-randconfig-r002-20230517   gcc  
-sparc        buildonly-randconfig-r004-20230517   gcc  
-sparc                               defconfig   gcc  
-sparc                randconfig-r003-20230517   gcc  
-sparc                randconfig-r006-20230517   gcc  
-sparc                randconfig-r024-20230517   gcc  
-sparc                randconfig-r033-20230517   gcc  
-sparc64      buildonly-randconfig-r001-20230517   gcc  
-sparc64      buildonly-randconfig-r004-20230517   gcc  
-sparc64              randconfig-r005-20230517   gcc  
-sparc64              randconfig-r015-20230517   gcc  
-sparc64              randconfig-r033-20230517   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64                        randconfig-a001   clang
-x86_64                        randconfig-a003   clang
-x86_64                        randconfig-a005   clang
-x86_64                        randconfig-a012   clang
-x86_64                        randconfig-a014   clang
-x86_64                        randconfig-a016   clang
-x86_64                        randconfig-x052   clang
-x86_64                        randconfig-x054   clang
-x86_64                        randconfig-x056   clang
-x86_64                        randconfig-x061   gcc  
-x86_64                        randconfig-x062   clang
-x86_64                        randconfig-x063   gcc  
-x86_64                        randconfig-x064   clang
-x86_64                        randconfig-x065   gcc  
-x86_64                        randconfig-x066   clang
-x86_64                           rhel-8.3-bpf   gcc  
-x86_64                          rhel-8.3-func   gcc  
-x86_64                    rhel-8.3-kselftests   gcc  
-x86_64                         rhel-8.3-kunit   gcc  
-x86_64                           rhel-8.3-kvm   gcc  
-x86_64                           rhel-8.3-ltp   gcc  
-x86_64                           rhel-8.3-syz   gcc  
-x86_64                               rhel-8.3   gcc  
-xtensa       buildonly-randconfig-r001-20230517   gcc  
-xtensa       buildonly-randconfig-r002-20230517   gcc  
-xtensa       buildonly-randconfig-r003-20230517   gcc  
-xtensa               randconfig-r002-20230517   gcc  
-xtensa               randconfig-r004-20230517   gcc  
-xtensa               randconfig-r006-20230517   gcc  
-xtensa               randconfig-r021-20230517   gcc  
-xtensa               randconfig-r034-20230517   gcc  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
