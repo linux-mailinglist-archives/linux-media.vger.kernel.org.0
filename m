@@ -2,411 +2,237 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 61D98707E39
-	for <lists+linux-media@lfdr.de>; Thu, 18 May 2023 12:37:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 209AE707E5F
+	for <lists+linux-media@lfdr.de>; Thu, 18 May 2023 12:46:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230462AbjERKhn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 May 2023 06:37:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56254 "EHLO
+        id S230525AbjERKqG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 May 2023 06:46:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230385AbjERKhm (ORCPT
+        with ESMTP id S230036AbjERKqD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 May 2023 06:37:42 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1437C1FC0
-        for <linux-media@vger.kernel.org>; Thu, 18 May 2023 03:37:40 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1ac4910e656so8019685ad.0
-        for <linux-media@vger.kernel.org>; Thu, 18 May 2023 03:37:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1684406259; x=1686998259;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TN0khYDoCxGGhU5ss9Q38NY81uIy7NyfHWBZ/foWTNs=;
-        b=YL4RF+ajG6qmFtw1krWMbvmqp58K2LdZMkdN9NtDq9e7qB3xM66fR+vKPs9LqZrUI3
-         z/cPBUbxaZ4Mw/HmC/E8mx5KxEa5i6J03kQoUue1Ik904Mj84kPWUy4rLKZHni07u46x
-         Lhgt1OggQSQZKi4LXbciYoburV0kltKx9Z6vs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684406259; x=1686998259;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TN0khYDoCxGGhU5ss9Q38NY81uIy7NyfHWBZ/foWTNs=;
-        b=Yxv78HlVRHUhbMogT4G7QhswwYHwIMGymW+Ssr8nNiEyWjqVCQDn/6bYUOVHLvcA7F
-         nrGd8kd+sMoQMQaW1/EwO3ADmfTJXQON43eauO/moz9Gjx+ZTHcLHmXCCWYVMyzyPrcZ
-         6+byHOKSkzOwVjmEy/Bb71gqGF/KaezcfcSiVjAkcu0Tk/MLvNFuAICP9tyyW7Mc7bC8
-         n1IScDeYpevFmFgxtRoXXLuJmfrO6AMKlS6Q7/j+IV+Bi+Zw8tEauTjkBf4Wx2Vu9rsu
-         3y1FCFrahfvA9GdkvT2JQW/Q3E9aJ9cHjnLuRsMoMGUk5cXDg/XIkjXdsbceVnQGn9Fg
-         5aFA==
-X-Gm-Message-State: AC+VfDzAvmVJEBQnQGt69SLjvsVWhJvlXyITum2qLzWQIxMqoaIcG8kL
-        Jd7CDgG4WUCHuPIganjO9fUsoQ==
-X-Google-Smtp-Source: ACHHUZ6W+zJ2HYptQYSQqBcWmDXV2Skkvr77A8XeRCPRwOALKveKfXkSKd9XHlfW112zz6NLjZUcYQ==
-X-Received: by 2002:a17:902:e889:b0:1ac:6fc3:6beb with SMTP id w9-20020a170902e88900b001ac6fc36bebmr2063035plg.9.1684406259377;
-        Thu, 18 May 2023 03:37:39 -0700 (PDT)
-Received: from chromium.org (0.223.81.34.bc.googleusercontent.com. [34.81.223.0])
-        by smtp.gmail.com with ESMTPSA id ix12-20020a170902f80c00b001ab0669d84csm1104058plb.26.2023.05.18.03.37.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 May 2023 03:37:38 -0700 (PDT)
-Date:   Thu, 18 May 2023 10:37:33 +0000
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     m.szyprowski@samsung.com, mchehab@kernel.org, ming.qian@nxp.com,
-        shijie.qin@nxp.com, eagle.zhou@nxp.com, bin.liu@mediatek.com,
-        matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-        tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
-        yunfei.dong@mediatek.com, stanimir.k.varbanov@gmail.com,
-        quic_vgarodia@quicinc.com, agross@kernel.org, andersson@kernel.org,
-        konrad.dybcio@linaro.org, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, daniel.almeida@collabora.com,
-        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        jernel@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, kernel@collabora.com
-Subject: Re: [PATCH v2 1/8] media: videobuf2: Access vb2_queue bufs array
- through helper functions
-Message-ID: <20230518103733.djr5zp5mac3xixxa@chromium.org>
-References: <20230321102855.346732-1-benjamin.gaignard@collabora.com>
- <20230321102855.346732-2-benjamin.gaignard@collabora.com>
+        Thu, 18 May 2023 06:46:03 -0400
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2041.outbound.protection.outlook.com [40.107.220.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D90410D8;
+        Thu, 18 May 2023 03:46:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ns9SK9wL30wTOCqtYqSkspI43Zt3BD8EmBGTJd3YKsCzNFgBSyeSjJ9Wrt6upy3ng4Qk6DtKykIA0243lUGM3QNwSHABSLl+PhkiHWlYEt/hmm4WO9Oj3Vcme9jOuYbFWQv/jWPW8x1bqKj3PYYFnwYccmG6LjfVBdNTuKSZSXFY5N6JhC1aFY/InChsRkQtkpGRWYFLN/ia9ASCCmBDaY4X3dR+wTlpD8LdA18Pzv/HVhlwbwH8pZBFvtHBLUlizZkZGDjFi+8zKigW0D9FjPoSQY88koQ2UmKlcICpM4ZedtA2isbI+7LapXWp979rE6w0B6QqZjgpKlhBgEF0LA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zgG52cfylsN99bm4Vj4x3TNKL1ezCzLg8m+LQg9FHFU=;
+ b=I79Yotpw+EdyKryhgVKYxdTCoqq4S24QH88KdbdIXH5TYZ+o1eO3vxENEkr+X7tycKtE0j6IOyVRypIjMbz13UFPnw3qcV7x+0/9MI/6oAHnV5/83XQgBAX6TttOGSdQSWPF0CP9I1COHvLDQ9CQ+XJLy7fYaNxq6bgVXWbdLGTPXTOWDiTTmKjFYSwRlb2/WAu11AsHHCcLBUuhqvuxDPxo9vghjGKBveabegUrhklfPCSi5d0MZsFVD3hCR4VCmmVYGHt4to53KblMdG343srLzr+HoEIrQAL40BY7mgWcSCXm/RzwzA0eruuER07Oe6kSNsYlqx9QUKIlZoLO2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zgG52cfylsN99bm4Vj4x3TNKL1ezCzLg8m+LQg9FHFU=;
+ b=Sg2mE75qykbR9+ZgDLRZee2+yups9B70qdAw9pcUZ6kdeEPsgWjGwCIMNf4DJJf26pXCZnL5D7zf/31Ubfumi2tu8XG3QN+TYshy7S1GDZFs5hRmL/E4p83G/yjUDS022iJVA3Xa885tvTrbKvQaGAYEo5ef+rskCd1Sva55HlA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BYAPR12MB4758.namprd12.prod.outlook.com (2603:10b6:a03:a5::28)
+ by DM6PR12MB4169.namprd12.prod.outlook.com (2603:10b6:5:215::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.19; Thu, 18 May
+ 2023 10:45:57 +0000
+Received: from BYAPR12MB4758.namprd12.prod.outlook.com
+ ([fe80::e78e:b7da:7b9a:a578]) by BYAPR12MB4758.namprd12.prod.outlook.com
+ ([fe80::e78e:b7da:7b9a:a578%4]) with mapi id 15.20.6411.019; Thu, 18 May 2023
+ 10:45:56 +0000
+Message-ID: <fe90f121-3e7e-7071-f654-6d77a7a8102e@amd.com>
+Date:   Thu, 18 May 2023 12:45:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] dt-bindings: xilinx: Switch xilinx.com emails to amd.com
+Content-Language: en-US
+To:     Jassi Brar <jassisinghbrar@gmail.com>
+Cc:     piyush.mehta@amd.com, nava.kishore.manne@amd.com,
+        sai.krishna.potthuri@amd.com, shubhrajyoti.datta@amd.com,
+        vishal.sagar@amd.com, kalyani.akula@amd.com,
+        bharat.kumar.gogada@amd.com, linux-kernel@vger.kernel.org,
+        monstr@monstr.eu, michal.simek@xilinx.com, git@xilinx.com,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Damien Le Moal <dlemoal@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Jolly Shah <jolly.shah@xilinx.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        =?UTF-8?Q?Krzysztof_Wilczy=c5=84ski?= <kw@linux.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Manish Narani <manish.narani@xilinx.com>,
+        Mark Brown <broonie@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Moritz Fischer <mdf@kernel.org>,
+        Rajan Vaja <rajan.vaja@xilinx.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Srinivas Neeli <srinivas.neeli@amd.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tom Rix <trix@redhat.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Wu Hao <hao.wu@intel.com>, Xu Yilun <yilun.xu@intel.com>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-clk@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-fpga@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-ide@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-watchdog@vger.kernel.org
+References: <f5b2bd1e78407e4128fc8f0b5874ba723e710a88.1684245058.git.michal.simek@amd.com>
+ <CABb+yY2JaC8b-HFEU_WnSBSCr2edgEezXJkfMUYqjeLBA1MvYw@mail.gmail.com>
+From:   Michal Simek <michal.simek@amd.com>
+In-Reply-To: <CABb+yY2JaC8b-HFEU_WnSBSCr2edgEezXJkfMUYqjeLBA1MvYw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: VI1PR10CA0099.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:803:28::28) To BYAPR12MB4758.namprd12.prod.outlook.com
+ (2603:10b6:a03:a5::28)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230321102855.346732-2-benjamin.gaignard@collabora.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR12MB4758:EE_|DM6PR12MB4169:EE_
+X-MS-Office365-Filtering-Correlation-Id: 139c61e8-0e11-4501-c53b-08db578d0eb4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nNxcxbO1ZyA8v3QXLrLu1RZCAhkAg5XTPt+/NpY2K9pd0a7iedl6t0bIWl2fAKhfpCdB6kXY3vy24R32C8mvSL5HWebPqi1fpxgrhZBtQ+tw6zY8TjYVvVi+jF0o/WE/FvGm5CgRILU/uE8jteJoQy2YXfhJmhs2Jus4A97zvGzXtK/CYJX47unLpMFH3BLDq6iAi1qdVcLGLEGpQZSK6EYSIW9DfhMrnw3+IGegRBthtPNJnjlLfY8e5+XxahA4j7eGtYMfOg7EikxA4VfJriXXPzX9lDAjFtM3/BlAyt8LwQrdgdGoFMgFDRCHbXpaeDpIGBrN7KKsNodPddc2abXvW6O6lNz7HjxOjjE8LeuT34jAHrbE5k8hxpmGvASUrmR2opIJqNQqeuzzztu2tEjDSF5GbZ7K0FeXzeMhFK0T/PDJq9uxcEokNOPZL+1A+vqcKXuoo6F71xwiCGJD7Ah90VS2BOPUgfaFwDdRHq1ouGh9nK2g9jb39k4NJSLrC1XQgHPdqpSqTp0rDAOZVqR1YsPgAJcCRfUlBbENAFMwU8AX9OVgk28DoXsfVFb9pEK4hmaoy7VlJ0yM2/FGtKvaljAnZavCwjtNJ4bWffQlKUVBgbc4ZlSpO/9ZPgr+vvo5tg3YTDP3AHmR0xGNsg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB4758.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(346002)(366004)(396003)(39860400002)(136003)(451199021)(26005)(6506007)(6512007)(53546011)(36756003)(2616005)(83380400001)(31696002)(86362001)(38100700002)(186003)(6486002)(54906003)(44832011)(7416002)(7406005)(7366002)(478600001)(2906002)(316002)(31686004)(8936002)(4326008)(8676002)(6916009)(41300700001)(5660300002)(66476007)(66946007)(66556008)(6666004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NThMaTdpK0VaRjd6M3BWbkNPYVJocmo2OFJZdEMvVThBazZqR0sxN2tMeUxT?=
+ =?utf-8?B?dk4rcG1SV0pmeWcxMlhVdUxRdEhFUFVuNzkwVTJwRVFJb2FGd0RpamtwWjZy?=
+ =?utf-8?B?Y2dBQVc4NFMybmNBMmdRWGJ6QWZ2QkRydnN2anBCcDYwQ2dRY1VhSXBBZitW?=
+ =?utf-8?B?aGN4d2FGejB1eFhRWHQ3V0QrSkl6Y2hrNFU2RFFOY0NUSDFRMzcvUURBbW9R?=
+ =?utf-8?B?MkN4cWkvejRQL2JINXJia2pUOG1TQVVyS2dxSVZtVnVSMTBxcFcvTXpPTjZQ?=
+ =?utf-8?B?dG5MWFpUOTh5aDFnaXdDc05Pd1lVcUxaZTZOU2s1TlhhWVdLUENDZ3gwSzY0?=
+ =?utf-8?B?WE5GYXEreHhLMTNYdmRtOWIrU2JqVEs3S3JTcTRBUGxmam1XRjQ3Qjh2d0JH?=
+ =?utf-8?B?NlEvdW92WE9hK2pxZGpLN1lRV1g2MG94WVpCMWhrcTJGd1IzamRXc0MyakZJ?=
+ =?utf-8?B?dmlGOGhOWnJ6d2JkS2tKb3JvZnM2TGpnVEJWamxqcXV4RTFhVVY2MmVGY2wx?=
+ =?utf-8?B?aW1FVk0wYkFySnIxeXEwcUl5UkdsU2JGWEhIdS9ISEhvWDFETUp2dklCcWN5?=
+ =?utf-8?B?Z25jeFR4YktLUUp6Rm5oUnpPSndKSERmL2xTeTArTXd3K1pkWjE1RVlpSXNt?=
+ =?utf-8?B?N0M3VFZNQTZFK0Q3Skd4YkhzSlJ4OWFUK1JNbFFmSGp3WC9XTTYrdVpMQ2lm?=
+ =?utf-8?B?bmV1STZzUGNwSGVjUkcwbjU3NjdGZmRhYit2ajZjdHFIZ3BkS3BQRkY5WHRs?=
+ =?utf-8?B?czYvZHJJbFBrNGZ0YTJPbHlMdTR4dUViMGdaSHZaVEZ2ODBIcllIK0Z5NGM3?=
+ =?utf-8?B?NG5zdytRY3JydXRlVjhvVTd0QzZId1oxazZGOWhzR3ZCQ0pSaDBrblRRNTdU?=
+ =?utf-8?B?Z3dMd0M3L1NsbzVuRnpQWUo1R09lMTZ1K0tSTzdmdi9BNG1nVTFza0p0cFJ6?=
+ =?utf-8?B?QWxualNYS3VzNjFIY0c4QTd2VC9wV3Urb3R6NzIzUnFIU01wc1hJai85Q1Ir?=
+ =?utf-8?B?RjRWY3pmTXUzazlWdm5sTUs2TlNtVUtURVdXT3JzdC9RalhzaW00MnpVcGg3?=
+ =?utf-8?B?bGt1UTA2aDdFdGhFQlNKbnRHVmcxMm5KcHRUYmR2dDNGbUVZN1cwSE9xL1BI?=
+ =?utf-8?B?LzVzaFY0UkFZMjdUWG1xRkpJd2RFS1JXN2F6WkhlNHhzWU9pM1llbkFCb2lk?=
+ =?utf-8?B?TW9OTG8rN0hQT1lFTU8yN1pYemQxcC8xcmd1Z01aNFg0MkpET1U3Mk5WcTVB?=
+ =?utf-8?B?aFJjSnNIcE5zRndSZklUa0J5Njd1WC8yZnAwa2dBT1FvSEhCNDRyc1VBYUpl?=
+ =?utf-8?B?RGJxMTRGWnRhbjArbnc3d2ovc2dlb0Jpa2tXMDB1czdSVVE5eFBFWFpnSTdt?=
+ =?utf-8?B?cW5rbHJ5STErcHYwOG8zalZ1d3V4SUdwazhUazZGTjE2anIxRzZQUjJMVFA2?=
+ =?utf-8?B?Ymw4N2hOdk9hSnk5aHREQ3VWWER1UlJiQ0NrSkg1QlFiOEloZXdSMi9LTnFK?=
+ =?utf-8?B?U0JmeVhDRkVJbGNlVlVqNk91UzJabnZMWHZjN0U0Q1RxK0V5c1VobWtUdHZB?=
+ =?utf-8?B?WDNjaldtZ1F4UVJkZXIzcVk0TW1KbGp0V0QxbklBS1pEeldxV01aUnNUWVZw?=
+ =?utf-8?B?Z3RSWFRGYWlDb0k1b1JOUjlxWks1Ykd5V21xTE5zdlNCc1gzelViTldsbHlB?=
+ =?utf-8?B?K3JXRXE2V2NETWd2VXgzb05ySVo5Mi8reXljSXlGVjVWRENOY2tzOE5sUjVR?=
+ =?utf-8?B?M2sxVFdKa05CSkRjUnFaMlkrYjNJSDk3Z2ZuU3I1QlJLRmVvcFJlM1psRWNZ?=
+ =?utf-8?B?T1pxQ3A2aGNnUHFmMytUVHd5VjRtSWF6eThMK1dFYUtkY1hPeXduNEQ3eHhy?=
+ =?utf-8?B?NHN5Q0h3RXQrMGljMnlTUjUwQ0g3MGpnbmNHbjRWcllUQklsMUNJVUN1ZmZj?=
+ =?utf-8?B?Q1VLOGM5aGt4eFMzbFM3YkJZdTluZ0wvYzNiTExydFZib1lzY0t3TEk1SEFY?=
+ =?utf-8?B?cmR2b2VmQUErSVlIOS96TnVVM2F6em1sUXpmTFp1NlBobFI0d21MTGNxZ3Aw?=
+ =?utf-8?B?K3UwV2JnbEpOWHlpd1E5MmhpVmYxWTlsSnh2RU9LM3F2cnVLbDQyQlNVcG9k?=
+ =?utf-8?Q?OAEqqTVcjKJxC4XXXeR2O6Ti3?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 139c61e8-0e11-4501-c53b-08db578d0eb4
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB4758.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2023 10:45:55.7579
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6uZrmYD6r6sRW89Dt84pAx+OxwD6OlCnhivy0DFHHJjHbPhyEpwOrBfXE7lpxyRz
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4169
+X-Spam-Status: No, score=-3.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
 
-On Tue, Mar 21, 2023 at 11:28:48AM +0100, Benjamin Gaignard wrote:
-> The first step before changing how vb2 buffers are stored into queue
-> is to avoid direct access to bufs arrays.
+
+On 5/17/23 16:16, Jassi Brar wrote:
+> On Tue, May 16, 2023 at 8:51 AM Michal Simek <michal.simek@amd.com> wrote:
+>>
+>> @xilinx.com is still working but better to switch to new amd.com after
+>> AMD/Xilinx acquisition.
+>>
+>> Signed-off-by: Michal Simek <michal.simek@amd.com>
+>> ---
+>>
+>>   Documentation/devicetree/bindings/arm/xilinx.yaml             | 2 +-
+>>   Documentation/devicetree/bindings/ata/ceva,ahci-1v84.yaml     | 2 +-
+>>   .../devicetree/bindings/clock/xlnx,clocking-wizard.yaml       | 2 +-
+>>   Documentation/devicetree/bindings/clock/xlnx,versal-clk.yaml  | 2 +-
+>>   Documentation/devicetree/bindings/crypto/xlnx,zynqmp-aes.yaml | 4 ++--
+>>   .../bindings/firmware/xilinx/xlnx,zynqmp-firmware.yaml        | 2 +-
+>>   .../devicetree/bindings/fpga/xilinx-zynq-fpga-mgr.yaml        | 2 +-
+>>   Documentation/devicetree/bindings/fpga/xlnx,versal-fpga.yaml  | 2 +-
+>>   .../devicetree/bindings/fpga/xlnx,zynqmp-pcap-fpga.yaml       | 2 +-
+>>   Documentation/devicetree/bindings/gpio/gpio-zynq.yaml         | 2 +-
+>>   Documentation/devicetree/bindings/gpio/xlnx,gpio-xilinx.yaml  | 2 +-
+>>   .../devicetree/bindings/gpio/xlnx,zynqmp-gpio-modepin.yaml    | 2 +-
+>>   Documentation/devicetree/bindings/i2c/cdns,i2c-r1p10.yaml     | 2 +-
+>>   .../devicetree/bindings/mailbox/xlnx,zynqmp-ipi-mailbox.yaml  | 2 +-
+>>   .../devicetree/bindings/media/xilinx/xlnx,csi2rxss.yaml       | 2 +-
+>>   .../bindings/memory-controllers/snps,dw-umctl2-ddrc.yaml      | 2 +-
+>>   .../bindings/memory-controllers/xlnx,zynq-ddrc-a05.yaml       | 2 +-
+>>   Documentation/devicetree/bindings/pci/xilinx-versal-cpm.yaml  | 2 +-
+>>   .../devicetree/bindings/pinctrl/xlnx,zynq-pinctrl.yaml        | 2 +-
+>>   .../devicetree/bindings/pinctrl/xlnx,zynqmp-pinctrl.yaml      | 2 +-
+>>   .../devicetree/bindings/power/reset/xlnx,zynqmp-power.yaml    | 2 +-
+>>   Documentation/devicetree/bindings/rtc/xlnx,zynqmp-rtc.yaml    | 2 +-
+>>   Documentation/devicetree/bindings/serial/cdns,uart.yaml       | 2 +-
+>>   Documentation/devicetree/bindings/spi/spi-cadence.yaml        | 2 +-
+>>   Documentation/devicetree/bindings/spi/spi-xilinx.yaml         | 2 +-
+>>   Documentation/devicetree/bindings/spi/spi-zynqmp-qspi.yaml    | 2 +-
+>>   Documentation/devicetree/bindings/spi/xlnx,zynq-qspi.yaml     | 2 +-
+>>   Documentation/devicetree/bindings/timer/cdns,ttc.yaml         | 2 +-
+>>   .../devicetree/bindings/watchdog/xlnx,xps-timebase-wdt.yaml   | 4 ++--
+>>   29 files changed, 31 insertions(+), 31 deletions(-)
+>>
+> .....
+>> diff --git a/Documentation/devicetree/bindings/mailbox/xlnx,zynqmp-ipi-mailbox.yaml b/Documentation/devicetree/bindings/mailbox/xlnx,zynqmp-ipi-mailbox.yaml
+>> index 374ffe64016f..aeaddbf574b0 100644
+>> --- a/Documentation/devicetree/bindings/mailbox/xlnx,zynqmp-ipi-mailbox.yaml
+>> +++ b/Documentation/devicetree/bindings/mailbox/xlnx,zynqmp-ipi-mailbox.yaml
+>> @@ -33,7 +33,7 @@ description: |
+>>                 +------------------------------------------+
+>>
+>>   maintainers:
+>> -  - Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
+>> +  - Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>
+>>
+>>   properties:
+>>     compatible:
+>>
+> Acked-by: Jassi Brar <jassisinghbrar@gmail.com>
 > 
-> This patch adds 2 helpers functions to add and remove vb2 buffers
-> from a queue. With these 2 and vb2_get_buffer(), bufs field of
-> struct vb2_queue becomes like a private member of the structure.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  .../media/common/videobuf2/videobuf2-core.c   | 84 +++++++++++--------
->  .../media/common/videobuf2/videobuf2-v4l2.c   | 17 ++--
->  drivers/media/platform/amphion/vpu_dbg.c      |  4 +-
->  .../platform/mediatek/jpeg/mtk_jpeg_core.c    |  2 +-
->  .../vcodec/vdec/vdec_vp9_req_lat_if.c         |  2 +-
->  drivers/media/test-drivers/visl/visl-dec.c    | 16 ++--
->  .../staging/media/atomisp/pci/atomisp_ioctl.c |  2 +-
->  include/media/videobuf2-core.h                | 26 ++++++
->  8 files changed, 101 insertions(+), 52 deletions(-)
-> 
+> Just curious, some developers' ids are left unchanged, and not all
+> devs have S.O.B.
 
-Sorry for being late with review and thanks a lot for working on this.
-This is a quite a long overdue functionality.
+I want to go over all xilinx.com emails and move that bindings to proper person 
+if that current person is no more active.
 
-[snip]
+Thanks,
+Michal
 
-> @@ -2679,7 +2689,13 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
->  	 * Check if plane_count is correct
->  	 * (multiplane buffers are not supported).
->  	 */
-> -	if (q->bufs[0]->num_planes != 1) {
-> +	vb = vb2_get_buffer(q, 0);
-> +	if (!vb) {
-> +		ret = -EBUSY;
-
-Out of curiosity, is there any reason for specifically chosing -EBUSY here?
-
-It shouldn't be possible for this to happen, but since we're
-dealing with a pointer here, a NULL check is a good thing. I guess that makes
--EBUSY as good as any other code here.
-
-I see some other similar places in the code, with a comment "This shouldn't
-happen" and a dprinkt(). Maybe it would be good to add those here too?
-
-> +		goto err_reqbufs;
-> +	}
-> +
-> +	if (vb->num_planes != 1) {
->  		ret = -EBUSY;
->  		goto err_reqbufs;
->  	}
-> @@ -2688,12 +2704,14 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
->  	 * Get kernel address of each buffer.
->  	 */
->  	for (i = 0; i < q->num_buffers; i++) {
-> -		fileio->bufs[i].vaddr = vb2_plane_vaddr(q->bufs[i], 0);
-> +		vb = vb2_get_buffer(q, i);
-> +
-> +		fileio->bufs[i].vaddr = vb2_plane_vaddr(vb, 0);
->  		if (fileio->bufs[i].vaddr == NULL) {
->  			ret = -EINVAL;
->  			goto err_reqbufs;
->  		}
-> -		fileio->bufs[i].size = vb2_plane_size(q->bufs[i], 0);
-> +		fileio->bufs[i].size = vb2_plane_size(vb, 0);
->  	}
->  
->  	/*
-> @@ -2821,15 +2839,15 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
->  
->  		fileio->cur_index = index;
->  		buf = &fileio->bufs[index];
-> -		b = q->bufs[index];
-> +		b = vb2_get_buffer(q, index);
->  
->  		/*
->  		 * Get number of bytes filled by the driver
->  		 */
->  		buf->pos = 0;
->  		buf->queued = 0;
-> -		buf->size = read ? vb2_get_plane_payload(q->bufs[index], 0)
-> -				 : vb2_plane_size(q->bufs[index], 0);
-> +		buf->size = read ? vb2_get_plane_payload(b, 0)
-> +				 : vb2_plane_size(b, 0);
->  		/* Compensate for data_offset on read in the multiplanar case. */
->  		if (is_multiplanar && read &&
->  				b->planes[0].data_offset < buf->size) {
-> @@ -2872,7 +2890,7 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
->  	 * Queue next buffer if required.
->  	 */
->  	if (buf->pos == buf->size || (!read && fileio->write_immediately)) {
-> -		struct vb2_buffer *b = q->bufs[index];
-> +		struct vb2_buffer *b = vb2_get_buffer(q, index);
->  
->  		/*
->  		 * Check if this is the last buffer to read.
-> @@ -2899,7 +2917,7 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
->  		 */
->  		buf->pos = 0;
->  		buf->queued = 1;
-> -		buf->size = vb2_plane_size(q->bufs[index], 0);
-> +		buf->size = vb2_plane_size(vb2_get_buffer(q, index), 0);
->  		fileio->q_count += 1;
->  		/*
->  		 * If we are queuing up buffers for the first time, then
-> @@ -2970,7 +2988,7 @@ static int vb2_thread(void *data)
->  		 * Call vb2_dqbuf to get buffer back.
->  		 */
->  		if (prequeue) {
-> -			vb = q->bufs[index++];
-> +			vb = vb2_get_buffer(q, index++);
->  			prequeue--;
->  		} else {
->  			call_void_qop(q, wait_finish, q);
-> @@ -2979,7 +2997,7 @@ static int vb2_thread(void *data)
->  			call_void_qop(q, wait_prepare, q);
->  			dprintk(q, 5, "file io: vb2_dqbuf result: %d\n", ret);
->  			if (!ret)
-> -				vb = q->bufs[index];
-> +				vb = vb2_get_buffer(q, index);
->  		}
->  		if (ret || threadio->stop)
->  			break;
-> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> index 1f5d235a8441..01b2bb957239 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> @@ -383,7 +383,7 @@ static int vb2_queue_or_prepare_buf(struct vb2_queue *q, struct media_device *md
->  		return -EINVAL;
->  	}
->  
-> -	if (q->bufs[b->index] == NULL) {
-> +	if (!vb2_get_buffer(q, b->index)) {
->  		/* Should never happen */
->  		dprintk(q, 1, "%s: buffer is NULL\n", opname);
->  		return -EINVAL;
-> @@ -394,7 +394,7 @@ static int vb2_queue_or_prepare_buf(struct vb2_queue *q, struct media_device *md
->  		return -EINVAL;
->  	}
->  
-> -	vb = q->bufs[b->index];
-> +	vb = vb2_get_buffer(q, b->index);
->  	vbuf = to_vb2_v4l2_buffer(vb);
->  	ret = __verify_planes_array(vb, b);
->  	if (ret)
-> @@ -628,11 +628,14 @@ static const struct vb2_buf_ops v4l2_buf_ops = {
->  struct vb2_buffer *vb2_find_buffer(struct vb2_queue *q, u64 timestamp)
->  {
->  	unsigned int i;
-> +	struct vb2_buffer *vb2;
->  
-> -	for (i = 0; i < q->num_buffers; i++)
-> -		if (q->bufs[i]->copied_timestamp &&
-> -		    q->bufs[i]->timestamp == timestamp)
-> -			return vb2_get_buffer(q, i);
-> +	for (i = 0; i < q->num_buffers; i++) {
-> +		vb2 = vb2_get_buffer(q, i);
-> +		if (vb2->copied_timestamp &&
-> +		    vb2->timestamp == timestamp)
-> +			return vb2;
-> +	}
->  	return NULL;
->  }
->  EXPORT_SYMBOL_GPL(vb2_find_buffer);
-> @@ -664,7 +667,7 @@ int vb2_querybuf(struct vb2_queue *q, struct v4l2_buffer *b)
->  		dprintk(q, 1, "buffer index out of range\n");
->  		return -EINVAL;
->  	}
-> -	vb = q->bufs[b->index];
-> +	vb = vb2_get_buffer(q, b->index);
->  	ret = __verify_planes_array(vb, b);
->  	if (!ret)
->  		vb2_core_querybuf(q, b->index, b);
-> diff --git a/drivers/media/platform/amphion/vpu_dbg.c b/drivers/media/platform/amphion/vpu_dbg.c
-> index 44b830ae01d8..8a423c1f6b55 100644
-> --- a/drivers/media/platform/amphion/vpu_dbg.c
-> +++ b/drivers/media/platform/amphion/vpu_dbg.c
-> @@ -133,7 +133,7 @@ static int vpu_dbg_instance(struct seq_file *s, void *data)
->  
->  	vq = v4l2_m2m_get_src_vq(inst->fh.m2m_ctx);
->  	for (i = 0; i < vq->num_buffers; i++) {
-> -		struct vb2_buffer *vb = vq->bufs[i];
-> +		struct vb2_buffer *vb = vb2_get_buffer(vq, i);
->  		struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
->  
->  		if (vb->state == VB2_BUF_STATE_DEQUEUED)
-> @@ -148,7 +148,7 @@ static int vpu_dbg_instance(struct seq_file *s, void *data)
->  
->  	vq = v4l2_m2m_get_dst_vq(inst->fh.m2m_ctx);
->  	for (i = 0; i < vq->num_buffers; i++) {
-> -		struct vb2_buffer *vb = vq->bufs[i];
-> +		struct vb2_buffer *vb = vb2_get_buffer(vq, i);
->  		struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
->  
->  		if (vb->state == VB2_BUF_STATE_DEQUEUED)
-> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> index 969516a940ba..0be07f691d9a 100644
-> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> @@ -603,7 +603,7 @@ static int mtk_jpeg_qbuf(struct file *file, void *priv, struct v4l2_buffer *buf)
->  		return -EINVAL;
->  	}
->  
-> -	vb = vq->bufs[buf->index];
-> +	vb = vb2_get_buffer(vq, buf->index);
->  	jpeg_src_buf = mtk_jpeg_vb2_to_srcbuf(vb);
->  	jpeg_src_buf->bs_size = buf->m.planes[0].bytesused;
->  
-> diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-> index cbb6728b8a40..f5958b6d834a 100644
-> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-> @@ -1701,7 +1701,7 @@ static int vdec_vp9_slice_setup_core_buffer(struct vdec_vp9_slice_instance *inst
->  
->  	/* update internal buffer's width/height */
->  	for (i = 0; i < vq->num_buffers; i++) {
-> -		if (vb == vq->bufs[i]) {
-> +		if (vb == vb2_get_buffer(vq, i)) {
->  			instance->dpb[i].width = w;
->  			instance->dpb[i].height = h;
->  			break;
-> diff --git a/drivers/media/test-drivers/visl/visl-dec.c b/drivers/media/test-drivers/visl/visl-dec.c
-> index 318d675e5668..328016b456ba 100644
-> --- a/drivers/media/test-drivers/visl/visl-dec.c
-> +++ b/drivers/media/test-drivers/visl/visl-dec.c
-> @@ -290,13 +290,14 @@ static void visl_tpg_fill(struct visl_ctx *ctx, struct visl_run *run)
->  	for (i = 0; i < out_q->num_buffers; i++) {
->  		char entry[] = "index: %u, state: %s, request_fd: %d, ";
->  		u32 old_len = len;
-> -		char *q_status = visl_get_vb2_state(out_q->bufs[i]->state);
-> +		struct vb2_buffer *vb2 = vb2_get_buffer(out_q, i);
-> +		char *q_status = visl_get_vb2_state(vb2->state);
->  
->  		len += scnprintf(&buf[len], TPG_STR_BUF_SZ - len,
->  				 entry, i, q_status,
-> -				 to_vb2_v4l2_buffer(out_q->bufs[i])->request_fd);
-> +				 to_vb2_v4l2_buffer(vb2)->request_fd);
->  
-> -		len += visl_fill_bytesused(to_vb2_v4l2_buffer(out_q->bufs[i]),
-> +		len += visl_fill_bytesused(to_vb2_v4l2_buffer(vb2),
->  					   &buf[len],
->  					   TPG_STR_BUF_SZ - len);
->  
-> @@ -342,13 +343,14 @@ static void visl_tpg_fill(struct visl_ctx *ctx, struct visl_run *run)
->  	len = 0;
->  	for (i = 0; i < cap_q->num_buffers; i++) {
->  		u32 old_len = len;
-> -		char *q_status = visl_get_vb2_state(cap_q->bufs[i]->state);
-> +		struct vb2_buffer *vb2 = vb2_get_buffer(cap_q, i);
-> +		char *q_status = visl_get_vb2_state(vb2->state);
->  
->  		len += scnprintf(&buf[len], TPG_STR_BUF_SZ - len,
->  				 "index: %u, status: %s, timestamp: %llu, is_held: %d",
-> -				 cap_q->bufs[i]->index, q_status,
-> -				 cap_q->bufs[i]->timestamp,
-> -				 to_vb2_v4l2_buffer(cap_q->bufs[i])->is_held);
-> +				 vb2->index, q_status,
-> +				 vb2->timestamp,
-> +				 to_vb2_v4l2_buffer(vb2)->is_held);
->  
->  		tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 16, &buf[old_len]);
->  		frame_dprintk(ctx->dev, run->dst->sequence, "%s", &buf[old_len]);
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> index d1314bdbf7d5..c7778860f3d4 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> @@ -1095,7 +1095,7 @@ static int atomisp_dqbuf_wrapper(struct file *file, void *fh, struct v4l2_buffer
->  	if (ret)
->  		return ret;
->  
-> -	vb = pipe->vb_queue.bufs[buf->index];
-> +	vb = vb2_get_buffer(pipe->vb_queue, buf->index);
->  	frame = vb_to_frame(vb);
->  
->  	buf->reserved = asd->frame_status[buf->index];
-> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-> index 4b6a9d2ea372..5b1e3d801546 100644
-> --- a/include/media/videobuf2-core.h
-> +++ b/include/media/videobuf2-core.h
-> @@ -1244,6 +1244,32 @@ static inline struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q,
->  	return NULL;
->  }
->  
-> +/**
-> + * vb2_queue_add_buffer() - add a buffer to a queue
-> + * @q:	pointer to &struct vb2_queue with videobuf2 queue.
-> + * @vb:	pointer to &struct vb2_buffer to be added to the queue.
-> + */
-> +static inline bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
-
-Could we make index an argument to this function and actually assign it to
-vb->index if the operation succeeds?
-Similarly, could we assign q to vb->vb2_queue in this function as well?
-
-I have plans to make the vb2_buffer struct represent a buffer, rather than
-an entry in the queue, because the memory can actually outlive the queue,
-e.g. when REQBUFS(0) happens, but an exported DMA-buf still references the
-buffer. Currently the DMA-buf object is tied to the allocator-private
-struct, but that one has a pointer to a vb2_buffer, which becomes invalid
-in such scenario with current implementation.
-
-> +{
-> +	if (vb->index < VB2_MAX_FRAME) {
-> +		q->bufs[vb->index] = vb;
-> +		return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +
-> +/**
-> + * vb2_queue_remove_buffer() - remove a buffer from a queue
-> + * @q:	pointer to &struct vb2_queue with videobuf2 queue.
-> + * @vb:	pointer to &struct vb2_buffer to be removed from the queue.
-> + */
-> +static inline void vb2_queue_remove_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
-> +{
-> +	if (vb->index < VB2_MAX_FRAME)
-> +		q->bufs[vb->index] = NULL;
-
-Here we could also NULLify vb->vb2_queue. Right now I think the struct
-would be just kfree()d instantly after returning to the caller, but with
-the design I mentioned above, it could still stay there until the last
-reference goes away.
-
-Best regards,
-Tomasz
