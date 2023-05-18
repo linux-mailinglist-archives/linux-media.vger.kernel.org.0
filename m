@@ -2,146 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E6CFF7089B5
-	for <lists+linux-media@lfdr.de>; Thu, 18 May 2023 22:45:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EEF52708AC3
+	for <lists+linux-media@lfdr.de>; Thu, 18 May 2023 23:53:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230348AbjERUpA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 May 2023 16:45:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54386 "EHLO
+        id S229914AbjERVxY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 May 2023 17:53:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229967AbjERUo4 (ORCPT
+        with ESMTP id S229485AbjERVxX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 May 2023 16:44:56 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4B68E77
-        for <linux-media@vger.kernel.org>; Thu, 18 May 2023 13:44:54 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-96f50e26b8bso101770066b.2
-        for <linux-media@vger.kernel.org>; Thu, 18 May 2023 13:44:54 -0700 (PDT)
+        Thu, 18 May 2023 17:53:23 -0400
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2ED0C1AB
+        for <linux-media@vger.kernel.org>; Thu, 18 May 2023 14:53:22 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-510d6e1f1abso4178961a12.2
+        for <linux-media@vger.kernel.org>; Thu, 18 May 2023 14:53:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1684442693; x=1687034693;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yxp/usaVw20e5cr4YAHYGVQhvDy/fYNeFaw790wIOpk=;
-        b=VHyuu4CSMDkGakMg4WkM/wF0RvPw/rtrAvZX8raWPvw2JvRPZ/SviD1y7Z9ocx4bO7
-         kp4l2zQMthmzz7i6hFdTxpC2JKbSyhCz/3JDVBHUi8U1JaZF5HIPM3Sbl5ACDLS0jUC8
-         fUvHL6PQl5Z46BkocMc7+BavaTadgGW+qIatE=
+        d=linaro.org; s=google; t=1684446800; x=1687038800;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9qUdGRBk8vkDEobXj1EEFFYDM3is2980EC0ozS+Cp5k=;
+        b=oGOiWl3eafEZNtkAxlNu0Ri88x6pP1PCK0tJuHezLVblMIMoMAdhDVbHVzdxn8P76D
+         g103pcp7IbsSDYNFkzjtgOkJGUZ1h8xn73rNhDgt/7ITfGPEzNLEQflxDvHHnYiQk4KQ
+         3bpHglTm7Fji3yc79EfffygaCbKvRVkoFftYOCiVwESMqankT59PQhvP6wQBa7U4fx/A
+         6dx4meldQvv8J79HBMV2hp/Jhpx1B/L6oCbiV7/h2l5LLsbrJnwhPfuaRP4hoyjmWHV7
+         sPv1MpnYMdiUn7wHQs1XNScjnd7+KpLZYRcj1NIuAVmc9ZFCL0JfrCZwlT9p0ubC7Xgp
+         QkkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684442693; x=1687034693;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yxp/usaVw20e5cr4YAHYGVQhvDy/fYNeFaw790wIOpk=;
-        b=KbWPo6NXUj0xu/Lkixts+MgFfoBQ07BV8Rnk+Mt2dDnKI3GD83qCfmLWqVTXlFqkmi
-         w0TJ5ORSynYvpvA8QGS1yVlE7xfEjVkmC6HnMuDWqFHte1XCt3vElNqPQjX3L7JeDtU2
-         6gtM+6I1K/J9bTwChmJA6sQgz1VWCiM/JjGYffNZqLREfgUFCdz3QT9EevSL6g8T3JEd
-         mHb+EeesYxa0AmGF1JWSKcGDYHx2Q0RnhA0Im17NsvoYENiJhoMEMZjSu+iv4yd+3gcU
-         pO8RDC2cQYaT3tw+um9dvY+HjLcD/Zif+Lm1BMX3sMuNPZDwSQoodqIcIbGYEaR5eAQs
-         klrg==
-X-Gm-Message-State: AC+VfDwb1phBq77Dri6EioQHyBr39xtqHxDbFUl1rwWzq53v2rxumwUS
-        azALOnZiCw2KtppM/VUJHcI8X1AP2eN6sCOImDoM9Z9/
-X-Google-Smtp-Source: ACHHUZ7vnci2jYZN4VBfoPakygihpQlckkBYUSGkQpXPyg075iRIDQuPzAlnwJ/WE6PNNRCEN1BSGg==
-X-Received: by 2002:a17:907:3f1b:b0:96f:48ad:73be with SMTP id hq27-20020a1709073f1b00b0096f48ad73bemr503751ejc.44.1684442693038;
-        Thu, 18 May 2023 13:44:53 -0700 (PDT)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com. [209.85.218.48])
-        by smtp.gmail.com with ESMTPSA id e22-20020a170906749600b0096f4c9ce526sm615406ejl.225.2023.05.18.13.44.52
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 May 2023 13:44:52 -0700 (PDT)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-96aae59bbd6so474521866b.3
-        for <linux-media@vger.kernel.org>; Thu, 18 May 2023 13:44:52 -0700 (PDT)
-X-Received: by 2002:a17:907:3e2a:b0:96f:5f44:ea02 with SMTP id
- hp42-20020a1709073e2a00b0096f5f44ea02mr438181ejc.8.1684442691873; Thu, 18 May
- 2023 13:44:51 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1684446800; x=1687038800;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9qUdGRBk8vkDEobXj1EEFFYDM3is2980EC0ozS+Cp5k=;
+        b=RajPK5BFJ/iHCP0XHL8JTbOyevRf4Uy3aScVq+a0KZWGT5pW6XV5deZXyX+8Yj6oZL
+         1RBK3LsQVma7Jk7xdccEabHOcrMFIgbC2Rj0a1LOjEUU1wmu6pa5U3wA1ziLYrmq6lU/
+         wpAkAMydMc4OJG7vcWM0JwuautODCoH7BIAsQUAxF/ufexvWuhuaLIuKe7v4Wh/EYsyC
+         ZmIwqMDzWM5CfpMemjPXd2d30xV53Gks592nDoR+qFFmwpKytlz1tb2njFjDSxk9bQtV
+         P3KEAoW07eXoR4Nq2K5XyHha874Ap9iJGikhoyDVV60sqRqI6kcxp6VpJ6TR2jv6kytN
+         rv/g==
+X-Gm-Message-State: AC+VfDx1FGFSipUyETrxAcKU0OwWK1lHXJIcSkMDUbxZtrgO33R3L5PW
+        Sd3YkXCVHCpGN4VFW5OCqQ+IiA==
+X-Google-Smtp-Source: ACHHUZ7Qx/gcLb3K/TWelLEgbLceq0aW8BwxYRRxwSO4G7YN+d8KHh42qlnibN4VEcDHwY04ZLM0KA==
+X-Received: by 2002:a05:6402:1492:b0:510:d1e6:56ab with SMTP id e18-20020a056402149200b00510d1e656abmr5911851edv.4.1684446800670;
+        Thu, 18 May 2023 14:53:20 -0700 (PDT)
+Received: from Lat-5310.. ([87.116.165.75])
+        by smtp.gmail.com with ESMTPSA id l25-20020aa7c319000000b0050bd9d3ddf3sm989822edq.42.2023.05.18.14.53.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 May 2023 14:53:19 -0700 (PDT)
+From:   Andrey Konovalov <andrey.konovalov@linaro.org>
+To:     rfoss@kernel.org, todor.too@gmail.com, bryan.odonoghue@linaro.org
+Cc:     agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Andrey Konovalov <andrey.konovalov@linaro.org>
+Subject: [PATCH 0/1] media: camss: fix VFE bpl_alignment for sdm845 and sm8250
+Date:   Fri, 19 May 2023 00:52:34 +0300
+Message-Id: <20230518215235.1668871-1-andrey.konovalov@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <ZElaVmxDsOkZj2DK@debian> <51cff63a-3a04-acf5-8264-bb19b0bee8a3@leemhuis.info>
- <CAHk-=wgzU8_dGn0Yg+DyX7ammTkDUCyEJ4C=NvnHRhxKWC7Wpw@mail.gmail.com> <a9a9017cceb65aeca285a06c7b46970788301ce8.camel@ndufresne.ca>
-In-Reply-To: <a9a9017cceb65aeca285a06c7b46970788301ce8.camel@ndufresne.ca>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Thu, 18 May 2023 13:44:35 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjypw2PL-w5ZBxY97SgRWd21f2V2Cuyw-ebsiTpSNQjBg@mail.gmail.com>
-Message-ID: <CAHk-=wjypw2PL-w5ZBxY97SgRWd21f2V2Cuyw-ebsiTpSNQjBg@mail.gmail.com>
-Subject: Re: mainline build failure due to cf21f328fcaf ("media: nxp: Add
- i.MX8 ISI driver")
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     Linux regressions mailing list <regressions@lists.linux.dev>,
-        "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, May 18, 2023 at 12:53=E2=80=AFPM Nicolas Dufresne <nicolas@ndufresn=
-e.ca> wrote:
->
-> I'm expected to be flamed for getting in the way, but whatever. To me thi=
-s
-> decision lacks any kind of consideration toward who will be affected. Thi=
-s will
-> hit those that makes the new features and are working hard to convince th=
-eir
-> customers to go mainline first.
+I tried to capture an image from SGRBG10_1X10/3280x2464 camera sensor on db845c
+board (sdm845), and from SRGGB10_1X10/3280x2464 camera sensor on RB5 (qrb5165 /
+sm8250). The captured frames contained incorrect image.
 
-I think the solution may be for those affected people to help Mauro & co.
+These formats are 4100 bytes per line. 4100 aligned by 8 is 4104. 4100 aligned
+by 16 is 4112.
 
-Clearly the media maintenance doesn't have enough time. I'm not going
-to pull from a tree where I know that it then may take six *weeks* and
-one whole release for simple bugs to be fixed.
+After looking at the frame data captured with the current bpl_alignment value
+of 8 bytes, it becomes clear that the lines are not 4104 bytes long, but are
+actually 4112 bytes long. That is the current bpl_alignment value is set
+incorrectly.
 
-That is literally what happened. And if it had been once, that would
-be one thing. But when the same thing starts happening again the very
-next release, it's no longer a one-off. It's a pattern.
+With bpl_alignment set to 8 bytes (the value currently used by the camss
+driver):
+* on db845c capturing may stall after a few frames are captured OK
+* the captured frames are corrupted:
+  As the actual stride is 8 bytes more than expected, the 2nd line
+  has 8 bytes from the 1st line tail in the beginning, and the actual
+  data in the 2nd line are offset by these 8 bytes; the 3d line data
+  are offset by 16 bytes etc. When the offset reaches the line length,
+  one line starts with 0 offset again, the next line gets 8-byte offset
+  etc. This results in "chainsaw shift" of lines in the captured image
+  and messed up colours. Also a small part from the end of the actual frame
+  (8 bytes times frame height) is not captured as it doesn't fit into the
+  allocated buffer.
+* "arm-smmu: Unhandled context fault" messages in dmesg output
 
-> Punishment and shame is not something I encourage or think is nice in gen=
-eral.
+Changing bpl_alignment to 16 bytes fixed all these issues:
+* no capture stalls on db845c
+* correct image in the captured frames
+* "arm-smmu: Unhandled context fault" messages are gone
 
-This is NOT about punishment.,
+I've also used the patch
+https://lore.kernel.org/lkml/20230503075340.45755-1-y.oudjana@protonmail.com/
+as without it the camss driver is broken in media_tree - yavta fails with
+error 22 (invalid argument).
 
-It's very simple: if I cannot trust the tree to be maintained, I'm not
-going to pull it.
+Here is an example console log from db845c with bpl_alignment=8 (stride 4104):
+-----8<-----
+$ yavta -B capture-mplane --capture=5 -n 5 -I -f SGRBG10P -s 3280x2464 --file=ov8856-SGRBG10-3280x2464-#.bin /dev/video6
+Device /dev/video6 opened.
+Device `Qualcomm Camera Subsystem' on `platform:acb3000.camss' (driver 'qcom-camss') supports video, capture, with mplanes.
+Video format set: SGRBG10P (41416770) 3280x2464 field none, 1 planes:
+ * Stride 4104, buffer size 10112256
+Video format: SGRBG10P (41416770) 3280x2464 field none, 1 planes:
+ * Stride 4104, buffer size 10112256
+5 buffers requested.
+length: 1 offset: 4098861152 timestamp type/source: mono/EoF
+Buffer 0/0 mapped at address 0xffffa305b000. 
+<snip>
+length: 1 offset: 4098861152 timestamp type/source: mono/EoF
+Buffer 4/0 mapped at address 0xffffa09c7000.
+0 (0) [-] none 0 10112256 B 818.593063 818.594398 8.942 fps ts mono/EoF
+1 (1) [-] none 1 10112256 B 818.661186 818.662596 14.679 fps ts mono/EoF
+2 (2) [-] none 2 10112256 B 818.727812 818.729342 15.009 fps ts mono/EoF
+3 (3) [-] none 3 10112256 B 818.781710 818.794871 18.554 fps ts mono/EoF
+<stalls after 4 of 5 frames captured>
+^C
+$
+-----8<-----
 
-That's not punishment, that is simply about kernel maintenance.
+The corresponding part of dmesg output:
+-----8<-----
+[  658.608956] arm-smmu 15000000.iommu: Unhandled context fault: fsr=0x402, iova=0xff9a5000, fsynr=0x3c0013, cbfrsynra=0x810, cb=14
+[  658.676875] arm-smmu 15000000.iommu: Unhandled context fault: fsr=0x402, iova=0xfd9a5000, fsynr=0x3c0013, cbfrsynra=0x810, cb=14
+[  658.743863] arm-smmu 15000000.iommu: Unhandled context fault: fsr=0x402, iova=0xfc9a5000, fsynr=0x3c0013, cbfrsynra=0x810, cb=14
+[  658.810016] arm-smmu 15000000.iommu: Unhandled context fault: fsr=0x402, iova=0xfb9a5000, fsynr=0x3c0013, cbfrsynra=0x810, cb=14
+### several seconds after Ctrl-C is pressed at the console:
+[  670.950533] qcom-camss acb3000.camss: VFE idle timeout - resetting
+-----8<-----
 
-If you want to help fix the media maintenance issue, then by all means
-help. But as things are now, if I cannot rely on the media tree
-getting even simple build fixes in a timely manner, then I'm not
-pulling it.
+Andrey Konovalov (1):
+  media: camss: set VFE bpl_alignment to 16 for sdm845 and sm8250
 
-Please realize: to misquote Shakespeare, I have two options: to pull
-or not to pull. And in order to pull a tree, I need to know that I can
-expect any problems from that pull to be fixed.
+ drivers/media/platform/qcom/camss/camss-vfe.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Would you expect me to pull known-buggy trees? I sure hope you don't
-expect that. Not pulling buggy trees isn't "punishment". It's the only
-sane thing to do.
+-- 
+2.34.1
 
-And the exact same thing is true when a tree isn't maintained
-properly. Bugs happen. That's inevitable. And sometimes bugs can be
-hard to find, or hard to fix. But when the maintainer has been sent a
-fix, and that fix doesn't get handled for SIX WEEKS, then that tree is
-buggy.
-
-Something is very rotten in the state of media. It needs to get fixed.
-Until it is fixed, I don't want to take random new code.
-
-The fix *may* be as simple as more testing, and better automation. But
-really, the thing that annoyed me enormously was that these bugs were
-all found by automation and testing. And still they were left to rot.
-
-                 Linus
