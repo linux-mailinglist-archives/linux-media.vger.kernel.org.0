@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 89460708522
-	for <lists+linux-media@lfdr.de>; Thu, 18 May 2023 17:38:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05333708523
+	for <lists+linux-media@lfdr.de>; Thu, 18 May 2023 17:38:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231491AbjERPin (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 May 2023 11:38:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58722 "EHLO
+        id S231586AbjERPio (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 May 2023 11:38:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231362AbjERPi3 (ORCPT
+        with ESMTP id S231363AbjERPid (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 May 2023 11:38:29 -0400
+        Thu, 18 May 2023 11:38:33 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA49BD7
-        for <linux-media@vger.kernel.org>; Thu, 18 May 2023 08:37:46 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AA04C4
+        for <linux-media@vger.kernel.org>; Thu, 18 May 2023 08:37:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1684424265;
+        s=mimecast20190719; t=1684424263;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=dMT5xrzVZ3FBHKSt/zrpdXr0SeyitSqkJJcvC33ry9s=;
-        b=RY5gU9N7WtRoXAmR8IoucDruUvIo9/BtUgSF5sFxH5G6IXUbMopkUYk9Zf3ADvuMinGnhS
-        nRU1YaiBLq6YxUv1bx8f++mb9/b9GI7g0VnCRUQKXwV3AjIgeqKEk920o8P2f10S5z2Gp7
-        IgkuKYoTNQa8B1702U5VIhLUkN+/lss=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=RBXEHbEDKmcse396WHZeZQsyTYAVHG1j+n5jYr1zIPU=;
+        b=HDCOsDiSvrux47rmzHTiolJWjohEjUo/o5MKsURI7L6o0Yp8SesGc9LOqIlrOmS+fCVqEn
+        mOEKsCMCH7KzzkCCQHgUEFPv85IPMyXuJ/pyJjEFpBbBTVIiVy5PWgGHHAY3Ut5EvYUzpS
+        PrG5uK1dzMpc/QKVkQ3ZvpDCPd6n430=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-593-uRfJBWA3NGSAEMb0iWEnMA-1; Thu, 18 May 2023 11:37:40 -0400
-X-MC-Unique: uRfJBWA3NGSAEMb0iWEnMA-1
+ us-mta-551-dus0PfZqO4aLiVf6d_ot4A-1; Thu, 18 May 2023 11:37:40 -0400
+X-MC-Unique: dus0PfZqO4aLiVf6d_ot4A-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B14511C05B02;
-        Thu, 18 May 2023 15:37:37 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 756E0101A555;
+        Thu, 18 May 2023 15:37:39 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.133])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 33DDA63F5F;
-        Thu, 18 May 2023 15:37:36 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id E48C763F8F;
+        Thu, 18 May 2023 15:37:37 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -48,9 +48,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>, Kate Hsuan <hpa@redhat.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 1/9] media: atomisp: Drop MRFLD_PORT_NUM define
-Date:   Thu, 18 May 2023 17:37:25 +0200
-Message-Id: <20230518153733.195306-2-hdegoede@redhat.com>
+Subject: [PATCH 2/9] media: atomisp: Remove unused fields from struct atomisp_input_subdev
+Date:   Thu, 18 May 2023 17:37:26 +0200
+Message-Id: <20230518153733.195306-3-hdegoede@redhat.com>
 In-Reply-To: <20230518153733.195306-1-hdegoede@redhat.com>
 References: <20230518153733.195306-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -66,64 +66,69 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The info in the MRFLD_PORT_NUM define is duplicate with
-the ATOMISP_CAMERA_NR_PORTS define. Drop MRFLD_PORT_NUM.
+Remove unused fields from struct atomisp_input_subdev:
+
+1. frame_size is never used at all
+2. sensor_index is always 0, just directly pass 0 in the single user.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp-regs.h | 1 -
- drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 8 ++++----
- 2 files changed, 4 insertions(+), 5 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_internal.h | 3 ---
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c    | 2 +-
+ drivers/staging/media/atomisp/pci/atomisp_v4l2.c     | 7 -------
+ 3 files changed, 1 insertion(+), 11 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp-regs.h b/drivers/staging/media/atomisp/pci/atomisp-regs.h
-index 022997f47121..a7b0196686be 100644
---- a/drivers/staging/media/atomisp/pci/atomisp-regs.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp-regs.h
-@@ -112,7 +112,6 @@
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_internal.h b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+index feaf4037a389..ee0dd5eb4711 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_internal.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+@@ -126,15 +126,12 @@ struct atomisp_input_subdev {
+ 	enum atomisp_camera_port port;
+ 	struct v4l2_subdev *camera;
+ 	struct v4l2_subdev *motor;
+-	struct v4l2_frmsizeenum frame_size;
  
- /* MRFLD CSI lane configuration related */
- #define MRFLD_PORT_CONFIG_NUM  8
--#define MRFLD_PORT_NUM         3
- #define MRFLD_PORT1_ENABLE_SHIFT       0
- #define MRFLD_PORT2_ENABLE_SHIFT       1
- #define MRFLD_PORT3_ENABLE_SHIFT       2
+ 	/*
+ 	 * To show this resource is used by
+ 	 * which stream, in ISP multiple stream mode
+ 	 */
+ 	struct atomisp_sub_device *asd;
+-
+-	int sensor_index;
+ };
+ 
+ enum atomisp_dfs_mode {
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index 900e4c79cd78..2cde1af77a2d 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -673,7 +673,7 @@ static int atomisp_s_input(struct file *file, void *fh, unsigned int input)
+ 
+ 	/* select operating sensor */
+ 	ret = v4l2_subdev_call(isp->inputs[input].camera, video, s_routing,
+-			       0, isp->inputs[input].sensor_index, 0);
++			       0, 0, 0);
+ 	if (ret && (ret != -ENOIOCTLCMD)) {
+ 		dev_err(isp->dev, "Failed to select sensor\n");
+ 		return ret;
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index a76b60f8b411..93998fdc836d 100644
+index 93998fdc836d..a2440f270ffe 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -701,7 +701,7 @@ int atomisp_csi_lane_config(struct atomisp_device *isp)
- 	struct pci_dev *pdev = to_pci_dev(isp->dev);
- 	static const struct {
- 		u8 code;
--		u8 lanes[MRFLD_PORT_NUM];
-+		u8 lanes[ATOMISP_CAMERA_NR_PORTS];
- 	} portconfigs[] = {
- 		/* Tangier/Merrifield available lane configurations */
- 		{ 0x00, { 4, 1, 0 } },		/* 00000 */
-@@ -725,7 +725,7 @@ int atomisp_csi_lane_config(struct atomisp_device *isp)
- 	};
- 
- 	unsigned int i, j;
--	u8 sensor_lanes[MRFLD_PORT_NUM] = { 0 };
-+	u8 sensor_lanes[ATOMISP_CAMERA_NR_PORTS] = { 0 };
- 	u32 csi_control;
- 	int nportconfigs;
- 	u32 port_config_mask;
-@@ -782,12 +782,12 @@ int atomisp_csi_lane_config(struct atomisp_device *isp)
- 	}
- 
- 	for (i = 0; i < nportconfigs; i++) {
--		for (j = 0; j < MRFLD_PORT_NUM; j++)
-+		for (j = 0; j < ATOMISP_CAMERA_NR_PORTS; j++)
- 			if (sensor_lanes[j] &&
- 			    sensor_lanes[j] != portconfigs[i].lanes[j])
- 				break;
- 
--		if (j == MRFLD_PORT_NUM)
-+		if (j == ATOMISP_CAMERA_NR_PORTS)
- 			break;			/* Found matching setting */
- 	}
- 
+@@ -866,13 +866,6 @@ static int atomisp_subdev_probe(struct atomisp_device *isp)
+ 			isp->inputs[isp->input_cnt].type = subdevs->type;
+ 			isp->inputs[isp->input_cnt].port = subdevs->port;
+ 			isp->inputs[isp->input_cnt].camera = subdevs->subdev;
+-			isp->inputs[isp->input_cnt].sensor_index = 0;
+-			/*
+-			 * initialize the subdev frame size, then next we can
+-			 * judge whether frame_size store effective value via
+-			 * pixel_format.
+-			 */
+-			isp->inputs[isp->input_cnt].frame_size.pixel_format = 0;
+ 			isp->input_cnt++;
+ 			break;
+ 		case CAMERA_MOTOR:
 -- 
 2.40.1
 
