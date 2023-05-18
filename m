@@ -2,61 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CF13F7088B0
-	for <lists+linux-media@lfdr.de>; Thu, 18 May 2023 21:53:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6CFF7089B5
+	for <lists+linux-media@lfdr.de>; Thu, 18 May 2023 22:45:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230147AbjERTxT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 May 2023 15:53:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35842 "EHLO
+        id S230348AbjERUpA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 May 2023 16:45:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230086AbjERTxQ (ORCPT
+        with ESMTP id S229967AbjERUo4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 May 2023 15:53:16 -0400
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46E2F10CE
-        for <linux-media@vger.kernel.org>; Thu, 18 May 2023 12:53:08 -0700 (PDT)
-Received: by mail-qt1-x82f.google.com with SMTP id d75a77b69052e-3f38e1142d0so12759161cf.2
-        for <linux-media@vger.kernel.org>; Thu, 18 May 2023 12:53:08 -0700 (PDT)
+        Thu, 18 May 2023 16:44:56 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4B68E77
+        for <linux-media@vger.kernel.org>; Thu, 18 May 2023 13:44:54 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-96f50e26b8bso101770066b.2
+        for <linux-media@vger.kernel.org>; Thu, 18 May 2023 13:44:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1684439587; x=1687031587;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=X2ZIW3/zhnIFMYl2SIXYWW32n4UkaG67XbnF9QSk/Zo=;
-        b=3XJm5gCHLZOX3R1qQjvAG/qqS+kWajScO5VvbP50imfF5dc0ykewGK23RbdYI3nepx
-         mbgmmvEoKEo/U/p9KIUwoITDrm1EuDAtat83AlcRYdX1UMmAT89cSdQ5qCbq5YpBOSFT
-         4zpQcWlkd6du1fomIMn3L5hV5za1WI/rhUetD49WocbC/wHyDGpSC7VsMlgpLIR57Y2h
-         q38yrJIpnIeWIYv64MWkVQv0GXk0X7+KMGCW459GOOhsM1fwziJquc6iTEpOYcbQ1NUK
-         9Vw7iyFbYcmwAa/4EFixJc1/TrxfpyQxpxuvBexpf3iB0HLMozm68Y4h8wwfec6azTeh
-         6quQ==
+        d=linux-foundation.org; s=google; t=1684442693; x=1687034693;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yxp/usaVw20e5cr4YAHYGVQhvDy/fYNeFaw790wIOpk=;
+        b=VHyuu4CSMDkGakMg4WkM/wF0RvPw/rtrAvZX8raWPvw2JvRPZ/SviD1y7Z9ocx4bO7
+         kp4l2zQMthmzz7i6hFdTxpC2JKbSyhCz/3JDVBHUi8U1JaZF5HIPM3Sbl5ACDLS0jUC8
+         fUvHL6PQl5Z46BkocMc7+BavaTadgGW+qIatE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684439587; x=1687031587;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=X2ZIW3/zhnIFMYl2SIXYWW32n4UkaG67XbnF9QSk/Zo=;
-        b=SBAZepgwFIdcGWZmq461jQCP+BcnoaumG2ToxWMt9O5JWuscsmnK6Awu8foC9CWLDn
-         FJbKfv3uyNGAUHBej9XJXEiCA1ODHhhORZYgM+l1uYLQEZvlrld9WOOo8GPnceEFaMXU
-         itb27D7aHQxS84eI1DfJLUbpZRT8h/ZIWAAppFtGv8n5MAIY2KTFwbKzDLt16zywlKgA
-         D6v6IWUU71tZXI4F1plr+GQ2Z3bFDPlPf60EGuPB56JDknV7aXxwYmQkdylBppgnLcWk
-         Y4b2SoLOcTLUeNkxpqowT9VOWDqMUWC0ASLZhC/YaSVDvWuV/CCaopFSF5Ltf/BPX8PF
-         +AqA==
-X-Gm-Message-State: AC+VfDzvlv8oZj4MN911q8YjffVwPPkzT63V76EK7g5B2yykvHE9U81i
-        iItKfIAiofNSUXEaMf7tyY/Pesyab0ehpND0cwI=
-X-Google-Smtp-Source: ACHHUZ400+fCF4iB93FLo6GI5Ln196cPScZGaszV7wbm14gR7sskZOOuCxe8qRLOx1wHhql9ypvElA==
-X-Received: by 2002:ac8:59d2:0:b0:3f4:e317:1dec with SMTP id f18-20020ac859d2000000b003f4e3171decmr1773453qtf.13.1684439587408;
-        Thu, 18 May 2023 12:53:07 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:17:6c0::7a9])
-        by smtp.gmail.com with ESMTPSA id x5-20020ae9e905000000b0075931950b5esm612015qkf.74.2023.05.18.12.53.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 May 2023 12:53:07 -0700 (PDT)
-Message-ID: <a9a9017cceb65aeca285a06c7b46970788301ce8.camel@ndufresne.ca>
+        d=1e100.net; s=20221208; t=1684442693; x=1687034693;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yxp/usaVw20e5cr4YAHYGVQhvDy/fYNeFaw790wIOpk=;
+        b=KbWPo6NXUj0xu/Lkixts+MgFfoBQ07BV8Rnk+Mt2dDnKI3GD83qCfmLWqVTXlFqkmi
+         w0TJ5ORSynYvpvA8QGS1yVlE7xfEjVkmC6HnMuDWqFHte1XCt3vElNqPQjX3L7JeDtU2
+         6gtM+6I1K/J9bTwChmJA6sQgz1VWCiM/JjGYffNZqLREfgUFCdz3QT9EevSL6g8T3JEd
+         mHb+EeesYxa0AmGF1JWSKcGDYHx2Q0RnhA0Im17NsvoYENiJhoMEMZjSu+iv4yd+3gcU
+         pO8RDC2cQYaT3tw+um9dvY+HjLcD/Zif+Lm1BMX3sMuNPZDwSQoodqIcIbGYEaR5eAQs
+         klrg==
+X-Gm-Message-State: AC+VfDwb1phBq77Dri6EioQHyBr39xtqHxDbFUl1rwWzq53v2rxumwUS
+        azALOnZiCw2KtppM/VUJHcI8X1AP2eN6sCOImDoM9Z9/
+X-Google-Smtp-Source: ACHHUZ7vnci2jYZN4VBfoPakygihpQlckkBYUSGkQpXPyg075iRIDQuPzAlnwJ/WE6PNNRCEN1BSGg==
+X-Received: by 2002:a17:907:3f1b:b0:96f:48ad:73be with SMTP id hq27-20020a1709073f1b00b0096f48ad73bemr503751ejc.44.1684442693038;
+        Thu, 18 May 2023 13:44:53 -0700 (PDT)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com. [209.85.218.48])
+        by smtp.gmail.com with ESMTPSA id e22-20020a170906749600b0096f4c9ce526sm615406ejl.225.2023.05.18.13.44.52
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 May 2023 13:44:52 -0700 (PDT)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-96aae59bbd6so474521866b.3
+        for <linux-media@vger.kernel.org>; Thu, 18 May 2023 13:44:52 -0700 (PDT)
+X-Received: by 2002:a17:907:3e2a:b0:96f:5f44:ea02 with SMTP id
+ hp42-20020a1709073e2a00b0096f5f44ea02mr438181ejc.8.1684442691873; Thu, 18 May
+ 2023 13:44:51 -0700 (PDT)
+MIME-Version: 1.0
+References: <ZElaVmxDsOkZj2DK@debian> <51cff63a-3a04-acf5-8264-bb19b0bee8a3@leemhuis.info>
+ <CAHk-=wgzU8_dGn0Yg+DyX7ammTkDUCyEJ4C=NvnHRhxKWC7Wpw@mail.gmail.com> <a9a9017cceb65aeca285a06c7b46970788301ce8.camel@ndufresne.ca>
+In-Reply-To: <a9a9017cceb65aeca285a06c7b46970788301ce8.camel@ndufresne.ca>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Thu, 18 May 2023 13:44:35 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjypw2PL-w5ZBxY97SgRWd21f2V2Cuyw-ebsiTpSNQjBg@mail.gmail.com>
+Message-ID: <CAHk-=wjypw2PL-w5ZBxY97SgRWd21f2V2Cuyw-ebsiTpSNQjBg@mail.gmail.com>
 Subject: Re: mainline build failure due to cf21f328fcaf ("media: nxp: Add
  i.MX8 ISI driver")
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux regressions mailing list <regressions@lists.linux.dev>
-Cc:     "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>,
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Linux regressions mailing list <regressions@lists.linux.dev>,
+        "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Shawn Guo <shawnguo@kernel.org>,
@@ -66,57 +75,73 @@ Cc:     "Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>,
         linux-kernel@vger.kernel.org,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
         Fabio Estevam <festevam@gmail.com>
-Date:   Thu, 18 May 2023 15:53:06 -0400
-In-Reply-To: <CAHk-=wgzU8_dGn0Yg+DyX7ammTkDUCyEJ4C=NvnHRhxKWC7Wpw@mail.gmail.com>
-References: <ZElaVmxDsOkZj2DK@debian>
-         <51cff63a-3a04-acf5-8264-bb19b0bee8a3@leemhuis.info>
-         <CAHk-=wgzU8_dGn0Yg+DyX7ammTkDUCyEJ4C=NvnHRhxKWC7Wpw@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1 (3.48.1-1.fc38) 
-MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On Thu, May 18, 2023 at 12:53=E2=80=AFPM Nicolas Dufresne <nicolas@ndufresn=
+e.ca> wrote:
+>
+> I'm expected to be flamed for getting in the way, but whatever. To me thi=
+s
+> decision lacks any kind of consideration toward who will be affected. Thi=
+s will
+> hit those that makes the new features and are working hard to convince th=
+eir
+> customers to go mainline first.
 
-Le lundi 08 mai 2023 =C3=A0 09:27 -0700, Linus Torvalds a =C3=A9crit=C2=A0:
-> End result: you and the media tree is on my shit-list, and I will not
-> take any pull requests from you that aren't just fixes.
->=20
-> Not just this release, but the next one.
+I think the solution may be for those affected people to help Mauro & co.
 
-I'm expected to be flamed for getting in the way, but whatever. To me this
-decision lacks any kind of consideration toward who will be affected. This =
-will
-hit those that makes the new features and are working hard to convince thei=
-r
-customers to go mainline first. None of Mauro or Hans will truly be affecte=
-d by
-this. Everyone affected by this decision were completely unaware of the pro=
-blem
-in the first place and could not help it.
+Clearly the media maintenance doesn't have enough time. I'm not going
+to pull from a tree where I know that it then may take six *weeks* and
+one whole release for simple bugs to be fixed.
 
-Punishment and shame is not something I encourage or think is nice in gener=
-al.
-Its the reflection of a strong frustration and the spontaneous need to hit
-somewhere it hurts. It brings no benefit to anyone and likely convince the
-skeptical to go away. In the end, it is the leaf contributors (the one that=
- have
-the least authority on the project) that takes the hit, having to tell thei=
-r
-customers they'll only get their stuff mainline in 6.7 even though they mig=
-ht
-have done everything right to get things on time for the next window. This =
-kind
-of methods is purely negative for everyone, there is no win of any sort.
+That is literally what happened. And if it had been once, that would
+be one thing. But when the same thing starts happening again the very
+next release, it's no longer a one-off. It's a pattern.
 
-regards,
-Nicolas
+> Punishment and shame is not something I encourage or think is nice in gen=
+eral.
+
+This is NOT about punishment.,
+
+It's very simple: if I cannot trust the tree to be maintained, I'm not
+going to pull it.
+
+That's not punishment, that is simply about kernel maintenance.
+
+If you want to help fix the media maintenance issue, then by all means
+help. But as things are now, if I cannot rely on the media tree
+getting even simple build fixes in a timely manner, then I'm not
+pulling it.
+
+Please realize: to misquote Shakespeare, I have two options: to pull
+or not to pull. And in order to pull a tree, I need to know that I can
+expect any problems from that pull to be fixed.
+
+Would you expect me to pull known-buggy trees? I sure hope you don't
+expect that. Not pulling buggy trees isn't "punishment". It's the only
+sane thing to do.
+
+And the exact same thing is true when a tree isn't maintained
+properly. Bugs happen. That's inevitable. And sometimes bugs can be
+hard to find, or hard to fix. But when the maintainer has been sent a
+fix, and that fix doesn't get handled for SIX WEEKS, then that tree is
+buggy.
+
+Something is very rotten in the state of media. It needs to get fixed.
+Until it is fixed, I don't want to take random new code.
+
+The fix *may* be as simple as more testing, and better automation. But
+really, the thing that annoyed me enormously was that these bugs were
+all found by automation and testing. And still they were left to rot.
+
+                 Linus
