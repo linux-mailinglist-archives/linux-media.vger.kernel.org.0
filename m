@@ -2,107 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B311709101
-	for <lists+linux-media@lfdr.de>; Fri, 19 May 2023 09:51:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3BFF709146
+	for <lists+linux-media@lfdr.de>; Fri, 19 May 2023 10:04:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231359AbjESHvH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 May 2023 03:51:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35126 "EHLO
+        id S230176AbjESIEJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 May 2023 04:04:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232063AbjESHuj (ORCPT
+        with ESMTP id S229599AbjESID6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 May 2023 03:50:39 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BD7C26BD
-        for <linux-media@vger.kernel.org>; Fri, 19 May 2023 00:49:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684482564; x=1716018564;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=YlL5Ub5WeL3Gpe+p6yFzkHFAJKOvPdEUF24qlnfIOV0=;
-  b=Cw6tCnitVmP8BXzEJfzKAHxt+bx1o/8iL+3pUvweOJUHrnmbkJS8g/Wr
-   kHry6LUM5N4DmeGgWqD24kJZ9D0qiQC2llC0ZeZMI3yBhDBP4C6+l4Em3
-   I1vK28gmDe9bbDoWePVuTn9QsUTNPq3uZImxjCsc+58r4eIzUL/DkfkVH
-   uNFUsrt1Zbz3X6LFh/1ws8rMecaYUuu/6T2V8unnOSeIW4IH1w1vzu4E+
-   0vuDJkSrqbAQo7mn9nVvsCU4HMZRc8LCzHP71/3NDbTlGefEWen0FCley
-   Kg8FYSfbgfKRS8F5atvJjzFTKGJyWkSgL3wOK5jtRl1eswZSU7v+9PPMj
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="349823659"
-X-IronPort-AV: E=Sophos;i="6.00,176,1681196400"; 
-   d="scan'208";a="349823659"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2023 00:47:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="696609756"
-X-IronPort-AV: E=Sophos;i="6.00,176,1681196400"; 
-   d="scan'208";a="696609756"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2023 00:47:39 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id DAB7C120279;
-        Fri, 19 May 2023 10:47:36 +0300 (EEST)
-Date:   Fri, 19 May 2023 07:47:36 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH] media: v4l2-subdev: Fix missing kerneldoc for client_caps
-Message-ID: <ZGcpmH7eHUQKcpXR@kekkonen.localdomain>
-References: <20230418105924.126608-1-tomi.valkeinen@ideasonboard.com>
- <20230518094131.7d5057b7@sal.lan>
+        Fri, 19 May 2023 04:03:58 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0916519A9;
+        Fri, 19 May 2023 01:03:26 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 52343618D3;
+        Fri, 19 May 2023 08:03:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05839C4339B;
+        Fri, 19 May 2023 08:03:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1684483393;
+        bh=3jJWIcZgZvkk6Y5TXMWAviv665TtXazo1GYVATenEgk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=oOC9D1zeDvY/rgTWO34r/1nK5ramY/l3sd7exY4dWp58CH5VMEAR0FGDjpHZZieHR
+         IDNuWiSZ2L4e8OZbrkxxTuiWXURErRCaJJl0eq9o5FJ3Q3IIjXHiEmvU8W84wgKPfG
+         DKMsz2BTGy8qzBuNGtZ9snqIRPX4+Qtg2XT5LxND9wj/UdTDsb6pyIUwWfhJjUqmGa
+         g0puIgjBjq3j9iFdRG5n+44yxUl/3NhlHHQbv4hYNFE3u/phBToyHzg+bStn20lBXH
+         hggvLBWpkKhA10hk8vc7SJXOEQisD6wxjfKt47JbrtFjxGTgHpmS8htn3oOY7RIg8z
+         3ELes+8fH63GA==
+Date:   Fri, 19 May 2023 09:03:08 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>,
+        Athanasios Oikonomou <athoik@gmail.com>,
+        linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] media: frontend.h.rst.exceptions: add more dvb define
+ exceptions
+Message-ID: <20230519090308.0e53eccd@sal.lan>
+In-Reply-To: <20230518234735.20289-1-rdunlap@infradead.org>
+References: <20230518234735.20289-1-rdunlap@infradead.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230518094131.7d5057b7@sal.lan>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hi Randy,
 
-On Thu, May 18, 2023 at 09:41:31AM +0100, Mauro Carvalho Chehab wrote:
-> Em Tue, 18 Apr 2023 13:59:24 +0300
-> Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> escreveu:
+Em Thu, 18 May 2023 16:47:35 -0700
+Randy Dunlap <rdunlap@infradead.org> escreveu:
+
+> Building documentation reports multiple warnings for undefined DVB
+> frontend labels:
 > 
-> > Add missing kernel doc for the new 'client_caps' field in struct
-> > v4l2_subdev_fh.
-> > 
-> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > ---
-> >  include/media/v4l2-subdev.h | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> > index cfd19e72d0fc..9d0a6a993fb0 100644
-> > --- a/include/media/v4l2-subdev.h
-> > +++ b/include/media/v4l2-subdev.h
-> > @@ -1119,6 +1119,7 @@ struct v4l2_subdev {
-> >   * @vfh: pointer to &struct v4l2_fh
-> >   * @state: pointer to &struct v4l2_subdev_state
-> >   * @owner: module pointer to the owner of this file handle
-> > + * @client_caps: bitmask of V4L2_SUBDEV_CLIENT_CAP_*
+> Documentation/output/frontend.h.rst:6: WARNING: undefined label: 'fec-11-45'
+> Documentation/output/frontend.h.rst:6: WARNING: undefined label: 'fec-4-15'
+> Documentation/output/frontend.h.rst:6: WARNING: undefined label: 'fec-14-45'
+> Documentation/output/frontend.h.rst:6: WARNING: undefined label: 'fec-7-15'
+> Documentation/output/frontend.h.rst:6: WARNING: undefined label: 'fec-11-45'
+> Documentation/output/frontend.h.rst:6: WARNING: undefined label: 'fec-4-15'
+> Documentation/output/frontend.h.rst:6: WARNING: undefined label: 'fec-14-45'
+> Documentation/output/frontend.h.rst:6: WARNING: undefined label: 'fec-7-15'
+
+Thanks for the patch. FYI, I already merged yesterday a fix identical
+to your patch:
+
+	https://git.linuxtv.org/media_stage.git/commit/?id=8bc27fa5d7763d376a992a1638475987ed4807e7
+
+Regards,
+Mauro
+
+
 > 
-> Did you actually check this patch? Adding an asterisk at the end
-> should hit a Sphinx warning, as asterisk is the italic markup.
-> So, it seems to me that this patch is actually replacing one warning
-> by another one!
-
-I don't get a warning with this patch. Also the documentation is rendered
-correctly. Which sphinx version do you have?
-
-$ sphinx-build --version
-sphinx-build 3.4.3
-
--- 
-Sakari Ailus
+> so add those symbols to the ignore list to prevent the build warnings.
+> 
+> Fixes: 1825788e2a96 ("media: dvb: add missing DVB-S2X FEC parameter values")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Link: https://lore.kernel.org/linux-media/202305162245.wtaLIXf3-lkp@intel.com/
+> Cc: Athanasios Oikonomou <athoik@gmail.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: linux-media@vger.kernel.org
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> ---
+>  Documentation/userspace-api/media/frontend.h.rst.exceptions |    4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff -- a/Documentation/userspace-api/media/frontend.h.rst.exceptions b/Documentation/userspace-api/media/frontend.h.rst.exceptions
+> --- a/Documentation/userspace-api/media/frontend.h.rst.exceptions
+> +++ b/Documentation/userspace-api/media/frontend.h.rst.exceptions
+> @@ -142,6 +142,10 @@ ignore symbol FEC_26_45
+>  ignore symbol FEC_28_45
+>  ignore symbol FEC_32_45
+>  ignore symbol FEC_77_90
+> +ignore symbol FEC_11_45
+> +ignore symbol FEC_4_15
+> +ignore symbol FEC_14_45
+> +ignore symbol FEC_7_15
+>  
+>  ignore symbol TRANSMISSION_MODE_AUTO
+>  ignore symbol TRANSMISSION_MODE_1K
