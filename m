@@ -2,121 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BAD07708D28
-	for <lists+linux-media@lfdr.de>; Fri, 19 May 2023 03:05:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACFA6708DF7
+	for <lists+linux-media@lfdr.de>; Fri, 19 May 2023 04:41:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229973AbjESBFy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 May 2023 21:05:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51090 "EHLO
+        id S229615AbjESClw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 May 2023 22:41:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229704AbjESBFy (ORCPT
+        with ESMTP id S229485AbjESClv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 May 2023 21:05:54 -0400
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BC81E72;
-        Thu, 18 May 2023 18:05:53 -0700 (PDT)
-Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-643bb9cdd6eso2898735b3a.1;
-        Thu, 18 May 2023 18:05:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684458353; x=1687050353;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pSYVMPQ3qj8a/oGdCfP3ChzUdlIw5oHn6OsEYCKEbhE=;
-        b=Rth35TClksUPImcNts0Hu3FlSVSE3DyrAny65QP0/qp22dd+jsjhO90EsgDrwiesgD
-         FmCMizTGgTRLzipMPmH5vaVxREr9rbehnvQqrO1vFJPzozJcTSC/AosoPU2SaBIypSVP
-         iFYTOSeE1LzAYZUVvg2MviUDaCX6mypvAWOzN6+WTJvW2UjBn1wX1JesMrEuv1V+6G/K
-         snzG7RnVvCC5xvJqDy+gKX1j/2fKele+VuOlxyFfaMAK5OtDnc0QMFIzQfnEswQspucn
-         h1lNDEZuXBLgsEdIIXLx3GVDjw7N1vlgOfKsM0KsefmXyXwYZaeVSUrAIiaR17twwjX0
-         TOVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684458353; x=1687050353;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pSYVMPQ3qj8a/oGdCfP3ChzUdlIw5oHn6OsEYCKEbhE=;
-        b=UnEr7RFLwHellrarzPHnojtDSPQRei/NEx4nUICO81FpwGAwN0S2ktME5hnSip8unB
-         ubjo6eQea0v2Oabb6E3AdDmCinlsHfL3d8HllI45PDnSDV1OmY6HT13U4ydK0B7QisNJ
-         NvI6oNfYfTrU8APuTI2bppoD5096/gGUScI6BujI4NxeLysX5kVByN4oaUwGKIzDpjY4
-         JrCrMwd1uqKK7pq787c/50/QeurRlZcN4zDgqOyWlQpj03LoiFnHyRktg5NAbevq55Fb
-         5PQaFToI3qRCNS7mUxEdjMUTA789dfWefpA9o9gYKND2W4emc4RDToVARExP5l70Uziv
-         QvJw==
-X-Gm-Message-State: AC+VfDy6lmZchcTbsu0tN+Z2vBjCOKNZ6+OrVa0+PJxi0/zd4+Qv41zT
-        r4WMNKcPjzyJM2RpncAwuNU=
-X-Google-Smtp-Source: ACHHUZ6Fl3iXdAwbPHQEfCikSntdgoIoCgedUlJPp7xmBcIxxFF6oDDMbiB3KmzcevopG44y7tL8XA==
-X-Received: by 2002:a05:6a20:1586:b0:101:73a9:1683 with SMTP id h6-20020a056a20158600b0010173a91683mr339836pzj.33.1684458352611;
-        Thu, 18 May 2023 18:05:52 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:36bb:8bd6:552:c349])
-        by smtp.gmail.com with ESMTPSA id c23-20020aa78817000000b0064d2d0ff8d5sm445306pfo.163.2023.05.18.18.05.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 May 2023 18:05:51 -0700 (PDT)
-Date:   Thu, 18 May 2023 18:05:48 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Arnd Bergmann <arnd@kernel.org>,
-        Patrice Chotard <patrice.chotard@foss.st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: c8sectpfe: convert to gpio descriptors
-Message-ID: <ZGbLbOHYxq+bPzb7@google.com>
-References: <20230130131003.668888-1-arnd@kernel.org>
- <ZGUbDFssUwXKTiDt@valkosipuli.retiisi.eu>
- <ZGUnBfqBLWkD7ZgD@google.com>
- <ZGUqWZoxXRGGJ9Kv@valkosipuli.retiisi.eu>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZGUqWZoxXRGGJ9Kv@valkosipuli.retiisi.eu>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Thu, 18 May 2023 22:41:51 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5918E4C
+        for <linux-media@vger.kernel.org>; Thu, 18 May 2023 19:41:49 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7A640611E2
+        for <linux-media@vger.kernel.org>; Fri, 19 May 2023 02:41:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75701C433D2
+        for <linux-media@vger.kernel.org>; Fri, 19 May 2023 02:41:48 +0000 (UTC)
+Date:   Fri, 19 May 2023 04:41:46 +0200
+Message-ID: <46094ec62636a71ccf57f887461fcf21.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, May 17, 2023 at 10:26:17PM +0300, Sakari Ailus wrote:
-> Hi Dmitry,
-> 
-> On Wed, May 17, 2023 at 12:12:05PM -0700, Dmitry Torokhov wrote:
-> > On Wed, May 17, 2023 at 09:21:00PM +0300, Sakari Ailus wrote:
-> > > Hi Arnd,
-> > > 
-> > > On Mon, Jan 30, 2023 at 02:09:47PM +0100, Arnd Bergmann wrote:
-> > > > From: Arnd Bergmann <arnd@arndb.de>
-> > > > 
-> > > > The gpio usage in the function is fairly straightforward,
-> > > > but the normal gpiod_get() interface cannot be used here
-> > > > since the gpio is referenced by a child node of the device.
-> > > > 
-> > > > Using devm_fwnode_gpiod_get_index() is the best alternative
-> > > > here.
-> > > > 
-> > > > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> > > 
-> > > I've picked
-> > > <URL:https://patchwork.linuxtv.org/project/linux-media/patch/20230130131003.668888-1-arnd@kernel.org/>
-> > > instead. I hope that's fine. Also cc Dmitry.
-> > 
-> > What do you mean "instead"? This is the exact patch that started this
-> > thread, and it is broken (uses wrong name of the GPIO and wrong polarity).
-> > 
-> > I'd much rather you picked up
-> > https://lore.kernel.org/all/Y92VLGLQJZ%2FUDRx1@google.com/
-> > 
-> > Thanks.
-> 
-> Ah, the URL in my e-mail was wrong. I have
-> <URL:https://patchwork.linuxtv.org/project/linux-media/patch/Y92VLGLQJZ/UDRx1@google.com/>,
-> i.e. the same patch.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Ah, I see, thank you.
+Results of the daily build of media_tree:
 
--- 
-Dmitry
+date:			Fri May 19 03:00:10 CEST 2023
+media-tree git hash:	8bc27fa5d7763d376a992a1638475987ed4807e7
+media_build git hash:	0fe857b86addf382f6fd383948bd7736a3201403
+v4l-utils git hash:	54893534b1225c03a65b476a134fe2f045c97102
+edid-decode git hash:	2d44e1b01c7ed7d65b20ecdce62d354841832201
+gcc version:		i686-linux-gcc (GCC) 12.2.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8321-g556064ca-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 082e0d767bb729a4ae33be62db71e40a0c5d1246
+host hardware:		x86_64
+host os:		6.1.0-5-amd64
+
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm-multi: WARNINGS
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: WARNINGS: VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
+Check for strcpy/strncpy/strlcpy: OK
+apps: WARNINGS
+spec-git: OK
+virtme: OK: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 0
+CONFIG_PM=n: WARNINGS
+CONFIG_PM_SLEEP=n: WARNINGS
+CONFIG_OF=n: WARNINGS
+sparse: WARNINGS
+smatch: WARNINGS
+kerneldoc: WARNINGS
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Friday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
