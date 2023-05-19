@@ -2,80 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 138A4709467
-	for <lists+linux-media@lfdr.de>; Fri, 19 May 2023 12:05:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8BB17094A6
+	for <lists+linux-media@lfdr.de>; Fri, 19 May 2023 12:19:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231591AbjESKFG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 May 2023 06:05:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36542 "EHLO
+        id S231776AbjESKTx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 May 2023 06:19:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231869AbjESKFB (ORCPT
+        with ESMTP id S231855AbjESKTr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 May 2023 06:05:01 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCB73114
-        for <linux-media@vger.kernel.org>; Fri, 19 May 2023 03:04:59 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-6436dfa15b3so2224051b3a.1
-        for <linux-media@vger.kernel.org>; Fri, 19 May 2023 03:04:59 -0700 (PDT)
+        Fri, 19 May 2023 06:19:47 -0400
+Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com [IPv6:2607:f8b0:4864:20::f33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEC0B10DF
+        for <linux-media@vger.kernel.org>; Fri, 19 May 2023 03:19:42 -0700 (PDT)
+Received: by mail-qv1-xf33.google.com with SMTP id 6a1803df08f44-623852980dfso14167426d6.0
+        for <linux-media@vger.kernel.org>; Fri, 19 May 2023 03:19:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1684490699; x=1687082699;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9xTS/+ikRkp6T2vKwWJPFVIVMKM4hxn92K6n0PRCytk=;
-        b=kknctPkpZrVOtKToPJl+ulrI88aXtNavFYH10YxLF2I4G2cDXB2nOfkmYVnypLwYOr
-         97CSCYF/uB4e6h6q791T5909bZmXXMvpBslfC1NgSzpFMpUcERN+W6b7wZnnsDCim1LE
-         CU2uKf5iyeHjv4M2QrZ1p3QERw1tEVISL+9CM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684490699; x=1687082699;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20221208; t=1684491581; x=1687083581;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9xTS/+ikRkp6T2vKwWJPFVIVMKM4hxn92K6n0PRCytk=;
-        b=KDYu1iJgzbOHQWytrB7vwA9GXgQfob7D/NqBFb4jNyXgwkeonAx+jLHgxLLG6TeFXF
-         hemHvv/OcVjvic7pUNqAx5UqlWxZpj+DAXKWHtniEXRUBDI7Li4nXHTAbRMXFXMGM8T4
-         +MksVIXLccZEt9gI+wHUxy54Jtr7L4rb5fnhfQKZRl2/YXjdZU9VM3fc+4Ncnw4WevKg
-         ybSDWhFV9AcsHck3rHCElaHmx1HL9S5M+4PdRFJZy1THo6yRL22CTgoy4ql4blvffLar
-         TpiAJPA18DFC1dS7CfBNq6KFu47Z0u0iQgEHmBlalVsaBRt/OrawZn8jIYPaDW+zBowb
-         CXwA==
-X-Gm-Message-State: AC+VfDxqCg+6TSpN36G69EoEoadiQ/OV/fT2CzUa/hqXfz6SJmfY/BlZ
-        faq9KQCORDyLPRPLSxLmp9ajkA==
-X-Google-Smtp-Source: ACHHUZ5tvd92H6EeKlIkOXPkMDBslOJK20p/RKYh/cqtFgsiyWV7f/sG/EKWlt6mVLUiEs9OHaRAHg==
-X-Received: by 2002:a05:6a21:9706:b0:104:387a:bbaf with SMTP id ub6-20020a056a21970600b00104387abbafmr1046602pzb.53.1684490699233;
-        Fri, 19 May 2023 03:04:59 -0700 (PDT)
-Received: from chromium.org (0.223.81.34.bc.googleusercontent.com. [34.81.223.0])
-        by smtp.gmail.com with ESMTPSA id 11-20020aa7910b000000b006372791d708sm2678533pfh.104.2023.05.19.03.04.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 May 2023 03:04:58 -0700 (PDT)
-Date:   Fri, 19 May 2023 10:04:53 +0000
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        m.szyprowski@samsung.com, mchehab@kernel.org, ming.qian@nxp.com,
-        shijie.qin@nxp.com, eagle.zhou@nxp.com, bin.liu@mediatek.com,
-        matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-        tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
-        yunfei.dong@mediatek.com, stanimir.k.varbanov@gmail.com,
-        quic_vgarodia@quicinc.com, agross@kernel.org, andersson@kernel.org,
-        konrad.dybcio@linaro.org, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, daniel.almeida@collabora.com,
-        hverkuil-cisco@xs4all.nl, jernel@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, kernel@collabora.com
-Subject: Re: [PATCH v2 2/8] media: videobuf2: Make bufs array dynamic
- allocated
-Message-ID: <20230519100453.6o4eriisloiji32g@chromium.org>
-References: <20230321102855.346732-1-benjamin.gaignard@collabora.com>
- <20230321102855.346732-3-benjamin.gaignard@collabora.com>
- <20230321181610.GE20234@pendragon.ideasonboard.com>
+        bh=6TOOnGY6/7gbApavboZs3pH4Q/1VjbXN7/OaowXsj4E=;
+        b=saKCCx6itui34N6KgF9b+gu5YY8tKBMEVp/tI7MobXPz67zSWkf5ekD7kU0GIAtjfS
+         dGI/fGInZgBvhjpDmbesWrok0cjuXCfTppaota/SPoKqeATxwTOaJbwLT+zR6Kb0v+w4
+         2XEcSR+ofx3FDAe3gYKZLkOqhxbnqNZ00J+dqF6K7KgNMT24sP1Sad88ctbRpsPUSC08
+         LbuByaYoB7PmbAz6VhQXs2OyVhRflAJSa0alMzvff9EsQgjWPPovqpqp7SbPEnZ3H+fM
+         L522JGMhpB2uiFxWUvysJ4O9TdyGUzYIv38MglKWO9AWBfSnNKxFwW3EWyPwkea3TzCR
+         +TKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684491581; x=1687083581;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6TOOnGY6/7gbApavboZs3pH4Q/1VjbXN7/OaowXsj4E=;
+        b=cRVUbZbFtAWofg8NYI6wEmQ6FmZ8aqrSpAT0XtrcqjicDJkXeToATJRb8EKOyG2IKD
+         SMCECKQE8OUnJT3AUpf8MXT8WpJm1wE/85NvJTD1KvvUx3TK/dG9FB5TBlJ0mZb9q1dh
+         JHg67Ng1quvnvnCwJ2m2YtBaZgAnmbZ0eky0dNMuutMvIcsddvbw++xpTzEfqFpfg1O3
+         +P4lcP5xdPd3DvihxTb2vifIctpkKp/k25Cl5TTSTnIQmvoGp0V9mX5cOeXYYUwA1VGH
+         GBXqcYvaLPEPh2j625dYEqU5kJKtv+JV9nnha0LWdwMIyLUfpDQowUSmHRHq4JtIT0wx
+         S8aQ==
+X-Gm-Message-State: AC+VfDxga3OFe4yNINilonwIoRv20uvzCPTid/2qQTdRxeyGJG2UHHpS
+        g0A+O1ShREcgvVkstkysjWqwiDU+u2kQt6oyD1c=
+X-Google-Smtp-Source: ACHHUZ6FdAfyykBTWjU6riNW5GDcE69Mx2AOv4HrLva5VO13HnaSRr4tZ0rpwldlJSjEBE18cv5+YmvDMVWYtMOiXCk=
+X-Received: by 2002:ad4:5b81:0:b0:615:a787:6d2a with SMTP id
+ 1-20020ad45b81000000b00615a7876d2amr3364150qvp.3.1684491581435; Fri, 19 May
+ 2023 03:19:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230321181610.GE20234@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+References: <20230518153214.194976-1-hdegoede@redhat.com> <20230518153214.194976-2-hdegoede@redhat.com>
+ <CAHp75Vf6t302XpVKKgm1uyHQ5LsuqSEE+B3AGc1-ODoev77ENA@mail.gmail.com> <9375a528-8e39-304e-9b60-99ea43e16ec0@redhat.com>
+In-Reply-To: <9375a528-8e39-304e-9b60-99ea43e16ec0@redhat.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 19 May 2023 13:19:05 +0300
+Message-ID: <CAHp75VfbmhTkNz6zQNN_+ehwJXFSoy2xV3HH0mHwN00ojOZGwg@mail.gmail.com>
+Subject: Re: [PATCH 1/9] media: v4l: Add v4l2_acpi_parse_sensor_gpios() helper function
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -83,161 +76,57 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Mar 21, 2023 at 08:16:10PM +0200, Laurent Pinchart wrote:
-> Hi Benjamin,
-> 
-> Thank you for the patch.
-> 
-> On Tue, Mar 21, 2023 at 11:28:49AM +0100, Benjamin Gaignard wrote:
-> > Instead of a static array change bufs to a dynamically allocated array.
-> > This will allow to store more video buffer if needed.
-> > Protect the array with a spinlock.
-> 
-> I think I asked in the review of v1 why we couldn't use the kernel
-> IDA/IDR APIs to allocate buffer IDs and register buffers, but I don't
-> think I've received a reply. Wouldn't it be better than rolling out our
-> own mechanism ?
-> 
+On Thu, May 18, 2023 at 7:57=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
+ wrote:
+> On 5/18/23 18:36, Andy Shevchenko wrote:
+> > On Thu, May 18, 2023 at 6:32=E2=80=AFPM Hans de Goede <hdegoede@redhat.=
+com> wrote:
 
-+1, with a note that [1] suggests that IDR is deprecated and XArray[2]
-should be used instead.
+...
 
-[1] https://docs.kernel.org/core-api/idr.html
-[2] https://docs.kernel.org/core-api/xarray.html
+> >> + * Note this code uses the same DSM GUID as the INT3472 discrete.c co=
+de
+> >> + * and there is some overlap, but there are enough differences that i=
+t is
+> >> + * difficult to share the code.
+> >
+> > Can you add the name of the variable in that file, so likely the
+> > source code indexing tool might add a link?
+>
+> You mean change the comment something like this:
+>
+>  * Note this code uses the same DSM GUID as the int3472_gpio_guid in
+>  * the INT3472 discrete.c code and there is some overlap, but there are
+>  * enough differences that it is difficult to share the code.
+>
+> I guess, where int3472_gpio_guid comes from:
+>
+> drivers/platform/x86/intel/int3472/discrete.c:
+>
+> static const guid_t int3472_gpio_guid =3D
+>         GUID_INIT(0x79234640, 0x9e10, 0x4fea,
+>                   0xa5, 0xc1, 0xb5, 0xaa, 0x8b, 0x19, 0x75, 0x6f);
+>
+>
+> ?
 
-Also from my quick look, XArray may be solving the locking concerns for us
-automatically.
+Yes!
 
-Best regards,
-Tomasz
+...
 
-> > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > ---
-> >  .../media/common/videobuf2/videobuf2-core.c   |  8 +++
-> >  include/media/videobuf2-core.h                | 49 ++++++++++++++++---
-> >  2 files changed, 49 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> > index 79e90e338846..ae9d72f4d181 100644
-> > --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> > +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> > @@ -2452,6 +2452,13 @@ int vb2_core_queue_init(struct vb2_queue *q)
-> >  	mutex_init(&q->mmap_lock);
-> >  	init_waitqueue_head(&q->done_wq);
-> >  
-> > +	q->max_num_bufs = 32;
-> > +	q->bufs = kmalloc_array(q->max_num_bufs, sizeof(*q->bufs), GFP_KERNEL | __GFP_ZERO);
-> > +	if (!q->bufs)
-> > +		return -ENOMEM;
-> > +
-> > +	spin_lock_init(&q->bufs_lock);
-> > +
-> >  	q->memory = VB2_MEMORY_UNKNOWN;
-> >  
-> >  	if (q->buf_struct_size == 0)
-> > @@ -2479,6 +2486,7 @@ void vb2_core_queue_release(struct vb2_queue *q)
-> >  	mutex_lock(&q->mmap_lock);
-> >  	__vb2_queue_free(q, q->num_buffers);
-> >  	mutex_unlock(&q->mmap_lock);
-> > +	kfree(q->bufs);
-> >  }
-> >  EXPORT_SYMBOL_GPL(vb2_core_queue_release);
-> >  
-> > diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-> > index 5b1e3d801546..397dbf6e61e1 100644
-> > --- a/include/media/videobuf2-core.h
-> > +++ b/include/media/videobuf2-core.h
-> > @@ -558,6 +558,8 @@ struct vb2_buf_ops {
-> >   * @dma_dir:	DMA mapping direction.
-> >   * @bufs:	videobuf2 buffer structures
-> >   * @num_buffers: number of allocated/used buffers
-> > + * @bufs_lock: lock to protect bufs access
-> > + * @max_num_bufs: max number of buffers storable in bufs
-> >   * @queued_list: list of buffers currently queued from userspace
-> >   * @queued_count: number of buffers queued and ready for streaming.
-> >   * @owned_by_drv_count: number of buffers owned by the driver
-> > @@ -619,8 +621,10 @@ struct vb2_queue {
-> >  	struct mutex			mmap_lock;
-> >  	unsigned int			memory;
-> >  	enum dma_data_direction		dma_dir;
-> > -	struct vb2_buffer		*bufs[VB2_MAX_FRAME];
-> > +	struct vb2_buffer		**bufs;
-> >  	unsigned int			num_buffers;
-> > +	spinlock_t			bufs_lock;
-> > +	size_t				max_num_bufs;
-> >  
-> >  	struct list_head		queued_list;
-> >  	unsigned int			queued_count;
-> > @@ -1239,9 +1243,16 @@ static inline void vb2_clear_last_buffer_dequeued(struct vb2_queue *q)
-> >  static inline struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q,
-> >  						unsigned int index)
-> >  {
-> > -	if (index < q->num_buffers)
-> > -		return q->bufs[index];
-> > -	return NULL;
-> > +	struct vb2_buffer *vb = NULL;
-> > +
-> > +	spin_lock(&q->bufs_lock);
-> > +
-> > +	if (index < q->max_num_bufs)
-> > +		vb = q->bufs[index];
-> > +
-> > +	spin_unlock(&q->bufs_lock);
-> > +
-> > +	return vb;
-> >  }
-> >  
-> >  /**
-> > @@ -1251,12 +1262,30 @@ static inline struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q,
-> >   */
-> >  static inline bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
-> >  {
-> > -	if (vb->index < VB2_MAX_FRAME) {
-> > +	bool ret = false;
-> > +
-> > +	spin_lock(&q->bufs_lock);
-> > +
-> > +	if (vb->index >= q->max_num_bufs) {
-> > +		struct vb2_buffer **tmp;
-> > +
-> > +		tmp = krealloc_array(q->bufs, q->max_num_bufs * 2, sizeof(*q->bufs), GFP_KERNEL);
-> > +		if (!tmp)
-> > +			goto realloc_failed;
-> > +
-> > +		q->max_num_bufs *= 2;
-> > +		q->bufs = tmp;
-> > +	}
-> > +
-> > +	if (vb->index < q->max_num_bufs) {
-> >  		q->bufs[vb->index] = vb;
-> > -		return true;
-> > +		ret = true;
-> >  	}
-> >  
-> > -	return false;
-> > +realloc_failed:
-> > +	spin_unlock(&q->bufs_lock);
-> > +
-> > +	return ret;
-> >  }
-> >  
-> >  /**
-> > @@ -1266,8 +1295,12 @@ static inline bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *
-> >   */
-> >  static inline void vb2_queue_remove_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
-> >  {
-> > -	if (vb->index < VB2_MAX_FRAME)
-> > +	spin_lock(&q->bufs_lock);
-> > +
-> > +	if (vb->index < q->max_num_bufs)
-> >  		q->bufs[vb->index] = NULL;
-> > +
-> > +	spin_unlock(&q->bufs_lock);
-> >  }
-> >  
-> >  /*
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+> >> +       devm_acpi_dev_add_driver_gpios(dev, data.map->mapping);
+> >
+> > Won't we print a warning here as well in case of error?
+>
+> The only way this can fail is with -ENOMEM (we already know dev
+> has an ACPI companion) and generally speaking the rule is to
+> not log errors for ENOMEM since when we hit that the kernel
+> already complains loudly before returning from the alloc call.
+
+But this is based on the information about internal implementation of
+the above mentioned API. Strictly speaking it might return, in the
+future, another error code as well.
+
+--=20
+With Best Regards,
+Andy Shevchenko
