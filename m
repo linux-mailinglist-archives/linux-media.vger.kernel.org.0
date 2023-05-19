@@ -2,141 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 95F99709526
-	for <lists+linux-media@lfdr.de>; Fri, 19 May 2023 12:37:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42913709585
+	for <lists+linux-media@lfdr.de>; Fri, 19 May 2023 12:58:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232035AbjESKhD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 May 2023 06:37:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55086 "EHLO
+        id S230395AbjESK6g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 May 2023 06:58:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232031AbjESKg3 (ORCPT
+        with ESMTP id S231309AbjESK6f (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 May 2023 06:36:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8E471FE8
-        for <linux-media@vger.kernel.org>; Fri, 19 May 2023 03:35:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1684492515;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=4oiYFKF2ugMD0sw+r8TK6rHGBZgsXSE7VHswmxOaISI=;
-        b=Sc5PvkAgHk6+GLXKlYMJwFgLj2cLpemi1QJrVghomxZmwKv3cbrJQRbK/DfUJhsh1bddEO
-        AlHZtJxa8SXY4zugSEBOnqDHX2BJ93czQYUV5lAqCEORymMdjCHIdMx9lc+OkXPLy535HZ
-        NlqVLv/m+ei9yns2spm20yzdrOJ6I0Y=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-408-zaudn9FKPnOoWisJkraqkQ-1; Fri, 19 May 2023 06:35:13 -0400
-X-MC-Unique: zaudn9FKPnOoWisJkraqkQ-1
-Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-506b21104faso1899625a12.1
-        for <linux-media@vger.kernel.org>; Fri, 19 May 2023 03:35:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684492512; x=1687084512;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4oiYFKF2ugMD0sw+r8TK6rHGBZgsXSE7VHswmxOaISI=;
-        b=ZzoYqRV9NnLL6FZEu1eG2eDIrDf3r7ZKtJeTLfJG93HTW+UJPbolBPGwPCXKRQ7cU7
-         fl/lYKt9OOGRB/f0SUonTvNjIZ4Y9Z0fvX6bVwLMkeqHuI0XP3g1NWy2R9efCkZq903x
-         qF4HbtLuPCikYvn1qiB0T5vBCFjMZQAGxyOenM0h9emyGEoA7ItxI3IZDl7NqGwK0uV+
-         hTdMSdYkH0CIv8J8Pt1c+El2jmU+hTj601MKEZZZnKwEB43iTmAkfatwnwf7bV2p5sOq
-         U6lspmtVJoAA7pUxDPA6RYkHvxHwmqtn8zR+DKSXR0d/4ysVmpt82xQstXo0pENl9kge
-         3P6w==
-X-Gm-Message-State: AC+VfDzLT3sIbsyYaAFXoqBJslzU8FowladpR7iPkeWv0oY0bCjb4fRJ
-        +WfP7D+OHph4ieojNxwv3/pN/7gE39NOVNu1JZSYB/CsuWW5X52wpCmfztbyAffpJV6a/MitYt4
-        kHjRExcquqFD8NqMeM8d1020=
-X-Received: by 2002:aa7:d9d2:0:b0:506:83fc:2dab with SMTP id v18-20020aa7d9d2000000b0050683fc2dabmr1257741eds.22.1684492512589;
-        Fri, 19 May 2023 03:35:12 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6PDN6DC+R6+VJHY1CRMB1hRVFb5nwZRIO8XORwzgXUe0GWqQDS7FD+nSE0QIfKdL4fmCo4lg==
-X-Received: by 2002:aa7:d9d2:0:b0:506:83fc:2dab with SMTP id v18-20020aa7d9d2000000b0050683fc2dabmr1257728eds.22.1684492512325;
-        Fri, 19 May 2023 03:35:12 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id y13-20020aa7d50d000000b00504ecc4fa96sm1520283edq.95.2023.05.19.03.35.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 May 2023 03:35:11 -0700 (PDT)
-Message-ID: <e7dd784e-5273-a66b-ce1b-7959ac55d596@redhat.com>
-Date:   Fri, 19 May 2023 12:35:10 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 7/9] media: atomisp: gc0310: Remove gc0310_s_config()
- function
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+        Fri, 19 May 2023 06:58:35 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21A35E6E
+        for <linux-media@vger.kernel.org>; Fri, 19 May 2023 03:58:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1684493914; x=1716029914;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZWixZ4MT90UI9L7ETzZa110ghC7q7ws50AU4tI0e66A=;
+  b=OZzBmMzEwdNkUGuW4ul0XE8hWaoDoo9VD0BU+FHxOZ+AHEY1Wi/Ty3xJ
+   XTNSdZ7f038mxMLADV/qYA/1oqR3edkf8LzGW7ptmwxRKTMuIj9EumlWq
+   /kzWMJ9JJNyYS6ZvYDnBhdVQNDmRezRk4qX7KZ/0q79WD0Q8mn75VqNnv
+   VyUqO1ZfDI2DOg+rMFYrxOxp3UWZDiEOyVfGQZ9vgRxPDgUZkmnemxPDI
+   khqHMv8swmDXCvzHhBldxSTZOG4mc2Os/NGGPYoOdb7SDR5AHMHVO2Qdn
+   RWqBPYJCfHUFkn5V/rTjB1ZLcFg4MEWUC3CAVZ8oglVVujx+jL11R4M7b
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="352362007"
+X-IronPort-AV: E=Sophos;i="6.00,176,1681196400"; 
+   d="scan'208";a="352362007"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2023 03:58:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="792332096"
+X-IronPort-AV: E=Sophos;i="6.00,176,1681196400"; 
+   d="scan'208";a="792332096"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2023 03:58:31 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 44F88120279;
+        Fri, 19 May 2023 13:58:28 +0300 (EEST)
+Date:   Fri, 19 May 2023 10:58:28 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
         Tsuchiya Yuto <kitakar@gmail.com>,
         Yury Luneff <yury.lunev@gmail.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 1/9] media: v4l: Add v4l2_acpi_parse_sensor_gpios()
+ helper function
+Message-ID: <ZGdWVATARAQlaEjC@kekkonen.localdomain>
 References: <20230518153214.194976-1-hdegoede@redhat.com>
- <20230518153214.194976-8-hdegoede@redhat.com>
- <CAHp75VcnXs3wmE0waf6oQM2-sax83RaEh5ESi-jN9f7FpQ0HXQ@mail.gmail.com>
-Content-Language: en-US, nl
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAHp75VcnXs3wmE0waf6oQM2-sax83RaEh5ESi-jN9f7FpQ0HXQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+ <20230518153214.194976-2-hdegoede@redhat.com>
+ <ZGcl7+cKu0/h43YC@kekkonen.localdomain>
+ <cb4e56fd-0745-6040-6d93-bd8eb1d23ce1@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cb4e56fd-0745-6040-6d93-bd8eb1d23ce1@redhat.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-HI,
+Hi Hans,
 
-On 5/19/23 12:32, Andy Shevchenko wrote:
-> On Thu, May 18, 2023 at 6:32 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> gc0310_s_config() used to call camera_sensor_platform_data.csi_cfg() back
->> when the gc0310 driver was still using the atomisp_gmin_platform code
->> for power-management.
->>
->> Now it is just a weirdly named wrapper around gc0310_detect(), drop
->> gc0310_s_config() and make probe() call gc0310_detect() directly.
+On Fri, May 19, 2023 at 10:55:42AM +0200, Hans de Goede wrote:
+> Hi Sakari,
 > 
-> ...
+> On 5/19/23 09:31, Sakari Ailus wrote:
+> > Hi Hans,
+> > 
+> > On Thu, May 18, 2023 at 05:32:06PM +0200, Hans de Goede wrote:
+> >> On x86/ACPI platforms the GPIO resources do not provide information
+> >> about which GPIO resource maps to which connection-id. So e.g.
+> >> gpiod_get(devg, "reset") does not work.
+> >>
+> >> On devices with an Intel IPU3 or newer ISP there is a special ACPI
+> >> INT3472 device describing the GPIOs and instantiating of the i2c_client
+> >> for a sensor is deferred until the INT3472 driver has been bound based
+> >> on the sensor ACPI device having a _DEP on the INT3472 ACPI device.
+> >>
+> >> This allows the INT3472 driver to add the necessary GPIO lookups
+> >> without needing any special ACPI handling in the sensor driver.
+> >>
+> >> Unfortunately this does not work on devices with an atomisp2 ISP,
+> >> there the _DSM describing the GPIOs is part of the sensor ACPI device
+> >> itself, rather then being part of a separate ACPI device.
+> >>
+> >> IOW there is no separate firmware-node to which we can bind to register
+> >> the GPIO lookups (and also no way to defer creating the sensor i2c_client).
+> >>
+> >> This unfortunately means that all sensor drivers which may be used on
+> >> BYT or CHT hw need some code to deal with ACPI integration.
+> >>
+> >> This patch adds a new v4l2_acpi_parse_sensor_gpios() helper function
+> >> for this, which does all the necessary work. This minimizes the
+> >> (unavoidable) change to sensor drivers for ACPI integration to just
+> >> adding a single line calling this void function to probe().
+> > 
+> > I'd rather avoid making changes to sensor drivers due to this hack. At the
+> > very least it must be labelled so: this has no more to do with ACPI
+> > standard than that this information happens to be located in an ACPI table.
 > 
->> -       ret = i2c_smbus_read_word_swapped(client, GC0310_SC_CMMN_CHIP_ID_H);
->> +       ret = pm_runtime_get_sync(&client->dev);
->> +       if (ret >= 0)
->> +               ret = i2c_smbus_read_word_swapped(client, GC0310_SC_CMMN_CHIP_ID_H);
->> +       pm_runtime_put(&client->dev);
->>         if (ret < 0) {
->>                 dev_err(&client->dev, "read sensor_id failed: %d\n", ret);
->>                 return -ENODEV;
+> IMHO this is definitely a problem with a mismatch between how the ACPI spec.
+> describes GPIOs vs the linux GPIO APIs which are based on the DT model
 > 
-> Not sure if it's good to have in this patch, but above can be cleaned up to
+> Almost all drivers which deal with ACPI enumerated devices also have to
+> deal with this mismatch. Most drivers come with their own acpi_gpio_mapping
+> table and call devm_acpi_dev_add_driver_gpios() before doing any gpiod_get()
+> calls because of this. This is in no way unique to sensor drivers.
 > 
->       pm_runtime_get_sync(&client->dev);
->       ret = i2c_smbus_read_word_swapped(client, GC0310_SC_CMMN_CHIP_ID_H);
->       pm_runtime_put(&client->dev);
->       if (ret < 0) {
->                dev_err(&client->dev, "read sensor_id failed: %d\n", ret);
->                return ret;
->       }
+> The only way around this is embedding DT bits inside ACPI and if anything
+> the embedding DT bits inside ACPI is the hack here.
 > 
-> But I don't know what will be the response on the I2C bus if the
-> device is powered off.
+> Anyways whether this is a hack or not is bikeshedding. But your calling
+> it a hack seems to come from a somewhat devicetree centric view; at least
+> doing the DT embedding thing is certainly the exception and not the rule
+> in the ACPI world since most ACPI tables are written for Windows which
+> does not use the embedded DT bits.
+> 
+> The Intel ISP/IPU sensor GPIO handling is a bit special because instead
+> of having a simple index -> connection-id mapping it involves a _DSM,
+> but that part is all abstracted away inside the new helper and actually
+> avoids the need to have an acpi_gpio_mapping per sensor-driver, which would
+> be the normal way to deal with this and which would actually mean a lot
+> more code per driver.
 
-In my experience the i2c bus tends to get stuck when using it with
-the sensor powered down and unsticking it is tricky (seems to
-require a full i2c-controller reset).
+I'm not referring referring to differences in GPIOs between ACPI and Linux,
+but the rest, and why drivers need to call the newly added function.
 
-So it is best to not even try if the pm_runtime_get_sync() fails
-for some reason.
+> 
+> > Although if the number of those drivers would be small, this could be just
+> > undesirable but still somehow acceptable. And I wouldn't expect new sensors
+> > to be paired with the IPU2 anymore. How many drivers there would be
+> > roughly? I think I've seen ten-ish sensor drivers with the atomisp driver.
+> 
+> About ten-ish drivers sounds right.
+> 
+> > Isn't it possible to create a device for this purpose and use software
+> > nodes for the GPIOs? I guess that would be a hack as well and you'd somehow
+> > have to initialise this via other route than driver probe.
+> 
+> This creates unsolvable probe-ordering problems. At a minimum we would
+> need some check inside sensor drivers for them to return -EPROBE_DEFER
+> until the GPIO mappings are added through some other means. Note that
+> without the mappings gpiod_get will return -ENOENT, so we cannot just
+> use its return value.
 
-Regards,
+They probably will already need this in order to make sure the atomisp
+bridge has been initialised.
 
-Hans
+Could this code live in the atomisp bridge instead?
 
+> 
+> And if we need some changes anyways just adding the single line call
+> to the new helper seems both the least invasive and the easiest.
 
+Simplest given the current patches, surely. But nothing to do with the
+sensor drivers. I'd at least like to see relatively trivial ways to avoid
+this researched first.
 
+-- 
+Kind regards,
 
+Sakari Ailus
