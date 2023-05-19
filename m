@@ -2,50 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD669708C85
-	for <lists+linux-media@lfdr.de>; Fri, 19 May 2023 01:47:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41CF1708C94
+	for <lists+linux-media@lfdr.de>; Fri, 19 May 2023 02:03:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229865AbjERXrk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 May 2023 19:47:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45568 "EHLO
+        id S229695AbjESADF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 May 2023 20:03:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229524AbjERXri (ORCPT
+        with ESMTP id S229487AbjESADE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 May 2023 19:47:38 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89CD3E57;
-        Thu, 18 May 2023 16:47:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=ZySnlc2Ml9xHMuunSy4Tjl3AX6LIZep9S+GkxtV0tZE=; b=yeNVEuhHvJPqncFuyGKgjR8JyH
-        MCruxXJ225HX1uwdRUGDxZBwPjW3z7fKLUw9JSYdonwqPrXv5Ah9KbkWkNClPpjOdrDyziQf77UbN
-        SGTedecdDzYGgMYAHaY5VKugybmf5/UtSb+a817qYka+zjcdQXtg+CKLeaWUs9AtOdkwfYZgAPsfX
-        DAhTxRD+WjMM4//yGTQurTd7hQS4NZMAEvJYsntLGnzjoEbXiRgrAkXx+8H0IkXW10cN/KNSPBN0a
-        ycXfjO7tqx4m+IC+pk9Ys2GZHLYDNfeNPs2qSZLRen8dvxp6ZoLhAVkYu6R0yczet7xpOtnKihkfZ
-        QV9IL1wg==;
-Received: from [2601:1c2:980:9ec0::2764] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1pznLM-00EUvN-30;
-        Thu, 18 May 2023 23:47:37 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        kernel test robot <lkp@intel.com>,
-        Athanasios Oikonomou <athoik@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH] media: frontend.h.rst.exceptions: add more dvb define exceptions
-Date:   Thu, 18 May 2023 16:47:35 -0700
-Message-Id: <20230518234735.20289-1-rdunlap@infradead.org>
+        Thu, 18 May 2023 20:03:04 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B233DE77
+        for <linux-media@vger.kernel.org>; Thu, 18 May 2023 17:03:03 -0700 (PDT)
+Received: from db550.. (node-1w7jr9st5p2esmclet71ntnwp.ipv6.telus.net [IPv6:2001:569:beb1:1500:6f9d:3a5c:4d25:e949])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: dbrouwer)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id DF90E660572A;
+        Fri, 19 May 2023 01:03:00 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1684454582;
+        bh=0P8l8jhwA7b/zYArG6Pbxvy35RkHYmCbfLeAq+59UDs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=FDluQ8EAE3vnIbjim0NNxLVWsL1RM+k6udT8CFIB/26kCLjISEWJlaoMRCvKWDJZc
+         IGngYyxAb6Oxc7f3KENxhrpdgu1ruHFAQLHbfqmoYo/g1gu4N9I3QYoJ1SL92cqdxf
+         7eISA2in0uVu5sNDq4oEcdSD8g6Mt69WInpNOF/6f2thTlEICvs+znllM0dB9U3OCx
+         x9Tl7g24SwOrBs3Fy+NHY051S/+0+4QoUywWntf9i+bj2ldtTEkWubfrjWZFGkjiSn
+         WA5ZbHi78SVlYW+yFoM0dF1tyD9/KcYHxnVwN8XeMPd0VWGo2L38mJCCgR9nkF7+rG
+         FX4QWdCvT+QfQ==
+From:   Deborah Brouwer <deborah.brouwer@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     hverkuil-cisco@xs4all.nl,
+        Deborah Brouwer <deborah.brouwer@collabora.com>
+Subject: [PATCH 0/2] v4l2-tracer: add tuner ioctls
+Date:   Thu, 18 May 2023 17:02:46 -0700
+Message-Id: <cover.1684453027.git.deborah.brouwer@collabora.com>
 X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,44 +52,28 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Building documentation reports multiple warnings for undefined DVB
-frontend labels:
+This is just some tracing for tuners that I was
+recently using to debug bttv, and then revised after
+looking at this helpful patch:
 
-Documentation/output/frontend.h.rst:6: WARNING: undefined label: 'fec-11-45'
-Documentation/output/frontend.h.rst:6: WARNING: undefined label: 'fec-4-15'
-Documentation/output/frontend.h.rst:6: WARNING: undefined label: 'fec-14-45'
-Documentation/output/frontend.h.rst:6: WARNING: undefined label: 'fec-7-15'
-Documentation/output/frontend.h.rst:6: WARNING: undefined label: 'fec-11-45'
-Documentation/output/frontend.h.rst:6: WARNING: undefined label: 'fec-4-15'
-Documentation/output/frontend.h.rst:6: WARNING: undefined label: 'fec-14-45'
-Documentation/output/frontend.h.rst:6: WARNING: undefined label: 'fec-7-15'
+https://lore.kernel.org/linux-media/20230518133649.6913-1-marex@denx.de/T/#u
 
-so add those symbols to the ignore list to prevent the build warnings.
+Incidentally these changes are independent of the
+v4l2-tracer debug series so could be added before
+or after.
 
-Fixes: 1825788e2a96 ("media: dvb: add missing DVB-S2X FEC parameter values")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Reported-by: kernel test robot <lkp@intel.com>
-Link: https://lore.kernel.org/linux-media/202305162245.wtaLIXf3-lkp@intel.com/
-Cc: Athanasios Oikonomou <athoik@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/userspace-api/media/frontend.h.rst.exceptions |    4 ++++
- 1 file changed, 4 insertions(+)
+https://lore.kernel.org/linux-media/cover.1681245372.git.deborah.brouwer@collabora.com/
 
-diff -- a/Documentation/userspace-api/media/frontend.h.rst.exceptions b/Documentation/userspace-api/media/frontend.h.rst.exceptions
---- a/Documentation/userspace-api/media/frontend.h.rst.exceptions
-+++ b/Documentation/userspace-api/media/frontend.h.rst.exceptions
-@@ -142,6 +142,10 @@ ignore symbol FEC_26_45
- ignore symbol FEC_28_45
- ignore symbol FEC_32_45
- ignore symbol FEC_77_90
-+ignore symbol FEC_11_45
-+ignore symbol FEC_4_15
-+ignore symbol FEC_14_45
-+ignore symbol FEC_7_15
- 
- ignore symbol TRANSMISSION_MODE_AUTO
- ignore symbol TRANSMISSION_MODE_1K
+Deborah Brouwer (2):
+  v4l2-tracer: stop stringifying v4l2_input "tuner"
+  v4l2-tracer: add G/S TUNER ioctls
+
+ utils/v4l2-tracer/libv4l2tracer.cpp  |  2 ++
+ utils/v4l2-tracer/retrace.cpp        | 28 ++++++++++++++++++++++++++
+ utils/v4l2-tracer/trace.cpp          |  4 ++++
+ utils/v4l2-tracer/v4l2-tracer-gen.pl | 30 ++++++++++++++++++++++++----
+ 4 files changed, 60 insertions(+), 4 deletions(-)
+
+-- 
+2.40.1
+
