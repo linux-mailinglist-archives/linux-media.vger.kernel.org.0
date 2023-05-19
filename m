@@ -2,166 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E2837092D2
-	for <lists+linux-media@lfdr.de>; Fri, 19 May 2023 11:17:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4F27709456
+	for <lists+linux-media@lfdr.de>; Fri, 19 May 2023 12:00:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231273AbjESJRR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 May 2023 05:17:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58934 "EHLO
+        id S231151AbjESKAg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 May 2023 06:00:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230102AbjESJRP (ORCPT
+        with ESMTP id S229932AbjESKAe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 May 2023 05:17:15 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E415B18F;
-        Fri, 19 May 2023 02:17:14 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-64ab2a37812so438783b3a.1;
-        Fri, 19 May 2023 02:17:14 -0700 (PDT)
+        Fri, 19 May 2023 06:00:34 -0400
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4EE99C
+        for <linux-media@vger.kernel.org>; Fri, 19 May 2023 03:00:32 -0700 (PDT)
+Received: by mail-pl1-x631.google.com with SMTP id d9443c01a7336-1ae3fe67980so31087785ad.3
+        for <linux-media@vger.kernel.org>; Fri, 19 May 2023 03:00:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684487834; x=1687079834;
-        h=content-transfer-encoding:mime-version:user-agent:reply-to
-         :references:in-reply-to:message-id:date:cc:subject:to:from:from:to
+        d=chromium.org; s=google; t=1684490432; x=1687082432;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=pML/CJ5AzO8Y1Q5MVMGAt5BklSevbhhmDurHzLv15/w=;
-        b=ZnzRDcW+7ojFFAswCyMiTb0N5L4YQNNImaKTkczdq0Wmhm98cK8tKbIzG/4qNo0JA2
-         eoJpEcQyPJh4VjaLsTTX+F81vK+OmS1/e4kiJT2ydMjERvbwA1u9iYOwg2Q+C73Dx3OE
-         8emO2qdiBlBytAHrhivalCuXK9VEyAQRPuWYZzQ1YEVfVKR8QQMuWw3dAUrBFBipt+BV
-         YLqLZBkCI5C1AWxPzgpFoxg3GBAj09irkEXnDiP55STttJX9RRoO6vOqVu1QxqFu58yT
-         6NjIosOmKBIO5rChaQ1VVbks5SDDkMImSU6VPBAXoKBMI/mYDmjJ2f0S5UPlNnndFDBD
-         2Gyg==
+        bh=bxFT/eH6fI01yzQTav7apbXJs4Zkvkdbiyhdl2n33zI=;
+        b=cvDpCNTPA3iJ2kdFkRCSMFHRtdReYV2KXQhy8iT3L9ZJ57nbIqLq8LmQb7Z118jA9Z
+         SeD9I7cI3Y8OG8enSiToTsSgDB8PDXjPB4UZO1pcKN7MMHybvVarhYsNfDvDhCTgFGvb
+         ZFPdyRXJ9FO6OyoWmqeWJD7xnpT4bdCerCbZ8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684487834; x=1687079834;
-        h=content-transfer-encoding:mime-version:user-agent:reply-to
-         :references:in-reply-to:message-id:date:cc:subject:to:from
+        d=1e100.net; s=20221208; t=1684490432; x=1687082432;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pML/CJ5AzO8Y1Q5MVMGAt5BklSevbhhmDurHzLv15/w=;
-        b=KSbWR0ZfiwIqAYWc9RbYHZOxrxU1LNJdrGC/NSBMklXBUrwk6xIgJykCKVYWrmjRqC
-         yaNGeM6d1478Gzki3hXoB5F/biNHBzVjZO5yeH26KVjaqG+aAzSuD5zqroE4kroAs2W8
-         Qt7/HSubFdHiU0v1VNSHf16x3kFZLy03mthEjGfoyhkuiDCi+iYZxvWyE0BUB63dYvpl
-         nyTkm153dZMf1nA7nhFnIDroXW4Kw7SA5y3WZ41Dgx5mhuhEYpPCsZ6Sfn/W26k+XqCO
-         JiYaSNQU3QLFfdUJLplZ9zHauyeEFcjmK6ljEL/KkjTZe9vA6PFcd2/Xpu/K0N8Os79o
-         im6w==
-X-Gm-Message-State: AC+VfDy9KW75eWPLvYz5rASZs+h9eUzlZwH4D/i4B8c3OKozzcbE1Je8
-        7dc6CQT0DAOxvgeEfFvJt0Q=
-X-Google-Smtp-Source: ACHHUZ7WvZXvQtaH6Xlv2rBuSqwBTvgbH045gBp6/5i5F2P2POLbDSPLnckiMb1Q/VE48QHhSBet1w==
-X-Received: by 2002:a17:902:e851:b0:1a9:57b4:9d5a with SMTP id t17-20020a170902e85100b001a957b49d5amr1863542plg.31.1684487834220;
-        Fri, 19 May 2023 02:17:14 -0700 (PDT)
-Received: from [10.79.86.7] (wf122-007.ust.hk. [175.159.122.7])
-        by smtp.gmail.com with ESMTPSA id p16-20020a1709027ed000b001a96a6877fdsm3011491plb.3.2023.05.19.02.17.12
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 19 May 2023 02:17:13 -0700 (PDT)
-From:   "Wei Chen" <harperchen1110@gmail.com>
-To:     zzam@gentoo.org, "Mauro Carvalho Chehab" <mchehab@kernel.org>
-Subject: Re: [PATCH 05/24] media: dvb-usb-v2: ec168: fix null-ptr-deref in
- ec168_i2c_xfer()
-Cc:     "Antti Palosaari" <crope@iki.fi>, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Date:   Fri, 19 May 2023 09:17:10 +0000
-Message-Id: <em460c2fef-d14b-4cd9-97dd-ef7b52090a48@bb0cba59.com>
-In-Reply-To: <9f0a43e5-9f9b-b77b-d882-627251e585cc@gentoo.org>
-References: <53558de2b5c4f4ee6bfcfbe34e27071c2d0073d5.1684000646.git.mchehab@kernel.org>
- <7ced9f219d36cb0d3319b556dc0b0f4f81247fa6.1684000646.git.mchehab@kernel.org>
- <9f0a43e5-9f9b-b77b-d882-627251e585cc@gentoo.org>
-Reply-To: "Wei Chen" <harperchen1110@gmail.com>
-User-Agent: eM_Client/9.2.1818.0
+        bh=bxFT/eH6fI01yzQTav7apbXJs4Zkvkdbiyhdl2n33zI=;
+        b=V9QhqYFqXy4tavOfwfoo39Xqm9Usb4B60Qt7dEUVusdRYhx2gcoZC93t1i93GhgU5t
+         RZIOqjusyqiVpqE7fw4Je+SPWLLrb2E46NWHA6ckAG0SWjTH7/86172nOIroKHgTx0uh
+         LmBEeBI9Qqk9UWKEQwO+1kmN+rDLXrK6t9jl6rVlEkucpYqOorzU+T6ITouzQcYFhd26
+         X4XVAK9lyvK+AnFFsANzbkPp/5VJ8c4TiLX6tsV8Drji26zkii/PqsV7BEZDm2l6dvoh
+         T5j0j7t2AjiwjH6ZFfCoX0t0Mh/ltxPw277RLUmvFmvUwPe38iSbe64ukfDEwNvrL6kM
+         ailg==
+X-Gm-Message-State: AC+VfDx7Lgwru28ZXzc/evxI94WWhZWux27f6IEFqY5J4hWLJtTUZ2RP
+        FTgXyPPnbMzbgE0yTEPRJi6faQ==
+X-Google-Smtp-Source: ACHHUZ65Vmg+CYxf6B2/ULrLmerlLS1jMd3W4m8M1xENFlfJroRC/2WxG/uzsCpP0fQnBk7vlkPoRQ==
+X-Received: by 2002:a17:902:ef84:b0:1ad:bb42:7672 with SMTP id iz4-20020a170902ef8400b001adbb427672mr2227133plb.29.1684490430693;
+        Fri, 19 May 2023 03:00:30 -0700 (PDT)
+Received: from chromium.org (0.223.81.34.bc.googleusercontent.com. [34.81.223.0])
+        by smtp.gmail.com with ESMTPSA id a4-20020a1709027d8400b001ab12545508sm3043029plm.67.2023.05.19.03.00.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 May 2023 03:00:30 -0700 (PDT)
+Date:   Fri, 19 May 2023 10:00:24 +0000
+From:   Tomasz Figa <tfiga@chromium.org>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev,
+        m.szyprowski@samsung.com, mchehab@kernel.org, ming.qian@nxp.com,
+        shijie.qin@nxp.com, eagle.zhou@nxp.com, bin.liu@mediatek.com,
+        matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+        tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
+        yunfei.dong@mediatek.com, stanimir.k.varbanov@gmail.com,
+        quic_vgarodia@quicinc.com, agross@kernel.org, andersson@kernel.org,
+        konrad.dybcio@linaro.org, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, daniel.almeida@collabora.com,
+        lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, kernel@collabora.com
+Subject: Re: [PATCH v2 2/8] media: videobuf2: Make bufs array dynamic
+ allocated
+Message-ID: <20230519100024.en7immda3jdj2wwq@chromium.org>
+References: <4e2cb832-de83-4ba6-bd8a-119a19038cfe@kili.mountain>
+ <a88b93cc-a81f-6186-09fc-02223867e677@collabora.com>
+ <b0018f7b-0556-0ac1-d2fa-89787a27fba1@xs4all.nl>
+ <20230324084830.GA18895@pendragon.ideasonboard.com>
+ <d4b6ad10-1889-0a63-5a14-cb1320e2dc09@xs4all.nl>
+ <7ad524a1-c54f-a01c-3453-2cf1f0f82a13@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7ad524a1-c54f-a01c-3453-2cf1f0f82a13@collabora.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Linux Developers,
+On Fri, Mar 24, 2023 at 09:56:34AM +0100, Benjamin Gaignard wrote:
+> 
+> Le 24/03/2023 à 09:52, Hans Verkuil a écrit :
+> > On 24/03/2023 09:48, Laurent Pinchart wrote:
+> > > On Fri, Mar 24, 2023 at 09:31:35AM +0100, Hans Verkuil wrote:
+> > > > On 24/03/2023 09:11, Benjamin Gaignard wrote:
+> > > > > Le 24/03/2023 à 06:01, Dan Carpenter a écrit :
+> > > > > > Hi Benjamin,
+> > > > > > 
+> > > > > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > > > > > 
+> > > > > > url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Access-vb2_queue-bufs-array-through-helper-functions/20230321-183154
+> > > > > > base:   git://linuxtv.org/media_tree.git master
+> > > > > > patch link:    https://lore.kernel.org/r/20230321102855.346732-3-benjamin.gaignard%40collabora.com
+> > > > > > patch subject: [PATCH v2 2/8] media: videobuf2: Make bufs array dynamic allocated
+> > > > > > config: arm64-randconfig-m041-20230319 (https://download.01.org/0day-ci/archive/20230324/202303240148.lKRnUqW9-lkp@intel.com/config)
+> > > > > > compiler: aarch64-linux-gcc (GCC) 12.1.0
+> > > > > > 
+> > > > > > If you fix the issue, kindly add following tag where applicable
+> > > > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > > > | Reported-by: Dan Carpenter <error27@gmail.com>
+> > > > > > | Link: https://lore.kernel.org/r/202303240148.lKRnUqW9-lkp@intel.com/
+> > > > > > 
+> > > > > > smatch warnings:
+> > > > > > include/media/videobuf2-core.h:1272 vb2_queue_add_buffer() warn: sleeping in atomic context
+> > > > > > drivers/media/common/videobuf2/videobuf2-core.c:2456 vb2_core_queue_init() warn: Please consider using kcalloc instead of kmalloc_array
+> > > > > > 
+> > > > > > vim +1272 include/media/videobuf2-core.h
+> > > > > > 
+> > > > > > 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1263  static inline bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
+> > > > > > 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1264  {
+> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1265      bool ret = false;
+> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1266
+> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1267      spin_lock(&q->bufs_lock);
+> > > > > >                                                           ^^^^^^^^^^^^^^^^^^^^^^^
+> > > > > > Holding a spin lock.
+> > > > > > 
+> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1268
+> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1269      if (vb->index >= q->max_num_bufs) {
+> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1270          struct vb2_buffer **tmp;
+> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1271
+> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21 @1272          tmp = krealloc_array(q->bufs, q->max_num_bufs * 2, sizeof(*q->bufs), GFP_KERNEL);
+> > > > > >                                                                                                                                        ^^^^^^^^^^
+> > > > > > Sleeping allocation.  GFP_ATOMIC?  Or is there a way to move the
+> > > > > > allocation outside the lock?
+> > > > > I will add GFP_ATOMIC flag in next version.
+> > > > No need. Instead, don't use realloc here, just allocate a new array, copy over all
+> > > > the data from the old, and then switch q->bufs with the spinlock held. Then you
+> > > > can free the old one.
+> > > > 
+> > > > It's only when you update q->bufs that you need the lock.
+> > > The copy also needs to be protected by the lock.
+> > I suspect that that is not needed, since you shouldn't be able to add buffers here
+> > since a mutex should be held at this time.
+> > 
+> > That said, it's something that Benjamin needs to analyze.
 
-Thank you for the review for my patch in driver az6027 and ec168.
+I spent some time looking through the call sites of vb2_get_buffer() and
+how those can be called and it turned out to be a massive list of code
+paths, including a lot of calls originating from codec drivers calling
+vb2_find_buffer() in random contexts (possibly even interrupt). So a
+spinlock protecting the array pointer makes sense indeed.
 
-Yes, I agree with you. Sorry for my mistake. Since these two patches has al=
-ready been accepted and merged in git tree media, should I send a new patch =
-to revise this problem? Or how could I revise an accepted patch?
+> 
+> Does using GFP_ATOMIC is problematic ?
+> 
 
-Thanks,
-Wei
+Yes, because the ability to reclaim memory is drastically limited and
+the allocation is more likely to fail (as in: it's actually possible).
+(And generally the time with interrupts disabled should be minimized to
+keep system latency reasonable.)
 
-
------- Original Message ------
-From zzam@gentoo.org
-To "Mauro Carvalho Chehab" <mchehab@kernel.org>
-Cc "Wei Chen" <harperchen1110@gmail.com>; "Antti Palosaari" <crope@iki.fi>; =
-linux-kernel@vger.kernel.org; linux-media@vger.kernel.org
-Date 2023/5/17 13:10:34
-Subject Re: [PATCH 05/24] media: dvb-usb-v2: ec168: fix null-ptr-deref in e=
-c168_i2c_xfer()
-
->Am 13.05.23 um 19:57 schrieb Mauro Carvalho Chehab:
->>From: Wei Chen <harperchen1110@gmail.com>
->>
->>In ec168_i2c_xfer, msg is controlled by user. When msg[i].buf is null
->>and msg[i].len is zero, former checks on msg[i].buf would be passed.
->>If accessing msg[i].buf[0] without sanity check, null pointer deref
->>would happen. We add check on msg[i].len to prevent crash.
->>
->>Similar commit:
->>commit 0ed554fd769a ("media: dvb-usb: az6027: fix null-ptr-deref in az602=
-7_i2c_xfer()")
->>
->Review comment below.
->
->>Link: https://lore.kernel.org/linux-media/20230313085853.3252349-1-harper=
-chen1110@gmail.com
->>Signed-off-by: Wei Chen <harperchen1110@gmail.com>
->>Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
->>---
->>   drivers/media/usb/dvb-usb-v2/ec168.c | 12 ++++++++++++
->>   1 file changed, 12 insertions(+)
->>
->>diff --git a/drivers/media/usb/dvb-usb-v2/ec168.c b/drivers/media/usb/dvb=
--usb-v2/ec168.c
->>index 7ed0ab9e429b..0e4773fc025c 100644
->>--- a/drivers/media/usb/dvb-usb-v2/ec168.c
->>+++ b/drivers/media/usb/dvb-usb-v2/ec168.c
->>@@ -115,6 +115,10 @@ static int ec168_i2c_xfer(struct i2c_adapter *adap,=
- struct i2c_msg msg[],
->>   	while (i < num) {
->>   		if (num > i + 1 && (msg[i+1].flags & I2C_M_RD)) {
->>   			if (msg[i].addr =3D=3D ec168_ec100_config.demod_address) {
->>+				if (msg[i].len < 1) {
->>+					i =3D -EOPNOTSUPP;
->>+					break;
->>+				}
->>   				req.cmd =3D READ_DEMOD;
->>   				req.value =3D 0;
->>   				req.index =3D 0xff00 + msg[i].buf[0]; /* reg */
->>@@ -131,6 +135,10 @@ static int ec168_i2c_xfer(struct i2c_adapter *adap,=
- struct i2c_msg msg[],
->>   			}
->>   		} else {
->>   			if (msg[i].addr =3D=3D ec168_ec100_config.demod_address) {
->>+				if (msg[i].len < 1) {
->>+					i =3D -EOPNOTSUPP;
->>+					break;
->>+				}
->The check condition should be msg[i].len < 2 or !=3D 2. The following line=
-s access msg[i].buf elements 0 and 1.
->>   				req.cmd =3D WRITE_DEMOD;
->>   				req.value =3D msg[i].buf[1]; /* val */
->>   				req.index =3D 0xff00 + msg[i].buf[0]; /* reg */
->>@@ -139,6 +147,10 @@ static int ec168_i2c_xfer(struct i2c_adapter *adap,=
- struct i2c_msg msg[],
->>   				ret =3D ec168_ctrl_msg(d, &req);
->>   				i +=3D 1;
->>   			} else {
->>+				if (msg[i].len < 1) {
->>+					i =3D -EOPNOTSUPP;
->>+					break;
->>+				}
->>   				req.cmd =3D WRITE_I2C;
->>   				req.value =3D msg[i].buf[0]; /* val */
->>   				req.index =3D 0x0100 + msg[i].addr; /* I2C addr */
->
+Best regards,
+Tomasz
