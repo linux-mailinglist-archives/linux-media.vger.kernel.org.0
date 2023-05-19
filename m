@@ -2,51 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BA2E708C96
-	for <lists+linux-media@lfdr.de>; Fri, 19 May 2023 02:03:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2442708D0A
+	for <lists+linux-media@lfdr.de>; Fri, 19 May 2023 02:50:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230019AbjESADM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 May 2023 20:03:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49514 "EHLO
+        id S229631AbjESAum (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 May 2023 20:50:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229487AbjESADL (ORCPT
+        with ESMTP id S229468AbjESAul (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 May 2023 20:03:11 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56DD0E7A
-        for <linux-media@vger.kernel.org>; Thu, 18 May 2023 17:03:10 -0700 (PDT)
-Received: from db550.. (node-1w7jr9st5p2esmclet71ntnwp.ipv6.telus.net [IPv6:2001:569:beb1:1500:6f9d:3a5c:4d25:e949])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: dbrouwer)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 2CE5E6605941;
-        Fri, 19 May 2023 01:03:07 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1684454589;
-        bh=5+vLnWfECFQQbDZrTyB5dhzEXhBXmOvlAhl6z9yCoEg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GbDHRYc2GHc97n12CLKfoTskTdv2kfbcJgQeQOIDM0E+ULI0pTpCRXiFxrnDJZ7GE
-         XktC36DZNAhzgOJrjhJ+J2w45me+3GLh/APgnzdvu4qVn+AycvHOkczWJCxG57QzJC
-         T+4eapbQp3HGee1RnCbdl69DH0Q76IcWwA/UQZcdtk9uM5YmnN9RiWz6Kdfv1oDHBh
-         lI0cA0tvULfoA1a8p1bv25yXyEW7gLeFynTaAZK5SNgzgwol1xtEFa01NDhjENc4/J
-         O/ErDtYgWwimn7eVUkJf6URWoVwm7dQ4fjioChMijltvyzWzTQMlpl2Gl9olOfTXPH
-         vg0UvLUZkHUuA==
-From:   Deborah Brouwer <deborah.brouwer@collabora.com>
-To:     linux-media@vger.kernel.org
-Cc:     hverkuil-cisco@xs4all.nl,
-        Deborah Brouwer <deborah.brouwer@collabora.com>
-Subject: [PATCH 2/2] v4l2-tracer: add G/S TUNER ioctls
-Date:   Thu, 18 May 2023 17:02:48 -0700
-Message-Id: <2e818fa5c03aabe9ddb43b4ca69adfee92796e80.1684453027.git.deborah.brouwer@collabora.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <cover.1684453027.git.deborah.brouwer@collabora.com>
-References: <cover.1684453027.git.deborah.brouwer@collabora.com>
+        Thu, 18 May 2023 20:50:41 -0400
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45DDFBC;
+        Thu, 18 May 2023 17:50:40 -0700 (PDT)
+Received: by mail-pg1-x530.google.com with SMTP id 41be03b00d2f7-5304913530fso2461977a12.0;
+        Thu, 18 May 2023 17:50:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684457440; x=1687049440;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2YJeCVahMakSFFIeHkE0L5vaAYWzeS9qst+vBo++bi0=;
+        b=o9KS7YJOvUFKFJwPmR6sxid//+dzBMJMdAKwIV2GWa3HE08bImysrgjQUFZXaisQPg
+         5KnN6MlhqgV+sBm0JgUU3OpzXsZSKihu69r5hxYN+9iwEPOTmC9qR383e4VvFwrk0ImM
+         bx4z2c5KUEtGqCFHm1E5ax+XkPZqGPmnx8Jaz/0wcBBan9i0OP5KgeSVr+fLq5HFFfe0
+         AqhR4Sc66mlI9IHt4LycdAZOeb5rf+gHwp2Y7shK4ktdntMF2L7675JcF5LTOwu0x0cg
+         2BpZYBYNNhEzx7M8zn9iuvSlKPAnar7C+557g6WIOnGtRSXAI86xZDGTSiakJqrYc7vl
+         3xIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684457440; x=1687049440;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2YJeCVahMakSFFIeHkE0L5vaAYWzeS9qst+vBo++bi0=;
+        b=RlSP3rkwfU8GYRHL/6k1wsc9Lxx9fJVZReisMUUrPBtb9sA5KnqBpx8/tlKx5mxptk
+         ebfuDnNlQ+ntC3jQ+C3dkVeJ/mcFm2zN232JXUDAN9IRq/clhx0DXrRcwCek6yI2p0wZ
+         bOLYq6GDWM2SFexbWN3Gvrwo/JFm//0lQyYVWpL6s2QThIilEZKyi0CbJRUFoQ1CI2gp
+         AeKlNdVQeYnmJd63bFGhXNfQylWVtTSUWaDRNklN9FtY/fSr+vPNLVOwK4NFK3I3C+On
+         PVfxqDjkwj+t1WPI/lrnomuMZo6axKLJfdk6i5z4lubhZLkfVNFN3KISjehdPNWEz5Vh
+         b4wQ==
+X-Gm-Message-State: AC+VfDzfThlGpaK9zUmEcVis/HKmXYdmQFuvrehAW39Bz7JNdMmtmoBD
+        XcZ+u2oHt34ViwOjb1B7wf0=
+X-Google-Smtp-Source: ACHHUZ6CLi0rFkSdrmEapeDYyWv0hBxoiC6OCcv3dRQi7Xqx+W2RlMl6XDn2tS6AQBjEt5F+F20FZQ==
+X-Received: by 2002:a17:902:a515:b0:1ae:6efb:7a60 with SMTP id s21-20020a170902a51500b001ae6efb7a60mr830413plq.39.1684457439573;
+        Thu, 18 May 2023 17:50:39 -0700 (PDT)
+Received: from localhost (2603-800c-1a02-1bae-a7fa-157f-969a-4cde.res6.spectrum.com. [2603:800c:1a02:1bae:a7fa:157f:969a:4cde])
+        by smtp.gmail.com with ESMTPSA id l11-20020a170903244b00b001ac937171e4sm2039176pls.254.2023.05.18.17.50.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 May 2023 17:50:39 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Thu, 18 May 2023 14:50:37 -1000
+From:   Tejun Heo <tj@kernel.org>
+To:     jiangshanlai@gmail.com
+Cc:     linux-kernel@vger.kernel.org, kernel-team@meta.com,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 12/13] media: coda: Use alloc_ordered_workqueue() to
+ create ordered workqueues
+Message-ID: <ZGbH3YYeNHD_Uh6T@slm.duckdns.org>
+References: <20230509015032.3768622-1-tj@kernel.org>
+ <20230509015032.3768622-13-tj@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230509015032.3768622-13-tj@kernel.org>
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -54,148 +78,9 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add tracing and retracing for VIDIOC_G_TUNER and VIDIOC_S_TUNER.
+Applied to wq/for-6.5-cleanup-ordered.
 
-Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
----
- utils/v4l2-tracer/libv4l2tracer.cpp  |  2 ++
- utils/v4l2-tracer/retrace.cpp        | 28 ++++++++++++++++++++++++++++
- utils/v4l2-tracer/trace.cpp          |  4 ++++
- utils/v4l2-tracer/v4l2-tracer-gen.pl | 26 ++++++++++++++++++++++++++
- 4 files changed, 60 insertions(+)
+Thanks.
 
-diff --git a/utils/v4l2-tracer/libv4l2tracer.cpp b/utils/v4l2-tracer/libv4l2tracer.cpp
-index a9f039c7..5ab493e8 100644
---- a/utils/v4l2-tracer/libv4l2tracer.cpp
-+++ b/utils/v4l2-tracer/libv4l2tracer.cpp
-@@ -26,6 +26,8 @@ const std::list<unsigned long> ioctls = {
- 	VIDIOC_ENUMINPUT,
- 	VIDIOC_G_CTRL,
- 	VIDIOC_S_CTRL,
-+	VIDIOC_G_TUNER,
-+	VIDIOC_S_TUNER,
- 	VIDIOC_QUERYCTRL,
- 	VIDIOC_G_INPUT,
- 	VIDIOC_S_INPUT,
-diff --git a/utils/v4l2-tracer/retrace.cpp b/utils/v4l2-tracer/retrace.cpp
-index 8667826c..b2d7c4b3 100644
---- a/utils/v4l2-tracer/retrace.cpp
-+++ b/utils/v4l2-tracer/retrace.cpp
-@@ -647,6 +647,28 @@ void retrace_vidioc_s_control(int fd_retrace, json_object *ioctl_args)
- 	free(ptr);
- }
- 
-+void retrace_vidioc_g_tuner(int fd_retrace, json_object *ioctl_args)
-+{
-+	struct v4l2_tuner *ptr = retrace_v4l2_tuner_gen(ioctl_args);
-+	ioctl(fd_retrace, VIDIOC_G_TUNER, ptr);
-+
-+	if (is_verbose() || (errno != 0))
-+		perror("VIDIOC_G_TUNER");
-+
-+	free(ptr);
-+}
-+
-+void retrace_vidioc_s_tuner(int fd_retrace, json_object *ioctl_args)
-+{
-+	struct v4l2_tuner *ptr = retrace_v4l2_tuner_gen(ioctl_args);
-+	ioctl(fd_retrace, VIDIOC_S_TUNER, ptr);
-+
-+	if (is_verbose() || (errno != 0))
-+		perror("VIDIOC_S_TUNER");
-+
-+	free(ptr);
-+}
-+
- void retrace_vidioc_g_input(int fd_retrace, json_object *ioctl_args)
- {
- 	int input = 0;
-@@ -1240,6 +1262,12 @@ void retrace_ioctl(json_object *syscall_obj)
- 	case VIDIOC_S_CTRL:
- 		retrace_vidioc_s_control(fd_retrace, ioctl_args_user);
- 		break;
-+	case VIDIOC_G_TUNER:
-+		retrace_vidioc_g_tuner(fd_retrace, ioctl_args_user);
-+		break;
-+	case VIDIOC_S_TUNER:
-+		retrace_vidioc_s_tuner(fd_retrace, ioctl_args_user);
-+		break;
- 	case VIDIOC_QUERYCTRL:
- 		retrace_vidioc_queryctrl(fd_retrace, ioctl_args_user);
- 		break;
-diff --git a/utils/v4l2-tracer/trace.cpp b/utils/v4l2-tracer/trace.cpp
-index a393d0d4..ed8e94a0 100644
---- a/utils/v4l2-tracer/trace.cpp
-+++ b/utils/v4l2-tracer/trace.cpp
-@@ -563,6 +563,10 @@ json_object *trace_ioctl_args(unsigned long cmd, void *arg)
- 	case VIDIOC_S_CTRL:
- 		trace_v4l2_control_gen(arg, ioctl_args);
- 		break;
-+	case VIDIOC_G_TUNER:
-+	case VIDIOC_S_TUNER:
-+		trace_v4l2_tuner_gen(arg, ioctl_args);
-+		break;
- 	case VIDIOC_QUERYCTRL:
- 		trace_v4l2_queryctrl_gen(arg, ioctl_args);
- 		break;
-diff --git a/utils/v4l2-tracer/v4l2-tracer-gen.pl b/utils/v4l2-tracer/v4l2-tracer-gen.pl
-index d10be6a8..8c6f7cb5 100755
---- a/utils/v4l2-tracer/v4l2-tracer-gen.pl
-+++ b/utils/v4l2-tracer/v4l2-tracer-gen.pl
-@@ -162,6 +162,7 @@ sub get_val_def_name {
- 	                                     v4l2_exportbuffer v4l2_cropcap v4l2_selection
- 	                                     v4l2_sliced_vbi_cap v4l2_format v4l2_streamparm);
- 	@structs_that_use_v4l2_ctrl_type = qw(v4l2_queryctrl v4l2_query_ext_ctrl);
-+	@structs_that_use_v4l2_tuner_type = qw(v4l2_tuner v4l2_frequency);
- 	if ($member eq "type") {
- 		foreach (@structs_that_use_v4l2_buf_type) {
- 			if ($struct_name eq $_) {
-@@ -242,6 +243,9 @@ sub get_val_def_name {
- 	if (($member eq "status") && ($struct_name eq "v4l2_input")) {
- 		$val_def_name = "input_field_val_def";
- 	}
-+	if ($member eq "audmode") {
-+		return "tuner_audmode_val_def";
-+	}
- 	return "";
- }
- 
-@@ -276,6 +280,12 @@ sub get_flag_def_name {
- 		if ($struct_name =~ /capability$/) {
- 			return "v4l2_cap_flag_def";
- 		}
-+		if ($struct_name eq "v4l2_tuner") {
-+			return "tuner_cap_flag_def";
-+		}
-+	}
-+	if ($member eq "rxsubchans") {
-+		return "tuner_rxsub_flag_def";
- 	}
- 	return "";
- }
-@@ -908,6 +918,22 @@ while (<>) {
- 		flag_def_gen("V4L2_OUT_CAP_NATIVE_SIZE");
- 		next
- 	}
-+	if (grep {/^#define V4L2_TUNER_CAP_LOW\s+/} $_) {
-+		printf $fh_common_info_h "constexpr flag_def tuner_cap_flag_def[] = {\n";
-+		flag_def_gen("V4L2_TUNER_CAP_1HZ");
-+		next
-+	}
-+	if (grep {/^#define V4L2_TUNER_SUB_MONO\s+/} $_) {
-+		printf $fh_common_info_h "constexpr flag_def tuner_rxsub_flag_def[] = {\n";
-+		flag_def_gen("V4L2_TUNER_SUB_RDS");
-+		next
-+	}
-+	if (grep {/^#define V4L2_TUNER_MODE_MONO\s+/} $_) {
-+		printf $fh_common_info_h "constexpr val_def tuner_audmode_val_def[] = {\n";
-+		val_def_gen("V4L2_TUNER_MODE_LANG1_LANG2");
-+		next
-+	}
-+
- 	if (grep {/^#define V4L2_ENC_CMD_START\s+/} $_) {
- 		printf $fh_common_info_h "constexpr val_def encoder_cmd_val_def[] = {\n";
- 		val_def_gen("V4L2_ENC_CMD_RESUME");
 -- 
-2.40.1
-
+tejun
