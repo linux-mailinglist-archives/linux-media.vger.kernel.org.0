@@ -2,137 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9981B709F0C
-	for <lists+linux-media@lfdr.de>; Fri, 19 May 2023 20:29:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00207709F23
+	for <lists+linux-media@lfdr.de>; Fri, 19 May 2023 20:34:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229676AbjESS3A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 May 2023 14:29:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35784 "EHLO
+        id S230011AbjESSeu convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 19 May 2023 14:34:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229675AbjESS27 (ORCPT
+        with ESMTP id S230212AbjESSes (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 May 2023 14:28:59 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75EF21A1;
-        Fri, 19 May 2023 11:28:58 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-96aae59bbd6so678884066b.3;
-        Fri, 19 May 2023 11:28:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684520937; x=1687112937;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WlvvDrxI+8RIoRlqGPQtu1ddIFRRsxtK/LYB4K1t6K8=;
-        b=N/cEBGaYZ08QnrzSQmmg9MF9G6mNibaGTIF7Xyf/hkjz3yE2Jp11UAx2+rYdMN4gDM
-         jkUycYMykO5k8VLewS95pKAjkBEAWqww4BnjEU/vH6puyWuva4MM7LyvbnEpJ8eaa9DI
-         7b8rK+zVTZuz5jBnVmRwO+CMGdZR891zOaQL9kOwypl6IVIUoRpHqlCCDQ/3KBqo0aXo
-         7QLRuNHpPAer+F2uh/9hOcbeMj9RhQ4vnPsuE+cYMWOMxhNLM5Acor/2tCQS8ofXjFq7
-         rlvX+uOiOaAGj5hhApAKpNOmvVDmAi/amGY7RIS8L7IawZjiZ1SFdU9oaou36teJVhOI
-         2wkg==
+        Fri, 19 May 2023 14:34:48 -0400
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 646C21A6;
+        Fri, 19 May 2023 11:34:47 -0700 (PDT)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-96f72e6925cso19151966b.1;
+        Fri, 19 May 2023 11:34:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684520937; x=1687112937;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WlvvDrxI+8RIoRlqGPQtu1ddIFRRsxtK/LYB4K1t6K8=;
-        b=OVUXXj26+P1JPxCHLRiY0eaUlyffA2hNo73DozavFpU/nHIMKccmQ+oo10VREDs8Lq
-         4K5mSZioTBsL6vZGnfbtBNovE1AL8CgOXEbp2KGXm27+OenLUrzUbwwh2dwk/1D9h2H4
-         /xZxaSWN3Msaq9Yullt376WBpqEwpwLU1yHm2Y/sXrWnI00osmdZ8MGR4QzBg0Q6J5Im
-         dt99ojBeGMTMmatPJAooLHQuKiGPbKM5TipIfqLz7MSEtmfBHp58QhtpXfuJc9FQajEb
-         K6o+3oWkNsDcs22h9K7FcMwWNq+ttvVWHyO1k59m8ETKrdcuZsuBU63R+67PI8iJtjFR
-         fQ5Q==
-X-Gm-Message-State: AC+VfDzRAs8CXcN9+l4ifR/B88TUD3QEUfob2b9a07Ou2uvt2h0f6lSK
-        kQP2/QbD2qkr3Sh9AU/C2mk=
-X-Google-Smtp-Source: ACHHUZ4R5YD3cMgV+tRC5UioVf2DwYIMuBKxYzGkAv6uLyu7ptlFV1obSOW7EKeU7d++ICsSSTMLXg==
-X-Received: by 2002:a17:907:72c5:b0:96f:5f44:ea02 with SMTP id du5-20020a17090772c500b0096f5f44ea02mr2615072ejc.8.1684520936856;
-        Fri, 19 May 2023 11:28:56 -0700 (PDT)
-Received: from localhost.my.domain (83.11.222.198.ipv4.supernova.orange.pl. [83.11.222.198])
-        by smtp.gmail.com with ESMTPSA id u27-20020a170906069b00b0094f7744d135sm2597897ejb.78.2023.05.19.11.28.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 May 2023 11:28:56 -0700 (PDT)
-From:   Artur Weber <aweber.kernel@gmail.com>
-To:     Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Alim Akhtar <alim.akhtar@samsung.com>, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht,
-        Artur Weber <aweber.kernel@gmail.com>
-Subject: [PATCH] media: Revert "media: exynos4-is: Remove dependency on obsolete SoC support"
-Date:   Fri, 19 May 2023 20:28:53 +0200
-Message-Id: <20230519182853.3836-1-aweber.kernel@gmail.com>
-X-Mailer: git-send-email 2.40.1
+        d=1e100.net; s=20221208; t=1684521286; x=1687113286;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6uObuVqlcM50D70QQIhJEH6f7OXBSEmcDsqgtzVm67w=;
+        b=LrUhFNQ46y3ebupRr9pSsJzC1Fzj10J9S2d8/ZLyA436cpmo94tQvjKamRGnyOUUOO
+         M3vlR8UPB5dKgEpz//2LRSBpTuPVwIYk5iT2qMJY2CsaLm5EO7VZ1PuM81hujmam3ytG
+         8Gv0AIXIHAFHcTw+2o/7FclgmhrRUsYc//erhR5cIsSonKXoIhG94zY/otnJCOMDKe9Q
+         F2sAGk0QwfXVzO+ZNAWTwmnnYfcFZdu3gE0L087zd9C2BRqzJmoHz/5TIol4m3ZLG7E6
+         nVFQlW2G1Nj7NYcOtQIyPMx92Q3xlCtMBg/h4P8j2SV6oVhFS2Dxn3qDbqYeoz5Ov420
+         6btg==
+X-Gm-Message-State: AC+VfDxq7mmmrNwpT/Uo9nJHW9CpPfgCDEB3CoMZee/A0h9sEu2GDFX/
+        09Nf/zEV6WtDV1d3aUu5w/xYFwdqtVNWY0CbRKIdII7u
+X-Google-Smtp-Source: ACHHUZ5vuEiTa1HNW/9/UzjDodQ47QYiuPqoHSQtfLrZdi87rUPkWVbmgaLHaTnrSSbc9KwkLjj1tGfNHxLGEvlPoLs=
+X-Received: by 2002:a17:906:212:b0:94f:4ec3:f0f5 with SMTP id
+ 18-20020a170906021200b0094f4ec3f0f5mr2941090ejd.4.1684521285520; Fri, 19 May
+ 2023 11:34:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20230329100951.1522322-1-sakari.ailus@linux.intel.com> <20230329100951.1522322-9-sakari.ailus@linux.intel.com>
+In-Reply-To: <20230329100951.1522322-9-sakari.ailus@linux.intel.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Fri, 19 May 2023 20:34:34 +0200
+Message-ID: <CAJZ5v0gFeN7WQQStjP80jdCM-yi2vaa9vyh-Smp9jOfjfv3wAA@mail.gmail.com>
+Subject: Re: [PATCH v8 08/10] ACPI: property: Rename parsed MIPI DisCo for
+ Imaging properties
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
+        rafael@kernel.org, andriy.shevchenko@linux.intel.com,
+        heikki.krogerus@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Support for the Exynos4212 SoC was originally dropped as there were
-no boards using it. We will be adding a device that uses it, so add
-it back.
+On Wed, Mar 29, 2023 at 12:10 PM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> MIPI DisCo for Imaging defines properties for sensor-adjacent devices such
+> as EEPROM, LED flash or lens VCM as either device or sub-node references.
+> This is compliant with existing DT definitions apart from property names.
+>
+> Rename parsed MIPI-defined properties so drivers will have a unified view
+> of them as defined in DT and already parsed by drivers.
 
-This reverts commit 2d41a0c9ae51ac363d107f2510022106e7234b33.
+I don't particularly like this idea.
 
-Signed-off-by: Artur Weber <aweber.kernel@gmail.com>
----
-This patch has been split off from the following series:
-"[PATCH v3 00/13] Re-introduce Exynos4212 support and add Samsung
-Galaxy Tab 3 8.0 boards"
-https://lore.kernel.org/all/20230501195525.6268-1-aweber.kernel@gmail.com/
----
- drivers/media/platform/samsung/exynos4-is/Kconfig     | 2 +-
- drivers/media/platform/samsung/exynos4-is/fimc-core.c | 2 +-
- drivers/media/platform/samsung/exynos4-is/fimc-lite.c | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+One of the drawbacks is that if somebody doesn't care about DT
+bindings (for instance, because they will always run on platforms
+without DT), they won't be able to use the MIPI-defined property names
+in their code.
 
-diff --git a/drivers/media/platform/samsung/exynos4-is/Kconfig b/drivers/media/platform/samsung/exynos4-is/Kconfig
-index da33faa7132e..7f9ba053dd8e 100644
---- a/drivers/media/platform/samsung/exynos4-is/Kconfig
-+++ b/drivers/media/platform/samsung/exynos4-is/Kconfig
-@@ -47,7 +47,7 @@ config VIDEO_S5P_MIPI_CSIS
- config VIDEO_EXYNOS_FIMC_LITE
- 	tristate "EXYNOS FIMC-LITE camera interface driver"
- 	depends on I2C
--	depends on SOC_EXYNOS4412 || SOC_EXYNOS5250 || COMPILE_TEST
-+	depends on SOC_EXYNOS4212 || SOC_EXYNOS4412 || SOC_EXYNOS5250 || COMPILE_TEST
- 	depends on HAS_DMA
- 	select VIDEOBUF2_DMA_CONTIG
- 	select VIDEO_EXYNOS4_IS_COMMON
-diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-core.c b/drivers/media/platform/samsung/exynos4-is/fimc-core.c
-index a2034ade8b9e..976b4f747ad4 100644
---- a/drivers/media/platform/samsung/exynos4-is/fimc-core.c
-+++ b/drivers/media/platform/samsung/exynos4-is/fimc-core.c
-@@ -1128,7 +1128,7 @@ static const struct fimc_drvdata fimc_drvdata_exynos4210 = {
- 	.out_buf_count	= 32,
- };
- 
--/* EXYNOS4412 */
-+/* EXYNOS4212, EXYNOS4412 */
- static const struct fimc_drvdata fimc_drvdata_exynos4x12 = {
- 	.num_entities	= 4,
- 	.lclk_frequency	= 166000000UL,
-diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-lite.c b/drivers/media/platform/samsung/exynos4-is/fimc-lite.c
-index 24b3dda26714..c3146ae08447 100644
---- a/drivers/media/platform/samsung/exynos4-is/fimc-lite.c
-+++ b/drivers/media/platform/samsung/exynos4-is/fimc-lite.c
-@@ -1621,7 +1621,7 @@ static const struct dev_pm_ops fimc_lite_pm_ops = {
- 			   NULL)
- };
- 
--/* EXYNOS4412 */
-+/* EXYNOS4212, EXYNOS4412 */
- static struct flite_drvdata fimc_lite_drvdata_exynos4 = {
- 	.max_width		= 8192,
- 	.max_height		= 8192,
+I would very much prefer to add a set of DT-defined properties with
+the same values.  The, whoever wants to use the property names from
+the DT bindings, they will be able to do that, but it will be also
+possible to use the MIPI-defined ones.
 
-base-commit: a23a3041c733e068bed5ece88acb45fe0edf0413
--- 
-2.40.1
-
+The previous patch adds the "rotation" property to the swnodes set, so
+I don't see any problems with doing that for the properties in
+question.
