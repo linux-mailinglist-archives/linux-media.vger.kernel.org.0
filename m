@@ -2,165 +2,297 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C4F27709456
-	for <lists+linux-media@lfdr.de>; Fri, 19 May 2023 12:00:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19E94709464
+	for <lists+linux-media@lfdr.de>; Fri, 19 May 2023 12:04:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231151AbjESKAg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 May 2023 06:00:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33832 "EHLO
+        id S230462AbjESKEj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 May 2023 06:04:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229932AbjESKAe (ORCPT
+        with ESMTP id S229972AbjESKEh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 May 2023 06:00:34 -0400
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4EE99C
-        for <linux-media@vger.kernel.org>; Fri, 19 May 2023 03:00:32 -0700 (PDT)
-Received: by mail-pl1-x631.google.com with SMTP id d9443c01a7336-1ae3fe67980so31087785ad.3
-        for <linux-media@vger.kernel.org>; Fri, 19 May 2023 03:00:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1684490432; x=1687082432;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=bxFT/eH6fI01yzQTav7apbXJs4Zkvkdbiyhdl2n33zI=;
-        b=cvDpCNTPA3iJ2kdFkRCSMFHRtdReYV2KXQhy8iT3L9ZJ57nbIqLq8LmQb7Z118jA9Z
-         SeD9I7cI3Y8OG8enSiToTsSgDB8PDXjPB4UZO1pcKN7MMHybvVarhYsNfDvDhCTgFGvb
-         ZFPdyRXJ9FO6OyoWmqeWJD7xnpT4bdCerCbZ8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684490432; x=1687082432;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bxFT/eH6fI01yzQTav7apbXJs4Zkvkdbiyhdl2n33zI=;
-        b=V9QhqYFqXy4tavOfwfoo39Xqm9Usb4B60Qt7dEUVusdRYhx2gcoZC93t1i93GhgU5t
-         RZIOqjusyqiVpqE7fw4Je+SPWLLrb2E46NWHA6ckAG0SWjTH7/86172nOIroKHgTx0uh
-         LmBEeBI9Qqk9UWKEQwO+1kmN+rDLXrK6t9jl6rVlEkucpYqOorzU+T6ITouzQcYFhd26
-         X4XVAK9lyvK+AnFFsANzbkPp/5VJ8c4TiLX6tsV8Drji26zkii/PqsV7BEZDm2l6dvoh
-         T5j0j7t2AjiwjH6ZFfCoX0t0Mh/ltxPw277RLUmvFmvUwPe38iSbe64ukfDEwNvrL6kM
-         ailg==
-X-Gm-Message-State: AC+VfDx7Lgwru28ZXzc/evxI94WWhZWux27f6IEFqY5J4hWLJtTUZ2RP
-        FTgXyPPnbMzbgE0yTEPRJi6faQ==
-X-Google-Smtp-Source: ACHHUZ65Vmg+CYxf6B2/ULrLmerlLS1jMd3W4m8M1xENFlfJroRC/2WxG/uzsCpP0fQnBk7vlkPoRQ==
-X-Received: by 2002:a17:902:ef84:b0:1ad:bb42:7672 with SMTP id iz4-20020a170902ef8400b001adbb427672mr2227133plb.29.1684490430693;
-        Fri, 19 May 2023 03:00:30 -0700 (PDT)
-Received: from chromium.org (0.223.81.34.bc.googleusercontent.com. [34.81.223.0])
-        by smtp.gmail.com with ESMTPSA id a4-20020a1709027d8400b001ab12545508sm3043029plm.67.2023.05.19.03.00.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 May 2023 03:00:30 -0700 (PDT)
-Date:   Fri, 19 May 2023 10:00:24 +0000
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev,
-        m.szyprowski@samsung.com, mchehab@kernel.org, ming.qian@nxp.com,
-        shijie.qin@nxp.com, eagle.zhou@nxp.com, bin.liu@mediatek.com,
-        matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-        tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
-        yunfei.dong@mediatek.com, stanimir.k.varbanov@gmail.com,
-        quic_vgarodia@quicinc.com, agross@kernel.org, andersson@kernel.org,
-        konrad.dybcio@linaro.org, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, daniel.almeida@collabora.com,
-        lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, kernel@collabora.com
-Subject: Re: [PATCH v2 2/8] media: videobuf2: Make bufs array dynamic
- allocated
-Message-ID: <20230519100024.en7immda3jdj2wwq@chromium.org>
-References: <4e2cb832-de83-4ba6-bd8a-119a19038cfe@kili.mountain>
- <a88b93cc-a81f-6186-09fc-02223867e677@collabora.com>
- <b0018f7b-0556-0ac1-d2fa-89787a27fba1@xs4all.nl>
- <20230324084830.GA18895@pendragon.ideasonboard.com>
- <d4b6ad10-1889-0a63-5a14-cb1320e2dc09@xs4all.nl>
- <7ad524a1-c54f-a01c-3453-2cf1f0f82a13@collabora.com>
+        Fri, 19 May 2023 06:04:37 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 050E59C;
+        Fri, 19 May 2023 03:04:34 -0700 (PDT)
+Received: from loongson.cn (unknown [10.2.5.197])
+        by gateway (Coremail) with SMTP id _____8Ax3eqwSWdkBiQKAA--.17890S3;
+        Fri, 19 May 2023 18:04:32 +0800 (CST)
+Received: from [0.0.0.0] (unknown [10.2.5.197])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8Bxi7asSWdkDs1pAA--.48016S3;
+        Fri, 19 May 2023 18:04:29 +0800 (CST)
+Subject: Re: [v13,1/2] drm: add kms driver for loongson display controller
+To:     Sui Jingfeng <suijingfeng@loongson.cn>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        suijingfeng <15330273260@189.cn>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian Koenig <christian.koenig@amd.com>,
+        Emil Velikov <emil.l.velikov@gmail.com>
+Cc:     linaro-mm-sig@lists.linaro.org, loongson-kernel@lists.loongnix.cn,
+        Li Yi <liyi@loongson.cn>, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        linux-media@vger.kernel.org
+References: <20230515155734.2954149-2-suijingfeng@loongson.cn>
+From:   Liu Peibao <liupeibao@loongson.cn>
+Message-ID: <d06cb599-5040-628e-a45b-270dfe0c2db4@loongson.cn>
+Date:   Fri, 19 May 2023 18:04:28 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <20230515155734.2954149-2-suijingfeng@loongson.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <7ad524a1-c54f-a01c-3453-2cf1f0f82a13@collabora.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+X-CM-TRANSID: AQAAf8Bxi7asSWdkDs1pAA--.48016S3
+X-CM-SenderInfo: xolx1vpled0qxorr0wxvrqhubq/1tbiAQAQCmRmFX4ZygAAsh
+X-Coremail-Antispam: 1Uk129KBjvJXoW3CrWkJFy5Zr45try5Zr4xJFb_yoWDKr1fpF
+        43Ca4FkrWDJF42yr9xA3W8GFyrZa4fXFWS9F47J3sIg3yDAryDZrn8ZFW5JrW7ZFy7X342
+        qr92grW7G3Wak3DanT9S1TB71UUUUbDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+        qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+        bqxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+        1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+        wVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+        x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAa
+        w2AFwI0_Jw0_GFyle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44
+        I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2
+        jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62
+        AI1cAE67vIY487MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCa
+        FVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r1q6r43MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2
+        IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI
+        42IY6xIIjxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42
+        IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280
+        aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0L0ePUUUUU==
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Mar 24, 2023 at 09:56:34AM +0100, Benjamin Gaignard wrote:
+I test this on my 3A5000 + 7A1000 and 3A5000 + 7A2000 desktop,
+and this works well, so:
+
+Tested-by: Liu Peibao <liupeibao@loongson.cn>
+
+Br,
+Peibao
+
+On 5/15/23 11:57 PM, Sui Jingfeng wrote:
+> Loongson display controller IP has been integrated in both Loongson north
+> bridge chipset(ls7a1000/ls7a2000) and Loongson SoCs(ls2k1000/ls2k2000), it
+> has been even included in Loongson self-made BMC products.
 > 
-> Le 24/03/2023 à 09:52, Hans Verkuil a écrit :
-> > On 24/03/2023 09:48, Laurent Pinchart wrote:
-> > > On Fri, Mar 24, 2023 at 09:31:35AM +0100, Hans Verkuil wrote:
-> > > > On 24/03/2023 09:11, Benjamin Gaignard wrote:
-> > > > > Le 24/03/2023 à 06:01, Dan Carpenter a écrit :
-> > > > > > Hi Benjamin,
-> > > > > > 
-> > > > > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > > > > > 
-> > > > > > url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Access-vb2_queue-bufs-array-through-helper-functions/20230321-183154
-> > > > > > base:   git://linuxtv.org/media_tree.git master
-> > > > > > patch link:    https://lore.kernel.org/r/20230321102855.346732-3-benjamin.gaignard%40collabora.com
-> > > > > > patch subject: [PATCH v2 2/8] media: videobuf2: Make bufs array dynamic allocated
-> > > > > > config: arm64-randconfig-m041-20230319 (https://download.01.org/0day-ci/archive/20230324/202303240148.lKRnUqW9-lkp@intel.com/config)
-> > > > > > compiler: aarch64-linux-gcc (GCC) 12.1.0
-> > > > > > 
-> > > > > > If you fix the issue, kindly add following tag where applicable
-> > > > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > > > | Reported-by: Dan Carpenter <error27@gmail.com>
-> > > > > > | Link: https://lore.kernel.org/r/202303240148.lKRnUqW9-lkp@intel.com/
-> > > > > > 
-> > > > > > smatch warnings:
-> > > > > > include/media/videobuf2-core.h:1272 vb2_queue_add_buffer() warn: sleeping in atomic context
-> > > > > > drivers/media/common/videobuf2/videobuf2-core.c:2456 vb2_core_queue_init() warn: Please consider using kcalloc instead of kmalloc_array
-> > > > > > 
-> > > > > > vim +1272 include/media/videobuf2-core.h
-> > > > > > 
-> > > > > > 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1263  static inline bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
-> > > > > > 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1264  {
-> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1265      bool ret = false;
-> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1266
-> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1267      spin_lock(&q->bufs_lock);
-> > > > > >                                                           ^^^^^^^^^^^^^^^^^^^^^^^
-> > > > > > Holding a spin lock.
-> > > > > > 
-> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1268
-> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1269      if (vb->index >= q->max_num_bufs) {
-> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1270          struct vb2_buffer **tmp;
-> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1271
-> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21 @1272          tmp = krealloc_array(q->bufs, q->max_num_bufs * 2, sizeof(*q->bufs), GFP_KERNEL);
-> > > > > >                                                                                                                                        ^^^^^^^^^^
-> > > > > > Sleeping allocation.  GFP_ATOMIC?  Or is there a way to move the
-> > > > > > allocation outside the lock?
-> > > > > I will add GFP_ATOMIC flag in next version.
-> > > > No need. Instead, don't use realloc here, just allocate a new array, copy over all
-> > > > the data from the old, and then switch q->bufs with the spinlock held. Then you
-> > > > can free the old one.
-> > > > 
-> > > > It's only when you update q->bufs that you need the lock.
-> > > The copy also needs to be protected by the lock.
-> > I suspect that that is not needed, since you shouldn't be able to add buffers here
-> > since a mutex should be held at this time.
-> > 
-> > That said, it's something that Benjamin needs to analyze.
-
-I spent some time looking through the call sites of vb2_get_buffer() and
-how those can be called and it turned out to be a massive list of code
-paths, including a lot of calls originating from codec drivers calling
-vb2_find_buffer() in random contexts (possibly even interrupt). So a
-spinlock protecting the array pointer makes sense indeed.
-
+> This display controller is a PCI device. It has two display pipes and each
+> display pipe support a primary plane and a cursor plane. For the DC in the
+> ls7a1000 and ls2k1000, each display pipe has a DVO output interface which
+> provide RGB888 signals, vertical & horizontal synchronisations and pixel
+> clock. Each CRTC is able to support 1920x1080@60Hz, the maximum resolution
+> of each display pipe is 2048x2048 according to the hardware spec.
 > 
-> Does using GFP_ATOMIC is problematic ?
+> For the DC in LS7A2000, each display pipe is equipped with a built-in HDMI
+> encoder which is compliant with the HDMI 1.4 specification, thus it support
+> 3840x2160@30Hz. The first display pipe is also equipped with a transparent
+> vga encoder which is parallel with the HDMI encoder. The DC in LS7A2000 is
+> more complete compare with the one in old chips, besides above feature, it
+> has two hardware cursors, two hardware vblank counter and two scanout
+> position recorders unit. It also support tiled framebuffer format which
+> can be scanout the tiled framebuffer rendered by the LoongGPU directly.
 > 
+> v1 -> v2:
+>  1) Use hpd status reg when polling for ls7a2000
+>  2) Fix all warnings emerged when compile with W=1
+> 
+> v2 -> v3:
+>  1) Add COMPILE_TEST in Kconfig and make the driver off by default
+>  2) Alphabetical sorting headers (Thomas)
+>  3) Untangle register access functions as much as possible (Thomas)
+>  4) Switch to TTM based memory manager and prefer cached mapping
+>     for Loongson SoC (Thomas)
+>  5) Add chip id detection method, now all models are distinguishable.
+>  6) Revise builtin HDMI phy driver, nearly all main stream mode
+>     below 4K@30Hz is tested, this driver supported these mode very
+>     well including clone display mode and extend display mode.
+> 
+> v3 -> v4:
+>  1) Quickly fix a small mistake.
+> 
+> v4 -> v5:
+>  1) Drop potential support for Loongson 2K series SoC temporary,
+>     this part should be resend with the DT binding patch in the future.
+>  2) Add per display pipe debugfs support to the builtin HDMI encoder.
+>  3) Rewrite atomic_update() for hardware cursors plane(Thomas)
+>  4) Rewrite encoder and connector initialization part, untangle it
+>     according to the chip(Thomas).
+> 
+> v5 -> v6:
+>  1) Remove stray code which didn't get used, say lsdc_of_get_reserved_ram
+>  2) Fix all typos I could found, make sentences and code more readable
+>  3) Untangle lsdc_hdmi*_connector_detect() function according to the pipe
+>  4) After a serious consideration, we rename this driver as loongson.
+>     Because we also have drivers toward the LoongGPU IP in LS7A2000 and
+>     LS2K2000. Besides, there are also drivers about the external encoder,
+>     HDMI audio driver and vbios support etc. This patch only provide DC
+>     driver part, my teammate Li Yi believe that loongson will be more
+>     suitable for loongson graphics than lsdc in the long run.
+> 
+>     loongson.ko = LSDC + LoongGPU + encoders driver + vbios/DT ...
+> 
+> v6 -> v7:
+>  1) Add prime support, self-sharing is works. sharing buffer with etnaviv
+>     is also tested, and its works with limitation.
+>  2) Implement buffer objects tracking with list_head.
+>  3) S3(sleep to RAM) is tested on ls3a5000+ls7a2000 evb and it works.
+>  4) Rewrite lsdc_bo_move, since ttm core stop allocating resources
+>     during BO creation. Patch V1 ~ V6 of this series no longer works
+>     on latest kernel. Thus, we send V7 to revival them.
+> 
+> v7 -> v8:
+>  1) Zero a compile warnnings on 32-bit platform, compile with W=1
+>  2) Revise lsdc_bo_gpu_offset() and minor cleanup
+>  3) Pageflip tested on the virtual terminal with following commands
+> 
+>     modetest -M loongson -s 32:1920x1080 -v
+>     modetest -M loongson -s 34:1920x1080 -v -F tiles
+> 
+>    It works like a charm, when running pageflip test with dual screnn
+>    configuration, another two additional bo created by the modetest
+>    emerged, VRAM usage up to 40+MB, well we have at least 64MB, still
+>    enough.
+> 
+>    # cat bos
+> 
+>        bo[0000]: size:     8112kB VRAM
+>        bo[0001]: size:       16kB VRAM
+>        bo[0002]: size:       16kB VRAM
+>        bo[0003]: size:    16208kB VRAM
+>        bo[0004]: size:     8112kB VRAM
+>        bo[0005]: size:     8112kB VRAM
+> 
+> v8 -> v9:
+>  1) Select I2C and I2C_ALGOBIT in Kconfig and should depend on MMU.
+>  2) Using pci_get_domain_bus_and_slot to get the GPU device.
+>  3) Other minor improvements.
+> 
+>  Those patches are tested on ls3a5000 + ls7a1000 CRB, ls3a5000 + ls7a2000
+>  evb, and lemote a1901 board(ls3a4000 + ls7a1000). On loongson mips CPU,
+>  the write combine support should be enabled, to get a decent performance
+>  for writing framebuffer data to the VRAM.
+> 
+> v9 -> v10:
+>  1) Revise lsdc_drm_freeze() to implement S3 completely and correctly.
+>     I suddenly realized that pinned buffer can not move and VRAM lost
+>     power when sleep to RAM. Thus, the data in the buffer who is pinned
+>     in VRAM will get lost when resume. Yet it's not big problem because
+>     we are software rendering solution which relay on the CPU update the
+>     front framebuffer. We can see the garbage data when resume from S3,
+>     but the screen will show correct image as I move the cursor. This is
+>     due to the cpu repaint. v10 of this patch make S3 perfect by unpin
+>     all of BOs in VRAM, evict them all to system RAM.
+> 
+> v10 -> v11:
+>  1) On double screen case, the single giant framebuffer is referenced by
+>     two GEM object, hence, it will be pinned by prepare_fb() at lease two
+>     times. This cause its pin count > 1. V10 of this patch only unpin VRAM
+>     BOs once when suspend, which is not correct on double screen case. V11
+>     of this patch unpin BOs until its pin count reach to zero when suspend.
+>     Then, we make the S3 support complete finally. With v11, I can't see
+>     any garbage data after resume. Tested on both ls7a1000 and ls7a2000
+>     platform, with single screen and double screen configuration.
+>  2) Fix vblank wait timeout when disable CRTC.
+>  3) Test against IGT, at least fbdev test and kms_flip test passed.
+>  4) Rewrite pixel PLL update function, magic numbers eliminated (Emil)
+>  5) Drop a few common hardware features description in lsdc_desc (Emil)
+>  6) Drop lsdc_mode_config_mode_valid(), instead add restrictions in dumb
+>     create function. (Emil)
+>  7) Untangle the ls7a1000 case and ls7a2000 case completely (Thomas)
+> 
+> v11 -> v12:
+>  none
+> 
+> v12 -> v13:
+>  1) Add benchmark to figure out the bandwidth of the hardware platform.
+>     Usage:
+>     # cd /sys/kernel/debug/dri/0/
+>     # cat benchmark
+> 
+>  2) VRAM is filled with garbage data if uninitialized, add a buffer
+>     clearing procedure, clear it on the BO creation time.
+>  3) Update copyrights and adjust coding style (Huacai)
+> 
+> Signed-off-by: Li Yi <liyi@loongson.cn>
+> Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: "Christian KÃ¶nig" <christian.koenig@amd.com>
+> ---
+>  drivers/gpu/drm/Kconfig                     |    2 +
+>  drivers/gpu/drm/Makefile                    |    1 +
+>  drivers/gpu/drm/loongson/Kconfig            |   17 +
+>  drivers/gpu/drm/loongson/Makefile           |   21 +
+>  drivers/gpu/drm/loongson/ls7a1000_outputs.c |  161 +++
+>  drivers/gpu/drm/loongson/ls7a2000_outputs.c |  531 +++++++++
+>  drivers/gpu/drm/loongson/lsdc_benchmark.c   |  132 +++
+>  drivers/gpu/drm/loongson/lsdc_benchmark.h   |   13 +
+>  drivers/gpu/drm/loongson/lsdc_crtc.c        | 1068 +++++++++++++++++++
+>  drivers/gpu/drm/loongson/lsdc_debugfs.c     |   91 ++
+>  drivers/gpu/drm/loongson/lsdc_device.c      |  104 ++
+>  drivers/gpu/drm/loongson/lsdc_drv.c         |  484 +++++++++
+>  drivers/gpu/drm/loongson/lsdc_drv.h         |  452 ++++++++
+>  drivers/gpu/drm/loongson/lsdc_gem.c         |  324 ++++++
+>  drivers/gpu/drm/loongson/lsdc_gem.h         |   37 +
+>  drivers/gpu/drm/loongson/lsdc_gfxpll.c      |  199 ++++
+>  drivers/gpu/drm/loongson/lsdc_gfxpll.h      |   52 +
+>  drivers/gpu/drm/loongson/lsdc_i2c.c         |  179 ++++
+>  drivers/gpu/drm/loongson/lsdc_i2c.h         |   29 +
+>  drivers/gpu/drm/loongson/lsdc_irq.c         |   81 ++
+>  drivers/gpu/drm/loongson/lsdc_irq.h         |   16 +
+>  drivers/gpu/drm/loongson/lsdc_output.h      |   21 +
+>  drivers/gpu/drm/loongson/lsdc_pixpll.c      |  481 +++++++++
+>  drivers/gpu/drm/loongson/lsdc_pixpll.h      |   86 ++
+>  drivers/gpu/drm/loongson/lsdc_plane.c       |  639 +++++++++++
+>  drivers/gpu/drm/loongson/lsdc_probe.c       |   56 +
+>  drivers/gpu/drm/loongson/lsdc_probe.h       |   12 +
+>  drivers/gpu/drm/loongson/lsdc_regs.h        |  400 +++++++
+>  drivers/gpu/drm/loongson/lsdc_ttm.c         |  610 +++++++++++
+>  drivers/gpu/drm/loongson/lsdc_ttm.h         |   99 ++
+>  30 files changed, 6398 insertions(+)
+>  create mode 100644 drivers/gpu/drm/loongson/Kconfig
+>  create mode 100644 drivers/gpu/drm/loongson/Makefile
+>  create mode 100644 drivers/gpu/drm/loongson/ls7a1000_outputs.c
+>  create mode 100644 drivers/gpu/drm/loongson/ls7a2000_outputs.c
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_benchmark.c
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_benchmark.h
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_crtc.c
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_debugfs.c
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_device.c
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_drv.c
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_drv.h
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_gem.c
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_gem.h
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_gfxpll.c
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_gfxpll.h
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_i2c.c
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_i2c.h
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_irq.c
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_irq.h
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_output.h
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_pixpll.c
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_pixpll.h
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_plane.c
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_probe.c
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_probe.h
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_regs.h
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_ttm.c
+>  create mode 100644 drivers/gpu/drm/loongson/lsdc_ttm.h
 
-Yes, because the ability to reclaim memory is drastically limited and
-the allocation is more likely to fail (as in: it's actually possible).
-(And generally the time with interrupts disabled should be minimized to
-keep system latency reasonable.)
-
-Best regards,
-Tomasz
