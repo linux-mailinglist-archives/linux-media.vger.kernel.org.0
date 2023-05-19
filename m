@@ -2,62 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F2AE70A55B
-	for <lists+linux-media@lfdr.de>; Sat, 20 May 2023 06:43:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2139170A685
+	for <lists+linux-media@lfdr.de>; Sat, 20 May 2023 10:55:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230102AbjETEnn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 20 May 2023 00:43:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55984 "EHLO
+        id S231232AbjETIy4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 20 May 2023 04:54:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229379AbjETEnn (ORCPT
+        with ESMTP id S229568AbjETIyz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 20 May 2023 00:43:43 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AC26E45;
-        Fri, 19 May 2023 21:43:42 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BC3826475B;
-        Sat, 20 May 2023 04:43:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A82DC4339B;
-        Sat, 20 May 2023 04:43:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684557821;
-        bh=CuJImiBEkrvn52lFAsm6teL+b+fae0HBhV4TGWYEMGo=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=W8idQ1hFxdhzAUvtQ25+4eyUGAar4c5HkLwAPlgXRpiRunbTmJZW7V9EP3L/kqggo
-         UOMtrJYqEUuPAjTcrFLPga61H7IwCcrPku9+K/DSYsiisJQuJhZfYq6tNBNVz8kuBt
-         JhUO4OhsFWgfLfDIFuRaE9hRmKcBVcZHWVN0laCs396rM4Uk2QX5X30KLULarAQ/t2
-         +Vu0Ve5LJAmn0EW94QrROCCSTzEwjrOCtNv9C8P/5aOXLWqZDqPPIh9jRhoeYArbM2
-         8bjiaPiRxtmCnx7c33oQU5AylRu1sK3JnTuDYVa6WTVg0fbsjJFffdh/R1SVdO3uuX
-         Hf5O3CxbQSugA==
-Date:   Fri, 19 May 2023 21:43:39 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Justin Chen <justin.chen@broadcom.com>
-Cc:     netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        bcm-kernel-feedback-list@broadcom.com, justinpopo6@gmail.com,
-        f.fainelli@gmail.com, davem@davemloft.net,
-        florian.fainelli@broadcom.com, edumazet@google.com,
-        pabeni@redhat.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, opendmb@gmail.com,
-        andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
-        richardcochran@gmail.com, sumit.semwal@linaro.org,
-        christian.koenig@amd.com
-Subject: Re: [PATCH net-next v3 3/6] net: bcmasp: Add support for ASP2.0
- Ethernet controller
-Message-ID: <20230519214339.12b5bbb3@kernel.org>
-In-Reply-To: <1684531184-14009-4-git-send-email-justin.chen@broadcom.com>
-References: <1684531184-14009-1-git-send-email-justin.chen@broadcom.com>
-        <1684531184-14009-4-git-send-email-justin.chen@broadcom.com>
+        Sat, 20 May 2023 04:54:55 -0400
+X-Greylist: delayed 86702 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 20 May 2023 01:54:51 PDT
+Received: from mail.corrib.pl (mail.corrib.pl [185.58.226.145])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A92F4189
+        for <linux-media@vger.kernel.org>; Sat, 20 May 2023 01:54:51 -0700 (PDT)
+Received: by mail.corrib.pl (Postfix, from userid 1001)
+        id CA1DAA4D88; Fri, 19 May 2023 09:06:18 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corrib.pl; s=mail;
+        t=1684483581; bh=85MOfYTjIHwki6Ys5IeFKzEzX5V7umZoL3TytLG0W/k=;
+        h=Date:From:To:Subject:From;
+        b=wSX2Ukkv5C7Y6iaHQp+Wpdr5VRuILjz2WjddMQbL365UTsx7+X/gPmc6MXvr7lTlF
+         0Dal7bt66cqizj2NyOCHVn0pA5YXSngYyVhzJfbWWNj4pi1amceBwa/qCtXk1t+d0B
+         Yaii8kTbEMe1SPyyPz0/X/0rXZ0/opL0VJ3fniie4wFqlfUhv3695g5Ued3lZemWlS
+         ptpcgEyAeRMyGh93eHbDogzVdr6/w6Fx6p5chogWLad1H7dvP58ie9+GKm0OnVn87+
+         B6cxHpYVR+s0K9D9A0I45ZsWHrG19W1jU3j3EMDlMOF35NE9eP9JlXpU5rYsGyUGYo
+         Z9FUvM8RPW7vw==
+Received: by mail.corrib.pl for <linux-media@vger.kernel.org>; Fri, 19 May 2023 08:06:12 GMT
+Message-ID: <20230519074500-0.1.7b.of9n.0.9iwirpm8j7@corrib.pl>
+Date:   Fri, 19 May 2023 08:06:12 GMT
+From:   "Szczepan Andryszczuk" <szczepan.andryszczuk@corrib.pl>
+To:     <linux-media@vger.kernel.org>
+Subject: Faktoring
+X-Mailer: mail.corrib.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,20 +47,20 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 19 May 2023 14:19:41 -0700 Justin Chen wrote:
-> Add support for the Broadcom ASP 2.0 Ethernet controller which is first
-> introduced with 72165. This controller features two distinct Ethernet
-> ports that can be independently operated.
-> 
-> This patch supports:
-> 
-> - Wake-on-LAN using magic packets
-> - basic ethtool operations (link, counters, message level)
-> - MAC destination address filtering (promiscuous, ALL_MULTI, etc.)
+Dzie=C5=84 dobry,
 
-There are some sparse warnings where (try building with C=1).
-Please also remove the inline keyword from all functions in source
-files, unless you actually checked that the compiler does the wrong
-thing.
--- 
-pw-bot: cr
+rozwa=C5=BCali Pa=C5=84stwo wyb=C3=B3r finansowania, kt=C3=B3re spe=C5=82=
+ni potrzeby firmy, zapewniaj=C4=85c natychmiastowy dost=C4=99p do got=C3=B3=
+wki, bez zb=C4=99dnych przestoj=C3=B3w?=20
+
+Przygotowali=C5=9Bmy rozwi=C4=85zania faktoringowe dopasowane do Pa=C5=84=
+stwa bran=C5=BCy i wielko=C5=9Bci firmy, dzi=C4=99ki kt=C3=B3rym, nie mus=
+z=C4=85 Pa=C5=84stwo martwi=C4=87 si=C4=99 o niewyp=C5=82acalno=C5=9B=C4=87=
+ kontrahent=C3=B3w, poniewa=C5=BC transakcje s=C4=85 zabezpieczone i posi=
+adaj=C4=85 gwarancj=C4=99 sp=C5=82aty.=20
+
+Chc=C4=85 Pa=C5=84stwo przeanalizowa=C4=87 dost=C4=99pne opcje?
+
+
+Pozdrawiam
+Szczepan Andryszczuk
