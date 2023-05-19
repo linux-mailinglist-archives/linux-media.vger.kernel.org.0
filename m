@@ -2,72 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 852C8709723
-	for <lists+linux-media@lfdr.de>; Fri, 19 May 2023 14:16:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B34D709732
+	for <lists+linux-media@lfdr.de>; Fri, 19 May 2023 14:19:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229869AbjESMQN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 May 2023 08:16:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49310 "EHLO
+        id S231169AbjESMTu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 May 2023 08:19:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229458AbjESMQM (ORCPT
+        with ESMTP id S229458AbjESMTt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 May 2023 08:16:12 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BA6618C
-        for <linux-media@vger.kernel.org>; Fri, 19 May 2023 05:16:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684498571; x=1716034571;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=k/eggSbPtNh0SO1SJlyfFZ7oW3Onp3rG5Ww9VO9lGLo=;
-  b=ih9+ugLe05ch5JTyLJ8IZ6MGuNxBWc1YoCdcQNR5fsdtVDucmB/tQMlK
-   ToiSFv9P6zQYMCIjlk7KKIXZ176ZgWmkjbj7hqGOUI6tq2R+Aq2KjG2tL
-   qb1UUzNia9I8ta0Al/jQW7dfrMMW3OxpLYwCBJ+R2glKbFcrIWqQn8ldb
-   yvwdPGczFiT3irDYuHAxvsu3eE0jd5b3YZrFU/RdLRC/Lcug+amXFBheA
-   7zEhFxldZQt+ZsdCeO2i288Rec3Sw6t7jpq/XkQvV4q7i5IWe/d1XPo/5
-   JI5t+xukP1SWkvd//Ya4xq8zdbZrotPoaI1y86Fev9F6nLfwql/1jjdON
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="351198062"
-X-IronPort-AV: E=Sophos;i="6.00,176,1681196400"; 
-   d="scan'208";a="351198062"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2023 05:16:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="705598920"
-X-IronPort-AV: E=Sophos;i="6.00,176,1681196400"; 
-   d="scan'208";a="705598920"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2023 05:16:06 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 258E4120279;
-        Fri, 19 May 2023 15:16:04 +0300 (EEST)
-Date:   Fri, 19 May 2023 12:16:04 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Nable <nable.maininbox@googlemail.com>,
-        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 1/9] media: v4l: Add v4l2_acpi_parse_sensor_gpios()
- helper function
-Message-ID: <ZGdohJQSY3GiNLSy@kekkonen.localdomain>
-References: <20230518153214.194976-1-hdegoede@redhat.com>
- <20230518153214.194976-2-hdegoede@redhat.com>
- <ZGcl7+cKu0/h43YC@kekkonen.localdomain>
- <cb4e56fd-0745-6040-6d93-bd8eb1d23ce1@redhat.com>
- <ZGdWVATARAQlaEjC@kekkonen.localdomain>
- <d230dd21-9c2b-2dc4-0325-6ceb502c3ba0@redhat.com>
+        Fri, 19 May 2023 08:19:49 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC28E199;
+        Fri, 19 May 2023 05:19:47 -0700 (PDT)
+Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 08AEDAF3;
+        Fri, 19 May 2023 14:19:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1684498771;
+        bh=gU37gYT5LJCo87RVuye14TUUNZjM/v0Qd/6iCFvpPPo=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=s1nDjSOze+Tpni8CpAkhe/SkyL65XWaEolPMnwfTQi9U83jN6VCled2YJ3wKA8rCS
+         2UUB31z2gz8JwOf19MgMZzlnynhtXsvdyh9PAQn6hQhwF03MswFI6cJDzo5WNB23zd
+         Nt7iHfwl0wBesha3dJk7j8I281KNw2Uif0JOLjvA=
+Message-ID: <e3c18904-4681-27be-827b-f64ebb036157@ideasonboard.com>
+Date:   Fri, 19 May 2023 15:19:40 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d230dd21-9c2b-2dc4-0325-6ceb502c3ba0@redhat.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v13 6/8] media: i2c: add DS90UB960 driver
+To:     Ludwig Zenz <lzenz@dh-electronics.com>
+Cc:     "Matti.Vaittinen@fi.rohmeurope.com" 
+        <Matti.Vaittinen@fi.rohmeurope.com>,
+        "andriy.shevchenko@intel.com" <andriy.shevchenko@intel.com>,
+        "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
+        "khalasa@piap.pl" <khalasa@piap.pl>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "laurent.pinchart+renesas@ideasonboard.com" 
+        <laurent.pinchart+renesas@ideasonboard.com>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "luca.ceresoli@bootlin.com" <luca.ceresoli@bootlin.com>,
+        "m.tretter@pengutronix.de" <m.tretter@pengutronix.de>,
+        "marex@denx.de" <marex@denx.de>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "mpagano@gentoo.org" <mpagano@gentoo.org>,
+        "peda@axentia.se" <peda@axentia.se>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+        "satish.nagireddy@getcruise.com" <satish.nagireddy@getcruise.com>,
+        "wsa@kernel.org" <wsa@kernel.org>
+References: <5abbcb606e4c4a49821be5d107d9ddfc@dh-electronics.com>
+Content-Language: en-US
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <5abbcb606e4c4a49821be5d107d9ddfc@dh-electronics.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,79 +75,152 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+On 16/05/2023 22:05, Ludwig Zenz wrote:
+>> On 16/05/2023 16:32, Ludwig Zenz wrote:
+>>>> Hi,
+>>>>
+>>>> On 16/05/2023 15:35, Ludwig Zenz wrote:
+>>>>> On Wed, 26 Apr 2023 14:51:12 +0300, Tomi Valkeinen wrote:
+>>>>>
+>>>>> [...]
+>>>>>
+>>>>>>     +static int ub960_configure_ports_for_streaming(struct ub960_data *priv,
+>>>>>>     +                                         struct v4l2_subdev_state *state)
+>>>>>>     +{
+>>>>>>     +  u8 fwd_ctl;
+>>>>>>     +  struct {
+>>>>>>     +          u32 num_streams;
+>>>>>>     +          u8 pixel_dt;
+>>>>>>     +          u8 meta_dt;
+>>>>>>     +          u32 meta_lines;
+>>>>>>     +          u32 tx_port;
+>>>>>>     +  } rx_data[UB960_MAX_RX_NPORTS] = {};
+>>>>>>     +  u8 vc_map[UB960_MAX_RX_NPORTS] = {};
+>>>>>>     +  struct v4l2_subdev_route *route;
+>>>>>>     +  unsigned int nport;
+>>>>>>     +  int ret;
+>>>>>>     +
+>>>>>>     +  ret = ub960_validate_stream_vcs(priv);
+>>>>>>     +  if (ret)
+>>>>>>     +          return ret;
+>>>>>>     +
+>>>>>>     +  ub960_get_vc_maps(priv, state, vc_map);
+>>>>>>     +
+>>>>>>     +  for_each_active_route(&state->routing, route) {
+>>>>>>     +          struct ub960_rxport *rxport;
+>>>>>>     +          struct ub960_txport *txport;
+>>>>>>     +          struct v4l2_mbus_framefmt *fmt;
+>>>>>>     +          const struct ub960_format_info *ub960_fmt;
+>>>>>>     +          unsigned int nport;
+>>>>>>     +
+>>>>>>     +          nport = ub960_pad_to_port(priv, route->sink_pad);
+>>>>>>     +
+>>>>>>     +          rxport = priv->rxports[nport];
+>>>>>>     +          if (!rxport)
+>>>>>>     +                  return -EINVAL;
+>>>>>>     +
+>>>>>>     +          txport = priv->txports[ub960_pad_to_port(priv, route->source_pad)];
+>>>>>>     +          if (!txport)
+>>>>>>     +                  return -EINVAL;
+>>>>>>     +
+>>>>>>     +          rx_data[nport].tx_port = ub960_pad_to_port(priv, route->source_pad);
+>>>>>>     +
+>>>>>>     +          rx_data[nport].num_streams++;
+>>>>>>     +
+>>>>>>     +          /* For the rest, we are only interested in parallel busses */
+>>>>>>     +          if (rxport->rx_mode == RXPORT_MODE_CSI2_SYNC ||
+>>>>>>     +              rxport->rx_mode == RXPORT_MODE_CSI2_ASYNC)
+>>>>>>     +                  continue;
+>>>>>>     +
+>>>>>>     +          if (rx_data[nport].num_streams > 2)
+>>>>>>     +                  return -EPIPE;
+>>>>>>     +
+>>>>>>     +          fmt = v4l2_subdev_state_get_stream_format(state,
+>>>>>>     +                                                    route->sink_pad,
+>>>>>>     +                                                    route->sink_stream);
+>>>>>>     +          if (!fmt)
+>>>>>>     +                  return -EPIPE;
+>>>>>>     +
+>>>>>>     +          ub960_fmt = ub960_find_format(fmt->code);
+>>>>>>     +          if (!ub960_fmt)
+>>>>>>     +                  return -EPIPE;
+>>>>>>     +
+>>>>>>     +          if (ub960_fmt->meta) {
+>>>>>>     +                  if (fmt->height > 3) {
+>>>>>>     +                          dev_err(&priv->client->dev,
+>>>>>>     +                                  "rx%u: unsupported metadata height %u\n",
+>>>>>>     +                                  nport, fmt->height);
+>>>>>>     +                          return -EPIPE;
+>>>>>>     +                  }
+>>>>>>     +
+>>>>>>     +                  rx_data[nport].meta_dt = ub960_fmt->datatype;
+>>>>>>     +                  rx_data[nport].meta_lines = fmt->height;
+>>>>>>     +          } else {
+>>>>>>     +                  rx_data[nport].pixel_dt = ub960_fmt->datatype;
+>>>>>>     +          }
+>>>>>>     +  }
+>>>>>>     +
+>>>>>>     +  /* Configure RX ports */
+>>>>>>     +
+>>>>>>     +  fwd_ctl = 0;
+>>>>>
+>>>>> Hello, I have only used the first RX port in my setup (ds90ub933 to ds90ub964). The logic for activating/deactivating the Rx ports did not work for me. My suggestion is:
+>>>>>
+>>>> Why doesn't it work? What happens?
+>>>>
+>>>>    Tomi
+>>>
+>>> Hello Tomi,
+>>>
+>>> the port rx0 which I need was disabled and the other ports rx1 to rx3 were enabled. In other words, the exact inverse of the required selection.
+>>>
+>>>>>>    +                /* Forwarding */
+>>>>>>    +
+>>>>>>    +                fwd_ctl |= BIT(4 + nport); /* forward disable */
+>>> According to the data sheet, a set bit4-7 in fwd_ctl means that the channel is disabled. So the comment 'forward disable' is correct. While debugging, however, this code was only reached for the ports to be enabled but not for the ones which should be disabled.
+> 
+>> This is just a setup phase, where we initialize the registers for the ports we want to use. The forwarding is then enabled later, in ub960_enable_rx_port, and even later disabled in ub960_disable_rx_port.
+> 
+> Thank you for the clarification. I had misinterpreted the intention of the code here.
+> 
+>> This assumes that the forwarding is disabled in the registers by default (which it is in UB960).
+>>
+>> I need to try this on my HW to verify my understanding is correct, but looking at the code, it is indeed a bit buggy.
+>>
+>> At this setup phase we disable the forwarding for ports we'll use, and enable the forwarding for ports we don't use (which doesn't make sense).
+>> Later, when the streaming is started for that port, we enable the forwarding. So here we should just always disable the forwarding for all ports.
+>>
+> 
+> The unused Rx ports were not disabled in my tests. Disabling all ports here should also work for my setup.
+> 
+>> Saying "disable the forwarding" is perhaps a bit confusing here, as the the forwarding should already be disabled in the HW here anyway. But as we write the UB960_SR_FWD_CTL1, we need to set that bit.
+>>
+>> So. You should see the rx0 getting enabled (later, in ub960_enable_rx_port), and I'm curious why you don't see that.
+> 
+> I will have another look at that next week. It could well be that in the end only the enabled but unused ports are the problem.
 
-On Fri, May 19, 2023 at 01:55:04PM +0200, Hans de Goede wrote:
-> Hi Sakari,
-> 
-> On 5/19/23 12:58, Sakari Ailus wrote:
-> > Hi Hans,
-> > 
-> > On Fri, May 19, 2023 at 10:55:42AM +0200, Hans de Goede wrote:
-> 
-> <snip>
-> 
-> >>> Although if the number of those drivers would be small, this could be just
-> >>> undesirable but still somehow acceptable. And I wouldn't expect new sensors
-> >>> to be paired with the IPU2 anymore. How many drivers there would be
-> >>> roughly? I think I've seen ten-ish sensor drivers with the atomisp driver.
-> >>
-> >> About ten-ish drivers sounds right.
-> >>
-> >>> Isn't it possible to create a device for this purpose and use software
-> >>> nodes for the GPIOs? I guess that would be a hack as well and you'd somehow
-> >>> have to initialise this via other route than driver probe.
-> >>
-> >> This creates unsolvable probe-ordering problems. At a minimum we would
-> >> need some check inside sensor drivers for them to return -EPROBE_DEFER
-> >> until the GPIO mappings are added through some other means. Note that
-> >> without the mappings gpiod_get will return -ENOENT, so we cannot just
-> >> use its return value.
-> > 
-> > They probably will already need this in order to make sure the atomisp
-> > bridge has been initialized.
-> 
-> The instantiation of the sensor i2c_clients and of the atomisp PCI device
-> is independent of each other. In my other patch series I'm moving sensor
-> registration for atomisp over to the v4l2-async framework like all other
-> bridge/ISP drivers use so that atomisp no longer needs special sensor
-> drivers.
-> 
-> And AFAIK one of the reasons for having the v4l2-async framework is
-> to avoid needing to have a specific probe order between bridge vs
-> sensor drivers.
-> 
-> > Could this code live in the atomisp bridge instead?
-> 
-> That does not solve the probe ordering problem the sensor drivers
-> need the GPIOs to enable the sensor and they all enable the sensor
-> in their probe() to check the hw-id. The sensor's probe() function
-> runs without any ordering guarantees vs the ISP/brige's probe()
-> function. This is not an issue because at least during probe()
-> the sensor drivers don't have any interactions with the bridge
-> and any further access to the sensor-drivers is delayed until
-> the v4l2-async notifier completion callback has run.
-> 
-> The only way to work around the probe-ordering problem would
-> be to delay checking the hw-id until the sensor gets linked
-> to the bridge. Which would mean registering an async notifier
-> from the sensors to catch binding from the sensor drivers
-> and allowing the binding to fail.
-> 
-> Delaying the hw-id check like this would be much more involved
-> then the currently proposed solution and will likely cause
-> other issues like the wrong driver binding when hw-vendors
-> get the ACPI hw-id wrong (this is a known issue with audio-codecs,
-> so chances are we will see this with sensors too).
+This should fix the issue:
 
-A simple question: how do you solve the probe ordering issue when it comes
-to the atomisp bridge creating the graph endpoints needed by sensor
-drivers?
+@ -2486,7 +2488,7 @@ static int ub960_configure_ports_for_streaming(struct ub960_data *priv,
+  
+         /* Configure RX ports */
+  
+-       fwd_ctl = 0;
++       fwd_ctl = GENMASK(7, 4);
+  
+         for (nport = 0; nport < priv->hw_data->num_rxports; nport++) {
+                 struct ub960_rxport *rxport = priv->rxports[nport];
+@@ -2536,8 +2538,6 @@ static int ub960_configure_ports_for_streaming(struct ub960_data *priv,
+  
+                 /* Forwarding */
+  
+-               fwd_ctl |= BIT(4 + nport); /* forward disable */
+-
+                 if (rx_data[nport].tx_port == 1)
+                         fwd_ctl |= BIT(nport); /* forward to TX1 */
+                 else
 
-Or do you assume the sensor drivers will always use some static
-configuration?
 
--- 
-Kind regards,
+  Tomi
 
-Sakari Ailus
+
