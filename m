@@ -2,242 +2,202 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E1C270A071
-	for <lists+linux-media@lfdr.de>; Fri, 19 May 2023 22:18:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C9CE70A183
+	for <lists+linux-media@lfdr.de>; Fri, 19 May 2023 23:19:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229807AbjESUSi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 May 2023 16:18:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54598 "EHLO
+        id S229731AbjESVTz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 May 2023 17:19:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229761AbjESUSh (ORCPT
+        with ESMTP id S229522AbjESVTy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 May 2023 16:18:37 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C904B1B5
-        for <linux-media@vger.kernel.org>; Fri, 19 May 2023 13:18:28 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4QNJ7j3pL2z49Py9
-        for <linux-media@vger.kernel.org>; Fri, 19 May 2023 23:18:25 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1684527505;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=Px56p6fHDHF+7UIzVqt11KFeybxiN66jJnuWhLkt6xE=;
-        b=c92c2je2vqB4G7Jr0j04kT6HikKHKFaz02j/vTsDXw7tkoFB9fF55ptgi3cc+xU1O8Xk1m
-        O0PbkiPd6IXg6348vO+0wtosEAZk47LmvHNDzhW/oVa6pnmJ+VZqNhPwNdxxdd1xpswaZb
-        w0CeeFAP4FxtYYjC2s+8ny/kE2zXmceMzYKTVXT85/l63fu2QrNfjJlPATrRYerjIvSIBD
-        CPEPsJWyPEb8SHWvS/YVAIBCi/TrWX7Pjeu8dBQHqIWIJJbi9FHwG0ri/cVsTfe0ln0pyR
-        FmYPE+1hoxoc9ylUQr28ttj5ZI22S/EeyitAqmdbc3LIj1hOwmg/hdyZv6akjQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1684527505;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=Px56p6fHDHF+7UIzVqt11KFeybxiN66jJnuWhLkt6xE=;
-        b=pJE9me6U9ESuY0PzcyNWxiOKXyphzSVrmizcjHrSoFK/JxGLqeb/l9qQ5YzCDaLYC1iwD/
-        7jfle0ZOvtCo9FuHVnss7pxwFHysRwpGJWzqdn3o0Ckh9i5m/LLSsa2HzPqH32SOv7INE6
-        aLKTZDTsikjhgBRlCEV1JQVBIKe0HPd8fOE6/y+GnyxZQrQn6+mQYyyFgldJKsSIM8dtfH
-        e8Qw7397wjtop2sUSCDcUcZHNXSixEZt8fRR4bYbhE90I0V+M10NUUiqm/xKIHwLHbfV3M
-        Bmb0+qxKFNjXR8xJfdeemq/nsd6sbpRZqUj4tBCrmBN6z5K//XIysEK3V2GJsw==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1684527505; a=rsa-sha256;
-        cv=none;
-        b=OZM29hZk2JMnDcGDoOy8BLXsvni4DhP3wts3b+Gfp406P+BIO9kh2B+Yc6sYmKS23O4MGT
-        qvPXoDjVsqd4S4jbq3nBUIYmCRb1eCwr2DBUG5Zautuq2igX9bGQzgsO5XkP57Mw0YQAkd
-        n+jnSvAOBo0GVYR9DlABAFdb+/5MPIdXyXc2F/fgJRGmIVsqXojHXgi6s7pPZZXfYdi0Jr
-        UANa02/gJXQ6V7teJKrd0fHCnyzVPZQfIfTfIpKVbsbdfZqt+XSY7YC/9ionrymG9y8ruq
-        q6tvYcY62FKbrs9FsUqxFz0x+BdaHHnZ3D/PlqjL9SyMQ/bhnIvDvfb2nUWQMw==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 4F540634C94
-        for <linux-media@vger.kernel.org>; Fri, 19 May 2023 23:18:24 +0300 (EEST)
-Date:   Fri, 19 May 2023 23:18:24 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR 6.5 v3] Camera sensor, CSI-2 related patches plus more
-Message-ID: <ZGfZkPZVcLPBFKMC@valkosipuli.retiisi.eu>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+        Fri, 19 May 2023 17:19:54 -0400
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5E021B3
+        for <linux-media@vger.kernel.org>; Fri, 19 May 2023 14:19:52 -0700 (PDT)
+Received: by mail-qk1-x730.google.com with SMTP id af79cd13be357-7590aa05af6so400185285a.0
+        for <linux-media@vger.kernel.org>; Fri, 19 May 2023 14:19:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1684531192; x=1687123192;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VK4g71/PnJQnc3j71yOHxiHzDiP/hWUAH2CqZaJPANY=;
+        b=I5E52bIQ3N5oJ7PJADifeUMY6PdKNJ4AufC0G/IttPwp8c/Y5s/WZWpYCWSvqfD0Hp
+         54d+9x+j+r7Bu+3o28JD4mFb6PaxgVNPS4k4JDenKFZ7B/CKmho8zx3mWrhoyxHb2Tco
+         65utqKX1WZCtz7DXiz+s/f2TF+P+IKr3Ncf9k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684531192; x=1687123192;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VK4g71/PnJQnc3j71yOHxiHzDiP/hWUAH2CqZaJPANY=;
+        b=PO4478/LkU0EmKx2H6cPxhHpVWqX6AFrLEbaDJIEnzi1xPWmoH6xmaRvryHS1PO/DU
+         R/V8sSPoSSowiOHJAgXuGooKYLDZVwZ7h/X1PSzhyhwEX68SUhybtQFZzk8eLDFb3mNk
+         z+laDvaZsDdY11qPnEQH/K43X50gtBB4UOZXJY7YJ53v7/HYdmWfOqNW8fa5gznAr37t
+         G1/+lOHDKuNtm5Hh1mDRLO9Qqz62YwuCDzU8xNVQJk/lh5Fwb68cSGOj7sZ6rx9qz8X4
+         mFya58i0N+siDheR5Pu7LEPqqTf2/ncyX7qaaTURSYKGUt7DEdg7fBtB1O/Iu6TBbYMB
+         HFSA==
+X-Gm-Message-State: AC+VfDxp1KeQ2BCnwCVANlcaqVsnpR6VAV0RqIPpYrWwSlueW71BGpuA
+        JrKGrPC4gxydgRIhdULXySP1qA==
+X-Google-Smtp-Source: ACHHUZ4EHOpi+16FJbiDnqt8k5Jw/ktGuuEmvgukFXKz6ntOxpbzy/xC/ONztYjud1CsGC0OqRGX7Q==
+X-Received: by 2002:a05:6214:763:b0:621:331b:f575 with SMTP id f3-20020a056214076300b00621331bf575mr6489198qvz.25.1684531191882;
+        Fri, 19 May 2023 14:19:51 -0700 (PDT)
+Received: from stbirv-lnx-2.igp.broadcom.net ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id p11-20020ae9f30b000000b0074df8eefe2dsm1364585qkg.98.2023.05.19.14.19.48
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 19 May 2023 14:19:50 -0700 (PDT)
+From:   Justin Chen <justin.chen@broadcom.com>
+To:     netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        bcm-kernel-feedback-list@broadcom.com
+Cc:     justinpopo6@gmail.com, justin.chen@broadcom.com,
+        f.fainelli@gmail.com, davem@davemloft.net,
+        florian.fainelli@broadcom.com, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, opendmb@gmail.com,
+        andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
+        richardcochran@gmail.com, sumit.semwal@linaro.org,
+        christian.koenig@amd.com
+Subject: [PATCH net-next v3 0/6] Brcm ASP 2.0 Ethernet Controller
+Date:   Fri, 19 May 2023 14:19:38 -0700
+Message-Id: <1684531184-14009-1-git-send-email-justin.chen@broadcom.com>
+X-Mailer: git-send-email 2.7.4
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+        boundary="000000000000525d2805fc127bd9"
+X-Spam-Status: No, score=0.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        MIME_HEADER_CTYPE_ONLY,MIME_NO_TEXT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,T_TVD_MIME_NO_HEADERS,URIBL_BLOCKED
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+--000000000000525d2805fc127bd9
 
-Here's a bunch of media patches for 6.5. In particular, there's a new
-driver for ov01a10, fixes and improvements for hi846, ov5640, imx7,
-mipid02, max96712, fdp1, rcar-*, c8sectpfe and imx334 drivers, as well as
-C-PHY support for rcar-csi2. Cleanups for others, too, and rename of meta
-format files.
+Add support for the Broadcom ASP 2.0 Ethernet controller which is first
+introduced with 72165.
 
-since v2:
+Add support for 74165 10/100 integrated Ethernet PHY which also uses
+the ASP 2.0 Ethernet controller.
 
-- Drop an rcar patch from Niklas that requires some rework.
+Florian Fainelli (2):
+  dt-bindings: net: Brcm ASP 2.0 Ethernet controller
+  net: phy: bcm7xxx: Add EPHY entry for 74165
 
-since v1:
+Justin Chen (4):
+  dt-bindings: net: brcm,unimac-mdio: Add asp-v2.0
+  net: bcmasp: Add support for ASP2.0 Ethernet controller
+  net: phy: mdio-bcm-unimac: Add asp v2.0 support
+  MAINTAINERS: ASP 2.0 Ethernet driver maintainers
 
-- Drop extra patches picked already earlier by Hans.
-
-Please pull.
-
-
-The following changes since commit a23a3041c733e068bed5ece88acb45fe0edf0413:
-
-  Merge tag 'v6.4-rc2' into media_stage (2023-05-14 22:55:40 +0100)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/sailus/media_tree.git tags/for-6.5-1.2-signed
-
-for you to fetch changes up to 31b27891c9f9697d2aea26d7c1a090c2c32d5807:
-
-  media: sti: c8sectpfe: drop of_match_ptr() to avoid unused variables (2023-05-19 11:07:31 +0300)
-
-----------------------------------------------------------------
-V4L2 patches for 6.5
-
-----------------------------------------------------------------
-Alain Volmat (1):
-      media: sti: c8sectpfe: drop of_match_ptr() to avoid unused variables
-
-Alexander Stein (4):
-      media: video-mux: Add missing media_entity_cleanup upon async register fail
-      media: imx: imx7-media-csi: Get rid of superfluous call to imx7_csi_mbus_fmt_to_pix_fmt
-      media: imx: imx7-media-csi: Remove incorrect interlacing support
-      media: imx: imx7-media-csi: Relax width constraints for non-8bpp formats
-
-Bingbu Cao (1):
-      media: i2c: add ov01a10 image sensor driver
-
-Christophe JAILLET (1):
-      media: ov5693: Simplify an error message
-
-Dan Carpenter (1):
-      media: i2c: imx296: fix error checking in imx296_read_temperature()
-
-Daniel Scally (2):
-      media: i2c: Correct format propagation for st-mipid02
-      media: st-mipid02: Propagate format from sink to source pad
-
-Dmitry Torokhov (1):
-      media: c8sectpfe: switch to using gpiod API
-
-Geert Uytterhoeven (1):
-      media: renesas: fdp1: Identify R-Car Gen2 versions
-
-Guoniu.zhou (1):
-      media: ov5640: correct comments for default VGA to avoid confusion
-
-Jack Zhu (1):
-      media: admin-guide: Update rkisp1.rst
-
-Jacopo Mondi (2):
-      media: ov5640: Remove unused 'framerate' parameter
-      media: ov5640: Drop dead code using frame_interval
-
-Krzysztof Kozlowski (2):
-      media: dt-bindings: qcom: camss: correct unit address
-      media: i2c: video: constify pointers to hwmon_channel_info
-
-Laurent Pinchart (1):
-      media: imx: imx7-media-csi: Init default format with __imx7_csi_video_try_fmt()
-
-Martin Kepplinger (1):
-      media: hi846: fix usage of pm_runtime_get_if_in_use()
-
-Niklas Söderlund (6):
-      dt-bindings: i2c: maxim,max96712: Require setting bus-type property
-      media: rcar-csi2: Prepare for Gen4 support
-      media: rcar-csi2: Prepare for C-PHY support
-      media: staging: max96712: Add support for 3-lane C-PHY
-      media: rcar-isp: Add support for R-Car V4H
-      media: rcar-vin: Add support for R-Car V4H
-
-Sakari Ailus (8):
-      Documentation: v4l: Document rotation and orientation for sensor drivers
-      media: mc: Make media_entity_get_fwnode_pad() fwnode argument const
-      media: pci: ipu3-cio2: Obtain remote pad from endpoint
-      media: mc: Make media_get_pad_index() use pad type flag
-      media: Documentation: Rename meta format files
-      media: uapi: Use unsigned int values for assigning bits in u32 fields
-      media: uapi: Fix [GS]_ROUTING ACTIVE flag value
-      media: ipu3-cio2: Fix container_of() macro wrapper arguments
-
-Shravan Chippa (1):
-      media: i2c: imx334: update pixel, hblank and link frequency
-
- Documentation/admin-guide/media/rkisp1.rst         |    4 +-
- .../bindings/media/i2c/maxim,max96712.yaml         |    7 +
- .../bindings/media/qcom,msm8916-camss.yaml         |    2 +-
- .../bindings/media/qcom,msm8996-camss.yaml         |    2 +-
- .../bindings/media/qcom,sdm660-camss.yaml          |    2 +-
- .../bindings/media/qcom,sdm845-camss.yaml          |    2 +-
- Documentation/driver-api/media/camera-sensor.rst   |   22 +
- .../userspace-api/media/v4l/ext-ctrls-camera.rst   |    3 +
- .../userspace-api/media/v4l/meta-formats.rst       |   14 +-
- .../v4l/{pixfmt-meta-d4xx.rst => metafmt-d4xx.rst} |    0
- ...-meta-intel-ipu3.rst => metafmt-intel-ipu3.rst} |    0
- .../{pixfmt-meta-rkisp1.rst => metafmt-rkisp1.rst} |    0
- .../v4l/{pixfmt-meta-uvc.rst => metafmt-uvc.rst}   |    0
- .../{pixfmt-meta-vivid.rst => metafmt-vivid.rst}   |    0
- ...xfmt-meta-vsp1-hgo.rst => metafmt-vsp1-hgo.rst} |    0
- ...xfmt-meta-vsp1-hgt.rst => metafmt-vsp1-hgt.rst} |    0
- .../media/v4l/vidioc-subdev-g-routing.rst          |    2 +-
- MAINTAINERS                                        |   11 +-
- drivers/media/dvb-core/dvbdev.c                    |    4 +-
- drivers/media/i2c/Kconfig                          |   13 +
- drivers/media/i2c/Makefile                         |    1 +
- drivers/media/i2c/hi846.c                          |    3 +-
- drivers/media/i2c/imx296.c                         |    4 +-
- drivers/media/i2c/imx334.c                         |   62 +-
- drivers/media/i2c/ov01a10.c                        | 1004 ++++++++++++++++++++
- drivers/media/i2c/ov5640.c                         |   19 +-
- drivers/media/i2c/ov5693.c                         |    4 +-
- drivers/media/i2c/st-mipid02.c                     |   15 +-
- drivers/media/i2c/video-i2c.c                      |    2 +-
- drivers/media/mc/mc-entity.c                       |   18 +-
- drivers/media/pci/intel/ipu3/ipu3-cio2-main.c      |   31 +-
- drivers/media/platform/nxp/imx7-media-csi.c        |   94 +-
- drivers/media/platform/renesas/rcar-isp.c          |    1 +
- .../media/platform/renesas/rcar-vin/rcar-core.c    |   13 +
- .../media/platform/renesas/rcar-vin/rcar-csi2.c    |  100 +-
- drivers/media/platform/renesas/rcar_fdp1.c         |    5 +
- .../platform/st/sti/c8sectpfe/c8sectpfe-core.c     |   33 +-
- .../platform/st/sti/c8sectpfe/c8sectpfe-core.h     |    4 +-
- drivers/media/platform/video-mux.c                 |    1 +
- drivers/media/usb/au0828/au0828-core.c             |    2 +-
- drivers/media/v4l2-core/v4l2-mc.c                  |   38 +-
- drivers/staging/media/max96712/max96712.c          |   38 +-
- include/media/media-entity.h                       |    6 +-
- include/uapi/linux/media.h                         |   28 +-
- 44 files changed, 1388 insertions(+), 226 deletions(-)
- rename Documentation/userspace-api/media/v4l/{pixfmt-meta-d4xx.rst => metafmt-d4xx.rst} (100%)
- rename Documentation/userspace-api/media/v4l/{pixfmt-meta-intel-ipu3.rst => metafmt-intel-ipu3.rst} (100%)
- rename Documentation/userspace-api/media/v4l/{pixfmt-meta-rkisp1.rst => metafmt-rkisp1.rst} (100%)
- rename Documentation/userspace-api/media/v4l/{pixfmt-meta-uvc.rst => metafmt-uvc.rst} (100%)
- rename Documentation/userspace-api/media/v4l/{pixfmt-meta-vivid.rst => metafmt-vivid.rst} (100%)
- rename Documentation/userspace-api/media/v4l/{pixfmt-meta-vsp1-hgo.rst => metafmt-vsp1-hgo.rst} (100%)
- rename Documentation/userspace-api/media/v4l/{pixfmt-meta-vsp1-hgt.rst => metafmt-vsp1-hgt.rst} (100%)
- create mode 100644 drivers/media/i2c/ov01a10.c
+ .../devicetree/bindings/net/brcm,asp-v2.0.yaml     |  145 ++
+ .../devicetree/bindings/net/brcm,unimac-mdio.yaml  |    2 +
+ MAINTAINERS                                        |    9 +
+ drivers/net/ethernet/broadcom/Kconfig              |   11 +
+ drivers/net/ethernet/broadcom/Makefile             |    1 +
+ drivers/net/ethernet/broadcom/asp2/Makefile        |    2 +
+ drivers/net/ethernet/broadcom/asp2/bcmasp.c        | 1460 ++++++++++++++++++++
+ drivers/net/ethernet/broadcom/asp2/bcmasp.h        |  636 +++++++++
+ .../net/ethernet/broadcom/asp2/bcmasp_ethtool.c    |  568 ++++++++
+ drivers/net/ethernet/broadcom/asp2/bcmasp_intf.c   | 1429 +++++++++++++++++++
+ .../net/ethernet/broadcom/asp2/bcmasp_intf_defs.h  |  238 ++++
+ drivers/net/mdio/mdio-bcm-unimac.c                 |    2 +
+ drivers/net/phy/bcm7xxx.c                          |    1 +
+ include/linux/brcmphy.h                            |    1 +
+ 14 files changed, 4505 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
+ create mode 100644 drivers/net/ethernet/broadcom/asp2/Makefile
+ create mode 100644 drivers/net/ethernet/broadcom/asp2/bcmasp.c
+ create mode 100644 drivers/net/ethernet/broadcom/asp2/bcmasp.h
+ create mode 100644 drivers/net/ethernet/broadcom/asp2/bcmasp_ethtool.c
+ create mode 100644 drivers/net/ethernet/broadcom/asp2/bcmasp_intf.c
+ create mode 100644 drivers/net/ethernet/broadcom/asp2/bcmasp_intf_defs.h
 
 -- 
-Kind regards,
+2.7.4
 
-Sakari Ailus
+
+--000000000000525d2805fc127bd9
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+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
+NhTY3E+cXCB11wty89QStajwXdhGJTYEvUgvsq1h8CwJj9w/38ldAQf5WjhPmApYeJR2ewFrBMCM
+4lHkdRJ6TDc9nXoEkypUfjJkJHe7Eal06tosh6JpAgMBAAGjggHZMIIB1TAOBgNVHQ8BAf8EBAMC
+BaAwgaMGCCsGAQUFBwEBBIGWMIGTME4GCCsGAQUFBzAChkJodHRwOi8vc2VjdXJlLmdsb2JhbHNp
+Z24uY29tL2NhY2VydC9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcnQwQQYIKwYBBQUHMAGG
+NWh0dHA6Ly9vY3NwLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwME0G
+A1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3dy5nbG9iYWxz
+aWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAAMEkGA1UdHwRCMEAwPqA8oDqGOGh0dHA6Ly9j
+cmwuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3JsMCMGA1UdEQQc
+MBqBGGp1c3Rpbi5jaGVuQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAfBgNVHSME
+GDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUIWGeYuaTsnIada5Xx8TR3cheUbgw
+DQYJKoZIhvcNAQELBQADggEBAHNQlMqQOFYPYFO71A+8t+qWMmtOdd2iGswSOvpSZ/pmGlfw8ZvY
+dRTkl27m37la84AxRkiVMes14JyOZJoMh/g7fbgPlU14eBc6WQWkIA6AmNkduFWTr1pRezkjpeo6
+xVmdBLM4VY1TFDYj7S8H2adPuypd62uHMY/MZi+BIUys4uAFA+N3NuUBNjcVZXYPplYxxKEuIFq6
+sDL+OV16G+F9CkNMN3txsym8Nnx5WAYZb6+rBUIhMGz70V05xsHQfzvo2s7f0J1tJ5BoRlPPhL0h
+VOnWA3h71u9TfSsv+PXVm3P21TfOS2uc1hbzEqyENCP4i5XQ0rv0TmPW42GZ0o4xggJtMIICaQIB
+ATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQDEyhH
+bG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwj8BKLXNpALfemdRAwDQYJ
+YIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIM4pINJMkaydzN+s28Xv+4C30q3ToFMTFELA
+cRF95PMtMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIzMDUxOTIx
+MTk1MlowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCGSAFl
+AwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQCATAN
+BgkqhkiG9w0BAQEFAASCAQBf0GtU2iJHv3xESNy8NAqhFk2yfQJ1ETX37zQG2NDDMzdS7biJg451
+9Ux+6qQEwtjV4U3Chi+l28Z5agSiDeF9i4lTD2taloR6kiOCvw2L9qACV0BboborN1B2VGVvDOyA
+vgaARYTKBSsfKcXNFnV1/CGsXyLGw9F5XrUn7ulCeBcwwu85pFWMLEqWvV+HRPyidmkwytmZz9AI
+V0x9+IK3G9BupTDYzw6QX5IA+l5L64DxPSIV4ELAojEsB3JCTGHpjjTCECAy8qLacpccr+BvuzlH
+8HM8BDNtvXGJkTkM7HpC/qa+v8TsJ+cYh7mMr1142rZ9gbyN4rmKTuvAd7CE
+--000000000000525d2805fc127bd9--
