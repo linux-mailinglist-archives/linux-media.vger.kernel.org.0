@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FCB170A9B3
-	for <lists+linux-media@lfdr.de>; Sat, 20 May 2023 20:19:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE50C70A9DE
+	for <lists+linux-media@lfdr.de>; Sat, 20 May 2023 20:21:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231687AbjETSTi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 20 May 2023 14:19:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40832 "EHLO
+        id S231946AbjETSV5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 20 May 2023 14:21:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231688AbjETSTY (ORCPT
+        with ESMTP id S231774AbjETSVs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 20 May 2023 14:19:24 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 698C7E6F;
-        Sat, 20 May 2023 11:19:05 -0700 (PDT)
+        Sat, 20 May 2023 14:21:48 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30700E52;
+        Sat, 20 May 2023 11:21:23 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 581B360B51;
-        Sat, 20 May 2023 18:18:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC294C433EF;
-        Sat, 20 May 2023 18:18:15 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CB5DF60C07;
+        Sat, 20 May 2023 18:21:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58D60C433D2;
+        Sat, 20 May 2023 18:21:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684606696;
-        bh=wUUPDJ7oxjmYaBSkq+fnMwUktitXjVLulGSnwpjis3U=;
+        s=k20201202; t=1684606873;
+        bh=kXan3NraEurdaWBq41zYwmJFzrEv8zVPeN6RH9hcA5k=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cL/00kMriKkZPfxmJmGxeQlLaFwl+p1sLcMwIEKEeQXJUR7CdHijh0aliCajqzZpA
-         AAvXcBz7Sbn/YPVB4hypXGQuyWrmpnU8qPwXiZQFOAjCcLFx2O0gh9+Qhf8qF/6uqu
-         XuNZvHM7eISuhFYyX5kyt70wFEWCahltuwvaDRVG3ViVHEVoSiTHfLIumDh5sAi5Mp
-         qEkXybhUu+sIAZthpg6fKOaDt9XJofxlqLYvmgDV6wOIq8/pVlA3cTLILyG2HKKISz
-         59Ve6Vhsykcs2W6d2Ec5NTs+oFm0Cdr+esFw4GREuITUUxn5qXo+Xg55gfEbKl0VZj
-         /h2uljoVy9D2w==
+        b=cY93oyEZ86npAUHWmnGOuC7KobLL1wr5Jez2r6S8kBxFa4ceBX3fpJ6Lissb51YM/
+         2IwK4kuFS2lQPqzTWW4T7tFAiGC7g3ygI/0yvCSaeoc2QhWAqOAxUT5jjJUneDXMQ0
+         JrirXw4MWeAQInCalhfdElFJyPB48mOqPlhKZfpnSamRfEmkqb+U0gy1AMofuQB2sB
+         6kqcTJBHuyvQhk3gqJEhK3ZlAIF/WUe/1t5Qb0wF2u5+QsyO+nUav8U3etNKVQXgex
+         h4UM47FASxQ4jphOJGusDvpOj8ycb4HEDiyrdFp4jrWh5qa/yFaJ1w2JEWRHySXEmf
+         oKPJbKy/LX8XQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
@@ -40,19 +40,19 @@ Cc:     =?UTF-8?q?Niklas=20S=C3=B6derlund?=
         Sasha Levin <sashal@kernel.org>, niklas.soderlund@ragnatech.se,
         mchehab@kernel.org, linux-media@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.3 08/18] media: rcar-vin: Select correct interrupt mode for V4L2_FIELD_ALTERNATE
-Date:   Sat, 20 May 2023 14:17:40 -0400
-Message-Id: <20230520181750.823365-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 05/14] media: rcar-vin: Select correct interrupt mode for V4L2_FIELD_ALTERNATE
+Date:   Sat, 20 May 2023 14:20:33 -0400
+Message-Id: <20230520182044.836702-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230520181750.823365-1-sashal@kernel.org>
-References: <20230520181750.823365-1-sashal@kernel.org>
+In-Reply-To: <20230520182044.836702-1-sashal@kernel.org>
+References: <20230520182044.836702-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -82,10 +82,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-index 23598e22adc72..2a77353f10b59 100644
+index 3aea96d85165a..ef5adffae1972 100644
 --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
 +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-@@ -728,11 +728,9 @@ static int rvin_setup(struct rvin_dev *vin)
+@@ -651,11 +651,9 @@ static int rvin_setup(struct rvin_dev *vin)
  	case V4L2_FIELD_SEQ_TB:
  	case V4L2_FIELD_SEQ_BT:
  	case V4L2_FIELD_NONE:
