@@ -2,49 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9386F70AFF1
-	for <lists+linux-media@lfdr.de>; Sun, 21 May 2023 21:33:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74F3570B071
+	for <lists+linux-media@lfdr.de>; Sun, 21 May 2023 23:00:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230419AbjEUTdL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 21 May 2023 15:33:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38762 "EHLO
+        id S230419AbjEUVAI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 21 May 2023 17:00:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230414AbjEUTdJ (ORCPT
+        with ESMTP id S229528AbjEUVAH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 21 May 2023 15:33:09 -0400
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BEB2E0;
-        Sun, 21 May 2023 12:33:07 -0700 (PDT)
-Received: (Authenticated sender: didi.debian@cknow.org)
-        by mail.gandi.net (Postfix) with ESMTPSA id 6D3CA240002;
-        Sun, 21 May 2023 19:33:00 +0000 (UTC)
-From:   Diederik de Haas <didi.debian@cknow.org>
-To:     Jacob Chen <jacob-chen@iotwrt.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Rob Herring <robh+dt@kernel.org>,
-        Michael Tretter <m.tretter@pengutronix.de>,
+        Sun, 21 May 2023 17:00:07 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A90F9DD;
+        Sun, 21 May 2023 14:00:04 -0700 (PDT)
+Received: from workpc.. (109-252-147-95.dynamic.spd-mgts.ru [109.252.147.95])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: dmitry.osipenko)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id E64DE6603276;
+        Sun, 21 May 2023 21:59:59 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1684702802;
+        bh=GIXilKY2uDiAyFEFs3WQryEDhmdiI2VTNt842YIAWGc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=VBUZ1X3ffZxM2ZjEtSY8f9UTW7/+UeldmI6gPxAyUm3iqxpBLX5+cKl6yFrueTocM
+         DGPqwN9fCgJ6jda9pnnZs9CyzQFr9PFNphM527hLE6n2gcA+gqrUYFGTTiCFjlThKv
+         qgp3urTeRK3yqpczeyBA604cBoXgYkrY9kspwuEEPbK7LJ0UCHLTtLE32ypscD/oqZ
+         x361DMtNHSm3G89w2rdaB36SYr2r2jEWEF+DTLGU+hSVaIFMeON86xwtRufeS8VV1X
+         aZmvSH9U95RR+CXvtTmtKa5MDtXw94TWtXqTW78BnWj5+1GiaamjptQ8hfgfTkpTvF
+         LJB/moJbYutDQ==
+From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To:     Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <jstultz@google.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-rockchip@lists.infradead.org,
-        Heiko Stuebner <heiko@sntech.de>
-Cc:     Heiko Stuebner <heiko@sntech.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH RESEND 0/2] media: rockchip: rga: Add rk3568 support
-Date:   Sun, 21 May 2023 21:32:51 +0200
-Message-ID: <2386524.2IynHR6iFi@prancing-pony>
-Organization: Connecting Knowledge
-In-Reply-To: <168466589373.900480.8086350880534437090.b4-ty@sntech.de>
-References: <20230119-rk3568-rga-v1-0-43d4d14365e6@pengutronix.de>
- <168466589373.900480.8086350880534437090.b4-ty@sntech.de>
+        Emil Velikov <emil.l.velikov@gmail.com>
+Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org, kernel@collabora.com
+Subject: [PATCH v3 0/6] Move dma-buf mmap() reservation locking down to exporters
+Date:   Sun, 21 May 2023 23:51:06 +0300
+Message-Id: <20230521205112.150206-1-dmitry.osipenko@collabora.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart2141483.da5uFje5fu";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -52,60 +69,85 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---nextPart2141483.da5uFje5fu
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
-From: Diederik de Haas <didi.debian@cknow.org>
-Date: Sun, 21 May 2023 21:32:51 +0200
-Message-ID: <2386524.2IynHR6iFi@prancing-pony>
-Organization: Connecting Knowledge
-In-Reply-To: <168466589373.900480.8086350880534437090.b4-ty@sntech.de>
-MIME-Version: 1.0
+This patchset makes dma-buf exporters responisble for taking care of
+the reservation lock. I also included patch that moves drm-shmem to use
+reservation lock, to let CI test the whole set. I'm going to take all
+the patches via the drm-misc tree, please give an ack.
 
-On Sunday, 21 May 2023 12:44:58 CEST Heiko Stuebner wrote:
-> On Fri, 20 Jan 2023 10:14:21 +0100, Michael Tretter wrote:
-> > The RGA2 on the Rockchip rk3568 is the same core as the RGA2 on the
-> > Rockchip rk3288.
-> > 
-> > This series adds the necessary device tree binding and node in the device
-> > tree to enable the RGA2 on the Rockchip rk3568.
-> > 
-> > I tested the driver with the GStreamer v4l2convert element on a Rock3
-> > Model A board.
-> > 
-> > [...]
-> 
-> Applied, thanks!
-> 
-> [1/2] media: dt-bindings: media: rockchip-rga: add rockchip,rk3568-rga
->       commit: 9b12ceb5a80d1fb45d293265de100e33b5843943
-> [2/2] arm64: dts: rockchip: Add RGA2 support to rk356x
->       commit: 0c3391f8bb06b744df521651534cd99e3d77e0a8
+Previous policy stated that dma-buf core takes the lock around mmap()
+callback. Which meant that both importers and exporters shouldn't touch
+the reservation lock in the mmap() code path. This worked well until
+Intel-CI found a deadlock problem in a case of self-imported dma-buf [1].
 
-https://lore.kernel.org/all/TY3P286MB26115F60D273E840D36A610598CA9@TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM/
+The problem happens when userpace mmaps a self-imported dma-buf, i.e.
+mmaps the dma-buf FD. DRM core treats self-imported dma-bufs as own GEMs
+[2]. There is no way to differentiate a prime GEM from a normal GEM for
+drm-shmem in drm_gem_shmem_mmap(), which resulted in a deadlock problem
+for drm-shmem mmap() code path once it's switched to use reservation lock.
 
-indicated that there was a problem with device >= 4GB (RAM?):
-> Since we have the over-4GB problem now, should we mark this problem as a
-> TODO or something?
+It was difficult to fix the drm-shmem problem without adjusting dma-buf
+locking policy. In parctice not much changed from importers perspective
+because previosly dma-buf was taking the lock in between of importers
+and exporters. Now this lock is shifted down to exporters.
 
-I thought that was the reason that these patches weren't picked up before?
+[1] https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_114671v2/shard-snb5/igt@prime_vgem@sync@rcs0.html
+[2] https://elixir.bootlin.com/linux/v6.3-rc4/source/drivers/gpu/drm/drm_prime.c#L924
 
-I have no insight into this problem, so I can't comment on the technical
-aspects, but I had made a note for myself 'locally' about it.
---nextPart2141483.da5uFje5fu
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
+Changelog:
 
------BEGIN PGP SIGNATURE-----
+v3: - Added r-b from Hans Verkuil to the videobuf2 patch.
 
-iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZGpx4wAKCRDXblvOeH7b
-brDNAQCQRk0uL8qr7RMJLjC56GL9KRq/TtmKBlnQUaSGchIxVQEAxlugcLBQ9jQf
-I7iu5nMhGOwfgEn3VBfHPtIgbDurnQk=
-=qohm
------END PGP SIGNATURE-----
+    - The v2 fastrpc patch was already applied, not including it anymore.
+      Though, the cover-letter says that I'd want to apply all the patches
+      via the drm-misc tree to keep the proper ordering of the changes.
 
---nextPart2141483.da5uFje5fu--
+    - Previously Intel's CI gave a flake failure to v2, want to re-test
+      it again.
 
+v2: - Added ack from Christian König to the DRM patch.
 
+    - Dropped "fixes" tag from the patches, like was requested by
+      Christian König. The patches don't actually need a backport
+      and merely improve the locking policy.
+
+    - Dropped "reverts" from the patch titles to prevent them from
+      auto-backporting by the stable bot based on the title.
+
+    - Added r-b from Emil Velikov and placed the drm_WARN in the
+      drm-shmem patch like he suggested in a comment to v1.
+
+    - Corrected drm-shmem patch dma_resv_lock(obj->resv) inconsistently
+      used with dma_resv_unlock(shmem->base.resv). Now shmem->base.resv
+      variant is used for all locks/unlocks.
+
+Dmitry Osipenko (6):
+  media: videobuf2: Don't assert held reservation lock for dma-buf
+    mmapping
+  dma-buf/heaps: Don't assert held reservation lock for dma-buf mmapping
+  udmabuf: Don't assert held reservation lock for dma-buf mmapping
+  drm: Don't assert held reservation lock for dma-buf mmapping
+  dma-buf: Change locking policy for mmap()
+  drm/shmem-helper: Switch to reservation lock
+
+ drivers/dma-buf/dma-buf.c                     |  17 +-
+ drivers/dma-buf/heaps/cma_heap.c              |   3 -
+ drivers/dma-buf/heaps/system_heap.c           |   3 -
+ drivers/dma-buf/udmabuf.c                     |   2 -
+ drivers/gpu/drm/drm_gem_shmem_helper.c        | 208 ++++++++----------
+ drivers/gpu/drm/drm_prime.c                   |   2 -
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |   2 -
+ drivers/gpu/drm/lima/lima_gem.c               |   8 +-
+ drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c     |   2 -
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |   7 +-
+ .../gpu/drm/panfrost/panfrost_gem_shrinker.c  |   6 +-
+ drivers/gpu/drm/panfrost/panfrost_mmu.c       |  19 +-
+ drivers/gpu/drm/tegra/gem.c                   |   2 -
+ .../common/videobuf2/videobuf2-dma-contig.c   |   3 -
+ .../media/common/videobuf2/videobuf2-dma-sg.c |   3 -
+ .../common/videobuf2/videobuf2-vmalloc.c      |   3 -
+ include/drm/drm_gem_shmem_helper.h            |  14 +-
+ 17 files changed, 117 insertions(+), 187 deletions(-)
+
+-- 
+2.40.1
 
