@@ -2,240 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F3D070CB42
-	for <lists+linux-media@lfdr.de>; Mon, 22 May 2023 22:36:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E1F570CBF0
+	for <lists+linux-media@lfdr.de>; Mon, 22 May 2023 23:06:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234361AbjEVUf6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 May 2023 16:35:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43540 "EHLO
+        id S235367AbjEVVGI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 May 2023 17:06:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234696AbjEVUfc (ORCPT
+        with ESMTP id S234660AbjEVVGG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 May 2023 16:35:32 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 526C5F4;
-        Mon, 22 May 2023 13:35:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684787729; x=1716323729;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=7N6rDj5rVH8bpnWib0FQj2temCKXyDOfvQY30QqX8dg=;
-  b=hkUn48G+qTPIxchNuwToPx5NDli5UQxvRHJoBZFizoDquw8ELxrau4w3
-   87oCwZzD6QIFeumoCDCqfYXtOqtih6LbecKsfkZqGdHPGCVoELj9p94qJ
-   /0dXiZR344ZAWGYjh4PHp+SRjg+9Zjd0bhie7YEB0zNeKgUEHHz8bgFTe
-   meamWBKT47uZf72GbcK/JjS2MnLveQ5og0bSk5rsQrdupJnTtSRMB4jm5
-   FCWMN+RzKJ8IDf3s8lajnF05/gxAQolHgS3nIMoDBhx1jEQariYv6EAWO
-   qri4oz2kXifFRrKz8V94sHdlOM52wV517losdW1Dm/iQnBv0mNiNV67Kd
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10718"; a="353059611"
-X-IronPort-AV: E=Sophos;i="6.00,184,1681196400"; 
-   d="scan'208";a="353059611"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2023 13:35:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10718"; a="734407654"
-X-IronPort-AV: E=Sophos;i="6.00,184,1681196400"; 
-   d="scan'208";a="734407654"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2023 13:35:26 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id F2B67120CAC;
-        Mon, 22 May 2023 23:25:49 +0300 (EEST)
-Date:   Mon, 22 May 2023 20:25:49 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
-        andriy.shevchenko@linux.intel.com, heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH v8 02/10] ACPI: property: Parse data node string
- references in properties
-Message-ID: <ZGvPzfnr7CMjcjdY@kekkonen.localdomain>
-References: <20230329100951.1522322-1-sakari.ailus@linux.intel.com>
- <20230329100951.1522322-3-sakari.ailus@linux.intel.com>
- <CAJZ5v0gG1Zc8h8Lt_tKJp8u7b-nH0Rxt=2j9RqptMVc8r0vL7Q@mail.gmail.com>
- <ZGNn9jOWmh0/aEOW@kekkonen.localdomain>
- <CAJZ5v0iPcSc_x9g1tpTOVVaEB+9O_6N8SFqWSgG_ku+dNqveQg@mail.gmail.com>
- <ZGuYHGMQBzBi4myq@kekkonen.localdomain>
- <CAJZ5v0hW-JewnYP48sowLmi7=v00EBWJLLR-8mWBK8-DOeC=uA@mail.gmail.com>
+        Mon, 22 May 2023 17:06:06 -0400
+Received: from mail-il1-f205.google.com (mail-il1-f205.google.com [209.85.166.205])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCDD3B7
+        for <linux-media@vger.kernel.org>; Mon, 22 May 2023 14:06:04 -0700 (PDT)
+Received: by mail-il1-f205.google.com with SMTP id e9e14a558f8ab-3382e29ab5bso670675ab.0
+        for <linux-media@vger.kernel.org>; Mon, 22 May 2023 14:06:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684789564; x=1687381564;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VLNW8RUeV1ytOiHOrZ5VF3AFlqsNVobO/I7Gz9UWEkc=;
+        b=FPvlSG76tBtzsnHvvVzcj8USeiWj8G3fvAsOXdV1Zjk7GUrq0LlaNFzOpoQoVSq26X
+         Bj0NGbhODQ6ex63ontbdj3vpfQPp/GU4PI13O0hfMW19bITbnO+aWflffSTmhHDlewIs
+         5aA9jj/4wCapHQmDW0lglhUpD5cHYn8t3onTR7+xtdysmmNV8mdNKSBXsUBtqFDmHwAf
+         7d2w6wT35QVUUeTcDyZXlASpq+74Mfd1NeCybpegAKWVTvh8x1mu0+PJ9Nj7epoiMViA
+         3mxeafu0unqtuyitWSVP6eTUC/jK6O8EX4ize6UM1986sBvGLY5IEN9rWv4f/JQgbcGa
+         2aGw==
+X-Gm-Message-State: AC+VfDz3VTPWyjDYL/e7KKZ0qk7vHS3ufUXZxo8t4R0dBdOIvs2JSGP2
+        nRFBf2cNRiAf++iAbyFllNc5brDqsS8UC1OoRqjxh8LdYyc4
+X-Google-Smtp-Source: ACHHUZ5Ew0z7LmUWGcfvyMiI4Iuu9t5wCenKIe7OhFXWmTqZnghnDpVrBn+FezGc/jEfaT3nEJrp0MkHfq9QdKzlTMuUGXhfDEDV
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJZ5v0hW-JewnYP48sowLmi7=v00EBWJLLR-8mWBK8-DOeC=uA@mail.gmail.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Received: by 2002:a92:d6cf:0:b0:338:c5c6:91f9 with SMTP id
+ z15-20020a92d6cf000000b00338c5c691f9mr4847639ilp.1.1684789564206; Mon, 22 May
+ 2023 14:06:04 -0700 (PDT)
+Date:   Mon, 22 May 2023 14:06:04 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000007ef71705fc4ea3ad@google.com>
+Subject: [syzbot] [usb?] WARNING in corrupted (3)
+From:   syzbot <syzbot+27b0b464864741b18b99@syzkaller.appspotmail.com>
+To:     duoming@zju.edu.cn, hverkuil-cisco@xs4all.nl,
+        jiangshanlai@gmail.com, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        mchehab@kernel.org, syzkaller-bugs@googlegroups.com, tj@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rafael,
+Hello,
 
-On Mon, May 22, 2023 at 06:38:37PM +0200, Rafael J. Wysocki wrote:
-> Hi Sakari,
-> 
-> On Mon, May 22, 2023 at 6:28 PM Sakari Ailus
-> <sakari.ailus@linux.intel.com> wrote:
-> > On Mon, May 22, 2023 at 05:29:48PM +0200, Rafael J. Wysocki wrote:
-> > > On Tue, May 16, 2023 at 1:24 PM Sakari Ailus
-> > > <sakari.ailus@linux.intel.com> wrote:
-> > > > On Fri, May 12, 2023 at 06:04:26PM +0200, Rafael J. Wysocki wrote:
-> > > > > On Wed, Mar 29, 2023 at 12:10 PM Sakari Ailus
-> > > > > <sakari.ailus@linux.intel.com> wrote:
-> > > > > >
-> > > > > > Add support for parsing property references using strings, besides
-> > > > > > reference objects that were previously supported. This allows also
-> > > > > > referencing data nodes which was not possible with reference objects.
-> > > > > >
-> > > > > > Also add pr_fmt() macro to prefix printouts.
-> > > > > >
-> > > > > > While at it, update copyright.
-> > > > >
-> > > > > Although I said that it looked good to me, some minor improvements can
-> > > > > still be made.
-> > > > >
-> > > > > First off, the above changelog is a bit terse.
-> > > > >
-> > > > > I think that it would help to provide an example of device properties
-> > > > > that would not be parsed properly before the change and can be parsed
-> > > > > now.
-> > > > >
-> > > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > > > ---
-> > > > > >  drivers/acpi/property.c | 110 ++++++++++++++++++++++++++++++++++------
-> > > > > >  1 file changed, 94 insertions(+), 16 deletions(-)
-> > > > > >
-> > > > > > diff --git a/drivers/acpi/property.c b/drivers/acpi/property.c
-> > > > > > index b8d9eb9a433e..08831ffba26c 100644
-> > > > > > --- a/drivers/acpi/property.c
-> > > > > > +++ b/drivers/acpi/property.c
-> > > > > > @@ -2,14 +2,17 @@
-> > > > > >  /*
-> > > > > >   * ACPI device specific properties support.
-> > > > > >   *
-> > > > > > - * Copyright (C) 2014, Intel Corporation
-> > > > > > + * Copyright (C) 2014-2023, Intel Corporation
-> > > > > >   * All rights reserved.
-> > > > > >   *
-> > > > > >   * Authors: Mika Westerberg <mika.westerberg@linux.intel.com>
-> > > > > > - *          Darren Hart <dvhart@linux.intel.com>
-> > > > > > - *          Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > > > > > + *         Darren Hart <dvhart@linux.intel.com>
-> > > > > > + *         Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> > > > >
-> > > > > I'm not sure if the whitespace change here is really useful.
-> > > >
-> > > > I did that to address a comment from Andy --- the earlier lines used spaces
-> > > > for indentation.
-> > > >
-> > > > >
-> > > > > > + *         Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > > >   */
-> > > > > >
-> > > > > > +#define pr_fmt(fmt) "ACPI: " fmt
-> > > > > > +
-> > > > > >  #include <linux/acpi.h>
-> > > > > >  #include <linux/device.h>
-> > > > > >  #include <linux/export.h>
-> > > > > > @@ -795,7 +798,8 @@ acpi_fwnode_get_named_child_node(const struct fwnode_handle *fwnode,
-> > > > > >  static int acpi_get_ref_args(struct fwnode_reference_args *args,
-> > > > > >                              struct fwnode_handle *ref_fwnode,
-> > > > > >                              const union acpi_object **element,
-> > > > > > -                            const union acpi_object *end, size_t num_args)
-> > > > > > +                            const union acpi_object *end, size_t num_args,
-> > > > > > +                            bool subnode_string)
-> > > > >
-> > > > > The meaning of the new argument isn't really clear.  it would be good
-> > > > > to somehow help a casual reader of the code to find this out more
-> > > > > easily.
-> > > >
-> > > > I can add comments to v9.
-> > >
-> > > If you can send me an example of ASL that will be parsed correctly
-> > > after this change, but not before, it will help a bit.
-> >
-> > E.g. this bit from DisCo for Imaging 1.0 (Annex B.1):
-> >
-> >         Package () {
-> >             "mipi-img-flash-leds",
-> >             Package () {
-> >                 "\\_SB.PCI0.I2C2.LEDD.LED0",
-> >                 "\\_SB.PCI0.I2C2.LEDD.LED1"
-> >             },
-> >         },
-> >
-> > It's a property with a string reference to an ACPI non-device node,
-> > although you can refer to device nodes as well.
-> 
-> This example is missing the definition of LED0 or LED1 from which it
-> would be clear that they are data nodes (or at least one of them is a
-> data node).
+syzbot found the following issue on:
 
-Ok, perhaps this one could work as a complete example, with a single
-reference:
+HEAD commit:    4d6d4c7f541d Merge tag 'linux-kselftest-fixes-6.4-rc3' of ..
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=15a9a641280000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=ac0db1213414a978
+dashboard link: https://syzkaller.appspot.com/bug?extid=27b0b464864741b18b99
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12bc26ee280000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17684629280000
 
-	Package ()
-        {
-	    "mipi-img-flash-leds",  "\\_SB.PCI0.I2C2.LEDD.LED0",
-	}
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/ebfde1c1eecf/disk-4d6d4c7f.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/4938c9109cd4/vmlinux-4d6d4c7f.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/8c31ee617052/bzImage-4d6d4c7f.xz
 
-        Device (LEDD)
-        {
-            Name (_DSD, Package ()  // _DSD: Device-Specific Data
-            {
-                ToUUID ("dbb8e3e6-5886-4ba6-8795-1319f52a966b"), /* Hierarchical Data Extension */,
-                Package ()
-                {
-                    Package ()
-                    {
-                        "mipi-img-flash-led-0", 
-                        "LED0",
-                    }
-                },
-            })
-            Name (LED0, Package ()  // _DSD: Device-Specific Data
-            {
-                ToUUID ("daffd814-6eba-4d8c-8a91-bc9bbf4aa301") /* Device Properties for _DSD */,
-                Package ()
-                {
-                    Package ()
-                    {
-                        "mipi-img-max-current", 
-                        1000000,
-                    }
-                }
-            })
-	}
+The issue was bisected to:
+
+commit ebad8e731c1c06adf04621d6fd327b860c0861b5
+Author: Duoming Zhou <duoming@zju.edu.cn>
+Date:   Mon Jan 23 02:04:38 2023 +0000
+
+    media: usb: siano: Fix use after free bugs caused by do_submit_urb
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=16584629280000
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=15584629280000
+console output: https://syzkaller.appspot.com/x/log.txt?x=11584629280000
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+27b0b464864741b18b99@syzkaller.appspotmail.com
+Fixes: ebad8e731c1c ("media: usb: siano: Fix use after free bugs caused by do_submit_urb")
+
+usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+usb 1-1: Product: syz
+usb 1-1: Manufacturer: syz
+usb 1-1: SerialNumber: syz
+usb 1-1: config 0 descriptor??
+smsusb:smsusb_probe: board id=7, interface number 0
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 897 at kernel/workqueue.c:3182 __flush_work+0x946/0xb60 kernel/workqueue.c:3182
+Modules linked in:
+CPU: 0 PID: 897 Comm: kworker/0:2 Not tainted 6.4.0-rc2-syzkaller-00018-g4d6d4c7f541d #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/28/2023
+Workqueue: usb_hub_wq hub_event
+RIP: 0010:__flush_work+0x946/0xb60 kernel/workqueue.c:3182
+Code: 00 48 c7 c6 9b f7 53 81 48 c7 c7 40 90 79 8c e8 d0 ec 11 00 e9 6f fc ff ff e8 06 4b 30 00 0f 0b e9 63 fc ff ff e8 fa 4a 30 00 <0f> 0b 45 31 ed e9 54 fc ff ff e8 5b 12 83 00 e9 3e fb ff ff e8 e1
+RSP: 0018:ffffc90005026c08 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: ffff88801f5e20e8 RCX: 0000000000000000
+RDX: ffff88801f431dc0 RSI: ffffffff8153f7d6 RDI: 0000000000000001
+RBP: ffffc90005026da0 R08: 0000000000000001 R09: 0000000000000000
+R10: 0000000000000001 R11: ffffffff81d6e1f2 R12: ffff88801f5e20e8
+R13: 0000000000000001 R14: 0000000000000001 R15: ffff88801f5e2100
+FS:  0000000000000000(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000560d76a382c8 CR3: 0000000026f34000 CR4: 0000000000350ef0
+Call Trace:
+ <TASK>
 
 
-> 
-> Also I'm kind of wondering about the "reference with arguments" part
-> which seems to work differently depending on whether the reference is
-> represented by a string or by a reference object.
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Yes. With (device) reference objects, it is possible currently to refer to
-subnodes with the _DSD data extension child names of those nodes. This is
-not done with string references as 1) any node can already be referenced so
-there's no need to and 2) as node references are strings already, it's not
-possible to distinguish node string references from _DSD data node names.
-E.g.
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 
-	"\\_SB.I2C0.LED0", "LED1"
+If the bug is already fixed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-			   ^ ACPI object name or _DSD data node name?
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
-> 
-> > You can get the spec from here:
-> > <URL:https://www.mipi.org/mipi-disco-for-imaging-download>.
-> 
-> Sure, but it alone won't help me much with documenting this code change.
+If you want to change bug's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
-Not as such but the spec is publicly available now.
+If the bug is a duplicate of another bug, reply with:
+#syz dup: exact-subject-of-another-report
 
--- 
-Kind regards,
-
-Sakari Ailus
+If you want to undo deduplication, reply with:
+#syz undup
