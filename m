@@ -2,98 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E395B70BB1D
-	for <lists+linux-media@lfdr.de>; Mon, 22 May 2023 13:07:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E877070BC0F
+	for <lists+linux-media@lfdr.de>; Mon, 22 May 2023 13:43:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233117AbjEVLHR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 May 2023 07:07:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50652 "EHLO
+        id S233135AbjEVLnE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 May 2023 07:43:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230284AbjEVLGu (ORCPT
+        with ESMTP id S229490AbjEVLnE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 May 2023 07:06:50 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3902119
-        for <linux-media@vger.kernel.org>; Mon, 22 May 2023 04:01:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684753301; x=1716289301;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=RrQxbUgOMGPy68YiIMOxktzxB5O+Zb0VCT9gHKW9oyA=;
-  b=G16yh99LKsLhoxjMuaU4vBqqgy8cePfz5Fwya6MUhB43KjMCRpw0ehRh
-   sTDcsUC4n2BLXF/FIldNioGYWwPbmEWMxf3BfkYJJ2GEI32vB5t/LNvHl
-   GEC7bQaEhg9Tdrkykm542vwob5ECohK35tQlyRD/csBrnCmj+2+ZNLS/b
-   OIgjp2/QqqMxMKIQ8BjyuUr9StNPHJGtXXg1C6vyT9q2pmPfRsp4BlxvD
-   g8kAtIKXywBq8JTroGjNCmHvNogxaEvXH6WsXnAoKWb4ObxZbiBrtrVyq
-   EWpRkmO6h0JzRBiSnkSPhEeD0o5jM0yN3qG2WXpJJ5DmMJ7JjLzhSLlfJ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10717"; a="350399367"
-X-IronPort-AV: E=Sophos;i="6.00,184,1681196400"; 
-   d="scan'208";a="350399367"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2023 04:00:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10717"; a="773294055"
-X-IronPort-AV: E=Sophos;i="6.00,184,1681196400"; 
-   d="scan'208";a="773294055"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2023 04:00:23 -0700
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 7F5C8120BF9;
-        Mon, 22 May 2023 13:53:13 +0300 (EEST)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
-        (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1q139r-003Xmf-A5; Mon, 22 May 2023 13:52:55 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     mchehab@kernel.org, tomi.valkeinen@ideasonboard.com
-Subject: [PATCH v2 1/1] media: v4l2-subdev: Fix missing kerneldoc for client_caps
-Date:   Mon, 22 May 2023 13:52:45 +0300
-Message-Id: <20230522105245.844804-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
+        Mon, 22 May 2023 07:43:04 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 032A69B
+        for <linux-media@vger.kernel.org>; Mon, 22 May 2023 04:43:02 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1q13Am-0008FL-VE; Mon, 22 May 2023 12:53:53 +0200
+Message-ID: <f30d063b-e131-a659-9a1f-8f47e5736b44@leemhuis.info>
+Date:   Mon, 22 May 2023 12:53:52 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+Subject: Re: v4l2-async: regression due to endpoint matching
+Content-Language: en-US, de-DE
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        linux-media@vger.kernel.org,
+        Linux kernel regressions list <regressions@lists.linux.dev>
+References: <8360125.31r3eYUQgx@steina-w> <5676976.irdbgypaU6@steina-w>
+ <ob373sf6lmg6qfkdqy5ovxescw5gp7yedb2flk4ax762abo7b3@w33eqx3erdg7>
+ <6415252.e9J7NaK4W3@steina-w>
+ <3u5xed27to5bnwo3dksviydw6z2lga3udjkgvvzor4tlobjlxv@hsnam3wurgxc>
+ <ZEtytxcB2+DA8Xs/@kekkonen.localdomain>
+From:   "Linux regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+In-Reply-To: <ZEtytxcB2+DA8Xs/@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1684755783;c87f8a00;
+X-HE-SMSGID: 1q13Am-0008FL-VE
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+On 28.04.23 09:16, Sakari Ailus wrote:
+> On Fri, Apr 28, 2023 at 08:43:21AM +0200, Jacopo Mondi wrote:
+>> On Fri, Apr 28, 2023 at 08:33:30AM +0200, Alexander Stein wrote:
+>>> Am Freitag, 28. April 2023, 08:31:54 CEST schrieb Jacopo Mondi:
+>>>> On Fri, Apr 28, 2023 at 08:24:22AM +0200, Alexander Stein wrote:
+>>>>> Am Donnerstag, 27. April 2023, 18:01:38 CEST schrieb Jacopo Mondi:
+>>>>>> On Thu, Apr 27, 2023 at 04:40:46PM +0200, Alexander Stein wrote:
+>>>>>>> I have a setup on my TQMa6x (imx6q-mba6a.dts) with a tc358743 attached
+>>>>>>> to
+>>>>>>> the MIPI CSI input.
+>>>>>>> I noticed that since commit 1f391df44607 ("media: v4l2-async: Use
+>>>>>>> endpoints in __v4l2_async_nf_add_fwnode_remote()") the async subdevice
+>>>>>>> probing does not work anymore. If I revert that, it is working again,
+>>>>>>> even on next-20230425.
+>>>>>>
+>>>>>> A similar issue has been discussed at
+>>>>>> https://www.spinics.net/lists/linux-media/msg223351.html
+>>>>>>
+>>>>>> Unfortunately there was no conclusion as far as I can tell if not that
+>>>>>> imx6 is now broken
+>>>>>
+>>>>> Thanks for the link, seems like a non-trivial thing :(
+>>>>>
+>>>>> From a glimpse, this series seems to deal with multiple async subdevs:
+>>>>> https://lore.kernel.org/all/20230330115853.1628216-1-sakari.ailus@linux.in
+>>>>> tel.com/
+>>>>>
+>>>>> So imx-media-csi should be adjusted as well, no?
+>>>>
+>>>> It would really be helpful if you can give that series a spin on imx6
+>>>> if you already have a test setup.
+>>>
+>>> I tried, but it failed to apply on my current development tree. What base does
+>>> this series apply to? Is there also a repository available I can fetch from?
+>>
+>> Sakari could tell, for me it applied on v6.3-rc2 but I recall I had to
+>> manually fix a few things.
+> 
+> Don't try v1, it won't work. I missed some object relation changes in the
+> linked lists. I'll post v2, hopefully some time next week, to address these
+> issues.
 
-Add missing kernel doc for the new 'client_caps' field in struct
-v4l2_subdev_fh.
+Hi, Thorsten here, the Linux kernel's regression tracker.
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Fixes: f57fa2959244 ("media: v4l2-subdev: Add new ioctl for client capabilities")
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
-since v1:
+I see that v2[1] got a lot of ACKs, but is not even yet in next. And
+it's a lot of patches, so maybe too much for backporting to stable
+kernels. Which leads to the question: Will the regression this thread is
+about (introduced in 5.19 afaics) ever be fixed in v6.1?
+Normally/Ideally it should be.
 
-- Put the macro name in quotes. This should also fix the Sphinx warning
-  about the asterisk (this construction exists elsewhere in the docs).
+Ciao, Thorsten
 
- include/media/v4l2-subdev.h | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index cfd19e72d0fc4..b325df0d54d61 100644
---- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -1119,6 +1119,7 @@ struct v4l2_subdev {
-  * @vfh: pointer to &struct v4l2_fh
-  * @state: pointer to &struct v4l2_subdev_state
-  * @owner: module pointer to the owner of this file handle
-+ * @client_caps: bitmask of ``V4L2_SUBDEV_CLIENT_CAP_*``
-  */
- struct v4l2_subdev_fh {
- 	struct v4l2_fh vfh;
--- 
-2.30.2
+[1]
+https://lore.kernel.org/linux-media/ZEtytxcB2+DA8Xs%2F@kekkonen.localdomain/
 
