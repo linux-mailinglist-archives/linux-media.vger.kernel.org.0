@@ -2,53 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E1F570CBF0
-	for <lists+linux-media@lfdr.de>; Mon, 22 May 2023 23:06:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECBEC70CE16
+	for <lists+linux-media@lfdr.de>; Tue, 23 May 2023 00:38:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235367AbjEVVGI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 May 2023 17:06:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34390 "EHLO
+        id S234806AbjEVWiz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 May 2023 18:38:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234660AbjEVVGG (ORCPT
+        with ESMTP id S232276AbjEVWix (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 May 2023 17:06:06 -0400
-Received: from mail-il1-f205.google.com (mail-il1-f205.google.com [209.85.166.205])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCDD3B7
-        for <linux-media@vger.kernel.org>; Mon, 22 May 2023 14:06:04 -0700 (PDT)
-Received: by mail-il1-f205.google.com with SMTP id e9e14a558f8ab-3382e29ab5bso670675ab.0
-        for <linux-media@vger.kernel.org>; Mon, 22 May 2023 14:06:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684789564; x=1687381564;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VLNW8RUeV1ytOiHOrZ5VF3AFlqsNVobO/I7Gz9UWEkc=;
-        b=FPvlSG76tBtzsnHvvVzcj8USeiWj8G3fvAsOXdV1Zjk7GUrq0LlaNFzOpoQoVSq26X
-         Bj0NGbhODQ6ex63ontbdj3vpfQPp/GU4PI13O0hfMW19bITbnO+aWflffSTmhHDlewIs
-         5aA9jj/4wCapHQmDW0lglhUpD5cHYn8t3onTR7+xtdysmmNV8mdNKSBXsUBtqFDmHwAf
-         7d2w6wT35QVUUeTcDyZXlASpq+74Mfd1NeCybpegAKWVTvh8x1mu0+PJ9Nj7epoiMViA
-         3mxeafu0unqtuyitWSVP6eTUC/jK6O8EX4ize6UM1986sBvGLY5IEN9rWv4f/JQgbcGa
-         2aGw==
-X-Gm-Message-State: AC+VfDz3VTPWyjDYL/e7KKZ0qk7vHS3ufUXZxo8t4R0dBdOIvs2JSGP2
-        nRFBf2cNRiAf++iAbyFllNc5brDqsS8UC1OoRqjxh8LdYyc4
-X-Google-Smtp-Source: ACHHUZ5Ew0z7LmUWGcfvyMiI4Iuu9t5wCenKIe7OhFXWmTqZnghnDpVrBn+FezGc/jEfaT3nEJrp0MkHfq9QdKzlTMuUGXhfDEDV
+        Mon, 22 May 2023 18:38:53 -0400
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::224])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E67CFA;
+        Mon, 22 May 2023 15:38:49 -0700 (PDT)
+Received: (Authenticated sender: didi.debian@cknow.org)
+        by mail.gandi.net (Postfix) with ESMTPSA id 02484E0003;
+        Mon, 22 May 2023 22:38:45 +0000 (UTC)
+From:   Diederik de Haas <didi.debian@cknow.org>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     p.zabel@pengutronix.de, mchehab@kernel.org,
+        m.szyprowski@samsung.com, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kernel@collabora.com
+Subject: Re: [PATCH v2] media: verisilicon: Fix crash when probing encoder
+Date:   Tue, 23 May 2023 00:38:37 +0200
+Message-ID: <12724349.O9o76ZdvQC@bagend>
+Organization: Connecting Knowledge
+In-Reply-To: <7c1bf9c4-f14b-30cd-2610-871f5f512d06@collabora.com>
+References: <20230413104756.356695-1-benjamin.gaignard@collabora.com>
+ <4995215.LvFx2qVVIh@bagend>
+ <7c1bf9c4-f14b-30cd-2610-871f5f512d06@collabora.com>
 MIME-Version: 1.0
-X-Received: by 2002:a92:d6cf:0:b0:338:c5c6:91f9 with SMTP id
- z15-20020a92d6cf000000b00338c5c691f9mr4847639ilp.1.1684789564206; Mon, 22 May
- 2023 14:06:04 -0700 (PDT)
-Date:   Mon, 22 May 2023 14:06:04 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000007ef71705fc4ea3ad@google.com>
-Subject: [syzbot] [usb?] WARNING in corrupted (3)
-From:   syzbot <syzbot+27b0b464864741b18b99@syzkaller.appspotmail.com>
-To:     duoming@zju.edu.cn, hverkuil-cisco@xs4all.nl,
-        jiangshanlai@gmail.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        mchehab@kernel.org, syzkaller-bugs@googlegroups.com, tj@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+Content-Type: multipart/signed; boundary="nextPart6188399.DvuYhMxLoT";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -56,89 +46,119 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+--nextPart6188399.DvuYhMxLoT
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; protected-headers="v1"
+From: Diederik de Haas <didi.debian@cknow.org>
+Date: Tue, 23 May 2023 00:38:37 +0200
+Message-ID: <12724349.O9o76ZdvQC@bagend>
+Organization: Connecting Knowledge
+In-Reply-To: <7c1bf9c4-f14b-30cd-2610-871f5f512d06@collabora.com>
+MIME-Version: 1.0
 
-syzbot found the following issue on:
+On Monday, 22 May 2023 18:17:39 CEST Benjamin Gaignard wrote:
+> Le 20/05/2023 =E0 00:34, Diederik de Haas a =E9crit :
+> > On Thursday, 13 April 2023 21:52:50 CEST Nicolas Dufresne wrote:
+> >> Le jeudi 13 avril 2023 =E0 10:10 -0300, Ezequiel Garcia a =E9crit :
+> >>> Benjamin,
+> >>>=20
+> >>> Please include the crash stracktrace in the commit.
+> >>=20
+> >> Careful with HTML message, they don't always make it in these ML and
+> >> tooling might not play well with the tooling. Perhaps it can be edited
+> >> while pulling ? Here's the info from Marek's bug report:
+> >>=20
+> >> hantro-vpu fdea0000.video-codec: Adding to iommu group 0
+> >> hantro-vpu fdea0000.video-codec: registered rockchip,rk3568-vpu-dec as
+> >> /dev/video0
+> >> hantro-vpu fdee0000.video-codec: Adding to iommu group 1
+> >> hantro-vpu fdee0000.video-codec: registered rockchip,rk3568-vepu-enc as
+> >> /dev/video1
+> >> Unable to handle kernel NULL pointer dereference at virtual address
+> >> 0000000000000008
+> >> Mem abort info:
+> >> ESR =3D 0x0000000096000004
+> >> EC =3D 0x25: DABT (current EL), IL =3D 32 bits
+> >> SET =3D 0, FnV =3D 0
+> >> EA =3D 0, S1PTW =3D 0
+> >> FSC =3D 0x04: level 0 translation fault
+> >> Data abort info:
+> >> ISV =3D 0, ISS =3D 0x00000004
+> >> CM =3D 0, WnR =3D 0
+> >> user pgtable: 4k pages, 48-bit VAs, pgdp=3D00000001f446f000
+> >> [0000000000000008] pgd=3D0000000000000000, p4d=3D0000000000000000
+> >> Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
+> >> Modules linked in: hantro_vpu v4l2_vp9 v4l2_h264 v4l2_mem2mem
+> >> videobuf2_dma_contig snd_soc_simple_card display_connector
+> >> snd_soc_simple_card_utils videobuf2_memops crct10dif_ce dwmac_rk
+> >> rockchip_thermal videobuf2_v4l2 stmmac_platform rockchip_saradc
+> >> industrialio_triggered_buffer kfifo_buf stmmac videodev pcs_xpcs
+> >> rtc_rk808 videobuf2_common rockchipdrm panfrost mc drm_shmem_helper
+> >> analogix_dp gpu_sched dw_mipi_dsi dw_hdmi drm_display_helper ip_tables
+> >> x_tables ipv6
+> >> CPU: 3 PID: 171 Comm: v4l_id Not tainted 6.3.0-rc2+ #13478
+> >> Hardware name: Hardkernel ODROID-M1 (DT)
+> >> pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=3D--)
+> >> pc : hantro_try_fmt+0xb4/0x280 [hantro_vpu]
+> >> lr : hantro_try_fmt+0xa8/0x280 [hantro_vpu]
+> >> ...
+> >> Call trace:
+> >> hantro_try_fmt+0xb4/0x280 [hantro_vpu]
+> >> hantro_set_fmt_out+0x3c/0x278 [hantro_vpu]
+> >> hantro_reset_raw_fmt+0x94/0xb4 [hantro_vpu]
+> >> hantro_set_fmt_cap+0x23c/0x250 [hantro_vpu]
+> >> hantro_reset_fmts+0x94/0xcc [hantro_vpu]
+> >> hantro_open+0xd4/0x20c [hantro_vpu]
+> >> v4l2_open+0x80/0x120 [videodev]
+> >> chrdev_open+0xc0/0x22c
+> >> do_dentry_open+0x13c/0x490
+> >> vfs_open+0x2c/0x38
+> >> path_openat+0x550/0x938
+> >> do_filp_open+0x80/0x12c
+> >> do_sys_openat2+0xb4/0x16c
+> >> __arm64_sys_openat+0x64/0xac
+> >> invoke_syscall+0x48/0x114
+> >> el0_svc_common.constprop.0+0xfc/0x11c
+> >> do_el0_svc+0x38/0xa4
+> >> el0_svc+0x48/0xb8
+> >> el0t_64_sync_handler+0xb8/0xbc
+> >> el0t_64_sync+0x190/0x194
+> >> Code: 97fe726c f940aa80 52864a61 72a686c1 (b9400800)
+> >> ---[ end trace 0000000000000000 ]---
+> >=20
+> > When I booted into my 6.4-rc1 (but also rc2) kernel on my
+> > Pine64 Quartz64 Model A, I noticed a crash which seems the same as
+> > above, but I didn't have such a crash with my 6.3 kernel.
+> > Searching for 'hantro' led me to this commit as the most likely culprit
+> > but when I build a new 6.4-rcX kernel with this commit reverted,
+> > I still had this crash.
+> > Do you have suggestions which commit would then be the likely culprit?
+>=20
+> This patch fix the crash at boot time, revert it doesn't seem to be the
+> solution. Maybe this proposal from Marek can help you ?
+> https://patchwork.kernel.org/project/linux-media/patch/20230421104759.223=
+646
+> 3-1-m.szyprowski@samsung.com/
 
-HEAD commit:    4d6d4c7f541d Merge tag 'linux-kselftest-fixes-6.4-rc3' of ..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=15a9a641280000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=ac0db1213414a978
-dashboard link: https://syzkaller.appspot.com/bug?extid=27b0b464864741b18b99
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12bc26ee280000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17684629280000
+That helped :) After applying that patch I no longer have the crash.
+Thanks!
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/ebfde1c1eecf/disk-4d6d4c7f.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/4938c9109cd4/vmlinux-4d6d4c7f.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/8c31ee617052/bzImage-4d6d4c7f.xz
+Regards,
+  Diederik
+--nextPart6188399.DvuYhMxLoT
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
 
-The issue was bisected to:
+-----BEGIN PGP SIGNATURE-----
 
-commit ebad8e731c1c06adf04621d6fd327b860c0861b5
-Author: Duoming Zhou <duoming@zju.edu.cn>
-Date:   Mon Jan 23 02:04:38 2023 +0000
+iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZGvu7QAKCRDXblvOeH7b
+br2PAQDj5Bfj6kYYHjq/pdKmygrT72o07zj2ahEajN9V9ICBbgD/Y24+lrtBDJlf
+0wtyQ6QF5oTL9Beq3+c97CE1nMAsegk=
+=p9LE
+-----END PGP SIGNATURE-----
 
-    media: usb: siano: Fix use after free bugs caused by do_submit_urb
-
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=16584629280000
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=15584629280000
-console output: https://syzkaller.appspot.com/x/log.txt?x=11584629280000
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+27b0b464864741b18b99@syzkaller.appspotmail.com
-Fixes: ebad8e731c1c ("media: usb: siano: Fix use after free bugs caused by do_submit_urb")
-
-usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-usb 1-1: Product: syz
-usb 1-1: Manufacturer: syz
-usb 1-1: SerialNumber: syz
-usb 1-1: config 0 descriptor??
-smsusb:smsusb_probe: board id=7, interface number 0
-------------[ cut here ]------------
-WARNING: CPU: 0 PID: 897 at kernel/workqueue.c:3182 __flush_work+0x946/0xb60 kernel/workqueue.c:3182
-Modules linked in:
-CPU: 0 PID: 897 Comm: kworker/0:2 Not tainted 6.4.0-rc2-syzkaller-00018-g4d6d4c7f541d #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/28/2023
-Workqueue: usb_hub_wq hub_event
-RIP: 0010:__flush_work+0x946/0xb60 kernel/workqueue.c:3182
-Code: 00 48 c7 c6 9b f7 53 81 48 c7 c7 40 90 79 8c e8 d0 ec 11 00 e9 6f fc ff ff e8 06 4b 30 00 0f 0b e9 63 fc ff ff e8 fa 4a 30 00 <0f> 0b 45 31 ed e9 54 fc ff ff e8 5b 12 83 00 e9 3e fb ff ff e8 e1
-RSP: 0018:ffffc90005026c08 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: ffff88801f5e20e8 RCX: 0000000000000000
-RDX: ffff88801f431dc0 RSI: ffffffff8153f7d6 RDI: 0000000000000001
-RBP: ffffc90005026da0 R08: 0000000000000001 R09: 0000000000000000
-R10: 0000000000000001 R11: ffffffff81d6e1f2 R12: ffff88801f5e20e8
-R13: 0000000000000001 R14: 0000000000000001 R15: ffff88801f5e2100
-FS:  0000000000000000(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000560d76a382c8 CR3: 0000000026f34000 CR4: 0000000000350ef0
-Call Trace:
- <TASK>
+--nextPart6188399.DvuYhMxLoT--
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
-
-If the bug is already fixed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to change bug's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the bug is a duplicate of another bug, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
