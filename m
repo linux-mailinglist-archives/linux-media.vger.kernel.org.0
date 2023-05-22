@@ -2,130 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4693D70BFC9
-	for <lists+linux-media@lfdr.de>; Mon, 22 May 2023 15:29:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2B6F70C003
+	for <lists+linux-media@lfdr.de>; Mon, 22 May 2023 15:48:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233700AbjEVN3D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 May 2023 09:29:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49054 "EHLO
+        id S233362AbjEVNsP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 May 2023 09:48:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233659AbjEVN2a (ORCPT
+        with ESMTP id S233665AbjEVNsN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 May 2023 09:28:30 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1277CC6;
-        Mon, 22 May 2023 06:28:04 -0700 (PDT)
-Received: from [192.168.2.171] (109-252-147-95.dynamic.spd-mgts.ru [109.252.147.95])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: dmitry.osipenko)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 4B93C6606D84;
-        Mon, 22 May 2023 14:27:58 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1684762079;
-        bh=keD/935Zu/vg8AvzQ/mBIJs8+l9o00PBHzFnRJHLzSg=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=DIyoGQY28KPe9vMso5QxUo+B+LjI47cH/U4JwbRsIiakuaiBSF/Y7imIYc/jDeXp8
-         +wc9lthaCS+AlUh+d5looWfz4hmwb0n/H5azQr5MVPfR8jaUD0R1SXwnufnJTrVL69
-         lIBXFbCYtxb4/OQ0m3YJveSKWwZ9TPETWj8txE4eYmPaSpI8XCkV+N8L/IHlhJPafV
-         59NZeqgqi1BB3nFLZVrnu28Pi4a+LFs8cpygwYjTK3JjRmaL/WujfMnZlzN7hVte1B
-         71W3VJWvV4T+e7VJJgD7pcZyh2Ry2S0QAlJtUkubAkrX9ypCaFK2g6cfDyKmqSBVwG
-         YSaELA4697lcw==
-Message-ID: <abc2a8ab-0969-fbb6-8dec-b15c81df38e4@collabora.com>
-Date:   Mon, 22 May 2023 16:27:50 +0300
+        Mon, 22 May 2023 09:48:13 -0400
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B932103;
+        Mon, 22 May 2023 06:48:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1684763289; x=1716299289;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=MI+SHbBzxOfh2VLB/C4yAm6Ar2ylsaQKIV0IU+oq5e4=;
+  b=CaqQ2zCfCbUDnzQlZOmRVSgvbsc30TyY7W/Bfb4ILD0sd4ynfDfT7vcT
+   URnkPGIdatpamD2++YdH14V6xeUn0cc1aQKfTH5WjEqjL67IoKNU6sNor
+   aH2zCiNgUSoNtGJdYNZdMS9HEIOAiowIuSk0zlPMroIBsuHTJYmfLTUnM
+   HYrukZ933akrpcFipUdE+6G3vzZPxZi3ljbHEK7qRoW29M/buB0N10+WU
+   qlao+ptDOZz+2CzRbL0P1pp4WgisHQbDkaKclBiCyjxqPULkfanEWUx5R
+   6qgxiIu2MacA9reVd8lFFB3R/o4PHfOt2D1DieDqpqE44ppdp0J++4QZX
+   A==;
+X-IronPort-AV: E=Sophos;i="6.00,184,1681196400"; 
+   d="scan'208";a="214338461"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 22 May 2023 06:48:09 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Mon, 22 May 2023 06:48:08 -0700
+Received: from ROU-LT-M43238L.microchip.com (10.10.115.15) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
+ 15.1.2507.21 via Frontend Transport; Mon, 22 May 2023 06:48:07 -0700
+From:   <nicolas.ferre@microchip.com>
+To:     <linux-media@vger.kernel.org>, <hverkuil-cisco@xs4all.nl>,
+        <mchehab@kernel.org>
+CC:     <laurent.pinchart@ideasonboard.com>,
+        <sakari.ailus@linux.intel.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        Balamanikandan Gunasundar 
+        <balamanikandan.gunasundar@microchip.com>,
+        "Nicolas Ferre" <nicolas.ferre@microchip.com>
+Subject: [PATCH] MAINTAINERS: Orphan the OV7740 driver
+Date:   Mon, 22 May 2023 15:47:51 +0200
+Message-ID: <20230522134751.30489-1-nicolas.ferre@microchip.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v3 6/6] drm/shmem-helper: Switch to reservation lock
-To:     Emil Velikov <emil.l.velikov@gmail.com>
-Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Liam Mark <lmark@codeaurora.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <jstultz@google.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        linux-tegra@vger.kernel.org, kernel@collabora.com
-References: <20230521205112.150206-1-dmitry.osipenko@collabora.com>
- <20230521205112.150206-7-dmitry.osipenko@collabora.com>
- <CACvgo52QvmZw5k_9dmBHPB25rTdLZJzVG_vNFr8or+3f5sVO=Q@mail.gmail.com>
-Content-Language: en-US
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <CACvgo52QvmZw5k_9dmBHPB25rTdLZJzVG_vNFr8or+3f5sVO=Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5/22/23 16:02, Emil Velikov wrote:
-> Hi Dmitry,
-> 
-> Saw v3 fly by, so I had a quick look. Original RB still stands,
-> although I noticed a couple of non-blocking nitpicks.
-> 
-> On Sun, 21 May 2023 at 22:00, Dmitry Osipenko
-> <dmitry.osipenko@collabora.com> wrote:
-> 
->> -static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
->> +static int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
->>  {
-> 
-> Should this getter have a dma_resv_assert_held(shmem->base.resv); like
-> it's put brethren?
-> 
-> 
->> -void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)
->> +static int drm_gem_shmem_pin_locked(struct drm_gem_shmem_object *shmem)
->> +{
->> +       int ret;
->> +
->> +       dma_resv_assert_held(shmem->base.resv);
->> +
->> +       ret = drm_gem_shmem_get_pages(shmem);
->> +
->> +       return ret;
-> 
-> With the assert_held in the getter, it would be less confusing to
-> inline this and the unpin_locked functions.
-> 
->> +}
->> +
->> +static void drm_gem_shmem_unpin_locked(struct drm_gem_shmem_object *shmem)
->>  {
->> -       mutex_lock(&shmem->pages_lock);
->> -       drm_gem_shmem_put_pages_locked(shmem);
->> -       mutex_unlock(&shmem->pages_lock);
->> +       dma_resv_assert_held(shmem->base.resv);
->> +
->> +       drm_gem_shmem_put_pages(shmem);
-> 
-> Side note: the putter has an assert_held so the extra one here seems quite odd.
-> 
-> As said at the top - with or w/o these nitpicks, the original RB still stands.
+From: Nicolas Ferre <nicolas.ferre@microchip.com>
 
-Good catch. I actually added assert_held to get_pages(), but in a later
-patch that is not part of this series.
+Wenyou's email is bouncing, remove him from this camera driver's entry
+and mark it as orphan.
 
--- 
+Signed-off-by: Nicolas Ferre <nicolas.ferre@microchip.com>
+---
+Wenyou, all,
+
+If you want to take this driver, please don't hesitate to update this patch for
+a better maintenance. My only concern is the @microchip.com email address
+bouncing.
+
 Best regards,
-Dmitry
+  Nicolas
+
+ MAINTAINERS | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e0ad886d3163..bae9c7591144 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -15577,9 +15577,8 @@ F:	drivers/media/i2c/ov772x.c
+ F:	include/media/i2c/ov772x.h
+ 
+ OMNIVISION OV7740 SENSOR DRIVER
+-M:	Wenyou Yang <wenyou.yang@microchip.com>
+ L:	linux-media@vger.kernel.org
+-S:	Maintained
++S:	Orphan
+ T:	git git://linuxtv.org/media_tree.git
+ F:	Documentation/devicetree/bindings/media/i2c/ov7740.txt
+ F:	drivers/media/i2c/ov7740.c
+-- 
+2.34.1
 
