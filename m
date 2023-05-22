@@ -2,390 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 218B570B808
-	for <lists+linux-media@lfdr.de>; Mon, 22 May 2023 10:51:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC0D670B810
+	for <lists+linux-media@lfdr.de>; Mon, 22 May 2023 10:53:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230459AbjEVIvw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 May 2023 04:51:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39162 "EHLO
+        id S232479AbjEVIxO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 May 2023 04:53:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230451AbjEVIvu (ORCPT
+        with ESMTP id S232058AbjEVIxM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 May 2023 04:51:50 -0400
-Received: from 189.cn (ptr.189.cn [183.61.185.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B307CA8;
-        Mon, 22 May 2023 01:51:46 -0700 (PDT)
-HMM_SOURCE_IP: 10.64.8.41:56230.753820448
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
-        by 189.cn (HERMES) with SMTP id 0327B1002EE;
-        Mon, 22 May 2023 16:51:43 +0800 (CST)
-Received: from  ([114.242.206.180])
-        by gateway-151646-dep-75648544bd-xwndj with ESMTP id fb165ebb1ea24404a094994199b65b8e for kernel@xen0n.name;
-        Mon, 22 May 2023 16:51:46 CST
-X-Transaction-ID: fb165ebb1ea24404a094994199b65b8e
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Sender: 15330273260@189.cn
-Message-ID: <2f701944-588c-3f56-06f3-abcbbf12be1e@189.cn>
-Date:   Mon, 22 May 2023 16:51:42 +0800
+        Mon, 22 May 2023 04:53:12 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3A85BB
+        for <linux-media@vger.kernel.org>; Mon, 22 May 2023 01:53:09 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id 5b1f17b1804b1-3f6042d60b5so9128675e9.2
+        for <linux-media@vger.kernel.org>; Mon, 22 May 2023 01:53:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1684745588; x=1687337588;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=r4JxhaVexhQpy8daiRNDw+XTd4Z91THI1tcDfW2c6HE=;
+        b=hGYIQsrsHnFEjQuK41XgS3jgFHGmSkmDmGtZqfqKbMqaw1+roK7luzJGgf6MkEI2zf
+         LqSzON1Zmed3SV4ToTWAPBXTyvtUhV9/8BCRoPKLguRVN5e4YBErEdR6/iXkgr3w9zE5
+         W4aKjz3F4KTe2c3j6kFwE4TdtneueV0LY7ZEt0yjmGJmTeBgneLZHGLd9Y5ags2ZDhae
+         Q0TT+80cDnDkrcVtC6mKi1S3g1p/XIxKWym0HyRrbbgeMEikjwyJ03sHhQcufI7aiV4Q
+         NEDGLQcwWgPgAjXuMgjJUDQE1/rby2Z3aJWEmCe4axLQbKwyT3jCR2BgkZU+gClV7wO/
+         ACMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684745588; x=1687337588;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=r4JxhaVexhQpy8daiRNDw+XTd4Z91THI1tcDfW2c6HE=;
+        b=ZJoE9x6t3cI3+AjexS9ne8DLQiQYIt4s8WnV7NjX2ZPeVpXkPeqqiNvFQf68hEh/du
+         Q/MwXscPbEP2NLzz1Q8xyz3eoFeU8+SOmm6zJQt+rQ/xWVQjFQegiZsvH8bRvdTW2cv4
+         +eD/dQZdPt6bURTLRKkoJ1gSmsooWayA1uq2AMHCUF73OWntTmc1v7qMiPfXhGfFDxE3
+         PNdN4AsE1j7qia00NqRtgKxQS4Kw9lh1aFFWpShKiqeRgJnojDLOSv1fDh4fev6gmS4I
+         ibvfAeFXRZWXzCj8zZWECtR93Zh0oXhfiVpxER1KUKyXn2Cdlj/gHRYHNya8b3Yl/xts
+         /rhg==
+X-Gm-Message-State: AC+VfDzgQ1JMcrkC0hCXFgWkRLrEwH737++k00VxRfbOVoyyJ501+3TH
+        +U3lJHu9dWSdBtH3K2FwTD1CdA==
+X-Google-Smtp-Source: ACHHUZ6UBR3+LBI+m8V1SPTaOnzgCK0atCcXfHxkCN2098SLTc/lFSwqy+8q2uw7iLTos5PH9rKVCw==
+X-Received: by 2002:a7b:c414:0:b0:3f4:2610:5cc7 with SMTP id k20-20020a7bc414000000b003f426105cc7mr6538472wmi.9.1684745588453;
+        Mon, 22 May 2023 01:53:08 -0700 (PDT)
+Received: from [10.1.4.6] (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.gmail.com with ESMTPSA id p4-20020a05600c358400b003f1738d0d13sm24745899wmq.1.2023.05.22.01.53.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 May 2023 01:53:08 -0700 (PDT)
+Message-ID: <116712ae-f18b-3288-ac6d-80073aebd458@baylibre.com>
+Date:   Mon, 22 May 2023 10:53:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v14 1/2] drm: add kms driver for loongson display
- controller
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 7/7] dt-bindings: Add bidings for mtk,apu-drm
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>, airlied@gmail.com,
+        daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+        mripard@kernel.org, tzimmermann@suse.de
+Cc:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, matthias.bgg@gmail.com,
+        sumit.semwal@linaro.org, christian.koenig@amd.com,
+        jstephan@baylibre.com, dri-devel@lists.freedesktop.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, khilman@baylibre.com,
+        nbelin@baylibre.com, bero@baylibre.com
+References: <20230517145237.295461-1-abailon@baylibre.com>
+ <20230517145237.295461-8-abailon@baylibre.com>
+ <c32f0c3f-b43a-7045-38cc-2c11c7bb571e@collabora.com>
 Content-Language: en-US
-To:     WANG Xuerui <kernel@xen0n.name>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sui Jingfeng <suijingfeng@loongson.cn>,
-        Li Yi <liyi@loongson.cn>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian Koenig <christian.koenig@amd.com>,
-        Emil Velikov <emil.l.velikov@gmail.com>
-Cc:     linaro-mm-sig@lists.linaro.org, loongson-kernel@lists.loongnix.cn,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Liu Peibao <liupeibao@loongson.cn>, linux-media@vger.kernel.org
-References: <20230520105718.325819-1-15330273260@189.cn>
- <20230520105718.325819-2-15330273260@189.cn>
- <26fd78b9-c074-8341-c99c-4e3b38cd861a@xen0n.name>
-From:   Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <26fd78b9-c074-8341-c99c-4e3b38cd861a@xen0n.name>
+From:   Alexandre Bailon <abailon@baylibre.com>
+In-Reply-To: <c32f0c3f-b43a-7045-38cc-2c11c7bb571e@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FROM_LOCAL_DIGITS,
-        FROM_LOCAL_HEX,NICE_REPLY_A,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
 
-On 2023/5/21 20:21, WANG Xuerui wrote:
->
->> +/*
->> + * Copyright (C) 2023 Loongson Technology Corporation Limited
->> + */
->> +
->> +#include <drm/drm_debugfs.h>
->> +
->> +#include "lsdc_benchmark.h"
->> +#include "lsdc_drv.h"
->> +#include "lsdc_gem.h"
->> +#include "lsdc_ttm.h"
->> +
->> +typedef void (*lsdc_copy_proc_t)(struct lsdc_bo *src_bo,
->> +                 struct lsdc_bo *dst_bo,
->> +                 unsigned int size,
->> +                 int n);
->> +
->> +static void lsdc_copy_gtt_to_vram_cpu(struct lsdc_bo *src_bo,
->> +                      struct lsdc_bo *dst_bo,
->> +                      unsigned int size,
->> +                      int n)
->> +{
->> +    lsdc_bo_kmap(src_bo);
->> +    lsdc_bo_kmap(dst_bo);
->> +
->> +    while (n--)
->> +        memcpy_toio(dst_bo->kptr, src_bo->kptr, size);
->> +
->> +    lsdc_bo_kunmap(src_bo);
->> +    lsdc_bo_kunmap(dst_bo);
->> +}
->> +
->> +static void lsdc_copy_vram_to_gtt_cpu(struct lsdc_bo *src_bo,
->> +                      struct lsdc_bo *dst_bo,
->> +                      unsigned int size,
->> +                      int n)
->> +{
->> +    lsdc_bo_kmap(src_bo);
->> +    lsdc_bo_kmap(dst_bo);
->> +
->> +    while (n--)
->> +        memcpy_fromio(dst_bo->kptr, src_bo->kptr, size);
->> +
->> +    lsdc_bo_kunmap(src_bo);
->> +    lsdc_bo_kunmap(dst_bo);
->> +}
->> +
->> +static void lsdc_copy_gtt_to_gtt_cpu(struct lsdc_bo *src_bo,
->> +                     struct lsdc_bo *dst_bo,
->> +                     unsigned int size,
->> +                     int n)
->> +{
->> +    lsdc_bo_kmap(src_bo);
->> +    lsdc_bo_kmap(dst_bo);
->> +
->> +    while (n--)
->> +        memcpy(dst_bo->kptr, src_bo->kptr, size);
->> +
->> +    lsdc_bo_kunmap(src_bo);
->> +    lsdc_bo_kunmap(dst_bo);
->> +}
->> +
->> +static void lsdc_benchmark_copy(struct lsdc_device *ldev,
->> +                unsigned int size,
->> +                unsigned int n,
->> +                u32 src_domain,
->> +                u32 dst_domain,
->> +                lsdc_copy_proc_t copy_proc,
->> +                struct drm_printer *p)
->> +{
->> +    struct drm_device *ddev = &ldev->base;
->> +    struct lsdc_bo *src_bo;
->> +    struct lsdc_bo *dst_bo;
->> +    unsigned long start_jiffies;
->> +    unsigned long end_jiffies;
->> +    unsigned int throughput;
->> +    unsigned int time;
->> +
->> +    src_bo = lsdc_bo_create_kernel_pinned(ddev, src_domain, size);
->> +    dst_bo = lsdc_bo_create_kernel_pinned(ddev, dst_domain, size);
->> +
->> +    start_jiffies = jiffies;
->> +
->> +    copy_proc(src_bo, dst_bo, size, n);
->> +
->> +    end_jiffies = jiffies;
->> +
->> +    lsdc_bo_free_kernel_pinned(src_bo);
->> +    lsdc_bo_free_kernel_pinned(dst_bo);
->> +
->> +    time = jiffies_to_msecs(end_jiffies - start_jiffies);
->> +
->> +    throughput = (n * (size >> 10)) / time;
->> +
->> +    drm_printf(p,
->> +           "Copy bo of %ukB %u times from %s to %s in %ums: %uMB/s\n",
->> +           size >> 10, n,
->> +           lsdc_domain_to_str(src_domain),
->> +           lsdc_domain_to_str(dst_domain),
->> +           time, throughput);
->> +}
->> +
->> +int lsdc_show_benchmark_copy(struct lsdc_device *ldev, struct 
->> drm_printer *p)
->> +{
->> +    unsigned int buffer_size = 1920 * 1080 * 4;
->> +    unsigned int iteration = 60;
->> +
->> +    lsdc_benchmark_copy(ldev,
->> +                buffer_size,
->> +                iteration,
->> +                LSDC_GEM_DOMAIN_GTT,
->> +                LSDC_GEM_DOMAIN_GTT,
->> +                lsdc_copy_gtt_to_gtt_cpu,
->> +                p);
->> +
->> +    lsdc_benchmark_copy(ldev,
->> +                buffer_size,
->> +                iteration,
->> +                LSDC_GEM_DOMAIN_GTT,
->> +                LSDC_GEM_DOMAIN_VRAM,
->> +                lsdc_copy_gtt_to_vram_cpu,
->> +                p);
->> +
->> +    lsdc_benchmark_copy(ldev,
->> +                buffer_size,
->> +                iteration,
->> +                LSDC_GEM_DOMAIN_VRAM,
->> +                LSDC_GEM_DOMAIN_GTT,
->> +                lsdc_copy_vram_to_gtt_cpu,
->> +                p);
->> +
->> +    return 0;
->> +}
->> diff --git a/drivers/gpu/drm/loongson/lsdc_benchmark.h 
->> b/drivers/gpu/drm/loongson/lsdc_benchmark.h
+
+On 5/17/23 17:04, AngeloGioacchino Del Regno wrote:
+> Il 17/05/23 16:52, Alexandre Bailon ha scritto:
+>> This adds the device tree bindings for the APU DRM driver.
+>>
+>> Signed-off-by: Alexandre Bailon <abailon@baylibre.com>
+>> Reviewed-by: Julien Stephan <jstephan@baylibre.com>
+>> ---
+>>   .../devicetree/bindings/gpu/mtk,apu-drm.yaml  | 38 +++++++++++++++++++
+> 
+> mediatek,mt(model)-apu.yaml
+> 
+>>   1 file changed, 38 insertions(+)
+>>   create mode 100644 
+>> Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml 
+>> b/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
 >> new file mode 100644
->> index 000000000000..2bf9406eae9c
+>> index 000000000000..6f432d3ea478
 >> --- /dev/null
->> +++ b/drivers/gpu/drm/loongson/lsdc_benchmark.h
->> @@ -0,0 +1,13 @@
->> +/* SPDX-License-Identifier: GPL-2.0 */
->> +/*
->> + * Copyright (C) 2023 Loongson Technology Corporation Limited
->> + */
+>> +++ b/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
+>> @@ -0,0 +1,38 @@
+>> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/gpu/mediatek,apu-drm.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 >> +
->> +#ifndef __LSDC_BENCHMARK_H__
->> +#define __LSDC_BENCHMARK_H__
+>> +title: AI Processor Unit DRM
 >> +
->> +#include "lsdc_drv.h"
->> +
->> +int lsdc_show_benchmark_copy(struct lsdc_device *ldev, struct 
->> drm_printer *p);
->> +
->> +#endif
->> diff --git a/drivers/gpu/drm/loongson/lsdc_crtc.c 
->> b/drivers/gpu/drm/loongson/lsdc_crtc.c
->> new file mode 100644
->> index 000000000000..de2c1d514baa
->> --- /dev/null
->> +++ b/drivers/gpu/drm/loongson/lsdc_crtc.c
->> @@ -0,0 +1,1066 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * Copyright (C) 2023 Loongson Technology Corporation Limited
->> + */
->> +
->> +#include <linux/delay.h>
->> +
->> +#include <drm/drm_atomic.h>
->> +#include <drm/drm_atomic_helper.h>
->> +#include <drm/drm_debugfs.h>
->> +#include <drm/drm_vblank.h>
->> +
->> +#include "lsdc_drv.h"
->> +
->> +/*
->> + * The soft reset cause the vblank counter reset to zero, but the 
->> address
->> + * and other settings in the crtc register remains.
->> + */
->> +
->> +static void lsdc_crtc0_soft_reset(struct lsdc_crtc *lcrtc)
->> +{
->> +    struct lsdc_device *ldev = lcrtc->ldev;
->> +    u32 val;
->> +
->> +    val = lsdc_rreg32(ldev, LSDC_CRTC0_CFG_REG);
->> +
->> +    val &= CFG_VALID_BITS_MASK;
->> +
->> +    /* soft reset bit, active low */
->> +    val &= ~CFG_RESET_N;
->> +
->> +    val &= ~CFG_PIX_FMT_MASK;
->> +
->> +    lsdc_wreg32(ldev, LSDC_CRTC0_CFG_REG, val);
->> +
->> +    udelay(5);
->> +
->> +    val |= CFG_RESET_N | LSDC_PF_XRGB8888 | CFG_OUTPUT_ENABLE;
->> +
->> +    lsdc_wreg32(ldev, LSDC_CRTC0_CFG_REG, val);
->> +
->> +    mdelay(20);
->> +}
->> +
->> +static void lsdc_crtc1_soft_reset(struct lsdc_crtc *lcrtc)
->> +{
->> +    struct lsdc_device *ldev = lcrtc->ldev;
->> +    u32 val;
->> +
->> +    val = lsdc_rreg32(ldev, LSDC_CRTC1_CFG_REG);
->> +
->> +    val &= CFG_VALID_BITS_MASK;
->> +
->> +    /* soft reset bit, active low */
->> +    val &= ~CFG_RESET_N;
->> +
->> +    val &= ~CFG_PIX_FMT_MASK;
->> +
->> +    lsdc_wreg32(ldev, LSDC_CRTC1_CFG_REG, val);
->> +
->> +    udelay(5);
->> +
->> +    val |= CFG_RESET_N | LSDC_PF_XRGB8888 | CFG_OUTPUT_ENABLE;
->> +
->> +    lsdc_wreg32(ldev, LSDC_CRTC1_CFG_REG, val);
->> +
->> +    msleep(20);
->
-> So many magic sleeps without documentation?
->
-It is just that you should wait the device for a while before it can 
-reaction when doing the soft reset.
+>> +properties:
+>> +  compatible:
+>> +    const: mediatek,apu-drm
+> 
+> const: mediatek,mt8195-apu (or whatever else).
+> 
+> ...besides, I don't think that this patch even belongs to this series? :-)
+> Spoiler alert! :-)
+Actually, it does!
+I forgot to send the patch that adds the platform driver ^^'
 
-I think this is engineering...
-
->> +}
->> +
->> +static void lsdc_crtc0_enable(struct lsdc_crtc *lcrtc)
->> +{
->> +    struct lsdc_device *ldev = lcrtc->ldev;
->> +    u32 val;
->> +
->> +    val = lsdc_rreg32(ldev, LSDC_CRTC0_CFG_REG);
->> +
->> +    /*
->> +     * This may happens on extremely rare case, luckily, a soft reset
->
-> "may happen on extremely rare cases;"
->
->> +     * can helps to bring it back to normal. We add a warn here, hope
->
-> "can help bringing it back to normal. We issue a warning here, hoping to"
->
->> +     * to catch something if it happens.
->> +     */
->> +
->> +    if (val & CRTC_ANCHORED) {
->> +        drm_warn(&ldev->base, "%s anchored\n", lcrtc->base.name);
->> +        return lsdc_crtc0_soft_reset(lcrtc);
->> +    }
->> +
->> +    lsdc_wreg32(ldev, LSDC_CRTC0_CFG_REG, val | CFG_OUTPUT_ENABLE);
->> +}
->> +
->> +static void lsdc_crtc0_disable(struct lsdc_crtc *lcrtc)
->> +{
->> +    struct lsdc_device *ldev = lcrtc->ldev;
->> +
->> +    lsdc_ureg32_clr(ldev, LSDC_CRTC0_CFG_REG, CFG_OUTPUT_ENABLE);
->> +
->> +    udelay(9);
->> +}
->> +
->> +static void lsdc_crtc1_enable(struct lsdc_crtc *lcrtc)
->> +{
->> +    struct lsdc_device *ldev = lcrtc->ldev;
->> +    u32 val;
->> +
->> +    val = lsdc_rreg32(ldev, LSDC_CRTC1_CFG_REG);
->> +    if (val & CRTC_ANCHORED) {
->> +        drm_warn(&ldev->base, "%s anchored\n", lcrtc->base.name);
->> +        return lsdc_crtc1_soft_reset(lcrtc);
->> +    }
->
-> Duplication of code? You may want to duplicate the comment here too as 
-> de-duplication with macro seems too heavy here.
->
->> +
->> +    lsdc_wreg32(ldev, LSDC_CRTC1_CFG_REG, val | CFG_OUTPUT_ENABLE);
->> +}
->> +
->> +static void lsdc_crtc1_disable(struct lsdc_crtc *lcrtc)
->> +{
->> +    struct lsdc_device *ldev = lcrtc->ldev;
->> +
->> +    lsdc_ureg32_clr(ldev, LSDC_CRTC1_CFG_REG, CFG_OUTPUT_ENABLE);
->> +
->> +    udelay(9);
->> +}
->> +
->> +/* All loongson display controller support scanout position hardware */
->
-> Commit message implies only 7A2000+ LSDC IPs have the "scanout 
-> position recorders". Either that part or this code would need tweaking... 
-
-Both LS7A2000 and LS7A1000 have the scanout position recorders hardware.
-
-Preciously, datasheet of LS7A1000 didn't told us if it support this feature.
-
-I will adjust the commit message at next version, the code doesn't need 
-change.
-
+Thanks,
+Alexandre
+> 
+> Cheers,
+> Angelo
+> 
+> 
