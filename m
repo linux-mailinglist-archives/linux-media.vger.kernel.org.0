@@ -2,81 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3935B70C523
-	for <lists+linux-media@lfdr.de>; Mon, 22 May 2023 20:27:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C8B570C557
+	for <lists+linux-media@lfdr.de>; Mon, 22 May 2023 20:38:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233193AbjEVS1P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 May 2023 14:27:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41648 "EHLO
+        id S233740AbjEVSi4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 May 2023 14:38:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231966AbjEVS1O (ORCPT
+        with ESMTP id S231610AbjEVSiz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 May 2023 14:27:14 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2C8899
-        for <linux-media@vger.kernel.org>; Mon, 22 May 2023 11:27:12 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-3f41dceb9d1so63511835e9.1
-        for <linux-media@vger.kernel.org>; Mon, 22 May 2023 11:27:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=conchuod.ie; s=google; t=1684780031; x=1687372031;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Dde97R89Md6V2pF7Jo7GpR1OiPPYejdIL3uT2QHQik8=;
-        b=PlSJAoHfBEl5jgtH2ajA5/RPOKBr6SWbVwyY33Ofq+2dix5Xbn1+G3fUhDAkQjJY7B
-         NPf6s+tS5cKZyjn4MtChpInwyLvL1/73oMQQKQVaqlVaDPwmR1Z2J0B9L0PSpa3nY9K/
-         0we1yo8L6/teOeoIraoaq0+6wV2jSoWZOORDFtjiGFmjsJIOukZsz3YDRJWLotL1QPIN
-         Bd0ivnggzwl883J9bAigYwI3Dz/hnBuSBKuKuC0JF9ctZxGWadSR5KZ0e/PgVlwJnW4X
-         XzxTfmgYVQuyucIHj9cu1DzyYdxkYi0IL7vzjn1fSAYYZi472WmSAhOMnmkBQJi+L6R+
-         rvYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684780031; x=1687372031;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Dde97R89Md6V2pF7Jo7GpR1OiPPYejdIL3uT2QHQik8=;
-        b=Dl4YFgfJN/5ma+2Ab+PYJ8XMJQhhO8JlXCwTEeWoSbsHeHXSc+kkz/paEZIb4TbyS+
-         vQkJo1p2Eso5Ri+KQ2E9O9oIjdvKdfwWq1nDxTJEgsY2M7IYwOYxlPYlbtqNVPcn/RAm
-         jvp9bSh5ejY3173PzzeJmMpSqHqH8zko0Cz6Ueeljlwh1YxjP2IcoO1hv9mSV+ej6+GG
-         OoInN3UwSxD1oDe3h4ABJeih4Ft/wBRu0MEBM4OF9zo3eILHlKUQxXhSL6mK+sCqsB40
-         HYLYcrrgV8DqdK8zGBuZkgVilSJ6gGoAj4ZZH9onx+Is5ul+lJv12pgMho4XK1aSYqXs
-         AnhQ==
-X-Gm-Message-State: AC+VfDz7AxBbU2/hAsXr82+49LZAND2l3tKYw1mScUxpq5c1VEwmL2/V
-        Ux+F4mgZBNpKQkDw8AOAP+kx1Q==
-X-Google-Smtp-Source: ACHHUZ6kWFfckNngKg+tH40+Yss9WOVsPO4kAvHw/TA+yOcWG6pouHhkoTCnCXnIaluKbsSv8gGSCg==
-X-Received: by 2002:a1c:7c01:0:b0:3f5:db0f:4a74 with SMTP id x1-20020a1c7c01000000b003f5db0f4a74mr8447054wmc.21.1684780031389;
-        Mon, 22 May 2023 11:27:11 -0700 (PDT)
-Received: from [192.168.2.9] ([51.37.135.152])
-        by smtp.gmail.com with ESMTPSA id o9-20020adfeac9000000b0030633152664sm8573132wrn.87.2023.05.22.11.27.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 May 2023 11:27:10 -0700 (PDT)
-Message-ID: <d56f205c-dae8-a191-f2af-fed6bea060ad@conchuod.ie>
-Date:   Mon, 22 May 2023 19:27:09 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH net-next v3 2/6] dt-bindings: net: Brcm ASP 2.0 Ethernet
- controller
-Content-Language: en-US
-To:     Justin Chen <justin.chen@broadcom.com>, netdev@vger.kernel.org,
+        Mon, 22 May 2023 14:38:55 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FA81107;
+        Mon, 22 May 2023 11:38:47 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D1B76618A0;
+        Mon, 22 May 2023 18:38:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1846C4339B;
+        Mon, 22 May 2023 18:38:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1684780726;
+        bh=k+ztUyrowKth864y9ceYmAWMGnjd0ateRI2+IBMBGTg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=G6zapAYinGWGAXCgi9YCLSqCkeZnvJoOD5d8xvy4wRW6jNl2ohF6pVQ8u56HA5CQU
+         8Za7fHKyr84PXQCmNRIYldR3q/LuumWnYUU+P+c01FQIg2UcLFQRuOE4UdTlSUBoEK
+         EpCcqYgAtTPftXzLuCb3kw1HUH4PoXDzk58p1FgYwp+yvR4QYioOn0fqCbJUzZ5dsq
+         +YrJ0D8Wlo3UIp0UcgrDkr3H4lx1uQOIkyDFRlOADYWQE66ktZjDb7hCCxU3+OeX+f
+         51gB3iRedQvPG6uMfsJsvNOMkMq9hxwlseWSW48z1BF2ycigUX8oMUut5BHNsxnNV0
+         HiIW8YJY3DECg==
+Date:   Mon, 22 May 2023 19:38:39 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Florian Fainelli <florian.fainelli@broadcom.com>
+Cc:     Conor Dooley <mail@conchuod.ie>,
+        Justin Chen <justin.chen@broadcom.com>, netdev@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        bcm-kernel-feedback-list@broadcom.com
-Cc:     justinpopo6@gmail.com, f.fainelli@gmail.com, davem@davemloft.net,
-        florian.fainelli@broadcom.com, edumazet@google.com,
+        bcm-kernel-feedback-list@broadcom.com, justinpopo6@gmail.com,
+        f.fainelli@gmail.com, davem@davemloft.net, edumazet@google.com,
         kuba@kernel.org, pabeni@redhat.com, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, opendmb@gmail.com,
         andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
         richardcochran@gmail.com, sumit.semwal@linaro.org,
         christian.koenig@amd.com
+Subject: Re: [PATCH net-next v3 1/6] dt-bindings: net: brcm,unimac-mdio: Add
+ asp-v2.0
+Message-ID: <20230522-outshine-resample-f0c96c9345ca@spud>
 References: <1684531184-14009-1-git-send-email-justin.chen@broadcom.com>
- <1684531184-14009-3-git-send-email-justin.chen@broadcom.com>
-From:   Conor Dooley <mail@conchuod.ie>
-In-Reply-To: <1684531184-14009-3-git-send-email-justin.chen@broadcom.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+ <1684531184-14009-2-git-send-email-justin.chen@broadcom.com>
+ <2be2af5e-d117-fa2c-f960-e7f0c3ca3d0b@conchuod.ie>
+ <ce4a0153-1a6b-92d5-b760-489b09bbec73@broadcom.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ce4a0153-1a6b-92d5-b760-489b09bbec73@broadcom.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -85,83 +68,58 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, May 19, 2023 at 02:19:40PM -0700, Justin Chen wrote:
- > From: Florian Fainelli <florian.fainelli@broadcom.com>
- >
- > Add a binding document for the Broadcom ASP 2.0 Ethernet controller.
- >
- > Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
- > Signed-off-by: Justin Chen <justin.chen@broadcom.com>
- > ---
+On Mon, May 22, 2023 at 11:25:54AM -0700, Florian Fainelli wrote:
+> On 5/22/23 11:17, Conor Dooley wrote:
+> > On Fri, May 19, 2023 at 02:19:39PM -0700, Justin Chen wrote:
+> >  > The ASP 2.0 Ethernet controller uses a brcm unimac.
+> >  >
+> >  > Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
+> >  > Signed-off-by: Justin Chen <justin.chen@broadcom.com>
+> >  > ---
+> >  >  Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml | 2 ++
+> >  >  1 file changed, 2 insertions(+)
+> >  >
+> >  > diff --git
+> > a/Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml
+> > b/Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml
+> >  > index 0be426ee1e44..6684810fcbf0 100644
+> >  > --- a/Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml
+> >  > +++ b/Documentation/devicetree/bindings/net/brcm,unimac-mdio.yaml
+> >  > @@ -22,6 +22,8 @@ properties:
+> >  >        - brcm,genet-mdio-v3
+> >  >        - brcm,genet-mdio-v4
+> >  >        - brcm,genet-mdio-v5
+> >  > +      - brcm,asp-v2.0-mdio
+> >  > +      - brcm,asp-v2.1-mdio
+> >  >        - brcm,unimac-mdio
+> > 
+> > 
+> >  From V(N-1), there was some discussion between Rob & Florian:
+> >  > > How many SoCs does each of these correspond to? SoC specific
+> > compatibles
+> >  > > are preferred to version numbers (because few vendors are disciplined
+> >  > > at versioning and also not changing versions with every Soc).
+> >  >
+> >  > So far there is a 1:1 mapping between the number of versions and the
+> >  > number of SoCs, and the older SoC uses v2.0, while the newer one uses
+> > v2.1.
+> > 
+> > Rob's not around right now, but I don't really get why if there is a 1:1
+> > mapping you don't just name these things after the SoCs?
+> 
+> There is a 1:1 mapping now, but in the future there may be more SoCs with a
+> given implemented version. This is especially true for the MDIO controller
+> which has been largely unchanged since it was introduced.
 
-Same deal here, usual mailer is refusing to reply cos of:
-Problem signature from: 
-1.2.840.113549.1.9.1=#6A757374696E2E6368656E4062726F6164636F6D2E636F6D,CN=Justin 
-Chen,O=Broadcom Inc.,L=Bangalore,ST=Karnataka,C=IN
-                    aka: <justin.chen@broadcom.com>
-                created: Fri 19 May 2023 10:19:57 PM IST
-                expires: Wed 10 Sep 2025 01:39:50 PM IST
+Figured that'd be it, but what was written in the previous thread made
+the opposite appear true!
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
- > v3
- >         - Minor formatting issues
- >         - Change channel prop to brcm,channel for vendor specific format
- >         - Removed redundant v2.0 from compat string
- >         - Fix ranges field
- >
- > v2
- >         - Minor formatting issues
- >
- >  .../devicetree/bindings/net/brcm,asp-v2.0.yaml     | 145 
-+++++++++++++++++++++
- >  1 file changed, 145 insertions(+)
- >  create mode 100644 
-Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
- >
- > diff --git a/Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml 
-b/Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
- > new file mode 100644
- > index 000000000000..a9fed957e1d6
- > --- /dev/null
- > +++ b/Documentation/devicetree/bindings/net/brcm,asp-v2.0.yaml
- > @@ -0,0 +1,145 @@
- > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- > +%YAML 1.2
- > +---
- > +$id: http://devicetree.org/schemas/net/brcm,asp-v2.0.yaml#
- > +$schema: http://devicetree.org/meta-schemas/core.yaml#
- > +
- > +title: Broadcom ASP 2.0 Ethernet controller
- > +
- > +maintainers:
- > +  - Justin Chen <justin.chen@broadcom.com>
- > +  - Florian Fainelli <florian.fainelli@broadcom.com>
- > +
- > +description: Broadcom Ethernet controller first introduced with 72165
- > +
- > +properties:
- > +  '#address-cells':
- > +    const: 1
- > +  '#size-cells':
- > +    const: 1
- > +
- > +  compatible:
- > +    enum:
- > +      - brcm,asp-v2.0
- > +      - brcm,bcm72165-asp
- > +      - brcm,asp-v2.1
- > +      - brcm,bcm74165-asp
+> > Also, my mailer **refused** to let me reply to you because of something
+> > to do with a garbage S/MIME signature? Dunno wtf is happening there.
+> 
+> Our SMTP server is configured to automatically wrap the message in a S/MIME
+> envelope, nothing invalid though AFAICT. What's your email client?
 
-One of Rob's questions on V(N-1) that seems to have been ignored/only
-partly implemented:
- > You have 1 SoC per version, so what's the point of versions? If you have
- > more coming, then fine, but I'd expect it to be something like this:
- >
- > compatible = "brcm,bcm74165-asp-v2.1", "brcm,asp-v2.1";
-
-You did drop the -v2.1 that he requested from the SoC compatible, but I
-amn't sure why the above was not implemented (at least there's no
-explanation in the previous thread's version, nor in the changelog
-here...)
-
-Cheers,
-Conor
+Mutt - I guess it was user-error because getting S/MIME stuff
+auto-populated the security field on my end. Annoying but w/e...
