@@ -2,108 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E877070BC0F
-	for <lists+linux-media@lfdr.de>; Mon, 22 May 2023 13:43:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D23D370BB93
+	for <lists+linux-media@lfdr.de>; Mon, 22 May 2023 13:18:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233135AbjEVLnE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 May 2023 07:43:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52376 "EHLO
+        id S232927AbjEVLSf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 May 2023 07:18:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229490AbjEVLnE (ORCPT
+        with ESMTP id S232851AbjEVLSE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 May 2023 07:43:04 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 032A69B
-        for <linux-media@vger.kernel.org>; Mon, 22 May 2023 04:43:02 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1q13Am-0008FL-VE; Mon, 22 May 2023 12:53:53 +0200
-Message-ID: <f30d063b-e131-a659-9a1f-8f47e5736b44@leemhuis.info>
-Date:   Mon, 22 May 2023 12:53:52 +0200
+        Mon, 22 May 2023 07:18:04 -0400
+Received: from 189.cn (ptr.189.cn [183.61.185.102])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 36DE4270B;
+        Mon, 22 May 2023 04:11:53 -0700 (PDT)
+HMM_SOURCE_IP: 10.64.8.43:43282.1768237263
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
+        by 189.cn (HERMES) with SMTP id 19A0A100249;
+        Mon, 22 May 2023 19:11:49 +0800 (CST)
+Received: from  ([114.242.206.180])
+        by gateway-151646-dep-75648544bd-7vx9t with ESMTP id 7e6dec763f794de7a956c82faf1763ee for kernel@xen0n.name;
+        Mon, 22 May 2023 19:11:51 CST
+X-Transaction-ID: 7e6dec763f794de7a956c82faf1763ee
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Sender: 15330273260@189.cn
+Message-ID: <6ff9a210-9d31-d0b0-f282-7640e95aac5e@189.cn>
+Date:   Mon, 22 May 2023 19:11:48 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Subject: Re: v4l2-async: regression due to endpoint matching
-Content-Language: en-US, de-DE
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
-        linux-media@vger.kernel.org,
-        Linux kernel regressions list <regressions@lists.linux.dev>
-References: <8360125.31r3eYUQgx@steina-w> <5676976.irdbgypaU6@steina-w>
- <ob373sf6lmg6qfkdqy5ovxescw5gp7yedb2flk4ax762abo7b3@w33eqx3erdg7>
- <6415252.e9J7NaK4W3@steina-w>
- <3u5xed27to5bnwo3dksviydw6z2lga3udjkgvvzor4tlobjlxv@hsnam3wurgxc>
- <ZEtytxcB2+DA8Xs/@kekkonen.localdomain>
-From:   "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-In-Reply-To: <ZEtytxcB2+DA8Xs/@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1684755783;c87f8a00;
-X-HE-SMSGID: 1q13Am-0008FL-VE
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v14 1/2] drm: add kms driver for loongson display
+ controller
+Content-Language: en-US
+To:     WANG Xuerui <kernel@xen0n.name>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Li Yi <liyi@loongson.cn>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian Koenig <christian.koenig@amd.com>,
+        Emil Velikov <emil.l.velikov@gmail.com>
+Cc:     linaro-mm-sig@lists.linaro.org, loongson-kernel@lists.loongnix.cn,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Liu Peibao <liupeibao@loongson.cn>, linux-media@vger.kernel.org
+References: <20230520105718.325819-1-15330273260@189.cn>
+ <20230520105718.325819-2-15330273260@189.cn>
+ <26fd78b9-c074-8341-c99c-4e3b38cd861a@xen0n.name>
+ <e7f911cc-6588-bc0f-8e1e-759260f5187a@189.cn>
+ <ed795dc0-823a-f3d8-9e70-1cf33c0de7f0@xen0n.name>
+ <ac2fde55-c770-fbb5-844d-50fb38dd90be@189.cn>
+ <331e7baa-a83b-b0c9-37f7-0e8e39187df4@xen0n.name>
+From:   Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <331e7baa-a83b-b0c9-37f7-0e8e39187df4@xen0n.name>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FROM_LOCAL_DIGITS,
+        FROM_LOCAL_HEX,NICE_REPLY_A,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 28.04.23 09:16, Sakari Ailus wrote:
-> On Fri, Apr 28, 2023 at 08:43:21AM +0200, Jacopo Mondi wrote:
->> On Fri, Apr 28, 2023 at 08:33:30AM +0200, Alexander Stein wrote:
->>> Am Freitag, 28. April 2023, 08:31:54 CEST schrieb Jacopo Mondi:
->>>> On Fri, Apr 28, 2023 at 08:24:22AM +0200, Alexander Stein wrote:
->>>>> Am Donnerstag, 27. April 2023, 18:01:38 CEST schrieb Jacopo Mondi:
->>>>>> On Thu, Apr 27, 2023 at 04:40:46PM +0200, Alexander Stein wrote:
->>>>>>> I have a setup on my TQMa6x (imx6q-mba6a.dts) with a tc358743 attached
->>>>>>> to
->>>>>>> the MIPI CSI input.
->>>>>>> I noticed that since commit 1f391df44607 ("media: v4l2-async: Use
->>>>>>> endpoints in __v4l2_async_nf_add_fwnode_remote()") the async subdevice
->>>>>>> probing does not work anymore. If I revert that, it is working again,
->>>>>>> even on next-20230425.
->>>>>>
->>>>>> A similar issue has been discussed at
->>>>>> https://www.spinics.net/lists/linux-media/msg223351.html
->>>>>>
->>>>>> Unfortunately there was no conclusion as far as I can tell if not that
->>>>>> imx6 is now broken
->>>>>
->>>>> Thanks for the link, seems like a non-trivial thing :(
->>>>>
->>>>> From a glimpse, this series seems to deal with multiple async subdevs:
->>>>> https://lore.kernel.org/all/20230330115853.1628216-1-sakari.ailus@linux.in
->>>>> tel.com/
->>>>>
->>>>> So imx-media-csi should be adjusted as well, no?
->>>>
->>>> It would really be helpful if you can give that series a spin on imx6
->>>> if you already have a test setup.
->>>
->>> I tried, but it failed to apply on my current development tree. What base does
->>> this series apply to? Is there also a repository available I can fetch from?
+Hi,
+
+On 2023/5/22 18:05, WANG Xuerui wrote:
+> On 2023/5/22 17:49, Sui Jingfeng wrote:
+>> Hi,
 >>
->> Sakari could tell, for me it applied on v6.3-rc2 but I recall I had to
->> manually fix a few things.
-> 
-> Don't try v1, it won't work. I missed some object relation changes in the
-> linked lists. I'll post v2, hopefully some time next week, to address these
-> issues.
+>> On 2023/5/22 17:28, WANG Xuerui wrote:
+>>> On 2023/5/22 17:25, Sui Jingfeng wrote:
+>>>> Hi,
+>>>>
+>>>> On 2023/5/21 20:21, WANG Xuerui wrote:
+>>>>>> + * LS3A4000/LS3A5000/LS3A6000 CPU, they are equipped with 
+>>>>>> on-board video RAM
+>>>>>> + * typically. While LS2K0500/LS2K1000/LS2K2000 are low cost SoCs 
+>>>>>> which share
+>>>>>> + * the system RAM as video RAM, they don't has a dediacated VRAM.
+>>>>>
+>>>>> CPU models are not typically prefixed with "LS", so "Loongson 
+>>>>> 3A4000/3A5000/3A6000".
+>>>>>
+>>>> Here is because when you do programming, variable name should 
+>>>> prefix with letters.
+>>>
+>>> Commit messages, comments, and log messages etc. are natural 
+>>> language, so it's better to treat them differently. No problem to 
+>>> keep code as-is IMO.
+>>>
+>> Then you get two name for a single chip,  take  LS7A1000 as an example.
+>>
+>> You name it as Loongson 7A1000 in commit message,  and then you have 
+>> to define another name in the code,  say LS7A1000.
+>>
+>> "Loongson 7A1000" is too long,  not as compact as LS7A1000.
+>>
+>> This also avoid bind the company name to a specific product, because 
+>> a company can produce many product.
+>
+> Nah, the existing convention is "LS7Xxxxx" for bridges
 
-Hi, Thorsten here, the Linux kernel's regression tracker.
 
-I see that v2[1] got a lot of ACKs, but is not even yet in next. And
-it's a lot of patches, so maybe too much for backporting to stable
-kernels. Which leads to the question: Will the regression this thread is
-about (introduced in 5.19 afaics) ever be fixed in v6.1?
-Normally/Ideally it should be.
+But I see there are document[1] which named LS7A1000 bridge chip as 
+Loongson 7A1000 Bridge,
 
-Ciao, Thorsten
+See [1] for reference, who is wrong in this case?
 
-[1]
-https://lore.kernel.org/linux-media/ZEtytxcB2+DA8Xs%2F@kekkonen.localdomain/
+
+[1] 
+https://loongson.github.io/LoongArch-Documentation/Loongson-7A1000-usermanual-EN
 
