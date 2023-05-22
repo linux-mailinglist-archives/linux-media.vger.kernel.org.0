@@ -2,40 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A68D70B7DE
-	for <lists+linux-media@lfdr.de>; Mon, 22 May 2023 10:42:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 218B570B808
+	for <lists+linux-media@lfdr.de>; Mon, 22 May 2023 10:51:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232382AbjEVIms (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 May 2023 04:42:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34930 "EHLO
+        id S230459AbjEVIvw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 May 2023 04:51:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232381AbjEVImr (ORCPT
+        with ESMTP id S230451AbjEVIvu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 May 2023 04:42:47 -0400
-Received: from mailbox.box.xen0n.name (mail.xen0n.name [115.28.160.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F08F6B7;
-        Mon, 22 May 2023 01:42:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
-        t=1684744962; bh=KpoRxSTMXjvQHeAOX030xl1ELhy5opCOdNVTtUGkJz8=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=gHuZb871pYewey0RthFhrNb0TNW+AwaRzsYWELrrrX5sW4hIvUxU+RutrBtK4JaZc
-         jaq1DKg24eRm7w/Lmxd+VZL9/ZDHRAuUU4pp1CFwKwglnfbQrGom2lDl4se54en8Nb
-         e1VUET/KsQqei8wgwRwItcjUI++Bfpb1FL160rrI=
-Received: from [100.100.57.122] (unknown [58.34.185.106])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by mailbox.box.xen0n.name (Postfix) with ESMTPSA id B9D32600DA;
-        Mon, 22 May 2023 16:42:41 +0800 (CST)
-Message-ID: <9075974f-d130-6398-b7df-7f2e67caedb0@xen0n.name>
-Date:   Mon, 22 May 2023 16:42:41 +0800
+        Mon, 22 May 2023 04:51:50 -0400
+Received: from 189.cn (ptr.189.cn [183.61.185.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B307CA8;
+        Mon, 22 May 2023 01:51:46 -0700 (PDT)
+HMM_SOURCE_IP: 10.64.8.41:56230.753820448
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
+        by 189.cn (HERMES) with SMTP id 0327B1002EE;
+        Mon, 22 May 2023 16:51:43 +0800 (CST)
+Received: from  ([114.242.206.180])
+        by gateway-151646-dep-75648544bd-xwndj with ESMTP id fb165ebb1ea24404a094994199b65b8e for kernel@xen0n.name;
+        Mon, 22 May 2023 16:51:46 CST
+X-Transaction-ID: fb165ebb1ea24404a094994199b65b8e
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Sender: 15330273260@189.cn
+Message-ID: <2f701944-588c-3f56-06f3-abcbbf12be1e@189.cn>
+Date:   Mon, 22 May 2023 16:51:42 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.11.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
 Subject: Re: [PATCH v14 1/2] drm: add kms driver for loongson display
  controller
 Content-Language: en-US
-To:     Sui Jingfeng <15330273260@189.cn>,
+To:     WANG Xuerui <kernel@xen0n.name>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
         Thomas Zimmermann <tzimmermann@suse.de>,
@@ -55,100 +57,335 @@ Cc:     linaro-mm-sig@lists.linaro.org, loongson-kernel@lists.loongnix.cn,
 References: <20230520105718.325819-1-15330273260@189.cn>
  <20230520105718.325819-2-15330273260@189.cn>
  <26fd78b9-c074-8341-c99c-4e3b38cd861a@xen0n.name>
- <73447e35-f4df-9871-6210-b7bf1a3f04fc@189.cn>
- <97fe7af2-0a93-3f28-db6e-40a9b0798d49@xen0n.name>
- <d8e7a1ee-317c-6b44-27eb-ea637f8813ec@189.cn>
-From:   WANG Xuerui <kernel@xen0n.name>
-In-Reply-To: <d8e7a1ee-317c-6b44-27eb-ea637f8813ec@189.cn>
+From:   Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <26fd78b9-c074-8341-c99c-4e3b38cd861a@xen0n.name>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FROM_LOCAL_DIGITS,
+        FROM_LOCAL_HEX,NICE_REPLY_A,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2023/5/22 16:29, Sui Jingfeng wrote:
-> 
-> On 2023/5/22 16:09, WANG Xuerui wrote:
->> On 2023/5/22 16:02, Sui Jingfeng wrote:
->>> Hi,
->>>
->>> On 2023/5/21 20:21, WANG Xuerui wrote:
->>>>> --- /dev/null
->>>>> +++ b/drivers/gpu/drm/loongson/Kconfig
->>>>> @@ -0,0 +1,17 @@
->>>>> +# SPDX-License-Identifier: GPL-2.0
->>>>> +
->>>>> +config DRM_LOONGSON
->>>>> +    tristate "DRM support for Loongson Graphics"
->>>>> +    depends on DRM && PCI && MMU
->>>>> +    select DRM_KMS_HELPER
->>>>> +    select DRM_TTM
->>>>> +    select I2C
->>>>> +    select I2C_ALGOBIT
->>>>> +    help
->>>>> +      This is a DRM driver for Loongson Graphics, it may including
->>>>> +      LS7A2000, LS7A1000, LS2K2000 and LS2K1000 etc. Loongson LS7A
->>>>> +      series are bridge chipset, while Loongson LS2K series are SoC.
->>>>> +
->>>>> +      If "M" is selected, the module will be called loongson.
->>>>
->>>> Just "loongson"? 
->>>
->>> Yes,  when compile this driver as module,  loongson.ko will be 
->>> generated.
->>>
->>>   drm radeon is also doing so, See drm/radeon/Kconfig.
->>>
->>>> I know it's like this for ages (at least dating back to the MIPS 
->>>> days) but you really don't want to imply Loongson is mainly a GPU 
->>>> company. Something like "loongson_drm" or "lsdc" or "gsgpu" could be 
->>>> better. 
->>>
->>> No, these name may have backward compatibility problems.
->>>
->>> Downstream driver already taken those name.
->>>
->>> userspace driver need to differentiate them who is who.
->>
->> IMO this shouldn't be a problem. Let me try explaining this: 
->> currently, upstream / the "new world" doesn't have any support for 
->> this driver at all, so any name will work; just use whatever is 
->> appropriate from an upstream's perspective, then make the userspace 
->> bits recognize both variants, and you'll be fine. And the "existing" 
->> userspace drivers can also carry the change, it'll just be a branch 
->> never taken in that setup.
->>
->> So, I'm still in favor of keeping the upstream "clean" without dubious 
->> names like this (bare "loongson"). What do you think about my 
->> suggestion above?
->>
-> No,
-> 
-> there is a 'arm' folder in the drivers/gpu/drm/,  It doesn't say that 
-> arm is a pure gpu company.
-> 
-> there is a 'ingenic' folder in the drivers/gpu/drm/, ingenic also have 
-> their own custom CPUs.
-> 
-> there is a 'amd' folder in the drivers/gpu/drm/, these doesn't imply amd 
-> is mainly a GPU company.
-> 
-> when a folder emerged in drm/, it stand for the GPU related part of this 
-> company.
+Hi,
 
-What you said is correct, but I'm referring to the module name, instead 
-of the directory name. For example the AMD GPU driver is called 
-"amdgpu", not "amd"; similarly, the Ingenic DRM driver is called 
-"ingenic-drm", not "ingenic".
+On 2023/5/21 20:21, WANG Xuerui wrote:
+>
+>> +/*
+>> + * Copyright (C) 2023 Loongson Technology Corporation Limited
+>> + */
+>> +
+>> +#include <drm/drm_debugfs.h>
+>> +
+>> +#include "lsdc_benchmark.h"
+>> +#include "lsdc_drv.h"
+>> +#include "lsdc_gem.h"
+>> +#include "lsdc_ttm.h"
+>> +
+>> +typedef void (*lsdc_copy_proc_t)(struct lsdc_bo *src_bo,
+>> +                 struct lsdc_bo *dst_bo,
+>> +                 unsigned int size,
+>> +                 int n);
+>> +
+>> +static void lsdc_copy_gtt_to_vram_cpu(struct lsdc_bo *src_bo,
+>> +                      struct lsdc_bo *dst_bo,
+>> +                      unsigned int size,
+>> +                      int n)
+>> +{
+>> +    lsdc_bo_kmap(src_bo);
+>> +    lsdc_bo_kmap(dst_bo);
+>> +
+>> +    while (n--)
+>> +        memcpy_toio(dst_bo->kptr, src_bo->kptr, size);
+>> +
+>> +    lsdc_bo_kunmap(src_bo);
+>> +    lsdc_bo_kunmap(dst_bo);
+>> +}
+>> +
+>> +static void lsdc_copy_vram_to_gtt_cpu(struct lsdc_bo *src_bo,
+>> +                      struct lsdc_bo *dst_bo,
+>> +                      unsigned int size,
+>> +                      int n)
+>> +{
+>> +    lsdc_bo_kmap(src_bo);
+>> +    lsdc_bo_kmap(dst_bo);
+>> +
+>> +    while (n--)
+>> +        memcpy_fromio(dst_bo->kptr, src_bo->kptr, size);
+>> +
+>> +    lsdc_bo_kunmap(src_bo);
+>> +    lsdc_bo_kunmap(dst_bo);
+>> +}
+>> +
+>> +static void lsdc_copy_gtt_to_gtt_cpu(struct lsdc_bo *src_bo,
+>> +                     struct lsdc_bo *dst_bo,
+>> +                     unsigned int size,
+>> +                     int n)
+>> +{
+>> +    lsdc_bo_kmap(src_bo);
+>> +    lsdc_bo_kmap(dst_bo);
+>> +
+>> +    while (n--)
+>> +        memcpy(dst_bo->kptr, src_bo->kptr, size);
+>> +
+>> +    lsdc_bo_kunmap(src_bo);
+>> +    lsdc_bo_kunmap(dst_bo);
+>> +}
+>> +
+>> +static void lsdc_benchmark_copy(struct lsdc_device *ldev,
+>> +                unsigned int size,
+>> +                unsigned int n,
+>> +                u32 src_domain,
+>> +                u32 dst_domain,
+>> +                lsdc_copy_proc_t copy_proc,
+>> +                struct drm_printer *p)
+>> +{
+>> +    struct drm_device *ddev = &ldev->base;
+>> +    struct lsdc_bo *src_bo;
+>> +    struct lsdc_bo *dst_bo;
+>> +    unsigned long start_jiffies;
+>> +    unsigned long end_jiffies;
+>> +    unsigned int throughput;
+>> +    unsigned int time;
+>> +
+>> +    src_bo = lsdc_bo_create_kernel_pinned(ddev, src_domain, size);
+>> +    dst_bo = lsdc_bo_create_kernel_pinned(ddev, dst_domain, size);
+>> +
+>> +    start_jiffies = jiffies;
+>> +
+>> +    copy_proc(src_bo, dst_bo, size, n);
+>> +
+>> +    end_jiffies = jiffies;
+>> +
+>> +    lsdc_bo_free_kernel_pinned(src_bo);
+>> +    lsdc_bo_free_kernel_pinned(dst_bo);
+>> +
+>> +    time = jiffies_to_msecs(end_jiffies - start_jiffies);
+>> +
+>> +    throughput = (n * (size >> 10)) / time;
+>> +
+>> +    drm_printf(p,
+>> +           "Copy bo of %ukB %u times from %s to %s in %ums: %uMB/s\n",
+>> +           size >> 10, n,
+>> +           lsdc_domain_to_str(src_domain),
+>> +           lsdc_domain_to_str(dst_domain),
+>> +           time, throughput);
+>> +}
+>> +
+>> +int lsdc_show_benchmark_copy(struct lsdc_device *ldev, struct 
+>> drm_printer *p)
+>> +{
+>> +    unsigned int buffer_size = 1920 * 1080 * 4;
+>> +    unsigned int iteration = 60;
+>> +
+>> +    lsdc_benchmark_copy(ldev,
+>> +                buffer_size,
+>> +                iteration,
+>> +                LSDC_GEM_DOMAIN_GTT,
+>> +                LSDC_GEM_DOMAIN_GTT,
+>> +                lsdc_copy_gtt_to_gtt_cpu,
+>> +                p);
+>> +
+>> +    lsdc_benchmark_copy(ldev,
+>> +                buffer_size,
+>> +                iteration,
+>> +                LSDC_GEM_DOMAIN_GTT,
+>> +                LSDC_GEM_DOMAIN_VRAM,
+>> +                lsdc_copy_gtt_to_vram_cpu,
+>> +                p);
+>> +
+>> +    lsdc_benchmark_copy(ldev,
+>> +                buffer_size,
+>> +                iteration,
+>> +                LSDC_GEM_DOMAIN_VRAM,
+>> +                LSDC_GEM_DOMAIN_GTT,
+>> +                lsdc_copy_vram_to_gtt_cpu,
+>> +                p);
+>> +
+>> +    return 0;
+>> +}
+>> diff --git a/drivers/gpu/drm/loongson/lsdc_benchmark.h 
+>> b/drivers/gpu/drm/loongson/lsdc_benchmark.h
+>> new file mode 100644
+>> index 000000000000..2bf9406eae9c
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/loongson/lsdc_benchmark.h
+>> @@ -0,0 +1,13 @@
+>> +/* SPDX-License-Identifier: GPL-2.0 */
+>> +/*
+>> + * Copyright (C) 2023 Loongson Technology Corporation Limited
+>> + */
+>> +
+>> +#ifndef __LSDC_BENCHMARK_H__
+>> +#define __LSDC_BENCHMARK_H__
+>> +
+>> +#include "lsdc_drv.h"
+>> +
+>> +int lsdc_show_benchmark_copy(struct lsdc_device *ldev, struct 
+>> drm_printer *p);
+>> +
+>> +#endif
+>> diff --git a/drivers/gpu/drm/loongson/lsdc_crtc.c 
+>> b/drivers/gpu/drm/loongson/lsdc_crtc.c
+>> new file mode 100644
+>> index 000000000000..de2c1d514baa
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/loongson/lsdc_crtc.c
+>> @@ -0,0 +1,1066 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * Copyright (C) 2023 Loongson Technology Corporation Limited
+>> + */
+>> +
+>> +#include <linux/delay.h>
+>> +
+>> +#include <drm/drm_atomic.h>
+>> +#include <drm/drm_atomic_helper.h>
+>> +#include <drm/drm_debugfs.h>
+>> +#include <drm/drm_vblank.h>
+>> +
+>> +#include "lsdc_drv.h"
+>> +
+>> +/*
+>> + * The soft reset cause the vblank counter reset to zero, but the 
+>> address
+>> + * and other settings in the crtc register remains.
+>> + */
+>> +
+>> +static void lsdc_crtc0_soft_reset(struct lsdc_crtc *lcrtc)
+>> +{
+>> +    struct lsdc_device *ldev = lcrtc->ldev;
+>> +    u32 val;
+>> +
+>> +    val = lsdc_rreg32(ldev, LSDC_CRTC0_CFG_REG);
+>> +
+>> +    val &= CFG_VALID_BITS_MASK;
+>> +
+>> +    /* soft reset bit, active low */
+>> +    val &= ~CFG_RESET_N;
+>> +
+>> +    val &= ~CFG_PIX_FMT_MASK;
+>> +
+>> +    lsdc_wreg32(ldev, LSDC_CRTC0_CFG_REG, val);
+>> +
+>> +    udelay(5);
+>> +
+>> +    val |= CFG_RESET_N | LSDC_PF_XRGB8888 | CFG_OUTPUT_ENABLE;
+>> +
+>> +    lsdc_wreg32(ldev, LSDC_CRTC0_CFG_REG, val);
+>> +
+>> +    mdelay(20);
+>> +}
+>> +
+>> +static void lsdc_crtc1_soft_reset(struct lsdc_crtc *lcrtc)
+>> +{
+>> +    struct lsdc_device *ldev = lcrtc->ldev;
+>> +    u32 val;
+>> +
+>> +    val = lsdc_rreg32(ldev, LSDC_CRTC1_CFG_REG);
+>> +
+>> +    val &= CFG_VALID_BITS_MASK;
+>> +
+>> +    /* soft reset bit, active low */
+>> +    val &= ~CFG_RESET_N;
+>> +
+>> +    val &= ~CFG_PIX_FMT_MASK;
+>> +
+>> +    lsdc_wreg32(ldev, LSDC_CRTC1_CFG_REG, val);
+>> +
+>> +    udelay(5);
+>> +
+>> +    val |= CFG_RESET_N | LSDC_PF_XRGB8888 | CFG_OUTPUT_ENABLE;
+>> +
+>> +    lsdc_wreg32(ldev, LSDC_CRTC1_CFG_REG, val);
+>> +
+>> +    msleep(20);
+>
+> So many magic sleeps without documentation?
+>
+It is just that you should wait the device for a while before it can 
+reaction when doing the soft reset.
 
--- 
-WANG "xen0n" Xuerui
+I think this is engineering...
 
-Linux/LoongArch mailing list: https://lore.kernel.org/loongarch/
+>> +}
+>> +
+>> +static void lsdc_crtc0_enable(struct lsdc_crtc *lcrtc)
+>> +{
+>> +    struct lsdc_device *ldev = lcrtc->ldev;
+>> +    u32 val;
+>> +
+>> +    val = lsdc_rreg32(ldev, LSDC_CRTC0_CFG_REG);
+>> +
+>> +    /*
+>> +     * This may happens on extremely rare case, luckily, a soft reset
+>
+> "may happen on extremely rare cases;"
+>
+>> +     * can helps to bring it back to normal. We add a warn here, hope
+>
+> "can help bringing it back to normal. We issue a warning here, hoping to"
+>
+>> +     * to catch something if it happens.
+>> +     */
+>> +
+>> +    if (val & CRTC_ANCHORED) {
+>> +        drm_warn(&ldev->base, "%s anchored\n", lcrtc->base.name);
+>> +        return lsdc_crtc0_soft_reset(lcrtc);
+>> +    }
+>> +
+>> +    lsdc_wreg32(ldev, LSDC_CRTC0_CFG_REG, val | CFG_OUTPUT_ENABLE);
+>> +}
+>> +
+>> +static void lsdc_crtc0_disable(struct lsdc_crtc *lcrtc)
+>> +{
+>> +    struct lsdc_device *ldev = lcrtc->ldev;
+>> +
+>> +    lsdc_ureg32_clr(ldev, LSDC_CRTC0_CFG_REG, CFG_OUTPUT_ENABLE);
+>> +
+>> +    udelay(9);
+>> +}
+>> +
+>> +static void lsdc_crtc1_enable(struct lsdc_crtc *lcrtc)
+>> +{
+>> +    struct lsdc_device *ldev = lcrtc->ldev;
+>> +    u32 val;
+>> +
+>> +    val = lsdc_rreg32(ldev, LSDC_CRTC1_CFG_REG);
+>> +    if (val & CRTC_ANCHORED) {
+>> +        drm_warn(&ldev->base, "%s anchored\n", lcrtc->base.name);
+>> +        return lsdc_crtc1_soft_reset(lcrtc);
+>> +    }
+>
+> Duplication of code? You may want to duplicate the comment here too as 
+> de-duplication with macro seems too heavy here.
+>
+>> +
+>> +    lsdc_wreg32(ldev, LSDC_CRTC1_CFG_REG, val | CFG_OUTPUT_ENABLE);
+>> +}
+>> +
+>> +static void lsdc_crtc1_disable(struct lsdc_crtc *lcrtc)
+>> +{
+>> +    struct lsdc_device *ldev = lcrtc->ldev;
+>> +
+>> +    lsdc_ureg32_clr(ldev, LSDC_CRTC1_CFG_REG, CFG_OUTPUT_ENABLE);
+>> +
+>> +    udelay(9);
+>> +}
+>> +
+>> +/* All loongson display controller support scanout position hardware */
+>
+> Commit message implies only 7A2000+ LSDC IPs have the "scanout 
+> position recorders". Either that part or this code would need tweaking... 
+
+Both LS7A2000 and LS7A1000 have the scanout position recorders hardware.
+
+Preciously, datasheet of LS7A1000 didn't told us if it support this feature.
+
+I will adjust the commit message at next version, the code doesn't need 
+change.
 
