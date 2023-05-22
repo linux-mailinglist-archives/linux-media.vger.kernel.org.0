@@ -2,117 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE04F70B832
-	for <lists+linux-media@lfdr.de>; Mon, 22 May 2023 10:59:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF98570B86D
+	for <lists+linux-media@lfdr.de>; Mon, 22 May 2023 11:05:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232086AbjEVI7i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 May 2023 04:59:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41248 "EHLO
+        id S232530AbjEVJFj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 May 2023 05:05:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232644AbjEVI7K (ORCPT
+        with ESMTP id S232526AbjEVJF2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 May 2023 04:59:10 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9740C170E
-        for <linux-media@vger.kernel.org>; Mon, 22 May 2023 01:58:28 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 4QPrvc5zc2zyTW;
-        Mon, 22 May 2023 11:58:20 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1684745905;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ctT1nifoev3hHlgWE8Eu+txWc48x8uyKSST1/8B9WGc=;
-        b=w7PZ86zyjH3fSidq7rCaEGcLKr+Eu9zcIobfhozFkU6pOpRuepM8640+Im/apSP91WTtok
-        13aq/IGEzHHcoJHwVJsshcMdQZwpmy8Xk3omNtfYsWFbUCOpPA5JB1jG3/0b21cttppQLC
-        MbLTWcxXr1agKN5GM9vIG6lraDOFIKg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1684745905;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ctT1nifoev3hHlgWE8Eu+txWc48x8uyKSST1/8B9WGc=;
-        b=VecV+KnmzrrkwGGIz93aqacUUcZ3ehs9+IsNUtsxRmguOBXjxqH1dLp0+iHBqXUuPD2Hcs
-        lxCA3URSu3rDZofUIXxqduDDLde6x1gk/+oAcd7oFCc01Z9cW2xwEgl6DyJRcjQIP7hIUU
-        rAZ75F2VWzh0te6RqE7iojaOMAOKd/s=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1684745905; a=rsa-sha256; cv=none;
-        b=bufxwxn4WKn1MJyZ7FovEvpFcGtfhxM7RrI0GEzzwPy+gOsWGK5NACUJqi+9fd8dr+HsTl
-        1uR3jWIcIxwR2fMrkG3lY1F2xA6bsG0FxwFrA7lN1/fd3c6N7T0ck7fa8CQIrUn4lImbOi
-        b7dcY5QU8QZ0VvHFLDgKCIPi6JY/5IU=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 35939634C91;
-        Mon, 22 May 2023 11:58:20 +0300 (EEST)
-Date:   Mon, 22 May 2023 11:58:20 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-Cc:     Michael Tretter <m.tretter@pengutronix.de>,
-        Jacob Chen <jacob-chen@iotwrt.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
-Subject: Re: [PATCH RESEND 2/2] arm64: dts: rockchip: Add RGA2 support to
- rk356x
-Message-ID: <ZGsurJERE9uZfMs0@valkosipuli.retiisi.eu>
-References: <20230119-rk3568-rga-v1-0-43d4d14365e6@pengutronix.de>
- <20230119-rk3568-rga-v1-2-43d4d14365e6@pengutronix.de>
- <ZGUfTP1EXtlJbtxJ@valkosipuli.retiisi.eu>
- <2290673.ElGaqSPkdT@diego>
+        Mon, 22 May 2023 05:05:28 -0400
+Received: from 189.cn (ptr.189.cn [183.61.185.103])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D6C50FE;
+        Mon, 22 May 2023 02:05:14 -0700 (PDT)
+HMM_SOURCE_IP: 10.64.8.43:51158.600247562
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
+        by 189.cn (HERMES) with SMTP id 387F01002CF;
+        Mon, 22 May 2023 17:05:11 +0800 (CST)
+Received: from  ([114.242.206.180])
+        by gateway-151646-dep-75648544bd-7vx9t with ESMTP id 4e1da2ddffb14c7ea87b889e41f0d88c for kernel@xen0n.name;
+        Mon, 22 May 2023 17:05:14 CST
+X-Transaction-ID: 4e1da2ddffb14c7ea87b889e41f0d88c
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Sender: 15330273260@189.cn
+Message-ID: <47bfa5a1-8a60-6faa-1983-d8a29589cdb6@189.cn>
+Date:   Mon, 22 May 2023 17:05:10 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v14 1/2] drm: add kms driver for loongson display
+ controller
+Content-Language: en-US
+To:     WANG Xuerui <kernel@xen0n.name>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sui Jingfeng <suijingfeng@loongson.cn>,
+        Li Yi <liyi@loongson.cn>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian Koenig <christian.koenig@amd.com>,
+        Emil Velikov <emil.l.velikov@gmail.com>
+Cc:     linaro-mm-sig@lists.linaro.org, loongson-kernel@lists.loongnix.cn,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Liu Peibao <liupeibao@loongson.cn>, linux-media@vger.kernel.org
+References: <20230520105718.325819-1-15330273260@189.cn>
+ <20230520105718.325819-2-15330273260@189.cn>
+ <26fd78b9-c074-8341-c99c-4e3b38cd861a@xen0n.name>
+From:   Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <26fd78b9-c074-8341-c99c-4e3b38cd861a@xen0n.name>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2290673.ElGaqSPkdT@diego>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FROM_LOCAL_DIGITS,
+        FROM_LOCAL_HEX,NICE_REPLY_A,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, May 21, 2023 at 12:46:11PM +0200, Heiko St�bner wrote:
-> Hi,
-> 
-> Am Mittwoch, 17. Mai 2023, 20:39:08 CEST schrieb Sakari Ailus:
-> > Hi folks,
-> > 
-> > On Fri, Jan 20, 2023 at 10:14:22AM +0100, Michael Tretter wrote:
-> > > The rk3568 also features a RGA2 block. Add the necessary device tree
-> > > node.
-> > > 
-> > > Acked-by: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
-> > > Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-> > 
-> > Can this patch be merged via the media tree? I don't expect merging the
-> > other one via a different tree being an issue either, so alternatively to
-> > the 1st patch:
-> > 
-> > Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> 
-> thanks for the Ack. To prevent conflicts with other additions to the
-> rk356x.dtsi file, I've picked now both patches for the rockchip tree.
+Hi,
 
-Thank you!
+On 2023/5/21 20:21, WANG Xuerui wrote:
+>> +++ b/drivers/gpu/drm/loongson/lsdc_debugfs.c
+>> @@ -0,0 +1,91 @@
+>> +// SPDX-License-Identifier: GPL-2.0+
+>> +/*
+>> + * Copyright (C) 2023 Loongson Technology Corporation Limited
+>> + */
+>> +
+>> +#include <drm/drm_debugfs.h>
+>> +
+>> +#include "lsdc_benchmark.h"
+>> +#include "lsdc_drv.h"
+>> +#include "lsdc_gem.h"
+>> +#include "lsdc_probe.h"
+>> +#include "lsdc_ttm.h"
+>> +
+>> +/* device level debugfs */
+>> +
+>> +static int lsdc_identify(struct seq_file *m, void *arg)
+>> +{
+>> +    struct drm_info_node *node = (struct drm_info_node *)m->private;
+>> +    struct lsdc_device *ldev = (struct lsdc_device 
+>> *)node->info_ent->data;
+>> +    const struct loongson_gfx_desc *gfx = to_loongson_gfx(ldev->descp);
+>> +    u8 impl, rev;
+>> +
+>> +    loongson_cpu_get_prid(&impl, &rev);
+>> +
+>> +    seq_printf(m, "Running on cpu 0x%x, cpu revision: 0x%x\n",
+>> +           impl, rev);
+>
+> Is this really needed/relevant for LSDC identification? AFAICS the 
+> loongson_cpu_get_prid helper has only one use (that's here), 
 
--- 
-Sakari Ailus
+Yes, this is really needed, when doing the remote debugging, sometime 
+you only have a ssh login the target machine.
+
+User of the driver could know what the host is in the DRM way.
+
+> so if it's not absolutely necessary you can just get rid of that 
+> function and lsdc_probe.h altogether.
+This function it written for the future, It will not be removed.
+>
+>> +
+>> +    seq_printf(m, "Contained in: %s\n", gfx->model);
+>
+> "model: " would be more appropriate for a piece of info looking like a 
+> "gfx->model"?
+No, these are nearly equivalent.
