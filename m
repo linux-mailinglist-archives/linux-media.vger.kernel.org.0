@@ -2,140 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B83A70BA0B
-	for <lists+linux-media@lfdr.de>; Mon, 22 May 2023 12:25:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7D2070BA30
+	for <lists+linux-media@lfdr.de>; Mon, 22 May 2023 12:30:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232746AbjEVKZf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 May 2023 06:25:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57366 "EHLO
+        id S231409AbjEVKa5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 May 2023 06:30:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232744AbjEVKZ1 (ORCPT
+        with ESMTP id S230040AbjEVKa4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 May 2023 06:25:27 -0400
-Received: from mailbox.box.xen0n.name (mail.xen0n.name [115.28.160.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9245F129;
-        Mon, 22 May 2023 03:25:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
-        t=1684751114; bh=ZpVp+PlYNh4Srka41PWFXoYRzevT6MmLkXNeP5O8BhE=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=xKPMORLB3jzNYi2hBErRSYw0qWDeVov+peIRV9VQPiZMJdHE3D+sz3nyHFRb0o+zI
-         4Hshv/zA/iW5IhHbbizMfout+BQEVfO/iDxdi6SCnHYLt6h+055iWg8fFzR/hYD3z+
-         JoEKh3Fj3nVcGG9jhdED2/5QtSJNI7eoPsqAPrio=
-Received: from [100.100.57.122] (unknown [58.34.185.106])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by mailbox.box.xen0n.name (Postfix) with ESMTPSA id EAA84600A6;
-        Mon, 22 May 2023 18:25:12 +0800 (CST)
-Message-ID: <0e5e4a4b-1426-ffae-e958-cf8f9aece166@xen0n.name>
-Date:   Mon, 22 May 2023 18:25:12 +0800
+        Mon, 22 May 2023 06:30:56 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE2EBD2
+        for <linux-media@vger.kernel.org>; Mon, 22 May 2023 03:30:40 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1q12ne-0002T8-3x; Mon, 22 May 2023 12:29:58 +0200
+Received: from mtr by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1q12nZ-0001jw-Dh; Mon, 22 May 2023 12:29:53 +0200
+Date:   Mon, 22 May 2023 12:29:53 +0200
+From:   Michael Tretter <m.tretter@pengutronix.de>
+To:     Diederik de Haas <didi.debian@cknow.org>
+Cc:     Jacob Chen <jacob-chen@iotwrt.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-rockchip@lists.infradead.org,
+        Heiko Stuebner <heiko@sntech.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH RESEND 0/2] media: rockchip: rga: Add rk3568 support
+Message-ID: <20230522102953.GB23678@pengutronix.de>
+Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
+        Diederik de Haas <didi.debian@cknow.org>,
+        Jacob Chen <jacob-chen@iotwrt.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-rockchip@lists.infradead.org,
+        Heiko Stuebner <heiko@sntech.de>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <20230119-rk3568-rga-v1-0-43d4d14365e6@pengutronix.de>
+ <168466589373.900480.8086350880534437090.b4-ty@sntech.de>
+ <2386524.2IynHR6iFi@prancing-pony>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.11.0
-Subject: Re: [PATCH v14 1/2] drm: add kms driver for loongson display
- controller
-Content-Language: en-US
-To:     Sui Jingfeng <15330273260@189.cn>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Li Yi <liyi@loongson.cn>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian Koenig <christian.koenig@amd.com>,
-        Emil Velikov <emil.l.velikov@gmail.com>
-Cc:     linaro-mm-sig@lists.linaro.org, loongson-kernel@lists.loongnix.cn,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Liu Peibao <liupeibao@loongson.cn>, linux-media@vger.kernel.org
-References: <20230520105718.325819-1-15330273260@189.cn>
- <20230520105718.325819-2-15330273260@189.cn>
- <26fd78b9-c074-8341-c99c-4e3b38cd861a@xen0n.name>
- <e7f911cc-6588-bc0f-8e1e-759260f5187a@189.cn>
- <ed795dc0-823a-f3d8-9e70-1cf33c0de7f0@xen0n.name>
- <ac2fde55-c770-fbb5-844d-50fb38dd90be@189.cn>
- <331e7baa-a83b-b0c9-37f7-0e8e39187df4@xen0n.name>
- <5ae49b7a-b8d2-a822-65bc-6a894d2b1b4e@189.cn>
-From:   WANG Xuerui <kernel@xen0n.name>
-In-Reply-To: <5ae49b7a-b8d2-a822-65bc-6a894d2b1b4e@189.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <2386524.2IynHR6iFi@prancing-pony>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mtr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2023/5/22 18:17, Sui Jingfeng wrote:
-> Hi,
+On Sun, 21 May 2023 21:32:51 +0200, Diederik de Haas wrote:
+> On Sunday, 21 May 2023 12:44:58 CEST Heiko Stuebner wrote:
+> > On Fri, 20 Jan 2023 10:14:21 +0100, Michael Tretter wrote:
+> > > The RGA2 on the Rockchip rk3568 is the same core as the RGA2 on the
+> > > Rockchip rk3288.
+> > > 
+> > > This series adds the necessary device tree binding and node in the device
+> > > tree to enable the RGA2 on the Rockchip rk3568.
+> > > 
+> > > I tested the driver with the GStreamer v4l2convert element on a Rock3
+> > > Model A board.
+> > > 
+> > > [...]
+> > 
+> > Applied, thanks!
+> > 
+> > [1/2] media: dt-bindings: media: rockchip-rga: add rockchip,rk3568-rga
+> >       commit: 9b12ceb5a80d1fb45d293265de100e33b5843943
+> > [2/2] arm64: dts: rockchip: Add RGA2 support to rk356x
+> >       commit: 0c3391f8bb06b744df521651534cd99e3d77e0a8
 > 
-> On 2023/5/22 18:05, WANG Xuerui wrote:
->> On 2023/5/22 17:49, Sui Jingfeng wrote:
->>> Hi,
->>>
->>> On 2023/5/22 17:28, WANG Xuerui wrote:
->>>> On 2023/5/22 17:25, Sui Jingfeng wrote:
->>>>> Hi,
->>>>>
->>>>> On 2023/5/21 20:21, WANG Xuerui wrote:
->>>>>>> + * LS3A4000/LS3A5000/LS3A6000 CPU, they are equipped with 
->>>>>>> on-board video RAM
->>>>>>> + * typically. While LS2K0500/LS2K1000/LS2K2000 are low cost SoCs 
->>>>>>> which share
->>>>>>> + * the system RAM as video RAM, they don't has a dediacated VRAM.
->>>>>>
->>>>>> CPU models are not typically prefixed with "LS", so "Loongson 
->>>>>> 3A4000/3A5000/3A6000".
->>>>>>
->>>>> Here is because when you do programming, variable name should 
->>>>> prefix with letters.
->>>>
->>>> Commit messages, comments, and log messages etc. are natural 
->>>> language, so it's better to treat them differently. No problem to 
->>>> keep code as-is IMO.
->>>>
->>> Then you get two name for a single chip,  take  LS7A1000 as an example.
->>>
->>> You name it as Loongson 7A1000 in commit message,  and then you have 
->>> to define another name in the code,  say LS7A1000.
->>>
->>> "Loongson 7A1000" is too long,  not as compact as LS7A1000.
->>>
->>> This also avoid bind the company name to a specific product, because 
->>> a company can produce many product.
->>
->> Nah, the existing convention is "LS7Xxxxx" for bridges and "Loongson 
->> 3Axxxx" for CPUs (SoCs like 2K fall under this category too). It's 
->> better to stick with existing practice so it would be familiar to 
->> long-time Loongson/LoongArch developers, but I personally don't think 
->> it will hamper understanding if you feel like doing otherwise.
->>
-> Can you explain why it is better?
+> https://lore.kernel.org/all/TY3P286MB26115F60D273E840D36A610598CA9@TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM/
 > 
-> is it that the already existing is better ?
+> indicated that there was a problem with device >= 4GB (RAM?):
+> > Since we have the over-4GB problem now, should we mark this problem as a
+> > TODO or something?
+> 
+> I thought that was the reason that these patches weren't picked up before?
 
-It's not about subjective perception of "better" or "worse", but about 
-tree-wide consistency, and about reducing any potential confusion from 
-newcomers. I remember Huacai once pointing out that outsiders usually 
-have a hard time remembering "1, 2, and 3 are CPUs, some 2 are SoCs, 7 
-are bridge chips", and consistently referring to the bridge chips 
-throughout the tree as "LS7A" helped.
+That's what I thought, too.
 
-In any case, for the sake of consistency, you can definitely refer to 
-the CPU models in natural language like "LS3Axxxx"; just make sure to 
-refactor for example every occurrence in arch/loongarch and other parts 
-of drivers/. That's a lot of churn, though, so I don't expect such 
-changes to get accepted, and that's why the tree-wide consistency should 
-be favored over the local one.
+> 
+> I have no insight into this problem, so I can't comment on the technical
+> aspects, but I had made a note for myself 'locally' about it.
 
--- 
-WANG "xen0n" Xuerui
+Using the RGA2 with the driver in its current form on devices with more than 4
+GB system memory may lead to memory corruption as buffer addresses are
+silently truncated to 32 bits.
 
-Linux/LoongArch mailing list: https://lore.kernel.org/loongarch/
+I'm not sure if that's actually a blocker for merging these patches.
 
+Michael
