@@ -2,120 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B7D2070BA30
-	for <lists+linux-media@lfdr.de>; Mon, 22 May 2023 12:30:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C3F970BA4C
+	for <lists+linux-media@lfdr.de>; Mon, 22 May 2023 12:47:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231409AbjEVKa5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 May 2023 06:30:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33440 "EHLO
+        id S231983AbjEVKrC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 May 2023 06:47:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230040AbjEVKa4 (ORCPT
+        with ESMTP id S230184AbjEVKrC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 May 2023 06:30:56 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE2EBD2
-        for <linux-media@vger.kernel.org>; Mon, 22 May 2023 03:30:40 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mtr@pengutronix.de>)
-        id 1q12ne-0002T8-3x; Mon, 22 May 2023 12:29:58 +0200
-Received: from mtr by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mtr@pengutronix.de>)
-        id 1q12nZ-0001jw-Dh; Mon, 22 May 2023 12:29:53 +0200
-Date:   Mon, 22 May 2023 12:29:53 +0200
-From:   Michael Tretter <m.tretter@pengutronix.de>
-To:     Diederik de Haas <didi.debian@cknow.org>
-Cc:     Jacob Chen <jacob-chen@iotwrt.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-rockchip@lists.infradead.org,
-        Heiko Stuebner <heiko@sntech.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH RESEND 0/2] media: rockchip: rga: Add rk3568 support
-Message-ID: <20230522102953.GB23678@pengutronix.de>
-Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
-        Diederik de Haas <didi.debian@cknow.org>,
-        Jacob Chen <jacob-chen@iotwrt.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-rockchip@lists.infradead.org,
-        Heiko Stuebner <heiko@sntech.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <20230119-rk3568-rga-v1-0-43d4d14365e6@pengutronix.de>
- <168466589373.900480.8086350880534437090.b4-ty@sntech.de>
- <2386524.2IynHR6iFi@prancing-pony>
+        Mon, 22 May 2023 06:47:02 -0400
+X-Greylist: delayed 6511 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 22 May 2023 03:46:59 PDT
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6607EDC;
+        Mon, 22 May 2023 03:46:59 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4QPvJw6WRKzyWG;
+        Mon, 22 May 2023 13:46:56 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1684752417;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=458mfY2Qwo/3Pk10b/Ep3qoH4QSbeULEUhfNY9XD7Zk=;
+        b=LOxmuxBAoOsYF1b+j222l9M8ypdlXbSnP1BD3JxnYO4NNbrKVCU236TfRqTBZEClAmzLVL
+        gCa84FM95Dyt7OhE08xGw3n9zS9q9/E0TKttKo/6dWkxklr8xDylVa9tEygyLDp3vFAP8l
+        8UJTISyY0PJrSzg1cp84dvRw280KLkA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1684752417;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=458mfY2Qwo/3Pk10b/Ep3qoH4QSbeULEUhfNY9XD7Zk=;
+        b=gNSPJIE5KD0YbLEotY8fYIccuT/fef30O0x4W6bBFwrfekuW1asd6XDGtdKFSWL6kLJjFF
+        /AqdYTQ64LNfkefWwEW07hw6ut9aTTkyY1v979OGKIK1BxtOaMhHTR6vle2gIP38iTt6TV
+        BfCOG+qKm8I1WkZCucWo3SAv2p51wm4=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1684752417; a=rsa-sha256; cv=none;
+        b=JJ+M23dbg6sZvVZpD4MpMH9ltEIhOmslAXk7tpleYAM/hU8P/ULVMdr9+/1186MoF1FUnv
+        CfFe8eps/UKutPHGDrNQD6wIAQfxHjtyKuPaFd/AqZ5X3KjXbCS5bVaZggy5yQXzROtnUL
+        z6IttLcCt8+8zqGeuERo9aScWKxRn+M=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 5BFA7634C91;
+        Mon, 22 May 2023 13:46:56 +0300 (EEST)
+Date:   Mon, 22 May 2023 13:46:56 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Palmer Dabbelt <palmer@rivosinc.com>
+Cc:     mchehab@kernel.org, laurent.pinchart@ideasonboard.com,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux@rivosinc.com
+Subject: Re: [PATCH 0/2] media: nxp: imx8-isi: Two build fixes
+Message-ID: <ZGtIIDSfy7KJTn23@valkosipuli.retiisi.eu>
+References: <20230428152156.22840-1-palmer@rivosinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2386524.2IynHR6iFi@prancing-pony>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mtr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20230428152156.22840-1-palmer@rivosinc.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, 21 May 2023 21:32:51 +0200, Diederik de Haas wrote:
-> On Sunday, 21 May 2023 12:44:58 CEST Heiko Stuebner wrote:
-> > On Fri, 20 Jan 2023 10:14:21 +0100, Michael Tretter wrote:
-> > > The RGA2 on the Rockchip rk3568 is the same core as the RGA2 on the
-> > > Rockchip rk3288.
-> > > 
-> > > This series adds the necessary device tree binding and node in the device
-> > > tree to enable the RGA2 on the Rockchip rk3568.
-> > > 
-> > > I tested the driver with the GStreamer v4l2convert element on a Rock3
-> > > Model A board.
-> > > 
-> > > [...]
-> > 
-> > Applied, thanks!
-> > 
-> > [1/2] media: dt-bindings: media: rockchip-rga: add rockchip,rk3568-rga
-> >       commit: 9b12ceb5a80d1fb45d293265de100e33b5843943
-> > [2/2] arm64: dts: rockchip: Add RGA2 support to rk356x
-> >       commit: 0c3391f8bb06b744df521651534cd99e3d77e0a8
-> 
-> https://lore.kernel.org/all/TY3P286MB26115F60D273E840D36A610598CA9@TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM/
-> 
-> indicated that there was a problem with device >= 4GB (RAM?):
-> > Since we have the over-4GB problem now, should we mark this problem as a
-> > TODO or something?
-> 
-> I thought that was the reason that these patches weren't picked up before?
+On Fri, Apr 28, 2023 at 08:21:54AM -0700, Palmer Dabbelt wrote:
+> These popped up last night as I was trying to merge in Linus' master.
 
-That's what I thought, too.
+Hi Palmer,
 
-> 
-> I have no insight into this problem, so I can't comment on the technical
-> aspects, but I had made a note for myself 'locally' about it.
+These have been already fixes in Linus's tree.
 
-Using the RGA2 with the driver in its current form on devices with more than 4
-GB system memory may lead to memory corruption as buffer addresses are
-silently truncated to 32 bits.
-
-I'm not sure if that's actually a blocker for merging these patches.
-
-Michael
+-- 
+Sakari Ailus
