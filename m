@@ -2,157 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D57EC70BEBA
-	for <lists+linux-media@lfdr.de>; Mon, 22 May 2023 14:51:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF7EB70BF09
+	for <lists+linux-media@lfdr.de>; Mon, 22 May 2023 15:02:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233371AbjEVMv3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 May 2023 08:51:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52176 "EHLO
+        id S233913AbjEVNCk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 May 2023 09:02:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233257AbjEVMv1 (ORCPT
+        with ESMTP id S233510AbjEVNCj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 May 2023 08:51:27 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 756A092
-        for <linux-media@vger.kernel.org>; Mon, 22 May 2023 05:51:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684759883; x=1716295883;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pL1idd6XbB8DSJRKMloscbHAhbrOtykQpSVbdAGm2Gk=;
-  b=ASVxjNYmFC6DUMJRj0wRVig4fGNFBu6utHyQ+1mfsREQIxz8ZsHgq5Wt
-   sHDfTW/Ncj6wucoaVZjpL2JKYn/9EyRlIDIcg1n+sc0zCYcomeLGU3EEn
-   u8WOJmBQwZf/zuO1e2dHmqOyVJljg6+BO/OMmAWqNrd0+mDUHucKY+Sle
-   tM3Rw8DgEvy7eK9XFfa0xtRRRDzRD0ZlOgIgp0rxN/Vces8SP2Ur8d7yX
-   n07khxbNq5L10rnDVpSWI2yi0UjeGfot0h6+7Lojo9XQtA74gVgo1Kmhq
-   u61YZj62Lm7arM0y7ldZOJ/rU91MnU1p9FaisVCcrRecHNLYq0nqoRRue
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10717"; a="416370937"
-X-IronPort-AV: E=Sophos;i="6.00,184,1681196400"; 
-   d="scan'208";a="416370937"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2023 05:51:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10717"; a="768499280"
-X-IronPort-AV: E=Sophos;i="6.00,184,1681196400"; 
-   d="scan'208";a="768499280"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2023 05:51:20 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 70047120BF9;
-        Mon, 22 May 2023 15:51:18 +0300 (EEST)
-Date:   Mon, 22 May 2023 12:51:18 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Linux regressions mailing list <regressions@lists.linux.dev>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        linux-media@vger.kernel.org, niklas.soderlund@ragnatech.se
-Subject: Re: v4l2-async: regression due to endpoint matching
-Message-ID: <ZGtlRnPE5k/W4vGY@kekkonen.localdomain>
-References: <8360125.31r3eYUQgx@steina-w>
- <5676976.irdbgypaU6@steina-w>
- <ob373sf6lmg6qfkdqy5ovxescw5gp7yedb2flk4ax762abo7b3@w33eqx3erdg7>
- <6415252.e9J7NaK4W3@steina-w>
- <3u5xed27to5bnwo3dksviydw6z2lga3udjkgvvzor4tlobjlxv@hsnam3wurgxc>
- <ZEtytxcB2+DA8Xs/@kekkonen.localdomain>
- <f30d063b-e131-a659-9a1f-8f47e5736b44@leemhuis.info>
- <ZGtZGzZ3wiwiJBkp@kekkonen.localdomain>
- <618ab198-836e-16ba-4c02-476feac2ffaa@leemhuis.info>
+        Mon, 22 May 2023 09:02:39 -0400
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7323BC4;
+        Mon, 22 May 2023 06:02:32 -0700 (PDT)
+Received: by mail-yb1-xb29.google.com with SMTP id 3f1490d57ef6-ba81031424dso9135297276.2;
+        Mon, 22 May 2023 06:02:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684760551; x=1687352551;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Oz4bQfIt7cNLLI3/bZ4OW8kbHhUS+fQ0VE6AH/7bMg4=;
+        b=lYD92GRkYdjfbP3e8fwuaSxDduqy48npOK4Yg9ZaOEmHqS/JPtCrce+EnaTh9VmSna
+         RHT7GBkDPyiY/W1+jvLGjxkh51jn+zxmI9OqgHEoEtA6ZjAC30eCAWTw4zIpfk4rWBWy
+         A1qvHTQQwDt/NDBe21ApIde4nz/UtIN9QIixfms/Elp7oFDo+K/CLz+WFH9CtzPzcwlv
+         rzv+9GIwfuw+VDp4MMJbBA5/iN9yQMMF+KMxRFF3Ge3uNa1QastQ+/BM0jUqgxWGYyfz
+         cZTsz43RMk9g0VkTvoP1GJLBnZ9NmdVPAanL5bVUqBvc4fFhRPHb/wZFuV7qE7SuuDXI
+         bn1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684760551; x=1687352551;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Oz4bQfIt7cNLLI3/bZ4OW8kbHhUS+fQ0VE6AH/7bMg4=;
+        b=QkRWEiO2IIHJOOAEdRBBTBU2e41QUYk0OxJzA+NzLWIPJw3uTLdrdk4g30ukdes91O
+         5pgGw8VtSBSebJIC/dTjW09/xQAjrSLdo0xqdfAP/ocpNUCQs6NE8hvIFobqmnArt0fi
+         dL0/sd9ldyRxHDOayTJXEtNPq1GYvwVYS7ztGPp4vUvYhX/N8NQRgoLutT+PCzCxpqOu
+         OFPFFZvwWnScaohxWijZlmgK5kZcHTHg6Hvj1Vwi2kUfZJHraKeVTskJZVAD4a/j3UI9
+         88nYLWN4Kdudvx/Z5wLomJoR23CoF79DTvqziT2tMwdF5OAygz593Tit696N8zjNNEl1
+         rU5w==
+X-Gm-Message-State: AC+VfDwUUfhOfUoWjeS+HCft6a5OxjOoAGNEVZD/4x1kypr6fSeR8LdB
+        GpNKRnHnXaayzOyH9ENBWnvot9vRYzoq4R7wZj0=
+X-Google-Smtp-Source: ACHHUZ6H/V3aromhsm0WeKkw3qoE/viYGpCdWeB7qDuWQFt6qRv5I58EjllHW4obHGmBc+ZmdwVtPh7vvXJ6Cb4sGGM=
+X-Received: by 2002:a25:cdc5:0:b0:ba6:a445:3317 with SMTP id
+ d188-20020a25cdc5000000b00ba6a4453317mr9276789ybf.39.1684760551555; Mon, 22
+ May 2023 06:02:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <618ab198-836e-16ba-4c02-476feac2ffaa@leemhuis.info>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20230521205112.150206-1-dmitry.osipenko@collabora.com> <20230521205112.150206-7-dmitry.osipenko@collabora.com>
+In-Reply-To: <20230521205112.150206-7-dmitry.osipenko@collabora.com>
+From:   Emil Velikov <emil.l.velikov@gmail.com>
+Date:   Mon, 22 May 2023 14:02:19 +0100
+Message-ID: <CACvgo52QvmZw5k_9dmBHPB25rTdLZJzVG_vNFr8or+3f5sVO=Q@mail.gmail.com>
+Subject: Re: [PATCH v3 6/6] drm/shmem-helper: Switch to reservation lock
+To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <jstultz@google.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        linux-tegra@vger.kernel.org, kernel@collabora.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Thorsten,
+Hi Dmitry,
 
-On Mon, May 22, 2023 at 02:11:29PM +0200, Linux regression tracking (Thorsten Leemhuis) wrote:
-> On 22.05.23 13:59, Sakari Ailus wrote:
-> > On Mon, May 22, 2023 at 12:53:52PM +0200, Linux regression tracking (Thorsten Leemhuis) wrote:
-> >> On 28.04.23 09:16, Sakari Ailus wrote:
-> >>> On Fri, Apr 28, 2023 at 08:43:21AM +0200, Jacopo Mondi wrote:
-> >>>> On Fri, Apr 28, 2023 at 08:33:30AM +0200, Alexander Stein wrote:
-> >>>>> Am Freitag, 28. April 2023, 08:31:54 CEST schrieb Jacopo Mondi:
-> >>>>>> On Fri, Apr 28, 2023 at 08:24:22AM +0200, Alexander Stein wrote:
-> >>>>>>> Am Donnerstag, 27. April 2023, 18:01:38 CEST schrieb Jacopo Mondi:
-> >>>>>>>> On Thu, Apr 27, 2023 at 04:40:46PM +0200, Alexander Stein wrote:
-> >>>>>>>>> I have a setup on my TQMa6x (imx6q-mba6a.dts) with a tc358743 attached
-> >>>>>>>>> to
-> >>>>>>>>> the MIPI CSI input.
-> >>>>>>>>> I noticed that since commit 1f391df44607 ("media: v4l2-async: Use
-> >>>>>>>>> endpoints in __v4l2_async_nf_add_fwnode_remote()") the async subdevice
-> >>>>>>>>> probing does not work anymore. If I revert that, it is working again,
-> >>>>>>>>> even on next-20230425.
-> >>>>>>>>
-> >>>>>>>> A similar issue has been discussed at
-> >>>>>>>> https://www.spinics.net/lists/linux-media/msg223351.html
-> >>>>>>>>
-> >>>>>>>> Unfortunately there was no conclusion as far as I can tell if not that
-> >>>>>>>> imx6 is now broken
-> >>>>>>>
-> >>>>>>> Thanks for the link, seems like a non-trivial thing :(
-> >>>>>>>
-> >>>>>>> From a glimpse, this series seems to deal with multiple async subdevs:
-> >>>>>>> https://lore.kernel.org/all/20230330115853.1628216-1-sakari.ailus@linux.in
-> >>>>>>> tel.com/
-> >>>>>>>
-> >>>>>>> So imx-media-csi should be adjusted as well, no?
-> >>>>>>
-> >>>>>> It would really be helpful if you can give that series a spin on imx6
-> >>>>>> if you already have a test setup.
-> >>>>>
-> >>>>> I tried, but it failed to apply on my current development tree. What base does
-> >>>>> this series apply to? Is there also a repository available I can fetch from?
-> >>>>
-> >>>> Sakari could tell, for me it applied on v6.3-rc2 but I recall I had to
-> >>>> manually fix a few things.
-> >>>
-> >>> Don't try v1, it won't work. I missed some object relation changes in the
-> >>> linked lists. I'll post v2, hopefully some time next week, to address these
-> >>> issues.
-> >>
-> >> Hi, Thorsten here, the Linux kernel's regression tracker.
-> >>
-> >> I see that v2[1] got a lot of ACKs, but is not even yet in next. And
-> >> it's a lot of patches, so maybe too much for backporting to stable
-> >> kernels. Which leads to the question: Will the regression this thread is
-> >> about (introduced in 5.19 afaics) ever be fixed in v6.1?
-> >> Normally/Ideally it should be.
-> > 
-> > We'll need v3 (at least), a problem that's not trivial to fix was
-> > identified with v2. There patches aren't really fixes either: it's new
-> > functionality that wasn't there previously. I.MX6 just happened to work due
-> > to missing checks in the V4L2 async framework, what it needs was never
-> > supported (without this set).
-> > 
-> > Dropping endpoint matching will break adv748x driver that relies on it.
-> > 
-> > So I'd expect i.MX6 to work again once we have this set in, but I wouldn't
-> > try to backport the set.
-> 
-> Thx for the update. Makes me wonder if reverting the culprit[1] is an
-> option. Assuming the problem still happens. Alexander, is that the case?
-> 
-> Ciao, Thorsten
-> 
-> [1] 1f391df4460 ("media: v4l2-async: Use endpoints in
-> __v4l2_async_nf_add_fwnode_remote()") (v5.19-rc1; authored by Laurent,
-> commited by Mauro (both now CCed))
+Saw v3 fly by, so I had a quick look. Original RB still stands,
+although I noticed a couple of non-blocking nitpicks.
 
-I prioritise an in-kernel driver over a staging driver.
+On Sun, 21 May 2023 at 22:00, Dmitry Osipenko
+<dmitry.osipenko@collabora.com> wrote:
 
--- 
-Regards,
+> -static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
+> +static int drm_gem_shmem_get_pages(struct drm_gem_shmem_object *shmem)
+>  {
 
-Sakari Ailus
+Should this getter have a dma_resv_assert_held(shmem->base.resv); like
+it's put brethren?
+
+
+> -void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem)
+> +static int drm_gem_shmem_pin_locked(struct drm_gem_shmem_object *shmem)
+> +{
+> +       int ret;
+> +
+> +       dma_resv_assert_held(shmem->base.resv);
+> +
+> +       ret = drm_gem_shmem_get_pages(shmem);
+> +
+> +       return ret;
+
+With the assert_held in the getter, it would be less confusing to
+inline this and the unpin_locked functions.
+
+> +}
+> +
+> +static void drm_gem_shmem_unpin_locked(struct drm_gem_shmem_object *shmem)
+>  {
+> -       mutex_lock(&shmem->pages_lock);
+> -       drm_gem_shmem_put_pages_locked(shmem);
+> -       mutex_unlock(&shmem->pages_lock);
+> +       dma_resv_assert_held(shmem->base.resv);
+> +
+> +       drm_gem_shmem_put_pages(shmem);
+
+Side note: the putter has an assert_held so the extra one here seems quite odd.
+
+As said at the top - with or w/o these nitpicks, the original RB still stands.
+
+HTH o/
+-Emil
