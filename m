@@ -2,47 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 54B3070B684
-	for <lists+linux-media@lfdr.de>; Mon, 22 May 2023 09:28:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16A4970B73D
+	for <lists+linux-media@lfdr.de>; Mon, 22 May 2023 10:02:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232627AbjEVH2E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 May 2023 03:28:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54610 "EHLO
+        id S230286AbjEVICs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 May 2023 04:02:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232653AbjEVH1v (ORCPT
+        with ESMTP id S229639AbjEVICj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 May 2023 03:27:51 -0400
+        Mon, 22 May 2023 04:02:39 -0400
 Received: from 189.cn (ptr.189.cn [183.61.185.103])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 618031B0;
-        Mon, 22 May 2023 00:27:37 -0700 (PDT)
-HMM_SOURCE_IP: 10.64.8.31:33128.1682002454
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D4161AB;
+        Mon, 22 May 2023 01:02:37 -0700 (PDT)
+HMM_SOURCE_IP: 10.64.8.43:58120.1490266714
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
-        by 189.cn (HERMES) with SMTP id B866E100300;
-        Mon, 22 May 2023 15:27:32 +0800 (CST)
+Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
+        by 189.cn (HERMES) with SMTP id 00AEA1002C4;
+        Mon, 22 May 2023 16:02:34 +0800 (CST)
 Received: from  ([114.242.206.180])
-        by gateway-151646-dep-75648544bd-xp9j7 with ESMTP id abbe5cda707343189d29c65c97453682 for kernel@xen0n.name;
-        Mon, 22 May 2023 15:27:35 CST
-X-Transaction-ID: abbe5cda707343189d29c65c97453682
+        by gateway-151646-dep-75648544bd-7vx9t with ESMTP id 1a4434578fbd45abb00625fc7c141694 for kernel@xen0n.name;
+        Mon, 22 May 2023 16:02:36 CST
+X-Transaction-ID: 1a4434578fbd45abb00625fc7c141694
 X-Real-From: 15330273260@189.cn
 X-Receive-IP: 114.242.206.180
 X-MEDUSA-Status: 0
 Sender: 15330273260@189.cn
-Message-ID: <b54d8f78-9d7c-8441-20f7-a4f3a2393081@189.cn>
-Date:   Mon, 22 May 2023 15:27:31 +0800
+Message-ID: <73447e35-f4df-9871-6210-b7bf1a3f04fc@189.cn>
+Date:   Mon, 22 May 2023 16:02:34 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
 Subject: Re: [PATCH v14 1/2] drm: add kms driver for loongson display
  controller
 Content-Language: en-US
-To:     WANG Xuerui <kernel@xen0n.name>, Sui Jingfeng <15330273260@189.cn>,
+To:     WANG Xuerui <kernel@xen0n.name>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
         Thomas Zimmermann <tzimmermann@suse.de>,
         David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Li Yi <liyi@loongson.cn>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sui Jingfeng <suijingfeng@loongson.cn>,
+        Li Yi <liyi@loongson.cn>,
         Sumit Semwal <sumit.semwal@linaro.org>,
         Christian Koenig <christian.koenig@amd.com>,
         Emil Velikov <emil.l.velikov@gmail.com>
@@ -71,101 +73,49 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi,
 
-
-I love your reviews,
-
-
 On 2023/5/21 20:21, WANG Xuerui wrote:
-> Hi,
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/loongson/Kconfig
+>> @@ -0,0 +1,17 @@
+>> +# SPDX-License-Identifier: GPL-2.0
+>> +
+>> +config DRM_LOONGSON
+>> +    tristate "DRM support for Loongson Graphics"
+>> +    depends on DRM && PCI && MMU
+>> +    select DRM_KMS_HELPER
+>> +    select DRM_TTM
+>> +    select I2C
+>> +    select I2C_ALGOBIT
+>> +    help
+>> +      This is a DRM driver for Loongson Graphics, it may including
 >
-> Someone else in a discussion group brought my attention to this 
-> series, that I've neglected for a long time because 
-> loongarch@lists.linux.dev isn't on the Cc list and I'm not subscribed 
-> to dri-devel.
+> Drop "it may"; "including" should be enough.
 >
-> While I'm reasonably familiar with LoongArch internals and Linux in 
-> general, I don't regularly tinker with the graphics things, so I'm 
-> mainly focusing on the natural language usage and general code smells 
-> for my reviews below. Pardon me if some of the questions seem silly.
->
-> (After going through the entirety of this: *please* spell-check your 
-> comment blocks, and correct obvious grammatical nits as best as you 
-> can. From my first impression, although a reader not familiar with 
-> LoongArch nor Chinese could go a long way in understanding this, some 
-> of the rest would be misunderstood, or don't make sense at all. And 
-> like 90% of the sentences are grammatically incorrect, i.e. are 
-> obvious "Chinglish". Maybe something like those ChatGPT-based services 
-> or someone in your company would help.)
->
-OK, I didn't realize that grammar problem could up to 90%.
+'it may' is more *precise* here, because currently we don't ship with 
+the support for loongson 2K series SoC.
 
-I'm focus on feature development previously,  I will do the grammar 
-check before send the next version.
+I'm try to be precise as far as I can, we avoid made this driver too 
+large by ignore loongson 2K series SoC temporary.
 
+>> +      LS7A2000, LS7A1000, LS2K2000 and LS2K1000 etc. Loongson LS7A
+>> +      series are bridge chipset, while Loongson LS2K series are SoC.
+>> +
+>> +      If "M" is selected, the module will be called loongson.
 >
->
-[...]
->
-> On 2023/5/20 18:57, Sui Jingfeng wrote:
->> From: Sui Jingfeng <suijingfeng@loongson.cn>
->>
->> Loongson display controller IP has been integrated in both Loongson 
->> north
->> bridge chipset(ls7a1000/ls7a2000) and Loongson 
->> SoCs(ls2k1000/ls2k2000), it
->> has been even included in Loongson self-made BMC products.
->>
->> This display controller is a PCI device. It has two display pipes and 
->> each
->> display pipe support a primary plane and a cursor plane. For the DC 
->> in the
->
-> "supports"
-Ok, you are correct here.
->
->> ls7a1000 and ls2k1000, each display pipe has a DVO output interface 
->> which
->> provide RGB888 signals, vertical & horizontal synchronisations and pixel
->
-> "synchronisation"
->
-Ok, you are correct here.
->> clock. Each CRTC is able to support 1920x1080@60Hz, the maximum 
->> resolution
->
-> "is capable of" sounds more natural?
->
-I think they are equivalent, I can't perceive the difference.
->> of each display pipe is 2048x2048 according to the hardware spec.
->>
->> For the DC in LS7A2000, each display pipe is equipped with a built-in 
->> HDMI
->> encoder which is compliant with the HDMI 1.4 specification, thus it 
->> support
->
-> "supporting up to 3840x2160@30Hz"
->
-acceptable
->> 3840x2160@30Hz. The first display pipe is also equipped with a 
->> transparent
->> vga encoder which is parallel with the HDMI encoder. The DC in 
->> LS7A2000 is
->
-> "The first display pipe additionally has a transparent VGA encoder"?
->
-The first display pipe(pipe 0) also has a transparent VGA encoder.
+> Just "loongson"? 
 
->> more complete compare with the one in old chips, besides above 
->> feature, it
->> has two hardware cursors, two hardware vblank counter and two scanout
->> position recorders unit. It also support tiled framebuffer format which
->> can be scanout the tiled framebuffer rendered by the LoongGPU directly.
->
-> "The DC in LS7A2000 is more feature-complete compared with the older 
-> revision: in addition to the above, it also has two hardware cursors, 
-> two hardware vblank counters and two scanout position recorders. It 
-> also supports tiled framebuffer format so the tiled output from the 
-> LoongGPU can be scanned out directly."
+Yes,  when compile this driver as module,  loongson.ko will be generated.
 
-OK, acceptable.
+  drm radeon is also doing so, See drm/radeon/Kconfig.
+
+> I know it's like this for ages (at least dating back to the MIPS days) 
+> but you really don't want to imply Loongson is mainly a GPU company. 
+> Something like "loongson_drm" or "lsdc" or "gsgpu" could be better. 
+
+No, these name may have backward compatibility problems.
+
+Downstream driver already taken those name.
+
+userspace driver need to differentiate them who is who.
+
 
