@@ -2,219 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C1D7A70E970
-	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 01:22:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65FB470E9AB
+	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 01:34:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235614AbjEWXW1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 May 2023 19:22:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43050 "EHLO
+        id S238886AbjEWXei (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 May 2023 19:34:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229837AbjEWXW0 (ORCPT
+        with ESMTP id S235958AbjEWXeh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 May 2023 19:22:26 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 539BDDA;
-        Tue, 23 May 2023 16:22:24 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:17:6c0::7a9])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 771E1660298C;
-        Wed, 24 May 2023 00:22:21 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1684884142;
-        bh=GKh6EOIgX3e36fz9KVxKeOlDpcpRzh+0I4D+rqUNQ9U=;
-        h=Subject:From:To:Date:In-Reply-To:References:From;
-        b=JrRS2H/bRjZDMJLLJsJpM1cZlk0WBLtKG77OgOvgmEVJkra0DGvOcDw6QpFbl2zx0
-         S9zqksYQEFj02mRm7o9862FbQmYM/fwk7nPCGNdi9V9WmdOWilSPpe/MUzz+YlDjAx
-         yjn8zmBpg29OArF22qQqQ9Z6ffRywFLNDiPRqjdT3FTFfklsQ/JkOWhueDXEjX07Ol
-         yfM1hcsmS9Gm49qbunvWDx/3lwjUyT44g3IVffpQhlJrRLrAnJn/eVH4g/Lo2iHul1
-         fvaUbEVPm+nS/zqZNVy5v5txnRC3INIW26cePScnetaGqDFq1TGArkdaGbe0OMFqVB
-         QD+kAXVgQAXaA==
-Message-ID: <e6b11230654e9b217c007eb3bfe73a3c6e7a13c2.camel@collabora.com>
-Subject: Re: [PATCH] media: verisilicon: Additional fix for the crash when
- opening the driver
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        p.zabel@pengutronix.de, mchehab@kernel.org,
-        m.szyprowski@samsung.com, didi.debian@cknow.org,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kernel@collabora.com,
-        hverkuil-cisco@xs4all.nl, kernel@pengutronix.de,
-        regressions@lists.linux.dev
-Date:   Tue, 23 May 2023 19:22:13 -0400
-In-Reply-To: <CAAEAJfAG_Z_tW8_LzgL7D+tGFYRhyJz3n0uy0gZiOkMnz6FOGA@mail.gmail.com>
-References: <20230523162515.993862-1-benjamin.gaignard@collabora.com>
-         <c034db29-b664-793d-35e0-406fdfe2b145@collabora.com>
-         <20230523170637.GE9943@pengutronix.de>
-         <CAAEAJfAG_Z_tW8_LzgL7D+tGFYRhyJz3n0uy0gZiOkMnz6FOGA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1 (3.48.1-1.fc38) 
+        Tue, 23 May 2023 19:34:37 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C14F1B9
+        for <linux-media@vger.kernel.org>; Tue, 23 May 2023 16:34:12 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id 98e67ed59e1d1-25367154308so234102a91.1
+        for <linux-media@vger.kernel.org>; Tue, 23 May 2023 16:34:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1684884850; x=1687476850;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MNA57LFsEAjv0YnO7XAE11SZw6Ds4IrSm19nvlVJk98=;
+        b=wF+aug1ydohk/cr8Rfez98IIlwqb13f0RxZ6y479XbKidTrvL03zg77sxMin+zGFGx
+         l5eXByrl4nPZWQWmqQncYvX9EBJ2jhKSQOmxQvgaHwbuXn34nx47cTnpfrrrJzj+8zQw
+         4pNfP+xtaTEDb3tmNzMbZ9lq1FvB1h3Y/9o0b9L7TTlVcKFXDAGLKRDd9xXEgp7O259E
+         JEOObHH4XNk6aUQOdhlo/FfoEEjn3MqFmkmu5jjMJ2GV+T7Gsu/kuTOHMZ3neHBb56qU
+         VtYRMrOu288bwsGXUhDF1P0SpaYg4k2ai2BHS88fM94NGHU7+411tXSKeuvtY4mY+E9V
+         VdhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684884850; x=1687476850;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MNA57LFsEAjv0YnO7XAE11SZw6Ds4IrSm19nvlVJk98=;
+        b=d+mUeJ1TZZ2RyaifGnXlRnQi7Mb9aE4WN9v+s5Plue3b5e4aiAzSvsG5xGCtDL01WQ
+         SC3b4nu9OhJw6jBtvUlywxNDYX/jAzcGpyqS8UfbALsJVkfUHSDVipMvxAAsT2UQCIbD
+         8V5DDQLQiQziolvJpa9iDOXQs3XqvM9xK7FbwgkKmSzyrPYYxxx7qaI5qhXoskznYQ4K
+         RBorVtQFgGX24PflirkRKvBt1V6s8un47al19+XjAill1KsE+EspAwcVOkjEAS7AE7XG
+         dE49vzjOObZ4U0gjQEvTZPESysL41b8dd3rN4cg7ydm4vAuzevP3qR0+1ZOBbu+hNRYV
+         cTsQ==
+X-Gm-Message-State: AC+VfDwbJI/tMWd9p9u4oiGlIlcdNjYnnXG3XGDrTXo+VDU/F+eJe/kL
+        gEhryDu6w6P/llnl2egzY4k6mA==
+X-Google-Smtp-Source: ACHHUZ4/S/KRgTtfzWmFTkvHxw3NShbPiyY6ElSBnhSbSlY2KYV0gjG/Ka+9HzWGVYgXMdo2hQhd0g==
+X-Received: by 2002:a17:90b:a45:b0:253:947f:af51 with SMTP id gw5-20020a17090b0a4500b00253947faf51mr13745197pjb.5.1684884849781;
+        Tue, 23 May 2023 16:34:09 -0700 (PDT)
+Received: from localhost ([75.172.135.98])
+        by smtp.gmail.com with ESMTPSA id gl21-20020a17090b121500b00253305f36c4sm100944pjb.18.2023.05.23.16.34.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 May 2023 16:34:09 -0700 (PDT)
+From:   Kevin Hilman <khilman@baylibre.com>
+To:     Jeffrey Hugo <quic_jhugo@quicinc.com>,
+        Alexandre Bailon <abailon@baylibre.com>, airlied@gmail.com,
+        daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+        mripard@kernel.org, tzimmermann@suse.de
+Cc:     devicetree@vger.kernel.org, conor+dt@kernel.org, bero@baylibre.com,
+        jstephan@baylibre.com, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
+        linaro-mm-sig@lists.linaro.org, robh+dt@kernel.org,
+        linux-mediatek@lists.infradead.org, nbelin@baylibre.com,
+        krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
+        linux-media@vger.kernel.org, sumit.semwal@linaro.org,
+        linux-arm-kernel@lists.infradead.org,
+        angelogioacchino.delregno@collabora.com
+Subject: Re: [PATCH 0/7] Add a DRM driver to support AI Processing Unit (APU)
+In-Reply-To: <d0807fe4-dba2-8244-f655-d04e80973572@quicinc.com>
+References: <20230517145237.295461-1-abailon@baylibre.com>
+ <d0807fe4-dba2-8244-f655-d04e80973572@quicinc.com>
+Date:   Tue, 23 May 2023 16:34:08 -0700
+Message-ID: <7ha5xud3m7.fsf@baylibre.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mardi 23 mai 2023 =C3=A0 14:36 -0300, Ezequiel Garcia a =C3=A9crit=C2=A0=
-:
-> Hi guys,
->=20
-> After reviewing the format logic (hantro_reset_encoded_fmt and
-> hantro_reset_raw_fmt).
-> It seems to me trying to support Decoders, Encoders and so many
-> different SoC Variants, is getting increasingly fragile.
-> This driver is becoming a big fat monolith. Regressions like this will
-> be increasingly frequent.
->=20
-> The only codec that supports encoding right now is JPEG, so I think
-> it's a good idea to remove it for good,
-> and split it to its own driver.
->=20
-> Anyone volunteering? :-)
+Jeffrey Hugo <quic_jhugo@quicinc.com> writes:
 
-We won't have that luxury with VP8 and H.264, as the decoder and encoder sh=
-ares
-the same cache memory. They must be time sliced. Note that this driver is o=
-nly
-missing VP8/H.264 encoding before it becomes maintenance only (there won't =
-be
-any interesting feature left, so I would not start on big refactoring, as t=
-his
-may cause more trouble then good. Anything newer like VC8000 or VC9000 shou=
-ld be
-a new driver, and with encoder/decoder split.
+> On 5/17/2023 8:52 AM, Alexandre Bailon wrote:
+>> This adds a DRM driver that implements communication between the CPU and an
+>> APU. The driver target embedded device that usually run inference using some
+>> prebuilt models. The goal is to provide common infrastructure that could be
+>> re-used to support many accelerators. Both kernel, userspace and firmware tries
+>> to use standard and existing to leverage the development and maintenance effort.
+>> The series implements two platform drivers, one for simulation and another one for
+>> the mt8183 (compatible with mt8365).
+>
+> This looks like the 3 existing Accel drivers.  Why is this in DRM?
 
-regards,
-Nicolas
+Yes, this belongs in accel.  I think Alex had some issues around the
+infra in accel with device nodes not appearing/opening properly, but
+I'll let him comment there.  But either way, the right approach should
+be to fix any issues in accel and move it there.
 
-p.s. this is my personal opinion, in general, we should improve the helpers=
- if
-there is too much boilerplate, rather then creating monolithic drivers, and=
- on
-that, I believe I agree, but the H1/G1 combo have hardware dependencies whi=
-ch
-has been solve that way, and changing that now is a big amount of work for =
-a
-relative quite driver. Feel free to split G2 away from that driver, that wo=
-uld
-make sense, its not sharing anything.
+[...]
 
->=20
-> Thanks,
-> Ezequiel
->=20
-> On Tue, May 23, 2023 at 2:06=E2=80=AFPM Michael Tretter
-> <m.tretter@pengutronix.de> wrote:
-> >=20
-> > On Tue, 23 May 2023 18:36:09 +0200, Benjamin Gaignard wrote:
-> > >=20
-> > > Le 23/05/2023 =C3=A0 18:25, Benjamin Gaignard a =C3=A9crit :
-> > > > This fixes the following issue observed on Odroid-M1 board:
-> > > >=20
-> > > >   Unable to handle kernel NULL pointer dereference at virtual addre=
-ss 0000000000000008
-> > > >   Mem abort info:
-> > > >   ...
-> > > >   Modules linked in: crct10dif_ce hantro_vpu snd_soc_simple_card sn=
-d_soc_simple_card_utils v4l2_vp9 v4l2_h264 rockchip_saradc v4l2_mem2mem vid=
-eobuf2_dma_contig videobuf2_memops rtc_rk808 videobuf2_v4l2 industrialio_tr=
-iggered_buffer rockchip_thermal dwmac_rk stmmac_platform stmmac videodev kf=
-ifo_buf display_connector videobuf2_common pcs_xpcs mc rockchipdrm analogix=
-_dp dw_mipi_dsi dw_hdmi drm_display_helper panfrost drm_shmem_helper gpu_sc=
-hed ip_tables x_tables ipv6
-> > > >   CPU: 3 PID: 176 Comm: v4l_id Not tainted 6.3.0-rc7-next-20230420 =
-#13481
-> > > >   Hardware name: Hardkernel ODROID-M1 (DT)
-> > > >   pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=3D--)
-> > > >   pc : hantro_try_fmt+0xa0/0x278 [hantro_vpu]
-> > > >   lr : hantro_try_fmt+0x94/0x278 [hantro_vpu]
-> > > >   ...
-> > > >   Call trace:
-> > > >    hantro_try_fmt+0xa0/0x278 [hantro_vpu]
-> > > >    hantro_set_fmt_out+0x3c/0x298 [hantro_vpu]
-> > > >    hantro_reset_raw_fmt+0x98/0x128 [hantro_vpu]
-> > > >    hantro_set_fmt_cap+0x240/0x254 [hantro_vpu]
-> > > >    hantro_reset_encoded_fmt+0x94/0xcc [hantro_vpu]
-> > > >    hantro_reset_fmts+0x18/0x38 [hantro_vpu]
-> > > >    hantro_open+0xd4/0x20c [hantro_vpu]
-> > > >    v4l2_open+0x80/0x120 [videodev]
-> > > >    chrdev_open+0xc0/0x22c
-> > > >    do_dentry_open+0x13c/0x48c
-> > > >    vfs_open+0x2c/0x38
-> > > >    path_openat+0x550/0x934
-> > > >    do_filp_open+0x80/0x12c
-> > > >    do_sys_openat2+0xb4/0x168
-> > > >    __arm64_sys_openat+0x64/0xac
-> > > >    invoke_syscall+0x48/0x114
-> > > >    el0_svc_common+0x100/0x120
-> > > >    do_el0_svc+0x3c/0xa8
-> > > >    el0_svc+0x40/0xa8
-> > > >    el0t_64_sync_handler+0xb8/0xbc
-> > > >    el0t_64_sync+0x190/0x194
-> > > >   Code: 97fc8a7f f940aa80 52864a61 72a686c1 (b9400800)
-> > > >   ---[ end trace 0000000000000000 ]---
-> > > >=20
-> > > > Fixes: db6f68b51e5c ("media: verisilicon: Do not set context src/ds=
-t formats in reset functions")
-> >=20
-> > This patch partially reverts the previous commit. I wonder whether the =
-reason
-> > for resetting the context format only if the targeted queue is not busy=
- still
-> > stands.
-> >=20
-> > > >=20
-> > > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> >=20
-> > Tested-by: Michael Tretter <m.tretter@pengutronix.de>
-> >=20
-> > > > ---
-> > >=20
-> > > Diederick, Marek, Michael,
-> > > I have tested this patch on my boards and I see no regressions on
-> > > decoder part and no more crash when probing the encoder.
-> > > Could you test it on your side to confirm it is ok ?
-> > >=20
-> > > Thorsten, I try/test regzbot commands, please tell me if it is correc=
-t.
-> > >=20
-> > > #regzbot ^introduced db6f68b51e5c
-> > > #regzbot title media: verisilicon: null pointer dereference in try_fm=
-t
-> > > #regzbot ignore-activity
-> > >=20
-> > >=20
-> > > >   drivers/media/platform/verisilicon/hantro_v4l2.c | 6 ++++--
-> > > >   1 file changed, 4 insertions(+), 2 deletions(-)
-> > > >=20
-> > > > diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/dri=
-vers/media/platform/verisilicon/hantro_v4l2.c
-> > > > index 835518534e3b..61cfaaf4e927 100644
-> > > > --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-> > > > +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> > > > @@ -397,10 +397,12 @@ hantro_reset_raw_fmt(struct hantro_ctx *ctx, =
-int bit_depth)
-> > > >     if (!raw_vpu_fmt)
-> > > >             return -EINVAL;
-> > > > -   if (ctx->is_encoder)
-> > > > +   if (ctx->is_encoder) {
-> > > >             encoded_fmt =3D &ctx->dst_fmt;
-> > > > -   else
-> > > > +           ctx->vpu_src_fmt =3D raw_vpu_fmt;
-> > > > +   } else {
-> > > >             encoded_fmt =3D &ctx->src_fmt;
-> > > > +   }
-> > > >     hantro_reset_fmt(&raw_fmt, raw_vpu_fmt);
-> > > >     raw_fmt.width =3D encoded_fmt->width;
-> > >=20
+>>   .../devicetree/bindings/gpu/mtk,apu-drm.yaml  |  38 ++
+>>   drivers/gpu/drm/Kconfig                       |   2 +
+>>   drivers/gpu/drm/Makefile                      |   1 +
+>>   drivers/gpu/drm/apu/Kconfig                   |  22 +
+>>   drivers/gpu/drm/apu/Makefile                  |  10 +
+>>   drivers/gpu/drm/apu/apu_drv.c                 | 282 +++++++++
+>>   drivers/gpu/drm/apu/apu_gem.c                 | 230 +++++++
+>>   drivers/gpu/drm/apu/apu_internal.h            | 205 ++++++
+>>   drivers/gpu/drm/apu/apu_sched.c               | 592 ++++++++++++++++++
+>>   drivers/gpu/drm/apu/simu_apu.c                | 313 +++++++++
+>>   include/uapi/drm/apu_drm.h                    |  81 +++
+>
+> "apu" seems too generic.  We already have 3 "AI processing units" over 
+> in drivers/accel already...
+
+Indeed, it is generic, but that's kind of the point for this driver
+since it's targetted at generalizing the interface with "AI processing
+units" on a growing number of embedded SoCs (ARM, RISC-V, etc.)  In
+addition, the generic naming is intentional because the goal is bigger
+than the kernel and is working towards a generic, shared "libAPU"
+userspace[1], but also common firmware for DSP-style inference engines
+(e.g. analgous Sound Open Firmware for audio DSPs.)
+
+As usual, the various SoC vendors use different names (APU, NPU, NN
+unit, etc.)  but we'd like a generic name for the class of devices
+targetted by this driver.  And unfortunately, it looks like the equally
+generic "Versatile processing unit" is already taken Intel's
+drivers/accel/ivpu. :)
+
+Maybe since this is more about generalizing the interface between the
+CPU running linux and the APU, what about the name apu_if?  But I guess
+that applies to the other 3 drivers in drivers/accell also.  Hmmm...
+
+Naming things is hard[2], so we're definitly open to other ideas.  Any
+suggestions?
+
+Kevin
+
+[1] https://gitlab.baylibre.com/baylibre/libapu/libapu
+
+[2]
+"There are 2 hard problems in computer science: cache invalidation,
+ naming things and off-by-1 errors."
+ -- https://twitter.com/secretGeek/status/7269997868
 
