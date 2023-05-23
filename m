@@ -2,191 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CD3C70E12E
-	for <lists+linux-media@lfdr.de>; Tue, 23 May 2023 17:57:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44B2170E1C9
+	for <lists+linux-media@lfdr.de>; Tue, 23 May 2023 18:29:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237527AbjEWP5Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 May 2023 11:57:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54846 "EHLO
+        id S236186AbjEWQZa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 May 2023 12:25:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237460AbjEWP5X (ORCPT
+        with ESMTP id S233067AbjEWQZ3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 May 2023 11:57:23 -0400
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com [IPv6:2607:f8b0:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44AD818E;
-        Tue, 23 May 2023 08:57:15 -0700 (PDT)
-Received: by mail-oi1-x22f.google.com with SMTP id 5614622812f47-38dec65ab50so4297229b6e.2;
-        Tue, 23 May 2023 08:57:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684857434; x=1687449434;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eRQKQx8o7pYZMBO/dPIhBa/weTc59LxA8RBQRRvbAww=;
-        b=nIEgy4xsmB+3hYy0CDH3MPkPWE5BrLDU5tN7cSIz3IzgJBvUH63E7oD9+J8dFGHW9L
-         FBZbFIgKNh8FcUIK+6hwQfqH84IMyWxuYNPVjHn+W1EB9utNHces2xfBTPye8n7jt8Tq
-         0M8B3LQCzG2nX5FKJV/Tgx3TrxVg+uNFPJ6ZBLP0xSSdPeXhuv+JU9S7B+REPf7DKtFJ
-         KEvlWJocc0Ml50bYDpWW+Qn4erdWJqgeHE9UPd/j4CCJUhgFIZzzEVhqh5p3fCV+rOIV
-         uwSe4xyITKa9BhftK4hXho1frTE+zqE820is8Ci3xzkG9ZEEVVaL4jV5XuDAqCDQDU5x
-         kxnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684857434; x=1687449434;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eRQKQx8o7pYZMBO/dPIhBa/weTc59LxA8RBQRRvbAww=;
-        b=DdddIgC0CgC0ti5zaJDZ6/9dZKFEwVEuWvmCJG/zNQV97v49RZBvrgH9TZh8jncW9R
-         aABbJ092jtcAt7iffn/qfPMn9Zx2hJJBFJ1VZCcFZJTwXV8rbFMPKR0D/Z/4wbYK++1V
-         /F/igp3cZCZy2aAMCusrMChyAWg9qQ7K6A/6PLGcDONifN48XBhqXXXJkbiuAZOP6u3K
-         zETTDNfe6mUTom1XOHfFK7x961qJHZ1jKAeKoQAS/wysEZ8DmXfpVHDDFBHX8Q/VkFz7
-         dIINP/OoVcDlHapQW/ccY9l6A/8LtZcu8xHpbwixcGrqbFvK/qZFUL4pPnlMyle+HbFj
-         +FcQ==
-X-Gm-Message-State: AC+VfDzIOGVQlxA3n6QE3a0JtmAMlL0nfci32L2VqsiPHBGchLd+rxSi
-        IivZ03J+xX7fvUWHgPwV+cWXVBx8s00EGQ1DZoI=
-X-Google-Smtp-Source: ACHHUZ7DHxeQXuGbDyGY66H9cdMMYdFh6mTJpvChsFzqktlYAXoSFaO4ugdpNPumCfSnl1H7T26HF1Xrnt8cWO29BAg=
-X-Received: by 2002:a05:6808:6393:b0:398:af5:a18a with SMTP id
- ec19-20020a056808639300b003980af5a18amr3200495oib.59.1684857434503; Tue, 23
- May 2023 08:57:14 -0700 (PDT)
+        Tue, 23 May 2023 12:25:29 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE373C2;
+        Tue, 23 May 2023 09:25:24 -0700 (PDT)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:1ba:3e91:de16:9b34])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id CFFC56605961;
+        Tue, 23 May 2023 17:25:22 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1684859123;
+        bh=m0wdRLijBXDpapk6u3bXRwyWKtwK52v854JhKYzO1nY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Sjc4Xq4ABljQOpIT49MZaaPtLrwgnBcr6oDj8CHt+k7Lhj2kdV3uHLCPoNtziCzTu
+         rec4ISSSxD8WNs2hJMFigTXAt2D2M2iH+E1jgxTDFAPBrMKDheBGgAMDDUXmt8TxUP
+         yAIxDPZBwgGkZQrmfM1TELJkhvnSNDohXPmre6mGbBouxQBh17/992/yzaFiB1GoRw
+         9H+avykPJeQS5hgDoZyBOX+0+apYSA+oHFdB/qHBDgBiNu11BPAzNmN7Ws1ICJ5fSg
+         GTQMk6hYEvAeXUklumgZCWnQGRBlXHttBYy7dbR7iMVT6uWol39BG2crC0codYNsIZ
+         HK4Kti7Ps9sUg==
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To:     ezequiel@vanguardiasur.com.ar, nicolas.dufresne@collabora.com,
+        p.zabel@pengutronix.de, mchehab@kernel.org,
+        m.szyprowski@samsung.com, m.tretter@pengutronix.de,
+        didi.debian@cknow.org
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kernel@collabora.com,
+        hverkuil-cisco@xs4all.nl, kernel@pengutronix.de,
+        regressions@lists.linux.dev,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH] media: verisilicon: Additional fix for the crash when opening the driver
+Date:   Tue, 23 May 2023 18:25:15 +0200
+Message-Id: <20230523162515.993862-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230523031709.19673-1-jiapeng.chong@linux.alibaba.com>
-In-Reply-To: <20230523031709.19673-1-jiapeng.chong@linux.alibaba.com>
-From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Tue, 23 May 2023 11:57:03 -0400
-Message-ID: <CADnq5_NKuq8ZO0mBMmogwTesr1gWa=aXO9BJFp0bnfWhYj7X7A@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Modify mismatched function name
-To:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Cc:     alexander.deucher@amd.com, linaro-mm-sig@lists.linaro.org,
-        llvm@lists.linux.dev, trix@redhat.com, Xinhui.Pan@amd.com,
-        ndesaulniers@google.com, linux-kernel@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, sumit.semwal@linaro.org,
-        nathan@kernel.org, Abaci Robot <abaci@linux.alibaba.com>,
-        dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Applied.  Thanks!
+This fixes the following issue observed on Odroid-M1 board:
 
-On Mon, May 22, 2023 at 11:17=E2=80=AFPM Jiapeng Chong
-<jiapeng.chong@linux.alibaba.com> wrote:
->
-> No functional modification involved.
->
-> drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c:426: warning: expecting prototyp=
-e for sdma_v4_4_2_gfx_stop(). Prototype was for sdma_v4_4_2_inst_gfx_stop()=
- instead.
-> drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c:457: warning: expecting prototyp=
-e for sdma_v4_4_2_rlc_stop(). Prototype was for sdma_v4_4_2_inst_rlc_stop()=
- instead.
-> drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c:470: warning: expecting prototyp=
-e for sdma_v4_4_2_page_stop(). Prototype was for sdma_v4_4_2_inst_page_stop=
-() instead.
-> drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c:506: warning: expecting prototyp=
-e for sdma_v4_4_2_ctx_switch_enable(). Prototype was for sdma_v4_4_2_inst_c=
-tx_switch_enable() instead.
-> drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c:561: warning: expecting prototyp=
-e for sdma_v4_4_2_enable(). Prototype was for sdma_v4_4_2_inst_enable() ins=
-tead.
-> drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c:798: warning: expecting prototyp=
-e for sdma_v4_4_2_rlc_resume(). Prototype was for sdma_v4_4_2_inst_rlc_resu=
-me() instead.
-> drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c:814: warning: expecting prototyp=
-e for sdma_v4_4_2_load_microcode(). Prototype was for sdma_v4_4_2_inst_load=
-_microcode() instead.
->
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=3D5283
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c b/drivers/gpu/drm/a=
-md/amdgpu/sdma_v4_4_2.c
-> index bf47eb33c12e..590b08585901 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
-> @@ -415,7 +415,7 @@ static void sdma_v4_4_2_ring_emit_fence(struct amdgpu=
-_ring *ring, u64 addr, u64
->
->
->  /**
-> - * sdma_v4_4_2_gfx_stop - stop the gfx async dma engines
-> + * sdma_v4_4_2_inst_gfx_stop - stop the gfx async dma engines
->   *
->   * @adev: amdgpu_device pointer
->   *
-> @@ -446,7 +446,7 @@ static void sdma_v4_4_2_inst_gfx_stop(struct amdgpu_d=
-evice *adev,
->  }
->
->  /**
-> - * sdma_v4_4_2_rlc_stop - stop the compute async dma engines
-> + * sdma_v4_4_2_inst_rlc_stop - stop the compute async dma engines
->   *
->   * @adev: amdgpu_device pointer
->   *
-> @@ -459,7 +459,7 @@ static void sdma_v4_4_2_inst_rlc_stop(struct amdgpu_d=
-evice *adev,
->  }
->
->  /**
-> - * sdma_v4_4_2_page_stop - stop the page async dma engines
-> + * sdma_v4_4_2_inst_page_stop - stop the page async dma engines
->   *
->   * @adev: amdgpu_device pointer
->   *
-> @@ -494,7 +494,7 @@ static void sdma_v4_4_2_inst_page_stop(struct amdgpu_=
-device *adev,
->  }
->
->  /**
-> - * sdma_v4_4_2_ctx_switch_enable - stop the async dma engines context sw=
-itch
-> + * sdma_v4_4_2_inst_ctx_switch_enable - stop the async dma engines conte=
-xt switch
->   *
->   * @adev: amdgpu_device pointer
->   * @enable: enable/disable the DMA MEs context switch.
-> @@ -548,7 +548,7 @@ static void sdma_v4_4_2_inst_ctx_switch_enable(struct=
- amdgpu_device *adev,
->  }
->
->  /**
-> - * sdma_v4_4_2_enable - stop the async dma engines
-> + * sdma_v4_4_2_inst_enable - stop the async dma engines
->   *
->   * @adev: amdgpu_device pointer
->   * @enable: enable/disable the DMA MEs.
-> @@ -786,7 +786,7 @@ static void sdma_v4_4_2_init_pg(struct amdgpu_device =
-*adev)
->  }
->
->  /**
-> - * sdma_v4_4_2_rlc_resume - setup and start the async dma engines
-> + * sdma_v4_4_2_inst_rlc_resume - setup and start the async dma engines
->   *
->   * @adev: amdgpu_device pointer
->   *
-> @@ -802,7 +802,7 @@ static int sdma_v4_4_2_inst_rlc_resume(struct amdgpu_=
-device *adev,
->  }
->
->  /**
-> - * sdma_v4_4_2_load_microcode - load the sDMA ME ucode
-> + * sdma_v4_4_2_inst_load_microcode - load the sDMA ME ucode
->   *
->   * @adev: amdgpu_device pointer
->   *
-> --
-> 2.20.1.7.g153144c
->
+ Unable to handle kernel NULL pointer dereference at virtual address 0000000000000008
+ Mem abort info:
+ ...
+ Modules linked in: crct10dif_ce hantro_vpu snd_soc_simple_card snd_soc_simple_card_utils v4l2_vp9 v4l2_h264 rockchip_saradc v4l2_mem2mem videobuf2_dma_contig videobuf2_memops rtc_rk808 videobuf2_v4l2 industrialio_triggered_buffer rockchip_thermal dwmac_rk stmmac_platform stmmac videodev kfifo_buf display_connector videobuf2_common pcs_xpcs mc rockchipdrm analogix_dp dw_mipi_dsi dw_hdmi drm_display_helper panfrost drm_shmem_helper gpu_sched ip_tables x_tables ipv6
+ CPU: 3 PID: 176 Comm: v4l_id Not tainted 6.3.0-rc7-next-20230420 #13481
+ Hardware name: Hardkernel ODROID-M1 (DT)
+ pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+ pc : hantro_try_fmt+0xa0/0x278 [hantro_vpu]
+ lr : hantro_try_fmt+0x94/0x278 [hantro_vpu]
+ ...
+ Call trace:
+  hantro_try_fmt+0xa0/0x278 [hantro_vpu]
+  hantro_set_fmt_out+0x3c/0x298 [hantro_vpu]
+  hantro_reset_raw_fmt+0x98/0x128 [hantro_vpu]
+  hantro_set_fmt_cap+0x240/0x254 [hantro_vpu]
+  hantro_reset_encoded_fmt+0x94/0xcc [hantro_vpu]
+  hantro_reset_fmts+0x18/0x38 [hantro_vpu]
+  hantro_open+0xd4/0x20c [hantro_vpu]
+  v4l2_open+0x80/0x120 [videodev]
+  chrdev_open+0xc0/0x22c
+  do_dentry_open+0x13c/0x48c
+  vfs_open+0x2c/0x38
+  path_openat+0x550/0x934
+  do_filp_open+0x80/0x12c
+  do_sys_openat2+0xb4/0x168
+  __arm64_sys_openat+0x64/0xac
+  invoke_syscall+0x48/0x114
+  el0_svc_common+0x100/0x120
+  do_el0_svc+0x3c/0xa8
+  el0_svc+0x40/0xa8
+  el0t_64_sync_handler+0xb8/0xbc
+  el0t_64_sync+0x190/0x194
+ Code: 97fc8a7f f940aa80 52864a61 72a686c1 (b9400800)
+ ---[ end trace 0000000000000000 ]---
+
+Fixes: db6f68b51e5c ("media: verisilicon: Do not set context src/dst formats in reset functions")
+
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+---
+ drivers/media/platform/verisilicon/hantro_v4l2.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
+index 835518534e3b..61cfaaf4e927 100644
+--- a/drivers/media/platform/verisilicon/hantro_v4l2.c
++++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+@@ -397,10 +397,12 @@ hantro_reset_raw_fmt(struct hantro_ctx *ctx, int bit_depth)
+ 	if (!raw_vpu_fmt)
+ 		return -EINVAL;
+ 
+-	if (ctx->is_encoder)
++	if (ctx->is_encoder) {
+ 		encoded_fmt = &ctx->dst_fmt;
+-	else
++		ctx->vpu_src_fmt = raw_vpu_fmt;
++	} else {
+ 		encoded_fmt = &ctx->src_fmt;
++	}
+ 
+ 	hantro_reset_fmt(&raw_fmt, raw_vpu_fmt);
+ 	raw_fmt.width = encoded_fmt->width;
+-- 
+2.34.1
+
