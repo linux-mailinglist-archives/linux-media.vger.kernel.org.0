@@ -2,55 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E70270D80D
-	for <lists+linux-media@lfdr.de>; Tue, 23 May 2023 10:56:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FFA570D853
+	for <lists+linux-media@lfdr.de>; Tue, 23 May 2023 11:03:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236214AbjEWI4k convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Tue, 23 May 2023 04:56:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59620 "EHLO
+        id S235720AbjEWJDY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 May 2023 05:03:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236169AbjEWI4f (ORCPT
+        with ESMTP id S236172AbjEWJDX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 May 2023 04:56:35 -0400
-Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 485B6102;
-        Tue, 23 May 2023 01:56:33 -0700 (PDT)
-Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
-        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
-        by ex01.ufhost.com (Postfix) with ESMTP id 2999D24E25B;
-        Tue, 23 May 2023 16:56:29 +0800 (CST)
-Received: from EXMBX173.cuchost.com (172.16.6.93) by EXMBX166.cuchost.com
- (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 23 May
- 2023 16:56:29 +0800
-Received: from xiaofei.localdomain (180.164.60.184) by EXMBX173.cuchost.com
- (172.16.6.93) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 23 May
- 2023 16:56:28 +0800
-From:   Jack Zhu <jack.zhu@starfivetech.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <jack.zhu@starfivetech.com>,
-        <changhuang.liang@starfivetech.com>
-Subject: [PATCH v2 5/5] media: cadence: Add support for JH7110 SoC
-Date:   Tue, 23 May 2023 16:56:26 +0800
-Message-ID: <20230523085626.3295-6-jack.zhu@starfivetech.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230523085626.3295-1-jack.zhu@starfivetech.com>
-References: <20230523085626.3295-1-jack.zhu@starfivetech.com>
+        Tue, 23 May 2023 05:03:23 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E158A102
+        for <linux-media@vger.kernel.org>; Tue, 23 May 2023 02:03:21 -0700 (PDT)
+Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <m.tretter@pengutronix.de>)
+        id 1q1NvI-0001oU-3j; Tue, 23 May 2023 11:03:16 +0200
+From:   Michael Tretter <m.tretter@pengutronix.de>
+To:     jacob-chen@iotwrt.com, ezequiel@vanguardiasur.com.ar,
+        mchehab@kernel.org, heiko@sntech.de
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de,
+        m.tretter@pengutronix.de
+Subject: [PATCH] media: rockchip: rga: use v4l2_m2m_buf_copy_metadata
+Date:   Tue, 23 May 2023 11:03:09 +0200
+Message-Id: <20230523090309.3323983-1-m.tretter@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [180.164.60.184]
-X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX173.cuchost.com
- (172.16.6.93)
-X-YovoleRuleAgent: yovoleflag
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_MSPIKE_H2,
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::54
+X-SA-Exim-Mail-From: m.tretter@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -59,26 +44,30 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support for Starfive JH7110 SoC which has the cadence csi2 receiver.
+The v4l2_m2m_buf_copy_metadata function correctly copies the metadata of
+the buffer. Use that function instead of open-coding the metadata copy.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
+Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 ---
- drivers/media/platform/cadence/cdns-csi2rx.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/media/platform/rockchip/rga/rga.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
-index a562c27906e1..f2b4574b8216 100644
---- a/drivers/media/platform/cadence/cdns-csi2rx.c
-+++ b/drivers/media/platform/cadence/cdns-csi2rx.c
-@@ -558,6 +558,7 @@ static void csi2rx_remove(struct platform_device *pdev)
- }
+diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
+index 67dcf22e5ba3..e4b8ce9ab3c6 100644
+--- a/drivers/media/platform/rockchip/rga/rga.c
++++ b/drivers/media/platform/rockchip/rga/rga.c
+@@ -76,10 +76,7 @@ static irqreturn_t rga_isr(int irq, void *prv)
+ 		WARN_ON(!src);
+ 		WARN_ON(!dst);
  
- static const struct of_device_id csi2rx_of_table[] = {
-+	{ .compatible = "starfive,jh7110-csi2rx" },
- 	{ .compatible = "cdns,csi2rx" },
- 	{ },
- };
+-		dst->timecode = src->timecode;
+-		dst->vb2_buf.timestamp = src->vb2_buf.timestamp;
+-		dst->flags &= ~V4L2_BUF_FLAG_TSTAMP_SRC_MASK;
+-		dst->flags |= src->flags & V4L2_BUF_FLAG_TSTAMP_SRC_MASK;
++		v4l2_m2m_buf_copy_metadata(src, dst, true);
+ 
+ 		v4l2_m2m_buf_done(src, VB2_BUF_STATE_DONE);
+ 		v4l2_m2m_buf_done(dst, VB2_BUF_STATE_DONE);
 -- 
-2.34.1
+2.39.2
 
