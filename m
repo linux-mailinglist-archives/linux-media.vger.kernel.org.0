@@ -2,105 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F09670D109
-	for <lists+linux-media@lfdr.de>; Tue, 23 May 2023 04:20:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E77F270D245
+	for <lists+linux-media@lfdr.de>; Tue, 23 May 2023 05:17:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231932AbjEWCUA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 May 2023 22:20:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39384 "EHLO
+        id S231500AbjEWDRX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 May 2023 23:17:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234533AbjEWCTs (ORCPT
+        with ESMTP id S230244AbjEWDRU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 May 2023 22:19:48 -0400
-Received: from mail-il1-x129.google.com (mail-il1-x129.google.com [IPv6:2607:f8b0:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B029CA;
-        Mon, 22 May 2023 19:19:47 -0700 (PDT)
-Received: by mail-il1-x129.google.com with SMTP id e9e14a558f8ab-332cc0efe88so2498565ab.0;
-        Mon, 22 May 2023 19:19:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684808387; x=1687400387;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kzTqOaIPWfW9eLUYmANhI0oqNLmXhJYkC7KiwdLC9Pk=;
-        b=HSD7l7aKqkH7bpomTMkzPvcKzQpp2eYwyn0IteDdsQLQjpEWrRaSrLc67veKl7F0/T
-         cn2iJlW2p3p+ttdzw9ZAV7HQ8xxxsTjGKeDqk9ze5VrKHVaDEi+t3OW7XqBuV/glXXnC
-         D2eds/9o/cQ3eOaOppD0DjNpMbm7bViiVNn4xVcB+ZMtP9Pzx2mqEv3rSuUKAgMxU6nL
-         gqqvNmyRkrNekvbh16k/UGWh5sknRUXgxI9DzPtYOgcYIE58tIKFTJbuDRwL5PBaJyQ5
-         8aQnfvzVb1Tev33snfKB5whGHevkySQHAoZR2clKZs9dZU5d0XWHlZc0r5BlpjMUYgkj
-         FfsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684808387; x=1687400387;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kzTqOaIPWfW9eLUYmANhI0oqNLmXhJYkC7KiwdLC9Pk=;
-        b=kq6wzNSJQ6z1OQfkS0x2XG8r8EX+Ae/nb8H3mpLXXCiLzp5L+5vviNji+Nuchj2y5T
-         QuBaoyx2TLmb/i5ZXhqo7q924X45bkZ0zks2Ht/SMkdC2xZ2sQaQYw+bISNZbY6544L0
-         zsuzhsZ7vZNvp1H+jFiWLcQ+/uKapEUN8utTIDz3YRgicHVFIu49EQwUTmb00j7rmguW
-         wy1Fb8fwHsfuWMkaFYt9sv23mjlT8Q0/2QLWYXaPyiDcCZa1/BAsf/Sc3yjBH6WKX5V/
-         yJzOl6YLNmwsncFlunT5opE01F2uUTkNLsP4lMtz/4tDQxf1tozWX8ODKIX1hbNopbyJ
-         imGw==
-X-Gm-Message-State: AC+VfDwXM8ZBZRtmokc2y6CygvOXZZA4nsDJ/9OMI9dT8c6YLw+9IpHQ
-        WPJtiCiB1qLzT4A2pidif0Q=
-X-Google-Smtp-Source: ACHHUZ4+DJLABRuPBSRDE1JxdVeIA6RNnSI8JrvW9bu3YuMmFMvYwh3HXeHrlA5FYY/ygXGrB/itLA==
-X-Received: by 2002:a92:d8cf:0:b0:338:1a22:bf47 with SMTP id l15-20020a92d8cf000000b003381a22bf47mr7507410ilo.21.1684808386720;
-        Mon, 22 May 2023 19:19:46 -0700 (PDT)
-Received: from azeems-kspp.c.googlers.com.com (54.70.188.35.bc.googleusercontent.com. [35.188.70.54])
-        by smtp.gmail.com with ESMTPSA id x1-20020a920601000000b0033549a5fb36sm2131699ilg.27.2023.05.22.19.19.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 May 2023 19:19:46 -0700 (PDT)
-From:   Azeem Shaikh <azeemshaikh38@gmail.com>
-To:     Sumit Semwal <sumit.semwal@linaro.org>
-Cc:     linux-hardening@vger.kernel.org,
-        Azeem Shaikh <azeemshaikh38@gmail.com>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        linaro-mm-sig@lists.linaro.org
-Subject: [PATCH] dma-buf/sw_sync: Replace all non-returning strlcpy with strscpy
-Date:   Tue, 23 May 2023 02:19:43 +0000
-Message-ID: <20230523021943.2406847-1-azeemshaikh38@gmail.com>
-X-Mailer: git-send-email 2.40.1.698.g37aff9b760-goog
+        Mon, 22 May 2023 23:17:20 -0400
+Received: from out30-132.freemail.mail.aliyun.com (out30-132.freemail.mail.aliyun.com [115.124.30.132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BF2F90;
+        Mon, 22 May 2023 20:17:17 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046050;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=17;SR=0;TI=SMTPD_---0VjIIOXp_1684811830;
+Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0VjIIOXp_1684811830)
+          by smtp.aliyun-inc.com;
+          Tue, 23 May 2023 11:17:13 +0800
+From:   Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To:     alexander.deucher@amd.com
+Cc:     christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+        daniel@ffwll.ch, nathan@kernel.org, ndesaulniers@google.com,
+        trix@redhat.com, sumit.semwal@linaro.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+        Abaci Robot <abaci@linux.alibaba.com>
+Subject: [PATCH] drm/amdgpu: Modify mismatched function name
+Date:   Tue, 23 May 2023 11:17:09 +0800
+Message-Id: <20230523031709.19673-1-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY,
+        URIBL_BLOCKED,USER_IN_DEF_SPF_WL autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-strlcpy() reads the entire source buffer first.
-This read may exceed the destination size limit.
-This is both inefficient and can lead to linear read
-overflows if a source string is not NUL-terminated [1].
-In an effort to remove strlcpy() completely [2], replace
-strlcpy() here with strscpy().
-No return values were used, so direct replacement is safe.
+No functional modification involved.
 
-[1] https://www.kernel.org/doc/html/latest/process/deprecated.html#strlcpy
-[2] https://github.com/KSPP/linux/issues/89
+drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c:426: warning: expecting prototype for sdma_v4_4_2_gfx_stop(). Prototype was for sdma_v4_4_2_inst_gfx_stop() instead.
+drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c:457: warning: expecting prototype for sdma_v4_4_2_rlc_stop(). Prototype was for sdma_v4_4_2_inst_rlc_stop() instead.
+drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c:470: warning: expecting prototype for sdma_v4_4_2_page_stop(). Prototype was for sdma_v4_4_2_inst_page_stop() instead.
+drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c:506: warning: expecting prototype for sdma_v4_4_2_ctx_switch_enable(). Prototype was for sdma_v4_4_2_inst_ctx_switch_enable() instead.
+drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c:561: warning: expecting prototype for sdma_v4_4_2_enable(). Prototype was for sdma_v4_4_2_inst_enable() instead.
+drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c:798: warning: expecting prototype for sdma_v4_4_2_rlc_resume(). Prototype was for sdma_v4_4_2_inst_rlc_resume() instead.
+drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c:814: warning: expecting prototype for sdma_v4_4_2_load_microcode(). Prototype was for sdma_v4_4_2_inst_load_microcode() instead.
 
-Signed-off-by: Azeem Shaikh <azeemshaikh38@gmail.com>
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=5283
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 ---
- drivers/dma-buf/sw_sync.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
-index 348b3a9170fa..63f0aeb66db6 100644
---- a/drivers/dma-buf/sw_sync.c
-+++ b/drivers/dma-buf/sw_sync.c
-@@ -85,7 +85,7 @@ static struct sync_timeline *sync_timeline_create(const char *name)
+diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c b/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
+index bf47eb33c12e..590b08585901 100644
+--- a/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
++++ b/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
+@@ -415,7 +415,7 @@ static void sdma_v4_4_2_ring_emit_fence(struct amdgpu_ring *ring, u64 addr, u64
  
- 	kref_init(&obj->kref);
- 	obj->context = dma_fence_context_alloc(1);
--	strlcpy(obj->name, name, sizeof(obj->name));
-+	strscpy(obj->name, name, sizeof(obj->name));
  
- 	obj->pt_tree = RB_ROOT;
- 	INIT_LIST_HEAD(&obj->pt_list);
+ /**
+- * sdma_v4_4_2_gfx_stop - stop the gfx async dma engines
++ * sdma_v4_4_2_inst_gfx_stop - stop the gfx async dma engines
+  *
+  * @adev: amdgpu_device pointer
+  *
+@@ -446,7 +446,7 @@ static void sdma_v4_4_2_inst_gfx_stop(struct amdgpu_device *adev,
+ }
+ 
+ /**
+- * sdma_v4_4_2_rlc_stop - stop the compute async dma engines
++ * sdma_v4_4_2_inst_rlc_stop - stop the compute async dma engines
+  *
+  * @adev: amdgpu_device pointer
+  *
+@@ -459,7 +459,7 @@ static void sdma_v4_4_2_inst_rlc_stop(struct amdgpu_device *adev,
+ }
+ 
+ /**
+- * sdma_v4_4_2_page_stop - stop the page async dma engines
++ * sdma_v4_4_2_inst_page_stop - stop the page async dma engines
+  *
+  * @adev: amdgpu_device pointer
+  *
+@@ -494,7 +494,7 @@ static void sdma_v4_4_2_inst_page_stop(struct amdgpu_device *adev,
+ }
+ 
+ /**
+- * sdma_v4_4_2_ctx_switch_enable - stop the async dma engines context switch
++ * sdma_v4_4_2_inst_ctx_switch_enable - stop the async dma engines context switch
+  *
+  * @adev: amdgpu_device pointer
+  * @enable: enable/disable the DMA MEs context switch.
+@@ -548,7 +548,7 @@ static void sdma_v4_4_2_inst_ctx_switch_enable(struct amdgpu_device *adev,
+ }
+ 
+ /**
+- * sdma_v4_4_2_enable - stop the async dma engines
++ * sdma_v4_4_2_inst_enable - stop the async dma engines
+  *
+  * @adev: amdgpu_device pointer
+  * @enable: enable/disable the DMA MEs.
+@@ -786,7 +786,7 @@ static void sdma_v4_4_2_init_pg(struct amdgpu_device *adev)
+ }
+ 
+ /**
+- * sdma_v4_4_2_rlc_resume - setup and start the async dma engines
++ * sdma_v4_4_2_inst_rlc_resume - setup and start the async dma engines
+  *
+  * @adev: amdgpu_device pointer
+  *
+@@ -802,7 +802,7 @@ static int sdma_v4_4_2_inst_rlc_resume(struct amdgpu_device *adev,
+ }
+ 
+ /**
+- * sdma_v4_4_2_load_microcode - load the sDMA ME ucode
++ * sdma_v4_4_2_inst_load_microcode - load the sDMA ME ucode
+  *
+  * @adev: amdgpu_device pointer
+  *
+-- 
+2.20.1.7.g153144c
 
