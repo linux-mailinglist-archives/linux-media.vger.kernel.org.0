@@ -2,193 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A2F7D70E051
-	for <lists+linux-media@lfdr.de>; Tue, 23 May 2023 17:22:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C366370E107
+	for <lists+linux-media@lfdr.de>; Tue, 23 May 2023 17:52:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237155AbjEWPW2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 May 2023 11:22:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33984 "EHLO
+        id S237645AbjEWPwN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 May 2023 11:52:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235751AbjEWPW1 (ORCPT
+        with ESMTP id S237651AbjEWPwK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 May 2023 11:22:27 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35242121;
-        Tue, 23 May 2023 08:22:23 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BD63F60EC0;
-        Tue, 23 May 2023 15:22:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D165DC433D2;
-        Tue, 23 May 2023 15:22:19 +0000 (UTC)
-Message-ID: <5fe993a0-60f8-6756-24dd-068a45e5f23b@xs4all.nl>
-Date:   Tue, 23 May 2023 17:22:11 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2] media: mediatek: vcodec: mtk_vcodec_dec_hw: Use
- devm_pm_runtime_enable()
-Content-Language: en-US
-To:     Fei Shao <fshao@chromium.org>
-Cc:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Chen-Yu Tsai <wenst@chromium.org>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tue, 23 May 2023 11:52:10 -0400
+X-Greylist: delayed 518 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 23 May 2023 08:52:08 PDT
+Received: from gauss.telenet-ops.be (gauss.telenet-ops.be [IPv6:2a02:1800:120:4::f00:11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEB0DC2
+        for <linux-media@vger.kernel.org>; Tue, 23 May 2023 08:52:08 -0700 (PDT)
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by gauss.telenet-ops.be (Postfix) with ESMTPS id 4QQdrY00nsz4wyk2
+        for <linux-media@vger.kernel.org>; Tue, 23 May 2023 17:43:25 +0200 (CEST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:b0ac:7afd:272:4cff])
+        by andre.telenet-ops.be with bizsmtp
+        id 0FiN2A00R0Jkz7G01FiNDk; Tue, 23 May 2023 17:42:24 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1q1U9I-002t5J-7V;
+        Tue, 23 May 2023 17:42:22 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1q1U9W-00Ckk7-KA;
+        Tue, 23 May 2023 17:42:22 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
-References: <20230515141610.v2.1.I0d1657be3fea5870f797e975a7aa490291e17993@changeid>
- <b5799dfe-f17b-a838-0916-645ba83307d2@xs4all.nl>
- <2f1bf798-49c3-13d7-96e5-b29e7df73bd1@xs4all.nl>
- <CAC=S1ngKqJfTh8Dnjv2yYLG0r44Yx6pw5DsRnArsJu2okoKJUA@mail.gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <CAC=S1ngKqJfTh8Dnjv2yYLG0r44Yx6pw5DsRnArsJu2okoKJUA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH v3] media: renesas: fdp1: Identify R-Car Gen2 versions
+Date:   Tue, 23 May 2023 17:42:21 +0200
+Message-Id: <3d6cbf2cd4398f29379d8d7287b93e8b8ec6c147.1684856457.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 23/05/2023 17:18, Fei Shao wrote:
-> On Tue, May 23, 2023 at 8:28 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->>
->> On 23/05/2023 13:42, Hans Verkuil wrote:
->>> On 15/05/2023 08:16, Fei Shao wrote:
->>>> Convert pm_runtime_enable() to the managed version, and clean up error
->>>> handling and unnecessary .remove() callback accordingly.
->>>
->>> This patch no longer applies. Can you make a v3?
->>
->> Sorry, you can ignore this. I now realize that this was a v2 of
->>
->> https://patchwork.linuxtv.org/project/linux-media/patch/20230510233117.1.I7047714f92ef7569bd21f118ae6aee20b3175a92@changeid/
->>
->> I had that v1 applied, so obviously this v2 would fail to apply. After dropping
->> that v1 patch it now applies cleanly.
-> 
-> Ack, many thanks.
-> BTW, besides the review tags (appreciation to all), would you mind
-> adding this tag also as I missed it in the beginning?
-> 
-> Suggested-by: Chen-Yu Tsai <wenst@chromium.org>
+On R-Car M2-W:
 
-Done!
+    rcar_fdp1 fe940000.fdp1: FDP1 Unidentifiable (0x02010101)
+    rcar_fdp1 fe944000.fdp1: FDP1 Unidentifiable (0x02010101)
 
-Regards,
+Although the IP Internal Data Register on R-Car Gen2 is documented to
+contain all zeros, the actual register contents seem to match the FDP1
+version ID of R-Car H3 ES1.*, which has just been removed.
+Fortunately this version is not used for any other purposes yet.
 
-	Hans
+Fix this by re-adding the ID, now using an R-Car Gen2-specific name.
 
-> 
-> Regards,
-> Fei
-> 
-> 
-> 
-> 
-> 
->>
->> Regards,
->>
->>         Hans
->>
->>>
->>> Regards,
->>>
->>>       Hans
->>>
->>>>
->>>> Signed-off-by: Fei Shao <fshao@chromium.org>
->>>>
->>>> ---
->>>>
->>>> Changes in v2:
->>>> Use devm_pm_runtime_enable() per suggestion from the previous thread:
->>>> https://lore.kernel.org/lkml/20230510164330.z2ygkl7vws6fci75@pengutronix.de/T/#m25be91afe3e9554600e859a8a59128ca234fc63d
->>>>
->>>>  .../mediatek/vcodec/mtk_vcodec_dec_hw.c       | 26 ++++++-------------
->>>>  1 file changed, 8 insertions(+), 18 deletions(-)
->>>>
->>>> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.c
->>>> index b753bf54ebd9..e1cb2f8dca33 100644
->>>> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.c
->>>> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.c
->>>> @@ -148,20 +148,21 @@ static int mtk_vdec_hw_probe(struct platform_device *pdev)
->>>>      ret = mtk_vcodec_init_dec_clk(pdev, &subdev_dev->pm);
->>>>      if (ret)
->>>>              return ret;
->>>> -    pm_runtime_enable(&pdev->dev);
->>>> +
->>>> +    ret = devm_pm_runtime_enable(&pdev->dev);
->>>> +    if (ret)
->>>> +            return ret;
->>>>
->>>>      of_id = of_match_device(mtk_vdec_hw_match, dev);
->>>>      if (!of_id) {
->>>>              dev_err(dev, "Can't get vdec subdev id.\n");
->>>> -            ret = -EINVAL;
->>>> -            goto err;
->>>> +            return -EINVAL;
->>>>      }
->>>>
->>>>      hw_idx = (enum mtk_vdec_hw_id)(uintptr_t)of_id->data;
->>>>      if (hw_idx >= MTK_VDEC_HW_MAX) {
->>>>              dev_err(dev, "Hardware index %d not correct.\n", hw_idx);
->>>> -            ret = -EINVAL;
->>>> -            goto err;
->>>> +            return -EINVAL;
->>>>      }
->>>>
->>>>      main_dev->subdev_dev[hw_idx] = subdev_dev;
->>>> @@ -173,36 +174,25 @@ static int mtk_vdec_hw_probe(struct platform_device *pdev)
->>>>      if (IS_SUPPORT_VDEC_HW_IRQ(hw_idx)) {
->>>>              ret = mtk_vdec_hw_init_irq(subdev_dev);
->>>>              if (ret)
->>>> -                    goto err;
->>>> +                    return ret;
->>>>      }
->>>>
->>>>      subdev_dev->reg_base[VDEC_HW_MISC] =
->>>>              devm_platform_ioremap_resource(pdev, 0);
->>>>      if (IS_ERR((__force void *)subdev_dev->reg_base[VDEC_HW_MISC])) {
->>>>              ret = PTR_ERR((__force void *)subdev_dev->reg_base[VDEC_HW_MISC]);
->>>> -            goto err;
->>>> +            return ret;
->>>>      }
->>>>
->>>>      if (!main_dev->subdev_prob_done)
->>>>              main_dev->subdev_prob_done = mtk_vdec_hw_prob_done;
->>>>
->>>>      platform_set_drvdata(pdev, subdev_dev);
->>>> -    return 0;
->>>> -err:
->>>> -    pm_runtime_disable(subdev_dev->pm.dev);
->>>> -    return ret;
->>>> -}
->>>> -
->>>> -static int mtk_vdec_hw_remove(struct platform_device *pdev)
->>>> -{
->>>> -    pm_runtime_disable(&pdev->dev);
->>>> -
->>>>      return 0;
->>>>  }
->>>>
->>>>  static struct platform_driver mtk_vdec_driver = {
->>>>      .probe  = mtk_vdec_hw_probe,
->>>> -    .remove = mtk_vdec_hw_remove,
->>>>      .driver = {
->>>>              .name   = "mtk-vdec-comp",
->>>>              .of_match_table = mtk_vdec_hw_match,
->>>
->>
+Fixes: af4273b43f2bd9ee ("media: renesas: fdp1: remove R-Car H3 ES1.* handling")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+---
+Version register contents verified on R-Car H2 ES1.0, R-Car M2-W ES1.0 &
+ES3.0, and R-Car E2 ES1.0.  I couldn't get hold of an R-Car M2-N.
+
+v3:
+  - Add Reviewed-by,
+
+v2:
+  - Add Reviewed-by,
+  - Add comment.
+---
+ drivers/media/platform/renesas/rcar_fdp1.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/media/platform/renesas/rcar_fdp1.c b/drivers/media/platform/renesas/rcar_fdp1.c
+index f43e458590b8cada..ab39cd2201c85d84 100644
+--- a/drivers/media/platform/renesas/rcar_fdp1.c
++++ b/drivers/media/platform/renesas/rcar_fdp1.c
+@@ -254,6 +254,8 @@ MODULE_PARM_DESC(debug, "activate debug info");
+ 
+ /* Internal Data (HW Version) */
+ #define FD1_IP_INTDATA			0x0800
++/* R-Car Gen2 HW manual says zero, but actual value matches R-Car H3 ES1.x */
++#define FD1_IP_GEN2			0x02010101
+ #define FD1_IP_M3W			0x02010202
+ #define FD1_IP_H3			0x02010203
+ #define FD1_IP_M3N			0x02010204
+@@ -2360,6 +2362,9 @@ static int fdp1_probe(struct platform_device *pdev)
+ 
+ 	hw_version = fdp1_read(fdp1, FD1_IP_INTDATA);
+ 	switch (hw_version) {
++	case FD1_IP_GEN2:
++		dprintk(fdp1, "FDP1 Version R-Car Gen2\n");
++		break;
+ 	case FD1_IP_M3W:
+ 		dprintk(fdp1, "FDP1 Version R-Car M3-W\n");
+ 		break;
+-- 
+2.34.1
 
