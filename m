@@ -2,109 +2,235 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE9AE70DB45
-	for <lists+linux-media@lfdr.de>; Tue, 23 May 2023 13:13:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E51270DB64
+	for <lists+linux-media@lfdr.de>; Tue, 23 May 2023 13:21:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232553AbjEWLNf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 May 2023 07:13:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47140 "EHLO
+        id S234914AbjEWLV2 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Tue, 23 May 2023 07:21:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229653AbjEWLNe (ORCPT
+        with ESMTP id S229889AbjEWLV1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 May 2023 07:13:34 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9594DC4;
-        Tue, 23 May 2023 04:13:32 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9F1F5139F;
-        Tue, 23 May 2023 04:14:16 -0700 (PDT)
-Received: from [10.57.84.70] (unknown [10.57.84.70])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 61F1D3F6C4;
-        Tue, 23 May 2023 04:13:29 -0700 (PDT)
-Message-ID: <b404dc20-c460-ac3f-6659-8be7a7d32bfe@arm.com>
-Date:   Tue, 23 May 2023 12:13:25 +0100
+        Tue, 23 May 2023 07:21:27 -0400
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43574C4;
+        Tue, 23 May 2023 04:21:25 -0700 (PDT)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-96f66fbd770so102359266b.1;
+        Tue, 23 May 2023 04:21:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684840884; x=1687432884;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LFPUweTrAffiPwJGiH9UChLK/G8bNMCR9q4viNntd6c=;
+        b=Sjho2MOjnmAR/OwjmjvAlL99F2rWfqFN6XeHAC0KA64+i2kCI67q0YuHb5srDLyPvA
+         0Di0M8L+wWX8InNm4VblAS8yW8C0eAChqws2Fd5kHbDa2r0OVAfLj8YbsyBEa2DVdqcv
+         te+jtY/FpFxmFDtLFBjgI5sKOYuyLd6oSdqDeCkdKR61Q4ICxzJDVjXS1i4ke25UL2re
+         E8U8Ld+whZmGiNJ0TR/AaVBdF6daOPkmjwfAsvcWmm97U4k3Rlj6CgOJLVKA9RIq0zzG
+         Tan2Zl52s0Yt195qO7lRYU6xiIlSBA1t/zgbHNAarCFa0lPzOp1XcPd8knMIM80sQIsF
+         9RUQ==
+X-Gm-Message-State: AC+VfDwp78rsicJ5vsW6Z2CjHMSxHx7Eq+xGYqu+RHeo85FCH3N+HIZj
+        0EqR81J0sT9pXRr7x7vNp51wzYg5Gmb1/SWNvvoPdkcL
+X-Google-Smtp-Source: ACHHUZ5YAYWtIalxE1Oi6FbFIdcasxDESNNeSgqjzzcuxFb5GXIj2ppxdFnO87Vz12RZisrf/UyKaKHpzV7PU9RoFmA=
+X-Received: by 2002:a17:906:212:b0:94e:9235:d77d with SMTP id
+ 18-20020a170906021200b0094e9235d77dmr11771790ejd.0.1684840883587; Tue, 23 May
+ 2023 04:21:23 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH RESEND 0/2] media: rockchip: rga: Add rk3568 support
-Content-Language: en-GB
-To:     Michael Tretter <m.tretter@pengutronix.de>,
-        Diederik de Haas <didi.debian@cknow.org>,
-        Jacob Chen <jacob-chen@iotwrt.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-rockchip@lists.infradead.org,
-        Heiko Stuebner <heiko@sntech.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <20230119-rk3568-rga-v1-0-43d4d14365e6@pengutronix.de>
- <168466589373.900480.8086350880534437090.b4-ty@sntech.de>
- <2386524.2IynHR6iFi@prancing-pony> <20230522102953.GB23678@pengutronix.de>
-From:   Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <20230522102953.GB23678@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20230329100951.1522322-1-sakari.ailus@linux.intel.com>
+ <20230329100951.1522322-3-sakari.ailus@linux.intel.com> <CAJZ5v0gG1Zc8h8Lt_tKJp8u7b-nH0Rxt=2j9RqptMVc8r0vL7Q@mail.gmail.com>
+ <ZGNn9jOWmh0/aEOW@kekkonen.localdomain> <CAJZ5v0iPcSc_x9g1tpTOVVaEB+9O_6N8SFqWSgG_ku+dNqveQg@mail.gmail.com>
+ <ZGuYHGMQBzBi4myq@kekkonen.localdomain> <CAJZ5v0hW-JewnYP48sowLmi7=v00EBWJLLR-8mWBK8-DOeC=uA@mail.gmail.com>
+ <ZGvPzfnr7CMjcjdY@kekkonen.localdomain>
+In-Reply-To: <ZGvPzfnr7CMjcjdY@kekkonen.localdomain>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 23 May 2023 13:21:12 +0200
+Message-ID: <CAJZ5v0isDNDxD-xAxdHiuZZAKPf6r-axs+aC09YGAyO-ow9o0g@mail.gmail.com>
+Subject: Re: [PATCH v8 02/10] ACPI: property: Parse data node string
+ references in properties
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
+        andriy.shevchenko@linux.intel.com, heikki.krogerus@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2023-05-22 11:29, Michael Tretter wrote:
-> On Sun, 21 May 2023 21:32:51 +0200, Diederik de Haas wrote:
->> On Sunday, 21 May 2023 12:44:58 CEST Heiko Stuebner wrote:
->>> On Fri, 20 Jan 2023 10:14:21 +0100, Michael Tretter wrote:
->>>> The RGA2 on the Rockchip rk3568 is the same core as the RGA2 on the
->>>> Rockchip rk3288.
->>>>
->>>> This series adds the necessary device tree binding and node in the device
->>>> tree to enable the RGA2 on the Rockchip rk3568.
->>>>
->>>> I tested the driver with the GStreamer v4l2convert element on a Rock3
->>>> Model A board.
->>>>
->>>> [...]
->>>
->>> Applied, thanks!
->>>
->>> [1/2] media: dt-bindings: media: rockchip-rga: add rockchip,rk3568-rga
->>>        commit: 9b12ceb5a80d1fb45d293265de100e33b5843943
->>> [2/2] arm64: dts: rockchip: Add RGA2 support to rk356x
->>>        commit: 0c3391f8bb06b744df521651534cd99e3d77e0a8
->>
->> https://lore.kernel.org/all/TY3P286MB26115F60D273E840D36A610598CA9@TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM/
->>
->> indicated that there was a problem with device >= 4GB (RAM?):
->>> Since we have the over-4GB problem now, should we mark this problem as a
->>> TODO or something?
->>
->> I thought that was the reason that these patches weren't picked up before?
-> 
-> That's what I thought, too.
-> 
->>
->> I have no insight into this problem, so I can't comment on the technical
->> aspects, but I had made a note for myself 'locally' about it.
-> 
-> Using the RGA2 with the driver in its current form on devices with more than 4
-> GB system memory may lead to memory corruption as buffer addresses are
-> silently truncated to 32 bits.
+Hi Sakari,
 
-That's because the driver is completely broken and is not using the DMA 
-API anywhere near properly. The fact that it's been getting away with it 
-so far can be mostly put down to good luck and nobody using 
-CONFIG_DMA_API_DEBUG.
+On Mon, May 22, 2023 at 10:35 PM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> Hi Rafael,
+>
+> On Mon, May 22, 2023 at 06:38:37PM +0200, Rafael J. Wysocki wrote:
+> > On Mon, May 22, 2023 at 6:28 PM Sakari Ailus
+> > <sakari.ailus@linux.intel.com> wrote:
+> > > On Mon, May 22, 2023 at 05:29:48PM +0200, Rafael J. Wysocki wrote:
+> > > > On Tue, May 16, 2023 at 1:24 PM Sakari Ailus
+> > > > <sakari.ailus@linux.intel.com> wrote:
+> > > > > On Fri, May 12, 2023 at 06:04:26PM +0200, Rafael J. Wysocki wrote:
+> > > > > > On Wed, Mar 29, 2023 at 12:10 PM Sakari Ailus
+> > > > > > <sakari.ailus@linux.intel.com> wrote:
+> > > > > > >
+> > > > > > > Add support for parsing property references using strings, besides
+> > > > > > > reference objects that were previously supported. This allows also
+> > > > > > > referencing data nodes which was not possible with reference objects.
+> > > > > > >
+> > > > > > > Also add pr_fmt() macro to prefix printouts.
+> > > > > > >
+> > > > > > > While at it, update copyright.
+> > > > > >
+> > > > > > Although I said that it looked good to me, some minor improvements can
+> > > > > > still be made.
+> > > > > >
+> > > > > > First off, the above changelog is a bit terse.
+> > > > > >
+> > > > > > I think that it would help to provide an example of device properties
+> > > > > > that would not be parsed properly before the change and can be parsed
+> > > > > > now.
+> > > > > >
+> > > > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > > > > ---
+> > > > > > >  drivers/acpi/property.c | 110 ++++++++++++++++++++++++++++++++++------
+> > > > > > >  1 file changed, 94 insertions(+), 16 deletions(-)
+> > > > > > >
+> > > > > > > diff --git a/drivers/acpi/property.c b/drivers/acpi/property.c
+> > > > > > > index b8d9eb9a433e..08831ffba26c 100644
+> > > > > > > --- a/drivers/acpi/property.c
+> > > > > > > +++ b/drivers/acpi/property.c
+> > > > > > > @@ -2,14 +2,17 @@
+> > > > > > >  /*
+> > > > > > >   * ACPI device specific properties support.
+> > > > > > >   *
+> > > > > > > - * Copyright (C) 2014, Intel Corporation
+> > > > > > > + * Copyright (C) 2014-2023, Intel Corporation
+> > > > > > >   * All rights reserved.
+> > > > > > >   *
+> > > > > > >   * Authors: Mika Westerberg <mika.westerberg@linux.intel.com>
+> > > > > > > - *          Darren Hart <dvhart@linux.intel.com>
+> > > > > > > - *          Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> > > > > > > + *         Darren Hart <dvhart@linux.intel.com>
+> > > > > > > + *         Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> > > > > >
+> > > > > > I'm not sure if the whitespace change here is really useful.
+> > > > >
+> > > > > I did that to address a comment from Andy --- the earlier lines used spaces
+> > > > > for indentation.
+> > > > >
+> > > > > >
+> > > > > > > + *         Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > > > >   */
+> > > > > > >
+> > > > > > > +#define pr_fmt(fmt) "ACPI: " fmt
+> > > > > > > +
+> > > > > > >  #include <linux/acpi.h>
+> > > > > > >  #include <linux/device.h>
+> > > > > > >  #include <linux/export.h>
+> > > > > > > @@ -795,7 +798,8 @@ acpi_fwnode_get_named_child_node(const struct fwnode_handle *fwnode,
+> > > > > > >  static int acpi_get_ref_args(struct fwnode_reference_args *args,
+> > > > > > >                              struct fwnode_handle *ref_fwnode,
+> > > > > > >                              const union acpi_object **element,
+> > > > > > > -                            const union acpi_object *end, size_t num_args)
+> > > > > > > +                            const union acpi_object *end, size_t num_args,
+> > > > > > > +                            bool subnode_string)
+> > > > > >
+> > > > > > The meaning of the new argument isn't really clear.  it would be good
+> > > > > > to somehow help a casual reader of the code to find this out more
+> > > > > > easily.
+> > > > >
+> > > > > I can add comments to v9.
+> > > >
+> > > > If you can send me an example of ASL that will be parsed correctly
+> > > > after this change, but not before, it will help a bit.
+> > >
+> > > E.g. this bit from DisCo for Imaging 1.0 (Annex B.1):
+> > >
+> > >         Package () {
+> > >             "mipi-img-flash-leds",
+> > >             Package () {
+> > >                 "\\_SB.PCI0.I2C2.LEDD.LED0",
+> > >                 "\\_SB.PCI0.I2C2.LEDD.LED1"
+> > >             },
+> > >         },
+> > >
+> > > It's a property with a string reference to an ACPI non-device node,
+> > > although you can refer to device nodes as well.
+> >
+> > This example is missing the definition of LED0 or LED1 from which it
+> > would be clear that they are data nodes (or at least one of them is a
+> > data node).
+>
+> Ok, perhaps this one could work as a complete example, with a single
+> reference:
+>
+>         Package ()
+>         {
+>             "mipi-img-flash-leds",  "\\_SB.PCI0.I2C2.LEDD.LED0",
+>         }
+>
+>         Device (LEDD)
+>         {
+>             Name (_DSD, Package ()  // _DSD: Device-Specific Data
+>             {
+>                 ToUUID ("dbb8e3e6-5886-4ba6-8795-1319f52a966b"), /* Hierarchical Data Extension */,
+>                 Package ()
+>                 {
+>                     Package ()
+>                     {
+>                         "mipi-img-flash-led-0",
+>                         "LED0",
+>                     }
+>                 },
+>             })
+>             Name (LED0, Package ()  // _DSD: Device-Specific Data
+>             {
+>                 ToUUID ("daffd814-6eba-4d8c-8a91-bc9bbf4aa301") /* Device Properties for _DSD */,
+>                 Package ()
+>                 {
+>                     Package ()
+>                     {
+>                         "mipi-img-max-current",
+>                         1000000,
+>                     }
+>                 }
+>             })
+>         }
+>
 
-> I'm not sure if that's actually a blocker for merging these patches.
+This works, thanks!
 
-If anything, hopefully getting more SoC support merged might provide 
-more motivation for someone to fix the existing code :)
+> >
+> > Also I'm kind of wondering about the "reference with arguments" part
+> > which seems to work differently depending on whether the reference is
+> > represented by a string or by a reference object.
+>
+> Yes. With (device) reference objects, it is possible currently to refer to
+> subnodes with the _DSD data extension child names of those nodes. This is
+> not done with string references as 1) any node can already be referenced so
+> there's no need to and 2) as node references are strings already, it's not
+> possible to distinguish node string references from _DSD data node names.
+> E.g.
+>
+>         "\\_SB.I2C0.LED0", "LED1"
+>
+>                            ^ ACPI object name or _DSD data node name?
+>
 
-Robin.
+Has this behavior been documented anywhere?  Or is there any
+expectation to see anything like this shipping in production platform
+firmware?
+
+If any of the above isn't the case, I would be inclined to simply
+remove this special case and make both the "object reference" and
+"string" cases work in the same way and if someone needs to refer to a
+data node, they will just need to use a string (in which case it will
+be the only option).
