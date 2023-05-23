@@ -2,151 +2,265 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A82F170DBA2
-	for <lists+linux-media@lfdr.de>; Tue, 23 May 2023 13:43:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D17470DBA5
+	for <lists+linux-media@lfdr.de>; Tue, 23 May 2023 13:43:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236660AbjEWLnE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 May 2023 07:43:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59636 "EHLO
+        id S236668AbjEWLnc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 May 2023 07:43:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230197AbjEWLnD (ORCPT
+        with ESMTP id S230197AbjEWLnb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 May 2023 07:43:03 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20EBB118;
-        Tue, 23 May 2023 04:43:01 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AA6596316D;
-        Tue, 23 May 2023 11:43:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF5BEC433D2;
-        Tue, 23 May 2023 11:42:57 +0000 (UTC)
-Message-ID: <b5799dfe-f17b-a838-0916-645ba83307d2@xs4all.nl>
-Date:   Tue, 23 May 2023 13:42:56 +0200
+        Tue, 23 May 2023 07:43:31 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4451A138;
+        Tue, 23 May 2023 04:43:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1684842208; x=1716378208;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=aaqI9wdS02gTDK1ojqZYF0zBh+Swc1ZmlKPLRWsl0OM=;
+  b=Veo+j9K65e3y+c5xVABbFYcjm+6TQPsJ5Pm9bcRfRgiGJPGq0JxpCkLh
+   oi3qr/dHvZPb7Uq+x37UZ0h0RdMmpd6FgfGBiD2xoOoYDfMYZTYMmJXOP
+   HRxmf9GfSkCnlUEthqNu7hyQZkF+3XZPsIe4adMoTTiDbX1JtJbDO8GBf
+   Syt7y4xil88myP7IkfCeU/bR/y/VBkvlho3SidI+HxyX4DrbTqKF0jzFh
+   lhzBC0D3ecTkkfxPoZIyhJ3W92nhPtLVpJxiEIn0N8h/ViSY+POgrSHFi
+   2xpOw37iskm01/ZNDfYRqBKxHgAxeI7whfPcO+thZvVbzJt0TJNiU7XT0
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10718"; a="381453984"
+X-IronPort-AV: E=Sophos;i="6.00,186,1681196400"; 
+   d="scan'208";a="381453984"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2023 04:43:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10718"; a="828072014"
+X-IronPort-AV: E=Sophos;i="6.00,186,1681196400"; 
+   d="scan'208";a="828072014"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2023 04:43:26 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 5FDC61202A8;
+        Tue, 23 May 2023 14:43:23 +0300 (EEST)
+Date:   Tue, 23 May 2023 11:43:23 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
+        andriy.shevchenko@linux.intel.com, heikki.krogerus@linux.intel.com
+Subject: Re: [PATCH v8 02/10] ACPI: property: Parse data node string
+ references in properties
+Message-ID: <ZGym20IJEPytGqXI@kekkonen.localdomain>
+References: <20230329100951.1522322-1-sakari.ailus@linux.intel.com>
+ <20230329100951.1522322-3-sakari.ailus@linux.intel.com>
+ <CAJZ5v0gG1Zc8h8Lt_tKJp8u7b-nH0Rxt=2j9RqptMVc8r0vL7Q@mail.gmail.com>
+ <ZGNn9jOWmh0/aEOW@kekkonen.localdomain>
+ <CAJZ5v0iPcSc_x9g1tpTOVVaEB+9O_6N8SFqWSgG_ku+dNqveQg@mail.gmail.com>
+ <ZGuYHGMQBzBi4myq@kekkonen.localdomain>
+ <CAJZ5v0hW-JewnYP48sowLmi7=v00EBWJLLR-8mWBK8-DOeC=uA@mail.gmail.com>
+ <ZGvPzfnr7CMjcjdY@kekkonen.localdomain>
+ <CAJZ5v0isDNDxD-xAxdHiuZZAKPf6r-axs+aC09YGAyO-ow9o0g@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2] media: mediatek: vcodec: mtk_vcodec_dec_hw: Use
- devm_pm_runtime_enable()
-Content-Language: en-US
-To:     Fei Shao <fshao@chromium.org>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Chen-Yu Tsai <wenst@chromium.org>
-Cc:     Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
-References: <20230515141610.v2.1.I0d1657be3fea5870f797e975a7aa490291e17993@changeid>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230515141610.v2.1.I0d1657be3fea5870f797e975a7aa490291e17993@changeid>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJZ5v0isDNDxD-xAxdHiuZZAKPf6r-axs+aC09YGAyO-ow9o0g@mail.gmail.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 15/05/2023 08:16, Fei Shao wrote:
-> Convert pm_runtime_enable() to the managed version, and clean up error
-> handling and unnecessary .remove() callback accordingly.
+Hi Rafael,
 
-This patch no longer applies. Can you make a v3?
+On Tue, May 23, 2023 at 01:21:12PM +0200, Rafael J. Wysocki wrote:
+> Hi Sakari,
+> 
+> On Mon, May 22, 2023 at 10:35 PM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Hi Rafael,
+> >
+> > On Mon, May 22, 2023 at 06:38:37PM +0200, Rafael J. Wysocki wrote:
+> > > On Mon, May 22, 2023 at 6:28 PM Sakari Ailus
+> > > <sakari.ailus@linux.intel.com> wrote:
+> > > > On Mon, May 22, 2023 at 05:29:48PM +0200, Rafael J. Wysocki wrote:
+> > > > > On Tue, May 16, 2023 at 1:24 PM Sakari Ailus
+> > > > > <sakari.ailus@linux.intel.com> wrote:
+> > > > > > On Fri, May 12, 2023 at 06:04:26PM +0200, Rafael J. Wysocki wrote:
+> > > > > > > On Wed, Mar 29, 2023 at 12:10 PM Sakari Ailus
+> > > > > > > <sakari.ailus@linux.intel.com> wrote:
+> > > > > > > >
+> > > > > > > > Add support for parsing property references using strings, besides
+> > > > > > > > reference objects that were previously supported. This allows also
+> > > > > > > > referencing data nodes which was not possible with reference objects.
+> > > > > > > >
+> > > > > > > > Also add pr_fmt() macro to prefix printouts.
+> > > > > > > >
+> > > > > > > > While at it, update copyright.
+> > > > > > >
+> > > > > > > Although I said that it looked good to me, some minor improvements can
+> > > > > > > still be made.
+> > > > > > >
+> > > > > > > First off, the above changelog is a bit terse.
+> > > > > > >
+> > > > > > > I think that it would help to provide an example of device properties
+> > > > > > > that would not be parsed properly before the change and can be parsed
+> > > > > > > now.
+> > > > > > >
+> > > > > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > > > > > ---
+> > > > > > > >  drivers/acpi/property.c | 110 ++++++++++++++++++++++++++++++++++------
+> > > > > > > >  1 file changed, 94 insertions(+), 16 deletions(-)
+> > > > > > > >
+> > > > > > > > diff --git a/drivers/acpi/property.c b/drivers/acpi/property.c
+> > > > > > > > index b8d9eb9a433e..08831ffba26c 100644
+> > > > > > > > --- a/drivers/acpi/property.c
+> > > > > > > > +++ b/drivers/acpi/property.c
+> > > > > > > > @@ -2,14 +2,17 @@
+> > > > > > > >  /*
+> > > > > > > >   * ACPI device specific properties support.
+> > > > > > > >   *
+> > > > > > > > - * Copyright (C) 2014, Intel Corporation
+> > > > > > > > + * Copyright (C) 2014-2023, Intel Corporation
+> > > > > > > >   * All rights reserved.
+> > > > > > > >   *
+> > > > > > > >   * Authors: Mika Westerberg <mika.westerberg@linux.intel.com>
+> > > > > > > > - *          Darren Hart <dvhart@linux.intel.com>
+> > > > > > > > - *          Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> > > > > > > > + *         Darren Hart <dvhart@linux.intel.com>
+> > > > > > > > + *         Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> > > > > > >
+> > > > > > > I'm not sure if the whitespace change here is really useful.
+> > > > > >
+> > > > > > I did that to address a comment from Andy --- the earlier lines used spaces
+> > > > > > for indentation.
+> > > > > >
+> > > > > > >
+> > > > > > > > + *         Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > > > > >   */
+> > > > > > > >
+> > > > > > > > +#define pr_fmt(fmt) "ACPI: " fmt
+> > > > > > > > +
+> > > > > > > >  #include <linux/acpi.h>
+> > > > > > > >  #include <linux/device.h>
+> > > > > > > >  #include <linux/export.h>
+> > > > > > > > @@ -795,7 +798,8 @@ acpi_fwnode_get_named_child_node(const struct fwnode_handle *fwnode,
+> > > > > > > >  static int acpi_get_ref_args(struct fwnode_reference_args *args,
+> > > > > > > >                              struct fwnode_handle *ref_fwnode,
+> > > > > > > >                              const union acpi_object **element,
+> > > > > > > > -                            const union acpi_object *end, size_t num_args)
+> > > > > > > > +                            const union acpi_object *end, size_t num_args,
+> > > > > > > > +                            bool subnode_string)
+> > > > > > >
+> > > > > > > The meaning of the new argument isn't really clear.  it would be good
+> > > > > > > to somehow help a casual reader of the code to find this out more
+> > > > > > > easily.
+> > > > > >
+> > > > > > I can add comments to v9.
+> > > > >
+> > > > > If you can send me an example of ASL that will be parsed correctly
+> > > > > after this change, but not before, it will help a bit.
+> > > >
+> > > > E.g. this bit from DisCo for Imaging 1.0 (Annex B.1):
+> > > >
+> > > >         Package () {
+> > > >             "mipi-img-flash-leds",
+> > > >             Package () {
+> > > >                 "\\_SB.PCI0.I2C2.LEDD.LED0",
+> > > >                 "\\_SB.PCI0.I2C2.LEDD.LED1"
+> > > >             },
+> > > >         },
+> > > >
+> > > > It's a property with a string reference to an ACPI non-device node,
+> > > > although you can refer to device nodes as well.
+> > >
+> > > This example is missing the definition of LED0 or LED1 from which it
+> > > would be clear that they are data nodes (or at least one of them is a
+> > > data node).
+> >
+> > Ok, perhaps this one could work as a complete example, with a single
+> > reference:
+> >
+> >         Package ()
+> >         {
+> >             "mipi-img-flash-leds",  "\\_SB.PCI0.I2C2.LEDD.LED0",
+> >         }
+> >
+> >         Device (LEDD)
+> >         {
+> >             Name (_DSD, Package ()  // _DSD: Device-Specific Data
+> >             {
+> >                 ToUUID ("dbb8e3e6-5886-4ba6-8795-1319f52a966b"), /* Hierarchical Data Extension */,
+> >                 Package ()
+> >                 {
+> >                     Package ()
+> >                     {
+> >                         "mipi-img-flash-led-0",
+> >                         "LED0",
+> >                     }
+> >                 },
+> >             })
+> >             Name (LED0, Package ()  // _DSD: Device-Specific Data
+> >             {
+> >                 ToUUID ("daffd814-6eba-4d8c-8a91-bc9bbf4aa301") /* Device Properties for _DSD */,
+> >                 Package ()
+> >                 {
+> >                     Package ()
+> >                     {
+> >                         "mipi-img-max-current",
+> >                         1000000,
+> >                     }
+> >                 }
+> >             })
+> >         }
+> >
+> 
+> This works, thanks!
+> 
+> > >
+> > > Also I'm kind of wondering about the "reference with arguments" part
+> > > which seems to work differently depending on whether the reference is
+> > > represented by a string or by a reference object.
+> >
+> > Yes. With (device) reference objects, it is possible currently to refer to
+> > subnodes with the _DSD data extension child names of those nodes. This is
+> > not done with string references as 1) any node can already be referenced so
+> > there's no need to and 2) as node references are strings already, it's not
+> > possible to distinguish node string references from _DSD data node names.
+> > E.g.
+> >
+> >         "\\_SB.I2C0.LED0", "LED1"
+> >
+> >                            ^ ACPI object name or _DSD data node name?
+> >
+> 
+> Has this behavior been documented anywhere?  Or is there any
+> expectation to see anything like this shipping in production platform
+> firmware?
 
-Regards,
+Good question. Support for this was added by commit 4eb0c3bf5ee52f . AFAIR
+it was intended to use this in DisCo for Imaging but after review (in a
+rather liberal sense of the term) it was decided to use string-only
+references, as in this patch.
 
-	Hans
+I'm not aware of anyone needing this. They've been there for about five
+years but I'd guess someone would complain if it stops working for them.
 
 > 
-> Signed-off-by: Fei Shao <fshao@chromium.org>
-> 
-> ---
-> 
-> Changes in v2:
-> Use devm_pm_runtime_enable() per suggestion from the previous thread:
-> https://lore.kernel.org/lkml/20230510164330.z2ygkl7vws6fci75@pengutronix.de/T/#m25be91afe3e9554600e859a8a59128ca234fc63d
-> 
->  .../mediatek/vcodec/mtk_vcodec_dec_hw.c       | 26 ++++++-------------
->  1 file changed, 8 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.c
-> index b753bf54ebd9..e1cb2f8dca33 100644
-> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.c
-> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.c
-> @@ -148,20 +148,21 @@ static int mtk_vdec_hw_probe(struct platform_device *pdev)
->  	ret = mtk_vcodec_init_dec_clk(pdev, &subdev_dev->pm);
->  	if (ret)
->  		return ret;
-> -	pm_runtime_enable(&pdev->dev);
-> +
-> +	ret = devm_pm_runtime_enable(&pdev->dev);
-> +	if (ret)
-> +		return ret;
->  
->  	of_id = of_match_device(mtk_vdec_hw_match, dev);
->  	if (!of_id) {
->  		dev_err(dev, "Can't get vdec subdev id.\n");
-> -		ret = -EINVAL;
-> -		goto err;
-> +		return -EINVAL;
->  	}
->  
->  	hw_idx = (enum mtk_vdec_hw_id)(uintptr_t)of_id->data;
->  	if (hw_idx >= MTK_VDEC_HW_MAX) {
->  		dev_err(dev, "Hardware index %d not correct.\n", hw_idx);
-> -		ret = -EINVAL;
-> -		goto err;
-> +		return -EINVAL;
->  	}
->  
->  	main_dev->subdev_dev[hw_idx] = subdev_dev;
-> @@ -173,36 +174,25 @@ static int mtk_vdec_hw_probe(struct platform_device *pdev)
->  	if (IS_SUPPORT_VDEC_HW_IRQ(hw_idx)) {
->  		ret = mtk_vdec_hw_init_irq(subdev_dev);
->  		if (ret)
-> -			goto err;
-> +			return ret;
->  	}
->  
->  	subdev_dev->reg_base[VDEC_HW_MISC] =
->  		devm_platform_ioremap_resource(pdev, 0);
->  	if (IS_ERR((__force void *)subdev_dev->reg_base[VDEC_HW_MISC])) {
->  		ret = PTR_ERR((__force void *)subdev_dev->reg_base[VDEC_HW_MISC]);
-> -		goto err;
-> +		return ret;
->  	}
->  
->  	if (!main_dev->subdev_prob_done)
->  		main_dev->subdev_prob_done = mtk_vdec_hw_prob_done;
->  
->  	platform_set_drvdata(pdev, subdev_dev);
-> -	return 0;
-> -err:
-> -	pm_runtime_disable(subdev_dev->pm.dev);
-> -	return ret;
-> -}
-> -
-> -static int mtk_vdec_hw_remove(struct platform_device *pdev)
-> -{
-> -	pm_runtime_disable(&pdev->dev);
-> -
->  	return 0;
->  }
->  
->  static struct platform_driver mtk_vdec_driver = {
->  	.probe	= mtk_vdec_hw_probe,
-> -	.remove = mtk_vdec_hw_remove,
->  	.driver	= {
->  		.name	= "mtk-vdec-comp",
->  		.of_match_table = mtk_vdec_hw_match,
+> If any of the above isn't the case, I would be inclined to simply
+> remove this special case and make both the "object reference" and
+> "string" cases work in the same way and if someone needs to refer to a
+> data node, they will just need to use a string (in which case it will
+> be the only option).
 
+Works for me.
+
+-- 
+Kind regards,
+
+Sakari Ailus
