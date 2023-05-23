@@ -2,125 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BBA5270DDB5
-	for <lists+linux-media@lfdr.de>; Tue, 23 May 2023 15:41:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 056A870DF1D
+	for <lists+linux-media@lfdr.de>; Tue, 23 May 2023 16:22:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236897AbjEWNlP convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Tue, 23 May 2023 09:41:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59508 "EHLO
+        id S236991AbjEWOW2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 May 2023 10:22:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229952AbjEWNlM (ORCPT
+        with ESMTP id S231433AbjEWOW1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 May 2023 09:41:12 -0400
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AE57E9;
-        Tue, 23 May 2023 06:41:07 -0700 (PDT)
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-96f44435d92so107511266b.0;
-        Tue, 23 May 2023 06:41:07 -0700 (PDT)
+        Tue, 23 May 2023 10:22:27 -0400
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 482E0DD
+        for <linux-media@vger.kernel.org>; Tue, 23 May 2023 07:22:17 -0700 (PDT)
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2af2db78b38so43109251fa.3
+        for <linux-media@vger.kernel.org>; Tue, 23 May 2023 07:22:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20221208.gappssmtp.com; s=20221208; t=1684851675; x=1687443675;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=VHnbF/PTLJ+OV/uzaJR0gZmQeVRliEOgO7DoYSB+ab0=;
+        b=JSN8wTGO8J4qTl0egySoIZ6TgK1WbD784K9KI3x1/TtwpF1mN6kMFm4PSgnjUj58RE
+         R5mJqbMb69vMNC2CRWqI/MGY5BIHJvMqCkfFOkCXq2YANUSU6sdol1Um43Xs9pWQPUPk
+         mQ0MAbJkf/ys2b9MStNtG+0uD77JNEUzn0JjoQZMiOGV42EN8AqhQa2PeqIU2Se1hnPa
+         mDgZI6dbK6JUYOIjB3rTd6CO3ftfouSjgXbYgliie10q1nLJ8U4ra4Oa2CLHuY9oDrNR
+         eqyb9id73CdieCCPOBkIodckYg0Z1VA4ad0HwVXtIFoNDJZKdMxDAbwnAgSkH+Fb44D1
+         ekgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684849266; x=1687441266;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GmH/9bKI4cSfUn4OM8Z9tQmyqWySWc5zYTh1Xi0QWt8=;
-        b=Tc/l10pyCVXRp0hRE2NXL7ZfuwQhnv0i/EEQ9LlZ6mMknE+1Yexo1LqY7z2+551HHq
-         1mKiSD6/zHgC1MYb+3YUmRubipA0K0LvHvKzJaDTP+6pYAexz1hI01ziG5VeNoENbr6P
-         SvfYJoq2qiQY19nrxVorWmZiWxZFxy/SYVxX1fAvna6UHlUhH6YxEjBUVvDrsc9Ynyhw
-         9l7KdWDmURGR+mVotya86ZSn8LT6KG/OCp/v+n5uwxc3L2eGFA7RBJgTdD9zwvNQIY5p
-         g4sCu4qz5M/X4lraYepnrpolsAhoCwOWV7t10wD3dSmDwGXD+mkRrLVuAFzYcVs8zzLe
-         OrJg==
-X-Gm-Message-State: AC+VfDzGEdIg5+is4xMVEYQjgb/LH+FYqHW36IRxw4jKcWbG3LM1JPZT
-        pmEh9EPy3i/C/78YPOhVflw6AOyrMV9v2fQfl1A=
-X-Google-Smtp-Source: ACHHUZ6o3djYydyggsYDtsgHPo9BWG4uSq0oC7FDBq0po2suy/16kphlBF/EQixvmzI3Ehfnn4CvhhAgzLz8e62lmqU=
-X-Received: by 2002:a17:906:d3:b0:94f:66af:b1f7 with SMTP id
- 19-20020a17090600d300b0094f66afb1f7mr12269066eji.1.1684849265896; Tue, 23 May
- 2023 06:41:05 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1684851675; x=1687443675;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VHnbF/PTLJ+OV/uzaJR0gZmQeVRliEOgO7DoYSB+ab0=;
+        b=jX/1P8TS5bbNsIi+J9OwzvzL9uFymSB+qTjJ85v0Xr2J46nvVkSsTrGnI7hIzJemQK
+         Iaya+D68rjbuIUU1gZvm78zg0xfdTQICaG407HQ7Kivep2JmpZe8hn9f2KAYBEKDGsyr
+         mymZEuwLMxLm0lwQGW1gr72Ru5qy/stpS1CvBvX0Uvd1RXBrDYiFLJcGNbC/s4ib0BAE
+         Ac6+LoIU3+qInSrx7UxBO43T5eXx94coZbUQoiWCwmZ6RDJlvzmt+a+fza8h1qcE6Gqa
+         CdP4MpGfZ3KcDWMAwy0wa+bWyn6PfVeJpGUeoNyZAOpZRDAKX12mPBT1f4XkJXZsYU4s
+         057Q==
+X-Gm-Message-State: AC+VfDw8PjUnzMw/0JVc7HvixjCGX0dvkpFZagnBAnCiZQPk+Nm/KETm
+        q0wXt9fh7FEbejoW07g2zHf8iF2N5SrndmzoGrc=
+X-Google-Smtp-Source: ACHHUZ7FN3mdbe0EkSUgeiZwkvpxVCy1spYrMxil8ibSMhbivpfTU2DliU1c/hqfg9qeM7V4B8yDUg==
+X-Received: by 2002:a2e:9a94:0:b0:2a7:6f82:4a87 with SMTP id p20-20020a2e9a94000000b002a76f824a87mr5088997lji.35.1684851675606;
+        Tue, 23 May 2023 07:21:15 -0700 (PDT)
+Received: from localhost (h-46-59-89-207.A463.priv.bahnhof.se. [46.59.89.207])
+        by smtp.gmail.com with ESMTPSA id y18-20020a05651c021200b002ab5ad42f3fsm1641107ljn.92.2023.05.23.07.21.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 May 2023 07:21:14 -0700 (PDT)
+Date:   Tue, 23 May 2023 16:21:13 +0200
+From:   Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [ANN] Media Summit June 26th: Please let me know if you will
+ attend
+Message-ID: <ZGzL2WJtrE4rx2wQ@oden.dyn.berto.se>
+References: <aec8b9e1-25d4-d0bc-63b6-68ff06e06683@xs4all.nl>
 MIME-Version: 1.0
-References: <20230329100951.1522322-1-sakari.ailus@linux.intel.com>
- <20230329100951.1522322-3-sakari.ailus@linux.intel.com> <CAJZ5v0gG1Zc8h8Lt_tKJp8u7b-nH0Rxt=2j9RqptMVc8r0vL7Q@mail.gmail.com>
- <ZGNn9jOWmh0/aEOW@kekkonen.localdomain> <CAJZ5v0iPcSc_x9g1tpTOVVaEB+9O_6N8SFqWSgG_ku+dNqveQg@mail.gmail.com>
- <ZGuYHGMQBzBi4myq@kekkonen.localdomain> <CAJZ5v0hW-JewnYP48sowLmi7=v00EBWJLLR-8mWBK8-DOeC=uA@mail.gmail.com>
- <ZGvPzfnr7CMjcjdY@kekkonen.localdomain> <CAJZ5v0isDNDxD-xAxdHiuZZAKPf6r-axs+aC09YGAyO-ow9o0g@mail.gmail.com>
- <ZGym20IJEPytGqXI@kekkonen.localdomain>
-In-Reply-To: <ZGym20IJEPytGqXI@kekkonen.localdomain>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Tue, 23 May 2023 15:40:54 +0200
-Message-ID: <CAJZ5v0jWvbgBjXsgCB6oC_c_xudgVVNrKEtmQY_Y5V=-0jjc8Q@mail.gmail.com>
-Subject: Re: [PATCH v8 02/10] ACPI: property: Parse data node string
- references in properties
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
-        andriy.shevchenko@linux.intel.com, heikki.krogerus@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aec8b9e1-25d4-d0bc-63b6-68ff06e06683@xs4all.nl>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
+        T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Hans,
 
-On Tue, May 23, 2023 at 1:43 PM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Hi Rafael,
->
-> On Tue, May 23, 2023 at 01:21:12PM +0200, Rafael J. Wysocki wrote:
-> > On Mon, May 22, 2023 at 10:35 PM Sakari Ailus
-> > <sakari.ailus@linux.intel.com> wrote:
-> > > On Mon, May 22, 2023 at 06:38:37PM +0200, Rafael J. Wysocki wrote:
-> > > > On Mon, May 22, 2023 at 6:28 PM Sakari Ailus
-> > > > <sakari.ailus@linux.intel.com> wrote:
+Thanks for organizing this.
 
-[cut]
+On 2023-05-15 16:34:20 +0200, Hans Verkuil wrote:
+> Hi all,
+> 
+> We organized a Media Summit on Monday June 26th in Prague. It is held
+> at the Holiday Inn close by the conference centre where the Embedded
+> Open Source Summit is held (1).
+> 
+> Holiday Inn Prague Congress Centre - Meeting room "E"
+> Na Pankráci 1684/ 15, 140 00 Praha 4-Nusle
+> https://www.ihg.com/holidayinn/hotels/us/en/prague/prgnp/hoteldetail
+> 
+> We have room for about 20 people, so let me know if you plan to attend
+> in person. That way we know how many people we'll get.
 
-> > > >
-> > > > Also I'm kind of wondering about the "reference with arguments" part
-> > > > which seems to work differently depending on whether the reference is
-> > > > represented by a string or by a reference object.
-> > >
-> > > Yes. With (device) reference objects, it is possible currently to refer to
-> > > subnodes with the _DSD data extension child names of those nodes. This is
-> > > not done with string references as 1) any node can already be referenced so
-> > > there's no need to and 2) as node references are strings already, it's not
-> > > possible to distinguish node string references from _DSD data node names.
-> > > E.g.
-> > >
-> > >         "\\_SB.I2C0.LED0", "LED1"
-> > >
-> > >                            ^ ACPI object name or _DSD data node name?
-> > >
-> >
-> > Has this behavior been documented anywhere?  Or is there any
-> > expectation to see anything like this shipping in production platform
-> > firmware?
->
-> Good question. Support for this was added by commit 4eb0c3bf5ee52f . AFAIR
-> it was intended to use this in DisCo for Imaging but after review (in a
-> rather liberal sense of the term) it was decided to use string-only
-> references, as in this patch.
+I would like to attend in person.
 
-It looks like this is sort of a placeholder then.
+> 
+> Regarding remote participation: only if there is really no other way.
+> Meeting face-to-face once a year is important IMHO, and attending remotely
+> is a poor substitute. That said, if it is really necessary to set something
+> up, then I can do the same I did in Dublin, setting up a Webex meeting.
+> That worked reasonably well, except that I will need to bring a better
+> speaker since I learned that the laptop speaker was pretty bad.
+> 
+> If you do want to participate remotely, please let me know as well.
+> 
+> I'll post a separate email with the draft Agenda for the media summit.
+> 
+> Hope to see you all in Prague!
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> (1) https://events.linuxfoundation.org/embedded-open-source-summit/
 
-> I'm not aware of anyone needing this. They've been there for about five
-> years but I'd guess someone would complain if it stops working for them.
-
-It is also quite straightforward to restore if need be.
-
-> >
-> > If any of the above isn't the case, I would be inclined to simply
-> > remove this special case and make both the "object reference" and
-> > "string" cases work in the same way and if someone needs to refer to a
-> > data node, they will just need to use a string (in which case it will
-> > be the only option).
->
-> Works for me.
-
-OK, I'll make this change then.
+-- 
+Kind Regards,
+Niklas Söderlund
