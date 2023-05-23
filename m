@@ -2,24 +2,24 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 435BC70DA9F
-	for <lists+linux-media@lfdr.de>; Tue, 23 May 2023 12:35:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA44070DAE1
+	for <lists+linux-media@lfdr.de>; Tue, 23 May 2023 12:52:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236420AbjEWKfW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 May 2023 06:35:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58288 "EHLO
+        id S236425AbjEWKwD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 May 2023 06:52:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232774AbjEWKfV (ORCPT
+        with ESMTP id S236637AbjEWKvo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 May 2023 06:35:21 -0400
+        Tue, 23 May 2023 06:51:44 -0400
 Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 860E2FE;
-        Tue, 23 May 2023 03:35:18 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0342E121;
+        Tue, 23 May 2023 03:50:48 -0700 (PDT)
 Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
         by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1q1PMI-0003Ci-MT; Tue, 23 May 2023 12:35:14 +0200
-Message-ID: <0bef4bea-1404-061c-cbbf-e874302367f7@leemhuis.info>
-Date:   Tue, 23 May 2023 12:35:13 +0200
+        id 1q1PbI-0006Kn-VK; Tue, 23 May 2023 12:50:45 +0200
+Message-ID: <5d871928-dcd5-3f27-e975-d1639525dad0@leemhuis.info>
+Date:   Tue, 23 May 2023 12:50:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
@@ -28,77 +28,87 @@ Subject: Re: [PATCH v2] media: verisilicon: Fix crash when probing encoder
 Content-Language: en-US, de-DE
 To:     Diederik de Haas <didi.debian@cknow.org>,
         Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+        Michael Tretter <m.tretter@pengutronix.de>
 Cc:     p.zabel@pengutronix.de, mchehab@kernel.org,
         m.szyprowski@samsung.com, linux-media@vger.kernel.org,
         linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
         kernel@collabora.com,
-        Linux kernel regressions list <regressions@lists.linux.dev>
+        Linux kernel regressions list <regressions@lists.linux.dev>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        hverkuil-cisco@xs4all.nl,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>
 References: <20230413104756.356695-1-benjamin.gaignard@collabora.com>
- <CAAEAJfBHOMpWT2E4w+Zu=f8QCg+YiDU_9gY4bpJSGBLMnC8B9A@mail.gmail.com>
- <403ea30e55a9667684cd1f8d2d3a641efda9976f.camel@collabora.com>
  <4995215.LvFx2qVVIh@bagend>
-From:   "Linux regression tracking #adding (Thorsten Leemhuis)" 
+ <7c1bf9c4-f14b-30cd-2610-871f5f512d06@collabora.com>
+ <12724349.O9o76ZdvQC@bagend>
+From:   "Linux regression tracking (Thorsten Leemhuis)" 
         <regressions@leemhuis.info>
-In-Reply-To: <4995215.LvFx2qVVIh@bagend>
+In-Reply-To: <12724349.O9o76ZdvQC@bagend>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1684838118;169df020;
-X-HE-SMSGID: 1q1PMI-0003Ci-MT
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1684839048;0acb48cb;
+X-HE-SMSGID: 1q1PbI-0006Kn-VK
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-[CCing the regression list, as it should be in the loop for regressions:
-https://docs.kernel.org/admin-guide/reporting-regressions.html]
+CCing the Regression list and a bunch of other people that were CCed in
+threads that look related:
 
-[TLDR: I'm adding this report to the list of tracked Linux kernel
-regressions; the text you find below is based on a few templates
-paragraphs you might have encountered already in similar form.
-See link in footer if these mails annoy you.]
-
-On 20.05.23 00:34, Diederik de Haas wrote:
-> 
-> On Thursday, 13 April 2023 21:52:50 CEST Nicolas Dufresne wrote:
->> Le jeudi 13 avril 2023 à 10:10 -0300, Ezequiel Garcia a écrit :
-> [....]
-> 
-> When I booted into my 6.4-rc1 (but also rc2) kernel on my
-> Pine64 Quartz64 Model A, I noticed a crash which seems the same as
-> above, but I didn't have such a crash with my 6.3 kernel.
-> Searching for 'hantro' led me to this commit as the most likely culprit
-> but when I build a new 6.4-rcX kernel with this commit reverted,
-> I still had this crash.
-> Do you have suggestions which commit would then be the likely culprit?
+On 23.05.23 00:38, Diederik de Haas wrote:
+> On Monday, 22 May 2023 18:17:39 CEST Benjamin Gaignard wrote:
+>> Le 20/05/2023 à 00:34, Diederik de Haas a écrit :
+>>> On Thursday, 13 April 2023 21:52:50 CEST Nicolas Dufresne wrote:
 > [...]
+>>> When I booted into my 6.4-rc1 (but also rc2) kernel on my
+>>> Pine64 Quartz64 Model A, I noticed a crash which seems the same as
+>>> above, but I didn't have such a crash with my 6.3 kernel.
+>>> Searching for 'hantro' led me to this commit as the most likely culprit
+>>> but when I build a new 6.4-rcX kernel with this commit reverted,
+>>> I still had this crash.
+>>> Do you have suggestions which commit would then be the likely culprit?
+>>
+>> This patch fix the crash at boot time, revert it doesn't seem to be the
+>> solution. Maybe this proposal from Marek can help you ?
+>>
+>> https://patchwork.kernel.org/project/linux-media/patch/20230421104759.2236463-1-m.szyprowski@samsung.com/
+> 
+> That helped :) After applying that patch I no longer have the crash.
+> Thanks!
 
-Thanks for the report. To be sure the issue doesn't fall through the
-cracks unnoticed, I'm adding it to regzbot, the Linux kernel regression
-tracking bot:
+That regression fix is now a month old, but not yet merged afaics --
+guess due to Nicolas comment that wasn't addressed yet and likely
+requires a updated patch.
 
-#regzbot ^introduced db6f68b51e5c
-#regzbot title media: verisilicon: null pointer dereference in try_fmt
-#regzbot ignore-activity
+Michael afaics a week ago posted a patch that to my *very limited
+understanding of things* (I hope I don't confuse matters here!) seems to
+address the same problem, but slightly differently:
+https://lore.kernel.org/all/20230516091209.3098262-1-m.tretter@pengutronix.de/
 
-This isn't a regression? This issue or a fix for it are already
-discussed somewhere else? It was fixed already? You want to clarify when
-the regression started to happen? Or point out I got the title or
-something else totally wrong? Then just reply and tell me -- ideally
-while also telling regzbot about it, as explained by the page listed in
-the footer of this mail.
+No reply yet.
 
-Developers: When fixing the issue, remember to add 'Link:' tags pointing
-to the report (the parent of this mail). See page linked in footer for
-details.
+That's all a bit unfortunate, as it's not how regression fixes should be
+dealt with -- and caused multiple people headaches that could have been
+avoided. :-/
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-That page also explains what to do if mails like this annoy you.
+But well, things happen. But it leads to the question:
+
+How can we finally address the issue quickly now to ensure is doesn't
+cause headaches for even more people?
+
+Marek, Michael, could you work on a patch together that we then get
+somewhat fast-tracked to Linus to avoid him getting even more unhappy
+about the state of things[1]?
+
+Ciao, Thorsten
+
+[1] see
+https://lore.kernel.org/all/CAHk-=wgzU8_dGn0Yg+DyX7ammTkDUCyEJ4C=NvnHRhxKWC7Wpw@mail.gmail.com/
