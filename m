@@ -2,115 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C366370E107
-	for <lists+linux-media@lfdr.de>; Tue, 23 May 2023 17:52:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F25C270E11A
+	for <lists+linux-media@lfdr.de>; Tue, 23 May 2023 17:56:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237645AbjEWPwN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 May 2023 11:52:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51814 "EHLO
+        id S235731AbjEWP4I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 May 2023 11:56:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237651AbjEWPwK (ORCPT
+        with ESMTP id S235434AbjEWP4H (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 May 2023 11:52:10 -0400
-X-Greylist: delayed 518 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 23 May 2023 08:52:08 PDT
-Received: from gauss.telenet-ops.be (gauss.telenet-ops.be [IPv6:2a02:1800:120:4::f00:11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEB0DC2
-        for <linux-media@vger.kernel.org>; Tue, 23 May 2023 08:52:08 -0700 (PDT)
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by gauss.telenet-ops.be (Postfix) with ESMTPS id 4QQdrY00nsz4wyk2
-        for <linux-media@vger.kernel.org>; Tue, 23 May 2023 17:43:25 +0200 (CEST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed30:b0ac:7afd:272:4cff])
-        by andre.telenet-ops.be with bizsmtp
-        id 0FiN2A00R0Jkz7G01FiNDk; Tue, 23 May 2023 17:42:24 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1q1U9I-002t5J-7V;
-        Tue, 23 May 2023 17:42:22 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1q1U9W-00Ckk7-KA;
-        Tue, 23 May 2023 17:42:22 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [PATCH v3] media: renesas: fdp1: Identify R-Car Gen2 versions
-Date:   Tue, 23 May 2023 17:42:21 +0200
-Message-Id: <3d6cbf2cd4398f29379d8d7287b93e8b8ec6c147.1684856457.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+        Tue, 23 May 2023 11:56:07 -0400
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com [IPv6:2607:f8b0:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DAD38E;
+        Tue, 23 May 2023 08:56:03 -0700 (PDT)
+Received: by mail-oi1-x22f.google.com with SMTP id 5614622812f47-3982f09df74so478592b6e.0;
+        Tue, 23 May 2023 08:56:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684857362; x=1687449362;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=feR7RDbEdLIuOxFRuDJ8YtvTuElIb6gfqh0e2jlKlZ4=;
+        b=BQ/BwtssHhbZ5SXgrL5qqcG4DxAtKpPixF+jH7TZmPAC6I3vktKSEdVhZDZ+ztF5Up
+         X3wixHyR4QgoCizXCGPnprd+j9fKQZ8YfRCxcOPlVvd+/TIHG2uLsCxwd83ztdxm/2hq
+         w0SwwSU2mAxn5+9WETXaqT7JLlyeES6GGGpGJGNb7kyYSW32dRzDMH8YQNjcENmueK5H
+         CyukFJtQHtcLKhQn1KZhezhSsFaC0FzrGS6Wy24v5tKB2mfal6IUZwXkXTDl60M9X/re
+         YjrqAi5wA6nuB5HYA4yMhgYBJDsvCPiZz7Tzu9q1ibzAWEX1acOd3gdM2kJpcci6tghO
+         +VEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684857362; x=1687449362;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=feR7RDbEdLIuOxFRuDJ8YtvTuElIb6gfqh0e2jlKlZ4=;
+        b=HbkQ9tYSx905XvU8gSLjarGnK6GXHqEBqR3Y8qY4jEMDIPnxwZENArpJSQ8r16O2Vq
+         bqSobfbRlaxaMwf62lFhKGr/O9BpJMLp1s20B0Bsxcxm1jWq0ggrpIETo05oTJmhhFmK
+         7NcLXqv29PKq8M3UCSZSNaaSG5hiJujo33H29W0+Ikk+3Omu9zOcHS6mZyi5uzgsTC3C
+         xKUTRbslGdAraY7VPJp4sNn+imvPnE+kg0lENTkVUehQ295Zaek6Hq7TjHBVmO9JCDze
+         jWZ+/JT7oK4aT6TphbH1Gz0Vq0AZqkGBa41TwL4dm7nv6K0ys3In7CoGoyWx9QwDvjbQ
+         DwdQ==
+X-Gm-Message-State: AC+VfDwEL7LSz9UUZ9ED6JrRvuTqnCOQ1X4DZ9EZ8UvV3X5l/wQ688sb
+        UjhVTxUOvMdRzy3u4tRQCiNIUCBDwD+uDmLOKajNe2YP
+X-Google-Smtp-Source: ACHHUZ4ZyUpdVtXyIatHPpZHmnxoVWfMnEnl1OVupErapn37R44kVZgKLmbC5muGz5Am7Mmro0S57dh0vvs0jDarnnk=
+X-Received: by 2002:aca:1109:0:b0:383:ca99:c70e with SMTP id
+ 9-20020aca1109000000b00383ca99c70emr6905361oir.59.1684857362565; Tue, 23 May
+ 2023 08:56:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+References: <20230523021811.122014-1-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <20230523021811.122014-1-jiapeng.chong@linux.alibaba.com>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Tue, 23 May 2023 11:55:51 -0400
+Message-ID: <CADnq5_OxXz7TSvkarQxC8-342SxO+YE4PU_4mSADYtr0urofvg@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Remove duplicate include
+To:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Cc:     alexander.deucher@amd.com, Xinhui.Pan@amd.com,
+        Abaci Robot <abaci@linux.alibaba.com>,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        sumit.semwal@linaro.org, linaro-mm-sig@lists.linaro.org,
+        dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On R-Car M2-W:
+Applied.  Thanks!
 
-    rcar_fdp1 fe940000.fdp1: FDP1 Unidentifiable (0x02010101)
-    rcar_fdp1 fe944000.fdp1: FDP1 Unidentifiable (0x02010101)
-
-Although the IP Internal Data Register on R-Car Gen2 is documented to
-contain all zeros, the actual register contents seem to match the FDP1
-version ID of R-Car H3 ES1.*, which has just been removed.
-Fortunately this version is not used for any other purposes yet.
-
-Fix this by re-adding the ID, now using an R-Car Gen2-specific name.
-
-Fixes: af4273b43f2bd9ee ("media: renesas: fdp1: remove R-Car H3 ES1.* handling")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
----
-Version register contents verified on R-Car H2 ES1.0, R-Car M2-W ES1.0 &
-ES3.0, and R-Car E2 ES1.0.  I couldn't get hold of an R-Car M2-N.
-
-v3:
-  - Add Reviewed-by,
-
-v2:
-  - Add Reviewed-by,
-  - Add comment.
----
- drivers/media/platform/renesas/rcar_fdp1.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/media/platform/renesas/rcar_fdp1.c b/drivers/media/platform/renesas/rcar_fdp1.c
-index f43e458590b8cada..ab39cd2201c85d84 100644
---- a/drivers/media/platform/renesas/rcar_fdp1.c
-+++ b/drivers/media/platform/renesas/rcar_fdp1.c
-@@ -254,6 +254,8 @@ MODULE_PARM_DESC(debug, "activate debug info");
- 
- /* Internal Data (HW Version) */
- #define FD1_IP_INTDATA			0x0800
-+/* R-Car Gen2 HW manual says zero, but actual value matches R-Car H3 ES1.x */
-+#define FD1_IP_GEN2			0x02010101
- #define FD1_IP_M3W			0x02010202
- #define FD1_IP_H3			0x02010203
- #define FD1_IP_M3N			0x02010204
-@@ -2360,6 +2362,9 @@ static int fdp1_probe(struct platform_device *pdev)
- 
- 	hw_version = fdp1_read(fdp1, FD1_IP_INTDATA);
- 	switch (hw_version) {
-+	case FD1_IP_GEN2:
-+		dprintk(fdp1, "FDP1 Version R-Car Gen2\n");
-+		break;
- 	case FD1_IP_M3W:
- 		dprintk(fdp1, "FDP1 Version R-Car M3-W\n");
- 		break;
--- 
-2.34.1
-
+On Mon, May 22, 2023 at 10:18=E2=80=AFPM Jiapeng Chong
+<jiapeng.chong@linux.alibaba.com> wrote:
+>
+> ./drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c: amdgpu_xcp.h is included more =
+than once.
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=3D5281
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c b/drivers/gpu/drm/am=
+d/amdgpu/gfx_v9_4_3.c
+> index e5cfb3adb3b3..7fb2d38b010a 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_4_3.c
+> @@ -23,7 +23,6 @@
+>  #include <linux/firmware.h>
+>
+>  #include "amdgpu.h"
+> -#include "amdgpu_xcp.h"
+>  #include "amdgpu_gfx.h"
+>  #include "soc15.h"
+>  #include "soc15d.h"
+> --
+> 2.20.1.7.g153144c
+>
