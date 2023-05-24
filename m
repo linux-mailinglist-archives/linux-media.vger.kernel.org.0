@@ -2,109 +2,200 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 69BE970EF40
-	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 09:20:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6238270EF83
+	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 09:36:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234093AbjEXHUt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 May 2023 03:20:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56984 "EHLO
+        id S236614AbjEXHgK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 May 2023 03:36:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235074AbjEXHUs (ORCPT
+        with ESMTP id S239580AbjEXHgJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 May 2023 03:20:48 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A17A90
-        for <linux-media@vger.kernel.org>; Wed, 24 May 2023 00:20:45 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-3f50020e0f8so39513915e9.0
-        for <linux-media@vger.kernel.org>; Wed, 24 May 2023 00:20:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1684912844; x=1687504844;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=o1HIpOF3eeuHdCfM/1tBPhYiXaOiOf07PpD3Af3S0JE=;
-        b=T6+R7I2wunS7lt7fOfWOXSEWlS1Fi/PD3heV7tV4tRaNcQnXiq9D0XU6O+EG6quyQs
-         UX+cNeE5h+JwFObIxlw+hWAbcx4zU/y9YW6cQNwdmjz3Gs1x7mK8NdJIypmaaYAqhrdN
-         RQWM6t80dBEkd7F/mvF61jBsvu/KttCMzOVFcdSfvPRUJtWrN34ayxNLW/JLltea2t0m
-         293yUIZeliiz99pzwVNtsc5fcm9B1k4AF1zJlfCJ2+VCb2kpN038fA6NvtVcFQqAVKQT
-         wxsdC7YgLW3riunUHKRN1WD/d50B3HnHMiEpiynO6pgBnwichNWNdmmkNoDZVh9S1PQ9
-         g/0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684912844; x=1687504844;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=o1HIpOF3eeuHdCfM/1tBPhYiXaOiOf07PpD3Af3S0JE=;
-        b=NCnwtl1yCNL4TzhL11uPiHDdJCefwVojI5a9mCA5N3SzipEFZbG3B85iPKQoEjeYsq
-         dn2MkSVSspQX2pzPFoWn3KLhZGayR8NUpSkohdyOv1pb6qbpnBqr1JhIbwVx5v6b5JTj
-         +SM9eZiJrPpfwoIAmvJ8zmYHhfygP/EQBUvPWOvxejYt1pQ7G8Fx00KOR7BjiP/O6tIF
-         7Cyrai2fjZ3bH5WbhZ1Ih+7i+XGS0nfNk+6FZmpsA0ozkrOdIWBgRRNC0elq+uCT19/6
-         /vgAK2Nna1YwOSEq9NZhQbgvnoM38HqoZPSzq8RM4QVDQvbS0SENd1teYi/nmPotTy6q
-         xPzg==
-X-Gm-Message-State: AC+VfDyA9ayGNqe3ZpbqTZFY+dDivMGk5XN3oc7/0fBNS7GJeLJZUzrP
-        2JtIO9Z0BvA7MJJs4CzJgerGOg==
-X-Google-Smtp-Source: ACHHUZ4OlZB3R72tJJh78in+0Xfto5vaL136BybJtcnJIsPbR9nZTqNsC0tYfXHmQyV4M2Lr7ZdEGA==
-X-Received: by 2002:adf:ea0b:0:b0:309:4642:8795 with SMTP id q11-20020adfea0b000000b0030946428795mr16910312wrm.12.1684912844070;
-        Wed, 24 May 2023 00:20:44 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id w8-20020a5d4b48000000b0030771c6e443sm13470769wrs.42.2023.05.24.00.20.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 May 2023 00:20:42 -0700 (PDT)
-Date:   Wed, 24 May 2023 10:20:38 +0300
-From:   Dan Carpenter <dan.carpenter@linaro.org>
-To:     Su Hui <suhui@nfschina.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        YongSu Yoo <yongsuyoo0215@gmail.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] media: dvb_ringbuffer: Return -EFAULT if copy fails
-Message-ID: <7466fead-1b99-4a78-86cb-5dd8a9baec19@kili.mountain>
-References: <41a9c6a6-4b9a-4d84-9e32-09bf64c65b6c@kili.mountain>
- <aab14cc4-0400-c114-f180-6db943fd7e32@nfschina.com>
+        Wed, 24 May 2023 03:36:09 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88C97131;
+        Wed, 24 May 2023 00:35:59 -0700 (PDT)
+Received: from [IPV6:2001:b07:2ed:14ed:a962:cd4d:a84:1eab] (unknown [IPv6:2001:b07:2ed:14ed:a962:cd4d:a84:1eab])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 24E3766032B2;
+        Wed, 24 May 2023 08:35:57 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1684913758;
+        bh=2P4uUVGWSU1yuuIGABANv5MaXiV9HCTbYclu2/IM3PI=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=BFGNHizBzrDirVgLuoG5p0bLgQGskneur9IIARgRKquZxXDqU5cbeqxLvmAelQpx2
+         wIQOL1vD2uI6BZk5VzvitQonsIXe53UegCK/lnLH2qGKgOzMcfTFEeRlWvmrEyPkdF
+         a3H2jcrI2lXF1T0ZdY/5IToW7eTbki7UDR2xDHulp3N3pcynSh/2H8g37ZfY8/7zFO
+         ZS8ofYgPXodKinoxhur7XfqRDjxgHWP0WFwe6u+PJg8o6VVyuP2vXfoflUoFJ+BRde
+         sSCzluBsADd0iaAaoVU3hgTDdQmE6fURduxAk9NQFRjKF+RoEYixtpgk/YK3YI/rqZ
+         Np5iExasUbyoA==
+Message-ID: <2dde9a06-1ed3-f95e-f11e-91b65c039c92@collabora.com>
+Date:   Wed, 24 May 2023 09:35:54 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aab14cc4-0400-c114-f180-6db943fd7e32@nfschina.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH v5,2/2] media: mediatek: vcodec: support stateless hevc
+ decoder
+Content-Language: en-US
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Chen-Yu Tsai <wenst@chromium.org>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        =?UTF-8?Q?N=c3=adcolas_F_=2e_R_=2e_A_=2e_Prado?= 
+        <nfraprado@collabora.com>, Nathan Hebert <nhebert@chromium.org>
+Cc:     Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20230524021625.13708-1-yunfei.dong@mediatek.com>
+ <20230524021625.13708-3-yunfei.dong@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230524021625.13708-3-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, May 24, 2023 at 01:20:27PM +0800, Su Hui wrote:
-> It's confusing about the comment on function declaration.
+Il 24/05/23 04:16, Yunfei Dong ha scritto:
+> Add mediatek hevc decoder linux driver which use the stateless API in MT8195.
 > 
->     /**
->      * dvb_ringbuffer_write_user - Writes a buffer received via a user
-> pointer
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Tested-by: Nathan Hebert <nhebert@chromium.org>
+> ---
+>   .../media/platform/mediatek/vcodec/Makefile   |    1 +
+>   .../vcodec/mtk_vcodec_dec_stateless.c         |   59 +-
+>   .../platform/mediatek/vcodec/mtk_vcodec_drv.h |    1 +
+>   .../vcodec/vdec/vdec_hevc_req_multi_if.c      | 1101 +++++++++++++++++
+>   .../platform/mediatek/vcodec/vdec_drv_if.c    |    4 +
+>   .../platform/mediatek/vcodec/vdec_drv_if.h    |    1 +
+>   6 files changed, 1166 insertions(+), 1 deletion(-)
+>   create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_hevc_req_multi_if.c
 > 
->     ..........
-> 
->      * Return: number of bytes transferred or -EFAULT
-> 
-> But the function Only returns  the number of bytes transferred.
-> 
-> Maybe the comment should be modified because it never returns -EFAULT.
 
-To be honest, I think that -EFAULT is probably a better return.  But
-there is no way we could apply the patch with that commit message.  The
-commit message doesn't explain the problem for the user or why returning
-the number of bytes copied is not correct in this case.
+..snip..
 
-I think that maybe it's not too late to change this to return -EFAULT,
-but it would have been easier to make the change in 2014 before there
-were many users.  Also it would be easier if you were testing this on
-real hardware.
+> diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_hevc_req_multi_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_hevc_req_multi_if.c
+> new file mode 100644
+> index 000000000000..9a96547af33c
+> --- /dev/null
+> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_hevc_req_multi_if.c
+> @@ -0,0 +1,1101 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2023 MediaTek Inc.
+> + * Author: Yunfei Dong <yunfei.dong@mediatek.com>
+> + */
+> +
 
-Possibly other people think the current behavior is correct or that it
-is too late to change it.  That's also fine.  I'm not a domain expert
-here.
+..snip..
 
-regards,
-dan carpenter
+> +
+> +/**
+> + * struct vdec_hevc_slice_share_info - shared information used to exchange
+> + *                                     message between lat and core
+> + *
+> + * @sps:               sequence header information from user space
+> + * @dec_params:        decoder params from user space
+> + * @hevc_slice_params: decoder params used for hardware
+> + * @trans_start:       trans start dma address
+> + * @trans_end:         trans end dma address
+
+Wrong documentation, there's no trans_start, trans_end, but just `trans`.
+
+> + */
+> +struct vdec_hevc_slice_share_info {
+> +	struct v4l2_ctrl_hevc_sps sps;
+> +	struct v4l2_ctrl_hevc_decode_params dec_params;
+> +	struct vdec_hevc_slice_lat_dec_param hevc_slice_params;
+> +	struct vdec_hevc_slice_mem trans;
+> +};
+> +
+> +/**
+> + * struct vdec_hevc_slice_inst - hevc decoder instance
+> + *
+> + * @slice_dec_num:      how many picture be decoded
+> + * @ctx:                point to mtk_vcodec_ctx
+> + * @pred_buf:           HW working predication buffer
+
+pred_buf is not present in this structure; either add it and make use
+of it, or remove the documentation for it.
+
+> + * @mv_buf:             HW working motion vector buffer
+> + * @vpu:                VPU instance
+> + * @vsi:                vsi used for lat
+> + * @vsi_core:           vsi used for core
+> + * @wrap_addr:          wrap address used for hevc
+> + *
+> + * @hevc_slice_param:   the parameters that hardware use to decode
+> + *
+> + * @resolution_changed: resolution changed
+> + * @realloc_mv_buf:     reallocate mv buffer
+> + * @cap_num_planes:     number of capture queue plane
+> + */
+> +struct vdec_hevc_slice_inst {
+> +	unsigned int slice_dec_num;
+> +	struct mtk_vcodec_ctx *ctx;
+> +	struct mtk_vcodec_mem mv_buf[HEVC_MAX_MV_NUM];
+> +	struct vdec_vpu_inst vpu;
+> +	struct vdec_hevc_slice_vsi *vsi;
+> +	struct vdec_hevc_slice_vsi *vsi_core;
+> +	struct mtk_vcodec_mem wrap_addr;
+> +
+> +	struct vdec_hevc_slice_lat_dec_param hevc_slice_param;
+> +
+> +	unsigned int resolution_changed;
+> +	unsigned int realloc_mv_buf;
+> +	unsigned int cap_num_planes;
+> +};
+> +
+> +static unsigned int vdec_hevc_get_mv_buf_size(unsigned int width, unsigned int height)
+> +{
+> +	const int unit_size = (width / 16) * (height / 16) + 8;
+
+This is supposed to be `const unsigned int`, otherwise you may overflow here (even
+if it's unlikely to, but still....!)
+
+> +
+> +	return 64 * unit_size;
+> +}
+> +
+
+..snip..
+
+> +static int vdec_hevc_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
+> +				      struct vdec_fb *fb, bool *res_chg)
+> +{
+> +	struct vdec_hevc_slice_inst *inst = h_vdec;
+> +	struct vdec_vpu_inst *vpu = &inst->vpu;
+> +
+
+Please remove this extra empty line.
+
+> +	int err, timeout = 0;
+> +	unsigned int data[2];
+> +	struct vdec_lat_buf *lat_buf;
+> +	struct vdec_hevc_slice_share_info *share_info;
+> +
+
+...after which:
+
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
 
