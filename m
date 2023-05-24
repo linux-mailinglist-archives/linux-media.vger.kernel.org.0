@@ -2,52 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AD7870F8F3
-	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 16:44:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 27E2570F9EA
+	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 17:17:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235804AbjEXOoa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 May 2023 10:44:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34844 "EHLO
+        id S235428AbjEXPR1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 May 2023 11:17:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231575AbjEXOo3 (ORCPT
+        with ESMTP id S235459AbjEXPRZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 May 2023 10:44:29 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88017C1;
-        Wed, 24 May 2023 07:44:27 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2355D63322;
-        Wed, 24 May 2023 14:44:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE7E6C433D2;
-        Wed, 24 May 2023 14:44:24 +0000 (UTC)
-Message-ID: <f9219cb0-2cac-bace-20f7-27005cd0e6f1@xs4all.nl>
-Date:   Wed, 24 May 2023 16:44:22 +0200
+        Wed, 24 May 2023 11:17:25 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E302910B
+        for <linux-media@vger.kernel.org>; Wed, 24 May 2023 08:17:24 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1q1qEU-0005aq-Mn; Wed, 24 May 2023 17:16:58 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1q1qEO-002W9M-1G; Wed, 24 May 2023 17:16:52 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1q1qEN-007b3X-3a; Wed, 24 May 2023 17:16:51 +0200
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Lars-Peter Clausen <lars@metafoo.de>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jens Frederich <jfrederich@gmail.com>,
+        Jon Nettleton <jon.nettleton@gmail.com>,
+        Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+        Christian Gromm <christian.gromm@microchip.com>
+Cc:     linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+        kernel@pengutronix.de, Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Adrien Grassein <adrien.grassein@gmail.com>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        =?utf-8?q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Jean Delvare <jdelvare@suse.de>, Steven@pengutronix.de,
+        Corey Minyard <cminyard@mvista.com>,
+        Haowen Bai <baihaowen@meizu.com>, Tom Rix <trix@redhat.com>,
+        Peter Senna Tschudin <peter.senna@gmail.com>,
+        linux-media@vger.kernel.org, Wolfram Sang <wsa@kernel.org>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Ajay Gupta <ajayg@nvidia.com>,
+        Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>
+Subject: [PATCH v2 0/5] staging: Switch i2c drivers back to use .probe()
+Date:   Wed, 24 May 2023 17:16:41 +0200
+Message-Id: <20230524151646.486847-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCHv3] media: venus: provide video device lock
-Content-Language: en-US
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc:     Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-References: <20230524135737.2557837-1-senozhatsky@chromium.org>
- <20230524141312.2558810-1-senozhatsky@chromium.org>
- <2c732d80-1a18-7a34-03a8-16afb0de5ea2@linaro.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <2c732d80-1a18-7a34-03a8-16afb0de5ea2@linaro.org>
 Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1722; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=oZTirYzLLLjAbQ0R9E7WUt1ieii/eqYC2yfE783S0uI=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkbipV7ckWVv8+r3k+4CFvcNoma8ar3IPgApcSh D/+jwT9RIqJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZG4qVQAKCRCPgPtYfRL+ TmtEB/wOhQ6/QboZ072fYqMkRQJsatwYd0Kr6OGDfUftT67XbG/TazkPpqUuGy1xTLX8pddwU6N GVqlCSLZKS2T3eRY/bliNCqLttuhukihWANAUZMPsRQ1LxOx5pHyMvWTd6L8PJFShumXIlzVarx oJ18yk7RpdRikDUhvmCYWrcYlGeDxThenfWHmpQmzkT2Wgx9EqCOgI1HOex42bGejhNaIhw3LGg sjmkivoJxogJ5KXAZi8wSL7w4ItXBVtQHT8xqbgpHP3DyVba0NriGeS0UONavzeyekfhOpTS3BK G6iRdQ6nuwohHn2vtnHI/HUs+F6nmG1AmEbuSU9OpDNIL3u+
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,97 +78,44 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 24/05/2023 16:29, Bryan O'Donoghue wrote:
-> On 24/05/2023 15:12, Sergey Senozhatsky wrote:
->> Video device has to provide ->lock so that __video_do_ioctl()
->> can serialize IOCTL calls. Provided dedicated enc/dec mutex-s
->> for that purpose.
->>
->> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+Hello,
 
-Since these are m2m devices, I think this should set vfh->m2m_ctx->q_lock
-instead.
+changes since (implicit) v1, sent with Message-Id:
+<20230523200036.465180-1-u.kleine-koenig@pengutronix.de>:
 
-The vb2_queue is per filehandle for such devices, so by just setting
-vdev->lock you will have all vb2_queues use the same mutex.
+ - Split by driver/driver area
+ - Rebase to next/master in the hope this makes it easier (or at least
+   not harder) to apply this series. Applying on v6.4-rc1 should also
+   work just fine.
 
-Instead the struct v4l2_m2m_ctx q_lock pointer, if set, will use that
-mutex for all vb2 operations.
+The individual patches are all pairwise independent of each other, so
+everyone can pick up the subset that suites them.
 
-I think you can set it to the 'lock' mutex in struct venus_inst.
+Best regards
+UWe
 
-Regards,
+Uwe Kleine-König (5):
+  staging: iio: Switch i2c drivers back to use .probe()
+  media: atomisp: Switch i2c drivers back to use .probe()
+  media: staging: max96712: Switch i2c driver back to use .probe()
+  staging: olpc_dcon: Switch i2c driver back to use .probe()
+  staging: most: Switch i2c driver back to use .probe()
 
-	Hans
+ drivers/staging/iio/addac/adt7316-i2c.c                   | 2 +-
+ drivers/staging/iio/impedance-analyzer/ad5933.c           | 2 +-
+ drivers/staging/media/atomisp/i2c/atomisp-gc0310.c        | 2 +-
+ drivers/staging/media/atomisp/i2c/atomisp-gc2235.c        | 2 +-
+ drivers/staging/media/atomisp/i2c/atomisp-lm3554.c        | 2 +-
+ drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c       | 2 +-
+ drivers/staging/media/atomisp/i2c/atomisp-ov2680.c        | 2 +-
+ drivers/staging/media/atomisp/i2c/atomisp-ov2722.c        | 2 +-
+ drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c | 2 +-
+ drivers/staging/media/max96712/max96712.c                 | 2 +-
+ drivers/staging/most/i2c/i2c.c                            | 2 +-
+ drivers/staging/olpc_dcon/olpc_dcon.c                     | 2 +-
+ 12 files changed, 12 insertions(+), 12 deletions(-)
 
->> ---
->>   drivers/media/platform/qcom/venus/core.h | 4 ++++
->>   drivers/media/platform/qcom/venus/vdec.c | 2 ++
->>   drivers/media/platform/qcom/venus/venc.c | 2 ++
->>   3 files changed, 8 insertions(+)
->>
->> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
->> index 4f81669986ba..b6c9a653a007 100644
->> --- a/drivers/media/platform/qcom/venus/core.h
->> +++ b/drivers/media/platform/qcom/venus/core.h
->> @@ -113,7 +113,9 @@ struct venus_format {
->>    * @opp_pmdomain: an OPP power-domain
->>    * @resets: an array of reset signals
->>    * @vdev_dec:    a reference to video device structure for decoder instances
->> + * @vdev_dec_lock: decoder instance video device ioctl lock
->>    * @vdev_enc:    a reference to video device structure for encoder instances
->> + * @vdev_enc_lock: encoder instance video device ioctl lock
->>    * @v4l2_dev:    a holder for v4l2 device structure
->>    * @res:        a reference to venus resources structure
->>    * @dev:        convenience struct device pointer
->> @@ -165,7 +167,9 @@ struct venus_core {
->>       struct device *opp_pmdomain;
->>       struct reset_control *resets[VIDC_RESETS_NUM_MAX];
->>       struct video_device *vdev_dec;
->> +    struct mutex vdev_dec_lock;
->>       struct video_device *vdev_enc;
->> +    struct mutex vdev_enc_lock;
->>       struct v4l2_device v4l2_dev;
->>       const struct venus_resources *res;
->>       struct device *dev;
->> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
->> index 51a53bf82bd3..7e9363714bfb 100644
->> --- a/drivers/media/platform/qcom/venus/vdec.c
->> +++ b/drivers/media/platform/qcom/venus/vdec.c
->> @@ -1760,6 +1760,7 @@ static int vdec_probe(struct platform_device *pdev)
->>       if (!vdev)
->>           return -ENOMEM;
->>   +    mutex_init(&core->vdev_dec_lock);
->>       strscpy(vdev->name, "qcom-venus-decoder", sizeof(vdev->name));
->>       vdev->release = video_device_release;
->>       vdev->fops = &vdec_fops;
->> @@ -1767,6 +1768,7 @@ static int vdec_probe(struct platform_device *pdev)
->>       vdev->vfl_dir = VFL_DIR_M2M;
->>       vdev->v4l2_dev = &core->v4l2_dev;
->>       vdev->device_caps = V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING;
->> +    vdev->lock = &core->vdev_dec_lock;
->>         ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
->>       if (ret)
->> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
->> index 4666f42feea3..8522ed339d5d 100644
->> --- a/drivers/media/platform/qcom/venus/venc.c
->> +++ b/drivers/media/platform/qcom/venus/venc.c
->> @@ -1558,6 +1558,7 @@ static int venc_probe(struct platform_device *pdev)
->>       if (!vdev)
->>           return -ENOMEM;
->>   +    mutex_init(&core->vdev_enc_lock);
->>       strscpy(vdev->name, "qcom-venus-encoder", sizeof(vdev->name));
->>       vdev->release = video_device_release;
->>       vdev->fops = &venc_fops;
->> @@ -1565,6 +1566,7 @@ static int venc_probe(struct platform_device *pdev)
->>       vdev->vfl_dir = VFL_DIR_M2M;
->>       vdev->v4l2_dev = &core->v4l2_dev;
->>       vdev->device_caps = V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING;
->> +    vdev->lock = &core->vdev_enc_lock;
->>         ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
->>       if (ret)
-> 
-> LGTM
-> 
-> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+base-commit: cf09e328589a2ed7f6c8d90f2edb697fb4f8a96b
+-- 
+2.39.2
 
