@@ -2,77 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 91E7670F283
-	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 11:22:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D78D070F2C1
+	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 11:28:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240543AbjEXJWi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 May 2023 05:22:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46658 "EHLO
+        id S231422AbjEXJ2L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 May 2023 05:28:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239813AbjEXJWh (ORCPT
+        with ESMTP id S240717AbjEXJ2J (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 May 2023 05:22:37 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 409F3FC;
-        Wed, 24 May 2023 02:22:13 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1q1kh7-0007zs-M9; Wed, 24 May 2023 11:22:09 +0200
-Message-ID: <53ce7dba-24ec-22b2-d3e6-80ad68a09f88@leemhuis.info>
-Date:   Wed, 24 May 2023 11:22:08 +0200
+        Wed, 24 May 2023 05:28:09 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61873130;
+        Wed, 24 May 2023 02:28:05 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EB94763B4B;
+        Wed, 24 May 2023 09:28:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD8B2C433D2;
+        Wed, 24 May 2023 09:28:00 +0000 (UTC)
+Message-ID: <b5c45ac7-64ad-ddc1-a7a2-99d9d1c27ca7@xs4all.nl>
+Date:   Wed, 24 May 2023 11:27:59 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] media: verisilicon: Additional fix for the crash when
- opening the driver
-Content-Language: en-US, de-DE
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v7,0/2] media: mediatek: vcodec: add hevc stateless
+ decoder driver in MT8195
+Content-Language: en-US
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Chen-Yu Tsai <wenst@chromium.org>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        ezequiel@vanguardiasur.com.ar, nicolas.dufresne@collabora.com,
-        p.zabel@pengutronix.de, mchehab@kernel.org,
-        m.szyprowski@samsung.com, m.tretter@pengutronix.de,
-        didi.debian@cknow.org
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kernel@collabora.com,
-        kernel@pengutronix.de, regressions@lists.linux.dev
-References: <20230523162515.993862-1-benjamin.gaignard@collabora.com>
- <c034db29-b664-793d-35e0-406fdfe2b145@collabora.com>
- <de161e23-1ec6-1c16-b1c4-f423a088b711@leemhuis.info>
- <e227724a-fb39-5d68-4453-f03fb532bfde@xs4all.nl>
-From:   Thorsten Leemhuis <regressions@leemhuis.info>
-In-Reply-To: <e227724a-fb39-5d68-4453-f03fb532bfde@xs4all.nl>
+        =?UTF-8?Q?N=c3=adcolas_F_=2e_R_=2e_A_=2e_Prado?= 
+        <nfraprado@collabora.com>, Nathan Hebert <nhebert@chromium.org>
+Cc:     Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20230524080739.17264-1-yunfei.dong@mediatek.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20230524080739.17264-1-yunfei.dong@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1684920133;02d9476f;
-X-HE-SMSGID: 1q1kh7-0007zs-M9
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 24.05.23 11:15, Hans Verkuil wrote:
-> On 24/05/2023 11:06, Thorsten Leemhuis wrote:
->> On 23.05.23 18:36, Benjamin Gaignard wrote:
->>>
->>> Le 23/05/2023 à 18:25, Benjamin Gaignard a écrit :
->>>> This fixes the following issue observed on Odroid-M1 board:
->>> [...]
->>> Diederick, Marek, Michael,
->>> I have tested this patch on my boards and I see no regressions on
->>> decoder part and no more crash when probing the encoder.
->>> Could you test it on your side to confirm it is ok ?
->>
->> They all did, so that is done. Thx for your help, everybody!
->>
->> /me now hopes this patch will be quickly reviewed, accepted and sent to
->> Linus to prevent even more people running into this...
+Hi Yunfei,
+
+On 24/05/2023 10:07, Yunfei Dong wrote:
+> Add hevc stateless decoder driver to support hardware decode in MT8195, and the driver
+> need num_delta_pocs_of_ref_rps_idx value to parse slice header short_term_ref_pic_set().
 > 
-> I plan to make a PR with 6.4 fixes today or tomorrow.
+> patch 1 add num_delta_pocs_of_ref_rps_idx field.
+> patch 2 add hevc stateless decoder driver.
 
-Ahh, fabulous, many thx!
+This series clashes with this older series from you:
 
-Ciao, Thorsten
+https://patchwork.linuxtv.org/project/linux-media/cover/20230424060130.18395-1-yunfei.dong@mediatek.com/
+
+Can you post a v8 that sits on top of that older series?
+
+Regards,
+
+	Hans
+
+> ---
+> Changed from v6:
+> - fix AngeloGioacchino's suggestion.
+> 
+> Changed from v5:
+> - checkpatch/kernel-doc pass/build pass.
+> - fix warning: struct vdec_av1_slice_fb -> struct vdec_hevc_slice_fb.
+> - fix warning: remove unused comment for param "trans_start" and "trans_end"
+> 
+> Changed from v4:
+> - fix some comments according to Nathan's suggestion.
+> 
+> Changed from v3:
+> - add the dependency patch to this patch series for patch 1.
+> 
+> Changed from v2:
+> - fix one build warning.
+> - add the dependency patch link.
+> 
+> Changed from v1:
+> - fix build error when build 32bit system.
+> - hevc fluster test result: 132/147 (not support: 10bit => 11 and resolution => 4).
+> ---
+> Benjamin Gaignard (1):
+>   media: uapi: HEVC: Add num_delta_pocs_of_ref_rps_idx field
+> 
+> Yunfei Dong (1):
+>   media: mediatek: vcodec: support stateless hevc decoder
+> 
+>  .../media/v4l/ext-ctrls-codec-stateless.rst   |    7 +
+>  .../media/platform/mediatek/vcodec/Makefile   |    1 +
+>  .../vcodec/mtk_vcodec_dec_stateless.c         |   59 +-
+>  .../platform/mediatek/vcodec/mtk_vcodec_drv.h |    1 +
+>  .../vcodec/vdec/vdec_hevc_req_multi_if.c      | 1097 +++++++++++++++++
+>  .../platform/mediatek/vcodec/vdec_drv_if.c    |    4 +
+>  .../platform/mediatek/vcodec/vdec_drv_if.h    |    1 +
+>  include/uapi/linux/v4l2-controls.h            |    6 +-
+>  8 files changed, 1174 insertions(+), 2 deletions(-)
+>  create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_hevc_req_multi_if.c
+> 
+
