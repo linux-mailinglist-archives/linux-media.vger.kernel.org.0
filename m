@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C378A70F50F
-	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 13:24:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AA9070F512
+	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 13:24:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234755AbjEXLYf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 May 2023 07:24:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47746 "EHLO
+        id S234770AbjEXLYi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 May 2023 07:24:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231274AbjEXLYd (ORCPT
+        with ESMTP id S234242AbjEXLYf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 May 2023 07:24:33 -0400
+        Wed, 24 May 2023 07:24:35 -0400
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52C099B
-        for <linux-media@vger.kernel.org>; Wed, 24 May 2023 04:24:32 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB9529B
+        for <linux-media@vger.kernel.org>; Wed, 24 May 2023 04:24:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684927472; x=1716463472;
+  t=1684927473; x=1716463473;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=T37zhJKB4e66LpPhkTxLwBGgm7jXid3yGd7uYsZk+5c=;
-  b=NyW6RIoBhXgaQdRE2UJSLBM2O9tXyKJCZWopZlxUY1OpgaiZx4MlT2Bh
-   mi1E8TcL6C6h5BfBid0tiGG5AGs7muyedx21bOBPrvnr0tG9GH1xFLT0B
-   F0pbIMvzBX8FOf2sid0Ed4PMiD8G2JOQZ02Erb6meanswZs4nFvrdkKtY
-   6HAqm93XRkzZZCDj3WTIf4UuoquQU+f40TVADgHP6V5ol5ynEZD7KqwTX
-   ogBQs+WXwOhBODVEPUXM9fxW42xAjeNeMiwTRARuvSajiT5K6HSjmMgrD
-   YCv7onbTuccJgFUSfnODkrLCQwm3JdI1wVeMBoaSd7rX58KHewO+uo+Y1
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="356758165"
+  bh=UM4hlgPSJR1C3rB2niR9MgkPW58MDKsQ5aFNB18GC1A=;
+  b=I/Iytl1aIivWwvuxTOtNrDhELaNOhr/T7iNj+KSMJlrzwYRNVqZ1HB/d
+   TlPHu80j7O/bUi9HByS/jWsa1qjsh4x84m8AMh4sVk61pRuISrFJ4ff3M
+   bKhUG1HoD7g2+hbFsclw3GwdwFXUVkdFpbNvVxHTfbot6+mE4k4VHEwzN
+   gTyGIFx5E5vNGDJqKAW6XZW+V1LhHAbrMLEWWRkR0254DdasEuSlWn7iR
+   bfMyjPylqX6i3/7uv8/oyRxzNAhfSc3l4ZQ3X+lVRpxC5dL8ISHEhw5Ar
+   oR88Eddflf6NbAKfx8o7OW8MoSLe8kYaFQ5Tp+WD0mOgWHIk1+LJ6RpP6
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="356758173"
 X-IronPort-AV: E=Sophos;i="6.00,189,1681196400"; 
-   d="scan'208";a="356758165"
+   d="scan'208";a="356758173"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
   by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2023 04:24:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="816540566"
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="816540568"
 X-IronPort-AV: E=Sophos;i="6.00,189,1681196400"; 
-   d="scan'208";a="816540566"
+   d="scan'208";a="816540568"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
   by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2023 04:24:28 -0700
 Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 4AFE1121481;
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 51C78121487;
         Wed, 24 May 2023 14:24:21 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
         (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1q1mb1-008z6H-Mj; Wed, 24 May 2023 14:23:59 +0300
+        id 1q1mb1-008z6L-NZ; Wed, 24 May 2023 14:23:59 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     laurent.pinchart@ideasonboard.com,
@@ -54,9 +54,9 @@ Cc:     laurent.pinchart@ideasonboard.com,
         Todor Tomov <todor.too@gmail.com>,
         Hyun Kwon <hyun.kwon@xilinx.com>, bingbu.cao@intel.com,
         niklas.soderlund@ragnatech.se
-Subject: [PATCH v3 07/32] media: v4l: async: Drop unneeded list entry initialisation
-Date:   Wed, 24 May 2023 14:23:24 +0300
-Message-Id: <20230524112349.2141396-8-sakari.ailus@linux.intel.com>
+Subject: [PATCH v3 08/32] media: v4l: async: Don't check whether asd is NULL in validity check
+Date:   Wed, 24 May 2023 14:23:25 +0300
+Message-Id: <20230524112349.2141396-9-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230524112349.2141396-1-sakari.ailus@linux.intel.com>
 References: <20230524112349.2141396-1-sakari.ailus@linux.intel.com>
@@ -72,28 +72,28 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The list entry is initialised as a head in v4l2_async_register_subdev()
-just before being added to the list. This isn't needed, drop the
-initialisation.
+The callers do pass a non-NULL asd to v4l2_async_nf_asd_valid() already.
+There's no need for the NULL check here.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/v4l2-core/v4l2-async.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/media/v4l2-core/v4l2-async.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
 diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-index 320fe5cbaaf41..aef9a16e892ef 100644
+index aef9a16e892ef..7c924faac4c10 100644
 --- a/drivers/media/v4l2-core/v4l2-async.c
 +++ b/drivers/media/v4l2-core/v4l2-async.c
-@@ -823,8 +823,6 @@ int v4l2_async_register_subdev(struct v4l2_subdev *sd)
+@@ -552,9 +552,6 @@ static int v4l2_async_nf_asd_valid(struct v4l2_async_notifier *notifier,
+ {
+ 	struct device *dev = notifier_dev(notifier);
  
- 	mutex_lock(&list_lock);
- 
--	INIT_LIST_HEAD(&sd->async_list);
+-	if (!asd)
+-		return -EINVAL;
 -
- 	list_for_each_entry(notifier, &notifier_list, list) {
- 		struct v4l2_device *v4l2_dev =
- 			v4l2_async_nf_find_v4l2_dev(notifier);
+ 	switch (asd->match_type) {
+ 	case V4L2_ASYNC_MATCH_I2C:
+ 	case V4L2_ASYNC_MATCH_FWNODE:
 -- 
 2.30.2
 
