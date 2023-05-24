@@ -2,97 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DA7470F419
-	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 12:25:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 165BA70F424
+	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 12:27:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232258AbjEXKZK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 May 2023 06:25:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48060 "EHLO
+        id S229778AbjEXK1X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 May 2023 06:27:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233555AbjEXKZG (ORCPT
+        with ESMTP id S232707AbjEXK0y (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 May 2023 06:25:06 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D01BC0;
-        Wed, 24 May 2023 03:25:05 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id DBAB9223E1;
-        Wed, 24 May 2023 10:25:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1684923903; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=K7R/1ArihqwMpzWpgH+6nEfGggJF2LepLDRDMiCWbzM=;
-        b=Z4qDYRqPTzy6KC0PYLAQ2SOXgqESlAUv8Vzmyxqz181Uh8HcHmPWJSZ4C3s+6b/ItYg+HF
-        baNQIfFtChA4t5tH7LFXk+zo9OcPbekju+/jKqnr1cOdQEhIBxc+pR2SfswjuHDlhHdjMK
-        I4DpHmGdNzxwz14+8UYpsneDbdqptlg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1684923903;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=K7R/1ArihqwMpzWpgH+6nEfGggJF2LepLDRDMiCWbzM=;
-        b=7s9Z3KsnYonlXDJmh/B+XR5J6gMzbsLapAx0f+eO+snnD6gLlFh3Iphei8G6XjkZMWcSvV
-        X6e9fqoz7CwlxJCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0287313425;
-        Wed, 24 May 2023 10:25:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id /+2+Ov7lbWRXIQAAMHmgww
-        (envelope-from <jdelvare@suse.de>); Wed, 24 May 2023 10:25:02 +0000
-Date:   Wed, 24 May 2023 12:25:01 +0200
-From:   Jean Delvare <jdelvare@suse.de>
-To:     Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?= 
-        <niklas.soderlund@ragnatech.se>,
-        Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-        Christian Gromm <christian.gromm@microchip.com>,
-        Jens Frederich <jfrederich@gmail.com>,
-        Jon Nettleton <jon.nettleton@gmail.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Wolfram Sang <wsa@kernel.org>,
-        Jeremy Kerr <jk@codeconstruct.com.au>,
-        Kalle Valo <kvalo@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Peter Senna Tschudin <peter.senna@gmail.com>,
-        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
-        Crt Mori <cmo@melexis.com>, Haowen Bai <baihaowen@meizu.com>,
-        Tom Rix <trix@redhat.com>,
-        Adrien Grassein <adrien.grassein@gmail.com>,
-        Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>,
-        linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
-        kernel@pengutronix.de, linux-media@vger.kernel.org
-Subject: Re: [PATCH] staging: Switch i2c drivers back to use .probe()
-Message-ID: <20230524122501.33c46d6f@endymion.delvare>
-In-Reply-To: <20230523200036.465180-1-u.kleine-koenig@pengutronix.de>
-References: <20230523200036.465180-1-u.kleine-koenig@pengutronix.de>
-Organization: SUSE Linux
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.34; x86_64-suse-linux-gnu)
+        Wed, 24 May 2023 06:26:54 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1418C1AC
+        for <linux-media@vger.kernel.org>; Wed, 24 May 2023 03:26:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1684924013; x=1716460013;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8F/qEAPb6gSEPr1VGIAZBmDWj3IfY283dT1n3UuF1b4=;
+  b=k/WTekdybQHgK/lUNqGRHfPhcgzSAmYPP1fXL5BudsZr8Klt+jEWwNSL
+   UJ13zLH5ATWwxjpTR1GE47z10/BZn6IOahkgw7XsrYiaRNit112PJW/JX
+   +GQaH9FNqsMkwIGy91mEFb4Vc6cS/vGnQ6bNRKU/V5esWCpw0FNxSDZ6R
+   qnZSmgzi8sqeqp1LWc0MxhwlpQZ9FHcIk9udmrSn/c02/5juBz7YPRwYj
+   YDbq9oUeaXyCKXb/2wjmPZqFC3s4hyNIRMWtqdemIWmW+Rop6jvv9n1JT
+   jDWUx9dIKc2YPNzWWUuy+nbj9gFykiH+FqWtQ0IvZB0osOr/Trt3eFpW9
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="351035230"
+X-IronPort-AV: E=Sophos;i="6.00,188,1681196400"; 
+   d="scan'208";a="351035230"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2023 03:26:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="735154450"
+X-IronPort-AV: E=Sophos;i="6.00,188,1681196400"; 
+   d="scan'208";a="735154450"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga008.jf.intel.com with ESMTP; 24 May 2023 03:26:50 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1q1lhg-000GCH-1X;
+        Wed, 24 May 2023 13:26:48 +0300
+Date:   Wed, 24 May 2023 13:26:48 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     bingbu.cao@intel.com
+Cc:     djrscally@gmail.com, dan.scally@ideasonboard.com,
+        hao.yao@intel.com, markgross@kernel.org,
+        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        hdegoede@redhat.com, bingbu.cao@linux.intel.com
+Subject: Re: [PATCH 1/3] platform/x86: int3472: Avoid crash in unregistering
+ regulator gpio
+Message-ID: <ZG3maJQ9aIiV9ciL@smile.fi.intel.com>
+References: <20230524035135.90315-1-bingbu.cao@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230524035135.90315-1-bingbu.cao@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -100,49 +69,29 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 23 May 2023 22:00:36 +0200, Uwe Kleine-K=C3=B6nig wrote:
-> After commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
-> call-back type"), all drivers being converted to .probe_new() and then
-> 03c835f498b5 ("i2c: Switch .probe() to not take an id parameter") convert
-> back to (the new) .probe() to be able to eventually drop .probe_new() from
-> struct i2c_driver.
->=20
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-> ---
-> Hello,
->=20
-> this patch was generated using coccinelle.
->=20
-> I chose to convert all drivers below drivers/staging in a single
-> patch, but if you prefer I can split by driver.
->=20
-> If conflicts arise until this is applied, feel free to just drop the
-> files with conflicts from this patch. I'll care about the fallout later
-> then.
->=20
-> Also note there is no coordination necessary with the i2c tree. Dropping
-> .probe_new() will happen only when all (or most) drivers are converted,
-> which will happen after v6.5-rc1 for sure.
->=20
-> Best regards
-> Uwe
->  drivers/staging/iio/addac/adt7316-i2c.c                   | 2 +-
->  drivers/staging/iio/impedance-analyzer/ad5933.c           | 2 +-
->  drivers/staging/media/atomisp/i2c/atomisp-gc0310.c        | 2 +-
->  drivers/staging/media/atomisp/i2c/atomisp-gc2235.c        | 2 +-
->  drivers/staging/media/atomisp/i2c/atomisp-lm3554.c        | 2 +-
->  drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c       | 2 +-
->  drivers/staging/media/atomisp/i2c/atomisp-ov2680.c        | 2 +-
->  drivers/staging/media/atomisp/i2c/atomisp-ov2722.c        | 2 +-
->  drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c | 2 +-
->  drivers/staging/media/max96712/max96712.c                 | 2 +-
->  drivers/staging/most/i2c/i2c.c                            | 2 +-
->  drivers/staging/olpc_dcon/olpc_dcon.c                     | 2 +-
->  12 files changed, 12 insertions(+), 12 deletions(-)
-> (...)
+On Wed, May 24, 2023 at 11:51:33AM +0800, bingbu.cao@intel.com wrote:
+> From: Hao Yao <hao.yao@intel.com>
+> 
+> When int3472 is loaded before GPIO driver, acpi_get_and_request_gpiod()
+> failed but the returned gpio descriptor is not NULL, it will cause panic
+> in later gpiod_put(), so set the gpio_desc to NULL in register error
+> handling to avoid such crash.
 
-Reviewed-by: Jean Delvare <jdelvare@suse.de>
+It should return deferred probe and if somebody is asking for troubles with
+it...
 
---=20
-Jean Delvare
-SUSE L3 Support
+Probably you need to assign only available GPIOs by introducing a local variable
+
+	struct gpio_desc *gdesc;
+
+	gdesc = ...
+	if (IS_ERR(gdesc))
+		...
+
+	...->... = gdesc;
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
