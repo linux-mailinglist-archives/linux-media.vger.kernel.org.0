@@ -2,46 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 47F4570F1C1
-	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 11:06:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC7E370F1F7
+	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 11:15:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240271AbjEXJGO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 May 2023 05:06:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37478 "EHLO
+        id S240595AbjEXJPx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 May 2023 05:15:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239236AbjEXJGN (ORCPT
+        with ESMTP id S236531AbjEXJPw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 May 2023 05:06:13 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A2D412B
-        for <linux-media@vger.kernel.org>; Wed, 24 May 2023 02:06:11 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1q1kRd-0000jZ-Kr; Wed, 24 May 2023 11:06:09 +0200
-Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1q1kRd-00032a-CE; Wed, 24 May 2023 11:06:09 +0200
-Date:   Wed, 24 May 2023 11:06:09 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [ANN] Media Summit June 26th: Please let me know if you will
- attend
-Message-ID: <20230524090609.4py3owto7eelw4op@pengutronix.de>
-References: <aec8b9e1-25d4-d0bc-63b6-68ff06e06683@xs4all.nl>
+        Wed, 24 May 2023 05:15:52 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5440E8E;
+        Wed, 24 May 2023 02:15:51 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D9E786144A;
+        Wed, 24 May 2023 09:15:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BB84C433D2;
+        Wed, 24 May 2023 09:15:46 +0000 (UTC)
+Message-ID: <e227724a-fb39-5d68-4453-f03fb532bfde@xs4all.nl>
+Date:   Wed, 24 May 2023 11:15:44 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] media: verisilicon: Additional fix for the crash when
+ opening the driver
+Content-Language: en-US
+To:     Thorsten Leemhuis <regressions@leemhuis.info>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        ezequiel@vanguardiasur.com.ar, nicolas.dufresne@collabora.com,
+        p.zabel@pengutronix.de, mchehab@kernel.org,
+        m.szyprowski@samsung.com, m.tretter@pengutronix.de,
+        didi.debian@cknow.org
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kernel@collabora.com,
+        kernel@pengutronix.de, regressions@lists.linux.dev
+References: <20230523162515.993862-1-benjamin.gaignard@collabora.com>
+ <c034db29-b664-793d-35e0-406fdfe2b145@collabora.com>
+ <de161e23-1ec6-1c16-b1c4-f423a088b711@leemhuis.info>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <de161e23-1ec6-1c16-b1c4-f423a088b711@leemhuis.info>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aec8b9e1-25d4-d0bc-63b6-68ff06e06683@xs4all.nl>
-User-Agent: NeoMutt/20180716
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -50,23 +56,45 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+On 24/05/2023 11:06, Thorsten Leemhuis wrote:
+> On 23.05.23 18:36, Benjamin Gaignard wrote:
+>>
+>> Le 23/05/2023 à 18:25, Benjamin Gaignard a écrit :
+>>> This fixes the following issue observed on Odroid-M1 board:
+>> [...]
+>> Diederick, Marek, Michael,
+>> I have tested this patch on my boards and I see no regressions on
+>> decoder part and no more crash when probing the encoder.
+>> Could you test it on your side to confirm it is ok ?
+> 
+> They all did, so that is done. Thx for your help, everybody!
+> 
+> /me now hopes this patch will be quickly reviewed, accepted and sent to
+> Linus to prevent even more people running into this...
 
-On 23-05-15, Hans Verkuil wrote:
-> Hi all,
-> 
-> We organized a Media Summit on Monday June 26th in Prague. It is held
-> at the Holiday Inn close by the conference centre where the Embedded
-> Open Source Summit is held (1).
-> 
-> Holiday Inn Prague Congress Centre - Meeting room "E"
-> Na Pankr�ci 1684/ 15, 140 00 Praha 4-Nusle
-> https://www.ihg.com/holidayinn/hotels/us/en/prague/prgnp/hoteldetail
-> 
-> We have room for about 20 people, so let me know if you plan to attend
-> in person. That way we know how many people we'll get.
-
-I would like to attend the summit.
+I plan to make a PR with 6.4 fixes today or tomorrow.
 
 Regards,
-  Marco
+
+	Hans
+
+> 
+>> Thorsten, I try/test regzbot commands, please tell me if it is correct.
+>>
+>> #regzbot ^introduced db6f68b51e5c
+>> #regzbot title media: verisilicon: null pointer dereference in try_fmt
+>> #regzbot ignore-activity
+> 
+> Thx for this, we just now track this regression two times. No worries,
+> let me fix this and also tell regzbot about the fix:
+> 
+> #regzbot dup-of: https://lore.kernel.org/lkml/4995215.LvFx2qVVIh@bagend/
+> #regzbot fix: media: verisilicon: Additional fix for the crash when
+> opening the driver
+> 
+> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+> --
+> Everything you wanna know about Linux kernel regression tracking:
+> https://linux-regtracking.leemhuis.info/about/#tldr
+> If I did something stupid, please tell me, as explained on that page.
+
