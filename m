@@ -2,135 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D61970EBB1
-	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 05:11:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 059CC70EBF2
+	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 05:40:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239251AbjEXDLJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 May 2023 23:11:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42880 "EHLO
+        id S239155AbjEXDkr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 May 2023 23:40:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239252AbjEXDLF (ORCPT
+        with ESMTP id S239310AbjEXDkp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 May 2023 23:11:05 -0400
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F3B71A2
-        for <linux-media@vger.kernel.org>; Tue, 23 May 2023 20:11:01 -0700 (PDT)
-Received: by mail-ej1-x644.google.com with SMTP id a640c23a62f3a-96f9cfa7eddso63697566b.2
-        for <linux-media@vger.kernel.org>; Tue, 23 May 2023 20:11:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684897859; x=1687489859;
-        h=to:subject:message-id:date:from:sender:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cLnE1viA2YkFQlIS735wdkGePat6D3JreXDWC7/8f9c=;
-        b=eOBJcVuNV247zrye6ZjyPUzS0bdx38gKMY3EBI/PdUEIEoCUeF5OUwTEenXHz2fsGy
-         cnxrvMiTd7kcGBT6lefvZP/MAoIFyfyIRkkAQXR+/NYf06NRuEMRs6ma4jxUWedp86Ey
-         tZ34HkzmDT3+W9h3E+TP4S9oXOXfcmYaEGISP+IGpS+t2UpU6Ufg+bgeOSB2sjrdAruA
-         EsaX5MOoUKpafK01pSo7gT62A06j0lIdJ6cbxgNBf08p2MG2ql+wcsRNmU39lu3+Hniu
-         K+zXH+G6ViZ80tT0l7xHw+Wjt33mign78Vn49dc+e17AfB4VNnUNOe7yXTx4TcafSFXe
-         rkew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684897859; x=1687489859;
-        h=to:subject:message-id:date:from:sender:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cLnE1viA2YkFQlIS735wdkGePat6D3JreXDWC7/8f9c=;
-        b=D+miLOdy5NocWkeVNNBfokYgohTDW6Lzpx7+jqNY4pwbqaWctyHQ9HfMyMJXG9UKKP
-         0dT4yeDNAcDJY3VffIQlhpZ2LUxNlhZO+wfNXmC6+7/0w5ZqHe1UYzrypvIUeFxPqL8l
-         V2EF7YkL+Ij+jP6B9vnqtNZ+iedRzkZtaUmDMKOpTCTYH36sVsl+PdYw90ln/GcNA/4B
-         dlzGtHZ0A7WlDVUf1q1MND71LM8y5oCNaYi+JaN3DrXkMly0zCPVxkSmQK9frFzl/m7P
-         w59dHfJM2HouAGPn1z+ijOFl+sdQJNpJSDZ0HTCBuEdfxY03jepDG2YEJW0MnaIVheZP
-         osXA==
-X-Gm-Message-State: AC+VfDyp/ti6okYge0j/SKwKhIAhHmTNIAfzWrhxiUs0v7AQ4KAm1Tqr
-        GDVYWHaXAzCAf1xGZDroSu8HrIayLkdfbjiVk+E=
-X-Google-Smtp-Source: ACHHUZ5dvGFng/6XXVLm7NfG4mKdK/kNn+V+VTSRfy3MpyeydWawW2UeIyBhsLhgnn+unAcmdrier38ZOZEmlGJbBy0=
-X-Received: by 2002:a17:907:c20:b0:96f:9963:81ee with SMTP id
- ga32-20020a1709070c2000b0096f996381eemr14568510ejc.50.1684897859454; Tue, 23
- May 2023 20:10:59 -0700 (PDT)
+        Tue, 23 May 2023 23:40:45 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38DF518D
+        for <linux-media@vger.kernel.org>; Tue, 23 May 2023 20:40:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1684899642; x=1716435642;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=iAbgAAPYit+CNTbNck2i5yPYY7gIZ0IK8M0KxbJqp+Y=;
+  b=oEffoSZuC/+iFpKlMM003ohm0+8e+eULH3NeRNDO+ICh5hWM8Ch5pYji
+   kf7TE0chXPVnQ7fCtLO3CDLYy6MIHAVCOHMi63m4dBDv0hSECEY7sUw+s
+   Vr1vxAdgu7Ls1T0xooWvH4/M24Yx1OhK6WyfqnO6XurQ0gbORrbv/SINc
+   gflx+JtbztaTZCIOzUSw6Oat8OkwxafKmghwnGZZWwF8zr9pgM+yxZElp
+   WzpeOLWeYN1rWvYxWIbDV0MAViaKc++6/OrplNRAsxv8FQNf2pUQHpgg+
+   f5xSCHRdMoJMvRidBh2jDFnrzFJYxGeVvweaEPCsKu3qWiKfR4gUdtxck
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="416904064"
+X-IronPort-AV: E=Sophos;i="6.00,188,1681196400"; 
+   d="scan'208";a="416904064"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2023 20:40:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="734993461"
+X-IronPort-AV: E=Sophos;i="6.00,188,1681196400"; 
+   d="scan'208";a="734993461"
+Received: from icg-kernel3.bj.intel.com ([172.16.126.100])
+  by orsmga008.jf.intel.com with ESMTP; 23 May 2023 20:40:38 -0700
+From:   bingbu.cao@intel.com
+To:     djrscally@gmail.com, dan.scally@ideasonboard.com, hao.yao@intel.com
+Cc:     markgross@kernel.org, linux-media@vger.kernel.org,
+        sakari.ailus@linux.intel.com, hdegoede@redhat.com,
+        andriy.shevchenko@linux.intel.com, bingbu.cao@intel.com,
+        bingbu.cao@linux.intel.com
+Subject: [PATCH 1/3] platform/x86: int3472: Avoid crash in unregistering regulator gpio
+Date:   Wed, 24 May 2023 11:51:33 +0800
+Message-Id: <20230524035135.90315-1-bingbu.cao@intel.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Sender: luckyfriday51@gmail.com
-Received: by 2002:a54:254f:0:b0:217:9224:304f with HTTP; Tue, 23 May 2023
- 20:10:58 -0700 (PDT)
-From:   "Mrs. Sayouba Athelah" <sayoubaathelah@gmail.com>
-Date:   Tue, 23 May 2023 20:10:58 -0700
-X-Google-Sender-Auth: ZoxmwvA6w_n327HrdPi8xpE4AvU
-Message-ID: <CADF2d9PWH8F6NjtViedV_yuQBB7dhDgnUTvLrBr2gAYTqfqeow@mail.gmail.com>
-Subject: Re
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=6.6 required=5.0 tests=ADVANCE_FEE_5_NEW_MONEY,
-        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,LOTS_OF_MONEY,MILLION_HUNDRED,
-        MONEY_FRAUD_8,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_HK_NAME_FM_MR_MRS,T_MONEY_PERCENT,T_SCC_BODY_TEXT_LINE,UNDISC_MONEY
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:644 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [luckyfriday51[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [luckyfriday51[at]gmail.com]
-        *  0.0 MILLION_HUNDRED BODY: Million "One to Nine" Hundred
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  0.0 T_MONEY_PERCENT X% of a lot of money for you
-        *  0.0 MONEY_FRAUD_8 Lots of money and very many fraud phrases
-        *  3.0 ADVANCE_FEE_5_NEW_MONEY Advance Fee fraud and lots of money
-        *  2.7 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: ******
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear God's Select
+From: Hao Yao <hao.yao@intel.com>
 
-I am writing this mail to you with heavy tears In my eyes and great sorrow
-in my heart, My Name is Mrs Athelah Sayouba, I am from Tunisia and I am
-contacting you from a hospital in Burkina Faso. I want to tell you this
-because I don't have any other option than to tell you as I was touched to
-open up to you. I married Mr. Sayouba Brown who worked with the Tunisia
-Ambassador in Burkina Faso for fifteen years before he died in 2016. We
-were married for eleven years without a child.
+When int3472 is loaded before GPIO driver, acpi_get_and_request_gpiod()
+failed but the returned gpio descriptor is not NULL, it will cause panic
+in later gpiod_put(), so set the gpio_desc to NULL in register error
+handling to avoid such crash.
 
-He died after a brief illness that lasted for only three days. Since his
-death I decided not to remarry. When my late husband was alive he deposited
-the sum of US$ 8.500.000 million. (Eight Million Five hundred Thousand
-Dollars) in a bank in Ouagadougou the capital city of Burkina Faso in west
-Africa. Presently this money is still in the bank. He made this money
-available for exportation of Gold from Burkina Faso mining.
+Signed-off-by: Hao Yao <hao.yao@intel.com>
+Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+---
+ .../x86/intel/int3472/clk_and_regulator.c        | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-Recently, my doctor told me that I would not last for the period of seven
-months due to blood cancer and hemorrhagic stroke. Having known my
-condition I decided to hand this money over to you to take care of the
-less-privileged people, you will utilize this money the way I am going to
-instruct herein. I want you to take 30 Percent of the total money for your
-personal use. While 70% of the money you will use to build an orphanage
-home in my late husband's name. And help the poor people in the street. I
-grew up as an Orphan and I don't have anybody as my family member, just to
-endeavor that the house of God is maintained. I am doing this In regards to
-my late husband's wish. This illness has affected me so much. I am just
-like a living death.
+diff --git a/drivers/platform/x86/intel/int3472/clk_and_regulator.c b/drivers/platform/x86/intel/int3472/clk_and_regulator.c
+index 1086c3d83494..d1088be5af78 100644
+--- a/drivers/platform/x86/intel/int3472/clk_and_regulator.c
++++ b/drivers/platform/x86/intel/int3472/clk_and_regulator.c
+@@ -101,9 +101,12 @@ int skl_int3472_register_clock(struct int3472_discrete_device *int3472,
+ 
+ 	int3472->clock.ena_gpio = acpi_get_and_request_gpiod(path, agpio->pin_table[0],
+ 							     "int3472,clk-enable");
+-	if (IS_ERR(int3472->clock.ena_gpio))
+-		return dev_err_probe(int3472->dev, PTR_ERR(int3472->clock.ena_gpio),
+-				     "getting clk-enable GPIO\n");
++	if (IS_ERR(int3472->clock.ena_gpio)) {
++		ret = PTR_ERR(int3472->clock.ena_gpio);
++		int3472->clock.ena_gpio = NULL;
++		return dev_err_probe(int3472->dev, ret,
++				     "failed to get gpio for clock\n");
++	}
+ 
+ 	if (polarity == GPIO_ACTIVE_LOW)
+ 		gpiod_toggle_active_low(int3472->clock.ena_gpio);
+@@ -199,8 +202,11 @@ int skl_int3472_register_regulator(struct int3472_discrete_device *int3472,
+ 	int3472->regulator.gpio = acpi_get_and_request_gpiod(path, agpio->pin_table[0],
+ 							     "int3472,regulator");
+ 	if (IS_ERR(int3472->regulator.gpio)) {
+-		dev_err(int3472->dev, "Failed to get regulator GPIO line\n");
+-		return PTR_ERR(int3472->regulator.gpio);
++		ret = PTR_ERR(int3472->regulator.gpio);
++		int3472->regulator.gpio = NULL;
++
++		return dev_err_probe(int3472->dev, ret,
++				     "failed to get regulator gpio\n");
+ 	}
+ 
+ 	/* Ensure the pin is in output mode and non-active state */
+-- 
+2.40.1
 
-As soon as I receive your reply. I will give you the contact of the bank in
-Burkina Faso and I will also instruct the Bank Manager to issue you an
-authority letter that will prove you the present beneficiary of the money
-in the bank, that is if you assure me that you will act accordingly as I
-Stated herein.
-
-From Mrs. Athelah Sayouba.
