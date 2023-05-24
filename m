@@ -2,144 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 839BB70F5AE
-	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 13:52:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EC2B70F5DE
+	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 14:04:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230006AbjEXLw0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 May 2023 07:52:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35504 "EHLO
+        id S232887AbjEXMEG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 May 2023 08:04:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230346AbjEXLwY (ORCPT
+        with ESMTP id S232838AbjEXMEE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 May 2023 07:52:24 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D514189
-        for <linux-media@vger.kernel.org>; Wed, 24 May 2023 04:52:23 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1q1n2N-0007Ut-8v; Wed, 24 May 2023 13:52:15 +0200
-Message-ID: <6b55ed5a-e02d-93c9-e57f-97cd9acba376@leemhuis.info>
-Date:   Wed, 24 May 2023 13:52:14 +0200
+        Wed, 24 May 2023 08:04:04 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B5F9130
+        for <linux-media@vger.kernel.org>; Wed, 24 May 2023 05:04:03 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1q1nDl-0092b2-3A; Wed, 24 May 2023 12:04:01 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1q1nDi-00AEai-BU; Wed, 24 May 2023 12:03:58 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT FIXES FOR v6.4] Three regression fixes (#92067)
+Date:   Wed, 24 May 2023 12:03:58 +0000
+Message-Id: <20230524120358.2439322-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <d4b08420-f7c0-4950-2d20-385d98f3cad9@xs4all.nl>
+References: 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Content-Language: en-US, de-DE
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Linux regressions mailing list <regressions@lists.linux.dev>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        linux-media@vger.kernel.org, niklas.soderlund@ragnatech.se
-References: <8360125.31r3eYUQgx@steina-w> <5676976.irdbgypaU6@steina-w>
- <ob373sf6lmg6qfkdqy5ovxescw5gp7yedb2flk4ax762abo7b3@w33eqx3erdg7>
- <6415252.e9J7NaK4W3@steina-w>
- <3u5xed27to5bnwo3dksviydw6z2lga3udjkgvvzor4tlobjlxv@hsnam3wurgxc>
- <ZEtytxcB2+DA8Xs/@kekkonen.localdomain>
- <f30d063b-e131-a659-9a1f-8f47e5736b44@leemhuis.info>
- <ZGtZGzZ3wiwiJBkp@kekkonen.localdomain>
- <618ab198-836e-16ba-4c02-476feac2ffaa@leemhuis.info>
- <ZGtlRnPE5k/W4vGY@kekkonen.localdomain>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: v4l2-async: regression due to endpoint matching
-In-Reply-To: <ZGtlRnPE5k/W4vGY@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1684929143;b1460044;
-X-HE-SMSGID: 1q1n2N-0007Ut-8v
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 22.05.23 14:51, Sakari Ailus wrote:
-> On Mon, May 22, 2023 at 02:11:29PM +0200, Linux regression tracking (Thorsten Leemhuis) wrote:
->> On 22.05.23 13:59, Sakari Ailus wrote:
->>> On Mon, May 22, 2023 at 12:53:52PM +0200, Linux regression tracking (Thorsten Leemhuis) wrote:
->>>> On 28.04.23 09:16, Sakari Ailus wrote:
->>>>> On Fri, Apr 28, 2023 at 08:43:21AM +0200, Jacopo Mondi wrote:
->>>>>> On Fri, Apr 28, 2023 at 08:33:30AM +0200, Alexander Stein wrote:
->>>>>>> Am Freitag, 28. April 2023, 08:31:54 CEST schrieb Jacopo Mondi:
->>>>>>>> On Fri, Apr 28, 2023 at 08:24:22AM +0200, Alexander Stein wrote:
->>>>>>>>> Am Donnerstag, 27. April 2023, 18:01:38 CEST schrieb Jacopo Mondi:
->>>>>>>>>> On Thu, Apr 27, 2023 at 04:40:46PM +0200, Alexander Stein wrote:
->>>>>>>>>>> I have a setup on my TQMa6x (imx6q-mba6a.dts) with a tc358743 attached
->>>>>>>>>>> to
->>>>>>>>>>> the MIPI CSI input.
->>>>>>>>>>> I noticed that since commit 1f391df44607 ("media: v4l2-async: Use
->>>>>>>>>>> endpoints in __v4l2_async_nf_add_fwnode_remote()") the async subdevice
->>>>>>>>>>> probing does not work anymore. If I revert that, it is working again,
->>>>>>>>>>> even on next-20230425.
->>>>>>>>>>
->>>>>>>>>> A similar issue has been discussed at
->>>>>>>>>> https://www.spinics.net/lists/linux-media/msg223351.html
->>>>>>>>>>
->>>>>>>>>> Unfortunately there was no conclusion as far as I can tell if not that
->>>>>>>>>> imx6 is now broken
->>>>>>>>>
->>>>>>>>> Thanks for the link, seems like a non-trivial thing :(
->>>>>>>>>
->>>>>>>>> From a glimpse, this series seems to deal with multiple async subdevs:
->>>>>>>>> https://lore.kernel.org/all/20230330115853.1628216-1-sakari.ailus@linux.in
->>>>>>>>> tel.com/
->>>>>>>>>
->>>>>>>>> So imx-media-csi should be adjusted as well, no?
->>>>>>>>
->>>>>>>> It would really be helpful if you can give that series a spin on imx6
->>>>>>>> if you already have a test setup.
->>>>>>>
->>>>>>> I tried, but it failed to apply on my current development tree. What base does
->>>>>>> this series apply to? Is there also a repository available I can fetch from?
->>>>>>
->>>>>> Sakari could tell, for me it applied on v6.3-rc2 but I recall I had to
->>>>>> manually fix a few things.
->>>>>
->>>>> Don't try v1, it won't work. I missed some object relation changes in the
->>>>> linked lists. I'll post v2, hopefully some time next week, to address these
->>>>> issues.
->>>>
->>>> Hi, Thorsten here, the Linux kernel's regression tracker.
->>>>
->>>> I see that v2[1] got a lot of ACKs, but is not even yet in next. And
->>>> it's a lot of patches, so maybe too much for backporting to stable
->>>> kernels. Which leads to the question: Will the regression this thread is
->>>> about (introduced in 5.19 afaics) ever be fixed in v6.1?
->>>> Normally/Ideally it should be.
->>>
->>> We'll need v3 (at least), a problem that's not trivial to fix was
->>> identified with v2. There patches aren't really fixes either: it's new
->>> functionality that wasn't there previously. I.MX6 just happened to work due
->>> to missing checks in the V4L2 async framework, what it needs was never
->>> supported (without this set).
->>>
->>> Dropping endpoint matching will break adv748x driver that relies on it.
->>>
->>> So I'd expect i.MX6 to work again once we have this set in, but I wouldn't
->>> try to backport the set.
->>
->> Thx for the update. Makes me wonder if reverting the culprit[1] is an
->> option. Assuming the problem still happens. Alexander, is that the case?
->>
->> Ciao, Thorsten
->>
->> [1] 1f391df4460 ("media: v4l2-async: Use endpoints in
->> __v4l2_async_nf_add_fwnode_remote()") (v5.19-rc1; authored by Laurent,
->> commited by Mauro (both now CCed))
-> 
-> I prioritise an in-kernel driver over a staging driver.
+From: builder@linuxtv.org
 
-Sorry, can't follow. I track regressions all over the kernel and try to
-follow the best I can, but here I failed, as I have no idea which
-staging driver I mean.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/d4b08420-f7c0-4950-2d20-385d98f3cad9@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/308992/
+Build time: 00:20:39
+Link: https://lore.kernel.org/linux-media/d4b08420-f7c0-4950-2d20-385d98f3cad9@xs4all.nl
 
-I see a regression that is not really addressed and I wonder if there is
-a way to fix this until a proper solution is ready. Usually in this
-cases the culprit is reverted, unless that itself would cause another
-regression. Is that the case here? It sounds a bit like it, but would be
-great if somebody could confirm that.
+gpg: Signature made Wed 24 May 2023 11:25:53 AM UTC
+gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
 
-Ciao, Thorsten
+Summary: got 1/3 patches with issues, being 1 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-media-verisilicon-Additional-fix-for-the-crash-when-.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:416 ov2680_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:212 gc0310_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3013 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3112 atomisp_cp_morph_table() warn: missing unwind goto?
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000004Kb sm_state_count = 1963722
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 51 seconds
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2775 mxc_jpeg_probe() warn: missing unwind goto?
+	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
+	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
+	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+
+   checkpatch.pl:
+	$ cat patches/0001-media-verisilicon-Additional-fix-for-the-crash-when-.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:8: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+
+
+Error #512 when building PDF docs
+
