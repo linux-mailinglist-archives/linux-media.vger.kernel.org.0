@@ -2,60 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C17670EBF4
-	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 05:40:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D132F70EC83
+	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 06:23:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233493AbjEXDku (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 May 2023 23:40:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52092 "EHLO
+        id S234752AbjEXEXz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 May 2023 00:23:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239301AbjEXDkt (ORCPT
+        with ESMTP id S232367AbjEXEXx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 May 2023 23:40:49 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34FE7C1
-        for <linux-media@vger.kernel.org>; Tue, 23 May 2023 20:40:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684899648; x=1716435648;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ne7rZaRHNRBcbhTg8fVH6ikTQ12rwNfMYiJ/0YeRzeg=;
-  b=btLq3t8nK6mCIpzSx4dja4EVS//Ml8SzrNgrLhGtUg/tm/q/igQdHOFk
-   oMGAk3oLkx2/C0/gBiWAAR7YJEbtxQIioPvyVATM7BU3p/si7/RkbaSmL
-   b1pGmnltOkmyHHYSEGjgeZxkhooDgjI/ygL4JJhXDi7o4yMkx5filkFho
-   xW5bsTnOL4tqTa3qkiv14BtVYDa2cM2STIc8e5SIAsi0ubJ5QKJmJCp+8
-   ffoUUBqAe5vm1AGxkokzHZqRXz6Je4BPXAfXQAugExaZTfTugkb4EMynW
-   2cfYHGXy53vdsZx2qBluj/EMLRYQ4NYKQ60OaYWaVoWRFaO8vO2fX1khC
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="416904075"
-X-IronPort-AV: E=Sophos;i="6.00,188,1681196400"; 
-   d="scan'208";a="416904075"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2023 20:40:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="734993514"
-X-IronPort-AV: E=Sophos;i="6.00,188,1681196400"; 
-   d="scan'208";a="734993514"
-Received: from icg-kernel3.bj.intel.com ([172.16.126.100])
-  by orsmga008.jf.intel.com with ESMTP; 23 May 2023 20:40:44 -0700
-From:   bingbu.cao@intel.com
-To:     djrscally@gmail.com, dan.scally@ideasonboard.com, hao.yao@intel.com
-Cc:     markgross@kernel.org, linux-media@vger.kernel.org,
-        sakari.ailus@linux.intel.com, hdegoede@redhat.com,
-        andriy.shevchenko@linux.intel.com, bingbu.cao@intel.com,
-        bingbu.cao@linux.intel.com
-Subject: [PATCH 3/3] platform/x86: int3472: Add ov13b10 (09B13) sensor module support
-Date:   Wed, 24 May 2023 11:51:35 +0800
-Message-Id: <20230524035135.90315-3-bingbu.cao@intel.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230524035135.90315-1-bingbu.cao@intel.com>
-References: <20230524035135.90315-1-bingbu.cao@intel.com>
+        Wed, 24 May 2023 00:23:53 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AC82E6
+        for <linux-media@vger.kernel.org>; Tue, 23 May 2023 21:23:51 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-3f606912ebaso5876425e9.3
+        for <linux-media@vger.kernel.org>; Tue, 23 May 2023 21:23:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1684902230; x=1687494230;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NRuouVRQ/wxWNbz483jQ6XwRBWGjdIht0MWlJ69UoUA=;
+        b=E/fGatXFNqKdWxkPWD9mXlTuSPelkKO0WqUWrvcbItn6kVUIET/dSBO007AFcMzAKx
+         hsSXgHv/nIgsK9yQnbhZRXWCpeB7iuVVUaGMGhIL/2sx62FAcruy2IwnOC30Dnw3uxq5
+         l5M5l4Er+LkCx5p90jjZePrbZIvUw6+pV6PKfKFO6/D9welB6T182phEFh9SsHwMbWjC
+         /APE36L9kPdKaVcGhlgx5P1GYeI2xtATH3RavQv4QwpR3EGs9Rq9Zte3hgcHkTimzS5c
+         ykE6jMx9eJmlVTSPsXmUxypKJosyVNGAHb3T/wOaHopP6Kkh22GE77UhiK92RwSDkM6S
+         mWmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684902230; x=1687494230;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NRuouVRQ/wxWNbz483jQ6XwRBWGjdIht0MWlJ69UoUA=;
+        b=BReuCPbP6ZwN6yUtfk88O7qMIKBpAtgw2FdT8dbtO8OyAmwrKuI51LheW/VFDMauW2
+         rV+nryYBsEOUYo/cP72gMZk+v06onDm0aEUUTjK+65m9lOCrXm7LeTE5ETjdNdim4Rjm
+         P2uNYDARxMDyWV8D3CVNy6FFAeZGnaAz9zGgtO6E+feI/vZmkLV14SDFbVFJRdQAoeeg
+         Rk9bQiDm2936fwF8Kll3WAIav7/Bi9dmXlhgEYG5JYod6HE75iKu/KxSl3vpIVq2nSOM
+         Dujo25pY9ZybaWCWbhNswl+wvyjniW7ehqTseYtJJ2hkr6iCwXClHVpICwzAJvIpNKCr
+         J5Ng==
+X-Gm-Message-State: AC+VfDzDlH7hwAOWC4ZnJFd1Z4x+KDFs6uiLPqIkdoKms//e4t0OogVF
+        da1d1D2SqUiAUnl70VD39EAShQ==
+X-Google-Smtp-Source: ACHHUZ5bXIvY/MYTDZ3QyksukcRe9NgWXvGJ8opvFz9oK2jEFj4vnk1wHV2hU+CEWFJE/NKSAkrGqQ==
+X-Received: by 2002:a7b:c7d8:0:b0:3f4:f0c2:143 with SMTP id z24-20020a7bc7d8000000b003f4f0c20143mr11868819wmk.20.1684902230014;
+        Tue, 23 May 2023 21:23:50 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id z10-20020a7bc7ca000000b003f602e2b653sm815605wmk.28.2023.05.23.21.23.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 May 2023 21:23:47 -0700 (PDT)
+Date:   Wed, 24 May 2023 07:23:45 +0300
+From:   Dan Carpenter <dan.carpenter@linaro.org>
+To:     Su Hui <suhui@nfschina.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        YongSu Yoo <yongsuyoo0215@gmail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] media: dvb_ringbuffer: Return -EFAULT if copy fails
+Message-ID: <7af16b9a-09d1-46ff-b9f9-c178173cf940@kili.mountain>
+References: <20230524012733.414441-1-suhui@nfschina.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230524012733.414441-1-suhui@nfschina.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,29 +73,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hao Yao <hao.yao@intel.com>
+On Wed, May 24, 2023 at 09:27:33AM +0800, Su Hui wrote:
+> The copy_to/from_user() functions return the number of bytes remaining
+> to be copied, but we want to return -EFAULT to the user.
+> 
+> Fixes: 04da2daee383 ("[media] ngene: properly handle __user ptr")
+> Signed-off-by: Su Hui <suhui@nfschina.com>
+> ---
+>  drivers/media/dvb-core/dvb_ringbuffer.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/dvb-core/dvb_ringbuffer.c b/drivers/media/dvb-core/dvb_ringbuffer.c
+> index 7d4558de8e83..f132578840ad 100644
+> --- a/drivers/media/dvb-core/dvb_ringbuffer.c
+> +++ b/drivers/media/dvb-core/dvb_ringbuffer.c
+> @@ -216,7 +216,7 @@ ssize_t dvb_ringbuffer_write_user(struct dvb_ringbuffer *rbuf,
+>  	if (split > 0) {
+>  		status = copy_from_user(rbuf->data+rbuf->pwrite, buf, split);
+>  		if (status)
+> -			return len - todo;
+> +			return -EFAULT;
 
-Add a new sensor support in INT3472 driver which module name is '09B13'.
+No no no.  This is obviously deliberate.  It's returning the number of
+bytes that were successfully copied.
 
-Signed-off-by: Hao Yao <hao.yao@intel.com>
-Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
----
- drivers/platform/x86/intel/int3472/discrete.c | 2 ++
- 1 file changed, 2 insertions(+)
+(I'm not sure I like this API.  If buf is a bad address then shouldn't
+we report that to the user?  It's not like we ran out of space or hit
+some limit in the kernel, it's just a bug in the user space program.
+However, changing the API is dangerous and could break user space).
 
-diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
-index d5d5c650d6d2..63acb48bf8df 100644
---- a/drivers/platform/x86/intel/int3472/discrete.c
-+++ b/drivers/platform/x86/intel/int3472/discrete.c
-@@ -60,6 +60,8 @@ static const struct int3472_sensor_config int3472_sensor_configs[] = {
- 	{ "GEFF150023R", REGULATOR_SUPPLY("avdd", NULL), NULL },
- 	/* Surface Go 1&2 - OV5693, Front */
- 	{ "YHCU", REGULATOR_SUPPLY("avdd", NULL), NULL },
-+	/* OV13B10 */
-+	{ "09B13", REGULATOR_SUPPLY("vcc", NULL), NULL },
- };
- 
- static const struct int3472_sensor_config *
--- 
-2.40.1
+Same for the other.
+
+regards,
+dan carpenter
 
