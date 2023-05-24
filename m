@@ -2,78 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8764B70EBA0
-	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 04:56:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55EE770EBAD
+	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 05:08:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239104AbjEXC4y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 May 2023 22:56:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39412 "EHLO
+        id S239231AbjEXDIs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 May 2023 23:08:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233836AbjEXC4x (ORCPT
+        with ESMTP id S239186AbjEXDIr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 May 2023 22:56:53 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81752198;
-        Tue, 23 May 2023 19:56:34 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1EFD86381E;
-        Wed, 24 May 2023 02:56:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84C7BC433B0;
-        Wed, 24 May 2023 02:56:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1684896993;
-        bh=E9N/sAfiWUA+ZElz5wXgXJ0URf+jkMc0VYEsIDumwIM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=uxo9Q6dlBJ19Ma0l5jISNnb0DCAgr8wVExorQUZeY9BHGIy/JoMjyFUBZcadP/QNz
-         Dw8Mw8x67cCWCEr/84MM5RmLcu4DnSLmlOY75H/DSWFD/P7ydmT+HehVauNG4E3AU9
-         J2g2500D3KT9/JOdJ+6pd9B6aXvF+KEhWWra88IrSyl71kA+KWhnsgGdz6RZd2OTOW
-         9HqOJ9xhxHVmRCMqpHt99rTkHepRnaf0QY1oZD0KhxjCe0hRb6QM+EJoxVP1XPqofU
-         0t1EZUklTeEaxkWgh3iVLdk5uXcJEZLI/nbN2NzBf+xR3RhFg+MNdGh/WQ33lmZr91
-         hthznWcHiSEGQ==
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-95fde138693so1135874366b.0;
-        Tue, 23 May 2023 19:56:33 -0700 (PDT)
-X-Gm-Message-State: AC+VfDxLCNt76MUxJVQzAVFcdTe+tWwgXKoqQ67Yxdm1bK4+LFRa8jQ/
-        8Yu3wHc+89P9VzYr6dAmr5ELDAAWqZELYlDKVs4=
-X-Google-Smtp-Source: ACHHUZ6i9KR0riGnMcQYXxLMBszSuF2aNO1/uSx3dwZ0hU2V8tO6jzLEGgXBjYfrHlAWi77UzA9fDJpaJtyeOq1i32A=
-X-Received: by 2002:a17:907:1ca7:b0:96f:ddaa:c30d with SMTP id
- nb39-20020a1709071ca700b0096fddaac30dmr9621163ejc.26.1684896991695; Tue, 23
- May 2023 19:56:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230520105718.325819-1-15330273260@189.cn> <20230520105718.325819-2-15330273260@189.cn>
- <26fd78b9-c074-8341-c99c-4e3b38cd861a@xen0n.name> <73447e35-f4df-9871-6210-b7bf1a3f04fc@189.cn>
- <97fe7af2-0a93-3f28-db6e-40a9b0798d49@xen0n.name>
-In-Reply-To: <97fe7af2-0a93-3f28-db6e-40a9b0798d49@xen0n.name>
-From:   Huacai Chen <chenhuacai@kernel.org>
-Date:   Wed, 24 May 2023 10:56:19 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H5iRHFUgWZb2HdE7RdAw-bYdn0-xJTdq=eQexabjmn5_w@mail.gmail.com>
-Message-ID: <CAAhV-H5iRHFUgWZb2HdE7RdAw-bYdn0-xJTdq=eQexabjmn5_w@mail.gmail.com>
-Subject: Re: [PATCH v14 1/2] drm: add kms driver for loongson display controller
-To:     WANG Xuerui <kernel@xen0n.name>
-Cc:     Sui Jingfeng <15330273260@189.cn>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sui Jingfeng <suijingfeng@loongson.cn>,
-        Li Yi <liyi@loongson.cn>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian Koenig <christian.koenig@amd.com>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        loongson-kernel@lists.loongnix.cn,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Nathan Chancellor <nathan@kernel.org>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        linaro-mm-sig@lists.linaro.org, Liu Peibao <liupeibao@loongson.cn>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        Tue, 23 May 2023 23:08:47 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A07D718C
+        for <linux-media@vger.kernel.org>; Tue, 23 May 2023 20:08:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1684897725; x=1716433725;
+  h=date:from:to:cc:subject:message-id;
+  bh=9sS6zXUdY83ozxDRr4aq3GDMVL3uy1LaajGjDNLFGqI=;
+  b=c3cKgoDnqIOawKUOKo2AItr9P/LcN7QbzoHng710XIcmhfWJtYf4emmy
+   uZ2MMlZLKdqRo5fI2gkoRT2CtXIYwgv+DtdA7Fx1e95M9xvRWhSMwuLed
+   RNu9HuUdU8esnzHKDMaPqa1EAkE1alDL38lBRfieKqcF18HQA6o2gagL5
+   Z/qcYs7eCK1kAFRCxN/8ym/OKa0H1LkuYcKJkbyIzwqJkoNNH8uhI4KHH
+   cHkfxvuZn4/eu8NA4XLMafUtt/FyClOjXeCUFHOaRNbrvVCNmf9+h7TZs
+   pgiJpk6AQ9TBQ7WO9JVPz7e0C0UR4Gqmyg0s8VTMDmWNE4xQY1lZl8JK5
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="356660835"
+X-IronPort-AV: E=Sophos;i="6.00,188,1681196400"; 
+   d="scan'208";a="356660835"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2023 20:08:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="848560807"
+X-IronPort-AV: E=Sophos;i="6.00,188,1681196400"; 
+   d="scan'208";a="848560807"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 23 May 2023 20:08:44 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1q1erj-000EL8-21;
+        Wed, 24 May 2023 03:08:43 +0000
+Date:   Wed, 24 May 2023 11:08:39 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org
+Subject: [sailus-media-tree:async-multi] BUILD SUCCESS
+ c5f8318fc54a441e139cf184714418fc432ca1a9
+Message-ID: <20230524030839.CExjY%lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -81,82 +60,175 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, May 23, 2023 at 4:14=E2=80=AFPM WANG Xuerui <kernel@xen0n.name> wro=
-te:
->
-> On 2023/5/22 16:02, Sui Jingfeng wrote:
-> > Hi,
-> >
-> > On 2023/5/21 20:21, WANG Xuerui wrote:
-> >>> --- /dev/null
-> >>> +++ b/drivers/gpu/drm/loongson/Kconfig
-> >>> @@ -0,0 +1,17 @@
-> >>> +# SPDX-License-Identifier: GPL-2.0
-> >>> +
-> >>> +config DRM_LOONGSON
-> >>> +    tristate "DRM support for Loongson Graphics"
-> >>> +    depends on DRM && PCI && MMU
-> >>> +    select DRM_KMS_HELPER
-> >>> +    select DRM_TTM
-> >>> +    select I2C
-> >>> +    select I2C_ALGOBIT
-> >>> +    help
-> >>> +      This is a DRM driver for Loongson Graphics, it may including
-> >>
-> >> Drop "it may"; "including" should be enough.
-> >>
-> > 'it may' is more *precise* here, because currently we don't ship with
-> > the support for loongson 2K series SoC.
-> >
-> > I'm try to be precise as far as I can, we avoid made this driver too
-> > large by ignore loongson 2K series SoC temporary.
->
-> That's a good idea! For now the patch is so large that my review reply
-> is said to be dropped by the lists. Focusing on one bunch of similar
-> models first then adding support for the rest not-so-similar models is
-> very friendly towards the reviewing process and will help code quality to=
-o.
-I suggest split the LS2K parts to a separate patch, but keep it in the
-same series to get them upstreamed together.
+tree/branch: INFO setup_repo_specs: /db/releases/20230524105746/lkp-src/repo/*/sailus-media-tree
+git://linuxtv.org/sailus/media_tree.git async-multi
+branch HEAD: c5f8318fc54a441e139cf184714418fc432ca1a9  media: Documentation: v4l: Document sub-device notifiers
 
-Huacai
->
-> >
-> >>> +      LS7A2000, LS7A1000, LS2K2000 and LS2K1000 etc. Loongson LS7A
-> >>> +      series are bridge chipset, while Loongson LS2K series are SoC.
-> >>> +
-> >>> +      If "M" is selected, the module will be called loongson.
-> >>
-> >> Just "loongson"?
-> >
-> > Yes,  when compile this driver as module,  loongson.ko will be generate=
-d.
-> >
-> >   drm radeon is also doing so, See drm/radeon/Kconfig.
-> >
-> >> I know it's like this for ages (at least dating back to the MIPS days)
-> >> but you really don't want to imply Loongson is mainly a GPU company.
-> >> Something like "loongson_drm" or "lsdc" or "gsgpu" could be better.
-> >
-> > No, these name may have backward compatibility problems.
-> >
-> > Downstream driver already taken those name.
-> >
-> > userspace driver need to differentiate them who is who.
->
-> IMO this shouldn't be a problem. Let me try explaining this: currently,
-> upstream / the "new world" doesn't have any support for this driver at
-> all, so any name will work; just use whatever is appropriate from an
-> upstream's perspective, then make the userspace bits recognize both
-> variants, and you'll be fine. And the "existing" userspace drivers can
-> also carry the change, it'll just be a branch never taken in that setup.
->
-> So, I'm still in favor of keeping the upstream "clean" without dubious
-> names like this (bare "loongson"). What do you think about my suggestion
-> above?
->
-> --
-> WANG "xen0n" Xuerui
->
-> Linux/LoongArch mailing list: https://lore.kernel.org/loongarch/
->
+elapsed time: 725m
+
+configs tested: 155
+configs skipped: 10
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r004-20230522   gcc  
+alpha                randconfig-r024-20230522   gcc  
+arc                              allyesconfig   gcc  
+arc          buildonly-randconfig-r001-20230522   gcc  
+arc          buildonly-randconfig-r003-20230522   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r006-20230522   gcc  
+arc                  randconfig-r023-20230522   gcc  
+arc                  randconfig-r043-20230521   gcc  
+arc                  randconfig-r043-20230522   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                  randconfig-r046-20230521   clang
+arm                  randconfig-r046-20230522   gcc  
+arm64                            allyesconfig   gcc  
+arm64        buildonly-randconfig-r006-20230522   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r011-20230522   clang
+arm64                randconfig-r033-20230521   clang
+arm64                randconfig-r034-20230522   gcc  
+csky         buildonly-randconfig-r004-20230521   gcc  
+csky                                defconfig   gcc  
+hexagon              randconfig-r024-20230521   clang
+hexagon              randconfig-r036-20230521   clang
+hexagon              randconfig-r041-20230521   clang
+hexagon              randconfig-r041-20230522   clang
+hexagon              randconfig-r045-20230521   clang
+hexagon              randconfig-r045-20230522   clang
+i386                             allyesconfig   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-a001-20230522   gcc  
+i386                 randconfig-a002-20230522   gcc  
+i386                 randconfig-a003-20230522   gcc  
+i386                 randconfig-a004-20230522   gcc  
+i386                 randconfig-a005-20230522   gcc  
+i386                 randconfig-a006-20230522   gcc  
+i386                 randconfig-a011-20230522   clang
+i386                 randconfig-a012-20230522   clang
+i386                 randconfig-a013-20230522   clang
+i386                 randconfig-a014-20230522   clang
+i386                 randconfig-a015-20230522   clang
+i386                 randconfig-a016-20230522   clang
+i386                 randconfig-r026-20230522   clang
+ia64                             allmodconfig   gcc  
+ia64                                defconfig   gcc  
+ia64                 randconfig-r004-20230521   gcc  
+ia64                 randconfig-r013-20230521   gcc  
+ia64                 randconfig-r035-20230522   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r015-20230521   gcc  
+loongarch            randconfig-r032-20230522   gcc  
+m68k                             allmodconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r005-20230521   gcc  
+m68k                 randconfig-r031-20230522   gcc  
+microblaze           randconfig-r015-20230522   gcc  
+microblaze           randconfig-r031-20230521   gcc  
+microblaze           randconfig-r034-20230521   gcc  
+microblaze           randconfig-r035-20230521   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                 randconfig-r014-20230521   clang
+mips                 randconfig-r022-20230522   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r012-20230522   gcc  
+openrisc     buildonly-randconfig-r002-20230521   gcc  
+openrisc             randconfig-r003-20230522   gcc  
+parisc       buildonly-randconfig-r002-20230522   gcc  
+parisc       buildonly-randconfig-r004-20230522   gcc  
+parisc       buildonly-randconfig-r006-20230521   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r012-20230521   gcc  
+parisc               randconfig-r016-20230522   gcc  
+parisc               randconfig-r036-20230522   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc              randconfig-r016-20230521   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r011-20230521   gcc  
+riscv                randconfig-r042-20230521   gcc  
+riscv                randconfig-r042-20230522   clang
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r005-20230522   gcc  
+s390                 randconfig-r023-20230521   gcc  
+s390                 randconfig-r033-20230522   gcc  
+s390                 randconfig-r044-20230521   gcc  
+s390                 randconfig-r044-20230522   clang
+sh                               allmodconfig   gcc  
+sh           buildonly-randconfig-r003-20230521   gcc  
+sh                   randconfig-r013-20230522   gcc  
+sh                   randconfig-r014-20230522   gcc  
+sh                   randconfig-r021-20230521   gcc  
+sparc        buildonly-randconfig-r005-20230521   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r026-20230521   gcc  
+sparc64              randconfig-r002-20230521   gcc  
+sparc64              randconfig-r002-20230522   gcc  
+sparc64              randconfig-r006-20230521   gcc  
+sparc64              randconfig-r025-20230521   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-a001-20230522   gcc  
+x86_64               randconfig-a002-20230522   gcc  
+x86_64               randconfig-a003-20230522   gcc  
+x86_64               randconfig-a004-20230522   gcc  
+x86_64               randconfig-a005-20230522   gcc  
+x86_64               randconfig-a006-20230522   gcc  
+x86_64               randconfig-a011-20230522   clang
+x86_64               randconfig-a012-20230522   clang
+x86_64               randconfig-a013-20230522   clang
+x86_64               randconfig-a014-20230522   clang
+x86_64               randconfig-a015-20230522   clang
+x86_64               randconfig-a016-20230522   clang
+x86_64               randconfig-x051-20230522   clang
+x86_64               randconfig-x052-20230522   clang
+x86_64               randconfig-x053-20230522   clang
+x86_64               randconfig-x054-20230522   clang
+x86_64               randconfig-x055-20230522   clang
+x86_64               randconfig-x056-20230522   clang
+x86_64               randconfig-x061-20230522   clang
+x86_64               randconfig-x062-20230522   clang
+x86_64               randconfig-x063-20230522   clang
+x86_64               randconfig-x064-20230522   clang
+x86_64               randconfig-x065-20230522   clang
+x86_64               randconfig-x066-20230522   clang
+x86_64               randconfig-x071-20230522   gcc  
+x86_64               randconfig-x072-20230522   gcc  
+x86_64               randconfig-x073-20230522   gcc  
+x86_64               randconfig-x074-20230522   gcc  
+x86_64               randconfig-x075-20230522   gcc  
+x86_64               randconfig-x076-20230522   gcc  
+x86_64               randconfig-x081-20230522   gcc  
+x86_64               randconfig-x082-20230522   gcc  
+x86_64               randconfig-x083-20230522   gcc  
+x86_64               randconfig-x084-20230522   gcc  
+x86_64               randconfig-x085-20230522   gcc  
+x86_64               randconfig-x086-20230522   gcc  
+x86_64                               rhel-8.3   gcc  
+xtensa               randconfig-r022-20230521   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
