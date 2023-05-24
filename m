@@ -2,70 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D010870F16A
-	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 10:50:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 518C570F152
+	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 10:45:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240319AbjEXIu3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 May 2023 04:50:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57296 "EHLO
+        id S229484AbjEXIp4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 May 2023 04:45:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240326AbjEXIu2 (ORCPT
+        with ESMTP id S240196AbjEXIpy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 May 2023 04:50:28 -0400
-X-Greylist: delayed 1579 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 24 May 2023 01:50:24 PDT
-Received: from smtp.tom.com (smtprz25.163.net [106.38.219.110])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C57F97
-        for <linux-media@vger.kernel.org>; Wed, 24 May 2023 01:50:24 -0700 (PDT)
-Received: from my-app02.tom.com (my-app02.tom.com [127.0.0.1])
-        by freemail02.tom.com (Postfix) with ESMTP id 82992B00D40
-        for <linux-media@vger.kernel.org>; Wed, 24 May 2023 16:24:01 +0800 (CST)
-Received: from my-app02.tom.com (HELO smtp.tom.com) ([127.0.0.1])
-          by my-app02 (TOM SMTP Server) with SMTP ID 1746217146
-          for <linux-media@vger.kernel.org>;
-          Wed, 24 May 2023 16:24:01 +0800 (CST)
-Received: from antispam1.tom.com (unknown [172.25.16.55])
-        by freemail02.tom.com (Postfix) with ESMTP id 72149B00D38
-        for <linux-media@vger.kernel.org>; Wed, 24 May 2023 16:24:01 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tom.com; s=201807;
-        t=1684916641; bh=pK9utf2+TTB2BqTHLR4D+VpjAz3YXX/EvXNU8ORYyBA=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=GCud4YdqwTMexDSYQqxCH8FlFCFY1dorSiB2ryCn9qCth6ORu8ATRqnXN9M5u6H4K
-         AwoIsVGUBm3huzLaXHKErGXzmY6tBLwP6JyxTNjJG5/xGrknPvlmUodmsZhNg7v751
-         jB/DuAKjmDD4WPAXm611b8F6Zmhld0R0aU6qYePg=
-Received: from antispam1.tom.com (antispam1.tom.com [127.0.0.1])
-        by antispam1.tom.com (Postfix) with ESMTP id 43D26D41AD7
-        for <linux-media@vger.kernel.org>; Wed, 24 May 2023 16:24:01 +0800 (CST)
-X-Virus-Scanned: Debian amavisd-new at antispam1.tom.com
-Received: from antispam1.tom.com ([127.0.0.1])
-        by antispam1.tom.com (antispam1.tom.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 2OMvlzMJVzMw for <linux-media@vger.kernel.org>;
-        Wed, 24 May 2023 16:24:00 +0800 (CST)
-Received: from [172.30.38.103] (unknown [180.167.10.98])
-        by antispam1.tom.com (Postfix) with ESMTPA id 99329D416F1;
-        Wed, 24 May 2023 16:23:57 +0800 (CST)
-Message-ID: <5e03a89f-726d-9351-6235-9b610e8a9389@tom.com>
-Date:   Wed, 24 May 2023 16:23:57 +0800
+        Wed, 24 May 2023 04:45:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 953801AC
+        for <linux-media@vger.kernel.org>; Wed, 24 May 2023 01:45:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1684917903;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=IPjNnsilisJpU1pieN0XK+ygIXwy0O0sWum8P6BGIYA=;
+        b=NWQCOqXzTCwXAmCJxm1NKx94T/+RT+wQvZkWYkpGlpir2l9gzDoykGVahXzzQ2JX0F5zvy
+        5ipvrdjX8diltUNX+O4QqFbbEeHigsG7SwZfRru9hT0lMtBGM7AnbTYE67AemO+LqXfnIn
+        dvJOKg/0Sg2S5odetMBr/AorVCZxiZY=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-209-WKpzFPdxMTyk54rLUDQfmQ-1; Wed, 24 May 2023 04:45:01 -0400
+X-MC-Unique: WKpzFPdxMTyk54rLUDQfmQ-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-9715654ab36so62088466b.0
+        for <linux-media@vger.kernel.org>; Wed, 24 May 2023 01:45:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684917900; x=1687509900;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IPjNnsilisJpU1pieN0XK+ygIXwy0O0sWum8P6BGIYA=;
+        b=GOQduSpUMEoC43b6ApLRn/uxjpPKhc+iNYLoMg80+1bD97JgledEALk0ApvGiV6y3U
+         bJlyP32X06rsj3dv/qqKOu3HlmSlKSRL1AUnMGpCd05yTYuGliq+jCbrGCPLpgSizyfB
+         rZbD4CEc1NBmaHZmN5EyP9XPLBMQ/frP9Bv2TiRZzMQ3hp5jGSwP3q4UbM2Am/LAd3v0
+         tyVdhYkVNpZRpgxeHKMWrxgwagwroUUWCdR+7ykbqsRA2GBwcD6ijysuz04g9pnGR5pt
+         ptfTw/MEcBGd+hWuOoh3TpEIN6ZNik49i6k/eUN4Qv4BK0+tiWEmtxDKA6o3gX5EHxuE
+         sj/g==
+X-Gm-Message-State: AC+VfDwOq53CyVO60zoVImZ3I1ti1ESAau7+pMtVPkcccj+5P0SvfpCc
+        +/ar1D5fmpzccYfS5X5IFEad1s+GvW4/S+f8CdcrtPOStDuPfbRCm1DFJ84E6YfJezjRE0m1KQ0
+        lAZtHWgvFvGHqJRkrO3OozAQ=
+X-Received: by 2002:a17:907:268e:b0:969:f677:11b9 with SMTP id bn14-20020a170907268e00b00969f67711b9mr16410188ejc.54.1684917900415;
+        Wed, 24 May 2023 01:45:00 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4pfcMobEA+3q24rkthAiEr346uOcv7B+ftBoawjPmSRKFqwnlDDi2urafqqQrZpSgY4J+Hww==
+X-Received: by 2002:a17:907:268e:b0:969:f677:11b9 with SMTP id bn14-20020a170907268e00b00969f67711b9mr16410152ejc.54.1684917900013;
+        Wed, 24 May 2023 01:45:00 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id f25-20020a05640214d900b0050dab547fc6sm4871400edx.74.2023.05.24.01.44.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 May 2023 01:44:59 -0700 (PDT)
+Message-ID: <2bdacc5a-8d8a-159a-780b-5038325ce62f@redhat.com>
+Date:   Wed, 24 May 2023 10:44:58 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] media: dvb_ringbuffer: Return -EFAULT if copy fails
-Content-Language: en-US
-To:     Dan Carpenter <dan.carpenter@linaro.org>,
-        Su Hui <suhui@nfschina.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        YongSu Yoo <yongsuyoo0215@gmail.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-References: <41a9c6a6-4b9a-4d84-9e32-09bf64c65b6c@kili.mountain>
- <aab14cc4-0400-c114-f180-6db943fd7e32@nfschina.com>
- <7466fead-1b99-4a78-86cb-5dd8a9baec19@kili.mountain>
-From:   Longsuhui <Jack_sun@tom.com>
-In-Reply-To: <7466fead-1b99-4a78-86cb-5dd8a9baec19@kili.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] staging: Switch i2c drivers back to use .probe()
+To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Crt Mori <cmo@melexis.com>, linux-iio@vger.kernel.org,
+        Tom Rix <trix@redhat.com>,
+        Jon Nettleton <jon.nettleton@gmail.com>,
+        Peter Senna Tschudin <peter.senna@gmail.com>,
+        Christian Gromm <christian.gromm@microchip.com>,
+        Jeremy Kerr <jk@codeconstruct.com.au>,
+        Jean Delvare <jdelvare@suse.de>,
+        =?UTF-8?Q?Marek_Beh=c3=ban?= <kabel@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Haowen Bai <baihaowen@meizu.com>,
+        Jens Frederich <jfrederich@gmail.com>,
+        linux-staging@lists.linux.dev,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Adrien Grassein <adrien.grassein@gmail.com>,
+        linux-media@vger.kernel.org,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Kalle Valo <kvalo@kernel.org>,
+        Menna Mahmoud <eng.mennamahmoud.mm@gmail.com>,
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        kernel@pengutronix.de, Wolfram Sang <wsa@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Peter Rosin <peda@axentia.se>,
+        Jonathan Cameron <jic23@kernel.org>
+References: <20230523200036.465180-1-u.kleine-koenig@pengutronix.de>
+ <b9954a28-1ab2-468d-beb5-2fa2e0f2c069@redhat.com>
+ <20230524060104.wljjqi2ep2ag2245@pengutronix.de>
+Content-Language: en-US, nl
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230524060104.wljjqi2ep2ag2245@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,40 +110,52 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2023/5/24 15:20, Dan Carpenter wrote:
-> On Wed, May 24, 2023 at 01:20:27PM +0800, Su Hui wrote:
->> It's confusing about the comment on function declaration.
->>
->>      /**
->>       * dvb_ringbuffer_write_user - Writes a buffer received via a user
->> pointer
->>
->>      ..........
->>
->>       * Return: number of bytes transferred or -EFAULT
->>
->> But the function Only returns  the number of bytes transferred.
->>
->> Maybe the comment should be modified because it never returns -EFAULT.
-> To be honest, I think that -EFAULT is probably a better return.  But
-> there is no way we could apply the patch with that commit message.  The
-> commit message doesn't explain the problem for the user or why returning
-> the number of bytes copied is not correct in this case.
->
-> I think that maybe it's not too late to change this to return -EFAULT,
-> but it would have been easier to make the change in 2014 before there
-> were many users.  Also it would be easier if you were testing this on
-> real hardware.
->
-> Possibly other people think the current behavior is correct or that it
-> is too late to change it.  That's also fine.  I'm not a domain expert
-> here.
-I understand it.
-Thanks a lot!
+Hi,
 
-Su Hui
+On 5/24/23 08:01, Uwe Kleine-König wrote:
+> Hello Hans,
+> 
+> On Tue, May 23, 2023 at 10:40:43PM +0200, Hans de Goede wrote:
+>> On 5/23/23 22:00, Uwe Kleine-König wrote:
+>>> After commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
+>>> call-back type"), all drivers being converted to .probe_new() and then
+>>> 03c835f498b5 ("i2c: Switch .probe() to not take an id parameter") convert
+>>> back to (the new) .probe() to be able to eventually drop .probe_new() from
+>>> struct i2c_driver.
+>>>
+>>> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+>>> ---
+>>> Hello,
+>>>
+>>> this patch was generated using coccinelle.
+>>>
+>>> I chose to convert all drivers below drivers/staging in a single
+>>> patch, but if you prefer I can split by driver.
+>>
+>> I'm currently doing a lot of cleanup work on the atomisp code
+>> including the sensor drivers. Specifically I'm working on
+>> removing drivers which are duplicate with the standard v4l2
+>> sensor drivers under drivers/media/i2c . So this patch is
+>> likely to cause conflicts.
+>>
+>> I have my own branch for my atomisp work from which I send
+>> pull-reqs directly to Mauro Chehab:
+>>
+>> https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=media-atomisp
+>>
+>> As such I think for the atomisp drivers it would be best if I directly
+>> apply the atomisp bits of this patch (no need for a resend) to my
+>> media-atomisp branch, is that ok with you ?
+> 
+> For me that would be fine, it's mostly Greg who has to cope. As Jonathan
+> also suggested to split, I suggest I do this. Then everyone can pickup
+> the usual bits without too much conflicts.
 
->
-> regards,
-> dan carpenter
->
+That makes sense. I'll wait for your split up version then and
+then I'll merge the atomisp bits of that version.
+
+Regards,
+
+Hans
+
+
