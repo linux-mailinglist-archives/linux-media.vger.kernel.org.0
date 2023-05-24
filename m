@@ -2,71 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 93B0C70ECA6
-	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 06:47:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41E6E70ECBB
+	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 06:53:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239028AbjEXErg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 May 2023 00:47:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43496 "EHLO
+        id S239026AbjEXExx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 May 2023 00:53:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238977AbjEXEra (ORCPT
+        with ESMTP id S229540AbjEXExw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 May 2023 00:47:30 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 811C0E41
-        for <linux-media@vger.kernel.org>; Tue, 23 May 2023 21:47:23 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-30a892c45c4so163676f8f.3
-        for <linux-media@vger.kernel.org>; Tue, 23 May 2023 21:47:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1684903642; x=1687495642;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MF3zjzyqLKusdnLu2cFV58+HdPXe0H0Lh5vvV2VNIwg=;
-        b=sln8cXJ8qzy5HVSd8Co9u/U0nEkGx2RLR6GaZEpOVVeeBnqkkP6Z/XI/0Ae95Zktrz
-         wzx3Uzt7BGAA+G4jPsza3Dv2I2kM95jeeuQiDfWtlxbHrm+BgYeVNBHbZnMWyzoWOiBf
-         VdicnhAkbtrMrmuX34fZTOLGg27Ezp0pfAjzDljs4ulib3rUYgybCNK+xEMKjC9tSsGP
-         gVqdXMTdNQ2grXPbupRX/ez8u83eZM66hYy7bflUIrAfC1To4CeQVG1nVihgLFk4HfxL
-         nRfddk/qsHtnnfI2YXvhXDZyy1KKsPAOsx+Bv6gktbnZz/gvpComWQO0qHMcDvhL7SxE
-         MB7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684903642; x=1687495642;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MF3zjzyqLKusdnLu2cFV58+HdPXe0H0Lh5vvV2VNIwg=;
-        b=JwewM25m8YUJ+/FRMczvAtNfof3C3mXkYfliw/HAls16tqEdLV/18Vgsi8Jg7wgrc7
-         y0WbZ71dXV8YkSyOWbQ2T/ouRgDhTpJ8Cke+6Q/oNvqAFzdt9uD4FyARiX2mXx6A4Ooc
-         QX48Kq4vxH+1sP1chDBMR1URyFRfDjuY1pa028bw1JGDPJm9huEC2Q7ND6B6G3NbMWi1
-         0uovUXQNKNgmaT2HaG4bouS0b5qD+aBq7CFm3AvM1P5T+IVcLBuKr8rDYjAi/tsnCybA
-         R4vgeCMXZSbWf+T83huv24ppXyleMbpBwgIZr3F7ZCA1qT0hMD+gIgHH2CnbL0eOM1Xt
-         v3cg==
-X-Gm-Message-State: AC+VfDzfonis54SUXQaDdGJwhQ6eidwIELunXddEtkxUdBzSOiz0Up0K
-        9vBstEwqlmLBvZyt8FpoXs3DEg==
-X-Google-Smtp-Source: ACHHUZ4eCiAL3KATuxU8f4+GToIRF03ne11cy3xDVyM5Qtn8KrlLw5lsTgOrCzlRlAuxhWACDwueSA==
-X-Received: by 2002:adf:e4c5:0:b0:305:e8db:37df with SMTP id v5-20020adfe4c5000000b00305e8db37dfmr11652178wrm.22.1684903641894;
-        Tue, 23 May 2023 21:47:21 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id k16-20020a5d5190000000b003078c535277sm12921492wrv.91.2023.05.23.21.47.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 May 2023 21:47:19 -0700 (PDT)
-Date:   Wed, 24 May 2023 07:47:15 +0300
-From:   Dan Carpenter <dan.carpenter@linaro.org>
-To:     Su Hui <suhui@nfschina.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        YongSu Yoo <yongsuyoo0215@gmail.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] media: dvb_ringbuffer: Return -EFAULT if copy fails
-Message-ID: <41a9c6a6-4b9a-4d84-9e32-09bf64c65b6c@kili.mountain>
-References: <20230524012733.414441-1-suhui@nfschina.com>
- <7af16b9a-09d1-46ff-b9f9-c178173cf940@kili.mountain>
+        Wed, 24 May 2023 00:53:52 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A63F213E;
+        Tue, 23 May 2023 21:53:50 -0700 (PDT)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34O4UKeh005024;
+        Wed, 24 May 2023 04:53:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=vaaPbw1ARTGRfOskyv4NiuJF0uHBDUVCzB7VY4qNrqg=;
+ b=amXzxzQvBkRRpLSzLoSoL023sqjbACekChdxJLyWtz2yHlYIP+jP5+VW8ryyxHJeeEa6
+ rY4JKy3AjJ1veLws/g5w6rxNevfOG8GNOXDf8zrSPA8BIJNXabxYYUkcmCtQYi6iFL5L
+ tGo/tqBDEv1O+hPS6zqJg95lN/5XJE4TZQFRyrHxVLcPqAwu9SYyzJ/8BpI1yfc+7PAs
+ s/pny1qtTeg6vThaU5P3akumGm8/WktE34UcYjo2ZaSU+zx7gwKZO3Qf65QrAlLI3qHu
+ vssRY6u2JpfA3i+a2MXMuHjh/JFMqc3KagynuVb9iWV3/dRswF0e4InVAT6LYfNyRFZ+ EA== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qs42urt2d-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 24 May 2023 04:53:45 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34O4riID026837
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 24 May 2023 04:53:44 GMT
+Received: from [10.50.55.115] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Tue, 23 May
+ 2023 21:53:41 -0700
+Message-ID: <03a9eb97-0961-5031-debe-acea03ee68fd@quicinc.com>
+Date:   Wed, 24 May 2023 10:23:32 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7af16b9a-09d1-46ff-b9f9-c178173cf940@kili.mountain>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH] venus: replace arrary index with enum for supported
+ formats
+Content-Language: en-US
+To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
+        <linux-media@vger.kernel.org>, <stanimir.k.varbanov@gmail.com>,
+        <quic_vgarodia@quicinc.com>, <agross@kernel.org>,
+        <andersson@kernel.org>, <mchehab@kernel.org>
+CC:     <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>
+References: <1684736229-30567-1-git-send-email-quic_dikshita@quicinc.com>
+ <0f7a33c1-f894-adfe-94d7-89296893128f@linaro.org>
+From:   Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <0f7a33c1-f894-adfe-94d7-89296893128f@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: AyHwFdofocAfPoz6xvonnD5EJWk1iU0Q
+X-Proofpoint-GUID: AyHwFdofocAfPoz6xvonnD5EJWk1iU0Q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-05-24_02,2023-05-23_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 bulkscore=0
+ priorityscore=1501 adultscore=0 lowpriorityscore=0 spamscore=0 mlxscore=0
+ phishscore=0 suspectscore=0 malwarescore=0 mlxlogscore=999 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
+ definitions=main-2305240040
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,37 +83,241 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, May 24, 2023 at 07:23:45AM +0300, Dan Carpenter wrote:
-> On Wed, May 24, 2023 at 09:27:33AM +0800, Su Hui wrote:
-> > The copy_to/from_user() functions return the number of bytes remaining
-> > to be copied, but we want to return -EFAULT to the user.
-> > 
 
-So basically these bugs are caused because people are used to functions
-returning negative error codes and they write some form of:
 
-	ret = copy_from_user();
-	if (ret)
-		return ret;
+On 5/23/2023 1:32 PM, Konrad Dybcio wrote:
+> 
+> 
+> On 22.05.2023 08:17, Dikshita Agarwal wrote:
+>> Use enums to list supported formats for encoder and decoder
+>> instead of array index which was a error prone design.
+>>
+>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+>> ---
+> Thanks a lot.
+> 
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> 
+>>  drivers/media/platform/qcom/venus/core.h | 16 ++++++++
+>>  drivers/media/platform/qcom/venus/vdec.c | 63 +++++++++++++++++++-------------
+>>  drivers/media/platform/qcom/venus/venc.c | 31 +++++++++-------
+>>  3 files changed, 72 insertions(+), 38 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+>> index 12a42fb..e988ed4 100644
+>> --- a/drivers/media/platform/qcom/venus/core.h
+>> +++ b/drivers/media/platform/qcom/venus/core.h
+>> @@ -83,6 +83,22 @@ struct venus_resources {
+>>  	const char *fwname;
+>>  };
+>>  
+>> +enum venus_fmt {
+>> +	VENUS_FMT_NV12			= 0,
+>> +	VENUS_FMT_QC08C			= 1,
+>> +	VENUS_FMT_QC10C			= 2,
+>> +	VENUS_FMT_H264			= 3,
+>> +	VENUS_FMT_VP8			= 4,
+>> +	VENUS_FMT_VP9			= 5,
+>> +	VENUS_FMT_HEVC			= 6,
+>> +	VENUS_FMT_VC1_ANNEX_G		= 7,
+>> +	VENUS_FMT_VC1_ANNEX_L		= 8,
+>> +	VENUS_FMT_MPEG4			= 9,
+>> +	VENUS_FMT_MPEG2			= 10,
+>> +	VENUS_FMT_H263			= 11,
+>> +	VENUS_FMT_XVID			= 12,
+> Nit: I don't think the '= n' is necessary here, as it doesn't
+> map to anything in hw/fw (or does it?)
+> 
+> Konrad
+> 
+Yes, It doesn't. Will remove in next patch.
 
-If you look at the code and you think, "They author thinks 'ret' is
-negative" then probably it is a bug.  The common false positives are
-in the core kernel where it does:
+Thanks,
+Dikshita
 
-	return copy_from_user();
-
-and the caller checks:
-
-	if (function_one() || function_two() || function_three())
-		return -EFAULT;
-
-Those are done because it's a fast path and adding a lot of if
-statements would slow things down.  Driver code tends not to do this
-because normally drivers are not so performance sensitive and it's more
-important to be readable.
-
-So you have to look at the context a bit.
-
-regards,
-dan carpenter
-
+>> +};
+>> +
+>>  struct venus_format {
+>>  	u32 pixfmt;
+>>  	unsigned int num_planes;
+>> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+>> index c6f0fd08..bab985b 100644
+>> --- a/drivers/media/platform/qcom/venus/vdec.c
+>> +++ b/drivers/media/platform/qcom/venus/vdec.c
+>> @@ -30,69 +30,82 @@
+>>   * - future firmware versions could add support for >1 planes
+>>   */
+>>  static const struct venus_format vdec_formats[] = {
+>> -	{
+>> +	[VENUS_FMT_NV12] = {
+>>  		.pixfmt = V4L2_PIX_FMT_NV12,
+>>  		.num_planes = 1,
+>>  		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
+>> -	}, {
+>> +	},
+>> +	[VENUS_FMT_QC08C] = {
+>>  		.pixfmt = V4L2_PIX_FMT_QC08C,
+>>  		.num_planes = 1,
+>>  		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
+>> -	}, {
+>> +	},
+>> +	[VENUS_FMT_QC10C] = {
+>>  		.pixfmt = V4L2_PIX_FMT_QC10C,
+>>  		.num_planes = 1,
+>>  		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
+>> -	}, {
+>> -		.pixfmt = V4L2_PIX_FMT_MPEG4,
+>> +	},
+>> +	[VENUS_FMT_H264] = {
+>> +		.pixfmt = V4L2_PIX_FMT_H264,
+>>  		.num_planes = 1,
+>>  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+>>  		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION,
+>> -	}, {
+>> -		.pixfmt = V4L2_PIX_FMT_MPEG2,
+>> +	},
+>> +	[VENUS_FMT_VP8] = {
+>> +		.pixfmt = V4L2_PIX_FMT_VP8,
+>>  		.num_planes = 1,
+>>  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+>>  		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION,
+>> -	}, {
+>> -		.pixfmt = V4L2_PIX_FMT_H263,
+>> +	},
+>> +	[VENUS_FMT_VP9] = {
+>> +		.pixfmt = V4L2_PIX_FMT_VP9,
+>>  		.num_planes = 1,
+>>  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+>>  		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION,
+>> -	}, {
+>> -		.pixfmt = V4L2_PIX_FMT_VC1_ANNEX_G,
+>> +	},
+>> +	[VENUS_FMT_HEVC] = {
+>> +		.pixfmt = V4L2_PIX_FMT_HEVC,
+>>  		.num_planes = 1,
+>>  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+>>  		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION,
+>> -	}, {
+>> -		.pixfmt = V4L2_PIX_FMT_VC1_ANNEX_L,
+>> +	},
+>> +	[VENUS_FMT_VC1_ANNEX_G] = {
+>> +		.pixfmt = V4L2_PIX_FMT_VC1_ANNEX_G,
+>>  		.num_planes = 1,
+>>  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+>>  		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION,
+>> -	}, {
+>> -		.pixfmt = V4L2_PIX_FMT_H264,
+>> +	},
+>> +	[VENUS_FMT_VC1_ANNEX_L] = {
+>> +		.pixfmt = V4L2_PIX_FMT_VC1_ANNEX_L,
+>>  		.num_planes = 1,
+>>  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+>>  		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION,
+>> -	}, {
+>> -		.pixfmt = V4L2_PIX_FMT_VP8,
+>> +	},
+>> +	[VENUS_FMT_MPEG4] = {
+>> +		.pixfmt = V4L2_PIX_FMT_MPEG4,
+>>  		.num_planes = 1,
+>>  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+>>  		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION,
+>> -	}, {
+>> -		.pixfmt = V4L2_PIX_FMT_VP9,
+>> +	},
+>> +	[VENUS_FMT_MPEG2] = {
+>> +		.pixfmt = V4L2_PIX_FMT_MPEG2,
+>>  		.num_planes = 1,
+>>  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+>>  		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION,
+>> -	}, {
+>> -		.pixfmt = V4L2_PIX_FMT_XVID,
+>> +	},
+>> +	[VENUS_FMT_H263] = {
+>> +		.pixfmt = V4L2_PIX_FMT_H263,
+>>  		.num_planes = 1,
+>>  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+>>  		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION,
+>> -	}, {
+>> -		.pixfmt = V4L2_PIX_FMT_HEVC,
+>> +	},
+>> +	[VENUS_FMT_XVID] = {
+>> +		.pixfmt = V4L2_PIX_FMT_XVID,
+>>  		.num_planes = 1,
+>>  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+>>  		.flags = V4L2_FMT_FLAG_DYN_RESOLUTION,
+>>  	},
+>> +
+>>  };
+>>  
+>>  static const struct venus_format *
+>> @@ -1575,8 +1588,8 @@ static const struct hfi_inst_ops vdec_hfi_ops = {
+>>  static void vdec_inst_init(struct venus_inst *inst)
+>>  {
+>>  	inst->hfi_codec = HFI_VIDEO_CODEC_H264;
+>> -	inst->fmt_out = &vdec_formats[8];
+>> -	inst->fmt_cap = &vdec_formats[0];
+>> +	inst->fmt_out = &vdec_formats[VENUS_FMT_H264];
+>> +	inst->fmt_cap = &vdec_formats[VENUS_FMT_NV12];
+>>  	inst->width = frame_width_min(inst);
+>>  	inst->height = ALIGN(frame_height_min(inst), 32);
+>>  	inst->crop.left = 0;
+>> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+>> index 4666f42..b60772c 100644
+>> --- a/drivers/media/platform/qcom/venus/venc.c
+>> +++ b/drivers/media/platform/qcom/venus/venc.c
+>> @@ -32,28 +32,33 @@
+>>   * - future firmware versions could add support for >1 planes
+>>   */
+>>  static const struct venus_format venc_formats[] = {
+>> -	{
+>> +	[VENUS_FMT_NV12] = {
+>>  		.pixfmt = V4L2_PIX_FMT_NV12,
+>>  		.num_planes = 1,
+>>  		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+>> -	}, {
+>> -		.pixfmt = V4L2_PIX_FMT_MPEG4,
+>> +	},
+>> +	[VENUS_FMT_H264] = {
+>> +		.pixfmt = V4L2_PIX_FMT_H264,
+>>  		.num_planes = 1,
+>>  		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
+>> -	}, {
+>> -		.pixfmt = V4L2_PIX_FMT_H263,
+>> +	},
+>> +	[VENUS_FMT_VP8] = {
+>> +		.pixfmt = V4L2_PIX_FMT_VP8,
+>>  		.num_planes = 1,
+>>  		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
+>> -	}, {
+>> -		.pixfmt = V4L2_PIX_FMT_H264,
+>> +	},
+>> +	[VENUS_FMT_HEVC] = {
+>> +		.pixfmt = V4L2_PIX_FMT_HEVC,
+>>  		.num_planes = 1,
+>>  		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
+>> -	}, {
+>> -		.pixfmt = V4L2_PIX_FMT_VP8,
+>> +	},
+>> +	[VENUS_FMT_MPEG4] = {
+>> +		.pixfmt = V4L2_PIX_FMT_MPEG4,
+>>  		.num_planes = 1,
+>>  		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
+>> -	}, {
+>> -		.pixfmt = V4L2_PIX_FMT_HEVC,
+>> +	},
+>> +	[VENUS_FMT_H263] = {
+>> +		.pixfmt = V4L2_PIX_FMT_H263,
+>>  		.num_planes = 1,
+>>  		.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
+>>  	},
+>> @@ -1416,8 +1421,8 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
+>>  
+>>  static void venc_inst_init(struct venus_inst *inst)
+>>  {
+>> -	inst->fmt_cap = &venc_formats[3];
+>> -	inst->fmt_out = &venc_formats[0];
+>> +	inst->fmt_cap = &venc_formats[VENUS_FMT_H264];
+>> +	inst->fmt_out = &venc_formats[VENUS_FMT_NV12];
+>>  	inst->width = 1280;
+>>  	inst->height = ALIGN(720, 32);
+>>  	inst->out_width = 1280;
