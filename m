@@ -2,86 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F27D70F9E5
-	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 17:17:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E628E70FA9B
+	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 17:41:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235495AbjEXPQ6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 May 2023 11:16:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54844 "EHLO
+        id S237399AbjEXPlr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 May 2023 11:41:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235342AbjEXPQ5 (ORCPT
+        with ESMTP id S236857AbjEXPld (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 May 2023 11:16:57 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CF2DA9
-        for <linux-media@vger.kernel.org>; Wed, 24 May 2023 08:16:56 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1q1qEP-0005az-P2; Wed, 24 May 2023 17:16:53 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1q1qEO-002W9T-FA; Wed, 24 May 2023 17:16:52 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1q1qEN-007b3g-Mx; Wed, 24 May 2023 17:16:51 +0200
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Wed, 24 May 2023 11:41:33 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D682199F
+        for <linux-media@vger.kernel.org>; Wed, 24 May 2023 08:40:40 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-3f60410106cso9027105e9.1
+        for <linux-media@vger.kernel.org>; Wed, 24 May 2023 08:40:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684942772; x=1687534772;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DCt27JdlGxjhVB77hVhQnd8TPlzY6SW2uD1NMwVC+VY=;
+        b=f3icOfY5ILxgd7wBBIcvqKZHqlf+fKbLzhOPwfIM22f46XLLz/HJI45YM/TvJxtsaY
+         ii8FYvqss0LHEXCtdTZLqLiyK4NZbNy+LpOOYHxlptPZDNt0sltRFOnf2tosCQ9AXMKX
+         Snou9PpvBbYQr1iQcPnRqgTkAR/JMMlj8lzYpgzZKwL/PeIIggNTHjgeo0sN+AmF1WaA
+         IHDahHj+bVomz0Ad8ht1gQOaQz3mYnQ4/3w9g6ncXufv2bic1zLN4NDKQ7Od1zt3J/S5
+         Pe8mF+UyE8Edohp0JQ6chBvElp5uyIxBoIFm8JIwfQuGzsCIYs3siQ99OGnzCfO8cuLC
+         ZKbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684942772; x=1687534772;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DCt27JdlGxjhVB77hVhQnd8TPlzY6SW2uD1NMwVC+VY=;
+        b=COr/Ymly+X1NCU3LOEc5Mi3lc0wqs5kcOuWVrtnycA/oLfz8D8HjoHKE1Po7swdBRA
+         mkplBr4nF7eYO8UQmcg7NL+lpq0FQ4CGkQ6wub+g9jX5uZ0KuJhldK9tyKYb4juKFyb0
+         nFvOlhK2xjd0X6ZxtoXAeWCxyprap9jZHIDKQKinWnPTPFGKRjbaNjwIw+9NoTliz4ml
+         dpieVTyWGWmSiPIe60ZfIk79YXYUcuTuUnyDpHSS1Z+2Wj0r4zotM9gQoKMiVRRz1sYE
+         FE4jdVIsQibQmsWyiUICjj9oPPcgezfx9k2dC+O9h4svmbMwAnjd0L2LDBQ69G+i5lfj
+         OKgg==
+X-Gm-Message-State: AC+VfDwDtBWWwqxgfEspgJ0H5VCz5dV+6J2NP8eFTyjiMHg7wkVf8g4g
+        p+N4RQj4+SR4ZwOcH7VGEhw=
+X-Google-Smtp-Source: ACHHUZ7e0vAte6tnVkj5DmLsnjBv7hIN7w+WD4JRFDNaNegfsHD3TphImhSKVJqbo4dHGRiO8Y8a3g==
+X-Received: by 2002:a5d:58d5:0:b0:309:3698:7feb with SMTP id o21-20020a5d58d5000000b0030936987febmr128922wrf.46.1684942771698;
+        Wed, 24 May 2023 08:39:31 -0700 (PDT)
+Received: from localhost (a109-49-33-111.cpe.netcabo.pt. [109.49.33.111])
+        by smtp.gmail.com with ESMTPSA id q12-20020a5d574c000000b00307925ff35bsm14902895wrw.49.2023.05.24.08.39.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 May 2023 08:39:31 -0700 (PDT)
+From:   Rui Miguel Silva <rmfrfs@gmail.com>
+To:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        kernel@pengutronix.de
-Subject: [PATCH v2 3/5] media: staging: max96712: Switch i2c driver back to use .probe()
-Date:   Wed, 24 May 2023 17:16:44 +0200
-Message-Id: <20230524151646.486847-4-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230524151646.486847-1-u.kleine-koenig@pengutronix.de>
-References: <20230524151646.486847-1-u.kleine-koenig@pengutronix.de>
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>
+Cc:     Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v4 0/4] Fix imx7-media-csi format settings
+In-Reply-To: <2686251.mvXUDI8C0e@steina-w>
+References: <20230419070712.1422335-1-alexander.stein@ew.tq-group.com>
+ <2686251.mvXUDI8C0e@steina-w>
+Date:   Wed, 24 May 2023 16:39:30 +0100
+Message-ID: <m3o7m9kabx.fsf@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=990; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=oPLWahjlHd+uQ03zJLVx8P/MD+Hw39p5eyAguTH68Ec=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkbipYzposSy0elOAyvfnkLupsA79VSf2h62hzX 9zf9kTQLqqJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZG4qWAAKCRCPgPtYfRL+ TrwhB/48JRpQ0C6ojALRHnlpL+ZUbbozHZP8t75GhAPue3Ujd/bCA3xYFPTR2XqasRhXTYmsXUI FDlv3EQRb+fymCAtzhkqfgKoeRIwWfAr5aV6QcHjshUhXvcNrDwt6DPssaZBjShGg9pwpOTRTo6 ASujxyC8Ba5QC196McDHBNvyPyshDthLmRWCaBlKq8tPB09s2bEJ02eGhcTkm74vdvS8HH9KbDj 7PRD1lo4pMNwtM33LTRpMTUVy2yCGeImAbxz9hnl5GdM71CkhFJeue8UFAZ47FgZ3cqFgboeidl mXEEWNgZYmVWoh3mT3+pLPXrsgC71jxbgPoSSR2d+AzKwRV7
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_ENVFROM,
+        HK_RANDOM_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-After commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
-call-back type"), all drivers being converted to .probe_new() and then
-03c835f498b5 ("i2c: Switch .probe() to not take an id parameter") convert
-back to (the new) .probe() to be able to eventually drop .probe_new() from
-struct i2c_driver.
+Hi Alexander,
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/staging/media/max96712/max96712.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Alexander Stein <alexander.stein@ew.tq-group.com> writes:
 
-diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
-index 99b333b68198..77943bdf3fb9 100644
---- a/drivers/staging/media/max96712/max96712.c
-+++ b/drivers/staging/media/max96712/max96712.c
-@@ -427,7 +427,7 @@ static struct i2c_driver max96712_i2c_driver = {
- 		.name = "max96712",
- 		.of_match_table	= of_match_ptr(max96712_of_table),
- 	},
--	.probe_new = max96712_probe,
-+	.probe = max96712_probe,
- 	.remove = max96712_remove,
- };
- 
--- 
-2.39.2
+> Hello,
+>
+> Am Mittwoch, 19. April 2023, 09:07:08 CEST schrieb Alexander Stein:
+>> Hi,
+>>=20
+>> v4 also incorporates feedback and improves commit messages a lot.
+>> Patch 3 is simplified now with hardware alignment constraintd being figu=
+red
+>> out.
+>
+> Ping, any more reviews?
 
+The all series LGTM, FWIW:
+Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
+
+I think Laurent can pull request this on his tree.
+
+Cheers,
+  Rui
+>
+> Thanks
+> Alexander
+>
+>> Thanks,
+>> Alexander
+>>=20
+>> Alexander Stein (3):
+>>   media: imx: imx7-media-csi: Get rid of superfluous call to
+>>     imx7_csi_mbus_fmt_to_pix_fmt
+>>   media: imx: imx7-media-csi: Remove incorrect interlacing support
+>>   media: imx: imx7-media-csi: Relax width constraints for non-8bpp
+>>     formats
+>>=20
+>> Laurent Pinchart (1):
+>>   media: imx: imx7-media-csi: Init default format with
+>>     __imx7_csi_video_try_fmt()
+>>=20
+>>  drivers/media/platform/nxp/imx7-media-csi.c | 94 ++++++---------------
+>>  1 file changed, 24 insertions(+), 70 deletions(-)
+>
+>
+> --=20
+> TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Ge=
+rmany
+> Amtsgericht M=C3=BCnchen, HRB 105018
+> Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan S=
+chneider
+> http://www.tq-group.com/
