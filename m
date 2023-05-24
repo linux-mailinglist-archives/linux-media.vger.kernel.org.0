@@ -2,228 +2,197 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C7CDD70FB5B
-	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 18:07:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7BB070FBBF
+	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 18:36:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231148AbjEXQHR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 May 2023 12:07:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34020 "EHLO
+        id S231494AbjEXQgY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 May 2023 12:36:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229547AbjEXQHQ (ORCPT
+        with ESMTP id S231217AbjEXQgX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 May 2023 12:07:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA99612B
-        for <linux-media@vger.kernel.org>; Wed, 24 May 2023 09:06:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1684944361;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ZhmKVosQZ4JQVcRnOlE4vKtMbROWwC8k2YBKHPSiQTc=;
-        b=SZeGFqmU65XVZGuJeos/DBf98uzj2K4LzCsyVkJJqbVs1fCZX5OhmZs9HprSiEu4bNRlzK
-        rf6q9tsAhXIUY63k260bj4Mm5pqp4WCuVUJ6X7EDskviIsBhUqlqVuStkC0mu+kLHV4DYr
-        nByz2esfyMw0eBlTcIvXWMoxntSslog=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-324-rVhpIIe1M9CDz2r6DQ2Ysw-1; Wed, 24 May 2023 12:05:59 -0400
-X-MC-Unique: rVhpIIe1M9CDz2r6DQ2Ysw-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-94f7a2b21fdso135585966b.2
-        for <linux-media@vger.kernel.org>; Wed, 24 May 2023 09:05:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684944358; x=1687536358;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZhmKVosQZ4JQVcRnOlE4vKtMbROWwC8k2YBKHPSiQTc=;
-        b=Jcubsrmea1lTWe02nt/N5spilLvtkBYXkgHjiJPmPqfsU50CeqH3tYXbYdCcQ5UGLM
-         iIrdkmtc3UG7X3JBWRz+rilla15TaG7ZdaMVd7r77pGNVK217wwX9Ebi4tO2pX46Jz0D
-         JisJi3BLhaBM65h49pJN3xvYjnhg4nzhlEHRzkTj7Dar6qwXwccAIINVls2uKAghI9hv
-         xllOHzq/KtEUjME0ZVVaGw/KdDKAYuHC9h/oLXZ+EZKV073ZnXA5zTcOL0DFDMsk/K2b
-         XXYhPhZmoC6p0FDZgY0UzOa2GzOwm6EjGedwfGay1rGprbE2KBpKrO3RLTnDYr7iA5Af
-         F51A==
-X-Gm-Message-State: AC+VfDw5TjevxQffpO4O4FIPNf+sG5+jPlBFT3+017cicYtNRwebmJOz
-        gUEGpJs5KxrGdBTbTLCC8/TIcyrMtw8YiNZ7dINInn1bHTSceG70+T66QUTLgqITxRt1OvUUQGy
-        tVsCLeAz2xEh1p0HkEwvseT4=
-X-Received: by 2002:a17:907:2d8e:b0:96f:f046:9a92 with SMTP id gt14-20020a1709072d8e00b0096ff0469a92mr11389047ejc.37.1684944358683;
-        Wed, 24 May 2023 09:05:58 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4e5txwqOZ3SZtKs2/NS+0PjYyPaaNd5bixnCBezKSQfj3syizAy6TIio0foEQIMBGJV1un/Q==
-X-Received: by 2002:a17:907:2d8e:b0:96f:f046:9a92 with SMTP id gt14-20020a1709072d8e00b0096ff0469a92mr11389028ejc.37.1684944358324;
-        Wed, 24 May 2023 09:05:58 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id kt26-20020a170906aada00b009663cf5dc3bsm6004615ejb.53.2023.05.24.09.05.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 May 2023 09:05:57 -0700 (PDT)
-Message-ID: <29320512-aac1-92c0-545f-a83f4606cf55@redhat.com>
-Date:   Wed, 24 May 2023 18:05:56 +0200
+        Wed, 24 May 2023 12:36:23 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D5A6123;
+        Wed, 24 May 2023 09:36:21 -0700 (PDT)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34OGXgnN024619;
+        Wed, 24 May 2023 16:36:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=vTG9mvZqKviqsRVEIrZVwuT6RML06eXihgrvhA3Nq/Q=;
+ b=VkVQJTDeHnzcNKN5AiCnKmbZZ9rnbP8NCpHzIgCKJj612ximrJBd/r56prjIeQ6QLoe1
+ C6H6XevHgKc3Q9QlleT15YFAYrWVQcZT5/yTBfNfBpzJAwpq4LG+Hg2qtcWIKdUkeOFz
+ tCw7o2n5HETGa84klWWSuF2djb7dYvw4olWfHXej1nQtWWj1qC39B6TRSYET2sjnFpxN
+ 7q+OV8W/gKNnAvJ/xMd6I2E2VHUt3QQkHKzufOL+SdtRIebqqJ/EFeShsa/sqtxj6MqM
+ bQwRcHVEWcEdkfooXAgsrQVOinqzeK9SY5/2mk7Kk5Dwmpq2wo3Q98qlTEdAwGlMhoPj ug== 
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qsdhh1a9s-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 24 May 2023 16:36:14 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34OGaDt9011107
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 24 May 2023 16:36:13 GMT
+Received: from [10.252.212.215] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Wed, 24 May
+ 2023 09:36:10 -0700
+Message-ID: <83cd3dc7-455d-0f26-d2a8-3ebe92d9e33f@quicinc.com>
+Date:   Wed, 24 May 2023 22:06:07 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 2/5] media: atomisp: Switch i2c drivers back to use
- .probe()
-Content-Language: en-US, nl
-To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Adrien Grassein <adrien.grassein@gmail.com>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Jean Delvare <jdelvare@suse.de>, Steven@pengutronix.de,
-        Rostedt@pengutronix.de, Corey Minyard <cminyard@mvista.com>,
-        Haowen Bai <baihaowen@meizu.com>, Tom Rix <trix@redhat.com>,
-        Peter Senna Tschudin <peter.senna@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        kernel@pengutronix.de
-References: <20230524151646.486847-1-u.kleine-koenig@pengutronix.de>
- <20230524151646.486847-3-u.kleine-koenig@pengutronix.de>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230524151646.486847-3-u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCHv3] media: venus: provide video device lock
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>
+CC:     Tomasz Figa <tfiga@chromium.org>, <linux-media@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>
+References: <20230524135737.2557837-1-senozhatsky@chromium.org>
+ <20230524141312.2558810-1-senozhatsky@chromium.org>
+ <2c732d80-1a18-7a34-03a8-16afb0de5ea2@linaro.org>
+ <f9219cb0-2cac-bace-20f7-27005cd0e6f1@xs4all.nl>
+Content-Language: en-US
+From:   Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <f9219cb0-2cac-bace-20f7-27005cd0e6f1@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 95_k8Tj_02LiiVPwyETwJLraLIqULXah
+X-Proofpoint-ORIG-GUID: 95_k8Tj_02LiiVPwyETwJLraLIqULXah
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-05-24_11,2023-05-24_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ suspectscore=0 clxscore=1011 malwarescore=0 bulkscore=0 spamscore=0
+ mlxscore=0 lowpriorityscore=0 adultscore=0 phishscore=0 impostorscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305240137
+X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
 
-On 5/24/23 17:16, Uwe Kleine-König wrote:
-> After commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
-> call-back type"), all drivers being converted to .probe_new() and then
-> 03c835f498b5 ("i2c: Switch .probe() to not take an id parameter") convert
-> back to (the new) .probe() to be able to eventually drop .probe_new() from
-> struct i2c_driver.
+On 5/24/2023 8:14 PM, Hans Verkuil wrote:
+> On 24/05/2023 16:29, Bryan O'Donoghue wrote:
+>> On 24/05/2023 15:12, Sergey Senozhatsky wrote:
+>>> Video device has to provide ->lock so that __video_do_ioctl()
+>>> can serialize IOCTL calls. Provided dedicated enc/dec mutex-s
+>>> for that purpose.
+Why do we need to serialize at device context ? Please share some details on the
+issue faced leading to the serialization. This may impact performance, let say,
+when we have multiple concurrent video sessions running at the same time and the
+ioctl for one session have to wait if the lock is taken by another session ioctl.
+
+>>>
+>>> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
 > 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-
-Thank you for the patch. I have merged this into:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=media-atomisp
-
-And I'll include this in the atomisp linux-media pull-req
-which I send to Mauro around rc5 / rc6 time.
-
-(I'm currently doing a lot of work on the atomisp code,
-so merging this through my atomisp branch is best to
-avoid conflicts)
-
-Regards,
-
-Hans
-
-
-
-
-> ---
->  drivers/staging/media/atomisp/i2c/atomisp-gc0310.c        | 2 +-
->  drivers/staging/media/atomisp/i2c/atomisp-gc2235.c        | 2 +-
->  drivers/staging/media/atomisp/i2c/atomisp-lm3554.c        | 2 +-
->  drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c       | 2 +-
->  drivers/staging/media/atomisp/i2c/atomisp-ov2680.c        | 2 +-
->  drivers/staging/media/atomisp/i2c/atomisp-ov2722.c        | 2 +-
->  drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c | 2 +-
->  7 files changed, 7 insertions(+), 7 deletions(-)
+> Since these are m2m devices, I think this should set vfh->m2m_ctx->q_lock
+> instead.
 > 
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> index 273155308fe3..21eb4234a081 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> @@ -483,7 +483,7 @@ static struct i2c_driver gc0310_driver = {
->  		.pm = pm_sleep_ptr(&gc0310_pm_ops),
->  		.acpi_match_table = gc0310_acpi_match,
->  	},
-> -	.probe_new = gc0310_probe,
-> +	.probe = gc0310_probe,
->  	.remove = gc0310_remove,
->  };
->  module_i2c_driver(gc0310_driver);
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> index cb4c79b483ca..9fa390fbc5f3 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> @@ -864,7 +864,7 @@ static struct i2c_driver gc2235_driver = {
->  		.name = "gc2235",
->  		.acpi_match_table = gc2235_acpi_match,
->  	},
-> -	.probe_new = gc2235_probe,
-> +	.probe = gc2235_probe,
->  	.remove = gc2235_remove,
->  };
->  module_i2c_driver(gc2235_driver);
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-> index c4ce4cd445d7..cf5d9317b11a 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-> @@ -945,7 +945,7 @@ static struct i2c_driver lm3554_driver = {
->  		.pm   = &lm3554_pm_ops,
->  		.acpi_match_table = lm3554_acpi_match,
->  	},
-> -	.probe_new = lm3554_probe,
-> +	.probe = lm3554_probe,
->  	.remove = lm3554_remove,
->  };
->  module_i2c_driver(lm3554_driver);
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> index 0e5a981dd331..1c6643c442ef 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-> @@ -1600,7 +1600,7 @@ static struct i2c_driver mt9m114_driver = {
->  		.name = "mt9m114",
->  		.acpi_match_table = mt9m114_acpi_match,
->  	},
-> -	.probe_new = mt9m114_probe,
-> +	.probe = mt9m114_probe,
->  	.remove = mt9m114_remove,
->  };
->  module_i2c_driver(mt9m114_driver);
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> index 63de214916f5..b5d93a96d588 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> @@ -719,7 +719,7 @@ static struct i2c_driver ov2680_driver = {
->  		.pm = pm_sleep_ptr(&ov2680_pm_ops),
->  		.acpi_match_table = ov2680_acpi_match,
->  	},
-> -	.probe_new = ov2680_probe,
-> +	.probe = ov2680_probe,
->  	.remove = ov2680_remove,
->  };
->  module_i2c_driver(ov2680_driver);
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> index 5d2e6e2e72f0..6a72691ed5b7 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> @@ -1019,7 +1019,7 @@ static struct i2c_driver ov2722_driver = {
->  		.name = "ov2722",
->  		.acpi_match_table = ov2722_acpi_match,
->  	},
-> -	.probe_new = ov2722_probe,
-> +	.probe = ov2722_probe,
->  	.remove = ov2722_remove,
->  };
->  module_i2c_driver(ov2722_driver);
-> diff --git a/drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c b/drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c
-> index da8c3b1d3bcd..c94fe8e861a5 100644
-> --- a/drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c
-> +++ b/drivers/staging/media/atomisp/i2c/ov5693/atomisp-ov5693.c
-> @@ -1794,7 +1794,7 @@ static struct i2c_driver ov5693_driver = {
->  		.name = "ov5693",
->  		.acpi_match_table = ov5693_acpi_match,
->  	},
-> -	.probe_new = ov5693_probe,
-> +	.probe = ov5693_probe,
->  	.remove = ov5693_remove,
->  };
->  module_i2c_driver(ov5693_driver);
+> The vb2_queue is per filehandle for such devices, so by just setting
+> vdev->lock you will have all vb2_queues use the same mutex.
+> 
+> Instead the struct v4l2_m2m_ctx q_lock pointer, if set, will use that
+> mutex for all vb2 operations.
+> 
+> I think you can set it to the 'lock' mutex in struct venus_inst.
 
+IIUC, the suggestion is to use the 'lock' in struct venus_inst while
+initializing the queue. This might lead to deadlock as the same lock is used
+during vb2 operations in driver. Might be introducing a new lock for this
+purpose in struct venus_inst would do, unless we are trying to serialize at
+video device (or core) context.
+
+> 
+> Regards,
+> 
+> 	Hans
+> 
+>>> ---
+>>>   drivers/media/platform/qcom/venus/core.h | 4 ++++
+>>>   drivers/media/platform/qcom/venus/vdec.c | 2 ++
+>>>   drivers/media/platform/qcom/venus/venc.c | 2 ++
+>>>   3 files changed, 8 insertions(+)
+>>>
+>>> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+>>> index 4f81669986ba..b6c9a653a007 100644
+>>> --- a/drivers/media/platform/qcom/venus/core.h
+>>> +++ b/drivers/media/platform/qcom/venus/core.h
+>>> @@ -113,7 +113,9 @@ struct venus_format {
+>>>    * @opp_pmdomain: an OPP power-domain
+>>>    * @resets: an array of reset signals
+>>>    * @vdev_dec:    a reference to video device structure for decoder instances
+>>> + * @vdev_dec_lock: decoder instance video device ioctl lock
+>>>    * @vdev_enc:    a reference to video device structure for encoder instances
+>>> + * @vdev_enc_lock: encoder instance video device ioctl lock
+>>>    * @v4l2_dev:    a holder for v4l2 device structure
+>>>    * @res:        a reference to venus resources structure
+>>>    * @dev:        convenience struct device pointer
+>>> @@ -165,7 +167,9 @@ struct venus_core {
+>>>       struct device *opp_pmdomain;
+>>>       struct reset_control *resets[VIDC_RESETS_NUM_MAX];
+>>>       struct video_device *vdev_dec;
+>>> +    struct mutex vdev_dec_lock;
+>>>       struct video_device *vdev_enc;
+>>> +    struct mutex vdev_enc_lock;
+>>>       struct v4l2_device v4l2_dev;
+>>>       const struct venus_resources *res;
+>>>       struct device *dev;
+>>> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+>>> index 51a53bf82bd3..7e9363714bfb 100644
+>>> --- a/drivers/media/platform/qcom/venus/vdec.c
+>>> +++ b/drivers/media/platform/qcom/venus/vdec.c
+>>> @@ -1760,6 +1760,7 @@ static int vdec_probe(struct platform_device *pdev)
+>>>       if (!vdev)
+>>>           return -ENOMEM;
+>>>   +    mutex_init(&core->vdev_dec_lock);
+>>>       strscpy(vdev->name, "qcom-venus-decoder", sizeof(vdev->name));
+>>>       vdev->release = video_device_release;
+>>>       vdev->fops = &vdec_fops;
+>>> @@ -1767,6 +1768,7 @@ static int vdec_probe(struct platform_device *pdev)
+>>>       vdev->vfl_dir = VFL_DIR_M2M;
+>>>       vdev->v4l2_dev = &core->v4l2_dev;
+>>>       vdev->device_caps = V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING;
+>>> +    vdev->lock = &core->vdev_dec_lock;
+>>>         ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
+>>>       if (ret)
+>>> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+>>> index 4666f42feea3..8522ed339d5d 100644
+>>> --- a/drivers/media/platform/qcom/venus/venc.c
+>>> +++ b/drivers/media/platform/qcom/venus/venc.c
+>>> @@ -1558,6 +1558,7 @@ static int venc_probe(struct platform_device *pdev)
+>>>       if (!vdev)
+>>>           return -ENOMEM;
+>>>   +    mutex_init(&core->vdev_enc_lock);
+>>>       strscpy(vdev->name, "qcom-venus-encoder", sizeof(vdev->name));
+>>>       vdev->release = video_device_release;
+>>>       vdev->fops = &venc_fops;
+>>> @@ -1565,6 +1566,7 @@ static int venc_probe(struct platform_device *pdev)
+>>>       vdev->vfl_dir = VFL_DIR_M2M;
+>>>       vdev->v4l2_dev = &core->v4l2_dev;
+>>>       vdev->device_caps = V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING;
+>>> +    vdev->lock = &core->vdev_enc_lock;
+>>>         ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
+>>>       if (ret)
+>>
+>> LGTM
+>>
+>> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> 
