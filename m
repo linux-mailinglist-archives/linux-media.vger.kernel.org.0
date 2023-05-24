@@ -2,96 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 165BA70F424
-	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 12:27:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BBE470F428
+	for <lists+linux-media@lfdr.de>; Wed, 24 May 2023 12:27:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229778AbjEXK1X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 May 2023 06:27:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48582 "EHLO
+        id S233341AbjEXK1q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 May 2023 06:27:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232707AbjEXK0y (ORCPT
+        with ESMTP id S229614AbjEXK1b (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 May 2023 06:26:54 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1418C1AC
-        for <linux-media@vger.kernel.org>; Wed, 24 May 2023 03:26:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684924013; x=1716460013;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8F/qEAPb6gSEPr1VGIAZBmDWj3IfY283dT1n3UuF1b4=;
-  b=k/WTekdybQHgK/lUNqGRHfPhcgzSAmYPP1fXL5BudsZr8Klt+jEWwNSL
-   UJ13zLH5ATWwxjpTR1GE47z10/BZn6IOahkgw7XsrYiaRNit112PJW/JX
-   +GQaH9FNqsMkwIGy91mEFb4Vc6cS/vGnQ6bNRKU/V5esWCpw0FNxSDZ6R
-   qnZSmgzi8sqeqp1LWc0MxhwlpQZ9FHcIk9udmrSn/c02/5juBz7YPRwYj
-   YDbq9oUeaXyCKXb/2wjmPZqFC3s4hyNIRMWtqdemIWmW+Rop6jvv9n1JT
-   jDWUx9dIKc2YPNzWWUuy+nbj9gFykiH+FqWtQ0IvZB0osOr/Trt3eFpW9
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="351035230"
-X-IronPort-AV: E=Sophos;i="6.00,188,1681196400"; 
-   d="scan'208";a="351035230"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2023 03:26:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="735154450"
-X-IronPort-AV: E=Sophos;i="6.00,188,1681196400"; 
-   d="scan'208";a="735154450"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga008.jf.intel.com with ESMTP; 24 May 2023 03:26:50 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1q1lhg-000GCH-1X;
-        Wed, 24 May 2023 13:26:48 +0300
-Date:   Wed, 24 May 2023 13:26:48 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     bingbu.cao@intel.com
-Cc:     djrscally@gmail.com, dan.scally@ideasonboard.com,
-        hao.yao@intel.com, markgross@kernel.org,
-        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        hdegoede@redhat.com, bingbu.cao@linux.intel.com
-Subject: Re: [PATCH 1/3] platform/x86: int3472: Avoid crash in unregistering
- regulator gpio
-Message-ID: <ZG3maJQ9aIiV9ciL@smile.fi.intel.com>
-References: <20230524035135.90315-1-bingbu.cao@intel.com>
+        Wed, 24 May 2023 06:27:31 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9730719D;
+        Wed, 24 May 2023 03:27:29 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 048EF63BEA;
+        Wed, 24 May 2023 10:27:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 630DCC4339C;
+        Wed, 24 May 2023 10:27:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1684924048;
+        bh=Ru0fWfqqlX6KQv5nM4MMh2953U7nWaI2cFpOL79ZxOU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ou3dXMmmPknNr2EpgEOhpDzxeenu+FqECpv0vDlyeCIAqxkkvc8omfRowZI9qL48y
+         qNboz4BBDS0oAYCxUfsAjuUpmemUoTPXEe4GkBjgypmE3BTYcgI2CvjvOIpvX5PV+j
+         JcdFpPZhd58XXhMkyxR4poMWU0nEkvRzm7yrIZ3/2LAzZoOnGAB30mjep9cIH4lz0x
+         DwNb/vZTUGgA44zsH8NtXvrLWGDSeUyPbrb4CkFeUE9oKfS4yHu6pFV4i9nMHIf8Cs
+         uNTd7+kDg2Txb8WPRjbfDLH+dnxZBEu5pmUV3H7f9zDLUxWvV9S/dZih7PQoDz4PpF
+         gXGrI5yvj9X9g==
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-561deaad117so10695727b3.0;
+        Wed, 24 May 2023 03:27:28 -0700 (PDT)
+X-Gm-Message-State: AC+VfDwUqEzQc7f72nSzai4bT7edow66ZmYFGBsnoAdDvPth9DqWLqCn
+        1PK7VfMVXUQs3WYC2a3EiQZGOn5C2fd52A3vJ9c=
+X-Google-Smtp-Source: ACHHUZ5blUe2/ANdrbIUSBlAoc9jfa/cZWRA1ZwikgWcjIP8zS77ACL+X48iAferYBWCpvxnTrwKVSnp1f7b/AK/qBY=
+X-Received: by 2002:a0d:fa82:0:b0:55a:18c0:daba with SMTP id
+ k124-20020a0dfa82000000b0055a18c0dabamr17616723ywf.50.1684924047318; Wed, 24
+ May 2023 03:27:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230524035135.90315-1-bingbu.cao@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20230517145237.295461-1-abailon@baylibre.com> <d0807fe4-dba2-8244-f655-d04e80973572@quicinc.com>
+ <7ha5xud3m7.fsf@baylibre.com>
+In-Reply-To: <7ha5xud3m7.fsf@baylibre.com>
+From:   Oded Gabbay <ogabbay@kernel.org>
+Date:   Wed, 24 May 2023 13:27:00 +0300
+X-Gmail-Original-Message-ID: <CAFCwf10hNjGtEYDi24LREnMLRGT7mRECvqQMdZWv=-uA7YELYg@mail.gmail.com>
+Message-ID: <CAFCwf10hNjGtEYDi24LREnMLRGT7mRECvqQMdZWv=-uA7YELYg@mail.gmail.com>
+Subject: Re: [PATCH 0/7] Add a DRM driver to support AI Processing Unit (APU)
+To:     Kevin Hilman <khilman@baylibre.com>
+Cc:     Jeffrey Hugo <quic_jhugo@quicinc.com>,
+        Alexandre Bailon <abailon@baylibre.com>, airlied@gmail.com,
+        daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+        mripard@kernel.org, tzimmermann@suse.de,
+        devicetree@vger.kernel.org, conor+dt@kernel.org, bero@baylibre.com,
+        jstephan@baylibre.com, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
+        linaro-mm-sig@lists.linaro.org, robh+dt@kernel.org,
+        linux-mediatek@lists.infradead.org, nbelin@baylibre.com,
+        krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
+        linux-media@vger.kernel.org, sumit.semwal@linaro.org,
+        linux-arm-kernel@lists.infradead.org,
+        angelogioacchino.delregno@collabora.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, May 24, 2023 at 11:51:33AM +0800, bingbu.cao@intel.com wrote:
-> From: Hao Yao <hao.yao@intel.com>
-> 
-> When int3472 is loaded before GPIO driver, acpi_get_and_request_gpiod()
-> failed but the returned gpio descriptor is not NULL, it will cause panic
-> in later gpiod_put(), so set the gpio_desc to NULL in register error
-> handling to avoid such crash.
+On Wed, May 24, 2023 at 2:34=E2=80=AFAM Kevin Hilman <khilman@baylibre.com>=
+ wrote:
+>
+> Jeffrey Hugo <quic_jhugo@quicinc.com> writes:
+>
+> > On 5/17/2023 8:52 AM, Alexandre Bailon wrote:
+> >> This adds a DRM driver that implements communication between the CPU a=
+nd an
+> >> APU. The driver target embedded device that usually run inference usin=
+g some
+> >> prebuilt models. The goal is to provide common infrastructure that cou=
+ld be
+> >> re-used to support many accelerators. Both kernel, userspace and firmw=
+are tries
+> >> to use standard and existing to leverage the development and maintenan=
+ce effort.
+> >> The series implements two platform drivers, one for simulation and ano=
+ther one for
+> >> the mt8183 (compatible with mt8365).
+> >
+> > This looks like the 3 existing Accel drivers.  Why is this in DRM?
+>
+> Yes, this belongs in accel.  I think Alex had some issues around the
+> infra in accel with device nodes not appearing/opening properly, but
+> I'll let him comment there.  But either way, the right approach should
+> be to fix any issues in accel and move it there.
+>
+> [...]
+>
+> >>   .../devicetree/bindings/gpu/mtk,apu-drm.yaml  |  38 ++
+> >>   drivers/gpu/drm/Kconfig                       |   2 +
+> >>   drivers/gpu/drm/Makefile                      |   1 +
+> >>   drivers/gpu/drm/apu/Kconfig                   |  22 +
+> >>   drivers/gpu/drm/apu/Makefile                  |  10 +
+> >>   drivers/gpu/drm/apu/apu_drv.c                 | 282 +++++++++
+> >>   drivers/gpu/drm/apu/apu_gem.c                 | 230 +++++++
+> >>   drivers/gpu/drm/apu/apu_internal.h            | 205 ++++++
+> >>   drivers/gpu/drm/apu/apu_sched.c               | 592 ++++++++++++++++=
+++
+> >>   drivers/gpu/drm/apu/simu_apu.c                | 313 +++++++++
+> >>   include/uapi/drm/apu_drm.h                    |  81 +++
+> >
+> > "apu" seems too generic.  We already have 3 "AI processing units" over
+> > in drivers/accel already...
+>
+> Indeed, it is generic, but that's kind of the point for this driver
+> since it's targetted at generalizing the interface with "AI processing
+> units" on a growing number of embedded SoCs (ARM, RISC-V, etc.)  In
+> addition, the generic naming is intentional because the goal is bigger
+> than the kernel and is working towards a generic, shared "libAPU"
+> userspace[1], but also common firmware for DSP-style inference engines
+> (e.g. analgous Sound Open Firmware for audio DSPs.)
+>
+> As usual, the various SoC vendors use different names (APU, NPU, NN
+> unit, etc.)  but we'd like a generic name for the class of devices
+> targetted by this driver.  And unfortunately, it looks like the equally
+> generic "Versatile processing unit" is already taken Intel's
+> drivers/accel/ivpu. :)
+>
+> Maybe since this is more about generalizing the interface between the
+> CPU running linux and the APU, what about the name apu_if?  But I guess
+> that applies to the other 3 drivers in drivers/accell also.  Hmmm...
+>
+> Naming things is hard[2], so we're definitly open to other ideas.  Any
+> suggestions?
+Maybe model it according to the tiny driver in drm display ? You can
+then call it tiny_apu :-)
+Disclosure: It was Daniel's suggestion, he can chime in with more
+details on the tiny driver concept.
+Oded
 
-It should return deferred probe and if somebody is asking for troubles with
-it...
-
-Probably you need to assign only available GPIOs by introducing a local variable
-
-	struct gpio_desc *gdesc;
-
-	gdesc = ...
-	if (IS_ERR(gdesc))
-		...
-
-	...->... = gdesc;
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+>
+> Kevin
+>
+> [1] https://gitlab.baylibre.com/baylibre/libapu/libapu
+>
+> [2]
+> "There are 2 hard problems in computer science: cache invalidation,
+>  naming things and off-by-1 errors."
+>  -- https://twitter.com/secretGeek/status/7269997868
+>
