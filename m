@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A4547108A0
-	for <lists+linux-media@lfdr.de>; Thu, 25 May 2023 11:17:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78D21710898
+	for <lists+linux-media@lfdr.de>; Thu, 25 May 2023 11:17:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240627AbjEYJRp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 May 2023 05:17:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52570 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240596AbjEYJRe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
+        id S240604AbjEYJRe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 25 May 2023 05:17:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52476 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240515AbjEYJRY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 25 May 2023 05:17:24 -0400
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6705A1B0
-        for <linux-media@vger.kernel.org>; Thu, 25 May 2023 02:17:32 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79EAC19C
+        for <linux-media@vger.kernel.org>; Thu, 25 May 2023 02:17:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685006252; x=1716542252;
+  t=1685006243; x=1716542243;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=5PTeweLPTRd1sCvqIsPZ3AJXQB1XQ71FsPOHa6uUk6Y=;
-  b=SE80HRlKU/ybokGtHCne7gQrAh8FU92Ng0xgdqXCoTocTJl5/y/ULOR7
-   wFkpeKP4S7MikXExyoZBhW8CQL77wOJsOOwQjrrLSoOSclHG/aVCaW3RS
-   IeqjqLst8EsPTBb2f/Ls55KQ+4DH2jMgoS4ZzPJyL+kBN6fsIxHDtWhNc
-   W3ay1GN/Cr13L/IEHfaB308FXkbctnynxzT0MIVkkoTlZszdUOgCeinBf
-   Bj5pubGXoBZ9Pzx5QmfeNdnmYSx5TXF5p++qcJgR6OXSfbOWN1ZJjLMTo
-   Rln5U8FmVgqLp8BubB60fHJMHfF6/EDhHxn2Dw+se9tDf213IUao/rrVj
+  bh=zcYIUMsJ7Ujjnm0oLP1d23k7dbb9bSA0tMYSTLtn19o=;
+  b=i7IGU6+3ktKvsrcgqx1Z0ClUL/KHxcfOcU1D7YpyWIqHue1RvRqugZz6
+   PNg40Qi8AGKLqGw0lsucQWoPdvwu0s7O0KwbpTePjtS2VRYxwdERnJOd+
+   bdCfRxfHlzwPWeSqH949hwWBJEvL1ElSZG0bVit/9FPfyWCowSY+X5iIT
+   pCXu/Jhrp1yxnAH4jsLmedY/3n+8ISGpSDudXu92XfCnOtKkL+uQL9vmA
+   0LICL2ItjOJh5sww/yUok99xRiWrRdgH4+Qyzj+hAXJ12p1dZisg4NzIq
+   W+yK/ZKgjPfkP3dAvMHwpQcwwQ+pnsERYkCpBnlgsrLbBQUT8n1pg//B5
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="333456119"
+X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="333455999"
 X-IronPort-AV: E=Sophos;i="6.00,190,1681196400"; 
-   d="scan'208";a="333456119"
+   d="scan'208";a="333455999"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2023 02:17:19 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2023 02:17:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="879029161"
+X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="879029147"
 X-IronPort-AV: E=Sophos;i="6.00,190,1681196400"; 
-   d="scan'208";a="879029161"
+   d="scan'208";a="879029147"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2023 02:17:11 -0700
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2023 02:17:10 -0700
 Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id B2413123012;
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id B8206123023;
         Thu, 25 May 2023 12:16:49 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
         (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1q2758-009kpx-Ir; Thu, 25 May 2023 12:16:26 +0300
+        id 1q2758-009kq2-JZ; Thu, 25 May 2023 12:16:26 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     laurent.pinchart@ideasonboard.com,
@@ -75,9 +75,9 @@ Cc:     laurent.pinchart@ideasonboard.com,
         Jonathan Hunter <jonathanh@nvidia.com>,
         Sowjanya Komatineni <skomatineni@nvidia.com>,
         Marco Felsch <m.felsch@pengutronix.de>
-Subject: [RESEND PATCH v3 26/32] media: am437x-vpfe: Register V4L2 device early
-Date:   Thu, 25 May 2023 12:16:09 +0300
-Message-Id: <20230525091615.2324824-27-sakari.ailus@linux.intel.com>
+Subject: [RESEND PATCH v3 27/32] media: omap3isp: Initialise V4L2 async notifier later
+Date:   Thu, 25 May 2023 12:16:10 +0300
+Message-Id: <20230525091615.2324824-28-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230525091615.2324824-1-sakari.ailus@linux.intel.com>
 References: <20230525091615.2324824-1-sakari.ailus@linux.intel.com>
@@ -93,98 +93,79 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Register V4L2 device before the async notifier so the struct device will
-be available for the notifier which makes it possible to use it for debug
-prints.
+Initialise V4L2 async notifier and parse DT for async sub-devices later,
+just before registering the notifier. This way the V4L2 device has been
+registered before initialising the notifier which makes it possible to
+use it for debug prints.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- .../media/platform/ti/am437x/am437x-vpfe.c    | 27 +++++++++----------
- 1 file changed, 13 insertions(+), 14 deletions(-)
+ drivers/media/platform/ti/omap3isp/isp.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/media/platform/ti/am437x/am437x-vpfe.c b/drivers/media/platform/ti/am437x/am437x-vpfe.c
-index a1e01ef5ebddb..1457a188fea12 100644
---- a/drivers/media/platform/ti/am437x/am437x-vpfe.c
-+++ b/drivers/media/platform/ti/am437x/am437x-vpfe.c
-@@ -2403,10 +2403,17 @@ static int vpfe_probe(struct platform_device *pdev)
+diff --git a/drivers/media/platform/ti/omap3isp/isp.c b/drivers/media/platform/ti/omap3isp/isp.c
+index aa4ec1c8f637f..5b3266b214874 100644
+--- a/drivers/media/platform/ti/omap3isp/isp.c
++++ b/drivers/media/platform/ti/omap3isp/isp.c
+@@ -2002,6 +2002,7 @@ static void isp_remove(struct platform_device *pdev)
+ 	struct isp_device *isp = platform_get_drvdata(pdev);
  
- 	vpfe->pdev = &pdev->dev;
+ 	v4l2_async_nf_unregister(&isp->notifier);
++	v4l2_async_nf_cleanup(&isp->notifier);
+ 	isp_unregister_entities(isp);
+ 	isp_cleanup_modules(isp);
+ 	isp_xclk_cleanup(isp);
+@@ -2011,7 +2012,6 @@ static void isp_remove(struct platform_device *pdev)
+ 	__omap3isp_put(isp, false);
  
-+	ret = v4l2_device_register(&pdev->dev, &vpfe->v4l2_dev);
-+	if (ret) {
-+		vpfe_err(vpfe, "Unable to register v4l2 device.\n");
-+		return ret;
-+	}
-+
- 	vpfe_cfg = vpfe_get_pdata(vpfe);
- 	if (!vpfe_cfg) {
- 		dev_err(&pdev->dev, "No platform data\n");
--		return -EINVAL;
-+		ret = -EINVAL;
-+		goto probe_out_cleanup;
- 	}
+ 	media_entity_enum_cleanup(&isp->crashed);
+-	v4l2_async_nf_cleanup(&isp->notifier);
  
- 	vpfe->cfg = vpfe_cfg;
-@@ -2433,13 +2440,6 @@ static int vpfe_probe(struct platform_device *pdev)
- 		goto probe_out_cleanup;
- 	}
+ 	kfree(isp);
+ }
+@@ -2292,13 +2292,8 @@ static int isp_probe(struct platform_device *pdev)
  
--	ret = v4l2_device_register(&pdev->dev, &vpfe->v4l2_dev);
--	if (ret) {
--		vpfe_err(vpfe,
--			"Unable to register v4l2 device.\n");
--		goto probe_out_cleanup;
--	}
+ 	mutex_init(&isp->isp_mutex);
+ 	spin_lock_init(&isp->stat_lock);
+-	v4l2_async_nf_init(&isp->notifier);
+ 	isp->dev = &pdev->dev;
+ 
+-	ret = isp_parse_of_endpoints(isp);
+-	if (ret < 0)
+-		goto error;
 -
- 	/* set the driver data in platform device */
- 	platform_set_drvdata(pdev, vpfe);
- 	/* Enabling module functional clock */
-@@ -2449,7 +2449,7 @@ static int vpfe_probe(struct platform_device *pdev)
- 	ret = pm_runtime_resume_and_get(&pdev->dev);
- 	if (ret < 0) {
- 		vpfe_err(vpfe, "Unable to resume device.\n");
--		goto probe_out_v4l2_unregister;
-+		goto probe_out_cleanup;
- 	}
+ 	isp->ref_count = 0;
  
- 	vpfe_ccdc_config_defaults(ccdc);
-@@ -2462,7 +2462,7 @@ static int vpfe_probe(struct platform_device *pdev)
- 				GFP_KERNEL);
- 	if (!vpfe->sd) {
- 		ret = -ENOMEM;
--		goto probe_out_v4l2_unregister;
-+		goto probe_out_cleanup;
- 	}
+ 	ret = dma_coerce_mask_and_coherent(isp->dev, DMA_BIT_MASK(32));
+@@ -2430,6 +2425,12 @@ static int isp_probe(struct platform_device *pdev)
  
- 	vpfe->notifier.ops = &vpfe_async_ops;
-@@ -2470,15 +2470,14 @@ static int vpfe_probe(struct platform_device *pdev)
- 	if (ret) {
- 		vpfe_err(vpfe, "Error registering async notifier\n");
- 		ret = -EINVAL;
--		goto probe_out_v4l2_unregister;
-+		goto probe_out_cleanup;
- 	}
+ 	isp->notifier.ops = &isp_subdev_notifier_ops;
  
++	v4l2_async_nf_init(&isp->notifier);
++
++	ret = isp_parse_of_endpoints(isp);
++	if (ret < 0)
++		goto error_register_entities;
++
+ 	ret = v4l2_async_nf_register(&isp->v4l2_dev, &isp->notifier);
+ 	if (ret)
+ 		goto error_register_entities;
+@@ -2440,6 +2441,7 @@ static int isp_probe(struct platform_device *pdev)
  	return 0;
  
--probe_out_v4l2_unregister:
--	v4l2_device_unregister(&vpfe->v4l2_dev);
- probe_out_cleanup:
- 	v4l2_async_nf_cleanup(&vpfe->notifier);
-+	v4l2_device_unregister(&vpfe->v4l2_dev);
- 	return ret;
- }
- 
-@@ -2493,8 +2492,8 @@ static void vpfe_remove(struct platform_device *pdev)
- 
- 	v4l2_async_nf_unregister(&vpfe->notifier);
- 	v4l2_async_nf_cleanup(&vpfe->notifier);
--	v4l2_device_unregister(&vpfe->v4l2_dev);
- 	video_unregister_device(&vpfe->video_dev);
-+	v4l2_device_unregister(&vpfe->v4l2_dev);
- }
- 
- #ifdef CONFIG_PM_SLEEP
+ error_register_entities:
++	v4l2_async_nf_cleanup(&isp->notifier);
+ 	isp_unregister_entities(isp);
+ error_modules:
+ 	isp_cleanup_modules(isp);
+@@ -2449,7 +2451,6 @@ static int isp_probe(struct platform_device *pdev)
+ 	isp_xclk_cleanup(isp);
+ 	__omap3isp_put(isp, false);
+ error:
+-	v4l2_async_nf_cleanup(&isp->notifier);
+ 	mutex_destroy(&isp->isp_mutex);
+ error_release_isp:
+ 	kfree(isp);
 -- 
 2.30.2
 
