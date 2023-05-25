@@ -2,88 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD819711176
-	for <lists+linux-media@lfdr.de>; Thu, 25 May 2023 18:56:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0ABD5711194
+	for <lists+linux-media@lfdr.de>; Thu, 25 May 2023 19:02:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239074AbjEYQ4h convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 25 May 2023 12:56:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53688 "EHLO
+        id S231964AbjEYRCl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 May 2023 13:02:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230389AbjEYQ4V (ORCPT
+        with ESMTP id S233274AbjEYRCk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 May 2023 12:56:21 -0400
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A743135;
-        Thu, 25 May 2023 09:56:15 -0700 (PDT)
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-557c9d7011aso157678eaf.1;
-        Thu, 25 May 2023 09:56:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685033774; x=1687625774;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tKef1dTnXLWEPcPkzPdiI1P0Q5fDcYjlFcAukfwXA8Q=;
-        b=NDXYLxHYnLebrUD2b4bbuSoy2H1BhPw+5e8Tity+BD/qPkRV4G9OZfV3EG+rU/un6y
-         yQiwbzn+c/ccGqX1EIU9T5m3z0uv0rr0mm/dvLbu2P39JYJCG4qHFi3bJ6yvr7/fbk1X
-         D7K/oM8+eIsJ1w4E9JTTkrFzdWvoC+zu5jE617f+lkeXPhtijNbg/fqkRsxqqEdgetqq
-         FURi9WF6qjpMDCr41SQJucxG5c2LhAWEimZFI1Za+vAcWb2gkjuvRuoo6QlO8j31WThY
-         R9vIqRk50lkhrCgOmDn1Nqo/ykWgcFhKGQM+qpyGJzNvHUdfmr50DBd8J83dpo4gl6bF
-         oY6w==
-X-Gm-Message-State: AC+VfDyBkhjU+NIxbZ+H27+VyDTg3kEA8mkoVr3b1+ssgXfHalPCD+PD
-        e8K5kmpGCYRz4ugnHaLgCXj3adQomHQGeA==
-X-Google-Smtp-Source: ACHHUZ7XWYq00+YKH/Bs7smB5LaLZQCXD42dq9K5bNvgdHrFNxe1ZSQOia14A1W7PVgAbp+59esV4w==
-X-Received: by 2002:a4a:6f50:0:b0:54f:84ea:84e4 with SMTP id i16-20020a4a6f50000000b0054f84ea84e4mr1779684oof.3.1685033774211;
-        Thu, 25 May 2023 09:56:14 -0700 (PDT)
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com. [209.85.210.47])
-        by smtp.gmail.com with ESMTPSA id e187-20020a4a55c4000000b00555718c0c5dsm641469oob.37.2023.05.25.09.56.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 May 2023 09:56:14 -0700 (PDT)
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-6af549a7fb4so819830a34.1;
-        Thu, 25 May 2023 09:56:13 -0700 (PDT)
-X-Received: by 2002:a25:5cd:0:b0:ba8:b425:6bf2 with SMTP id
- 196-20020a2505cd000000b00ba8b4256bf2mr4131400ybf.20.1685033408372; Thu, 25
- May 2023 09:50:08 -0700 (PDT)
+        Thu, 25 May 2023 13:02:40 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B1DF194
+        for <linux-media@vger.kernel.org>; Thu, 25 May 2023 10:02:39 -0700 (PDT)
+Received: from localhost (node-1w7jr9st5p2esmclet71ntnwp.ipv6.telus.net [IPv6:2001:569:beb1:1500:6f9d:3a5c:4d25:e949])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: dbrouwer)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 76D8A6606E7B;
+        Thu, 25 May 2023 18:02:37 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1685034157;
+        bh=qZq5asB1QLjxEVKS4qEuxmKTzHO+/CWHiQ+58+giOjs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mtXlAw1WNl77m/O72b5Fe8oDzLEjRd/W19Buq3OLK3H+gCDJHusmAkl/0nhZCLrzB
+         Vc/D95Jt6KTh9KcdMy6ssDnjadTUlCDh0RjFBE1evDtmtktzAgeA2znIUutEO0YCfr
+         OOdrLW+K41s1EbK4Vx1q2uS44YzRELj07RCENr1IXLjQKOIXeOLvcRl7za/olY46UA
+         iXaCyYKOVjAqBEOaDnlVBU2oEzgTCqE3LHSrx2ZMR4GlXIvctMB2MzyBIoScsgNsfr
+         i/+oHc5Y0Cw9Udc7MSHQzerEBGNXAhU+Rw2uIhipBa11sMIsb4vEZyLccPxJ4S2j1A
+         LoxvlIC8ePOMw==
+Date:   Thu, 25 May 2023 10:02:31 -0700
+From:   Deborah Brouwer <deborah.brouwer@collabora.com>
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl
+Subject: Re: [PATCH] v4l2-tracer: Fix libv4l2tracer.so loader
+Message-ID: <ZG+Up1k2NupYbiBp@db550>
+References: <20230525002045.82937-1-deborah.brouwer@collabora.com>
+ <c6619ea163206dc31e90234c80070cda3ddb744a.camel@collabora.com>
 MIME-Version: 1.0
-References: <20230522101849.297499-1-biju.das.jz@bp.renesas.com> <20230522101849.297499-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230522101849.297499-2-biju.das.jz@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 25 May 2023 18:49:24 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUkZe+v5-MFXrVdUsqYnLuWE1OfuFCq7xyzT=PtjSFw8Q@mail.gmail.com>
-Message-ID: <CAMuHMdUkZe+v5-MFXrVdUsqYnLuWE1OfuFCq7xyzT=PtjSFw8Q@mail.gmail.com>
-Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Wolfram Sang <wsa@kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Corey Minyard <cminyard@mvista.com>,
-        =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
-        Antonio Borneo <antonio.borneo@foss.st.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        dri-devel@lists.freedesktop.org, linux-i2c@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c6619ea163206dc31e90234c80070cda3ddb744a.camel@collabora.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -91,39 +55,100 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, May 22, 2023 at 12:19â€¯PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> Renesas PMIC RAA215300 exposes two separate i2c devices, one for the main
-> device and another for rtc device.
->
-> Enhance i2c_new_ancillary_device() to instantiate a real device.
-> (eg: Instantiate rtc device from PMIC driver)
->
-> Added helper function __i2c_new_dummy_device to share the code
-> between i2c_new_dummy_device and i2c_new_ancillary_device().
->
-> Also added helper function __i2c_new_client_device() to pass parent dev
-> parameter, so that the ancillary device can assign its parent during
-> creation.
->
-> Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v4->v5:
->  * Replaced parameter dev->parent in __i2c_new_client_device() and
->    __i2c_new_dummy_device().
->  * Improved error message in __i2c_new_dummy_device() by printing device name.
->  * Updated comment for ancillary's device parent
->  * Dropped aux_device_name check in i2c_new_ancillary_device().
+On Thu, May 25, 2023 at 12:45:28PM -0400, Nicolas Dufresne wrote:
+> Thanks Deborah,
+> 
+> Le mercredi 24 mai 2023 à 17:20 -0700, Deborah Brouwer a écrit :
+> > From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > 
+> > The code was still assuming libtools being use, so it didn't work
+> > installed anymore. Also, it didn't work installed if the full
+> > v4l2-tracer path was being passed.
+> > 
+> > Fix this by always trying next by libv4l2tracer.so loading (using stat()
+> > to validate) and always fallback to the installed path otherwise.
+> > 
+> > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> 
+> Mind adding you Singed-off-by ?
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Actually Hans already applied your patch (thanks!) but will do it next
+time.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> 
+> > ---
+> > Hi - thanks to Nicolas for this patch.
+> > I tested tracing and retracing on both installed and uninstalled
+> > v4l2-tracer including with and without an absolute path and it
+> > all works as expected.
+> > 
+> > Note that I've got three sets of v4l2-tracer patches outstanding now,
+> > but they all still apply independently of each other:
+> > 
+> > Tuner patches:
+> > https://lore.kernel.org/linux-media/cover.1684453027.git.deborah.brouwer@collabora.com/
+> > 
+> > Debug patches:
+> > https://lore.kernel.org/linux-media/cover.1681245372.git.deborah.brouwer@collabora.com/
+> > 
+> > Thanks,
+> > Deb
+> > 
+> >  utils/v4l2-tracer/v4l2-tracer.cpp | 33 +++++++++++++++++--------------
+> >  1 file changed, 18 insertions(+), 15 deletions(-)
+> > 
+> > diff --git a/utils/v4l2-tracer/v4l2-tracer.cpp b/utils/v4l2-tracer/v4l2-tracer.cpp
+> > index e3f002a9..7c3662be 100644
+> > --- a/utils/v4l2-tracer/v4l2-tracer.cpp
+> > +++ b/utils/v4l2-tracer/v4l2-tracer.cpp
+> > @@ -5,6 +5,7 @@
+> >  
+> >  #include "retrace.h"
+> >  #include <climits>
+> > +#include <sys/stat.h>
+> >  #include <sys/wait.h>
+> >  #include <time.h>
+> >  
+> > @@ -295,24 +296,26 @@ int tracer(int argc, char *argv[], bool retrace)
+> >  	fclose(trace_file);
+> >  
+> >  	/*
+> > -	 * Preload the libv4l2tracer library. If the program is installed, load the library
+> > -	 * from its installed location, otherwise load it locally. If it's loaded locally,
+> > -	 * use ./configure --disable-dyn-libv4l.
+> > +	 * Preload the libv4l2tracer library. The libv4l2tracer is looked up next to
+> > +	 * the executable first in order to support uninstalled build.
+> >  	 */
+> >  	std::string libv4l2tracer_path;
+> >  	std::string program = argv[0];
+> > -	std::size_t idx = program.rfind("/v4l2-tracer");
+> > -	if (idx != std::string::npos) {
+> > -		libv4l2tracer_path = program.replace(program.begin() + idx + 1, program.end(), ".libs");
+> > -		DIR *directory_pointer = opendir(libv4l2tracer_path.c_str());
+> > -		if (directory_pointer == nullptr)
+> > -			libv4l2tracer_path = program.replace(program.begin() + idx, program.end(), "./.libs");
+> > -		else
+> > -			closedir(directory_pointer);
+> > -	} else {
+> > -		libv4l2tracer_path = LIBTRACER_PATH;
+> > -	}
+> > -	libv4l2tracer_path += "/libv4l2tracer.so";
+> > +	std::size_t idx = program.rfind("/");
+> > +	struct stat sb;
+> > +
+> > +	if (idx == std::string::npos)
+> > +		idx = 0;
+> > +	else
+> > +		idx++;
+> > +
+> > +	/* look for libv4l2tracer next to the executable */
+> > +	libv4l2tracer_path = program.replace(program.begin() + idx, program.end(), "libv4l2tracer.so");
+> > +
+> > +	/* otherwise, use the installation path */
+> > +	if (stat(libv4l2tracer_path.c_str(), &sb) == -1)
+> > +		libv4l2tracer_path = std::string(LIBTRACER_PATH) + "/libv4l2tracer.so";
+> > +
+> >  	if (is_verbose())
+> >  		fprintf(stderr, "Loading libv4l2tracer: %s\n", libv4l2tracer_path.c_str());
+> >  	setenv("LD_PRELOAD", libv4l2tracer_path.c_str(), 0);
+> 
