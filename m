@@ -2,104 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C28DB710D8D
-	for <lists+linux-media@lfdr.de>; Thu, 25 May 2023 15:47:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A3AA710DF6
+	for <lists+linux-media@lfdr.de>; Thu, 25 May 2023 16:06:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241384AbjEYNri (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 May 2023 09:47:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33770 "EHLO
+        id S241383AbjEYOGH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 May 2023 10:06:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241388AbjEYNrg (ORCPT
+        with ESMTP id S241532AbjEYOGF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 May 2023 09:47:36 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71612191
-        for <linux-media@vger.kernel.org>; Thu, 25 May 2023 06:47:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685022455; x=1716558455;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=JmlVsdU3JwPtMvchUp6p4gL42tdOeIS/+xhJUdhf9cE=;
-  b=kIHU5rf+w83TWHkVAr+YYPFHMBe6SSAaaS2nBNjb2EKL/aNOiiggdGc/
-   9BysO+jyc/vTi33pa22PFxwW/RrpsF/IEznO6JZI3zQU2tK8ixlxn3QZ2
-   xFLpLYHc4bRk8G9k1wDQ7WFFnNNY64B14atal5uC4lbdajS9FGHrJe+GA
-   TztWBcn1+qTF3clECwxak8y1DMmFVr0nDD0SzrD/aP+F6vWvX6sIlnuEh
-   FDBMVNkK9sdLK0OBZUMroIQ+ej7/VhGRFQp3P0IccUNTQ8DGacYSze/Ru
-   BHJfQWWFhxpMzKVWIorTMRqKnCjxSRlI+TvDJ/byCw67pE4kRqyn8YUcX
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="440242927"
-X-IronPort-AV: E=Sophos;i="6.00,191,1681196400"; 
-   d="scan'208";a="440242927"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2023 06:47:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="794676393"
-X-IronPort-AV: E=Sophos;i="6.00,191,1681196400"; 
-   d="scan'208";a="794676393"
-Received: from shsensorbuild2.sh.intel.com ([10.239.134.197])
-  by FMSMGA003.fm.intel.com with ESMTP; 25 May 2023 06:47:31 -0700
-From:   Wentong Wu <wentong.wu@intel.com>
-To:     sakari.ailus@linux.intel.com, hdegoede@redhat.com,
-        djrscally@gmail.com, laurent.pinchart@ideasonboard.com,
-        linux-media@vger.kernel.org
-Cc:     bingbu.cao@linux.intel.com, zhifeng.wang@intel.com,
-        xiang.ye@intel.com, tian.shu.qiu@intel.com,
-        Wentong Wu <wentong.wu@intel.com>
-Subject: [PATCH v7 3/3] ACPI: delay enumeration of devices with a _DEP pointing to IVSC device
-Date:   Thu, 25 May 2023 21:47:14 +0800
-Message-Id: <1685022434-24609-4-git-send-email-wentong.wu@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1685022434-24609-1-git-send-email-wentong.wu@intel.com>
-References: <1685022434-24609-1-git-send-email-wentong.wu@intel.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        Thu, 25 May 2023 10:06:05 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B52CB10C9
+        for <linux-media@vger.kernel.org>; Thu, 25 May 2023 07:05:42 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7CCB2645F4
+        for <linux-media@vger.kernel.org>; Thu, 25 May 2023 14:05:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F7DEC433EF;
+        Thu, 25 May 2023 14:05:21 +0000 (UTC)
+Message-ID: <1716ca05-d906-4535-8f5e-532596e7a5d8@xs4all.nl>
+Date:   Thu, 25 May 2023 16:05:18 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v4 5/8] HACK: include/linux: Add client capabilities
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        niklas.soderlund+renesas@ragnatech.se,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        satish.nagireddy@getcruise.com
+References: <20230421124428.393261-1-tomi.valkeinen@ideasonboard.com>
+ <20230421124428.393261-6-tomi.valkeinen@ideasonboard.com>
+ <20230424073237.GE4926@pendragon.ideasonboard.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20230424073237.GE4926@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Inside IVSC, switching ownership requires an interface with two
-different hardware modules, ACE and CSI. The software interface
-to these modules is based on Intel MEI framework. Usually mei
-client devices are dynamically created, so the info of consumers
-depending on mei client devices is not present in the firmware
-tables.
+Hi Tomi,
 
-This causes problems with the probe ordering with respect to
-drivers for consumers of these mei client devices. But on these
-camera sensor devices, the ACPI nodes describing the sensors all
-have a _DEP dependency on the matching mei bus ACPI device, so
-adding IVSC mei bus ACPI device to acpi_honor_dep_ids allows
-solving the probe-ordering problem by delaying the enumeration of
-ACPI-devices which have a _DEP dependency on an IVSC mei bus ACPI
-device.
+On 24/04/2023 09:32, Laurent Pinchart wrote:
+> Hi Tomi,
+> 
+> Thank you for the patch.
+> 
+> On Fri, Apr 21, 2023 at 03:44:25PM +0300, Tomi Valkeinen wrote:
+>> Add client capabilities related hanges to include/linux/v4l2-subdev.h.
+>> This should be dropped when the v4l-utils kernel headers are updated to
+>> the version which contains client capabilities.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> 
+> The subdev client capabilities patch is now in the media tree, maybe you
+> can sync the headers already ? The media tree master branch should get
+> merged in v6.4-rc1 within two weeks.
 
-On TGL platform, the HID of IVSC mei bus ACPI device is INTC1059,
-and on ADL platform, the HID is INTC1095. So add both of them to
-acpi_honor_dep_ids.
+I've just synced the headers for v4l-utils.
 
-Signed-off-by: Wentong Wu <wentong.wu@intel.com>
----
- drivers/acpi/scan.c | 2 ++
- 1 file changed, 2 insertions(+)
+I think it is easiest if you post a v5, assuming everything that this series
+needs is now merged in the kernel. I'll pick it up.
 
-diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
-index 2743444..04560e8 100644
---- a/drivers/acpi/scan.c
-+++ b/drivers/acpi/scan.c
-@@ -796,6 +796,8 @@ static const char * const acpi_ignore_dep_ids[] = {
- /* List of HIDs for which we honor deps of matching ACPI devs, when checking _DEP lists. */
- static const char * const acpi_honor_dep_ids[] = {
- 	"INT3472", /* Camera sensor PMIC / clk and regulator info */
-+	"INTC1059", /* IVSC (TGL) driver must be loaded to allow i2c access to camera sensors */
-+	"INTC1095", /* IVSC (ADL) driver must be loaded to allow i2c access to camera sensors */
- 	NULL
- };
- 
--- 
-2.7.4
+Regards,
+
+	Hans
+
+> 
+>> ---
+>>  include/linux/v4l2-subdev.h | 21 +++++++++++++++++++++
+>>  1 file changed, 21 insertions(+)
+>>
+>> diff --git a/include/linux/v4l2-subdev.h b/include/linux/v4l2-subdev.h
+>> index 654d659d..4a195b68 100644
+>> --- a/include/linux/v4l2-subdev.h
+>> +++ b/include/linux/v4l2-subdev.h
+>> @@ -233,6 +233,24 @@ struct v4l2_subdev_routing {
+>>  	__u32 reserved[6];
+>>  };
+>>  
+>> +/*
+>> + * The client is aware of streams. Setting this flag enables the use of 'stream'
+>> + * fields (referring to the stream number) with various ioctls. If this is not
+>> + * set (which is the default), the 'stream' fields will be forced to 0 by the
+>> + * kernel.
+>> + */
+>> + #define V4L2_SUBDEV_CLIENT_CAP_STREAMS		(1U << 0)
+>> +
+>> +/**
+>> + * struct v4l2_subdev_client_capability - Capabilities of the client accessing
+>> + *					  the subdev
+>> + *
+>> + * @capabilities: A bitmask of V4L2_SUBDEV_CLIENT_CAP_* flags.
+>> + */
+>> +struct v4l2_subdev_client_capability {
+>> +	__u64 capabilities;
+>> +};
+>> +
+>>  /* Backwards compatibility define --- to be removed */
+>>  #define v4l2_subdev_edid v4l2_edid
+>>  
+>> @@ -250,6 +268,9 @@ struct v4l2_subdev_routing {
+>>  #define VIDIOC_SUBDEV_S_SELECTION		_IOWR('V', 62, struct v4l2_subdev_selection)
+>>  #define VIDIOC_SUBDEV_G_ROUTING			_IOWR('V', 38, struct v4l2_subdev_routing)
+>>  #define VIDIOC_SUBDEV_S_ROUTING			_IOWR('V', 39, struct v4l2_subdev_routing)
+>> +#define VIDIOC_SUBDEV_G_CLIENT_CAP		_IOR('V',  101, struct v4l2_subdev_client_capability)
+>> +#define VIDIOC_SUBDEV_S_CLIENT_CAP		_IOWR('V',  102, struct v4l2_subdev_client_capability)
+>> +
+>>  /* The following ioctls are identical to the ioctls in videodev2.h */
+>>  #define VIDIOC_SUBDEV_G_STD			_IOR('V', 23, v4l2_std_id)
+>>  #define VIDIOC_SUBDEV_S_STD			_IOW('V', 24, v4l2_std_id)
+> 
 
