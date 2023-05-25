@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 00EB371087E
-	for <lists+linux-media@lfdr.de>; Thu, 25 May 2023 11:17:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8340371087F
+	for <lists+linux-media@lfdr.de>; Thu, 25 May 2023 11:17:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239626AbjEYJRC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 May 2023 05:17:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52136 "EHLO
+        id S239810AbjEYJRD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 May 2023 05:17:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239475AbjEYJRA (ORCPT
+        with ESMTP id S239861AbjEYJRB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 May 2023 05:17:00 -0400
+        Thu, 25 May 2023 05:17:01 -0400
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4862119D
-        for <linux-media@vger.kernel.org>; Thu, 25 May 2023 02:16:59 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 621861A2
+        for <linux-media@vger.kernel.org>; Thu, 25 May 2023 02:17:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685006219; x=1716542219;
+  t=1685006220; x=1716542220;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=ZEWyYL5WvYiji8mWWE5qZP8f4HceskEQYPpLeB/CW5Q=;
-  b=mXa8qb7Jl9ZtAuIa/COpkKg/enXU+rys8NsRe3+G1YWDzzGV1KoVj81v
-   hP9OjpQcDR9t4lcM0FxkBii3yN27FKJRpSgKsJZs1hwQPmj/v51DJV+Vz
-   JwihP9lBccfQC9k22RTAXEUcCesUmusUI/t7FC5iQciaJxmgAv/vUxfEJ
-   K5zDDMXOo5Nnw/mSb1G80nTS3VhXvjE8zhVNyY5xbaXt9hut8TmSc/UdM
-   YsfUae2m8qTCYvzxKupsEpcsSJIWyv1pDnYhnu7Lw0fBZFGuVcT7buVgg
-   F0I1RMz3q99TJpoaitt0XAGq2R/vAu8eJhvQniqXHd0YE7Z4DyAV3SO8/
+  bh=yhpKYjGoEwHsGjTCPG/ehbdB8TieQ36KdaSQjZ4ez64=;
+  b=RVmoLsfHpjb+Dhdbh4rpW0LQ/BnI90OYnpLfHZw/yAmv6vPKCHVW79tX
+   eqkkJFbf7SEZ1vp7BziG9lBzxgHQnjuBcpBCfhiKpeSRnYpet+omjAvEK
+   WH+usvpAEbVPy4m1z8rAQT10QS8uq/I/SAo8HNTPTwQ+M48uVgkm0TQ8f
+   ZTdyoyzKeVcBskD0ckeDk9dSZU/TNrcDvDMU1aaOv5fvbA35yx5acG3CC
+   HvbwQdiUEVBxyyU/S82YaR1F+0FkOXBcIr7K1nMmhO5HUGCS5iOUwZuug
+   oYZUGbNZn23RL/uy1axX8B8BNC1VONfbuuh0/fbjBwdtDyx7EtIROr3XI
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="343307706"
+X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="343307725"
 X-IronPort-AV: E=Sophos;i="6.00,190,1681196400"; 
-   d="scan'208";a="343307706"
+   d="scan'208";a="343307725"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
   by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2023 02:16:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="794590855"
+X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="794590860"
 X-IronPort-AV: E=Sophos;i="6.00,190,1681196400"; 
-   d="scan'208";a="794590855"
+   d="scan'208";a="794590860"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
   by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2023 02:16:51 -0700
 Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 186BC12160F;
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 1DA1D12190B;
         Thu, 25 May 2023 12:16:49 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
         (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1q2757-009kob-Uh; Thu, 25 May 2023 12:16:25 +0300
+        id 1q2757-009koe-VL; Thu, 25 May 2023 12:16:25 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     laurent.pinchart@ideasonboard.com,
@@ -75,9 +75,9 @@ Cc:     laurent.pinchart@ideasonboard.com,
         Jonathan Hunter <jonathanh@nvidia.com>,
         Sowjanya Komatineni <skomatineni@nvidia.com>,
         Marco Felsch <m.felsch@pengutronix.de>
-Subject: [RESEND PATCH v3 03/32] media: xilinx-vipp: Clean up bound async notifier callback
-Date:   Thu, 25 May 2023 12:15:46 +0300
-Message-Id: <20230525091615.2324824-4-sakari.ailus@linux.intel.com>
+Subject: [RESEND PATCH v3 04/32] media: omap3isp: Don't check for the sub-device's notifier
+Date:   Thu, 25 May 2023 12:15:47 +0300
+Message-Id: <20230525091615.2324824-5-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230525091615.2324824-1-sakari.ailus@linux.intel.com>
 References: <20230525091615.2324824-1-sakari.ailus@linux.intel.com>
@@ -94,62 +94,29 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The async notifier bound callback does a lot of checks that have probably
-been always unnecessary. Remove the lookup of the async subev that we
-already have, as well as the debug print that is already printed by the
-framework.
+There's no need to check for a sub-device's notifier as we only register
+one notifier (and one V4L2 device). Remove this check and prepare for
+removing this field in struct v4l2_subdev.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/platform/xilinx/xilinx-vipp.c | 32 ++++-----------------
- 1 file changed, 5 insertions(+), 27 deletions(-)
+ drivers/media/platform/ti/omap3isp/isp.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/media/platform/xilinx/xilinx-vipp.c b/drivers/media/platform/xilinx/xilinx-vipp.c
-index 3123216b3f70e..b309af0c83749 100644
---- a/drivers/media/platform/xilinx/xilinx-vipp.c
-+++ b/drivers/media/platform/xilinx/xilinx-vipp.c
-@@ -312,36 +312,14 @@ static int xvip_graph_notify_complete(struct v4l2_async_notifier *notifier)
+diff --git a/drivers/media/platform/ti/omap3isp/isp.c b/drivers/media/platform/ti/omap3isp/isp.c
+index f3aaa9e76492e..c2b222f7df892 100644
+--- a/drivers/media/platform/ti/omap3isp/isp.c
++++ b/drivers/media/platform/ti/omap3isp/isp.c
+@@ -2039,9 +2039,6 @@ static int isp_subdev_notifier_complete(struct v4l2_async_notifier *async)
+ 	}
  
- static int xvip_graph_notify_bound(struct v4l2_async_notifier *notifier,
- 				   struct v4l2_subdev *subdev,
--				   struct v4l2_async_subdev *unused)
-+				   struct v4l2_async_subdev *asd)
- {
--	struct xvip_composite_device *xdev =
--		container_of(notifier, struct xvip_composite_device, notifier);
--	struct xvip_graph_entity *entity;
--	struct v4l2_async_subdev *asd;
-+	struct xvip_graph_entity *entity = to_xvip_entity(asd);
- 
--	/* Locate the entity corresponding to the bound subdev and store the
--	 * subdev pointer.
--	 */
--	list_for_each_entry(asd, &xdev->notifier.asd_list, asd_list) {
--		entity = to_xvip_entity(asd);
-+	entity->entity = &subdev->entity;
-+	entity->subdev = subdev;
- 
--		if (entity->asd.match.fwnode != subdev->fwnode)
+ 	list_for_each_entry(sd, &v4l2_dev->subdevs, list) {
+-		if (sd->notifier != &isp->notifier)
 -			continue;
 -
--		if (entity->subdev) {
--			dev_err(xdev->dev, "duplicate subdev for node %p\n",
--				entity->asd.match.fwnode);
--			return -EINVAL;
--		}
--
--		dev_dbg(xdev->dev, "subdev %s bound\n", subdev->name);
--		entity->entity = &subdev->entity;
--		entity->subdev = subdev;
--		return 0;
--	}
--
--	dev_err(xdev->dev, "no entity for subdev %s\n", subdev->name);
--	return -EINVAL;
-+	return 0;
- }
- 
- static const struct v4l2_async_notifier_operations xvip_graph_notify_ops = {
+ 		ret = isp_link_entity(isp, &sd->entity,
+ 				      v4l2_subdev_to_bus_cfg(sd)->interface);
+ 		if (ret < 0) {
 -- 
 2.30.2
 
