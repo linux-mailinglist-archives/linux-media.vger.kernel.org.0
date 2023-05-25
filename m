@@ -2,96 +2,346 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6848E71083E
-	for <lists+linux-media@lfdr.de>; Thu, 25 May 2023 11:04:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFEB9710882
+	for <lists+linux-media@lfdr.de>; Thu, 25 May 2023 11:17:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240543AbjEYJD7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 May 2023 05:03:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46914 "EHLO
+        id S240124AbjEYJRG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 May 2023 05:17:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232918AbjEYJD5 (ORCPT
+        with ESMTP id S239698AbjEYJRD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 May 2023 05:03:57 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD126195;
-        Thu, 25 May 2023 02:03:55 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 64036610D5;
-        Thu, 25 May 2023 09:03:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D193AC433EF;
-        Thu, 25 May 2023 09:03:52 +0000 (UTC)
-Message-ID: <bcbd0934-9936-bd9b-92a3-6135ca4c258a@xs4all.nl>
-Date:   Thu, 25 May 2023 11:03:50 +0200
+        Thu, 25 May 2023 05:17:03 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4D661A4
+        for <linux-media@vger.kernel.org>; Thu, 25 May 2023 02:17:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685006221; x=1716542221;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=PDBw8MwvjfZYu4PUQYT8L2tzJx8DQ9vJTL/mT4jX590=;
+  b=k+A6P97W3n4nWhW6bFD8btji6PgBdNjM12WTeo7OoHBmuqAUvPPROyrH
+   I8WyNRWzO2yeWjTAc8ll4Pdw35ZkQT1F1SzEif/hHmqwK29WG7MtsFySW
+   3Bo1pGkYiVmWVkfPu6QSq3+unXjwuCdfgIPQvmQj0Bn71SjfuAHH8vcQr
+   S+28c8mQ1NOmtWXRREe1IHtmRkDoMzsZ965Wvq90HtJ2WosyWJCdd1dQ1
+   mN4EZg+DI/C8IYmCEYufO6Oup5Gysx7R0cexPUFmmsVPAu0bxe8x3w+VT
+   IsjjoaZxv5xifVhlODvcfkg5AxxubuI0JuD/UBKA13PKQlHNSpfK0vhXT
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="343307780"
+X-IronPort-AV: E=Sophos;i="6.00,190,1681196400"; 
+   d="scan'208";a="343307780"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2023 02:16:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="794590863"
+X-IronPort-AV: E=Sophos;i="6.00,190,1681196400"; 
+   d="scan'208";a="794590863"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2023 02:16:51 -0700
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 075BB120E86;
+        Thu, 25 May 2023 12:16:49 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1q2757-009koT-R8; Thu, 25 May 2023 12:16:25 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com,
+        Philipp Zabel <p.zabel@pengutronix.de>, hverkuil@xs4all.nl,
+        Francesco Dolcini <francesco@dolcini.it>,
+        aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>, bingbu.cao@intel.com,
+        niklas.soderlund@ragnatech.se,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Sylvain Petinot <sylvain.petinot@foss.st.com>,
+        Eugen Hristev <eugen.hristev@collabora.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Dafna Hirschfeld <dafna@fastmail.com>,
+        Hugues Fruchet <hugues.fruchet@foss.st.com>,
+        Yong Deng <yong.deng@magewell.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Benoit Parrot <bparrot@ti.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Marco Felsch <m.felsch@pengutronix.de>
+Subject: [RESEND PATCH v3 00/32] Separate links and async sub-devices
+Date:   Thu, 25 May 2023 12:15:43 +0300
+Message-Id: <20230525091615.2324824-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCHv3] media: venus: provide video device lock
-Content-Language: en-US
-To:     Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc:     Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-References: <20230524135737.2557837-1-senozhatsky@chromium.org>
- <20230524141312.2558810-1-senozhatsky@chromium.org>
- <2c732d80-1a18-7a34-03a8-16afb0de5ea2@linaro.org>
- <f9219cb0-2cac-bace-20f7-27005cd0e6f1@xs4all.nl>
- <83cd3dc7-455d-0f26-d2a8-3ebe92d9e33f@quicinc.com>
- <1eeb16e4-0812-b70b-df5a-1670c21a5221@xs4all.nl>
- <20230525085936.GD30543@google.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230525085936.GD30543@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 25/05/2023 10:59, Sergey Senozhatsky wrote:
-> On (23/05/25 09:22), Hans Verkuil wrote:
->>>> Since these are m2m devices, I think this should set vfh->m2m_ctx->q_lock
->>>> instead.
->>>>
->>>> The vb2_queue is per filehandle for such devices, so by just setting
->>>> vdev->lock you will have all vb2_queues use the same mutex.
->>>>
->>>> Instead the struct v4l2_m2m_ctx q_lock pointer, if set, will use that
->>>> mutex for all vb2 operations.
->>>>
->>>> I think you can set it to the 'lock' mutex in struct venus_inst.
->>>
->>> IIUC, the suggestion is to use the 'lock' in struct venus_inst while
->>> initializing the queue. This might lead to deadlock as the same lock is used
->>> during vb2 operations in driver. Might be introducing a new lock for this
->>> purpose in struct venus_inst would do, unless we are trying to serialize at
->>> video device (or core) context.
->>
->> For the record, I have not analyzed how that lock is used in the driver,
->> so if a new mutex has to be added to venus_inst rather than reusing the
->> existing one, then that's fine by me.
->>
->> But it should be a instance-specific mutex, not one at the device level.
-> 
-> Thanks for your help Hans. I added a per-instance queue mutex [1], so if
-> no one sees any problems with it then I can send a formal patch later on.
-> 
-> [1] https://lore.kernel.org/linux-media/20230525005312.GC30543@google.com
+Hi all,
 
-Note that I would like to see 'Tested-by' and 'Reviewed/Acked-by' tags before
-merging, preferably from the driver maintainer(s).
+(Resending v3, with a wider distribution. This set just touches so many
+drivers. It would be nice to have this tested with as much hardware as
+possible. I wouldn't mind reviews either.)
 
-Regards,
+This set adds support for multiple downstream links in an async
+sub-device, by separating the sub-device registration from the link
+creation.
 
-	Hans
+A new concept, V4L2 async connection is added. A connection later on
+translates to an MC ancillary or data link. Generally async notifiers have
+a number of connections but at that level there is no knowledge of how
+many sub-devices they will connect to. The bound and unbound callbacks now
+work on connections. For the existing drivers there's only one connection
+so I do not expect regressions because of that.
+
+Async sub-device fwnode matching will now take place between the device
+(the dev field of struct v4l2_subdev) and a struct v4l2_async_connection
+(an endpoint for devices that have endpoints or the device for those that
+do not). This is because the graph data structure only describes
+point-to-point connections so therefore defining one end of the connection
+defines the entire connection.
+
+This set is unlikely to address all needs people have related to the async
+framework but I think that beyond what it does, it paves some way for
+addressing more of those additional needs.
+
+To be frank, I'd like to get rid of the entire V4L2 async framework, but
+it would require allowing much more dynamic driver initialisation,
+including sub-devices and device nodes popping up in the system in the
+order and extent there is successfully probed hardware. Until that, and
+this may well be the entire foreseeable future, we have at least some of
+this complexity.
+
+I didn't add the Tested-by: tags I got for v2 as there are significant
+changes, albeit only for better I hope. :-) Niklas has also tested this on
+rcar-vin + adv746x, it works now while on v2 it did not. So having also
+this version validated on i.MX6 would be nice.
+
+The code also can be found in my async-multi branch, on media tree master.
+
+since v2:
+
+- Drop the sub-devices (struct v4l2_async_subdev) earlier re-introduced in
+  this patchset. They aren't necessary, instead we can use struct
+  v4l2_subdev to store the information. This simplifies the code quite a
+  bit, including removal of one of the global lists: only the sub-device
+  and notifier lists are left now. The sub-device is assigned to the
+  connection at the bound time: information on which sub-devices are
+  connected via async connections is only actually available at the time
+  of binding.
+
+- Address issues related to sub-device handling in the rcar-vin driver.
+  Also other fixes to the rcar-vin driver (bugs introduced in v2).
+
+- Remove sub-device's notifier field, including an omap3isp patch removing
+  an unnecessary test.
+
+- Drop support for async sub-device side endpoint matching. Convert
+  NXP imx-mipi-csis.
+
+since v1:
+
+- Fixed object relation issues. The set has now been tested on an
+  async sub-device with two pads connected by data links to sub-devices on
+  a notifier (struct) device. (Multiple notifiers should work, too, but
+  has not been tested.)
+
+- Add a function to obtain an async connection based on the sub-device.
+  This is useful for drivers for accessing their own link specific data.
+
+- Improved documentation. Include a patch documenting
+  v4l2_async_nf_add_fwnode().
+
+- Return endpoint matching and address adv748x driver breakage in v1. It's
+  a special case so other drivers can remain simpler.
+
+- Swap notifier initialisation arguments, by making the notifier the first
+  argument.
+
+- Remove extra fwnode_handle_put() in max9286_v4l2_unregister().
+
+- Make struct device available before notifier initialisation for
+  consistent debug messages.
+
+- Simplify notifier and async sub-device linked lists. Consistent list
+  head and list entry naming.
+
+- Drop leftovers from an early experimenation work in rkisp1 and omap3isp
+  drivers.
+
+- Simplify xilinx-vipp sub-device binding.
+
+- Use if()s in notifier_dev() of v4l2-async.c.
+
+- Improved debug messages in v4l2-async.c, use v4l2-async prefix and
+  generally with notifier device.
+
+- Call match types with macros V4L2_ASYNC_MATCH_TYPE_* (was
+  V4L2_ASYNC_MATCH_*).
+
+- Create ancillary links only when the sub-device is registered, not when
+  a connection is bound (which can take place more than once for a
+  sub-device).
+
+- Rename struct v4l2_async_match as v4l2_async_match_desc.
+
+- Perform list initialisation in notifier init rather than registration.
+
+- Get rid of the "readd" parameter for v4l2_async_nf_unbind_all_subdevs().
+
+- Check async sub-device validity on a notifier only when the notifier is
+  registered. This removes extra list traversal and simplifies the code.
+
+- Remove extra list initialisation in v4l2_async_register_subdev().
+
+- Drop v4l2_async_cleanup(). It was no longer useful, called from a single
+  place.
+
+- Lots of kerneldoc fixes (mostly changed argument names).
+
+since RFC v1:
+
+- Address missing API usage changes in a lot of drivers.
+
+- Fix compilation problems in intermediate patches.
+
+- Move V4L2 device registration earlier or move notifier initialisation
+  and fwnode endpoint parsing past the current V4L2 device registration
+  (patches 11--16).
+
+Jacopo Mondi (1):
+  media: v4l: async: Drop v4l2_async_nf_parse_fwnode_endpoints()
+
+Sakari Ailus (31):
+  media: Documentation: v4l: Document missing async subdev function
+  media: xilinx-vipp: Clean up bound async notifier callback
+  media: omap3isp: Don't check for the sub-device's notifier
+  media: v4l: async: Add some debug prints
+  media: v4l: async: Clean up testing for duplicate async subdevs
+  media: v4l: async: Drop unneeded list entry initialisation
+  media: v4l: async: Don't check whether asd is NULL in validity check
+  media: v4l: async: Make V4L2 async match information a struct
+  media: v4l: async: Rename V4L2_ASYNC_MATCH_ macros, add TYPE_
+  media: v4l: async: Only pass match information for async subdev
+    validation
+  media: v4l: async: Clean up list heads and entries
+  media: v4l: async: Simplify async sub-device fwnode matching
+  media: v4l: async: Rename v4l2_async_subdev as v4l2_async_connection
+  media: v4l: async: Clean up error handling in v4l2_async_match_notify
+  media: v4l: async: Drop duplicate handling when adding connections
+  media: v4l: async: Rework internal lists
+  media: v4l: async: Obtain async connection based on sub-device
+  media: v4l: async: Allow multiple connections between entities
+  media: v4l: async: Try more connections
+  media: v4l: async: Support fwnode endpoint list matching for subdevs
+  media: adv748x: Return to endpoint matching
+  media: pxa_camera: Fix probe error handling
+  media: pxa_camera: Register V4L2 device early
+  media: marvell: cafe: Register V4L2 device earlier
+  media: am437x-vpfe: Register V4L2 device early
+  media: omap3isp: Initialise V4L2 async notifier later
+  media: xilinx-vipp: Init async notifier after registering V4L2 device
+  media: davinci: Init async notifier after registering V4L2 device
+  media: qcom: Initialise V4L2 async notifier later
+  media: v4l: async: Set v4l2_device in async notifier init
+  media: Documentation: v4l: Document sub-device notifiers
+
+ .../driver-api/media/v4l2-subdev.rst          |  28 +-
+ drivers/media/i2c/adv748x/adv748x-csi2.c      |  13 +-
+ drivers/media/i2c/max9286.c                   |  27 +-
+ drivers/media/i2c/rdacm20.c                   |  16 +-
+ drivers/media/i2c/rdacm21.c                   |  15 +-
+ drivers/media/i2c/st-mipid02.c                |  12 +-
+ drivers/media/i2c/tc358746.c                  |  15 +-
+ drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |  14 +-
+ drivers/media/platform/atmel/atmel-isi.c      |  12 +-
+ drivers/media/platform/atmel/atmel-isi.h      |   2 +-
+ drivers/media/platform/cadence/cdns-csi2rx.c  |  10 +-
+ drivers/media/platform/intel/pxa_camera.c     |  77 +-
+ drivers/media/platform/marvell/cafe-driver.c  |  18 +-
+ drivers/media/platform/marvell/mcam-core.c    |  12 +-
+ drivers/media/platform/marvell/mmp-driver.c   |   6 +-
+ .../platform/microchip/microchip-csi2dc.c     |  11 +-
+ .../platform/microchip/microchip-isc-base.c   |   4 +-
+ .../media/platform/microchip/microchip-isc.h  |   2 +-
+ .../microchip/microchip-sama5d2-isc.c         |   9 +-
+ .../microchip/microchip-sama7g5-isc.c         |   9 +-
+ drivers/media/platform/nxp/imx-mipi-csis.c    |  17 +-
+ drivers/media/platform/nxp/imx7-media-csi.c   |  10 +-
+ .../platform/nxp/imx8-isi/imx8-isi-core.c     |  12 +-
+ drivers/media/platform/qcom/camss/camss.c     |  26 +-
+ drivers/media/platform/qcom/camss/camss.h     |   2 +-
+ drivers/media/platform/renesas/rcar-isp.c     |  12 +-
+ .../platform/renesas/rcar-vin/rcar-core.c     |  52 +-
+ .../platform/renesas/rcar-vin/rcar-csi2.c     |  20 +-
+ .../platform/renesas/rcar-vin/rcar-vin.h      |   8 +-
+ drivers/media/platform/renesas/rcar_drif.c    |  12 +-
+ drivers/media/platform/renesas/renesas-ceu.c  |  10 +-
+ .../platform/renesas/rzg2l-cru/rzg2l-core.c   |  14 +-
+ .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |   2 +-
+ .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   |  12 +-
+ .../platform/rockchip/rkisp1/rkisp1-common.h  |   2 +-
+ .../platform/rockchip/rkisp1/rkisp1-csi.c     |   7 +-
+ .../platform/rockchip/rkisp1/rkisp1-dev.c     |  12 +-
+ .../platform/rockchip/rkisp1/rkisp1-isp.c     |   8 +-
+ .../platform/samsung/exynos4-is/media-dev.c   |  11 +-
+ .../platform/samsung/exynos4-is/media-dev.h   |   2 +-
+ drivers/media/platform/st/stm32/stm32-dcmi.c  |  12 +-
+ .../platform/sunxi/sun4i-csi/sun4i_csi.c      |  10 +-
+ .../sunxi/sun6i-csi/sun6i_csi_bridge.c        |   8 +-
+ .../sunxi/sun6i-csi/sun6i_csi_bridge.h        |   2 +-
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   |  10 +-
+ .../sun8i_a83t_mipi_csi2.c                    |  10 +-
+ .../media/platform/ti/am437x/am437x-vpfe.c    |  36 +-
+ .../media/platform/ti/am437x/am437x-vpfe.h    |   2 +-
+ drivers/media/platform/ti/cal/cal.c           |  10 +-
+ .../media/platform/ti/davinci/vpif_capture.c  |  33 +-
+ drivers/media/platform/ti/omap3isp/isp.c      |  29 +-
+ drivers/media/platform/ti/omap3isp/isp.h      |  15 +-
+ drivers/media/platform/ti/omap3isp/ispccdc.c  |  13 +-
+ drivers/media/platform/ti/omap3isp/ispccp2.c  |   2 +
+ drivers/media/platform/ti/omap3isp/ispcsi2.c  |   2 +
+ .../media/platform/ti/omap3isp/ispcsiphy.c    |  15 +-
+ drivers/media/platform/video-mux.c            |  10 +-
+ drivers/media/platform/xilinx/xilinx-vipp.c   |  55 +-
+ drivers/media/v4l2-core/v4l2-async.c          | 685 ++++++++++--------
+ drivers/media/v4l2-core/v4l2-fwnode.c         | 109 +--
+ drivers/media/v4l2-core/v4l2-subdev.c         |  13 +
+ .../media/deprecated/atmel/atmel-isc-base.c   |   4 +-
+ .../media/deprecated/atmel/atmel-isc.h        |   2 +-
+ .../deprecated/atmel/atmel-sama5d2-isc.c      |   9 +-
+ .../deprecated/atmel/atmel-sama7g5-isc.c      |   9 +-
+ drivers/staging/media/imx/imx-media-csi.c     |  10 +-
+ .../staging/media/imx/imx-media-dev-common.c  |   6 +-
+ drivers/staging/media/imx/imx-media-dev.c     |   2 +-
+ drivers/staging/media/imx/imx-media-of.c      |   4 +-
+ drivers/staging/media/imx/imx6-mipi-csi2.c    |  12 +-
+ drivers/staging/media/imx/imx8mq-mipi-csi2.c  |  10 +-
+ .../media/sunxi/sun6i-isp/sun6i_isp_proc.c    |   6 +-
+ .../media/sunxi/sun6i-isp/sun6i_isp_proc.h    |   2 +-
+ drivers/staging/media/tegra-video/vi.c        |  18 +-
+ drivers/staging/media/tegra-video/vi.h        |   2 +-
+ include/media/davinci/vpif_types.h            |   2 +-
+ include/media/v4l2-async.h                    | 218 +++---
+ include/media/v4l2-fwnode.h                   |  68 +-
+ include/media/v4l2-subdev.h                   |  17 +-
+ 79 files changed, 973 insertions(+), 1072 deletions(-)
+
+-- 
+2.30.2
+
