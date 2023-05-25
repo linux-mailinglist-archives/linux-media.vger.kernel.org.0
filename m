@@ -2,124 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 85622710E85
-	for <lists+linux-media@lfdr.de>; Thu, 25 May 2023 16:46:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FD4B710E8E
+	for <lists+linux-media@lfdr.de>; Thu, 25 May 2023 16:49:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241402AbjEYOqz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 May 2023 10:46:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34248 "EHLO
+        id S241402AbjEYOtW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 May 2023 10:49:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241599AbjEYOqv (ORCPT
+        with ESMTP id S241137AbjEYOtV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 May 2023 10:46:51 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EF65189
-        for <linux-media@vger.kernel.org>; Thu, 25 May 2023 07:46:49 -0700 (PDT)
+        Thu, 25 May 2023 10:49:21 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93B71101
+        for <linux-media@vger.kernel.org>; Thu, 25 May 2023 07:49:20 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C78BB64658
-        for <linux-media@vger.kernel.org>; Thu, 25 May 2023 14:46:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E849C433A8;
-        Thu, 25 May 2023 14:46:46 +0000 (UTC)
-Message-ID: <e674cfcb-6b1b-8052-7f29-e0e97bdda3be@xs4all.nl>
-Date:   Thu, 25 May 2023 16:46:44 +0200
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2EE0F6463B
+        for <linux-media@vger.kernel.org>; Thu, 25 May 2023 14:49:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72E8FC433D2;
+        Thu, 25 May 2023 14:49:18 +0000 (UTC)
+Message-ID: <461a0eca-06b2-12ce-1585-9f7259199241@xs4all.nl>
+Date:   Thu, 25 May 2023 16:49:16 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-Subject: Re: [PATCH] media: verisilicon: Fix null pointer dereference in
- try_fmt
 Content-Language: en-US
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        mchehab@kernel.org, benjamin.gaignard@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        kernel@pengutronix.de
-References: <20230516091209.3098262-1-m.tretter@pengutronix.de>
- <118d51d7734d6673ed1d90b09533fab50ece4b78.camel@ndufresne.ca>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <118d51d7734d6673ed1d90b09533fab50ece4b78.camel@ndufresne.ca>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Artur Weber <aweber.kernel@gmail.com>,
+        "Gustavo A. R. Silva" <garsilva@embeddedor.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v6.5] Various fixes
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 25/05/2023 16:38, Nicolas Dufresne wrote:
-> Le mardi 16 mai 2023 à 11:12 +0200, Michael Tretter a écrit :
->> Since commit db6f68b51e5c ("media: verisilicon: Do not set context
->> src/dst formats in reset functions"), vpu_src_fmt is not set in the
->> reset function, but only set in hantro_set_fmt_out, which calls
->> hantro_try_fmt before setting the format. Therefore, hantro_try_fmt
->> might be called with vpu_src_fmt still being null.
->>
->> Add a test if the format is actually set before checking the format.
->>
->> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
->> Fixes: db6f68b51e5c ("media: verisilicon: Do not set context src/dst formats in reset functions")
-> 
-> This patch highlights yet more issues in the driver default format handling, but
-> the remaining bug is extremely minor (too small sizeimage before S_FMT is
-> called, rather then kernel oops.). Considering how long this has been going,
-> please consider merging this.
+The following changes since commit 11aaa0ec9c1848bb68df9c7e6eedab6d5b0a3cca:
 
-I went with this fix:
+  media: sti: c8sectpfe: drop of_match_ptr() to avoid unused variables (2023-05-25 16:21:23 +0200)
 
-https://patchwork.linuxtv.org/project/linux-media/patch/20230523162515.993862-1-benjamin.gaignard@collabora.com/
+are available in the Git repository at:
 
-Part of this pull request:
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.5g
 
-https://patchwork.linuxtv.org/project/linux-media/patch/d4b08420-f7c0-4950-2d20-385d98f3cad9@xs4all.nl/
+for you to fetch changes up to 2f9583bf1a127a1267ad6c87999f5c7f3dd32c45:
 
-If you disagree, then please let me know.
+  media: video-mux: update driver to active state (2023-05-25 16:36:26 +0200)
 
-This particular patch has been marked as Superseded in patchwork.
+----------------------------------------------------------------
+Tag branch
 
-Regards,
+----------------------------------------------------------------
+Artur Weber (1):
+      media: Revert "media: exynos4-is: Remove dependency on obsolete SoC support"
 
-	Hans
+Gustavo A. R. Silva (1):
+      media: pci: cx18-av-vbi: Replace one-element array with flexible-array member
 
-> 
-> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> 
->> ---
->>  drivers/media/platform/verisilicon/hantro_v4l2.c | 9 ++++++---
->>  1 file changed, 6 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
->> index 835518534e3b..ec37d2646fde 100644
->> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
->> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
->> @@ -313,17 +313,20 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
->>  		/* Fill remaining fields */
->>  		v4l2_fill_pixfmt_mp(pix_mp, fmt->fourcc, pix_mp->width,
->>  				    pix_mp->height);
->> -		if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_H264_SLICE &&
->> +		if (ctx->vpu_src_fmt &&
->> +		    ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_H264_SLICE &&
->>  		    !hantro_needs_postproc(ctx, fmt))
->>  			pix_mp->plane_fmt[0].sizeimage +=
->>  				hantro_h264_mv_size(pix_mp->width,
->>  						    pix_mp->height);
->> -		else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_VP9_FRAME &&
->> +		else if (ctx->vpu_src_fmt &&
->> +			 ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_VP9_FRAME &&
->>  			 !hantro_needs_postproc(ctx, fmt))
->>  			pix_mp->plane_fmt[0].sizeimage +=
->>  				hantro_vp9_mv_size(pix_mp->width,
->>  						   pix_mp->height);
->> -		else if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_HEVC_SLICE &&
->> +		else if (ctx->vpu_src_fmt &&
->> +			 ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_HEVC_SLICE &&
->>  			 !hantro_needs_postproc(ctx, fmt))
->>  			pix_mp->plane_fmt[0].sizeimage +=
->>  				hantro_hevc_mv_size(pix_mp->width,
-> 
+Philipp Zabel (2):
+      media: video-mux: fix error paths
+      media: video-mux: update driver to active state
 
+Uwe Kleine-König (1):
+      media: staging: max96712: Switch i2c driver back to use .probe()
+
+Yunfei Dong (4):
+      media: mediatek: vcodec: Avoid unneeded error logging
+      media: mediatek: vcodec: using decoder status instead of core work count
+      media: mediatek: vcodec: move core context from device to each instance
+      media: mediatek: vcodec: using empty lat buffer as the last one
+
+ drivers/media/pci/cx18/cx18-av-vbi.c                                 |   2 +-
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c          |   1 -
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c    |   2 +-
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h              |   2 -
+ drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c |   6 +--
+ drivers/media/platform/mediatek/vcodec/vdec/vdec_hevc_req_multi_if.c |   4 +-
+ drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c    |   4 +-
+ drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c              | 105 ++++++++++++++++-----------------------
+ drivers/media/platform/mediatek/vcodec/vdec_msg_queue.h              |  28 +++++++++--
+ drivers/media/platform/samsung/exynos4-is/Kconfig                    |   2 +-
+ drivers/media/platform/samsung/exynos4-is/fimc-core.c                |   2 +-
+ drivers/media/platform/samsung/exynos4-is/fimc-lite.c                |   2 +-
+ drivers/media/platform/video-mux.c                                   | 105 ++++++++++++++++-----------------------
+ drivers/staging/media/max96712/max96712.c                            |   2 +-
+ 14 files changed, 124 insertions(+), 143 deletions(-)
