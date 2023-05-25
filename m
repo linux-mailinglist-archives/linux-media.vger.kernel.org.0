@@ -2,48 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F03A7113FC
-	for <lists+linux-media@lfdr.de>; Thu, 25 May 2023 20:35:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E11C7114A1
+	for <lists+linux-media@lfdr.de>; Thu, 25 May 2023 20:42:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241841AbjEYSfc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 May 2023 14:35:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52278 "EHLO
+        id S241520AbjEYSjl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 May 2023 14:39:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241835AbjEYSew (ORCPT
+        with ESMTP id S241711AbjEYSiv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 May 2023 14:34:52 -0400
+        Thu, 25 May 2023 14:38:51 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6D19E4A;
-        Thu, 25 May 2023 11:34:03 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 993C71BF7;
+        Thu, 25 May 2023 11:37:01 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D8F3C648B0;
-        Thu, 25 May 2023 18:33:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 221B2C433EF;
-        Thu, 25 May 2023 18:33:57 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 65872648C9;
+        Thu, 25 May 2023 18:36:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E64CAC433D2;
+        Thu, 25 May 2023 18:36:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685039639;
-        bh=Ob3qJWVV0UzBiL0Q4d/OmDcvpBKUL55xRXXAWm7zHZg=;
+        s=k20201202; t=1685039818;
+        bh=EQiPMoAw7Unfk3Td1QSKvMnPdhyE8AhOLCB1W6Z75WM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eAU9ZDRVC4t2K6LlMf0rom86VA+zVoDktbBS6c4lKIHPpuWUu8NWRuUf2akeN8HAv
-         tVlC2r1vxSrXx1kKFs/WT7WOLg5hwG24gYgV9AO2pnrGybxPFYIZ/UDYGW0oAaZzQd
-         NnKrSpSYBI8AvRubZA6g5QM+cxCFIi9p35KcJm2CTv9tvhFMpPXZfgeQmOq31xan6D
-         rog4asAAq9pROo6f/lHPqvr5DkCOpS8Q3U5Y/9diNJXUqOEi5JZBkS0iOuhW2AIPuE
-         yb4ClCOESneXOwFlE1DDkZpOe+1gO7dVhSodZie0z6fcngrr7CzjFYTi1USOsL4vEu
-         +UTZAnyDiP1kA==
+        b=At3nJHK0mkLa9cmy4GB7dW3vWkfPpnLufIW2QDfqq6NcacndVZqHVPA7CvfMkH8wA
+         GX2btc/Uu20BQHFuK/yCM9ynHFTrONOm/iAbNdLH7B0DRHr4vsx10VZAyPw3tZDa/X
+         smoZL+SopLcPqrQevUZocngM18KiOoYY9Yiz4zhD7DyPS4sR+YWWuQ1cHUfS/0DhhE
+         tPHOgA04uE7ZluwDPAQbFaSFCZIZrF3vIKMNXxB6elbFnNllshcaLhdY2SYtzC14Jx
+         IZqXPJIlw/pC2jBm1upMl5NXXedu6XSPvSDoNlJ7RRtLs/BINKEB8DvmR772YDecSk
+         Gl1wyk/7wzIFA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hyunwoo Kim <v4bel@theori.io>,
+Cc:     YongSu Yoo <yongsuyoo0215@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, yongsuyoo0215@gmail.com,
-        linma@zju.edu.cn, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.3 30/67] media: dvb-core: Fix use-after-free due to race condition at dvb_ca_en50221
-Date:   Thu, 25 May 2023 14:31:07 -0400
-Message-Id: <20230525183144.1717540-30-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, colin.i.king@gmail.com,
+        hverkuil-cisco@xs4all.nl, tommaso.merciai@amarulasolutions.com,
+        linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.1 11/57] media: dvb_demux: fix a bug for the continuity counter
+Date:   Thu, 25 May 2023 14:35:21 -0400
+Message-Id: <20230525183607.1793983-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230525183144.1717540-1-sashal@kernel.org>
-References: <20230525183144.1717540-1-sashal@kernel.org>
+In-Reply-To: <20230525183607.1793983-1-sashal@kernel.org>
+References: <20230525183607.1793983-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -58,126 +59,63 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hyunwoo Kim <v4bel@theori.io>
+From: YongSu Yoo <yongsuyoo0215@gmail.com>
 
-[ Upstream commit 280a8ab81733da8bc442253c700a52c4c0886ffd ]
+[ Upstream commit 7efb10d8dc70ea3000cc70dca53407c52488acd1 ]
 
-If the device node of dvb_ca_en50221 is open() and the
-device is disconnected, a UAF may occur when calling
-close() on the device node.
+In dvb_demux.c, some logics exist which compare the expected
+continuity counter and the real continuity counter. If they
+are not matched each other, both of the expected continuity
+counter and the real continuity counter should be printed.
+But there exists a bug that the expected continuity counter
+is not correctly printed. The expected continuity counter is
+replaced with the real countinuity counter + 1 so that
+the epected continuity counter is not correclty printed.
+This is wrong. This bug is fixed.
 
-The root cause is that wake_up() and wait_event() for
-dvbdev->wait_queue are not implemented.
+Link: https://lore.kernel.org/linux-media/20230305212519.499-1-yongsuyoo0215@gmail.com
 
-So implement wait_event() function in dvb_ca_en50221_release()
-and add 'remove_mutex' which prevents race condition
-for 'ca->exit'.
-
-[mchehab: fix a checkpatch warning]
-
-Link: https://lore.kernel.org/linux-media/20221121063308.GA33821@ubuntu
-Signed-off-by: Hyunwoo Kim <v4bel@theori.io>
+Signed-off-by: YongSu Yoo <yongsuyoo0215@gmail.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/dvb-core/dvb_ca_en50221.c | 37 ++++++++++++++++++++++++-
- 1 file changed, 36 insertions(+), 1 deletion(-)
+ drivers/media/dvb-core/dvb_demux.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/dvb-core/dvb_ca_en50221.c b/drivers/media/dvb-core/dvb_ca_en50221.c
-index b6ca29dfb184a..baf64540dc00a 100644
---- a/drivers/media/dvb-core/dvb_ca_en50221.c
-+++ b/drivers/media/dvb-core/dvb_ca_en50221.c
-@@ -151,6 +151,12 @@ struct dvb_ca_private {
+diff --git a/drivers/media/dvb-core/dvb_demux.c b/drivers/media/dvb-core/dvb_demux.c
+index 83cc32ad7e122..eadd579bb4fad 100644
+--- a/drivers/media/dvb-core/dvb_demux.c
++++ b/drivers/media/dvb-core/dvb_demux.c
+@@ -115,12 +115,12 @@ static inline int dvb_dmx_swfilter_payload(struct dvb_demux_feed *feed,
  
- 	/* mutex serializing ioctls */
- 	struct mutex ioctl_mutex;
-+
-+	/* A mutex used when a device is disconnected */
-+	struct mutex remove_mutex;
-+
-+	/* Whether the device is disconnected */
-+	int exit;
- };
- 
- static void dvb_ca_private_free(struct dvb_ca_private *ca)
-@@ -1711,12 +1717,22 @@ static int dvb_ca_en50221_io_open(struct inode *inode, struct file *file)
- 
- 	dprintk("%s\n", __func__);
- 
--	if (!try_module_get(ca->pub->owner))
-+	mutex_lock(&ca->remove_mutex);
-+
-+	if (ca->exit) {
-+		mutex_unlock(&ca->remove_mutex);
-+		return -ENODEV;
-+	}
-+
-+	if (!try_module_get(ca->pub->owner)) {
-+		mutex_unlock(&ca->remove_mutex);
- 		return -EIO;
-+	}
- 
- 	err = dvb_generic_open(inode, file);
- 	if (err < 0) {
- 		module_put(ca->pub->owner);
-+		mutex_unlock(&ca->remove_mutex);
- 		return err;
+ 	cc = buf[3] & 0x0f;
+ 	ccok = ((feed->cc + 1) & 0x0f) == cc;
+-	feed->cc = cc;
+ 	if (!ccok) {
+ 		set_buf_flags(feed, DMX_BUFFER_FLAG_DISCONTINUITY_DETECTED);
+ 		dprintk_sect_loss("missed packet: %d instead of %d!\n",
+ 				  cc, (feed->cc + 1) & 0x0f);
  	}
++	feed->cc = cc;
  
-@@ -1741,6 +1757,7 @@ static int dvb_ca_en50221_io_open(struct inode *inode, struct file *file)
+ 	if (buf[1] & 0x40)	// PUSI ?
+ 		feed->peslen = 0xfffa;
+@@ -300,7 +300,6 @@ static int dvb_dmx_swfilter_section_packet(struct dvb_demux_feed *feed,
  
- 	dvb_ca_private_get(ca);
+ 	cc = buf[3] & 0x0f;
+ 	ccok = ((feed->cc + 1) & 0x0f) == cc;
+-	feed->cc = cc;
  
-+	mutex_unlock(&ca->remove_mutex);
- 	return 0;
- }
- 
-@@ -1760,6 +1777,8 @@ static int dvb_ca_en50221_io_release(struct inode *inode, struct file *file)
- 
- 	dprintk("%s\n", __func__);
- 
-+	mutex_lock(&ca->remove_mutex);
-+
- 	/* mark the CA device as closed */
- 	ca->open = 0;
- 	dvb_ca_en50221_thread_update_delay(ca);
-@@ -1770,6 +1789,13 @@ static int dvb_ca_en50221_io_release(struct inode *inode, struct file *file)
- 
- 	dvb_ca_private_put(ca);
- 
-+	if (dvbdev->users == 1 && ca->exit == 1) {
-+		mutex_unlock(&ca->remove_mutex);
-+		wake_up(&dvbdev->wait_queue);
-+	} else {
-+		mutex_unlock(&ca->remove_mutex);
-+	}
-+
- 	return err;
- }
- 
-@@ -1893,6 +1919,7 @@ int dvb_ca_en50221_init(struct dvb_adapter *dvb_adapter,
+ 	if (buf[3] & 0x20) {
+ 		/* adaption field present, check for discontinuity_indicator */
+@@ -336,6 +335,7 @@ static int dvb_dmx_swfilter_section_packet(struct dvb_demux_feed *feed,
+ 		feed->pusi_seen = false;
+ 		dvb_dmx_swfilter_section_new(feed);
  	}
++	feed->cc = cc;
  
- 	mutex_init(&ca->ioctl_mutex);
-+	mutex_init(&ca->remove_mutex);
- 
- 	if (signal_pending(current)) {
- 		ret = -EINTR;
-@@ -1935,6 +1962,14 @@ void dvb_ca_en50221_release(struct dvb_ca_en50221 *pubca)
- 
- 	dprintk("%s\n", __func__);
- 
-+	mutex_lock(&ca->remove_mutex);
-+	ca->exit = 1;
-+	mutex_unlock(&ca->remove_mutex);
-+
-+	if (ca->dvbdev->users < 1)
-+		wait_event(ca->dvbdev->wait_queue,
-+				ca->dvbdev->users == 1);
-+
- 	/* shutdown the thread if there was one */
- 	kthread_stop(ca->thread);
- 
+ 	if (buf[1] & 0x40) {
+ 		/* PUSI=1 (is set), section boundary is here */
 -- 
 2.39.2
 
