@@ -2,249 +2,188 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DB9AD7101F8
-	for <lists+linux-media@lfdr.de>; Thu, 25 May 2023 02:24:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E7AF710219
+	for <lists+linux-media@lfdr.de>; Thu, 25 May 2023 02:53:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229680AbjEYAYl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 May 2023 20:24:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39480 "EHLO
+        id S229661AbjEYAxU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 May 2023 20:53:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230152AbjEYAYk (ORCPT
+        with ESMTP id S229871AbjEYAxT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 May 2023 20:24:40 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCB2A135
-        for <linux-media@vger.kernel.org>; Wed, 24 May 2023 17:24:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684974272; x=1716510272;
-  h=date:from:to:cc:subject:message-id;
-  bh=2Z6948UIzlC1Ff1uAlMYnIkYgcAYaMsAf1Jc/0DsMLk=;
-  b=NtINQ7R4ygIqv4EpTDqCnKUpxtoSQMmG/Vo30zTL6dIpOUC1vydGN9wq
-   zi63evgKqH7KllOBRI83BwBMaowWwUE8nblx1CKnW6O3Kk3EDKJdaEyGk
-   pUTHOBmm6+FpzFoZTn3SUbuctmKEHQU9aRJ02PqSJjnBNsZ9W0Xex4ugZ
-   ozECYzV1VhqbqC+WzcxuZpwqKcimLNwppY1TC1INQVqMtheulCxs546JH
-   ZJx733cYNXVNA+uUfNO2dTxxG2Fxl5e2DJfUx3JZt0mAd6n4QPTuJiyhP
-   cWkK9/rxxtl9TJbwJK0M4V2I+3ua2kO5a3aC90x9t7WfP08SeMKVvo2El
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="419452824"
-X-IronPort-AV: E=Sophos;i="6.00,190,1681196400"; 
-   d="scan'208";a="419452824"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2023 17:24:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="1034760976"
-X-IronPort-AV: E=Sophos;i="6.00,190,1681196400"; 
-   d="scan'208";a="1034760976"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 24 May 2023 17:24:29 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1q1ymI-000FHm-01;
-        Thu, 25 May 2023 00:24:26 +0000
-Date:   Thu, 25 May 2023 08:24:13 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org
-Subject: [sailus-media-tree:async-multi] BUILD SUCCESS
- 86db366ca359f8a98aae408159c98212d2456814
-Message-ID: <20230525002413.y6rpg%lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        Wed, 24 May 2023 20:53:19 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59349119
+        for <linux-media@vger.kernel.org>; Wed, 24 May 2023 17:53:18 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1ae8ecb4f9aso6717585ad.1
+        for <linux-media@vger.kernel.org>; Wed, 24 May 2023 17:53:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1684975998; x=1687567998;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=FUvMPTBA49tNIIepIZR4oNBjuNfKgUVXvOLcX8khE8M=;
+        b=W2UjZt7xXNaPeh18Rot0pJP8kt7jDb1X4nnRAQ5Srl/FEom6b5LEmxbxqdIzGPa66O
+         bJWsXKewY7BBUbcf0L9HR2jfVXcxzerNtb9m6G7a/tL53j0be+O7Azcai3o9ZeYvdVf3
+         qxt4l/XxdKnfu0odskR1IHytfH1KM59yif948=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684975998; x=1687567998;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FUvMPTBA49tNIIepIZR4oNBjuNfKgUVXvOLcX8khE8M=;
+        b=DGU5GiU+D9uzTSt9/TC8jgXVnxlOJ89bO67Cih03Oq/mV83HDXC1Q1Ja90Jp/Ye14V
+         j8eBn15XhVqamYGVZabQzokJIczq0Q4xpgcTkou196I/Mcne53TAYrWW1VuFL1FuGg/V
+         xHhrk1jcxXe6ZQOPYp5ZbWssscLQrvaeFcll0wUlHJRvIPPBWAr2UDwaXgM9F5k3mzsy
+         PtWADpKcJf8ss8vhMk9S+wJlWArnE6fY0KMfKtBXgzlQ+4qoh9uFVRhvmqgt/LAJFwXS
+         Zn7YgGwvZVW2aIcl4Pz/MyQZeNLMRxEXpPE56abwd1BS0KebS3txrk1lVuYrwFckPdkN
+         P0FA==
+X-Gm-Message-State: AC+VfDxs4u+zLHL/iwilC7NNv8vMRIsZ7ycYSxsHMj1Dvia+BHitsV7G
+        eCWXvO8WiEAz8/N0yIlBdgxLOA==
+X-Google-Smtp-Source: ACHHUZ6BPJrTMmE6q+3KwyvgvqUoCdmn2pOb0V2mUV/yq9VWTvL9ZaWdx8qqDZktiSGiZf9u3mKihg==
+X-Received: by 2002:a17:903:1208:b0:1aa:feca:b616 with SMTP id l8-20020a170903120800b001aafecab616mr20911966plh.65.1684975997791;
+        Wed, 24 May 2023 17:53:17 -0700 (PDT)
+Received: from google.com (KD124209188001.ppp-bb.dion.ne.jp. [124.209.188.1])
+        by smtp.gmail.com with ESMTPSA id j4-20020a170902c08400b001ac2f98e953sm60563pld.216.2023.05.24.17.53.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 May 2023 17:53:16 -0700 (PDT)
+Date:   Thu, 25 May 2023 09:53:12 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Vikash Garodia <quic_vgarodia@quicinc.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCHv3] media: venus: provide video device lock
+Message-ID: <20230525005312.GC30543@google.com>
+References: <20230524135737.2557837-1-senozhatsky@chromium.org>
+ <20230524141312.2558810-1-senozhatsky@chromium.org>
+ <2c732d80-1a18-7a34-03a8-16afb0de5ea2@linaro.org>
+ <f9219cb0-2cac-bace-20f7-27005cd0e6f1@xs4all.nl>
+ <83cd3dc7-455d-0f26-d2a8-3ebe92d9e33f@quicinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <83cd3dc7-455d-0f26-d2a8-3ebe92d9e33f@quicinc.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: INFO setup_repo_specs: /db/releases/20230524230549/lkp-src/repo/*/sailus-media-tree
-git://linuxtv.org/sailus/media_tree.git async-multi
-branch HEAD: 86db366ca359f8a98aae408159c98212d2456814  media: Documentation: v4l: Document sub-device notifiers
+On (23/05/24 22:06), Vikash Garodia wrote:
+> > Instead the struct v4l2_m2m_ctx q_lock pointer, if set, will use that
+> > mutex for all vb2 operations.
+> > 
+> > I think you can set it to the 'lock' mutex in struct venus_inst.
+> 
+> IIUC, the suggestion is to use the 'lock' in struct venus_inst while
+> initializing the queue. This might lead to deadlock as the same lock is used
+> during vb2 operations in driver. Might be introducing a new lock for this
+> purpose in struct venus_inst would do, unless we are trying to serialize at
+> video device (or core) context.
 
-elapsed time: 725m
+Something like this?
 
-configs tested: 171
-configs skipped: 4
+Video device has to provide a lock so that __video_do_ioctl()
+can serialize IOCTL calls. Introduce a dedicated venus_inst
+mutex (which is set a ctx ->q_lock) for the purpose of vb2
+operations synchronization.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+---
+ drivers/media/platform/qcom/venus/core.h | 2 ++
+ drivers/media/platform/qcom/venus/vdec.c | 4 ++++
+ drivers/media/platform/qcom/venus/venc.c | 3 +++
+ 3 files changed, 9 insertions(+)
 
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha        buildonly-randconfig-r002-20230524   gcc  
-alpha                               defconfig   gcc  
-arc                              allyesconfig   gcc  
-arc          buildonly-randconfig-r001-20230524   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r043-20230524   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                       aspeed_g5_defconfig   gcc  
-arm                                 defconfig   gcc  
-arm                  randconfig-r032-20230524   clang
-arm                  randconfig-r046-20230524   gcc  
-arm                         s5pv210_defconfig   clang
-arm                        spear6xx_defconfig   gcc  
-arm                        vexpress_defconfig   clang
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                randconfig-r004-20230524   gcc  
-csky         buildonly-randconfig-r002-20230524   gcc  
-csky                                defconfig   gcc  
-csky                 randconfig-r013-20230524   gcc  
-hexagon              randconfig-r026-20230524   clang
-hexagon              randconfig-r034-20230524   clang
-hexagon              randconfig-r041-20230524   clang
-hexagon              randconfig-r045-20230524   clang
-i386                             allyesconfig   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-i051-20230524   gcc  
-i386                 randconfig-i052-20230524   gcc  
-i386                 randconfig-i053-20230524   gcc  
-i386                 randconfig-i054-20230524   gcc  
-i386                 randconfig-i055-20230524   gcc  
-i386                 randconfig-i056-20230524   gcc  
-i386                 randconfig-i061-20230524   gcc  
-i386                 randconfig-i062-20230524   gcc  
-i386                 randconfig-i063-20230524   gcc  
-i386                 randconfig-i064-20230524   gcc  
-i386                 randconfig-i065-20230524   gcc  
-i386                 randconfig-i066-20230524   gcc  
-i386                 randconfig-i071-20230524   clang
-i386                 randconfig-i072-20230524   clang
-i386                 randconfig-i073-20230524   clang
-i386                 randconfig-i074-20230524   clang
-i386                 randconfig-i075-20230524   clang
-i386                 randconfig-i076-20230524   clang
-i386                 randconfig-i081-20230524   clang
-i386                 randconfig-i082-20230524   clang
-i386                 randconfig-i083-20230524   clang
-i386                 randconfig-i084-20230524   clang
-i386                 randconfig-i085-20230524   clang
-i386                 randconfig-i086-20230524   clang
-i386                 randconfig-i091-20230524   gcc  
-i386                 randconfig-i092-20230524   gcc  
-i386                 randconfig-i093-20230524   gcc  
-i386                 randconfig-i094-20230524   gcc  
-i386                 randconfig-i095-20230524   gcc  
-i386                 randconfig-i096-20230524   gcc  
-ia64                             allmodconfig   gcc  
-ia64         buildonly-randconfig-r005-20230524   gcc  
-ia64         buildonly-randconfig-r006-20230524   gcc  
-ia64                                defconfig   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch            randconfig-r024-20230524   gcc  
-m68k                             allmodconfig   gcc  
-m68k                         amcore_defconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                 randconfig-r021-20230524   gcc  
-microblaze           randconfig-r012-20230524   gcc  
-microblaze           randconfig-r015-20230524   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                     loongson1b_defconfig   gcc  
-mips                      malta_kvm_defconfig   clang
-mips                 randconfig-r006-20230524   clang
-nios2                               defconfig   gcc  
-openrisc             randconfig-r022-20230524   gcc  
-parisc                              defconfig   gcc  
-parisc               randconfig-r002-20230524   gcc  
-parisc               randconfig-r005-20230524   gcc  
-parisc               randconfig-r031-20230524   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc      buildonly-randconfig-r004-20230524   clang
-powerpc                 mpc8540_ads_defconfig   gcc  
-powerpc              randconfig-r011-20230524   clang
-powerpc              randconfig-r014-20230524   clang
-powerpc              randconfig-r024-20230524   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r042-20230524   clang
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r033-20230524   gcc  
-s390                 randconfig-r044-20230524   clang
-s390                       zfcpdump_defconfig   gcc  
-sh                               allmodconfig   gcc  
-sh                   randconfig-r015-20230524   gcc  
-sh                           se7619_defconfig   gcc  
-sh                          urquell_defconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                randconfig-r001-20230524   gcc  
-sparc                randconfig-r035-20230524   gcc  
-sparc64      buildonly-randconfig-r003-20230524   gcc  
-sparc64              randconfig-r012-20230524   gcc  
-sparc64              randconfig-r023-20230524   gcc  
-sparc64              randconfig-r036-20230524   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-r004-20230524   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-a001-20230524   gcc  
-x86_64               randconfig-a002-20230524   gcc  
-x86_64               randconfig-a003-20230524   gcc  
-x86_64               randconfig-a004-20230524   gcc  
-x86_64               randconfig-a005-20230524   gcc  
-x86_64               randconfig-a006-20230524   gcc  
-x86_64               randconfig-a011-20230524   clang
-x86_64               randconfig-a012-20230524   clang
-x86_64               randconfig-a013-20230524   clang
-x86_64               randconfig-a014-20230524   clang
-x86_64               randconfig-a015-20230524   clang
-x86_64               randconfig-a016-20230524   clang
-x86_64               randconfig-x051-20230524   clang
-x86_64               randconfig-x052-20230524   clang
-x86_64               randconfig-x053-20230524   clang
-x86_64               randconfig-x054-20230524   clang
-x86_64               randconfig-x055-20230524   clang
-x86_64               randconfig-x056-20230524   clang
-x86_64               randconfig-x061-20230524   clang
-x86_64               randconfig-x062-20230524   clang
-x86_64               randconfig-x063-20230524   clang
-x86_64               randconfig-x064-20230524   clang
-x86_64               randconfig-x065-20230524   clang
-x86_64               randconfig-x066-20230524   clang
-x86_64               randconfig-x071-20230524   gcc  
-x86_64               randconfig-x072-20230524   gcc  
-x86_64               randconfig-x073-20230524   gcc  
-x86_64               randconfig-x074-20230524   gcc  
-x86_64               randconfig-x075-20230524   gcc  
-x86_64               randconfig-x076-20230524   gcc  
-x86_64               randconfig-x081-20230524   gcc  
-x86_64               randconfig-x082-20230524   gcc  
-x86_64               randconfig-x083-20230524   gcc  
-x86_64               randconfig-x084-20230524   gcc  
-x86_64               randconfig-x085-20230524   gcc  
-x86_64               randconfig-x086-20230524   gcc  
-x86_64               randconfig-x091-20230524   clang
-x86_64               randconfig-x092-20230524   clang
-x86_64               randconfig-x093-20230524   clang
-x86_64               randconfig-x094-20230524   clang
-x86_64               randconfig-x095-20230524   clang
-x86_64               randconfig-x096-20230524   clang
-x86_64                               rhel-8.3   gcc  
-xtensa       buildonly-randconfig-r005-20230524   gcc  
-xtensa       buildonly-randconfig-r006-20230524   gcc  
-xtensa               randconfig-r003-20230524   gcc  
-xtensa               randconfig-r013-20230524   gcc  
-xtensa               randconfig-r022-20230524   gcc  
-xtensa               randconfig-r025-20230524   gcc  
-xtensa                         virt_defconfig   gcc  
-
+diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+index 4f81669986ba..6ac5236d6888 100644
+--- a/drivers/media/platform/qcom/venus/core.h
++++ b/drivers/media/platform/qcom/venus/core.h
+@@ -389,6 +389,7 @@ enum venus_inst_modes {
+  * @sequence_out:	a sequence counter for output queue
+  * @m2m_dev:	a reference to m2m device structure
+  * @m2m_ctx:	a reference to m2m context structure
++ * @ctx_queue_lock:	a lock to serialize video device ioctl calls
+  * @state:	current state of the instance
+  * @done:	a completion for sync HFI operation
+  * @error:	an error returned during last HFI sync operation
+@@ -460,6 +461,7 @@ struct venus_inst {
+ 	u32 sequence_out;
+ 	struct v4l2_m2m_dev *m2m_dev;
+ 	struct v4l2_m2m_ctx *m2m_ctx;
++	struct mutex ctx_queue_lock;
+ 	unsigned int state;
+ 	struct completion done;
+ 	unsigned int error;
+diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+index 51a53bf82bd3..2caeba5b6378 100644
+--- a/drivers/media/platform/qcom/venus/vdec.c
++++ b/drivers/media/platform/qcom/venus/vdec.c
+@@ -1641,6 +1641,7 @@ static int vdec_open(struct file *file)
+ 	INIT_LIST_HEAD(&inst->internalbufs);
+ 	INIT_LIST_HEAD(&inst->list);
+ 	mutex_init(&inst->lock);
++	mutex_init(&inst->ctx_queue_lock);
+ 
+ 	inst->core = core;
+ 	inst->session_type = VIDC_SESSION_TYPE_DEC;
+@@ -1684,8 +1685,10 @@ static int vdec_open(struct file *file)
+ 		goto err_m2m_release;
+ 	}
+ 
++
+ 	v4l2_fh_init(&inst->fh, core->vdev_dec);
+ 
++	inst->m2m_ctx->q_lock = &inst->ctx_queue_lock;
+ 	inst->fh.ctrl_handler = &inst->ctrl_handler;
+ 	v4l2_fh_add(&inst->fh);
+ 	inst->fh.m2m_ctx = inst->m2m_ctx;
+@@ -1716,6 +1719,7 @@ static int vdec_close(struct file *file)
+ 	ida_destroy(&inst->dpb_ids);
+ 	hfi_session_destroy(inst);
+ 	mutex_destroy(&inst->lock);
++	mutex_destroy(&inst->ctx_queue_lock);
+ 	v4l2_fh_del(&inst->fh);
+ 	v4l2_fh_exit(&inst->fh);
+ 
+diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+index 4666f42feea3..4292b299f014 100644
+--- a/drivers/media/platform/qcom/venus/venc.c
++++ b/drivers/media/platform/qcom/venus/venc.c
+@@ -1443,6 +1443,7 @@ static int venc_open(struct file *file)
+ 	INIT_LIST_HEAD(&inst->internalbufs);
+ 	INIT_LIST_HEAD(&inst->list);
+ 	mutex_init(&inst->lock);
++	mutex_init(&inst->ctx_queue_lock);
+ 
+ 	inst->core = core;
+ 	inst->session_type = VIDC_SESSION_TYPE_ENC;
+@@ -1483,6 +1484,7 @@ static int venc_open(struct file *file)
+ 
+ 	v4l2_fh_init(&inst->fh, core->vdev_enc);
+ 
++	inst->m2m_ctx->q_lock = &inst->ctx_queue_lock;
+ 	inst->fh.ctrl_handler = &inst->ctrl_handler;
+ 	v4l2_fh_add(&inst->fh);
+ 	inst->fh.m2m_ctx = inst->m2m_ctx;
+@@ -1512,6 +1514,7 @@ static int venc_close(struct file *file)
+ 	venc_ctrl_deinit(inst);
+ 	hfi_session_destroy(inst);
+ 	mutex_destroy(&inst->lock);
++	mutex_destroy(&inst->ctx_queue_lock);
+ 	v4l2_fh_del(&inst->fh);
+ 	v4l2_fh_exit(&inst->fh);
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.40.1.698.g37aff9b760-goog
+
