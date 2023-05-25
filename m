@@ -2,141 +2,249 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3785F7101F1
-	for <lists+linux-media@lfdr.de>; Thu, 25 May 2023 02:21:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB9AD7101F8
+	for <lists+linux-media@lfdr.de>; Thu, 25 May 2023 02:24:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232901AbjEYAVK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 May 2023 20:21:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38404 "EHLO
+        id S229680AbjEYAYl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 May 2023 20:24:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233082AbjEYAVJ (ORCPT
+        with ESMTP id S230152AbjEYAYk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 May 2023 20:21:09 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F647135
-        for <linux-media@vger.kernel.org>; Wed, 24 May 2023 17:21:06 -0700 (PDT)
-Received: from db550.. (node-1w7jr9st5p2esmclet71ntnwp.ipv6.telus.net [IPv6:2001:569:beb1:1500:6f9d:3a5c:4d25:e949])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: dbrouwer)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 6280A66032CB;
-        Thu, 25 May 2023 01:21:04 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1684974065;
-        bh=P106wTNuEibYz+U08z9gx85lbtcHdCymaEmO4toUxtk=;
-        h=From:To:Cc:Subject:Date:From;
-        b=jKkc58w7dx4VJCK+bTEQwBUx9lDn3pVYJsNBdX5FWtgmuuF2fnPx7H5Da5dwRhke9
-         8nyag0t4dMQGJQCVpjB/PHuXU0sj6rM7XMoLNtZ5T9po35WpQR3rtaJbltuHAlN6h5
-         XFb7Yf02MKxq2TT8x3kBFZcigRzO1OGgTohulYBk0O0nHfIj/qskqjTh4rePUz2eCS
-         W3j/yserAq9R0zmMICSBlDp7OlL4C6tOJBKH7Pbqm4J+yZoKPZTxXI411LiKSO3yVI
-         ZsXNV6eQDjsAtSm2mViJMw8UAg1dv8CxY3zKzzwqzAK1lRjdy5wXHc1WbT8zPzNwji
-         6ycALduOy2I2g==
-From:   Deborah Brouwer <deborah.brouwer@collabora.com>
-To:     linux-media@vger.kernel.org
-Cc:     hverkuil-cisco@xs4all.nl,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: [PATCH] v4l2-tracer: Fix libv4l2tracer.so loader
-Date:   Wed, 24 May 2023 17:20:45 -0700
-Message-Id: <20230525002045.82937-1-deborah.brouwer@collabora.com>
-X-Mailer: git-send-email 2.40.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        Wed, 24 May 2023 20:24:40 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCB2A135
+        for <linux-media@vger.kernel.org>; Wed, 24 May 2023 17:24:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1684974272; x=1716510272;
+  h=date:from:to:cc:subject:message-id;
+  bh=2Z6948UIzlC1Ff1uAlMYnIkYgcAYaMsAf1Jc/0DsMLk=;
+  b=NtINQ7R4ygIqv4EpTDqCnKUpxtoSQMmG/Vo30zTL6dIpOUC1vydGN9wq
+   zi63evgKqH7KllOBRI83BwBMaowWwUE8nblx1CKnW6O3Kk3EDKJdaEyGk
+   pUTHOBmm6+FpzFoZTn3SUbuctmKEHQU9aRJ02PqSJjnBNsZ9W0Xex4ugZ
+   ozECYzV1VhqbqC+WzcxuZpwqKcimLNwppY1TC1INQVqMtheulCxs546JH
+   ZJx733cYNXVNA+uUfNO2dTxxG2Fxl5e2DJfUx3JZt0mAd6n4QPTuJiyhP
+   cWkK9/rxxtl9TJbwJK0M4V2I+3ua2kO5a3aC90x9t7WfP08SeMKVvo2El
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="419452824"
+X-IronPort-AV: E=Sophos;i="6.00,190,1681196400"; 
+   d="scan'208";a="419452824"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2023 17:24:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="1034760976"
+X-IronPort-AV: E=Sophos;i="6.00,190,1681196400"; 
+   d="scan'208";a="1034760976"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 24 May 2023 17:24:29 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1q1ymI-000FHm-01;
+        Thu, 25 May 2023 00:24:26 +0000
+Date:   Thu, 25 May 2023 08:24:13 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org
+Subject: [sailus-media-tree:async-multi] BUILD SUCCESS
+ 86db366ca359f8a98aae408159c98212d2456814
+Message-ID: <20230525002413.y6rpg%lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+tree/branch: INFO setup_repo_specs: /db/releases/20230524230549/lkp-src/repo/*/sailus-media-tree
+git://linuxtv.org/sailus/media_tree.git async-multi
+branch HEAD: 86db366ca359f8a98aae408159c98212d2456814  media: Documentation: v4l: Document sub-device notifiers
 
-The code was still assuming libtools being use, so it didn't work
-installed anymore. Also, it didn't work installed if the full
-v4l2-tracer path was being passed.
+elapsed time: 725m
 
-Fix this by always trying next by libv4l2tracer.so loading (using stat()
-to validate) and always fallback to the installed path otherwise.
+configs tested: 171
+configs skipped: 4
 
-Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
----
-Hi - thanks to Nicolas for this patch.
-I tested tracing and retracing on both installed and uninstalled
-v4l2-tracer including with and without an absolute path and it
-all works as expected.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Note that I've got three sets of v4l2-tracer patches outstanding now,
-but they all still apply independently of each other:
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha        buildonly-randconfig-r002-20230524   gcc  
+alpha                               defconfig   gcc  
+arc                              allyesconfig   gcc  
+arc          buildonly-randconfig-r001-20230524   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r043-20230524   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                       aspeed_g5_defconfig   gcc  
+arm                                 defconfig   gcc  
+arm                  randconfig-r032-20230524   clang
+arm                  randconfig-r046-20230524   gcc  
+arm                         s5pv210_defconfig   clang
+arm                        spear6xx_defconfig   gcc  
+arm                        vexpress_defconfig   clang
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r004-20230524   gcc  
+csky         buildonly-randconfig-r002-20230524   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r013-20230524   gcc  
+hexagon              randconfig-r026-20230524   clang
+hexagon              randconfig-r034-20230524   clang
+hexagon              randconfig-r041-20230524   clang
+hexagon              randconfig-r045-20230524   clang
+i386                             allyesconfig   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-i051-20230524   gcc  
+i386                 randconfig-i052-20230524   gcc  
+i386                 randconfig-i053-20230524   gcc  
+i386                 randconfig-i054-20230524   gcc  
+i386                 randconfig-i055-20230524   gcc  
+i386                 randconfig-i056-20230524   gcc  
+i386                 randconfig-i061-20230524   gcc  
+i386                 randconfig-i062-20230524   gcc  
+i386                 randconfig-i063-20230524   gcc  
+i386                 randconfig-i064-20230524   gcc  
+i386                 randconfig-i065-20230524   gcc  
+i386                 randconfig-i066-20230524   gcc  
+i386                 randconfig-i071-20230524   clang
+i386                 randconfig-i072-20230524   clang
+i386                 randconfig-i073-20230524   clang
+i386                 randconfig-i074-20230524   clang
+i386                 randconfig-i075-20230524   clang
+i386                 randconfig-i076-20230524   clang
+i386                 randconfig-i081-20230524   clang
+i386                 randconfig-i082-20230524   clang
+i386                 randconfig-i083-20230524   clang
+i386                 randconfig-i084-20230524   clang
+i386                 randconfig-i085-20230524   clang
+i386                 randconfig-i086-20230524   clang
+i386                 randconfig-i091-20230524   gcc  
+i386                 randconfig-i092-20230524   gcc  
+i386                 randconfig-i093-20230524   gcc  
+i386                 randconfig-i094-20230524   gcc  
+i386                 randconfig-i095-20230524   gcc  
+i386                 randconfig-i096-20230524   gcc  
+ia64                             allmodconfig   gcc  
+ia64         buildonly-randconfig-r005-20230524   gcc  
+ia64         buildonly-randconfig-r006-20230524   gcc  
+ia64                                defconfig   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r024-20230524   gcc  
+m68k                             allmodconfig   gcc  
+m68k                         amcore_defconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r021-20230524   gcc  
+microblaze           randconfig-r012-20230524   gcc  
+microblaze           randconfig-r015-20230524   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                     loongson1b_defconfig   gcc  
+mips                      malta_kvm_defconfig   clang
+mips                 randconfig-r006-20230524   clang
+nios2                               defconfig   gcc  
+openrisc             randconfig-r022-20230524   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r002-20230524   gcc  
+parisc               randconfig-r005-20230524   gcc  
+parisc               randconfig-r031-20230524   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc      buildonly-randconfig-r004-20230524   clang
+powerpc                 mpc8540_ads_defconfig   gcc  
+powerpc              randconfig-r011-20230524   clang
+powerpc              randconfig-r014-20230524   clang
+powerpc              randconfig-r024-20230524   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r042-20230524   clang
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r033-20230524   gcc  
+s390                 randconfig-r044-20230524   clang
+s390                       zfcpdump_defconfig   gcc  
+sh                               allmodconfig   gcc  
+sh                   randconfig-r015-20230524   gcc  
+sh                           se7619_defconfig   gcc  
+sh                          urquell_defconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r001-20230524   gcc  
+sparc                randconfig-r035-20230524   gcc  
+sparc64      buildonly-randconfig-r003-20230524   gcc  
+sparc64              randconfig-r012-20230524   gcc  
+sparc64              randconfig-r023-20230524   gcc  
+sparc64              randconfig-r036-20230524   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-r004-20230524   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-a001-20230524   gcc  
+x86_64               randconfig-a002-20230524   gcc  
+x86_64               randconfig-a003-20230524   gcc  
+x86_64               randconfig-a004-20230524   gcc  
+x86_64               randconfig-a005-20230524   gcc  
+x86_64               randconfig-a006-20230524   gcc  
+x86_64               randconfig-a011-20230524   clang
+x86_64               randconfig-a012-20230524   clang
+x86_64               randconfig-a013-20230524   clang
+x86_64               randconfig-a014-20230524   clang
+x86_64               randconfig-a015-20230524   clang
+x86_64               randconfig-a016-20230524   clang
+x86_64               randconfig-x051-20230524   clang
+x86_64               randconfig-x052-20230524   clang
+x86_64               randconfig-x053-20230524   clang
+x86_64               randconfig-x054-20230524   clang
+x86_64               randconfig-x055-20230524   clang
+x86_64               randconfig-x056-20230524   clang
+x86_64               randconfig-x061-20230524   clang
+x86_64               randconfig-x062-20230524   clang
+x86_64               randconfig-x063-20230524   clang
+x86_64               randconfig-x064-20230524   clang
+x86_64               randconfig-x065-20230524   clang
+x86_64               randconfig-x066-20230524   clang
+x86_64               randconfig-x071-20230524   gcc  
+x86_64               randconfig-x072-20230524   gcc  
+x86_64               randconfig-x073-20230524   gcc  
+x86_64               randconfig-x074-20230524   gcc  
+x86_64               randconfig-x075-20230524   gcc  
+x86_64               randconfig-x076-20230524   gcc  
+x86_64               randconfig-x081-20230524   gcc  
+x86_64               randconfig-x082-20230524   gcc  
+x86_64               randconfig-x083-20230524   gcc  
+x86_64               randconfig-x084-20230524   gcc  
+x86_64               randconfig-x085-20230524   gcc  
+x86_64               randconfig-x086-20230524   gcc  
+x86_64               randconfig-x091-20230524   clang
+x86_64               randconfig-x092-20230524   clang
+x86_64               randconfig-x093-20230524   clang
+x86_64               randconfig-x094-20230524   clang
+x86_64               randconfig-x095-20230524   clang
+x86_64               randconfig-x096-20230524   clang
+x86_64                               rhel-8.3   gcc  
+xtensa       buildonly-randconfig-r005-20230524   gcc  
+xtensa       buildonly-randconfig-r006-20230524   gcc  
+xtensa               randconfig-r003-20230524   gcc  
+xtensa               randconfig-r013-20230524   gcc  
+xtensa               randconfig-r022-20230524   gcc  
+xtensa               randconfig-r025-20230524   gcc  
+xtensa                         virt_defconfig   gcc  
 
-Tuner patches:
-https://lore.kernel.org/linux-media/cover.1684453027.git.deborah.brouwer@collabora.com/
-
-Debug patches:
-https://lore.kernel.org/linux-media/cover.1681245372.git.deborah.brouwer@collabora.com/
-
-Thanks,
-Deb
-
- utils/v4l2-tracer/v4l2-tracer.cpp | 33 +++++++++++++++++--------------
- 1 file changed, 18 insertions(+), 15 deletions(-)
-
-diff --git a/utils/v4l2-tracer/v4l2-tracer.cpp b/utils/v4l2-tracer/v4l2-tracer.cpp
-index e3f002a9..7c3662be 100644
---- a/utils/v4l2-tracer/v4l2-tracer.cpp
-+++ b/utils/v4l2-tracer/v4l2-tracer.cpp
-@@ -5,6 +5,7 @@
- 
- #include "retrace.h"
- #include <climits>
-+#include <sys/stat.h>
- #include <sys/wait.h>
- #include <time.h>
- 
-@@ -295,24 +296,26 @@ int tracer(int argc, char *argv[], bool retrace)
- 	fclose(trace_file);
- 
- 	/*
--	 * Preload the libv4l2tracer library. If the program is installed, load the library
--	 * from its installed location, otherwise load it locally. If it's loaded locally,
--	 * use ./configure --disable-dyn-libv4l.
-+	 * Preload the libv4l2tracer library. The libv4l2tracer is looked up next to
-+	 * the executable first in order to support uninstalled build.
- 	 */
- 	std::string libv4l2tracer_path;
- 	std::string program = argv[0];
--	std::size_t idx = program.rfind("/v4l2-tracer");
--	if (idx != std::string::npos) {
--		libv4l2tracer_path = program.replace(program.begin() + idx + 1, program.end(), ".libs");
--		DIR *directory_pointer = opendir(libv4l2tracer_path.c_str());
--		if (directory_pointer == nullptr)
--			libv4l2tracer_path = program.replace(program.begin() + idx, program.end(), "./.libs");
--		else
--			closedir(directory_pointer);
--	} else {
--		libv4l2tracer_path = LIBTRACER_PATH;
--	}
--	libv4l2tracer_path += "/libv4l2tracer.so";
-+	std::size_t idx = program.rfind("/");
-+	struct stat sb;
-+
-+	if (idx == std::string::npos)
-+		idx = 0;
-+	else
-+		idx++;
-+
-+	/* look for libv4l2tracer next to the executable */
-+	libv4l2tracer_path = program.replace(program.begin() + idx, program.end(), "libv4l2tracer.so");
-+
-+	/* otherwise, use the installation path */
-+	if (stat(libv4l2tracer_path.c_str(), &sb) == -1)
-+		libv4l2tracer_path = std::string(LIBTRACER_PATH) + "/libv4l2tracer.so";
-+
- 	if (is_verbose())
- 		fprintf(stderr, "Loading libv4l2tracer: %s\n", libv4l2tracer_path.c_str());
- 	setenv("LD_PRELOAD", libv4l2tracer_path.c_str(), 0);
 -- 
-2.40.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
