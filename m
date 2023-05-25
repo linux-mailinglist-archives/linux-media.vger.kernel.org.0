@@ -2,48 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BCB8B710275
-	for <lists+linux-media@lfdr.de>; Thu, 25 May 2023 03:40:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DA0A71029F
+	for <lists+linux-media@lfdr.de>; Thu, 25 May 2023 04:12:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237009AbjEYBkj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 May 2023 21:40:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55184 "EHLO
+        id S230250AbjEYCMg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 May 2023 22:12:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236597AbjEYBkb (ORCPT
+        with ESMTP id S229661AbjEYCMf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 May 2023 21:40:31 -0400
+        Wed, 24 May 2023 22:12:35 -0400
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBA9913A;
-        Wed, 24 May 2023 18:40:28 -0700 (PDT)
-X-UUID: 1d0ef048fa9d11edb20a276fd37b9834-20230525
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF6E2D3;
+        Wed, 24 May 2023 19:12:27 -0700 (PDT)
+X-UUID: 9564020afaa111edb20a276fd37b9834-20230525
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=1vECssvqpnNYG6NLdvZnncp82bk62N0VHH5o/JWWwrE=;
-        b=qhxEXG3YUOemGvjJkN7PpUJlz5fjj86IM3rE2sZczUETbkCJOmVYq6piXVtwP1Qjq03ZbrCFf5Qc5DHoNyfW2UvTazWL4u3U3orbYW0qHbp+G9WoZITFkRES0Nqnizfs1yHP/T7i8+OVx0i4anbgopI37MJzTpEPgnrH68FsHJU=;
+        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=zOBf7epstLxMnK/zLdFYIIeJOPfmRcocUYEv4ffyRWU=;
+        b=i+CyGllNMOUS8ZxFeueW3uIP+E3ZrU7GmkIxQucPlzLSvgbrjHdSncGN1f88ZB+Dp1TKHaUZy1GBFCgz50T02hCtzC+jZb4jZZsEpsNQuMIqlp1iAmUXu37+1ned0jz6ALBjw8SayRZOdrNcCJP7gL3fQSdI0OctSdVakHz4NsY=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.25,REQID:fd7d605e-7dc4-4e09-908d-9e6250e28ff6,IP:0,U
-        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-        :release,TS:95
-X-CID-INFO: VERSION:1.1.25,REQID:fd7d605e-7dc4-4e09-908d-9e6250e28ff6,IP:0,URL
-        :0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTION
-        :quarantine,TS:95
-X-CID-META: VersionHash:d5b0ae3,CLOUDID:96efea6c-2f20-4998-991c-3b78627e4938,B
-        ulkID:230525094024GS8R9MJ3,BulkQuantity:0,Recheck:0,SF:29|28|17|19|48|38,T
+X-CID-O-INFO: VERSION:1.1.25,REQID:d5856d64-7e94-4ff9-acd5-e0763674cdd8,IP:0,U
+        RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+        ON:release,TS:70
+X-CID-INFO: VERSION:1.1.25,REQID:d5856d64-7e94-4ff9-acd5-e0763674cdd8,IP:0,URL
+        :0,TC:0,Content:-25,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTI
+        ON:quarantine,TS:70
+X-CID-META: VersionHash:d5b0ae3,CLOUDID:cb31ec6c-2f20-4998-991c-3b78627e4938,B
+        ulkID:230525101222U58R0ZFE,BulkQuantity:0,Recheck:0,SF:38|29|28|17|19|48,T
         C:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
         ,OSI:0,OSA:0,AV:0
 X-CID-BVR: 0,NGT
 X-CID-BAS: 0,NGT,0,_
-X-UUID: 1d0ef048fa9d11edb20a276fd37b9834-20230525
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw02.mediatek.com
+X-UUID: 9564020afaa111edb20a276fd37b9834-20230525
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
         (envelope-from <yunfei.dong@mediatek.com>)
         (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1727582007; Thu, 25 May 2023 09:40:22 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+        with ESMTP id 697199958; Thu, 25 May 2023 10:12:22 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
  mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Thu, 25 May 2023 09:40:16 +0800
+ 15.2.1118.26; Thu, 25 May 2023 10:12:20 +0800
 Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Thu, 25 May 2023 09:40:15 +0800
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Thu, 25 May 2023 10:12:19 +0800
 From:   Yunfei Dong <yunfei.dong@mediatek.com>
 To:     Chen-Yu Tsai <wenst@chromium.org>,
         Nicolas Dufresne <nicolas.dufresne@collabora.com>,
@@ -63,19 +63,17 @@ CC:     Yunfei Dong <yunfei.dong@mediatek.com>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-mediatek@lists.infradead.org>,
         <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v4,4/4] media: mediatek: vcodec: using empty lat buffer as the last one
-Date:   Thu, 25 May 2023 09:40:09 +0800
-Message-ID: <20230525014009.23345-5-yunfei.dong@mediatek.com>
+Subject: [PATCH v5,0/8] media: mediatek: vcodec: Add debugfs file for decode and encode
+Date:   Thu, 25 May 2023 10:12:11 +0800
+Message-ID: <20230525021219.23638-1-yunfei.dong@mediatek.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230525014009.23345-1-yunfei.dong@mediatek.com>
-References: <20230525014009.23345-1-yunfei.dong@mediatek.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-MTK:  N
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY,URIBL_BLOCKED
+        T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,UNPARSEABLE_RELAY,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -83,136 +81,57 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Adding one empty lat buffer with parameter 'is_empty_flag = true'
-used to flush core work queue decode.
+Need to change kernel driver to open decode and encode debug log at current period,
+it's very unreasonable. Adding debugfs common interface to support decode and encode,
+using echo command to control debug log level and getting useful information for each
+instance.
 
-Queue the empty lat buffer to core list when driver need to flush decode.
-It's mean core already decode all existed lat buffer when get empty lat
-buffer, then wake up core decode done event, the driver will exit when getting
-core dec done event.
-
-Fixes: d227af847ac2 ("media: mediatek: vcodec: add core decode done event")
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+patch 1 add dbgfs common interface.
+patch 2~5 support decode.
+patch 6~7 support encode
+patch 8 add help function
 ---
- .../platform/mediatek/vcodec/vdec_msg_queue.c | 35 +++++++++++--------
- .../platform/mediatek/vcodec/vdec_msg_queue.h |  8 +++++
- 2 files changed, 28 insertions(+), 15 deletions(-)
+changed with v4:
+- rebase to the top of media stage header.
 
-diff --git a/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c b/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
-index 3f571cbc8331..66b4175601e3 100644
---- a/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
-+++ b/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
-@@ -177,9 +177,6 @@ void vdec_msg_queue_update_ube_wptr(struct vdec_msg_queue *msg_queue, uint64_t u
- 
- bool vdec_msg_queue_wait_lat_buf_full(struct vdec_msg_queue *msg_queue)
- {
--	int ret;
--	long timeout_jiff;
--
- 	if (atomic_read(&msg_queue->lat_list_cnt) == NUM_BUFFER_COUNT) {
- 		mtk_v4l2_debug(3, "wait buf full: list(%d %d) ready_num:%d status:%d",
- 			       atomic_read(&msg_queue->lat_list_cnt),
-@@ -189,19 +186,14 @@ bool vdec_msg_queue_wait_lat_buf_full(struct vdec_msg_queue *msg_queue)
- 		return true;
- 	}
- 
--	timeout_jiff = msecs_to_jiffies(1000 * (NUM_BUFFER_COUNT + 2));
--	ret = wait_event_timeout(msg_queue->core_dec_done,
--				 msg_queue->lat_ctx.ready_num == NUM_BUFFER_COUNT,
--				 timeout_jiff);
--	if (ret) {
--		mtk_v4l2_debug(3, "success to get lat buf: %d",
--			       msg_queue->lat_ctx.ready_num);
--		return true;
--	}
-+	msg_queue->flush_done = false;
-+	vdec_msg_queue_qbuf(&msg_queue->core_ctx, &msg_queue->empty_lat_buf);
-+	wait_event(msg_queue->core_dec_done, msg_queue->flush_done);
- 
--	mtk_v4l2_err("failed with lat buf isn't full: list(%d %d)",
--		     atomic_read(&msg_queue->lat_list_cnt),
--		     atomic_read(&msg_queue->core_list_cnt));
-+	mtk_v4l2_debug(3, "flush done => ready_num:%d status:%d list(%d %d)",
-+		       msg_queue->lat_ctx.ready_num, msg_queue->status,
-+		       atomic_read(&msg_queue->lat_list_cnt),
-+		       atomic_read(&msg_queue->core_list_cnt));
- 
- 	return false;
- }
-@@ -250,6 +242,14 @@ static void vdec_msg_queue_core_work(struct work_struct *work)
- 	if (!lat_buf)
- 		return;
- 
-+	if (lat_buf->is_last_frame) {
-+		ctx->msg_queue.status = CONTEXT_LIST_DEC_DONE;
-+		msg_queue->flush_done = true;
-+		wake_up(&ctx->msg_queue.core_dec_done);
-+
-+		return;
-+	}
-+
- 	ctx = lat_buf->ctx;
- 	mtk_vcodec_dec_enable_hardware(ctx, MTK_VDEC_CORE);
- 	mtk_vcodec_set_curr_ctx(dev, ctx, MTK_VDEC_CORE);
-@@ -300,6 +300,10 @@ int vdec_msg_queue_init(struct vdec_msg_queue *msg_queue,
- 	msg_queue->wdma_rptr_addr = msg_queue->wdma_addr.dma_addr;
- 	msg_queue->wdma_wptr_addr = msg_queue->wdma_addr.dma_addr;
- 
-+	msg_queue->empty_lat_buf.ctx = ctx;
-+	msg_queue->empty_lat_buf.core_decode = NULL;
-+	msg_queue->empty_lat_buf.is_last_frame = true;
-+
- 	for (i = 0; i < NUM_BUFFER_COUNT; i++) {
- 		lat_buf = &msg_queue->lat_buf[i];
- 
-@@ -325,6 +329,7 @@ int vdec_msg_queue_init(struct vdec_msg_queue *msg_queue,
- 
- 		lat_buf->ctx = ctx;
- 		lat_buf->core_decode = core_decode;
-+		lat_buf->is_last_frame = false;
- 		err = vdec_msg_queue_qbuf(&msg_queue->lat_ctx, lat_buf);
- 		if (err) {
- 			mtk_v4l2_err("failed to qbuf buf[%d]", i);
-diff --git a/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.h b/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.h
-index efc94165e016..8f771874f8e6 100644
---- a/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.h
-+++ b/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.h
-@@ -62,6 +62,8 @@ struct vdec_msg_queue_ctx {
-  * @core_decode: different codec use different decode callback function
-  * @lat_list: add lat buffer to lat head list
-  * @core_list: add lat buffer to core head list
-+ *
-+ * @is_last_frame: meaning this buffer is the last frame
-  */
- struct vdec_lat_buf {
- 	struct mtk_vcodec_mem wdma_err_addr;
-@@ -74,6 +76,8 @@ struct vdec_lat_buf {
- 	core_decode_cb_t core_decode;
- 	struct list_head lat_list;
- 	struct list_head core_list;
-+
-+	bool is_last_frame;
- };
- 
- /**
-@@ -88,6 +92,8 @@ struct vdec_lat_buf {
-  *
-  * @lat_list_cnt: used to record each instance lat list count
-  * @core_list_cnt: used to record each instance core list count
-+ * @flush_done: core flush done status
-+ * @empty_lat_buf: the last lat buf used to flush decode
-  * @core_dec_done: core work queue decode done event
-  * @status: current context decode status for core hardware
-  */
-@@ -104,6 +110,8 @@ struct vdec_msg_queue {
- 
- 	atomic_t lat_list_cnt;
- 	atomic_t core_list_cnt;
-+	bool flush_done;
-+	struct vdec_lat_buf empty_lat_buf;
- 	wait_queue_head_t core_dec_done;
- 	int status;
- };
+changed with v3:
+- add help function for patch 8
+- remove append '\0' and enlarge buffer size for patch 4
+
+changed with v2:
+- using pr_debug and dev_dbg instead of pr_info for patch 2.
+- fix word fail: informatiaoin -> information for patch 3.
+- used to print each instance format information for patch 5.
+
+changed with v1:
+- add new patch 4 and 5.
+- using cmd 'cat vdec' to show debug information instead of pr_info directly.
+---
+Yunfei Dong (8):
+  media: mediatek: vcodec: Add debugfs interface to get debug
+    information
+  media: mediatek: vcodec: Add debug params to control different log
+    level
+  media: mediatek: vcodec: Add a debugfs file to get different useful
+    information
+  media: mediatek: vcodec: Get each context resolution information
+  media: mediatek: vcodec: Get each instance format type
+  media: mediatek: vcodec: Change dbgfs interface to support encode
+  media: mediatek: vcodec: Add encode to support dbgfs
+  media: mediatek: vcodec: Add dbgfs help function
+
+ .../media/platform/mediatek/vcodec/Makefile   |   6 +
+ .../mediatek/vcodec/mtk_vcodec_dbgfs.c        | 216 ++++++++++++++++++
+ .../mediatek/vcodec/mtk_vcodec_dbgfs.h        |  72 ++++++
+ .../mediatek/vcodec/mtk_vcodec_dec_drv.c      |   4 +
+ .../platform/mediatek/vcodec/mtk_vcodec_drv.h |   4 +
+ .../mediatek/vcodec/mtk_vcodec_enc_drv.c      |   2 +
+ .../mediatek/vcodec/mtk_vcodec_util.c         |   8 +
+ .../mediatek/vcodec/mtk_vcodec_util.h         |  26 ++-
+ 8 files changed, 335 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c
+ create mode 100644 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.h
+
 -- 
-2.18.0
+2.25.1
 
