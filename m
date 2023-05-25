@@ -2,143 +2,199 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 045AA7102B2
-	for <lists+linux-media@lfdr.de>; Thu, 25 May 2023 04:12:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F29947103F2
+	for <lists+linux-media@lfdr.de>; Thu, 25 May 2023 06:15:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237213AbjEYCMu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 May 2023 22:12:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34024 "EHLO
+        id S229661AbjEYEPM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 May 2023 00:15:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235437AbjEYCMk (ORCPT
+        with ESMTP id S235758AbjEYEN7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 May 2023 22:12:40 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B19CD3;
-        Wed, 24 May 2023 19:12:36 -0700 (PDT)
-X-UUID: 9a2c7740faa111ed9cb5633481061a41-20230525
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=eCqP2l+Kqdf5yUqoHyrwDaNfrpAvvcfVlREwKoCaOqs=;
-        b=Qukh1Icz8GtFgzsd5Nfoj8eBlaUkVCe6WR4mBlWd0uehu8iI0QJAyfiJiaTW7Ut7uRZgm49yzJbR9fYenQtOBmien/a79T008xbZDE7TPRDrIGSRPIUUztbzVw2lGU5ZULYbthDZBplPnYJhlG7WhCDoLv9i82EAC/NFiunBgUM=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.25,REQID:7c52b6b6-d726-4dbb-856c-680af51c0394,IP:0,U
-        RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-        N:release,TS:90
-X-CID-INFO: VERSION:1.1.25,REQID:7c52b6b6-d726-4dbb-856c-680af51c0394,IP:0,URL
-        :0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTIO
-        N:quarantine,TS:90
-X-CID-META: VersionHash:d5b0ae3,CLOUDID:0b2d473c-de1e-4348-bc35-c96f92f1dcbb,B
-        ulkID:230525101232CBEBVDHU,BulkQuantity:0,Recheck:0,SF:48|38|29|28|17|19,T
-        C:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-        ,OSI:0,OSA:0,AV:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-UUID: 9a2c7740faa111ed9cb5633481061a41-20230525
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw01.mediatek.com
-        (envelope-from <yunfei.dong@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1004778313; Thu, 25 May 2023 10:12:30 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Thu, 25 May 2023 10:12:28 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Thu, 25 May 2023 10:12:28 +0800
-From:   Yunfei Dong <yunfei.dong@mediatek.com>
-To:     Chen-Yu Tsai <wenst@chromium.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?= 
-        <nfraprado@collabora.com>, Nathan Hebert <nhebert@chromium.org>
-CC:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Steve Cho <stevecho@chromium.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v5,8/8] media: mediatek: vcodec: Add dbgfs help function
-Date:   Thu, 25 May 2023 10:12:19 +0800
-Message-ID: <20230525021219.23638-9-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230525021219.23638-1-yunfei.dong@mediatek.com>
-References: <20230525021219.23638-1-yunfei.dong@mediatek.com>
+        Thu, 25 May 2023 00:13:59 -0400
+Received: from 189.cn (ptr.189.cn [183.61.185.102])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 82F591BD3;
+        Wed, 24 May 2023 21:09:28 -0700 (PDT)
+HMM_SOURCE_IP: 10.64.8.31:40046.373704923
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
+        by 189.cn (HERMES) with SMTP id 39E3D100249;
+        Thu, 25 May 2023 12:09:21 +0800 (CST)
+Received: from  ([114.242.206.180])
+        by gateway-151646-dep-75648544bd-xp9j7 with ESMTP id c566e9566e63438fbeb66c42cff385ec for kernel@xen0n.name;
+        Thu, 25 May 2023 12:09:25 CST
+X-Transaction-ID: c566e9566e63438fbeb66c42cff385ec
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Sender: 15330273260@189.cn
+Message-ID: <04ede1b1-9757-5181-eec7-658c1df0480e@189.cn>
+Date:   Thu, 25 May 2023 12:09:20 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v14 1/2] drm: add kms driver for loongson display
+ controller
+To:     WANG Xuerui <kernel@xen0n.name>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Li Yi <liyi@loongson.cn>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian Koenig <christian.koenig@amd.com>,
+        Emil Velikov <emil.l.velikov@gmail.com>
+Cc:     linaro-mm-sig@lists.linaro.org, loongson-kernel@lists.loongnix.cn,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Liu Peibao <liupeibao@loongson.cn>, linux-media@vger.kernel.org
+References: <20230520105718.325819-1-15330273260@189.cn>
+ <20230520105718.325819-2-15330273260@189.cn>
+ <26fd78b9-c074-8341-c99c-4e3b38cd861a@xen0n.name>
+ <e7f911cc-6588-bc0f-8e1e-759260f5187a@189.cn>
+ <ed795dc0-823a-f3d8-9e70-1cf33c0de7f0@xen0n.name>
+ <ac2fde55-c770-fbb5-844d-50fb38dd90be@189.cn>
+ <331e7baa-a83b-b0c9-37f7-0e8e39187df4@xen0n.name>
+ <5ae49b7a-b8d2-a822-65bc-6a894d2b1b4e@189.cn>
+ <0e5e4a4b-1426-ffae-e958-cf8f9aece166@xen0n.name>
+ <69edaf49-359a-229c-c8b4-8aa3af622008@189.cn>
+ <ece7821e-c4bb-f2b7-3b1d-dacc04729530@xen0n.name>
+Content-Language: en-US
+From:   Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <ece7821e-c4bb-f2b7-3b1d-dacc04729530@xen0n.name>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK:  N
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FROM_LOCAL_DIGITS,
+        FROM_LOCAL_HEX,NICE_REPLY_A,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Getting dbgfs help information with command "echo -help > vdec".
+Hi,
 
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
----
- .../mediatek/vcodec/mtk_vcodec_dbgfs.c        | 24 ++++++++++++++++++-
- 1 file changed, 23 insertions(+), 1 deletion(-)
+On 2023/5/23 00:40, WANG Xuerui wrote:
+> On 5/22/23 21:13, Sui Jingfeng wrote:
+>> Hi,
+>>
+>> On 2023/5/22 18:25, WANG Xuerui wrote:
+>>> On 2023/5/22 18:17, Sui Jingfeng wrote:
+>>>> Hi,
+>>>>
+>>>> On 2023/5/22 18:05, WANG Xuerui wrote:
+>>>>> On 2023/5/22 17:49, Sui Jingfeng wrote:
+>>>>>> Hi,
+>>>>>>
+>>>>>> On 2023/5/22 17:28, WANG Xuerui wrote:
+>>>>>>> On 2023/5/22 17:25, Sui Jingfeng wrote:
+>>>>>>>> Hi,
+>>>>>>>>
+>>>>>>>> On 2023/5/21 20:21, WANG Xuerui wrote:
+>>>>>>>>>> + * LS3A4000/LS3A5000/LS3A6000 CPU, they are equipped with 
+>>>>>>>>>> on-board video RAM
+>>>>>>>>>> + * typically. While LS2K0500/LS2K1000/LS2K2000 are low cost 
+>>>>>>>>>> SoCs which share
+>>>>>>>>>> + * the system RAM as video RAM, they don't has a dediacated 
+>>>>>>>>>> VRAM.
+>>>>>>>>>
+>>>>>>>>> CPU models are not typically prefixed with "LS", so "Loongson 
+>>>>>>>>> 3A4000/3A5000/3A6000".
+>>>>>>>>>
+>>>>>>>> Here is because when you do programming, variable name should 
+>>>>>>>> prefix with letters.
+>>>>>>>
+>>>>>>> Commit messages, comments, and log messages etc. are natural 
+>>>>>>> language, so it's better to treat them differently. No problem 
+>>>>>>> to keep code as-is IMO.
+>>>>>>>
+>>>>>> Then you get two name for a single chip,  take  LS7A1000 as an 
+>>>>>> example.
+>>>>>>
+>>>>>> You name it as Loongson 7A1000 in commit message,  and then you 
+>>>>>> have to define another name in the code,  say LS7A1000.
+>>>>>>
+>>>>>> "Loongson 7A1000" is too long,  not as compact as LS7A1000.
+>>>>>>
+>>>>>> This also avoid bind the company name to a specific product, 
+>>>>>> because a company can produce many product.
+>>>>>
+>>>>> Nah, the existing convention is "LS7Xxxxx" for bridges and 
+>>>>> "Loongson 3Axxxx" for CPUs (SoCs like 2K fall under this category 
+>>>>> too). It's better to stick with existing practice so it would be 
+>>>>> familiar to long-time Loongson/LoongArch developers, but I 
+>>>>> personally don't think it will hamper understanding if you feel 
+>>>>> like doing otherwise.
+>>>>>
+>>>> Can you explain why it is better?
+>>>>
+>>>> is it that the already existing is better ?
+>>>
+>>> It's not about subjective perception of "better" or "worse", but 
+>>> about tree-wide consistency, and about reducing any potential 
+>>> confusion from newcomers. I remember Huacai once pointing out that 
+>>> outsiders usually have a hard time remembering "1, 2, and 3 are 
+>>> CPUs, some 2 are SoCs, 7 are bridge chips", and consistently 
+>>> referring to the bridge chips throughout the tree as "LS7A" helped.
+>>>
+>>> In any case, for the sake of consistency, you can definitely refer 
+>>> to the CPU models in natural language like "LS3Axxxx"; just make 
+>>> sure to refactor for example every occurrence in arch/loongarch and 
+>>> other parts of drivers/. That's a lot of churn, though, so I don't 
+>>> expect such changes to get accepted, and that's why the tree-wide 
+>>> consistency should be favored over the local one.
+>>>
+>> There are document[1] which named LS7A1000 bridge chip as Loongson 
+>> 7A1000 Bridge,
+>>
+>> which is opposed to what you have said "the existing convention is 
+>> LS7Xxxxx for bridges".
+>>
+>>
+>> there are also plenty projects[2] which encode ls2k1000 as project 
+>> name, which simply
+>>
+>> don't fall into the category as you have mentioned("Loongson 3Axxxx").
+>>
+>>
+>> See [1][2] for reference, how to explain this phenomenon then?
+>
+> Turn down the flames a little bit, okay? ;-)
+>
+>
+There is no flames, its just that it need sufficient discussion when 
+started to contribute to community.
 
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c
-index 237d0dc8a1fc..2372fc449b45 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c
-@@ -52,6 +52,23 @@ static void mtk_vdec_dbgfs_get_format_type(struct mtk_vcodec_ctx *ctx, char *buf
- 	*used += curr_len;
- }
- 
-+static void mtk_vdec_dbgfs_get_help(char *buf, int *used, int total)
-+{
-+	int curr_len;
-+
-+	curr_len = snprintf(buf + *used, total - *used,
-+			    "help: (1: echo -'info' > vdec 2: cat vdec)\n");
-+	*used += curr_len;
-+
-+	curr_len = snprintf(buf + *used, total - *used,
-+			    "\t-picinfo: get resolution\n");
-+	*used += curr_len;
-+
-+	curr_len = snprintf(buf + *used, total - *used,
-+			    "\t-format: get output & capture queue format\n");
-+	*used += curr_len;
-+}
-+
- static ssize_t mtk_vdec_dbgfs_write(struct file *filp, const char __user *ubuf,
- 				    size_t count, loff_t *ppos)
- {
-@@ -84,6 +101,11 @@ static ssize_t mtk_vdec_dbgfs_read(struct file *filp, char __user *ubuf,
- 	if (!buf)
- 		return -ENOMEM;
- 
-+	if (strstr(dbgfs->dbgfs_buf, "-help")) {
-+		mtk_vdec_dbgfs_get_help(buf, &used_len, total_len);
-+		goto read_buffer;
-+	}
-+
- 	if (strstr(dbgfs->dbgfs_buf, "-picinfo"))
- 		dbgfs_index[MTK_VDEC_DBGFS_PICINFO] = true;
- 
-@@ -110,7 +132,7 @@ static ssize_t mtk_vdec_dbgfs_read(struct file *filp, char __user *ubuf,
- 			mtk_vdec_dbgfs_get_format_type(ctx, buf, &used_len, total_len);
- 	}
- 	mutex_unlock(&dbgfs->dbgfs_lock);
--
-+read_buffer:
- 	ret = simple_read_from_buffer(ubuf, count, ppos, buf, used_len);
- 	kfree(buf);
- 	return ret;
--- 
-2.25.1
+We want more rigorous toward to our patch.
+
+
+We can't adopt irresponsible ideas, especially from someone who is 
+reluctant to give a
+
+reasonable rationale and refused to discussion.
+
+
+Such changes could probably made a damage to Loongson company.
+
+As it tend to introduce self-contradictory between the code and comment.
+
+Especially when we introduce DT support, there is no write space in the 
+middle the string is allowed.
+
+and encode model information to the compatible string is an common practice.
+
+
+While at it, I will take it into another consideration if there are more 
+professional person who
+
+is supporting your ideas and could take the responsibility for it.
+
+Beside this, other reviews are still acceptable, thanks for the 
+reasonable part.
+
 
