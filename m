@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 029F1710895
-	for <lists+linux-media@lfdr.de>; Thu, 25 May 2023 11:17:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36B037108A1
+	for <lists+linux-media@lfdr.de>; Thu, 25 May 2023 11:17:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240595AbjEYJR3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 May 2023 05:17:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52436 "EHLO
+        id S240630AbjEYJRq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 May 2023 05:17:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240453AbjEYJRW (ORCPT
+        with ESMTP id S240631AbjEYJRf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 May 2023 05:17:22 -0400
+        Thu, 25 May 2023 05:17:35 -0400
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0530AA9
-        for <linux-media@vger.kernel.org>; Thu, 25 May 2023 02:17:20 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9DB31B1
+        for <linux-media@vger.kernel.org>; Thu, 25 May 2023 02:17:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685006241; x=1716542241;
+  t=1685006252; x=1716542252;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=X9CXNIfu7g52kWQW8CC+7Mtud54D6sd05ABI8z/1AIg=;
-  b=R8qkBrvzGPSCqlZyb0sW7kKmuhdt+l/X2RQ4b5mtteYw2OGjBCS0NHKc
-   gmHXQs4Ua7NUl5YSsxJkZTOrRWVA8nRfWRFz2b/CX0hEL8orL6R1SQMY1
-   894Mr0IPWomFc9piE6ZHveQfGTNCP04esZVmCq2BhL9wu6FIe5zwY3sKX
-   +zrw4oRShkjc7RuWnNbYSu5qGCC68vS5RiIRuZ8n2gqn7w23+Vu/9UZUh
-   WtlIIlXwLZ6O60pA8/YkHURo1TE7mANjyJS+CIVnk8oSOY597YBfoRMXT
-   Qttfjr9pYjdFgGMBr8J5Va4qgd0l0b2zUqc2X0OD4xuIsL4XCBUpgQmpb
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="333455932"
+  bh=5rW8DK32Hyv8FwdY9xWNQn2lY3oKeRhHTHoKPj3mXUI=;
+  b=n0Nz9pQsKVrqtpyOQlF+m3R7jy3nzbh85DfnPN5g9Bjl8rHfTUnEUI5/
+   zC/dO3LxauTj4P2SeChO7soFcAyndyZU4gCCX0JOnI5U/3hxoNSy4Rm4a
+   v5KlcyadYV7RaL7s7LiApSLzN3PurJUTUYvj0F1iy3ao/kH9QGazqHYy0
+   qzhBX4YY4alhz5GRBTyz6WCJgN9zlcorPhWzcPDYlNzn6+QiyylQb1IwR
+   mPA0adVrKGvTL6/i/MeWB3bh7yDoA3rR8Ta83v1iESqYrnRSdJVryCOYj
+   2c9BOdR/93Fmr5sZVS7iUQTy7uLkDNOGdBYrlcYDDVBv59YjyGwUDSy6k
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="333456108"
 X-IronPort-AV: E=Sophos;i="6.00,190,1681196400"; 
-   d="scan'208";a="333455932"
+   d="scan'208";a="333456108"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2023 02:17:18 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2023 02:17:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="879029141"
+X-IronPort-AV: E=McAfee;i="6600,9927,10720"; a="879029156"
 X-IronPort-AV: E=Sophos;i="6.00,190,1681196400"; 
-   d="scan'208";a="879029141"
+   d="scan'208";a="879029156"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2023 02:17:10 -0700
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2023 02:17:11 -0700
 Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 985C3122FF9;
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id A0376123002;
         Thu, 25 May 2023 12:16:49 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
         (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1q2758-009kpk-FH; Thu, 25 May 2023 12:16:26 +0300
+        id 1q2758-009kpn-GA; Thu, 25 May 2023 12:16:26 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     laurent.pinchart@ideasonboard.com,
@@ -75,9 +75,9 @@ Cc:     laurent.pinchart@ideasonboard.com,
         Jonathan Hunter <jonathanh@nvidia.com>,
         Sowjanya Komatineni <skomatineni@nvidia.com>,
         Marco Felsch <m.felsch@pengutronix.de>
-Subject: [RESEND PATCH v3 22/32] media: adv748x: Return to endpoint matching
-Date:   Thu, 25 May 2023 12:16:05 +0300
-Message-Id: <20230525091615.2324824-23-sakari.ailus@linux.intel.com>
+Subject: [RESEND PATCH v3 23/32] media: pxa_camera: Fix probe error handling
+Date:   Thu, 25 May 2023 12:16:06 +0300
+Message-Id: <20230525091615.2324824-24-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230525091615.2324824-1-sakari.ailus@linux.intel.com>
 References: <20230525091615.2324824-1-sakari.ailus@linux.intel.com>
@@ -93,60 +93,112 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Return the two CSI-2 transmitters of adv748x to endpoint matching. This
-should make the driver work again as expected.
+Fix and simplify error handling in pxa_camera probe, by moving devm_*()
+functions early in the probe function and then tearing down what was set
+up on error patch.
 
-Fixes: ("media: v4l: async: Simplify async sub-device fwnode matching")
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/i2c/adv748x/adv748x-csi2.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ drivers/media/platform/intel/pxa_camera.c | 48 ++++++++++++-----------
+ 1 file changed, 25 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/media/i2c/adv748x/adv748x-csi2.c b/drivers/media/i2c/adv748x/adv748x-csi2.c
-index b6f93c1db3d2a..a5a7cb228896b 100644
---- a/drivers/media/i2c/adv748x/adv748x-csi2.c
-+++ b/drivers/media/i2c/adv748x/adv748x-csi2.c
-@@ -296,8 +296,6 @@ int adv748x_csi2_init(struct adv748x_state *state, struct adv748x_csi2 *tx)
- 	if (!is_tx_enabled(tx))
- 		return 0;
+diff --git a/drivers/media/platform/intel/pxa_camera.c b/drivers/media/platform/intel/pxa_camera.c
+index f0d316d5fe27c..dad5e8d97683e 100644
+--- a/drivers/media/platform/intel/pxa_camera.c
++++ b/drivers/media/platform/intel/pxa_camera.c
+@@ -2289,6 +2289,24 @@ static int pxa_camera_probe(struct platform_device *pdev)
+ 	if (IS_ERR(pcdev->clk))
+ 		return PTR_ERR(pcdev->clk);
  
--	/* FIXME: Do endpoint matching again! */
--
- 	adv748x_subdev_init(&tx->sd, state, &adv748x_csi2_ops,
- 			    MEDIA_ENT_F_VID_IF_BRIDGE,
- 			    is_txa(tx) ? "txa" : "txb");
-@@ -313,10 +311,15 @@ int adv748x_csi2_init(struct adv748x_state *state, struct adv748x_csi2 *tx)
- 	if (ret)
- 		return ret;
- 
--	ret = adv748x_csi2_init_controls(tx);
-+	ret = v4l2_async_subdev_endpoint_add(&tx->sd,
-+					     of_fwnode_handle(state->endpoints[tx->port]));
- 	if (ret)
- 		goto err_free_media;
- 
-+	ret = adv748x_csi2_init_controls(tx);
-+	if (ret)
-+		goto err_cleanup_subdev;
++	/*
++	 * Request the regions.
++	 */
++	base = devm_ioremap_resource(&pdev->dev, res);
++	if (IS_ERR(base))
++		return PTR_ERR(base);
 +
- 	ret = v4l2_async_register_subdev(&tx->sd);
- 	if (ret)
- 		goto err_free_ctrl;
-@@ -325,6 +328,8 @@ int adv748x_csi2_init(struct adv748x_state *state, struct adv748x_csi2 *tx)
++	pcdev->irq = irq;
++	pcdev->base = base;
++
++	/* request irq */
++	err = devm_request_irq(&pdev->dev, pcdev->irq, pxa_camera_irq, 0,
++			       PXA_CAM_DRV_NAME, pcdev);
++	if (err) {
++		dev_err(&pdev->dev, "Camera interrupt register failed\n");
++		return err;
++	}
++
+ 	v4l2_async_nf_init(&pcdev->notifier);
+ 	pcdev->res = res;
+ 	pcdev->pdata = pdev->dev.platform_data;
+@@ -2338,21 +2356,12 @@ static int pxa_camera_probe(struct platform_device *pdev)
+ 	spin_lock_init(&pcdev->lock);
+ 	mutex_init(&pcdev->mlock);
  
- err_free_ctrl:
- 	v4l2_ctrl_handler_free(&tx->ctrl_hdl);
-+err_cleanup_subdev:
-+	v4l2_subdev_cleanup(&tx->sd);
- err_free_media:
- 	media_entity_cleanup(&tx->sd.entity);
+-	/*
+-	 * Request the regions.
+-	 */
+-	base = devm_ioremap_resource(&pdev->dev, res);
+-	if (IS_ERR(base))
+-		return PTR_ERR(base);
+-
+-	pcdev->irq = irq;
+-	pcdev->base = base;
+-
+ 	/* request dma */
+ 	pcdev->dma_chans[0] = dma_request_chan(&pdev->dev, "CI_Y");
+ 	if (IS_ERR(pcdev->dma_chans[0])) {
+ 		dev_err(&pdev->dev, "Can't request DMA for Y\n");
+-		return PTR_ERR(pcdev->dma_chans[0]);
++		err = PTR_ERR(pcdev->dma_chans[0]);
++		goto exit_notifier_cleanup;
+ 	}
  
-@@ -339,4 +344,5 @@ void adv748x_csi2_cleanup(struct adv748x_csi2 *tx)
- 	v4l2_async_unregister_subdev(&tx->sd);
- 	media_entity_cleanup(&tx->sd.entity);
- 	v4l2_ctrl_handler_free(&tx->ctrl_hdl);
-+	v4l2_subdev_cleanup(&tx->sd);
+ 	pcdev->dma_chans[1] = dma_request_chan(&pdev->dev, "CI_U");
+@@ -2379,14 +2388,6 @@ static int pxa_camera_probe(struct platform_device *pdev)
+ 		}
+ 	}
+ 
+-	/* request irq */
+-	err = devm_request_irq(&pdev->dev, pcdev->irq, pxa_camera_irq, 0,
+-			       PXA_CAM_DRV_NAME, pcdev);
+-	if (err) {
+-		dev_err(&pdev->dev, "Camera interrupt register failed\n");
+-		goto exit_free_dma;
+-	}
+-
+ 	tasklet_setup(&pcdev->task_eof, pxa_camera_eof);
+ 
+ 	pxa_camera_activate(pcdev);
+@@ -2398,16 +2399,15 @@ static int pxa_camera_probe(struct platform_device *pdev)
+ 
+ 	err = pxa_camera_init_videobuf2(pcdev);
+ 	if (err)
+-		goto exit_notifier_cleanup;
++		goto exit_v4l2_device_unregister;
+ 
+ 	pcdev->notifier.ops = &pxa_camera_sensor_ops;
+ 	err = v4l2_async_nf_register(&pcdev->v4l2_dev, &pcdev->notifier);
+ 	if (err)
+-		goto exit_notifier_cleanup;
++		goto exit_v4l2_device_unregister;
+ 
+ 	return 0;
+-exit_notifier_cleanup:
+-	v4l2_async_nf_cleanup(&pcdev->notifier);
++exit_v4l2_device_unregister:
+ 	v4l2_device_unregister(&pcdev->v4l2_dev);
+ exit_deactivate:
+ 	pxa_camera_deactivate(pcdev);
+@@ -2418,6 +2418,8 @@ static int pxa_camera_probe(struct platform_device *pdev)
+ 	dma_release_channel(pcdev->dma_chans[1]);
+ exit_free_dma_y:
+ 	dma_release_channel(pcdev->dma_chans[0]);
++exit_notifier_cleanup:
++	v4l2_async_nf_cleanup(&pcdev->notifier);
+ 	return err;
  }
+ 
 -- 
 2.30.2
 
