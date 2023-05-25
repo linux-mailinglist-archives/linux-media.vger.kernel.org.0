@@ -2,76 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B4B187103F4
-	for <lists+linux-media@lfdr.de>; Thu, 25 May 2023 06:16:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5AFB7105F0
+	for <lists+linux-media@lfdr.de>; Thu, 25 May 2023 09:06:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239017AbjEYEQf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 May 2023 00:16:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45170 "EHLO
+        id S238776AbjEYHGu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 May 2023 03:06:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239027AbjEYEQC (ORCPT
+        with ESMTP id S238570AbjEYHGs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 May 2023 00:16:02 -0400
-Received: from 189.cn (ptr.189.cn [183.61.185.102])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A8412E5F;
-        Wed, 24 May 2023 21:14:22 -0700 (PDT)
-HMM_SOURCE_IP: 10.64.8.31:37610.1839801626
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
-        by 189.cn (HERMES) with SMTP id C626B10019D;
-        Thu, 25 May 2023 12:14:18 +0800 (CST)
-Received: from  ([114.242.206.180])
-        by gateway-151646-dep-75648544bd-xp9j7 with ESMTP id b8960a41a24a401fb7eef09e4362d536 for kernel@xen0n.name;
-        Thu, 25 May 2023 12:14:20 CST
-X-Transaction-ID: b8960a41a24a401fb7eef09e4362d536
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Sender: 15330273260@189.cn
-Message-ID: <5f70f46b-8c53-c55b-761a-6bb50c01b2b1@189.cn>
-Date:   Thu, 25 May 2023 12:14:17 +0800
+        Thu, 25 May 2023 03:06:48 -0400
+Received: from mx.sberdevices.ru (mx.sberdevices.ru [45.89.227.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B90FC0;
+        Thu, 25 May 2023 00:06:44 -0700 (PDT)
+Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
+        by mx.sberdevices.ru (Postfix) with ESMTP id F34475FD04;
+        Thu, 25 May 2023 10:06:41 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
+        s=mail; t=1684998402;
+        bh=agFIjKwzbyB8WuER8TCB0K9IOpWFK4T2scVpmozyr78=;
+        h=Message-ID:Date:MIME-Version:Subject:From:To:Content-Type;
+        b=GxjDQt6163BnfyDN17PH9SISn73cPMHG3rXk63xOETLhyC973LId/tVLTUK7Buxhf
+         s07X9sVbDquX1ZsNc1mgRGg01kXdsvla9NvS4zxVZXZlQ2opev9aKvVrfz7GI66qTt
+         4KrjTjk5o1/lyzz1OmNdhTwxIHvY0bZXeplDOtio5OBAnXG9N6E+EVAXDVi4U7KDXL
+         y0Nri+qdO5tER2dYdpQpGKiJrA8R1G0rLx9z9tQJ7bbzNgkAJBdsuZAuic3MESUAmm
+         yXrP/es+lzE5UM6lRB5d3rGw4AtL0tntivgkwztW2kVWmoEeUjp5fqkUq4iCNKvpOu
+         y2fwkdsgu1Ttw==
+Received: from S-MS-EXCH01.sberdevices.ru (S-MS-EXCH01.sberdevices.ru [172.16.1.4])
+        by mx.sberdevices.ru (Postfix) with ESMTP;
+        Thu, 25 May 2023 10:06:36 +0300 (MSK)
+Message-ID: <693c003b-f993-d2dd-73ce-44836185b1f6@sberdevices.ru>
+Date:   Thu, 25 May 2023 10:02:11 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v14 1/2] drm: add kms driver for loongson display
- controller
-From:   Sui Jingfeng <15330273260@189.cn>
-To:     WANG Xuerui <kernel@xen0n.name>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Li Yi <liyi@loongson.cn>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian Koenig <christian.koenig@amd.com>,
-        Emil Velikov <emil.l.velikov@gmail.com>
-Cc:     linaro-mm-sig@lists.linaro.org, loongson-kernel@lists.loongnix.cn,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Liu Peibao <liupeibao@loongson.cn>, linux-media@vger.kernel.org
-References: <20230520105718.325819-1-15330273260@189.cn>
- <20230520105718.325819-2-15330273260@189.cn>
- <26fd78b9-c074-8341-c99c-4e3b38cd861a@xen0n.name>
- <e7f911cc-6588-bc0f-8e1e-759260f5187a@189.cn>
- <ed795dc0-823a-f3d8-9e70-1cf33c0de7f0@xen0n.name>
- <ac2fde55-c770-fbb5-844d-50fb38dd90be@189.cn>
- <331e7baa-a83b-b0c9-37f7-0e8e39187df4@xen0n.name>
- <5ae49b7a-b8d2-a822-65bc-6a894d2b1b4e@189.cn>
- <0e5e4a4b-1426-ffae-e958-cf8f9aece166@xen0n.name>
- <69edaf49-359a-229c-c8b4-8aa3af622008@189.cn>
- <ece7821e-c4bb-f2b7-3b1d-dacc04729530@xen0n.name>
- <04ede1b1-9757-5181-eec7-658c1df0480e@189.cn>
+ Thunderbird/102.7.1
+Subject: Re: [RESEND PATCH v3] mtd: rawnand: macronix: OTP access for
+ MX30LFxG18AC
 Content-Language: en-US
-In-Reply-To: <04ede1b1-9757-5181-eec7-658c1df0480e@189.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From:   Arseniy Krasnov <avkrasnov@sberdevices.ru>
+To:     liao jaime <jaimeliao.tw@gmail.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+CC:     Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        <oxffffaa@gmail.com>, <kernel@sberdevices.ru>,
+        <linux-mtd@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>,
+        Mason Yang <masonccyang@mxic.com.tw>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Jaime Liao <jaimeliao@mxic.com.tw>
+References: <20230511152120.3297853-1-AVKrasnov@sberdevices.ru>
+ <c873b5a9-17ad-767c-5b20-35a49ab2bd40@sberdevices.ru>
+ <aa67ee8b-898b-319b-f167-b554700842b3@sberdevices.ru>
+ <20230522161446.16d1f307@xps-13>
+ <CAAQoYRkTMpeHABxwRAXVtyuUNXhEk8njcXxJiH7PWg3UsERVVQ@mail.gmail.com>
+ <038d48cc-cdc6-cdc2-69e6-7768fb965fbe@sberdevices.ru>
+In-Reply-To: <038d48cc-cdc6-cdc2-69e6-7768fb965fbe@sberdevices.ru>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FROM_LOCAL_DIGITS,
-        FROM_LOCAL_HEX,NICE_REPLY_A,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Originating-IP: [172.16.1.6]
+X-ClientProxiedBy: S-MS-EXCH02.sberdevices.ru (172.16.1.5) To
+ S-MS-EXCH01.sberdevices.ru (172.16.1.4)
+X-KSMG-Rule-ID: 4
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Status: not scanned, disabled by settings
+X-KSMG-AntiSpam-Interceptor-Info: not scanned
+X-KSMG-AntiPhishing: not scanned, disabled by settings
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2023/05/25 04:52:00 #21357441
+X-KSMG-AntiVirus-Status: Clean, skipped
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -79,130 +83,362 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-On 2023/5/25 12:09, Sui Jingfeng wrote:
-> Hi,
->
-> On 2023/5/23 00:40, WANG Xuerui wrote:
->> On 5/22/23 21:13, Sui Jingfeng wrote:
->>> Hi,
+
+On 24.05.2023 10:13, Arseniy Krasnov wrote:
+> 
+> 
+> On 24.05.2023 09:33, liao jaime wrote:
+>> Hi Miquel
+>>
 >>>
->>> On 2023/5/22 18:25, WANG Xuerui wrote:
->>>> On 2023/5/22 18:17, Sui Jingfeng wrote:
->>>>> Hi,
+>>> Hi Arseniy,
+>>>
+>>> avkrasnov@sberdevices.ru wrote on Mon, 15 May 2023 12:49:50 +0300:
+>>>
+>>>> Hello @Miquel!
+>>>>
+>>>> Sorry, but who could review this patch? :) IIUC this logic is very hw specific and we need
+>>>> someone who knows it well? I tested this patch on our devices (with already known Meson NAND
+>>>> controller).
+>>>
+>>> + Jaime, who might test
+>>>
+>>>>
+>>>> Thanks, Arseniy
+>>>>
+>>>> On 11.05.2023 21:21, Arseniy Krasnov wrote:
+>>>>> Cc: Mason Yang <masonccyang@mxic.com.tw> and Boris Brezillon <boris.brezillon@collabora.com>
 >>>>>
->>>>> On 2023/5/22 18:05, WANG Xuerui wrote:
->>>>>> On 2023/5/22 17:49, Sui Jingfeng wrote:
->>>>>>> Hi,
->>>>>>>
->>>>>>> On 2023/5/22 17:28, WANG Xuerui wrote:
->>>>>>>> On 2023/5/22 17:25, Sui Jingfeng wrote:
->>>>>>>>> Hi,
->>>>>>>>>
->>>>>>>>> On 2023/5/21 20:21, WANG Xuerui wrote:
->>>>>>>>>>> + * LS3A4000/LS3A5000/LS3A6000 CPU, they are equipped with 
->>>>>>>>>>> on-board video RAM
->>>>>>>>>>> + * typically. While LS2K0500/LS2K1000/LS2K2000 are low cost 
->>>>>>>>>>> SoCs which share
->>>>>>>>>>> + * the system RAM as video RAM, they don't has a dediacated 
->>>>>>>>>>> VRAM.
->>>>>>>>>>
->>>>>>>>>> CPU models are not typically prefixed with "LS", so "Loongson 
->>>>>>>>>> 3A4000/3A5000/3A6000".
->>>>>>>>>>
->>>>>>>>> Here is because when you do programming, variable name should 
->>>>>>>>> prefix with letters.
->>>>>>>>
->>>>>>>> Commit messages, comments, and log messages etc. are natural 
->>>>>>>> language, so it's better to treat them differently. No problem 
->>>>>>>> to keep code as-is IMO.
->>>>>>>>
->>>>>>> Then you get two name for a single chip,  take LS7A1000 as an 
->>>>>>> example.
->>>>>>>
->>>>>>> You name it as Loongson 7A1000 in commit message,  and then you 
->>>>>>> have to define another name in the code,  say LS7A1000.
->>>>>>>
->>>>>>> "Loongson 7A1000" is too long,  not as compact as LS7A1000.
->>>>>>>
->>>>>>> This also avoid bind the company name to a specific product, 
->>>>>>> because a company can produce many product.
+>>>>> On 11.05.2023 18:21, Arseniy Krasnov wrote:
+>>>>>> This adds support for OTP area access on MX30LFxG18AC chip series.
 >>>>>>
->>>>>> Nah, the existing convention is "LS7Xxxxx" for bridges and 
->>>>>> "Loongson 3Axxxx" for CPUs (SoCs like 2K fall under this category 
->>>>>> too). It's better to stick with existing practice so it would be 
->>>>>> familiar to long-time Loongson/LoongArch developers, but I 
->>>>>> personally don't think it will hamper understanding if you feel 
->>>>>> like doing otherwise.
+>>>>>> Changelog:
+>>>>>>   v1 -> v2:
+>>>>>>   * Add slab.h include due to kernel test robot error.
+>>>>>>   v2 -> v3:
+>>>>>>   * Use 'uint64_t' as input argument for 'do_div()' instead
+>>>>>>     of 'unsigned long' due to kernel test robot error.
 >>>>>>
->>>>> Can you explain why it is better?
->>>>>
->>>>> is it that the already existing is better ?
->>>>
->>>> It's not about subjective perception of "better" or "worse", but 
->>>> about tree-wide consistency, and about reducing any potential 
->>>> confusion from newcomers. I remember Huacai once pointing out that 
->>>> outsiders usually have a hard time remembering "1, 2, and 3 are 
->>>> CPUs, some 2 are SoCs, 7 are bridge chips", and consistently 
->>>> referring to the bridge chips throughout the tree as "LS7A" helped.
->>>>
->>>> In any case, for the sake of consistency, you can definitely refer 
->>>> to the CPU models in natural language like "LS3Axxxx"; just make 
->>>> sure to refactor for example every occurrence in arch/loongarch and 
->>>> other parts of drivers/. That's a lot of churn, though, so I don't 
->>>> expect such changes to get accepted, and that's why the tree-wide 
->>>> consistency should be favored over the local one.
->>>>
->>> There are document[1] which named LS7A1000 bridge chip as Loongson 
->>> 7A1000 Bridge,
+>>>>>> Signed-off-by: Arseniy Krasnov <AVKrasnov@sberdevices.ru>
+>>>>>> ---
+>>>>>>  drivers/mtd/nand/raw/nand_macronix.c | 213 +++++++++++++++++++++++++++
+>>>>>>  1 file changed, 213 insertions(+)
+>>>>>>
+>>>>>> diff --git a/drivers/mtd/nand/raw/nand_macronix.c b/drivers/mtd/nand/raw/nand_macronix.c
+>>>>>> index 1472f925f386..2301f990678e 100644
+>>>>>> --- a/drivers/mtd/nand/raw/nand_macronix.c
+>>>>>> +++ b/drivers/mtd/nand/raw/nand_macronix.c
+>>>>>> @@ -6,6 +6,7 @@
+>>>>>>   * Author: Boris Brezillon <boris.brezillon@free-electrons.com>
+>>>>>>   */
+>>>>>>
+>>>>>> +#include <linux/slab.h>
+>>>>>>  #include "linux/delay.h"
+>>>>>>  #include "internals.h"
+>>>>>>
+>>>>>> @@ -31,6 +32,20 @@
+>>>>>>
+>>>>>>  #define MXIC_CMD_POWER_DOWN 0xB9
+>>>>>>
+>>>>>> +#define ONFI_FEATURE_ADDR_30LFXG18AC_OTP  0x90
+>>>>>> +#define MACRONIX_30LFXG18AC_OTP_START_PAGE        0
+>>>>>> +#define MACRONIX_30LFXG18AC_OTP_PAGES             30
+>>>>>> +#define MACRONIX_30LFXG18AC_OTP_PAGE_SIZE 2112
+>>>>>> +#define MACRONIX_30LFXG18AC_OTP_START_BYTE        \
+>>>>>> +  (MACRONIX_30LFXG18AC_OTP_START_PAGE *   \
+>>>>>> +   MACRONIX_30LFXG18AC_OTP_PAGE_SIZE)
+>>>>>> +#define MACRONIX_30LFXG18AC_OTP_SIZE_BYTES        \
+>>>>>> +  (MACRONIX_30LFXG18AC_OTP_PAGES *        \
+>>>>>> +   MACRONIX_30LFXG18AC_OTP_PAGE_SIZE)
+>>>>>> +
+>>>>>> +#define MACRONIX_30LFXG18AC_OTP_EN                BIT(0)
+>>>>>> +#define MACRONIX_30LFXG18AC_OTP_LOCKED            BIT(1)
+>>>>>> +
+>>>>>>  struct nand_onfi_vendor_macronix {
+>>>>>>    u8 reserved;
+>>>>>>    u8 reliability_func;
+>>>>>> @@ -316,6 +331,203 @@ static void macronix_nand_deep_power_down_support(struct nand_chip *chip)
+>>>>>>    chip->ops.resume = mxic_nand_resume;
+>>>>>>  }
+>>>>>>
+>>>>>> +static int macronix_30lfxg18ac_get_otp_info(struct mtd_info *mtd, size_t len,
+>>>>>> +                                      size_t *retlen,
+>>>>>> +                                      struct otp_info *buf)
+>>>>>> +{
+>>>>>> +  if (len < sizeof(*buf))
+>>>>>> +          return -EINVAL;
+>>>>>> +
+>>>>>> +  /* Don't know how to check that OTP is locked. */
 >>>
->>> which is opposed to what you have said "the existing convention is 
->>> LS7Xxxxx for bridges".
->>>
->>>
->>> there are also plenty projects[2] which encode ls2k1000 as project 
->>> name, which simply
->>>
->>> don't fall into the category as you have mentioned("Loongson 3Axxxx").
->>>
->>>
->>> See [1][2] for reference, how to explain this phenomenon then?
+>>> Jaime, any idea?
 >>
->> Turn down the flames a little bit, okay? ;-)
+>> OTP info could be check by GET_FEATURE command.
+>> GET_FEATURE command with address 90h could read sub-feature
+>> parameter table, P1 is "3" means OTP protection.
 >>
+>> Thanks
+>> Jaime
 >>
-> There is no flames, its just that it need sufficient discussion when 
-> started to contribute to community.
->
-> We want more rigorous toward to our patch.
->
->
-> We can't adopt irresponsible ideas, especially from someone who is 
-> reluctant to give a
->
-> reasonable rationale and refused to discussion.
->
->
-> Such changes could probably made a damage to Loongson company.
->
-> As it tend to introduce self-contradictory between the code and comment.
->
-> Especially when we introduce DT support, there is no write space in 
-> the middle the string is allowed.
->
+> 
+> Hello Jaime, thanks for quick reply!
+> 
+> I have two devices - with locked and unlocked OTP. I call the following thing for each of them:
+> 
+> @@ -339,6 +341,26 @@ static int macronix_30lfxg18ac_get_otp_info(struct mtd_info *mtd, size_t len,
+>                 return -EINVAL;
+>  
+>         /* Don't know how to check that OTP is locked. */
+> +       {
+> +               u8 feature_buf[ONFI_SUBFEATURE_PARAM_LEN] = { 0 };
+> +               struct nand_chip *nand;
+> +               int res;
+> +
+> +               nand = mtd_to_nand(mtd);
+> +
+> +               nand_select_target(nand, 0);
+> +
+> +               res = nand_get_features(nand, 0x90, feature_buf);
+> +
+> +               nand_deselect_target(nand);
+> +
+> +               printk(KERN_EMERG "\n\nRES %i OTP BUF %hhx %hhx %hhx %hhx\n\n\n",
+> +                                       res,
+> +                                       feature_buf[0],
+> +                                       feature_buf[1],
+> +                                       feature_buf[2],
+> +                                       feature_buf[3]);
+> +       }
+>         buf->locked = 0;
+>         buf->start = MACRONIX_30LFXG18AC_OTP_START_BYTE;
+>         buf->length = MACRONIX_30LFXG18AC_OTP_SIZE_BYTES;
+> 
+> And get for both devices:
+> 
+> [    4.228721] RES 0 OTP BUF 0 0 0 0
+> 
+> May be i'm doing something wrong?
+> 
+> Thanks, Arseniy
 
-'write' -> 'white'
+Small upd: I tried to
 
+1) Call 'nand_get_features()' when OTP mode is enabled, it just returns 1 0 0 0 (e.g. OTP mode enabled, on both locked and unlocked devs).
+2) Increase timings and delays in NAND controller driver - it didn't help.
 
-> and encode model information to the compatible string is an common 
-> practice.
->
->
-> While at it, I will take it into another consideration if there are 
-> more professional person who
->
-> is supporting your ideas and could take the responsibility for it.
->
-> Beside this, other reviews are still acceptable, thanks for the 
-> reasonable part.
->
->
+Anyway, I see, that OTP status (enabled or disabled) is returned successfully, but locked status is always missed.
+
+Thanks, Arseniy
+
+> 
+>>>
+>>>>>> +  buf->locked = 0;
+>>>>>> +  buf->start = MACRONIX_30LFXG18AC_OTP_START_BYTE;
+>>>>>> +  buf->length = MACRONIX_30LFXG18AC_OTP_SIZE_BYTES;
+>>>>>> +
+>>>>>> +  *retlen = sizeof(*buf);
+>>>>>> +
+>>>>>> +  return 0;
+>>>>>> +}
+>>>>>> +
+>>>>>> +static int macronix_30lfxg18ac_otp_enable(struct nand_chip *nand)
+>>>>>> +{
+>>>>>> +  uint8_t feature_buf[ONFI_SUBFEATURE_PARAM_LEN] = { 0 };
+>>>>>> +
+>>>>>> +  feature_buf[0] = MACRONIX_30LFXG18AC_OTP_EN;
+>>>>>> +  return nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
+>>>>>> +                           feature_buf);
+>>>>>> +}
+>>>>>> +
+>>>>>> +static int macronix_30lfxg18ac_otp_disable(struct nand_chip *nand)
+>>>>>> +{
+>>>>>> +  uint8_t feature_buf[ONFI_SUBFEATURE_PARAM_LEN] = { 0 };
+>>>>>> +
+>>>>>> +  return nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
+>>>>>> +                           feature_buf);
+>>>>>> +}
+>>>>>> +
+>>>>>> +static int __macronix_30lfxg18ac_rw_otp(struct mtd_info *mtd,
+>>>>>> +                                  loff_t offs_in_flash,
+>>>>>> +                                  size_t len, size_t *retlen,
+>>>>>> +                                  u_char *buf, bool write)
+>>>>>> +{
+>>>>>> +  struct nand_chip *nand;
+>>>>>> +  size_t bytes_handled;
+>>>>>> +  off_t offs_in_page;
+>>>>>> +  uint64_t page;
+>>>>>> +  void *dma_buf;
+>>>>>> +  int ret;
+>>>>>> +
+>>>>>> +  /* 'nand_prog/read_page_op()' may use 'buf' as DMA buffer,
+>>>>>> +   * so allocate properly aligned memory for it. This is
+>>>>>> +   * needed because cross page accesses may lead to unaligned
+>>>>>> +   * buffer address for DMA.
+>>>>>> +   */
+>>>>>> +  dma_buf = kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERNEL);
+>>>>>> +  if (!dma_buf)
+>>>>>> +          return -ENOMEM;
+>>>>>> +
+>>>>>> +  nand = mtd_to_nand(mtd);
+>>>>>> +  nand_select_target(nand, 0);
+>>>>>> +
+>>>>>> +  ret = macronix_30lfxg18ac_otp_enable(nand);
+>>>>>> +  if (ret)
+>>>>>> +          goto out_otp;
+>>>>>> +
+>>>>>> +  page = offs_in_flash;
+>>>>>> +  /* 'page' will be result of division. */
+>>>>>> +  offs_in_page = do_div(page, MACRONIX_30LFXG18AC_OTP_PAGE_SIZE);
+>>>>>> +  bytes_handled = 0;
+>>>>>> +
+>>>>>> +  while (bytes_handled < len &&
+>>>>>> +         page < MACRONIX_30LFXG18AC_OTP_PAGES) {
+>>>>>> +          size_t bytes_to_handle;
+>>>>>> +
+>>>>>> +          bytes_to_handle = min_t(size_t, len - bytes_handled,
+>>>>>> +                                  MACRONIX_30LFXG18AC_OTP_PAGE_SIZE -
+>>>>>> +                                  offs_in_page);
+>>>>>> +
+>>>>>> +          if (write) {
+>>>>>> +                  memcpy(dma_buf, &buf[bytes_handled], bytes_to_handle);
+>>>>>> +                  ret = nand_prog_page_op(nand, page, offs_in_page,
+>>>>>> +                                          dma_buf, bytes_to_handle);
+>>>>>> +          } else {
+>>>>>> +                  ret = nand_read_page_op(nand, page, offs_in_page,
+>>>>>> +                                          dma_buf, bytes_to_handle);
+>>>>>> +                  if (!ret)
+>>>>>> +                          memcpy(&buf[bytes_handled], dma_buf,
+>>>>>> +                                 bytes_to_handle);
+>>>>>> +          }
+>>>>>> +          if (ret)
+>>>>>> +                  goto out_otp;
+>>>>>> +
+>>>>>> +          bytes_handled += bytes_to_handle;
+>>>>>> +          offs_in_page = 0;
+>>>>>> +          page++;
+>>>>>> +  }
+>>>>>> +
+>>>>>> +  *retlen = bytes_handled;
+>>>>>> +
+>>>>>> +out_otp:
+>>>>>> +  if (ret)
+>>>>>> +          dev_err(&mtd->dev, "failed to perform OTP IO: %i\n", ret);
+>>>>>> +
+>>>>>> +  ret = macronix_30lfxg18ac_otp_disable(nand);
+>>>>>> +  WARN(ret, "failed to leave OTP mode after %s\n",
+>>>>>> +       write ? "write" : "read");
+>>>
+>>> Let's avoid WARN() calls (none in this driver are relevant IMHO). Just a
+>>> dev_err() should be enough.
+>>>
+>>>>>> +  nand_deselect_target(nand);
+>>>>>> +  kfree(dma_buf);
+>>>>>> +
+>>>>>> +  return ret;
+>>>>>> +}
+>>>>>> +
+>>>>>> +static int macronix_30lfxg18ac_write_otp(struct mtd_info *mtd, loff_t to,
+>>>>>> +                                   size_t len, size_t *rlen,
+>>>>>> +                                   const u_char *buf)
+>>>>>> +{
+>>>>>> +  return __macronix_30lfxg18ac_rw_otp(mtd, to, len, rlen, (u_char *)buf,
+>>>>>> +                                      true);
+>>>>>> +}
+>>>>>> +
+>>>>>> +static int macronix_30lfxg18ac_read_otp(struct mtd_info *mtd, loff_t from,
+>>>>>> +                                  size_t len, size_t *rlen,
+>>>>>> +                                  u_char *buf)
+>>>>>> +{
+>>>>>> +  return __macronix_30lfxg18ac_rw_otp(mtd, from, len, rlen, buf, false);
+>>>>>> +}
+>>>>>> +
+>>>>>> +static int macronix_30lfxg18ac_lock_otp(struct mtd_info *mtd, loff_t from,
+>>>>>> +                                  size_t len)
+>>>>>> +{
+>>>>>> +  uint8_t feature_buf[ONFI_SUBFEATURE_PARAM_LEN] = { 0 };
+>>>>>> +  struct nand_chip *nand;
+>>>>>> +  int ret;
+>>>>>> +
+>>>>>> +  if (from != MACRONIX_30LFXG18AC_OTP_START_BYTE ||
+>>>>>> +      len != MACRONIX_30LFXG18AC_OTP_SIZE_BYTES)
+>>>>>> +          return -EINVAL;
+>>>>>> +
+>>>>>> +  dev_dbg(&mtd->dev, "locking OTP\n");
+>>>>>> +
+>>>>>> +  nand = mtd_to_nand(mtd);
+>>>>>> +  nand_select_target(nand, 0);
+>>>>>> +
+>>>>>> +  feature_buf[0] = MACRONIX_30LFXG18AC_OTP_EN |
+>>>>>> +                   MACRONIX_30LFXG18AC_OTP_LOCKED;
+>>>>>> +  ret = nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
+>>>>>> +                          feature_buf);
+>>>>>> +  if (ret) {
+>>>>>> +          dev_err(&mtd->dev,
+>>>>>> +                  "failed to lock OTP (set features): %i\n", ret);
+>>>>>> +          nand_deselect_target(nand);
+>>>>>> +          return ret;
+>>>>>> +  }
+>>>>>> +
+>>>>>> +  /* Do dummy page prog with zero address. */
+>>>>>> +  feature_buf[0] = 0;
+>>>>>> +  ret = nand_prog_page_op(nand, 0, 0, feature_buf, 1);
+>>>>>> +  if (ret)
+>>>>>> +          dev_err(&mtd->dev,
+>>>>>> +                  "failed to lock OTP (page prog): %i\n", ret);
+>>>>>> +
+>>>>>> +  ret = macronix_30lfxg18ac_otp_disable(nand);
+>>>>>> +  WARN(ret, "failed to leave OTP mode after lock\n");
+>>>>>> +
+>>>>>> +  nand_deselect_target(nand);
+>>>>>> +
+>>>>>> +  return ret;
+>>>>>> +}
+>>>>>> +
+>>>>>> +static void macronix_nand_setup_otp(struct nand_chip *chip)
+>>>>>> +{
+>>>>>> +  static const char * const supported_otp_models[] = {
+>>>>>> +          "MX30LF1G18AC",
+>>>>>> +          "MX30LF2G18AC",
+>>>>>> +          "MX30LF4G18AC",
+>>>>>> +  };
+>>>>>> +  struct mtd_info *mtd;
+>>>>>> +
+>>>>>> +  if (!chip->parameters.supports_set_get_features)
+>>>>>> +          return;
+>>>>>> +
+>>>>>> +  if (match_string(supported_otp_models,
+>>>>>> +                   ARRAY_SIZE(supported_otp_models),
+>>>>>> +                   chip->parameters.model) < 0)
+>>>>>> +          return;
+>>>
+>>> I would start by checking the model, then it's list of supported ops.
+>>>
+>>>>>> +
+>>>>>> +  bitmap_set(chip->parameters.get_feature_list,
+>>>>>> +             ONFI_FEATURE_ADDR_30LFXG18AC_OTP, 1);
+>>>>>> +  bitmap_set(chip->parameters.set_feature_list,
+>>>>>> +             ONFI_FEATURE_ADDR_30LFXG18AC_OTP, 1);
+>>>>>> +
+>>>>>> +  mtd = nand_to_mtd(chip);
+>>>>>> +  mtd->_get_fact_prot_info = macronix_30lfxg18ac_get_otp_info;
+>>>>>> +  mtd->_read_fact_prot_reg = macronix_30lfxg18ac_read_otp;
+>>>>>> +  mtd->_get_user_prot_info = macronix_30lfxg18ac_get_otp_info;
+>>>>>> +  mtd->_read_user_prot_reg = macronix_30lfxg18ac_read_otp;
+>>>>>> +  mtd->_write_user_prot_reg = macronix_30lfxg18ac_write_otp;
+>>>>>> +  mtd->_lock_user_prot_reg = macronix_30lfxg18ac_lock_otp;
+>>>>>> +}
+>>>>>> +
+>>>>>>  static int macronix_nand_init(struct nand_chip *chip)
+>>>>>>  {
+>>>>>>    if (nand_is_slc(chip))
+>>>>>> @@ -325,6 +537,7 @@ static int macronix_nand_init(struct nand_chip *chip)
+>>>>>>    macronix_nand_onfi_init(chip);
+>>>>>>    macronix_nand_block_protection_support(chip);
+>>>>>>    macronix_nand_deep_power_down_support(chip);
+>>>>>> +  macronix_nand_setup_otp(chip);
+>>>>>>
+>>>>>>    return 0;
+>>>>>>  }
+>>>
+>>>
+>>> Thanks,
+>>> Miquèl
