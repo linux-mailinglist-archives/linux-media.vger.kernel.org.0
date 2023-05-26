@@ -2,72 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 948BF712510
-	for <lists+linux-media@lfdr.de>; Fri, 26 May 2023 12:51:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A500F712517
+	for <lists+linux-media@lfdr.de>; Fri, 26 May 2023 12:53:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242335AbjEZKvx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 May 2023 06:51:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47906 "EHLO
+        id S242702AbjEZKxv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 May 2023 06:53:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230292AbjEZKvw (ORCPT
+        with ESMTP id S236979AbjEZKxu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 May 2023 06:51:52 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFF2112F;
-        Fri, 26 May 2023 03:51:50 -0700 (PDT)
-Received: from [192.168.10.48] (unknown [119.155.11.156])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        Fri, 26 May 2023 06:53:50 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C97D219A;
+        Fri, 26 May 2023 03:53:46 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: usama.anjum)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id D17536606E8C;
-        Fri, 26 May 2023 11:51:42 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1685098309;
-        bh=25IdnsoBomm8pRGogc2Xz7W22mTw/rEiJsCH39mngqY=;
-        h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-        b=jXnv2FLeQGGjLrTssH4ubFd/LbZYXgyLC05u/sRpVByDJEzolWTPNQKUjFDfzcHq+
-         mSOlShqPqaVn2nv+wwXOj6Ls71t5DMysmVzHjhalFQrjB9S9xJlKXXryAuMR+r+LlW
-         ZquflhOY5U++/7JyOQzfhXEUQfZ3UZTz6lX0cyQ5v2zOg1YP3Z4ZM97FOUGhN68EvR
-         9whi7M5pC8z5x6X2bXma0cRx/Q2ApBME+UGL+io8eXkqARYy0xIoKRr0VTZdwhSnR5
-         gkS0kf/HnkyvsJM6eJzxLdGabDtjKNZwg799sDzCyuXVHfSi/5dCMVXP2D1TWEaypE
-         Bh3ajL8nIIv2Q==
-Message-ID: <88033d6a-b1d6-a77d-cab7-1401d97ae8e2@collabora.com>
-Date:   Fri, 26 May 2023 15:51:36 +0500
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4316764F35;
+        Fri, 26 May 2023 10:53:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D2C5C433D2;
+        Fri, 26 May 2023 10:53:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1685098425;
+        bh=qxEreEgdFB/67cSSUEtbNpNaMchA0Q6fBbmN6orLRxw=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=NIXFopWLXX9Si/3mFoQbKP4pMblKdx7jMC/Qw47olOG6aO5P0x+jRe1vBAzQwI8tj
+         nkLG83Nnl4GQu/yD7Cz81/y7BzBRRjCJXHGsXflAHFqmlc5Ba3PaIFFw7LM8R/dLVH
+         vljWNNrUI4nZh4QKBlktBeD6e2u1drrQDLriOBzl/KfS2ysT14Qv3XiXPOLuMXQT3O
+         NGj+2hT+hFVARZw7JujMFn2YxRLk3SuswHvAkYO1CpaDCM2iAxrsePpEoJNQYk1xnD
+         cAEfLMKI2kF90js6ShmUY/rzxa8iR2MuRXE7U6MsB66SbhwE+qcoCZzVCVwodwGgUS
+         qn+7mgYK21Adg==
+Date:   Fri, 26 May 2023 11:53:40 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Osama Muhammad <osmtendev@gmail.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] smsdvb-debugfs.c: Fix error checking for
+ debugfs_create_file
+Message-ID: <20230526115340.295b1122@sal.lan>
+In-Reply-To: <20230524164210.20567-1-osmtendev@gmail.com>
+References: <20230524164210.20567-1-osmtendev@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Cc:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Paul Menzel <pmenzel@molgen.mpg.de>,
-        Wang Yating <yating.wang@intel.com>,
-        Christoph Jechlitschek <christoph.jechlitschek@intel.com>,
-        Hao Yao <hao.yao@intel.com>, Andy Yeh <andy.yeh@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        linux-media@vger.kernel.org, Mark Pearson <markpearson@lenovo.com>,
-        Dell.Client.Kernel@dell.com, linux-kernel@vger.kernel.org,
-        Guenter Roeck <groeck@google.com>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Whitcroft <apw@canonical.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Christian Schaller <cschalle@redhat.com>,
-        Wouter Bolsterlee <wouter@bolsterl.ee>,
-        Miguel Palhas <mpalhas@gmail.com>, it+linux-media@molgen.mpg.de
-Subject: Re: Missing MIPI IPU6 camera driver for Intel Alder Lake laptops
-Content-Language: en-US
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg KH <gregkh@linuxfoundation.org>
-References: <52c87d91-422d-fca0-4dd5-bbaa559c81b6@molgen.mpg.de>
- <YvUKLbv/pOfbbeL+@pendragon.ideasonboard.com> <YvUaEDMbZD70x+hD@kroah.com>
- <Yyxd0BJw5syjVsvm@paasikivi.fi.intel.com>
-From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
-In-Reply-To: <Yyxd0BJw5syjVsvm@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_SORBS_WEB,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,38 +55,42 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Em Wed, 24 May 2023 21:42:10 +0500
+Osama Muhammad <osmtendev@gmail.com> escreveu:
 
-On 9/22/22 6:06 PM, Sakari Ailus wrote:
-> Hi Greg, others,
+> This patch fixes the error checking in smsdvb-debugfs.c in
+> debugfs_create_file. The correct way to check if an error occurred
+> is using 'IS_ERR_OR_NULL' inline function.
 > 
-> On Thu, Aug 11, 2022 at 05:02:40PM +0200, Greg KH wrote:
->> On Thu, Aug 11, 2022 at 04:54:53PM +0300, Laurent Pinchart wrote:
->>> For the time being, I agree with your recommendation to not buy these
->>> devices if you care about camera support.
->>
->> I second this, don't buy these devices if the vendor is not willing to
->> get their drivers upstreamed properly.
+> Signed-off-by: Osama Muhammad <osmtendev@gmail.com>
+> ---
+>  drivers/media/common/siano/smsdvb-debugfs.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> I can now confirm that IPU6 driver upstreaming is now planned, with IPU6
-> input system driver to be upstreamed first. The intent is that we would
-> have patches for review on LMML around the end of the year.
-Is there any update on IPU6 driver? Probably it hasn't been sent upstream yet?
+> diff --git a/drivers/media/common/siano/smsdvb-debugfs.c b/drivers/media/common/siano/smsdvb-debugfs.c
+> index 8916bb644756..0f8750d7993c 100644
+> --- a/drivers/media/common/siano/smsdvb-debugfs.c
+> +++ b/drivers/media/common/siano/smsdvb-debugfs.c
+> @@ -469,7 +469,7 @@ int smsdvb_debugfs_create(struct smsdvb_client_t *client)
+>  
+>  	d = debugfs_create_file("stats", S_IRUGO | S_IWUSR, client->debugfs,
+>  				client, &debugfs_stats_ops);
+> -	if (!d) {
+> +	if (IS_ERR_OR_NULL(d)) {
+>  		debugfs_remove(client->debugfs);
+>  		return -ENOMEM;
 
-> 
-> The processing system driver will need more work to replace the custom
-> interface. For a fully functional camera stack, also libcamera support for
-> IPU6 will be needed.
-> 
-> I think I can say a major factor for why we're here is that the original
-> intent was to use a different interface for upstream but as we don't have
-> one yet and probably won't for quite some time, this doesn't really seem
-> like a viable option anymore.
-> 
-> So I'm afraid I can't promise a quick fix but at the same time I can say
-> work is being done to address this.
-> 
+if IS_ERR, it is probably better to return PTR_ERR(d).
 
--- 
-BR,
-Muhammad Usama Anjum
+So, please change it accordingly, returning -ENOMEM only on NULL, e. g.
+something like (untested):
+
+	if (IS_ERR_OR_NULL(d)) {
+ 		debugfs_remove(client->debugfs);
+		if (!d)
+	  		return -ENOMEM;
+		return PTR_ERR(d);
+	}
+
+Regards,
+Mauro
