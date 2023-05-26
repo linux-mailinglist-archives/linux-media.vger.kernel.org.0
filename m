@@ -2,58 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DBD0712608
-	for <lists+linux-media@lfdr.de>; Fri, 26 May 2023 13:54:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE7F7712610
+	for <lists+linux-media@lfdr.de>; Fri, 26 May 2023 13:56:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236793AbjEZLy2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 May 2023 07:54:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43314 "EHLO
+        id S229610AbjEZL4C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 May 2023 07:56:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231594AbjEZLy1 (ORCPT
+        with ESMTP id S231594AbjEZL4A (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 May 2023 07:54:27 -0400
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2125295
-        for <linux-media@vger.kernel.org>; Fri, 26 May 2023 04:54:26 -0700 (PDT)
-Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-3f6094cb2d2so6982095e9.2
-        for <linux-media@vger.kernel.org>; Fri, 26 May 2023 04:54:26 -0700 (PDT)
+        Fri, 26 May 2023 07:56:00 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75D16128
+        for <linux-media@vger.kernel.org>; Fri, 26 May 2023 04:55:58 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-3f6dbe3c230so7123865e9.3
+        for <linux-media@vger.kernel.org>; Fri, 26 May 2023 04:55:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685102064; x=1687694064;
+        d=linaro.org; s=google; t=1685102157; x=1687694157;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=DUt77/SiUosfK0/aaVE2BLo/sR7Y2R27EvH/CSNQIc0=;
-        b=N9Jg9r/a4ntsdV7/xjpYg+uCtSB/q9qzw4m+5KksGD56kjWOOmATrc7MxbqvvCrU3R
-         Fixqpz8LNfkWPPgQDy5iPITU/pMJCYiVZpdgeyU3Ir2tOpGblYnX5LV5INDPSrKvebAD
-         hMY/6gig5Rpjlyx2mhEq0459NAsq59UKyCYN/zcc7YwcAbf/Ss3JDuiGAnTR04xQZIm2
-         Gf8ZzDFmSQLXA2OtdZy7WA8LUOzx9hToLEIFO6+yFoDw/L96kG1wLTeagamRRrFHUJwL
-         47XgqkVqPSCD34Wo3+Xnp8QnR0fFODIxmhvoXKdc+XQB0DSy7k+fJMcVVfvjBvWhUlRj
-         /QqQ==
+        bh=ygrgpiWsTFJqLcqFddrpkStGcUioVYvfzia0SZL/7J4=;
+        b=IOxhRWXNNwovz7D9wxK77JWd4gzPR5J8eTQVhvjbSJcwld62N++AJs5CanL/lBdLDZ
+         vHjz3FCtCotqkZWeLPc/GNHClyJJ1HFzKRknPzXCfPAGBQXQmkcotNRYxy68JXDbbdqb
+         OS940MzLCssiBmz8JTRVPdsv6PDxX5N7hglWSMTdT3h3KEhaZ55rgI/70nsdaJCufbVr
+         jl2CkbjchmmLWRTWhcSM3dpcderpaefJPcMU09DmSw+U25WvHFJ9XGwc3EbJK+SUCWU+
+         TICQQwnACt5uX8Ra83tDKvkQevvzJjUaHcbcsP7zbh3BQ+XFHEzY2XI8RMm5JkMkWK9j
+         uOwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685102064; x=1687694064;
+        d=1e100.net; s=20221208; t=1685102157; x=1687694157;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DUt77/SiUosfK0/aaVE2BLo/sR7Y2R27EvH/CSNQIc0=;
-        b=EMReVsiiWp4B9aBrX2J4+OXtV6lGozsScbV9AIvKIzuSbR5lWCrCWq40SxBAm+4OA7
-         opoQ7Z46HGqkWPgb2CtHQBlv6Vv3oe212fus10Tqb/CZcHDdr/0TjbntJChQ4vsshuBQ
-         QMWfMLtPtDGzVoRsaeodZErejPCdzPjibLShCPkYj9oAfU/eILBIUURdkqI+r3i3gU8p
-         8txM18r9xZuUlqc9IZrYfLWW8IZ4bBs8XXZW4nVLinzkB+1MmSVb6XLH0HOegDiPqEOu
-         KKKiUOyGw75Cj9QppC2Aow3rICAhacQSA77I5FNz0mNhM2A2OaxfwJ1FXK5OPxeOH0IP
-         +FWg==
-X-Gm-Message-State: AC+VfDx5vwqmwDoRwcAJMNX1VmSyw2noytqoucfO5WbHMCzFxXvLA3m1
-        NEtD8GjWNAio47xtndSEEL/GzA==
-X-Google-Smtp-Source: ACHHUZ4kb1ianWoD3OzIBAumkRHPdUBowfg8mTkdAgEiywYbxBMdk2CzZVbYSvuSI8cMPLz8QYN8Bg==
-X-Received: by 2002:a7b:cc93:0:b0:3f6:9634:c8d6 with SMTP id p19-20020a7bcc93000000b003f69634c8d6mr1383382wma.18.1685102064660;
-        Fri, 26 May 2023 04:54:24 -0700 (PDT)
+        bh=ygrgpiWsTFJqLcqFddrpkStGcUioVYvfzia0SZL/7J4=;
+        b=lPujDSbRxcDZUpA7nWkBBNn51gprl52N9APqfWoK02/eD/wm5Y5ZusugTDzJbLjSGO
+         IngyV9H3vFjX0Ha69Sru/sATiS6MC0SoUkZ3OzMwFJjjVc92glgP+SWZF4uSfMPrxALu
+         nOnLQRpvqjNoqUHBegiUB8TzI0fAgE7kThfRP/iO2GRxoXU1rqh5ZC4DNyANYMSCPs15
+         beQY69g/U0fahlcnQj7UqtbeOfPAOpXPK8ulekbg1HrhBn3FIYJ79woXcRMk6fMyZxdh
+         3LySDkYitnTLn4hx9v+aYGQIrEdBeBvbc+Suv2cVz3RSs2WS8i2yoh1o4kRRJnYfE3nf
+         XFJg==
+X-Gm-Message-State: AC+VfDzjSbdz3kbpF0o7r+sR9JpU1Ut8i+ekJs97RKCc1GBnEFLwcIq0
+        iDeYYAqmvqlSWD2Ds7/y6aN4WVnaUm3E3UQQH90=
+X-Google-Smtp-Source: ACHHUZ5pzLbsMFYPXyl/+Umm4srC8421MzSJ42zwnh2NmIa9hic1piwvUp9zpoO3CrXagQuCGzwxGw==
+X-Received: by 2002:a05:600c:2042:b0:3f4:2e13:ccdc with SMTP id p2-20020a05600c204200b003f42e13ccdcmr1513920wmg.0.1685102156985;
+        Fri, 26 May 2023 04:55:56 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id z17-20020a1c4c11000000b003f4ecf1fcbcsm8742933wmf.22.2023.05.26.04.54.22
+        by smtp.gmail.com with ESMTPSA id v10-20020adfe28a000000b003063a1cdaf2sm4796842wri.48.2023.05.26.04.55.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 May 2023 04:54:23 -0700 (PDT)
-Date:   Fri, 26 May 2023 14:54:20 +0300
+        Fri, 26 May 2023 04:55:55 -0700 (PDT)
+Date:   Fri, 26 May 2023 14:55:52 +0300
 From:   Dan Carpenter <dan.carpenter@linaro.org>
 To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [bug report] media: atomisp_gmin_platform: stop abusing efivar API
-Message-ID: <26f37e19-c240-4d77-831d-ef3f1a4dd51d@kili.mountain>
+Cc:     linux-media@vger.kernel.org
+Subject: [bug report] media: atomisp: remove some trivial wrappers from
+ compat css20
+Message-ID: <d89e5638-be36-477c-b589-fba23e225fa7@kili.mountain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -67,41 +68,38 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hello Atomisp devs,
 
-The patch 38d4f74bc148: "media: atomisp_gmin_platform: stop abusing
-efivar API" from Jun 20, 2022, leads to the following Smatch static
-checker warning:
+This is a semi-automatic email about new static checker warnings.
 
-	drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c:1437 gmin_get_var_int()
-	error: buffer overflow 'val' 64 <= 64
+The patch 1a16d5453978: "media: atomisp: remove some trivial wrappers 
+from compat css20" from May 28, 2020, leads to the following Smatch 
+complaint:
 
-drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-    1427 
-    1428 int gmin_get_var_int(struct device *dev, bool is_gmin, const char *var, int def)
-    1429 {
-    1430         char val[CFG_VAR_NAME_MAX];
-    1431         size_t len = sizeof(val);
-                        ^^^^^^^^^^^^^^^^^
-len is set here.
+    drivers/staging/media/atomisp/pci/sh_css_firmware.c:247 sh_css_load_firmware()
+    warn: variable dereferenced before check 'fw_data' (see line 237)
 
-    1432         long result;
-    1433         int ret;
-    1434 
-    1435         ret = gmin_get_config_var(dev, is_gmin, var, val, &len);
-    1436         if (!ret) {
---> 1437                 val[len] = 0;
-                         ^^^^^^^^
-Not all the success paths in gmin_get_config_var() set out_len.  Also
-gmin_get_config_dsm_var() was problematic but I've sent a fix for that.
+drivers/staging/media/atomisp/pci/sh_css_firmware.c
+   236			min(sizeof(FW_rel_ver_name), sizeof(file_header->version)));
+   237		ret = sh_css_check_firmware_version(dev, fw_data);
+                                                         ^^^^^^^
+Dereferenced.
 
-    1438                 ret = kstrtol(val, 0, &result);
-    1439         } else {
-    1440                 dev_info(dev, "%s: using default (%d)\n", var, def);
-    1441         }
-    1442 
-    1443         return ret ? def : result;
-    1444 }
+   238		if (ret) {
+   239			IA_CSS_ERROR("CSS code version (%s) and firmware version (%s) mismatch!",
+   240				     file_header->version, release_version);
+   241			return -EINVAL;
+   242		} else {
+   243			IA_CSS_LOG("successfully load firmware version %s", release_version);
+   244		}
+   245	
+   246		/* some sanity checks */
+   247		if (!fw_data || fw_size < sizeof(struct sh_css_fw_bi_file_h))
+                     ^^^^^^^
+Too late.
+
+   248			return -EINVAL;
+   249	
 
 regards,
 dan carpenter
