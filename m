@@ -2,146 +2,313 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BDA8712C36
-	for <lists+linux-media@lfdr.de>; Fri, 26 May 2023 20:08:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D96B8712CA2
+	for <lists+linux-media@lfdr.de>; Fri, 26 May 2023 20:40:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242986AbjEZSH6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 May 2023 14:07:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59222 "EHLO
+        id S243271AbjEZSkn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 May 2023 14:40:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242167AbjEZSHv (ORCPT
+        with ESMTP id S243408AbjEZSkh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 May 2023 14:07:51 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BACAF13A;
-        Fri, 26 May 2023 11:07:49 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-969f90d71d4so145760966b.3;
-        Fri, 26 May 2023 11:07:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685124468; x=1687716468;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1WNhXWuAHGSvY84FPzjUJiY/WdxRG1SooFMStX8dS0s=;
-        b=p076qqBSbmH95CyWYwmxDLH1EofZTcSiQwfiZ/E2g+jrabSJlxYZAL8tW5SovUU0kl
-         yLBT6ySFrxmU6QBCoG+/w9wNaXrhM6kSFDav/FoWx57bbKxeMC0zSf+jgfbdaSbCA3D0
-         +yyffE5niZ+54MJDvnh3PdrOH51yGAGIzB7/3QNQ9Vr4IUFQ35ESQj8Z0XaViynvnlxD
-         43tGsEqpLFaW5vnMFYkdhgIpzXE9nJHz7Om8Y+Iqbjhb0JIWkbGOT0+QPUmAH3MS0mdT
-         RRtORElzNkNcV286rOehX3U5leti+tVt6mhHQOhvu8Sgf3XWJhh3VUoBFjV2kKEfDLBo
-         A1/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685124468; x=1687716468;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1WNhXWuAHGSvY84FPzjUJiY/WdxRG1SooFMStX8dS0s=;
-        b=bpDjAZWzNOc4UTHUQw0kolOpZDMWgOVOiyQgBt9p8Zaf0BIemJLHoAjPy6mEgfkDLi
-         GCrgD/OjBTNu+7Wy3z+vspT8o4Ma/swLS6rU3orcX/jlPBmXVtIzWtazHwhtZm8MmzvE
-         uFVnbt5UM1earM+LeR2y2fQNmwtQGDiPBemZWPyZ6U0cE5QEpl5PvDcGjTUmrugH3sJp
-         FwOx5ZVJd3G6COzuUOnO5Ss3wi/F/gk6oFKTlkRkLs9CWSXDsfHGNr3LPp/ZCEuZN3fA
-         jaIZ0llFENbv5+xIpL7tugR4c9VuqqackLlPeLk5GbwZ5f/9sSX6erAL9lkmTS1PmCfg
-         yjcg==
-X-Gm-Message-State: AC+VfDxziYzqVdUNNLoC9bmCypCIMneM+k178mf5wpBCxbDsrh+0CfPf
-        tPpV+wi31qNMDQ4ZaSNAmz8=
-X-Google-Smtp-Source: ACHHUZ7wPGY8XaZ5Q26iK1pWupLRHG9OW5fzWVth17mX8oMMlY9eqhpM3UjCV5KozN8rgYMknhXCcA==
-X-Received: by 2002:a17:907:a40d:b0:968:1102:1fb7 with SMTP id sg13-20020a170907a40d00b0096811021fb7mr2680886ejc.6.1685124468084;
-        Fri, 26 May 2023 11:07:48 -0700 (PDT)
-Received: from localhost.localdomain ([95.183.227.33])
-        by smtp.gmail.com with ESMTPSA id j11-20020a170906410b00b0096f689848desm2410823ejk.195.2023.05.26.11.07.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 May 2023 11:07:47 -0700 (PDT)
-From:   Yassine Oudjana <yassine.oudjana@gmail.com>
-X-Google-Original-From: Yassine Oudjana <y.oudjana@protonmail.com>
-To:     Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-        "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Hans Verkuil <hansverk@cisco.com>
-Cc:     Yassine Oudjana <y.oudjana@protonmail.com>,
-        Yassine Oudjana <yassine.oudjana@gmail.com>,
-        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/3] media: camss: Link CAMSS power domain
-Date:   Fri, 26 May 2023 21:07:12 +0300
-Message-Id: <20230526180712.8481-4-y.oudjana@protonmail.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230526180712.8481-1-y.oudjana@protonmail.com>
-References: <20230526180712.8481-1-y.oudjana@protonmail.com>
+        Fri, 26 May 2023 14:40:37 -0400
+Received: from smtp.smtpout.orange.fr (smtp-15.smtpout.orange.fr [80.12.242.15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED1CB10D2
+        for <linux-media@vger.kernel.org>; Fri, 26 May 2023 11:40:08 -0700 (PDT)
+Received: from [192.168.1.18] ([86.243.2.178])
+        by smtp.orange.fr with ESMTPA
+        id 2cLoqaT1Flhpt2cLoqbSL7; Fri, 26 May 2023 20:39:49 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+        s=t20230301; t=1685126389;
+        bh=TKNTKEUqbXyYA3X3GQmzl5PGmEb8NbeBHIgFAeXj1qU=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=SHBP2voazNgw1eWsgphdh9A1sEa/c1Li99l30L9gEv8HOw6qAqGmhIXiNw2SgTcD+
+         eE7Tycm//oqvvh9Dzit1Q+th9nmN+ROT5hWiClT3di/4g/I3uwqsyjcKY2tVQcNwP7
+         IvM9n+Bbfo0PNgjytPGu2Qa2PK3F0j6GyDMAH+wnA3j90Ay/9HF67nLRwGpe3dKDsu
+         6T/HnbLLUUkbhepbS//IZkNTrCE0MNUwW+DYfihFHISZd025wqfExk7guc5UrXb6uA
+         yMMsmqmxqzS2a2ghCpOBz7mgDxtD7UfpC/+30O5t+G37BdqZSYW5VWXd0iC4KArLHN
+         A5F22OhkHXQzQ==
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Fri, 26 May 2023 20:39:49 +0200
+X-ME-IP: 86.243.2.178
+Message-ID: <8563d09d-fa63-43e3-98a9-8008d53034aa@wanadoo.fr>
+Date:   Fri, 26 May 2023 20:39:44 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2 2/2] media: i2c: Add support for alvium camera
+To:     Tommaso Merciai <tomm.merciai@gmail.com>
+Cc:     jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com,
+        martin.hecht@avnet.eu, linuxfancy@googlegroups.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Gerald Loacker <gerald.loacker@wolfvision.net>,
+        Nicholas Roth <nicholas@rothemail.net>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+References: <20230526173955.797226-1-tomm.merciai@gmail.com>
+ <20230526173955.797226-3-tomm.merciai@gmail.com>
+Content-Language: fr
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20230526173955.797226-3-tomm.merciai@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Yassine Oudjana <y.oudjana@protonmail.com>
+Le 26/05/2023 à 19:39, Tommaso Merciai a écrit :
+> The Alvium camera is shipped with sensor + isp in the same housing.
+> The camera can be equipped with one out of various sensor and abstract
+> the user from this. Camera is connected via MIPI CSI-2.
+> 
+> Most of the sensor's features are supported, with the main exception
+> being fw update.
+> 
+> The driver provides all mandatory, optional and recommended V4L2 controls
+> for maximum compatibility with libcamera
+> 
+> References:
+>   - https://www.alliedvision.com/en/products/embedded-vision-solutions
+> 
+> Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+> ---
 
-The CAMSS power domain was previously enabled implicitly when the VFE
-power domains were enabled.
-Commit 46cc03175498 ("media: camss: Split power domain management")
-delayed enabling VFE power domains which in turn delayed enabling the
-CAMSS power domain. This made CSIPHY fail to enable camss_top_ahb_clk
-which requires the CAMSS power domain to be on:
+Hi,
 
-[  199.097810] ------------[ cut here ]------------
-[  199.097893] camss_top_ahb_clk status stuck at 'off'
-[  199.097913] WARNING: CPU: 3 PID: 728 at drivers/clk/qcom/clk-branch.c:91 clk_branch_wait+0x140/0x160
-...
-[  199.100064]  clk_branch_wait+0x140/0x160
-[  199.100112]  clk_branch2_enable+0x30/0x40
-[  199.100159]  clk_core_enable+0x6c/0xb0
-[  199.100211]  clk_enable+0x2c/0x50
-[  199.100257]  camss_enable_clocks+0x94/0xe0 [qcom_camss]
-[  199.100342]  csiphy_set_power+0x154/0x2a0 [qcom_camss]
-...
-[  199.101594] ---[ end trace 0000000000000000 ]---
+a few nit below, should it help.
 
-Link the CAMSS power domain in camss_configure_pd to make sure it gets
-enabled before CSIPHY tries to enable clocks.
 
-Fixes: 02afa816dbbf ("media: camss: Add basic runtime PM support")
-Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
----
- drivers/media/platform/qcom/camss/camss.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+> +static int alvium_setup_mipi_fmt(struct alvium_dev *alvium)
+> +{
+> +	int sz = 0;
+> +	int fmt = 0;
 
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 1ef26aea3eae..9aea8220d923 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -1453,6 +1453,7 @@ static const struct media_device_ops camss_media_ops = {
- static int camss_configure_pd(struct camss *camss)
- {
- 	struct device *dev = camss->dev;
-+	int camss_pd_index;
- 	int i;
- 	int ret;
- 
-@@ -1496,7 +1497,13 @@ static int camss_configure_pd(struct camss *camss)
- 		}
- 	}
- 
--	if (i > camss->vfe_num) {
-+	/* Link CAMSS power domain if available */
-+	camss_pd_index = device_property_match_string(camss->dev, "power-domain-names", "camss");
-+	if (camss_pd_index >= 0)
-+		device_link_add(camss->dev, camss->genpd[camss_pd_index], DL_FLAG_STATELESS |
-+				DL_FLAG_PM_RUNTIME | DL_FLAG_RPM_ACTIVE);
-+
-+	if (i > camss->vfe_num && i != camss_pd_index) {
- 		camss->genpd_link[i - 1] = device_link_add(camss->dev, camss->genpd[i - 1],
- 							   DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME |
- 							   DL_FLAG_RPM_ACTIVE);
--- 
-2.40.1
+No need to init.
+If the loop index was just 'i', the code below would be slighly less 
+verbose.
+
+> +	int avail_fmt_cnt = 0;
+> +
+> +	alvium->alvium_csi2_fmt = NULL;
+> +
+> +	/* calculate fmt array size */
+> +	for (fmt = 0; fmt < ALVIUM_NUM_SUPP_MIPI_DATA_FMT; fmt++) {
+> +		if (alvium->is_mipi_fmt_avail[alvium_csi2_fmts[fmt].fmt_av_bit]) {
+> +			if (!alvium_csi2_fmts[fmt].is_raw) {
+> +				sz++;
+> +			} else if (alvium_csi2_fmts[fmt].is_raw &&
+> +			      alvium->is_bay_avail[alvium_csi2_fmts[fmt].bay_av_bit]) {
+
+It is makes sense, this if/else looks equivalent to:
+
+			if (!alvium_csi2_fmts[fmt].is_raw ||
+			    alvium->is_bay_avail[alvium_csi2_fmts[fmt].bay_av_bit]) {
+				sz++;
+
+The same simplification could also be applied in the for loop below.
+
+> +				sz++;
+> +			}
+> +		}
+> +	}
+> +
+> +	/* init alvium_csi2_fmt array */
+> +	alvium->alvium_csi2_fmt_n = sz;
+> +	alvium->alvium_csi2_fmt = kmalloc((
+> +						     sizeof(struct alvium_pixfmt) * sz),
+> +						     GFP_KERNEL);
+
+kmalloc_array()?
+Also some unneeded ( and )
+
+> +
+> +	/* Create the alvium_csi2 fmt array from formats available */
+> +	for (fmt = 0; fmt < ALVIUM_NUM_SUPP_MIPI_DATA_FMT; fmt++) {
+> +		if (alvium->is_mipi_fmt_avail[alvium_csi2_fmts[fmt].fmt_av_bit]) {
+> +			if (!alvium_csi2_fmts[fmt].is_raw) {
+> +				alvium->alvium_csi2_fmt[avail_fmt_cnt] =
+> +					alvium_csi2_fmts[fmt];
+> +				avail_fmt_cnt++;
+> +			} else if (alvium_csi2_fmts[fmt].is_raw &&
+> +			      alvium->is_bay_avail[alvium_csi2_fmts[fmt].bay_av_bit]) {
+> +				alvium->alvium_csi2_fmt[avail_fmt_cnt] =
+> +					alvium_csi2_fmts[fmt];
+> +				avail_fmt_cnt++;
+> +			}
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+
+[...]
+
+> +struct alvium_mode {
+> +	struct v4l2_rect crop;
+> +	struct v4l2_mbus_framefmt fmt;
+> +	u32 width;
+> +	u32 height;
+> +
+
+Useless NL.
+
+> +};
+> +
+> +struct alvium_pixfmt {
+> +	u8 id;
+> +	u32 code;
+> +	u32 colorspace;
+> +	u8 fmt_av_bit;
+> +	u8 bay_av_bit;
+> +	u64 mipi_fmt_regval;
+> +	u64 bay_fmt_regval;
+> +	u8 is_raw;
+
+If moved a few lines above, there would be less holes in the struct.
+
+> +};
+> +
+
+[...]
+
+> +struct alvium_dev {
+> +	struct i2c_client *i2c_client;
+> +	struct v4l2_subdev sd;
+> +	struct v4l2_fwnode_endpoint ep;
+> +	struct media_pad pad;
+> +
+> +	struct mutex lock;
+> +
+> +	struct gpio_desc *reset_gpio;
+> +	struct gpio_desc *pwdn_gpio;
+> +
+> +	u16 bcrm_addr;
+> +	alvium_bcrm_vers_t bcrm_v;
+> +	alvium_fw_vers_t fw_v;
+> +
+> +	alvium_avail_feat_t avail_ft;
+> +	u8 is_mipi_fmt_avail[ALVIUM_NUM_SUPP_MIPI_DATA_BIT];
+> +	u8 is_bay_avail[ALVIUM_NUM_BAY_AV_BIT];
+> +
+> +	u32 min_csi_clk;
+> +	u32 max_csi_clk;
+> +	u32 img_min_width;
+> +	u32 img_max_width;
+> +	u32 img_inc_width;
+> +	u32 img_min_height;
+> +	u32 img_max_height;
+> +	u32 img_inc_height;
+> +	u32 min_offx;
+> +	u32 max_offx;
+> +	u32 inc_offx;
+> +	u32 min_offy;
+> +	u32 max_offy;
+> +	u32 inc_offy;
+> +	u64 min_gain;
+> +	u64 max_gain;
+> +	u64 inc_gain;
+> +	u64 min_exp;
+> +	u64 max_exp;
+> +	u64 inc_exp;
+> +	u64 min_rbalance;
+> +	u64 max_rbalance;
+> +	u64 inc_rbalance;
+> +	u64 min_bbalance;
+> +	u64 max_bbalance;
+> +	u64 inc_bbalance;
+> +	s32 min_hue;
+> +	s32 max_hue;
+> +	s32 inc_hue;
+> +	u32 min_contrast;
+> +	u32 max_contrast;
+> +	u32 inc_contrast;
+> +	u32 min_sat;
+> +	u32 max_sat;
+> +	u32 inc_sat;
+> +	s32 min_black_lvl;
+> +	s32 max_black_lvl;
+> +	s32 inc_black_lvl;
+> +	u64 min_gamma;
+> +	u64 max_gamma;
+> +	u64 inc_gamma;
+> +	s32 min_sharp;
+> +	s32 max_sharp;
+> +	s32 inc_sharp;
+> +
+> +	u32 streamon_delay;
+> +
+> +	struct alvium_mode mode;
+> +	struct v4l2_fract frame_interval;
+> +	u64 min_fr;
+> +	u64 max_fr;
+> +	u64 fr;
+> +
+> +	u8 h_sup_csi_lanes;
+> +	struct clk *xclk;
+> +	u32 xclk_freq;
+> +	u32 csi_clk;
+> +	u64 link_freq;
+> +
+> +	struct alvium_ctrls ctrls;
+> +
+> +	u8 bcrm_mode;
+> +	u8 hshake_bit;
+
+What is the need of keeping this value in the struct?
+Its usage seems to be only local to some function (read from HW, then used)
+
+Should it be kept, does it make sense to have it a u8:1 and maybe some 
+!! in the code, to pack it with the bitfield just a few lines below.
+
+
+> +
+> +	struct alvium_pixfmt *alvium_csi2_fmt;
+> +	u8 alvium_csi2_fmt_n;
+> +	struct v4l2_mbus_framefmt fmt;
+> +
+> +	u8 streaming:1;
+> +	u8 apply_fiv:1;
+> +
+> +	bool upside_down;
+
+This looks only written. Is it useles or here for future use?
+Can these fields be all u8:1, or bool:1 ?
+
+CJ
+
+> +};
+> +
+> +static inline struct alvium_dev *sd_to_alvium(struct v4l2_subdev *sd)
+> +{
+> +	return container_of(sd, struct alvium_dev, sd);
+> +}
+> +
+> +static inline struct alvium_dev *i2c_to_alvium(struct i2c_client *client)
+> +{
+> +	return sd_to_alvium(i2c_get_clientdata(client));
+> +}
+> +
+> +static inline bool alvium_is_csi2(const struct alvium_dev *alvium)
+> +{
+> +	return alvium->ep.bus_type == V4L2_MBUS_CSI2_DPHY;
+> +}
+> +
+> +static inline struct v4l2_subdev *ctrl_to_sd(struct v4l2_ctrl *ctrl)
+> +{
+> +	return &container_of(ctrl->handler, struct alvium_dev,
+> +					  ctrls.handler)->sd;
+> +}
+> +#endif /* ALVIUM_H_ */
 
