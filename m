@@ -2,77 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 40CF171256B
-	for <lists+linux-media@lfdr.de>; Fri, 26 May 2023 13:27:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F099D7125C3
+	for <lists+linux-media@lfdr.de>; Fri, 26 May 2023 13:41:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237116AbjEZL05 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 May 2023 07:26:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58472 "EHLO
+        id S243361AbjEZLlj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 May 2023 07:41:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229628AbjEZL05 (ORCPT
+        with ESMTP id S243319AbjEZLli (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 May 2023 07:26:57 -0400
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CE7A12F;
-        Fri, 26 May 2023 04:26:52 -0700 (PDT)
-Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-33aa60f4094so1841745ab.1;
-        Fri, 26 May 2023 04:26:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685100411; x=1687692411;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=iJ0RPfGniHm7encY03gp85qFDTA63n+cLMONk4Pv+1c=;
-        b=FNJrB50hULQ7GRgUv1Emq0wzjI+/PIe3QVK2IW4ad78mTz6AaFNRpqRF7n++jYRo2b
-         DQqj8tnoxdKbzkod7MRwnP1xNVs+2SewfXyIzAK1tncAa9pvRvRnJrN5XgF19u0gaz5u
-         YOqsXEIKNPdYK24DDwDb3wEkk66QPcpRRYsMdMR1FecmefF1ch72dkbhEV+ZP6aD9vPv
-         ELz33S0ZKtA6arQdbgfzzAMs+wndBPN3OUrfB4kwAUfGYeqizFQzxmgjNT+jru88eEtT
-         Ri0hU4MLxu0K7CV3eg283cQ20T971RTGPvFtGdetoLJY58aYmnh3JEs1G5WhtxnwdlA4
-         4LtA==
-X-Gm-Message-State: AC+VfDyJYefBzqEpVZnkRBR2kzkhQlXGGXBGJ9UM4ZwdnEk8Hncn0Qe9
-        L3dYNXroUNtlMSBEpmt1OltTQPTiMg==
-X-Google-Smtp-Source: ACHHUZ6GnIFh8ipON1bp5u1Prt8xzgxoVgKcM4++yVzVDfMvM6WrNw0eIqO5rOyt2QdBKgaMkfivyw==
-X-Received: by 2002:a05:6e02:220a:b0:33a:a77d:3072 with SMTP id j10-20020a056e02220a00b0033aa77d3072mr3852954ilf.7.1685100410625;
-        Fri, 26 May 2023 04:26:50 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.254])
-        by smtp.gmail.com with ESMTPSA id k15-20020a02a70f000000b00413e7ca0f4csm1072271jam.174.2023.05.26.04.26.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 May 2023 04:26:49 -0700 (PDT)
-Received: (nullmailer pid 547735 invoked by uid 1000);
-        Fri, 26 May 2023 11:26:47 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        Fri, 26 May 2023 07:41:38 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 918F7E4F
+        for <linux-media@vger.kernel.org>; Fri, 26 May 2023 04:41:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685101279; x=1716637279;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZaKplkJvmUFtm/YYRcRqaboc1o98s4/W0dVw3tarnhk=;
+  b=bO5/gkzeF5Dtw+KZvkm1NvgF0Z9p2iHf4Lbgl2nIyEUcsXiWlku37orc
+   u6bqKNxcdY/y9D1+REbAn1pkBDUBKD9N4KkmkbE2U93RKxDUL2cSFt5Fi
+   1algs7Vnjc7SBnvmaXEY2lJhRfnRimQJ2jc5WRMiVp+t6IIhtdMt83B03
+   MYhpcNh2kwLfO89s9yY/XrH4ruApNCh/s7TehBXRIx1dFdqizv8Idtehq
+   TJkRON7HhudBbASoaNpqhcbKfIEdqaD2uT7GhtaCmAGFC2yOhKlnMTsM7
+   SddVhGGlhuIIcOjSPP2NCG5PpXtj+LFmnbheQ0zeuOIYVE5/Rh4XxK81i
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="417669149"
+X-IronPort-AV: E=Sophos;i="6.00,194,1681196400"; 
+   d="scan'208";a="417669149"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 04:41:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="775069664"
+X-IronPort-AV: E=Sophos;i="6.00,194,1681196400"; 
+   d="scan'208";a="775069664"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 04:41:17 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 23AB11202A8;
+        Fri, 26 May 2023 14:41:15 +0300 (EEST)
+Date:   Fri, 26 May 2023 11:41:15 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     "Cao, Bingbu" <bingbu.cao@intel.com>
+Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "Kao, Arec" <arec.kao@intel.com>, "Yao, Hao" <hao.yao@intel.com>,
+        "bingbu.cao@linux.intel.com" <bingbu.cao@linux.intel.com>
+Subject: Re: [PATCH 3/4] media: ov13b10: add PM control support based on
+ power resources
+Message-ID: <ZHCa2/SDr52c2ExB@kekkonen.localdomain>
+References: <20230526095839.2443058-1-bingbu.cao@intel.com>
+ <20230526095839.2443058-3-bingbu.cao@intel.com>
+ <ZHCDfuO4Dsha5kzI@kekkonen.localdomain>
+ <DM8PR11MB56537D167FDF388A942802A299479@DM8PR11MB5653.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Tommaso Merciai <tomm.merciai@gmail.com>
-Cc:     Mikhail Rudenko <mike.rudenko@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        =?utf-8?q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Gerald Loacker <gerald.loacker@wolfvision.net>,
-        jacopo.mondi@ideasonboard.com, linuxfancy@googlegroups.com,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        martin.hecht@avnet.eu, Linus Walleij <linus.walleij@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        laurent.pinchart@ideasonboard.com,
-        Nicholas Roth <nicholas@rothemail.net>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        devicetree@vger.kernel.org, Marco Felsch <m.felsch@pengutronix.de>
-In-Reply-To: <20230526103427.774226-2-tomm.merciai@gmail.com>
-References: <20230526103427.774226-1-tomm.merciai@gmail.com>
- <20230526103427.774226-2-tomm.merciai@gmail.com>
-Message-Id: <168510040778.547713.18211801531465598183.robh@kernel.org>
-Subject: Re: [PATCH 1/2] media: dt-bindings: alvium: add document YAML
- binding
-Date:   Fri, 26 May 2023 05:26:47 -0600
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DM8PR11MB56537D167FDF388A942802A299479@DM8PR11MB5653.namprd11.prod.outlook.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -80,47 +69,253 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Bingbu,
 
-On Fri, 26 May 2023 12:34:15 +0200, Tommaso Merciai wrote:
-> Add documentation of device tree in YAML schema for the ALVIUM
-> Camera from Allied Vision Inc.
+On Fri, May 26, 2023 at 11:21:20AM +0000, Cao, Bingbu wrote:
+> Sakari, 
 > 
-> References:
->  - https://www.alliedvision.com/en/products/embedded-vision-solutions
+> Thanks for your review.
 > 
-> Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
-> ---
->  .../media/i2c/alliedvision,alvium.yaml        | 117 ++++++++++++++++++
->  1 file changed, 117 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/alliedvision,alvium.yaml
+> ------------------------------------------------------------------------
+> BRs,  
+> Bingbu Cao 
 > 
+> >-----Original Message-----
+> >From: Sakari Ailus <sakari.ailus@linux.intel.com>
+> >Sent: Friday, May 26, 2023 18:02
+> >To: Cao, Bingbu <bingbu.cao@intel.com>
+> >Cc: linux-media@vger.kernel.org; Kao, Arec <arec.kao@intel.com>; Yao, Hao
+> ><hao.yao@intel.com>; bingbu.cao@linux.intel.com
+> >Subject: Re: [PATCH 3/4] media: ov13b10: add PM control support based on
+> >power resources
+> >
+> >Hi Bingbu,
+> >
+> >Thanks for the patch.
+> >
+> >On Fri, May 26, 2023 at 05:58:39PM +0800, bingbu.cao@intel.com wrote:
+> >> From: Bingbu Cao <bingbu.cao@intel.com>
+> >>
+> >> On ACPI based platforms, the ov13b10 camera sensor need to be powered
+> >> up by acquire the PM resource from INT3472. On such platform, 1 GPIO
+> >> can be used to enable AVDD and DOVDD, 1 GPIO to reset, we just have
+> >> one power supply 'vdd' for camera. Add 2 power interfaces and also
+> >> registered as runtime PM callbacks to support that.
+> >>
+> >> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+> >> Signed-off-by: Hao Yao <hao.yao@intel.com>
+> >> ---
+> >>  drivers/media/i2c/ov13b10.c | 98
+> >> ++++++++++++++++++++++++++++++++++++-
+> >>  1 file changed, 96 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/drivers/media/i2c/ov13b10.c b/drivers/media/i2c/ov13b10.c
+> >> index 2d48c94659a4..b1faa89a3571 100644
+> >> --- a/drivers/media/i2c/ov13b10.c
+> >> +++ b/drivers/media/i2c/ov13b10.c
+> >> @@ -2,6 +2,9 @@
+> >>  // Copyright (c) 2021 Intel Corporation.
+> >>
+> >>  #include <linux/acpi.h>
+> >> +#include <linux/clk.h>
+> >> +#include <linux/delay.h>
+> >> +#include <linux/gpio/consumer.h>
+> >>  #include <linux/i2c.h>
+> >>  #include <linux/module.h>
+> >>  #include <linux/pm_runtime.h>
+> >> @@ -573,6 +576,11 @@ struct ov13b10 {
+> >>  	struct media_pad pad;
+> >>
+> >>  	struct v4l2_ctrl_handler ctrl_handler;
+> >> +
+> >> +	struct clk *img_clk;
+> >> +	struct regulator *vdd;
+> >> +	struct gpio_desc *reset;
+> >> +
+> >>  	/* V4L2 Controls */
+> >>  	struct v4l2_ctrl *link_freq;
+> >>  	struct v4l2_ctrl *pixel_rate;
+> >> @@ -1051,6 +1059,50 @@ static int ov13b10_identify_module(struct ov13b10
+> >*ov13b)
+> >>  	return 0;
+> >>  }
+> >>
+> >> +static int ov13b10_power_off(struct device *dev) {
+> >> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> >> +	struct ov13b10 *ov13b10 = to_ov13b10(sd);
+> >> +
+> >> +	if (!ov13b10->vdd || !ov13b10->reset || !ov13b10->img_clk)
+> >> +		return 0;
+> >
+> >This can be dropped.
+> >
+> >> +
+> >> +	gpiod_set_value_cansleep(ov13b10->reset, 1);
+> >> +	regulator_disable(ov13b10->vdd);
+> >> +	clk_disable_unprepare(ov13b10->img_clk);
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +
+> >> +static int ov13b10_power_on(struct device *dev) {
+> >> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> >> +	struct ov13b10 *ov13b10 = to_ov13b10(sd);
+> >> +	int ret;
+> >> +
+> >> +	if (!ov13b10->vdd || !ov13b10->reset || !ov13b10->img_clk)
+> >> +		return 0;
+> >
+> >Instead I'd execute the sleep below if any of these is non-NULL. No need to
+> >return here.
+> >
+> >> +
+> >> +	ret = clk_prepare_enable(ov13b10->img_clk);
+> >> +	if (ret < 0) {
+> >> +		dev_err(dev, "failed to enable imaging clock: %d", ret);
+> >> +		return ret;
+> >> +	}
+> >> +
+> >> +	ret = regulator_enable(ov13b10->vdd);
+> >> +	if (ret < 0) {
+> >> +		dev_err(dev, "failed to enable vdd: %d", ret);
+> >> +		return ret;
+> >> +	}
+> >> +
+> >> +	gpiod_set_value_cansleep(ov13b10->reset, 0);
+> >> +
+> >> +	/* 5ms to wait ready after XSHUTDN assert */
+> >> +	usleep_range(5000, 5500);
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +
+> >>  static int ov13b10_start_streaming(struct ov13b10 *ov13b)  {
+> >>  	struct i2c_client *client = v4l2_get_subdevdata(&ov13b->sd); @@
+> >> -1317,6 +1369,37 @@ static void ov13b10_free_controls(struct ov13b10
+> >*ov13b)
+> >>  	mutex_destroy(&ov13b->mutex);
+> >>  }
+> >>
+> >> +static void ov13b10_get_pm_resources(struct device *dev) {
+> >> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> >> +	struct ov13b10 *ov13b = to_ov13b10(sd);
+> >> +
+> >> +	if (!is_acpi_node(dev_fwnode(dev)))
+> >> +		return;
+> >
+> >I'd omit this check. This would work on DT although bindings should still
+> >be written. That may be left for a future excercise I think.
+> >
+> >> +
+> >> +	ov13b->reset = devm_gpiod_get_optional(dev, "reset",
+> >> +					       GPIOD_OUT_LOW);
+> >> +	if (IS_ERR(ov13b->reset)) {
+> >> +		dev_dbg(dev, "failed to get reset gpio: %ld",
+> >> +			PTR_ERR(ov13b->reset));
+> >> +		ov13b->reset = NULL;
+> >> +	}
+> >> +
+> >> +	ov13b->img_clk = devm_clk_get_optional(dev, NULL);
+> >> +	if (IS_ERR(ov13b->img_clk)) {
+> >> +		dev_dbg(dev, "failed to get imaging clock: %ld",
+> >> +			PTR_ERR(ov13b->img_clk));
+> >> +		ov13b->img_clk = NULL;
+> >> +	}
+> >> +
+> >> +	ov13b->vdd = devm_regulator_get_optional(dev, "vdd");
+> >> +	if (IS_ERR(ov13b->vdd)) {
+> >> +		dev_dbg(dev, "failed to get vdd regulator: %ld",
+> >> +			PTR_ERR(ov13b->vdd));
+> >> +		ov13b->vdd = NULL;
+> >
+> >You should return the error code instead, in all three cases.
+> 
+> On some platforms such as Chromebook, there is no INT3472 requirement.
+> Here it ignores that case and return without errors, thus the power on
+> and off callback would be NULL functions then.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Don't the _optional() variants of these functions return NULL if there's no
+such thing for the device?
 
-yamllint warnings/errors:
+> 
+> 
+> >
+> >> +	}
+> >> +}
+> >> +
+> >>  static int ov13b10_check_hwcfg(struct device *dev)  {
+> >>  	struct v4l2_fwnode_endpoint bus_cfg = { @@ -1407,13 +1490,21 @@
+> >> static int ov13b10_probe(struct i2c_client *client)
+> >>  	/* Initialize subdev */
+> >>  	v4l2_i2c_subdev_init(&ov13b->sd, client, &ov13b10_subdev_ops);
+> >>
+> >> +	ov13b10_get_pm_resources(&client->dev);
+> >> +
+> >>  	full_power = acpi_dev_state_d0(&client->dev);
+> >>  	if (full_power) {
+> >> +		ov13b10_power_on(&client->dev);
+> >> +		if (ret) {
+> >> +			dev_err(&client->dev, "failed to power on\n");
+> >> +			goto error_power_off;
+> >
+> >return ret;
+> 
+> After power on, the caller has no idea which PM resource was
+> set, so here call power off as a rollback.
 
-dtschema/dtc warnings/errors:
-Error: Documentation/devicetree/bindings/media/i2c/alliedvision,alvium.example.dts:30.32-33 syntax error
-FATAL ERROR: Unable to parse input tree
-make[1]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings/media/i2c/alliedvision,alvium.example.dtb] Error 1
-make[1]: *** Waiting for unfinished jobs....
-make: *** [Makefile:1512: dt_binding_check] Error 2
+Sure, but it needs to be done in ov13b10_power_on() instead. If there's an
+error, some of the resources weren't enabled so you can't undo that here.
 
-doc reference errors (make refcheckdocs):
+> 
+> >
+> >See also below...
+> >
+> >> +		}
+> >> +
+> >>  		/* Check module identity */
+> >>  		ret = ov13b10_identify_module(ov13b);
+> >>  		if (ret) {
+> >>  			dev_err(&client->dev, "failed to find sensor: %d\n",
+> >ret);
+> >> -			return ret;
+> >> +			goto error_power_off;
+> >>  		}
+> >>  	}
+> >>
+> >> @@ -1422,7 +1513,7 @@ static int ov13b10_probe(struct i2c_client
+> >> *client)
+> >>
+> >>  	ret = ov13b10_init_controls(ov13b);
+> >>  	if (ret)
+> >> -		return ret;
+> >> +		goto error_power_off;
+> >>
+> >>  	/* Initialize subdev */
+> >>  	ov13b->sd.internal_ops = &ov13b10_internal_ops; @@ -1461,6 +1552,8
+> >> @@ static int ov13b10_probe(struct i2c_client *client)
+> >>  error_handler_free:
+> >>  	ov13b10_free_controls(ov13b);
+> >>  	dev_err(&client->dev, "%s failed:%d\n", __func__, ret);
+> >> +error_power_off:
+> >> +	ov13b10_power_off(&client->dev);
+> >
+> >This may only be called if ov13b10_power_on() was successfully called first.
+> >
+> >>
+> >>  	return ret;
+> >>  }
+> >> @@ -1479,6 +1572,7 @@ static void ov13b10_remove(struct i2c_client
+> >> *client)
+> >>
+> >>  static const struct dev_pm_ops ov13b10_pm_ops = {
+> >>  	SET_SYSTEM_SLEEP_PM_OPS(ov13b10_suspend, ov13b10_resume)
+> >> +	SET_RUNTIME_PM_OPS(ov13b10_power_off, ov13b10_power_on, NULL)
+> >>  };
+> >>
+> >>  #ifdef CONFIG_ACPI
+> >>
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230526103427.774226-2-tomm.merciai@gmail.com
+-- 
+Kind regards,
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+Sakari Ailus
