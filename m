@@ -2,41 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF691712DD2
-	for <lists+linux-media@lfdr.de>; Fri, 26 May 2023 21:46:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63355712E00
+	for <lists+linux-media@lfdr.de>; Fri, 26 May 2023 22:05:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230431AbjEZTqR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 May 2023 15:46:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59434 "EHLO
+        id S237568AbjEZUFz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 May 2023 16:05:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229523AbjEZTqQ (ORCPT
+        with ESMTP id S230422AbjEZUFx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 May 2023 15:46:16 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0F09B6;
-        Fri, 26 May 2023 12:46:15 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4625465300;
-        Fri, 26 May 2023 19:46:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63F0CC433EF;
-        Fri, 26 May 2023 19:46:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685130374;
-        bh=HXsQb8OTNsgkJnd1fl608LKgHplT+hhrh89UYaD87Fs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nirNaDI1awCONOmsX+vCTz6UYlNgLRVjjGbqThGHfDpj7l+c8utdYi7ucRpgLf7ju
-         2qDXOGkon1BQSUjYhrPs6uBgD+HmIFPd9iv8vQYCnlBwKI6s8WMTBGMYxXh7pbt0wo
-         KZspfv0bWJfc9vdb3t6sGfK9YjxADg4OsvY7Zbg7DCTP/UJMo5Lz/74W96o+4PSXb2
-         XPAeEYdLjL6Ui14MFTnfEfIBxgrUdTcSP3tf1wrsP4NraiTbjlz43juMhkMb/d7viU
-         LaMLkrPj9ElqNXbO5etcYDwmsWjqA6J6s2o9Yb9BFUkcc0jvcfrEYtvAsS+cnembd1
-         43YxktP77VdcA==
-Date:   Fri, 26 May 2023 20:46:08 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Yassine Oudjana <yassine.oudjana@gmail.com>
+        Fri, 26 May 2023 16:05:53 -0400
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DBEBE7
+        for <linux-media@vger.kernel.org>; Fri, 26 May 2023 13:05:51 -0700 (PDT)
+Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-3f6d01d390bso12167435e9.2
+        for <linux-media@vger.kernel.org>; Fri, 26 May 2023 13:05:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1685131549; x=1687723549;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ii7jUw037eoZ8vAATSpOVlCd9Yy79Gi5wawq+sGoAE8=;
+        b=woFwrMq2FfrFElY2FeQHOclRdLKxz2KbuCG30v1NLnuj76HybVAEj0w5LlqVUwsq0Y
+         8GpDEy334I1EymTkGxF/wO6OZ0p2MXZ3mhAgPtswJSuv2vVuzgXwlTWPA9wXA/7nPh4y
+         zwlMcvjv72hjGUpQ2ThqoABjzRGj7XjjZlPMCn4mKP6SQleWckzrTFniImmfZ+JJeNWV
+         YLl3n7llJ5VwCqmp0ktf3E6kjDARDiFIUYPTLLaw/bAPqx6l62noIadNh8fg+8JuyCcs
+         Il1JA/KT1ZN8fJVCMEYdZPtkJ2d21GeLxe8VnOGLkiJB7Xw5+QNN0X+Cm/4DxCkbI4+X
+         pCqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685131549; x=1687723549;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ii7jUw037eoZ8vAATSpOVlCd9Yy79Gi5wawq+sGoAE8=;
+        b=eOg7KWuJ+9uPHO2eUgj48Dt2ouLkkiEq7dhQYu6Ui/6g2XVsFXADcgzBF2WFZ94dF+
+         rkg2UR8qLTwgfkjYkbl1v16yf0BFF5/ABx/jkPj3eznanHBrUXxu5oSdGXabA7UbOpcG
+         KpRYsEdNvXr8d4mel/Oqht00k8TafQ7O7rbmjAbql2k8/qx6e80+zfS/aVCsu7vwOTiP
+         zoR46mcWQeZWFlAdMHfyVc0UZb/cVuUjRhLuyU9Li9R5OIzA7hl3sWRpYCwXJzG4V1ID
+         Jj3ApD7y0J93XhFhod4MsznP1QLF9rGW/dj4ZU4WX1SCO/tNBKHN5/cuv0WqxYhR7Etk
+         4muA==
+X-Gm-Message-State: AC+VfDzo6toyGhaOhRWsibC7AQxe5EDWsZMFxm2UoF8zMgc96uZZu0l4
+        AOkFNhfjczPrjYnhkNsdH7nrag==
+X-Google-Smtp-Source: ACHHUZ5Wod0UWR630OobbVnuFuY+mY60QpYFhW+Ur6XxZ5rGEw1+JnvaJw+RyGPhw/lbn+cq9ZgXHw==
+X-Received: by 2002:a7b:cb90:0:b0:3f6:c7b:d3c8 with SMTP id m16-20020a7bcb90000000b003f60c7bd3c8mr2803322wmi.16.1685131549510;
+        Fri, 26 May 2023 13:05:49 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id a18-20020adfe5d2000000b003079c402762sm5948414wrn.19.2023.05.26.13.05.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 May 2023 13:05:48 -0700 (PDT)
+Message-ID: <838b134d-46cb-6237-49b0-0c287141ebb3@linaro.org>
+Date:   Fri, 26 May 2023 21:05:47 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2 1/3] dt-bindings: media: camss: qcom,msm8996-camss: Add
+ CAMSS power domain
+Content-Language: en-US
+To:     Conor Dooley <conor@kernel.org>,
+        Yassine Oudjana <yassine.oudjana@gmail.com>
 Cc:     Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
         Andy Gross <agross@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
         Konrad Dybcio <konrad.dybcio@linaro.org>,
@@ -48,108 +72,36 @@ Cc:     Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
         Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
         linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] dt-bindings: media: camss: qcom,msm8996-camss:
- Add CAMSS power domain
-Message-ID: <20230526-obstruct-venus-5833511a58af@spud>
 References: <20230526180712.8481-1-y.oudjana@protonmail.com>
  <20230526180712.8481-2-y.oudjana@protonmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Uk9rvZ9fwek1OCj4"
-Content-Disposition: inline
-In-Reply-To: <20230526180712.8481-2-y.oudjana@protonmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+ <20230526-obstruct-venus-5833511a58af@spud>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20230526-obstruct-venus-5833511a58af@spud>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 26/05/2023 20:46, Conor Dooley wrote:
+>> +  - power-domain-names
+> Why is this now required?
+> 
+> Thanks,
+> Conor.
+> 
 
---Uk9rvZ9fwek1OCj4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Its an accurate description of the power/clock tree to have the top 
+power domain be switched on prior to the clocks that depend on it.
 
-Yo Yassine,
+I think Yassine, you could probably include the majority of your 
+cover-letter text in this commit to explain this change a bit better.
 
-On Fri, May 26, 2023 at 09:07:10PM +0300, Yassine Oudjana wrote:
-> From: Yassine Oudjana <y.oudjana@protonmail.com>
->=20
-> Add the CAMSS power domain which is needed for the proper operation of
-> CAMSS, and add power-domain-names to ease fetching it as well as the other
-> power domains.
->=20
-> Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
-> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
->  .../bindings/media/qcom,msm8996-camss.yaml          | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/media/qcom,msm8996-camss.y=
-aml b/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
-> index 8a10aa1cafc5..27c9a11f0df9 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,msm8996-camss.yaml
-> @@ -85,6 +85,13 @@ properties:
->      items:
->        - description: VFE0 GDSC - Video Front End, Global Distributed Swi=
-tch Controller.
->        - description: VFE1 GDSC - Video Front End, Global Distributed Swi=
-tch Controller.
-> +      - description: CAMSS GDSC - Camera Subsystem, Global Distributed S=
-witch Controller.
-> +
-> +  power-domain-names:
-> +    items:
-> +      - const: vfe0
-> +      - const: vfe1
-> +      - const: camss
-> =20
->    ports:
->      $ref: /schemas/graph.yaml#/properties/ports
-> @@ -209,6 +216,7 @@ required:
->    - interrupts
->    - iommus
->    - power-domains
-> +  - power-domain-names
-
-Why is this now required?
-
-Thanks,
-Conor.
-
->    - reg
->    - reg-names
->    - vdda-supply
-> @@ -326,7 +334,10 @@ examples:
->           <&vfe_smmu 3>;
-> =20
->        power-domains =3D <&mmcc VFE0_GDSC>,
-> -        <&mmcc VFE1_GDSC>;
-> +        <&mmcc VFE1_GDSC>,
-> +        <&mmcc CAMSS_GDSC>;
-> +
-> +      power-domain-names =3D "vfe0", "vfe1", "camss";
-> =20
->        reg =3D <0x00a34000 0x1000>,
->          <0x00a00030 0x4>,
-> --=20
-> 2.40.1
->=20
-
---Uk9rvZ9fwek1OCj4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZHEMgAAKCRB4tDGHoIJi
-0mqGAQDnSs0kFgIjPFo7PgHn8Y5SILvoeUHvW3dbMPU5/SfohgD+MLqmFsqafGIP
-XDQJpXUjsm0aicwi1Tj3LbvTvLbf6gM=
-=d7a5
------END PGP SIGNATURE-----
-
---Uk9rvZ9fwek1OCj4--
+---
+bod
