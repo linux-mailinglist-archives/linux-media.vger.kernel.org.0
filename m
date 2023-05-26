@@ -2,56 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 76779712E77
-	for <lists+linux-media@lfdr.de>; Fri, 26 May 2023 22:50:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B0C1712E8F
+	for <lists+linux-media@lfdr.de>; Fri, 26 May 2023 22:57:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243877AbjEZUuH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 May 2023 16:50:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51498 "EHLO
+        id S237558AbjEZU5H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 May 2023 16:57:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243431AbjEZUuC (ORCPT
+        with ESMTP id S242984AbjEZU5G (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 May 2023 16:50:02 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55ADF189
-        for <linux-media@vger.kernel.org>; Fri, 26 May 2023 13:49:36 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-30adc51b65cso754762f8f.0
-        for <linux-media@vger.kernel.org>; Fri, 26 May 2023 13:49:36 -0700 (PDT)
+        Fri, 26 May 2023 16:57:06 -0400
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA7F5D9
+        for <linux-media@vger.kernel.org>; Fri, 26 May 2023 13:57:03 -0700 (PDT)
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-3f60804faf4so8210305e9.3
+        for <linux-media@vger.kernel.org>; Fri, 26 May 2023 13:57:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685134172; x=1687726172;
+        d=linaro.org; s=google; t=1685134622; x=1687726622;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=L2eJzpBFnXHIGc80MTi/wXk17yj9BqAfKVx85U8nI24=;
-        b=HVp3g30eA6AO4d3QS2C/LDqkSKj+Ycql6tdC0sm3+9KRI9Q6Qs/CR9PV53r59qSSYO
-         O9GgtVCMLI6f43N9gvUoiENfDlsFPmEDEhAjsn9BjIzyFpuNIhZaz2AgC5sEx1VIrpIG
-         N/VV7NENpLn0bM9EKixH1gIzznLAvdtpjzwxYO/KF9CR/VAjFW96sE8dql80yEhH0cTr
-         N1L2ygiD00/ykEDcbGL9bsd/1F9IDEEkeeZDyWi+JzXXZk4+16gVQQ+MoMVYVBS5CaoI
-         V3QWfh8YZsC2ea8oij+YD5KZ2ftAqHu6uNlDpPb5HRhieE+hrtnONnEu+wgF8qrfXCX0
-         H5hg==
+        bh=Kevd9tgDOgwSftXhTE9dzSQzFuyzebjoDk0q9mVsTsM=;
+        b=zrMSuFrykCqYrES/4m1rxa7Iwr1yjsnItV90+UE5VsksD7vg2YqmE65phbqV1XxFop
+         EqfQoXnsO40ix2C+2Z+CQXNxYBGRNN4hoCrOZi40c5h93dUAWLjfVJ0jibg6VQe9CMbr
+         pGFiQ0paD8Ux+53BP/Aq6vGkKRoOMQ743WINZ/ndUz5Zra8Grgc4JyxGKOl9zhclET2y
+         29238zkCQHIQIJ/FC5/cYgMjAtKcQVI7TO+MZ/wrlEIeVdEWx8UZ9955yCv143W+YGYD
+         UOs8Z81oCefMibvas7pwcp45cDbm9iyneAgvJSDm29DqjJg/wT4KlkXGtE0g1Jj1gRdr
+         BdaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685134172; x=1687726172;
+        d=1e100.net; s=20221208; t=1685134622; x=1687726622;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=L2eJzpBFnXHIGc80MTi/wXk17yj9BqAfKVx85U8nI24=;
-        b=SgOmGYXaN/61xF2Gk/F48EOFc17SwS4rCfYWZCRaDjetQoFQ+DzXz/PsM3Vp4x2egh
-         zjz6KPRU/fP1pSk3JiI5b+aOSnDC3OqB7Ocn4zTN8bW5CmxMtPmPd8Rh7e/7eZrsaiur
-         wqwSAEOL9cPvVNahJKPMzEljs5xClLo4JKV12LexaAg+3GY9q1jHv4Xds2+RyFkfRr6P
-         BQQAUOtr8rw6IyFYRrV9BX8KyCbrsFzYzCQ6pl3HLqnel2xnFH6aA9SKNGQeXO9mFA7n
-         opU5AVhEwRCNU4jrcPRnhk17isg8j34z8dn0zOuBv/Ik2G4yv9+bZJ69jHn2xRm4WGgj
-         E7kg==
-X-Gm-Message-State: AC+VfDwpuhOtX2FsBWC+mufjPr3F6yMJOrioL/dSzC/fGlRXOTO1E+qQ
-        cfsOT+4ubKWW/4SJRz1KbulPUw==
-X-Google-Smtp-Source: ACHHUZ7HpQdsR4PfrxZLQju1m6nXXnr/3ZNsI3xxtIDXe1dbYwKuiV52E/s/I1Rh6nN23xuIImNJ8g==
-X-Received: by 2002:adf:f6d0:0:b0:305:fbfb:c7d7 with SMTP id y16-20020adff6d0000000b00305fbfbc7d7mr3029438wrp.44.1685134171682;
-        Fri, 26 May 2023 13:49:31 -0700 (PDT)
+        bh=Kevd9tgDOgwSftXhTE9dzSQzFuyzebjoDk0q9mVsTsM=;
+        b=OLLbVBh/0LIarXI1mdOh0N3MQH3w4h4k53Bia4Vy7fBRA0PT7+dvsyjbZ708n20msn
+         8AJI03yL3Bc5Q8qUuCqEpCXJy7NwGOimrTNO8cqlsqv3wzrhYaJophyqvcXovfHBfvj/
+         +UxEfHf955kYVqjlx61bH9n7ac0KJwh+C2aHaSUXEP2e9cxVk11GLGiYn1GSsqRVAk7b
+         XEoCxgSa++a3nXJuDUBGnRlZIMLYkInotujyRFUnkwWxKfcfxqVVfqX50rw3ky68iZFC
+         1QDnHt0oP8mtByPjtpLz52VliCKLhS9eY1nyBOjLdvGzbk5PurmSit53e9ECtAGx670q
+         XmTg==
+X-Gm-Message-State: AC+VfDzTwM8QRr/DDx1nGmky2V8vm8bqWeieWd2s76+J9RTs1rPncd0c
+        ZDcOtVP/6DRtBPwlvZRSwdw1Gg==
+X-Google-Smtp-Source: ACHHUZ6C0A0jH4aVSmj3MVzhbuO2WL9I5GXhgB8XXQaTo2ua9/gIcfIkWZCpxaX5A+5RfmSpS6AWag==
+X-Received: by 2002:a05:600c:d0:b0:3f6:7fb:b60e with SMTP id u16-20020a05600c00d000b003f607fbb60emr2075206wmm.35.1685134622380;
+        Fri, 26 May 2023 13:57:02 -0700 (PDT)
 Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id w8-20020a1cf608000000b003f18b942338sm6243004wmc.3.2023.05.26.13.49.30
+        by smtp.gmail.com with ESMTPSA id y12-20020a1c4b0c000000b003f4290720d0sm9721917wma.47.2023.05.26.13.57.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 May 2023 13:49:31 -0700 (PDT)
-Message-ID: <fa395680-0e6c-3eb0-9d5a-f90a95c394b8@linaro.org>
-Date:   Fri, 26 May 2023 21:49:30 +0100
+        Fri, 26 May 2023 13:57:01 -0700 (PDT)
+Message-ID: <7124bf0e-193b-46a1-ea88-23d7df3bffa5@linaro.org>
+Date:   Fri, 26 May 2023 21:57:00 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
@@ -60,6 +60,7 @@ Content-Language: en-US
 To:     Yassine Oudjana <yassine.oudjana@gmail.com>,
         Robert Foss <rfoss@kernel.org>,
         Todor Tomov <todor.too@gmail.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
         Andy Gross <agross@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
         Konrad Dybcio <konrad.dybcio@linaro.org>,
@@ -139,24 +140,18 @@ On 26/05/2023 19:07, Yassine Oudjana wrote:
 > +	/* Link CAMSS power domain if available */
 > +	camss_pd_index = device_property_match_string(camss->dev, "power-domain-names", "camss");
 > +	if (camss_pd_index >= 0)
-> +		device_link_add(camss->dev, camss->genpd[camss_pd_index], DL_FLAG_STATELESS |
-> +				DL_FLAG_PM_RUNTIME | DL_FLAG_RPM_ACTIVE);
-> +
-> +	if (i > camss->vfe_num && i != camss_pd_index) {
->   		camss->genpd_link[i - 1] = device_link_add(camss->dev, camss->genpd[i - 1],
->   							   DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME |
->   							   DL_FLAG_RPM_ACTIVE);
 
-Konrad pointed this out.
+Surely if you get this far you already know that
 
-Are you 100% sure you want to do this. We already have a way to count 
-the # of power-domains in camss_configure_pd().
+camss->genpd_num = of_count_phandle_with_args(dev->of_node,
+                                               "power-domains",
+                                               "#power-domain-cells");
+if (camss->genpd_num < 0) {
+         dev_err(dev, "Power domains are not defined for camss\n");
+         return camss->genpd_num;
+}
 
-Your series is now adding a dependency on power-domain-names.
-
-Is there a good reason to add that dependency ? If not, then lets just 
-take the code from camss_configure_pd() and make it so that it can be 
-used/reused here.
+So you don't need to add this additional dependency ?
 
 ---
 bod
