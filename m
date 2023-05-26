@@ -2,104 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE7F7712610
-	for <lists+linux-media@lfdr.de>; Fri, 26 May 2023 13:56:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9DDD71263C
+	for <lists+linux-media@lfdr.de>; Fri, 26 May 2023 14:05:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229610AbjEZL4C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 May 2023 07:56:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44136 "EHLO
+        id S243295AbjEZMFT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 May 2023 08:05:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231594AbjEZL4A (ORCPT
+        with ESMTP id S242864AbjEZMFN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 May 2023 07:56:00 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75D16128
-        for <linux-media@vger.kernel.org>; Fri, 26 May 2023 04:55:58 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-3f6dbe3c230so7123865e9.3
-        for <linux-media@vger.kernel.org>; Fri, 26 May 2023 04:55:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685102157; x=1687694157;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ygrgpiWsTFJqLcqFddrpkStGcUioVYvfzia0SZL/7J4=;
-        b=IOxhRWXNNwovz7D9wxK77JWd4gzPR5J8eTQVhvjbSJcwld62N++AJs5CanL/lBdLDZ
-         vHjz3FCtCotqkZWeLPc/GNHClyJJ1HFzKRknPzXCfPAGBQXQmkcotNRYxy68JXDbbdqb
-         OS940MzLCssiBmz8JTRVPdsv6PDxX5N7hglWSMTdT3h3KEhaZ55rgI/70nsdaJCufbVr
-         jl2CkbjchmmLWRTWhcSM3dpcderpaefJPcMU09DmSw+U25WvHFJ9XGwc3EbJK+SUCWU+
-         TICQQwnACt5uX8Ra83tDKvkQevvzJjUaHcbcsP7zbh3BQ+XFHEzY2XI8RMm5JkMkWK9j
-         uOwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685102157; x=1687694157;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ygrgpiWsTFJqLcqFddrpkStGcUioVYvfzia0SZL/7J4=;
-        b=lPujDSbRxcDZUpA7nWkBBNn51gprl52N9APqfWoK02/eD/wm5Y5ZusugTDzJbLjSGO
-         IngyV9H3vFjX0Ha69Sru/sATiS6MC0SoUkZ3OzMwFJjjVc92glgP+SWZF4uSfMPrxALu
-         nOnLQRpvqjNoqUHBegiUB8TzI0fAgE7kThfRP/iO2GRxoXU1rqh5ZC4DNyANYMSCPs15
-         beQY69g/U0fahlcnQj7UqtbeOfPAOpXPK8ulekbg1HrhBn3FIYJ79woXcRMk6fMyZxdh
-         3LySDkYitnTLn4hx9v+aYGQIrEdBeBvbc+Suv2cVz3RSs2WS8i2yoh1o4kRRJnYfE3nf
-         XFJg==
-X-Gm-Message-State: AC+VfDzjSbdz3kbpF0o7r+sR9JpU1Ut8i+ekJs97RKCc1GBnEFLwcIq0
-        iDeYYAqmvqlSWD2Ds7/y6aN4WVnaUm3E3UQQH90=
-X-Google-Smtp-Source: ACHHUZ5pzLbsMFYPXyl/+Umm4srC8421MzSJ42zwnh2NmIa9hic1piwvUp9zpoO3CrXagQuCGzwxGw==
-X-Received: by 2002:a05:600c:2042:b0:3f4:2e13:ccdc with SMTP id p2-20020a05600c204200b003f42e13ccdcmr1513920wmg.0.1685102156985;
-        Fri, 26 May 2023 04:55:56 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id v10-20020adfe28a000000b003063a1cdaf2sm4796842wri.48.2023.05.26.04.55.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 May 2023 04:55:55 -0700 (PDT)
-Date:   Fri, 26 May 2023 14:55:52 +0300
-From:   Dan Carpenter <dan.carpenter@linaro.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     linux-media@vger.kernel.org
-Subject: [bug report] media: atomisp: remove some trivial wrappers from
- compat css20
-Message-ID: <d89e5638-be36-477c-b589-fba23e225fa7@kili.mountain>
+        Fri, 26 May 2023 08:05:13 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8D66E4F;
+        Fri, 26 May 2023 05:05:01 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3D53B61527;
+        Fri, 26 May 2023 12:05:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F23CC433D2;
+        Fri, 26 May 2023 12:04:55 +0000 (UTC)
+Message-ID: <bdee7988-3551-4011-f93e-c4dd1e4ee76b@xs4all.nl>
+Date:   Fri, 26 May 2023 14:04:53 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [v10] media: mediatek: vcodec: support stateless AV1 decoder
+To:     Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Tomasz Figa <tfiga@google.com>
+Cc:     George Sun <george.sun@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Irui Wang <irui.wang@mediatek.com>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20230414083020.22219-1-xiaoyong.lu@mediatek.com>
+Content-Language: en-US
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20230414083020.22219-1-xiaoyong.lu@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Atomisp devs,
+On 14/04/2023 10:30, Xiaoyong Lu wrote:
+> Add mediatek av1 decoder linux driver which use the stateless API in
+> MT8195.
+> 
+> Signed-off-by: Xiaoyong Lu<xiaoyong.lu@mediatek.com>
+> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-This is a semi-automatic email about new static checker warnings.
+After rebasing on top of our media staging tree I get these compile errors:
 
-The patch 1a16d5453978: "media: atomisp: remove some trivial wrappers 
-from compat css20" from May 28, 2020, leads to the following Smatch 
-complaint:
+  CC [M]  drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.o
+drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: In function ‘vdec_av1_slice_lat_decode’:
+drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:2075:46: error: ‘struct mtk_vcodec_dev’ has no member named ‘msg_queue_core_ctx’
+ 2075 |                 vdec_msg_queue_qbuf(&ctx->dev->msg_queue_core_ctx, lat_buf);
+      |                                              ^~
+drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:2114:46: error: ‘struct mtk_vcodec_dev’ has no member named ‘msg_queue_core_ctx’
+ 2114 |                 vdec_msg_queue_qbuf(&ctx->dev->msg_queue_core_ctx, lat_buf);
+      |                                              ^~
 
-    drivers/staging/media/atomisp/pci/sh_css_firmware.c:247 sh_css_load_firmware()
-    warn: variable dereferenced before check 'fw_data' (see line 237)
+That's due to the patch "media: mediatek: vcodec: move core context from device
+to each instance" that has now been merged and that drops that queue.
 
-drivers/staging/media/atomisp/pci/sh_css_firmware.c
-   236			min(sizeof(FW_rel_ver_name), sizeof(file_header->version)));
-   237		ret = sh_css_check_firmware_version(dev, fw_data);
-                                                         ^^^^^^^
-Dereferenced.
+Can you rebase v10? This is now the only remaining blocked for the av1 series
+to be merged.
 
-   238		if (ret) {
-   239			IA_CSS_ERROR("CSS code version (%s) and firmware version (%s) mismatch!",
-   240				     file_header->version, release_version);
-   241			return -EINVAL;
-   242		} else {
-   243			IA_CSS_LOG("successfully load firmware version %s", release_version);
-   244		}
-   245	
-   246		/* some sanity checks */
-   247		if (!fw_data || fw_size < sizeof(struct sh_css_fw_bi_file_h))
-                     ^^^^^^^
-Too late.
+Regards,
 
-   248			return -EINVAL;
-   249	
-
-regards,
-dan carpenter
+	Hans
