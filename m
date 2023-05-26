@@ -2,313 +2,263 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D96B8712CA2
-	for <lists+linux-media@lfdr.de>; Fri, 26 May 2023 20:40:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8EFB712CF3
+	for <lists+linux-media@lfdr.de>; Fri, 26 May 2023 21:00:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243271AbjEZSkn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 May 2023 14:40:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49602 "EHLO
+        id S243688AbjEZTAP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 May 2023 15:00:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243408AbjEZSkh (ORCPT
+        with ESMTP id S237379AbjEZTAO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 May 2023 14:40:37 -0400
-Received: from smtp.smtpout.orange.fr (smtp-15.smtpout.orange.fr [80.12.242.15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED1CB10D2
-        for <linux-media@vger.kernel.org>; Fri, 26 May 2023 11:40:08 -0700 (PDT)
-Received: from [192.168.1.18] ([86.243.2.178])
-        by smtp.orange.fr with ESMTPA
-        id 2cLoqaT1Flhpt2cLoqbSL7; Fri, 26 May 2023 20:39:49 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-        s=t20230301; t=1685126389;
-        bh=TKNTKEUqbXyYA3X3GQmzl5PGmEb8NbeBHIgFAeXj1qU=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=SHBP2voazNgw1eWsgphdh9A1sEa/c1Li99l30L9gEv8HOw6qAqGmhIXiNw2SgTcD+
-         eE7Tycm//oqvvh9Dzit1Q+th9nmN+ROT5hWiClT3di/4g/I3uwqsyjcKY2tVQcNwP7
-         IvM9n+Bbfo0PNgjytPGu2Qa2PK3F0j6GyDMAH+wnA3j90Ay/9HF67nLRwGpe3dKDsu
-         6T/HnbLLUUkbhepbS//IZkNTrCE0MNUwW+DYfihFHISZd025wqfExk7guc5UrXb6uA
-         yMMsmqmxqzS2a2ghCpOBz7mgDxtD7UfpC/+30O5t+G37BdqZSYW5VWXd0iC4KArLHN
-         A5F22OhkHXQzQ==
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Fri, 26 May 2023 20:39:49 +0200
-X-ME-IP: 86.243.2.178
-Message-ID: <8563d09d-fa63-43e3-98a9-8008d53034aa@wanadoo.fr>
-Date:   Fri, 26 May 2023 20:39:44 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 2/2] media: i2c: Add support for alvium camera
+        Fri, 26 May 2023 15:00:14 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23BBB135;
+        Fri, 26 May 2023 12:00:13 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id AC44165298;
+        Fri, 26 May 2023 19:00:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3023C433D2;
+        Fri, 26 May 2023 19:00:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1685127612;
+        bh=RkwvzJ0I6kTJGMP25NGk1LAgsWO2YC303rMSAEU3yUM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=rt4ONT9rfEwI+/VW3IFngphHioqiGFUeP0nzpC1oIfLQKKFFwZ38RmJb71ctES2ll
+         RXIZyfzkSnJmvpEgjjhZmuX8BEgqTu9TMBsuXtUOWVlF5STuOIWxVFdwS9lQGeX1ho
+         x77jskuQKzN8r0Tbxg8WEKssFp78G+8eJqaWc033XaQ+n2XNzEdhIi9cpGz4KT7d/k
+         uiIP+dWiFwPCMYRGJtsSOE8XjCJvCqwyxmtuERKVLTo5eNb0GiraJoXPHbGS6AXPco
+         Y5veEEQRWRnz9B6Kwe01Taj4Wc61aKinY2j4FoItoxYOlY45+ay9AgS5QtOTB5Hpoq
+         lfrTB+sLQNPEQ==
+Date:   Fri, 26 May 2023 20:00:05 +0100
+From:   Conor Dooley <conor@kernel.org>
 To:     Tommaso Merciai <tomm.merciai@gmail.com>
 Cc:     jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com,
         martin.hecht@avnet.eu, linuxfancy@googlegroups.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Hans Verkuil <hverkuil@xs4all.nl>,
         Marco Felsch <m.felsch@pengutronix.de>,
         Gerald Loacker <gerald.loacker@wolfvision.net>,
-        Nicholas Roth <nicholas@rothemail.net>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
         Shawn Tu <shawnx.tu@intel.com>,
         Linus Walleij <linus.walleij@linaro.org>,
         Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+        Mikhail Rudenko <mike.rudenko@gmail.com>,
+        Nicholas Roth <nicholas@rothemail.net>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] media: dt-bindings: alvium: add document YAML
+ binding
+Message-ID: <20230526-mural-expletive-76b9dd5db83b@spud>
 References: <20230526173955.797226-1-tomm.merciai@gmail.com>
- <20230526173955.797226-3-tomm.merciai@gmail.com>
-Content-Language: fr
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20230526173955.797226-3-tomm.merciai@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+ <20230526173955.797226-2-tomm.merciai@gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="O/CWvvC3u6tlMiiB"
+Content-Disposition: inline
+In-Reply-To: <20230526173955.797226-2-tomm.merciai@gmail.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le 26/05/2023 à 19:39, Tommaso Merciai a écrit :
-> The Alvium camera is shipped with sensor + isp in the same housing.
-> The camera can be equipped with one out of various sensor and abstract
-> the user from this. Camera is connected via MIPI CSI-2.
-> 
-> Most of the sensor's features are supported, with the main exception
-> being fw update.
-> 
-> The driver provides all mandatory, optional and recommended V4L2 controls
-> for maximum compatibility with libcamera
-> 
+
+--O/CWvvC3u6tlMiiB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hey Tommaso,
+
+On Fri, May 26, 2023 at 07:39:43PM +0200, Tommaso Merciai wrote:
+> Add documentation of device tree in YAML schema for the ALVIUM
+> Camera from Allied Vision Inc.
+>=20
 > References:
->   - https://www.alliedvision.com/en/products/embedded-vision-solutions
-> 
+>  - https://www.alliedvision.com/en/products/embedded-vision-solutions
+>=20
 > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
 > ---
+> Changes since v1:
+>  - Fixed build error as suggested by RHerring bot
+>=20
+>  .../media/i2c/alliedvision,alvium.yaml        | 115 ++++++++++++++++++
+>  1 file changed, 115 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/alliedvis=
+ion,alvium.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/media/i2c/alliedvision,alv=
+ium.yaml b/Documentation/devicetree/bindings/media/i2c/alliedvision,alvium.=
+yaml
+> new file mode 100644
+> index 000000000000..81e9e560c99d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/alliedvision,alvium.yaml
+> @@ -0,0 +1,115 @@
+> +# SPDX-License-Identifier: GPL-2.0
 
-Hi,
+No dual license?
 
-a few nit below, should it help.
-
-
-> +static int alvium_setup_mipi_fmt(struct alvium_dev *alvium)
-> +{
-> +	int sz = 0;
-> +	int fmt = 0;
-
-No need to init.
-If the loop index was just 'i', the code below would be slighly less 
-verbose.
-
-> +	int avail_fmt_cnt = 0;
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/alliedvision,alvium.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +	alvium->alvium_csi2_fmt = NULL;
+> +title: Alliedvision Alvium Camera
 > +
-> +	/* calculate fmt array size */
-> +	for (fmt = 0; fmt < ALVIUM_NUM_SUPP_MIPI_DATA_FMT; fmt++) {
-> +		if (alvium->is_mipi_fmt_avail[alvium_csi2_fmts[fmt].fmt_av_bit]) {
-> +			if (!alvium_csi2_fmts[fmt].is_raw) {
-> +				sz++;
-> +			} else if (alvium_csi2_fmts[fmt].is_raw &&
-> +			      alvium->is_bay_avail[alvium_csi2_fmts[fmt].bay_av_bit]) {
-
-It is makes sense, this if/else looks equivalent to:
-
-			if (!alvium_csi2_fmts[fmt].is_raw ||
-			    alvium->is_bay_avail[alvium_csi2_fmts[fmt].bay_av_bit]) {
-				sz++;
-
-The same simplification could also be applied in the for loop below.
-
-> +				sz++;
-> +			}
-> +		}
-> +	}
+> +maintainers:
+> +  - Tommaso Merciai <tomm.merciai@gmail.com>
+> +  - Martin Hecht <martin.hecht@avnet.eu>
 > +
-> +	/* init alvium_csi2_fmt array */
-> +	alvium->alvium_csi2_fmt_n = sz;
-> +	alvium->alvium_csi2_fmt = kmalloc((
-> +						     sizeof(struct alvium_pixfmt) * sz),
-> +						     GFP_KERNEL);
+> +allOf:
+> +  - $ref: /schemas/media/video-interface-devices.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: alliedvision,alvium
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    description: XCLK Input Clock
 
-kmalloc_array()?
-Also some unneeded ( and )
+Description is a bit moot when you have the clock name and there's only
+one. No harm done I suppose.
 
 > +
-> +	/* Create the alvium_csi2 fmt array from formats available */
-> +	for (fmt = 0; fmt < ALVIUM_NUM_SUPP_MIPI_DATA_FMT; fmt++) {
-> +		if (alvium->is_mipi_fmt_avail[alvium_csi2_fmts[fmt].fmt_av_bit]) {
-> +			if (!alvium_csi2_fmts[fmt].is_raw) {
-> +				alvium->alvium_csi2_fmt[avail_fmt_cnt] =
-> +					alvium_csi2_fmts[fmt];
-> +				avail_fmt_cnt++;
-> +			} else if (alvium_csi2_fmts[fmt].is_raw &&
-> +			      alvium->is_bay_avail[alvium_csi2_fmts[fmt].bay_av_bit]) {
-> +				alvium->alvium_csi2_fmt[avail_fmt_cnt] =
-> +					alvium_csi2_fmts[fmt];
-> +				avail_fmt_cnt++;
-> +			}
-> +		}
-> +	}
+> +  clock-names:
+> +    const: xclk
 > +
-> +	return 0;
-> +}
+> +  powerdown-gpios:
+> +    maxItems: 1
+> +    description: >
 
-[...]
+You don't have any newlines, so you don't need a >
 
-> +struct alvium_mode {
-> +	struct v4l2_rect crop;
-> +	struct v4l2_mbus_framefmt fmt;
-> +	u32 width;
-> +	u32 height;
+> +      Reference to the GPIO connected to the powerdown pin, if any.
 > +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description: >
+> +      Reference to the GPIO connected to the reset pin, if any.
+> +
+> +  streamon-delay:
+> +    maxItems: 1
+> +    description: >
+> +      Delay before camera start capturing frames in us.
+> +
+> +  rotation:
+> +    enum:
+> +      - 0
+> +      - 180
 
-Useless NL.
+Could style this as enum: [0, 180], but I don't mind which you do.
 
-> +};
+> +  port:
+> +    description: Digital Output Port
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    additionalProperties: false
 > +
-> +struct alvium_pixfmt {
-> +	u8 id;
-> +	u32 code;
-> +	u32 colorspace;
-> +	u8 fmt_av_bit;
-> +	u8 bay_av_bit;
-> +	u64 mipi_fmt_regval;
-> +	u64 bay_fmt_regval;
-> +	u8 is_raw;
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          clock-lanes:
+> +            const: 0
+> +          data-lanes:
+> +            minItems: 1
+> +            maxItems: 4
+> +          link-frequencies: true
+> +
+> +        required:
+> +          - data-lanes
+> +          - link-frequencies
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +      #include <dt-bindings/gpio/gpio.h>
+> +      #include <dt-bindings/clock/imx8mp-clock.h>
+> +
+> +      i2c {
+> +          #address-cells =3D <1>;
+> +          #size-cells =3D <0>;
+> +
+> +          camera: alvium@3c {
 
-If moved a few lines above, there would be less holes in the struct.
+Label does not seem to be used & the generic node name should probably
+be "camera", no?
 
-> +};
+> +              compatible =3D "alliedvision,alvium";
+> +              pinctrl-names =3D "default";
+> +              pinctrl-0 =3D <&pinctrl_csi0_pwn>, <&pinctrl_csi0_rst>, <&=
+pinctrl_csi_mclk>;
+> +              reg =3D <0x3c>;
+> +              clocks =3D <&clk IMX8MP_CLK_IPP_DO_CLKO2>;
+> +              clock-names =3D "xclk";
+> +              assigned-clocks =3D <&clk IMX8MP_CLK_IPP_DO_CLKO2>;
+> +              assigned-clock-parents =3D <&clk IMX8MP_CLK_24M>;
+> +              assigned-clock-rates =3D <24000000>;
+> +              streamon-delay =3D <20>;
+> +              powerdown-gpios =3D <&gpio2 11 GPIO_ACTIVE_HIGH>;
+> +              reset-gpios =3D <&gpio1 6 GPIO_ACTIVE_LOW>;
+> +              status =3D "okay";
 > +
+> +              port {
+> +                  alvium_out: endpoint {
 
-[...]
+Ditto here, drop the unused label?
 
-> +struct alvium_dev {
-> +	struct i2c_client *i2c_client;
-> +	struct v4l2_subdev sd;
-> +	struct v4l2_fwnode_endpoint ep;
-> +	struct media_pad pad;
-> +
-> +	struct mutex lock;
-> +
-> +	struct gpio_desc *reset_gpio;
-> +	struct gpio_desc *pwdn_gpio;
-> +
-> +	u16 bcrm_addr;
-> +	alvium_bcrm_vers_t bcrm_v;
-> +	alvium_fw_vers_t fw_v;
-> +
-> +	alvium_avail_feat_t avail_ft;
-> +	u8 is_mipi_fmt_avail[ALVIUM_NUM_SUPP_MIPI_DATA_BIT];
-> +	u8 is_bay_avail[ALVIUM_NUM_BAY_AV_BIT];
-> +
-> +	u32 min_csi_clk;
-> +	u32 max_csi_clk;
-> +	u32 img_min_width;
-> +	u32 img_max_width;
-> +	u32 img_inc_width;
-> +	u32 img_min_height;
-> +	u32 img_max_height;
-> +	u32 img_inc_height;
-> +	u32 min_offx;
-> +	u32 max_offx;
-> +	u32 inc_offx;
-> +	u32 min_offy;
-> +	u32 max_offy;
-> +	u32 inc_offy;
-> +	u64 min_gain;
-> +	u64 max_gain;
-> +	u64 inc_gain;
-> +	u64 min_exp;
-> +	u64 max_exp;
-> +	u64 inc_exp;
-> +	u64 min_rbalance;
-> +	u64 max_rbalance;
-> +	u64 inc_rbalance;
-> +	u64 min_bbalance;
-> +	u64 max_bbalance;
-> +	u64 inc_bbalance;
-> +	s32 min_hue;
-> +	s32 max_hue;
-> +	s32 inc_hue;
-> +	u32 min_contrast;
-> +	u32 max_contrast;
-> +	u32 inc_contrast;
-> +	u32 min_sat;
-> +	u32 max_sat;
-> +	u32 inc_sat;
-> +	s32 min_black_lvl;
-> +	s32 max_black_lvl;
-> +	s32 inc_black_lvl;
-> +	u64 min_gamma;
-> +	u64 max_gamma;
-> +	u64 inc_gamma;
-> +	s32 min_sharp;
-> +	s32 max_sharp;
-> +	s32 inc_sharp;
-> +
-> +	u32 streamon_delay;
-> +
-> +	struct alvium_mode mode;
-> +	struct v4l2_fract frame_interval;
-> +	u64 min_fr;
-> +	u64 max_fr;
-> +	u64 fr;
-> +
-> +	u8 h_sup_csi_lanes;
-> +	struct clk *xclk;
-> +	u32 xclk_freq;
-> +	u32 csi_clk;
-> +	u64 link_freq;
-> +
-> +	struct alvium_ctrls ctrls;
-> +
-> +	u8 bcrm_mode;
-> +	u8 hshake_bit;
+Otherwise, looks grand to me.
 
-What is the need of keeping this value in the struct?
-Its usage seems to be only local to some function (read from HW, then used)
+Cheers,
+Conor.
 
-Should it be kept, does it make sense to have it a u8:1 and maybe some 
-!! in the code, to pack it with the bitfield just a few lines below.
+> +                      remote-endpoint =3D <&mipi_csi_0_in>;
+> +                      data-lanes =3D <1 2 3 4>;
+> +                      link-frequencies =3D /bits/ 64 <681250000>;
+> +                      clock-lanes =3D <0>;
+> +                  };
+> +              };
+> +          };
+> +      };
+> +
+> +...
+> --=20
+> 2.34.1
+>=20
 
+--O/CWvvC3u6tlMiiB
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> +
-> +	struct alvium_pixfmt *alvium_csi2_fmt;
-> +	u8 alvium_csi2_fmt_n;
-> +	struct v4l2_mbus_framefmt fmt;
-> +
-> +	u8 streaming:1;
-> +	u8 apply_fiv:1;
-> +
-> +	bool upside_down;
+-----BEGIN PGP SIGNATURE-----
 
-This looks only written. Is it useles or here for future use?
-Can these fields be all u8:1, or bool:1 ?
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZHEBtQAKCRB4tDGHoIJi
+0p0aAQD8rDkDEpqAiwoTDiEV5PZe1qUVNRoUGUKnrRa2Jj7yCwD+LnwGBEJ6AD/P
+UEZv+0h842TCtVATqCm4Cj9pPw/GtAg=
+=0OYh
+-----END PGP SIGNATURE-----
 
-CJ
-
-> +};
-> +
-> +static inline struct alvium_dev *sd_to_alvium(struct v4l2_subdev *sd)
-> +{
-> +	return container_of(sd, struct alvium_dev, sd);
-> +}
-> +
-> +static inline struct alvium_dev *i2c_to_alvium(struct i2c_client *client)
-> +{
-> +	return sd_to_alvium(i2c_get_clientdata(client));
-> +}
-> +
-> +static inline bool alvium_is_csi2(const struct alvium_dev *alvium)
-> +{
-> +	return alvium->ep.bus_type == V4L2_MBUS_CSI2_DPHY;
-> +}
-> +
-> +static inline struct v4l2_subdev *ctrl_to_sd(struct v4l2_ctrl *ctrl)
-> +{
-> +	return &container_of(ctrl->handler, struct alvium_dev,
-> +					  ctrls.handler)->sd;
-> +}
-> +#endif /* ALVIUM_H_ */
-
+--O/CWvvC3u6tlMiiB--
