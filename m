@@ -2,99 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B9DDD71263C
-	for <lists+linux-media@lfdr.de>; Fri, 26 May 2023 14:05:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D935971332E
+	for <lists+linux-media@lfdr.de>; Sat, 27 May 2023 09:55:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243295AbjEZMFT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 May 2023 08:05:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48176 "EHLO
+        id S231975AbjE0Hyr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 27 May 2023 03:54:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242864AbjEZMFN (ORCPT
+        with ESMTP id S230133AbjE0Hyp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 May 2023 08:05:13 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8D66E4F;
-        Fri, 26 May 2023 05:05:01 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3D53B61527;
-        Fri, 26 May 2023 12:05:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F23CC433D2;
-        Fri, 26 May 2023 12:04:55 +0000 (UTC)
-Message-ID: <bdee7988-3551-4011-f93e-c4dd1e4ee76b@xs4all.nl>
-Date:   Fri, 26 May 2023 14:04:53 +0200
+        Sat, 27 May 2023 03:54:45 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73ADDBB;
+        Sat, 27 May 2023 00:54:44 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-64f1f133c37so343487b3a.0;
+        Sat, 27 May 2023 00:54:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685174084; x=1687766084;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ps1IF/L3y0LuIXv1kuyXMXVV1V92IKkA4nkdR1TZzsU=;
+        b=J1k3fPaQZMPaMfdKrnm1zm7gzhHU3qdmAEgC4wn/zWlP5HZ6JqC5OlOYRpBy+aPcQg
+         yUhoygdEbaP/d6l50zsX+P2x/nCpG+WCQ3vo2jEYDG6kXl3wiY3GZCZeW+KK7JfJUpXb
+         vglxbKZsZSapWDZ6FUSrA82OzrEKw49uNha6r3OrW2h+wK+WUgqPh8mybzRX0ER05svx
+         YYA6tu4labf09OfctbtGzSUoFMvh+n05rb5TndVmhR89vfRWC7USJ3BZBiHfKfvK5I6A
+         uDJ1Kg6CpMzxNxSyjL2LyjV+88Akn+4O1hOLrEvQDDmCoLXemg9Gg6AS8g50KFwbTkEl
+         6+Iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685174084; x=1687766084;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ps1IF/L3y0LuIXv1kuyXMXVV1V92IKkA4nkdR1TZzsU=;
+        b=MdtLaB7Exo9P2dk5ePZu+ThbHhs0/u5nPxdYjtyWJ+Btl9CQOsPmTZ6x0Nr6gBAIAu
+         sQAsOI21RtiCtVjWXlDjm0eNkI6lk88lCjk8qMHHiR6Sg+SQRi6BUQ62OSFuMUef7TBc
+         AoZdSDoTHuQqenT0NM4xIwzU+pSWojfjWYh3inN+36sdDVfTERVKKkCxgpsQLF3xRKcg
+         m24lQsWUzQnFe5uz4ra8gxV+Rt2G8u3EEwOE/70QCAtgSrH+L6MYMMvqzx56Gzc7zlfM
+         OxKMPnYS56Fgia9Dq4kbThK4KZbXW39tUh7eTldM1WcB+n+Mhde3hGhqiH8nH3CgUkOM
+         GKyw==
+X-Gm-Message-State: AC+VfDxoLp5zjGxMeY+qXF7gaG4UyH2ALrr0ekzTpFDb/mahK055WP8C
+        fhaBI15Wc5q931vaucjb++I=
+X-Google-Smtp-Source: ACHHUZ5Wl/x2AX2Bqkt5RQGo8lzJHVe2CTWpN35HVupnCmsS+crSB8FjThb8CWMDAlUiyAzTHgUY6Q==
+X-Received: by 2002:a05:6a00:349b:b0:64d:41f1:7c87 with SMTP id cp27-20020a056a00349b00b0064d41f17c87mr5793226pfb.2.1685174083809;
+        Sat, 27 May 2023 00:54:43 -0700 (PDT)
+Received: from ubuntu.localdomain ([103.114.158.1])
+        by smtp.gmail.com with ESMTPSA id v7-20020a63d547000000b0053f22b76cdcsm3770567pgi.82.2023.05.27.00.54.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 May 2023 00:54:43 -0700 (PDT)
+From:   Min Li <lm0963hack@gmail.com>
+To:     alexander.deucher@amd.com
+Cc:     christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+        daniel@ffwll.ch, sumit.semwal@linaro.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: [PATCH] drm/radeon: fix race condition UAF in radeon_gem_set_domain_ioctl
+Date:   Fri, 26 May 2023 20:37:53 +0800
+Message-Id: <20230526123753.16160-1-lm0963hack@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [v10] media: mediatek: vcodec: support stateless AV1 decoder
-To:     Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-Cc:     George Sun <george.sun@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Irui Wang <irui.wang@mediatek.com>,
-        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-References: <20230414083020.22219-1-xiaoyong.lu@mediatek.com>
-Content-Language: en-US
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230414083020.22219-1-xiaoyong.lu@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DATE_IN_PAST_12_24,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 14/04/2023 10:30, Xiaoyong Lu wrote:
-> Add mediatek av1 decoder linux driver which use the stateless API in
-> MT8195.
-> 
-> Signed-off-by: Xiaoyong Lu<xiaoyong.lu@mediatek.com>
-> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Userspace can race to free the gobj(robj converted from), robj should not
+be accessed again after drm_gem_object_put, otherwith it will result in
+use-after-free.
 
-After rebasing on top of our media staging tree I get these compile errors:
+Signed-off-by: Min Li <lm0963hack@gmail.com>
+---
+ drivers/gpu/drm/radeon/radeon_gem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  CC [M]  drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.o
-drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: In function ‘vdec_av1_slice_lat_decode’:
-drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:2075:46: error: ‘struct mtk_vcodec_dev’ has no member named ‘msg_queue_core_ctx’
- 2075 |                 vdec_msg_queue_qbuf(&ctx->dev->msg_queue_core_ctx, lat_buf);
-      |                                              ^~
-drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:2114:46: error: ‘struct mtk_vcodec_dev’ has no member named ‘msg_queue_core_ctx’
- 2114 |                 vdec_msg_queue_qbuf(&ctx->dev->msg_queue_core_ctx, lat_buf);
-      |                                              ^~
+diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
+index bdc5af23f005..450c7cbdd28a 100644
+--- a/drivers/gpu/drm/radeon/radeon_gem.c
++++ b/drivers/gpu/drm/radeon/radeon_gem.c
+@@ -478,7 +478,7 @@ int radeon_gem_set_domain_ioctl(struct drm_device *dev, void *data,
+ 
+ 	drm_gem_object_put(gobj);
+ 	up_read(&rdev->exclusive_lock);
+-	r = radeon_gem_handle_lockup(robj->rdev, r);
++	r = radeon_gem_handle_lockup(rdev, r);
+ 	return r;
+ }
+ 
+-- 
+2.34.1
 
-That's due to the patch "media: mediatek: vcodec: move core context from device
-to each instance" that has now been merged and that drops that queue.
-
-Can you rebase v10? This is now the only remaining blocked for the av1 series
-to be merged.
-
-Regards,
-
-	Hans
