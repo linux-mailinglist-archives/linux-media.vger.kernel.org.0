@@ -2,63 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BDEAA712428
-	for <lists+linux-media@lfdr.de>; Fri, 26 May 2023 12:01:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D9F3712430
+	for <lists+linux-media@lfdr.de>; Fri, 26 May 2023 12:06:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242905AbjEZKBu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 May 2023 06:01:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54256 "EHLO
+        id S230121AbjEZKGh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 May 2023 06:06:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230242AbjEZKBl (ORCPT
+        with ESMTP id S229956AbjEZKGg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 May 2023 06:01:41 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1E34F3
-        for <linux-media@vger.kernel.org>; Fri, 26 May 2023 03:01:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685095299; x=1716631299;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5aMxTzsS65NG5p9wG1pC6DJG9JlassTQNwe3OTeSdS8=;
-  b=Gxj4Th/eUNUJfU1bucf7EpPoPJFNepjPwdZLDX05I/oTfjv+cAEiRQIS
-   yjrhtzeI82v/JELyD/Wpqynxh2np41vuu37ceU2snaQ+0ZYJpk0wcmbAR
-   OVKFCAfkZGXTHTaN9cxZz+dR7+Gd2eklcscuz8dbBz6o+m7+Vbsd3VVQ0
-   JPQ1akrh4F7aSxjo97c0Y9pNgQLLcxmttWBRlj0bxj8AW7v61migFCymj
-   89JcEDtmQutmn80HhaolsqKMmaZ+hHvhqPqOYBA9V02/lmxCjKpW5pzU6
-   I6i559OwIFqRtuXbFruiHDOQNrsmRiLpkxQr/x+v+pIX+6PFDKipqzJ2O
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="417651168"
-X-IronPort-AV: E=Sophos;i="6.00,193,1681196400"; 
-   d="scan'208";a="417651168"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 03:01:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="655583134"
-X-IronPort-AV: E=Sophos;i="6.00,193,1681196400"; 
-   d="scan'208";a="655583134"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 03:01:37 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id C7CC91202A8;
-        Fri, 26 May 2023 13:01:34 +0300 (EEST)
-Date:   Fri, 26 May 2023 10:01:34 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     bingbu.cao@intel.com
-Cc:     linux-media@vger.kernel.org, arec.kao@intel.com, hao.yao@intel.com,
-        bingbu.cao@linux.intel.com
-Subject: Re: [PATCH 3/4] media: ov13b10: add PM control support based on
- power resources
-Message-ID: <ZHCDfuO4Dsha5kzI@kekkonen.localdomain>
-References: <20230526095839.2443058-1-bingbu.cao@intel.com>
- <20230526095839.2443058-3-bingbu.cao@intel.com>
+        Fri, 26 May 2023 06:06:36 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 647119E
+        for <linux-media@vger.kernel.org>; Fri, 26 May 2023 03:06:35 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E8AF064ED9
+        for <linux-media@vger.kernel.org>; Fri, 26 May 2023 10:06:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4A35C433EF;
+        Fri, 26 May 2023 10:06:33 +0000 (UTC)
+Message-ID: <a1e0324d-9409-52e4-96e7-577e8e987aa5@xs4all.nl>
+Date:   Fri, 26 May 2023 12:06:31 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230526095839.2443058-3-bingbu.cao@intel.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v2 13/13] media: bttv: convert to vb2
+Content-Language: en-US
+To:     Deborah Brouwer <deborah.brouwer@collabora.com>
+Cc:     linux-media@vger.kernel.org
+References: <cover.1682995256.git.deborah.brouwer@collabora.com>
+ <b9c14229f95f8100a2fb17f4991163b513ad8691.1682995256.git.deborah.brouwer@collabora.com>
+ <3286f56e-012b-44bd-b3dd-9b91a24d1a8c@xs4all.nl> <ZGJAa/0Y1u9gAuoV@db550>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <ZGJAa/0Y1u9gAuoV@db550>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,215 +48,117 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bingbu,
+Hi Deb,
 
-Thanks for the patch.
-
-On Fri, May 26, 2023 at 05:58:39PM +0800, bingbu.cao@intel.com wrote:
-> From: Bingbu Cao <bingbu.cao@intel.com>
+On 15/05/2023 16:59, Deborah Brouwer wrote:
+> On Thu, May 11, 2023 at 05:29:14PM +0200, Hans Verkuil wrote:
+>> Hi Deb,
+>>
+>> When testing this I was wondering why the sequence counter didn't detect dropped
+>> frames (which happens when you start/stop a vbi stream while streaming video).
+>>
+>> On 02/05/2023 05:27, Deborah Brouwer wrote:
+>>> -static void bttv_field_count(struct bttv *btv)
+>>> -{
+>>> -	int need_count = 0;
+>>> -
+>>> -	if (btv->users)
+>>> -		need_count++;
+>>> -
+>>> -	if (need_count) {
+>>> -		/* start field counter */
+>>> -		btor(BT848_INT_VSYNC,BT848_INT_MASK);
+>>> -	} else {
+>>> -		/* stop field counter */
+>>> -		btand(~BT848_INT_VSYNC,BT848_INT_MASK);
+>>> -		btv->field_count = 0;
+>>> -	}
+>>> -}
+>>
+>> This is the root cause: this function is used to turn on VSYNC interrupts
+>> and in the interrupt handler the field_count is incremented.
+>>
+>> In the vb1 version of this driver this field_count is passed on to vb1, which
+>> uses it to set the sequence counter to field_count / 2.
+>>
+>> By removing this function the VSYNC irq is never enabled and so field_count is
+>> always 0. So I think in bttv the seqnr field should be dropped and the field_count
+>> mechanism re-instated.
+>>
+>> Comparing the number of dropped frames when starting/stopping vbi it looks like
+>> in both cases (vb1 and vb2) one frame is dropped when starting vbi. But when
+>> stopping vbi no frames are dropped in the vb1 case, but 3 in the vb2 case.
 > 
-> On ACPI based platforms, the ov13b10 camera sensor need to be powered
-> up by acquire the PM resource from INT3472. On such platform, 1 GPIO
-> can be used to enable AVDD and DOVDD, 1 GPIO to reset, we just have
-> one power supply 'vdd' for camera. Add 2 power interfaces and also
-> registered as runtime PM callbacks to support that.
+> Ok, I used btv->field_count >> 1 to set the sequence numbers and I added VSYNC to
+> the interrupt mask when start_streaming() is called. I can see the dropped video frames
+> in v4l2-ctl when vbi starts and stops (or vice versa), but I am not sure if this means
+> that we are actually dropping any valid, captured pixels.
 > 
-> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-> Signed-off-by: Hao Yao <hao.yao@intel.com>
-> ---
->  drivers/media/i2c/ov13b10.c | 98 ++++++++++++++++++++++++++++++++++++-
->  1 file changed, 96 insertions(+), 2 deletions(-)
+> The internal FIELD change signal (even/odd) that is picked up by VSYNC seems to run
+> independently from capturing. For example, out of curiosity, I added VSYNC to the
+> interrupt mask at probe, and it starts to increment field_count (and so the sequence
+> numbers) immediately and continuously even though capture isn't enabled.
+
+How exactly it is triggered, I'm not sure myself (I never dug deep enough into the
+technical details), but remember that this is analog video, and it behaves quite
+differently from modern video interfaces. Just think of the way old TVs worked: even
+though there is no valid signal, you still get a picture (snow).
+
+> So I am wondering if field_count is a totally reliable way to assign sequence numbers
+> to the buffers. For example, using field_count, the buffer sequence numbers start with
+> 3 instead of 0 in both vb1 and vb2 (sometimes it starts at 2 in vb2).
+> Maybe the reason for this is that the field signal (even/odd) continues to be sent while
+> the captured pixels are being input into the chip's FIFO buffer. The FIFO buffer is
+> preparing the pixels for output by adding the timing/control
+> information but hasn't yet made them available to be picked up by the DMA controller for
+> output to memory. So, there is a disconnect, when streaming starts, between field_count
+> (which keeps incrementing) and the actual availability of pixels.
 > 
-> diff --git a/drivers/media/i2c/ov13b10.c b/drivers/media/i2c/ov13b10.c
-> index 2d48c94659a4..b1faa89a3571 100644
-> --- a/drivers/media/i2c/ov13b10.c
-> +++ b/drivers/media/i2c/ov13b10.c
-> @@ -2,6 +2,9 @@
->  // Copyright (c) 2021 Intel Corporation.
->  
->  #include <linux/acpi.h>
-> +#include <linux/clk.h>
-> +#include <linux/delay.h>
-> +#include <linux/gpio/consumer.h>
->  #include <linux/i2c.h>
->  #include <linux/module.h>
->  #include <linux/pm_runtime.h>
-> @@ -573,6 +576,11 @@ struct ov13b10 {
->  	struct media_pad pad;
->  
->  	struct v4l2_ctrl_handler ctrl_handler;
-> +
-> +	struct clk *img_clk;
-> +	struct regulator *vdd;
-> +	struct gpio_desc *reset;
-> +
->  	/* V4L2 Controls */
->  	struct v4l2_ctrl *link_freq;
->  	struct v4l2_ctrl *pixel_rate;
-> @@ -1051,6 +1059,50 @@ static int ov13b10_identify_module(struct ov13b10 *ov13b)
->  	return 0;
->  }
->  
-> +static int ov13b10_power_off(struct device *dev)
-> +{
-> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> +	struct ov13b10 *ov13b10 = to_ov13b10(sd);
-> +
-> +	if (!ov13b10->vdd || !ov13b10->reset || !ov13b10->img_clk)
-> +		return 0;
+> Maybe there is a similar disconnect happening when vbi starts or stops. Instead of actually
+> dropping pixels what we really have is just a delay in the RISC program that has to cycle
+> through its instructions. vb2 has made this a bit worse when streaming stops because we wait
+> for all the buffers to finish. I will investigate more if there is an easy way to fix this in vb2
+> without changing the RISC program.
 
-This can be dropped.
+You can clearly see based on the timestamps that bttv really drops frames. That
+corresponds with the field count that's based on the VSYNC.
 
-> +
-> +	gpiod_set_value_cansleep(ov13b10->reset, 1);
-> +	regulator_disable(ov13b10->vdd);
-> +	clk_disable_unprepare(ov13b10->img_clk);
-> +
-> +	return 0;
-> +}
-> +
-> +static int ov13b10_power_on(struct device *dev)
-> +{
-> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> +	struct ov13b10 *ov13b10 = to_ov13b10(sd);
-> +	int ret;
-> +
-> +	if (!ov13b10->vdd || !ov13b10->reset || !ov13b10->img_clk)
-> +		return 0;
+An alternative to using the VSYNC would be to just use the timestamps and detect
+if frames have been dropped.
 
-Instead I'd execute the sleep below if any of these is non-NULL. No need
-to return here.
-
-> +
-> +	ret = clk_prepare_enable(ov13b10->img_clk);
-> +	if (ret < 0) {
-> +		dev_err(dev, "failed to enable imaging clock: %d", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = regulator_enable(ov13b10->vdd);
-> +	if (ret < 0) {
-> +		dev_err(dev, "failed to enable vdd: %d", ret);
-> +		return ret;
-> +	}
-> +
-> +	gpiod_set_value_cansleep(ov13b10->reset, 0);
-> +
-> +	/* 5ms to wait ready after XSHUTDN assert */
-> +	usleep_range(5000, 5500);
-> +
-> +	return 0;
-> +}
-> +
->  static int ov13b10_start_streaming(struct ov13b10 *ov13b)
->  {
->  	struct i2c_client *client = v4l2_get_subdevdata(&ov13b->sd);
-> @@ -1317,6 +1369,37 @@ static void ov13b10_free_controls(struct ov13b10 *ov13b)
->  	mutex_destroy(&ov13b->mutex);
->  }
->  
-> +static void ov13b10_get_pm_resources(struct device *dev)
-> +{
-> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-> +	struct ov13b10 *ov13b = to_ov13b10(sd);
-> +
-> +	if (!is_acpi_node(dev_fwnode(dev)))
-> +		return;
-
-I'd omit this check. This would work on DT although bindings should still
-be written. That may be left for a future excercise I think.
-
-> +
-> +	ov13b->reset = devm_gpiod_get_optional(dev, "reset",
-> +					       GPIOD_OUT_LOW);
-> +	if (IS_ERR(ov13b->reset)) {
-> +		dev_dbg(dev, "failed to get reset gpio: %ld",
-> +			PTR_ERR(ov13b->reset));
-> +		ov13b->reset = NULL;
-> +	}
-> +
-> +	ov13b->img_clk = devm_clk_get_optional(dev, NULL);
-> +	if (IS_ERR(ov13b->img_clk)) {
-> +		dev_dbg(dev, "failed to get imaging clock: %ld",
-> +			PTR_ERR(ov13b->img_clk));
-> +		ov13b->img_clk = NULL;
-> +	}
-> +
-> +	ov13b->vdd = devm_regulator_get_optional(dev, "vdd");
-> +	if (IS_ERR(ov13b->vdd)) {
-> +		dev_dbg(dev, "failed to get vdd regulator: %ld",
-> +			PTR_ERR(ov13b->vdd));
-> +		ov13b->vdd = NULL;
-
-You should return the error code instead, in all three cases.
-
-> +	}
-> +}
-> +
->  static int ov13b10_check_hwcfg(struct device *dev)
->  {
->  	struct v4l2_fwnode_endpoint bus_cfg = {
-> @@ -1407,13 +1490,21 @@ static int ov13b10_probe(struct i2c_client *client)
->  	/* Initialize subdev */
->  	v4l2_i2c_subdev_init(&ov13b->sd, client, &ov13b10_subdev_ops);
->  
-> +	ov13b10_get_pm_resources(&client->dev);
-> +
->  	full_power = acpi_dev_state_d0(&client->dev);
->  	if (full_power) {
-> +		ov13b10_power_on(&client->dev);
-> +		if (ret) {
-> +			dev_err(&client->dev, "failed to power on\n");
-> +			goto error_power_off;
-
-return ret;
-
-See also below...
-
-> +		}
-> +
->  		/* Check module identity */
->  		ret = ov13b10_identify_module(ov13b);
->  		if (ret) {
->  			dev_err(&client->dev, "failed to find sensor: %d\n", ret);
-> -			return ret;
-> +			goto error_power_off;
->  		}
->  	}
->  
-> @@ -1422,7 +1513,7 @@ static int ov13b10_probe(struct i2c_client *client)
->  
->  	ret = ov13b10_init_controls(ov13b);
->  	if (ret)
-> -		return ret;
-> +		goto error_power_off;
->  
->  	/* Initialize subdev */
->  	ov13b->sd.internal_ops = &ov13b10_internal_ops;
-> @@ -1461,6 +1552,8 @@ static int ov13b10_probe(struct i2c_client *client)
->  error_handler_free:
->  	ov13b10_free_controls(ov13b);
->  	dev_err(&client->dev, "%s failed:%d\n", __func__, ret);
-> +error_power_off:
-> +	ov13b10_power_off(&client->dev);
-
-This may only be called if ov13b10_power_on() was successfully called
-first.
-
->  
->  	return ret;
->  }
-> @@ -1479,6 +1572,7 @@ static void ov13b10_remove(struct i2c_client *client)
->  
->  static const struct dev_pm_ops ov13b10_pm_ops = {
->  	SET_SYSTEM_SLEEP_PM_OPS(ov13b10_suspend, ov13b10_resume)
-> +	SET_RUNTIME_PM_OPS(ov13b10_power_off, ov13b10_power_on, NULL)
->  };
->  
->  #ifdef CONFIG_ACPI
 > 
+>>
+>> Another thing I discovered is that for PAL the vcr_hack control has to be enabled,
+>> otherwise the video is full of glitches. This was present before your series, and
+>> happens even with a video signal from a proper PAL video generator, so this is really
+>> strange. I can't remember that I needed this in the past, but it has been years
+>> since I last tested it.
+>>
+>> PAL capture is fine for Top/Bottom/Alternate settings, it only fails for Interlaced
+>> and Sequential Top/Bottom capture modes.
+> 
+> Interesting to know that this happened in your tests also.
+> Obviously the easy solution would be just to enable the vcr_hack by default.
+> It removes the last four scan lines and so prevents the risc program
+> counter from getting stuck at a buffer memory address (which definitely
+> causes dropped frames) instead of returning to the main risc program address.
 
--- 
-Kind regards,
+Dropping 4 lines is really too much. A single line was sufficient to make it work
+again for PAL, but it's just weird behavior.
 
-Sakari Ailus
+Unfortunately, I won't have time to dig deeper into this and since it is not
+something that this series introduced, I don't think it is important enough to
+work on this, at least for now.
+
+Regards,
+
+	Hans
+
+> 
+>>
+>> When I have more time I will dig into this a bit more.
+>>
+>> Regards,
+>>
+>> 	Hans
+
