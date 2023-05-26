@@ -2,143 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02028712002
-	for <lists+linux-media@lfdr.de>; Fri, 26 May 2023 08:32:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48B28712091
+	for <lists+linux-media@lfdr.de>; Fri, 26 May 2023 09:04:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242203AbjEZGcH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 May 2023 02:32:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34982 "EHLO
+        id S242351AbjEZHD7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 May 2023 03:03:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242225AbjEZGcB (ORCPT
+        with ESMTP id S236743AbjEZHD6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 May 2023 02:32:01 -0400
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5185213A
-        for <linux-media@vger.kernel.org>; Thu, 25 May 2023 23:31:56 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-64d2981e3abso484795b3a.1
-        for <linux-media@vger.kernel.org>; Thu, 25 May 2023 23:31:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1685082716; x=1687674716;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WcusQp6OcfSqJMF8NpXBP2EIksMc7QBaKN7KQDMVLt0=;
-        b=BAEHHZCadJWD1FnUb7y5eXB/7raIJI60nN5wNAnIP/9PoFUnwvRLEVWCtljflKEZaZ
-         xb37jsqSRWK/ETW3hgPcdttl8XPE/ehOk2iw2E16jcUTjQies2WUHlILX9ndDK/sT9Iq
-         mdLFc3/TNbXq1L9NBTfFKY7eTxvKx37hQjs+Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685082716; x=1687674716;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WcusQp6OcfSqJMF8NpXBP2EIksMc7QBaKN7KQDMVLt0=;
-        b=MJ7lDHg4xNjFrr5BH4Q9SPMo0El8vfUKYzKh3RzEmhDC7w1P09kDdzv8fGoE4XPVRZ
-         UezwF8VL4Cnac3/OXBdUuF37UbVsrSnwJTNUAqXO9u4yyg40zDKoAN8gHosiOdjGkfHs
-         f+GrAWRSixx70b/F/ViDiYLM6Ephf+t46butC0UMiFuakayDMIsqTna+OFT1mLcpw+ZT
-         PW1dlMP/hH6TuQTAsZeotjnZWRVcu7hnAMIF1bvg5v3vyWxWzlo0oO6pFt+ErE0naZQt
-         IeX9M3LG1XgRW/1RZHXpt3HtGDdEjsBxLKB3MQtgykU+mnmNhp4nljZzAS1+Wm0QWMrA
-         zQQQ==
-X-Gm-Message-State: AC+VfDy9IlselgKqxyW/CkXuEK4tfu5m+9LZBXUufOFfToxXtOXXEERQ
-        +b3mGs1qk8tcZ788KU13JyO3xA==
-X-Google-Smtp-Source: ACHHUZ57rV6GznshDRQuv9znwOTR7CCeO7CD9y+SnsBEvFdpWmBi8Ki20RhpnN5UHsrOuDByFKK3eA==
-X-Received: by 2002:a05:6a20:2444:b0:10c:dd4f:faa7 with SMTP id t4-20020a056a20244400b0010cdd4ffaa7mr1430744pzc.1.1685082715786;
-        Thu, 25 May 2023 23:31:55 -0700 (PDT)
-Received: from treapking.tpe.corp.google.com ([2401:fa00:1:10:9579:4741:86ee:bf02])
-        by smtp.gmail.com with ESMTPSA id y4-20020a62b504000000b0063b17b58822sm2075414pfe.74.2023.05.25.23.31.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 May 2023 23:31:55 -0700 (PDT)
-From:   Pin-yen Lin <treapking@chromium.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        linux-mediatek@lists.infradead.org,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        linux-media@vger.kernel.org, Hsin-Yi Wang <hsinyi@chromium.org>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Pin-yen Lin <treapking@chromium.org>
-Subject: [PATCH v6] media: mtk-vpu: Ensure alignment of 8 for DTCM buffer
-Date:   Fri, 26 May 2023 14:31:39 +0800
-Message-ID: <20230526063149.1801196-1-treapking@chromium.org>
-X-Mailer: git-send-email 2.41.0.rc0.172.g3f132b7071-goog
+        Fri, 26 May 2023 03:03:58 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0622E114;
+        Fri, 26 May 2023 00:03:53 -0700 (PDT)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34Q5KVrp020916;
+        Fri, 26 May 2023 07:03:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=zT4L7Gju9Gc0MHHBN33emVP+PJYpXS/g3VqmqiW0MOg=;
+ b=LZjVa/miBlXbFEIQCqyecSCI7tr+b1bIUCnZL7hyuWd+aQxIjnt7Y6lU+7XOrK2B1ciV
+ PBZi8da+hSxDUCSm3PQACl1jOl7TUjzQ0XNKyme3MNcB54bzCKPDTZFF8r67JL7BcDsf
+ caDi/MxNqQwcscK7t/OHONfuSaKjSQ8NrZismScXvxchvRyHFxk4r8o0S7f01F526qjX
+ iCh6FlkEMTbyz+uw/PWo+YDpfxRaJynKFa9p3ZCbI3giJ0lAioijYHfaZQsSiSmT9kLa
+ uz2Hf9RGI698MugHsyfyyU52y7BbetQo+7vxQsWcipkkLuCct9jMRS4OTX+r5m5SxdhZ 1w== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qtncsrba4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 26 May 2023 07:03:21 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34Q73KBr015436
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 26 May 2023 07:03:20 GMT
+Received: from [10.50.56.118] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 26 May
+ 2023 00:03:14 -0700
+Message-ID: <76f0d91e-eff0-3044-fd99-9371a9ce0cb3@quicinc.com>
+Date:   Fri, 26 May 2023 12:33:11 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH v3 12/17] media: venus: firmware: Correct IS_V6() checks
+Content-Language: en-US
+To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Dikshita Agarwal <dikshita@qti.qualcomm.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mansur Alisha Shaik <mansur@codeaurora.org>,
+        Jonathan Marek <jonathan@marek.ca>,
+        Hans Verkuil <hans.verkuil@cisco.com>
+CC:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        "Marijn Suijten" <marijn.suijten@somainline.org>
+References: <20230228-topic-venus-v3-0-6092ae43b58f@linaro.org>
+ <20230228-topic-venus-v3-12-6092ae43b58f@linaro.org>
+From:   Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <20230228-topic-venus-v3-12-6092ae43b58f@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: TCHN9iVg3BlDoYHT2gV0TnX7L_abkgoE
+X-Proofpoint-ORIG-GUID: TCHN9iVg3BlDoYHT2gV0TnX7L_abkgoE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-05-26_01,2023-05-25_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ priorityscore=1501 suspectscore=0 impostorscore=0 phishscore=0 mlxscore=0
+ lowpriorityscore=0 spamscore=0 clxscore=1015 bulkscore=0 adultscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305260059
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Alexandre Courbot <acourbot@chromium.org>
 
-When running memcpy_toio:
-memcpy_toio(send_obj->share_buf, buf, len);
-it was found that errors appear if len is not a multiple of 8:
 
-[58.350841] mtk-mdp 14001000.rdma: processing failed: -22
+On 5/18/2023 2:44 AM, Konrad Dybcio wrote:
+> Most of these checks should have checked for TZ presence (or well,
+> absence), as we shouldn't really be doing things that the black box
+> does for us on non-CrOS platforms.
+> 
+> The IS_V6() check in venus_shutdown_no_tz() should have checked
+> whether the core version is IRIS2_1 (so, SC7280). Correct that.
+> 
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> ---
+>  drivers/media/platform/qcom/venus/firmware.c | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
+> index 572b649c56f3..ceb917f2e0d4 100644
+> --- a/drivers/media/platform/qcom/venus/firmware.c
+> +++ b/drivers/media/platform/qcom/venus/firmware.c
+> @@ -29,7 +29,11 @@ static void venus_reset_cpu(struct venus_core *core)
+>  	u32 fw_size = core->fw.mapped_mem_size;
+>  	void __iomem *wrapper_base;
+>  
+> -	if (IS_V6(core))
+> +	/*
+> +	 * When there's no Qualcomm TZ (like on Chromebooks), the OS is
+> +	 * responsible for bringing up the hardware instead.
+> +	 */
+> +	if (!core->use_tz)
+>  		wrapper_base = core->wrapper_tz_base;
+>  	else
+>  		wrapper_base = core->wrapper_base;
+this is invoked only for platforms not using TZ.
+The version checks are kept to differentiate between different TZ base offset.
+wrapper base offset for V6 (IRIS2_1) is calculated as
+	wrapper_base = core->wrapper_tz_base
+while for others (non V6) wrapper base is calculated as
+	wrapper_base = core->wrapper_base;
 
-This is because in ARM64, memcpy_toio does byte-size access
-when the length is not a multiple of 8 while access to the
-vpu iomem must be 4 aligned.
+so this change in not correct.
+V6 check can be replaced with VPU version(IRIS2_1) check.
 
-This patch ensures the copy of a multiple of 8 size by calling
-round_up(len, 8) when copying.
+> @@ -41,7 +45,7 @@ static void venus_reset_cpu(struct venus_core *core)
+>  	writel(fw_size, wrapper_base + WRAPPER_NONPIX_START_ADDR);
+>  	writel(fw_size, wrapper_base + WRAPPER_NONPIX_END_ADDR);
+>  
+> -	if (IS_V6(core)) {
+> +	if (!core->use_tz) {
+>  		/* Bring XTSS out of reset */
+>  		writel(0, wrapper_base + WRAPPER_TZ_XTSS_SW_RESET);
+>  	} else {
+> @@ -67,7 +71,7 @@ int venus_set_hw_state(struct venus_core *core, bool resume)
+>  	if (resume) {
+>  		venus_reset_cpu(core);
+>  	} else {
+> -		if (IS_V6(core))
+> +		if (!core->use_tz)
+>  			writel(WRAPPER_XTSS_SW_RESET_BIT,
+>  			       core->wrapper_tz_base + WRAPPER_TZ_XTSS_SW_RESET);
+>  		else
 
-Fixes: e6599adfad30 ("media: mtk-vpu: avoid unaligned access to DTCM buffer.")
-Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Signed-off-by: Pin-yen Lin <treapking@chromium.org>
-Reviewed-by: Houlong Wei <houlong.wei@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+this part of the code will only be executed for non TZ platform.
+for TZ based platforms it will return few instructions earlier in the same API.
+Again, version checks are kept to differentiate between different TZ base
+offset. V6 check can be replaced with VPU version(IRIS2_1) check.
 
----
-This is a re-send of v5 because it was marked obsolete, but this patch
-is required for MT8173 platforms.
+Thanks,
+Dikshita
+> @@ -179,7 +183,7 @@ static int venus_shutdown_no_tz(struct venus_core *core)
+>  	void __iomem *wrapper_base = core->wrapper_base;
+>  	void __iomem *wrapper_tz_base = core->wrapper_tz_base;
+>  
+> -	if (IS_V6(core)) {
+> +	if (IS_IRIS2_1(core)) {
+>  		/* Assert the reset to XTSS */
+>  		reg = readl(wrapper_tz_base + WRAPPER_TZ_XTSS_SW_RESET);
+>  		reg |= WRAPPER_XTSS_SW_RESET_BIT;
+> 
 
-Changes in v6:
-- Collect review tag
 
- drivers/media/platform/mediatek/vpu/mtk_vpu.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/mediatek/vpu/mtk_vpu.c b/drivers/media/platform/mediatek/vpu/mtk_vpu.c
-index 5e2bc286f168..19ff4afea456 100644
---- a/drivers/media/platform/mediatek/vpu/mtk_vpu.c
-+++ b/drivers/media/platform/mediatek/vpu/mtk_vpu.c
-@@ -349,7 +349,22 @@ int vpu_ipi_send(struct platform_device *pdev,
- 		}
- 	} while (vpu_cfg_readl(vpu, HOST_TO_VPU));
- 
--	memcpy_toio(send_obj->share_buf, buf, len);
-+	/*
-+	 * On Arm64, the memcpy_toio does byte-size access as long as address or length are
-+	 * not 8 aligned. Access to the vpu iomem must be 4 aligned. Byte-size access is
-+	 * not allowed and cause processing to fail. Therefore make sure the length
-+	 * sent to memcpy_toio is a multiply of 8.
-+	 */
-+	if (len % 8 != 0) {
-+		unsigned char data[sizeof(send_obj->share_buf)];
-+
-+		memset(data + len, 0, sizeof(data) - len);
-+		memcpy(data, buf, len);
-+		memcpy_toio(send_obj->share_buf, data, round_up(len, 8));
-+	} else {
-+		memcpy_toio(send_obj->share_buf, buf, len);
-+	}
-+
- 	writel(len, &send_obj->len);
- 	writel(id, &send_obj->id);
- 
--- 
-2.41.0.rc0.172.g3f132b7071-goog
+
 
