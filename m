@@ -2,98 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D935971332E
-	for <lists+linux-media@lfdr.de>; Sat, 27 May 2023 09:55:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 461637126D4
+	for <lists+linux-media@lfdr.de>; Fri, 26 May 2023 14:39:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231975AbjE0Hyr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 27 May 2023 03:54:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45374 "EHLO
+        id S237087AbjEZMjE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 May 2023 08:39:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230133AbjE0Hyp (ORCPT
+        with ESMTP id S230178AbjEZMjD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 27 May 2023 03:54:45 -0400
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73ADDBB;
-        Sat, 27 May 2023 00:54:44 -0700 (PDT)
-Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-64f1f133c37so343487b3a.0;
-        Sat, 27 May 2023 00:54:44 -0700 (PDT)
+        Fri, 26 May 2023 08:39:03 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56EBE9E
+        for <linux-media@vger.kernel.org>; Fri, 26 May 2023 05:39:02 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id 4fb4d7f45d1cf-510b4e488e4so1132793a12.3
+        for <linux-media@vger.kernel.org>; Fri, 26 May 2023 05:39:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685174084; x=1687766084;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ps1IF/L3y0LuIXv1kuyXMXVV1V92IKkA4nkdR1TZzsU=;
-        b=J1k3fPaQZMPaMfdKrnm1zm7gzhHU3qdmAEgC4wn/zWlP5HZ6JqC5OlOYRpBy+aPcQg
-         yUhoygdEbaP/d6l50zsX+P2x/nCpG+WCQ3vo2jEYDG6kXl3wiY3GZCZeW+KK7JfJUpXb
-         vglxbKZsZSapWDZ6FUSrA82OzrEKw49uNha6r3OrW2h+wK+WUgqPh8mybzRX0ER05svx
-         YYA6tu4labf09OfctbtGzSUoFMvh+n05rb5TndVmhR89vfRWC7USJ3BZBiHfKfvK5I6A
-         uDJ1Kg6CpMzxNxSyjL2LyjV+88Akn+4O1hOLrEvQDDmCoLXemg9Gg6AS8g50KFwbTkEl
-         6+Iw==
+        d=gmail.com; s=20221208; t=1685104741; x=1687696741;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=GoudHZlMmHOBkEuNNFzfbcFKzOUP+KGL9yOg3jQ33XA=;
+        b=VDPK7zIXvlBIp9VbOXmsumdf0LBhvA1OtsmZcaDVTpbMGdCAUi5H+jwnMgAMenuK4R
+         ApZjAeyDcvL+0vom0AZkrHYq2uDmAwmMO/gV3LbEbJ9b542Bs9xXEVN24f6Ssckn0JDx
+         3KPnj9DEyI2OnOABY+iMjfQCemdgAhYipASfqQd1c/zNhxlkdKnQi36O4HkPIFHEvsqz
+         mgRNbDzKP8MeglPI90vEC93IQb5PcAwpUGt/sKOMJj27sFPiHoENW6o92NezueOhQ9bQ
+         sSDu9AazW/K8XbQ3CnKAiQ1JfUYCRbalz9R9racNEzxTWKEy+WbtF7yYmO4Re26vhass
+         RO4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685174084; x=1687766084;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ps1IF/L3y0LuIXv1kuyXMXVV1V92IKkA4nkdR1TZzsU=;
-        b=MdtLaB7Exo9P2dk5ePZu+ThbHhs0/u5nPxdYjtyWJ+Btl9CQOsPmTZ6x0Nr6gBAIAu
-         sQAsOI21RtiCtVjWXlDjm0eNkI6lk88lCjk8qMHHiR6Sg+SQRi6BUQ62OSFuMUef7TBc
-         AoZdSDoTHuQqenT0NM4xIwzU+pSWojfjWYh3inN+36sdDVfTERVKKkCxgpsQLF3xRKcg
-         m24lQsWUzQnFe5uz4ra8gxV+Rt2G8u3EEwOE/70QCAtgSrH+L6MYMMvqzx56Gzc7zlfM
-         OxKMPnYS56Fgia9Dq4kbThK4KZbXW39tUh7eTldM1WcB+n+Mhde3hGhqiH8nH3CgUkOM
-         GKyw==
-X-Gm-Message-State: AC+VfDxoLp5zjGxMeY+qXF7gaG4UyH2ALrr0ekzTpFDb/mahK055WP8C
-        fhaBI15Wc5q931vaucjb++I=
-X-Google-Smtp-Source: ACHHUZ5Wl/x2AX2Bqkt5RQGo8lzJHVe2CTWpN35HVupnCmsS+crSB8FjThb8CWMDAlUiyAzTHgUY6Q==
-X-Received: by 2002:a05:6a00:349b:b0:64d:41f1:7c87 with SMTP id cp27-20020a056a00349b00b0064d41f17c87mr5793226pfb.2.1685174083809;
-        Sat, 27 May 2023 00:54:43 -0700 (PDT)
-Received: from ubuntu.localdomain ([103.114.158.1])
-        by smtp.gmail.com with ESMTPSA id v7-20020a63d547000000b0053f22b76cdcsm3770567pgi.82.2023.05.27.00.54.40
+        d=1e100.net; s=20221208; t=1685104741; x=1687696741;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GoudHZlMmHOBkEuNNFzfbcFKzOUP+KGL9yOg3jQ33XA=;
+        b=YIgvjKycYSoJpC5rNPcYbiUzxJU3udSUyF3WBV0bGiUznXgIrUPk3dQWyrTtGa9lCJ
+         b6NspusBL7zI2CIarXlNwFzBAAsCg9cvB18VaNTPXlR6joYq9p+8MJBjxGWklG8SVuan
+         q6gZbQLG5OMi57ekor0vYfzqN1cBb/wTmqY22q0r9G1w4P3O8nh45jOHsbAms07cZON2
+         1S7JSoi4rrzyJxYbJCk9S0gagXHe2AItllvKIxPilN/UZuJbJY79Wh4DYjCfueydvFUm
+         UxhSts7FaUwZmwiW4gL6DLDumtsz/csOuu+JVQ+JQZPaL6IFQpvYuOfenea2dl9M+wWb
+         Gd3Q==
+X-Gm-Message-State: AC+VfDxI3QmRVjR17b+2acI9HPETFrgnSXL/zxgcs24B6vd9xtn7ZDI9
+        uDIlGqVlAjWa0/QCz6+9tU1fg7vS83U+6w==
+X-Google-Smtp-Source: ACHHUZ5UsPwp1ni4OwuOKfoxhrMwJn+s1T8G22O1bjX7F5cEW7vbnnffj5SWpsQOIuM9mBnIS2+V1A==
+X-Received: by 2002:aa7:d9cc:0:b0:509:c6e6:c002 with SMTP id v12-20020aa7d9cc000000b00509c6e6c002mr933703eds.39.1685104740604;
+        Fri, 26 May 2023 05:39:00 -0700 (PDT)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-50-121.cust.vodafonedsl.it. [188.217.50.121])
+        by smtp.gmail.com with ESMTPSA id u8-20020a05640207c800b0050a276e7ba8sm1499706edy.36.2023.05.26.05.38.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 May 2023 00:54:43 -0700 (PDT)
-From:   Min Li <lm0963hack@gmail.com>
-To:     alexander.deucher@amd.com
-Cc:     christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
-        daniel@ffwll.ch, sumit.semwal@linaro.org,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: [PATCH] drm/radeon: fix race condition UAF in radeon_gem_set_domain_ioctl
-Date:   Fri, 26 May 2023 20:37:53 +0800
-Message-Id: <20230526123753.16160-1-lm0963hack@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Fri, 26 May 2023 05:39:00 -0700 (PDT)
+Date:   Fri, 26 May 2023 14:38:58 +0200
+From:   Tommaso Merciai <tomm.merciai@gmail.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Martin Hecht <martin.hecht@avnet.eu>,
+        Michael Roeder <michael.roeder@avnet.eu>
+Subject: Re: [ANN] Media Summit June 26th: Please let me know if you will
+ attend
+Message-ID: <ZHCoYqlctSsqSUHE@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <aec8b9e1-25d4-d0bc-63b6-68ff06e06683@xs4all.nl>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DATE_IN_PAST_12_24,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <aec8b9e1-25d4-d0bc-63b6-68ff06e06683@xs4all.nl>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Userspace can race to free the gobj(robj converted from), robj should not
-be accessed again after drm_gem_object_put, otherwith it will result in
-use-after-free.
+Hello Hans,
 
-Signed-off-by: Min Li <lm0963hack@gmail.com>
----
- drivers/gpu/drm/radeon/radeon_gem.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, May 15, 2023 at 04:34:20PM +0200, Hans Verkuil wrote:
+> Hi all,
+> 
+> We organized a Media Summit on Monday June 26th in Prague. It is held
+> at the Holiday Inn close by the conference centre where the Embedded
+> Open Source Summit is held (1).
+> 
+> Holiday Inn Prague Congress Centre - Meeting room "E"
+> Na Pankráci 1684/ 15, 140 00 Praha 4-Nusle
+> https://www.ihg.com/holidayinn/hotels/us/en/prague/prgnp/hoteldetail
+> 
+> We have room for about 20 people, so let me know if you plan to attend
+> in person. That way we know how many people we'll get.
 
-diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
-index bdc5af23f005..450c7cbdd28a 100644
---- a/drivers/gpu/drm/radeon/radeon_gem.c
-+++ b/drivers/gpu/drm/radeon/radeon_gem.c
-@@ -478,7 +478,7 @@ int radeon_gem_set_domain_ioctl(struct drm_device *dev, void *data,
- 
- 	drm_gem_object_put(gobj);
- 	up_read(&rdev->exclusive_lock);
--	r = radeon_gem_handle_lockup(robj->rdev, r);
-+	r = radeon_gem_handle_lockup(rdev, r);
- 	return r;
- }
- 
--- 
-2.34.1
+Thanks for your effort on support/create this event.
 
+I don't have particular topics. I would like to attend in person too, if possible.
+In real we are me and other 2 guys that are in cc (Martin Hecht and Michael Roeder).
+
+Let me know if can be possible for us to partecipate at this event.
+Many thanks! :)
+
+Regards,
+Tommaso
+
+> 
+> Regarding remote participation: only if there is really no other way.
+> Meeting face-to-face once a year is important IMHO, and attending remotely
+> is a poor substitute. That said, if it is really necessary to set something
+> up, then I can do the same I did in Dublin, setting up a Webex meeting.
+> That worked reasonably well, except that I will need to bring a better
+> speaker since I learned that the laptop speaker was pretty bad.
+> 
+> If you do want to participate remotely, please let me know as well.
+> 
+> I'll post a separate email with the draft Agenda for the media summit.
+> 
+> Hope to see you all in Prague!
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> (1) https://events.linuxfoundation.org/embedded-open-source-summit/
