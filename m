@@ -2,152 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D6897129E4
-	for <lists+linux-media@lfdr.de>; Fri, 26 May 2023 17:46:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2EF2712BE8
+	for <lists+linux-media@lfdr.de>; Fri, 26 May 2023 19:40:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244186AbjEZPqJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 May 2023 11:46:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46900 "EHLO
+        id S237674AbjEZRkE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 May 2023 13:40:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244184AbjEZPqD (ORCPT
+        with ESMTP id S242838AbjEZRkA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 May 2023 11:46:03 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10840F7
-        for <linux-media@vger.kernel.org>; Fri, 26 May 2023 08:45:54 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1q2ZdZ-0005Ur-6A; Fri, 26 May 2023 17:45:53 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1q2ZdY-002zFT-FB; Fri, 26 May 2023 17:45:52 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1q2ZdX-008Cbt-QT; Fri, 26 May 2023 17:45:51 +0200
-Date:   Fri, 26 May 2023 17:45:51 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     kernel@pengutronix.de, linux-media@vger.kernel.org
-Subject: Re: [PATCH v2] media: Switch i2c drivers back to use .probe()
-Message-ID: <20230526154551.eqm4r5p4qhphkgm7@pengutronix.de>
-References: <20230513175931.159764-1-u.kleine-koenig@pengutronix.de>
- <20230513193626.48ed9a28@sal.lan>
- <20230514120407.34j4r5u5laasldrg@pengutronix.de>
+        Fri, 26 May 2023 13:40:00 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6695099;
+        Fri, 26 May 2023 10:39:59 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-96f850b32caso187795866b.3;
+        Fri, 26 May 2023 10:39:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685122798; x=1687714798;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Eyf6Eq/aNoFVwCOxjckBgFezJU5ay2h2ghz3C2J6GFY=;
+        b=B/jmAKeHnw9i1zfdp5yDoT73uT2yja3v8YloC4KDlpfPQn+DJ+W1OVkdW7Z7CAqIwz
+         dToWuziXRpuMug6ycwHS5HEQo8XSH3weIpwOh+HIqfBJKIRHdZz8a5TxkSLglbq5SXmv
+         YMmK60o7ty7CLju/tz0vKxNpTj4/JyzOeYkobJBF5zzeA2OeYfu+pJ3hABEsKZDVuOqS
+         brn9PvX1GGFN5HSp/JXeOAyYdOEOZkdDyyffay7npKOStlVzMAKJ1OE3Vuno3saJUAMs
+         9SjZasJBGVtEttCa3QA/7FFqlZvNsY8HBbz2UYb1ZBAo+lij1YnUXqqigJ77O5lmC80U
+         0dWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685122798; x=1687714798;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Eyf6Eq/aNoFVwCOxjckBgFezJU5ay2h2ghz3C2J6GFY=;
+        b=EHdA9DEgTmm3XnYOmMLDCnT9s3ABCEyQ3p6t/wTlnvG7y955bu2XAONraevj2lH9Vn
+         8BETUZxXmrHb03X6U3C6inrnFL0qxRNxzkCpbP1I0cvMrW/68Zra68H/Vhf/SsR6jazl
+         BOD9XIcrgKDlOv7qQPBOaM49oiJwZCInxFU3km5aNyXdFlTqdAMDbpJ6/8OZERYFQ0Q/
+         PAVKa8IOtpIW/XzNw28trL8vPV8QmfXoNy3hgG1RtpKxDY7mYIr0KVbUfo9MI4VKZ2F2
+         AmZrMmIc4Ci8Z+xRUvwKbfuxOsuZxWCF/G5QXmjWXxvvGevqWFwg/6f9Ss0jEwG0a4U7
+         7rDQ==
+X-Gm-Message-State: AC+VfDwnQlOSgeiIZNn4d+4d7/FVa5XTqcPD9sAjpibZjw2XsAaZG7Lp
+        bY0iu86L9Wldz+mKkmttHzo=
+X-Google-Smtp-Source: ACHHUZ4DPSrh19KqZa9mSyODlN1kQOAl4C8YMR1HR1Y9A50fMX7c3bTuJ3QIpdXkA7zxPPhagLufLQ==
+X-Received: by 2002:a17:907:9345:b0:956:fbd7:bc5e with SMTP id bv5-20020a170907934500b00956fbd7bc5emr2857719ejc.64.1685122797541;
+        Fri, 26 May 2023 10:39:57 -0700 (PDT)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation.station (net-188-217-50-121.cust.vodafonedsl.it. [188.217.50.121])
+        by smtp.gmail.com with ESMTPSA id dk5-20020a170906f0c500b00965b2d3968csm2367723ejb.84.2023.05.26.10.39.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 May 2023 10:39:57 -0700 (PDT)
+From:   Tommaso Merciai <tomm.merciai@gmail.com>
+Cc:     jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com,
+        martin.hecht@avnet.eu, linuxfancy@googlegroups.com,
+        Tommaso Merciai <tomm.merciai@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Gerald Loacker <gerald.loacker@wolfvision.net>,
+        =?UTF-8?q?Krzysztof=20Ha=C5=82asa?= <khalasa@piap.pl>,
+        Mikhail Rudenko <mike.rudenko@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Nicholas Roth <nicholas@rothemail.net>,
+        Shawn Tu <shawnx.tu@intel.com>, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: [PATCH v2 0/2] media: i2c: Add support for alvium camera
+Date:   Fri, 26 May 2023 19:39:42 +0200
+Message-Id: <20230526173955.797226-1-tomm.merciai@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="stlnuobl57az6zog"
-Content-Disposition: inline
-In-Reply-To: <20230514120407.34j4r5u5laasldrg@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hello All,
 
---stlnuobl57az6zog
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This series add support for Allied Vision Alvium camera.
+The Alvium camera is shipped with sensor + isp in the same housing.
+The camera can be equipped with one out of various sensor and abstract
+the user from this. Camera is connected via MIPI CSI-2.
 
-Hello Mauro,
+Working on top of Ideas on Board (branch: ideasonboard/v6.2/isi)
+I'm able to test the driver on imx8mp-evk.
+I collect also some patches to enable HDMI on imx8mp-evk from Pengutronix
+(branch: pengutronix-imx8mp-hdmi)
 
-On Sun, May 14, 2023 at 02:04:07PM +0200, Uwe Kleine-K=F6nig wrote:
-> After commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
-> call-back type"), all drivers being converted to .probe_new() and then
-> 03c835f498b5 ("i2c: Switch .probe() to not take an id parameter") convert
-> back to (the new) .probe() to be able to eventually drop .probe_new() from
-> struct i2c_driver.
->=20
-> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> ---
-> On Sat, May 13, 2023 at 07:36:26PM +0100, Mauro Carvalho Chehab wrote:
-> > Em Sat, 13 May 2023 19:59:31 +0200
-> > Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de> escreveu:
-> > > this patch was generated using coccinelle, but I aligned the result to
-> > > the per-file indention.
-> > >=20
-> > > If you don't like the cleanups that are orthogonal to this patch, just
-> > > tell me, then I can drop this change from the patch. Also if you want=
- it
-> > > split per driver or directory for improved patch count numbers, please
-> > > tell me.
-> > >=20
-> > > Also I didn't Cc: all the individual maintainers to not exceed the
-> > > allowed length of To: and Cc:. If this patch will be split I can exte=
-nd
-> > > the audience accordingly.
-> >=20
-> > Sounds good to me.=20
-> >=20
-> > > diff --git a/drivers/media/i2c/ov5648.c b/drivers/media/i2c/ov5648.c
-> > > index 17465fcf28e3..7b26ba72ff2a 100644
-> > > --- a/drivers/media/i2c/ov5648.c
-> > > +++ b/drivers/media/i2c/ov5648.c
-> > > @@ -2616,7 +2616,7 @@ static struct i2c_driver ov5648_driver =3D {
-> > >  		.of_match_table =3D ov5648_of_match,
-> > >  		.pm =3D &ov5648_pm_ops,
-> > >  	},
-> > > -	.probe_new =3D ov5648_probe,
-> > > +	.probe =3D ov5648_probe,
-> > >  	.remove	 =3D ov5648_remove,
-> > >  };
-> >=20
-> > Nit: you should probably remove the extra spaces from .remove
-> > or align .probe here.
->=20
-> Fixed here. This is the only change in v2.
->=20
-> (There are a few more instances I'd call a bit strange, but I didn't fix
-> these. E.g. drivers/media/dvb-frontends/au8522_decoder.c where the =3D for
-> all members of au8522_driver are aligned but the .driver one. Then
-> however .driver.name's =3D is aligned again. *shrug*)
->=20
->=20
-> > Are you planning to merge this via I2C tree?
-> > If so:
-> >=20
-> > Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org>
->=20
-> No, please take it via your tree. There are still a few more subsystems
-> that must be converted before struct i2c_driver can be changed. There is
-> no urge and I prefer to make it slow over coordinating all drivers
-> changing via the i2c tree.
+I collect the patchset required to enable ISI + HDMI on imx8mp-evk into
+the following branch from Avnet Silica Software & Services EMEA [1].
 
-I don't find this change in next. After you initial feedback I thought
-this would go in quickly. Did I miss something? Did this patch fell
-through the cracks?
+Some documentation on testing ISP and ISI of imx8mp-evk here [2].
 
-Best regards
-Uwe
+Thanks all for the great work!
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+[1] - https://github.com/avs-sas/linux/tree/tm/ideasonboard/v6.4.0-rc2/isi/imx8mp_evk/alvium_drv_skel1e_v1
+[2] - https://gist.github.com/Scott31393/077a10024a6058536d3f2fdde476265a
 
---stlnuobl57az6zog
-Content-Type: application/pgp-signature; name="signature.asc"
+Tommaso Merciai (2):
+  media: dt-bindings: alvium: add document YAML binding
+  media: i2c: Add support for alvium camera
 
------BEGIN PGP SIGNATURE-----
+ .../media/i2c/alliedvision,alvium.yaml        |  115 +
+ drivers/media/i2c/Kconfig                     |    9 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/alvium.c                    | 3547 +++++++++++++++++
+ drivers/media/i2c/alvium.h                    |  500 +++
+ 5 files changed, 4172 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/alliedvision,alvium.yaml
+ create mode 100644 drivers/media/i2c/alvium.c
+ create mode 100644 drivers/media/i2c/alvium.h
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmRw1C4ACgkQj4D7WH0S
-/k57XggAuBgfgj4KCAoPDvHDQ4nNnUKBvLwAVO/mhNtSSdd5oaDM4MwezBd53JDY
-K0MxaZofIu6pcU5NcyZsIuqhPPZ60+xC8uQWDjO/koWQbRfxTJCMtZloHlO8O0wA
-Wz3JmUOtOXfUKZklw+H7ANDWr46TG0xfrNZq8ZKtbs0OhEaPPHD864OkmzQ2pDSD
-M0g0cBb+be0BIXi5m+45nDfEbZpIUS94ygtWqbKgwqP74xYGCYkOZz+SKFaCUosL
-mSEiJ+WG+oZQVam6+GHHFql26GOPQdyJtj2DhCOYxkzuvf2mlcZFJUaFbcz6ryiU
-jpEzrreb7f7WRvRXRKeghdIdipegxQ==
-=VATV
------END PGP SIGNATURE-----
+-- 
+2.34.1
 
---stlnuobl57az6zog--
