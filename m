@@ -2,321 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BED08712464
-	for <lists+linux-media@lfdr.de>; Fri, 26 May 2023 12:18:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D12117124C3
+	for <lists+linux-media@lfdr.de>; Fri, 26 May 2023 12:34:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236577AbjEZKS1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 May 2023 06:18:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59852 "EHLO
+        id S237027AbjEZKee (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 May 2023 06:34:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230248AbjEZKSZ (ORCPT
+        with ESMTP id S230035AbjEZKec (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 May 2023 06:18:25 -0400
-Received: from mail.nfschina.com (unknown [42.101.60.195])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id D0689DF;
-        Fri, 26 May 2023 03:18:21 -0700 (PDT)
-Received: from [172.30.38.103] (unknown [180.167.10.98])
-        by mail.nfschina.com (Maildata Gateway V2.8.8) with ESMTPSA id CBC5B1801278C3;
-        Fri, 26 May 2023 18:18:09 +0800 (CST)
-Message-ID: <5f2f2e0e-506d-8527-dd8f-2ec6da4601a6@nfschina.com>
-Date:   Fri, 26 May 2023 18:18:09 +0800
+        Fri, 26 May 2023 06:34:32 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F01410A;
+        Fri, 26 May 2023 03:34:31 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-96f53c06babso100060766b.3;
+        Fri, 26 May 2023 03:34:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685097270; x=1687689270;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pc/xijzYvFrrG8pDhhqIjVLLUDxG8WHPs4mXbRnCNFw=;
+        b=KuXaEvBHLCYZbPU8fEqT6U4czkmoTNkAWO01foV80tJsqHkP84fSzCf2biC3rSHNtk
+         /fc2BBM4agRWhUlt0EeDBaRaLXF2vpxhc2XdNqCDTGSbzhuw+9NMVh7rmmr9j4kpKN/9
+         mnmzrC+eBbFcUz9BKNktizxq6XFYX15fx1vyYIEQLDBuEKc2lX5d+fUXV7WbOn+a1wI7
+         rrsYurKWs2eXjKFwEP6vg+zJGVxoAHl7OReNNxybGRK8mstqhDp50EExjQ4PV/txo066
+         XZGwLaH3HWyxE3blKgp46cq4fzuk5l5MzRlb84UFDrfzjtbFopAouKYVHKDJRMZmsq4W
+         5PlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685097270; x=1687689270;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pc/xijzYvFrrG8pDhhqIjVLLUDxG8WHPs4mXbRnCNFw=;
+        b=BFAfBrp0zBotoLm3FgCMoOn35mKXNBdyBQ6jb2zNNpc85vLGDD2jDfRrNmnprV9jAo
+         wWmL/953Mx2xa/Ww2DjJT8rIuyA9whXxc+aBLd1x7sG+PMq+WPTi2w6jS+xXyz08cD86
+         x/i8LN8abfbvLGR8DlGv0BmEP2fUu7gDQOQ9yHVyc2BEo/qChUsznBDy0ZHHudUB8F7X
+         5h+LfBQgS839JlczwGGGPxqei9HoIgkZt2hBB1/S4hKgBH2eyniXhv/FGn1SrXXtTBZr
+         OSTiRIHBwracyM9oy3wfykTVvM7/OCGYu85xWqHz2P1v9DuudY13AO1903cgJUgH5yjz
+         F81w==
+X-Gm-Message-State: AC+VfDxfkFN8HR4YaT8Jhg5a9/bbD5gNPRCcTRKSfuCnMtFJ4k/Bg3XR
+        bgZa3CDmiOFgn24N88OgkE8=
+X-Google-Smtp-Source: ACHHUZ4e455Ljo7KOTGT99o7XC8miLk+PvND+AzyvC4xOyeArsLMIwyc6VZpm3zq4rrwrslUtnvlUQ==
+X-Received: by 2002:a17:906:7310:b0:966:1fef:22d8 with SMTP id di16-20020a170906731000b009661fef22d8mr1759377ejc.7.1685097269435;
+        Fri, 26 May 2023 03:34:29 -0700 (PDT)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation.station (net-188-217-50-121.cust.vodafonedsl.it. [188.217.50.121])
+        by smtp.gmail.com with ESMTPSA id fi13-20020a170906da0d00b0096fbc516a93sm1984243ejb.211.2023.05.26.03.34.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 May 2023 03:34:29 -0700 (PDT)
+From:   Tommaso Merciai <tomm.merciai@gmail.com>
+To:     tomm.merciai@gmail.com
+Cc:     jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com,
+        martin.hecht@avnet.eu, linuxfancy@googlegroups.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Gerald Loacker <gerald.loacker@wolfvision.net>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        =?UTF-8?q?Krzysztof=20Ha=C5=82asa?= <khalasa@piap.pl>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jason Chen <jason.z.chen@intel.com>,
+        Mikhail Rudenko <mike.rudenko@gmail.com>,
+        Nicholas Roth <nicholas@rothemail.net>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH 0/2] media: i2c: Add support for alvium camera
+Date:   Fri, 26 May 2023 12:34:14 +0200
+Message-Id: <20230526103427.774226-1-tomm.merciai@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] drm: Remove unnecessary (void*) conversions
-Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Harry Wentland <harry.wentland@amd.com>,
-        Leo Li <sunpeng.li@amd.com>,
-        Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
-        Alex Deucher <alexander.deucher@amd.com>, Xinhui.Pan@amd.com,
-        airlied@gmail.com, daniel@ffwll.ch, evan.quan@amd.com,
-        l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
-        christian.gmeiner@gmail.com, bskeggs@redhat.com,
-        kherbst@redhat.com, lyude@redhat.com, tomba@kernel.org,
-        emma@anholt.net, airlied@redhat.com, kraxel@redhat.com,
-        abrodkin@synopsys.com, ray.huang@amd.com,
-        gurchetansingh@chromium.org, olvaffe@gmail.com, zackr@vmware.com,
-        linux-graphics-maintainer@vmware.com, sumit.semwal@linaro.org
-Cc:     amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, etnaviv@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org,
-        virtualization@lists.linux-foundation.org,
-        spice-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, kernel-janitors@vger.kernel.org
-X-MD-Sfrom: suhui@nfschina.com
-X-MD-SrcIP: 180.167.10.98
-From:   Su Hui <suhui@nfschina.com>
-In-Reply-To: <5b5c7b06-ef99-d275-3693-b2e3d114cac9@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2023/5/26 15:27, Christian König wrote:
-> Am 26.05.23 um 05:32 schrieb Su Hui:
->> Pointer variables of (void*) type do not require type cast.
->
-> Please split that up by subsystem/driver. Taking it through the misc 
-> tree might just cause merge conflicts.
->
-Sorry for that, I will split it and send again.
-Thanks for your reply!
+Hello All,
 
-Su Hui
+This series add support for Allied Vision Alvium camera.
+The Alvium camera is shipped with sensor + isp in the same housing.
+The camera can be equipped with one out of various sensor and abstract
+the user from this. Camera is connected via MIPI CSI-2.
 
-> Christian.
->
->>
->> Signed-off-by: Su Hui <suhui@nfschina.com>
->> ---
->>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 2 +-
->>   drivers/gpu/drm/amd/pm/amdgpu_pm.c                        | 2 +-
->>   drivers/gpu/drm/etnaviv/etnaviv_drv.c                     | 4 ++--
->>   drivers/gpu/drm/nouveau/nouveau_debugfs.c                 | 2 +-
->>   drivers/gpu/drm/omapdrm/omap_debugfs.c                    | 6 +++---
->>   drivers/gpu/drm/pl111/pl111_debugfs.c                     | 2 +-
->>   drivers/gpu/drm/qxl/qxl_debugfs.c                         | 4 ++--
->>   drivers/gpu/drm/tiny/arcpgu.c                             | 2 +-
->>   drivers/gpu/drm/ttm/ttm_resource.c                        | 3 +--
->>   drivers/gpu/drm/virtio/virtgpu_debugfs.c                  | 6 +++---
->>   drivers/gpu/drm/vmwgfx/ttm_object.c                       | 5 ++---
->>   drivers/gpu/drm/vmwgfx/vmwgfx_gem.c                       | 2 +-
->>   12 files changed, 19 insertions(+), 21 deletions(-)
->>
->> diff --git 
->> a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c 
->> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
->> index 827fcb4fb3b3..8a2c39927167 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
->> @@ -3312,7 +3312,7 @@ static ssize_t dtn_log_write(
->>     static int mst_topo_show(struct seq_file *m, void *unused)
->>   {
->> -    struct amdgpu_device *adev = (struct amdgpu_device *)m->private;
->> +    struct amdgpu_device *adev = m->private;
->>       struct drm_device *dev = adev_to_drm(adev);
->>       struct drm_connector *connector;
->>       struct drm_connector_list_iter conn_iter;
->> diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c 
->> b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
->> index 58c2246918fd..e6c870bd307b 100644
->> --- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
->> +++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
->> @@ -3671,7 +3671,7 @@ static void amdgpu_parse_cg_state(struct 
->> seq_file *m, u64 flags)
->>     static int amdgpu_debugfs_pm_info_show(struct seq_file *m, void 
->> *unused)
->>   {
->> -    struct amdgpu_device *adev = (struct amdgpu_device *)m->private;
->> +    struct amdgpu_device *adev = m->private;
->>       struct drm_device *dev = adev_to_drm(adev);
->>       u64 flags = 0;
->>       int r;
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c 
->> b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
->> index 31a7f59ccb49..dd57f7164e9a 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
->> @@ -198,7 +198,7 @@ static int etnaviv_ring_show(struct etnaviv_gpu 
->> *gpu, struct seq_file *m)
->>     static int show_unlocked(struct seq_file *m, void *arg)
->>   {
->> -    struct drm_info_node *node = (struct drm_info_node *) m->private;
->> +    struct drm_info_node *node = m->private;
->>       struct drm_device *dev = node->minor->dev;
->>       int (*show)(struct drm_device *dev, struct seq_file *m) =
->>               node->info_ent->data;
->> @@ -208,7 +208,7 @@ static int show_unlocked(struct seq_file *m, void 
->> *arg)
->>     static int show_each_gpu(struct seq_file *m, void *arg)
->>   {
->> -    struct drm_info_node *node = (struct drm_info_node *) m->private;
->> +    struct drm_info_node *node = m->private;
->>       struct drm_device *dev = node->minor->dev;
->>       struct etnaviv_drm_private *priv = dev->dev_private;
->>       struct etnaviv_gpu *gpu;
->> diff --git a/drivers/gpu/drm/nouveau/nouveau_debugfs.c 
->> b/drivers/gpu/drm/nouveau/nouveau_debugfs.c
->> index 2a36d1ca8fda..96b59d5d68ed 100644
->> --- a/drivers/gpu/drm/nouveau/nouveau_debugfs.c
->> +++ b/drivers/gpu/drm/nouveau/nouveau_debugfs.c
->> @@ -37,7 +37,7 @@
->>   static int
->>   nouveau_debugfs_vbios_image(struct seq_file *m, void *data)
->>   {
->> -    struct drm_info_node *node = (struct drm_info_node *) m->private;
->> +    struct drm_info_node *node = m->private;
->>       struct nouveau_drm *drm = nouveau_drm(node->minor->dev);
->>       int i;
->>   diff --git a/drivers/gpu/drm/omapdrm/omap_debugfs.c 
->> b/drivers/gpu/drm/omapdrm/omap_debugfs.c
->> index a3d470468e5b..a94ce502e152 100644
->> --- a/drivers/gpu/drm/omapdrm/omap_debugfs.c
->> +++ b/drivers/gpu/drm/omapdrm/omap_debugfs.c
->> @@ -19,7 +19,7 @@
->>     static int gem_show(struct seq_file *m, void *arg)
->>   {
->> -    struct drm_info_node *node = (struct drm_info_node *) m->private;
->> +    struct drm_info_node *node = m->private;
->>       struct drm_device *dev = node->minor->dev;
->>       struct omap_drm_private *priv = dev->dev_private;
->>   @@ -33,7 +33,7 @@ static int gem_show(struct seq_file *m, void *arg)
->>     static int mm_show(struct seq_file *m, void *arg)
->>   {
->> -    struct drm_info_node *node = (struct drm_info_node *) m->private;
->> +    struct drm_info_node *node = m->private;
->>       struct drm_device *dev = node->minor->dev;
->>       struct drm_printer p = drm_seq_file_printer(m);
->>   @@ -45,7 +45,7 @@ static int mm_show(struct seq_file *m, void *arg)
->>   #ifdef CONFIG_DRM_FBDEV_EMULATION
->>   static int fb_show(struct seq_file *m, void *arg)
->>   {
->> -    struct drm_info_node *node = (struct drm_info_node *) m->private;
->> +    struct drm_info_node *node = m->private;
->>       struct drm_device *dev = node->minor->dev;
->>       struct drm_fb_helper *helper = dev->fb_helper;
->>       struct drm_framebuffer *fb;
->> diff --git a/drivers/gpu/drm/pl111/pl111_debugfs.c 
->> b/drivers/gpu/drm/pl111/pl111_debugfs.c
->> index 6744fa16f464..4df03ec5d368 100644
->> --- a/drivers/gpu/drm/pl111/pl111_debugfs.c
->> +++ b/drivers/gpu/drm/pl111/pl111_debugfs.c
->> @@ -32,7 +32,7 @@ static const struct {
->>     static int pl111_debugfs_regs(struct seq_file *m, void *unused)
->>   {
->> -    struct drm_info_node *node = (struct drm_info_node *)m->private;
->> +    struct drm_info_node *node = m->private;
->>       struct drm_device *dev = node->minor->dev;
->>       struct pl111_drm_dev_private *priv = dev->dev_private;
->>       int i;
->> diff --git a/drivers/gpu/drm/qxl/qxl_debugfs.c 
->> b/drivers/gpu/drm/qxl/qxl_debugfs.c
->> index 2d9ed3b94574..5b4fe3049529 100644
->> --- a/drivers/gpu/drm/qxl/qxl_debugfs.c
->> +++ b/drivers/gpu/drm/qxl/qxl_debugfs.c
->> @@ -38,7 +38,7 @@
->>   static int
->>   qxl_debugfs_irq_received(struct seq_file *m, void *data)
->>   {
->> -    struct drm_info_node *node = (struct drm_info_node *) m->private;
->> +    struct drm_info_node *node = m->private;
->>       struct qxl_device *qdev = to_qxl(node->minor->dev);
->>         seq_printf(m, "%d\n", atomic_read(&qdev->irq_received));
->> @@ -52,7 +52,7 @@ qxl_debugfs_irq_received(struct seq_file *m, void 
->> *data)
->>   static int
->>   qxl_debugfs_buffers_info(struct seq_file *m, void *data)
->>   {
->> -    struct drm_info_node *node = (struct drm_info_node *) m->private;
->> +    struct drm_info_node *node = m->private;
->>       struct qxl_device *qdev = to_qxl(node->minor->dev);
->>       struct qxl_bo *bo;
->>   diff --git a/drivers/gpu/drm/tiny/arcpgu.c 
->> b/drivers/gpu/drm/tiny/arcpgu.c
->> index e5b10e41554a..09f728355aba 100644
->> --- a/drivers/gpu/drm/tiny/arcpgu.c
->> +++ b/drivers/gpu/drm/tiny/arcpgu.c
->> @@ -338,7 +338,7 @@ static int arcpgu_unload(struct drm_device *drm)
->>   #ifdef CONFIG_DEBUG_FS
->>   static int arcpgu_show_pxlclock(struct seq_file *m, void *arg)
->>   {
->> -    struct drm_info_node *node = (struct drm_info_node *)m->private;
->> +    struct drm_info_node *node = m->private;
->>       struct drm_device *drm = node->minor->dev;
->>       struct arcpgu_drm_private *arcpgu = dev_to_arcpgu(drm);
->>       unsigned long clkrate = clk_get_rate(arcpgu->clk);
->> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c 
->> b/drivers/gpu/drm/ttm/ttm_resource.c
->> index 7333f7a87a2f..540faabcf8a4 100644
->> --- a/drivers/gpu/drm/ttm/ttm_resource.c
->> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
->> @@ -727,9 +727,8 @@ ttm_kmap_iter_linear_io_fini(struct 
->> ttm_kmap_iter_linear_io *iter_io,
->>     static int ttm_resource_manager_show(struct seq_file *m, void 
->> *unused)
->>   {
->> -    struct ttm_resource_manager *man =
->> -        (struct ttm_resource_manager *)m->private;
->>       struct drm_printer p = drm_seq_file_printer(m);
->> +    struct ttm_resource_manager *man = m->private;
->>       ttm_resource_manager_debug(man, &p);
->>       return 0;
->>   }
->> diff --git a/drivers/gpu/drm/virtio/virtgpu_debugfs.c 
->> b/drivers/gpu/drm/virtio/virtgpu_debugfs.c
->> index 853dd9aa397e..577691af9707 100644
->> --- a/drivers/gpu/drm/virtio/virtgpu_debugfs.c
->> +++ b/drivers/gpu/drm/virtio/virtgpu_debugfs.c
->> @@ -43,7 +43,7 @@ static void virtio_gpu_add_int(struct seq_file *m, 
->> const char *name, int value)
->>     static int virtio_gpu_features(struct seq_file *m, void *data)
->>   {
->> -    struct drm_info_node *node = (struct drm_info_node *)m->private;
->> +    struct drm_info_node *node = m->private;
->>       struct virtio_gpu_device *vgdev = node->minor->dev->dev_private;
->>         virtio_gpu_add_bool(m, "virgl", vgdev->has_virgl_3d);
->> @@ -68,7 +68,7 @@ static int virtio_gpu_features(struct seq_file *m, 
->> void *data)
->>   static int
->>   virtio_gpu_debugfs_irq_info(struct seq_file *m, void *data)
->>   {
->> -    struct drm_info_node *node = (struct drm_info_node *) m->private;
->> +    struct drm_info_node *node = m->private;
->>       struct virtio_gpu_device *vgdev = node->minor->dev->dev_private;
->>         seq_printf(m, "fence %llu %lld\n",
->> @@ -80,7 +80,7 @@ virtio_gpu_debugfs_irq_info(struct seq_file *m, 
->> void *data)
->>   static int
->>   virtio_gpu_debugfs_host_visible_mm(struct seq_file *m, void *data)
->>   {
->> -    struct drm_info_node *node = (struct drm_info_node *)m->private;
->> +    struct drm_info_node *node = m->private;
->>       struct virtio_gpu_device *vgdev = node->minor->dev->dev_private;
->>       struct drm_printer p;
->>   diff --git a/drivers/gpu/drm/vmwgfx/ttm_object.c 
->> b/drivers/gpu/drm/vmwgfx/ttm_object.c
->> index ddf8373c1d77..e9e3cc8f5b49 100644
->> --- a/drivers/gpu/drm/vmwgfx/ttm_object.c
->> +++ b/drivers/gpu/drm/vmwgfx/ttm_object.c
->> @@ -513,8 +513,7 @@ static void ttm_prime_refcount_release(struct 
->> ttm_base_object **p_base)
->>    */
->>   static void ttm_prime_dmabuf_release(struct dma_buf *dma_buf)
->>   {
->> -    struct ttm_prime_object *prime =
->> -        (struct ttm_prime_object *) dma_buf->priv;
->> +    struct ttm_prime_object *prime = dma_buf->priv;
->>       struct ttm_base_object *base = &prime->base;
->>       struct ttm_object_device *tdev = base->tfile->tdev;
->>   @@ -554,7 +553,7 @@ int ttm_prime_fd_to_handle(struct 
->> ttm_object_file *tfile,
->>       if (dma_buf->ops != &tdev->ops)
->>           return -ENOSYS;
->>   -    prime = (struct ttm_prime_object *) dma_buf->priv;
->> +    prime = dma_buf->priv;
->>       base = &prime->base;
->>       *handle = base->handle;
->>       ret = ttm_ref_object_add(tfile, base, NULL, false);
->> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c 
->> b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
->> index c0da89e16e6f..3267a4e61382 100644
->> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
->> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gem.c
->> @@ -220,7 +220,7 @@ static void vmw_bo_print_info(int id, struct 
->> vmw_bo *bo, struct seq_file *m)
->>     static int vmw_debugfs_gem_info_show(struct seq_file *m, void 
->> *unused)
->>   {
->> -    struct vmw_private *vdev = (struct vmw_private *)m->private;
->> +    struct vmw_private *vdev = m->private;
->>       struct drm_device *dev = &vdev->drm;
->>       struct drm_file *file;
->>       int r;
->
+Working on top of Ideas on Board (branch: ideasonboard/v6.2/isi)
+I'm able to test the driver on imx8mp-evk.
+I collect also some patches to enable HDMI on imx8mp-evk from Pengutronix
+(branch: pengutronix-imx8mp-hdmi)
+
+I collect the patchset required to enable ISI + HDMI on imx8mp-evk into
+the following branch from Avnet Silica Software & Services EMEA [1].
+
+Some documentation on testing ISP and ISI of imx8mp-evk here [2].
+
+Thanks all for the great work!
+
+[1] - https://github.com/avs-sas/linux/tree/tm/ideasonboard/v6.4.0-rc2/isi/imx8mp_evk/alvium_drv_skel1e_v1
+[2] - https://gist.github.com/Scott31393/077a10024a6058536d3f2fdde476265a
+
+Tommaso Merciai (2):
+  media: dt-bindings: alvium: add document YAML binding
+  media: i2c: Add support for alvium camera
+
+ .../media/i2c/alliedvision,alvium.yaml        |  117 +
+ drivers/media/i2c/Kconfig                     |    9 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/alvium.c                    | 3547 +++++++++++++++++
+ drivers/media/i2c/alvium.h                    |  500 +++
+ 5 files changed, 4174 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/alliedvision,alvium.yaml
+ create mode 100644 drivers/media/i2c/alvium.c
+ create mode 100644 drivers/media/i2c/alvium.h
+
+-- 
+2.34.1
+
