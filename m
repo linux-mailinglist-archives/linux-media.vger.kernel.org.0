@@ -2,103 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CD2277133FF
-	for <lists+linux-media@lfdr.de>; Sat, 27 May 2023 12:26:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2674F71342D
+	for <lists+linux-media@lfdr.de>; Sat, 27 May 2023 13:07:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231710AbjE0K0o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 27 May 2023 06:26:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45916 "EHLO
+        id S232196AbjE0LHG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 27 May 2023 07:07:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231218AbjE0K0n (ORCPT
+        with ESMTP id S231699AbjE0LHF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 27 May 2023 06:26:43 -0400
-Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com [IPv6:2607:f8b0:4864:20::f34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A7BB10A
-        for <linux-media@vger.kernel.org>; Sat, 27 May 2023 03:26:39 -0700 (PDT)
-Received: by mail-qv1-xf34.google.com with SMTP id 6a1803df08f44-62614a1dd47so490916d6.2
-        for <linux-media@vger.kernel.org>; Sat, 27 May 2023 03:26:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685183198; x=1687775198;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=l1/AcRXeVao/wwJt5rTG3N1RcEL2uWTIWvqLQcGfLUU=;
-        b=d8in5bpA23yjI5Z1PU6N01b8p3a59z9Xr4SejTnF0QTg41GTNn4ynvIaOsbSFIXWKW
-         mkjklpNwtDSvc6c4PVJFWFNzNhbEXpHN0WBBVozNgeokGogmZs938dXNQ1GnMjOnShtK
-         QaixRTiOusvzFISFZCWeiuDS+23nUXucn31OEIe2ypxiJpMpzn/2fITtHialSr7kwb4i
-         dEuL7Vthaxfr6ihvRNXUohHRPeHRUhOiSOE0WUXf28OS/r07V4CQTWDavv4OefcPmios
-         6oAgyIYi3+wgL+/5B763TmtoyCmKnZWa9iV/JPrsH8kvY3KtNZTY1ccOaIouyj2sJ1ai
-         HYcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685183198; x=1687775198;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=l1/AcRXeVao/wwJt5rTG3N1RcEL2uWTIWvqLQcGfLUU=;
-        b=ET6CSrb2pBxp+xlSfOWYrpfLb2+AKu/RkFI42nbgxnDMGyzL1oyHjOfVdY+dFH6fSg
-         safSPMciEVwk/vckQbI+3MWnyYfvtuMBXIlwTjieu/I5CVCr+mmVjMjlarQGyZkdaVgY
-         BAQbfYWBtjeeigNMWkgC4RxG409TqxuS3h3GefeaIn7OJKecLfuYy+oiGN/9l/v3PzTV
-         eDlwa5/dcdzkdpHOZA0w4X2eeaQJVuGrwwxJnmDfOcNbvX2VvvmDtJFoMD7e/rLY8RWG
-         EyAIzcrBaPdn6cYsogW+Cn8i7+O917+IN9ShC2JBwff8rx+1FCfae8eoujqgMgTJ2xCW
-         YATQ==
-X-Gm-Message-State: AC+VfDw5U4+uywHU4bpaYRBk/wXM1JDDs9ws0QrsafHB50YYBNPZQb+A
-        CpeZoAXuO0U5VORdC4toIFA8zdwrUzCr8Lpbozw=
-X-Google-Smtp-Source: ACHHUZ63To6LhEdRSBsxtOJ5GSsFFkAdBEhL0lh12kFmlNVDppyXhQk/DTeZ7LLLtJAUXr1fsQ2MBbVr9BLHizECc5A=
-X-Received: by 2002:a05:6214:21ac:b0:623:a5d0:1daf with SMTP id
- t12-20020a05621421ac00b00623a5d01dafmr3830230qvc.48.1685183198108; Sat, 27
- May 2023 03:26:38 -0700 (PDT)
+        Sat, 27 May 2023 07:07:05 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D07BF3;
+        Sat, 27 May 2023 04:07:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685185624; x=1716721624;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=L74hDA45q+pqqA8K9jTL0kklXJ0cef6Nic12DbO9aA4=;
+  b=W7r1xrX0XMDakvmxHy+Qurf70Cmc65P1B6KwTYSbDSfAcnrLGBoQe+hE
+   NpK0ORaeLaM2HtBzMutmK2bYVi1n5T08ADcie3bP59claNn01N6n2OQRk
+   CSR1RrA2et7v/sRLXlXpq/5e5JAKw2bYOlspTsMP+p/p8qfXPytZ/U0Ji
+   EzdajHeoe5NfPrfgdPmMDZpwuQgcQM8wRa00btU7829VJ77WCnRlzI2Ii
+   2+3/EBkMb55cUpC/QTL8Z72e4jNj1GyszlxUmQhPkG5+ONEJ7h1Adu9ad
+   +2+ZPccNZCmzriJ/utXYs9RLEOzC5LtmwVw8AsDu6XWyM2Ijd1dUAodJ/
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="334009503"
+X-IronPort-AV: E=Sophos;i="6.00,196,1681196400"; 
+   d="scan'208";a="334009503"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 04:07:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="708672893"
+X-IronPort-AV: E=Sophos;i="6.00,196,1681196400"; 
+   d="scan'208";a="708672893"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 27 May 2023 04:07:01 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1q2rlE-000Jv6-0t;
+        Sat, 27 May 2023 11:07:00 +0000
+Date:   Sat, 27 May 2023 19:06:16 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Min Li <lm0963hack@gmail.com>, alexander.deucher@amd.com
+Cc:     oe-kbuild-all@lists.linux.dev, christian.koenig@amd.com,
+        Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+        sumit.semwal@linaro.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH] drm/radeon: fix race condition UAF in
+ radeon_gem_set_domain_ioctl
+Message-ID: <202305271806.VvOClWyB-lkp@intel.com>
+References: <20230526123753.16160-1-lm0963hack@gmail.com>
 MIME-Version: 1.0
-References: <20230525190100.130010-1-hdegoede@redhat.com> <20230525190100.130010-2-hdegoede@redhat.com>
- <CAHp75Vd1ijQM7b8Z2ip3TXJyuhQJfAqk0MNBVW-Q-ooi_-dBHw@mail.gmail.com> <c53ec167-9211-9d27-db06-f4b2db5f258d@redhat.com>
-In-Reply-To: <c53ec167-9211-9d27-db06-f4b2db5f258d@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 27 May 2023 13:26:02 +0300
-Message-ID: <CAHp75Vf9SsjYAH+jBhMQ4+MOvrs4zB1HZEWjK4XK5vGKV+39Xw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/5] media: atomisp: Add support for v4l2-async sensor registration
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Nable <nable.maininbox@googlemail.com>,
-        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        Dan Scally <djrscally@gmail.com>, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230526123753.16160-1-lm0963hack@gmail.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, May 27, 2023 at 12:25=E2=80=AFPM Hans de Goede <hdegoede@redhat.com=
-> wrote:
-> On 5/26/23 22:30, Andy Shevchenko wrote:
-> > On Thu, May 25, 2023 at 10:01=E2=80=AFPM Hans de Goede <hdegoede@redhat=
-.com> wrote:
+Hi Min,
 
-...
+kernel test robot noticed the following build warnings:
 
-> > Besides that since we have a handle, wouldn't it be better to use
-> > acpi_handle_info() here?
->
-> Yes since we are purely dealing with ACPI / fwnode stuff here using
-> that would make more sense. I'll switch to that.
->
-> I also agree with all your other remarks and I'll fix them all up
-> (and test things again) before merging.
->
-> Andy, may I add your Reviewed-by to this patch too after fixing
-> up all your remarks ?
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.4-rc3 next-20230525]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Sure, go ahead!
+url:    https://github.com/intel-lab-lkp/linux/commits/Min-Li/drm-radeon-fix-race-condition-UAF-in-radeon_gem_set_domain_ioctl/20230527-155623
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230526123753.16160-1-lm0963hack%40gmail.com
+patch subject: [PATCH] drm/radeon: fix race condition UAF in radeon_gem_set_domain_ioctl
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230527/202305271806.VvOClWyB-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/66fb975494d21e80b90235b7d8bf0953990c5c89
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Min-Li/drm-radeon-fix-race-condition-UAF-in-radeon_gem_set_domain_ioctl/20230527-155623
+        git checkout 66fb975494d21e80b90235b7d8bf0953990c5c89
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/gpu/
 
---=20
-With Best Regards,
-Andy Shevchenko
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305271806.VvOClWyB-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/gpu/drm/radeon/radeon_gem.c: In function 'radeon_gem_set_domain_ioctl':
+>> drivers/gpu/drm/radeon/radeon_gem.c:462:27: warning: variable 'robj' set but not used [-Wunused-but-set-variable]
+     462 |         struct radeon_bo *robj;
+         |                           ^~~~
+
+
+vim +/robj +462 drivers/gpu/drm/radeon/radeon_gem.c
+
+f72a113a71ab08 Christian König 2014-08-07  453  
+771fe6b912fca5 Jerome Glisse   2009-06-05  454  int radeon_gem_set_domain_ioctl(struct drm_device *dev, void *data,
+771fe6b912fca5 Jerome Glisse   2009-06-05  455  				struct drm_file *filp)
+771fe6b912fca5 Jerome Glisse   2009-06-05  456  {
+771fe6b912fca5 Jerome Glisse   2009-06-05  457  	/* transition the BO to a domain -
+771fe6b912fca5 Jerome Glisse   2009-06-05  458  	 * just validate the BO into a certain domain */
+dee53e7fb3ee01 Jerome Glisse   2012-07-02  459  	struct radeon_device *rdev = dev->dev_private;
+771fe6b912fca5 Jerome Glisse   2009-06-05  460  	struct drm_radeon_gem_set_domain *args = data;
+771fe6b912fca5 Jerome Glisse   2009-06-05  461  	struct drm_gem_object *gobj;
+4c7886791264f0 Jerome Glisse   2009-11-20 @462  	struct radeon_bo *robj;
+771fe6b912fca5 Jerome Glisse   2009-06-05  463  	int r;
+771fe6b912fca5 Jerome Glisse   2009-06-05  464  
+771fe6b912fca5 Jerome Glisse   2009-06-05  465  	/* for now if someone requests domain CPU -
+771fe6b912fca5 Jerome Glisse   2009-06-05  466  	 * just make sure the buffer is finished with */
+dee53e7fb3ee01 Jerome Glisse   2012-07-02  467  	down_read(&rdev->exclusive_lock);
+771fe6b912fca5 Jerome Glisse   2009-06-05  468  
+771fe6b912fca5 Jerome Glisse   2009-06-05  469  	/* just do a BO wait for now */
+a8ad0bd84f9860 Chris Wilson    2016-05-09  470  	gobj = drm_gem_object_lookup(filp, args->handle);
+771fe6b912fca5 Jerome Glisse   2009-06-05  471  	if (gobj == NULL) {
+dee53e7fb3ee01 Jerome Glisse   2012-07-02  472  		up_read(&rdev->exclusive_lock);
+bf79cb914dbfe8 Chris Wilson    2010-08-04  473  		return -ENOENT;
+771fe6b912fca5 Jerome Glisse   2009-06-05  474  	}
+7e4d15d90afe46 Daniel Vetter   2011-02-18  475  	robj = gem_to_radeon_bo(gobj);
+771fe6b912fca5 Jerome Glisse   2009-06-05  476  
+771fe6b912fca5 Jerome Glisse   2009-06-05  477  	r = radeon_gem_set_domain(gobj, args->read_domains, args->write_domain);
+771fe6b912fca5 Jerome Glisse   2009-06-05  478  
+f11fb66ae92193 Emil Velikov    2020-05-15  479  	drm_gem_object_put(gobj);
+dee53e7fb3ee01 Jerome Glisse   2012-07-02  480  	up_read(&rdev->exclusive_lock);
+66fb975494d21e Min Li          2023-05-26  481  	r = radeon_gem_handle_lockup(rdev, r);
+771fe6b912fca5 Jerome Glisse   2009-06-05  482  	return r;
+771fe6b912fca5 Jerome Glisse   2009-06-05  483  }
+771fe6b912fca5 Jerome Glisse   2009-06-05  484  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
