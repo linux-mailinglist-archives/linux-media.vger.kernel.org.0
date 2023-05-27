@@ -2,200 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B6DDB712EFC
-	for <lists+linux-media@lfdr.de>; Fri, 26 May 2023 23:38:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 072C27131FE
+	for <lists+linux-media@lfdr.de>; Sat, 27 May 2023 04:42:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242576AbjEZVix (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 May 2023 17:38:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41712 "EHLO
+        id S229715AbjE0CmL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 May 2023 22:42:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237985AbjEZVit (ORCPT
+        with ESMTP id S229522AbjE0CmK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 May 2023 17:38:49 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F273FF7
-        for <linux-media@vger.kernel.org>; Fri, 26 May 2023 14:38:47 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id ffacd0b85a97d-3078a3f3b5fso1130658f8f.0
-        for <linux-media@vger.kernel.org>; Fri, 26 May 2023 14:38:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685137126; x=1687729126;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ng9N+c2e3Bp89DkXhUcd8ADdwRno1HXC51mA1TZCgUA=;
-        b=EtviSR0fErEt4WWVQjfkI6LVdNQwfETpMq9eitcy8l1haPH/ngYCo8N/Sr/mQP7rWQ
-         dzWn/u4E5OxQqMjYDdMbKNIyZ+x5XgBfvzNlLg1dEAd1kGZ2H9kAf7BtkHR3/ulfsumo
-         9nR7KJn+aCR2C8CIX26E5Nk4k77lDS/QqS0rloi0+6MewFdTmClazXlCtBON2XPQSUNn
-         zWxt3QfHeaMUkowNi/GtntIQavK4Lrv9CYTNDj+AmiJ9HcknuTdSkJCiFUJaoa/RHa5A
-         wMWYTJcRn+YxUKIc3HmWQ56hk1RZZk5cdUYhshTEOc8jZuBd9BBx2UogBVa5HFHzCA5C
-         DwWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685137126; x=1687729126;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ng9N+c2e3Bp89DkXhUcd8ADdwRno1HXC51mA1TZCgUA=;
-        b=awHnLHFMbQmzE33FRUA061j5rJMOBoQUh+5CKFeTsBQv9EQKyABIVh/hkfkFBsMjtg
-         lb3YzC78ZM6wW9iNhQrq6KaZXjgUEhto1H2/fZFHWXXAFM9dYTAIgB9qFceI3BF770Y9
-         Y+X44IofzZS8kEnJh6Joj3teOvXBZE1caiqC0bCmxgHz9Ae7YsDp86BuqqmMHMXwNS7h
-         +AcKqwrYerVWV0KAYCHQey4YnZcaHAu/M3U8h7hRwPZE5miU1YwBXHJagCl2flD2+y8L
-         dRLdJwwVCWnwR9kXse8WrhcZvkeZ6D2eisFQ29HHMH4Jxj7chIda8QciVhMAIM2u70m/
-         L5rw==
-X-Gm-Message-State: AC+VfDz066J3w2XyaUCuv+6CtnRT+eYBb5S67+ndcbce+6tlFXrwsszk
-        xTXEJk14hY16RserNh82hWc0rQ==
-X-Google-Smtp-Source: ACHHUZ4RoW3fv+qUTi3BXgPtTHI02fQwYPSqH55n/ATO2lnC5wV9gvB0eua6YxhI1bQUJpM5igvwBw==
-X-Received: by 2002:a5d:69c8:0:b0:2f8:96f5:cb0f with SMTP id s8-20020a5d69c8000000b002f896f5cb0fmr2379735wrw.23.1685137126404;
-        Fri, 26 May 2023 14:38:46 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id a15-20020a5d508f000000b002ceacff44c7sm6107425wrt.83.2023.05.26.14.38.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 May 2023 14:38:45 -0700 (PDT)
-Message-ID: <5074b544-741f-9873-83ae-9c8d0d057606@linaro.org>
-Date:   Fri, 26 May 2023 22:38:44 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 3/3] media: camss: Link CAMSS power domain
-Content-Language: en-US
-To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Yassine Oudjana <yassine.oudjana@gmail.com>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Hans Verkuil <hansverk@cisco.com>
-Cc:     Yassine Oudjana <y.oudjana@protonmail.com>,
-        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230526180712.8481-1-y.oudjana@protonmail.com>
- <20230526180712.8481-4-y.oudjana@protonmail.com>
- <fa395680-0e6c-3eb0-9d5a-f90a95c394b8@linaro.org>
- <e755eabf-f8d7-c2cd-aa5a-bc48c7a5d5ae@linaro.org>
- <7bbbf520-d70f-5df6-33ce-a888bf364aa5@linaro.org>
- <7257f5bb-16a3-846c-fc84-262a775e54f4@linaro.org>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <7257f5bb-16a3-846c-fc84-262a775e54f4@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        Fri, 26 May 2023 22:42:10 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08B069F
+        for <linux-media@vger.kernel.org>; Fri, 26 May 2023 19:42:09 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 973AA60F35
+        for <linux-media@vger.kernel.org>; Sat, 27 May 2023 02:42:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96DA4C433D2
+        for <linux-media@vger.kernel.org>; Sat, 27 May 2023 02:42:07 +0000 (UTC)
+Date:   Sat, 27 May 2023 04:42:05 +0200
+Message-ID: <44a695cdb261f2c6e548e580a659da5d.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 26/05/2023 22:28, Konrad Dybcio wrote:
-> 
-> 
-> On 26.05.2023 23:17, Bryan O'Donoghue wrote:
->> On 26/05/2023 21:57, Konrad Dybcio wrote:
->>> This code contains a whole bunch of hacky counting logic that should have
->>> been substituted with _byname, but now we're stuck with indices to keep
->>> compatibility with old DTs :/
->>>
->>> If CAMSS_GDSC (talking about pre-TITAN hw) was a parent of all the other
->>> CAMSS-related GDSCs, we could make it their parent in the clock driver
->>> and call it a day.
->>
->> I mean, it wouldn't make much sense from a hw design POV if that weren't the case..
->>
->> Hmm looks like its already there.
->>
->> static struct gdsc vfe0_gdsc = {
->>          .gdscr = 0x3664,
->>          .cxcs = (unsigned int []){ 0x36a8 },
->>          .cxc_count = 1,
->>          .pd = {
->>                  .name = "vfe0",
->>          },
->>          .parent = &camss_gdsc.pd,
->>          .pwrsts = PWRSTS_OFF_ON,
->> };
->>
->> static struct gdsc vfe1_gdsc = {
->>          .gdscr = 0x3674,
->>          .cxcs = (unsigned int []){ 0x36ac },
->>          .cxc_count = 1,
->>          .pd = {
->>                  .name = "vfe1",
->>          },
->>          .parent = &camss_gdsc.pd,
->>          .pwrsts = PWRSTS_OFF_ON,
->> };
->>
->> I feel this is probably a problem in the description of dependencies for the CSIPHY in the dts for the 8996..
->>
->> I.e. the CSIPHY requires some clocks and power-rails to be switched on ah..
->>
->> static const struct resources csiphy_res_8x96[] = {
->>          /* CSIPHY0 */
->>          {
->>                  .regulators = {},
->>                  .clock = { "top_ahb", "ispif_ahb", "ahb", "csiphy0_timer" },
->>
->>
->> should probably look something like
->>
->> static const struct resources csiphy_res_8x96[] = {
->>          /* CSIPHY0 */
->>          {
->>                  .regulators = {},
->>                  .clock = { "top_ahb", "ispif_ahb", "ahb", "csiphy0_timer", "vfe0"},
->>
->> But basically yeah, we haven't modeled the dependency to the CAMSS_GDSC via the VFEx
-> I have little idea how CAMSS is tied together, but the VFEn clocks
-> are assigned in vfe_res_8x96.clock and ispif_res_8x96.clock_for_reset.
-> 
-> FWIW the ancient msm-3.18 doesn't reference the VFE clocks in CSIPHY.
-> 
-> Anyway, looks like the issue here is that we're not toggling the
-> GDSC early enough in cases where something that's not VFE needs it.
-> 
->>
->> Hmm wait - why haven't we included the CAMSS_GDSC in the dtsi for the 8996 ?
-> Since both VFE GDSCs are children of CAMSS_GDSC and (as mentioned in the
-> commit message) the power sequencing used to be different, it just seems
-> to me like we've been piggybacking on lucky ordering since the introduction
-> of 8996 support.
-> 
-> For comparison, 8916 doesn't define it because it doesn't have it and newer
-> SoCs use TITAN.
-> 
-> SDM630 doesn't define it, but nobody touched it since like 2021 (except
-> Dmitry's fixups when he got his hands on the inforce baord) so it's
-> probably broken as well..
-> 
-> 
-> Konrad
->>
->> ---
->> bod
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-Hmm, so what I suggested is what Yassine has i.e. adds <&mmcc 
-CAMSS_GDSC>; to the top-level camss node.
+Results of the daily build of media_tree:
 
-Without testing, this _looks_ right to me. I just think, like Conor 
-flagged we don't need to add a dependency on the power-domain names.
+date:			Sat May 27 03:00:10 CEST 2023
+media-tree git hash:	aafeeaf3d2a8a91a5407c774c578abec79dcff00
+v4l-utils git hash:	52926c1f2f03aebe34d96056e8380ab07c8f512d
+edid-decode git hash:	2d44e1b01c7ed7d65b20ecdce62d354841832201
+gcc version:		i686-linux-gcc (GCC) 12.3.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8371-g475c3cec-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: e662b048beb33bae360d69dc6708aa84fff2741f
+host hardware:		x86_64
+host os:		6.1.0-5-amd64
 
-I don't quite know whats the reference for downstream you are looking at 
-but, just generally it is possible to waggle the CSIPHY, VFE, IFE - my 
-guess would be that CAMX @ the time of 8996 always had the CAMSS_GDSC or 
-the VFEx - and hence the VFE -> CAMSS_GDSC on by the time the CSIPHY cod 
-ran.
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm-multi: OK
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: WARNINGS: VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
+Check for strcpy/strncpy/strlcpy: OK
+apps: WARNINGS
+spec-git: OK
+virtme: OK: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 0
+CONFIG_PM=n: WARNINGS
+CONFIG_PM_SLEEP=n: WARNINGS
+CONFIG_OF=n: WARNINGS
+sparse: WARNINGS
+smatch: ERRORS
+kerneldoc: WARNINGS
 
-Anyway my comments here still stand.
+Detailed results are available here:
 
-- I don't think we need to nor should be counting power-domain names
-- I do think we should be adding CAMSS_GDSC to the 8996 top-level CAMSS node
+https://hverkuil.home.xs4all.nl/logs/Saturday.log
 
-Yassine ? Can you take a stab at that ?
+Detailed regression test results are available here:
 
----
-bod
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
