@@ -2,97 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 072C27131FE
-	for <lists+linux-media@lfdr.de>; Sat, 27 May 2023 04:42:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 671CF7132BE
+	for <lists+linux-media@lfdr.de>; Sat, 27 May 2023 08:02:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229715AbjE0CmL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 May 2023 22:42:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51086 "EHLO
+        id S231545AbjE0GCU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 27 May 2023 02:02:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229522AbjE0CmK (ORCPT
+        with ESMTP id S229499AbjE0GCT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 May 2023 22:42:10 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08B069F
-        for <linux-media@vger.kernel.org>; Fri, 26 May 2023 19:42:09 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 973AA60F35
-        for <linux-media@vger.kernel.org>; Sat, 27 May 2023 02:42:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96DA4C433D2
-        for <linux-media@vger.kernel.org>; Sat, 27 May 2023 02:42:07 +0000 (UTC)
-Date:   Sat, 27 May 2023 04:42:05 +0200
-Message-ID: <44a695cdb261f2c6e548e580a659da5d.hverkuil@xs4all.nl>
-From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Sat, 27 May 2023 02:02:19 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E95009E;
+        Fri, 26 May 2023 23:02:16 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-96f818c48fbso268323266b.0;
+        Fri, 26 May 2023 23:02:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685167335; x=1687759335;
+        h=mime-version:references:in-reply-to:message-id:cc:to:subject:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=SYUbUzRDyKvBWuzAZ60BWsZvsAhZJCrWfsLAi7Apk0g=;
+        b=Pq8+Zk+Q89/G4e8/TqXAQndtXf6O0j3qOxfkjBGXaHmt1zL0H3uayA4pwyiD6DobRL
+         AaocUawS2IvakUsLBS11BnOLQrbrtz96iofUxrZzpoywsRRaLxy38hlbw3JBEF8nK3Cl
+         OnVgMjVFrQxqtLrxSNTpyHkT8TSntIOTNWPd86tjlsAJYwCWZIWie+/J99MD/pOCzRCD
+         DHeJWRICgz+RRUae9x7k7LzMLxwZX2+po/JzpDz5teiBLhxGYRTNOjKxGJYxAp8qDxJG
+         mOg+P5fQ0higxUXTyE2elDfkhueHsrUwMa2yZvlBIbEyce4TSI5wTvPybwplbWR0icla
+         OB2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685167335; x=1687759335;
+        h=mime-version:references:in-reply-to:message-id:cc:to:subject:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SYUbUzRDyKvBWuzAZ60BWsZvsAhZJCrWfsLAi7Apk0g=;
+        b=HYMf69r1uEHzkAcfHjh2QaMGdY5BffsPH8b4QhFr05dyMh9kQiH6dw+pzgoIxJwu/I
+         z1EHc2H5HteTXhV6+ndpNnxMipN9BEVX2Qt0dR6MV6p75x7XgYm1J9wdUDBWTLreaIWH
+         dOgaWOW7rDZAnt7d0r3PcpJ/bUpHUDTk4MmTeyVMtjxxwMuFw0cMtWpkp3HoRyL4a15e
+         OqQ3alh6LuSpX8DwtBkTAirbtw9yXSFPvC7MDdEI75+3/ARpGYQhivN9tBnxdjXlZvTL
+         jlLFuAPCWQmYM0/frRJOHgUzzcZ34mwk6CeL3ph3SGkJaxuI/+95daLho6lpW2IhuXfa
+         Hkvw==
+X-Gm-Message-State: AC+VfDyxwHKYAJPk9TPE4bDrL6qNbzTXxQqU/lmGk63oFTBn9RSKQy5s
+        1R85SSCB7305v5tghY9MTU0=
+X-Google-Smtp-Source: ACHHUZ52puV6wtFPC8NjAMgbGrTCkjqSX/kEsC59aXlEtIjeBQO5msXVUKP487UYvie13tlJt9sfkw==
+X-Received: by 2002:a17:907:97c6:b0:96f:4225:9009 with SMTP id js6-20020a17090797c600b0096f42259009mr4000794ejc.0.1685167335098;
+        Fri, 26 May 2023 23:02:15 -0700 (PDT)
+Received: from [192.168.94.52] ([95.183.227.33])
+        by smtp.gmail.com with ESMTPSA id x19-20020a1709064a9300b0096616adc0d5sm3004547eju.104.2023.05.26.23.02.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 May 2023 23:02:14 -0700 (PDT)
+Date:   Sat, 27 May 2023 09:02:04 +0300
+From:   Yassine Oudjana <yassine.oudjana@gmail.com>
+Subject: Re: [PATCH v2 3/3] media: camss: Link CAMSS power domain
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc:     Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Hans Verkuil <hansverk@cisco.com>,
+        Yassine Oudjana <y.oudjana@protonmail.com>,
+        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Message-Id: <GFZAVR.8RI43MBQZ4HN3@gmail.com>
+In-Reply-To: <fa395680-0e6c-3eb0-9d5a-f90a95c394b8@linaro.org>
+References: <20230526180712.8481-1-y.oudjana@protonmail.com>
+        <20230526180712.8481-4-y.oudjana@protonmail.com>
+        <fa395680-0e6c-3eb0-9d5a-f90a95c394b8@linaro.org>
+X-Mailer: geary/43.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii; format=flowed
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
 
-Results of the daily build of media_tree:
+On Fri, May 26 2023 at 09:49:30 PM +01:00:00, Bryan O'Donoghue 
+<bryan.odonoghue@linaro.org> wrote:
+> On 26/05/2023 19:07, Yassine Oudjana wrote:
+>> From: Yassine Oudjana <y.oudjana@protonmail.com>
+>> 
+>> The CAMSS power domain was previously enabled implicitly when the VFE
+>> power domains were enabled.
+>> Commit 46cc03175498 ("media: camss: Split power domain management")
+>> delayed enabling VFE power domains which in turn delayed enabling the
+>> CAMSS power domain. This made CSIPHY fail to enable camss_top_ahb_clk
+>> which requires the CAMSS power domain to be on:
+>> 
+>> [  199.097810] ------------[ cut here ]------------
+>> [  199.097893] camss_top_ahb_clk status stuck at 'off'
+>> [  199.097913] WARNING: CPU: 3 PID: 728 at 
+>> drivers/clk/qcom/clk-branch.c:91 clk_branch_wait+0x140/0x160
+>> ...
+>> [  199.100064]  clk_branch_wait+0x140/0x160
+>> [  199.100112]  clk_branch2_enable+0x30/0x40
+>> [  199.100159]  clk_core_enable+0x6c/0xb0
+>> [  199.100211]  clk_enable+0x2c/0x50
+>> [  199.100257]  camss_enable_clocks+0x94/0xe0 [qcom_camss]
+>> [  199.100342]  csiphy_set_power+0x154/0x2a0 [qcom_camss]
+>> ...
+>> [  199.101594] ---[ end trace 0000000000000000 ]---
+>> 
+>> Link the CAMSS power domain in camss_configure_pd to make sure it 
+>> gets
+>> enabled before CSIPHY tries to enable clocks.
+>> 
+>> Fixes: 02afa816dbbf ("media: camss: Add basic runtime PM support")
+>> Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
+>> ---
+>>   drivers/media/platform/qcom/camss/camss.c | 9 ++++++++-
+>>   1 file changed, 8 insertions(+), 1 deletion(-)
+>> 
+>> diff --git a/drivers/media/platform/qcom/camss/camss.c 
+>> b/drivers/media/platform/qcom/camss/camss.c
+>> index 1ef26aea3eae..9aea8220d923 100644
+>> --- a/drivers/media/platform/qcom/camss/camss.c
+>> +++ b/drivers/media/platform/qcom/camss/camss.c
+>> @@ -1453,6 +1453,7 @@ static const struct media_device_ops 
+>> camss_media_ops = {
+>>   static int camss_configure_pd(struct camss *camss)
+>>   {
+>>   	struct device *dev = camss->dev;
+>> +	int camss_pd_index;
+>>   	int i;
+>>   	int ret;
+>>   @@ -1496,7 +1497,13 @@ static int camss_configure_pd(struct camss 
+>> *camss)
+>>   		}
+>>   	}
+>>   -	if (i > camss->vfe_num) {
+>> +	/* Link CAMSS power domain if available */
+>> +	camss_pd_index = device_property_match_string(camss->dev, 
+>> "power-domain-names", "camss");
+>> +	if (camss_pd_index >= 0)
+>> +		device_link_add(camss->dev, camss->genpd[camss_pd_index], 
+>> DL_FLAG_STATELESS |
+>> +				DL_FLAG_PM_RUNTIME | DL_FLAG_RPM_ACTIVE);
+>> +
+>> +	if (i > camss->vfe_num && i != camss_pd_index) {
+>>   		camss->genpd_link[i - 1] = device_link_add(camss->dev, 
+>> camss->genpd[i - 1],
+>>   							   DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME |
+>>   							   DL_FLAG_RPM_ACTIVE);
+> 
+> Konrad pointed this out.
+> 
+> Are you 100% sure you want to do this. We already have a way to count 
+> the # of power-domains in camss_configure_pd().
+> 
+> Your series is now adding a dependency on power-domain-names.
+> 
+> Is there a good reason to add that dependency ? If not, then lets 
+> just take the code from camss_configure_pd() and make it so that it 
+> can be used/reused here.
 
-date:			Sat May 27 03:00:10 CEST 2023
-media-tree git hash:	aafeeaf3d2a8a91a5407c774c578abec79dcff00
-v4l-utils git hash:	52926c1f2f03aebe34d96056e8380ab07c8f512d
-edid-decode git hash:	2d44e1b01c7ed7d65b20ecdce62d354841832201
-gcc version:		i686-linux-gcc (GCC) 12.3.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8371-g475c3cec-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: e662b048beb33bae360d69dc6708aa84fff2741f
-host hardware:		x86_64
-host os:		6.1.0-5-amd64
+Is there a good reason not to? I found that using the existing 
+index-based method would unnecessarily complicate things since an extra 
+layer of checks would be needed to differentiate between MSM8996 and 
+TITAN SoCs, since those have the TITAN GDSC at the same index where the 
+CAMSS GDSC is now added for MSM8996. The same checks will also have to 
+be repeated in error paths and during cleanup.
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm-multi: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-i686: WARNINGS
-linux-git-x86_64: WARNINGS
-Check COMPILE_TEST: WARNINGS: VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
-Check for strcpy/strncpy/strlcpy: OK
-apps: WARNINGS
-spec-git: OK
-virtme: OK: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 0
-CONFIG_PM=n: WARNINGS
-CONFIG_PM_SLEEP=n: WARNINGS
-CONFIG_OF=n: WARNINGS
-sparse: WARNINGS
-smatch: ERRORS
-kerneldoc: WARNINGS
+I guessed the only reason we were still using this method for the 
+existing PDs was to remain compatible with old DT as Konrad mentioned, 
+and since this CAMSS PD is only added now, I thought it'd be a good 
+opportunity to introduce power-domain-names and simplify things a bit.
 
-Detailed results are available here:
+> ---
+> bod
 
-https://hverkuil.home.xs4all.nl/logs/Saturday.log
 
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
