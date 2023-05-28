@@ -2,88 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 349B17139A1
-	for <lists+linux-media@lfdr.de>; Sun, 28 May 2023 15:24:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE231713A58
+	for <lists+linux-media@lfdr.de>; Sun, 28 May 2023 17:13:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229475AbjE1NYD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 28 May 2023 09:24:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53764 "EHLO
+        id S229491AbjE1PNH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 28 May 2023 11:13:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbjE1NYB (ORCPT
+        with ESMTP id S229445AbjE1PNG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 28 May 2023 09:24:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20BFDB2
-        for <linux-media@vger.kernel.org>; Sun, 28 May 2023 06:23:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1685280192;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=YG4jStiopgRv61U/kO8cjOPjY9KyLCxmZ6r+C4ZOzCE=;
-        b=Fz1c5PXRSo7ERor3EwxE4uF7NEZy0eH4th8WvVh/Ght4c4j1x9by6/2XaFEpdZJbFisW+8
-        zBMZlif+S0m/u5JaE1Yg0/QstBix9gka+kr+iCNwZB7oULp71dMjD4T0JxjFBnBtE3SFqH
-        OCQQseofzZI6ESgUSaogWzaZPNapa5U=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-480-ejXYfuaZM-uKwOQdJ_c1aQ-1; Sun, 28 May 2023 09:23:10 -0400
-X-MC-Unique: ejXYfuaZM-uKwOQdJ_c1aQ-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-94a356c74e0so220366566b.2
-        for <linux-media@vger.kernel.org>; Sun, 28 May 2023 06:23:10 -0700 (PDT)
+        Sun, 28 May 2023 11:13:06 -0400
+Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01077A7;
+        Sun, 28 May 2023 08:13:04 -0700 (PDT)
+Received: by mail-qv1-xf2f.google.com with SMTP id 6a1803df08f44-6261a8bbe5fso5352646d6.0;
+        Sun, 28 May 2023 08:13:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685286784; x=1687878784;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=YvgNUPTdKFpPQ5giDMpHNmpnkLWBibax0OWyz2QXbcA=;
+        b=rWNef71eljSgJNTpHZZvr/0PITs0py2BIsbJu8tDe1yuH49P/VMQvvrKoBPHerk7Qy
+         XAc9xMfd7SloXxSYHN4hEgsrXMhv8XftqohBfQSCjmqkF7rAuzgxV9go3oawo5IscCtl
+         RoTWqzjnkolv/NxsulfRK+/hdd988kIZ+fkdM6ux5squD9Wp+gxNQMJlmGW0deOST2w0
+         WNh07oMtoKtuyNTtdVHGZJm4Tku7ME7uqDHVVUe/NeE4t4Gx1aF9taNihL2BzplcM4R+
+         PZT/gbVMcs+D3lbZyIA50K0c1CG+aVyLvN4GUzlSfNAkK/eaR4YTNak0xJ13bJE12kQP
+         VkIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685280189; x=1687872189;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YG4jStiopgRv61U/kO8cjOPjY9KyLCxmZ6r+C4ZOzCE=;
-        b=Pv3oGpHTBpSIkXEL9vZna3RYwJLg115EC8Ff14hIuNh616ld2qNfV1vBflr+TsurFE
-         rYOimso0PbNMQ8YJPKOUvVJTOqF0uGx1rjkGtOorVdBHMwzxnzzjX8dWnOX9C+Z6PSlD
-         OQO0n2DcLHhR5aOEcWmB4+6JmML6pGMN2/d9BhIO278TyqfXgjkK24eex5bQ3hNi/lnj
-         WhnHCXuuZIvp92045U+I6VcuZvYLi6b83cUXDL4ma5ufJ44j+4CiIQb6PGtvTnKhpIQD
-         uspa+ljLLaaUNZd979ibtvwKqwRWxE7qRmrfzrh1Wm2JaTfY1+jWD7WM2fxc9fEiCIz7
-         6hLQ==
-X-Gm-Message-State: AC+VfDwyptZewSrSnPC0+i2p0qgaYSB69IZYNd15YxJaPmVHZzm3d6oD
-        QzaTQ+PpdpuhtLXSDZ4GF/xqG/EsNhGr69egtYJJqDtG4mPbIOpeQmmxPJxTlyzsObqjw5Ov1SH
-        ltTeefafiYZnq8D4mpp6I7OU=
-X-Received: by 2002:a17:907:3206:b0:966:168d:8c9 with SMTP id xg6-20020a170907320600b00966168d08c9mr7855541ejb.32.1685280189796;
-        Sun, 28 May 2023 06:23:09 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ79MghFLcFBVgpI2+D9PGz03AoC6gFKUVaJujdmdnSnCJ5BM7KS9oBmCu9Fd00K9NRP17+dsw==
-X-Received: by 2002:a17:907:3206:b0:966:168d:8c9 with SMTP id xg6-20020a170907320600b00966168d08c9mr7855515ejb.32.1685280189509;
-        Sun, 28 May 2023 06:23:09 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id kq12-20020a170906abcc00b009596e7e0dbasm4647713ejb.162.2023.05.28.06.23.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 28 May 2023 06:23:08 -0700 (PDT)
-Message-ID: <76dedab6-24cf-f4e6-a780-85704f8d217e@redhat.com>
-Date:   Sun, 28 May 2023 15:23:07 +0200
+        d=1e100.net; s=20221208; t=1685286784; x=1687878784;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YvgNUPTdKFpPQ5giDMpHNmpnkLWBibax0OWyz2QXbcA=;
+        b=Pglcl0Ql1sNGoRMtqjrBnjJmXVfzPplGB0OUdimCT5iEs2l1bm9m+A1bgteDAXqLpw
+         JmBL+XPwtIhDAbyKSz/vmE6kJnr2LkkIWrwfCMH2VCcu7eqj1HA8ElUyjgIvp6qzsQdA
+         hYT0yNMP6jpg2FClZ4LB0T6rlROoxwXpmQFzd8GanE7sVSYwVS57JMAL46aGqh6DfJSY
+         7pVOyDuo9a0nPGATe54FGyBfxgdkVWkmDvZbCC9K8g2aRvoTf2SWfXw+KuBunOyDPnuj
+         vYmMBWu69U41CQ3iJnB6OxFvl0H7HEREILXqcad87ztvPmXRVVE5qVKkzPzESV9NHJP2
+         ispw==
+X-Gm-Message-State: AC+VfDyKKk2us2HI6d+zz45hfAAF6U7evyA99ZUSgVdLq7FcHhGfePbs
+        D1V7PwXYxGBR5/lS4BEMrL2y1tsxKJdpad3c1BJt6IK5
+X-Google-Smtp-Source: ACHHUZ5BDFMR6zRPvR9sdy0ZOJBW8kO+xtM5hS9sIzPBR/TNcGYPGI9XI6+bRVES7IKU07nNnNeWRcbGc8KREcF02dA=
+X-Received: by 2002:a05:6214:2487:b0:621:83d:3a47 with SMTP id
+ gi7-20020a056214248700b00621083d3a47mr9282949qvb.39.1685286783534; Sun, 28
+ May 2023 08:13:03 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] media: atomisp: Fix buffer overrun in gmin_get_var_int()
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Nable <nable.maininbox@googlemail.com>,
-        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        Dan Carpenter <dan.carpenter@linaro.org>
-References: <20230527155136.61957-1-hdegoede@redhat.com>
- <CAHp75Vf7bCQp+vJH02yJjmooxZSgNna5sRQ=UEq=4LmsDZPsFQ@mail.gmail.com>
- <b037dbd7-a95d-00cb-7763-f6e244626b13@redhat.com>
- <CAHp75VfN5YtBDv0caubfm=2Y8YpvqAxWeAa7dzJZe79S3teiqA@mail.gmail.com>
-Content-Language: en-US, nl
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAHp75VfN5YtBDv0caubfm=2Y8YpvqAxWeAa7dzJZe79S3teiqA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+References: <20230524164210.20567-1-osmtendev@gmail.com> <20230526115340.295b1122@sal.lan>
+In-Reply-To: <20230526115340.295b1122@sal.lan>
+From:   Osama Muhammad <osmtendev@gmail.com>
+Date:   Sun, 28 May 2023 20:12:52 +0500
+Message-ID: <CAK6rUAO5PfprdShe3=6gnsUQ2rStpKxYvHcOek7A-CEJvaWO7A@mail.gmail.com>
+Subject: Re: [PATCH] smsdvb-debugfs.c: Fix error checking for debugfs_create_file
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -93,53 +68,64 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi,
 
-On 5/28/23 09:55, Andy Shevchenko wrote:
-> On Sat, May 27, 2023 at 8:54 PM Hans de Goede <hdegoede@redhat.com> wrote:
->> On 5/27/23 18:55, Andy Shevchenko wrote:
->>> On Sat, May 27, 2023 at 6:51 PM Hans de Goede <hdegoede@redhat.com> wrote:
-> 
-> ...
-> 
->>>> Closes: https://lore.kernel.org/linux-media/26f37e19-c240-4d77-831d-ef3f1a4dd51d@kili.mountain/
->>>
->>> Is this a new official tag? (Just to my surprise)
->>
->> Yes, I was surprised too, checkpatch.pl now wants a Closes: tag
->> after a Reported-by: one, rather then a Link: tag.
-> 
-> Interesting...
-> 
-> ...
-> 
->>>> -       char val[CFG_VAR_NAME_MAX];
->>>> -       size_t len = sizeof(val);
->>>> +       char val[CFG_VAR_NAME_MAX + 1];
->>>> +       size_t len = CFG_VAR_NAME_MAX;
->>>
->>> Why not sizeof() - 1? At least it will be a single point when change
->>> can be made and not breaking again in a similar way the code.
->>
->> I wanted to make the buffer one byte bigger to make room for
->> the terminating 0, not 1 bute smaller.
-> 
-> I understand, and I'm commenting only on the len assignment. Sorry for
-> not being clear.
-> 
-> Hence you will have
-> 
->   buf[SIZE + 1];
->   sizeof(buf) - 1;
+After researching more into it I have come to know that the debugfs
+API will not return null on error but an ERR_PTR. The modern wisdom
+about it is to ignore the errors returned by the function as stated in
+the comment  above the function debugfs_create_file.
 
-That is just ugly IMHO, why take the sizeof something which
-we know is SIZE + 1 and then substract 1 instead of just
-writing SIZE ?
+> * NOTE: it's expected that most callers should _ignore_ the errors returned
+ >* by this function. Other debugfs functions handle the fact that the "dentry"
+ >* passed to them could be an error and they don't crash in that case.
+> * Drivers should generally work fine even if debugfs fails to init anyway.
+Here is the link to comment :-
+https://elixir.bootlin.com/linux/latest/source/fs/debugfs/inode.c#L451
 
-Note that for any future SIZE define changes both methods
-are equally future proof in that they both automatically
-adjust to the define changing.
+Considering this, I will send the revision of the patch by removing
+error checks. Please correct me if  there are any concerns with this.
 
-Regards,
-
-Hans
+Thanks,
+Osmten
 
 
+
+On Fri, 26 May 2023 at 15:53, Mauro Carvalho Chehab <mchehab@kernel.org> wrote:
+>
+> Em Wed, 24 May 2023 21:42:10 +0500
+> Osama Muhammad <osmtendev@gmail.com> escreveu:
+>
+> > This patch fixes the error checking in smsdvb-debugfs.c in
+> > debugfs_create_file. The correct way to check if an error occurred
+> > is using 'IS_ERR_OR_NULL' inline function.
+> >
+> > Signed-off-by: Osama Muhammad <osmtendev@gmail.com>
+> > ---
+> >  drivers/media/common/siano/smsdvb-debugfs.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/common/siano/smsdvb-debugfs.c b/drivers/media/common/siano/smsdvb-debugfs.c
+> > index 8916bb644756..0f8750d7993c 100644
+> > --- a/drivers/media/common/siano/smsdvb-debugfs.c
+> > +++ b/drivers/media/common/siano/smsdvb-debugfs.c
+> > @@ -469,7 +469,7 @@ int smsdvb_debugfs_create(struct smsdvb_client_t *client)
+> >
+> >       d = debugfs_create_file("stats", S_IRUGO | S_IWUSR, client->debugfs,
+> >                               client, &debugfs_stats_ops);
+> > -     if (!d) {
+> > +     if (IS_ERR_OR_NULL(d)) {
+> >               debugfs_remove(client->debugfs);
+> >               return -ENOMEM;
+>
+> if IS_ERR, it is probably better to return PTR_ERR(d).
+>
+> So, please change it accordingly, returning -ENOMEM only on NULL, e. g.
+> something like (untested):
+>
+>         if (IS_ERR_OR_NULL(d)) {
+>                 debugfs_remove(client->debugfs);
+>                 if (!d)
+>                         return -ENOMEM;
+>                 return PTR_ERR(d);
+>         }
+>
+> Regards,
+> Mauro
