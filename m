@@ -2,130 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE231713A58
-	for <lists+linux-media@lfdr.de>; Sun, 28 May 2023 17:13:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5967B714085
+	for <lists+linux-media@lfdr.de>; Sun, 28 May 2023 23:13:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229491AbjE1PNH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 28 May 2023 11:13:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44660 "EHLO
+        id S229589AbjE1VNS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 28 May 2023 17:13:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbjE1PNG (ORCPT
+        with ESMTP id S229482AbjE1VNR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 28 May 2023 11:13:06 -0400
-Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01077A7;
-        Sun, 28 May 2023 08:13:04 -0700 (PDT)
-Received: by mail-qv1-xf2f.google.com with SMTP id 6a1803df08f44-6261a8bbe5fso5352646d6.0;
-        Sun, 28 May 2023 08:13:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685286784; x=1687878784;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=YvgNUPTdKFpPQ5giDMpHNmpnkLWBibax0OWyz2QXbcA=;
-        b=rWNef71eljSgJNTpHZZvr/0PITs0py2BIsbJu8tDe1yuH49P/VMQvvrKoBPHerk7Qy
-         XAc9xMfd7SloXxSYHN4hEgsrXMhv8XftqohBfQSCjmqkF7rAuzgxV9go3oawo5IscCtl
-         RoTWqzjnkolv/NxsulfRK+/hdd988kIZ+fkdM6ux5squD9Wp+gxNQMJlmGW0deOST2w0
-         WNh07oMtoKtuyNTtdVHGZJm4Tku7ME7uqDHVVUe/NeE4t4Gx1aF9taNihL2BzplcM4R+
-         PZT/gbVMcs+D3lbZyIA50K0c1CG+aVyLvN4GUzlSfNAkK/eaR4YTNak0xJ13bJE12kQP
-         VkIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685286784; x=1687878784;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YvgNUPTdKFpPQ5giDMpHNmpnkLWBibax0OWyz2QXbcA=;
-        b=Pglcl0Ql1sNGoRMtqjrBnjJmXVfzPplGB0OUdimCT5iEs2l1bm9m+A1bgteDAXqLpw
-         JmBL+XPwtIhDAbyKSz/vmE6kJnr2LkkIWrwfCMH2VCcu7eqj1HA8ElUyjgIvp6qzsQdA
-         hYT0yNMP6jpg2FClZ4LB0T6rlROoxwXpmQFzd8GanE7sVSYwVS57JMAL46aGqh6DfJSY
-         7pVOyDuo9a0nPGATe54FGyBfxgdkVWkmDvZbCC9K8g2aRvoTf2SWfXw+KuBunOyDPnuj
-         vYmMBWu69U41CQ3iJnB6OxFvl0H7HEREILXqcad87ztvPmXRVVE5qVKkzPzESV9NHJP2
-         ispw==
-X-Gm-Message-State: AC+VfDyKKk2us2HI6d+zz45hfAAF6U7evyA99ZUSgVdLq7FcHhGfePbs
-        D1V7PwXYxGBR5/lS4BEMrL2y1tsxKJdpad3c1BJt6IK5
-X-Google-Smtp-Source: ACHHUZ5BDFMR6zRPvR9sdy0ZOJBW8kO+xtM5hS9sIzPBR/TNcGYPGI9XI6+bRVES7IKU07nNnNeWRcbGc8KREcF02dA=
-X-Received: by 2002:a05:6214:2487:b0:621:83d:3a47 with SMTP id
- gi7-20020a056214248700b00621083d3a47mr9282949qvb.39.1685286783534; Sun, 28
- May 2023 08:13:03 -0700 (PDT)
+        Sun, 28 May 2023 17:13:17 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5177EB8;
+        Sun, 28 May 2023 14:13:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685308396; x=1716844396;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=1pk6WOHF6lAXsXWjNBSZaBU5uet0vhPcVxBvcZGXqGU=;
+  b=m9loG8ipldHQSBmqkHJXANr1GyIewdr5gs2VJUeWQtnKtqgXznkSeZI7
+   aztMKIh5icfp1P2s2xW18jlpP9zvRIQxCUko2iN6iV87+L+QcmXPPkps+
+   u2SItMm9zDvd1ebNjHDWWMzlyn0BselmTyi0pv+AYmjOyioGFk2SwiAZ2
+   o6iGPyT40e1Jqs+AFfVHht31Ieqx3vme8P5cLo8QJxnH7+QwBoKMRX+de
+   FK4EDXEQp201U/Y2Vs0pPJhHFg4AA01b6VeZ8UHzgIxnb5Cqi/4l3jv7f
+   p5dqetqYooewhu9Mh9uzXuZcmMWbcB3/QpTMFLh0ByC0ntYdepXYuL4OT
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="420318990"
+X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
+   d="scan'208";a="420318990"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2023 14:13:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="770910621"
+X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
+   d="scan'208";a="770910621"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2023 14:13:10 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id E770612303D;
+        Mon, 29 May 2023 00:13:07 +0300 (EEST)
+Date:   Sun, 28 May 2023 21:13:07 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Muhammad Usama Anjum <usama.anjum@collabora.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Paul Menzel <pmenzel@molgen.mpg.de>,
+        Wang Yating <yating.wang@intel.com>,
+        Christoph Jechlitschek <christoph.jechlitschek@intel.com>,
+        Hao Yao <hao.yao@intel.com>, Andy Yeh <andy.yeh@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        linux-media@vger.kernel.org, Mark Pearson <markpearson@lenovo.com>,
+        Dell.Client.Kernel@dell.com, linux-kernel@vger.kernel.org,
+        Guenter Roeck <groeck@google.com>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Andy Whitcroft <apw@canonical.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Christian Schaller <cschalle@redhat.com>,
+        Wouter Bolsterlee <wouter@bolsterl.ee>,
+        Miguel Palhas <mpalhas@gmail.com>, it+linux-media@molgen.mpg.de
+Subject: Re: Missing MIPI IPU6 camera driver for Intel Alder Lake laptops
+Message-ID: <ZHPD40NVGgFr3Iek@kekkonen.localdomain>
+References: <52c87d91-422d-fca0-4dd5-bbaa559c81b6@molgen.mpg.de>
+ <YvUKLbv/pOfbbeL+@pendragon.ideasonboard.com>
+ <YvUaEDMbZD70x+hD@kroah.com>
+ <Yyxd0BJw5syjVsvm@paasikivi.fi.intel.com>
+ <88033d6a-b1d6-a77d-cab7-1401d97ae8e2@collabora.com>
 MIME-Version: 1.0
-References: <20230524164210.20567-1-osmtendev@gmail.com> <20230526115340.295b1122@sal.lan>
-In-Reply-To: <20230526115340.295b1122@sal.lan>
-From:   Osama Muhammad <osmtendev@gmail.com>
-Date:   Sun, 28 May 2023 20:12:52 +0500
-Message-ID: <CAK6rUAO5PfprdShe3=6gnsUQ2rStpKxYvHcOek7A-CEJvaWO7A@mail.gmail.com>
-Subject: Re: [PATCH] smsdvb-debugfs.c: Fix error checking for debugfs_create_file
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <88033d6a-b1d6-a77d-cab7-1401d97ae8e2@collabora.com>
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Muhammad,
 
-After researching more into it I have come to know that the debugfs
-API will not return null on error but an ERR_PTR. The modern wisdom
-about it is to ignore the errors returned by the function as stated in
-the comment  above the function debugfs_create_file.
+On Fri, May 26, 2023 at 03:51:36PM +0500, Muhammad Usama Anjum wrote:
+> Hi Sakari,
+> 
+> On 9/22/22 6:06 PM, Sakari Ailus wrote:
+> > Hi Greg, others,
+> > 
+> > On Thu, Aug 11, 2022 at 05:02:40PM +0200, Greg KH wrote:
+> >> On Thu, Aug 11, 2022 at 04:54:53PM +0300, Laurent Pinchart wrote:
+> >>> For the time being, I agree with your recommendation to not buy these
+> >>> devices if you care about camera support.
+> >>
+> >> I second this, don't buy these devices if the vendor is not willing to
+> >> get their drivers upstreamed properly.
+> > 
+> > I can now confirm that IPU6 driver upstreaming is now planned, with IPU6
+> > input system driver to be upstreamed first. The intent is that we would
+> > have patches for review on LMML around the end of the year.
+> Is there any update on IPU6 driver? Probably it hasn't been sent upstream
+> yet?
 
-> * NOTE: it's expected that most callers should _ignore_ the errors returned
- >* by this function. Other debugfs functions handle the fact that the "dentry"
- >* passed to them could be an error and they don't crash in that case.
-> * Drivers should generally work fine even if debugfs fails to init anyway.
-Here is the link to comment :-
-https://elixir.bootlin.com/linux/latest/source/fs/debugfs/inode.c#L451
+I can confirm work is ongoing to upstream IPU6 ISYS driver. I'd hope to
+have that in upstream some time this summer.
 
-Considering this, I will send the revision of the patch by removing
-error checks. Please correct me if  there are any concerns with this.
+-- 
+Kind regards,
 
-Thanks,
-Osmten
-
-
-
-On Fri, 26 May 2023 at 15:53, Mauro Carvalho Chehab <mchehab@kernel.org> wrote:
->
-> Em Wed, 24 May 2023 21:42:10 +0500
-> Osama Muhammad <osmtendev@gmail.com> escreveu:
->
-> > This patch fixes the error checking in smsdvb-debugfs.c in
-> > debugfs_create_file. The correct way to check if an error occurred
-> > is using 'IS_ERR_OR_NULL' inline function.
-> >
-> > Signed-off-by: Osama Muhammad <osmtendev@gmail.com>
-> > ---
-> >  drivers/media/common/siano/smsdvb-debugfs.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/media/common/siano/smsdvb-debugfs.c b/drivers/media/common/siano/smsdvb-debugfs.c
-> > index 8916bb644756..0f8750d7993c 100644
-> > --- a/drivers/media/common/siano/smsdvb-debugfs.c
-> > +++ b/drivers/media/common/siano/smsdvb-debugfs.c
-> > @@ -469,7 +469,7 @@ int smsdvb_debugfs_create(struct smsdvb_client_t *client)
-> >
-> >       d = debugfs_create_file("stats", S_IRUGO | S_IWUSR, client->debugfs,
-> >                               client, &debugfs_stats_ops);
-> > -     if (!d) {
-> > +     if (IS_ERR_OR_NULL(d)) {
-> >               debugfs_remove(client->debugfs);
-> >               return -ENOMEM;
->
-> if IS_ERR, it is probably better to return PTR_ERR(d).
->
-> So, please change it accordingly, returning -ENOMEM only on NULL, e. g.
-> something like (untested):
->
->         if (IS_ERR_OR_NULL(d)) {
->                 debugfs_remove(client->debugfs);
->                 if (!d)
->                         return -ENOMEM;
->                 return PTR_ERR(d);
->         }
->
-> Regards,
-> Mauro
+Sakari Ailus
