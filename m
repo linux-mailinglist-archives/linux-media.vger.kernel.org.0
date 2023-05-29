@@ -2,69 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AA9E7150B3
-	for <lists+linux-media@lfdr.de>; Mon, 29 May 2023 22:45:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5DCD7150C2
+	for <lists+linux-media@lfdr.de>; Mon, 29 May 2023 22:58:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229494AbjE2Ups (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 May 2023 16:45:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54106 "EHLO
+        id S229469AbjE2U6b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 May 2023 16:58:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbjE2Upr (ORCPT
+        with ESMTP id S229476AbjE2U6a (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 May 2023 16:45:47 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4B7BC7
-        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 13:45:46 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-95fde138693so945950666b.0
-        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 13:45:46 -0700 (PDT)
+        Mon, 29 May 2023 16:58:30 -0400
+Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com [IPv6:2607:f8b0:4864:20::f31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EB2FDC
+        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 13:58:29 -0700 (PDT)
+Received: by mail-qv1-xf31.google.com with SMTP id 6a1803df08f44-6259c242c96so19147396d6.3
+        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 13:58:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20221208; t=1685393145; x=1687985145;
+        d=gmail.com; s=20221208; t=1685393908; x=1687985908;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7R3FPKbTWJLY+7i6BBPmrgd9L+dL7TFTDyT61Ll30oE=;
-        b=nj3zUNvkEFdZe5oaMlf0dKuc+PXsQ5ttMjDktar1yzmPig16fR9oWyTpF4mTftPooc
-         Sr7SLd8DtJkOgcMiGIK/zA6y22/FMiijXcepgahANShG5rELnJEtsRpgDCJj7AAtDKGa
-         XLwScgu/jrc8Ob4tAcFjEf6t1O45WX2QZAbK4gQAOXRiT38ncBuDGuODxA6TT/1KBZdf
-         JNg0coLhkjvQMTcyCMxZ/4pUFk7GS9aSm49woUFVcCf+QX6tRjO/YomEmiIFhvtnghJr
-         WZHyDu4qWMIaw+TbMx8PqDJuUoBuBGxYqx2hss+6uIcUwBztQuJxwBqkgAa5KOpAk/Kh
-         FZOw==
+        bh=Wex1t4p8vc5FHp3UocS2+D8jLYoXryO1xiW8fbqf3SQ=;
+        b=LUSe00oWaC756W4tMx+vWytCq53z1oDgkr+RGBoPhz0DzV2sBi5QflnZWM0WXQX2DT
+         Q2i4QiZBNKm3X/lSycNAUG/BCuejWLJAOakAA3vrAXkZQ6Ta+OQA34P9/1Okc22zRqY5
+         6Ey4/3zCMBvTobJCAOgoRSzJt3d0EmPr1JaOejirrHOw3AGURU8yZWi9A4lzxnEakoM0
+         3XtRVkNtRzPCChGSTWD7V8NObUveGBQ34i2oUHaZNlmJ7FswSJajvlCzo7Di2EnCh9jI
+         WBbcPQ7tBbKlZ2kPoWsq89nNXP4Q/ShdUJtvTPweg2itW4/jQc1I06Zfgf1DSg6+WQYn
+         RO8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685393145; x=1687985145;
+        d=1e100.net; s=20221208; t=1685393908; x=1687985908;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7R3FPKbTWJLY+7i6BBPmrgd9L+dL7TFTDyT61Ll30oE=;
-        b=N8TwMrndk4mAPtZSvee0HreKY1PWJQvZcLXzFzsK08FWWGig7sVtkTWoKUgeTZ0ZOg
-         ClomCLva4oblD3PCr1QhD/hyumy78W0FtuHRK+LsLxRm+lhbO6gg6TQYdYuiZIvINuA9
-         XkV2YDMKZWs32X6vAF4kiz0F9BMoxrAPBchIck9FVGNbbmlbaV1uGEQYDq9Xna8tuLNC
-         s6U3paaMTRsBJqmblJMIiwIFiyh9uL+Gk2GhnTfRZjCf9OMDVw6yPD5YGEYQp3oHw7I2
-         M4ti5p6RnN2j5iuh7ampY6v30VcKd15UDwCKLMVu/SpuaAPZmNyE33Uf46n5Dh81oTrs
-         BRgw==
-X-Gm-Message-State: AC+VfDxwe1ulPZ/9XV//jQJgxlVe3WNeYJw4QxtsCnrxpxkfl2sT5B0e
-        VYVXLTCOSDvuxe7xkufxRw6xB5JA3p8XHChv9YgIcBfMAsk=
-X-Google-Smtp-Source: ACHHUZ6dBQLVeTggS7BrQZIwH0USzlV+sl8utSAh2F33q38rxWXSjwkj09vNDIoE2Mf8GbkG0A/xUakYNm9lMIHvQis=
-X-Received: by 2002:a17:906:58d1:b0:94a:653b:ba41 with SMTP id
- e17-20020a17090658d100b0094a653bba41mr291658ejs.15.1685393145061; Mon, 29 May
- 2023 13:45:45 -0700 (PDT)
+        bh=Wex1t4p8vc5FHp3UocS2+D8jLYoXryO1xiW8fbqf3SQ=;
+        b=guZXkgmgJ9unF+Ny119obg/m8qgEwMT5Z61IWPWFwQ3iecPeCNuKmh2Tr7wWhK/1po
+         05S+lfvE22p50xHhU/1ayy7omy/kCXUu60bmZ7aIg9qkOUCK78pD+h+y6yW3E/m+da9A
+         2WiQtWWqQGbY7HXeKXmgAfjTdrxtgale4ESzuS17dW3nCBb65F/U9mywuOiPPasf7IVP
+         HDA5PGdEXfUAXSecODLwl5/r4Ld16tj8AK1c3rSSakQK9qLyyBQIaCzGIy59kPOvtmrg
+         tBosdNA3vBVg/PVGQ6co9nMnUcXTLLCl0pJH41CRrR+Oczmio0C9qxZ7yJn/Ye9u290l
+         EYRA==
+X-Gm-Message-State: AC+VfDwkNDZngjYhf9zuCAKpcVqxr4b98WOALIR+m7KrbFxorXn+Ll/D
+        VssZn0OIxSj9XlcSaeakFQAKibMpAzq6HW/LvjqqqC+hIuM=
+X-Google-Smtp-Source: ACHHUZ53yeNLpZonvK+ffgfB1KtH4mOfKrjFv5Ox1XzovUNIfKqOqT5j2xazTUSW00vp0r7iH6+VWG4rAlflvczltLE=
+X-Received: by 2002:a05:6214:d8a:b0:625:aa1a:b6de with SMTP id
+ e10-20020a0562140d8a00b00625aa1ab6demr10725931qve.64.1685393908685; Mon, 29
+ May 2023 13:58:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230517115635.31565-1-zelong.dong@amlogic.com> <20230517115635.31565-4-zelong.dong@amlogic.com>
-In-Reply-To: <20230517115635.31565-4-zelong.dong@amlogic.com>
-From:   Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date:   Mon, 29 May 2023 22:45:34 +0200
-Message-ID: <CAFBinCCSGdKfgEpdF5FmAyjb-wOM2HtsriuBDnePokgyu4PkXw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] media: rc: meson-ir: support MMIO regmaps to
- access registers
-To:     zelong dong <zelong.dong@amlogic.com>
-Cc:     Neil Armstrong <neil.armstrong@linaro.org>,
-        Sean Young <sean@mess.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        Qianggui.Song@amlogic.com, Yonghui.Yu@amlogic.com,
-        kelvin.zhang@amlogic.com
+References: <20230529103741.11904-1-hdegoede@redhat.com> <20230529103741.11904-14-hdegoede@redhat.com>
+In-Reply-To: <20230529103741.11904-14-hdegoede@redhat.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 29 May 2023 23:57:52 +0300
+Message-ID: <CAHp75VfOfSs=mH90yusTwD1uVA4pLabvPSiZPbw_o9JuNnMR-w@mail.gmail.com>
+Subject: Re: [PATCH 13/21] media: atomisp: Add ia_css_frame_pad_width() helper function
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -77,28 +75,45 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
-
-On Wed, May 17, 2023 at 1:56=E2=80=AFPM zelong dong <zelong.dong@amlogic.co=
-m> wrote:
+On Mon, May 29, 2023 at 1:38=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
+ wrote:
 >
-> From: Zelong Dong <zelong.dong@amlogic.com>
+> Factor the code to go from width to a properly aligned pitch out of
+> ia_css_frame_info_set_width().
 >
-> Supports MMIO regmaps to access controller registers in Meson IR driver.
->
-> Signed-off-by: Zelong Dong <zelong.dong@amlogic.com>
-> ---
->  drivers/media/rc/meson-ir.c | 72 +++++++++++++++++++------------------
-Kconfig also has to be updated with:
-  select REGMAP_MMIO
+> This is a preparation patch to fix try_fmt() calls returning a bogus
+> bytesperline value.
 
-Otherwise you can end up with a compile error: undefined reference to
-`__devm_regmap_init_mmio_clk`
-See a recent patch on this: [0]
+...
 
+> +       /*
+> +        * frames with a U and V plane of 8 bits per pixel need to have
 
-Best regards,
-Martin
+Frames
 
+> +        * all planes aligned, this means double the alignment for the
+> +        * Y plane if the horizontal decimation is 2.
+> +        */
+> +       if (format =3D=3D IA_CSS_FRAME_FORMAT_YUV420 ||
+> +           format =3D=3D IA_CSS_FRAME_FORMAT_YV12 ||
+> +           format =3D=3D IA_CSS_FRAME_FORMAT_NV12 ||
+> +           format =3D=3D IA_CSS_FRAME_FORMAT_NV21 ||
+> +           format =3D=3D IA_CSS_FRAME_FORMAT_BINARY_8 ||
+> +           format =3D=3D IA_CSS_FRAME_FORMAT_YUV_LINE)
+> +               return CEIL_MUL(width, 2 * HIVE_ISP_DDR_WORD_BYTES);
 
-[0] https://lore.kernel.org/lkml/20230228043423.19335-1-xry111@xry111.site/
+> +       else if (format =3D=3D IA_CSS_FRAME_FORMAT_NV12_TILEY)
+> +               return CEIL_MUL(width, NV12_TILEY_TILE_WIDTH);
+> +       else if (format =3D=3D IA_CSS_FRAME_FORMAT_RAW ||
+> +                format =3D=3D IA_CSS_FRAME_FORMAT_RAW_PACKED)
+> +               return CEIL_MUL(width, 2 * ISP_VEC_NELEMS);
+> +       else
+
+All 'else':s can be dropped.
+
+> +               return CEIL_MUL(width, HIVE_ISP_DDR_WORD_BYTES);
+> +}
+
+--=20
+With Best Regards,
+Andy Shevchenko
