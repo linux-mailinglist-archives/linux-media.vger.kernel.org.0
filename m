@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C0F171469F
-	for <lists+linux-media@lfdr.de>; Mon, 29 May 2023 10:51:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3F6E7146A4
+	for <lists+linux-media@lfdr.de>; Mon, 29 May 2023 10:51:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231710AbjE2IvP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 May 2023 04:51:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52686 "EHLO
+        id S231730AbjE2IvU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 May 2023 04:51:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231714AbjE2IvD (ORCPT
+        with ESMTP id S231742AbjE2IvJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 May 2023 04:51:03 -0400
+        Mon, 29 May 2023 04:51:09 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07FB8106
-        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 01:50:55 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA51FC4
+        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 01:50:57 -0700 (PDT)
 Received: from desky.lan (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3DFDBDE1;
-        Mon, 29 May 2023 10:50:28 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 46BBBE79;
+        Mon, 29 May 2023 10:50:29 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1685350229;
-        bh=ux2I5k2QzA19ZJBRsB/w84Qns4Rsy75REDsNv8u3aLE=;
+        s=mail; t=1685350230;
+        bh=8X2s1Sy/Im9YB7N/rId1xhJPUtowtAaYHuLYG6mE4X4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gPGW7tjfRUzT2btQIQ9gnIcOnxDWIBTx588/k6/VYO9KrK+qlgeDp1Oun5afZd+ft
-         wLGgJbN/GndGy1kW+x/zKUnwI/+7/8GogwMGAw7azUWF1LJSWrICDVXeIHUuKxmq1K
-         1q8+nqG1YrB1WWV8hMTFaGC46gQV0NB8SCG7f2ys=
+        b=OSUPUKtFKuxn2zz0K/S/MHxrePXRGdJaRcCz7VKNEjHFhbUkRFC+38PO3SpyODSGe
+         S0VZpHcNV8A9qvCYhM+IZ4t7y3GRk+xxw2OjajBp7EwWWmAVrYlBptycI3Z4h/GtZW
+         Led6xvqVtWqgAOVVi6ZG0r2dm7aVJA9Ft+5UgBCw=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
@@ -35,9 +35,9 @@ To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         satish.nagireddy@getcruise.com
 Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: [PATCH v5 4/7] v4l2-ctl/compliance: Add simple routing test
-Date:   Mon, 29 May 2023 11:50:00 +0300
-Message-Id: <20230529085003.47207-5-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v5 5/7] media-ctl: Check for Streams API support
+Date:   Mon, 29 May 2023 11:50:01 +0300
+Message-Id: <20230529085003.47207-6-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230529085003.47207-1-tomi.valkeinen@ideasonboard.com>
 References: <20230529085003.47207-1-tomi.valkeinen@ideasonboard.com>
@@ -45,88 +45,169 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        T_PDS_OTHER_BAD_TLD,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a very simple test for
-VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING.
-
-We can't (at least at the moment) really know here what kind of routings
-the driver would accept, but we can test a VIDIOC_SUBDEV_G_ROUTING call,
-followed by a VIDIOC_SUBDEV_S_ROUTING call with the routing we
-received.
+Use the new VIDIOC_SUBDEV_S_CLIENT_CAP ioctl to inform the kernel that
+we support streams, and use the return values of
+VIDIOC_SUBDEV_S_CLIENT_CAP and VIDIOC_SUBDEV_QUERYCAP to decide if the
+entity supports streams. If not, return an error in case the user tries
+to use streams.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- utils/v4l2-compliance/v4l2-compliance.cpp   | 12 ++++++++++++
- utils/v4l2-compliance/v4l2-compliance.h     |  1 +
- utils/v4l2-compliance/v4l2-test-subdevs.cpp | 16 ++++++++++++++++
- 3 files changed, 29 insertions(+)
+ utils/media-ctl/libv4l2subdev.c | 56 +++++++++++++++++++++++++++++++++
+ utils/media-ctl/mediactl-priv.h |  1 +
+ 2 files changed, 57 insertions(+)
 
-diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
-index d7c10482..f082f569 100644
---- a/utils/v4l2-compliance/v4l2-compliance.cpp
-+++ b/utils/v4l2-compliance/v4l2-compliance.cpp
-@@ -1249,6 +1249,18 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
- 		node.is_passthrough_subdev = has_source && has_sink;
+diff --git a/utils/media-ctl/libv4l2subdev.c b/utils/media-ctl/libv4l2subdev.c
+index 51d30e61..750796cc 100644
+--- a/utils/media-ctl/libv4l2subdev.c
++++ b/utils/media-ctl/libv4l2subdev.c
+@@ -42,6 +42,12 @@
  
- 		if (has_routes) {
-+			printf("Sub-Device routing ioctls:\n");
+ int v4l2_subdev_open(struct media_entity *entity)
+ {
++	struct v4l2_subdev_client_capability clientcap = {};
++	struct v4l2_subdev_capability subdevcap = {};
++	bool subdev_streams;
++	bool client_streams;
++	int ret;
 +
-+			for (unsigned which = V4L2_SUBDEV_FORMAT_TRY;
-+				which <= V4L2_SUBDEV_FORMAT_ACTIVE; which++) {
-+
-+				printf("\ttest %s VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING: %s\n",
-+				       which ? "Active" : "Try",
-+				       ok(testSubDevRouting(&node, which)));
-+			}
-+
-+			printf("\n");
-+
- 			for (unsigned which = V4L2_SUBDEV_FORMAT_TRY;
- 				which <= V4L2_SUBDEV_FORMAT_ACTIVE; which++) {
+ 	if (entity->fd != -1)
+ 		return 0;
  
-diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
-index 0cd43980..35b2274b 100644
---- a/utils/v4l2-compliance/v4l2-compliance.h
-+++ b/utils/v4l2-compliance/v4l2-compliance.h
-@@ -375,6 +375,7 @@ int testSubDevEnum(struct node *node, unsigned which, unsigned pad, unsigned str
- int testSubDevFormat(struct node *node, unsigned which, unsigned pad, unsigned stream);
- int testSubDevSelection(struct node *node, unsigned which, unsigned pad, unsigned stream);
- int testSubDevFrameInterval(struct node *node, unsigned pad, unsigned stream);
-+int testSubDevRouting(struct node *node, unsigned which);
+@@ -54,6 +60,16 @@ int v4l2_subdev_open(struct media_entity *entity)
+ 		return ret;
+ 	}
  
- // Buffer ioctl tests
- int testReqBufs(struct node *node);
-diff --git a/utils/v4l2-compliance/v4l2-test-subdevs.cpp b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
-index 07192bda..962d9244 100644
---- a/utils/v4l2-compliance/v4l2-test-subdevs.cpp
-+++ b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
-@@ -551,3 +551,19 @@ int testSubDevSelection(struct node *node, unsigned which, unsigned pad, unsigne
- 
- 	return have_sel ? 0 : ENOTTY;
++	ret = ioctl(entity->fd, VIDIOC_SUBDEV_QUERYCAP, &subdevcap);
++	subdev_streams = !ret && (subdevcap.capabilities & V4L2_SUBDEV_CAP_STREAMS);
++
++	clientcap.capabilities = V4L2_SUBDEV_CLIENT_CAP_STREAMS;
++
++	ret = ioctl(entity->fd, VIDIOC_SUBDEV_S_CLIENT_CAP, &clientcap);
++	client_streams = !ret && (clientcap.capabilities & V4L2_SUBDEV_CLIENT_CAP_STREAMS);
++
++	entity->supports_streams = subdev_streams && client_streams;
++
+ 	return 0;
  }
+ 
+@@ -74,6 +90,11 @@ int v4l2_subdev_get_format(struct media_entity *entity,
+ 	if (ret < 0)
+ 		return ret;
+ 
++	if (!entity->supports_streams && stream) {
++		media_dbg(entity->media, "Streams API not supported\n");
++		return -ENOTSUP;
++	}
 +
-+int testSubDevRouting(struct node *node, unsigned which)
-+{
-+	struct v4l2_subdev_routing routing = {};
-+	struct v4l2_subdev_route routes[256] = {};
+ 	memset(&fmt, 0, sizeof(fmt));
+ 	fmt.pad = pad;
+ 	fmt.stream = stream;
+@@ -99,6 +120,11 @@ int v4l2_subdev_set_format(struct media_entity *entity,
+ 	if (ret < 0)
+ 		return ret;
+ 
++	if (!entity->supports_streams && stream) {
++		media_dbg(entity->media, "Streams API not supported\n");
++		return -ENOTSUP;
++	}
 +
-+	routing.which = which;
-+	routing.routes = (__u64)&routes;
-+	routing.num_routes = 256;
+ 	memset(&fmt, 0, sizeof(fmt));
+ 	fmt.pad = pad;
+ 	fmt.stream = stream;
+@@ -127,6 +153,11 @@ int v4l2_subdev_get_selection(struct media_entity *entity,
+ 	if (ret < 0)
+ 		return ret;
+ 
++	if (!entity->supports_streams && stream) {
++		media_dbg(entity->media, "Streams API not supported\n");
++		return -ENOTSUP;
++	}
 +
-+	fail_on_test(doioctl(node, VIDIOC_SUBDEV_G_ROUTING, &routing));
+ 	memset(&u.sel, 0, sizeof(u.sel));
+ 	u.sel.pad = pad;
+ 	u.sel.target = target;
+@@ -166,6 +197,11 @@ int v4l2_subdev_set_selection(struct media_entity *entity,
+ 	if (ret < 0)
+ 		return ret;
+ 
++	if (!entity->supports_streams && stream) {
++		media_dbg(entity->media, "Streams API not supported\n");
++		return -ENOTSUP;
++	}
 +
-+	fail_on_test(doioctl(node, VIDIOC_SUBDEV_S_ROUTING, &routing));
+ 	memset(&u.sel, 0, sizeof(u.sel));
+ 	u.sel.pad = pad;
+ 	u.sel.stream = stream;
+@@ -209,6 +245,11 @@ int v4l2_subdev_get_routing(struct media_entity *entity,
+ 	if (ret < 0)
+ 		return ret;
+ 
++	if (!entity->supports_streams) {
++		media_dbg(entity->media, "Streams API not supported\n");
++		return -ENOTSUP;
++	}
 +
-+	return 0;
-+}
+ 	ret = ioctl(entity->fd, VIDIOC_SUBDEV_G_ROUTING, &routing);
+ 	if (ret == -1 && errno != ENOSPC)
+ 		return -errno;
+@@ -251,6 +292,11 @@ int v4l2_subdev_set_routing(struct media_entity *entity,
+ 	if (ret < 0)
+ 		return ret;
+ 
++	if (!entity->supports_streams) {
++		media_dbg(entity->media, "Streams API not supported\n");
++		return -ENOTSUP;
++	}
++
+ 	ret = ioctl(entity->fd, VIDIOC_SUBDEV_S_ROUTING, &routing);
+ 	if (ret == -1)
+ 		return -errno;
+@@ -341,6 +387,11 @@ int v4l2_subdev_get_frame_interval(struct media_entity *entity,
+ 	if (ret < 0)
+ 		return ret;
+ 
++	if (!entity->supports_streams && stream) {
++		media_dbg(entity->media, "Streams API not supported\n");
++		return -ENOTSUP;
++	}
++
+ 	memset(&ival, 0, sizeof(ival));
+ 	ival.pad = pad;
+ 	ival.stream = stream;
+@@ -364,6 +415,11 @@ int v4l2_subdev_set_frame_interval(struct media_entity *entity,
+ 	if (ret < 0)
+ 		return ret;
+ 
++	if (!entity->supports_streams && stream) {
++		media_dbg(entity->media, "Streams API not supported\n");
++		return -ENOTSUP;
++	}
++
+ 	memset(&ival, 0, sizeof(ival));
+ 	ival.pad = pad;
+ 	ival.stream = stream;
+diff --git a/utils/media-ctl/mediactl-priv.h b/utils/media-ctl/mediactl-priv.h
+index a0d3a55a..eb55e07e 100644
+--- a/utils/media-ctl/mediactl-priv.h
++++ b/utils/media-ctl/mediactl-priv.h
+@@ -33,6 +33,7 @@ struct media_entity {
+ 	struct media_link *links;
+ 	unsigned int max_links;
+ 	unsigned int num_links;
++	bool supports_streams;
+ 
+ 	char devname[32];
+ 	int fd;
 -- 
 2.34.1
 
