@@ -2,59 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 83F6F71511A
-	for <lists+linux-media@lfdr.de>; Mon, 29 May 2023 23:48:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EF19715125
+	for <lists+linux-media@lfdr.de>; Mon, 29 May 2023 23:57:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229536AbjE2Vst (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 May 2023 17:48:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35046 "EHLO
+        id S229719AbjE2V5s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 May 2023 17:57:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229485AbjE2Vss (ORCPT
+        with ESMTP id S229552AbjE2V5r (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 May 2023 17:48:48 -0400
-Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FE43CF
-        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 14:48:47 -0700 (PDT)
-Received: by mail-qv1-xf29.google.com with SMTP id 6a1803df08f44-62614f2eee1so10658316d6.0
-        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 14:48:47 -0700 (PDT)
+        Mon, 29 May 2023 17:57:47 -0400
+Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C347CF
+        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 14:57:46 -0700 (PDT)
+Received: by mail-qv1-xf2b.google.com with SMTP id 6a1803df08f44-6260a2522d9so16712806d6.3
+        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 14:57:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685396926; x=1687988926;
+        d=gmail.com; s=20221208; t=1685397465; x=1687989465;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=08Mzl3olZrQOHABKKtfgvLwAuZZZ6d+NTExTD0DrCRg=;
-        b=CdGg/JWqLN5soex3LMee0rfi1KAvv7fDyjKvUWXLx8/tYWHGOyTBfnjTZjSXM6jPnh
-         /UO4wDAisB6fI5zKAXPXHXfU2414bWiao+qyNitZuORF9FbLWdarpn5ypGTyNrYCKKlZ
-         p/YJDowiij9EU7V6+m64oim04QUUmoKjWkcpfMQNbNUtZhjXuDG60RAb2fWBm7mFIQUa
-         5jT018NwCMJr6+rA1zOnSNXPzOTIxpQHKnKkTvSkTtbsZiJ+aozcxecMf/goKKQSFlT9
-         Vx4UnpVpCs8Mj2SNHqEtH2EhyMPcPtnnyyZpMYBiovWfmWqlvKQ64wV49j628N5Ki/KJ
-         wfYw==
+        bh=qVVQfazhdCrMqCL15DahVev5EouULW2J949cPBl6/k4=;
+        b=eBQX+r6wnwWAMCnEZNDyTMza7KMuB+yJlkgepojn5iB+kaXJWUPQvyj35dHywbYCvd
+         6n2ItmocM2Eugix1//qIjo/KFSPKTgGw7GEQ6Xtk5SWr4AbELwkOggYfbUYd0oAUmE6Z
+         VanFDvPK5VKX0JmLb4v5eMOmJjRMJg8MWEsOIHgfYgh+le4jLJpulukLbvma0gBTQhd7
+         1Tj4ByjzgFiRj6CUMfwTZfUa1A+xb/qUyyqK1xhFIUqnF6c3xpc0yNo2t6YojLHhR7yE
+         lqQEzq6D41mKg94mjHfzrVp38GRiEPK28LpfyuQefpFNzNJv+bLY69gIMHZ3u8BgeOAe
+         4gQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685396926; x=1687988926;
+        d=1e100.net; s=20221208; t=1685397465; x=1687989465;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=08Mzl3olZrQOHABKKtfgvLwAuZZZ6d+NTExTD0DrCRg=;
-        b=JaKM6lO/1jsYkZPzNZzXXTo38Z6VuVJo6wBZXJIJvEIrpnU6lQkGykI0lD/BzmvhMf
-         MA86XnQlpIreb28/hi8NeG/zW8MYzCArrv7rYT08kgHWpTaji8FbXtWbCgQ71CGTBUyg
-         1A2xa1Jx++JTgG3D4p7dSuHJgWIkiWMNEkyZ5ujGl4UAh+7Wmu5Zf6nMchvdA68fxbUw
-         xDIBQtL78h0cZc1iGAXc5Mw3QLdNcNzYqplC9nxLIuxSg1O9qWZTcj0LrxtMWacbXWPt
-         Std0r39/ljbu0xfd7Wjs1OGLvp22v5qe0ckt1s+b1J48BJ84Jnx0Qcr3Kk40rfBmsApg
-         c4kA==
-X-Gm-Message-State: AC+VfDwmf1BEA8ZvK8VxScQXaGaHWE76Kl3Z1FWD4luuYSXfZSKrt8jH
-        ZQwffpuOdwT+lHZkvRVagjrcb6E9j+UM0Bc/CgY=
-X-Google-Smtp-Source: ACHHUZ4qkjaOHJeDDdowAZRL3hNcl8NFW+2Q4u4LVzHWZtUXnH+lGBz6KRxShWt2eILJ5Nv5hiEu8pC6Bo252MofWpc=
-X-Received: by 2002:ad4:5cc1:0:b0:626:1ca6:5efe with SMTP id
- iu1-20020ad45cc1000000b006261ca65efemr132363qvb.9.1685396926541; Mon, 29 May
- 2023 14:48:46 -0700 (PDT)
+        bh=qVVQfazhdCrMqCL15DahVev5EouULW2J949cPBl6/k4=;
+        b=EEvqXbu7V8x7FlkATaJIsmog5VVnqDc9WjR6FvleHhCGHEkoM0k6kPb+YgRD2iptp3
+         YeWViDB4QRDS6/ZWQR58qays04rYV+XBCJN+7iTcOI+obkRmD9oJDho5mswZT/JsvK/V
+         Nrr5Z/5c2N4pDUgSOL7j6gV7VB8bBg0Een7XhwvPL4aDqoamPyJHMBpyfd87qkG4bTh4
+         Tceyk2MNUGsYnZTor8PZShjaJSiSGo7jERQ0cT5PaKewztmAZn+KSUMI/x3h7kdct35g
+         Ceztcg3lhe1ukue+RhRwZJJyxJt8j+8fMVxSIYGv2KRJCUqw2Fprqjf5J//ahk0kL3CM
+         p7NA==
+X-Gm-Message-State: AC+VfDzmYe+wHHmM0T/MZRjb9kLU1p9vLc0sNIxHGCliV5obSU7lyvmU
+        LsBj9jdy9WKTQoLiFzDBgBPGEiOOXD5ZYWKrFHM=
+X-Google-Smtp-Source: ACHHUZ5hybZMfB0KdkwC7aswhOK1xvRikFUHlKCHf6hUhWEQy4AWwKUgYpiY3DsQtlBXz7RV3qkW7nuolVoZ0SaOQes=
+X-Received: by 2002:a05:6214:226a:b0:623:8510:8f8e with SMTP id
+ gs10-20020a056214226a00b0062385108f8emr51325qvb.33.1685397465419; Mon, 29 May
+ 2023 14:57:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230529103741.11904-1-hdegoede@redhat.com> <20230529103741.11904-22-hdegoede@redhat.com>
-In-Reply-To: <20230529103741.11904-22-hdegoede@redhat.com>
+References: <20230529103741.11904-1-hdegoede@redhat.com> <20230529103741.11904-2-hdegoede@redhat.com>
+In-Reply-To: <20230529103741.11904-2-hdegoede@redhat.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 30 May 2023 00:48:10 +0300
-Message-ID: <CAHp75Ve6rWtkDowBS7z1f=Ot7h8xmXTws8L+Z3eXEfFum2pBcA@mail.gmail.com>
-Subject: Re: [PATCH 21/21] media: atomisp: csi2-bridge: Set PMC clk-rate for
- sensors to 19.2 MHz
+Date:   Tue, 30 May 2023 00:57:09 +0300
+Message-ID: <CAHp75Vepr8ffhEH9YQqKi7-Bkr51mtrc1jV33KbBY2GCYjix_w@mail.gmail.com>
+Subject: Re: [PATCH 01/21] media: atomisp: Update TODO
 To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -76,27 +75,96 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, May 29, 2023 at 1:39=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
+On Mon, May 29, 2023 at 1:38=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
  wrote:
 >
-> The ACPI code takes care of enabling/disabling the PMC clk(s) for
-> the sensors as necessary based on the runtime-pm state of the sensor.
+> A lot of work has been done on the atomisp driver lately.
 >
-> But the GMIN code this replaces also set the clk-rate of the PMC clk
-> to 19.2 MHz. At least on BYT devices the PMC clks may come up running
-> at 25 MHz instead of the expected 19.2 MHz.
+> Rewrite the TODO file to drop all the already fixed items:
 >
-> Ensure the sensor clk also runs at the expected 19.2 MHz for sensors
-> using v4l2-async probing by explicitly setting it to 19.2 MHz when
-> enumerating sensors in atomisp_csi2_bridge.c.
+> * Moved to videobuf2 + fixed mmap support
+> * Whole bunch of v4l2 API fixes making more apps work
+> * v4l2-async sensor probing support
+> * pm-runtime support (for some sensor drivers at least)
+> * buffer MM code was cleaned up / replaced when moving the videobuf2
+>
+> And add a new TODO list (retaining some of the old items) split
+> into items which absolutely must be fixed before the driver can
+> be moved out of staging:
+>
+> 1. Conflicting hw-ids with regular sensor drivers
+> 2. Private userspace API stuff
+>
+> As well as a list of items which also definitely needs to be fixed
+> but which could also be fixed after moving the driver out of staging.
 
 ...
 
-> +       ret =3D clk_prepare_enable(clk);
-> +       if (!ret)
-> +               clk_disable_unprepare(clk);
+> +Required firmware
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> +The atomisp driver requires the following firmware:
+>
+> +- for BYT: /lib/firmware/shisp_2400b0_v21.bin
+> +
+> +  With a version of "irci_stable_candrpv_0415_20150423_1753" to check
+> +  the version run: "strings shisp_2400b0_v21.bin | head -n1" .
+> +
+> +  The shisp_2400b0_v21.bin file with this version can be found on
+> +  the Android factory images of various X86 Android tablets such as
+> +  e.g. the Chuwi Hi8 Pro.
+>
+>  - for CHT: /lib/firmware/shisp_2401a0_v21.bin
+>
+> +  With a version of "irci_stable_candrpv_0415_20150521_0458"
+> +
+> +  This can be found here:
+>    https://github.com/intel-aero/meta-intel-aero-base/blob/master/recipes=
+-kernel/linux/linux-yocto/shisp_2401a0_v21.bin
 
-I'm wondering if _enable / _disable required.
+Can you add md5/SHA-1/SHA-256 sum(s) for the firmwares?
+
+...
+
+> +1. items which MUST be fixed before the driver can be moved out of stagi=
+ng:
+
+Items
+
+...
+
+> +* Remove/disable private ioctls
+
+IOCTLs
+
+...
+
+> +* Without a 3A library the capture behaviour is not very good. To take a=
+ good
+> +  picture, the exposure/gain needs to be tuned using v4l2-ctl on the sen=
+sor
+> +  subdev. To fix this support for the atomisp needs to be added to libca=
+mera.
+
+this, support
+
+...
+
+> +  This MUST be done before moving the driver out of staging so that we c=
+an
+> +  still make changes to e.g. the mediactl topology if necessary for
+> +  libcamera integration. Since this would be a userspace API break this
+
+break, this
+
+> +  means that at least proof-of-concept libcamera integration needs to be
+> +  ready before moving the driver out of staging.
+
+...
+
+> +2. items which SHOULD also be fixed eventually:
+
+Items
 
 --=20
 With Best Regards,
