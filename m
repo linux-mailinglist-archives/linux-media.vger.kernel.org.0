@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 83D30714697
-	for <lists+linux-media@lfdr.de>; Mon, 29 May 2023 10:50:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C1C9714699
+	for <lists+linux-media@lfdr.de>; Mon, 29 May 2023 10:50:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231696AbjE2Iuw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 May 2023 04:50:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52394 "EHLO
+        id S231727AbjE2Iu5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 May 2023 04:50:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231659AbjE2Iuo (ORCPT
+        with ESMTP id S231688AbjE2Iuv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 May 2023 04:50:44 -0400
+        Mon, 29 May 2023 04:50:51 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDDA591
-        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 01:50:40 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E10AB1
+        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 01:50:46 -0700 (PDT)
 Received: from desky.lan (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9740A327;
-        Mon, 29 May 2023 10:50:10 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 476BDA3A;
+        Mon, 29 May 2023 10:50:19 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1685350219;
-        bh=yK3NGNeWpNXHxJNcTRdQuYLzHLQAE3wW8JGKfOW/wbY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=uo7p8sfyJ+Eq/ln6rLCB354K8f043nje3E6Qoxd6MLPrQoQrrIq0QLYGiILBOyT2p
-         uetYYXQ5ZpczDTnaIL7/bWRggpunodd8a5aoY+6Ptik/9Jr3aq0jUCgBnv6hMV1vBj
-         R1dJqh6QTXbW7PvOXKbB2ODv658pZPAQ+YNrNQv8=
+        s=mail; t=1685350225;
+        bh=6WIY2JmbdkL6UK6rQ/xwLqMY6iF6ckUm9JAlxtP+p9E=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=ppbf6So0Aw1zLPQVm0+fEfnqSbu6LCpBtkF9TfgU+t6b5KxbMqghb9P4Yj3ab0jIb
+         OcQ7ansov9eT/Mo9z88NzUBX4nQfC/Fnt6VtztnYUaP+WOkYOKgU2PnnSuRVlZIf7W
+         h3NEiY8pg+9gXqK7UoZEiqM/mIuUlQa4vTSrlgIw=
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
@@ -34,10 +34,12 @@ To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         satish.nagireddy@getcruise.com
 Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v5 0/7] v4l-utils: Support multiplexed streams
-Date:   Mon, 29 May 2023 11:49:56 +0300
-Message-Id: <20230529085003.47207-1-tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v5 1/7] v4l2-ctl: Add routing and streams support
+Date:   Mon, 29 May 2023 11:49:57 +0300
+Message-Id: <20230529085003.47207-2-tomi.valkeinen@ideasonboard.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230529085003.47207-1-tomi.valkeinen@ideasonboard.com>
+References: <20230529085003.47207-1-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -51,571 +53,634 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Add support to get and set subdev routes and to get and set
+configurations per stream.
 
-v4 can be found from:
+Based on work from Jacopo Mondi <jacopo@jmondi.org> and
+Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>.
 
-https://lore.kernel.org/all/20230421124428.393261-1-tomi.valkeinen@ideasonboard.com/
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+---
+ utils/v4l2-ctl/v4l2-ctl-subdev.cpp | 310 ++++++++++++++++++++++++++---
+ utils/v4l2-ctl/v4l2-ctl.cpp        |   2 +
+ utils/v4l2-ctl/v4l2-ctl.h          |   2 +
+ 3 files changed, 281 insertions(+), 33 deletions(-)
 
-v5 is rebased on top of latest master, and I have addressed most of
-Laurent's comment. I did not start refactoring ARRAY_SIZE() nor
-print_flags(), nor did I rewrite everything so that a real parser would
-be used.
-
-A diff to v4 is included below to help the reviews.
-
- Tomi
-
-Tomi Valkeinen (7):
-  v4l2-ctl: Add routing and streams support
-  media-ctl: Add support for routes and streams
-  v4l2-ctl/compliance: Add routing and streams multiplexed streams
-  v4l2-ctl/compliance: Add simple routing test
-  media-ctl: Check for Streams API support
-  utils/common: Set V4L2_SUBDEV_CLIENT_CAP_STREAMS for subdevs
-  v4l2-ctl: Check for Streams API support
-
- utils/common/cv4l-helpers.h                 |   1 +
- utils/common/v4l-helpers.h                  |  18 +
- utils/media-ctl/libmediactl.c               |  43 +++
- utils/media-ctl/libv4l2subdev.c             | 339 ++++++++++++++++--
- utils/media-ctl/media-ctl.c                 | 113 +++++-
- utils/media-ctl/mediactl-priv.h             |   1 +
- utils/media-ctl/mediactl.h                  |  16 +
- utils/media-ctl/options.c                   |  15 +-
- utils/media-ctl/options.h                   |   1 +
- utils/media-ctl/v4l2subdev.h                |  66 +++-
- utils/v4l2-compliance/v4l2-compliance.cpp   | 132 +++++--
- utils/v4l2-compliance/v4l2-compliance.h     |   9 +-
- utils/v4l2-compliance/v4l2-test-subdevs.cpp |  59 +++-
- utils/v4l2-ctl/v4l2-ctl-subdev.cpp          | 365 ++++++++++++++++++--
- utils/v4l2-ctl/v4l2-ctl.cpp                 |   2 +
- utils/v4l2-ctl/v4l2-ctl.h                   |   2 +
- 16 files changed, 1062 insertions(+), 120 deletions(-)
-
-Interdiff against v4:
-diff --git a/utils/common/cv4l-helpers.h b/utils/common/cv4l-helpers.h
-index 502df6ac..91a04146 100644
---- a/utils/common/cv4l-helpers.h
-+++ b/utils/common/cv4l-helpers.h
-@@ -82,7 +82,7 @@ public:
- 	bool has_rw() const { return v4l_has_rw(this); }
- 	bool has_streaming() const { return v4l_has_streaming(this); }
- 	bool has_ext_pix_format() const { return v4l_has_ext_pix_format(this); }
--	bool has_streams_support() const { return subdev_supports_streams; }
-+	bool has_streams() const { return have_streams; }
- 
- 	int querycap(v4l2_capability &cap, bool force = false)
- 	{
-diff --git a/utils/common/v4l-helpers.h b/utils/common/v4l-helpers.h
-index 2dd7f061..f8e96d58 100644
---- a/utils/common/v4l-helpers.h
-+++ b/utils/common/v4l-helpers.h
-@@ -9,6 +9,7 @@
- #ifndef _V4L_HELPERS_H_
- #define _V4L_HELPERS_H_
- 
-+#include <linux/v4l2-subdev.h>
- #include <linux/videodev2.h>
- #include <string.h>
- #include <stdlib.h>
-@@ -39,7 +40,7 @@ struct v4l_fd {
- 	bool have_selection;
- 	bool is_subdev;
- 	bool is_media;
--	bool subdev_supports_streams;
-+	bool have_streams;
- 
- 	int (*open)(struct v4l_fd *f, const char *file, int oflag, ...);
- 	int (*close)(struct v4l_fd *f);
-@@ -543,7 +544,7 @@ static inline int v4l_subdev_s_fd(struct v4l_fd *f, int fd, const char *devname)
- 	ret = ioctl(f->fd, VIDIOC_SUBDEV_S_CLIENT_CAP, &clientcap);
- 	client_streams = !ret && (clientcap.capabilities & V4L2_SUBDEV_CLIENT_CAP_STREAMS);
- 
--	f->subdev_supports_streams = subdev_streams && client_streams;
-+	f->have_streams = subdev_streams && client_streams;
- 
- 	return f->fd;
- }
-diff --git a/utils/media-ctl/libmediactl.c b/utils/media-ctl/libmediactl.c
-index c32fe56a..64ac8cf1 100644
---- a/utils/media-ctl/libmediactl.c
-+++ b/utils/media-ctl/libmediactl.c
-@@ -909,6 +909,8 @@ struct media_pad *media_parse_pad_stream(struct media_device *media,
- 		*stream = 0;
- 	}
- 
-+	for (; isspace(*p); ++p);
-+
- 	if (endp)
- 		*endp = (char*)p;
- 
-diff --git a/utils/media-ctl/libv4l2subdev.c b/utils/media-ctl/libv4l2subdev.c
-index 186708ff..750796cc 100644
---- a/utils/media-ctl/libv4l2subdev.c
-+++ b/utils/media-ctl/libv4l2subdev.c
-@@ -231,33 +231,6 @@ int v4l2_subdev_set_selection(struct media_entity *entity,
- 	return 0;
- }
- 
--int v4l2_subdev_set_routing(struct media_entity *entity,
--			    struct v4l2_subdev_route *routes,
--			    unsigned int num_routes)
--{
--	struct v4l2_subdev_routing routing = {
--		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
--		.routes = (uintptr_t)routes,
--		.num_routes = num_routes,
--	};
--	int ret;
--
--	ret = v4l2_subdev_open(entity);
--	if (ret < 0)
--		return ret;
--
--	if (!entity->supports_streams) {
--		media_dbg(entity->media, "Streams API not supported\n");
--		return -ENOTSUP;
--	}
--
--	ret = ioctl(entity->fd, VIDIOC_SUBDEV_S_ROUTING, &routing);
--	if (ret == -1)
--		return -errno;
--
--	return 0;
--}
--
- int v4l2_subdev_get_routing(struct media_entity *entity,
- 			    struct v4l2_subdev_route **routes,
- 			    unsigned int *num_routes)
-@@ -272,8 +245,10 @@ int v4l2_subdev_get_routing(struct media_entity *entity,
- 	if (ret < 0)
- 		return ret;
- 
--	if (!entity->supports_streams)
-+	if (!entity->supports_streams) {
-+		media_dbg(entity->media, "Streams API not supported\n");
- 		return -ENOTSUP;
-+	}
- 
- 	ret = ioctl(entity->fd, VIDIOC_SUBDEV_G_ROUTING, &routing);
- 	if (ret == -1 && errno != ENOSPC)
-@@ -302,6 +277,33 @@ int v4l2_subdev_get_routing(struct media_entity *entity,
- 	return 0;
- }
- 
-+int v4l2_subdev_set_routing(struct media_entity *entity,
-+			    struct v4l2_subdev_route *routes,
-+			    unsigned int num_routes)
-+{
-+	struct v4l2_subdev_routing routing = {
-+		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-+		.routes = (uintptr_t)routes,
-+		.num_routes = num_routes,
-+	};
-+	int ret;
-+
-+	ret = v4l2_subdev_open(entity);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (!entity->supports_streams) {
-+		media_dbg(entity->media, "Streams API not supported\n");
-+		return -ENOTSUP;
-+	}
-+
-+	ret = ioctl(entity->fd, VIDIOC_SUBDEV_S_ROUTING, &routing);
-+	if (ret == -1)
-+		return -errno;
-+
-+	return 0;
-+}
-+
- int v4l2_subdev_get_dv_timings_caps(struct media_entity *entity,
- 	struct v4l2_dv_timings_cap *caps)
- {
-@@ -496,6 +498,8 @@ static int v4l2_subdev_parse_setup_route(struct media_device *media,
- 	}
- 	end++;
- 
-+	for (; isspace(*end); ++end);
-+
- 	*endp = end;
- 
- 	return 0;
-@@ -506,9 +510,9 @@ int v4l2_subdev_parse_setup_routes(struct media_device *media, const char *p)
- 	struct media_entity *entity;
- 	struct v4l2_subdev_route *routes;
- 	unsigned int num_routes;
-+	unsigned int i;
- 	char *end;
- 	int ret;
--	int i;
- 
- 	entity = media_parse_entity(media, p, &end);
- 	if (!entity)
-@@ -558,7 +562,7 @@ int v4l2_subdev_parse_setup_routes(struct media_device *media, const char *p)
- 		struct v4l2_subdev_route *r = &routes[i];
- 
- 		media_dbg(entity->media,
--			  "Setting up route %s : %u/%u -> %u/%u, flags 0x%8.8x\n",
-+			  "Setting up route %s : %u/%u -> %u/%u [0x%08x]\n",
- 			  entity->info.name,
- 			  r->sink_pad, r->sink_stream,
- 			  r->source_pad, r->source_stream,
-diff --git a/utils/media-ctl/media-ctl.c b/utils/media-ctl/media-ctl.c
-index 831136a0..1531cffa 100644
---- a/utils/media-ctl/media-ctl.c
-+++ b/utils/media-ctl/media-ctl.c
-@@ -82,16 +82,16 @@ static void v4l2_subdev_print_routes(struct media_entity *entity,
- {
- 	unsigned int i;
- 
--	for (i = 0; i < num_routes; i++) {
--		const struct v4l2_subdev_route *r = &routes[i];
-+	if (num_routes)
-+		printf("\troutes:\n");
- 
--		if (i == 0)
--			printf("\troutes:\n");
-+	for (i = 0; i < num_routes; i++) {
-+		const struct v4l2_subdev_route *route = &routes[i];
- 
- 		printf("\t\t%u/%u -> %u/%u [%s]\n",
--		       r->sink_pad, r->sink_stream,
--		       r->source_pad, r->source_stream,
--		       r->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE ? "ACTIVE" : "INACTIVE");
-+		       route->sink_pad, route->sink_stream,
-+		       route->source_pad, route->source_stream,
-+		       route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE ? "ACTIVE" : "INACTIVE");
- 	}
- }
- 
-@@ -480,54 +480,49 @@ static void media_print_pad_text(struct media_entity *entity,
- 				 struct v4l2_subdev_route *routes,
- 				 unsigned int num_routes)
- {
-+	uint64_t printed_streams_mask = 0;
- 	unsigned int i;
--	uint64_t printed_streams_mask;
- 
- 	if (media_entity_type(entity) != MEDIA_ENT_T_V4L2_SUBDEV)
- 		return;
- 
- 	if (!routes) {
--		v4l2_subdev_print_format(entity, pad->index, 0, V4L2_SUBDEV_FORMAT_ACTIVE);
--		v4l2_subdev_print_pad_dv(entity, pad->index, V4L2_SUBDEV_FORMAT_ACTIVE);
--
--		if (pad->flags & MEDIA_PAD_FL_SOURCE)
--			v4l2_subdev_print_subdev_dv(entity);
-+		v4l2_subdev_print_format(entity, pad->index, 0,
-+					 V4L2_SUBDEV_FORMAT_ACTIVE);
-+	} else {
-+		for (i = 0; i < num_routes; ++i) {
-+			const struct v4l2_subdev_route *route = &routes[i];
-+			unsigned int stream;
- 
--		return;
--	}
-+			if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
-+				continue;
- 
--	printed_streams_mask = 0;
-+			if (pad->flags & MEDIA_PAD_FL_SINK) {
-+				if (route->sink_pad != pad->index)
-+					continue;
- 
--	for (i = 0; i < num_routes; ++i) {
--		const struct v4l2_subdev_route *r = &routes[i];
--		unsigned int stream;
-+				stream = route->sink_stream;
-+			} else {
-+				if (route->source_pad != pad->index)
-+					continue;
- 
--		if (!(r->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
--			continue;
-+				stream = route->source_stream;
-+			}
- 
--		if (pad->flags & MEDIA_PAD_FL_SINK) {
--			if (r->sink_pad != pad->index)
-+			if (printed_streams_mask & (1 << stream))
- 				continue;
- 
--			stream = r->sink_stream;
--		} else {
--			if (r->source_pad != pad->index)
--				continue;
-+			v4l2_subdev_print_format(entity, pad->index, stream,
-+						 V4L2_SUBDEV_FORMAT_ACTIVE);
- 
--			stream = r->source_stream;
-+			printed_streams_mask |= (1 << stream);
- 		}
-+	}
- 
--		if (printed_streams_mask & (1 << stream))
--			continue;
--
--		v4l2_subdev_print_format(entity, pad->index, stream, V4L2_SUBDEV_FORMAT_ACTIVE);
--		v4l2_subdev_print_pad_dv(entity, pad->index, V4L2_SUBDEV_FORMAT_ACTIVE);
--
--		if (pad->flags & MEDIA_PAD_FL_SOURCE)
--			v4l2_subdev_print_subdev_dv(entity);
-+	v4l2_subdev_print_pad_dv(entity, pad->index, V4L2_SUBDEV_FORMAT_ACTIVE);
- 
--		printed_streams_mask |= (1 << stream);
--	}
-+	if (pad->flags & MEDIA_PAD_FL_SOURCE)
-+		v4l2_subdev_print_subdev_dv(entity);
- }
- 
- static void media_print_topology_text_entity(struct media_device *media,
-@@ -541,19 +536,24 @@ static void media_print_topology_text_entity(struct media_device *media,
- 	const struct media_entity_desc *info = media_entity_get_info(entity);
- 	const char *devname = media_entity_get_devname(entity);
- 	unsigned int num_links = media_entity_get_links_count(entity);
--	unsigned int j, k;
--	unsigned int padding;
- 	struct v4l2_subdev_route *routes = NULL;
- 	unsigned int num_routes = 0;
-+	unsigned int j, k;
-+	unsigned int padding;
- 
- 	if (media_entity_type(entity) == MEDIA_ENT_T_V4L2_SUBDEV)
- 		v4l2_subdev_get_routing(entity, &routes, &num_routes);
- 
- 	padding = printf("- entity %u: ", info->id);
--	printf("%s (%u pad%s, %u link%s, %u route%s)\n", info->name,
-+	printf("%s (%u pad%s, %u link%s", info->name,
- 	       info->pads, info->pads > 1 ? "s" : "",
--	       num_links, num_links > 1 ? "s" : "",
--	       num_routes, num_routes > 1 ? "s" : "");
-+	       num_links, num_links > 1 ? "s" : "");
-+
-+	if (media_entity_type(entity) == MEDIA_ENT_T_V4L2_SUBDEV)
-+		printf(", %u route%s", num_routes, num_routes != 1 ? "s" : "");
-+
-+	printf(")\n");
-+
- 	printf("%*ctype %s subtype %s flags %x\n", padding, ' ',
- 	       media_entity_type_to_string(info->type),
- 	       media_entity_subtype_to_string(info->type),
-diff --git a/utils/media-ctl/v4l2subdev.h b/utils/media-ctl/v4l2subdev.h
-index a8a6e7ad..1277040b 100644
---- a/utils/media-ctl/v4l2subdev.h
-+++ b/utils/media-ctl/v4l2subdev.h
-@@ -52,6 +52,7 @@ void v4l2_subdev_close(struct media_entity *entity);
-  * @param entity - subdev-device media entity.
-  * @param format - format to be filled.
-  * @param pad - pad number.
-+ * @param stream - stream number.
-  * @param which - identifier of the format to get.
-  *
-  * Retrieve the current format on the @a entity @a pad and store it in the
-@@ -72,6 +73,7 @@ int v4l2_subdev_get_format(struct media_entity *entity,
-  * @param entity - subdev-device media entity.
-  * @param format - format.
-  * @param pad - pad number.
-+ * @param stream - stream number.
-  * @param which - identifier of the format to set.
-  *
-  * Set the format on the @a entity @a pad to @a format. The driver is allowed to
-@@ -94,6 +96,7 @@ int v4l2_subdev_set_format(struct media_entity *entity,
-  * @param entity - subdev-device media entity.
-  * @param r - rectangle to be filled.
-  * @param pad - pad number.
-+ * @param stream - stream number.
-  * @param target - selection target
-  * @param which - identifier of the format to get.
-  *
-@@ -116,6 +119,7 @@ int v4l2_subdev_get_selection(struct media_entity *entity,
-  * @param entity - subdev-device media entity.
-  * @param rect - crop rectangle.
-  * @param pad - pad number.
-+ * @param stream - stream number.
-  * @param target - selection target
-  * @param which - identifier of the format to set.
-  *
-@@ -222,6 +226,8 @@ int v4l2_subdev_set_dv_timings(struct media_entity *entity,
-  * @brief Retrieve the frame interval on a sub-device.
-  * @param entity - subdev-device media entity.
-  * @param interval - frame interval to be filled.
-+ * @param pad - pad number.
-+ * @param stream - stream number.
-  *
-  * Retrieve the current frame interval on subdev @a entity and store it in the
-  * @a interval structure.
-@@ -239,6 +245,8 @@ int v4l2_subdev_get_frame_interval(struct media_entity *entity,
-  * @brief Set the frame interval on a sub-device.
-  * @param entity - subdev-device media entity.
-  * @param interval - frame interval.
-+ * @param pad - pad number.
-+ * @param stream - stream number.
-  *
-  * Set the frame interval on subdev @a entity to @a interval. The driver is
-  * allowed to modify the requested frame interval, in which case @a interval is
-diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
-index f96f5972..f082f569 100644
---- a/utils/v4l2-compliance/v4l2-compliance.cpp
-+++ b/utils/v4l2-compliance/v4l2-compliance.cpp
-@@ -1255,8 +1255,8 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
- 				which <= V4L2_SUBDEV_FORMAT_ACTIVE; which++) {
- 
- 				printf("\ttest %s VIDIOC_SUBDEV_G_ROUTING/VIDIOC_SUBDEV_S_ROUTING: %s\n",
--						       which ? "Active" : "Try",
--						       ok(testSubDevRouting(&node, which)));
-+				       which ? "Active" : "Try",
-+				       ok(testSubDevRouting(&node, which)));
- 			}
- 
- 			printf("\n");
 diff --git a/utils/v4l2-ctl/v4l2-ctl-subdev.cpp b/utils/v4l2-ctl/v4l2-ctl-subdev.cpp
-index ec70b52b..8539c416 100644
+index 33cc1342..fafb7d92 100644
 --- a/utils/v4l2-ctl/v4l2-ctl-subdev.cpp
 +++ b/utils/v4l2-ctl/v4l2-ctl-subdev.cpp
-@@ -569,7 +569,7 @@ void subdev_set(cv4l_fd &_fd)
- 	if (options[OptSetSubDevFormat] || options[OptTrySubDevFormat]) {
- 		struct v4l2_subdev_format fmt;
+@@ -1,5 +1,13 @@
+ #include "v4l2-ctl.h"
  
--		if (!_fd.has_streams_support() && set_fmt_stream) {
-+		if (!_fd.has_streams() && set_fmt_stream) {
- 			printf("Streams API not supported.\n");
- 			return;
- 		}
-@@ -622,7 +622,7 @@ void subdev_set(cv4l_fd &_fd)
- 	if (options[OptSetSubDevSelection] || options[OptTrySubDevSelection]) {
- 		struct v4l2_subdev_selection sel;
++#define ARRAY_SIZE(array) (sizeof(array) / sizeof((array)[0]))
++
++/*
++ * The max value comes from a check in the kernel source code
++ * drivers/media/v4l2-core/v4l2-ioctl.c check_array_args()
++ */
++#define NUM_ROUTES_MAX 256
++
+ struct mbus_name {
+ 	const char *name;
+ 	__u32 code;
+@@ -19,45 +27,57 @@ static const struct mbus_name mbus_names[] = {
+ #define SelectionFlags 		(1L<<4)
  
--		if (!_fd.has_streams_support() && vsel.stream) {
-+		if (!_fd.has_streams() && vsel.stream) {
- 			printf("Streams API not supported.\n");
- 			return;
- 		}
-@@ -659,7 +659,7 @@ void subdev_set(cv4l_fd &_fd)
- 	if (options[OptSetSubDevFPS]) {
- 		struct v4l2_subdev_frame_interval fival;
+ static __u32 list_mbus_codes_pad;
++static __u32 list_mbus_codes_stream = 0;
+ static __u32 get_fmt_pad;
++static __u32 get_fmt_stream = 0;
+ static __u32 get_sel_pad;
++static __u32 get_sel_stream = 0;
+ static __u32 get_fps_pad;
++static __u32 get_fps_stream = 0;
+ static int get_sel_target = -1;
+ static unsigned int set_selection;
+ static struct v4l2_subdev_selection vsel;
+ static unsigned int set_fmt;
+ static __u32 set_fmt_pad;
++static __u32 set_fmt_stream = 0;
+ static struct v4l2_mbus_framefmt ffmt;
+ static struct v4l2_subdev_frame_size_enum frmsize;
+ static struct v4l2_subdev_frame_interval_enum frmival;
+ static __u32 set_fps_pad;
++static __u32 set_fps_stream = 0;
+ static double set_fps;
++static struct v4l2_subdev_routing routing;
++static struct v4l2_subdev_route routes[NUM_ROUTES_MAX];
  
--		if (!_fd.has_streams_support() && set_fps_stream) {
-+		if (!_fd.has_streams() && set_fps_stream) {
- 			printf("Streams API not supported.\n");
- 			return;
+ void subdev_usage()
+ {
+ 	printf("\nSub-Device options:\n"
+-	       "  --list-subdev-mbus-codes <pad>\n"
++	       "  --list-subdev-mbus-codes pad=<pad>,stream=<stream>\n"
+ 	       "                      display supported mediabus codes for this pad (0 is default)\n"
+ 	       "                      [VIDIOC_SUBDEV_ENUM_MBUS_CODE]\n"
+-	       "  --list-subdev-framesizes pad=<pad>,code=<code>\n"
++	       "  --list-subdev-framesizes pad=<pad>,stream=<stream>,code=<code>\n"
+ 	       "                     list supported framesizes for this pad and code\n"
+ 	       "                     [VIDIOC_SUBDEV_ENUM_FRAME_SIZE]\n"
+ 	       "                     <code> is the value of the mediabus code\n"
+-	       "  --list-subdev-frameintervals pad=<pad>,width=<w>,height=<h>,code=<code>\n"
++	       "  --list-subdev-frameintervals pad=<pad>,stream=<stream>,width=<w>,height=<h>,code=<code>\n"
+ 	       "                     list supported frame intervals for this pad and code and\n"
+ 	       "                     the given width and height [VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL]\n"
+ 	       "                     <code> is the value of the mediabus code\n"
+-	       "  --get-subdev-fmt [<pad>]\n"
+-	       "     		     query the frame format for the given pad [VIDIOC_SUBDEV_G_FMT]\n"
+-	       "  --get-subdev-selection pad=<pad>,target=<target>\n"
++	       "  --get-subdev-fmt pad=<pad>,stream=<stream>\n"
++	       "     		     query the frame format for the given pad and optional stream [VIDIOC_SUBDEV_G_FMT]\n"
++	       "		     <pad> the pad to get the format from\n"
++	       "		     <stream> the stream to get the format from (0 if not specified)\n"
++	       "  --get-subdev-selection pad=<pad>,stream=<stream>,target=<target>\n"
+ 	       "                     query the frame selection rectangle [VIDIOC_SUBDEV_G_SELECTION]\n"
+ 	       "                     See --set-subdev-selection command for the valid <target> values.\n"
+-	       "  --get-subdev-fps [<pad>]\n"
++	       "  --get-subdev-fps pad=<pad>,stream=<stream>\n"
+ 	       "                     query the frame rate [VIDIOC_SUBDEV_G_FRAME_INTERVAL]\n"
+ 	       "  --set-subdev-fmt   (for testing only, otherwise use media-ctl)\n"
+-	       "  --try-subdev-fmt pad=<pad>,width=<w>,height=<h>,code=<code>,field=<f>,colorspace=<c>,\n"
++	       "  --try-subdev-fmt pad=<pad>,stream=<stream>,width=<w>,height=<h>,code=<code>,field=<f>,colorspace=<c>,\n"
+ 	       "                   xfer=<xf>,ycbcr=<y>,hsv=<hsv>,quantization=<q>\n"
+-	       "                     set the frame format [VIDIOC_SUBDEV_S_FMT]\n"
++	       "                     set the frame format for the given pad and optional stream [VIDIOC_SUBDEV_S_FMT]\n"
++	       "                     <pad> the pad to get the format from\n"
++	       "                     <stream> the stream to get the format from (0 if not specified)\n"
+ 	       "                     <code> is the value of the mediabus code\n"
+ 	       "                     <f> can be one of the following field layouts:\n"
+ 	       "                       any, none, top, bottom, interlaced, seq_tb, seq_bt,\n"
+@@ -74,31 +94,74 @@ void subdev_usage()
+ 	       "                     <q> can be one of the following quantization methods:\n"
+ 	       "                       default, full-range, lim-range\n"
+ 	       "  --set-subdev-selection (for testing only, otherwise use media-ctl)\n"
+-	       "  --try-subdev-selection pad=<pad>,target=<target>,flags=<flags>,\n"
++	       "  --try-subdev-selection pad=<pad>,stream=<stream>,target=<target>,flags=<flags>,\n"
+ 	       "                         top=<x>,left=<y>,width=<w>,height=<h>\n"
+ 	       "                     set the video capture selection rectangle [VIDIOC_SUBDEV_S_SELECTION]\n"
+ 	       "                     target=crop|crop_bounds|crop_default|compose|compose_bounds|\n"
+ 	       "                            compose_default|compose_padded|native_size\n"
+ 	       "                     flags=le|ge|keep-config\n"
+-	       "  --set-subdev-fps pad=<pad>,fps=<fps> (for testing only, otherwise use media-ctl)\n"
++	       "  --set-subdev-fps pad=<pad>,stream=<stream>,fps=<fps> (for testing only, otherwise use media-ctl)\n"
+ 	       "                     set the frame rate [VIDIOC_SUBDEV_S_FRAME_INTERVAL]\n"
++	       "  --get-routing      Print the route topology\n"
++	       "  --set-routing <routes>\n"
++	       "                     Comma-separated list of route descriptors to setup\n"
++	       "\n"
++	       "Routes are defined as\n"
++	       "	routes		= route { ',' route } ;\n"
++	       "	route		= sink '->' source '[' flags ']' ;\n"
++	       "	sink		= sink-pad '/' sink-stream ;\n"
++	       "	source		= source-pad '/' source-stream ;\n"
++	       "\n"
++	       "where\n"
++	       "	sink-pad	= Pad numeric identifier for sink\n"
++	       "	sink-stream	= Stream numeric identifier for sink\n"
++	       "	source-pad	= Pad numeric identifier for source\n"
++	       "	source-stream	= Stream numeric identifier for source\n"
++	       "	flags		= Route flags (0: inactive, 1: active)\n"
+ 	       );
+ }
+ 
+ void subdev_cmd(int ch, char *optarg)
+ {
+ 	char *value, *subs;
++	char *endp;
+ 
+ 	switch (ch) {
+ 	case OptListSubDevMBusCodes:
+-		if (optarg)
+-			list_mbus_codes_pad = strtoul(optarg, nullptr, 0);
++		if (optarg) {
++			/* Legacy pad-only parsing */
++			list_mbus_codes_pad = strtoul(optarg, &endp, 0);
++			if (*endp == 0)
++				break;
++		}
++
++		subs = optarg;
++		while (subs && *subs != '\0') {
++			static constexpr const char *subopts[] = {
++				"pad",
++				"stream",
++				nullptr
++			};
++
++			switch (parse_subopt(&subs, subopts, &value)) {
++			case 0:
++				list_mbus_codes_pad = strtoul(value, nullptr, 0);
++				break;
++			case 1:
++				list_mbus_codes_stream = strtoul(value, nullptr, 0);
++				break;
++			default:
++				subdev_usage();
++				std::exit(EXIT_FAILURE);
++			}
++		}
+ 		break;
+ 	case OptListSubDevFrameSizes:
+ 		subs = optarg;
+ 		while (*subs != '\0') {
+ 			static constexpr const char *subopts[] = {
+ 				"pad",
++				"stream",
+ 				"code",
+ 				nullptr
+ 			};
+@@ -108,6 +171,9 @@ void subdev_cmd(int ch, char *optarg)
+ 				frmsize.pad = strtoul(value, nullptr, 0);
+ 				break;
+ 			case 1:
++				frmsize.stream = strtoul(value, nullptr, 0);
++				break;
++			case 2:
+ 				frmsize.code = strtoul(value, nullptr, 0);
+ 				break;
+ 			default:
+@@ -121,6 +187,7 @@ void subdev_cmd(int ch, char *optarg)
+ 		while (*subs != '\0') {
+ 			static constexpr const char *subopts[] = {
+ 				"pad",
++				"stream",
+ 				"code",
+ 				"width",
+ 				"height",
+@@ -132,12 +199,15 @@ void subdev_cmd(int ch, char *optarg)
+ 				frmival.pad = strtoul(value, nullptr, 0);
+ 				break;
+ 			case 1:
+-				frmival.code = strtoul(value, nullptr, 0);
++				frmival.stream = strtoul(value, nullptr, 0);
+ 				break;
+ 			case 2:
+-				frmival.width = strtoul(value, nullptr, 0);
++				frmival.code = strtoul(value, nullptr, 0);
+ 				break;
+ 			case 3:
++				frmival.width = strtoul(value, nullptr, 0);
++				break;
++			case 4:
+ 				frmival.height = strtoul(value, nullptr, 0);
+ 				break;
+ 			default:
+@@ -147,14 +217,40 @@ void subdev_cmd(int ch, char *optarg)
  		}
-@@ -689,7 +689,7 @@ void subdev_set(cv4l_fd &_fd)
+ 		break;
+ 	case OptGetSubDevFormat:
+-		if (optarg)
+-			get_fmt_pad = strtoul(optarg, nullptr, 0);
++		if (optarg) {
++			/* Legacy pad-only parsing */
++			get_fmt_pad = strtoul(optarg, &endp, 0);
++			if (*endp == 0)
++				break;
++		}
++
++		subs = optarg;
++		while (subs && *subs != '\0') {
++			static constexpr const char *subopts[] = {
++				"pad",
++				"stream",
++				nullptr
++			};
++
++			switch (parse_subopt(&subs, subopts, &value)) {
++			case 0:
++				get_fmt_pad = strtoul(value, nullptr, 0);
++				break;
++			case 1:
++				get_fmt_stream = strtoul(value, nullptr, 0);
++				break;
++			default:
++				subdev_usage();
++				std::exit(EXIT_FAILURE);
++			}
++		}
+ 		break;
+ 	case OptGetSubDevSelection:
+ 		subs = optarg;
+ 		while (*subs != '\0') {
+ 			static constexpr const char *subopts[] = {
+ 				"pad",
++				"stream",
+ 				"target",
+ 				nullptr
+ 			};
+@@ -165,6 +261,9 @@ void subdev_cmd(int ch, char *optarg)
+ 				get_sel_pad = strtoul(value, nullptr, 0);
+ 				break;
+ 			case 1:
++				get_sel_stream = strtoul(value, nullptr, 0);
++				break;
++			case 2:
+ 				if (parse_selection_target(value, target)) {
+ 					fprintf(stderr, "Unknown selection target\n");
+ 					subdev_usage();
+@@ -179,8 +278,33 @@ void subdev_cmd(int ch, char *optarg)
+ 		}
+ 		break;
+ 	case OptGetSubDevFPS:
+-		if (optarg)
+-			get_fps_pad = strtoul(optarg, nullptr, 0);
++		if (optarg) {
++			/* Legacy pad-only parsing */
++			get_fps_pad = strtoul(optarg, &endp, 0);
++			if (*endp == 0)
++				break;
++		}
++
++		subs = optarg;
++		while (subs && *subs != '\0') {
++			static constexpr const char *subopts[] = {
++				"pad",
++				"stream",
++				nullptr
++			};
++
++			switch (parse_subopt(&subs, subopts, &value)) {
++			case 0:
++				get_fps_pad = strtoul(value, nullptr, 0);
++				break;
++			case 1:
++				get_fps_stream = strtoul(value, nullptr, 0);
++				break;
++			default:
++				subdev_usage();
++				std::exit(EXIT_FAILURE);
++			}
++		}
+ 		break;
+ 	case OptSetSubDevFormat:
+ 	case OptTrySubDevFormat:
+@@ -198,6 +322,7 @@ void subdev_cmd(int ch, char *optarg)
+ 				"quantization",
+ 				"xfer",
+ 				"pad",
++				"stream",
+ 				nullptr
+ 			};
+ 
+@@ -244,6 +369,9 @@ void subdev_cmd(int ch, char *optarg)
+ 			case 9:
+ 				set_fmt_pad = strtoul(value, nullptr, 0);
+ 				break;
++			case 10:
++				set_fmt_stream = strtoul(value, nullptr, 0);
++				break;
+ 			default:
+ 				fprintf(stderr, "Unknown option\n");
+ 				subdev_usage();
+@@ -264,6 +392,7 @@ void subdev_cmd(int ch, char *optarg)
+ 				"width",
+ 				"height",
+ 				"pad",
++				"stream",
+ 				nullptr
+ 			};
+ 
+@@ -298,6 +427,9 @@ void subdev_cmd(int ch, char *optarg)
+ 			case 6:
+ 				vsel.pad = strtoul(value, nullptr, 0);
+ 				break;
++			case 7:
++				vsel.stream = strtoul(value, nullptr, 0);
++				break;
+ 			default:
+ 				fprintf(stderr, "Unknown option\n");
+ 				subdev_usage();
+@@ -311,6 +443,7 @@ void subdev_cmd(int ch, char *optarg)
+ 		while (*subs != '\0') {
+ 			static constexpr const char *subopts[] = {
+ 				"pad",
++				"stream",
+ 				"fps",
+ 				nullptr
+ 			};
+@@ -320,6 +453,9 @@ void subdev_cmd(int ch, char *optarg)
+ 				set_fps_pad = strtoul(value, nullptr, 0);
+ 				break;
+ 			case 1:
++				set_fps_stream = strtoul(value, nullptr, 0);
++				break;
++			case 2:
+ 				set_fps = strtod(value, nullptr);
+ 				break;
+ 			default:
+@@ -329,6 +465,47 @@ void subdev_cmd(int ch, char *optarg)
+ 			}
+ 		}
+ 		break;
++	case OptSetRouting: {
++		struct v4l2_subdev_route *r;
++		char *end, *ref, *tok;
++		unsigned int flags;
++
++		memset(&routing, 0, sizeof(routing));
++		memset(routes, 0, sizeof(routes[0]) * NUM_ROUTES_MAX);
++		routing.which = V4L2_SUBDEV_FORMAT_ACTIVE;
++		routing.num_routes = 0;
++		routing.routes = (__u64)routes;
++
++		if (!optarg)
++			break;
++
++		r = (v4l2_subdev_route *)routing.routes;
++		ref = end = strdup(optarg);
++		while ((tok = strsep(&end, ",")) != NULL) {
++			if (sscanf(tok, "%u/%u -> %u/%u [%u]",
++				   &r->sink_pad, &r->sink_stream,
++				   &r->source_pad, &r->source_stream,
++				   &flags) != 5) {
++				free(ref);
++				fprintf(stderr, "Invalid route information specified\n");
++				subdev_usage();
++				std::exit(EXIT_FAILURE);
++			}
++
++			if (flags & ~(V4L2_SUBDEV_ROUTE_FL_ACTIVE)) {
++				fprintf(stderr, "Invalid route flags specified: %#x\n", flags);
++				subdev_usage();
++				std::exit(EXIT_FAILURE);
++			}
++
++			r->flags = flags;
++
++			r++;
++			routing.num_routes++;
++		}
++		free(ref);
++		break;
++	}
+ 	default:
+ 		break;
+ 	}
+@@ -394,6 +571,7 @@ void subdev_set(cv4l_fd &_fd)
+ 
+ 		memset(&fmt, 0, sizeof(fmt));
+ 		fmt.pad = set_fmt_pad;
++		fmt.stream = set_fmt_stream;
+ 		fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+ 
+ 		if (doioctl(fd, VIDIOC_SUBDEV_G_FMT, &fmt) == 0) {
+@@ -430,7 +608,7 @@ void subdev_set(cv4l_fd &_fd)
+ 			else
+ 				fmt.which = V4L2_SUBDEV_FORMAT_TRY;
+ 
+-			printf("ioctl: VIDIOC_SUBDEV_S_FMT (pad=%u)\n", fmt.pad);
++			printf("ioctl: VIDIOC_SUBDEV_S_FMT (pad=%u,stream=%u)\n", fmt.pad, fmt.stream);
+ 			ret = doioctl(fd, VIDIOC_SUBDEV_S_FMT, &fmt);
+ 			if (ret == 0 && (verbose || !options[OptSetSubDevFormat]))
+ 				print_framefmt(fmt.format);
+@@ -441,6 +619,7 @@ void subdev_set(cv4l_fd &_fd)
+ 
+ 		memset(&sel, 0, sizeof(sel));
+ 		sel.pad = vsel.pad;
++		sel.stream = vsel.stream;
+ 		sel.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+ 		sel.target = vsel.target;
+ 
+@@ -461,7 +640,7 @@ void subdev_set(cv4l_fd &_fd)
+ 			else
+ 				sel.which = V4L2_SUBDEV_FORMAT_TRY;
+ 
+-			printf("ioctl: VIDIOC_SUBDEV_S_SELECTION (pad=%u)\n", sel.pad);
++			printf("ioctl: VIDIOC_SUBDEV_S_SELECTION (pad=%u,stream=%u)\n", sel.pad, sel.stream);
+ 			int ret = doioctl(fd, VIDIOC_SUBDEV_S_SELECTION, &sel);
+ 			if (ret == 0 && (verbose || !options[OptSetSubDevSelection]))
+ 				print_subdev_selection(sel);
+@@ -472,6 +651,7 @@ void subdev_set(cv4l_fd &_fd)
+ 
+ 		memset(&fival, 0, sizeof(fival));
+ 		fival.pad = set_fps_pad;
++		fival.stream = set_fps_stream;
+ 
+ 		if (set_fps <= 0) {
+ 			fprintf(stderr, "invalid fps %f\n", set_fps);
+@@ -482,7 +662,7 @@ void subdev_set(cv4l_fd &_fd)
+ 		fival.interval.denominator = static_cast<uint32_t>(set_fps * fival.interval.numerator);
+ 		printf("Note: --set-subdev-fps is only for testing.\n"
+ 		       "Normally media-ctl is used to configure the video pipeline.\n");
+-		printf("ioctl: VIDIOC_SUBDEV_S_FRAME_INTERVAL (pad=%u)\n", fival.pad);
++		printf("ioctl: VIDIOC_SUBDEV_S_FRAME_INTERVAL (pad=%u,stream=%u)\n", fival.pad, fival.stream);
+ 		if (doioctl(fd, VIDIOC_SUBDEV_S_FRAME_INTERVAL, &fival) == 0) {
+ 			if (!fival.interval.denominator || !fival.interval.numerator)
+ 				printf("\tFrames per second: invalid (%d/%d)\n",
+@@ -493,6 +673,55 @@ void subdev_set(cv4l_fd &_fd)
+ 					fival.interval.denominator, fival.interval.numerator);
  		}
  	}
- 	if (options[OptSetRouting]) {
--		if (!_fd.has_streams_support()) {
-+		if (!_fd.has_streams()) {
- 			printf("Streams API not supported.\n");
- 			return;
- 		}
-@@ -736,7 +736,7 @@ static void print_routes(const struct v4l2_subdev_routing *r)
- 	};
- 
- 	for (i = 0; i < r->num_routes; i++) {
--		printf("%d/%d -> %d/%d [",
++	if (options[OptSetRouting]) {
++		if (doioctl(fd, VIDIOC_SUBDEV_S_ROUTING, &routing) == 0)
++			printf("Routing set\n");
++	}
++}
++
++struct flag_name {
++	__u32 flag;
++	const char *name;
++};
++
++static void print_flags(const struct flag_name *flag_names, unsigned int num_entries, __u32 flags)
++{
++	bool first = true;
++	unsigned int i;
++
++	for (i = 0; i < num_entries; i++) {
++		if (!(flags & flag_names[i].flag))
++			continue;
++		if (!first)
++			printf(",");
++		printf("%s", flag_names[i].name);
++		flags &= ~flag_names[i].flag;
++		first = false;
++	}
++
++	if (flags) {
++		if (!first)
++			printf(",");
++		printf("0x%x", flags);
++	}
++}
++
++static void print_routes(const struct v4l2_subdev_routing *r)
++{
++	unsigned int i;
++	struct v4l2_subdev_route *routes = (struct v4l2_subdev_route *)r->routes;
++
++	static const struct flag_name route_flags[] = {
++		{ V4L2_SUBDEV_ROUTE_FL_ACTIVE, "ACTIVE" },
++	};
++
++	for (i = 0; i < r->num_routes; i++) {
 +		printf("%u/%u -> %u/%u [",
- 		       routes[i].sink_pad, routes[i].sink_stream,
- 		       routes[i].source_pad, routes[i].source_stream);
- 		print_flags(route_flags, ARRAY_SIZE(route_flags), routes[i].flags);
-@@ -751,7 +751,7 @@ void subdev_get(cv4l_fd &_fd)
- 	if (options[OptGetSubDevFormat]) {
- 		struct v4l2_subdev_format fmt;
++		       routes[i].sink_pad, routes[i].sink_stream,
++		       routes[i].source_pad, routes[i].source_stream);
++		print_flags(route_flags, ARRAY_SIZE(route_flags), routes[i].flags);
++		printf("]\n");
++	}
+ }
  
--		if (!_fd.has_streams_support() && get_fmt_stream) {
-+		if (!_fd.has_streams() && get_fmt_stream) {
- 			printf("Streams API not supported.\n");
- 			return;
- 		}
-@@ -761,7 +761,7 @@ void subdev_get(cv4l_fd &_fd)
+ void subdev_get(cv4l_fd &_fd)
+@@ -505,8 +734,9 @@ void subdev_get(cv4l_fd &_fd)
+ 		memset(&fmt, 0, sizeof(fmt));
+ 		fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
  		fmt.pad = get_fmt_pad;
- 		fmt.stream = get_fmt_stream;
++		fmt.stream = get_fmt_stream;
  
--		printf("ioctl: VIDIOC_SUBDEV_G_FMT (pad=%u, stream=%u)\n", fmt.pad, fmt.stream);
+-		printf("ioctl: VIDIOC_SUBDEV_G_FMT (pad=%u)\n", fmt.pad);
 +		printf("ioctl: VIDIOC_SUBDEV_G_FMT (pad=%u,stream=%u)\n", fmt.pad, fmt.stream);
  		if (doioctl(fd, VIDIOC_SUBDEV_G_FMT, &fmt) == 0)
  			print_framefmt(fmt.format);
  	}
-@@ -770,7 +770,7 @@ void subdev_get(cv4l_fd &_fd)
- 		struct v4l2_subdev_selection sel;
- 		unsigned idx = 0;
+@@ -518,8 +748,9 @@ void subdev_get(cv4l_fd &_fd)
+ 		memset(&sel, 0, sizeof(sel));
+ 		sel.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+ 		sel.pad = get_sel_pad;
++		sel.stream = get_sel_stream;
  
--		if (!_fd.has_streams_support() && get_sel_stream) {
-+		if (!_fd.has_streams() && get_sel_stream) {
- 			printf("Streams API not supported.\n");
- 			return;
- 		}
-@@ -797,7 +797,7 @@ void subdev_get(cv4l_fd &_fd)
- 	if (options[OptGetSubDevFPS]) {
- 		struct v4l2_subdev_frame_interval fival;
+-		printf("ioctl: VIDIOC_SUBDEV_G_SELECTION (pad=%u)\n", sel.pad);
++		printf("ioctl: VIDIOC_SUBDEV_G_SELECTION (pad=%u,stream=%u)\n", sel.pad, sel.stream);
+ 		if (options[OptAll] || get_sel_target == -1) {
+ 			while (valid_seltarget_at_idx(idx)) {
+ 				sel.target = seltarget_at_idx(idx);
+@@ -538,8 +769,9 @@ void subdev_get(cv4l_fd &_fd)
  
--		if (!_fd.has_streams_support() && get_fps_stream) {
-+		if (!_fd.has_streams() && get_fps_stream) {
- 			printf("Streams API not supported.\n");
- 			return;
+ 		memset(&fival, 0, sizeof(fival));
+ 		fival.pad = get_fps_pad;
++		fival.stream = get_fps_stream;
+ 
+-		printf("ioctl: VIDIOC_SUBDEV_G_FRAME_INTERVAL (pad=%u)\n", fival.pad);
++		printf("ioctl: VIDIOC_SUBDEV_G_FRAME_INTERVAL (pad=%u,stream=%u)\n", fival.pad, fival.stream);
+ 		if (doioctl(fd, VIDIOC_SUBDEV_G_FRAME_INTERVAL, &fival) == 0) {
+ 			if (!fival.interval.denominator || !fival.interval.numerator)
+ 				printf("\tFrames per second: invalid (%d/%d)\n",
+@@ -550,6 +782,17 @@ void subdev_get(cv4l_fd &_fd)
+ 					fival.interval.denominator, fival.interval.numerator);
  		}
-@@ -819,7 +819,7 @@ void subdev_get(cv4l_fd &_fd)
  	}
++
++	if (options[OptGetRouting]) {
++		memset(&routing, 0, sizeof(routing));
++		memset(routes, 0, sizeof(routes[0]) * NUM_ROUTES_MAX);
++		routing.which = V4L2_SUBDEV_FORMAT_ACTIVE;
++		routing.num_routes = NUM_ROUTES_MAX;
++		routing.routes = (__u64)routes;
++
++		if (doioctl(fd, VIDIOC_SUBDEV_G_ROUTING, &routing) == 0)
++			print_routes(&routing);
++	}
+ }
  
- 	if (options[OptGetRouting]) {
--		if (!_fd.has_streams_support()) {
-+		if (!_fd.has_streams()) {
- 			printf("Streams API not supported.\n");
- 			return;
- 		}
-@@ -907,7 +907,7 @@ void subdev_list(cv4l_fd &_fd)
+ static void print_mbus_code(__u32 code)
+@@ -566,11 +809,12 @@ static void print_mbus_code(__u32 code)
+ 		printf("\t0x%04x", code);
+ }
+ 
+-static void print_mbus_codes(int fd, __u32 pad)
++static void print_mbus_codes(int fd, __u32 pad, __u32 stream)
+ {
+ 	struct v4l2_subdev_mbus_code_enum mbus_code = {};
+ 
+ 	mbus_code.pad = pad;
++	mbus_code.stream = stream;
+ 	mbus_code.which = V4L2_SUBDEV_FORMAT_TRY;
+ 
+ 	for (;;) {
+@@ -623,13 +867,13 @@ void subdev_list(cv4l_fd &_fd)
  	int fd = _fd.g_fd();
  
  	if (options[OptListSubDevMBusCodes]) {
--		if (!_fd.has_streams_support() && list_mbus_codes_stream) {
-+		if (!_fd.has_streams() && list_mbus_codes_stream) {
- 			printf("Streams API not supported.\n");
- 			return;
- 		}
-@@ -917,7 +917,7 @@ void subdev_list(cv4l_fd &_fd)
- 		print_mbus_codes(fd, list_mbus_codes_pad, list_mbus_codes_stream);
+-		printf("ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=%u)\n",
+-		       list_mbus_codes_pad);
+-		print_mbus_codes(fd, list_mbus_codes_pad);
++		printf("ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=%u,stream=%u)\n",
++		       list_mbus_codes_pad, list_mbus_codes_stream);
++		print_mbus_codes(fd, list_mbus_codes_pad, list_mbus_codes_stream);
  	}
  	if (options[OptListSubDevFrameSizes]) {
--		if (!_fd.has_streams_support() && frmsize.stream) {
-+		if (!_fd.has_streams() && frmsize.stream) {
- 			printf("Streams API not supported.\n");
- 			return;
- 		}
-@@ -932,7 +932,7 @@ void subdev_list(cv4l_fd &_fd)
+-		printf("ioctl: VIDIOC_SUBDEV_ENUM_FRAME_SIZE (pad=%u)\n",
+-		       frmsize.pad);
++		printf("ioctl: VIDIOC_SUBDEV_ENUM_FRAME_SIZE (pad=%u,stream=%u)\n",
++		       frmsize.pad, frmsize.stream);
+ 		frmsize.index = 0;
+ 		frmsize.which = V4L2_SUBDEV_FORMAT_TRY;
+ 		while (test_ioctl(fd, VIDIOC_SUBDEV_ENUM_FRAME_SIZE, &frmsize) >= 0) {
+@@ -638,8 +882,8 @@ void subdev_list(cv4l_fd &_fd)
  		}
  	}
  	if (options[OptListSubDevFrameIntervals]) {
--		if (!_fd.has_streams_support() && frmival.stream) {
-+		if (!_fd.has_streams() && frmival.stream) {
- 			printf("Streams API not supported.\n");
- 			return;
- 		}
+-		printf("ioctl: VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL (pad=%u)\n",
+-		       frmival.pad);
++		printf("ioctl: VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL (pad=%u,stream=%u)\n",
++		       frmival.pad, frmival.stream);
+ 		frmival.index = 0;
+ 		frmival.which = V4L2_SUBDEV_FORMAT_TRY;
+ 		while (test_ioctl(fd, VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL, &frmival) >= 0) {
 diff --git a/utils/v4l2-ctl/v4l2-ctl.cpp b/utils/v4l2-ctl/v4l2-ctl.cpp
-index 1cfb50f7..52974b40 100644
+index 8585278f..52974b40 100644
 --- a/utils/v4l2-ctl/v4l2-ctl.cpp
 +++ b/utils/v4l2-ctl/v4l2-ctl.cpp
-@@ -64,8 +64,8 @@ static struct option long_options[] = {
+@@ -64,6 +64,8 @@ static struct option long_options[] = {
  	{"get-fmt-video-out", no_argument, nullptr, OptGetVideoOutFormat},
  	{"set-fmt-video-out", required_argument, nullptr, OptSetVideoOutFormat},
  	{"try-fmt-video-out", required_argument, nullptr, OptTryVideoOutFormat},
--	{"set-routing", required_argument, 0, OptSetRouting},
- 	{"get-routing", no_argument, 0, OptGetRouting},
++	{"get-routing", no_argument, 0, OptGetRouting},
 +	{"set-routing", required_argument, 0, OptSetRouting},
  	{"help", no_argument, nullptr, OptHelp},
  	{"help-tuner", no_argument, nullptr, OptHelpTuner},
  	{"help-io", no_argument, nullptr, OptHelpIO},
 diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
-index 9396c974..bf519c3f 100644
+index 8f2726ea..bf519c3f 100644
 --- a/utils/v4l2-ctl/v4l2-ctl.h
 +++ b/utils/v4l2-ctl/v4l2-ctl.h
-@@ -191,8 +191,8 @@ enum Option {
+@@ -191,6 +191,8 @@ enum Option {
  	OptInfoEdid,
  	OptShowEdid,
  	OptFixEdidChecksums,
--	OptSetRouting,
- 	OptGetRouting,
++	OptGetRouting,
 +	OptSetRouting,
  	OptFreqSeek,
  	OptEncoderCmd,
