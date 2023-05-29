@@ -2,135 +2,212 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F6D071485A
-	for <lists+linux-media@lfdr.de>; Mon, 29 May 2023 13:11:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EEA37714984
+	for <lists+linux-media@lfdr.de>; Mon, 29 May 2023 14:34:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229572AbjE2LLv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 May 2023 07:11:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49374 "EHLO
+        id S231764AbjE2MeT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 May 2023 08:34:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229570AbjE2LLu (ORCPT
+        with ESMTP id S229519AbjE2MeR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 May 2023 07:11:50 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62AB7CF
-        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 04:11:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685358709; x=1716894709;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=cY5rAtd61tbHaCEt2Ri7xg0vVh9s9z8K4GmcqvRHFKc=;
-  b=eaXUtUHAvm2fJa+Bgy2Ys59Nw+qWOhYc057gsiwPdUPFHwWHE9Px7oAM
-   jgdAQPX7qTX18nfGC/YhBZlrCNj3eVw1AvQMDQym/JIac6j3ozmbXHQ5V
-   4NyTATkX9XEJ6klqPWRq5PtRBPQ0ZPuBAdv6Vza6rshMq8ygmQmu2/T/X
-   Y0iHIVJ0jFB0fkCpQr+pQRjKsiDEOP5lwcatzzHzgStcszZZlnFjcMp3a
-   uuwbznlLYi8F32JjPnsp7Q2h9FwuVbmbArzyuaax+Crbeqaw80mntbYHN
-   A4K27jSqa60aMeYVHM3oblkeSZZ4+d7Eh3lAml5K2K9kpCElHjcLonqz8
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="382936750"
-X-IronPort-AV: E=Sophos;i="6.00,201,1681196400"; 
-   d="scan'208";a="382936750"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2023 04:11:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="709234796"
-X-IronPort-AV: E=Sophos;i="6.00,201,1681196400"; 
-   d="scan'208";a="709234796"
-Received: from jasonz-ms-7d25.itwn.intel.com ([10.227.107.10])
-  by fmsmga007.fm.intel.com with ESMTP; 29 May 2023 04:11:47 -0700
-From:   "Chen, Jason Z" <jason.z.chen@intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     sakari.ailus@linux.intel.com, andy.yeh@intel.com,
-        Jason Chen <jason.z.chen@intel.com>
-Subject: [PATCH v2] media: ov08x40: Fix hblank out of range issue
-Date:   Mon, 29 May 2023 19:10:41 +0800
-Message-Id: <20230529111041.2839773-1-jason.z.chen@intel.com>
-X-Mailer: git-send-email 2.34.1
+        Mon, 29 May 2023 08:34:17 -0400
+Received: from smtp.smtpout.orange.fr (smtp-13.smtpout.orange.fr [80.12.242.13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF663B1
+        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 05:34:15 -0700 (PDT)
+Received: from [192.168.1.18] ([86.243.2.178])
+        by smtp.orange.fr with ESMTPA
+        id 3c4fqNsAqlBOE3c4fqpQ3R; Mon, 29 May 2023 14:34:13 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+        s=t20230301; t=1685363653;
+        bh=+kWEkUEbuPvt2TYg75igiL1YG2ldLZYahqA3uJAWin4=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=R5qU+t3T8i2xE6Umfqw3rjnTHj4AFsfqn4XXqO4GsjT42IZ6P9ieU5mejWDW6+PpC
+         0HPdVHuie4GL2Y+d4R0tfaZDi+QO7XNYjHRieAyU+d45kT4I6dHT9NYPOKjQR4dhNN
+         qEIVRru1rSpIilpuCX6kT2X1AM2Ujhwu6qrBoSXknjSAwsKBrQyAz/Lqaliq27TpP1
+         2UjRtYa0cvPNgriiu8nWEiASogf7C82h6qWD92r/LAuYuzH/3fMK7xil26K4PWOxmb
+         P8tzS5oYUDkedNU/9b2tn0EeXsLXGcLXp+g8xitbIrDtTB4lxbFPEkSq+9LuhAp1n6
+         Ro3i1inGzPUtw==
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Mon, 29 May 2023 14:34:13 +0200
+X-ME-IP: 86.243.2.178
+Message-ID: <7aaa6abc-09a7-7be5-9184-6cd7d702baf2@wanadoo.fr>
+Date:   Mon, 29 May 2023 14:34:09 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2 2/2] media: i2c: Add support for alvium camera
+Content-Language: fr, en-US
+To:     Tommaso Merciai <tomm.merciai@gmail.com>
+Cc:     jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com,
+        martin.hecht@avnet.eu, linuxfancy@googlegroups.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Gerald Loacker <gerald.loacker@wolfvision.net>,
+        Nicholas Roth <nicholas@rothemail.net>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+References: <20230526173955.797226-1-tomm.merciai@gmail.com>
+ <20230526173955.797226-3-tomm.merciai@gmail.com>
+ <8563d09d-fa63-43e3-98a9-8008d53034aa@wanadoo.fr>
+ <ZHR5qup6412nLgzz@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <ZHR5qup6412nLgzz@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Jason Chen <jason.z.chen@intel.com>
+Le 29/05/2023 à 12:08, Tommaso Merciai a écrit :
 
-The HTS value cannot be directly compared to the sensor's output
-size. It needs to be converted to an absolute time unit.
-Additionally, the hblank value need to be modified as it was
-previous invalid.
+>>> +	int avail_fmt_cnt = 0;
+>>> +
+>>> +	alvium->alvium_csi2_fmt = NULL;
+>>> +
+>>> +	/* calculate fmt array size */
+>>> +	for (fmt = 0; fmt < ALVIUM_NUM_SUPP_MIPI_DATA_FMT; fmt++) {
+>>> +		if (alvium->is_mipi_fmt_avail[alvium_csi2_fmts[fmt].fmt_av_bit]) {
+>>> +			if (!alvium_csi2_fmts[fmt].is_raw) {
+>>> +				sz++;
+>>> +			} else if (alvium_csi2_fmts[fmt].is_raw &&
+>>> +			      alvium->is_bay_avail[alvium_csi2_fmts[fmt].bay_av_bit]) {
+>>
+>> It is makes sense, this if/else looks equivalent to:
+>>
+>> 			if (!alvium_csi2_fmts[fmt].is_raw ||
+>> 			    alvium->is_bay_avail[alvium_csi2_fmts[fmt].bay_av_bit]) {
+>> 				sz++;
+>>
+>> The same simplification could also be applied in the for loop below.
+> 
+> I Don't agree on this.
+> This is not a semplification.
+> This change the logic of the statement.
+> 
 
-Signed-off-by: Jason Chen <jason.z.chen@intel.com>
----
- drivers/media/i2c/ov08x40.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+Hmmm, unless I missed something obvious, I don't think it changes the logic.
 
-diff --git a/drivers/media/i2c/ov08x40.c b/drivers/media/i2c/ov08x40.c
-index 72ae7fba94e..3d82a9db339 100644
---- a/drivers/media/i2c/ov08x40.c
-+++ b/drivers/media/i2c/ov08x40.c
-@@ -110,8 +110,6 @@ struct ov08x40_reg_list {
- 
- /* Link frequency config */
- struct ov08x40_link_freq_config {
--	u32 pixels_per_line;
--
- 	/* registers for this link frequency */
- 	struct ov08x40_reg_list reg_list;
- };
-@@ -128,6 +126,9 @@ struct ov08x40_mode {
- 	u32 vts_def;
- 	u32 vts_min;
- 
-+	/* HTS */
-+	u32 hts;
-+
- 	/* Index of Link frequency config to be used */
- 	u32 link_freq_index;
- 	/* Default register values */
-@@ -2391,6 +2392,7 @@ static const struct ov08x40_mode supported_modes[] = {
- 		.height = 2416,
- 		.vts_def = OV08X40_VTS_30FPS,
- 		.vts_min = OV08X40_VTS_30FPS,
-+		.hts = 640,
- 		.lanes = 4,
- 		.reg_list = {
- 			.num_of_regs = ARRAY_SIZE(mode_3856x2416_regs),
-@@ -2403,6 +2405,7 @@ static const struct ov08x40_mode supported_modes[] = {
- 		.height = 1208,
- 		.vts_def = OV08X40_VTS_BIN_30FPS,
- 		.vts_min = OV08X40_VTS_BIN_30FPS,
-+		.hts = 720,
- 		.lanes = 4,
- 		.reg_list = {
- 			.num_of_regs = ARRAY_SIZE(mode_1928x1208_regs),
-@@ -2846,9 +2849,7 @@ ov08x40_set_pad_format(struct v4l2_subdev *sd,
- 					 1,
- 					 vblank_def);
- 		__v4l2_ctrl_s_ctrl(ov08x->vblank, vblank_def);
--		h_blank =
--			link_freq_configs[mode->link_freq_index].pixels_per_line
--			 - ov08x->cur_mode->width;
-+		h_blank = ov08x->cur_mode->hts;
- 		__v4l2_ctrl_modify_range(ov08x->hblank, h_blank,
- 					 h_blank, 1, h_blank);
- 	}
-@@ -3074,8 +3075,7 @@ static int ov08x40_init_controls(struct ov08x40 *ov08x)
- 					  OV08X40_VTS_MAX - mode->height, 1,
- 					  vblank_def);
- 
--	hblank = link_freq_configs[mode->link_freq_index].pixels_per_line -
--		 mode->width;
-+	hblank = ov08x->cur_mode->hts;
- 	ov08x->hblank = v4l2_ctrl_new_std(ctrl_hdlr, &ov08x40_ctrl_ops,
- 					  V4L2_CID_HBLANK,
- 					  hblank, hblank, 1, hblank);
--- 
-2.34.1
+Let me detail my PoV.
 
+The original code is, for the inner if:
+
++	if (!alvium_csi2_fmts[fmt].is_raw) {
++		sz++;
++	} else if (alvium_csi2_fmts[fmt].is_raw &&
++	      alvium->is_bay_avail[alvium_csi2_fmts[fmt].bay_av_bit]) {
++		sz++;
++	}
+
+So both branchs end to sz++, so it can be written:
+
++	if ((!alvium_csi2_fmts[fmt].is_raw) ||
++	    (alvium_csi2_fmts[fmt].is_raw &&
++	      alvium->is_bay_avail[alvium_csi2_fmts[fmt].bay_av_bit])) {
++		sz++;
++	}
+
+A || (!A && B) is equivalent to A || B, so it can be rewritten as:
+
++	if ((!alvium_csi2_fmts[fmt].is_raw) ||
++	    (alvium->is_bay_avail[alvium_csi2_fmts[fmt].bay_av_bit])) {
++		sz++;
++	}
+
+> Also initialization of sz and avail_fmt_cnt is needed.
+> Maybe I can include fmt variable initialization into the for loop:
+
+Agreed. I must have been unclear.
+I was only speaking about the *inner* 'if', not the whole block of code.
+
+> 
+> for (int fmt = 0; fmt < ALVIUM_NUM_SUPP_MIPI_DATA_FMT; fmt++) {
+> 
+> But from my perspective this seems clear.
+
+I fully agree with you, but that was not my point.
+
+
+>>> +struct alvium_pixfmt {
+>>> +	u8 id;
+>>> +	u32 code;
+>>> +	u32 colorspace;
+>>> +	u8 fmt_av_bit;
+>>> +	u8 bay_av_bit;
+>>> +	u64 mipi_fmt_regval;
+>>> +	u64 bay_fmt_regval;
+>>> +	u8 is_raw;
+>>
+>> If moved a few lines above, there would be less holes in the struct.
+> 
+> ?
+
+This is more or less the same comment that you got from Laurent Pinchart.
+
+Using pahole on your struct, as-is, gives:
+
+struct alvium_pixfmt {
+	u8                         id;                   /*     0     1 */
+
+	/* XXX 3 bytes hole, try to pack */
+
+	u32                        code;                 /*     4     4 */
+	u32                        colorspace;           /*     8     4 */
+	u8                         fmt_av_bit;           /*    12     1 */
+	u8                         bay_av_bit;           /*    13     1 */
+
+	/* XXX 2 bytes hole, try to pack */
+
+	u64                        mipi_fmt_regval;      /*    16     8 */
+	u64                        bay_fmt_regval;       /*    24     8 */
+	u8                         is_raw;               /*    32     1 */
+
+	/* size: 40, cachelines: 1, members: 8 */
+	/* sum members: 28, holes: 2, sum holes: 5 */
+	/* padding: 7 */
+	/* last cacheline: 40 bytes */
+};
+
+If you change the order of some fields, you can get, *for example*:
+
+struct alvium_pixfmt {
+	u8                         id;                   /*     0     1 */
+	u8                         is_raw;               /*     1     1 */
+	u8                         fmt_av_bit;           /*     2     1 */
+	u8                         bay_av_bit;           /*     3     1 */
+	u32                        code;                 /*     4     4 */
+	u32                        colorspace;           /*     8     4 */
+
+	/* XXX 4 bytes hole, try to pack */
+
+	u64                        mipi_fmt_regval;      /*    16     8 */
+	u64                        bay_fmt_regval;       /*    24     8 */
+
+	/* size: 32, cachelines: 1, members: 8 */
+	/* sum members: 28, holes: 1, sum holes: 4 */
+	/* last cacheline: 32 bytes */
+};
+
+Now the whole structure require 32 bytes instead of 40, because their 
+are less holes in it.
+And "rounding" in the memory allocation layer would finally allocate 64 
+bytes. So moving some fields would half (32 vs 64) the memory used!
+
+But, the main point is to keep a layout that is logical to you. So up to 
+you to re-arrange the struct or not.
+
+(the same applies to some other struct in your patch)
+
+CJ
