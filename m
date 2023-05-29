@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EC41071480A
-	for <lists+linux-media@lfdr.de>; Mon, 29 May 2023 12:40:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 663FD71480C
+	for <lists+linux-media@lfdr.de>; Mon, 29 May 2023 12:40:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231718AbjE2KkB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 May 2023 06:40:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36998 "EHLO
+        id S231716AbjE2KkR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 May 2023 06:40:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231694AbjE2Kjz (ORCPT
+        with ESMTP id S231694AbjE2KkE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 May 2023 06:39:55 -0400
+        Mon, 29 May 2023 06:40:04 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 541B3110
-        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 03:39:04 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D64C4F4
+        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 03:39:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1685356743;
+        s=mimecast20190719; t=1685356745;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=O8i5rqvCYDXsKLT2n/PrU89zTeCQnNlUGSNta4Kpb1Y=;
-        b=WYQ4oR4oVrEamyDRJ0m2IyYB4yVuN8HbRl89hsZ3gViTEP0so389ofFiu0Rs51QfXdosho
-        hC5yYHkocLqReMm9maHB7AmGzK3QNZXnCUg2pmkX2pxvC1Nh2tPKKrok46SyAPPnhezlK1
-        sq2yxLJ1qxalzvfmXqqZXIPGYJMy2vw=
+        bh=ja5cKbuWVrgiggIWYegbmQbqLhOHMQseItkLhmp4RYg=;
+        b=BBS1H/MGSPjph9AxJIlOolh5Ez2uoy0SrIoMl90htnWVk7pG0OlgslGtF/IA5T+3ueZqJh
+        co+aLwgor/Yflo+GTFj/J+6z4eVCeNkTUN102XjLu74UmtQbUttXvZ8N67k1EPGvTSK1x8
+        oIq7qxon1/r/N2UEmuEfdLj4TERvvuU=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-607-xfxOaZGpMvCOo-mfUUTCLQ-1; Mon, 29 May 2023 06:38:59 -0400
-X-MC-Unique: xfxOaZGpMvCOo-mfUUTCLQ-1
+ us-mta-355-G8wqRsb0Mmm3wCAHBTVc4g-1; Mon, 29 May 2023 06:39:01 -0400
+X-MC-Unique: G8wqRsb0Mmm3wCAHBTVc4g-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7B9C6185A78B;
-        Mon, 29 May 2023 10:38:58 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 430AD101A531;
+        Mon, 29 May 2023 10:39:01 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.194.96])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E88AB2166B2B;
-        Mon, 29 May 2023 10:38:56 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id AF03E2166B2B;
+        Mon, 29 May 2023 10:38:59 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -48,9 +48,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>, Kate Hsuan <hpa@redhat.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 20/21] media: atomisp: Add enum_framesizes function for sensors with selection / crop support
-Date:   Mon, 29 May 2023 12:37:40 +0200
-Message-Id: <20230529103741.11904-21-hdegoede@redhat.com>
+Subject: [PATCH 21/21] media: atomisp: csi2-bridge: Set PMC clk-rate for sensors to 19.2 MHz
+Date:   Mon, 29 May 2023 12:37:41 +0200
+Message-Id: <20230529103741.11904-22-hdegoede@redhat.com>
 In-Reply-To: <20230529103741.11904-1-hdegoede@redhat.com>
 References: <20230529103741.11904-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -66,128 +66,141 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Some sensor drivers with crop support (e.g. the ov5693 driver) only
-return the current crop rectangle + 1/2 (binning) of the current crop
-rectangle when calling their enum_frame_sizes op.
+The ACPI code takes care of enabling/disabling the PMC clk(s) for
+the sensors as necessary based on the runtime-pm state of the sensor.
 
-This causes 2 issues:
-1. Atomisp sets to the crop area to include the padding, where as
-   the enum_framesizes ioctl should return values without padding.
+But the GMIN code this replaces also set the clk-rate of the PMC clk
+to 19.2 MHz. At least on BYT devices the PMC clks may come up running
+at 25 MHz instead of the expected 19.2 MHz.
 
-2. With cropping a lot more standard resolutions are possible then
-   just these 2 and many apps limit the list given to the end user
-   to the list returned by enum_framesizes.
-
-Add an alternative enum_framesizes function for sensors which support
-cropping to fix both issues.
+Ensure the sensor clk also runs at the expected 19.2 MHz for sensors
+using v4l2-async probing by explicitly setting it to 19.2 MHz when
+enumerating sensors in atomisp_csi2_bridge.c.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/TODO            |  3 -
- .../staging/media/atomisp/pci/atomisp_ioctl.c | 69 +++++++++++++++++++
- 2 files changed, 69 insertions(+), 3 deletions(-)
+ .../media/atomisp/pci/atomisp_csi2_bridge.c   | 68 ++++++++++++++++---
+ 1 file changed, 60 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/TODO b/drivers/staging/media/atomisp/TODO
-index 5e7bb6eb351a..13b4a9015a7b 100644
---- a/drivers/staging/media/atomisp/TODO
-+++ b/drivers/staging/media/atomisp/TODO
-@@ -28,9 +28,6 @@ TODO
- * The atomisp ov2680 and ov5693 sensor drivers bind to the same hw-ids as
-   the standard ov2680 and ov5693 drivers under drivers/media/i2c, which
-   conflicts. Drop the atomisp private ov2680 and ov5693 drivers:
--  * Make atomisp code use v4l2 selections to deal with the extra padding
--    it wants to receive from sensors instead of relying on the ov2680 code
--    sending e.g. 1616x1216 for a 1600x1200 mode
-   * Port various ov2680 improvements from atomisp_ov2680.c to regular ov2680.c
-     and switch to regular ov2680 driver
-   * Make atomisp work with the regular ov5693 driver and drop atomisp_ov5693
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index 980465fd5a83..196ef250aedd 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -697,6 +697,72 @@ static int atomisp_s_input(struct file *file, void *fh, unsigned int input)
- 	return 0;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
+index b55a7ff9844e..28d8779bbbc4 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
+@@ -10,6 +10,7 @@
+  */
+ 
+ #include <linux/acpi.h>
++#include <linux/clk.h>
+ #include <linux/device.h>
+ #include <linux/dmi.h>
+ #include <linux/property.h>
+@@ -38,6 +39,8 @@
+ 		.properties = _PROPS,		\
+ 	})
+ 
++#define PMC_CLK_RATE_19_2MHZ			19200000
++
+ /*
+  * 79234640-9e10-4fea-a5c1-b5aa8b19756f
+  * This _DSM GUID returns information about the GPIO lines mapped to a sensor.
+@@ -250,24 +253,61 @@ static int atomisp_csi2_get_pmc_clk_nr_from_acpi_pr0(struct acpi_device *adev)
+ 	}
+ 
+ 	ACPI_FREE(buffer.pointer);
++
++	if (ret < 0)
++		acpi_handle_warn(adev->handle, "Could not find PMC clk in _PR0\n");
++
+ 	return ret;
  }
  
-+/*
-+ * With crop any framesize <= sensor-size can be made, give
-+ * userspace a list of sizes to choice from.
-+ */
-+static int atomisp_enum_framesizes_crop_inner(struct atomisp_device *isp,
-+					      struct v4l2_frmsizeenum *fsize,
-+					      struct v4l2_rect *active,
-+					      int *valid_sizes)
-+{
-+	static const struct v4l2_frmsize_discrete frame_sizes[] = {
-+		{ 1600, 1200 },
-+		{ 1600, 1080 },
-+		{ 1600,  900 },
-+		{ 1440, 1080 },
-+		{ 1280,  960 },
-+		{ 1280,  720 },
-+		{  800,  600 },
-+		{  640,  480 },
-+	};
-+	int i;
+-static int atomisp_csi2_get_port(struct acpi_device *adev)
++static int atomisp_csi2_set_pmc_clk_freq(struct acpi_device *adev, int clock_num)
+ {
+-	int clock_num, port;
++	struct clk *clk;
++	char name[14];
++	int ret;
 +
-+	for (i = 0; i < ARRAY_SIZE(frame_sizes); i++) {
-+		if (frame_sizes[i].width > active->width ||
-+		    frame_sizes[i].height > active->height)
-+			continue;
-+
-+		/*
-+		 * Skip sizes where width and height are less then 2/3th of the
-+		 * sensor size to avoid sizes with a too small field of view.
-+		 */
-+		if (frame_sizes[i].width < (active->width * 2 / 3) &&
-+		    frame_sizes[i].height < (active->height * 2 / 3))
-+			continue;
-+
-+		if (*valid_sizes == fsize->index) {
-+			fsize->type = V4L2_FRMSIZE_TYPE_DISCRETE;
-+			fsize->discrete = frame_sizes[i];
-+			return 0;
-+		}
-+
-+		(*valid_sizes)++;
-+	}
-+
-+	return -EINVAL;
-+}
-+
-+static int atomisp_enum_framesizes_crop(struct atomisp_device *isp,
-+					struct v4l2_frmsizeenum *fsize)
-+{
-+	struct atomisp_input_subdev *input = &isp->inputs[isp->asd.input_curr];
-+	struct v4l2_rect active = input->active_rect;
-+	int ret, valid_sizes = 0;
-+
-+	ret = atomisp_enum_framesizes_crop_inner(isp, fsize, &active, &valid_sizes);
-+	if (ret == 0)
++	if (clock_num < 0)
 +		return 0;
 +
-+	if (!input->binning_support)
-+		return -EINVAL;
++	snprintf(name, sizeof(name), "pmc_plt_clk_%d", clock_num);
 +
-+	active.width /= 2;
-+	active.height /= 2;
++	clk = clk_get(NULL, name);
++	if (IS_ERR(clk)) {
++		ret = PTR_ERR(clk);
++		acpi_handle_err(adev->handle, "Error getting clk %s:%d\n", name, ret);
++		return ret;
++	}
+ 
+ 	/*
+-	 * Get PMC-clock number from ACPI _PR0 method and compare this to
+-	 * the CsiPort 1 PMC-clock used in the CHT/BYT reference designs.
++	 * The firmware might enable the clock at boot, to change
++	 * the rate we must ensure the clock is disabled.
++	 */
++	ret = clk_prepare_enable(clk);
++	if (!ret)
++		clk_disable_unprepare(clk);
++	if (!ret)
++		ret = clk_set_rate(clk, PMC_CLK_RATE_19_2MHZ);
++	if (ret)
++		acpi_handle_err(adev->handle, "Error setting clk-rate for %s:%d\n", name, ret);
 +
-+	return atomisp_enum_framesizes_crop_inner(isp, fsize, &active, &valid_sizes);
++	clk_put(clk);
++	return ret;
 +}
 +
- static int atomisp_enum_framesizes(struct file *file, void *priv,
- 				   struct v4l2_frmsizeenum *fsize)
- {
-@@ -711,6 +777,9 @@ static int atomisp_enum_framesizes(struct file *file, void *priv,
- 	};
- 	int ret;
- 
-+	if (input->crop_support)
-+		return atomisp_enum_framesizes_crop(isp, fsize);
++static int atomisp_csi2_get_port(struct acpi_device *adev, int clock_num)
++{
++	int port;
 +
- 	ret = v4l2_subdev_call(input->camera, pad, enum_frame_size, NULL, &fse);
- 	if (ret)
- 		return ret;
++	/*
++	 * Compare clock-number to the PMC-clock used for CsiPort 1
++	 * in the CHT/BYT reference designs.
+ 	 */
+-	clock_num = atomisp_csi2_get_pmc_clk_nr_from_acpi_pr0(adev);
+ 	if (IS_ISP2401)
+ 		port = clock_num == 4 ? 1 : 0;
+ 	else
+ 		port = clock_num == 0 ? 1 : 0;
+ 
+-	/* Intel DSM or DMI quirk overrides PR0 derived default */
++	/* Intel DSM or DMI quirk overrides _PR0 CLK derived default */
+ 	return gmin_cfg_get_int(adev, "CsiPort", port);
+ }
+ 
+@@ -551,7 +591,7 @@ static int atomisp_csi2_connect_sensor(const struct atomisp_csi2_sensor_config *
+ 	struct fwnode_handle *fwnode, *primary;
+ 	struct atomisp_csi2_sensor *sensor;
+ 	struct acpi_device *adev;
+-	int ret;
++	int ret, clock_num;
+ 
+ 	for_each_acpi_dev_match(adev, cfg->hid, NULL, -1) {
+ 		if (!adev->status.enabled)
+@@ -565,7 +605,19 @@ static int atomisp_csi2_connect_sensor(const struct atomisp_csi2_sensor_config *
+ 
+ 		sensor = &bridge->sensors[bridge->n_sensors];
+ 
+-		sensor->port = atomisp_csi2_get_port(adev);
++		/*
++		 * ACPI takes care of turning the PMC clock on and off, but on BYT
++		 * the clock defaults to 25 MHz instead of the expected 19.2 MHz.
++		 * Get the PMC-clock number from ACPI _PR0 method and set it to 19.2 MHz.
++		 * The PMC-clock number is also used to determine the default CSI port.
++		 */
++		clock_num = atomisp_csi2_get_pmc_clk_nr_from_acpi_pr0(adev);
++
++		ret = atomisp_csi2_set_pmc_clk_freq(adev, clock_num);
++		if (ret)
++			goto err_put_adev;
++
++		sensor->port = atomisp_csi2_get_port(adev, clock_num);
+ 		if (sensor->port >= ATOMISP_CAMERA_NR_PORTS) {
+ 			acpi_handle_err(adev->handle, "Invalid port: %d\n", sensor->port);
+ 			ret = -EINVAL;
 -- 
 2.40.1
 
