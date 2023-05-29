@@ -2,78 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 59C94714087
-	for <lists+linux-media@lfdr.de>; Sun, 28 May 2023 23:16:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3399071418A
+	for <lists+linux-media@lfdr.de>; Mon, 29 May 2023 03:08:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229627AbjE1VQR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 28 May 2023 17:16:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43410 "EHLO
+        id S229802AbjE2BI2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 28 May 2023 21:08:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbjE1VQQ (ORCPT
+        with ESMTP id S229455AbjE2BI1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 28 May 2023 17:16:16 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4B3EBE;
-        Sun, 28 May 2023 14:16:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685308573; x=1716844573;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Y+BKlDevzCKXevCjvN6HMiTRWqU67ZdEh2bnFi5G5hM=;
-  b=COkOnpd1GGIUfY3ziqE2jHpxwLEPSnkosf07+D8zeU9fB0g3R6hq/SqG
-   PIdzhl40fHV4k0HwCUUPMHQMWLKuEh0mxWSQvDNS0ny2XOFj8bVbTbjD0
-   N1GypvAc/M5t07rPfb8WmtrruAHqOsN81iNKQd7tq7koUhOKlhRr5EYKt
-   hE26FRdPQRWqwt26GejsbfQzZah0nTvn08X86pul57FILPIPE6WWTCTfZ
-   WZaw0TSFyGSDtbWIGF3JMhn1VitwJvVbo0ZtnN+N0aHNPvyeVKMlQDyNO
-   og4ehN2f22JBnFWeR2tUbR6PT5BSOFgFOdrn7mZlQ126LgBhD9HnIXdBC
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="440918217"
-X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
-   d="scan'208";a="440918217"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2023 14:16:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="738927868"
-X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
-   d="scan'208";a="738927868"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2023 14:16:07 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 32BBA12303D;
-        Mon, 29 May 2023 00:16:05 +0300 (EEST)
-Date:   Sun, 28 May 2023 21:16:05 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Tommaso Merciai <tomm.merciai@gmail.com>
-Cc:     jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com,
-        martin.hecht@avnet.eu, linuxfancy@googlegroups.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Gerald Loacker <gerald.loacker@wolfvision.net>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Mikhail Rudenko <mike.rudenko@gmail.com>,
-        Nicholas Roth <nicholas@rothemail.net>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] media: dt-bindings: alvium: add document YAML
- binding
-Message-ID: <ZHPElYOeD2C1qo4R@kekkonen.localdomain>
-References: <20230526173955.797226-1-tomm.merciai@gmail.com>
- <20230526173955.797226-2-tomm.merciai@gmail.com>
+        Sun, 28 May 2023 21:08:27 -0400
+Received: from smtp.tom.com (smtprz25.163.net [106.38.219.110])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04EFAC4
+        for <linux-media@vger.kernel.org>; Sun, 28 May 2023 18:08:24 -0700 (PDT)
+Received: from my-app02.tom.com (my-app02.tom.com [127.0.0.1])
+        by freemail02.tom.com (Postfix) with ESMTP id 21AF6B00D32
+        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 09:08:23 +0800 (CST)
+Received: from my-app02.tom.com (HELO smtp.tom.com) ([127.0.0.1])
+          by my-app02 (TOM SMTP Server) with SMTP ID 710258764
+          for <linux-media@vger.kernel.org>;
+          Mon, 29 May 2023 09:08:23 +0800 (CST)
+Received: from antispam1.tom.com (unknown [172.25.16.55])
+        by freemail02.tom.com (Postfix) with ESMTP id 15493B00D31
+        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 09:08:23 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tom.com; s=201807;
+        t=1685322503; bh=6+v18S+49ZmwsY7ArmeI7lTtnBWs6GUHMqy2kd4a530=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=U4Dirvv/EZFAPQ+x73uw0d8AefzdCJte43iKWsUQ+MZ2AG6Dveu6l1vyxezkJAIir
+         q31Ve0Z2zAwcYS2wapMc0GwYJf0yjM35Zy6PWFD9ZYMvMBjpdCxkDlzd2BLXdAh+vd
+         IW0qTSLMxhZy4BrL7/Wy6IgrK5cMoP0KPyM8qAAU=
+Received: from antispam1.tom.com (antispam1.tom.com [127.0.0.1])
+        by antispam1.tom.com (Postfix) with ESMTP id 01B04D41ADA
+        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 09:08:22 +0800 (CST)
+X-Virus-Scanned: Debian amavisd-new at antispam1.tom.com
+Received: from antispam1.tom.com ([127.0.0.1])
+        by antispam1.tom.com (antispam1.tom.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 1ZRC2JAuXU5v for <linux-media@vger.kernel.org>;
+        Mon, 29 May 2023 09:08:19 +0800 (CST)
+Received: from [172.30.38.103] (unknown [180.167.10.98])
+        by antispam1.tom.com (Postfix) with ESMTPA id F3F90D416AE;
+        Mon, 29 May 2023 09:08:18 +0800 (CST)
+Message-ID: <65d4f191-6823-b65e-c570-4180993c67f3@tom.com>
+Date:   Mon, 29 May 2023 09:08:18 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230526173955.797226-2-tomm.merciai@gmail.com>
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] media: dvb_ringbuffer: Return -EFAULT if copy fails
+Content-Language: en-US
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     YongSu Yoo <yongsuyoo0215@gmail.com>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Dan Carpenter <dan.carpenter@linaro.org>
+References: <41a9c6a6-4b9a-4d84-9e32-09bf64c65b6c@kili.mountain>
+ <aab14cc4-0400-c114-f180-6db943fd7e32@nfschina.com>
+ <7466fead-1b99-4a78-86cb-5dd8a9baec19@kili.mountain>
+ <20230526114539.0520dcbf@sal.lan>
+From:   Longsuhui <Jack_sun@tom.com>
+In-Reply-To: <20230526114539.0520dcbf@sal.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -81,153 +71,90 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tommaso,
+On 2023/5/26 18:45, Mauro Carvalho Chehab wrote:
+> Em Wed, 24 May 2023 10:20:38 +0300
+> Dan Carpenter <dan.carpenter@linaro.org> escreveu:
+>
+>> On Wed, May 24, 2023 at 01:20:27PM +0800, Su Hui wrote:
+>>> It's confusing about the comment on function declaration.
+>>>
+>>>      /**
+>>>       * dvb_ringbuffer_write_user - Writes a buffer received via a user
+>>> pointer
+>>>
+>>>      ..........
+>>>
+>>>       * Return: number of bytes transferred or -EFAULT
+>>>
+>>> But the function Only returns  the number of bytes transferred.
+>>>
+>>> Maybe the comment should be modified because it never returns -EFAULT.
+>> To be honest, I think that -EFAULT is probably a better return.  But
+>> there is no way we could apply the patch with that commit message.  The
+>> commit message doesn't explain the problem for the user or why returning
+>> the number of bytes copied is not correct in this case.
+>>
+>> I think that maybe it's not too late to change this to return -EFAULT,
+>> but it would have been easier to make the change in 2014 before there
+>> were many users.  Also it would be easier if you were testing this on
+>> real hardware.
+> It is too late to change the API here, as this could break userspace.
+>
+> Basically, DVB subsystem normally works with a Kernel-implemented ringbuffer
+> that transfers MPEG TS data between kernelspace/userspace. The size is
+> set via an ioctl (DMX_SET_BUFFER_SIZE). By the way, such uAPI is older
+> than 2014. It was added upstream on Kernel 2.6.
+>
+> The buffer size is usually big. For instance, dvbv5-zap uses:
+>
+> 	#define DVB_BUF_SIZE      (4096 * 8 * 188)
+>
+> The normal operation is that data will be received from a MPEG-TS
+> stream, although it is also possible to send data on cable TV, when
+> using dvb net interface.
+>
+> While on several boards, the hardware<->kernel transfer happens on
+> 188-bytes packages, there are some hardware out there where the
+> data passed from/to kernel is not 188-bytes aligned.
+>
+> The normal operation (receiving a TV broadcast) means that the Kernel
+> will be filling a ringbuffer containing the data passed from the
+> hardware. The size of the such buffer is adjusted via DMX_SET_BUFFER_SIZE
+> and contains MPEG TS packets of 188-bytes. Userspace will be in an
+> endless loop that will be waiting for data to arrive at the ringbuffer,
+> copying received data its own userspace buffer. If the buffer is not set
+> to a multiple of 188, it should be up to userspace to handle incomplete
+> frames. The same occurs if the data is 204-bytes aligned. Btw, userspace
+> can detect the packet size, based on the frame content.
+>
+> On such example, if a ringbuffer transfer would be passing 1554 bytes,
+> it means that 8 MPEG-TS frames are complete, and that 50 bytes of the
+> next frame was also transfered from/to userspace.
+>
+> It should be up to userspace to ensure that those extra 50 bytes will
+> be probably taken into account by the application and ensure that the
+> remaining 138 bytes will be handled at the next from/to userspace
+> data transfer.
+>
+> Not the best API, but any change there will break userspace.
+>
+> In particular, this patch will completely break transfers if the
+> buffer size is not 188-bytes aligned.
+>
+> so,
+>
+> NACK.
+>
+> Su,
+>
+> Did you find any real problem with this? On what hardware/application?
+There is no real problem with this.
+I understand, and this patch is wrong.
+Sorry to bother you.
 
-On Fri, May 26, 2023 at 07:39:43PM +0200, Tommaso Merciai wrote:
-> Add documentation of device tree in YAML schema for the ALVIUM
-> Camera from Allied Vision Inc.
-> 
-> References:
->  - https://www.alliedvision.com/en/products/embedded-vision-solutions
-> 
-> Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
-> ---
-> Changes since v1:
->  - Fixed build error as suggested by RHerring bot
-> 
->  .../media/i2c/alliedvision,alvium.yaml        | 115 ++++++++++++++++++
->  1 file changed, 115 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/alliedvision,alvium.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/alliedvision,alvium.yaml b/Documentation/devicetree/bindings/media/i2c/alliedvision,alvium.yaml
-> new file mode 100644
-> index 000000000000..81e9e560c99d
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/alliedvision,alvium.yaml
-> @@ -0,0 +1,115 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/alliedvision,alvium.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Alliedvision Alvium Camera
-> +
-> +maintainers:
-> +  - Tommaso Merciai <tomm.merciai@gmail.com>
-> +  - Martin Hecht <martin.hecht@avnet.eu>
-> +
-> +allOf:
-> +  - $ref: /schemas/media/video-interface-devices.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: alliedvision,alvium
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    description: XCLK Input Clock
-> +
-> +  clock-names:
-> +    const: xclk
+Su Hui
 
-I'd also drop this as you have a single clock only: it's redundant.
-
-> +
-> +  powerdown-gpios:
-> +    maxItems: 1
-> +    description: >
-> +      Reference to the GPIO connected to the powerdown pin, if any.
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description: >
-> +      Reference to the GPIO connected to the reset pin, if any.
-> +
-> +  streamon-delay:
-> +    maxItems: 1
-> +    description: >
-> +      Delay before camera start capturing frames in us.
-> +
-> +  rotation:
-> +    enum:
-> +      - 0
-> +      - 180
-> +
-> +  port:
-> +    description: Digital Output Port
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          clock-lanes:
-> +            const: 0
-
-The driver can know this, no need to have it in DT, i.e. please drop it.
-
-> +          data-lanes:
-> +            minItems: 1
-> +            maxItems: 4
-> +          link-frequencies: true
-> +
-> +        required:
-> +          - data-lanes
-> +          - link-frequencies
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +      #include <dt-bindings/gpio/gpio.h>
-> +      #include <dt-bindings/clock/imx8mp-clock.h>
-> +
-> +      i2c {
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
-> +
-> +          camera: alvium@3c {
-> +              compatible = "alliedvision,alvium";
-> +              pinctrl-names = "default";
-> +              pinctrl-0 = <&pinctrl_csi0_pwn>, <&pinctrl_csi0_rst>, <&pinctrl_csi_mclk>;
-> +              reg = <0x3c>;
-> +              clocks = <&clk IMX8MP_CLK_IPP_DO_CLKO2>;
-> +              clock-names = "xclk";
-> +              assigned-clocks = <&clk IMX8MP_CLK_IPP_DO_CLKO2>;
-> +              assigned-clock-parents = <&clk IMX8MP_CLK_24M>;
-> +              assigned-clock-rates = <24000000>;
-> +              streamon-delay = <20>;
-> +              powerdown-gpios = <&gpio2 11 GPIO_ACTIVE_HIGH>;
-> +              reset-gpios = <&gpio1 6 GPIO_ACTIVE_LOW>;
-> +              status = "okay";
-> +
-> +              port {
-> +                  alvium_out: endpoint {
-> +                      remote-endpoint = <&mipi_csi_0_in>;
-> +                      data-lanes = <1 2 3 4>;
-> +                      link-frequencies = /bits/ 64 <681250000>;
-> +                      clock-lanes = <0>;
-> +                  };
-> +              };
-> +          };
-> +      };
-> +
-> +...
-
--- 
-Kind regards,
-
-Sakari Ailus
+>
+> Regards,
+> Mauro
+>
