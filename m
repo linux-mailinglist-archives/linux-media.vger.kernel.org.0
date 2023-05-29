@@ -2,93 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78EBD7143DA
-	for <lists+linux-media@lfdr.de>; Mon, 29 May 2023 07:59:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2216714421
+	for <lists+linux-media@lfdr.de>; Mon, 29 May 2023 08:18:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229853AbjE2F6o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 May 2023 01:58:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40100 "EHLO
+        id S231488AbjE2GSS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 May 2023 02:18:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229572AbjE2F6n (ORCPT
+        with ESMTP id S230042AbjE2GSO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 May 2023 01:58:43 -0400
-Received: from smtp.smtpout.orange.fr (smtp-26.smtpout.orange.fr [80.12.242.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21806AB
-        for <linux-media@vger.kernel.org>; Sun, 28 May 2023 22:58:41 -0700 (PDT)
+        Mon, 29 May 2023 02:18:14 -0400
+Received: from smtp.smtpout.orange.fr (smtp-22.smtpout.orange.fr [80.12.242.22])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4FB2100
+        for <linux-media@vger.kernel.org>; Sun, 28 May 2023 23:17:48 -0700 (PDT)
 Received: from pop-os.home ([86.243.2.178])
         by smtp.orange.fr with ESMTPA
-        id 3Vttql3Hd0h9k3VtuqAkIU; Mon, 29 May 2023 07:58:38 +0200
+        id 3WC0q1f0vZvWO3WC0qfklE; Mon, 29 May 2023 08:17:22 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-        s=t20230301; t=1685339918;
-        bh=1rNNsFbbX0pydEx0mfhXKwzskrBT02Ah6NfUorn4NeY=;
+        s=t20230301; t=1685341042;
+        bh=LMsxEc3jzv9WRfxtgBWJr+2up3zRX/dSTarm2zC7inQ=;
         h=From:To:Cc:Subject:Date;
-        b=m22bL7laIJJVRSQwFiUatK4yYzwyY7/QY5ntEj/WJmyb9T36Sofu5xbL354cKIcrV
-         Vu4TynZuBvsyP0E+GGvhVO0L9vrOo5xYhX/pvH6QXRVfcHQQImV9XMYk5S+GKBz9kG
-         wTu7pEiykUX6on/HFKp9UrKsnvCfkRn38lzeTXufcb0LZsmFkZ8LWPW8uPkgWzXKCC
-         5XcgFDQg/z4yBZj1RFfQmGUh0eP/oAofgunMYxKFPiTJhyPhbwszpRBQ+2As+qA7oE
-         r96t4CztFPEuJsJ+Qc1snC5ztx3dOtja/EjEWab4SAgaTNrrFhkNIC/CuFBcQvW3eO
-         CPWkG3fUDxH3A==
+        b=gi6/9Y3BHoprXzB1QmpY0l7JSneYVDhaJtKS42KT08OOYih3CNQZe2o+xGWLGGQ2P
+         IPizhyvuUSVqgUfgccbqmgypYzMDED6uDiO+Fjk4/bwv86QtekVzH62640Gzqf4Wjb
+         sTqcTCXDneuOqmYJYJJy2hKGfV5w6Y+xHJBetUzkN4Jp0mVLH8HuQQvSioZdQ1X9hA
+         k+cyRePBjlmwiobd5KDUWdqgdOGZ6ItqpNdoFvtEiRP+C8aOIdTek0LoL81tdjB/Dh
+         ssOZLKRDkpfqIndPScmjh67ONpCxVdqNP1C0WwmXqq5X9DhRrGthC+eB+BbDuAWPYt
+         n+04tTi8+jGsQ==
 X-ME-Helo: pop-os.home
 X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Mon, 29 May 2023 07:58:38 +0200
+X-ME-Date: Mon, 29 May 2023 08:17:22 +0200
 X-ME-IP: 86.243.2.178
 From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
         Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-media@vger.kernel.org
-Subject: [PATCH] media: dvb-usb: m920x: Fix a potential memory leak in m920x_i2c_xfer()
-Date:   Mon, 29 May 2023 07:58:36 +0200
-Message-Id: <1881e72f963ec25e35b34f3a0b4f3962681eb7ca.1685339897.git.christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] media: v4l2-core: Fix a potential resource leak in v4l2_fwnode_parse_link()
+Date:   Mon, 29 May 2023 08:17:18 +0200
+Message-Id: <2ddd10ec9e009bbb85518355f1e09e1ecd349925.1685340968.git.christophe.jaillet@wanadoo.fr>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-'read' is freed when it is known to be NULL, but not when a read error
-occurs.
+'fwnode is known to be NULL, at this point, so fwnode_handle_put() is a
+no-op.
 
-Revert the logic to avoid a small leak, should a m920x_read() call fail.
+Release the reference taken from a previous fwnode_graph_get_port_parent()
+call instead.
 
-Fixes: a2ab06d7c4d6 ("media: m920x: don't use stack on USB reads")
+Fixes: ca50c197bd96 ("[media] v4l: fwnode: Support generic fwnode for parsing standardised properties")
 Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
- drivers/media/usb/dvb-usb/m920x.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+/!\  THIS PATCH IS SPECULATIVE  /!\
+         review with care
+---
+ drivers/media/v4l2-core/v4l2-fwnode.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/usb/dvb-usb/m920x.c b/drivers/media/usb/dvb-usb/m920x.c
-index fea5bcf72a31..c88a202daf5f 100644
---- a/drivers/media/usb/dvb-usb/m920x.c
-+++ b/drivers/media/usb/dvb-usb/m920x.c
-@@ -277,7 +277,6 @@ static int m920x_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[], int nu
- 			char *read = kmalloc(1, GFP_KERNEL);
- 			if (!read) {
- 				ret = -ENOMEM;
--				kfree(read);
- 				goto unlock;
- 			}
+diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+index 049c2f2001ea..b7dd467c53fd 100644
+--- a/drivers/media/v4l2-core/v4l2-fwnode.c
++++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+@@ -571,7 +571,7 @@ int v4l2_fwnode_parse_link(struct fwnode_handle *fwnode,
  
-@@ -288,8 +287,10 @@ static int m920x_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[], int nu
- 
- 				if ((ret = m920x_read(d->udev, M9206_I2C, 0x0,
- 						      0x20 | stop,
--						      read, 1)) != 0)
-+						      read, 1)) != 0) {
-+					kfree(read);
- 					goto unlock;
-+				}
- 				msg[i].buf[j] = read[0];
- 			}
+ 	fwnode = fwnode_graph_get_remote_endpoint(fwnode);
+ 	if (!fwnode) {
+-		fwnode_handle_put(fwnode);
++		fwnode_handle_put(link->local_node);
+ 		return -ENOLINK;
+ 	}
  
 -- 
 2.34.1
