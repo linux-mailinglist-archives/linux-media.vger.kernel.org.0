@@ -2,110 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 70B57715097
-	for <lists+linux-media@lfdr.de>; Mon, 29 May 2023 22:32:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60C4D7150A3
+	for <lists+linux-media@lfdr.de>; Mon, 29 May 2023 22:40:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229459AbjE2Ucg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 May 2023 16:32:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50534 "EHLO
+        id S229567AbjE2Uk3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 May 2023 16:40:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbjE2Ucf (ORCPT
+        with ESMTP id S229559AbjE2Uk2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 May 2023 16:32:35 -0400
-Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0350AB7
-        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 13:32:34 -0700 (PDT)
-Received: by mail-qk1-x72b.google.com with SMTP id af79cd13be357-75ca95c4272so218491485a.0
-        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 13:32:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685392353; x=1687984353;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JzBFCPUHSEiXweGu4bYXWaNN4cJWRC0KIEXjl92bN10=;
-        b=gWFQcylcFGKkYrzUEy/kP8Pru1Zc1aRP1y/MHx3ZaKggHrr3e3Zk1kXllvlU/QoQxx
-         QZPQIsb5B3yC3Mg7Zd29ouS/NO+E1cEL27hnBtTHdKsYS30NzcRHl4qCm4RUQNR4IU5S
-         2APzLMIXQi8WMt8N2TVjsaEwuJ06hsSckO+h21JDjoXDW2WVF/BALJZ9SO9cNaTschrf
-         ySRqWxdcoUwPBR91lNSz76h9Y5NarudBDziCMYdvFE6PTbncFh9lVDDkvdwO+6proPxw
-         LIjLMfkBso6N+IMCWTWx+Q5e2spFuUbmiHTSQsBxKK1amEThdhoQZMbCETVD/EaqAAB3
-         vOYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685392353; x=1687984353;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JzBFCPUHSEiXweGu4bYXWaNN4cJWRC0KIEXjl92bN10=;
-        b=kkMKl4csnp4fGp3bV3/rf/GQEwNr9+dSN+w9w3T9E4qyXa22qJrfoqgcD+IsCfhF+O
-         inHZ0bpj1BYWE4MW63s4JjMpCu+ILRKuh9r9y5/fdds9C7tdUonKm7qT9betoSUa3NSv
-         RbIG19mq0FTmsTwouE3aXCvsihcMZr428YR3SUtxXSHuVDYttg4SIMnAkRuMRH1sF7sN
-         Iq7CIq9VSiJFJdiP6FK8UXvjL3A7FScVb9AvVqbJqLRuBT6fAcHJLSpTjVPA9Xmj55wc
-         d/WWHV/hrC+eMtWzh9cIStKCcdDTOpOvIfalVsUMxR8pwjdnWbo+93gCZqxUNa3M8XEs
-         Ml8A==
-X-Gm-Message-State: AC+VfDyHL7BB2QtwAaCHgyac7tc3htxhKQscOSqdgT+fcZN/otMgCoTK
-        19QuhWVYjpZ9FnhV6Y7ciMstAv4MV/FSjwVTAzecePYh4lM=
-X-Google-Smtp-Source: ACHHUZ6qC0+fe9/rt8LoT+5vJ3gpWQ90o/nV+j2YLFomS2RYbegCcrvMi+Ntu3+sdw1u6OQ+2qtGJJ4Ytys4P1WgWRg=
-X-Received: by 2002:ad4:5be9:0:b0:625:d55:eaab with SMTP id
- k9-20020ad45be9000000b006250d55eaabmr11006948qvc.9.1685392353043; Mon, 29 May
- 2023 13:32:33 -0700 (PDT)
+        Mon, 29 May 2023 16:40:28 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D427CF;
+        Mon, 29 May 2023 13:40:23 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4QVS8F0NKSz49Psb;
+        Mon, 29 May 2023 23:40:12 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1685392814;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=aKrMmJS6UFOXWpnJtPQFVZKoxYuel7ujkpy1v5Vq8JY=;
+        b=TfBz/lgOpq6E9nccbfdJWVwBfkD2kgapf2d/WOqzWHo9xbsp/gLTdL3G2sukmSw72BDzMr
+        4HJjrnODO/HP3+EOZTo+uyGAaI9NWzU7KzzZRcQ3eIQ26zNVW5xMiMal3ri/9O10bKvz2q
+        7IHOaRcyCqNGZbvPGiHE7qeyVlEYsQvVhel4emet+nvu9IT0kDJZWzLABdC/vq2VxcKOVm
+        Buv2WBZIO/2f0MBkQm89rIDKleQnxdIzRItuba4M23ZzCKw5N2d/TyVV0o+IJZADQacUjD
+        WH2tKXL/xr7BnTL9jX0MqtR9aEqSWcydvr/rWgK4j6f67dXfwRLvSMuryDSsxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1685392814;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=aKrMmJS6UFOXWpnJtPQFVZKoxYuel7ujkpy1v5Vq8JY=;
+        b=sN4R+xtS7GAfoIDci2Snn9cc27sf2G6dm050Exb1/wEh0YaJOmX3OSbH8ptYA2aIU6b+8o
+        DIw9casC8lK8LFFl0YEws5+rna+piQyTghXT20AWVuSK+QqzmeR04XvUg2CfgozHxyg71a
+        RxvSH0qQ6lUnSbBPd7BAOVcQv/E4FNurphmRDLtuyjoRLqnbXuouDOeYi85V7K9wLrAH7g
+        suFe68XhMVAZM3SB239kW2vvelfGkkoWx3GXKjQq6OB7B0/FE4LA3whoTLIfbTVM0Lof1U
+        tRm+YjZLb2I0AmhR1a2m568C33jaC0LmMOfSlrrwzw2t1zCukKkjheec9koxMg==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1685392814; a=rsa-sha256;
+        cv=none;
+        b=olTBHGB30pHxL93soLi1eo1qm+qT0xws3OLlvGXQ/efEHIuFkg+CMUVDI+QoHhjRbbHw5q
+        4vaFKyJ4ySzkYZh/ShO2IsUf0LknViVefbrlFy5vvnEAIZ8eOlElV+qCxv2k6EwH+3TlG3
+        p1B7YyrIdtxLUfhAFpT37Xco0G6gDj1539J6w+w0v3OsU8Dw6KND3Per7mOnqjE41grAIc
+        rn7ewpJwXdX3uFZhv2INNwo/fFvpyYkGU6b5KXO6z+V9KRCWnzY4hWi3+c8sNL3QApwkzO
+        IFhirlDJbTDZkg2qHE4ESFURXhFOBV3XEhJaY8rnTQOHSpeyCBd8mJ2BV3HNMg==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 6A275634C91;
+        Mon, 29 May 2023 23:40:12 +0300 (EEST)
+Date:   Mon, 29 May 2023 23:40:12 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc:     laurent.pinchart@ideasonboard.com, kernel@puri.sm,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab@kernel.org
+Subject: Re: [PATCH v2] media: hi846: fix usage of pm_runtime_get_if_in_use()
+Message-ID: <ZHUNrHGJv63mKGH0@valkosipuli.retiisi.eu>
+References: <20230425094747.2769693-1-martin.kepplinger@puri.sm>
+ <ZGODstToZrypFaAV@valkosipuli.retiisi.eu>
+ <73bfe0c438e194fa462bec521debacfcd722dc9e.camel@puri.sm>
 MIME-Version: 1.0
-References: <20230529103741.11904-1-hdegoede@redhat.com> <20230529103741.11904-7-hdegoede@redhat.com>
-In-Reply-To: <20230529103741.11904-7-hdegoede@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 29 May 2023 23:31:57 +0300
-Message-ID: <CAHp75Vd0n8HHv2nguQFHvoRuqjwAAj=YdmgMGckg+1q-NLptFw@mail.gmail.com>
-Subject: Re: [PATCH 06/21] media: atomisp: ov2680: Implement selection support
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Nable <nable.maininbox@googlemail.com>,
-        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <73bfe0c438e194fa462bec521debacfcd722dc9e.camel@puri.sm>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, May 29, 2023 at 1:38=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
- wrote:
->
-> Implement selection support. Modelled after ov5693 selection support,
-> but allow setting sizes smaller then crop-size through set_fmt since
+On Tue, May 23, 2023 at 12:07:54PM +0200, Martin Kepplinger wrote:
+> Am Dienstag, dem 16.05.2023 um 16:22 +0300 schrieb Sakari Ailus:
+> > Hi Martin,
+> > 
+> > On Tue, Apr 25, 2023 at 11:47:47AM +0200, Martin Kepplinger wrote:
+> > > pm_runtime_get_if_in_use() does not only return nonzero values when
+> > > the device is in use, it can return a negative errno too.
+> > > 
+> > > And especially during resuming from system suspend, when runtime pm
+> > > is not yet up again, -EAGAIN is being returned, so the subsequent
+> > > pm_runtime_put() call results in a refcount underflow.
+> > > 
+> > > Fix system-resume by handling -EAGAIN of
+> > > pm_runtime_get_if_in_use().
+> > > 
+> > > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> > > ---
+> > > 
+> > > revision history
+> > > ----------------
+> > > v2 (thank you Sakari and Laurent):
+> > > * drop the other patch (the streaming-state in suspend/resume needs
+> > > to
+> > >   be solved differently).
+> > > * Sakari pointed out that many drivers are affected by this and
+> > > that
+> > >   runtime-pm might need changes instead. I think this patch doesn't
+> > > hurt
+> > >   and could serve as a reminder to do so.
+> > 
+> > I guess it's appropriate to add:
+> > 
+> > Fixes: e8c0882685f9 ("media: i2c: add driver for the SK Hynix Hi-846
+> > 8M pixel camera")
+> > 
+> 
+> I agree. Feel free to do so when applying.
 
-than
+Done!
 
-> that was already allowed.
-
-...
-
-> +static struct v4l2_rect *
-> +__ov2680_get_pad_crop(struct ov2680_dev *sensor, struct v4l2_subdev_stat=
-e *state,
-> +                     unsigned int pad, enum v4l2_subdev_format_whence wh=
-ich)
-> +{
-> +       switch (which) {
-> +       case V4L2_SUBDEV_FORMAT_TRY:
-> +               return v4l2_subdev_get_try_crop(&sensor->sd, state, pad);
-> +       case V4L2_SUBDEV_FORMAT_ACTIVE:
-> +               return &sensor->mode.crop;
-> +       }
-> +
-> +       return NULL;
-
-I would move this to default: case.
-
-> +}
-
---=20
-With Best Regards,
-Andy Shevchenko
+-- 
+Sakari Ailus
