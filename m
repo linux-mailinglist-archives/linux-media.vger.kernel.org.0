@@ -2,131 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 60C4D7150A3
-	for <lists+linux-media@lfdr.de>; Mon, 29 May 2023 22:40:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AA9E7150B3
+	for <lists+linux-media@lfdr.de>; Mon, 29 May 2023 22:45:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229567AbjE2Uk3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 May 2023 16:40:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51742 "EHLO
+        id S229494AbjE2Ups (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 May 2023 16:45:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229559AbjE2Uk2 (ORCPT
+        with ESMTP id S229459AbjE2Upr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 May 2023 16:40:28 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D427CF;
-        Mon, 29 May 2023 13:40:23 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4QVS8F0NKSz49Psb;
-        Mon, 29 May 2023 23:40:12 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1685392814;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=aKrMmJS6UFOXWpnJtPQFVZKoxYuel7ujkpy1v5Vq8JY=;
-        b=TfBz/lgOpq6E9nccbfdJWVwBfkD2kgapf2d/WOqzWHo9xbsp/gLTdL3G2sukmSw72BDzMr
-        4HJjrnODO/HP3+EOZTo+uyGAaI9NWzU7KzzZRcQ3eIQ26zNVW5xMiMal3ri/9O10bKvz2q
-        7IHOaRcyCqNGZbvPGiHE7qeyVlEYsQvVhel4emet+nvu9IT0kDJZWzLABdC/vq2VxcKOVm
-        Buv2WBZIO/2f0MBkQm89rIDKleQnxdIzRItuba4M23ZzCKw5N2d/TyVV0o+IJZADQacUjD
-        WH2tKXL/xr7BnTL9jX0MqtR9aEqSWcydvr/rWgK4j6f67dXfwRLvSMuryDSsxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1685392814;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=aKrMmJS6UFOXWpnJtPQFVZKoxYuel7ujkpy1v5Vq8JY=;
-        b=sN4R+xtS7GAfoIDci2Snn9cc27sf2G6dm050Exb1/wEh0YaJOmX3OSbH8ptYA2aIU6b+8o
-        DIw9casC8lK8LFFl0YEws5+rna+piQyTghXT20AWVuSK+QqzmeR04XvUg2CfgozHxyg71a
-        RxvSH0qQ6lUnSbBPd7BAOVcQv/E4FNurphmRDLtuyjoRLqnbXuouDOeYi85V7K9wLrAH7g
-        suFe68XhMVAZM3SB239kW2vvelfGkkoWx3GXKjQq6OB7B0/FE4LA3whoTLIfbTVM0Lof1U
-        tRm+YjZLb2I0AmhR1a2m568C33jaC0LmMOfSlrrwzw2t1zCukKkjheec9koxMg==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1685392814; a=rsa-sha256;
-        cv=none;
-        b=olTBHGB30pHxL93soLi1eo1qm+qT0xws3OLlvGXQ/efEHIuFkg+CMUVDI+QoHhjRbbHw5q
-        4vaFKyJ4ySzkYZh/ShO2IsUf0LknViVefbrlFy5vvnEAIZ8eOlElV+qCxv2k6EwH+3TlG3
-        p1B7YyrIdtxLUfhAFpT37Xco0G6gDj1539J6w+w0v3OsU8Dw6KND3Per7mOnqjE41grAIc
-        rn7ewpJwXdX3uFZhv2INNwo/fFvpyYkGU6b5KXO6z+V9KRCWnzY4hWi3+c8sNL3QApwkzO
-        IFhirlDJbTDZkg2qHE4ESFURXhFOBV3XEhJaY8rnTQOHSpeyCBd8mJ2BV3HNMg==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 6A275634C91;
-        Mon, 29 May 2023 23:40:12 +0300 (EEST)
-Date:   Mon, 29 May 2023 23:40:12 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc:     laurent.pinchart@ideasonboard.com, kernel@puri.sm,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        mchehab@kernel.org
-Subject: Re: [PATCH v2] media: hi846: fix usage of pm_runtime_get_if_in_use()
-Message-ID: <ZHUNrHGJv63mKGH0@valkosipuli.retiisi.eu>
-References: <20230425094747.2769693-1-martin.kepplinger@puri.sm>
- <ZGODstToZrypFaAV@valkosipuli.retiisi.eu>
- <73bfe0c438e194fa462bec521debacfcd722dc9e.camel@puri.sm>
+        Mon, 29 May 2023 16:45:47 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4B7BC7
+        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 13:45:46 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-95fde138693so945950666b.0
+        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 13:45:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20221208; t=1685393145; x=1687985145;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7R3FPKbTWJLY+7i6BBPmrgd9L+dL7TFTDyT61Ll30oE=;
+        b=nj3zUNvkEFdZe5oaMlf0dKuc+PXsQ5ttMjDktar1yzmPig16fR9oWyTpF4mTftPooc
+         Sr7SLd8DtJkOgcMiGIK/zA6y22/FMiijXcepgahANShG5rELnJEtsRpgDCJj7AAtDKGa
+         XLwScgu/jrc8Ob4tAcFjEf6t1O45WX2QZAbK4gQAOXRiT38ncBuDGuODxA6TT/1KBZdf
+         JNg0coLhkjvQMTcyCMxZ/4pUFk7GS9aSm49woUFVcCf+QX6tRjO/YomEmiIFhvtnghJr
+         WZHyDu4qWMIaw+TbMx8PqDJuUoBuBGxYqx2hss+6uIcUwBztQuJxwBqkgAa5KOpAk/Kh
+         FZOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685393145; x=1687985145;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7R3FPKbTWJLY+7i6BBPmrgd9L+dL7TFTDyT61Ll30oE=;
+        b=N8TwMrndk4mAPtZSvee0HreKY1PWJQvZcLXzFzsK08FWWGig7sVtkTWoKUgeTZ0ZOg
+         ClomCLva4oblD3PCr1QhD/hyumy78W0FtuHRK+LsLxRm+lhbO6gg6TQYdYuiZIvINuA9
+         XkV2YDMKZWs32X6vAF4kiz0F9BMoxrAPBchIck9FVGNbbmlbaV1uGEQYDq9Xna8tuLNC
+         s6U3paaMTRsBJqmblJMIiwIFiyh9uL+Gk2GhnTfRZjCf9OMDVw6yPD5YGEYQp3oHw7I2
+         M4ti5p6RnN2j5iuh7ampY6v30VcKd15UDwCKLMVu/SpuaAPZmNyE33Uf46n5Dh81oTrs
+         BRgw==
+X-Gm-Message-State: AC+VfDxwe1ulPZ/9XV//jQJgxlVe3WNeYJw4QxtsCnrxpxkfl2sT5B0e
+        VYVXLTCOSDvuxe7xkufxRw6xB5JA3p8XHChv9YgIcBfMAsk=
+X-Google-Smtp-Source: ACHHUZ6dBQLVeTggS7BrQZIwH0USzlV+sl8utSAh2F33q38rxWXSjwkj09vNDIoE2Mf8GbkG0A/xUakYNm9lMIHvQis=
+X-Received: by 2002:a17:906:58d1:b0:94a:653b:ba41 with SMTP id
+ e17-20020a17090658d100b0094a653bba41mr291658ejs.15.1685393145061; Mon, 29 May
+ 2023 13:45:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <73bfe0c438e194fa462bec521debacfcd722dc9e.camel@puri.sm>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20230517115635.31565-1-zelong.dong@amlogic.com> <20230517115635.31565-4-zelong.dong@amlogic.com>
+In-Reply-To: <20230517115635.31565-4-zelong.dong@amlogic.com>
+From:   Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date:   Mon, 29 May 2023 22:45:34 +0200
+Message-ID: <CAFBinCCSGdKfgEpdF5FmAyjb-wOM2HtsriuBDnePokgyu4PkXw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] media: rc: meson-ir: support MMIO regmaps to
+ access registers
+To:     zelong dong <zelong.dong@amlogic.com>
+Cc:     Neil Armstrong <neil.armstrong@linaro.org>,
+        Sean Young <sean@mess.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        Qianggui.Song@amlogic.com, Yonghui.Yu@amlogic.com,
+        kelvin.zhang@amlogic.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, May 23, 2023 at 12:07:54PM +0200, Martin Kepplinger wrote:
-> Am Dienstag, dem 16.05.2023 um 16:22 +0300 schrieb Sakari Ailus:
-> > Hi Martin,
-> > 
-> > On Tue, Apr 25, 2023 at 11:47:47AM +0200, Martin Kepplinger wrote:
-> > > pm_runtime_get_if_in_use() does not only return nonzero values when
-> > > the device is in use, it can return a negative errno too.
-> > > 
-> > > And especially during resuming from system suspend, when runtime pm
-> > > is not yet up again, -EAGAIN is being returned, so the subsequent
-> > > pm_runtime_put() call results in a refcount underflow.
-> > > 
-> > > Fix system-resume by handling -EAGAIN of
-> > > pm_runtime_get_if_in_use().
-> > > 
-> > > Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
-> > > ---
-> > > 
-> > > revision history
-> > > ----------------
-> > > v2 (thank you Sakari and Laurent):
-> > > * drop the other patch (the streaming-state in suspend/resume needs
-> > > to
-> > >   be solved differently).
-> > > * Sakari pointed out that many drivers are affected by this and
-> > > that
-> > >   runtime-pm might need changes instead. I think this patch doesn't
-> > > hurt
-> > >   and could serve as a reminder to do so.
-> > 
-> > I guess it's appropriate to add:
-> > 
-> > Fixes: e8c0882685f9 ("media: i2c: add driver for the SK Hynix Hi-846
-> > 8M pixel camera")
-> > 
-> 
-> I agree. Feel free to do so when applying.
+Hello,
 
-Done!
+On Wed, May 17, 2023 at 1:56=E2=80=AFPM zelong dong <zelong.dong@amlogic.co=
+m> wrote:
+>
+> From: Zelong Dong <zelong.dong@amlogic.com>
+>
+> Supports MMIO regmaps to access controller registers in Meson IR driver.
+>
+> Signed-off-by: Zelong Dong <zelong.dong@amlogic.com>
+> ---
+>  drivers/media/rc/meson-ir.c | 72 +++++++++++++++++++------------------
+Kconfig also has to be updated with:
+  select REGMAP_MMIO
 
--- 
-Sakari Ailus
+Otherwise you can end up with a compile error: undefined reference to
+`__devm_regmap_init_mmio_clk`
+See a recent patch on this: [0]
+
+
+Best regards,
+Martin
+
+
+[0] https://lore.kernel.org/lkml/20230228043423.19335-1-xry111@xry111.site/
