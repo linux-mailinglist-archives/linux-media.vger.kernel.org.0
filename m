@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CF687147F4
-	for <lists+linux-media@lfdr.de>; Mon, 29 May 2023 12:38:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C31A7147F6
+	for <lists+linux-media@lfdr.de>; Mon, 29 May 2023 12:38:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231469AbjE2Kiq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 May 2023 06:38:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36560 "EHLO
+        id S231494AbjE2Kis (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 May 2023 06:38:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbjE2Kin (ORCPT
+        with ESMTP id S231463AbjE2Kip (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 May 2023 06:38:43 -0400
+        Mon, 29 May 2023 06:38:45 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DF8DC4
-        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 03:37:56 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3387C7
+        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 03:37:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1685356675;
+        s=mimecast20190719; t=1685356677;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=vGdSVeI3rEFcmjqvpJrzKI5cS1+ReOB57eRV3js0lvc=;
-        b=LUPb5LS15XZlyCyq3X+EtbSDL+GwaB1qM/6JqzsGmVTuW29zOvf7ttBEtgvyZlE/JyxopA
-        NGJGXltqXuIF1m6cf/lw1wkOgqMQC30tZ7EXXGxrgN8rPABr1Jj7tKaRBnvNzcmN04z6QU
-        9r6vjSpcE/LHjPZKDz59+AnjJc2PuZY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=7HauYV1LQtA42nYHDSUfEJmgwzyegdZHSkyCUgefwzs=;
+        b=N5G03P8GtvYmGN43WaoMcf1pmSyTmVhVdKYzYV940iAq9R9BjDcZ5VU+DRMNff3U6E+WfP
+        P7nqgaSt0RJ5Ws7Fe//ARSIaIrB+CbQNPwpVjP1gzbP3dTyRBYGb0ZQEPwYuOAwW0+dEqz
+        Hr3EIqeWudKo8+/mdwV+GMvFoiHiIhY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-266-i2RcnggWNpuALZMCAGToXQ-1; Mon, 29 May 2023 06:37:54 -0400
-X-MC-Unique: i2RcnggWNpuALZMCAGToXQ-1
+ us-mta-556-xcRElrO3NW6Ob4WTNwU2gg-1; Mon, 29 May 2023 06:37:56 -0400
+X-MC-Unique: xcRElrO3NW6Ob4WTNwU2gg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A9F0B101A531;
-        Mon, 29 May 2023 10:37:53 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 824023C13511;
+        Mon, 29 May 2023 10:37:55 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.194.96])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 07DFB2166B2B;
-        Mon, 29 May 2023 10:37:51 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id DE0CA2166B2B;
+        Mon, 29 May 2023 10:37:53 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -48,9 +48,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>, Kate Hsuan <hpa@redhat.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 01/21] media: atomisp: Update TODO
-Date:   Mon, 29 May 2023 12:37:21 +0200
-Message-Id: <20230529103741.11904-2-hdegoede@redhat.com>
+Subject: [PATCH 02/21] media: atomisp: ov2680: s/ov2680_device/ov2680_dev/
+Date:   Mon, 29 May 2023 12:37:22 +0200
+Message-Id: <20230529103741.11904-3-hdegoede@redhat.com>
 In-Reply-To: <20230529103741.11904-1-hdegoede@redhat.com>
 References: <20230529103741.11904-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -66,300 +66,215 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-A lot of work has been done on the atomisp driver lately.
-
-Rewrite the TODO file to drop all the already fixed items:
-
-* Moved to videobuf2 + fixed mmap support
-* Whole bunch of v4l2 API fixes making more apps work
-* v4l2-async sensor probing support
-* pm-runtime support (for some sensor drivers at least)
-* buffer MM code was cleaned up / replaced when moving the videobuf2
-
-And add a new TODO list (retaining some of the old items) split
-into items which absolutely must be fixed before the driver can
-be moved out of staging:
-
-1. Conflicting hw-ids with regular sensor drivers
-2. Private userspace API stuff
-
-As well as a list of items which also definitely needs to be fixed
-but which could also be fixed after moving the driver out of staging.
+s/ov2680_device/ov2680_dev/ ov2680_dev is used by the generic
+drivers/media/i2c/ov2680.c driver. Bring the atomisp ov2680 code
+inline to make it easier to port changes between the two,
+with the end goal of getting rid of the atomisp specific version.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/staging/media/atomisp/TODO | 236 +++++++----------------------
- 1 file changed, 51 insertions(+), 185 deletions(-)
+ .../media/atomisp/i2c/atomisp-ov2680.c        | 38 +++++++++----------
+ drivers/staging/media/atomisp/i2c/ov2680.h    |  8 ++--
+ 2 files changed, 23 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/TODO b/drivers/staging/media/atomisp/TODO
-index 43b842043f29..5e7bb6eb351a 100644
---- a/drivers/staging/media/atomisp/TODO
-+++ b/drivers/staging/media/atomisp/TODO
-@@ -1,213 +1,79 @@
--For both Cherrytrail (CHT) and Baytrail (BHT) the driver
--requires the "candrpv_0415_20150521_0458" firmware version.
--It should be noticed that the firmware file is different,
--depending on the ISP model, so they're stored with different
--names:
-+Required firmware
-+=================
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+index b35ddf611e2b..cd6557c9a4c9 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+@@ -45,7 +45,7 @@ static int ov2680_write_reg_array(struct i2c_client *client,
+ 	return 0;
+ }
  
--- for BHT: /lib/firmware/shisp_2400b0_v21.bin
-+The atomisp driver requires the following firmware:
+-static void ov2680_set_bayer_order(struct ov2680_device *sensor, struct v4l2_mbus_framefmt *fmt)
++static void ov2680_set_bayer_order(struct ov2680_dev *sensor, struct v4l2_mbus_framefmt *fmt)
+ {
+ 	static const int ov2680_hv_flip_bayer_order[] = {
+ 		MEDIA_BUS_FMT_SBGGR10_1X10,
+@@ -64,7 +64,7 @@ static void ov2680_set_bayer_order(struct ov2680_device *sensor, struct v4l2_mbu
+ 	fmt->code = ov2680_hv_flip_bayer_order[hv_flip];
+ }
  
--  Warning: The driver was not tested yet for BHT.
-+- for BYT: /lib/firmware/shisp_2400b0_v21.bin
-+
-+  With a version of "irci_stable_candrpv_0415_20150423_1753" to check
-+  the version run: "strings shisp_2400b0_v21.bin | head -n1" .
-+
-+  The shisp_2400b0_v21.bin file with this version can be found on
-+  the Android factory images of various X86 Android tablets such as
-+  e.g. the Chuwi Hi8 Pro.
+-static int ov2680_set_vflip(struct ov2680_device *sensor, s32 val)
++static int ov2680_set_vflip(struct ov2680_dev *sensor, s32 val)
+ {
+ 	int ret;
  
- - for CHT: /lib/firmware/shisp_2401a0_v21.bin
+@@ -79,7 +79,7 @@ static int ov2680_set_vflip(struct ov2680_device *sensor, s32 val)
+ 	return 0;
+ }
  
-+  With a version of "irci_stable_candrpv_0415_20150521_0458"
-+
-+  This can be found here:
-   https://github.com/intel-aero/meta-intel-aero-base/blob/master/recipes-kernel/linux/linux-yocto/shisp_2401a0_v21.bin
+-static int ov2680_set_hflip(struct ov2680_device *sensor, s32 val)
++static int ov2680_set_hflip(struct ov2680_dev *sensor, s32 val)
+ {
+ 	int ret;
  
--NOTE:
--=====
--
--This driver currently doesn't work with most V4L2 applications,
--as there are still some issues with regards to implementing
--certain APIs at the standard way.
--
--Also, currently only USERPTR streaming mode is working.
--
--In order to test, it is needed to know what's the sensor's
--resolution. This can be checked with:
--
--$ v4l2-ctl --get-fmt-video
--  Format Video Capture:
--	Width/Height      : 1600/1200
--	...
--
--It is known to work with:
--
--- v4l2grab at contrib/test directory at https://git.linuxtv.org/v4l-utils.git/
--
--  The resolution should not be bigger than the max resolution
--  supported by the sensor, or it will fail. So, if the sensor
--  reports:
--
--  The driver can be tested with:
--
--  v4l2grab -f YUYV -x 1600 -y 1200 -d /dev/video2 -u
--
--- NVT at https://github.com/intel/nvt
--
--  $ ./v4l2n -o testimage_@.raw \
--		 --device /dev/video2 \
--		 --input 0 \
--		 --exposure=30000,30000,30000,30000 \
--		 --parm type=1,capturemode=CI_MODE_PREVIEW \
--		 --fmt type=1,width=1600,height=1200,pixelformat=YUYV \
--		 --reqbufs count=2,memory=USERPTR \
--		 --parameters=wb_config.r=32768,wb_config.gr=21043,wb_config.gb=21043,wb_config.b=30863 \
--		 --capture=20
--
--  As the output is in raw format, images need to be converted with:
--
--  $ for i in $(seq 0 19); do
--	name="testimage_$(printf "%03i" $i)"
--	./raw2pnm -x$WIDTH -y$HEIGHT -f$FORMAT $name.raw $name.pnm
--	rm $name.raw
--    done
+@@ -94,17 +94,17 @@ static int ov2680_set_hflip(struct ov2680_device *sensor, s32 val)
+ 	return 0;
+ }
  
- TODO
- ====
+-static int ov2680_exposure_set(struct ov2680_device *sensor, u32 exp)
++static int ov2680_exposure_set(struct ov2680_dev *sensor, u32 exp)
+ {
+ 	return ov_write_reg24(sensor->client, OV2680_REG_EXPOSURE_PK_HIGH, exp << 4);
+ }
  
--1.  Fix support for MMAP streaming mode. This is required for most
--    V4L2 applications;
-+1. items which MUST be fixed before the driver can be moved out of staging:
+-static int ov2680_gain_set(struct ov2680_device *sensor, u32 gain)
++static int ov2680_gain_set(struct ov2680_dev *sensor, u32 gain)
+ {
+ 	return ov_write_reg16(sensor->client, OV2680_REG_GAIN_PK, gain);
+ }
  
--2.  Implement and/or fix V4L2 ioctls in order to allow a normal app to
--    use it;
-+* The atomisp ov2680 and ov5693 sensor drivers bind to the same hw-ids as
-+  the standard ov2680 and ov5693 drivers under drivers/media/i2c, which
-+  conflicts. Drop the atomisp private ov2680 and ov5693 drivers:
-+  * Make atomisp code use v4l2 selections to deal with the extra padding
-+    it wants to receive from sensors instead of relying on the ov2680 code
-+    sending e.g. 1616x1216 for a 1600x1200 mode
-+  * Port various ov2680 improvements from atomisp_ov2680.c to regular ov2680.c
-+    and switch to regular ov2680 driver
-+  * Make atomisp work with the regular ov5693 driver and drop atomisp_ov5693
+-static int ov2680_test_pattern_set(struct ov2680_device *sensor, int value)
++static int ov2680_test_pattern_set(struct ov2680_dev *sensor, int value)
+ {
+ 	int ret;
  
--3.  Ensure that the driver will pass v4l2-compliance tests;
-+* Fix atomisp causing the whole machine to hang in its probe() error-exit
-+  path taken in the firmware missing case
+@@ -125,7 +125,7 @@ static int ov2680_test_pattern_set(struct ov2680_device *sensor, int value)
+ static int ov2680_s_ctrl(struct v4l2_ctrl *ctrl)
+ {
+ 	struct v4l2_subdev *sd = ctrl_to_sd(ctrl);
+-	struct ov2680_device *sensor = to_ov2680_sensor(sd);
++	struct ov2680_dev *sensor = to_ov2680_sensor(sd);
+ 	int ret;
  
--4.  Get manufacturer's authorization to redistribute the binaries for
--    the firmware files;
-+* Remove/disable private ioctls
+ 	/* Only apply changes to the controls if the device is powered up */
+@@ -174,7 +174,7 @@ static int ov2680_init_registers(struct v4l2_subdev *sd)
+ }
  
--5.  remove VIDEO_ATOMISP_ISP2401, making the driver to auto-detect the
--    register address differences between ISP2400 and ISP2401;
-+* Remove/disable custom v4l2-ctrls
+ static struct v4l2_mbus_framefmt *
+-__ov2680_get_pad_format(struct ov2680_device *sensor,
++__ov2680_get_pad_format(struct ov2680_dev *sensor,
+ 			struct v4l2_subdev_state *state,
+ 			unsigned int pad, enum v4l2_subdev_format_whence which)
+ {
+@@ -184,7 +184,7 @@ __ov2680_get_pad_format(struct ov2680_device *sensor,
+ 	return &sensor->mode.fmt;
+ }
  
--6.  Cleanup the driver code, removing the abstraction layers inside it;
-+* Remove custom sysfs files created by atomisp_drvfs.c
+-static void ov2680_fill_format(struct ov2680_device *sensor,
++static void ov2680_fill_format(struct ov2680_dev *sensor,
+ 			       struct v4l2_mbus_framefmt *fmt,
+ 			       unsigned int width, unsigned int height)
+ {
+@@ -195,7 +195,7 @@ static void ov2680_fill_format(struct ov2680_device *sensor,
+ 	ov2680_set_bayer_order(sensor, fmt);
+ }
  
--7.  The atomisp doesn't rely at the usual i2c stuff to discover the
--    sensors. Instead, it calls a function from atomisp_gmin_platform.c.
--    There are some hacks added there for it to wait for sensors to be
--    probed (with a timeout of 2 seconds or so). This should be converted
--    to the usual way, using V4L2 async subdev framework to wait for
--    cameras to be probed;
-+* Remove abuse of priv field in various v4l2 userspace API structs
+-static void ov2680_calc_mode(struct ov2680_device *sensor, int width, int height)
++static void ov2680_calc_mode(struct ov2680_dev *sensor, int width, int height)
+ {
+ 	int orig_width = width;
+ 	int orig_height = height;
+@@ -221,7 +221,7 @@ static void ov2680_calc_mode(struct ov2680_device *sensor, int width, int height
+ 	sensor->mode.vts = OV2680_LINES_PER_FRAME;
+ }
  
--8.  Switch to standard V4L2 sub-device API for sensor and lens. In
--    particular, the user space API needs to support V4L2 controls as
--    defined in the V4L2 spec and references to atomisp must be removed from
--    these drivers.
-+* Without a 3A library the capture behaviour is not very good. To take a good
-+  picture, the exposure/gain needs to be tuned using v4l2-ctl on the sensor
-+  subdev. To fix this support for the atomisp needs to be added to libcamera.
+-static int ov2680_set_mode(struct ov2680_device *sensor)
++static int ov2680_set_mode(struct ov2680_dev *sensor)
+ {
+ 	struct i2c_client *client = sensor->client;
+ 	u8 pll_div, unknown, inc, fmt1, fmt2;
+@@ -322,7 +322,7 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
+ 			  struct v4l2_subdev_state *sd_state,
+ 			  struct v4l2_subdev_format *format)
+ {
+-	struct ov2680_device *sensor = to_ov2680_sensor(sd);
++	struct ov2680_dev *sensor = to_ov2680_sensor(sd);
+ 	struct v4l2_mbus_framefmt *fmt;
+ 	unsigned int width, height;
  
--9.  Use LED flash API for flash LED drivers such as LM3554 (which already
--    has a LED class driver).
--
--10. Migrate the sensor drivers out of staging or re-using existing
--    drivers;
--
--11. Switch the driver to use pm_runtime stuff. Right now, it probes the
--    existing PMIC code and sensors call it directly.
--
--12. There's a problem on sensor drivers: when trying to set a video
--    format, the atomisp main driver calls the sensor drivers with the
--    sensor turned off. This causes them to fail.
--
--    This was fixed at atomisp-ov2880, which has a hack inside it
--    to turn it on when VIDIOC_S_FMT is called, but this has to be
--    cheked on other drivers as well.
--
--    The right fix seems to power on the sensor when a video device is
--    opened (or at the first VIDIOC_ ioctl - except for VIDIOC_QUERYCAP),
--    powering it down at close() syscall.
--
--    Such kind of control would need to be done inside the atomisp driver,
--    not at the sensors code.
--
--13. There are several issues related to memory management, that can
--    cause crashes and/or memory leaks. The atomisp splits the memory
--    management on three separate regions:
--
--	- dynamic pool;
--	- reserved pool;
--	- generic pool
--
--    The code implementing it is at:
--
--	drivers/staging/media/atomisp/pci/hmm/
--
--    It also has a separate code for managing DMA buffers at:
--
--	drivers/staging/media/atomisp/pci/mmu/
--
--    The code there is really dirty, ugly and probably wrong. I fixed
--    one bug there already, but the best would be to just trash it and use
--    something else. Maybe the code from the newer intel driver could
--    serve as a model:
--
--	drivers/staging/media/ipu3/ipu3-mmu.c
--
--    But converting it to use something like that is painful and may
--    cause some breakages.
--
--14. The file structure needs to get tidied up to resemble a normal Linux
--    driver.
--
--15. Lots of the midlayer glue. Unused code and abstraction needs removing.
--
--16. The AtomISP driver includes some special IOCTLS (ATOMISP_IOC_XXXX_XXXX)
--    and controls that require some cleanup. Some of those code may have
--    been removed during the cleanups. They could be needed in order to
--    properly support 3A algorithms.
--
--    Such IOCTL interface needs more documentation. The better would
--    be to use something close to the interface used by the IPU3 IMGU driver.
--
--17. The ISP code has some dependencies of the exact FW version.
--    The version defined in pci/sh_css_firmware.c:
--
--    BYT (isp2400): "irci_stable_candrpv_0415_20150521_0458"
--
--    CHT (isp2401): "irci_ecr - master_20150911_0724"
--
--    Those versions don't seem to be available anymore. On the tests we've
--    done so far, this version also seems to work for CHT:
--
--		"irci_stable_candrpv_0415_20150521_0458"
--
--    Which can be obtainable from Yocto Atom ISP respository.
--
--    but this was not thoroughly tested.
--
--    At some point we may need to round up a few driver versions and see if
--    there are any specific things that can be done to fold in support for
--    multiple firmware versions.
-+  This MUST be done before moving the driver out of staging so that we can
-+  still make changes to e.g. the mediactl topology if necessary for
-+  libcamera integration. Since this would be a userspace API break this
-+  means that at least proof-of-concept libcamera integration needs to be
-+  ready before moving the driver out of staging.
+@@ -347,7 +347,7 @@ static int ov2680_get_fmt(struct v4l2_subdev *sd,
+ 			  struct v4l2_subdev_state *sd_state,
+ 			  struct v4l2_subdev_format *format)
+ {
+-	struct ov2680_device *sensor = to_ov2680_sensor(sd);
++	struct ov2680_dev *sensor = to_ov2680_sensor(sd);
+ 	struct v4l2_mbus_framefmt *fmt;
  
+ 	fmt = __ov2680_get_pad_format(sensor, sd_state, format->pad, format->which);
+@@ -390,7 +390,7 @@ static int ov2680_detect(struct i2c_client *client)
  
--18. Switch from videobuf1 to videobuf2. Videobuf1 is being removed!
-+2. items which SHOULD also be fixed eventually:
+ static int ov2680_s_stream(struct v4l2_subdev *sd, int enable)
+ {
+-	struct ov2680_device *sensor = to_ov2680_sensor(sd);
++	struct ov2680_dev *sensor = to_ov2680_sensor(sd);
+ 	struct i2c_client *client = v4l2_get_subdevdata(sd);
+ 	int ret = 0;
  
--19. Correct Coding Style. Please refrain sending coding style patches
--    for this driver until the other work is done, as there will be a lot
--    of code churn until this driver becomes functional again.
-+* Remove VIDEO_ATOMISP_ISP2401, making the driver to auto-detect the
-+  register address differences between ISP2400 and ISP2401
+@@ -548,7 +548,7 @@ static const struct v4l2_subdev_ops ov2680_ops = {
+ 	.sensor = &ov2680_sensor_ops,
+ };
  
--20. Remove the logic which sets up pipelines inside it, moving it to
--    libcamera and implement MC support.
-+* The driver is intended to drive the PCI exposed versions of the device.
-+  It will not detect those devices enumerated via ACPI as a field of the
-+  i915 GPU driver (only a problem on BYT).
+-static int ov2680_init_controls(struct ov2680_device *sensor)
++static int ov2680_init_controls(struct ov2680_dev *sensor)
+ {
+ 	static const char * const test_pattern_menu[] = {
+ 		"Disabled",
+@@ -590,7 +590,7 @@ static int ov2680_init_controls(struct ov2680_device *sensor)
+ static void ov2680_remove(struct i2c_client *client)
+ {
+ 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+-	struct ov2680_device *sensor = to_ov2680_sensor(sd);
++	struct ov2680_dev *sensor = to_ov2680_sensor(sd);
  
-+  There are some patches adding i915 GPU support floating at the Yocto's
-+  Aero repository (so far, untested upstream).
+ 	dev_dbg(&client->dev, "ov2680_remove...\n");
  
--Limitations
--===========
-+* Ensure that the driver will pass v4l2-compliance tests
+@@ -605,7 +605,7 @@ static void ov2680_remove(struct i2c_client *client)
+ static int ov2680_probe(struct i2c_client *client)
+ {
+ 	struct device *dev = &client->dev;
+-	struct ov2680_device *sensor;
++	struct ov2680_dev *sensor;
+ 	int ret;
  
--1. To test the patches, you also need the ISP firmware
-+* Fix not all v4l2 apps working, e.g. cheese does not work
+ 	sensor = devm_kzalloc(dev, sizeof(*sensor), GFP_KERNEL);
+@@ -673,7 +673,7 @@ static int ov2680_probe(struct i2c_client *client)
+ static int ov2680_suspend(struct device *dev)
+ {
+ 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+-	struct ov2680_device *sensor = to_ov2680_sensor(sd);
++	struct ov2680_dev *sensor = to_ov2680_sensor(sd);
  
--   for BYT: /lib/firmware/shisp_2400b0_v21.bin
--   for CHT: /lib/firmware/shisp_2401a0_v21.bin
-+* Get manufacturer's authorization to redistribute the binaries for
-+  the firmware files
+ 	gpiod_set_value_cansleep(sensor->powerdown, 1);
+ 	return 0;
+@@ -682,7 +682,7 @@ static int ov2680_suspend(struct device *dev)
+ static int ov2680_resume(struct device *dev)
+ {
+ 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+-	struct ov2680_device *sensor = to_ov2680_sensor(sd);
++	struct ov2680_dev *sensor = to_ov2680_sensor(sd);
  
--   The firmware files will usually be found in /etc/firmware on an Android
--   device but can also be extracted from the upgrade kit if you've managed
--   to lose them somehow.
--
--2. Without a 3A library the capture behaviour is not very good. To take a good
--   picture, you need tune ISP parameters by IOCTL functions or use a 3A library
--   such as libxcam.
--
--3. The driver is intended to drive the PCI exposed versions of the device.
--   It will not detect those devices enumerated via ACPI as a field of the
--   i915 GPU driver.
--
--   There are some patches adding i915 GPU support floating at the Yocto's
--   Aero repository (so far, untested upstream).
--
--4. The driver supports only v2 of the IPU/Camera. It will not work with the
--   versions of the hardware in other SoCs.
-+* The atomisp code still has a lot of cruft which needs cleaning up
+ 	/* according to DS, at least 5ms is needed after DOVDD (enabled by ACPI) */
+ 	usleep_range(5000, 6000);
+diff --git a/drivers/staging/media/atomisp/i2c/ov2680.h b/drivers/staging/media/atomisp/i2c/ov2680.h
+index a3eeb0c2de5c..077ca6ee08b6 100644
+--- a/drivers/staging/media/atomisp/i2c/ov2680.h
++++ b/drivers/staging/media/atomisp/i2c/ov2680.h
+@@ -106,7 +106,7 @@
+ /*
+  * ov2680 device structure.
+  */
+-struct ov2680_device {
++struct ov2680_dev {
+ 	struct v4l2_subdev sd;
+ 	struct media_pad pad;
+ 	struct mutex input_lock;
+@@ -151,12 +151,12 @@ struct ov2680_reg {
+ 	u32 val;	/* @set value for read/mod/write, @mask */
+ };
+ 
+-#define to_ov2680_sensor(x) container_of(x, struct ov2680_device, sd)
++#define to_ov2680_sensor(x) container_of(x, struct ov2680_dev, sd)
+ 
+ static inline struct v4l2_subdev *ctrl_to_sd(struct v4l2_ctrl *ctrl)
+ {
+-	struct ov2680_device *sensor =
+-		container_of(ctrl->handler, struct ov2680_device, ctrls.handler);
++	struct ov2680_dev *sensor =
++		container_of(ctrl->handler, struct ov2680_dev, ctrls.handler);
+ 
+ 	return &sensor->sd;
+ }
 -- 
 2.40.1
 
