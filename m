@@ -2,48 +2,24 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3399071418A
-	for <lists+linux-media@lfdr.de>; Mon, 29 May 2023 03:08:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6F4E7141C5
+	for <lists+linux-media@lfdr.de>; Mon, 29 May 2023 03:54:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229802AbjE2BI2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 28 May 2023 21:08:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37606 "EHLO
+        id S229556AbjE2ByU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 28 May 2023 21:54:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229455AbjE2BI1 (ORCPT
+        with ESMTP id S229453AbjE2ByU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 28 May 2023 21:08:27 -0400
-Received: from smtp.tom.com (smtprz25.163.net [106.38.219.110])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04EFAC4
-        for <linux-media@vger.kernel.org>; Sun, 28 May 2023 18:08:24 -0700 (PDT)
-Received: from my-app02.tom.com (my-app02.tom.com [127.0.0.1])
-        by freemail02.tom.com (Postfix) with ESMTP id 21AF6B00D32
-        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 09:08:23 +0800 (CST)
-Received: from my-app02.tom.com (HELO smtp.tom.com) ([127.0.0.1])
-          by my-app02 (TOM SMTP Server) with SMTP ID 710258764
-          for <linux-media@vger.kernel.org>;
-          Mon, 29 May 2023 09:08:23 +0800 (CST)
-Received: from antispam1.tom.com (unknown [172.25.16.55])
-        by freemail02.tom.com (Postfix) with ESMTP id 15493B00D31
-        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 09:08:23 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tom.com; s=201807;
-        t=1685322503; bh=6+v18S+49ZmwsY7ArmeI7lTtnBWs6GUHMqy2kd4a530=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=U4Dirvv/EZFAPQ+x73uw0d8AefzdCJte43iKWsUQ+MZ2AG6Dveu6l1vyxezkJAIir
-         q31Ve0Z2zAwcYS2wapMc0GwYJf0yjM35Zy6PWFD9ZYMvMBjpdCxkDlzd2BLXdAh+vd
-         IW0qTSLMxhZy4BrL7/Wy6IgrK5cMoP0KPyM8qAAU=
-Received: from antispam1.tom.com (antispam1.tom.com [127.0.0.1])
-        by antispam1.tom.com (Postfix) with ESMTP id 01B04D41ADA
-        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 09:08:22 +0800 (CST)
-X-Virus-Scanned: Debian amavisd-new at antispam1.tom.com
-Received: from antispam1.tom.com ([127.0.0.1])
-        by antispam1.tom.com (antispam1.tom.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 1ZRC2JAuXU5v for <linux-media@vger.kernel.org>;
-        Mon, 29 May 2023 09:08:19 +0800 (CST)
+        Sun, 28 May 2023 21:54:20 -0400
+Received: from mail.nfschina.com (unknown [42.101.60.195])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 772AFB8;
+        Sun, 28 May 2023 18:54:18 -0700 (PDT)
 Received: from [172.30.38.103] (unknown [180.167.10.98])
-        by antispam1.tom.com (Postfix) with ESMTPA id F3F90D416AE;
-        Mon, 29 May 2023 09:08:18 +0800 (CST)
-Message-ID: <65d4f191-6823-b65e-c570-4180993c67f3@tom.com>
-Date:   Mon, 29 May 2023 09:08:18 +0800
+        by mail.nfschina.com (Maildata Gateway V2.8.8) with ESMTPSA id 55BF918011D73F;
+        Mon, 29 May 2023 09:54:10 +0800 (CST)
+Message-ID: <5a51136c-43d6-10ea-e60d-f8ebf3b19dfc@nfschina.com>
+Date:   Mon, 29 May 2023 09:54:09 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
@@ -53,23 +29,21 @@ To:     Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     YongSu Yoo <yongsuyoo0215@gmail.com>, linux-media@vger.kernel.org,
         linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
         Dan Carpenter <dan.carpenter@linaro.org>
-References: <41a9c6a6-4b9a-4d84-9e32-09bf64c65b6c@kili.mountain>
- <aab14cc4-0400-c114-f180-6db943fd7e32@nfschina.com>
- <7466fead-1b99-4a78-86cb-5dd8a9baec19@kili.mountain>
- <20230526114539.0520dcbf@sal.lan>
-From:   Longsuhui <Jack_sun@tom.com>
+X-MD-Sfrom: suhui@nfschina.com
+X-MD-SrcIP: 180.167.10.98
+From:   Su Hui <suhui@nfschina.com>
 In-Reply-To: <20230526114539.0520dcbf@sal.lan>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
+
 
 On 2023/5/26 18:45, Mauro Carvalho Chehab wrote:
 > Em Wed, 24 May 2023 10:20:38 +0300
@@ -148,7 +122,7 @@ On 2023/5/26 18:45, Mauro Carvalho Chehab wrote:
 > Su,
 >
 > Did you find any real problem with this? On what hardware/application?
-There is no real problem with this.
+There is no real problem.
 I understand, and this patch is wrong.
 Sorry to bother you.
 
