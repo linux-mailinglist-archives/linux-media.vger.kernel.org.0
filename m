@@ -2,132 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C0811715BC9
-	for <lists+linux-media@lfdr.de>; Tue, 30 May 2023 12:30:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07BB1715BDC
+	for <lists+linux-media@lfdr.de>; Tue, 30 May 2023 12:33:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229755AbjE3Kae (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 May 2023 06:30:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57048 "EHLO
+        id S231307AbjE3KdT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 May 2023 06:33:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231786AbjE3KaK (ORCPT
+        with ESMTP id S230448AbjE3KdR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 May 2023 06:30:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73907170F
-        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 03:28:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1685442507;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=2b1AE976whQJl3Q7EHB138HWP9PHu2abmZeSJSchDMM=;
-        b=XMaX1p6XxtaKkPq0XozK0n+g+/3EemFqLUXF/gPGzEkUBR8qHH24UFxr91/ViDbSwJSJpW
-        8jCbZRNmU0WNHlxNYPSeb1FVb1zNMN8zp7iM9FqIq1jFHP+thwlvtJdM9UOlc/ijGL6vG2
-        WoePePJ7ixenzVZtVR4Bk1GyWeol60Y=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-311-BAZyTwnjNPKbRU8hpmX3YA-1; Tue, 30 May 2023 06:28:26 -0400
-X-MC-Unique: BAZyTwnjNPKbRU8hpmX3YA-1
-Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-5128dcbdfc1so3425156a12.1
-        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 03:28:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685442505; x=1688034505;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2b1AE976whQJl3Q7EHB138HWP9PHu2abmZeSJSchDMM=;
-        b=NaXdlT0npsN6NuRUMSzTmSAgbGclB9w6wdlq7r2z17aeCvnatVLPhXI8eoilyZhzPl
-         D3+W+T/Xphi3/s8X/G8GkwwY5qeNqVHYi0qzHwz/1jh9wdjmeNq2IyBqonMTiNasmAeo
-         I13j0EzU/5p1xnG0w/aXBB/8vuG3G7qS2l3ZExTaqWvaAzD8cIbekFFk+3P2j6K353O5
-         gD1ctbC74Uc5Kj9dE6+6q5zZwFaH9hQcVgR1aL4oeTiw12PgDfgui9Di0JAry540izgX
-         WLw/cJXLN0Sger1xJ22z1EoRYp5ZGFgqeoK20tK5n4Hdxq1RP6GZGGDp46r39kBS5y3a
-         LsfA==
-X-Gm-Message-State: AC+VfDyh4Tpj3BpafG7JWQARgn2ADRdHouLfPdGfjxSwv8+pyVl9ASG5
-        oWM/EP3LJNWVdLljcgxX/BK307tCedVDY3+gIiblfGYbgMGcSEsT5u6ND+KIC1aU3GJ6mLT7x8v
-        Dfw/LmjHEKUjuNmjjoAMm+P8=
-X-Received: by 2002:aa7:d815:0:b0:514:964c:4c42 with SMTP id v21-20020aa7d815000000b00514964c4c42mr1441249edq.8.1685442505173;
-        Tue, 30 May 2023 03:28:25 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6qUT7YhhUSNEEOWXHKh1/GHGLG6omqx6SInmX+q9c0x1JLfzHSB+xftFhIHjWmzYOvQyKDIA==
-X-Received: by 2002:aa7:d815:0:b0:514:964c:4c42 with SMTP id v21-20020aa7d815000000b00514964c4c42mr1441235edq.8.1685442504893;
-        Tue, 30 May 2023 03:28:24 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id p3-20020aa7cc83000000b0050bc7c882bfsm4218865edt.65.2023.05.30.03.28.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 May 2023 03:28:24 -0700 (PDT)
-Message-ID: <c3580ce0-c43f-8918-ad44-56d512c4fd04@redhat.com>
-Date:   Tue, 30 May 2023 12:28:23 +0200
+        Tue, 30 May 2023 06:33:17 -0400
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CEB89F
+        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 03:33:14 -0700 (PDT)
+X-KPN-MessageId: 61661a09-fed5-11ed-ac2e-005056994fde
+Received: from smtp.kpnmail.nl (unknown [10.31.155.8])
+        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+        id 61661a09-fed5-11ed-ac2e-005056994fde;
+        Tue, 30 May 2023 12:33:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=xs4all.nl; s=xs4all01;
+        h=content-type:from:to:subject:mime-version:date:message-id;
+        bh=dhncDJHXANDQNkfS842Kl2cY/c46thjSz6u0YRShRlI=;
+        b=hWRRqJ6DH+lM/gLJocbXs+ntdE8QsfhQkBUthUzlo0N0MulXGN3MS7Qf8L54H1Ra4VraOe/cavATc
+         qUc6UcCGFMPFLoZQPNV1IWQ6niEjTKt8nsBs5A/DIiyFerqc1l1/hK9lH6/lSCCPnF85tUozWga3F4
+         4C2LppTrzamcJdFXxMNjTegrqNjNqQXXPczff542HLbg0Lt2OCwOWGLQaEmTpnf6FdAKguhxGn2a3/
+         S5yv3esp7UlRCucEljDGuCPFevlhmc88HchD+SZJ0P6vJjh0EYC+sjDiPIsnrDFOAtY0Qw1lL56WvP
+         upZmguP/MzDEhOZDV9B6d5gD02WmwuA==
+X-KPN-MID: 33|2k5QJyYR4/t2fa9CzV1waT0MUhBFGBHIoKQn6RbdcKK+6mGoFeKy8NC6LxqDLuh
+ bQ7dMBf67oZT4HbZHH2PWkbsvv8/uYo+PRjqlHOjDsZU=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|qIwiHluoQX0nsW+Oi14G3QE1ZFn6v55r8PvRMvAIkDtKqqbFnwZ+zveHsoiNDtT
+ ae2LsXDlJRkVo2EDC9xunog==
+X-Originating-IP: 173.38.220.44
+Received: from [10.47.77.214] (unknown [173.38.220.44])
+        by smtp.xs4all.nl (Halon) with ESMTPSA
+        id 6037fa81-fed5-11ed-b306-00505699d6e5;
+        Tue, 30 May 2023 12:33:12 +0200 (CEST)
+Message-ID: <da165529-ae9a-8461-c582-9c85e6f2fa4c@xs4all.nl>
+Date:   Tue, 30 May 2023 12:33:11 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 21/21] media: atomisp: csi2-bridge: Set PMC clk-rate for
- sensors to 19.2 MHz
-Content-Language: en-US, nl
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Nable <nable.maininbox@googlemail.com>,
-        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20230529103741.11904-1-hdegoede@redhat.com>
- <20230529103741.11904-22-hdegoede@redhat.com>
- <CAHp75Ve6rWtkDowBS7z1f=Ot7h8xmXTws8L+Z3eXEfFum2pBcA@mail.gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAHp75Ve6rWtkDowBS7z1f=Ot7h8xmXTws8L+Z3eXEfFum2pBcA@mail.gmail.com>
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v5,8/8] media: mediatek: vcodec: Add dbgfs help function
+Content-Language: en-US
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Chen-Yu Tsai <wenst@chromium.org>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        =?UTF-8?Q?N=c3=adcolas_F_=2e_R_=2e_A_=2e_Prado?= 
+        <nfraprado@collabora.com>, Nathan Hebert <nhebert@chromium.org>
+Cc:     Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20230525021219.23638-1-yunfei.dong@mediatek.com>
+ <20230525021219.23638-9-yunfei.dong@mediatek.com>
+ <f3322e41-1891-a33b-daaa-731ec548ec4e@collabora.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <f3322e41-1891-a33b-daaa-731ec548ec4e@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-
-On 5/29/23 23:48, Andy Shevchenko wrote:
-> On Mon, May 29, 2023 at 1:39 PM Hans de Goede <hdegoede@redhat.com> wrote:
+On 5/30/23 12:06, AngeloGioacchino Del Regno wrote:
+> Il 25/05/23 04:12, Yunfei Dong ha scritto:
+>> Getting dbgfs help information with command "echo -help > vdec".
 >>
->> The ACPI code takes care of enabling/disabling the PMC clk(s) for
->> the sensors as necessary based on the runtime-pm state of the sensor.
+>> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+>> ---
+>>   .../mediatek/vcodec/mtk_vcodec_dbgfs.c        | 24 ++++++++++++++++++-
+>>   1 file changed, 23 insertions(+), 1 deletion(-)
 >>
->> But the GMIN code this replaces also set the clk-rate of the PMC clk
->> to 19.2 MHz. At least on BYT devices the PMC clks may come up running
->> at 25 MHz instead of the expected 19.2 MHz.
->>
->> Ensure the sensor clk also runs at the expected 19.2 MHz for sensors
->> using v4l2-async probing by explicitly setting it to 19.2 MHz when
->> enumerating sensors in atomisp_csi2_bridge.c.
+>> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c
+>> index 237d0dc8a1fc..2372fc449b45 100644
+>> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c
+>> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c
+>> @@ -52,6 +52,23 @@ static void mtk_vdec_dbgfs_get_format_type(struct mtk_vcodec_ctx *ctx, char *buf
+>>   	*used += curr_len;
+>>   }
+>>   
+>> +static void mtk_vdec_dbgfs_get_help(char *buf, int *used, int total)
+>> +{
+>> +	int curr_len;
+>> +
+>> +	curr_len = snprintf(buf + *used, total - *used,
+>> +			    "help: (1: echo -'info' > vdec 2: cat vdec)\n");
+>> +	*used += curr_len;
+>> +
+>> +	curr_len = snprintf(buf + *used, total - *used,
+>> +			    "\t-picinfo: get resolution\n");
+>> +	*used += curr_len;
+>> +
+>> +	curr_len = snprintf(buf + *used, total - *used,
+>> +			    "\t-format: get output & capture queue format\n");
+>> +	*used += curr_len;
+>> +}
+>> +
+>>   static ssize_t mtk_vdec_dbgfs_write(struct file *filp, const char __user *ubuf,
+>>   				    size_t count, loff_t *ppos)
+>>   {
+>> @@ -84,6 +101,11 @@ static ssize_t mtk_vdec_dbgfs_read(struct file *filp, char __user *ubuf,
+>>   	if (!buf)
+>>   		return -ENOMEM;
+>>   
+>> +	if (strstr(dbgfs->dbgfs_buf, "-help")) {
 > 
-> ...
+> I would print the help strings in two conditions:
+> 1. -help
+> 2. (nothing)
 > 
->> +       ret = clk_prepare_enable(clk);
->> +       if (!ret)
->> +               clk_disable_unprepare(clk);
+> ...so that if you don't echo anything to vdec (no params), you get the help text.
+> Otherwise, you would have to know that "-help" is a parameter that gives you help
+> text in the first place.
 > 
-> I'm wondering if _enable / _disable required.
+> As for this commit "as is", it works as intended and it is useful to retrieve
+> the help text; you can either send a followup commit that extends the help to
+> the corner case that I've explained, or send a v6 adding that to this same commit.
+> 
+> I would prefer to see a v6 -- BUT -- since this series was sent a long time ago,
+> you will get my R-b and I will leave the final choice to Hans.
+> 
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> 
+> 
 
-
-As the comment says the BIOS may have the clock enabled
-at boot, the hw won't allow changing the rate while
-the clk is enabled and the clk-framework won't
-allow calling clk_disable_unprepare(clk) without
-first calling clk_prepare_enable().
-
-All the sound/soc/intel/boards/*.c files which are
-used on BYT / CHT do the same thing before setting
-the codec clk speed.
+I prefer a v6, rebased on top of the media_stage tree.
 
 Regards,
 
-Hans
-
-
-
+	Hans
