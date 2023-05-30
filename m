@@ -2,33 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 564F7715391
-	for <lists+linux-media@lfdr.de>; Tue, 30 May 2023 04:20:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3204715395
+	for <lists+linux-media@lfdr.de>; Tue, 30 May 2023 04:21:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230082AbjE3CUp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 May 2023 22:20:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57032 "EHLO
+        id S230136AbjE3CVY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 May 2023 22:21:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229749AbjE3CUn (ORCPT
+        with ESMTP id S229928AbjE3CVX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 May 2023 22:20:43 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6614DF1
-        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 19:20:34 -0700 (PDT)
+        Mon, 29 May 2023 22:21:23 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4D6AE8
+        for <linux-media@vger.kernel.org>; Mon, 29 May 2023 19:21:18 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (om126158230151.30.openmobile.ne.jp [126.158.230.151])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F26ABE4;
-        Tue, 30 May 2023 04:20:10 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 991A0E4;
+        Tue, 30 May 2023 04:20:56 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1685413212;
-        bh=Ve6LrV8WEOMyxcHHasNoLTsR98Pmz79pjBQHOn/1bOw=;
+        s=mail; t=1685413257;
+        bh=dC9yesgByiAJsOqtv3kv9BVk+ErSvksxt+j/1tgd9kI=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qNzMM5jRurbP2FawR1WU7G/pJVcq4cK9DYv0th3tinyy6Fcp/xlZcbNAMbaRZuSFr
-         IoprsrPSVm6GbgLTm/vVAJ18p+bNZctowECtu01NnAkoeawx9h4JTCkObMkwyTe08j
-         5LS91/uR0zeOqbfYtU0h5ViJj6Mr/bHLYr40R4qI=
-Date:   Tue, 30 May 2023 05:20:33 +0300
+        b=VVxj+nPcKqZ9LIcubCpfPU58r6wOuKAKIam9t3kuPBp4YZ9AlNa4FDVjR4PMmUg7t
+         gXNvKvINzpv501OsYWV+5RGOl5C8KwbGcjG0JXEeJxaZaHJaPMbgbEckfFHHk68MMj
+         4qQiHA/XsnlSJdHANpOyc2/rwYQu5KIshyh/QVhQ=
+Date:   Tue, 30 May 2023 05:21:19 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org,
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org,
         Philipp Zabel <p.zabel@pengutronix.de>, hverkuil@xs4all.nl,
         Francesco Dolcini <francesco@dolcini.it>,
         aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
@@ -58,7 +59,7 @@ Cc:     linux-media@vger.kernel.org,
         Marco Felsch <m.felsch@pengutronix.de>
 Subject: Re: [RESEND PATCH v3 03/32] media: xilinx-vipp: Clean up bound async
  notifier callback
-Message-ID: <20230530022033.GC21633@pendragon.ideasonboard.com>
+Message-ID: <20230530022119.GD21633@pendragon.ideasonboard.com>
 References: <20230525091615.2324824-1-sakari.ailus@linux.intel.com>
  <20230525091615.2324824-4-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
@@ -75,9 +76,7 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
-
-Thank you for the patch.
+Tomi, could you please test this patch ?
 
 On Thu, May 25, 2023 at 12:15:46PM +0300, Sakari Ailus wrote:
 > The async notifier bound callback does a lot of checks that have probably
@@ -86,9 +85,6 @@ On Thu, May 25, 2023 at 12:15:46PM +0300, Sakari Ailus wrote:
 > framework.
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
 > ---
 >  drivers/media/platform/xilinx/xilinx-vipp.c | 32 ++++-----------------
 >  1 file changed, 5 insertions(+), 27 deletions(-)
