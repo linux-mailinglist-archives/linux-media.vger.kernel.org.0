@@ -2,59 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5348C715D37
-	for <lists+linux-media@lfdr.de>; Tue, 30 May 2023 13:29:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AEE5715D48
+	for <lists+linux-media@lfdr.de>; Tue, 30 May 2023 13:32:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231932AbjE3L3g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 May 2023 07:29:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38340 "EHLO
+        id S230453AbjE3Lcr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 May 2023 07:32:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230228AbjE3L3f (ORCPT
+        with ESMTP id S230228AbjE3Lco (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 May 2023 07:29:35 -0400
-Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FC7EEA
-        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 04:29:34 -0700 (PDT)
-Received: by mail-qv1-xf2f.google.com with SMTP id 6a1803df08f44-626117a8610so13826256d6.1
-        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 04:29:34 -0700 (PDT)
+        Tue, 30 May 2023 07:32:44 -0400
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E14CBB0
+        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 04:32:43 -0700 (PDT)
+Received: by mail-qk1-x733.google.com with SMTP id af79cd13be357-75b2726f04cso256764685a.3
+        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 04:32:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685446173; x=1688038173;
+        d=gmail.com; s=20221208; t=1685446363; x=1688038363;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jmPUYnc2FtqL3JwQ/ssh0K8SaGGEZjxLd4q7zPcJvCs=;
-        b=rZ7D6eugfTtxFTVcUgTDyC0m1D3tbiGocFZNUYq2MeS70/O9MCYWsLWlr6esVrcQXI
-         aL9n9LCV024EgcM2uncy4+NLsf4J5G9wyjiRRS0LKQHI/XbTz2l/EHGSJnCHkZIbG0Vh
-         pD/40VW7CBfKyEELT5aq1KEkZmO5MsiKWj7tzb7TNhGqqhJqKdTdNTH6PrHmihw3PQxg
-         XPSVs5d5s3e6G9J96CLEdD0VGv8QN6eKGXRHgQZAY9fWy26YHsMJDz61gp5Wo5CP/zkS
-         PDeyJVXltsnzxnYhNp3T1WWzDCj1CrFk6f6+fKDoPV0kIkI+MUm+BhOcqUs5c4VZvPHQ
-         xfyA==
+        bh=2CX81QWvH6s9KobzrQsWhmRGUwobmqZbLPmPxbjonnI=;
+        b=oVT4K3lX8p1VNzyYUMympqQHEHM6dCfrfnHaE0nko9gnJRsyoKv6HPSGk/sqmywVZO
+         lDwk+NZmwsIEqfFG5VetzKVHjuPhCfBeM4w8cJD/m5ij5YgdWwjiaNZk28pqL1EUQcJB
+         0gwZ/3jBxyhRxQc+WXfEpxss3mudXcoJUjHx0hj6GC7YMLwT7z4oe6vruayKcze0sKzo
+         H4ZJ3MAGGzm5WtPzCvw/elSakHIXBL+xKaur1WAqITl4x0E3Dq/5XRiFX6gfzHm+F1bk
+         pzQYze0o7dVKCQgXx1rU7YTV8VUIf9kjHJUDeGxCJSsThzMnuT6WhZyB83YgMD/CoQjF
+         wsJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685446173; x=1688038173;
+        d=1e100.net; s=20221208; t=1685446363; x=1688038363;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jmPUYnc2FtqL3JwQ/ssh0K8SaGGEZjxLd4q7zPcJvCs=;
-        b=KBzVnvfondPNHpLLplEIBdiamr6kRnZ6nc/q7Y5bNUJL6NTQeb8yBajsk+826jix2z
-         /VF5ujrxXXRRCzE2EQ7MeQShEO2tiX79nGImRxj4PRPKiQXY0tlW9fnYZxyJj2p7Flvf
-         Vsmy8YhhslMmMCr5jf0BGAWsfg4FciOUkwbiRMaunJWjCcQL5HewUlfHCZ667BMIg4hp
-         2ynrZtu/hM2B6WodXToBtTUjnwwLyVZmGg1N6310NKmvc5RhWGbtT9UW7DrQqeHHPKZJ
-         brBIvUAo2SudXPLwoeJeLn4n6Kf2nquzvxePtPY6hqRgJMKz5eMK9SHImuEcFS3/J8lr
-         lwvw==
-X-Gm-Message-State: AC+VfDxPsxnSTrdHUK3b3YAOWcQ9MSW646r8b/jH6ljrxHjLW8SiSzNY
-        +k5q/dn32cCd4ewIvndG40qlzxN5v4hy8JTjqGA=
-X-Google-Smtp-Source: ACHHUZ7l8I/u99ITUyO9KaG4BGtsk5Ahu9fGzyKzO/GHPdO7/f6V6c1qV6rir/MSNA3JAKz4Q+RQya15XVS1yLirLs4=
-X-Received: by 2002:a05:6214:2247:b0:626:2415:843 with SMTP id
- c7-20020a056214224700b0062624150843mr2098221qvc.43.1685446173079; Tue, 30 May
- 2023 04:29:33 -0700 (PDT)
+        bh=2CX81QWvH6s9KobzrQsWhmRGUwobmqZbLPmPxbjonnI=;
+        b=RIN+NLAxW6EaTZv6rBIRBlb/JyJ+KPD0lsiH+gCVRumUK6JdaxhpWHYjYKQ9UvTcGj
+         RDnk9pkyXlX5K2bAc2RVhmUlGiSIj/lVgTBbozM5/GPzD5J35kMyTI80R4wjPTFkFd2v
+         dwXNjwQMuawOyrWJB8nB4xvsXIhAWPbJ/iS3BIvY4359GpBwtmHTwfE3/XVZkMV+y37r
+         Dw6uGWnqQ9ozFG31BB02G6Rv3AK9VuqZyJOAsIon2gn3qbGeApa/1/aq+Cme9DCqgcch
+         NydbRkzI2UMR5ffEV+K6HadsJTDjUVb+h4lK7Z+wLPu042LXEIK0OJPVBTCoTwbBPHqC
+         9sAw==
+X-Gm-Message-State: AC+VfDyLsGcqcYEOyosd71uA7/xtAOS2SOfB5cq1WhJrtD37J9gZ4Lce
+        TWO008y/9C/PdEK7ojqGy+DnfmzKzNllSWEU7eU=
+X-Google-Smtp-Source: ACHHUZ6ytsG267MBZ7DmFEntlrmRiVBGiwfzQPpFlxYfxho8sft+/wYtkjKawGRkFqNjx5ngPISYo7Orl1qogtsA6Uw=
+X-Received: by 2002:ad4:4eae:0:b0:625:aa49:19f3 with SMTP id
+ ed14-20020ad44eae000000b00625aa4919f3mr1670661qvb.64.1685446362988; Tue, 30
+ May 2023 04:32:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230529103741.11904-1-hdegoede@redhat.com> <20230529103741.11904-7-hdegoede@redhat.com>
- <CAHp75Vd0n8HHv2nguQFHvoRuqjwAAj=YdmgMGckg+1q-NLptFw@mail.gmail.com> <b8059e0a-8a95-ce5e-ccd5-786ac9ee6abc@redhat.com>
-In-Reply-To: <b8059e0a-8a95-ce5e-ccd5-786ac9ee6abc@redhat.com>
+References: <20230529103741.11904-1-hdegoede@redhat.com> <20230529103741.11904-22-hdegoede@redhat.com>
+ <CAHp75Ve6rWtkDowBS7z1f=Ot7h8xmXTws8L+Z3eXEfFum2pBcA@mail.gmail.com> <c3580ce0-c43f-8918-ad44-56d512c4fd04@redhat.com>
+In-Reply-To: <c3580ce0-c43f-8918-ad44-56d512c4fd04@redhat.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 30 May 2023 14:28:57 +0300
-Message-ID: <CAHp75VdwCV0PMWqiTunnc3wrvYs7Q=-yGDb++CobhsgwS0EoRw@mail.gmail.com>
-Subject: Re: [PATCH 06/21] media: atomisp: ov2680: Implement selection support
+Date:   Tue, 30 May 2023 14:32:06 +0300
+Message-ID: <CAHp75VeDj6HmG4YzU5aOYOoZkWu+J=GkLwu=LuWpa5jXoqkPTA@mail.gmail.com>
+Subject: Re: [PATCH 21/21] media: atomisp: csi2-bridge: Set PMC clk-rate for
+ sensors to 19.2 MHz
 To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -76,40 +77,33 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, May 30, 2023 at 1:36=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
+On Tue, May 30, 2023 at 1:28=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
  wrote:
-> On 5/29/23 22:31, Andy Shevchenko wrote:
-> > On Mon, May 29, 2023 at 1:38=E2=80=AFPM Hans de Goede <hdegoede@redhat.=
+> On 5/29/23 23:48, Andy Shevchenko wrote:
+> > On Mon, May 29, 2023 at 1:39=E2=80=AFPM Hans de Goede <hdegoede@redhat.=
 com> wrote:
 
 ...
 
-> >> +       switch (which) {
-> >> +       case V4L2_SUBDEV_FORMAT_TRY:
-> >> +               return v4l2_subdev_get_try_crop(&sensor->sd, state, pa=
-d);
-> >> +       case V4L2_SUBDEV_FORMAT_ACTIVE:
-> >> +               return &sensor->mode.crop;
-> >> +       }
-> >> +
-> >> +       return NULL;
+> >> +       ret =3D clk_prepare_enable(clk);
+> >> +       if (!ret)
+> >> +               clk_disable_unprepare(clk);
 > >
-> > I would move this to default: case.
+> > I'm wondering if _enable / _disable required.
 >
-> That may cause the reader of the code to think that there are other cases=
-,
-> which there are not. All possible values of enum v4l2_subdev_format_whenc=
-e
-> are already handled, otherwise the compiler would also complain.
+> As the comment says the BIOS may have the clock enabled
+> at boot, the hw won't allow changing the rate while
+> the clk is enabled and the clk-framework won't
+> allow calling clk_disable_unprepare(clk) without
+> first calling clk_prepare_enable().
+>
+> All the sound/soc/intel/boards/*.c files which are
+> used on BYT / CHT do the same thing before setting
+> the codec clk speed.
 
-Why do we care about that?
-What is the common practice in the v4l2 subsystem?
-
-> The "return NULL" is there to shut up other compiler warnings.
-
-Can you elaborate (I mean if the default will be present)?
-
-> I'll add a /* never reached */ to it to make this clear.
+Interesting... It might be that x86 (under drivers/clk/x86 or
+somewhere there) can gain a common helper to do this trick, so we
+won't repeat this over and over again.
 
 --=20
 With Best Regards,
