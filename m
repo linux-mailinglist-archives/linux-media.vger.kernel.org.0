@@ -2,296 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BCD9716F40
-	for <lists+linux-media@lfdr.de>; Tue, 30 May 2023 22:57:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09C89716FE5
+	for <lists+linux-media@lfdr.de>; Tue, 30 May 2023 23:41:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230194AbjE3U5y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 May 2023 16:57:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38434 "EHLO
+        id S230045AbjE3Vk4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 May 2023 17:40:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbjE3U5w (ORCPT
+        with ESMTP id S233554AbjE3Vkw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 May 2023 16:57:52 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9EFAC9;
-        Tue, 30 May 2023 13:57:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685480270; x=1717016270;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9bNOXk/HVApVPX4X1SAT6PoKY5ux32Fki/nfbA/DCTk=;
-  b=LH4zwNsCEV/fApByIF5ByXYY4T7yuvpxPwQZFQ4+FGdiS5S+35BHf1gJ
-   6A+ReJqMRHwgpvlCP8Nc7k00A5nfbdsjePzsW+QfYDO1s4MQP06cg1ZK6
-   VcAJuo15OlFKQKMf2BvSkWxJm4yqUPPXyGLeGJmNtxzhzTclml46GVpAf
-   rI9miFARwdmV7gus+RuEE9AXhZiGE18e2ZPcDnSgoL343qWGmxXH5RR3W
-   sxxgzX99gcEAfCFX/uoyXovscmJ9smlZ3pmxbBZIyUAG3cRfIPmDU0rZV
-   qSxj4bXsY5/sCceRGgw6p3RKppLCT2s4SDtrwouUvZMdzCjh91IuRMATc
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="383306545"
-X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; 
-   d="scan'208";a="383306545"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 13:57:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="706588497"
-X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; 
-   d="scan'208";a="706588497"
-Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 30 May 2023 13:57:43 -0700
-Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1q46PX-0000o3-2E;
-        Tue, 30 May 2023 20:57:43 +0000
-Date:   Wed, 31 May 2023 04:56:57 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Tommaso Merciai <tomm.merciai@gmail.com>
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com,
-        martin.hecht@avnet.eu, linuxfancy@googlegroups.com,
-        Tommaso Merciai <tomm.merciai@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Gerald Loacker <gerald.loacker@wolfvision.net>,
-        Nicholas Roth <nicholas@rothemail.net>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] media: i2c: Add support for alvium camera
-Message-ID: <202305310436.Hwvw8IB9-lkp@intel.com>
-References: <20230526173955.797226-3-tomm.merciai@gmail.com>
+        Tue, 30 May 2023 17:40:52 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21ABD11B
+        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 14:40:40 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-3f61530506aso53406985e9.1
+        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 14:40:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685482838; x=1688074838;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1TlvuonkSjjlOLEcObUEavnK0dvpdAeYDopMtOIpLYM=;
+        b=gXAhMV9/9GKve01fDtGfvpp3Jj0xDjalrBNlEs4zo9djHArdbNY6Unu3xdAeSctviR
+         +3g5fC3BodjZ8+BZlDMuLmKpvJK3Ax6Rmroctxg+YEmiyQKxJSklKQgDaR0hz0OJSp9N
+         mvTm1Q1/orNqDcC8znJzgnNuNxFyTJXnLYeFhUUdp/FHlbPHswRCSQf+F011XC+kSNP7
+         AZtFXJiUgg94fuEd6Iwp7JtYA6E+2+3cx0ZBO1eDMJ6isRUmipWt5CZzvRkJVUPCzwbq
+         WupCXYUaFnKXEeIC1OJLGeS+OTGipE04VIuT7vkoTaHFTahknQ3LB31z2L7FeryNUto3
+         17mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685482838; x=1688074838;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1TlvuonkSjjlOLEcObUEavnK0dvpdAeYDopMtOIpLYM=;
+        b=d30iaZlomUJMftaPPVE0miRx0MXQ77jEA+VUizbEw40ho83ScKHXi4Ga7G41XApVxL
+         lc80z6oC+/UoM5F3I1JqDq1eWYs2DEP6A2xV3v2dwzzUlg/mnmPzWkdce7iDHr1FWCge
+         VUPFzAf4ep+V1jnZ3JSCXnhqDgCdcivpOK1pg8VsFWT34GGKm/eXLs/vleVHjRLamInZ
+         vD2V+RF1bFvfHXwDIBPb1BfQe/VA9wLAzed2zJMP6HHq/+d8W9/Irt8ZYGkO7jLaxtFd
+         9e9pRaBN0xryt2jDkay0XLwqdFfVcTFg3o0IQ4Wt2mlAwXW8A4+da4dH4hmULjynJrqz
+         2+lA==
+X-Gm-Message-State: AC+VfDwWUJDTrE8CBuf0S6N4reYbRro5pR0XanIkbeBx3lrTaKt533yx
+        mXLQQ44P4WpGneiPpPyHsdRWJ7aqxOo=
+X-Google-Smtp-Source: ACHHUZ7BKuaQ0kpwsXJPvvet0rzP68LXObGvPpEcCR8MJCzBfiUuOkr0i1ksjEixopo7PoOcMZ6XUw==
+X-Received: by 2002:a05:600c:2246:b0:3f6:1430:7e71 with SMTP id a6-20020a05600c224600b003f614307e71mr2619487wmm.31.1685482838467;
+        Tue, 30 May 2023 14:40:38 -0700 (PDT)
+Received: from aero-laptop.. ([37.63.25.59])
+        by smtp.gmail.com with ESMTPSA id q13-20020a7bce8d000000b003f43f82001asm22124763wmj.31.2023.05.30.14.40.37
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 May 2023 14:40:38 -0700 (PDT)
+From:   Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR v6.5] Venus updates
+Date:   Wed, 31 May 2023 00:40:33 +0300
+Message-Id: <20230530214033.293439-1-stanimir.k.varbanov@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230526173955.797226-3-tomm.merciai@gmail.com>
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tommaso,
+Hi Mauro,
 
-kernel test robot noticed the following build warnings:
+This time the pull request includes following changes:
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on linus/master v6.4-rc4 next-20230530]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+ - Adds support for P010 pixel format.
+ - Adds firmware version checks to fix an issue with sufficient sequence
+change for VP9.
+ - Few patches replacing one-element arrays with flexible-array members.
+ - A patch to add per m2m ctx queue locking.
+ - Few patches to simplify return expressions. 
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tommaso-Merciai/media-dt-bindings-alvium-add-document-YAML-binding/20230527-014222
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230526173955.797226-3-tomm.merciai%40gmail.com
-patch subject: [PATCH v2 2/2] media: i2c: Add support for alvium camera
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20230531/202305310436.Hwvw8IB9-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/0777ad1510dd41fdb7f183ade7607af6b2fe36a8
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Tommaso-Merciai/media-dt-bindings-alvium-add-document-YAML-binding/20230527-014222
-        git checkout 0777ad1510dd41fdb7f183ade7607af6b2fe36a8
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/media/i2c/ fs/xfs/
+Please pull.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305310436.Hwvw8IB9-lkp@intel.com/
+regards,
+Stan
 
-All warnings (new ones prefixed by >>):
+The following changes since commit a23a3041c733e068bed5ece88acb45fe0edf0413:
 
->> drivers/media/i2c/alvium.c:559:6: warning: no previous prototype for function 'alvium_print_avail_mipi_fmt' [-Wmissing-prototypes]
-   void alvium_print_avail_mipi_fmt(struct alvium_dev *alvium)
-        ^
-   drivers/media/i2c/alvium.c:559:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void alvium_print_avail_mipi_fmt(struct alvium_dev *alvium)
-   ^
-   static 
->> drivers/media/i2c/alvium.c:603:6: warning: no previous prototype for function 'alvium_print_avail_feat' [-Wmissing-prototypes]
-   void alvium_print_avail_feat(struct alvium_dev *alvium)
-        ^
-   drivers/media/i2c/alvium.c:603:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void alvium_print_avail_feat(struct alvium_dev *alvium)
-   ^
-   static 
->> drivers/media/i2c/alvium.c:647:6: warning: no previous prototype for function 'alvium_print_avail_bayer' [-Wmissing-prototypes]
-   void alvium_print_avail_bayer(struct alvium_dev *alvium)
-        ^
-   drivers/media/i2c/alvium.c:647:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void alvium_print_avail_bayer(struct alvium_dev *alvium)
-   ^
-   static 
->> drivers/media/i2c/alvium.c:1957:2: warning: switch condition has boolean value [-Wswitch-bool]
-           switch (on) {
-           ^       ~~
-   drivers/media/i2c/alvium.c:2040:2: warning: switch condition has boolean value [-Wswitch-bool]
-           switch (on) {
-           ^       ~~
-   drivers/media/i2c/alvium.c:2099:2: warning: switch condition has boolean value [-Wswitch-bool]
-           switch (on) {
-           ^       ~~
-   drivers/media/i2c/alvium.c:2228:2: warning: switch condition has boolean value [-Wswitch-bool]
-           switch (on) {
-           ^       ~~
-   drivers/media/i2c/alvium.c:2303:7: warning: variable 'red_max' set but not used [-Wunused-but-set-variable]
-                   u64 red_max;
-                       ^
-   drivers/media/i2c/alvium.c:2304:7: warning: variable 'red_min' set but not used [-Wunused-but-set-variable]
-                   u64 red_min;
-                       ^
-   drivers/media/i2c/alvium.c:2305:7: warning: variable 'blue_max' set but not used [-Wunused-but-set-variable]
-                   u64 blue_max;
-                       ^
-   drivers/media/i2c/alvium.c:2306:7: warning: variable 'blue_min' set but not used [-Wunused-but-set-variable]
-                   u64 blue_min;
-                       ^
-   drivers/media/i2c/alvium.c:2721:14: warning: variable 'min_fr' set but not used [-Wunused-but-set-variable]
-           u64 req_fr, min_fr, max_fr;
-                       ^
-   drivers/media/i2c/alvium.c:2721:22: warning: variable 'max_fr' set but not used [-Wunused-but-set-variable]
-           u64 req_fr, min_fr, max_fr;
-                               ^
->> drivers/media/i2c/alvium.c:2788:6: warning: variable 'num_formats' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-           if (alvium_is_csi2(alvium)) {
-               ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/alvium.c:2793:21: note: uninitialized use occurs here
-           if (code->index >= num_formats)
-                              ^~~~~~~~~~~
-   drivers/media/i2c/alvium.c:2788:2: note: remove the 'if' if its condition is always true
-           if (alvium_is_csi2(alvium)) {
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/alvium.c:2786:26: note: initialize the variable 'num_formats' to silence this warning
-           unsigned int num_formats;
-                                   ^
-                                    = 0
-   drivers/media/i2c/alvium.c:2943:26: warning: variable 'crop' set but not used [-Wunused-but-set-variable]
-           const struct v4l2_rect *crop;
-                                   ^
-   15 warnings generated.
+  Merge tag 'v6.4-rc2' into media_stage (2023-05-14 22:55:40 +0100)
 
+are available in the Git repository at:
 
-vim +/alvium_print_avail_mipi_fmt +559 drivers/media/i2c/alvium.c
+  git://linuxtv.org/svarbanov/media_tree.git tags/tag-venus-for-v6.5
 
-   558	
- > 559	void alvium_print_avail_mipi_fmt(struct alvium_dev *alvium)
-   560	{
-   561		struct device *dev = &alvium->i2c_client->dev;
-   562	
-   563		dev_dbg(dev, "avail mipi_fmt yuv420_8_leg: %u\n",
-   564			  alvium->is_mipi_fmt_avail[ALVIUM_BIT_YUV420_8_LEG]);
-   565		dev_dbg(dev, "avail mipi_fmt yuv420_8: %u\n",
-   566			   alvium->is_mipi_fmt_avail[ALVIUM_BIT_YUV420_8]);
-   567		dev_dbg(dev, "avail mipi_fmt yuv420_10: %u\n",
-   568			  alvium->is_mipi_fmt_avail[ALVIUM_BIT_YUV420_10]);
-   569		dev_dbg(dev, "avail mipi_fmt yuv420_8_csps: %u\n",
-   570			  alvium->is_mipi_fmt_avail[ALVIUM_BIT_YUV420_8_CSPS]);
-   571		dev_dbg(dev, "avail mipi_fmt yuv420_10_csps: %u\n",
-   572			  alvium->is_mipi_fmt_avail[ALVIUM_BIT_YUV420_10_CSPS]);
-   573		dev_dbg(dev, "avail mipi_fmt yuv422_8: %u\n",
-   574			  alvium->is_mipi_fmt_avail[ALVIUM_BIT_YUV422_8]);
-   575		dev_dbg(dev, "avail mipi_fmt yuv422_10: %u\n",
-   576			   alvium->is_mipi_fmt_avail[ALVIUM_BIT_YUV422_10]);
-   577		dev_dbg(dev, "avail mipi_fmt rgb888: %u\n",
-   578			   alvium->is_mipi_fmt_avail[ALVIUM_BIT_RGB888]);
-   579		dev_dbg(dev, "avail mipi_fmt rgb666: %u\n",
-   580			  alvium->is_mipi_fmt_avail[ALVIUM_BIT_RGB666]);
-   581		dev_dbg(dev, "avail mipi_fmt rgb565: %u\n",
-   582			  alvium->is_mipi_fmt_avail[ALVIUM_BIT_RGB565]);
-   583		dev_dbg(dev, "avail mipi_fmt rgb555: %u\n",
-   584			  alvium->is_mipi_fmt_avail[ALVIUM_BIT_RGB555]);
-   585		dev_dbg(dev, "avail mipi_fmt rgb444: %u\n",
-   586			  alvium->is_mipi_fmt_avail[ALVIUM_BIT_RGB444]);
-   587		dev_dbg(dev, "avail mipi_fmt raw6: %u\n",
-   588			  alvium->is_mipi_fmt_avail[ALVIUM_BIT_RAW6]);
-   589		dev_dbg(dev, "avail mipi_fmt raw7: %u\n",
-   590			  alvium->is_mipi_fmt_avail[ALVIUM_BIT_RAW7]);
-   591		dev_dbg(dev, "avail mipi_fmt raw8: %u\n",
-   592			  alvium->is_mipi_fmt_avail[ALVIUM_BIT_RAW8]);
-   593		dev_dbg(dev, "avail mipi_fmt raw10: %u\n",
-   594			  alvium->is_mipi_fmt_avail[ALVIUM_BIT_RAW10]);
-   595		dev_dbg(dev, "avail mipi_fmt raw12: %u\n",
-   596			  alvium->is_mipi_fmt_avail[ALVIUM_BIT_RAW12]);
-   597		dev_dbg(dev, "avail mipi_fmt raw14: %u\n",
-   598			  alvium->is_mipi_fmt_avail[ALVIUM_BIT_RAW14]);
-   599		dev_dbg(dev, "avail mipi_fmt jpeg: %u\n",
-   600			  alvium->is_mipi_fmt_avail[ALVIUM_BIT_JPEG]);
-   601	}
-   602	
- > 603	void alvium_print_avail_feat(struct alvium_dev *alvium)
-   604	{
-   605		struct device *dev = &alvium->i2c_client->dev;
-   606	
-   607		dev_dbg(dev, "feature rev_x: %u\n",
-   608			  alvium->avail_ft.rev_x);
-   609		dev_dbg(dev, "feature rev_y: %u\n",
-   610			  alvium->avail_ft.rev_y);
-   611		dev_dbg(dev, "feature int_autop: %u\n",
-   612			  alvium->avail_ft.int_autop);
-   613		dev_dbg(dev, "feature black_lvl: %u\n",
-   614			  alvium->avail_ft.black_lvl);
-   615		dev_dbg(dev, "feature gain: %u\n",
-   616			  alvium->avail_ft.gain);
-   617		dev_dbg(dev, "feature gamma: %u\n",
-   618			  alvium->avail_ft.gamma);
-   619		dev_dbg(dev, "feature contrast: %u\n",
-   620			  alvium->avail_ft.contrast);
-   621		dev_dbg(dev, "feature sat: %u\n",
-   622			  alvium->avail_ft.sat);
-   623		dev_dbg(dev, "feature hue: %u\n",
-   624			  alvium->avail_ft.hue);
-   625		dev_dbg(dev, "feature whiteb: %u\n",
-   626			  alvium->avail_ft.whiteb);
-   627		dev_dbg(dev, "feature sharp: %u\n",
-   628			  alvium->avail_ft.sharp);
-   629		dev_dbg(dev, "feature auto_exp: %u\n",
-   630			  alvium->avail_ft.auto_exp);
-   631		dev_dbg(dev, "feature auto_gain: %u\n",
-   632			  alvium->avail_ft.auto_gain);
-   633		dev_dbg(dev, "feature auto_whiteb: %u\n",
-   634			  alvium->avail_ft.auto_whiteb);
-   635		dev_dbg(dev, "feature dev_temp: %u\n",
-   636			  alvium->avail_ft.dev_temp);
-   637		dev_dbg(dev, "feature acq_abort: %u\n",
-   638			  alvium->avail_ft.acq_abort);
-   639		dev_dbg(dev, "feature acq_fr: %u\n",
-   640			  alvium->avail_ft.acq_fr);
-   641		dev_dbg(dev, "feature fr_trigger: %u\n",
-   642			  alvium->avail_ft.fr_trigger);
-   643		dev_dbg(dev, "feature exp_acq_line: %u\n",
-   644			  alvium->avail_ft.exp_acq_line);
-   645	}
-   646	
- > 647	void alvium_print_avail_bayer(struct alvium_dev *alvium)
-   648	{
-   649		struct device *dev = &alvium->i2c_client->dev;
-   650	
-   651		dev_dbg(dev, "avail bayer mono: %u\n",
-   652			  alvium->is_bay_avail[ALVIUM_BIT_BAY_MONO]);
-   653		dev_dbg(dev, "avail bayer gr: %u\n",
-   654			  alvium->is_bay_avail[ALVIUM_BIT_BAY_GR]);
-   655		dev_dbg(dev, "avail bayer rg: %u\n",
-   656			  alvium->is_bay_avail[ALVIUM_BIT_BAY_RG]);
-   657		dev_dbg(dev, "avail bayer gb: %u\n",
-   658			  alvium->is_bay_avail[ALVIUM_BIT_BAY_GB]);
-   659		dev_dbg(dev, "avail bayer bg: %u\n",
-   660			  alvium->is_bay_avail[ALVIUM_BIT_BAY_BG]);
-   661	}
-   662	
+for you to fetch changes up to ecb5bc207d6bcababa14c240c9d11bd0cdf8b1d7:
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+  media: venus: provide ctx queue lock for ioctl synchronization (2023-05-31 00:19:09 +0300)
+
+----------------------------------------------------------------
+Venus updates for v6.5
+
+----------------------------------------------------------------
+Dikshita Agarwal (8):
+      venus: add firmware version based check
+      venus: enable sufficient sequence change support for vp9
+      venus: fix EOS handling in decoder stop command
+      venus: replace arrary index with enum for supported formats
+      venus: add support for V4L2_PIX_FMT_P010 color format
+      venus: update calculation for dpb buffers
+      venus: add handling of bit depth change from firmwar
+      venus: return P010 as preferred format for 10 bit decode
+
+Gustavo A. R. Silva (4):
+      media: venus: hfi_cmds: Replace fake flex-array with flexible-array member
+      media: venus: Replace one-element arrays with flexible-array members
+      media: venus: hfi_cmds: Replace one-element array with flexible-array member
+      media: venus: hfi_cmds: Use struct_size() helper
+
+Liu Shixin (1):
+      media: venus: simplify the return expression of venus_sys_set_* function
+
+Qinglang Miao (1):
+      media: venus: simplify the return expression of session_process_buf()
+
+Rikard Falkeborn (1):
+      media: venus: helpers: Fix ALIGN() of non power of two
+
+Sergey Senozhatsky (1):
+      media: venus: provide ctx queue lock for ioctl synchronization
+
+ drivers/media/platform/qcom/venus/core.h           | 39 +++++++++
+ drivers/media/platform/qcom/venus/helpers.c        | 33 ++++++--
+ drivers/media/platform/qcom/venus/hfi_cmds.c       | 19 ++---
+ drivers/media/platform/qcom/venus/hfi_cmds.h       |  4 +-
+ drivers/media/platform/qcom/venus/hfi_helper.h     |  2 +
+ drivers/media/platform/qcom/venus/hfi_msgs.c       | 34 ++++++--
+ drivers/media/platform/qcom/venus/hfi_msgs.h       | 14 ++--
+ drivers/media/platform/qcom/venus/hfi_plat_bufs.h  |  3 +
+ .../media/platform/qcom/venus/hfi_plat_bufs_v6.c   | 11 ++-
+ drivers/media/platform/qcom/venus/hfi_venus.c      | 28 +------
+ drivers/media/platform/qcom/venus/vdec.c           | 94 +++++++++++++++-------
+ drivers/media/platform/qcom/venus/venc.c           | 35 +++++---
+ 12 files changed, 217 insertions(+), 99 deletions(-)
