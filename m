@@ -2,70 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B80D8716B26
-	for <lists+linux-media@lfdr.de>; Tue, 30 May 2023 19:31:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC3CE716B32
+	for <lists+linux-media@lfdr.de>; Tue, 30 May 2023 19:35:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230404AbjE3RbR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 May 2023 13:31:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58912 "EHLO
+        id S230404AbjE3RfJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 May 2023 13:35:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233485AbjE3RbH (ORCPT
+        with ESMTP id S230105AbjE3RfH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 May 2023 13:31:07 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA856189
-        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 10:30:51 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-3f623adec61so50012885e9.0
-        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 10:30:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1685467850; x=1688059850;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RVFzCe7HAl1iD+IOebocyxw66+4T7VjgBBQtFfp3oF4=;
-        b=bEh0QQp07tcRFODEe+lFMfLA/s2rK7PdzPke/SRTtCVAlpjpJB+4/ry7X5Bnv9V7KB
-         uKCaElJCQSEzRuck27U6HNC2S557AmK9PGkUSgfAPU/+N+kAVS1YnbSH2czG7TQRfyV5
-         t0AJYmchYZVbGiW1+7soC3LLTUoEk99XjOLxTSvjakty3US0irfnBlLSD4TQ5/FOWNe9
-         btCxW1+Z6Djgro/+CZ60k9rNQ/kYzf+aJt9f2xMeMqiM0dieiXFkRwlkFaWgbEKcVZ7v
-         DOxrp84LVd2VB6KsASRDbcgRohLXZLoDiWU+dPek/9+M+OQC1GzBWvGuHQL+W6KlUMbC
-         EEaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685467850; x=1688059850;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RVFzCe7HAl1iD+IOebocyxw66+4T7VjgBBQtFfp3oF4=;
-        b=bkkiBWUJexIVR0kbBHCBtugXXEPxcBYkPk7DP/Khfrw4Mun3fEOBxEbubefvRGporc
-         gZtDbGAzQ46VGl7JjanOl1+Wo0Eg7PHPEAXbnFuXyZRD5A6EguwTUUQAjQR7XJIPtkZ+
-         dpU0PXwWX5dX7odb1+uNJzZN2ejSah9oWDC4RBOeDX6IXfisv0NsMx5DqryPuup8zmr+
-         lB7MvCudxgAjCUXCPQ0yULj21N/fD++egRbpYCD4jVzEwpOBnGEP95EHur4iFvPc+a+y
-         aI58qRcOvLNU15sRXDhRH0K9OstC5Pt2yk0K41u+wdcO7I9yB4rNBbA6/3pg0Qa51Idm
-         MDJQ==
-X-Gm-Message-State: AC+VfDwqOHnRSp/0H3ldvmlKwnac89K+wJcKdZnlcWyuO3jHS1KtJu7a
-        U8PnnO56fhBnIi2mMiNNRUBq2w==
-X-Google-Smtp-Source: ACHHUZ4fbgyo0xN72vW1oD3n0FwSFH2ci5yZuBq6JESTgA+XgHMxNZJl0XksbOG89ORjF3LobTUiOw==
-X-Received: by 2002:a7b:c846:0:b0:3f4:20bd:ba46 with SMTP id c6-20020a7bc846000000b003f420bdba46mr2066456wml.5.1685467850429;
-        Tue, 30 May 2023 10:30:50 -0700 (PDT)
-Received: from dave-Ubuntu2204.pitowers.org ([93.93.133.154])
-        by smtp.googlemail.com with ESMTPSA id h14-20020a056000000e00b0030ae901bc54sm3964823wrx.62.2023.05.30.10.30.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 May 2023 10:30:49 -0700 (PDT)
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tue, 30 May 2023 13:35:07 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00BF1A3;
+        Tue, 30 May 2023 10:35:05 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 866836313F;
+        Tue, 30 May 2023 17:35:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67539C433D2;
+        Tue, 30 May 2023 17:35:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1685468104;
+        bh=/Uvu6pyPwZi08xApVS+/p5HtQI2s77ZRWUR1akR7L4c=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WlH5lr/UV0O384HWb1GxhoEQVcLDNxCv1l3BtvfJOee/DExRbo2uZUjPAkIfrOuC/
+         t4ckyriOWC0xf68VP/Plkbwe7gaCiRzWFS1R48o/eD6tuAdj9vYPQHeZ3yBLnuDH1c
+         ktcZA5hlbZOLAH7ndxcbLv3B5d89P74NlQ+i3p8WeS29D+FSlt2cSjDNX5ZlaGGC0e
+         4Ir51U8QlfDz0fBQ/h7ZZp2TfwAUMpmVdG41DewT4bYmmxZmxdul0zzVC6bqjya9FU
+         eB2YbrNlSavXPi2h7XueXdIzVqMos4lJQxhqVpKl0RTjETDKcM7qtk1G+cnM1Ecpw/
+         OSBtzy/xsVV/w==
+Date:   Tue, 30 May 2023 18:35:01 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
-Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: [PATCH 21/21] media: i2c: imx258: Make HFLIP and VFLIP controls writable
-Date:   Tue, 30 May 2023 18:30:00 +0100
-Message-Id: <20230530173000.3060865-22-dave.stevenson@raspberrypi.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230530173000.3060865-1-dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH 18/21] dt-bindings: media: imx258: Rename to include
+ vendor prefix
+Message-ID: <20230530-vessel-posture-6622edce585f@spud>
 References: <20230530173000.3060865-1-dave.stevenson@raspberrypi.com>
+ <20230530173000.3060865-19-dave.stevenson@raspberrypi.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="K4mx+Kso4Rs9Wl/l"
+Content-Disposition: inline
+In-Reply-To: <20230530173000.3060865-19-dave.stevenson@raspberrypi.com>
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -74,242 +59,74 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The sensor supports H & V flips, but the controls were READ_ONLY.
 
-Note that the Bayer order changes with these flips, therefore
-they set the V4L2_CTRL_FLAG_MODIFY_LAYOUT property.
+--K4mx+Kso4Rs9Wl/l
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
----
- drivers/media/i2c/imx258.c | 99 ++++++++++++++++++++++++--------------
- 1 file changed, 64 insertions(+), 35 deletions(-)
+On Tue, May 30, 2023 at 06:29:57PM +0100, Dave Stevenson wrote:
+> imx258.yaml doesn't include the vendor prefix of sony, so
+> rename to add it.
+> Update the id entry and MAINTAINERS to match.
+>=20
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
-index 98b5c1e3abff..cf90ac66e14c 100644
---- a/drivers/media/i2c/imx258.c
-+++ b/drivers/media/i2c/imx258.c
-@@ -83,8 +83,8 @@
- 
- /* Orientation */
- #define REG_MIRROR_FLIP_CONTROL		0x0101
--#define REG_CONFIG_MIRROR_FLIP		0x03
--#define REG_CONFIG_FLIP_TEST_PATTERN	0x02
-+#define REG_CONFIG_MIRROR_HFLIP		0x01
-+#define REG_CONFIG_MIRROR_VFLIP		0x02
- 
- /* IMX258 native and active pixel array size. */
- #define IMX258_NATIVE_WIDTH		4224U
-@@ -484,6 +484,23 @@ static const struct imx258_variant_cfg imx258_pdaf_cfg = {
- 	.num_regs = ARRAY_SIZE(imx258_pdaf_cfg_regs),
- };
- 
-+/*
-+ * The supported formats.
-+ * This table MUST contain 4 entries per format, to cover the various flip
-+ * combinations in the order
-+ * - no flip
-+ * - h flip
-+ * - v flip
-+ * - h&v flips
-+ */
-+static const u32 codes[] = {
-+	/* 10-bit modes. */
-+	MEDIA_BUS_FMT_SRGGB10_1X10,
-+	MEDIA_BUS_FMT_SGRBG10_1X10,
-+	MEDIA_BUS_FMT_SGBRG10_1X10,
-+	MEDIA_BUS_FMT_SBGGR10_1X10
-+};
-+
- static const char * const imx258_test_pattern_menu[] = {
- 	"Disabled",
- 	"Solid Colour",
-@@ -677,6 +694,8 @@ struct imx258 {
- 	struct v4l2_ctrl *vblank;
- 	struct v4l2_ctrl *hblank;
- 	struct v4l2_ctrl *exposure;
-+	struct v4l2_ctrl *hflip;
-+	struct v4l2_ctrl *vflip;
- 	/* Current long exposure factor in use. Set through V4L2_CID_VBLANK */
- 	unsigned int long_exp_shift;
- 
-@@ -780,9 +799,22 @@ static int imx258_write_regs(struct imx258 *imx258,
- 	return 0;
- }
- 
-+/* Get bayer order based on flip setting. */
-+static u32 imx258_get_format_code(struct imx258 *imx258)
-+{
-+	unsigned int i;
-+
-+	lockdep_assert_held(&imx258->mutex);
-+
-+	i = (imx258->vflip->val ? 2 : 0) |
-+	    (imx258->hflip->val ? 1 : 0);
-+
-+	return codes[i];
-+}
- /* Open sub-device */
- static int imx258_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
- {
-+	struct imx258 *imx258 = to_imx258(sd);
- 	struct v4l2_mbus_framefmt *try_fmt =
- 		v4l2_subdev_get_try_format(sd, fh->state, 0);
- 	struct v4l2_rect *try_crop;
-@@ -790,7 +822,7 @@ static int imx258_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
- 	/* Initialize try_fmt */
- 	try_fmt->width = supported_modes[0].width;
- 	try_fmt->height = supported_modes[0].height;
--	try_fmt->code = MEDIA_BUS_FMT_SBGGR10_1X10;
-+	try_fmt->code = imx258_get_format_code(imx258);
- 	try_fmt->field = V4L2_FIELD_NONE;
- 
- 	/* Initialize try_crop */
-@@ -903,10 +935,6 @@ static int imx258_set_ctrl(struct v4l2_ctrl *ctrl)
- 		ret = imx258_write_reg(imx258, IMX258_REG_TEST_PATTERN,
- 				IMX258_REG_VALUE_16BIT,
- 				ctrl->val);
--		ret = imx258_write_reg(imx258, REG_MIRROR_FLIP_CONTROL,
--				IMX258_REG_VALUE_08BIT,
--				!ctrl->val ? REG_CONFIG_MIRROR_FLIP :
--				REG_CONFIG_FLIP_TEST_PATTERN);
- 		break;
- 	case V4L2_CID_WIDE_DYNAMIC_RANGE:
- 		if (!ctrl->val) {
-@@ -928,6 +956,15 @@ static int imx258_set_ctrl(struct v4l2_ctrl *ctrl)
- 		ret = imx258_set_frame_length(imx258,
- 					      imx258->cur_mode->height + ctrl->val);
- 		break;
-+	case V4L2_CID_VFLIP:
-+	case V4L2_CID_HFLIP:
-+		ret = imx258_write_reg(imx258, REG_MIRROR_FLIP_CONTROL,
-+				       IMX258_REG_VALUE_08BIT,
-+				       (imx258->hflip->val ?
-+					REG_CONFIG_MIRROR_HFLIP : 0) |
-+				       (imx258->vflip->val ?
-+					REG_CONFIG_MIRROR_VFLIP : 0));
-+		break;
- 	default:
- 		dev_info(&client->dev,
- 			 "ctrl(id:0x%x,val:0x%x) is not handled\n",
-@@ -949,11 +986,13 @@ static int imx258_enum_mbus_code(struct v4l2_subdev *sd,
- 				  struct v4l2_subdev_state *sd_state,
- 				  struct v4l2_subdev_mbus_code_enum *code)
- {
--	/* Only one bayer order(GRBG) is supported */
-+	struct imx258 *imx258 = to_imx258(sd);
-+
-+	/* Only one bayer format (10 bit) is supported */
- 	if (code->index > 0)
- 		return -EINVAL;
- 
--	code->code = MEDIA_BUS_FMT_SBGGR10_1X10;
-+	code->code = imx258_get_format_code(imx258);
- 
- 	return 0;
- }
-@@ -962,10 +1001,11 @@ static int imx258_enum_frame_size(struct v4l2_subdev *sd,
- 				  struct v4l2_subdev_state *sd_state,
- 				  struct v4l2_subdev_frame_size_enum *fse)
- {
-+	struct imx258 *imx258 = to_imx258(sd);
- 	if (fse->index >= ARRAY_SIZE(supported_modes))
- 		return -EINVAL;
- 
--	if (fse->code != MEDIA_BUS_FMT_SBGGR10_1X10)
-+	if (fse->code != imx258_get_format_code(imx258))
- 		return -EINVAL;
- 
- 	fse->min_width = supported_modes[fse->index].width;
-@@ -976,12 +1016,13 @@ static int imx258_enum_frame_size(struct v4l2_subdev *sd,
- 	return 0;
- }
- 
--static void imx258_update_pad_format(const struct imx258_mode *mode,
-+static void imx258_update_pad_format(struct imx258 *imx258,
-+				     const struct imx258_mode *mode,
- 				     struct v4l2_subdev_format *fmt)
- {
- 	fmt->format.width = mode->width;
- 	fmt->format.height = mode->height;
--	fmt->format.code = MEDIA_BUS_FMT_SBGGR10_1X10;
-+	fmt->format.code = imx258_get_format_code(imx258);
- 	fmt->format.field = V4L2_FIELD_NONE;
- }
- 
-@@ -994,7 +1035,7 @@ static int __imx258_get_pad_format(struct imx258 *imx258,
- 							  sd_state,
- 							  fmt->pad);
- 	else
--		imx258_update_pad_format(imx258->cur_mode, fmt);
-+		imx258_update_pad_format(imx258, imx258->cur_mode, fmt);
- 
- 	return 0;
- }
-@@ -1030,13 +1071,12 @@ static int imx258_set_pad_format(struct v4l2_subdev *sd,
- 
- 	mutex_lock(&imx258->mutex);
- 
--	/* Only one raw bayer(GBRG) order is supported */
--	fmt->format.code = MEDIA_BUS_FMT_SBGGR10_1X10;
-+	fmt->format.code = imx258_get_format_code(imx258);
- 
- 	mode = v4l2_find_nearest_size(supported_modes,
- 		ARRAY_SIZE(supported_modes), width, height,
- 		fmt->format.width, fmt->format.height);
--	imx258_update_pad_format(mode, fmt);
-+	imx258_update_pad_format(imx258, mode, fmt);
- 	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
- 		framefmt = v4l2_subdev_get_try_format(sd, sd_state, fmt->pad);
- 		*framefmt = fmt->format;
-@@ -1186,15 +1226,6 @@ static int imx258_start_streaming(struct imx258 *imx258)
- 		return ret;
- 	}
- 
--	/* Set Orientation be 180 degree */
--	ret = imx258_write_reg(imx258, REG_MIRROR_FLIP_CONTROL,
--			       IMX258_REG_VALUE_08BIT, REG_CONFIG_MIRROR_FLIP);
--	if (ret) {
--		dev_err(&client->dev, "%s failed to set orientation\n",
--			__func__);
--		return ret;
--	}
--
- 	/* Apply customized values from user */
- 	ret =  __v4l2_ctrl_handler_setup(imx258->sd.ctrl_handler);
- 	if (ret)
-@@ -1383,7 +1414,6 @@ static int imx258_init_controls(struct imx258 *imx258)
- 	struct i2c_client *client = v4l2_get_subdevdata(&imx258->sd);
- 	const struct imx258_link_freq_config *link_freq_cfgs;
- 	struct v4l2_fwnode_device_properties props;
--	struct v4l2_ctrl *vflip, *hflip;
- 	struct v4l2_ctrl_handler *ctrl_hdlr;
- 	const struct imx258_link_cfg *link_cfg;
- 	s64 vblank_def;
-@@ -1408,16 +1438,15 @@ static int imx258_init_controls(struct imx258 *imx258)
- 	if (imx258->link_freq)
- 		imx258->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
- 
--	/* The driver only supports one bayer order and flips by default. */
--	hflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx258_ctrl_ops,
--				  V4L2_CID_HFLIP, 1, 1, 1, 1);
--	if (hflip)
--		hflip->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+	imx258->hflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx258_ctrl_ops,
-+					  V4L2_CID_HFLIP, 0, 1, 1, 1);
-+	if (imx258->hflip)
-+		imx258->hflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
- 
--	vflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx258_ctrl_ops,
--				  V4L2_CID_VFLIP, 1, 1, 1, 1);
--	if (vflip)
--		vflip->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+	imx258->vflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx258_ctrl_ops,
-+					  V4L2_CID_VFLIP, 0, 1, 1, 1);
-+	if (imx258->vflip)
-+		imx258->vflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
- 
- 	link_freq_cfgs = &imx258->link_freq_configs[0];
- 	link_cfg = link_freq_cfgs[imx258->lane_mode_idx].link_cfg;
--- 
-2.25.1
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
+Cheers,
+Conor.
+
+> ---
+>  .../bindings/media/i2c/{imx258.yaml =3D> sony,imx258.yaml}        | 2 +-
+>  MAINTAINERS                                                     | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>  rename Documentation/devicetree/bindings/media/i2c/{imx258.yaml =3D> son=
+y,imx258.yaml} (97%)
+>=20
+> diff --git a/Documentation/devicetree/bindings/media/i2c/imx258.yaml b/Do=
+cumentation/devicetree/bindings/media/i2c/sony,imx258.yaml
+> similarity index 97%
+> rename from Documentation/devicetree/bindings/media/i2c/imx258.yaml
+> rename to Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
+> index 80d24220baa0..bee61a443b23 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/imx258.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
+> @@ -1,7 +1,7 @@
+>  # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>  %YAML 1.2
+>  ---
+> -$id: http://devicetree.org/schemas/media/i2c/imx258.yaml#
+> +$id: http://devicetree.org/schemas/media/i2c/sony,imx258.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+> =20
+>  title: Sony IMX258 13 Mpixel CMOS Digital Image Sensor
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 26f705e94a41..16d0f64d8ee8 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -19633,7 +19633,7 @@ M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+>  T:	git git://linuxtv.org/media_tree.git
+> -F:	Documentation/devicetree/bindings/media/i2c/imx258.yaml
+> +F:	Documentation/devicetree/bindings/media/i2c/sony,imx258.yaml
+>  F:	drivers/media/i2c/imx258.c
+> =20
+>  SONY IMX274 SENSOR DRIVER
+> --=20
+> 2.25.1
+>=20
+
+--K4mx+Kso4Rs9Wl/l
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZHYzxAAKCRB4tDGHoIJi
+0hBDAP0WP+axKYlWKNzd/0nLIVkGpmatCXsdzqbagdjOIqsS4gEAlABSVMmClMkF
+o/2Y3qt3fARld51xwjKHSHvV367sRA4=
+=mUbc
+-----END PGP SIGNATURE-----
+
+--K4mx+Kso4Rs9Wl/l--
