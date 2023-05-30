@@ -2,166 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ACF71715925
-	for <lists+linux-media@lfdr.de>; Tue, 30 May 2023 10:56:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB13B7159B4
+	for <lists+linux-media@lfdr.de>; Tue, 30 May 2023 11:17:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230081AbjE3I4P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 May 2023 04:56:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56532 "EHLO
+        id S229687AbjE3JR0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 May 2023 05:17:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229655AbjE3I4O (ORCPT
+        with ESMTP id S229446AbjE3JRZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 May 2023 04:56:14 -0400
-X-Greylist: delayed 62 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 30 May 2023 01:56:11 PDT
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C4B3B2
-        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 01:56:11 -0700 (PDT)
-X-KPN-MessageId: 9150d9a8-fec7-11ed-8f97-00505699b430
-Received: from smtp.kpnmail.nl (unknown [10.31.155.8])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id 9150d9a8-fec7-11ed-8f97-00505699b430;
-        Tue, 30 May 2023 10:54:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=content-type:from:to:subject:mime-version:date:message-id;
-        bh=KeYfZ06rkafUiVhvXtxz1pIwLEUIQSPMvMXjwuaAdO4=;
-        b=OTDSVptP7bURCu/c9/MO7WlVKtsozou2PYwG/xqDxaD9mHR/MCMOY3dI2E8UEWiAByhAp7lqNa4Hz
-         GpgfJwKxDnylluy7KvkZKeeIl+M1gfX2qCBdnqES/yI2rscYZTbOMBoNPnZftc1CCMPXeCgOIZQ+DX
-         i+NdKZ8I3lpYRx18nLPKUEMqg1MMQ6VPTqq/x9/GRiPXaaPASejjtguzxCh9xLL5mhHo8tsdIIUVn7
-         uZTFOCcnvSe9hsV6Lb83yM30yGNcb/uWsG3yflyd1lkk986VM6MusZPfUVh2cCaBUXX6a+8E+hSKl+
-         rA9mVeHf15vX+IAlzfk6zwledYDWuWQ==
-X-KPN-MID: 33|K8osm6JgAOUfS6Vhr6RM0H7GmHZ3TLYp4rWWtMKd0rZJoG0wyjDFfrq9TQfMQ9w
- Jv59UUX5O9QLMt/8q0ww9obiPjAAM8VWyNg8uc0xs+LA=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|p2PpW6AUl/WMPvVuOaO18EeHiiFN/Y7IFIwjJs98B1OIx+NllflOnemJVXB/lev
- 4jwaHQ2XV52tJC94Kdckuwg==
-X-Originating-IP: 173.38.220.44
-Received: from [10.47.77.214] (unknown [173.38.220.44])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id a98dfdd8-fec7-11ed-b306-00505699d6e5;
-        Tue, 30 May 2023 10:55:03 +0200 (CEST)
-Message-ID: <849d601d-9504-7118-0c99-a9bc3bb040eb@xs4all.nl>
-Date:   Tue, 30 May 2023 10:55:00 +0200
+        Tue, 30 May 2023 05:17:25 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF3C9EA
+        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 02:17:23 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4QVmxs22Q6zyTW
+        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 12:17:21 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1685438241;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=qtLCvLwneLpT9obAHWduCp1qBt6RWGi2sDdGIYovKRI=;
+        b=TTwokuqjrgP6FQXsbcoY7tKmd/f6ZQ7I+mMVI/Ovu0g71cJKaGO5aRCywVIWT/xymsFpzo
+        u+GOsHseNJXUOBtNI0vq+Z5wGApMCKpdlSizN3v76P9PiQJxmEv5Q8wfVXq2b2zUXvFqDX
+        6LKLQhF9XTzvGtPZZkG7QRboQ2M4br4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1685438241;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=qtLCvLwneLpT9obAHWduCp1qBt6RWGi2sDdGIYovKRI=;
+        b=NJUaPV+5GBu0Zaw+Ml91hc1AKlVfXo96wlodSoLUBhA42RAq8v3Rx/tI2C0v2pcbcoT5cZ
+        orZrXedLCwZXpbeGTeptIS9lQMEICgWVJxHBOZEx2IVGvrtCn70oLQUJvQv/EUaRuptuLX
+        hGDnqKpN22cOdaPgtCpxo6ZCvxQxdgs=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1685438241; a=rsa-sha256; cv=none;
+        b=Vj5VkOSF29vG1Y8LJiACLAv3hx+kNgnH8M7vxvarTRfvqWdJeFKv47nAte9+0IumD8WuyE
+        owwQBytY6deLPmm7XCsdDVH4TrEv5cxwqHzhRe2IdtzWbSbbYgpLog/3Y0bdOLZrMmn8ta
+        yWlJS4d22wLgwnpeOHsii8u9p8XUs9k=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 8822C634C91
+        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 12:17:20 +0300 (EEST)
+Date:   Tue, 30 May 2023 12:17:20 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Subject: [GIT FIXES FOR 6.4] V4L2 fixes for 6.4
+Message-ID: <ZHW/IN2KTMwtWaFA@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v5,0/8] media: mediatek: vcodec: Add debugfs file for
- decode and encode
-Content-Language: en-US
-To:     =?UTF-8?B?WXVuZmVpIERvbmcgKOiRo+S6kemjnik=?= 
-        <Yunfei.Dong@mediatek.com>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "frkoenig@chromium.org" <frkoenig@chromium.org>,
-        "stevecho@chromium.org" <stevecho@chromium.org>,
-        "wenst@chromium.org" <wenst@chromium.org>,
-        "nhebert@chromium.org" <nhebert@chromium.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "nicolas.dufresne@collabora.com" <nicolas.dufresne@collabora.com>,
-        "daniel@ffwll.ch" <daniel@ffwll.ch>,
-        Project_Global_Chrome_Upstream_Group 
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
-        "hsinyi@chromium.org" <hsinyi@chromium.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "angelogioacchino.delregno@collabora.com" 
-        <angelogioacchino.delregno@collabora.com>,
-        "nfraprado@collabora.com" <nfraprado@collabora.com>
-References: <20230525021219.23638-1-yunfei.dong@mediatek.com>
- <ec8c0113aff833aa7de746843e8e4b4294b7ea8e.camel@mediatek.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <ec8c0113aff833aa7de746843e8e4b4294b7ea8e.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5/30/23 10:27, Yunfei Dong (董云飞) wrote:
-> Hi Hans,
-> 
-> Sorry to disturb you.
-> 
-> Could you please help to review and apply this patch series if it is ok
-> for you? Or whose review is expected before you can apply?
+Hi Mauro,
 
-AngeloGioacchino Del Regno reviewed this series before, so I'd like to
-have his OK for this series.
+Here are a few fixes for the 6.4 kernel, including the updated
+documentation fix.
 
-Regards,
+I'm including the rest as what were previously merged ended up to the
+media stage (master) tree. These should go to the fixes branch instead.
 
-	Hans
+Please pull.
 
-> 
-> Best Regards,
-> Yunfei Dong
-> 
-> On Thu, 2023-05-25 at 10:12 +0800, Yunfei Dong wrote:
->> Need to change kernel driver to open decode and encode debug log at
->> current period,
->> it's very unreasonable. Adding debugfs common interface to support
->> decode and encode,
->> using echo command to control debug log level and getting useful
->> information for each
->> instance.
->>
->> patch 1 add dbgfs common interface.
->> patch 2~5 support decode.
->> patch 6~7 support encode
->> patch 8 add help function
->> ---
->> changed with v4:
->> - rebase to the top of media stage header.
->>
->> changed with v3:
->> - add help function for patch 8
->> - remove append '\0' and enlarge buffer size for patch 4
->>
->> changed with v2:
->> - using pr_debug and dev_dbg instead of pr_info for patch 2.
->> - fix word fail: informatiaoin -> information for patch 3.
->> - used to print each instance format information for patch 5.
->>
->> changed with v1:
->> - add new patch 4 and 5.
->> - using cmd 'cat vdec' to show debug information instead of pr_info
->> directly.
->> ---
->> Yunfei Dong (8):
->>   media: mediatek: vcodec: Add debugfs interface to get debug
->>     information
->>   media: mediatek: vcodec: Add debug params to control different log
->>     level
->>   media: mediatek: vcodec: Add a debugfs file to get different useful
->>     information
->>   media: mediatek: vcodec: Get each context resolution information
->>   media: mediatek: vcodec: Get each instance format type
->>   media: mediatek: vcodec: Change dbgfs interface to support encode
->>   media: mediatek: vcodec: Add encode to support dbgfs
->>   media: mediatek: vcodec: Add dbgfs help function
->>
->>  .../media/platform/mediatek/vcodec/Makefile   |   6 +
->>  .../mediatek/vcodec/mtk_vcodec_dbgfs.c        | 216
->> ++++++++++++++++++
->>  .../mediatek/vcodec/mtk_vcodec_dbgfs.h        |  72 ++++++
->>  .../mediatek/vcodec/mtk_vcodec_dec_drv.c      |   4 +
->>  .../platform/mediatek/vcodec/mtk_vcodec_drv.h |   4 +
->>  .../mediatek/vcodec/mtk_vcodec_enc_drv.c      |   2 +
->>  .../mediatek/vcodec/mtk_vcodec_util.c         |   8 +
->>  .../mediatek/vcodec/mtk_vcodec_util.h         |  26 ++-
->>  8 files changed, 335 insertions(+), 3 deletions(-)
->>  create mode 100644
->> drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c
->>  create mode 100644
->> drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.h
->>
 
+The following changes since commit a05e9aabd9dc27fc8888678391e3bf78624f8253:
+
+  media: staging: media: atomisp: init high & low vars (2023-05-26 10:52:50 +0100)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/fixes-6.4-2.2-signed
+
+for you to fetch changes up to 66944d5daa07400dc7ff787b02cc38a1059a0318:
+
+  media: v4l2-subdev: Fix missing kerneldoc for client_caps (2023-05-30 11:59:08 +0300)
+
+----------------------------------------------------------------
+V4L2 fixes for 6.4
+
+----------------------------------------------------------------
+Hans Verkuil (1):
+      staging: media: imx: initialize hs_settle to avoid warning
+
+Tomi Valkeinen (1):
+      media: v4l2-subdev: Fix missing kerneldoc for client_caps
+
+Vaishnav Achath (1):
+      media: v4l2-mc: Drop subdev check in v4l2_create_fwnode_links_to_pad()
+
+ drivers/media/v4l2-core/v4l2-mc.c            | 3 +--
+ drivers/staging/media/imx/imx8mq-mipi-csi2.c | 2 +-
+ include/media/v4l2-subdev.h                  | 1 +
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+-- 
+Kind regards,
+
+Sakari Ailus
