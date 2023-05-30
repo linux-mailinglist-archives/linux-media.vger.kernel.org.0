@@ -2,62 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EDCC715FA9
-	for <lists+linux-media@lfdr.de>; Tue, 30 May 2023 14:32:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D14E3715FB0
+	for <lists+linux-media@lfdr.de>; Tue, 30 May 2023 14:32:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231926AbjE3McA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 May 2023 08:32:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58614 "EHLO
+        id S231838AbjE3McT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 May 2023 08:32:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231757AbjE3Mbh (ORCPT
+        with ESMTP id S231833AbjE3Mbo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 May 2023 08:31:37 -0400
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42AF9E4B
-        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 05:31:18 -0700 (PDT)
-Received: by mail-lj1-x230.google.com with SMTP id 38308e7fff4ca-2af2e908163so47238751fa.2
-        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 05:31:18 -0700 (PDT)
+        Tue, 30 May 2023 08:31:44 -0400
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E97BF11D
+        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 05:31:26 -0700 (PDT)
+Received: by mail-lj1-x236.google.com with SMTP id 38308e7fff4ca-2af189d323fso62806461fa.1
+        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 05:31:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685449852; x=1688041852;
+        d=linaro.org; s=google; t=1685449853; x=1688041853;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GHPVGbjJBA0Db5NX5/99pqJA6zhMyUu0sO+jgoxH74w=;
-        b=TfJC3WPbzJ918/gievnznE/ZwcFlBinuavTQ4Po9BfAFOFkKLC6BMvsSMn2bgGAf4F
-         ylbrPfgLRETekQXK3xs5uodxliYY50p5WViq/IErrz2My0QjIfqx2ujNBDWJ3t+waCWs
-         siDh6kOP+1rgfM78KlGJ8yYUHKFaJD1hv5zuNPP30mJGW1gaTMw7UQW68g+E3NeydrYI
-         oBzfAgxjTTudADMPd49sewz211f0wgdqLFZ+XFILN7x+gSRANDeAGft5AKprRqdh/NBb
-         MhhMs8tIQ6PJ2VwWfqkO+cvYFvlsoyysuL6Mxkvn8vl81GoLn/xLheK+4D36WG7SX+Zg
-         GxWA==
+        bh=AuNT9Cruhplaf5M27x4h0WElwFVfgK7TB9z7U29d9j0=;
+        b=ZSD/s6U/hvVdc5LUHI9NZ7bNxid4H+oOgpkQ+CQsqoYdvS5cHRSsdsqOGcZDPWZc2U
+         5bDU86pAFGD28wDDe3ivik9ncECfrBVhGl0/jUBJLoI7FYIBKVZzBRjuH2QJVwGc0Aqe
+         qU2a4SfRWbVO48pRWDqj6ZVnyXWefwOEksKRR+/1Iseh45s79x5k/gpqHdY2IESnJ7j7
+         SGJN1vAWlLnBL+lYQ+q5FOfLm1ij1XV3BH4CZqGyxPOxo76UKbaUti1QUuVWXbDRgPUU
+         uU8Dw8PLPgeIXGnmgzac2UZ7y4W1RVAj7g/62xpN2s5dp0NNzScwF656OAZ2OFv0auaG
+         ua2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685449852; x=1688041852;
+        d=1e100.net; s=20221208; t=1685449853; x=1688041853;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GHPVGbjJBA0Db5NX5/99pqJA6zhMyUu0sO+jgoxH74w=;
-        b=MTnYoJri+TMiG9BkMzKJ4tfxA9ELKZD6HFjW4U8aw9nNsYGx/PKnNxbK724XgGmTkL
-         vxEbjm314KXRSCblsxyBbbIgjEIZNa2KbaS98Xmt3N/YROmiQ+GxwDw4Nrj2sul9LNy8
-         E/g+7y0K/PYIy8jPGW/62QRshFEngPRUeM4n2NfPUSRW4Pe7gV9IT1hJg57rEHIgb5YZ
-         ZfCstbBygWVTMzVnbdkEmdBkW6Jzu1ux+qJvZSL8O+W4r3/Xv8RFKZzMKcDICS0C6YJS
-         DUcQ5pAOwpQE+XH7CTIg7brfuZAY1mMNfK1+XepZ43YD7N12ykLi+1V2DbOQ0loUDEu5
-         f/Dg==
-X-Gm-Message-State: AC+VfDznv0hy61BzlthdLj+EfMPbuTpsdQC2fSH+s/s/6H1S1MJ/XliK
-        szOzmtkP3cXqb2zrOF3PmQXsjA==
-X-Google-Smtp-Source: ACHHUZ7pYkqFll2vdHt0IWGzDg39n9bH07VlDBfSMSaNf8DRKQ7SWKFzD/dODWeEx+ArtrAaKHNn6Q==
-X-Received: by 2002:a2e:a212:0:b0:2ad:bb53:8b9a with SMTP id h18-20020a2ea212000000b002adbb538b9amr772535ljm.20.1685449851577;
-        Tue, 30 May 2023 05:30:51 -0700 (PDT)
+        bh=AuNT9Cruhplaf5M27x4h0WElwFVfgK7TB9z7U29d9j0=;
+        b=EHrUoMmf0+6KxiAX22/992hKUHVRISRf6QS0l3VH/iFQRYvNwnomE+B0tkZD9oA3r8
+         rWN6rAER8okljP9SD6WJ5nF1KzB4sgUjzCH8EMOxtL7Win7m6RMdwJZzlirSfJh6/zNP
+         0IwCS5mc1ThWnBLmfKGiK8vpFZ7NCrb4u6Nw2ontRd/t+LfdGof6Yc3CgvqGGCcJFmPK
+         3j1ZybqkOD4JKj9VBoi3EuOc3jU37ht4u2Phc29lAPpKnTHTWfjjSdhswktuZlaAnE08
+         JA8tdEcb3veIYUbm0WURXxWDX6xjGPlv+MFagOj+u66SO7xpK79ayzSPDJjvL+NWZVlt
+         trsw==
+X-Gm-Message-State: AC+VfDygLYCA9treLQNdqB6QeUV7H7Ufs6yaiUXjGv8xflTjQ67SSSpa
+        9H4OFCADaYBzeYBJY3/yTHcbxQ==
+X-Google-Smtp-Source: ACHHUZ43dfbnBCfl/ZdEAlewRPkC4kG5mka1e3GDE4iqfXWY4n4nzEGS+FyENrk0DVUwdUYfHDqfUw==
+X-Received: by 2002:a05:651c:32c:b0:2af:2965:8f78 with SMTP id b12-20020a05651c032c00b002af29658f78mr3477894ljp.12.1685449853629;
+        Tue, 30 May 2023 05:30:53 -0700 (PDT)
 Received: from [192.168.1.101] (abyj77.neoplus.adsl.tpnet.pl. [83.9.29.77])
-        by smtp.gmail.com with ESMTPSA id u18-20020a2e91d2000000b002a8b8baf542sm2854814ljg.126.2023.05.30.05.30.50
+        by smtp.gmail.com with ESMTPSA id u18-20020a2e91d2000000b002a8b8baf542sm2854814ljg.126.2023.05.30.05.30.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 May 2023 05:30:51 -0700 (PDT)
+        Tue, 30 May 2023 05:30:53 -0700 (PDT)
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-Date:   Tue, 30 May 2023 14:30:43 +0200
-Subject: [PATCH v4 09/17] media: venus: hfi_venus: Sanitize venus_isr()
- per-VPU-version
+Date:   Tue, 30 May 2023 14:30:44 +0200
+Subject: [PATCH v4 10/17] media: venus: hfi_venus: Sanitize
+ venus_cpu_and_video_core_idle() per-VPU-version
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230228-topic-venus-v4-9-feebb2f6e9b8@linaro.org>
+Message-Id: <20230228-topic-venus-v4-10-feebb2f6e9b8@linaro.org>
 References: <20230228-topic-venus-v4-0-feebb2f6e9b8@linaro.org>
 In-Reply-To: <20230228-topic-venus-v4-0-feebb2f6e9b8@linaro.org>
 To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
@@ -79,11 +79,11 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Konrad Dybcio <konrad.dybcio@linaro.org>,
         Vikash Garodia <quic_vgarodia@quicinc.com>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1685449837; l=1296;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1685449837; l=915;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=F378bEBVQejn0ekkF/wJCvXE1cklNHMQZFzTNKZSqSE=;
- b=6cCLhcsld50rl+TGqoJgykbJLGOa1JqrHParUU3GM6CVGBKnKZF2l4Ix69R/uXef9M+pWNqdG
- lqI0ZcNJQVoAEA0S4rrrPx/3kk9oYpevUwfT+md++1QrzwrA/dVIYAv
+ bh=rs7GlV5yuEvpX7uzQTE/PpuhYQ091SJv7fj57bpy7Ik=;
+ b=5vCoXTz9cnFhoxI98HGqjp6z1qPYbBiZjNhWqTzvtukFvbllkKQ8MaUBoafM4wRPQKdBoCR+i
+ W5DZnz3kWcoDVaQiJgHysPReShHQxloTA7GwTU7cHFnyBNtzaHTjLBa
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -98,34 +98,24 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Replace the general IS_V6 checks with more specific VPU version checks.
 
-Reviewed-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- drivers/media/platform/qcom/venus/hfi_venus.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/platform/qcom/venus/hfi_venus.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
-index 60252d05781e..5e4b97b0a4ae 100644
+index 5e4b97b0a4ae..b5d7aab03bca 100644
 --- a/drivers/media/platform/qcom/venus/hfi_venus.c
 +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
-@@ -1109,7 +1109,7 @@ static irqreturn_t venus_isr(struct venus_core *core)
- 	wrapper_base = hdev->core->wrapper_base;
+@@ -1516,7 +1516,7 @@ static bool venus_cpu_and_video_core_idle(struct venus_hfi_device *hdev)
+ 	void __iomem *cpu_cs_base = hdev->core->cpu_cs_base;
+ 	u32 ctrl_status, cpu_status;
  
- 	status = readl(wrapper_base + WRAPPER_INTR_STATUS);
--	if (IS_V6(core)) {
-+	if (IS_IRIS2(core) || IS_IRIS2_1(core)) {
- 		if (status & WRAPPER_INTR_STATUS_A2H_MASK ||
- 		    status & WRAPPER_INTR_STATUS_A2HWD_MASK_V6 ||
- 		    status & CPU_CS_SCIACMDARG0_INIT_IDLE_MSG_MASK)
-@@ -1121,7 +1121,7 @@ static irqreturn_t venus_isr(struct venus_core *core)
- 			hdev->irq_status = status;
- 	}
- 	writel(1, cpu_cs_base + CPU_CS_A2HSOFTINTCLR);
--	if (!IS_V6(core))
-+	if (!(IS_IRIS2(core) || IS_IRIS2_1(core)))
- 		writel(status, wrapper_base + WRAPPER_INTR_CLEAR);
- 
- 	return IRQ_WAKE_THREAD;
+-	if (IS_V6(hdev->core))
++	if (IS_IRIS2(hdev->core) || IS_IRIS2_1(hdev->core))
+ 		cpu_status = readl(wrapper_tz_base + WRAPPER_TZ_CPU_STATUS_V6);
+ 	else
+ 		cpu_status = readl(wrapper_base + WRAPPER_CPU_STATUS);
 
 -- 
 2.40.1
