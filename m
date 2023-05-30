@@ -2,145 +2,197 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E8852715F73
-	for <lists+linux-media@lfdr.de>; Tue, 30 May 2023 14:30:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BFAD715F83
+	for <lists+linux-media@lfdr.de>; Tue, 30 May 2023 14:31:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231454AbjE3MaI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 May 2023 08:30:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56754 "EHLO
+        id S231642AbjE3Mb3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 May 2023 08:31:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229627AbjE3M34 (ORCPT
+        with ESMTP id S231422AbjE3MbY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 May 2023 08:29:56 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B59E211C;
-        Tue, 30 May 2023 05:29:42 -0700 (PDT)
-X-UUID: 9996ee8afee511edb20a276fd37b9834-20230530
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=RRHVElMyL6UjQ1vvoJ2Fmm9xm1wJ7Rkni4XIZBAGM5Y=;
-        b=LLA02G9ZPFL7LQXajqa0uFHQm0pRLgrph/rw071Xm5c78qZG2SYcXGsmPFohIMMwQ9maq5XG3j/Uv9H1xReOry3oT4yD+gblxKH+Wr/M20Yeuz8W8dwrvgayHN4Hmx4zq+WWwAz+T96CQ45ckQtazu1+fpJgCB0eGoIV53CqnRc=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.25,REQID:b75b9dd3-c482-45f9-aba1-4e9fe77a2273,IP:0,U
-        RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-        N:release,TS:90
-X-CID-INFO: VERSION:1.1.25,REQID:b75b9dd3-c482-45f9-aba1-4e9fe77a2273,IP:0,URL
-        :0,TC:0,Content:-5,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTIO
-        N:quarantine,TS:90
-X-CID-META: VersionHash:d5b0ae3,CLOUDID:7cae023d-7aa7-41f3-a6bd-0433bee822f3,B
-        ulkID:230530202922IKVOD16G,BulkQuantity:0,Recheck:0,SF:38|29|28|17|19|48,T
-        C:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-        ,OSI:0,OSA:0,AV:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-UUID: 9996ee8afee511edb20a276fd37b9834-20230530
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
-        (envelope-from <yunfei.dong@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 615932227; Tue, 30 May 2023 20:29:19 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Tue, 30 May 2023 20:29:18 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Tue, 30 May 2023 20:29:17 +0800
-From:   Yunfei Dong <yunfei.dong@mediatek.com>
-To:     Chen-Yu Tsai <wenst@chromium.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?= 
-        <nfraprado@collabora.com>, Nathan Hebert <nhebert@chromium.org>
-CC:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Steve Cho <stevecho@chromium.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v6,8/8] media: mediatek: vcodec: Add dbgfs help function
-Date:   Tue, 30 May 2023 20:29:08 +0800
-Message-ID: <20230530122908.19267-9-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230530122908.19267-1-yunfei.dong@mediatek.com>
-References: <20230530122908.19267-1-yunfei.dong@mediatek.com>
+        Tue, 30 May 2023 08:31:24 -0400
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC66A184
+        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 05:30:56 -0700 (PDT)
+Received: by mail-lj1-x22d.google.com with SMTP id 38308e7fff4ca-2af30d10d8fso45107711fa.0
+        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 05:30:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1685449839; x=1688041839;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mM7Jz0mpFc9F7VQ75gYzJLA8egHJEnLGa+xgLus3Meg=;
+        b=L3UCcbWRjZdIUk9bofbPj8741KWX1qPMmsh4N+RNqapeZhyQhrvAqob+OvEYC8htWk
+         fOtkD/0wVbSQhfjOFKkuD7oCOsL4FQYNgLyxv4776ef4HVfNYCC8KBR+DcKNhQVQZd7h
+         86LHNfVSbdqr/RHXyeJjchxg5/nvSo6+UdStm/4K/0RbtggooqZKaujJFW8c/YctrjZ8
+         BrA/82xDWCAhxAmwgGfaWnbtR3wTXuuyGbZF4s0XzKjPponge+bJoPuzksu2ocTCjgtO
+         edElyHQOz3ly33eQiKGs0A/LGaRXejKyN0exmcou6yg39CbsAWm4JOI6fjcFFzKd8OSC
+         4Gug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685449839; x=1688041839;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mM7Jz0mpFc9F7VQ75gYzJLA8egHJEnLGa+xgLus3Meg=;
+        b=Qspca5Ey+qmrzFXrQrZxH5aexRroD4vD3+icG9hnwycWunxoooiWeEjdvQgBlpsWnd
+         kVni64IrwSDV+8HVKYOmJcs/4++l9LZTx7GMsSbhrge+X7POytGqhjJkS6sPvieNYptG
+         gF1xrX8B0e8fM2ehLTGEK9y+HfoPrzEYXFIhTRo8aYT30P28JSzVz66+N0AeHxZV9r+J
+         fVl7qLiDTC13hY1waPJLkoD7bB4TRknqlx8Ho8PE+T0MvZWLBVp4KC704ieiUEjp0gJl
+         QniOKOaBd8XoM2yt5y+lD83T7boIlPWZyv5AqKpFMCiTEJTEfIWjSEoELLA2Q+sRa5ep
+         N9Sg==
+X-Gm-Message-State: AC+VfDyZcKdjre38LCBzcCaJ438UuCd3igSkfMhTOPFJ8akVQ3/CmHTv
+        zryKKIDE1UlHH2aV1/QH0IN10A==
+X-Google-Smtp-Source: ACHHUZ4enNxJ4AIlPJiaCYu/JLIxdKbrPKtGJVCnoov4LMJ4lyrtWg+NVVGjyGb9kbb/WmVk/SNvkg==
+X-Received: by 2002:a2e:8302:0:b0:2a8:bc82:5f8f with SMTP id a2-20020a2e8302000000b002a8bc825f8fmr795140ljh.9.1685449838777;
+        Tue, 30 May 2023 05:30:38 -0700 (PDT)
+Received: from [192.168.1.101] (abyj77.neoplus.adsl.tpnet.pl. [83.9.29.77])
+        by smtp.gmail.com with ESMTPSA id u18-20020a2e91d2000000b002a8b8baf542sm2854814ljg.126.2023.05.30.05.30.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 May 2023 05:30:38 -0700 (PDT)
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: [PATCH v4 00/17] Venus QoL / maintainability fixes
+Date:   Tue, 30 May 2023 14:30:34 +0200
+Message-Id: <20230228-topic-venus-v4-0-feebb2f6e9b8@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK:  N
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGvsdWQC/33NQQ6DIBQE0KsY1qVBQIWueo+mC8CvkhgwoKSN8
+ e5Fd00blzPJm1lRhGAholuxogDJRutdDvxSIDMo1wO2bc6IEsoIpQLPfrIGJ3BLxA0BxbRp6lo
+ IlIVWEbAOypkhG7eMYy6nAJ19HRePZ86DjbMP7+MxlXv7fzyVmOBKGGqEYIKDvI/WqeCvPvRoH
+ 0r0BNOMW1m1JZdcmuYXsxPMMq6JpAo405XovvC2bR+lHTgVNgEAAA==
+To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Dikshita Agarwal <dikshita@qti.qualcomm.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mansur Alisha Shaik <mansur@codeaurora.org>,
+        Jonathan Marek <jonathan@marek.ca>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        stable@vger.kernel.org
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1685449837; l=4983;
+ i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
+ bh=GzggsN2nMZHk+5zCOLvOhBzcYDD9jMl6Z663enA8WEM=;
+ b=UkyLQExaf4jwinZAu16ll2AhBFr7wHxO6zrPSHRlhHHYYE/Yt/9lBejb8Jdec++j0UYAwf6i/
+ YRCKsypzbLsDN7b1fEbRgWZJ9fN+SfYBGvd25c5x6tJERJzypkWtfbj
+X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
+ pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Getting dbgfs help information with command "echo -help > vdec"
-or "echo > vdec".
+v3 -> v4:
+- Rebase on Stanimir's venus-for-next-v6.5
+- Collapse 2 identical if-statements in "Sanitize venus_boot_core()
+  per-VPU-version"
+- Reword "Assign registers based on VPU version"
+- Check for IS_IRIS2_1() instead of wrongly checking for core->use_tz,
+  update commit msg in "media: venus: firmware: Correct IS_V6() checks"
+- Access correct struct fields in "Use newly-introduced
+  hfi_buffer_requirements accessors", drop Bryan's r-b
 
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+v3: https://lore.kernel.org/r/20230228-topic-venus-v3-0-6092ae43b58f@linaro.org
+
+v2 -> v3:
+- Rephrase "Write to VIDC_CTRL_INIT after unmasking interrupts" commit msg
+- Drop "Remap bufreq fields on HFI6XX"
+- Rephrase "Introduce VPU version distinction" commit msg
+- Better explain "Leave a clue for homegrown porters"
+- Drop incorrect fixes tags/rephrase version check alternations
+- Drop AR50L/IRIS1 from if-conditions, they'll be introduced separately
+- pick up tags
+- rebase on next-20230517 (no effective changes)
+
+v2: https://lore.kernel.org/r/20230228-topic-venus-v2-0-d95d14949c79@linaro.org
+
+v1 -> v2:
+- Move "Write to VIDC_CTRL_INIT after unmasking interrupts" up and add
+  a Fixes tag & Cc stable
+- Reword the comment in "Correct IS_V6() checks"
+- Move up "media: venus: Remap bufreq fields on HFI6XX", add Fixes and
+  Cc stable
+- Use better English in "Use newly-introduced hfi_buffer_requirements
+  accessors" commit message
+- Mention "Restrict writing SCIACMDARG3 to Venus V1/V2" doesn't seem to
+  regress SM8250 in the commit message
+- Pick up tags (note: I capitalized the R in Dikshita's 'reviewed-by'
+  and removed one occurrence of random '**' to make sure review tools
+  like b4 don't go crazy)
+- Handle AR50_LITE in "Assign registers based on VPU version"
+- Drop /* VPUn */ comments, they're invalid as explained by Vikash
+- Take a different approach to the sys_idle problem in patch 1
+
+v1: https://lore.kernel.org/r/20230228-topic-venus-v1-0-58c2c88384e9@linaro.org
+
+Currently upstream assumes all (well, almost all - see 7280 or CrOS
+specific checks) Venus implementations using the same version of the
+Hardware Firmware Interface can be treated the same way. This is
+however not the case.
+
+This series tries to introduce the groundwork to start differentiating
+them based on the VPU (Video Processing Unit) hardware type, fixes a
+couple of issues that were an effect of that generalized assumption
+and lays the foundation for supporting 8150 (IRIS1) and SM6115/QCM2290
+(AR50 Lite), which will hopefully come soon.
+
+Tested on 8250, but pretty please test it on your boards too!
+
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- .../mediatek/vcodec/mtk_vcodec_dbgfs.c        | 24 ++++++++++++++++++-
- 1 file changed, 23 insertions(+), 1 deletion(-)
+Konrad Dybcio (17):
+      media: venus: hfi_venus: Only consider sys_idle_indicator on V1
+      media: venus: hfi_venus: Write to VIDC_CTRL_INIT after unmasking interrupts
+      media: venus: Introduce VPU version distinction
+      media: venus: Add vpu_version to most SoCs
+      media: venus: firmware: Leave a clue about obtaining CP VARs
+      media: venus: hfi_venus: Sanitize venus_boot_core() per-VPU-version
+      media: venus: core: Assign registers based on VPU version
+      media: venus: hfi_venus: Sanitize venus_halt_axi() per-VPU-version
+      media: venus: hfi_venus: Sanitize venus_isr() per-VPU-version
+      media: venus: hfi_venus: Sanitize venus_cpu_and_video_core_idle() per-VPU-version
+      media: venus: hfi_venus: Sanitize venus_cpu_idle_and_pc_ready() per-VPU-version
+      media: venus: firmware: Sanitize per-VPU-version
+      media: venus: hfi_platform: Check vpu_version instead of device compatible
+      media: venus: vdec: Sanitize vdec_set_work_route() per-VPU-version
+      media: venus: Introduce accessors for remapped hfi_buffer_reqs members
+      media: venus: Use newly-introduced hfi_buffer_requirements accessors
+      media: venus: hfi_venus: Restrict writing SCIACMDARG3 to Venus V1/V2
 
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c
-index 688884db651e..2151c3967684 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c
-@@ -52,6 +52,23 @@ static void mtk_vdec_dbgfs_get_format_type(struct mtk_vcodec_ctx *ctx, char *buf
- 	*used += curr_len;
- }
- 
-+static void mtk_vdec_dbgfs_get_help(char *buf, int *used, int total)
-+{
-+	int curr_len;
-+
-+	curr_len = snprintf(buf + *used, total - *used,
-+			    "help: (1: echo -'info' > vdec 2: cat vdec)\n");
-+	*used += curr_len;
-+
-+	curr_len = snprintf(buf + *used, total - *used,
-+			    "\t-picinfo: get resolution\n");
-+	*used += curr_len;
-+
-+	curr_len = snprintf(buf + *used, total - *used,
-+			    "\t-format: get output & capture queue format\n");
-+	*used += curr_len;
-+}
-+
- static ssize_t mtk_vdec_dbgfs_write(struct file *filp, const char __user *ubuf,
- 				    size_t count, loff_t *ppos)
- {
-@@ -83,6 +100,11 @@ static ssize_t mtk_vdec_dbgfs_read(struct file *filp, char __user *ubuf,
- 	if (!buf)
- 		return -ENOMEM;
- 
-+	if (strstr(dbgfs->dbgfs_buf, "-help") || dbgfs->buf_size == 1) {
-+		mtk_vdec_dbgfs_get_help(buf, &used_len, total_len);
-+		goto read_buffer;
-+	}
-+
- 	if (strstr(dbgfs->dbgfs_buf, "-picinfo"))
- 		dbgfs_index[MTK_VDEC_DBGFS_PICINFO] = true;
- 
-@@ -109,7 +131,7 @@ static ssize_t mtk_vdec_dbgfs_read(struct file *filp, char __user *ubuf,
- 			mtk_vdec_dbgfs_get_format_type(ctx, buf, &used_len, total_len);
- 	}
- 	mutex_unlock(&dbgfs->dbgfs_lock);
--
-+read_buffer:
- 	ret = simple_read_from_buffer(ubuf, count, ppos, buf, used_len);
- 	kfree(buf);
- 	return ret;
+ drivers/media/platform/qcom/venus/core.c           |  7 ++-
+ drivers/media/platform/qcom/venus/core.h           | 15 ++++++
+ drivers/media/platform/qcom/venus/firmware.c       | 18 +++++--
+ drivers/media/platform/qcom/venus/helpers.c        |  7 +--
+ drivers/media/platform/qcom/venus/hfi_helper.h     | 61 +++++++++++++++++++---
+ drivers/media/platform/qcom/venus/hfi_msgs.c       |  2 +-
+ .../media/platform/qcom/venus/hfi_plat_bufs_v6.c   | 22 ++++----
+ drivers/media/platform/qcom/venus/hfi_platform.c   |  2 +-
+ drivers/media/platform/qcom/venus/hfi_venus.c      | 42 +++++++--------
+ drivers/media/platform/qcom/venus/vdec.c           | 10 ++--
+ drivers/media/platform/qcom/venus/vdec_ctrls.c     |  2 +-
+ drivers/media/platform/qcom/venus/venc.c           |  4 +-
+ drivers/media/platform/qcom/venus/venc_ctrls.c     |  2 +-
+ 13 files changed, 133 insertions(+), 61 deletions(-)
+---
+base-commit: 9f9f8ca6f012d25428f8605cb36369a449db8508
+change-id: 20230228-topic-venus-70ea3bc76688
+
+Best regards,
 -- 
-2.18.0
+Konrad Dybcio <konrad.dybcio@linaro.org>
 
