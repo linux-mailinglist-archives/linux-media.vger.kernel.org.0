@@ -2,61 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EAE3A715FBC
-	for <lists+linux-media@lfdr.de>; Tue, 30 May 2023 14:32:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 958EB715FC1
+	for <lists+linux-media@lfdr.de>; Tue, 30 May 2023 14:32:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231970AbjE3Mcg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 May 2023 08:32:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58654 "EHLO
+        id S229568AbjE3Mco (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 May 2023 08:32:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231758AbjE3McM (ORCPT
+        with ESMTP id S232009AbjE3McV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 May 2023 08:32:12 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C94AE5E
-        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 05:31:40 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id 2adb3069b0e04-4f3b9c88af8so5026950e87.2
-        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 05:31:40 -0700 (PDT)
+        Tue, 30 May 2023 08:32:21 -0400
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A1D1E75
+        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 05:31:44 -0700 (PDT)
+Received: by mail-lj1-x231.google.com with SMTP id 38308e7fff4ca-2af20198f20so45020891fa.0
+        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 05:31:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685449856; x=1688041856;
+        d=linaro.org; s=google; t=1685449858; x=1688041858;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SyYkzqdDCC9q3w7GHxMV/UafzmkX5Zjo7MaFjCP76O0=;
-        b=ODHH2/xiyrQVGlpxEkAyEQnT7M9/CCiIvDY7IH8HlfObOxLHSzOrz7rMm9tBJa+aHK
-         osZbEmrwGlnpFnyonLf4jMuRA/D/CZ5M/asyNGSHtKLFqyBrrMuhcBrs8G6Jz7gx6KvA
-         AoFJ7TBnr7IPH35Xu9xNOlvsXH6vEmAF+1A0PGZBi73HS7CbhQ+9VQGqE9V1J7b3rv5j
-         dVwBI1U3261i2jOJGnh53jPbGUEn/wO+5tQWdxIxUu2a8d52+uFAiPNjIwe42HZINnaa
-         lPmTdqiUFRAAja98C90flRDXM8CnKnlGMGVW69bIRWdazZKW33UFwywHaWYj4idoPYMJ
-         Kgfg==
+        bh=NCbmXotl4JHp6511qJyB6cem0LHm1+AqjQQ+gB6Kt5k=;
+        b=SCYl3pwqYVglWX8Xi1vf6uiEsmGVPsuG8y5duX0ElHDXSNbjgyK40To93hnzuzqt1h
+         QlrbquLEwsBRqv/zM2IcLd4ouCkstm6p5oTwH+sEwVxK1c1vFQF8CRBVAgNGeiY7yyo9
+         YUKh1eAcS8qF618AYUauKFWz1se69Hro5WClNfF3f+e71/AZPsS/KyJDo2zeG6QRawBp
+         TGmyj6dNJYnm4WwFxz7EDT7wb8zafEoP3tjKaq0Yz1hUKQ23Gq30j6V4KOtbOQgY+Xeb
+         ocZno5DSYZ7jF+A2UNh2kwcdgSY6eLCbwsiTVlnOGc+wKuvsf1mAsNRTrzDd3dwmqtiM
+         +0fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685449856; x=1688041856;
+        d=1e100.net; s=20221208; t=1685449858; x=1688041858;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SyYkzqdDCC9q3w7GHxMV/UafzmkX5Zjo7MaFjCP76O0=;
-        b=dprRx1l8Hmh8ULc+l6eV/ioVewG0jgSau2qw8CCmrwTt7qgpLnRRKr92Tnv6cL2kar
-         223icAbe2IiM6gkdSUBdgYXXuNnKqZhyAqZLrKUjIHGROIQWxyRXNqjVBy9XZHZIEBOe
-         U671yZURYVXqHfKWwnwE0S5sRo852PGofpEyBTvgyoCL4aonSKkYZgk4aXE2wv9DN8Bq
-         AaQvK8Cq1N3ztaowd3tZffbwG2QlggIGlhyS/hLi5xd3JUi62n8jWjylOs6yqnUK0KCO
-         92Lic7LH1PM3CTQMTQl7AONZOV9NW/9GdMo08Uv8XPEIBwCoAh19EMS7Zh3i15twyHBQ
-         N5Kw==
-X-Gm-Message-State: AC+VfDyxvAZLNKT21rrOw//l9w8Xco4T+YUEG07hP2uS7M7u0te0dSar
-        EYw6e2Xt774rRs124AuDj6hdQQ==
-X-Google-Smtp-Source: ACHHUZ6EpWTY1acHGhOrV2DgzEt0DXB9F9/5GHnBsOlHHyCCThuALiUOGAonQJi6WtF33x0jIFXlfQ==
-X-Received: by 2002:a2e:8792:0:b0:2ad:87b3:7d62 with SMTP id n18-20020a2e8792000000b002ad87b37d62mr623302lji.46.1685449856399;
-        Tue, 30 May 2023 05:30:56 -0700 (PDT)
+        bh=NCbmXotl4JHp6511qJyB6cem0LHm1+AqjQQ+gB6Kt5k=;
+        b=Rg30bbY+B4WCasVYtKr3KBoPeMGI10j6SpnYExVDktGw0TEYo+X7k3ueG4bGoedUXk
+         0ri7dmVAgp/U2cme+C3ETgiC6tiF0Egnlvd3H1rPN0P/fOgajiH/8J7ECailgfSkuM/W
+         FBbYI5GsnkpeDSg/lTQWfscvnOqhI+7TEBljoirV14brvePkA/GkL+tWnbszjshKrn+5
+         8AXWDbVsExxG1IdUdxVZJ4rzbLjQPnslXyn/bVn9kHhsXsMwzveYIO5dTZW+F8LhTn8p
+         Hm01L2cT1lHSjGGQtSggsO31ITIIYNjqGg/7PsY+I0hwNlGp96lmx+OT9Qt5TnkVey4V
+         TEfA==
+X-Gm-Message-State: AC+VfDysQeRpBsGv2JqtGmEl+iLEVcsAcDw3ao1mWqEwi99EuxI+/AeU
+        MEkTq6A7kAysSY7B+lGx5K+Wpw==
+X-Google-Smtp-Source: ACHHUZ5QYGxZY7HU/diHNzd2HbY7SLguWgH6WN/zU7FGqFLt9FIqhJWue63p2k72hbAbG5qsjbEjFQ==
+X-Received: by 2002:a2e:98c7:0:b0:2af:23fe:98ef with SMTP id s7-20020a2e98c7000000b002af23fe98efmr657276ljj.50.1685449857841;
+        Tue, 30 May 2023 05:30:57 -0700 (PDT)
 Received: from [192.168.1.101] (abyj77.neoplus.adsl.tpnet.pl. [83.9.29.77])
-        by smtp.gmail.com with ESMTPSA id u18-20020a2e91d2000000b002a8b8baf542sm2854814ljg.126.2023.05.30.05.30.55
+        by smtp.gmail.com with ESMTPSA id u18-20020a2e91d2000000b002a8b8baf542sm2854814ljg.126.2023.05.30.05.30.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 May 2023 05:30:56 -0700 (PDT)
+        Tue, 30 May 2023 05:30:57 -0700 (PDT)
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-Date:   Tue, 30 May 2023 14:30:46 +0200
-Subject: [PATCH v4 12/17] media: venus: firmware: Sanitize per-VPU-version
+Date:   Tue, 30 May 2023 14:30:47 +0200
+Subject: [PATCH v4 13/17] media: venus: hfi_platform: Check vpu_version
+ instead of device compatible
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230228-topic-venus-v4-12-feebb2f6e9b8@linaro.org>
+Message-Id: <20230228-topic-venus-v4-13-feebb2f6e9b8@linaro.org>
 References: <20230228-topic-venus-v4-0-feebb2f6e9b8@linaro.org>
 In-Reply-To: <20230228-topic-venus-v4-0-feebb2f6e9b8@linaro.org>
 To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
@@ -78,11 +79,11 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Konrad Dybcio <konrad.dybcio@linaro.org>,
         Vikash Garodia <quic_vgarodia@quicinc.com>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1685449837; l=1814;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1685449837; l=1007;
  i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=6YgBcnk5wJmY0h2UMmOrskDVPO7haGfbf8N3hZu0IXY=;
- b=nl3wP2X7tsd1Tm4R4+AGHUVOu2PspKZpQYRq5zaAqrZB1Dyr/OGl0Ou1UGxDWP/yzbWOGvsZK
- VpC3CTm6zapDgzGxt1BQzPtHT6RhUj1pET2XntH+Dqv6b2r17VWyJQs
+ bh=EUWf2T+I6vhFizSQGtxC124WvawcGCVn6gQZEf/m3uU=;
+ b=yQW+ZmcZHz0nTsrcuohrVTl7N3UqRQ2dZPoS6Vn/18F3I0gbau/J1nJ4vwL7mmALeRZAAbw8X
+ mBO38SlEvptC2xIm1JDuMfvGDzU4kZDGulCD008OT+2p3bGD79hL4L8
 X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -95,53 +96,28 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Replace the general IS_V6 checks with more specific VPU version checks.
+This is not a matter of the host SoC, but the VPU chip in Venus. Fix it.
 
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Reviewed-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
- drivers/media/platform/qcom/venus/firmware.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/media/platform/qcom/venus/hfi_platform.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
-index 572b649c56f3..ef07eea38d93 100644
---- a/drivers/media/platform/qcom/venus/firmware.c
-+++ b/drivers/media/platform/qcom/venus/firmware.c
-@@ -29,7 +29,7 @@ static void venus_reset_cpu(struct venus_core *core)
- 	u32 fw_size = core->fw.mapped_mem_size;
- 	void __iomem *wrapper_base;
+diff --git a/drivers/media/platform/qcom/venus/hfi_platform.c b/drivers/media/platform/qcom/venus/hfi_platform.c
+index f07f554bc5fe..d163d5b0e6b7 100644
+--- a/drivers/media/platform/qcom/venus/hfi_platform.c
++++ b/drivers/media/platform/qcom/venus/hfi_platform.c
+@@ -80,7 +80,7 @@ hfi_platform_get_codecs(struct venus_core *core, u32 *enc_codecs, u32 *dec_codec
+ 	if (plat->codecs)
+ 		plat->codecs(enc_codecs, dec_codecs, count);
  
--	if (IS_V6(core))
-+	if (IS_IRIS2_1(core))
- 		wrapper_base = core->wrapper_tz_base;
- 	else
- 		wrapper_base = core->wrapper_base;
-@@ -41,7 +41,7 @@ static void venus_reset_cpu(struct venus_core *core)
- 	writel(fw_size, wrapper_base + WRAPPER_NONPIX_START_ADDR);
- 	writel(fw_size, wrapper_base + WRAPPER_NONPIX_END_ADDR);
- 
--	if (IS_V6(core)) {
+-	if (of_device_is_compatible(core->dev->of_node, "qcom,sc7280-venus")) {
 +	if (IS_IRIS2_1(core)) {
- 		/* Bring XTSS out of reset */
- 		writel(0, wrapper_base + WRAPPER_TZ_XTSS_SW_RESET);
- 	} else {
-@@ -67,7 +67,7 @@ int venus_set_hw_state(struct venus_core *core, bool resume)
- 	if (resume) {
- 		venus_reset_cpu(core);
- 	} else {
--		if (IS_V6(core))
-+		if (IS_IRIS2_1(core))
- 			writel(WRAPPER_XTSS_SW_RESET_BIT,
- 			       core->wrapper_tz_base + WRAPPER_TZ_XTSS_SW_RESET);
- 		else
-@@ -179,7 +179,7 @@ static int venus_shutdown_no_tz(struct venus_core *core)
- 	void __iomem *wrapper_base = core->wrapper_base;
- 	void __iomem *wrapper_tz_base = core->wrapper_tz_base;
- 
--	if (IS_V6(core)) {
-+	if (IS_IRIS2_1(core)) {
- 		/* Assert the reset to XTSS */
- 		reg = readl(wrapper_tz_base + WRAPPER_TZ_XTSS_SW_RESET);
- 		reg |= WRAPPER_XTSS_SW_RESET_BIT;
+ 		*enc_codecs &= ~HFI_VIDEO_CODEC_VP8;
+ 		*dec_codecs &= ~HFI_VIDEO_CODEC_VP8;
+ 	}
 
 -- 
 2.40.1
