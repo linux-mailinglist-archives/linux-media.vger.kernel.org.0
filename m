@@ -2,68 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DDBE7156BB
-	for <lists+linux-media@lfdr.de>; Tue, 30 May 2023 09:29:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26FA57157AE
+	for <lists+linux-media@lfdr.de>; Tue, 30 May 2023 09:55:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231179AbjE3H3E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 May 2023 03:29:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57488 "EHLO
+        id S229677AbjE3HzF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 May 2023 03:55:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229895AbjE3H2e (ORCPT
+        with ESMTP id S229636AbjE3HzC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 May 2023 03:28:34 -0400
-Received: from mail-vk1-xa29.google.com (mail-vk1-xa29.google.com [IPv6:2607:f8b0:4864:20::a29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9016219D
-        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 00:28:15 -0700 (PDT)
-Received: by mail-vk1-xa29.google.com with SMTP id 71dfb90a1353d-456d534f403so2680769e0c.2
-        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 00:28:15 -0700 (PDT)
+        Tue, 30 May 2023 03:55:02 -0400
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA09E1B7
+        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 00:54:35 -0700 (PDT)
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-3f60dfc6028so42923445e9.1
+        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 00:54:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1685431694; x=1688023694;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OCgynGq67ALKegDWHOnwBw+W3AAJiRXYWJGBUDwaz7k=;
-        b=Scz+y1v49XF8CbK1f5L6+O5+BLeaDdOqS7gfMFDV9xOAeweo1APxY9t+6TL2fqiDZ1
-         mu3D7zp8dRU2KBgliZVXcrYJC1Zlu3igaZqbKSn/2Zyl+SDgwlJGpcH2eiLpSBCVeB3t
-         ISSeQl/vhsKbxBgS4SOghVBiNPTQa6DXKfu94=
+        d=linaro.org; s=google; t=1685433274; x=1688025274;
+        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+         :content-language:subject:reply-to:from:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=DA/3B+SHE0fkJ+Wo2f4qsn3tPIj95QnCk0y9raYNCPM=;
+        b=wfEH7XNHddNx44QhCziP8DE7gd+9Y6RvtnBPy/Y0eNZ3ULJ0JXblXivpHAFE6oGHqW
+         1ua2pYBpR49XCs9IzhubDQU4zAL0cUZkMJJXRznGNeB4UrYvbUOYbSCZR2xNz9lNuxCM
+         9TIAp9FZ9jAYv5K/hMSR3MTiCEgHO/RWZor1Y8pIbUo+BIwG51nhgeiPjN98/ROvEyqP
+         TvRMmjrUtgTSChCzqHIrCw76xcRPEW+1h5Mh8fitChqjyZwdV8m7B7dIUtZ91Q7d9Q7C
+         IlgnAS/sGg14ZeSds9F2evciVcGVHk4L5r05jOfPEZPwLplrYtZLGJnFxVa3bk6VREXb
+         3XMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685431694; x=1688023694;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OCgynGq67ALKegDWHOnwBw+W3AAJiRXYWJGBUDwaz7k=;
-        b=gC3tklrMrK4rBJHqvLpeQsvx7mlJwGTaGeHKD+6def+gPGpT+rgv4fuLWZytre8HGt
-         fMD2ZiQKFBV1UDy1qFk4RoaOckSVtpiZzUEjIZ2vrUfDeWl0RzUsWAzzxJYRYVZUc7og
-         s1x2jKFS10WSF8evROfHdvK4AmjZN29SWHJhZ6wnlpbVAFTAt8Vonns9VPTqq1DcU/yG
-         XRjJ0DScnLSwKToL4ed2AJJ/rgUCRnsgv6VjYn3ymHibTJeA1mBqxq6UBSaINnVUErG6
-         RVRMRDCiHWg6BuhIDWfDCw6BesEkjJZRIaN+EoneLI3RcJ8WpA1M2HoNuxuglaBd4+/P
-         MhGw==
-X-Gm-Message-State: AC+VfDzDgqX2CkXKXsQeud1NyFpbGCz3/u/HfT9zCDCWlTp37HXtcKk3
-        3wbhnBSSoRiqUvE+gwtbB36qrJdKCgxDG7o4lnk/2Q==
-X-Google-Smtp-Source: ACHHUZ6fL/grV0awl9WykFSsFWLwHVGeiIhqkSVSfAVpNCJK6q5E8S64jpA0MWKklZJMO1VR0bmMP3sKJzadwSXq2Ak=
-X-Received: by 2002:a1f:5e8f:0:b0:44f:e6ff:f30e with SMTP id
- s137-20020a1f5e8f000000b0044fe6fff30emr368533vkb.10.1685431694694; Tue, 30
- May 2023 00:28:14 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1685433274; x=1688025274;
+        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+         :content-language:subject:reply-to:from:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DA/3B+SHE0fkJ+Wo2f4qsn3tPIj95QnCk0y9raYNCPM=;
+        b=QoLklGuTf/kPupetNPC3EDYnH4P+xJHIuUr8CprAdgaFA78Jx2oFgP975+sOGb1evz
+         n/lqGlOCDg+5+9lFWbspwVwwHwxDqjsDMOq8b8fbh3V8zH/++9naVSJ3usJzdPA4FXd+
+         uEBnYyzaJJrZk9ZjmhRxcPaFQF2LOTqUbm3M2jqBgQQ9uz6EpeN037E628AI/wW3v2MM
+         ikip7S1sVQJSna1NGd+UJopw758jut7qeKUiSChwK7IzvXIBm1PPAI5ZOkAPWk5thv0C
+         6ZuSiXAieyD1XjZus9nDz7sUZ2UGnUFs8eXEvJUAwTboa+Ym4wbuO3Wl9dZoriy9I/lI
+         tPcA==
+X-Gm-Message-State: AC+VfDxeE1WeRyRS6cKPHaCPM6nBNa7h6KfDgiVm/47F+3DwnJtyG2+X
+        QnTJ1ejpj2X+WD0Hx/xOrAiftQ==
+X-Google-Smtp-Source: ACHHUZ4XGChBG7YEV6Ww/s5OZEtTPMpvOUU9y6Nm7ba81NxW/r+ynfuDkeRw++SxZBu9uEu4909twg==
+X-Received: by 2002:a05:600c:b44:b0:3f2:48dc:5e02 with SMTP id k4-20020a05600c0b4400b003f248dc5e02mr814437wmr.27.1685433273970;
+        Tue, 30 May 2023 00:54:33 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:4294:2221:d2df:9e87? ([2a01:e0a:982:cbb0:4294:2221:d2df:9e87])
+        by smtp.gmail.com with ESMTPSA id u3-20020a7bc043000000b003f17848673fsm16450709wmc.27.2023.05.30.00.54.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 May 2023 00:54:33 -0700 (PDT)
+Message-ID: <2fbf32db-c013-829e-317b-f17e170ac472@linaro.org>
+Date:   Tue, 30 May 2023 09:54:32 +0200
 MIME-Version: 1.0
-References: <20230303013842.23259-1-allen-kh.cheng@mediatek.com> <4ebd1c9f-0460-4436-8e17-0e46e88f4828@notapiano>
-In-Reply-To: <4ebd1c9f-0460-4436-8e17-0e46e88f4828@notapiano>
-From:   Chen-Yu Tsai <wenst@chromium.org>
-Date:   Tue, 30 May 2023 15:28:03 +0800
-Message-ID: <CAGXv+5Hd-8e9QWGQ2MB++xjNH0sRemmQnVnAk=CfE8DBhkYZQw@mail.gmail.com>
-Subject: Re: [RESEND 0/6] media: mediatek: Update video decoder nodes for
- MT8195 and MT8192
-To:     Matthias Brugger <matthias.bgg@gmail.com>
-Cc:     Project_Global_Chrome_Upstream_Group@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        Allen-KH Cheng <allen-kh.cheng@mediatek.com>,
-        =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
-        <nfraprado@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+From:   Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: neil.armstrong@linaro.org
+Subject: Re: [PATCH v2 0/3] media: rc: meson-ir: support MMIO regmaps to
+ access registers
+Content-Language: en-US
+To:     zelong dong <zelong.dong@amlogic.com>, Sean Young <sean@mess.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc:     linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        Qianggui.Song@amlogic.com, Yonghui.Yu@amlogic.com,
+        kelvin.zhang@amlogic.com
+References: <20230517115635.31565-1-zelong.dong@amlogic.com>
+Organization: Linaro Developer Services
+In-Reply-To: <20230517115635.31565-1-zelong.dong@amlogic.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -72,53 +85,31 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Apr 4, 2023 at 6:19=E2=80=AFAM N=C3=ADcolas F. R. A. Prado
-<nfraprado@collabora.com> wrote:
->
-> On Fri, Mar 03, 2023 at 09:38:36AM +0800, Allen-KH Cheng wrote:
-> > This series is based on matthias github v6.3-tmp. Since there is a
-> > dependence in the following series, I resend a series for them.
-> >
-> > patchwork.kernel.org/project/linux-mediatek/list/?series=3D702423
-> > patchwork.kernel.org/project/linux-mediatek/list/?series=3D702078
->
-> Hi Matthias,
->
-> this series has been completely reviewed and tested for a while, and the
-> bindings patches were already picked up by Hans and are on their way to 6=
-.4 [1].
-> So could you please pick the devicetree patches?
+Hi,
 
-Ping again on this series.
+On 17/05/2023 13:56, zelong dong wrote:
+> From: Zelong Dong <zelong.dong@amlogic.com>
+> 
+> This patchset add MMIO regmaps to access register in Meson IR driver.
+> For defining clearly, sort/rename IR Controller register macros.
+> 
+> Changes since v1:
+> - move the cleanup/rename to a separate patch.
+> - use devm_platform_ioremap_resource() instead of platform_get_resource()
+>    and devm_ioremap_resource().
+> 
+> ---
+> v1: https://lore.kernel.org/r/20230511034333.26800-1-zelong.dong@amlogic.com
+> 
+> Zelong Dong (3):
+>    media: rc: meson-ir: sort Meson IR Controller register macros
+>    media: rc: meson-ir: rename Meson IR Controller register macros
+>    media: rc: meson-ir: support MMIO regmaps to access registers
+> 
+>   drivers/media/rc/meson-ir.c | 125 ++++++++++++++++++------------------
+>   1 file changed, 64 insertions(+), 61 deletions(-)
+> 
 
-The device tree patches can be picked up.
+Patch 2 & 3 doesn't apply cleanly on v6.4-rc1, please rebase on the latest -rc1 kernel.
 
-> Thanks,
-> N=C3=ADcolas
->
-> [1] https://lore.kernel.org/all/98c48690-631d-1086-9b7c-004c61cc8dbb@xs4a=
-ll.nl/
->
-> >
-> > Allen-KH Cheng (3):
-> >   media: dt-bindings: media: mediatek: Rename child node names for
-> >     decoder
-> >   media: dt-bindings: media: mediatek: Remove "dma-ranges" property for
-> >     decoder
-> >   arm64: dts: mt8192: Add video-codec nodes
-> >
-> > Yunfei Dong (3):
-> >   media: dt-bindings: media: mediatek: vcodec: adapt to the
-> >     'clock-names' of different platforms
-> >   media: dt-bindings: media: mediatek: vcodec: Change the max reg value
-> >     to 2
-> >   arm64: dts: mt8195: Add video decoder node
-> >
-> >  .../media/mediatek,vcodec-subdev-decoder.yaml | 113 +++++++-----------
-> >  arch/arm64/boot/dts/mediatek/mt8192.dtsi      |  59 +++++++++
-> >  arch/arm64/boot/dts/mediatek/mt8195.dtsi      |  70 +++++++++++
-> >  3 files changed, 173 insertions(+), 69 deletions(-)
-> >
-> > --
-> > 2.18.0
-> >
+Neil
