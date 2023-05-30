@@ -2,82 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 314617157BE
-	for <lists+linux-media@lfdr.de>; Tue, 30 May 2023 09:57:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BA6671582A
+	for <lists+linux-media@lfdr.de>; Tue, 30 May 2023 10:17:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229739AbjE3H5u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 May 2023 03:57:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51572 "EHLO
+        id S229849AbjE3IRJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 May 2023 04:17:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229677AbjE3H5t (ORCPT
+        with ESMTP id S230133AbjE3IRH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 May 2023 03:57:49 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E047790
-        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 00:57:45 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-3078cc99232so3906789f8f.3
-        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 00:57:45 -0700 (PDT)
+        Tue, 30 May 2023 04:17:07 -0400
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E00D6A8
+        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 01:17:04 -0700 (PDT)
+Received: by mail-io1-xd30.google.com with SMTP id ca18e2360f4ac-7748eb38f6aso120372039f.2
+        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 01:17:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685433464; x=1688025464;
-        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
-         :content-language:subject:reply-to:from:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=jbV3N0ycjw87JVFX5RR+NdqMKuAcPpiZ58zQNaW5p50=;
-        b=BCGMqawU0eogewqQq63aT0WFndPTjmmgETnRtWqrMB/HjCus60k1h9+QzYj2Op6Z9T
-         315zWLiZF9E1Bd+h3Mbk61OymwhVWzn1szKOnaBM3gcGqrIFb6v07TydKRsMtTnHDi8V
-         2RjfmUiF6urmDDxURaGAhI5ILE87r3FHqITDKuJ4p/OuaIKFOqmrlwtKaeRGOJlzMueS
-         jBN8xLr1e5gZfC4Xj1UEH6Ez73B44PSjp6gobeUuUrccIBXOh8uWvxFmxQGtz2CccR3E
-         QmbddYnRgKhNJq/tJjFRWAY4mMOtO12BSEBXIETOcQpO07K0NG/cAcS11u6aDT41YlPi
-         VhqA==
+        d=chromium.org; s=google; t=1685434624; x=1688026624;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Fy7SR/HzB92IkMAazWT76QIOXbthJ6EyN1HdPKvysFk=;
+        b=CJFljht/URfulrX/BQQogdLgAkSiPQ4armqx1rnpAnDA25GIL1uBk1DT6+MFFy7CFz
+         fHkftFqZFmrOM3xaCf724X834CCsBoi6QqnNS4npXZCuQho58RU6JSyM/c8aZrOUGxpu
+         DCVqYBUTeIi1qwFx3McTy7IiBkpiVVZ+F+/es=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685433464; x=1688025464;
-        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
-         :content-language:subject:reply-to:from:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jbV3N0ycjw87JVFX5RR+NdqMKuAcPpiZ58zQNaW5p50=;
-        b=EurqCZ80WT7A/oUodHSY+Hc4VXeRNR11bVcRalZlU4lY2gjzf7igMnOR7IWLU1WEPJ
-         izHC7vQ5DY4NuHLVUSz3eIWHOo98dYkPPPZ3N7GFIWdYY/QbfYtKae11AplLSgLf7zbA
-         y1G4WedzDsrxNqxyzR586aADt4QYHskOOeQ8jrkNdncqXIlnPCqiUjUbshZi78z9b8Wi
-         IvN/DPolnWn3kEvNf9MeFMFmONOddu8GYU+l9krcc+LzVylvDuXg/Blwr0bDOJcsDEUh
-         lWTO/tvu+GG8RE2luAI2cS5JFWYjxjUOn44aHss91rNp8K+WGv6h/hmvbOqIvzS61PLu
-         AtcA==
-X-Gm-Message-State: AC+VfDxQBx/8+WsHDQRlTG1YEhiqTlDSLSUQhqlyTqheCQCioWhwAxNm
-        +p4U85p2XNOxTlcJTN8QynXSjA==
-X-Google-Smtp-Source: ACHHUZ6cV+EMsavNN6U2e69iCMVRS7YYBLa+tLoNkjXbcz0OjR5+D+hlXVoexIWfVqqsVUt1sJQcmA==
-X-Received: by 2002:a5d:6382:0:b0:306:2f91:302e with SMTP id p2-20020a5d6382000000b003062f91302emr1321232wru.21.1685433464262;
-        Tue, 30 May 2023 00:57:44 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:4294:2221:d2df:9e87? ([2a01:e0a:982:cbb0:4294:2221:d2df:9e87])
-        by smtp.gmail.com with ESMTPSA id b21-20020a05600c4e1500b003f4283f5c1bsm29093553wmq.2.2023.05.30.00.57.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 May 2023 00:57:43 -0700 (PDT)
-Message-ID: <417cfe9a-4dfa-42ab-0397-ce59a2566d8d@linaro.org>
-Date:   Tue, 30 May 2023 09:57:43 +0200
+        d=1e100.net; s=20221208; t=1685434624; x=1688026624;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Fy7SR/HzB92IkMAazWT76QIOXbthJ6EyN1HdPKvysFk=;
+        b=SOK0Ru3sLOEyIEp+Xlu79IAt5apld+WraSGS17zuzkKvBjKO7iBtJf9uDeVIVD3nUK
+         sNnf79sVBDMpX2UfLjcUOhg4I5AA9ZgZvf4iVyeBBno2tiddb83hatYLqrmqHlm798um
+         46HgVunj/pm/yMy76NSffdFGJZW9NDj7/26GKJJXRoShOdiscqJAJ192NDFxN+VIRtq0
+         AD6rWgWg4V/QNUA+jzJ/pIIfltQCCGJMQX732yqGO8eaMm3EWT49/s3tteF0rDW+Cr6L
+         dedmuCdEQz2ryf2e7V94xb0C0TOYmpZGWsIhCS8qB1J9VmIlu95FJ8ZY9cJNxDaymOyN
+         dFhg==
+X-Gm-Message-State: AC+VfDxmezwh6elL3iSt1VLwbIwJVcaGjzT8GHTSYzC08rcyx168eCLv
+        G08pWzBMbfT9v5UyOBS0VtoZSclu6lAvBuL7Lw1rIQ==
+X-Google-Smtp-Source: ACHHUZ7dX+6887Swu18EzqkpWeZMTbRgNzYYTJ2VvJG6BkRYa9Oe3UhPb4JyBuAIjw+rXVBucmBYHzH71y45f6iv+oE=
+X-Received: by 2002:a92:d203:0:b0:335:56cb:a3a with SMTP id
+ y3-20020a92d203000000b0033556cb0a3amr1027018ily.16.1685434624188; Tue, 30 May
+ 2023 01:17:04 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-From:   Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH v2 2/3] media: rc: meson-ir: rename Meson IR Controller
- register macros
-Content-Language: en-US
-To:     zelong dong <zelong.dong@amlogic.com>, Sean Young <sean@mess.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc:     linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        Qianggui.Song@amlogic.com, Yonghui.Yu@amlogic.com,
-        kelvin.zhang@amlogic.com
-References: <20230517115635.31565-1-zelong.dong@amlogic.com>
- <20230517115635.31565-3-zelong.dong@amlogic.com>
-Organization: Linaro Developer Services
-In-Reply-To: <20230517115635.31565-3-zelong.dong@amlogic.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+References: <20230526063149.1801196-1-treapking@chromium.org> <2bae7dea-afc5-96b5-c6d1-f4724bae155c@collabora.com>
+In-Reply-To: <2bae7dea-afc5-96b5-c6d1-f4724bae155c@collabora.com>
+From:   Pin-yen Lin <treapking@chromium.org>
+Date:   Tue, 30 May 2023 16:16:53 +0800
+Message-ID: <CAEXTbpcbuRawcqnTQeuSD9Qpym25bpH+2hjHSTA9A2EbxtixGA@mail.gmail.com>
+Subject: Re: [PATCH v6] media: mtk-vpu: Ensure alignment of 8 for DTCM buffer
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        linux-mediatek@lists.infradead.org,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        linux-media@vger.kernel.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Alexandre Courbot <acourbot@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -86,174 +77,54 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 17/05/2023 13:56, zelong dong wrote:
-> From: Zelong Dong <zelong.dong@amlogic.com>
-> 
-> There are more registers to come in the next Meson IR Controller.
-> For defining clearly, rename register macros.
-> 
-> Signed-off-by: Zelong Dong <zelong.dong@amlogic.com>
-> ---
->   drivers/media/rc/meson-ir.c | 80 ++++++++++++++++++-------------------
->   1 file changed, 40 insertions(+), 40 deletions(-)
-> 
-> diff --git a/drivers/media/rc/meson-ir.c b/drivers/media/rc/meson-ir.c
-> index a32d034b33aa..7ab6304f7184 100644
-> --- a/drivers/media/rc/meson-ir.c
-> +++ b/drivers/media/rc/meson-ir.c
-> @@ -20,43 +20,39 @@
->   #define DRIVER_NAME		"meson-ir"
->   
->   #define IR_DEC_LDR_ACTIVE	0x00
-> -
->   #define IR_DEC_LDR_IDLE		0x04
-> -
->   #define IR_DEC_LDR_REPEAT	0x08
-> -
->   #define IR_DEC_BIT_0		0x0c
->   
->   #define IR_DEC_REG0		0x10
-> -#define REG0_RATE_MASK		GENMASK(11, 0)
-> +#define IR_DEC_REG0_BASE_TIME	GENMASK(11, 0)
->   
->   #define IR_DEC_FRAME		0x14
->   
->   #define IR_DEC_STATUS		0x18
-> -#define STATUS_IR_DEC_IN	BIT(8)
-> +#define IR_DEC_STATUS_PULSE	BIT(8)
->   
->   #define IR_DEC_REG1		0x1c
-> -#define REG1_TIME_IV_MASK	GENMASK(28, 16)
-> -#define REG1_ENABLE		BIT(15)
-> -#define REG1_MODE_MASK		GENMASK(8, 7)
-> -#define REG1_MODE_SHIFT		7
-> -#define REG1_IRQSEL_MASK	GENMASK(3, 2)
-> -#define REG1_RESET		BIT(0)
-> +#define IR_DEC_REG1_TIME_IV	GENMASK(28, 16)
-> +#define IR_DEC_REG1_ENABLE	BIT(15)
-> +#define IR_DEC_REG1_MODE	GENMASK(8, 7)
-> +#define IR_DEC_REG1_IRQSEL	GENMASK(3, 2)
-> +#define IR_DEC_REG1_RESET	BIT(0)
->   
->   /* The following regs are only available on Meson 8b and newer */
->   #define IR_DEC_REG2		0x20
-> -#define REG2_MODE_MASK		GENMASK(3, 0)
-> -#define REG2_MODE_SHIFT		0
-> +#define IR_DEC_REG2_MODE	GENMASK(3, 0)
->   
-> -#define DECODE_MODE_NEC		0x0
-> -#define DECODE_MODE_RAW		0x2
-> +#define DEC_MODE_NEC		0x0
-> +#define DEC_MODE_RAW		0x2
->   
-> -#define REG1_IRQSEL_NEC_MODE	0
-> -#define REG1_IRQSEL_RISE_FALL	1
-> -#define REG1_IRQSEL_FALL	2
-> -#define REG1_IRQSEL_RISE	3
-> +#define IRQSEL_NEC_MODE		0
-> +#define IRQSEL_RISE_FALL	1
-> +#define IRQSEL_FALL		2
-> +#define IRQSEL_RISE		3
->   
-> -#define MESON_TRATE		10	/* us */
-> +#define MESON_RAW_TRATE		10	/* us */
-> +#define MESON_HW_TRATE		20	/* us */
->   
->   struct meson_ir {
->   	void __iomem	*reg;
-> @@ -84,11 +80,11 @@ static irqreturn_t meson_ir_irq(int irqno, void *dev_id)
->   	spin_lock(&ir->lock);
->   
->   	duration = readl_relaxed(ir->reg + IR_DEC_REG1);
-> -	duration = FIELD_GET(REG1_TIME_IV_MASK, duration);
-> -	rawir.duration = duration * MESON_TRATE;
-> +	duration = FIELD_GET(IR_DEC_REG1_TIME_IV, duration);
-> +	rawir.duration = duration * MESON_RAW_TRATE;
->   
->   	status = readl_relaxed(ir->reg + IR_DEC_STATUS);
-> -	rawir.pulse = !!(status & STATUS_IR_DEC_IN);
-> +	rawir.pulse = !!(status & IR_DEC_STATUS_PULSE);
->   
->   	ir_raw_event_store_with_timeout(ir->rc, &rawir);
->   
-> @@ -130,7 +126,7 @@ static int meson_ir_probe(struct platform_device *pdev)
->   	map_name = of_get_property(node, "linux,rc-map-name", NULL);
->   	ir->rc->map_name = map_name ? map_name : RC_MAP_EMPTY;
->   	ir->rc->allowed_protocols = RC_PROTO_BIT_ALL_IR_DECODER;
-> -	ir->rc->rx_resolution = MESON_TRATE;
-> +	ir->rc->rx_resolution = MESON_RAW_TRATE;
->   	ir->rc->min_timeout = 1;
->   	ir->rc->timeout = IR_DEFAULT_TIMEOUT;
->   	ir->rc->max_timeout = 10 * IR_DEFAULT_TIMEOUT;
-> @@ -152,24 +148,27 @@ static int meson_ir_probe(struct platform_device *pdev)
->   	}
->   
->   	/* Reset the decoder */
-> -	meson_ir_set_mask(ir, IR_DEC_REG1, REG1_RESET, REG1_RESET);
-> -	meson_ir_set_mask(ir, IR_DEC_REG1, REG1_RESET, 0);
-> +	meson_ir_set_mask(ir, IR_DEC_REG1, IR_DEC_REG1_RESET,
-> +			  IR_DEC_REG1_RESET);
-> +	meson_ir_set_mask(ir, IR_DEC_REG1, IR_DEC_REG1_RESET, 0);
->   
->   	/* Set general operation mode (= raw/software decoding) */
->   	if (of_device_is_compatible(node, "amlogic,meson6-ir"))
-> -		meson_ir_set_mask(ir, IR_DEC_REG1, REG1_MODE_MASK,
-> -				  FIELD_PREP(REG1_MODE_MASK, DECODE_MODE_RAW));
-> +		meson_ir_set_mask(ir, IR_DEC_REG1, IR_DEC_REG1_MODE,
-> +				  FIELD_PREP(IR_DEC_REG1_MODE, DEC_MODE_RAW));
->   	else
-> -		meson_ir_set_mask(ir, IR_DEC_REG2, REG2_MODE_MASK,
-> -				  FIELD_PREP(REG2_MODE_MASK, DECODE_MODE_RAW));
-> +		meson_ir_set_mask(ir, IR_DEC_REG2, IR_DEC_REG2_MODE,
-> +				  FIELD_PREP(IR_DEC_REG2_MODE, DEC_MODE_RAW));
->   
->   	/* Set rate */
-> -	meson_ir_set_mask(ir, IR_DEC_REG0, REG0_RATE_MASK, MESON_TRATE - 1);
-> +	meson_ir_set_mask(ir, IR_DEC_REG0, IR_DEC_REG0_BASE_TIME,
-> +			  MESON_RAW_TRATE - 1);
->   	/* IRQ on rising and falling edges */
-> -	meson_ir_set_mask(ir, IR_DEC_REG1, REG1_IRQSEL_MASK,
-> -			  FIELD_PREP(REG1_IRQSEL_MASK, REG1_IRQSEL_RISE_FALL));
-> +	meson_ir_set_mask(ir, IR_DEC_REG1, IR_DEC_REG1_IRQSEL,
-> +			  FIELD_PREP(IR_DEC_REG1_IRQSEL, IRQSEL_RISE_FALL));
->   	/* Enable the decoder */
-> -	meson_ir_set_mask(ir, IR_DEC_REG1, REG1_ENABLE, REG1_ENABLE);
-> +	meson_ir_set_mask(ir, IR_DEC_REG1, IR_DEC_REG1_ENABLE,
-> +			  IR_DEC_REG1_ENABLE);
->   
->   	dev_info(dev, "receiver initialized\n");
->   
-> @@ -183,7 +182,7 @@ static int meson_ir_remove(struct platform_device *pdev)
->   
->   	/* Disable the decoder */
->   	spin_lock_irqsave(&ir->lock, flags);
-> -	meson_ir_set_mask(ir, IR_DEC_REG1, REG1_ENABLE, 0);
-> +	meson_ir_set_mask(ir, IR_DEC_REG1, IR_DEC_REG1_ENABLE, 0);
->   	spin_unlock_irqrestore(&ir->lock, flags);
->   
->   	return 0;
-> @@ -203,14 +202,15 @@ static void meson_ir_shutdown(struct platform_device *pdev)
->   	 * bootloader a chance to power the system back on
->   	 */
->   	if (of_device_is_compatible(node, "amlogic,meson6-ir"))
-> -		meson_ir_set_mask(ir, IR_DEC_REG1, REG1_MODE_MASK,
-> -				  DECODE_MODE_NEC << REG1_MODE_SHIFT);
-> +		meson_ir_set_mask(ir, IR_DEC_REG1, IR_DEC_REG1_MODE,
-> +				  FIELD_PREP(IR_DEC_REG1_MODE, DEC_MODE_NEC));
->   	else
-> -		meson_ir_set_mask(ir, IR_DEC_REG2, REG2_MODE_MASK,
-> -				  DECODE_MODE_NEC << REG2_MODE_SHIFT);
-> +		meson_ir_set_mask(ir, IR_DEC_REG2, IR_DEC_REG2_MODE,
-> +				  FIELD_PREP(IR_DEC_REG2_MODE, DEC_MODE_NEC));
->   
->   	/* Set rate to default value */
-> -	meson_ir_set_mask(ir, IR_DEC_REG0, REG0_RATE_MASK, 0x13);
-> +	meson_ir_set_mask(ir, IR_DEC_REG0, IR_DEC_REG0_BASE_TIME,
-> +			  MESON_HW_TRATE - 1);
->   
->   	spin_unlock_irqrestore(&ir->lock, flags);
->   }
+Hi Angelo,
 
-Without the unneded removed blank lines:
+Thanks for letting me know. Then, this patch is not needed.
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Regards,
+Pin-yen
+
+On Mon, May 29, 2023 at 4:31=E2=80=AFPM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>
+> Il 26/05/23 08:31, Pin-yen Lin ha scritto:
+> > From: Alexandre Courbot <acourbot@chromium.org>
+> >
+> > When running memcpy_toio:
+> > memcpy_toio(send_obj->share_buf, buf, len);
+> > it was found that errors appear if len is not a multiple of 8:
+> >
+> > [58.350841] mtk-mdp 14001000.rdma: processing failed: -22
+> >
+> > This is because in ARM64, memcpy_toio does byte-size access
+> > when the length is not a multiple of 8 while access to the
+> > vpu iomem must be 4 aligned.
+> >
+> > This patch ensures the copy of a multiple of 8 size by calling
+> > round_up(len, 8) when copying.
+> >
+> > Fixes: e6599adfad30 ("media: mtk-vpu: avoid unaligned access to DTCM bu=
+ffer.")
+> > Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
+> > Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> > Signed-off-by: Pin-yen Lin <treapking@chromium.org>
+> > Reviewed-by: Houlong Wei <houlong.wei@mediatek.com>
+> > Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
+abora.com>
+> >
+> > ---
+> > This is a re-send of v5 because it was marked obsolete, but this patch
+> > is required for MT8173 platforms.
+> >
+>
+> Hello,
+> I have solved this issue in a different way and the commit was already pi=
+cked.
+>
+> Please check:
+> ab14c99c035d ("media: platform: mtk-mdp: Fix mdp_ipi_comm structure align=
+ment")
+>
+> Regards,
+> Angelo
+>
