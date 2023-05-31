@@ -2,140 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C4A5B717DC8
-	for <lists+linux-media@lfdr.de>; Wed, 31 May 2023 13:12:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CF25717DCF
+	for <lists+linux-media@lfdr.de>; Wed, 31 May 2023 13:14:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235161AbjEaLMp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 May 2023 07:12:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59826 "EHLO
+        id S235424AbjEaLOw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 May 2023 07:14:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232331AbjEaLMo (ORCPT
+        with ESMTP id S235487AbjEaLOs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 May 2023 07:12:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA9CAD9
-        for <linux-media@vger.kernel.org>; Wed, 31 May 2023 04:11:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1685531509;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=+7km1XPttamFQ1dhwIIrt7M9PSs+swUo6x6uptB/ScQ=;
-        b=DXnigUNwoxE/FWKo0fnbwlvKHWZ0EjPTpsYLKCdWDKtOF4O+/9rVDnOu9M409Ar7k6DWgr
-        Gh0OOxvt6Ec//QECnACyrtNCRaxx0UNSJtdWBRRB63Tk2QDV53KXeefJCK6SjKHxdgEcPH
-        JKG5ehx+bXtkIzTwVQ/FVHvrJHRAtG4=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-592-AwwS-evEPBax3MFVsDlf-w-1; Wed, 31 May 2023 07:11:47 -0400
-X-MC-Unique: AwwS-evEPBax3MFVsDlf-w-1
-Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-514a4cfa313so2585957a12.0
-        for <linux-media@vger.kernel.org>; Wed, 31 May 2023 04:11:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685531506; x=1688123506;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+7km1XPttamFQ1dhwIIrt7M9PSs+swUo6x6uptB/ScQ=;
-        b=V2wrbslQ5BGrsDzZLAYQ8IfIrWnmgLP1mmpqrRPuDOS1R/oL/h692G8e3tQ15MdIsZ
-         NhMpsOPjYT/wi4E3L8SgtAfWyBq6j3ogId8G3UfoIcFmzT9e/OozN/MXC8g/pyBt7HeC
-         8HwfYyG3QNQMhLHw8nY12HDl/rCG4U4rGyc5pukmvMoRwThchoHn6XwfmgJT5YIPCcBu
-         yQH0W2aCz2ZeTX6uWMmAYcdHOEN1D7PmcOOd3tu0eVAn8CDF5rhFHzEJUTa+/H9LAoJX
-         Nu25KEnO2+cqfsMrC6gl8tc8ezSmf7ZqWIXlBuVfvzcUKEJq+gwJOhPjp7oN0Dz5h9EV
-         AncA==
-X-Gm-Message-State: AC+VfDw3J6XFbP2dth++1+ptc+Lix3rv7rxC+nv3WnxmZAp3j0kmqFDF
-        9czSsAijVPctlkWvodRhUtj/6lWncOOGESnLTZGQiiDwfnw1Xooabt8ivPKEVMHbWVR8eNnZu0w
-        TS1TITB7hpeHONnMSkim3Cmw=
-X-Received: by 2002:aa7:cb4c:0:b0:510:ddad:fae6 with SMTP id w12-20020aa7cb4c000000b00510ddadfae6mr3346023edt.3.1685531506841;
-        Wed, 31 May 2023 04:11:46 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7XLmzlQYT/Pf/u6U2ahhMUisVA7ArRVu/IJ3fqlOeSMiUowBUcXcyc6UyoLoj1V+6SMFcNXA==
-X-Received: by 2002:aa7:cb4c:0:b0:510:ddad:fae6 with SMTP id w12-20020aa7cb4c000000b00510ddadfae6mr3346006edt.3.1685531506534;
-        Wed, 31 May 2023 04:11:46 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id f14-20020a056402004e00b0050c0b9d31a7sm5628060edu.22.2023.05.31.04.11.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 31 May 2023 04:11:45 -0700 (PDT)
-Message-ID: <c1be981f-3664-0064-d21c-cd7ff2fa9bcd@redhat.com>
-Date:   Wed, 31 May 2023 13:11:44 +0200
+        Wed, 31 May 2023 07:14:48 -0400
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.168])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D95D7129
+        for <linux-media@vger.kernel.org>; Wed, 31 May 2023 04:14:43 -0700 (PDT)
+X-KPN-MessageId: 5715b014-ffa4-11ed-8e3d-005056aba152
+Received: from smtp.kpnmail.nl (unknown [10.31.155.39])
+        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+        id 5715b014-ffa4-11ed-8e3d-005056aba152;
+        Wed, 31 May 2023 13:14:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=xs4all.nl; s=xs4all01;
+        h=content-type:subject:from:to:mime-version:date:message-id;
+        bh=u8GSUUNo3DX7zgfvyb62hzxevqjYerVLF9b2LXRQj7o=;
+        b=t/s2ceiMvj0o+Wap13u+wVkpyhS+hl7Ro4w5gknc0HbdS/t+LYjCuSVcmb+ogUhiJFWCqCOhRH7z+
+         yEWk5YcKEqIHpg/BqSa04Ult5sAidHHva4SPogEgW1PWmbKAt4Y7ryob9jT5wDRWPTThWUypSXqHkt
+         jOslbEHszdwbzuTgmuHuwB+v+4pzP+cAJrClL17yAYbsD9/7v6idHZnU9k7xNO+rLIP1iKVHmnDNFz
+         PJ2mtqGKU6sNgwI53eCqw0W/PBVdGrLaNdWbCVAaL5Hq5QXuUNI4QDnNSOS+9/MZHIWZ/59bjM5jKH
+         4QW888JaKXVH3d++w3Ydy82/fflvWMg==
+X-KPN-MID: 33|wWr9mK8aj57HRdZ59Hg+WIJr+RPtewX6rpY+s1emNk3hPMGuhsbA5M8upmg82Cc
+ YO/qNFkY7ruWtYw/L07Zj6kLouM9dPFgHvCFA+5wrb0s=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|60NHEvzc0K28c/whZJef/aLKG8h+bYL+X213+I7oUfRwM0sGn06YSk+u0uWm6Sg
+ x8eeR3II7VVbdpojindZmDg==
+X-Originating-IP: 173.38.220.44
+Received: from [10.47.77.214] (unknown [173.38.220.44])
+        by smtp.xs4all.nl (Halon) with ESMTPSA
+        id 56b09921-ffa4-11ed-bcfb-005056ab7447;
+        Wed, 31 May 2023 13:14:41 +0200 (CEST)
+Message-ID: <29b5049c-7fa3-cd90-47b1-7be9ce997eb1@xs4all.nl>
+Date:   Wed, 31 May 2023 13:14:41 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 05/21] media: atomisp: ov2680: Add init_cfg pad-op
-Content-Language: en-US, nl
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Nable <nable.maininbox@googlemail.com>,
-        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20230529103741.11904-1-hdegoede@redhat.com>
- <20230529103741.11904-6-hdegoede@redhat.com>
- <CAHp75VeTdAd98hAKGMo+Skqh0KnbCd=NXQHiB7L8jCkmue1zpA@mail.gmail.com>
- <CAHp75VecdMCp=pqfxFfZ2h81ugGcDjJgQeV8X7fnJ39Bfr2hgg@mail.gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAHp75VecdMCp=pqfxFfZ2h81ugGcDjJgQeV8X7fnJ39Bfr2hgg@mail.gmail.com>
+ Thunderbird/102.8.0
+Content-Language: en-US
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Ming Qian <ming.qian@nxp.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [GIT PULL FOR v6.5] mediatek/imx changes
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+The following changes since commit aafeeaf3d2a8a91a5407c774c578abec79dcff00:
 
-On 5/30/23 13:51, Andy Shevchenko wrote:
-> On Mon, May 29, 2023 at 9:13 PM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
->> On Mon, May 29, 2023 at 1:38 PM Hans de Goede <hdegoede@redhat.com> wrote:
-> 
-> ...
-> 
->>> +static int ov2680_init_cfg(struct v4l2_subdev *sd,
->>> +                          struct v4l2_subdev_state *sd_state)
->>> +{
->>> +       struct v4l2_subdev_format fmt = {
->>> +               .which = sd_state ? V4L2_SUBDEV_FORMAT_TRY
->>> +               : V4L2_SUBDEV_FORMAT_ACTIVE,
->>> +               .format = {
->>> +                       .width = 800,
->>> +                       .height = 600,
->>
->>> +               }
->>
->> I would keep a trailing comma here.
->>
->>> +       };
->>> +
->>> +       return ov2680_set_fmt(sd, sd_state, &fmt);
->>> +}
-> 
-> This is not addressed in your branch.
+  media: video-mux: update driver to active state (2023-05-26 10:58:18 +0100)
 
-Oops, sorry I've fixed this in my branch now and I've also changed
-6/21 to make __ov2680_get_pad_crop() look like this:
+are available in the Git repository at:
 
-static struct v4l2_rect *
-__ov2680_get_pad_crop(struct ov2680_dev *sensor, struct v4l2_subdev_state *state,
-                      unsigned int pad, enum v4l2_subdev_format_whence which)
-{
-        if (which == V4L2_SUBDEV_FORMAT_TRY)
-                return v4l2_subdev_get_try_crop(&sensor->sd, state, pad);
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.5h
 
-        return &sensor->mode.crop;
-}
+for you to fetch changes up to 742d5c5f8552daa70818b65363da7055db8c88d3:
 
+  media: imx-jpeg: Support to assign slot for encoder/decoder (2023-05-31 12:33:09 +0200)
 
-Regards,
+----------------------------------------------------------------
+Tag branch
 
-Hans
+----------------------------------------------------------------
+Ming Qian (1):
+      media: imx-jpeg: Support to assign slot for encoder/decoder
 
+Yunfei Dong (8):
+      media: mediatek: vcodec: Add debugfs interface to get debug information
+      media: mediatek: vcodec: Add debug params to control different log level
+      media: mediatek: vcodec: Add a debugfs file to get different useful information
+      media: mediatek: vcodec: Get each context resolution information
+      media: mediatek: vcodec: Get each instance format type
+      media: mediatek: vcodec: Change dbgfs interface to support encode
+      media: mediatek: vcodec: Add encode to support dbgfs
+      media: mediatek: vcodec: Add dbgfs help function
 
+ drivers/media/platform/mediatek/vcodec/Makefile             |   6 +++
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c   | 215 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.h   |  74 +++++++++++++++++++++++++++++
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c |   4 ++
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h     |   4 ++
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c |   2 +
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.c    |   8 ++++
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h    |  26 +++++++++--
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h           |   1 -
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c              | 135 ++++++++++++++++++++++++++---------------------------
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h              |   5 +-
+ 11 files changed, 404 insertions(+), 76 deletions(-)
+ create mode 100644 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c
+ create mode 100644 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.h
