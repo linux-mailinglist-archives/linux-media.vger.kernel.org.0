@@ -2,175 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1285E7176F5
-	for <lists+linux-media@lfdr.de>; Wed, 31 May 2023 08:37:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 664EC717748
+	for <lists+linux-media@lfdr.de>; Wed, 31 May 2023 08:56:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234269AbjEaGhM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 May 2023 02:37:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40558 "EHLO
+        id S234430AbjEaG4h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 May 2023 02:56:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234223AbjEaGhK (ORCPT
+        with ESMTP id S234310AbjEaG4f (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 May 2023 02:37:10 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48721132;
-        Tue, 30 May 2023 23:37:07 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D8AE961B24;
-        Wed, 31 May 2023 06:37:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3B40C4339B;
-        Wed, 31 May 2023 06:37:00 +0000 (UTC)
-Message-ID: <6c4658fd-3a64-b3f8-67cd-17ed2d7d3567@xs4all.nl>
-Date:   Wed, 31 May 2023 08:36:59 +0200
+        Wed, 31 May 2023 02:56:35 -0400
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [81.169.146.164])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6686E11F;
+        Tue, 30 May 2023 23:56:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1685516185; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=MhBYktdmi7qHhnp0JwQ0fN/9i4oLCZy7qi3XemQXQP6MtbRQGZSfebeNFI+FL/3Ivf
+    hVsD330LZSXybgXQdxf+Mienw/ZJEGTeIGFdgMYMFpWjG3Vm7FHVoKUHcBZuYED93iGT
+    cu5/IE6tYovJLw7oyF7IY8Lc6FC4Y21zuMhN/ri/eBj9QNX/ZYEQc/uKzBXL+CEdytbH
+    j+vo4/Zqo4X+Sjzh3/sazXiJ0Q6Z8YHf6tBtRUJUJXNZRpvhyo2b/Fx/ZAGEOH9l31lk
+    FRM7vuPNGFvadgvCNJ+uG9uy4RRFGX+fiiVr6j5R2zjBaBZoTEC3OW0/u9Tt6lcnhmNz
+    vNUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1685516185;
+    s=strato-dkim-0002; d=strato.com;
+    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=Ac7g930X4TZT8FOVyemqEC3uDwuc7IbCN+icMmcWknM=;
+    b=pEBNaXW9yZ1XdjfLtbMwDWu0Qry7fS+KSp7MmZVXMrvS5Cm2+Qb8DMt9zo0YACyywU
+    rzk/dgsA+0eZk6Y3FVNCPgs/AOH3+aCgVuotioRb8PHCRhebbBhE3K6dosl41Ei3ullQ
+    PbmlsE7W7zB1XYFPhFsj6LyUgnUZAjbRHXNP8ee67gltWzBoivFSzB00YC+WwWaYKzR9
+    6/UlIyT1K8MC3uyWtgg3NRjHW6zOtZEGXhFSDno8clVmvbxJF5GSMTZszGmR22KI3Y+U
+    z01/LpVWeA9cdEkMsmaJoVSaBUMdw31QY6Enya0lWaBwLaBwyTYNzOqVjyYBMZl5hMXd
+    b6jA==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1685516185;
+    s=strato-dkim-0002; d=gerhold.net;
+    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=Ac7g930X4TZT8FOVyemqEC3uDwuc7IbCN+icMmcWknM=;
+    b=YsKlmPabUrWfmSvqZzxfmAjCYJ3SETAmMPDDABbmdb+PcnI3ZAVWvA57IqmrkaVOwR
+    WZPKJgfrMzu/I+4wyYHhcxZjIc3fFEjBO5wPcDuTdeUjeDLko+JjW9shjVYGTXIYJ9vP
+    RZOMU/a6Ip/APA27Yj2xirIbbkayF/VXimga0kysOya29TFio5MipV5T1lWh94uX7jIr
+    0fMycNlAlE0s6RXPn7ZOU38y5S+ZtPbnUG/KW9blGhV0oZ45Q8SYtqdjhE+PwnKdp3XP
+    hNM3cZbu9xlY13iIKeSNI+9j7azfjVqS9D8pnJtfrwvD0W22tNamX6efEYSgot6jiyR7
+    4TtA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1685516185;
+    s=strato-dkim-0003; d=gerhold.net;
+    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=Ac7g930X4TZT8FOVyemqEC3uDwuc7IbCN+icMmcWknM=;
+    b=hNT3tpBGTJ8OQmtlojX2n7CP9DWP7PbR7yaWjktsSFLZUDv8WTvVQpwosa4q2lUmKc
+    kPTDv6uXsduM8bk9i0AA==
+X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVOQ/OcYgojyw4j34+u261EJF5OxJD4peA9J/h"
+Received: from gerhold.net
+    by smtp.strato.de (RZmta 49.4.0 DYNA|AUTH)
+    with ESMTPSA id j6420az4V6uPko7
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+        (Client did not present a certificate);
+    Wed, 31 May 2023 08:56:25 +0200 (CEST)
+Date:   Wed, 31 May 2023 08:56:16 +0200
+From:   Stephan Gerhold <stephan@gerhold.net>
+To:     Vikash Garodia <quic_vgarodia@quicinc.com>
+Cc:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: venus: firmware: Use of_reserved_mem_lookup()
+Message-ID: <ZHbvkDkkS_pZltMG@gerhold.net>
+References: <20230529-venus-of-rmem-v1-1-dfcdc5047ffb@gerhold.net>
+ <38a627a2-040d-23e2-5637-32f199d0fc31@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 3/8] media: videobuf2: Add a module param to limit vb2
- queue buffer storage
-Content-Language: en-US
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
-        ming.qian@nxp.com, shijie.qin@nxp.com, eagle.zhou@nxp.com,
-        bin.liu@mediatek.com, matthias.bgg@gmail.com,
-        angelogioacchino.delregno@collabora.com, tiffany.lin@mediatek.com,
-        andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
-        stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com,
-        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        daniel.almeida@collabora.com, laurent.pinchart@ideasonboard.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, kernel@collabora.com
-References: <20230321102855.346732-1-benjamin.gaignard@collabora.com>
- <20230321102855.346732-4-benjamin.gaignard@collabora.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230321102855.346732-4-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <38a627a2-040d-23e2-5637-32f199d0fc31@quicinc.com>
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 21/03/2023 11:28, Benjamin Gaignard wrote:
-> Add module parameter "max_vb_buffer_per_queue" to be able to limit
-> the number of vb2 buffers store in queue.
+On Wed, May 31, 2023 at 11:36:52AM +0530, Vikash Garodia wrote:
+> On 5/29/2023 11:46 PM, Stephan Gerhold wrote:
+> > Reserved memory can be either looked up using the generic function
+> > of_address_to_resource() or using the special of_reserved_mem_lookup().
+> > The latter has the advantage that it ensures that the referenced memory
+> > region was really reserved and is not e.g. status = "disabled".
+> > 
+> > of_reserved_mem also supports allocating reserved memory dynamically at
+> > boot time. This works only when using of_reserved_mem_lookup() since
+> > there won't be a fixed address in the device tree.
+> IIUC, this would avoid precomputing the hard range for different firmware
+> regions and also make it more flexible to adjust the sizes, if anyone wants a
+> bigger size later.
+> Incase a specific firmware needs a dedicate start address, do we have an option
+> to specify the same ?
 > 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  drivers/media/common/videobuf2/videobuf2-core.c | 15 +++------------
->  include/media/videobuf2-core.h                  | 11 +++++++++--
->  2 files changed, 12 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index ae9d72f4d181..f4da917ccf3f 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -34,6 +34,8 @@
->  static int debug;
->  module_param(debug, int, 0644);
->  
-> +module_param(max_vb_buffer_per_queue, ulong, 0644);
 
-There is no MODULE_PARM_DESC here? Please add. I see it is not there for
-the debug param either, it should be added for that as well.
+If you want a specific start address (or in other words: a fixed base
+address) then you should continue using static reservation for that
+component. You can mix static and dynamic reservations. The static ones
+(with fixed addresses) will be reserved first, then the dynamic ones
+will be allocated from the free space.
 
-Regards,
+I have this example for one device in my proposal at [1]:
 
-	Hans
+	/* Firmware must be loaded at address 0x8b600000 */
+	wcnss_mem: wcnss@8b600000 {
+		reg = <0x8b600000 0x600000>;
+		no-map;
+	};
+	/* Firmware can be loaded anywhere with 1 MiB alignment */
+	venus_mem: venus {
+		size = <0x500000>;
+		alignment = <0x100000>;
+		no-map;
+	};
 
-> +
->  #define dprintk(q, level, fmt, arg...)					\
->  	do {								\
->  		if (debug >= level)					\
-> @@ -412,10 +414,6 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
->  	struct vb2_buffer *vb;
->  	int ret;
->  
-> -	/* Ensure that q->num_buffers+num_buffers is below VB2_MAX_FRAME */
-> -	num_buffers = min_t(unsigned int, num_buffers,
-> -			    VB2_MAX_FRAME - q->num_buffers);
-> -
->  	for (buffer = 0; buffer < num_buffers; ++buffer) {
->  		/* Allocate vb2 buffer structures */
->  		vb = kzalloc(q->buf_struct_size, GFP_KERNEL);
-> @@ -801,9 +799,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  	/*
->  	 * Make sure the requested values and current defaults are sane.
->  	 */
-> -	WARN_ON(q->min_buffers_needed > VB2_MAX_FRAME);
->  	num_buffers = max_t(unsigned int, *count, q->min_buffers_needed);
-> -	num_buffers = min_t(unsigned int, num_buffers, VB2_MAX_FRAME);
->  	memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
->  	/*
->  	 * Set this now to ensure that drivers see the correct q->memory value
-> @@ -919,11 +915,6 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  	bool no_previous_buffers = !q->num_buffers;
->  	int ret;
->  
-> -	if (q->num_buffers == VB2_MAX_FRAME) {
-> -		dprintk(q, 1, "maximum number of buffers already allocated\n");
-> -		return -ENOBUFS;
-> -	}
-> -
->  	if (no_previous_buffers) {
->  		if (q->waiting_in_dqbuf && *count) {
->  			dprintk(q, 1, "another dup()ped fd is waiting for a buffer\n");
-> @@ -948,7 +939,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  			return -EINVAL;
->  	}
->  
-> -	num_buffers = min(*count, VB2_MAX_FRAME - q->num_buffers);
-> +	num_buffers = *count;
->  
->  	if (requested_planes && requested_sizes) {
->  		num_planes = requested_planes;
-> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-> index 397dbf6e61e1..b8b34a993e04 100644
-> --- a/include/media/videobuf2-core.h
-> +++ b/include/media/videobuf2-core.h
-> @@ -12,6 +12,7 @@
->  #ifndef _MEDIA_VIDEOBUF2_CORE_H
->  #define _MEDIA_VIDEOBUF2_CORE_H
->  
-> +#include <linux/minmax.h>
->  #include <linux/mm_types.h>
->  #include <linux/mutex.h>
->  #include <linux/poll.h>
-> @@ -48,6 +49,8 @@ struct vb2_fileio_data;
->  struct vb2_threadio_data;
->  struct vb2_buffer;
->  
-> +static size_t max_vb_buffer_per_queue = 1024;
-> +
->  /**
->   * struct vb2_mem_ops - memory handling/memory allocator operations.
->   * @alloc:	allocate video memory and, optionally, allocator private data,
-> @@ -1268,12 +1271,16 @@ static inline bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *
->  
->  	if (vb->index >= q->max_num_bufs) {
->  		struct vb2_buffer **tmp;
-> +		int cnt = min(max_vb_buffer_per_queue, q->max_num_bufs * 2);
-> +
-> +		if (cnt >= q->max_num_bufs)
-> +			goto realloc_failed;
->  
-> -		tmp = krealloc_array(q->bufs, q->max_num_bufs * 2, sizeof(*q->bufs), GFP_KERNEL);
-> +		tmp = krealloc_array(q->bufs, cnt, sizeof(*q->bufs), GFP_KERNEL);
->  		if (!tmp)
->  			goto realloc_failed;
->  
-> -		q->max_num_bufs *= 2;
-> +		q->max_num_bufs = cnt;
->  		q->bufs = tmp;
->  	}
->  
+The wcnss_mem will be always at 0x8b600000, but the venus_mem can be
+loaded somewhere around that. If only certain regions need a fixed
+address this still provides the flexibility to change sizes more easily.
 
+Does that answer your question? I wasn't sure what exactly you mean with
+a "dedicated start address". :)
+
+Thanks,
+Stephan
+
+[1]: https://lore.kernel.org/linux-arm-msm/20230510-dt-resv-bottom-up-v1-5-3bf68873dbed@gerhold.net/
