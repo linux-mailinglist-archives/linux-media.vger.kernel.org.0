@@ -2,193 +2,304 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F0AFA718534
-	for <lists+linux-media@lfdr.de>; Wed, 31 May 2023 16:43:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 231CE71853C
+	for <lists+linux-media@lfdr.de>; Wed, 31 May 2023 16:45:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237192AbjEaOnJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 May 2023 10:43:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52498 "EHLO
+        id S235976AbjEaOpq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 May 2023 10:45:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237272AbjEaOnG (ORCPT
+        with ESMTP id S229709AbjEaOpp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 May 2023 10:43:06 -0400
+        Wed, 31 May 2023 10:45:45 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0605ED9;
-        Wed, 31 May 2023 07:43:01 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (om126205251136.34.openmobile.ne.jp [126.205.251.136])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 98F3B7F5;
-        Wed, 31 May 2023 16:42:37 +0200 (CEST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20A4798;
+        Wed, 31 May 2023 07:45:44 -0700 (PDT)
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A519C7F5;
+        Wed, 31 May 2023 16:45:20 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1685544158;
-        bh=sYnvbp5YqSxneWSBkhI7BOpxc2bk2K6XTPgvmAUbjdw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DyjPGZMVK0x52B3SNYcfNMWEcy+wR1MEsCI556HH9fq4Vm5lRlDjiyX3X8KRTEvrH
-         DnQo8SxM/cTvqtq5013suNJwiMDfptxtLYVdTIaQ/iY6jpzYxOP45POBDG324pEmU+
-         Yk7rGBFudHyD/zKQA1x7irVIhEkVizye9kTjv2Sw=
-Date:   Wed, 31 May 2023 17:42:58 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tommaso Merciai <tomm.merciai@gmail.com>
-Cc:     jacopo.mondi@ideasonboard.com, martin.hecht@avnet.eu,
-        linuxfancy@googlegroups.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Gerald Loacker <gerald.loacker@wolfvision.net>,
-        Nicholas Roth <nicholas@rothemail.net>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] media: i2c: Add support for alvium camera
-Message-ID: <20230531144258.GB24749@pendragon.ideasonboard.com>
-References: <20230526173955.797226-1-tomm.merciai@gmail.com>
- <20230526173955.797226-3-tomm.merciai@gmail.com>
- <20230529074018.GD25984@pendragon.ideasonboard.com>
- <ZHcd09f5wOKjQdHX@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <20230531113331.GC27043@pendragon.ideasonboard.com>
- <ZHdXV4SPOW0dxtcG@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+        s=mail; t=1685544321;
+        bh=sn/NAAwjUxAwN9fkYYUDaJAsqUTIKnydTVXwkecQ1fQ=;
+        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
+        b=ioBTiclVGWQJfOurlPOjlCz10e8v3kiPC8JNI5w+FFQ2whYiVvzuef+yLpyqCV+Wm
+         4NLx8Mb7giBHnTvK3w/s/I7mMqeNOhTy46RT6aRYOPmuY/5Ua7i4YtJJyaLXLKb+e2
+         tOcv3yYxN1W6mBH7r9TFEyXOd6D5+RoqG1+Dq/IE=
+Message-ID: <70e8ece9-d9eb-7749-ae8f-276891324e48@ideasonboard.com>
+Date:   Wed, 31 May 2023 15:45:38 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZHdXV4SPOW0dxtcG@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Content-Language: en-US
+To:     Hans de Goede <hdegoede@redhat.com>,
+        =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Daniel Scally <djrscally@gmail.com>
+Cc:     bingbu.cao@linux.intel.com, platform-driver-x86@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>,
+        Hao Yao <hao.yao@intel.com>
+References: <20230531134429.171337-1-hdegoede@redhat.com>
+From:   Dan Scally <dan.scally@ideasonboard.com>
+Subject: Re: [PATCH v2] platform/x86: int3472: Evaluate device's _DSM method
+ to control imaging clock
+In-Reply-To: <20230531134429.171337-1-hdegoede@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tommaso,
+Hello Hans and Bingbu (and thanks for both versions of the patch)
 
-On Wed, May 31, 2023 at 04:19:03PM +0200, Tommaso Merciai wrote:
-> On Wed, May 31, 2023 at 02:33:31PM +0300, Laurent Pinchart wrote:
-> > On Wed, May 31, 2023 at 12:13:39PM +0200, Tommaso Merciai wrote:
-> > > On Mon, May 29, 2023 at 10:40:18AM +0300, Laurent Pinchart wrote:
-> > > > On Fri, May 26, 2023 at 07:39:44PM +0200, Tommaso Merciai wrote:
-> > > > > The Alvium camera is shipped with sensor + isp in the same housing.
-> > > > 
-> > > > What ISP is that ?
-> > > 
-> > > The isp comes from Allied Vision, is called Alvium and is part of the camera.
-> > > In real is a vision processor, this offers more functionality then an isp can do.
-> > > It is not sold separately but is an integrated part of the camera itself
-> > > which also takes care of the sensor abstraction.
-> > > 
-> > > > > The camera can be equipped with one out of various sensor and abstract
-> > > > > the user from this. Camera is connected via MIPI CSI-2.
-> > > > > 
-> > > > > Most of the sensor's features are supported, with the main exception
-> > > > > being fw update.
-> > > > 
-> > > > I assume you mean "camera module features" here, as firmware update
-> > > > isn't a camera sensor feature.
-> > > 
-> > > Yep.
-> > > 
-> > > > > The driver provides all mandatory, optional and recommended V4L2 controls
-> > > > > for maximum compatibility with libcamera
-> > > > > 
-> > > > > References:
-> > > > >  - https://www.alliedvision.com/en/products/embedded-vision-solutions
-> > > > 
-> > > > I'll do a partial review only as the patch is large, and will try to
-> > > > review the rest in v2.
-> > > 
-> > > No problem.
-> > > 
-> > > > > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
-> > > > > ---
-> > > > >  drivers/media/i2c/Kconfig  |    9 +
-> > > > >  drivers/media/i2c/Makefile |    1 +
-> > > > >  drivers/media/i2c/alvium.c | 3547 ++++++++++++++++++++++++++++++++++++
-> > > > >  drivers/media/i2c/alvium.h |  500 +++++
-> > > > >  4 files changed, 4057 insertions(+)
-> > > > >  create mode 100644 drivers/media/i2c/alvium.c
-> > > > >  create mode 100644 drivers/media/i2c/alvium.h
+On 31/05/2023 14:44, Hans de Goede wrote:
+> From: Bingbu Cao <bingbu.cao@intel.com>
+>
+> On some platforms, the imaging clock should be controlled by evaluating
+> specific clock device's _DSM method instead of setting gpio, so this
+> change register clock if no gpio based clock and then use the _DSM method
+> to enable and disable clock.
 
-[snip]
 
-> > > > > diff --git a/drivers/media/i2c/alvium.c b/drivers/media/i2c/alvium.c
-> > > > > new file mode 100644
-> > > > > index 000000000000..e77fb6bda64b
-> > > > > --- /dev/null
-> > > > > +++ b/drivers/media/i2c/alvium.c
-> > > > > @@ -0,0 +1,3547 @@
+Interesting - is that a common thing? Are there other camera-related resources that are controlled 
+in a similar way? I still don't know how to drive the infrared LED on most Surface platforms, so now 
+I'm wondering if they need something similar doing.
 
-[snip]
 
-> > > > > +static int alvium_set_streamon_delay(struct alvium_dev *alvium)
-> > > > > +{
-> > > > > +	struct device *dev = &alvium->i2c_client->dev;
-> > > > > +	int ret;
-> > > > > +	u64 streamon_delay;
-> > > > > +
-> > > > > +	if (!alvium->bcrm_addr)
-> > > > > +		return -EINVAL;
-> > > > > +
-> > > > > +	/*
-> > > > > +	 * CSI2 receivers sometimes need some delay before are ready to
-> > > > > +	 * get data. This register set delay before camera start
-> > > > > +	 * capturing frames in us.
-> > > > 
-> > > > If the CSI-2 receiver needs a delay, it should be handled by the CSI-2
-> > > > receiver driver, not here.
-> > > 
-> > > My bad, bad description/bad name.
-> > > 
-> > > This regs is an optional delay that alvium introduces between switching
-> > > from lp to hs mode.
-> > > Some mipi receivers require this delay on the sender side.
-> > > 
-> > > I plan to switch to the following name: alliedvision,lp2hs-delay-us
-> > > and fix the comment with the above comment^
-> > > 
-> > > This is more clear, what do you think about?
-> > 
-> > It's a bit clearer, but still not fully :-) Does this delay correspond
-> > to one of the MIPI D-PHY timing parameters ? If so, which one ?
-> 
-> Thanks to Martin Hecht I'm able to provide you a clearer description:
-> 
-> Alvium normally delivers a continous clock even when it is not streaming.
+It does seem a bit strange for this to be a _DSM method against the INT3472 rather than part of _PS0 
+against the camera itself - isn't that where you'd usually find such things?
 
-That's an interesting design choice.
+>
+> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+> Signed-off-by: Hao Yao <hao.yao@intel.com>
+> Link: https://lore.kernel.org/r/20230524035135.90315-2-bingbu.cao@intel.com
+> ---
+> Changes in v2 (Hans de Goede):
+> - Minor comment / code changes (address Andy's review remarks)
+> - Add a acpi_check_dsm() call
+> - Return 0 instead of error if we already have a GPIO clk or if
+>    acpi_check_dsm() fails
+> - Rename skl_int3472_register_clock() -> skl_int3472_register_gpio_clock()
+>    and name the new function: skl_int3472_register_dsm_clock()
+> - Move the skl_int3472_register_dsm_clock() call to after
+>    acpi_dev_free_resource_list() and add error checking for it
 
-> The purpose of this reg is force a DPhy reset for the period described by
-> the us on the reg before it starts streaming. To be clear, with that value
-> bigger than 0 the Alvium forces a dphy-reset on all lanes for that period.
-> That means all lanes go up into low power state.
-> This may help a csi2 rx ip to reset if that IP can't deal with a continous clock.
 
-No CSI-2 receiver can possibly handle this :-) If the camera power can't
-be turned on only after the CSI-2 receiver is started (as obviously the
-camera can't output a HS clock when it's not powered on), then the
-receiver wouldn't be able to synchronize.
+I think all these changes are good ones.
 
-Thanks for the explanation. Could you record this in the DT bindings ?
+> ---
+>   .../x86/intel/int3472/clk_and_regulator.c     | 89 ++++++++++++++++++-
+>   drivers/platform/x86/intel/int3472/common.h   | 10 ++-
+>   drivers/platform/x86/intel/int3472/discrete.c |  8 +-
+>   3 files changed, 99 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/platform/x86/intel/int3472/clk_and_regulator.c b/drivers/platform/x86/intel/int3472/clk_and_regulator.c
+> index 1086c3d83494..9bcf8c64b8e7 100644
+> --- a/drivers/platform/x86/intel/int3472/clk_and_regulator.c
+> +++ b/drivers/platform/x86/intel/int3472/clk_and_regulator.c
+> @@ -11,6 +11,37 @@
+>   
+>   #include "common.h"
+>   
+> +/*
+> + * 82c0d13a-78c5-4244-9bb1-eb8b539a8d11
+> + * This _DSM GUID allows controlling the sensor clk when it is not controlled
+> + * through a GPIO.
+> + */
+> +static const guid_t img_clk_guid =
+> +	GUID_INIT(0x82c0d13a, 0x78c5, 0x4244,
+> +		  0x9b, 0xb1, 0xeb, 0x8b, 0x53, 0x9a, 0x8d, 0x11);
+> +
+> +static void skl_int3472_enable_clk_acpi_method(struct int3472_gpio_clock *clk,
+> +					       bool enable)
+> +{
+> +	struct int3472_discrete_device *int3472 = to_int3472_device(clk);
+> +	union acpi_object args[3];
+> +	union acpi_object argv4;
+> +
+> +	args[0].integer.type = ACPI_TYPE_INTEGER;
+> +	args[0].integer.value = clk->imgclk_index;
+> +	args[1].integer.type = ACPI_TYPE_INTEGER;
+> +	args[1].integer.value = enable ? 1 : 0;
+> +	args[2].integer.type = ACPI_TYPE_INTEGER;
+> +	args[2].integer.value = 1;
+> +
+> +	argv4.type = ACPI_TYPE_PACKAGE;
+> +	argv4.package.count = 3;
+> +	argv4.package.elements = args;
+> +
+> +	acpi_evaluate_dsm(acpi_device_handle(int3472->adev), &img_clk_guid,
+> +			  0, 1, &argv4);
+> +}
 
-> > > > > +	 */
-> > > > > +	streamon_delay = (u64)alvium->streamon_delay;
-> > > > > +
-> > > > > +	ret = alvium_i2c_write_reg_hshake(alvium,
-> > > > > +				  alvium->bcrm_addr +
-> > > > > +				  REG_BCRM_STREAM_ON_DELAY_32RW,
-> > > > > +				  4, streamon_delay);
-> > > > > +	if (ret) {
-> > > > > +		dev_err(dev, "Fail to set streamon delay reg\n");
-> > > > > +		return ret;
-> > > > > +	}
-> > > > > +
-> > > > > +	return 0;
-> > > > > +}
 
-[snip]
+I'm not really sure what error modes something like this might have, but acpi_evaluate_dsm() at 
+least can fail - is there no value in error checking here so that it could be returned by 
+skl_int3472_clk_prepare() below?
 
--- 
-Regards,
+> +
+>   /*
+>    * The regulators have to have .ops to be valid, but the only ops we actually
+>    * support are .enable and .disable which are handled via .ena_gpiod. Pass an
+> @@ -22,7 +53,11 @@ static int skl_int3472_clk_prepare(struct clk_hw *hw)
+>   {
+>   	struct int3472_gpio_clock *clk = to_int3472_clk(hw);
+>   
+> -	gpiod_set_value_cansleep(clk->ena_gpio, 1);
+> +	if (clk->ena_gpio)
+> +		gpiod_set_value_cansleep(clk->ena_gpio, 1);
+> +	else
+> +		skl_int3472_enable_clk_acpi_method(clk, 1);
+> +
+>   	return 0;
+>   }
+>   
+> @@ -30,7 +65,10 @@ static void skl_int3472_clk_unprepare(struct clk_hw *hw)
+>   {
+>   	struct int3472_gpio_clock *clk = to_int3472_clk(hw);
+>   
+> -	gpiod_set_value_cansleep(clk->ena_gpio, 0);
+> +	if (clk->ena_gpio)
+> +		gpiod_set_value_cansleep(clk->ena_gpio, 0);
+> +	else
+> +		skl_int3472_enable_clk_acpi_method(clk, 0);
+>   }
+>   
+>   static int skl_int3472_clk_enable(struct clk_hw *hw)
+> @@ -86,8 +124,51 @@ static const struct clk_ops skl_int3472_clock_ops = {
+>   	.recalc_rate = skl_int3472_clk_recalc_rate,
+>   };
+>   
+> -int skl_int3472_register_clock(struct int3472_discrete_device *int3472,
+> -			       struct acpi_resource_gpio *agpio, u32 polarity)
+> +int skl_int3472_register_dsm_clock(struct int3472_discrete_device *int3472)
+> +{
+> +	struct acpi_device *adev = int3472->adev;
+> +	struct clk_init_data init = {
+> +		.ops = &skl_int3472_clock_ops,
+> +		.flags = CLK_GET_RATE_NOCACHE,
+> +	};
+> +	int ret;
+> +
+> +	if (int3472->clock.cl)
+> +		return 0; /* A GPIO controlled clk has already been registered */
+> +
+> +	if (!acpi_check_dsm(adev->handle, &img_clk_guid, 0, BIT(1)))
+> +		return 0; /* DSM clock control is not available */
+> +
+> +	init.name = kasprintf(GFP_KERNEL, "%s-clk", acpi_dev_name(adev));
+> +	if (!init.name)
+> +		return -ENOMEM;
+> +
+> +	int3472->clock.frequency = skl_int3472_get_clk_frequency(int3472);
+> +	int3472->clock.clk_hw.init = &init;
+> +	int3472->clock.clk = clk_register(&adev->dev, &int3472->clock.clk_hw);
+> +	if (IS_ERR(int3472->clock.clk)) {
+> +		ret = PTR_ERR(int3472->clock.clk);
+> +		goto out_free_init_name;
+> +	}
+> +
+> +	int3472->clock.cl = clkdev_create(int3472->clock.clk, NULL, int3472->sensor_name);
+> +	if (!int3472->clock.cl) {
+> +		ret = -ENOMEM;
+> +		goto err_unregister_clk;
+> +	}
+> +
+> +	kfree(init.name);
+> +	return 0;
+> +
+> +err_unregister_clk:
+> +	clk_unregister(int3472->clock.clk);
+> +out_free_init_name:
+> +	kfree(init.name);
+> +	return ret;
+> +}
+> +
+> +int skl_int3472_register_gpio_clock(struct int3472_discrete_device *int3472,
+> +				    struct acpi_resource_gpio *agpio, u32 polarity)
+>   {
+>   	char *path = agpio->resource_source.string_ptr;
+>   	struct clk_init_data init = {
+> diff --git a/drivers/platform/x86/intel/int3472/common.h b/drivers/platform/x86/intel/int3472/common.h
+> index 61688e450ce5..10a72f42a998 100644
+> --- a/drivers/platform/x86/intel/int3472/common.h
+> +++ b/drivers/platform/x86/intel/int3472/common.h
+> @@ -64,7 +64,9 @@ struct int3472_cldb {
+>   	u8 control_logic_type;
+>   	u8 control_logic_id;
+>   	u8 sensor_card_sku;
+> -	u8 reserved[28];
+> +	u8 reserved[10];
+> +	u8 clock_source;
+> +	u8 reserved2[17];
 
-Laurent Pinchart
+
+Not really a comment on the functionality of the patch, but can we not just get the rest of those 
+fields filled out?
+
+>   };
+>   
+>   struct int3472_gpio_function_remap {
+> @@ -100,6 +102,7 @@ struct int3472_discrete_device {
+>   		struct clk_lookup *cl;
+>   		struct gpio_desc *ena_gpio;
+>   		u32 frequency;
+> +		u8 imgclk_index;
+>   	} clock;
+
+
+This struct is called "int3472_gpio_clock" but perhaps now ought to just be "int3472_clock"
+
+>   
+>   	struct int3472_pled {
+> @@ -121,8 +124,9 @@ int skl_int3472_get_sensor_adev_and_name(struct device *dev,
+>   					 struct acpi_device **sensor_adev_ret,
+>   					 const char **name_ret);
+>   
+> -int skl_int3472_register_clock(struct int3472_discrete_device *int3472,
+> -			       struct acpi_resource_gpio *agpio, u32 polarity);
+> +int skl_int3472_register_gpio_clock(struct int3472_discrete_device *int3472,
+> +				    struct acpi_resource_gpio *agpio, u32 polarity);
+> +int skl_int3472_register_dsm_clock(struct int3472_discrete_device *int3472);
+>   void skl_int3472_unregister_clock(struct int3472_discrete_device *int3472);
+>   
+>   int skl_int3472_register_regulator(struct int3472_discrete_device *int3472,
+> diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
+> index ef020e23e596..8111579a59d4 100644
+> --- a/drivers/platform/x86/intel/int3472/discrete.c
+> +++ b/drivers/platform/x86/intel/int3472/discrete.c
+> @@ -258,7 +258,7 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
+>   
+>   		break;
+>   	case INT3472_GPIO_TYPE_CLK_ENABLE:
+> -		ret = skl_int3472_register_clock(int3472, agpio, polarity);
+> +		ret = skl_int3472_register_gpio_clock(int3472, agpio, polarity);
+>   		if (ret)
+>   			err_msg = "Failed to register clock\n";
+>   
+> @@ -311,6 +311,11 @@ static int skl_int3472_parse_crs(struct int3472_discrete_device *int3472)
+>   
+>   	acpi_dev_free_resource_list(&resource_list);
+>   
+> +	/* Register _DSM based clock (no-op if a GPIO clock was already registered) */
+> +	ret = skl_int3472_register_dsm_clock(int3472);
+> +	if (ret < 0)
+> +		return ret;
+> +
+>   	int3472->gpios.dev_id = int3472->sensor_name;
+>   	gpiod_add_lookup_table(&int3472->gpios);
+>   
+> @@ -356,6 +361,7 @@ static int skl_int3472_discrete_probe(struct platform_device *pdev)
+>   	int3472->adev = adev;
+>   	int3472->dev = &pdev->dev;
+>   	platform_set_drvdata(pdev, int3472);
+> +	int3472->clock.imgclk_index = cldb.clock_source;
+>   
+>   	ret = skl_int3472_get_sensor_adev_and_name(&pdev->dev, &int3472->sensor,
+>   						   &int3472->sensor_name);
