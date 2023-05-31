@@ -2,117 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5367B717192
-	for <lists+linux-media@lfdr.de>; Wed, 31 May 2023 01:21:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB07B7173DB
+	for <lists+linux-media@lfdr.de>; Wed, 31 May 2023 04:42:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233885AbjE3XVF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 May 2023 19:21:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49788 "EHLO
+        id S231972AbjEaCmF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 May 2023 22:42:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233874AbjE3XVC (ORCPT
+        with ESMTP id S231417AbjEaCmE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 May 2023 19:21:02 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85194113
-        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 16:20:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685488856; x=1717024856;
-  h=date:from:to:cc:subject:message-id;
-  bh=03FlYXNkd5l3XlW20HMhhyZJiYbHzFqdlz8bMjOO/oI=;
-  b=RAK958gu/sqxT2sdUHTFgBI4lYF/Nlsmmq+xCk+iIxHR85+1xj8JnDIx
-   fhDuuSUaCrFiFATkgX9wd49YDTDEj4L0A0obS7OADSxpPRz20XS5VPBT0
-   N+GDXdi3dxvNk2fm8kb2pSLIZDLWheNQ3Xfk9O4qOsaPItXH0kTRl7N+W
-   jGr+qo1CfXU8xLMqyAwkicJk2r8w+omJ+6d8W8TrQ5lFfVs//4LD9YoJc
-   Zy/5MPNrQQ9oMYbe0mnuJWX8nQJZp2PswBcTI0L8DLDhtu3H8vhvJ78aq
-   f4jbTy5oO6ITrFSVNZpSk9H6esAw0gOrbuxbCXfJEJ7oR9OSeH64cnljN
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="339664385"
-X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; 
-   d="scan'208";a="339664385"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 16:20:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="880927750"
-X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; 
-   d="scan'208";a="880927750"
-Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 30 May 2023 16:20:49 -0700
-Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1q48e0-0000tX-2B;
-        Tue, 30 May 2023 23:20:48 +0000
-Date:   Wed, 31 May 2023 07:20:09 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org
-Subject: [sailus-media-tree:master] BUILD SUCCESS
- 397ede0056e7977ee161817e66bff04542f6deac
-Message-ID: <20230530232009.5Mn26%lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+        Tue, 30 May 2023 22:42:04 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9518BB2
+        for <linux-media@vger.kernel.org>; Tue, 30 May 2023 19:42:01 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2899A60C85
+        for <linux-media@vger.kernel.org>; Wed, 31 May 2023 02:42:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11562C433EF
+        for <linux-media@vger.kernel.org>; Wed, 31 May 2023 02:41:59 +0000 (UTC)
+Date:   Wed, 31 May 2023 04:41:58 +0200
+Message-ID: <0b47feed91e21fe5de772d90b925ced4.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git master
-branch HEAD: 397ede0056e7977ee161817e66bff04542f6deac  media: ipu3-cio2: rename ipu3-cio2-main.c back to ipu3-cio2.c
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-elapsed time: 730m
+Results of the daily build of media_tree:
 
-configs tested: 40
-configs skipped: 2
+date:			Wed May 31 03:00:10 CEST 2023
+media-tree git hash:	aafeeaf3d2a8a91a5407c774c578abec79dcff00
+v4l-utils git hash:	52926c1f2f03aebe34d96056e8380ab07c8f512d
+edid-decode git hash:	2d44e1b01c7ed7d65b20ecdce62d354841832201
+gcc version:		i686-linux-gcc (GCC) 12.3.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8371-g475c3cec-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 163c62019e7886f91a8228c109b1be28637973b1
+host hardware:		x86_64
+host os:		6.1.0-5-amd64
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm-multi: OK
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: WARNINGS: VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
+Check for strcpy/strncpy/strlcpy: OK
+apps: WARNINGS
+spec-git: OK
+virtme: OK: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 0
+virtme-32: WARNINGS: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 2
+CONFIG_PM=n: WARNINGS
+CONFIG_PM_SLEEP=n: WARNINGS
+CONFIG_OF=n: WARNINGS
+sparse: WARNINGS
+smatch: ERRORS
+kerneldoc: WARNINGS
 
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-csky                                defconfig   gcc  
-i386                             allyesconfig   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-m68k                             allmodconfig   gcc  
-m68k                                defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-nios2                               defconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-sh                               allmodconfig   gcc  
-sparc                               defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64                               rhel-8.3   gcc  
+Detailed results are available here:
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+https://hverkuil.home.xs4all.nl/logs/Wednesday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
