@@ -2,108 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AE517187ED
-	for <lists+linux-media@lfdr.de>; Wed, 31 May 2023 19:02:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2561E7188ED
+	for <lists+linux-media@lfdr.de>; Wed, 31 May 2023 19:56:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229830AbjEaRCe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 May 2023 13:02:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41020 "EHLO
+        id S229629AbjEaR4u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 May 2023 13:56:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229542AbjEaRCd (ORCPT
+        with ESMTP id S229480AbjEaR4t (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 May 2023 13:02:33 -0400
-Received: from mail-yb1-xb44.google.com (mail-yb1-xb44.google.com [IPv6:2607:f8b0:4864:20::b44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9972D135
-        for <linux-media@vger.kernel.org>; Wed, 31 May 2023 10:02:31 -0700 (PDT)
-Received: by mail-yb1-xb44.google.com with SMTP id 3f1490d57ef6-ba81deea9c2so5215661276.2
-        for <linux-media@vger.kernel.org>; Wed, 31 May 2023 10:02:31 -0700 (PDT)
+        Wed, 31 May 2023 13:56:49 -0400
+Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com [IPv6:2607:f8b0:4864:20::f33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99CB3126;
+        Wed, 31 May 2023 10:56:48 -0700 (PDT)
+Received: by mail-qv1-xf33.google.com with SMTP id 6a1803df08f44-62614f2eee1so378776d6.0;
+        Wed, 31 May 2023 10:56:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685552551; x=1688144551;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Z2awcT+0JgCeSvbodyRK5wx8XefAu35aN26RnKecP3c=;
-        b=ru3LJWatw9eSDRsclue1WsWIAxDaumN43vY6opCFT1uTJnhV5qbyqlLmijzuovu8Nm
-         3SjSIPob1flROXiZ/+I9rX/Opy4E4ipaOua7v2rzbHaBsPAogoMmE6ndp0QkOs10XZEQ
-         MS2NSWPHSQbySLRlPnWkU66Cx5ulYCr/7PPcI4Rf8sxK0XHMg/EO//ovKXZbEA3umyD3
-         pwg/pWfc8W2NEqma2xhp/ec4GA5Qnt0NY72uixR6htP8skXxdb1XS5RIfYorr/tgpA1Z
-         9JC4XdO+zHxDuToUyN/HWNUGGeraNWl6hS+5ebk1AWXREaHRRLYi7wTWJZGkZwfrktMg
-         EwuA==
+        d=gmail.com; s=20221208; t=1685555808; x=1688147808;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MV/c9biBREnkCQhVOfi4+gGEBOdEBNIO9x1pDQfIhIc=;
+        b=rnbmb5JlCSJDAEgSUjcHfGlPCWBH6Ob3WXHiWCb8icD/V4HzAFoDfxoebts+CwnVDj
+         DGXevcQNVkHXz+69508oAva6lUdvfcqSAKulxIe+DPJMnrPnNEnkeLilVGD08FTlqyQm
+         ZqnhtIIaLo1wB+BBN6/hSfbdJHtKhlfSjx1kmwpVVC6/LQwl64fGaqF+0fDA3WWzXIbz
+         d/QAf6FIyEVjO8N67m6guyuXEpqAtRDqnE9X8fOnkCYJucPb7tCZslyWscd6trza6enc
+         rWYQJGcfOWpwY+I6FcQ60PH2+QXu9UUEyaqqaZ7R8beShSaTZlG0MsqYPsmwP/PnwrQR
+         NlQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685552551; x=1688144551;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z2awcT+0JgCeSvbodyRK5wx8XefAu35aN26RnKecP3c=;
-        b=h9/jv6p/COJJkep3n1fg/5zEGZ2jDpMCRs9IpB/ity7XsP3ymNST+34CZFsfFs2i9w
-         NE5X4+8jCjUgEVaDNZGyl1Rixk1vVWBSn18PAFXiQJKb7ngOURIEoPQE3C+TCmSenjOK
-         4/aUmY/PVFCqu+w1GtWrVgTDjiJCLXWTpufxhGMqy5V8nwF57HC5WPXc1/2GAo28TD07
-         I6mqgJvH4eWKK6uJv+SAVT435eud1q6O+z0OhMrADZDThk6jJQO0q/Bx5EO+rFAeMQS9
-         24mBKDq2Rllw81zWd0Zx2gF2bHprzGq4WP1mhziYULEiyzfQF8y4cwspCpDcUSsjJyXl
-         ccZA==
-X-Gm-Message-State: AC+VfDxDIjZzLZWSLcLoNgx0cqIdMcp2KyZaZa2bMPr1CHmQHeKVTD9x
-        T2LVqEciAuoE4GdbOiekMMLuITkqbbjT58hbgf0=
-X-Google-Smtp-Source: ACHHUZ4dQJlXj60cxvsTiSM0dtaKbN4LMCi1vwHfOB99S/bor3Dy8Gb2UJe3mTHf8rjZL55t2EEfWPILd3VShBm1Pnc=
-X-Received: by 2002:a05:6902:154c:b0:ba7:cb72:3588 with SMTP id
- r12-20020a056902154c00b00ba7cb723588mr7649878ybu.9.1685552550720; Wed, 31 May
- 2023 10:02:30 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1685555808; x=1688147808;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MV/c9biBREnkCQhVOfi4+gGEBOdEBNIO9x1pDQfIhIc=;
+        b=XLRdOFhfOpSyvWJVOJkRaFlCfCf/7A6Huz/b8ub8K1ASMRKLpQPTJqL3qpDzHNA937
+         INkwwUChXAEqKrlIpC/ixWnlCzqSXYDFPUAYFu9SMn7RGqG7UHrz1wothUm07AcZlEYC
+         hm6oMlLCyVJbc5dVGHxQGR/4u05TUO5NXXgWOy9Fw3JoHtsT3jw1D54st8Anxwv4Ugbl
+         ND9GuEPlu2dyZ6bqigpoHMot0zKg6zVzce1boVTHvSEDpgCd6aTBFn7bJS4Ok1QhRb+Y
+         Do6TbEtGxjhQ9au8FscrT1lOW+SGlXlk0+vtLgaHhMw1FyQ1msaxoFGZNWB77/paKvfU
+         J/Vg==
+X-Gm-Message-State: AC+VfDyEvrNq2iUO4exiQ4O1VFToQh57O+X3CLNGxiFjDQfvZ4JwCi3B
+        Z3xf6KdA7NlEYq4+RsQgZHCc4Smm5EGzBWVOsZU=
+X-Google-Smtp-Source: ACHHUZ7oPzEnX2sTgdrIybaJqGhrKECjZE6ClvGKPggqB4ZsjxGeTwBJKYWUj0dGV+eukpHw2u/ObwzaonunVzVeww0=
+X-Received: by 2002:a05:6214:2245:b0:618:e1d9:75b8 with SMTP id
+ c5-20020a056214224500b00618e1d975b8mr8920500qvc.34.1685555807697; Wed, 31 May
+ 2023 10:56:47 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a05:7010:582a:b0:35e:4011:9d19 with HTTP; Wed, 31 May 2023
- 10:02:30 -0700 (PDT)
-Reply-To: drlisawilliams53@gmail.com
-From:   Dr Lisa Williams <williamsdrlisa@gmail.com>
-Date:   Wed, 31 May 2023 18:02:30 +0100
-Message-ID: <CAJbSCCRDPiDMKYJ4bXV9Y=vOcZe5CFqc8LrBctb_MFgTJfY9XA@mail.gmail.com>
-Subject: GOOD DAY DEAR
-To:     undisclosed-recipients:;
+References: <20230531134429.171337-1-hdegoede@redhat.com>
+In-Reply-To: <20230531134429.171337-1-hdegoede@redhat.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 31 May 2023 20:56:11 +0300
+Message-ID: <CAHp75VfZN5M8LiP3nw0NT5p3WyJJJJm6w2OZKgm28b6aokzopQ@mail.gmail.com>
+Subject: Re: [PATCH v2] platform/x86: int3472: Evaluate device's _DSM method
+ to control imaging clock
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        bingbu.cao@linux.intel.com, platform-driver-x86@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>,
+        Hao Yao <hao.yao@intel.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.3 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        SUBJ_ALL_CAPS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:b44 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [williamsdrlisa[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [drlisawilliams53[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  3.0 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
--- 
-Hi Dear,
+On Wed, May 31, 2023 at 4:44=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
+ wrote:
+>
+> From: Bingbu Cao <bingbu.cao@intel.com>
+>
+> On some platforms, the imaging clock should be controlled by evaluating
+> specific clock device's _DSM method instead of setting gpio, so this
+> change register clock if no gpio based clock and then use the _DSM method
+> to enable and disable clock.
 
-My name is Dr Lisa Williams from the United States.I am a French and
-American nationality (dual) living in the U.S and sometimes in France
-for Work Purpose.
+...
 
-I hope you consider my friend request. I will share some of my pics
-and more details about myself when I get your response.
+> +       if (clk->ena_gpio)
+> +               gpiod_set_value_cansleep(clk->ena_gpio, 1);
+> +       else
+> +               skl_int3472_enable_clk_acpi_method(clk, 1);
 
-Thanks
+Looking at this, can we avoid duplicative validation of the GPIO?
+Perhaps skl_int3472_enable_clk_acpi_method() can have embedded another
+check so they won't be called together?
 
-With love
-Lisa
+...
+
+> +       if (clk->ena_gpio)
+> +               gpiod_set_value_cansleep(clk->ena_gpio, 0);
+> +       else
+> +               skl_int3472_enable_clk_acpi_method(clk, 0);
+
+Ditto.
+
+--=20
+With Best Regards,
+Andy Shevchenko
