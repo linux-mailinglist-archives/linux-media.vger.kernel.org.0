@@ -2,155 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C183717EB6
-	for <lists+linux-media@lfdr.de>; Wed, 31 May 2023 13:44:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C4D2717ECA
+	for <lists+linux-media@lfdr.de>; Wed, 31 May 2023 13:48:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235249AbjEaLo3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 May 2023 07:44:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47242 "EHLO
+        id S235357AbjEaLs4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 May 2023 07:48:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232163AbjEaLo3 (ORCPT
+        with ESMTP id S229765AbjEaLsz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 May 2023 07:44:29 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7C1A101
-        for <linux-media@vger.kernel.org>; Wed, 31 May 2023 04:44:27 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1q4KFd-00Co0h-IS; Wed, 31 May 2023 11:44:25 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1q4KFa-00GG9h-VR; Wed, 31 May 2023 11:44:23 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v6.5] mediatek/imx changes (#92281)
-Date:   Wed, 31 May 2023 11:44:22 +0000
-Message-Id: <20230531114422.3875303-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <29b5049c-7fa3-cd90-47b1-7be9ce997eb1@xs4all.nl>
-References: 
+        Wed, 31 May 2023 07:48:55 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E70FE5
+        for <linux-media@vger.kernel.org>; Wed, 31 May 2023 04:48:54 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1q4KJw-0001sI-F9; Wed, 31 May 2023 13:48:52 +0200
+Message-ID: <a47b5d61-f512-22ca-ca75-5f7ec40c5af7@leemhuis.info>
+Date:   Wed, 31 May 2023 13:48:51 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+Subject: Re: [PATCH] media: usb: uvc: fill in description for unknown
+ pixelformats
+Content-Language: en-US, de-DE
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     regressions@lists.linux.dev,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans de Goede <hdegoede@redhat.com>
+References: <4b1bc0d5-808b-816d-d7de-5baa8851e74f@xs4all.nl>
+From:   "Linux regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+In-Reply-To: <4b1bc0d5-808b-816d-d7de-5baa8851e74f@xs4all.nl>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1685533734;591a56d4;
+X-HE-SMSGID: 1q4KJw-0001sI-F9
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+On 29.03.23 14:28, Hans Verkuil wrote:
+> If the fcc is 0 (indicating an unknown GUID format), then fill in the
+> description field in ENUM_FMT. Otherwise the V4L2 core will WARN.
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/29b5049c-7fa3-cd90-47b1-7be9ce997eb1@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/310973/
-Build time: 00:25:48
-Link: https://lore.kernel.org/linux-media/29b5049c-7fa3-cd90-47b1-7be9ce997eb1@xs4all.nl
+What happened to this? It seems this fall through the cracks.
 
-gpg: Signature made Wed 31 May 2023 11:13:37 AM UTC
-gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+BTW:
 
-Summary: got 8/9 patches with issues, being 8 at build time, plus one error when buinding PDF document
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Error/warnings:
+Afaics it might be good to have these in here:
 
-patches/0001-media-mediatek-vcodec-Add-debugfs-interface-to-get-d.patch:
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=217252
+Link: https://bugzilla.redhat.com/show_bug.cgi?id=2180107
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-	SPARSE:../drivers/staging/media/tegra-video/vip.c ../drivers/staging/media/tegra-video/vip.c:280:24: warning: symbol 'tegra_vip_driver' was not declared. Should it be static?
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:416 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:212 gc0310_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3013 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3112 atomisp_cp_morph_table() warn: missing unwind goto?
+A comment in the former is what brought me here.
 
-    allyesconfig: return code #512:
-	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2775 mxc_jpeg_probe() warn: missing unwind goto?
-	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: In function ‘mtk_vcodec_dbgfs_init’:
-	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:15:17: error: variable ‘vcodec_root’ set but not used [-Werror=unused-but-set-variable]
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:252: drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.o] Error 1
-	make[6]: *** [../scripts/Makefile.build:494: drivers/media/platform/mediatek/vcodec] Error 2
-	make[5]: *** [../scripts/Makefile.build:494: drivers/media/platform/mediatek] Error 2
-	make[5]: *** Waiting for unfinished jobs....
-	make[4]: *** [../scripts/Makefile.build:494: drivers/media/platform] Error 2
-	make[4]: *** Waiting for unfinished jobs....
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000020Kb sm_state_count = 1967616
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 55 seconds
-	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
-	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
-	make[3]: *** [../scripts/Makefile.build:494: drivers/media] Error 2
-	make[2]: *** [../scripts/Makefile.build:494: drivers] Error 2
-	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:2026: .] Error 2
-	make: *** [Makefile:226: __sub-make] Error 2
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
 
-   checkpatch.pl:
-	$ cat patches/0001-media-mediatek-vcodec-Add-debugfs-interface-to-get-d.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:38: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-	-:74: WARNING: Prefer "GPL" over "GPL v2" - see commit bf7fbeeae6db ("module: Cure the MODULE_LICENSE "GPL" vs. "GPL v2" bogosity")
+#regzbot ^backmonitor:
+https://lore.kernel.org/lkml/dc8e5276-ef88-648f-9f0d-10151ea62c90@leemhuis.info/
+#regzbot poke
 
-patches/0002-media-mediatek-vcodec-Add-debug-params-to-control-di.patch:
-
-    allyesconfig: return code #0:
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1974 vivid_create_instance() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
-	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2831 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
-
-   checkpatch.pl:
-	$ cat patches/0002-media-mediatek-vcodec-Add-debug-params-to-control-di.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:74: CHECK: Macro argument reuse 'h' - possible side-effects?
-
-patches/0003-media-mediatek-vcodec-Add-a-debugfs-file-to-get-diff.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: ../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:56 mtk_vcodec_dbgfs_remove() error: we previously assumed 'dbgfs_inst' could be null (see line 57)
-
-   checkpatch.pl:
-	$ cat patches/0003-media-mediatek-vcodec-Add-a-debugfs-file-to-get-diff.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:136: CHECK: struct mutex definition without comment
-
-patches/0004-media-mediatek-vcodec-Get-each-context-resolution-in.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: ../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:98 mtk_vcodec_dbgfs_remove() error: we previously assumed 'dbgfs_inst' could be null (see line 99)
-
-patches/0005-media-mediatek-vcodec-Get-each-instance-format-type.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: ../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:146 mtk_vcodec_dbgfs_remove() error: we previously assumed 'dbgfs_inst' could be null (see line 147)
-
-patches/0006-media-mediatek-vcodec-Change-dbgfs-interface-to-supp.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: ../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:146 mtk_vcodec_dbgfs_remove() error: we previously assumed 'dbgfs_inst' could be null (see line 147)
-
-patches/0008-media-mediatek-vcodec-Add-dbgfs-help-function.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: ../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:168 mtk_vcodec_dbgfs_remove() error: we previously assumed 'dbgfs_inst' could be null (see line 169)
-
-patches/0009-media-imx-jpeg-Support-to-assign-slot-for-encoder-de.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2772 mxc_jpeg_probe() warn: missing unwind goto?
-
-
-Error #512 when building PDF docs
-
+> Fixes: 50459f103edf ("media: uvcvideo: Remove format descriptions")
+> ---
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index 7aefa76a42b3..2f1ced1212cd 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -256,6 +256,9 @@ static int uvc_parse_format(struct uvc_device *dev,
+>  		} else {
+>  			dev_info(&streaming->intf->dev,
+>  				 "Unknown video format %pUl\n", &buffer[5]);
+> +			snprintf(format->name, sizeof(format->name), "%pUl\n",
+> +				 &buffer[5]);
+> +
+>  			format->fcc = 0;
+>  		}
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> index 35453f81c1d9..fc6f9e7d8506 100644
+> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> @@ -713,6 +713,10 @@ static int uvc_ioctl_enum_fmt(struct uvc_streaming *stream,
+>  	if (format->flags & UVC_FMT_FLAG_COMPRESSED)
+>  		fmt->flags |= V4L2_FMT_FLAG_COMPRESSED;
+>  	fmt->pixelformat = format->fcc;
+> +	if (format->name[0])
+> +		strscpy(fmt->description, format->name,
+> +			sizeof(fmt->description));
+> +
+>  	return 0;
+>  }
+> 
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index 9a596c8d894a..22656755a801 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -264,6 +264,8 @@ struct uvc_format {
+>  	u32 fcc;
+>  	u32 flags;
+> 
+> +	char name[32];
+> +
+>  	unsigned int nframes;
+>  	struct uvc_frame *frame;
+>  };
+> 
