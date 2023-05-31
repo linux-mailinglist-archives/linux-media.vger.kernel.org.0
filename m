@@ -2,92 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E430718015
-	for <lists+linux-media@lfdr.de>; Wed, 31 May 2023 14:40:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D921718024
+	for <lists+linux-media@lfdr.de>; Wed, 31 May 2023 14:44:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235864AbjEaMkG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 May 2023 08:40:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40318 "EHLO
+        id S235816AbjEaMoF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 May 2023 08:44:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235842AbjEaMkF (ORCPT
+        with ESMTP id S232718AbjEaMoF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 May 2023 08:40:05 -0400
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB31911F
-        for <linux-media@vger.kernel.org>; Wed, 31 May 2023 05:40:03 -0700 (PDT)
-Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-33bf12b5f95so5360825ab.3
-        for <linux-media@vger.kernel.org>; Wed, 31 May 2023 05:40:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685536803; x=1688128803;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JcXXRDa7HfR4OTJ4VcKbwordOuqLsBZyeQKj/40K3jo=;
-        b=cTkVp4DjpPOW4VsIhYLX5DnCMLR22LNlIDQSCP2s1YixOhTuOcVHOslKXSfPoA0xX6
-         RwjFfp9iEr+jl65shm57clEsXxURblfl99ACkDgzu8++p8RT1cBb7EPy2tj7Kn0inXAp
-         FZMUqgt0L2f5RzD1UO5Ww7F1mbyxUx8kmUHKFVk7l42FFEv0hQFn4516KfDL/RiQrH/O
-         rz2OkWM1lRWjIXRWvXIMv+tP2X+MIMG8vemx4zBjRqYHWkMX0DaWj1ZKpfi7k1QfkO+h
-         44oaQRpfadMauXsN9LZHn4ijHkIJFTJlPmbA5uuhRgpsXDbMu5Vc2gh8vSAsmWLfW9oD
-         JgRA==
-X-Gm-Message-State: AC+VfDxwXdEJBF2v3qYvJp464mq4I+lbwdvNp6K8RvrFKUDFFsJ+VzIW
-        wfD0h71eoe56DNK6PDISdKxQGU91wz4r2SPgXtGFLH4fA3wT
-X-Google-Smtp-Source: ACHHUZ4zDweYkXEkoisfG/Mv1dKc0CvcMPmDkFpGfpVr0zj5SKCPNRoO/NF4rP76+lC7YaVluwfwK3e8hXVEOFGkPCHvUY+yPI0g
+        Wed, 31 May 2023 08:44:05 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0343D98
+        for <linux-media@vger.kernel.org>; Wed, 31 May 2023 05:44:04 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (om126205251136.34.openmobile.ne.jp [126.205.251.136])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 77DC5844;
+        Wed, 31 May 2023 14:43:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1685537021;
+        bh=N6kD9N2hNbHBV1D5xKGFBW4a0uqyxmZRGfiHXszF/FE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jWeG+evgAkq9xg6aHbHBkoDx/02467cN1Dr6FElEzImbMrtUODOlPAi94aSLoub9j
+         WsFcOzEq6gTvLiEhY13td1lD5ymmI3TEcps3HTpO4gcEOryIXOPx7wSY7OfS69AbZS
+         BWbIGqe+MLL0bDMlhbrgOvVsXmaSeKOiYuMEfpeg=
+Date:   Wed, 31 May 2023 15:44:01 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Linux regressions mailing list <regressions@lists.linux.dev>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH] media: usb: uvc: fill in description for unknown
+ pixelformats
+Message-ID: <20230531124401.GG27043@pendragon.ideasonboard.com>
+References: <4b1bc0d5-808b-816d-d7de-5baa8851e74f@xs4all.nl>
+ <a47b5d61-f512-22ca-ca75-5f7ec40c5af7@leemhuis.info>
 MIME-Version: 1.0
-X-Received: by 2002:a92:d581:0:b0:33b:d728:fc6a with SMTP id
- a1-20020a92d581000000b0033bd728fc6amr1240560iln.6.1685536802940; Wed, 31 May
- 2023 05:40:02 -0700 (PDT)
-Date:   Wed, 31 May 2023 05:40:02 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000652f7405fcfc9e79@google.com>
-Subject: [syzbot] Monthly media report (May 2023)
-From:   syzbot <syzbot+list11d35df624b178fd7375@syzkaller.appspotmail.com>
-To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <a47b5d61-f512-22ca-ca75-5f7ec40c5af7@leemhuis.info>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello media maintainers/developers,
+Hi Thorsten,
 
-This is a 31-day syzbot report for the media subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/media
+On Wed, May 31, 2023 at 01:48:51PM +0200, Linux regression tracking (Thorsten Leemhuis) wrote:
+> On 29.03.23 14:28, Hans Verkuil wrote:
+> > If the fcc is 0 (indicating an unknown GUID format), then fill in the
+> > description field in ENUM_FMT. Otherwise the V4L2 core will WARN.
+> 
+> What happened to this? It seems this fall through the cracks.
 
-During the period, 0 new issues were detected and 0 were fixed.
-In total, 17 issues are still open and 83 have been fixed so far.
+I've posted a better fix, see
+https://lore.kernel.org/linux-media/20230506065809.24645-1-laurent.pinchart@ideasonboard.com/.
+Of course, fate had it that it got reviewed exactly on the day when I started by holidays :-S I'm now back, and will send a pull request.
 
-Some of the still happening issues:
+> BTW:
+> 
+> > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> 
+> Afaics it might be good to have these in here:
+> 
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=217252
+> Link: https://bugzilla.redhat.com/show_bug.cgi?id=2180107
 
-Ref Crashes Repro Title
-<1> 2373    Yes   KMSAN: uninit-value in dib3000mb_attach (2)
-                  https://syzkaller.appspot.com/bug?extid=c88fc0ebe0d5935c70da
-<2> 1161    Yes   WARNING in get_vaddr_frames
-                  https://syzkaller.appspot.com/bug?extid=59a71007ccac79e8bb69
-<3> 653     Yes   WARNING in smsusb_term_device
-                  https://syzkaller.appspot.com/bug?extid=40ac6e73326e79ee8ecb
-<4> 140     Yes   general protection fault in ir_raw_event_store_with_filter
-                  https://syzkaller.appspot.com/bug?extid=34008406ee9a31b13c73
-<5> 87      Yes   WARNING in media_create_pad_link
-                  https://syzkaller.appspot.com/bug?extid=dd320d114deb3f5bb79b
-<6> 1       Yes   KASAN: use-after-free Read in em28xx_init_extension (2)
-                  https://syzkaller.appspot.com/bug?extid=99d6c66dbbc484f50e1c
+I'll add those two links.
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+> A comment in the former is what brought me here.
+> 
+> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+> --
+> Everything you wanna know about Linux kernel regression tracking:
+> https://linux-regtracking.leemhuis.info/about/#tldr
+> If I did something stupid, please tell me, as explained on that page.
+> 
+> #regzbot ^backmonitor:
+> https://lore.kernel.org/lkml/dc8e5276-ef88-648f-9f0d-10151ea62c90@leemhuis.info/
+> #regzbot poke
+> 
+> > Fixes: 50459f103edf ("media: uvcvideo: Remove format descriptions")
+> > ---
+> > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> > index 7aefa76a42b3..2f1ced1212cd 100644
+> > --- a/drivers/media/usb/uvc/uvc_driver.c
+> > +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > @@ -256,6 +256,9 @@ static int uvc_parse_format(struct uvc_device *dev,
+> >  		} else {
+> >  			dev_info(&streaming->intf->dev,
+> >  				 "Unknown video format %pUl\n", &buffer[5]);
+> > +			snprintf(format->name, sizeof(format->name), "%pUl\n",
+> > +				 &buffer[5]);
+> > +
+> >  			format->fcc = 0;
+> >  		}
+> > 
+> > diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> > index 35453f81c1d9..fc6f9e7d8506 100644
+> > --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> > +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> > @@ -713,6 +713,10 @@ static int uvc_ioctl_enum_fmt(struct uvc_streaming *stream,
+> >  	if (format->flags & UVC_FMT_FLAG_COMPRESSED)
+> >  		fmt->flags |= V4L2_FMT_FLAG_COMPRESSED;
+> >  	fmt->pixelformat = format->fcc;
+> > +	if (format->name[0])
+> > +		strscpy(fmt->description, format->name,
+> > +			sizeof(fmt->description));
+> > +
+> >  	return 0;
+> >  }
+> > 
+> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > index 9a596c8d894a..22656755a801 100644
+> > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > @@ -264,6 +264,8 @@ struct uvc_format {
+> >  	u32 fcc;
+> >  	u32 flags;
+> > 
+> > +	char name[32];
+> > +
+> >  	unsigned int nframes;
+> >  	struct uvc_frame *frame;
+> >  };
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+-- 
+Regards,
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
+Laurent Pinchart
