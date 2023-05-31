@@ -2,136 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D921718024
-	for <lists+linux-media@lfdr.de>; Wed, 31 May 2023 14:44:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D96F718064
+	for <lists+linux-media@lfdr.de>; Wed, 31 May 2023 14:53:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235816AbjEaMoF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 May 2023 08:44:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42596 "EHLO
+        id S235970AbjEaMxw convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 31 May 2023 08:53:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232718AbjEaMoF (ORCPT
+        with ESMTP id S235978AbjEaMxt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 May 2023 08:44:05 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0343D98
-        for <linux-media@vger.kernel.org>; Wed, 31 May 2023 05:44:04 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (om126205251136.34.openmobile.ne.jp [126.205.251.136])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 77DC5844;
-        Wed, 31 May 2023 14:43:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1685537021;
-        bh=N6kD9N2hNbHBV1D5xKGFBW4a0uqyxmZRGfiHXszF/FE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jWeG+evgAkq9xg6aHbHBkoDx/02467cN1Dr6FElEzImbMrtUODOlPAi94aSLoub9j
-         WsFcOzEq6gTvLiEhY13td1lD5ymmI3TEcps3HTpO4gcEOryIXOPx7wSY7OfS69AbZS
-         BWbIGqe+MLL0bDMlhbrgOvVsXmaSeKOiYuMEfpeg=
-Date:   Wed, 31 May 2023 15:44:01 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Linux regressions mailing list <regressions@lists.linux.dev>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH] media: usb: uvc: fill in description for unknown
- pixelformats
-Message-ID: <20230531124401.GG27043@pendragon.ideasonboard.com>
-References: <4b1bc0d5-808b-816d-d7de-5baa8851e74f@xs4all.nl>
- <a47b5d61-f512-22ca-ca75-5f7ec40c5af7@leemhuis.info>
+        Wed, 31 May 2023 08:53:49 -0400
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E393D9;
+        Wed, 31 May 2023 05:53:20 -0700 (PDT)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-568a1011488so35075957b3.0;
+        Wed, 31 May 2023 05:53:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685537523; x=1688129523;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=q+L470TQIODyLvHi77w9JVQYomaA1IumCXuk4QHQjaw=;
+        b=Uxfe2cicVaudmHq5azF9QR2GowKtFtdfmO6XLGsRoWIjWl7P9CKLxd0hCyYSCJvGdG
+         ucFn/9eOzPzsQfuwM3b00GkV2IUcXa/m8/tDJptSFO59LdTAo//sr4orVb1NKZuwqJIs
+         lKIWLkAzYUbmAdDRukDRP5h3iE2MsOqnOfWv+tKwJdzlzxrzszJMQiTQV7j9aAKMuCrb
+         eeIWjlH7g2HU9tueN8P0ntOK2jfAjRBYULh5/3thEczzLLExAgdgl2MDHypXAmwhkFji
+         dE9GNAzOs+tlyrvtPHiNK0ihZPz4Vdq8mOTNdvDs6RmjdRyXC2Olrw8b77TpJbJhcZad
+         LQiw==
+X-Gm-Message-State: AC+VfDx+RlRqeyCV1B/HNn0VvuSO0LwQhf5i4+Cf8MsOPP5xoTUF2RJc
+        MMJHHu0nFQ+srqFladCoSMfHAbAqTWFDLg==
+X-Google-Smtp-Source: ACHHUZ5THo57/Y+nc81ndLR5oxmanZo6MA9AdCGeW+L7zfcM38uays0M6JmCbe6maSzf8zDvIiaGTw==
+X-Received: by 2002:a81:a111:0:b0:568:d586:77c4 with SMTP id y17-20020a81a111000000b00568d58677c4mr4973570ywg.4.1685537523319;
+        Wed, 31 May 2023 05:52:03 -0700 (PDT)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
+        by smtp.gmail.com with ESMTPSA id 66-20020a250a45000000b00ba755f271c1sm4219525ybk.9.2023.05.31.05.52.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 31 May 2023 05:52:02 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-565a6837a0bso74764977b3.3;
+        Wed, 31 May 2023 05:52:02 -0700 (PDT)
+X-Received: by 2002:a25:e706:0:b0:ba8:68b3:c67c with SMTP id
+ e6-20020a25e706000000b00ba868b3c67cmr6116103ybh.34.1685537522036; Wed, 31 May
+ 2023 05:52:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <a47b5d61-f512-22ca-ca75-5f7ec40c5af7@leemhuis.info>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20230522101849.297499-1-biju.das.jz@bp.renesas.com>
+ <20230522101849.297499-2-biju.das.jz@bp.renesas.com> <20230529080552.GJ25984@pendragon.ideasonboard.com>
+ <OS0PR01MB592283E55078298EEA30C6B9864A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20230531085941.GA27043@pendragon.ideasonboard.com>
+In-Reply-To: <20230531085941.GA27043@pendragon.ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 31 May 2023 14:51:48 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXywnxO6cL5R84mryFuyVMswj6EniY-bZx7m_2L3iUY9A@mail.gmail.com>
+Message-ID: <CAMuHMdXywnxO6cL5R84mryFuyVMswj6EniY-bZx7m_2L3iUY9A@mail.gmail.com>
+Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Wolfram Sang <wsa@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Corey Minyard <cminyard@mvista.com>,
+        =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+        Antonio Borneo <antonio.borneo@foss.st.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Thorsten,
+Hi Laurent,
 
-On Wed, May 31, 2023 at 01:48:51PM +0200, Linux regression tracking (Thorsten Leemhuis) wrote:
-> On 29.03.23 14:28, Hans Verkuil wrote:
-> > If the fcc is 0 (indicating an unknown GUID format), then fill in the
-> > description field in ENUM_FMT. Otherwise the V4L2 core will WARN.
-> 
-> What happened to this? It seems this fall through the cracks.
+On Wed, May 31, 2023 at 10:59 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Mon, May 29, 2023 at 09:00:43AM +0000, Biju Das wrote:
+> > > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+> > > And why do you need this ?
+> >
+> > As per Krzysztof [2],
+> >
+> > The DT schema allows multiple addresses for children. But we lack
+> > implementation of parent child relationship, As parent owns the resources.
+> > Child device needs to parse parent node to get some resource
+> > like clocks.
+> >
+> > [2] https://lore.kernel.org/linux-renesas-soc/TYCPR01MB5933BFFD4EB556F5FB4EA82186729@TYCPR01MB5933.jpnprd01.prod.outlook.com/
+>
+> The I2C ancillary clients are not meant to be handled by separate
+> drivers. You're supposed to have one device node in DT, which causes the
+> I2C core to instantiate a main i2c_client, and bind it to one driver.
+> That driver then uses i2c_new_ancillary_device() to create other
+> i2c_client instances for the secondary I2C addresses. Those i2c_client
+> instances are not bound to a separate driver, so there should be no code
+> that needs to look at the parent for resources.
 
-I've posted a better fix, see
-https://lore.kernel.org/linux-media/20230506065809.24645-1-laurent.pinchart@ideasonboard.com/.
-Of course, fate had it that it got reviewed exactly on the day when I started by holidays :-S I'm now back, and will send a pull request.
+In Biju's particular use case, the i2c device responds to two addresses,
+which is the standard i2c ancillary use case.  However, what's special
+is that the second instance is a derivative of an existing i2c device
+with an existing Linux driver.  Hence the desire to make the existing
+driver match against the second instance, which requires these changes
+to i2c_new_ancillary_device().
 
-> BTW:
-> 
-> > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> 
-> Afaics it might be good to have these in here:
-> 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=217252
-> Link: https://bugzilla.redhat.com/show_bug.cgi?id=2180107
+As some resources are shared (knowledge about the clocks), splitting
+this in two distinct devices in DT (which is what Biju's initial patch
+series did) would need phandles to link both nodes together.
 
-I'll add those two links.
+Do you have a better idea how to represent this?
 
-> A comment in the former is what brought me here.
-> 
-> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
-> --
-> Everything you wanna know about Linux kernel regression tracking:
-> https://linux-regtracking.leemhuis.info/about/#tldr
-> If I did something stupid, please tell me, as explained on that page.
-> 
-> #regzbot ^backmonitor:
-> https://lore.kernel.org/lkml/dc8e5276-ef88-648f-9f0d-10151ea62c90@leemhuis.info/
-> #regzbot poke
-> 
-> > Fixes: 50459f103edf ("media: uvcvideo: Remove format descriptions")
-> > ---
-> > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > index 7aefa76a42b3..2f1ced1212cd 100644
-> > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > @@ -256,6 +256,9 @@ static int uvc_parse_format(struct uvc_device *dev,
-> >  		} else {
-> >  			dev_info(&streaming->intf->dev,
-> >  				 "Unknown video format %pUl\n", &buffer[5]);
-> > +			snprintf(format->name, sizeof(format->name), "%pUl\n",
-> > +				 &buffer[5]);
-> > +
-> >  			format->fcc = 0;
-> >  		}
-> > 
-> > diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> > index 35453f81c1d9..fc6f9e7d8506 100644
-> > --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> > +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> > @@ -713,6 +713,10 @@ static int uvc_ioctl_enum_fmt(struct uvc_streaming *stream,
-> >  	if (format->flags & UVC_FMT_FLAG_COMPRESSED)
-> >  		fmt->flags |= V4L2_FMT_FLAG_COMPRESSED;
-> >  	fmt->pixelformat = format->fcc;
-> > +	if (format->name[0])
-> > +		strscpy(fmt->description, format->name,
-> > +			sizeof(fmt->description));
-> > +
-> >  	return 0;
-> >  }
-> > 
-> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > index 9a596c8d894a..22656755a801 100644
-> > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > @@ -264,6 +264,8 @@ struct uvc_format {
-> >  	u32 fcc;
-> >  	u32 flags;
-> > 
-> > +	char name[32];
-> > +
-> >  	unsigned int nframes;
-> >  	struct uvc_frame *frame;
-> >  };
+Wolfram: time to chime in ;-)
 
--- 
-Regards,
+Thanks!
 
-Laurent Pinchart
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
