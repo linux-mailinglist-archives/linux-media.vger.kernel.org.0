@@ -2,122 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C4D2717ECA
-	for <lists+linux-media@lfdr.de>; Wed, 31 May 2023 13:48:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E135D718012
+	for <lists+linux-media@lfdr.de>; Wed, 31 May 2023 14:39:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235357AbjEaLs4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 May 2023 07:48:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48574 "EHLO
+        id S232620AbjEaMjz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 May 2023 08:39:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229765AbjEaLsz (ORCPT
+        with ESMTP id S235848AbjEaMju (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 May 2023 07:48:55 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E70FE5
-        for <linux-media@vger.kernel.org>; Wed, 31 May 2023 04:48:54 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1q4KJw-0001sI-F9; Wed, 31 May 2023 13:48:52 +0200
-Message-ID: <a47b5d61-f512-22ca-ca75-5f7ec40c5af7@leemhuis.info>
-Date:   Wed, 31 May 2023 13:48:51 +0200
+        Wed, 31 May 2023 08:39:50 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E71BC11F;
+        Wed, 31 May 2023 05:39:48 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (om126205251136.34.openmobile.ne.jp [126.205.251.136])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 37C5D844;
+        Wed, 31 May 2023 14:39:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1685536765;
+        bh=9FI5ddx12U5j33AEsAb/4FtfCwfmcg+v2kVwvbdIAMA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=OH88JsHsX3ruTeSP27IWfbNRq3s+8jd3QTExCPeR9EZhe1G19meyJPQIKRJwcVCVX
+         B+5WzKe+RKEGgvTN9+mLeVOdgdD2P+OZMs/+BD8RQp5GDE1WYsFWkE3yba40wuwA9P
+         8WgxU+gPHnF4/aun5cVexTAhlz4MRxMXoIsn0DXg=
+Date:   Wed, 31 May 2023 15:39:45 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
+        ming.qian@nxp.com, shijie.qin@nxp.com, eagle.zhou@nxp.com,
+        bin.liu@mediatek.com, matthias.bgg@gmail.com,
+        angelogioacchino.delregno@collabora.com, tiffany.lin@mediatek.com,
+        andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
+        stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com,
+        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        daniel.almeida@collabora.com, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, kernel@collabora.com
+Subject: Re: [PATCH v2 3/8] media: videobuf2: Add a module param to limit vb2
+ queue buffer storage
+Message-ID: <20230531123945.GF27043@pendragon.ideasonboard.com>
+References: <20230321102855.346732-1-benjamin.gaignard@collabora.com>
+ <20230321102855.346732-4-benjamin.gaignard@collabora.com>
+ <6c4658fd-3a64-b3f8-67cd-17ed2d7d3567@xs4all.nl>
+ <20230531080331.GB6496@pendragon.ideasonboard.com>
+ <608ae7d6-3f3b-137d-08d2-d41a240be2c4@xs4all.nl>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-Subject: Re: [PATCH] media: usb: uvc: fill in description for unknown
- pixelformats
-Content-Language: en-US, de-DE
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     regressions@lists.linux.dev,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans de Goede <hdegoede@redhat.com>
-References: <4b1bc0d5-808b-816d-d7de-5baa8851e74f@xs4all.nl>
-From:   "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-In-Reply-To: <4b1bc0d5-808b-816d-d7de-5baa8851e74f@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1685533734;591a56d4;
-X-HE-SMSGID: 1q4KJw-0001sI-F9
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <608ae7d6-3f3b-137d-08d2-d41a240be2c4@xs4all.nl>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 29.03.23 14:28, Hans Verkuil wrote:
-> If the fcc is 0 (indicating an unknown GUID format), then fill in the
-> description field in ENUM_FMT. Otherwise the V4L2 core will WARN.
-
-What happened to this? It seems this fall through the cracks.
-
-BTW:
-
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-Afaics it might be good to have these in here:
-
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=217252
-Link: https://bugzilla.redhat.com/show_bug.cgi?id=2180107
-
-A comment in the former is what brought me here.
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
-
-#regzbot ^backmonitor:
-https://lore.kernel.org/lkml/dc8e5276-ef88-648f-9f0d-10151ea62c90@leemhuis.info/
-#regzbot poke
-
-> Fixes: 50459f103edf ("media: uvcvideo: Remove format descriptions")
-> ---
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index 7aefa76a42b3..2f1ced1212cd 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -256,6 +256,9 @@ static int uvc_parse_format(struct uvc_device *dev,
->  		} else {
->  			dev_info(&streaming->intf->dev,
->  				 "Unknown video format %pUl\n", &buffer[5]);
-> +			snprintf(format->name, sizeof(format->name), "%pUl\n",
-> +				 &buffer[5]);
-> +
->  			format->fcc = 0;
->  		}
+On Wed, May 31, 2023 at 10:30:36AM +0200, Hans Verkuil wrote:
+> On 5/31/23 10:03, Laurent Pinchart wrote:
+> > On Wed, May 31, 2023 at 08:36:59AM +0200, Hans Verkuil wrote:
+> >> On 21/03/2023 11:28, Benjamin Gaignard wrote:
+> >>> Add module parameter "max_vb_buffer_per_queue" to be able to limit
+> >>> the number of vb2 buffers store in queue.
+> >>>
+> >>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> >>> ---
+> >>>  drivers/media/common/videobuf2/videobuf2-core.c | 15 +++------------
+> >>>  include/media/videobuf2-core.h                  | 11 +++++++++--
+> >>>  2 files changed, 12 insertions(+), 14 deletions(-)
+> >>>
+> >>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> >>> index ae9d72f4d181..f4da917ccf3f 100644
+> >>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> >>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> >>> @@ -34,6 +34,8 @@
+> >>>  static int debug;
+> >>>  module_param(debug, int, 0644);
+> >>>  
+> >>> +module_param(max_vb_buffer_per_queue, ulong, 0644);
+> >>
+> >> There is no MODULE_PARM_DESC here? Please add. I see it is not there for
+> >> the debug param either, it should be added for that as well.
+> > 
+> > Would this be the right time to consider resource accounting in V4L2 for
+> > buffers ? Having a module parameter doesn't sound very useful, an
+> > application could easily allocate more buffers by using buffer orphaning
+> > (allocating buffers, exporting them as dmabuf objects, and freeing them,
+> > which leaves the memory allocated). Repeating allocation cycles up to
+> > max_vb_buffer_per_queue will allow allocating an unbounded number of
+> > buffers, using all the available system memory. I'd rather not add a
+> > module argument that only gives the impression of some kind of safety
+> > without actually providing any value.
 > 
-> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> index 35453f81c1d9..fc6f9e7d8506 100644
-> --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> @@ -713,6 +713,10 @@ static int uvc_ioctl_enum_fmt(struct uvc_streaming *stream,
->  	if (format->flags & UVC_FMT_FLAG_COMPRESSED)
->  		fmt->flags |= V4L2_FMT_FLAG_COMPRESSED;
->  	fmt->pixelformat = format->fcc;
-> +	if (format->name[0])
-> +		strscpy(fmt->description, format->name,
-> +			sizeof(fmt->description));
-> +
->  	return 0;
->  }
+> Does dmabuf itself provide some accounting mechanism? Just wondering.
 > 
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index 9a596c8d894a..22656755a801 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -264,6 +264,8 @@ struct uvc_format {
->  	u32 fcc;
->  	u32 flags;
+> More specific to V4L2: I'm not so sure about this module parameter either.
+> It makes sense to have a check somewhere against ridiculous values (i.e.
+> allocating MAXINT buffers), but that can be a define as well. But otherwise
+> I am fine with allowing applications to allocate buffers until the memory
+> is full.
 > 
-> +	char name[32];
-> +
->  	unsigned int nframes;
->  	struct uvc_frame *frame;
->  };
+> The question is really: what is this parameter supposed to do? The only
+> thing it does is to sanitize unlikely inputs (e.g. allocating MAXINT buffers).
 > 
+> I prefer that as a define, to be honest.
+> 
+> I think it is perfectly fine for users to try to request more buffers than
+> memory allows. It will just fail in that case, not a problem.
+> 
+> And if an application is doing silly things like buffer orphaning, then so
+> what? Is that any different than allocating memory and not freeing it?
+> Eventually it will run out of memory and crash, which is normal.
+
+Linux provides APIs to account for and limit usage of resources,
+including memory. A system administrator can prevent rogue processes
+from starving system resources. The memory consumed by vb2 buffer isn't
+taken into account, making V4L2 essentially unsafe for untrusted
+processes.
+
+Now, to be fair, there are many reasons why allowing access to v4L2
+devices to untrusted applications is a bad idea, and memory consumption
+is likely not even the worst one. Still, is this something we want to
+fix, or do we want to consider V4L2 to be priviledged API only ? Right
+now we can't do so, but with many Linux systems moving towards pipewire,
+we could possibly have a system daemon isolating untrusted applications
+from the rest of the system. We may thus not need to fix this in the
+V4L2 API.
+
+-- 
+Regards,
+
+Laurent Pinchart
