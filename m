@@ -2,138 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E64A671864E
-	for <lists+linux-media@lfdr.de>; Wed, 31 May 2023 17:28:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BDDED718670
+	for <lists+linux-media@lfdr.de>; Wed, 31 May 2023 17:33:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234560AbjEaP2H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 May 2023 11:28:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52630 "EHLO
+        id S233178AbjEaPdw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 May 2023 11:33:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234338AbjEaP2E (ORCPT
+        with ESMTP id S232598AbjEaPdw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 May 2023 11:28:04 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 175F51A5;
-        Wed, 31 May 2023 08:27:34 -0700 (PDT)
-Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:72c3:346:a663:c82d])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 642DBE79;
-        Wed, 31 May 2023 17:27:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1685546828;
-        bh=f0YF3fTgpLkwU2P/r/EyuGl5NKgt+50qOICG+yLsLkQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Z1PJBDo8C2orOHr3esd1NkLqev166+jSAohbyITEVW2TSoR5nHhrRqRxH16+4SqmB
-         A0q4n4YwPcLftuW7WJAbDXYP/wjVf+tFROCnMSecxGqOhp+7lBi/7QjJUTDxcsU5ED
-         rwE6cHcEIqYu0929x8LH8RoEICv3eXwyp0LABUOY=
-Date:   Wed, 31 May 2023 17:27:26 +0200
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+        Wed, 31 May 2023 11:33:52 -0400
+Received: from mail-ua1-x930.google.com (mail-ua1-x930.google.com [IPv6:2607:f8b0:4864:20::930])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75863132
+        for <linux-media@vger.kernel.org>; Wed, 31 May 2023 08:33:48 -0700 (PDT)
+Received: by mail-ua1-x930.google.com with SMTP id a1e0cc1a2514c-786e8de85c1so1739462241.1
+        for <linux-media@vger.kernel.org>; Wed, 31 May 2023 08:33:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1685547227; x=1688139227;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=imIEjVFp5eSMKckQx5LngCbXtl42MBWZrmB1sV0z1i4=;
+        b=Kg4J/UusGpQUu9IIY2Yt6Rkna3CDY0B/+bPZWEkP6ZTeXSCiAccC+b8VEUqOoOn76v
+         v8hBCZbn1ptZseLTEZYy9z7HqWGIcK0j6sCZLnryR+fGyfT0dzqroxmYau5JNb5PLXz4
+         f0TfAx4q7//DE1h3q9YTXCgOzqpOLlRarIkw27icCkaGuFzQ22+gcyVldvQlmDjJnJ01
+         EacmqG1Rl1O/TG+BRJNWsDN33bWskoEsN2CteDZ6SRPz2ruzyL7aEJW3+hoGI9N+99+7
+         ULoWazxfoqa/O7rc25xko16JcnowEWK1eSUhz92mJonACueBSh3GRnTqxGR7YEkg6LKf
+         GzTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685547227; x=1688139227;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=imIEjVFp5eSMKckQx5LngCbXtl42MBWZrmB1sV0z1i4=;
+        b=ZKcvuOk24cmztBMlN99K/d8CHKFIK17XG9yFBPyC3Vor6NscZQyR9b3UPcvksCPIov
+         iFvTW9MwkT88uxwQPeqxXAZGxLtPnmyGI4J2LmjL6oveld9ZdgmU439IUEd3OV2o75hP
+         oD+TF1XZ+nrpebiGzydSeWVkZ/VEaPzuOJBkv9n/DdxhA/fmJaQkYqo3B9hEYKuM2zuD
+         m6bq0DP8yxp/sK+y0HnZE45TR1OkyqUa1sq7Adn/9SoMyhctt6qAX/ATLCZFNuBhocdI
+         i3LLjUEwUbos7GbxRdLZsVm9A3o3xAbyzevrPBqtN9/xcUQrmC2pCAyBJ3W0yA6Yghfr
+         UZsQ==
+X-Gm-Message-State: AC+VfDzIYXetu93KmaZ8SiqY77ixpSwvuwPNoqgVH9zn7YRJKy613XhM
+        UGmsmRgmh21LJJMbUfdJyz0UDAM1aoFrQsQyxlWTtA==
+X-Google-Smtp-Source: ACHHUZ51h2QL9ZoX9ZoQjeVrv6tfPZLVpfdkbpaX/TCaqP2cZNJGTczauzYpLJ1GskTwU2OHb0cHa4wbrLgKsqMvyKw=
+X-Received: by 2002:a1f:604c:0:b0:43c:290c:25e8 with SMTP id
+ u73-20020a1f604c000000b0043c290c25e8mr1689481vkb.6.1685547227570; Wed, 31 May
+ 2023 08:33:47 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230530173000.3060865-1-dave.stevenson@raspberrypi.com>
+ <20230530173000.3060865-7-dave.stevenson@raspberrypi.com> <vnwwrfgwr5ueiheqsnvxz7sh3qjcftocjjxdghvrigfmlss4yu@5xq3tppv4pxg>
+In-Reply-To: <vnwwrfgwr5ueiheqsnvxz7sh3qjcftocjjxdghvrigfmlss4yu@5xq3tppv4pxg>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Wed, 31 May 2023 16:33:31 +0100
+Message-ID: <CAPY8ntCwmx6_8g_JTPrO+=VwXKj3z0-2htzZJtB+FJ5QgimL9g@mail.gmail.com>
+Subject: Re: [PATCH 06/21] media: i2c: imx258: Make V4L2_CID_VBLANK configurable.
+To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH 10/21] media: i2c: imx258: Follow normal V4L2 behaviours
- for clipping exposure
-Message-ID: <zfo4hzea6kojuyuc66dolvoucmorlndolzhfzroddqxyujo2td@xo2m7yrphzfo>
-References: <20230530173000.3060865-1-dave.stevenson@raspberrypi.com>
- <20230530173000.3060865-11-dave.stevenson@raspberrypi.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230530173000.3060865-11-dave.stevenson@raspberrypi.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave
+Hi Jacopo
 
-On Tue, May 30, 2023 at 06:29:49PM +0100, Dave Stevenson wrote:
-> V4L2 sensor drivers are expected are expected to clip the supported
-> exposure range based on the VBLANK configured.
-> IMX258 wasn't doing that as register 0x350 (FRM_LENGTH_CTL)
-> switches it to a mode where frame length tracks coarse exposure time.
->
-> Disable this mode and clip the range for V4L2_CID_EXPOSURE appropriately
-> based on V4L2_CID_VBLANK.
->
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Thanks for the review.
 
-Ah, here you go!
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+On Wed, 31 May 2023 at 16:16, Jacopo Mondi
+<jacopo.mondi@ideasonboard.com> wrote:
+>
+> Hi Dave
+>
+> On Tue, May 30, 2023 at 06:29:45PM +0100, Dave Stevenson wrote:
+> > The values and ranges of V4L2_CID_VBLANK are all computed,
+> > so there is no reason for it to be a read only control.
+> > Remove the register values from the mode lists, add the
+> > handler, and remove the read only flag.
+> >
+> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > ---
+> >  drivers/media/i2c/imx258.c | 16 +++++++---------
+> >  1 file changed, 7 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
+> > index 30bae7388c3a..c6fb649abb95 100644
+> > --- a/drivers/media/i2c/imx258.c
+> > +++ b/drivers/media/i2c/imx258.c
+> > @@ -30,6 +30,8 @@
+> >  #define IMX258_VTS_30FPS_VGA         0x034c
+> >  #define IMX258_VTS_MAX                       0xffff
+> >
+> > +#define IMX258_REG_VTS                       0x0340
+> > +
+> >  /* HBLANK control - read only */
+> >  #define IMX258_PPL_DEFAULT           5352
+> >
+> > @@ -202,8 +204,6 @@ static const struct imx258_reg mode_4208x3120_regs[] = {
+> >       { 0x0114, 0x03 },
+> >       { 0x0342, 0x14 },
+> >       { 0x0343, 0xE8 },
+> > -     { 0x0340, 0x0C },
+> > -     { 0x0341, 0x50 },
+> >       { 0x0344, 0x00 },
+> >       { 0x0345, 0x00 },
+> >       { 0x0346, 0x00 },
+> > @@ -319,8 +319,6 @@ static const struct imx258_reg mode_2104_1560_regs[] = {
+> >       { 0x0114, 0x03 },
+> >       { 0x0342, 0x14 },
+> >       { 0x0343, 0xE8 },
+> > -     { 0x0340, 0x06 },
+> > -     { 0x0341, 0x38 },
+> >       { 0x0344, 0x00 },
+> >       { 0x0345, 0x00 },
+> >       { 0x0346, 0x00 },
+> > @@ -436,8 +434,6 @@ static const struct imx258_reg mode_1048_780_regs[] = {
+> >       { 0x0114, 0x03 },
+> >       { 0x0342, 0x14 },
+> >       { 0x0343, 0xE8 },
+> > -     { 0x0340, 0x03 },
+> > -     { 0x0341, 0x4C },
+> >       { 0x0344, 0x00 },
+> >       { 0x0345, 0x00 },
+> >       { 0x0346, 0x00 },
+> > @@ -803,6 +799,11 @@ static int imx258_set_ctrl(struct v4l2_ctrl *ctrl)
+> >                                              BIT(IMX258_HDR_RATIO_MAX));
+> >               }
+> >               break;
+> > +     case V4L2_CID_VBLANK:
+>
+> Should a new vblank value change the exposure limits too ?
 
-thanks
-   j
+Yes, however until "media: i2c: imx258: Follow normal V4L2 behaviours
+for clipping exposure" (patch 10) the driver tells the sensor to
+automatically extend blanking to allow for the requested exposure,
+totally without userspace knowing. That patch adds in the
+recomputation of exposure based on VBLANK changing.
 
-> ---
->  drivers/media/i2c/imx258.c | 25 +++++++++++++++++++++++--
->  1 file changed, 23 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
-> index 433dff7f1fa0..82ffe09e3bdc 100644
-> --- a/drivers/media/i2c/imx258.c
-> +++ b/drivers/media/i2c/imx258.c
-> @@ -37,10 +37,11 @@
->
->  /* Exposure control */
->  #define IMX258_REG_EXPOSURE		0x0202
-> +#define IMX258_EXPOSURE_OFFSET		10
->  #define IMX258_EXPOSURE_MIN		4
->  #define IMX258_EXPOSURE_STEP		1
->  #define IMX258_EXPOSURE_DEFAULT		0x640
-> -#define IMX258_EXPOSURE_MAX		65535
-> +#define IMX258_EXPOSURE_MAX		(IMX258_VTS_MAX - IMX258_EXPOSURE_OFFSET)
->
->  /* Analog gain control */
->  #define IMX258_REG_ANALOG_GAIN		0x0204
-> @@ -366,7 +367,7 @@ static const struct imx258_reg mode_common_regs[] = {
->  	{ 0x303A, 0x00 },
->  	{ 0x303B, 0x10 },
->  	{ 0x300D, 0x00 },
-> -	{ 0x0350, 0x01 },
-> +	{ 0x0350, 0x00 },
->  	{ 0x0204, 0x00 },
->  	{ 0x0205, 0x00 },
->  	{ 0x020E, 0x01 },
-> @@ -739,6 +740,19 @@ static int imx258_update_digital_gain(struct imx258 *imx258, u32 len, u32 val)
->  	return 0;
->  }
->
-> +static void imx258_adjust_exposure_range(struct imx258 *imx258)
-> +{
-> +	int exposure_max, exposure_def;
-> +
-> +	/* Honour the VBLANK limits when setting exposure. */
-> +	exposure_max = imx258->cur_mode->height + imx258->vblank->val -
-> +		       IMX258_EXPOSURE_OFFSET;
-> +	exposure_def = min(exposure_max, imx258->exposure->val);
-> +	__v4l2_ctrl_modify_range(imx258->exposure, imx258->exposure->minimum,
-> +				 exposure_max, imx258->exposure->step,
-> +				 exposure_def);
-> +}
-> +
->  static int imx258_set_ctrl(struct v4l2_ctrl *ctrl)
->  {
->  	struct imx258 *imx258 =
-> @@ -746,6 +760,13 @@ static int imx258_set_ctrl(struct v4l2_ctrl *ctrl)
->  	struct i2c_client *client = v4l2_get_subdevdata(&imx258->sd);
->  	int ret = 0;
->
-> +	/*
-> +	 * The VBLANK control may change the limits of usable exposure, so check
-> +	 * and adjust if necessary.
-> +	 */
-> +	if (ctrl->id == V4L2_CID_VBLANK)
-> +		imx258_adjust_exposure_range(imx258);
-> +
->  	/*
->  	 * Applying V4L2 control value only happens
->  	 * when power is up for streaming
-> --
-> 2.25.1
->
+I can swap the patch order if you feel it is necessary, but seeing as
+exposure isn't limited in reality at this point I'm not too fussed.
+
+  Dave
+
+> > +             ret = imx258_write_reg(imx258, IMX258_REG_VTS,
+> > +                                    IMX258_REG_VALUE_16BIT,
+> > +                                    imx258->cur_mode->height + ctrl->val);
+> > +             break;
+> >       default:
+> >               dev_info(&client->dev,
+> >                        "ctrl(id:0x%x,val:0x%x) is not handled\n",
+> > @@ -1214,9 +1215,6 @@ static int imx258_init_controls(struct imx258 *imx258)
+> >                               IMX258_VTS_MAX - imx258->cur_mode->height, 1,
+> >                               vblank_def);
+> >
+> > -     if (imx258->vblank)
+> > -             imx258->vblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> > -
+> >       imx258->hblank = v4l2_ctrl_new_std(
+> >                               ctrl_hdlr, &imx258_ctrl_ops, V4L2_CID_HBLANK,
+> >                               IMX258_PPL_DEFAULT - imx258->cur_mode->width,
+> > --
+> > 2.25.1
+> >
