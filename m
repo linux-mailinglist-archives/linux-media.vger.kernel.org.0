@@ -2,98 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 44798717AE9
-	for <lists+linux-media@lfdr.de>; Wed, 31 May 2023 11:00:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAFFB7179CA
+	for <lists+linux-media@lfdr.de>; Wed, 31 May 2023 10:18:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234644AbjEaJAM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 31 May 2023 05:00:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43070 "EHLO
+        id S235153AbjEaISP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 31 May 2023 04:18:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235258AbjEaI7o (ORCPT
+        with ESMTP id S235158AbjEaISO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 31 May 2023 04:59:44 -0400
-X-Greylist: delayed 1346 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 31 May 2023 01:59:35 PDT
-Received: from mail.ettrick.pl (mail.ettrick.pl [141.94.21.111])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F1D61BC
-        for <linux-media@vger.kernel.org>; Wed, 31 May 2023 01:59:35 -0700 (PDT)
-Received: by mail.ettrick.pl (Postfix, from userid 1002)
-        id 85188AC2CF; Wed, 31 May 2023 08:16:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ettrick.pl; s=mail;
-        t=1685521065; bh=ZOVeXw1jXE9TbyZP9aLdRwM96AORcRfum8b+rry5JMw=;
-        h=Date:From:To:Subject:From;
-        b=qEFcHv4oSxXKKss99tPE6y2kN8XyPLyWuJ0NLupBBAXdLWVtW7XTEbgyJKrpZOUxN
-         oZQuXXwMkMsf1EUZgMWU3eS0eH6fpoqegsUznjs/w9LCx9DoZY6MYjAW7+RZnI/dfk
-         9+gIVHpadVdEoM8DS5cjsVeM3aTYoLsPr4909na4DcA8S7xWK+NZkBY/VHn/XTuG7P
-         FHkoQ1juz2dojfwib/PPVyVjjHHK6M124hojqly20maPQVy//Esh1PCDyYPtzIBE+a
-         nS1ZbpjF/GidcmGMk7lzTQVKdf7cJdVKYLoiTdqzyam4ZVoIUYGcdOsFenfBbUJlvB
-         3O81c40IVxbQQ==
-Received: by mail.ettrick.pl for <linux-media@vger.kernel.org>; Wed, 31 May 2023 08:15:40 GMT
-Message-ID: <20230531064500-0.1.ax.4bmuk.0.dzodh38llj@ettrick.pl>
-Date:   Wed, 31 May 2023 08:15:40 GMT
-From:   "Norbert Karecki" <norbert.karecki@ettrick.pl>
-To:     <linux-media@vger.kernel.org>
-Subject: Fotowoltaika- propozycja instalacji
-X-Mailer: mail.ettrick.pl
+        Wed, 31 May 2023 04:18:14 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60FA593
+        for <linux-media@vger.kernel.org>; Wed, 31 May 2023 01:18:13 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1q4H23-00078I-MI; Wed, 31 May 2023 10:18:11 +0200
+Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1q4H22-0004UG-UG; Wed, 31 May 2023 10:18:10 +0200
+Date:   Wed, 31 May 2023 10:18:10 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH 1/1] media: tc358746: Address compiler warnings
+Message-ID: <20230531081810.pprennf7riycnvsm@pengutronix.de>
+References: <20230530102126.2886766-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=5.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_ABUSE_SURBL,URIBL_BLOCKED,
-        URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Report: *  1.2 URIBL_ABUSE_SURBL Contains an URL listed in the ABUSE SURBL
-        *      blocklist
-        *      [URIs: ettrick.pl]
-        *  2.5 URIBL_DBL_SPAM Contains a spam URL listed in the Spamhaus DBL
-        *      blocklist
-        *      [URIs: ettrick.pl]
-        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
-        *      [141.94.21.111 listed in zen.spamhaus.org]
-        *  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
-        *      blocklist
-        *      [URIs: ettrick.pl]
-        * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-        *      [score: 0.0000]
-        *  0.0 URIBL_BLOCKED ADMINISTRATOR NOTICE: The query to URIBL was
-        *      blocked.  See
-        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
-        *      for more information.
-        *      [URIs: ettrick.pl]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-X-Spam-Level: *****
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230530102126.2886766-1-sakari.ailus@linux.intel.com>
+User-Agent: NeoMutt/20180716
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dzie=C5=84 dobry,
-=20
-Czy rozwa=C5=BCali Pa=C5=84stwo monta=C5=BC systemu fotowoltaicznego?
-=20
-Instalacja fotowoltaiczna jest najlepszym sposobem na obni=C5=BCenie wyso=
-ko=C5=9Bci rachunk=C3=B3w za pr=C4=85d (pozostaj=C4=85 tylko op=C5=82aty =
-sta=C5=82e) i zabezpieczenie si=C4=99 przed rosn=C4=85cymi cenami energii=
- elektrycznej. Jest to w pe=C5=82ni odnawialne i bezemisyjne =C5=BAr=C3=B3=
-d=C5=82o energii, dzi=C4=99ki czemu przyczyniamy si=C4=99 do ochrony =C5=9B=
-rodowiska naturalnego.
-=20
-Dzia=C5=82amy od wielu lat na rynku energetycznym. Przygotujemy projekt, =
-wycen=C4=99 oraz kompleksowo wykonamy i zg=C5=82osimy realizacj=C4=99 do =
-zak=C5=82adu energetycznego.=20
-=20
-Czy chc=C4=85 Pa=C5=84stwo pozna=C4=87 nasz=C4=85 propozycj=C4=99? =20
+Hi Sakari,
 
+Hans already sent a patch a few months ago:
+ - https://lore.kernel.org/linux-media/15030a07-3615-fca0-1891-a234dc054b00@xs4all.nl/
 
-Pozdrawiam,
-Norbert Karecki
+It turned out that the compiler had a bug albeit the compiler listed in
+'Closes:' is already a gcc-12 and now the warning used is slightly
+different.
+
+I'm not again the patch but we should point out that this patch is only
+required to make the compiler happy.
+
+Regards,
+  Marco
+
+On 23-05-30, Sakari Ailus wrote:
+> Address these compiler warnings by initialising the m_best and p_best
+> values to 0 and 1 respectively (as latter is used as a divisor):
+> 
+>    drivers/media/i2c/tc358746.c: In function 'tc358746_find_pll_settings':
+> >> drivers/media/i2c/tc358746.c:817:13: warning: 'p_best' is used uninitialized
+> [-Wuninitialized]
+>      817 |         u16 p_best, p;
+>          |             ^~~~~~
+> >> drivers/media/i2c/tc358746.c:816:13: warning: 'm_best' is used uninitialized
+> [-Wuninitialized]
+>      816 |         u16 m_best, mul;
+>          |             ^~~~~~
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202305301627.fLT3Bkds-lkp@intel.com/
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/media/i2c/tc358746.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/tc358746.c b/drivers/media/i2c/tc358746.c
+> index ec1a193ba161a..25fbce5cabdaa 100644
+> --- a/drivers/media/i2c/tc358746.c
+> +++ b/drivers/media/i2c/tc358746.c
+> @@ -813,8 +813,8 @@ static unsigned long tc358746_find_pll_settings(struct tc358746 *tc358746,
+>  	u32 min_delta = 0xffffffff;
+>  	u16 prediv_max = 17;
+>  	u16 prediv_min = 1;
+> -	u16 m_best, mul;
+> -	u16 p_best, p;
+> +	u16 m_best = 0, mul;
+> +	u16 p_best = 1, p;
+>  	u8 postdiv;
+>  
+>  	if (fout > 1000 * HZ_PER_MHZ) {
+> -- 
+> 2.30.2
+> 
+> 
