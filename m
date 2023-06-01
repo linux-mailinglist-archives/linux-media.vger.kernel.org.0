@@ -2,61 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BDB78719E0B
-	for <lists+linux-media@lfdr.de>; Thu,  1 Jun 2023 15:28:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29C48719F63
+	for <lists+linux-media@lfdr.de>; Thu,  1 Jun 2023 16:14:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233969AbjFAN2a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Jun 2023 09:28:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36918 "EHLO
+        id S234083AbjFAOOH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Jun 2023 10:14:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233928AbjFAN2S (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Jun 2023 09:28:18 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39B4CE64
-        for <linux-media@vger.kernel.org>; Thu,  1 Jun 2023 06:28:00 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mtr@pengutronix.de>)
-        id 1q4iLJ-0005D4-Cc; Thu, 01 Jun 2023 15:27:53 +0200
-Received: from mtr by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mtr@pengutronix.de>)
-        id 1q4iLF-0002Wl-RG; Thu, 01 Jun 2023 15:27:49 +0200
-Date:   Thu, 1 Jun 2023 15:27:49 +0200
-From:   Michael Tretter <m.tretter@pengutronix.de>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        mchehab@kernel.org, m.szyprowski@samsung.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kernel@collabora.com,
-        kernel@pengutronix.de, nicolas.dufresne@collabora.com,
-        didi.debian@cknow.org, hverkuil-cisco@xs4all.nl
-Subject: Re: [PATCH v2] media: verisilicon: Fix crash when probing encoder
-Message-ID: <20230601132749.GA31313@pengutronix.de>
-Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        mchehab@kernel.org, m.szyprowski@samsung.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kernel@collabora.com,
-        kernel@pengutronix.de, nicolas.dufresne@collabora.com,
-        didi.debian@cknow.org, hverkuil-cisco@xs4all.nl
-References: <20230413104756.356695-1-benjamin.gaignard@collabora.com>
+        with ESMTP id S233955AbjFAOOF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Jun 2023 10:14:05 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 232B0189;
+        Thu,  1 Jun 2023 07:14:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685628844; x=1717164844;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=vTRJOxwQXt++VylGI6XPC00FlfcuDdAU0Tqyf98i4nU=;
+  b=BP51SdUV07WuFpulmDSrnF/FD+KyCdzxjGzKhrT9qp4YJcY/CL6K0Sfr
+   GHeFsA8hMRdAlkboemI6sdotlH905F0SKqopFzMqINSPyE7psif0X2O0t
+   yLD0QoNmIArf36pa+nMrI0zS7cxR6pPHVTMQqXgvzGK84ZIayBZwYgZ7m
+   8cXhvkQzP5xSJR+ALThcVbQpT3CCtP5Qx5nsN5REkDt+Kw6shcvUOCpl7
+   YRL8SOcmVu+JUFBbolgmUp3+2X8p+fZ9wRw8QiwLRLATO7nfu6IrnfadW
+   IhlyxUViZvBxZ3Kh98bUEa6TvDaztMbMaCB3Th76HFY6BaMiGalwZDYmt
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="358859183"
+X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
+   d="scan'208";a="358859183"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 07:03:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="772433684"
+X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
+   d="scan'208";a="772433684"
+Received: from dperchan-mobl1.ger.corp.intel.com (HELO terminus) ([10.214.197.5])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 07:03:08 -0700
+Message-ID: <50e54f3d3eaaaff95f31d79ddd731731bfc054ae.camel@intel.com>
+Subject: Re: [PATCH v3] media: uvcvideo: Enable Intel RealSense metadata for
+ devices.
+From:   Dmitry Perchanov <dmitry.perchanov@intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
+        linux-kernel@vger.kernel.org, evgeni.raikhel@intel.com,
+        demisrael@gmail.com, sakari.ailus@iki.fi
+Date:   Thu, 01 Jun 2023 17:03:06 +0300
+In-Reply-To: <20230420103143.GB11005@pendragon.ideasonboard.com>
+References: <5587a4f1a0a7f3e2bd0ce886bb4ee3bcbf8f522a.camel@intel.com>
+         <20230420103143.GB11005@pendragon.ideasonboard.com>
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230413104756.356695-1-benjamin.gaignard@collabora.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mtr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,71 +64,128 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
+Bump.
+All questions are answered.
 
-On Thu, 13 Apr 2023 12:47:56 +0200, Benjamin Gaignard wrote:
-> ctx->vpu_dst_fmt is no more initialized before calling hantro_try_fmt()
-> so assigne it to vpu_fmt led to crash the kernel.
-> Like for decoder case use 'fmt' as format for encoder and clean up
-> the code.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> Fixes: db6f68b51e5c ("media: verisilicon: Do not set context src/dst formats in reset functions")
-> ---
-> version 2:
-> - Remove useless vpu_fmt.
-> 
->  drivers/media/platform/verisilicon/hantro_v4l2.c | 10 +++-------
->  1 file changed, 3 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> index 8f1414085f47..d71f79471396 100644
-> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> @@ -275,7 +275,7 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
->  			  struct v4l2_pix_format_mplane *pix_mp,
->  			  enum v4l2_buf_type type)
->  {
-> -	const struct hantro_fmt *fmt, *vpu_fmt;
-> +	const struct hantro_fmt *fmt;
->  	bool capture = V4L2_TYPE_IS_CAPTURE(type);
->  	bool coded;
->  
-> @@ -295,11 +295,7 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
->  
->  	if (coded) {
->  		pix_mp->num_planes = 1;
-> -		vpu_fmt = fmt;
-> -	} else if (ctx->is_encoder) {
-> -		vpu_fmt = ctx->vpu_dst_fmt;
-> -	} else {
-> -		vpu_fmt = fmt;
-> +	} else if (!ctx->is_encoder) {
->  		/*
->  		 * Width/height on the CAPTURE end of a decoder are ignored and
->  		 * replaced by the OUTPUT ones.
-> @@ -311,7 +307,7 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
->  	pix_mp->field = V4L2_FIELD_NONE;
->  
->  	v4l2_apply_frmsize_constraints(&pix_mp->width, &pix_mp->height,
-> -				       &vpu_fmt->frmsize);
-> +				       &fmt->frmsize);
 
-This causes a regression on the OUTPUT device of the encoder. fmt->frmsize is
-only valid for coded ("bitstream") formats, but fmt on the OUTPUT of an
-encoder will be a raw format. This results in width and height to be clamped
-to 0.
+On Thu, 2023-04-20 at 13:31 +0300, Laurent Pinchart wrote:
+> Hi Dmitry,
+> =
 
-I think the correct fix would be to apply the frmsize constraints of the
-currently configured coded format, but as ctx->vpu_dst_fmt is not initialized
-before calling this code, I don't know how to get the coded format.
+> Thank you for the patch.
+> =
 
-Michael
+> On Thu, Apr 20, 2023 at 12:06:55PM +0300, Dmitry Perchanov wrote:
+> > Intel RealSense UVC Depth cameras produce metadata in a
+> > vendor-specific format that is already supported by the uvcvideo driver.
+> > Enable handling of this metadata for 7 additional RealSense devices.
+> > =
 
->  
->  	if (!coded) {
->  		/* Fill remaining fields */
-> -- 
-> 2.34.1
-> 
+> > Co-developed-by: Yu MENG <yu1.meng@intel.com>
+> > Co-developed-by: Evgeni Raikhel <evgeni.raikhel@intel.com>
+> > Signed-off-by: Dmitry Perchanov <dmitry.perchanov@intel.com>
+> =
+
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> =
+
+> I will wait for the answer to Sakari's question before merging this
+> though.
+> =
+
+> > ---
+> >  drivers/media/usb/uvc/uvc_driver.c | 63 ++++++++++++++++++++++++++++++
+> >  1 file changed, 63 insertions(+)
+> > =
+
+> > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc=
+/uvc_driver.c
+> > index 7aefa76a42b3..f69573e2de96 100644
+> > --- a/drivers/media/usb/uvc/uvc_driver.c
+> > +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > @@ -3014,6 +3014,33 @@ static const struct usb_device_id uvc_ids[] =3D {
+> >  	  .bInterfaceSubClass	=3D 1,
+> >  	  .bInterfaceProtocol	=3D 0,
+> >  	  .driver_info		=3D (kernel_ulong_t)&uvc_ctrl_power_line_limited },
+> > +	/* Intel D410/ASR depth camera */
+> > +	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
+> > +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> > +	  .idVendor		=3D 0x8086,
+> > +	  .idProduct		=3D 0x0ad2,
+> > +	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
+> > +	  .bInterfaceSubClass	=3D 1,
+> > +	  .bInterfaceProtocol	=3D 0,
+> > +	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> > +	/* Intel D415/ASRC depth camera */
+> > +	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
+> > +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> > +	  .idVendor		=3D 0x8086,
+> > +	  .idProduct		=3D 0x0ad3,
+> > +	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
+> > +	  .bInterfaceSubClass	=3D 1,
+> > +	  .bInterfaceProtocol	=3D 0,
+> > +	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> > +	/* Intel D430/AWG depth camera */
+> > +	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
+> > +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> > +	  .idVendor		=3D 0x8086,
+> > +	  .idProduct		=3D 0x0ad4,
+> > +	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
+> > +	  .bInterfaceSubClass	=3D 1,
+> > +	  .bInterfaceProtocol	=3D 0,
+> > +	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> >  	/* Intel RealSense D4M */
+> >  	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
+> >  				| USB_DEVICE_ID_MATCH_INT_INFO,
+> > @@ -3023,6 +3050,42 @@ static const struct usb_device_id uvc_ids[] =3D {
+> >  	  .bInterfaceSubClass	=3D 1,
+> >  	  .bInterfaceProtocol	=3D 0,
+> >  	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> > +	/* Intel D435/AWGC depth camera */
+> > +	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
+> > +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> > +	  .idVendor		=3D 0x8086,
+> > +	  .idProduct		=3D 0x0b07,
+> > +	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
+> > +	  .bInterfaceSubClass	=3D 1,
+> > +	  .bInterfaceProtocol	=3D 0,
+> > +	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> > +	/* Intel D435i depth camera */
+> > +	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
+> > +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> > +	  .idVendor		=3D 0x8086,
+> > +	  .idProduct		=3D 0x0b3a,
+> > +	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
+> > +	  .bInterfaceSubClass	=3D 1,
+> > +	  .bInterfaceProtocol	=3D 0,
+> > +	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> > +	/* Intel D405 Depth Camera */
+> > +	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
+> > +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> > +	  .idVendor		=3D 0x8086,
+> > +	  .idProduct		=3D 0x0b5b,
+> > +	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
+> > +	  .bInterfaceSubClass	=3D 1,
+> > +	  .bInterfaceProtocol	=3D 0,
+> > +	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> > +	/* Intel D455 Depth Camera */
+> > +	{ .match_flags		=3D USB_DEVICE_ID_MATCH_DEVICE
+> > +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> > +	  .idVendor		=3D 0x8086,
+> > +	  .idProduct		=3D 0x0b5c,
+> > +	  .bInterfaceClass	=3D USB_CLASS_VIDEO,
+> > +	  .bInterfaceSubClass	=3D 1,
+> > +	  .bInterfaceProtocol	=3D 0,
+> > +	  .driver_info		=3D UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> >  	/* Generic USB Video Class */
+> >  	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_UNDEFINED) },
+> >  	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_15) },
+
+---------------------------------------------------------------------
+Intel Israel (74) Limited
+
+This e-mail and any attachments may contain confidential material for
+the sole use of the intended recipient(s). Any review or distribution
+by others is strictly prohibited. If you are not the intended
+recipient, please contact the sender and delete all copies.
+
