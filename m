@@ -2,70 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E7ECC7194FB
-	for <lists+linux-media@lfdr.de>; Thu,  1 Jun 2023 10:04:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5763E71954C
+	for <lists+linux-media@lfdr.de>; Thu,  1 Jun 2023 10:20:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231513AbjFAID7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Jun 2023 04:03:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58322 "EHLO
+        id S231418AbjFAIUS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Jun 2023 04:20:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231468AbjFAIDz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Jun 2023 04:03:55 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3A4413E;
-        Thu,  1 Jun 2023 01:03:43 -0700 (PDT)
-Received: from [IPV6:2a01:e0a:120:3210:7d6d:c387:79e6:807d] (unknown [IPv6:2a01:e0a:120:3210:7d6d:c387:79e6:807d])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 7B7B06606ECE;
-        Thu,  1 Jun 2023 09:03:41 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1685606622;
-        bh=vPNmJuzIG5LIGX1QupTZo+d2rc1g3ZOc8ocjPfDkdis=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=ivmwB1xugtA/DX4q4/kiYM/kIk+j9+L4NiQmrVIcwcdV6gg0U+iWYiU0xZ1AXopEi
-         QheNpVN0eNxmBFxGffDQk0HPSGK/BDVfBuBAWXnJ1JFTtl227w2Hulv2hqk09hySHi
-         eAFn8Orzpi+coXcr33KbBKxxFPexw+BaEWjSINhuiNEyLrePTmMQ4+scsGdVKzHSSw
-         5Tp+GfUY2JmKI8Vi5xZvnUhIhilFbsJy9ChG9HgzYMW0XBmvNz+nY9VbqEt9FpaZYH
-         vEUTki+ViM+K8uodCrfLjt1ZwnVxmGLgkYDiNQd1S2pw6Jx+IZ5H/yzfXHmfz9xcEO
-         S4h+TMa/sWBhQ==
-Message-ID: <6f53b5f6-6649-f194-1808-5f5757b449f4@collabora.com>
-Date:   Thu, 1 Jun 2023 10:03:39 +0200
+        with ESMTP id S232069AbjFAIUL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Jun 2023 04:20:11 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC072E2
+        for <linux-media@vger.kernel.org>; Thu,  1 Jun 2023 01:20:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685607609; x=1717143609;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=j8pF58bwkIu7JOLhsuSjYg/SI6eLMBLGBf82AmZ+uOk=;
+  b=Nz7sYOfDJpHv/fzQjqqxf7PrU8eMnAzmafPMHPn+FMCVIlknxS9XTX8i
+   9qEsQC1cWVcrKre/QoAAwj7w+nyTEVG9ShP3UsQEv/+QuaGBM7TkF2AyZ
+   WYIVD8eK0tjdeY4oiLuO4LcsaS22fDEUDldcXkvTfgTbVeaf75qt+U2m2
+   mnByKH6iUeVeXSCrXNuXq6TlYr0KuVX6WMl27i4cDd9m1IMXwyyWlz5Ds
+   dRrTbsI5fJ0fZvBOnMkii2+PwYYE9jXENs8MITGE2thhtNuDjPcFxdljP
+   09a0f9/wKXLBBhiYTejqNmDw4znRnjZ/6ArMlriR1FucI4MlQQqC+QZ1e
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="441850697"
+X-IronPort-AV: E=Sophos;i="6.00,209,1681196400"; 
+   d="scan'208";a="441850697"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 01:20:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="710391013"
+X-IronPort-AV: E=Sophos;i="6.00,209,1681196400"; 
+   d="scan'208";a="710391013"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 01:20:08 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id EA43F11F9D2;
+        Thu,  1 Jun 2023 11:20:05 +0300 (EEST)
+Date:   Thu, 1 Jun 2023 08:20:05 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Marco Felsch <m.felsch@pengutronix.de>
+Cc:     linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH 1/1] media: tc358746: Address compiler warnings
+Message-ID: <ZHhUtV1Vt/uqynYk@kekkonen.localdomain>
+References: <20230530102126.2886766-1-sakari.ailus@linux.intel.com>
+ <20230531081810.pprennf7riycnvsm@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 3/8] media: videobuf2: Add a module param to limit vb2
- queue buffer storage
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
-        ming.qian@nxp.com, shijie.qin@nxp.com, eagle.zhou@nxp.com,
-        bin.liu@mediatek.com, matthias.bgg@gmail.com,
-        angelogioacchino.delregno@collabora.com, tiffany.lin@mediatek.com,
-        andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
-        stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com,
-        agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        daniel.almeida@collabora.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, kernel@collabora.com
-References: <20230321102855.346732-1-benjamin.gaignard@collabora.com>
- <20230321102855.346732-4-benjamin.gaignard@collabora.com>
- <6c4658fd-3a64-b3f8-67cd-17ed2d7d3567@xs4all.nl>
- <20230531080331.GB6496@pendragon.ideasonboard.com>
- <608ae7d6-3f3b-137d-08d2-d41a240be2c4@xs4all.nl>
- <20230531123945.GF27043@pendragon.ideasonboard.com>
-Content-Language: en-US
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <20230531123945.GF27043@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230531081810.pprennf7riycnvsm@pengutronix.de>
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,78 +64,26 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Marco,
 
-Le 31/05/2023 à 14:39, Laurent Pinchart a écrit :
-> On Wed, May 31, 2023 at 10:30:36AM +0200, Hans Verkuil wrote:
->> On 5/31/23 10:03, Laurent Pinchart wrote:
->>> On Wed, May 31, 2023 at 08:36:59AM +0200, Hans Verkuil wrote:
->>>> On 21/03/2023 11:28, Benjamin Gaignard wrote:
->>>>> Add module parameter "max_vb_buffer_per_queue" to be able to limit
->>>>> the number of vb2 buffers store in queue.
->>>>>
->>>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>>>> ---
->>>>>   drivers/media/common/videobuf2/videobuf2-core.c | 15 +++------------
->>>>>   include/media/videobuf2-core.h                  | 11 +++++++++--
->>>>>   2 files changed, 12 insertions(+), 14 deletions(-)
->>>>>
->>>>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
->>>>> index ae9d72f4d181..f4da917ccf3f 100644
->>>>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
->>>>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
->>>>> @@ -34,6 +34,8 @@
->>>>>   static int debug;
->>>>>   module_param(debug, int, 0644);
->>>>>   
->>>>> +module_param(max_vb_buffer_per_queue, ulong, 0644);
->>>> There is no MODULE_PARM_DESC here? Please add. I see it is not there for
->>>> the debug param either, it should be added for that as well.
->>> Would this be the right time to consider resource accounting in V4L2 for
->>> buffers ? Having a module parameter doesn't sound very useful, an
->>> application could easily allocate more buffers by using buffer orphaning
->>> (allocating buffers, exporting them as dmabuf objects, and freeing them,
->>> which leaves the memory allocated). Repeating allocation cycles up to
->>> max_vb_buffer_per_queue will allow allocating an unbounded number of
->>> buffers, using all the available system memory. I'd rather not add a
->>> module argument that only gives the impression of some kind of safety
->>> without actually providing any value.
->> Does dmabuf itself provide some accounting mechanism? Just wondering.
->>
->> More specific to V4L2: I'm not so sure about this module parameter either.
->> It makes sense to have a check somewhere against ridiculous values (i.e.
->> allocating MAXINT buffers), but that can be a define as well. But otherwise
->> I am fine with allowing applications to allocate buffers until the memory
->> is full.
->>
->> The question is really: what is this parameter supposed to do? The only
->> thing it does is to sanitize unlikely inputs (e.g. allocating MAXINT buffers).
->>
->> I prefer that as a define, to be honest.
->>
->> I think it is perfectly fine for users to try to request more buffers than
->> memory allows. It will just fail in that case, not a problem.
->>
->> And if an application is doing silly things like buffer orphaning, then so
->> what? Is that any different than allocating memory and not freeing it?
->> Eventually it will run out of memory and crash, which is normal.
-> Linux provides APIs to account for and limit usage of resources,
-> including memory. A system administrator can prevent rogue processes
-> from starving system resources. The memory consumed by vb2 buffer isn't
-> taken into account, making V4L2 essentially unsafe for untrusted
-> processes.
->
-> Now, to be fair, there are many reasons why allowing access to v4L2
-> devices to untrusted applications is a bad idea, and memory consumption
-> is likely not even the worst one. Still, is this something we want to
-> fix, or do we want to consider V4L2 to be priviledged API only ? Right
-> now we can't do so, but with many Linux systems moving towards pipewire,
-> we could possibly have a system daemon isolating untrusted applications
-> from the rest of the system. We may thus not need to fix this in the
-> V4L2 API.
+On Wed, May 31, 2023 at 10:18:10AM +0200, Marco Felsch wrote:
+> Hi Sakari,
+> 
+> Hans already sent a patch a few months ago:
+>  - https://lore.kernel.org/linux-media/15030a07-3615-fca0-1891-a234dc054b00@xs4all.nl/
+> 
+> It turned out that the compiler had a bug albeit the compiler listed in
+> 'Closes:' is already a gcc-12 and now the warning used is slightly
+> different.
+> 
+> I'm not again the patch but we should point out that this patch is only
+> required to make the compiler happy.
 
-I'm working in v3 where I'm using Xarray API.
+Ack, thanks. I'll drop this then. The condition isn't trivial for a
+compiler to figure out though, even I'm not quite sure this is the case for
+all parameter values.
 
-Just to be sure to understand you well:
-I can just remove VB2_MAX_FRAME limit without adding a new one ?
+-- 
+Kind regards,
 
->
+Sakari Ailus
