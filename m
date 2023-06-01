@@ -2,60 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC61071A410
-	for <lists+linux-media@lfdr.de>; Thu,  1 Jun 2023 18:09:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8CB271EE72
+	for <lists+linux-media@lfdr.de>; Thu,  1 Jun 2023 18:15:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234261AbjFAQJD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Jun 2023 12:09:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35158 "EHLO
+        id S229880AbjFAQPE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Jun 2023 12:15:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232311AbjFAQJC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Jun 2023 12:09:02 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C01AC0;
-        Thu,  1 Jun 2023 09:09:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685635741; x=1717171741;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=NbH0oSUUj5UZLS1hq4IjYG2wDxtkDvSBLYMKBssoAKU=;
-  b=UR34xo8J1v7zVx+MWQI4CKr89CSRMpS4DGGPlq0TcRSGPMCTXCwkXG6z
-   HnKlEXlh1F1p1fxZhE+Ly+QxqAVwjAYk9Ynpxd3LOeJJtA0DOMVxY1IXe
-   q6xauI46wasdn3ZYYBvoKDJbk1laWrgoyUfcByKoMuIixkrmNfAwWwIJ+
-   FeqqXc+djU13zHswkCSrCTkSkw5gvygLqAdxcXWkG3Hxv/2qKIgYXfvI0
-   zpfsUXR+U4EB7r0r9PX9KDgi1OSfAyzotVyy5eru52fDhUI/7BF3+SRxj
-   nEEThS9fHoxRzRe5BtPLqFn0qH5IXLzC1kTD8A34PTW/5oBvi1Jeh2EKI
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="335223461"
-X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="335223461"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 09:08:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="819882198"
-X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="819882198"
-Received: from dperchan-mobl1.ger.corp.intel.com (HELO terminus) ([10.214.197.5])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 09:08:48 -0700
-Message-ID: <944dd3c67fc7e9c1b8d6bd0491d61fdbb9489e70.camel@intel.com>
-Subject: [PATCH v4] media: uapi: v4l: Intel metadata format update
-From:   Dmitry Perchanov <dmitry.perchanov@intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     mchehab@kernel.org, linux-kernel@vger.kernel.org,
-        laurent.pinchart@ideasonboard.com, sakari.ailus@intel.com,
-        Evgeni Raikhel <evgeni.raikhel@intel.com>, demisrael@gmail.com,
-        Nir Azkiel <nir.azkiel@intel.com>
-Date:   Thu, 01 Jun 2023 19:08:46 +0300
-In-Reply-To: <7e0e6a37eee28185ec2fbd4f1d42569c8da6726d.camel@intel.com>
-References: <7e0e6a37eee28185ec2fbd4f1d42569c8da6726d.camel@intel.com>
-User-Agent: Evolution 3.36.5-0ubuntu1 
+        with ESMTP id S231356AbjFAQO5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Jun 2023 12:14:57 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04AD7137
+        for <linux-media@vger.kernel.org>; Thu,  1 Jun 2023 09:14:55 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1b00ffb4186so6038135ad.0
+        for <linux-media@vger.kernel.org>; Thu, 01 Jun 2023 09:14:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1685636094; x=1688228094;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hf1MMDnk8ATuiHQnpftM3deH6vV2jBlcAPqcuKGi0Ek=;
+        b=BLOJsskDJTv8yn+ZTSU8DPbhPH9VAEpQcNphr4RmScmbAmgWrp0GukfjFro2r265wS
+         6nmFRGSXXGa7RcbInQP2zovN07D4+fErz4lNsHF1JQiB5r265YWCLnVrXvfV9fIuuPKD
+         bp9H8NF/OqTzmF7dGtp2dpe9nzNFgZX5Yid94=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685636094; x=1688228094;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hf1MMDnk8ATuiHQnpftM3deH6vV2jBlcAPqcuKGi0Ek=;
+        b=HBId5g9jUqni1axjnYwV7hfCfew5UtdtH+kmEAP6b+HUa2WpD34kYbtSpJl8ZSXV3E
+         9y+05mmTa/NQzEl8ReABhYT2Avq4AIjnow6wEHH8japLYVSoRWKzNuc3frJHUD8dSKh6
+         zdyEdp8kNjix6wPGT1aiQs9JgvhxfSu/uv2H/ixBgvTkK6v0RPNesfVbrlq5pt6kILs6
+         drToKFDvfX+JuI7wwjY7Ux1qVSwutAUbZmQGzX2IVWxQ+YOW6JSCi3Vi7+VdwzAxLCpv
+         Uh7XvrYWAZIPwpR42e/uirt8DalhVPL5gwcl8LjvpkgcCbuU28Maev8nCFZqWKnaTccn
+         YaEg==
+X-Gm-Message-State: AC+VfDxZRLcHXicJdxQm5oPyI1/0pe0XAWle7fGFu7Qdr8ZYvp1EABPy
+        NfxFZE35+Cx0vxntx/AkhZ9rTQ==
+X-Google-Smtp-Source: ACHHUZ6ljnrlP3/ilIjQD+BaM7rS5m1dEr3AyuNBWAGikj0kydZDXi/vDU4GxazSWUNgX9O+Y6PY3A==
+X-Received: by 2002:a17:902:c20d:b0:1ac:6d4c:c24b with SMTP id 13-20020a170902c20d00b001ac6d4cc24bmr6045835pll.3.1685636094447;
+        Thu, 01 Jun 2023 09:14:54 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id g14-20020a1709029f8e00b001b176ba9f17sm3680035plq.149.2023.06.01.09.14.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Jun 2023 09:14:53 -0700 (PDT)
+Date:   Thu, 1 Jun 2023 09:14:53 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     kasan-dev@googlegroups.com, ryabinin.a.a@gmail.com,
+        glider@google.com, andreyknvl@gmail.com, dvyukov@google.com,
+        vincenzo.frascino@arm.com, elver@google.com,
+        linux-media@vger.kernel.org, linux-crypto@vger.kernel.org,
+        herbert@gondor.apana.org.au, ardb@kernel.org, mchehab@kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Dan Carpenter <dan.carpenter@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Rix <trix@redhat.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, llvm@lists.linux.dev
+Subject: Re: [PATCH] [RFC] ubsan: disallow bounds checking with gcov on
+ broken gcc
+Message-ID: <202306010909.89C4BED@keescook>
+References: <20230601151832.3632525-1-arnd@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230601151832.3632525-1-arnd@kernel.org>
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -63,164 +82,72 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Update metadata structure for Intel RealSense UVC/MIPI cameras.
-Compliant to Intel Configuration version 3.
+On Thu, Jun 01, 2023 at 05:18:11PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> Combining UBSAN and GCOV in randconfig builds results in a number of
+> stack frame size warnings, such as:
+> 
+> crypto/twofish_common.c:683:1: error: the frame size of 2040 bytes is larger than 1024 bytes [-Werror=frame-larger-than=]
+> drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:1589:1: error: the frame size of 1696 bytes is larger than 1400 bytes [-Werror=frame-larger-than=]
+> drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c:754:1: error: the frame size of 1260 bytes is larger than 1024 bytes [-Werror=frame-larger-than=]
+> drivers/staging/media/ipu3/ipu3-css-params.c:1206:1: error: the frame size of 1080 bytes is larger than 1024 bytes [-Werror=frame-larger-than=]
+> drivers/staging/media/rkvdec/rkvdec-vp9.c:1042:1: error: the frame size of 2176 bytes is larger than 2048 bytes [-Werror=frame-larger-than=]
+> drivers/staging/media/rkvdec/rkvdec-vp9.c:995:1: error: the frame size of 1656 bytes is larger than 1024 bytes [-Werror=frame-larger-than=]
+> 
+> I managed to track this down to the -fsanitize=bounds option clashing
+> with the -fprofile-arcs option, which leads a lot of spilled temporary
+> variables in generated instrumentation code.
+> 
+> Hopefully this can be addressed in future gcc releases the same way
+> that clang handles the combination, but for existing compiler releases,
+> it seems best to disable one of the two flags. This can be done either
+> globally by just not passing both at the same time, or locally using
+> the no_sanitize or no_instrument_function attributes in the affected
+> functions.
+> 
+> Try the simplest approach here, and turn off -fsanitize=bounds on
+> gcc when GCOV is enabled, leaving the rest of UBSAN working. Doing
+> this globally also helps avoid inefficient code from the same
+> problem that did not push the build over the warning limit.
+> 
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Link: https://lore.kernel.org/stable/6b1a0ee6-c78b-4873-bfd5-89798fce9899@kili.mountain/
+> Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=110074
+> Link: https://godbolt.org/z/zvf7YqK5K
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Signed-off-by: Dmitry Perchanov <dmitry.perchanov@intel.com>
----
- .../media/v4l/pixfmt-meta-d4xx.rst            | 52 ++++++++++++++++---
- 1 file changed, 46 insertions(+), 6 deletions(-)
+I think more production systems will have CONFIG_UBSAN_BOUNDS enabled
+(e.g. Ubuntu has had it enabled for more than a year now) than GCOV,
+so I'd prefer we maintain all*config coverage for the more commonly
+used config.
 
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst b/D=
-ocumentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst
-index 4e437ba97a0e..7482f298d0cc 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst
-@@ -12,7 +12,7 @@ Intel D4xx UVC Cameras Metadata
- Description
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
- =
+> ---
+>  lib/Kconfig.ubsan | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/lib/Kconfig.ubsan b/lib/Kconfig.ubsan
+> index f7cbbad2bb2f4..8f71ff8f27576 100644
+> --- a/lib/Kconfig.ubsan
+> +++ b/lib/Kconfig.ubsan
+> @@ -29,6 +29,8 @@ config UBSAN_TRAP
+>  
+>  config CC_HAS_UBSAN_BOUNDS_STRICT
+>  	def_bool $(cc-option,-fsanitize=bounds-strict)
+> +	# work around https://gcc.gnu.org/bugzilla/show_bug.cgi?id=110074
+> +	depends on GCC_VERSION > 140000 || !GCOV_PROFILE_ALL
+>  	help
+>  	  The -fsanitize=bounds-strict option is only available on GCC,
+>  	  but uses the more strict handling of arrays that includes knowledge
 
--Intel D4xx (D435 and other) cameras include per-frame metadata in their UVC
-+Intel D4xx (D435, D455 and others) cameras include per-frame metadata in t=
-heir UVC
- payload headers, following the Microsoft(R) UVC extension proposal [1_]. T=
-hat
- means, that the private D4XX metadata, following the standard UVC header, =
-is
- organised in blocks. D4XX cameras implement several standard block types,
-@@ -26,6 +26,8 @@ V4L2_META_FMT_UVC with the only difference, that it also =
-includes proprietary
- payload header data. D4xx cameras use bulk transfers and only send one pay=
-load
- per frame, therefore their headers cannot be larger than 255 bytes.
- =
+Alternatively, how about falling back to -fsanitize=bounds instead, as
+that (which has less coverage) wasn't triggering the stack frame
+warnings?
 
-+This document implements Intel Configuration version 3 [9_].
-+
- Below are proprietary Microsoft style metadata types, used by D4xx cameras,
- where all fields are in little endian order:
- =
+i.e. fall back through these:
+	-fsanitize=array-bounds (Clang)
+	-fsanitize=bounds-strict (!GCOV || bug fixed in GCC)
+	-fsanitize=bounds
 
-@@ -43,7 +45,7 @@ where all fields are in little endian order:
-     * - __u32 ID
-       - 0x80000000
-     * - __u32 Size
--      - Size in bytes (currently 56)
-+      - Size in bytes, include ID (all protocol versions: 60)
-     * - __u32 Version
-       - Version of this structure. The documentation herein corresponds to
-         version xxx. The version number will be incremented when new field=
-s are
-@@ -72,13 +74,17 @@ where all fields are in little endian order:
-       - Bottom border of the AE Region of Interest
-     * - __u32 Preset
-       - Preset selector value, default: 0, unless changed by the user
--    * - __u32 Laser mode
--      - 0: off, 1: on
-+    * - __u8 Emitter mode (v3 only) (__u32 Laser mode for v1) [8_]
-+      - 0: off, 1: on, same as __u32 Laser mode for v1
-+    * - __u8 RFU byte (v3 only)
-+      - Spare byte for future use
-+    * - __u16 LED Power (v3 only)
-+      - Led power value 0-360 (F416 SKU)
-     * - :cspan:`1` *Capture Timing*
-     * - __u32 ID
-       - 0x80000001
-     * - __u32 Size
--      - Size in bytes (currently 40)
-+      - Size in bytes, include ID (all protocol versions: 40)
-     * - __u32 Version
-       - Version of this structure. The documentation herein corresponds to
-         version xxx. The version number will be incremented when new field=
-s are
-@@ -101,7 +107,7 @@ where all fields are in little endian order:
-     * - __u32 ID
-       - 0x80000002
-     * - __u32 Size
--      - Size in bytes (currently 40)
-+      - Size in bytes, include ID (v1:36, v3:40)
-     * - __u32 Version
-       - Version of this structure. The documentation herein corresponds to
-         version xxx. The version number will be incremented when new field=
-s are
-@@ -124,6 +130,14 @@ where all fields are in little endian order:
-       - Requested frame rate per second
-     * - __u16 Trigger
-       - Byte 0: bit 0: depth and RGB are synchronised, bit 1: external tri=
-gger
-+    * - __u16 Calibration count (v3 only)
-+      - Calibration counter, see [4_] below
-+    * - __u8 GPIO input data (v3 only)
-+      - GPIO readout, see [4_] below (Supported from FW 5.12.7.0)
-+    * - __u32 Sub-preset info (v3 only)
-+      - Sub-preset choice information, see [4_] below
-+    * - __u8 reserved (v3 only)
-+      - RFU byte.
- =
-
- .. _1:
- =
-
-@@ -140,6 +154,8 @@ where all fields are in little endian order:
-   0x00000010 Exposure priority
-   0x00000020 AE ROI
-   0x00000040 Preset
-+  0x00000080 Emitter mode
-+  0x00000100 LED Power
- =
-
- .. _3:
- =
-
-@@ -165,6 +181,8 @@ where all fields are in little endian order:
-   0x00000040 Framerate
-   0x00000080 Trigger
-   0x00000100 Cal count
-+  0x00000200 GPIO Input Data
-+  0x00000400 Sub-preset Info
- =
-
- .. _5:
- =
-
-@@ -211,3 +229,25 @@ Left sensor: ::
- Fish Eye sensor: ::
- =
-
-   1 RAW8
-+
-+.. _8:
-+
-+[8] The "Laser mode" is replaced by three different fields.
-+"Laser" renamed to "Emitter" as there multiple technologies
-+for camera projectors. As we have another field for "Laser Power"
-+we introduced "LED Power" for extra emitter.
-+
-+The __u32 "Laser mode" integer is divided by two bytes and short: ::
-+   1 __u8 Emitter mode
-+   2 __u8 RFU byte
-+   3 __u16 LED Power
-+
-+This is a change between versions 1 and 3. All versions 1,2 and 3
-+are backward compatible with same data format and they are supported.
-+See [2_] for which attributes are valid.
-+
-+.. _9:
-+
-+[9]
-+LibRealSense SDK metadata source:
-+https://github.com/IntelRealSense/librealsense/blob/master/src/metadata.h
--- =
-
-2.25.1
-
-
----------------------------------------------------------------------
-Intel Israel (74) Limited
-
-This e-mail and any attachments may contain confidential material for
-the sole use of the intended recipient(s). Any review or distribution
-by others is strictly prohibited. If you are not the intended
-recipient, please contact the sender and delete all copies.
-
+-- 
+Kees Cook
