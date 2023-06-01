@@ -2,120 +2,237 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 61ADE719978
-	for <lists+linux-media@lfdr.de>; Thu,  1 Jun 2023 12:21:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FF037199EE
+	for <lists+linux-media@lfdr.de>; Thu,  1 Jun 2023 12:38:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233011AbjFAKVL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Jun 2023 06:21:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54528 "EHLO
+        id S232311AbjFAKh4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Jun 2023 06:37:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234181AbjFAKU1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Jun 2023 06:20:27 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8951418F;
-        Thu,  1 Jun 2023 03:17:13 -0700 (PDT)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35156J62028720;
-        Thu, 1 Jun 2023 10:16:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=temKi8XGkzgmRMY/EjYdRTdfEq7Xmc+ElR2SEG+VyPk=;
- b=Osm6Lhp1qR7wj7bU//WKy9AnKnuYM/po3iYVR4GEdi2c4N6Zlpzj6nmlmss2rbgYxATR
- fpuQIc6VdMs8LqGrp7rfh4SnLzG8novDDuoCB03Z8l8m+DVf08L031cRT9vaBtR0C0By
- 9lUvV2JV4Fyd2ykMkXMcW2nRpB+XK+SOkAxmbdlTI+psywm4jqlKA4ybVokGsyy8NDIc
- 7yWd6fxzBQLhRViLqSwLJZqoyQuYhGpsog2+zYY8pn0w4ILDGZwJ7IZgZUQhQS++nxha
- rebOWEP1qYDJn6uXNGMIwZYt4+RJLpoBx7CUH6U2a4ffC1BW/DqdKniPJEtvHoYA/hiD zQ== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qxbt8hpbt-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 01 Jun 2023 10:16:25 +0000
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-        by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 351AGOQM020535
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 1 Jun 2023 10:16:24 GMT
-Received: from [10.216.48.115] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Thu, 1 Jun 2023
- 03:16:20 -0700
-Message-ID: <034bdb7b-7576-6353-6fe9-3433bd674e76@quicinc.com>
-Date:   Thu, 1 Jun 2023 15:46:17 +0530
+        with ESMTP id S231466AbjFAKhy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Jun 2023 06:37:54 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAD20C0;
+        Thu,  1 Jun 2023 03:37:52 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (om126205251136.34.openmobile.ne.jp [126.205.251.136])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0E628105;
+        Thu,  1 Jun 2023 12:37:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1685615848;
+        bh=ifkNgZbNe+yT4STVUiUrYWIIt5FfmAiAFd6ExJdzTe4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=GlTKaJ+Z5jIh6QfB0LrxddBTD+vB1hu53euCxNsYbrn619lUEOry+ju+92b1mWtpS
+         VgwqdlOtxmprCBlGX53xarkw9UpamT1E+xdmWO4Qtlzs5Fe3mK5KEtTWdZaTVZql4x
+         DlZTjeSJ5s/hAVnCVJfdhQ1KxfHE4FdfokkCvh2k=
+Date:   Thu, 1 Jun 2023 13:37:49 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jack Zhu <jack.zhu@starfivetech.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>, bryan.odonoghue@linaro.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Eugen Hristev <eugen.hristev@collabora.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, changhuang.liang@starfivetech.com
+Subject: Re: [PATCH v6 0/6] Add StarFive Camera Subsystem driver
+Message-ID: <20230601103749.GA9271@pendragon.ideasonboard.com>
+References: <20230525083202.67933-1-jack.zhu@starfivetech.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCHv3] media: venus: provide video device lock
-Content-Language: en-US
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>
-CC:     Tomasz Figa <tfiga@chromium.org>, <linux-media@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>
-References: <20230524135737.2557837-1-senozhatsky@chromium.org>
- <20230524141312.2558810-1-senozhatsky@chromium.org>
- <2c732d80-1a18-7a34-03a8-16afb0de5ea2@linaro.org>
- <f9219cb0-2cac-bace-20f7-27005cd0e6f1@xs4all.nl>
-From:   Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <f9219cb0-2cac-bace-20f7-27005cd0e6f1@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: w-B2HCg5Q2cp1auUd0l5Et5Fsug5GEUP
-X-Proofpoint-ORIG-GUID: w-B2HCg5Q2cp1auUd0l5Et5Fsug5GEUP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-01_06,2023-05-31_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- impostorscore=0 suspectscore=0 mlxscore=0 mlxlogscore=877
- priorityscore=1501 bulkscore=0 adultscore=0 clxscore=1015 spamscore=0
- malwarescore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2304280000 definitions=main-2306010092
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230525083202.67933-1-jack.zhu@starfivetech.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi Jack,
 
-On 5/24/2023 8:14 PM, Hans Verkuil wrote:
-> On 24/05/2023 16:29, Bryan O'Donoghue wrote:
->> On 24/05/2023 15:12, Sergey Senozhatsky wrote:
->>> Video device has to provide ->lock so that __video_do_ioctl()
->>> can serialize IOCTL calls. Provided dedicated enc/dec mutex-s
->>> for that purpose.
->>>
->>> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-> 
-> Since these are m2m devices, I think this should set vfh->m2m_ctx->q_lock
-> instead.
-> 
-> The vb2_queue is per filehandle for such devices, so by just setting
-> vdev->lock you will have all vb2_queues use the same mutex.
-> 
-> Instead the struct v4l2_m2m_ctx q_lock pointer, if set, will use that
-> mutex for all vb2 operations.
+Thank you for the patches, I'm happy to see the ISP driver progressing.
 
-Recently we came across a race between queryctrl and s_fmt. Above lock would
-synchronize the operations for IOCTL with flag INFO_FL_QUEUE. Any suggestion on
-how other IOCTLs can be serialized as well, for ex s_fmt and queryctrl which are
-of type INFO_FL_PRIO and INFO_FL_CTRL.
+On Thu, May 25, 2023 at 04:31:56PM +0800, Jack Zhu wrote:
+> Hi,
+> 
+> This series is the v6 series that attempts to support the Camera Subsystem
+> found on StarFive JH7110 SoC.
 
-Thanks,
-Vikash
-> I think you can set it to the 'lock' mutex in struct venus_inst.
+Could you please share the media graph for the device ? I'd like the
+output of both `media-ctl --print-dot -d /dev/media0` and
+`media-ctl -p -d /dev/media0` ?
+
+Also, have you run v4l2-compliance to test the driver ? Could you please
+share the v4l2-compliance output ?
+
+> Changes in v6:
+> - Added 'bus-type' in bindings example.
+> - Corrected spelling errors.
+> - As reviewed by Bryan, used 'nclks' and 'nrsts' variables.
+> - Added lccf config for ISP.
 > 
-> Regards,
+> v5 link: https://lore.kernel.org/all/20230512102844.51084-1-jack.zhu@starfivetech.com/
 > 
-> 	Hans 
+> Changes in v5:
+> - Rebased on v6.4-rc1.
+> - Added new patch.
+> - Modified ISP driver.
+> 
+> v4 link: https://lore.kernel.org/all/20230413035541.62129-1-jack.zhu@starfivetech.com/
+> 
+> Previous cover letter from v4:
+> 
+> This patch series adds support for the StarFive Camera Subsystem
+> found on StarFive JH7110 SoC.
+> 
+> The driver implements V4L2, Media controller and V4L2 subdev interfaces.
+> Camera sensor using V4L2 subdev interface in the kernel is supported.
+> 
+> The driver is tested on VisionFive V2 board with IMX219 camera sensor.
+> GStreamer 1.18.5 with v4l2src plugin is supported.
+> 
+> Changes since v3:
+> Patch 1:
+> - Modified port@0 and port@1 properties.
+> - Extended the port@0 example with appropriate properties.
+> - Added 'port@0' for 'required'
+> Patch 2:
+> - Modified spelling errors.
+> Patch 3:
+> - Merged patch 5 into the patch with an explanation for compatible in
+>   commit msg.
+> Patch 6:
+> - Asserted pixel_rst[i] reset in the loop after the err_disable_pixclk
+>   label.
+> - Modified Code Style for getting sys_rst and p_rst.
+> - Renamed clk_name to name and modified the relevant code.
+> Patch 9:
+> - Added static for stfcamss_get_mem_res function.
+> - Added static for isp_close function.
+> - Fixed implicit conversion warning for stf_vin_map_isp_pad function.
+> - Dropped unused variables.
+> 
+>   v3: https://lore.kernel.org/all/20230331121826.96973-1-jack.zhu@starfivetech.com/
+> 
+> Changes since v2:
+> - Rebased on v6.3-rc1.
+> Patch 1:
+> - Modified spelling errors.
+> - Added port@0.
+> - Modified '$ref' of port.
+> - Added 'ports' to 'required'.
+> - Dropped 'stfcamss' label in example.
+> - Added port@0 in example.
+> - Added MAINTAINERS file.
+> Patch 2:
+> - Split this patch into three new patches.
+> - Modified compatible property.
+> - Replaced clock names with the existing names.
+> - Modified 'bus-type' and 'clock-lanes'
+> - Added port@2 - port@4
+> - Dropped 'csi2rx' label in example.
+> Patch 3:
+> - Updated rst and dot file as three pipelines were deleted.
+> Patch 4:
+> - Split this patch into three new patches.
+> - Dropped .s_power() and .get_fmt().
+> - Dropped CSI-2 DT support.
+> - Dropped v4l2_device_register_subdev_nodes().
+> - Used assigned-clock-rates in DT to set clk value.
+> - Modified 'compatible' field.
+> Patch 5:
+> - Deleted three pipelines. 
+> - Modified 'stfcamss_clocks'/'stfcamss_resets' struct.
+> - Dropped stfcamss_find_sensor() function.
+> - Removed redundant code from stfcamss_of_parse_endpoint_node().
+> - Modified spelling errors.
+> - Rewrote stfcamss_reg_media_subdev_node() function.
+> - Modified stfcamss_subdev_notifier_bound().
+> - Modified stfcamss_probe() function.
+> - Dropped stfcamss_suspend() and stfcamss_resume().
+> - Dropped dev_info() in stfcamss_remove() function.
+> - Added 'stf_' prefix for enum subdev_type.
+> - Moved all includes to the top in stf_camss.h file.
+> - Dropped unused fields in stfcamss struct.
+> - Replaced Custom logging macros with regular macros.
+> - Rewrote register read and write functions.
+> - Used lowercase for all hex constants.
+> - Used macro to name registers.
+> - Dropped unused ioctl and stf_isp_ioctl.h file.
+> 
+>   v2: https://lore.kernel.org/all/20230310120553.60586-1-jack.zhu@starfivetech.com/
+> 
+> Changes since v1:
+> - Deleted starfive,jh7110-mipi-csi2.yaml.
+> - Converted cdns,csi2rx.txt to cdns,csi2rx.yaml and added ‘resets’
+>   properties.
+> - Added ‘cdns,csi2rx.yaml’ in ‘CADENCE MIPI-CSI2 BRIDGES’ entry.
+> - The following contents were modified in starfive,jh7110-camss.yaml:
+>   dropped quotes from ’id’ and ‘schema’; dropped ‘|’ for ‘description’;
+>   corrected the wrong or redundant words: ‘a ISP’, ‘PD ISP’;
+>   dropped ‘minItems’ for ‘reg’, ‘clocks’, ‘resets’ and ‘interrupts’;
+>   dropped the '_clk' and 'rst_' prefix about the 'clock-names' and
+>   'reset-names';
+>   changed ‘endpoint@1’ to ‘endpoint’; updated examples;
+> - Updated Subject for some patches.
+> - Merged patch 6, 7, 8, 9, 10, 11 into one patch.
+> 
+> Jack Zhu (6):
+>   media: dt-bindings: Add JH7110 Camera Subsystem
+>   media: admin-guide: Add starfive_camss.rst for Starfive Camera
+>     Subsystem
+>   media: starfive: Add basic driver
+>   media: starfive: Add video driver
+>   media: starfive: Add ISP driver
+>   media: starfive: Add VIN driver
+> 
+>  .../admin-guide/media/starfive_camss.rst      |   57 +
+>  .../media/starfive_camss_graph.dot            |   16 +
+>  .../admin-guide/media/v4l-drivers.rst         |    1 +
+>  .../bindings/media/starfive,jh7110-camss.yaml |  180 +++
+>  MAINTAINERS                                   |    9 +
+>  drivers/media/platform/Kconfig                |    1 +
+>  drivers/media/platform/Makefile               |    1 +
+>  drivers/media/platform/starfive/Kconfig       |   19 +
+>  drivers/media/platform/starfive/Makefile      |   14 +
+>  drivers/media/platform/starfive/stf_camss.c   |  476 +++++++
+>  drivers/media/platform/starfive/stf_camss.h   |  157 +++
+>  drivers/media/platform/starfive/stf_common.h  |   18 +
+>  drivers/media/platform/starfive/stf_isp.c     |  550 ++++++++
+>  drivers/media/platform/starfive/stf_isp.h     |  483 +++++++
+>  .../media/platform/starfive/stf_isp_hw_ops.c  |  468 +++++++
+>  drivers/media/platform/starfive/stf_video.c   |  864 +++++++++++++
+>  drivers/media/platform/starfive/stf_video.h   |   95 ++
+>  drivers/media/platform/starfive/stf_vin.c     | 1134 +++++++++++++++++
+>  drivers/media/platform/starfive/stf_vin.h     |  180 +++
+>  .../media/platform/starfive/stf_vin_hw_ops.c  |  241 ++++
+>  20 files changed, 4964 insertions(+)
+>  create mode 100644 Documentation/admin-guide/media/starfive_camss.rst
+>  create mode 100644 Documentation/admin-guide/media/starfive_camss_graph.dot
+>  create mode 100644 Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
+>  create mode 100644 drivers/media/platform/starfive/Kconfig
+>  create mode 100644 drivers/media/platform/starfive/Makefile
+>  create mode 100644 drivers/media/platform/starfive/stf_camss.c
+>  create mode 100644 drivers/media/platform/starfive/stf_camss.h
+>  create mode 100644 drivers/media/platform/starfive/stf_common.h
+>  create mode 100644 drivers/media/platform/starfive/stf_isp.c
+>  create mode 100644 drivers/media/platform/starfive/stf_isp.h
+>  create mode 100644 drivers/media/platform/starfive/stf_isp_hw_ops.c
+>  create mode 100644 drivers/media/platform/starfive/stf_video.c
+>  create mode 100644 drivers/media/platform/starfive/stf_video.h
+>  create mode 100644 drivers/media/platform/starfive/stf_vin.c
+>  create mode 100644 drivers/media/platform/starfive/stf_vin.h
+>  create mode 100644 drivers/media/platform/starfive/stf_vin_hw_ops.c
+
+-- 
+Regards,
+
+Laurent Pinchart
