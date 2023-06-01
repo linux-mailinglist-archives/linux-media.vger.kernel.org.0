@@ -2,141 +2,210 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1868A719F3C
-	for <lists+linux-media@lfdr.de>; Thu,  1 Jun 2023 16:09:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2485B719FBF
+	for <lists+linux-media@lfdr.de>; Thu,  1 Jun 2023 16:22:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233553AbjFAOJ2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Jun 2023 10:09:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58506 "EHLO
+        id S233998AbjFAOWu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Jun 2023 10:22:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232340AbjFAOJ1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Jun 2023 10:09:27 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E245DE6D;
-        Thu,  1 Jun 2023 07:08:49 -0700 (PDT)
-Received: from [IPV6:2a01:e0a:120:3210:7d6d:c387:79e6:807d] (unknown [IPv6:2a01:e0a:120:3210:7d6d:c387:79e6:807d])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 4DF5A6602B7B;
-        Thu,  1 Jun 2023 15:08:15 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1685628495;
-        bh=2JX/h/DWYtco3A+ZzzUhtQVY2buJesqRTANDsE9Karg=;
-        h=Date:Subject:To:References:From:In-Reply-To:From;
-        b=AdhYBi04g2Qg9LTs2O+2XUaB4NuEQ6mmKE8Pn5mgMBKmFuR0XyMlkKJXGGpGzCqxJ
-         lUsf0TsUjT3YfNnfHc5uHxa3F+ikAhbvlbSKWJT3vD4IHXs2yGWhX5x1ZYcmoN27Ht
-         4yi4jTd8GoevXhBfh8gn6PLEfgvjqQO6nCN5IBBGOE/27ehPYEaVOmxlhl/Xjop4J/
-         u2jvhYI5QQWTvF9sUT0ZsUqwY7ONrTmRVKiRBOumAq/E0k/QfhxMTUtVcGaN6RYZu1
-         KGsBWERn+kdZHs/wbdnJmEY8tTy4QsQMFGFUIAoQVi6PldcoJBMjulsYv/2+1nFgjE
-         ZGWwZiBkHBGXQ==
-Message-ID: <2a892e71-f1be-41eb-5397-87484db7d592@collabora.com>
-Date:   Thu, 1 Jun 2023 16:08:13 +0200
+        with ESMTP id S231220AbjFAOWi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Jun 2023 10:22:38 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E174F1A7;
+        Thu,  1 Jun 2023 07:22:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685629355; x=1717165355;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=HaM6hhlYoE+UnM9HPHrqFOFHWjKzJA7Q4/t+E/WPPxw=;
+  b=WKeNgqi2eKvoE2EsABafuXzV9CM4ex+aToS+ehKflHJ5Ek06rOBE/e0m
+   07VXnWUOyq4f35j1vsnmN/fkPSIFDnBNYDXgSzcoeh58J7ou683Jn0Dic
+   fQzz6cY04xPuaOnQdOboYHnkD+KVicQvLmcHYbbMpDlYHS3csrn308xmd
+   h+jt4cJQ3cGHLKKZ2SE5lqI0fyZR/qGo3dOYzIb4rD41KCdRABn/UR3Gg
+   pyXepoO9DuP58zOEX2rE81Wuv29jjCSEOstc/s+TnmHxZpHRTDcmc8Mnq
+   ejQOX90NgtMrv5XCHrZjzuiIPIB3HtmDl5Qs4JumLypX+qV6urEzj51VF
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="335920983"
+X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
+   d="scan'208";a="335920983"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 07:22:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="777222803"
+X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
+   d="scan'208";a="777222803"
+Received: from dperchan-mobl1.ger.corp.intel.com (HELO terminus) ([10.214.197.5])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 07:22:17 -0700
+Message-ID: <e4e3cdd4c2193198589ff6de05be165a8237a794.camel@intel.com>
+Subject: Re: [PATCH v2] media: uapi: v4l: Intel metadata format update
+From:   Dmitry Perchanov <dmitry.perchanov@intel.com>
+To:     Sakari Ailus <sakari.ailus@intel.com>
+Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
+        linux-kernel@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        evgeni.raikhel@intel.com, demisrael@gmail.com
+Date:   Thu, 01 Jun 2023 17:22:15 +0300
+In-Reply-To: <ZGNvBySOEbBQrflJ@kekkonen.localdomain>
+References: <e16ddf4fdb83f30899e575b218e524f6346a9f50.camel@intel.com>
+         <ZFoESmKficDbqwFv@kekkonen.localdomain>
+         <6de8f9611e5bcf20d7d30e6d26d78f146316b164.camel@intel.com>
+         <ZGNvBySOEbBQrflJ@kekkonen.localdomain>
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2] media: verisilicon: Fix crash when probing encoder
-Content-Language: en-US
-To:     Michael Tretter <m.tretter@pengutronix.de>,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        mchehab@kernel.org, m.szyprowski@samsung.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kernel@collabora.com,
-        kernel@pengutronix.de, nicolas.dufresne@collabora.com,
-        didi.debian@cknow.org, hverkuil-cisco@xs4all.nl
-References: <20230413104756.356695-1-benjamin.gaignard@collabora.com>
- <20230601132749.GA31313@pengutronix.de>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <20230601132749.GA31313@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Fixed in v3.
 
-Le 01/06/2023 à 15:27, Michael Tretter a écrit :
-> Hi Benjamin,
->
-> On Thu, 13 Apr 2023 12:47:56 +0200, Benjamin Gaignard wrote:
->> ctx->vpu_dst_fmt is no more initialized before calling hantro_try_fmt()
->> so assigne it to vpu_fmt led to crash the kernel.
->> Like for decoder case use 'fmt' as format for encoder and clean up
->> the code.
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
->> Fixes: db6f68b51e5c ("media: verisilicon: Do not set context src/dst formats in reset functions")
->> ---
->> version 2:
->> - Remove useless vpu_fmt.
->>
->>   drivers/media/platform/verisilicon/hantro_v4l2.c | 10 +++-------
->>   1 file changed, 3 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
->> index 8f1414085f47..d71f79471396 100644
->> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
->> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
->> @@ -275,7 +275,7 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
->>   			  struct v4l2_pix_format_mplane *pix_mp,
->>   			  enum v4l2_buf_type type)
->>   {
->> -	const struct hantro_fmt *fmt, *vpu_fmt;
->> +	const struct hantro_fmt *fmt;
->>   	bool capture = V4L2_TYPE_IS_CAPTURE(type);
->>   	bool coded;
->>   
->> @@ -295,11 +295,7 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
->>   
->>   	if (coded) {
->>   		pix_mp->num_planes = 1;
->> -		vpu_fmt = fmt;
->> -	} else if (ctx->is_encoder) {
->> -		vpu_fmt = ctx->vpu_dst_fmt;
->> -	} else {
->> -		vpu_fmt = fmt;
->> +	} else if (!ctx->is_encoder) {
->>   		/*
->>   		 * Width/height on the CAPTURE end of a decoder are ignored and
->>   		 * replaced by the OUTPUT ones.
->> @@ -311,7 +307,7 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
->>   	pix_mp->field = V4L2_FIELD_NONE;
->>   
->>   	v4l2_apply_frmsize_constraints(&pix_mp->width, &pix_mp->height,
->> -				       &vpu_fmt->frmsize);
->> +				       &fmt->frmsize);
-> This causes a regression on the OUTPUT device of the encoder. fmt->frmsize is
-> only valid for coded ("bitstream") formats, but fmt on the OUTPUT of an
-> encoder will be a raw format. This results in width and height to be clamped
-> to 0.
->
-> I think the correct fix would be to apply the frmsize constraints of the
-> currently configured coded format, but as ctx->vpu_dst_fmt is not initialized
-> before calling this code, I don't know how to get the coded format.
+On Tue, 2023-05-16 at 11:54 +0000, Sakari Ailus wrote:
+> Hi Dmitry,
+> =
 
-if ctx->dst_fmt is correctly set (and it should be) then doing:
+> On Tue, May 16, 2023 at 11:10:02AM +0300, Dmitry Perchanov wrote:
+> > On Tue, 2023-05-09 at 11:28 +0300, Sakari Ailus wrote:
+> > > Hi Dmitry,
+> > > =
 
-pix_mp->width = ctx->dst_fmt.width;
-pix_mp->height = ctx->dst_fmt.height;
+> > > Thanks for the patch.
+> > > =
 
-should solve the issue.
+> > > No need to cc me to my @iki.fi address, I do read both. :-)
+> > Good.
+> > > On Tue, May 09, 2023 at 11:24:53AM +0300, Dmitry Perchanov wrote:
+> > > > Update metadata structure for Intel RealSense UVC/MIPI cameras.
+> > > > Compliant to Intel Configuration version 3.
+> > > > =
 
-Benjamin
+> > > > Signed-off-by: Dmitry Perchanov <dmitry.perchanov@intel.com>
+> > > > ---
+> > > =
 
->
-> Michael
->
->>   
->>   	if (!coded) {
->>   		/* Fill remaining fields */
->> -- 
->> 2.34.1
->>
+> > > Please detail here what changed between patch versions in future vers=
+ions
+> > > of the patch.
+> > Intel Configuration:
+> > version 2: gpioInputData added to md_configuration (with its flag)
+> > version 3: sub_preset_info added to md_configuration (with its flag)
+> > > >  .../media/v4l/pixfmt-meta-d4xx.rst            | 19 +++++++++++++++=
++---
+> > > >  1 file changed, 16 insertions(+), 3 deletions(-)
+> > > > =
+
+> > > > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx=
+.rst b/Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst
+> > > > index 4e437ba97a0e..b5decde640c1 100644
+> > > > --- a/Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst
+> > > > +++ b/Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst
+> > > > @@ -12,7 +12,7 @@ Intel D4xx UVC Cameras Metadata
+> > > >  Description
+> > > >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > >  =
+
+> > > > -Intel D4xx (D435 and other) cameras include per-frame metadata in =
+their UVC
+> > > > +Intel D4xx (D435, D455 and others) cameras include per-frame metad=
+ata in their UVC
+> > > >  payload headers, following the Microsoft(R) UVC extension proposal=
+ [1_]. That
+> > > >  means, that the private D4XX metadata, following the standard UVC =
+header, is
+> > > >  organised in blocks. D4XX cameras implement several standard block=
+ types,
+> > > > @@ -26,6 +26,8 @@ V4L2_META_FMT_UVC with the only difference, that =
+it also includes proprietary
+> > > >  payload header data. D4xx cameras use bulk transfers and only send=
+ one payload
+> > > >  per frame, therefore their headers cannot be larger than 255 bytes.
+> > > >  =
+
+> > > > +This document implements Intel Configuration version 3.
+> > > =
+
+> > > Which version was described here before this patch?
+> > Before that patch it was "Intel Configuration version 1"
+> > > Are there devices that use that presumably different version? Or does
+> > > this depend on e.g. firmware version?
+> > These changes are extensions and backward compatible with old firmware.
+> > Users are notified in case firmware too old and some features disabled.
+> =
+
+> The "Laser mode" below is replaced by three different fields. Was this a
+> bug in the document or a change between versions 1 and 3? In the former
+> case there should be another patch to fix it, in the latter both versions
+> should continue to be described as they are supported.
+> =
+
+> > > > +
+> > > >  Below are proprietary Microsoft style metadata types, used by D4xx=
+ cameras,
+> > > >  where all fields are in little endian order:
+> > > >  =
+
+> > > > @@ -43,7 +45,7 @@ where all fields are in little endian order:
+> > > >      * - __u32 ID
+> > > >        - 0x80000000
+> > > >      * - __u32 Size
+> > > > -      - Size in bytes (currently 56)
+> > > > +      - Size in bytes (currently 60)
+> > > >      * - __u32 Version
+> > > >        - Version of this structure. The documentation herein corres=
+ponds to
+> > > >          version xxx. The version number will be incremented when n=
+ew fields are
+> > > > @@ -72,8 +74,11 @@ where all fields are in little endian order:
+> > > >        - Bottom border of the AE Region of Interest
+> > > >      * - __u32 Preset
+> > > >        - Preset selector value, default: 0, unless changed by the u=
+ser
+> > > > -    * - __u32 Laser mode
+> > > > +    * - __u8 Emitter mode
+> > > >        - 0: off, 1: on
+> > > > +    * - __u8 RFU byte
+> > > > +    * - __u16 LED Power
+> > > > +      - Led power value 0-360 (F416 SKU)
+> > > >      * - :cspan:`1` *Capture Timing*
+> > > >      * - __u32 ID
+> > > >        - 0x80000001
+> > > > @@ -124,6 +129,14 @@ where all fields are in little endian order:
+> > > >        - Requested frame rate per second
+> > > >      * - __u16 Trigger
+> > > >        - Byte 0: bit 0: depth and RGB are synchronised, bit 1: exte=
+rnal trigger
+> > > > +    * - __u16 Calibration count
+> > > > +    * - __u8 GPIO input data
+> > > > +      - GPIO readout
+> > > > +      - Supported from FW 5.12.7.0
+> > > > +    * - __u32 Sub-preset info
+> > > > +      - Sub-preset choice information
+> > > > +    * - __u8 reserved
+> > > > +      - RFU byte.
+> =
+
+> Could you add to the documentation of these fields they're only valid for
+> v3?
+> =
+
+> > > >  =
+
+> > > >  .. _1:
+> > > >  =
+
+
+---------------------------------------------------------------------
+Intel Israel (74) Limited
+
+This e-mail and any attachments may contain confidential material for
+the sole use of the intended recipient(s). Any review or distribution
+by others is strictly prohibited. If you are not the intended
+recipient, please contact the sender and delete all copies.
+
