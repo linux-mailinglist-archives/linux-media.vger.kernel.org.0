@@ -2,147 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02D877195B6
-	for <lists+linux-media@lfdr.de>; Thu,  1 Jun 2023 10:36:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A89D27195BA
+	for <lists+linux-media@lfdr.de>; Thu,  1 Jun 2023 10:36:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232350AbjFAIg0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Jun 2023 04:36:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41126 "EHLO
+        id S232357AbjFAIgn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Jun 2023 04:36:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231439AbjFAIfq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Jun 2023 04:35:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F12B1E62
-        for <linux-media@vger.kernel.org>; Thu,  1 Jun 2023 01:33:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1685608419;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=x3eTbQbDDM0TVJI2q9CCZlJmje2SWQlIPH+HPIdVlJE=;
-        b=EKOvNKmIUsR6KgNbHT90AxF6G5REOm8cUC+notRrlc8RQ/hiy0HcwW2uMnsAnaK/5mjhwY
-        Mk8pjRxQzPALX+gOhu1CHglJVH9VTwRRgI++I0VBXNBjaaN1SBBnifHjfrFr0xZVauerjv
-        V8+uZw6sVeDPwwKUXXzz7xCYwlgSwcY=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-158-FY06RKskO5aBjQ3sTL_1Rg-1; Thu, 01 Jun 2023 04:33:38 -0400
-X-MC-Unique: FY06RKskO5aBjQ3sTL_1Rg-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-9744659b7b5so38699466b.3
-        for <linux-media@vger.kernel.org>; Thu, 01 Jun 2023 01:33:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685608417; x=1688200417;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=x3eTbQbDDM0TVJI2q9CCZlJmje2SWQlIPH+HPIdVlJE=;
-        b=gX3rrQOo7tX/xu6TJDDfH1ka8O20zfvPP+gnmcysY1a2ioEkp9FylnKaS3UmdjJl8k
-         nVY1uIh7i0TpAx5pvhohmEMYgQdVhPND4Ct2pSYevnUEWW/zS/t2bDVMRDdtfS0HPThi
-         RLVNgH0l66umwxUZbFmB8bsMtRdtYPkaQiu0XpwCSOjaVEcrTnj9gCZ3fNe4P3xejgiO
-         zuzF9dNCP1w4cotc99Crwm0oYnXKvUZdEKL2fFK6XPmqXzRQjya4S10putzcQVO7yZPS
-         U5Gh7KpvtgU86uvPf/IVqNtAClsMNbomG0Q+G+KwCcCTQFFwkrkCPHepZwRexzScIgzh
-         9QZg==
-X-Gm-Message-State: AC+VfDxFL1K1QN6jkqG5A7nuoiEtuy8kUWpwCiXSYG9B2mLd4QPJ3x9K
-        enuOJqqz1kbd6+qjDZ/VFlieQxMGdxL9miQvlPMjNYHe8o94l1tiRQiz1s/JL0xXAyuXDUnJqYc
-        FowbqbclET29NtfcUZNZZB54=
-X-Received: by 2002:a17:907:168c:b0:973:dd61:d427 with SMTP id hc12-20020a170907168c00b00973dd61d427mr3862754ejc.66.1685608416982;
-        Thu, 01 Jun 2023 01:33:36 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4JM9RzyqbodQJgPbI8rbyO2ezKuijiFWSI2bBq4x0g+lpo1VOfEFy7K0dEU8LSZndKwud2Ow==
-X-Received: by 2002:a17:907:168c:b0:973:dd61:d427 with SMTP id hc12-20020a170907168c00b00973dd61d427mr3862741ejc.66.1685608416697;
-        Thu, 01 Jun 2023 01:33:36 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id ss7-20020a170907038700b0096a2eaa508asm10160658ejb.168.2023.06.01.01.33.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Jun 2023 01:33:36 -0700 (PDT)
-Message-ID: <88bfdd38-d128-4653-9792-b16bc32f972b@redhat.com>
-Date:   Thu, 1 Jun 2023 10:33:35 +0200
+        with ESMTP id S232083AbjFAIgA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Jun 2023 04:36:00 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 675011BF;
+        Thu,  1 Jun 2023 01:34:44 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (om126205251136.34.openmobile.ne.jp [126.205.251.136])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 14E272B6;
+        Thu,  1 Jun 2023 10:34:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1685608460;
+        bh=gjjeif7oGjHL6hoGkZVclWwy0gG6mXm12g9c6do6TMY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=JUUnACbDpEB6bOR3h2O5ln8qOzpTqf9VBhkZ21myMqir6gqWJBUH2lhbgPljo3AUr
+         ZLmbW7sTAYzT5ej8JCl0YnN2x2g7F+RvAmu0lgbeX4QT61LRIobNk04EA1PyP66ClH
+         YW/Xq3c4rgNzXp9p+1Ol32sfvdB3/t8nHUJEqQMg=
+Date:   Thu, 1 Jun 2023 11:34:38 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>, tfiga@chromium.org,
+        m.szyprowski@samsung.com, mchehab@kernel.org, ming.qian@nxp.com,
+        shijie.qin@nxp.com, eagle.zhou@nxp.com, bin.liu@mediatek.com,
+        matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+        tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
+        yunfei.dong@mediatek.com, stanimir.k.varbanov@gmail.com,
+        quic_vgarodia@quicinc.com, agross@kernel.org, andersson@kernel.org,
+        konrad.dybcio@linaro.org, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, daniel.almeida@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, kernel@collabora.com
+Subject: Re: [PATCH v2 3/8] media: videobuf2: Add a module param to limit vb2
+ queue buffer storage
+Message-ID: <20230601083438.GE22609@pendragon.ideasonboard.com>
+References: <20230321102855.346732-1-benjamin.gaignard@collabora.com>
+ <20230321102855.346732-4-benjamin.gaignard@collabora.com>
+ <6c4658fd-3a64-b3f8-67cd-17ed2d7d3567@xs4all.nl>
+ <20230531080331.GB6496@pendragon.ideasonboard.com>
+ <608ae7d6-3f3b-137d-08d2-d41a240be2c4@xs4all.nl>
+ <20230531123945.GF27043@pendragon.ideasonboard.com>
+ <6f53b5f6-6649-f194-1808-5f5757b449f4@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 3/3] platform/x86: int3472: Add ov13b10 (09B13) sensor
- module support
-To:     Dan Scally <dan.scally@ideasonboard.com>, bingbu.cao@intel.com,
-        djrscally@gmail.com, hao.yao@intel.com
-Cc:     markgross@kernel.org, linux-media@vger.kernel.org,
-        sakari.ailus@linux.intel.com, andriy.shevchenko@linux.intel.com,
-        bingbu.cao@linux.intel.com
-References: <20230524035135.90315-1-bingbu.cao@intel.com>
- <20230524035135.90315-3-bingbu.cao@intel.com>
- <745f5335-b849-52da-f3e2-52cb1f4d1bd6@redhat.com>
- <e424987d-f7c2-4c08-eacc-67192453a78c@ideasonboard.com>
- <7fc1a3fb-d300-de09-1e0d-606971560fc1@redhat.com>
- <8183d5d6-8707-1ebb-4c47-49f35483fdc5@ideasonboard.com>
-Content-Language: en-US, nl
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <8183d5d6-8707-1ebb-4c47-49f35483fdc5@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <6f53b5f6-6649-f194-1808-5f5757b449f4@collabora.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dan,
+Hi Benjamin,
 
-On 5/31/23 21:34, Dan Scally wrote:
-> Hi Hans
+On Thu, Jun 01, 2023 at 10:03:39AM +0200, Benjamin Gaignard wrote:
+> Le 31/05/2023 à 14:39, Laurent Pinchart a écrit :
+> > On Wed, May 31, 2023 at 10:30:36AM +0200, Hans Verkuil wrote:
+> >> On 5/31/23 10:03, Laurent Pinchart wrote:
+> >>> On Wed, May 31, 2023 at 08:36:59AM +0200, Hans Verkuil wrote:
+> >>>> On 21/03/2023 11:28, Benjamin Gaignard wrote:
+> >>>>> Add module parameter "max_vb_buffer_per_queue" to be able to limit
+> >>>>> the number of vb2 buffers store in queue.
+> >>>>>
+> >>>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> >>>>> ---
+> >>>>>   drivers/media/common/videobuf2/videobuf2-core.c | 15 +++------------
+> >>>>>   include/media/videobuf2-core.h                  | 11 +++++++++--
+> >>>>>   2 files changed, 12 insertions(+), 14 deletions(-)
+> >>>>>
+> >>>>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> >>>>> index ae9d72f4d181..f4da917ccf3f 100644
+> >>>>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> >>>>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> >>>>> @@ -34,6 +34,8 @@
+> >>>>>   static int debug;
+> >>>>>   module_param(debug, int, 0644);
+> >>>>>   
+> >>>>> +module_param(max_vb_buffer_per_queue, ulong, 0644);
+> >>>> There is no MODULE_PARM_DESC here? Please add. I see it is not there for
+> >>>> the debug param either, it should be added for that as well.
+> >>> Would this be the right time to consider resource accounting in V4L2 for
+> >>> buffers ? Having a module parameter doesn't sound very useful, an
+> >>> application could easily allocate more buffers by using buffer orphaning
+> >>> (allocating buffers, exporting them as dmabuf objects, and freeing them,
+> >>> which leaves the memory allocated). Repeating allocation cycles up to
+> >>> max_vb_buffer_per_queue will allow allocating an unbounded number of
+> >>> buffers, using all the available system memory. I'd rather not add a
+> >>> module argument that only gives the impression of some kind of safety
+> >>> without actually providing any value.
+> >> Does dmabuf itself provide some accounting mechanism? Just wondering.
+> >>
+> >> More specific to V4L2: I'm not so sure about this module parameter either.
+> >> It makes sense to have a check somewhere against ridiculous values (i.e.
+> >> allocating MAXINT buffers), but that can be a define as well. But otherwise
+> >> I am fine with allowing applications to allocate buffers until the memory
+> >> is full.
+> >>
+> >> The question is really: what is this parameter supposed to do? The only
+> >> thing it does is to sanitize unlikely inputs (e.g. allocating MAXINT buffers).
+> >>
+> >> I prefer that as a define, to be honest.
+> >>
+> >> I think it is perfectly fine for users to try to request more buffers than
+> >> memory allows. It will just fail in that case, not a problem.
+> >>
+> >> And if an application is doing silly things like buffer orphaning, then so
+> >> what? Is that any different than allocating memory and not freeing it?
+> >> Eventually it will run out of memory and crash, which is normal.
+> >
+> > Linux provides APIs to account for and limit usage of resources,
+> > including memory. A system administrator can prevent rogue processes
+> > from starving system resources. The memory consumed by vb2 buffer isn't
+> > taken into account, making V4L2 essentially unsafe for untrusted
+> > processes.
+> >
+> > Now, to be fair, there are many reasons why allowing access to v4L2
+> > devices to untrusted applications is a bad idea, and memory consumption
+> > is likely not even the worst one. Still, is this something we want to
+> > fix, or do we want to consider V4L2 to be priviledged API only ? Right
+> > now we can't do so, but with many Linux systems moving towards pipewire,
+> > we could possibly have a system daemon isolating untrusted applications
+> > from the rest of the system. We may thus not need to fix this in the
+> > V4L2 API.
 > 
-> On 31/05/2023 16:34, Hans de Goede wrote:
+> I'm working in v3 where I'm using Xarray API.
+> 
+> Just to be sure to understand you well:
+> I can just remove VB2_MAX_FRAME limit without adding a new one ?
 
-<snip>
+As long as the code is protected against overflows (e.g. if it uses
+num_buffers + 1 in some calculations and allows num_buffers to be
+UINT_MAX, you'll have an issue), it should be fine for the vb2 and V4L2
+core. Limiting the number of buffers doesn't really protect against
+much.
 
->> I think what we need is for the sensor drivers to use standardized supply-names, so pick one of "avdd" or "vdda" and use that everywhere.
->>
->> This will require some compat code in some of the sensor drivers to try the old supply name if the new standardized supply name fails (easy when using the bulk regulator API, one of the 2 will just become a dummy regulator), but I believe that in the long run this is the best solution.
->>
->> Like how we also have all the sensor driver standardized on using "powerdown" and "reset" as GPIO con-ids.
-> 
-> I agree that this is ideal long term yes - I'll change the ov7251 to that effect.
-
-Ack.
-
-<snip>
-
->> I was sorta hoping to also test this on a miix510, but upon checking I saw that the mainline ov2680.c does not yet work on the miix510. Porting my atomisp-ov2680.c changes should get us close to having the standard ov2680.c work on the miix510 (ACPI enumeration, runtime-pm and selection API support will all be added).
-> 
-> 
-> That would be nice. The ov2680 on a Miix510 is the sensor I was originally trying to get working, a very long time ago. I had a tree that "worked" in that you could stream with it but it was very ugly, as I had no idea what I was doing at the time and swiftly got the Surface instead and so moved on to that. The references to OV2680 in the CIO2/INT3472 code are hangovers from that early support really.
-> 
->>
->> I have recently bought a second hand miix 510. Long story short: Can you give me some quick instructions, or a docs pointer for testing a new sensor with libcamera ?  Or preferably I guess first outside of libcamera just grabbing raw-bayer + some userspace debayer tool for testing and then later on test under libcamera ?
-> 
-> 
-> Outside of libcamera is a case of configuring the formats and then grabbing frames from the CIO2's devnode, then queuing those frames to the IPU3's input devnode. The easiest way to do it is using the ipu3 utils within the libcamera project, which don't actually use the library itself but rather just configure with media-ctl and capture with yavta. See [1] and [2] for example. Testing within libcamera requires that the driver meet libcamera's requirements [3] which mostly means ensuring it has the 5 mandatory controls, plus some targets for the .get_selection() callback - I can't remember exactly which ones but I think it's CROP, NATIVE_SIZE, CROP_BOUNDS and CROP_DEFAULT. And I think it would also need an entry adding right at [4] to describe the sensor for libcamera. After that the cam tool from libcamera should list it with cam -l and capture from it with cam -cN --capture, or alternatively qcam would display the stream.
-> 
-> 
-> [1] https://git.libcamera.org/libcamera/libcamera.git/tree/utils/ipu3/ipu3-capture.sh
-> 
-> [2] https://git.libcamera.org/libcamera/libcamera.git/tree/utils/ipu3/ipu3-process.sh
-> 
-> [3] https://git.libcamera.org/libcamera/libcamera.git/tree/Documentation/sensor_driver_requirements.rst
-> 
-> [4] https://git.libcamera.org/libcamera/libcamera.git/tree/src/libcamera/camera_sensor_properties.cpp#n140
-
-Thank you for the testing instructions. I will give this a try once I have all the recent atomisp
-improvements ported to the main ov2680 driver and I have the main ov2680 driver working with the atomisp.
-
->> More p.s. :
->>
->> Dan what about: https://patchwork.kernel.org/project/platform-driver-x86/patch/20230311223019.14123-1-dan.scally@ideasonboard.com/ and my remarks on that patch from you ?
-> 
-> 
-> That one completely fell off my radar - sorry about that. I can pick it up again in the morning.
-
-Note I send a another reply in that thread yesterday with an alternative suggestion for fixing this (I would like to not have to add any GPIO remapping stuff in INT3472 when possible, IMHO the sensor drivers should be patched to use the right con-ids where possible).
-
+-- 
 Regards,
 
-Hans
-
-
+Laurent Pinchart
