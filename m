@@ -2,200 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0887771F4E4
-	for <lists+linux-media@lfdr.de>; Thu,  1 Jun 2023 23:38:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12A6271F4E9
+	for <lists+linux-media@lfdr.de>; Thu,  1 Jun 2023 23:40:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231941AbjFAViZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Jun 2023 17:38:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54642 "EHLO
+        id S232988AbjFAVkE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Jun 2023 17:40:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231398AbjFAViX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Jun 2023 17:38:23 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F960E5C;
-        Thu,  1 Jun 2023 14:37:47 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 344CB64A18;
-        Thu,  1 Jun 2023 21:37:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75D65C433D2;
-        Thu,  1 Jun 2023 21:37:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685655459;
-        bh=cRNCWYgITY1Avwy3p/OqeMIYf76GSCIWeVOmp7qHdis=;
-        h=From:To:Cc:Subject:Date:From;
-        b=ExkIxw7gKOEphmOgoz9uN/SxJtg8mfaCbNEEeV3NwHCHLTipif8dod9mhyq567jrs
-         h42rhezz0SUvFIpt5DbaYVzRRnz1Y7A3JFJwT8tcqfFTSorKTEBopguhPjnK2bV0Fa
-         A2G6qCJ8QycLujMc/c3UPLbd82Qen9VnEjbDzYrZNIcG0NBK6x4hFXEWK/IQoxCJ5K
-         NpHTjUtng2RwD524bRqnSh6zL1mZFcRkfo5dzxHYDdULEIUVqxX1Jv6JehPwTor7Av
-         aHL6pNTAzgFm0YtRrU6WPOzPFIYiDo5kFQF+spcu4q+FMWsjtQ/HelhEOYefHFayJf
-         Xgow79I4vUvWw==
-From:   Arnd Bergmann <arnd@kernel.org>
-To:     Bin Liu <bin.liu@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        irui wang <irui.wang@mediatek.com>,
-        kyrie wu <kyrie.wu@mediatek.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        oushixiong <oushixiong@kylinos.cn>,
-        Randy Dunlap <rdunlap@infradead.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Yang Yingliang <yangyingliang@huawei.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: [PATCH] [v2] media: mtk_jpeg_core: avoid unused-variable warning
-Date:   Thu,  1 Jun 2023 23:37:22 +0200
-Message-Id: <20230601213732.3625642-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+        with ESMTP id S232809AbjFAVkB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Jun 2023 17:40:01 -0400
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6016FE5A
+        for <linux-media@vger.kernel.org>; Thu,  1 Jun 2023 14:39:35 -0700 (PDT)
+Received: by mail-yb1-xb33.google.com with SMTP id 3f1490d57ef6-bab8f66d3a2so1393431276.3
+        for <linux-media@vger.kernel.org>; Thu, 01 Jun 2023 14:39:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685655574; x=1688247574;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=gXcTUw8/gzf+4N1Jk/+JzhhoqxoIN0uBNkkWWoz4GPk=;
+        b=b3VywS7Ljo+ZEesSuEVyMCpM79uiuZ87DI8eG6rZId0B2D8St1T65FY00OYC0Il1J6
+         B82QDRHfMcwiyd0ckhq7/kwFhA07qqvAu15lI4PEulex/aEonS30PDBnG6iGUxZ/K4C9
+         ogc361FYJiDPcbPgeSCBkYhKAXDpPhmFkD2AfMGddnNSwfDM3BwgJOyD9lHhTXy0PUEh
+         ACZb9hR8gv9hQ1hOGw+JF7yAj9n/6MOJ3AqYbdiqAAYRkvL+dR+IezoS1N40QizMVsFK
+         Ff4yyIb3dXYaJIJdaZ0eu7LP7aP5i9Kfr+tDYKGHB9q/UmPnOQ+WOK9MM/HCunp6HeQr
+         35ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685655574; x=1688247574;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gXcTUw8/gzf+4N1Jk/+JzhhoqxoIN0uBNkkWWoz4GPk=;
+        b=DZX/jhlrPcvmcpCzzmUkE6IOaclO7V6oVvIY9rq82W4R4IGJjFSUSuCiZ5l1Varq2k
+         BjwI/jHTwk7tN8G7AebNB1NPY19BaSjqV9dkbgtHCmQK9MoU9Dxxb1ylDWio/ME3myOh
+         LjoBqqU5ZrT+pp+v6qJ07Kq1PBWHWc7b+4/Sr86YUzAxKyHB6hOgE/MrMxo+OvWftNeO
+         orqe32HM7xKqq3xt5uf3gAL3CeaZnMMwPlunWzB7kLsIUJQyIiVr4dym4OX6ND0Xbf8S
+         y+m7IxXpwpeI1rZeGb8TwcR+5trI/GjidjCXJdkRv9Sa75PvR0B6OAMul6GWN5wgtRQs
+         +jQA==
+X-Gm-Message-State: AC+VfDxOURDDd06W9gRXS4yq7B9un8v2lOgspKOanpvqztct4YU/0IHR
+        KmEVaAJfsfl0QumeulB/5jxQB1FCqXXI17MxBn0=
+X-Google-Smtp-Source: ACHHUZ75OVl++tB+omT20tnFzY9TtGt3KbONY2K8IzyLhbt/M0X+KW9CFWptZi9Mc/p+frzdtXBB+BuV2oHYXCJ/Ev4=
+X-Received: by 2002:a5b:bc6:0:b0:b9e:6912:595f with SMTP id
+ c6-20020a5b0bc6000000b00b9e6912595fmr1171171ybr.11.1685655574543; Thu, 01 Jun
+ 2023 14:39:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Received: by 2002:a05:7010:1746:b0:35e:11cb:c1fa with HTTP; Thu, 1 Jun 2023
+ 14:39:34 -0700 (PDT)
+Reply-To: choipark90@yahoo.com
+From:   choi park <fi236862@gmail.com>
+Date:   Thu, 1 Jun 2023 22:39:34 +0100
+Message-ID: <CAFYq+bGfNu3nNbqKGpCnmuDAptGdytVaaM4VwtgN_rRSNTWgbQ@mail.gmail.com>
+Subject: investment partners
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=5.1 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:b33 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [choipark90[at]yahoo.com]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [fi236862[at]gmail.com]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [fi236862[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.0 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
-
-The mtk8195_jpegenc_drvdata object was added outside of an #ifdef causing
-a harmless build warning.
-
-drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:1879:32: error: 'mtk8195_jpegenc_drvdata' defined but not used [-Werror=unused-variable]
- 1879 | static struct mtk_jpeg_variant mtk8195_jpegenc_drvdata = {
-      |                                ^~~~~~~~~~~~~~~~~~~~~~~
-
-A follow-up patch moved it inside of an #ifdef, which caused more
-warnings, and a third patch ended up adding even more #ifdefs. These
-were all bogus, since the actual problem here is the incorrect use
-of of_ptr(). Since the driver (like any other modern platform driver)
-only works in combination with CONFIG_OF, there is no point in hiding
-the reference, so just remove that along with all the pointless #ifdef
-checks in the driver.
-
-This improves build coverage and avoids running into the same problem
-again when another part of the driver gets changed that relies on
-the #ifdef blocks to be completely matched.
-
-Fixes: 934e8bccac95 ("mtk-jpegenc: support jpegenc multi-hardware")
-Fixes: 4ae47770d57bf ("media: mtk-jpegenc: Fix a compilation issue")
-Fixes: da4ede4b7fd6a ("media: mtk-jpeg: move data/code inside CONFIG_OF blocks")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c   | 6 +-----
- drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c | 4 +---
- drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c | 4 +---
- 3 files changed, 3 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-index 4768156181c99..40cb3cb87ba17 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-@@ -28,7 +28,6 @@
- #include "mtk_jpeg_core.h"
- #include "mtk_jpeg_dec_parse.h"
- 
--#if defined(CONFIG_OF)
- static struct mtk_jpeg_fmt mtk_jpeg_enc_formats[] = {
- 	{
- 		.fourcc		= V4L2_PIX_FMT_JPEG,
-@@ -102,7 +101,6 @@ static struct mtk_jpeg_fmt mtk_jpeg_dec_formats[] = {
- 		.flags		= MTK_JPEG_FMT_FLAG_CAPTURE,
- 	},
- };
--#endif
- 
- #define MTK_JPEG_ENC_NUM_FORMATS ARRAY_SIZE(mtk_jpeg_enc_formats)
- #define MTK_JPEG_DEC_NUM_FORMATS ARRAY_SIZE(mtk_jpeg_dec_formats)
-@@ -1455,7 +1453,6 @@ static const struct dev_pm_ops mtk_jpeg_pm_ops = {
- 	SET_RUNTIME_PM_OPS(mtk_jpeg_pm_suspend, mtk_jpeg_pm_resume, NULL)
- };
- 
--#if defined(CONFIG_OF)
- static int mtk_jpegenc_get_hw(struct mtk_jpeg_ctx *ctx)
- {
- 	struct mtk_jpegenc_comp_dev *comp_jpeg;
-@@ -1951,14 +1948,13 @@ static const struct of_device_id mtk_jpeg_match[] = {
- };
- 
- MODULE_DEVICE_TABLE(of, mtk_jpeg_match);
--#endif
- 
- static struct platform_driver mtk_jpeg_driver = {
- 	.probe = mtk_jpeg_probe,
- 	.remove_new = mtk_jpeg_remove,
- 	.driver = {
- 		.name           = MTK_JPEG_NAME,
--		.of_match_table = of_match_ptr(mtk_jpeg_match),
-+		.of_match_table = mtk_jpeg_match,
- 		.pm             = &mtk_jpeg_pm_ops,
- 	},
- };
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-index 869068fac5e2f..baa7be58ce691 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-@@ -39,7 +39,6 @@ enum mtk_jpeg_color {
- 	MTK_JPEG_COLOR_400		= 0x00110000
- };
- 
--#if defined(CONFIG_OF)
- static const struct of_device_id mtk_jpegdec_hw_ids[] = {
- 	{
- 		.compatible = "mediatek,mt8195-jpgdec-hw",
-@@ -47,7 +46,6 @@ static const struct of_device_id mtk_jpegdec_hw_ids[] = {
- 	{},
- };
- MODULE_DEVICE_TABLE(of, mtk_jpegdec_hw_ids);
--#endif
- 
- static inline int mtk_jpeg_verify_align(u32 val, int align, u32 reg)
- {
-@@ -653,7 +651,7 @@ static struct platform_driver mtk_jpegdec_hw_driver = {
- 	.probe = mtk_jpegdec_hw_probe,
- 	.driver = {
- 		.name = "mtk-jpegdec-hw",
--		.of_match_table = of_match_ptr(mtk_jpegdec_hw_ids),
-+		.of_match_table = mtk_jpegdec_hw_ids,
- 	},
- };
- 
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
-index 71e85b4bbf127..244018365b6f1 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
-@@ -46,7 +46,6 @@ static const struct mtk_jpeg_enc_qlt mtk_jpeg_enc_quality[] = {
- 	{.quality_param = 97, .hardware_value = JPEG_ENC_QUALITY_Q97},
- };
- 
--#if defined(CONFIG_OF)
- static const struct of_device_id mtk_jpegenc_drv_ids[] = {
- 	{
- 		.compatible = "mediatek,mt8195-jpgenc-hw",
-@@ -54,7 +53,6 @@ static const struct of_device_id mtk_jpegenc_drv_ids[] = {
- 	{},
- };
- MODULE_DEVICE_TABLE(of, mtk_jpegenc_drv_ids);
--#endif
- 
- void mtk_jpeg_enc_reset(void __iomem *base)
- {
-@@ -377,7 +375,7 @@ static struct platform_driver mtk_jpegenc_hw_driver = {
- 	.probe = mtk_jpegenc_hw_probe,
- 	.driver = {
- 		.name = "mtk-jpegenc-hw",
--		.of_match_table = of_match_ptr(mtk_jpegenc_drv_ids),
-+		.of_match_table = mtk_jpegenc_drv_ids,
- 	},
- };
- 
--- 
-2.39.2
-
+--=20
+Hello my friend how are you doing with your daily activities I hope
+you are doing well, sorry that I have to contact you via this
+platform.  Please this massage is not any way meant to steal your
+information, it=E2=80=99s just  to  assist my  client  to have   a  good
+partner for investment  . i got your contact when searching for a
+reliable and reputable person that can be trusted as my that client
+Mrs. Ma-Ri  Kim from  Hong Kong   Directed  me to get her someone that
+she can trust and  invest part of her money outside Hong Kong   for
+her under aged child  if you are interested and can handle this funds
+let me know  by  declaring your interest so that I can give you more
+details about this   .
+Mr Choi Park
