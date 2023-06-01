@@ -2,202 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A29F71A00B
-	for <lists+linux-media@lfdr.de>; Thu,  1 Jun 2023 16:31:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4341071A03A
+	for <lists+linux-media@lfdr.de>; Thu,  1 Jun 2023 16:35:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233600AbjFAObB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Jun 2023 10:31:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47928 "EHLO
+        id S233923AbjFAOeK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Jun 2023 10:34:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232937AbjFAObA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Jun 2023 10:31:00 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 397EF98;
-        Thu,  1 Jun 2023 07:30:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685629859; x=1717165859;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sAyW59Ki6HNjbLWqoEjJOMrzPkU439CneXHmr8zIJV8=;
-  b=k4aCbGlLyCftwB8M2vQR3GyAmn0flK64izMTz1ABDlmR/+s6PD+pII6R
-   f79gRaa0fTCGduZ1jq4ndSwdLZJWaVk05CBd3gFTPAiuyiT3yeIE1cE2L
-   PhfKedHxTgYRRDVEJJlcrzfPzdsnEx5D4qLOMGdqQYhgAxKyv3xmx47zz
-   etpMjDRZCpEtuohfIwd0ppzNuHJIACftncgZX3B8O8WTJQm7/G1i0C6f3
-   3V9QiDXL85wnMbSgbZw/WmUekgVZjoELWayw9ezMU1md7sSsymB097oP7
-   jzhtU3+c156liCKiHR1YYNAXt3jLQY4jj7Qbc9WBbH9cH1arMnl6OlJFn
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="335191944"
-X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="335191944"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 07:30:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="797167511"
-X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="797167511"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 07:30:51 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 04A821202B1;
-        Thu,  1 Jun 2023 17:30:49 +0300 (EEST)
-Date:   Thu, 1 Jun 2023 14:30:49 +0000
-From:   Sakari Ailus <sakari.ailus@intel.com>
-To:     Dmitry Perchanov <dmitry.perchanov@intel.com>
-Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
-        linux-kernel@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        evgeni.raikhel@intel.com, demisrael@gmail.com
-Subject: Re: [PATCH v2] media: uapi: v4l: Intel metadata format update
-Message-ID: <ZHirmZPwfTunInw+@kekkonen.localdomain>
-References: <e16ddf4fdb83f30899e575b218e524f6346a9f50.camel@intel.com>
- <ZFoESmKficDbqwFv@kekkonen.localdomain>
- <6de8f9611e5bcf20d7d30e6d26d78f146316b164.camel@intel.com>
- <ZGNvBySOEbBQrflJ@kekkonen.localdomain>
- <e4e3cdd4c2193198589ff6de05be165a8237a794.camel@intel.com>
+        with ESMTP id S233850AbjFAOeJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Jun 2023 10:34:09 -0400
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2048.outbound.protection.outlook.com [40.107.220.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B467D1;
+        Thu,  1 Jun 2023 07:34:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gczYBgu6/WI9dnxLQZ3HGl8HWFuWzctqTpiwPDHFf1bNdh9xVwIqfd72TP342FAULiExpAKysfojBiBW+jjBwscgm4a4PIWka5LjF1mCLGSFPbRTvGLn4Z1ao+1CRJPIHv7cZPx6uTad3Qe6SYNKLU3KvtbPUfSprWOjwRWBtg5zbXMIw9MtaIjMCwMnVmhbNmIJ27m5XrpYHwpzE5rzHzTTmjay2jXCeQm6ZnG+EzbZC1BEtJfRrFW8CnLMBHOQkSNQ84ugzHuupgegCBwzvcPndDBBryQnnmtL0p518lJWkLDRF4CzbP+kaOrwAOxhQW7I8lPAxrAcQAxyS/iajw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4byVYc3piYLFHOMuNXRNYjzoaRWwqK9pc5O9hghsaL4=;
+ b=YmSGivTu4EpnKvOLurGNCoYV1fOEtzUfpAqcI2PSXQDHIXaULYTGg1+7TgBzQAwTZVxX3kBl0HDMFsdcUn3IT+GjLIVKDDhmYzWzkcF4e950l+FY/V9N2AYy+o68n/NBBJGDv6oH37JmkcBclQsCQLoR8ZSiPWND8VBMQvZ6fQcQ7+uQt5gZQhOyD7zLd2MR8CBq5TuSduybRuCaZ/MWCevWsgTBIWe6Mg0qR/SYvGfkUC41srdAqnT5CPQnfxHWeMxNJaPAfvcOiWxZy5v7dBXfjHn0LWfCcrh7Z9ImhLbYZffgyJcq++tWKuZHPNFlBah1vSNfNJR3UnpudvghEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4byVYc3piYLFHOMuNXRNYjzoaRWwqK9pc5O9hghsaL4=;
+ b=lb280PJHdhJHrn8lTQXk7sMLilNdJG8NetzeBx+mlyDF+1lGndlgV0VMEVQ4QMVQgqi+MoRFFyzS583YL+cDDUXhu275/MGqb1wRh8un8up91nEeMwb6IR02aDUlVIunT8EWAJo9DFowkk4VxGg+ZNpdYMjtZIctF2Wizr+Ahbk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by PH7PR12MB6636.namprd12.prod.outlook.com (2603:10b6:510:212::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.22; Thu, 1 Jun
+ 2023 14:34:05 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::907f:26e2:673a:2ad2]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::907f:26e2:673a:2ad2%6]) with mapi id 15.20.6455.020; Thu, 1 Jun 2023
+ 14:34:05 +0000
+Message-ID: <81371d0d-5093-5aa8-f757-2f11f24366eb@amd.com>
+Date:   Thu, 1 Jun 2023 16:34:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm/radeon: fix race condition UAF in
+ radeon_gem_set_domain_ioctl
+Content-Language: en-US
+To:     Min Li <lm0963hack@gmail.com>, alexander.deucher@amd.com
+Cc:     Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+        sumit.semwal@linaro.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20230526123753.16160-1-lm0963hack@gmail.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20230526123753.16160-1-lm0963hack@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0085.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1f::22) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e4e3cdd4c2193198589ff6de05be165a8237a794.camel@intel.com>
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|PH7PR12MB6636:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6c832bb5-0494-4052-4d62-08db62ad406f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: EalTvypGyVlpEctFuv7RZ7Ttfoj8GaUbLeF0QF45NX60DtoPQ8A0dqUmkQGlzp5QE6FF/BJYMqF9gZ2rAwJzICbBIuQEk2nfNASHpNPKesbseN8MTzZjOvHd6RC+c/RNUnZHvu3MzjlnVtX68wJ+JezbZeEQhkMWojJlnMrdUYGeykZK2CfLGaVUhpUMRAquHKl90dZ8inpWcnNxHtklaYKtOdwgX+5dfrr2aWBgHbD5UauPl23PWF8xYjVaPne+oSLZkXUi9NnIuKDCkwKBRfp7uomQu/Fi9ITvnTgN9Bc8zQrc9KyM4looNLjuphirrv2jHChp/RI6968PhZ4rJmLa9ga/q/kg0g5S8PHZIUYyJvYCY/0g6C0wR6eppm7OGuq1+27iy+nXW+VuYtkLcnGr9LwXonTQ7w+ylozXagJEPpXgIfUIp9v9N0AppZiNSzzjo7ITlADmP6hy0u+mcd3IhAQSFO3JJcKTP3eWjZ+vGL4RQesMnd0wUeEdMKNyWbivDbXFkATZcsgUAAgRS4tA9Wimhlz6Blu0D3QxLV86/l6GIwoIbbSbvPZqRtPUDJpRST0SOcL16HaeTtDe6/WJLGPqBU5mSw8DUsIwSy2AyiKM/zX+71yutsXWWjLR/Q2wm6suxwsps7pnHrT+Ag==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(39860400002)(396003)(376002)(346002)(136003)(451199021)(6666004)(86362001)(2616005)(316002)(2906002)(6486002)(36756003)(5660300002)(186003)(31696002)(41300700001)(83380400001)(8936002)(8676002)(38100700002)(478600001)(31686004)(6506007)(6512007)(4326008)(6636002)(66476007)(66946007)(66556008)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TTdCdjkrTXhxMHh2bVU2NFFwZlREYU9wdFlJYklJbTZ0TEZxb29LUFVwajBD?=
+ =?utf-8?B?REZBZmxWWDRETzBNOCtEVWUrVnZBVTBzWTV4Sm0yaTdZN2F6ZFVUNEU2T3Nr?=
+ =?utf-8?B?N3R3Y0I3OHRHZWQrcmpFbmZMSjUwcmtJU0Z1bS9tbjg2eGJoaXM5MmRpZ2lw?=
+ =?utf-8?B?UVRXb3JyU2ZMS2xsZFpMWmdDNWRmMUZzRzdpUlRoeFhIcGx3dmR6WWFIaG9Q?=
+ =?utf-8?B?NlJnYllOVEZlTHhDWGdJQmVIYk9UNHZKMTR3T0FZMVYrcklNcXorS0RQam1t?=
+ =?utf-8?B?dHk5SDdaWWRyY0FTZjUrNm1lQVpLUGtSeGVGMEx0UjRvbGVQV284ZGJIeS9j?=
+ =?utf-8?B?dmNlRytzbEVpOHVmVVhrMEJ1d3NlTjMxYnIzSk51R1M5WjBqT3UzWHVJMkUx?=
+ =?utf-8?B?MUdabnM5eFFsZ1daZ3JrUHNnRFRBRm9aUXB4cG9DRzY3dG03eExYV0VOTFRq?=
+ =?utf-8?B?VUNXV292Y25JS1R3c0tBc09VZ2Z4VWJTUzUwZ0tpZ1JpRjVZeFBDeDBwTXRy?=
+ =?utf-8?B?Y0liV1ZnOVZzWDBVcVNyQnlKeEZEZ2RzV2VZTWc1K0I1ampSa3ZXNVZZMEhp?=
+ =?utf-8?B?N1gxbFZTZWM1cWxkVDJkYlJ1MkU4UXVKNTJYVHNndWtFeStrM2ZHOFFERy9G?=
+ =?utf-8?B?UVVnRi9vRm1GVlpiNEhnOUpybGRYYWZPMnR6TFY3RXAveGg4Nm1wWmo1TzZE?=
+ =?utf-8?B?NFNjdW4vMisyS2ppQlVHRlBSRzFEdG1GZ0lxME53MU4zMWphNU9sVHJXbjhD?=
+ =?utf-8?B?MS9SNlY1YmRQM2hSVnExQnNBMHNRc2NRdDF2c21NeldiRDk2TURUZk1UamdX?=
+ =?utf-8?B?N3Byb0lTT0V4WFBtaTcwS3lYaUZmaEFLem84NlAvbUdNQ1VJdlROaUtuOXoy?=
+ =?utf-8?B?d2I0WG1iWmlKWENJeWloK2ZZcnhDUXpzeTJycGd5SGFGeWNlMVhqYUJqa0Iw?=
+ =?utf-8?B?Q3VtZXpIaW9aSmZEdi93N3lQYXpWODFidmZ6VkdCRlhyVHNDZStiYk1ZWHA2?=
+ =?utf-8?B?d2F0akZFRjJCS3FNS05QSWN5NG15M3l4cFRXOVlCUUVXWnRmajlDa3BMZGVh?=
+ =?utf-8?B?R2s4ek1ZczM2U1Vsa21UczEwM1NJcTlnVmNlYzdCVnB3VG0zeXZrNTRsTGt2?=
+ =?utf-8?B?eWxVNUhUaFBHdlZpb1MxdEl4dGxSWjZOejlIZFA4eDJ3UUROOEVhU05JSHUy?=
+ =?utf-8?B?SURYSGEyWEFMOW1HYnBxSTFWS3ZHL05hVnREcjRyL1N0ai9oSEQ2M0lLOGJj?=
+ =?utf-8?B?d0h4ZzMvQ3Y2SGVyY0NaeUdaTHJCNjBOaHMrTlAzSi9jK2NuS3lIditmeWpq?=
+ =?utf-8?B?VGpNT01naHc3dFJPOVE4a1c4Mk5hTlptV2J6VVlYZnVTektna1Yva3BKYmtH?=
+ =?utf-8?B?WU1QUnU0VWhaT0FyU2F1RjJucWs1amNiQ256eFJpRzFwLzF1dktKaEczdmhG?=
+ =?utf-8?B?WDFFS29DV005SWs3dDYzWnE3b3BmeERqejl5UktjR0d5SGxVY25FYzN2UlVC?=
+ =?utf-8?B?azQzeDRNVDhqMjFiKzRRa1hKMDJxZWxIOVB3VWZrb0dhQlNFdkhVd1dmbDZK?=
+ =?utf-8?B?VStKTDd5SEc4cWEvdGg5bURSVHpCa0N2bmlFZHBMbDNSN05OUCtNMFU4cVBP?=
+ =?utf-8?B?cG9CcDJ0dmR3Zk9DeDB6ZE5qUTlKTWh3Nm83cFExV3NDRUsvanl2R2hYSHcz?=
+ =?utf-8?B?cjI2RE4wWi9xWXNIaGxORCt0bVdPckJ2VmZYVHh1YWR2Y3YyWDB3NzQrcjEy?=
+ =?utf-8?B?TE1QcWZTc2ZMM3BWT2JUbi9nR0J5T1ZxeDFWdUF2NmtyeTkyQTNFQWVlUkMx?=
+ =?utf-8?B?MEI1NHdSZ2Fuc0V6elhOdm9BSXNCMVM1dkFqd0M5ZjN6T09QOUtPaFNObllM?=
+ =?utf-8?B?RXJPY1l0NDh4ODhvcnlCSm9sSitUb3lEb2dlN3hFYndhVUlONzZna1NuTHNj?=
+ =?utf-8?B?U3FzNlVUclhXRXdzc1pMeTlMWExtM0ZackRad2NkUGp2Mm9ROTNSalROeVk0?=
+ =?utf-8?B?S0FiZHZ5cnZscnlROTVFWVgrUWN6dUVFbVpiSUFwZFVwN1NqT1ZhMGdxUzhJ?=
+ =?utf-8?B?Mld6ZjQybUJuWlRQOHVOSkVZdEU4Y0hCeDI3NnVpV1JFODZMNUZIdHFrMW5B?=
+ =?utf-8?B?YUpPZkJLZ2puQVRDa3lrU1U4SDBra2tnMk1Zdi9DTUhWenpFRE9lSDJEY2I4?=
+ =?utf-8?Q?AEzFvh6dTpSz0zAJPJ6QiDk8aBB5vgSXU04GTkDJKVAV?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6c832bb5-0494-4052-4d62-08db62ad406f
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2023 14:34:05.5681
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /Cb2IuamGLVNljb7NxHuy4GKGZicOhjrZMNtbMXmBxAvpf0sIBaTtTKhN+J8XXS+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6636
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dmitry,
+Am 26.05.23 um 14:37 schrieb Min Li:
+> Userspace can race to free the gobj(robj converted from), robj should not
+> be accessed again after drm_gem_object_put, otherwith it will result in
+> use-after-free.
+>
+> Signed-off-by: Min Li <lm0963hack@gmail.com>
+> ---
+>   drivers/gpu/drm/radeon/radeon_gem.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
+> index bdc5af23f005..450c7cbdd28a 100644
+> --- a/drivers/gpu/drm/radeon/radeon_gem.c
+> +++ b/drivers/gpu/drm/radeon/radeon_gem.c
+> @@ -478,7 +478,7 @@ int radeon_gem_set_domain_ioctl(struct drm_device *dev, void *data,
+>   
+>   	drm_gem_object_put(gobj);
+>   	up_read(&rdev->exclusive_lock);
+> -	r = radeon_gem_handle_lockup(robj->rdev, r);
+> +	r = radeon_gem_handle_lockup(rdev, r);
 
-On Thu, Jun 01, 2023 at 05:22:15PM +0300, Dmitry Perchanov wrote:
-> Fixed in v3.
+This also makes the robj unused which the kernel test robot also 
+complained about.
 
-Please avoid top-posting.
+Please remove that local variable and re-submit.
 
-v3 does not
+Apart from that the patch looks good to me,
+Christian.
 
-- differentiate metadata versions 1 and 3,
-- elaborate laser mode vs. other fields (bug, change in format or
-  otherwise) nor
-- lists which fields are only available in v3.
+>   	return r;
+>   }
+>   
 
-As it appears that devices that use either of these formats continue to be
-around, it would be appropriate to document both versions.
-
-On top of this, it seems the document purports the change in size of the
-data structure between the versions 1 and 3 to be 4 (60 - 56) but the patch
-adds fields with total size of 8 bytes.
-
-Is the firmware versioning the same for all uvc driver supported Realsense
-devices?
-
-> 
-> On Tue, 2023-05-16 at 11:54 +0000, Sakari Ailus wrote:
-> > Hi Dmitry,
-> > 
-> > On Tue, May 16, 2023 at 11:10:02AM +0300, Dmitry Perchanov wrote:
-> > > On Tue, 2023-05-09 at 11:28 +0300, Sakari Ailus wrote:
-> > > > Hi Dmitry,
-> > > > 
-> > > > Thanks for the patch.
-> > > > 
-> > > > No need to cc me to my @iki.fi address, I do read both. :-)
-> > > Good.
-> > > > On Tue, May 09, 2023 at 11:24:53AM +0300, Dmitry Perchanov wrote:
-> > > > > Update metadata structure for Intel RealSense UVC/MIPI cameras.
-> > > > > Compliant to Intel Configuration version 3.
-> > > > > 
-> > > > > Signed-off-by: Dmitry Perchanov <dmitry.perchanov@intel.com>
-> > > > > ---
-> > > > 
-> > > > Please detail here what changed between patch versions in future versions
-> > > > of the patch.
-> > > Intel Configuration:
-> > > version 2: gpioInputData added to md_configuration (with its flag)
-> > > version 3: sub_preset_info added to md_configuration (with its flag)
-> > > > >  .../media/v4l/pixfmt-meta-d4xx.rst            | 19 ++++++++++++++++---
-> > > > >  1 file changed, 16 insertions(+), 3 deletions(-)
-> > > > > 
-> > > > > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst b/Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst
-> > > > > index 4e437ba97a0e..b5decde640c1 100644
-> > > > > --- a/Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst
-> > > > > +++ b/Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst
-> > > > > @@ -12,7 +12,7 @@ Intel D4xx UVC Cameras Metadata
-> > > > >  Description
-> > > > >  ===========
-> > > > >  
-> > > > > -Intel D4xx (D435 and other) cameras include per-frame metadata in their UVC
-> > > > > +Intel D4xx (D435, D455 and others) cameras include per-frame metadata in their UVC
-> > > > >  payload headers, following the Microsoft(R) UVC extension proposal [1_]. That
-> > > > >  means, that the private D4XX metadata, following the standard UVC header, is
-> > > > >  organised in blocks. D4XX cameras implement several standard block types,
-> > > > > @@ -26,6 +26,8 @@ V4L2_META_FMT_UVC with the only difference, that it also includes proprietary
-> > > > >  payload header data. D4xx cameras use bulk transfers and only send one payload
-> > > > >  per frame, therefore their headers cannot be larger than 255 bytes.
-> > > > >  
-> > > > > +This document implements Intel Configuration version 3.
-> > > > 
-> > > > Which version was described here before this patch?
-> > > Before that patch it was "Intel Configuration version 1"
-> > > > Are there devices that use that presumably different version? Or does
-> > > > this depend on e.g. firmware version?
-> > > These changes are extensions and backward compatible with old firmware.
-> > > Users are notified in case firmware too old and some features disabled.
-> > 
-> > The "Laser mode" below is replaced by three different fields. Was this a
-> > bug in the document or a change between versions 1 and 3? In the former
-> > case there should be another patch to fix it, in the latter both versions
-> > should continue to be described as they are supported.
-> > 
-> > > > > +
-> > > > >  Below are proprietary Microsoft style metadata types, used by D4xx cameras,
-> > > > >  where all fields are in little endian order:
-> > > > >  
-> > > > > @@ -43,7 +45,7 @@ where all fields are in little endian order:
-> > > > >      * - __u32 ID
-> > > > >        - 0x80000000
-> > > > >      * - __u32 Size
-> > > > > -      - Size in bytes (currently 56)
-> > > > > +      - Size in bytes (currently 60)
-> > > > >      * - __u32 Version
-> > > > >        - Version of this structure. The documentation herein corresponds to
-> > > > >          version xxx. The version number will be incremented when new fields are
-> > > > > @@ -72,8 +74,11 @@ where all fields are in little endian order:
-> > > > >        - Bottom border of the AE Region of Interest
-> > > > >      * - __u32 Preset
-> > > > >        - Preset selector value, default: 0, unless changed by the user
-> > > > > -    * - __u32 Laser mode
-> > > > > +    * - __u8 Emitter mode
-> > > > >        - 0: off, 1: on
-> > > > > +    * - __u8 RFU byte
-> > > > > +    * - __u16 LED Power
-> > > > > +      - Led power value 0-360 (F416 SKU)
-> > > > >      * - :cspan:`1` *Capture Timing*
-> > > > >      * - __u32 ID
-> > > > >        - 0x80000001
-> > > > > @@ -124,6 +129,14 @@ where all fields are in little endian order:
-> > > > >        - Requested frame rate per second
-> > > > >      * - __u16 Trigger
-> > > > >        - Byte 0: bit 0: depth and RGB are synchronised, bit 1: external trigger
-> > > > > +    * - __u16 Calibration count
-> > > > > +    * - __u8 GPIO input data
-> > > > > +      - GPIO readout
-> > > > > +      - Supported from FW 5.12.7.0
-> > > > > +    * - __u32 Sub-preset info
-> > > > > +      - Sub-preset choice information
-> > > > > +    * - __u8 reserved
-> > > > > +      - RFU byte.
-> > 
-> > Could you add to the documentation of these fields they're only valid for
-> > v3?
-> > 
-> > > > >  
-> > > > >  .. _1:
-> > > > >  
-> 
-
--- 
-Kind regards,
-
-Sakari Ailus
