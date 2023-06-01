@@ -2,118 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 693FC71A257
-	for <lists+linux-media@lfdr.de>; Thu,  1 Jun 2023 17:19:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7955871A3B4
+	for <lists+linux-media@lfdr.de>; Thu,  1 Jun 2023 18:05:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233512AbjFAPTW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Jun 2023 11:19:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58016 "EHLO
+        id S234703AbjFAQFh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Jun 2023 12:05:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234915AbjFAPTD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Jun 2023 11:19:03 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C626DB3;
-        Thu,  1 Jun 2023 08:18:48 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5F85664675;
-        Thu,  1 Jun 2023 15:18:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C525FC4339C;
-        Thu,  1 Jun 2023 15:18:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685632727;
-        bh=zt7KZMmx/oJBYdfFdtNG8ZQh916ADU8eGaXVMVWxHLE=;
-        h=From:To:Cc:Subject:Date:From;
-        b=lOsYcDeZ6FDbxshIu7kdv+ump9fNlSvRpNRm6K6kLV3mxZKqoX7/SeZaOn5gv9gYd
-         jUGbk6YWUoRlA6uXYqUPeKRY+B/G7Gtt6DRjGqb/rofNXy1cgD4lv6tend69ihuddC
-         /Xs5cKYacjSj7o/Ch3PcbC+S5wqM/cwEt5cNvibv8wmRxcg74v43euAPEUPlY7fG5a
-         I0xFlAuT7pGfRRlcmRdc3Ln/9JyPCzJ1R8eqd4eYbhqcuvyFxOQPjvsczQhU1vqyNd
-         nWIyEt9HR0ur9SlpXBuqSzw77gRjWK2aT6fdvn0eK1AeOTk3eXPGF0sk7UpCqBMB8s
-         Un4YXvEvE8kcg==
-From:   Arnd Bergmann <arnd@kernel.org>
-To:     kasan-dev@googlegroups.com, ryabinin.a.a@gmail.com
-Cc:     glider@google.com, andreyknvl@gmail.com, dvyukov@google.com,
-        vincenzo.frascino@arm.com, elver@google.com,
-        linux-media@vger.kernel.org, linux-crypto@vger.kernel.org,
-        herbert@gondor.apana.org.au, ardb@kernel.org, mchehab@kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Dan Carpenter <dan.carpenter@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, Kees Cook <keescook@chromium.org>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, llvm@lists.linux.dev
-Subject: [PATCH] [RFC] ubsan: disallow bounds checking with gcov on broken gcc
-Date:   Thu,  1 Jun 2023 17:18:11 +0200
-Message-Id: <20230601151832.3632525-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+        with ESMTP id S234619AbjFAQFg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Jun 2023 12:05:36 -0400
+Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9B1813D
+        for <linux-media@vger.kernel.org>; Thu,  1 Jun 2023 09:05:30 -0700 (PDT)
+Received: by mail-qv1-xf2f.google.com with SMTP id 6a1803df08f44-626157a186bso13186856d6.1
+        for <linux-media@vger.kernel.org>; Thu, 01 Jun 2023 09:05:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685635530; x=1688227530;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LusgW7kRLas1PCqAL/j4Ugd2jlhleJjtTI8FOrNEWo4=;
+        b=o7OVNDCyxCG0LZr5motkiiKFmhEN6a5DLpPeZTWvZhpMHv5U1DZGD4R1eENNJ2ZCEi
+         sSWtac0w1g402wxRaFWvCYTYAs5zVj35OVFIArAlhpLQXGJpTJxx4DqdT/VwTeDChzj8
+         00kEj3qG2qn2zSoCRLKDJaDZyNNIqjPqd9Un2gXd9NucBBdRjASUzXmFIN91EYF43yHE
+         TvqlBLma1pAVm3i5XHcd1MFGhb1Jr8EjVLO0cxgoaidEZlK8DLJWqBVeHlDE4Gqp9gJ5
+         0EDAxhxPtmRlE1aZ7xz8GYdI5h6eZcV2HU7nVWDCfMcaYFe/Uw5c2Yxs6d4idz/F/NTX
+         T7tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685635530; x=1688227530;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LusgW7kRLas1PCqAL/j4Ugd2jlhleJjtTI8FOrNEWo4=;
+        b=NusGGs86cEo09C/Jh0uNq1/ToEiaTZ+o5szO94raUPv0C6bZ9g7BNsxqrS9l5aH7N7
+         YZ34S8Pc2CQIprHrSazTm8apA5BPb1TKAz7taDfVwet7TqEyZNmuUEKR1tOifenhs9/H
+         2ZgtlyoJ7FWig8i5tBm4eBSfTYCVjpE1DzuU+YcriESBlO3ihW7dr2E5yWqkMhwd2IRj
+         1gGkV4Nh3Mv+fAY9ZnHrKdi63voVFquYlaElV+ygQKDLM9Zgo/5nOL/PqOWFZzGaUW68
+         /moRyaLl4+aDqBCK99ZFW8qMagzDdUd0YOp2yDrBf4a6sQnrTUzum7P1sooPlRLK0Bb4
+         dFYA==
+X-Gm-Message-State: AC+VfDyc0ZwCQjTp9pS9Fvx4eVLVA4wvRDXq7dKsWCwY4cuWXwSXDSfv
+        0yEpAKRhOiVFcZMx9JBfvA2+XseCDCndesWqGrY=
+X-Google-Smtp-Source: ACHHUZ7VAX2Wc7kYACLhqmb+hfWGE24VYBEGVucB04TT6s8Hz9Xi6qZonInXoiaIxjLRNf9H9NdVgUzP9tu33S28oK8=
+X-Received: by 2002:ad4:5de1:0:b0:619:27af:bc58 with SMTP id
+ jn1-20020ad45de1000000b0061927afbc58mr2105608qvb.18.1685635529762; Thu, 01
+ Jun 2023 09:05:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230601145858.59652-1-hdegoede@redhat.com>
+In-Reply-To: <20230601145858.59652-1-hdegoede@redhat.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 1 Jun 2023 19:04:53 +0300
+Message-ID: <CAHp75VfFB6CJ9aRtYd--kON8RwC9YmUrc3+Lbyzkj8RmA_g1KQ@mail.gmail.com>
+Subject: Re: [PATCH 0/3] media: atomisp: Selection API support bugfixes
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Thu, Jun 1, 2023 at 5:59=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
+wrote:
+>
+> Hi All,
+>
+> Here is a set of bugfixes for the recently added Selection API support.
 
-Combining UBSAN and GCOV in randconfig builds results in a number of
-stack frame size warnings, such as:
+All three LGTM
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-crypto/twofish_common.c:683:1: error: the frame size of 2040 bytes is larger than 1024 bytes [-Werror=frame-larger-than=]
-drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:1589:1: error: the frame size of 1696 bytes is larger than 1400 bytes [-Werror=frame-larger-than=]
-drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c:754:1: error: the frame size of 1260 bytes is larger than 1024 bytes [-Werror=frame-larger-than=]
-drivers/staging/media/ipu3/ipu3-css-params.c:1206:1: error: the frame size of 1080 bytes is larger than 1024 bytes [-Werror=frame-larger-than=]
-drivers/staging/media/rkvdec/rkvdec-vp9.c:1042:1: error: the frame size of 2176 bytes is larger than 2048 bytes [-Werror=frame-larger-than=]
-drivers/staging/media/rkvdec/rkvdec-vp9.c:995:1: error: the frame size of 1656 bytes is larger than 1024 bytes [-Werror=frame-larger-than=]
+> Regards,
+>
+> Hans
+>
+>
+> Hans de Goede (3):
+>   media: atomisp: Take minimum padding requirement on BYT/ISP2400 into
+>     account
+>   media: atomisp: Make atomisp_enum_framesizes_crop() check resolution
+>     fits with padding
+>   media: atomisp: Fix binning check in atomisp_set_crop()
+>
+>  .../staging/media/atomisp/pci/atomisp_cmd.c   | 42 ++++++++++++++++---
+>  .../staging/media/atomisp/pci/atomisp_cmd.h   |  4 ++
+>  .../media/atomisp/pci/atomisp_common.h        |  4 ++
+>  .../staging/media/atomisp/pci/atomisp_ioctl.c | 18 +++++---
+>  4 files changed, 58 insertions(+), 10 deletions(-)
+>
+> --
+> 2.40.1
+>
 
-I managed to track this down to the -fsanitize=bounds option clashing
-with the -fprofile-arcs option, which leads a lot of spilled temporary
-variables in generated instrumentation code.
 
-Hopefully this can be addressed in future gcc releases the same way
-that clang handles the combination, but for existing compiler releases,
-it seems best to disable one of the two flags. This can be done either
-globally by just not passing both at the same time, or locally using
-the no_sanitize or no_instrument_function attributes in the affected
-functions.
-
-Try the simplest approach here, and turn off -fsanitize=bounds on
-gcc when GCOV is enabled, leaving the rest of UBSAN working. Doing
-this globally also helps avoid inefficient code from the same
-problem that did not push the build over the warning limit.
-
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Link: https://lore.kernel.org/stable/6b1a0ee6-c78b-4873-bfd5-89798fce9899@kili.mountain/
-Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=110074
-Link: https://godbolt.org/z/zvf7YqK5K
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- lib/Kconfig.ubsan | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/lib/Kconfig.ubsan b/lib/Kconfig.ubsan
-index f7cbbad2bb2f4..8f71ff8f27576 100644
---- a/lib/Kconfig.ubsan
-+++ b/lib/Kconfig.ubsan
-@@ -29,6 +29,8 @@ config UBSAN_TRAP
- 
- config CC_HAS_UBSAN_BOUNDS_STRICT
- 	def_bool $(cc-option,-fsanitize=bounds-strict)
-+	# work around https://gcc.gnu.org/bugzilla/show_bug.cgi?id=110074
-+	depends on GCC_VERSION > 140000 || !GCOV_PROFILE_ALL
- 	help
- 	  The -fsanitize=bounds-strict option is only available on GCC,
- 	  but uses the more strict handling of arrays that includes knowledge
--- 
-2.39.2
-
+--=20
+With Best Regards,
+Andy Shevchenko
