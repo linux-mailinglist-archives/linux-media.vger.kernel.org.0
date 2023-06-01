@@ -2,285 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B45B7196B4
-	for <lists+linux-media@lfdr.de>; Thu,  1 Jun 2023 11:20:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DFDF7196F1
+	for <lists+linux-media@lfdr.de>; Thu,  1 Jun 2023 11:30:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232444AbjFAJU1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Jun 2023 05:20:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42278 "EHLO
+        id S232771AbjFAJaB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Jun 2023 05:30:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232709AbjFAJUZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Jun 2023 05:20:25 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A74197;
-        Thu,  1 Jun 2023 02:20:23 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (om126205251136.34.openmobile.ne.jp [126.205.251.136])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 62ADE105;
-        Thu,  1 Jun 2023 11:19:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1685611200;
-        bh=7OZvICe7BBhFf4AJNPBe52r/1K16wC/5FM5zeCzqEQ0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=iWN6EvuqeXh+2xq6KOFe6UAjhn+yDIWo5ZzOnpbcTVUoWM1TDvGpHf+tlKWUE3yBp
-         n/F2xL2QN6DWaCT6J1RnnDrORx0nF/nWoYoeZsDYwAQrX7Dz2170CZTiejDK5vdAM0
-         LLahCJEvaRMTnMv1sDnE+HhaCZNsNlSXU0WkqV9s=
-Date:   Thu, 1 Jun 2023 12:20:20 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jack Zhu <jack.zhu@starfivetech.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>, bryan.odonoghue@linaro.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Eugen Hristev <eugen.hristev@collabora.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, changhuang.liang@starfivetech.com
-Subject: Re: [PATCH v6 1/6] media: dt-bindings: Add JH7110 Camera Subsystem
-Message-ID: <20230601092020.GF22609@pendragon.ideasonboard.com>
-References: <20230525083202.67933-1-jack.zhu@starfivetech.com>
- <20230525083202.67933-2-jack.zhu@starfivetech.com>
+        with ESMTP id S232876AbjFAJ3x (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Jun 2023 05:29:53 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E62D197;
+        Thu,  1 Jun 2023 02:29:51 -0700 (PDT)
+Received: from [IPV6:2001:b07:2ed:14ed:a962:cd4d:a84:1eab] (unknown [IPv6:2001:b07:2ed:14ed:a962:cd4d:a84:1eab])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id A80E76606EBB;
+        Thu,  1 Jun 2023 10:29:49 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1685611790;
+        bh=/99L0yDyxfKpGTLUsUvuTBXH57FzSAVPgswDfaicft0=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=Iz7Hpv/WW0Zq2RNh0iuM8jxPoqgrnBjPTKgILgEJD/MnGgAIULj4oLw/FYWaumWXj
+         hAhmvW2hVxoGcwVLbyyRnSvtDqVsDGjC7w4g+0VqDiCNdXdHiZ5bE0saUfhs+pJ3z5
+         I/Eiz3zVh2ha/ZtRsqMP3C81OvKxyhKiWqomw6tkdjrQebytlKpdv4wKHtp8Dqm3Aw
+         gH3zrZ8zlIlCRBKXRfDBjCQkSI9D49FlPxXeIHfHMn0XQFMmPdGiCW4PnACyfO7WIM
+         MbN7tn2pghUa4JuR5gSJII2OIhbq1gLT/MvpekRI6MqQNhZxGDVa1lV6iMOTiM0R+V
+         xXKWkcmfGyFLw==
+Message-ID: <ef3aaee1-e6ca-a89d-e002-42bf918736f4@collabora.com>
+Date:   Thu, 1 Jun 2023 11:29:47 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230525083202.67933-2-jack.zhu@starfivetech.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH 4/8] mediatek: vcodec: remove the dependency of debug log
+Content-Language: en-US
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Chen-Yu Tsai <wenst@chromium.org>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        =?UTF-8?Q?N=c3=adcolas_F_=2e_R_=2e_A_=2e_Prado?= 
+        <nfraprado@collabora.com>, Nathan Hebert <nhebert@chromium.org>
+Cc:     Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20230601030256.29875-1-yunfei.dong@mediatek.com>
+ <20230601030256.29875-5-yunfei.dong@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230601030256.29875-5-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jack,
-
-Thank you for the patch.
-
-On Thu, May 25, 2023 at 04:31:57PM +0800, Jack Zhu wrote:
-> Add the bindings documentation for Starfive JH7110 Camera Subsystem
-> which is used for handing image sensor data.
+Il 01/06/23 05:02, Yunfei Dong ha scritto:
+> 'mtk_vcodec_debug' and 'mtk_vcodec_err' depends on 'mtk_vcodec_ctx'
+> to get the index of each instance, using the index directly instead
+> of with 'mtk_vcodec_ctx'.
 > 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 > ---
->  .../bindings/media/starfive,jh7110-camss.yaml | 180 ++++++++++++++++++
->  MAINTAINERS                                   |   7 +
->  2 files changed, 187 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
+>   .../mediatek/vcodec/mtk_vcodec_util.h         |  36 +++--
+>   .../vcodec/vdec/vdec_av1_req_lat_if.c         |  78 +++++------
+>   .../mediatek/vcodec/vdec/vdec_h264_if.c       |  46 +++----
+>   .../mediatek/vcodec/vdec/vdec_h264_req_if.c   |  32 ++---
+>   .../vcodec/vdec/vdec_h264_req_multi_if.c      |  62 ++++-----
+>   .../vcodec/vdec/vdec_hevc_req_multi_if.c      |  54 ++++----
+>   .../mediatek/vcodec/vdec/vdec_vp8_if.c        |  38 +++---
+>   .../mediatek/vcodec/vdec/vdec_vp8_req_if.c    |  36 ++---
+>   .../mediatek/vcodec/vdec/vdec_vp9_if.c        | 128 +++++++++---------
+>   .../vcodec/vdec/vdec_vp9_req_lat_if.c         |  67 ++++-----
+>   .../platform/mediatek/vcodec/vdec_vpu_if.c    |  48 +++----
+>   .../mediatek/vcodec/venc/venc_h264_if.c       |  74 +++++-----
+>   .../mediatek/vcodec/venc/venc_vp8_if.c        |  44 +++---
+>   .../platform/mediatek/vcodec/venc_vpu_if.c    |  54 ++++----
+>   14 files changed, 399 insertions(+), 398 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml b/Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
-> new file mode 100644
-> index 000000000000..c66586d90fa2
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
-> @@ -0,0 +1,180 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/starfive,jh7110-camss.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Starfive SoC CAMSS ISP
-> +
-> +maintainers:
-> +  - Jack Zhu <jack.zhu@starfivetech.com>
-> +  - Changhuang Liang <changhuang.liang@starfivetech.com>
-> +
-> +description:
-> +  The Starfive CAMSS ISP is a Camera interface for Starfive JH7110 SoC. It
-> +  consists of a VIN controller (Video In Controller, a top-level control unit)
-> +  and an ISP.
-> +
-> +properties:
-> +  compatible:
-> +    const: starfive,jh7110-camss
-> +
-> +  reg:
-> +    maxItems: 2
-> +
-> +  reg-names:
-> +    items:
-> +      - const: syscon
-> +      - const: isp
-> +
-> +  clocks:
-> +    maxItems: 7
-> +
-> +  clock-names:
-> +    items:
-> +      - const: apb_func
-> +      - const: wrapper_clk_c
-> +      - const: dvp_inv
-> +      - const: axiwr
-> +      - const: mipi_rx0_pxl
-> +      - const: ispcore_2x
-> +      - const: isp_axi
-> +
-> +  resets:
-> +    maxItems: 6
-> +
-> +  reset-names:
-> +    items:
-> +      - const: wrapper_p
-> +      - const: wrapper_c
-> +      - const: axird
-> +      - const: axiwr
-> +      - const: isp_top_n
-> +      - const: isp_top_axi
-> +
-> +  power-domains:
-> +    items:
-> +      - description: JH7110 ISP Power Domain Switch Controller.
-> +
-> +  interrupts:
-> +    maxItems: 4
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description: Input port for receiving DVP data.
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              bus-type:
-> +                enum: [5, 6]
-> +
-> +              bus-width:
-> +                enum: [8, 10, 12]
-> +
-> +              data-shift:
-> +                enum: [0, 2]
-> +                default: 0
-> +
-> +              hsync-active:
-> +                enum: [0, 1]
-> +                default: 1
-> +
-> +              vsync-active:
-> +                enum: [0, 1]
-> +                default: 1
-> +
-> +            required:
-> +              - bus-type
-> +              - bus-width
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: Input port for receiving CSI data.
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +  - reset-names
-> +  - power-domains
-> +  - interrupts
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    isp@19840000 {
-> +        compatible = "starfive,jh7110-camss";
-> +        reg = <0x19840000 0x10000>,
-> +              <0x19870000 0x30000>;
-> +        reg-names = "syscon", "isp";
-> +        clocks = <&ispcrg 0>,
-> +                 <&ispcrg 13>,
-> +                 <&ispcrg 2>,
-> +                 <&ispcrg 12>,
-> +                 <&ispcrg 1>,
-> +                 <&syscrg 51>,
-> +                 <&syscrg 52>;
-> +        clock-names = "apb_func",
-> +                      "wrapper_clk_c",
-> +                      "dvp_inv",
-> +                      "axiwr",
-> +                      "mipi_rx0_pxl",
-> +                      "ispcore_2x",
-> +                      "isp_axi";
-> +        resets = <&ispcrg 0>,
-> +                 <&ispcrg 1>,
-> +                 <&ispcrg 10>,
-> +                 <&ispcrg 11>,
-> +                 <&syscrg 41>,
-> +                 <&syscrg 42>;
-> +        reset-names = "wrapper_p",
-> +                      "wrapper_c",
-> +                      "axird",
-> +                      "axiwr",
-> +                      "isp_top_n",
-> +                      "isp_top_axi";
-> +        power-domains = <&pwrc 5>;
-> +        interrupts = <92>, <87>, <88>, <90>;
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +            port@0 {
-> +                reg = <0>;
-> +                vin_from_sc2235: endpoint {
-> +                    remote-endpoint = <&sc2235_to_vin>;
-> +                    bus-type = <5>;
-> +                    bus-width = <8>;
-> +                    data-shift = <2>;
-> +                    hsync-active = <1>;
-> +                    vsync-active = <0>;
-> +                    pclk-sample = <1>;
-> +                };
-> +            };
-> +
-> +            port@1 {
-> +                reg = <1>;
-> +                vin_from_csi2rx: endpoint {
-> +                    remote-endpoint = <&csi2rx_to_vin>;
-> +                };
-> +            };
-> +        };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 869e1c7fc869..9ef5d0e5dff0 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -20070,6 +20070,13 @@ M:	Ion Badulescu <ionut@badula.org>
->  S:	Odd Fixes
->  F:	drivers/net/ethernet/adaptec/starfire*
->  
-> +STARFIVE CAMERA SUBSYSTEM DRIVER
-> +M:	Jack Zhu <jack.zhu@starfivetech.com>
-> +M:	Changhuang Liang <changhuang.liang@starfivetech.com>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
-> +
->  STARFIVE DEVICETREES
->  M:	Emil Renner Berthing <kernel@esmil.dk>
->  S:	Maintained
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h
+> index ecb0bdf3a4f4..f018af38b39d 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h
+> @@ -31,42 +31,38 @@ struct mtk_vcodec_dev;
+>   #define mtk_v4l2_err(fmt, args...)                \
+>   	pr_err("[MTK_V4L2][ERROR] " fmt "\n", ##args)
+>   
+> -#define mtk_vcodec_err(h, fmt, args...)				\
+> -	pr_err("[MTK_VCODEC][ERROR][%d]: " fmt "\n",		\
+> -	       ((struct mtk_vcodec_ctx *)(h)->ctx)->id, ##args)
+> +#define mtk_vcodec_err(inst_id, fmt, args...)                          \
+> +	pr_err("[MTK_VCODEC][ERROR][%d]: " fmt "\n", inst_id, ##args)
+>   
 
--- 
+This *huge* cleanup (congrats btw!) would be a great occasion to change those
+pr_err() to dev_err(). Can we do that?
+
 Regards,
+Angelo
 
-Laurent Pinchart
