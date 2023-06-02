@@ -2,344 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 91F8F72027C
-	for <lists+linux-media@lfdr.de>; Fri,  2 Jun 2023 14:59:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D21957202AC
+	for <lists+linux-media@lfdr.de>; Fri,  2 Jun 2023 15:10:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234982AbjFBM7v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Jun 2023 08:59:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51388 "EHLO
+        id S234982AbjFBNKs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Jun 2023 09:10:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235760AbjFBM7u (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Jun 2023 08:59:50 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ABB91A5;
-        Fri,  2 Jun 2023 05:59:47 -0700 (PDT)
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 16FF67FC;
-        Fri,  2 Jun 2023 14:59:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1685710763;
-        bh=tI7wkUtWJRaI5H+3x7g9/+fEQYWpOE2UlMAHSf6BcBM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=vjHLmn/4RTKW9yll6hykch4/gPCU3VsqkaiafdJP2GMBYdszWEGYVN3wRksc+ACk7
-         ootYeX0kIUN95529XZcq0Yai8Y33H6tCgw7ElrKrjokE5NbsZ59yN+3ZrUW+7nvUiM
-         guhfjQAC8WG8O5YnOqQTfzYmIMm2pgUmQXPO4U9k=
-Date:   Fri, 2 Jun 2023 14:59:41 +0200
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH 08/21] media: i2c: imx258: Add support for 24MHz clock
-Message-ID: <x4clzqhxlckjgd2ktflzp5chmmhjvz6r6xnmbqdte5wbgjfseg@ua36hcb3nbny>
-References: <20230530173000.3060865-1-dave.stevenson@raspberrypi.com>
- <20230530173000.3060865-9-dave.stevenson@raspberrypi.com>
+        with ESMTP id S233609AbjFBNKq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Jun 2023 09:10:46 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98A921AB
+        for <linux-media@vger.kernel.org>; Fri,  2 Jun 2023 06:10:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685711445; x=1717247445;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=8JwgJu6zEQ+TZMTYFg1TI6DBqCeE+1+Ce8VzDWZ9Jrw=;
+  b=ARiaRaYwuKrV9aUOIifmIeQ+ux4hIlFlWWJiYUpM9X2CaKejDRbsavsV
+   xoppbNqnpXbYy2QSdQZFnrXOYdE23vpDk/1E6R6HJc4rK/0eV9tFGtsVT
+   r3NE9zJp6t/pUezn3IyUb5OHoSTcC02kVflPTYdd2R9vU2fL6uvv5hKbs
+   OGHytIdDpUtnGmiQ1VILVGYsIS5I2HNHxxgXvJ+PpDg5q22l5sZBK0vsH
+   X6Z42Y5Us1xIT1yrSEA0ySX/dNERA2W+Vpo+fxFGtQi9LghLZcXik/lnA
+   JO6AqMJI1HxHZa/SBmu2GRyq0kJoGxWofyjK7x61IFjBkmBt2Xt2nDFPa
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="421679402"
+X-IronPort-AV: E=Sophos;i="6.00,213,1681196400"; 
+   d="scan'208";a="421679402"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 06:10:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="820283398"
+X-IronPort-AV: E=Sophos;i="6.00,213,1681196400"; 
+   d="scan'208";a="820283398"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 06:10:43 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 9EE34120B16;
+        Fri,  2 Jun 2023 16:10:40 +0300 (EEST)
+Date:   Fri, 2 Jun 2023 13:10:40 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org, bingbu.cao@intel.com,
+        hongju.wang@intel.com
+Subject: Re: [RFC 2/7] media: v4l: subdev: Support INTERNAL_SOURCE pads in
+ routing IOCTLs
+Message-ID: <ZHnqUG7o+njqGCco@kekkonen.localdomain>
+References: <20230505215257.60704-1-sakari.ailus@linux.intel.com>
+ <20230505215257.60704-3-sakari.ailus@linux.intel.com>
+ <691a9d35-218f-4eef-ddb0-5834f1e222c8@ideasonboard.com>
+ <ZFjp6jtJk4WIeXCx@kekkonen.localdomain>
+ <20230602094407.GF19463@pendragon.ideasonboard.com>
+ <20230602094650.GG19463@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230530173000.3060865-9-dave.stevenson@raspberrypi.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230602094650.GG19463@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave
+Heippa Tomi, Laurent,
 
-On Tue, May 30, 2023 at 06:29:47PM +0100, Dave Stevenson wrote:
-> There's no reason why only a clock of 19.2MHz is supported.
-> Indeed this isn't even a frequency listed in the datasheet.
->
-> Add support for 24MHz as well.
-> The PLL settings result in slightly different link frequencies,
-> so parameterise those.
->
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> ---
->  drivers/media/i2c/imx258.c | 137 ++++++++++++++++++++++++++++++-------
->  1 file changed, 111 insertions(+), 26 deletions(-)
->
-> diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
-> index 5a57d0b5fcd8..d40521f9a3c6 100644
-> --- a/drivers/media/i2c/imx258.c
-> +++ b/drivers/media/i2c/imx258.c
-> @@ -76,9 +76,6 @@
->  #define REG_CONFIG_MIRROR_FLIP		0x03
->  #define REG_CONFIG_FLIP_TEST_PATTERN	0x02
->
-> -/* Input clock frequency in Hz */
-> -#define IMX258_INPUT_CLOCK_FREQ		19200000
-> -
->  struct imx258_reg {
->  	u16 address;
->  	u8 val;
-> @@ -91,6 +88,7 @@ struct imx258_reg_list {
->
->  /* Link frequency config */
->  struct imx258_link_freq_config {
-> +	u64 link_frequency;
+On Fri, Jun 02, 2023 at 12:46:50PM +0300, Laurent Pinchart wrote:
+> On Fri, Jun 02, 2023 at 12:44:12PM +0300, Laurent Pinchart wrote:
+> > On Mon, May 08, 2023 at 03:24:10PM +0300, Sakari Ailus wrote:
+> > > Moi,
+> > 
+> > こんにちは
+> > 
+> > > On Mon, May 08, 2023 at 01:14:07PM +0300, Tomi Valkeinen wrote:
+> > > > On 06/05/2023 00:52, Sakari Ailus wrote:
+> > > > > Take the new INTERNAL_SOURCE pad flag into account in validating routing
+> > > > > IOCTL argument. Effectively this is a SINK pad in this respect. Due to the
+> > > > > union there's no need to check for the particular name.
+> > > > 
+> > > > What union? The one you add in the next patch?
+> > > 
+> > > Oops. I think we can reorder the patches.
+> > > 
+> > > > As a concept the internal source pads sound good, and they work in practice
+> > > > in my tests. But this union is what grates me a bit. We have a flag,
+> > > > MEDIA_PAD_FL_INTERNAL_SOURCE, which tells which field of the union to use,
+> > > > and then we go and do not use the new union field. Well, and also the
+> > > > naming, as we normally have source and sink pads, but now we also have
+> > > > internal source pads, which are actually identical to sink pads...
+> > > 
+> > > The union still should be used by the user space. We're testing flags here
+> > > and those flags are the same independently of the INTERNAL_SOURCE flag.
+> > > 
+> > > I'm fine by not adding that union though, but for the user space I think
+> > > it's better we have it: explaining that the sink_pad has a different
+> > > meaning if that flag is set is harder than making it a union member.
+> > > 
+> > > > I understand the idea and reasoning, but the two points above do confuse me
+> > > > and I'm sure would confuse others also.
+> > > > 
+> > > > I wonder if it would be less or more confusing to simplify this by just
+> > > > adding a MEDIA_PAD_FL_INTERNAL, which could be applied to either a source or
+> > > > a sink pad, and would prevent linking to it. The flag would indicate that
+> > > > the stream from/to that pad is generated/consumed internally. (I don't know
+> > > > when you would need an internal pad to consume data, but... who knows, the
+> > > > need might pop up =).
+> > > 
+> > > This is another option. But I envision there will be more compatibility
+> > > issues. Although... generally using such hardware requires knowledge of the
+> > > device, and we haven't obviously had any support for devices needing this
+> > > functionality in the tree. So in the end it might not matter much.
+> > >
+> > > > That would mean that an "internal sink pad" would generate a data stream,
+> > > > i.e. it's a "source", but I think a normal sink pad is almost the same
+> > > > anyway: when considering entity's internal routing, the normal sink pad is a
+> > > > "source", and the same logic would apply with the internal pads too.
+> > > > 
+> > > > An internal sink pad that generates a stream is a bit more confusing than an
+> > > > internal source pad, but I think that confusion is less than the rest of the
+> > > > confusion in the code-side that comes with the internal source pads.
+> > > 
+> > > I prefer having the possible sources of the confusion in the framework than
+> > > in the drivers. Therefore I think INTERNAL_SOURCE flag is a (slightly)
+> > > better option.
+> > > 
+> > > I wonder what Llaurent thinks.
+> > 
+> > I like the idea of a MEDIA_PAD_FL_INTERNAL flag. That's actually how I
+> > read patch 1/7, I didn't notice it used MEDIA_PAD_FL_INTERNAL*_SOURCE*
+> > :-)
+> > 
+> > We could define MEDIA_PAD_FL_INTERNAL_SOURCE
+> > 
+> > #define MEDIA_PAD_FL_INTERNAL_SOURCE 	(MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_INTERNAL)
+> 
+> One option would be to find terms different from sink and source in this
+> case. It would generate less confusion to map (e.g., not a really good
+> name) MEDIA_PAD_FL_INTERNAL_PRODUCER to MEDIA_PAD_FL_SINK and to the
+> sink_pad field than using MEDIA_PAD_FL_INTERNAL_SOURCE.
 
-Is this used ?
+I don't think this helps as you'd still be accessing the sink pad related
+fields that are there for another purpose.
 
->  	u32 pixels_per_line;
+Alternatively I'd have the (plain) INTERNAL flag and drop the union,
+without masking or adding compound flags.
 
-Also this seems to be set a fixed value of IMX258_PPL_DEFAULT
+I can switch to that if you promise not to change your mind again. ;-)
 
->
->  	/* PLL registers for this link frequency */
-> @@ -115,7 +113,9 @@ struct imx258_mode {
->  };
->
->  /* 4208x3120 needs 1267Mbps/lane, 4 lanes */
-> -static const struct imx258_reg mipi_data_rate_1267mbps[] = {
-> +static const struct imx258_reg mipi_1267mbps_19_2mhz[] = {
-> +	{ 0x0136, 0x13 },
-> +	{ 0x0137, 0x33 },
->  	{ 0x0301, 0x05 },
->  	{ 0x0303, 0x02 },
->  	{ 0x0305, 0x03 },
-> @@ -133,7 +133,29 @@ static const struct imx258_reg mipi_data_rate_1267mbps[] = {
->  	{ 0x0823, 0xCC },
->  };
->
-> -static const struct imx258_reg mipi_data_rate_640mbps[] = {
-> +static const struct imx258_reg mipi_1272mbps_24mhz[] = {
-> +	{ 0x0136, 0x18 },
-> +	{ 0x0137, 0x00 },
-> +	{ 0x0301, 0x05 },
-> +	{ 0x0303, 0x02 },
-> +	{ 0x0305, 0x04 },
-> +	{ 0x0306, 0x00 },
-> +	{ 0x0307, 0xD4 },
-> +	{ 0x0309, 0x0A },
-> +	{ 0x030B, 0x01 },
-> +	{ 0x030D, 0x02 },
-> +	{ 0x030E, 0x00 },
-> +	{ 0x030F, 0xD8 },
-> +	{ 0x0310, 0x00 },
-> +	{ 0x0820, 0x13 },
-> +	{ 0x0821, 0x4C },
-> +	{ 0x0822, 0xCC },
-> +	{ 0x0823, 0xCC },
-> +};
+> 
+> > but I'm not sure it would be less confusing.
+> > 
+> > Regarding isolating the sources of confusion in the framework rather
+> > than spreading them through drivers, I can't disagree, but I think that,
+> > for raw camera sensors at least, the best option would be to create a
+> > new camera sensor object with a much more tailored API than v4l2_subdev
+> > (and of course wrapping that new object in a v4l2_subdev in the
+> > framework). This won't address the other types of drivers, but I'm not
+> > sure we'll get any in the foreseable future.
+> 
 
-I'll assume that if this work as intended, the register sequence is
-correct (ie: I've not checked the registers configuration)
+-- 
+Terveisin,
 
-> +
-> +static const struct imx258_reg mipi_640mbps_19_2mhz[] = {
-> +	{ 0x0136, 0x13 },
-> +	{ 0x0137, 0x33 },
->  	{ 0x0301, 0x05 },
->  	{ 0x0303, 0x02 },
->  	{ 0x0305, 0x03 },
-> @@ -151,9 +173,27 @@ static const struct imx258_reg mipi_data_rate_640mbps[] = {
->  	{ 0x0823, 0x00 },
->  };
->
-> +static const struct imx258_reg mipi_642mbps_24mhz[] = {
-> +	{ 0x0136, 0x18 },
-> +	{ 0x0137, 0x00 },
-> +	{ 0x0301, 0x05 },
-> +	{ 0x0303, 0x02 },
-> +	{ 0x0305, 0x04 },
-> +	{ 0x0306, 0x00 },
-> +	{ 0x0307, 0x6B },
-> +	{ 0x0309, 0x0A },
-> +	{ 0x030B, 0x01 },
-> +	{ 0x030D, 0x02 },
-> +	{ 0x030E, 0x00 },
-> +	{ 0x030F, 0xD8 },
-> +	{ 0x0310, 0x00 },
-> +	{ 0x0820, 0x0A },
-> +	{ 0x0821, 0x00 },
-> +	{ 0x0822, 0x00 },
-> +	{ 0x0823, 0x00 },
-> +};
-> +
->  static const struct imx258_reg mode_common_regs[] = {
-> -	{ 0x0136, 0x13 },
-> -	{ 0x0137, 0x33 },
->  	{ 0x3051, 0x00 },
->  	{ 0x3052, 0x00 },
->  	{ 0x4E21, 0x14 },
-> @@ -313,10 +353,6 @@ static const char * const imx258_supply_name[] = {
->
->  #define IMX258_NUM_SUPPLIES ARRAY_SIZE(imx258_supply_name)
->
-> -/* Configurations for supported link frequencies */
-> -#define IMX258_LINK_FREQ_634MHZ	633600000ULL
-> -#define IMX258_LINK_FREQ_320MHZ	320000000ULL
-> -
->  enum {
->  	IMX258_LINK_FREQ_1267MBPS,
->  	IMX258_LINK_FREQ_640MBPS,
-> @@ -335,25 +371,55 @@ static u64 link_freq_to_pixel_rate(u64 f)
->  }
->
->  /* Menu items for LINK_FREQ V4L2 control */
-> -static const s64 link_freq_menu_items[] = {
-> +/* Configurations for supported link frequencies */
-> +#define IMX258_LINK_FREQ_634MHZ	633600000ULL
-> +#define IMX258_LINK_FREQ_320MHZ	320000000ULL
-> +
-> +static const s64 link_freq_menu_items_19_2[] = {
->  	IMX258_LINK_FREQ_634MHZ,
->  	IMX258_LINK_FREQ_320MHZ,
->  };
->
-> +/* Configurations for supported link frequencies */
-> +#define IMX258_LINK_FREQ_636MHZ	636000000ULL
-> +#define IMX258_LINK_FREQ_321MHZ	321000000ULL
-> +
-> +static const s64 link_freq_menu_items_24[] = {
-> +	IMX258_LINK_FREQ_636MHZ,
-> +	IMX258_LINK_FREQ_321MHZ,
-> +};
-> +
->  /* Link frequency configs */
-> -static const struct imx258_link_freq_config link_freq_configs[] = {
-> +static const struct imx258_link_freq_config link_freq_configs_19_2[] = {
-> +	[IMX258_LINK_FREQ_1267MBPS] = {
-> +		.pixels_per_line = IMX258_PPL_DEFAULT,
-> +		.reg_list = {
-> +			.num_of_regs = ARRAY_SIZE(mipi_1267mbps_19_2mhz),
-> +			.regs = mipi_1267mbps_19_2mhz,
-> +		}
-> +	},
-> +	[IMX258_LINK_FREQ_640MBPS] = {
-> +		.pixels_per_line = IMX258_PPL_DEFAULT,
-> +		.reg_list = {
-> +			.num_of_regs = ARRAY_SIZE(mipi_640mbps_19_2mhz),
-> +			.regs = mipi_640mbps_19_2mhz,
-> +		}
-> +	},
-> +};
-> +
-> +static const struct imx258_link_freq_config link_freq_configs_24[] = {
->  	[IMX258_LINK_FREQ_1267MBPS] = {
-
-This doesn't match anymore the actual bus freq, I don't think it's
-a real issue, but I wonder if simply indexing with '0' and '1'
-wouldn't be less confusing..
-
->  		.pixels_per_line = IMX258_PPL_DEFAULT,
->  		.reg_list = {
-> -			.num_of_regs = ARRAY_SIZE(mipi_data_rate_1267mbps),
-> -			.regs = mipi_data_rate_1267mbps,
-> +			.num_of_regs = ARRAY_SIZE(mipi_1272mbps_24mhz),
-> +			.regs = mipi_1272mbps_24mhz,
->  		}
->  	},
->  	[IMX258_LINK_FREQ_640MBPS] = {
->  		.pixels_per_line = IMX258_PPL_DEFAULT,
->  		.reg_list = {
-> -			.num_of_regs = ARRAY_SIZE(mipi_data_rate_640mbps),
-> -			.regs = mipi_data_rate_640mbps,
-> +			.num_of_regs = ARRAY_SIZE(mipi_642mbps_24mhz),
-> +			.regs = mipi_642mbps_24mhz,
->  		}
->  	},
->  };
-> @@ -410,6 +476,9 @@ struct imx258 {
->  	/* Current mode */
->  	const struct imx258_mode *cur_mode;
->
-> +	const struct imx258_link_freq_config *link_freq_configs;
-> +	const s64 *link_freq_menu_items;
-> +
->  	/*
->  	 * Mutex for serialized access:
->  	 * Protect sensor module set pad format and start/stop streaming safely.
-> @@ -717,7 +786,7 @@ static int imx258_set_pad_format(struct v4l2_subdev *sd,
->  		imx258->cur_mode = mode;
->  		__v4l2_ctrl_s_ctrl(imx258->link_freq, mode->link_freq_index);
->
-> -		link_freq = link_freq_menu_items[mode->link_freq_index];
-> +		link_freq = imx258->link_freq_menu_items[mode->link_freq_index];
->  		pixel_rate = link_freq_to_pixel_rate(link_freq);
->  		__v4l2_ctrl_s_ctrl_int64(imx258->pixel_rate, pixel_rate);
->  		/* Update limits and set FPS to default */
-> @@ -731,7 +800,7 @@ static int imx258_set_pad_format(struct v4l2_subdev *sd,
->  			vblank_def);
->  		__v4l2_ctrl_s_ctrl(imx258->vblank, vblank_def);
->  		h_blank =
-> -			link_freq_configs[mode->link_freq_index].pixels_per_line
-> +			imx258->link_freq_configs[mode->link_freq_index].pixels_per_line
->  			 - imx258->cur_mode->width;
->  		__v4l2_ctrl_modify_range(imx258->hblank, h_blank,
->  					 h_blank, 1, h_blank);
-> @@ -751,7 +820,7 @@ static int imx258_start_streaming(struct imx258 *imx258)
->
->  	/* Setup PLL */
->  	link_freq_index = imx258->cur_mode->link_freq_index;
-> -	reg_list = &link_freq_configs[link_freq_index].reg_list;
-> +	reg_list = &imx258->link_freq_configs[link_freq_index].reg_list;
->  	ret = imx258_write_regs(imx258, reg_list->regs, reg_list->num_of_regs);
->  	if (ret) {
->  		dev_err(&client->dev, "%s failed to set plls\n", __func__);
-> @@ -986,9 +1055,9 @@ static int imx258_init_controls(struct imx258 *imx258)
->  	imx258->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr,
->  				&imx258_ctrl_ops,
->  				V4L2_CID_LINK_FREQ,
-> -				ARRAY_SIZE(link_freq_menu_items) - 1,
-> +				ARRAY_SIZE(link_freq_menu_items_19_2) - 1,
->  				0,
-> -				link_freq_menu_items);
-> +				imx258->link_freq_menu_items);
->
->  	if (imx258->link_freq)
->  		imx258->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> @@ -1004,8 +1073,10 @@ static int imx258_init_controls(struct imx258 *imx258)
->  	if (vflip)
->  		vflip->flags |= V4L2_CTRL_FLAG_READ_ONLY;
->
-> -	pixel_rate_max = link_freq_to_pixel_rate(link_freq_menu_items[0]);
-> -	pixel_rate_min = link_freq_to_pixel_rate(link_freq_menu_items[1]);
-> +	pixel_rate_max =
-> +		link_freq_to_pixel_rate(imx258->link_freq_menu_items[0]);
-> +	pixel_rate_min =
-> +		link_freq_to_pixel_rate(imx258->link_freq_menu_items[1]);
->  	/* By default, PIXEL_RATE is read only */
->  	imx258->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &imx258_ctrl_ops,
->  				V4L2_CID_PIXEL_RATE,
-> @@ -1123,11 +1194,25 @@ static int imx258_probe(struct i2c_client *client)
->  			"no clock provided, using clock-frequency property\n");
->
->  		device_property_read_u32(&client->dev, "clock-frequency", &val);
-> +	} else if (IS_ERR(imx258->clk)) {
-> +		return dev_err_probe(&client->dev, PTR_ERR(imx258->clk),
-> +				     "error getting clock\n");
-
-Maybe a copy&paste error, as I see the IS_ERR(imx258->clk) condition
-being handled just after getting the clock
-
->  	} else {
->  		val = clk_get_rate(imx258->clk);
->  	}
-> -	if (val != IMX258_INPUT_CLOCK_FREQ) {
-> -		dev_err(&client->dev, "input clock frequency not supported\n");
-> +
-> +	switch (val) {
-> +	case 19200000:
-> +		imx258->link_freq_configs = link_freq_configs_19_2;
-> +		imx258->link_freq_menu_items = link_freq_menu_items_19_2;
-> +		break;
-> +	case 24000000:
-> +		imx258->link_freq_configs = link_freq_configs_24;
-> +		imx258->link_freq_menu_items = link_freq_menu_items_24;
-> +		break;
-> +	default:
-> +		dev_err(&client->dev, "input clock frequency of %u not supported\n",
-> +			val);
->  		return -EINVAL;
->  	}
->
-> --
-> 2.25.1
->
+Sakari Ailus
