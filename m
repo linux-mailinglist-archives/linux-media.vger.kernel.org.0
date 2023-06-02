@@ -2,41 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D21371FF9A
-	for <lists+linux-media@lfdr.de>; Fri,  2 Jun 2023 12:42:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF4E871FFBA
+	for <lists+linux-media@lfdr.de>; Fri,  2 Jun 2023 12:51:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235481AbjFBKmc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Jun 2023 06:42:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33196 "EHLO
+        id S234799AbjFBKvB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Jun 2023 06:51:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235721AbjFBKmS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Jun 2023 06:42:18 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7500C10CF
-        for <linux-media@vger.kernel.org>; Fri,  2 Jun 2023 03:41:48 -0700 (PDT)
+        with ESMTP id S234304AbjFBKu6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Jun 2023 06:50:58 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B3A6C0
+        for <linux-media@vger.kernel.org>; Fri,  2 Jun 2023 03:50:57 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (om126156168104.26.openmobile.ne.jp [126.156.168.104])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 37CF46E0;
-        Fri,  2 Jun 2023 12:36:18 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 49B026E0;
+        Fri,  2 Jun 2023 12:50:31 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1685702179;
-        bh=2NWBeQ04SlrYJQ8Y9Kw5ol04Q9oFPX/bLY9r/UFMEJg=;
+        s=mail; t=1685703033;
+        bh=pAFbumNQccQrlLNccPDng8dzBrY90SeJ1dCY8YV38xQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=h92k6hEKh5ZTMRpZi3UsCKvGRNyo1FaRsXmiMLvspAeEjrqMCQhM8Ww7VIr8godfT
-         HoXRVUbzl1zbQJ+6yf1ys2vhirf5iCK9PxUjrNwU0jPIaJxnu1yJ/OTcrppKequZbg
-         BN+IsNhTohHn1c6YH2gMYauKPnkZAA9NuT/NiJTE=
-Date:   Fri, 2 Jun 2023 13:36:41 +0300
+        b=cZ8+87IdvdjmHesUv19rPL11jEVCB8v048V0WaOmrdVBYQesKeGkb6CELyj5d2Pix
+         Xp4GFodC2bnpBBTJpgGMJto/hbxpXXQViYUTwoqf5ylm7918LPa+hG6cgklVfcbXz9
+         GjwMb7Xf5dV+pk9cRx/MFDtCKC1bPVja10AvW2fI=
+Date:   Fri, 2 Jun 2023 13:50:54 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
         bingbu.cao@intel.com, hongju.wang@intel.com
-Subject: Re: [RFC 5/7] media: uapi: Add generic serial metadata mbus formats
-Message-ID: <20230602103641.GL19463@pendragon.ideasonboard.com>
+Subject: Re: [RFC 7/7] media: v4l: Support line-based metadata capture
+Message-ID: <20230602105054.GA26944@pendragon.ideasonboard.com>
 References: <20230505215257.60704-1-sakari.ailus@linux.intel.com>
- <20230505215257.60704-6-sakari.ailus@linux.intel.com>
+ <20230505215257.60704-8-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230505215257.60704-6-sakari.ailus@linux.intel.com>
+In-Reply-To: <20230505215257.60704-8-sakari.ailus@linux.intel.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
@@ -51,332 +51,119 @@ Hi Sakari,
 
 Thank you for the patch.
 
-On Sat, May 06, 2023 at 12:52:55AM +0300, Sakari Ailus wrote:
-> Add generic serial metadata mbus formats. These formats describe data
-> width and packing but not the content itself. The reason for specifying
-> such formats is that the formats as such are fairly device specific but
-> they are still handled by CSI-2 receiver drivers that should not be aware
-> of device specific formats. What makes generic metadata formats possible
-> is that these formats are parsed by software only, after capturing the
-> data to system memory.
+On Sat, May 06, 2023 at 12:52:57AM +0300, Sakari Ailus wrote:
+> many camera sensors, among other devices, transmit embedded data and image
+
+s/many/Many/
+
+> data for each CSI-2 frame. This embedded data typically contains register
+> configuration of the sensor that has been used to capture the image data
+> of the same frame.
+> 
+> The embedded data is received by the CSI-2 receiver and has the same
+> properties as the image data, including that it is line based: it has
+> width, height and bytesperline (stride).
+> 
+> Add these fields to struct v4l2_meta_format and document them.
+> 
+> Also add V4L2_FMT_FLAG_META_LINE_BASED to tell a given format is
+> line-based i.e. these fields of struct v4l2_meta_format are valid for it.
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > ---
->  .../media/v4l/subdev-formats.rst              | 257 ++++++++++++++++++
->  include/uapi/linux/media-bus-format.h         |   9 +
->  2 files changed, 266 insertions(+)
+>  .../userspace-api/media/v4l/dev-meta.rst          | 15 +++++++++++++++
+>  .../userspace-api/media/v4l/vidioc-enum-fmt.rst   |  7 +++++++
+>  include/uapi/linux/videodev2.h                    | 10 ++++++++++
+>  3 files changed, 32 insertions(+)
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> index a3a35eeed708..1492fff58426 100644
-> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> @@ -8234,3 +8234,260 @@ The following table lists the existing metadata formats.
->  	both sides of the link and the bus format is a fixed
->  	metadata format that is not configurable from userspace.
->  	Width and height will be set to 0 for this format.
-> +
-> +Generic Serial Metadata Formats
-> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> +
-> +Generic serial metadata formats are used on serial busses where the actual data
+> diff --git a/Documentation/userspace-api/media/v4l/dev-meta.rst b/Documentation/userspace-api/media/v4l/dev-meta.rst
+> index 0e7e1ee1471a..7d3a64514db0 100644
+> --- a/Documentation/userspace-api/media/v4l/dev-meta.rst
+> +++ b/Documentation/userspace-api/media/v4l/dev-meta.rst
+> @@ -65,3 +65,18 @@ to 0.
+>        - ``buffersize``
+>        - Maximum buffer size in bytes required for data. The value is set by the
+>          driver.
+> +    * - __u32
+> +      - ``width``
+> +      - Width of a line of metadata in bytes. Valid when :c:type`v4l2_fmtdesc`
 
-s/busses/buses/
+This departs from pixel formats, where the width is defined in pixels. I
+wonder what the implications will be for userspace. Seeing one
+implementation, both in a kernel driver and in libcamera, will help
+validating the API.
 
-> +content is more or less device specific but the data is transmitted and received
-> +by multiple devices that do not process the data in any way, simply writing
-> +it to system memory for processing in software at the end of the pipeline.
-> +
-> +The more specific variant describing the actual data is used on the internal
-> +source pad of the originating sub-device.
+> +	flag ``V4L2_FMT_FLAG_META_LINE_BASED`` is set, otherwise zero. See
+> +	:c:func:`VIDIOC_ENUM_FMT`.
+> +    * - __u32
+> +      - ``height``
+> +      - Height of a line of metadata in bytes. Valid when :c:type`v4l2_fmtdesc`
 
-What do you mean by "more specific variant" here ? Please include an
-example in the documentation.
+The "height of a line" seems like a weird concept, especially if the
+height is expressed in bytes. I assume this is a bad copy&paste.
 
-I'm not sure I like mentioning internal source pads here, are we
-guaranteed that metadata will always originate from an internal source
-pad ?
+> +	flag ``V4L2_FMT_FLAG_META_LINE_BASED`` is set, otherwise zero. See
+> +	:c:func:`VIDIOC_ENUM_FMT`.
+> +    * - __u32
+> +      - ``bytesperlines``
+> +      - Offset in bytes between the beginning of two consecutive lines. Valid
+> +	when :c:type`v4l2_fmtdesc` flag ``V4L2_FMT_FLAG_META_LINE_BASED`` is
+> +	set, otherwise zero. See :c:func:`VIDIOC_ENUM_FMT`.
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
+> index 000c154b0f98..6d7664345a4e 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
+> @@ -227,6 +227,13 @@ the ``mbus_code`` field is handled differently:
+>  	The application can ask to configure the quantization of the capture
+>  	device when calling the :ref:`VIDIOC_S_FMT <VIDIOC_G_FMT>` ioctl with
+>  	:ref:`V4L2_PIX_FMT_FLAG_SET_CSC <v4l2-pix-fmt-flag-set-csc>` set.
+> +    * - ``V4L2_FMT_FLAG_META_LINE_BASED``
+> +      - 0x0200
+> +      - The metadata format is line-based. In this case the ``width``,
+> +	``height`` and ``bytesperline`` fields of :c:type:`v4l2_meta_format` are
+> +	valid. The buffer consists of ``height`` lines, each having ``width``
+> +	bytes of data and offset between the beginning of each two consecutive
+> +	lines is ``bytesperline``.
 
-> +
-> +"b" in an array cell signifies a byte of data, followed by the number of byte
-> +and finally the bit number in subscript. "p" indicates a padding bit.
-> +
-> +.. _media-bus-format-generic-meta:
-> +
-> +.. cssclass: longtable
-> +
-> +.. flat-table:: Generic Serial Metadata Formats
-> +    :header-rows:  2
-> +    :stub-columns: 0
-> +
-> +    * - Identifier
-> +      - Code
-> +      -
-> +      - :cspan:`23` Data organization
-> +    * -
-> +      -
-> +      - Bit
-> +      - 23
-> +      - 22
-> +      - 21
-> +      - 20
-> +      - 19
-> +      - 18
-> +      - 17
-> +      - 16
-> +      - 15
-> +      - 14
-> +      - 13
-> +      - 12
-> +      - 11
-> +      - 10
-> +      - 9
-> +      - 8
-> +      - 7
-> +      - 6
-> +      - 5
-> +      - 4
-> +      - 3
-> +      - 2
-> +      - 1
-> +      - 0
-> +    * .. _MEDIA-BUS-FMT-META-1X8-8:
-> +
-> +      - MEDIA_BUS_FMT_META_1X8_8
-> +      - 0x8001
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      - b0\ :sub:`7`
-> +      - b0\ :sub:`6`
-> +      - b0\ :sub:`5`
-> +      - b0\ :sub:`4`
-> +      - b0\ :sub:`3`
-> +      - b0\ :sub:`2`
-> +      - b0\ :sub:`1`
-> +      - b0\ :sub:`0`
-> +    * .. _MEDIA-BUS-FMT-META-1X8-10:
-> +
-> +      - MEDIA_BUS_FMT_META_1X8_10
-> +      - 0x8002
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      - b0\ :sub:`7`
-> +      - b0\ :sub:`6`
-> +      - b0\ :sub:`5`
-> +      - b0\ :sub:`4`
-> +      - b0\ :sub:`3`
-> +      - b0\ :sub:`2`
-> +      - b0\ :sub:`1`
-> +      - b0\ :sub:`0`
-> +      - p
-> +      - p
-> +    * .. _MEDIA-BUS-FMT-META-1X8-12:
-> +
-> +      - MEDIA_BUS_FMT_META_1X8_12
-> +      - 0x8003
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      - b0\ :sub:`7`
-> +      - b0\ :sub:`6`
-> +      - b0\ :sub:`5`
-> +      - b0\ :sub:`4`
-> +      - b0\ :sub:`3`
-> +      - b0\ :sub:`2`
-> +      - b0\ :sub:`1`
-> +      - b0\ :sub:`0`
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +    * .. _MEDIA-BUS-FMT-META-1X8-14:
-> +
-> +      - MEDIA_BUS_FMT_META_1X8_14
-> +      - 0x8004
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      - b0\ :sub:`7`
-> +      - b0\ :sub:`6`
-> +      - b0\ :sub:`5`
-> +      - b0\ :sub:`4`
-> +      - b0\ :sub:`3`
-> +      - b0\ :sub:`2`
-> +      - b0\ :sub:`1`
-> +      - b0\ :sub:`0`
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +    * .. _MEDIA-BUS-FMT-META-1X8-16:
-> +
-> +      - MEDIA_BUS_FMT_META_1X8_16
-> +      - 0x8005
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      - b0\ :sub:`7`
-> +      - b0\ :sub:`6`
-> +      - b0\ :sub:`5`
-> +      - b0\ :sub:`4`
-> +      - b0\ :sub:`3`
-> +      - b0\ :sub:`2`
-> +      - b0\ :sub:`1`
-> +      - b0\ :sub:`0`
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +    * .. _MEDIA-BUS-FMT-META-1X8-20:
-> +
-> +      - MEDIA_BUS_FMT_META_1X8_20
-> +      - 0x8007
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      - b0\ :sub:`7`
-> +      - b0\ :sub:`6`
-> +      - b0\ :sub:`5`
-> +      - b0\ :sub:`4`
-> +      - b0\ :sub:`3`
-> +      - b0\ :sub:`2`
-> +      - b0\ :sub:`1`
-> +      - b0\ :sub:`0`
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +    * .. _MEDIA-BUS-FMT-META-1X8-24:
-> +
-> +      - MEDIA_BUS_FMT_META_1X8_24
-> +      - 0x8009
-> +      -
-> +      - b0\ :sub:`7`
-> +      - b0\ :sub:`6`
-> +      - b0\ :sub:`5`
-> +      - b0\ :sub:`4`
-> +      - b0\ :sub:`3`
-> +      - b0\ :sub:`2`
-> +      - b0\ :sub:`1`
-> +      - b0\ :sub:`0`
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> +      - p
-> diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
-> index a03c543cb072..722463523bbd 100644
-> --- a/include/uapi/linux/media-bus-format.h
-> +++ b/include/uapi/linux/media-bus-format.h
-> @@ -173,4 +173,13 @@
->   */
->  #define MEDIA_BUS_FMT_METADATA_FIXED		0x7001
+If we add width and height for metadata formats, does it mean that
+drivers have to (or can) implement VIDIOC_ENUM_FRAMESIZES ? This should
+be documented.
+
 >  
-> +/* Generic line based metadata formats for serial buses. Next is 0x800b. */
-> +#define MEDIA_BUS_FMT_META_1X8_8		0x8001
-> +#define MEDIA_BUS_FMT_META_1X8_10		0x8002
-> +#define MEDIA_BUS_FMT_META_1X8_12		0x8003
-> +#define MEDIA_BUS_FMT_META_1X8_14		0x8004
-> +#define MEDIA_BUS_FMT_META_1X8_16		0x8005
-> +#define MEDIA_BUS_FMT_META_1X8_20		0x8007
-> +#define MEDIA_BUS_FMT_META_1X8_24		0x8009
-
-We've discussed this before privately, it's time to come to a conclusion
-:-)
-
-My preference would be 
-
-#define MEDIA_BUS_FMT_META_RAW8			0x8001
-#define MEDIA_BUS_FMT_META_RAW10		0x8002
-#define MEDIA_BUS_FMT_META_RAW12		0x8003
-#define MEDIA_BUS_FMT_META_RAW14		0x8004
-#define MEDIA_BUS_FMT_META_RAW16		0x8005
-#define MEDIA_BUS_FMT_META_RAW20		0x8007
-#define MEDIA_BUS_FMT_META_RAW24		0x8009
-
-without defining the contents of the data (that is, no mention of
-padding bits).
-
-> +
->  #endif /* __LINUX_MEDIA_BUS_FORMAT_H */
+>  Return Value
+>  ============
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index adcbdc15dcdb..3681b2c15901 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -873,6 +873,7 @@ struct v4l2_fmtdesc {
+>  #define V4L2_FMT_FLAG_CSC_YCBCR_ENC		0x0080
+>  #define V4L2_FMT_FLAG_CSC_HSV_ENC		V4L2_FMT_FLAG_CSC_YCBCR_ENC
+>  #define V4L2_FMT_FLAG_CSC_QUANTIZATION		0x0100
+> +#define V4L2_FMT_FLAG_META_LINE_BASED		0x0200
+>  
+>  	/* Frame Size and frame rate enumeration */
+>  /*
+> @@ -2407,10 +2408,19 @@ struct v4l2_sdr_format {
+>   * struct v4l2_meta_format - metadata format definition
+>   * @dataformat:		little endian four character code (fourcc)
+>   * @buffersize:		maximum size in bytes required for data
+> + * @width:		number of bytes of data per line (valid for line based
+> + *			formats only, see format documentation)
+> + * @height:		number of lines of data per buffer (valid for line based
+> + *			formats only)
+> + * @bytesperline:	offset between the beginnings of two adjacent lines in
+> + *			bytes (valid for line based formats only)
+>   */
+>  struct v4l2_meta_format {
+>  	__u32				dataformat;
+>  	__u32				buffersize;
+> +	__u32				width;
+> +	__u32				height;
+> +	__u32				bytesperline;
+>  } __attribute__ ((packed));
+>  
+>  /**
 
 -- 
 Regards,
