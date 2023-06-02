@@ -2,313 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B70971F957
-	for <lists+linux-media@lfdr.de>; Fri,  2 Jun 2023 06:31:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7676B71FA43
+	for <lists+linux-media@lfdr.de>; Fri,  2 Jun 2023 08:41:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233572AbjFBEbf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Jun 2023 00:31:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45686 "EHLO
+        id S233989AbjFBGlm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Jun 2023 02:41:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229524AbjFBEbd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Jun 2023 00:31:33 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA903F2;
-        Thu,  1 Jun 2023 21:31:30 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (om126156168104.26.openmobile.ne.jp [126.156.168.104])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7997F4DA;
-        Fri,  2 Jun 2023 06:31:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1685680266;
-        bh=9S9JYKY7cRm3zZqCOCmZP+h3+ydCaV86kXG8+VbfXGg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Q9UW+dDUVh5DA31FnP9O9ymemJUrgNqq1rNwOOSkQo8Y3AojRf962ZfhpiQE3/dBU
-         dEITlaz3EaRv/JH107nz5/kOHcmkWznHQJKSRJESGnNQTuKFXZNQBugatoQ5pN8tzb
-         4RF7T8+TILNdM35jimEqxWLhG/h/1BpvoXXnClDk=
-Date:   Fri, 2 Jun 2023 07:31:26 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tommaso Merciai <tomm.merciai@gmail.com>
-Cc:     jacopo.mondi@ideasonboard.com, martin.hecht@avnet.eu,
-        linuxfancy@googlegroups.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Gerald Loacker <gerald.loacker@wolfvision.net>,
-        Nicholas Roth <nicholas@rothemail.net>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: Re: [PATCH v2 2/2] media: i2c: Add support for alvium camera
-Message-ID: <20230602043126.GM22609@pendragon.ideasonboard.com>
-References: <20230526173955.797226-1-tomm.merciai@gmail.com>
- <20230526173955.797226-3-tomm.merciai@gmail.com>
- <20230529074018.GD25984@pendragon.ideasonboard.com>
- <ZHcd09f5wOKjQdHX@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <20230531113331.GC27043@pendragon.ideasonboard.com>
- <ZHjPyxColttdARQm@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+        with ESMTP id S233768AbjFBGll (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Jun 2023 02:41:41 -0400
+Received: from smtp.gentoo.org (smtp.gentoo.org [IPv6:2001:470:ea4a:1:5054:ff:fec7:86e4])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11721184;
+        Thu,  1 Jun 2023 23:41:38 -0700 (PDT)
+Message-ID: <c5e51a20-9fa4-3fa9-ee14-3410778e4dcf@gentoo.org>
+Date:   Fri, 2 Jun 2023 08:41:47 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZHjPyxColttdARQm@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+From:   zzam@gentoo.org
+Subject: Re: [PATCH 05/24] media: dvb-usb-v2: ec168: fix null-ptr-deref in
+ ec168_i2c_xfer()
+To:     Wei Chen <harperchen1110@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Antti Palosaari <crope@iki.fi>, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+References: <53558de2b5c4f4ee6bfcfbe34e27071c2d0073d5.1684000646.git.mchehab@kernel.org>
+ <7ced9f219d36cb0d3319b556dc0b0f4f81247fa6.1684000646.git.mchehab@kernel.org>
+ <9f0a43e5-9f9b-b77b-d882-627251e585cc@gentoo.org>
+ <em460c2fef-d14b-4cd9-97dd-ef7b52090a48@bb0cba59.com>
+Content-Language: en-GB
+In-Reply-To: <em460c2fef-d14b-4cd9-97dd-ef7b52090a48@bb0cba59.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tommaso,
-
-CC'ing Liam, Mark, Rob and Krzysztof. Sakari, there's also a question
-for you below.
-
-On Thu, Jun 01, 2023 at 07:05:15PM +0200, Tommaso Merciai wrote:
-> On Wed, May 31, 2023 at 02:33:31PM +0300, Laurent Pinchart wrote:
-> > On Wed, May 31, 2023 at 12:13:39PM +0200, Tommaso Merciai wrote:
-> > > On Mon, May 29, 2023 at 10:40:18AM +0300, Laurent Pinchart wrote:
-> > > > On Fri, May 26, 2023 at 07:39:44PM +0200, Tommaso Merciai wrote:
-> > > > > The Alvium camera is shipped with sensor + isp in the same housing.
-> > > > 
-> > > > What ISP is that ?
-> > > 
-> > > The isp comes from Allied Vision, is called Alvium and is part of the camera.
-> > > In real is a vision processor, this offers more functionality then an isp can do.
-> > > It is not sold separately but is an integrated part of the camera itself
-> > > which also takes care of the sensor abstraction.
-> > > 
-> > > > > The camera can be equipped with one out of various sensor and abstract
-> > > > > the user from this. Camera is connected via MIPI CSI-2.
-> > > > > 
-> > > > > Most of the sensor's features are supported, with the main exception
-> > > > > being fw update.
-> > > > 
-> > > > I assume you mean "camera module features" here, as firmware update
-> > > > isn't a camera sensor feature.
-> > > 
-> > > Yep.
-> > > 
-> > > > > The driver provides all mandatory, optional and recommended V4L2 controls
-> > > > > for maximum compatibility with libcamera
-> > > > > 
-> > > > > References:
-> > > > >  - https://www.alliedvision.com/en/products/embedded-vision-solutions
-> > > > 
-> > > > I'll do a partial review only as the patch is large, and will try to
-> > > > review the rest in v2.
-> > > 
-> > > No problem.
-> > > 
-> > > > > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
-> > > > > ---
-> > > > >  drivers/media/i2c/Kconfig  |    9 +
-> > > > >  drivers/media/i2c/Makefile |    1 +
-> > > > >  drivers/media/i2c/alvium.c | 3547 ++++++++++++++++++++++++++++++++++++
-> > > > >  drivers/media/i2c/alvium.h |  500 +++++
-> > > > >  4 files changed, 4057 insertions(+)
-> > > > >  create mode 100644 drivers/media/i2c/alvium.c
-> > > > >  create mode 100644 drivers/media/i2c/alvium.h
-
-[snip]
-
-> > > > > diff --git a/drivers/media/i2c/alvium.c b/drivers/media/i2c/alvium.c
-> > > > > new file mode 100644
-> > > > > index 000000000000..e77fb6bda64b
-> > > > > --- /dev/null
-> > > > > +++ b/drivers/media/i2c/alvium.c
-> > > > > @@ -0,0 +1,3547 @@
-
-[snip]
-
-> > > > > +static int alvium_probe(struct i2c_client *client)
-> > > > > +{
-> > > > > +	struct device *dev = &client->dev;
-> > > > > +	struct v4l2_subdev *sd;
-> > > > > +	struct alvium_dev *alvium;
-> > > > > +	int ret;
-> > > > > +
-> > > > > +	alvium = devm_kzalloc(dev, sizeof(*alvium), GFP_KERNEL);
-> > > > > +	if (!alvium)
-> > > > > +		return -ENOMEM;
-> > > > > +
-> > > > > +	alvium->i2c_client = client;
-> > > > > +	ret = alvium_get_dt_data(alvium);
-> > > > > +	if (ret)
-> > > > > +		return ret;
-> > > > > +
-> > > > > +	mutex_init(&alvium->lock);
-> > > > > +
-> > > > > +	sd = &alvium->sd;
-> > > > > +
-> > > > > +	/* init alvium sd */
-> > > > > +	v4l2_i2c_subdev_init(sd, client, &alvium_subdev_ops);
-> > > > > +
-> > > > > +	sd->flags |= V4L2_SUBDEV_FL_HAS_EVENTS | V4L2_SUBDEV_FL_HAS_DEVNODE;
-> > > > > +	alvium->pad.flags = MEDIA_PAD_FL_SOURCE;
-> > > > > +	sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
-> > > > > +	sd->entity.ops = &alvium_sd_media_ops;
-> > > > > +
-> > > > > +	ret = media_entity_pads_init(&sd->entity, 1, &alvium->pad);
-> > > > > +	if (ret)
-> > > > > +		return ret;
-> > > > > +
-> > > > > +	sd->dev = dev;
-> > > > > +
-> > > > > +	ret = alvium_power_on(alvium);
-> > > > 
-> > > > The driver should use runtime PM (with autosuspend), and power on/off in
-> > > > the .s_stream() handler.
-> > > 
-> > > Can we delay the pm implementation as a future patchset?
-> > > Alvium pm would be tricky (cause is the boot time of the camera)
-> > > and if is possible I want work on pm later.
-> > > Let me know. Thanks! :)
-> > 
-> > With autosuspend the camera can remain powered up between stream stop
-> > and stream start, if they happen quickly enough. An autosuspend delay of
-> > a few seconds is usually a good value. It should be fairly easy to
-> > implement runtime PM support, you just need to
-> > 
-> > - Call alvium_power_on() from the runtime PM resume handler and
-> >   alvium_power_off() from the runtime PM suspend handler.
-> > 
-> > - Call pm_runtime_resume_and_get() and stream on time, and
-> >   pm_runtime_mark_last_busy() and pm_runtime_put_autosuspend() at stream
-> >   stop time.
-> > 
-> > - Initialize runtime PM at probe time (and clean up at remove time).
-> >   There's a bit of boilerplate code needed to get that right, but it's
-> >   not difficult. You can copy it from the imx290 driver.
+Am 19.05.23 um 11:17 schrieb Wei Chen:
+> Dear Linux Developers,
 > 
-> Back to you to clarify this point.
+Hi Wei,
+> Thank you for the review for my patch in driver az6027 and ec168.
 > 
-> Plan as you suggest is handling pm of camera using external
-> regulator. Problem is that the boot time of the camera is around 5s.
+> Yes, I agree with you. Sorry for my mistake. Since these two patches has 
+> already been accepted and merged in git tree media, should I send a new 
+> patch to revise this problem? Or how could I revise an accepted patch?
 
-5s ? Ouch !!
+I think the best is to send new patches on top of the already accepted 
+patches.
 
-This has two consequences:
+Regards
+Matthias
 
-- Just probing the camera would take 5s, which is insanely long.
-- There will be a 5s delay when starting video capture.
 
-There's no 5s delay in the current code, so I assume things work fine
-because the power regulator is always on, and turned on 5s or more
-before the driver is loaded. That's pretty fragile.
-
-That camera is clearly not a good fit for an embedded system that cares
-about power consumption and performance, but we still have to support
-it. The probe time issue isn't something we can fix, a 5s delay is
-required.
-
-The stream start issue can be alleviated by keeping the camera on, or
-offering a way for userspace to turn it on ahead of stream start.
-Runtime PM autosuspend will help with the former, and I would push the
-autosuspend delay up as a result of the huge camera boot time. We don't
-have a good solution of the latter at the moment, it used to be that
-opening video nodes would power up the whole pipeline, but that has been
-dropped some time ago in V4L2. Another API extension for this kind of
-use cases would be useful I think. Sakari, any opinion ?
-
-> Can I use:
->  - regulator-boot-on; To handle 5s of boot time during the probe
->  - add delay of 5s on power on?
 > 
-> What do you think?
+> Thanks,
+> Wei
+> 
+> 
+> ------ Original Message ------
+>> From zzam@gentoo.org
+> To "Mauro Carvalho Chehab" <mchehab@kernel.org>
+> Cc "Wei Chen" <harperchen1110@gmail.com>; "Antti Palosaari" 
+> <crope@iki.fi>; linux-kernel@vger.kernel.org; linux-media@vger.kernel.org
+> Date 2023/5/17 13:10:34
+> Subject Re: [PATCH 05/24] media: dvb-usb-v2: ec168: fix null-ptr-deref 
+> in ec168_i2c_xfer()
+> 
+>> Am 13.05.23 um 19:57 schrieb Mauro Carvalho Chehab:
+>>> From: Wei Chen <harperchen1110@gmail.com>
+>>>
+>>> In ec168_i2c_xfer, msg is controlled by user. When msg[i].buf is null
+>>> and msg[i].len is zero, former checks on msg[i].buf would be passed.
+>>> If accessing msg[i].buf[0] without sanity check, null pointer deref
+>>> would happen. We add check on msg[i].len to prevent crash.
+>>>
+>>> Similar commit:
+>>> commit 0ed554fd769a ("media: dvb-usb: az6027: fix null-ptr-deref in 
+>>> az6027_i2c_xfer()")
+>>>
+>> Review comment below.
+>>
+>>> Link: 
+>>> https://lore.kernel.org/linux-media/20230313085853.3252349-1-harperchen1110@gmail.com
+>>> Signed-off-by: Wei Chen <harperchen1110@gmail.com>
+>>> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+>>> ---
+>>>   drivers/media/usb/dvb-usb-v2/ec168.c | 12 ++++++++++++
+>>>   1 file changed, 12 insertions(+)
+>>>
+>>> diff --git a/drivers/media/usb/dvb-usb-v2/ec168.c 
+>>> b/drivers/media/usb/dvb-usb-v2/ec168.c
+>>> index 7ed0ab9e429b..0e4773fc025c 100644
+>>> --- a/drivers/media/usb/dvb-usb-v2/ec168.c
+>>> +++ b/drivers/media/usb/dvb-usb-v2/ec168.c
+>>> @@ -115,6 +115,10 @@ static int ec168_i2c_xfer(struct i2c_adapter 
+>>> *adap, struct i2c_msg msg[],
+>>>       while (i < num) {
+>>>           if (num > i + 1 && (msg[i+1].flags & I2C_M_RD)) {
+>>>               if (msg[i].addr == ec168_ec100_config.demod_address) {
+>>> +                if (msg[i].len < 1) {
+>>> +                    i = -EOPNOTSUPP;
+>>> +                    break;
+>>> +                }
+>>>                   req.cmd = READ_DEMOD;
+>>>                   req.value = 0;
+>>>                   req.index = 0xff00 + msg[i].buf[0]; /* reg */
+>>> @@ -131,6 +135,10 @@ static int ec168_i2c_xfer(struct i2c_adapter 
+>>> *adap, struct i2c_msg msg[],
+>>>               }
+>>>           } else {
+>>>               if (msg[i].addr == ec168_ec100_config.demod_address) {
+>>> +                if (msg[i].len < 1) {
+>>> +                    i = -EOPNOTSUPP;
+>>> +                    break;
+>>> +                }
+>> The check condition should be msg[i].len < 2 or != 2. The following 
+>> lines access msg[i].buf elements 0 and 1.
+>>>                   req.cmd = WRITE_DEMOD;
+>>>                   req.value = msg[i].buf[1]; /* val */
+>>>                   req.index = 0xff00 + msg[i].buf[0]; /* reg */
+>>> @@ -139,6 +147,10 @@ static int ec168_i2c_xfer(struct i2c_adapter 
+>>> *adap, struct i2c_msg msg[],
+>>>                   ret = ec168_ctrl_msg(d, &req);
+>>>                   i += 1;
+>>>               } else {
+>>> +                if (msg[i].len < 1) {
+>>> +                    i = -EOPNOTSUPP;
+>>> +                    break;
+>>> +                }
+>>>                   req.cmd = WRITE_I2C;
+>>>                   req.value = msg[i].buf[0]; /* val */
+>>>                   req.index = 0x0100 + msg[i].addr; /* I2C addr */
+>>
 
-I expect people to mark the camera regulator as regulator-always-on in DT to work
-around the problem. regulator-boot-on is different, I don't think you
-need it in this case. Its documentation states
-
-  "This property is intended to only be used for regulators where
-  software cannot read the state of the regulator."
-
-This means that we shouldn't add an unconditional delay of 5s in the PM
-runtime resume handler in the driver, as that would cause a huge penalty
-if the regulator was already on. We could set the
-regulator-enable-ramp-delay property to 5s, which would ensure that the
-camera has time to boot whenever to regulator is turned on, but won't
-cause any additional delay at every stream start. Trouble is, that's a
-bit of a hack, as the 5s boot time is a property of the camera, not the
-regulator.
-
-Another option would be to add the delay in the driver, but condition it
-on the state of the regulator. If the regulator is already on, the delay
-would be skipped. This won't work if the supply is not always on and
-shared between different devices though, as another device could turn it
-on shortly before the camera driver runs the runtime PM resume handler,
-and we would skip the delay in that case.
-
-Any opinion from the regulator framework and DT bindings maintainers on
-this topic ?
-
-> > > > > +	if (ret)
-> > > > > +		goto entity_cleanup;
-> > > > > +
-> > > > > +	ret = alvium_get_hw_info(alvium);
-> > > > > +	if (ret) {
-> > > > > +		dev_err(dev, "Device detection failed: %d\n", ret);
-> > > > > +		goto err_poweroff;
-> > > > > +	}
-> > > > > +
-> > > > > +	ret = alvium_hw_init(alvium);
-> > > > > +	if (ret) {
-> > > > > +		dev_err(dev, "hw_init fail %d\n", ret);
-> > > > > +		goto entity_cleanup;
-> > > > > +	}
-> > > > > +
-> > > > > +	ret = alvium_setup_mipi_fmt(alvium);
-> > > > > +	if (ret) {
-> > > > > +		dev_err(dev, "hw_init fail %d\n", ret);
-> > > > > +		goto entity_cleanup;
-> > > > > +	}
-> > > > > +
-> > > > > +	/* Setup initial frame interval*/
-> > > > > +	alvium->frame_interval.numerator = 1;
-> > > > > +	alvium->frame_interval.denominator = ALVIUM_DEFAULT_FR_HZ;
-> > > > > +	alvium->fr = ALVIUM_DEFAULT_FR_HZ;
-> > > > > +
-> > > > > +	/* Setup the initial mode */
-> > > > > +	alvium->mode.fmt = alvium_csi2_default_fmt;
-> > > > > +	alvium->mode.width = alvium_csi2_default_fmt.width;
-> > > > > +	alvium->mode.height = alvium_csi2_default_fmt.height;
-> > > > > +	alvium->mode.crop.left = alvium->min_offx;
-> > > > > +	alvium->mode.crop.top = alvium->min_offy;
-> > > > > +	alvium->mode.crop.width = alvium_csi2_default_fmt.width;
-> > > > > +	alvium->mode.crop.height = alvium_csi2_default_fmt.height;
-> > > > > +
-> > > > > +	ret = alvium_init_controls(alvium);
-> > > > > +	if (ret)
-> > > > > +		goto entity_cleanup;
-> > > > > +
-> > > > > +	ret = v4l2_async_register_subdev_sensor(sd);
-> > > > > +	if (ret) {
-> > > > > +		dev_err(dev,
-> > > > > +			"failed to register async subdev: %d", ret);
-> > > > > +		goto entity_cleanup;
-> > > > > +	}
-> > > > > +
-> > > > > +	v4l2_info(sd, "%s: completed successfully\n", __func__);
-> > > > > +	return 0;
-> > > > > +
-> > > > > +err_poweroff:
-> > > > > +	alvium_power_off(alvium);
-> > > > > +entity_cleanup:
-> > > > > +	media_entity_cleanup(&sd->entity);
-> > > > > +	mutex_destroy(&alvium->lock);
-> > > > > +	return ret;
-> > > > > +}
-
-[snip]
-
--- 
-Regards,
-
-Laurent Pinchart
