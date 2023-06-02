@@ -2,64 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 73662720118
-	for <lists+linux-media@lfdr.de>; Fri,  2 Jun 2023 14:05:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35D167201EC
+	for <lists+linux-media@lfdr.de>; Fri,  2 Jun 2023 14:20:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235598AbjFBMF5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Jun 2023 08:05:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49982 "EHLO
+        id S235984AbjFBMUs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Jun 2023 08:20:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235010AbjFBMFx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Jun 2023 08:05:53 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63E7D1B5
-        for <linux-media@vger.kernel.org>; Fri,  2 Jun 2023 05:05:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685707552; x=1717243552;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fvjRh0JC+UbvPv1bLFFAZWI7xUhxjmiFG0e57mxX1Gc=;
-  b=NfRkBLHCIJC7KTm50fadl3AWpQVTmHD3qMZuW/Z0PTZJjaDQHUC+sdu6
-   f8758zNF8TSUt67xXRpUs4WK/GF9tZZRbwVYlWF1AfElpAUVrjDR6t9gP
-   TiuYnS8WJkjgwpH7iIVVORr/YyuVQ9dKybncB4tLfuRyihi0UN4RKfSr+
-   sx8U33n3H2s/mhOnenBlcDVQDnFbZQOgng8ka0/Y2/8Gnkniy0Ucu3yes
-   icVqOkXlh9rYDA0EcGrWCFSmqKBPsoy6e0QNL9K4D7qRAy1hgtXnkZUVA
-   9J4fDuLj0ulUwS3KIojVeYnYgh+6Pp/smbi4p6TKSgIleybeB7pRg7fYY
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="354700980"
-X-IronPort-AV: E=Sophos;i="6.00,212,1681196400"; 
-   d="scan'208";a="354700980"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 05:05:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="777652276"
-X-IronPort-AV: E=Sophos;i="6.00,212,1681196400"; 
-   d="scan'208";a="777652276"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 05:05:42 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 110B51203D3;
-        Fri,  2 Jun 2023 15:05:40 +0300 (EEST)
-Date:   Fri, 2 Jun 2023 12:05:40 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Naushir Patuck <naush@raspberrypi.com>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
-        hongju.wang@intel.com
-Subject: Re: [RFC 0/7] Generic line based metadata support, internal pads
-Message-ID: <ZHnbFEjryNCylF6k@kekkonen.localdomain>
-References: <20230505215257.60704-1-sakari.ailus@linux.intel.com>
- <CAEmqJPp_3e248mKRMK2fY2vwQi=HzqCsP6zTyWfOXFYbOFC0_Q@mail.gmail.com>
- <ZHmsddS7gaAyFu+N@kekkonen.localdomain>
- <CAEmqJPq9wS6mAvCYF2ryo4+sr0wO2OGMC_qNoaBjWW6V9sF=TA@mail.gmail.com>
+        with ESMTP id S235987AbjFBMUm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Jun 2023 08:20:42 -0400
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99891E5C;
+        Fri,  2 Jun 2023 05:20:32 -0700 (PDT)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 352BlvWf001792;
+        Fri, 2 Jun 2023 14:20:20 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=HUWKSuHZrzgUnoi71cTR3/6/dID27U1wLtLLZQsF0CM=;
+ b=B7C4UDgTJomLvJx5rWWctxdnL4K1ivach7+2A0d/Oy+ltYGEzL9QUsn3Z+4e/4lArv1d
+ QUlzaNpF6HIlCsHN/crnCfOrkX/cRjOG+Pr0gDJqeSi3QLKw022GCUpgNiZA5OUcK0Jk
+ d2nrlZIi005Xo3Q/nMmNGOiolkjE61PSiHNVyH8/uu4KGzgZveba5BVmK0bKFMbqCCfO
+ cLq5JdZ/QWCstYyCqpTJeR0mFy1fmIERDilE5P0imf98uHTGAvQlGXknWHlqPEffobKw
+ xRO51LrMZw47etqsaDHFF1BqKymvtTVlLFj7RODhhOmf1MNspGkvPo56+lvVTawQhFh/ cw== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3qweqep5s4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 02 Jun 2023 14:20:20 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 2B7E910002A;
+        Fri,  2 Jun 2023 14:20:19 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 2340423151D;
+        Fri,  2 Jun 2023 14:20:19 +0200 (CEST)
+Received: from [10.201.21.93] (10.201.21.93) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Fri, 2 Jun
+ 2023 14:20:18 +0200
+Message-ID: <7c5ca6cf-59aa-50f9-c127-a3dc81eb245c@foss.st.com>
+Date:   Fri, 2 Jun 2023 14:20:17 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAEmqJPq9wS6mAvCYF2ryo4+sr0wO2OGMC_qNoaBjWW6V9sF=TA@mail.gmail.com>
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] ARM: dts: stm32: add required supplies of ov5640 in
+ stm32mp157c-ev1
+Content-Language: en-US
+To:     Alain Volmat <alain.volmat@foss.st.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>
+CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20230601065222.2594700-1-alain.volmat@foss.st.com>
+From:   Alexandre TORGUE <alexandre.torgue@foss.st.com>
+In-Reply-To: <20230601065222.2594700-1-alain.volmat@foss.st.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.201.21.93]
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-02_08,2023-06-02_02,2023-05-22_02
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,118 +78,38 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Naush,
+Hi Alain
 
-On Fri, Jun 02, 2023 at 10:35:08AM +0100, Naushir Patuck wrote:
-> Hi Sakari,
+On 6/1/23 08:52, Alain Volmat wrote:
+> Correct the following warnings by adding the required supplies (AVDD, DVDD)
+> for the ov5640 node.
 > 
-> On Fri, 2 Jun 2023 at 09:46, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
-> >
-> > Hi Naushir,
-> >
-> > On Fri, Jun 02, 2023 at 08:54:35AM +0100, Naushir Patuck wrote:
-> > > Hi Sakari,
-> > >
-> > > Thank you for working on this. Sensor metadata is something that
-> > > Raspberry Pi do make extensive use of, and our downstream changes to
-> > > support it, although a bit hacky, are not too dissimilar to your proposal
-> > > here.
-> > >
-> > > On Fri, 5 May 2023 at 22:53, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
-> > > >
-> > > > Hi folks,
-> > > >
-> > > > Here are a few patches to add support generic, line based metadata as well
-> > > > as internal source pads. While the amount of code is not very large, to
-> > > > the contrary it is quite small actually IMO, I presume what this is about
-> > > > and why it is being proposed requires some explaining.
-> > > >
-> > > > Metadata mbus codes and formats have existed for some time in V4L2. They
-> > > > however have been only used by drivers that produce the data itself and
-> > > > effectively this metadata has always been statistics of some sort (at
-> > > > least when it comes to ISPs). What is different here is that we intend to
-> > > > add support for metadata originating from camera sensors.
-> > > >
-> > > > Camera sensors produce different kinds of metadata, embedded data (usually
-> > > > register address--value pairs used to capture the frame, in a more or less
-> > > > sensor specific format), histograms (in a very sensor specific format),
-> > > > dark pixels etc. The number of these formats is probably going to be about
-> > > > as large as image data formats if not larger, as the image data formats
-> > > > are much better standardised but a smaller subset of them will be
-> > > > supported by V4L2, at least initially but possibly much more in the long
-> > > > run.
-> > > >
-> > > > Having this many device specific formats would be a major problem for all
-> > > > the other drivers along that pipeline (not to mention the users of those
-> > > > drivers), including bridge (e.g. CSI-2 to parallel) but especially CSI-2
-> > > > receiver drivers that have DMA: the poor driver developer would not only
-> > > > need to know camera sensor specific formats but to choose the specific
-> > > > packing of that format suitable for the DMA used by the hardware. It is
-> > > > unlikely many of these would ever get tested while being present on the
-> > > > driver API. Also adding new sensors with new embedded data formats would
-> > > > involve updating all bridge and CSI-2 receiver drivers. I don't expect
-> > > > this to be a workable approach.
-> > > >
-> > > > Instead what I'm proposing is to use specific metadata formats on the
-> > > > sensor devices only, on internal pads (more about those soon) of the
-> > > > sensors, only visible in the UAPI, and then generic mbus formats along the
-> > > > pipeline and finally generic V4L2 metadata formats on the DMAs (specific
-> > > > to bit depth and packing). This would unsnarl the two, defining what data
-> > > > there is (specific mbus code) and how that is transported and packed
-> > > > (generic mbus codes and V4L2 formats).
-> > > >
-> > > > The user space would be required to "know" the path of that data from the
-> > > > sensor's internal pad to the V4L2 video node. I do not see this as these
-> > > > devices require at least some knowledge of the pipeline, i.e. hardware at
-> > > > hand. Separating what the data means and how it is packed may even be
-> > > > beneficial: it allows separating code that interprets the data (sensor
-> > > > internal mbus code) from the code that accesses it (packing).
-> > > >
-> > > > These formats are in practice line based, meaning that there may be
-> > > > padding at the end of the line, depending on the bus as well as the DMA.
-> > > > If non-line based formats are needed, it is always possible to set the
-> > > > "height" field to 1.
-> > >
-> > > One thing that may be worth considering or clarifying - for the case of
-> > > the BCM2835 Unicam CSI-2 device, we only have 2x DMA output channels. So
-> > > one will match image data packets, and the other will match "everything
-> > > else". Typically "everything else" would only be CSI-2 embedded data, but
-> > > in the case of the Raspberry Pi Camera v3 (IMX708), it includes embedded
-> > > data, PDAF data, and HDR histogram data. Each of these outputs can be
-> > > programmed to use a different packet ID in the sensor, but since Unicam
-> > > only has a single DMA for "everything else", it all gets dumped into one
-> > > metadata buffer. But given we know the exact structure of the data
-> > > streams, it's trivial for useland to find the right bits in this buffer.
-> > > Of course, other CSI-2 receivers with more DMA channels might allow these
-> > > streams to end up in their own buffers.
-> > >
-> > > Nothing in your series seems to stop us operating Unicam in this way,
-> > > particularly because there is no fixed definition of the data format for
-> > > V4L2_META_FMT_GENERIC_8. So I don't think it's a problem, but perhaps
-> > > it's worth documenting that the metadata might include multiple streams
-> > > from the sensor?
-> >
-> > I believe this happens on other hardware, too, indeed. Currently the
-> > documentation says that
-> >
-> >         Any number of routes from streams on sink pads towards streams on
-> >         source pads is allowed, to the extent supported by drivers. For
-> >         every stream on a source pad, however, only a single route is
-> >         allowed.
-> >
-> >         (Documentation/userspace-api/media/v4l/dev-subdev.rst)
-> >
-> > This probably needs to be changed to allow what you'd need?
+> arch/arm/boot/dts/stm32mp157c-ev1.dtb: camera@3c: 'AVDD-supply' is a required property
+>  From schema: Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
+> arch/arm/boot/dts/stm32mp157c-ev1.dtb: camera@3c: 'DVDD-supply' is a required property
+>  From schema: Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
 > 
-> Yes, that last sentence sounds like it would (artificially wrt your
-> series) limit metadata buffers to only handle a single output stream.
-> However, I may have got the context of the paragraph wrong as well :)
+> Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
+> ---
+>   arch/arm/boot/dts/stm32mp157c-ev1.dts | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/stm32mp157c-ev1.dts b/arch/arm/boot/dts/stm32mp157c-ev1.dts
+> index ba8e9d9a42fa..f27d6dcb6651 100644
+> --- a/arch/arm/boot/dts/stm32mp157c-ev1.dts
+> +++ b/arch/arm/boot/dts/stm32mp157c-ev1.dts
+> @@ -185,7 +185,9 @@ ov5640: camera@3c {
+>   		reg = <0x3c>;
+>   		clocks = <&clk_ext_camera>;
+>   		clock-names = "xclk";
+> +		AVDD-supply = <&v2v8>;
+>   		DOVDD-supply = <&v2v8>;
+> +		DVDD-supply = <&v2v8>;
+>   		powerdown-gpios = <&stmfx_pinctrl 18 (GPIO_ACTIVE_HIGH | GPIO_PUSH_PULL)>;
+>   		reset-gpios = <&stmfx_pinctrl 19 (GPIO_ACTIVE_LOW | GPIO_PUSH_PULL)>;
+>   		rotation = <180>;
 
-That was exactly the purpose: I wanted to make sure we didn't allow this
-without thinking what other implications it could have --- for instance
-what you also mentioned, the V4L2 format of the related buffer.
+Applied on stm32-next.
 
--- 
-Kind regards,
-
-Sakari Ailus
+Thanks.
+Alex
