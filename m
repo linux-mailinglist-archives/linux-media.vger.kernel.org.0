@@ -2,308 +2,311 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 59BEB7203D6
-	for <lists+linux-media@lfdr.de>; Fri,  2 Jun 2023 15:58:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8455D7203D8
+	for <lists+linux-media@lfdr.de>; Fri,  2 Jun 2023 15:58:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234705AbjFBN6X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Jun 2023 09:58:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53784 "EHLO
+        id S234751AbjFBN6q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Jun 2023 09:58:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232240AbjFBN6W (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Jun 2023 09:58:22 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E2AF18C;
-        Fri,  2 Jun 2023 06:58:20 -0700 (PDT)
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 59EF427C;
-        Fri,  2 Jun 2023 15:57:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1685714276;
-        bh=kKzWNKnOH8WxAVwCgFYwfc8YtamZjG2MBr1SAuPTo5A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EDAuRprQFYfmWiHm1bSr2ZfPRxSkiZtBgeYE9Hs2c5XvIU3EeEzDkNc7/kjSQocrJ
-         NoxwtJxmCw+lVH3CeA1hSjuUwaMLoNeQIkS7uypjOWSgupW0gY1aT/+vkQIbm1HNKm
-         KCzrHMPyg7gYtUk0JhDKJ6Dv53h4mQJ7lXYCNRjM=
-Date:   Fri, 2 Jun 2023 15:58:16 +0200
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH 21/21] media: i2c: imx258: Make HFLIP and VFLIP controls
- writable
-Message-ID: <bqz2iyucj3fzprzmouu5genmm4e4h33oeye5cng5bekaqen2t4@tjlftixka3oq>
-References: <20230530173000.3060865-1-dave.stevenson@raspberrypi.com>
- <20230530173000.3060865-22-dave.stevenson@raspberrypi.com>
+        with ESMTP id S232240AbjFBN6o (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Jun 2023 09:58:44 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6DD113E
+        for <linux-media@vger.kernel.org>; Fri,  2 Jun 2023 06:58:42 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5D1FC64EA1
+        for <linux-media@vger.kernel.org>; Fri,  2 Jun 2023 13:58:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17EC7C433D2;
+        Fri,  2 Jun 2023 13:58:36 +0000 (UTC)
+Message-ID: <fcd76c82-4154-d097-b3d2-97546c24d600@xs4all.nl>
+Date:   Fri, 2 Jun 2023 15:58:35 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230530173000.3060865-22-dave.stevenson@raspberrypi.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [ANN] Media Summit June 26th: Draft Agenda v3
+Content-Language: en-US
+To:     wens@kernel.org
+Cc:     dwlsalmeida@gmail.com,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        daniel.almeida@collabora.com,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jai Luthra <j-luthra@ti.com>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        Sebastian Fricke <sebastian.fricke@collabora.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Tommaso Merciai <tomm.merciai@gmail.com>,
+        Deborah Brouwer <deborahbrouwer3563@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        =?UTF-8?Q?Martin_T=c5=afma?= <martin.tuma@digiteqautomotive.com>,
+        Martin Hecht <martin.hecht@avnet.eu>,
+        Michael Roeder <michael.roeder@avnet.eu>,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Hsia-Jun Li <Randy.Li@synaptics.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+References: <e00c7214-198e-a83b-7544-2b527d0be068@xs4all.nl>
+ <fdb70f73bc18991a49d15679a1117f136cd3bc34.camel@gmail.com>
+ <59a6715e-a783-75de-a3e0-5af376720473@xs4all.nl>
+ <CAGb2v646fR-fPTD9+N9H+WNFMARyBmOe_0gsRV8dWLfRsdb8SQ@mail.gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <CAGb2v646fR-fPTD9+N9H+WNFMARyBmOe_0gsRV8dWLfRsdb8SQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave
+On 02/06/2023 15:47, Chen-Yu Tsai wrote:
+> Hi Hans,
+> 
+> On Fri, Jun 2, 2023 at 9:44 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>>
+>> On 02/06/2023 15:40, dwlsalmeida@gmail.com wrote:
+>>> Hans, I am missing myself as an atendee?
+>>>
+>>> I thought that was implied since I'll be presenting.
+>>
+>> Oops, now adding you to the attendees list:
+>>
+>> Daniel Almeida <daniel.almeida@collabora.com> (Collabora)
+>>
+>> You did reply to the 'request for topics' email, but not to the 'please let
+>> me know if you will attend' email, and I forgot that the first implied the
+>> second :-)
+> 
+> If there are still seats available, I would like to attend in person.
+> I am very interested in the "extended fmt and buffer" work.
+> 
+> Please note that I will not be representing my employer.
 
-On Tue, May 30, 2023 at 06:30:00PM +0100, Dave Stevenson wrote:
-> The sensor supports H & V flips, but the controls were READ_ONLY.
->
-> Note that the Bayer order changes with these flips, therefore
-> they set the V4L2_CTRL_FLAG_MODIFY_LAYOUT property.
+There are still two seats available, so I've added you to the list.
 
-Nice!
+Regards,
 
->
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> ---
->  drivers/media/i2c/imx258.c | 99 ++++++++++++++++++++++++--------------
->  1 file changed, 64 insertions(+), 35 deletions(-)
->
-> diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
-> index 98b5c1e3abff..cf90ac66e14c 100644
-> --- a/drivers/media/i2c/imx258.c
-> +++ b/drivers/media/i2c/imx258.c
-> @@ -83,8 +83,8 @@
->
->  /* Orientation */
->  #define REG_MIRROR_FLIP_CONTROL		0x0101
-> -#define REG_CONFIG_MIRROR_FLIP		0x03
-> -#define REG_CONFIG_FLIP_TEST_PATTERN	0x02
-> +#define REG_CONFIG_MIRROR_HFLIP		0x01
-> +#define REG_CONFIG_MIRROR_VFLIP		0x02
->
->  /* IMX258 native and active pixel array size. */
->  #define IMX258_NATIVE_WIDTH		4224U
-> @@ -484,6 +484,23 @@ static const struct imx258_variant_cfg imx258_pdaf_cfg = {
->  	.num_regs = ARRAY_SIZE(imx258_pdaf_cfg_regs),
->  };
->
-> +/*
-> + * The supported formats.
-> + * This table MUST contain 4 entries per format, to cover the various flip
-> + * combinations in the order
-> + * - no flip
-> + * - h flip
-> + * - v flip
-> + * - h&v flips
-> + */
-> +static const u32 codes[] = {
-> +	/* 10-bit modes. */
-> +	MEDIA_BUS_FMT_SRGGB10_1X10,
-> +	MEDIA_BUS_FMT_SGRBG10_1X10,
-> +	MEDIA_BUS_FMT_SGBRG10_1X10,
-> +	MEDIA_BUS_FMT_SBGGR10_1X10
-> +};
-> +
->  static const char * const imx258_test_pattern_menu[] = {
->  	"Disabled",
->  	"Solid Colour",
-> @@ -677,6 +694,8 @@ struct imx258 {
->  	struct v4l2_ctrl *vblank;
->  	struct v4l2_ctrl *hblank;
->  	struct v4l2_ctrl *exposure;
-> +	struct v4l2_ctrl *hflip;
-> +	struct v4l2_ctrl *vflip;
->  	/* Current long exposure factor in use. Set through V4L2_CID_VBLANK */
->  	unsigned int long_exp_shift;
->
-> @@ -780,9 +799,22 @@ static int imx258_write_regs(struct imx258 *imx258,
->  	return 0;
->  }
->
-> +/* Get bayer order based on flip setting. */
-> +static u32 imx258_get_format_code(struct imx258 *imx258)
+	Hans
 
-can struct imx258 be const ?
+> 
+> ChenYu
+> 
+> 
+>> Thank you for pointing this out!
+>>
+>>         Hans
+>>
+>>>
+>>> -- Daniel
+>>>
+>>>
+>>> On Fri, 2023-06-02 at 14:40 +0200, Hans Verkuil wrote:
+>>>> Hi all,
+>>>>
+>>>> This is version 3 of the agenda for the media summit. As always, it
+>>>> is subject to change and all times are guesstimates!
+>>>>
+>>>> The media summit will be held at the Holiday Inn which is close to
+>>>> the
+>>>> conference centre where the Embedded Open Source Summit is held:
+>>>>
+>>>> Holiday Inn Prague Congress Centre - Meeting room "E"
+>>>> Na Pankráci 1684/ 15, 140 00 Praha 4-Nusle
+>>>> https://www.ihg.com/holidayinn/hotels/us/en/prague/prgnp/hoteldetail
+>>>>
+>>>> Refreshments (tea/coffee/soda) are available during the day.
+>>>>
+>>>> The meeting room is sponsored by Collabora and Cisco Systems Norway.
+>>>> And lunch is sponsored by Ideas On Board.
+>>>>
+>>>> Many thanks to the sponsors!
+>>>>
+>>>> In-Person Attendees:
+>>>>
+>>>> Sakari Ailus <sakari.ailus@linux.intel.com> (Intel)
+>>>> Kieran Bingham <kieran.bingham@ideasonboard.com> (Ideas On Board)
+>>>> Deborah Brouwer <deborahbrouwer3563@gmail.com>
+>>>> Mauro Carvalho Chehab <mchehab@kernel.org> (Intel)
+>>>> Ricardo Ribalda <ribalda@chromium.org> (Google)
+>>>> Marco Felsch <m.felsch@pengutronix.de> (Pengutronix)
+>>>> Sebastian Fricke <sebastian.fricke@collabora.com> (Collabora)
+>>>> Martin Hecht <martin.hecht@avnet.eu> (Avnet)
+>>>> Jai Luthra <j-luthra@ti.com> (TI)
+>>>> Tommaso Merciai <tomm.merciai@gmail.com> (Avnet)
+>>>> Jacopo Mondi <jacopo.mondi@ideasonboard.com> (Ideas On Board)
+>>>> Andrzej Pietrasiewicz <andrzej.p@collabora.com> (Collabora)
+>>>> Laurent Pinchart <laurent.pinchart@ideasonboard.com> (Ideas On Board)
+>>>> Michael Roeder <michael.roeder@avnet.eu> (Avnet)
+>>>> Niklas Söderlund <niklas.soderlund@ragnatech.se> (Ragnatech)
+>>>> Dave Stevenson <dave.stevenson@raspberrypi.com> (Raspberry Pi)
+>>>> Martin Tůma <tumic@gpxsee.org> (GPXSee)
+>>>> Stanimir Varbanov <stanimir.varbanov@linaro.org> (Linaro, tentative,
+>>>> after 16:30 only)
+>>>> Hans Verkuil <hverkuil-cisco@xs4all.nl> (Cisco Systems Norway)
+>>>> Alain Volmat <alain.volmat@foss.st.com> (ST Electronics)
+>>>>
+>>>> Remote Attendees:
+>>>>
+>>>> Nicolas Dufresne <nicolas@ndufresne.ca> (Collabora, tentative,
+>>>> afternoon only)
+>>>> Hsia-Jun Li <Randy.Li@synaptics.com> (Synaptics)
+>>>>
+>>>> I will email details on how to join remotely a few days before the
+>>>> media summit
+>>>> starts.
+>>>>
+>>>> If you are listed as attendee (in person or remote) and you can't
+>>>> attend
+>>>> after all, please let me know.
+>>>>
+>>>> If you are listed as presenting a topic during the meeting, then
+>>>> please
+>>>> check if the details are correct. It would be really appreciated if
+>>>> you
+>>>> can post any slides you have before the meeting (just reply to this
+>>>> message
+>>>> with the presentation attached).
+>>>>
+>>>> Agenda:
+>>>>
+>>>> 8:45-9:15: get settled :-)
+>>>>
+>>>> 9:15-9:25: Hans: Quick introduction
+>>>>
+>>>> 9:25-10:15: Daniel Almeida: Rust V4L2 support
+>>>>
+>>>>     Discuss the potential blockers as well as the roadmap and
+>>>> priorities for
+>>>>     bindings. Present what is currently supported and what isn't in
+>>>> the Rust
+>>>>     code for V4L2. Identify potential candidates for new drivers that
+>>>> can be
+>>>>     written in Rust. Discuss about maintainership issues related to
+>>>> Rust in V4L2.
+>>>>
+>>>> 10:15-10:30: Break
+>>>>
+>>>> 10:30-11:15 Hans & Hsia-Jun Li: "Add extended fmt and buffer" patch
+>>>> series
+>>>>
+>>>>
+>>>> https://patchwork.linuxtv.org/project/linux-media/cover/20230206043308.28365-1-ayaka@soulik.info/
+>>>>
+>>>>     We've been postponing the work on this, but I think we need to
+>>>> decide how to
+>>>>     proceed since pixel formats and single vs multi planar is getting
+>>>> to be a nightmare.
+>>>>
+>>>>     More details from Hsia-Jun Li:
+>>>>
+>>>>     1. v4l2 header would only maintain the codec format and pixel
+>>>> format in bus.
+>>>>     2. the pixel formats would be maintained by the DirectRender,
+>>>> those M
+>>>>        variant would not be supported in the new extend pixel format
+>>>> API.
+>>>>     3. The number of plane for a pixel format would also responds for
+>>>> its data
+>>>>        layout. Ex. NV12 = 2 planes(luma, chroma), I420 = 3 planes(Y,
+>>>> U, V).
+>>>>     4. Userspace that supports new extend API could access those
+>>>> driver didn't
+>>>>        adapt the new API, kernel would have a backward compatible
+>>>> layer. While
+>>>>        the opposite backward compatible is not offered (old API
+>>>> userspace can't
+>>>>        access the driver support the new API).
+>>>>
+>>>>     [optional part]
+>>>>     5. An alloc flag would be introduced for allocating those M
+>>>> variant buf.
+>>>>
+>>>> https://lore.kernel.org/lkml/20230322105226.122467-1-randy.li@synaptics.com/
+>>>>     6. Stateless codec format would be a modifier to the stateful
+>>>> codec format.
+>>>>        We could support different packing mode here.
+>>>>
+>>>> 11:15-11:30: Break
+>>>>
+>>>> 11:30-12:15: Andrzej Pietrasiewicz: Stateless Encoders: VP8
+>>>>
+>>>>     - Introduction to stateless encoders and previous work in this
+>>>> area
+>>>>
+>>>>     https://github.com/bootlin/linux/tree/hantro/h264-encoding-v5.11
+>>>>
+>>>>
+>>>> https://lore.kernel.org/linux-arm-kernel/20230309125651.23911-1-andrzej.p@collabora.com/T/
+>>>>
+>>>>     - High level decisions
+>>>>     - Rate control
+>>>>     - VP8 uAPI
+>>>>     - Challenges
+>>>>
+>>>> 12:15-13:30: Lunch
+>>>>
+>>>> 13:30-14:00: Ricardo Ribalda Delgado: KCAM update
+>>>>
+>>>>     I would like to share the progress on KCAM from our end.
+>>>>
+>>>>     I am also trying to collect all the requirements that we are
+>>>> getting
+>>>>     from vendors regarding V4L2.
+>>>>
+>>>> 14:00-14:45: Sakari: generic line-based metadata formats:
+>>>>
+>>>>
+>>>> https://lore.kernel.org/linux-media/20230505215257.60704-1-sakari.ailus@linux.intel.com/T/#t
+>>>>
+>>>> 14:45-??:??: Mauro & sub-maintainers: Subsystem development process
+>>>>
+>>>>     How to improve it? How do we get more maintainers? It's not
+>>>> working very
+>>>>     well at the moment.
+>>>>
+>>>>     Mauro will present how the media CI works today.
+>>>>     Hans will present how the daily build scripts work.
+>>>>
+>>>>     Can this be harmonized?
+>>>>
+>>>> Final short topic: Hans: Should we keep the media summit together
+>>>> with the ELCE conference?
+>>>>     Or organize it separately, and ask a company like Cisco, Intel or
+>>>> Collabora
+>>>>     to organize a room. What would work best? Anything to improve on
+>>>> this?
+>>>>
+>>>> We have the room until 18:30, but (fingers crossed) I hope to finish
+>>>> before that.
+>>>>
+>>>> The "Add extended fmt and buffer" and the "Subsystem development
+>>>> process" are
+>>>> *very* hard to predict. I want to limit the initial discussion of the
+>>>> that first
+>>>> topic to 45-60 minutes, and continue (if needed) in the afternoon
+>>>> after the discussion
+>>>> about the subsystem development process. We will have see how it
+>>>> goes.
+>>>>
+>>>> Please reply with corrections, questions, etc. to this email. I'll
+>>>> update the agenda
+>>>> over time.
+>>>>
+>>>> Regards,
+>>>>
+>>>>         Hans
+>>>
+>>
 
-> +{
-> +	unsigned int i;
-> +
-> +	lockdep_assert_held(&imx258->mutex);
-> +
-> +	i = (imx258->vflip->val ? 2 : 0) |
-> +	    (imx258->hflip->val ? 1 : 0);
-> +
-> +	return codes[i];
-> +}
-
-An empty line wouldn't hurt
-
->  /* Open sub-device */
->  static int imx258_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
->  {
-> +	struct imx258 *imx258 = to_imx258(sd);
->  	struct v4l2_mbus_framefmt *try_fmt =
->  		v4l2_subdev_get_try_format(sd, fh->state, 0);
->  	struct v4l2_rect *try_crop;
-> @@ -790,7 +822,7 @@ static int imx258_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
->  	/* Initialize try_fmt */
->  	try_fmt->width = supported_modes[0].width;
->  	try_fmt->height = supported_modes[0].height;
-> -	try_fmt->code = MEDIA_BUS_FMT_SBGGR10_1X10;
-> +	try_fmt->code = imx258_get_format_code(imx258);
->  	try_fmt->field = V4L2_FIELD_NONE;
->
->  	/* Initialize try_crop */
-> @@ -903,10 +935,6 @@ static int imx258_set_ctrl(struct v4l2_ctrl *ctrl)
->  		ret = imx258_write_reg(imx258, IMX258_REG_TEST_PATTERN,
->  				IMX258_REG_VALUE_16BIT,
->  				ctrl->val);
-> -		ret = imx258_write_reg(imx258, REG_MIRROR_FLIP_CONTROL,
-> -				IMX258_REG_VALUE_08BIT,
-> -				!ctrl->val ? REG_CONFIG_MIRROR_FLIP :
-> -				REG_CONFIG_FLIP_TEST_PATTERN);
->  		break;
->  	case V4L2_CID_WIDE_DYNAMIC_RANGE:
->  		if (!ctrl->val) {
-> @@ -928,6 +956,15 @@ static int imx258_set_ctrl(struct v4l2_ctrl *ctrl)
->  		ret = imx258_set_frame_length(imx258,
->  					      imx258->cur_mode->height + ctrl->val);
->  		break;
-> +	case V4L2_CID_VFLIP:
-> +	case V4L2_CID_HFLIP:
-> +		ret = imx258_write_reg(imx258, REG_MIRROR_FLIP_CONTROL,
-> +				       IMX258_REG_VALUE_08BIT,
-> +				       (imx258->hflip->val ?
-> +					REG_CONFIG_MIRROR_HFLIP : 0) |
-> +				       (imx258->vflip->val ?
-> +					REG_CONFIG_MIRROR_VFLIP : 0));
-> +		break;
->  	default:
->  		dev_info(&client->dev,
->  			 "ctrl(id:0x%x,val:0x%x) is not handled\n",
-> @@ -949,11 +986,13 @@ static int imx258_enum_mbus_code(struct v4l2_subdev *sd,
->  				  struct v4l2_subdev_state *sd_state,
->  				  struct v4l2_subdev_mbus_code_enum *code)
->  {
-> -	/* Only one bayer order(GRBG) is supported */
-> +	struct imx258 *imx258 = to_imx258(sd);
-> +
-> +	/* Only one bayer format (10 bit) is supported */
->  	if (code->index > 0)
->  		return -EINVAL;
->
-> -	code->code = MEDIA_BUS_FMT_SBGGR10_1X10;
-> +	code->code = imx258_get_format_code(imx258);
->
->  	return 0;
->  }
-> @@ -962,10 +1001,11 @@ static int imx258_enum_frame_size(struct v4l2_subdev *sd,
->  				  struct v4l2_subdev_state *sd_state,
->  				  struct v4l2_subdev_frame_size_enum *fse)
->  {
-> +	struct imx258 *imx258 = to_imx258(sd);
->  	if (fse->index >= ARRAY_SIZE(supported_modes))
->  		return -EINVAL;
->
-> -	if (fse->code != MEDIA_BUS_FMT_SBGGR10_1X10)
-> +	if (fse->code != imx258_get_format_code(imx258))
->  		return -EINVAL;
->
->  	fse->min_width = supported_modes[fse->index].width;
-> @@ -976,12 +1016,13 @@ static int imx258_enum_frame_size(struct v4l2_subdev *sd,
->  	return 0;
->  }
->
-> -static void imx258_update_pad_format(const struct imx258_mode *mode,
-> +static void imx258_update_pad_format(struct imx258 *imx258,
-> +				     const struct imx258_mode *mode,
-
-Can't you get mode from imx258->cur_mode ?
-
->  				     struct v4l2_subdev_format *fmt)
->  {
->  	fmt->format.width = mode->width;
->  	fmt->format.height = mode->height;
-> -	fmt->format.code = MEDIA_BUS_FMT_SBGGR10_1X10;
-> +	fmt->format.code = imx258_get_format_code(imx258);
->  	fmt->format.field = V4L2_FIELD_NONE;
->  }
->
-> @@ -994,7 +1035,7 @@ static int __imx258_get_pad_format(struct imx258 *imx258,
->  							  sd_state,
->  							  fmt->pad);
->  	else
-> -		imx258_update_pad_format(imx258->cur_mode, fmt);
-> +		imx258_update_pad_format(imx258, imx258->cur_mode, fmt);
->
->  	return 0;
->  }
-> @@ -1030,13 +1071,12 @@ static int imx258_set_pad_format(struct v4l2_subdev *sd,
->
->  	mutex_lock(&imx258->mutex);
->
-> -	/* Only one raw bayer(GBRG) order is supported */
-> -	fmt->format.code = MEDIA_BUS_FMT_SBGGR10_1X10;
-> +	fmt->format.code = imx258_get_format_code(imx258);
->
->  	mode = v4l2_find_nearest_size(supported_modes,
->  		ARRAY_SIZE(supported_modes), width, height,
->  		fmt->format.width, fmt->format.height);
-> -	imx258_update_pad_format(mode, fmt);
-> +	imx258_update_pad_format(imx258, mode, fmt);
->  	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
->  		framefmt = v4l2_subdev_get_try_format(sd, sd_state, fmt->pad);
->  		*framefmt = fmt->format;
-> @@ -1186,15 +1226,6 @@ static int imx258_start_streaming(struct imx258 *imx258)
->  		return ret;
->  	}
->
-> -	/* Set Orientation be 180 degree */
-> -	ret = imx258_write_reg(imx258, REG_MIRROR_FLIP_CONTROL,
-> -			       IMX258_REG_VALUE_08BIT, REG_CONFIG_MIRROR_FLIP);
-> -	if (ret) {
-> -		dev_err(&client->dev, "%s failed to set orientation\n",
-> -			__func__);
-> -		return ret;
-> -	}
-> -
->  	/* Apply customized values from user */
->  	ret =  __v4l2_ctrl_handler_setup(imx258->sd.ctrl_handler);
->  	if (ret)
-> @@ -1383,7 +1414,6 @@ static int imx258_init_controls(struct imx258 *imx258)
->  	struct i2c_client *client = v4l2_get_subdevdata(&imx258->sd);
->  	const struct imx258_link_freq_config *link_freq_cfgs;
->  	struct v4l2_fwnode_device_properties props;
-> -	struct v4l2_ctrl *vflip, *hflip;
->  	struct v4l2_ctrl_handler *ctrl_hdlr;
->  	const struct imx258_link_cfg *link_cfg;
->  	s64 vblank_def;
-> @@ -1408,16 +1438,15 @@ static int imx258_init_controls(struct imx258 *imx258)
->  	if (imx258->link_freq)
->  		imx258->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
->
-> -	/* The driver only supports one bayer order and flips by default. */
-> -	hflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx258_ctrl_ops,
-> -				  V4L2_CID_HFLIP, 1, 1, 1, 1);
-> -	if (hflip)
-> -		hflip->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> +	imx258->hflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx258_ctrl_ops,
-> +					  V4L2_CID_HFLIP, 0, 1, 1, 1);
-> +	if (imx258->hflip)
-> +		imx258->hflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
->
-> -	vflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx258_ctrl_ops,
-> -				  V4L2_CID_VFLIP, 1, 1, 1, 1);
-> -	if (vflip)
-> -		vflip->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> +	imx258->vflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx258_ctrl_ops,
-> +					  V4L2_CID_VFLIP, 0, 1, 1, 1);
-> +	if (imx258->vflip)
-> +		imx258->vflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
-
-if flips are now writable, should they be enabled by default ?
-
->
->  	link_freq_cfgs = &imx258->link_freq_configs[0];
->  	link_cfg = link_freq_cfgs[imx258->lane_mode_idx].link_cfg;
-> --
-> 2.25.1
->
