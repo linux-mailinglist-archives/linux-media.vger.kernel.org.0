@@ -2,114 +2,217 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 35D167201EC
-	for <lists+linux-media@lfdr.de>; Fri,  2 Jun 2023 14:20:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A621720245
+	for <lists+linux-media@lfdr.de>; Fri,  2 Jun 2023 14:40:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235984AbjFBMUs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Jun 2023 08:20:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32950 "EHLO
+        id S234687AbjFBMkZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Jun 2023 08:40:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235987AbjFBMUm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Jun 2023 08:20:42 -0400
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99891E5C;
-        Fri,  2 Jun 2023 05:20:32 -0700 (PDT)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 352BlvWf001792;
-        Fri, 2 Jun 2023 14:20:20 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=HUWKSuHZrzgUnoi71cTR3/6/dID27U1wLtLLZQsF0CM=;
- b=B7C4UDgTJomLvJx5rWWctxdnL4K1ivach7+2A0d/Oy+ltYGEzL9QUsn3Z+4e/4lArv1d
- QUlzaNpF6HIlCsHN/crnCfOrkX/cRjOG+Pr0gDJqeSi3QLKw022GCUpgNiZA5OUcK0Jk
- d2nrlZIi005Xo3Q/nMmNGOiolkjE61PSiHNVyH8/uu4KGzgZveba5BVmK0bKFMbqCCfO
- cLq5JdZ/QWCstYyCqpTJeR0mFy1fmIERDilE5P0imf98uHTGAvQlGXknWHlqPEffobKw
- xRO51LrMZw47etqsaDHFF1BqKymvtTVlLFj7RODhhOmf1MNspGkvPo56+lvVTawQhFh/ cw== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3qweqep5s4-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 02 Jun 2023 14:20:20 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 2B7E910002A;
-        Fri,  2 Jun 2023 14:20:19 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 2340423151D;
-        Fri,  2 Jun 2023 14:20:19 +0200 (CEST)
-Received: from [10.201.21.93] (10.201.21.93) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Fri, 2 Jun
- 2023 14:20:18 +0200
-Message-ID: <7c5ca6cf-59aa-50f9-c127-a3dc81eb245c@foss.st.com>
-Date:   Fri, 2 Jun 2023 14:20:17 +0200
+        with ESMTP id S234530AbjFBMkW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Jun 2023 08:40:22 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99455180
+        for <linux-media@vger.kernel.org>; Fri,  2 Jun 2023 05:40:19 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3595361D30
+        for <linux-media@vger.kernel.org>; Fri,  2 Jun 2023 12:40:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F34DC433EF;
+        Fri,  2 Jun 2023 12:40:14 +0000 (UTC)
+Message-ID: <e00c7214-198e-a83b-7544-2b527d0be068@xs4all.nl>
+Date:   Fri, 2 Jun 2023 14:40:12 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] ARM: dts: stm32: add required supplies of ov5640 in
- stm32mp157c-ev1
+ Thunderbird/102.11.0
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [ANN] Media Summit June 26th: Draft Agenda v3
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Content-Language: en-US
-To:     Alain Volmat <alain.volmat@foss.st.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>
-CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20230601065222.2594700-1-alain.volmat@foss.st.com>
-From:   Alexandre TORGUE <alexandre.torgue@foss.st.com>
-In-Reply-To: <20230601065222.2594700-1-alain.volmat@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.201.21.93]
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-02_08,2023-06-02_02,2023-05-22_02
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jai Luthra <j-luthra@ti.com>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        Sebastian Fricke <sebastian.fricke@collabora.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Tommaso Merciai <tomm.merciai@gmail.com>,
+        Deborah Brouwer <deborahbrouwer3563@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        =?UTF-8?Q?Martin_T=c5=afma?= <martin.tuma@digiteqautomotive.com>,
+        Martin Hecht <martin.hecht@avnet.eu>,
+        Michael Roeder <michael.roeder@avnet.eu>,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Hsia-Jun Li <Randy.Li@synaptics.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alain
+Hi all,
 
-On 6/1/23 08:52, Alain Volmat wrote:
-> Correct the following warnings by adding the required supplies (AVDD, DVDD)
-> for the ov5640 node.
-> 
-> arch/arm/boot/dts/stm32mp157c-ev1.dtb: camera@3c: 'AVDD-supply' is a required property
->  From schema: Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
-> arch/arm/boot/dts/stm32mp157c-ev1.dtb: camera@3c: 'DVDD-supply' is a required property
->  From schema: Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
-> 
-> Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
-> ---
->   arch/arm/boot/dts/stm32mp157c-ev1.dts | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/arch/arm/boot/dts/stm32mp157c-ev1.dts b/arch/arm/boot/dts/stm32mp157c-ev1.dts
-> index ba8e9d9a42fa..f27d6dcb6651 100644
-> --- a/arch/arm/boot/dts/stm32mp157c-ev1.dts
-> +++ b/arch/arm/boot/dts/stm32mp157c-ev1.dts
-> @@ -185,7 +185,9 @@ ov5640: camera@3c {
->   		reg = <0x3c>;
->   		clocks = <&clk_ext_camera>;
->   		clock-names = "xclk";
-> +		AVDD-supply = <&v2v8>;
->   		DOVDD-supply = <&v2v8>;
-> +		DVDD-supply = <&v2v8>;
->   		powerdown-gpios = <&stmfx_pinctrl 18 (GPIO_ACTIVE_HIGH | GPIO_PUSH_PULL)>;
->   		reset-gpios = <&stmfx_pinctrl 19 (GPIO_ACTIVE_LOW | GPIO_PUSH_PULL)>;
->   		rotation = <180>;
+This is version 3 of the agenda for the media summit. As always, it
+is subject to change and all times are guesstimates!
 
-Applied on stm32-next.
+The media summit will be held at the Holiday Inn which is close to the
+conference centre where the Embedded Open Source Summit is held:
 
-Thanks.
-Alex
+Holiday Inn Prague Congress Centre - Meeting room "E"
+Na Pankráci 1684/ 15, 140 00 Praha 4-Nusle
+https://www.ihg.com/holidayinn/hotels/us/en/prague/prgnp/hoteldetail
+
+Refreshments (tea/coffee/soda) are available during the day.
+
+The meeting room is sponsored by Collabora and Cisco Systems Norway.
+And lunch is sponsored by Ideas On Board.
+
+Many thanks to the sponsors!
+
+In-Person Attendees:
+
+Sakari Ailus <sakari.ailus@linux.intel.com> (Intel)
+Kieran Bingham <kieran.bingham@ideasonboard.com> (Ideas On Board)
+Deborah Brouwer <deborahbrouwer3563@gmail.com>
+Mauro Carvalho Chehab <mchehab@kernel.org> (Intel)
+Ricardo Ribalda <ribalda@chromium.org> (Google)
+Marco Felsch <m.felsch@pengutronix.de> (Pengutronix)
+Sebastian Fricke <sebastian.fricke@collabora.com> (Collabora)
+Martin Hecht <martin.hecht@avnet.eu> (Avnet)
+Jai Luthra <j-luthra@ti.com> (TI)
+Tommaso Merciai <tomm.merciai@gmail.com> (Avnet)
+Jacopo Mondi <jacopo.mondi@ideasonboard.com> (Ideas On Board)
+Andrzej Pietrasiewicz <andrzej.p@collabora.com> (Collabora)
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> (Ideas On Board)
+Michael Roeder <michael.roeder@avnet.eu> (Avnet)
+Niklas Söderlund <niklas.soderlund@ragnatech.se> (Ragnatech)
+Dave Stevenson <dave.stevenson@raspberrypi.com> (Raspberry Pi)
+Martin Tůma <tumic@gpxsee.org> (GPXSee)
+Stanimir Varbanov <stanimir.varbanov@linaro.org> (Linaro, tentative, after 16:30 only)
+Hans Verkuil <hverkuil-cisco@xs4all.nl> (Cisco Systems Norway)
+Alain Volmat <alain.volmat@foss.st.com> (ST Electronics)
+
+Remote Attendees:
+
+Nicolas Dufresne <nicolas@ndufresne.ca> (Collabora, tentative, afternoon only)
+Hsia-Jun Li <Randy.Li@synaptics.com> (Synaptics)
+
+I will email details on how to join remotely a few days before the media summit
+starts.
+
+If you are listed as attendee (in person or remote) and you can't attend
+after all, please let me know.
+
+If you are listed as presenting a topic during the meeting, then please
+check if the details are correct. It would be really appreciated if you
+can post any slides you have before the meeting (just reply to this message
+with the presentation attached).
+
+Agenda:
+
+8:45-9:15: get settled :-)
+
+9:15-9:25: Hans: Quick introduction
+
+9:25-10:15: Daniel Almeida: Rust V4L2 support
+
+    Discuss the potential blockers as well as the roadmap and priorities for
+    bindings. Present what is currently supported and what isn't in the Rust
+    code for V4L2. Identify potential candidates for new drivers that can be
+    written in Rust. Discuss about maintainership issues related to Rust in V4L2.
+
+10:15-10:30: Break
+
+10:30-11:15 Hans & Hsia-Jun Li: "Add extended fmt and buffer" patch series
+
+    https://patchwork.linuxtv.org/project/linux-media/cover/20230206043308.28365-1-ayaka@soulik.info/
+
+    We've been postponing the work on this, but I think we need to decide how to
+    proceed since pixel formats and single vs multi planar is getting to be a nightmare.
+
+    More details from Hsia-Jun Li:
+
+    1. v4l2 header would only maintain the codec format and pixel format in bus.
+    2. the pixel formats would be maintained by the DirectRender, those M
+       variant would not be supported in the new extend pixel format API.
+    3. The number of plane for a pixel format would also responds for its data
+       layout. Ex. NV12 = 2 planes(luma, chroma), I420 = 3 planes(Y, U, V).
+    4. Userspace that supports new extend API could access those driver didn't
+       adapt the new API, kernel would have a backward compatible layer. While
+       the opposite backward compatible is not offered (old API userspace can't
+       access the driver support the new API).
+
+    [optional part]
+    5. An alloc flag would be introduced for allocating those M variant buf.
+       https://lore.kernel.org/lkml/20230322105226.122467-1-randy.li@synaptics.com/
+    6. Stateless codec format would be a modifier to the stateful codec format.
+       We could support different packing mode here.
+
+11:15-11:30: Break
+
+11:30-12:15: Andrzej Pietrasiewicz: Stateless Encoders: VP8
+
+    - Introduction to stateless encoders and previous work in this area
+
+    https://github.com/bootlin/linux/tree/hantro/h264-encoding-v5.11
+
+    https://lore.kernel.org/linux-arm-kernel/20230309125651.23911-1-andrzej.p@collabora.com/T/
+
+    - High level decisions
+    - Rate control
+    - VP8 uAPI
+    - Challenges
+
+12:15-13:30: Lunch
+
+13:30-14:00: Ricardo Ribalda Delgado: KCAM update
+
+    I would like to share the progress on KCAM from our end.
+
+    I am also trying to collect all the requirements that we are getting
+    from vendors regarding V4L2.
+
+14:00-14:45: Sakari: generic line-based metadata formats:
+
+    https://lore.kernel.org/linux-media/20230505215257.60704-1-sakari.ailus@linux.intel.com/T/#t
+
+14:45-??:??: Mauro & sub-maintainers: Subsystem development process
+
+    How to improve it? How do we get more maintainers? It's not working very
+    well at the moment.
+
+    Mauro will present how the media CI works today.
+    Hans will present how the daily build scripts work.
+
+    Can this be harmonized?
+
+Final short topic: Hans: Should we keep the media summit together with the ELCE conference?
+    Or organize it separately, and ask a company like Cisco, Intel or Collabora
+    to organize a room. What would work best? Anything to improve on this?
+
+We have the room until 18:30, but (fingers crossed) I hope to finish before that.
+
+The "Add extended fmt and buffer" and the "Subsystem development process" are
+*very* hard to predict. I want to limit the initial discussion of the that first
+topic to 45-60 minutes, and continue (if needed) in the afternoon after the discussion
+about the subsystem development process. We will have see how it goes.
+
+Please reply with corrections, questions, etc. to this email. I'll update the agenda
+over time.
+
+Regards,
+
+	Hans
