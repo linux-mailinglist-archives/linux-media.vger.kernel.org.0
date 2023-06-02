@@ -2,170 +2,258 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D317871FE0D
-	for <lists+linux-media@lfdr.de>; Fri,  2 Jun 2023 11:40:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C093771FE21
+	for <lists+linux-media@lfdr.de>; Fri,  2 Jun 2023 11:43:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234767AbjFBJkD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Jun 2023 05:40:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51888 "EHLO
+        id S234706AbjFBJnW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Jun 2023 05:43:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235227AbjFBJkB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Jun 2023 05:40:01 -0400
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 509BFCE
-        for <linux-media@vger.kernel.org>; Fri,  2 Jun 2023 02:39:58 -0700 (PDT)
-X-GND-Sasl: paul.kocialkowski@bootlin.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1685698796;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=+xQjtaZuaz5n0SUJQ/mKROD5Nif4cm44ovMyXwf2ZP4=;
-        b=D6c7Kvh8/dLHuyxNj2e0cG+hOAJKz5FOs4k4Db2PU1yYEn4yrIMNK2r3gNRYDTvcDrCknU
-        Oaa7vFWU20oOmsEJ92RYdsQzc7xIEz6QbIK+/zpTASNJJ3jEz0mC52oYK3NgPysoQR7bjs
-        phaZNRSBo6jd8Lzz2S6j1Mt18IWvtS8SGpCWyOzqbgK/HU1VpPhMop49wBIzhBWPcSJ5ep
-        01woXeeXH4CKHxypJZEdfKu6WJ1Sir+cjIkOd9l6CCLCaQ5zTisspO6GLYCAcFhCeV2H1r
-        JccnKrhU4UHTFQmYSv4LKxFod92Od2/bVxL5W0iWoHR3U1nMvU8KgyuwM/SzOg==
-X-GND-Sasl: paul.kocialkowski@bootlin.com
-X-GND-Sasl: paul.kocialkowski@bootlin.com
-X-GND-Sasl: paul.kocialkowski@bootlin.com
-X-GND-Sasl: paul.kocialkowski@bootlin.com
-X-GND-Sasl: paul.kocialkowski@bootlin.com
-X-GND-Sasl: paul.kocialkowski@bootlin.com
-X-GND-Sasl: paul.kocialkowski@bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 9E9EC1C0007;
-        Fri,  2 Jun 2023 09:39:54 +0000 (UTC)
-Date:   Fri, 2 Jun 2023 11:39:54 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Martijn Braam <martijn@brixit.nl>
-Cc:     regressions@lists.linux.dev, jernej.skrabec@gmail.com,
-        sakari.ailus@linux.intel.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, hverkuil@xs4all.nl,
-        laurent.pinchart@ideasonboard.com
-Subject: Re: [REGRESSION] breakage in sun6i-csi media api
-Message-ID: <ZHm46or-MhTb457b@aptenodytes>
-References: <f13c27fb-2afe-b94e-aad9-ed5ecc818183@brixit.nl>
- <ZHmzZUkcFK8Gq_JL@aptenodytes>
- <e168d246-528d-b615-aa50-af8f17af4442@brixit.nl>
+        with ESMTP id S234576AbjFBJnQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Jun 2023 05:43:16 -0400
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C488F197
+        for <linux-media@vger.kernel.org>; Fri,  2 Jun 2023 02:43:11 -0700 (PDT)
+Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-565c9109167so17672737b3.2
+        for <linux-media@vger.kernel.org>; Fri, 02 Jun 2023 02:43:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1685698991; x=1688290991;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=76pkVNH6HFunrFI8tBCy6FrWonIQUNxLQ20meWidoF0=;
+        b=iJjnEis0tnaWMhza7ALYJZudVm1a9BO4cKrcCXlToifjPfO5oy4lnj/xf7hFn+VxCt
+         v8blLV4m5tS5Z4SuQm8ZyJ8ceYpy6dbY8oCy9GsxWsoAsxDoNKOlE7994+0oK62aDOUB
+         eUUiAeQ7UVD1DkX0qxhV8QoEtq5Diet3xKezVAh+JKs6tlbcGjvxhwhX6laMu856OKcq
+         zPQbvpWMd3w4i+zv14InhDlNkhle93nN5Im8DcMrXJMvGMLj4aiwxgdj35gc15B6szhH
+         TwMitMhtZv5Yd3psKXRHU/CKJv/cspCqogJ1YLy+HwEuwzObWxwJdZHSYBiP9FbE1/pu
+         e4qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685698991; x=1688290991;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=76pkVNH6HFunrFI8tBCy6FrWonIQUNxLQ20meWidoF0=;
+        b=fBCydHW6MEsu1swHR/m7rnKAs7o4XqY5ZUE0VRJaRWj1K2lqTbFiKQZuyWF154YVGQ
+         3zriO13YriM2tOw/C6NFN6x6TJp0I3A7mjnUbBEibpqLo5j7ShGjftNErs2nAD87CMjA
+         I0hfnQxCjtP0OGkbq2QTTSkYz1kRJ14zDqaCQUuUcrnn3h0MCt69rfUvp8Uioc9I+WbL
+         vfWR71t5ObU6Clz0ULP4DGdDLXkgSIRF2gylFth5dIirYKnpJdOWnAtN7NaD7iMxlo4L
+         ULTrVVxh4rKOGPi69ME9Cq6820wWU417fmrr5Yd7YePE80KRYf01NoavdUiQiCAwj+Fw
+         NCrQ==
+X-Gm-Message-State: AC+VfDy46oxTFPxQxTQ4GcfBUlQQnr/yKWnm7a2KbGJIUyJs8F10g9Z+
+        CEURcwlynO1HeFtyLPq3oMsteHwKjo98joU3wIU1ZA==
+X-Google-Smtp-Source: ACHHUZ7eHyYHlVmwNtB0xaW5K+G35el9QM/AvjhNa10E0rKjnFcJK2WBBcfE+IOS+RvWRO9c2T5+oEaNgffOr0j3USo=
+X-Received: by 2002:a81:4849:0:b0:561:e8e0:2e82 with SMTP id
+ v70-20020a814849000000b00561e8e02e82mr12203687ywa.30.1685698990980; Fri, 02
+ Jun 2023 02:43:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Z+0PdKDSAr0fMDwU"
-Content-Disposition: inline
-In-Reply-To: <e168d246-528d-b615-aa50-af8f17af4442@brixit.nl>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230505215257.60704-1-sakari.ailus@linux.intel.com>
+ <CAEmqJPp_3e248mKRMK2fY2vwQi=HzqCsP6zTyWfOXFYbOFC0_Q@mail.gmail.com> <20230602091226.GD19463@pendragon.ideasonboard.com>
+In-Reply-To: <20230602091226.GD19463@pendragon.ideasonboard.com>
+From:   Naushir Patuck <naush@raspberrypi.com>
+Date:   Fri, 2 Jun 2023 10:43:07 +0100
+Message-ID: <CAEmqJPqV2kbYWhSuUd-KnGMLeCO3674pjvyDc6_LRfzP4UMwpg@mail.gmail.com>
+Subject: Re: [RFC 0/7] Generic line based metadata support, internal pads
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
+        bingbu.cao@intel.com, hongju.wang@intel.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Fri, 2 Jun 2023 at 10:12, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hello,
+>
+> On Fri, Jun 02, 2023 at 08:54:35AM +0100, Naushir Patuck wrote:
+> > Hi Sakari,
+> >
+> > Thank you for working on this.  Sensor metadata is something that Raspberry Pi
+> > do make extensive use of, and our downstream changes to support it, although a
+> > bit hacky, are not too dissimilar to your proposal here.
+> >
+> > On Fri, 5 May 2023 at 22:53, Sakari Ailus wrote:
+> > >
+> > > Hi folks,
+> > >
+> > > Here are a few patches to add support generic, line based metadata as well
+> > > as internal source pads. While the amount of code is not very large, to
+> > > the contrary it is quite small actually IMO, I presume what this is about
+> > > and why it is being proposed requires some explaining.
+> > >
+> > > Metadata mbus codes and formats have existed for some time in V4L2. They
+> > > however have been only used by drivers that produce the data itself and
+> > > effectively this metadata has always been statistics of some sort (at
+> > > least when it comes to ISPs). What is different here is that we intend to
+> > > add support for metadata originating from camera sensors.
+> > >
+> > > Camera sensors produce different kinds of metadata, embedded data (usually
+> > > register address--value pairs used to capture the frame, in a more or less
+> > > sensor specific format), histograms (in a very sensor specific format),
+> > > dark pixels etc.
+>
+> Optical dark pixels are image data, I wouldn't include them in the
+> "metadata" category. They can of course be transmitted over a different
+> stream, so they're relevant to the API being designed.
+>
+> > > The number of these formats is probably going to be about
+> > > as large as image data formats if not larger, as the image data formats
+> > > are much better standardised but a smaller subset of them will be
+> > > supported by V4L2, at least initially but possibly much more in the long
+> > > run.
+>
+> Strictly speaking, the number of metadata formats depends on how we
+> define "format". Today, we can use the GREY pixel format to capture
+> greyscale images in the visible spectrum, but also IR images, thermal
+> images, or even depth images. They're all one pixel format. On the other
+> hand, we have Y16 for greyscale visible and IR images, and Z16 for depth
+> maps. It's already a mess, even without metadata :-)
+>
+> > > Having this many device specific formats would be a major problem for all
+> > > the other drivers along that pipeline (not to mention the users of those
+> > > drivers), including bridge (e.g. CSI-2 to parallel) but especially CSI-2
+> > > receiver drivers that have DMA: the poor driver developer would not only
+> > > need to know camera sensor specific formats but to choose the specific
+> > > packing of that format suitable for the DMA used by the hardware. It is
+> > > unlikely many of these would ever get tested while being present on the
+> > > driver API. Also adding new sensors with new embedded data formats would
+> > > involve updating all bridge and CSI-2 receiver drivers. I don't expect
+> > > this to be a workable approach.
+>
+> I'm glad we agree on this.
+>
+> > > Instead what I'm proposing is to use specific metadata formats on the
+> > > sensor devices only, on internal pads (more about those soon) of the
+> > > sensors, only visible in the UAPI, and then generic mbus formats along the
+> > > pipeline and finally generic V4L2 metadata formats on the DMAs (specific
+> > > to bit depth and packing). This would unsnarl the two, defining what data
+> > > there is (specific mbus code) and how that is transported and packed
+> > > (generic mbus codes and V4L2 formats).
+>
+> Decoupling the information needed by the kernel (e.g. are we
+> transporting RAW8 or RAW10 from the sensor through the pipeline) from
+> the information useful for userspace only (e.g. the sensor embedded data
+> is encoding using register + value pairs, based on the IMX708 registers
+> set) is a good idea. I expect the main question to be where to draw the
+> line between those two categories. Some pieces of information may be
+> useless to any processing block in the pipeline except for an odd block
+> in the middle.
+>
+> This is, I believe, a problem similar to the CFA pattern. That
+> information is useless for most devices, but required by the demosaicing
+> block and some other blocks along the pipeline (colour gains for
+> instance, or some Bayer statistics engines). We currently convey the CFA
+> pattern in the media bus codes and pixel formats (e.g. SGRBG8 vs.
+> SRGGB8) through the whole pipeline, while it could be conveyed out of
+> band (e.g. exposed by the sensor using a control, and set on the devices
+> that need it using a control as well).
+>
+> If we come up with a good solution for metadata (and I hope we will),
+> maybe we'll be able to use a similar mechanism for CFA patterns,
+> simplifying new drivers and userspace. Or maybe this will remain a pipe
+> dream given the backward compatibility implications.
+>
+> > > The user space would be required to "know" the path of that data from the
+> > > sensor's internal pad to the V4L2 video node. I do not see this as these
+> > > devices require at least some knowledge of the pipeline, i.e. hardware at
+> > > hand. Separating what the data means and how it is packed may even be
+> > > beneficial: it allows separating code that interprets the data (sensor
+> > > internal mbus code) from the code that accesses it (packing).
+> > >
+> > > These formats are in practice line based, meaning that there may be
+> > > padding at the end of the line, depending on the bus as well as the DMA.
+> > > If non-line based formats are needed, it is always possible to set the
+> > > "height" field to 1.
+> >
+> > One thing that may be worth considering or clarifying - for the case of the
+> > BCM2835 Unicam CSI-2 device, we only have 2x DMA output channels.  So one will
+> > match image data packets, and the other will match "everything else".  Typically
+> > "everything else" would only be CSI-2 embedded data, but in the case of the
+> > Raspberry Pi Camera v3 (IMX708), it includes embedded data, PDAF data, and
+> > HDR histogram data.  Each of these outputs can be programmed to use a different
+> > packet ID in the sensor, but since Unicam only has a single DMA for "everything
+> > else", it all gets dumped into one metadata buffer.  But given we know the exact
+> > structure of the data streams, it's trivial for useland to find the right bits
+> > in this buffer.  Of course, other CSI-2 receivers with more DMA channels might
+> > allow these streams to end up in their own buffers.
+> >
+> > Nothing in your series seems to stop us operating Unicam in this way,
+> > particularly because there is no fixed definition of the data format for
+> > V4L2_META_FMT_GENERIC_8. So I don't think it's a problem, but perhaps it's worth
+> > documenting that the metadata might include multiple streams from the sensor?
+>
+> Thanks for your feedback Naush. Would you consider reviewing the
+> individual patches in the series ? :-)
 
---Z+0PdKDSAr0fMDwU
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Sure, I'll go through the patches and send some feedback.  This is after all a
+change that I'm very much looking forward to :-)
 
-Hi,
+Regards,
+Naush
 
-(Re-adding folks from the original email, adding Laurent and Hans.)
-
-On Fri 02 Jun 23, 11:24, Martijn Braam wrote:
-> Hi Paul,
->=20
-> That's basically it yes. My software doesn't expect the bridge block,
-> because it wasn't there. The pipeline always worked "automatically".
->=20
-> This is the workaround that's been made now it run on newer kernels:
-> https://gitlab.com/postmarketOS/megapixels/-/merge_requests/31
->=20
-> I'm pretty sure format propagation would fix this issue.
-
-Okay that's good to know.
-
-To be honest it's still not very clear to me if in-driver format propagatio=
-n is
-a "nice to have" feature or something that all media pipeline drivers are
-supposed to implement.
-
-Anyway I feel like this is not really a regression but a result of the driv=
-er
-being converted to a newer API.
-
-Also there's a V4L2_CAP_IO_MC flag which should indicate that the video dev=
-ice
-must be controlled via the media controller API instead of being
-video-device-centric, but I've seen comments asking not to set the flag even
-when MC is used so I'm a bit confused here. Perhaps the flag is only requir=
-ed
-when there is no automatic format propagation?
-
-If anyone has solid answers on these points I'd be happy to read some
-clarification (and act accordingly).
-
-Cheers,
-
-Paul
-
-> Greetings,
-> Martijn
->=20
-> On 6/2/23 11:16, Paul Kocialkowski wrote:
-> > Hi Martijn,
-> >=20
-> > On Thu 01 Jun 23, 23:19, Martijn Braam wrote:
-> > > It seems like this commit:
-> > >=20
-> > > media: sun6i-csi: Add bridge v4l2 subdev with port management
-> > >=20
-> > > Has changed the way the media pipeline on a64 devices, in my case the=
- PINE64
-> > > PinePhone works. Since this is an API towards userspace and there's a=
-ctive
-> > > applications that use it I think this counts as a regression.
-> > Do you have more details on what changed specifically?
-> >=20
-> > The commit added a bridge subdev in addition to the video node, which is
-> > generally a better description of the CSI hardware and also a necessity
-> > to support the ISP data flow.
-> >=20
-> > Maybe your userspace application is not configuring the bridge media bl=
-ock with
-> > the right format, which results in a mismatch?
-> >=20
-> > Some work was started to achieve automatic format propagation, perhaps =
-it
-> > would be enough to solve your issue.
-> >=20
-> > Cheers,
-> >=20
-> > Paul
-> >=20
-> > > #regzbot introduced: 0d2b746b1bef73de62d2d311e594a7ffed4ca43
-> > >=20
-> > > Greetings,
-> > > Martijn Braam
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---Z+0PdKDSAr0fMDwU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmR5uOoACgkQ3cLmz3+f
-v9F/egf/RPeds/kZq4b/dhPwh8VCo5XbMkBteLw/3hzoq39I2CC3BKfSzfWBRmWc
-T4/QgXWRhQjiGG3c0ODc0JxtO54g1m6y95ImYC4ZXMDDS1uJiixvj03LxqbQfFNv
-PPT0gENbOKbpqG9oxYDpq5RRAbB/GJlI05wi33X2du+rjxIxxP8kkeMa0Lie+C4D
-+WimmueY/mBjUu9KBaDEfRtcM429eqagUxSJ2vgHustBmwwTM5ShqWicBXvR4Wwd
-dCIAb41Wv90mkRr79Nx777C4zhybVhqTgR3qbyXbhCJCYgQzkfHIHvijaL5+K678
-f6fw9fQto2DKbwTb9l6SgKS5dwDFHA==
-=NVjT
------END PGP SIGNATURE-----
-
---Z+0PdKDSAr0fMDwU--
+>
+> > > The internal (source) pads are an alternative to source routes [1]. The
+> > > source routes were not universally liked and I do have to say I like
+> > > re-using existing interface concepts (pads and everything you can do with
+> > > pads, including access format, selections etc.) wherever it makes sense,
+> > > instead of duplicating functionality.
+> > >
+> > > Effectively internal source pads behave mostly just like sink pads, but
+> > > they describe a flow of data that originates from a sub-device instead of
+> > > arriving to a sub-device. The SUBDEV_S_ROUTING IOCTLs are used to enable
+> > > and disable routes from internal source pads to sub-device's source pads.
+> > > The subdev format IOCTLs are usable, too, so one can find which subdev
+> > > format is available on given internal source pad.
+> > >
+> > > This set depends on these patches:
+> > >
+> > > <URL:https://lore.kernel.org/linux-media/20230505205416.55002-1-sakari.ailus@linux.intel.com/T/#t>
+> > >
+> > > I've also pushed these here and I'll keep updating the branch:
+> > >
+> > > <URL:https://git.linuxtv.org/sailus/media_tree.git/log/?h=metadata>
+> > >
+> > > Questions and comments are most welcome.
+> > >
+> > >
+> > > [1] <URL:https://lore.kernel.org/linux-media/20220831141357.1396081-20-tomi.valkeinen@ideasonboard.com/>
+> > >
+> > > Sakari Ailus (7):
+> > >   media: mc: Add INTERNAL_SOURCE pad type flag
+> > >   media: v4l: subdev: Support INTERNAL_SOURCE pads in routing IOCTLs
+> > >   media: uapi: v4l: Document source routes
+> > >   media: mc: Check pad flag validity
+> > >   media: uapi: Add generic serial metadata mbus formats
+> > >   media: uapi: Add generic 8-bit metadata format definitions
+> > >   media: v4l: Support line-based metadata capture
+> > >
+> > >  .../media/mediactl/media-types.rst            |   7 +
+> > >  .../userspace-api/media/v4l/dev-meta.rst      |  15 +
+> > >  .../userspace-api/media/v4l/dev-subdev.rst    |  18 +
+> > >  .../userspace-api/media/v4l/meta-formats.rst  |   1 +
+> > >  .../media/v4l/metafmt-generic.rst             | 317 ++++++++++++++++++
+> > >  .../media/v4l/subdev-formats.rst              | 257 ++++++++++++++
+> > >  .../media/v4l/vidioc-enum-fmt.rst             |   7 +
+> > >  .../media/v4l/vidioc-subdev-g-routing.rst     |   5 +
+> > >  drivers/media/mc/mc-entity.c                  |  20 +-
+> > >  drivers/media/v4l2-core/v4l2-ioctl.c          |   8 +
+> > >  drivers/media/v4l2-core/v4l2-subdev.c         |   6 +-
+> > >  include/uapi/linux/media-bus-format.h         |   9 +
+> > >  include/uapi/linux/media.h                    |   1 +
+> > >  include/uapi/linux/v4l2-subdev.h              |   6 +-
+> > >  include/uapi/linux/videodev2.h                |  19 ++
+> > >  15 files changed, 691 insertions(+), 5 deletions(-)
+> > >  create mode 100644 Documentation/userspace-api/media/v4l/metafmt-generic.rst
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
