@@ -2,170 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CF4E871FFBA
-	for <lists+linux-media@lfdr.de>; Fri,  2 Jun 2023 12:51:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73662720118
+	for <lists+linux-media@lfdr.de>; Fri,  2 Jun 2023 14:05:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234799AbjFBKvB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Jun 2023 06:51:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40358 "EHLO
+        id S235598AbjFBMF5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Jun 2023 08:05:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234304AbjFBKu6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Jun 2023 06:50:58 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B3A6C0
-        for <linux-media@vger.kernel.org>; Fri,  2 Jun 2023 03:50:57 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (om126156168104.26.openmobile.ne.jp [126.156.168.104])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 49B026E0;
-        Fri,  2 Jun 2023 12:50:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1685703033;
-        bh=pAFbumNQccQrlLNccPDng8dzBrY90SeJ1dCY8YV38xQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cZ8+87IdvdjmHesUv19rPL11jEVCB8v048V0WaOmrdVBYQesKeGkb6CELyj5d2Pix
-         Xp4GFodC2bnpBBTJpgGMJto/hbxpXXQViYUTwoqf5ylm7918LPa+hG6cgklVfcbXz9
-         GjwMb7Xf5dV+pk9cRx/MFDtCKC1bPVja10AvW2fI=
-Date:   Fri, 2 Jun 2023 13:50:54 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
-        bingbu.cao@intel.com, hongju.wang@intel.com
-Subject: Re: [RFC 7/7] media: v4l: Support line-based metadata capture
-Message-ID: <20230602105054.GA26944@pendragon.ideasonboard.com>
+        with ESMTP id S235010AbjFBMFx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Jun 2023 08:05:53 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63E7D1B5
+        for <linux-media@vger.kernel.org>; Fri,  2 Jun 2023 05:05:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685707552; x=1717243552;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fvjRh0JC+UbvPv1bLFFAZWI7xUhxjmiFG0e57mxX1Gc=;
+  b=NfRkBLHCIJC7KTm50fadl3AWpQVTmHD3qMZuW/Z0PTZJjaDQHUC+sdu6
+   f8758zNF8TSUt67xXRpUs4WK/GF9tZZRbwVYlWF1AfElpAUVrjDR6t9gP
+   TiuYnS8WJkjgwpH7iIVVORr/YyuVQ9dKybncB4tLfuRyihi0UN4RKfSr+
+   sx8U33n3H2s/mhOnenBlcDVQDnFbZQOgng8ka0/Y2/8Gnkniy0Ucu3yes
+   icVqOkXlh9rYDA0EcGrWCFSmqKBPsoy6e0QNL9K4D7qRAy1hgtXnkZUVA
+   9J4fDuLj0ulUwS3KIojVeYnYgh+6Pp/smbi4p6TKSgIleybeB7pRg7fYY
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="354700980"
+X-IronPort-AV: E=Sophos;i="6.00,212,1681196400"; 
+   d="scan'208";a="354700980"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 05:05:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="777652276"
+X-IronPort-AV: E=Sophos;i="6.00,212,1681196400"; 
+   d="scan'208";a="777652276"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 05:05:42 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 110B51203D3;
+        Fri,  2 Jun 2023 15:05:40 +0300 (EEST)
+Date:   Fri, 2 Jun 2023 12:05:40 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Naushir Patuck <naush@raspberrypi.com>
+Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
+        hongju.wang@intel.com
+Subject: Re: [RFC 0/7] Generic line based metadata support, internal pads
+Message-ID: <ZHnbFEjryNCylF6k@kekkonen.localdomain>
 References: <20230505215257.60704-1-sakari.ailus@linux.intel.com>
- <20230505215257.60704-8-sakari.ailus@linux.intel.com>
+ <CAEmqJPp_3e248mKRMK2fY2vwQi=HzqCsP6zTyWfOXFYbOFC0_Q@mail.gmail.com>
+ <ZHmsddS7gaAyFu+N@kekkonen.localdomain>
+ <CAEmqJPq9wS6mAvCYF2ryo4+sr0wO2OGMC_qNoaBjWW6V9sF=TA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230505215257.60704-8-sakari.ailus@linux.intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <CAEmqJPq9wS6mAvCYF2ryo4+sr0wO2OGMC_qNoaBjWW6V9sF=TA@mail.gmail.com>
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Naush,
 
-Thank you for the patch.
-
-On Sat, May 06, 2023 at 12:52:57AM +0300, Sakari Ailus wrote:
-> many camera sensors, among other devices, transmit embedded data and image
-
-s/many/Many/
-
-> data for each CSI-2 frame. This embedded data typically contains register
-> configuration of the sensor that has been used to capture the image data
-> of the same frame.
+On Fri, Jun 02, 2023 at 10:35:08AM +0100, Naushir Patuck wrote:
+> Hi Sakari,
 > 
-> The embedded data is received by the CSI-2 receiver and has the same
-> properties as the image data, including that it is line based: it has
-> width, height and bytesperline (stride).
+> On Fri, 2 Jun 2023 at 09:46, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Hi Naushir,
+> >
+> > On Fri, Jun 02, 2023 at 08:54:35AM +0100, Naushir Patuck wrote:
+> > > Hi Sakari,
+> > >
+> > > Thank you for working on this. Sensor metadata is something that
+> > > Raspberry Pi do make extensive use of, and our downstream changes to
+> > > support it, although a bit hacky, are not too dissimilar to your proposal
+> > > here.
+> > >
+> > > On Fri, 5 May 2023 at 22:53, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+> > > >
+> > > > Hi folks,
+> > > >
+> > > > Here are a few patches to add support generic, line based metadata as well
+> > > > as internal source pads. While the amount of code is not very large, to
+> > > > the contrary it is quite small actually IMO, I presume what this is about
+> > > > and why it is being proposed requires some explaining.
+> > > >
+> > > > Metadata mbus codes and formats have existed for some time in V4L2. They
+> > > > however have been only used by drivers that produce the data itself and
+> > > > effectively this metadata has always been statistics of some sort (at
+> > > > least when it comes to ISPs). What is different here is that we intend to
+> > > > add support for metadata originating from camera sensors.
+> > > >
+> > > > Camera sensors produce different kinds of metadata, embedded data (usually
+> > > > register address--value pairs used to capture the frame, in a more or less
+> > > > sensor specific format), histograms (in a very sensor specific format),
+> > > > dark pixels etc. The number of these formats is probably going to be about
+> > > > as large as image data formats if not larger, as the image data formats
+> > > > are much better standardised but a smaller subset of them will be
+> > > > supported by V4L2, at least initially but possibly much more in the long
+> > > > run.
+> > > >
+> > > > Having this many device specific formats would be a major problem for all
+> > > > the other drivers along that pipeline (not to mention the users of those
+> > > > drivers), including bridge (e.g. CSI-2 to parallel) but especially CSI-2
+> > > > receiver drivers that have DMA: the poor driver developer would not only
+> > > > need to know camera sensor specific formats but to choose the specific
+> > > > packing of that format suitable for the DMA used by the hardware. It is
+> > > > unlikely many of these would ever get tested while being present on the
+> > > > driver API. Also adding new sensors with new embedded data formats would
+> > > > involve updating all bridge and CSI-2 receiver drivers. I don't expect
+> > > > this to be a workable approach.
+> > > >
+> > > > Instead what I'm proposing is to use specific metadata formats on the
+> > > > sensor devices only, on internal pads (more about those soon) of the
+> > > > sensors, only visible in the UAPI, and then generic mbus formats along the
+> > > > pipeline and finally generic V4L2 metadata formats on the DMAs (specific
+> > > > to bit depth and packing). This would unsnarl the two, defining what data
+> > > > there is (specific mbus code) and how that is transported and packed
+> > > > (generic mbus codes and V4L2 formats).
+> > > >
+> > > > The user space would be required to "know" the path of that data from the
+> > > > sensor's internal pad to the V4L2 video node. I do not see this as these
+> > > > devices require at least some knowledge of the pipeline, i.e. hardware at
+> > > > hand. Separating what the data means and how it is packed may even be
+> > > > beneficial: it allows separating code that interprets the data (sensor
+> > > > internal mbus code) from the code that accesses it (packing).
+> > > >
+> > > > These formats are in practice line based, meaning that there may be
+> > > > padding at the end of the line, depending on the bus as well as the DMA.
+> > > > If non-line based formats are needed, it is always possible to set the
+> > > > "height" field to 1.
+> > >
+> > > One thing that may be worth considering or clarifying - for the case of
+> > > the BCM2835 Unicam CSI-2 device, we only have 2x DMA output channels. So
+> > > one will match image data packets, and the other will match "everything
+> > > else". Typically "everything else" would only be CSI-2 embedded data, but
+> > > in the case of the Raspberry Pi Camera v3 (IMX708), it includes embedded
+> > > data, PDAF data, and HDR histogram data. Each of these outputs can be
+> > > programmed to use a different packet ID in the sensor, but since Unicam
+> > > only has a single DMA for "everything else", it all gets dumped into one
+> > > metadata buffer. But given we know the exact structure of the data
+> > > streams, it's trivial for useland to find the right bits in this buffer.
+> > > Of course, other CSI-2 receivers with more DMA channels might allow these
+> > > streams to end up in their own buffers.
+> > >
+> > > Nothing in your series seems to stop us operating Unicam in this way,
+> > > particularly because there is no fixed definition of the data format for
+> > > V4L2_META_FMT_GENERIC_8. So I don't think it's a problem, but perhaps
+> > > it's worth documenting that the metadata might include multiple streams
+> > > from the sensor?
+> >
+> > I believe this happens on other hardware, too, indeed. Currently the
+> > documentation says that
+> >
+> >         Any number of routes from streams on sink pads towards streams on
+> >         source pads is allowed, to the extent supported by drivers. For
+> >         every stream on a source pad, however, only a single route is
+> >         allowed.
+> >
+> >         (Documentation/userspace-api/media/v4l/dev-subdev.rst)
+> >
+> > This probably needs to be changed to allow what you'd need?
 > 
-> Add these fields to struct v4l2_meta_format and document them.
-> 
-> Also add V4L2_FMT_FLAG_META_LINE_BASED to tell a given format is
-> line-based i.e. these fields of struct v4l2_meta_format are valid for it.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  .../userspace-api/media/v4l/dev-meta.rst          | 15 +++++++++++++++
->  .../userspace-api/media/v4l/vidioc-enum-fmt.rst   |  7 +++++++
->  include/uapi/linux/videodev2.h                    | 10 ++++++++++
->  3 files changed, 32 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/dev-meta.rst b/Documentation/userspace-api/media/v4l/dev-meta.rst
-> index 0e7e1ee1471a..7d3a64514db0 100644
-> --- a/Documentation/userspace-api/media/v4l/dev-meta.rst
-> +++ b/Documentation/userspace-api/media/v4l/dev-meta.rst
-> @@ -65,3 +65,18 @@ to 0.
->        - ``buffersize``
->        - Maximum buffer size in bytes required for data. The value is set by the
->          driver.
-> +    * - __u32
-> +      - ``width``
-> +      - Width of a line of metadata in bytes. Valid when :c:type`v4l2_fmtdesc`
+> Yes, that last sentence sounds like it would (artificially wrt your
+> series) limit metadata buffers to only handle a single output stream.
+> However, I may have got the context of the paragraph wrong as well :)
 
-This departs from pixel formats, where the width is defined in pixels. I
-wonder what the implications will be for userspace. Seeing one
-implementation, both in a kernel driver and in libcamera, will help
-validating the API.
-
-> +	flag ``V4L2_FMT_FLAG_META_LINE_BASED`` is set, otherwise zero. See
-> +	:c:func:`VIDIOC_ENUM_FMT`.
-> +    * - __u32
-> +      - ``height``
-> +      - Height of a line of metadata in bytes. Valid when :c:type`v4l2_fmtdesc`
-
-The "height of a line" seems like a weird concept, especially if the
-height is expressed in bytes. I assume this is a bad copy&paste.
-
-> +	flag ``V4L2_FMT_FLAG_META_LINE_BASED`` is set, otherwise zero. See
-> +	:c:func:`VIDIOC_ENUM_FMT`.
-> +    * - __u32
-> +      - ``bytesperlines``
-> +      - Offset in bytes between the beginning of two consecutive lines. Valid
-> +	when :c:type`v4l2_fmtdesc` flag ``V4L2_FMT_FLAG_META_LINE_BASED`` is
-> +	set, otherwise zero. See :c:func:`VIDIOC_ENUM_FMT`.
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-> index 000c154b0f98..6d7664345a4e 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-> @@ -227,6 +227,13 @@ the ``mbus_code`` field is handled differently:
->  	The application can ask to configure the quantization of the capture
->  	device when calling the :ref:`VIDIOC_S_FMT <VIDIOC_G_FMT>` ioctl with
->  	:ref:`V4L2_PIX_FMT_FLAG_SET_CSC <v4l2-pix-fmt-flag-set-csc>` set.
-> +    * - ``V4L2_FMT_FLAG_META_LINE_BASED``
-> +      - 0x0200
-> +      - The metadata format is line-based. In this case the ``width``,
-> +	``height`` and ``bytesperline`` fields of :c:type:`v4l2_meta_format` are
-> +	valid. The buffer consists of ``height`` lines, each having ``width``
-> +	bytes of data and offset between the beginning of each two consecutive
-> +	lines is ``bytesperline``.
-
-If we add width and height for metadata formats, does it mean that
-drivers have to (or can) implement VIDIOC_ENUM_FRAMESIZES ? This should
-be documented.
-
->  
->  Return Value
->  ============
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index adcbdc15dcdb..3681b2c15901 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -873,6 +873,7 @@ struct v4l2_fmtdesc {
->  #define V4L2_FMT_FLAG_CSC_YCBCR_ENC		0x0080
->  #define V4L2_FMT_FLAG_CSC_HSV_ENC		V4L2_FMT_FLAG_CSC_YCBCR_ENC
->  #define V4L2_FMT_FLAG_CSC_QUANTIZATION		0x0100
-> +#define V4L2_FMT_FLAG_META_LINE_BASED		0x0200
->  
->  	/* Frame Size and frame rate enumeration */
->  /*
-> @@ -2407,10 +2408,19 @@ struct v4l2_sdr_format {
->   * struct v4l2_meta_format - metadata format definition
->   * @dataformat:		little endian four character code (fourcc)
->   * @buffersize:		maximum size in bytes required for data
-> + * @width:		number of bytes of data per line (valid for line based
-> + *			formats only, see format documentation)
-> + * @height:		number of lines of data per buffer (valid for line based
-> + *			formats only)
-> + * @bytesperline:	offset between the beginnings of two adjacent lines in
-> + *			bytes (valid for line based formats only)
->   */
->  struct v4l2_meta_format {
->  	__u32				dataformat;
->  	__u32				buffersize;
-> +	__u32				width;
-> +	__u32				height;
-> +	__u32				bytesperline;
->  } __attribute__ ((packed));
->  
->  /**
+That was exactly the purpose: I wanted to make sure we didn't allow this
+without thinking what other implications it could have --- for instance
+what you also mentioned, the V4L2 format of the related buffer.
 
 -- 
-Regards,
+Kind regards,
 
-Laurent Pinchart
+Sakari Ailus
