@@ -2,45 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A0A757203DA
-	for <lists+linux-media@lfdr.de>; Fri,  2 Jun 2023 15:59:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FA67720414
+	for <lists+linux-media@lfdr.de>; Fri,  2 Jun 2023 16:14:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235107AbjFBN7G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Jun 2023 09:59:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53944 "EHLO
+        id S234594AbjFBOO2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Jun 2023 10:14:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234960AbjFBN7F (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Jun 2023 09:59:05 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE9EB18C
-        for <linux-media@vger.kernel.org>; Fri,  2 Jun 2023 06:59:04 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (om126156168104.26.openmobile.ne.jp [126.156.168.104])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3E8C427C;
-        Fri,  2 Jun 2023 15:58:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1685714321;
-        bh=2PqDGuqhQ5r1RWSTDflcJCKZRUoSyG4x4hMXYIwMtlA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WYEkyS9dILj2/LijY1d0PjJQj+lYfINFdTDp0pmjv9DAvd5OtGc1uJ9q8puZPGRlQ
-         orp+bwu5Qf+WwdEZhL/CKSM5oYeAECZOioUOHh6RxoezaKt88+o670kY+SWP3xyLJn
-         1grg15B7v3NlxsknphbdxpZfMRfliz9TzFx65Vac=
-Date:   Fri, 2 Jun 2023 16:59:01 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Dmitry Perchanov <dmitry.perchanov@intel.com>
-Subject: Re: [PATCH 1/1] Revert "media: uvcvideo: Limit power line control
- for Acer EasyCamera"
-Message-ID: <20230602135901.GC24855@pendragon.ideasonboard.com>
-References: <20230602131919.3363606-1-sakari.ailus@linux.intel.com>
+        with ESMTP id S234114AbjFBOO1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Jun 2023 10:14:27 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB038197
+        for <linux-media@vger.kernel.org>; Fri,  2 Jun 2023 07:14:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685715266; x=1717251266;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9avcbil6vvfxfkM1rSXs+sD1lQ8LsK03Sx/8x1VNmEs=;
+  b=DNMS2TaSmQtY4WmfSgC8UUk3nGa14QCZnNVNRiK7iCUWJE2JysexrsSA
+   thj+JQctYVrI2eSBdXHA518Y0IhnrhgB6A+Vt+9CCKvTjCGWh0QGUC/03
+   2fefAwqrWYHlITTMlp3EARjMppPHjD5InlxYhBPl62cQHt/d/auQN8y+d
+   /l8Si7Wvktqkw3qVs85Wkn49OcaSNTDezruFKMSr/Ex6t7m3qh5fe9eSa
+   3/6h5Xy6ASIAAqLoYzNBTa8r+PHD3vxSumflu19I4HXJsGWynYELa6pKw
+   N/vSOe2RVV1WyrIIpeoJBTEqu0kLAWnZClna3yFAQz16e/bqhY63gUBA/
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="358305185"
+X-IronPort-AV: E=Sophos;i="6.00,213,1681196400"; 
+   d="scan'208";a="358305185"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 07:14:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="954519797"
+X-IronPort-AV: E=Sophos;i="6.00,213,1681196400"; 
+   d="scan'208";a="954519797"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 07:14:11 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id CDFD3120B16;
+        Fri,  2 Jun 2023 17:14:08 +0300 (EEST)
+Date:   Fri, 2 Jun 2023 14:14:08 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, bingbu.cao@intel.com
+Subject: Re: [PATCH v3 1/1] media: pci: ipu3-cio2: Obtain remote pad from
+ endpoint
+Message-ID: <ZHn5MH3o1l0lBhqS@kekkonen.localdomain>
+References: <20230515122127.590733-1-sakari.ailus@linux.intel.com>
+ <20230602091212.GB23701@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230602131919.3363606-1-sakari.ailus@linux.intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+In-Reply-To: <20230602091212.GB23701@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -49,50 +65,26 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Laurent,
 
-Thank you for the patch.
-
-On Fri, Jun 02, 2023 at 04:19:19PM +0300, Sakari Ailus wrote:
-> This reverts commit 5dd0eab84ae9a4b292baf1ad02e1a273c475cd04.
+On Fri, Jun 02, 2023 at 12:12:12PM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
 > 
-> Revert this patch as it has been merged twice. The earlier merged commit
-> is 81e78a6fc320 ("media: uvcvideo: Limit power line control for Acer
-> EasyCamera").
+> Thank you for the patch.
 > 
-> Reported-by: Dmitry Perchanov <dmitry.perchanov@intel.com>
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
-Oops, my bad.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  drivers/media/usb/uvc/uvc_driver.c | 9 ---------
->  1 file changed, 9 deletions(-)
+> On Mon, May 15, 2023 at 03:21:27PM +0300, Sakari Ailus wrote:
+> > Use the endpoint fwnode to find out the remote pad, instead of using the
+> > first source pad found. Also improve error messages.
 > 
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index 7aefa76a42b31..42ff9795f7000 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -2997,15 +2997,6 @@ static const struct usb_device_id uvc_ids[] = {
->  	  .bInterfaceProtocol	= 0,
->  	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
->  	/* Acer EasyCamera */
-> -	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-> -				| USB_DEVICE_ID_MATCH_INT_INFO,
-> -	  .idVendor		= 0x5986,
-> -	  .idProduct		= 0x1180,
-> -	  .bInterfaceClass	= USB_CLASS_VIDEO,
-> -	  .bInterfaceSubClass	= 1,
-> -	  .bInterfaceProtocol	= 0,
-> -	  .driver_info		= (kernel_ulong_t)&uvc_ctrl_power_line_limited },
-> -	/* Acer EasyCamera */
->  	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
->  				| USB_DEVICE_ID_MATCH_INT_INFO,
->  	  .idVendor		= 0x5986,
+> The commit message should explain *why*. Once I know why, I'll review
+> the patch :-)
+
+I thought it'd be trivial. :-)
+
+Using framework functions instead of open coding this in drivers, and using
+the pad related to the endpoint fwnode instead of just the first pad found.
+
+I'll add this to the commit message.
 
 -- 
-Regards,
-
-Laurent Pinchart
+Sakari Ailus
