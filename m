@@ -2,75 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1164E720909
-	for <lists+linux-media@lfdr.de>; Fri,  2 Jun 2023 20:22:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3902F720E88
+	for <lists+linux-media@lfdr.de>; Sat,  3 Jun 2023 09:43:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236787AbjFBSV7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Jun 2023 14:21:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40522 "EHLO
+        id S232096AbjFCHnz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 3 Jun 2023 03:43:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236593AbjFBSV5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Jun 2023 14:21:57 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 467A718C;
-        Fri,  2 Jun 2023 11:21:56 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C0B5260D3A;
-        Fri,  2 Jun 2023 18:21:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A609C433D2;
-        Fri,  2 Jun 2023 18:21:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685730115;
-        bh=wZmST5GqZfwNaXvG5ams1yOqiopsMBnwXrGfs0DzrKk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HxHBZ0/iZ+gWdLqiKl6YbDXzHpA124IhNDjyA68Fln6QGStTGDWjKUkHIrFN9xTU7
-         95B8CQ+aTdp9EW0NAufAfu/J99ZNMwPbFr0ROwPlNVB7+jpFxMx4LoXtuy9pAQyjKp
-         8sFG56C83swAIV2LURY2SsrrpVNha0ZqJsDjMfybtxHfV32X2XqmjFOSjFBudnww0z
-         AJ29/B2AeOuC4120GlF7y0cLJjI57ri2lUvIUm+mGMJOCxPSJ3vb+PEriH+04FpxU4
-         sMVMnuhAk1pTDZNQ5psWuVJ1IGHN46Bcy7i+HMOhMbxJbBNqzcuqQWNs71k5HLKuqk
-         ENBfjRGZl6hew==
-Date:   Fri, 2 Jun 2023 19:21:47 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Keith Zhao <keith.zhao@starfivetech.com>
-Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Emil Renner Berthing <kernel@esmil.dk>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        christian.koenig@amd.com, Bjorn Andersson <andersson@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Shawn Guo <shawnguo@kernel.org>, Jagan Teki <jagan@edgeble.ai>,
-        Chris Morgan <macromorgan@hotmail.com>,
-        Jack Zhu <jack.zhu@starfivetech.com>,
-        Shengyang Chen <shengyang.chen@starfivetech.com>,
-        Changhuang Liang <changhuang.liang@starfivetech.com>
-Subject: Re: [PATCH 1/9] dt-bindings: display: Add yamls for JH7110 display
- subsystem
-Message-ID: <20230602-uncommon-rejoicing-e73c0c475f9f@spud>
-References: <20230602074043.33872-1-keith.zhao@starfivetech.com>
- <20230602074043.33872-2-keith.zhao@starfivetech.com>
+        with ESMTP id S229453AbjFCHny (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 3 Jun 2023 03:43:54 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A50C01B4;
+        Sat,  3 Jun 2023 00:43:53 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-64d3bc0dce9so354810b3a.0;
+        Sat, 03 Jun 2023 00:43:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685778233; x=1688370233;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AWur87b6+FWCBKqxfBacalad+HJLdADtjiXHWwWG+kk=;
+        b=HdR32jWEiMDgRFNHZ4AmO+HfNOYRhIeMt1Z5uNTHesSQqHDELs6TlofSvDyhAYT35y
+         JtaJAitoMYef8byzb4Q/v3Q1X37KaWjsPrprQlD57U3+I6XKSx204zCQ1EOG7U21K4fq
+         fXT6MUWv5fX/6d68aknWQA62HaAXaJ7DT2OMuNznhhusSLzEaG5OodKAGVCBaeTD9In5
+         UhGE6Caok7XVhyUI2FU8bRU0U+QCu7mWwwuYcu4PH+H+U4yRVxt3yqk20JfkptJRMas7
+         0UZzD5imjL3NijdOtD+bWCh0OhMtk0o+uTjgUT+aeEfbUcXYkTQbxshWNa3CPUXt94Qk
+         PETw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685778233; x=1688370233;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AWur87b6+FWCBKqxfBacalad+HJLdADtjiXHWwWG+kk=;
+        b=Q5j3DyyBLozk4djJhqFIOJfYkfcUt2wBwQzONJrw1v3c1GHVlhZyGDzo4QC2lej1SG
+         ZgskMl09MlWqLRM1WsoLjb2CS3a3j3we7g8GdISxL+l236eFRiqNsHxBNqKgwpZXCblI
+         4kRSsf2xAit83lmVGh/+rMF6v/V2fpO5BKbyVyfSpCp0psvYxXtBnLU44n2BxPW3nW9b
+         5cjSqKTxyV8Md6CfDtvcw74g6Yl7a7jjc8zd990fTK3NyPuqD125XQXgJkHZXygGSwAn
+         ph1eMggDW/eyYOrcN5ZLNFRDRgQWdQJirA1o9XY3EKQGvizZEIEHaqXUiOFw6poWfTHx
+         2s1w==
+X-Gm-Message-State: AC+VfDybrFjP8Flf11fFWaXBc5wlLAenYR56F4EaDfOh0Cg6oC8kWK/h
+        LI/lUvY9dZe9HcBYUKqrETf2t59o1Rk1MH9+
+X-Google-Smtp-Source: ACHHUZ7Sb3282pwyR3Z2zP7ICZ4Es7PNecGCmDTkrXI02OgZnCeM/hb458Wo12XIa+dX4RK3fGmPTQ==
+X-Received: by 2002:a17:902:ecc5:b0:1ae:1364:6086 with SMTP id a5-20020a170902ecc500b001ae13646086mr12068845plh.2.1685778232982;
+        Sat, 03 Jun 2023 00:43:52 -0700 (PDT)
+Received: from ubuntu.localdomain ([183.208.21.185])
+        by smtp.gmail.com with ESMTPSA id 12-20020a170902c10c00b001afd275e186sm2525846pli.286.2023.06.03.00.43.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Jun 2023 00:43:52 -0700 (PDT)
+From:   Min Li <lm0963hack@gmail.com>
+To:     alexander.deucher@amd.com
+Cc:     christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+        daniel@ffwll.ch, sumit.semwal@linaro.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: [PATCH v2] drm/radeon: fix race condition UAF in  radeon_gem_set_domain_ioctl
+Date:   Sat,  3 Jun 2023 15:43:45 +0800
+Message-Id: <20230603074345.17907-1-lm0963hack@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="MvIfnYU0aT/WgDUu"
-Content-Disposition: inline
-In-Reply-To: <20230602074043.33872-2-keith.zhao@starfivetech.com>
-X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,232 +71,45 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Userspace can race to free the gobj(robj converted from), robj should not
+be accessed again after drm_gem_object_put, otherwith it will result in
+use-after-free.
 
---MvIfnYU0aT/WgDUu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Min Li <lm0963hack@gmail.com>
+---
+Changes in v2:
+- Remove unused robj, avoid compile complain
 
-Hey Keith,
+ drivers/gpu/drm/radeon/radeon_gem.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-On Fri, Jun 02, 2023 at 03:40:35PM +0800, Keith Zhao wrote:
-> Add bindings for JH7110 display subsystem which
-> has a display controller verisilicon dc8200
-> and an HDMI interface.
->=20
-> Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
-> ---
->  .../display/verisilicon/starfive-hdmi.yaml    |  93 +++++++++++++++
->  .../display/verisilicon/verisilicon-dc.yaml   | 110 ++++++++++++++++++
->  .../display/verisilicon/verisilicon-drm.yaml  |  42 +++++++
->  .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
->  MAINTAINERS                                   |   7 ++
->  5 files changed, 254 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/verisilicon=
-/starfive-hdmi.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/verisilicon=
-/verisilicon-dc.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/verisilicon=
-/verisilicon-drm.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/display/verisilicon/starfi=
-ve-hdmi.yaml b/Documentation/devicetree/bindings/display/verisilicon/starfi=
-ve-hdmi.yaml
-> new file mode 100644
-> index 000000000000..c30b7954a355
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/verisilicon/starfive-hdmi=
-=2Eyaml
-> @@ -0,0 +1,93 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/verisilicon/starfive-hdmi.yam=
-l#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: StarFive HDMI transmiter
-> +
-> +description:
-> +  The StarFive SoC uses the HDMI signal transmiter based on innosilicon =
-IP
+diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
+index bdc5af23f005..d3f5ddbc1704 100644
+--- a/drivers/gpu/drm/radeon/radeon_gem.c
++++ b/drivers/gpu/drm/radeon/radeon_gem.c
+@@ -459,7 +459,6 @@ int radeon_gem_set_domain_ioctl(struct drm_device *dev, void *data,
+ 	struct radeon_device *rdev = dev->dev_private;
+ 	struct drm_radeon_gem_set_domain *args = data;
+ 	struct drm_gem_object *gobj;
+-	struct radeon_bo *robj;
+ 	int r;
+ 
+ 	/* for now if someone requests domain CPU -
+@@ -472,13 +471,12 @@ int radeon_gem_set_domain_ioctl(struct drm_device *dev, void *data,
+ 		up_read(&rdev->exclusive_lock);
+ 		return -ENOENT;
+ 	}
+-	robj = gem_to_radeon_bo(gobj);
+ 
+ 	r = radeon_gem_set_domain(gobj, args->read_domains, args->write_domain);
+ 
+ 	drm_gem_object_put(gobj);
+ 	up_read(&rdev->exclusive_lock);
+-	r = radeon_gem_handle_lockup(robj->rdev, r);
++	r = radeon_gem_handle_lockup(rdev, r);
+ 	return r;
+ }
+ 
+-- 
+2.34.1
 
-Is innosilicon the same thing as verisilicon? Also
-s/transmiter/transmitter/, both here and in the title.
-
-
-> +  to generate HDMI signal from its input and transmit the signal to the =
-screen.
-> +
-> +maintainers:
-> +  - Keith Zhao <keith.zhao@starfivetech.com>
-> +  - ShengYang Chen <shengyang.chen@starfivetech.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: starfive,hdmi
-
-Is this going to work on every SoC that StarFive has ever & will ever
-make? Please use soc-based compatibles ;)
-
-> +
-> +  reg:
-> +    minItems: 1
-> +
-> +  interrupts:
-> +    items:
-> +      - description: The HDMI hot plug detection interrupt.
-> +
-> +  clocks:
-> +    items:
-> +      - description: System clock of HDMI module.
-> +      - description: Mclk clock of HDMI audio.
-> +      - description: Bclk clock of HDMI audio.
-> +      - description: Pixel clock generated by HDMI module.
-> +
-> +  clock-names:
-> +    items:
-> +      - const: sysclk
-> +      - const: mclk
-> +      - const: bclk
-> +      - const: pclk
-> +
-> +  resets:
-> +    items:
-> +      - description: Reset for HDMI module.
-> +
-> +  reset-names:
-> +    items:
-> +      - const: hdmi_tx
-
-You only have one item here, you don't need the "items: - const:",
-"const:" alone will do.
-
-
-> diff --git a/Documentation/devicetree/bindings/display/verisilicon/verisi=
-licon-dc.yaml b/Documentation/devicetree/bindings/display/verisilicon/veris=
-ilicon-dc.yaml
-> new file mode 100644
-> index 000000000000..1322502c4cde
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/verisilicon/verisilicon-d=
-c.yaml
-> @@ -0,0 +1,110 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/verisilicon/verisilicon-dc.ya=
-ml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: StarFive display controller
-> +
-> +description:
-> +  The StarFive SoC uses the display controller based on Verisilicon IP
-> +  to transfer the image data from a video memory
-> +  buffer to an external LCD interface.
-
-Is it based on Verisilicon IP, or is it exactly that verisilicon IP? I
-ask because...
-
-> +maintainers:
-> +  - Keith Zhao <keith.zhao@starfivetech.com>
-> +  - ShengYang Chen <shengyang.chen@starfivetech.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: verisilicon,dc8200
-
-=2E..the compatible is the verisilicon IP. I would be a lot happier if
-the compatibles were set yp for something like:
-"starfive,jh7110-foo", "verisilicon,dc8200"
-
-> diff --git a/Documentation/devicetree/bindings/display/verisilicon/verisi=
-licon-drm.yaml b/Documentation/devicetree/bindings/display/verisilicon/veri=
-silicon-drm.yaml
-> new file mode 100644
-> index 000000000000..aed8d4af2c55
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/verisilicon/verisilicon-d=
-rm.yaml
-> @@ -0,0 +1,42 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/verisilicon/verisilicon-drm.y=
-aml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Verisilicon DRM master device
-> +
-> +maintainers:
-> +  - Keith Zhao <keith.zhao@starfivetech.com>
-> +  - ShengYang Chen <shengyang.chen@starfivetech.com>
-> +
-> +description: |
-> +  The Verisilicon DRM master device is a virtual device needed to list a=
-ll
-> +  display controller or other display interface nodes that comprise the
-> +  graphics subsystem.
-> +
-> +properties:
-> +  compatible:
-> +    const: verisilicon,display-subsystem
-
-Same here.
-
-> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Doc=
-umentation/devicetree/bindings/vendor-prefixes.yaml
-> index 82d39ab0231b..52c04fd098be 100644
-> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> @@ -1436,6 +1436,8 @@ patternProperties:
->      description: Variscite Ltd.
->    "^vdl,.*":
->      description: Van der Laan b.v.
-> +  "^verisilicon,.*":
-> +    description: Verisilicon Technologies, Inc.
-
-This should be in it's own patch.
-
-Cheers,
-Conor.
-
->    "^vertexcom,.*":
->      description: Vertexcom Technologies, Inc.
->    "^via,.*":
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 2a0496448b7f..293aa13d484c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7049,6 +7049,13 @@ F:	Documentation/devicetree/bindings/display/brcm,=
-bcm2835-*.yaml
->  F:	drivers/gpu/drm/vc4/
->  F:	include/uapi/drm/vc4_drm.h
-> =20
-> +DRM DRIVERS FOR VERISILICON
-> +M:	Keith Zhao <keith.zhao@starfivetech.com>
-> +L:	dri-devel@lists.freedesktop.org
-> +S:	Maintained
-> +T:	git git://anongit.freedesktop.org/drm/drm-misc
-> +F:	Documentation/devicetree/bindings/display/verisilicon/
-> +
->  DRM DRIVERS FOR VIVANTE GPU IP
->  M:	Lucas Stach <l.stach@pengutronix.de>
->  R:	Russell King <linux+etnaviv@armlinux.org.uk>
-> --=20
-> 2.34.1
->=20
-
---MvIfnYU0aT/WgDUu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZHozOwAKCRB4tDGHoIJi
-0qGfAQCOw/FcLRxZ76ev3AIGXrIb1ZeNQe+VXPB56KKXU2pSxwEArYO0igKszta9
-cCp+5+8uMIkgXInjUhRVx70UBTTb9gs=
-=sbrO
------END PGP SIGNATURE-----
-
---MvIfnYU0aT/WgDUu--
