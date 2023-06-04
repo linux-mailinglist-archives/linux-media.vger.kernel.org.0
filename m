@@ -2,114 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3902F720E88
-	for <lists+linux-media@lfdr.de>; Sat,  3 Jun 2023 09:43:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC97272154A
+	for <lists+linux-media@lfdr.de>; Sun,  4 Jun 2023 09:15:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232096AbjFCHnz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 3 Jun 2023 03:43:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52508 "EHLO
+        id S230159AbjFDHPu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 4 Jun 2023 03:15:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbjFCHny (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 3 Jun 2023 03:43:54 -0400
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A50C01B4;
-        Sat,  3 Jun 2023 00:43:53 -0700 (PDT)
-Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-64d3bc0dce9so354810b3a.0;
-        Sat, 03 Jun 2023 00:43:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685778233; x=1688370233;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AWur87b6+FWCBKqxfBacalad+HJLdADtjiXHWwWG+kk=;
-        b=HdR32jWEiMDgRFNHZ4AmO+HfNOYRhIeMt1Z5uNTHesSQqHDELs6TlofSvDyhAYT35y
-         JtaJAitoMYef8byzb4Q/v3Q1X37KaWjsPrprQlD57U3+I6XKSx204zCQ1EOG7U21K4fq
-         fXT6MUWv5fX/6d68aknWQA62HaAXaJ7DT2OMuNznhhusSLzEaG5OodKAGVCBaeTD9In5
-         UhGE6Caok7XVhyUI2FU8bRU0U+QCu7mWwwuYcu4PH+H+U4yRVxt3yqk20JfkptJRMas7
-         0UZzD5imjL3NijdOtD+bWCh0OhMtk0o+uTjgUT+aeEfbUcXYkTQbxshWNa3CPUXt94Qk
-         PETw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685778233; x=1688370233;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AWur87b6+FWCBKqxfBacalad+HJLdADtjiXHWwWG+kk=;
-        b=Q5j3DyyBLozk4djJhqFIOJfYkfcUt2wBwQzONJrw1v3c1GHVlhZyGDzo4QC2lej1SG
-         ZgskMl09MlWqLRM1WsoLjb2CS3a3j3we7g8GdISxL+l236eFRiqNsHxBNqKgwpZXCblI
-         4kRSsf2xAit83lmVGh/+rMF6v/V2fpO5BKbyVyfSpCp0psvYxXtBnLU44n2BxPW3nW9b
-         5cjSqKTxyV8Md6CfDtvcw74g6Yl7a7jjc8zd990fTK3NyPuqD125XQXgJkHZXygGSwAn
-         ph1eMggDW/eyYOrcN5ZLNFRDRgQWdQJirA1o9XY3EKQGvizZEIEHaqXUiOFw6poWfTHx
-         2s1w==
-X-Gm-Message-State: AC+VfDybrFjP8Flf11fFWaXBc5wlLAenYR56F4EaDfOh0Cg6oC8kWK/h
-        LI/lUvY9dZe9HcBYUKqrETf2t59o1Rk1MH9+
-X-Google-Smtp-Source: ACHHUZ7Sb3282pwyR3Z2zP7ICZ4Es7PNecGCmDTkrXI02OgZnCeM/hb458Wo12XIa+dX4RK3fGmPTQ==
-X-Received: by 2002:a17:902:ecc5:b0:1ae:1364:6086 with SMTP id a5-20020a170902ecc500b001ae13646086mr12068845plh.2.1685778232982;
-        Sat, 03 Jun 2023 00:43:52 -0700 (PDT)
-Received: from ubuntu.localdomain ([183.208.21.185])
-        by smtp.gmail.com with ESMTPSA id 12-20020a170902c10c00b001afd275e186sm2525846pli.286.2023.06.03.00.43.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Jun 2023 00:43:52 -0700 (PDT)
-From:   Min Li <lm0963hack@gmail.com>
-To:     alexander.deucher@amd.com
-Cc:     christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
-        daniel@ffwll.ch, sumit.semwal@linaro.org,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: [PATCH v2] drm/radeon: fix race condition UAF in  radeon_gem_set_domain_ioctl
-Date:   Sat,  3 Jun 2023 15:43:45 +0800
-Message-Id: <20230603074345.17907-1-lm0963hack@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S230003AbjFDHPr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 4 Jun 2023 03:15:47 -0400
+X-Greylist: delayed 435 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 04 Jun 2023 00:15:44 PDT
+Received: from mail.diadema.sp.gov.br (mail.diadema.sp.gov.br [200.153.16.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA0FECE
+        for <linux-media@vger.kernel.org>; Sun,  4 Jun 2023 00:15:44 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.diadema.sp.gov.br (Postfix) with ESMTP id 3D6D896C1D2;
+        Sun,  4 Jun 2023 04:07:09 -0300 (-03)
+Received: from mail.diadema.sp.gov.br ([127.0.0.1])
+        by localhost (mail.diadema.sp.gov.br [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id g7-waQKNzzMs; Sun,  4 Jun 2023 04:07:08 -0300 (-03)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.diadema.sp.gov.br (Postfix) with ESMTP id 6566896BC63;
+        Sun,  4 Jun 2023 04:07:08 -0300 (-03)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.diadema.sp.gov.br 6566896BC63
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=diadema.sp.gov.br;
+        s=25A41A26-4FDF-11ED-83D0-4B9B608C6F70; t=1685862428;
+        bh=7Ez42jgY5PB9iCvhI35V/Q8sOJnkv/7lAeiglxZ7bJw=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=kqIgHgMjy0vuAQDGi7ueeRlzmiNVLh3yZAgsj4N0LCyoWQaO22DzJciZzZ1TUBojA
+         eBmnZDpukQhJtow/IEb1+Yi2gI+c5HDYBfN9wu8Vc3bGDUaNFTYhngutEXYyAYhnF9
+         ETISvdqU/Q6abknpA1/8DK+RiBAhFur3NGU4J9WvBEiFaEtB5QL/V7fP11xwyP/rH8
+         i+Nj4WCKizaFkAMOez3cVOHYksI3XbN3yQYUGGrQFMJhdeYfJOOjLplfl7SqsRpmbL
+         IJYZeFXGDXnFr6UX1FGaxRoxgqt6tvkAwFCf517hQO1GrjRuPgcwRDv9W9V1vh7yPn
+         PmT1p5EwzyFsA==
+X-Virus-Scanned: amavisd-new at diadema.sp.gov.br
+Received: from mail.diadema.sp.gov.br ([127.0.0.1])
+        by localhost (mail.diadema.sp.gov.br [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id zxZkvVmYpRYl; Sun,  4 Jun 2023 04:07:08 -0300 (-03)
+Received: from [100.81.100.83] (unknown [117.98.0.174])
+        by mail.diadema.sp.gov.br (Postfix) with ESMTPSA id 37A1196C1D2;
+        Sun,  4 Jun 2023 04:06:46 -0300 (-03)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Quick Loans
+To:     Recipients <ada.novato@diadema.sp.gov.br>
+From:   Finance Service <ada.novato@diadema.sp.gov.br>
+Date:   Sun, 04 Jun 2023 12:36:24 +0530
+Reply-To: infoinnoxfinanceloansservice@aol.com
+Message-Id: <20230604070647.37A1196C1D2@mail.diadema.sp.gov.br>
+X-Spam-Status: No, score=4.4 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_REPLYTO,LOTS_OF_MONEY,
+        MONEY_FORM_SHORT,MONEY_FREEMAIL_REPTO,SPF_HELO_NONE,SPF_PASS,
+        T_FILL_THIS_FORM_SHORT,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Userspace can race to free the gobj(robj converted from), robj should not
-be accessed again after drm_gem_object_put, otherwith it will result in
-use-after-free.
-
-Signed-off-by: Min Li <lm0963hack@gmail.com>
----
-Changes in v2:
-- Remove unused robj, avoid compile complain
-
- drivers/gpu/drm/radeon/radeon_gem.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
-index bdc5af23f005..d3f5ddbc1704 100644
---- a/drivers/gpu/drm/radeon/radeon_gem.c
-+++ b/drivers/gpu/drm/radeon/radeon_gem.c
-@@ -459,7 +459,6 @@ int radeon_gem_set_domain_ioctl(struct drm_device *dev, void *data,
- 	struct radeon_device *rdev = dev->dev_private;
- 	struct drm_radeon_gem_set_domain *args = data;
- 	struct drm_gem_object *gobj;
--	struct radeon_bo *robj;
- 	int r;
- 
- 	/* for now if someone requests domain CPU -
-@@ -472,13 +471,12 @@ int radeon_gem_set_domain_ioctl(struct drm_device *dev, void *data,
- 		up_read(&rdev->exclusive_lock);
- 		return -ENOENT;
- 	}
--	robj = gem_to_radeon_bo(gobj);
- 
- 	r = radeon_gem_set_domain(gobj, args->read_domains, args->write_domain);
- 
- 	drm_gem_object_put(gobj);
- 	up_read(&rdev->exclusive_lock);
--	r = radeon_gem_handle_lockup(robj->rdev, r);
-+	r = radeon_gem_handle_lockup(rdev, r);
- 	return r;
- }
- 
--- 
-2.34.1
-
+Innox Finance Company offered loans to local and international customers ev=
+en in the most remote parts of the world with a minimum amount of ten thous=
+and($10,000.00) to a maximum of thirty million($30,000,000.00) and a repaym=
+ent schedule of 1 to 30 years offered with 2% low interest. Apply now by se=
+nding your (Full Name,Loan Amount,Loan Duration,Home Add,Mob No).
