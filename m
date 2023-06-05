@@ -2,78 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B1592721DFB
-	for <lists+linux-media@lfdr.de>; Mon,  5 Jun 2023 08:20:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 242D672208C
+	for <lists+linux-media@lfdr.de>; Mon,  5 Jun 2023 10:07:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229701AbjFEGUw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Jun 2023 02:20:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44994 "EHLO
+        id S229549AbjFEIHY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Jun 2023 04:07:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229610AbjFEGUv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Jun 2023 02:20:51 -0400
-Received: from mx.sberdevices.ru (mx.sberdevices.ru [45.89.227.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3058D3;
-        Sun,  4 Jun 2023 23:20:47 -0700 (PDT)
-Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
-        by mx.sberdevices.ru (Postfix) with ESMTP id 4DC775FD15;
-        Mon,  5 Jun 2023 09:20:46 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
-        s=mail; t=1685946046;
-        bh=2KAsCU42EiMjbzwiktcMUuj5UfQt9UM/5eVvfCSxVvM=;
-        h=Message-ID:Date:MIME-Version:Subject:From:To:Content-Type;
-        b=IDE46UN5kZxXnErYF9ZLvi0uhQBmWuzKPbextrMsB9YafPfaEL3ReOZCiiXbuP7jk
-         05IMdtTGwCiqJ3oDkBpys+BIKBnoKjptKLHeytNtSE9QDtYVCFRIIPA9r+DiE/EGBe
-         /cFj/IWZuVxSfb70u28KNIk7NghliKm2kj03oMNZ0u2+1/WC27cOHFACmHiOIEfir1
-         yUe/N43peGpnv9OaT5M7hct+NcbLiBqAi7+dZLjLBjiOyxOzqonRzSKelz6EsemUeD
-         AGGYntEzAtUUQuY4ld90OXU/ZH2ZYXf/AJjsWDGqTicT30zVPGTtRKezP7m7wYU57h
-         jY3aLGhaYXgIg==
-Received: from S-MS-EXCH01.sberdevices.ru (S-MS-EXCH01.sberdevices.ru [172.16.1.4])
-        by mx.sberdevices.ru (Postfix) with ESMTP;
-        Mon,  5 Jun 2023 09:20:42 +0300 (MSK)
-Message-ID: <39fa42a4-80f4-5c55-a59d-a2a786df6caa@sberdevices.ru>
-Date:   Mon, 5 Jun 2023 09:15:51 +0300
+        with ESMTP id S230361AbjFEIHU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Jun 2023 04:07:20 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D52AAF
+        for <linux-media@vger.kernel.org>; Mon,  5 Jun 2023 01:07:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685952439; x=1717488439;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GtSfj1LgmRgrIEYm4Jj5FaJuaz6ZxcAyzCDjlEgus9k=;
+  b=a3AptKbMOwEEL0PI7FdNt3ow6sSHEFqan6NszHmwSGEcR9c39Z3ULPtr
+   1SrLTaceznxG4X7jy7VYnEErUUcUy/+FdpzawZ3Pmy/W3L/bFx4byV3YU
+   Cn4cOnBL/hWa07QlE6YYs/+cNoHCaQEYpZsc4bctDdPr1rl5wV1WysOgZ
+   08JJPdBT7OTapmg72Q3XfCpOxLWGsCxQgUNMUM3cOMXKJbsGntih2dA4n
+   0em/jZd6xGkulBFxJGFULWTi+cc67nBV9W7t2DjeWM5CBcxDmYE/F1z76
+   x7BTvKo1keWIoLWn2jPnDsU9erS+qSTR7VqfKl74mNWKlhIUbKzDe3tn3
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="422135967"
+X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
+   d="scan'208";a="422135967"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 01:07:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="778449199"
+X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
+   d="scan'208";a="778449199"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 01:07:00 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 22C73120A13;
+        Mon,  5 Jun 2023 11:06:58 +0300 (EEST)
+Date:   Mon, 5 Jun 2023 08:06:58 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org, bingbu.cao@intel.com,
+        hongju.wang@intel.com
+Subject: Re: [RFC 2/7] media: v4l: subdev: Support INTERNAL_SOURCE pads in
+ routing IOCTLs
+Message-ID: <ZH2XokhNNc6Sql64@kekkonen.localdomain>
+References: <20230505215257.60704-1-sakari.ailus@linux.intel.com>
+ <20230505215257.60704-3-sakari.ailus@linux.intel.com>
+ <691a9d35-218f-4eef-ddb0-5834f1e222c8@ideasonboard.com>
+ <ZFjp6jtJk4WIeXCx@kekkonen.localdomain>
+ <20230602094407.GF19463@pendragon.ideasonboard.com>
+ <20230602094650.GG19463@pendragon.ideasonboard.com>
+ <ZHnqUG7o+njqGCco@kekkonen.localdomain>
+ <20230604142626.GF7754@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [RESEND PATCH v3] mtd: rawnand: macronix: OTP access for
- MX30LFxG18AC
-Content-Language: en-US
-From:   Arseniy Krasnov <avkrasnov@sberdevices.ru>
-To:     liao jaime <jaimeliao.tw@gmail.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>
-CC:     Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        <oxffffaa@gmail.com>, <kernel@sberdevices.ru>,
-        <linux-mtd@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>,
-        Mason Yang <masonccyang@mxic.com.tw>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Jaime Liao <jaimeliao@mxic.com.tw>
-References: <20230511152120.3297853-1-AVKrasnov@sberdevices.ru>
- <c873b5a9-17ad-767c-5b20-35a49ab2bd40@sberdevices.ru>
- <aa67ee8b-898b-319b-f167-b554700842b3@sberdevices.ru>
- <20230522161446.16d1f307@xps-13>
- <CAAQoYRkTMpeHABxwRAXVtyuUNXhEk8njcXxJiH7PWg3UsERVVQ@mail.gmail.com>
- <038d48cc-cdc6-cdc2-69e6-7768fb965fbe@sberdevices.ru>
- <693c003b-f993-d2dd-73ce-44836185b1f6@sberdevices.ru>
-In-Reply-To: <693c003b-f993-d2dd-73ce-44836185b1f6@sberdevices.ru>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [172.16.1.6]
-X-ClientProxiedBy: S-MS-EXCH02.sberdevices.ru (172.16.1.5) To
- S-MS-EXCH01.sberdevices.ru (172.16.1.4)
-X-KSMG-Rule-ID: 4
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Status: not scanned, disabled by settings
-X-KSMG-AntiSpam-Interceptor-Info: not scanned
-X-KSMG-AntiPhishing: not scanned, disabled by settings
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2023/06/05 01:06:00 #21433300
-X-KSMG-AntiVirus-Status: Clean, skipped
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230604142626.GF7754@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
         SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -82,371 +72,95 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello all guys!
+Hi Laurent,
 
-Sorry, ping, FYI there is v4:
-https://lore.kernel.org/linux-mtd/20230523101637.3009746-1-AVKrasnov@sberdevices.ru/
+On Sun, Jun 04, 2023 at 05:26:26PM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> On Fri, Jun 02, 2023 at 01:10:40PM +0000, Sakari Ailus wrote:
+> > On Fri, Jun 02, 2023 at 12:46:50PM +0300, Laurent Pinchart wrote:
+> > > On Fri, Jun 02, 2023 at 12:44:12PM +0300, Laurent Pinchart wrote:
+> > > > On Mon, May 08, 2023 at 03:24:10PM +0300, Sakari Ailus wrote:
+> > > > > On Mon, May 08, 2023 at 01:14:07PM +0300, Tomi Valkeinen wrote:
+> > > > > > On 06/05/2023 00:52, Sakari Ailus wrote:
+> > > > > > > Take the new INTERNAL_SOURCE pad flag into account in validating routing
+> > > > > > > IOCTL argument. Effectively this is a SINK pad in this respect. Due to the
+> > > > > > > union there's no need to check for the particular name.
+> > > > > > 
+> > > > > > What union? The one you add in the next patch?
+> > > > > 
+> > > > > Oops. I think we can reorder the patches.
+> > > > > 
+> > > > > > As a concept the internal source pads sound good, and they work in practice
+> > > > > > in my tests. But this union is what grates me a bit. We have a flag,
+> > > > > > MEDIA_PAD_FL_INTERNAL_SOURCE, which tells which field of the union to use,
+> > > > > > and then we go and do not use the new union field. Well, and also the
+> > > > > > naming, as we normally have source and sink pads, but now we also have
+> > > > > > internal source pads, which are actually identical to sink pads...
+> > > > > 
+> > > > > The union still should be used by the user space. We're testing flags here
+> > > > > and those flags are the same independently of the INTERNAL_SOURCE flag.
+> > > > > 
+> > > > > I'm fine by not adding that union though, but for the user space I think
+> > > > > it's better we have it: explaining that the sink_pad has a different
+> > > > > meaning if that flag is set is harder than making it a union member.
+> > > > > 
+> > > > > > I understand the idea and reasoning, but the two points above do confuse me
+> > > > > > and I'm sure would confuse others also.
+> > > > > > 
+> > > > > > I wonder if it would be less or more confusing to simplify this by just
+> > > > > > adding a MEDIA_PAD_FL_INTERNAL, which could be applied to either a source or
+> > > > > > a sink pad, and would prevent linking to it. The flag would indicate that
+> > > > > > the stream from/to that pad is generated/consumed internally. (I don't know
+> > > > > > when you would need an internal pad to consume data, but... who knows, the
+> > > > > > need might pop up =).
+> > > > > 
+> > > > > This is another option. But I envision there will be more compatibility
+> > > > > issues. Although... generally using such hardware requires knowledge of the
+> > > > > device, and we haven't obviously had any support for devices needing this
+> > > > > functionality in the tree. So in the end it might not matter much.
+> > > > >
+> > > > > > That would mean that an "internal sink pad" would generate a data stream,
+> > > > > > i.e. it's a "source", but I think a normal sink pad is almost the same
+> > > > > > anyway: when considering entity's internal routing, the normal sink pad is a
+> > > > > > "source", and the same logic would apply with the internal pads too.
+> > > > > > 
+> > > > > > An internal sink pad that generates a stream is a bit more confusing than an
+> > > > > > internal source pad, but I think that confusion is less than the rest of the
+> > > > > > confusion in the code-side that comes with the internal source pads.
+> > > > > 
+> > > > > I prefer having the possible sources of the confusion in the framework than
+> > > > > in the drivers. Therefore I think INTERNAL_SOURCE flag is a (slightly)
+> > > > > better option.
+> > > > > 
+> > > > > I wonder what Llaurent thinks.
+> > > > 
+> > > > I like the idea of a MEDIA_PAD_FL_INTERNAL flag. That's actually how I
+> > > > read patch 1/7, I didn't notice it used MEDIA_PAD_FL_INTERNAL*_SOURCE*
+> > > > :-)
+> > > > 
+> > > > We could define MEDIA_PAD_FL_INTERNAL_SOURCE
+> > > > 
+> > > > #define MEDIA_PAD_FL_INTERNAL_SOURCE 	(MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_INTERNAL)
+> > > 
+> > > One option would be to find terms different from sink and source in this
+> > > case. It would generate less confusion to map (e.g., not a really good
+> > > name) MEDIA_PAD_FL_INTERNAL_PRODUCER to MEDIA_PAD_FL_SINK and to the
+> > > sink_pad field than using MEDIA_PAD_FL_INTERNAL_SOURCE.
+> > 
+> > I don't think this helps as you'd still be accessing the sink pad related
+> > fields that are there for another purpose.
+> > 
+> > Alternatively I'd have the (plain) INTERNAL flag and drop the union,
+> > without masking or adding compound flags.
+> > 
+> > I can switch to that if you promise not to change your mind again. ;-)
+> 
+> I'll do my best :-) Could you show the impact (if any) it would have on
+> drivers when accessing the routing fields ?
 
-Thanks, Arseniy
+I don't think there's much of an impact for the drivers. It's mainly
+affecting setting up pads for the entities. Tomi?
 
-On 25.05.2023 10:02, Arseniy Krasnov wrote:
-> 
-> 
-> On 24.05.2023 10:13, Arseniy Krasnov wrote:
->>
->>
->> On 24.05.2023 09:33, liao jaime wrote:
->>> Hi Miquel
->>>
->>>>
->>>> Hi Arseniy,
->>>>
->>>> avkrasnov@sberdevices.ru wrote on Mon, 15 May 2023 12:49:50 +0300:
->>>>
->>>>> Hello @Miquel!
->>>>>
->>>>> Sorry, but who could review this patch? :) IIUC this logic is very hw specific and we need
->>>>> someone who knows it well? I tested this patch on our devices (with already known Meson NAND
->>>>> controller).
->>>>
->>>> + Jaime, who might test
->>>>
->>>>>
->>>>> Thanks, Arseniy
->>>>>
->>>>> On 11.05.2023 21:21, Arseniy Krasnov wrote:
->>>>>> Cc: Mason Yang <masonccyang@mxic.com.tw> and Boris Brezillon <boris.brezillon@collabora.com>
->>>>>>
->>>>>> On 11.05.2023 18:21, Arseniy Krasnov wrote:
->>>>>>> This adds support for OTP area access on MX30LFxG18AC chip series.
->>>>>>>
->>>>>>> Changelog:
->>>>>>>   v1 -> v2:
->>>>>>>   * Add slab.h include due to kernel test robot error.
->>>>>>>   v2 -> v3:
->>>>>>>   * Use 'uint64_t' as input argument for 'do_div()' instead
->>>>>>>     of 'unsigned long' due to kernel test robot error.
->>>>>>>
->>>>>>> Signed-off-by: Arseniy Krasnov <AVKrasnov@sberdevices.ru>
->>>>>>> ---
->>>>>>>  drivers/mtd/nand/raw/nand_macronix.c | 213 +++++++++++++++++++++++++++
->>>>>>>  1 file changed, 213 insertions(+)
->>>>>>>
->>>>>>> diff --git a/drivers/mtd/nand/raw/nand_macronix.c b/drivers/mtd/nand/raw/nand_macronix.c
->>>>>>> index 1472f925f386..2301f990678e 100644
->>>>>>> --- a/drivers/mtd/nand/raw/nand_macronix.c
->>>>>>> +++ b/drivers/mtd/nand/raw/nand_macronix.c
->>>>>>> @@ -6,6 +6,7 @@
->>>>>>>   * Author: Boris Brezillon <boris.brezillon@free-electrons.com>
->>>>>>>   */
->>>>>>>
->>>>>>> +#include <linux/slab.h>
->>>>>>>  #include "linux/delay.h"
->>>>>>>  #include "internals.h"
->>>>>>>
->>>>>>> @@ -31,6 +32,20 @@
->>>>>>>
->>>>>>>  #define MXIC_CMD_POWER_DOWN 0xB9
->>>>>>>
->>>>>>> +#define ONFI_FEATURE_ADDR_30LFXG18AC_OTP  0x90
->>>>>>> +#define MACRONIX_30LFXG18AC_OTP_START_PAGE        0
->>>>>>> +#define MACRONIX_30LFXG18AC_OTP_PAGES             30
->>>>>>> +#define MACRONIX_30LFXG18AC_OTP_PAGE_SIZE 2112
->>>>>>> +#define MACRONIX_30LFXG18AC_OTP_START_BYTE        \
->>>>>>> +  (MACRONIX_30LFXG18AC_OTP_START_PAGE *   \
->>>>>>> +   MACRONIX_30LFXG18AC_OTP_PAGE_SIZE)
->>>>>>> +#define MACRONIX_30LFXG18AC_OTP_SIZE_BYTES        \
->>>>>>> +  (MACRONIX_30LFXG18AC_OTP_PAGES *        \
->>>>>>> +   MACRONIX_30LFXG18AC_OTP_PAGE_SIZE)
->>>>>>> +
->>>>>>> +#define MACRONIX_30LFXG18AC_OTP_EN                BIT(0)
->>>>>>> +#define MACRONIX_30LFXG18AC_OTP_LOCKED            BIT(1)
->>>>>>> +
->>>>>>>  struct nand_onfi_vendor_macronix {
->>>>>>>    u8 reserved;
->>>>>>>    u8 reliability_func;
->>>>>>> @@ -316,6 +331,203 @@ static void macronix_nand_deep_power_down_support(struct nand_chip *chip)
->>>>>>>    chip->ops.resume = mxic_nand_resume;
->>>>>>>  }
->>>>>>>
->>>>>>> +static int macronix_30lfxg18ac_get_otp_info(struct mtd_info *mtd, size_t len,
->>>>>>> +                                      size_t *retlen,
->>>>>>> +                                      struct otp_info *buf)
->>>>>>> +{
->>>>>>> +  if (len < sizeof(*buf))
->>>>>>> +          return -EINVAL;
->>>>>>> +
->>>>>>> +  /* Don't know how to check that OTP is locked. */
->>>>
->>>> Jaime, any idea?
->>>
->>> OTP info could be check by GET_FEATURE command.
->>> GET_FEATURE command with address 90h could read sub-feature
->>> parameter table, P1 is "3" means OTP protection.
->>>
->>> Thanks
->>> Jaime
->>>
->>
->> Hello Jaime, thanks for quick reply!
->>
->> I have two devices - with locked and unlocked OTP. I call the following thing for each of them:
->>
->> @@ -339,6 +341,26 @@ static int macronix_30lfxg18ac_get_otp_info(struct mtd_info *mtd, size_t len,
->>                 return -EINVAL;
->>  
->>         /* Don't know how to check that OTP is locked. */
->> +       {
->> +               u8 feature_buf[ONFI_SUBFEATURE_PARAM_LEN] = { 0 };
->> +               struct nand_chip *nand;
->> +               int res;
->> +
->> +               nand = mtd_to_nand(mtd);
->> +
->> +               nand_select_target(nand, 0);
->> +
->> +               res = nand_get_features(nand, 0x90, feature_buf);
->> +
->> +               nand_deselect_target(nand);
->> +
->> +               printk(KERN_EMERG "\n\nRES %i OTP BUF %hhx %hhx %hhx %hhx\n\n\n",
->> +                                       res,
->> +                                       feature_buf[0],
->> +                                       feature_buf[1],
->> +                                       feature_buf[2],
->> +                                       feature_buf[3]);
->> +       }
->>         buf->locked = 0;
->>         buf->start = MACRONIX_30LFXG18AC_OTP_START_BYTE;
->>         buf->length = MACRONIX_30LFXG18AC_OTP_SIZE_BYTES;
->>
->> And get for both devices:
->>
->> [    4.228721] RES 0 OTP BUF 0 0 0 0
->>
->> May be i'm doing something wrong?
->>
->> Thanks, Arseniy
-> 
-> Small upd: I tried to
-> 
-> 1) Call 'nand_get_features()' when OTP mode is enabled, it just returns 1 0 0 0 (e.g. OTP mode enabled, on both locked and unlocked devs).
-> 2) Increase timings and delays in NAND controller driver - it didn't help.
-> 
-> Anyway, I see, that OTP status (enabled or disabled) is returned successfully, but locked status is always missed.
-> 
-> Thanks, Arseniy
-> 
->>
->>>>
->>>>>>> +  buf->locked = 0;
->>>>>>> +  buf->start = MACRONIX_30LFXG18AC_OTP_START_BYTE;
->>>>>>> +  buf->length = MACRONIX_30LFXG18AC_OTP_SIZE_BYTES;
->>>>>>> +
->>>>>>> +  *retlen = sizeof(*buf);
->>>>>>> +
->>>>>>> +  return 0;
->>>>>>> +}
->>>>>>> +
->>>>>>> +static int macronix_30lfxg18ac_otp_enable(struct nand_chip *nand)
->>>>>>> +{
->>>>>>> +  uint8_t feature_buf[ONFI_SUBFEATURE_PARAM_LEN] = { 0 };
->>>>>>> +
->>>>>>> +  feature_buf[0] = MACRONIX_30LFXG18AC_OTP_EN;
->>>>>>> +  return nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
->>>>>>> +                           feature_buf);
->>>>>>> +}
->>>>>>> +
->>>>>>> +static int macronix_30lfxg18ac_otp_disable(struct nand_chip *nand)
->>>>>>> +{
->>>>>>> +  uint8_t feature_buf[ONFI_SUBFEATURE_PARAM_LEN] = { 0 };
->>>>>>> +
->>>>>>> +  return nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
->>>>>>> +                           feature_buf);
->>>>>>> +}
->>>>>>> +
->>>>>>> +static int __macronix_30lfxg18ac_rw_otp(struct mtd_info *mtd,
->>>>>>> +                                  loff_t offs_in_flash,
->>>>>>> +                                  size_t len, size_t *retlen,
->>>>>>> +                                  u_char *buf, bool write)
->>>>>>> +{
->>>>>>> +  struct nand_chip *nand;
->>>>>>> +  size_t bytes_handled;
->>>>>>> +  off_t offs_in_page;
->>>>>>> +  uint64_t page;
->>>>>>> +  void *dma_buf;
->>>>>>> +  int ret;
->>>>>>> +
->>>>>>> +  /* 'nand_prog/read_page_op()' may use 'buf' as DMA buffer,
->>>>>>> +   * so allocate properly aligned memory for it. This is
->>>>>>> +   * needed because cross page accesses may lead to unaligned
->>>>>>> +   * buffer address for DMA.
->>>>>>> +   */
->>>>>>> +  dma_buf = kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERNEL);
->>>>>>> +  if (!dma_buf)
->>>>>>> +          return -ENOMEM;
->>>>>>> +
->>>>>>> +  nand = mtd_to_nand(mtd);
->>>>>>> +  nand_select_target(nand, 0);
->>>>>>> +
->>>>>>> +  ret = macronix_30lfxg18ac_otp_enable(nand);
->>>>>>> +  if (ret)
->>>>>>> +          goto out_otp;
->>>>>>> +
->>>>>>> +  page = offs_in_flash;
->>>>>>> +  /* 'page' will be result of division. */
->>>>>>> +  offs_in_page = do_div(page, MACRONIX_30LFXG18AC_OTP_PAGE_SIZE);
->>>>>>> +  bytes_handled = 0;
->>>>>>> +
->>>>>>> +  while (bytes_handled < len &&
->>>>>>> +         page < MACRONIX_30LFXG18AC_OTP_PAGES) {
->>>>>>> +          size_t bytes_to_handle;
->>>>>>> +
->>>>>>> +          bytes_to_handle = min_t(size_t, len - bytes_handled,
->>>>>>> +                                  MACRONIX_30LFXG18AC_OTP_PAGE_SIZE -
->>>>>>> +                                  offs_in_page);
->>>>>>> +
->>>>>>> +          if (write) {
->>>>>>> +                  memcpy(dma_buf, &buf[bytes_handled], bytes_to_handle);
->>>>>>> +                  ret = nand_prog_page_op(nand, page, offs_in_page,
->>>>>>> +                                          dma_buf, bytes_to_handle);
->>>>>>> +          } else {
->>>>>>> +                  ret = nand_read_page_op(nand, page, offs_in_page,
->>>>>>> +                                          dma_buf, bytes_to_handle);
->>>>>>> +                  if (!ret)
->>>>>>> +                          memcpy(&buf[bytes_handled], dma_buf,
->>>>>>> +                                 bytes_to_handle);
->>>>>>> +          }
->>>>>>> +          if (ret)
->>>>>>> +                  goto out_otp;
->>>>>>> +
->>>>>>> +          bytes_handled += bytes_to_handle;
->>>>>>> +          offs_in_page = 0;
->>>>>>> +          page++;
->>>>>>> +  }
->>>>>>> +
->>>>>>> +  *retlen = bytes_handled;
->>>>>>> +
->>>>>>> +out_otp:
->>>>>>> +  if (ret)
->>>>>>> +          dev_err(&mtd->dev, "failed to perform OTP IO: %i\n", ret);
->>>>>>> +
->>>>>>> +  ret = macronix_30lfxg18ac_otp_disable(nand);
->>>>>>> +  WARN(ret, "failed to leave OTP mode after %s\n",
->>>>>>> +       write ? "write" : "read");
->>>>
->>>> Let's avoid WARN() calls (none in this driver are relevant IMHO). Just a
->>>> dev_err() should be enough.
->>>>
->>>>>>> +  nand_deselect_target(nand);
->>>>>>> +  kfree(dma_buf);
->>>>>>> +
->>>>>>> +  return ret;
->>>>>>> +}
->>>>>>> +
->>>>>>> +static int macronix_30lfxg18ac_write_otp(struct mtd_info *mtd, loff_t to,
->>>>>>> +                                   size_t len, size_t *rlen,
->>>>>>> +                                   const u_char *buf)
->>>>>>> +{
->>>>>>> +  return __macronix_30lfxg18ac_rw_otp(mtd, to, len, rlen, (u_char *)buf,
->>>>>>> +                                      true);
->>>>>>> +}
->>>>>>> +
->>>>>>> +static int macronix_30lfxg18ac_read_otp(struct mtd_info *mtd, loff_t from,
->>>>>>> +                                  size_t len, size_t *rlen,
->>>>>>> +                                  u_char *buf)
->>>>>>> +{
->>>>>>> +  return __macronix_30lfxg18ac_rw_otp(mtd, from, len, rlen, buf, false);
->>>>>>> +}
->>>>>>> +
->>>>>>> +static int macronix_30lfxg18ac_lock_otp(struct mtd_info *mtd, loff_t from,
->>>>>>> +                                  size_t len)
->>>>>>> +{
->>>>>>> +  uint8_t feature_buf[ONFI_SUBFEATURE_PARAM_LEN] = { 0 };
->>>>>>> +  struct nand_chip *nand;
->>>>>>> +  int ret;
->>>>>>> +
->>>>>>> +  if (from != MACRONIX_30LFXG18AC_OTP_START_BYTE ||
->>>>>>> +      len != MACRONIX_30LFXG18AC_OTP_SIZE_BYTES)
->>>>>>> +          return -EINVAL;
->>>>>>> +
->>>>>>> +  dev_dbg(&mtd->dev, "locking OTP\n");
->>>>>>> +
->>>>>>> +  nand = mtd_to_nand(mtd);
->>>>>>> +  nand_select_target(nand, 0);
->>>>>>> +
->>>>>>> +  feature_buf[0] = MACRONIX_30LFXG18AC_OTP_EN |
->>>>>>> +                   MACRONIX_30LFXG18AC_OTP_LOCKED;
->>>>>>> +  ret = nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
->>>>>>> +                          feature_buf);
->>>>>>> +  if (ret) {
->>>>>>> +          dev_err(&mtd->dev,
->>>>>>> +                  "failed to lock OTP (set features): %i\n", ret);
->>>>>>> +          nand_deselect_target(nand);
->>>>>>> +          return ret;
->>>>>>> +  }
->>>>>>> +
->>>>>>> +  /* Do dummy page prog with zero address. */
->>>>>>> +  feature_buf[0] = 0;
->>>>>>> +  ret = nand_prog_page_op(nand, 0, 0, feature_buf, 1);
->>>>>>> +  if (ret)
->>>>>>> +          dev_err(&mtd->dev,
->>>>>>> +                  "failed to lock OTP (page prog): %i\n", ret);
->>>>>>> +
->>>>>>> +  ret = macronix_30lfxg18ac_otp_disable(nand);
->>>>>>> +  WARN(ret, "failed to leave OTP mode after lock\n");
->>>>>>> +
->>>>>>> +  nand_deselect_target(nand);
->>>>>>> +
->>>>>>> +  return ret;
->>>>>>> +}
->>>>>>> +
->>>>>>> +static void macronix_nand_setup_otp(struct nand_chip *chip)
->>>>>>> +{
->>>>>>> +  static const char * const supported_otp_models[] = {
->>>>>>> +          "MX30LF1G18AC",
->>>>>>> +          "MX30LF2G18AC",
->>>>>>> +          "MX30LF4G18AC",
->>>>>>> +  };
->>>>>>> +  struct mtd_info *mtd;
->>>>>>> +
->>>>>>> +  if (!chip->parameters.supports_set_get_features)
->>>>>>> +          return;
->>>>>>> +
->>>>>>> +  if (match_string(supported_otp_models,
->>>>>>> +                   ARRAY_SIZE(supported_otp_models),
->>>>>>> +                   chip->parameters.model) < 0)
->>>>>>> +          return;
->>>>
->>>> I would start by checking the model, then it's list of supported ops.
->>>>
->>>>>>> +
->>>>>>> +  bitmap_set(chip->parameters.get_feature_list,
->>>>>>> +             ONFI_FEATURE_ADDR_30LFXG18AC_OTP, 1);
->>>>>>> +  bitmap_set(chip->parameters.set_feature_list,
->>>>>>> +             ONFI_FEATURE_ADDR_30LFXG18AC_OTP, 1);
->>>>>>> +
->>>>>>> +  mtd = nand_to_mtd(chip);
->>>>>>> +  mtd->_get_fact_prot_info = macronix_30lfxg18ac_get_otp_info;
->>>>>>> +  mtd->_read_fact_prot_reg = macronix_30lfxg18ac_read_otp;
->>>>>>> +  mtd->_get_user_prot_info = macronix_30lfxg18ac_get_otp_info;
->>>>>>> +  mtd->_read_user_prot_reg = macronix_30lfxg18ac_read_otp;
->>>>>>> +  mtd->_write_user_prot_reg = macronix_30lfxg18ac_write_otp;
->>>>>>> +  mtd->_lock_user_prot_reg = macronix_30lfxg18ac_lock_otp;
->>>>>>> +}
->>>>>>> +
->>>>>>>  static int macronix_nand_init(struct nand_chip *chip)
->>>>>>>  {
->>>>>>>    if (nand_is_slc(chip))
->>>>>>> @@ -325,6 +537,7 @@ static int macronix_nand_init(struct nand_chip *chip)
->>>>>>>    macronix_nand_onfi_init(chip);
->>>>>>>    macronix_nand_block_protection_support(chip);
->>>>>>>    macronix_nand_deep_power_down_support(chip);
->>>>>>> +  macronix_nand_setup_otp(chip);
->>>>>>>
->>>>>>>    return 0;
->>>>>>>  }
->>>>
->>>>
->>>> Thanks,
->>>> Miquèl
+-- 
+Sakari Ailus
