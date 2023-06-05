@@ -2,38 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 64BED722EB0
-	for <lists+linux-media@lfdr.de>; Mon,  5 Jun 2023 20:30:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F09A722EFC
+	for <lists+linux-media@lfdr.de>; Mon,  5 Jun 2023 20:55:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232883AbjFESaa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Jun 2023 14:30:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48918 "EHLO
+        id S231319AbjFESzM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Jun 2023 14:55:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232140AbjFESa3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Jun 2023 14:30:29 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3044CD
-        for <linux-media@vger.kernel.org>; Mon,  5 Jun 2023 11:30:28 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (om126156242094.26.openmobile.ne.jp [126.156.242.94])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 84854E4
-        for <linux-media@vger.kernel.org>; Mon,  5 Jun 2023 20:30:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1685989802;
-        bh=tGobFrWSOT3WLYgY929uYRon/ALWcr3HYXaKH17Vj8U=;
-        h=Date:From:To:Subject:From;
-        b=WYaxHS9Y0koNqPoy0arSdt9FdGBAeqjU1ysjFegnel2jg4did6H6UEMYQZtO+Yet+
-         yslZq57J5DTDymXVibplji7qT5IbPcEzAXzjdRcQglOEXxnpKDlQyDEG4UUSsH52xu
-         n/zxKzwdGao5l/cxGiwAosMNgwx8q/JMezu3Cfa0=
-Date:   Mon, 5 Jun 2023 21:30:25 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v6.5] uvcvideo changes
-Message-ID: <20230605183025.GA22339@pendragon.ideasonboard.com>
+        with ESMTP id S229630AbjFESzL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Jun 2023 14:55:11 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74F4BCD
+        for <linux-media@vger.kernel.org>; Mon,  5 Jun 2023 11:55:10 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1q6FMB-00FvrT-OF; Mon, 05 Jun 2023 18:55:07 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1q6FM9-00C1Fi-4P; Mon, 05 Jun 2023 18:55:05 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v6.5] uvcvideo changes (#92342)
+Date:   Mon,  5 Jun 2023 18:55:04 +0000
+Message-Id: <20230605185504.2864704-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230605183025.GA22339@pendragon.ideasonboard.com>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -41,56 +44,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+From: builder@linuxtv.org
 
-The following changes since commit 9561de3a55bed6bdd44a12820ba81ec416e705a7:
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20230605183025.GA22339@pendragon.ideasonboard.com/
+Build log: https://builder.linuxtv.org/job/patchwork/312203/
+Build time: 00:00:00
+Link: https://lore.kernel.org/linux-media/20230605183025.GA22339@pendragon.ideasonboard.com
 
-  Linux 6.4-rc5 (2023-06-04 14:04:27 -0400)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git tags/media-uvc-next-20230606
-
-for you to fetch changes up to 9bfc8e4d0972d3732bd8c6038c2bf1636780d727:
-
-  media: uvcvideo: Constify descriptor buffers (2023-06-05 18:39:47 +0300)
-
-Please note that this pull request is based on v6.4-rc5 as it depends on
-a fix that was merged in that version.
-
-----------------------------------------------------------------
-Miscellaneous uvcvideo changes:
-
-- Support for more Intel RealSense devices
-- Small cleanups and constifications
-- Drop duplicate device
-
-----------------------------------------------------------------
-Dmitry Perchanov (2):
-      media: uapi: v4l: Intel metadata format update
-      media: uvcvideo: Enable Intel RealSense metadata for devices
-
-Laurent Pinchart (7):
-      media: uvcvideo: Rename uvc_streaming 'format' field to 'formats'
-      media: uvcvideo: Rename uvc_format 'frame' field to 'frames'
-      media: uvcvideo: Use clamp() to replace manual implementation
-      media: uvcvideo: Reorganize format descriptor parsing
-      media: uvcvideo: Increment intervals pointer at end of parsing
-      media: uvcvideo: Constify formats, frames and intervals
-      media: uvcvideo: Constify descriptor buffers
-
-Sakari Ailus (1):
-      Revert "media: uvcvideo: Limit power line control for Acer EasyCamera"
-
- .../userspace-api/media/v4l/pixfmt-meta-d4xx.rst   |  55 +++++++--
- drivers/media/usb/uvc/uvc_driver.c                 | 137 ++++++++++++++++-----
- drivers/media/usb/uvc/uvc_v4l2.c                   |  79 ++++++------
- drivers/media/usb/uvc/uvc_video.c                  |  20 +--
- drivers/media/usb/uvc/uvcvideo.h                   |  12 +-
- 5 files changed, 208 insertions(+), 95 deletions(-)
+gpg: Signature made Mon 05 Jun 2023 03:47:56 PM UTC
+gpg:                using EDDSA key C09EF871B3827B413F971CA9CC3F2D800327DE64
+gpg:                issuer "laurent.pinchart@ideasonboard.com"
+gpg: Can't check signature: No public key
 
 
--- 
-Regards,
+Build aborted due to a fatal error:
+FAILED: patch patch patches/0002-media-uapi-v4l-Intel-metadata-format-update.patch doesn't apply:
+Applying patch patches/0002-media-uapi-v4l-Intel-metadata-format-update.patch
+can't find file to patch at input line 21
+Perhaps you used the wrong -p or --strip option?
+The text leading up to this was:
+--------------------------
+|From 21ebf0d82515edf8bdbd489e6bfe9fe413e56ae3 Mon Sep 17 00:00:00 2001
+|From: Dmitry Perchanov <dmitry.perchanov@intel.com>
+|Date: Thu, 1 Jun 2023 19:08:46 +0300
+|Subject: media: uapi: v4l: Intel metadata format update
+|
+|Update metadata structure for Intel RealSense UVC/MIPI cameras.
+|Compliant to Intel Configuration version 3.
+|
+|Signed-off-by: Dmitry Perchanov <dmitry.perchanov@intel.com>
+|Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+|Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+|Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+|---
+| .../media/v4l/pixfmt-meta-d4xx.rst            | 55 ++++++++++++++++---
+| 1 file changed, 47 insertions(+), 8 deletions(-)
+|
+|diff --git a/Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst b/Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst
+|index 4e437ba97a0e..541836074f94 100644
+|--- a/Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst
+|+++ b/Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst
+--------------------------
+No file to patch.  Skipping patch.
+9 out of 9 hunks ignored
+Patch patches/0002-media-uapi-v4l-Intel-metadata-format-update.patch does not apply (enforce with -f)
 
-Laurent Pinchart
