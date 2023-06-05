@@ -2,59 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D879722377
-	for <lists+linux-media@lfdr.de>; Mon,  5 Jun 2023 12:30:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68AB27223AA
+	for <lists+linux-media@lfdr.de>; Mon,  5 Jun 2023 12:37:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230462AbjFEKaR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Jun 2023 06:30:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50034 "EHLO
+        id S231574AbjFEKhm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Jun 2023 06:37:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229544AbjFEKaQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Jun 2023 06:30:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B747EA
-        for <linux-media@vger.kernel.org>; Mon,  5 Jun 2023 03:29:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1685960973;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=EW+r5mVcnYlpwLyOeIK2ZT35iP27Rc6dTFWoa1at4Iw=;
-        b=i5Dia12IXEBre51/JioIttwebuxjtGWjmOmrwZZKnLplLRcWIkVf/iZj0nWkQB1PbYPaEW
-        +z+WJedlUEXp6SP4X+2Ik2bjKvdGAxpbYc344d2j73CFv/kvPyXVKWzQzv/FPaa+Llc/4A
-        aQfvS8ljtaJtjeJuV/zwNYyxiqX/BEo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-113-BDdrgvBkOXCQzLGoGSEA6g-1; Mon, 05 Jun 2023 06:29:30 -0400
-X-MC-Unique: BDdrgvBkOXCQzLGoGSEA6g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        with ESMTP id S231185AbjFEKhi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Jun 2023 06:37:38 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E9B5116;
+        Mon,  5 Jun 2023 03:37:36 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 00DCA85A5BB;
-        Mon,  5 Jun 2023 10:29:30 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.67.24.47])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E79519E72;
-        Mon,  5 Jun 2023 10:29:26 +0000 (UTC)
-From:   Kate Hsuan <hpa@redhat.com>
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Cc:     Kate Hsuan <hpa@redhat.com>
-Subject: [PATCH 3/3] media: atomisp: ia_css_debug: remove unused codes
-Date:   Mon,  5 Jun 2023 18:29:03 +0800
-Message-Id: <20230605102903.924283-4-hpa@redhat.com>
-In-Reply-To: <20230605102903.924283-1-hpa@redhat.com>
-References: <20230605102903.924283-1-hpa@redhat.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 86D53614D5;
+        Mon,  5 Jun 2023 10:37:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60829C433D2;
+        Mon,  5 Jun 2023 10:37:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1685961454;
+        bh=hAyKurn2OOaYTMwG3H4jsrgJYf3qIZ+AJycUSJ3bmZM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=l8xpfhqSyLuvOKs9VzQFn/gG3GT3Tqvmhur5Ai5En+UWLYVB4bMyoaBGJL/bjForQ
+         TVfhhZSZdau4ICVIcQWCoRhsbdh14L073Dj71fE0DNrK5nqju1RYElC1my8cVmyZ/l
+         I3Qk59uMcti09j8vl1159n/kV5YhJHy+pf9T5K9zVfugJ2sfe6JZlxBHWm1OKm9wKz
+         I1AqvCkkn84Rt4zzNIgfHTWoyUV7h5fx059sOfltbgHPgnfVRhva6l8Kwjy3AOeC2a
+         yrwrB607tvpUoLoSKWcki3OT9FyYTTjouzHDBnp0JjLquovaz3Cz2URzFqAqV+CELY
+         wTExy5Lt6XaiA==
+Date:   Mon, 5 Jun 2023 11:37:27 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     "Linux regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+Cc:     Linux regressions mailing list <regressions@lists.linux.dev>,
+        Hyunwoo Kim <imv4bel@gmail.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Thomas Voegtle <tv@lio96.de>, linux-kernel@vger.kernel.org
+Subject: Re: Sometimes DVB broken with commit 6769a0b7ee0c3b
+Message-ID: <20230605113727.69e7f309@sal.lan>
+In-Reply-To: <439d143b-1de7-6365-cf64-f1b44fd6d1cf@leemhuis.info>
+References: <da5382ad-09d6-20ac-0d53-611594b30861@lio96.de>
+        <439d143b-1de7-6365-cf64-f1b44fd6d1cf@leemhuis.info>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,126 +58,87 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This portion of the codes was not referenced so it can be completely
-removed.
+Em Mon, 5 Jun 2023 11:38:49 +0200
+"Linux regression tracking (Thorsten Leemhuis)" <regressions@leemhuis.info>=
+ escreveu:
 
-Signed-off-by: Kate Hsuan <hpa@redhat.com>
----
- .../runtime/debug/interface/ia_css_debug.h    |  6 --
- .../pci/runtime/debug/src/ia_css_debug.c      | 76 +------------------
- 2 files changed, 2 insertions(+), 80 deletions(-)
+> Hi, Thorsten here, the Linux kernel's regression tracker.
+>=20
+> On 30.05.23 13:12, Thomas Voegtle wrote:
+> >=20
+> > I have the problem that sometimes my DVB card does not initialize
+> > properly booting Linux 6.4-rc4.
+> > This is not always, maybe in 3 out of 4 attempts.
+> > When this happens somehow you don't see anything special in dmesg, but
+> > the card just doesn't work.
+> >=20
+> > Reverting this helps:
+> > commit 6769a0b7ee0c3b31e1b22c3fadff2bfb642de23f
+> > Author: Hyunwoo Kim <imv4bel@gmail.com>
+> > Date:=C2=A0=C2=A0 Thu Nov 17 04:59:22 2022 +0000
+> >=20
+> > =C2=A0=C2=A0=C2=A0 media: dvb-core: Fix use-after-free on race conditio=
+n at dvb_frontend
+> >=20
+> >=20
+> > I have:
+> > 03:00.0 Multimedia video controller [0400]: Conexant Systems, Inc.
+> > CX23887/8
+> > PCIe Broadcast Audio and Video Decoder with 3D Comb [14f1:8880] (rev 04)
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Subsystem: Hauppauge compute=
+r works Inc. Device [0070:c138]
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Kernel driver in use: cx2388=
+5 =20
+>=20
+> Hmmm, that was posted last Tuesday and received not a single reply. :-/
+>=20
+> Hyunwoo Kim: could you please look at it, as it's a regression caused by
+> a commit of yours (one that would be good to solve before 6.4 is
+> finalized!)? And in case you are unable to do so let us know?
+>=20
+> But FWIW:
+>=20
+> Mauro: I wonder if this is something you or someone else has to look
+> into, as Hyunwoo Kim posted a few times per months to Linux lists, but
+> according  to a quick search on lore hasn't posted anything since ~two
+> months now. :-/
 
-diff --git a/drivers/staging/media/atomisp/pci/runtime/debug/interface/ia_css_debug.h b/drivers/staging/media/atomisp/pci/runtime/debug/interface/ia_css_debug.h
-index fff89e9b4b01..3a3d72c6eaaa 100644
---- a/drivers/staging/media/atomisp/pci/runtime/debug/interface/ia_css_debug.h
-+++ b/drivers/staging/media/atomisp/pci/runtime/debug/interface/ia_css_debug.h
-@@ -141,12 +141,6 @@ static inline void __printf(2, 0) ia_css_debug_vdtrace(unsigned int level,
- __printf(2, 3) void ia_css_debug_dtrace(unsigned int level,
- 					const char *fmt, ...);
- 
--/*! @brief Dump sp thread's stack contents
-- * SP thread's stack contents are set to 0xcafecafe. This function dumps the
-- * stack to inspect if the stack's boundaries are compromised.
-- * @return	None
-- */
--void ia_css_debug_dump_sp_stack_info(void);
- 
- /*! @brief Function to set the global dtrace verbosity level.
-  * @param[in]	trace_level	Maximum level of the messages to be traced.
-diff --git a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-index bb6204cb42c5..bb30146c5fe7 100644
---- a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-@@ -105,7 +105,8 @@
-  * TODO:SH_CSS_MAX_SP_THREADS is not the max number of sp threads
-  * future rework should fix this and remove the define MAX_THREAD_NUM
-  */
--#define MAX_THREAD_NUM (SH_CSS_MAX_SP_THREADS + SH_CSS_MAX_SP_INTERNAL_THREADS)
-+#define MAX_THREAD_NUM_2400 (SH_CSS_MAX_SP_THREADS + SH_CSS_MAX_SP_INTERNAL_THREADS_2400)
-+#define MAX_THREAD_NUM_2401 (SH_CSS_MAX_SP_THREADS + SH_CSS_MAX_SP_INTERNAL_THREADS_2401)
- 
- static struct pipe_graph_class {
- 	bool do_init;
-@@ -147,79 +148,6 @@ void ia_css_debug_dtrace(unsigned int level, const char *fmt, ...)
- 	va_end(ap);
- }
- 
--static void debug_dump_long_array_formatted(
--    const sp_ID_t sp_id,
--    hrt_address stack_sp_addr,
--    unsigned int stack_size)
--{
--	unsigned int i;
--	u32 val;
--	u32 addr = (uint32_t)stack_sp_addr;
--	u32 stack_size_words = CEIL_DIV(stack_size, sizeof(uint32_t));
--
--	/* When size is not multiple of four, last word is only relevant for
--	 * remaining bytes */
--	for (i = 0; i < stack_size_words; i++) {
--		val = sp_dmem_load_uint32(sp_id, (hrt_address)addr);
--		if ((i % 8) == 0)
--			ia_css_debug_dtrace(IA_CSS_DEBUG_VERBOSE, "\n");
--
--		ia_css_debug_dtrace(IA_CSS_DEBUG_VERBOSE, "0x%08x ", val);
--		addr += sizeof(uint32_t);
--	}
--
--	ia_css_debug_dtrace(IA_CSS_DEBUG_VERBOSE, "\n");
--}
--
--static void debug_dump_sp_stack_info(
--    const sp_ID_t sp_id)
--{
--	const struct ia_css_fw_info *fw;
--	unsigned int HIVE_ADDR_sp_threads_stack;
--	unsigned int HIVE_ADDR_sp_threads_stack_size;
--	u32 stack_sizes[MAX_THREAD_NUM];
--	u32 stack_sp_addr[MAX_THREAD_NUM];
--	unsigned int i;
--
--	fw = &sh_css_sp_fw;
--
--	ia_css_debug_dtrace(IA_CSS_DEBUG_VERBOSE, "sp_id(%u) stack info\n", sp_id);
--	ia_css_debug_dtrace(IA_CSS_DEBUG_VERBOSE,
--			    "from objects stack_addr_offset:0x%x stack_size_offset:0x%x\n",
--			    fw->info.sp.threads_stack,
--			    fw->info.sp.threads_stack_size);
--
--	HIVE_ADDR_sp_threads_stack = fw->info.sp.threads_stack;
--	HIVE_ADDR_sp_threads_stack_size = fw->info.sp.threads_stack_size;
--
--	if (fw->info.sp.threads_stack == 0 ||
--	    fw->info.sp.threads_stack_size == 0)
--		return;
--
--	(void)HIVE_ADDR_sp_threads_stack;
--	(void)HIVE_ADDR_sp_threads_stack_size;
--
--	sp_dmem_load(sp_id,
--		     (unsigned int)sp_address_of(sp_threads_stack),
--		     &stack_sp_addr, sizeof(stack_sp_addr));
--	sp_dmem_load(sp_id,
--		     (unsigned int)sp_address_of(sp_threads_stack_size),
--		     &stack_sizes, sizeof(stack_sizes));
--
--	for (i = 0 ; i < MAX_THREAD_NUM; i++) {
--		ia_css_debug_dtrace(IA_CSS_DEBUG_VERBOSE,
--				    "thread: %u stack_addr: 0x%08x stack_size: %u\n",
--				    i, stack_sp_addr[i], stack_sizes[i]);
--		debug_dump_long_array_formatted(sp_id, (hrt_address)stack_sp_addr[i],
--						stack_sizes[i]);
--	}
--}
--
--void ia_css_debug_dump_sp_stack_info(void)
--{
--	debug_dump_sp_stack_info(SP0_ID);
--}
--
- void ia_css_debug_set_dtrace_level(const unsigned int trace_level)
- {
- 	dbg_level = trace_level;
--- 
-2.40.1
+Yeah, I was slow applying this one, as I was afraid of it to cause
+troubles. The DVB frontend state machine is complex, and uses a
+semaphore to update its state. There was some past attempts of
+addressing some lifetime issues there that we ended needing to revert
+or not being applied, as the fix caused more harm than good.
 
+The way DVB tuning works is that it uses a zigzag mechanism to
+tune to a frequency. It actually tries to tune at several different
+frequencies, like:
+
+	f
+	f + delta
+	f - delta
+	f + 2 * delta
+	f - 2 * delta
+	...
+
+the DVB core supports 3 different types of zigzag approaches:
+	- hardware-based - no need to do any special implementation;
+	- software-based - Kernel will try the above tunes in in a
+	  zig-zag way;
+	- custom-based - the hardware has some helpers to speedup
+	  and improve the tuning logic.
+
+If a signal is lost, the device will re-run the zigzag logic.
+
+It is not trivial to test all possible conditions there, and some
+boards may have multiple frontend devices for different types of
+TV transmission (cable, satellite, air).
+
+As I don't have a DVB signal generator anymore, my tests were limited to=20
+devices I have it handy that are compatible with DVB/T.=20
+
+In any case, we need more details about the problem, as CX23887 is just
+the media streaming PCIe bridge device. It tells nothing about what
+frontend is attached to the bridge.
+
+Regards,
+Mauro
