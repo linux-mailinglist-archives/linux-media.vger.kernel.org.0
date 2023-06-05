@@ -2,151 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8ED64722234
-	for <lists+linux-media@lfdr.de>; Mon,  5 Jun 2023 11:30:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58E63722260
+	for <lists+linux-media@lfdr.de>; Mon,  5 Jun 2023 11:38:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231248AbjFEJav (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Jun 2023 05:30:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54260 "EHLO
+        id S231296AbjFEJiy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Jun 2023 05:38:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231204AbjFEJat (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Jun 2023 05:30:49 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50F0CBD;
-        Mon,  5 Jun 2023 02:30:48 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D3C37621D3;
-        Mon,  5 Jun 2023 09:30:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1D5CC433EF;
-        Mon,  5 Jun 2023 09:30:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1685957447;
-        bh=GGlOcAGW9SPn7EFuuc+2lfe0AlLGsZAzDDEdxTJef1Y=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=V6uOjxAi9MmOwLBwkTvJkBBvBCqMcaVaAJMzHP6bUiUvgkALI70C2AN4MdHOl9iyA
-         sfpivVDM72hepyGW51mrIo8s6e7vvo9fE3LN6umUHO8ch7TS7KcJ4TZdtHREVnRuH7
-         PJR319PiAXThyr48ZeOzh/6oqf4DyAJzJ4FE7Tln2x8aflIy7GEr2qBPiwvX0kEDB6
-         3LVeMSvqkuFMTyO5EJEqk4PlZZUOtmoT2ZeU8jyRHyqFqwrQDouDiTWWA1CGMayfKx
-         lr2FOZ5uw/iFpDkapMt05pOgAHInRThFUSnq2eAASZ4XTdIlRi+uIfM1PppYtHtdbQ
-         nzkaZ5rHQMLaQ==
-Date:   Mon, 5 Jun 2023 11:30:44 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Corey Minyard <cminyard@mvista.com>,
-        Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
-        Antonio Borneo <antonio.borneo@foss.st.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Message-ID: <ZH2rRAMe7+MATuao@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>, David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-        Corey Minyard <cminyard@mvista.com>,
-        Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
-        Antonio Borneo <antonio.borneo@foss.st.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-References: <20230522101849.297499-1-biju.das.jz@bp.renesas.com>
- <20230522101849.297499-2-biju.das.jz@bp.renesas.com>
- <20230529080552.GJ25984@pendragon.ideasonboard.com>
- <OS0PR01MB592283E55078298EEA30C6B9864A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230531085941.GA27043@pendragon.ideasonboard.com>
- <CAMuHMdXywnxO6cL5R84mryFuyVMswj6EniY-bZx7m_2L3iUY9A@mail.gmail.com>
+        with ESMTP id S231290AbjFEJix (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Jun 2023 05:38:53 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84349BD;
+        Mon,  5 Jun 2023 02:38:51 -0700 (PDT)
+Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1q66fq-0003YR-1m; Mon, 05 Jun 2023 11:38:50 +0200
+Message-ID: <439d143b-1de7-6365-cf64-f1b44fd6d1cf@leemhuis.info>
+Date:   Mon, 5 Jun 2023 11:38:49 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="nY4I2iNGV/UDZ0aJ"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXywnxO6cL5R84mryFuyVMswj6EniY-bZx7m_2L3iUY9A@mail.gmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
+Subject: Re: Sometimes DVB broken with commit 6769a0b7ee0c3b
+Content-Language: en-US, de-DE
+To:     Hyunwoo Kim <imv4bel@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <da5382ad-09d6-20ac-0d53-611594b30861@lio96.de>
+From:   "Linux regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux kernel regressions list <regressions@lists.linux.dev>,
+        Thomas Voegtle <tv@lio96.de>, linux-kernel@vger.kernel.org
+In-Reply-To: <da5382ad-09d6-20ac-0d53-611594b30861@lio96.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1685957931;59343b37;
+X-HE-SMSGID: 1q66fq-0003YR-1m
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi, Thorsten here, the Linux kernel's regression tracker.
 
---nY4I2iNGV/UDZ0aJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 30.05.23 13:12, Thomas Voegtle wrote:
+> 
+> I have the problem that sometimes my DVB card does not initialize
+> properly booting Linux 6.4-rc4.
+> This is not always, maybe in 3 out of 4 attempts.
+> When this happens somehow you don't see anything special in dmesg, but
+> the card just doesn't work.
+> 
+> Reverting this helps:
+> commit 6769a0b7ee0c3b31e1b22c3fadff2bfb642de23f
+> Author: Hyunwoo Kim <imv4bel@gmail.com>
+> Date:   Thu Nov 17 04:59:22 2022 +0000
+> 
+>     media: dvb-core: Fix use-after-free on race condition at dvb_frontend
+> 
+> 
+> I have:
+> 03:00.0 Multimedia video controller [0400]: Conexant Systems, Inc.
+> CX23887/8
+> PCIe Broadcast Audio and Video Decoder with 3D Comb [14f1:8880] (rev 04)
+>         Subsystem: Hauppauge computer works Inc. Device [0070:c138]
+>         Kernel driver in use: cx23885
 
+Hmmm, that was posted last Tuesday and received not a single reply. :-/
 
-> Wolfram: time to chime in ;-)
+Hyunwoo Kim: could you please look at it, as it's a regression caused by
+a commit of yours (one that would be good to solve before 6.4 is
+finalized!)? And in case you are unable to do so let us know?
 
-I'll have a look this week.
+But FWIW:
 
+Mauro: I wonder if this is something you or someone else has to look
+into, as Hyunwoo Kim posted a few times per months to Linux lists, but
+according  to a quick search on lore hasn't posted anything since ~two
+months now. :-/
 
---nY4I2iNGV/UDZ0aJ
-Content-Type: application/pgp-signature; name="signature.asc"
+Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+--
+Everything you wanna know about Linux kernel regression tracking:
+https://linux-regtracking.leemhuis.info/about/#tldr
+If I did something stupid, please tell me, as explained on that page.
 
------BEGIN PGP SIGNATURE-----
+#regzbot poke
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmR9q0QACgkQFA3kzBSg
-KbZhhQ/+Iqw/3I/2FLvudgR69quUiOsVQrtXBrBAiLONcFRBzf0k0ko+dYhxxorr
-nxUcHocBSM8AxRIhv6nmaLxdQQTyU1MBHObbfX4zjmTgQFECbUWt4mVDTVJZOErZ
-F08SZ5KR1aqVWtDXFZuEjE8TXZBWttvjzAinW+uevqPw3wrH8SCSv9AW1h2V8IMr
-j8D4aFQVdylLvQelx38YqMQ+IhqMdtFZy4ojX5nbRDY6SaZMZQzG6qL2UWp9dVT5
-tJaDag3ca+XGan33m/3biglwZJMxpzVxDlGCNJKhbfTkk+Wyqn7ZLH8xaBkMNDJS
-RRSAPHL109hysXnc1sYFH3Rj5cPO2xluOHDKNFxkNx5mHzIBqzOx7NYJVElHKU6h
-U1dAual3MdcCx2F1zXxA6Cy7NwB/JM5dNaXGpXxlOt3ITY8G8U9TNNnn+pWEMEbc
-TOIcgVC0JOFX76cUclAwCxOPuPI2NYgeiSCw+A0gNbRxz3PMnJ65qyKtbAZp9r9m
-mkdRe/Bw0scaE4dGhvVP3CVjiNcJgtYY/DiDfuGmiiMx1JRLnOqFa2DkYib5GwM0
-KdSxRJTAfFF/RJchU9Br/xmo60frJnho0GIHWB6dNJuouw6022JBHpqZ3TLOfQ13
-HZoa6+zK3XItBJujN/LDXqSTYUwa3Nu/jNoAaFifv3AbkVU4g4M=
-=duGk
------END PGP SIGNATURE-----
-
---nY4I2iNGV/UDZ0aJ--
+> zcat /proc/config.gz | grep ^CONFIG_DVB
+> CONFIG_DVB_CORE=y
+> CONFIG_DVB_MMAP=y
+> CONFIG_DVB_NET=y
+> CONFIG_DVB_MAX_ADAPTERS=8
+> CONFIG_DVB_DYNAMIC_MINORS=y
+> CONFIG_DVB_USB=y
+> CONFIG_DVB_USB_TTUSB2=y
+> CONFIG_DVB_M88DS3103=y
+> CONFIG_DVB_STB0899=y
+> CONFIG_DVB_STB6100=y
+> CONFIG_DVB_STV090x=y
+> CONFIG_DVB_DRXK=y
+> CONFIG_DVB_SI2165=y
+> CONFIG_DVB_CX24116=y
+> CONFIG_DVB_CX24117=y
+> CONFIG_DVB_DS3000=y
+> CONFIG_DVB_STV0299=y
+> CONFIG_DVB_STV0900=y
+> CONFIG_DVB_STV6110=y
+> CONFIG_DVB_TDA10071=y
+> CONFIG_DVB_TDA10086=y
+> CONFIG_DVB_TDA8261=y
+> CONFIG_DVB_TDA826X=y
+> CONFIG_DVB_TS2020=y
+> CONFIG_DVB_TUA6100=y
+> CONFIG_DVB_DIB7000P=y
+> CONFIG_DVB_SI2168=y
+> CONFIG_DVB_STV0367=y
+> CONFIG_DVB_TDA10048=y
+> CONFIG_DVB_TDA1004X=y
+> CONFIG_DVB_ZL10353=y
+> CONFIG_DVB_TDA10021=y
+> CONFIG_DVB_TDA10023=y
+> CONFIG_DVB_LGDT330X=y
+> CONFIG_DVB_S5H1409=y
+> CONFIG_DVB_S5H1411=y
+> CONFIG_DVB_MB86A20S=y
+> CONFIG_DVB_PLL=y
+> CONFIG_DVB_TUNER_DIB0070=y
+> CONFIG_DVB_A8293=y
+> CONFIG_DVB_LNBP21=y
+> 
+> 
