@@ -2,302 +2,451 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C3672721A3A
-	for <lists+linux-media@lfdr.de>; Sun,  4 Jun 2023 23:29:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B1592721DFB
+	for <lists+linux-media@lfdr.de>; Mon,  5 Jun 2023 08:20:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230140AbjFDV3P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 4 Jun 2023 17:29:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36022 "EHLO
+        id S229701AbjFEGUw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Jun 2023 02:20:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbjFDV3O (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 4 Jun 2023 17:29:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E04C6BD
-        for <linux-media@vger.kernel.org>; Sun,  4 Jun 2023 14:28:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1685914104;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=2EwAaiE1EReWg4vdJzSfny7K1VZxmbbQ8xua1kzbBu4=;
-        b=OUFrO2TgRQLlkAhVgv+8ul80iQFIs2dX5mOeI3MpXeE+YW4wiEMJnxQlCjgoJcuYRoKCkt
-        Kgs5SNE0w/YaxPVeU4+3ion8T8YT+G7aFpSG9z3GdX+Rm+XtDf9FQihOkXK8DroRU5ElH3
-        9RluK1OA9AF5P4d9TF9Pv0sJl5WzUMc=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-608-Zza9E5_pOFC3qvW6ZtSo2w-1; Sun, 04 Jun 2023 17:28:18 -0400
-X-MC-Unique: Zza9E5_pOFC3qvW6ZtSo2w-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-9745c72d99cso246961766b.1
-        for <linux-media@vger.kernel.org>; Sun, 04 Jun 2023 14:28:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685914097; x=1688506097;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2EwAaiE1EReWg4vdJzSfny7K1VZxmbbQ8xua1kzbBu4=;
-        b=ksEHPnuZ7bWODewtu6cLJd9cqKBGJ+iFiOkqtmxkBX6NO9JdbdU5NceUlM7OCtft4V
-         aVZcRn8q9id1t8rO7rJhDDy2j4LcYoivn1h9nSAcgXl3gklkxi+rLQW+zVqVp7TkJdGh
-         gLaDjBF5hUksNl/IdZVPaL2uCEqf0c83IdZf1QmcSPiRTcvU2n2n5pmxCNpgEDiR2Bpr
-         CWowZW3/QX5iZCau5c+7ru4FQ40ol2XqYanNdoDXiex9VuOh0dODf6PWKApZYK7wmHIb
-         a1ShdHOA2IwgCXweFwBtlLDA5Zvm5eYOH4bLDQOzYj8qnNGhMDebHvPEheYbBfl/7Ird
-         ymew==
-X-Gm-Message-State: AC+VfDyZ4Vb1NgkwQpRPCK+tSvnEEtHxkapyvBvo4sEGQ4YizBXTR3x3
-        BIRVrrVbN1rcXqtwCFqYXxK9t8L5r8gW4PQXloaSYsrpzmiHrXKN4XoEtICadcHj3OBBFO6oEP1
-        7TXknDwVPEdN6+aFnit+7QyU=
-X-Received: by 2002:a17:907:961e:b0:977:d228:5b88 with SMTP id gb30-20020a170907961e00b00977d2285b88mr2786550ejc.75.1685914096977;
-        Sun, 04 Jun 2023 14:28:16 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ79jURXSz7RcWrbpe33LgzVd7M22CzMQRk3+tTO0NTq1t5Rnj0LCM9p+LsjeHrriLMDGu/MMA==
-X-Received: by 2002:a17:907:961e:b0:977:d228:5b88 with SMTP id gb30-20020a170907961e00b00977d2285b88mr2786533ejc.75.1685914096633;
-        Sun, 04 Jun 2023 14:28:16 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id s18-20020a170906c31200b00969cbd5718asm3447567ejz.48.2023.06.04.14.28.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 04 Jun 2023 14:28:15 -0700 (PDT)
-Message-ID: <2cf31a31-9a57-81e4-b43b-c55c839a9991@redhat.com>
-Date:   Sun, 4 Jun 2023 23:28:14 +0200
+        with ESMTP id S229610AbjFEGUv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Jun 2023 02:20:51 -0400
+Received: from mx.sberdevices.ru (mx.sberdevices.ru [45.89.227.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3058D3;
+        Sun,  4 Jun 2023 23:20:47 -0700 (PDT)
+Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
+        by mx.sberdevices.ru (Postfix) with ESMTP id 4DC775FD15;
+        Mon,  5 Jun 2023 09:20:46 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
+        s=mail; t=1685946046;
+        bh=2KAsCU42EiMjbzwiktcMUuj5UfQt9UM/5eVvfCSxVvM=;
+        h=Message-ID:Date:MIME-Version:Subject:From:To:Content-Type;
+        b=IDE46UN5kZxXnErYF9ZLvi0uhQBmWuzKPbextrMsB9YafPfaEL3ReOZCiiXbuP7jk
+         05IMdtTGwCiqJ3oDkBpys+BIKBnoKjptKLHeytNtSE9QDtYVCFRIIPA9r+DiE/EGBe
+         /cFj/IWZuVxSfb70u28KNIk7NghliKm2kj03oMNZ0u2+1/WC27cOHFACmHiOIEfir1
+         yUe/N43peGpnv9OaT5M7hct+NcbLiBqAi7+dZLjLBjiOyxOzqonRzSKelz6EsemUeD
+         AGGYntEzAtUUQuY4ld90OXU/ZH2ZYXf/AJjsWDGqTicT30zVPGTtRKezP7m7wYU57h
+         jY3aLGhaYXgIg==
+Received: from S-MS-EXCH01.sberdevices.ru (S-MS-EXCH01.sberdevices.ru [172.16.1.4])
+        by mx.sberdevices.ru (Postfix) with ESMTP;
+        Mon,  5 Jun 2023 09:20:42 +0300 (MSK)
+Message-ID: <39fa42a4-80f4-5c55-a59d-a2a786df6caa@sberdevices.ru>
+Date:   Mon, 5 Jun 2023 09:15:51 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 3/5] media: atomisp: ov2680: Remove unnecessary registers
- from ov2680_global_setting[]
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Nable <nable.maininbox@googlemail.com>,
-        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20230604161406.69369-1-hdegoede@redhat.com>
- <20230604161406.69369-4-hdegoede@redhat.com>
- <CAHp75VciVFzdUAkcGJO66ZCLks8qKmE-_TCp+6pnhtkGeiYurA@mail.gmail.com>
-Content-Language: en-US, nl
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAHp75VciVFzdUAkcGJO66ZCLks8qKmE-_TCp+6pnhtkGeiYurA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+ Thunderbird/102.7.1
+Subject: Re: [RESEND PATCH v3] mtd: rawnand: macronix: OTP access for
+ MX30LFxG18AC
+Content-Language: en-US
+From:   Arseniy Krasnov <avkrasnov@sberdevices.ru>
+To:     liao jaime <jaimeliao.tw@gmail.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+CC:     Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        <oxffffaa@gmail.com>, <kernel@sberdevices.ru>,
+        <linux-mtd@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>,
+        Mason Yang <masonccyang@mxic.com.tw>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Jaime Liao <jaimeliao@mxic.com.tw>
+References: <20230511152120.3297853-1-AVKrasnov@sberdevices.ru>
+ <c873b5a9-17ad-767c-5b20-35a49ab2bd40@sberdevices.ru>
+ <aa67ee8b-898b-319b-f167-b554700842b3@sberdevices.ru>
+ <20230522161446.16d1f307@xps-13>
+ <CAAQoYRkTMpeHABxwRAXVtyuUNXhEk8njcXxJiH7PWg3UsERVVQ@mail.gmail.com>
+ <038d48cc-cdc6-cdc2-69e6-7768fb965fbe@sberdevices.ru>
+ <693c003b-f993-d2dd-73ce-44836185b1f6@sberdevices.ru>
+In-Reply-To: <693c003b-f993-d2dd-73ce-44836185b1f6@sberdevices.ru>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Originating-IP: [172.16.1.6]
+X-ClientProxiedBy: S-MS-EXCH02.sberdevices.ru (172.16.1.5) To
+ S-MS-EXCH01.sberdevices.ru (172.16.1.4)
+X-KSMG-Rule-ID: 4
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Status: not scanned, disabled by settings
+X-KSMG-AntiSpam-Interceptor-Info: not scanned
+X-KSMG-AntiPhishing: not scanned, disabled by settings
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2023/06/05 01:06:00 #21433300
+X-KSMG-AntiVirus-Status: Clean, skipped
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hello all guys!
 
-On 6/4/23 21:23, Andy Shevchenko wrote:
-> On Sun, Jun 4, 2023 at 7:14 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Many of the values in ov2680_global_setting[] match the default/reset
->> register value for the ov2680 sensor (verified with both datasheet
->> and actual hw) so they are no-ops.
->>
->> And there are also a coupe of others which are later overwritten
->> by ctrls or by ov2680_set_mode().
->>
->> Remove all the unnecessary entries and add annotations to
->> the remaining entries documenting what they change
->> (in sofar as things are documented in the datasheet).
-> 
-> My spell checker suggests either "in so far as" or "insofar as".
-> 
->> This also removes the double writing of OV2680_REG_SOFT_RESET in
->> ov2680_init_registers() (one direct write, one in ov2680_global_setting[])
->> instead add a short sleep after the first write to give the sensor
->> time to reset.
->>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->>  .../media/atomisp/i2c/atomisp-ov2680.c        |   1 +
->>  drivers/staging/media/atomisp/i2c/ov2680.h    | 117 ++++++++----------
->>  2 files changed, 56 insertions(+), 62 deletions(-)
->>
->> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
->> index 1db2eb9f9e25..dcc06c725544 100644
->> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
->> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
->> @@ -175,6 +175,7 @@ static int ov2680_init_registers(struct v4l2_subdev *sd)
->>         int ret;
->>
->>         ret = ov_write_reg8(client, OV2680_SW_RESET, 0x01);
->> +       usleep_range(1000, 2000);
-> 
-> Perhaps surround this with blank lines and s little comment?
-> Also does this sleep is anyhow required by a datasheet, or is it
-> purely empirical?
+Sorry, ping, FYI there is v4:
+https://lore.kernel.org/linux-mtd/20230523101637.3009746-1-AVKrasnov@sberdevices.ru/
 
-The sleep is taken from the drivers/media/i2c/ov2680.c version
-of the driver, to replace writing the reset reg twice.
+Thanks, Arseniy
 
-The datasheet says the first i2c-transaction after a reset
-needs to be delayed by 8192 cycles of the provided external clk,
-which with a 19.2MHz clk is roughly 0.5 ms.  But that is for
-a reset through the XSHUTDOWN pin of the sensor. How long
-a sw initiated reset takes is not specified.
-
-Regards,
-
-Hans
-
-
-
-> 
->>         ret |= ov2680_write_reg_array(client, ov2680_global_setting);
-> 
-> Side note: this is weird for an int returned variable.
-> 
->>         return ret;
->> diff --git a/drivers/staging/media/atomisp/i2c/ov2680.h b/drivers/staging/media/atomisp/i2c/ov2680.h
->> index b6c0ef591c69..6a71de55600b 100644
->> --- a/drivers/staging/media/atomisp/i2c/ov2680.h
->> +++ b/drivers/staging/media/atomisp/i2c/ov2680.h
->> @@ -172,82 +172,75 @@ static inline struct v4l2_subdev *ctrl_to_sd(struct v4l2_ctrl *ctrl)
->>  }
->>
->>  static struct ov2680_reg const ov2680_global_setting[] = {
->> -       {0x0103, 0x01},
->> -       {0x3002, 0x00},
->> +       /* MIPI PHY, 0x10 -> 0x1c enable bp_c_hs_en_lat and bp_d_hs_en_lat */
->>         {0x3016, 0x1c},
->> -       {0x3018, 0x44},
->> -       {0x3020, 0x00},
->> -       {0x3080, 0x02},
->> +
->> +       /* PLL MULT bits 0-7, datasheet default 0x37 for 24MHz extclk, use 0x45 for 19.2 Mhz extclk */
->>         {0x3082, 0x45},
->> -       {0x3084, 0x09},
->> -       {0x3085, 0x04},
->> -       {0x3086, 0x00},
->> +
->> +       /* R MANUAL set exposure (0x01) and gain (0x02) to manual (hw does not do auto) */
->>         {0x3503, 0x03},
->> -       {0x350b, 0x36},
->> -       {0x3600, 0xb4},
->> -       {0x3603, 0x39},
->> -       {0x3604, 0x24},
->> -       {0x3605, 0x00},
->> -       {0x3620, 0x26},
->> -       {0x3621, 0x37},
->> -       {0x3622, 0x04},
->> -       {0x3628, 0x00},
->> -       {0x3705, 0x3c},
->> -       {0x370c, 0x50},
->> -       {0x370d, 0xc0},
->> -       {0x3718, 0x88},
->> -       {0x3720, 0x00},
->> -       {0x3721, 0x00},
->> -       {0x3722, 0x00},
->> -       {0x3723, 0x00},
->> -       {0x3738, 0x00},
->> -       {0x3717, 0x58},
->> -       {0x3781, 0x80},
->> -       {0x3789, 0x60},
->> -       {0x3800, 0x00},
->> -       {0x3819, 0x04},
->> +
->> +       /* Analog control register tweaks */
->> +       {0x3603, 0x39}, /* Reset value 0x99 */
->> +       {0x3604, 0x24}, /* Reset value 0x74 */
->> +       {0x3621, 0x37}, /* Reset value 0x44 */
->> +
->> +       /* Sensor control register tweaks */
->> +       {0x3701, 0x64}, /* Reset value 0x61 */
->> +       {0x3705, 0x3c}, /* Reset value 0x21 */
->> +       {0x370c, 0x50}, /* Reset value 0x10 */
->> +       {0x370d, 0xc0}, /* Reset value 0x00 */
->> +       {0x3718, 0x88}, /* Reset value 0x80 */
->> +
->> +       /* PSRAM tweaks */
->> +       {0x3781, 0x80}, /* Reset value 0x00 */
->> +       {0x3784, 0x0c}, /* Reset value 0x00, based on OV2680_R1A_AM10.ovt */
->> +       {0x3789, 0x60}, /* Reset value 0x50 */
->> +
->> +       /* BLC CTRL00 0x01 -> 0x81 set avg_weight to 8 */
->>         {0x4000, 0x81},
->> -       {0x4001, 0x40},
->> +
->> +       /* Set black level compensation range to 0 - 3 (default 0 - 11) */
->>         {0x4008, 0x00},
->>         {0x4009, 0x03},
->> +
->> +       /* VFIFO R2 0x00 -> 0x02 set Frame reset enable */
->>         {0x4602, 0x02},
->> +
->> +       /* MIPI ctrl CLK PREPARE MIN change from 0x26 (38) -> 0x36 (54) */
->>         {0x481f, 0x36},
->> +
->> +       /* MIPI ctrl CLK LPX P MIN change from 0x32 (50) -> 0x36 (54) */
->>         {0x4825, 0x36},
->> -       {0x4837, 0x18},
->> +
->> +       /* R ISP CTRL2 0x20 -> 0x30, set sof_sel bit */
->>         {0x5002, 0x30},
->> -       {0x5004, 0x04},//manual awb 1x
->> -       {0x5005, 0x00},
->> -       {0x5006, 0x04},
->> -       {0x5007, 0x00},
->> -       {0x5008, 0x04},
->> -       {0x5009, 0x00},
->> -       {0x5080, 0x00},
->> -       {0x5081, 0x41},
->> -       {0x5708, 0x01},  /* add for full size flip off and mirror off 2014/09/11 */
->> -       {0x3701, 0x64},  //add on 14/05/13
->> -       {0x3784, 0x0c},  //based OV2680_R1A_AM10.ovt add on 14/06/13
->> -       {0x5780, 0x3e},  //based OV2680_R1A_AM10.ovt,Adjust DPC setting (57xx) on 14/06/13
->> -       {0x5781, 0x0f},
->> -       {0x5782, 0x04},
->> -       {0x5783, 0x02},
->> -       {0x5784, 0x01},
->> -       {0x5785, 0x01},
->> -       {0x5786, 0x00},
->> -       {0x5787, 0x04},
->> +
->> +       /*
->> +        * Window CONTROL 0x00 -> 0x01, enable manual window control,
->> +        * this is necessary for full size flip and mirror support.
->> +        */
->> +       {0x5708, 0x01},
->> +
->> +       /*
->> +        * DPC CTRL0 0x14 -> 0x3e, set enable_tail, enable_3x3_cluster
->> +        * and enable_general_tail bits based OV2680_R1A_AM10.ovt.
->> +        */
->> +       {0x5780, 0x3e},
->> +
->> +       /* DPC MORE CONNECTION CASE THRE 0x0c (12) -> 0x02 (2) */
->>         {0x5788, 0x02},
->> -       {0x5789, 0x00},
->> -       {0x578a, 0x01},
->> -       {0x578b, 0x02},
->> -       {0x578c, 0x03},
->> -       {0x578d, 0x03},
->> +
->> +       /* DPC GAIN LIST1 0x0f (15) -> 0x08 (8) */
->>         {0x578e, 0x08},
->> +
->> +       /* DPC GAIN LIST2 0x3f (63) -> 0x0c (12) */
->>         {0x578f, 0x0c},
->> -       {0x5790, 0x08},
->> -       {0x5791, 0x04},
->> +
->> +       /* DPC THRE RATIO 0x04 (4) -> 0x00 (0) */
->>         {0x5792, 0x00},
->> -       {0x5793, 0x00},
->> -       {0x5794, 0x03}, //based OV2680_R1A_AM10.ovt,Adjust DPC setting (57xx) on 14/06/13
->> -       {0x0100, 0x00}, //stream off
->> +
->>         {}
->>  };
->>
->> --
->> 2.40.1
->>
+On 25.05.2023 10:02, Arseniy Krasnov wrote:
 > 
 > 
-
+> On 24.05.2023 10:13, Arseniy Krasnov wrote:
+>>
+>>
+>> On 24.05.2023 09:33, liao jaime wrote:
+>>> Hi Miquel
+>>>
+>>>>
+>>>> Hi Arseniy,
+>>>>
+>>>> avkrasnov@sberdevices.ru wrote on Mon, 15 May 2023 12:49:50 +0300:
+>>>>
+>>>>> Hello @Miquel!
+>>>>>
+>>>>> Sorry, but who could review this patch? :) IIUC this logic is very hw specific and we need
+>>>>> someone who knows it well? I tested this patch on our devices (with already known Meson NAND
+>>>>> controller).
+>>>>
+>>>> + Jaime, who might test
+>>>>
+>>>>>
+>>>>> Thanks, Arseniy
+>>>>>
+>>>>> On 11.05.2023 21:21, Arseniy Krasnov wrote:
+>>>>>> Cc: Mason Yang <masonccyang@mxic.com.tw> and Boris Brezillon <boris.brezillon@collabora.com>
+>>>>>>
+>>>>>> On 11.05.2023 18:21, Arseniy Krasnov wrote:
+>>>>>>> This adds support for OTP area access on MX30LFxG18AC chip series.
+>>>>>>>
+>>>>>>> Changelog:
+>>>>>>>   v1 -> v2:
+>>>>>>>   * Add slab.h include due to kernel test robot error.
+>>>>>>>   v2 -> v3:
+>>>>>>>   * Use 'uint64_t' as input argument for 'do_div()' instead
+>>>>>>>     of 'unsigned long' due to kernel test robot error.
+>>>>>>>
+>>>>>>> Signed-off-by: Arseniy Krasnov <AVKrasnov@sberdevices.ru>
+>>>>>>> ---
+>>>>>>>  drivers/mtd/nand/raw/nand_macronix.c | 213 +++++++++++++++++++++++++++
+>>>>>>>  1 file changed, 213 insertions(+)
+>>>>>>>
+>>>>>>> diff --git a/drivers/mtd/nand/raw/nand_macronix.c b/drivers/mtd/nand/raw/nand_macronix.c
+>>>>>>> index 1472f925f386..2301f990678e 100644
+>>>>>>> --- a/drivers/mtd/nand/raw/nand_macronix.c
+>>>>>>> +++ b/drivers/mtd/nand/raw/nand_macronix.c
+>>>>>>> @@ -6,6 +6,7 @@
+>>>>>>>   * Author: Boris Brezillon <boris.brezillon@free-electrons.com>
+>>>>>>>   */
+>>>>>>>
+>>>>>>> +#include <linux/slab.h>
+>>>>>>>  #include "linux/delay.h"
+>>>>>>>  #include "internals.h"
+>>>>>>>
+>>>>>>> @@ -31,6 +32,20 @@
+>>>>>>>
+>>>>>>>  #define MXIC_CMD_POWER_DOWN 0xB9
+>>>>>>>
+>>>>>>> +#define ONFI_FEATURE_ADDR_30LFXG18AC_OTP  0x90
+>>>>>>> +#define MACRONIX_30LFXG18AC_OTP_START_PAGE        0
+>>>>>>> +#define MACRONIX_30LFXG18AC_OTP_PAGES             30
+>>>>>>> +#define MACRONIX_30LFXG18AC_OTP_PAGE_SIZE 2112
+>>>>>>> +#define MACRONIX_30LFXG18AC_OTP_START_BYTE        \
+>>>>>>> +  (MACRONIX_30LFXG18AC_OTP_START_PAGE *   \
+>>>>>>> +   MACRONIX_30LFXG18AC_OTP_PAGE_SIZE)
+>>>>>>> +#define MACRONIX_30LFXG18AC_OTP_SIZE_BYTES        \
+>>>>>>> +  (MACRONIX_30LFXG18AC_OTP_PAGES *        \
+>>>>>>> +   MACRONIX_30LFXG18AC_OTP_PAGE_SIZE)
+>>>>>>> +
+>>>>>>> +#define MACRONIX_30LFXG18AC_OTP_EN                BIT(0)
+>>>>>>> +#define MACRONIX_30LFXG18AC_OTP_LOCKED            BIT(1)
+>>>>>>> +
+>>>>>>>  struct nand_onfi_vendor_macronix {
+>>>>>>>    u8 reserved;
+>>>>>>>    u8 reliability_func;
+>>>>>>> @@ -316,6 +331,203 @@ static void macronix_nand_deep_power_down_support(struct nand_chip *chip)
+>>>>>>>    chip->ops.resume = mxic_nand_resume;
+>>>>>>>  }
+>>>>>>>
+>>>>>>> +static int macronix_30lfxg18ac_get_otp_info(struct mtd_info *mtd, size_t len,
+>>>>>>> +                                      size_t *retlen,
+>>>>>>> +                                      struct otp_info *buf)
+>>>>>>> +{
+>>>>>>> +  if (len < sizeof(*buf))
+>>>>>>> +          return -EINVAL;
+>>>>>>> +
+>>>>>>> +  /* Don't know how to check that OTP is locked. */
+>>>>
+>>>> Jaime, any idea?
+>>>
+>>> OTP info could be check by GET_FEATURE command.
+>>> GET_FEATURE command with address 90h could read sub-feature
+>>> parameter table, P1 is "3" means OTP protection.
+>>>
+>>> Thanks
+>>> Jaime
+>>>
+>>
+>> Hello Jaime, thanks for quick reply!
+>>
+>> I have two devices - with locked and unlocked OTP. I call the following thing for each of them:
+>>
+>> @@ -339,6 +341,26 @@ static int macronix_30lfxg18ac_get_otp_info(struct mtd_info *mtd, size_t len,
+>>                 return -EINVAL;
+>>  
+>>         /* Don't know how to check that OTP is locked. */
+>> +       {
+>> +               u8 feature_buf[ONFI_SUBFEATURE_PARAM_LEN] = { 0 };
+>> +               struct nand_chip *nand;
+>> +               int res;
+>> +
+>> +               nand = mtd_to_nand(mtd);
+>> +
+>> +               nand_select_target(nand, 0);
+>> +
+>> +               res = nand_get_features(nand, 0x90, feature_buf);
+>> +
+>> +               nand_deselect_target(nand);
+>> +
+>> +               printk(KERN_EMERG "\n\nRES %i OTP BUF %hhx %hhx %hhx %hhx\n\n\n",
+>> +                                       res,
+>> +                                       feature_buf[0],
+>> +                                       feature_buf[1],
+>> +                                       feature_buf[2],
+>> +                                       feature_buf[3]);
+>> +       }
+>>         buf->locked = 0;
+>>         buf->start = MACRONIX_30LFXG18AC_OTP_START_BYTE;
+>>         buf->length = MACRONIX_30LFXG18AC_OTP_SIZE_BYTES;
+>>
+>> And get for both devices:
+>>
+>> [    4.228721] RES 0 OTP BUF 0 0 0 0
+>>
+>> May be i'm doing something wrong?
+>>
+>> Thanks, Arseniy
+> 
+> Small upd: I tried to
+> 
+> 1) Call 'nand_get_features()' when OTP mode is enabled, it just returns 1 0 0 0 (e.g. OTP mode enabled, on both locked and unlocked devs).
+> 2) Increase timings and delays in NAND controller driver - it didn't help.
+> 
+> Anyway, I see, that OTP status (enabled or disabled) is returned successfully, but locked status is always missed.
+> 
+> Thanks, Arseniy
+> 
+>>
+>>>>
+>>>>>>> +  buf->locked = 0;
+>>>>>>> +  buf->start = MACRONIX_30LFXG18AC_OTP_START_BYTE;
+>>>>>>> +  buf->length = MACRONIX_30LFXG18AC_OTP_SIZE_BYTES;
+>>>>>>> +
+>>>>>>> +  *retlen = sizeof(*buf);
+>>>>>>> +
+>>>>>>> +  return 0;
+>>>>>>> +}
+>>>>>>> +
+>>>>>>> +static int macronix_30lfxg18ac_otp_enable(struct nand_chip *nand)
+>>>>>>> +{
+>>>>>>> +  uint8_t feature_buf[ONFI_SUBFEATURE_PARAM_LEN] = { 0 };
+>>>>>>> +
+>>>>>>> +  feature_buf[0] = MACRONIX_30LFXG18AC_OTP_EN;
+>>>>>>> +  return nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
+>>>>>>> +                           feature_buf);
+>>>>>>> +}
+>>>>>>> +
+>>>>>>> +static int macronix_30lfxg18ac_otp_disable(struct nand_chip *nand)
+>>>>>>> +{
+>>>>>>> +  uint8_t feature_buf[ONFI_SUBFEATURE_PARAM_LEN] = { 0 };
+>>>>>>> +
+>>>>>>> +  return nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
+>>>>>>> +                           feature_buf);
+>>>>>>> +}
+>>>>>>> +
+>>>>>>> +static int __macronix_30lfxg18ac_rw_otp(struct mtd_info *mtd,
+>>>>>>> +                                  loff_t offs_in_flash,
+>>>>>>> +                                  size_t len, size_t *retlen,
+>>>>>>> +                                  u_char *buf, bool write)
+>>>>>>> +{
+>>>>>>> +  struct nand_chip *nand;
+>>>>>>> +  size_t bytes_handled;
+>>>>>>> +  off_t offs_in_page;
+>>>>>>> +  uint64_t page;
+>>>>>>> +  void *dma_buf;
+>>>>>>> +  int ret;
+>>>>>>> +
+>>>>>>> +  /* 'nand_prog/read_page_op()' may use 'buf' as DMA buffer,
+>>>>>>> +   * so allocate properly aligned memory for it. This is
+>>>>>>> +   * needed because cross page accesses may lead to unaligned
+>>>>>>> +   * buffer address for DMA.
+>>>>>>> +   */
+>>>>>>> +  dma_buf = kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERNEL);
+>>>>>>> +  if (!dma_buf)
+>>>>>>> +          return -ENOMEM;
+>>>>>>> +
+>>>>>>> +  nand = mtd_to_nand(mtd);
+>>>>>>> +  nand_select_target(nand, 0);
+>>>>>>> +
+>>>>>>> +  ret = macronix_30lfxg18ac_otp_enable(nand);
+>>>>>>> +  if (ret)
+>>>>>>> +          goto out_otp;
+>>>>>>> +
+>>>>>>> +  page = offs_in_flash;
+>>>>>>> +  /* 'page' will be result of division. */
+>>>>>>> +  offs_in_page = do_div(page, MACRONIX_30LFXG18AC_OTP_PAGE_SIZE);
+>>>>>>> +  bytes_handled = 0;
+>>>>>>> +
+>>>>>>> +  while (bytes_handled < len &&
+>>>>>>> +         page < MACRONIX_30LFXG18AC_OTP_PAGES) {
+>>>>>>> +          size_t bytes_to_handle;
+>>>>>>> +
+>>>>>>> +          bytes_to_handle = min_t(size_t, len - bytes_handled,
+>>>>>>> +                                  MACRONIX_30LFXG18AC_OTP_PAGE_SIZE -
+>>>>>>> +                                  offs_in_page);
+>>>>>>> +
+>>>>>>> +          if (write) {
+>>>>>>> +                  memcpy(dma_buf, &buf[bytes_handled], bytes_to_handle);
+>>>>>>> +                  ret = nand_prog_page_op(nand, page, offs_in_page,
+>>>>>>> +                                          dma_buf, bytes_to_handle);
+>>>>>>> +          } else {
+>>>>>>> +                  ret = nand_read_page_op(nand, page, offs_in_page,
+>>>>>>> +                                          dma_buf, bytes_to_handle);
+>>>>>>> +                  if (!ret)
+>>>>>>> +                          memcpy(&buf[bytes_handled], dma_buf,
+>>>>>>> +                                 bytes_to_handle);
+>>>>>>> +          }
+>>>>>>> +          if (ret)
+>>>>>>> +                  goto out_otp;
+>>>>>>> +
+>>>>>>> +          bytes_handled += bytes_to_handle;
+>>>>>>> +          offs_in_page = 0;
+>>>>>>> +          page++;
+>>>>>>> +  }
+>>>>>>> +
+>>>>>>> +  *retlen = bytes_handled;
+>>>>>>> +
+>>>>>>> +out_otp:
+>>>>>>> +  if (ret)
+>>>>>>> +          dev_err(&mtd->dev, "failed to perform OTP IO: %i\n", ret);
+>>>>>>> +
+>>>>>>> +  ret = macronix_30lfxg18ac_otp_disable(nand);
+>>>>>>> +  WARN(ret, "failed to leave OTP mode after %s\n",
+>>>>>>> +       write ? "write" : "read");
+>>>>
+>>>> Let's avoid WARN() calls (none in this driver are relevant IMHO). Just a
+>>>> dev_err() should be enough.
+>>>>
+>>>>>>> +  nand_deselect_target(nand);
+>>>>>>> +  kfree(dma_buf);
+>>>>>>> +
+>>>>>>> +  return ret;
+>>>>>>> +}
+>>>>>>> +
+>>>>>>> +static int macronix_30lfxg18ac_write_otp(struct mtd_info *mtd, loff_t to,
+>>>>>>> +                                   size_t len, size_t *rlen,
+>>>>>>> +                                   const u_char *buf)
+>>>>>>> +{
+>>>>>>> +  return __macronix_30lfxg18ac_rw_otp(mtd, to, len, rlen, (u_char *)buf,
+>>>>>>> +                                      true);
+>>>>>>> +}
+>>>>>>> +
+>>>>>>> +static int macronix_30lfxg18ac_read_otp(struct mtd_info *mtd, loff_t from,
+>>>>>>> +                                  size_t len, size_t *rlen,
+>>>>>>> +                                  u_char *buf)
+>>>>>>> +{
+>>>>>>> +  return __macronix_30lfxg18ac_rw_otp(mtd, from, len, rlen, buf, false);
+>>>>>>> +}
+>>>>>>> +
+>>>>>>> +static int macronix_30lfxg18ac_lock_otp(struct mtd_info *mtd, loff_t from,
+>>>>>>> +                                  size_t len)
+>>>>>>> +{
+>>>>>>> +  uint8_t feature_buf[ONFI_SUBFEATURE_PARAM_LEN] = { 0 };
+>>>>>>> +  struct nand_chip *nand;
+>>>>>>> +  int ret;
+>>>>>>> +
+>>>>>>> +  if (from != MACRONIX_30LFXG18AC_OTP_START_BYTE ||
+>>>>>>> +      len != MACRONIX_30LFXG18AC_OTP_SIZE_BYTES)
+>>>>>>> +          return -EINVAL;
+>>>>>>> +
+>>>>>>> +  dev_dbg(&mtd->dev, "locking OTP\n");
+>>>>>>> +
+>>>>>>> +  nand = mtd_to_nand(mtd);
+>>>>>>> +  nand_select_target(nand, 0);
+>>>>>>> +
+>>>>>>> +  feature_buf[0] = MACRONIX_30LFXG18AC_OTP_EN |
+>>>>>>> +                   MACRONIX_30LFXG18AC_OTP_LOCKED;
+>>>>>>> +  ret = nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
+>>>>>>> +                          feature_buf);
+>>>>>>> +  if (ret) {
+>>>>>>> +          dev_err(&mtd->dev,
+>>>>>>> +                  "failed to lock OTP (set features): %i\n", ret);
+>>>>>>> +          nand_deselect_target(nand);
+>>>>>>> +          return ret;
+>>>>>>> +  }
+>>>>>>> +
+>>>>>>> +  /* Do dummy page prog with zero address. */
+>>>>>>> +  feature_buf[0] = 0;
+>>>>>>> +  ret = nand_prog_page_op(nand, 0, 0, feature_buf, 1);
+>>>>>>> +  if (ret)
+>>>>>>> +          dev_err(&mtd->dev,
+>>>>>>> +                  "failed to lock OTP (page prog): %i\n", ret);
+>>>>>>> +
+>>>>>>> +  ret = macronix_30lfxg18ac_otp_disable(nand);
+>>>>>>> +  WARN(ret, "failed to leave OTP mode after lock\n");
+>>>>>>> +
+>>>>>>> +  nand_deselect_target(nand);
+>>>>>>> +
+>>>>>>> +  return ret;
+>>>>>>> +}
+>>>>>>> +
+>>>>>>> +static void macronix_nand_setup_otp(struct nand_chip *chip)
+>>>>>>> +{
+>>>>>>> +  static const char * const supported_otp_models[] = {
+>>>>>>> +          "MX30LF1G18AC",
+>>>>>>> +          "MX30LF2G18AC",
+>>>>>>> +          "MX30LF4G18AC",
+>>>>>>> +  };
+>>>>>>> +  struct mtd_info *mtd;
+>>>>>>> +
+>>>>>>> +  if (!chip->parameters.supports_set_get_features)
+>>>>>>> +          return;
+>>>>>>> +
+>>>>>>> +  if (match_string(supported_otp_models,
+>>>>>>> +                   ARRAY_SIZE(supported_otp_models),
+>>>>>>> +                   chip->parameters.model) < 0)
+>>>>>>> +          return;
+>>>>
+>>>> I would start by checking the model, then it's list of supported ops.
+>>>>
+>>>>>>> +
+>>>>>>> +  bitmap_set(chip->parameters.get_feature_list,
+>>>>>>> +             ONFI_FEATURE_ADDR_30LFXG18AC_OTP, 1);
+>>>>>>> +  bitmap_set(chip->parameters.set_feature_list,
+>>>>>>> +             ONFI_FEATURE_ADDR_30LFXG18AC_OTP, 1);
+>>>>>>> +
+>>>>>>> +  mtd = nand_to_mtd(chip);
+>>>>>>> +  mtd->_get_fact_prot_info = macronix_30lfxg18ac_get_otp_info;
+>>>>>>> +  mtd->_read_fact_prot_reg = macronix_30lfxg18ac_read_otp;
+>>>>>>> +  mtd->_get_user_prot_info = macronix_30lfxg18ac_get_otp_info;
+>>>>>>> +  mtd->_read_user_prot_reg = macronix_30lfxg18ac_read_otp;
+>>>>>>> +  mtd->_write_user_prot_reg = macronix_30lfxg18ac_write_otp;
+>>>>>>> +  mtd->_lock_user_prot_reg = macronix_30lfxg18ac_lock_otp;
+>>>>>>> +}
+>>>>>>> +
+>>>>>>>  static int macronix_nand_init(struct nand_chip *chip)
+>>>>>>>  {
+>>>>>>>    if (nand_is_slc(chip))
+>>>>>>> @@ -325,6 +537,7 @@ static int macronix_nand_init(struct nand_chip *chip)
+>>>>>>>    macronix_nand_onfi_init(chip);
+>>>>>>>    macronix_nand_block_protection_support(chip);
+>>>>>>>    macronix_nand_deep_power_down_support(chip);
+>>>>>>> +  macronix_nand_setup_otp(chip);
+>>>>>>>
+>>>>>>>    return 0;
+>>>>>>>  }
+>>>>
+>>>>
+>>>> Thanks,
+>>>> Miquèl
