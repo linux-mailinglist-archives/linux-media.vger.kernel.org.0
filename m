@@ -2,165 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 242D672208C
-	for <lists+linux-media@lfdr.de>; Mon,  5 Jun 2023 10:07:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AC54722093
+	for <lists+linux-media@lfdr.de>; Mon,  5 Jun 2023 10:09:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229549AbjFEIHY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Jun 2023 04:07:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51150 "EHLO
+        id S230361AbjFEIJE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Jun 2023 04:09:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230361AbjFEIHU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Jun 2023 04:07:20 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D52AAF
-        for <linux-media@vger.kernel.org>; Mon,  5 Jun 2023 01:07:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685952439; x=1717488439;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GtSfj1LgmRgrIEYm4Jj5FaJuaz6ZxcAyzCDjlEgus9k=;
-  b=a3AptKbMOwEEL0PI7FdNt3ow6sSHEFqan6NszHmwSGEcR9c39Z3ULPtr
-   1SrLTaceznxG4X7jy7VYnEErUUcUy/+FdpzawZ3Pmy/W3L/bFx4byV3YU
-   Cn4cOnBL/hWa07QlE6YYs/+cNoHCaQEYpZsc4bctDdPr1rl5wV1WysOgZ
-   08JJPdBT7OTapmg72Q3XfCpOxLWGsCxQgUNMUM3cOMXKJbsGntih2dA4n
-   0em/jZd6xGkulBFxJGFULWTi+cc67nBV9W7t2DjeWM5CBcxDmYE/F1z76
-   x7BTvKo1keWIoLWn2jPnDsU9erS+qSTR7VqfKl74mNWKlhIUbKzDe3tn3
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="422135967"
-X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
-   d="scan'208";a="422135967"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 01:07:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="778449199"
-X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
-   d="scan'208";a="778449199"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 01:07:00 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 22C73120A13;
-        Mon,  5 Jun 2023 11:06:58 +0300 (EEST)
-Date:   Mon, 5 Jun 2023 08:06:58 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org, bingbu.cao@intel.com,
-        hongju.wang@intel.com
-Subject: Re: [RFC 2/7] media: v4l: subdev: Support INTERNAL_SOURCE pads in
- routing IOCTLs
-Message-ID: <ZH2XokhNNc6Sql64@kekkonen.localdomain>
-References: <20230505215257.60704-1-sakari.ailus@linux.intel.com>
- <20230505215257.60704-3-sakari.ailus@linux.intel.com>
- <691a9d35-218f-4eef-ddb0-5834f1e222c8@ideasonboard.com>
- <ZFjp6jtJk4WIeXCx@kekkonen.localdomain>
- <20230602094407.GF19463@pendragon.ideasonboard.com>
- <20230602094650.GG19463@pendragon.ideasonboard.com>
- <ZHnqUG7o+njqGCco@kekkonen.localdomain>
- <20230604142626.GF7754@pendragon.ideasonboard.com>
+        with ESMTP id S229483AbjFEIJD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Jun 2023 04:09:03 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A71E1AD
+        for <linux-media@vger.kernel.org>; Mon,  5 Jun 2023 01:09:02 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <pza@pengutronix.de>)
+        id 1q65Gn-00021e-UX; Mon, 05 Jun 2023 10:08:53 +0200
+Received: from pza by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <pza@pengutronix.de>)
+        id 1q65Gi-0003OO-3S; Mon, 05 Jun 2023 10:08:48 +0200
+Date:   Mon, 5 Jun 2023 10:08:48 +0200
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Keith Zhao <keith.zhao@starfivetech.com>
+Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        christian.koenig@amd.com, Bjorn Andersson <andersson@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Shawn Guo <shawnguo@kernel.org>, Jagan Teki <jagan@edgeble.ai>,
+        Chris Morgan <macromorgan@hotmail.com>,
+        Jack Zhu <jack.zhu@starfivetech.com>,
+        Shengyang Chen <shengyang.chen@starfivetech.com>,
+        Changhuang Liang <changhuang.liang@starfivetech.com>
+Subject: Re: [PATCH 9/9] drm/verisilicon: Add starfive hdmi driver
+Message-ID: <20230605080848.GA4802@pengutronix.de>
+References: <20230602074043.33872-1-keith.zhao@starfivetech.com>
+ <20230602074043.33872-10-keith.zhao@starfivetech.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230604142626.GF7754@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20230602074043.33872-10-keith.zhao@starfivetech.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: pza@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Keith,
 
-On Sun, Jun 04, 2023 at 05:26:26PM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
+On Fri, Jun 02, 2023 at 03:40:43PM +0800, Keith Zhao wrote:
+> Add HDMI dirver for StarFive SoC JH7110.
 > 
-> On Fri, Jun 02, 2023 at 01:10:40PM +0000, Sakari Ailus wrote:
-> > On Fri, Jun 02, 2023 at 12:46:50PM +0300, Laurent Pinchart wrote:
-> > > On Fri, Jun 02, 2023 at 12:44:12PM +0300, Laurent Pinchart wrote:
-> > > > On Mon, May 08, 2023 at 03:24:10PM +0300, Sakari Ailus wrote:
-> > > > > On Mon, May 08, 2023 at 01:14:07PM +0300, Tomi Valkeinen wrote:
-> > > > > > On 06/05/2023 00:52, Sakari Ailus wrote:
-> > > > > > > Take the new INTERNAL_SOURCE pad flag into account in validating routing
-> > > > > > > IOCTL argument. Effectively this is a SINK pad in this respect. Due to the
-> > > > > > > union there's no need to check for the particular name.
-> > > > > > 
-> > > > > > What union? The one you add in the next patch?
-> > > > > 
-> > > > > Oops. I think we can reorder the patches.
-> > > > > 
-> > > > > > As a concept the internal source pads sound good, and they work in practice
-> > > > > > in my tests. But this union is what grates me a bit. We have a flag,
-> > > > > > MEDIA_PAD_FL_INTERNAL_SOURCE, which tells which field of the union to use,
-> > > > > > and then we go and do not use the new union field. Well, and also the
-> > > > > > naming, as we normally have source and sink pads, but now we also have
-> > > > > > internal source pads, which are actually identical to sink pads...
-> > > > > 
-> > > > > The union still should be used by the user space. We're testing flags here
-> > > > > and those flags are the same independently of the INTERNAL_SOURCE flag.
-> > > > > 
-> > > > > I'm fine by not adding that union though, but for the user space I think
-> > > > > it's better we have it: explaining that the sink_pad has a different
-> > > > > meaning if that flag is set is harder than making it a union member.
-> > > > > 
-> > > > > > I understand the idea and reasoning, but the two points above do confuse me
-> > > > > > and I'm sure would confuse others also.
-> > > > > > 
-> > > > > > I wonder if it would be less or more confusing to simplify this by just
-> > > > > > adding a MEDIA_PAD_FL_INTERNAL, which could be applied to either a source or
-> > > > > > a sink pad, and would prevent linking to it. The flag would indicate that
-> > > > > > the stream from/to that pad is generated/consumed internally. (I don't know
-> > > > > > when you would need an internal pad to consume data, but... who knows, the
-> > > > > > need might pop up =).
-> > > > > 
-> > > > > This is another option. But I envision there will be more compatibility
-> > > > > issues. Although... generally using such hardware requires knowledge of the
-> > > > > device, and we haven't obviously had any support for devices needing this
-> > > > > functionality in the tree. So in the end it might not matter much.
-> > > > >
-> > > > > > That would mean that an "internal sink pad" would generate a data stream,
-> > > > > > i.e. it's a "source", but I think a normal sink pad is almost the same
-> > > > > > anyway: when considering entity's internal routing, the normal sink pad is a
-> > > > > > "source", and the same logic would apply with the internal pads too.
-> > > > > > 
-> > > > > > An internal sink pad that generates a stream is a bit more confusing than an
-> > > > > > internal source pad, but I think that confusion is less than the rest of the
-> > > > > > confusion in the code-side that comes with the internal source pads.
-> > > > > 
-> > > > > I prefer having the possible sources of the confusion in the framework than
-> > > > > in the drivers. Therefore I think INTERNAL_SOURCE flag is a (slightly)
-> > > > > better option.
-> > > > > 
-> > > > > I wonder what Llaurent thinks.
-> > > > 
-> > > > I like the idea of a MEDIA_PAD_FL_INTERNAL flag. That's actually how I
-> > > > read patch 1/7, I didn't notice it used MEDIA_PAD_FL_INTERNAL*_SOURCE*
-> > > > :-)
-> > > > 
-> > > > We could define MEDIA_PAD_FL_INTERNAL_SOURCE
-> > > > 
-> > > > #define MEDIA_PAD_FL_INTERNAL_SOURCE 	(MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_INTERNAL)
-> > > 
-> > > One option would be to find terms different from sink and source in this
-> > > case. It would generate less confusion to map (e.g., not a really good
-> > > name) MEDIA_PAD_FL_INTERNAL_PRODUCER to MEDIA_PAD_FL_SINK and to the
-> > > sink_pad field than using MEDIA_PAD_FL_INTERNAL_SOURCE.
-> > 
-> > I don't think this helps as you'd still be accessing the sink pad related
-> > fields that are there for another purpose.
-> > 
-> > Alternatively I'd have the (plain) INTERNAL flag and drop the union,
-> > without masking or adding compound flags.
-> > 
-> > I can switch to that if you promise not to change your mind again. ;-)
+> Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
+> ---
+>  drivers/gpu/drm/verisilicon/Kconfig         |  11 +
+>  drivers/gpu/drm/verisilicon/Makefile        |   1 +
+>  drivers/gpu/drm/verisilicon/starfive_hdmi.c | 928 ++++++++++++++++++++
+>  drivers/gpu/drm/verisilicon/starfive_hdmi.h | 296 +++++++
+>  drivers/gpu/drm/verisilicon/vs_drv.c        |   6 +
+>  drivers/gpu/drm/verisilicon/vs_drv.h        |   4 +
+>  6 files changed, 1246 insertions(+)
+>  create mode 100644 drivers/gpu/drm/verisilicon/starfive_hdmi.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/starfive_hdmi.h
 > 
-> I'll do my best :-) Could you show the impact (if any) it would have on
-> drivers when accessing the routing fields ?
+[...]
+> diff --git a/drivers/gpu/drm/verisilicon/starfive_hdmi.c b/drivers/gpu/drm/verisilicon/starfive_hdmi.c
+> new file mode 100644
+> index 000000000000..128ecca03309
+> --- /dev/null
+> +++ b/drivers/gpu/drm/verisilicon/starfive_hdmi.c
+> @@ -0,0 +1,928 @@
+[...]
+> +static int starfive_hdmi_enable_clk_deassert_rst(struct device *dev, struct starfive_hdmi *hdmi)
+> +{
+> +	int ret;
+> +
+> +	ret = clk_prepare_enable(hdmi->sys_clk);
+> +	if (ret) {
+> +		DRM_DEV_ERROR(dev, "Cannot enable HDMI sys clock: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = clk_prepare_enable(hdmi->mclk);
+> +	if (ret) {
+> +		DRM_DEV_ERROR(dev, "Cannot enable HDMI mclk clock: %d\n", ret);
+> +		return ret;
+> +	}
+> +	ret = clk_prepare_enable(hdmi->bclk);
+> +	if (ret) {
+> +		DRM_DEV_ERROR(dev, "Cannot enable HDMI bclk clock: %d\n", ret);
+> +		return ret;
+> +	}
+> +	ret = reset_control_deassert(hdmi->tx_rst);
+> +	if (ret < 0) {
+> +		dev_err(dev, "failed to deassert tx_rst\n");
 
-I don't think there's much of an impact for the drivers. It's mainly
-affecting setting up pads for the entities. Tomi?
+The error paths should clk_disable_unprepare() enabled clocks.
 
--- 
-Sakari Ailus
+> +		return ret;
+> +	}
+> +	return 0;
+> +}
+> +
+[...]
+> +static int starfive_hdmi_get_clk_rst(struct device *dev, struct starfive_hdmi *hdmi)
+> +{
+> +	hdmi->sys_clk = devm_clk_get(dev, "sysclk");
+> +	if (IS_ERR(hdmi->sys_clk)) {
+> +		DRM_DEV_ERROR(dev, "Unable to get HDMI sysclk clk\n");
+> +		return PTR_ERR(hdmi->sys_clk);
+> +	}
+> +	hdmi->mclk = devm_clk_get(dev, "mclk");
+> +	if (IS_ERR(hdmi->mclk)) {
+> +		DRM_DEV_ERROR(dev, "Unable to get HDMI mclk clk\n");
+> +		return PTR_ERR(hdmi->mclk);
+> +	}
+> +	hdmi->bclk = devm_clk_get(dev, "bclk");
+> +	if (IS_ERR(hdmi->bclk)) {
+> +		DRM_DEV_ERROR(dev, "Unable to get HDMI bclk clk\n");
+> +		return PTR_ERR(hdmi->bclk);
+> +	}
+> +	hdmi->tx_rst = reset_control_get_shared(dev, "hdmi_tx");
+
+Use devm_reset_control_get_shared() for consistency, otherwise this is missing
+a reset_control_put() somewhere.
+
+regards
+Philipp
