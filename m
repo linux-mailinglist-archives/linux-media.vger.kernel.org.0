@@ -2,229 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 833757245F8
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jun 2023 16:29:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D5BC72477F
+	for <lists+linux-media@lfdr.de>; Tue,  6 Jun 2023 17:20:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233065AbjFFO3i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Jun 2023 10:29:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34644 "EHLO
+        id S238568AbjFFPUD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Jun 2023 11:20:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237677AbjFFO3f (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jun 2023 10:29:35 -0400
-Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com [IPv6:2607:f8b0:4864:20::f2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20D1F186
-        for <linux-media@vger.kernel.org>; Tue,  6 Jun 2023 07:29:00 -0700 (PDT)
-Received: by mail-qv1-xf2e.google.com with SMTP id 6a1803df08f44-6260a9ef126so50091036d6.2
-        for <linux-media@vger.kernel.org>; Tue, 06 Jun 2023 07:29:00 -0700 (PDT)
+        with ESMTP id S238665AbjFFPUA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jun 2023 11:20:00 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5948E40
+        for <linux-media@vger.kernel.org>; Tue,  6 Jun 2023 08:19:58 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-4f6170b1486so5029397e87.0
+        for <linux-media@vger.kernel.org>; Tue, 06 Jun 2023 08:19:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686061735; x=1688653735;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QWL9TIrPPXL5iMN2PMKfmz/IG3LdlvRosmbZV+NkrDo=;
-        b=Vp0EzqeVhbKmKBEuFi1siWznTrf0iSbDTcmi3S994OnQu2m3UPcRsYKfX1G0i0ubUl
-         jy0coySV6ZWx89tT9CHj6XSn/637wxMFIY5t4QsdDj27b1LHD4552wYSdH8o50foY2kP
-         Fc8SLpIiZ17VTlx3WtKdpOvhOCDX0QDN78dluaffXpbzDbZh4oi/w/Q554a7Mpg20iWr
-         iCTcW6f/t84frCulyguRpQGYK9bwrX3zPH23nF0gLySptcsP9Oeb70rfrAeohXbeiOwl
-         Ad+78RffNt+EMfSYaapL/3WcIHNlxqCtl17NHgLnbVWxdeNEbTjppLiRpVboCRGbX7R7
-         evsg==
+        d=gmail.com; s=20221208; t=1686064797; x=1688656797;
+        h=content-transfer-encoding:to:subject:message-id:date:from:sender
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=PXSnykSl2m8GUoGHPGyHMUT1Oob4xT3ddV97ZlLQSfo=;
+        b=gFhgmpMY05DjQ8KsKO/uybTiJ9yKPK2xD+mrm86hZm3kxTo0gvsPmO0dg1Zk44zvV4
+         exLmOivLJFGJMFyRwmA43Vo1gbtXtDiPD80eITDxvuEtrcRP0H4ybDXbek9y6dGBIAdk
+         nX4bsHQpZyoX4QV1tsGw5ZX7qvNuQmW2EOdfi02Kw08k1NnUcSiobTiO9cCh70ovT1Ia
+         VnrlZxy5SHVU28JlRHN2jpSpAFL9fPDbHKEgpfnRVSf/nMGp+GszSWrtUkt63qZI/w0D
+         VEaR91u11dtZBtb/EsevqMkevj7oRgMFyMHOnbrr2rfXiwqQca1rhc2nJDUuQfwN5h5X
+         psGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686061735; x=1688653735;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QWL9TIrPPXL5iMN2PMKfmz/IG3LdlvRosmbZV+NkrDo=;
-        b=iRjm7LcJ3Ooa3bcbOzKdCNShualfXuxuHgUwwsqBaoIWb6hKs+xtRCrEQtkmaV1dFo
-         JslGIV+CsdR38hH0wyvwtH7MwMTLhRA2LOPJBHH257COxtu2aGi3Z4UslFSx5DzB5CxE
-         bOVc+wxvHN5J9sSMf/WCtfoPnntrjVol4eE+XOXoBbDH5e2ShWIpcuDiFrXgsVvB4Sqp
-         U8CMb89RVbS2kqc6hSN42aXz92mdvONqmwLMC+CvqRyXr5bfl0x3P1kHnNPgO2Vsh6l9
-         aOD0A6aQQQUqFOX5ZnvcBCRaTHVOEaPgC94GACjS2AYQGpHVogQgNUxwfKCAZqJgEoWv
-         1OAg==
-X-Gm-Message-State: AC+VfDzHb2cp2P2fD5H8GKK/Cfo3BBk7JaGgj9QHHWydx7sLytmJ5+rg
-        yUslk0UHufG7mOvJBUHhImP4rEBnhmi1/hbU5JM=
-X-Google-Smtp-Source: ACHHUZ6IMo/9b+2gOvTRs51NN62pfdUiKh3o+2G8v9K9VPXnSeSAgJF/QsRpDrwL6nBwxCcxvLx/yoB+XhixH9UHCfM=
-X-Received: by 2002:a05:6214:2627:b0:626:f3d:9e46 with SMTP id
- gv7-20020a056214262700b006260f3d9e46mr2682955qvb.18.1686061734700; Tue, 06
- Jun 2023 07:28:54 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1686064797; x=1688656797;
+        h=content-transfer-encoding:to:subject:message-id:date:from:sender
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PXSnykSl2m8GUoGHPGyHMUT1Oob4xT3ddV97ZlLQSfo=;
+        b=GM4EjUooWoA0U8spyjKbilPjbax65p8CCzmNB2Z4U3czICPYnwz8d8p1I1ugSPZTNh
+         TUqzAre0KMvoLCzDnEkKlesOh3I275idMJipylr1qNj2kPGpxxZHVnwNWm/kfTfug6cb
+         BdsCtyxhnr+B6bgR62TMwAfnsdfS1ejGUahbNy8CStO7FUsSiwHYv35HjAh2rso9z0nu
+         K/C8eYyKkJ9VOYBdKe7XYrFtxLhY80UzWNuDXAI2WMK9qIki0Bx2fpu36/hwBqIpL6vP
+         zomEQQHX/AlVYFrZVoAx5HjwQ2RazxoWU6gJALf7ygJ3fQxiQwKkOIkoWO4RXpWT9HP0
+         t0FQ==
+X-Gm-Message-State: AC+VfDwT0BwNcIQyBPlm2Z61IAOf1jzokNZbgQO5wk0c8N785ZHy0xML
+        NxILhWStk9qO2YJNms3qL5wxLtiAvcqajhnlMrs=
+X-Google-Smtp-Source: ACHHUZ5Bnc8SwAKxEjMAjEKFmdYjpebbkLljMTFnQAv85r7Hx5hcuzvq30JLw7RoxUyeqYz79wwD4jxUqh3vYW3vLHs=
+X-Received: by 2002:a05:6512:33c5:b0:4f4:f38a:4423 with SMTP id
+ d5-20020a05651233c500b004f4f38a4423mr5677644lfg.27.1686064796697; Tue, 06 Jun
+ 2023 08:19:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230606133136.23619-1-hdegoede@redhat.com>
-In-Reply-To: <20230606133136.23619-1-hdegoede@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 6 Jun 2023 17:28:18 +0300
-Message-ID: <CAHp75VdxraOTMrxu_KxCzCKHNW8fiiqMRpaSQN3tVqiXAwGJWQ@mail.gmail.com>
-Subject: Re: [PATCH] media: atomisp: csi2-bridge: Add support for setting
- "clock-" and "link-frequencies" props
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Nable <nable.maininbox@googlemail.com>,
-        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Sender: traoreseriba174@gmail.com
+Received: by 2002:a2e:8506:0:b0:2b1:b972:80e1 with HTTP; Tue, 6 Jun 2023
+ 08:19:55 -0700 (PDT)
+From:   Maya olivier <madamoliviermaya@gmail.com>
+Date:   Tue, 6 Jun 2023 08:19:55 -0700
+X-Google-Sender-Auth: mW5_BVm4uCr6nQhKewon7buTT3o
+Message-ID: <CAKViA0XbyYvDnKXdMQjxVoM++uvCRnbWwaUhNbbL0FNXqy1rww@mail.gmail.com>
+Subject: Have a nice weekend,
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: Yes, score=6.1 required=5.0 tests=ADVANCE_FEE_5_NEW_MONEY,
+        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FREEMAIL_REPLY,LOTS_OF_MONEY,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNDISC_MONEY autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:12d listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [traoreseriba174[at]gmail.com]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [traoreseriba174[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  1.0 FREEMAIL_REPLY From and body contain different freemails
+        *  3.0 ADVANCE_FEE_5_NEW_MONEY Advance Fee fraud and lots of money
+        *  1.3 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 6, 2023 at 4:31=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
-wrote:
->
-> Some standard v4l2 sensor drivers from drivers/media/i2c expect a
-> "clock-frequency" property on the device indicating the frequency
-> of the extclk for the sensor. Example of such drivers are the
-> ov2680 and ov5693 drivers.
->
-> The standard ov5693 sensor also expects a "link-frequencies" property.
-> Add support for setting both properties.
->
-> Note the "clock-frequency" prop is added before the "rotation" prop while
-> the "link-frequencies" are added at the end to match the ipu3 cio2-bridge
-> code from which this is derived.
-
-LGTM,
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/staging/media/atomisp/pci/atomisp_csi2.h    | 13 +++++++++----
->  .../staging/media/atomisp/pci/atomisp_csi2_bridge.c | 12 ++++++++++--
->  2 files changed, 19 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2.h b/drivers/s=
-taging/media/atomisp/pci/atomisp_csi2.h
-> index b389ccda5e98..16ddb3ab2963 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_csi2.h
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_csi2.h
-> @@ -31,6 +31,7 @@
->  #define CSI2_PADS_NUM          2
->
->  #define CSI2_MAX_LANES         4
-> +#define CSI2_MAX_LINK_FREQS    3
->
->  #define CSI2_MAX_ACPI_GPIOS    2u
->
-> @@ -64,10 +65,12 @@ enum atomisp_csi2_sensor_swnodes {
->  };
->
->  struct atomisp_csi2_property_names {
-> +       char clock_frequency[16];
->         char rotation[9];
->         char bus_type[9];
->         char data_lanes[11];
->         char remote_endpoint[16];
-> +       char link_frequencies[17];
->  };
->
->  struct atomisp_csi2_node_names {
-> @@ -79,6 +82,8 @@ struct atomisp_csi2_node_names {
->  struct atomisp_csi2_sensor_config {
->         const char *hid;
->         int lanes;
-> +       int nr_link_freqs;
-> +       u64 link_freqs[CSI2_MAX_LINK_FREQS];
->  };
->
->  struct atomisp_csi2_sensor {
-> @@ -93,10 +98,10 @@ struct atomisp_csi2_sensor {
->         struct software_node swnodes[SWNODE_COUNT];
->         struct atomisp_csi2_node_names node_names;
->         struct atomisp_csi2_property_names prop_names;
-> -       /* "rotation" + terminating entry */
-> -       struct property_entry dev_properties[2];
-> -       /* "bus-type", "data-lanes", "remote-endpoint" + terminating entr=
-y */
-> -       struct property_entry ep_properties[4];
-> +       /* "clock-frequency", "rotation" + terminating entry */
-> +       struct property_entry dev_properties[3];
-> +       /* "bus-type", "data-lanes", "remote-endpoint" + "link-freq" + te=
-rminating entry */
-> +       struct property_entry ep_properties[5];
->         /* "data-lanes", "remote-endpoint" + terminating entry */
->         struct property_entry csi2_properties[3];
->         struct software_node_ref_args local_ref[1];
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c b/dr=
-ivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-> index 28d8779bbbc4..0d12ba78d9c1 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-> @@ -85,7 +85,7 @@ static const guid_t atomisp_dsm_guid =3D
->
->  /*
->   * Extend this array with ACPI Hardware IDs of sensors known to be worki=
-ng
-> - * plus the number of links expected by their drivers.
-> + * plus the default number of links + link-frequencies.
->   *
->   * Do not add an entry for a sensor that is not actually supported,
->   * or which have not yet been converted to work without atomisp_gmin
-> @@ -492,10 +492,12 @@ static int atomisp_csi2_add_gpio_mappings(struct at=
-omisp_csi2_sensor *sensor,
->  }
->
->  static const struct atomisp_csi2_property_names prop_names =3D {
-> +       .clock_frequency =3D "clock-frequency",
->         .rotation =3D "rotation",
->         .bus_type =3D "bus-type",
->         .data_lanes =3D "data-lanes",
->         .remote_endpoint =3D "remote-endpoint",
-> +       .link_frequencies =3D "link-frequencies",
->  };
->
->  static void atomisp_csi2_create_fwnode_properties(struct atomisp_csi2_se=
-nsor *sensor,
-> @@ -507,7 +509,9 @@ static void atomisp_csi2_create_fwnode_properties(str=
-uct atomisp_csi2_sensor *se
->         sensor->local_ref[0] =3D SOFTWARE_NODE_REFERENCE(&sensor->swnodes=
-[SWNODE_CSI2_ENDPOINT]);
->         sensor->remote_ref[0] =3D SOFTWARE_NODE_REFERENCE(&sensor->swnode=
-s[SWNODE_SENSOR_ENDPOINT]);
->
-> -       sensor->dev_properties[0] =3D PROPERTY_ENTRY_U32(sensor->prop_nam=
-es.rotation, 0);
-> +       sensor->dev_properties[0] =3D PROPERTY_ENTRY_U32(sensor->prop_nam=
-es.clock_frequency,
-> +                                                      PMC_CLK_RATE_19_2M=
-HZ);
-> +       sensor->dev_properties[1] =3D PROPERTY_ENTRY_U32(sensor->prop_nam=
-es.rotation, 0);
->
->         sensor->ep_properties[0] =3D PROPERTY_ENTRY_U32(sensor->prop_name=
-s.bus_type,
->                                                       V4L2_FWNODE_BUS_TYP=
-E_CSI2_DPHY);
-> @@ -516,6 +520,10 @@ static void atomisp_csi2_create_fwnode_properties(st=
-ruct atomisp_csi2_sensor *se
->                                                                 sensor->l=
-anes);
->         sensor->ep_properties[2] =3D PROPERTY_ENTRY_REF_ARRAY(sensor->pro=
-p_names.remote_endpoint,
->                                                             sensor->local=
-_ref);
-> +       if (cfg->nr_link_freqs > 0)
-> +               sensor->ep_properties[3] =3D
-> +                       PROPERTY_ENTRY_U64_ARRAY_LEN(sensor->prop_names.l=
-ink_frequencies,
-> +                                                    cfg->link_freqs, cfg=
-->nr_link_freqs);
->
->         sensor->csi2_properties[0] =3D PROPERTY_ENTRY_U32_ARRAY_LEN(senso=
-r->prop_names.data_lanes,
->                                                                   bridge-=
->data_lanes,
-> --
-> 2.40.1
->
-
-
---=20
-With Best Regards,
-Andy Shevchenko
+I am Mrs. Maya Oliver,
+From the United Kingdom. Firstly, I am married to Mr. Patrick Oliver,
+A diamond and gold merchant who owns a small gold Mine in Thailand
+Bangkok; He died of Cardiovascular Disease in mid-March 2011. During
+his lifetime he deposited the sum of =E2=82=AC 12.7 Euros in a bank in Bang=
+kok
+the capital city of Thailand. The deposited money was from the sale of
+the shares, death benefits payment and entitlements of my deceased
+husband by his company. Since his death I decided not to remarry, when
+my late husband was Alive he deposited the sum of =E2=82=AC 12.7 Million Eu=
+ro)
+Twelve million, Seven hundred Thousand Euro) in a bank in Thailand,
+Presently this money is Still in the bank. And My Doctor told me that
+I don't have much time to leave because of the cancer problem, having
+known my condition I decided to hand you over this fund to take Care
+of the less-privileged people
+Meanwhile i have concluded with the bank to transfer the funds to you,
+through the listed options below 1, Money gram 2, ATM card,3 RIA 4,
+Online Transfer
+ Please i will be glad to hear from you before i can send you the
+contact details of the bank.
+You can contact the bank for the transaction with the email below:
+transferriamoney0@gmail.com
+Mrs. Maya Oliver
