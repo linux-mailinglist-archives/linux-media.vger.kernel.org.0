@@ -2,230 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D3BA724948
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jun 2023 18:37:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E97F17249A5
+	for <lists+linux-media@lfdr.de>; Tue,  6 Jun 2023 18:59:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238160AbjFFQhE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Jun 2023 12:37:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36232 "EHLO
+        id S238087AbjFFQ7B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Jun 2023 12:59:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238106AbjFFQhD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jun 2023 12:37:03 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EEC5E60;
-        Tue,  6 Jun 2023 09:37:01 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (om126253223039.31.openmobile.ne.jp [126.253.223.39])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2F4F0283;
-        Tue,  6 Jun 2023 18:36:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1686069394;
-        bh=mIN2yt0zcJ6bRzfCdL2PKquhnpwr1YRPgjxLXylXsKo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jjaK0/jjSOSRMeHfLvhGxZb63kuxTMpVU5GNuT7Wvlxzukm/6hkImiy0Wgf0zYrEP
-         n1oqnTIBcoNxaiWBaKFhTtHLzXjdtLjzTxP/ekbSvHyO5pLC0kqLyvYh8G4aRyKbiL
-         Pe5y4/sIfabYgiwL5oOJQqboDn0m3k0JRx1ZjeXc=
-Date:   Tue, 6 Jun 2023 19:36:56 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tommaso Merciai <tomm.merciai@gmail.com>
-Cc:     jacopo.mondi@ideasonboard.com, martin.hecht@avnet.eu,
-        michael.roeder@avnet.eu, linuxfancy@googlegroups.com,
+        with ESMTP id S232912AbjFFQ67 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jun 2023 12:58:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07D1810C2
+        for <linux-media@vger.kernel.org>; Tue,  6 Jun 2023 09:58:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1686070693;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=4oLGNH9dlQzxzpa0JgWDwqIldaBkbw3v3EQy3qrKEVc=;
+        b=EVir2xy7VkQqtxux3yN/3IamXqPLrxgLmvlMi600IaVZ1crk6nPuvHpgtKnRZ+HjajKf42
+        FcWfP4GKWMaxb4zLUu80kQ9KgORDu5KRIcOlQ+Z3G2BTqphV5HwJtN4luua4mSTRMB+XfX
+        llspjFOPEalu2zOZJHuB7vizZ7KFf3I=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-468-8jtL9PUnMNKI77CetzFkBA-1; Tue, 06 Jun 2023 12:58:11 -0400
+X-MC-Unique: 8jtL9PUnMNKI77CetzFkBA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D741D185A793;
+        Tue,  6 Jun 2023 16:58:10 +0000 (UTC)
+Received: from x1.nl (unknown [10.39.192.155])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id D5CD8492B00;
+        Tue,  6 Jun 2023 16:58:09 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Gerald Loacker <gerald.loacker@wolfvision.net>,
-        Mikhail Rudenko <mike.rudenko@gmail.com>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Nicholas Roth <nicholas@rothemail.net>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] media: dt-bindings: alvium: add document YAML
- binding
-Message-ID: <20230606163656.GI25679@pendragon.ideasonboard.com>
-References: <20230606155416.260941-1-tomm.merciai@gmail.com>
- <20230606155416.260941-3-tomm.merciai@gmail.com>
+        Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org
+Subject: [PATCH 0/3] media: Add MIPI CCI register access helper functions
+Date:   Tue,  6 Jun 2023 18:58:05 +0200
+Message-Id: <20230606165808.70751-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230606155416.260941-3-tomm.merciai@gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tommaso,
+Hi Laurent, Sakari, et al.,
 
-Thank you for the patch.
+The CSI2 specification specifies a standard method to access camera sensor
+registers called "Camera Control Interface (CCI)".
 
-On Tue, Jun 06, 2023 at 05:54:03PM +0200, Tommaso Merciai wrote:
-> Add documentation of device tree in YAML schema for the ALVIUM
-> Camera from Allied Vision Inc.
-> 
-> References:
->  - https://www.alliedvision.com/en/products/embedded-vision-solutions
-> 
-> Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
-> ---
-> Changes since v1:
->  - Fixed build error as suggested by RHerring bot
-> 
-> Changes since v2:
->  - Fixed License as suggested by KKozlowski/CDooley
->  - Removed rotation property as suggested by CDooley/LPinchart
->  - Fixed example node name as suggested by CDooley
->  - Fixed title as suggested by LPinchart
->  - Fixed compatible name as suggested by LPinchart
->  - Removed clock as suggested by LPinchart
->  - Removed gpios not as suggested by LPinchart
->  - Renamed property name streamon-delay into alliedvision,lp2hs-delay-us
->  - Fixed vendor prefix, unit append as suggested by KKozlowski
->  - Fixed data-lanes
->  - Fixed blank space + example indentation (from 6 -> 4 space) as suggested by KKozlowski
->  - Dropped status into example  as suggested by KKozlowski
->  - Added vcc-ext-in supply as suggested by LPinchart
->  - Dropped pinctrl into example as suggested by LPinchart
-> 
->  .../media/i2c/alliedvision,alvium-csi2.yaml   | 93 +++++++++++++++++++
->  1 file changed, 93 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.yaml b/Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.yaml
-> new file mode 100644
-> index 000000000000..191534e2f7bd
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.yaml
-> @@ -0,0 +1,93 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/alliedvision,alvium.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Allied Vision Alvium Camera
-> +
-> +maintainers:
-> +  - Tommaso Merciai <tomm.merciai@gmail.com>
-> +  - Martin Hecht <martin.hecht@avnet.eu>
-> +
-> +allOf:
-> +  - $ref: /schemas/media/video-interface-devices.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: alliedvision,alvium-csi2
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  vcc-ext-in-supply:
-> +    description:
-> +      Definition of the regulator used as interface power supply.
+Currently a lot of Linux camera sensor drivers all have their own custom
+helpers for this, often copy and pasted from other drivers.
 
-      The regulator that supplies power to the VCC_EXT_IN pins.
+This adds a set of generic helpers for this so that all sensor drivers can
+switch to a single common implementation.
 
-> +
-> +  alliedvision,lp2hs-delay-us:
-> +    maxItems: 1
-> +    description:
-> +      Low power to high speed delay time in microseconds.
+This is based on / the result of our previous discussion on this here:
+Link: https://lore.kernel.org/linux-media/59aefa7f-7bf9-6736-6040-39551329cd0a@redhat.com/
 
-You can drop "in microseconds", that's implied by the suffix.
+Patch 2/3 is an example of how these helpers can be used and 3/3 removes
+the now no longer necessary ov_16bit_addr_reg_helpers.h which was
+the previous attempt to add common CCI access helpers. As such
+patch 2/3 and 3/3 are more of a RFC really. Please focus on reviewing
+patch 1/3.
 
-> +      The purpose of this property is force a DPhy reset for the period
-> +      described by the microseconds on the property, before it starts
-> +      streaming. To be clear, with that value bigger than 0 the Alvium
-> +      forces a dphy-reset on all lanes for that period. That means all
-> +      lanes go up into low power state. This may help a csi2 rx ip to
-> +      reset if that IP can't deal with a continous clock.
-
-I'd like to propose what I think is a clearer version:
-
-    description: |
-      Low power to high speed delay time.
-
-      If the value is larger than 0, the camera forces a reset of all
-      D-PHY lanes for the duration specified by this property. All lanes
-      will transition to the low-power state and back to the high-speed
-      state after the delay. Otherwise the lanes will transition to and
-      remain in the high-speed state immediately after power on.
-
-      This is meant to help CSI-2 receivers synchronizing their D-PHY
-      RX.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +
-> +  port:
-> +    description: Digital Output Port
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          link-frequencies: true
-> +
-> +          data-lanes:
-> +            minItems: 1
-> +            items:
-> +              - const: 1
-> +              - const: 2
-> +              - const: 3
-> +              - const: 4
-> +
-> +        required:
-> +          - data-lanes
-> +          - link-frequencies
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - vcc-ext-in-supply
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        alvium: camera@3c {
-> +            compatible = "alliedvision,alvium-csi2";
-> +            reg = <0x3c>;
-> +            vcc-ext-in-supply = <&reg_vcc_ext_in>;
-> +            alliedvision,lp2hs-delay-us = <20>;
-> +
-> +            port {
-> +                alvium_out: endpoint {
-> +                    remote-endpoint = <&mipi_csi_0_in>;
-> +                    data-lanes = <1 2 3 4>;
-> +                    link-frequencies = /bits/ 64 <681250000>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
-
--- 
 Regards,
 
-Laurent Pinchart
+Hans
+
+
+Hans de Goede (3):
+  media: Add MIPI CCI register access helper functions
+  media: atomisp: ov2680: Convert to new CCI register access helpers
+  media: Remove ov_16bit_addr_reg_helpers.h
+
+ Documentation/driver-api/media/v4l2-cci.rst   |   5 +
+ Documentation/driver-api/media/v4l2-core.rst  |   1 +
+ drivers/media/v4l2-core/Kconfig               |   5 +
+ drivers/media/v4l2-core/Makefile              |   1 +
+ drivers/media/v4l2-core/v4l2-cci.c            | 142 +++++++++++
+ drivers/staging/media/atomisp/i2c/Kconfig     |   1 +
+ .../media/atomisp/i2c/atomisp-ov2680.c        | 233 ++++++++----------
+ drivers/staging/media/atomisp/i2c/ov2680.h    |  73 +-----
+ include/media/ov_16bit_addr_reg_helpers.h     |  92 -------
+ include/media/v4l2-cci.h                      | 109 ++++++++
+ 10 files changed, 367 insertions(+), 295 deletions(-)
+ create mode 100644 Documentation/driver-api/media/v4l2-cci.rst
+ create mode 100644 drivers/media/v4l2-core/v4l2-cci.c
+ delete mode 100644 include/media/ov_16bit_addr_reg_helpers.h
+ create mode 100644 include/media/v4l2-cci.h
+
+-- 
+2.40.1
+
