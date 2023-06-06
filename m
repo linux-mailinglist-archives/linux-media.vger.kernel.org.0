@@ -2,128 +2,289 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EEC84724E55
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jun 2023 22:54:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A79D724F82
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 00:23:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238349AbjFFUyJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Jun 2023 16:54:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58218 "EHLO
+        id S237478AbjFFWW6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Jun 2023 18:22:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239579AbjFFUyI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jun 2023 16:54:08 -0400
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BDFF1707
-        for <linux-media@vger.kernel.org>; Tue,  6 Jun 2023 13:54:07 -0700 (PDT)
-Received: by mail-qk1-x72e.google.com with SMTP id af79cd13be357-75ea05150b3so247784785a.0
-        for <linux-media@vger.kernel.org>; Tue, 06 Jun 2023 13:54:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686084846; x=1688676846;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2oNLiu3lpetJDNcs5sUzSXLLHYt8MsBkdpSw7dEBSuY=;
-        b=NutTbyXGPvVZIvtaeqeqAVKvPJE37kiZJtfmH+Sl1zPvUKJdoeQ3VaMHXAgZj9hLhZ
-         orAXIVNGpiYUzC9Ik7gfN0KaiE0mN2NB/RD8xl8jxxDZ8bTez/uzJtx4lPYDnDxkAM8H
-         35TZrpLpbCEY5C5NrpS+6hCGg3B3vLjGlc4hac6pL29ECvpO3FPmxFFbAfXrD4Sf6EXg
-         /JPwuS8L68dzwnHaZPtWEL1y8fkd+Fo5UJINWOxmmVyWcnIe2GxUE+x0UwI7AlDwPI7r
-         PNTnGzmIjmx+PMZh1Wl28rn2d8ed1pa02maL9sKkVu/U4du03jCi0987zPRTj9F98ZKJ
-         Tfcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686084846; x=1688676846;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2oNLiu3lpetJDNcs5sUzSXLLHYt8MsBkdpSw7dEBSuY=;
-        b=kuQk99nmCQwu38pK3Cghw8GcIopOQvJrG4Hcx+MJbu5r8EttLKWCGLEZP1fx8DO7rX
-         cK6M50kLwmG+NE7Mqms+H/kVzNw/X1C3xpsQWp+eBiKldAoPlGmqA2aDYZkvRhXmqXCc
-         63tZjJidNwtiSdaMhArQQVIEnMhaKhWuGCZgYhaWiliLqaqSjMI5b/6RmDdsJZ57plK7
-         pxviZbut1lVJeH9QO1ofyPEvvIK6qiR+DsAFeETzsGhZ5ZfJ0a9N99A2y9QC2mlBI3Po
-         oLiftp06i/9COlTmXdUqN/E0d9dnv74Frdf4+7W11kGKbZOqwIP7DhnVfgdOrGaHHxsL
-         qmvQ==
-X-Gm-Message-State: AC+VfDxOHTS7QFMgHKdLsTa1fPXS29G3Z48Rz9UWs/fbOEOKvwYd0tPT
-        CY8AHG5d0WFILsVWe/qai0zx2eMxvby7t719us0uN+bK7Z0=
-X-Google-Smtp-Source: ACHHUZ5REEsy75AsvlrLJdV62JvCHLaOei7lsYcdzX8driR0tOOGR10IsB5tLoJCOvSC/j2bZOlDDp22o2dtLgHw1wQ=
-X-Received: by 2002:a05:620a:8acc:b0:75b:23a1:8317 with SMTP id
- qv12-20020a05620a8acc00b0075b23a18317mr1193390qkn.18.1686084846081; Tue, 06
- Jun 2023 13:54:06 -0700 (PDT)
+        with ESMTP id S229947AbjFFWW4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jun 2023 18:22:56 -0400
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6D0710F1;
+        Tue,  6 Jun 2023 15:22:52 -0700 (PDT)
+Received: from ip5b412278.dynamic.kabel-deutschland.de ([91.65.34.120] helo=diego.localnet)
+        by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <heiko@sntech.de>)
+        id 1q6f4U-0003CO-8M; Wed, 07 Jun 2023 00:22:34 +0200
+From:   Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To:     Conor Dooley <conor@kernel.org>,
+        Keith Zhao <keith.zhao@starfivetech.com>,
+        Shengyu Qu <wiagn233@outlook.com>
+Cc:     wiagn233@outlook.com, dri-devel@lists.freedesktop.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        christian.koenig@amd.com, Bjorn Andersson <andersson@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>, Jagan Teki <jagan@edgeble.ai>,
+        Chris Morgan <macromorgan@hotmail.com>,
+        Jack Zhu <jack.zhu@starfivetech.com>,
+        Shengyang Chen <shengyang.chen@starfivetech.com>,
+        Changhuang Liang <changhuang.liang@starfivetech.com>
+Subject: Re: [PATCH 1/9] dt-bindings: display: Add yamls for JH7110 display subsystem
+Date:   Wed, 07 Jun 2023 00:22:33 +0200
+Message-ID: <1991848.PYKUYFuaPT@diego>
+In-Reply-To: <TY3P286MB26116576E3E502CAE53834599852A@TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM>
+References: <20230602074043.33872-1-keith.zhao@starfivetech.com>
+ <20230602-uncommon-rejoicing-e73c0c475f9f@spud>
+ <TY3P286MB26116576E3E502CAE53834599852A@TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
-References: <20230606165808.70751-1-hdegoede@redhat.com> <20230606165808.70751-3-hdegoede@redhat.com>
-In-Reply-To: <20230606165808.70751-3-hdegoede@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 6 Jun 2023 23:53:29 +0300
-Message-ID: <CAHp75VeqeA4GA0_r_KgH0wv0_TQ4rQUdTY99DFFR_oWfdiDxfw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] media: atomisp: ov2680: Convert to new CCI register
- access helpers
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,T_SPF_HELO_TEMPERROR,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 6, 2023 at 7:58=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
-wrote:
->
-> Use the new comon CCI register access helpers to replace the private
-> register access helpers in the ov2680 driver.
->
-> While at it also switch to using the same register address defines
-> as the standard drivers/media/i2c/ov2680.c driver to make merging
-> the 2 drivers simpler.
+Am Dienstag, 6. Juni 2023, 20:41:17 CEST schrieb Shengyu Qu:
+> Hi Conor,
+> 
+> > Hey Keith,
+> >
+> > On Fri, Jun 02, 2023 at 03:40:35PM +0800, Keith Zhao wrote:
+> >> Add bindings for JH7110 display subsystem which
+> >> has a display controller verisilicon dc8200
+> >> and an HDMI interface.
+> >>
+> >> Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
+> >> ---
+> >>   .../display/verisilicon/starfive-hdmi.yaml    |  93 +++++++++++++++
+> >>   .../display/verisilicon/verisilicon-dc.yaml   | 110 ++++++++++++++++++
+> >>   .../display/verisilicon/verisilicon-drm.yaml  |  42 +++++++
+> >>   .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+> >>   MAINTAINERS                                   |   7 ++
+> >>   5 files changed, 254 insertions(+)
+> >>   create mode 100644 Documentation/devicetree/bindings/display/verisilicon/starfive-hdmi.yaml
+> >>   create mode 100644 Documentation/devicetree/bindings/display/verisilicon/verisilicon-dc.yaml
+> >>   create mode 100644 Documentation/devicetree/bindings/display/verisilicon/verisilicon-drm.yaml
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/display/verisilicon/starfive-hdmi.yaml b/Documentation/devicetree/bindings/display/verisilicon/starfive-hdmi.yaml
+> >> new file mode 100644
+> >> index 000000000000..c30b7954a355
+> >> --- /dev/null
+> >> +++ b/Documentation/devicetree/bindings/display/verisilicon/starfive-hdmi.yaml
+> >> @@ -0,0 +1,93 @@
+> >> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> >> +%YAML 1.2
+> >> +---
+> >> +$id: http://devicetree.org/schemas/display/verisilicon/starfive-hdmi.yaml#
+> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >> +
+> >> +title: StarFive HDMI transmiter
+> >> +
+> >> +description:
+> >> +  The StarFive SoC uses the HDMI signal transmiter based on innosilicon IP
+> > Is innosilicon the same thing as verisilicon? Also
+> > s/transmiter/transmitter/, both here and in the title.
+> 
+> I think that is not the same, I remember Rockchip has used a HDMI 
+> transmitter from
+> 
+> Innosilicon, and there is a existing driver for that in mainline.
 
-...
+Yep, I think Innosilicon is the company you turn to when you want to save
+a bit of money ;-) . In the bigger SoCs Rockchip most of the time uses
+Designware hdmi blocks and looking at the history only the rk3036 ever
+used an Innosilicon block.
 
-> +       cci_write(sensor->regmap, OV2680_REG_SENSOR_CTRL_0A, sensor_ctrl_=
-0a, &ret);
-> +       cci_write(sensor->regmap, OV2680_REG_HORIZONTAL_START, sensor->mo=
-de.h_start, &ret);
-> +       cci_write(sensor->regmap, OV2680_REG_VERTICAL_START, sensor->mode=
-.v_start, &ret);
-> +       cci_write(sensor->regmap, OV2680_REG_HORIZONTAL_END, sensor->mode=
-.h_end, &ret);
-> +       cci_write(sensor->regmap, OV2680_REG_VERTICAL_END, sensor->mode.v=
-_end, &ret);
-> +       cci_write(sensor->regmap, OV2680_REG_HORIZONTAL_OUTPUT_SIZE,
-> +                 sensor->mode.h_output_size, &ret);
-> +       cci_write(sensor->regmap, OV2680_REG_VERTICAL_OUTPUT_SIZE,
-> +                 sensor->mode.v_output_size, &ret);
-> +       cci_write(sensor->regmap, OV2680_REG_TIMING_HTS, sensor->mode.hts=
-, &ret);
-> +       cci_write(sensor->regmap, OV2680_REG_TIMING_VTS, sensor->mode.vts=
-, &ret);
-> +       cci_write(sensor->regmap, OV2680_REG_ISP_X_WIN, 0, &ret);
-> +       cci_write(sensor->regmap, OV2680_REG_ISP_Y_WIN, 0, &ret);
-> +       cci_write(sensor->regmap, OV2680_REG_X_INC, inc, &ret);
-> +       cci_write(sensor->regmap, OV2680_REG_Y_INC, inc, &ret);
-> +       cci_write(sensor->regmap, OV2680_REG_X_WIN, sensor->mode.h_output=
-_size, &ret);
-> +       cci_write(sensor->regmap, OV2680_REG_Y_WIN, sensor->mode.v_output=
-_size, &ret);
-> +       cci_write(sensor->regmap, OV2680_REG_FORMAT1, fmt1, &ret);
-> +       cci_write(sensor->regmap, OV2680_REG_FORMAT2, fmt2, &ret);
+Looking at the history, 2016 really was a long time ago :-D.
 
-I know that &ret thingy was discussed before and Laurent is keen to
-have this, but has anybody actually tested how bad or not at all the
-code generation becomes?
 
-...
+> So Keith, if that's true, I think it is better to seperate the HDMI 
+> stuff and reuse existing driver.
 
-> +       struct device *dev;
-> +       struct regmap *regmap;
+I'm not so sure about that - at least from a cursory glance :-) .
 
-Isn't the same device associated with regmap? If so, one of them
-probably duplicates the other.
+The registers do look slightly different and I don't know how much
+the IP changed between the rk3036-version and the jh7110 version.
 
---=20
-With Best Regards,
-Andy Shevchenko
+At the very least, I know my rk3036 board isn't booting right now, so
+I can't really provide help for generalizing the rockchip-driver.
+
+
+At the very least both the binding and driver could drop the "starfive-hdmi"
+and actually use the Innosilicon in the naming somewhere, so that it's
+clear for future developers :-)
+
+
+Heiko
+
+
+> >> +  to generate HDMI signal from its input and transmit the signal to the screen.
+> >> +
+> >> +maintainers:
+> >> +  - Keith Zhao <keith.zhao@starfivetech.com>
+> >> +  - ShengYang Chen <shengyang.chen@starfivetech.com>
+> >> +
+> >> +properties:
+> >> +  compatible:
+> >> +    const: starfive,hdmi
+> > Is this going to work on every SoC that StarFive has ever & will ever
+> > make? Please use soc-based compatibles ;)
+> >
+> >> +
+> >> +  reg:
+> >> +    minItems: 1
+> >> +
+> >> +  interrupts:
+> >> +    items:
+> >> +      - description: The HDMI hot plug detection interrupt.
+> >> +
+> >> +  clocks:
+> >> +    items:
+> >> +      - description: System clock of HDMI module.
+> >> +      - description: Mclk clock of HDMI audio.
+> >> +      - description: Bclk clock of HDMI audio.
+> >> +      - description: Pixel clock generated by HDMI module.
+> >> +
+> >> +  clock-names:
+> >> +    items:
+> >> +      - const: sysclk
+> >> +      - const: mclk
+> >> +      - const: bclk
+> >> +      - const: pclk
+> >> +
+> >> +  resets:
+> >> +    items:
+> >> +      - description: Reset for HDMI module.
+> >> +
+> >> +  reset-names:
+> >> +    items:
+> >> +      - const: hdmi_tx
+> > You only have one item here, you don't need the "items: - const:",
+> > "const:" alone will do.
+> >
+> >
+> >> diff --git a/Documentation/devicetree/bindings/display/verisilicon/verisilicon-dc.yaml b/Documentation/devicetree/bindings/display/verisilicon/verisilicon-dc.yaml
+> >> new file mode 100644
+> >> index 000000000000..1322502c4cde
+> >> --- /dev/null
+> >> +++ b/Documentation/devicetree/bindings/display/verisilicon/verisilicon-dc.yaml
+> >> @@ -0,0 +1,110 @@
+> >> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> >> +%YAML 1.2
+> >> +---
+> >> +$id: http://devicetree.org/schemas/display/verisilicon/verisilicon-dc.yaml#
+> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >> +
+> >> +title: StarFive display controller
+> >> +
+> >> +description:
+> >> +  The StarFive SoC uses the display controller based on Verisilicon IP
+> >> +  to transfer the image data from a video memory
+> >> +  buffer to an external LCD interface.
+> > Is it based on Verisilicon IP, or is it exactly that verisilicon IP? I
+> > ask because...
+> >
+> >> +maintainers:
+> >> +  - Keith Zhao <keith.zhao@starfivetech.com>
+> >> +  - ShengYang Chen <shengyang.chen@starfivetech.com>
+> >> +
+> >> +properties:
+> >> +  compatible:
+> >> +    const: verisilicon,dc8200
+> > ...the compatible is the verisilicon IP. I would be a lot happier if
+> > the compatibles were set yp for something like:
+> > "starfive,jh7110-foo", "verisilicon,dc8200"
+> >
+> >> diff --git a/Documentation/devicetree/bindings/display/verisilicon/verisilicon-drm.yaml b/Documentation/devicetree/bindings/display/verisilicon/verisilicon-drm.yaml
+> >> new file mode 100644
+> >> index 000000000000..aed8d4af2c55
+> >> --- /dev/null
+> >> +++ b/Documentation/devicetree/bindings/display/verisilicon/verisilicon-drm.yaml
+> >> @@ -0,0 +1,42 @@
+> >> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> >> +%YAML 1.2
+> >> +---
+> >> +$id: http://devicetree.org/schemas/display/verisilicon/verisilicon-drm.yaml#
+> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >> +
+> >> +title: Verisilicon DRM master device
+> >> +
+> >> +maintainers:
+> >> +  - Keith Zhao <keith.zhao@starfivetech.com>
+> >> +  - ShengYang Chen <shengyang.chen@starfivetech.com>
+> >> +
+> >> +description: |
+> >> +  The Verisilicon DRM master device is a virtual device needed to list all
+> >> +  display controller or other display interface nodes that comprise the
+> >> +  graphics subsystem.
+> >> +
+> >> +properties:
+> >> +  compatible:
+> >> +    const: verisilicon,display-subsystem
+> > Same here.
+> >
+> >> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> >> index 82d39ab0231b..52c04fd098be 100644
+> >> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> >> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> >> @@ -1436,6 +1436,8 @@ patternProperties:
+> >>       description: Variscite Ltd.
+> >>     "^vdl,.*":
+> >>       description: Van der Laan b.v.
+> >> +  "^verisilicon,.*":
+> >> +    description: Verisilicon Technologies, Inc.
+> > This should be in it's own patch.
+> >
+> > Cheers,
+> > Conor.
+> >
+> >>     "^vertexcom,.*":
+> >>       description: Vertexcom Technologies, Inc.
+> >>     "^via,.*":
+> >> diff --git a/MAINTAINERS b/MAINTAINERS
+> >> index 2a0496448b7f..293aa13d484c 100644
+> >> --- a/MAINTAINERS
+> >> +++ b/MAINTAINERS
+> >> @@ -7049,6 +7049,13 @@ F:	Documentation/devicetree/bindings/display/brcm,bcm2835-*.yaml
+> >>   F:	drivers/gpu/drm/vc4/
+> >>   F:	include/uapi/drm/vc4_drm.h
+> >>   
+> >> +DRM DRIVERS FOR VERISILICON
+> >> +M:	Keith Zhao <keith.zhao@starfivetech.com>
+> >> +L:	dri-devel@lists.freedesktop.org
+> >> +S:	Maintained
+> >> +T:	git git://anongit.freedesktop.org/drm/drm-misc
+> >> +F:	Documentation/devicetree/bindings/display/verisilicon/
+> >> +
+> >>   DRM DRIVERS FOR VIVANTE GPU IP
+> >>   M:	Lucas Stach <l.stach@pengutronix.de>
+> >>   R:	Russell King <linux+etnaviv@armlinux.org.uk>
+> >> -- 
+> >> 2.34.1
+> >>
+> 
+
+
+
+
