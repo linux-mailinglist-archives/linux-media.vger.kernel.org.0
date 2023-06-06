@@ -2,61 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E264723A6E
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jun 2023 09:51:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E2D8723CAB
+	for <lists+linux-media@lfdr.de>; Tue,  6 Jun 2023 11:12:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235975AbjFFHvd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Jun 2023 03:51:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54644 "EHLO
+        id S232823AbjFFJMq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Jun 2023 05:12:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237214AbjFFHuP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jun 2023 03:50:15 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61CE81739;
-        Tue,  6 Jun 2023 00:46:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686037570; x=1717573570;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FZ5IRlOqTEgwsx24HbFgMIUGFww7wT7RtnV/hTA10f0=;
-  b=VbXorEDTRcpZs61c8GHI8BaoNgz8XiHE1fIx8Fqywxs2xlc+OS/nu95y
-   V8wkKFY9uKnw8yz0oeTS85CMN4dfPkrftA/D8nnev/j4Mqd32wIJGzFXz
-   M+ND4+xBZOJ9mPAegFtMXFcUlqvtXuwuSigZlVpSUwIYRcahYI7yvqK5d
-   bvS35QvVjywZ/YOG7LEQUiUGvtAuYKvkSHDUpdS2cjGV02uZYphy5zkvN
-   PBtAAeexwCQyvbmuIJI/L59p5gyjGAz297LWCzpkXO4bbCgLGwH4jC9M3
-   4wqGAvSjutViCweOA0L87ClO3alvljr3aAOF5L3T3TNkJ9HuV/cOE15tj
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="422419270"
-X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; 
-   d="scan'208";a="422419270"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2023 00:44:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="821516625"
-X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; 
-   d="scan'208";a="821516625"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 06 Jun 2023 00:44:04 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1q6RMJ-0004yz-38;
-        Tue, 06 Jun 2023 07:44:03 +0000
-Date:   Tue, 6 Jun 2023 15:43:18 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     oushixiong <oushixiong@kylinos.cn>
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
-Subject: drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:614:36:
- warning: unused variable 'mtk_jpeg_enc_ioctl_ops'
-Message-ID: <202306061523.AFZiNh4D-lkp@intel.com>
+        with ESMTP id S232550AbjFFJMb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jun 2023 05:12:31 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62DCDE4C
+        for <linux-media@vger.kernel.org>; Tue,  6 Jun 2023 02:12:23 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-977d02931d1so374799466b.0
+        for <linux-media@vger.kernel.org>; Tue, 06 Jun 2023 02:12:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1686042742; x=1688634742;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=r4AmdVwg4gjTsAxfk42+ya/xr1mTSRxxbVKQ3XrFUpQ=;
+        b=PnGKM47mpj3Ddc0oSOEllxLh+oOxYtyvpANv4U3kMcbOr/jE0l0k2q4H0SonOqThMB
+         1bWpcUnZ2cJQns1go/rFdSkU6JyA5wm0uZzXtAS65t/BrkvGuymnrxqB9y7RbQwwzrwB
+         RtGRMJSHvh4A7hK5EjmNlOApop0WmF30BooHT/TlzYGVLJqPYAriWOIiw4OVNtFRGYGf
+         u8qbcP8YNWTx5oSLaswmdNiyc8inJh6ERiE7Oi03fWtjan0YPRaPagyBzA0iyBuTdnDc
+         evOfD8rjLngWo+AlXOWO/2pRrjiBsgfO/IIWdJfQJ68k5qVKOpXGdaeiuhn/7VVlwWZC
+         L2Eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686042742; x=1688634742;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=r4AmdVwg4gjTsAxfk42+ya/xr1mTSRxxbVKQ3XrFUpQ=;
+        b=f2TuK5+FM2lPdaT0Ijg2TuKjWEHOJI9N4eoB5EIZ0fH0Ptqv802rdaT5TnQBQAxrSU
+         GgPsTIPmTIF4/jzWrLKu14RN8MX36AQZgAQFNr8SsDy0245MOJ1nGjDgmtaXWFpGFLuW
+         16bbwP2d9B+gX1L9xTMGXM8dAz7YR2DxYv4U7vJZVi4DbqGwKQ3A8KCEQ2Q9F8jFIUMj
+         CKQV2dC5yU2+Z27eb1Z9VKihZldSoyXP3zN+xDwNeuRXyTP0iJ7G6k8GMqiPeMFzqUFK
+         20BbEyEXwx3mW8dDRbFZE1Djz/AiyxsYHOcE9VCjoRfZ5S1IegHlDbcN/Ygze1jJ4+H3
+         75ug==
+X-Gm-Message-State: AC+VfDzxeP4MV0qgqzt+nQ+SDcxDZ9TnFtTI5ez4RZD/r4fw56c4gIvo
+        3qMu8g5T7OuKZykvYdgeZ7Xzsg==
+X-Google-Smtp-Source: ACHHUZ4ICG/LiMH48iJ6ITReWMZhhxEFrAzzKgQao53xyViRDfBvZqW8oHYQ9GVk/zBWdm4mgBP5YA==
+X-Received: by 2002:a17:907:94d4:b0:971:2eaf:556 with SMTP id dn20-20020a17090794d400b009712eaf0556mr1942718ejc.18.1686042741710;
+        Tue, 06 Jun 2023 02:12:21 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.26])
+        by smtp.gmail.com with ESMTPSA id d12-20020a1709063ecc00b0096f03770be2sm5289135ejj.52.2023.06.06.02.12.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Jun 2023 02:12:21 -0700 (PDT)
+Message-ID: <b9ad3b42-8d56-a9ce-bdde-df4ac65a1b49@linaro.org>
+Date:   Tue, 6 Jun 2023 11:12:18 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH 1/6] media: dt-bindings: mediatek,vcodec: Allow single
+ clock for mt8183
+Content-Language: en-US
+To:     =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
+        <nfraprado@collabora.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>, kernel@collabora.com,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+References: <20230605162030.274395-1-nfraprado@collabora.com>
+ <20230605162030.274395-2-nfraprado@collabora.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230605162030.274395-2-nfraprado@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,197 +89,77 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi oushixiong,
+On 05/06/2023 18:20, Nícolas F. R. A. Prado wrote:
+> MT8173 and MT8183 have different clocks, and consequently clock-names.
+> Relax the number of clocks and set clock-names based on compatible.
+> 
+> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> 
+> ---
+> 
+>  .../media/mediatek,vcodec-decoder.yaml        | 29 +++++++++++++------
+>  1 file changed, 20 insertions(+), 9 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
+> index fad59b486d5d..57d5ca776df0 100644
+> --- a/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
+> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
+> @@ -27,18 +27,12 @@ properties:
+>      maxItems: 1
+>  
+>    clocks:
+> +    minItems: 1
+>      maxItems: 8
+>  
+>    clock-names:
+> -    items:
+> -      - const: vcodecpll
+> -      - const: univpll_d2
+> -      - const: clk_cci400_sel
+> -      - const: vdec_sel
+> -      - const: vdecpll
+> -      - const: vencpll
+> -      - const: venc_lt_sel
+> -      - const: vdec_bus_clk_src
+> +    minItems: 1
+> +    maxItems: 8
+>  
+>    assigned-clocks: true
+>  
+> @@ -88,6 +82,11 @@ allOf:
+>        required:
+>          - mediatek,scp
+>  
+> +      properties:
+> +        clock-names:
+> +          items:
+> +            - const: vdec
 
-FYI, the error/warning still remains.
+You should constrain also clocks as they must be in sync with names.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f8dba31b0a826e691949cd4fdfa5c30defaac8c5
-commit: 4ae47770d57bff0193fbbf48d56c18759cad5f6e media: mtk-jpegenc: Fix a compilation issue
-date:   3 months ago
-config: hexagon-buildonly-randconfig-r003-20230606 (https://download.01.org/0day-ci/archive/20230606/202306061523.AFZiNh4D-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=4ae47770d57bff0193fbbf48d56c18759cad5f6e
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 4ae47770d57bff0193fbbf48d56c18759cad5f6e
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash arch/hexagon/kernel/ drivers/media/platform/mediatek/jpeg/
+> +
+>    - if:
+>        properties:
+>          compatible:
+> @@ -99,6 +98,18 @@ allOf:
+>        required:
+>          - mediatek,vpu
+>  
+> +      properties:
+> +        clock-names:
+> +          items:
+> +            - const: vcodecpll
+> +            - const: univpll_d2
+> +            - const: clk_cci400_sel
+> +            - const: vdec_sel
+> +            - const: vdecpll
+> +            - const: vencpll
+> +            - const: venc_lt_sel
+> +            - const: vdec_bus_clk_src
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306061523.AFZiNh4D-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:11:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:11:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:11:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:31:28: warning: unused variable 'mtk_jpeg_enc_formats' [-Wunused-variable]
-      31 | static struct mtk_jpeg_fmt mtk_jpeg_enc_formats[] = {
-         |                            ^
-   drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:79:28: warning: unused variable 'mtk_jpeg_dec_formats' [-Wunused-variable]
-      79 | static struct mtk_jpeg_fmt mtk_jpeg_dec_formats[] = {
-         |                            ^
->> drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:614:36: warning: unused variable 'mtk_jpeg_enc_ioctl_ops' [-Wunused-const-variable]
-     614 | static const struct v4l2_ioctl_ops mtk_jpeg_enc_ioctl_ops = {
-         |                                    ^
->> drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:644:36: warning: unused variable 'mtk_jpeg_dec_ioctl_ops' [-Wunused-const-variable]
-     644 | static const struct v4l2_ioctl_ops mtk_jpeg_dec_ioctl_ops = {
-         |                                    ^
->> drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:884:29: warning: unused variable 'mtk_jpeg_dec_qops' [-Wunused-const-variable]
-     884 | static const struct vb2_ops mtk_jpeg_dec_qops = {
-         |                             ^
->> drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:893:29: warning: unused variable 'mtk_jpeg_enc_qops' [-Wunused-const-variable]
-     893 | static const struct vb2_ops mtk_jpeg_enc_qops = {
-         |                             ^
->> drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:1366:34: warning: unused variable 'mtk_jpeg_enc_m2m_ops' [-Wunused-const-variable]
-    1366 | static const struct v4l2_m2m_ops mtk_jpeg_enc_m2m_ops = {
-         |                                  ^
->> drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:1370:34: warning: unused variable 'mtk_jpeg_multicore_enc_m2m_ops' [-Wunused-const-variable]
-    1370 | static const struct v4l2_m2m_ops mtk_jpeg_multicore_enc_m2m_ops = {
-         |                                  ^
->> drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:1374:34: warning: unused variable 'mtk_jpeg_multicore_dec_m2m_ops' [-Wunused-const-variable]
-    1374 | static const struct v4l2_m2m_ops mtk_jpeg_multicore_dec_m2m_ops = {
-         |                                  ^
->> drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:1378:34: warning: unused variable 'mtk_jpeg_dec_m2m_ops' [-Wunused-const-variable]
-    1378 | static const struct v4l2_m2m_ops mtk_jpeg_dec_m2m_ops = {
-         |                                  ^
-   drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:1461:20: warning: unused function 'mtk_jpeg_enc_irq' [-Wunused-function]
-    1461 | static irqreturn_t mtk_jpeg_enc_irq(int irq, void *priv)
-         |                    ^
-   drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:1481:20: warning: unused function 'mtk_jpeg_dec_irq' [-Wunused-function]
-    1481 | static irqreturn_t mtk_jpeg_dec_irq(int irq, void *priv)
-         |                    ^
-   drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:1645:29: warning: unused variable 'mt8173_jpeg_dec_clocks' [-Wunused-variable]
-    1645 | static struct clk_bulk_data mt8173_jpeg_dec_clocks[] = {
-         |                             ^
-   drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:1650:29: warning: unused variable 'mtk_jpeg_clocks' [-Wunused-variable]
-    1650 | static struct clk_bulk_data mtk_jpeg_clocks[] = {
-         |                             ^
-   20 warnings generated.
+Ditto.
 
 
-vim +/mtk_jpeg_enc_ioctl_ops +614 drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+Best regards,
+Krzysztof
 
-52f68114857fe5 drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c kyrie wu        2022-09-29  613  
-45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14 @614  static const struct v4l2_ioctl_ops mtk_jpeg_enc_ioctl_ops = {
-45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14  615  	.vidioc_querycap                = mtk_jpeg_querycap,
-45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14  616  	.vidioc_enum_fmt_vid_cap	= mtk_jpeg_enum_fmt_vid_cap,
-45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14  617  	.vidioc_enum_fmt_vid_out	= mtk_jpeg_enum_fmt_vid_out,
-45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14  618  	.vidioc_try_fmt_vid_cap_mplane	= mtk_jpeg_try_fmt_vid_cap_mplane,
-45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14  619  	.vidioc_try_fmt_vid_out_mplane	= mtk_jpeg_try_fmt_vid_out_mplane,
-45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14  620  	.vidioc_g_fmt_vid_cap_mplane    = mtk_jpeg_g_fmt_vid_mplane,
-45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14  621  	.vidioc_g_fmt_vid_out_mplane    = mtk_jpeg_g_fmt_vid_mplane,
-45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14  622  	.vidioc_s_fmt_vid_cap_mplane    = mtk_jpeg_s_fmt_vid_cap_mplane,
-45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14  623  	.vidioc_s_fmt_vid_out_mplane    = mtk_jpeg_s_fmt_vid_out_mplane,
-45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14  624  	.vidioc_qbuf                    = v4l2_m2m_ioctl_qbuf,
-45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14  625  	.vidioc_subscribe_event         = mtk_jpeg_subscribe_event,
-45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14  626  	.vidioc_g_selection		= mtk_jpeg_enc_g_selection,
-45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14  627  	.vidioc_s_selection		= mtk_jpeg_enc_s_selection,
-45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14  628  
-45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14  629  	.vidioc_create_bufs		= v4l2_m2m_ioctl_create_bufs,
-45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14  630  	.vidioc_prepare_buf		= v4l2_m2m_ioctl_prepare_buf,
-45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14  631  	.vidioc_reqbufs                 = v4l2_m2m_ioctl_reqbufs,
-45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14  632  	.vidioc_querybuf                = v4l2_m2m_ioctl_querybuf,
-45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14  633  	.vidioc_dqbuf                   = v4l2_m2m_ioctl_dqbuf,
-45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14  634  	.vidioc_expbuf                  = v4l2_m2m_ioctl_expbuf,
-45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14  635  	.vidioc_streamon                = v4l2_m2m_ioctl_streamon,
-45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14  636  	.vidioc_streamoff               = v4l2_m2m_ioctl_streamoff,
-45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14  637  
-45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14  638  	.vidioc_unsubscribe_event	= v4l2_event_unsubscribe,
-8f1f08a6337efe drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c kyrie wu        2022-09-29  639  
-8f1f08a6337efe drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c kyrie wu        2022-09-29  640  	.vidioc_encoder_cmd		= v4l2_m2m_ioctl_encoder_cmd,
-8f1f08a6337efe drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c kyrie wu        2022-09-29  641  	.vidioc_try_encoder_cmd		= v4l2_m2m_ioctl_try_encoder_cmd,
-45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14  642  };
-45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14  643  
-2ac8015f156b55 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14 @644  static const struct v4l2_ioctl_ops mtk_jpeg_dec_ioctl_ops = {
-b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang      2016-12-14  645  	.vidioc_querycap                = mtk_jpeg_querycap,
-7e98b7b542a456 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Boris Brezillon 2019-06-04  646  	.vidioc_enum_fmt_vid_cap	= mtk_jpeg_enum_fmt_vid_cap,
-7e98b7b542a456 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Boris Brezillon 2019-06-04  647  	.vidioc_enum_fmt_vid_out	= mtk_jpeg_enum_fmt_vid_out,
-b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang      2016-12-14  648  	.vidioc_try_fmt_vid_cap_mplane	= mtk_jpeg_try_fmt_vid_cap_mplane,
-b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang      2016-12-14  649  	.vidioc_try_fmt_vid_out_mplane	= mtk_jpeg_try_fmt_vid_out_mplane,
-b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang      2016-12-14  650  	.vidioc_g_fmt_vid_cap_mplane    = mtk_jpeg_g_fmt_vid_mplane,
-b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang      2016-12-14  651  	.vidioc_g_fmt_vid_out_mplane    = mtk_jpeg_g_fmt_vid_mplane,
-b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang      2016-12-14  652  	.vidioc_s_fmt_vid_cap_mplane    = mtk_jpeg_s_fmt_vid_cap_mplane,
-b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang      2016-12-14  653  	.vidioc_s_fmt_vid_out_mplane    = mtk_jpeg_s_fmt_vid_out_mplane,
-52f68114857fe5 drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c kyrie wu        2022-09-29  654  	.vidioc_qbuf                    = mtk_jpeg_qbuf,
-b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang      2016-12-14  655  	.vidioc_subscribe_event         = mtk_jpeg_subscribe_event,
-2ac8015f156b55 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang       2020-08-14  656  	.vidioc_g_selection		= mtk_jpeg_dec_g_selection,
-b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang      2016-12-14  657  
-b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang      2016-12-14  658  	.vidioc_create_bufs		= v4l2_m2m_ioctl_create_bufs,
-b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang      2016-12-14  659  	.vidioc_prepare_buf		= v4l2_m2m_ioctl_prepare_buf,
-b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang      2016-12-14  660  	.vidioc_reqbufs                 = v4l2_m2m_ioctl_reqbufs,
-b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang      2016-12-14  661  	.vidioc_querybuf                = v4l2_m2m_ioctl_querybuf,
-b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang      2016-12-14  662  	.vidioc_dqbuf                   = v4l2_m2m_ioctl_dqbuf,
-b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang      2016-12-14  663  	.vidioc_expbuf                  = v4l2_m2m_ioctl_expbuf,
-b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang      2016-12-14  664  	.vidioc_streamon                = v4l2_m2m_ioctl_streamon,
-b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang      2016-12-14  665  	.vidioc_streamoff               = v4l2_m2m_ioctl_streamoff,
-b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang      2016-12-14  666  
-b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang      2016-12-14  667  	.vidioc_unsubscribe_event	= v4l2_event_unsubscribe,
-bf8460d2f4e6a1 drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c kyrie wu        2022-09-29  668  
-bf8460d2f4e6a1 drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c kyrie wu        2022-09-29  669  	.vidioc_decoder_cmd = v4l2_m2m_ioctl_decoder_cmd,
-bf8460d2f4e6a1 drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c kyrie wu        2022-09-29  670  	.vidioc_try_decoder_cmd = v4l2_m2m_ioctl_try_decoder_cmd,
-b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang      2016-12-14  671  };
-b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang      2016-12-14  672  
-
-:::::: The code at line 614 was first introduced by commit
-:::::: 45f13a57d8134459f02fbee0b1711eddc3260af7 media: platform: Add jpeg enc feature
-
-:::::: TO: Xia Jiang <xia.jiang@mediatek.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
