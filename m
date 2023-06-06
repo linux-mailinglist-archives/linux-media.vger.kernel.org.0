@@ -2,79 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EB78724AC4
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jun 2023 20:02:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7437724AD5
+	for <lists+linux-media@lfdr.de>; Tue,  6 Jun 2023 20:08:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238862AbjFFSCp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Jun 2023 14:02:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55288 "EHLO
+        id S238923AbjFFSH7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Jun 2023 14:07:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237728AbjFFSCn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jun 2023 14:02:43 -0400
+        with ESMTP id S238897AbjFFSHx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jun 2023 14:07:53 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEDD31706;
-        Tue,  6 Jun 2023 11:02:40 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC3B31702;
+        Tue,  6 Jun 2023 11:07:50 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 551866341A;
-        Tue,  6 Jun 2023 18:02:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EC47C433D2;
-        Tue,  6 Jun 2023 18:02:33 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 604CD63677;
+        Tue,  6 Jun 2023 18:07:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17E34C433EF;
+        Tue,  6 Jun 2023 18:07:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686074559;
-        bh=dFwKeulfNWCG8UJG4DaHFrjsPfB1yDRqXJKDxpAVLdI=;
+        s=k20201202; t=1686074869;
+        bh=+g7AH2Cprbi9FFx9hvRKBw23s6nCP3oe6Nu3HsJbAdw=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pNT9+YCLC8Hkr1JN7fnvDLqgrYCGGM9hXMTQFQO2Ji0Eecg1iW5gouf6kpGqSOLH8
-         jSko7oQg4HS5nopGiYhw3wzvN1u9TspP4NvwQ9K896NyndK0H7jjSSBiy3O28j2VoI
-         xuGu0Pl4Q+haguo9suObFX7Yq5YOZTJ+jOg1qCuKJARORdW3qr92YNxwIEby5iqZPy
-         Wd5qHY9+3d7V9hjjvl1YpePfqQLShPBKx3PEeMm1c3BRjd9ds8nWTg7OYg6hRfX+gy
-         +fzDxMFKVPy4g3rIdPMKShA4whjcqQzQ8IXMZOm65qRdsKQvQ7xKaDzq1rQgEU2X2x
-         DCb+9JUZ3A8lg==
-Date:   Tue, 6 Jun 2023 19:02:31 +0100
+        b=jF9Ece+gc3Z3hCwaxXvycaYKX1a8RvkNq2LwhQK8lXeuwErIWMoSjRfZLELHNYUnn
+         rhtfPvPPGdjwz32yX1WDCR2+YFjPqKYQXxgP8ckTudg86unWuRJLv3lVONtMkgU2Jg
+         FDyYjKb2vKMwhTFv2RpAJxtzInCaUNkbturfD/FJ5q1i78vqsl0ECB57VW2VpSPAQS
+         pRTBlCdu80t6krhiwYulgYYo1cJU+CTqzgJuOzb0z4nQ6GIw/fk0RZKBn0d/fKNkk1
+         FvVvy3M9SVo1XBfp0fcGuoe57ZJCa5zFKsa7kte/hT5hDCqde5PLQ+qaw8gJzX5LQs
+         rLcuvJBkmI9ew==
+Date:   Tue, 6 Jun 2023 19:07:42 +0100
 From:   Conor Dooley <conor@kernel.org>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Tommaso Merciai <tomm.merciai@gmail.com>,
         jacopo.mondi@ideasonboard.com, martin.hecht@avnet.eu,
         michael.roeder@avnet.eu, linuxfancy@googlegroups.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Liam Girdwood <lgirdwood@gmail.com>,
         Mark Brown <broonie@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Chris Morgan <macromorgan@hotmail.com>,
-        Jagan Teki <jagan@edgeble.ai>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Hans Verkuil <hverkuil@xs4all.nl>,
         Marco Felsch <m.felsch@pengutronix.de>,
         Gerald Loacker <gerald.loacker@wolfvision.net>,
+        Mikhail Rudenko <mike.rudenko@gmail.com>,
         Shawn Tu <shawnx.tu@intel.com>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
         Linus Walleij <linus.walleij@linaro.org>,
         Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
         Nicholas Roth <nicholas@rothemail.net>,
-        Mikhail Rudenko <mike.rudenko@gmail.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] dt-bindings: vendor-prefixes: Add prefix
- alliedvision
-Message-ID: <20230606-stopper-posting-0cb541626f4a@spud>
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/3] media: dt-bindings: alvium: add document YAML
+ binding
+Message-ID: <20230606-jaundice-womankind-7e583789fb7a@spud>
 References: <20230606155416.260941-1-tomm.merciai@gmail.com>
- <20230606155416.260941-2-tomm.merciai@gmail.com>
- <20230606162911.GH25679@pendragon.ideasonboard.com>
+ <20230606155416.260941-3-tomm.merciai@gmail.com>
+ <20230606163656.GI25679@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="K/kHIo6bma44g0Jo"
+        protocol="application/pgp-signature"; boundary="+RoPVQsdZoEGL6As"
 Content-Disposition: inline
-In-Reply-To: <20230606162911.GH25679@pendragon.ideasonboard.com>
+In-Reply-To: <20230606163656.GI25679@pendragon.ideasonboard.com>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -82,38 +77,60 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---K/kHIo6bma44g0Jo
+--+RoPVQsdZoEGL6As
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 06, 2023 at 07:29:11PM +0300, Laurent Pinchart wrote:
-> Hi Tommaso,
->=20
-> Thank you for the patch.
->=20
-> On Tue, Jun 06, 2023 at 05:54:02PM +0200, Tommaso Merciai wrote:
-> > Add a vendor prefix entry for Allied Vision Inc.
-> > (https://www.alliedvision.com)
-> >=20
-> > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
->=20
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Hey Laurent, Tommaso,
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+On Tue, Jun 06, 2023 at 07:36:56PM +0300, Laurent Pinchart wrote:
+> On Tue, Jun 06, 2023 at 05:54:03PM +0200, Tommaso Merciai wrote:
+
+> > +  alliedvision,lp2hs-delay-us:
+> > +    maxItems: 1
+> > +    description:
+> > +      Low power to high speed delay time in microseconds.
+>=20
+> You can drop "in microseconds", that's implied by the suffix.
+>=20
+> > +      The purpose of this property is force a DPhy reset for the period
+> > +      described by the microseconds on the property, before it starts
+> > +      streaming. To be clear, with that value bigger than 0 the Alvium
+> > +      forces a dphy-reset on all lanes for that period. That means all
+> > +      lanes go up into low power state. This may help a csi2 rx ip to
+> > +      reset if that IP can't deal with a continous clock.
+>=20
+> I'd like to propose what I think is a clearer version:
+>=20
+>     description: |
+>       Low power to high speed delay time.
+>=20
+>       If the value is larger than 0, the camera forces a reset of all
+>       D-PHY lanes for the duration specified by this property. All lanes
+>       will transition to the low-power state and back to the high-speed
+>       state after the delay. Otherwise the lanes will transition to and
+>       remain in the high-speed state immediately after power on.
+>=20
+>       This is meant to help CSI-2 receivers synchronizing their D-PHY
+>       RX.
+
+Question about the property.
+Why not make it have a minimum value of 1 and drop the special-case
+behaviour for zero?
 
 Cheers,
 Conor.
 
---K/kHIo6bma44g0Jo
+--+RoPVQsdZoEGL6As
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZH90twAKCRB4tDGHoIJi
-0rMeAQCoIRgZojaBE1obkHs+f87CH6LARNQ5uWCzpwgpIwRbRgEA86YPQXzYLjOX
-+espViovxfVXGjq3GGjrrDbaO3szOgk=
-=b4vR
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZH917gAKCRB4tDGHoIJi
+0ihzAQCALlESrN9lQINq5At4m8i/cKUpv33zVdz16wSfgQJyrAD/ffwmWbpPLax3
+TT8InwBknLiZT8TQTt34eMlSoorRlAA=
+=0a/j
 -----END PGP SIGNATURE-----
 
---K/kHIo6bma44g0Jo--
+--+RoPVQsdZoEGL6As--
