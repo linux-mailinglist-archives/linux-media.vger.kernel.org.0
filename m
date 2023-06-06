@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BBD8D723FA2
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jun 2023 12:34:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46855723FC1
+	for <lists+linux-media@lfdr.de>; Tue,  6 Jun 2023 12:37:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231561AbjFFKeg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Jun 2023 06:34:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55574 "EHLO
+        id S236904AbjFFKhp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Jun 2023 06:37:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236547AbjFFKee (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jun 2023 06:34:34 -0400
+        with ESMTP id S236033AbjFFKhA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jun 2023 06:37:00 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16D2FE6B;
-        Tue,  6 Jun 2023 03:34:33 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F88B10FB;
+        Tue,  6 Jun 2023 03:36:22 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (om126253223039.31.openmobile.ne.jp [126.253.223.39])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B40891221;
-        Tue,  6 Jun 2023 12:34:05 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D356A1221;
+        Tue,  6 Jun 2023 12:35:54 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1686047646;
-        bh=3Lz2WwH045DCLuuNkD5PiOW6ef8Go3uox42/mpTxb1M=;
+        s=mail; t=1686047755;
+        bh=biVLKsT44hZdITyP0tgFesm18vuBods/TDQ/DGnqbVQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Wi3PjteNXSBn1kMMbT6bq1L85AyaEkyDzBq+iW4+sce2ecMxPHrCoPH+wy//h0JQ4
-         tFSnI4xglZEceOSQCwwDQM6N9G7e6zlvJ5xUyPEO1ZCVgoMJqcqjPa/WEmOQwk9kDD
-         mMsJMGYN4bM2t1t9DBHmuhMeNu95O1zTLmkiMAho=
-Date:   Tue, 6 Jun 2023 13:34:21 +0300
+        b=kMo32PpiPT6GyJLXuZOrPei9Uztqe/JW3nOkL3fO/YVxXKItPyK8S5PktZX3FfbQ7
+         5UB0lP52cBUvMBO23hh91xRpKL6ZBbajA2wHvOG5l1eB37HHNP8pm2UYnjqSNAdw8V
+         dab1OhIP8MssRPcnLLVHV0tQj83PrENqtXpNTFrw=
+Date:   Tue, 6 Jun 2023 13:36:18 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Michael Riesch <michael.riesch@wolfvision.net>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -34,15 +34,15 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Matthias Fend <Matthias.Fend@wolfvision.net>,
         Dave Stevenson <dave.stevenson@raspberrypi.com>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC v2 1/6] media: v4l2-ctrls: fix documentation of
- V4L2_CID_FOCUS_ABSOLUTE unit
-Message-ID: <20230606103421.GA25774@pendragon.ideasonboard.com>
+Subject: Re: [PATCH RFC v2 2/6] media: v4l2-ctrls: clarify documentation of
+ V4L2_CID_FOCUS_RELATIVE
+Message-ID: <20230606103618.GB25774@pendragon.ideasonboard.com>
 References: <20230406-feature-controls-lens-v2-0-faa8ad2bc404@wolfvision.net>
- <20230406-feature-controls-lens-v2-1-faa8ad2bc404@wolfvision.net>
+ <20230406-feature-controls-lens-v2-2-faa8ad2bc404@wolfvision.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230406-feature-controls-lens-v2-1-faa8ad2bc404@wolfvision.net>
+In-Reply-To: <20230406-feature-controls-lens-v2-2-faa8ad2bc404@wolfvision.net>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
@@ -57,34 +57,37 @@ Hi Michael,
 
 Thank you for the patch.
 
-On Tue, Apr 25, 2023 at 11:45:11AM +0200, Michael Riesch wrote:
-> The current unit description of the V4L2_CID_FOCUS_ABSOLUTE does not
-> make sense and was probably copy-pasted from V4L2_CID_FOCUS_RELATIVE.
-> Fix the unit description in the documentation.
+On Tue, Apr 25, 2023 at 11:45:12AM +0200, Michael Riesch wrote:
+> The control V4L2_CID_FOCUS_RELATIVE only makes sense if the device cannot
+> handle absolute focal point positioning with V4L2_CID_FOCUS_ABSOLUTE.
+> Clarify this in the documentation.
 > 
 > Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
 > ---
->  Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
 > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> index daa4f40869f8..df29150dce7b 100644
+> index df29150dce7b..42cf4c3cda0c 100644
 > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
 > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> @@ -140,8 +140,8 @@ enum v4l2_exposure_metering -
->  
->  ``V4L2_CID_FOCUS_ABSOLUTE (integer)``
->      This control sets the focal point of the camera to the specified
-> -    position. The unit is undefined. Positive values set the focus
-> -    closer to the camera, negative values towards infinity.
-> +    position. The unit is undefined. Larger values move the focus closer to
-> +    the camera, smaller values move the focus to infinity.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
->  
->  ``V4L2_CID_FOCUS_RELATIVE (integer)``
+> @@ -147,7 +147,9 @@ enum v4l2_exposure_metering -
 >      This control moves the focal point of the camera by the specified
+>      amount. The unit is undefined. Positive values move the focus closer
+>      to the camera, negative values towards infinity. This is a
+> -    write-only control.
+> +    write-only control. It should be implemented only if the device cannot
+> +    handle absolute values.
+> +
+
+Extra blank line.
+
+I don't think this is right. The control was added for the UVC driver,
+and there are devices that implement both absolute and relative focus.
+
+>  
+>  ``V4L2_CID_FOCUS_AUTO (boolean)``
+>      Enables continuous automatic focus adjustments. The effect of manual
 > 
 
 -- 
