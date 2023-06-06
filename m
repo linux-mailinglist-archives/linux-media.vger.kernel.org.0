@@ -2,42 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E6C67238FF
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jun 2023 09:28:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA8BC72390B
+	for <lists+linux-media@lfdr.de>; Tue,  6 Jun 2023 09:31:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235222AbjFFH2n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Jun 2023 03:28:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44568 "EHLO
+        id S236149AbjFFHbI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Jun 2023 03:31:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233976AbjFFH2l (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jun 2023 03:28:41 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 959A6EC;
-        Tue,  6 Jun 2023 00:28:40 -0700 (PDT)
+        with ESMTP id S235308AbjFFHbH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jun 2023 03:31:07 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E2B911D;
+        Tue,  6 Jun 2023 00:31:05 -0700 (PDT)
 Received: from [IPV6:2001:b07:2ed:14ed:a962:cd4d:a84:1eab] (unknown [IPv6:2001:b07:2ed:14ed:a962:cd4d:a84:1eab])
         (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
         (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 118C96606E97;
-        Tue,  6 Jun 2023 08:28:38 +0100 (BST)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 5DB726606E98;
+        Tue,  6 Jun 2023 08:31:02 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1686036519;
-        bh=sCI6lngnOrIXqzhTxdoFGGgVc/zpGhF+N2dU2WfwsKA=;
+        s=mail; t=1686036664;
+        bh=G9Yg0TlFYfsIFKwfhY9f+u1E2TG+wfhcVIp+pvHR+b4=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=VOE4wCk+nFZhEZtm2s9rRq9asMbsRFoprdD2PLHU+57QeTv4vXo02I+IXZ2kODuWE
-         C+Lc90m5V20NhOEfkcoi5CKb7d9OgughYQ99iYkfoOBro1KP3ygxdi4aIVGQpR6He0
-         AsdQ+f7NaQu263/uH1Wjcl2DbNmxOoJmJGf54zblN2NBwam4mbiUyI4YFlbUVepCzD
-         wmgIXVqiXHJIQUEhxflbtBhvNQjtOUFQ1zKw3Fp+3Z0L3i1otwJLubOZu4ZBP4mZcD
-         xMumbCwWqGgl61oP1Ov8zfFXeLVUZRwkFiW7ng77txFOOn4jkWSwlXYY37bPEGQ7Wj
-         xdMDBcljeNHrA==
-Message-ID: <34023365-48a5-3c66-fc2e-6dbce8366af5@collabora.com>
-Date:   Tue, 6 Jun 2023 09:28:36 +0200
+        b=Q1273EtdsG0JKBag/szWRjp/W+OmD9K0OIHSeUMw0w77R7uUWJNJlMRd4dTsf1sYu
+         GLEuQV4HRJoalp02WkpDphRmE8ug4K2UsKmJPnOxI0/TAn3LPxJimghjNxEl0MgCBD
+         f0ue0X1AtmFhl/2GQoWwW4RYmE495iZcpzCzYPq7/BBAcydvbPW0JaKrtv4cntL9Ap
+         3R2srxnNaqjSqLq8eq+TTHGMfKdvcgT349ncQS9Gmz7AoXZFwSNoLbrj9ZihsWpeJW
+         xEeANv/0MysGhWD7PcDbfHNVMgqLqWQh2G9FUb+nzlU+gpVwPI4UjfHB5vNfjuPHwN
+         HvvMPLObxxW+w==
+Message-ID: <3400aec0-4532-ab39-52c4-13c718817ab3@collabora.com>
+Date:   Tue, 6 Jun 2023 09:30:59 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.2
-Subject: Re: [PATCH 1/6] media: dt-bindings: mediatek,vcodec: Allow single
- clock for mt8183
+Subject: Re: [PATCH 3/6] media: dt-bindings: mediatek,vcodec: Remove VDEC_SYS
+ for mt8183
+Content-Language: en-US
 To:     =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
         <nfraprado@collabora.com>,
         Matthias Brugger <matthias.bgg@gmail.com>,
@@ -53,11 +54,10 @@ Cc:     kernel@collabora.com, Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-mediatek@lists.infradead.org
 References: <20230605162030.274395-1-nfraprado@collabora.com>
- <20230605162030.274395-2-nfraprado@collabora.com>
-Content-Language: en-US
+ <20230605162030.274395-4-nfraprado@collabora.com>
 From:   AngeloGioacchino Del Regno 
         <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230605162030.274395-2-nfraprado@collabora.com>
+In-Reply-To: <20230605162030.274395-4-nfraprado@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -71,11 +71,28 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Il 05/06/23 18:20, Nícolas F. R. A. Prado ha scritto:
-> MT8173 and MT8183 have different clocks, and consequently clock-names.
-> Relax the number of clocks and set clock-names based on compatible.
+> The binding expects the first register space to be VDEC_SYS. But on
+> mt8183, which uses the stateless decoders, this space is used only for
+> controlling clocks and resets, which are better described as separate
+> clock-controller and reset-controller nodes.
+> 
+> In fact, in mt8173's devicetree there are already such separate
+> clock-controller nodes, which cause duplicate addresses between the
+> vdecsys node and the vcodec node. But for this SoC, since the stateful
+> decoder code makes other uses of the VDEC_SYS register space, it's not
+> straightforward to remove it.
+> 
+> In order to avoid the same address conflict to happen on mt8183,
+> since the only current use of the VDEC_SYS register space in
+> the driver is to read the status of a clock that indicates the hardware
+> is active, remove the VDEC_SYS register space from the binding and
+> describe an extra clock that will be used to directly check the hardware
+> status.
+> 
+> Also add reg-names to be able to tell that this new register schema is
+> used, so the driver can keep backward compatibility.
 > 
 > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> 
 
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
