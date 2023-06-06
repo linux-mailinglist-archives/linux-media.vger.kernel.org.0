@@ -2,129 +2,220 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EE46723D2E
-	for <lists+linux-media@lfdr.de>; Tue,  6 Jun 2023 11:24:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2785723E8E
+	for <lists+linux-media@lfdr.de>; Tue,  6 Jun 2023 11:57:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237441AbjFFJYE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Jun 2023 05:24:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36058 "EHLO
+        id S237514AbjFFJ5f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Jun 2023 05:57:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232579AbjFFJYD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jun 2023 05:24:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88DF8E55
-        for <linux-media@vger.kernel.org>; Tue,  6 Jun 2023 02:23:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1686043397;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=R/HBlyIZo7CdZJvTEe5U8mNT5oLotniCeKkm4ow0MrE=;
-        b=A7XK+QT1qBGpYgiCV1Nd9H1pdwkuNyG7M64nX2Miz0PnggGhnmtTLspuO3VYDTspPtSFXd
-        Z/Eqt2nVzseYg/R2uAVnvM1/WNp9uety77jXQWIOj2ZUM9hVKoRjQxLC9lzPLL5CYFEOKW
-        rm6SO59z+5w719o1FWtkpBee80MDvQg=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-111-sSZjtjAANHGwF_g1SVvlnQ-1; Tue, 06 Jun 2023 05:23:16 -0400
-X-MC-Unique: sSZjtjAANHGwF_g1SVvlnQ-1
-Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-514559574a9so7969034a12.1
-        for <linux-media@vger.kernel.org>; Tue, 06 Jun 2023 02:23:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686043395; x=1688635395;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=R/HBlyIZo7CdZJvTEe5U8mNT5oLotniCeKkm4ow0MrE=;
-        b=F/gq/x5h2sAudPFn/RczfnmFLzF3XL/X0pteklXdWc7Cv0ufh+SFbe+cco/HSX+x3+
-         bs4MACNp4YksYQFz+vh6AL34/gE6XFi98IGIsiL/rcVVMSZHUYp1BesETtdZ8WBXpfnZ
-         DOp+43yernWr5XrZEAqslcnJS4OeRnWg7GicIoyV76hoiCVfhWtQb3SO1vVp1PgPUkRw
-         2pMwgMTQHw1v74awx2R4kmBH7h7CKwxE0DK+YLe435LQmNGeuTzxKtHNAYiiQ45A2Wn/
-         m2kwyOQEI/6LLuNEa59MHAl9qdQDcE53oL4yA4n4shGMdxcUhcl4zyC2yh8rW4KElMKP
-         1byw==
-X-Gm-Message-State: AC+VfDz82EAmP8MUGI18SbviFP2C60rFYF2jV3OnLEMwL6h464MVyJ4d
-        BOrcQYHgowkU1pHrl+3SPcoMWMf5aflvnac4zLPmZoNXuL9x4cd+m5rSrhm6Jjcib/UZILO12KI
-        ycUMFzRLw+tjzrDMCfHQTGAb2AIX+iEo=
-X-Received: by 2002:a05:6402:184d:b0:50b:7959:8b09 with SMTP id v13-20020a056402184d00b0050b79598b09mr1875665edy.15.1686043395037;
-        Tue, 06 Jun 2023 02:23:15 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ46s7yTl/UNP/gNkpOIeOGPXLeufV6GWS8Htq/ljAFSEZIUwDKqXD2mSEd+vMpuxHNg+WehKg==
-X-Received: by 2002:a05:6402:184d:b0:50b:7959:8b09 with SMTP id v13-20020a056402184d00b0050b79598b09mr1875652edy.15.1686043394744;
-        Tue, 06 Jun 2023 02:23:14 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id be21-20020a0564021a3500b00514b0f6a75esm4711432edb.97.2023.06.06.02.23.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Jun 2023 02:23:14 -0700 (PDT)
-Message-ID: <b1cdf8b7-ae9b-a86d-5298-bd0cfa70f9cb@redhat.com>
-Date:   Tue, 6 Jun 2023 11:23:13 +0200
+        with ESMTP id S237464AbjFFJ5Q (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Jun 2023 05:57:16 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FB0110C2
+        for <linux-media@vger.kernel.org>; Tue,  6 Jun 2023 02:57:13 -0700 (PDT)
+Received: from [192.168.1.108] (unknown [103.251.226.77])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9F497289;
+        Tue,  6 Jun 2023 11:56:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1686045407;
+        bh=kFollRXH7d2wXLpCfolbFQKQ0F0lMG7HoM/haNgwwFY=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=VkbxM2riyw0OSG1KQ42zAROf3bqU/BWWI3UPOGh1ngCGis/muSOi4lO3bC4IrUAe5
+         5mty0i2Clm9QC9X3YDOYfWuDj3DvmZeOl3j5G68ZcmChutu3IyDBWCOSgOu1z99G/E
+         ozJqc+HyDLX/PPJ6Y0Q45qBkYPl9LMCvFor6cUbM=
+Message-ID: <d973590d-561d-e018-85ee-07c0d41b0631@ideasonboard.com>
+Date:   Tue, 6 Jun 2023 15:27:05 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2] platform/x86: int3472: Evaluate device's _DSM method
- to control imaging clock
-Content-Language: en-US, nl
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        bingbu.cao@linux.intel.com, platform-driver-x86@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>,
-        Hao Yao <hao.yao@intel.com>
-References: <20230531134429.171337-1-hdegoede@redhat.com>
- <CAHp75VfZN5M8LiP3nw0NT5p3WyJJJJm6w2OZKgm28b6aokzopQ@mail.gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAHp75VfZN5M8LiP3nw0NT5p3WyJJJJm6w2OZKgm28b6aokzopQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+ Thunderbird/102.7.1
+Subject: Re: [ANN] Media Summit June 26th: Draft Agenda v3
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+References: <e00c7214-198e-a83b-7544-2b527d0be068@xs4all.nl>
+Content-Language: en-US
+From:   Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <e00c7214-198e-a83b-7544-2b527d0be068@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-HI,
 
-On 5/31/23 19:56, Andy Shevchenko wrote:
-> On Wed, May 31, 2023 at 4:44 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> From: Bingbu Cao <bingbu.cao@intel.com>
->>
->> On some platforms, the imaging clock should be controlled by evaluating
->> specific clock device's _DSM method instead of setting gpio, so this
->> change register clock if no gpio based clock and then use the _DSM method
->> to enable and disable clock.
-> 
-> ...
-> 
->> +       if (clk->ena_gpio)
->> +               gpiod_set_value_cansleep(clk->ena_gpio, 1);
->> +       else
->> +               skl_int3472_enable_clk_acpi_method(clk, 1);
-> 
-> Looking at this, can we avoid duplicative validation of the GPIO?
-> Perhaps skl_int3472_enable_clk_acpi_method() can have embedded another
-> check so they won't be called together?
-> 
-> ...
-> 
->> +       if (clk->ena_gpio)
->> +               gpiod_set_value_cansleep(clk->ena_gpio, 0);
->> +       else
->> +               skl_int3472_enable_clk_acpi_method(clk, 0);
-> 
-> Ditto.
+Hi Hans,
 
-Ack, I've squashed a fix for this into this patch while merging it into
-my review-hans branch.
+I am Umang and has been a contributor to libcamera.
 
-Regards,
+I would like to attend the media-summit remotely. I am not sure if I 
+have to register anywhere or just ask you to add me to the remote 
+attendees list.
 
-Hans
+Umang Jain <umang.jain@ideasonboard.com> (Ideas On Board)
 
+Thanks!
+
+On 6/2/23 6:10 PM, Hans Verkuil wrote:
+> Hi all,
+>
+> This is version 3 of the agenda for the media summit. As always, it
+> is subject to change and all times are guesstimates!
+>
+> The media summit will be held at the Holiday Inn which is close to the
+> conference centre where the Embedded Open Source Summit is held:
+>
+> Holiday Inn Prague Congress Centre - Meeting room "E"
+> Na Pankráci 1684/ 15, 140 00 Praha 4-Nusle
+> https://www.ihg.com/holidayinn/hotels/us/en/prague/prgnp/hoteldetail
+>
+> Refreshments (tea/coffee/soda) are available during the day.
+>
+> The meeting room is sponsored by Collabora and Cisco Systems Norway.
+> And lunch is sponsored by Ideas On Board.
+>
+> Many thanks to the sponsors!
+>
+> In-Person Attendees:
+>
+> Sakari Ailus <sakari.ailus@linux.intel.com> (Intel)
+> Kieran Bingham <kieran.bingham@ideasonboard.com> (Ideas On Board)
+> Deborah Brouwer <deborahbrouwer3563@gmail.com>
+> Mauro Carvalho Chehab <mchehab@kernel.org> (Intel)
+> Ricardo Ribalda <ribalda@chromium.org> (Google)
+> Marco Felsch <m.felsch@pengutronix.de> (Pengutronix)
+> Sebastian Fricke <sebastian.fricke@collabora.com> (Collabora)
+> Martin Hecht <martin.hecht@avnet.eu> (Avnet)
+> Jai Luthra <j-luthra@ti.com> (TI)
+> Tommaso Merciai <tomm.merciai@gmail.com> (Avnet)
+> Jacopo Mondi <jacopo.mondi@ideasonboard.com> (Ideas On Board)
+> Andrzej Pietrasiewicz <andrzej.p@collabora.com> (Collabora)
+> Laurent Pinchart <laurent.pinchart@ideasonboard.com> (Ideas On Board)
+> Michael Roeder <michael.roeder@avnet.eu> (Avnet)
+> Niklas Söderlund <niklas.soderlund@ragnatech.se> (Ragnatech)
+> Dave Stevenson <dave.stevenson@raspberrypi.com> (Raspberry Pi)
+> Martin Tůma <tumic@gpxsee.org> (GPXSee)
+> Stanimir Varbanov <stanimir.varbanov@linaro.org> (Linaro, tentative, after 16:30 only)
+> Hans Verkuil <hverkuil-cisco@xs4all.nl> (Cisco Systems Norway)
+> Alain Volmat <alain.volmat@foss.st.com> (ST Electronics)
+>
+> Remote Attendees:
+>
+> Nicolas Dufresne <nicolas@ndufresne.ca> (Collabora, tentative, afternoon only)
+> Hsia-Jun Li <Randy.Li@synaptics.com> (Synaptics)
+>
+> I will email details on how to join remotely a few days before the media summit
+> starts.
+>
+> If you are listed as attendee (in person or remote) and you can't attend
+> after all, please let me know.
+>
+> If you are listed as presenting a topic during the meeting, then please
+> check if the details are correct. It would be really appreciated if you
+> can post any slides you have before the meeting (just reply to this message
+> with the presentation attached).
+>
+> Agenda:
+>
+> 8:45-9:15: get settled :-)
+>
+> 9:15-9:25: Hans: Quick introduction
+>
+> 9:25-10:15: Daniel Almeida: Rust V4L2 support
+>
+>      Discuss the potential blockers as well as the roadmap and priorities for
+>      bindings. Present what is currently supported and what isn't in the Rust
+>      code for V4L2. Identify potential candidates for new drivers that can be
+>      written in Rust. Discuss about maintainership issues related to Rust in V4L2.
+>
+> 10:15-10:30: Break
+>
+> 10:30-11:15 Hans & Hsia-Jun Li: "Add extended fmt and buffer" patch series
+>
+>      https://patchwork.linuxtv.org/project/linux-media/cover/20230206043308.28365-1-ayaka@soulik.info/
+>
+>      We've been postponing the work on this, but I think we need to decide how to
+>      proceed since pixel formats and single vs multi planar is getting to be a nightmare.
+>
+>      More details from Hsia-Jun Li:
+>
+>      1. v4l2 header would only maintain the codec format and pixel format in bus.
+>      2. the pixel formats would be maintained by the DirectRender, those M
+>         variant would not be supported in the new extend pixel format API.
+>      3. The number of plane for a pixel format would also responds for its data
+>         layout. Ex. NV12 = 2 planes(luma, chroma), I420 = 3 planes(Y, U, V).
+>      4. Userspace that supports new extend API could access those driver didn't
+>         adapt the new API, kernel would have a backward compatible layer. While
+>         the opposite backward compatible is not offered (old API userspace can't
+>         access the driver support the new API).
+>
+>      [optional part]
+>      5. An alloc flag would be introduced for allocating those M variant buf.
+>         https://lore.kernel.org/lkml/20230322105226.122467-1-randy.li@synaptics.com/
+>      6. Stateless codec format would be a modifier to the stateful codec format.
+>         We could support different packing mode here.
+>
+> 11:15-11:30: Break
+>
+> 11:30-12:15: Andrzej Pietrasiewicz: Stateless Encoders: VP8
+>
+>      - Introduction to stateless encoders and previous work in this area
+>
+>      https://github.com/bootlin/linux/tree/hantro/h264-encoding-v5.11
+>
+>      https://lore.kernel.org/linux-arm-kernel/20230309125651.23911-1-andrzej.p@collabora.com/T/
+>
+>      - High level decisions
+>      - Rate control
+>      - VP8 uAPI
+>      - Challenges
+>
+> 12:15-13:30: Lunch
+>
+> 13:30-14:00: Ricardo Ribalda Delgado: KCAM update
+>
+>      I would like to share the progress on KCAM from our end.
+>
+>      I am also trying to collect all the requirements that we are getting
+>      from vendors regarding V4L2.
+>
+> 14:00-14:45: Sakari: generic line-based metadata formats:
+>
+>      https://lore.kernel.org/linux-media/20230505215257.60704-1-sakari.ailus@linux.intel.com/T/#t
+>
+> 14:45-??:??: Mauro & sub-maintainers: Subsystem development process
+>
+>      How to improve it? How do we get more maintainers? It's not working very
+>      well at the moment.
+>
+>      Mauro will present how the media CI works today.
+>      Hans will present how the daily build scripts work.
+>
+>      Can this be harmonized?
+>
+> Final short topic: Hans: Should we keep the media summit together with the ELCE conference?
+>      Or organize it separately, and ask a company like Cisco, Intel or Collabora
+>      to organize a room. What would work best? Anything to improve on this?
+>
+> We have the room until 18:30, but (fingers crossed) I hope to finish before that.
+>
+> The "Add extended fmt and buffer" and the "Subsystem development process" are
+> *very* hard to predict. I want to limit the initial discussion of the that first
+> topic to 45-60 minutes, and continue (if needed) in the afternoon after the discussion
+> about the subsystem development process. We will have see how it goes.
+>
+> Please reply with corrections, questions, etc. to this email. I'll update the agenda
+> over time.
+>
+> Regards,
+>
+> 	Hans
 
