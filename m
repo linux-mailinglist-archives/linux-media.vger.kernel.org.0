@@ -2,156 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 65399726573
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 18:07:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3257B726586
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 18:12:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241404AbjFGQHM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Jun 2023 12:07:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36550 "EHLO
+        id S241578AbjFGQMD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Jun 2023 12:12:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241433AbjFGQHI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 12:07:08 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77AB21BDD
-        for <linux-media@vger.kernel.org>; Wed,  7 Jun 2023 09:07:05 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (om126233170111.36.openmobile.ne.jp [126.233.170.111])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 16E3E74C;
-        Wed,  7 Jun 2023 18:06:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1686153998;
-        bh=PiOjf5Jgo5bFFQRCLwb0qiQbDp30TvgANDpaP9tJExY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jDWeX4jx7n22nIuIgqrgApp2dOqzEicWAPJnl4zChh7g37XRjVmqstTHX9UZDAf0D
-         SJDAHWXNaz3bvXEECzkiCFXN1L7stOKLQDNjQKzptQ2kTgFR/WGgTIyvsSI+DEx8rL
-         1vOivNDK7GjD9GsG4oz0E0HdYztPHKapZkNfAAW8=
-Date:   Wed, 7 Jun 2023 19:07:00 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org
-Subject: Re: [PATCH 2/3] media: atomisp: ov2680: Convert to new CCI register
- access helpers
-Message-ID: <20230607160700.GI22127@pendragon.ideasonboard.com>
-References: <20230606165808.70751-1-hdegoede@redhat.com>
- <20230606165808.70751-3-hdegoede@redhat.com>
- <CAHp75VeqeA4GA0_r_KgH0wv0_TQ4rQUdTY99DFFR_oWfdiDxfw@mail.gmail.com>
- <c34ca549-8d07-35db-0635-a5c60728dfc2@redhat.com>
- <20230607155115.GF22127@pendragon.ideasonboard.com>
- <3dd04737-8c9d-d359-9a6e-919fe34d1674@redhat.com>
+        with ESMTP id S241568AbjFGQMB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 12:12:01 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D4671BDF
+        for <linux-media@vger.kernel.org>; Wed,  7 Jun 2023 09:11:59 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-977ed383b8aso501861266b.3
+        for <linux-media@vger.kernel.org>; Wed, 07 Jun 2023 09:11:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1686154318; x=1688746318;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7CTLJ85SO40P+6T5lFDwMelrcGu/os7DzoU6F/bozQU=;
+        b=uNQR41pAUvu9ySqUcIp6c98cuPiYcZiCG1PKzQ2msjmPuFJTD5kSX0DWEqeatZPi4A
+         ZSc7whT72OSG99sxGuADoLhG011npd0FLeeWXBQ+Xcj8LgbIMKSsnLAtoaM0jncLPYh8
+         JvcLPd1k670eIU5ByuSYGLoDy41iDOJn931uMmf+acQtpryqGviRrpSK/arB0Pf+quPb
+         voF/9V4++UXo97A0v5H3G8wOZcV83HW8NKyXuLCLatTM7qqKbeF2UFB/12rfykKanrpU
+         0p8qMJ2G7IuUH8oV4z9WvWY3dHhaCBiJ8qF1k1bkAzo2f9Lxrtn/X6hqc017cg4WDAw7
+         hBEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686154318; x=1688746318;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7CTLJ85SO40P+6T5lFDwMelrcGu/os7DzoU6F/bozQU=;
+        b=fCmXjqCK6zrhI0NnwhS1LERjPqfV/yYm7QqZqLmSuRr2kYTzDhF4gBJBo4FtfW5gOi
+         TM3Ti0mXJF+7gD4dYUjAfjJowh6FaKeQ3zGFi7sCOjCs1suYG92cYJW2DAyEOVpeZCwv
+         HBVuPSuIalI/qTiXjyUnn9ysgt/5JMSPXFPa3KOajowGi1gnyfDD8jx3CJevWJyg3Dsx
+         CdX7UPcUYBtBREGdBmtcvvgS+N8tdIE3Ib8IFQBBg7bjtpdzFvzdxBRwFYHRcV5trhpf
+         fxrTg502+lzwsqKE4olhfk7k8dtQUBhfofh00U1cQc0elgoNX145m6cVtVPornSqmXll
+         1o5g==
+X-Gm-Message-State: AC+VfDzV0BXQz+xAPjX2Qxv8vJcZeRnv4gKKN1cOs8x5StnbOesz27Pp
+        u9hYAmIgDiO8VC0oYvbM6srvFQ==
+X-Google-Smtp-Source: ACHHUZ5z5lAgGpxbWfyVlmv2tAEIz6cRQ+OoTg1Q+IlD0paYIHTQMtNksmOnrQMAuBaGNveZcyyttQ==
+X-Received: by 2002:a17:907:2d10:b0:96a:928c:d391 with SMTP id gs16-20020a1709072d1000b0096a928cd391mr7109018ejc.4.1686154317780;
+        Wed, 07 Jun 2023 09:11:57 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.26])
+        by smtp.gmail.com with ESMTPSA id f10-20020a170906494a00b00969f25b96basm6948862ejt.204.2023.06.07.09.11.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Jun 2023 09:11:57 -0700 (PDT)
+Message-ID: <4673281c-0281-6fc5-97c3-b4ec821c81d5@linaro.org>
+Date:   Wed, 7 Jun 2023 18:11:54 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3dd04737-8c9d-d359-9a6e-919fe34d1674@redhat.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH v4 2/3] media: dt-bindings: alvium: add document YAML
+ binding
+Content-Language: en-US
+To:     Tommaso Merciai <tomm.merciai@gmail.com>
+Cc:     jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com,
+        martin.hecht@avnet.eu, michael.roeder@avnet.eu,
+        linuxfancy@googlegroups.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Gerald Loacker <gerald.loacker@wolfvision.net>,
+        Mikhail Rudenko <mike.rudenko@gmail.com>,
+        Nicholas Roth <nicholas@rothemail.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Michael Riesch <michael.riesch@wolfvision.net>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
+        Shawn Tu <shawnx.tu@intel.com>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230607131936.382406-1-tomm.merciai@gmail.com>
+ <20230607131936.382406-3-tomm.merciai@gmail.com>
+ <17971357-523c-f907-13a9-8f7abce90c24@linaro.org>
+ <ZICgPUDv+GjK4C5t@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <ZICgPUDv+GjK4C5t@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
-
-On Wed, Jun 07, 2023 at 05:59:08PM +0200, Hans de Goede wrote:
-> On 6/7/23 17:51, Laurent Pinchart wrote:
-> > On Wed, Jun 07, 2023 at 10:53:54AM +0200, Hans de Goede wrote:
-> >> On 6/6/23 22:53, Andy Shevchenko wrote:
-> >>> On Tue, Jun 6, 2023 at 7:58 PM Hans de Goede wrote:
-> >>>>
-> >>>> Use the new comon CCI register access helpers to replace the private
-> >>>> register access helpers in the ov2680 driver.
-> >>>>
-> >>>> While at it also switch to using the same register address defines
-> >>>> as the standard drivers/media/i2c/ov2680.c driver to make merging
-> >>>> the 2 drivers simpler.
-> >>>
-> >>> ...
-> >>>
-> >>>> +       cci_write(sensor->regmap, OV2680_REG_SENSOR_CTRL_0A, sensor_ctrl_0a, &ret);
-> >>>> +       cci_write(sensor->regmap, OV2680_REG_HORIZONTAL_START, sensor->mode.h_start, &ret);
-> >>>> +       cci_write(sensor->regmap, OV2680_REG_VERTICAL_START, sensor->mode.v_start, &ret);
-> >>>> +       cci_write(sensor->regmap, OV2680_REG_HORIZONTAL_END, sensor->mode.h_end, &ret);
-> >>>> +       cci_write(sensor->regmap, OV2680_REG_VERTICAL_END, sensor->mode.v_end, &ret);
-> >>>> +       cci_write(sensor->regmap, OV2680_REG_HORIZONTAL_OUTPUT_SIZE,
-> >>>> +                 sensor->mode.h_output_size, &ret);
-> >>>> +       cci_write(sensor->regmap, OV2680_REG_VERTICAL_OUTPUT_SIZE,
-> >>>> +                 sensor->mode.v_output_size, &ret);
-> >>>> +       cci_write(sensor->regmap, OV2680_REG_TIMING_HTS, sensor->mode.hts, &ret);
-> >>>> +       cci_write(sensor->regmap, OV2680_REG_TIMING_VTS, sensor->mode.vts, &ret);
-> >>>> +       cci_write(sensor->regmap, OV2680_REG_ISP_X_WIN, 0, &ret);
-> >>>> +       cci_write(sensor->regmap, OV2680_REG_ISP_Y_WIN, 0, &ret);
-> >>>> +       cci_write(sensor->regmap, OV2680_REG_X_INC, inc, &ret);
-> >>>> +       cci_write(sensor->regmap, OV2680_REG_Y_INC, inc, &ret);
-> >>>> +       cci_write(sensor->regmap, OV2680_REG_X_WIN, sensor->mode.h_output_size, &ret);
-> >>>> +       cci_write(sensor->regmap, OV2680_REG_Y_WIN, sensor->mode.v_output_size, &ret);
-> >>>> +       cci_write(sensor->regmap, OV2680_REG_FORMAT1, fmt1, &ret);
-> >>>> +       cci_write(sensor->regmap, OV2680_REG_FORMAT2, fmt2, &ret);
-> >>>
-> >>> I know that &ret thingy was discussed before and Laurent is keen to
-> >>> have this, but has anybody actually tested how bad or not at all the
-> >>> code generation becomes?
-> >>
-> >> The cci_write function is in another module, so it won't be inlined
-> >> and as such I don't see how the code generation can become bad. We
-> >> loose all the if (ret) return ret; checks here, so the code should
-> >> become smaller.
-> >>
-> >> Or are you worried about having to pass the 1 extra parameter ?
-> >>
-> >>> ...
-> >>>
-> >>>> +       struct device *dev;
-> >>>> +       struct regmap *regmap;
-> >>>
-> >>> Isn't the same device associated with regmap? If so, one of them
-> >>> probably duplicates the other.
-> >>
-> >> You are right, but the entire atomisp-ov2680.c file is going away real
-> >> soon now. I plan to post a series to get drivers/media/i2c/ov2680.c
-> >> ready to replace it later today.
-> >>
-> >> So I'm not even sure if this patch should be merged, as I mentioned in
-> >> the cover letter this one is mostly here to illustrate use of the new
-> >> helpers.
-> > 
-> > How about porting drivers/media/i2c/imx290.c ? That's a real-life
-> > example that can be merged, which is good to serve as an example
-> > showcasing the API usage in mainline. It will also help ensuring that
-> > these helpers are a good fit for drivers that already encode the
-> > register width in the macros.
+On 07/06/2023 17:20, Tommaso Merciai wrote:
+> Hi Krzysztof,
 > 
-> I prefer to port over drivers which I can actually test,
-> at least for now.
-
-I can test it for you if you want :-)
-
-> I already have converting ov5693.c (which also already has macros
-> to encode to width) on my TODO list. I'll convert that for v2
-> of the series.
+> On Wed, Jun 07, 2023 at 04:18:48PM +0200, Krzysztof Kozlowski wrote:
+>> On 07/06/2023 15:19, Tommaso Merciai wrote:
+>>> Add documentation of device tree in YAML schema for the ALVIUM
+>>> Camera from Allied Vision Inc.
+>>>
+>>> References:
+>>>  - https://www.alliedvision.com/en/products/embedded-vision-solutions
+>>>
+>>> Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+>>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>> ---
+>>> Changes since v1:
+>>>  - Fixed build error as suggested by RHerring bot
+>>>
+>>> Changes since v2:
+>>>  - Fixed License as suggested by KKozlowski/CDooley
+>>>  - Removed rotation property as suggested by CDooley/LPinchart
+>>>  - Fixed example node name as suggested by CDooley
+>>>  - Fixed title as suggested by LPinchart
+>>>  - Fixed compatible name as suggested by LPinchart
+>>>  - Removed clock as suggested by LPinchart
+>>>  - Removed gpios not as suggested by LPinchart
+>>>  - Renamed property name streamon-delay into alliedvision,lp2hs-delay-us
+>>>  - Fixed vendor prefix, unit append as suggested by KKozlowski
+>>>  - Fixed data-lanes
+>>>  - Fixed blank space + example indentation (from 6 -> 4 space) as suggested by KKozlowski
+>>>  - Dropped status into example  as suggested by KKozlowski
+>>>  - Added vcc-ext-in supply as suggested by LPinchart
+>>>  - Dropped pinctrl into example as suggested by LPinchart
+>>>
+>>> Changes since v3:
+>>>  - Fixed vcc-ext-in-supply description as suggested by LPinchart
+>>>  - Fixed alliedvision,lp2hs-delay-us description as suggested by LPinchart
+>>>  - Added maximum to alliedvision,lp2hs-delay-us as suggested by LPinchart
+>>>  - Collected Reviewed-by tag from LPinchart
+>>
+>> You still did not test it before sending. Four versions of which none
+>> were tested :(
 > 
-> And I also have a conversion of the "main" drivers/media/i2c/ov2680.c
-> ready.
+> You are right.. my bad. :'(
 > 
-> I'll post that conversion as part of my big main ov2680 changes series
-> which I'll post in a couple of minutes (just need to write
-> a cover letter and then its ready).
->  
-> >> I also wrote this patch to make porting recent atomisp-ov2680.c
-> >> changes over to drivers/media/i2c/ov2680.c easier. Part of the series
-> >> to get drivers/media/i2c/ov2680.c into shape is converting it to the
-> >> new CCI helpers so that I could then easily copy over bits from the
-> >> also converted atomisp-ov2680.c.
-> >>
-> >> So it might be interesting to still merge this so that the latest
-> >> state of atomisp-ov2680.c is easier to compare to
-> >> drivers/media/i2c/ov2680.c if the need arises.
+> After fixing id, as suggested by Laurent/bot into:
+> 
+> $id: http://devicetree.org/schemas/media/i2c/alliedvision,alvium-csi2.yaml#
+> 
+> I'm running the following test:
+> 
+> make dt_binding_check DT_SCHEMA_FILES=alliedvision,alvium-csi2.yaml
+> 
+> With the following result:
+> 
+>   LINT    Documentation/devicetree/bindings
+>   CHKDT   Documentation/devicetree/bindings/processed-schema.json
+>   SCHEMA  Documentation/devicetree/bindings/processed-schema.json
+> /home/tom/work/mainline/linux/Documentation/devicetree/bindings/media/i2c/.alliedvision,alvium-csi2.example.dts.pre.yaml: ignoring, error parsing file
+>   DTEX    Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.example.dts
+>   DTC_CHK Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.example.dtb
+> 
+> Is that correct?
 
--- 
-Regards,
+No, it doesn't look correct. You have error parsing your file. Check
+your yaml file and its example DTSI.
 
-Laurent Pinchart
+Be sure you have also yamlling installed.
+
+Best regards,
+Krzysztof
+
