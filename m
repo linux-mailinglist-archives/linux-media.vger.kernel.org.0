@@ -2,33 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 17AC2726254
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 16:08:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66D9272628E
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 16:19:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240726AbjFGOIO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Jun 2023 10:08:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41702 "EHLO
+        id S240850AbjFGOTB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Jun 2023 10:19:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240335AbjFGOIB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 10:08:01 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A507426A9;
-        Wed,  7 Jun 2023 07:07:27 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (om126233170111.36.openmobile.ne.jp [126.233.170.111])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3405574C;
-        Wed,  7 Jun 2023 16:06:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1686146776;
-        bh=kCRKxvi6zAil5DUbFlSXgY362+TZAeDnMNb4BtuTjxU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qVIAlSkH4e4J34zanVyVIXvMOPMkZ2o3VabjAYEo48/hO6GesmWWCQAGJiTJs0Koi
-         WLSoHBAu+h/oW6j/BbSlUYDCzyie1TVdxOYOYH5r4OEymHN0ge1uyz3IK5RVXQE4u4
-         eWk5yJLcOXJDfI5YuPWz92gUDOn/qQwOXVcZYKTs=
-Date:   Wed, 7 Jun 2023 17:06:38 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        with ESMTP id S240205AbjFGOS5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 10:18:57 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 830851BD6
+        for <linux-media@vger.kernel.org>; Wed,  7 Jun 2023 07:18:56 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-97454836448so994991066b.2
+        for <linux-media@vger.kernel.org>; Wed, 07 Jun 2023 07:18:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1686147535; x=1688739535;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9R9FL/kljP7klYQURPomPx32pq9iiN+AHVHdTIo1X/s=;
+        b=fjACrGO21URflJlUAbeGX1qOr2fFE0jdLZsq/aQFNnF+WnVlp04CPLXgzqjLCtOQ9f
+         Anbh8coNHzOBSvcZ2KuvKOHUxu4W9ES9YOd88jFFRcrDlMlg9kivGBXY046dLOD/2YoZ
+         fRVwpI4VcqiMFsc/T0yoUx1JuuUmL0YLWBuTGCD2r0pdStQXXVmHKQjG6C2ZDmdu3Ion
+         Y/AOx/oIL9DI7kpFySWe/Q+2JmJTBld3MLlIatEocbQQtT3v5wTMqlUV6VIUGif94+jk
+         0V4N9qBbQwkqMIAQcB8gVSdMqb/G6OypXD6IWUGefRty3fiz2tWAPlfoEVA3JfxgfCLA
+         EJPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686147535; x=1688739535;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9R9FL/kljP7klYQURPomPx32pq9iiN+AHVHdTIo1X/s=;
+        b=gJLoSFrs2//HR7q/Ql2DGmf+x/m4x4IjmptT+D/IdvOeUyVmSfGzJ2f30TOATDEwzg
+         q16qlP7M+ga8qRP93LdbvOaSH0OjzmxHRxatQB3T4nqvSDt1fnYAQziT2kmqRfJ9v8W5
+         meKUyhZ3zGKmPzyTJcFTPcW5v8ydzcpQPmfeMX1Z0umyFpUeBlWesOBfjm6AvmVNLgRc
+         tmEksprrQlnNkPHVnG81JVSMGAx5zWmJjvdmhWlUJIJgmg/OQA5v2uDfAbNa3XLHTFx0
+         NXts+Y3LQTrjYSs/755ikpVLgLuqbT+TY3PaIm+etxNUEFkJ1h79rgFx7Ucx6i8fZ6hr
+         TPOw==
+X-Gm-Message-State: AC+VfDwwpx2CHseTY6eAC5SqaQR/SSCorIcaVO8rOZoOIZorUUI9FZ6o
+        J5q4+RrPt9blBRwRUXhSLKRUQw==
+X-Google-Smtp-Source: ACHHUZ7MDAz2vD1GVVLqNKd4NcRyBJmnecqHSyLjSQ4ZfNlU3ZTlLib05w5lFnYcfKTzbxBcgHEHUQ==
+X-Received: by 2002:a17:907:7baa:b0:94a:74c9:3611 with SMTP id ne42-20020a1709077baa00b0094a74c93611mr6019245ejc.35.1686147534854;
+        Wed, 07 Jun 2023 07:18:54 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.26])
+        by smtp.gmail.com with ESMTPSA id m26-20020a17090607da00b00977d6723bd6sm4311564ejc.195.2023.06.07.07.18.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Jun 2023 07:18:54 -0700 (PDT)
+Message-ID: <17971357-523c-f907-13a9-8f7abce90c24@linaro.org>
+Date:   Wed, 7 Jun 2023 16:18:48 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH v4 2/3] media: dt-bindings: alvium: add document YAML
+ binding
+Content-Language: en-US
 To:     Tommaso Merciai <tomm.merciai@gmail.com>
-Cc:     jacopo.mondi@ideasonboard.com, martin.hecht@avnet.eu,
-        michael.roeder@avnet.eu, linuxfancy@googlegroups.com,
+Cc:     jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com,
+        martin.hecht@avnet.eu, michael.roeder@avnet.eu,
+        linuxfancy@googlegroups.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -44,29 +76,26 @@ Cc:     jacopo.mondi@ideasonboard.com, martin.hecht@avnet.eu,
         Linus Walleij <linus.walleij@linaro.org>,
         Michael Riesch <michael.riesch@wolfvision.net>,
         Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
         Shawn Tu <shawnx.tu@intel.com>, linux-media@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/3] media: dt-bindings: alvium: add document YAML
- binding
-Message-ID: <20230607140638.GA16848@pendragon.ideasonboard.com>
 References: <20230607131936.382406-1-tomm.merciai@gmail.com>
  <20230607131936.382406-3-tomm.merciai@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 In-Reply-To: <20230607131936.382406-3-tomm.merciai@gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 07, 2023 at 03:19:24PM +0200, Tommaso Merciai wrote:
+On 07/06/2023 15:19, Tommaso Merciai wrote:
 > Add documentation of device tree in YAML schema for the ALVIUM
 > Camera from Allied Vision Inc.
 > 
@@ -100,118 +129,10 @@ On Wed, Jun 07, 2023 at 03:19:24PM +0200, Tommaso Merciai wrote:
 >  - Fixed alliedvision,lp2hs-delay-us description as suggested by LPinchart
 >  - Added maximum to alliedvision,lp2hs-delay-us as suggested by LPinchart
 >  - Collected Reviewed-by tag from LPinchart
-> 
->  .../media/i2c/alliedvision,alvium-csi2.yaml   | 96 +++++++++++++++++++
->  1 file changed, 96 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.yaml b/Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.yaml
-> new file mode 100644
-> index 000000000000..4726d0068229
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.yaml
-> @@ -0,0 +1,96 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/alliedvision,alvium.yaml#
 
-This is still wrong, see Rob's bot reply in the previous version.
+You still did not test it before sending. Four versions of which none
+were tested :(
 
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Allied Vision Alvium Camera
-> +
-> +maintainers:
-> +  - Tommaso Merciai <tomm.merciai@gmail.com>
-> +  - Martin Hecht <martin.hecht@avnet.eu>
-> +
-> +allOf:
-> +  - $ref: /schemas/media/video-interface-devices.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: alliedvision,alvium-csi2
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  vcc-ext-in-supply:
-> +    description: |
-> +      The regulator that supplies power to the VCC_EXT_IN pins.
-> +
-> +  alliedvision,lp2hs-delay-us:
-> +    maximum: 150000
-> +    description: |
-> +      Low power to high speed delay time.
-> +
-> +      If the value is larger than 0, the camera forces a reset of all
-> +      D-PHY lanes for the duration specified by this property. All lanes
-> +      will transition to the low-power state and back to the high-speed
-> +      state after the delay. Otherwise the lanes will transition to and
-> +      remain in the high-speed state immediately after power on.
-> +
-> +      This is meant to help CSI-2 receivers synchronizing their D-PHY
-> +      RX.
-> +
-> +  port:
-> +    description: Digital Output Port
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          link-frequencies: true
-> +
-> +          data-lanes:
-> +            minItems: 1
-> +            items:
-> +              - const: 1
-> +              - const: 2
-> +              - const: 3
-> +              - const: 4
-> +
-> +        required:
-> +          - data-lanes
-> +          - link-frequencies
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - vcc-ext-in-supply
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        alvium: camera@3c {
-> +            compatible = "alliedvision,alvium-csi2";
-> +            reg = <0x3c>;
-> +            vcc-ext-in-supply = <&reg_vcc_ext_in>;
-> +            alliedvision,lp2hs-delay-us = <20>;
-> +
-> +            port {
-> +                alvium_out: endpoint {
-> +                    remote-endpoint = <&mipi_csi_0_in>;
-> +                    data-lanes = <1 2 3 4>;
-> +                    link-frequencies = /bits/ 64 <681250000>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
+Best regards,
+Krzysztof
 
--- 
-Regards,
-
-Laurent Pinchart
