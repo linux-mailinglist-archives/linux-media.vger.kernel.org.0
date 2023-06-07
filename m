@@ -2,44 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9217D725B32
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 12:00:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5977E725B97
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 12:28:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239980AbjFGKA2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Jun 2023 06:00:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38394 "EHLO
+        id S235568AbjFGK21 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Jun 2023 06:28:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233418AbjFGKA0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 06:00:26 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70FC21735
-        for <linux-media@vger.kernel.org>; Wed,  7 Jun 2023 03:00:25 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id F2C2763D3F
-        for <linux-media@vger.kernel.org>; Wed,  7 Jun 2023 10:00:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 962CDC4339B;
-        Wed,  7 Jun 2023 10:00:23 +0000 (UTC)
-Message-ID: <767acf49-587a-aeba-b599-bd1e606c6cc0@xs4all.nl>
-Date:   Wed, 7 Jun 2023 12:00:22 +0200
+        with ESMTP id S233580AbjFGK20 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 06:28:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C65C1BE3
+        for <linux-media@vger.kernel.org>; Wed,  7 Jun 2023 03:27:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1686133660;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=96WnLGcpgKdBh4A79Bz7w14gcOkSTg9UUjz7avrM4yg=;
+        b=Yd5ZN0aStOx4EtiiV25g0laFH+nfLNVzSkktvrV9sjA1o08c8+zOA6SswMDZ2FFLc9VBHP
+        EbgTCFnDTu3jCDFoJ63ckHS8bgHNF92FVnQYx4g0KWm1lNB1cgh9IFf3U5WQgJIY6agi1M
+        0PRmhLEEu965cecDquLAozBRgI2sJPw=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-5-s2hUcuUdPw6BSSLbbB4tvQ-1; Wed, 07 Jun 2023 06:27:39 -0400
+X-MC-Unique: s2hUcuUdPw6BSSLbbB4tvQ-1
+Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-514b19ded99so654997a12.0
+        for <linux-media@vger.kernel.org>; Wed, 07 Jun 2023 03:27:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686133658; x=1688725658;
+        h=content-transfer-encoding:content-language:cc:to:subject:from
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=96WnLGcpgKdBh4A79Bz7w14gcOkSTg9UUjz7avrM4yg=;
+        b=iHvRxJA6SWvN6GVkBCHltG1GK2Rw7wZxfRzhC10nsVjiW1rRzg7/orRXiuDKR/1ii6
+         OfZgq46YKctdkgt/y7yNCRESk957ZF/zdN+OYaMGaCUlfxWPh1iy6VFMTKaN2B/KSias
+         SnZUwqoTqYV7lNdazvGeuQVI8qNehUjHn0FujHRK98Q4OgtFOXWv+hp12oTRhlwWwHZn
+         6Cs8giJr4xOetCYyuMhs7EKviyo99K1V5QWOU53T9OV3RgkbnpJXv+4pUjF0KL9Jm5HI
+         bftFtQgB3ZZe6Rbbd04ILIC2iPTg7PYmgCfj7nbpJYInOIQDWRCyoQH5BQJLYFVfrMqA
+         +HHA==
+X-Gm-Message-State: AC+VfDyM3vljggS+1bwNrzVKakAkY+zlwt7H2abXOzXW2Ht8062f7648
+        lfwJmApVP5N9NKWM0qBAJrXOQ0KgpLB2FuPXwkqluh6OW4xOkcRdDe7WRvOxWB2Uo/X3Fo+8aBE
+        xQa9Srt68LON2OpK8Og3RjSk=
+X-Received: by 2002:a17:907:d1e:b0:96f:d556:b926 with SMTP id gn30-20020a1709070d1e00b0096fd556b926mr5958305ejc.77.1686133657946;
+        Wed, 07 Jun 2023 03:27:37 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7+QoEO5+BUd+Kj3pTzC+zIIKnt4hszTpcdNEsDnRsAxwyzJFybac//YyU83nI+1s+f2FEKvw==
+X-Received: by 2002:a17:907:d1e:b0:96f:d556:b926 with SMTP id gn30-20020a1709070d1e00b0096fd556b926mr5958280ejc.77.1686133657554;
+        Wed, 07 Jun 2023 03:27:37 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id d5-20020aa7ce05000000b0051632dc69absm6024084edv.86.2023.06.07.03.27.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Jun 2023 03:27:36 -0700 (PDT)
+Message-ID: <4177be8a-7a77-c452-7b98-91d5e5af8e8b@redhat.com>
+Date:   Wed, 7 Jun 2023 12:27:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 3/5] media: v4l: Add documentation for Broadcom sand
- formats
-Content-Language: en-US
-To:     John Cox <jc@kynesim.co.uk>, linux-media@vger.kernel.org,
-        nicolas@ndufresne.ca
-References: <20230310194121.61928-1-jc@kynesim.co.uk>
- <20230310194121.61928-4-jc@kynesim.co.uk>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230310194121.61928-4-jc@kynesim.co.uk>
+ Thunderbird/102.10.0
+From:   Hans de Goede <hdegoede@redhat.com>
+Subject: [GIT PULL] media: atomisp: Changes for 6.5-1
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-staging@lists.linux.dev, Kate Hsuan <hpa@redhat.com>
+Content-Language: en-US, nl
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -47,241 +79,209 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/03/2023 20:41, John Cox wrote:
-> Add documentation for for the Broadcom sand formats to pixfmt-yuv-planar.
+Hi Mauro,
 
-Small typo:
+Here are all my atomisp changes for 6.5 + a couple of atomisp patches
+from others.
 
-for for -> for
+These patches have been posted on the list and I have addressed
+all review remarks (thank you Andy!) to these patches.
+
+Lots if exciting progress this cycle, even if I say so myself :)
+
+Highlights:
+- Some #ifdef ISP2401 removal work (Kate Hsuan)
+- Now only 1 /dev/video# node is created
+- Support for v4l2-async registered sensors, while keeping support for sensors
+  registered through atomisp_gmin_platform for now to allow testing / converting
+  sensors 1 by 1
+- Support for selection API / crop selection to deal with the extra padding
+  the atomisp wants / needs to receive from the sensor
+- This removes the last of any atomisp custom sensor API, so the atomisp code
+  can now fully work with standard v4l2 sensor drivers. I have another patch
+  series which brings drivers/media/i2c/ov2680.c up2date with modern sensor
+  driver practices like the selection API and after this atomisp-ov2680.c is
+  no longer necessary.
+- Update TODO file with remaining items which need fixing before this can
+  be moved out of stating
+- Updated testing instructions (in the TODO file)
 
 Regards,
 
-	Hans
+Hans
 
-> 
-> Signed-off-by: John Cox <jc@kynesim.co.uk>
-> ---
->  .../media/v4l/pixfmt-yuv-planar.rst           | 195 ++++++++++++++++++
->  1 file changed, 195 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-> index f1d5bb7b806d..753e05beddc8 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-> @@ -123,6 +123,20 @@ All components are stored with the same number of bits per component.
->        - Cb, Cr
->        - Yes
->        - 4x4 tiles
-> +    * - V4L2_PIX_FMT_NV12_C128
-> +      - 'CN12'
-> +      - 8
-> +      - 4:2:0
-> +      - Cb, Cr
-> +      - Yes
-> +      - 128 byte columns
-> +    * - V4L2_PIX_FMT_P030_C128
-> +      - 'CN30'
-> +      - 10
-> +      - 4:2:0
-> +      - Cb, Cr
-> +      - Yes
-> +      - 128 byte columns
->      * - V4L2_PIX_FMT_NV16
->        - 'NV16'
->        - 8
-> @@ -277,6 +291,8 @@ of the luma plane.
->  .. _V4L2-PIX-FMT-NV12M-10BE-8L128:
->  .. _V4L2-PIX-FMT-NV12-10BE-8L128:
->  .. _V4L2-PIX-FMT-MM21:
-> +.. _V4L2-PIX-FMT-NV12-C128:
-> +.. _V4L2-PIX-FMT-P030-C128:
->  
->  Tiled NV12
->  ----------
-> @@ -364,6 +380,185 @@ two non-contiguous planes.
->  
->      Example V4L2_PIX_FMT_NV12MT memory layout of tiles
->  
-> +``V4L2_PIX_FMT_NV12_C128`` stores 8 bit luma and chroma data in 128 byte
-> +columns. Chroma data follows luma in each column so in effect this format
-> +consists of a sequence of NV12 pictures 128 pixels wide which are displayed
-> +side by side. Height, which must be a multiple of 2 (h in the table below)
-> +determines the offset to the start of chroma data. Overall (luma + chroma)
-> +column height (ch in the table below) is also required and this is obtained
-> +by dividing the sizeimage by bytesperline. Set bytesperline equal to number
-> +of columns times column width i.e. bytesperline is width rounded up
-> +to the next multiple of the column width (128).
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths: 15 10 10 10 10 4 10 10 10 10
-> +
-> +    * - start + 0:
-> +      - Y'\ :sub:`0,0`
-> +      - Y'\ :sub:`0,1`
-> +      - Y'\ :sub:`0,2`
-> +      - Y'\ :sub:`0,3`
-> +      - ...
-> +      - Y'\ :sub:`0,124`
-> +      - Y'\ :sub:`0,125`
-> +      - Y'\ :sub:`0,126`
-> +      - Y'\ :sub:`0,127`
-> +    * - start + 128:
-> +      - Y'\ :sub:`1,0`
-> +      - Y'\ :sub:`1,1`
-> +      - Y'\ :sub:`1,2`
-> +      - Y'\ :sub:`1,3`
-> +      - ...
-> +      - Y'\ :sub:`1,124`
-> +      - Y'\ :sub:`1,125`
-> +      - Y'\ :sub:`1,126`
-> +      - Y'\ :sub:`1,127`
-> +    * - start + 256:
-> +      - Y'\ :sub:`2,0`
-> +      - Y'\ :sub:`2,1`
-> +      - Y'\ :sub:`2,2`
-> +      - Y'\ :sub:`2,3`
-> +      - ...
-> +      - Y'\ :sub:`2,124`
-> +      - Y'\ :sub:`2,125`
-> +      - Y'\ :sub:`2,126`
-> +      - Y'\ :sub:`2,127`
-> +    * - ...
-> +      - ...
-> +      - ...
-> +      - ...
-> +      - ...
-> +      - ...
-> +      - ...
-> +      - ...
-> +    * - start + ((h-1) * 128):
-> +      - Y'\ :sub:`h-1,0`
-> +      - Y'\ :sub:`h-1,1`
-> +      - Y'\ :sub:`h-1,2`
-> +      - Y'\ :sub:`h-1,3`
-> +      - ...
-> +      - Y'\ :sub:`h-1,124`
-> +      - Y'\ :sub:`h-1,125`
-> +      - Y'\ :sub:`h-1,126`
-> +      - Y'\ :sub:`h-1,127`
-> +    * - start + ((h) * 128):
-> +      - Cb\ :sub:`0,0`
-> +      - Cr\ :sub:`0,0`
-> +      - Cb\ :sub:`0,1`
-> +      - Cr\ :sub:`0,1`
-> +      - ...
-> +      - Cb\ :sub:`0,62`
-> +      - Cr\ :sub:`0,62`
-> +      - Cb\ :sub:`0,63`
-> +      - Cr\ :sub:`0,63`
-> +    * - start + ((h+1) * 128):
-> +      - Cb\ :sub:`1,0`
-> +      - Cr\ :sub:`1,0`
-> +      - Cb\ :sub:`1,1`
-> +      - Cr\ :sub:`1,1`
-> +      - ...
-> +      - Cb\ :sub:`1,62`
-> +      - Cr\ :sub:`1,62`
-> +      - Cb\ :sub:`1,63`
-> +      - Cr\ :sub:`1,63`
-> +    * - ...
-> +      - ...
-> +      - ...
-> +      - ...
-> +      - ...
-> +      - ...
-> +      - ...
-> +      - ...
-> +    * - start + ((h+(h/2)-1) * 128):
-> +      - Cb\ :sub:`(h/2)-1,0`
-> +      - Cr\ :sub:`(h/2)-1,0`
-> +      - Cb\ :sub:`(h/2)-1,1`
-> +      - Cr\ :sub:`(h/2)-1,1`
-> +      - ...
-> +      - Cb\ :sub:`(h/2)-1,62`
-> +      - Cr\ :sub:`(h/2)-1,62`
-> +      - Cb\ :sub:`(h/2)-1,63`
-> +      - Cr\ :sub:`(h/2)-1,63`
-> +    * - start + (ch * 128):
-> +      - Y'\ :sub:`0,128`
-> +      - Y'\ :sub:`0,129`
-> +      - Y'\ :sub:`0,130`
-> +      - Y'\ :sub:`0,131`
-> +      - ...
-> +      - Y'\ :sub:`0,252`
-> +      - Y'\ :sub:`0,253`
-> +      - Y'\ :sub:`0,254`
-> +      - Y'\ :sub:`0,255`
-> +    * - ...
-> +      - ...
-> +      - ...
-> +      - ...
-> +      - ...
-> +      - ...
-> +      - ...
-> +      - ...
-> +
-> +``V4L2_PIX_FMT_P030_C128`` uses the same 128 byte column structure as
-> +``V4L2_PIX_FMT_NV12_C128``, but encodes 10-bit YUV.
-> +3 10-bit values are packed into 4 bytes as bits 9:0, 19:10, and 29:20, with
-> +bits 30 & 31 unused. For the luma plane, bits 9:0 are Y0, 19:10 are Y1, and
-> +29:20 are Y2. For the chroma plane the samples always come in pairs of Cr
-> +and Cb, so it needs to be considered 6 values packed in 8 bytes.
-> +This gives 96 pixels per 128 byte column so bytesperline
-> +is ((width + 95)/96)*128
-> +
-> +Bit-packed representation - Luma:
-> +
-> +.. flat-table::
-> +    :header-rows:  1
-> +    :stub-columns: 0
-> +
-> +    * - byte
-> +      - value(s)
-> +    * - 0
-> +      - Y'\ :sub:`00[7:0]`
-> +    * - 1
-> +      - Y'\ :sub:`01[5:0]`\  (bits 7--2)
-> +      - Y'\ :sub:`00[9:8]`\  (bits 1--0)
-> +    * - 2
-> +      - Y'\ :sub:`02[3:0]`\  (bits 7--4)
-> +      - Y'\ :sub:`01[9:6]`\  (bits 3--0)
-> +    * - 3
-> +      - unused (bits 7--6)
-> +      - Y'\ :sub:`02[9:4]`\  (bits 5--0)
-> +
-> +Bit-packed representation - Chroma:
-> +
-> +.. flat-table::
-> +    :header-rows:  1
-> +    :stub-columns: 0
-> +
-> +    * - byte
-> +      - value(s)
-> +    * - 0
-> +      - Cb\ :sub:`00[7:0]`
-> +    * - 1
-> +      - Cr\ :sub:`00[5:0]`\  (bits 7--2)
-> +      - Cb\ :sub:`00[9:8]`\  (bits 1--0)
-> +    * - 2
-> +      - Cb\ :sub:`01[3:0]`\  (bits 7--4)
-> +      - Cr\ :sub:`00[9:6]`\  (bits 3--0)
-> +    * - 3
-> +      - unused (bits 7--6)
-> +      - Cb\ :sub:`02[9:4]`\  (bits 5--0)
-> +    * - 4
-> +      - Cr\ :sub:`01[7:0]`
-> +    * - 5
-> +      - Cb\ :sub:`02[5:0]`\  (bits 7--2)
-> +      - Cr\ :sub:`01[9:8]`\  (bits 1--0)
-> +    * - 6
-> +      - Cr\ :sub:`02[3:0]`\  (bits 7--4)
-> +      - Cb\ :sub:`02[9:6]`\  (bits 3--0)
-> +    * - 7
-> +      - unused (bits 7--6)
-> +      - Cr\ :sub:`02[9:4]`\  (bits 5--0)
->  
->  .. _V4L2-PIX-FMT-NV16:
->  .. _V4L2-PIX-FMT-NV61:
+
+The following changes since commit aafeeaf3d2a8a91a5407c774c578abec79dcff00:
+
+  media: video-mux: update driver to active state (2023-05-26 10:58:18 +0100)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git tags/media-atomisp-6.5-1
+
+for you to fetch changes up to 75ce10cb791adf2e562c4f815d382326e3f2a676:
+
+  media: atomisp: csi2-bridge: Add support for setting "clock-" and "link-frequencies" props (2023-06-07 11:40:31 +0200)
+
+----------------------------------------------------------------
+atomisp staging driver changes for 6.5
+
+Highlights:
+- Some #ifdef ISP2401 removal work (Kate Hsuan)
+- Now only 1 /dev/video# node is created
+- Support for v4l2-async registered sensors, while keeping support for sensors
+  registered through atomisp_gmin_platform for now to allow testing / converting
+  sensors 1 by 1
+- Support for selection API / crop selection to deal with the extra padding
+  the atomisp wants / needs to receive from the sensor
+- This removes the last of any atomisp custom sensor API, so the atomisp code
+  can now fully work with standard v4l2 sensor drivers. I have another patch
+  series which brings drivers/media/i2c/ov2680.c up2date with modern sensor
+  driver practices like the selection API and after this atomisp-ov2680.c is
+  no longer necessary.
+- Update TODO file with remaining items which need fixing before this can
+  be moved out of stating
+- Updated testing instructions (in the TODO file)
+
+----------------------------------------------------------------
+Dan Carpenter (1):
+      media: atomisp: gmin_platform: fix out_len in gmin_get_config_dsm_var()
+
+Hans Verkuil (2):
+      media: atomisp: initialize settings to 0
+      media: atomisp: move up sanity checks
+
+Hans de Goede (78):
+      media: atomisp: Remove res_overflow parameter from atomisp_try_fmt()
+      media: atomisp: Remove Continuous capture and SDV run-modes
+      media: atomisp: Remove isp->need_gfx_throttle field
+      media: atomisp: Drop atomisp_get_css_buf_type()
+      media: atomisp: Replace source-pad checks with run-mode checks
+      media: atomisp: Register only 1 /dev/video# node
+      media: atomisp: Drop atomisp_is_vf_pipe()
+      media: atomisp: Rename video_out_preview to video_out
+      media: atomisp: Remove source_pad parameter from functions and structs
+      media: atomisp: Remove 1 line atomisp_flush_bufs_and_wakeup() helper
+      media: atomisp: Remove atomisp_subdev_register_video_nodes() helper
+      media: atomisp: Remove a bunch of unused atomisp_css_*() functions
+      media: atomisp: Remove unused mipi_frame_size field from atomisp_[sub_]device
+      media: atomisp: Remove isp_timeout flag
+      media: atomisp: Remove atomisp_sensor_start_stream()
+      media: atomisp: Simplify atomisp_[start|stop]_streaming()
+      media: atomisp: Simplify atomisp_css_[start|stop]()
+      media: atomisp: Simplify atomisp_open() and atomisp_release()
+      media: atomisp: Simplify atomisp_pipe_check()
+      media: atomisp: Turn asd->streaming state tracker into a bool
+      media: atomisp: Remove no longer used atomisp_css_flush()
+      media: atomisp: Remove atomisp_streaming_count()
+      media: atomisp: Simplify atomisp_isr() and recovery_work()
+      media: atomisp: Rename atomisp_destroy_pipes_stream_force() to atomisp_destroy_pipes_stream()
+      media: atomisp: Allow system suspend to continue with open /dev/video# nodes
+      media: atomisp: Remove atomisp_[sub]dev_users()
+      media: atomisp: Remove unused css_pipe_id argument from atomisp_css_[start|stop]()
+      media: atomisp: Remove unused atomisp_get_css_pipe_id() function
+      media: atomisp: Remove in_reset argument from atomisp_css_start()
+      media: atomisp: Set asd.subdev.devnode once from isp_subdev_init_entities()
+      media: atomisp: gc0310: Drop XXGC0310 ACPI hardware-id
+      media: atomisp: gc0310: Fix double free in gc0310_remove()
+      media: atomisp: gc0310: Cleanup includes
+      media: atomisp: gc0310: Remove gc0310_s_config() function
+      media: atomisp: gc0310: Remove gc0310.h
+      media: atomisp: Drop MRFLD_PORT_NUM define
+      media: atomisp: Remove unused fields from struct atomisp_input_subdev
+      media: atomisp: Remove atomisp_video_init() parametrization
+      media: atomisp: Rename __get_mipi_port() to atomisp_port_to_mipi_port()
+      media: atomisp: Store number of sensor lanes per port in struct atomisp_device
+      media: atomisp: Delay mapping sensors to inputs till atomisp_register_device_nodes()
+      media: atomisp: Move pad linking to atomisp_register_device_nodes()
+      media: atomisp: Allow camera_mipi_info to be NULL
+      media: atomisp: Add support for v4l2-async sensor registration
+      media: atomisp: ov2680: Turn into standard v4l2 sensor driver
+      media: atomisp: gc0310: Turn into standard v4l2 sensor driver
+      media: atomisp: Drop v4l2_get_acpi_sensor_info() function
+      media: atomisp: Fix buffer overrun in gmin_get_var_int()
+      media: atomisp: Update TODO
+      media: atomisp: ov2680: s/ov2680_device/ov2680_dev/
+      media: atomisp: ov2680: s/input_lock/lock/
+      media: atomisp: ov2680: Add missing ov2680_calc_mode() call to probe()
+      media: atomisp: ov2680: Add init_cfg pad-op
+      media: atomisp: ov2680: Implement selection support
+      media: atomisp: Remove a bunch of sensor related custom IOCTLs
+      media: atomisp: Remove redundant atomisp_subdev_set_selection() calls from atomisp_set_fmt()
+      media: atomisp: Simplify atomisp_subdev_set_selection() calls in atomisp_set_fmt()
+      media: atomisp: Add target validation to atomisp_subdev_set_selection()
+      media: atomisp: Remove bogus fh use from atomisp_set_fmt*()
+      media: atomisp: Add input helper variable for isp->asd->inputs[asd->input_curr]
+      media: atomisp: Add ia_css_frame_pad_width() helper function
+      media: atomisp: Refactor atomisp_try_fmt() / atomisp_set_fmt()
+      media: atomisp: Add support for sensors which implement selection API / cropping
+      media: atomisp: Pass MEDIA_BUS_FMT_* code when calling enum_frame_size pad-op
+      media: atomisp: Make atomisp_init_sensor() check if the sensor supports binning
+      media: atomisp: Use selection API info to determine sensor padding
+      media: atomisp: Set crop before setting fmt
+      media: atomisp: Add enum_framesizes function for sensors with selection / crop support
+      media: atomisp: csi2-bridge: Set PMC clk-rate for sensors to 19.2 MHz
+      media: atomisp: Take minimum padding requirement on BYT/ISP2400 into account
+      media: atomisp: Make atomisp_enum_framesizes_crop() check resolution fits with padding
+      media: atomisp: Fix binning check in atomisp_set_crop()
+      media: atomisp: Stop resetting selected input to 0 between /dev/video# opens
+      media: atomisp: ov2680: Stop using half pixelclock for binned modes
+      media: atomisp: ov2680: Remove unnecessary registers from ov2680_global_setting[]
+      media: atomisp: ov2680: Rename unknown/0x370a to sensor_ctrl_0a
+      media: atomisp: Add testing instructions to TODO file
+      media: atomisp: csi2-bridge: Add support for setting "clock-" and "link-frequencies" props
+
+Kate Hsuan (5):
+      media: atomisp: sh_css: Remove #ifdef ISP2401
+      media: atomisp: runtime: frame: remove #ifdef ISP2401
+      media: atomisp: sh_css_sp: Remove #ifdef ISP2401
+      media: atomisp: sh_css_firmware: determine firmware version at runtime
+      media: atomisp: sh_css_mipi: Remove #ifdef ISP2401
+
+Uwe Kleine-König (1):
+      media: atomisp: Switch i2c drivers back to use .probe()
+
+ drivers/staging/media/atomisp/Makefile             |    1 +
+ drivers/staging/media/atomisp/TODO                 |  262 ++---
+ drivers/staging/media/atomisp/i2c/atomisp-gc0310.c |  315 +++++-
+ drivers/staging/media/atomisp/i2c/atomisp-gc2235.c |    2 +-
+ drivers/staging/media/atomisp/i2c/atomisp-lm3554.c |    2 +-
+ .../staging/media/atomisp/i2c/atomisp-mt9m114.c    |    2 +-
+ drivers/staging/media/atomisp/i2c/atomisp-ov2680.c |  252 +++--
+ drivers/staging/media/atomisp/i2c/atomisp-ov2722.c |    2 +-
+ drivers/staging/media/atomisp/i2c/gc0310.h         |  309 ------
+ drivers/staging/media/atomisp/i2c/ov2680.h         |  141 +--
+ .../media/atomisp/i2c/ov5693/atomisp-ov5693.c      |   42 +-
+ .../staging/media/atomisp/include/linux/atomisp.h  |  127 +--
+ .../media/atomisp/include/linux/atomisp_platform.h |    1 +
+ drivers/staging/media/atomisp/pci/atomisp-regs.h   |    1 -
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c    | 1036 +++++++-------------
+ drivers/staging/media/atomisp/pci/atomisp_cmd.h    |   28 +-
+ drivers/staging/media/atomisp/pci/atomisp_common.h |    4 +
+ drivers/staging/media/atomisp/pci/atomisp_compat.h |   41 +-
+ .../media/atomisp/pci/atomisp_compat_css20.c       |  283 +-----
+ .../media/atomisp/pci/atomisp_compat_ioctl32.h     |   55 --
+ drivers/staging/media/atomisp/pci/atomisp_csi2.c   |   10 +-
+ drivers/staging/media/atomisp/pci/atomisp_csi2.h   |   94 +-
+ .../media/atomisp/pci/atomisp_csi2_bridge.c        |  874 +++++++++++++++++
+ drivers/staging/media/atomisp/pci/atomisp_drvfs.c  |    2 +-
+ drivers/staging/media/atomisp/pci/atomisp_fops.c   |  181 +---
+ drivers/staging/media/atomisp/pci/atomisp_fops.h   |    3 -
+ .../media/atomisp/pci/atomisp_gmin_platform.c      |  248 +----
+ .../staging/media/atomisp/pci/atomisp_internal.h   |   29 +-
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c  |  400 ++------
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.h  |    5 -
+ drivers/staging/media/atomisp/pci/atomisp_subdev.c |  258 +----
+ drivers/staging/media/atomisp/pci/atomisp_subdev.h |   36 +-
+ drivers/staging/media/atomisp/pci/atomisp_v4l2.c   |  425 ++++----
+ drivers/staging/media/atomisp/pci/atomisp_v4l2.h   |    4 +-
+ .../pci/runtime/frame/interface/ia_css_frame.h     |    2 +
+ .../media/atomisp/pci/runtime/frame/src/frame.c    |   62 +-
+ drivers/staging/media/atomisp/pci/sh_css.c         |  524 +++++-----
+ .../staging/media/atomisp/pci/sh_css_firmware.c    |   33 +-
+ drivers/staging/media/atomisp/pci/sh_css_mipi.c    |   56 +-
+ drivers/staging/media/atomisp/pci/sh_css_sp.c      |   10 +-
+ 40 files changed, 2701 insertions(+), 3461 deletions(-)
+ delete mode 100644 drivers/staging/media/atomisp/i2c/gc0310.h
+ create mode 100644 drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
 
