@@ -2,207 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 053C0726A23
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 21:49:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 583E8726A3B
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 21:58:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229980AbjFGTt0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Jun 2023 15:49:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57182 "EHLO
+        id S231458AbjFGT6v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Jun 2023 15:58:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229514AbjFGTtZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 15:49:25 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAEBA101;
-        Wed,  7 Jun 2023 12:49:23 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-5149b63151aso2126633a12.3;
-        Wed, 07 Jun 2023 12:49:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686167362; x=1688759362;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xinSIPtLD9mwv6iuhS8dp2Mw0+vZbIWYEl17ISiKBzY=;
-        b=dOdS7D9mdTOTI4/O6vOazPPGD41iGTYB4VUnC1iqk9W3iU4Lai37jfNsir3uj85PFK
-         vstexSTg1M5jq+qrBUu2eeMkikoTpazeSUG+pEchU+pnv/SRFz4QR2qzl/oTKo9m+9Tr
-         u47t2VMJwZpqK7vgCa0sQHxuZmS10nfCZ94SAEgrwS83MMMWP8JUxx0uc26+KZI/+uq2
-         f1X7LwKjvbeNNxwkgyQYYJXwml6l/GpWZuAdC9z/SUMoiQevRZUjX+wRBWKAUTxdLDJH
-         /oto9aD89wCtR8ItJUTgm+DmYAxA7m4v9nEwgtRqKMEbjI2JWnthU+Dd5B7OVoySMKfe
-         yyMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686167362; x=1688759362;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xinSIPtLD9mwv6iuhS8dp2Mw0+vZbIWYEl17ISiKBzY=;
-        b=hKi4sYGYqezDE/IWd2hWpLv33rbP31fCfMWM2tgta8dCLZk3ts9+FMNviOu0rT0H56
-         ROtrLa7cWHlQCxLiRfDqa+t9rWRTsRQwoYE2n5rWEpiEWt2op8MCObr3JDf6wEeHrVb8
-         fY2knMUwyrr4+2GDDMYWzFpaw8SKLiqo4P6CQ3fHornfQCyexv1WsNVzTGD5+IXUXt2N
-         fOzpTvTkt2rY2RG+c46S1S8NAWwjEpQNYEbmHsLkpw4mslfOjXV+TM+n4PZtIf8iR7FG
-         9vD33NxM759Lq8U0zgnCJh3qr7Pv2k8B0GNmG1E234/5oVtPXrQLE97ya8YTADetggcb
-         Fo9w==
-X-Gm-Message-State: AC+VfDzBo9by3ggCNlr2uBWOODFpt744hi8miixHoV16nzGAQU+VLz3W
-        IYS58jbZmEP8t4JO2YMpQUAw2YCxsWbZfQ==
-X-Google-Smtp-Source: ACHHUZ71xru/jt2Sphd1hLak19DFHysmp0w/RQj06OtO9JRv9mQmPXBvb8K8imuCSrv7iM4egILckQ==
-X-Received: by 2002:aa7:ca4e:0:b0:514:78d4:ec48 with SMTP id j14-20020aa7ca4e000000b0051478d4ec48mr5436642edt.2.1686167361955;
-        Wed, 07 Jun 2023 12:49:21 -0700 (PDT)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-50-121.cust.vodafonedsl.it. [188.217.50.121])
-        by smtp.gmail.com with ESMTPSA id n2-20020aa7c682000000b00514b3a2008esm6533877edq.2.2023.06.07.12.49.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jun 2023 12:49:21 -0700 (PDT)
-Date:   Wed, 7 Jun 2023 21:49:18 +0200
-From:   Tommaso Merciai <tomm.merciai@gmail.com>
-To:     Conor Dooley <conor@kernel.org>
-Cc:     jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com,
-        martin.hecht@avnet.eu, michael.roeder@avnet.eu,
-        linuxfancy@googlegroups.com,
+        with ESMTP id S229980AbjFGT6u (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 15:58:50 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 441DA19AC;
+        Wed,  7 Jun 2023 12:58:43 -0700 (PDT)
+Received: from notapiano (unknown [IPv6:2600:4041:5b1a:cd00:524d:e95d:1a9c:492a])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nfraprado)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 73E3E6600014;
+        Wed,  7 Jun 2023 20:58:39 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1686167921;
+        bh=V4aYOfdlmGNGL6oFKj3asBG3FW4Opmc6t8Sp4HBQiyI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=JZrn2ezwA9qngagBGLJ1UosmKAQnL+vYAWdNsH5eOHqq0/FEOuo67Rf1Tzu7zZnrs
+         w0O7sCdDl7KZwkpgVHHvv1PJKb4GU12GLvdKNPzG9eKJHE9wj3hX+W5E8yYpEFQBuf
+         TZHhPeFnM1ITGi+R7TaGfzcLmCEYvMLB0ETB3u8+ewtPz3QvAs6sNcuJvRY1Jc+GnG
+         fbtkDDtxSugUvFqyG19BAcByG+Q/KANA0Zlo0ea8fknVDRmnOq4qBXs9MUErpanxdX
+         ZsvO7/wxa2Qi00y2onNitgvQypYqZ6lt3HSEF6ZqHlbpe2nnzKMkPwGLo94bqOIY9n
+         kOjdX61pWjjig==
+Date:   Wed, 7 Jun 2023 15:58:34 -0400
+From:   =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado 
+        <nfraprado@collabora.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>, kernel@collabora.com,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Gerald Loacker <gerald.loacker@wolfvision.net>,
-        Mikhail Rudenko <mike.rudenko@gmail.com>,
-        Nicholas Roth <nicholas@rothemail.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Michael Riesch <michael.riesch@wolfvision.net>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Shawn Tu <shawnx.tu@intel.com>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/3] media: dt-bindings: alvium: add document YAML
- binding
-Message-ID: <ZIDfPigYN5CgW65L@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-References: <20230607131936.382406-1-tomm.merciai@gmail.com>
- <20230607131936.382406-3-tomm.merciai@gmail.com>
- <20230607-pyromania-germinate-b5e3dbd54632@spud>
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH 3/6] media: dt-bindings: mediatek,vcodec: Remove VDEC_SYS
+ for mt8183
+Message-ID: <d768f124-dcee-40c7-a5e8-f1c41439119e@notapiano>
+References: <20230605162030.274395-1-nfraprado@collabora.com>
+ <20230605162030.274395-4-nfraprado@collabora.com>
+ <6d476d6d-7100-7674-2e08-661516b75f43@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230607-pyromania-germinate-b5e3dbd54632@spud>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6d476d6d-7100-7674-2e08-661516b75f43@linaro.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Conor,
-
-On Wed, Jun 07, 2023 at 06:16:19PM +0100, Conor Dooley wrote:
-> Hey Tommaso,
+On Tue, Jun 06, 2023 at 11:16:12AM +0200, Krzysztof Kozlowski wrote:
+> On 05/06/2023 18:20, Nícolas F. R. A. Prado wrote:
+> > The binding expects the first register space to be VDEC_SYS. But on
+> > mt8183, which uses the stateless decoders, this space is used only for
+> > controlling clocks and resets, which are better described as separate
+> > clock-controller and reset-controller nodes.
+> > 
+> > In fact, in mt8173's devicetree there are already such separate
+> > clock-controller nodes, which cause duplicate addresses between the
+> > vdecsys node and the vcodec node. But for this SoC, since the stateful
+> > decoder code makes other uses of the VDEC_SYS register space, it's not
+> > straightforward to remove it.
+> > 
+> > In order to avoid the same address conflict to happen on mt8183,
+> > since the only current use of the VDEC_SYS register space in
+> > the driver is to read the status of a clock that indicates the hardware
+> > is active, remove the VDEC_SYS register space from the binding and
+> > describe an extra clock that will be used to directly check the hardware
+> > status.
+> > 
+> > Also add reg-names to be able to tell that this new register schema is
+> > used, so the driver can keep backward compatibility.
+> > 
+> > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> > ---
+> > 
+> >  .../media/mediatek,vcodec-decoder.yaml        | 29 +++++++++++++++++--
+> >  1 file changed, 27 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
+> > index 6447e6c86f29..36a53b2484d6 100644
+> > --- a/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
+> > +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
+> > @@ -21,17 +21,21 @@ properties:
+> >        - mediatek,mt8183-vcodec-dec
+> >  
+> >    reg:
+> > +    minItems: 11
+> >      maxItems: 12
+> >  
+> > +  reg-names:
+> > +    minItems: 11
 > 
-> On Wed, Jun 07, 2023 at 03:19:24PM +0200, Tommaso Merciai wrote:
-> 
-> > +  alliedvision,lp2hs-delay-us:
-> > +    maximum: 150000
-> > +    description: |
-> > +      Low power to high speed delay time.
-> > +
-> > +      If the value is larger than 0, the camera forces a reset of all
-> > +      D-PHY lanes for the duration specified by this property. All lanes
-> > +      will transition to the low-power state and back to the high-speed
-> > +      state after the delay. Otherwise the lanes will transition to and
-> > +      remain in the high-speed state immediately after power on.
-> > +
-> > +      This is meant to help CSI-2 receivers synchronizing their D-PHY
-> > +      RX.
-> 
-> Since this new version was posted before I got a chance to reply, I
-> still don't think it makes sense to allow 0 & then special case it,
-> when testing for the presence of a property is trivial.
-
-My bad, sry.
-My keyboard is too quick :P
-
-> The property should describe some behaviour/property of the hardware,
-> not be a mechanism to convey what you want to write into registers.
-> 
-> I don't really get why you'd not do:
-> 	If present, the camera forces a reset of all D-PHY lanes, for the
-> 	duration specified by this property. All lanes will transition to
-> 	the low-power state and back to the high-speed state after the
-> 	delay.
-> 	Otherwise the lanes will transition to and remain in the high-speed
-> 	state immediately after power on.
-> 
-
-You are suggesting the following solution:
-
-minimum: 1
-maximum: 150000
-
-Right?
-
-Personally I prefer to keep also 0 but never mind
-is ok also this solution. :)
-
-Let me know if I have understood correctly pls.
-Thanks in advance :)
-
-> > +static int alvium_get_dt_data(struct alvium_dev *alvium)
-> > +{
-> > +	struct device *dev = &alvium->i2c_client->dev;
-> > +	struct device_node *node = dev->of_node;
-> > +	struct fwnode_handle *endpoint;
-> > +	int ret = 0;
-> > +
-> > +	if (!node)
-> > +		return -EINVAL;
-> > +
-> > +	ret = fwnode_property_read_u32(dev_fwnode(dev),
-> > +			  "alliedvision,lp2hs-delay-us",
-> > +			  &alvium->lp2hs_delay);
-> > +	if (ret)
-> > +		dev_info(dev, "lp2hs-delay-us not found\n");
-> 
-> And this print, which I also don't understand the presence of as
-> well behaving driver should be quiet, goes away.
-
-Then you are suggesting to drop this print right?
-
-Thanks for your review!
-
-Regards,
-Tommaso
-
-> 
-> Cheers,
-> Conor.
+> maxItems
 > 
 > > +
-> > +	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(dev), NULL);
-> > +	if (!endpoint) {
-> > +		dev_err(dev, "endpoint node not found\n");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	if (v4l2_fwnode_endpoint_alloc_parse(endpoint, &alvium->ep)) {
-> > +		dev_err(dev, "could not parse endpoint\n");
-> > +		return 0;
-> > +	}
-> > +
-> > +	if (alvium->ep.bus_type != V4L2_MBUS_CSI2_DPHY) {
-> > +		dev_err(dev, "unsupported bus type\n");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	if (!alvium->ep.nr_of_link_frequencies) {
-> > +		dev_err(dev, "no link frequencies defined");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	dev_info(dev, "freq: %llu\n",
-> > +				    alvium->ep.link_frequencies[0]);
-> > +	dev_info(dev, "lanes: %d\n",
-> > +				    alvium->ep.bus.mipi_csi2.num_data_lanes);
-> > +
-> > +	return 0;
-> > +}
+> >    interrupts:
+> >      maxItems: 1
+> >  
+> >    clocks:
+> > -    minItems: 1
+> > +    minItems: 2
+> 
+> It does not make any sense. Just two patches ago you made it 1! Don't
+> add incorrect values which are immediately changed in the same patchset.
 
+It's not an incorrect value. At the point that commit was added, the first reg
+was still VDEC_SYS, so an active clock wasn't required. This commit removes the
+VDEC_SYS reg, and so the active clock becomes necessary. Splitting it like this
+made the most sense to me, and I thought it would also simplify review. But
+since it seems to be a problem I'll merge commit 1 with this one in v2 to avoid
+changing the number of clocks twice.
 
+> 
+> >      maxItems: 8
+> >  
+> >    clock-names:
+> > -    minItems: 1
+> > +    minItems: 2
+> >      maxItems: 8
+> >  
+> >    assigned-clocks: true
+> > @@ -84,6 +88,24 @@ allOf:
+> >          clock-names:
+> >            items:
+> >              - const: vdec
+> > +            - const: active
+> > +
+> > +        reg:
+> > +          maxItems: 11
+> > +
+> > +        reg-names:
+> > +          items:
+> > +            - const: misc
+> > +            - const: ld
+> > +            - const: top
+> > +            - const: cm
+> > +            - const: ad
+> > +            - const: av
+> > +            - const: pp
+> > +            - const: hwd
+> > +            - const: hwq
+> > +            - const: hwb
+> > +            - const: hwg
+> >  
+> >    - if:
+> >        properties:
+> > @@ -108,6 +130,9 @@ allOf:
+> >              - const: venc_lt_sel
+> >              - const: vdec_bus_clk_src
+> >  
+> > +        reg:
+> > +          minItems: 12
+> 
+> so max can be 1000?
+
+No, there's 'maxItems: 12' up above in the general case.
+
+Thanks,
+Nícolas
