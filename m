@@ -2,302 +2,567 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC04A725DE8
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 14:01:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5159725DF4
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 14:05:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234497AbjFGMBW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Jun 2023 08:01:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50658 "EHLO
+        id S238739AbjFGMFk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Jun 2023 08:05:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234761AbjFGMBV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 08:01:21 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36B911BCE
-        for <linux-media@vger.kernel.org>; Wed,  7 Jun 2023 05:01:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686139279; x=1717675279;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=ZrgTxmxKUC+VF35ofvB7iyyJoMQZ95+3+KDLBO2qLiU=;
-  b=P2vtK4fBga639/PPszyawIpudJ6nEcvz6nHz2tUqWOoAKcymMnH4e1vj
-   mGurrjT13C0mZkslBhSk7IAz6rDb6dEgyoIaWnPJmydUSsEXYVmKKaQoi
-   M3mrYhTIfjNjtUriKZHvs2H/nPWPdyua8oLFcUCJgJTxlu/n1yxfTotQl
-   QiqtGFNLciswtwLAS/UYmWC0YzVg8MElLc37btfp7lcQOnHeHdXKfdbDA
-   haF+sodsWYVy3l8BJa3MTi2LxVtLkpAP2WCe66jcXa6mqRdqpMHhRZZWC
-   xdhyQeEErznfoqKCUHU+6Wr7xsD5QAXQABQJbssX5ql/VgQqnFZj2N+Ut
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="420523443"
-X-IronPort-AV: E=Sophos;i="6.00,223,1681196400"; 
-   d="scan'208";a="420523443"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 05:01:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="779408965"
-X-IronPort-AV: E=Sophos;i="6.00,223,1681196400"; 
-   d="scan'208";a="779408965"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 05:01:12 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 10C6311FAE0;
-        Wed,  7 Jun 2023 15:01:10 +0300 (EEST)
-Date:   Wed, 7 Jun 2023 12:01:10 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/3] media: Add MIPI CCI register access helper functions
-Message-ID: <ZIBxhg1LVL8+zBCE@kekkonen.localdomain>
-References: <20230606165808.70751-1-hdegoede@redhat.com>
- <20230606165808.70751-2-hdegoede@redhat.com>
- <CAHp75Vd6TPfZhPEDUdAj0Y7G8fQDPKQhmcY_tDWmN7VHBpXL0w@mail.gmail.com>
- <0760b8ba-0091-5270-5e46-9787a910bd6f@redhat.com>
+        with ESMTP id S236481AbjFGMFj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 08:05:39 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F4F51BDD
+        for <linux-media@vger.kernel.org>; Wed,  7 Jun 2023 05:05:28 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1q6run-00GnGG-2b; Wed, 07 Jun 2023 12:05:25 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1q6ruj-000jGr-RY; Wed, 07 Jun 2023 12:05:22 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Hans de Goede <hdegoede@redhat.com>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL] media: atomisp: Changes for 6.5-1 (#92375)
+Date:   Wed,  7 Jun 2023 12:05:21 +0000
+Message-Id: <20230607120521.173975-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <4177be8a-7a77-c452-7b98-91d5e5af8e8b@redhat.com>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <0760b8ba-0091-5270-5e46-9787a910bd6f@redhat.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+From: builder@linuxtv.org
 
-On Wed, Jun 07, 2023 at 10:40:34AM +0200, Hans de Goede wrote:
-> Hi,
-> 
-> On 6/6/23 22:43, Andy Shevchenko wrote:
-> > On Tue, Jun 6, 2023 at 7:58 PM Hans de Goede <hdegoede@redhat.com> wrote:
-> >>
-> >> The CSI2 specification specifies a standard method to access camera sensor
-> >> registers called "Camera Control Interface (CCI)".
-> >>
-> >> This uses either 8 or 16 bit (big-endian wire order) register addresses
-> >> and supports 8, 16, 24 or 32 bit (big-endian wire order) register widths.
-> >>
-> >> Currently a lot of Linux camera sensor drivers all have their own custom
-> >> helpers for this, often copy and pasted from other drivers.
-> >>
-> >> Add a set of generic helpers for this so that all sensor drivers can
-> >> switch to a single common implementation.
-> >>
-> >> These helpers take an extra optional "int *err" function parameter,
-> >> this can be used to chain a bunch of register accesses together with
-> >> only a single error check at the end, rather then needing to error
-> >> check each individual register access. The first failing call will
-> >> set the contents of err to a non 0 value and all other calls will
-> >> then become no-ops.
-> > 
-> > ...
-> > 
-> >> +#include <linux/delay.h>
-> >> +#include <linux/dev_printk.h>
-> >> +#include <linux/module.h>
-> >> +#include <linux/regmap.h>
-> > 
-> > + types.h
-> > 
-> >> +#include <media/v4l2-cci.h>
-> > 
-> >> +int cci_read(struct regmap *map, u32 reg, u32 *val, int *err)
-> >> +{
-> >> +       int i, len, ret;
-> >> +       u8 buf[4];
-> >> +
-> >> +       if (err && *err)
-> >> +               return *err;
-> >> +
-> >> +       /* Set len to register width in bytes */
-> >> +       len = ((reg & CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT) + 1;
-> >> +       reg &= CCI_REG_ADDR_MASK;
-> >> +
-> >> +       ret = regmap_bulk_read(map, reg, buf, len);
-> >> +       if (ret) {
-> >> +               dev_err(regmap_get_device(map), "Error reading reg 0x%4x: %d\n", reg, ret);
-> >> +               if (err)
-> >> +                       *err = ret;
-> >> +
-> >> +               return ret;
-> >> +       }
-> >> +
-> >> +       *val = 0;
-> >> +       for (i = 0; i < len; i++) {
-> >> +               *val <<= 8;
-> >> +               *val |= buf[i];
-> >> +       }
-> > 
-> > I really prefer to see put_unaligned() here depending on the length.
-> > Note, that on some CPUs it might be one assembly instruction or even
-> > none, depending on how the result is going to be used.
-> 
-> Ok, so you mean changing it to something like this:
-> 
-> 	switch (len)
-> 	case 1:
-> 		*val = buf[0];
-> 		break;
-> 	case 2:
-> 		*val = get_unaligned_be16(buf);
-> 		break;
-> 	case 3:
-> 		*val = __get_unaligned_be24(buf);
-> 		break;
-> 	case 4:
-> 		*val = get_unaligned_be32(buf);
-> 		break;
-> 	}
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/4177be8a-7a77-c452-7b98-91d5e5af8e8b@redhat.com/
+Build log: https://builder.linuxtv.org/job/patchwork/312678/
+Build time: 00:32:55
+Link: https://lore.kernel.org/linux-media/4177be8a-7a77-c452-7b98-91d5e5af8e8b@redhat.com
 
-I think the loop looks nicer but I'm fine with this as well.
+gpg: Signature made Wed 07 Jun 2023 10:20:25 AM UTC
+gpg:                using RSA key BAF03B5D2718411A5E9E177E92EC4779440327DC
+gpg:                issuer "hdegoede@redhat.com"
+gpg: Good signature from "Hans de Goede <hdegoede@redhat.com>" [expired]
+gpg: Note: This key has expired!
+Primary key fingerprint: A1EA 0673 EAD8 B74F 17D2  B9E1 7C31 E21A 98D2 1E0D
+     Subkey fingerprint: BAF0 3B5D 2718 411A 5E9E  177E 92EC 4779 4403 27DC
 
-> 
-> ?
-> 
-> 		
-> 
-> > 
-> >> +       return 0;
-> >> +}
-> >> +EXPORT_SYMBOL_GPL(cci_read);
-> > 
-> > Can we have it namespaced?
-> 
-> I'm not sure if having just these 5 symbols in their own namespace is worth it. SO far the media subsystem is not using module/symbol namespacing at all.
-> 
-> Sakari, Laurent, any opinions on this ?
+Summary: got 69/87 patches with issues, being 68 at build time, plus one error when buinding PDF document
 
-Regmap nor V4L2 use it so I wouldn't use it here either.
+Error/warnings:
 
-> 
-> 
-> 
-> >> +int cci_write(struct regmap *map, u32 reg, u32 val, int *err)
-> >> +{
-> >> +       int i, len, ret;
-> >> +       u8 buf[4];
-> >> +
-> >> +       if (err && *err)
-> >> +               return *err;
-> >> +
-> >> +       /* Set len to register width in bytes */
-> >> +       len = ((reg & CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT) + 1;
-> >> +       reg &= CCI_REG_ADDR_MASK;
-> >> +
-> >> +       for (i = 0; i < len; i++) {
-> >> +               buf[len - i - 1] = val & 0xff;
-> >> +               val >>= 8;
-> >> +       }
-> >> +
-> >> +       ret = regmap_bulk_write(map, reg, buf, len);
-> >> +       if (ret) {
-> >> +               dev_err(regmap_get_device(map), "Error writing reg 0x%4x: %d\n", reg, ret);
-> >> +               if (err)
-> >> +                       *err = ret;
-> >> +       }
-> >> +
-> >> +       return ret;
-> >> +}
-> >> +EXPORT_SYMBOL_GPL(cci_write);
-> > 
-> > Same comments as per above function.
-> > 
-> > ...
-> > 
-> >> +               if (regs[i].delay_us)
-> > 
-> > I'm wondering why fsleep() doesn't have this check? Or does it?
-> > 
-> >> +                       fsleep(regs[i].delay_us);
-> > 
-> > ...
-> > 
-> >> +struct regmap *cci_regmap_init_i2c(struct i2c_client *client, int reg_addr_bits)
-> >> +{
-> >> +       struct regmap_config config = {
-> >> +               .reg_bits = reg_addr_bits,
-> >> +               .val_bits = 8,
-> >> +               .reg_format_endian = REGMAP_ENDIAN_BIG,
-> > 
-> > Is the lock required?
-> > If so, how is it helpful?
-> 
-> Interesting questions sensor drivers typically already do
-> their own locking.
-> 
-> So I guess we could indeed tell regmap to skip locking here.
-> 
-> Sakari, Laurent any opinion on this ?
+patches/0001-media-atomisp-sh_css-Remove-ifdef-ISP2401.patch:
 
-There are loops here so it won't be atomic in any case.
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	SPARSE:../drivers/staging/media/tegra-video/vip.c ../drivers/staging/media/tegra-video/vip.c:280:24: warning: symbol 'tegra_vip_driver' was not declared. Should it be static?
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:416 ov2680_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:212 gc0310_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3013 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3112 atomisp_cp_morph_table() warn: missing unwind goto?
 
-Generally drivers indeed already take care of this. I don't think we need
-locking on this level.
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2775 mxc_jpeg_probe() warn: missing unwind goto?
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000020Kb sm_state_count = 1963868
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 53 seconds
+	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
+	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
+	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
 
-> 
-> > Can we move this outside as static const?
-> 
-> No, because reg_bits is not const.
-> 
-> 
-> 
-> >> +       };
-> >> +
-> >> +       return devm_regmap_init_i2c(client, &config);
-> >> +}
-> > 
-> > ...
-> > 
-> >> +#ifndef _V4L2_CCI_H
-> >> +#define _V4L2_CCI_H
-> > 
-> > + bits.h
-> > 
-> >> +#include <linux/regmap.h>
-> > 
-> > Not used, rather requires forward declarations of
-> > 
-> > struct regmap
-> > struct reg_sequence
-> 
-> Ack, I'll change this for the next version.
-> 
-> > Also note missing i2c_client forward declaration.
-> 
-> That was also taken care of by regmap.h.
-> 
-> > 
-> >> +#include <linux/types.h>
-> >> +
-> >> +/*
-> >> + * Note cci_reg_8 deliberately is 0, not 1, so that raw
-> >> + * (not wrapped in a CCI_REG*() macro) register addresses
-> >> + * do 8 bit wide accesses. This allows unchanged use of register
-> >> + * initialization lists of raw address, value pairs which only
-> >> + * do 8 bit width accesses. Which makes porting drivers easier.
-> >> + */
-> >> +enum cci_reg_type {
-> >> +       cci_reg_8 = 0,
-> > 
-> > But this is guaranteed by the C standard... See also below.
-> > 
-> >> +       cci_reg_16,
-> > 
-> > But this one becomes 1, so the above comment doesn't clarify why it's
-> > okay to have it 1 and not 2.
-> 
-> Basically the idea is that the enum value is the reg-width in bytes - 1
-> where the - 1 is there so that cci_reg_8 = 0 .
+   checkpatch.pl:
+	$ cat patches/0001-media-atomisp-sh_css-Remove-ifdef-ISP2401.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:397: WARNING: Too many leading tabs - consider code refactoring
 
-I'm fine with the comment.
+patches/0005-media-atomisp-sh_css_mipi-Remove-ifdef-ISP2401.patch:
 
--- 
-Kind regards,
+   checkpatch.pl:
+	$ cat patches/0005-media-atomisp-sh_css_mipi-Remove-ifdef-ISP2401.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:120: WARNING: line length of 114 exceeds 100 columns
+	-:120: WARNING: Prefer using '"%s...", __func__' to using 'free_mipi_frames', this function's name, in a string
 
-Sakari Ailus
+patches/0006-media-atomisp-Remove-res_overflow-parameter-from-ato.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3013 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3112 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0007-media-atomisp-Remove-Continuous-capture-and-SDV-run-.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:212 gc0310_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:416 ov2680_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3013 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3112 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0008-media-atomisp-Remove-isp-need_gfx_throttle-field.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3013 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3112 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0010-media-atomisp-Replace-source-pad-checks-with-run-mod.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3013 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3112 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0011-media-atomisp-Register-only-1-dev-video-node.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3008 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3107 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0012-media-atomisp-Drop-atomisp_is_vf_pipe.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3008 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3107 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0013-media-atomisp-Rename-video_out_preview-to-video_out.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3008 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3107 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0014-media-atomisp-Remove-source_pad-parameter-from-funct.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3007 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3106 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0015-media-atomisp-Remove-1-line-atomisp_flush_bufs_and_w.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3001 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3100 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0016-media-atomisp-Remove-atomisp_subdev_register_video_n.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3001 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3100 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0017-media-atomisp-Remove-a-bunch-of-unused-atomisp_css_-.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3001 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3100 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0018-media-atomisp-Remove-unused-mipi_frame_size-field-fr.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3001 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3100 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0019-media-atomisp-Remove-isp_timeout-flag.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2999 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3098 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0023-media-atomisp-Simplify-atomisp_open-and-atomisp_rele.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:532 atomisp_open() warn: missing unwind goto?
+
+patches/0025-media-atomisp-Turn-asd-streaming-state-tracker-into-.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:532 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2994 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3093 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0026-media-atomisp-Remove-no-longer-used-atomisp_css_flus.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:532 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2981 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3080 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0027-media-atomisp-Remove-atomisp_streaming_count.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:532 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2981 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3080 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0028-media-atomisp-Simplify-atomisp_isr-and-recovery_work.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2953 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3052 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0029-media-atomisp-Rename-atomisp_destroy_pipes_stream_fo.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:532 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2953 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3052 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0030-media-atomisp-Allow-system-suspend-to-continue-with-.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:532 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2953 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3052 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0031-media-atomisp-Remove-atomisp_-sub-dev_users.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:522 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2953 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3052 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0032-media-atomisp-Remove-unused-css_pipe_id-argument-fro.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:522 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2950 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3049 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0033-media-atomisp-Remove-unused-atomisp_get_css_pipe_id-.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:522 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2950 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3049 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0034-media-atomisp-Remove-in_reset-argument-from-atomisp_.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:522 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2956 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3055 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0035-media-atomisp-Set-asd.subdev.devnode-once-from-isp_s.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:520 atomisp_open() warn: missing unwind goto?
+
+patches/0036-media-atomisp-gc0310-Drop-XXGC0310-ACPI-hardware-id.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:212 gc0310_s_stream() warn: missing error code 'ret'
+
+patches/0037-media-atomisp-gc0310-Fix-double-free-in-gc0310_remov.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:212 gc0310_s_stream() warn: missing error code 'ret'
+
+patches/0038-media-atomisp-gc0310-Cleanup-includes.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:205 gc0310_s_stream() warn: missing error code 'ret'
+
+patches/0039-media-atomisp-gc0310-Remove-gc0310_s_config-function.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:208 gc0310_s_stream() warn: missing error code 'ret'
+
+patches/0040-media-atomisp-gc0310-Remove-gc0310.h.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:448 gc0310_s_stream() warn: missing error code 'ret'
+
+   checkpatch.pl:
+	$ cat patches/0040-media-atomisp-gc0310-Remove-gc0310.h.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:279: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+
+patches/0041-media-atomisp-Drop-MRFLD_PORT_NUM-define.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:520 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2956 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3055 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0042-media-atomisp-Remove-unused-fields-from-struct-atomi.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:520 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2956 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3055 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0043-media-atomisp-Remove-atomisp_video_init-parametrizat.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:520 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2956 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3055 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0044-media-atomisp-Rename-__get_mipi_port-to-atomisp_port.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:520 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2956 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3055 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0045-media-atomisp-Store-number-of-sensor-lanes-per-port-.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:520 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:448 gc0310_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:416 ov2680_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2956 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3055 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0046-media-atomisp-Delay-mapping-sensors-to-inputs-till-a.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:520 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2956 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3055 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0047-media-atomisp-Move-pad-linking-to-atomisp_register_d.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:520 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2956 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3055 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0048-media-atomisp-Allow-camera_mipi_info-to-be-NULL.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2956 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3055 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0049-media-atomisp-Switch-i2c-drivers-back-to-use-.probe.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:448 gc0310_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:416 ov2680_s_stream() warn: missing error code 'ret'
+
+patches/0052-media-atomisp-Add-support-for-v4l2-async-sensor-regi.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:520 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c: ../drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:623 atomisp_csi2_connect_sensors() warn: we never enter this loop
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2956 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3055 atomisp_cp_morph_table() warn: missing unwind goto?
+
+   checkpatch.pl:
+	$ cat patches/0052-media-atomisp-Add-support-for-v4l2-async-sensor-regi.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:181: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+	-:578: WARNING: line length of 116 exceeds 100 columns
+	-:758: WARNING: line length of 102 exceeds 100 columns
+
+patches/0053-media-atomisp-ov2680-Turn-into-standard-v4l2-sensor-.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:401 ov2680_s_stream() warn: missing error code 'ret'
+
+patches/0054-media-atomisp-gc0310-Turn-into-standard-v4l2-sensor-.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:447 gc0310_s_stream() warn: missing error code 'ret'
+
+   checkpatch.pl:
+	$ cat patches/0054-media-atomisp-gc0310-Turn-into-standard-v4l2-sensor-.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:67: WARNING: line length of 105 exceeds 100 columns
+
+patches/0059-media-atomisp-ov2680-s-ov2680_device-ov2680_dev.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:401 ov2680_s_stream() warn: missing error code 'ret'
+
+patches/0060-media-atomisp-ov2680-s-input_lock-lock.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:401 ov2680_s_stream() warn: missing error code 'ret'
+
+patches/0061-media-atomisp-ov2680-Add-missing-ov2680_calc_mode-ca.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:403 ov2680_s_stream() warn: missing error code 'ret'
+
+patches/0062-media-atomisp-ov2680-Add-init_cfg-pad-op.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:418 ov2680_s_stream() warn: missing error code 'ret'
+
+patches/0063-media-atomisp-ov2680-Implement-selection-support.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c: ../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:478 ov2680_init_cfg() error: we previously assumed 'sd_state' could be null (see line 470)
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:526 ov2680_s_stream() warn: missing error code 'ret'
+
+patches/0064-media-atomisp-Remove-a-bunch-of-sensor-related-custo.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:520 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0065-media-atomisp-Remove-redundant-atomisp_subdev_set_se.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0066-media-atomisp-Simplify-atomisp_subdev_set_selection-.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0068-media-atomisp-Remove-bogus-fh-use-from-atomisp_set_f.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
+
+patches/0069-media-atomisp-Add-input-helper-variable-for-isp-asd-.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:4141 atomisp_set_fmt_to_snr() warn: variable dereferenced before check 'asd' (see line 4125)
+
+patches/0070-media-atomisp-Add-ia_css_frame_pad_width-helper-func.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:520 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:4141 atomisp_set_fmt_to_snr() warn: variable dereferenced before check 'asd' (see line 4125)
+
+patches/0071-media-atomisp-Refactor-atomisp_try_fmt-atomisp_set_f.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:520 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:4180 atomisp_set_fmt_to_snr() warn: variable dereferenced before check 'asd' (see line 4164)
+
+patches/0072-media-atomisp-Add-support-for-sensors-which-implemen.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:520 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:4178 atomisp_set_fmt_to_snr() warn: variable dereferenced before check 'asd' (see line 4163)
+
+patches/0073-media-atomisp-Pass-MEDIA_BUS_FMT_-code-when-calling-.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:520 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:4178 atomisp_set_fmt_to_snr() warn: variable dereferenced before check 'asd' (see line 4163)
+
+patches/0074-media-atomisp-Make-atomisp_init_sensor-check-if-the-.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:520 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:4178 atomisp_set_fmt_to_snr() warn: variable dereferenced before check 'asd' (see line 4163)
+
+patches/0075-media-atomisp-Use-selection-API-info-to-determine-se.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:520 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:4206 atomisp_set_fmt_to_snr() warn: variable dereferenced before check 'asd' (see line 4191)
+
+   checkpatch.pl:
+	$ cat patches/0075-media-atomisp-Use-selection-API-info-to-determine-se.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:49: CHECK: Alignment should match open parenthesis
+
+patches/0076-media-atomisp-Set-crop-before-setting-fmt.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:4251 atomisp_set_fmt_to_snr() warn: variable dereferenced before check 'asd' (see line 4236)
+
+   checkpatch.pl:
+	$ cat patches/0076-media-atomisp-Set-crop-before-setting-fmt.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:51: CHECK: Alignment should match open parenthesis
+
+patches/0079-media-atomisp-Take-minimum-padding-requirement-on-BY.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:520 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:4284 atomisp_set_fmt_to_snr() warn: variable dereferenced before check 'asd' (see line 4269)
+
+patches/0080-media-atomisp-Make-atomisp_enum_framesizes_crop-chec.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:520 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:4283 atomisp_set_fmt_to_snr() warn: variable dereferenced before check 'asd' (see line 4268)
+
+patches/0081-media-atomisp-Fix-binning-check-in-atomisp_set_crop.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:4283 atomisp_set_fmt_to_snr() warn: variable dereferenced before check 'asd' (see line 4268)
+
+   checkpatch.pl:
+	$ cat patches/0081-media-atomisp-Fix-binning-check-in-atomisp_set_crop.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:31: CHECK: Alignment should match open parenthesis
+
+patches/0082-media-atomisp-Stop-resetting-selected-input-to-0-bet.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:517 atomisp_open() warn: missing unwind goto?
+
+patches/0083-media-atomisp-ov2680-Stop-using-half-pixelclock-for-.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c: ../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:472 ov2680_init_cfg() error: we previously assumed 'sd_state' could be null (see line 464)
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:520 ov2680_s_stream() warn: missing error code 'ret'
+
+patches/0084-media-atomisp-ov2680-Remove-unnecessary-registers-fr.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c: ../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:476 ov2680_init_cfg() error: we previously assumed 'sd_state' could be null (see line 468)
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:524 ov2680_s_stream() warn: missing error code 'ret'
+
+   checkpatch.pl:
+	$ cat patches/0084-media-atomisp-ov2680-Remove-unnecessary-registers-fr.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:61: WARNING: line length of 102 exceeds 100 columns
+
+patches/0085-media-atomisp-ov2680-Rename-unknown-0x370a-to-sensor.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c: ../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:476 ov2680_init_cfg() error: we previously assumed 'sd_state' could be null (see line 468)
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:524 ov2680_s_stream() warn: missing error code 'ret'
+
+patches/0087-media-atomisp-csi2-bridge-Add-support-for-setting-cl.patch:
+
+    allyesconfig: return code #0:
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:517 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:4283 atomisp_set_fmt_to_snr() warn: variable dereferenced before check 'asd' (see line 4268)
+
+
+Error #512 when building PDF docs
+
