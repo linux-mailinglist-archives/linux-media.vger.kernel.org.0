@@ -2,17 +2,17 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D427872665A
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 18:48:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1CF872665B
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 18:48:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230472AbjFGQsn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S230462AbjFGQsn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Wed, 7 Jun 2023 12:48:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35356 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230462AbjFGQsm (ORCPT
+        with ESMTP id S229835AbjFGQsm (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 12:48:42 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9806B1FE8
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E99D1FE3
         for <linux-media@vger.kernel.org>; Wed,  7 Jun 2023 09:47:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
         s=mimecast20190719; t=1686156473;
@@ -20,23 +20,23 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=PEOKFOFrbRdx9pBrGkN34+/qQxhlf8T7klWH+p3apsU=;
-        b=BFU7XQdPuJsgRS/BIQG3H308qB9vyj7wqNe8g3fmNqY6D/C4r/FzYL46/s3O23TxJdwsIu
-        yJ+JOZQVnhwIdwhC0mDU2PTqYe3lafOTUuSkvEQ4Ccd435Caicpa40rPnfs5rztAnlo0hR
-        4xjZvE2Y2WOSNO+A9Ytc/cLNhvKH5LU=
+        bh=e2j9uhooCDtqZkdd+jVDKfIEBOVRls05VfRR57bHZ10=;
+        b=gAcPkaF72vZfJyDxoZd8ornJQ/TeeA7Xvg5l04GYt2FfTQMiigqQOFNM4ifzM+Ti0QkeTC
+        WN5LTFVApXPN6VHIGrDNQJkCnvlGbIz46OFTdSm0GR6ah1hMuIEtKQYVdjsqx3e27VcVce
+        xSXzelDPkLEOUDqIEzoY5YRpuQTqSpc=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-610-VcVg7s04OQKTbqElM42YBw-1; Wed, 07 Jun 2023 12:47:48 -0400
-X-MC-Unique: VcVg7s04OQKTbqElM42YBw-1
+ us-mta-558-t19ptmjiPQeJFAl6m_t-fg-1; Wed, 07 Jun 2023 12:47:50 -0400
+X-MC-Unique: t19ptmjiPQeJFAl6m_t-fg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 308EA8028B1;
-        Wed,  7 Jun 2023 16:47:48 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7B4B5858F15;
+        Wed,  7 Jun 2023 16:47:49 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.22])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id DFE0EC0448E;
-        Wed,  7 Jun 2023 16:47:41 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6323CC1603B;
+        Wed,  7 Jun 2023 16:47:48 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Daniel Scally <dan.scally@ideasonboard.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -45,9 +45,9 @@ To:     Daniel Scally <dan.scally@ideasonboard.com>,
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org
-Subject: [PATCH 17/28] media: ov2680: Add support for ACPI enumeration
-Date:   Wed,  7 Jun 2023 18:47:01 +0200
-Message-Id: <20230607164712.63579-18-hdegoede@redhat.com>
+Subject: [PATCH 18/28] media: ov2680: Fix ov2680_enum_frame_interval()
+Date:   Wed,  7 Jun 2023 18:47:02 +0200
+Message-Id: <20230607164712.63579-19-hdegoede@redhat.com>
 In-Reply-To: <20230607164712.63579-1-hdegoede@redhat.com>
 References: <20230607164712.63579-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -63,37 +63,52 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add an acpi_match_table now that all the other bits necessary for
-ACPI support are in place.
+Fix and simplify ov2680_enum_frame_interval(), the index is not
+an index into ov2680_mode_data[], so using OV2680_MODE_MAX is wrong.
+
+Instead it is an index indexing the different framerates for
+the resolution specified in fie->width, fie->height.
+
+Since the ov2680 code only supports a single fixed framerate,
+index must always be 0 and we don't need to check the other
+fie input values.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/media/i2c/ov2680.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/media/i2c/ov2680.c | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
-index 9fa92b4f1307..190c58caae11 100644
+index 190c58caae11..bc76ebee4854 100644
 --- a/drivers/media/i2c/ov2680.c
 +++ b/drivers/media/i2c/ov2680.c
-@@ -900,11 +900,18 @@ static const struct of_device_id ov2680_dt_ids[] = {
- };
- MODULE_DEVICE_TABLE(of, ov2680_dt_ids);
+@@ -507,20 +507,16 @@ static int ov2680_enum_frame_size(struct v4l2_subdev *sd,
+ }
  
-+static const struct acpi_device_id ov2680_acpi_ids[] = {
-+	{ "OVTI2680" },
-+	{ /* sentinel */ },
-+};
-+MODULE_DEVICE_TABLE(acpi, ov2680_acpi_ids);
-+
- static struct i2c_driver ov2680_i2c_driver = {
- 	.driver = {
- 		.name  = "ov2680",
- 		.pm = pm_sleep_ptr(&ov2680_pm_ops),
- 		.of_match_table	= of_match_ptr(ov2680_dt_ids),
-+		.acpi_match_table = ov2680_acpi_ids,
- 	},
- 	.probe_new	= ov2680_probe,
- 	.remove		= ov2680_remove,
+ static int ov2680_enum_frame_interval(struct v4l2_subdev *sd,
+-			      struct v4l2_subdev_state *sd_state,
+-			      struct v4l2_subdev_frame_interval_enum *fie)
++				      struct v4l2_subdev_state *sd_state,
++				      struct v4l2_subdev_frame_interval_enum *fie)
+ {
+-	struct v4l2_fract tpf;
++	struct ov2680_dev *sensor = to_ov2680_dev(sd);
+ 
+-	if (fie->index >= OV2680_MODE_MAX || fie->width > OV2680_WIDTH_MAX ||
+-	    fie->height > OV2680_HEIGHT_MAX ||
+-	    fie->which > V4L2_SUBDEV_FORMAT_ACTIVE)
++	/* Only 1 framerate */
++	if (fie->index)
+ 		return -EINVAL;
+ 
+-	tpf.denominator = OV2680_FRAME_RATE;
+-	tpf.numerator = 1;
+-
+-	fie->interval = tpf;
++	fie->interval = sensor->frame_interval;
+ 
+ 	return 0;
+ }
 -- 
 2.40.1
 
