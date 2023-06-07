@@ -2,163 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 36750726412
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 17:20:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C65317264E0
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 17:41:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241052AbjFGPUj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Jun 2023 11:20:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32904 "EHLO
+        id S240310AbjFGPlk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Jun 2023 11:41:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235753AbjFGPUg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 11:20:36 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0716FC;
-        Wed,  7 Jun 2023 08:20:34 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-976a0a1a92bso932340266b.1;
-        Wed, 07 Jun 2023 08:20:34 -0700 (PDT)
+        with ESMTP id S234989AbjFGPlj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 11:41:39 -0400
+Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D18383
+        for <linux-media@vger.kernel.org>; Wed,  7 Jun 2023 08:41:37 -0700 (PDT)
+Received: by mail-qv1-xf29.google.com with SMTP id 6a1803df08f44-6260b578097so58117836d6.3
+        for <linux-media@vger.kernel.org>; Wed, 07 Jun 2023 08:41:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686151233; x=1688743233;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rNJDIjs7Ttsy90T0MogpvFCvyK09YUh2d0LVsS1aFR4=;
-        b=jvNbKeOohtzqxi3YAtZ3RViRK0eiOkIjU48fk6JPlGSAnwI0oSa2G2GpXt0p5fOdus
-         Z56XRPdi8XBufhlolqizYsbWxzPsVYUF8nkeAv9VCapNX3isKJ62K3ORW1tKT+GEqipw
-         U4NkEhNxHpnjfikq2bfbJaOt3+zAIh100sFRRf1dGuyYnPtWzz7w2yrmGGUKKlbzOux6
-         z7HPKGSn1c/8hJmrC5bKJ3QJPGZeeA31TvMSQfAZLthZb78/7G0scq4+GpqtgprhTaSo
-         kAj3KyD6LH2qpUa5C5lXm6qag62R3ioCtiIvX5y4pDUsUlLqfvhAebZ4btG+WxnAZGAz
-         yJ1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686151233; x=1688743233;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20221208; t=1686152496; x=1688744496;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rNJDIjs7Ttsy90T0MogpvFCvyK09YUh2d0LVsS1aFR4=;
-        b=gMf33uQU+l/JYU+4aLRuYlmFIXJZdrNqWJoxYa1K6yXjZO4LSc02wxkozsS9v8+Jcm
-         +jDmU3ZOlh1xj/fLx04lPGCJ+cfzM+itS7TM4eXUJuPbQ0176r7xV6A+FAOR8hEmMtXM
-         0KK9UX2Gs2/RqZ1L8dtFxD3c1jx1j+54oD77Hi0fzlTchkZnhqsnSnKvSIsWCyG8goMQ
-         sqFCbmYkB9n8nBJLJxlTD969BVwYpEMCQUXOYALz3oyyMbnCB8ECLvv7tujfEb4BYJzr
-         GBEmcnacOOG9liHdRmdqREXrZDr3WkOVGMmQcTCTEB+FlZsD5qFTJR1TJ4sLSPhIUxPw
-         YDHw==
-X-Gm-Message-State: AC+VfDzItf80WogYBgXPCURShczyDuTlAiTxqa2gnn4ltEu6sc8ZeGTs
-        CZdho5OWUaZ2T68au/ApBKM=
-X-Google-Smtp-Source: ACHHUZ7qLvIh+FyK7dUofUEvP/IpPwPimm3tWDeTEal81mKPuhi2e5fDWSijXXGjO8ieLBSs7kJlyw==
-X-Received: by 2002:a17:907:6e0e:b0:973:71c3:8b21 with SMTP id sd14-20020a1709076e0e00b0097371c38b21mr6301469ejc.72.1686151232974;
-        Wed, 07 Jun 2023 08:20:32 -0700 (PDT)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-50-121.cust.vodafonedsl.it. [188.217.50.121])
-        by smtp.gmail.com with ESMTPSA id k5-20020aa7c045000000b00514b854c399sm6410932edo.84.2023.06.07.08.20.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jun 2023 08:20:32 -0700 (PDT)
-Date:   Wed, 7 Jun 2023 17:20:29 +0200
-From:   Tommaso Merciai <tomm.merciai@gmail.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com,
-        martin.hecht@avnet.eu, michael.roeder@avnet.eu,
-        linuxfancy@googlegroups.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Gerald Loacker <gerald.loacker@wolfvision.net>,
-        Mikhail Rudenko <mike.rudenko@gmail.com>,
-        Nicholas Roth <nicholas@rothemail.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Michael Riesch <michael.riesch@wolfvision.net>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Shawn Tu <shawnx.tu@intel.com>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/3] media: dt-bindings: alvium: add document YAML
- binding
-Message-ID: <ZICgPUDv+GjK4C5t@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-References: <20230607131936.382406-1-tomm.merciai@gmail.com>
- <20230607131936.382406-3-tomm.merciai@gmail.com>
- <17971357-523c-f907-13a9-8f7abce90c24@linaro.org>
+        bh=ymf239OnssI6YzWk1B1Iqk+nzu1XyTSV4+/yEBbilJM=;
+        b=KNrVjaz3z3FX61kTchCQvH6vJkr2LoF2J/9X+w9H3Dmktluw1uAHNSyjQI3ic6enxG
+         fFqcoQ0nv/916rEVPXKXe1EvLKMM+XEQQ1E1tpn2xM7eyXE5HXcb/ecOfQ2KU/qnm0+f
+         Gyb3mxV6vCD5iixu8VrzJEqiItOrWY9+ljB4/ScmpahWtw7lnZVgc1ZgzEJa2Qvno35h
+         D/vbELBdsSM8JUDFE10+Qy/ArdCXn5pVTRi556CqwaQBZkLx9h6nYZzJBgULgumpcDZR
+         Fo0KY32oevceusWi+5bPYld+v2c6583R7t5JClA2kkTLNORcDzheu6DnhN9fGVuAqY0c
+         6BhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686152496; x=1688744496;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ymf239OnssI6YzWk1B1Iqk+nzu1XyTSV4+/yEBbilJM=;
+        b=fMZEje+I2wYeHyXSSgCpVooFY6rEOX7t/Ed3pbrmicPqxpu2oCcXL+AT9RmeOtW4L7
+         kjlqBnls5aIbazKv8wcqUpkruZB+QVKEfmCVv724K9D+9NMGeH8NAMxWrebddNE8u9gG
+         s5ZLSxc3IhpuWihi6FiuJUsM2Z26dBJd+pzos+U3AS/2S65woZbzsQsxV/zQi/s3h7G+
+         vRcrUs0vMPfQKENHIfxvbq0pVG7jCdf5yh9u8b+roSOPbiASuHpRxBr01UNZfE6ENxCe
+         SGRs1UWkPddYHP3ZvyAroGeEmjGqsM+5OAlaaBHEMsvUzufr3bpyzSsKVMgUViT3rUNX
+         NpYw==
+X-Gm-Message-State: AC+VfDxW3xy0sDdzOpPwewxJ6joM9X77By71W2K03LKemI0ZARX1GAhx
+        xXv+75yRFNjs6CPaG3zJg5rsBNrijrSD4rrEeV0=
+X-Google-Smtp-Source: ACHHUZ5jnDxtXxxfLuvAdPsU1dvdr7Qpf3SLv2pwmRJVq1b6H7FOUVNdMMwMcjBZlCvFWN6i4jH5LTJKClkHZ52m3sk=
+X-Received: by 2002:a05:6214:f0a:b0:625:a982:857 with SMTP id
+ gw10-20020a0562140f0a00b00625a9820857mr3803339qvb.50.1686152495703; Wed, 07
+ Jun 2023 08:41:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <17971357-523c-f907-13a9-8f7abce90c24@linaro.org>
+References: <20230606165808.70751-1-hdegoede@redhat.com> <20230606165808.70751-2-hdegoede@redhat.com>
+ <CAHp75Vd6TPfZhPEDUdAj0Y7G8fQDPKQhmcY_tDWmN7VHBpXL0w@mail.gmail.com>
+ <0760b8ba-0091-5270-5e46-9787a910bd6f@redhat.com> <ZIBxhg1LVL8+zBCE@kekkonen.localdomain>
+In-Reply-To: <ZIBxhg1LVL8+zBCE@kekkonen.localdomain>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 7 Jun 2023 18:40:59 +0300
+Message-ID: <CAHp75VeZe-aeusoeYgDh=6kGfxNUDexLvvwMdLTKe-k1_vtAwA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] media: Add MIPI CCI register access helper functions
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Krzysztof,
+On Wed, Jun 7, 2023 at 3:01=E2=80=AFPM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+> On Wed, Jun 07, 2023 at 10:40:34AM +0200, Hans de Goede wrote:
+> > On 6/6/23 22:43, Andy Shevchenko wrote:
+> > > On Tue, Jun 6, 2023 at 7:58=E2=80=AFPM Hans de Goede <hdegoede@redhat=
+.com> wrote:
 
-On Wed, Jun 07, 2023 at 04:18:48PM +0200, Krzysztof Kozlowski wrote:
-> On 07/06/2023 15:19, Tommaso Merciai wrote:
-> > Add documentation of device tree in YAML schema for the ALVIUM
-> > Camera from Allied Vision Inc.
-> > 
-> > References:
-> >  - https://www.alliedvision.com/en/products/embedded-vision-solutions
-> > 
-> > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> > Changes since v1:
-> >  - Fixed build error as suggested by RHerring bot
-> > 
-> > Changes since v2:
-> >  - Fixed License as suggested by KKozlowski/CDooley
-> >  - Removed rotation property as suggested by CDooley/LPinchart
-> >  - Fixed example node name as suggested by CDooley
-> >  - Fixed title as suggested by LPinchart
-> >  - Fixed compatible name as suggested by LPinchart
-> >  - Removed clock as suggested by LPinchart
-> >  - Removed gpios not as suggested by LPinchart
-> >  - Renamed property name streamon-delay into alliedvision,lp2hs-delay-us
-> >  - Fixed vendor prefix, unit append as suggested by KKozlowski
-> >  - Fixed data-lanes
-> >  - Fixed blank space + example indentation (from 6 -> 4 space) as suggested by KKozlowski
-> >  - Dropped status into example  as suggested by KKozlowski
-> >  - Added vcc-ext-in supply as suggested by LPinchart
-> >  - Dropped pinctrl into example as suggested by LPinchart
-> > 
-> > Changes since v3:
-> >  - Fixed vcc-ext-in-supply description as suggested by LPinchart
-> >  - Fixed alliedvision,lp2hs-delay-us description as suggested by LPinchart
-> >  - Added maximum to alliedvision,lp2hs-delay-us as suggested by LPinchart
-> >  - Collected Reviewed-by tag from LPinchart
-> 
-> You still did not test it before sending. Four versions of which none
-> were tested :(
+...
 
-You are right.. my bad. :'(
+> > >> +int cci_read(struct regmap *map, u32 reg, u32 *val, int *err)
+> > >> +{
+> > >> +       int i, len, ret;
+> > >> +       u8 buf[4];
 
-After fixing id, as suggested by Laurent/bot into:
+> > >> +       *val =3D 0;
+> > >> +       for (i =3D 0; i < len; i++) {
+> > >> +               *val <<=3D 8;
+> > >> +               *val |=3D buf[i];
+> > >> +       }
+> > >
+> > > I really prefer to see put_unaligned() here depending on the length.
+> > > Note, that on some CPUs it might be one assembly instruction or even
+> > > none, depending on how the result is going to be used.
+> >
+> > Ok, so you mean changing it to something like this:
+> >
+> >       switch (len)
+> >       case 1:
+> >               *val =3D buf[0];
+> >               break;
+> >       case 2:
+> >               *val =3D get_unaligned_be16(buf);
+> >               break;
+> >       case 3:
+> >               *val =3D __get_unaligned_be24(buf);
 
-$id: http://devicetree.org/schemas/media/i2c/alliedvision,alvium-csi2.yaml#
+__without double underscore prefix
 
-I'm running the following test:
+> >               break;
+> >       case 4:
+> >               *val =3D get_unaligned_be32(buf);
+> >               break;
+> >       }
+>
+> I think the loop looks nicer but I'm fine with this as well.
+>
+> > ?
 
-make dt_binding_check DT_SCHEMA_FILES=alliedvision,alvium-csi2.yaml
+But the loop hides what's going on there. And I believe code
+generation would be worse with a loop.
+Also note, that in case of switch-case we don't write to the pointed
+memory several times, which I think is also the win.
 
-With the following result:
+> > >> +       return 0;
+> > >> +}
 
-  LINT    Documentation/devicetree/bindings
-  CHKDT   Documentation/devicetree/bindings/processed-schema.json
-  SCHEMA  Documentation/devicetree/bindings/processed-schema.json
-/home/tom/work/mainline/linux/Documentation/devicetree/bindings/media/i2c/.alliedvision,alvium-csi2.example.dts.pre.yaml: ignoring, error parsing file
-  DTEX    Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.example.dts
-  DTC_CHK Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.example.dtb
+...
 
-Is that correct?
-Let me know. Thanks in advance :)
+> > >> +int cci_write(struct regmap *map, u32 reg, u32 val, int *err)
+> > >> +{
+> > >> +       int i, len, ret;
+> > >> +       u8 buf[4];
+> > >> +
+> > >> +       if (err && *err)
+> > >> +               return *err;
+> > >> +
+> > >> +       /* Set len to register width in bytes */
+> > >> +       len =3D ((reg & CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT) =
++ 1;
+> > >> +       reg &=3D CCI_REG_ADDR_MASK;
+> > >> +
+> > >> +       for (i =3D 0; i < len; i++) {
+> > >> +               buf[len - i - 1] =3D val & 0xff;
+> > >> +               val >>=3D 8;
+> > >> +       }
 
-Regards,
-Tommaso
+Similar way here.
 
-> 
-> Best regards,
-> Krzysztof
-> 
+> > >> +
+> > >> +       ret =3D regmap_bulk_write(map, reg, buf, len);
+> > >> +       if (ret) {
+> > >> +               dev_err(regmap_get_device(map), "Error writing reg 0=
+x%4x: %d\n", reg, ret);
+> > >> +               if (err)
+> > >> +                       *err =3D ret;
+> > >> +       }
+> > >> +
+> > >> +       return ret;
+> > >> +}
+
+--=20
+With Best Regards,
+Andy Shevchenko
