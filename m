@@ -2,150 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 39BA072629F
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 16:20:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF5F47262B3
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 16:22:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241084AbjFGOUv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Jun 2023 10:20:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51342 "EHLO
+        id S240619AbjFGOWt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Jun 2023 10:22:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234809AbjFGOUu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 10:20:50 -0400
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA75D137;
-        Wed,  7 Jun 2023 07:20:48 -0700 (PDT)
-Received: by mail-io1-f46.google.com with SMTP id ca18e2360f4ac-7747df5b674so314526139f.3;
-        Wed, 07 Jun 2023 07:20:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686147648; x=1688739648;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Qwtf9R9VSv+Y8I0XvnZ+/3g2Cp2SZQu2rYgqlynwAcI=;
-        b=OfCTvRpgmm4+vLkaf/NQpTveRc3FCOvpofRwetlXTa8hb7U56rdlBwPGgVpIbe9vyf
-         53zQtHOhJNQ7SNtli7yz9tv3D5BzU1OcJMthTuEnzjP6rnChDu3MRnegYOK0JdIm8Mnb
-         vkSeXDjLTGLRJLigV1kCNX2HpjMsQPo/39bO0K1+jiQ8J7M2zlUHHzZ6wGH9MTgoG8CV
-         ZlN8p9F2ezAZ9wuk5Sk/cL/4/+y7gZsQnUPD09Su9gEr7SpMcBgLqaGqAwvN72rWDx87
-         yog16Hzaqm7jwBo5SG4+4c5bDCF4kR9wUzEcHI/NqNWP7Oq9WxSem01Y4I7kKCDtfXUy
-         QNEw==
-X-Gm-Message-State: AC+VfDzr9h13OuZQ1twPQYyI9xpRbCc2Ts6Pk/IVk+4uPQNQ1D5hMLsb
-        jjCjNpZH1rAg9EgDAPX/nL0GCwj5fA==
-X-Google-Smtp-Source: ACHHUZ5xYGAA8MJty/IEsZp0yPmtoVPUUviakCuG4nBM9YuwbDWA56sxdqrmdni+Sf4I48rT/OXrqg==
-X-Received: by 2002:a5e:a909:0:b0:74c:c6ed:6de with SMTP id c9-20020a5ea909000000b0074cc6ed06demr8800515iod.12.1686147648114;
-        Wed, 07 Jun 2023 07:20:48 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id f9-20020a056638118900b00418ad0ca629sm1427219jas.49.2023.06.07.07.20.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jun 2023 07:20:47 -0700 (PDT)
-Received: (nullmailer pid 3072441 invoked by uid 1000);
-        Wed, 07 Jun 2023 14:20:44 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S240540AbjFGOWs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 10:22:48 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0986C1BCC
+        for <linux-media@vger.kernel.org>; Wed,  7 Jun 2023 07:22:46 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1q6u3h-00Gq1d-5T; Wed, 07 Jun 2023 14:22:45 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1q6u3e-002Lhg-UX; Wed, 07 Jun 2023 14:22:42 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v6.5] v2: mediatek: vcodec: Add debugfs file for decode (#92381)
+Date:   Wed,  7 Jun 2023 14:22:42 +0000
+Message-Id: <20230607142242.560038-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <8ba16cbc-5ff5-067d-d9d5-c7bd51a6a4f7@xs4all.nl>
+References: 
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Tommaso Merciai <tomm.merciai@gmail.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Michael Riesch <michael.riesch@wolfvision.net>,
-        Mark Brown <broonie@kernel.org>, michael.roeder@avnet.eu,
-        martin.hecht@avnet.eu, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, linuxfancy@googlegroups.com,
-        jacopo.mondi@ideasonboard.com, Conor Dooley <conor+dt@kernel.org>,
-        Gerald Loacker <gerald.loacker@wolfvision.net>,
-        Nicholas Roth <nicholas@rothemail.net>,
-        =?utf-8?q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>,
-        laurent.pinchart@ideasonboard.com,
-        Mikhail Rudenko <mike.rudenko@gmail.com>
-In-Reply-To: <20230607131936.382406-3-tomm.merciai@gmail.com>
-References: <20230607131936.382406-1-tomm.merciai@gmail.com>
- <20230607131936.382406-3-tomm.merciai@gmail.com>
-Message-Id: <168614764466.3072404.16058504735971429157.robh@kernel.org>
-Subject: Re: [PATCH v4 2/3] media: dt-bindings: alvium: add document YAML
- binding
-Date:   Wed, 07 Jun 2023 08:20:44 -0600
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+From: builder@linuxtv.org
 
-On Wed, 07 Jun 2023 15:19:24 +0200, Tommaso Merciai wrote:
-> Add documentation of device tree in YAML schema for the ALVIUM
-> Camera from Allied Vision Inc.
-> 
-> References:
->  - https://www.alliedvision.com/en/products/embedded-vision-solutions
-> 
-> Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
-> Changes since v1:
->  - Fixed build error as suggested by RHerring bot
-> 
-> Changes since v2:
->  - Fixed License as suggested by KKozlowski/CDooley
->  - Removed rotation property as suggested by CDooley/LPinchart
->  - Fixed example node name as suggested by CDooley
->  - Fixed title as suggested by LPinchart
->  - Fixed compatible name as suggested by LPinchart
->  - Removed clock as suggested by LPinchart
->  - Removed gpios not as suggested by LPinchart
->  - Renamed property name streamon-delay into alliedvision,lp2hs-delay-us
->  - Fixed vendor prefix, unit append as suggested by KKozlowski
->  - Fixed data-lanes
->  - Fixed blank space + example indentation (from 6 -> 4 space) as suggested by KKozlowski
->  - Dropped status into example  as suggested by KKozlowski
->  - Added vcc-ext-in supply as suggested by LPinchart
->  - Dropped pinctrl into example as suggested by LPinchart
-> 
-> Changes since v3:
->  - Fixed vcc-ext-in-supply description as suggested by LPinchart
->  - Fixed alliedvision,lp2hs-delay-us description as suggested by LPinchart
->  - Added maximum to alliedvision,lp2hs-delay-us as suggested by LPinchart
->  - Collected Reviewed-by tag from LPinchart
-> 
->  .../media/i2c/alliedvision,alvium-csi2.yaml   | 96 +++++++++++++++++++
->  1 file changed, 96 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.yaml
-> 
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/8ba16cbc-5ff5-067d-d9d5-c7bd51a6a4f7@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/312699/
+Build time: 00:20:39
+Link: https://lore.kernel.org/linux-media/8ba16cbc-5ff5-067d-d9d5-c7bd51a6a4f7@xs4all.nl
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+gpg: Signature made Wed 07 Jun 2023 01:45:54 PM UTC
+gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
 
-yamllint warnings/errors:
+Summary: got 7/8 patches with issues, being 7 at build time, plus one error when buinding PDF document
 
-dtschema/dtc warnings/errors:
-./Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.yaml: $id: relative path/filename doesn't match actual path or filename
-	expected: http://devicetree.org/schemas/media/i2c/alliedvision,alvium-csi2.yaml#
+Error/warnings:
 
-doc reference errors (make refcheckdocs):
+patches/0001-media-mediatek-vcodec-Add-debugfs-interface-to-get-d.patch:
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230607131936.382406-3-tomm.merciai@gmail.com
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	SPARSE:../drivers/staging/media/tegra-video/vip.c ../drivers/staging/media/tegra-video/vip.c:280:24: warning: symbol 'tegra_vip_driver' was not declared. Should it be static?
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:416 ov2680_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:212 gc0310_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3013 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3112 atomisp_cp_morph_table() warn: missing unwind goto?
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+    allyesconfig: return code #512:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: In function ‘mtk_vcodec_dbgfs_init’:
+	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:15:17: error: variable ‘vcodec_root’ set but not used [-Werror=unused-but-set-variable]
+	cc1: all warnings being treated as errors
+	make[7]: *** [../scripts/Makefile.build:252: drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.o] Error 1
+	make[6]: *** [../scripts/Makefile.build:494: drivers/media/platform/mediatek/vcodec] Error 2
+	make[6]: *** Waiting for unfinished jobs....
+	make[5]: *** [../scripts/Makefile.build:494: drivers/media/platform/mediatek] Error 2
+	make[4]: *** [../scripts/Makefile.build:494: drivers/media/platform] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000032Kb sm_state_count = 1967511
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 55 seconds
+	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
+	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	make[3]: *** [../scripts/Makefile.build:494: drivers/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:494: drivers] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:2026: .] Error 2
+	make: *** [Makefile:226: __sub-make] Error 2
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+   checkpatch.pl:
+	$ cat patches/0001-media-mediatek-vcodec-Add-debugfs-interface-to-get-d.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:38: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+	-:74: WARNING: Prefer "GPL" over "GPL v2" - see commit bf7fbeeae6db ("module: Cure the MODULE_LICENSE "GPL" vs. "GPL v2" bogosity")
 
-pip3 install dtschema --upgrade
+patches/0002-media-mediatek-vcodec-Add-debug-params-to-control-di.patch:
 
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+    allyesconfig: return code #0:
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2775 mxc_jpeg_probe() warn: missing unwind goto?
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
+	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+
+   checkpatch.pl:
+	$ cat patches/0002-media-mediatek-vcodec-Add-debug-params-to-control-di.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:74: CHECK: Macro argument reuse 'h' - possible side-effects?
+
+patches/0003-media-mediatek-vcodec-Add-a-debugfs-file-to-get-diff.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: ../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:56 mtk_vcodec_dbgfs_remove() error: we previously assumed 'dbgfs_inst' could be null (see line 57)
+
+   checkpatch.pl:
+	$ cat patches/0003-media-mediatek-vcodec-Add-a-debugfs-file-to-get-diff.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:136: CHECK: struct mutex definition without comment
+
+patches/0004-media-mediatek-vcodec-Get-each-context-resolution-in.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: ../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:98 mtk_vcodec_dbgfs_remove() error: we previously assumed 'dbgfs_inst' could be null (see line 99)
+
+patches/0005-media-mediatek-vcodec-Get-each-instance-format-type.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: ../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:146 mtk_vcodec_dbgfs_remove() error: we previously assumed 'dbgfs_inst' could be null (see line 147)
+
+patches/0006-media-mediatek-vcodec-Change-dbgfs-interface-to-supp.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: ../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:146 mtk_vcodec_dbgfs_remove() error: we previously assumed 'dbgfs_inst' could be null (see line 147)
+
+patches/0008-media-mediatek-vcodec-Add-dbgfs-help-function.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: ../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:168 mtk_vcodec_dbgfs_remove() error: we previously assumed 'dbgfs_inst' could be null (see line 169)
+
+
+Error #512 when building PDF docs
 
