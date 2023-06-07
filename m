@@ -2,42 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF5F47262B3
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 16:22:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F022D72636F
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 16:55:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240619AbjFGOWt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Jun 2023 10:22:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52624 "EHLO
+        id S241223AbjFGOzv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Jun 2023 10:55:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240540AbjFGOWs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 10:22:48 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0986C1BCC
-        for <linux-media@vger.kernel.org>; Wed,  7 Jun 2023 07:22:46 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1q6u3h-00Gq1d-5T; Wed, 07 Jun 2023 14:22:45 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1q6u3e-002Lhg-UX; Wed, 07 Jun 2023 14:22:42 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v6.5] v2: mediatek: vcodec: Add debugfs file for decode (#92381)
-Date:   Wed,  7 Jun 2023 14:22:42 +0000
-Message-Id: <20230607142242.560038-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <8ba16cbc-5ff5-067d-d9d5-c7bd51a6a4f7@xs4all.nl>
-References: 
+        with ESMTP id S240940AbjFGOzq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 10:55:46 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C176B19BC
+        for <linux-media@vger.kernel.org>; Wed,  7 Jun 2023 07:55:44 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (om126233170111.36.openmobile.ne.jp [126.233.170.111])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A6BEC74C;
+        Wed,  7 Jun 2023 16:55:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1686149715;
+        bh=2CCFIRlbcijUSAg9uAfRd4ptyMDYSR9BYg4kPVDt16Q=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=QvIY50Cma5BTYAC2Oi0NTlQCeV7gNNA2mV9QGyx+6d9FhM57P8xLxuAWAMAnAEyH+
+         x6Nx69thDFci8fCfKiCUU0AUHhA70ON6PSdIhjbDLLqu2zn/edFTFm0CwmatExzRaT
+         49jKVK4NfEDc0CFbH0DoYPYOVnrTxA2LxzfDMvWw=
+Date:   Wed, 7 Jun 2023 17:55:38 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/3] media: Add MIPI CCI register access helper functions
+Message-ID: <20230607145538.GB22127@pendragon.ideasonboard.com>
+References: <20230606165808.70751-1-hdegoede@redhat.com>
+ <20230606165808.70751-2-hdegoede@redhat.com>
+ <CAHp75Vd6TPfZhPEDUdAj0Y7G8fQDPKQhmcY_tDWmN7VHBpXL0w@mail.gmail.com>
+ <0760b8ba-0091-5270-5e46-9787a910bd6f@redhat.com>
+ <ZIBxhg1LVL8+zBCE@kekkonen.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+In-Reply-To: <ZIBxhg1LVL8+zBCE@kekkonen.localdomain>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -46,103 +53,229 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hello,
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/8ba16cbc-5ff5-067d-d9d5-c7bd51a6a4f7@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/312699/
-Build time: 00:20:39
-Link: https://lore.kernel.org/linux-media/8ba16cbc-5ff5-067d-d9d5-c7bd51a6a4f7@xs4all.nl
+On Wed, Jun 07, 2023 at 12:01:10PM +0000, Sakari Ailus wrote:
+> On Wed, Jun 07, 2023 at 10:40:34AM +0200, Hans de Goede wrote:
+> > On 6/6/23 22:43, Andy Shevchenko wrote:
+> > > On Tue, Jun 6, 2023 at 7:58 PM Hans de Goede wrote:
+> > >>
+> > >> The CSI2 specification specifies a standard method to access camera sensor
+> > >> registers called "Camera Control Interface (CCI)".
+> > >>
+> > >> This uses either 8 or 16 bit (big-endian wire order) register addresses
+> > >> and supports 8, 16, 24 or 32 bit (big-endian wire order) register widths.
+> > >>
+> > >> Currently a lot of Linux camera sensor drivers all have their own custom
+> > >> helpers for this, often copy and pasted from other drivers.
+> > >>
+> > >> Add a set of generic helpers for this so that all sensor drivers can
+> > >> switch to a single common implementation.
+> > >>
+> > >> These helpers take an extra optional "int *err" function parameter,
+> > >> this can be used to chain a bunch of register accesses together with
+> > >> only a single error check at the end, rather then needing to error
+> > >> check each individual register access. The first failing call will
+> > >> set the contents of err to a non 0 value and all other calls will
+> > >> then become no-ops.
+> > > 
+> > > ...
+> > > 
+> > >> +#include <linux/delay.h>
+> > >> +#include <linux/dev_printk.h>
+> > >> +#include <linux/module.h>
+> > >> +#include <linux/regmap.h>
+> > > 
+> > > + types.h
+> > > 
+> > >> +#include <media/v4l2-cci.h>
+> > > 
+> > >> +int cci_read(struct regmap *map, u32 reg, u32 *val, int *err)
+> > >> +{
+> > >> +       int i, len, ret;
+> > >> +       u8 buf[4];
+> > >> +
+> > >> +       if (err && *err)
+> > >> +               return *err;
+> > >> +
+> > >> +       /* Set len to register width in bytes */
+> > >> +       len = ((reg & CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT) + 1;
+> > >> +       reg &= CCI_REG_ADDR_MASK;
+> > >> +
+> > >> +       ret = regmap_bulk_read(map, reg, buf, len);
+> > >> +       if (ret) {
+> > >> +               dev_err(regmap_get_device(map), "Error reading reg 0x%4x: %d\n", reg, ret);
+> > >> +               if (err)
+> > >> +                       *err = ret;
+> > >> +
+> > >> +               return ret;
+> > >> +       }
+> > >> +
+> > >> +       *val = 0;
+> > >> +       for (i = 0; i < len; i++) {
+> > >> +               *val <<= 8;
+> > >> +               *val |= buf[i];
+> > >> +       }
+> > > 
+> > > I really prefer to see put_unaligned() here depending on the length.
+> > > Note, that on some CPUs it might be one assembly instruction or even
+> > > none, depending on how the result is going to be used.
+> > 
+> > Ok, so you mean changing it to something like this:
+> > 
+> > 	switch (len)
+> > 	case 1:
+> > 		*val = buf[0];
+> > 		break;
+> > 	case 2:
+> > 		*val = get_unaligned_be16(buf);
+> > 		break;
+> > 	case 3:
+> > 		*val = __get_unaligned_be24(buf);
+> > 		break;
+> > 	case 4:
+> > 		*val = get_unaligned_be32(buf);
+> > 		break;
+> > 	}
+> 
+> I think the loop looks nicer but I'm fine with this as well.
+> 
+> > ?
+> > 
+> > >> +       return 0;
+> > >> +}
+> > >> +EXPORT_SYMBOL_GPL(cci_read);
+> > > 
+> > > Can we have it namespaced?
+> > 
+> > I'm not sure if having just these 5 symbols in their own namespace
+> > is worth it. SO far the media subsystem is not using module/symbol
+> > namespacing at all.
+> > 
+> > Sakari, Laurent, any opinions on this ?
+> 
+> Regmap nor V4L2 use it so I wouldn't use it here either.
 
-gpg: Signature made Wed 07 Jun 2023 01:45:54 PM UTC
-gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+Ditto.
 
-Summary: got 7/8 patches with issues, being 7 at build time, plus one error when buinding PDF document
+> > >> +int cci_write(struct regmap *map, u32 reg, u32 val, int *err)
+> > >> +{
+> > >> +       int i, len, ret;
+> > >> +       u8 buf[4];
+> > >> +
+> > >> +       if (err && *err)
+> > >> +               return *err;
+> > >> +
+> > >> +       /* Set len to register width in bytes */
+> > >> +       len = ((reg & CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT) + 1;
+> > >> +       reg &= CCI_REG_ADDR_MASK;
+> > >> +
+> > >> +       for (i = 0; i < len; i++) {
+> > >> +               buf[len - i - 1] = val & 0xff;
+> > >> +               val >>= 8;
+> > >> +       }
+> > >> +
+> > >> +       ret = regmap_bulk_write(map, reg, buf, len);
+> > >> +       if (ret) {
+> > >> +               dev_err(regmap_get_device(map), "Error writing reg 0x%4x: %d\n", reg, ret);
+> > >> +               if (err)
+> > >> +                       *err = ret;
+> > >> +       }
+> > >> +
+> > >> +       return ret;
+> > >> +}
+> > >> +EXPORT_SYMBOL_GPL(cci_write);
+> > > 
+> > > Same comments as per above function.
+> > > 
+> > > ...
+> > > 
+> > >> +               if (regs[i].delay_us)
+> > > 
+> > > I'm wondering why fsleep() doesn't have this check? Or does it?
+> > > 
+> > >> +                       fsleep(regs[i].delay_us);
+> > > 
+> > > ...
+> > > 
+> > >> +struct regmap *cci_regmap_init_i2c(struct i2c_client *client, int reg_addr_bits)
+> > >> +{
+> > >> +       struct regmap_config config = {
+> > >> +               .reg_bits = reg_addr_bits,
+> > >> +               .val_bits = 8,
+> > >> +               .reg_format_endian = REGMAP_ENDIAN_BIG,
+> > > 
+> > > Is the lock required?
+> > > If so, how is it helpful?
+> > 
+> > Interesting questions sensor drivers typically already do
+> > their own locking.
+> > 
+> > So I guess we could indeed tell regmap to skip locking here.
+> > 
+> > Sakari, Laurent any opinion on this ?
+> 
+> There are loops here so it won't be atomic in any case.
+> 
+> Generally drivers indeed already take care of this. I don't think we need
+> locking on this level.
 
-Error/warnings:
+Agreed.
 
-patches/0001-media-mediatek-vcodec-Add-debugfs-interface-to-get-d.patch:
+> > > Can we move this outside as static const?
+> > 
+> > No, because reg_bits is not const.
+> > 
+> > >> +       };
+> > >> +
+> > >> +       return devm_regmap_init_i2c(client, &config);
+> > >> +}
+> > > 
+> > > ...
+> > > 
+> > >> +#ifndef _V4L2_CCI_H
+> > >> +#define _V4L2_CCI_H
+> > > 
+> > > + bits.h
+> > > 
+> > >> +#include <linux/regmap.h>
+> > > 
+> > > Not used, rather requires forward declarations of
+> > > 
+> > > struct regmap
+> > > struct reg_sequence
+> > 
+> > Ack, I'll change this for the next version.
+> > 
+> > > Also note missing i2c_client forward declaration.
+> > 
+> > That was also taken care of by regmap.h.
+> > 
+> > >> +#include <linux/types.h>
+> > >> +
+> > >> +/*
+> > >> + * Note cci_reg_8 deliberately is 0, not 1, so that raw
+> > >> + * (not wrapped in a CCI_REG*() macro) register addresses
+> > >> + * do 8 bit wide accesses. This allows unchanged use of register
+> > >> + * initialization lists of raw address, value pairs which only
+> > >> + * do 8 bit width accesses. Which makes porting drivers easier.
+> > >> + */
+> > >> +enum cci_reg_type {
+> > >> +       cci_reg_8 = 0,
+> > > 
+> > > But this is guaranteed by the C standard... See also below.
+> > > 
+> > >> +       cci_reg_16,
+> > > 
+> > > But this one becomes 1, so the above comment doesn't clarify why it's
+> > > okay to have it 1 and not 2.
+> > 
+> > Basically the idea is that the enum value is the reg-width in bytes - 1
+> > where the - 1 is there so that cci_reg_8 = 0 .
+> 
+> I'm fine with the comment.
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-	SPARSE:../drivers/staging/media/tegra-video/vip.c ../drivers/staging/media/tegra-video/vip.c:280:24: warning: symbol 'tegra_vip_driver' was not declared. Should it be static?
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:416 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:212 gc0310_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3013 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3112 atomisp_cp_morph_table() warn: missing unwind goto?
+-- 
+Regards,
 
-    allyesconfig: return code #512:
-	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: In function ‘mtk_vcodec_dbgfs_init’:
-	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:15:17: error: variable ‘vcodec_root’ set but not used [-Werror=unused-but-set-variable]
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:252: drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.o] Error 1
-	make[6]: *** [../scripts/Makefile.build:494: drivers/media/platform/mediatek/vcodec] Error 2
-	make[6]: *** Waiting for unfinished jobs....
-	make[5]: *** [../scripts/Makefile.build:494: drivers/media/platform/mediatek] Error 2
-	make[4]: *** [../scripts/Makefile.build:494: drivers/media/platform] Error 2
-	make[4]: *** Waiting for unfinished jobs....
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000032Kb sm_state_count = 1967511
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 55 seconds
-	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
-	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-	make[3]: *** [../scripts/Makefile.build:494: drivers/media] Error 2
-	make[2]: *** [../scripts/Makefile.build:494: drivers] Error 2
-	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:2026: .] Error 2
-	make: *** [Makefile:226: __sub-make] Error 2
-
-   checkpatch.pl:
-	$ cat patches/0001-media-mediatek-vcodec-Add-debugfs-interface-to-get-d.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:38: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-	-:74: WARNING: Prefer "GPL" over "GPL v2" - see commit bf7fbeeae6db ("module: Cure the MODULE_LICENSE "GPL" vs. "GPL v2" bogosity")
-
-patches/0002-media-mediatek-vcodec-Add-debug-params-to-control-di.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2775 mxc_jpeg_probe() warn: missing unwind goto?
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
-	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
-
-   checkpatch.pl:
-	$ cat patches/0002-media-mediatek-vcodec-Add-debug-params-to-control-di.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:74: CHECK: Macro argument reuse 'h' - possible side-effects?
-
-patches/0003-media-mediatek-vcodec-Add-a-debugfs-file-to-get-diff.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: ../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:56 mtk_vcodec_dbgfs_remove() error: we previously assumed 'dbgfs_inst' could be null (see line 57)
-
-   checkpatch.pl:
-	$ cat patches/0003-media-mediatek-vcodec-Add-a-debugfs-file-to-get-diff.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:136: CHECK: struct mutex definition without comment
-
-patches/0004-media-mediatek-vcodec-Get-each-context-resolution-in.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: ../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:98 mtk_vcodec_dbgfs_remove() error: we previously assumed 'dbgfs_inst' could be null (see line 99)
-
-patches/0005-media-mediatek-vcodec-Get-each-instance-format-type.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: ../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:146 mtk_vcodec_dbgfs_remove() error: we previously assumed 'dbgfs_inst' could be null (see line 147)
-
-patches/0006-media-mediatek-vcodec-Change-dbgfs-interface-to-supp.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: ../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:146 mtk_vcodec_dbgfs_remove() error: we previously assumed 'dbgfs_inst' could be null (see line 147)
-
-patches/0008-media-mediatek-vcodec-Add-dbgfs-help-function.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: ../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:168 mtk_vcodec_dbgfs_remove() error: we previously assumed 'dbgfs_inst' could be null (see line 169)
-
-
-Error #512 when building PDF docs
-
+Laurent Pinchart
