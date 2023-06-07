@@ -2,280 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F022D72636F
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 16:55:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36750726412
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 17:20:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241223AbjFGOzv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Jun 2023 10:55:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44056 "EHLO
+        id S241052AbjFGPUj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Jun 2023 11:20:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240940AbjFGOzq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 10:55:46 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C176B19BC
-        for <linux-media@vger.kernel.org>; Wed,  7 Jun 2023 07:55:44 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (om126233170111.36.openmobile.ne.jp [126.233.170.111])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A6BEC74C;
-        Wed,  7 Jun 2023 16:55:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1686149715;
-        bh=2CCFIRlbcijUSAg9uAfRd4ptyMDYSR9BYg4kPVDt16Q=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QvIY50Cma5BTYAC2Oi0NTlQCeV7gNNA2mV9QGyx+6d9FhM57P8xLxuAWAMAnAEyH+
-         x6Nx69thDFci8fCfKiCUU0AUHhA70ON6PSdIhjbDLLqu2zn/edFTFm0CwmatExzRaT
-         49jKVK4NfEDc0CFbH0DoYPYOVnrTxA2LxzfDMvWw=
-Date:   Wed, 7 Jun 2023 17:55:38 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        with ESMTP id S235753AbjFGPUg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 11:20:36 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0716FC;
+        Wed,  7 Jun 2023 08:20:34 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-976a0a1a92bso932340266b.1;
+        Wed, 07 Jun 2023 08:20:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686151233; x=1688743233;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rNJDIjs7Ttsy90T0MogpvFCvyK09YUh2d0LVsS1aFR4=;
+        b=jvNbKeOohtzqxi3YAtZ3RViRK0eiOkIjU48fk6JPlGSAnwI0oSa2G2GpXt0p5fOdus
+         Z56XRPdi8XBufhlolqizYsbWxzPsVYUF8nkeAv9VCapNX3isKJ62K3ORW1tKT+GEqipw
+         U4NkEhNxHpnjfikq2bfbJaOt3+zAIh100sFRRf1dGuyYnPtWzz7w2yrmGGUKKlbzOux6
+         z7HPKGSn1c/8hJmrC5bKJ3QJPGZeeA31TvMSQfAZLthZb78/7G0scq4+GpqtgprhTaSo
+         kAj3KyD6LH2qpUa5C5lXm6qag62R3ioCtiIvX5y4pDUsUlLqfvhAebZ4btG+WxnAZGAz
+         yJ1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686151233; x=1688743233;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rNJDIjs7Ttsy90T0MogpvFCvyK09YUh2d0LVsS1aFR4=;
+        b=gMf33uQU+l/JYU+4aLRuYlmFIXJZdrNqWJoxYa1K6yXjZO4LSc02wxkozsS9v8+Jcm
+         +jDmU3ZOlh1xj/fLx04lPGCJ+cfzM+itS7TM4eXUJuPbQ0176r7xV6A+FAOR8hEmMtXM
+         0KK9UX2Gs2/RqZ1L8dtFxD3c1jx1j+54oD77Hi0fzlTchkZnhqsnSnKvSIsWCyG8goMQ
+         sqFCbmYkB9n8nBJLJxlTD969BVwYpEMCQUXOYALz3oyyMbnCB8ECLvv7tujfEb4BYJzr
+         GBEmcnacOOG9liHdRmdqREXrZDr3WkOVGMmQcTCTEB+FlZsD5qFTJR1TJ4sLSPhIUxPw
+         YDHw==
+X-Gm-Message-State: AC+VfDzItf80WogYBgXPCURShczyDuTlAiTxqa2gnn4ltEu6sc8ZeGTs
+        CZdho5OWUaZ2T68au/ApBKM=
+X-Google-Smtp-Source: ACHHUZ7qLvIh+FyK7dUofUEvP/IpPwPimm3tWDeTEal81mKPuhi2e5fDWSijXXGjO8ieLBSs7kJlyw==
+X-Received: by 2002:a17:907:6e0e:b0:973:71c3:8b21 with SMTP id sd14-20020a1709076e0e00b0097371c38b21mr6301469ejc.72.1686151232974;
+        Wed, 07 Jun 2023 08:20:32 -0700 (PDT)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-50-121.cust.vodafonedsl.it. [188.217.50.121])
+        by smtp.gmail.com with ESMTPSA id k5-20020aa7c045000000b00514b854c399sm6410932edo.84.2023.06.07.08.20.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jun 2023 08:20:32 -0700 (PDT)
+Date:   Wed, 7 Jun 2023 17:20:29 +0200
+From:   Tommaso Merciai <tomm.merciai@gmail.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com,
+        martin.hecht@avnet.eu, michael.roeder@avnet.eu,
+        linuxfancy@googlegroups.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/3] media: Add MIPI CCI register access helper functions
-Message-ID: <20230607145538.GB22127@pendragon.ideasonboard.com>
-References: <20230606165808.70751-1-hdegoede@redhat.com>
- <20230606165808.70751-2-hdegoede@redhat.com>
- <CAHp75Vd6TPfZhPEDUdAj0Y7G8fQDPKQhmcY_tDWmN7VHBpXL0w@mail.gmail.com>
- <0760b8ba-0091-5270-5e46-9787a910bd6f@redhat.com>
- <ZIBxhg1LVL8+zBCE@kekkonen.localdomain>
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Gerald Loacker <gerald.loacker@wolfvision.net>,
+        Mikhail Rudenko <mike.rudenko@gmail.com>,
+        Nicholas Roth <nicholas@rothemail.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Michael Riesch <michael.riesch@wolfvision.net>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Shawn Tu <shawnx.tu@intel.com>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 2/3] media: dt-bindings: alvium: add document YAML
+ binding
+Message-ID: <ZICgPUDv+GjK4C5t@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20230607131936.382406-1-tomm.merciai@gmail.com>
+ <20230607131936.382406-3-tomm.merciai@gmail.com>
+ <17971357-523c-f907-13a9-8f7abce90c24@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZIBxhg1LVL8+zBCE@kekkonen.localdomain>
+In-Reply-To: <17971357-523c-f907-13a9-8f7abce90c24@linaro.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi Krzysztof,
 
-On Wed, Jun 07, 2023 at 12:01:10PM +0000, Sakari Ailus wrote:
-> On Wed, Jun 07, 2023 at 10:40:34AM +0200, Hans de Goede wrote:
-> > On 6/6/23 22:43, Andy Shevchenko wrote:
-> > > On Tue, Jun 6, 2023 at 7:58 PM Hans de Goede wrote:
-> > >>
-> > >> The CSI2 specification specifies a standard method to access camera sensor
-> > >> registers called "Camera Control Interface (CCI)".
-> > >>
-> > >> This uses either 8 or 16 bit (big-endian wire order) register addresses
-> > >> and supports 8, 16, 24 or 32 bit (big-endian wire order) register widths.
-> > >>
-> > >> Currently a lot of Linux camera sensor drivers all have their own custom
-> > >> helpers for this, often copy and pasted from other drivers.
-> > >>
-> > >> Add a set of generic helpers for this so that all sensor drivers can
-> > >> switch to a single common implementation.
-> > >>
-> > >> These helpers take an extra optional "int *err" function parameter,
-> > >> this can be used to chain a bunch of register accesses together with
-> > >> only a single error check at the end, rather then needing to error
-> > >> check each individual register access. The first failing call will
-> > >> set the contents of err to a non 0 value and all other calls will
-> > >> then become no-ops.
-> > > 
-> > > ...
-> > > 
-> > >> +#include <linux/delay.h>
-> > >> +#include <linux/dev_printk.h>
-> > >> +#include <linux/module.h>
-> > >> +#include <linux/regmap.h>
-> > > 
-> > > + types.h
-> > > 
-> > >> +#include <media/v4l2-cci.h>
-> > > 
-> > >> +int cci_read(struct regmap *map, u32 reg, u32 *val, int *err)
-> > >> +{
-> > >> +       int i, len, ret;
-> > >> +       u8 buf[4];
-> > >> +
-> > >> +       if (err && *err)
-> > >> +               return *err;
-> > >> +
-> > >> +       /* Set len to register width in bytes */
-> > >> +       len = ((reg & CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT) + 1;
-> > >> +       reg &= CCI_REG_ADDR_MASK;
-> > >> +
-> > >> +       ret = regmap_bulk_read(map, reg, buf, len);
-> > >> +       if (ret) {
-> > >> +               dev_err(regmap_get_device(map), "Error reading reg 0x%4x: %d\n", reg, ret);
-> > >> +               if (err)
-> > >> +                       *err = ret;
-> > >> +
-> > >> +               return ret;
-> > >> +       }
-> > >> +
-> > >> +       *val = 0;
-> > >> +       for (i = 0; i < len; i++) {
-> > >> +               *val <<= 8;
-> > >> +               *val |= buf[i];
-> > >> +       }
-> > > 
-> > > I really prefer to see put_unaligned() here depending on the length.
-> > > Note, that on some CPUs it might be one assembly instruction or even
-> > > none, depending on how the result is going to be used.
+On Wed, Jun 07, 2023 at 04:18:48PM +0200, Krzysztof Kozlowski wrote:
+> On 07/06/2023 15:19, Tommaso Merciai wrote:
+> > Add documentation of device tree in YAML schema for the ALVIUM
+> > Camera from Allied Vision Inc.
 > > 
-> > Ok, so you mean changing it to something like this:
+> > References:
+> >  - https://www.alliedvision.com/en/products/embedded-vision-solutions
 > > 
-> > 	switch (len)
-> > 	case 1:
-> > 		*val = buf[0];
-> > 		break;
-> > 	case 2:
-> > 		*val = get_unaligned_be16(buf);
-> > 		break;
-> > 	case 3:
-> > 		*val = __get_unaligned_be24(buf);
-> > 		break;
-> > 	case 4:
-> > 		*val = get_unaligned_be32(buf);
-> > 		break;
-> > 	}
+> > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> > Changes since v1:
+> >  - Fixed build error as suggested by RHerring bot
+> > 
+> > Changes since v2:
+> >  - Fixed License as suggested by KKozlowski/CDooley
+> >  - Removed rotation property as suggested by CDooley/LPinchart
+> >  - Fixed example node name as suggested by CDooley
+> >  - Fixed title as suggested by LPinchart
+> >  - Fixed compatible name as suggested by LPinchart
+> >  - Removed clock as suggested by LPinchart
+> >  - Removed gpios not as suggested by LPinchart
+> >  - Renamed property name streamon-delay into alliedvision,lp2hs-delay-us
+> >  - Fixed vendor prefix, unit append as suggested by KKozlowski
+> >  - Fixed data-lanes
+> >  - Fixed blank space + example indentation (from 6 -> 4 space) as suggested by KKozlowski
+> >  - Dropped status into example  as suggested by KKozlowski
+> >  - Added vcc-ext-in supply as suggested by LPinchart
+> >  - Dropped pinctrl into example as suggested by LPinchart
+> > 
+> > Changes since v3:
+> >  - Fixed vcc-ext-in-supply description as suggested by LPinchart
+> >  - Fixed alliedvision,lp2hs-delay-us description as suggested by LPinchart
+> >  - Added maximum to alliedvision,lp2hs-delay-us as suggested by LPinchart
+> >  - Collected Reviewed-by tag from LPinchart
 > 
-> I think the loop looks nicer but I'm fine with this as well.
-> 
-> > ?
-> > 
-> > >> +       return 0;
-> > >> +}
-> > >> +EXPORT_SYMBOL_GPL(cci_read);
-> > > 
-> > > Can we have it namespaced?
-> > 
-> > I'm not sure if having just these 5 symbols in their own namespace
-> > is worth it. SO far the media subsystem is not using module/symbol
-> > namespacing at all.
-> > 
-> > Sakari, Laurent, any opinions on this ?
-> 
-> Regmap nor V4L2 use it so I wouldn't use it here either.
+> You still did not test it before sending. Four versions of which none
+> were tested :(
 
-Ditto.
+You are right.. my bad. :'(
 
-> > >> +int cci_write(struct regmap *map, u32 reg, u32 val, int *err)
-> > >> +{
-> > >> +       int i, len, ret;
-> > >> +       u8 buf[4];
-> > >> +
-> > >> +       if (err && *err)
-> > >> +               return *err;
-> > >> +
-> > >> +       /* Set len to register width in bytes */
-> > >> +       len = ((reg & CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT) + 1;
-> > >> +       reg &= CCI_REG_ADDR_MASK;
-> > >> +
-> > >> +       for (i = 0; i < len; i++) {
-> > >> +               buf[len - i - 1] = val & 0xff;
-> > >> +               val >>= 8;
-> > >> +       }
-> > >> +
-> > >> +       ret = regmap_bulk_write(map, reg, buf, len);
-> > >> +       if (ret) {
-> > >> +               dev_err(regmap_get_device(map), "Error writing reg 0x%4x: %d\n", reg, ret);
-> > >> +               if (err)
-> > >> +                       *err = ret;
-> > >> +       }
-> > >> +
-> > >> +       return ret;
-> > >> +}
-> > >> +EXPORT_SYMBOL_GPL(cci_write);
-> > > 
-> > > Same comments as per above function.
-> > > 
-> > > ...
-> > > 
-> > >> +               if (regs[i].delay_us)
-> > > 
-> > > I'm wondering why fsleep() doesn't have this check? Or does it?
-> > > 
-> > >> +                       fsleep(regs[i].delay_us);
-> > > 
-> > > ...
-> > > 
-> > >> +struct regmap *cci_regmap_init_i2c(struct i2c_client *client, int reg_addr_bits)
-> > >> +{
-> > >> +       struct regmap_config config = {
-> > >> +               .reg_bits = reg_addr_bits,
-> > >> +               .val_bits = 8,
-> > >> +               .reg_format_endian = REGMAP_ENDIAN_BIG,
-> > > 
-> > > Is the lock required?
-> > > If so, how is it helpful?
-> > 
-> > Interesting questions sensor drivers typically already do
-> > their own locking.
-> > 
-> > So I guess we could indeed tell regmap to skip locking here.
-> > 
-> > Sakari, Laurent any opinion on this ?
-> 
-> There are loops here so it won't be atomic in any case.
-> 
-> Generally drivers indeed already take care of this. I don't think we need
-> locking on this level.
+After fixing id, as suggested by Laurent/bot into:
 
-Agreed.
+$id: http://devicetree.org/schemas/media/i2c/alliedvision,alvium-csi2.yaml#
 
-> > > Can we move this outside as static const?
-> > 
-> > No, because reg_bits is not const.
-> > 
-> > >> +       };
-> > >> +
-> > >> +       return devm_regmap_init_i2c(client, &config);
-> > >> +}
-> > > 
-> > > ...
-> > > 
-> > >> +#ifndef _V4L2_CCI_H
-> > >> +#define _V4L2_CCI_H
-> > > 
-> > > + bits.h
-> > > 
-> > >> +#include <linux/regmap.h>
-> > > 
-> > > Not used, rather requires forward declarations of
-> > > 
-> > > struct regmap
-> > > struct reg_sequence
-> > 
-> > Ack, I'll change this for the next version.
-> > 
-> > > Also note missing i2c_client forward declaration.
-> > 
-> > That was also taken care of by regmap.h.
-> > 
-> > >> +#include <linux/types.h>
-> > >> +
-> > >> +/*
-> > >> + * Note cci_reg_8 deliberately is 0, not 1, so that raw
-> > >> + * (not wrapped in a CCI_REG*() macro) register addresses
-> > >> + * do 8 bit wide accesses. This allows unchanged use of register
-> > >> + * initialization lists of raw address, value pairs which only
-> > >> + * do 8 bit width accesses. Which makes porting drivers easier.
-> > >> + */
-> > >> +enum cci_reg_type {
-> > >> +       cci_reg_8 = 0,
-> > > 
-> > > But this is guaranteed by the C standard... See also below.
-> > > 
-> > >> +       cci_reg_16,
-> > > 
-> > > But this one becomes 1, so the above comment doesn't clarify why it's
-> > > okay to have it 1 and not 2.
-> > 
-> > Basically the idea is that the enum value is the reg-width in bytes - 1
-> > where the - 1 is there so that cci_reg_8 = 0 .
-> 
-> I'm fine with the comment.
+I'm running the following test:
 
--- 
+make dt_binding_check DT_SCHEMA_FILES=alliedvision,alvium-csi2.yaml
+
+With the following result:
+
+  LINT    Documentation/devicetree/bindings
+  CHKDT   Documentation/devicetree/bindings/processed-schema.json
+  SCHEMA  Documentation/devicetree/bindings/processed-schema.json
+/home/tom/work/mainline/linux/Documentation/devicetree/bindings/media/i2c/.alliedvision,alvium-csi2.example.dts.pre.yaml: ignoring, error parsing file
+  DTEX    Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.example.dts
+  DTC_CHK Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.example.dtb
+
+Is that correct?
+Let me know. Thanks in advance :)
+
 Regards,
+Tommaso
 
-Laurent Pinchart
+> 
+> Best regards,
+> Krzysztof
+> 
