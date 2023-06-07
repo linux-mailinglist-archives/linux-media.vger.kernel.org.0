@@ -2,43 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 33BDE725834
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 10:44:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61010725865
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 10:47:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239081AbjFGIoc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Jun 2023 04:44:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47474 "EHLO
+        id S239203AbjFGIrx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Jun 2023 04:47:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235258AbjFGIob (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 04:44:31 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1BE71725;
-        Wed,  7 Jun 2023 01:44:29 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 397C8616EE;
-        Wed,  7 Jun 2023 08:44:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAC8BC433EF;
-        Wed,  7 Jun 2023 08:44:27 +0000 (UTC)
-Message-ID: <d9b1b2f9-7e53-5096-2c5b-c5d1c185fdd0@xs4all.nl>
-Date:   Wed, 7 Jun 2023 10:44:26 +0200
+        with ESMTP id S234914AbjFGIrv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 04:47:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E9DF18F
+        for <linux-media@vger.kernel.org>; Wed,  7 Jun 2023 01:47:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1686127623;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=fV4foV4mB8MkLGfuSAFW2ufvdYLONT6TLGvoUv/XQek=;
+        b=hPqZdsxxz6mHE38/QVHbu+XoImKoZPpijvY6CHUSOeb/hDnOR5LQ/3f+uht64nsxazFPOH
+        dLA4r5Kc7Xqsb/xC2dhwJshu5dtoWJS1T0LBQ1vuXfb4gHwMGAPRsMGH7yKt0TCgmhYTh/
+        EQLzMTW3bYHyWArzNy+X0nVvSy+tsSE=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-33-MIlDpweeOnCmMs46D9smGA-1; Wed, 07 Jun 2023 04:47:02 -0400
+X-MC-Unique: MIlDpweeOnCmMs46D9smGA-1
+Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-5149e1bd242so548332a12.3
+        for <linux-media@vger.kernel.org>; Wed, 07 Jun 2023 01:47:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686127621; x=1688719621;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fV4foV4mB8MkLGfuSAFW2ufvdYLONT6TLGvoUv/XQek=;
+        b=Ic4doW7CwZrm2RuVIMxHEj3KCbJVyzAATF9k7WnODmyOadhANUFc7GEsLaLttuigpk
+         jexam76qkE3hJ6afDZrTSxtc/oUKsBd8REedkTXPll9m44OJckp8dfiU9OJzALcDPAik
+         bNVkWLAAyjMA1rdTy/u+QFfqrakJaAO8CFvm7SUg7vYv8ldw0EYc7Hzqpm3lCBzZ6rr4
+         Myj+8qLcWzAtz9Meb1qOPZ0n8r2exW8V1DSfHDzZ1zEwPca+G3jJzL+Wa0PIrT+V8qxc
+         mPr/Bd5EujZZWF//0hLYGAogq8GRnxSlqWVSSJCcUt3ScbfLWvwvGwWjyHv95CgzW1sb
+         Uk5Q==
+X-Gm-Message-State: AC+VfDzz0H9JIekPiuHD2Ht3or37X3F/sFHdKdN8Lvi9l566Wc6gv1a7
+        ucJ5WNiJ9zsoB5btYr7xti9hLZ9062LPPwQMpZfD5r4iSyH1gE1zSQ2g/fCh3wShuOV1ev8iNPt
+        sCas8SrZPvqNLlU+r+xwHqbU=
+X-Received: by 2002:aa7:ce04:0:b0:50b:c397:bbac with SMTP id d4-20020aa7ce04000000b0050bc397bbacmr4102428edv.29.1686127620847;
+        Wed, 07 Jun 2023 01:47:00 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6MH7dWG+aF3S/JhrzQVuKenM/xlx8fm4TUACsh3BAeFgiIdcs2xp3iJ9w31dB6SjVZxqstNg==
+X-Received: by 2002:aa7:ce04:0:b0:50b:c397:bbac with SMTP id d4-20020aa7ce04000000b0050bc397bbacmr4102418edv.29.1686127620536;
+        Wed, 07 Jun 2023 01:47:00 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id u16-20020aa7d550000000b005149c3fa632sm6008000edr.13.2023.06.07.01.46.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Jun 2023 01:46:59 -0700 (PDT)
+Message-ID: <18c5eed5-e2f0-73ff-3c58-c43223e6f4ac@redhat.com>
+Date:   Wed, 7 Jun 2023 10:46:58 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [RESEND PATCH v6 0/1] Digiteq Automotive MGB4 driver
-Content-Language: en-US
-To:     tumic@gpxsee.org, Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?UTF-8?Q?Martin_T=c5=afma?= <martin.tuma@digiteqautomotive.com>
-References: <20230524112126.2242-1-tumic@gpxsee.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230524112126.2242-1-tumic@gpxsee.org>
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 1/3] media: Add MIPI CCI register access helper functions
+Content-Language: en-US, nl
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org
+References: <20230606165808.70751-1-hdegoede@redhat.com>
+ <20230606165808.70751-2-hdegoede@redhat.com>
+ <ZIA2ste/694cokGH@kekkonen.localdomain>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <ZIA2ste/694cokGH@kekkonen.localdomain>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -46,118 +83,286 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Martin,
+Hi Sakari,
 
-Thank you for this patch. I've reviewed it, so I'm looking forward to v7.
-
-On 24/05/2023 13:21, tumic@gpxsee.org wrote:
-> From: Martin Tůma <martin.tuma@digiteqautomotive.com>
+On 6/7/23 09:50, Sakari Ailus wrote:
+> Hi Hans,
 > 
-> Hi,
-> This patch adds a driver for the Digiteq Automotive MGB4 grabber card.
-> MGB4 is a modular frame grabber PCIe card for automotive video interfaces
-> (FPD-Link and GMSL for now). It is based on a Xilinx FPGA and uses their
-> XDMA IP core for DMA transfers. Additionally, Xilinx I2C and SPI IP cores
-> which already have drivers in linux are used in the design.
+> Thank you for the patchset.
 > 
-> The driver is a quite standard v4l2 driver, with one exception - there are
-> a lot of sysfs options that may/must be set before opening the v4l2 device
-> to adapt the card on a specific signal (see mgb4.rst for details)
-> as the card must be able to work with various signal sources (or displays)
-> that can not be auto-detected.
+> On Tue, Jun 06, 2023 at 06:58:06PM +0200, Hans de Goede wrote:
+>> The CSI2 specification specifies a standard method to access camera sensor
+>> registers called "Camera Control Interface (CCI)".
+>>
+>> This uses either 8 or 16 bit (big-endian wire order) register addresses
+>> and supports 8, 16, 24 or 32 bit (big-endian wire order) register widths.
+>>
+>> Currently a lot of Linux camera sensor drivers all have their own custom
+>> helpers for this, often copy and pasted from other drivers.
+>>
+>> Add a set of generic helpers for this so that all sensor drivers can
+>> switch to a single common implementation.
+>>
+>> These helpers take an extra optional "int *err" function parameter,
+>> this can be used to chain a bunch of register accesses together with
+>> only a single error check at the end, rather then needing to error
+>> check each individual register access. The first failing call will
+>> set the contents of err to a non 0 value and all other calls will
+>> then become no-ops.
+>>
+>> Link: https://lore.kernel.org/linux-media/59aefa7f-7bf9-6736-6040-39551329cd0a@redhat.com/
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
+>>  Documentation/driver-api/media/v4l2-cci.rst  |   5 +
+>>  Documentation/driver-api/media/v4l2-core.rst |   1 +
+>>  drivers/media/v4l2-core/Kconfig              |   5 +
+>>  drivers/media/v4l2-core/Makefile             |   1 +
+>>  drivers/media/v4l2-core/v4l2-cci.c           | 142 +++++++++++++++++++
+>>  include/media/v4l2-cci.h                     | 109 ++++++++++++++
+>>  6 files changed, 263 insertions(+)
+>>  create mode 100644 Documentation/driver-api/media/v4l2-cci.rst
+>>  create mode 100644 drivers/media/v4l2-core/v4l2-cci.c
+>>  create mode 100644 include/media/v4l2-cci.h
+>>
+>> diff --git a/Documentation/driver-api/media/v4l2-cci.rst b/Documentation/driver-api/media/v4l2-cci.rst
+>> new file mode 100644
+>> index 000000000000..dd297a40ed20
+>> --- /dev/null
+>> +++ b/Documentation/driver-api/media/v4l2-cci.rst
+>> @@ -0,0 +1,5 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>> +V4L2 CCI kAPI
+>> +^^^^^^^^^^^^^
+>> +.. kernel-doc:: include/media/v4l2-cci.h
+>> diff --git a/Documentation/driver-api/media/v4l2-core.rst b/Documentation/driver-api/media/v4l2-core.rst
+>> index 1a8c4a5f256b..239045ecc8f4 100644
+>> --- a/Documentation/driver-api/media/v4l2-core.rst
+>> +++ b/Documentation/driver-api/media/v4l2-core.rst
+>> @@ -22,6 +22,7 @@ Video4Linux devices
+>>      v4l2-mem2mem
+>>      v4l2-async
+>>      v4l2-fwnode
+>> +    v4l2-cci
+>>      v4l2-rect
+>>      v4l2-tuner
+>>      v4l2-common
+>> diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
+>> index 348559bc2468..523ba243261d 100644
+>> --- a/drivers/media/v4l2-core/Kconfig
+>> +++ b/drivers/media/v4l2-core/Kconfig
+>> @@ -74,6 +74,11 @@ config V4L2_FWNODE
+>>  config V4L2_ASYNC
+>>  	tristate
+>>  
+>> +config V4L2_CCI
+>> +	tristate
+>> +	depends on I2C
+>> +	select REGMAP_I2C
+>> +
+>>  # Used by drivers that need Videobuf modules
+>>  config VIDEOBUF_GEN
+>>  	tristate
+>> diff --git a/drivers/media/v4l2-core/Makefile b/drivers/media/v4l2-core/Makefile
+>> index 41d91bd10cf2..be2551705755 100644
+>> --- a/drivers/media/v4l2-core/Makefile
+>> +++ b/drivers/media/v4l2-core/Makefile
+>> @@ -25,6 +25,7 @@ videodev-$(CONFIG_VIDEO_V4L2_I2C) += v4l2-i2c.o
+>>  # (e. g. LC_ALL=C sort Makefile)
+>>  
+>>  obj-$(CONFIG_V4L2_ASYNC) += v4l2-async.o
+>> +obj-$(CONFIG_V4L2_CCI) += v4l2-cci.o
+>>  obj-$(CONFIG_V4L2_FLASH_LED_CLASS) += v4l2-flash-led-class.o
+>>  obj-$(CONFIG_V4L2_FWNODE) += v4l2-fwnode.o
+>>  obj-$(CONFIG_V4L2_H264) += v4l2-h264.o
+>> diff --git a/drivers/media/v4l2-core/v4l2-cci.c b/drivers/media/v4l2-core/v4l2-cci.c
+>> new file mode 100644
+>> index 000000000000..21207d137dbe
+>> --- /dev/null
+>> +++ b/drivers/media/v4l2-core/v4l2-cci.c
+>> @@ -0,0 +1,142 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * MIPI Camera Control Interface (CCI) register access helpers.
+>> + *
+>> + * Copyright (C) 2023 Hans de Goede <hansg@kernel.org>
+>> + */
+>> +
+>> +#include <linux/delay.h>
+>> +#include <linux/dev_printk.h>
+>> +#include <linux/module.h>
+>> +#include <linux/regmap.h>
+>> +
+>> +#include <media/v4l2-cci.h>
+>> +
+>> +int cci_read(struct regmap *map, u32 reg, u32 *val, int *err)
+>> +{
+>> +	int i, len, ret;
 > 
-> I have run the driver through the v4l2-compliance test suite for both the
-> input and the output and the results look fine to me (I can provide the
-> output if required).
+> Could i and len be unsigned?
 
-Yes please! Just include the output in the cover letter next time.
+Andy suggested replacing the for-loop below with:
 
-I always like to check it, especially for new drivers.
+	switch (len)
+	case 1:
+		*val = buf[0];
+		break;
+	case 2:
+		*val = get_unaligned_be16(buf);
+		break;
+	case 3:
+		*val = __get_unaligned_be24(buf);
+		break;
+	case 4:
+		*val = get_unaligned_be32(buf);
+		break;
+	}
+
+Then i goes away. What do you think about doing it like
+this instead ?
+
+> 
+>> +	u8 buf[4];
+>> +
+>> +	if (err && *err)
+>> +		return *err;
+>> +
+>> +	/* Set len to register width in bytes */
+>> +	len = ((reg & CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT) + 1;
+>> +	reg &= CCI_REG_ADDR_MASK;
+>> +
+>> +	ret = regmap_bulk_read(map, reg, buf, len);
+>> +	if (ret) {
+>> +		dev_err(regmap_get_device(map), "Error reading reg 0x%4x: %d\n", reg, ret);
+>> +		if (err)
+>> +			*err = ret;
+>> +
+>> +		return ret;
+>> +	}
+>> +
+>> +	*val = 0;
+>> +	for (i = 0; i < len; i++) {
+>> +		*val <<= 8;
+>> +		*val |= buf[i];
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +EXPORT_SYMBOL_GPL(cci_read);
+>> +
+>> +int cci_write(struct regmap *map, u32 reg, u32 val, int *err)
+>> +{
+>> +	int i, len, ret;
+> 
+> Same here.
+> 
+>> +	u8 buf[4];
+>> +
+>> +	if (err && *err)
+>> +		return *err;
+>> +
+>> +	/* Set len to register width in bytes */
+>> +	len = ((reg & CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT) + 1;
+>> +	reg &= CCI_REG_ADDR_MASK;
+>> +
+>> +	for (i = 0; i < len; i++) {
+>> +		buf[len - i - 1] = val & 0xff;
+>> +		val >>= 8;
+>> +	}
+>> +
+>> +	ret = regmap_bulk_write(map, reg, buf, len);
+>> +	if (ret) {
+>> +		dev_err(regmap_get_device(map), "Error writing reg 0x%4x: %d\n", reg, ret);
+>> +		if (err)
+>> +			*err = ret;
+>> +	}
+>> +
+>> +	return ret;
+>> +}
+>> +EXPORT_SYMBOL_GPL(cci_write);
+>> +
+>> +int cci_update_bits(struct regmap *map, u32 reg, u32 mask, u32 val, int *err)
+>> +{
+>> +	int width, ret;
+>> +	u32 readval;
+>> +
+>> +	if (err && *err)
+>> +		return *err;
+>> +
+>> +	/*
+>> +	 * For single byte updates use regmap_update_bits(), this uses
+>> +	 * the regmap-lock to protect against other read-modify-writes racing.
+>> +	 */
+>> +	width = (reg & CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT;
+>> +	if (width == cci_reg_8) {
+>> +		reg &= CCI_REG_ADDR_MASK;
+>> +		ret = regmap_update_bits(map, reg, mask, val);
+>> +		if (ret) {
+>> +			dev_err(regmap_get_device(map), "Error updating reg 0x%4x: %d\n", reg, ret);
+>> +			if (err)
+>> +				*err = ret;
+>> +		}
+>> +
+>> +		return ret;
+>> +	}
+>> +
+>> +	ret = cci_read(map, reg, &readval, err);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	val = (readval & ~mask) | (val & mask);
+>> +
+>> +	return cci_write(map, reg, val, err);
+>> +}
+>> +EXPORT_SYMBOL_GPL(cci_update_bits);
+>> +
+>> +int cci_multi_reg_write(struct regmap *map, const struct reg_sequence *regs, int num_regs, int *err)
+>> +{
+>> +	int i, ret;
+>> +
+>> +	if (err && *err)
+>> +		return *err;
+>> +
+>> +	for (i = 0; i < num_regs; i++) {
+>> +		ret = cci_write(map, regs[i].reg, regs[i].def, err);
+>> +		if (ret)
+>> +			return ret;
+>> +
+>> +		if (regs[i].delay_us)
+>> +			fsleep(regs[i].delay_us);
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +EXPORT_SYMBOL_GPL(cci_multi_reg_write);
+>> +
+>> +struct regmap *cci_regmap_init_i2c(struct i2c_client *client, int reg_addr_bits)
+>> +{
+>> +	struct regmap_config config = {
+>> +		.reg_bits = reg_addr_bits,
+>> +		.val_bits = 8,
+>> +		.reg_format_endian = REGMAP_ENDIAN_BIG,
+>> +	};
+>> +
+>> +	return devm_regmap_init_i2c(client, &config);
+>> +}
+>> +EXPORT_SYMBOL_GPL(cci_regmap_init_i2c);
+> 
+> Bulk write functions would be nice, too: CCI does not limit access to
+> register-like targets.
+
+For bulk writing encoding the register width into the address
+makes no sense, so we would need to specify in the documentation
+that only raw register addresses are accepted and that the write
+is always done in bytes.
+
+At which point we are basically adding a 1:1 wrapper around
+regmap_bulk_write(). So I think it would be better for sensor
+drivers which need this to just use regmap_bulk_write()
+directly.
 
 Regards,
 
-	Hans
+Hans
 
-> 
-> Changes in v6:
-> * Rebased to current master that includes the Xilinx XDMA driver.
-> 
-> Changes in v5:
-> * Removed unused <linux/version.h> includes
-> 
-> Changes in v4:
-> * Redesigned the signal change handling logic. Now using the propper timings
->   API in the video input driver and a propper open() syscall check/logic in
->   the video output driver.
-> * Fixed all minor issues from v3 review.
-> * 'checkpatch.pl --strict' used for checking the code.
-> 
-> Changes in v3:
-> * Rebased the DMA transfers part to use the new XDMA driver from Xilinx/AMD
-> 
-> Changes in v2:
-> * Completely rewritten the original Xilinx's XDMA driver to meet kernel code
->   standards.
-> * Added all required "to" and "cc" mail addresses.
-> 
-> Martin Tůma (1):
->   Added Digiteq Automotive MGB4 driver
-> 
->  Documentation/admin-guide/media/mgb4.rst      | 352 ++++++++
->  .../admin-guide/media/pci-cardlist.rst        |   1 +
->  .../admin-guide/media/v4l-drivers.rst         |   1 +
->  MAINTAINERS                                   |   7 +
->  drivers/media/pci/Kconfig                     |   1 +
->  drivers/media/pci/Makefile                    |   1 +
->  drivers/media/pci/mgb4/Kconfig                |  17 +
->  drivers/media/pci/mgb4/Makefile               |   6 +
->  drivers/media/pci/mgb4/mgb4_cmt.c             | 247 ++++++
->  drivers/media/pci/mgb4/mgb4_cmt.h             |  16 +
->  drivers/media/pci/mgb4/mgb4_core.c            | 641 ++++++++++++++
->  drivers/media/pci/mgb4/mgb4_core.h            |  65 ++
->  drivers/media/pci/mgb4/mgb4_dma.c             | 123 +++
->  drivers/media/pci/mgb4/mgb4_dma.h             |  18 +
->  drivers/media/pci/mgb4/mgb4_i2c.c             | 140 +++
->  drivers/media/pci/mgb4/mgb4_i2c.h             |  35 +
->  drivers/media/pci/mgb4/mgb4_io.h              |  39 +
->  drivers/media/pci/mgb4/mgb4_regs.c            |  30 +
->  drivers/media/pci/mgb4/mgb4_regs.h            |  35 +
->  drivers/media/pci/mgb4/mgb4_sysfs.h           |  18 +
->  drivers/media/pci/mgb4/mgb4_sysfs_in.c        | 780 ++++++++++++++++
->  drivers/media/pci/mgb4/mgb4_sysfs_out.c       | 732 +++++++++++++++
->  drivers/media/pci/mgb4/mgb4_sysfs_pci.c       |  86 ++
->  drivers/media/pci/mgb4/mgb4_trigger.c         | 208 +++++
->  drivers/media/pci/mgb4/mgb4_trigger.h         |   8 +
->  drivers/media/pci/mgb4/mgb4_vin.c             | 830 ++++++++++++++++++
->  drivers/media/pci/mgb4/mgb4_vin.h             |  63 ++
->  drivers/media/pci/mgb4/mgb4_vout.c            | 501 +++++++++++
->  drivers/media/pci/mgb4/mgb4_vout.h            |  58 ++
->  29 files changed, 5059 insertions(+)
->  create mode 100644 Documentation/admin-guide/media/mgb4.rst
->  create mode 100644 drivers/media/pci/mgb4/Kconfig
->  create mode 100644 drivers/media/pci/mgb4/Makefile
->  create mode 100644 drivers/media/pci/mgb4/mgb4_cmt.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_cmt.h
->  create mode 100644 drivers/media/pci/mgb4/mgb4_core.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_core.h
->  create mode 100644 drivers/media/pci/mgb4/mgb4_dma.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_dma.h
->  create mode 100644 drivers/media/pci/mgb4/mgb4_i2c.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_i2c.h
->  create mode 100644 drivers/media/pci/mgb4/mgb4_io.h
->  create mode 100644 drivers/media/pci/mgb4/mgb4_regs.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_regs.h
->  create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs.h
->  create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_in.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_out.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_pci.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_trigger.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_trigger.h
->  create mode 100644 drivers/media/pci/mgb4/mgb4_vin.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_vin.h
->  create mode 100644 drivers/media/pci/mgb4/mgb4_vout.c
->  create mode 100644 drivers/media/pci/mgb4/mgb4_vout.h
-> 
-> 
-> base-commit: ae8373a5add4ea39f032563cf12a02946d1e3546
 
