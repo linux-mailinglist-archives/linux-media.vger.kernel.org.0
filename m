@@ -2,102 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FBE07254B6
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 08:50:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 355CC7254DD
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 08:55:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238015AbjFGGuI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Jun 2023 02:50:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35758 "EHLO
+        id S238421AbjFGGzo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Jun 2023 02:55:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237851AbjFGGtu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 02:49:50 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3E591723;
-        Tue,  6 Jun 2023 23:49:48 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (om126233170111.36.openmobile.ne.jp [126.233.170.111])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 98AE82B6;
-        Wed,  7 Jun 2023 08:49:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1686120561;
-        bh=KjFaGkzgKPn0rqVPEjvc32sm1Awsw/gV5qKp3dzqOMs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=I2Dqs7fjHNqRDUlghHGiItQqlIceJj4p4vt3VogeCV8ljxw5HRvqxsQ7J714h3D6X
-         2dMdjiKOaUhccqqLJ7+ZG7C6h3zrPPAtN8UstjzuJsD8GytKVdJQkc36XUTe/s/M+w
-         Ed8QtiF+NkMmUMhkpt9OMvkrYfaqakI1blN9ne5I=
-Date:   Wed, 7 Jun 2023 09:49:44 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Michael Riesch <michael.riesch@wolfvision.net>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        libcamera-devel@lists.libcamera.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Matthias Fend <Matthias.Fend@wolfvision.net>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC v2 1/6] media: v4l2-ctrls: fix documentation of
- V4L2_CID_FOCUS_ABSOLUTE unit
-Message-ID: <20230607064944.GA4663@pendragon.ideasonboard.com>
-References: <20230406-feature-controls-lens-v2-0-faa8ad2bc404@wolfvision.net>
- <20230406-feature-controls-lens-v2-1-faa8ad2bc404@wolfvision.net>
- <20230606103421.GA25774@pendragon.ideasonboard.com>
+        with ESMTP id S238486AbjFGGz2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 02:55:28 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CCC71FEB
+        for <linux-media@vger.kernel.org>; Tue,  6 Jun 2023 23:55:15 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-977cc662f62so568116566b.3
+        for <linux-media@vger.kernel.org>; Tue, 06 Jun 2023 23:55:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1686120914; x=1688712914;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=U7WJqHLFpKDGr46IBPNk/YN+JVm7bWWsWSgfm2qEj9Y=;
+        b=HohK+OcdPy3Lt3JJz9wswXlggxK7OGaX0Jijzhh8gjAXDI8nmwvFWsy4IXfsLQN6db
+         eF7ytakszmO+M6ZV3qo2LUqNO/X+EAa4sWi76uySo/6OgMEkuKH9pDsfDFr19RbU66gR
+         MLdh4v0uAEfSQwRHv/w7sK+64PmB1d1CJvPlVhH//qpBxgapXcoUeidaKEm0qufnAexc
+         Zpt6IF0rbV3sjQAq2LPIu6ZJXWE09u+uujE0Zy5nCRlOIi01ZoAdzZBZPXqGoSPOfawQ
+         864iwKiark9ZfgzKwE8TqgYsJLvHX03pCaoPHJntMNThctV8QfmLdt+KAYHCZHySmHBm
+         wHAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686120914; x=1688712914;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=U7WJqHLFpKDGr46IBPNk/YN+JVm7bWWsWSgfm2qEj9Y=;
+        b=jVGl6M602cyT10WLXh5OEPa88acu11RfKJEU7A25FvrR0B6Yz2LoTHStNLGWAsm94p
+         7mDd0DB37Wo5UQBXb3r+JNWUJvM6syOe3b3K5QyAHQ82VGY17TlZHinbUBETFWUAq/EK
+         e0vG5W3kTXHd5F7e68mgK8o+Il3uTCtJElPpu0vwwwuWV4LEFoFeHPzljbqXDGYjs/u9
+         tNl9f2vcT+kS4ZGu8gQy36CeIbvomERrLLEK7AUVmie1CKE/eBIQNIvTcTsOT3o/rhT7
+         0AyxmdLkhbk5bWmGAnifPQZX091sxVfUwCrMy6P9w3sYoC9agtQEMNsrOmJMxLqrvFj5
+         8XqQ==
+X-Gm-Message-State: AC+VfDzEhwhQYvNWP2vkz+htM91LGKYt7Dg0J0zApURppyFpWUgUHbKG
+        6pfE8NEW5qDTdbNq9IkLVkiquw==
+X-Google-Smtp-Source: ACHHUZ6O0DqToI5mmAhOt2e0Y5YVJ6BRwrPpK3l6U49K2oYJEzYQSbM73UejopnP8MGauekXx+fwbg==
+X-Received: by 2002:a17:907:6d0c:b0:977:d932:cde2 with SMTP id sa12-20020a1709076d0c00b00977d932cde2mr5045534ejc.62.1686120913834;
+        Tue, 06 Jun 2023 23:55:13 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.26])
+        by smtp.gmail.com with ESMTPSA id oy8-20020a170907104800b0096b4ec45e10sm6496158ejb.139.2023.06.06.23.55.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Jun 2023 23:55:13 -0700 (PDT)
+Message-ID: <35b8f52f-9da9-adee-ae22-a4a9f2c49073@linaro.org>
+Date:   Wed, 7 Jun 2023 08:55:10 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230606103421.GA25774@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH v3 1/3] dt-bindings: vendor-prefixes: Add prefix
+ alliedvision
+Content-Language: en-US
+To:     Tommaso Merciai <tomm.merciai@gmail.com>
+Cc:     jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com,
+        martin.hecht@avnet.eu, michael.roeder@avnet.eu,
+        linuxfancy@googlegroups.com, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Chris Morgan <macromorgan@hotmail.com>,
+        Jagan Teki <jagan@edgeble.ai>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Gerald Loacker <gerald.loacker@wolfvision.net>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Nicholas Roth <nicholas@rothemail.net>,
+        Mikhail Rudenko <mike.rudenko@gmail.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+References: <20230606155416.260941-1-tomm.merciai@gmail.com>
+ <20230606155416.260941-2-tomm.merciai@gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230606155416.260941-2-tomm.merciai@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 06, 2023 at 01:34:21PM +0300, Laurent Pinchart wrote:
-> On Tue, Apr 25, 2023 at 11:45:11AM +0200, Michael Riesch wrote:
-> > The current unit description of the V4L2_CID_FOCUS_ABSOLUTE does not
-> > make sense and was probably copy-pasted from V4L2_CID_FOCUS_RELATIVE.
-> > Fix the unit description in the documentation.
-> > 
-> > Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
-> > ---
-> >  Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> > index daa4f40869f8..df29150dce7b 100644
-> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> > @@ -140,8 +140,8 @@ enum v4l2_exposure_metering -
-> >  
-> >  ``V4L2_CID_FOCUS_ABSOLUTE (integer)``
-> >      This control sets the focal point of the camera to the specified
-> > -    position. The unit is undefined. Positive values set the focus
-> > -    closer to the camera, negative values towards infinity.
-> > +    position. The unit is undefined. Larger values move the focus closer to
-> > +    the camera, smaller values move the focus to infinity.
+On 06/06/2023 17:54, Tommaso Merciai wrote:
+> Add a vendor prefix entry for Allied Vision Inc.
+> (https://www.alliedvision.com)
 > 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
 
-I just noticed that the UVC specification states
 
-  4.2.2.1.6 Focus (Absolute) Control
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-  The Focus (Absolute) Control is used to specify the distance to the
-  optimally focused target. This value is expressed in millimeters. The
-  default value is implementation-specific.
+Best regards,
+Krzysztof
 
-This is the opposite of the V4L2_CID_FOCUS_ABSOLUTE control :-( I
-suppose this will need to be solved in the uvcvideo driver by converting
-the value.
-
-> >  
-> >  ``V4L2_CID_FOCUS_RELATIVE (integer)``
-> >      This control moves the focal point of the camera by the specified
-> > 
-
--- 
-Regards,
-
-Laurent Pinchart
