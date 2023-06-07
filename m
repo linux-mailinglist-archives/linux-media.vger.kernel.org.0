@@ -2,183 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 87F687269E2
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 21:35:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65DD67269EE
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 21:39:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230299AbjFGTfD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Jun 2023 15:35:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50200 "EHLO
+        id S230508AbjFGTjD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Jun 2023 15:39:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229727AbjFGTfC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 15:35:02 -0400
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFAF21FEB
-        for <linux-media@vger.kernel.org>; Wed,  7 Jun 2023 12:35:00 -0700 (PDT)
-Received: by mail-qk1-x72f.google.com with SMTP id af79cd13be357-75d3f2c9d13so610795385a.1
-        for <linux-media@vger.kernel.org>; Wed, 07 Jun 2023 12:35:00 -0700 (PDT)
+        with ESMTP id S230496AbjFGTjB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 15:39:01 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73BA71FF7;
+        Wed,  7 Jun 2023 12:38:57 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-977d55ac17bso714679066b.3;
+        Wed, 07 Jun 2023 12:38:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20221208.gappssmtp.com; s=20221208; t=1686166500; x=1688758500;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Z/N+7hZBU68Az7fq+11+0PEgFJs4BfE4zntjuKa1qEM=;
-        b=cmdZ2HNddWh5tk5ncyT92Mc8F+G5Vc58B7dBambSy22hC65jaZWIbJH/DeRXJEJEIk
-         LPrP6JmrY7OLnmT/Xrn3OEsQdownJDvfvxIznzyqRUb7OrISmtmWjOvvzd9ajX+H/eHR
-         SbiqDBU6auywfPgq8A7Bv3AQ8a7TWDlSktec9HxnUxUB3S3AJAZlmS+CMlvtYjzjdqQu
-         h1t23wwZdv4Q4e3eD8lw4mVIAEfrXq1zRjUO++AjLx+WORiBWwO6yvjqKNfs9heMPs38
-         oTfssBJOqPW/UvW6nIrCScK4VWQ46rgikrUygA9eaSM9nCJsFGr7nK54ZcjnGd5726Wu
-         P2qg==
+        d=gmail.com; s=20221208; t=1686166736; x=1688758736;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=v9mPghHb0zo1ioIAUBDYOj0SyzS0wuoa2sSWyDcE21Y=;
+        b=TMoCvkTXY/gjiABpDtpmoPrgs8TFK7QZ05E5+WWu6EBV7Gy0jTCyX33VxR8NHkQLKe
+         qlFitCGePxzK+aPNmEXd57dXg3IGTaoC7pUCtG3ERgqfwh8c99Lr32evc5+k9zi+1oZf
+         UEkjKGMFt5HcwLuAptRvkxZl1vgcH1zAeWMUiv8jGhDf2JvFPF8/MAlvNXOzRdlD6y7/
+         3SymvUlAjtm0dNSGbIOK+GKCEBLXAzwG94kFYYEsI9ZJ0isKV+dEB05ehfVCUcLVLC5B
+         XD1hgH8/RVkMQJRYVWJgBcjX9jzs6LT4PGOUfYnayYC06x3fRDBM/FrUqsQUf6HJSa5a
+         rGZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686166500; x=1688758500;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Z/N+7hZBU68Az7fq+11+0PEgFJs4BfE4zntjuKa1qEM=;
-        b=AhJ9ZgCYGUsJrpogX8FVkxnbIN323DjwfKfakNzZRh1R8fyIuIxtaNitARheXGEqvc
-         LVJrI7VABWCEgWCp8Qf1dljCBwzvkAxJYSlSJBTSkQTbFTjZZ+yXAKX0cAACJaE6DvC8
-         IfcJmhiKKikU1QrEREx1MS18jsOmou9Cpc85/M2wbghLYv9pvSZhnRaQ/TDpvqrEO0Vd
-         uFHo1dT6xwzWvdK9hkf4z3M+OCrsxou8fercKvdFxlUFJOBcaiUp7jFH0MT2T7suMk5K
-         ILOKICvlp8Sy1DJh1HPAvur4gmPfxFPaHR7exoRhhaksut7vqHESPkKggA12aTWyBxZE
-         fJ4g==
-X-Gm-Message-State: AC+VfDwQvlb2XAXtSwgfyEfNEMC2Zi7+4KJi9q9zN1WEUEGcTrBh9pFE
-        xFGo6AfYYdDyy7yQEDXwKpqeVEE9ZJprjHolTSwv5Q==
-X-Google-Smtp-Source: ACHHUZ5S+lZx99PbMn5tmQQs5d7UtgH373Cii1r5sz0Malc+YPWjUkgSMmoHDmt/kGESqJO6TQf40UUS5NeW7AAPKvc=
-X-Received: by 2002:a1f:43c6:0:b0:464:6036:604f with SMTP id
- q189-20020a1f43c6000000b004646036604fmr2188987vka.7.1686166500016; Wed, 07
- Jun 2023 12:35:00 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1686166736; x=1688758736;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=v9mPghHb0zo1ioIAUBDYOj0SyzS0wuoa2sSWyDcE21Y=;
+        b=PcFD2Cp/3YaaFNl9lgjbbr6v0l8pDeR37pOUe52dK+Qpv9LPMxOzAOu9NUqwMusL6F
+         Y4cYx8ud9jTD7h45G7e+qkpj5FDD0p4UJi9Uwa+ZYKh3d5JaAYZ6PXuKWt8f0jmrWwrO
+         1ng1PW9G/1Sph6a/AAl65EZDnmuPD60LVfNfK4+8kHxp+u8u7QsXmJTqyJaZjW2hMHAi
+         MDoEAaO8jgfihh2atjtXdqQahi3+LJ/k5epsEaA8z4cMoTRsKpQP0cg3qjrxhXhFlR2r
+         SFNQC6GgUnCBKdZ94H1mvyYqK4KYxUxHgRQBaFivayIL+05f9tmwfJLJugZX3fg+fDhW
+         UsKg==
+X-Gm-Message-State: AC+VfDxgKwPD1UiwBNa+wsUK4S3/AbLyDmYBjDT+XDjPuS90UKMHBCyC
+        JiNHmry1/rdMdUQkiOmpeQE=
+X-Google-Smtp-Source: ACHHUZ4Y/8td78SY0svLXTall9qR9vpoyxxDO0P4VmvMlnMotCJwzc3XyvZ9UvHWTvlWNUXQocANjg==
+X-Received: by 2002:a17:907:7da3:b0:977:d676:d3ca with SMTP id oz35-20020a1709077da300b00977d676d3camr7458256ejc.33.1686166735589;
+        Wed, 07 Jun 2023 12:38:55 -0700 (PDT)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-50-121.cust.vodafonedsl.it. [188.217.50.121])
+        by smtp.gmail.com with ESMTPSA id a8-20020a17090682c800b0097889c33582sm688895ejy.215.2023.06.07.12.38.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jun 2023 12:38:55 -0700 (PDT)
+Date:   Wed, 7 Jun 2023 21:38:52 +0200
+From:   Tommaso Merciai <tomm.merciai@gmail.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com,
+        martin.hecht@avnet.eu, michael.roeder@avnet.eu,
+        linuxfancy@googlegroups.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Gerald Loacker <gerald.loacker@wolfvision.net>,
+        Mikhail Rudenko <mike.rudenko@gmail.com>,
+        Nicholas Roth <nicholas@rothemail.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Michael Riesch <michael.riesch@wolfvision.net>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Shawn Tu <shawnx.tu@intel.com>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 2/3] media: dt-bindings: alvium: add document YAML
+ binding
+Message-ID: <ZIDczFHCWCWyDSBo@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20230607131936.382406-1-tomm.merciai@gmail.com>
+ <20230607131936.382406-3-tomm.merciai@gmail.com>
+ <17971357-523c-f907-13a9-8f7abce90c24@linaro.org>
+ <ZICgPUDv+GjK4C5t@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+ <4673281c-0281-6fc5-97c3-b4ec821c81d5@linaro.org>
 MIME-Version: 1.0
-References: <CA+G9fYs4JsmNxX4+W=wijfSPdDsOy=SWLBSitZper5ncPpdxqA@mail.gmail.com>
- <CAMRc=MdRev1NBz9ga0jcDKD0oZy_W-7caq9R0tQkUG86rBQ=3Q@mail.gmail.com> <CADYN=9Kj9A6utjkPMuAQ4=ytvBiL50GnTzttauRWLQZOn5rzeQ@mail.gmail.com>
-In-Reply-To: <CADYN=9Kj9A6utjkPMuAQ4=ytvBiL50GnTzttauRWLQZOn5rzeQ@mail.gmail.com>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Wed, 7 Jun 2023 21:34:48 +0200
-Message-ID: <CAMRc=Mfyt3wOzDT-4WRUG-2AzyqsJZnt6XikyPCEWhv1O8QTNA@mail.gmail.com>
-Subject: Re: arm64: libgpiod: refcount_t: underflow; use-after-free.
-To:     Anders Roxell <anders.roxell@linaro.org>
-Cc:     Naresh Kamboju <naresh.kamboju@linaro.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        lkft-triage@lists.linaro.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Ferry Toth <fntoth@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>, warthog618@gmail.com,
-        Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4673281c-0281-6fc5-97c3-b4ec821c81d5@linaro.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 7, 2023 at 8:35=E2=80=AFPM Anders Roxell <anders.roxell@linaro.=
-org> wrote:
->
-> On Wed, 22 Feb 2023 at 13:36, Bartosz Golaszewski <brgl@bgdev.pl> wrote:
-> >
-> > On Mon, Feb 20, 2023 at 3:59 PM Naresh Kamboju
-> > <naresh.kamboju@linaro.org> wrote:
-> > >
-> > > Following kernel warning notices on qemu-arm64, qemu-arm and also on =
-devices
-> > > running Linux version v6.2.0 while running libgpiod tests.
-> > >
-> >
-> > I don't see it on v6.2 with libgpiod v1.6.4. Seeing the output of the
-> > test script, it seems you're using an old version - what is it?
->
-> Yes, I did run libgpiod v1.6.4 by mistake on todays next-20230607 tag.
-> Not sure if I should or should not get the use-after-free warning by
-> running the "wrong version"
-> of a test suite or?
->
+On Wed, Jun 07, 2023 at 06:11:54PM +0200, Krzysztof Kozlowski wrote:
+> On 07/06/2023 17:20, Tommaso Merciai wrote:
+> > Hi Krzysztof,
+> > 
+> > On Wed, Jun 07, 2023 at 04:18:48PM +0200, Krzysztof Kozlowski wrote:
+> >> On 07/06/2023 15:19, Tommaso Merciai wrote:
+> >>> Add documentation of device tree in YAML schema for the ALVIUM
+> >>> Camera from Allied Vision Inc.
+> >>>
+> >>> References:
+> >>>  - https://www.alliedvision.com/en/products/embedded-vision-solutions
+> >>>
+> >>> Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+> >>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >>> ---
+> >>> Changes since v1:
+> >>>  - Fixed build error as suggested by RHerring bot
+> >>>
+> >>> Changes since v2:
+> >>>  - Fixed License as suggested by KKozlowski/CDooley
+> >>>  - Removed rotation property as suggested by CDooley/LPinchart
+> >>>  - Fixed example node name as suggested by CDooley
+> >>>  - Fixed title as suggested by LPinchart
+> >>>  - Fixed compatible name as suggested by LPinchart
+> >>>  - Removed clock as suggested by LPinchart
+> >>>  - Removed gpios not as suggested by LPinchart
+> >>>  - Renamed property name streamon-delay into alliedvision,lp2hs-delay-us
+> >>>  - Fixed vendor prefix, unit append as suggested by KKozlowski
+> >>>  - Fixed data-lanes
+> >>>  - Fixed blank space + example indentation (from 6 -> 4 space) as suggested by KKozlowski
+> >>>  - Dropped status into example  as suggested by KKozlowski
+> >>>  - Added vcc-ext-in supply as suggested by LPinchart
+> >>>  - Dropped pinctrl into example as suggested by LPinchart
+> >>>
+> >>> Changes since v3:
+> >>>  - Fixed vcc-ext-in-supply description as suggested by LPinchart
+> >>>  - Fixed alliedvision,lp2hs-delay-us description as suggested by LPinchart
+> >>>  - Added maximum to alliedvision,lp2hs-delay-us as suggested by LPinchart
+> >>>  - Collected Reviewed-by tag from LPinchart
+> >>
+> >> You still did not test it before sending. Four versions of which none
+> >> were tested :(
+> > 
+> > You are right.. my bad. :'(
+> > 
+> > After fixing id, as suggested by Laurent/bot into:
+> > 
+> > $id: http://devicetree.org/schemas/media/i2c/alliedvision,alvium-csi2.yaml#
+> > 
+> > I'm running the following test:
+> > 
+> > make dt_binding_check DT_SCHEMA_FILES=alliedvision,alvium-csi2.yaml
+> > 
+> > With the following result:
+> > 
+> >   LINT    Documentation/devicetree/bindings
+> >   CHKDT   Documentation/devicetree/bindings/processed-schema.json
+> >   SCHEMA  Documentation/devicetree/bindings/processed-schema.json
+> > /home/tom/work/mainline/linux/Documentation/devicetree/bindings/media/i2c/.alliedvision,alvium-csi2.example.dts.pre.yaml: ignoring, error parsing file
+> >   DTEX    Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.example.dts
+> >   DTC_CHK Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.example.dtb
+> > 
+> > Is that correct?
+> 
+> No, it doesn't look correct. You have error parsing your file. Check
+> your yaml file and its example DTSI.
+> 
+> Be sure you have also yamlling installed.
 
-It doesn't matter, v1.6.4 is still supported. I'll give it a try tomorrow.
+Thanks for the feedback!
 
-Brt
+Regards,
+Tommaso
 
-> >
-> > > + ./gpiod.sh /opt/libgpiod/bin/
-> >
-> > What's in gpiod.sh?
->
-> its a wrapper script around gpiod-test [1] to parse the output to be
-> understood by our test framework
->
-> Cheers,
-> Anders
-> [1] https://github.com/Linaro/test-definitions/blob/master/automated/linu=
-x/gpiod/gpiod.sh
->
-> >
-> > Bart
-> >
-> > >   [INFO]    libgpiod test suite
-> > >   [INFO]    117 tests registered
-> > >   [INFO]    checking the linux kernel version
-> > >   [INFO]    kernel release is v6.2.0 - ok to run tests
-> > >   [INFO]    using gpio-tools from '/usr/bin'
-> > > [   10.499036] ------------[ cut here ]------------
-> > > [   10.499656] refcount_t: underflow; use-after-free.
-> > > [   10.500264] WARNING: CPU: 2 PID: 291 at lib/refcount.c:28
-> > > refcount_warn_saturate+0xf4/0x144
-> > > [   10.501306] Modules linked in: gpio_mockup(-) cfg80211 bluetooth
-> > > rfkill crct10dif_ce fuse drm
-> > > [   10.502364] CPU: 2 PID: 291 Comm: gpiod-test Not tainted 6.2.0 #1
-> > > [   10.503229] Hardware name: linux,dummy-virt (DT)
-> > > [   10.503883] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS =
-BTYPE=3D--)
-> > > [   10.505331] pc : refcount_warn_saturate+0xf4/0x144
-> > > [   10.505723] lr : refcount_warn_saturate+0xf4/0x144
-> > > [   10.506115] sp : ffff800008983cd0
-> > > [   10.506391] x29: ffff800008983cd0 x28: ffff0000c4c4c100 x27: 00000=
-00000000000
-> > > [   10.506961] x26: 0000000000000000 x25: 0000000000000000 x24: 00000=
-00000000000
-> > > [   10.507533] x23: 0000000000000200 x22: ffff0000c4e66800 x21: ffff0=
-000c7734640
-> > > [   10.508104] x20: 0000000000000001 x19: ffff0000c7734600 x18: fffff=
-fffffffffff
-> > > [   10.508677] x17: 3d4d455453595342 x16: ffffcf0234432020 x15: ffff8=
-00088983957
-> > > [   10.509424] x14: 0000000000000000 x13: 2e656572662d7265 x12: 74666=
-12d65737520
-> > > [   10.510003] x11: 3b776f6c66726564 x10: ffffcf02365db580 x9 : ffffc=
-f0233b20138
-> > > [   10.510575] x8 : 00000000ffffefff x7 : ffffcf02365db580 x6 : 00000=
-00000000001
-> > > [   10.511145] x5 : ffffcf023655f000 x4 : ffffcf023655f2e8 x3 : 00000=
-00000000000
-> > > [   10.511721] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0=
-000c4c4c100
-> > > [   10.512294] Call trace:
-> > > [   10.512494]  refcount_warn_saturate+0xf4/0x144
-> > > [   10.512971]  kobject_put+0x164/0x220
-> > > [   10.513224]  fwnode_remove_software_node+0x44/0x60
-> > > [   10.513554]  gpio_mockup_unregister_pdevs+0x54/0x70 [gpio_mockup]
-> > > [   10.513970]  gpio_mockup_exit+0x10/0x328 [gpio_mockup]
-> > > [   10.514322]  __arm64_sys_delete_module+0x190/0x2a0
-> > > [   10.514653]  invoke_syscall+0x50/0x120
-> > > [   10.514915]  el0_svc_common.constprop.0+0x104/0x124
-> > > [   10.515277]  do_el0_svc+0x44/0xcc
-> > > [   10.515541]  el0_svc+0x30/0x94
-> > > [   10.515788]  el0t_64_sync_handler+0xbc/0x13c
-> > > [   10.516126]  el0t_64_sync+0x190/0x194
-> > > [   10.516419] ---[ end trace 0000000000000000 ]---
-> > >
-> > >
-> > > Build and test logs,
-> > > https://qa-reports.linaro.org/lkft/linux-mainline-master/build/v6.2/t=
-estrun/14856342/suite/libgpiod/test/ctxless-get-value-single-line/log
-> > > https://qa-reports.linaro.org/lkft/linux-mainline-master/build/v6.2/t=
-estrun/14856342/suite/libgpiod/tests/
-> > >
-> > >
-> > > --
-> > > Linaro LKFT
-> > > https://lkft.linaro.org
+> 
+> Best regards,
+> Krzysztof
+> 
