@@ -2,140 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E7DE72673F
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 19:27:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2400C726743
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 19:27:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229927AbjFGR1B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Jun 2023 13:27:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59856 "EHLO
+        id S229893AbjFGR1g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Jun 2023 13:27:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229893AbjFGR1A (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 13:27:00 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84FAE2136;
-        Wed,  7 Jun 2023 10:26:26 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 84948641C9;
-        Wed,  7 Jun 2023 17:26:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCB1DC433D2;
-        Wed,  7 Jun 2023 17:26:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686158785;
-        bh=HEmJioAGrUOt68QctcKOcG/xC5pDrpH7rHRR1z54i8Y=;
-        h=From:To:Cc:Subject:Date:From;
-        b=F873Efo11bsrPI9tb9jqfpPK7MN/XCpgVIwIsvW/Brt4VOPEviwDPEZ8YiXqp1GJx
-         UxoKNmO7zRH9PhaoEajIxXTmgscB9hVIZvN356sT3ObisW/Hz7iDbxceFn3DxI1ANu
-         14y/5uqmsUolp1gJxd0ipbGGReWsTaBxHJ0GY40cHpvoorwQLgCmka6Z7rLpY65hw+
-         G+QoWsX2ezV3TofEjf5p8lRqF2vhj+RS4u6ZF8pYkFN9mRIWIVJv1SqCd54evBZNsQ
-         0iWjDgSErYQZkEMoapDYmlsERVi6ETxdSRPAQbej9eWYteFFYICnecz2Vv0HSn/vMP
-         QW4siI39lMC9g==
-From:   Conor Dooley <conor@kernel.org>
-To:     linux-media@vger.kernel.org
-Cc:     conor@kernel.org, Conor Dooley <conor.dooley@microchip.com>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] MAINTAINERS: drop Shawn Tu due to mail bounces
-Date:   Wed,  7 Jun 2023 18:26:07 +0100
-Message-Id: <20230607-unfounded-blandness-93cf1e44f127@spud>
-X-Mailer: git-send-email 2.39.2
+        with ESMTP id S229504AbjFGR1e (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 13:27:34 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88F06213B
+        for <linux-media@vger.kernel.org>; Wed,  7 Jun 2023 10:27:08 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (om126233170111.36.openmobile.ne.jp [126.233.170.111])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 25A6F74C;
+        Wed,  7 Jun 2023 19:26:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1686158801;
+        bh=x71GIRK1MzEw98Y83/eMk/JC80FEhJlvLA5JeyWCPM8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=O5jaU5QCic0GIczcyRnltry4P/KfgeoYAdweYDhI3aTrrHr3+mn5zNyWe0co7zlUg
+         1UG7mACc87+sryRA4wkhEGL3LeoWgb+7HqImqtA89+JLi9UKU+CJzbM0EndWTwdZgl
+         5BEq5lRXOHtEdtvfLU7nRucrJ+I+kwmyenGm9si4=
+Date:   Wed, 7 Jun 2023 20:27:03 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Dmitry Perchanov <dmitry.perchanov@intel.com>
+Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@intel.com>
+Subject: Re: [GIT PULL FOR v6.5] uvcvideo changes
+Message-ID: <20230607172703.GE5058@pendragon.ideasonboard.com>
+References: <20230605183025.GA22339@pendragon.ideasonboard.com>
+ <2e66f338213f828b6bc1d97e30da93da08cad8fe.camel@intel.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2290; i=conor.dooley@microchip.com; h=from:subject:message-id; bh=C8ELCUiNZMkz/UMrBgNL7zPGny1ZtX6GLE/KGqcKOeg=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDCkNe1de43CzyUrm3dB7olWm3lTY5L/xr3VRUXMmLRa+y LKtOOx7RykLgxgHg6yYIkvi7b4WqfV/XHY497yFmcPKBDKEgYtTACay/Q3DX6nGjesPtrQUlqzm ZtSLZwjKyWk8IC9xXnb6pmdrvyadcmVk+H744oqvL7f+Sa6VL0pJfNHz9W/d5DvTrKoDnXLPaM6 05AcA
-X-Developer-Key: i=conor.dooley@microchip.com; a=openpgp; fpr=F9ECA03CF54F12CD01F1655722E2C55B37CF380C
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <2e66f338213f828b6bc1d97e30da93da08cad8fe.camel@intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Conor Dooley <conor.dooley@microchip.com>
+Hi Dmitry,
 
-Emails to Shawn Tu bounce & I could not easily see a non-intel email
-for them on lore. Drop them and orphan their drivers.
+On Wed, Jun 07, 2023 at 08:21:18PM +0300, Dmitry Perchanov wrote:
+> Hi Laurent,
+> 
+> There is path mistake for patch:
+> media: uapi: v4l: Intel metadata format update
+> 
+> Probably pull request was misformated.
+> 
+> It is submitted with correct path and I fetched your tag and file is
+> in place.
+> 
+> Thanks for your patience.
+> 
+> Dmitry P.
+>  
+> On Mon, 2023-06-05 at 21:30 +0300, Laurent Pinchart wrote:
+> > Hi Mauro,
+> > 
+> > The following changes since commit 9561de3a55bed6bdd44a12820ba81ec416e705a7:
+> > 
+> >   Linux 6.4-rc5 (2023-06-04 14:04:27 -0400)
+> > 
+> > are available in the Git repository at:
+> > 
+> >   git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git tags/media-uvc-next-20230606
+> > 
+> > for you to fetch changes up to 9bfc8e4d0972d3732bd8c6038c2bf1636780d727:
+> > 
+> >   media: uvcvideo: Constify descriptor buffers (2023-06-05 18:39:47 +0300)
+> > 
+> > Please note that this pull request is based on v6.4-rc5 as it depends on
+> > a fix that was merged in that version.
+> > 
+> > ----------------------------------------------------------------
+> > Miscellaneous uvcvideo changes:
+> > 
+> > - Support for more Intel RealSense devices
+> > - Small cleanups and constifications
+> > - Drop duplicate device
+> > 
+> > ----------------------------------------------------------------
+> > Dmitry Perchanov (2):
+> >       media: uapi: v4l: Intel metadata format update
+> >       media: uvcvideo: Enable Intel RealSense metadata for devices
+> > 
+> > Laurent Pinchart (7):
+> >       media: uvcvideo: Rename uvc_streaming 'format' field to 'formats'
+> >       media: uvcvideo: Rename uvc_format 'frame' field to 'frames'
+> >       media: uvcvideo: Use clamp() to replace manual implementation
+> >       media: uvcvideo: Reorganize format descriptor parsing
+> >       media: uvcvideo: Increment intervals pointer at end of parsing
+> >       media: uvcvideo: Constify formats, frames and intervals
+> >       media: uvcvideo: Constify descriptor buffers
+> > 
+> > Sakari Ailus (1):
+> >       Revert "media: uvcvideo: Limit power line control for Acer EasyCamera"
+> > 
+> >  .../userspace-api/media/v4l/pixfmt-meta-d4xx.rst   |  55 +++++++--
+> 
+> This path above is incorrect.
 
-CC: Shawn Tu <shawnx.tu@intel.com>
-Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
----
-A conversation starter as much as anything else.
+git shortens long lines by removing the left-most parts of the path and
+replacing it with '...'. The file is in
+Documentation/userspace-api/media/v4l/pixfmt-meta-d4xx.rst, it's only
+the shortlog that shows the shortened path.
 
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: Sakari Ailus <sakari.ailus@linux.intel.com>
-CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-CC: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-CC: linux-media@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
----
- MAINTAINERS | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+> >  drivers/media/usb/uvc/uvc_driver.c                 | 137 ++++++++++++++++-----
+> >  drivers/media/usb/uvc/uvc_v4l2.c                   |  79 ++++++------
+> >  drivers/media/usb/uvc/uvc_video.c                  |  20 +--
+> >  drivers/media/usb/uvc/uvcvideo.h                   |  12 +-
+> >  5 files changed, 208 insertions(+), 95 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 0bbf6c035000..3d2a1314cb26 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9614,9 +9614,8 @@ S:	Maintained
- F:	arch/x86/kernel/cpu/hygon.c
- 
- HYNIX HI556 SENSOR DRIVER
--M:	Shawn Tu <shawnx.tu@intel.com>
- L:	linux-media@vger.kernel.org
--S:	Maintained
-+S:	Orphan
- T:	git git://linuxtv.org/media_tree.git
- F:	drivers/media/i2c/hi556.c
- 
-@@ -9627,9 +9626,8 @@ S:	Maintained
- F:	drivers/media/i2c/hi846.c
- 
- HYNIX HI847 SENSOR DRIVER
--M:	Shawn Tu <shawnx.tu@intel.com>
- L:	linux-media@vger.kernel.org
--S:	Maintained
-+S:	Orphan
- F:	drivers/media/i2c/hi847.c
- 
- Hyper-V/Azure CORE AND DRIVERS
-@@ -15519,9 +15517,8 @@ F:	Documentation/filesystems/omfs.rst
- F:	fs/omfs/
- 
- OMNIVISION OG01A1B SENSOR DRIVER
--M:	Shawn Tu <shawnx.tu@intel.com>
- L:	linux-media@vger.kernel.org
--S:	Maintained
-+S:	Orphan
- F:	drivers/media/i2c/og01a1b.c
- 
- OMNIVISION OV01A10 SENSOR DRIVER
-@@ -15585,7 +15582,6 @@ F:	drivers/media/i2c/ov2685.c
- 
- OMNIVISION OV2740 SENSOR DRIVER
- M:	Tianshu Qiu <tian.shu.qiu@intel.com>
--R:	Shawn Tu <shawnx.tu@intel.com>
- R:	Bingbu Cao <bingbu.cao@intel.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
-@@ -15625,9 +15621,8 @@ F:	Documentation/devicetree/bindings/media/i2c/ovti,ov5670.yaml
- F:	drivers/media/i2c/ov5670.c
- 
- OMNIVISION OV5675 SENSOR DRIVER
--M:	Shawn Tu <shawnx.tu@intel.com>
- L:	linux-media@vger.kernel.org
--S:	Maintained
-+S:	Orphan
- T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/devicetree/bindings/media/i2c/ovti,ov5675.yaml
- F:	drivers/media/i2c/ov5675.c
 -- 
-2.39.2
+Regards,
 
+Laurent Pinchart
