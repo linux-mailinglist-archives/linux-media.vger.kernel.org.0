@@ -2,41 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AB55F726661
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 18:48:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F06E1726663
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 18:48:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230520AbjFGQsx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Jun 2023 12:48:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35472 "EHLO
+        id S229790AbjFGQsz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Jun 2023 12:48:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230498AbjFGQsu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 12:48:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36CA21FF1
-        for <linux-media@vger.kernel.org>; Wed,  7 Jun 2023 09:48:04 -0700 (PDT)
+        with ESMTP id S230488AbjFGQsv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 12:48:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 776341FEA
+        for <linux-media@vger.kernel.org>; Wed,  7 Jun 2023 09:48:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1686156483;
+        s=mimecast20190719; t=1686156481;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=WSo8JZnTuWmwPfUreQxvE7qG0jdP5V/aSUc8BdbGm/E=;
-        b=OokW7aiba7cVRrZ0zU5gY1BlzXbWss1NDGJI6zplOHbpjolSRzRp8i9q381Xj1hfSGjlFh
-        UFYWzSNIbrGt/pz3b9Qae+dFPryK9nsZgozLXcJEUFU8S1CI1R60BkqUw77XfqlofjPiaQ
-        MGYmEJNWpN9/zTnogD2MO0atI1vrfdc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=V248BIxaZXkDzQuN7dWKvNiOUoSQXSEcxkFz0fT2WKw=;
+        b=fPILikVK+tNdYmjTfynomSxzBePIEayYvsXkXS/Szk8emF4cdMEdlnpWVIBr7RpxiF/aYz
+        VLJF6phOLs+7m+4hL6wWRAEySo1dcyxdP4LC8pyN5m0UwpSiSVD9dk+sdh+0ZfTmMNd+uu
+        4oxgyE/Gh4DqC1Ps9rifTNE9U0wY3eQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-29-sXa1cRJLPO6HiV3Hq638Ow-1; Wed, 07 Jun 2023 12:47:58 -0400
-X-MC-Unique: sXa1cRJLPO6HiV3Hq638Ow-1
+ us-mta-184-c4gTkXQhMvWbcEuxsLFjsA-1; Wed, 07 Jun 2023 12:48:00 -0400
+X-MC-Unique: c4gTkXQhMvWbcEuxsLFjsA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 61B03185A792;
-        Wed,  7 Jun 2023 16:47:58 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B04523C1C4C3;
+        Wed,  7 Jun 2023 16:47:59 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.22])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 48B32C1603B;
-        Wed,  7 Jun 2023 16:47:57 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 9799BC1603B;
+        Wed,  7 Jun 2023 16:47:58 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Daniel Scally <dan.scally@ideasonboard.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -45,9 +45,9 @@ To:     Daniel Scally <dan.scally@ideasonboard.com>,
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org
-Subject: [PATCH 24/28] media: ov2680: Fix exposure and gain ctrls range and default value
-Date:   Wed,  7 Jun 2023 18:47:08 +0200
-Message-Id: <20230607164712.63579-25-hdegoede@redhat.com>
+Subject: [PATCH 25/28] media: ov2680: Add a bunch of register tweaks
+Date:   Wed,  7 Jun 2023 18:47:09 +0200
+Message-Id: <20230607164712.63579-26-hdegoede@redhat.com>
 In-Reply-To: <20230607164712.63579-1-hdegoede@redhat.com>
 References: <20230607164712.63579-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -63,58 +63,96 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The exposure control's max effective value is VTS - 8, set the control
-range to match this. Thas means that if/when a future commit makes VTS
-configurable as a control itself the exposure range needs to be
-updated dynamically to match the VTS value.
+Usually when developing a sensor driver with help from the vendor
+the vendor will provide a bunch of register tweaks for optimal
+performance of the sensor.
 
-The gain control goes from 0 - 1023, higher values wrap around to
-the lowest gain setting.
+The atomisp-ov2680.c driver was (presumably) developed by Intel with
+help from OmniVision and indeed contains a bunch of register tweaks.
 
-Also stop setting 0 as default for both controls this leads to
-a totally black picture which is no good. This is esp. important
-for tests of the sensor driver without (userspace driven)
-auto exposure / gain.
+Add these register tweaks to the "main" ov2680.c driver.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/media/i2c/ov2680.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/media/i2c/ov2680.c | 53 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 53 insertions(+)
 
 diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
-index 4705a901c513..d1fd47f10a17 100644
+index d1fd47f10a17..867df602ee53 100644
 --- a/drivers/media/i2c/ov2680.c
 +++ b/drivers/media/i2c/ov2680.c
-@@ -80,6 +80,9 @@
- /* If possible send 16 extra rows / lines to the ISP as padding */
- #define OV2680_END_MARGIN			16
+@@ -177,18 +177,71 @@ static const int ov2680_hv_flip_bayer_order[] = {
+ };
  
-+/* Max exposure time is VTS - 8 */
-+#define OV2680_INTEGRATION_TIME_MARGIN		8
+ static const struct reg_sequence ov2680_global_setting[] = {
++	/* MIPI PHY, 0x10 -> 0x1c enable bp_c_hs_en_lat and bp_d_hs_en_lat */
++	{0x3016, 0x1c},
 +
- #define OV2680_DEFAULT_WIDTH			800
- #define OV2680_DEFAULT_HEIGHT			600
+ 	/* R MANUAL set exposure (0x01) and gain (0x02) to manual (hw does not do auto) */
+ 	{0x3503, 0x03},
  
-@@ -784,6 +787,7 @@ static int ov2680_v4l2_register(struct ov2680_dev *sensor, struct i2c_client *cl
- 	const struct v4l2_ctrl_ops *ops = &ov2680_ctrl_ops;
- 	struct ov2680_ctrls *ctrls = &sensor->ctrls;
- 	struct v4l2_ctrl_handler *hdl = &ctrls->handler;
-+	int exp_max = OV2680_LINES_PER_FRAME - OV2680_INTEGRATION_TIME_MARGIN;
- 	int ret = 0;
++	/* Analog control register tweaks */
++	{0x3603, 0x39}, /* Reset value 0x99 */
++	{0x3604, 0x24}, /* Reset value 0x74 */
++	{0x3621, 0x37}, /* Reset value 0x44 */
++
++	/* Sensor control register tweaks */
++	{0x3701, 0x64}, /* Reset value 0x61 */
++	{0x3705, 0x3c}, /* Reset value 0x21 */
++	{0x370c, 0x50}, /* Reset value 0x10 */
++	{0x370d, 0xc0}, /* Reset value 0x00 */
++	{0x3718, 0x88}, /* Reset value 0x80 */
++
++	/* PSRAM tweaks */
++	{0x3781, 0x80}, /* Reset value 0x00 */
++	{0x3784, 0x0c}, /* Reset value 0x00, based on OV2680_R1A_AM10.ovt */
++	{0x3789, 0x60}, /* Reset value 0x50 */
++
++	/* BLC CTRL00 0x01 -> 0x81 set avg_weight to 8 */
++	{0x4000, 0x81},
++
+ 	/* Set black level compensation range to 0 - 3 (default 0 - 11) */
+ 	{0x4008, 0x00},
+ 	{0x4009, 0x03},
  
- 	v4l2_i2c_subdev_init(&sensor->sd, client, &ov2680_subdev_ops);
-@@ -810,9 +814,9 @@ static int ov2680_v4l2_register(struct ov2680_dev *sensor, struct i2c_client *cl
- 					0, 0, test_pattern_menu);
++	/* VFIFO R2 0x00 -> 0x02 set Frame reset enable */
++	{0x4602, 0x02},
++
++	/* MIPI ctrl CLK PREPARE MIN change from 0x26 (38) -> 0x36 (54) */
++	{0x481f, 0x36},
++
++	/* MIPI ctrl CLK LPX P MIN change from 0x32 (50) -> 0x36 (54) */
++	{0x4825, 0x36},
++
++	/* R ISP CTRL2 0x20 -> 0x30, set sof_sel bit */
++	{0x5002, 0x30},
++
+ 	/*
+ 	 * Window CONTROL 0x00 -> 0x01, enable manual window control,
+ 	 * this is necessary for full size flip and mirror support.
+ 	 */
+ 	{0x5708, 0x01},
++
++	/*
++	 * DPC CTRL0 0x14 -> 0x3e, set enable_tail, enable_3x3_cluster
++	 * and enable_general_tail bits based OV2680_R1A_AM10.ovt.
++	 */
++	{0x5780, 0x3e},
++
++	/* DPC MORE CONNECTION CASE THRE 0x0c (12) -> 0x02 (2) */
++	{0x5788, 0x02},
++
++	/* DPC GAIN LIST1 0x0f (15) -> 0x08 (8) */
++	{0x578e, 0x08},
++
++	/* DPC GAIN LIST2 0x3f (63) -> 0x0c (12) */
++	{0x578f, 0x0c},
++
++	/* DPC THRE RATIO 0x04 (4) -> 0x00 (0) */
++	{0x5792, 0x00},
+ };
  
- 	ctrls->exposure = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_EXPOSURE,
--					    0, 32767, 1, 0);
-+					    0, exp_max, 1, exp_max);
- 
--	ctrls->gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_GAIN, 0, 2047, 1, 0);
-+	ctrls->gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_GAIN, 0, 1023, 1, 250);
- 
- 	if (hdl->error) {
- 		ret = hdl->error;
+ static struct ov2680_dev *to_ov2680_dev(struct v4l2_subdev *sd)
 -- 
 2.40.1
 
