@@ -2,289 +2,438 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5690D725609
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 09:40:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C574C725666
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 09:52:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238918AbjFGHkz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Jun 2023 03:40:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36422 "EHLO
+        id S239267AbjFGHv7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Jun 2023 03:51:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238803AbjFGHkV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 03:40:21 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C7FE2690
-        for <linux-media@vger.kernel.org>; Wed,  7 Jun 2023 00:38:11 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-977c89c47bdso728128066b.2
-        for <linux-media@vger.kernel.org>; Wed, 07 Jun 2023 00:38:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686123485; x=1688715485;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WNSVpTGK/l9iZwOWNmHI2F19yNhHKxnKGcZzUtPUdPM=;
-        b=ULkXjzQUh10+WTvid47PSYTfNolUEhpdm0pUGX4COa+AKaF56Lo1LEWLnJJLkMTtDk
-         1bu8DW26K2ZWIKauxfZBMLPFVq+1NaKdyWF36l+Djo6nB8KezB+LlKmThOeAOcQokC77
-         rd6mUJw2vIcay0nQc4onaXwFdHtel0CItpPmLaaB6SPBbHvwT+gDZWCSX3SULDuXVwQR
-         rEcJWNiETnCPR2sBojc8GzYqz9YevQgC0fruyK4yGMYGqmaLkb/3kg69m5d2Ctsk71zV
-         eITRSn697jIqgkelnOEW++XCjaltRsY+vxgXcGOWy4b0lvZ6y6qkeR9Qewzg2dl41Rq+
-         ml/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686123485; x=1688715485;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WNSVpTGK/l9iZwOWNmHI2F19yNhHKxnKGcZzUtPUdPM=;
-        b=AaGzCWAokouJ+5dqf+109cpuMcAyLYp1fEkjLVnMHwv4HUTftsvqbx5pv2H4FWCnQR
-         O0SzYoWDrXXPzm7ZdPDyltK+UtrNKW+ec78vs3eOFGj/1voGyw8jTPAoBErz3CDIcKSM
-         BpAB1UjIYG6edcz4L+PoHH8euP9bz7rxGadg9FaJ4kwBdcFiLxusOnsvF4lWgsP+S8/U
-         ubjtlkgC2OdXYRaPxKialYrvdlH6wCwBjyLczaFqZ+RLVzdOhNNlPBq5y1hY38iM1fTj
-         yDcpzlHFzE6Nr8MGFY+6/VfsfP+j2FH3tG1TuMF7o04WxjvJwHzVQZLGWJ+/rJXU8AMk
-         WQrA==
-X-Gm-Message-State: AC+VfDxd/XXDv4C9ysArJJSWvr0dZgU+3pMy0fLebHa8jgJANn80dpB+
-        qnzfdRB2yr2NqKtHYgy6VziyQg==
-X-Google-Smtp-Source: ACHHUZ4eKaPNF9Y7Ctvy7bb6DgDgKJYoGYQGb84V/eSeixnqSw+c+G9oT2Nf3z6Gs7xy3BpZkwvUJg==
-X-Received: by 2002:a17:907:9710:b0:974:c1c:8217 with SMTP id jg16-20020a170907971000b009740c1c8217mr5128815ejc.55.1686123485324;
-        Wed, 07 Jun 2023 00:38:05 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.26])
-        by smtp.gmail.com with ESMTPSA id bv13-20020a170906b1cd00b00978743b54bdsm1369725ejb.78.2023.06.07.00.38.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Jun 2023 00:38:04 -0700 (PDT)
-Message-ID: <d97987f2-58e1-f46f-4b33-ccc72285d089@linaro.org>
-Date:   Wed, 7 Jun 2023 09:38:02 +0200
+        with ESMTP id S239417AbjFGHvS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 03:51:18 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67DF91BEF
+        for <linux-media@vger.kernel.org>; Wed,  7 Jun 2023 00:50:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686124223; x=1717660223;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+FKqPcSWJDx2K13D70zHbiTncCqpAiGBByYCNA1/NOM=;
+  b=m/XMpvs+DQL6tJHzqS1s6GHndIiaO6LRcAPRjaI6IDYTjJv0yqk49yPl
+   YTMv1cToQjzXs9+dUhOCd7KAiyrrxKMkQGz7aqAd5Ll//JgWQwRcsNwBw
+   KG84oyMoRCtAsxmOVtrkYetBFtzQTri1nUGEtEqhX6FH8KAYxaKT2Bemc
+   LU/zP50fZNkw6uheOP8DobV0kkugK2VrJZSvna9qx3xR+y3qbZ5MeevEn
+   RN12B63ywF3ju6NzjtSa+0K+qP+kLkIbEQPqf4cykKJWbNZ1Pg0o90UuO
+   YXJRXrpm7wxt8Rr4DGJJ3oIACiZv7BZbL3j3rDNKEYwQnASjNKhFD020+
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="341570931"
+X-IronPort-AV: E=Sophos;i="6.00,223,1681196400"; 
+   d="scan'208";a="341570931"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 00:50:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="883640940"
+X-IronPort-AV: E=Sophos;i="6.00,223,1681196400"; 
+   d="scan'208";a="883640940"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 00:50:12 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 0A3C211FAE0;
+        Wed,  7 Jun 2023 10:50:10 +0300 (EEST)
+Date:   Wed, 7 Jun 2023 07:50:10 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/3] media: Add MIPI CCI register access helper functions
+Message-ID: <ZIA2ste/694cokGH@kekkonen.localdomain>
+References: <20230606165808.70751-1-hdegoede@redhat.com>
+ <20230606165808.70751-2-hdegoede@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH 2/9] riscv: dts: starfive: jh7110: add dc&hdmi controller
- node
-Content-Language: en-US
-To:     Keith Zhao <keith.zhao@starfivetech.com>,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Emil Renner Berthing <kernel@esmil.dk>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        christian.koenig@amd.com, Bjorn Andersson <andersson@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Shawn Guo <shawnguo@kernel.org>, Jagan Teki <jagan@edgeble.ai>,
-        Chris Morgan <macromorgan@hotmail.com>,
-        Jack Zhu <jack.zhu@starfivetech.com>,
-        Shengyang Chen <shengyang.chen@starfivetech.com>,
-        Changhuang Liang <changhuang.liang@starfivetech.com>
-References: <20230602074043.33872-1-keith.zhao@starfivetech.com>
- <20230602074043.33872-3-keith.zhao@starfivetech.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230602074043.33872-3-keith.zhao@starfivetech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230606165808.70751-2-hdegoede@redhat.com>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 02/06/2023 09:40, Keith Zhao wrote:
-> Add the dc controller and hdmi node for the Starfive JH7110 SoC.
+Hi Hans,
+
+Thank you for the patchset.
+
+On Tue, Jun 06, 2023 at 06:58:06PM +0200, Hans de Goede wrote:
+> The CSI2 specification specifies a standard method to access camera sensor
+> registers called "Camera Control Interface (CCI)".
 > 
-> Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
+> This uses either 8 or 16 bit (big-endian wire order) register addresses
+> and supports 8, 16, 24 or 32 bit (big-endian wire order) register widths.
+> 
+> Currently a lot of Linux camera sensor drivers all have their own custom
+> helpers for this, often copy and pasted from other drivers.
+> 
+> Add a set of generic helpers for this so that all sensor drivers can
+> switch to a single common implementation.
+> 
+> These helpers take an extra optional "int *err" function parameter,
+> this can be used to chain a bunch of register accesses together with
+> only a single error check at the end, rather then needing to error
+> check each individual register access. The first failing call will
+> set the contents of err to a non 0 value and all other calls will
+> then become no-ops.
+> 
+> Link: https://lore.kernel.org/linux-media/59aefa7f-7bf9-6736-6040-39551329cd0a@redhat.com/
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 > ---
->  .../jh7110-starfive-visionfive-2.dtsi         | 87 +++++++++++++++++++
->  arch/riscv/boot/dts/starfive/jh7110.dtsi      | 46 ++++++++++
->  2 files changed, 133 insertions(+)
+>  Documentation/driver-api/media/v4l2-cci.rst  |   5 +
+>  Documentation/driver-api/media/v4l2-core.rst |   1 +
+>  drivers/media/v4l2-core/Kconfig              |   5 +
+>  drivers/media/v4l2-core/Makefile             |   1 +
+>  drivers/media/v4l2-core/v4l2-cci.c           | 142 +++++++++++++++++++
+>  include/media/v4l2-cci.h                     | 109 ++++++++++++++
+>  6 files changed, 263 insertions(+)
+>  create mode 100644 Documentation/driver-api/media/v4l2-cci.rst
+>  create mode 100644 drivers/media/v4l2-core/v4l2-cci.c
+>  create mode 100644 include/media/v4l2-cci.h
 > 
-> diff --git a/arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2.dtsi b/arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2.dtsi
-> index 1155b97b593d..8dc6c8a15c59 100644
-> --- a/arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2.dtsi
-> +++ b/arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2.dtsi
-> @@ -31,6 +31,21 @@ memory@40000000 {
->  		reg = <0x0 0x40000000 0x1 0x0>;
->  	};
+> diff --git a/Documentation/driver-api/media/v4l2-cci.rst b/Documentation/driver-api/media/v4l2-cci.rst
+> new file mode 100644
+> index 000000000000..dd297a40ed20
+> --- /dev/null
+> +++ b/Documentation/driver-api/media/v4l2-cci.rst
+> @@ -0,0 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +V4L2 CCI kAPI
+> +^^^^^^^^^^^^^
+> +.. kernel-doc:: include/media/v4l2-cci.h
+> diff --git a/Documentation/driver-api/media/v4l2-core.rst b/Documentation/driver-api/media/v4l2-core.rst
+> index 1a8c4a5f256b..239045ecc8f4 100644
+> --- a/Documentation/driver-api/media/v4l2-core.rst
+> +++ b/Documentation/driver-api/media/v4l2-core.rst
+> @@ -22,6 +22,7 @@ Video4Linux devices
+>      v4l2-mem2mem
+>      v4l2-async
+>      v4l2-fwnode
+> +    v4l2-cci
+>      v4l2-rect
+>      v4l2-tuner
+>      v4l2-common
+> diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
+> index 348559bc2468..523ba243261d 100644
+> --- a/drivers/media/v4l2-core/Kconfig
+> +++ b/drivers/media/v4l2-core/Kconfig
+> @@ -74,6 +74,11 @@ config V4L2_FWNODE
+>  config V4L2_ASYNC
+>  	tristate
 >  
-> +	reserved-memory {
-> +		#address-cells = <2>;
-> +		#size-cells = <2>;
-> +		ranges;
+> +config V4L2_CCI
+> +	tristate
+> +	depends on I2C
+> +	select REGMAP_I2C
 > +
-> +		linux,cma {
-> +			compatible = "shared-dma-pool";
-> +			reusable;
-> +			size = <0x0 0x20000000>;
-> +			alignment = <0x0 0x1000>;
-> +			alloc-ranges = <0x0 0x80000000 0x0 0x20000000>;
-> +			linux,cma-default;
-> +		};
-> +	};
-> +
->  	gpio-restart {
->  		compatible = "gpio-restart";
->  		gpios = <&sysgpio 35 GPIO_ACTIVE_HIGH>;
-> @@ -214,6 +229,41 @@ GPOEN_DISABLE,
->  			slew-rate = <0>;
->  		};
->  	};
-> +
-> +	hdmi_pins: hdmi-0 {
-> +		hdmi-scl-pins {
-> +			pinmux = <GPIOMUX(0, GPOUT_SYS_HDMI_DDC_SCL,
-> +					     GPOEN_SYS_HDMI_DDC_SCL,
-> +					     GPI_SYS_HDMI_DDC_SCL)>;
-> +			input-enable;
-> +			bias-pull-up;
-> +		};
-> +
-> +		hdmi-sda-pins {
-> +			pinmux = <GPIOMUX(1, GPOUT_SYS_HDMI_DDC_SDA,
-> +					     GPOEN_SYS_HDMI_DDC_SDA,
-> +					     GPI_SYS_HDMI_DDC_SDA)>;
-> +			input-enable;
-> +			bias-pull-up;
-> +		};
-> +
-> +		hdmi-cec-pins {
-> +			pinmux = <GPIOMUX(14, GPOUT_SYS_HDMI_CEC_SDA,
-> +					     GPOEN_SYS_HDMI_CEC_SDA,
-> +					     GPI_SYS_HDMI_CEC_SDA)>;
-> +			input-enable;
-> +			bias-pull-up;
-> +		};
-> +
-> +		hdmi-hpd-pins {
-> +			pinmux = <GPIOMUX(15, GPOUT_HIGH,
-> +					     GPOEN_ENABLE,
-> +					     GPI_SYS_HDMI_HPD)>;
-> +			input-enable;
-> +			bias-disable; /* external pull-up */
-> +		};
-> +	};
-> +
->  };
+>  # Used by drivers that need Videobuf modules
+>  config VIDEOBUF_GEN
+>  	tristate
+> diff --git a/drivers/media/v4l2-core/Makefile b/drivers/media/v4l2-core/Makefile
+> index 41d91bd10cf2..be2551705755 100644
+> --- a/drivers/media/v4l2-core/Makefile
+> +++ b/drivers/media/v4l2-core/Makefile
+> @@ -25,6 +25,7 @@ videodev-$(CONFIG_VIDEO_V4L2_I2C) += v4l2-i2c.o
+>  # (e. g. LC_ALL=C sort Makefile)
 >  
->  &uart0 {
-> @@ -221,3 +271,40 @@ &uart0 {
->  	pinctrl-0 = <&uart0_pins>;
->  	status = "okay";
->  };
+>  obj-$(CONFIG_V4L2_ASYNC) += v4l2-async.o
+> +obj-$(CONFIG_V4L2_CCI) += v4l2-cci.o
+>  obj-$(CONFIG_V4L2_FLASH_LED_CLASS) += v4l2-flash-led-class.o
+>  obj-$(CONFIG_V4L2_FWNODE) += v4l2-fwnode.o
+>  obj-$(CONFIG_V4L2_H264) += v4l2-h264.o
+> diff --git a/drivers/media/v4l2-core/v4l2-cci.c b/drivers/media/v4l2-core/v4l2-cci.c
+> new file mode 100644
+> index 000000000000..21207d137dbe
+> --- /dev/null
+> +++ b/drivers/media/v4l2-core/v4l2-cci.c
+> @@ -0,0 +1,142 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * MIPI Camera Control Interface (CCI) register access helpers.
+> + *
+> + * Copyright (C) 2023 Hans de Goede <hansg@kernel.org>
+> + */
 > +
-> +&voutcrg {
-> +	status = "okay";
-> +};
+> +#include <linux/delay.h>
+> +#include <linux/dev_printk.h>
+> +#include <linux/module.h>
+> +#include <linux/regmap.h>
 > +
-> +&display {
-> +	status = "okay";
-> +};
+> +#include <media/v4l2-cci.h>
 > +
-> +&hdmi {
-> +	status = "okay";
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&hdmi_pins>;
-> +
-> +	hdmi_in: port {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		hdmi_input: endpoint@0 {
-> +			reg = <0>;
-> +			remote-endpoint = <&dc_out_dpi0>;
+> +int cci_read(struct regmap *map, u32 reg, u32 *val, int *err)
+> +{
+> +	int i, len, ret;
 
-This does not make any sense. You wrote in bindings that this is display
-output, but you call it HDMI input. If this is input, where is your output?
+Could i and len be unsigned?
 
-> +		};
+> +	u8 buf[4];
+> +
+> +	if (err && *err)
+> +		return *err;
+> +
+> +	/* Set len to register width in bytes */
+> +	len = ((reg & CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT) + 1;
+> +	reg &= CCI_REG_ADDR_MASK;
+> +
+> +	ret = regmap_bulk_read(map, reg, buf, len);
+> +	if (ret) {
+> +		dev_err(regmap_get_device(map), "Error reading reg 0x%4x: %d\n", reg, ret);
+> +		if (err)
+> +			*err = ret;
+> +
+> +		return ret;
+> +	}
+> +
+> +	*val = 0;
+> +	for (i = 0; i < len; i++) {
+> +		*val <<= 8;
+> +		*val |= buf[i];
+> +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(cci_read);
+> +
+> +int cci_write(struct regmap *map, u32 reg, u32 val, int *err)
+> +{
+> +	int i, len, ret;
+
+Same here.
+
+> +	u8 buf[4];
+> +
+> +	if (err && *err)
+> +		return *err;
+> +
+> +	/* Set len to register width in bytes */
+> +	len = ((reg & CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT) + 1;
+> +	reg &= CCI_REG_ADDR_MASK;
+> +
+> +	for (i = 0; i < len; i++) {
+> +		buf[len - i - 1] = val & 0xff;
+> +		val >>= 8;
+> +	}
+> +
+> +	ret = regmap_bulk_write(map, reg, buf, len);
+> +	if (ret) {
+> +		dev_err(regmap_get_device(map), "Error writing reg 0x%4x: %d\n", reg, ret);
+> +		if (err)
+> +			*err = ret;
+> +	}
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(cci_write);
+> +
+> +int cci_update_bits(struct regmap *map, u32 reg, u32 mask, u32 val, int *err)
+> +{
+> +	int width, ret;
+> +	u32 readval;
+> +
+> +	if (err && *err)
+> +		return *err;
+> +
+> +	/*
+> +	 * For single byte updates use regmap_update_bits(), this uses
+> +	 * the regmap-lock to protect against other read-modify-writes racing.
+> +	 */
+> +	width = (reg & CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT;
+> +	if (width == cci_reg_8) {
+> +		reg &= CCI_REG_ADDR_MASK;
+> +		ret = regmap_update_bits(map, reg, mask, val);
+> +		if (ret) {
+> +			dev_err(regmap_get_device(map), "Error updating reg 0x%4x: %d\n", reg, ret);
+> +			if (err)
+> +				*err = ret;
+> +		}
+> +
+> +		return ret;
+> +	}
+> +
+> +	ret = cci_read(map, reg, &readval, err);
+> +	if (ret)
+> +		return ret;
+> +
+> +	val = (readval & ~mask) | (val & mask);
+> +
+> +	return cci_write(map, reg, val, err);
+> +}
+> +EXPORT_SYMBOL_GPL(cci_update_bits);
+> +
+> +int cci_multi_reg_write(struct regmap *map, const struct reg_sequence *regs, int num_regs, int *err)
+> +{
+> +	int i, ret;
+> +
+> +	if (err && *err)
+> +		return *err;
+> +
+> +	for (i = 0; i < num_regs; i++) {
+> +		ret = cci_write(map, regs[i].reg, regs[i].def, err);
+> +		if (ret)
+> +			return ret;
+> +
+> +		if (regs[i].delay_us)
+> +			fsleep(regs[i].delay_us);
+> +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(cci_multi_reg_write);
+> +
+> +struct regmap *cci_regmap_init_i2c(struct i2c_client *client, int reg_addr_bits)
+> +{
+> +	struct regmap_config config = {
+> +		.reg_bits = reg_addr_bits,
+> +		.val_bits = 8,
+> +		.reg_format_endian = REGMAP_ENDIAN_BIG,
 > +	};
+> +
+> +	return devm_regmap_init_i2c(client, &config);
+> +}
+> +EXPORT_SYMBOL_GPL(cci_regmap_init_i2c);
+
+Bulk write functions would be nice, too: CCI does not limit access to
+register-like targets.
+
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_AUTHOR("Hans de Goede <hansg@kernel.org>");
+> diff --git a/include/media/v4l2-cci.h b/include/media/v4l2-cci.h
+> new file mode 100644
+> index 000000000000..69b8a7c4a013
+> --- /dev/null
+> +++ b/include/media/v4l2-cci.h
+> @@ -0,0 +1,109 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * MIPI Camera Control Interface (CCI) register access helpers.
+> + *
+> + * Copyright (C) 2023 Hans de Goede <hansg@kernel.org>
+> + */
+> +#ifndef _V4L2_CCI_H
+> +#define _V4L2_CCI_H
+> +
+> +#include <linux/regmap.h>
+> +#include <linux/types.h>
+> +
+> +/*
+> + * Note cci_reg_8 deliberately is 0, not 1, so that raw
+> + * (not wrapped in a CCI_REG*() macro) register addresses
+> + * do 8 bit wide accesses. This allows unchanged use of register
+> + * initialization lists of raw address, value pairs which only
+> + * do 8 bit width accesses. Which makes porting drivers easier.
+> + */
+> +enum cci_reg_type {
+> +	cci_reg_8 = 0,
+> +	cci_reg_16,
+> +	cci_reg_24,
+> +	cci_reg_32,
 > +};
 > +
-> +&dc8200 {
-> +	status = "okay";
+> +/*
+> + * Macros to define register address with the register width encoded
+> + * into the higher bits. CCI_REG8() is a no-op so its use is optional.
+> + */
+> +#define CCI_REG_ADDR_MASK		GENMASK(15, 0)
+> +#define CCI_REG_WIDTH_SHIFT		16
+> +#define CCI_REG_WIDTH_MASK		GENMASK(17, 16)
 > +
-> +	dc_out: port {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		dc_out_dpi0: endpoint@0 {
-> +			reg = <0>;
-> +			remote-endpoint = <&hdmi_input>;
-> +		};
+> +#define CCI_REG8(x)			((cci_reg_8 << CCI_REG_WIDTH_SHIFT) | (x))
+> +#define CCI_REG16(x)			((cci_reg_16 << CCI_REG_WIDTH_SHIFT) | (x))
+> +#define CCI_REG24(x)			((cci_reg_24 << CCI_REG_WIDTH_SHIFT) | (x))
+> +#define CCI_REG32(x)			((cci_reg_32 << CCI_REG_WIDTH_SHIFT) | (x))
+
+I'd drop enum ccsi_reg_type and just define the values here using plain
+numbers. How you test which width you have changes a little but not
+necessarily for worse. Up to you.
+
 > +
-
-Stray blank line.
-
-> +	};
-> +};
-> diff --git a/arch/riscv/boot/dts/starfive/jh7110.dtsi b/arch/riscv/boot/dts/starfive/jh7110.dtsi
-> index 9acb5fb1716d..66be6e65a066 100644
-> --- a/arch/riscv/boot/dts/starfive/jh7110.dtsi
-> +++ b/arch/riscv/boot/dts/starfive/jh7110.dtsi
-> @@ -249,6 +249,11 @@ tdm_ext: tdm-ext-clock {
->  		#clock-cells = <0>;
->  	};
->  
-> +	display: display-subsystem {
-> +		compatible = "verisilicon,display-subsystem";
-
-Drop fake nodes which do not represent hardware. Instead, DTS and
-bindings should describe real hardware.
-
-
-> +		ports = <&dc_out>;
-> +	};
+> +/**
+> + * cci_read() - Read a value from a single CCI register
+> + *
+> + * @map: Register map to write to
+> + * @reg: Register address to write, use CCI_REG#() macros to encode reg width
+> + * @val: Pointer to store read value
+> + * @err: optional pointer to store errors, if a previous error is set the write will be skipped
+> + *
+> + * Return: %0 on success or a negative error code on failure.
+> + */
+> +int cci_read(struct regmap *map, u32 reg, u32 *val, int *err);
 > +
->  	soc {
->  		compatible = "simple-bus";
->  		interrupt-parent = <&plic>;
-> @@ -570,5 +575,46 @@ voutcrg: clock-controller@295c0000 {
->  			#reset-cells = <1>;
->  			power-domains = <&pwrc JH7110_PD_VOUT>;
->  		};
+> +/**
+> + * cci_write() - Write a value to a single CCI register
+> + *
+> + * @map: Register map to write to
+> + * @reg: Register address to write, use CCI_REG#() macros to encode reg width
+> + * @val: Value to be written
+> + * @err: optional pointer to store errors, if a previous error is set the write will be skipped
+> + *
+> + * Return: %0 on success or a negative error code on failure.
+> + */
+> +int cci_write(struct regmap *map, u32 reg, u32 val, int *err);
 > +
-> +		dc8200: dc8200@29400000 {
+> +/**
+> + * cci_update_bits() - Perform a read/modify/write cycle on a single CCI register
+> + *
+> + * @map: Register map to write to
+> + * @reg: Register address to write, use CCI_REG#() macros to encode reg width
+> + * @mask: Bitmask to change
+> + * @val: New value for bitmask
+> + * @err: optional pointer to store errors, if a previous error is set the update will be skipped
+> + *
+> + * For 8 bit width registers this is guaranteed to be atomic wrt other
+> + * cci_*() register access functions. For multi-byte width registers
+> + * atomicity is NOT guaranteed.
+> + *
+> + * Return: %0 on success or a negative error code on failure.
+> + */
+> +int cci_update_bits(struct regmap *map, u32 reg, u32 mask, u32 val, int *err);
+> +
+> +/**
+> + * cci_multi_reg_write() - Write multiple registers to the device
+> + *
+> + * @map: Register map to write to
+> + * @regs: Array of structures containing register-address, value pairs to be written
+> + *        register-addresses use CCI_REG#() macros to encode reg width
+> + * @num_regs: Number of registers to write
+> + * @err: optional pointer to store errors, if a previous error is set the update will be skipped
+> + *
+> + * Write multiple registers to the device where the set of register, value
+> + * pairs are supplied in any order, possibly not all in a single range.
+> + *
+> + * Return: %0 on success or a negative error code on failure.
+> + */
+> +int cci_multi_reg_write(struct regmap *map, const struct reg_sequence *regs, int num_regs, int *err);
+> +
+> +/**
+> + * cci_regmap_init_i2c() - Create regmap to use with cci_*() register access functions
+> + *
+> + * @client: i2c_client to create the regmap for
+> + * @reg_addr_bits: register address width to use (8 or 16)
+> + *
+> + * Note the memory for the created regmap is devm() managed, tied to the client.
+> + *
+> + * Return: %0 on success or a negative error code on failure.
+> + */
+> +struct regmap *cci_regmap_init_i2c(struct i2c_client *client, int reg_addr_bits);
+> +
+> +#endif
 
-Node names should be generic. See also explanation and list of examples
-in DT specification:
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+-- 
+Kind regards,
 
-> +			compatible = "verisilicon,dc8200";
-> +			reg = <0x0 0x29400000 0x0 0x100>,
-> +			      <0x0 0x29400800 0x0 0x2000>,
-> +			      <0x0 0x295B0000 0x0 0x90>;
-> +			interrupts = <95>;
-> +			clocks = <&syscrg JH7110_SYSCLK_NOC_BUS_DISP_AXI>,
-> +				<&voutcrg JH7110_VOUTCLK_DC8200_PIX0>,
-> +				<&voutcrg JH7110_VOUTCLK_DC8200_PIX1>,
-> +				<&voutcrg JH7110_VOUTCLK_DC8200_AXI>,
-> +				<&voutcrg JH7110_VOUTCLK_DC8200_CORE>,
-> +				<&voutcrg JH7110_VOUTCLK_DC8200_AHB>,
-> +				<&hdmitx0_pixelclk>,
-> +				<&voutcrg JH7110_VOUTCLK_DC8200_PIX>;
-> +			clock-names = "clk_vout_noc_disp",
-> +				"clk_vout_pix0","clk_vout_pix1",
-
-Fix alignment
-
-> +				"clk_vout_axi","clk_vout_core",
-> +				"clk_vout_vout_ahb","hdmitx0_pixel",
-> +				"clk_vout_dc8200";
-> +			resets = <&voutcrg JH7110_VOUTRST_DC8200_AXI>,
-> +				 <&voutcrg JH7110_VOUTRST_DC8200_AHB>,
-> +				 <&voutcrg JH7110_VOUTRST_DC8200_CORE>;
-> +			reset-names = "rst_vout_axi","rst_vout_ahb",
-> +						"rst_vout_core";
-
-Fix alignment.
-
-
-
-Best regards,
-Krzysztof
-
+Sakari Ailus
