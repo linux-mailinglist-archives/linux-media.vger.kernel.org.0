@@ -2,153 +2,199 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 124E87258D0
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 10:56:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A68197258CF
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 10:56:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239516AbjFGI4a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Jun 2023 04:56:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54246 "EHLO
+        id S239646AbjFGI4O convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 7 Jun 2023 04:56:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235490AbjFGIz5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 04:55:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A9E719B6
-        for <linux-media@vger.kernel.org>; Wed,  7 Jun 2023 01:54:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1686128038;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=7SKAjUFFT7ri9T35JHkPStLUyk878RZQEUaCELj/NK4=;
-        b=jQQcm7B1RRYLQXUu/gP8PypXI+NGauFcd9jy0K+cSS7tBacfplw8HGKUoNhAeLFNWq7It1
-        YXImlOBEZxenk84kO+yrk2L47DzICf90TwMf5iCHU/arnpCnHE9bqmCyPb6JIGFNUnOsL/
-        9QSmkNhBWZTl44SCn7MIlHGPqujFpsw=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-232-h4A1EGtFP3-1c5XiGtySzA-1; Wed, 07 Jun 2023 04:53:57 -0400
-X-MC-Unique: h4A1EGtFP3-1c5XiGtySzA-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-9715654aba1so55298666b.0
-        for <linux-media@vger.kernel.org>; Wed, 07 Jun 2023 01:53:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686128036; x=1688720036;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7SKAjUFFT7ri9T35JHkPStLUyk878RZQEUaCELj/NK4=;
-        b=IvwUyuMW6UaOVEXbnWWJ2U+/Ji8l3I6QDwSKxlw+OgU4wYvuNfDK6bv49RFGr1OFWR
-         n9JAxts2h6AX8/BjlDgmQF5TBKhG+NU1RuLcR2mO8z8oB+1+IXtJ3/FZoqxfoZdQgbwV
-         I1AhPpYbZDd+5J0k/Vr1+pxgkC31UQf3Soay+ShIfylENIbw8/JYAqPgF/K8UoFdKqrD
-         sbyQAboliwX56A3VbD+Xdg+mZ7Suonx3FN3rWtWZFlrAwD/w0onevhEffH8+UhRgT9AD
-         7B+ZVv4ssp8pWhwhtt69sPxOO0COKlfUKqn/JMmzXQSJXV6LGyAODCIYCBX2HnbDHepx
-         4Whw==
-X-Gm-Message-State: AC+VfDxjP4zOlznauioMrbExrMvnzpZ/SqMfC/U1i7RYRuaMOE37VwxE
-        w7zgTg9+xXBIUrLDqEV5zYbGV1mMmy2MUMMEwP6pRgwL1mwb2CyQrytrgJrIm1KTYrBjOSjETSn
-        ORHrugPCAdq7G/p0atoGGhGk=
-X-Received: by 2002:a17:907:e86:b0:96f:add6:c1ed with SMTP id ho6-20020a1709070e8600b0096fadd6c1edmr9847821ejc.38.1686128036101;
-        Wed, 07 Jun 2023 01:53:56 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5i5rZbG4Xb+Vu6OvDKqr+Lfbbu/ZNZ8xl71Z+YqB0MYDf7yFsWUFWhZceFsDfVrIOql47hhA==
-X-Received: by 2002:a17:907:e86:b0:96f:add6:c1ed with SMTP id ho6-20020a1709070e8600b0096fadd6c1edmr9847807ejc.38.1686128035852;
-        Wed, 07 Jun 2023 01:53:55 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id lc5-20020a170906dfe500b00977e0bcff1esm3365087ejc.10.2023.06.07.01.53.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Jun 2023 01:53:55 -0700 (PDT)
-Message-ID: <c34ca549-8d07-35db-0635-a5c60728dfc2@redhat.com>
-Date:   Wed, 7 Jun 2023 10:53:54 +0200
+        with ESMTP id S239918AbjFGIzZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 04:55:25 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D6022708
+        for <linux-media@vger.kernel.org>; Wed,  7 Jun 2023 01:54:46 -0700 (PDT)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <l.stach@pengutronix.de>)
+        id 1q6ovb-0007f2-IU; Wed, 07 Jun 2023 10:54:03 +0200
+Message-ID: <e0eeae3b35e8efac7c577ca3159abcf7f43d5082.camel@pengutronix.de>
+Subject: Re: [PATCH 3/9] drm/verisilicon: Add basic drm driver
+From:   Lucas Stach <l.stach@pengutronix.de>
+To:     Keith Zhao <keith.zhao@starfivetech.com>,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Shengyang Chen <shengyang.chen@starfivetech.com>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jagan Teki <jagan@edgeble.ai>,
+        Rob Herring <robh+dt@kernel.org>,
+        Chris Morgan <macromorgan@hotmail.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Changhuang Liang <changhuang.liang@starfivetech.com>,
+        Jack Zhu <jack.zhu@starfivetech.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Shawn Guo <shawnguo@kernel.org>, christian.koenig@amd.com
+Date:   Wed, 07 Jun 2023 10:53:57 +0200
+In-Reply-To: <20230602074043.33872-4-keith.zhao@starfivetech.com>
+References: <20230602074043.33872-1-keith.zhao@starfivetech.com>
+         <20230602074043.33872-4-keith.zhao@starfivetech.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 2/3] media: atomisp: ov2680: Convert to new CCI register
- access helpers
-Content-Language: en-US, nl
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org
-References: <20230606165808.70751-1-hdegoede@redhat.com>
- <20230606165808.70751-3-hdegoede@redhat.com>
- <CAHp75VeqeA4GA0_r_KgH0wv0_TQ4rQUdTY99DFFR_oWfdiDxfw@mail.gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CAHp75VeqeA4GA0_r_KgH0wv0_TQ4rQUdTY99DFFR_oWfdiDxfw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Keith,
 
-On 6/6/23 22:53, Andy Shevchenko wrote:
-> On Tue, Jun 6, 2023 at 7:58 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>
->> Use the new comon CCI register access helpers to replace the private
->> register access helpers in the ov2680 driver.
->>
->> While at it also switch to using the same register address defines
->> as the standard drivers/media/i2c/ov2680.c driver to make merging
->> the 2 drivers simpler.
+Am Freitag, dem 02.06.2023 um 15:40 +0800 schrieb Keith Zhao:
+> Add a basic platform driver of the DRM driver for JH7110 SoC.
 > 
-> ...
+> Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
+> ---
+>  MAINTAINERS                          |   2 +
+>  drivers/gpu/drm/Kconfig              |   2 +
+>  drivers/gpu/drm/Makefile             |   1 +
+>  drivers/gpu/drm/verisilicon/Kconfig  |  13 ++
+>  drivers/gpu/drm/verisilicon/Makefile |   6 +
+>  drivers/gpu/drm/verisilicon/vs_drv.c | 284 +++++++++++++++++++++++++++
+>  drivers/gpu/drm/verisilicon/vs_drv.h |  48 +++++
+>  include/uapi/drm/drm_fourcc.h        |  83 ++++++++
+>  include/uapi/drm/vs_drm.h            |  50 +++++
+>  9 files changed, 489 insertions(+)
+>  create mode 100644 drivers/gpu/drm/verisilicon/Kconfig
+>  create mode 100644 drivers/gpu/drm/verisilicon/Makefile
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_drv.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_drv.h
+>  create mode 100644 include/uapi/drm/vs_drm.h
 > 
->> +       cci_write(sensor->regmap, OV2680_REG_SENSOR_CTRL_0A, sensor_ctrl_0a, &ret);
->> +       cci_write(sensor->regmap, OV2680_REG_HORIZONTAL_START, sensor->mode.h_start, &ret);
->> +       cci_write(sensor->regmap, OV2680_REG_VERTICAL_START, sensor->mode.v_start, &ret);
->> +       cci_write(sensor->regmap, OV2680_REG_HORIZONTAL_END, sensor->mode.h_end, &ret);
->> +       cci_write(sensor->regmap, OV2680_REG_VERTICAL_END, sensor->mode.v_end, &ret);
->> +       cci_write(sensor->regmap, OV2680_REG_HORIZONTAL_OUTPUT_SIZE,
->> +                 sensor->mode.h_output_size, &ret);
->> +       cci_write(sensor->regmap, OV2680_REG_VERTICAL_OUTPUT_SIZE,
->> +                 sensor->mode.v_output_size, &ret);
->> +       cci_write(sensor->regmap, OV2680_REG_TIMING_HTS, sensor->mode.hts, &ret);
->> +       cci_write(sensor->regmap, OV2680_REG_TIMING_VTS, sensor->mode.vts, &ret);
->> +       cci_write(sensor->regmap, OV2680_REG_ISP_X_WIN, 0, &ret);
->> +       cci_write(sensor->regmap, OV2680_REG_ISP_Y_WIN, 0, &ret);
->> +       cci_write(sensor->regmap, OV2680_REG_X_INC, inc, &ret);
->> +       cci_write(sensor->regmap, OV2680_REG_Y_INC, inc, &ret);
->> +       cci_write(sensor->regmap, OV2680_REG_X_WIN, sensor->mode.h_output_size, &ret);
->> +       cci_write(sensor->regmap, OV2680_REG_Y_WIN, sensor->mode.v_output_size, &ret);
->> +       cci_write(sensor->regmap, OV2680_REG_FORMAT1, fmt1, &ret);
->> +       cci_write(sensor->regmap, OV2680_REG_FORMAT2, fmt2, &ret);
 > 
-> I know that &ret thingy was discussed before and Laurent is keen to
-> have this, but has anybody actually tested how bad or not at all the
-> code generation becomes?
+> [...]
+> +#endif /* __VS_DRV_H__ */
+> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> index de703c6be969..af4fb50f9207 100644
+> --- a/include/uapi/drm/drm_fourcc.h
+> +++ b/include/uapi/drm/drm_fourcc.h
+> @@ -419,6 +419,7 @@ extern "C" {
+>  #define DRM_FORMAT_MOD_VENDOR_ARM     0x08
+>  #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
+>  #define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
+> +#define DRM_FORMAT_MOD_VENDOR_VS      0x0b
+>  
+>  /* add more to the end as needed */
+>  
+> @@ -1519,6 +1520,88 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
+>  #define AMD_FMT_MOD_CLEAR(field) \
+>  	(~((__u64)AMD_FMT_MOD_##field##_MASK << AMD_FMT_MOD_##field##_SHIFT))
+>  
+> +#define DRM_FORMAT_MOD_VS_TYPE_NORMAL        0x00
+> +#define DRM_FORMAT_MOD_VS_TYPE_COMPRESSED    0x01
+> +#define DRM_FORMAT_MOD_VS_TYPE_CUSTOM_10BIT  0x02
+> +#define DRM_FORMAT_MOD_VS_TYPE_MASK     ((__u64)0x3 << 54)
+> +
+> +#define fourcc_mod_vs_code(type, val) \
+> +	fourcc_mod_code(VS, ((((__u64)type) << 54) | (val)))
+> +
+> +#define DRM_FORMAT_MOD_VS_DEC_TILE_MODE_MASK    0x3F
+> +#define DRM_FORMAT_MOD_VS_DEC_TILE_8X8_XMAJOR   0x00
+> +#define DRM_FORMAT_MOD_VS_DEC_TILE_8X8_YMAJOR   0x01
+> +#define DRM_FORMAT_MOD_VS_DEC_TILE_16X4     0x02
+> +#define DRM_FORMAT_MOD_VS_DEC_TILE_8X4      0x03
+> +#define DRM_FORMAT_MOD_VS_DEC_TILE_4X8      0x04
+> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_16X4   0x06
+> +#define DRM_FORMAT_MOD_VS_DEC_TILE_64X4     0x07
+> +#define DRM_FORMAT_MOD_VS_DEC_TILE_32X4     0x08
+> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_256X1  0x09
+> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_128X1  0x0A
+> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_64X4   0x0B
+> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_256X2  0x0C
+> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_128X2  0x0D
+> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_128X4  0x0E
+> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_64X1   0x0F
+> +#define DRM_FORMAT_MOD_VS_DEC_TILE_16X8     0x10
+> +#define DRM_FORMAT_MOD_VS_DEC_TILE_8X16     0x11
+> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_512X1  0x12
+> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_32X4   0x13
+> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_64X2   0x14
+> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_32X2   0x15
+> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_32X1   0x16
+> +#define DRM_FORMAT_MOD_VS_DEC_RASTER_16X1   0x17
+> +#define DRM_FORMAT_MOD_VS_DEC_TILE_128X4    0x18
+> +#define DRM_FORMAT_MOD_VS_DEC_TILE_256X4    0x19
+> +#define DRM_FORMAT_MOD_VS_DEC_TILE_512X4    0x1A
+> +#define DRM_FORMAT_MOD_VS_DEC_TILE_16X16    0x1B
+> +#define DRM_FORMAT_MOD_VS_DEC_TILE_32X16    0x1C
+> +#define DRM_FORMAT_MOD_VS_DEC_TILE_64X16    0x1D
+> +#define DRM_FORMAT_MOD_VS_DEC_TILE_128X8    0x1E
+> +#define DRM_FORMAT_MOD_VS_DEC_TILE_8X4_S    0x1F
+> +#define DRM_FORMAT_MOD_VS_DEC_TILE_16X4_S   0x20
+> +#define DRM_FORMAT_MOD_VS_DEC_TILE_32X4_S   0x21
+> +#define DRM_FORMAT_MOD_VS_DEC_TILE_16X4_LSB 0x22
+> +#define DRM_FORMAT_MOD_VS_DEC_TILE_32X4_LSB 0x23
+> +#define DRM_FORMAT_MOD_VS_DEC_TILE_32X8     0x24
+> +
+> +#define DRM_FORMAT_MOD_VS_DEC_ALIGN_32      (0x01 << 6)
+> +#define DRM_FORMAT_MOD_VS_DEC_ALIGN_64      (0x01 << 7)
+> +
+> +#define fourcc_mod_vs_dec_code(tile, align) \
+> +	fourcc_mod_vs_code(DRM_FORMAT_MOD_VS_TYPE_COMPRESSED, \
+> +				((tile) | (align)))
+> +
+> +#define DRM_FORMAT_MOD_VS_NORM_MODE_MASK        0x1F
+> +#define DRM_FORMAT_MOD_VS_LINEAR                0x00
+> +#define DRM_FORMAT_MOD_VS_TILED4x4              0x01
+> +#define DRM_FORMAT_MOD_VS_SUPER_TILED_XMAJOR    0x02
+> +#define DRM_FORMAT_MOD_VS_SUPER_TILED_YMAJOR    0x03
+> +#define DRM_FORMAT_MOD_VS_TILE_8X8              0x04
+> +#define DRM_FORMAT_MOD_VS_TILE_MODE1            0x05
+> +#define DRM_FORMAT_MOD_VS_TILE_MODE2            0x06
+> +#define DRM_FORMAT_MOD_VS_TILE_8X4              0x07
+> +#define DRM_FORMAT_MOD_VS_TILE_MODE4            0x08
+> +#define DRM_FORMAT_MOD_VS_TILE_MODE5            0x09
+> +#define DRM_FORMAT_MOD_VS_TILE_MODE6            0x0A
+> +#define DRM_FORMAT_MOD_VS_SUPER_TILED_XMAJOR_8X4    0x0B
+> +#define DRM_FORMAT_MOD_VS_SUPER_TILED_YMAJOR_4X8    0x0C
+> +#define DRM_FORMAT_MOD_VS_TILE_Y                0x0D
+> +#define DRM_FORMAT_MOD_VS_TILE_128X1            0x0F
+> +#define DRM_FORMAT_MOD_VS_TILE_256X1            0x10
+> +#define DRM_FORMAT_MOD_VS_TILE_32X1             0x11
+> +#define DRM_FORMAT_MOD_VS_TILE_64X1             0x12
+> +#define DRM_FORMAT_MOD_VS_TILE_MODE4X4          0x15
+> +
+> +#define fourcc_mod_vs_norm_code(tile) \
+> +	fourcc_mod_vs_code(DRM_FORMAT_MOD_VS_TYPE_NORMAL, \
+> +				(tile))
+> +
+> +#define fourcc_mod_vs_custom_code(tile) \
+> +	fourcc_mod_vs_code(DRM_FORMAT_MOD_VS_TYPE_CUSTOM_10BIT, \
+> +				(tile))
+> +
 
-The cci_write function is in another module, so it won't be inlined and as such I don't see how the code generation can become bad. We loose all the if (ret) return ret; checks here, so the code should become smaller.
+You are opening a new namespace for what is effectively the VIVANTE
+tiling. While your list seems much more exhaustive than the (reverse
+engineered) list provided under the VIVANTE namespace, this is still
+unacceptable as it adds new aliases for existing modifiers.
 
-Or are you worried about having to pass the 1 extra parameter ?
-
-
-> 
-> ...
-> 
->> +       struct device *dev;
->> +       struct regmap *regmap;
-> 
-> Isn't the same device associated with regmap? If so, one of them
-> probably duplicates the other.
-
-You are right, but the entire atomisp-ov2680.c file is going away real soon now. I plan to post a series to get drivers/media/i2c/ov2680.c ready to replace it later today.
-
-So I'm not even sure if this patch should be merged, as I mentioned in the cover letter this one is mostly here to illustrate use of the new helpers.
-
-I also wrote this patch to make porting recent atomisp-ov2680.c changes over to drivers/media/i2c/ov2680.c easier. Part of the series to get drivers/media/i2c/ov2680.c into shape is converting it to the new CCI helpers so that I could then easily copy over bits from the also converted atomisp-ov2680.c.
-
-So it might be interesting to still merge this so that the latest state of atomisp-ov2680.c is easier to compare to drivers/media/i2c/ov2680.c if the need arises.
+Also any modifier additions should be in a separate patch and not
+buried in another change.
 
 Regards,
-
-Hans
-
-
-
-
+Lucas
