@@ -2,41 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0889D726653
-	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 18:48:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DA5B72664E
+	for <lists+linux-media@lfdr.de>; Wed,  7 Jun 2023 18:48:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230387AbjFGQs1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Jun 2023 12:48:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35132 "EHLO
+        id S230322AbjFGQsU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Jun 2023 12:48:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230362AbjFGQs0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 12:48:26 -0400
+        with ESMTP id S230297AbjFGQsT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 12:48:19 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F30501FDC
-        for <linux-media@vger.kernel.org>; Wed,  7 Jun 2023 09:47:35 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AAE01FE0
+        for <linux-media@vger.kernel.org>; Wed,  7 Jun 2023 09:47:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1686156455;
+        s=mimecast20190719; t=1686156456;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=AyXctrUfoTwlvZnQqB5zl0vSAuCk35E4TLUju/L+FWM=;
-        b=U702D/QNDH6PCP4E9pxD79zznk8uPc3WXSJToMsaao0JEdD85H4oEAr0XOXLnW74zYRcMZ
-        LpkVNlyn06BkCa7Q9umqhWDpkRKkVJC1K/3L4rOENFMsIkYm1AdzcjVeDUWW4GgkcLdQ1r
-        BIlPyUy0/ifS5WG1uVhEiAN0l0/tK/I=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=mAiGyCxf7i5mLN3w31LVmCDtqNVYcbKFzZOZL4HD9Ao=;
+        b=bESdgH2fNroYbUkn+V+951bxAdMT8lkO4YAhgw93YeLa1JV2OYSlYA5WW7/NuQZXwsXfyy
+        NFLu+HYNyjyP+nNPPuWIvgPG0KXpBaJGYTceQOqycaXhiZ6fiXmoCEEEWGalsT7Xy4eWpL
+        NH+HpiiZWwe2VKFiSOWnxo3wL1qPOsQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-39-p73RSC4UPB2lFOpuoQm7nA-1; Wed, 07 Jun 2023 12:47:31 -0400
-X-MC-Unique: p73RSC4UPB2lFOpuoQm7nA-1
+ us-mta-187--UpbnPFNPe69lRW3B3TtXw-1; Wed, 07 Jun 2023 12:47:33 -0400
+X-MC-Unique: -UpbnPFNPe69lRW3B3TtXw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6FF1F80231B;
-        Wed,  7 Jun 2023 16:47:30 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7C6E53806704;
+        Wed,  7 Jun 2023 16:47:32 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.22])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 57452C1603B;
-        Wed,  7 Jun 2023 16:47:29 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A3629C1603B;
+        Wed,  7 Jun 2023 16:47:30 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Daniel Scally <dan.scally@ideasonboard.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -45,9 +45,9 @@ To:     Daniel Scally <dan.scally@ideasonboard.com>,
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org
-Subject: [PATCH 08/28] media: Add MIPI CCI register access helper functions
-Date:   Wed,  7 Jun 2023 18:46:52 +0200
-Message-Id: <20230607164712.63579-9-hdegoede@redhat.com>
+Subject: [PATCH 09/28] media: ov2680: Convert to new CCI register access helpers
+Date:   Wed,  7 Jun 2023 18:46:53 +0200
+Message-Id: <20230607164712.63579-10-hdegoede@redhat.com>
 In-Reply-To: <20230607164712.63579-1-hdegoede@redhat.com>
 References: <20230607164712.63579-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -63,353 +63,387 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The CSI2 specification specifies a standard method to access camera sensor
-registers called "Camera Control Interface (CCI)".
+Use the new comon CCI register access helpers to replace the private
+register access helpers in the ov2680 driver.
 
-This uses either 8 or 16 bit (big-endian wire order) register addresses
-and supports 8, 16, 24 or 32 bit (big-endian wire order) register widths.
-
-Currently a lot of Linux camera sensor drivers all have their own custom
-helpers for this, often copy and pasted from other drivers.
-
-Add a set of generic helpers for this so that all sensor drivers can
-switch to a single common implementation.
-
-These helpers take an extra optional "int *err" function parameter,
-this can be used to chain a bunch of register accesses together with
-only a single error check at the end, rather then needing to error
-check each individual register access. The first failing call will
-set the contents of err to a non 0 value and all other calls will
-then become no-ops.
-
-Link: https://lore.kernel.org/linux-media/59aefa7f-7bf9-6736-6040-39551329cd0a@redhat.com/
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- Documentation/driver-api/media/v4l2-cci.rst  |   5 +
- Documentation/driver-api/media/v4l2-core.rst |   1 +
- drivers/media/v4l2-core/Kconfig              |   5 +
- drivers/media/v4l2-core/Makefile             |   1 +
- drivers/media/v4l2-core/v4l2-cci.c           | 142 +++++++++++++++++++
- include/media/v4l2-cci.h                     | 109 ++++++++++++++
- 6 files changed, 263 insertions(+)
- create mode 100644 Documentation/driver-api/media/v4l2-cci.rst
- create mode 100644 drivers/media/v4l2-core/v4l2-cci.c
- create mode 100644 include/media/v4l2-cci.h
+ drivers/media/i2c/Kconfig  |   1 +
+ drivers/media/i2c/ov2680.c | 207 +++++++++----------------------------
+ 2 files changed, 47 insertions(+), 161 deletions(-)
 
-diff --git a/Documentation/driver-api/media/v4l2-cci.rst b/Documentation/driver-api/media/v4l2-cci.rst
-new file mode 100644
-index 000000000000..dd297a40ed20
---- /dev/null
-+++ b/Documentation/driver-api/media/v4l2-cci.rst
-@@ -0,0 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+V4L2 CCI kAPI
-+^^^^^^^^^^^^^
-+.. kernel-doc:: include/media/v4l2-cci.h
-diff --git a/Documentation/driver-api/media/v4l2-core.rst b/Documentation/driver-api/media/v4l2-core.rst
-index 1a8c4a5f256b..239045ecc8f4 100644
---- a/Documentation/driver-api/media/v4l2-core.rst
-+++ b/Documentation/driver-api/media/v4l2-core.rst
-@@ -22,6 +22,7 @@ Video4Linux devices
-     v4l2-mem2mem
-     v4l2-async
-     v4l2-fwnode
-+    v4l2-cci
-     v4l2-rect
-     v4l2-tuner
-     v4l2-common
-diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
-index 348559bc2468..523ba243261d 100644
---- a/drivers/media/v4l2-core/Kconfig
-+++ b/drivers/media/v4l2-core/Kconfig
-@@ -74,6 +74,11 @@ config V4L2_FWNODE
- config V4L2_ASYNC
- 	tristate
+diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+index 791473fcbad3..d17b52e390e1 100644
+--- a/drivers/media/i2c/Kconfig
++++ b/drivers/media/i2c/Kconfig
+@@ -435,6 +435,7 @@ config VIDEO_OV2680
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select V4L2_FWNODE
++	select V4L2_CCI
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the OmniVision
+ 	  OV2680 camera.
+diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
+index ffdc7c06a361..dc57052336b3 100644
+--- a/drivers/media/i2c/ov2680.c
++++ b/drivers/media/i2c/ov2680.c
+@@ -10,7 +10,6 @@
+  *
+  */
  
-+config V4L2_CCI
-+	tristate
-+	depends on I2C
-+	select REGMAP_I2C
-+
- # Used by drivers that need Videobuf modules
- config VIDEOBUF_GEN
- 	tristate
-diff --git a/drivers/media/v4l2-core/Makefile b/drivers/media/v4l2-core/Makefile
-index 41d91bd10cf2..be2551705755 100644
---- a/drivers/media/v4l2-core/Makefile
-+++ b/drivers/media/v4l2-core/Makefile
-@@ -25,6 +25,7 @@ videodev-$(CONFIG_VIDEO_V4L2_I2C) += v4l2-i2c.o
- # (e. g. LC_ALL=C sort Makefile)
+-#include <asm/unaligned.h>
+ #include <linux/clk.h>
+ #include <linux/delay.h>
+ #include <linux/err.h>
+@@ -21,38 +20,34 @@
+ #include <linux/gpio/consumer.h>
+ #include <linux/regulator/consumer.h>
  
- obj-$(CONFIG_V4L2_ASYNC) += v4l2-async.o
-+obj-$(CONFIG_V4L2_CCI) += v4l2-cci.o
- obj-$(CONFIG_V4L2_FLASH_LED_CLASS) += v4l2-flash-led-class.o
- obj-$(CONFIG_V4L2_FWNODE) += v4l2-fwnode.o
- obj-$(CONFIG_V4L2_H264) += v4l2-h264.o
-diff --git a/drivers/media/v4l2-core/v4l2-cci.c b/drivers/media/v4l2-core/v4l2-cci.c
-new file mode 100644
-index 000000000000..21207d137dbe
---- /dev/null
-+++ b/drivers/media/v4l2-core/v4l2-cci.c
-@@ -0,0 +1,142 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * MIPI Camera Control Interface (CCI) register access helpers.
-+ *
-+ * Copyright (C) 2023 Hans de Goede <hansg@kernel.org>
-+ */
-+
-+#include <linux/delay.h>
-+#include <linux/dev_printk.h>
-+#include <linux/module.h>
-+#include <linux/regmap.h>
-+
 +#include <media/v4l2-cci.h>
-+
-+int cci_read(struct regmap *map, u32 reg, u32 *val, int *err)
-+{
-+	int i, len, ret;
-+	u8 buf[4];
-+
-+	if (err && *err)
-+		return *err;
-+
-+	/* Set len to register width in bytes */
-+	len = ((reg & CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT) + 1;
-+	reg &= CCI_REG_ADDR_MASK;
-+
-+	ret = regmap_bulk_read(map, reg, buf, len);
-+	if (ret) {
-+		dev_err(regmap_get_device(map), "Error reading reg 0x%4x: %d\n", reg, ret);
-+		if (err)
-+			*err = ret;
-+
-+		return ret;
-+	}
-+
-+	*val = 0;
-+	for (i = 0; i < len; i++) {
-+		*val <<= 8;
-+		*val |= buf[i];
-+	}
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(cci_read);
-+
-+int cci_write(struct regmap *map, u32 reg, u32 val, int *err)
-+{
-+	int i, len, ret;
-+	u8 buf[4];
-+
-+	if (err && *err)
-+		return *err;
-+
-+	/* Set len to register width in bytes */
-+	len = ((reg & CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT) + 1;
-+	reg &= CCI_REG_ADDR_MASK;
-+
-+	for (i = 0; i < len; i++) {
-+		buf[len - i - 1] = val & 0xff;
-+		val >>= 8;
-+	}
-+
-+	ret = regmap_bulk_write(map, reg, buf, len);
-+	if (ret) {
-+		dev_err(regmap_get_device(map), "Error writing reg 0x%4x: %d\n", reg, ret);
-+		if (err)
-+			*err = ret;
-+	}
-+
+ #include <media/v4l2-common.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-subdev.h>
+ 
+-#define OV2680_XVCLK_VALUE	24000000
++#define OV2680_XVCLK_VALUE			24000000
+ 
+-#define OV2680_CHIP_ID		0x2680
++#define OV2680_CHIP_ID				0x2680
+ 
+-#define OV2680_REG_STREAM_CTRL		0x0100
+-#define OV2680_REG_SOFT_RESET		0x0103
++#define OV2680_REG_STREAM_CTRL			CCI_REG8(0x0100)
++#define OV2680_REG_SOFT_RESET			CCI_REG8(0x0103)
+ 
+-#define OV2680_REG_CHIP_ID_HIGH		0x300a
+-#define OV2680_REG_CHIP_ID_LOW		0x300b
++#define OV2680_REG_CHIP_ID			CCI_REG16(0x300a)
+ 
+-#define OV2680_REG_R_MANUAL		0x3503
+-#define OV2680_REG_GAIN_PK		0x350a
+-#define OV2680_REG_EXPOSURE_PK_HIGH	0x3500
+-#define OV2680_REG_TIMING_HTS		0x380c
+-#define OV2680_REG_TIMING_VTS		0x380e
+-#define OV2680_REG_FORMAT1		0x3820
+-#define OV2680_REG_FORMAT2		0x3821
++#define OV2680_REG_EXPOSURE_PK			CCI_REG24(0x3500)
++#define OV2680_REG_R_MANUAL			CCI_REG8(0x3503)
++#define OV2680_REG_GAIN_PK			CCI_REG16(0x350a)
++#define OV2680_REG_TIMING_HTS			CCI_REG16(0x380c)
++#define OV2680_REG_TIMING_VTS			CCI_REG16(0x380e)
++#define OV2680_REG_FORMAT1			CCI_REG8(0x3820)
++#define OV2680_REG_FORMAT2			CCI_REG8(0x3821)
+ 
+-#define OV2680_REG_ISP_CTRL00		0x5080
++#define OV2680_REG_ISP_CTRL00			CCI_REG8(0x5080)
+ 
+-#define OV2680_FRAME_RATE		30
++#define OV2680_FRAME_RATE			30
+ 
+-#define OV2680_REG_VALUE_8BIT		1
+-#define OV2680_REG_VALUE_16BIT		2
+-#define OV2680_REG_VALUE_24BIT		3
+-
+-#define OV2680_WIDTH_MAX		1600
+-#define OV2680_HEIGHT_MAX		1200
++#define OV2680_WIDTH_MAX			1600
++#define OV2680_HEIGHT_MAX			1200
+ 
+ #define OV2680_DEFAULT_WIDTH			800
+ #define OV2680_DEFAULT_HEIGHT			600
+@@ -64,11 +59,6 @@ enum ov2680_mode_id {
+ 	OV2680_MODE_MAX,
+ };
+ 
+-struct reg_value {
+-	u16 reg_addr;
+-	u8 val;
+-};
+-
+ static const char * const ov2680_supply_name[] = {
+ 	"DOVDD",
+ 	"DVDD",
+@@ -82,7 +72,7 @@ struct ov2680_mode_info {
+ 	enum ov2680_mode_id id;
+ 	u32 width;
+ 	u32 height;
+-	const struct reg_value *reg_data;
++	const struct reg_sequence *reg_data;
+ 	u32 reg_data_size;
+ };
+ 
+@@ -97,6 +87,7 @@ struct ov2680_ctrls {
+ 
+ struct ov2680_dev {
+ 	struct i2c_client		*i2c_client;
++	struct regmap			*regmap;
+ 	struct v4l2_subdev		sd;
+ 
+ 	struct media_pad		pad;
+@@ -133,7 +124,7 @@ static const int ov2680_hv_flip_bayer_order[] = {
+ 	MEDIA_BUS_FMT_SRGGB10_1X10,
+ };
+ 
+-static const struct reg_value ov2680_setting_30fps_QUXGA_800_600[] = {
++static const struct reg_sequence ov2680_setting_30fps_QUXGA_800_600[] = {
+ 	{0x3086, 0x01}, {0x370a, 0x23}, {0x3808, 0x03}, {0x3809, 0x20},
+ 	{0x380a, 0x02}, {0x380b, 0x58}, {0x380c, 0x06}, {0x380d, 0xac},
+ 	{0x380e, 0x02}, {0x380f, 0x84}, {0x3811, 0x04}, {0x3813, 0x04},
+@@ -142,14 +133,14 @@ static const struct reg_value ov2680_setting_30fps_QUXGA_800_600[] = {
+ 	{0x3503, 0x03},
+ };
+ 
+-static const struct reg_value ov2680_setting_30fps_720P_1280_720[] = {
++static const struct reg_sequence ov2680_setting_30fps_720P_1280_720[] = {
+ 	{0x3086, 0x00}, {0x3808, 0x05}, {0x3809, 0x00}, {0x380a, 0x02},
+ 	{0x380b, 0xd0}, {0x380c, 0x06}, {0x380d, 0xa8}, {0x380e, 0x05},
+ 	{0x380f, 0x0e}, {0x3811, 0x08}, {0x3813, 0x06}, {0x3814, 0x11},
+ 	{0x3815, 0x11}, {0x3820, 0xc0}, {0x4008, 0x00},
+ };
+ 
+-static const struct reg_value ov2680_setting_30fps_UXGA_1600_1200[] = {
++static const struct reg_sequence ov2680_setting_30fps_UXGA_1600_1200[] = {
+ 	{0x3086, 0x00}, {0x3501, 0x4e}, {0x3502, 0xe0}, {0x3808, 0x06},
+ 	{0x3809, 0x40}, {0x380a, 0x04}, {0x380b, 0xb0}, {0x380c, 0x06},
+ 	{0x380d, 0xa8}, {0x380e, 0x05}, {0x380f, 0x0e}, {0x3811, 0x00},
+@@ -191,115 +182,6 @@ static inline struct v4l2_subdev *ctrl_to_sd(struct v4l2_ctrl *ctrl)
+ 			     ctrls.handler)->sd;
+ }
+ 
+-static int __ov2680_write_reg(struct ov2680_dev *sensor, u16 reg,
+-			      unsigned int len, u32 val)
+-{
+-	struct i2c_client *client = sensor->i2c_client;
+-	u8 buf[6];
+-	int ret;
+-
+-	if (len > 4)
+-		return -EINVAL;
+-
+-	put_unaligned_be16(reg, buf);
+-	put_unaligned_be32(val << (8 * (4 - len)), buf + 2);
+-	ret = i2c_master_send(client, buf, len + 2);
+-	if (ret != len + 2) {
+-		dev_err(&client->dev, "write error: reg=0x%4x: %d\n", reg, ret);
+-		return -EIO;
+-	}
+-
+-	return 0;
+-}
+-
+-#define ov2680_write_reg(s, r, v) \
+-	__ov2680_write_reg(s, r, OV2680_REG_VALUE_8BIT, v)
+-
+-#define ov2680_write_reg16(s, r, v) \
+-	__ov2680_write_reg(s, r, OV2680_REG_VALUE_16BIT, v)
+-
+-#define ov2680_write_reg24(s, r, v) \
+-	__ov2680_write_reg(s, r, OV2680_REG_VALUE_24BIT, v)
+-
+-static int __ov2680_read_reg(struct ov2680_dev *sensor, u16 reg,
+-			     unsigned int len, u32 *val)
+-{
+-	struct i2c_client *client = sensor->i2c_client;
+-	struct i2c_msg msgs[2];
+-	u8 addr_buf[2] = { reg >> 8, reg & 0xff };
+-	u8 data_buf[4] = { 0, };
+-	int ret;
+-
+-	if (len > 4)
+-		return -EINVAL;
+-
+-	msgs[0].addr = client->addr;
+-	msgs[0].flags = 0;
+-	msgs[0].len = ARRAY_SIZE(addr_buf);
+-	msgs[0].buf = addr_buf;
+-
+-	msgs[1].addr = client->addr;
+-	msgs[1].flags = I2C_M_RD;
+-	msgs[1].len = len;
+-	msgs[1].buf = &data_buf[4 - len];
+-
+-	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
+-	if (ret != ARRAY_SIZE(msgs)) {
+-		dev_err(&client->dev, "read error: reg=0x%4x: %d\n", reg, ret);
+-		return -EIO;
+-	}
+-
+-	*val = get_unaligned_be32(data_buf);
+-
+-	return 0;
+-}
+-
+-#define ov2680_read_reg(s, r, v) \
+-	__ov2680_read_reg(s, r, OV2680_REG_VALUE_8BIT, v)
+-
+-#define ov2680_read_reg16(s, r, v) \
+-	__ov2680_read_reg(s, r, OV2680_REG_VALUE_16BIT, v)
+-
+-#define ov2680_read_reg24(s, r, v) \
+-	__ov2680_read_reg(s, r, OV2680_REG_VALUE_24BIT, v)
+-
+-static int ov2680_mod_reg(struct ov2680_dev *sensor, u16 reg, u8 mask, u8 val)
+-{
+-	u32 readval;
+-	int ret;
+-
+-	ret = ov2680_read_reg(sensor, reg, &readval);
+-	if (ret < 0)
+-		return ret;
+-
+-	readval &= ~mask;
+-	val &= mask;
+-	val |= readval;
+-
+-	return ov2680_write_reg(sensor, reg, val);
+-}
+-
+-static int ov2680_load_regs(struct ov2680_dev *sensor,
+-			    const struct ov2680_mode_info *mode)
+-{
+-	const struct reg_value *regs = mode->reg_data;
+-	unsigned int i;
+-	int ret = 0;
+-	u16 reg_addr;
+-	u8 val;
+-
+-	for (i = 0; i < mode->reg_data_size; ++i, ++regs) {
+-		reg_addr = regs->reg_addr;
+-		val = regs->val;
+-
+-		ret = ov2680_write_reg(sensor, reg_addr, val);
+-		if (ret)
+-			break;
+-	}
+-
+-	return ret;
+-}
+-
+ static void ov2680_power_up(struct ov2680_dev *sensor)
+ {
+ 	if (!sensor->reset_gpio)
+@@ -350,7 +232,8 @@ static int ov2680_set_vflip(struct ov2680_dev *sensor, s32 val)
+ 	if (sensor->is_streaming)
+ 		return -EBUSY;
+ 
+-	ret = ov2680_mod_reg(sensor, OV2680_REG_FORMAT1, BIT(2), val ? BIT(2) : 0);
++	ret = cci_update_bits(sensor->regmap, OV2680_REG_FORMAT1, BIT(2),
++			      val ? BIT(2) : 0, NULL);
+ 	if (ret < 0)
+ 		return ret;
+ 
+@@ -365,7 +248,8 @@ static int ov2680_set_hflip(struct ov2680_dev *sensor, s32 val)
+ 	if (sensor->is_streaming)
+ 		return -EBUSY;
+ 
+-	ret = ov2680_mod_reg(sensor, OV2680_REG_FORMAT2, BIT(2), val ? BIT(2) : 0);
++	ret = cci_update_bits(sensor->regmap, OV2680_REG_FORMAT2, BIT(2),
++			      val ? BIT(2) : 0, NULL);
+ 	if (ret < 0)
+ 		return ret;
+ 
+@@ -375,47 +259,43 @@ static int ov2680_set_hflip(struct ov2680_dev *sensor, s32 val)
+ 
+ static int ov2680_test_pattern_set(struct ov2680_dev *sensor, int value)
+ {
+-	int ret;
++	int ret = 0;
+ 
+ 	if (!value)
+-		return ov2680_mod_reg(sensor, OV2680_REG_ISP_CTRL00, BIT(7), 0);
++		return cci_update_bits(sensor->regmap, OV2680_REG_ISP_CTRL00, BIT(7), 0, NULL);
+ 
+-	ret = ov2680_mod_reg(sensor, OV2680_REG_ISP_CTRL00, 0x03, value - 1);
+-	if (ret < 0)
+-		return ret;
++	cci_update_bits(sensor->regmap, OV2680_REG_ISP_CTRL00, 0x03, value - 1, &ret);
++	cci_update_bits(sensor->regmap, OV2680_REG_ISP_CTRL00, BIT(7), BIT(7), &ret);
+ 
+-	ret = ov2680_mod_reg(sensor, OV2680_REG_ISP_CTRL00, BIT(7), BIT(7));
+-	if (ret < 0)
+-		return ret;
+-
+-	return 0;
 +	return ret;
-+}
-+EXPORT_SYMBOL_GPL(cci_write);
+ }
+ 
+ static int ov2680_gain_set(struct ov2680_dev *sensor, u32 gain)
+ {
+-	return ov2680_write_reg16(sensor, OV2680_REG_GAIN_PK, gain);
++	return cci_write(sensor->regmap, OV2680_REG_GAIN_PK, gain, NULL);
+ }
+ 
+ static int ov2680_exposure_set(struct ov2680_dev *sensor, u32 exp)
+ {
+-	return ov2680_write_reg24(sensor, OV2680_REG_EXPOSURE_PK_HIGH, exp << 4);
++	return cci_write(sensor->regmap, OV2680_REG_EXPOSURE_PK, exp << 4, NULL);
+ }
+ 
+ static int ov2680_stream_enable(struct ov2680_dev *sensor)
+ {
+-	return ov2680_write_reg(sensor, OV2680_REG_STREAM_CTRL, 1);
++	return cci_write(sensor->regmap, OV2680_REG_STREAM_CTRL, 1, NULL);
+ }
+ 
+ static int ov2680_stream_disable(struct ov2680_dev *sensor)
+ {
+-	return ov2680_write_reg(sensor, OV2680_REG_STREAM_CTRL, 0);
++	return cci_write(sensor->regmap, OV2680_REG_STREAM_CTRL, 0, NULL);
+ }
+ 
+ static int ov2680_mode_set(struct ov2680_dev *sensor)
+ {
+ 	int ret;
+ 
+-	ret = ov2680_load_regs(sensor, sensor->current_mode);
++	ret = cci_multi_reg_write(sensor->regmap, sensor->current_mode->reg_data,
++				  sensor->current_mode->reg_data_size, NULL);
+ 	if (ret < 0)
+ 		return ret;
+ 
+@@ -433,7 +313,8 @@ static int ov2680_mode_restore(struct ov2680_dev *sensor)
+ {
+ 	int ret;
+ 
+-	ret = ov2680_load_regs(sensor, &ov2680_mode_init_data);
++	ret = cci_multi_reg_write(sensor->regmap, ov2680_mode_init_data.reg_data,
++				  ov2680_mode_init_data.reg_data_size, NULL);
+ 	if (ret < 0)
+ 		return ret;
+ 
+@@ -468,7 +349,7 @@ static int ov2680_power_on(struct ov2680_dev *sensor)
+ 	}
+ 
+ 	if (!sensor->reset_gpio) {
+-		ret = ov2680_write_reg(sensor, OV2680_REG_SOFT_RESET, 0x01);
++		ret = cci_write(sensor->regmap, OV2680_REG_SOFT_RESET, 0x01, NULL);
+ 		if (ret != 0) {
+ 			dev_err(dev, "sensor soft reset failed\n");
+ 			return ret;
+@@ -835,9 +716,9 @@ static int ov2680_check_id(struct ov2680_dev *sensor)
+ 
+ 	ov2680_power_on(sensor);
+ 
+-	ret = ov2680_read_reg16(sensor, OV2680_REG_CHIP_ID_HIGH, &chip_id);
++	ret = cci_read(sensor->regmap, OV2680_REG_CHIP_ID, &chip_id, NULL);
+ 	if (ret < 0) {
+-		dev_err(dev, "failed to read chip id high\n");
++		dev_err(dev, "failed to read chip id\n");
+ 		return -ENODEV;
+ 	}
+ 
+@@ -891,6 +772,10 @@ static int ov2680_probe(struct i2c_client *client)
+ 
+ 	sensor->i2c_client = client;
+ 
++	sensor->regmap = cci_regmap_init_i2c(client, 16);
++	if (IS_ERR(sensor->regmap))
++		return PTR_ERR(sensor->regmap);
 +
-+int cci_update_bits(struct regmap *map, u32 reg, u32 mask, u32 val, int *err)
-+{
-+	int width, ret;
-+	u32 readval;
-+
-+	if (err && *err)
-+		return *err;
-+
-+	/*
-+	 * For single byte updates use regmap_update_bits(), this uses
-+	 * the regmap-lock to protect against other read-modify-writes racing.
-+	 */
-+	width = (reg & CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT;
-+	if (width == cci_reg_8) {
-+		reg &= CCI_REG_ADDR_MASK;
-+		ret = regmap_update_bits(map, reg, mask, val);
-+		if (ret) {
-+			dev_err(regmap_get_device(map), "Error updating reg 0x%4x: %d\n", reg, ret);
-+			if (err)
-+				*err = ret;
-+		}
-+
-+		return ret;
-+	}
-+
-+	ret = cci_read(map, reg, &readval, err);
-+	if (ret)
-+		return ret;
-+
-+	val = (readval & ~mask) | (val & mask);
-+
-+	return cci_write(map, reg, val, err);
-+}
-+EXPORT_SYMBOL_GPL(cci_update_bits);
-+
-+int cci_multi_reg_write(struct regmap *map, const struct reg_sequence *regs, int num_regs, int *err)
-+{
-+	int i, ret;
-+
-+	if (err && *err)
-+		return *err;
-+
-+	for (i = 0; i < num_regs; i++) {
-+		ret = cci_write(map, regs[i].reg, regs[i].def, err);
-+		if (ret)
-+			return ret;
-+
-+		if (regs[i].delay_us)
-+			fsleep(regs[i].delay_us);
-+	}
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(cci_multi_reg_write);
-+
-+struct regmap *cci_regmap_init_i2c(struct i2c_client *client, int reg_addr_bits)
-+{
-+	struct regmap_config config = {
-+		.reg_bits = reg_addr_bits,
-+		.val_bits = 8,
-+		.reg_format_endian = REGMAP_ENDIAN_BIG,
-+	};
-+
-+	return devm_regmap_init_i2c(client, &config);
-+}
-+EXPORT_SYMBOL_GPL(cci_regmap_init_i2c);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Hans de Goede <hansg@kernel.org>");
-diff --git a/include/media/v4l2-cci.h b/include/media/v4l2-cci.h
-new file mode 100644
-index 000000000000..69b8a7c4a013
---- /dev/null
-+++ b/include/media/v4l2-cci.h
-@@ -0,0 +1,109 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * MIPI Camera Control Interface (CCI) register access helpers.
-+ *
-+ * Copyright (C) 2023 Hans de Goede <hansg@kernel.org>
-+ */
-+#ifndef _V4L2_CCI_H
-+#define _V4L2_CCI_H
-+
-+#include <linux/regmap.h>
-+#include <linux/types.h>
-+
-+/*
-+ * Note cci_reg_8 deliberately is 0, not 1, so that raw
-+ * (not wrapped in a CCI_REG*() macro) register addresses
-+ * do 8 bit wide accesses. This allows unchanged use of register
-+ * initialization lists of raw address, value pairs which only
-+ * do 8 bit width accesses. Which makes porting drivers easier.
-+ */
-+enum cci_reg_type {
-+	cci_reg_8 = 0,
-+	cci_reg_16,
-+	cci_reg_24,
-+	cci_reg_32,
-+};
-+
-+/*
-+ * Macros to define register address with the register width encoded
-+ * into the higher bits. CCI_REG8() is a no-op so its use is optional.
-+ */
-+#define CCI_REG_ADDR_MASK		GENMASK(15, 0)
-+#define CCI_REG_WIDTH_SHIFT		16
-+#define CCI_REG_WIDTH_MASK		GENMASK(17, 16)
-+
-+#define CCI_REG8(x)			((cci_reg_8 << CCI_REG_WIDTH_SHIFT) | (x))
-+#define CCI_REG16(x)			((cci_reg_16 << CCI_REG_WIDTH_SHIFT) | (x))
-+#define CCI_REG24(x)			((cci_reg_24 << CCI_REG_WIDTH_SHIFT) | (x))
-+#define CCI_REG32(x)			((cci_reg_32 << CCI_REG_WIDTH_SHIFT) | (x))
-+
-+/**
-+ * cci_read() - Read a value from a single CCI register
-+ *
-+ * @map: Register map to write to
-+ * @reg: Register address to write, use CCI_REG#() macros to encode reg width
-+ * @val: Pointer to store read value
-+ * @err: optional pointer to store errors, if a previous error is set the write will be skipped
-+ *
-+ * Return: %0 on success or a negative error code on failure.
-+ */
-+int cci_read(struct regmap *map, u32 reg, u32 *val, int *err);
-+
-+/**
-+ * cci_write() - Write a value to a single CCI register
-+ *
-+ * @map: Register map to write to
-+ * @reg: Register address to write, use CCI_REG#() macros to encode reg width
-+ * @val: Value to be written
-+ * @err: optional pointer to store errors, if a previous error is set the write will be skipped
-+ *
-+ * Return: %0 on success or a negative error code on failure.
-+ */
-+int cci_write(struct regmap *map, u32 reg, u32 val, int *err);
-+
-+/**
-+ * cci_update_bits() - Perform a read/modify/write cycle on a single CCI register
-+ *
-+ * @map: Register map to write to
-+ * @reg: Register address to write, use CCI_REG#() macros to encode reg width
-+ * @mask: Bitmask to change
-+ * @val: New value for bitmask
-+ * @err: optional pointer to store errors, if a previous error is set the update will be skipped
-+ *
-+ * For 8 bit width registers this is guaranteed to be atomic wrt other
-+ * cci_*() register access functions. For multi-byte width registers
-+ * atomicity is NOT guaranteed.
-+ *
-+ * Return: %0 on success or a negative error code on failure.
-+ */
-+int cci_update_bits(struct regmap *map, u32 reg, u32 mask, u32 val, int *err);
-+
-+/**
-+ * cci_multi_reg_write() - Write multiple registers to the device
-+ *
-+ * @map: Register map to write to
-+ * @regs: Array of structures containing register-address, value pairs to be written
-+ *        register-addresses use CCI_REG#() macros to encode reg width
-+ * @num_regs: Number of registers to write
-+ * @err: optional pointer to store errors, if a previous error is set the update will be skipped
-+ *
-+ * Write multiple registers to the device where the set of register, value
-+ * pairs are supplied in any order, possibly not all in a single range.
-+ *
-+ * Return: %0 on success or a negative error code on failure.
-+ */
-+int cci_multi_reg_write(struct regmap *map, const struct reg_sequence *regs, int num_regs, int *err);
-+
-+/**
-+ * cci_regmap_init_i2c() - Create regmap to use with cci_*() register access functions
-+ *
-+ * @client: i2c_client to create the regmap for
-+ * @reg_addr_bits: register address width to use (8 or 16)
-+ *
-+ * Note the memory for the created regmap is devm() managed, tied to the client.
-+ *
-+ * Return: %0 on success or a negative error code on failure.
-+ */
-+struct regmap *cci_regmap_init_i2c(struct i2c_client *client, int reg_addr_bits);
-+
-+#endif
+ 	ret = ov2680_parse_dt(sensor);
+ 	if (ret < 0)
+ 		return -EINVAL;
 -- 
 2.40.1
 
