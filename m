@@ -2,172 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E26607289F4
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jun 2023 23:08:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71241728B12
+	for <lists+linux-media@lfdr.de>; Fri,  9 Jun 2023 00:28:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237006AbjFHVI4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Jun 2023 17:08:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58770 "EHLO
+        id S237100AbjFHW2X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Jun 2023 18:28:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237040AbjFHVIy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jun 2023 17:08:54 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 411EF30DF;
-        Thu,  8 Jun 2023 14:08:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686258528; x=1717794528;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=feLhceN5MoyaEEcZHMZvB1mjorERrPsarNA+YfBuF0Q=;
-  b=QQGZ0U+37sdjZ4y0QBUQFd6EwlixnWABbxh9gvyOOlLmx3+E56mnLGhl
-   mJQtP9GD/oIZSBv2qWwHtnTR8WycxDa1RyFslJV2dHpBcV7LF0RmWR2zT
-   Nfhoa56FFGhPfVZ08FGiQoqvEk0VUDGPygEHcpoXLtJK6FDXpXQXnKexM
-   wTSiOpVQzTNhTm6Q+isfLoH/RrD5xC8JHcwDXn2B/za0UHdKcO9Fv5RWI
-   OPaH1fyNj09Egop2DA6E+fwvoi6+z03+61HxyY5QEJRS2pEe/gNEncswx
-   47O75csdCNge+Arzyzf1Qs9TgreCDzXtZPs0Mfm2LG5r3Ui8YDuXTBIag
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="423309336"
-X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; 
-   d="scan'208";a="423309336"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 14:08:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="660533664"
-X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; 
-   d="scan'208";a="660533664"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 08 Jun 2023 14:08:40 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1q7Ms3-0008Ga-1K;
-        Thu, 08 Jun 2023 21:08:39 +0000
-Date:   Fri, 9 Jun 2023 05:08:11 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Tommaso Merciai <tomm.merciai@gmail.com>
-Cc:     oe-kbuild-all@lists.linux.dev, jacopo.mondi@ideasonboard.com,
-        laurent.pinchart@ideasonboard.com, martin.hecht@avnet.eu,
-        michael.roeder@avnet.eu, linuxfancy@googlegroups.com,
+        with ESMTP id S229784AbjFHW2W (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jun 2023 18:28:22 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10BD326BA;
+        Thu,  8 Jun 2023 15:28:21 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-977e7d6945aso210945766b.2;
+        Thu, 08 Jun 2023 15:28:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686263299; x=1688855299;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MCS6dst0f7pylGFlcTuSJ9qEy8WAZzA65zdvMlz15JY=;
+        b=lC2d2etBYyV9BMDudbYCxaGzGECTLD/39Y7snRMWRLQfKTZQkJ23WRzKPZZ2sdEsXw
+         nLggdK7CIoASe7ecQXXuTdJQq50iIHlpm77CAuw8WCnXrBwFqz7USjjqFxEIWKCMn94C
+         IQFAzbLVlKAz+Mnac0kQNqq+8O69L9e8FNiycu0xvGkJ+qaMIeelq90sjlktr4QSw1A9
+         s/KybHvg4cgb5G2nU+SRxElEMdQcGvQAvkrM6ZejCbtqxB3OdxUhZ5xnQkRX2ucvm04n
+         1Bc0OTd7GA6+v/8B7+D0j/6bEE3hGRaJDcE6TRhAH7yipet6SZOglvLkdh/P3IEhoSdE
+         vHmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686263299; x=1688855299;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MCS6dst0f7pylGFlcTuSJ9qEy8WAZzA65zdvMlz15JY=;
+        b=EPgzvBuUQh2dnKIsLRrSCYbke63DKhvIcYfLVqAY4SQWyOt8qN9X2Gdy4C2PoHTl9x
+         RgN0zj09h3nEHSm3KSdi4Q47teyJlzexXVa72aYuki0tjs1RSYj/USil92eNTDi8RXOW
+         caGvYsT3DWL8xGQm75/WJvqyhPoArpZAkpT3Lcc+8f6x04CFKKkJR73/+0vedyA++3Qg
+         0rdtH84Hm8VvvHEw2qEYtW23GtXhCU3ceYzZwBfyfnVzkRwT/TXewljjlKIKZWSTEdRw
+         g6VMZWP7uV2Umq81W4dv/JDz6uhWZ02gqYWz229mBDg+QF+2AhpSLrT+ctODoRl8g1+b
+         NmbQ==
+X-Gm-Message-State: AC+VfDyFkB/zZlS2YJWGiDZKIgVIpyOH4Kk7MbanObWlfcnnP0nBz1GN
+        eiQaSRDAiysUtQkxz/HAv2gxW7XYj3eLLQ==
+X-Google-Smtp-Source: ACHHUZ6klHf7Tr4by9XJNaupWMNceTRpJVGshEfGbmbo+9HdySLpd99oQInBGTvOa0J9DAuGQ5T6eQ==
+X-Received: by 2002:a17:907:7f23:b0:977:c854:ba3 with SMTP id qf35-20020a1709077f2300b00977c8540ba3mr538256ejc.42.1686263299237;
+        Thu, 08 Jun 2023 15:28:19 -0700 (PDT)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation.station (net-188-217-50-121.cust.vodafonedsl.it. [188.217.50.121])
+        by smtp.gmail.com with ESMTPSA id i20-20020a170906a29400b00977fb2fb44asm429568ejz.28.2023.06.08.15.28.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Jun 2023 15:28:18 -0700 (PDT)
+From:   Tommaso Merciai <tomm.merciai@gmail.com>
+Cc:     laurent.pinchart@ideasonboard.com, linuxfancy@googlegroups.com,
+        jacopo.mondi@ideasonboard.com,
         Tommaso Merciai <tomm.merciai@gmail.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Gerald Loacker <gerald.loacker@wolfvision.net>,
-        Nicholas Roth <nicholas@rothemail.net>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Mikhail Rudenko <mike.rudenko@gmail.com>,
-        Shawn Tu <shawnx.tu@intel.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 3/3] media: i2c: Add support for alvium camera
-Message-ID: <202306090401.jEkSrYuJ-lkp@intel.com>
-References: <20230608083127.545750-4-tomm.merciai@gmail.com>
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: i2c: imx290: drop format param from imx290_ctrl_update
+Date:   Fri,  9 Jun 2023 00:28:10 +0200
+Message-Id: <20230608222810.574628-1-tomm.merciai@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230608083127.545750-4-tomm.merciai@gmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tommaso,
+The format param actually is not used in imx290_ctrl_update
+function, let's drop this
 
-kernel test robot noticed the following build warnings:
+Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+---
+ drivers/media/i2c/imx290.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on robh/for-next linus/master v6.4-rc5 next-20230608]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tommaso-Merciai/dt-bindings-vendor-prefixes-Add-prefix-alliedvision/20230608-163423
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230608083127.545750-4-tomm.merciai%40gmail.com
-patch subject: [PATCH v5 3/3] media: i2c: Add support for alvium camera
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230609/202306090401.jEkSrYuJ-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add media-tree git://linuxtv.org/media_tree.git
-        git fetch media-tree master
-        git checkout media-tree/master
-        b4 shazam https://lore.kernel.org/r/20230608083127.545750-4-tomm.merciai@gmail.com
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/media/i2c/
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306090401.jEkSrYuJ-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/media/i2c/alvium-csi2.c: In function 'alvium_get_dt_data':
->> drivers/media/i2c/alvium-csi2.c:3245:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-    3245 |         int ret = 0;
-         |             ^~~
-
-
-vim +/ret +3245 drivers/media/i2c/alvium-csi2.c
-
-  3239	
-  3240	static int alvium_get_dt_data(struct alvium_dev *alvium)
-  3241	{
-  3242		struct device *dev = &alvium->i2c_client->dev;
-  3243		struct device_node *node = dev->of_node;
-  3244		struct fwnode_handle *endpoint;
-> 3245		int ret = 0;
-  3246	
-  3247		if (!node)
-  3248			return -EINVAL;
-  3249	
-  3250		ret = fwnode_property_read_u32(dev_fwnode(dev),
-  3251				  "alliedvision,lp2hs-delay-us",
-  3252				  &alvium->lp2hs_delay);
-  3253	
-  3254		endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(dev), NULL);
-  3255		if (!endpoint) {
-  3256			dev_err(dev, "endpoint node not found\n");
-  3257			return -EINVAL;
-  3258		}
-  3259	
-  3260		if (v4l2_fwnode_endpoint_alloc_parse(endpoint, &alvium->ep)) {
-  3261			dev_err(dev, "could not parse endpoint\n");
-  3262			return 0;
-  3263		}
-  3264	
-  3265		if (alvium->ep.bus_type != V4L2_MBUS_CSI2_DPHY) {
-  3266			dev_err(dev, "unsupported bus type\n");
-  3267			return -EINVAL;
-  3268		}
-  3269	
-  3270		if (!alvium->ep.nr_of_link_frequencies) {
-  3271			dev_err(dev, "no link frequencies defined");
-  3272			return -EINVAL;
-  3273		}
-  3274	
-  3275		dev_info(dev, "freq: %llu\n",
-  3276					    alvium->ep.link_frequencies[0]);
-  3277		dev_info(dev, "lanes: %d\n",
-  3278					    alvium->ep.bus.mipi_csi2.num_data_lanes);
-  3279	
-  3280		return 0;
-  3281	}
-  3282	
-
+diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+index 5ea25b7acc55..a84b581682a2 100644
+--- a/drivers/media/i2c/imx290.c
++++ b/drivers/media/i2c/imx290.c
+@@ -902,7 +902,6 @@ static const char * const imx290_test_pattern_menu[] = {
+ };
+ 
+ static void imx290_ctrl_update(struct imx290 *imx290,
+-			       const struct v4l2_mbus_framefmt *format,
+ 			       const struct imx290_mode *mode)
+ {
+ 	unsigned int hblank_min = mode->hmax_min - mode->width;
+@@ -1195,7 +1194,7 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
+ 	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+ 		imx290->current_mode = mode;
+ 
+-		imx290_ctrl_update(imx290, &fmt->format, mode);
++		imx290_ctrl_update(imx290, mode);
+ 		imx290_exposure_update(imx290, mode);
+ 	}
+ 
+@@ -1300,7 +1299,6 @@ static const struct media_entity_operations imx290_subdev_entity_ops = {
+ static int imx290_subdev_init(struct imx290 *imx290)
+ {
+ 	struct i2c_client *client = to_i2c_client(imx290->dev);
+-	const struct v4l2_mbus_framefmt *format;
+ 	struct v4l2_subdev_state *state;
+ 	int ret;
+ 
+@@ -1335,8 +1333,7 @@ static int imx290_subdev_init(struct imx290 *imx290)
+ 	}
+ 
+ 	state = v4l2_subdev_lock_and_get_active_state(&imx290->sd);
+-	format = v4l2_subdev_get_pad_format(&imx290->sd, state, 0);
+-	imx290_ctrl_update(imx290, format, imx290->current_mode);
++	imx290_ctrl_update(imx290, imx290->current_mode);
+ 	v4l2_subdev_unlock_state(state);
+ 
+ 	return 0;
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
