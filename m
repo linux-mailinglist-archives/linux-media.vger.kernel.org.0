@@ -2,150 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A3B5D7279CF
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jun 2023 10:20:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCA8E7279FA
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jun 2023 10:31:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235046AbjFHIUr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Jun 2023 04:20:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58866 "EHLO
+        id S234434AbjFHIbf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Jun 2023 04:31:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235044AbjFHIUp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jun 2023 04:20:45 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5C3E2695
-        for <linux-media@vger.kernel.org>; Thu,  8 Jun 2023 01:20:43 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6B3EE6449A
-        for <linux-media@vger.kernel.org>; Thu,  8 Jun 2023 08:20:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1B95C433D2;
-        Thu,  8 Jun 2023 08:20:41 +0000 (UTC)
-Message-ID: <e635ea49-c185-c02f-fe37-adc4c30b752c@xs4all.nl>
-Date:   Thu, 8 Jun 2023 10:20:40 +0200
+        with ESMTP id S234421AbjFHIbd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jun 2023 04:31:33 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F9DD26B2;
+        Thu,  8 Jun 2023 01:31:32 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-97458c97333so63473866b.2;
+        Thu, 08 Jun 2023 01:31:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686213091; x=1688805091;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jY0TqkytLM8ZaBdorQZOnJVO5Ap/VET/cHHd7xNrEGk=;
+        b=ZGw7j+num/A3LhVGeRyKJVy+3ekygcrm/Ee08IxR+GGwphOJ6+3j6soddHHhRKpDiy
+         TAjumcI6sFUN2xLvC0Fif+dj7NDNEPygaGxUSTHmtAwS+g4PnPKa+2Mg8dKyxyMcDSxg
+         n2EGfaKk1rdkTW+WAdNrDAdDIapk820pPRQ+Wwb+Vdp0SSJOsqdGXBIdKczBt2/8rZDE
+         fzedLMGjBHhzwfkiryiOQUvY0QkR7/KaKaaCDLj0jzoz9MEs/6MnQeN36MRphnderJ2p
+         NwPPBN7y7xuDy6IOkbibn2/n+auf2m+/O7FSRYrf3H6nW3ZKcUO1lR/v/eZaFfvMBKTt
+         kRhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686213091; x=1688805091;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jY0TqkytLM8ZaBdorQZOnJVO5Ap/VET/cHHd7xNrEGk=;
+        b=dIL4748knDmatr7oKMaV9Tl0ll7AYxMEakB5Vz4+R/VuB8zry0ynL5PTwVMel8lerO
+         3l3yWHypOyjZklgB0Ltn6+mbsYqMZM0kiiuYjeOqopGrdxIYXuzhoYfm8nczK6AZ8HNt
+         HAG/EGEqWPhszJBpchHCgKVnalUe0/e52c1qcQsFYmvDO5js43H8/j6K89txkCwGEWFc
+         fCcx0N5Rz0Vp7PtbkpLLukNpmiPKXftTfHrztsBo83yQB4mDw/daSnGg1DZMJw4n4Ft/
+         P3O4J+2N+bZJ8XhusJgD6djt3peVn43mhk5pEzjjeB3+X/k8zFlavnmVJccOSeP+U34g
+         S2WQ==
+X-Gm-Message-State: AC+VfDw3qpqk+aOQN3fl0pEzo0blZvCuQSzYdjhP5Gvwcus/Okd7OWIV
+        iV7xygXyWa7UmbR2vSzsWgs=
+X-Google-Smtp-Source: ACHHUZ4Cz7kJedYsCUnlh1swxReqp1Ph4vnuY4RYpQexiA3uDVBxnozg95sZT9xzan8LyT7kPLL5Eg==
+X-Received: by 2002:a17:907:7282:b0:974:31:ed74 with SMTP id dt2-20020a170907728200b009740031ed74mr7781715ejc.65.1686213090624;
+        Thu, 08 Jun 2023 01:31:30 -0700 (PDT)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation.station (net-188-217-50-121.cust.vodafonedsl.it. [188.217.50.121])
+        by smtp.gmail.com with ESMTPSA id y8-20020a170906558800b00974c32c9a75sm373690ejp.216.2023.06.08.01.31.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Jun 2023 01:31:30 -0700 (PDT)
+From:   Tommaso Merciai <tomm.merciai@gmail.com>
+Cc:     jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com,
+        martin.hecht@avnet.eu, michael.roeder@avnet.eu,
+        linuxfancy@googlegroups.com,
+        Tommaso Merciai <tomm.merciai@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Gerald Loacker <gerald.loacker@wolfvision.net>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        =?UTF-8?q?Krzysztof=20Ha=C5=82asa?= <khalasa@piap.pl>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Nicholas Roth <nicholas@rothemail.net>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH v5 0/3] media: i2c: Add support for alvium camera
+Date:   Thu,  8 Jun 2023 10:31:13 +0200
+Message-Id: <20230608083127.545750-1-tomm.merciai@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [RFC 3/7] media: uapi: v4l: Document source routes
-Content-Language: en-US
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
-        bingbu.cao@intel.com, hongju.wang@intel.com
-References: <20230505215257.60704-1-sakari.ailus@linux.intel.com>
- <20230505215257.60704-4-sakari.ailus@linux.intel.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20230505215257.60704-4-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 05/05/2023 23:52, Sakari Ailus wrote:
-> Document how internal pads are used on source routes.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  .../userspace-api/media/v4l/dev-subdev.rst     | 18 ++++++++++++++++++
->  .../media/v4l/vidioc-subdev-g-routing.rst      |  5 +++++
->  include/uapi/linux/v4l2-subdev.h               |  6 +++++-
->  3 files changed, 28 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> index a4f1df7093e8..395e06d2f0f2 100644
-> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> @@ -551,6 +551,24 @@ A stream at a specific point in the media pipeline is identified by the
->  sub-device and a (pad, stream) pair. For sub-devices that do not support
->  multiplexed streams the 'stream' field is always 0.
->  
-> +.. _v4l2-subdev-source-routes:
-> +
-> +Source routes
-> +^^^^^^^^^^^^^
-> +
-> +Cases where a single sub-device pad is a source of multiple streams are special
-> +as there is no sink pad for such a route. In those cases, an internal pad is
-> +used as the sink pad. Such pads have the :ref:`MEDIA_PAD_FL_INTERNAL_SOURCE
-> +<MEDIA-PAD-FL-INTERNAL-SOURCE>` flag set.
+Hello All,
 
-add: instead of the <MEDIA-PAD-FL-SINK> flag.
+This series add support for Allied Vision Alvium camera.
+The Alvium camera is shipped with sensor + isp in the same housing.
+The camera can be equipped with one out of various sensor and abstract
+the user from this. Camera is connected via MIPI CSI-2.
 
-> +
-> +Internal pads have all the properties of a sink pad in such case, including
-> +formats and selections. The format in this case is the source format of the
-> +stream. An internal pad always has a single stream only (0).
-> +
-> +Generally source routes are not modifiable but they can be activated and
-> +inactivated using the :ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE
+Working on top of Ideas on Board (branch: ideasonboard/v6.2/isi)
+I'm able to test the driver on imx8mp-evk.
+I collect also some patches to enable HDMI on imx8mp-evk from Pengutronix
+(branch: pengutronix-imx8mp-hdmi)
 
-inactivated -> deactivated
+I collect the patchset required to enable ISI + HDMI on imx8mp-evk into
+the following branch from Avnet Silica Software & Services EMEA [1].
 
-> +<v4l2-subdev-routing-flags>` flag, depending on driver capabilities.
-> +
+Some documentation on testing ISP and ISI of imx8mp-evk here [2].
 
-Again, this really needs one or more examples.
+Thanks all for the great work!
 
->  Interaction between routes, streams, formats and selections
->  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->  
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
-> index 68ca343c3b44..e00622071b64 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
-> @@ -94,6 +94,11 @@ for all the route entries and call ``VIDIOC_SUBDEV_G_ROUTING`` again.
->      * - __u32
->        - ``sink_pad``
->        - Sink pad number.
-> +    * - __u32
-> +      - ``internal_source_pad``
-> +      - Internal source pad number. For pads with :ref:`internal source pad flag
-> +	<MEDIA-PAD-FL-INTERNAL-SOURCE>`, for use with :ref:`source routes
-> +	<v4l2-subdev-source-routes>`.
->      * - __u32
->        - ``sink_stream``
->        - Sink pad stream number.
-> diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
-> index 4a195b68f28f..703e3a1f199b 100644
-> --- a/include/uapi/linux/v4l2-subdev.h
-> +++ b/include/uapi/linux/v4l2-subdev.h
-> @@ -203,6 +203,7 @@ struct v4l2_subdev_capability {
->   * struct v4l2_subdev_route - A route inside a subdev
->   *
->   * @sink_pad: the sink pad index
-> + * @internal_source_pad: the internal source pad
->   * @sink_stream: the sink stream identifier
->   * @source_pad: the source pad index
->   * @source_stream: the source stream identifier
-> @@ -210,7 +211,10 @@ struct v4l2_subdev_capability {
->   * @reserved: drivers and applications must zero this array
->   */
->  struct v4l2_subdev_route {
-> -	__u32 sink_pad;
-> +	union {
-> +		__u32 sink_pad;
-> +		__u32 internal_source_pad;
+Tommaso Merciai (3):
+  dt-bindings: vendor-prefixes: Add prefix alliedvision
+  media: dt-bindings: alvium: add document YAML binding
+  media: i2c: Add support for alvium camera
 
-Nobody will understand this. I think this should still be kept as
-sink_pad. If the INTERNAL_SOURCE flag is changed to SINK_FROM_INTERNAL_SOURCE
-(or something along those lines), then 'sink_pad' still makes sense
-and you don't need this change.
+ .../media/i2c/alliedvision,alvium-csi2.yaml   |   97 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+ drivers/media/i2c/Kconfig                     |   10 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/alvium-csi2.c               | 3479 +++++++++++++++++
+ drivers/media/i2c/alvium-csi2.h               |  485 +++
+ 6 files changed, 4074 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.yaml
+ create mode 100644 drivers/media/i2c/alvium-csi2.c
+ create mode 100644 drivers/media/i2c/alvium-csi2.h
 
-It's still a sink pad, just a sink pad with a special property in that it
-receives the data from an internal source.
+-- 
+2.34.1
 
-> +	};
->  	__u32 sink_stream;
->  	__u32 source_pad;
->  	__u32 source_stream;
-
-Regards,
-
-	Hans
