@@ -2,202 +2,461 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B7367727CB8
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jun 2023 12:25:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 846B1727CBC
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jun 2023 12:27:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236062AbjFHKZG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Jun 2023 06:25:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44436 "EHLO
+        id S236062AbjFHK1f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Jun 2023 06:27:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236205AbjFHKZD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jun 2023 06:25:03 -0400
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D10BE2
-        for <linux-media@vger.kernel.org>; Thu,  8 Jun 2023 03:25:02 -0700 (PDT)
-Received: by mail-qt1-x82f.google.com with SMTP id d75a77b69052e-3f9aa383527so4099631cf.1
-        for <linux-media@vger.kernel.org>; Thu, 08 Jun 2023 03:25:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1686219901; x=1688811901;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=M4tpowvLajrSGqwxArwQ8XTVeRE5lzXRcv/YtqNdBw4=;
-        b=MTA84B0sr5UDGyDh5iVn5msSmAbrDm74UHfyejmOT+JGvEDf6wd4Is4XJesA/gh+/a
-         XJqwzSWwyaifR7HuhXwN9A6CpAiG0Wbfa0lHg6Cz8rRrfoNOoxbQgveuYuIZwi65dPYk
-         dVpMzwlSqrICOxm2BPty+v/UdVd/kKV9aTz+8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686219901; x=1688811901;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=M4tpowvLajrSGqwxArwQ8XTVeRE5lzXRcv/YtqNdBw4=;
-        b=GFYw6pJm1eIrpjOkV/z7on8jraxg2+nWIG1PsJxUtV0xRKFBPSTaAt+dSliXxmeDaA
-         ESN/TNSBcP86WDKKGNF0HXrA9huTp83KOx93mi2t5v6W/EyBh6JIOUhP8d2UvjQ2PshY
-         lGeoQrA31oiJZKrSxSe+P4LKqKP9jaEiJ/YiotfkORngO2eDPfZcjs24UdUidZLSeILf
-         p/MGiGZHwjWprZwBsbS0BtAbFiF8SEROm/PQSQ5Vfq0qQZ3wBV3DpwzXwid4Om1A8+Vp
-         R1BMUkNcjvs267F032NdhYcBq+YcWxSvaKjokGEvra2cp4Ph9QT8EYyzSCF1krcp5Pd4
-         kMuA==
-X-Gm-Message-State: AC+VfDwrOdKpr6/NJEVRsGBvuimCCsh528Ug3UTmEyBL55QdHo+K23qS
-        dFbR2/6poI2C5dyJf2CYaZ3sQ4hP2a4GP84Lih4UtA==
-X-Google-Smtp-Source: ACHHUZ7SOmUue3z9NeQn4fJj0ZVdE8XFasIDQjxgscSRVcWGLcVASj+eYZ18K5hBVYPSnEEbbYmJaw==
-X-Received: by 2002:ac8:5a11:0:b0:3f6:b505:ec94 with SMTP id n17-20020ac85a11000000b003f6b505ec94mr7141486qta.17.1686219900967;
-        Thu, 08 Jun 2023 03:25:00 -0700 (PDT)
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com. [209.85.222.176])
-        by smtp.gmail.com with ESMTPSA id m13-20020ac85b0d000000b003f3c9754e1dsm243103qtw.17.2023.06.08.03.25.00
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Jun 2023 03:25:00 -0700 (PDT)
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-75ebb3d57d0so35772485a.3
-        for <linux-media@vger.kernel.org>; Thu, 08 Jun 2023 03:25:00 -0700 (PDT)
-X-Received: by 2002:ad4:5f0e:0:b0:623:690c:3cd7 with SMTP id
- fo14-20020ad45f0e000000b00623690c3cd7mr1200397qvb.47.1686219880090; Thu, 08
- Jun 2023 03:24:40 -0700 (PDT)
+        with ESMTP id S235372AbjFHK1d (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jun 2023 06:27:33 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D562C1FFA
+        for <linux-media@vger.kernel.org>; Thu,  8 Jun 2023 03:27:30 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (om126033089000.35.openmobile.ne.jp [126.33.89.0])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 75919480;
+        Thu,  8 Jun 2023 12:27:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1686220022;
+        bh=uG8/J6Bh+wfLc7ciRLT7VuBOVwewn2BJ4ReBPj+lB/E=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=aBXjyD4kINZ8YDfhbQi4nqveC+5+dv1zaTorrlPdoPSrcMAbXiamt0ZDnzTUpRVEj
+         sVMJKifLa7NtYbGbNqVGEUe0Ky82piAoOv3WOJzDpzJ6iAi7Oney3kSEm4pdk2rWSy
+         NWsMNwyOPu4emAQu9xHLX43vjsi/EHFzm7JSsGoc=
+Date:   Thu, 8 Jun 2023 13:27:25 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/3] media: Add MIPI CCI register access helper functions
+Message-ID: <20230608102725.GN5058@pendragon.ideasonboard.com>
+References: <20230606165808.70751-1-hdegoede@redhat.com>
+ <20230606165808.70751-2-hdegoede@redhat.com>
+ <20230607181855.GM5058@pendragon.ideasonboard.com>
+ <b558aac9-0a34-ecca-57b0-d132af8cdefb@redhat.com>
 MIME-Version: 1.0
-References: <20230321102855.346732-1-benjamin.gaignard@collabora.com>
- <20230321102855.346732-4-benjamin.gaignard@collabora.com> <6c4658fd-3a64-b3f8-67cd-17ed2d7d3567@xs4all.nl>
- <20230531080331.GB6496@pendragon.ideasonboard.com> <608ae7d6-3f3b-137d-08d2-d41a240be2c4@xs4all.nl>
- <20230531123945.GF27043@pendragon.ideasonboard.com>
-In-Reply-To: <20230531123945.GF27043@pendragon.ideasonboard.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Thu, 8 Jun 2023 19:24:29 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5A6sz1BhEjiWyXH6B1TBTLt0ivAc6N0Vd73hebnpc7fKQ@mail.gmail.com>
-Message-ID: <CAAFQd5A6sz1BhEjiWyXH6B1TBTLt0ivAc6N0Vd73hebnpc7fKQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/8] media: videobuf2: Add a module param to limit vb2
- queue buffer storage
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        m.szyprowski@samsung.com, mchehab@kernel.org, ming.qian@nxp.com,
-        shijie.qin@nxp.com, eagle.zhou@nxp.com, bin.liu@mediatek.com,
-        matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-        tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
-        yunfei.dong@mediatek.com, stanimir.k.varbanov@gmail.com,
-        quic_vgarodia@quicinc.com, agross@kernel.org, andersson@kernel.org,
-        konrad.dybcio@linaro.org, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, daniel.almeida@collabora.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, kernel@collabora.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <b558aac9-0a34-ecca-57b0-d132af8cdefb@redhat.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, May 31, 2023 at 9:39=E2=80=AFPM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Wed, May 31, 2023 at 10:30:36AM +0200, Hans Verkuil wrote:
-> > On 5/31/23 10:03, Laurent Pinchart wrote:
-> > > On Wed, May 31, 2023 at 08:36:59AM +0200, Hans Verkuil wrote:
-> > >> On 21/03/2023 11:28, Benjamin Gaignard wrote:
-> > >>> Add module parameter "max_vb_buffer_per_queue" to be able to limit
-> > >>> the number of vb2 buffers store in queue.
-> > >>>
-> > >>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > >>> ---
-> > >>>  drivers/media/common/videobuf2/videobuf2-core.c | 15 +++----------=
---
-> > >>>  include/media/videobuf2-core.h                  | 11 +++++++++--
-> > >>>  2 files changed, 12 insertions(+), 14 deletions(-)
-> > >>>
-> > >>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/driv=
-ers/media/common/videobuf2/videobuf2-core.c
-> > >>> index ae9d72f4d181..f4da917ccf3f 100644
-> > >>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> > >>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> > >>> @@ -34,6 +34,8 @@
-> > >>>  static int debug;
-> > >>>  module_param(debug, int, 0644);
-> > >>>
-> > >>> +module_param(max_vb_buffer_per_queue, ulong, 0644);
-> > >>
-> > >> There is no MODULE_PARM_DESC here? Please add. I see it is not there=
- for
-> > >> the debug param either, it should be added for that as well.
-> > >
-> > > Would this be the right time to consider resource accounting in V4L2 =
-for
-> > > buffers ? Having a module parameter doesn't sound very useful, an
-> > > application could easily allocate more buffers by using buffer orphan=
-ing
-> > > (allocating buffers, exporting them as dmabuf objects, and freeing th=
-em,
-> > > which leaves the memory allocated). Repeating allocation cycles up to
-> > > max_vb_buffer_per_queue will allow allocating an unbounded number of
-> > > buffers, using all the available system memory. I'd rather not add a
-> > > module argument that only gives the impression of some kind of safety
-> > > without actually providing any value.
+Hi Hans,
 
-Good point. It's even simpler, just keep opening new vim2m instances
-and requesting max buffers :).
+On Wed, Jun 07, 2023 at 09:01:40PM +0200, Hans de Goede wrote:
+> On 6/7/23 20:18, Laurent Pinchart wrote:
+> > On Tue, Jun 06, 2023 at 06:58:06PM +0200, Hans de Goede wrote:
+> >> The CSI2 specification specifies a standard method to access camera sensor
+> >> registers called "Camera Control Interface (CCI)".
+> >>
+> >> This uses either 8 or 16 bit (big-endian wire order) register addresses
+> >> and supports 8, 16, 24 or 32 bit (big-endian wire order) register widths.
+> > 
+> > I think there are some sensors that also have 64-bit registers, but we
+> > can deal with that later.
+> > 
+> >> Currently a lot of Linux camera sensor drivers all have their own custom
+> >> helpers for this, often copy and pasted from other drivers.
+> >>
+> >> Add a set of generic helpers for this so that all sensor drivers can
+> >> switch to a single common implementation.
+> >>
+> >> These helpers take an extra optional "int *err" function parameter,
+> >> this can be used to chain a bunch of register accesses together with
+> >> only a single error check at the end, rather then needing to error
+> >> check each individual register access. The first failing call will
+> >> set the contents of err to a non 0 value and all other calls will
+> >> then become no-ops.
+> >>
+> >> Link: https://lore.kernel.org/linux-media/59aefa7f-7bf9-6736-6040-39551329cd0a@redhat.com/
+> >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> >> ---
+> >>  Documentation/driver-api/media/v4l2-cci.rst  |   5 +
+> >>  Documentation/driver-api/media/v4l2-core.rst |   1 +
+> >>  drivers/media/v4l2-core/Kconfig              |   5 +
+> >>  drivers/media/v4l2-core/Makefile             |   1 +
+> >>  drivers/media/v4l2-core/v4l2-cci.c           | 142 +++++++++++++++++++
+> >>  include/media/v4l2-cci.h                     | 109 ++++++++++++++
+> >>  6 files changed, 263 insertions(+)
+> >>  create mode 100644 Documentation/driver-api/media/v4l2-cci.rst
+> >>  create mode 100644 drivers/media/v4l2-core/v4l2-cci.c
+> >>  create mode 100644 include/media/v4l2-cci.h
+> >>
+> >> diff --git a/Documentation/driver-api/media/v4l2-cci.rst b/Documentation/driver-api/media/v4l2-cci.rst
+> >> new file mode 100644
+> >> index 000000000000..dd297a40ed20
+> >> --- /dev/null
+> >> +++ b/Documentation/driver-api/media/v4l2-cci.rst
+> >> @@ -0,0 +1,5 @@
+> >> +.. SPDX-License-Identifier: GPL-2.0
+> >> +
+> >> +V4L2 CCI kAPI
+> >> +^^^^^^^^^^^^^
+> >> +.. kernel-doc:: include/media/v4l2-cci.h
+> >> diff --git a/Documentation/driver-api/media/v4l2-core.rst b/Documentation/driver-api/media/v4l2-core.rst
+> >> index 1a8c4a5f256b..239045ecc8f4 100644
+> >> --- a/Documentation/driver-api/media/v4l2-core.rst
+> >> +++ b/Documentation/driver-api/media/v4l2-core.rst
+> >> @@ -22,6 +22,7 @@ Video4Linux devices
+> >>      v4l2-mem2mem
+> >>      v4l2-async
+> >>      v4l2-fwnode
+> >> +    v4l2-cci
+> >>      v4l2-rect
+> >>      v4l2-tuner
+> >>      v4l2-common
+> >> diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
+> >> index 348559bc2468..523ba243261d 100644
+> >> --- a/drivers/media/v4l2-core/Kconfig
+> >> +++ b/drivers/media/v4l2-core/Kconfig
+> >> @@ -74,6 +74,11 @@ config V4L2_FWNODE
+> >>  config V4L2_ASYNC
+> >>  	tristate
+> >>  
+> >> +config V4L2_CCI
+> >> +	tristate
+> >> +	depends on I2C
+> >> +	select REGMAP_I2C
+> >> +
+> >>  # Used by drivers that need Videobuf modules
+> >>  config VIDEOBUF_GEN
+> >>  	tristate
+> >> diff --git a/drivers/media/v4l2-core/Makefile b/drivers/media/v4l2-core/Makefile
+> >> index 41d91bd10cf2..be2551705755 100644
+> >> --- a/drivers/media/v4l2-core/Makefile
+> >> +++ b/drivers/media/v4l2-core/Makefile
+> >> @@ -25,6 +25,7 @@ videodev-$(CONFIG_VIDEO_V4L2_I2C) += v4l2-i2c.o
+> >>  # (e. g. LC_ALL=C sort Makefile)
+> >>  
+> >>  obj-$(CONFIG_V4L2_ASYNC) += v4l2-async.o
+> >> +obj-$(CONFIG_V4L2_CCI) += v4l2-cci.o
+> >>  obj-$(CONFIG_V4L2_FLASH_LED_CLASS) += v4l2-flash-led-class.o
+> >>  obj-$(CONFIG_V4L2_FWNODE) += v4l2-fwnode.o
+> >>  obj-$(CONFIG_V4L2_H264) += v4l2-h264.o
+> >> diff --git a/drivers/media/v4l2-core/v4l2-cci.c b/drivers/media/v4l2-core/v4l2-cci.c
+> >> new file mode 100644
+> >> index 000000000000..21207d137dbe
+> >> --- /dev/null
+> >> +++ b/drivers/media/v4l2-core/v4l2-cci.c
+> >> @@ -0,0 +1,142 @@
+> >> +// SPDX-License-Identifier: GPL-2.0
+> >> +/*
+> >> + * MIPI Camera Control Interface (CCI) register access helpers.
+> >> + *
+> >> + * Copyright (C) 2023 Hans de Goede <hansg@kernel.org>
+> >> + */
+> >> +
+> >> +#include <linux/delay.h>
+> >> +#include <linux/dev_printk.h>
+> >> +#include <linux/module.h>
+> >> +#include <linux/regmap.h>
+> >> +
+> >> +#include <media/v4l2-cci.h>
+> >> +
+> >> +int cci_read(struct regmap *map, u32 reg, u32 *val, int *err)
+> >> +{
+> >> +	int i, len, ret;
+> >> +	u8 buf[4];
+> >> +
+> >> +	if (err && *err)
+> >> +		return *err;
+> >> +
+> >> +	/* Set len to register width in bytes */
+> >> +	len = ((reg & CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT) + 1;
+> >> +	reg &= CCI_REG_ADDR_MASK;
+> >> +
+> >> +	ret = regmap_bulk_read(map, reg, buf, len);
+> >> +	if (ret) {
+> >> +		dev_err(regmap_get_device(map), "Error reading reg 0x%4x: %d\n", reg, ret);
+> >> +		if (err)
+> >> +			*err = ret;
+> >> +
+> >> +		return ret;
+> >> +	}
+> >> +
+> >> +	*val = 0;
+> >> +	for (i = 0; i < len; i++) {
+> >> +		*val <<= 8;
+> >> +		*val |= buf[i];
+> >> +	}
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +EXPORT_SYMBOL_GPL(cci_read);
+> >> +
+> >> +int cci_write(struct regmap *map, u32 reg, u32 val, int *err)
+> >> +{
+> >> +	int i, len, ret;
+> >> +	u8 buf[4];
+> >> +
+> >> +	if (err && *err)
+> >> +		return *err;
+> >> +
+> >> +	/* Set len to register width in bytes */
+> >> +	len = ((reg & CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT) + 1;
+> >> +	reg &= CCI_REG_ADDR_MASK;
+> >> +
+> >> +	for (i = 0; i < len; i++) {
+> >> +		buf[len - i - 1] = val & 0xff;
+> >> +		val >>= 8;
+> >> +	}
+> >> +
+> >> +	ret = regmap_bulk_write(map, reg, buf, len);
+> >> +	if (ret) {
+> >> +		dev_err(regmap_get_device(map), "Error writing reg 0x%4x: %d\n", reg, ret);
+> >> +		if (err)
+> >> +			*err = ret;
+> >> +	}
+> >> +
+> >> +	return ret;
+> >> +}
+> >> +EXPORT_SYMBOL_GPL(cci_write);
+> >> +
+> >> +int cci_update_bits(struct regmap *map, u32 reg, u32 mask, u32 val, int *err)
+> >> +{
+> >> +	int width, ret;
+> >> +	u32 readval;
+> >> +
+> >> +	if (err && *err)
+> >> +		return *err;
+> >> +
+> >> +	/*
+> >> +	 * For single byte updates use regmap_update_bits(), this uses
+> >> +	 * the regmap-lock to protect against other read-modify-writes racing.
+> >> +	 */
+> >> +	width = (reg & CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT;
+> >> +	if (width == cci_reg_8) {
+> >> +		reg &= CCI_REG_ADDR_MASK;
+> >> +		ret = regmap_update_bits(map, reg, mask, val);
+> >> +		if (ret) {
+> >> +			dev_err(regmap_get_device(map), "Error updating reg 0x%4x: %d\n", reg, ret);
+> >> +			if (err)
+> >> +				*err = ret;
+> >> +		}
+> >> +
+> >> +		return ret;
+> >> +	}
+> >> +
+> >> +	ret = cci_read(map, reg, &readval, err);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	val = (readval & ~mask) | (val & mask);
+> >> +
+> >> +	return cci_write(map, reg, val, err);
+> > 
+> > Unless I'm mistaken, the regmap cache isn't used. This makes update
+> > operations fairly costly due to the read. Could that be improved ?
+> 
+> The problem is that some registers may be volatile,
+> think e.g. expsoure on a sensor where auto-exposure is supported.
+> 
+> So normally drivers which want to use regmap caching, also
+> provide a whole bunch of tables describing the registers
+> (lists of volatile + list of writable + list of readable
+> registers).
+> 
+> So enabling caching is not trivial. I think that it would be best
+> for drivers which want that to supply their own regmap_config config
+> and directly call devm_regmap_init_i2c() if they then use
+> the resulting regmaps with the existing cci_* helpers then caching
+> will be used automatically.
 
-> >
-> > Does dmabuf itself provide some accounting mechanism? Just wondering.
-> >
-> > More specific to V4L2: I'm not so sure about this module parameter eith=
-er.
-> > It makes sense to have a check somewhere against ridiculous values (i.e=
-.
-> > allocating MAXINT buffers), but that can be a define as well. But other=
-wise
-> > I am fine with allowing applications to allocate buffers until the memo=
-ry
-> > is full.
-> >
-> > The question is really: what is this parameter supposed to do? The only
-> > thing it does is to sanitize unlikely inputs (e.g. allocating MAXINT bu=
-ffers).
-> >
-> > I prefer that as a define, to be honest.
-> >
-> > I think it is perfectly fine for users to try to request more buffers t=
-han
-> > memory allows. It will just fail in that case, not a problem.
-> >
-> > And if an application is doing silly things like buffer orphaning, then=
- so
-> > what? Is that any different than allocating memory and not freeing it?
-> > Eventually it will run out of memory and crash, which is normal.
->
-> Linux provides APIs to account for and limit usage of resources,
-> including memory. A system administrator can prevent rogue processes
-> from starving system resources. The memory consumed by vb2 buffer isn't
-> taken into account, making V4L2 essentially unsafe for untrusted
-> processes.
+Would there be a way to use the cache for update operations (as I think
+we can consider that registers used in those operations won't be
+volatile), and bypass it for standalone reads ?
 
-I agree that proper accounting would be useful, although I wouldn't
-really make this patch series depend on it, since it's not introducing
-the loophole in the first place.
-We had some discussion about this in ChromeOS long ago and we thought
-it would be really useful for killing browser tabs with big videos,
-but otherwise using very little regular memory (e.g. via javascript).
+> >> +}
+> >> +EXPORT_SYMBOL_GPL(cci_update_bits);
+> >> +
+> >> +int cci_multi_reg_write(struct regmap *map, const struct reg_sequence *regs, int num_regs, int *err)
+> >> +{
+> >> +	int i, ret;
+> >> +
+> >> +	if (err && *err)
+> >> +		return *err;
+> >> +
+> >> +	for (i = 0; i < num_regs; i++) {
+> >> +		ret = cci_write(map, regs[i].reg, regs[i].def, err);
+> >> +		if (ret)
+> >> +			return ret;
+> >> +
+> >> +		if (regs[i].delay_us)
+> >> +			fsleep(regs[i].delay_us);
+> > 
+> > Do you have an immediate need for this ? If not, I'd drop support for
+> > the delay, and add it later when and if needed. It will be easier to
+> > discuss the API and use cases with a real user.
+> 
+> This is a 1:1 mirror of regmap_multi_reg_write() note this uses
+> the existing struct reg_sequence delay_us field and the:
+> 
+> 		if (regs[i].delay_us)
+> 			fsleep(regs[i].delay_us);
+> 
+> is copied from the implementation of regmap_multi_reg_write()
 
-One challenge with accounting V4L2 allocations is how to count shared
-DMA-bufs. If one process allocates a V4L2 buffer, exports it to
-DMA-buf and then sends it to another process that keeps it alive, but
-frees the V4L2 buffer (and even closes the DMA-buf fd), should that
-memory be still accounted to it even though it doesn't hold a
-reference to it anymore?
+The reason why I don't like it much as that such delays are often hacks
+hidden in the middle of register arrays that should in many cases be
+handled differently. I was hoping that, by not supporting them yet,
+we'll have an easier time to get drivers right. Maybe I'm wrong.
 
+> >> +	}
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +EXPORT_SYMBOL_GPL(cci_multi_reg_write);
+> >> +
+> >> +struct regmap *cci_regmap_init_i2c(struct i2c_client *client, int reg_addr_bits)
+> >> +{
+> >> +	struct regmap_config config = {
+> >> +		.reg_bits = reg_addr_bits,
+> >> +		.val_bits = 8,
+> >> +		.reg_format_endian = REGMAP_ENDIAN_BIG,
+> >> +	};
+> >> +
+> >> +	return devm_regmap_init_i2c(client, &config);
+> >> +}
+> >> +EXPORT_SYMBOL_GPL(cci_regmap_init_i2c);
+> >> +
+> >> +MODULE_LICENSE("GPL");
+> >> +MODULE_AUTHOR("Hans de Goede <hansg@kernel.org>");
+> >> diff --git a/include/media/v4l2-cci.h b/include/media/v4l2-cci.h
+> >> new file mode 100644
+> >> index 000000000000..69b8a7c4a013
+> >> --- /dev/null
+> >> +++ b/include/media/v4l2-cci.h
+> >> @@ -0,0 +1,109 @@
+> >> +/* SPDX-License-Identifier: GPL-2.0 */
+> >> +/*
+> >> + * MIPI Camera Control Interface (CCI) register access helpers.
+> >> + *
+> >> + * Copyright (C) 2023 Hans de Goede <hansg@kernel.org>
+> >> + */
+> >> +#ifndef _V4L2_CCI_H
+> >> +#define _V4L2_CCI_H
+> >> +
+> >> +#include <linux/regmap.h>
+> >> +#include <linux/types.h>
+> >> +
+> >> +/*
+> >> + * Note cci_reg_8 deliberately is 0, not 1, so that raw
+> >> + * (not wrapped in a CCI_REG*() macro) register addresses
+> >> + * do 8 bit wide accesses. This allows unchanged use of register
+> >> + * initialization lists of raw address, value pairs which only
+> >> + * do 8 bit width accesses. Which makes porting drivers easier.
+> > 
+> > It does, but at the same time, it prevents catching errors caused by
+> > incorrect register macros. I'm tempted to consider that catching those
+> > errors is more important.
+> > 
+> >> + */
+> >> +enum cci_reg_type {
+> >> +	cci_reg_8 = 0,
+> >> +	cci_reg_16,
+> >> +	cci_reg_24,
+> >> +	cci_reg_32,
+> >> +};
+> >> +
+> >> +/*
+> >> + * Macros to define register address with the register width encoded
+> >> + * into the higher bits. CCI_REG8() is a no-op so its use is optional.
+> > 
+> > Even if it's a no-op I'd prefer making its use mandatory. It makes
+> > driver code more explicit, and eases catching issues during review.
+> 
+> The problem is that almost all sensor drivers contain long list
+> of register-address, -val pairs which they send to their own custom
+> regmap_multi_reg_write()
 >
-> Now, to be fair, there are many reasons why allowing access to v4L2
-> devices to untrusted applications is a bad idea, and memory consumption
-> is likely not even the worst one. Still, is this something we want to
-> fix, or do we want to consider V4L2 to be priviledged API only ? Right
-> now we can't do so, but with many Linux systems moving towards pipewire,
-> we could possibly have a system daemon isolating untrusted applications
-> from the rest of the system. We may thus not need to fix this in the
-> V4L2 API.
->
-> --
-> Regards,
->
-> Laurent Pinchart
+> See e.g. the drivers/media/i2c/imx219.c (to stick with the imx
+> theme from your imx290 request) this has a lot of quite long
+> struct imx219_reg arrays with raw initializers.
+> 
+> Often some or all of these registers in such list are
+> undocumented (if we have access to a datasheet at all),
+> so we simply don't know the register width.
+> 
+> So arguably adding CCI_REG8(x) around all the addresses
+> here is wrong, since this suggests we know the register
+> width.
+> 
+> With the current proposal to have 0 mean both unset and 8bit
+> width this kinda register lists just work and converting
+> the driver becomes just a matter of replacing e.g.
+> imx219_write_regs() with cci_multi_reg_write().
+> 
+> Where as otherwise we would need to add CCI_REG8(x)
+> around the addresses which:
+> 
+> a) Suggests we actually know the register width which
+>    we often do not know at all
+> 
+> b) causes a ton of needless churn
+> 
+> so I would very much prefer to keep this as as and
+> allow unmarked register addresses.
+> 
+> As for the CCI_REG8(x) being useful as an annotation
+> during review you are of course free to enforce its
+> use during review. And note that I did use it for
+> all the OV2680_REG_FOO defines in both ov2680 conversions.
+> 
+> I do agree enforcing its use makes sense for individual
+> register address defines. The reason to make it optional
+> and the place where I want it to be optional is for
+> the array of raw register-addr + initializer-val pairs
+> case.
+
+For register arrays, I'm fine with that. For register macros, I don't
+want to see
+
+#define MY_WELL_DEFINED_8B_REG		0x1234
+
+For those I want drivers to use CCI_REG8(). It seems we're on the same
+page :-)
+
+> >> + */
+> >> +#define CCI_REG_ADDR_MASK		GENMASK(15, 0)
+> >> +#define CCI_REG_WIDTH_SHIFT		16
+> >> +#define CCI_REG_WIDTH_MASK		GENMASK(17, 16)
+> >> +
+> >> +#define CCI_REG8(x)			((cci_reg_8 << CCI_REG_WIDTH_SHIFT) | (x))
+> >> +#define CCI_REG16(x)			((cci_reg_16 << CCI_REG_WIDTH_SHIFT) | (x))
+> >> +#define CCI_REG24(x)			((cci_reg_24 << CCI_REG_WIDTH_SHIFT) | (x))
+> >> +#define CCI_REG32(x)			((cci_reg_32 << CCI_REG_WIDTH_SHIFT) | (x))
+> >> +
+> >> +/**
+> >> + * cci_read() - Read a value from a single CCI register
+> >> + *
+> >> + * @map: Register map to write to
+> > 
+> > s/write to/read from/ ?
+> 
+> Ack, will fix for v2.
+> 
+> >> + * @reg: Register address to write, use CCI_REG#() macros to encode reg width
+> > 
+> > Same.
+> 
+> Ack.
+> 
+> >> + * @val: Pointer to store read value
+> >> + * @err: optional pointer to store errors, if a previous error is set the write will be skipped
+> > 
+> > Line wrap ?
+> 
+> Ack.
+
+-- 
+Regards,
+
+Laurent Pinchart
