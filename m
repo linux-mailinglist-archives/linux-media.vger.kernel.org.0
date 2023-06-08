@@ -2,59 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED55F727B42
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jun 2023 11:28:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B84C727BB6
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jun 2023 11:44:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235839AbjFHJ2M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Jun 2023 05:28:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35076 "EHLO
+        id S235277AbjFHJoS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Jun 2023 05:44:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235852AbjFHJ2J (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jun 2023 05:28:09 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FB0C2737
-        for <linux-media@vger.kernel.org>; Thu,  8 Jun 2023 02:28:00 -0700 (PDT)
+        with ESMTP id S234914AbjFHJoI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jun 2023 05:44:08 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06E582715;
+        Thu,  8 Jun 2023 02:43:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686216480; x=1717752480;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=j4kteuDSSYwoa1Ggyg0JK0uMW653Ebm1pHzv7LwlyAs=;
-  b=Z9vEVd0zyJj6G7F84IfihUADLIRrGzo2w5Cvb72TbRXJeVQxaQLfuiQT
-   zvJGomzQZxY0eV6MIEy1uO78ex8X8A6rM5He5UfyJqWrp9ytbq61jSzla
-   ggsoyqxsEHNRiP4ZEW1f7afXqPzbo2JHqUpADQigsx4Hm30hCLRPsYhFm
-   LhReX6lhk1hROt0NMxHAucDRK/L3Q5KxWJ1IBIqGRXzNP0ZqitDLhhCXQ
-   zx3LNSccrLRMuKfEK5uFbiu9p+YyjdjfqE9hij5vVdyt33EPvGNAPBnud
-   PfiC8A2vxfJ7icxIkrfKjGTwBOnzkN0WiBDQ9zvCIqAt0G2lKz5EHC+6B
+  t=1686217440; x=1717753440;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=R8q82ndEJ9gFg507RIn2KqaYq9tX56kzV/e8VAKlpdo=;
+  b=CU81FvtXDbVdyIS0htb/RCEjkLJJ2Ws7KwRh3pETotMbI7ZKOMaasrvZ
+   uJQSSXGLS4yQnCs/J1aeSVVpHn6Cv5hOodPvDxYZ5SoQfXVyp1MWwW4/d
+   ng7NTpML0+B63/B+2I0Dz1O4fmo0fz6IxAOoxLWvEjs9jvQ2drXpyczdW
+   sRsbyUUdo6SBgrrR7oNQ/WOXxlLqvf7PbUlIPUYMXHL4nLrH5YmCe8YiE
+   328CH+LQTPBIfGaXXUp0HHF154ez8N+3ig9N61pf9xIe8kcX3WksMfveb
+   MrU0lfangHyfQCXxc/YmiExTSlQbyzCG75gqCutn+IlGrhbNFXhr+dblZ
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="356115045"
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="354751247"
 X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; 
-   d="scan'208";a="356115045"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 02:27:58 -0700
+   d="scan'208";a="354751247"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 02:43:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="713048606"
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="704015780"
 X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; 
-   d="scan'208";a="713048606"
+   d="scan'208";a="704015780"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 02:27:57 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id D32E7120BE1;
-        Thu,  8 Jun 2023 12:27:54 +0300 (EEST)
-Date:   Thu, 8 Jun 2023 09:27:54 +0000
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 02:43:57 -0700
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 547E2120BE1;
+        Thu,  8 Jun 2023 12:43:54 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1q7CAd-00H0sd-H2; Thu, 08 Jun 2023 12:43:07 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, bingbu.cao@intel.com
-Subject: Re: [PATCH v3 1/1] media: pci: ipu3-cio2: Obtain remote pad from
- endpoint
-Message-ID: <ZIGfGjniYLSxqWoR@kekkonen.localdomain>
-References: <20230515122127.590733-1-sakari.ailus@linux.intel.com>
- <20230602091212.GB23701@pendragon.ideasonboard.com>
- <ZHn5MH3o1l0lBhqS@kekkonen.localdomain>
+To:     linux-media@vger.kernel.org
+Cc:     Conor Dooley <conor@kernel.org>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/1] MAINTAINERS: Assign Shawn Tu's sensor drivers to myself
+Date:   Thu,  8 Jun 2023 12:42:57 +0300
+Message-Id: <20230608094257.4054914-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZHn5MH3o1l0lBhqS@kekkonen.localdomain>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
         SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
@@ -65,30 +69,69 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 02, 2023 at 02:14:08PM +0000, Sakari Ailus wrote:
-> Hi Laurent,
-> 
-> On Fri, Jun 02, 2023 at 12:12:12PM +0300, Laurent Pinchart wrote:
-> > Hi Sakari,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Mon, May 15, 2023 at 03:21:27PM +0300, Sakari Ailus wrote:
-> > > Use the endpoint fwnode to find out the remote pad, instead of using the
-> > > first source pad found. Also improve error messages.
-> > 
-> > The commit message should explain *why*. Once I know why, I'll review
-> > the patch :-)
-> 
-> I thought it'd be trivial. :-)
-> 
-> Using framework functions instead of open coding this in drivers, and using
-> the pad related to the endpoint fwnode instead of just the first pad found.
-> 
-> I'll add this to the commit message.
+Shawn Tu's e-mail address is bouncing and he hasn't told he has a new one:
 
-Actually this is already in the media tree, let's see what we end up doing
-with it.
+   shawnx.tu@intel.com
+   Remote Server returned '550 5.1.10 RESOLVER.ADR.RecipientNotFound;
+   Recipient not found by SMTP address lookup'
 
+Assign the sensor drivers Shawn maintained to myself.
+
+Reported-by: Conor Dooley <conor@kernel.org>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ MAINTAINERS | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 26f705e94a416..cec3c9ef43590 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -9548,7 +9548,7 @@ S:	Maintained
+ F:	arch/x86/kernel/cpu/hygon.c
+ 
+ HYNIX HI556 SENSOR DRIVER
+-M:	Shawn Tu <shawnx.tu@intel.com>
++M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media_tree.git
+@@ -9561,7 +9561,7 @@ S:	Maintained
+ F:	drivers/media/i2c/hi846.c
+ 
+ HYNIX HI847 SENSOR DRIVER
+-M:	Shawn Tu <shawnx.tu@intel.com>
++M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ F:	drivers/media/i2c/hi847.c
+@@ -15440,7 +15440,7 @@ F:	Documentation/filesystems/omfs.rst
+ F:	fs/omfs/
+ 
+ OMNIVISION OG01A1B SENSOR DRIVER
+-M:	Shawn Tu <shawnx.tu@intel.com>
++M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ F:	drivers/media/i2c/og01a1b.c
+@@ -15506,7 +15506,7 @@ F:	drivers/media/i2c/ov2685.c
+ 
+ OMNIVISION OV2740 SENSOR DRIVER
+ M:	Tianshu Qiu <tian.shu.qiu@intel.com>
+-R:	Shawn Tu <shawnx.tu@intel.com>
++R:	Sakari Ailus <sakari.ailus@linux.intel.com>
+ R:	Bingbu Cao <bingbu.cao@intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+@@ -15546,7 +15546,7 @@ F:	Documentation/devicetree/bindings/media/i2c/ovti,ov5670.yaml
+ F:	drivers/media/i2c/ov5670.c
+ 
+ OMNIVISION OV5675 SENSOR DRIVER
+-M:	Shawn Tu <shawnx.tu@intel.com>
++M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media_tree.git
 -- 
-Sakari Ailus
+2.30.2
+
