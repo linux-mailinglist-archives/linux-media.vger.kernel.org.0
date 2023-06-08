@@ -2,97 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 816D2727519
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jun 2023 04:43:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51B8F72754D
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jun 2023 04:54:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233613AbjFHCnQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Jun 2023 22:43:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47172 "EHLO
+        id S233845AbjFHCyi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Jun 2023 22:54:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231698AbjFHCnP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 22:43:15 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE7FF1FFE
-        for <linux-media@vger.kernel.org>; Wed,  7 Jun 2023 19:43:13 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6B53E61453
-        for <linux-media@vger.kernel.org>; Thu,  8 Jun 2023 02:43:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73733C433EF
-        for <linux-media@vger.kernel.org>; Thu,  8 Jun 2023 02:43:12 +0000 (UTC)
-Date:   Thu, 08 Jun 2023 04:43:10 +0200
-Message-ID: <808939d185a43c7ca4725c2aa012af77.hverkuil@xs4all.nl>
-From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S233835AbjFHCyh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Jun 2023 22:54:37 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAA032103;
+        Wed,  7 Jun 2023 19:54:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=xA93YpODwXSEXwOg759c50kN9HhjwSvfbwEHkBFXNMM=; b=EBli7UlTGu/OQDRqm5hvXT6rNk
+        6w+MOgYceFTD0zypl9H1P0yPFfo9XL25UL7rWfZvxELR8dr47WwRgkd7GOqoiLoM3sLypqzh47QvN
+        /Hk/KskMYPkRQfoKguqwzRczFkVzPsJGPQbUiYb3SQPAJFHTuyaJlMrORnqvlcmWSr1PnnmZgKbtg
+        I+nNbLuC7jxLA9ge3XZ0XRO22MlfgZCIpcM41Fk7OyK7bjP6IgxQ1ij6RwomqMJ85k0gjhAaLn46Q
+        /sfAv+U/YTfl8gPHZ0YUDOXXiB6/Ze7b4B3HTrah8K5+hAuNjvoA1BYNcnYcH2H+h47y5SbgV1n23
+        YCq/qm2w==;
+Received: from [2601:1c2:980:9ec0::2764] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1q75nI-007rnl-1K;
+        Thu, 08 Jun 2023 02:54:36 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Jeff Chase <jnchase@google.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Joe Tessler <jrt@google.com>, linux-media@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>, Mark Brown <broonie@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH] media: cec: i2c: ch7322: also select REGMAP
+Date:   Wed,  7 Jun 2023 19:54:35 -0700
+Message-Id: <20230608025435.29249-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.40.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+Selecting only REGMAP_I2C can leave REGMAP unset, causing build errors,
+so also select REGMAP to prevent the build errors.
 
-Results of the daily build of media_tree:
+../drivers/media/cec/i2c/ch7322.c:158:21: error: variable 'ch7322_regmap' has initializer but incomplete type
+  158 | static const struct regmap_config ch7322_regmap = {
+../drivers/media/cec/i2c/ch7322.c:159:10: error: 'const struct regmap_config' has no member named 'reg_bits'
+  159 |         .reg_bits = 8,
+../drivers/media/cec/i2c/ch7322.c:159:21: warning: excess elements in struct initializer
+  159 |         .reg_bits = 8,
+../drivers/media/cec/i2c/ch7322.c:160:10: error: 'const struct regmap_config' has no member named 'val_bits'
+  160 |         .val_bits = 8,
+../drivers/media/cec/i2c/ch7322.c:160:21: warning: excess elements in struct initializer
+  160 |         .val_bits = 8,
+../drivers/media/cec/i2c/ch7322.c:161:10: error: 'const struct regmap_config' has no member named 'max_register'
+  161 |         .max_register = 0x7f,
+../drivers/media/cec/i2c/ch7322.c:161:25: warning: excess elements in struct initializer
+  161 |         .max_register = 0x7f,
+../drivers/media/cec/i2c/ch7322.c:162:10: error: 'const struct regmap_config' has no member named 'disable_locking'
+  162 |         .disable_locking = true,
+../drivers/media/cec/i2c/ch7322.c:162:28: warning: excess elements in struct initializer
+  162 |         .disable_locking = true,
+../drivers/media/cec/i2c/ch7322.c: In function 'ch7322_probe':
+../drivers/media/cec/i2c/ch7322.c:468:26: error: implicit declaration of function 'devm_regmap_init_i2c' [-Werror=implicit-function-declaration]
+  468 |         ch7322->regmap = devm_regmap_init_i2c(client, &ch7322_regmap);
+../drivers/media/cec/i2c/ch7322.c:468:24: warning: assignment to 'struct regmap *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+  468 |         ch7322->regmap = devm_regmap_init_i2c(client, &ch7322_regmap);
+../drivers/media/cec/i2c/ch7322.c: At top level:
+../drivers/media/cec/i2c/ch7322.c:158:35: error: storage size of 'ch7322_regmap' isn't known
+  158 | static const struct regmap_config ch7322_regmap = {
 
-date:			Thu Jun  8 03:00:08 CEST 2023
-media-tree git hash:	aafeeaf3d2a8a91a5407c774c578abec79dcff00
-v4l-utils git hash:	57b6b2492f4ab472325eea6bfc75795e71181c2e
-edid-decode git hash:	e48fb384fff4a86ccf81b6293c0358575fb9f092
-gcc version:		i686-linux-gcc (GCC) 12.3.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8371-g475c3cec-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: fe60688f8328a812ccec8a217cce045b30b48737
-host hardware:		x86_64
-host os:		6.1.0-5-amd64
+Fixes: 21b9a47e0ec7 ("media: cec: i2c: ch7322: Add ch7322 CEC controller driver")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jeff Chase <jnchase@google.com>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Joe Tessler <jrt@google.com>
+Cc: linux-media@vger.kernel.org
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+---
+ drivers/media/cec/i2c/Kconfig |    1 +
+ 1 file changed, 1 insertion(+)
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-powerpc64: OK
-linux-git-mips: WARNINGS
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-i686: WARNINGS
-linux-git-x86_64: WARNINGS
-Check COMPILE_TEST: WARNINGS: VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
-Check for strcpy/strncpy/strlcpy: OK
-apps: WARNINGS
-spec-git: OK
-virtme: OK: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 0
-virtme-32: OK: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 0
-CONFIG_PM=n: WARNINGS
-CONFIG_PM_SLEEP=n: WARNINGS
-CONFIG_OF=n: WARNINGS
-CONFIG_DEBUG_FS=n: WARNINGS
-sparse: WARNINGS
-smatch: ERRORS
-kerneldoc: WARNINGS
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+diff -- a/drivers/media/cec/i2c/Kconfig b/drivers/media/cec/i2c/Kconfig
+--- a/drivers/media/cec/i2c/Kconfig
++++ b/drivers/media/cec/i2c/Kconfig
+@@ -5,6 +5,7 @@
+ config CEC_CH7322
+ 	tristate "Chrontel CH7322 CEC controller"
+ 	depends on I2C
++	select REGMAP
+ 	select REGMAP_I2C
+ 	select CEC_CORE
+ 	help
