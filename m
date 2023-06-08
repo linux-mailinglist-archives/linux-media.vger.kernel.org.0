@@ -2,57 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C9C00727E97
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jun 2023 13:19:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2923172803E
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jun 2023 14:41:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234051AbjFHLT2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Jun 2023 07:19:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42366 "EHLO
+        id S232898AbjFHMli (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Jun 2023 08:41:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230033AbjFHLT1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jun 2023 07:19:27 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 771781BDF
-        for <linux-media@vger.kernel.org>; Thu,  8 Jun 2023 04:19:26 -0700 (PDT)
+        with ESMTP id S235905AbjFHMlc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jun 2023 08:41:32 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11D3A2726
+        for <linux-media@vger.kernel.org>; Thu,  8 Jun 2023 05:41:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686223166; x=1717759166;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=3Razfl+yrmYNQMStzCVzk3pyKmyT8Ar8TIR75kTfGcY=;
-  b=IexAoYhqDa/i73NePB49UWN4Zp/M+ZZbrNDCKxZQfmLelPwv4FYMHJAB
-   2dw6OCoC8c612XjH9UmJS3YyBzwn5yvIgJi3UqW8g3pyAgV8c1q90Nb1o
-   G3+l+Mhq3coHWQOqTub+PmYiNN30rqVU6Lg+rqlxqhelMv0e74XllbHVy
-   nuWqebl4TgM1jrmYXKhG44bEDgNalYm1SlfL/rCgFsPrpnhVKrdmBQ/Up
-   5UYITgJjMDJwTAqZTewEoPT+DbU/Vk2y0Y4mLSSZ9CdcPcM8ZwacSGQki
-   SA8im7cDyH5PuO+53vraG9NZFe64e220a4tOofP+LNFaY1eo0gzvTLdZd
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="337636335"
+  t=1686228092; x=1717764092;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TTf6aKfoT3+IDxClj80hgakY4hpx5x2H2soSVtkenFw=;
+  b=j638GXxjClXCS04KYQKl7W4kAFydRUw4XTG0nKwjWLB8DGcQo/Kkh+yQ
+   tgvYg5hMZ6peb1NeaxuQSkbvqALpSa78zpi+jNDvLvEJuT++E8+EsVgqe
+   IliU/1DTy9Eahpiw1Xn430L0aaCIhA3xzG+EvVKBNbV+taG/grj8XCKp8
+   Ywr98tikiUkqMXDVEmq53FjjCLm4snmMcQiLZ0KSlSNr3Fhiy4MA7SqLL
+   72rJxWWwBzvgGUJnAr3hjSzZlbTpvGAj0khxgP1pDmvUUzEeXDU8KSk65
+   aRVIqCZPiRds6HLK7yyBl40LnjLXEoyojWAh/b8z7UHn8OX9UBlo6Lg6v
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="423145293"
 X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; 
-   d="scan'208";a="337636335"
+   d="scan'208";a="423145293"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 04:19:26 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 05:41:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="713080506"
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="713103114"
 X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; 
-   d="scan'208";a="713080506"
+   d="scan'208";a="713103114"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 04:19:25 -0700
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 92FAB120BE1
-        for <linux-media@vger.kernel.org>; Thu,  8 Jun 2023 14:19:23 +0300 (EEST)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
-        (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1q7Df2-00H1Md-Mp
-        for linux-media@vger.kernel.org; Thu, 08 Jun 2023 14:18:36 +0300
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 05:41:29 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 23753120BE1;
+        Thu,  8 Jun 2023 15:41:27 +0300 (EEST)
+Date:   Thu, 8 Jun 2023 12:41:27 +0000
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Subject: [PATCH 1/1] media: MAINTAINERS: Orphan dw9768 and ov02a10 drivers
-Date:   Thu,  8 Jun 2023 14:18:26 +0300
-Message-Id: <20230608111826.4056774-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Daniel Scally <dan.scally@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org
+Subject: Re: [PATCH 01/28] media: ov2680: Remove auto-gain and auto-exposure
+ controls
+Message-ID: <ZIHMd/ygG6LdXndd@kekkonen.localdomain>
+References: <20230607164712.63579-1-hdegoede@redhat.com>
+ <20230607164712.63579-2-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230607164712.63579-2-hdegoede@redhat.com>
 X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
         SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
@@ -63,47 +68,63 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dongchun's e-mail is no longer active and he hasn't given a new one:
+Hi Hans,
 
-	The following message to <dongchun.zhu@mediatek.com> was
-	undeliverable.
-	The reason for the problem:
-	5.1.0 - Unknown address error 550-'Relaying mail to
-	dongchun.zhu@mediatek.com is not allowed'
+On Wed, Jun 07, 2023 at 06:46:45PM +0200, Hans de Goede wrote:
+> Quoting the OV2680 datasheet:
+> 
+> "3.2 exposure and gain control
+> 
+> In the OV2680, the exposure time and gain are set manually from an external
+> controller. The OV2680 supports manual gain and exposure control only for
+> normal applications, no auto mode."
+> 
+> And indeed testing with the atomisp_ov2680 fork of ov2680.c has shown that
+> auto-exposure and auto-gain do not work.
+> 
+> Note that the code setting the auto-exposure flag was broken, callers
+> of ov2680_exposure_set() were directly passing !!ctrls->auto_exp->val as
+> "bool auto_exp" value, but ctrls->auto_exp is a menu control with:
+> 
+> enum  v4l2_exposure_auto_type {
+>         V4L2_EXPOSURE_AUTO = 0,
+>         V4L2_EXPOSURE_MANUAL = 1,
+> 	...
+> 
+> So instead of passing !!ctrls->auto_exp->val they should have been passing
+> ctrls->auto_exp->val == V4L2_EXPOSURE_AUTO, iow the passed value was
+> inverted of what it should have been.
+> 
+> Also remove ov2680_g_volatile_ctrl() since without auto support the gain
+> and exposure controls are not volatile.
+> 
+> This also fixes the control values not being properly applied in
+> ov2680_mode_set(). The 800x600 mode register-list also sets gain,
+> exposure and vflip overriding the last set ctrl values.
+> 
+> ov2680_mode_set() does call ov2680_gain_set() and ov2680_exposure_set()
+> but did this before writing the mode register-list, so these values
+> would still be overridden by the mode register-list.
+> 
+> Add a v4l2_ctrl_handler_setup() call after writing the mode register-list
+> to restore all ctrl values. Also remove the ctrls->gain->is_new check from
+> ov2680_gain_set() so that the gain always gets restored properly.
+> 
+> Last since ov2680_mode_set() now calls v4l2_ctrl_handler_setup(), remove
+> the v4l2_ctrl_handler_setup() call after ov2680_mode_restore() since
+> ov2680_mode_restore() calls ov2680_mode_set().
+> 
+> Fixes: 3ee47cad3e69 ("media: ov2680: Add Omnivision OV2680 sensor driver")
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-Mark the drivers as orphaned.
+It is interesting, to say at least, to see this and the few following
+patches. No-one has previously complained. Makes me also wonder how the
+original driver was tested.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- MAINTAINERS | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Could you also cc the original author who is also listed as the current
+maintainter of the driver for v2?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f51f6ea39dc1c..9d5074d7461bd 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6252,9 +6252,8 @@ F:	Documentation/devicetree/bindings/media/i2c/dongwoon,dw9714.yaml
- F:	drivers/media/i2c/dw9714.c
- 
- DONGWOON DW9768 LENS VOICE COIL DRIVER
--M:	Dongchun Zhu <dongchun.zhu@mediatek.com>
- L:	linux-media@vger.kernel.org
--S:	Maintained
-+S:	Orphan
- T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.yaml
- F:	drivers/media/i2c/dw9768.c
-@@ -15453,9 +15452,8 @@ T:	git git://linuxtv.org/media_tree.git
- F:	drivers/media/i2c/ov01a10.c
- 
- OMNIVISION OV02A10 SENSOR DRIVER
--M:	Dongchun Zhu <dongchun.zhu@mediatek.com>
- L:	linux-media@vger.kernel.org
--S:	Maintained
-+S:	Orphan
- T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
- F:	drivers/media/i2c/ov02a10.c
 -- 
-2.30.2
+Kind regards,
 
+Sakari Ailus
