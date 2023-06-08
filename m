@@ -2,43 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA50A7283C2
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jun 2023 17:30:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3EE77285BC
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jun 2023 18:48:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236527AbjFHPal (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Jun 2023 11:30:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56522 "EHLO
+        id S236541AbjFHQsr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Jun 2023 12:48:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236372AbjFHPaj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jun 2023 11:30:39 -0400
-Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 43B941FE6;
-        Thu,  8 Jun 2023 08:30:30 -0700 (PDT)
-Received: from [192.168.4.25] (unknown [62.77.71.229])
-        by mx.gpxsee.org (Postfix) with ESMTPSA id 0AAB3A419;
-        Thu,  8 Jun 2023 17:30:19 +0200 (CEST)
-Message-ID: <c34db414-159a-313f-90eb-2bfc0f4496fa@gpxsee.org>
-Date:   Thu, 8 Jun 2023 17:30:17 +0200
+        with ESMTP id S236525AbjFHQsn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jun 2023 12:48:43 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FBF01FFA;
+        Thu,  8 Jun 2023 09:48:38 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 720A264F84;
+        Thu,  8 Jun 2023 16:48:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87307C433EF;
+        Thu,  8 Jun 2023 16:48:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686242917;
+        bh=NItZle+oTrePZjmBVAT27mVwVfGQfOUwmTs+qmzGn6k=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=VuOb+jLe1WtbWqLUUym3QtQf1tvdlFkuQfkXMyt7i0SeMBl4Z5PMy/JBo/3J7StOa
+         z13cXGwocgTkgqyZgejt0LSDiFJsSOlThO+7ClDdUklpU8a7ZdYDirSE1H56uiEfQt
+         /44/2dX0GDtyh//EgAJRFSLbhXfGUYmEjy1HeV14GEaRd9tJ0mFC+FIWAzKQiW+FkK
+         FsKUIo2Yx8vrLWVxJYbaRGLw2Xn5y+2XBhv2JvajneWwp2jVcF/oXznmkX7wCCrDFH
+         NP3Otfho+XBrV6YQV8JoN2PDCovVIB2Ij1BdnNlHf7CUrBvaekN5RuTCZgzSmCqmcr
+         PYDrrXuIM9eSg==
+Date:   Thu, 8 Jun 2023 17:48:32 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado 
+        <nfraprado@collabora.com>
+Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>, kernel@collabora.com,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v2 2/5] media: dt-bindings: mediatek,vcodec: Remove
+ VDEC_SYS for mt8183
+Message-ID: <20230608-helping-regally-3ce781f6d8ec@spud>
+References: <20230607205714.510012-1-nfraprado@collabora.com>
+ <20230607205714.510012-3-nfraprado@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [RESEND PATCH v6 1/1] Added Digiteq Automotive MGB4 driver
-Content-Language: en-US
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?UTF-8?Q?Martin_T=c5=afma?= <martin.tuma@digiteqautomotive.com>
-References: <20230524112126.2242-1-tumic@gpxsee.org>
- <20230524112126.2242-2-tumic@gpxsee.org>
- <3a7da3cd-8d03-a2c4-0534-a75565aefc13@xs4all.nl>
- <7072a8f3-5c9e-1170-e480-6fb57b95110f@gpxsee.org>
- <6b792de3-bb2c-d2b5-a652-eca6d20dad20@xs4all.nl>
-From:   =?UTF-8?Q?Martin_T=c5=afma?= <tumic@gpxsee.org>
-In-Reply-To: <6b792de3-bb2c-d2b5-a652-eca6d20dad20@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,T_SPF_HELO_TEMPERROR autolearn=ham
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="bqm2BrX9NmqPaHSz"
+Content-Disposition: inline
+In-Reply-To: <20230607205714.510012-3-nfraprado@collabora.com>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -46,74 +69,55 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 08. 06. 23 12:23, Hans Verkuil wrote:
 
-> Can you make a list of which sysfs properties correspond to existing V4L2
-> format or timing fields and which are 'new'?
-> 
+--bqm2BrX9NmqPaHSz
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On the left all the current mgb4 sysfs properties (see the admin-guide 
-doc from the patch for description), on the right v4l2 structures where 
-they could be mapped (may not be true for all of them in the patch, I 
-will check it and update the code in v7)
+On Wed, Jun 07, 2023 at 04:53:39PM -0400, N=EDcolas F. R. A. Prado wrote:
+> The binding expects the first register space to be VDEC_SYS. But on
+> mt8183, which uses the stateless decoders, this space is used only for
+> controlling clocks and resets, which are better described as separate
+> clock-controller and reset-controller nodes.
+>=20
+> In fact, in mt8173's devicetree there are already such separate
+> clock-controller nodes, which cause duplicate addresses between the
+> vdecsys node and the vcodec node. But for this SoC, since the stateful
+> decoder code makes other uses of the VDEC_SYS register space, it's not
+> straightforward to remove it.
+>=20
+> In order to avoid the same address conflict to happen on mt8183,
+> since the only current use of the VDEC_SYS register space in
+> the driver is to read the status of a clock that indicates the hardware
+> is active, remove the VDEC_SYS register space from the binding and
+> describe an extra clock that will be used to directly check the hardware
+> status.
+>=20
+> While adding the active clock, split the mt8183 clocks since there are
+> less of them than in mt8173. This is done in this same commit to avoid
+> changing the number of clocks twice.
+>=20
+> Also add reg-names to be able to tell that this new register schema is
+> used, so the driver can keep backward compatibility.
 
+Rationale here seems to make sense to me & seems like whatever
+functionality, or lack thereof, for the mt8183 will be preserved w/ the
+old devicetree.
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
---- PCIE CARD ---
+Cheers,
+Conor.
 
-module_type		-
-module_version		-
-fw_type			-
-fw_version		-
-serial_number		-
-temperature		hwmon
+--bqm2BrX9NmqPaHSz
+Content-Type: application/pgp-signature; name="signature.asc"
 
---- INPUTS ---
+-----BEGIN PGP SIGNATURE-----
 
-input_id		-
-oldi_lane_width		-
-color_mapping		-
-link_status		v4l2_input.status (V4L2_IN_ST_NO_SYNC)
-stream_status		v4l2_input.status (V4L2_IN_ST_NO_SIGNAL)
-video_width		v4l2_bt_timings.width
-video_height		v4l2_bt_timings.height
-vsync_status		v4l2_bt_timings.polarities
-hsync_status		v4l2_bt_timings.polarities
-vsync_gap_length	-
-hsync_gap_length	-
-pclk_frequency		v4l2_bt_timings.pixelclock
-hsync_width		v4l2_bt_timings.hsync
-vsync_width		v4l2_bt_timings.vsync
-hback_porch		v4l2_bt_timings.hbackporch
-hfront_porch		v4l2_bt_timings.hfrontporch
-vback_porch		v4l2_bt_timings.vbackporch
-vfront_porch		v4l2_bt_timings.vfrontporch
-frequency_range		-
-alignment		v4l2_pix_format.bytesperline
-fpdl3_input_width	-
-gmsl_mode		-
-gmsl_stream_id		-
-gmsl_fec		-
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZIIGXwAKCRB4tDGHoIJi
+0l6GAP9Fj0Yzci2QZFnKHVu1ULZFD8JnPf07oxRvnEiMYMGg6gEAhC1nbdxyRxKx
+aw9kQMvf0BpeAZuX8VEoKUTSBCMZAwQ=
+=K2/N
+-----END PGP SIGNATURE-----
 
---- OUTPUTS ---
-
-output_id		-
-video_source		-
-display_width		v4l2_bt_timings.width
-display_height		v4l2_bt_timings.height
-frame_rate		v4l2_frmivalenum
-hsync_polarity		v4l2_bt_timings.polarities
-vsync_polarity		v4l2_bt_timings.polarities
-de_polarity		-
-pclk_frequency		v4l2_bt_timings.pixelclock
-hsync_width		v4l2_bt_timings.hsync
-vsync_width		v4l2_bt_timings.vsync
-vsync_width		v4l2_bt_timings.vsync
-hback_porch		v4l2_bt_timings.hbackporch
-hfront_porch		v4l2_bt_timings.hfrontporch
-vback_porch		v4l2_bt_timings.vbackporch
-vfront_porch		v4l2_bt_timings.vfrontporch
-alignment		v4l2_pix_format.bytesperline
-fpdl3_output_width	-
-
-
-M.
+--bqm2BrX9NmqPaHSz--
