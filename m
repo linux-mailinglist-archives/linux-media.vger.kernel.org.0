@@ -2,229 +2,471 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D95E1727D6A
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jun 2023 13:00:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A675727D6F
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jun 2023 13:02:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236062AbjFHLAx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Jun 2023 07:00:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60892 "EHLO
+        id S231812AbjFHLCJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Jun 2023 07:02:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236054AbjFHLAp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jun 2023 07:00:45 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2136.outbound.protection.outlook.com [40.107.113.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCCB72D6D;
-        Thu,  8 Jun 2023 04:00:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CeYlThGVRTSa+PmO/tHMO7a7N34xKs2biqYRy2fCSBMWxsGxbv8+vNrHvQFdjEjvuBTAHz98a9Ztm/Y4xIgabZB9D+eY9ypcRvyvIGQPVLHPI2dkxnCJ02MLzLvtqLU7ObCrN/p9HToxkxj2uTWvs+6vmeLPCPrf2elSwsqwXFfSh4G8YBlmx3bPU8sMZ2eF4/PnPu6fUEmzAcwXr/cXxVuDsJwPO596ofCsxOUHOkCjXiCsgdBDObVx7ALIYA39wheio7GzExpKVOaApgxd0Byhy6lloX+ewsyJ9OyzBja2oRN5ZDAlBT6eNkTBmrJyUFV4fuietkfT5jA9doSyFg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dtuXr4XMsVaJwWxKSA/panwh6Yj+yoZtuZOAM73Vkic=;
- b=d3dAkUS6uTARF5yLqga2Oz0SCMW//iLq5p/rCcmRZhDUWizZOSAeG+beWfeCF4gmSYNp0zF7uU2SRXL/2KLiosjH8z6xjpJfWi8fN8KDDN12bu5uMLyCH88ivBNZJG7VG4+dxU47vFzzm7jhGKYYsv5D9350Mfi7XvUIGmvxK1wOzvb6vlIhqFLT43xIzAPmV2k4VwOX9+KBBJvco3vkwI8VnNKhb7qutG17zivf0C0N4MwVr2UWnmGIYhnl95P5yyErPcxBnbxg4YjYnhBkXcT6rz/EHyWwNIn19o90wdMLQ9kFEf13K19Nz+ukrkORVMuzUZUQz43lLPUFtYM5gQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dtuXr4XMsVaJwWxKSA/panwh6Yj+yoZtuZOAM73Vkic=;
- b=MftiiaRBLXl/zc+BkZfvbwZVADcjFpH+OHShkQqKjhJhWm5DDhJ3GtpthkrEN92axhNR3ua6dAgXTdR+h0qV1clTLAoCe1xjkXAy15I4JAOBQRfZxuVG2PJSuMkkisVu84BNbkzDLe5/aN9SQMK5M2vOLJQ+/McCEsrErUUvwk4=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYWPR01MB8510.jpnprd01.prod.outlook.com (2603:1096:400:171::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.42; Thu, 8 Jun
- 2023 11:00:18 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::bd0a:a38d:b4d2:5d2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::bd0a:a38d:b4d2:5d2%6]) with mapi id 15.20.6455.039; Thu, 8 Jun 2023
- 11:00:19 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
+        with ESMTP id S230033AbjFHLCF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jun 2023 07:02:05 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06E7A1BFF
+        for <linux-media@vger.kernel.org>; Thu,  8 Jun 2023 04:02:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686222123; x=1717758123;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6Zi45kKCgPqoCLLb9TZf0U3AVA/eU1ZxKjRdf8nI00s=;
+  b=lMnlFJHIOawcT2xqm4D3p4RUlgSlwBbXbdhhxW5oODPJ6oThKqSV4NtS
+   OHUYJPTEPwr82LI0ADB5KjtWTYu26RsClJ2UkGMwBpw9Xx79j39jQ6YTN
+   XHatx3XroX0Mwp/YCTu2VdLn5/9IcB77N57eYEPOTdppvmaNp/z7PjcOS
+   Wk8w1S9draBCpe1lEw1uSh0jhVCaj1v4gSOnaRMWZ9OUL3uJSgzoaWW6M
+   zmtdpXLxSl6FiJOy5OK8vL77KjRRHvQUwZok6nRljmcEXOZCQGrMXKNsK
+   SCnG2MGnNtN/RVYCrUkIGZkkHFKyf0FawRCeP02Rg0MUl9Q2OJnSsYzIg
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="336906821"
+X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; 
+   d="scan'208";a="336906821"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 04:01:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="687348803"
+X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; 
+   d="scan'208";a="687348803"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 04:01:32 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 6AD0C120BE1;
+        Thu,  8 Jun 2023 14:01:29 +0300 (EEST)
+Date:   Thu, 8 Jun 2023 11:01:29 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Wolfram Sang <wsa@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+Cc:     Hans de Goede <hdegoede@redhat.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        =?utf-8?B?VXdlIEtsZWluZS1Lw7ZuaWc=?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Corey Minyard <cminyard@mvista.com>,
-        =?utf-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
-        Antonio Borneo <antonio.borneo@foss.st.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Mark Brown <broonie@kernel.org>
-Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Thread-Topic: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Thread-Index: AQHZjJbXGsyu+Gf1qUyolpKmZgFmTa9w75gAgAALD6CAAyijgIAAQNsAgAq9ooCAACGi4IABRk1QgABIHYCAAALdsA==
-Date:   Thu, 8 Jun 2023 11:00:19 +0000
-Message-ID: <OS0PR01MB592259E6A7ACED4A0548DD228650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20230522101849.297499-1-biju.das.jz@bp.renesas.com>
- <20230522101849.297499-2-biju.das.jz@bp.renesas.com>
- <20230529080552.GJ25984@pendragon.ideasonboard.com>
- <OS0PR01MB592283E55078298EEA30C6B9864A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230531085941.GA27043@pendragon.ideasonboard.com>
- <CAMuHMdXywnxO6cL5R84mryFuyVMswj6EniY-bZx7m_2L3iUY9A@mail.gmail.com>
- <ZIBFc3y9jD59lZ3A@shikoro>
- <OS0PR01MB5922A3A97439EA2F976940B28653A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB5922AA27B212F610A5E816138650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230608103929.GO5058@pendragon.ideasonboard.com>
-In-Reply-To: <20230608103929.GO5058@pendragon.ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYWPR01MB8510:EE_
-x-ms-office365-filtering-correlation-id: fceb500a-80a8-4f36-f742-08db680f8c9b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: rZ3oQscJXsFM0N8LvtgZeKMwSskvheoGOQxoNrfMTDBxUXfTwW9p7NdEYHjF1LGZg0zAv+iwT9RXw0tASsqwQ8TBVwqJr1FJO1edIccEDxfoTZiqSmcPG9IaSPzcz2CXssl9uF7X02WfpSLEGw6PhEMxQWeg4f5rv3OhYocyPWpMFhJB87/vDBtS4bkvCNcpVa0sTokwR4ia6DhpcvpXsfCC0pKwJbutX3C9wavniQdx+68yEt4Nd16SIWP12Lwr9uAAt/IaoAxFkKCwWDj9Gx8cexKCI4ZbC7qsS+HWS+pjueQXYF5DcGBBgH/tVvhgHnf3fbk2k03KH35DM0QCBo4b0KDvyIf0dbcRtInHGlIGdeg4eEMvtTBvTXXRxG4kOF1NIejHPamlBHM5faTV6rA3t8VtmY9q/Xqttfu4j/t/wSux8MlDCXs1k5gPwvVu9KZ4LXZJmggwBrYz3M7nYDaTuCkILjsSyuGK4ovM9BUUYu0QaCL51oHAuyM8vyqR5LLTvZzChHQoJRLgQpVPG04EEkGF3Vkc4a8i8v/B3FDHbMy2TBrCTkImguNeckPkTzj1PLTW8dT27/P/45lEvfoKtYLPlcn3KhfPA6prTOHdkS6Ml1el0o8sgt++mFUX
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(366004)(39860400002)(346002)(376002)(396003)(451199021)(55016003)(54906003)(122000001)(478600001)(8936002)(8676002)(4326008)(6916009)(76116006)(66946007)(66556008)(66476007)(66446008)(64756008)(316002)(41300700001)(38100700002)(186003)(83380400001)(7696005)(71200400001)(9686003)(6506007)(26005)(33656002)(86362001)(5660300002)(52536014)(7416002)(7406005)(38070700005)(2906002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TDArQUYwWSt6RUVKVkltY1dmeHg5eXhKdjNLV2tDa1JiSWpERFVCczVlYjUw?=
- =?utf-8?B?UlIzcjhjZWZZeHlnc1ozMVpmQU5oU0NmSzM2RDdjc0VGQWlMWnQySVI4bzBT?=
- =?utf-8?B?WEtQeSt4Z1YrbEZuMDJicjZKcGZITDVjY2F5U0NleVBuRE95Um1pMm5oRkhm?=
- =?utf-8?B?ZnNQNzdLakxMQ1BlZktpUEU4OHFPS2wwZllLcVJmTExzQzdpenQzZ210VENN?=
- =?utf-8?B?Yjh1MGZEQ2lCQTdqc3lKRFRxTGlzUUt4a2VRd29ndDVlZVlyR3pGeEJsRk13?=
- =?utf-8?B?Wjg3L1R0bndSS2V5T2FwZEJnSEV0TVJ4MTB2eFAxcmUzZXJia24zbEJwOXUr?=
- =?utf-8?B?bjNUR1NqWXBJb1hJUkczNUJITTN0M1hQd0dOZnpWSUdvSGVra2thdkhrQVRv?=
- =?utf-8?B?cFY4T3pwQmw4VnZsZTJTZy9JUFNScXl2OTZHWlhSSVVFRWN5WWdXU21GTzBD?=
- =?utf-8?B?dmdxbWFWZlczZG1rRTM2aEN0blZtNzI2c2ZpT0NzeitGeHo3V1dZQkY4ZHRn?=
- =?utf-8?B?OXQwYUdGN04wc1BkcE9qN0JJZ2Y1cUhSbk9uNUZZS3ZJcnd3bFFod0JUOUo1?=
- =?utf-8?B?MkkrRVRLazI4Wm5NVnloZWZRVUExdjJoclYyZUlKME9TVWZIejQzcm5TWjh1?=
- =?utf-8?B?VTUwRy9pbDQzdFlYYXJJM3hKemtUaXNWWkhJVC9OdkhVbS9FRC9iSGEvMzR3?=
- =?utf-8?B?Yzl0WjdLTnh6SVlyL2dPL0hQblE5ZVV4dVFpTHV2WHdxY3BLanpabENtZk1l?=
- =?utf-8?B?cTJHKzA4SW9rdDVESG1yS0pYWVFpcThiRXBNeUhDZjVOREFhRDZHTzhTYmZB?=
- =?utf-8?B?UmpITXZIN01HTlB3YktLbDJaQWlUUmpVay94WG9hV1dQQjJaaUZlQ1ExOUdP?=
- =?utf-8?B?K3pWclhLOCtwa284WXhhZ1RMdnBOcWhGcm4vNnRyN0pYTnRhTVpMSVJaNjI4?=
- =?utf-8?B?VmcvZGowUTlyL1lKNzJSbGE2NWV4bjVNUkJ6SUx6MG4rSEIyTmtmamM4M3h1?=
- =?utf-8?B?NnFOQkZSZ0k1S25tc2EweGF0bnFSWE1QajM1N0R1bnBIZ1FhVVgrVGpWakUz?=
- =?utf-8?B?NVdkNGk5ZWJxVW9oNkhjNUhhMWxFNjhlMjcyODFtTUFsOFBic3N6dVpoRVpC?=
- =?utf-8?B?YXc0K1hDeVZJTkk1cjRBUUxuMDh5aXVDbTY3blpTbUN5Q0cvVG1uWWtPbENw?=
- =?utf-8?B?aklTdm9IVFFWQ09YakdsMnF1OFBTMGdsNldRSlB4T3NNVlVpWGpPRHIxaWZq?=
- =?utf-8?B?WmI0ZXVJdHU3eG9UV2xBWlJSSDUyVCtUNUdpN3hmVVNyalU2MktpRVdxTTZG?=
- =?utf-8?B?WWk3WDdqRVdNd3lQL1hVQ2VSZUJTZlp4UmhMQ1V2NmlKSGRsZC9jRzlRQ21v?=
- =?utf-8?B?dG0rQVpEMVBLTEJYN3preTJQbTZZL3o0VTZPMzNMejNWZGxabUJOaTBsdmxv?=
- =?utf-8?B?S01IUmxrRFYvN0NkbFp0TjRvdVRNbWd5bXRuSkN0M25vbVBueGhZUmJSeDlX?=
- =?utf-8?B?RTJ2c09zcC9FZDlOTEhLRXBBdVI1Q0x4NmRYdy9zM1R3d24yUTZIcE5vWkZH?=
- =?utf-8?B?eVR0aHJOb1FUdEM0bXJKN1QzeUE0QkZaSnV5VEk5RVpFclZWNE50V01seUpN?=
- =?utf-8?B?MmxablFlSDhFOUU1MkpzMFgzejlwakxiZVNLdlE1cWs2UGM5L2xhb1UzbGZC?=
- =?utf-8?B?WnNWWE1rNWZ3WERwc1BOazVtMmQvSzhwN0ZFZ3piVzhQK3J6UDUvMit1TVBM?=
- =?utf-8?B?NFJlUjFrNzVUcjE3MG44a1prSWRNUVFQSGF3NjdFb3JOSFYzWXVwdEZrMWNT?=
- =?utf-8?B?U2FGZFkxWVRMcnpsSHlLcHpxK1hiWEw5Q2hKN2VxRVNpS3VXNWE5KzROT0ly?=
- =?utf-8?B?VEptTG9PSU9BZjRLWi90LzJXbzBSci9QN3Nyald2UHlhaENxNmVqNVBkSHFS?=
- =?utf-8?B?M21iUkNOdjV0U0krSHJzRzlpc0xYS3dIdmFWNjRpM0FDTkhQbG50MytlVkZz?=
- =?utf-8?B?dTJFK21qTDVHKzJPbGlSRWtUbDAzU2xsZWNYc3ovcHhScVQ1WW1qZzlzVzZq?=
- =?utf-8?B?WGJMK3hISU1SZE5uWkFtYWxWcjBySEwwVGM2UEpIcXBmalpZbXRPWnZTb0Ft?=
- =?utf-8?Q?WXmRh+xO5+aDILCXU3Fw9SZyt?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/3] media: Add MIPI CCI register access helper functions
+Message-ID: <ZIG1CRWigbnSJQG8@kekkonen.localdomain>
+References: <20230606165808.70751-1-hdegoede@redhat.com>
+ <20230606165808.70751-2-hdegoede@redhat.com>
+ <20230607181855.GM5058@pendragon.ideasonboard.com>
+ <b558aac9-0a34-ecca-57b0-d132af8cdefb@redhat.com>
+ <20230608102725.GN5058@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fceb500a-80a8-4f36-f742-08db680f8c9b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jun 2023 11:00:19.5716
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: EYwCi8djK5JuJjn+jJ6O1vkl/WvrKNY6u6qm1iCOz9+hpMHiRQKBPtIneYC/yw/0Hfin0YFHSaLXOv4vMoswVb4r6o2yWBDQ3vtu+8g+P9Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB8510
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230608102725.GN5058@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgTGF1cmVudCwNCg0KVGhhbmtzIGZvciB0aGUgZmVlZGJhY2suDQoNCj4gU3ViamVjdDogUmU6
-IFtQQVRDSCB2NSAwMS8xMV0gaTJjOiBFbmhhbmNlIGkyY19uZXdfYW5jaWxsYXJ5X2RldmljZSBB
-UEkNCj4gDQo+IEhpIEJpanUsDQo+IA0KPiBPbiBUaHUsIEp1biAwOCwgMjAyMyBhdCAwNjo0MToz
-NUFNICswMDAwLCBCaWp1IERhcyB3cm90ZToNCj4gPiA+IFN1YmplY3Q6IFJFOiBbUEFUQ0ggdjUg
-MDEvMTFdIGkyYzogRW5oYW5jZSBpMmNfbmV3X2FuY2lsbGFyeV9kZXZpY2UNCj4gPiA+IEFQSQ0K
-PiA+ID4gPiBTdWJqZWN0OiBSZTogW1BBVENIIHY1IDAxLzExXSBpMmM6IEVuaGFuY2UNCj4gPiA+
-ID4gaTJjX25ld19hbmNpbGxhcnlfZGV2aWNlIEFQSQ0KPiA+ID4gPg0KPiA+ID4gPiBIaSBhbGws
-DQo+ID4gPiA+DQo+ID4gPiA+IHNvcnJ5IGZvciBub3QgYmVpbmcgYWJsZSB0byBjaGltZSBpbiBl
-YXJsaWVyLg0KPiA+ID4gPg0KPiA+ID4gPiA+IEluIEJpanUncyBwYXJ0aWN1bGFyIHVzZSBjYXNl
-LCB0aGUgaTJjIGRldmljZSByZXNwb25kcyB0byB0d28NCj4gPiA+ID4gPiBhZGRyZXNzZXMsIHdo
-aWNoIGlzIHRoZSBzdGFuZGFyZCBpMmMgYW5jaWxsYXJ5IHVzZSBjYXNlLg0KPiA+ID4gPiA+IEhv
-d2V2ZXIsIHdoYXQncyBzcGVjaWFsDQo+ID4gPiA+DQo+ID4gPiA+IE5vdCBxdWl0ZS4gYW5jaWxs
-YXJ5IGlzIHVzZWQgd2hlbiBhICpkcml2ZXIqIG5lZWRzIHRvIHRha2UgY2FyZSBvZg0KPiA+ID4g
-PiB0d28gYWRkcmVzc2VzLiBXZSBhbHJlYWR5IGhhdmUgZGV2aWNlcyBidW5kbGluZyB0d28gZmVh
-dHVyZXMgaW50bw0KPiA+ID4gPiB0aGUgc2FtZSBjaGlwLiBJIHJlY2FsbCBhdCBsZWFzdCBSVEMg
-KyBFRVBST00gc29tZXdoZXJlLiBBbmQgc28NCj4gPiA+ID4gZmFyLCB3ZSBoYXZlIGJlZW4gaGFu
-ZGxpbmcgdGhpcyBieSBjcmVhdGluZyB0d28gbm9kZXMgaW4gRFQgYW5kDQo+IGhhdmUgcHJvcGVy
-IGJpbmRpbmcgZG9jcy4NCj4gPiA+ID4gSSB0aGluayB0aGlzIGlzIGNsZWFuZXIuIEZpcnN0LCB5
-b3UgY2FuIHNlZSBpbiBEVCBhbHJlYWR5IHdoYXQgdGhlDQo+ID4gPiA+IGNvbXBvdW5kIGRldmlj
-ZSByZWFsbHkgY29uc2lzdHMgb2YuIEluIHRoaXMgY2FzZSwgd2hpY2ggUlRDIGFuZA0KPiA+ID4g
-PiBSVEMgZHJpdmVyIGlzIGV4YWN0bHkgbmVlZGVkLiBTZWNvbmQsIHRoZSBjb2RlIGFkZGVkIGhl
-cmUgYWRkcw0KPiA+ID4gPiBjb21wbGV4aXR5IHRvIHRoZSBJMkMgY29yZSB3aXRoIGFub3RoZXIg
-bGF5ZXIgb2YgaW5kZXJlY3Rpb24gZm9yDQo+IGR1bW15IGRldmljZXMuDQo+ID4gPg0KPiA+ID4g
-RllJLCBwbGVhc2Ugc2VlIFsxXSBhbmQgWzJdDQo+ID4gPg0KPiA+ID4gQXMgcGVyIERUIG1haW50
-YWluZXJzLCBtb3N0IG9mIFBNSUNzIGFyZSBkZXNjcmliZWQgd2l0aCBvbmUgbm9kZSwNCj4gPiA+
-IGV2ZW4gdGhvdWdoIFJUQyBpcyBvbiBzZXBhcmF0ZSBhZGRyZXNzLiBBY2NvcmRpbmcgdG8gdGhl
-bSB0aGUgRFQNCj4gPiA+IHNjaGVtYSBhbGxvd3MgbXVsdGlwbGUgYWRkcmVzc2VzIGZvciBjaGls
-ZHJlbi4NCj4gPiA+IEJ1dCBjdXJyZW50bHkgd2UgbGFja3MgaW1wbGVtZW50YXRpb24gZm9yIHRo
-YXQuIFRoZSBlbmhhbmNlbWVudCB0bw0KPiA+ID4gdGhpcyBBUEkgYWxsb3dzIHRoYXQuDQo+ID4g
-Pg0KPiA+ID4gPiA+IEFzIHNvbWUgcmVzb3VyY2VzIGFyZSBzaGFyZWQgKGtub3dsZWRnZSBhYm91
-dCB0aGUgY2xvY2tzKSwNCj4gPiA+ID4gPiBzcGxpdHRpbmcgdGhpcyBpbiB0d28gZGlzdGluY3Qg
-ZGV2aWNlcyBpbiBEVCAod2hpY2ggaXMgd2hhdA0KPiA+ID4gPiA+IEJpanUncyBpbml0aWFsIHBh
-dGNoIHNlcmllcyBkaWQpIHdvdWxkIG5lZWQgcGhhbmRsZXMgdG8gbGluayBib3RoDQo+IG5vZGVz
-IHRvZ2V0aGVyLg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gRG8geW91IGhhdmUgYSBiZXR0ZXIgaWRl
-YSBob3cgdG8gcmVwcmVzZW50IHRoaXM/DQo+ID4gPiA+DQo+ID4gPiA+IE5vdCBzdXJlIGlmIEkg
-dW5kZXJzdG9vZCB0aGlzIGNoaXAgY29ycmVjdGx5LCBidXQgbWF5YmU6IFRoZSBQTUlDDQo+ID4g
-PiA+IGRyaXZlciBleHBvc2VzIGEgY2xvY2sgZ2F0ZSB3aGljaCBjYW4gYmUgY29uc3VtZWQgYnkg
-dGhlIFJUQw0KPiBkcml2ZXI/DQo+ID4NCj4gPiBMZXQgbWUgZ2l2ZSBtZSBzb21lIGRldGFpbHMg
-b2YgdGhpcyBQTUlDIGNoaXAuDQo+ID4NCj4gPiBQTUlDIGRldmljZSBoYXMgMiBhZGRyZXNzZXMg
-IjB4MTI6LSBQTUlDIiAsICIweDZmIi0gcnRjLg0KPiA+DQo+ID4gSXQgaGFzIFhJTiwgWE9VVCwg
-SU5UIyBwaW5zIGFuZCBhIHJlZ2lzdGVyIGZvciBmaXJtd2FyZSByZXZpc2lvbnMuDQo+IA0KPiBJ
-cyB0aGUgZmlybXdhcmUgcmV2aXNpb24gcmVnaXN0ZXIgYWNjZXNzZWQgdGhyb3VnaCBhZGRyZXNz
-IDB4MTIgKFBNSUMpIG9yDQo+IDB4NmYgKFJUQykgPw0KDQoweDEyKFBNSUMpLg0KDQo+IA0KPiA+
-IEJhc2VkIG9uIHRoZSBzeXN0ZW0gZGVzaWduLA0KPiA+DQo+ID4gSWYgWElOIGFuZCBYT1VUIGlz
-IGNvbm5lY3RlZCB0byBleHRlcm5hbCBjcnlzdGFsLCBJbnRlcm5hbCBvc2NpbGxhdG9yDQo+ID4g
-aXMgZW5hYmxlZCBmb3IgUlRDLiBJbiB0aGlzIGNhc2Ugd2UgbmVlZCB0byBzZXQgdGhlIG9zY2ls
-bGF0b3IgYml0IHRvDQo+ID4gIjAiLg0KPiA+DQo+ID4gSWYgWElOIGlzIGNvbm5lY3RlZCB0byBl
-eHRlcm5hbCBjbG9jayBzb3VyY2UsIEludGVybmFsIG9zY2lsbGF0b3IgaXMNCj4gPiBkaXNhYmxl
-ZCBmb3IgUlRDLiBJbiB0aGlzIGNhc2Ugd2UgbmVlZCB0byBzZXQgdGhlIG9zY2lsbGF0b3IgYml0
-IHRvDQo+ID4gIjEiLg0KPiANCj4gU2FtZSBoZXJlLCB3aGljaCBhZGRyZXNzIGlzIHRoZSBvc2Np
-bGxhdG9yIGJpdCBhY2Nlc3NlZCB0aHJvdWdoID8NCg0KUlRDICgweDZGKS0tPiB0byBzZXQgb3Nj
-aWxsYXRvciBiaXQuDQoNCj4gDQo+ID4gSWYgWElOIGFuZCBYT1VUIG5vdCBjb25uZWN0ZWQgUlRD
-IG9wZXJhdGlvbiBub3QgcG9zc2libGUuDQo+ID4NCj4gPiBJUlEjIChvcHRpb25hbCkgZnVuY3Rp
-b25hbGl0eSBpcyBzaGFyZWQgYmV0d2VlbiBQTUlDIGFuZCBSVEMuIChQTUlDDQo+ID4gZmF1bHQg
-Zm9yIHZhcmlvdXMgYnVja3MvTERPcy9XRFQvT1RQL05WTSBhbmQgYWxhcm0gY29uZGl0aW9uKS4N
-Cj4gDQo+IElSUXMgY2FuIGJlIHNoYXJlZCBiZXR3ZWVuIG11bHRpcGxlIGRldmljZXMgc28gdGhp
-cyBzaG91bGRuJ3QgYmUgYQ0KPiBwcm9ibGVtLg0KDQpPSy4gSG93IGRvIHdlIHJlcHJlc2VudCB0
-aGlzIElSUSBpbiBEVD8NCg0KQ2hlZXJzLA0KQmlqdQ0KDQo+IA0KPiA+IFRoZSBib2FyZCwgSSBo
-YXZlIGRvZXNuJ3QgcG9wdWxhdGUgSVJRIyBwaW4uIElmIG5lZWRlZCBzb21lIGN1c3RvbWVycw0K
-PiA+IGNhbiBwb3B1bGF0ZSBJUlEjIHBpbiBhbmQgdXNlIGl0IGZvciBQTUlDIGZhdWx0IGFuZCBS
-VEMgYWxhcm0uDQo+ID4NCj4gPiBBbHNvLCBjdXJyZW50bHkgbXkgYm9hcmQgaGFzIFBNSUMgcmV2
-IGEwIHdoZXJlIG9zY2lsbGF0b3IgYml0IGlzDQo+ID4gaW52ZXJ0ZWQgYW5kIGludGVybmFsIG9z
-Y2lsbGF0b3IgaXMgZW5hYmxlZCAoaWU6IFhJTiBhbmQgWE9VVCBpcw0KPiA+IGNvbm5lY3RlZCB0
-byBleHRlcm5hbCBjcnlzdGFsKQ0KPiANCj4gLS0NCj4gUmVnYXJkcywNCj4gDQo+IExhdXJlbnQg
-UGluY2hhcnQNCg==
+Hi Laurent,
+
+On Thu, Jun 08, 2023 at 01:27:25PM +0300, Laurent Pinchart wrote:
+> Hi Hans,
+> 
+> On Wed, Jun 07, 2023 at 09:01:40PM +0200, Hans de Goede wrote:
+> > On 6/7/23 20:18, Laurent Pinchart wrote:
+> > > On Tue, Jun 06, 2023 at 06:58:06PM +0200, Hans de Goede wrote:
+> > >> The CSI2 specification specifies a standard method to access camera sensor
+> > >> registers called "Camera Control Interface (CCI)".
+> > >>
+> > >> This uses either 8 or 16 bit (big-endian wire order) register addresses
+> > >> and supports 8, 16, 24 or 32 bit (big-endian wire order) register widths.
+> > > 
+> > > I think there are some sensors that also have 64-bit registers, but we
+> > > can deal with that later.
+> > > 
+> > >> Currently a lot of Linux camera sensor drivers all have their own custom
+> > >> helpers for this, often copy and pasted from other drivers.
+> > >>
+> > >> Add a set of generic helpers for this so that all sensor drivers can
+> > >> switch to a single common implementation.
+> > >>
+> > >> These helpers take an extra optional "int *err" function parameter,
+> > >> this can be used to chain a bunch of register accesses together with
+> > >> only a single error check at the end, rather then needing to error
+> > >> check each individual register access. The first failing call will
+> > >> set the contents of err to a non 0 value and all other calls will
+> > >> then become no-ops.
+> > >>
+> > >> Link: https://lore.kernel.org/linux-media/59aefa7f-7bf9-6736-6040-39551329cd0a@redhat.com/
+> > >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> > >> ---
+> > >>  Documentation/driver-api/media/v4l2-cci.rst  |   5 +
+> > >>  Documentation/driver-api/media/v4l2-core.rst |   1 +
+> > >>  drivers/media/v4l2-core/Kconfig              |   5 +
+> > >>  drivers/media/v4l2-core/Makefile             |   1 +
+> > >>  drivers/media/v4l2-core/v4l2-cci.c           | 142 +++++++++++++++++++
+> > >>  include/media/v4l2-cci.h                     | 109 ++++++++++++++
+> > >>  6 files changed, 263 insertions(+)
+> > >>  create mode 100644 Documentation/driver-api/media/v4l2-cci.rst
+> > >>  create mode 100644 drivers/media/v4l2-core/v4l2-cci.c
+> > >>  create mode 100644 include/media/v4l2-cci.h
+> > >>
+> > >> diff --git a/Documentation/driver-api/media/v4l2-cci.rst b/Documentation/driver-api/media/v4l2-cci.rst
+> > >> new file mode 100644
+> > >> index 000000000000..dd297a40ed20
+> > >> --- /dev/null
+> > >> +++ b/Documentation/driver-api/media/v4l2-cci.rst
+> > >> @@ -0,0 +1,5 @@
+> > >> +.. SPDX-License-Identifier: GPL-2.0
+> > >> +
+> > >> +V4L2 CCI kAPI
+> > >> +^^^^^^^^^^^^^
+> > >> +.. kernel-doc:: include/media/v4l2-cci.h
+> > >> diff --git a/Documentation/driver-api/media/v4l2-core.rst b/Documentation/driver-api/media/v4l2-core.rst
+> > >> index 1a8c4a5f256b..239045ecc8f4 100644
+> > >> --- a/Documentation/driver-api/media/v4l2-core.rst
+> > >> +++ b/Documentation/driver-api/media/v4l2-core.rst
+> > >> @@ -22,6 +22,7 @@ Video4Linux devices
+> > >>      v4l2-mem2mem
+> > >>      v4l2-async
+> > >>      v4l2-fwnode
+> > >> +    v4l2-cci
+> > >>      v4l2-rect
+> > >>      v4l2-tuner
+> > >>      v4l2-common
+> > >> diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
+> > >> index 348559bc2468..523ba243261d 100644
+> > >> --- a/drivers/media/v4l2-core/Kconfig
+> > >> +++ b/drivers/media/v4l2-core/Kconfig
+> > >> @@ -74,6 +74,11 @@ config V4L2_FWNODE
+> > >>  config V4L2_ASYNC
+> > >>  	tristate
+> > >>  
+> > >> +config V4L2_CCI
+> > >> +	tristate
+> > >> +	depends on I2C
+> > >> +	select REGMAP_I2C
+> > >> +
+> > >>  # Used by drivers that need Videobuf modules
+> > >>  config VIDEOBUF_GEN
+> > >>  	tristate
+> > >> diff --git a/drivers/media/v4l2-core/Makefile b/drivers/media/v4l2-core/Makefile
+> > >> index 41d91bd10cf2..be2551705755 100644
+> > >> --- a/drivers/media/v4l2-core/Makefile
+> > >> +++ b/drivers/media/v4l2-core/Makefile
+> > >> @@ -25,6 +25,7 @@ videodev-$(CONFIG_VIDEO_V4L2_I2C) += v4l2-i2c.o
+> > >>  # (e. g. LC_ALL=C sort Makefile)
+> > >>  
+> > >>  obj-$(CONFIG_V4L2_ASYNC) += v4l2-async.o
+> > >> +obj-$(CONFIG_V4L2_CCI) += v4l2-cci.o
+> > >>  obj-$(CONFIG_V4L2_FLASH_LED_CLASS) += v4l2-flash-led-class.o
+> > >>  obj-$(CONFIG_V4L2_FWNODE) += v4l2-fwnode.o
+> > >>  obj-$(CONFIG_V4L2_H264) += v4l2-h264.o
+> > >> diff --git a/drivers/media/v4l2-core/v4l2-cci.c b/drivers/media/v4l2-core/v4l2-cci.c
+> > >> new file mode 100644
+> > >> index 000000000000..21207d137dbe
+> > >> --- /dev/null
+> > >> +++ b/drivers/media/v4l2-core/v4l2-cci.c
+> > >> @@ -0,0 +1,142 @@
+> > >> +// SPDX-License-Identifier: GPL-2.0
+> > >> +/*
+> > >> + * MIPI Camera Control Interface (CCI) register access helpers.
+> > >> + *
+> > >> + * Copyright (C) 2023 Hans de Goede <hansg@kernel.org>
+> > >> + */
+> > >> +
+> > >> +#include <linux/delay.h>
+> > >> +#include <linux/dev_printk.h>
+> > >> +#include <linux/module.h>
+> > >> +#include <linux/regmap.h>
+> > >> +
+> > >> +#include <media/v4l2-cci.h>
+> > >> +
+> > >> +int cci_read(struct regmap *map, u32 reg, u32 *val, int *err)
+> > >> +{
+> > >> +	int i, len, ret;
+> > >> +	u8 buf[4];
+> > >> +
+> > >> +	if (err && *err)
+> > >> +		return *err;
+> > >> +
+> > >> +	/* Set len to register width in bytes */
+> > >> +	len = ((reg & CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT) + 1;
+> > >> +	reg &= CCI_REG_ADDR_MASK;
+> > >> +
+> > >> +	ret = regmap_bulk_read(map, reg, buf, len);
+> > >> +	if (ret) {
+> > >> +		dev_err(regmap_get_device(map), "Error reading reg 0x%4x: %d\n", reg, ret);
+> > >> +		if (err)
+> > >> +			*err = ret;
+> > >> +
+> > >> +		return ret;
+> > >> +	}
+> > >> +
+> > >> +	*val = 0;
+> > >> +	for (i = 0; i < len; i++) {
+> > >> +		*val <<= 8;
+> > >> +		*val |= buf[i];
+> > >> +	}
+> > >> +
+> > >> +	return 0;
+> > >> +}
+> > >> +EXPORT_SYMBOL_GPL(cci_read);
+> > >> +
+> > >> +int cci_write(struct regmap *map, u32 reg, u32 val, int *err)
+> > >> +{
+> > >> +	int i, len, ret;
+> > >> +	u8 buf[4];
+> > >> +
+> > >> +	if (err && *err)
+> > >> +		return *err;
+> > >> +
+> > >> +	/* Set len to register width in bytes */
+> > >> +	len = ((reg & CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT) + 1;
+> > >> +	reg &= CCI_REG_ADDR_MASK;
+> > >> +
+> > >> +	for (i = 0; i < len; i++) {
+> > >> +		buf[len - i - 1] = val & 0xff;
+> > >> +		val >>= 8;
+> > >> +	}
+> > >> +
+> > >> +	ret = regmap_bulk_write(map, reg, buf, len);
+> > >> +	if (ret) {
+> > >> +		dev_err(regmap_get_device(map), "Error writing reg 0x%4x: %d\n", reg, ret);
+> > >> +		if (err)
+> > >> +			*err = ret;
+> > >> +	}
+> > >> +
+> > >> +	return ret;
+> > >> +}
+> > >> +EXPORT_SYMBOL_GPL(cci_write);
+> > >> +
+> > >> +int cci_update_bits(struct regmap *map, u32 reg, u32 mask, u32 val, int *err)
+> > >> +{
+> > >> +	int width, ret;
+> > >> +	u32 readval;
+> > >> +
+> > >> +	if (err && *err)
+> > >> +		return *err;
+> > >> +
+> > >> +	/*
+> > >> +	 * For single byte updates use regmap_update_bits(), this uses
+> > >> +	 * the regmap-lock to protect against other read-modify-writes racing.
+> > >> +	 */
+> > >> +	width = (reg & CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT;
+> > >> +	if (width == cci_reg_8) {
+> > >> +		reg &= CCI_REG_ADDR_MASK;
+> > >> +		ret = regmap_update_bits(map, reg, mask, val);
+> > >> +		if (ret) {
+> > >> +			dev_err(regmap_get_device(map), "Error updating reg 0x%4x: %d\n", reg, ret);
+> > >> +			if (err)
+> > >> +				*err = ret;
+> > >> +		}
+> > >> +
+> > >> +		return ret;
+> > >> +	}
+> > >> +
+> > >> +	ret = cci_read(map, reg, &readval, err);
+> > >> +	if (ret)
+> > >> +		return ret;
+> > >> +
+> > >> +	val = (readval & ~mask) | (val & mask);
+> > >> +
+> > >> +	return cci_write(map, reg, val, err);
+> > > 
+> > > Unless I'm mistaken, the regmap cache isn't used. This makes update
+> > > operations fairly costly due to the read. Could that be improved ?
+> > 
+> > The problem is that some registers may be volatile,
+> > think e.g. expsoure on a sensor where auto-exposure is supported.
+> > 
+> > So normally drivers which want to use regmap caching, also
+> > provide a whole bunch of tables describing the registers
+> > (lists of volatile + list of writable + list of readable
+> > registers).
+> > 
+> > So enabling caching is not trivial. I think that it would be best
+> > for drivers which want that to supply their own regmap_config config
+> > and directly call devm_regmap_init_i2c() if they then use
+> > the resulting regmaps with the existing cci_* helpers then caching
+> > will be used automatically.
+> 
+> Would there be a way to use the cache for update operations (as I think
+> we can consider that registers used in those operations won't be
+> volatile), and bypass it for standalone reads ?
+
+Could we rely on regmap on this? It provides a way to tell which registers
+are volatile. Very few of these drivers would get any benefit from caching
+anyway (or even use update_bits()).
+
+> 
+> > >> +}
+> > >> +EXPORT_SYMBOL_GPL(cci_update_bits);
+> > >> +
+> > >> +int cci_multi_reg_write(struct regmap *map, const struct reg_sequence *regs, int num_regs, int *err)
+> > >> +{
+> > >> +	int i, ret;
+> > >> +
+> > >> +	if (err && *err)
+> > >> +		return *err;
+> > >> +
+> > >> +	for (i = 0; i < num_regs; i++) {
+> > >> +		ret = cci_write(map, regs[i].reg, regs[i].def, err);
+> > >> +		if (ret)
+> > >> +			return ret;
+> > >> +
+> > >> +		if (regs[i].delay_us)
+> > >> +			fsleep(regs[i].delay_us);
+> > > 
+> > > Do you have an immediate need for this ? If not, I'd drop support for
+> > > the delay, and add it later when and if needed. It will be easier to
+> > > discuss the API and use cases with a real user.
+> > 
+> > This is a 1:1 mirror of regmap_multi_reg_write() note this uses
+> > the existing struct reg_sequence delay_us field and the:
+> > 
+> > 		if (regs[i].delay_us)
+> > 			fsleep(regs[i].delay_us);
+> > 
+> > is copied from the implementation of regmap_multi_reg_write()
+> 
+> The reason why I don't like it much as that such delays are often hacks
+> hidden in the middle of register arrays that should in many cases be
+> handled differently. I was hoping that, by not supporting them yet,
+> we'll have an easier time to get drivers right. Maybe I'm wrong.
+
+It's not uncommon for a sensor to require e.g. a given amount of time to
+recover from software reset. Then again, embedding software in a register
+list can hardly be described as a good practice. There maybe other such
+cases, too.
+
+But the field already exists in the struct. I don't object acting based on
+its contents as such.
+
+> 
+> > >> +	}
+> > >> +
+> > >> +	return 0;
+> > >> +}
+> > >> +EXPORT_SYMBOL_GPL(cci_multi_reg_write);
+> > >> +
+> > >> +struct regmap *cci_regmap_init_i2c(struct i2c_client *client, int reg_addr_bits)
+> > >> +{
+> > >> +	struct regmap_config config = {
+> > >> +		.reg_bits = reg_addr_bits,
+> > >> +		.val_bits = 8,
+> > >> +		.reg_format_endian = REGMAP_ENDIAN_BIG,
+> > >> +	};
+> > >> +
+> > >> +	return devm_regmap_init_i2c(client, &config);
+> > >> +}
+> > >> +EXPORT_SYMBOL_GPL(cci_regmap_init_i2c);
+> > >> +
+> > >> +MODULE_LICENSE("GPL");
+> > >> +MODULE_AUTHOR("Hans de Goede <hansg@kernel.org>");
+> > >> diff --git a/include/media/v4l2-cci.h b/include/media/v4l2-cci.h
+> > >> new file mode 100644
+> > >> index 000000000000..69b8a7c4a013
+> > >> --- /dev/null
+> > >> +++ b/include/media/v4l2-cci.h
+> > >> @@ -0,0 +1,109 @@
+> > >> +/* SPDX-License-Identifier: GPL-2.0 */
+> > >> +/*
+> > >> + * MIPI Camera Control Interface (CCI) register access helpers.
+> > >> + *
+> > >> + * Copyright (C) 2023 Hans de Goede <hansg@kernel.org>
+> > >> + */
+> > >> +#ifndef _V4L2_CCI_H
+> > >> +#define _V4L2_CCI_H
+> > >> +
+> > >> +#include <linux/regmap.h>
+> > >> +#include <linux/types.h>
+> > >> +
+> > >> +/*
+> > >> + * Note cci_reg_8 deliberately is 0, not 1, so that raw
+> > >> + * (not wrapped in a CCI_REG*() macro) register addresses
+> > >> + * do 8 bit wide accesses. This allows unchanged use of register
+> > >> + * initialization lists of raw address, value pairs which only
+> > >> + * do 8 bit width accesses. Which makes porting drivers easier.
+> > > 
+> > > It does, but at the same time, it prevents catching errors caused by
+> > > incorrect register macros. I'm tempted to consider that catching those
+> > > errors is more important.
+> > > 
+> > >> + */
+> > >> +enum cci_reg_type {
+> > >> +	cci_reg_8 = 0,
+> > >> +	cci_reg_16,
+> > >> +	cci_reg_24,
+> > >> +	cci_reg_32,
+> > >> +};
+> > >> +
+> > >> +/*
+> > >> + * Macros to define register address with the register width encoded
+> > >> + * into the higher bits. CCI_REG8() is a no-op so its use is optional.
+> > > 
+> > > Even if it's a no-op I'd prefer making its use mandatory. It makes
+> > > driver code more explicit, and eases catching issues during review.
+> > 
+> > The problem is that almost all sensor drivers contain long list
+> > of register-address, -val pairs which they send to their own custom
+> > regmap_multi_reg_write()
+> >
+> > See e.g. the drivers/media/i2c/imx219.c (to stick with the imx
+> > theme from your imx290 request) this has a lot of quite long
+> > struct imx219_reg arrays with raw initializers.
+> > 
+> > Often some or all of these registers in such list are
+> > undocumented (if we have access to a datasheet at all),
+> > so we simply don't know the register width.
+> > 
+> > So arguably adding CCI_REG8(x) around all the addresses
+> > here is wrong, since this suggests we know the register
+> > width.
+> > 
+> > With the current proposal to have 0 mean both unset and 8bit
+> > width this kinda register lists just work and converting
+> > the driver becomes just a matter of replacing e.g.
+> > imx219_write_regs() with cci_multi_reg_write().
+> > 
+> > Where as otherwise we would need to add CCI_REG8(x)
+> > around the addresses which:
+> > 
+> > a) Suggests we actually know the register width which
+> >    we often do not know at all
+> > 
+> > b) causes a ton of needless churn
+> > 
+> > so I would very much prefer to keep this as as and
+> > allow unmarked register addresses.
+> > 
+> > As for the CCI_REG8(x) being useful as an annotation
+> > during review you are of course free to enforce its
+> > use during review. And note that I did use it for
+> > all the OV2680_REG_FOO defines in both ov2680 conversions.
+> > 
+> > I do agree enforcing its use makes sense for individual
+> > register address defines. The reason to make it optional
+> > and the place where I want it to be optional is for
+> > the array of raw register-addr + initializer-val pairs
+> > case.
+> 
+> For register arrays, I'm fine with that. For register macros, I don't
+> want to see
+> 
+> #define MY_WELL_DEFINED_8B_REG		0x1234
+> 
+> For those I want drivers to use CCI_REG8(). It seems we're on the same
+> page :-)
+
+For a register list based sensor driver, I don't really mind even missing
+this in the register lists. Using that macro doesn't help when the problem
+really is a very long list of random-looking numbers.
+
+Better drivers should of course use the macro.
+
+-- 
+Kind regards,
+
+Sakari Ailus
