@@ -2,64 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A675727D6F
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jun 2023 13:02:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5774727E7B
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jun 2023 13:09:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231812AbjFHLCJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Jun 2023 07:02:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34250 "EHLO
+        id S236483AbjFHLJL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Jun 2023 07:09:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230033AbjFHLCF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jun 2023 07:02:05 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06E7A1BFF
-        for <linux-media@vger.kernel.org>; Thu,  8 Jun 2023 04:02:03 -0700 (PDT)
+        with ESMTP id S236383AbjFHLI5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jun 2023 07:08:57 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E36413A86
+        for <linux-media@vger.kernel.org>; Thu,  8 Jun 2023 04:06:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686222123; x=1717758123;
+  t=1686222404; x=1717758404;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6Zi45kKCgPqoCLLb9TZf0U3AVA/eU1ZxKjRdf8nI00s=;
-  b=lMnlFJHIOawcT2xqm4D3p4RUlgSlwBbXbdhhxW5oODPJ6oThKqSV4NtS
-   OHUYJPTEPwr82LI0ADB5KjtWTYu26RsClJ2UkGMwBpw9Xx79j39jQ6YTN
-   XHatx3XroX0Mwp/YCTu2VdLn5/9IcB77N57eYEPOTdppvmaNp/z7PjcOS
-   Wk8w1S9draBCpe1lEw1uSh0jhVCaj1v4gSOnaRMWZ9OUL3uJSgzoaWW6M
-   zmtdpXLxSl6FiJOy5OK8vL77KjRRHvQUwZok6nRljmcEXOZCQGrMXKNsK
-   SCnG2MGnNtN/RVYCrUkIGZkkHFKyf0FawRCeP02Rg0MUl9Q2OJnSsYzIg
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=yGLWkruIJgws3d4IRLbQcE5CoCMdEMJrcsKAySSMk1g=;
+  b=JEXJu9VKc8gpgoFGu+XVs5kH/+qWFM9i3FsXqs9SK9fpluvAbn8sf5ou
+   OrVmCLYjwQmNDYgx3GEnt4+2x1Jo8cQSdSTmL8n7+kv1DkSuYWZtUosq0
+   9fFjZx4Ok4mS8RHvjt06330U7xWBBCUuUGlq1k/RR8r5sVKoOJFRHgdNV
+   rAlD6ntKCpHPWy99sEdc3O069wibTMtwiz726hCIPx7Snswk8yZg0J0gY
+   WqFR4V82ulxfhzSW2hNm5bwIlfZf/36xv1f+DBbpzG6znC/ChQ1iOeVn3
+   xF65WLbsIblBg9CRPVoHGwUUA7koiTnvlmSZTAfzCi5NQGVABw4ttSrV8
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="336906821"
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="337634447"
 X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; 
-   d="scan'208";a="336906821"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 04:01:33 -0700
+   d="scan'208";a="337634447"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 04:06:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="687348803"
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="709938059"
 X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; 
-   d="scan'208";a="687348803"
+   d="scan'208";a="709938059"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 04:01:32 -0700
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 04:06:03 -0700
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 6AD0C120BE1;
-        Thu,  8 Jun 2023 14:01:29 +0300 (EEST)
-Date:   Thu, 8 Jun 2023 11:01:29 +0000
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id A947C120BE1;
+        Thu,  8 Jun 2023 14:06:00 +0300 (EEST)
+Date:   Thu, 8 Jun 2023 11:06:00 +0000
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
+Cc:     linux-media@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/3] media: Add MIPI CCI register access helper functions
-Message-ID: <ZIG1CRWigbnSJQG8@kekkonen.localdomain>
-References: <20230606165808.70751-1-hdegoede@redhat.com>
- <20230606165808.70751-2-hdegoede@redhat.com>
- <20230607181855.GM5058@pendragon.ideasonboard.com>
- <b558aac9-0a34-ecca-57b0-d132af8cdefb@redhat.com>
- <20230608102725.GN5058@pendragon.ideasonboard.com>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Ricardo Ribalda <ribalda@kernel.org>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Leon Luo <leonl@leopardimaging.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        "Paul J. Murphy" <paul.j.murphy@intel.com>,
+        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Michael Riesch <michael.riesch@wolfvision.net>,
+        Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Jimmy Su <jimmy.su@intel.com>,
+        Jason Chen <jason.z.chen@intel.com>,
+        Arec Kao <arec.kao@intel.com>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Shunqian Zheng <zhengsq@rock-chips.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Mikhail Rudenko <mike.rudenko@gmail.com>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Wenyou Yang <wenyou.yang@microchip.com>,
+        Nicholas Roth <nicholas@rothemail.net>,
+        Petr Cvek <petrcvekcz@gmail.com>,
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Sylvain Petinot <sylvain.petinot@foss.st.com>,
+        Andrzej Hajda <andrzej.hajda@intel.com>
+Subject: Re: [PATCH 1/1] MAINTAINERS: Add an entry for V4L2 sensor and lens
+ drivers
+Message-ID: <ZIG2GJdQ+oiMRhBk@kekkonen.localdomain>
+References: <20230608095157.4055544-1-sakari.ailus@linux.intel.com>
+ <20230608105637.GQ5058@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230608102725.GN5058@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230608105637.GQ5058@pendragon.ideasonboard.com>
 X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
         SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -70,401 +98,57 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Laurent,
 
-On Thu, Jun 08, 2023 at 01:27:25PM +0300, Laurent Pinchart wrote:
-> Hi Hans,
+On Thu, Jun 08, 2023 at 01:56:37PM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
 > 
-> On Wed, Jun 07, 2023 at 09:01:40PM +0200, Hans de Goede wrote:
-> > On 6/7/23 20:18, Laurent Pinchart wrote:
-> > > On Tue, Jun 06, 2023 at 06:58:06PM +0200, Hans de Goede wrote:
-> > >> The CSI2 specification specifies a standard method to access camera sensor
-> > >> registers called "Camera Control Interface (CCI)".
-> > >>
-> > >> This uses either 8 or 16 bit (big-endian wire order) register addresses
-> > >> and supports 8, 16, 24 or 32 bit (big-endian wire order) register widths.
-> > > 
-> > > I think there are some sensors that also have 64-bit registers, but we
-> > > can deal with that later.
-> > > 
-> > >> Currently a lot of Linux camera sensor drivers all have their own custom
-> > >> helpers for this, often copy and pasted from other drivers.
-> > >>
-> > >> Add a set of generic helpers for this so that all sensor drivers can
-> > >> switch to a single common implementation.
-> > >>
-> > >> These helpers take an extra optional "int *err" function parameter,
-> > >> this can be used to chain a bunch of register accesses together with
-> > >> only a single error check at the end, rather then needing to error
-> > >> check each individual register access. The first failing call will
-> > >> set the contents of err to a non 0 value and all other calls will
-> > >> then become no-ops.
-> > >>
-> > >> Link: https://lore.kernel.org/linux-media/59aefa7f-7bf9-6736-6040-39551329cd0a@redhat.com/
-> > >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> > >> ---
-> > >>  Documentation/driver-api/media/v4l2-cci.rst  |   5 +
-> > >>  Documentation/driver-api/media/v4l2-core.rst |   1 +
-> > >>  drivers/media/v4l2-core/Kconfig              |   5 +
-> > >>  drivers/media/v4l2-core/Makefile             |   1 +
-> > >>  drivers/media/v4l2-core/v4l2-cci.c           | 142 +++++++++++++++++++
-> > >>  include/media/v4l2-cci.h                     | 109 ++++++++++++++
-> > >>  6 files changed, 263 insertions(+)
-> > >>  create mode 100644 Documentation/driver-api/media/v4l2-cci.rst
-> > >>  create mode 100644 drivers/media/v4l2-core/v4l2-cci.c
-> > >>  create mode 100644 include/media/v4l2-cci.h
-> > >>
-> > >> diff --git a/Documentation/driver-api/media/v4l2-cci.rst b/Documentation/driver-api/media/v4l2-cci.rst
-> > >> new file mode 100644
-> > >> index 000000000000..dd297a40ed20
-> > >> --- /dev/null
-> > >> +++ b/Documentation/driver-api/media/v4l2-cci.rst
-> > >> @@ -0,0 +1,5 @@
-> > >> +.. SPDX-License-Identifier: GPL-2.0
-> > >> +
-> > >> +V4L2 CCI kAPI
-> > >> +^^^^^^^^^^^^^
-> > >> +.. kernel-doc:: include/media/v4l2-cci.h
-> > >> diff --git a/Documentation/driver-api/media/v4l2-core.rst b/Documentation/driver-api/media/v4l2-core.rst
-> > >> index 1a8c4a5f256b..239045ecc8f4 100644
-> > >> --- a/Documentation/driver-api/media/v4l2-core.rst
-> > >> +++ b/Documentation/driver-api/media/v4l2-core.rst
-> > >> @@ -22,6 +22,7 @@ Video4Linux devices
-> > >>      v4l2-mem2mem
-> > >>      v4l2-async
-> > >>      v4l2-fwnode
-> > >> +    v4l2-cci
-> > >>      v4l2-rect
-> > >>      v4l2-tuner
-> > >>      v4l2-common
-> > >> diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
-> > >> index 348559bc2468..523ba243261d 100644
-> > >> --- a/drivers/media/v4l2-core/Kconfig
-> > >> +++ b/drivers/media/v4l2-core/Kconfig
-> > >> @@ -74,6 +74,11 @@ config V4L2_FWNODE
-> > >>  config V4L2_ASYNC
-> > >>  	tristate
-> > >>  
-> > >> +config V4L2_CCI
-> > >> +	tristate
-> > >> +	depends on I2C
-> > >> +	select REGMAP_I2C
-> > >> +
-> > >>  # Used by drivers that need Videobuf modules
-> > >>  config VIDEOBUF_GEN
-> > >>  	tristate
-> > >> diff --git a/drivers/media/v4l2-core/Makefile b/drivers/media/v4l2-core/Makefile
-> > >> index 41d91bd10cf2..be2551705755 100644
-> > >> --- a/drivers/media/v4l2-core/Makefile
-> > >> +++ b/drivers/media/v4l2-core/Makefile
-> > >> @@ -25,6 +25,7 @@ videodev-$(CONFIG_VIDEO_V4L2_I2C) += v4l2-i2c.o
-> > >>  # (e. g. LC_ALL=C sort Makefile)
-> > >>  
-> > >>  obj-$(CONFIG_V4L2_ASYNC) += v4l2-async.o
-> > >> +obj-$(CONFIG_V4L2_CCI) += v4l2-cci.o
-> > >>  obj-$(CONFIG_V4L2_FLASH_LED_CLASS) += v4l2-flash-led-class.o
-> > >>  obj-$(CONFIG_V4L2_FWNODE) += v4l2-fwnode.o
-> > >>  obj-$(CONFIG_V4L2_H264) += v4l2-h264.o
-> > >> diff --git a/drivers/media/v4l2-core/v4l2-cci.c b/drivers/media/v4l2-core/v4l2-cci.c
-> > >> new file mode 100644
-> > >> index 000000000000..21207d137dbe
-> > >> --- /dev/null
-> > >> +++ b/drivers/media/v4l2-core/v4l2-cci.c
-> > >> @@ -0,0 +1,142 @@
-> > >> +// SPDX-License-Identifier: GPL-2.0
-> > >> +/*
-> > >> + * MIPI Camera Control Interface (CCI) register access helpers.
-> > >> + *
-> > >> + * Copyright (C) 2023 Hans de Goede <hansg@kernel.org>
-> > >> + */
-> > >> +
-> > >> +#include <linux/delay.h>
-> > >> +#include <linux/dev_printk.h>
-> > >> +#include <linux/module.h>
-> > >> +#include <linux/regmap.h>
-> > >> +
-> > >> +#include <media/v4l2-cci.h>
-> > >> +
-> > >> +int cci_read(struct regmap *map, u32 reg, u32 *val, int *err)
-> > >> +{
-> > >> +	int i, len, ret;
-> > >> +	u8 buf[4];
-> > >> +
-> > >> +	if (err && *err)
-> > >> +		return *err;
-> > >> +
-> > >> +	/* Set len to register width in bytes */
-> > >> +	len = ((reg & CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT) + 1;
-> > >> +	reg &= CCI_REG_ADDR_MASK;
-> > >> +
-> > >> +	ret = regmap_bulk_read(map, reg, buf, len);
-> > >> +	if (ret) {
-> > >> +		dev_err(regmap_get_device(map), "Error reading reg 0x%4x: %d\n", reg, ret);
-> > >> +		if (err)
-> > >> +			*err = ret;
-> > >> +
-> > >> +		return ret;
-> > >> +	}
-> > >> +
-> > >> +	*val = 0;
-> > >> +	for (i = 0; i < len; i++) {
-> > >> +		*val <<= 8;
-> > >> +		*val |= buf[i];
-> > >> +	}
-> > >> +
-> > >> +	return 0;
-> > >> +}
-> > >> +EXPORT_SYMBOL_GPL(cci_read);
-> > >> +
-> > >> +int cci_write(struct regmap *map, u32 reg, u32 val, int *err)
-> > >> +{
-> > >> +	int i, len, ret;
-> > >> +	u8 buf[4];
-> > >> +
-> > >> +	if (err && *err)
-> > >> +		return *err;
-> > >> +
-> > >> +	/* Set len to register width in bytes */
-> > >> +	len = ((reg & CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT) + 1;
-> > >> +	reg &= CCI_REG_ADDR_MASK;
-> > >> +
-> > >> +	for (i = 0; i < len; i++) {
-> > >> +		buf[len - i - 1] = val & 0xff;
-> > >> +		val >>= 8;
-> > >> +	}
-> > >> +
-> > >> +	ret = regmap_bulk_write(map, reg, buf, len);
-> > >> +	if (ret) {
-> > >> +		dev_err(regmap_get_device(map), "Error writing reg 0x%4x: %d\n", reg, ret);
-> > >> +		if (err)
-> > >> +			*err = ret;
-> > >> +	}
-> > >> +
-> > >> +	return ret;
-> > >> +}
-> > >> +EXPORT_SYMBOL_GPL(cci_write);
-> > >> +
-> > >> +int cci_update_bits(struct regmap *map, u32 reg, u32 mask, u32 val, int *err)
-> > >> +{
-> > >> +	int width, ret;
-> > >> +	u32 readval;
-> > >> +
-> > >> +	if (err && *err)
-> > >> +		return *err;
-> > >> +
-> > >> +	/*
-> > >> +	 * For single byte updates use regmap_update_bits(), this uses
-> > >> +	 * the regmap-lock to protect against other read-modify-writes racing.
-> > >> +	 */
-> > >> +	width = (reg & CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT;
-> > >> +	if (width == cci_reg_8) {
-> > >> +		reg &= CCI_REG_ADDR_MASK;
-> > >> +		ret = regmap_update_bits(map, reg, mask, val);
-> > >> +		if (ret) {
-> > >> +			dev_err(regmap_get_device(map), "Error updating reg 0x%4x: %d\n", reg, ret);
-> > >> +			if (err)
-> > >> +				*err = ret;
-> > >> +		}
-> > >> +
-> > >> +		return ret;
-> > >> +	}
-> > >> +
-> > >> +	ret = cci_read(map, reg, &readval, err);
-> > >> +	if (ret)
-> > >> +		return ret;
-> > >> +
-> > >> +	val = (readval & ~mask) | (val & mask);
-> > >> +
-> > >> +	return cci_write(map, reg, val, err);
-> > > 
-> > > Unless I'm mistaken, the regmap cache isn't used. This makes update
-> > > operations fairly costly due to the read. Could that be improved ?
-> > 
-> > The problem is that some registers may be volatile,
-> > think e.g. expsoure on a sensor where auto-exposure is supported.
-> > 
-> > So normally drivers which want to use regmap caching, also
-> > provide a whole bunch of tables describing the registers
-> > (lists of volatile + list of writable + list of readable
-> > registers).
-> > 
-> > So enabling caching is not trivial. I think that it would be best
-> > for drivers which want that to supply their own regmap_config config
-> > and directly call devm_regmap_init_i2c() if they then use
-> > the resulting regmaps with the existing cci_* helpers then caching
-> > will be used automatically.
+> Thank you for the patch.
 > 
-> Would there be a way to use the cache for update operations (as I think
-> we can consider that registers used in those operations won't be
-> volatile), and bypass it for standalone reads ?
+> On Thu, Jun 08, 2023 at 12:51:57PM +0300, Sakari Ailus wrote:
+> > I maintain V4L2 sensor and lens drivers but there hasn't been a specific
+> > MAINTAINERS entry for them. Add it now.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> > The purpose is to help people cc me when sending sensor or lens driver
+> > patches. Of course I find the patches in Patchwork but this always
+> > introduces a delay in reviewing them.
+> > 
+> >  MAINTAINERS | 15 +++++++++++++++
+> >  1 file changed, 15 insertions(+)
+> > 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index cec3c9ef43590..57aeca250bf4c 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -22084,6 +22084,21 @@ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+> >  S:	Maintained
+> >  F:	drivers/clk/ux500/
+> >  
+> > +V4L2 SENSOR AND LENS DRIVERS
+> > +M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+> > +L:	linux-media@vger.kernel.org
+> > +S:	Maintained
+> > +F:	drivers/media/i2c/ar*
+> > +F:	drivers/media/i2c/hi*
+> > +F:	drivers/media/i2c/imx*
+> > +F:	drivers/media/i2c/mt*
+> > +F:	drivers/media/i2c/og*
+> > +F:	drivers/media/i2c/ov*
+> > +F:	drivers/media/i2c/st-vgxy61.c
+> > +F:	drivers/media/i2c/dw*
+> > +F:	drivers/media/i2c/ak*
+> > +F:	drivers/media/i2c/lm*
+> 
+> This almost makes me think we should have sensor/ and lens/
+> directories...
 
-Could we rely on regmap on this? It provides a way to tell which registers
-are volatile. Very few of these drivers would get any benefit from caching
-anyway (or even use update_bits()).
+That's a fair question. I think it should be still corroborated whether and
+how this could be aligned with other directories, or whether I²C (for
+whatever reason) should have a special directory structure.
 
-> 
-> > >> +}
-> > >> +EXPORT_SYMBOL_GPL(cci_update_bits);
-> > >> +
-> > >> +int cci_multi_reg_write(struct regmap *map, const struct reg_sequence *regs, int num_regs, int *err)
-> > >> +{
-> > >> +	int i, ret;
-> > >> +
-> > >> +	if (err && *err)
-> > >> +		return *err;
-> > >> +
-> > >> +	for (i = 0; i < num_regs; i++) {
-> > >> +		ret = cci_write(map, regs[i].reg, regs[i].def, err);
-> > >> +		if (ret)
-> > >> +			return ret;
-> > >> +
-> > >> +		if (regs[i].delay_us)
-> > >> +			fsleep(regs[i].delay_us);
-> > > 
-> > > Do you have an immediate need for this ? If not, I'd drop support for
-> > > the delay, and add it later when and if needed. It will be easier to
-> > > discuss the API and use cases with a real user.
-> > 
-> > This is a 1:1 mirror of regmap_multi_reg_write() note this uses
-> > the existing struct reg_sequence delay_us field and the:
-> > 
-> > 		if (regs[i].delay_us)
-> > 			fsleep(regs[i].delay_us);
-> > 
-> > is copied from the implementation of regmap_multi_reg_write()
-> 
-> The reason why I don't like it much as that such delays are often hacks
-> hidden in the middle of register arrays that should in many cases be
-> handled differently. I was hoping that, by not supporting them yet,
-> we'll have an easier time to get drivers right. Maybe I'm wrong.
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-It's not uncommon for a sensor to require e.g. a given amount of time to
-recover from software reset. Then again, embedding software in a register
-list can hardly be described as a good practice. There maybe other such
-cases, too.
-
-But the field already exists in the struct. I don't object acting based on
-its contents as such.
-
-> 
-> > >> +	}
-> > >> +
-> > >> +	return 0;
-> > >> +}
-> > >> +EXPORT_SYMBOL_GPL(cci_multi_reg_write);
-> > >> +
-> > >> +struct regmap *cci_regmap_init_i2c(struct i2c_client *client, int reg_addr_bits)
-> > >> +{
-> > >> +	struct regmap_config config = {
-> > >> +		.reg_bits = reg_addr_bits,
-> > >> +		.val_bits = 8,
-> > >> +		.reg_format_endian = REGMAP_ENDIAN_BIG,
-> > >> +	};
-> > >> +
-> > >> +	return devm_regmap_init_i2c(client, &config);
-> > >> +}
-> > >> +EXPORT_SYMBOL_GPL(cci_regmap_init_i2c);
-> > >> +
-> > >> +MODULE_LICENSE("GPL");
-> > >> +MODULE_AUTHOR("Hans de Goede <hansg@kernel.org>");
-> > >> diff --git a/include/media/v4l2-cci.h b/include/media/v4l2-cci.h
-> > >> new file mode 100644
-> > >> index 000000000000..69b8a7c4a013
-> > >> --- /dev/null
-> > >> +++ b/include/media/v4l2-cci.h
-> > >> @@ -0,0 +1,109 @@
-> > >> +/* SPDX-License-Identifier: GPL-2.0 */
-> > >> +/*
-> > >> + * MIPI Camera Control Interface (CCI) register access helpers.
-> > >> + *
-> > >> + * Copyright (C) 2023 Hans de Goede <hansg@kernel.org>
-> > >> + */
-> > >> +#ifndef _V4L2_CCI_H
-> > >> +#define _V4L2_CCI_H
-> > >> +
-> > >> +#include <linux/regmap.h>
-> > >> +#include <linux/types.h>
-> > >> +
-> > >> +/*
-> > >> + * Note cci_reg_8 deliberately is 0, not 1, so that raw
-> > >> + * (not wrapped in a CCI_REG*() macro) register addresses
-> > >> + * do 8 bit wide accesses. This allows unchanged use of register
-> > >> + * initialization lists of raw address, value pairs which only
-> > >> + * do 8 bit width accesses. Which makes porting drivers easier.
-> > > 
-> > > It does, but at the same time, it prevents catching errors caused by
-> > > incorrect register macros. I'm tempted to consider that catching those
-> > > errors is more important.
-> > > 
-> > >> + */
-> > >> +enum cci_reg_type {
-> > >> +	cci_reg_8 = 0,
-> > >> +	cci_reg_16,
-> > >> +	cci_reg_24,
-> > >> +	cci_reg_32,
-> > >> +};
-> > >> +
-> > >> +/*
-> > >> + * Macros to define register address with the register width encoded
-> > >> + * into the higher bits. CCI_REG8() is a no-op so its use is optional.
-> > > 
-> > > Even if it's a no-op I'd prefer making its use mandatory. It makes
-> > > driver code more explicit, and eases catching issues during review.
-> > 
-> > The problem is that almost all sensor drivers contain long list
-> > of register-address, -val pairs which they send to their own custom
-> > regmap_multi_reg_write()
-> >
-> > See e.g. the drivers/media/i2c/imx219.c (to stick with the imx
-> > theme from your imx290 request) this has a lot of quite long
-> > struct imx219_reg arrays with raw initializers.
-> > 
-> > Often some or all of these registers in such list are
-> > undocumented (if we have access to a datasheet at all),
-> > so we simply don't know the register width.
-> > 
-> > So arguably adding CCI_REG8(x) around all the addresses
-> > here is wrong, since this suggests we know the register
-> > width.
-> > 
-> > With the current proposal to have 0 mean both unset and 8bit
-> > width this kinda register lists just work and converting
-> > the driver becomes just a matter of replacing e.g.
-> > imx219_write_regs() with cci_multi_reg_write().
-> > 
-> > Where as otherwise we would need to add CCI_REG8(x)
-> > around the addresses which:
-> > 
-> > a) Suggests we actually know the register width which
-> >    we often do not know at all
-> > 
-> > b) causes a ton of needless churn
-> > 
-> > so I would very much prefer to keep this as as and
-> > allow unmarked register addresses.
-> > 
-> > As for the CCI_REG8(x) being useful as an annotation
-> > during review you are of course free to enforce its
-> > use during review. And note that I did use it for
-> > all the OV2680_REG_FOO defines in both ov2680 conversions.
-> > 
-> > I do agree enforcing its use makes sense for individual
-> > register address defines. The reason to make it optional
-> > and the place where I want it to be optional is for
-> > the array of raw register-addr + initializer-val pairs
-> > case.
-> 
-> For register arrays, I'm fine with that. For register macros, I don't
-> want to see
-> 
-> #define MY_WELL_DEFINED_8B_REG		0x1234
-> 
-> For those I want drivers to use CCI_REG8(). It seems we're on the same
-> page :-)
-
-For a register list based sensor driver, I don't really mind even missing
-this in the register lists. Using that macro doesn't help when the problem
-really is a very long list of random-looking numbers.
-
-Better drivers should of course use the macro.
+Thanks!
 
 -- 
 Kind regards,
