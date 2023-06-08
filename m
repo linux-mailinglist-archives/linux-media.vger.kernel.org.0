@@ -2,90 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5774727E7B
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jun 2023 13:09:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CE89727E8F
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jun 2023 13:15:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236483AbjFHLJL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Jun 2023 07:09:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36274 "EHLO
+        id S234055AbjFHLPu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Jun 2023 07:15:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236383AbjFHLI5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jun 2023 07:08:57 -0400
+        with ESMTP id S231634AbjFHLPt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jun 2023 07:15:49 -0400
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E36413A86
-        for <linux-media@vger.kernel.org>; Thu,  8 Jun 2023 04:06:44 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64A3519AA
+        for <linux-media@vger.kernel.org>; Thu,  8 Jun 2023 04:15:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686222404; x=1717758404;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=yGLWkruIJgws3d4IRLbQcE5CoCMdEMJrcsKAySSMk1g=;
-  b=JEXJu9VKc8gpgoFGu+XVs5kH/+qWFM9i3FsXqs9SK9fpluvAbn8sf5ou
-   OrVmCLYjwQmNDYgx3GEnt4+2x1Jo8cQSdSTmL8n7+kv1DkSuYWZtUosq0
-   9fFjZx4Ok4mS8RHvjt06330U7xWBBCUuUGlq1k/RR8r5sVKoOJFRHgdNV
-   rAlD6ntKCpHPWy99sEdc3O069wibTMtwiz726hCIPx7Snswk8yZg0J0gY
-   WqFR4V82ulxfhzSW2hNm5bwIlfZf/36xv1f+DBbpzG6znC/ChQ1iOeVn3
-   xF65WLbsIblBg9CRPVoHGwUUA7koiTnvlmSZTAfzCi5NQGVABw4ttSrV8
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="337634447"
+  t=1686222948; x=1717758948;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=yXVELA8Mi6qyDV0GXZx7dmQ5y5t1TZNr8CAz/JhwUA8=;
+  b=T1ifJzwvLtv2SX9xKooZWGPpEfKWS54nw3lpji9Dsdz+6thdgPyacz4k
+   FcRahfh5M0ATqg6Au8joRk2xRVmyUfbAxlq2eGBCD7x8s7wOrLTht/1wu
+   I6x7Er1FF6JaYc2xVxpsVcY6ZiRnG02+zcmZi0e9lGXYZD3m5UHYgkoyC
+   NBxKC5838wPgbY1P2J+Y3k8NktsazUucfFSPBIUhCyce6pmyov/fbAt0w
+   M3LHzWGu/KPWJyDISg6m0hnT7zYOdePcy8hAB2FYp9FLHcAkyazpIzRF5
+   uQlC0me1M6Smj1Hxcn9rgYOJ+n7RU3ENAVA2mdiIg8Y7sXC+kI6CG9gl4
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="337635754"
 X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; 
-   d="scan'208";a="337634447"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 04:06:10 -0700
+   d="scan'208";a="337635754"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 04:15:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="709938059"
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="713079616"
 X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; 
-   d="scan'208";a="709938059"
+   d="scan'208";a="713079616"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 04:06:03 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id A947C120BE1;
-        Thu,  8 Jun 2023 14:06:00 +0300 (EEST)
-Date:   Thu, 8 Jun 2023 11:06:00 +0000
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 04:15:47 -0700
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id DE2BA120BE1
+        for <linux-media@vger.kernel.org>; Thu,  8 Jun 2023 14:15:44 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.94.2)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1q7DbW-00H1CG-0K
+        for linux-media@vger.kernel.org; Thu, 08 Jun 2023 14:14:58 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Ricardo Ribalda <ribalda@kernel.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Leon Luo <leonl@leopardimaging.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        "Paul J. Murphy" <paul.j.murphy@intel.com>,
-        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Michael Riesch <michael.riesch@wolfvision.net>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Jimmy Su <jimmy.su@intel.com>,
-        Jason Chen <jason.z.chen@intel.com>,
-        Arec Kao <arec.kao@intel.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Mikhail Rudenko <mike.rudenko@gmail.com>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Wenyou Yang <wenyou.yang@microchip.com>,
-        Nicholas Roth <nicholas@rothemail.net>,
-        Petr Cvek <petrcvekcz@gmail.com>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Sylvain Petinot <sylvain.petinot@foss.st.com>,
-        Andrzej Hajda <andrzej.hajda@intel.com>
-Subject: Re: [PATCH 1/1] MAINTAINERS: Add an entry for V4L2 sensor and lens
- drivers
-Message-ID: <ZIG2GJdQ+oiMRhBk@kekkonen.localdomain>
-References: <20230608095157.4055544-1-sakari.ailus@linux.intel.com>
- <20230608105637.GQ5058@pendragon.ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH 1/1] media: MAINTAINERS: Pick ov5670 maintenance
+Date:   Thu,  8 Jun 2023 14:14:47 +0300
+Message-Id: <20230608111447.4056131-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230608105637.GQ5058@pendragon.ideasonboard.com>
 X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
         SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
@@ -96,61 +63,33 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Chiranjeevi's e-mail is bouncing:
 
-On Thu, Jun 08, 2023 at 01:56:37PM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> Thank you for the patch.
-> 
-> On Thu, Jun 08, 2023 at 12:51:57PM +0300, Sakari Ailus wrote:
-> > I maintain V4L2 sensor and lens drivers but there hasn't been a specific
-> > MAINTAINERS entry for them. Add it now.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> > The purpose is to help people cc me when sending sensor or lens driver
-> > patches. Of course I find the patches in Patchwork but this always
-> > introduces a delay in reviewing them.
-> > 
-> >  MAINTAINERS | 15 +++++++++++++++
-> >  1 file changed, 15 insertions(+)
-> > 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index cec3c9ef43590..57aeca250bf4c 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -22084,6 +22084,21 @@ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
-> >  S:	Maintained
-> >  F:	drivers/clk/ux500/
-> >  
-> > +V4L2 SENSOR AND LENS DRIVERS
-> > +M:	Sakari Ailus <sakari.ailus@linux.intel.com>
-> > +L:	linux-media@vger.kernel.org
-> > +S:	Maintained
-> > +F:	drivers/media/i2c/ar*
-> > +F:	drivers/media/i2c/hi*
-> > +F:	drivers/media/i2c/imx*
-> > +F:	drivers/media/i2c/mt*
-> > +F:	drivers/media/i2c/og*
-> > +F:	drivers/media/i2c/ov*
-> > +F:	drivers/media/i2c/st-vgxy61.c
-> > +F:	drivers/media/i2c/dw*
-> > +F:	drivers/media/i2c/ak*
-> > +F:	drivers/media/i2c/lm*
-> 
-> This almost makes me think we should have sensor/ and lens/
-> directories...
+   chiranjeevi.rapolu@intel.com
+   DM3NAM02FT041.mail.protection.outlook.com
+   Remote Server returned '550 5.4.1 Recipient address rejected: Access
+   denied. AS(201806281)'
 
-That's a fair question. I think it should be still corroborated whether and
-how this could be aligned with other directories, or whether I²C (for
-whatever reason) should have a special directory structure.
+Assign the driver to myself.
 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks!
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 04274d975d72f..20d89582d801a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -15536,7 +15536,7 @@ F:	Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml
+ F:	drivers/media/i2c/ov5647.c
+ 
+ OMNIVISION OV5670 SENSOR DRIVER
+-M:	Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>
++M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media_tree.git
 -- 
-Kind regards,
+2.30.2
 
-Sakari Ailus
