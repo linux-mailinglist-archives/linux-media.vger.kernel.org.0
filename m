@@ -2,78 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D162F727D09
-	for <lists+linux-media@lfdr.de>; Thu,  8 Jun 2023 12:39:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4D2A727D0F
+	for <lists+linux-media@lfdr.de>; Thu,  8 Jun 2023 12:42:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235430AbjFHKjg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Jun 2023 06:39:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51250 "EHLO
+        id S234210AbjFHKm3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Jun 2023 06:42:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235361AbjFHKje (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jun 2023 06:39:34 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC834E4D;
-        Thu,  8 Jun 2023 03:39:33 -0700 (PDT)
+        with ESMTP id S229727AbjFHKm1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Jun 2023 06:42:27 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3CC21AB;
+        Thu,  8 Jun 2023 03:42:25 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (om126033089000.35.openmobile.ne.jp [126.33.89.0])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 59389480;
-        Thu,  8 Jun 2023 12:39:04 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 18545480;
+        Thu,  8 Jun 2023 12:41:56 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1686220745;
-        bh=NxxrBXbOcKnfC5f/pt1JKRCNlnIN0Xggw4DQa8edYc8=;
+        s=mail; t=1686220917;
+        bh=HpyajXFq3Bn1xOynZKfJ657CvXa2Mt/KDZmQlXLGLBs=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=p/JMb9QvmsBJmpjQAbA/7qA1BEXq14QZGVwNjbsPa5BYWvNGxJBPddY9aQTI5g/UU
-         atmmjJNnTinKCgxe1dMjMUu3cBvIk7chzd3XHMnmhKyu+/fHBXZh95jtY024liK8eq
-         JpskTLTmzeliqc9OpPHKIA4VHxsQHCGEEFcU3CJM=
-Date:   Thu, 8 Jun 2023 13:39:29 +0300
+        b=n4RD0gh/QbIyDCJw62QTaUdUTBgP5VKks+vXeLL9ThBAp+gdlvk3SqC0WnuLYuOFu
+         kwDxjbDfNJhew0OqUoJ4/hWE5AdtvGP6tOc/K9oqjh0dFOn8FzbSh2pDm98NhXxZIJ
+         wFjJd1htwDvwt8L0FKM8KSojiUSEugsNb6e0gVMk=
+Date:   Thu, 8 Jun 2023 13:42:20 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Wolfram Sang <wsa@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Corey Minyard <cminyard@mvista.com>,
-        Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
-        Antonio Borneo <antonio.borneo@foss.st.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Message-ID: <20230608103929.GO5058@pendragon.ideasonboard.com>
-References: <20230522101849.297499-1-biju.das.jz@bp.renesas.com>
- <20230522101849.297499-2-biju.das.jz@bp.renesas.com>
- <20230529080552.GJ25984@pendragon.ideasonboard.com>
- <OS0PR01MB592283E55078298EEA30C6B9864A9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230531085941.GA27043@pendragon.ideasonboard.com>
- <CAMuHMdXywnxO6cL5R84mryFuyVMswj6EniY-bZx7m_2L3iUY9A@mail.gmail.com>
- <ZIBFc3y9jD59lZ3A@shikoro>
- <OS0PR01MB5922A3A97439EA2F976940B28653A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB5922AA27B212F610A5E816138650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        m.szyprowski@samsung.com, mchehab@kernel.org, ming.qian@nxp.com,
+        shijie.qin@nxp.com, eagle.zhou@nxp.com, bin.liu@mediatek.com,
+        matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+        tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
+        yunfei.dong@mediatek.com, stanimir.k.varbanov@gmail.com,
+        quic_vgarodia@quicinc.com, agross@kernel.org, andersson@kernel.org,
+        konrad.dybcio@linaro.org, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, daniel.almeida@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, kernel@collabora.com
+Subject: Re: [PATCH v2 3/8] media: videobuf2: Add a module param to limit vb2
+ queue buffer storage
+Message-ID: <20230608104220.GP5058@pendragon.ideasonboard.com>
+References: <20230321102855.346732-1-benjamin.gaignard@collabora.com>
+ <20230321102855.346732-4-benjamin.gaignard@collabora.com>
+ <6c4658fd-3a64-b3f8-67cd-17ed2d7d3567@xs4all.nl>
+ <20230531080331.GB6496@pendragon.ideasonboard.com>
+ <608ae7d6-3f3b-137d-08d2-d41a240be2c4@xs4all.nl>
+ <20230531123945.GF27043@pendragon.ideasonboard.com>
+ <CAAFQd5A6sz1BhEjiWyXH6B1TBTLt0ivAc6N0Vd73hebnpc7fKQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <OS0PR01MB5922AA27B212F610A5E816138650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAFQd5A6sz1BhEjiWyXH6B1TBTLt0ivAc6N0Vd73hebnpc7fKQ@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -83,82 +65,106 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Biju,
+Hi Tomasz,
 
-On Thu, Jun 08, 2023 at 06:41:35AM +0000, Biju Das wrote:
-> > Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-> > > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device
-> > > API
-> > >
-> > > Hi all,
-> > >
-> > > sorry for not being able to chime in earlier.
-> > >
-> > > > In Biju's particular use case, the i2c device responds to two
-> > > > addresses, which is the standard i2c ancillary use case.  However,
-> > > > what's special
-> > >
-> > > Not quite. ancillary is used when a *driver* needs to take care of two
-> > > addresses. We already have devices bundling two features into the same
-> > > chip. I recall at least RTC + EEPROM somewhere. And so far, we have
-> > > been handling this by creating two nodes in DT and have proper binding docs.
-> > > I think this is cleaner. First, you can see in DT already what the
-> > > compound device really consists of. In this case, which RTC and RTC
-> > > driver is exactly needed. Second, the code added here adds complexity
-> > > to the I2C core with another layer of inderection for dummy devices.
-> > 
-> > FYI, please see [1] and [2]
-> > 
-> > As per DT maintainers, most of PMICs are described with one node, even
-> > though RTC is on separate address. According to them the DT schema allows
-> > multiple addresses for children.
-> > But currently we lacks implementation for that. The enhancement to this
-> > API allows that.
-> > 
-> > > > As some resources are shared (knowledge about the clocks), splitting
-> > > > this in two distinct devices in DT (which is what Biju's initial
-> > > > patch series did) would need phandles to link both nodes together.
+On Thu, Jun 08, 2023 at 07:24:29PM +0900, Tomasz Figa wrote:
+> On Wed, May 31, 2023 at 9:39 PM Laurent Pinchart wrote:
+> > On Wed, May 31, 2023 at 10:30:36AM +0200, Hans Verkuil wrote:
+> > > On 5/31/23 10:03, Laurent Pinchart wrote:
+> > > > On Wed, May 31, 2023 at 08:36:59AM +0200, Hans Verkuil wrote:
+> > > >> On 21/03/2023 11:28, Benjamin Gaignard wrote:
+> > > >>> Add module parameter "max_vb_buffer_per_queue" to be able to limit
+> > > >>> the number of vb2 buffers store in queue.
+> > > >>>
+> > > >>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> > > >>> ---
+> > > >>>  drivers/media/common/videobuf2/videobuf2-core.c | 15 +++------------
+> > > >>>  include/media/videobuf2-core.h                  | 11 +++++++++--
+> > > >>>  2 files changed, 12 insertions(+), 14 deletions(-)
+> > > >>>
+> > > >>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> > > >>> index ae9d72f4d181..f4da917ccf3f 100644
+> > > >>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> > > >>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> > > >>> @@ -34,6 +34,8 @@
+> > > >>>  static int debug;
+> > > >>>  module_param(debug, int, 0644);
+> > > >>>
+> > > >>> +module_param(max_vb_buffer_per_queue, ulong, 0644);
+> > > >>
+> > > >> There is no MODULE_PARM_DESC here? Please add. I see it is not there for
+> > > >> the debug param either, it should be added for that as well.
 > > > >
-> > > > Do you have a better idea how to represent this?
+> > > > Would this be the right time to consider resource accounting in V4L2 for
+> > > > buffers ? Having a module parameter doesn't sound very useful, an
+> > > > application could easily allocate more buffers by using buffer orphaning
+> > > > (allocating buffers, exporting them as dmabuf objects, and freeing them,
+> > > > which leaves the memory allocated). Repeating allocation cycles up to
+> > > > max_vb_buffer_per_queue will allow allocating an unbounded number of
+> > > > buffers, using all the available system memory. I'd rather not add a
+> > > > module argument that only gives the impression of some kind of safety
+> > > > without actually providing any value.
+> 
+> Good point. It's even simpler, just keep opening new vim2m instances
+> and requesting max buffers :).
+> 
 > > >
-> > > Not sure if I understood this chip correctly, but maybe: The PMIC
-> > > driver exposes a clock gate which can be consumed by the RTC driver?
+> > > Does dmabuf itself provide some accounting mechanism? Just wondering.
+> > >
+> > > More specific to V4L2: I'm not so sure about this module parameter either.
+> > > It makes sense to have a check somewhere against ridiculous values (i.e.
+> > > allocating MAXINT buffers), but that can be a define as well. But otherwise
+> > > I am fine with allowing applications to allocate buffers until the memory
+> > > is full.
+> > >
+> > > The question is really: what is this parameter supposed to do? The only
+> > > thing it does is to sanitize unlikely inputs (e.g. allocating MAXINT buffers).
+> > >
+> > > I prefer that as a define, to be honest.
+> > >
+> > > I think it is perfectly fine for users to try to request more buffers than
+> > > memory allows. It will just fail in that case, not a problem.
+> > >
+> > > And if an application is doing silly things like buffer orphaning, then so
+> > > what? Is that any different than allocating memory and not freeing it?
+> > > Eventually it will run out of memory and crash, which is normal.
+> >
+> > Linux provides APIs to account for and limit usage of resources,
+> > including memory. A system administrator can prevent rogue processes
+> > from starving system resources. The memory consumed by vb2 buffer isn't
+> > taken into account, making V4L2 essentially unsafe for untrusted
+> > processes.
 > 
-> Let me give me some details of this PMIC chip.
-> 
-> PMIC device has 2 addresses "0x12:- PMIC" , "0x6f"- rtc. 
-> 
-> It has XIN, XOUT, INT# pins and a register for firmware revisions.
+> I agree that proper accounting would be useful, although I wouldn't
+> really make this patch series depend on it, since it's not introducing
+> the loophole in the first place.
 
-Is the firmware revision register accessed through address 0x12 (PMIC)
-or 0x6f (RTC) ?
+No disagreement here, my concern was about introducing a workaround for
+the lack of proper memory accounting. I'd like to avoid the workaround,
+but it doesn't mean memory accounting has to be implement now.
 
-> Based on the system design,
+> We had some discussion about this in ChromeOS long ago and we thought
+> it would be really useful for killing browser tabs with big videos,
+> but otherwise using very little regular memory (e.g. via javascript).
 > 
-> If XIN and XOUT is connected to external crystal, Internal oscillator
-> is enabled for RTC. In this case we need to set the oscillator bit to
-> "0".
-> 
-> If XIN is connected to external clock source, Internal oscillator is
-> disabled for RTC. In this case we need to set the oscillator bit to
-> "1".
+> One challenge with accounting V4L2 allocations is how to count shared
+> DMA-bufs. If one process allocates a V4L2 buffer, exports it to
+> DMA-buf and then sends it to another process that keeps it alive, but
+> frees the V4L2 buffer (and even closes the DMA-buf fd), should that
+> memory be still accounted to it even though it doesn't hold a
+> reference to it anymore?
 
-Same here, which address is the oscillator bit accessed through ?
+I've thought about that too. It's an annoying problem, it should
+probably be discussed with memory management developers.
 
-> If XIN and XOUT not connected RTC operation not possible.
-> 
-> IRQ# (optional) functionality is shared between PMIC and RTC. (PMIC
-> fault for various bucks/LDOs/WDT/OTP/NVM or alarm condition).
-
-IRQs can be shared between multiple devices so this shouldn't be a
-problem.
-
-> The board, I have doesn't populate IRQ# pin. If needed some customers
-> can populate IRQ# pin and use it for PMIC fault or RTC alarm.
-> 
-> Also, currently my board has PMIC rev a0 where oscillator bit is
-> inverted and internal oscillator is enabled (ie: XIN and XOUT is
-> connected to external crystal)
+> > Now, to be fair, there are many reasons why allowing access to v4L2
+> > devices to untrusted applications is a bad idea, and memory consumption
+> > is likely not even the worst one. Still, is this something we want to
+> > fix, or do we want to consider V4L2 to be priviledged API only ? Right
+> > now we can't do so, but with many Linux systems moving towards pipewire,
+> > we could possibly have a system daemon isolating untrusted applications
+> > from the rest of the system. We may thus not need to fix this in the
+> > V4L2 API.
 
 -- 
 Regards,
