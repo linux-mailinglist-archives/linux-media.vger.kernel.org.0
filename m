@@ -2,72 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 18E6372970E
-	for <lists+linux-media@lfdr.de>; Fri,  9 Jun 2023 12:37:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 644807297C9
+	for <lists+linux-media@lfdr.de>; Fri,  9 Jun 2023 13:05:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230214AbjFIKgp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Jun 2023 06:36:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39186 "EHLO
+        id S230174AbjFILFr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Jun 2023 07:05:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238621AbjFIKgU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jun 2023 06:36:20 -0400
-Received: from mail-yw1-x1143.google.com (mail-yw1-x1143.google.com [IPv6:2607:f8b0:4864:20::1143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F0B9B9
-        for <linux-media@vger.kernel.org>; Fri,  9 Jun 2023 03:33:56 -0700 (PDT)
-Received: by mail-yw1-x1143.google.com with SMTP id 00721157ae682-568928af8f5so23709657b3.1
-        for <linux-media@vger.kernel.org>; Fri, 09 Jun 2023 03:33:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686306835; x=1688898835;
-        h=to:subject:message-id:date:from:sender:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-        b=eCflBXzIt3MKWQ4ER59RR+rWOh1EMMmixjczC3cGodE30I1Qf8PCCRugIxrycs8zWr
-         MoJjE3GjKm0Je6XVmmJ0/N8WA4A0d02j0qnfUIhAdpYfl1uCPciCdKiZIrDyiwoBgc0q
-         Q9Fnu+oTL43NeozKBKvakvNSIif5OP5i5lf4dMFnEW0zQpO3pigXLAA9aNbHhAc12IQY
-         efPCMjDO8Qs5e7l5aln4VheFbjYlofB2RaoMV8rqnb77Jdolb113osqHCZt5Q5oOc0WN
-         ewGHmn9tqZ27SvZUW9zV2nNTOCH2qJNoCvCM1Rpu2+nIhmWC7N5z0Ff5q4eWTeZpRT5i
-         H5RQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686306835; x=1688898835;
-        h=to:subject:message-id:date:from:sender:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-        b=UfgoTLsQtC2Cw/Yfm10t3ux9hc8BH7tRn+7vLvRO4FmLIRjgz0+5GGDSvo4IEvptHr
-         Hwksc4VQqHXM2gwDWR9tBoVNYtBYjawTw0cOo9scghuI8e0tc39+TeoqvjZDFLMJll79
-         sA14bLf1jgnSDK4RTd5goHYiDjI5nYwqtdcANefSFjzJpKUCd56CVYKpjE/aK9EoXxRq
-         T2xcoVi1UIgAXNnUvVUSWzHum3xeeR3NeD32klzFGQcYjW5QUjFvnRV662QJKFvwNmzD
-         S2jG/1DB1CLdXsF8OMA7eCBy4Zvt0fbIze4dF5DPtkTU5sdTlLV6XJxK7Fwgdtjm+smw
-         4mLA==
-X-Gm-Message-State: AC+VfDy0Oa4trtoh3Bs7rKVpzzhy1ggj0Q2hTUkSAxSeBJaYX0jjhijr
-        4deTE7Ls71rMBl/dQwcnbg1C+utsTHB28noxkPs=
-X-Google-Smtp-Source: ACHHUZ7nUByvqy2ZNRoBQ48Trybvb/weDwZVt2ApFayoxAvTiLtIUCf6aFJ+VEeyh+fHmuEOYYfFX4IXbXnqtVwNk9Q=
-X-Received: by 2002:a0d:ead2:0:b0:569:ec03:14eb with SMTP id
- t201-20020a0dead2000000b00569ec0314ebmr2602968ywe.23.1686306835397; Fri, 09
- Jun 2023 03:33:55 -0700 (PDT)
+        with ESMTP id S230058AbjFILFk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jun 2023 07:05:40 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 139392139
+        for <linux-media@vger.kernel.org>; Fri,  9 Jun 2023 04:05:38 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1q7Zw1-0004bD-Dx; Fri, 09 Jun 2023 11:05:37 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1q7Zvy-00A9gH-Px; Fri, 09 Jun 2023 11:05:35 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v6.5] Venus updates (#92280)
+Date:   Fri,  9 Jun 2023 11:05:34 +0000
+Message-Id: <20230609110534.2420447-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230530214033.293439-1-stanimir.k.varbanov@gmail.com>
+References: 
 MIME-Version: 1.0
-Sender: cd8015901@gmail.com
-Received: by 2002:a05:7010:12ca:b0:361:9bc3:b61 with HTTP; Fri, 9 Jun 2023
- 03:33:54 -0700 (PDT)
-From:   mrs Annie Hyemin kim <mrsanniehyemink@gmail.com>
-Date:   Fri, 9 Jun 2023 10:33:54 +0000
-X-Google-Sender-Auth: F5jd03z9rN0eth-65czGzv1dv7U
-Message-ID: <CAJW1jhABNy-QgjkONnJt5LC54Mh2N+FoM+8Qh=2vYJToLXfD-g@mail.gmail.com>
-Subject: =?UTF-8?Q?God_morgen=2C_jeg_er_glad_for_=C3=A5_kunne_tilby_deg_dette?=
-        =?UTF-8?Q?_forslaget=2E_Vennligst_bekreft_om_dette_er_riktig_adresse_hvo?=
-        =?UTF-8?Q?r_jeg_kan_kontakte_deg_slik_at_jeg_kan_sende_deg_flere_detal?=
-        =?UTF-8?Q?jer?=
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=2.4 required=5.0 tests=BAYES_40,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,EMPTY_MESSAGE,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: **
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+From: builder@linuxtv.org
+
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20230530214033.293439-1-stanimir.k.varbanov@gmail.com/
+Build log: https://builder.linuxtv.org/job/patchwork/313144/
+Build time: 00:30:20
+Link: https://lore.kernel.org/linux-media/20230530214033.293439-1-stanimir.k.varbanov@gmail.com
+
+gpg: Signature made Tue 30 May 2023 09:29:43 PM UTC
+gpg:                using RSA key E1558C2497CE3CCC2B5AA30F25B55FC81B7035F2
+gpg: Good signature from "Stanimir Varbanov <stanimir.varbanov@linaro.org>" [expired]
+gpg: Note: This key has expired!
+Primary key fingerprint: 34CF E039 8A16 AD93 18FD  D5E8 A6D0 26D8 E358 14D4
+     Subkey fingerprint: E155 8C24 97CE 3CCC 2B5A  A30F 25B5 5FC8 1B70 35F2
+
+Summary: got 2/16 patches with issues, being 1 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-media-venus-simplify-the-return-expression-of-sessio.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	SPARSE:../drivers/staging/media/tegra-video/vip.c ../drivers/staging/media/tegra-video/vip.c:280:24: warning: symbol 'tegra_vip_driver' was not declared. Should it be static?
+	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:212 gc0310_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:416 ov2680_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3013 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3112 atomisp_cp_morph_table() warn: missing unwind goto?
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
+	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2775 mxc_jpeg_probe() warn: missing unwind goto?
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2846 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000012Kb sm_state_count = 1966669
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 57 seconds
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
+	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+
+patches/0016-media-venus-provide-ctx-queue-lock-for-ioctl-synchro.patch:
+
+   checkpatch.pl:
+	$ cat patches/0016-media-venus-provide-ctx-queue-lock-for-ioctl-synchro.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:36: CHECK: struct mutex definition without comment
+
+
+Error #512 when building PDF docs
 
