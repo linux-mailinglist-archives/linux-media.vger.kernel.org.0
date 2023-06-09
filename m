@@ -2,60 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DEF0729A3D
-	for <lists+linux-media@lfdr.de>; Fri,  9 Jun 2023 14:44:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B682729ADD
+	for <lists+linux-media@lfdr.de>; Fri,  9 Jun 2023 14:57:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239403AbjFIMos (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Jun 2023 08:44:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49022 "EHLO
+        id S240659AbjFIM5n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Jun 2023 08:57:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237871AbjFIMor (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jun 2023 08:44:47 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E12F02712
-        for <linux-media@vger.kernel.org>; Fri,  9 Jun 2023 05:44:44 -0700 (PDT)
+        with ESMTP id S240952AbjFIM5i (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jun 2023 08:57:38 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAFD31AB
+        for <linux-media@vger.kernel.org>; Fri,  9 Jun 2023 05:57:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686314684; x=1717850684;
+  t=1686315454; x=1717851454;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=SKUGLPQXWd1U2rFWlByG3OhS12qorgM9SHhOyQnSzkU=;
-  b=IKzFIKBGqs2LtFTotcxx6xrK4MHeJI4r7sbx6JBPwjZKYn7W0+B7olKs
-   fXdCYFkxGQammL2hgRFICTI254D1gVlQ/6JEsc4U/3hDFtL1ascYVgG1n
-   QerJ7HrD8K3m8jH+EKKQCUMw+6FAkHZY6KdeYiReKEZQPq2hftF3+9moZ
-   sPXTp3SckHngfrOrawvjNT2U2TWv1rpIRbtAVsfpWXNJCuvM3I/Zug3l7
-   UKtw8UFjPEGUmSdVUXA9YV8Ajuxw2Eg0D2ZKkD/Fkwm/e9wOIneDsj0nL
-   Ci7yVHjj2IsLjhybMAfCbAIUbh6GXi4Nq0BOyGZ8zWa27CYtWREBxW9nv
+  bh=Qhrb+uM2II4IdFYv9/IvOgMZJHsyg+BD+3iBP4I7ftA=;
+  b=G+XdT5mF8BP4umkozOOA3QvgxCCRqyBJLbNEvWYxpSFQ59MGCOhHSBIl
+   zpA+wAcu5GP7zeDYy6LVi48Jk3MRnxQ4N+5EiSxn/a0oKOoDtkXU3+Vea
+   eDrf7GXXisaEnSEiXqwsYaiFMDP1J0a5+8OY1S/xWwHy+JscHvj4F1Tnp
+   B2nxHOkKW/wVxliAOfSFG1yv9yHACHagrtLi5nrijcWNmQBdJ6onN/RgN
+   r8hKjQMFs6AJBo9HNQyWRz2xeytNKZ+dNl/Opq32+W+KKUHVecYe+qZUE
+   Mr6RGJDo17ytkvrM9u+cCWPuFjixVdxI5ETUgNzoH26TikW4tfeE42ynQ
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="423465482"
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="360947224"
 X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; 
-   d="scan'208";a="423465482"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 05:44:44 -0700
+   d="scan'208";a="360947224"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 05:55:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="775486480"
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="800208465"
 X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; 
-   d="scan'208";a="775486480"
+   d="scan'208";a="800208465"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 05:44:42 -0700
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 05:55:38 -0700
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id F0ED311F9D2;
-        Fri,  9 Jun 2023 15:44:39 +0300 (EEST)
-Date:   Fri, 9 Jun 2023 12:44:39 +0000
+        by kekkonen.fi.intel.com (Postfix) with SMTP id A478811F9D2;
+        Fri,  9 Jun 2023 15:55:35 +0300 (EEST)
+Date:   Fri, 9 Jun 2023 12:55:35 +0000
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        linux-media@vger.kernel.org, bingbu.cao@intel.com,
         hongju.wang@intel.com
-Subject: Re: [RFC 1/7] media: mc: Add INTERNAL_SOURCE pad type flag
-Message-ID: <ZIMetwrhQcn3GgF8@kekkonen.localdomain>
+Subject: Re: [RFC 3/7] media: uapi: v4l: Document source routes
+Message-ID: <ZIMhR+1jPoYb0geZ@kekkonen.localdomain>
 References: <20230505215257.60704-1-sakari.ailus@linux.intel.com>
- <20230505215257.60704-2-sakari.ailus@linux.intel.com>
- <8b315fe6-0d34-2f93-bf0f-7f3be0b37dbc@xs4all.nl>
+ <20230505215257.60704-4-sakari.ailus@linux.intel.com>
+ <5b7038ce-d897-931f-2c6e-30bdd1a30342@ideasonboard.com>
+ <ZFkipK0F5sCYv8tt@kekkonen.localdomain>
+ <b3b8d45f-1cc4-1aa7-6f75-de4841fd5981@ideasonboard.com>
+ <20230602095600.GH19463@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8b315fe6-0d34-2f93-bf0f-7f3be0b37dbc@xs4all.nl>
+In-Reply-To: <20230602095600.GH19463@pendragon.ideasonboard.com>
 X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
         SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
@@ -66,121 +69,125 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi Laurent,
 
-Thanks for the review.
+On Fri, Jun 02, 2023 at 12:56:00PM +0300, Laurent Pinchart wrote:
+> Hello,
+> 
+> On Mon, May 08, 2023 at 07:35:04PM +0300, Tomi Valkeinen wrote:
+> > On 08/05/2023 19:26, Sakari Ailus wrote:
+> > > On Mon, May 08, 2023 at 01:33:24PM +0300, Tomi Valkeinen wrote:
+> > >> On 06/05/2023 00:52, Sakari Ailus wrote:
+> > >>> Document how internal pads are used on source routes.
+> > >>>
+> > >>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > >>> ---
+> > >>>    .../userspace-api/media/v4l/dev-subdev.rst     | 18 ++++++++++++++++++
+> > >>>    .../media/v4l/vidioc-subdev-g-routing.rst      |  5 +++++
+> > >>>    include/uapi/linux/v4l2-subdev.h               |  6 +++++-
+> > >>>    3 files changed, 28 insertions(+), 1 deletion(-)
+> > >>>
+> > >>> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > >>> index a4f1df7093e8..395e06d2f0f2 100644
+> > >>> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > >>> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > >>> @@ -551,6 +551,24 @@ A stream at a specific point in the media pipeline is identified by the
+> > >>>    sub-device and a (pad, stream) pair. For sub-devices that do not support
+> > >>>    multiplexed streams the 'stream' field is always 0.
+> > >>> +.. _v4l2-subdev-source-routes:
+> > >>> +
+> > >>> +Source routes
+> > >>> +^^^^^^^^^^^^^
+> > >>> +
+> > >>> +Cases where a single sub-device pad is a source of multiple streams are special
+> > >>> +as there is no sink pad for such a route. In those cases, an internal pad is
+> > >>> +used as the sink pad. Such pads have the :ref:`MEDIA_PAD_FL_INTERNAL_SOURCE
+> > >>> +<MEDIA-PAD-FL-INTERNAL-SOURCE>` flag set.
+> > >>> +
+> > >>> +Internal pads have all the properties of a sink pad in such case, including
+> > >>> +formats and selections. The format in this case is the source format of the
+> > >>> +stream. An internal pad always has a single stream only (0).
+> > >>> +
+> > >>> +Generally source routes are not modifiable but they can be activated and
+> > >>> +inactivated using the :ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> > >>> +<v4l2-subdev-routing-flags>` flag, depending on driver capabilities.
+> > >>> +
+> > >>
+> > >> I find the above chapter a bit difficult to read, but I think we need to
+> > >> conclude on the internal-pad vs internal-source-pad discussion first.
+> > >> However, one point/question:
+> 
+> Agreed, it's far from being clear :-( Even the first sentence, "Cases
+> where a single sub-device pad is a source of multiple streams are
+> special" is confusing, having a subdev source pad carrying multiple
+> streams isn't special, it is found in, for instance, FPD-Link or GMSL
+> receivers that transmit multiple streams from different cameras over a
+> single CSI-2 output. This may not be what Sakari meant here, but it can
+> be understood that way.
 
-On Thu, Jun 08, 2023 at 09:59:48AM +0200, Hans Verkuil wrote:
-> On 05/05/2023 23:52, Sakari Ailus wrote:
-> > Internal source pads will be used as routing endpoints in V4L2
-> > [GS]_ROUTING IOCTLs, to indicate that the stream begins in the entity.
+The sentence continues on the next line. I'll rework this part of the
+documentation in any case while moving to a plain INTERNAL flag.
+
+> 
+> We need more than 3 paragraphs here, and we need a very clear example
+> with a diagram. I'd recommend using a camera sensor that produces image
+> data and embedded data for the example, as that's a common real-life use
+> case. The text should present the example, explain what the problem is,
+> and then explain how internal pads fix it. Then it can expand on the
+> features and usage of internal pads in a more generic way.
+
+It's fine to have examples but I'd add them to where the other examples are
+located.
+
+> 
+> > >> You write that there's only one stream in an internal pad. I wonder if
+> > >> that's a good or a necessary limitation... Do you see that allowing multiple
+> > >> streams brings extra complexity? It's still up to each driver to decide how
+> > >> many streams they support (most would just support a single one), so each
+> > >> driver can easily enforce that limit.
+> > > 
+> > > Good question. As we don't seem to have a tangible reason to allow it, I'd
+> > > deny it until there's a use case.
+> > > 
+> > > Or did you have a use case in mind?
+> > > 
+> > > I thought indicating which streams will be bound together (i.e. either are
+> > > all disabled or enabled) could be one, but I'm not sure we need that at the
+> > > moment at least.
 > > 
-> > Also prevent creating links to pads that have been flagged as internal.
+> > I don't have nothing concrete in mind. Maybe a TPG which also generates 
+> > some kind of metadata. But that could be implemented as two internal pads.
 > > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  .../userspace-api/media/mediactl/media-types.rst          | 7 +++++++
-> >  drivers/media/mc/mc-entity.c                              | 8 +++++++-
-> >  include/uapi/linux/media.h                                | 1 +
-> >  3 files changed, 15 insertions(+), 1 deletion(-)
+> > >> I'm fine with starting with only single-stream support, but if we later need
+> > >> to loosen that restriction, I wonder if it'll be difficult if we have
+> > >> specified that there can be only one stream. I.e. will the drivers and the
+> > >> userspace depend on that limit.
+> > > 
+> > > We can always allow what wasn't allowed previously so that's a non-issue,
+> > > really. But it needs to bring new functionality, otherwise there's no
+> > > reason to do that.
 > > 
-> > diff --git a/Documentation/userspace-api/media/mediactl/media-types.rst b/Documentation/userspace-api/media/mediactl/media-types.rst
-> > index 0ffeece1e0c8..c724139ad46c 100644
-> > --- a/Documentation/userspace-api/media/mediactl/media-types.rst
-> > +++ b/Documentation/userspace-api/media/mediactl/media-types.rst
-> > @@ -361,6 +361,7 @@ Types and flags used to represent the media graph elements
-> >  .. _MEDIA-PAD-FL-SINK:
-> >  .. _MEDIA-PAD-FL-SOURCE:
-> >  .. _MEDIA-PAD-FL-MUST-CONNECT:
-> > +.. _MEDIA-PAD-FL-INTERNAL-SOURCE:
-> >  
-> >  .. flat-table:: Media pad flags
-> >      :header-rows:  0
-> > @@ -382,6 +383,12 @@ Types and flags used to represent the media graph elements
-> >  	  when this flag isn't set; the absence of the flag doesn't imply
-> >  	  there is none.
-> >  
-> > +    *  -  ``MEDIA_PAD_FL_INTERNAL_SOURCE``
-> > +       -  This flag indicates an internal pad that has no external
+> > It's not always that easy. If the drivers and the userspace expect that 
+> > there's a single route with ID 0, and then with a new kernel there are 
+> > more streams or the single stream is ID 1, things could go wrong.
 > 
-> 'internal pad' or 'internal source pad'?
+> I agree with Tomi here. On the kernel side it should be fine (with an
+> unknown amount of pain), but I'd consider this as a userspace API
+> breakage. If the specifications indicates that only a single stream can
+> be used, applications may rely on that, and things could go wrong if new
+> streams are added.
 > 
-> > +	  connections. Such a pad may not be connected with a link. The internal
-> > +	  flag indicates that the stream either starts or ends in the
-> > +	  entity.
-> 
-> This sentence makes no sense. The flag is for a pad, but then this sentence
-> talks about streams and entities and doesn't relate that to the pad. Also,
+> We can restrict the kernel implementation to a single stream, but the
+> userspace API has to indicate that multiple streams can co-exist if we
+> want to allow that in the future.
 
-Streams are between pads, but are visible on V4L2 only while this is MC
-related. Documentation-wise this is a bit awkward.
+I doubt this ever could be an actual problem. Allowing multiple streams to
+be merged on a source pad requires the user to first configure them.
 
-> the flag is INTERNAL_SOURCE, and reading 'stream ends' suggests that it
-> should be INTERNAL_SINK in that case.
-
-When it comes to routing, it uses fields related to the sink pad, but this
-is a source.
-
-Based on review of the other patches, it seems both Tomi and Laurent would
-prefer a plain INTERNAL flag which then would be used in conjunction with
-the existing SINK flag, to note an internal source. Routing-wise this is a
-cleaner option as this is associated with the sink related fields in any
-case.
-
-> 
-> I think this needs to be more elaborate and ideally add some examples
-> of the use-case(s) (or refer to an example elsewhere).
-> 
->  For a given pad, the INTERNAL_SOURCE flag may not be set if
-> > +	  either SINK or SOURCE flags is set.
-> >  
-> >  One and only one of ``MEDIA_PAD_FL_SINK`` and ``MEDIA_PAD_FL_SOURCE``
-> 
-> and 'MEDIA_PAD_FL_INTERNAL_SOURCE' as well?
-> 
-> >  must be set for every pad.
-> > diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-> > index ef34ddd715c9..ed99160a2487 100644
-> > --- a/drivers/media/mc/mc-entity.c
-> > +++ b/drivers/media/mc/mc-entity.c
-> > @@ -1062,7 +1062,8 @@ int media_get_pad_index(struct media_entity *entity, u32 pad_type,
-> >  
-> >  	for (i = 0; i < entity->num_pads; i++) {
-> >  		if ((entity->pads[i].flags &
-> > -		     (MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_SOURCE)) != pad_type)
-> > +		     (MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_SOURCE |
-> > +		      MEDIA_PAD_FL_INTERNAL_SOURCE)) != pad_type)
-> >  			continue;
-> >  
-> >  		if (entity->pads[i].sig_type == sig_type)
-> > @@ -1087,6 +1088,11 @@ media_create_pad_link(struct media_entity *source, u16 source_pad,
-> >  		return -EINVAL;
-> >  	if (WARN_ON(!(sink->pads[sink_pad].flags & MEDIA_PAD_FL_SINK)))
-> >  		return -EINVAL;
-> > +	if (WARN_ON(sink->pads[sink_pad].flags &
-> > +		    MEDIA_PAD_FL_INTERNAL_SOURCE) ||
-> > +	    WARN_ON(source->pads[source_pad].flags &
-> > +		    MEDIA_PAD_FL_INTERNAL_SOURCE))
-> > +		return -EINVAL;
-> >  
-> >  	link = media_add_link(&source->links);
-> >  	if (link == NULL)
-> > diff --git a/include/uapi/linux/media.h b/include/uapi/linux/media.h
-> > index edb8dfef9eba..0e2577e8b425 100644
-> > --- a/include/uapi/linux/media.h
-> > +++ b/include/uapi/linux/media.h
-> > @@ -208,6 +208,7 @@ struct media_entity_desc {
-> >  #define MEDIA_PAD_FL_SINK			(1U << 0)
-> >  #define MEDIA_PAD_FL_SOURCE			(1U << 1)
-> >  #define MEDIA_PAD_FL_MUST_CONNECT		(1U << 2)
-> > +#define MEDIA_PAD_FL_INTERNAL_SOURCE		(1U << 3)
-> >  
-> >  struct media_pad_desc {
-> >  	__u32 entity;		/* entity ID */
-> 
-> Regards,
-> 
-> 	Hans
+I find it hard to believe there would be an application that tried to
+configure routes this way (which would have always failed) and then
+proceeded anyway, and somehow returning success from route setup leads to
+routing configuration that the application couldn't handle anymore.
 
 -- 
 Kind regards,
