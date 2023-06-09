@@ -2,156 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C62BD72A00C
-	for <lists+linux-media@lfdr.de>; Fri,  9 Jun 2023 18:20:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 209D172A2CA
+	for <lists+linux-media@lfdr.de>; Fri,  9 Jun 2023 21:06:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242137AbjFIQUq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Jun 2023 12:20:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36094 "EHLO
+        id S231207AbjFITGC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Jun 2023 15:06:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242170AbjFIQUf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jun 2023 12:20:35 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D1613A96
-        for <linux-media@vger.kernel.org>; Fri,  9 Jun 2023 09:20:24 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1q7eqb-000HAA-MD; Fri, 09 Jun 2023 16:20:21 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1q7eqY-00HE48-Kp; Fri, 09 Jun 2023 16:20:19 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v6.5] v2: mediatek: vcodec: Add debugfs file for decode (#92381)
-Date:   Fri,  9 Jun 2023 16:20:18 +0000
-Message-Id: <20230609162018.4105598-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <8ba16cbc-5ff5-067d-d9d5-c7bd51a6a4f7@xs4all.nl>
-References: 
+        with ESMTP id S231130AbjFITGB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jun 2023 15:06:01 -0400
+Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com [IPv6:2607:f8b0:4864:20::c2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D7A53A95;
+        Fri,  9 Jun 2023 12:05:59 -0700 (PDT)
+Received: by mail-oo1-xc2f.google.com with SMTP id 006d021491bc7-558b6cffe03so1418033eaf.3;
+        Fri, 09 Jun 2023 12:05:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686337558; x=1688929558;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mOMvkZnPwmIO9rUDsynYpLezUNy31X65xq+c1pvLo/s=;
+        b=qZOElJiJqsKIUEZ/4W0bxkDQ5IRO6XWZ6HMgsZGzbdLDwGFlP8zIRzDsmMxJtJo7Pe
+         Y4UETOwCudj6NWjmm7+KDVKQfjAYazbUTknxg0t5NnA507jCMfqAN3BSzj58nh2qc5pd
+         iIZh207kPMaMO3BRRGpb112M5J1ecsBzRgTER5+J5ssAK06rgNPIFwHWP4XhcLgOfhUl
+         YhaciTgZAMas7YjpyOaloenbzB//wX2oLsEDsbKNcbDvULoWO9ZD0HrI1wI2fvTtAyUD
+         kbUUZo/e53fFxOtLofLZ8GfIad4ItQDHVSdX/2SckLjjnRy0ePQwdB1u4XKX56trxTkt
+         btOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686337558; x=1688929558;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mOMvkZnPwmIO9rUDsynYpLezUNy31X65xq+c1pvLo/s=;
+        b=GVgbVKAsXWnGA8Vo5NvSl2JjERPWrmdk83KjTPNculOFUm5q/lbANUVfjP0hMxJTP6
+         atI1d/iNFUO/MIeLk7RC1Nef5AON+5f4mNx0GMoJCKm9UR6+A+qE+NGDGZvbxscvBEp0
+         ZHSLoWJB3MqGeoMOX8GsIvyPwOpR/TvPMnLXxW0kvwKTjnrvgMycetIpwLgVRuAEh20p
+         EaVkHrEu30shWySJtpYLZsRQHULXKXhbmAr+HNtbRis1OaZZtwvi3lO6gLmagB8B/wqy
+         tBCYjBPrg1ZloYLdfkoKT8pe+1Gh91VoX74ljZTJdCOzHf7fIcs+n+7N/cWEvS54zyDp
+         j3MA==
+X-Gm-Message-State: AC+VfDx0h8+WeEfh+pdwtDjig+xiSCtDtNBx+7MaiWxyIrM+wMEX2vbR
+        m8yf5eVCXIkvekhVzFch0NklzZOSOsc2TRPFq21OpY3B
+X-Google-Smtp-Source: ACHHUZ7VVOVGPYkQhvxHXzRFN2Pvvtu5u5tXb4+ByJD8vIVQa6VfmTrN8dYJvKeI4gq0hQCaGTm4nZTtEr62J0fBLcY=
+X-Received: by 2002:a4a:e708:0:b0:555:9b48:93de with SMTP id
+ y8-20020a4ae708000000b005559b4893demr1382251oou.5.1686337558655; Fri, 09 Jun
+ 2023 12:05:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20230609081732.3842341-1-lee@kernel.org> <20230609081732.3842341-16-lee@kernel.org>
+In-Reply-To: <20230609081732.3842341-16-lee@kernel.org>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Fri, 9 Jun 2023 15:05:47 -0400
+Message-ID: <CADnq5_OVMwV80XbTpdRECa54iDLK8+SGz==KWpWTJN+hs1QAkA@mail.gmail.com>
+Subject: Re: [RESEND 15/15] drm/amd/amdgpu/sdma_v6_0: Demote a bunch of
+ half-completed function headers
+To:     Lee Jones <lee@kernel.org>
+Cc:     "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linaro-mm-sig@lists.linaro.org,
+        Stanley Yang <Stanley.Yang@amd.com>,
+        dri-devel@lists.freedesktop.org,
+        Alex Deucher <alexander.deucher@amd.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+These have already been fixed up.
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/8ba16cbc-5ff5-067d-d9d5-c7bd51a6a4f7@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/313153/
-Build time: 00:20:22
-Link: https://lore.kernel.org/linux-media/8ba16cbc-5ff5-067d-d9d5-c7bd51a6a4f7@xs4all.nl
+Thanks!
 
-gpg: Signature made Wed 07 Jun 2023 01:45:54 PM UTC
-gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+Alex
 
-Summary: got 7/8 patches with issues, being 7 at build time, plus one error when buinding PDF document
-
-Error/warnings:
-
-patches/0001-media-mediatek-vcodec-Add-debugfs-interface-to-get-d.patch:
-
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-	SPARSE:../drivers/staging/media/tegra-video/vip.c ../drivers/staging/media/tegra-video/vip.c:280:24: warning: symbol 'tegra_vip_driver' was not declared. Should it be static?
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c: ../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:476 ov2680_init_cfg() error: we previously assumed 'sd_state' could be null (see line 468)
-	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:524 ov2680_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:447 gc0310_s_stream() warn: missing error code 'ret'
-	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:517 atomisp_open() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
-	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:4283 atomisp_set_fmt_to_snr() warn: variable dereferenced before check 'asd' (see line 4268)
-
-    allyesconfig: return code #512:
-	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-	../drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c: ../drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c:347 vdec_msg_queue_init() warn: missing unwind goto?
-	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: In function ‘mtk_vcodec_dbgfs_init’:
-	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:15:17: error: variable ‘vcodec_root’ set but not used [-Werror=unused-but-set-variable]
-	cc1: all warnings being treated as errors
-	make[7]: *** [../scripts/Makefile.build:252: drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.o] Error 1
-	make[6]: *** [../scripts/Makefile.build:494: drivers/media/platform/mediatek/vcodec] Error 2
-	make[5]: *** [../scripts/Makefile.build:494: drivers/media/platform/mediatek] Error 2
-	make[4]: *** [../scripts/Makefile.build:494: drivers/media/platform] Error 2
-	make[4]: *** Waiting for unfinished jobs....
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000032Kb sm_state_count = 1967495
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 53 seconds
-	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
-	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
-	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
-	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2890 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
-	make[3]: *** [../scripts/Makefile.build:494: drivers/media] Error 2
-	make[2]: *** [../scripts/Makefile.build:494: drivers] Error 2
-	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:2026: .] Error 2
-	make: *** [Makefile:226: __sub-make] Error 2
-
-   checkpatch.pl:
-	$ cat patches/0001-media-mediatek-vcodec-Add-debugfs-interface-to-get-d.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:38: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-	-:74: WARNING: Prefer "GPL" over "GPL v2" - see commit bf7fbeeae6db ("module: Cure the MODULE_LICENSE "GPL" vs. "GPL v2" bogosity")
-
-patches/0002-media-mediatek-vcodec-Add-debug-params-to-control-di.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c: ../drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c:347 vdec_msg_queue_init() warn: missing unwind goto?
-	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2775 mxc_jpeg_probe() warn: missing unwind goto?
-
-   checkpatch.pl:
-	$ cat patches/0002-media-mediatek-vcodec-Add-debug-params-to-control-di.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:74: CHECK: Macro argument reuse 'h' - possible side-effects?
-
-patches/0003-media-mediatek-vcodec-Add-a-debugfs-file-to-get-diff.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c: ../drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c:347 vdec_msg_queue_init() warn: missing unwind goto?
-	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: ../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:56 mtk_vcodec_dbgfs_remove() error: we previously assumed 'dbgfs_inst' could be null (see line 57)
-
-   checkpatch.pl:
-	$ cat patches/0003-media-mediatek-vcodec-Add-a-debugfs-file-to-get-diff.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:136: CHECK: struct mutex definition without comment
-
-patches/0004-media-mediatek-vcodec-Get-each-context-resolution-in.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c: ../drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c:347 vdec_msg_queue_init() warn: missing unwind goto?
-	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: ../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:98 mtk_vcodec_dbgfs_remove() error: we previously assumed 'dbgfs_inst' could be null (see line 99)
-
-patches/0005-media-mediatek-vcodec-Get-each-instance-format-type.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c: ../drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c:347 vdec_msg_queue_init() warn: missing unwind goto?
-	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: ../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:146 mtk_vcodec_dbgfs_remove() error: we previously assumed 'dbgfs_inst' could be null (see line 147)
-
-patches/0006-media-mediatek-vcodec-Change-dbgfs-interface-to-supp.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c: ../drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c:347 vdec_msg_queue_init() warn: missing unwind goto?
-	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: ../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:146 mtk_vcodec_dbgfs_remove() error: we previously assumed 'dbgfs_inst' could be null (see line 147)
-
-patches/0008-media-mediatek-vcodec-Add-dbgfs-help-function.patch:
-
-    allyesconfig: return code #0:
-	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: ../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:168 mtk_vcodec_dbgfs_remove() error: we previously assumed 'dbgfs_inst' could be null (see line 169)
-
-
-Error #512 when building PDF docs
-
+On Fri, Jun 9, 2023 at 4:18=E2=80=AFAM Lee Jones <lee@kernel.org> wrote:
+>
+> Fixes the following W=3D1 kernel build warning(s):
+>
+>  drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c:248: warning: Function parameter =
+or member 'job' not described in 'sdma_v6_0_ring_emit_ib'
+>  drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c:248: warning: Function parameter =
+or member 'flags' not described in 'sdma_v6_0_ring_emit_ib'
+>  drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c:945: warning: Function parameter =
+or member 'timeout' not described in 'sdma_v6_0_ring_test_ib'
+>  drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c:1124: warning: Function parameter=
+ or member 'ring' not described in 'sdma_v6_0_ring_pad_ib'
+>  drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c:1175: warning: Function parameter=
+ or member 'vmid' not described in 'sdma_v6_0_ring_emit_vm_flush'
+>  drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c:1175: warning: Function parameter=
+ or member 'pd_addr' not described in 'sdma_v6_0_ring_emit_vm_flush'
+>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: Stanley Yang <Stanley.Yang@amd.com>
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Signed-off-by: Lee Jones <lee@kernel.org>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c b/drivers/gpu/drm/amd=
+/amdgpu/sdma_v6_0.c
+> index 3b03dda854fdc..8cd7abe74e6c4 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c
+> @@ -233,7 +233,7 @@ static void sdma_v6_0_ring_insert_nop(struct amdgpu_r=
+ing *ring, uint32_t count)
+>                         amdgpu_ring_write(ring, ring->funcs->nop);
+>  }
+>
+> -/**
+> +/*
+>   * sdma_v6_0_ring_emit_ib - Schedule an IB on the DMA engine
+>   *
+>   * @ring: amdgpu ring pointer
+> @@ -936,7 +936,7 @@ static int sdma_v6_0_ring_test_ring(struct amdgpu_rin=
+g *ring)
+>         return r;
+>  }
+>
+> -/**
+> +/*
+>   * sdma_v6_0_ring_test_ib - test an IB on the DMA engine
+>   *
+>   * @ring: amdgpu_ring structure holding ring information
+> @@ -1118,7 +1118,7 @@ static void sdma_v6_0_vm_set_pte_pde(struct amdgpu_=
+ib *ib,
+>         ib->ptr[ib->length_dw++] =3D count - 1; /* number of entries */
+>  }
+>
+> -/**
+> +/*
+>   * sdma_v6_0_ring_pad_ib - pad the IB
+>   * @ib: indirect buffer to fill with padding
+>   * @ring: amdgpu ring pointer
+> @@ -1167,7 +1167,7 @@ static void sdma_v6_0_ring_emit_pipeline_sync(struc=
+t amdgpu_ring *ring)
+>                           SDMA_PKT_POLL_REGMEM_DW5_INTERVAL(4)); /* retry=
+ count, poll interval */
+>  }
+>
+> -/**
+> +/*
+>   * sdma_v6_0_ring_emit_vm_flush - vm flush using sDMA
+>   *
+>   * @ring: amdgpu_ring pointer
+> --
+> 2.41.0.162.gfafddb0af9-goog
+>
