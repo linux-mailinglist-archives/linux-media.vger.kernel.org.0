@@ -2,151 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B3DC729C28
-	for <lists+linux-media@lfdr.de>; Fri,  9 Jun 2023 16:04:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B23FE729C7E
+	for <lists+linux-media@lfdr.de>; Fri,  9 Jun 2023 16:14:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239822AbjFIOEK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Jun 2023 10:04:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34516 "EHLO
+        id S240065AbjFIOOh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Jun 2023 10:14:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239386AbjFIOEF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jun 2023 10:04:05 -0400
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49FB130FA
-        for <linux-media@vger.kernel.org>; Fri,  9 Jun 2023 07:04:03 -0700 (PDT)
-Received: by mail-oi1-x22a.google.com with SMTP id 5614622812f47-38ede2e0e69so645230b6e.2
-        for <linux-media@vger.kernel.org>; Fri, 09 Jun 2023 07:04:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1686319442; x=1688911442;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=M+/tsw/Fu7oYLrMbswe2mW+6R/VrTvrAxwbkhuN1+gE=;
-        b=Utd6Z28yE85i1neitAe8UZz432SrAl01+uJzUB/LjoTKQmZKRCimEc4nBq/b0Nu9xp
-         C7M2mQaWndb7qwAqiUZp8SjJkBzZsIPZ3ug8UXMQFwWtKB0pxAqeXcH3t63IMm6SCMl9
-         M4bke8jWOas6OUUdccm1gJAb5Sxvd01zc4K/N6KuORebv09uaOQrLUO0PTN20LGMhbeT
-         N2fCskWvCpWEhfdPFHfmE46vEyq9zkARbUUeokvvwJKgY5cvoxBmz57TvpLq6zQo8chj
-         EopZvcsxcsb6FnPBszfO/eFd/advpvEORDZPXcfzCBsOVP1urmCheVb2FsVQpBc4mowf
-         yL1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686319442; x=1688911442;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=M+/tsw/Fu7oYLrMbswe2mW+6R/VrTvrAxwbkhuN1+gE=;
-        b=DGb91twjEXP7+va9+rc3jkry4jeCKflvA3IVyiM6BTU3aEd83P/8jzh0WcKsuuqOIq
-         IOC0Y/PtprynNgzDnPTI8yvVhheU3LODViYYi0CW3kPBSiK5ObTwK2uu7t41ln9UBu/6
-         UNlXHPNYo7Z1JIZToetyqFZsEO/S7G/ul2KJlocMw9tn4HvFcDpj6473kjfiPCKUAN59
-         G+aSQOMPIAplXLdqQdukVB2T+G+tcsauNf9ZlfGGgHaInZfvAYCizI/tiTi1PtoZ7c/x
-         xr0S0dUPgBgA6okE/xCyjiYjZW27D5o+UnbAZJovalvuDynAkMzo2BLCmgreXz7v34KP
-         +kuA==
-X-Gm-Message-State: AC+VfDyMQFlIkm+ljv9V1EKAKczxb+xQy7Y0f2pZ/2qH1M7BiphcKBo2
-        dY3dLTFTT0HPVRp1ARgPfIs1+25X674EGeuMNP4N8A==
-X-Google-Smtp-Source: ACHHUZ7xd+DAStaq6dQecRItFmQrfrlVp253/CYtE0GVX7ER0YONC2JpXH5xCh1cp/C/WvLlK7eHvBYBvpCTrfdgZRk=
-X-Received: by 2002:a05:6808:bd1:b0:398:2ec7:d5ed with SMTP id
- o17-20020a0568080bd100b003982ec7d5edmr1943178oik.19.1686319442584; Fri, 09
- Jun 2023 07:04:02 -0700 (PDT)
+        with ESMTP id S229568AbjFIOOg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jun 2023 10:14:36 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8348A19B
+        for <linux-media@vger.kernel.org>; Fri,  9 Jun 2023 07:14:35 -0700 (PDT)
+Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:4a2a:e3ff:fe5e:2efb])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC8F7C4C;
+        Fri,  9 Jun 2023 16:14:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1686320045;
+        bh=Hn64AzFENzrTOporJ09Yy/Bdd70MSF/In2sWOK/Phl8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jOHChZdvo37C4qbr4CYdfMZ3FDX9GoWVeZFn0IisOeICNqW3o/O6FzzFly2DnylS/
+         NRy6IDvFWo3V/EJiCKsCBxVx6A6FwKcIzzXbPklOqJAhVQm9VNEBAo0dj5t+5vcjyo
+         sdzCoDmKYg6Rnaq9+AByiB01K7xsWp+5ZqWHxFyU=
+Date:   Fri, 9 Jun 2023 16:14:29 +0200
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     guoniu.zhou@oss.nxp.com
+Cc:     linux-media@vger.kernel.org, jacopo.mondi@ideasonboard.com,
+        sakari.ailus@linux.intel.com, mchehab@kernel.org,
+        slongerbeam@gmail.com, laurent.pinchart@ideasonboard.com,
+        jacopo@jmondi.org
+Subject: Re: [PATCH v2] media: ov5640: fix low resolution image abnormal issue
+Message-ID: <hylz7iar3laa3iihmbsm5iqc3rdvp7wascuiqgicmzi3jv7htv@sp7hqsjyhgif>
+References: <20230609054525.4067113-1-guoniu.zhou@oss.nxp.com>
 MIME-Version: 1.0
-References: <20230609-v4l2-vtotal-v1-0-4b7dee7e073e@skidata.com> <20230609-v4l2-vtotal-v1-1-4b7dee7e073e@skidata.com>
-In-Reply-To: <20230609-v4l2-vtotal-v1-1-4b7dee7e073e@skidata.com>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Fri, 9 Jun 2023 15:03:46 +0100
-Message-ID: <CAPY8ntDsUPZvN0M_7pyRfERK9V0MCkD6pp7zu6G9nDWYHwSVcw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] media: uapi: Add V4L2_CID_VTOTAL control
-To:     Benjamin Bara <bbara93@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        laurent.pinchart@ideasonboard.com, jacopo.mondi@ideasonboard.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Benjamin Bara <benjamin.bara@skidata.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230609054525.4067113-1-guoniu.zhou@oss.nxp.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin
+Hello Guoniu Zhou
 
-Thanks for the patch.
+On Fri, Jun 09, 2023 at 01:45:25PM +0800, guoniu.zhou@oss.nxp.com wrote:
+> From: "Guoniu.zhou" <guoniu.zhou@nxp.com>
+>
+> OV5640 will output abnormal image data when work at low resolution
+> (320x240, 176x144 and 160x120) after switching from high resolution,
+> such as 1080P, the time interval between high and low switching must
+> be less than 1000ms in order to OV5640 don't enter suspend state during
+> the time.
+>
+> The reason is by 0x3824 value don't restore to initialize value when
+> do resolution switching. In high resolution setting array, 0x3824 is
+> set to 0x04, but low resolution setting array remove 0x3824 in commit
+> db15c1957a2d ("media: ov5640: Remove duplicated mode settings"). So
+> when do resolution switching from high to low, such as 1080P to 320x240,
+> and the time interval is less than auto suspend delay time which means
+> global initialize setting array will not be loaded, the output image
+> data are abnormal. Hence move 0x3824 from ov5640_init_setting[] table
+> to ov5640_setting_low_res[] table and also move 0x4407 0x460b, 0x460c
+> to avoid same issue.
 
-On Fri, 9 Jun 2023 at 14:16, Benjamin Bara <bbara93@gmail.com> wrote:
+I'm not 100% I got why the autosuspend delay plays a role here.
+
+Also this is probably worth a:
+Fixes: db15c1957a2d ("media: ov5640: Remove duplicated mode settings")
+
+Could be added when applying probably ?
 >
-> From: Benjamin Bara <benjamin.bara@skidata.com>
->
-> Currently, V4L2_CID_VBLANK can be used to control the frame duration of
-> a stream. However, camera sensors usually have a register for the
-> vertical total size (image data + blanking), e.g. VMAX on the imx290.
-> The dependency between format height and vertical blanking results to a
-> change of the vertical blanking value and limits whenever the format of
-> the frame is changed and therefore makes it harder for user space to do
-> calculations, e.g. the frame duration.
->
-> V4L2_CID_VTOTAL does not depend on the format and therefore simplifies
-> calculations. Additionally, it represents the hardware "better" and
-> therefore also simplifies calculations on the driver side.
->
-> Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
+> Signed-off-by: Guoniu.zhou <guoniu.zhou@nxp.com>
 > ---
->  Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst | 6 ++++++
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c                        | 1 +
->  include/uapi/linux/v4l2-controls.h                               | 1 +
->  3 files changed, 8 insertions(+)
->
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> index 71f23f131f97..e72d1363ad85 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> @@ -59,6 +59,12 @@ Image Source Control IDs
->      non-sensitive.
->      This control is required for automatic calibration of sensors/cameras.
->
-> +``V4L2_CID_VTOTAL (integer)``
-> +    Number of total lines per frame, including data and idle lines (blanking).
-> +    The unit of the vertical total size is a line. Every line has length of the
-> +    image width plus horizontal blanking at the pixel rate defined by
-> +    ``V4L2_CID_PIXEL_RATE`` control in the same sub-device.
-> +
->  .. c:type:: v4l2_area
->
->  .. flat-table:: struct v4l2_area
+> v1->v2:
+>   1) Move 0x4407, 0x460b, 0x460c from ov5640_init_setting[] table to
+>      ov5640_setting_low_res[] table.
 
-The documentation for Frame interval configuration on Raw camera
-sensors[1] needs updating to describe the new behaviour as well.
+I have checked that the registers you removed from init_settings[] are
+programmed in all the other modes, hence
 
-  Dave
-
-[1] https://elixir.bootlin.com/linux/latest/source/Documentation/driver-api/media/camera-sensor.rst#L80
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
 
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> index 564fedee2c88..6a0d310d5f42 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> @@ -1112,6 +1112,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->         case V4L2_CID_TEST_PATTERN_BLUE:        return "Blue Pixel Value";
->         case V4L2_CID_TEST_PATTERN_GREENB:      return "Green (Blue) Pixel Value";
->         case V4L2_CID_NOTIFY_GAINS:             return "Notify Gains";
-> +       case V4L2_CID_VTOTAL:                   return "Vertical Total Size";
+>   2) Add mode switching test from 2592x1944 to other resolutions, the
+>      result is okay.
+
+Thanks for testing it and good catch!
+
+
+> ---
+>  drivers/media/i2c/ov5640.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
 >
->         /* Image processing controls */
->         /* Keep the order of the 'case's the same as in v4l2-controls.h! */
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index 5e80daa4ffe0..99120005634e 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -1117,6 +1117,7 @@ enum v4l2_jpeg_chroma_subsampling {
->  #define V4L2_CID_TEST_PATTERN_GREENB           (V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 7)
->  #define V4L2_CID_UNIT_CELL_SIZE                        (V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 8)
->  #define V4L2_CID_NOTIFY_GAINS                  (V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 9)
-> +#define V4L2_CID_VTOTAL                                (V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 10)
+> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> index 1536649b9e90..1bc4d72a906e 100644
+> --- a/drivers/media/i2c/ov5640.c
+> +++ b/drivers/media/i2c/ov5640.c
+> @@ -568,9 +568,7 @@ static const struct reg_value ov5640_init_setting[] = {
+>  	{0x4001, 0x02, 0, 0}, {0x4004, 0x02, 0, 0}, {0x3000, 0x00, 0, 0},
+>  	{0x3002, 0x1c, 0, 0}, {0x3004, 0xff, 0, 0}, {0x3006, 0xc3, 0, 0},
+>  	{0x302e, 0x08, 0, 0}, {0x4300, 0x3f, 0, 0},
+> -	{0x501f, 0x00, 0, 0}, {0x4407, 0x04, 0, 0},
+> -	{0x440e, 0x00, 0, 0}, {0x460b, 0x35, 0, 0}, {0x460c, 0x22, 0, 0},
+> -	{0x4837, 0x0a, 0, 0}, {0x3824, 0x02, 0, 0},
+> +	{0x501f, 0x00, 0, 0}, {0x440e, 0x00, 0, 0}, {0x4837, 0x0a, 0, 0},
+>  	{0x5000, 0xa7, 0, 0}, {0x5001, 0xa3, 0, 0}, {0x5180, 0xff, 0, 0},
+>  	{0x5181, 0xf2, 0, 0}, {0x5182, 0x00, 0, 0}, {0x5183, 0x14, 0, 0},
+>  	{0x5184, 0x25, 0, 0}, {0x5185, 0x24, 0, 0}, {0x5186, 0x09, 0, 0},
+> @@ -634,7 +632,8 @@ static const struct reg_value ov5640_setting_low_res[] = {
+>  	{0x3a0a, 0x00, 0, 0}, {0x3a0b, 0xf6, 0, 0}, {0x3a0e, 0x03, 0, 0},
+>  	{0x3a0d, 0x04, 0, 0}, {0x3a14, 0x03, 0, 0}, {0x3a15, 0xd8, 0, 0},
+>  	{0x4001, 0x02, 0, 0}, {0x4004, 0x02, 0, 0},
+> -	{0x4407, 0x04, 0, 0}, {0x5001, 0xa3, 0, 0},
+> +	{0x4407, 0x04, 0, 0}, {0x460b, 0x35, 0, 0}, {0x460c, 0x22, 0, 0},
+> +	{0x3824, 0x02, 0, 0}, {0x5001, 0xa3, 0, 0},
+>  };
 >
->
->  /* Image processing controls */
->
+>  static const struct reg_value ov5640_setting_720P_1280_720[] = {
 > --
-> 2.34.1
+> 2.37.1
 >
