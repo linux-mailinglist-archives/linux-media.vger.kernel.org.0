@@ -2,156 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C1964729CDD
-	for <lists+linux-media@lfdr.de>; Fri,  9 Jun 2023 16:27:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40726729CE1
+	for <lists+linux-media@lfdr.de>; Fri,  9 Jun 2023 16:29:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231779AbjFIO1z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Jun 2023 10:27:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51538 "EHLO
+        id S241132AbjFIO3R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Jun 2023 10:29:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241462AbjFIO1x (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jun 2023 10:27:53 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EC1A35B0
-        for <linux-media@vger.kernel.org>; Fri,  9 Jun 2023 07:27:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686320838; x=1717856838;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9TmvrWG/M7iOnXzZRoBsL34CLO71gQOrNaTjVL12PXo=;
-  b=j6dQZBi0A22+iz/Eym8WMPv8aaE3sNycjxwijL2BMQng0KOQPeInmRQQ
-   hrPhGKoLwlKrOacRnVPw9WTG8GWlWF2l3220VFwJGSh0U6/AZr9iLJNry
-   5pWj9BWkApPP4WzdWGh2FYU98SYlWDXtTtXuFvAQz+s1KlC1+Cf9xRZeS
-   dos6ct42381Ftt3H0LWIdGEUAIRwpoPI00Z2Cd6zdNZvb1wvUvX/i+yCR
-   pc3kIzEmVGW9b80seBO9a8H+C+ecjZ0/P7ym4t4YeTcJ9SRoixiA6bp1S
-   +SJID3u3hXK0VPc4kkkaW7JDPg3vvwHa6xWK32oEWvn0o700JIi8Tj8zg
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="357609222"
-X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; 
-   d="scan'208";a="357609222"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 07:27:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="743501450"
-X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; 
-   d="scan'208";a="743501450"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 07:27:15 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id C43D511F76F;
-        Fri,  9 Jun 2023 17:27:12 +0300 (EEST)
-Date:   Fri, 9 Jun 2023 14:27:12 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
-        hongju.wang@intel.com
-Subject: Re: [RFC 6/7] media: uapi: Add generic 8-bit metadata format
- definitions
-Message-ID: <ZIM2wIdKtdQUB5JJ@kekkonen.localdomain>
-References: <20230505215257.60704-1-sakari.ailus@linux.intel.com>
- <20230505215257.60704-7-sakari.ailus@linux.intel.com>
- <7f9143e7-81c5-4b0f-aa4c-08178b9fcc65@xs4all.nl>
+        with ESMTP id S240307AbjFIO3Q (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jun 2023 10:29:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEB8A3590
+        for <linux-media@vger.kernel.org>; Fri,  9 Jun 2023 07:28:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1686320896;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=r0fW7HRI6r5ku1SJy3t8UWhy3FwKuC8nkGvN3ZLWkP0=;
+        b=httOj7NQUzNBuytyw/hDT3DpnPiqeCt6BBMKinqWVj2lPJSm+uZkf0I8qyTJmSQzrC8X2K
+        q6nGq8+AmhQuaOY8tXi5j9+q7HQpqP/kxv1wyEZUwKIIZhTiacjRIM3ZyKyX4ULz51mCoT
+        r0zTNeWFFMNE1qNcGnCKiZlamBSKiqg=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-68-36-vD6oLMAutfzPwLaj4LA-1; Fri, 09 Jun 2023 10:28:14 -0400
+X-MC-Unique: 36-vD6oLMAutfzPwLaj4LA-1
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-9745c72d99cso225788266b.1
+        for <linux-media@vger.kernel.org>; Fri, 09 Jun 2023 07:28:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686320893; x=1688912893;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=r0fW7HRI6r5ku1SJy3t8UWhy3FwKuC8nkGvN3ZLWkP0=;
+        b=I36TchrOrqnvEbbbZA1D1QECpvQ67S0WYSvB9vbG0TLagnIYybzHjoVWJwy1/H6dmu
+         oaq1p7zG8jP/7RbS4ULTeJI0St2WxIuW1RqJ/pKRAE0TCH7nvVErrc5e5bVW5Ccgk/FS
+         OCVLNDXvmx3jAKQh84WPupYVsjnGHMOFRwLTQxnni0q+MILvdZM1X0Ym8oHiFmvqQ5MW
+         YZrDh3GeNg/a96QEN02cO0/HLFbImlWInhU6OyomBxFNMJg7hoQ3xInXVzQg6mZoXIvl
+         lVpWCt9u6msPobIOO/Upvh+zIZb5Wac8Qw+CjN63/JrbYe5L/rY90LOXYlz/R5v0NPzJ
+         4JTQ==
+X-Gm-Message-State: AC+VfDy/PUT0xTS51G2l3jWhHV0kn2hcfbrkftZiHxRL8zRAeR++DiDN
+        NWdJ1Hwr1dB8TicnqReb3cCEFqNWAbTrWJLJtHljOpz2WThvZQhVBLSjdn6Ainkll5rrlQ+xnGY
+        l1Owc84fufJwq1+Sy/DkN0DY=
+X-Received: by 2002:a17:907:9412:b0:978:6e73:e833 with SMTP id dk18-20020a170907941200b009786e73e833mr2194896ejc.45.1686320893536;
+        Fri, 09 Jun 2023 07:28:13 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ79XpgDseMC9d1XxgmqiMpNv90VLWgZDIQUvpUPgXAmIZTbRLwpx/DiIhjjkub56e+ALCAwPw==
+X-Received: by 2002:a17:907:9412:b0:978:6e73:e833 with SMTP id dk18-20020a170907941200b009786e73e833mr2194884ejc.45.1686320893271;
+        Fri, 09 Jun 2023 07:28:13 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id lo11-20020a170906fa0b00b009784915c660sm1367427ejb.136.2023.06.09.07.28.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 Jun 2023 07:28:12 -0700 (PDT)
+Message-ID: <9195b0bd-5375-9df1-793d-1ccdc715833e@redhat.com>
+Date:   Fri, 9 Jun 2023 16:28:11 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7f9143e7-81c5-4b0f-aa4c-08178b9fcc65@xs4all.nl>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 00/28] media: ov2680: Bugfixes + ACPI +
+ selection(crop-tgt) API support
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Daniel Scally <dan.scally@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org
+References: <20230607164712.63579-1-hdegoede@redhat.com>
+ <ZILyvPcLNwBscZdk@kekkonen.localdomain>
+Content-Language: en-US, nl
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <ZILyvPcLNwBscZdk@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Sakari,
 
-On Thu, Jun 08, 2023 at 10:54:43AM +0200, Hans Verkuil wrote:
-> On 05/05/2023 23:52, Sakari Ailus wrote:
-> > Generic 8-bit metadata formats define the in-memory data layout but not
-> > the format of the data itself. The reasoning for having such formats is to
-> > allow CSI-2 receiver drivers to receive and DMA drivers to write the data
-> > to memory without knowing a large number of device specific formats.
-> > 
-> > These formats may be used only in conjunction of a Media controller
-> > pipeline where the internal pad of the source sub-device defines the
-> > specific format of the data (using an mbus code).
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  .../userspace-api/media/v4l/meta-formats.rst  |   1 +
-> >  .../media/v4l/metafmt-generic.rst             | 317 ++++++++++++++++++
-> >  drivers/media/v4l2-core/v4l2-ioctl.c          |   8 +
-> >  include/uapi/linux/videodev2.h                |   9 +
-> >  4 files changed, 335 insertions(+)
-> >  create mode 100644 Documentation/userspace-api/media/v4l/metafmt-generic.rst
-> > 
-> > diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
-> > index 0bb61fc5bc00..919f595576b9 100644
-> > --- a/Documentation/userspace-api/media/v4l/meta-formats.rst
-> > +++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
-> > @@ -19,3 +19,4 @@ These formats are used for the :ref:`metadata` interface only.
-> >      metafmt-vsp1-hgo
-> >      metafmt-vsp1-hgt
-> >      metafmt-vivid
-> > +    metafmt-generic
-> > diff --git a/Documentation/userspace-api/media/v4l/metafmt-generic.rst b/Documentation/userspace-api/media/v4l/metafmt-generic.rst
-> > new file mode 100644
-> > index 000000000000..09d3fabb1e94
-> > --- /dev/null
-> > +++ b/Documentation/userspace-api/media/v4l/metafmt-generic.rst
-> > @@ -0,0 +1,317 @@
-> > +.. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
-> > +
-> > +**************************************************************************************************************************************************************************************************************************************************************************************************************************
-> > +V4L2_META_FMT_GENERIC_8 ('MET8'), V4L2_META_FMT_GENERIC_CSI2_10 ('MC1A'), V4L2_META_FMT_GENERIC_CSI2_12 ('MC1C'), V4L2_META_FMT_GENERIC_CSI2_14 ('MC1E'), V4L2_META_FMT_GENERIC_CSI2_16 ('MC1G'), V4L2_META_FMT_GENERIC_CSI2_20 ('MC1K'), V4L2_META_FMT_GENERIC_CSI2_24 ('MC1O'), V4L2_META_FMT_GENERIC_CSI2_2_24 ('MC2O')
-> > +**************************************************************************************************************************************************************************************************************************************************************************************************************************
-> > +
-> > +
-> > +Generic line-based metadata formats
-> > +
-> > +
-> > +Description
-> > +===========
-> > +
-> > +These generic line-based metadata formats define the memory layout of the data
-> > +without defining the format or meaning of the metadata itself. These formats may
-> > +only be used with a Media controller pipeline where the more specific format is
-> > +defined in an :ref:`internal source pad <MEDIA-PAD-FL-INTERNAL-SOURCE>` of the
-> > +source sub-device. See also :ref:`source routes <v4l2-subdev-source-routes>`.
-> > +
-> > +.. _v4l2-meta-fmt-generic-8:
-> > +
-> > +V4L2_META_FMT_GENERIC_8
-> > +-----------------------
-> > +
-> > +The V4L2_META_FMT_GENERIC_8 format is a plain 8-bit metadata format whereas the
-> > +rest of the formats have CSI-2 packing that are typically used on camera sensors
-> > +in conjunction with pixel data of the same bit depth.
+On 6/9/23 11:37, Sakari Ailus wrote:
+> Hi Hans,
 > 
-> You keep referring to CSI-2 packing without ever defining it.
+> On Wed, Jun 07, 2023 at 06:46:44PM +0200, Hans de Goede wrote:
+>> Hi All,
+>>
+>> During all the work done on the atomisp driver I have mostly been testing
+>> on devices with an ov2680 sensor. As such I have also done a lot of work
+>> on the atomisp-ov2680.c atomisp specific sensor driver.
 > 
-> I'm not sure you should include CSI2 in the name either. It is OK to say something
-> here like: "The way the data is stored follows the CSI-2 specification."
-> 
-> But it is not limited to CSI-2 and can be used with other buses as well.
+> Could you wrap the lines at or before 80 characters, unless there are
+> reason (generally other coding style rules) to keep them longer?
 
-That's true, certainly, but where this packing is most commonly used is
-CSI-2 (or derives from CSI-2).
+I can certainly do that. But the kernel has stopped requiring this now
+and I often find that sticking within the new official limit of
+100 chars leads to IMHO better readable code the needlessly breaking
+the lines in 2.
 
-> 
-> > +
-> > +This format is also used on CSI-2 on both 8 bits per sample as well as on
-> > +16 bits per sample when two bytes of metadata are packed into one sample.
-> 
-> Little or big endian?
+Are there any specific reasons why you want to keep enforcing
+the old and obsolete 80 chars limit ?
 
-Little endian. I'll address these for v2.
+I must say that inconsistent enforcing of a 80 vs 100 chars limit
+across the kernel is quite confusing for contributors.
 
--- 
-Kind regards,
+E.g. I'm pretty sure that if I had stuck to 80 chars with this
+patch-set from the start that Andy would then have pointed out
+several places where I had needlessly broken a lone in 2.
 
-Sakari Ailus
+So having 2 different limits leads to reviewers contradicting
+each other which is really not helpful.
+
+SO IMHO if drivers/media is going to keep enforcing a 80 chars
+limit then this needs to be clearly documented (with rationale)
+somewhere. Or did I miss this already being documented somewhere ?
+
+Regards,
+
+Hans
+
+
+
+
