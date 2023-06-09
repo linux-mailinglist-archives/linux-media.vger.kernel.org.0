@@ -2,411 +2,268 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E3D4729D33
-	for <lists+linux-media@lfdr.de>; Fri,  9 Jun 2023 16:45:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B381729D8B
+	for <lists+linux-media@lfdr.de>; Fri,  9 Jun 2023 16:57:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230431AbjFIOp1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Jun 2023 10:45:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32828 "EHLO
+        id S241258AbjFIO5j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Jun 2023 10:57:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241571AbjFIOpX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jun 2023 10:45:23 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3474335BB
-        for <linux-media@vger.kernel.org>; Fri,  9 Jun 2023 07:45:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686321920; x=1717857920;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=P+sY3PnE3zb2yXOcWAGryT4K24e6v0fgrcmaJT2RZto=;
-  b=EUol4XglTIiU9IgOyFYUvxxPg8rbKxIztsFZ8g9lrySNrLqZDCSgvVwN
-   +4K/n6Ii0CvqBXzsPwHDnWvJIAz47MG3QllULESOcQ46Qiv3CSZb/LTOZ
-   tKocrTFTaoMxtFFC9XA4hceBxvJuLFEiciqSG9Kjjt8aCcx65S3XRI4PX
-   JcdrbwSPDo8qlY4XPgB3qIzRadyAJut36DCDM3XLpYqhFyLjCu1A0Bj+2
-   ttcTnhli5AJIUdZvx0MNlV9l112DEiaLj7omJMMcl28CbR9BFZKoOQQ0e
-   WR3EBNUqN4iX0Ub2nRisdl/gxKVZHk17rdma6+jhIDsQ+tKDzJ9PdCA7Z
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="356502795"
-X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; 
-   d="scan'208";a="356502795"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 07:45:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="834659471"
-X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; 
-   d="scan'208";a="834659471"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 07:45:10 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id B01C011F76F;
-        Fri,  9 Jun 2023 17:45:05 +0300 (EEST)
-Date:   Fri, 9 Jun 2023 14:45:05 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
-        bingbu.cao@intel.com, hongju.wang@intel.com
-Subject: Re: [RFC 5/7] media: uapi: Add generic serial metadata mbus formats
-Message-ID: <ZIM68fFoRUdB0XL/@kekkonen.localdomain>
-References: <20230505215257.60704-1-sakari.ailus@linux.intel.com>
- <20230505215257.60704-6-sakari.ailus@linux.intel.com>
- <20230602103641.GL19463@pendragon.ideasonboard.com>
+        with ESMTP id S241713AbjFIO51 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jun 2023 10:57:27 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95D1C3C0B;
+        Fri,  9 Jun 2023 07:56:59 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-51493ec65d8so3293634a12.2;
+        Fri, 09 Jun 2023 07:56:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686322616; x=1688914616;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jzFk5e6FU4vaw3ghwnQ+N3gSwXd4BJt0wdQ5gDBNr9g=;
+        b=di+OCGvnTt3zZGp8y7OX50WkKcMQa9Owlgdq/OFmMbS5PcXhxwx8jGcCjrHwMOwdwb
+         2dRnOCyP7Yr7pwY+4pr12w+kuebNlmSrsnjxiUe9NMVmuW/MSNRJSMTTAmT9S0cRHhgO
+         mwNBjqX/l2j2in+OoaxKsZkY2Bo8CWH5V7l9kgChx/Y8lsq/mXlSSnLthIObc+P4PFEx
+         PkaPgAElcbe07UWAWZ+ygxobn8kiCW89v+FzIo3cFsrfXjYTfqFfFwSx/FDXYkpjIHDD
+         VXqhbEtN2J6IViE5n7HdH/YdIRfekzA/m1xvgBSnbJGATvE28+fr0K9IaI7eDp2eW7Ib
+         kvEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686322616; x=1688914616;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jzFk5e6FU4vaw3ghwnQ+N3gSwXd4BJt0wdQ5gDBNr9g=;
+        b=jfJ4H23ru36G90j9vRYpDgATqB4BbPt+RIv9WIev187NH1qrBSkoNN18ZkUYV4cg0O
+         7KHyJA/Z+kDbXHrDduI8XPrfo9iw+mDsLhhFTOMIIpQ55bqEekkCFAsR58Z/AMxBIRqi
+         Mc3ibZ6qPkkJHCCCtK2/H8JSy+1kVlTwCeO3d8duvx686xHJyQFQlzMSdFjvH/59pc3t
+         DqtJYW+RtgQx/uyocuBD88JTBVQoxO5PBac52Qfva9axw61keTQrnoTsyZvZX+ELmU3w
+         5ikcuXkVuLkHTfNn6bl8cKDLo2cQlAMAG7nsw6QwKwJcJME8NIHZhNC7LhgEL1oRnaJn
+         butg==
+X-Gm-Message-State: AC+VfDyY+CuWkoF44h7/M9mkQ29c65eBYjigTxfs3Jh3CzFrouhNodf1
+        h8lphQ7nj3hO1f2GhBpE2hA=
+X-Google-Smtp-Source: ACHHUZ7yLGXKZjTTcs9Ynq0E0QrqpmUdMDFWRMwHf0aGznb9knf83o8w0SHxzJ4YlIg0N+jvjRiqXw==
+X-Received: by 2002:a17:907:9802:b0:973:cb21:8479 with SMTP id ji2-20020a170907980200b00973cb218479mr2193199ejc.70.1686322615963;
+        Fri, 09 Jun 2023 07:56:55 -0700 (PDT)
+Received: from PCBABN.skidata.net ([91.230.2.244])
+        by smtp.gmail.com with ESMTPSA id x10-20020a1709060eea00b009745edfb7cbsm1388188eji.45.2023.06.09.07.56.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Jun 2023 07:56:55 -0700 (PDT)
+From:   Benjamin Bara <bbara93@gmail.com>
+To:     dave.stevenson@raspberrypi.com
+Cc:     bbara93@gmail.com, benjamin.bara@skidata.com,
+        jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        mani@kernel.org, mchehab@kernel.org
+Subject: [PATCH 2/2] media: i2c: imx290: Add support for V4L2_CID_VTOTAL
+Date:   Fri,  9 Jun 2023 16:56:48 +0200
+Message-Id: <20230609145648.1960398-1-bbara93@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <CAPY8ntCx8QLX_jqtJeWzCQkApSR_+RY7jMM5pDNA7zewJa+eiA@mail.gmail.com>
+References: <CAPY8ntCx8QLX_jqtJeWzCQkApSR_+RY7jMM5pDNA7zewJa+eiA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230602103641.GL19463@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Dave,
 
-On Fri, Jun 02, 2023 at 01:36:41PM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> Thank you for the patch.
-> 
-> On Sat, May 06, 2023 at 12:52:55AM +0300, Sakari Ailus wrote:
-> > Add generic serial metadata mbus formats. These formats describe data
-> > width and packing but not the content itself. The reason for specifying
-> > such formats is that the formats as such are fairly device specific but
-> > they are still handled by CSI-2 receiver drivers that should not be aware
-> > of device specific formats. What makes generic metadata formats possible
-> > is that these formats are parsed by software only, after capturing the
-> > data to system memory.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  .../media/v4l/subdev-formats.rst              | 257 ++++++++++++++++++
-> >  include/uapi/linux/media-bus-format.h         |   9 +
-> >  2 files changed, 266 insertions(+)
-> > 
-> > diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > index a3a35eeed708..1492fff58426 100644
-> > --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > @@ -8234,3 +8234,260 @@ The following table lists the existing metadata formats.
-> >  	both sides of the link and the bus format is a fixed
-> >  	metadata format that is not configurable from userspace.
-> >  	Width and height will be set to 0 for this format.
-> > +
-> > +Generic Serial Metadata Formats
-> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > +
-> > +Generic serial metadata formats are used on serial busses where the actual data
-> 
-> s/busses/buses/
-> 
-> > +content is more or less device specific but the data is transmitted and received
-> > +by multiple devices that do not process the data in any way, simply writing
-> > +it to system memory for processing in software at the end of the pipeline.
-> > +
-> > +The more specific variant describing the actual data is used on the internal
-> > +source pad of the originating sub-device.
-> 
-> What do you mean by "more specific variant" here ? Please include an
-> example in the documentation.
-> 
-> I'm not sure I like mentioning internal source pads here, are we
-> guaranteed that metadata will always originate from an internal source
-> pad ?
+thanks for the feedback!
 
-We'll have to, otherwise the specific format will be visible on the link,
-and link validator on the sink end won't (and shouldn't) know about it (and
-that would systematically lead to a failure to validate it).
+On Fri, 9 Jun 2023 at 16:21, Dave Stevenson <dave.stevenson@raspberrypi.com> wrote:
+> On Fri, 9 Jun 2023 at 14:16, Benjamin Bara <bbara93@gmail.com> wrote:
+> >
+> > From: Benjamin Bara <benjamin.bara@skidata.com>
+> >
+> > The new V4L2_CID_VTOTAL control represents the VMAX register.
+> > Implementing it simplifies calculations in user space, as it is
+> > independent of the current mode (format height), meaning its value does
+> > not change with format changes.
+>
+> I know Laurent suggested this change[1] so that (AIUI) exposure max
+> limits are easier to compute around mode changes.
+>
+> I'm currently seeing this as a fair amount of boilerplate to be added
+> to all drivers so that two controls provide effectively the same
+> information, and I'm not convinced it saves any significant effort in
+> userspace. Can you (or Laurent) detail exactly what the issue is that
+> the new control solves?
 
-> 
-> > +
-> > +"b" in an array cell signifies a byte of data, followed by the number of byte
-> > +and finally the bit number in subscript. "p" indicates a padding bit.
-> > +
-> > +.. _media-bus-format-generic-meta:
-> > +
-> > +.. cssclass: longtable
-> > +
-> > +.. flat-table:: Generic Serial Metadata Formats
-> > +    :header-rows:  2
-> > +    :stub-columns: 0
-> > +
-> > +    * - Identifier
-> > +      - Code
-> > +      -
-> > +      - :cspan:`23` Data organization
-> > +    * -
-> > +      -
-> > +      - Bit
-> > +      - 23
-> > +      - 22
-> > +      - 21
-> > +      - 20
-> > +      - 19
-> > +      - 18
-> > +      - 17
-> > +      - 16
-> > +      - 15
-> > +      - 14
-> > +      - 13
-> > +      - 12
-> > +      - 11
-> > +      - 10
-> > +      - 9
-> > +      - 8
-> > +      - 7
-> > +      - 6
-> > +      - 5
-> > +      - 4
-> > +      - 3
-> > +      - 2
-> > +      - 1
-> > +      - 0
-> > +    * .. _MEDIA-BUS-FMT-META-1X8-8:
-> > +
-> > +      - MEDIA_BUS_FMT_META_1X8_8
-> > +      - 0x8001
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      - b0\ :sub:`7`
-> > +      - b0\ :sub:`6`
-> > +      - b0\ :sub:`5`
-> > +      - b0\ :sub:`4`
-> > +      - b0\ :sub:`3`
-> > +      - b0\ :sub:`2`
-> > +      - b0\ :sub:`1`
-> > +      - b0\ :sub:`0`
-> > +    * .. _MEDIA-BUS-FMT-META-1X8-10:
-> > +
-> > +      - MEDIA_BUS_FMT_META_1X8_10
-> > +      - 0x8002
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      - b0\ :sub:`7`
-> > +      - b0\ :sub:`6`
-> > +      - b0\ :sub:`5`
-> > +      - b0\ :sub:`4`
-> > +      - b0\ :sub:`3`
-> > +      - b0\ :sub:`2`
-> > +      - b0\ :sub:`1`
-> > +      - b0\ :sub:`0`
-> > +      - p
-> > +      - p
-> > +    * .. _MEDIA-BUS-FMT-META-1X8-12:
-> > +
-> > +      - MEDIA_BUS_FMT_META_1X8_12
-> > +      - 0x8003
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      - b0\ :sub:`7`
-> > +      - b0\ :sub:`6`
-> > +      - b0\ :sub:`5`
-> > +      - b0\ :sub:`4`
-> > +      - b0\ :sub:`3`
-> > +      - b0\ :sub:`2`
-> > +      - b0\ :sub:`1`
-> > +      - b0\ :sub:`0`
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +    * .. _MEDIA-BUS-FMT-META-1X8-14:
-> > +
-> > +      - MEDIA_BUS_FMT_META_1X8_14
-> > +      - 0x8004
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      - b0\ :sub:`7`
-> > +      - b0\ :sub:`6`
-> > +      - b0\ :sub:`5`
-> > +      - b0\ :sub:`4`
-> > +      - b0\ :sub:`3`
-> > +      - b0\ :sub:`2`
-> > +      - b0\ :sub:`1`
-> > +      - b0\ :sub:`0`
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +    * .. _MEDIA-BUS-FMT-META-1X8-16:
-> > +
-> > +      - MEDIA_BUS_FMT_META_1X8_16
-> > +      - 0x8005
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      - b0\ :sub:`7`
-> > +      - b0\ :sub:`6`
-> > +      - b0\ :sub:`5`
-> > +      - b0\ :sub:`4`
-> > +      - b0\ :sub:`3`
-> > +      - b0\ :sub:`2`
-> > +      - b0\ :sub:`1`
-> > +      - b0\ :sub:`0`
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +    * .. _MEDIA-BUS-FMT-META-1X8-20:
-> > +
-> > +      - MEDIA_BUS_FMT_META_1X8_20
-> > +      - 0x8007
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      -
-> > +      - b0\ :sub:`7`
-> > +      - b0\ :sub:`6`
-> > +      - b0\ :sub:`5`
-> > +      - b0\ :sub:`4`
-> > +      - b0\ :sub:`3`
-> > +      - b0\ :sub:`2`
-> > +      - b0\ :sub:`1`
-> > +      - b0\ :sub:`0`
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +    * .. _MEDIA-BUS-FMT-META-1X8-24:
-> > +
-> > +      - MEDIA_BUS_FMT_META_1X8_24
-> > +      - 0x8009
-> > +      -
-> > +      - b0\ :sub:`7`
-> > +      - b0\ :sub:`6`
-> > +      - b0\ :sub:`5`
-> > +      - b0\ :sub:`4`
-> > +      - b0\ :sub:`3`
-> > +      - b0\ :sub:`2`
-> > +      - b0\ :sub:`1`
-> > +      - b0\ :sub:`0`
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > +      - p
-> > diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
-> > index a03c543cb072..722463523bbd 100644
-> > --- a/include/uapi/linux/media-bus-format.h
-> > +++ b/include/uapi/linux/media-bus-format.h
-> > @@ -173,4 +173,13 @@
-> >   */
-> >  #define MEDIA_BUS_FMT_METADATA_FIXED		0x7001
-> >  
-> > +/* Generic line based metadata formats for serial buses. Next is 0x800b. */
-> > +#define MEDIA_BUS_FMT_META_1X8_8		0x8001
-> > +#define MEDIA_BUS_FMT_META_1X8_10		0x8002
-> > +#define MEDIA_BUS_FMT_META_1X8_12		0x8003
-> > +#define MEDIA_BUS_FMT_META_1X8_14		0x8004
-> > +#define MEDIA_BUS_FMT_META_1X8_16		0x8005
-> > +#define MEDIA_BUS_FMT_META_1X8_20		0x8007
-> > +#define MEDIA_BUS_FMT_META_1X8_24		0x8009
-> 
-> We've discussed this before privately, it's time to come to a conclusion
-> :-)
-> 
-> My preference would be 
-> 
-> #define MEDIA_BUS_FMT_META_RAW8			0x8001
-> #define MEDIA_BUS_FMT_META_RAW10		0x8002
-> #define MEDIA_BUS_FMT_META_RAW12		0x8003
-> #define MEDIA_BUS_FMT_META_RAW14		0x8004
-> #define MEDIA_BUS_FMT_META_RAW16		0x8005
-> #define MEDIA_BUS_FMT_META_RAW20		0x8007
-> #define MEDIA_BUS_FMT_META_RAW24		0x8009
-> 
-> without defining the contents of the data (that is, no mention of
-> padding bits).
+Sure. My main problem with the current blanking controls is that it is
+not clear what should happen in case of a format switch. I guess the
+expected case is that the vertical blanking should stay constant, but
+that might be implemented differently.
+If so, this results in a change of the total frame duration. If we
+switch to "total", a format switch would result to the same (required)
+frame rate, as the blanking would be reduced instead. I guess this
+represents the typical "use case" better, and clarifies implementation
+things. Currently, it seems a little bit odd or unnecessary complicated
+to me that I have to modify a blanking time and need to know the current
+format to be able to achieve a certain frame rate. But maybe Laurent has
+other issues.
 
-I don't object but I'd like to know what others think.
+> Do we need to do the same for HBLANK as well, or do we live with an
+> asymmetrical set of controls.
 
-If we ever need formats with padding (or other depths than 8) we'll need to
-change the naming. This may still be unlikely.
+I can add that in a v2 too, IMHO it makes sense to replace both
+blankings with totals. So one can set HTOTAL to min and VTOTAL to the
+required frame rate (simpler calculation now) and has the guarantee that
+the frame rate stays constant during format switches (if the pixel rate
+is high enough of course). I will then also adapt the doc accordingly.
 
--- 
+Hope this clarifies it.
+
 Regards,
+Benjamin
 
-Sakari Ailus
+> Thanks
+>   Dave
+>
+> [1] https://lists.libcamera.org/pipermail/libcamera-devel/2023-June/038170.html
+>
+> > Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
+> > ---
+> >  drivers/media/i2c/imx290.c | 47 ++++++++++++++++++++++++++++++++++------------
+> >  1 file changed, 35 insertions(+), 12 deletions(-)
+> >
+> > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> > index 5ea25b7acc55..42938400efb0 100644
+> > --- a/drivers/media/i2c/imx290.c
+> > +++ b/drivers/media/i2c/imx290.c
+> > @@ -255,6 +255,7 @@ struct imx290 {
+> >         struct v4l2_ctrl *link_freq;
+> >         struct v4l2_ctrl *hblank;
+> >         struct v4l2_ctrl *vblank;
+> > +       struct v4l2_ctrl *vtotal;
+> >         struct v4l2_ctrl *exposure;
+> >         struct {
+> >                 struct v4l2_ctrl *hflip;
+> > @@ -782,8 +783,7 @@ static void imx290_exposure_update(struct imx290 *imx290,
+> >  {
+> >         unsigned int exposure_max;
+> >
+> > -       exposure_max = imx290->vblank->val + mode->height -
+> > -                      IMX290_EXPOSURE_OFFSET;
+> > +       exposure_max = imx290->vtotal->val - IMX290_EXPOSURE_OFFSET;
+> >         __v4l2_ctrl_modify_range(imx290->exposure, 1, exposure_max, 1,
+> >                                  exposure_max);
+> >  }
+> > @@ -794,7 +794,7 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+> >                                              struct imx290, ctrls);
+> >         const struct v4l2_mbus_framefmt *format;
+> >         struct v4l2_subdev_state *state;
+> > -       int ret = 0, vmax;
+> > +       int ret = 0;
+> >
+> >         /*
+> >          * Return immediately for controls that don't need to be applied to the
+> > @@ -803,10 +803,22 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+> >         if (ctrl->flags & V4L2_CTRL_FLAG_READ_ONLY)
+> >                 return 0;
+> >
+> > -       if (ctrl->id == V4L2_CID_VBLANK) {
+> > -               /* Changing vblank changes the allowed range for exposure. */
+> > +       /* Changing vtotal changes the allowed range for exposure. */
+> > +       if (ctrl->id == V4L2_CID_VTOTAL)
+> >                 imx290_exposure_update(imx290, imx290->current_mode);
+> > -       }
+> > +
+> > +       /*
+> > +        * vblank and vtotal depend on each other, therefore also update the
+> > +        * other one.
+> > +        */
+> > +       if (ctrl->id == V4L2_CID_VBLANK &&
+> > +           imx290->vtotal->val != ctrl->val + imx290->current_mode->height)
+> > +               __v4l2_ctrl_s_ctrl(imx290->vtotal,
+> > +                                  ctrl->val + imx290->current_mode->height);
+> > +       if (ctrl->id == V4L2_CID_VTOTAL &&
+> > +           imx290->vblank->val != ctrl->val - imx290->current_mode->height)
+> > +               __v4l2_ctrl_s_ctrl(imx290->vblank,
+> > +                                  ctrl->val - imx290->current_mode->height);
+> >
+> >         /* V4L2 controls values will be applied only when power is already up */
+> >         if (!pm_runtime_get_if_in_use(imx290->dev))
+> > @@ -821,9 +833,14 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+> >                 break;
+> >
+> >         case V4L2_CID_VBLANK:
+> > -               ret = imx290_write(imx290, IMX290_VMAX,
+> > -                                  ctrl->val + imx290->current_mode->height,
+> > -                                  NULL);
+> > +               /* vblank is updated by vtotal. */
+> > +               break;
+> > +
+> > +       case V4L2_CID_VTOTAL:
+> > +               ret = imx290_write(imx290, IMX290_VMAX, ctrl->val, NULL);
+> > +               if (ret)
+> > +                       goto err;
+> > +
+> >                 /*
+> >                  * Due to the way that exposure is programmed in this sensor in
+> >                  * relation to VMAX, we have to reprogramme it whenever VMAX is
+> > @@ -834,9 +851,8 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+> >                 ctrl = imx290->exposure;
+> >                 fallthrough;
+> >         case V4L2_CID_EXPOSURE:
+> > -               vmax = imx290->vblank->val + imx290->current_mode->height;
+> >                 ret = imx290_write(imx290, IMX290_SHS1,
+> > -                                  vmax - ctrl->val - 1, NULL);
+> > +                                  imx290->vtotal->val - ctrl->val - 1, NULL);
+> >                 break;
+> >
+> >         case V4L2_CID_TEST_PATTERN:
+> > @@ -880,6 +896,7 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+> >                 break;
+> >         }
+> >
+> > +err:
+> >         pm_runtime_mark_last_busy(imx290->dev);
+> >         pm_runtime_put_autosuspend(imx290->dev);
+> >
+> > @@ -911,11 +928,14 @@ static void imx290_ctrl_update(struct imx290 *imx290,
+> >         unsigned int vblank_max = IMX290_VMAX_MAX - mode->height;
+> >
+> >         __v4l2_ctrl_s_ctrl(imx290->link_freq, mode->link_freq_index);
+> > +       __v4l2_ctrl_s_ctrl(imx290->vblank, imx290->vtotal->val - mode->height);
+> >
+> >         __v4l2_ctrl_modify_range(imx290->hblank, hblank_min, hblank_max, 1,
+> >                                  hblank_min);
+> >         __v4l2_ctrl_modify_range(imx290->vblank, vblank_min, vblank_max, 1,
+> >                                  vblank_min);
+> > +       __v4l2_ctrl_modify_range(imx290->vtotal, mode->vmax_min,
+> > +                                IMX290_VMAX_MAX, 1, mode->vmax_min);
+> >  }
+> >
+> >  static int imx290_ctrl_init(struct imx290 *imx290)
+> > @@ -947,7 +967,7 @@ static int imx290_ctrl_init(struct imx290 *imx290)
+> >
+> >         /*
+> >          * Correct range will be determined through imx290_ctrl_update setting
+> > -        * V4L2_CID_VBLANK.
+> > +        * V4L2_CID_VTOTAL.
+> >          */
+> >         imx290->exposure = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
+> >                                              V4L2_CID_EXPOSURE, 1, 65535, 1,
+> > @@ -983,6 +1003,9 @@ static int imx290_ctrl_init(struct imx290 *imx290)
+> >
+> >         imx290->vblank = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
+> >                                            V4L2_CID_VBLANK, 1, 1, 1, 1);
+> > +       imx290->vtotal = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
+> > +                                          V4L2_CID_VTOTAL, 1, IMX290_VMAX_MAX,
+> > +                                          1, 1);
+> >
+> >         imx290->hflip = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
+> >                                           V4L2_CID_HFLIP, 0, 1, 1, 0);
+> >
+> > --
+> > 2.34.1
+> >
