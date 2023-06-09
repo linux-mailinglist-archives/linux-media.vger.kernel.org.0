@@ -2,194 +2,244 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B682729ADD
-	for <lists+linux-media@lfdr.de>; Fri,  9 Jun 2023 14:57:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91685729B11
+	for <lists+linux-media@lfdr.de>; Fri,  9 Jun 2023 15:08:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240659AbjFIM5n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Jun 2023 08:57:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58546 "EHLO
+        id S232008AbjFINIh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Jun 2023 09:08:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240952AbjFIM5i (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jun 2023 08:57:38 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAFD31AB
-        for <linux-media@vger.kernel.org>; Fri,  9 Jun 2023 05:57:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686315454; x=1717851454;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Qhrb+uM2II4IdFYv9/IvOgMZJHsyg+BD+3iBP4I7ftA=;
-  b=G+XdT5mF8BP4umkozOOA3QvgxCCRqyBJLbNEvWYxpSFQ59MGCOhHSBIl
-   zpA+wAcu5GP7zeDYy6LVi48Jk3MRnxQ4N+5EiSxn/a0oKOoDtkXU3+Vea
-   eDrf7GXXisaEnSEiXqwsYaiFMDP1J0a5+8OY1S/xWwHy+JscHvj4F1Tnp
-   B2nxHOkKW/wVxliAOfSFG1yv9yHACHagrtLi5nrijcWNmQBdJ6onN/RgN
-   r8hKjQMFs6AJBo9HNQyWRz2xeytNKZ+dNl/Opq32+W+KKUHVecYe+qZUE
-   Mr6RGJDo17ytkvrM9u+cCWPuFjixVdxI5ETUgNzoH26TikW4tfeE42ynQ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="360947224"
-X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; 
-   d="scan'208";a="360947224"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 05:55:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="800208465"
-X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; 
-   d="scan'208";a="800208465"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 05:55:38 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id A478811F9D2;
-        Fri,  9 Jun 2023 15:55:35 +0300 (EEST)
-Date:   Fri, 9 Jun 2023 12:55:35 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        linux-media@vger.kernel.org, bingbu.cao@intel.com,
-        hongju.wang@intel.com
-Subject: Re: [RFC 3/7] media: uapi: v4l: Document source routes
-Message-ID: <ZIMhR+1jPoYb0geZ@kekkonen.localdomain>
-References: <20230505215257.60704-1-sakari.ailus@linux.intel.com>
- <20230505215257.60704-4-sakari.ailus@linux.intel.com>
- <5b7038ce-d897-931f-2c6e-30bdd1a30342@ideasonboard.com>
- <ZFkipK0F5sCYv8tt@kekkonen.localdomain>
- <b3b8d45f-1cc4-1aa7-6f75-de4841fd5981@ideasonboard.com>
- <20230602095600.GH19463@pendragon.ideasonboard.com>
+        with ESMTP id S231377AbjFINIg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jun 2023 09:08:36 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DAF62D74
+        for <linux-media@vger.kernel.org>; Fri,  9 Jun 2023 06:08:34 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DAA8E61DDC
+        for <linux-media@vger.kernel.org>; Fri,  9 Jun 2023 13:08:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4280C433D2;
+        Fri,  9 Jun 2023 13:08:25 +0000 (UTC)
+Message-ID: <4ca781b7-1bdd-d71b-ea48-715346672e48@xs4all.nl>
+Date:   Fri, 9 Jun 2023 15:08:23 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230602095600.GH19463@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [ANN] Media Summit June 26th: Draft Agenda v4
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jai Luthra <j-luthra@ti.com>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Alain Volmat <alain.volmat@foss.st.com>,
+        Sebastian Fricke <sebastian.fricke@collabora.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Tommaso Merciai <tomm.merciai@gmail.com>,
+        Deborah Brouwer <deborahbrouwer3563@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        =?UTF-8?Q?Martin_T=c5=afma?= <martin.tuma@digiteqautomotive.com>,
+        Martin Hecht <martin.hecht@avnet.eu>,
+        Michael Roeder <michael.roeder@avnet.eu>,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Hsia-Jun Li <Randy.Li@synaptics.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Chen-Yu Tsai <wens@kernel.org>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Arthur Vinchon <arthur.vinchon@allegrodvt.com>,
+        Umang Jain <umang.jain@ideasonboard.com>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi all,
 
-On Fri, Jun 02, 2023 at 12:56:00PM +0300, Laurent Pinchart wrote:
-> Hello,
-> 
-> On Mon, May 08, 2023 at 07:35:04PM +0300, Tomi Valkeinen wrote:
-> > On 08/05/2023 19:26, Sakari Ailus wrote:
-> > > On Mon, May 08, 2023 at 01:33:24PM +0300, Tomi Valkeinen wrote:
-> > >> On 06/05/2023 00:52, Sakari Ailus wrote:
-> > >>> Document how internal pads are used on source routes.
-> > >>>
-> > >>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > >>> ---
-> > >>>    .../userspace-api/media/v4l/dev-subdev.rst     | 18 ++++++++++++++++++
-> > >>>    .../media/v4l/vidioc-subdev-g-routing.rst      |  5 +++++
-> > >>>    include/uapi/linux/v4l2-subdev.h               |  6 +++++-
-> > >>>    3 files changed, 28 insertions(+), 1 deletion(-)
-> > >>>
-> > >>> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > >>> index a4f1df7093e8..395e06d2f0f2 100644
-> > >>> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > >>> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > >>> @@ -551,6 +551,24 @@ A stream at a specific point in the media pipeline is identified by the
-> > >>>    sub-device and a (pad, stream) pair. For sub-devices that do not support
-> > >>>    multiplexed streams the 'stream' field is always 0.
-> > >>> +.. _v4l2-subdev-source-routes:
-> > >>> +
-> > >>> +Source routes
-> > >>> +^^^^^^^^^^^^^
-> > >>> +
-> > >>> +Cases where a single sub-device pad is a source of multiple streams are special
-> > >>> +as there is no sink pad for such a route. In those cases, an internal pad is
-> > >>> +used as the sink pad. Such pads have the :ref:`MEDIA_PAD_FL_INTERNAL_SOURCE
-> > >>> +<MEDIA-PAD-FL-INTERNAL-SOURCE>` flag set.
-> > >>> +
-> > >>> +Internal pads have all the properties of a sink pad in such case, including
-> > >>> +formats and selections. The format in this case is the source format of the
-> > >>> +stream. An internal pad always has a single stream only (0).
-> > >>> +
-> > >>> +Generally source routes are not modifiable but they can be activated and
-> > >>> +inactivated using the :ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> > >>> +<v4l2-subdev-routing-flags>` flag, depending on driver capabilities.
-> > >>> +
-> > >>
-> > >> I find the above chapter a bit difficult to read, but I think we need to
-> > >> conclude on the internal-pad vs internal-source-pad discussion first.
-> > >> However, one point/question:
-> 
-> Agreed, it's far from being clear :-( Even the first sentence, "Cases
-> where a single sub-device pad is a source of multiple streams are
-> special" is confusing, having a subdev source pad carrying multiple
-> streams isn't special, it is found in, for instance, FPD-Link or GMSL
-> receivers that transmit multiple streams from different cameras over a
-> single CSI-2 output. This may not be what Sakari meant here, but it can
-> be understood that way.
+This is version 4 of the agenda for the media summit. Changes since v3:
+- add the fact mask policy
+- updates to the attendees list.
 
-The sentence continues on the next line. I'll rework this part of the
-documentation in any case while moving to a plain INTERNAL flag.
+As always, the agenda is subject to change and all times are guesstimates!
 
-> 
-> We need more than 3 paragraphs here, and we need a very clear example
-> with a diagram. I'd recommend using a camera sensor that produces image
-> data and embedded data for the example, as that's a common real-life use
-> case. The text should present the example, explain what the problem is,
-> and then explain how internal pads fix it. Then it can expand on the
-> features and usage of internal pads in a more generic way.
+The media summit will be held on Monday June 26th at the Holiday Inn which
+is close to the conference centre where the Embedded Open Source Summit is held:
 
-It's fine to have examples but I'd add them to where the other examples are
-located.
+Holiday Inn Prague Congress Centre - Meeting room "E"
+Na Pankráci 1684/ 15, 140 00 Praha 4-Nusle
+https://www.ihg.com/holidayinn/hotels/us/en/prague/prgnp/hoteldetail
 
-> 
-> > >> You write that there's only one stream in an internal pad. I wonder if
-> > >> that's a good or a necessary limitation... Do you see that allowing multiple
-> > >> streams brings extra complexity? It's still up to each driver to decide how
-> > >> many streams they support (most would just support a single one), so each
-> > >> driver can easily enforce that limit.
-> > > 
-> > > Good question. As we don't seem to have a tangible reason to allow it, I'd
-> > > deny it until there's a use case.
-> > > 
-> > > Or did you have a use case in mind?
-> > > 
-> > > I thought indicating which streams will be bound together (i.e. either are
-> > > all disabled or enabled) could be one, but I'm not sure we need that at the
-> > > moment at least.
-> > 
-> > I don't have nothing concrete in mind. Maybe a TPG which also generates 
-> > some kind of metadata. But that could be implemented as two internal pads.
-> > 
-> > >> I'm fine with starting with only single-stream support, but if we later need
-> > >> to loosen that restriction, I wonder if it'll be difficult if we have
-> > >> specified that there can be only one stream. I.e. will the drivers and the
-> > >> userspace depend on that limit.
-> > > 
-> > > We can always allow what wasn't allowed previously so that's a non-issue,
-> > > really. But it needs to bring new functionality, otherwise there's no
-> > > reason to do that.
-> > 
-> > It's not always that easy. If the drivers and the userspace expect that 
-> > there's a single route with ID 0, and then with a new kernel there are 
-> > more streams or the single stream is ID 1, things could go wrong.
-> 
-> I agree with Tomi here. On the kernel side it should be fine (with an
-> unknown amount of pain), but I'd consider this as a userspace API
-> breakage. If the specifications indicates that only a single stream can
-> be used, applications may rely on that, and things could go wrong if new
-> streams are added.
-> 
-> We can restrict the kernel implementation to a single stream, but the
-> userspace API has to indicate that multiple streams can co-exist if we
-> want to allow that in the future.
+Refreshments (tea/coffee/soda) are available during the day.
 
-I doubt this ever could be an actual problem. Allowing multiple streams to
-be merged on a source pad requires the user to first configure them.
+The meeting room is sponsored by Collabora and Cisco Systems Norway.
+And lunch is sponsored by Ideas On Board.
 
-I find it hard to believe there would be an application that tried to
-configure routes this way (which would have always failed) and then
-proceeded anyway, and somehow returning success from route setup leads to
-routing configuration that the application couldn't handle anymore.
+Many thanks to the sponsors!
 
--- 
-Kind regards,
+Regarding the face mask policy: we will follow the same guidance that the
+Linux Foundation gives for the EOSS conference:
 
-Sakari Ailus
+https://events.linuxfoundation.org/embedded-open-source-summit/attend/health-and-safety/
+
+So: "Masks are recommended, but not required, to be worn at the event."
+
+In-Person Attendees:
+
+Sakari Ailus <sakari.ailus@linux.intel.com> (Intel)
+Daniel Almeida <daniel.almeida@collabora.com> (Collabora)
+Deborah Brouwer <deborahbrouwer3563@gmail.com>
+Mauro Carvalho Chehab <mchehab@kernel.org> (Media Kernel Maintainer)
+Marco Felsch <m.felsch@pengutronix.de> (Pengutronix)
+Sebastian Fricke <sebastian.fricke@collabora.com> (Collabora)
+Martin Hecht <martin.hecht@avnet.eu> (Avnet)
+Jai Luthra <j-luthra@ti.com> (TI)
+Tommaso Merciai <tomm.merciai@gmail.com> (Avnet)
+Jacopo Mondi <jacopo.mondi@ideasonboard.com> (Ideas On Board)
+Andrzej Pietrasiewicz <andrzej.p@collabora.com> (Collabora)
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> (Ideas On Board)
+Ricardo Ribalda <ribalda@chromium.org> (Google)
+Michael Roeder <michael.roeder@avnet.eu> (Avnet)
+Niklas Söderlund <niklas.soderlund@ragnatech.se> (Ragnatech)
+Dave Stevenson <dave.stevenson@raspberrypi.com> (Raspberry Pi)
+Martin Tůma <tumic@gpxsee.org> (GPXSee)
+Stanimir Varbanov <stanimir.varbanov@linaro.org> (Linaro, tentative, after 16:30 only)
+Hans Verkuil <hverkuil-cisco@xs4all.nl> (Cisco Systems Norway)
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> (Ideas On Board)
+Arthur Vinchon <arthur.vinchon@allegrodvt.com> (AllegroDVT)
+Alain Volmat <alain.volmat@foss.st.com> (ST Electronics)
+
+Remote Attendees:
+
+Kieran Bingham <kieran.bingham@ideasonboard.com> (Ideas On Board)
+Nicolas Dufresne <nicolas@ndufresne.ca> (Collabora, tentative, afternoon only)
+Umang Jain <umang.jain@ideasonboard.com> (Ideas On Board)
+Hsia-Jun Li <Randy.Li@synaptics.com> (Synaptics)
+Benjamin Mugnier <benjamin.mugnier@foss.st.com> (ST Electronics)
+
+I will email details on how to join remotely a few days before the media summit
+starts.
+
+Disclaimer: I have no idea how good the remote experience will be, it will
+depend on how the room is set up and the wifi quality. It worked reasonably
+well in Dublin, so fingers crossed. It will be a Webex conference. If you
+plan to speak as well, then I strongly recommend that you use a good webcam
+since the typical laptop microphone is horrible.
+
+If you are listed as attendee (in person or remote) and you can't attend
+after all, please let me know.
+
+If you are listed as presenting a topic during the meeting, then please
+check if the details are correct. It would be really appreciated if you
+can post any slides you have before the meeting (just reply to this message
+with the presentation attached).
+
+Agenda:
+
+8:45-9:15: get settled :-)
+
+9:15-9:25: Hans: Quick introduction
+
+9:25-10:15: Daniel Almeida: Rust V4L2 support
+
+    Discuss the potential blockers as well as the roadmap and priorities for
+    bindings. Present what is currently supported and what isn't in the Rust
+    code for V4L2. Identify potential candidates for new drivers that can be
+    written in Rust. Discuss about maintainership issues related to Rust in V4L2.
+
+10:15-10:30: Break
+
+10:30-11:15 Hans & Hsia-Jun Li: "Add extended fmt and buffer" patch series
+
+    https://patchwork.linuxtv.org/project/linux-media/cover/20230206043308.28365-1-ayaka@soulik.info/
+
+    We've been postponing the work on this, but I think we need to decide how to
+    proceed since pixel formats and single vs multi planar is getting to be a nightmare.
+
+    More details from Hsia-Jun Li:
+
+    1. v4l2 header would only maintain the codec format and pixel format in bus.
+    2. the pixel formats would be maintained by the DirectRender, those M
+       variant would not be supported in the new extend pixel format API.
+    3. The number of plane for a pixel format would also responds for its data
+       layout. Ex. NV12 = 2 planes(luma, chroma), I420 = 3 planes(Y, U, V).
+    4. Userspace that supports new extend API could access those driver didn't
+       adapt the new API, kernel would have a backward compatible layer. While
+       the opposite backward compatible is not offered (old API userspace can't
+       access the driver support the new API).
+
+    [optional part]
+    5. An alloc flag would be introduced for allocating those M variant buf.
+       https://lore.kernel.org/lkml/20230322105226.122467-1-randy.li@synaptics.com/
+    6. Stateless codec format would be a modifier to the stateful codec format.
+       We could support different packing mode here.
+
+11:15-11:30: Break
+
+11:30-12:15: Andrzej Pietrasiewicz: Stateless Encoders: VP8
+
+    - Introduction to stateless encoders and previous work in this area
+
+    https://github.com/bootlin/linux/tree/hantro/h264-encoding-v5.11
+
+    https://lore.kernel.org/linux-arm-kernel/20230309125651.23911-1-andrzej.p@collabora.com/T/
+
+    - High level decisions
+    - Rate control
+    - VP8 uAPI
+    - Challenges
+
+12:15-13:30: Lunch
+
+13:30-14:00: Ricardo Ribalda Delgado: KCAM update
+
+    I would like to share the progress on KCAM from our end.
+
+    I am also trying to collect all the requirements that we are getting
+    from vendors regarding V4L2.
+
+14:00-14:45: Sakari: generic line-based metadata formats:
+
+    https://lore.kernel.org/linux-media/20230505215257.60704-1-sakari.ailus@linux.intel.com/T/#t
+
+14:45-??:??: Mauro & sub-maintainers: Subsystem development process
+
+    How to improve it? How do we get more maintainers? It's not working very
+    well at the moment.
+
+    Mauro will present how the media CI works today.
+    Hans will present how the daily build scripts work.
+
+    Can this be harmonized?
+
+Final short topic: Hans: Should we keep the media summit together with the ELCE conference?
+    Or organize it separately, and ask a company like Cisco, Intel or Collabora
+    to organize a room. What would work best? Anything to improve on this?
+
+We have the room until 18:30, but (fingers crossed) I hope to finish before that.
+
+The "Add extended fmt and buffer" and the "Subsystem development process" are
+*very* hard to predict. I want to limit the initial discussion of the that first
+topic to 45-60 minutes, and continue (if needed) in the afternoon after the discussion
+about the subsystem development process. We will have see how it goes.
+
+Please reply with corrections, questions, etc. to this email. I'll update the agenda
+over time.
+
+Regards,
+
+	Hans
