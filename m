@@ -2,128 +2,237 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B23FE729C7E
-	for <lists+linux-media@lfdr.de>; Fri,  9 Jun 2023 16:14:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BDF5F729CAB
+	for <lists+linux-media@lfdr.de>; Fri,  9 Jun 2023 16:22:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240065AbjFIOOh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Jun 2023 10:14:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42686 "EHLO
+        id S240954AbjFIOWA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Jun 2023 10:22:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229568AbjFIOOg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jun 2023 10:14:36 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8348A19B
-        for <linux-media@vger.kernel.org>; Fri,  9 Jun 2023 07:14:35 -0700 (PDT)
-Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:4a2a:e3ff:fe5e:2efb])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC8F7C4C;
-        Fri,  9 Jun 2023 16:14:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1686320045;
-        bh=Hn64AzFENzrTOporJ09Yy/Bdd70MSF/In2sWOK/Phl8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jOHChZdvo37C4qbr4CYdfMZ3FDX9GoWVeZFn0IisOeICNqW3o/O6FzzFly2DnylS/
-         NRy6IDvFWo3V/EJiCKsCBxVx6A6FwKcIzzXbPklOqJAhVQm9VNEBAo0dj5t+5vcjyo
-         sdzCoDmKYg6Rnaq9+AByiB01K7xsWp+5ZqWHxFyU=
-Date:   Fri, 9 Jun 2023 16:14:29 +0200
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     guoniu.zhou@oss.nxp.com
-Cc:     linux-media@vger.kernel.org, jacopo.mondi@ideasonboard.com,
-        sakari.ailus@linux.intel.com, mchehab@kernel.org,
-        slongerbeam@gmail.com, laurent.pinchart@ideasonboard.com,
-        jacopo@jmondi.org
-Subject: Re: [PATCH v2] media: ov5640: fix low resolution image abnormal issue
-Message-ID: <hylz7iar3laa3iihmbsm5iqc3rdvp7wascuiqgicmzi3jv7htv@sp7hqsjyhgif>
-References: <20230609054525.4067113-1-guoniu.zhou@oss.nxp.com>
+        with ESMTP id S241044AbjFIOV6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jun 2023 10:21:58 -0400
+Received: from mail-vs1-xe31.google.com (mail-vs1-xe31.google.com [IPv6:2607:f8b0:4864:20::e31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85AE3359E
+        for <linux-media@vger.kernel.org>; Fri,  9 Jun 2023 07:21:56 -0700 (PDT)
+Received: by mail-vs1-xe31.google.com with SMTP id ada2fe7eead31-43b2c7d9b52so566044137.3
+        for <linux-media@vger.kernel.org>; Fri, 09 Jun 2023 07:21:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1686320515; x=1688912515;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=NYw72ONYPV2xVcy+vVwHAaNMN0MkSZEs9+n8OoLyugo=;
+        b=POYiFmJra8BduMkX0l3ba/dSMCXVTW8i911gg3upy23CuajNUfYedpm0T2dnwt2xHR
+         P6AHQ/iWF8EQy6GrWk/XXFKvzzTyfuZdOHegksSoYKNMbii0XZrm/M7LVz89VygUlNFh
+         hLjpXlObpO+UzFy1jFKe5XgVEI2lqRc4Y+n9PjBtLnDJ8YHCFZz0meZUeOngbNtprB6h
+         ppEh4B4hr5zKTpnxiKkXB9wdJjK1pCYcEttMdhl2rDMLJkl4weBVXHbjEwiUE1ck17bU
+         jxkPl79I2HWejtjnBFZlowZU0Wc/8h/+eF+cxHuaXYbkyei99FB7UL+ruQqtzLHORAbS
+         jOGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686320515; x=1688912515;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NYw72ONYPV2xVcy+vVwHAaNMN0MkSZEs9+n8OoLyugo=;
+        b=K9xiyZJV3MFDjlOwS45HjRunVJHwbJM3lsfglJ+SKSkpqevIDGI/vO7fqbGQ22F8y2
+         mxK3A7TsVyShTWhElvuJRdzLn36S4Ho1IZltsitKI5Eb9OiSBuVoQntc8Fy7febXMl4l
+         bk/j2saLZHlLRQuIZw12NcilVqBdE69roOmflEPM4YGSTTUeFN/UvblIytug3+vdzMMJ
+         UsVQtDcu/CqGJGMRPYGpbLSSpQ0J992xhsfCYAsvyMV7TrhcjpAAFN6m27f5t2YnB6rZ
+         8jseEEHRbn7z1DayJmd/BfvZ1+PWZnC2x3l0b3qL5lAUOIxnDt+P4OJliOoMIVoiBhQr
+         fLrg==
+X-Gm-Message-State: AC+VfDwDevUH2WEW1acQRy7jQ9OBZEWhG9fx79uKRHWZp4ZAxwvRGzi+
+        VwDaXyoWyBTbBs3H1KEhVCIueit1XmLLaCpLKK9gSA==
+X-Google-Smtp-Source: ACHHUZ6Y+NIkPQikkI8aKPtMgD3/TPOkqVy6U1xEezSWkfp7GsXZ53//b6kXeGHGqtyyyQT7adNmfgwXmm/U35rVdss=
+X-Received: by 2002:a67:d017:0:b0:43b:56af:df85 with SMTP id
+ r23-20020a67d017000000b0043b56afdf85mr991427vsi.15.1686320515618; Fri, 09 Jun
+ 2023 07:21:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230609054525.4067113-1-guoniu.zhou@oss.nxp.com>
+References: <20230609-v4l2-vtotal-v1-0-4b7dee7e073e@skidata.com> <20230609-v4l2-vtotal-v1-2-4b7dee7e073e@skidata.com>
+In-Reply-To: <20230609-v4l2-vtotal-v1-2-4b7dee7e073e@skidata.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Fri, 9 Jun 2023 15:21:39 +0100
+Message-ID: <CAPY8ntCx8QLX_jqtJeWzCQkApSR_+RY7jMM5pDNA7zewJa+eiA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] media: i2c: imx290: Add support for V4L2_CID_VTOTAL
+To:     Benjamin Bara <bbara93@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        laurent.pinchart@ideasonboard.com, jacopo.mondi@ideasonboard.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Benjamin Bara <benjamin.bara@skidata.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Guoniu Zhou
+Hi Benjamin
 
-On Fri, Jun 09, 2023 at 01:45:25PM +0800, guoniu.zhou@oss.nxp.com wrote:
-> From: "Guoniu.zhou" <guoniu.zhou@nxp.com>
+Thanks for the patch
+
+On Fri, 9 Jun 2023 at 14:16, Benjamin Bara <bbara93@gmail.com> wrote:
 >
-> OV5640 will output abnormal image data when work at low resolution
-> (320x240, 176x144 and 160x120) after switching from high resolution,
-> such as 1080P, the time interval between high and low switching must
-> be less than 1000ms in order to OV5640 don't enter suspend state during
-> the time.
+> From: Benjamin Bara <benjamin.bara@skidata.com>
 >
-> The reason is by 0x3824 value don't restore to initialize value when
-> do resolution switching. In high resolution setting array, 0x3824 is
-> set to 0x04, but low resolution setting array remove 0x3824 in commit
-> db15c1957a2d ("media: ov5640: Remove duplicated mode settings"). So
-> when do resolution switching from high to low, such as 1080P to 320x240,
-> and the time interval is less than auto suspend delay time which means
-> global initialize setting array will not be loaded, the output image
-> data are abnormal. Hence move 0x3824 from ov5640_init_setting[] table
-> to ov5640_setting_low_res[] table and also move 0x4407 0x460b, 0x460c
-> to avoid same issue.
+> The new V4L2_CID_VTOTAL control represents the VMAX register.
+> Implementing it simplifies calculations in user space, as it is
+> independent of the current mode (format height), meaning its value does
+> not change with format changes.
 
-I'm not 100% I got why the autosuspend delay plays a role here.
+I know Laurent suggested this change[1] so that (AIUI) exposure max
+limits are easier to compute around mode changes.
 
-Also this is probably worth a:
-Fixes: db15c1957a2d ("media: ov5640: Remove duplicated mode settings")
+I'm currently seeing this as a fair amount of boilerplate to be added
+to all drivers so that two controls provide effectively the same
+information, and I'm not convinced it saves any significant effort in
+userspace. Can you (or Laurent) detail exactly what the issue is that
+the new control solves?
 
-Could be added when applying probably ?
->
-> Signed-off-by: Guoniu.zhou <guoniu.zhou@nxp.com>
+Do we need to do the same for HBLANK as well, or do we live with an
+asymmetrical set of controls.
+
+Thanks
+  Dave
+
+[1] https://lists.libcamera.org/pipermail/libcamera-devel/2023-June/038170.html
+
+> Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
 > ---
-> v1->v2:
->   1) Move 0x4407, 0x460b, 0x460c from ov5640_init_setting[] table to
->      ov5640_setting_low_res[] table.
-
-I have checked that the registers you removed from init_settings[] are
-programmed in all the other modes, hence
-
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
-
->   2) Add mode switching test from 2592x1944 to other resolutions, the
->      result is okay.
-
-Thanks for testing it and good catch!
-
-
-> ---
->  drivers/media/i2c/ov5640.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
+>  drivers/media/i2c/imx290.c | 47 ++++++++++++++++++++++++++++++++++------------
+>  1 file changed, 35 insertions(+), 12 deletions(-)
 >
-> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> index 1536649b9e90..1bc4d72a906e 100644
-> --- a/drivers/media/i2c/ov5640.c
-> +++ b/drivers/media/i2c/ov5640.c
-> @@ -568,9 +568,7 @@ static const struct reg_value ov5640_init_setting[] = {
->  	{0x4001, 0x02, 0, 0}, {0x4004, 0x02, 0, 0}, {0x3000, 0x00, 0, 0},
->  	{0x3002, 0x1c, 0, 0}, {0x3004, 0xff, 0, 0}, {0x3006, 0xc3, 0, 0},
->  	{0x302e, 0x08, 0, 0}, {0x4300, 0x3f, 0, 0},
-> -	{0x501f, 0x00, 0, 0}, {0x4407, 0x04, 0, 0},
-> -	{0x440e, 0x00, 0, 0}, {0x460b, 0x35, 0, 0}, {0x460c, 0x22, 0, 0},
-> -	{0x4837, 0x0a, 0, 0}, {0x3824, 0x02, 0, 0},
-> +	{0x501f, 0x00, 0, 0}, {0x440e, 0x00, 0, 0}, {0x4837, 0x0a, 0, 0},
->  	{0x5000, 0xa7, 0, 0}, {0x5001, 0xa3, 0, 0}, {0x5180, 0xff, 0, 0},
->  	{0x5181, 0xf2, 0, 0}, {0x5182, 0x00, 0, 0}, {0x5183, 0x14, 0, 0},
->  	{0x5184, 0x25, 0, 0}, {0x5185, 0x24, 0, 0}, {0x5186, 0x09, 0, 0},
-> @@ -634,7 +632,8 @@ static const struct reg_value ov5640_setting_low_res[] = {
->  	{0x3a0a, 0x00, 0, 0}, {0x3a0b, 0xf6, 0, 0}, {0x3a0e, 0x03, 0, 0},
->  	{0x3a0d, 0x04, 0, 0}, {0x3a14, 0x03, 0, 0}, {0x3a15, 0xd8, 0, 0},
->  	{0x4001, 0x02, 0, 0}, {0x4004, 0x02, 0, 0},
-> -	{0x4407, 0x04, 0, 0}, {0x5001, 0xa3, 0, 0},
-> +	{0x4407, 0x04, 0, 0}, {0x460b, 0x35, 0, 0}, {0x460c, 0x22, 0, 0},
-> +	{0x3824, 0x02, 0, 0}, {0x5001, 0xa3, 0, 0},
->  };
+> diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> index 5ea25b7acc55..42938400efb0 100644
+> --- a/drivers/media/i2c/imx290.c
+> +++ b/drivers/media/i2c/imx290.c
+> @@ -255,6 +255,7 @@ struct imx290 {
+>         struct v4l2_ctrl *link_freq;
+>         struct v4l2_ctrl *hblank;
+>         struct v4l2_ctrl *vblank;
+> +       struct v4l2_ctrl *vtotal;
+>         struct v4l2_ctrl *exposure;
+>         struct {
+>                 struct v4l2_ctrl *hflip;
+> @@ -782,8 +783,7 @@ static void imx290_exposure_update(struct imx290 *imx290,
+>  {
+>         unsigned int exposure_max;
 >
->  static const struct reg_value ov5640_setting_720P_1280_720[] = {
+> -       exposure_max = imx290->vblank->val + mode->height -
+> -                      IMX290_EXPOSURE_OFFSET;
+> +       exposure_max = imx290->vtotal->val - IMX290_EXPOSURE_OFFSET;
+>         __v4l2_ctrl_modify_range(imx290->exposure, 1, exposure_max, 1,
+>                                  exposure_max);
+>  }
+> @@ -794,7 +794,7 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+>                                              struct imx290, ctrls);
+>         const struct v4l2_mbus_framefmt *format;
+>         struct v4l2_subdev_state *state;
+> -       int ret = 0, vmax;
+> +       int ret = 0;
+>
+>         /*
+>          * Return immediately for controls that don't need to be applied to the
+> @@ -803,10 +803,22 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+>         if (ctrl->flags & V4L2_CTRL_FLAG_READ_ONLY)
+>                 return 0;
+>
+> -       if (ctrl->id == V4L2_CID_VBLANK) {
+> -               /* Changing vblank changes the allowed range for exposure. */
+> +       /* Changing vtotal changes the allowed range for exposure. */
+> +       if (ctrl->id == V4L2_CID_VTOTAL)
+>                 imx290_exposure_update(imx290, imx290->current_mode);
+> -       }
+> +
+> +       /*
+> +        * vblank and vtotal depend on each other, therefore also update the
+> +        * other one.
+> +        */
+> +       if (ctrl->id == V4L2_CID_VBLANK &&
+> +           imx290->vtotal->val != ctrl->val + imx290->current_mode->height)
+> +               __v4l2_ctrl_s_ctrl(imx290->vtotal,
+> +                                  ctrl->val + imx290->current_mode->height);
+> +       if (ctrl->id == V4L2_CID_VTOTAL &&
+> +           imx290->vblank->val != ctrl->val - imx290->current_mode->height)
+> +               __v4l2_ctrl_s_ctrl(imx290->vblank,
+> +                                  ctrl->val - imx290->current_mode->height);
+>
+>         /* V4L2 controls values will be applied only when power is already up */
+>         if (!pm_runtime_get_if_in_use(imx290->dev))
+> @@ -821,9 +833,14 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+>                 break;
+>
+>         case V4L2_CID_VBLANK:
+> -               ret = imx290_write(imx290, IMX290_VMAX,
+> -                                  ctrl->val + imx290->current_mode->height,
+> -                                  NULL);
+> +               /* vblank is updated by vtotal. */
+> +               break;
+> +
+> +       case V4L2_CID_VTOTAL:
+> +               ret = imx290_write(imx290, IMX290_VMAX, ctrl->val, NULL);
+> +               if (ret)
+> +                       goto err;
+> +
+>                 /*
+>                  * Due to the way that exposure is programmed in this sensor in
+>                  * relation to VMAX, we have to reprogramme it whenever VMAX is
+> @@ -834,9 +851,8 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+>                 ctrl = imx290->exposure;
+>                 fallthrough;
+>         case V4L2_CID_EXPOSURE:
+> -               vmax = imx290->vblank->val + imx290->current_mode->height;
+>                 ret = imx290_write(imx290, IMX290_SHS1,
+> -                                  vmax - ctrl->val - 1, NULL);
+> +                                  imx290->vtotal->val - ctrl->val - 1, NULL);
+>                 break;
+>
+>         case V4L2_CID_TEST_PATTERN:
+> @@ -880,6 +896,7 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+>                 break;
+>         }
+>
+> +err:
+>         pm_runtime_mark_last_busy(imx290->dev);
+>         pm_runtime_put_autosuspend(imx290->dev);
+>
+> @@ -911,11 +928,14 @@ static void imx290_ctrl_update(struct imx290 *imx290,
+>         unsigned int vblank_max = IMX290_VMAX_MAX - mode->height;
+>
+>         __v4l2_ctrl_s_ctrl(imx290->link_freq, mode->link_freq_index);
+> +       __v4l2_ctrl_s_ctrl(imx290->vblank, imx290->vtotal->val - mode->height);
+>
+>         __v4l2_ctrl_modify_range(imx290->hblank, hblank_min, hblank_max, 1,
+>                                  hblank_min);
+>         __v4l2_ctrl_modify_range(imx290->vblank, vblank_min, vblank_max, 1,
+>                                  vblank_min);
+> +       __v4l2_ctrl_modify_range(imx290->vtotal, mode->vmax_min,
+> +                                IMX290_VMAX_MAX, 1, mode->vmax_min);
+>  }
+>
+>  static int imx290_ctrl_init(struct imx290 *imx290)
+> @@ -947,7 +967,7 @@ static int imx290_ctrl_init(struct imx290 *imx290)
+>
+>         /*
+>          * Correct range will be determined through imx290_ctrl_update setting
+> -        * V4L2_CID_VBLANK.
+> +        * V4L2_CID_VTOTAL.
+>          */
+>         imx290->exposure = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
+>                                              V4L2_CID_EXPOSURE, 1, 65535, 1,
+> @@ -983,6 +1003,9 @@ static int imx290_ctrl_init(struct imx290 *imx290)
+>
+>         imx290->vblank = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
+>                                            V4L2_CID_VBLANK, 1, 1, 1, 1);
+> +       imx290->vtotal = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
+> +                                          V4L2_CID_VTOTAL, 1, IMX290_VMAX_MAX,
+> +                                          1, 1);
+>
+>         imx290->hflip = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
+>                                           V4L2_CID_HFLIP, 0, 1, 1, 0);
+>
 > --
-> 2.37.1
+> 2.34.1
 >
