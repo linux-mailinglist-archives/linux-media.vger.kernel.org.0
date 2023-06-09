@@ -2,165 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 209D172A2CA
-	for <lists+linux-media@lfdr.de>; Fri,  9 Jun 2023 21:06:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E56572A369
+	for <lists+linux-media@lfdr.de>; Fri,  9 Jun 2023 21:50:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231207AbjFITGC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Jun 2023 15:06:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33370 "EHLO
+        id S232033AbjFITud (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Jun 2023 15:50:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231130AbjFITGB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jun 2023 15:06:01 -0400
-Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com [IPv6:2607:f8b0:4864:20::c2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D7A53A95;
-        Fri,  9 Jun 2023 12:05:59 -0700 (PDT)
-Received: by mail-oo1-xc2f.google.com with SMTP id 006d021491bc7-558b6cffe03so1418033eaf.3;
-        Fri, 09 Jun 2023 12:05:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686337558; x=1688929558;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mOMvkZnPwmIO9rUDsynYpLezUNy31X65xq+c1pvLo/s=;
-        b=qZOElJiJqsKIUEZ/4W0bxkDQ5IRO6XWZ6HMgsZGzbdLDwGFlP8zIRzDsmMxJtJo7Pe
-         Y4UETOwCudj6NWjmm7+KDVKQfjAYazbUTknxg0t5NnA507jCMfqAN3BSzj58nh2qc5pd
-         iIZh207kPMaMO3BRRGpb112M5J1ecsBzRgTER5+J5ssAK06rgNPIFwHWP4XhcLgOfhUl
-         YhaciTgZAMas7YjpyOaloenbzB//wX2oLsEDsbKNcbDvULoWO9ZD0HrI1wI2fvTtAyUD
-         kbUUZo/e53fFxOtLofLZ8GfIad4ItQDHVSdX/2SckLjjnRy0ePQwdB1u4XKX56trxTkt
-         btOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686337558; x=1688929558;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mOMvkZnPwmIO9rUDsynYpLezUNy31X65xq+c1pvLo/s=;
-        b=GVgbVKAsXWnGA8Vo5NvSl2JjERPWrmdk83KjTPNculOFUm5q/lbANUVfjP0hMxJTP6
-         atI1d/iNFUO/MIeLk7RC1Nef5AON+5f4mNx0GMoJCKm9UR6+A+qE+NGDGZvbxscvBEp0
-         ZHSLoWJB3MqGeoMOX8GsIvyPwOpR/TvPMnLXxW0kvwKTjnrvgMycetIpwLgVRuAEh20p
-         EaVkHrEu30shWySJtpYLZsRQHULXKXhbmAr+HNtbRis1OaZZtwvi3lO6gLmagB8B/wqy
-         tBCYjBPrg1ZloYLdfkoKT8pe+1Gh91VoX74ljZTJdCOzHf7fIcs+n+7N/cWEvS54zyDp
-         j3MA==
-X-Gm-Message-State: AC+VfDx0h8+WeEfh+pdwtDjig+xiSCtDtNBx+7MaiWxyIrM+wMEX2vbR
-        m8yf5eVCXIkvekhVzFch0NklzZOSOsc2TRPFq21OpY3B
-X-Google-Smtp-Source: ACHHUZ7VVOVGPYkQhvxHXzRFN2Pvvtu5u5tXb4+ByJD8vIVQa6VfmTrN8dYJvKeI4gq0hQCaGTm4nZTtEr62J0fBLcY=
-X-Received: by 2002:a4a:e708:0:b0:555:9b48:93de with SMTP id
- y8-20020a4ae708000000b005559b4893demr1382251oou.5.1686337558655; Fri, 09 Jun
- 2023 12:05:58 -0700 (PDT)
+        with ESMTP id S232031AbjFITua (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jun 2023 15:50:30 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85A6835B6;
+        Fri,  9 Jun 2023 12:50:24 -0700 (PDT)
+Received: from notapiano (zone.collabora.co.uk [167.235.23.81])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nfraprado)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id EECC16606F38;
+        Fri,  9 Jun 2023 20:50:19 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1686340223;
+        bh=sT2pRLDd7z+EnfSme49Ke9q6MWh5t4ZyOMO6CUyMwM0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=atA08n8m54vjX8SBuJeS3IX0TrUn1O020hMGKaJHiQzkVm57wBUvh8VuKZA2+M1zX
+         AUIdD6zroJTMWm/k7oLKCjc1qFMvuD2aV95jDEKi8vEkqDrm1fU44qOGQb2ZeGarfK
+         I0HIGj4ZWTJzmDsQSnAeWNC0d2F8pJgR/SVvQqT0cR8gyNl2uz6mblbs5A7PlmnVn5
+         ltmRGEzJrK45v6t5JBUq+cl8F44x6Y37o1Cearg+Eq+v74N3uzFqEn8XrEP7G1halb
+         nPTP1IRxOBsy2mwrtUhDX9VWNG3maLm08mATRZsS2uNduFpsZ9+L+6wH061UHHYvkv
+         sZeu4/YIdPXCw==
+Date:   Fri, 9 Jun 2023 15:50:15 -0400
+From:   =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado 
+        <nfraprado@collabora.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>
+Cc:     Chen-Yu Tsai <wenst@chromium.org>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Nathan Hebert <nhebert@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH v4,3/4] media: mediatek: vcodec: move core context from
+ device to each instance
+Message-ID: <5d15905d-2a7b-4eb6-9f52-38303eaf5292@notapiano>
+References: <20230525014009.23345-1-yunfei.dong@mediatek.com>
+ <20230525014009.23345-4-yunfei.dong@mediatek.com>
 MIME-Version: 1.0
-References: <20230609081732.3842341-1-lee@kernel.org> <20230609081732.3842341-16-lee@kernel.org>
-In-Reply-To: <20230609081732.3842341-16-lee@kernel.org>
-From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Fri, 9 Jun 2023 15:05:47 -0400
-Message-ID: <CADnq5_OVMwV80XbTpdRECa54iDLK8+SGz==KWpWTJN+hs1QAkA@mail.gmail.com>
-Subject: Re: [RESEND 15/15] drm/amd/amdgpu/sdma_v6_0: Demote a bunch of
- half-completed function headers
-To:     Lee Jones <lee@kernel.org>
-Cc:     "Pan, Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linaro-mm-sig@lists.linaro.org,
-        Stanley Yang <Stanley.Yang@amd.com>,
-        dri-devel@lists.freedesktop.org,
-        Alex Deucher <alexander.deucher@amd.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230525014009.23345-4-yunfei.dong@mediatek.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-These have already been fixed up.
+On Thu, May 25, 2023 at 09:40:08AM +0800, Yunfei Dong wrote:
+[..]
+> --- a/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
+> +++ b/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
+[..]
+> @@ -247,6 +229,8 @@ void vdec_msg_queue_deinit(struct vdec_msg_queue *msg_queue,
+>  
+>  		kfree(lat_buf->private_data);
+>  	}
+> +
+> +	cancel_work_sync(&msg_queue->core_work);
 
-Thanks!
+Hi Yunfei,
 
-Alex
+this hunk is causing warnings during boot and when exercising the decoder with
+fluster on mt8192-asurada-spherion. This deinit function is called on the
+v4l2 release callback, even though the work might not have been initialized as
+that only happens if/when the codec specific 'decode' callback is called (as a
+result of device_run m2m callback).
 
-On Fri, Jun 9, 2023 at 4:18=E2=80=AFAM Lee Jones <lee@kernel.org> wrote:
->
-> Fixes the following W=3D1 kernel build warning(s):
->
->  drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c:248: warning: Function parameter =
-or member 'job' not described in 'sdma_v6_0_ring_emit_ib'
->  drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c:248: warning: Function parameter =
-or member 'flags' not described in 'sdma_v6_0_ring_emit_ib'
->  drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c:945: warning: Function parameter =
-or member 'timeout' not described in 'sdma_v6_0_ring_test_ib'
->  drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c:1124: warning: Function parameter=
- or member 'ring' not described in 'sdma_v6_0_ring_pad_ib'
->  drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c:1175: warning: Function parameter=
- or member 'vmid' not described in 'sdma_v6_0_ring_emit_vm_flush'
->  drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c:1175: warning: Function parameter=
- or member 'pd_addr' not described in 'sdma_v6_0_ring_emit_vm_flush'
->
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: Stanley Yang <Stanley.Yang@amd.com>
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Signed-off-by: Lee Jones <lee@kernel.org>
-> ---
->  drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c b/drivers/gpu/drm/amd=
-/amdgpu/sdma_v6_0.c
-> index 3b03dda854fdc..8cd7abe74e6c4 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c
-> @@ -233,7 +233,7 @@ static void sdma_v6_0_ring_insert_nop(struct amdgpu_r=
-ing *ring, uint32_t count)
->                         amdgpu_ring_write(ring, ring->funcs->nop);
->  }
->
-> -/**
-> +/*
->   * sdma_v6_0_ring_emit_ib - Schedule an IB on the DMA engine
->   *
->   * @ring: amdgpu ring pointer
-> @@ -936,7 +936,7 @@ static int sdma_v6_0_ring_test_ring(struct amdgpu_rin=
-g *ring)
->         return r;
->  }
->
-> -/**
-> +/*
->   * sdma_v6_0_ring_test_ib - test an IB on the DMA engine
->   *
->   * @ring: amdgpu_ring structure holding ring information
-> @@ -1118,7 +1118,7 @@ static void sdma_v6_0_vm_set_pte_pde(struct amdgpu_=
-ib *ib,
->         ib->ptr[ib->length_dw++] =3D count - 1; /* number of entries */
->  }
->
-> -/**
-> +/*
->   * sdma_v6_0_ring_pad_ib - pad the IB
->   * @ib: indirect buffer to fill with padding
->   * @ring: amdgpu ring pointer
-> @@ -1167,7 +1167,7 @@ static void sdma_v6_0_ring_emit_pipeline_sync(struc=
-t amdgpu_ring *ring)
->                           SDMA_PKT_POLL_REGMEM_DW5_INTERVAL(4)); /* retry=
- count, poll interval */
->  }
->
-> -/**
-> +/*
->   * sdma_v6_0_ring_emit_vm_flush - vm flush using sDMA
->   *
->   * @ring: amdgpu_ring pointer
-> --
-> 2.41.0.162.gfafddb0af9-goog
->
+Thanks,
+Nícolas
+
+<4>[  496.164381] ------------[ cut here ]------------
+<4>[  496.169259] WARNING: CPU: 5 PID: 2338 at kernel/workqueue.c:3376 __flush_work.isra.0+0x23c/0x258
+<4>[  496.178299] Modules linked in: r8153_ecm cdc_ether usbnet r8152 mt7921e mt7921_common mt76_connac_lib mt76 mac80211 btusb btintel btmtk btrtl btbcm cfg80211 bluetooth uvcvideo mt8192_mt6359_rt1015_rt5682 uvc ecdh_generic snd_soc_mt8192_afe ecc videobuf2_vmalloc crct10dif_ce cros_usbpd_logger fuse ip_tables ipv6
+<4>[  496.206108] CPU: 5 PID: 2338 Comm: gst-launch-1.0 Tainted: G        W          6.4.0-rc5-next-20230607+ #475
+<4>[  496.216182] Hardware name: Google Spherion (rev0 - 3) (DT)
+<4>[  496.221915] pstate: 00400009 (nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+<4>[  496.229125] pc : __flush_work.isra.0+0x23c/0x258
+<4>[  496.233992] lr : __cancel_work_timer+0x14c/0x1c8
+<4>[  496.238859] sp : ffff8000896e3b00
+<4>[  496.242423] x29: ffff8000896e3b00 x28: ffff57c3d4079f80 x27: 0000000000000000
+<4>[  496.249807] x26: ffff57c3d4079f80 x25: ffffb76395b59dc8 x24: 0000000000000001
+<4>[  496.257191] x23: ffffb763928daab8 x22: ffff57c3d4079f80 x21: 0000000000000000
+<4>[  496.264575] x20: ffffb763955f6778 x19: ffff57c3cf06f4a0 x18: 0000000000000000
+<4>[  496.271958] x17: 000000040044ffff x16: 005000f2b5503510 x15: 0000000000000000
+<4>[  496.279342] x14: ffff57c3c03a1f80 x13: ffffa0616a2fc000 x12: 000000003464d91d
+<4>[  496.286726] x11: 0000000000000000 x10: 0000000000001b10 x9 : ffffb763928de61c
+<4>[  496.294110] x8 : ffff57c3d407baf0 x7 : 0000000000000000 x6 : ffff57c3d4079f80
+<4>[  496.301494] x5 : ffff57c3d4079f80 x4 : 0000000000000000 x3 : 0000000000000000
+<4>[  496.308878] x2 : ffff8000896e3bf0 x1 : 0000000000000011 x0 : 0000000000000000
+<4>[  496.316262] Call trace:
+<4>[  496.318958]  __flush_work.isra.0+0x23c/0x258
+<4>[  496.323477]  __cancel_work_timer+0x14c/0x1c8
+<4>[  496.327996]  cancel_work_sync+0x1c/0x30
+<4>[  496.332082]  vdec_msg_queue_deinit+0xac/0xc8
+<4>[  496.336604]  vdec_h264_slice_deinit+0x64/0xb8
+<4>[  496.341211]  vdec_if_deinit+0x3c/0x68
+<4>[  496.345123]  mtk_vcodec_dec_release+0x20/0x40
+<4>[  496.349729]  fops_vcodec_release+0x50/0xd8
+<4>[  496.354074]  v4l2_release+0x7c/0x100
+<4>[  496.357900]  __fput+0x80/0x270
+<4>[  496.361205]  ____fput+0x18/0x30
+<4>[  496.364595]  task_work_run+0x78/0xe0
+<4>[  496.368420]  do_notify_resume+0x29c/0x7f8
+<4>[  496.372680]  el0_svc+0xa4/0xb8
+<4>[  496.375987]  el0t_64_sync_handler+0xc0/0xc8
+<4>[  496.380423]  el0t_64_sync+0x1a8/0x1b0
+<4>[  496.384336] ---[ end trace 0000000000000000 ]---
