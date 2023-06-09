@@ -2,111 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02F9672926A
-	for <lists+linux-media@lfdr.de>; Fri,  9 Jun 2023 10:15:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D08F87292C9
+	for <lists+linux-media@lfdr.de>; Fri,  9 Jun 2023 10:19:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240001AbjFIIPk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Jun 2023 04:15:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49836 "EHLO
+        id S240517AbjFIIT1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Jun 2023 04:19:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239192AbjFIIPi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jun 2023 04:15:38 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 520941FEC
-        for <linux-media@vger.kernel.org>; Fri,  9 Jun 2023 01:15:37 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1q7XHT-0000YV-Iv; Fri, 09 Jun 2023 08:15:35 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.94.2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1q7XHQ-006vf6-O3; Fri, 09 Jun 2023 08:15:32 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v6.5] Add AV1 stateless decoder support (#92229)
-Date:   Fri,  9 Jun 2023 08:15:32 +0000
-Message-Id: <20230609081532.1651574-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <52a82b66-a068-80eb-9e40-d4c61cb0272d@xs4all.nl>
-References: 
+        with ESMTP id S240339AbjFIISg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jun 2023 04:18:36 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F7293AB9;
+        Fri,  9 Jun 2023 01:17:45 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 00D5C61F2B;
+        Fri,  9 Jun 2023 08:17:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23DDEC433D2;
+        Fri,  9 Jun 2023 08:17:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686298664;
+        bh=Q3lpJIl4Z5sdoUzSuGxmM+HFKMFmLc0nDXYEbM0IvBY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=DMyvvowuFDe9JYaxvty4pMatDHzghPPuqy6k1T12vhsZOqKn9hmQ9b7+2sOPPyUju
+         nuTm9fCFhpeV7x2GJCAQp8It3FYVdxYmVBLZpDEUi+fiViW3nPYnVxV6i7LuF09KpG
+         NKdbUYUJhEXeGmsWZXsctSZQQYxkm0rDszqHQH4RcGLM2IPLn6GLouWX9BJFNLvbTR
+         KDUcvCQpqCdIaBVOWswsmHDjdYs3I8FCftKXf/YSlmp3n0HzQVYiAKWhrZ6ou4NWuq
+         HjEWDO3udnppvGxrwN2UxVN+C+96WGNa66qX+kli0Gs1upOKKsUHYHf2ffNsziaU/e
+         rmvLWbHegeyFw==
+From:   Lee Jones <lee@kernel.org>
+To:     lee@kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Alex Deucher <alexander.deucher@amd.com>,
+        amd-gfx@lists.freedesktop.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@gmail.com>,
+        dri-devel@lists.freedesktop.org,
+        Gourav Samaiya <gsamaiya@nvidia.com>,
+        Haneen Mohammed <hamohammed.sa@gmail.com>,
+        Harry Wentland <harry.wentland@amd.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Jerome Glisse <glisse@freedesktop.org>,
+        Karol Herbst <kherbst@redhat.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Leo Li <sunpeng.li@amd.com>, linaro-mm-sig@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+        Lyude Paul <lyude@redhat.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Melissa Wen <melissa.srw@gmail.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        nouveau@lists.freedesktop.org, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+        Stanley Yang <Stanley.Yang@amd.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>
+Subject: [RESEND 00/15] Rid W=1 warnings from GPU
+Date:   Fri,  9 Jun 2023 09:17:03 +0100
+Message-ID: <20230609081732.3842341-1-lee@kernel.org>
+X-Mailer: git-send-email 2.41.0.162.gfafddb0af9-goog
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+This set is part of a larger effort attempting to clean-up W=1
+kernel builds, which are currently overwhelmingly riddled with
+niggly little warnings.
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/52a82b66-a068-80eb-9e40-d4c61cb0272d@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/313143/
-Build time: 00:00:00
-Link: https://lore.kernel.org/linux-media/52a82b66-a068-80eb-9e40-d4c61cb0272d@xs4all.nl
+Lee Jones (15):
+  drm/xlnx/zynqmp_disp: Use correct kerneldoc formatting in zynqmp_disp
+  drm/xlnx/zynqmp_dp: Fix function name zynqmp_dp_link_train() ->
+    zynqmp_dp_train()
+  drm/vkms/vkms_composer: Fix a few different kerneldoc formatting
+  drm/mediatek/mtk_disp_aal: Remove half completed incorrect struct
+    header
+  drm/mediatek/mtk_disp_ccorr: Remove half completed incorrect struct
+    header
+  drm/nouveau/nvkm/subdev/acr/lsfw: Remove unused variable 'loc'
+  drm/nouveau/nvkm/subdev/bios/init: Demote a bunch of kernel-doc abuses
+  drm/nouveau/nvkm/subdev/volt/gk20a: Demote kerneldoc abuses
+  drm/nouveau/nvkm/engine/gr/gf100: Demote kerneldoc abuse
+  drm/nouveau/nvkm/engine/gr/tu102: Staticify local function
+    gf100_fifo_nonstall_block()
+  drm/amd/display/amdgpu_dm/amdgpu_dm_helpers: Move SYNAPTICS_DEVICE_ID
+    into CONFIG_DRM_AMD_DC_DCN ifdef
+  drm/nouveau/dispnv04/crtc: Demote kerneldoc abuses
+  drm/nouveau/nvkm/engine/gr/tu102: Completely remove unused function
+    ‘tu102_gr_load’
+  drm/radeon/radeon_ttm: Remove unused variable 'rbo' from
+    radeon_bo_move()
+  drm/amd/amdgpu/sdma_v6_0: Demote a bunch of half-completed function
+    headers
 
-gpg: Signature made Tue 30 May 2023 10:34:50 AM UTC
-gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+ drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c        |   8 +-
+ .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c |   6 +-
+ drivers/gpu/drm/mediatek/mtk_disp_aal.c       |   5 -
+ drivers/gpu/drm/mediatek/mtk_disp_ccorr.c     |   5 -
+ drivers/gpu/drm/nouveau/dispnv04/crtc.c       |   4 +-
+ .../gpu/drm/nouveau/nvkm/engine/gr/gf100.c    |   2 +-
+ .../gpu/drm/nouveau/nvkm/engine/gr/tu102.c    |  13 --
+ .../gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c    |   3 +-
+ .../gpu/drm/nouveau/nvkm/subdev/bios/init.c   | 136 +++++++++---------
+ .../gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c  |   4 +-
+ drivers/gpu/drm/radeon/radeon_ttm.c           |   2 -
+ drivers/gpu/drm/vkms/vkms_composer.c          |   6 +-
+ drivers/gpu/drm/xlnx/zynqmp_disp.c            |   6 +-
+ drivers/gpu/drm/xlnx/zynqmp_dp.c              |   2 +-
+ 14 files changed, 89 insertions(+), 113 deletions(-)
 
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: amd-gfx@lists.freedesktop.org
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Ben Skeggs <bskeggs@redhat.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: David Airlie <airlied@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: Gourav Samaiya <gsamaiya@nvidia.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Hyun Kwon <hyun.kwon@xilinx.com>
+Cc: Jerome Glisse <glisse@freedesktop.org>
+Cc: Karol Herbst <kherbst@redhat.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Leo Li <sunpeng.li@amd.com>
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-mediatek@lists.infradead.org
+Cc: linux-media@vger.kernel.org
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>
+Cc: Melissa Wen <melissa.srw@gmail.com>
+Cc: Michal Simek <michal.simek@xilinx.com>
+Cc: nouveau@lists.freedesktop.org
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+Cc: Stanley Yang <Stanley.Yang@amd.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
 
-Build aborted due to a fatal error:
-FAILED: patch patch patches/0001-media-Add-AV1-uAPI.patch doesn't apply:
-Applying patch patches/0001-media-Add-AV1-uAPI.patch
-patching file Documentation/userspace-api/media/v4l/biblio.rst
-Hunk #1 FAILED at 427.
-1 out of 1 hunk FAILED -- rejects in file Documentation/userspace-api/media/v4l/biblio.rst
-patching file Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-Hunk #1 FAILED at 1890.
-Hunk #2 FAILED at 2957.
-2 out of 2 hunks FAILED -- rejects in file Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-patching file Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-Hunk #1 succeeded at 274 with fuzz 2 (offset 16 lines).
-patching file Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-Hunk #1 FAILED at 279.
-1 out of 1 hunk FAILED -- rejects in file Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-patching file Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-Hunk #1 FAILED at 525.
-1 out of 1 hunk FAILED -- rejects in file Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-patching file Documentation/userspace-api/media/videodev2.h.rst.exceptions
-Hunk #1 FAILED at 161.
-1 out of 1 hunk FAILED -- rejects in file Documentation/userspace-api/media/videodev2.h.rst.exceptions
-patching file drivers/media/v4l2-core/v4l2-ctrls-core.c
-Hunk #1 succeeded at 244 with fuzz 2 (offset -106 lines).
-Hunk #2 succeeded at 803 (offset 243 lines).
-Hunk #3 FAILED at 1149.
-Hunk #4 succeeded at 2103 with fuzz 2 (offset 263 lines).
-1 out of 4 hunks FAILED -- rejects in file drivers/media/v4l2-core/v4l2-ctrls-core.c
-patching file drivers/media/v4l2-core/v4l2-ctrls-defs.c
-Hunk #1 succeeded at 533 (offset 34 lines).
-Hunk #2 FAILED at 738.
-Hunk #3 succeeded at 1080 with fuzz 2 (offset 42 lines).
-Hunk #4 FAILED at 1228.
-Hunk #5 FAILED at 1403.
-Hunk #6 succeeded at 1630 with fuzz 2 (offset 61 lines).
-3 out of 6 hunks FAILED -- rejects in file drivers/media/v4l2-core/v4l2-ctrls-defs.c
-patching file drivers/media/v4l2-core/v4l2-ioctl.c
-Hunk #1 FAILED at 1506.
-1 out of 1 hunk FAILED -- rejects in file drivers/media/v4l2-core/v4l2-ioctl.c
-patching file include/media/v4l2-ctrls.h
-Hunk #1 FAILED at 52.
-Hunk #2 FAILED at 81.
-2 out of 2 hunks FAILED -- rejects in file include/media/v4l2-ctrls.h
-patching file include/uapi/linux/v4l2-controls.h
-Hunk #1 succeeded at 886 with fuzz 2 (offset 82 lines).
-Hunk #2 succeeded at 3561 with fuzz 1 (offset 721 lines).
-patching file include/uapi/linux/videodev2.h
-Hunk #1 FAILED at 758.
-Hunk #2 FAILED at 1828.
-Hunk #3 FAILED at 1901.
-3 out of 3 hunks FAILED -- rejects in file include/uapi/linux/videodev2.h
-Patch patches/0001-media-Add-AV1-uAPI.patch can be reverse-applied
+-- 
+2.41.0.162.gfafddb0af9-goog
 
