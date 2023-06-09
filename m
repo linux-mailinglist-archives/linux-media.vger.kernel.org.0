@@ -2,72 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D08F87292C9
-	for <lists+linux-media@lfdr.de>; Fri,  9 Jun 2023 10:19:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA7907292E0
+	for <lists+linux-media@lfdr.de>; Fri,  9 Jun 2023 10:21:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240517AbjFIIT1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Jun 2023 04:19:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52706 "EHLO
+        id S240537AbjFIIU3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Jun 2023 04:20:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240339AbjFIISg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jun 2023 04:18:36 -0400
+        with ESMTP id S240753AbjFIIUF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jun 2023 04:20:05 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F7293AB9;
-        Fri,  9 Jun 2023 01:17:45 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7E5444B4;
+        Fri,  9 Jun 2023 01:18:44 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 00D5C61F2B;
-        Fri,  9 Jun 2023 08:17:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23DDEC433D2;
-        Fri,  9 Jun 2023 08:17:37 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BD4816549F;
+        Fri,  9 Jun 2023 08:18:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C945C433D2;
+        Fri,  9 Jun 2023 08:18:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686298664;
-        bh=Q3lpJIl4Z5sdoUzSuGxmM+HFKMFmLc0nDXYEbM0IvBY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=DMyvvowuFDe9JYaxvty4pMatDHzghPPuqy6k1T12vhsZOqKn9hmQ9b7+2sOPPyUju
-         nuTm9fCFhpeV7x2GJCAQp8It3FYVdxYmVBLZpDEUi+fiViW3nPYnVxV6i7LuF09KpG
-         NKdbUYUJhEXeGmsWZXsctSZQQYxkm0rDszqHQH4RcGLM2IPLn6GLouWX9BJFNLvbTR
-         KDUcvCQpqCdIaBVOWswsmHDjdYs3I8FCftKXf/YSlmp3n0HzQVYiAKWhrZ6ou4NWuq
-         HjEWDO3udnppvGxrwN2UxVN+C+96WGNa66qX+kli0Gs1upOKKsUHYHf2ffNsziaU/e
-         rmvLWbHegeyFw==
+        s=k20201202; t=1686298702;
+        bh=bV0AjXaMBOwcPgHZlva/QwT1Ny6xhO6iUTwyI835e2A=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=cVmvOWAKHoSKy8W4/gtTWa2vmeBm71dB7jn1ZBGFZkt9iV5nxTuJ1hFNnfsYsiS/g
+         oD9ijSARaf23ncovhmQiYacLkhDfx/veUHaqtLYH0J705hOluSpXHCySiObjtwS5eX
+         9bMgQlCjF2E3Ejj6z8N/TtXoZ94MAJxZjXdBkMDjkXJSWTaJfX0k4JlXsDymLUn996
+         foYeDcypwz1yMgB3H0zt/Ku0Avq17EhTia6d/IMzByP+GP1JCe5xE9uumkIMkHpWUm
+         yTOT6xnI6YKKtz0H8QEan94neI4B736hA/SE97cMpEDLXyUSzChc9X4qPLE1AYj/ly
+         1rGC7mqgyIB9g==
 From:   Lee Jones <lee@kernel.org>
 To:     lee@kernel.org
 Cc:     linux-kernel@vger.kernel.org,
         Alex Deucher <alexander.deucher@amd.com>,
-        amd-gfx@lists.freedesktop.org,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
         =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>,
         David Airlie <airlied@gmail.com>,
-        dri-devel@lists.freedesktop.org,
-        Gourav Samaiya <gsamaiya@nvidia.com>,
-        Haneen Mohammed <hamohammed.sa@gmail.com>,
-        Harry Wentland <harry.wentland@amd.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Jerome Glisse <glisse@freedesktop.org>,
-        Karol Herbst <kherbst@redhat.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Leo Li <sunpeng.li@amd.com>, linaro-mm-sig@lists.linaro.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-        Lyude Paul <lyude@redhat.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Melissa Wen <melissa.srw@gmail.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        nouveau@lists.freedesktop.org, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
-        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
         Stanley Yang <Stanley.Yang@amd.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>
-Subject: [RESEND 00/15] Rid W=1 warnings from GPU
-Date:   Fri,  9 Jun 2023 09:17:03 +0100
-Message-ID: <20230609081732.3842341-1-lee@kernel.org>
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: [RESEND 15/15] drm/amd/amdgpu/sdma_v6_0: Demote a bunch of half-completed function headers
+Date:   Fri,  9 Jun 2023 09:17:18 +0100
+Message-ID: <20230609081732.3842341-16-lee@kernel.org>
 X-Mailer: git-send-email 2.41.0.162.gfafddb0af9-goog
+In-Reply-To: <20230609081732.3842341-1-lee@kernel.org>
+References: <20230609081732.3842341-1-lee@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -81,84 +62,71 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This set is part of a larger effort attempting to clean-up W=1
-kernel builds, which are currently overwhelmingly riddled with
-niggly little warnings.
+Fixes the following W=1 kernel build warning(s):
 
-Lee Jones (15):
-  drm/xlnx/zynqmp_disp: Use correct kerneldoc formatting in zynqmp_disp
-  drm/xlnx/zynqmp_dp: Fix function name zynqmp_dp_link_train() ->
-    zynqmp_dp_train()
-  drm/vkms/vkms_composer: Fix a few different kerneldoc formatting
-  drm/mediatek/mtk_disp_aal: Remove half completed incorrect struct
-    header
-  drm/mediatek/mtk_disp_ccorr: Remove half completed incorrect struct
-    header
-  drm/nouveau/nvkm/subdev/acr/lsfw: Remove unused variable 'loc'
-  drm/nouveau/nvkm/subdev/bios/init: Demote a bunch of kernel-doc abuses
-  drm/nouveau/nvkm/subdev/volt/gk20a: Demote kerneldoc abuses
-  drm/nouveau/nvkm/engine/gr/gf100: Demote kerneldoc abuse
-  drm/nouveau/nvkm/engine/gr/tu102: Staticify local function
-    gf100_fifo_nonstall_block()
-  drm/amd/display/amdgpu_dm/amdgpu_dm_helpers: Move SYNAPTICS_DEVICE_ID
-    into CONFIG_DRM_AMD_DC_DCN ifdef
-  drm/nouveau/dispnv04/crtc: Demote kerneldoc abuses
-  drm/nouveau/nvkm/engine/gr/tu102: Completely remove unused function
-    ‘tu102_gr_load’
-  drm/radeon/radeon_ttm: Remove unused variable 'rbo' from
-    radeon_bo_move()
-  drm/amd/amdgpu/sdma_v6_0: Demote a bunch of half-completed function
-    headers
-
- drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c        |   8 +-
- .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c |   6 +-
- drivers/gpu/drm/mediatek/mtk_disp_aal.c       |   5 -
- drivers/gpu/drm/mediatek/mtk_disp_ccorr.c     |   5 -
- drivers/gpu/drm/nouveau/dispnv04/crtc.c       |   4 +-
- .../gpu/drm/nouveau/nvkm/engine/gr/gf100.c    |   2 +-
- .../gpu/drm/nouveau/nvkm/engine/gr/tu102.c    |  13 --
- .../gpu/drm/nouveau/nvkm/subdev/acr/lsfw.c    |   3 +-
- .../gpu/drm/nouveau/nvkm/subdev/bios/init.c   | 136 +++++++++---------
- .../gpu/drm/nouveau/nvkm/subdev/volt/gk20a.c  |   4 +-
- drivers/gpu/drm/radeon/radeon_ttm.c           |   2 -
- drivers/gpu/drm/vkms/vkms_composer.c          |   6 +-
- drivers/gpu/drm/xlnx/zynqmp_disp.c            |   6 +-
- drivers/gpu/drm/xlnx/zynqmp_dp.c              |   2 +-
- 14 files changed, 89 insertions(+), 113 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c:248: warning: Function parameter or member 'job' not described in 'sdma_v6_0_ring_emit_ib'
+ drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c:248: warning: Function parameter or member 'flags' not described in 'sdma_v6_0_ring_emit_ib'
+ drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c:945: warning: Function parameter or member 'timeout' not described in 'sdma_v6_0_ring_test_ib'
+ drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c:1124: warning: Function parameter or member 'ring' not described in 'sdma_v6_0_ring_pad_ib'
+ drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c:1175: warning: Function parameter or member 'vmid' not described in 'sdma_v6_0_ring_emit_vm_flush'
+ drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c:1175: warning: Function parameter or member 'pd_addr' not described in 'sdma_v6_0_ring_emit_vm_flush'
 
 Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: amd-gfx@lists.freedesktop.org
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Ben Skeggs <bskeggs@redhat.com>
 Cc: "Christian König" <christian.koenig@amd.com>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: David Airlie <airlied@gmail.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: Gourav Samaiya <gsamaiya@nvidia.com>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-Cc: Harry Wentland <harry.wentland@amd.com>
-Cc: Hyun Kwon <hyun.kwon@xilinx.com>
-Cc: Jerome Glisse <glisse@freedesktop.org>
-Cc: Karol Herbst <kherbst@redhat.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Leo Li <sunpeng.li@amd.com>
-Cc: linaro-mm-sig@lists.linaro.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-mediatek@lists.infradead.org
-Cc: linux-media@vger.kernel.org
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>
-Cc: Melissa Wen <melissa.srw@gmail.com>
-Cc: Michal Simek <michal.simek@xilinx.com>
-Cc: nouveau@lists.freedesktop.org
 Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-Cc: Stanley Yang <Stanley.Yang@amd.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Stanley Yang <Stanley.Yang@amd.com>
+Cc: amd-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
+Signed-off-by: Lee Jones <lee@kernel.org>
+---
+ drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c b/drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c
+index 3b03dda854fdc..8cd7abe74e6c4 100644
+--- a/drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c
+@@ -233,7 +233,7 @@ static void sdma_v6_0_ring_insert_nop(struct amdgpu_ring *ring, uint32_t count)
+ 			amdgpu_ring_write(ring, ring->funcs->nop);
+ }
+ 
+-/**
++/*
+  * sdma_v6_0_ring_emit_ib - Schedule an IB on the DMA engine
+  *
+  * @ring: amdgpu ring pointer
+@@ -936,7 +936,7 @@ static int sdma_v6_0_ring_test_ring(struct amdgpu_ring *ring)
+ 	return r;
+ }
+ 
+-/**
++/*
+  * sdma_v6_0_ring_test_ib - test an IB on the DMA engine
+  *
+  * @ring: amdgpu_ring structure holding ring information
+@@ -1118,7 +1118,7 @@ static void sdma_v6_0_vm_set_pte_pde(struct amdgpu_ib *ib,
+ 	ib->ptr[ib->length_dw++] = count - 1; /* number of entries */
+ }
+ 
+-/**
++/*
+  * sdma_v6_0_ring_pad_ib - pad the IB
+  * @ib: indirect buffer to fill with padding
+  * @ring: amdgpu ring pointer
+@@ -1167,7 +1167,7 @@ static void sdma_v6_0_ring_emit_pipeline_sync(struct amdgpu_ring *ring)
+ 			  SDMA_PKT_POLL_REGMEM_DW5_INTERVAL(4)); /* retry count, poll interval */
+ }
+ 
+-/**
++/*
+  * sdma_v6_0_ring_emit_vm_flush - vm flush using sDMA
+  *
+  * @ring: amdgpu_ring pointer
 -- 
 2.41.0.162.gfafddb0af9-goog
 
