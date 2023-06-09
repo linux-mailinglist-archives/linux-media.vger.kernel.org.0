@@ -2,208 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A3B8729BE3
-	for <lists+linux-media@lfdr.de>; Fri,  9 Jun 2023 15:46:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A62A729BF6
+	for <lists+linux-media@lfdr.de>; Fri,  9 Jun 2023 15:50:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230092AbjFINqV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Jun 2023 09:46:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56332 "EHLO
+        id S239495AbjFINub (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Jun 2023 09:50:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230191AbjFINqU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jun 2023 09:46:20 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0836830F4
-        for <linux-media@vger.kernel.org>; Fri,  9 Jun 2023 06:46:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686318378; x=1717854378;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VcIErgDpa5WQA4MjznMRGXLbAS2BB0oFeT/rqffXT1Q=;
-  b=LOkDMCgVOXAZccHZK8tWa6ESO1UNpsUGQN6vSE2YYvm2jIq7fmyjNX0E
-   HnckLGiNX9+EFTqeIFZnI/bDTsbwbVPyMCvu+0O2aCcRBVAC4ftm18i3W
-   +74ST+80yGbMwUI5dGZoC9bK3KpKFQ8ShrlIJE8FylY/I6QomWjjSeN0h
-   08TgO1JfAZTnXYnyknw0CpGmz9Nx613JE3Stf23TcyksfO+cHKwbBMzZy
-   n4Rw+u3rln1KZ2nnH7lU9H2jPDq51L8YLE8mjdUtvBUblBxB0ZIA039vJ
-   UNEDyieW2869J2+Hg9gURyzaqMCgcLvtuNvgvvW6K85xAUhibQC71xJdi
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="360955447"
-X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; 
-   d="scan'208";a="360955447"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 06:46:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="660774246"
-X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; 
-   d="scan'208";a="660774246"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 06:46:17 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 59148120A0E;
-        Fri,  9 Jun 2023 16:46:14 +0300 (EEST)
-Date:   Fri, 9 Jun 2023 13:46:14 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
-        bingbu.cao@intel.com, hongju.wang@intel.com
-Subject: Re: [RFC 7/7] media: v4l: Support line-based metadata capture
-Message-ID: <ZIMtJqI50Bi9K9MF@kekkonen.localdomain>
-References: <20230505215257.60704-1-sakari.ailus@linux.intel.com>
- <20230505215257.60704-8-sakari.ailus@linux.intel.com>
- <20230602105054.GA26944@pendragon.ideasonboard.com>
+        with ESMTP id S238810AbjFINu2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Jun 2023 09:50:28 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3F7930FE
+        for <linux-media@vger.kernel.org>; Fri,  9 Jun 2023 06:50:24 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1q7cVT-0008oL-5j; Fri, 09 Jun 2023 13:50:23 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1q7cVQ-00DnqI-28; Fri, 09 Jun 2023 13:50:21 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v6.5] v2: mediatek: vcodec: Add debugfs file for decode (#92381)
+Date:   Fri,  9 Jun 2023 13:50:20 +0000
+Message-Id: <20230609135020.3289812-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <8ba16cbc-5ff5-067d-d9d5-c7bd51a6a4f7@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230602105054.GA26944@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+From: builder@linuxtv.org
 
-On Fri, Jun 02, 2023 at 01:50:54PM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> Thank you for the patch.
-> 
-> On Sat, May 06, 2023 at 12:52:57AM +0300, Sakari Ailus wrote:
-> > many camera sensors, among other devices, transmit embedded data and image
-> 
-> s/many/Many/
-> 
-> > data for each CSI-2 frame. This embedded data typically contains register
-> > configuration of the sensor that has been used to capture the image data
-> > of the same frame.
-> > 
-> > The embedded data is received by the CSI-2 receiver and has the same
-> > properties as the image data, including that it is line based: it has
-> > width, height and bytesperline (stride).
-> > 
-> > Add these fields to struct v4l2_meta_format and document them.
-> > 
-> > Also add V4L2_FMT_FLAG_META_LINE_BASED to tell a given format is
-> > line-based i.e. these fields of struct v4l2_meta_format are valid for it.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  .../userspace-api/media/v4l/dev-meta.rst          | 15 +++++++++++++++
-> >  .../userspace-api/media/v4l/vidioc-enum-fmt.rst   |  7 +++++++
-> >  include/uapi/linux/videodev2.h                    | 10 ++++++++++
-> >  3 files changed, 32 insertions(+)
-> > 
-> > diff --git a/Documentation/userspace-api/media/v4l/dev-meta.rst b/Documentation/userspace-api/media/v4l/dev-meta.rst
-> > index 0e7e1ee1471a..7d3a64514db0 100644
-> > --- a/Documentation/userspace-api/media/v4l/dev-meta.rst
-> > +++ b/Documentation/userspace-api/media/v4l/dev-meta.rst
-> > @@ -65,3 +65,18 @@ to 0.
-> >        - ``buffersize``
-> >        - Maximum buffer size in bytes required for data. The value is set by the
-> >          driver.
-> > +    * - __u32
-> > +      - ``width``
-> > +      - Width of a line of metadata in bytes. Valid when :c:type`v4l2_fmtdesc`
-> 
-> This departs from pixel formats, where the width is defined in pixels. I
-> wonder what the implications will be for userspace. Seeing one
-> implementation, both in a kernel driver and in libcamera, will help
-> validating the API.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/8ba16cbc-5ff5-067d-d9d5-c7bd51a6a4f7@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/313144/
+Build time: 00:20:24
+Link: https://lore.kernel.org/linux-media/8ba16cbc-5ff5-067d-d9d5-c7bd51a6a4f7@xs4all.nl
 
-I thought of bytes when writing this but pixels (or samples) are probably a
-better term for this.
+gpg: Signature made Wed 07 Jun 2023 01:45:54 PM UTC
+gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
 
-> 
-> > +	flag ``V4L2_FMT_FLAG_META_LINE_BASED`` is set, otherwise zero. See
-> > +	:c:func:`VIDIOC_ENUM_FMT`.
-> > +    * - __u32
-> > +      - ``height``
-> > +      - Height of a line of metadata in bytes. Valid when :c:type`v4l2_fmtdesc`
-> 
-> The "height of a line" seems like a weird concept, especially if the
-> height is expressed in bytes. I assume this is a bad copy&paste.
+Summary: got 7/8 patches with issues, being 6 at build time, plus one error when buinding PDF document
 
-Yes. I'll address these for v2.
+Error/warnings:
 
-> 
-> > +	flag ``V4L2_FMT_FLAG_META_LINE_BASED`` is set, otherwise zero. See
-> > +	:c:func:`VIDIOC_ENUM_FMT`.
-> > +    * - __u32
-> > +      - ``bytesperlines``
-> > +      - Offset in bytes between the beginning of two consecutive lines. Valid
-> > +	when :c:type`v4l2_fmtdesc` flag ``V4L2_FMT_FLAG_META_LINE_BASED`` is
-> > +	set, otherwise zero. See :c:func:`VIDIOC_ENUM_FMT`.
-> > diff --git a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-> > index 000c154b0f98..6d7664345a4e 100644
-> > --- a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-> > +++ b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-> > @@ -227,6 +227,13 @@ the ``mbus_code`` field is handled differently:
-> >  	The application can ask to configure the quantization of the capture
-> >  	device when calling the :ref:`VIDIOC_S_FMT <VIDIOC_G_FMT>` ioctl with
-> >  	:ref:`V4L2_PIX_FMT_FLAG_SET_CSC <v4l2-pix-fmt-flag-set-csc>` set.
-> > +    * - ``V4L2_FMT_FLAG_META_LINE_BASED``
-> > +      - 0x0200
-> > +      - The metadata format is line-based. In this case the ``width``,
-> > +	``height`` and ``bytesperline`` fields of :c:type:`v4l2_meta_format` are
-> > +	valid. The buffer consists of ``height`` lines, each having ``width``
-> > +	bytes of data and offset between the beginning of each two consecutive
-> > +	lines is ``bytesperline``.
-> 
-> If we add width and height for metadata formats, does it mean that
-> drivers have to (or can) implement VIDIOC_ENUM_FRAMESIZES ? This should
-> be documented.
+patches/0001-media-mediatek-vcodec-Add-debugfs-interface-to-get-d.patch:
 
-Good point.
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	SPARSE:../drivers/staging/media/tegra-video/vip.c ../drivers/staging/media/tegra-video/vip.c:280:24: warning: symbol 'tegra_vip_driver' was not declared. Should it be static?
+	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:212 gc0310_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:416 ov2680_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3013 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:3112 atomisp_cp_morph_table() warn: missing unwind goto?
 
-I don't think it's meaningful to implement that as the pipeline
-configuration determines this in any case.
+    allyesconfig: return code #512:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2775 mxc_jpeg_probe() warn: missing unwind goto?
+	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: In function ‘mtk_vcodec_dbgfs_init’:
+	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:15:17: error: variable ‘vcodec_root’ set but not used [-Werror=unused-but-set-variable]
+	cc1: all warnings being treated as errors
+	make[7]: *** [../scripts/Makefile.build:252: drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.o] Error 1
+	make[6]: *** [../scripts/Makefile.build:494: drivers/media/platform/mediatek/vcodec] Error 2
+	make[5]: *** [../scripts/Makefile.build:494: drivers/media/platform/mediatek] Error 2
+	make[5]: *** Waiting for unfinished jobs....
+	make[4]: *** [../scripts/Makefile.build:494: drivers/media/platform] Error 2
+	make[4]: *** Waiting for unfinished jobs....
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
+	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000012Kb sm_state_count = 1965307
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 56 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2864 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
+	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	make[3]: *** [../scripts/Makefile.build:494: drivers/media] Error 2
+	make[2]: *** [../scripts/Makefile.build:494: drivers] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:2026: .] Error 2
+	make: *** [Makefile:226: __sub-make] Error 2
 
-But I wonder whether this would better be documented for V4L2_CAP_IO_MC
-rather than for metadata formats. There's currently only a reference to
-this in ENUM_FMT documentation.
+   checkpatch.pl:
+	$ cat patches/0001-media-mediatek-vcodec-Add-debugfs-interface-to-get-d.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:38: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+	-:74: WARNING: Prefer "GPL" over "GPL v2" - see commit bf7fbeeae6db ("module: Cure the MODULE_LICENSE "GPL" vs. "GPL v2" bogosity")
 
-> 
-> >  
-> >  Return Value
-> >  ============
-> > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> > index adcbdc15dcdb..3681b2c15901 100644
-> > --- a/include/uapi/linux/videodev2.h
-> > +++ b/include/uapi/linux/videodev2.h
-> > @@ -873,6 +873,7 @@ struct v4l2_fmtdesc {
-> >  #define V4L2_FMT_FLAG_CSC_YCBCR_ENC		0x0080
-> >  #define V4L2_FMT_FLAG_CSC_HSV_ENC		V4L2_FMT_FLAG_CSC_YCBCR_ENC
-> >  #define V4L2_FMT_FLAG_CSC_QUANTIZATION		0x0100
-> > +#define V4L2_FMT_FLAG_META_LINE_BASED		0x0200
-> >  
-> >  	/* Frame Size and frame rate enumeration */
-> >  /*
-> > @@ -2407,10 +2408,19 @@ struct v4l2_sdr_format {
-> >   * struct v4l2_meta_format - metadata format definition
-> >   * @dataformat:		little endian four character code (fourcc)
-> >   * @buffersize:		maximum size in bytes required for data
-> > + * @width:		number of bytes of data per line (valid for line based
-> > + *			formats only, see format documentation)
-> > + * @height:		number of lines of data per buffer (valid for line based
-> > + *			formats only)
-> > + * @bytesperline:	offset between the beginnings of two adjacent lines in
-> > + *			bytes (valid for line based formats only)
-> >   */
-> >  struct v4l2_meta_format {
-> >  	__u32				dataformat;
-> >  	__u32				buffersize;
-> > +	__u32				width;
-> > +	__u32				height;
-> > +	__u32				bytesperline;
-> >  } __attribute__ ((packed));
-> >  
-> >  /**
+patches/0002-media-mediatek-vcodec-Add-debug-params-to-control-di.patch:
 
--- 
-Regards,
+   checkpatch.pl:
+	$ cat patches/0002-media-mediatek-vcodec-Add-debug-params-to-control-di.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:74: CHECK: Macro argument reuse 'h' - possible side-effects?
 
-Sakari Ailus
+patches/0003-media-mediatek-vcodec-Add-a-debugfs-file-to-get-diff.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: ../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:56 mtk_vcodec_dbgfs_remove() error: we previously assumed 'dbgfs_inst' could be null (see line 57)
+
+   checkpatch.pl:
+	$ cat patches/0003-media-mediatek-vcodec-Add-a-debugfs-file-to-get-diff.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:136: CHECK: struct mutex definition without comment
+
+patches/0004-media-mediatek-vcodec-Get-each-context-resolution-in.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: ../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:98 mtk_vcodec_dbgfs_remove() error: we previously assumed 'dbgfs_inst' could be null (see line 99)
+
+patches/0005-media-mediatek-vcodec-Get-each-instance-format-type.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: ../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:146 mtk_vcodec_dbgfs_remove() error: we previously assumed 'dbgfs_inst' could be null (see line 147)
+
+patches/0006-media-mediatek-vcodec-Change-dbgfs-interface-to-supp.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: ../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:146 mtk_vcodec_dbgfs_remove() error: we previously assumed 'dbgfs_inst' could be null (see line 147)
+
+patches/0008-media-mediatek-vcodec-Add-dbgfs-help-function.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c: ../drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c:168 mtk_vcodec_dbgfs_remove() error: we previously assumed 'dbgfs_inst' could be null (see line 169)
+
+
+Error #512 when building PDF docs
+
