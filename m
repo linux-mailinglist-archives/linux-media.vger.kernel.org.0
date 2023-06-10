@@ -2,40 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8541872AD19
-	for <lists+linux-media@lfdr.de>; Sat, 10 Jun 2023 18:16:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB73C72AD8D
+	for <lists+linux-media@lfdr.de>; Sat, 10 Jun 2023 19:08:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229506AbjFJQQV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 10 Jun 2023 12:16:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38636 "EHLO
+        id S230260AbjFJRIA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 10 Jun 2023 13:08:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbjFJQQT (ORCPT
+        with ESMTP id S229456AbjFJRH7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 10 Jun 2023 12:16:19 -0400
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id CA4843C0E
-        for <linux-media@vger.kernel.org>; Sat, 10 Jun 2023 09:15:57 -0700 (PDT)
-Received: (qmail 336979 invoked by uid 1000); 10 Jun 2023 12:15:26 -0400
-Date:   Sat, 10 Jun 2023 12:15:26 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc:     Sean Young <sean@mess.org>,
+        Sat, 10 Jun 2023 13:07:59 -0400
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B300C2D68;
+        Sat, 10 Jun 2023 10:07:55 -0700 (PDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id 76A435C00BA;
+        Sat, 10 Jun 2023 13:07:52 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Sat, 10 Jun 2023 13:07:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        invisiblethingslab.com; h=cc:cc:content-transfer-encoding
+        :content-type:content-type:date:date:from:from:in-reply-to
+        :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+         s=fm1; t=1686416872; x=1686503272; bh=CFxrsTHk2WZ2bHj5E7HOWzGC2
+        M6TbCCvBJcoVes5ASQ=; b=HO0vJtT77+rZndOX90RQX40x6vq642GbuMdxU55Ca
+        zeVatV2LwToz78+BK08NzP769skVN+z1oFdl8bU5R0yZdNJ9jpkOcn2Q/JfzDTQQ
+        Ynz3V4ag043lIML+1y895NbuI+eXWQM+vf0q7tIEhg3Y1irGvhk1r/GeSqC26ceX
+        hATz9XyCucDSV/zhLfdkBcBO/QulWpjU9VY8T2Ehu9xXxtrv56Samma8R/JICMc0
+        d3uE+rvdtv1Nm19G4eocL0vTbxmsjOc5ljGXADTU7zOnwI41Ii+7deQXrNPM4CJA
+        hLDYENmpLE0N/5ccHG1kBTmUUASAmZ0Vha3NaQ0oDXffw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:content-type:date:date:feedback-id:feedback-id
+        :from:from:in-reply-to:message-id:mime-version:reply-to:sender
+        :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+        :x-me-sender:x-sasl-enc; s=fm1; t=1686416872; x=1686503272; bh=C
+        FxrsTHk2WZ2bHj5E7HOWzGC2M6TbCCvBJcoVes5ASQ=; b=NjIw4pICWS+wOmKQm
+        1JvFxSVOo56p+oLMbtOx+kbeeI6t01RsLM8kprlB/zc679knq1dlFrOL+wE8FEME
+        mmAFpuvGIGrP49cxKoc9kqWhPlX0wpzo6RsFb5N3R67UJ2dptFmLg06xx4lcCyZ7
+        UlXREv/EdYUaSjvsbWGWYqUgABLfxE9j7iDOgeBiovjD/HzfPodvq+g029XHvUfh
+        6R7pVnLpqOA8rK5qepvydgnq7z/Y5Rmn8VRt5rket3TftfDCvOD0oT8URRDlfhgR
+        YWiRqygOUFRunE901x96yp3zyPNkOwHDuYirhZkoe6fFfxT2NBDPynKznM6S/HYa
+        zNNsA==
+X-ME-Sender: <xms:562EZIHNmIhVynvm4xE89UT3qDlPgrSIbHlL_DhLNY3MF9ozhD153w>
+    <xme:562EZBWCkwrOhRchGamiG1LC4POJ4DW7-7uWHjkIJge4DAfzB5BA8hm4kbmQ3i3Vr
+    tmAOoZRv1_hGUo>
+X-ME-Received: <xmr:562EZCKZaSApRloWyugsw47u4f85dZw7icN334m9xVu8tWsQHWZ0pkfwNKljG6gO9g9ZDNGnfEw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgedutddgudduudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefhvfevufffkffogggtgfesthekredtredtjeenucfhrhhomhepffgvmhhi
+    ucforghrihgvucfqsggvnhhouhhruceouggvmhhisehinhhvihhsihgslhgvthhhihhngh
+    hslhgrsgdrtghomheqnecuggftrfgrthhtvghrnhephfeggfeiiedtieejgedutdekgfet
+    geehheegteekvefhfefgudehtdevleegueegnecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepuggvmhhisehinhhvihhsihgslhgvthhhihhnghhs
+    lhgrsgdrtghomh
+X-ME-Proxy: <xmx:562EZKErxpgl5N_se3kC8U37cL5hz2WlqsADlcD4GKe7rtwn3Zrp1g>
+    <xmx:562EZOX9QiqhLuzoWJ93E4yM6dzrE0GxOw99lLBSC620PpT0gMQ12g>
+    <xmx:562EZNN0pFTENofYZ29lVzLhPTdxbAtlN0V5TwFhFWiRgfiFnT4dMg>
+    <xmx:6K2EZFOg-xqiLURhcCMM0Nouy_Ve5GKyKJqvBV2aCAS2z947YwW29w>
+Feedback-ID: iac594737:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 10 Jun 2023 13:07:50 -0400 (EDT)
+From:   Demi Marie Obenour <demi@invisiblethingslab.com>
+To:     Hans de Goede <hdegoede@redhat.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        syzbot <syzbot+96127c74434e19e4609d@syzkaller.appspotmail.com>,
-        syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] [tomoyo?] [fs?] INFO: rcu detected stall in newfstatat
- (3)
-Message-ID: <1d22149e-ee69-45e9-82f6-cbd8dd9c624e@rowland.harvard.edu>
-References: <0000000000009752a005fdc2d114@google.com>
- <b45fa2fd-a19d-7507-726c-66a47f532bf4@I-love.SAKURA.ne.jp>
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Juergen Gross <jgross@suse.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+        Lee Jones <lee@kernel.org>, Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc:     Demi Marie Obenour <demi@invisiblethingslab.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, xen-devel@lists.xenproject.org
+Subject: [PATCH v2 0/3] Make sscanf() stricter
+Date:   Sat, 10 Jun 2023 13:07:40 -0400
+Message-Id: <20230610170743.2510-1-demi@invisiblethingslab.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b45fa2fd-a19d-7507-726c-66a47f532bf4@I-love.SAKURA.ne.jp>
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -43,67 +101,36 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Jun 10, 2023 at 07:09:26PM +0900, Tetsuo Handa wrote:
-> Regarding drivers/media/rc/ directory, igorplugusb_callback() and irtoy_in_callback() and
-> mceusb_dev_recv() are handling -EPROTO error, by calling usb_unlink_urb() and returning
-> instead of calling usb_submit_urb() again. This indicates that lack of -EPROTO (and some
-> other error codes) handling in usb_rx_callback_intf0() is causing infinite resubmit loop.
-> So, which error codes does usb_rx_callback_intf0() need to handle?
+Roger Pau Monné suggested making xenbus_scanf() stricter instead of
+using a custom parser.  Christoph Hellwig asked why the normal vsscanf()
+cannot be made stricter.  Richard Weinberger mentioned Linus Torvalds’s
+suggestion of using ! to allow overflow.
 
-It depends on how much error handling you want to do.
+Changes since v1:
 
-In theory some USB errors are transient, so they can be worked around by 
-retrying over a period of several seconds.  In practice I haven't found 
-those sorts of error to occur often enough to be worth the trouble, 
-although other people may disagree.
+- Better commit messages.
+- Use ! to explicitly opt-in to allowing overflow.
+- Treat overflow as a conversion failure instead of returning ERANGE.
+- Drop the first patch (removal of simple_strtoll()) as it breaks
+  bcache.
+- Stop skipping spaces in vsscanf() instead of adding a separate
+  vsscanf_strict() function.
 
-Some drivers just give up completely on any unrecognized error.  That's 
-not an unreasonable approach.  But it does make any sort of recovery 
-difficult -- the user may need to unbind and rebind the driver, or reset 
-the device, or even unplug and replug the device.  (Of course, if the 
-reason for the error occurring in the first place was because the user 
-hot-unplugged the device, these considerations are moot.)
+Demi Marie Obenour (3):
+  vsscanf(): Integer overflow is a conversion failure
+  vsscanf(): do not skip spaces
+  Strict XenStore entry parsing
 
-However, you should realize that the testing done by syzbot differs from 
-normal device operation in a signficant way: Instead of using real 
-hardware with real packet timings and so on, syzbot uses a software 
-emulator.  The emulation isn't perfect, and the difference tends to show 
-up when drivers immediately resubmit failed URBs.  The resubmitted URB 
-quickly fails for the same reason as before, is resubmitted again, etc.  
-This puts the emulator into a tight loop, much of which runs in 
-interrupt or softirq context, causing the system to stall.  Real 
-hardware would not behave the same way.
+ .../hive_isp_css_include/platform_support.h   |  1 -
+ drivers/xen/xenbus/xenbus_xs.c                | 17 ++--
+ include/linux/limits.h                        |  1 +
+ include/linux/mfd/wl1273-core.h               |  3 -
+ include/vdso/limits.h                         |  3 +
+ lib/vsprintf.c                                | 90 +++++++++++++------
+ 6 files changed, 80 insertions(+), 35 deletions(-)
 
-Alan Stern
+-- 
+Sincerely,
+Demi Marie Obenour (she/her/hers)
+Invisible Things Lab
 
-> static void usb_rx_callback_intf0(struct urb *urb)
-> {
-> 	dev_warn(ictx->dev, "imon %s: status(%d): ignored\n",
-> 		__func__, urb->status);
-> 	usb_submit_urb(ictx->rx_urb_intf0, GFP_ATOMIC);
-> }
-> 
-> #syz set subsystems: usb
-> 
-> On 2023/06/10 18:07, syzbot wrote:
-> > Hello,
-> > 
-> > syzbot found the following issue on:
-> > 
-> > HEAD commit:    d37537a1f7cf Merge 6.4-rc5 into usb-next
-> > git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-> > console output: https://syzkaller.appspot.com/x/log.txt?x=15d9b771280000
-> > kernel config:  https://syzkaller.appspot.com/x/.config?x=9e12d6d7f5296037
-> > dashboard link: https://syzkaller.appspot.com/bug?extid=96127c74434e19e4609d
-> > compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=153d7959280000
-> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15bcb6b5280000
-> > 
-> > Downloadable assets:
-> > disk image: https://storage.googleapis.com/syzbot-assets/752b1860c3b6/disk-d37537a1.raw.xz
-> > vmlinux: https://storage.googleapis.com/syzbot-assets/6f9c9f2751b2/vmlinux-d37537a1.xz
-> > kernel image: https://storage.googleapis.com/syzbot-assets/bf7433b7dd12/bzImage-d37537a1.xz
-> > 
-> > IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> > Reported-by: syzbot+96127c74434e19e4609d@syzkaller.appspotmail.com
-> 
