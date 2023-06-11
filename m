@@ -2,43 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EDB5E72B0A2
-	for <lists+linux-media@lfdr.de>; Sun, 11 Jun 2023 09:43:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F6AB72B184
+	for <lists+linux-media@lfdr.de>; Sun, 11 Jun 2023 13:08:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233060AbjFKHml (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 11 Jun 2023 03:42:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59998 "EHLO
+        id S232308AbjFKLIL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 11 Jun 2023 07:08:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229562AbjFKHmk (ORCPT
+        with ESMTP id S229483AbjFKLII (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 11 Jun 2023 03:42:40 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 695212D48
-        for <linux-media@vger.kernel.org>; Sun, 11 Jun 2023 00:42:38 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 05DBD60B98
-        for <linux-media@vger.kernel.org>; Sun, 11 Jun 2023 07:42:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7D9BC433D2;
-        Sun, 11 Jun 2023 07:42:36 +0000 (UTC)
-Message-ID: <fb0a3e84-7174-59b9-d8eb-a966ab61bf73@xs4all.nl>
-Date:   Sun, 11 Jun 2023 09:42:35 +0200
+        Sun, 11 Jun 2023 07:08:08 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14A1D10FB
+        for <linux-media@vger.kernel.org>; Sun, 11 Jun 2023 04:08:07 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1q8IvO-0005o4-Ri; Sun, 11 Jun 2023 13:07:58 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1q8IvG-006dPW-1c; Sun, 11 Jun 2023 13:07:50 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1q8IvF-00DAvn-AG; Sun, 11 Jun 2023 13:07:49 +0200
+Date:   Sun, 11 Jun 2023 13:07:49 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Corey Minyard <cminyard@mvista.com>,
+        Peter Senna Tschudin <peter.senna@gmail.com>,
+        Haowen Bai <baihaowen@meizu.com>, linux-media@vger.kernel.org,
+        Tom Rix <trix@redhat.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        linux-staging@lists.linux.dev,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Adrien Grassein <adrien.grassein@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        kernel@pengutronix.de, Jean Delvare <jdelvare@suse.de>
+Subject: Re: [PATCH v2 2/5] media: atomisp: Switch i2c drivers back to use
+ .probe()
+Message-ID: <20230611110749.jujuc2j6qx2nlihy@pengutronix.de>
+References: <20230524151646.486847-1-u.kleine-koenig@pengutronix.de>
+ <20230524151646.486847-3-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [ANN] Media Summit June 26th: Draft Agenda v4
-Content-Language: en-US
-To:     wens@kernel.org
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <4ca781b7-1bdd-d71b-ea48-715346672e48@xs4all.nl>
- <CAGb2v673n60PnwNAJeJyvqK1hWNVTRaKLtzU8EfvVbCAO230cw@mail.gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <CAGb2v673n60PnwNAJeJyvqK1hWNVTRaKLtzU8EfvVbCAO230cw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ylgp6gq634z4w6mq"
+Content-Disposition: inline
+In-Reply-To: <20230524151646.486847-3-u.kleine-koenig@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -47,71 +68,49 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/06/2023 09:33, Chen-Yu Tsai wrote:
-> Hi Hans,
-> 
-> On Fri, Jun 9, 2023 at 9:08 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->>
->> Hi all,
->>
->> This is version 4 of the agenda for the media summit. Changes since v3:
->> - add the fact mask policy
->> - updates to the attendees list.
->>
->> As always, the agenda is subject to change and all times are guesstimates!
->>
->> The media summit will be held on Monday June 26th at the Holiday Inn which
->> is close to the conference centre where the Embedded Open Source Summit is held:
->>
->> Holiday Inn Prague Congress Centre - Meeting room "E"
->> Na Pankráci 1684/ 15, 140 00 Praha 4-Nusle
->> https://www.ihg.com/holidayinn/hotels/us/en/prague/prgnp/hoteldetail
->>
->> Refreshments (tea/coffee/soda) are available during the day.
->>
->> The meeting room is sponsored by Collabora and Cisco Systems Norway.
->> And lunch is sponsored by Ideas On Board.
->>
->> Many thanks to the sponsors!
->>
->> Regarding the face mask policy: we will follow the same guidance that the
->> Linux Foundation gives for the EOSS conference:
->>
->> https://events.linuxfoundation.org/embedded-open-source-summit/attend/health-and-safety/
->>
->> So: "Masks are recommended, but not required, to be worn at the event."
->>
->> In-Person Attendees:
->>
->> Sakari Ailus <sakari.ailus@linux.intel.com> (Intel)
->> Daniel Almeida <daniel.almeida@collabora.com> (Collabora)
->> Deborah Brouwer <deborahbrouwer3563@gmail.com>
->> Mauro Carvalho Chehab <mchehab@kernel.org> (Media Kernel Maintainer)
->> Marco Felsch <m.felsch@pengutronix.de> (Pengutronix)
->> Sebastian Fricke <sebastian.fricke@collabora.com> (Collabora)
->> Martin Hecht <martin.hecht@avnet.eu> (Avnet)
->> Jai Luthra <j-luthra@ti.com> (TI)
->> Tommaso Merciai <tomm.merciai@gmail.com> (Avnet)
->> Jacopo Mondi <jacopo.mondi@ideasonboard.com> (Ideas On Board)
->> Andrzej Pietrasiewicz <andrzej.p@collabora.com> (Collabora)
->> Laurent Pinchart <laurent.pinchart@ideasonboard.com> (Ideas On Board)
->> Ricardo Ribalda <ribalda@chromium.org> (Google)
->> Michael Roeder <michael.roeder@avnet.eu> (Avnet)
->> Niklas Söderlund <niklas.soderlund@ragnatech.se> (Ragnatech)
->> Dave Stevenson <dave.stevenson@raspberrypi.com> (Raspberry Pi)
->> Martin Tůma <tumic@gpxsee.org> (GPXSee)
->> Stanimir Varbanov <stanimir.varbanov@linaro.org> (Linaro, tentative, after 16:30 only)
->> Hans Verkuil <hverkuil-cisco@xs4all.nl> (Cisco Systems Norway)
->> Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> (Ideas On Board)
->> Arthur Vinchon <arthur.vinchon@allegrodvt.com> (AllegroDVT)
->> Alain Volmat <alain.volmat@foss.st.com> (ST Electronics)
-> 
-> I'm still not on the list?
 
-You were added everywhere except in this list in this email :-)
+--ylgp6gq634z4w6mq
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Apologies for that, v5 will have you listed.
+Hello,
 
-Regards,
+On Wed, May 24, 2023 at 05:16:43PM +0200, Uwe Kleine-K=F6nig wrote:
+> After commit b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new()
+> call-back type"), all drivers being converted to .probe_new() and then
+> 03c835f498b5 ("i2c: Switch .probe() to not take an id parameter") convert
+> back to (the new) .probe() to be able to eventually drop .probe_new() from
+> struct i2c_driver.
+>=20
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
 
-	Hans
+the four other patches from this series are already in next, this one
+wasn't picked up yet though. There is another change for staging: media:
+atomisp in next via Mauro's media-next (branch: fixes).
+
+Who wants/should pick up this change?
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--ylgp6gq634z4w6mq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmSFqwQACgkQj4D7WH0S
+/k4EDAf+N/WOndvYElwhTM47DRHzev2j8LYxaENNCO8QpY2ENiN4yJoO/jbnP1ol
+iKyvYKSK+hH3cZ8Ixs8060aJFQJHQfEz/tTJ37JLBX3Vz+yoasHzyhW45vXmXLtb
+4hRKeleQ9dxjSQPzqjMjkz6shCNBP1qZ45Zp9isC/bcuCSWgMFb86PdRGMdbvCh2
+Ru1fyINNtdZ+iady9mT0zwck2GM6ZO5WTeymK8LjMFdQfKgwwHvpFfEMEgRExzqy
+W6+3IdGNyQ2HMe4SHY7MhIWwSnGJDbT1v8fnCsQY/1jxr0sXWzQ0QthOKV716Z7+
++na/Hk6kRQWdg0rSHM7H/jNXnUVXxA==
+=wJ71
+-----END PGP SIGNATURE-----
+
+--ylgp6gq634z4w6mq--
