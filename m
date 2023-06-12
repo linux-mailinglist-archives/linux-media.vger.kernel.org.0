@@ -2,150 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8958772C09A
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jun 2023 12:53:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34ECD72C261
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jun 2023 13:04:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236256AbjFLKxf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Jun 2023 06:53:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55650 "EHLO
+        id S237401AbjFLLEm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Jun 2023 07:04:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235677AbjFLKxV (ORCPT
+        with ESMTP id S237393AbjFLLEX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Jun 2023 06:53:21 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54B0EAD15;
-        Mon, 12 Jun 2023 03:37:50 -0700 (PDT)
-X-UUID: a5f1aae2090a11ee9cb5633481061a41-20230612
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=ag/ogO0fKzzP/rZ7bOztATw0TgAk/QxL0wKdHkzytbs=;
-        b=KSVuB3pBmLBvrrAHjrm0+FcB84U5c47mvGZOqCFaVxjh5nGQxQWpcsGrvj9ftubPCMLPLjxKK9sX0vQEMCmKxYD6ST1nq5pkJEHkA7bl15S8yL79gtgUabM0hMKq4Ql8m29DAadNgqw9/+xRzROoIMCdlA6safbpr8KknM3Xlcw=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.26,REQID:81819fd7-066f-4186-997e-14e423f2ebeb,IP:0,U
-        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-        release,TS:0
-X-CID-META: VersionHash:cb9a4e1,CLOUDID:3e9a593e-7aa7-41f3-a6bd-0433bee822f3,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: a5f1aae2090a11ee9cb5633481061a41-20230612
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
-        (envelope-from <yunfei.dong@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1929309898; Mon, 12 Jun 2023 18:19:43 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Mon, 12 Jun 2023 18:19:41 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Mon, 12 Jun 2023 18:19:40 +0800
-From:   Yunfei Dong <yunfei.dong@mediatek.com>
-To:     =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?= 
-        <nfraprado@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Nathan Hebert <nhebert@chromium.org>
-CC:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        Chen-Yu Tsai <wenst@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Steve Cho <stevecho@chromium.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v2] media: mediatek: vcodec: fix cancel_work_sync fail with fluster test
-Date:   Mon, 12 Jun 2023 18:19:39 +0800
-Message-ID: <20230612101939.20259-1-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+        Mon, 12 Jun 2023 07:04:23 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55FFD8A6C
+        for <linux-media@vger.kernel.org>; Mon, 12 Jun 2023 03:52:36 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1q8fA2-001L81-Ng; Mon, 12 Jun 2023 10:52:34 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1q8fA0-008Nx9-3i; Mon, 12 Jun 2023 10:52:32 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT FIXES FOR v6.5] (v2) Various fixes that need to go into v6.5 (#92460)
+Date:   Mon, 12 Jun 2023 10:52:32 +0000
+Message-Id: <20230612105232.1998653-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <a912e164-94c9-b6af-3e0e-8e1fca97e697@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-MTK:  N
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,
-        T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Will cause below warning then reboot when exercising the decoder with
-fluster on mt8192-asurada-spherion.
+From: builder@linuxtv.org
 
-This deinit function is called on the v4l2 release callback, even though the
-work might not have been initialized as that only happens if/when the codec
-specific 'decode' callback is called (as a result of device_run m2m callback).
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/a912e164-94c9-b6af-3e0e-8e1fca97e697@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/313944/
+Build time: 00:20:16
+Link: https://lore.kernel.org/linux-media/a912e164-94c9-b6af-3e0e-8e1fca97e697@xs4all.nl
 
-CPU: 5 PID: 2338 Comm: gst-launch-1.0 Tainted: G        W          6.4.0-rc5-next-20230607+ #475
-Hardware name: Google Spherion (rev0 - 3) (DT)
-pstate: 00400009 (nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-pc : __flush_work.isra.0+0x23c/0x258
-lr : __cancel_work_timer+0x14c/0x1c8
-sp : ffff8000896e3b00
-x29: ffff8000896e3b00 x28: ffff57c3d4079f80 x27: 0000000000000000
-x26: ffff57c3d4079f80 x25: ffffb76395b59dc8 x24: 0000000000000001
-x23: ffffb763928daab8 x22: ffff57c3d4079f80 x21: 0000000000000000
-x20: ffffb763955f6778 x19: ffff57c3cf06f4a0 x18: 0000000000000000
-x17: 000000040044ffff x16: 005000f2b5503510 x15: 0000000000000000
-x14: ffff57c3c03a1f80 x13: ffffa0616a2fc000 x12: 000000003464d91d
-x11: 0000000000000000 x10: 0000000000001b10 x9 : ffffb763928de61c
-x8 : ffff57c3d407baf0 x7 : 0000000000000000 x6 : ffff57c3d4079f80
-x5 : ffff57c3d4079f80 x4 : 0000000000000000 x3 : 0000000000000000
-x2 : ffff8000896e3bf0 x1 : 0000000000000011 x0 : 0000000000000000
-Call trace:
- __flush_work.isra.0+0x23c/0x258
- __cancel_work_timer+0x14c/0x1c8
- cancel_work_sync+0x1c/0x30
- vdec_msg_queue_deinit+0xac/0xc8
- vdec_h264_slice_deinit+0x64/0xb8
- vdec_if_deinit+0x3c/0x68
- mtk_vcodec_dec_release+0x20/0x40
- fops_vcodec_release+0x50/0xd8
- v4l2_release+0x7c/0x100
- __fput+0x80/0x270
- ____fput+0x18/0x30
- task_work_run+0x78/0xe0
- do_notify_resume+0x29c/0x7f8
- el0_svc+0xa4/0xb8
- el0t_64_sync_handler+0xc0/0xc8
- el0t_64_sync+0x1a8/0x1b0
----[ end trace 0000000000000000 ]---
+gpg: Signature made Mon 12 Jun 2023 09:53:41 AM UTC
+gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
 
-Fixes: 297160d411e3 ("media: mediatek: vcodec: move core context from device to each instance")
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-Reported-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
-changed with v1:
-- add Reported-by and Reviewed-by.
----
- drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Summary: got 4/7 patches with issues, being 4 at build time, plus one error when buinding PDF document
 
-diff --git a/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c b/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
-index f555341ae708..04e6dc6cfa1d 100644
---- a/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
-+++ b/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
-@@ -233,7 +233,8 @@ void vdec_msg_queue_deinit(struct vdec_msg_queue *msg_queue,
- 		kfree(lat_buf->private_data);
- 	}
- 
--	cancel_work_sync(&msg_queue->core_work);
-+	if (msg_queue->wdma_addr.size)
-+		cancel_work_sync(&msg_queue->core_work);
- }
- 
- static void vdec_msg_queue_core_work(struct work_struct *work)
--- 
-2.25.1
+Error/warnings:
+
+patches/0001-media-amphion-use-dev_err_probe.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	SPARSE:../drivers/staging/media/tegra-video/vip.c ../drivers/staging/media/tegra-video/vip.c:280:24: warning: symbol 'tegra_vip_driver' was not declared. Should it be static?
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c: ../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:476 ov2680_init_cfg() error: we previously assumed 'sd_state' could be null (see line 468)
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:524 ov2680_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:447 gc0310_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:517 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:4283 atomisp_set_fmt_to_snr() warn: variable dereferenced before check 'asd' (see line 4268)
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2775 mxc_jpeg_probe() warn: missing unwind goto?
+	../drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c: ../drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c:347 vdec_msg_queue_init() warn: missing unwind goto?
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
+	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000012Kb sm_state_count = 1967074
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 55 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2878 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
+	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+
+patches/0003-media-imx-jpeg-Support-to-assign-slot-for-encoder-de.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2772 mxc_jpeg_probe() warn: missing unwind goto?
+
+patches/0006-media-pci-cx23885-fix-error-handling-for-cx23885-ATS.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() parse error: OOM: 3000024Kb sm_state_count = 1961373
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 44 seconds
+
+patches/0007-media-mediatek-vcodec-fix-cancel_work_sync-fail-with.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c: ../drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c:348 vdec_msg_queue_init() warn: missing unwind goto?
+
+   checkpatch.pl:
+	$ cat patches/0007-media-mediatek-vcodec-fix-cancel_work_sync-fail-with.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:17: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+	-:53: WARNING: Reported-by: should be immediately followed by Closes: with a URL to the report
+
+
+Error #512 when building PDF docs
 
