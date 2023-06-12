@@ -2,58 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 76E1F72C277
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jun 2023 13:06:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EE1C72C2CF
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jun 2023 13:33:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237914AbjFLLGp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Jun 2023 07:06:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36298 "EHLO
+        id S233318AbjFLLcv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Jun 2023 07:32:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238064AbjFLLEy (ORCPT
+        with ESMTP id S233010AbjFLLcf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Jun 2023 07:04:54 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7886A93F7
-        for <linux-media@vger.kernel.org>; Mon, 12 Jun 2023 03:53:11 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-5185f195f05so233521a12.2
-        for <linux-media@vger.kernel.org>; Mon, 12 Jun 2023 03:53:11 -0700 (PDT)
+        Mon, 12 Jun 2023 07:32:35 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B417F359C
+        for <linux-media@vger.kernel.org>; Mon, 12 Jun 2023 04:08:08 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id 2adb3069b0e04-4f60a27c4a2so4610085e87.2
+        for <linux-media@vger.kernel.org>; Mon, 12 Jun 2023 04:08:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google; t=1686567190; x=1689159190;
+        d=rasmusvillemoes.dk; s=google; t=1686568086; x=1689160086;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=8SLBrnwbHCvnK+EhlE8eJ/+pq9MyO6Q+aOHOn+73hw8=;
-        b=I4Jo53AtXKUAWujuX6TPrsPzylsWLanXZel9thkXkSIXOVui0kQwzZh7YdgZmor2Jt
-         tf80rFrTpAgnDS6xkg4Y4x6JU6myT/iURXuMuHmCcitBuH5EU/XswWhVMDm6BPH7P2nw
-         YALTxnobGGv+uPJIXW5C/Hq8IwS3T/UAFliuw=
+        bh=Cqc/dWIkGp13SLIIu6IJWBJIUBo6SVnCPSxnZiD/2qs=;
+        b=Ee1kxW2zIBpufE5Pd30SjljWSF8bmQ23PvcXOTfBLWDuhuzmi4GNxm81r6THqfr1R8
+         TF/XbV/vQPE7NAjqG5CUcG091GIVP+OIZkR2eVbcnqSSGulqYKQ0tS4fGce1Vqz72BEK
+         4dnF5FIjP/ixuv50EXQjUSlglRcu6SFfk78g0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686567190; x=1689159190;
+        d=1e100.net; s=20221208; t=1686568086; x=1689160086;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8SLBrnwbHCvnK+EhlE8eJ/+pq9MyO6Q+aOHOn+73hw8=;
-        b=bzj1NsFT1MukryCCf3l4MniTEBS2YnWVuJGKhehl2GjQ8KNOPa9U+R7dIpJUxhZBBu
-         64ZnVdDgalQ0WRM9u5CzyOyaJ5U/ZvRnHuplCvIRh3Sk+FKKbOSatznhDK9o6J39jtLJ
-         xLahRsg8Ew5XPpv8Mq7TZYHC/bj2nNj7mUCjyzLEd7a2EAyZ7t37LnSe+5jxIOGumsW5
-         iG9gMJHwvhGqXuLwyJIwH92eCokgIzcc7XjjQ57prGwySF9xS85Gqb5ftbafcNVAj/9Q
-         YdlM1J2fpRmmYjCn2kqfQ2GjCjlVn9qjHsOWoFCi7SNjJYAQ2x+D/3W0j+PhpFlliKy1
-         Ztdg==
-X-Gm-Message-State: AC+VfDym5nRTgrkcuxcnCqAK4jfEKki8a9OQ+EfO8FKZywg3n4FLnjDT
-        lFi1m4k6rC8cFsx0+hj0b1nQiw==
-X-Google-Smtp-Source: ACHHUZ7U3uNm5on+y8jIMuDZ1cfGc9aiIN8XESopyRzBAdqMM/RLAE//onmpwNxNuERJC8T8wQeJ7A==
-X-Received: by 2002:aa7:d40e:0:b0:510:8ee2:2b05 with SMTP id z14-20020aa7d40e000000b005108ee22b05mr5081219edq.38.1686567189783;
-        Mon, 12 Jun 2023 03:53:09 -0700 (PDT)
+        bh=Cqc/dWIkGp13SLIIu6IJWBJIUBo6SVnCPSxnZiD/2qs=;
+        b=JIFWdahEzAE/COQsdHiyGQrCoGeXoCIC7MkM0H5xggejpCwIZlZcedrQYG7X6ZRTGH
+         Iy/dmYxnrZmZ8XP/MGhkHtzc7kd6qoJ6XxpFjgcxWJtVWiSri72QpvAvLiT29PB3XVOr
+         51fkJ2PK3+IDBbYPexBq7HYSB4nfhH3GHZar02hmrFUyj2d3EE6BDYdlpzz4cVzGFQQF
+         /TheIQV2Mu0tejmV+W+52Q7Trp02IhYWn6Uv9D6KdU8ISanr34vyTi5ygtFTQ6oEDdME
+         7FS9OlFF8iOb0vbVe31nrH7bNIQJrNeqh6ofoly3xZFZdxGTNGYyY+TyUw1eBUGbgM7g
+         Lviw==
+X-Gm-Message-State: AC+VfDyD6BPOfeyLyfY3AzFFYfgj6u7Yy52xt+5jZxCsoeTAfTnM4H3N
+        s7is79as9t1qWXMndH80uLYnvQ==
+X-Google-Smtp-Source: ACHHUZ7b8SUOyAvo5mZ/ej3K8XSkF1lyVZaH5wXsQAhZBy44s+7p1e2LN2fuBFmbbRRFjOsD8ITAwQ==
+X-Received: by 2002:a05:6512:3123:b0:4f3:a723:1dc6 with SMTP id p3-20020a056512312300b004f3a7231dc6mr3958647lfd.52.1686568086176;
+        Mon, 12 Jun 2023 04:08:06 -0700 (PDT)
 Received: from [172.16.11.116] ([81.216.59.226])
-        by smtp.gmail.com with ESMTPSA id g20-20020aa7c854000000b005169cd0edffsm4876752edt.35.2023.06.12.03.53.07
+        by smtp.gmail.com with ESMTPSA id q5-20020a19a405000000b004edafe3f8dbsm1420627lfc.11.2023.06.12.04.08.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Jun 2023 03:53:09 -0700 (PDT)
-Message-ID: <96b45245-bdd8-119d-e7a9-44eb36be0f97@rasmusvillemoes.dk>
-Date:   Mon, 12 Jun 2023 12:53:06 +0200
+        Mon, 12 Jun 2023 04:08:05 -0700 (PDT)
+Message-ID: <546e2ab5-f520-c85e-d6f4-ca7b02457d4c@rasmusvillemoes.dk>
+Date:   Mon, 12 Jun 2023 13:08:04 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH v3 2/4] vsscanf(): Integer overflow is a conversion
- failure
+Subject: Re: [PATCH v3 3/4] vsscanf(): do not skip spaces
 Content-Language: en-US, da
 To:     Demi Marie Obenour <demi@invisiblethingslab.com>,
         Hans de Goede <hdegoede@redhat.com>,
@@ -72,13 +71,13 @@ To:     Demi Marie Obenour <demi@invisiblethingslab.com>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
         linux-kernel@vger.kernel.org, xen-devel@lists.xenproject.org,
-        Linus Torvalds <torvalds@linux-foundation.org>
+        Christoph Hellwig <hch@lst.de>
 References: <20230610204044.3653-1-demi@invisiblethingslab.com>
- <20230610204044.3653-3-demi@invisiblethingslab.com>
+ <20230610204044.3653-4-demi@invisiblethingslab.com>
 From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-In-Reply-To: <20230610204044.3653-3-demi@invisiblethingslab.com>
+In-Reply-To: <20230610204044.3653-4-demi@invisiblethingslab.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -90,34 +89,20 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 10/06/2023 22.40, Demi Marie Obenour wrote:
-> sscanf() and friends currently ignore integer overflow, but this is a
-> bad idea.  It is much better to detect integer overflow errors and
-> consider this a conversion failure.
+> Passing spaces before e.g. an integer is usually
+> not intended. 
 
-Perhaps. And maybe I even agree. But not like this:
+Maybe, maybe not. But it's mandated by POSIX/C99.
 
->  	while (*fmt) {
->  		/* skip any white space in format */
-> @@ -3464,6 +3474,9 @@ int vsscanf(const char *buf, const char *fmt, va_list args)
->  			break;
->  		++fmt;
->  
-> +		allow_overflow = *fmt == '!';
-> +		fmt += (int)allow_overflow;
-> +
+And of course we are free to ignore that and implement our own semantics
+(though within the constraints that we really want -Wformat to help us),
+but there seems to be existing code in-tree that relies on this
+behavior. For example I think this will break
+fsl_sata_intr_coalescing_store() which uses a scanf format of "%u%u".
 
-You can't do that. Or, at least, you won't be able to actually use %!d
-anywhere, because the compiler will yell at you:
-
-lib/vsprintf.c: In function ‘foobar’:
-lib/vsprintf.c:3727:26: error: unknown conversion type character ‘!’ in
-format [-Werror=format=]
- 3727 |  ret = sscanf("12345", "%!d", &val);
-      |                          ^
-
-So NAK.
-
-Also, when you make significant changes to the sscanf implementation,
-I'd expect the diffstat for the patch series to contain lib/test_scanf.c.
+Sure, that could just say "%u %u" instead, but the point is that
+currently it doesn't. So without some reasonably thorough analysis
+across the tree, and updates of affected callers, NAK.
 
 Rasmus
+
