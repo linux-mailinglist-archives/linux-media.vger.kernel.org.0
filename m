@@ -2,193 +2,222 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C6A2E72BB96
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jun 2023 11:03:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2463072BB9E
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jun 2023 11:04:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230089AbjFLJDJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Jun 2023 05:03:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57294 "EHLO
+        id S231145AbjFLJE3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Jun 2023 05:04:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232647AbjFLJB7 (ORCPT
+        with ESMTP id S230412AbjFLJD5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Jun 2023 05:01:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 483733A89
-        for <linux-media@vger.kernel.org>; Mon, 12 Jun 2023 01:57:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1686560273;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=KefTDABidt7cSjjh6aQ+Edj8Q7pzgQz5zImwtoABOC0=;
-        b=BoWDYi1xQX5eCBUjTUIcSrPgoCnJ60kHkPLRfiDlrAUdPIg4rbjmLD7iue59An2zjXko5r
-        HkKtgO8illDzSYlpaN8NOmT43YORH4ZFmm/b9pf3iWmeOweHoiNgejIfhM+0pea/wFwQHJ
-        761u9q5vzUmLGQtr2x6p73vWuMA1Xrs=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-318-y7bPXGIsPUyAhkUaPL12yw-1; Mon, 12 Jun 2023 04:57:49 -0400
-X-MC-Unique: y7bPXGIsPUyAhkUaPL12yw-1
-Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-514b3b99882so3341037a12.2
-        for <linux-media@vger.kernel.org>; Mon, 12 Jun 2023 01:57:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686560268; x=1689152268;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KefTDABidt7cSjjh6aQ+Edj8Q7pzgQz5zImwtoABOC0=;
-        b=Du7JchEBap4e3RbtUHmpMPEvclMFwCB6D+A9iKBolThNetBUmvmKI2T/1JW9ehqQ+w
-         gRGTvr8YGnw8Ui+/OVxeZbyfcXG84hiInDebRF36ZNf0XA3odq8VjFwDgGXyLw56I/pc
-         pCd/i5xTBYm0UCZfhge4iw9UZDjiHeF4SkRrCsfRpM7amRgn5EGQzzRhyOcBY7l5ugfW
-         H6owyFdgumeFEvBvXXxUDp/4hVjwK5idMJv0GFBbWmxww8hIeW3nhK5yFqhsdVWtln3a
-         zqFbpPRGOLiRhLANnr6S9F3L67DqLtw0bbyHl8VucjYX4IXsu1Ih7iMaQFpe2eKHiIc2
-         Ftsw==
-X-Gm-Message-State: AC+VfDxuTOoPZvmAnX+IuIV/fq8Q4DHBto/HoivxGgqBkVRRuG1t56ZL
-        09/u6BU7lp29iKVX6RD3K9PiR1KK1ai78lznZxmjzh4iyBg+qvUHw5Wnkz7EeMNprv0Cr6baDbE
-        4cUTZDc2tUoixxw8rqVyZtsA=
-X-Received: by 2002:aa7:d290:0:b0:510:e80f:fa4e with SMTP id w16-20020aa7d290000000b00510e80ffa4emr4718807edq.1.1686560268752;
-        Mon, 12 Jun 2023 01:57:48 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ73J7+akaD8nqbmQHqhIBLcI/qoEnTbIlTJ+xbp+oSdiqXRGt70Pl4jpkISl8FDVK2TRblS2Q==
-X-Received: by 2002:aa7:d290:0:b0:510:e80f:fa4e with SMTP id w16-20020aa7d290000000b00510e80ffa4emr4718794edq.1.1686560268469;
-        Mon, 12 Jun 2023 01:57:48 -0700 (PDT)
-Received: from [10.40.98.142] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id m9-20020aa7c489000000b0051422f31b1bsm4742993edq.63.2023.06.12.01.57.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Jun 2023 01:57:47 -0700 (PDT)
-Message-ID: <08ab2cea-e6f2-f782-3189-cb4b68e1c668@redhat.com>
-Date:   Mon, 12 Jun 2023 10:57:46 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 04/28] media: ov2680: Use select VIDEO_V4L2_SUBDEV_API
-Content-Language: en-US
-To:     Dan Scally <dan.scally@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mon, 12 Jun 2023 05:03:57 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0225C1A1
+        for <linux-media@vger.kernel.org>; Mon, 12 Jun 2023 02:00:31 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EC85F891;
+        Mon, 12 Jun 2023 11:00:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1686560401;
+        bh=Lm9+FvnB0exEtgUWBr8fURberZIF3dmdMvBmrdajoUM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=omFrhoy9rrjJ0k6njRwEdCaWTBz7ejUKZ3VpHVNCDEzES8Tywc67qXFbKpZFqYSvi
+         +bbhSXCPgiGDw+6ZNYHzJl0OfLvyeuIBNLRXreWxgsovj38unowWKNfm3RkOft4wDh
+         Qxzf5f1llLgN3Y+3Ihu5/VV/s8nyJV8ONT0QrZ28=
+Date:   Mon, 12 Jun 2023 12:00:30 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Dan Scally <dan.scally@ideasonboard.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Andy Shevchenko <andy@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org
+Subject: Re: [PATCH 03/28] media: ov2680: Fix vflip / hflip set functions
+Message-ID: <20230612090030.GB17519@pendragon.ideasonboard.com>
 References: <20230607164712.63579-1-hdegoede@redhat.com>
- <20230607164712.63579-5-hdegoede@redhat.com>
- <4f5bf176-da5f-ac67-b750-7e08bfdf3b50@ideasonboard.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <4f5bf176-da5f-ac67-b750-7e08bfdf3b50@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
+ <20230607164712.63579-4-hdegoede@redhat.com>
+ <a128069f-bd3c-5170-68aa-0f196d48205f@ideasonboard.com>
+ <ea37f7cf-499a-3514-dd5b-cc8c69992875@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <ea37f7cf-499a-3514-dd5b-cc8c69992875@redhat.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-
-On 6/12/23 10:20, Dan Scally wrote:
+On Mon, Jun 12, 2023 at 10:06:09AM +0200, Hans de Goede wrote:
+> On 6/12/23 09:32, Dan Scally wrote:
+> > Hello Hans (and everybody else)
+> > 
+> > On 07/06/2023 17:46, Hans de Goede wrote:
+> >> ov2680_vflip_disable() / ov2680_hflip_disable() pass BIT(0) instead of
+> >> 0 as value to ov2680_mod_reg().
+> >>
+> >> While fixing this also:
+> >>
+> >> 1. Stop having separate enable/disable functions for hflip / vflip
+> >> 2. Move the is_streaming check, which is unique to hflip / vflip
+> >>     into the ov2680_set_?flip() functions.
+> > 
+> > I think the code in the patch is good, but I wonder about the right
+> > way to deal with the changed pixel ordering following a flip/mirror.
+> > None of the other Omnivision sensor drivers I've looked at disallow
+> > a flip/mirror whilst streaming, but of course doing so wrecks the
+> > colours. I don't think that there's any reason we couldn't make the
+> > equivalent calculation to ov2680_set_bayer_order() within libcamera
+> > though and configure the ipu3-imgu appropriately, and so properly
+> > support a flip-whilst-streaming...but quite possibly I'm missing
+> > something. So I'm leaning towards "let's just drop the is_streaming
+> > check", but I'm interested in what everyone else thinks.
 > 
-> On 07/06/2023 17:46, Hans de Goede wrote:
->> Select VIDEO_V4L2_SUBDEV_API in Kconfig and drop the
->> ifdef CONFIG_VIDEO_V4L2_SUBDEV_API checks, like other callers
->> of v4l2_subdev_get_try_format() do.
->>
->> This is a preparation patch for fixing ov2680_set_fmt()
->> which == V4L2_SUBDEV_FORMAT_TRY calls not properly filling in
->> the passed in v4l2_mbus_framefmt struct.
->>
->> Fixes: 3ee47cad3e69 ("media: ov2680: Add Omnivision OV2680 sensor driver")
-> Not sure about Fixes on this one as I don't think it was necessarily broken before, but either way 
-Ah right, I should have added a note after a cut line that the Fixes tag is there because this is a pre-requisite for further fixes in the series.
+> So the story wrt flipping on the ov2680 is complicated.
 
-> Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+The story of flipping is complicated, period :-)
 
-Thank you,
+We made a mistake in V4L2 when adding support for Bayer formats. We
+should have created RAW{8,10,12,...} media bus codes and pixel formats,
+regardless of the CFA pattern, and conveyed the pattern information
+out-of-band. This would have allowed changing the CFA pattern during
+streaming.
 
+As a result of this bad decision, various sensor drivers have decided to
+move the crop rectangle by one pixel when flipping, in order to preserve
+the CFA pattern. In some cases, this crop rectangle adjustement is even
+performed by the camera sensor itself (and I've seen OV sensors where
+this behaviour is configurable, you can disable the auto-adjustment
+through a register). Other drivers change their reported CFA pattern
+when flipping, and disable flipping changes during streaming.
+
+TL;DR: It's a mess. It's probably not too late to fix that, and move
+towards RAW media bus codes, but it won't be easy.
+
+> I have done quite a bit
+> of testing wrt the flipping with the atomisp-ov2680.c version of the code and
+> I have made the following observations:
+> 
+> 1. By default the ISP window is set to auto which means the ISP will set it so that
+> the bayer order does NOT change when flipping. Except when trying to use the full
+> native sensor resolution because then the ISP has no "room" to adjust the window to
+> fixup the bayer order. So the whole ov2680_set_bayer_order() helper is only relevant
+> when either using manual ISP settings or when using the full native resolution.
+> Note the ISP here is the sensor's internal ISP (which has very little functionality
+> on the ov2680).
+> 
+> 2. Independent of auto vs manual ISP window settings changing flipping during mid
+> stream does not work. Instead of the colors getting messed up the sensor simply just
+> stops streaming when changing the flipping mid stream.
+> 
+> Because of 2. I have decided to keep ov2680_set_bayer_order() and add support
+> for manually setting the ISP window so that the full native size can be used.
+> 
+> Having the full native size available is important for the atomisp ISP since
+> that expects the resolution outputted by the sensor to have some padding
+> (minimum 12 / 14 pixels depending on bayer order) vs the resolution being
+> output to userspace.
+> 
+> Manually setting the ISP window makes things actually work as the code
+> expected before doing this (the manually setting the ISP window is also done
+> in the commit adding the mode-dependent registers calculation).
+> 
+> 2. Also means we need to keep the is_streaming checks. Changing flipping
+> while streaming simply does not work on this sensor (or at least I don't know
+> how to make it work).
+> 
+> As Sakari already mentioned it seems that the current mainline driver has
+> not seen much testing of things like the flip controls.
+> 
+> >> for a nice code cleanup.
+> >>
+> >> Fixes: 3ee47cad3e69 ("media: ov2680: Add Omnivision OV2680 sensor driver")
+> >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> >> ---
+> >>   drivers/media/i2c/ov2680.c | 48 +++++++++-----------------------------
+> >>   1 file changed, 11 insertions(+), 37 deletions(-)
+> >>
+> >> diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
+> >> index 9a9c90c8a949..c1b23c5b7818 100644
+> >> --- a/drivers/media/i2c/ov2680.c
+> >> +++ b/drivers/media/i2c/ov2680.c
+> >> @@ -328,11 +328,14 @@ static void ov2680_set_bayer_order(struct ov2680_dev *sensor)
+> >>       sensor->fmt.code = ov2680_hv_flip_bayer_order[hv_flip];
+> >>   }
+> >>   -static int ov2680_vflip_enable(struct ov2680_dev *sensor)
+> >> +static int ov2680_set_vflip(struct ov2680_dev *sensor, s32 val)
+> >>   {
+> >>       int ret;
+> >>   -    ret = ov2680_mod_reg(sensor, OV2680_REG_FORMAT1, BIT(2), BIT(2));
+> >> +    if (sensor->is_streaming)
+> >> +        return -EBUSY;
+> >> +
+> >> +    ret = ov2680_mod_reg(sensor, OV2680_REG_FORMAT1, BIT(2), val ? BIT(2) : 0);
+> >>       if (ret < 0)
+> >>           return ret;
+> >>   @@ -340,33 +343,14 @@ static int ov2680_vflip_enable(struct ov2680_dev *sensor)
+> >>       return 0;
+> >>   }
+> >>   -static int ov2680_vflip_disable(struct ov2680_dev *sensor)
+> >> +static int ov2680_set_hflip(struct ov2680_dev *sensor, s32 val)
+> >>   {
+> >>       int ret;
+> >>   -    ret = ov2680_mod_reg(sensor, OV2680_REG_FORMAT1, BIT(2), BIT(0));
+> >> -    if (ret < 0)
+> >> -        return ret;
+> >> +    if (sensor->is_streaming)
+> >> +        return -EBUSY;
+> >>   -    return ov2680_bayer_order(sensor);
+> >> -}
+> >> -
+> >> -static int ov2680_hflip_enable(struct ov2680_dev *sensor)
+> >> -{
+> >> -    int ret;
+> >> -
+> >> -    ret = ov2680_mod_reg(sensor, OV2680_REG_FORMAT2, BIT(2), BIT(2));
+> >> -    if (ret < 0)
+> >> -        return ret;
+> >> -
+> >> -    return ov2680_bayer_order(sensor);
+> >> -}
+> >> -
+> >> -static int ov2680_hflip_disable(struct ov2680_dev *sensor)
+> >> -{
+> >> -    int ret;
+> >> -
+> >> -    ret = ov2680_mod_reg(sensor, OV2680_REG_FORMAT2, BIT(2), BIT(0));
+> >> +    ret = ov2680_mod_reg(sensor, OV2680_REG_FORMAT2, BIT(2), val ? BIT(2) : 0);
+> >>       if (ret < 0)
+> >>           return ret;
+> >>   @@ -719,19 +703,9 @@ static int ov2680_s_ctrl(struct v4l2_ctrl *ctrl)
+> >>       case V4L2_CID_EXPOSURE:
+> >>           return ov2680_exposure_set(sensor, ctrl->val);
+> >>       case V4L2_CID_VFLIP:
+> >> -        if (sensor->is_streaming)
+> >> -            return -EBUSY;
+> >> -        if (ctrl->val)
+> >> -            return ov2680_vflip_enable(sensor);
+> >> -        else
+> >> -            return ov2680_vflip_disable(sensor);
+> >> +        return ov2680_set_vflip(sensor, ctrl->val);
+> >>       case V4L2_CID_HFLIP:
+> >> -        if (sensor->is_streaming)
+> >> -            return -EBUSY;
+> >> -        if (ctrl->val)
+> >> -            return ov2680_hflip_enable(sensor);
+> >> -        else
+> >> -            return ov2680_hflip_disable(sensor);
+> >> +        return ov2680_set_hflip(sensor, ctrl->val);
+> >>       case V4L2_CID_TEST_PATTERN:
+> >>           return ov2680_test_pattern_set(sensor, ctrl->val);
+> >>       default:
+
+-- 
 Regards,
 
-Hans
-
-
-
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->>   drivers/media/i2c/Kconfig  |  1 +
->>   drivers/media/i2c/ov2680.c | 16 ++--------------
->>   2 files changed, 3 insertions(+), 14 deletions(-)
->>
->> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
->> index 8f55155afe67..791473fcbad3 100644
->> --- a/drivers/media/i2c/Kconfig
->> +++ b/drivers/media/i2c/Kconfig
->> @@ -433,6 +433,7 @@ config VIDEO_OV2680
->>       tristate "OmniVision OV2680 sensor support"
->>       depends on VIDEO_DEV && I2C
->>       select MEDIA_CONTROLLER
->> +    select VIDEO_V4L2_SUBDEV_API
->>       select V4L2_FWNODE
->>       help
->>         This is a Video4Linux2 sensor driver for the OmniVision
->> diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
->> index c1b23c5b7818..d90bbca6e913 100644
->> --- a/drivers/media/i2c/ov2680.c
->> +++ b/drivers/media/i2c/ov2680.c
->> @@ -559,7 +559,6 @@ static int ov2680_get_fmt(struct v4l2_subdev *sd,
->>   {
->>       struct ov2680_dev *sensor = to_ov2680_dev(sd);
->>       struct v4l2_mbus_framefmt *fmt = NULL;
->> -    int ret = 0;
->>         if (format->pad != 0)
->>           return -EINVAL;
->> @@ -567,22 +566,17 @@ static int ov2680_get_fmt(struct v4l2_subdev *sd,
->>       mutex_lock(&sensor->lock);
->>         if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
->> -#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
->>           fmt = v4l2_subdev_get_try_format(&sensor->sd, sd_state,
->>                            format->pad);
->> -#else
->> -        ret = -EINVAL;
->> -#endif
->>       } else {
->>           fmt = &sensor->fmt;
->>       }
->>   -    if (fmt)
->> -        format->format = *fmt;
->> +    format->format = *fmt;
->>         mutex_unlock(&sensor->lock);
->>   -    return ret;
->> +    return 0;
->>   }
->>     static int ov2680_set_fmt(struct v4l2_subdev *sd,
->> @@ -591,9 +585,7 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
->>   {
->>       struct ov2680_dev *sensor = to_ov2680_dev(sd);
->>       struct v4l2_mbus_framefmt *fmt = &format->format;
->> -#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
->>       struct v4l2_mbus_framefmt *try_fmt;
->> -#endif
->>       const struct ov2680_mode_info *mode;
->>       int ret = 0;
->>   @@ -616,10 +608,8 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
->>       }
->>         if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
->> -#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
->>           try_fmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
->>           format->format = *try_fmt;
->> -#endif
->>           goto unlock;
->>       }
->>   @@ -777,9 +767,7 @@ static int ov2680_v4l2_register(struct ov2680_dev *sensor)
->>       v4l2_i2c_subdev_init(&sensor->sd, sensor->i2c_client,
->>                    &ov2680_subdev_ops);
->>   -#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
->>       sensor->sd.flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
->> -#endif
->>       sensor->pad.flags = MEDIA_PAD_FL_SOURCE;
->>       sensor->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
->>   
-> 
-
+Laurent Pinchart
