@@ -2,149 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DF0672C2FF
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jun 2023 13:38:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68C1B72C30A
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jun 2023 13:38:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235555AbjFLLiL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Jun 2023 07:38:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52740 "EHLO
+        id S236502AbjFLLiX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Jun 2023 07:38:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235701AbjFLLhy (ORCPT
+        with ESMTP id S232666AbjFLLiC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Jun 2023 07:37:54 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7493D7D93;
-        Mon, 12 Jun 2023 04:20:04 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0C2EA6134B;
-        Mon, 12 Jun 2023 11:20:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 517FEC433EF;
-        Mon, 12 Jun 2023 11:19:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686568803;
-        bh=23JwlmTrqv4IR+K4vNf3mjg3Y1quit9pjndWhP+WBVQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WbVmaT/k2NJ431omJScx8rn6Tr4xCwHvNKr6toopgTYPT/LQMqMpo7FBV6vIGJ4Ih
-         +HSkHHWJ35Kcb4B/GPixREIZZBfO6jCqVm2Oj7ei4Ar3Tq5VdX+HzY8hRcQXP/+huS
-         OJbyhn41f3IULnSq0wd/dz2lHKMxj8853QNGxSQmcax6UBGdjg1/NwAF+VG6M3OHL2
-         ZzOOn7hwX4hqHpXo5AUa9bZN9l3F97lPwSQv46KeDu8M33XqdrFtdbw9tq1DG+/U0P
-         7qVFwPAn09GyfkCtFxQ5HZGZsXWZZPEQgoJDyew2d9LSRvZgIIxDgS8gSf/0U6hnid
-         f8spn2rSpOb/Q==
-Date:   Mon, 12 Jun 2023 12:19:55 +0100
-From:   Lee Jones <lee@kernel.org>
-To:     Demi Marie Obenour <demi@invisiblethingslab.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Juergen Gross <jgross@suse.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v3 1/4] limits.h: add UCHAR_MAX, SCHAR_MAX, and SCHAR_MIN
-Message-ID: <20230612111955.GM3635807@google.com>
-References: <20230610204044.3653-1-demi@invisiblethingslab.com>
- <20230610204044.3653-2-demi@invisiblethingslab.com>
+        Mon, 12 Jun 2023 07:38:02 -0400
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2050.outbound.protection.outlook.com [40.107.95.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6C0B7DA9;
+        Mon, 12 Jun 2023 04:22:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZXpY5NnUwF+sWuxWNqHEs+WfhOUDpox+pWnaV/6d80lfV1ms3KUBVE+8ekqzb7IXJX21nqiihO+vSUMqphIAZVY/1VPWGhr4G9mo9nrfPhvSf+U+4BQhTH+pmhqtxdOVZUMTl9Ig0l78CLg4jipqf4JrGzREm/j0T27bwIecKHzDGh9nomt/800PHPcAXjxKd8RM93Z4829KhPOXKaihEzI/x/z/DcnYrLE5pl6rsC00qIFDMKQWIzzqAXm4adWS3ZbKNFmZqgdojLA5xtXHd0GvLZ44/f9/j2sekKQl1u5qixL7diZfXO7VJ7J81opsHJsfMjGWqOkVMBUL4oeO2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GLnMStLtrWncnm5zSYGs6xqhC6fI/PDojUN45dxVH0M=;
+ b=P95jUf5awNHbfI9k5ThM7WcxdpqPQT2dVamUvuVZlX6gxCkKePzK96YVjYAA1ApvWL5zMn+Zl7s0rBWz1Tsc+gJkUH2I0tjLPmLeIWs2PVQcnxwyXWZt8DPrUn6+JBNfaEyv4YmpiX1qwVmngJOaB9lFaMeLA2OlyGGZCwqZ1X+G+cplvOcOD4M/3EHetlKS7CbtK9CNOnvlH6UbvURqffyas54PG5lXLJ7TiGuCg7rCzWqYMzmw/WDUcTEYFjbcbmPIj9eotxCHn9USd5AOU/qKKgxhVykAdJNj4m2PC+plNKoqQk5mFaxjveZDv4GKGJ3RlPGV25fFBqMmwhtSPg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GLnMStLtrWncnm5zSYGs6xqhC6fI/PDojUN45dxVH0M=;
+ b=DaHfWHaWPi38dFaN/arCZy+WzaxOIa7olXpKPoK5uNfUUzdTE6vU1H04qpVyTqMvbWJ3aFFWvnhAhRbVutqmXVR90Su4FuqIn5YlXSxQKfmZKyDLsuBlYxQq9gluunnObx0CoHU/5rODJex+fGh9s8Df31+dHi1kpYXkzSHobHk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BYAPR12MB3589.namprd12.prod.outlook.com (2603:10b6:a03:df::29)
+ by DS0PR12MB7533.namprd12.prod.outlook.com (2603:10b6:8:132::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.36; Mon, 12 Jun
+ 2023 11:22:51 +0000
+Received: from BYAPR12MB3589.namprd12.prod.outlook.com
+ ([fe80::401e:2e7f:7c2b:6bff]) by BYAPR12MB3589.namprd12.prod.outlook.com
+ ([fe80::401e:2e7f:7c2b:6bff%4]) with mapi id 15.20.6455.024; Mon, 12 Jun 2023
+ 11:22:51 +0000
+Message-ID: <fc979a4e-c30a-2606-9eec-afbba4fdd774@amd.com>
+Date:   Mon, 12 Jun 2023 13:22:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] accel/qaic: Fix dereferencing freed memory
+Content-Language: en-US
+To:     Sukrut Bellary <sukrut.bellary@linux.com>,
+        Jeffrey Hugo <quic_jhugo@quicinc.com>,
+        Oded Gabbay <ogabbay@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>
+Cc:     linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+References: <20230610021200.377452-1-sukrut.bellary@linux.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20230610021200.377452-1-sukrut.bellary@linux.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0074.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9a::16) To BYAPR12MB3589.namprd12.prod.outlook.com
+ (2603:10b6:a03:df::29)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230610204044.3653-2-demi@invisiblethingslab.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3589:EE_|DS0PR12MB7533:EE_
+X-MS-Office365-Filtering-Correlation-Id: 401ef1df-6a0b-4fc6-6913-08db6b375b97
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1gq9mm558ulT1Thk0y9RTmFJWtv8XKJ31Dkr6EBnf4UQRT5INIWOEtAzqgkxmM8XuPin/Kul+ZJBdffinBm4KUJWwIrw2vctNh/UjMRvm+RTW81FCxHkCgcjV9CyXQwtpV6neijC3n5vmoUof6pCNLXVxq4oZuYI+9e9k8GWKJCneUhwJ9JnVyqSPr+hZ78JwjZpyo28p6REWjv1LfHa52dFLHs/uFqKLVfHN9Xj2R9rbHESH+w5gY2NDXHBV7EAJekShsu29Gt+y1IyJ+OZxyRWr2NMT/TYE92X20w2Ra0n4DPFjRgViCQEfiVvTcIA+LveRvm8kKSwenRZafO8l86DCwayeAP54UePAiH2znUKoGDQ+rnvjwVV4wWVKH8tbpWhLAfHmcpI7rs6PsKliHoRKJjW6/QUD3USUlLeMTZdNIILAmUsCrNkcd8HzzN3xu0xwPW/Gm7Bb7NJw6Zqjq9r4dmZqB7OIQEsjIL3vwtZHTERhY7lY5d3qiuncPY5JBra/67fxQqGgTs8juhX1k+uoliLReE3z+7VodqC6HaNZ3l+OJGUEknRhXEQJkvXkQ+MEKCOElmujxcac8jqD830wha0FJu4bIT/KUo8RWLILPB+jXsc6OXLbnWZxrgv8ggpAzPxLBDGY8uvgGm5yQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB3589.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(396003)(366004)(376002)(39860400002)(136003)(451199021)(83380400001)(7416002)(36756003)(478600001)(8936002)(8676002)(4326008)(66476007)(66946007)(41300700001)(66556008)(316002)(31696002)(5660300002)(38100700002)(86362001)(6666004)(6486002)(2906002)(110136005)(186003)(6506007)(2616005)(31686004)(6512007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dW1hY0l0TmRGV29ydjFSZExMVFpGNDFqR20xYitOTXdDZDQ4dFQwa1V2eStO?=
+ =?utf-8?B?K25Od2l1QTNZaDgreDhYQnNzK0pDcXJxS1RTd29sV29OamNXTHVodHZienRp?=
+ =?utf-8?B?bmZqaHByNFBQejlXRHIyOCtHOFF4M2tDajV0WTc5M0tuZWZnaFl6VTBXZ1dV?=
+ =?utf-8?B?c0JQNUhsbFBucE9HQm9hQ3FMRWgxWTBZZkQybnJiWXpneFUvMGd5WUNpdmRT?=
+ =?utf-8?B?dWVhUnU1cVY3eGJzcHpwd1RZcW5JOVd1U0lvQVg1UzhlYURiK013ODlDNkVQ?=
+ =?utf-8?B?bmNJbDJFMVYyRisvZ2ttcERZTmdhSjV1M3NMOUxTVysxbUhFRk9Vd0FzN0Rx?=
+ =?utf-8?B?VDVzUStKRGJGTjFVSTJoNjNaUFZ2TnhHdXZ3cmIxTzBBRXFiUFV0RTZBR25o?=
+ =?utf-8?B?RW9ROE1yajltQWxhMjlSWDBmTWUwYXg1YkFFbmpkcFYwVkpMK2xYZnAva3NE?=
+ =?utf-8?B?anNmbzhaVU5ZMUY4V2w1RHVSTzY3YkFpWE95cjdoSDhJTUx3c0czeWpzZEQ4?=
+ =?utf-8?B?d1VvUWFqMUxYaERFeDVwNGVLM0pWeTFKVFloZ0hZdnMvdGkxQ3Awczk0MFRi?=
+ =?utf-8?B?eGpxdzBpbG94enFsV2lydS81SitaNTR0Vm94MkoyVk1Qd2xiWE50aTRrNDR1?=
+ =?utf-8?B?UEFTZG5ZQUxIaytkblhoVng2NDMrTUkrc1RGY0cyR2ZSSFlvY08zanljYWhF?=
+ =?utf-8?B?eVZ6Y1pXNytTZUNNVUtUajBBVmRSZlZUQzRWekVEK2NzdzRsb3V2QzZwOTA2?=
+ =?utf-8?B?cGZ0VXBJbVZnMnhoUTUyWVhFQndtTkk0MldNVG12VzdEd0NhV2ZhRWFoaDFF?=
+ =?utf-8?B?VjYzeEpta3JxVTFiY3ZZcmozblloUnVlT3M2eDJzbkZicGJWQlZDLytqTlVi?=
+ =?utf-8?B?VUdPUlhwcVExY2VXNlpxSjZWQnppZFdjQ3Rzbm02ejNoYnhQWThETThXc0NB?=
+ =?utf-8?B?bUIzUFJvR1VJeWg3d3JQQVNtNkEyMHo4d0cxYlpoNVZ3dy9lM3hsT1I4SVpU?=
+ =?utf-8?B?cFZCRm9nYmVrdnVUcytMNE52YU0wWUw1UW45UmZDQ1lxOHY2TGloL3llTnFM?=
+ =?utf-8?B?SGZ6M3V3MythMllJV1VjZXlHL0RZTFp3UG5rZEIzNEJhOFFQcnl6bmN3a0ZI?=
+ =?utf-8?B?TjVlSnhESmpjWnlERXVpUk80TWdBT0xaYVFjUVdmTmJ1MVNwR2h6R2NHUDdP?=
+ =?utf-8?B?SXhRQUQ4MDB2emUwTDhJeXpCZEg5c0VPOXBhM0FDU3NNdHNVMXpiMStJcWZQ?=
+ =?utf-8?B?SXJvMnZvK01pVW5wM2RvVndPa2dQUG5JdkMrMm9hd1EydDAzcVQwdTh6eXNC?=
+ =?utf-8?B?dHlkWWwrNStoMWRWRlVMT05oTFhyODM5MVNnZHMrRzZ0M3AzZHdDcTcyZnF0?=
+ =?utf-8?B?RWZzbFR2WUFrUDdTN21ZTUFleVZnMW1iOE9TMVFxeHk1Um5LRHVJazc2WFl6?=
+ =?utf-8?B?K0FXZGhaZVZoUEhBOU9wTSs0bTNxRXAyb25SU0taTE55UWpYOUtPVnJqV21N?=
+ =?utf-8?B?SGJ1cHdPdmVGYThjZ3BHYmVZYjRBVldQQkV6UmlwejV6MUJSSHI0MkNHQkY2?=
+ =?utf-8?B?ZlcwNUdMOGZMV1NrejZCczJ4R3FVblVUaHEzenRKcWZuUlIrd3ErdngxTmMx?=
+ =?utf-8?B?UzRieDdFWFN0KzFCV3B0WUtPZjVER21UVlB6MXZrWW9ZTmV5UmdCVjI4WWo1?=
+ =?utf-8?B?eXhRbkFnLzE0VzhNOWhsSmtBSitJVjZrNUZicEkwTForUjB1OVhCR0krY3ZQ?=
+ =?utf-8?B?UjBNemx6TkNQZzRseDZqUkd1cnZWbDFkYkY2QmRUWnJsVUh1ems5VEhvdURj?=
+ =?utf-8?B?S2dFdzBjYloyUnNDYloyNGlKaGhmanhRZVhNS2ZiR1Mzb3NUNnNRR29wR1Va?=
+ =?utf-8?B?TWF5MmhIbHBlRWgrYTRRRk1nTXdtVjJiNEpiRzg3dlE4Zi90YzNhbmtVWVZh?=
+ =?utf-8?B?clNYbHppRkJ6T0R2bGpQenpYZEhXZVFEZjg5L3lVeDdkaFRWZ1M3dW5kS2xm?=
+ =?utf-8?B?RnlNQ3lBY0p4MW1OdmpNL0NrWm1Fbk01aDFIc1J3U0NEc3pxY1FRQXlPb1du?=
+ =?utf-8?B?Y3U0ZmlIWFNPUVAzK1ExZ0RTQzc1SWRmYzRob0JXSjdKT2ZiK04yeWZPUTZB?=
+ =?utf-8?B?ZndYdVRhYlY3bnAyak00UGJuUmxYRTR4Nk9Rb2o2TVArdm9zUmlrNTZVVm5q?=
+ =?utf-8?Q?DD2E+i7wFEvkEb04SvcJU6um0QBWSRrktVz953WrWNbW?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 401ef1df-6a0b-4fc6-6913-08db6b375b97
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3589.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2023 11:22:50.9840
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sFlERHHz0dTWSILZTYD8j55PRx7AhmC8Cc/n6mz5sU46MrOZx32x7S4gqFRsCU2v
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7533
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, 10 Jun 2023, Demi Marie Obenour wrote:
 
-> Some drivers already defined these, and they will be used by sscanf()
-> for overflow checks later.  Also add SSIZE_MIN to limits.h, which will
-> also be needed later.
-> 
-> Signed-off-by: Demi Marie Obenour <demi@invisiblethingslab.com>
+
+Am 10.06.23 um 04:12 schrieb Sukrut Bellary:
+> smatch warning:
+> 	drivers/accel/qaic/qaic_data.c:620 qaic_free_object() error:
+> 		dereferencing freed memory 'obj->import_attach'
+>
+> obj->import_attach is detached and freed using dma_buf_detach().
+> But used after free to decrease the dmabuf ref count using
+> dma_buf_put().
+>
+> Fixes: ff13be830333 ("accel/qaic: Add datapath")
+> Signed-off-by: Sukrut Bellary <sukrut.bellary@linux.com>
 > ---
->  .../media/atomisp/pci/hive_isp_css_include/platform_support.h  | 1 -
->  include/linux/limits.h                                         | 1 +
->  include/linux/mfd/wl1273-core.h                                | 3 ---
+>   drivers/accel/qaic/qaic_data.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
+> index e42c1f9ffff8..7cba4d680ea8 100644
+> --- a/drivers/accel/qaic/qaic_data.c
+> +++ b/drivers/accel/qaic/qaic_data.c
+> @@ -613,11 +613,13 @@ static int qaic_gem_object_mmap(struct drm_gem_object *obj, struct vm_area_struc
+>   static void qaic_free_object(struct drm_gem_object *obj)
+>   {
+>   	struct qaic_bo *bo = to_qaic_bo(obj);
+> +	struct dma_buf *dmabuf;
 
-Acked-by: Lee Jones <lee@kernel.org>
+Maybe move that variable into the if.
 
->  include/vdso/limits.h                                          | 3 +++
->  4 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/platform_support.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/platform_support.h
-> index 0cdef4a5e8b1bed9884133f1a0b9d853d59d43a4..e29b96d8bebf14839f6dd48fdc6c0f8b029ef31d 100644
-> --- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/platform_support.h
-> +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/platform_support.h
-> @@ -27,7 +27,6 @@
->  
->  #define UINT16_MAX USHRT_MAX
->  #define UINT32_MAX UINT_MAX
-> -#define UCHAR_MAX  (255)
->  
->  #define CSS_ALIGN(d, a) d __attribute__((aligned(a)))
->  
-> diff --git a/include/linux/limits.h b/include/linux/limits.h
-> index f6bcc936901071f496e3e85bb6e1d93905b12e32..8f7fd85b41fb46e6992d9e5912da00424119227a 100644
-> --- a/include/linux/limits.h
-> +++ b/include/linux/limits.h
-> @@ -8,6 +8,7 @@
->  
->  #define SIZE_MAX	(~(size_t)0)
->  #define SSIZE_MAX	((ssize_t)(SIZE_MAX >> 1))
-> +#define SSIZE_MIN	(-SSIZE_MAX - 1)
->  #define PHYS_ADDR_MAX	(~(phys_addr_t)0)
->  
->  #define U8_MAX		((u8)~0U)
-> diff --git a/include/linux/mfd/wl1273-core.h b/include/linux/mfd/wl1273-core.h
-> index c28cf76d5c31ee1c94a9319a2e2d318bf00283a6..b81a229135ed9f756c749122a8341816031c8311 100644
-> --- a/include/linux/mfd/wl1273-core.h
-> +++ b/include/linux/mfd/wl1273-core.h
-> @@ -204,9 +204,6 @@
->  				 WL1273_IS2_TRI_OPT | \
->  				 WL1273_IS2_RATE_48K)
->  
-> -#define SCHAR_MIN (-128)
-> -#define SCHAR_MAX 127
-> -
->  #define WL1273_FR_EVENT			BIT(0)
->  #define WL1273_BL_EVENT			BIT(1)
->  #define WL1273_RDS_EVENT		BIT(2)
-> diff --git a/include/vdso/limits.h b/include/vdso/limits.h
-> index 0197888ad0e00b2f853d3f25ffa764f61cca7385..0cad0a2490e5efc194d874025eb3e3b846a5c7b4 100644
-> --- a/include/vdso/limits.h
-> +++ b/include/vdso/limits.h
-> @@ -2,6 +2,9 @@
->  #ifndef __VDSO_LIMITS_H
->  #define __VDSO_LIMITS_H
->  
-> +#define UCHAR_MAX	((unsigned char)~0U)
-> +#define SCHAR_MAX	((signed char)(UCHAR_MAX >> 1))
-> +#define SCHAR_MIN	((signed char)(-SCHAR_MAX - 1))
->  #define USHRT_MAX	((unsigned short)~0U)
->  #define SHRT_MAX	((short)(USHRT_MAX >> 1))
->  #define SHRT_MIN	((short)(-SHRT_MAX - 1))
-> -- 
-> Sincerely,
-> Demi Marie Obenour (she/her/hers)
-> Invisible Things Lab
-> 
+>   
+>   	if (obj->import_attach) {
+>   		/* DMABUF/PRIME Path */
+> +		dmabuf = obj->import_attach->dmabuf;
+>   		dma_buf_detach(obj->import_attach->dmabuf, obj->import_attach);
+> -		dma_buf_put(obj->import_attach->dmabuf);
+> +		dma_buf_put(dmabuf);
 
--- 
-Lee Jones [李琼斯]
+I strongly assume you are not using the GEM prime helpers for this?
+
+Christian.
+
+>   	} else {
+>   		/* Private buffer allocation path */
+>   		qaic_free_sgt(bo->sgt);
+
