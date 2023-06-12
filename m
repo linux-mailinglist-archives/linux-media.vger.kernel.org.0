@@ -2,76 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0216272CBE3
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jun 2023 18:54:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8425172CD79
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jun 2023 20:06:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233118AbjFLQyF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Jun 2023 12:54:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46982 "EHLO
+        id S237101AbjFLSGS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Jun 2023 14:06:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229765AbjFLQyE (ORCPT
+        with ESMTP id S236337AbjFLSGR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Jun 2023 12:54:04 -0400
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95995E6F;
-        Mon, 12 Jun 2023 09:54:02 -0700 (PDT)
-X-GND-Sasl: miquel.raynal@bootlin.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1686588841;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=NFGxXNGT2vK1aUEX2eyULHFBjMjXTv31072os0BOR0g=;
-        b=mHk7ZmABb6+jLf8CSEj5alyT7gtzsLQ/af3KkhMXMBK865t1U4a9QYi89GSejccyVDNYO1
-        HA27/ujiKRz535P9LvuKW0o/Tj08WfULwQYETjKw9J7prUAap7rVXHM+zXQkEy8H+P6wM+
-        A2cb8AIWYGMACEwwlTFggRH/v5WpNhDxQZ2FQ3lHra0CnY087M/uT7Qj8nyb1N7bxSHXtu
-        banLsigVSie9/0MxbAuKMc2S/c70jxXhyFuUYbpY+RyyLfaYI21PLDppKfee2WB5T+hdD2
-        dE8dxZ7h57tjG69bo2CpTyDxH8EbY2GGe4peU8Wbw4E4MIp8D4ohFUZOsAhyTQ==
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id CB50F20003;
-        Mon, 12 Jun 2023 16:53:56 +0000 (UTC)
-Date:   Mon, 12 Jun 2023 18:53:54 +0200
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Arseniy Krasnov <AVKrasnov@sberdevices.ru>
-Cc:     Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        <oxffffaa@gmail.com>, <kernel@sberdevices.ru>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Jaime Liao <jaimeliao.tw@gmail.com>,
-        Jaime Liao <jaimeliao@mxic.com.tw>,
-        Mason Yang <masonccyang@mxic.com.tw>,
-        <linux-mtd@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>
-Subject: Re: [PATCH v4] mtd: rawnand: macronix: OTP access for MX30LFxG18AC
-Message-ID: <20230612185354.09b88e0d@xps-13>
-In-Reply-To: <20230523101637.3009746-1-AVKrasnov@sberdevices.ru>
-References: <20230523101637.3009746-1-AVKrasnov@sberdevices.ru>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        Mon, 12 Jun 2023 14:06:17 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C680FE63;
+        Mon, 12 Jun 2023 11:06:15 -0700 (PDT)
+Received: from notapiano (zone.collabora.co.uk [167.235.23.81])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nfraprado)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id AE45C6606EAE;
+        Mon, 12 Jun 2023 19:06:10 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1686593174;
+        bh=yYx4qqYv+3yHSQphvr+NHsZgUVmCj4ZXNZY98wPyhWA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XPwPwMLI0ZfzEdBT8NjCN8q1A+cvE199gGBV1X45+SJfJJB0mbIJk2K1rMcrnJhyD
+         434Aobe2o5K1K6BFcgdkCkdZhKQRXpjgiq6DVu3e+vOY3qzwY+Rn5nTZCNNaA7+t5t
+         YxHRblK9m+YNlhA8FmzTFZ9yoivi4FS6CmknWzsBM8zf5U6U8Vm7avDPcUltH0cYyv
+         h/0tdUgOFiqkGM9tGHKq0KcRJTq1kwPy90I/lCBmj1nDCsPQrHX3mrAXIq1zrRoc9I
+         TQpFLmNlJzThpP28xKpw4tP8kE8R9FaB9faRh17rNxN/q1hJbojtfIjS17qyIZ4UCA
+         IIDebQY46fBQg==
+Date:   Mon, 12 Jun 2023 14:06:06 -0400
+From:   =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado 
+        <nfraprado@collabora.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>
+Cc:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Nathan Hebert <nhebert@chromium.org>,
+        Chen-Yu Tsai <wenst@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH v2] media: mediatek: vcodec: fix cancel_work_sync fail
+ with fluster test
+Message-ID: <b130377d-4e1a-423c-9e51-c96a3833b51c@notapiano>
+References: <20230612101939.20259-1-yunfei.dong@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230612101939.20259-1-yunfei.dong@mediatek.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -79,288 +69,60 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+On Mon, Jun 12, 2023 at 06:19:39PM +0800, Yunfei Dong wrote:
+> Will cause below warning then reboot when exercising the decoder with
+> fluster on mt8192-asurada-spherion.
+> 
+> This deinit function is called on the v4l2 release callback, even though the
+> work might not have been initialized as that only happens if/when the codec
+> specific 'decode' callback is called (as a result of device_run m2m callback).
+> 
+> CPU: 5 PID: 2338 Comm: gst-launch-1.0 Tainted: G        W          6.4.0-rc5-next-20230607+ #475
+> Hardware name: Google Spherion (rev0 - 3) (DT)
+> pstate: 00400009 (nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> pc : __flush_work.isra.0+0x23c/0x258
+> lr : __cancel_work_timer+0x14c/0x1c8
+> sp : ffff8000896e3b00
+> x29: ffff8000896e3b00 x28: ffff57c3d4079f80 x27: 0000000000000000
+> x26: ffff57c3d4079f80 x25: ffffb76395b59dc8 x24: 0000000000000001
+> x23: ffffb763928daab8 x22: ffff57c3d4079f80 x21: 0000000000000000
+> x20: ffffb763955f6778 x19: ffff57c3cf06f4a0 x18: 0000000000000000
+> x17: 000000040044ffff x16: 005000f2b5503510 x15: 0000000000000000
+> x14: ffff57c3c03a1f80 x13: ffffa0616a2fc000 x12: 000000003464d91d
+> x11: 0000000000000000 x10: 0000000000001b10 x9 : ffffb763928de61c
+> x8 : ffff57c3d407baf0 x7 : 0000000000000000 x6 : ffff57c3d4079f80
+> x5 : ffff57c3d4079f80 x4 : 0000000000000000 x3 : 0000000000000000
+> x2 : ffff8000896e3bf0 x1 : 0000000000000011 x0 : 0000000000000000
+> Call trace:
+>  __flush_work.isra.0+0x23c/0x258
+>  __cancel_work_timer+0x14c/0x1c8
+>  cancel_work_sync+0x1c/0x30
+>  vdec_msg_queue_deinit+0xac/0xc8
+>  vdec_h264_slice_deinit+0x64/0xb8
+>  vdec_if_deinit+0x3c/0x68
+>  mtk_vcodec_dec_release+0x20/0x40
+>  fops_vcodec_release+0x50/0xd8
+>  v4l2_release+0x7c/0x100
+>  __fput+0x80/0x270
+>  ____fput+0x18/0x30
+>  task_work_run+0x78/0xe0
+>  do_notify_resume+0x29c/0x7f8
+>  el0_svc+0xa4/0xb8
+>  el0t_64_sync_handler+0xc0/0xc8
+>  el0t_64_sync+0x1a8/0x1b0
+> ---[ end trace 0000000000000000 ]---
+> 
+> Fixes: 297160d411e3 ("media: mediatek: vcodec: move core context from device to each instance")
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> Reported-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-AVKrasnov@sberdevices.ru wrote on Tue, 23 May 2023 13:16:34 +0300:
+Hi Yunfei,
 
-> This adds support for OTP area access on MX30LFxG18AC chip series.
+thanks for addressing the issue. The warnings are now gone with this patch
+applied.
 
-Jaime, any feedback on this? Will you test it?
-
-How are we supposed to test the OTP is locked? I see this is still an
-open point.
-
->=20
-> Signed-off-by: Arseniy Krasnov <AVKrasnov@sberdevices.ru>
-> ---
->   v1 -> v2:
->   * Add slab.h include due to kernel test robot error.
->   v2 -> v3:
->   * Use 'uint64_t' as input argument for 'do_div()' instead
->     of 'unsigned long' due to kernel test robot error.
->   v3 -> v4:
->   * Use 'dev_err()' instead of 'WARN()'.
->   * Call 'match_string()' before checking 'supports_set_get_features'
->     in 'macronix_nand_setup_otp().
->   * Use 'u8' instead of 'uint8_t' as ./checkpatch.pl wants.
->=20
->  drivers/mtd/nand/raw/nand_macronix.c | 216 +++++++++++++++++++++++++++
->  1 file changed, 216 insertions(+)
->=20
-> diff --git a/drivers/mtd/nand/raw/nand_macronix.c b/drivers/mtd/nand/raw/=
-nand_macronix.c
-> index 1472f925f386..be1ffa93bebb 100644
-> --- a/drivers/mtd/nand/raw/nand_macronix.c
-> +++ b/drivers/mtd/nand/raw/nand_macronix.c
-> @@ -6,6 +6,7 @@
->   * Author: Boris Brezillon <boris.brezillon@free-electrons.com>
->   */
-> =20
-> +#include <linux/slab.h>
->  #include "linux/delay.h"
->  #include "internals.h"
-> =20
-> @@ -31,6 +32,20 @@
-> =20
->  #define MXIC_CMD_POWER_DOWN 0xB9
-> =20
-> +#define ONFI_FEATURE_ADDR_30LFXG18AC_OTP	0x90
-> +#define MACRONIX_30LFXG18AC_OTP_START_PAGE	0
-> +#define MACRONIX_30LFXG18AC_OTP_PAGES		30
-> +#define MACRONIX_30LFXG18AC_OTP_PAGE_SIZE	2112
-> +#define MACRONIX_30LFXG18AC_OTP_START_BYTE	\
-> +	(MACRONIX_30LFXG18AC_OTP_START_PAGE *	\
-> +	 MACRONIX_30LFXG18AC_OTP_PAGE_SIZE)
-> +#define MACRONIX_30LFXG18AC_OTP_SIZE_BYTES	\
-> +	(MACRONIX_30LFXG18AC_OTP_PAGES *	\
-> +	 MACRONIX_30LFXG18AC_OTP_PAGE_SIZE)
-> +
-> +#define MACRONIX_30LFXG18AC_OTP_EN		BIT(0)
-> +#define MACRONIX_30LFXG18AC_OTP_LOCKED		BIT(1)
-> +
->  struct nand_onfi_vendor_macronix {
->  	u8 reserved;
->  	u8 reliability_func;
-> @@ -316,6 +331,206 @@ static void macronix_nand_deep_power_down_support(s=
-truct nand_chip *chip)
->  	chip->ops.resume =3D mxic_nand_resume;
->  }
-> =20
-> +static int macronix_30lfxg18ac_get_otp_info(struct mtd_info *mtd, size_t=
- len,
-> +					    size_t *retlen,
-> +					    struct otp_info *buf)
-> +{
-> +	if (len < sizeof(*buf))
-> +		return -EINVAL;
-> +
-> +	/* Don't know how to check that OTP is locked. */
-> +	buf->locked =3D 0;
-> +	buf->start =3D MACRONIX_30LFXG18AC_OTP_START_BYTE;
-> +	buf->length =3D MACRONIX_30LFXG18AC_OTP_SIZE_BYTES;
-> +
-> +	*retlen =3D sizeof(*buf);
-> +
-> +	return 0;
-> +}
-> +
-> +static int macronix_30lfxg18ac_otp_enable(struct nand_chip *nand)
-> +{
-> +	u8 feature_buf[ONFI_SUBFEATURE_PARAM_LEN] =3D { 0 };
-> +
-> +	feature_buf[0] =3D MACRONIX_30LFXG18AC_OTP_EN;
-> +	return nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
-> +				 feature_buf);
-> +}
-> +
-> +static int macronix_30lfxg18ac_otp_disable(struct nand_chip *nand)
-> +{
-> +	u8 feature_buf[ONFI_SUBFEATURE_PARAM_LEN] =3D { 0 };
-> +
-> +	return nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
-> +				 feature_buf);
-> +}
-> +
-> +static int __macronix_30lfxg18ac_rw_otp(struct mtd_info *mtd,
-> +					loff_t offs_in_flash,
-> +					size_t len, size_t *retlen,
-> +					u_char *buf, bool write)
-> +{
-> +	struct nand_chip *nand;
-> +	size_t bytes_handled;
-> +	off_t offs_in_page;
-> +	void *dma_buf;
-> +	u64 page;
-> +	int ret;
-> +
-> +	/* 'nand_prog/read_page_op()' may use 'buf' as DMA buffer,
-> +	 * so allocate properly aligned memory for it. This is
-> +	 * needed because cross page accesses may lead to unaligned
-> +	 * buffer address for DMA.
-> +	 */
-> +	dma_buf =3D kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERNEL);
-> +	if (!dma_buf)
-> +		return -ENOMEM;
-> +
-> +	nand =3D mtd_to_nand(mtd);
-> +	nand_select_target(nand, 0);
-> +
-> +	ret =3D macronix_30lfxg18ac_otp_enable(nand);
-> +	if (ret)
-> +		goto out_otp;
-> +
-> +	page =3D offs_in_flash;
-> +	/* 'page' will be result of division. */
-> +	offs_in_page =3D do_div(page, MACRONIX_30LFXG18AC_OTP_PAGE_SIZE);
-> +	bytes_handled =3D 0;
-> +
-> +	while (bytes_handled < len &&
-> +	       page < MACRONIX_30LFXG18AC_OTP_PAGES) {
-> +		size_t bytes_to_handle;
-> +
-> +		bytes_to_handle =3D min_t(size_t, len - bytes_handled,
-> +					MACRONIX_30LFXG18AC_OTP_PAGE_SIZE -
-> +					offs_in_page);
-> +
-> +		if (write) {
-> +			memcpy(dma_buf, &buf[bytes_handled], bytes_to_handle);
-> +			ret =3D nand_prog_page_op(nand, page, offs_in_page,
-> +						dma_buf, bytes_to_handle);
-> +		} else {
-> +			ret =3D nand_read_page_op(nand, page, offs_in_page,
-> +						dma_buf, bytes_to_handle);
-> +			if (!ret)
-> +				memcpy(&buf[bytes_handled], dma_buf,
-> +				       bytes_to_handle);
-> +		}
-> +		if (ret)
-> +			goto out_otp;
-> +
-> +		bytes_handled +=3D bytes_to_handle;
-> +		offs_in_page =3D 0;
-> +		page++;
-> +	}
-> +
-> +	*retlen =3D bytes_handled;
-> +
-> +out_otp:
-> +	if (ret)
-> +		dev_err(&mtd->dev, "failed to perform OTP IO: %i\n", ret);
-> +
-> +	ret =3D macronix_30lfxg18ac_otp_disable(nand);
-> +	if (ret)
-> +		dev_err(&mtd->dev, "failed to leave OTP mode after %s\n",
-> +			write ? "write" : "read");
-> +
-> +	nand_deselect_target(nand);
-> +	kfree(dma_buf);
-> +
-> +	return ret;
-> +}
-> +
-> +static int macronix_30lfxg18ac_write_otp(struct mtd_info *mtd, loff_t to,
-> +					 size_t len, size_t *rlen,
-> +					 const u_char *buf)
-> +{
-> +	return __macronix_30lfxg18ac_rw_otp(mtd, to, len, rlen, (u_char *)buf,
-> +					    true);
-> +}
-> +
-> +static int macronix_30lfxg18ac_read_otp(struct mtd_info *mtd, loff_t fro=
-m,
-> +					size_t len, size_t *rlen,
-> +					u_char *buf)
-> +{
-> +	return __macronix_30lfxg18ac_rw_otp(mtd, from, len, rlen, buf, false);
-> +}
-> +
-> +static int macronix_30lfxg18ac_lock_otp(struct mtd_info *mtd, loff_t fro=
-m,
-> +					size_t len)
-> +{
-> +	u8 feature_buf[ONFI_SUBFEATURE_PARAM_LEN] =3D { 0 };
-> +	struct nand_chip *nand;
-> +	int ret;
-> +
-> +	if (from !=3D MACRONIX_30LFXG18AC_OTP_START_BYTE ||
-> +	    len !=3D MACRONIX_30LFXG18AC_OTP_SIZE_BYTES)
-> +		return -EINVAL;
-> +
-> +	dev_dbg(&mtd->dev, "locking OTP\n");
-> +
-> +	nand =3D mtd_to_nand(mtd);
-> +	nand_select_target(nand, 0);
-> +
-> +	feature_buf[0] =3D MACRONIX_30LFXG18AC_OTP_EN |
-> +			 MACRONIX_30LFXG18AC_OTP_LOCKED;
-> +	ret =3D nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
-> +				feature_buf);
-> +	if (ret) {
-> +		dev_err(&mtd->dev,
-> +			"failed to lock OTP (set features): %i\n", ret);
-> +		nand_deselect_target(nand);
-> +		return ret;
-> +	}
-> +
-> +	/* Do dummy page prog with zero address. */
-> +	feature_buf[0] =3D 0;
-> +	ret =3D nand_prog_page_op(nand, 0, 0, feature_buf, 1);
-> +	if (ret)
-> +		dev_err(&mtd->dev,
-> +			"failed to lock OTP (page prog): %i\n", ret);
-> +
-> +	ret =3D macronix_30lfxg18ac_otp_disable(nand);
-> +	if (ret)
-> +		dev_err(&mtd->dev, "failed to leave OTP mode after lock\n");
-> +
-> +	nand_deselect_target(nand);
-> +
-> +	return ret;
-> +}
-> +
-> +static void macronix_nand_setup_otp(struct nand_chip *chip)
-> +{
-> +	static const char * const supported_otp_models[] =3D {
-> +		"MX30LF1G18AC",
-> +		"MX30LF2G18AC",
-> +		"MX30LF4G18AC",
-> +	};
-> +	struct mtd_info *mtd;
-> +
-> +	if (match_string(supported_otp_models,
-> +			 ARRAY_SIZE(supported_otp_models),
-> +			 chip->parameters.model) < 0)
-> +		return;
-> +
-> +	if (!chip->parameters.supports_set_get_features)
-> +		return;
-> +
-> +	bitmap_set(chip->parameters.get_feature_list,
-> +		   ONFI_FEATURE_ADDR_30LFXG18AC_OTP, 1);
-> +	bitmap_set(chip->parameters.set_feature_list,
-> +		   ONFI_FEATURE_ADDR_30LFXG18AC_OTP, 1);
-> +
-> +	mtd =3D nand_to_mtd(chip);
-> +	mtd->_get_fact_prot_info =3D macronix_30lfxg18ac_get_otp_info;
-> +	mtd->_read_fact_prot_reg =3D macronix_30lfxg18ac_read_otp;
-> +	mtd->_get_user_prot_info =3D macronix_30lfxg18ac_get_otp_info;
-> +	mtd->_read_user_prot_reg =3D macronix_30lfxg18ac_read_otp;
-> +	mtd->_write_user_prot_reg =3D macronix_30lfxg18ac_write_otp;
-> +	mtd->_lock_user_prot_reg =3D macronix_30lfxg18ac_lock_otp;
-> +}
-> +
->  static int macronix_nand_init(struct nand_chip *chip)
->  {
->  	if (nand_is_slc(chip))
-> @@ -325,6 +540,7 @@ static int macronix_nand_init(struct nand_chip *chip)
->  	macronix_nand_onfi_init(chip);
->  	macronix_nand_block_protection_support(chip);
->  	macronix_nand_deep_power_down_support(chip);
-> +	macronix_nand_setup_otp(chip);
-> =20
->  	return 0;
->  }
-
+Tested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
 Thanks,
-Miqu=C3=A8l
+Nícolas
