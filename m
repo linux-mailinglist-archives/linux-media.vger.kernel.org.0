@@ -2,200 +2,285 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0695972C5BD
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jun 2023 15:22:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 406F172C644
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jun 2023 15:45:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235831AbjFLNWL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Jun 2023 09:22:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52610 "EHLO
+        id S232994AbjFLNpJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Jun 2023 09:45:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229781AbjFLNWJ (ORCPT
+        with ESMTP id S232364AbjFLNpH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Jun 2023 09:22:09 -0400
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2078.outbound.protection.outlook.com [40.107.95.78])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41937AC;
-        Mon, 12 Jun 2023 06:22:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PSOGLaIT1W07/QXcfByUgnGyr8dC7b4WHH+MVqNCSq3sP2EHjGI0Ix9QWiudycYHUeRhvopf+3qzM7seIqxM2Kk/3vWisBaG1GKSj7v51xzW1+jRjyF90+NF8Cg0ouHbIij3Eg6JEgu3hPNymUzZq2o3Wuns3H6gsJDpP04ojDaKuGftmjS+1B7CJSVa7ctGZvk3Ez7bkCof3Jk/k8YwybOYqpnxzfI9r5i7zuVZXTswjQsJV0S0UKd+sn2rd9eecb9hle+m1D1Pe6YaKSA/gyg5xpaY3Bpto7eFL6Vevw5/EpAr1rXFVFze5Eu4Gc6x33zZ3p801jVncQDiq1Jl3w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=s5mge1eShA5IQnwzWxQFDZ+08BVbyNHBjCPhmUwEXEk=;
- b=ByNIZbpZD0J43IGmhWvUBcF2YkjOUv9mukt+eXQaobAKjbNz/QIbMy+3xhFup3Vsi8N8jBHixK+8gsb2lt2llKdNfkeqHbVF46PQVEVeMnHSOpzS4R3dMNqfn44zcU5ZERBBhSppVOqnueHrPPUYth1PkrJDvD3f4XI8PISsIMO5D3Ci+HILP4dblYNjvXaKnbjuEVDLaBIrB0X46egdS6sPlZ/iIYipjmwRp+s5J0yNF+fz4BUwtqwMsMsAZa8J3vsHcVSzCsJuxa/z1BC2x274rjXTAkxqdSasozmFoiVlnj12gaC52512rJwL1mpkmg7S+gIiYmTf7jrltD4tJw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=s5mge1eShA5IQnwzWxQFDZ+08BVbyNHBjCPhmUwEXEk=;
- b=nSet+gvIGpLERmYxjQdEB6obqd0uSNgobY1wcCvpA3ZmG/3cZJ+Y4oSvAUbUMs1SJxF13FId6Jn6VIiUZcIUL20Cl8W+AEFW2mLYlQAMtJaNiLgpUPFUJoeqpaOLSD2Oou10XyuBa+zUOzvSmUV85XA5bQzSaR8H+ZpKDKPUYT4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BYAPR12MB3589.namprd12.prod.outlook.com (2603:10b6:a03:df::29)
- by CH3PR12MB8306.namprd12.prod.outlook.com (2603:10b6:610:12c::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.44; Mon, 12 Jun
- 2023 13:22:05 +0000
-Received: from BYAPR12MB3589.namprd12.prod.outlook.com
- ([fe80::401e:2e7f:7c2b:6bff]) by BYAPR12MB3589.namprd12.prod.outlook.com
- ([fe80::401e:2e7f:7c2b:6bff%4]) with mapi id 15.20.6455.024; Mon, 12 Jun 2023
- 13:22:05 +0000
-Message-ID: <ff196b04-e8c5-52d9-852b-9a9cc7eecdd0@amd.com>
-Date:   Mon, 12 Jun 2023 15:21:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] accel/qaic: Fix dereferencing freed memory
-Content-Language: en-US
-To:     Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
-        Sukrut Bellary <sukrut.bellary@linux.com>,
-        Jeffrey Hugo <quic_jhugo@quicinc.com>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>
-Cc:     linux-arm-msm@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org
-References: <20230610021200.377452-1-sukrut.bellary@linux.com>
- <fc979a4e-c30a-2606-9eec-afbba4fdd774@amd.com>
- <e3a867a8-284b-7250-b1b2-1956f533f6b0@quicinc.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <e3a867a8-284b-7250-b1b2-1956f533f6b0@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0091.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a9::11) To BYAPR12MB3589.namprd12.prod.outlook.com
- (2603:10b6:a03:df::29)
+        Mon, 12 Jun 2023 09:45:07 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BCAEF9
+        for <linux-media@vger.kernel.org>; Mon, 12 Jun 2023 06:45:06 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-4f6255ad8aeso5160421e87.2
+        for <linux-media@vger.kernel.org>; Mon, 12 Jun 2023 06:45:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1686577504; x=1689169504;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=o3c15JFu9uXKITEKskQyKNy6UG3lODZ9zGdrA5UjPqA=;
+        b=JX7+Y1hFg74yunqJeZlCvXLaVJppSs/HSbJ+V0MdjHgLf8LjI9bmPS5rhgYYstYy1O
+         uyHBGLBn20rF5NtWI9f3Z9bFyzHEpHCULCzGmyWYnDtUtSGMWFB6Fzl0xYLNdO0HZSz6
+         mw4Ze8rkizpNWIAjkK99qPkGglNAZbl9UAQamNXiV1Le9RcZwK/Hyd/Yj8PlXAz8hDUI
+         +w2OCgNULZr1sNzw3zrMSis31jqWmQ0P45winxNWDUZ613bc81ClUFGu/qE25hzwvuGe
+         rt9+/1h+1H6ppk9qaZz22pEM24mWi14VLqzTeP6U79Rw1dY01Yu+QNAzUz1wbcdw7Snb
+         gq2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686577504; x=1689169504;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=o3c15JFu9uXKITEKskQyKNy6UG3lODZ9zGdrA5UjPqA=;
+        b=cn+b7P4tYWM5wmV4XuR6qFHp4MPcALOsv5SSPTw/O2zqm5Cyd/+uh30QS1nrmoP1KL
+         usK0FMUU32Hlx00q6Or6KXyeQgJ3oAQ/dIBATtrt9LKZ8F1KBjYSr8j8K78C49SMmeZR
+         p4OHV4omt/x/UifjI5dCj9K5LZ0tO680aeowim7I+fEbWXhZS/0VvJC3SWaFoAk4JZrq
+         MrMmm9SAnsvsMhFXK4+DBNCc+/7HB4e1WA0CSbjrAuE/5k/O8Vt7fWhdKTgXEv3RBrz/
+         msbip4qXs/lq1k1598SanXHzs3YtxnGOORLtX0suiG5XtDlr4Ah6d44FpoN8rw4O1TY5
+         602g==
+X-Gm-Message-State: AC+VfDyWK8URAxX0ZOHIduiTa7sBUrw0v4/ZoOK3uUhmxnB4lEtZtxlV
+        PW76f+xU6KGL5Ujasc5cqC/Pxg==
+X-Google-Smtp-Source: ACHHUZ4h85kfHl3DI8/Abcv89tWBeUmwVQ4OIrcqdypRpQDgTPWDHo356NMqGTKYViQ9nwW38zbtmg==
+X-Received: by 2002:a19:674a:0:b0:4f6:1cc4:8567 with SMTP id e10-20020a19674a000000b004f61cc48567mr4236437lfj.30.1686577504408;
+        Mon, 12 Jun 2023 06:45:04 -0700 (PDT)
+Received: from Linus-Dell.lan ([85.235.12.238])
+        by smtp.gmail.com with ESMTPSA id p6-20020a05651238c600b004f3b319ed4bsm1457389lft.120.2023.06.12.06.45.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jun 2023 06:45:03 -0700 (PDT)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Helge Deller <deller@gmx.de>
+Cc:     linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH] fbdev/media: Use GPIO descriptors for VIA GPIO
+Date:   Mon, 12 Jun 2023 15:45:00 +0200
+Message-Id: <20230612134500.249178-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3589:EE_|CH3PR12MB8306:EE_
-X-MS-Office365-Filtering-Correlation-Id: 699f6d86-3e13-44a1-1c69-08db6b48040a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Co8flGdHn8XVC80FRFvZyQpBSzvvtP3YS+sjbsf02YD1JJ05Bfxs2QeoQfPE6c0NNrwiTJSDxzjCvfE2WuAdfVjuprX8MFFLQpcLEjlrK9XKlFB8HKxlVuvUSt6rPerA3ErGyXaDimJS5JtvJm9fJxLNgMX10B9y6mvS6NqBCmbjq4/y9Y5jyCSmF/ckrOaBuPK5xjlfBk3/6Mq/CCN9nLnbunot9PP3Cgyk0UjvaagHnLyMTN/JY7X002gBgVNt6N/Sr2lmEX5KueQK1NBQWDCxOX/hOwC2m1EhZhbrP/fmyaZx2lvIGeRlrg6cN++nPI3EAxdxWsdQ1sbqhiF0gRaV5bmPOyZ5PIhFJWUK1kX9x2J8KkaR5DTIpVj+QnzmYo227vNsrF6C3+9/zfos/ZGN0EFcmcV4DxLgTjbJE1saeomTtumLBOOMPeJfLJII5GMCPpBY8ie46m7hcT93BHlSWXVJ0tXmrtAyy6AwjhcXFhaNr6WmwuM7I4dqiyQtrfcLxVvyjI4kAqOQaoMs034EmqP8xsmNkzSgFEXWVxSzVGnw6wL4xRnbMe4Ewql4/S44KP+Jb1QsFBYnyNRsEDcGHuaVJoALq4H89BGvCjGOqLyT+ki4h1su6UOiNNMKBXgAMchYDPvUzTdort3fjA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB3589.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(136003)(39860400002)(346002)(376002)(366004)(451199021)(6666004)(6486002)(478600001)(66574015)(6512007)(6506007)(53546011)(83380400001)(186003)(36756003)(38100700002)(31696002)(86362001)(2616005)(31686004)(5660300002)(8936002)(8676002)(316002)(41300700001)(2906002)(4326008)(66556008)(66476007)(66946007)(7416002)(110136005)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZnQyK1l5Y2FkNG8ycmthZlRoWWtVTCtpelBvb1kvRVZDYlMxQVhNaWYrQ2Mr?=
- =?utf-8?B?UUU0RUNNUjV0ZnRQbVF5dnlLNFhicWhubXo3VGdSaWltWk5GZVM2VzJZd0lu?=
- =?utf-8?B?VVM3cTJobWFpekJxL1hKeEVSNHNsTmZNODhuZGpEeHNCbWpmbkY5dHcvWG13?=
- =?utf-8?B?N1RRVnYyd25QMnZhMFVSUTljWmpzb1BXaENpYmF4dkp3QlRPOWhidkVqbElL?=
- =?utf-8?B?UVhSYkVWNGRSdDJYOTI1dU02eUwxY1phdHJ5dTUzcDZwZ3ovUFIrWkd0bDBp?=
- =?utf-8?B?akk4anlxcFZ1VThiT1RPVjkwLy9qRDdHVWFOVkozY2hBWmhPeHhENUFneXQ1?=
- =?utf-8?B?S1M2eERVUjNWM0QzajRXYWFGa2hVUVJHa0FVUkhKNVN1UldVTlJlS0JxSWlo?=
- =?utf-8?B?UDd2bENmc0RlMFBoMm1TWXdLRFlWZlRJb1FaWnVtNDZlM1ZaRzFuaXQ0ejlj?=
- =?utf-8?B?cnpNSlVTWlJtK2dYNEF6NG1yVFVqaTNLa0lTdU9vOXduQm5VSkpYMHUxMlhw?=
- =?utf-8?B?SHZGZ0RyYTdGS2lQQzV1YWZXejdyd2NHUW5sdkFDbWhFbGovaUN5MTYxMncv?=
- =?utf-8?B?VEM2VnZmRGRIVUZ6U0hhZFVkTUdiYVpnb0tFVitneHRLUWRuL21JMGVrMVo5?=
- =?utf-8?B?WWlOR0dMME5WMWNHR1hsMTVHZmZCQWZZdUJXT2xtMUtDRDFMcG04MSsvWDBB?=
- =?utf-8?B?YS9vVS9XcDgwOW5oUXZOcit4OE9tUjk2Nk5BMDZzRkpyS2pKeVBkWTdzK3BE?=
- =?utf-8?B?alhHTmp2bVdlelU0Q2YxR1hlVi91RERINmluN3N6VXRaYTZIM1o0cmhxYTlK?=
- =?utf-8?B?UHc2aEM5bXBzcmtWY3JuMTBhdFJYbnhzZGVEZG1ad2RhaU5rUk5wdEs0cm93?=
- =?utf-8?B?alNiYWgybDVpbW0xamg4QjZQcWVMa0NlZlJLUnZCbTVuL3Z2aStkNGlxSEtT?=
- =?utf-8?B?YWxjblAwR0FINmMvaEp0ZVdnZXN2QjdtTHl0QkR6eU9KV2tmMGFObXJENkZ4?=
- =?utf-8?B?ZGxIdUFjUXkyeHdHVms3dnZkN29EWWtBdHFKcWNvZFVRL2FiaGJlbkd0RGdp?=
- =?utf-8?B?bW5PZFZVTGxDeWxxWTVnbjZBTnN1SFg2UER6WmtPZVlwNmtTRkpoRTZPUDN6?=
- =?utf-8?B?RURBSS93NXhXNmtvY01renVZbmRiY2xVWnhjZU54RFRUWVYyNGdsQ0syV0Ns?=
- =?utf-8?B?eFByU05Fc3lKN1l5Rmt6TEVJMVB6SlVpRlVxTWJla0NaaG5nd2JWL1B0WThF?=
- =?utf-8?B?VEdxNVg3cUlNRU9kd0l6THk5MHQ5TFRXMkdneldOY01oNnNCcDNoMWJ0RGpI?=
- =?utf-8?B?NmxWOVh3emVMWVNwcXMyMldXWndNRXkra0VVQ1hqb1AvQzgzRW9CMjRhckJG?=
- =?utf-8?B?UFpicUpTL0V0QjhqVjREYSszM1lmWldTa3k1bm04cHpaTVlFK1hHaGtBcWhZ?=
- =?utf-8?B?YUE5dmpXQWhzazNxRnVaTGhSZlNtN0YwNmFMcFJHeit1K1ozbUk4MndRU1FX?=
- =?utf-8?B?Q0xtQmFjVFVick1LU0pKN2JhcklCTGp5U1BIUC91VjVUNWczT2srQlcrRG9N?=
- =?utf-8?B?cVpFenhvTVdFSURNb0ovZ2haZXR5KzdTQ21mYkhCM2JzZjlMVDUyS0kwb2lQ?=
- =?utf-8?B?ai9hdDZQZ3A2aEx2N3ZkM3M4blBqSjJ5cHhsR1BqbEJvbzFteXR6WVFOVTJ6?=
- =?utf-8?B?SzZpME92YVdoaEtyNU9pVkx5NWNsZDNLQ1RETnVaR0VJL1o2UFFWVGRZR2xN?=
- =?utf-8?B?Q0x0Tkw3aWlSckpHV1BXenRqTHA1SUplQldWQktYdHdUOWxvcXg4WE8rMDNp?=
- =?utf-8?B?azM1SmtpL2tyZEkzZ3V1OGh5bEExalNucTBpSHZPbGdmbnZLYUdUR1lWcWtt?=
- =?utf-8?B?MTNGMkhXYzhkSFVNMDgzMmY0RjZEMkE0VW0rbVEreGVoZC90dVFhR3FuMkIy?=
- =?utf-8?B?eHdjNmdTaytHSnJuTU1OdnRNZGNWUTR0U1hFY2ZsSXM4ZytnVmh2V0FTOEU3?=
- =?utf-8?B?UW5wRnN1WklqWjVUbUt2R3JmYkVqVXRtRE8zcTBOOGpISTdWWUlSSjVOL1NN?=
- =?utf-8?B?ZExmS3dtbktuamJGbmgyYjRJQXozeDRBZG84WDNiMG9TOXNJSWxRaWt1c0Qy?=
- =?utf-8?B?bkpIU3F2RFU5S1VtNDBGT1AxdTcxN0FoNy94QzBnMHEzUmRqWHE5OTZWUStD?=
- =?utf-8?Q?rR9fX8K02smsVb4vHn+isorPfCyXzARQ0SyR98iDH8xv?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 699f6d86-3e13-44a1-1c69-08db6b48040a
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3589.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2023 13:22:05.6306
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /ItTkRIaOYHj/VASe/4SEn7/ZEvT4ssXgpTA8f4f739v9Pa2jrTnzDj7+JDhdSU9
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8306
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 12.06.23 um 15:03 schrieb Pranjal Ramajor Asha Kanojiya:
->
->
-> On 6/12/2023 4:52 PM, Christian König wrote:
->>
->>
->> Am 10.06.23 um 04:12 schrieb Sukrut Bellary:
->>> smatch warning:
->>>     drivers/accel/qaic/qaic_data.c:620 qaic_free_object() error:
->>>         dereferencing freed memory 'obj->import_attach'
->>>
->>> obj->import_attach is detached and freed using dma_buf_detach().
->>> But used after free to decrease the dmabuf ref count using
->>> dma_buf_put().
->>>
->>> Fixes: ff13be830333 ("accel/qaic: Add datapath")
->>> Signed-off-by: Sukrut Bellary <sukrut.bellary@linux.com>
->>> ---
->>>   drivers/accel/qaic/qaic_data.c | 4 +++-
->>>   1 file changed, 3 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/accel/qaic/qaic_data.c 
->>> b/drivers/accel/qaic/qaic_data.c
->>> index e42c1f9ffff8..7cba4d680ea8 100644
->>> --- a/drivers/accel/qaic/qaic_data.c
->>> +++ b/drivers/accel/qaic/qaic_data.c
->>> @@ -613,11 +613,13 @@ static int qaic_gem_object_mmap(struct 
->>> drm_gem_object *obj, struct vm_area_struc
->>>   static void qaic_free_object(struct drm_gem_object *obj)
->>>   {
->>>       struct qaic_bo *bo = to_qaic_bo(obj);
->>> +    struct dma_buf *dmabuf;
->>
->> Maybe move that variable into the if.
->>
->>>       if (obj->import_attach) {
->>>           /* DMABUF/PRIME Path */
->>> +        dmabuf = obj->import_attach->dmabuf;
->>>           dma_buf_detach(obj->import_attach->dmabuf, 
->>> obj->import_attach);
->>> -        dma_buf_put(obj->import_attach->dmabuf);
->>> +        dma_buf_put(dmabuf);
->>
->> I strongly assume you are not using the GEM prime helpers for this?
->>
->> Christian.
->
-> Driver uses drm_gem_prime_fd_to_handle() helper function but it also 
-> registers for ->gem_prime_import() which is internally called by 
-> drm_gem_prime_fd_to_handle(). All the operations done in 
-> gem_prime_import() are undone here.
+The VIA fbdev exposes a custom GPIO chip for its GPIOs, these
+are in turn looked up the camera driver using a custom API.
 
-Then why don't you use drm_prime_gem_destroy() which is the cleanup 
-helper for imports created by ->gem_prime_import() ?
+Drop the custom API, provide a look-up table and convert to
+GPIO descriptors. Note proper polarity on the RESET line.
 
-That looks pretty much identical to what you do here manually.
+Cc: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+I don't know about the merge path for this one, let's merge
+it in the provider (fbdev) if possible.
+This looks like OLPC stuff.
+---
+ drivers/media/platform/via/via-camera.c       | 51 ++++++++-----------
+ drivers/video/fbdev/via/via-core.c            |  2 +-
+ drivers/video/fbdev/via/via-gpio.c            | 26 +++++-----
+ .../video/fbdev/via}/via-gpio.h               |  1 -
+ 4 files changed, 34 insertions(+), 46 deletions(-)
+ rename {include/linux => drivers/video/fbdev/via}/via-gpio.h (84%)
 
-Regards,
-Christian.
-
->
->>
->>>       } else {
->>>           /* Private buffer allocation path */
->>>           qaic_free_sgt(bo->sgt);
->>
+diff --git a/drivers/media/platform/via/via-camera.c b/drivers/media/platform/via/via-camera.c
+index 450254403fa8..4cb8f29e2f14 100644
+--- a/drivers/media/platform/via/via-camera.c
++++ b/drivers/media/platform/via/via-camera.c
+@@ -11,7 +11,7 @@
+ #include <linux/device.h>
+ #include <linux/list.h>
+ #include <linux/pci.h>
+-#include <linux/gpio.h>
++#include <linux/gpio/consumer.h>
+ #include <linux/interrupt.h>
+ #include <linux/platform_device.h>
+ #include <linux/videodev2.h>
+@@ -26,7 +26,6 @@
+ #include <linux/dma-mapping.h>
+ #include <linux/pm_qos.h>
+ #include <linux/via-core.h>
+-#include <linux/via-gpio.h>
+ #include <linux/via_i2c.h>
+ 
+ #ifdef CONFIG_X86
+@@ -71,8 +70,8 @@ struct via_camera {
+ 	/*
+ 	 * GPIO info for power/reset management
+ 	 */
+-	int power_gpio;
+-	int reset_gpio;
++	struct gpio_desc *power_gpio;
++	struct gpio_desc *reset_gpio;
+ 	/*
+ 	 * I/O memory stuff.
+ 	 */
+@@ -180,27 +179,19 @@ static struct via_format *via_find_format(u32 pixelformat)
+  */
+ static int via_sensor_power_setup(struct via_camera *cam)
+ {
+-	int ret;
++	struct device *dev = &cam->platdev->dev;
++
++	cam->power_gpio = devm_gpiod_get(dev, "VGPIO3", GPIOD_OUT_LOW);
++	if (IS_ERR(cam->power_gpio))
++		return dev_err_probe(dev, PTR_ERR(cam->power_gpio),
++				     "failed to get power GPIO");
++
++	/* Request the reset line asserted */
++	cam->reset_gpio = devm_gpiod_get(dev, "VGPIO2", GPIOD_OUT_HIGH);
++	if (IS_ERR(cam->reset_gpio))
++		return dev_err_probe(dev, PTR_ERR(cam->reset_gpio),
++				     "failed to get reset GPIO");
+ 
+-	cam->power_gpio = viafb_gpio_lookup("VGPIO3");
+-	cam->reset_gpio = viafb_gpio_lookup("VGPIO2");
+-	if (!gpio_is_valid(cam->power_gpio) || !gpio_is_valid(cam->reset_gpio)) {
+-		dev_err(&cam->platdev->dev, "Unable to find GPIO lines\n");
+-		return -EINVAL;
+-	}
+-	ret = gpio_request(cam->power_gpio, "viafb-camera");
+-	if (ret) {
+-		dev_err(&cam->platdev->dev, "Unable to request power GPIO\n");
+-		return ret;
+-	}
+-	ret = gpio_request(cam->reset_gpio, "viafb-camera");
+-	if (ret) {
+-		dev_err(&cam->platdev->dev, "Unable to request reset GPIO\n");
+-		gpio_free(cam->power_gpio);
+-		return ret;
+-	}
+-	gpio_direction_output(cam->power_gpio, 0);
+-	gpio_direction_output(cam->reset_gpio, 0);
+ 	return 0;
+ }
+ 
+@@ -209,25 +200,23 @@ static int via_sensor_power_setup(struct via_camera *cam)
+  */
+ static void via_sensor_power_up(struct via_camera *cam)
+ {
+-	gpio_set_value(cam->power_gpio, 1);
+-	gpio_set_value(cam->reset_gpio, 0);
++	gpiod_set_value(cam->power_gpio, 1);
++	gpiod_set_value(cam->reset_gpio, 1);
+ 	msleep(20);  /* Probably excessive */
+-	gpio_set_value(cam->reset_gpio, 1);
++	gpiod_set_value(cam->reset_gpio, 0);
+ 	msleep(20);
+ }
+ 
+ static void via_sensor_power_down(struct via_camera *cam)
+ {
+-	gpio_set_value(cam->power_gpio, 0);
+-	gpio_set_value(cam->reset_gpio, 0);
++	gpiod_set_value(cam->power_gpio, 0);
++	gpiod_set_value(cam->reset_gpio, 1);
+ }
+ 
+ 
+ static void via_sensor_power_release(struct via_camera *cam)
+ {
+ 	via_sensor_power_down(cam);
+-	gpio_free(cam->power_gpio);
+-	gpio_free(cam->reset_gpio);
+ }
+ 
+ /* --------------------------------------------------------------------------*/
+diff --git a/drivers/video/fbdev/via/via-core.c b/drivers/video/fbdev/via/via-core.c
+index 2c1803eb196f..908524a74a38 100644
+--- a/drivers/video/fbdev/via/via-core.c
++++ b/drivers/video/fbdev/via/via-core.c
+@@ -11,7 +11,7 @@
+ #include <linux/aperture.h>
+ #include <linux/via-core.h>
+ #include <linux/via_i2c.h>
+-#include <linux/via-gpio.h>
++#include "via-gpio.h"
+ #include "global.h"
+ 
+ #include <linux/module.h>
+diff --git a/drivers/video/fbdev/via/via-gpio.c b/drivers/video/fbdev/via/via-gpio.c
+index f1b670397c02..fea5c195906f 100644
+--- a/drivers/video/fbdev/via/via-gpio.c
++++ b/drivers/video/fbdev/via/via-gpio.c
+@@ -7,6 +7,7 @@
+ 
+ #include <linux/spinlock.h>
+ #include <linux/gpio/driver.h>
++#include <linux/gpio/machine.h>
+ #include <linux/platform_device.h>
+ #include <linux/via-core.h>
+ #include <linux/via-gpio.h>
+@@ -189,19 +190,14 @@ static struct viafb_pm_hooks viafb_gpio_pm_hooks = {
+ };
+ #endif /* CONFIG_PM */
+ 
+-/*
+- * Look up a specific gpio and return the number it was assigned.
+- */
+-int viafb_gpio_lookup(const char *name)
+-{
+-	int i;
+-
+-	for (i = 0; i < viafb_gpio_config.gpio_chip.ngpio; i++)
+-		if (!strcmp(name, viafb_gpio_config.active_gpios[i]->vg_name))
+-			return viafb_gpio_config.gpio_chip.base + i;
+-	return -1;
+-}
+-EXPORT_SYMBOL_GPL(viafb_gpio_lookup);
++static struct gpiod_lookup_table viafb_gpio_table = {
++	.dev_id = "viafb-camera",
++	.table = {
++		GPIO_LOOKUP("via-gpio", 2, "VGPIO2", GPIO_ACTIVE_LOW),
++		GPIO_LOOKUP("via-gpio", 3, "VGPIO3", GPIO_ACTIVE_HIGH),
++		{ }
++	},
++};
+ 
+ /*
+  * Platform device stuff.
+@@ -249,12 +245,16 @@ static int viafb_gpio_probe(struct platform_device *platdev)
+ 	 * Get registered.
+ 	 */
+ 	viafb_gpio_config.gpio_chip.base = -1;  /* Dynamic */
++	viafb_gpio_config.gpio_chip.label = "via-gpio";
+ 	ret = gpiochip_add_data(&viafb_gpio_config.gpio_chip,
+ 				&viafb_gpio_config);
+ 	if (ret) {
+ 		printk(KERN_ERR "viafb: failed to add gpios (%d)\n", ret);
+ 		viafb_gpio_config.gpio_chip.ngpio = 0;
+ 	}
++
++	gpiod_add_lookup_table(&viafb_gpio_table);
++
+ #ifdef CONFIG_PM
+ 	viafb_pm_register(&viafb_gpio_pm_hooks);
+ #endif
+diff --git a/include/linux/via-gpio.h b/drivers/video/fbdev/via/via-gpio.h
+similarity index 84%
+rename from include/linux/via-gpio.h
+rename to drivers/video/fbdev/via/via-gpio.h
+index ac34668fd442..2ffedf282f7e 100644
+--- a/include/linux/via-gpio.h
++++ b/drivers/video/fbdev/via/via-gpio.h
+@@ -8,7 +8,6 @@
+ #ifndef __VIA_GPIO_H__
+ #define __VIA_GPIO_H__
+ 
+-extern int viafb_gpio_lookup(const char *name);
+ extern int viafb_gpio_init(void);
+ extern void viafb_gpio_exit(void);
+ #endif
+-- 
+2.34.1
 
