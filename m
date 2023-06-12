@@ -2,60 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 670E672D455
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 00:23:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C15872D505
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 01:37:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238145AbjFLWXZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Jun 2023 18:23:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43504 "EHLO
+        id S237637AbjFLXh3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Jun 2023 19:37:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232956AbjFLWXY (ORCPT
+        with ESMTP id S237529AbjFLXh2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Jun 2023 18:23:24 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2672210D5;
-        Mon, 12 Jun 2023 15:23:23 -0700 (PDT)
+        Mon, 12 Jun 2023 19:37:28 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C22E5124;
+        Mon, 12 Jun 2023 16:37:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686608603; x=1718144603;
+  t=1686613047; x=1718149047;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Z7lMnWLVZUtIABsHb5EnGYpPZQF8Q7ziKnufPLXzAeY=;
-  b=XTUSRpviH4ERXFd3H33gMTpNTLLKkSs0R4W4z1yB/9UpIP1yOzwXMUDz
-   0ISBVAaqbxCNUj9d0gjvU+kT/ywS46TnDb/g9ucbYU2ibWbHEWQ9NkBxF
-   KVrV5yEu2SPJ+XI3Hh88y43p1JV601hzLr3d8kdTdplxBl9Z1xxn8aMxL
-   JdR1ud2F3A9iR34su9JrCaqJjauIJpEjx9It+zASZhhP8IUnJOuuXtaFd
-   JV+i2pbQVAuu+Y/oK4AkEOqYhQ3IBB45gL+9mOHEW9zzldzfebvbppP7J
-   OVgqytLpVvRGIBqQeSuHe0LiivTlWivV9Bhhz6wQi/aidtym2tIFnaiJ7
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="338534547"
+  bh=2Z52hCVOR7DJUTPlLD7xaPNXC1JoIJf4cVIpOC5zfkY=;
+  b=esFWek8zX50g5NNJV+VbZMZeN/+2VAxNs/XL2a2EmE5SUGks/hx3kVs2
+   75jXRzUTsqEak01nH4Inbce/Yu6BnmThXOS4/cLF1W3F1sHkg7AbsAGlj
+   sBTRB6Xn1yCH/uBy7TYGCODU7FA8Sod4ftnReQoNI9NXd4vDYknb1O5B3
+   JAxJmCjnLuR8K0gcxaU5HKuh84g6fG97mL9LVug7vclMoljzQPlG3HEMY
+   HaXiAnYoD90YCoVmFSJRBBfgSHJB4s3+QUc/cyb6TT6Gpa7/GW6H1r2iP
+   Y01hANP4VDjD1GLACXomu6/wWcXJUjbe/IzhTGsXg2w8vaK59WAwP++a7
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="361552038"
 X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; 
-   d="scan'208";a="338534547"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 15:23:22 -0700
+   d="scan'208";a="361552038"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 16:37:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="705550334"
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="801209462"
 X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; 
-   d="scan'208";a="705550334"
+   d="scan'208";a="801209462"
 Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 12 Jun 2023 15:23:19 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 12 Jun 2023 16:37:21 -0700
 Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1q8pwU-0000nP-1S;
-        Mon, 12 Jun 2023 22:23:18 +0000
-Date:   Tue, 13 Jun 2023 06:23:06 +0800
+        id 1q8r68-0000qK-1B;
+        Mon, 12 Jun 2023 23:37:20 +0000
+Date:   Tue, 13 Jun 2023 07:36:27 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Linus Walleij <linus.walleij@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Helge Deller <deller@gmx.de>
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        linux-media@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
+Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
         Linus Walleij <linus.walleij@linaro.org>
 Subject: Re: [PATCH] fbdev/media: Use GPIO descriptors for VIA GPIO
-Message-ID: <202306130650.BS2fQAUp-lkp@intel.com>
+Message-ID: <202306130745.DRBLkZcT-lkp@intel.com>
 References: <20230612134500.249178-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -85,32 +84,29 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Linus-Walleij/fbdev-media
 base:   git://linuxtv.org/media_tree.git master
 patch link:    https://lore.kernel.org/r/20230612134500.249178-1-linus.walleij%40linaro.org
 patch subject: [PATCH] fbdev/media: Use GPIO descriptors for VIA GPIO
-config: i386-randconfig-r034-20230612 (https://download.01.org/0day-ci/archive/20230613/202306130650.BS2fQAUp-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230613/202306130745.DRBLkZcT-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
         git remote add media-tree git://linuxtv.org/media_tree.git
         git fetch media-tree master
         git checkout media-tree/master
         b4 shazam https://lore.kernel.org/r/20230612134500.249178-1-linus.walleij@linaro.org
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306130650.BS2fQAUp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306130745.DRBLkZcT-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/video/fbdev/via/via-gpio.c:13:10: fatal error: 'linux/via-gpio.h' file not found
-   #include <linux/via-gpio.h>
-            ^~~~~~~~~~~~~~~~~~
-   1 error generated.
+>> drivers/video/fbdev/via/via-gpio.c:13:10: fatal error: linux/via-gpio.h: No such file or directory
+      13 | #include <linux/via-gpio.h>
+         |          ^~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
 
 vim +13 drivers/video/fbdev/via/via-gpio.c
