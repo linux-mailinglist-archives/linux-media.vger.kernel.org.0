@@ -2,285 +2,331 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 406F172C644
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jun 2023 15:45:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1395272C65E
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jun 2023 15:49:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232994AbjFLNpJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Jun 2023 09:45:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36610 "EHLO
+        id S235517AbjFLNtE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Jun 2023 09:49:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232364AbjFLNpH (ORCPT
+        with ESMTP id S232135AbjFLNtC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Jun 2023 09:45:07 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BCAEF9
-        for <linux-media@vger.kernel.org>; Mon, 12 Jun 2023 06:45:06 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-4f6255ad8aeso5160421e87.2
-        for <linux-media@vger.kernel.org>; Mon, 12 Jun 2023 06:45:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686577504; x=1689169504;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=o3c15JFu9uXKITEKskQyKNy6UG3lODZ9zGdrA5UjPqA=;
-        b=JX7+Y1hFg74yunqJeZlCvXLaVJppSs/HSbJ+V0MdjHgLf8LjI9bmPS5rhgYYstYy1O
-         uyHBGLBn20rF5NtWI9f3Z9bFyzHEpHCULCzGmyWYnDtUtSGMWFB6Fzl0xYLNdO0HZSz6
-         mw4Ze8rkizpNWIAjkK99qPkGglNAZbl9UAQamNXiV1Le9RcZwK/Hyd/Yj8PlXAz8hDUI
-         +w2OCgNULZr1sNzw3zrMSis31jqWmQ0P45winxNWDUZ613bc81ClUFGu/qE25hzwvuGe
-         rt9+/1h+1H6ppk9qaZz22pEM24mWi14VLqzTeP6U79Rw1dY01Yu+QNAzUz1wbcdw7Snb
-         gq2A==
+        Mon, 12 Jun 2023 09:49:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FB8210F2
+        for <linux-media@vger.kernel.org>; Mon, 12 Jun 2023 06:48:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1686577685;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Y6R6MmCZxrCwRJ0hufKOr6gMDbmii9MUWlTuVNGPr7Y=;
+        b=KW2QpzKLHCl5EcJNXgrFib8A08p7aMZPgjn0eNE72y7MpsfAWbr81RSGKx7yHTtCOgCTJY
+        5HJ1iN6wVbR506wHtGBab7yPJwYnfHNuv4SFSlU+uNB5ayvQt8fplwjPVt1n3cJIRl7V8v
+        hFhSQ/kh5u8mAev8g+Qw48U0TusXOqk=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-274-udZOUYILMl66WOXNE1m6Tg-1; Mon, 12 Jun 2023 09:48:04 -0400
+X-MC-Unique: udZOUYILMl66WOXNE1m6Tg-1
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-97ea7f0e088so225252966b.3
+        for <linux-media@vger.kernel.org>; Mon, 12 Jun 2023 06:48:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686577504; x=1689169504;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=o3c15JFu9uXKITEKskQyKNy6UG3lODZ9zGdrA5UjPqA=;
-        b=cn+b7P4tYWM5wmV4XuR6qFHp4MPcALOsv5SSPTw/O2zqm5Cyd/+uh30QS1nrmoP1KL
-         usK0FMUU32Hlx00q6Or6KXyeQgJ3oAQ/dIBATtrt9LKZ8F1KBjYSr8j8K78C49SMmeZR
-         p4OHV4omt/x/UifjI5dCj9K5LZ0tO680aeowim7I+fEbWXhZS/0VvJC3SWaFoAk4JZrq
-         MrMmm9SAnsvsMhFXK4+DBNCc+/7HB4e1WA0CSbjrAuE/5k/O8Vt7fWhdKTgXEv3RBrz/
-         msbip4qXs/lq1k1598SanXHzs3YtxnGOORLtX0suiG5XtDlr4Ah6d44FpoN8rw4O1TY5
-         602g==
-X-Gm-Message-State: AC+VfDyWK8URAxX0ZOHIduiTa7sBUrw0v4/ZoOK3uUhmxnB4lEtZtxlV
-        PW76f+xU6KGL5Ujasc5cqC/Pxg==
-X-Google-Smtp-Source: ACHHUZ4h85kfHl3DI8/Abcv89tWBeUmwVQ4OIrcqdypRpQDgTPWDHo356NMqGTKYViQ9nwW38zbtmg==
-X-Received: by 2002:a19:674a:0:b0:4f6:1cc4:8567 with SMTP id e10-20020a19674a000000b004f61cc48567mr4236437lfj.30.1686577504408;
-        Mon, 12 Jun 2023 06:45:04 -0700 (PDT)
-Received: from Linus-Dell.lan ([85.235.12.238])
-        by smtp.gmail.com with ESMTPSA id p6-20020a05651238c600b004f3b319ed4bsm1457389lft.120.2023.06.12.06.45.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jun 2023 06:45:03 -0700 (PDT)
-From:   Linus Walleij <linus.walleij@linaro.org>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Helge Deller <deller@gmx.de>
-Cc:     linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH] fbdev/media: Use GPIO descriptors for VIA GPIO
-Date:   Mon, 12 Jun 2023 15:45:00 +0200
-Message-Id: <20230612134500.249178-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.40.1
+        d=1e100.net; s=20221208; t=1686577682; x=1689169682;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y6R6MmCZxrCwRJ0hufKOr6gMDbmii9MUWlTuVNGPr7Y=;
+        b=DFsqZvbU43iKZCQufRiiuFWhRkCLP2rPe7/xKwUuIRLdZvgma3LdOpgHxdbYr53xvO
+         sXmqj4c5ARUVWGpNfDxNaWKBXHT3jqwUBoodkPmNEsnSRnzcB/CqzxALhI0J0vBoxwZ4
+         eCASuXntzfM5FT/bh4qSVZJ/tkx1vAmHdvsW1ka61UUKjxylURQigdY6vU3ek9CIhpKe
+         /G6GEP49PGwMTlCa+psJaKtidAdKEDfFoO6Qs8KAt0zNDLvu0JalZ/xy/HEMVMHH0ren
+         z0zXs8K/A66RhgQRy4em4orqXfyCC/CF+BMPTjxqnwa3t8UgXf8bmLbwWd+g0Flm2qib
+         UIpA==
+X-Gm-Message-State: AC+VfDwJWBKrMxmGUSVu9fLwGI8Jo+hmq5mLualsnX9koYx/iDpYxilD
+        QuxF7u0jnJ7U5OlbeBBzE0tzz6nDzCdUJ/E4HxZ3ng3Frewkl6OyTUd5KLbXHj4QDkus6dWkL7b
+        uw1VoFqDvB1IimVoAT7COO5kCTdcnoMA=
+X-Received: by 2002:a17:906:da87:b0:978:930e:2276 with SMTP id xh7-20020a170906da8700b00978930e2276mr10001809ejb.31.1686577682516;
+        Mon, 12 Jun 2023 06:48:02 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6n+rcNNNJHZ7k6zLBjjiXRYEdE/6ywVANCvpED20NreVvR7wxmyWF3ONWuE+sSH9QGmvS1Ww==
+X-Received: by 2002:a17:906:da87:b0:978:930e:2276 with SMTP id xh7-20020a170906da8700b00978930e2276mr10001794ejb.31.1686577682189;
+        Mon, 12 Jun 2023 06:48:02 -0700 (PDT)
+Received: from [10.40.98.142] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id i25-20020a170906265900b00977ca5de275sm5353447ejc.13.2023.06.12.06.48.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Jun 2023 06:48:01 -0700 (PDT)
+Message-ID: <cb020702-a112-22ad-39aa-56417633fc56@redhat.com>
+Date:   Mon, 12 Jun 2023 15:48:01 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 1/3] media: Add MIPI CCI register access helper functions
+Content-Language: en-US
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org
+References: <20230606165808.70751-1-hdegoede@redhat.com>
+ <20230606165808.70751-2-hdegoede@redhat.com>
+ <20230607181855.GM5058@pendragon.ideasonboard.com>
+ <b558aac9-0a34-ecca-57b0-d132af8cdefb@redhat.com>
+ <20230608102725.GN5058@pendragon.ideasonboard.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230608102725.GN5058@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The VIA fbdev exposes a custom GPIO chip for its GPIOs, these
-are in turn looked up the camera driver using a custom API.
+Hi Laurent,
 
-Drop the custom API, provide a look-up table and convert to
-GPIO descriptors. Note proper polarity on the RESET line.
+On 6/8/23 12:27, Laurent Pinchart wrote:
+> Hi Hans,
+> 
+> On Wed, Jun 07, 2023 at 09:01:40PM +0200, Hans de Goede wrote:
+>> On 6/7/23 20:18, Laurent Pinchart wrote:
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
-I don't know about the merge path for this one, let's merge
-it in the provider (fbdev) if possible.
-This looks like OLPC stuff.
----
- drivers/media/platform/via/via-camera.c       | 51 ++++++++-----------
- drivers/video/fbdev/via/via-core.c            |  2 +-
- drivers/video/fbdev/via/via-gpio.c            | 26 +++++-----
- .../video/fbdev/via}/via-gpio.h               |  1 -
- 4 files changed, 34 insertions(+), 46 deletions(-)
- rename {include/linux => drivers/video/fbdev/via}/via-gpio.h (84%)
+<snip>
 
-diff --git a/drivers/media/platform/via/via-camera.c b/drivers/media/platform/via/via-camera.c
-index 450254403fa8..4cb8f29e2f14 100644
---- a/drivers/media/platform/via/via-camera.c
-+++ b/drivers/media/platform/via/via-camera.c
-@@ -11,7 +11,7 @@
- #include <linux/device.h>
- #include <linux/list.h>
- #include <linux/pci.h>
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/interrupt.h>
- #include <linux/platform_device.h>
- #include <linux/videodev2.h>
-@@ -26,7 +26,6 @@
- #include <linux/dma-mapping.h>
- #include <linux/pm_qos.h>
- #include <linux/via-core.h>
--#include <linux/via-gpio.h>
- #include <linux/via_i2c.h>
- 
- #ifdef CONFIG_X86
-@@ -71,8 +70,8 @@ struct via_camera {
- 	/*
- 	 * GPIO info for power/reset management
- 	 */
--	int power_gpio;
--	int reset_gpio;
-+	struct gpio_desc *power_gpio;
-+	struct gpio_desc *reset_gpio;
- 	/*
- 	 * I/O memory stuff.
- 	 */
-@@ -180,27 +179,19 @@ static struct via_format *via_find_format(u32 pixelformat)
-  */
- static int via_sensor_power_setup(struct via_camera *cam)
- {
--	int ret;
-+	struct device *dev = &cam->platdev->dev;
-+
-+	cam->power_gpio = devm_gpiod_get(dev, "VGPIO3", GPIOD_OUT_LOW);
-+	if (IS_ERR(cam->power_gpio))
-+		return dev_err_probe(dev, PTR_ERR(cam->power_gpio),
-+				     "failed to get power GPIO");
-+
-+	/* Request the reset line asserted */
-+	cam->reset_gpio = devm_gpiod_get(dev, "VGPIO2", GPIOD_OUT_HIGH);
-+	if (IS_ERR(cam->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(cam->reset_gpio),
-+				     "failed to get reset GPIO");
- 
--	cam->power_gpio = viafb_gpio_lookup("VGPIO3");
--	cam->reset_gpio = viafb_gpio_lookup("VGPIO2");
--	if (!gpio_is_valid(cam->power_gpio) || !gpio_is_valid(cam->reset_gpio)) {
--		dev_err(&cam->platdev->dev, "Unable to find GPIO lines\n");
--		return -EINVAL;
--	}
--	ret = gpio_request(cam->power_gpio, "viafb-camera");
--	if (ret) {
--		dev_err(&cam->platdev->dev, "Unable to request power GPIO\n");
--		return ret;
--	}
--	ret = gpio_request(cam->reset_gpio, "viafb-camera");
--	if (ret) {
--		dev_err(&cam->platdev->dev, "Unable to request reset GPIO\n");
--		gpio_free(cam->power_gpio);
--		return ret;
--	}
--	gpio_direction_output(cam->power_gpio, 0);
--	gpio_direction_output(cam->reset_gpio, 0);
- 	return 0;
- }
- 
-@@ -209,25 +200,23 @@ static int via_sensor_power_setup(struct via_camera *cam)
-  */
- static void via_sensor_power_up(struct via_camera *cam)
- {
--	gpio_set_value(cam->power_gpio, 1);
--	gpio_set_value(cam->reset_gpio, 0);
-+	gpiod_set_value(cam->power_gpio, 1);
-+	gpiod_set_value(cam->reset_gpio, 1);
- 	msleep(20);  /* Probably excessive */
--	gpio_set_value(cam->reset_gpio, 1);
-+	gpiod_set_value(cam->reset_gpio, 0);
- 	msleep(20);
- }
- 
- static void via_sensor_power_down(struct via_camera *cam)
- {
--	gpio_set_value(cam->power_gpio, 0);
--	gpio_set_value(cam->reset_gpio, 0);
-+	gpiod_set_value(cam->power_gpio, 0);
-+	gpiod_set_value(cam->reset_gpio, 1);
- }
- 
- 
- static void via_sensor_power_release(struct via_camera *cam)
- {
- 	via_sensor_power_down(cam);
--	gpio_free(cam->power_gpio);
--	gpio_free(cam->reset_gpio);
- }
- 
- /* --------------------------------------------------------------------------*/
-diff --git a/drivers/video/fbdev/via/via-core.c b/drivers/video/fbdev/via/via-core.c
-index 2c1803eb196f..908524a74a38 100644
---- a/drivers/video/fbdev/via/via-core.c
-+++ b/drivers/video/fbdev/via/via-core.c
-@@ -11,7 +11,7 @@
- #include <linux/aperture.h>
- #include <linux/via-core.h>
- #include <linux/via_i2c.h>
--#include <linux/via-gpio.h>
-+#include "via-gpio.h"
- #include "global.h"
- 
- #include <linux/module.h>
-diff --git a/drivers/video/fbdev/via/via-gpio.c b/drivers/video/fbdev/via/via-gpio.c
-index f1b670397c02..fea5c195906f 100644
---- a/drivers/video/fbdev/via/via-gpio.c
-+++ b/drivers/video/fbdev/via/via-gpio.c
-@@ -7,6 +7,7 @@
- 
- #include <linux/spinlock.h>
- #include <linux/gpio/driver.h>
-+#include <linux/gpio/machine.h>
- #include <linux/platform_device.h>
- #include <linux/via-core.h>
- #include <linux/via-gpio.h>
-@@ -189,19 +190,14 @@ static struct viafb_pm_hooks viafb_gpio_pm_hooks = {
- };
- #endif /* CONFIG_PM */
- 
--/*
-- * Look up a specific gpio and return the number it was assigned.
-- */
--int viafb_gpio_lookup(const char *name)
--{
--	int i;
--
--	for (i = 0; i < viafb_gpio_config.gpio_chip.ngpio; i++)
--		if (!strcmp(name, viafb_gpio_config.active_gpios[i]->vg_name))
--			return viafb_gpio_config.gpio_chip.base + i;
--	return -1;
--}
--EXPORT_SYMBOL_GPL(viafb_gpio_lookup);
-+static struct gpiod_lookup_table viafb_gpio_table = {
-+	.dev_id = "viafb-camera",
-+	.table = {
-+		GPIO_LOOKUP("via-gpio", 2, "VGPIO2", GPIO_ACTIVE_LOW),
-+		GPIO_LOOKUP("via-gpio", 3, "VGPIO3", GPIO_ACTIVE_HIGH),
-+		{ }
-+	},
-+};
- 
- /*
-  * Platform device stuff.
-@@ -249,12 +245,16 @@ static int viafb_gpio_probe(struct platform_device *platdev)
- 	 * Get registered.
- 	 */
- 	viafb_gpio_config.gpio_chip.base = -1;  /* Dynamic */
-+	viafb_gpio_config.gpio_chip.label = "via-gpio";
- 	ret = gpiochip_add_data(&viafb_gpio_config.gpio_chip,
- 				&viafb_gpio_config);
- 	if (ret) {
- 		printk(KERN_ERR "viafb: failed to add gpios (%d)\n", ret);
- 		viafb_gpio_config.gpio_chip.ngpio = 0;
- 	}
-+
-+	gpiod_add_lookup_table(&viafb_gpio_table);
-+
- #ifdef CONFIG_PM
- 	viafb_pm_register(&viafb_gpio_pm_hooks);
- #endif
-diff --git a/include/linux/via-gpio.h b/drivers/video/fbdev/via/via-gpio.h
-similarity index 84%
-rename from include/linux/via-gpio.h
-rename to drivers/video/fbdev/via/via-gpio.h
-index ac34668fd442..2ffedf282f7e 100644
---- a/include/linux/via-gpio.h
-+++ b/drivers/video/fbdev/via/via-gpio.h
-@@ -8,7 +8,6 @@
- #ifndef __VIA_GPIO_H__
- #define __VIA_GPIO_H__
- 
--extern int viafb_gpio_lookup(const char *name);
- extern int viafb_gpio_init(void);
- extern void viafb_gpio_exit(void);
- #endif
--- 
-2.34.1
+>>>> +int cci_update_bits(struct regmap *map, u32 reg, u32 mask, u32 val, int *err)
+>>>> +{
+>>>> +	int width, ret;
+>>>> +	u32 readval;
+>>>> +
+>>>> +	if (err && *err)
+>>>> +		return *err;
+>>>> +
+>>>> +	/*
+>>>> +	 * For single byte updates use regmap_update_bits(), this uses
+>>>> +	 * the regmap-lock to protect against other read-modify-writes racing.
+>>>> +	 */
+>>>> +	width = (reg & CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT;
+>>>> +	if (width == cci_reg_8) {
+>>>> +		reg &= CCI_REG_ADDR_MASK;
+>>>> +		ret = regmap_update_bits(map, reg, mask, val);
+>>>> +		if (ret) {
+>>>> +			dev_err(regmap_get_device(map), "Error updating reg 0x%4x: %d\n", reg, ret);
+>>>> +			if (err)
+>>>> +				*err = ret;
+>>>> +		}
+>>>> +
+>>>> +		return ret;
+>>>> +	}
+>>>> +
+>>>> +	ret = cci_read(map, reg, &readval, err);
+>>>> +	if (ret)
+>>>> +		return ret;
+>>>> +
+>>>> +	val = (readval & ~mask) | (val & mask);
+>>>> +
+>>>> +	return cci_write(map, reg, val, err);
+>>>
+>>> Unless I'm mistaken, the regmap cache isn't used. This makes update
+>>> operations fairly costly due to the read. Could that be improved ?
+>>
+>> The problem is that some registers may be volatile,
+>> think e.g. expsoure on a sensor where auto-exposure is supported.
+>>
+>> So normally drivers which want to use regmap caching, also
+>> provide a whole bunch of tables describing the registers
+>> (lists of volatile + list of writable + list of readable
+>> registers).
+>>
+>> So enabling caching is not trivial. I think that it would be best
+>> for drivers which want that to supply their own regmap_config config
+>> and directly call devm_regmap_init_i2c() if they then use
+>> the resulting regmaps with the existing cci_* helpers then caching
+>> will be used automatically.
+> 
+> Would there be a way to use the cache for update operations (as I think
+> we can consider that registers used in those operations won't be
+> volatile), and bypass it for standalone reads ?
+
+There is not really a nice way to only use the cache for update operations.
+
+I guess we could do something hacky like tell regmap to create a cache,
+then set the cache-bypass flag and drop the cache-bypass flag during
+update ops. But that really is abusing the regmap API.
+
+Generally speaking update operations don't happen that often though,
+so IMHO hacking to get this cached is not worth it.
+
+> 
+>>>> +}
+>>>> +EXPORT_SYMBOL_GPL(cci_update_bits);
+>>>> +
+>>>> +int cci_multi_reg_write(struct regmap *map, const struct reg_sequence *regs, int num_regs, int *err)
+>>>> +{
+>>>> +	int i, ret;
+>>>> +
+>>>> +	if (err && *err)
+>>>> +		return *err;
+>>>> +
+>>>> +	for (i = 0; i < num_regs; i++) {
+>>>> +		ret = cci_write(map, regs[i].reg, regs[i].def, err);
+>>>> +		if (ret)
+>>>> +			return ret;
+>>>> +
+>>>> +		if (regs[i].delay_us)
+>>>> +			fsleep(regs[i].delay_us);
+>>>
+>>> Do you have an immediate need for this ? If not, I'd drop support for
+>>> the delay, and add it later when and if needed. It will be easier to
+>>> discuss the API and use cases with a real user.
+>>
+>> This is a 1:1 mirror of regmap_multi_reg_write() note this uses
+>> the existing struct reg_sequence delay_us field and the:
+>>
+>> 		if (regs[i].delay_us)
+>> 			fsleep(regs[i].delay_us);
+>>
+>> is copied from the implementation of regmap_multi_reg_write()
+> 
+> The reason why I don't like it much as that such delays are often hacks
+> hidden in the middle of register arrays that should in many cases be
+> handled differently. I was hoping that, by not supporting them yet,
+> we'll have an easier time to get drivers right. Maybe I'm wrong.
+
+I understand, but having this is more or less a downside of
+the choice to mirror the regmap API as close as possible.
+
+As Sakari said, having the field there just to ignore it
+seems like a bad idea.
+
+I think that this being abused is something to watch for during
+review, rather then enforcing it not being used in the CCI code.
+
+> 
+>>>> +	}
+>>>> +
+>>>> +	return 0;
+>>>> +}
+>>>> +EXPORT_SYMBOL_GPL(cci_multi_reg_write);
+>>>> +
+>>>> +struct regmap *cci_regmap_init_i2c(struct i2c_client *client, int reg_addr_bits)
+>>>> +{
+>>>> +	struct regmap_config config = {
+>>>> +		.reg_bits = reg_addr_bits,
+>>>> +		.val_bits = 8,
+>>>> +		.reg_format_endian = REGMAP_ENDIAN_BIG,
+>>>> +	};
+>>>> +
+>>>> +	return devm_regmap_init_i2c(client, &config);
+>>>> +}
+>>>> +EXPORT_SYMBOL_GPL(cci_regmap_init_i2c);
+>>>> +
+>>>> +MODULE_LICENSE("GPL");
+>>>> +MODULE_AUTHOR("Hans de Goede <hansg@kernel.org>");
+>>>> diff --git a/include/media/v4l2-cci.h b/include/media/v4l2-cci.h
+>>>> new file mode 100644
+>>>> index 000000000000..69b8a7c4a013
+>>>> --- /dev/null
+>>>> +++ b/include/media/v4l2-cci.h
+>>>> @@ -0,0 +1,109 @@
+>>>> +/* SPDX-License-Identifier: GPL-2.0 */
+>>>> +/*
+>>>> + * MIPI Camera Control Interface (CCI) register access helpers.
+>>>> + *
+>>>> + * Copyright (C) 2023 Hans de Goede <hansg@kernel.org>
+>>>> + */
+>>>> +#ifndef _V4L2_CCI_H
+>>>> +#define _V4L2_CCI_H
+>>>> +
+>>>> +#include <linux/regmap.h>
+>>>> +#include <linux/types.h>
+>>>> +
+>>>> +/*
+>>>> + * Note cci_reg_8 deliberately is 0, not 1, so that raw
+>>>> + * (not wrapped in a CCI_REG*() macro) register addresses
+>>>> + * do 8 bit wide accesses. This allows unchanged use of register
+>>>> + * initialization lists of raw address, value pairs which only
+>>>> + * do 8 bit width accesses. Which makes porting drivers easier.
+>>>
+>>> It does, but at the same time, it prevents catching errors caused by
+>>> incorrect register macros. I'm tempted to consider that catching those
+>>> errors is more important.
+>>>
+>>>> + */
+>>>> +enum cci_reg_type {
+>>>> +	cci_reg_8 = 0,
+>>>> +	cci_reg_16,
+>>>> +	cci_reg_24,
+>>>> +	cci_reg_32,
+>>>> +};
+>>>> +
+>>>> +/*
+>>>> + * Macros to define register address with the register width encoded
+>>>> + * into the higher bits. CCI_REG8() is a no-op so its use is optional.
+>>>
+>>> Even if it's a no-op I'd prefer making its use mandatory. It makes
+>>> driver code more explicit, and eases catching issues during review.
+>>
+>> The problem is that almost all sensor drivers contain long list
+>> of register-address, -val pairs which they send to their own custom
+>> regmap_multi_reg_write()
+>>
+>> See e.g. the drivers/media/i2c/imx219.c (to stick with the imx
+>> theme from your imx290 request) this has a lot of quite long
+>> struct imx219_reg arrays with raw initializers.
+>>
+>> Often some or all of these registers in such list are
+>> undocumented (if we have access to a datasheet at all),
+>> so we simply don't know the register width.
+>>
+>> So arguably adding CCI_REG8(x) around all the addresses
+>> here is wrong, since this suggests we know the register
+>> width.
+>>
+>> With the current proposal to have 0 mean both unset and 8bit
+>> width this kinda register lists just work and converting
+>> the driver becomes just a matter of replacing e.g.
+>> imx219_write_regs() with cci_multi_reg_write().
+>>
+>> Where as otherwise we would need to add CCI_REG8(x)
+>> around the addresses which:
+>>
+>> a) Suggests we actually know the register width which
+>>    we often do not know at all
+>>
+>> b) causes a ton of needless churn
+>>
+>> so I would very much prefer to keep this as as and
+>> allow unmarked register addresses.
+>>
+>> As for the CCI_REG8(x) being useful as an annotation
+>> during review you are of course free to enforce its
+>> use during review. And note that I did use it for
+>> all the OV2680_REG_FOO defines in both ov2680 conversions.
+>>
+>> I do agree enforcing its use makes sense for individual
+>> register address defines. The reason to make it optional
+>> and the place where I want it to be optional is for
+>> the array of raw register-addr + initializer-val pairs
+>> case.
+> 
+> For register arrays, I'm fine with that. For register macros, I don't
+> want to see
+> 
+> #define MY_WELL_DEFINED_8B_REG		0x1234
+> 
+> For those I want drivers to use CCI_REG8(). It seems we're on the same
+> page :-)
+
+Right, but if we want cci_multi_reg_write() to work with register
+arrays without the CCI_REG8() macros then the code needs to stay
+as is and we cannot enforce use of the macro by erroring out
+if it is not used.
+
+Regards,
+
+Hans
 
