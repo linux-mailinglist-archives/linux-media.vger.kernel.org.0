@@ -2,141 +2,199 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5962072C55F
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jun 2023 15:03:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C685F72C588
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jun 2023 15:09:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235847AbjFLNDY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Jun 2023 09:03:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46134 "EHLO
+        id S232156AbjFLNJD convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 12 Jun 2023 09:09:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229604AbjFLNDX (ORCPT
+        with ESMTP id S230354AbjFLNJC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Jun 2023 09:03:23 -0400
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB7D619D;
-        Mon, 12 Jun 2023 06:03:22 -0700 (PDT)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35CCUVEL030059;
-        Mon, 12 Jun 2023 13:03:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=vwUQ1F8I7JI/UaeWgCAqXrFbc20JHeM5AvHArrbGZns=;
- b=G6ua1Gn9MbO7FPY+XSeGpjItS1FFYvAY0JwZYk1Uiz/KAgD+xkH4m7U8pwqrdL37oyex
- 7TZdggKYfXNzWeA2MDyCWykL95+zxUR89pNu4OGnk4jVnVK+nH9rjJUmj55OTHOcphJT
- dOPFqY/Pp8hRXz4zgbOqQA+oAHP4bjcttkDOmNrE+CAkfUCPh4AOsXe9E65w2LopWTTf
- YqQzadC33GUZF6tsXq37njVCMe6Hyj+hBeY5EmDlt29zKG27sdlJQyUZp/tlnTYuzxgd
- T+gQCi9Y69hRp7ndog5L4cG+9oKWIWmV6HgTHHHNlMgyS3PWvivDVnLdbP5NDyKh0Wd9 xQ== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r4hd8bcah-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 12 Jun 2023 13:03:11 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35CD3ArR004276
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 12 Jun 2023 13:03:10 GMT
-Received: from [10.50.37.200] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 12 Jun
- 2023 06:03:07 -0700
-Message-ID: <e3a867a8-284b-7250-b1b2-1956f533f6b0@quicinc.com>
-Date:   Mon, 12 Jun 2023 18:33:04 +0530
+        Mon, 12 Jun 2023 09:09:02 -0400
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66AD5A0;
+        Mon, 12 Jun 2023 06:09:00 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-56cf32f5bf8so22915237b3.3;
+        Mon, 12 Jun 2023 06:09:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686575339; x=1689167339;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5XhZcZSHZMUBc906xfl0reyAu6fl6qfJnXfrRKfwIpg=;
+        b=MeOhhH71d9BNu6XPRpIkaakdm8mAaNAANC2lGr3OrNPR5p72/fOFgO4nZ/UPSwJNeS
+         7LTjI+FWxwtFQr/tHRsFTM7aXIGWzLR2IfnJ/9cg0lSzPVMMylBUjYOoNLj5fEgwxF6p
+         /39x238b3Q0gA6rdDSLJBPbtKMHp0aqoJRey/BB+WwoljUf7CAdHdKca34qaOwvDR/hG
+         gejxWi74aTIPBzZ2ibIbgO88fkQ9OFWdL/SKUEL6krgVEAWUfOZpM6RbSzc1hJNt4aPz
+         AZU0velBMD/zM2AhyovadZayK/Nn2bjrIFjA5rzXPs6rya3kX/n4ubRr50ucIGEakg3R
+         mN+g==
+X-Gm-Message-State: AC+VfDx2xznIMC6Y5t+YsEiHvzuXEkP6GLG7sbb/aU8leQQcgTE2Dx20
+        BcDsdl2RwOAXaLiF4Y9/TTdmUI8IWiBAag==
+X-Google-Smtp-Source: ACHHUZ4yxSONE2j7jvj74P0z+K/mCu3DW4upo6ynr+xOYq9KvF+ZQlnJkB5zraNGojA7UtRxvXI6Tg==
+X-Received: by 2002:a81:93c3:0:b0:561:8602:1a40 with SMTP id k186-20020a8193c3000000b0056186021a40mr11058011ywg.46.1686575339362;
+        Mon, 12 Jun 2023 06:08:59 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id v3-20020a814803000000b0055a416529bbsm1502921ywa.24.2023.06.12.06.08.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Jun 2023 06:08:58 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-bc50b217bc0so2258680276.1;
+        Mon, 12 Jun 2023 06:08:58 -0700 (PDT)
+X-Received: by 2002:a25:1e86:0:b0:ba9:b3dd:6b0d with SMTP id
+ e128-20020a251e86000000b00ba9b3dd6b0dmr8576899ybe.64.1686575338138; Mon, 12
+ Jun 2023 06:08:58 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] accel/qaic: Fix dereferencing freed memory
-Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        "Sukrut Bellary" <sukrut.bellary@linux.com>,
-        Jeffrey Hugo <quic_jhugo@quicinc.com>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>
-CC:     <linux-arm-msm@vger.kernel.org>, <kernel-janitors@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>, <linux-media@vger.kernel.org>
-References: <20230610021200.377452-1-sukrut.bellary@linux.com>
- <fc979a4e-c30a-2606-9eec-afbba4fdd774@amd.com>
-From:   Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
-In-Reply-To: <fc979a4e-c30a-2606-9eec-afbba4fdd774@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: SeHIjpfi9M7u3H3WwjT4NY5sa6NN1EoZ
-X-Proofpoint-GUID: SeHIjpfi9M7u3H3WwjT4NY5sa6NN1EoZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-06-12_06,2023-06-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
- impostorscore=0 clxscore=1015 lowpriorityscore=0 priorityscore=1501
- phishscore=0 adultscore=0 bulkscore=0 mlxscore=0 spamscore=0
- suspectscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2305260000 definitions=main-2306120112
-X-Spam-Status: No, score=-2.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <ZIBFc3y9jD59lZ3A@shikoro> <OS0PR01MB5922A3A97439EA2F976940B28653A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB5922AA27B212F610A5E816138650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20230608103929.GO5058@pendragon.ideasonboard.com> <OS0PR01MB592259E6A7ACED4A0548DD228650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20230608125019.GD26742@pendragon.ideasonboard.com> <OS0PR01MB5922ECEABE4D6FC385D184008650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB592265BFDF18F860E1EB4CFE8654A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20230612122353.GA22391@pendragon.ideasonboard.com> <OS0PR01MB5922D335D53C7B0FA021B3218654A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20230612125405.GA23921@pendragon.ideasonboard.com>
+In-Reply-To: <20230612125405.GA23921@pendragon.ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 12 Jun 2023 15:08:46 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV_xw-+_MakVeLVgv1nCW_GqKQ2hiEfb5J-p2WiSvWV_g@mail.gmail.com>
+Message-ID: <CAMuHMdV_xw-+_MakVeLVgv1nCW_GqKQ2hiEfb5J-p2WiSvWV_g@mail.gmail.com>
+Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Wolfram Sang <wsa@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Corey Minyard <cminyard@mvista.com>,
+        =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+        Antonio Borneo <antonio.borneo@foss.st.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Trent Piepho <tpiepho@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Laurent,
 
+On Mon, Jun 12, 2023 at 2:54 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Mon, Jun 12, 2023 at 12:42:33PM +0000, Biju Das wrote:
+> > > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+> > > On Mon, Jun 12, 2023 at 09:53:02AM +0000, Biju Das wrote:
+> > > > How do we proceed here between [1] and [2]?
+> > > >
+> > > > DT-Maintainers suggestion:
+> > > > [1]
+> > > > raa215300: pmic@12 {
+> > > >   compatible = "renesas,raa215300";
+> > > >   reg = <0x12>, <0x6f>;
+> > > >   reg-names = "main", "rtc";
+> > > >
+> > > >   clocks = <&x2>;
+> > > >   clock-names = "xin";
+> > > >   /* Add Optional shared IRQ resource and share it to child and handle
+> > > > it both in parent and child */ };
+> > > >
+> > > > Laurent/Wolfram suggestion to split it into two nodes and get rid of this patch:
+> > > > [2]
+> > > >   raa215300: pmic @12 {
+> > > >           compatible = "renesas,raa215300";
+> > > >           reg = <0x12>;
+> > > >
+> > > >           /* Add Optional shared IRQ */
+> > > >           renesas,raa215300-rtc = <&rtc_raa215300>; /* Parse the handle and Enable RTC , if present.*/
+> > > >   };
+> > > >
+> > > >   rtc_raa215300: rtc@6f {
+> > > >           compatible = "renesas,raa215300-isl1208";
+> > >
+> > > Make this
+> > >
+> > >             compatible = "renesas,raa215300-isl1208", "isil,isl1208";
+> > >
+> > > >           reg = <0x6f>;
+> > > >
+> > > >           /* Add Optional shared IRQ */
+> > > >           clocks = <&x2>;
+> > > >           clock-names = "xin";
+> > > >           renesas,raa215300-pmic = <&pmic>; /* Parse the handle to get PMIC
+> > > > version to check Oscillator bit is inverted or not */
+> > >
+> > > This isn't nice. I would instead add a renesas,invert-xtoscb boolean
+> > > property. If you don't want different DT sources for different revisions
+> > > of the PMIC,
+> >
+> > I need to support all PMIC versions with same image, as PMIC is just a component on the
+> > SoM module. So SoM's have different PMIC versions.
+>
+> I understand it's not convenient, so let's try to find a good solution.
+>
+> > > one option is to perform the auto-detection in the boot
+> > > loader and update the DT dynamically there.
+> >
+> > Yes, this is an option. Bootloader updates "renesas,invert-xtoscb" property based
+> > on PMIC version.
+> >
+> > Not sure, From binding perspective, Documenting "renesas,invert-xtoscb" is OK for
+> > the relevant maintainers??
+>
+> It's fine with me at least :-) I think a property makes sense, as it
+> describes the device. Updating the device tree in the boot loader based
+> on auto-detection of features is also fairly common (to set the amount
+> of DRAM for instance).
+>
+> What I'm not entirely sure about in this case is if a property would be
+> the best option, or two different compatible strings. I'll let the
+> appropriate maintainer recommend one of those two options. In either
+> case, the boot loader would be responsible for updating the DT.
 
-On 6/12/2023 4:52 PM, Christian König wrote:
-> 
-> 
-> Am 10.06.23 um 04:12 schrieb Sukrut Bellary:
->> smatch warning:
->>     drivers/accel/qaic/qaic_data.c:620 qaic_free_object() error:
->>         dereferencing freed memory 'obj->import_attach'
->>
->> obj->import_attach is detached and freed using dma_buf_detach().
->> But used after free to decrease the dmabuf ref count using
->> dma_buf_put().
->>
->> Fixes: ff13be830333 ("accel/qaic: Add datapath")
->> Signed-off-by: Sukrut Bellary <sukrut.bellary@linux.com>
->> ---
->>   drivers/accel/qaic/qaic_data.c | 4 +++-
->>   1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/accel/qaic/qaic_data.c 
->> b/drivers/accel/qaic/qaic_data.c
->> index e42c1f9ffff8..7cba4d680ea8 100644
->> --- a/drivers/accel/qaic/qaic_data.c
->> +++ b/drivers/accel/qaic/qaic_data.c
->> @@ -613,11 +613,13 @@ static int qaic_gem_object_mmap(struct 
->> drm_gem_object *obj, struct vm_area_struc
->>   static void qaic_free_object(struct drm_gem_object *obj)
->>   {
->>       struct qaic_bo *bo = to_qaic_bo(obj);
->> +    struct dma_buf *dmabuf;
-> 
-> Maybe move that variable into the if.
-> 
->>       if (obj->import_attach) {
->>           /* DMABUF/PRIME Path */
->> +        dmabuf = obj->import_attach->dmabuf;
->>           dma_buf_detach(obj->import_attach->dmabuf, obj->import_attach);
->> -        dma_buf_put(obj->import_attach->dmabuf);
->> +        dma_buf_put(dmabuf);
-> 
-> I strongly assume you are not using the GEM prime helpers for this?
-> 
-> Christian.
+Indeed. DT binding best practices 101: do not use properties to
+distinguish, use compatible values instead.
 
-Driver uses drm_gem_prime_fd_to_handle() helper function but it also 
-registers for ->gem_prime_import() which is internally called by 
-drm_gem_prime_fd_to_handle(). All the operations done in 
-gem_prime_import() are undone here.
+And don't use different compatible values if you can distinguish using
+a version register.  Unfortunately the version register is part of the
+main/first device (the PMIC), so the RTC cannot find out easily...
 
-> 
->>       } else {
->>           /* Private buffer allocation path */
->>           qaic_free_sgt(bo->sgt);
-> 
+So basically you have an i2c mfd.  The Linux mfd subsystem is tailored
+for platform devices, so it's not a good match.  The closest we have
+in i2c is the ancillary device...
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
