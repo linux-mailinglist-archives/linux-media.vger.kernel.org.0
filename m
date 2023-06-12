@@ -2,85 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 038D272CA5C
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jun 2023 17:37:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF5A072CA98
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jun 2023 17:47:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237991AbjFLPhT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Jun 2023 11:37:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60574 "EHLO
+        id S238427AbjFLPr1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Jun 2023 11:47:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237415AbjFLPhS (ORCPT
+        with ESMTP id S236659AbjFLPrZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Jun 2023 11:37:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 083F210CB
-        for <linux-media@vger.kernel.org>; Mon, 12 Jun 2023 08:36:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1686584193;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=bnOsvhdJiSt5ITsGhze0Abwe9nSXBIjjDiVkeCUdJn8=;
-        b=KD2HxYFNfM0htfdwDXZQW3PjP/vdYwEYw+t+sEXtjSQD4y1cJkoGRGxlsElzsAcZRvqATZ
-        542IcqLIDLFp18JtKUDItQScnlBg00iH13EMLNYrNOdUr1c+qeDEUVGi7Fqvo2aVhFpUcS
-        AGbcBS7zuLPHr5Xk/hEPFqLHfgPT8S8=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-68-y2YD6Ir3NzWM_n87zlg0dw-1; Mon, 12 Jun 2023 11:36:30 -0400
-X-MC-Unique: y2YD6Ir3NzWM_n87zlg0dw-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-9745c72d99cso521203666b.1
-        for <linux-media@vger.kernel.org>; Mon, 12 Jun 2023 08:36:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686584190; x=1689176190;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bnOsvhdJiSt5ITsGhze0Abwe9nSXBIjjDiVkeCUdJn8=;
-        b=A3jDMvmsniBmAJXSKWR75nF8AqWBUegAO92ZFbLNZ3KkTKmBxwBVTrK42ET/NEiMnW
-         HnfFMVKkGDRW2NhQWtL2ckLMfYCRiCzTo8ugitKrw41x+DXIkjgIw0p1iJq1QCOEwPk3
-         V7js9xBCuTV8eP7XD3OtMRno9YUaBy/ylqRZHa5QqbAVgsq8ivCmCXT8oU3mluq7IQuB
-         ZMbbdviTnkgGSG/pVobUQsRm/WpDi3aFxW4i+Br9xI2Q1tog5jfEHZtBsrVnk+2Vqkyk
-         oU0HZAYQHH9/twoMkHV6+1SgVvC8kkqIFPNjCL7t+v1lakdu8zFQC6iGAxxXVzB/n+u7
-         C1GQ==
-X-Gm-Message-State: AC+VfDx5bDoj0f6gyIozr5VBlnZ+iZWokuU4iygJmBsG0UCLdsPDpFrm
-        TgBm0QXHrTjwFSnvhZ8AXY6sK1mUzKqOvinNedMp1O7lzIsDcgBM+eIsVxgOQAjgy2ACaEkG/k1
-        C2ACk4YSTebNXn1Tw07tvnN0=
-X-Received: by 2002:a17:907:7e9f:b0:96f:136e:eadd with SMTP id qb31-20020a1709077e9f00b0096f136eeaddmr11804263ejc.66.1686584189761;
-        Mon, 12 Jun 2023 08:36:29 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4VRInm7OruhJcl9LnS0pjiwsaX9gaDdgXjmDX4I3gdxv78NBUA+iTL4xOsYTE+EhislcADzw==
-X-Received: by 2002:a17:907:7e9f:b0:96f:136e:eadd with SMTP id qb31-20020a1709077e9f00b0096f136eeaddmr11804241ejc.66.1686584189418;
-        Mon, 12 Jun 2023 08:36:29 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id h11-20020a1709063c0b00b0097883000525sm5518142ejg.15.2023.06.12.08.36.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Jun 2023 08:36:28 -0700 (PDT)
-Message-ID: <7f7f5382-9441-fd38-81b6-61b0fff5f773@redhat.com>
-Date:   Mon, 12 Jun 2023 17:36:28 +0200
+        Mon, 12 Jun 2023 11:47:25 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C20710CC;
+        Mon, 12 Jun 2023 08:47:24 -0700 (PDT)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35CE01lY011062;
+        Mon, 12 Jun 2023 15:47:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=c87XOzdDuRMdz3dpGgxfIYZgND1DCuLkfZzv0++v1uQ=;
+ b=Bw1VU3NyyUzzZXgDPJtYb1QzyRI5ndvSOaVuUfYZFjHJOMivGYq8BZ+XRqvL5KFa+hob
+ lZ/R2XYH/gZzyBU8TG2jGZHGhqY0vAcbJMGpcCOscxSpRn5WHYs0QTfFR9jMXrvrvd5U
+ Fzx+ZzOaz7idvR9IizWyRBvN0lCICSt6b5cZoZZyRRvHk9gOgdTBHBYIjxRNRVNGDODW
+ EJkUU/siqw4FRtjNY6t8zUnzofNrwT2FuHFGs9ExJ+9NbYQe8v6EpGeL7GZg9m9YRSTT
+ 8l8jrhdw8x31STuJ3hV2Re0mJGfHX2veWxaFXi1+FjzZYMTcIpfxqMTOpIXs+3zOotAs eQ== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3r4ehtux5f-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 12 Jun 2023 15:47:14 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 35CFlD68015398
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 12 Jun 2023 15:47:13 GMT
+Received: from [10.50.14.38] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Mon, 12 Jun
+ 2023 08:47:09 -0700
+Message-ID: <d4476c3b-9923-dde2-8338-9f67ebfc729f@quicinc.com>
+Date:   Mon, 12 Jun 2023 21:17:07 +0530
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 2/2] platform/x86: int3472: discrete: Log a warning if the
- pin-numbers don't match
-Content-Language: en-US, nl
-To:     Dan Scally <dan.scally@ideasonboard.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc:     platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org
-References: <20230612141632.5232-1-hdegoede@redhat.com>
- <20230612141632.5232-2-hdegoede@redhat.com>
- <be624721-b150-010d-f78d-1815db65bb8f@ideasonboard.com>
- <b20a54d0-2c3d-0b78-723d-78801f55cc08@redhat.com>
- <3238cbe3-b1ef-8cce-442f-b8b82ed1df76@ideasonboard.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <3238cbe3-b1ef-8cce-442f-b8b82ed1df76@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] accel/qaic: Fix dereferencing freed memory
+Content-Language: en-US
+To:     Jeffrey Hugo <quic_jhugo@quicinc.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Sukrut Bellary <sukrut.bellary@linux.com>,
+        "Oded Gabbay" <ogabbay@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>
+CC:     <linux-arm-msm@vger.kernel.org>, <kernel-janitors@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>, <linux-media@vger.kernel.org>
+References: <20230610021200.377452-1-sukrut.bellary@linux.com>
+ <fc979a4e-c30a-2606-9eec-afbba4fdd774@amd.com>
+ <e3a867a8-284b-7250-b1b2-1956f533f6b0@quicinc.com>
+ <ff196b04-e8c5-52d9-852b-9a9cc7eecdd0@amd.com>
+ <b5e5c141-b5df-e24d-8fa4-94297d561cec@quicinc.com>
+From:   Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>
+In-Reply-To: <b5e5c141-b5df-e24d-8fa4-94297d561cec@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: H6edwVznO1IQawd9XFNZmgfKwTUAO_qQ
+X-Proofpoint-ORIG-GUID: H6edwVznO1IQawd9XFNZmgfKwTUAO_qQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-06-12_06,2023-06-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
+ priorityscore=1501 mlxscore=0 bulkscore=0 impostorscore=0
+ lowpriorityscore=0 malwarescore=0 spamscore=0 mlxlogscore=999 adultscore=0
+ suspectscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2305260000 definitions=main-2306120136
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -88,94 +88,73 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
 
-On 6/12/23 17:30, Dan Scally wrote:
-> Hi Hans
-> 
-> On 12/06/2023 16:26, Hans de Goede wrote:
->> Hi,
->>
->> On 6/12/23 16:20, Dan Scally wrote:
->>> Hi Hans
+
+On 6/12/2023 8:39 PM, Jeffrey Hugo wrote:
+> On 6/12/2023 7:21 AM, Christian König wrote:
+>> Am 12.06.23 um 15:03 schrieb Pranjal Ramajor Asha Kanojiya:
 >>>
->>> On 12/06/2023 15:16, Hans de Goede wrote:
->>>> The INT3472 discrete code assumes that the ACPI GPIO resources are
->>>> in the same order as the pin-info _DSM entries.
+>>>
+>>> On 6/12/2023 4:52 PM, Christian König wrote:
 >>>>
->>>> The returned pin-info includes the pin-number in bits 15-8. Add a check
->>>> that this matches with the ACPI GPIO resource pin-number in case
->>>> the assumption is not true with some ACPI tables.
 >>>>
->>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->>>
->>> That seems like a good idea to me:
->>>
->>>
->>> Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
->> Thanks. Did you also see my:
->> "[PATCH 0/4] platform/x86: int3472: discrete: Regulator rework / Lenovo Miix 510 support"
->>
->> series ? It would be great if I can get your input on that.
->>
->> Personally I'm not entirely happy with patch 3/4 there,
->> but I don't really see any other way of solving
->> the issue on the mix 510 that 3/4 fixes.
-> 
-> 
-> I did; I was hoping to go through the ov2680 set and that set today but I've been a bit busy; I'll try to look at and test both asap.
-
-Ok, thank you.
-
-Note the ov2680 set does not work with the IPU3 yet. I've tried with
-the ipu3-capture.sh script after first testing the script with
-the ov5693 and my current ov2680 set is missing the link-rate /
-pixel-rate v4l2 ctrls.
-
-I plan to continue working on this, adding those ctrls tomorrow.
-
-Regards,
-
-Hans
-
-
-
-
-
-
->>>> ---
->>>>    drivers/platform/x86/intel/int3472/discrete.c | 10 +++++++++-
->>>>    1 file changed, 9 insertions(+), 1 deletion(-)
+>>>> Am 10.06.23 um 04:12 schrieb Sukrut Bellary:
+>>>>> smatch warning:
+>>>>>     drivers/accel/qaic/qaic_data.c:620 qaic_free_object() error:
+>>>>>         dereferencing freed memory 'obj->import_attach'
+>>>>>
+>>>>> obj->import_attach is detached and freed using dma_buf_detach().
+>>>>> But used after free to decrease the dmabuf ref count using
+>>>>> dma_buf_put().
+>>>>>
+>>>>> Fixes: ff13be830333 ("accel/qaic: Add datapath")
+>>>>> Signed-off-by: Sukrut Bellary <sukrut.bellary@linux.com>
+>>>>> ---
+>>>>>   drivers/accel/qaic/qaic_data.c | 4 +++-
+>>>>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/drivers/accel/qaic/qaic_data.c 
+>>>>> b/drivers/accel/qaic/qaic_data.c
+>>>>> index e42c1f9ffff8..7cba4d680ea8 100644
+>>>>> --- a/drivers/accel/qaic/qaic_data.c
+>>>>> +++ b/drivers/accel/qaic/qaic_data.c
+>>>>> @@ -613,11 +613,13 @@ static int qaic_gem_object_mmap(struct 
+>>>>> drm_gem_object *obj, struct vm_area_struc
+>>>>>   static void qaic_free_object(struct drm_gem_object *obj)
+>>>>>   {
+>>>>>       struct qaic_bo *bo = to_qaic_bo(obj);
+>>>>> +    struct dma_buf *dmabuf;
 >>>>
->>>> diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
->>>> index 4ef60883154d..c1132bbbff41 100644
->>>> --- a/drivers/platform/x86/intel/int3472/discrete.c
->>>> +++ b/drivers/platform/x86/intel/int3472/discrete.c
->>>> @@ -149,8 +149,8 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
->>>>    {
->>>>        struct int3472_discrete_device *int3472 = data;
->>>>        struct acpi_resource_gpio *agpio;
->>>> +    u8 active_value, pin, type;
->>>>        union acpi_object *obj;
->>>> -    u8 active_value, type;
->>>>        const char *err_msg;
->>>>        const char *func;
->>>>        u32 polarity;
->>>> @@ -174,10 +174,18 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
->>>>            return 1;
->>>>        }
->>>>    +    /* Bits 7-0 contain the type/function of the pin */
->>>>        type = obj->integer.value & 0xff;
->>>>          int3472_get_func_and_polarity(type, &func, &polarity);
->>>>    +    /* Bits 15-8 contain the pin-number on the GPIO chip */
->>>> +    pin = (obj->integer.value >> 8) & 0xff;
->>>> +    if (pin != agpio->pin_table[0])
->>>> +        dev_warn(int3472->dev, "%s %s pin number mismatch _DSM %d resource %d\n",
->>>> +             func, agpio->resource_source.string_ptr, pin,
->>>> +             agpio->pin_table[0]);
->>>> +
->>>>        /* If bits 31-24 of the _DSM entry are all 0 then the signal is inverted */
->>>>        active_value = (obj->integer.value >> 24) & 0xff;
->>>>        if (!active_value)
+>>>> Maybe move that variable into the if.
+>>>>
+>>>>>       if (obj->import_attach) {
+>>>>>           /* DMABUF/PRIME Path */
+>>>>> +        dmabuf = obj->import_attach->dmabuf;
+>>>>>           dma_buf_detach(obj->import_attach->dmabuf, 
+>>>>> obj->import_attach);
+>>>>> -        dma_buf_put(obj->import_attach->dmabuf);
+>>>>> +        dma_buf_put(dmabuf);
+>>>>
+>>>> I strongly assume you are not using the GEM prime helpers for this?
+>>>>
+>>>> Christian.
+>>>
+>>> Driver uses drm_gem_prime_fd_to_handle() helper function but it also 
+>>> registers for ->gem_prime_import() which is internally called by 
+>>> drm_gem_prime_fd_to_handle(). All the operations done in 
+>>> gem_prime_import() are undone here.
+>>
+>> Then why don't you use drm_prime_gem_destroy() which is the cleanup 
+>> helper for imports created by ->gem_prime_import() ?
+>>
+>> That looks pretty much identical to what you do here manually.
 > 
+> I think destroy() wasn't used because we are new to DRM and sometimes 
+> confused by the multitude of options.  I appreciate the suggestion and 
+> will follow up to see if destroy() will work here, or identify what 
+> would prevent the use of it.
+> 
+> -Jeff
 
+Thank you Christian for your suggestion. I agree with you driver can use 
+  drm_prime_gem_destroy() here.
