@@ -2,119 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 65E2772B88B
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jun 2023 09:23:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A5FC572B8AD
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jun 2023 09:35:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234066AbjFLHXl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Jun 2023 03:23:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42452 "EHLO
+        id S234174AbjFLHfB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Jun 2023 03:35:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233172AbjFLHXj (ORCPT
+        with ESMTP id S234633AbjFLHey (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Jun 2023 03:23:39 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A13D9E7B;
-        Mon, 12 Jun 2023 00:18:38 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 712A162002;
-        Mon, 12 Jun 2023 07:02:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A54EC433EF;
-        Mon, 12 Jun 2023 07:02:15 +0000 (UTC)
-Message-ID: <380c6489-7a3c-778b-5b81-6339b6964b90@xs4all.nl>
-Date:   Mon, 12 Jun 2023 09:02:13 +0200
+        Mon, 12 Jun 2023 03:34:54 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61D8619B7
+        for <linux-media@vger.kernel.org>; Mon, 12 Jun 2023 00:34:20 -0700 (PDT)
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 89724547;
+        Mon, 12 Jun 2023 09:22:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1686554529;
+        bh=8sD7aDM68A4FaoODFuPjGxz8YQq6VfaQfrrxt0cgnHM=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=waViUL5uYNT56xICjhfbfuwxhuVX0UiWnsJttjmLVZIgV7CxeJlu5pKpe+YvWrljQ
+         kgWaIw+ITxrNdU66hzEmJKoSu2z1wpLDzWWZycSbCt1KqK0Fk6JO2Sll5D5Y4K15Je
+         H1+ggPTVcpwbY+tRuj9j8Gvv9pjqnog45Ux2M0Sk=
+Message-ID: <b2955815-832b-82bf-bc2d-1a3135048931@ideasonboard.com>
+Date:   Mon, 12 Jun 2023 08:22:36 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH v2 0/5] Enable decoder for mt8183
+Subject: Re: [PATCH 02/28] media: ov2680: Fix ov2680_bayer_order()
 Content-Language: en-US
-To:     =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
-        <nfraprado@collabora.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-Cc:     kernel@collabora.com,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Chen-Yu Tsai <wenst@chromium.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Miles Chen <miles.chen@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
-References: <20230607205714.510012-1-nfraprado@collabora.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230607205714.510012-1-nfraprado@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org
+References: <20230607164712.63579-1-hdegoede@redhat.com>
+ <20230607164712.63579-3-hdegoede@redhat.com>
+From:   Dan Scally <dan.scally@ideasonboard.com>
+In-Reply-To: <20230607164712.63579-3-hdegoede@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nicolas,
+Hi Hans
 
-On 07/06/2023 22:53, Nícolas F. R. A. Prado wrote:
-> 
-> This series enables the hardware decoder present on mt8183. At first
-> glance, the only missing piece is the devicetree node for it, however,
-> simply adding it as is would cause an address collision between the
-> first register iospace and the clock-controller node, so a rework of the
-> dt-binding and driver, as well as addition of a clock, were needed
-> first.
-> 
-> Tested that H264 decoding works with the hardware decoder on
-> mt8183-kukui-jacuzzi-juniper-sku16, giving a fluster score of 98/135 on
-> the JVT-AVC_V1 test suite. And ensured other SoCs (MT8192 and MT8195)
-> still work as usual.
-> 
-> Changes in v2:
-> - Merged commit 1 (media: dt-bindings: mediatek,vcodec: Allow single
->   clock for mt8183) into commit 3 (media: dt-bindings: mediatek,vcodec:
->   Remove VDEC_SYS for mt8183)
-> - Further constrained properties in dt-binding
-> - Added CLK_IGNORE_UNUSED flag to active clock
-> - Reformatted reg-names in DT node
-> 
-> Nícolas F. R. A. Prado (4):
->   media: dt-bindings: mediatek,vcodec: Don't require assigned-clocks
->   media: dt-bindings: mediatek,vcodec: Remove VDEC_SYS for mt8183
->   media: mediatek: vcodec: Read HW active status from clock
->   clk: mediatek: mt8183: Add CLK_VDEC_ACTIVE to vdec
+On 07/06/2023 17:46, Hans de Goede wrote:
+> The index into ov2680_hv_flip_bayer_order[] should be 0-3, but
+> ov2680_bayer_order() was using 0 + BIT(2) + (BIT(2) << 1) as
+> max index, while the intention was to use: 0 + 1 + 2 as max index.
+>
+> Fix the index calculation in ov2680_bayer_order(), while at it
+> also just use the ctrl values rather then reading them back using
+> a slow i2c-read transaction.
+>
+> This also allows making the function void, since there now are
+> no more i2c-reads to error check.
+>
+> Note the check for the ctrls being NULL is there to allow
+> adding an ov2680_fill_format() helper later, which will call
+> ov2680_set_bayer_order() during probe() before the ctrls are created.
+>
+> Fixes: 3ee47cad3e69 ("media: ov2680: Add Omnivision OV2680 sensor driver")
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
 
-Is the clk patch independent from the others? It's not clear to me.
 
-If the clk patch has to go in together with the media patches, then
-please let me know and post a v3 where the clk patch is also CC-ed to
-the linux-media mailinglist to ensure it ends up in our patchwork system.
+Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
 
-And in that case I need a Acked-by from the clk maintainer as well.
-
-If it is independent, then there is no need for a v3 (at least, not
-for this).
-
-Regards,
-
-	Hans
-
-> 
-> Yunfei Dong (1):
->   arm64: dts: mediatek: mt8183: Add decoder
-> 
->  .../media/mediatek,vcodec-decoder.yaml        | 65 +++++++++++++++----
->  arch/arm64/boot/dts/mediatek/mt8183.dtsi      | 30 +++++++++
->  drivers/clk/mediatek/clk-mt8183-vdec.c        |  5 ++
->  .../mediatek/vcodec/mtk_vcodec_dec_drv.c      | 59 +++++++++++++----
->  .../mediatek/vcodec/mtk_vcodec_dec_hw.c       | 20 ++++--
->  .../mediatek/vcodec/mtk_vcodec_dec_pm.c       | 12 +++-
->  .../platform/mediatek/vcodec/mtk_vcodec_drv.h |  1 +
->  include/dt-bindings/clock/mt8183-clk.h        |  3 +-
->  8 files changed, 165 insertions(+), 30 deletions(-)
-> 
-
+>   drivers/media/i2c/ov2680.c | 27 ++++++++++-----------------
+>   1 file changed, 10 insertions(+), 17 deletions(-)
+>
+> diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
+> index 02204e185e2f..9a9c90c8a949 100644
+> --- a/drivers/media/i2c/ov2680.c
+> +++ b/drivers/media/i2c/ov2680.c
+> @@ -315,26 +315,17 @@ static void ov2680_power_down(struct ov2680_dev *sensor)
+>   	usleep_range(5000, 10000);
+>   }
+>   
+> -static int ov2680_bayer_order(struct ov2680_dev *sensor)
+> +static void ov2680_set_bayer_order(struct ov2680_dev *sensor)
+>   {
+> -	u32 format1;
+> -	u32 format2;
+> -	u32 hv_flip;
+> -	int ret;
+> +	int hv_flip = 0;
+>   
+> -	ret = ov2680_read_reg(sensor, OV2680_REG_FORMAT1, &format1);
+> -	if (ret < 0)
+> -		return ret;
+> +	if (sensor->ctrls.vflip && sensor->ctrls.vflip->val)
+> +		hv_flip += 1;
+>   
+> -	ret = ov2680_read_reg(sensor, OV2680_REG_FORMAT2, &format2);
+> -	if (ret < 0)
+> -		return ret;
+> -
+> -	hv_flip = (format2 & BIT(2)  << 1) | (format1 & BIT(2));
+> +	if (sensor->ctrls.hflip && sensor->ctrls.hflip->val)
+> +		hv_flip += 2;
+>   
+>   	sensor->fmt.code = ov2680_hv_flip_bayer_order[hv_flip];
+> -
+> -	return 0;
+>   }
+>   
+>   static int ov2680_vflip_enable(struct ov2680_dev *sensor)
+> @@ -345,7 +336,8 @@ static int ov2680_vflip_enable(struct ov2680_dev *sensor)
+>   	if (ret < 0)
+>   		return ret;
+>   
+> -	return ov2680_bayer_order(sensor);
+> +	ov2680_set_bayer_order(sensor);
+> +	return 0;
+>   }
+>   
+>   static int ov2680_vflip_disable(struct ov2680_dev *sensor)
+> @@ -378,7 +370,8 @@ static int ov2680_hflip_disable(struct ov2680_dev *sensor)
+>   	if (ret < 0)
+>   		return ret;
+>   
+> -	return ov2680_bayer_order(sensor);
+> +	ov2680_set_bayer_order(sensor);
+> +	return 0;
+>   }
+>   
+>   static int ov2680_test_pattern_set(struct ov2680_dev *sensor, int value)
