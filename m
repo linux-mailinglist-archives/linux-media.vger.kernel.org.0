@@ -2,154 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D79B72BA2D
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jun 2023 10:21:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91CB372BAC8
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jun 2023 10:35:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230079AbjFLIVC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Jun 2023 04:21:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53870 "EHLO
+        id S232471AbjFLIfT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Jun 2023 04:35:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233964AbjFLIUu (ORCPT
+        with ESMTP id S232334AbjFLIfQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Jun 2023 04:20:50 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A43D7E71
-        for <linux-media@vger.kernel.org>; Mon, 12 Jun 2023 01:20:47 -0700 (PDT)
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC639891;
-        Mon, 12 Jun 2023 10:20:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1686558017;
-        bh=wOD1XCdavTYgPlExeqqfli7j9F12Be33/Um9dpJfG/Y=;
-        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
-        b=OQrfeJjdrLnelvFxE0QInwsVtNqBKLMSIRKdeg2elqhuHfCzLtm8cBFgupndEnpob
-         7wk+hp973zLbL390ICgg73pmjkR6QAtXp9gcgZv9GQdDCf9VAuqBURvxYTeXoO1hVr
-         uOi10OIpY3boKTdqY2ggpZ7rreUHYPSxXASsxohU=
-Message-ID: <4f5bf176-da5f-ac67-b750-7e08bfdf3b50@ideasonboard.com>
-Date:   Mon, 12 Jun 2023 09:20:43 +0100
+        Mon, 12 Jun 2023 04:35:16 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B618B7
+        for <linux-media@vger.kernel.org>; Mon, 12 Jun 2023 01:35:11 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1q8d13-001I9l-5y; Mon, 12 Jun 2023 08:35:09 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.94.2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1q8d10-007Ubp-JX; Mon, 12 Jun 2023 08:35:06 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT FIXES FOR v6.5] Various fixes that need to go into v6.5 (#92459)
+Date:   Mon, 12 Jun 2023 08:35:06 +0000
+Message-Id: <20230612083506.1785911-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <148a55e2-7cdc-c606-6108-f6a91bcb2a19@xs4all.nl>
+References: 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Content-Language: en-US
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Andy Shevchenko <andy@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org
-References: <20230607164712.63579-1-hdegoede@redhat.com>
- <20230607164712.63579-5-hdegoede@redhat.com>
-From:   Dan Scally <dan.scally@ideasonboard.com>
-Subject: Re: [PATCH 04/28] media: ov2680: Use select VIDEO_V4L2_SUBDEV_API
-In-Reply-To: <20230607164712.63579-5-hdegoede@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+From: builder@linuxtv.org
 
-On 07/06/2023 17:46, Hans de Goede wrote:
-> Select VIDEO_V4L2_SUBDEV_API in Kconfig and drop the
-> ifdef CONFIG_VIDEO_V4L2_SUBDEV_API checks, like other callers
-> of v4l2_subdev_get_try_format() do.
->
-> This is a preparation patch for fixing ov2680_set_fmt()
-> which == V4L2_SUBDEV_FORMAT_TRY calls not properly filling in
-> the passed in v4l2_mbus_framefmt struct.
->
-> Fixes: 3ee47cad3e69 ("media: ov2680: Add Omnivision OV2680 sensor driver")
-Not sure about Fixes on this one as I don't think it was necessarily broken before, but either way 
-Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->   drivers/media/i2c/Kconfig  |  1 +
->   drivers/media/i2c/ov2680.c | 16 ++--------------
->   2 files changed, 3 insertions(+), 14 deletions(-)
->
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index 8f55155afe67..791473fcbad3 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -433,6 +433,7 @@ config VIDEO_OV2680
->   	tristate "OmniVision OV2680 sensor support"
->   	depends on VIDEO_DEV && I2C
->   	select MEDIA_CONTROLLER
-> +	select VIDEO_V4L2_SUBDEV_API
->   	select V4L2_FWNODE
->   	help
->   	  This is a Video4Linux2 sensor driver for the OmniVision
-> diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
-> index c1b23c5b7818..d90bbca6e913 100644
-> --- a/drivers/media/i2c/ov2680.c
-> +++ b/drivers/media/i2c/ov2680.c
-> @@ -559,7 +559,6 @@ static int ov2680_get_fmt(struct v4l2_subdev *sd,
->   {
->   	struct ov2680_dev *sensor = to_ov2680_dev(sd);
->   	struct v4l2_mbus_framefmt *fmt = NULL;
-> -	int ret = 0;
->   
->   	if (format->pad != 0)
->   		return -EINVAL;
-> @@ -567,22 +566,17 @@ static int ov2680_get_fmt(struct v4l2_subdev *sd,
->   	mutex_lock(&sensor->lock);
->   
->   	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
-> -#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
->   		fmt = v4l2_subdev_get_try_format(&sensor->sd, sd_state,
->   						 format->pad);
-> -#else
-> -		ret = -EINVAL;
-> -#endif
->   	} else {
->   		fmt = &sensor->fmt;
->   	}
->   
-> -	if (fmt)
-> -		format->format = *fmt;
-> +	format->format = *fmt;
->   
->   	mutex_unlock(&sensor->lock);
->   
-> -	return ret;
-> +	return 0;
->   }
->   
->   static int ov2680_set_fmt(struct v4l2_subdev *sd,
-> @@ -591,9 +585,7 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
->   {
->   	struct ov2680_dev *sensor = to_ov2680_dev(sd);
->   	struct v4l2_mbus_framefmt *fmt = &format->format;
-> -#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
->   	struct v4l2_mbus_framefmt *try_fmt;
-> -#endif
->   	const struct ov2680_mode_info *mode;
->   	int ret = 0;
->   
-> @@ -616,10 +608,8 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
->   	}
->   
->   	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
-> -#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
->   		try_fmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
->   		format->format = *try_fmt;
-> -#endif
->   		goto unlock;
->   	}
->   
-> @@ -777,9 +767,7 @@ static int ov2680_v4l2_register(struct ov2680_dev *sensor)
->   	v4l2_i2c_subdev_init(&sensor->sd, sensor->i2c_client,
->   			     &ov2680_subdev_ops);
->   
-> -#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
->   	sensor->sd.flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
-> -#endif
->   	sensor->pad.flags = MEDIA_PAD_FL_SOURCE;
->   	sensor->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
->   
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/148a55e2-7cdc-c606-6108-f6a91bcb2a19@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/313920/
+Build time: 00:21:59
+Link: https://lore.kernel.org/linux-media/148a55e2-7cdc-c606-6108-f6a91bcb2a19@xs4all.nl
+
+gpg: Signature made Mon 12 Jun 2023 08:00:11 AM UTC
+gpg:                using EDDSA key 52ADCAAE8A4F70B99ACD8D726B425DF79B1C1E76
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+
+Summary: got 4/7 patches with issues, being 4 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0001-media-amphion-use-dev_err_probe.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+	SPARSE:../drivers/staging/media/tegra-video/vip.c ../drivers/staging/media/tegra-video/vip.c:280:24: warning: symbol 'tegra_vip_driver' was not declared. Should it be static?
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c: ../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:476 ov2680_init_cfg() error: we previously assumed 'sd_state' could be null (see line 468)
+	../drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:524 ov2680_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/i2c/atomisp-gc0310.c:447 gc0310_s_stream() warn: missing error code 'ret'
+	../drivers/staging/media/atomisp/pci/atomisp_fops.c: ../drivers/staging/media/atomisp/pci/atomisp_fops.c:517 atomisp_open() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2801 atomisp_cp_dvs_6axis_config() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:2900 atomisp_cp_morph_table() warn: missing unwind goto?
+	../drivers/staging/media/atomisp/pci/atomisp_cmd.c: ../drivers/staging/media/atomisp/pci/atomisp_cmd.c:4283 atomisp_set_fmt_to_snr() warn: variable dereferenced before check 'asd' (see line 4268)
+
+    allyesconfig: return code #0:
+	../drivers/media/i2c/adp1653.c: ../drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
+	../drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c: ../drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c:347 vdec_msg_queue_init() warn: missing unwind goto?
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2775 mxc_jpeg_probe() warn: missing unwind goto?
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
+	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: OOM: 3000016Kb sm_state_count = 1963573
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2570 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 53 seconds
+	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
+	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2884 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/pvrusb2/pvrusb2-hdw.c: ../drivers/media/usb/pvrusb2/pvrusb2-hdw.c:3293 pvr2_hdw_get_tuner_status() warn: inconsistent indenting
+
+patches/0003-media-imx-jpeg-Support-to-assign-slot-for-encoder-de.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c: ../drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2772 mxc_jpeg_probe() warn: missing unwind goto?
+
+patches/0006-media-pci-cx23885-fix-error-handling-for-cx23885-ATS.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() parse error: OOM: 3000024Kb sm_state_count = 1961373
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() warn: Function too hairy.  No more merges.
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2558 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 47 seconds
+
+patches/0007-media-mediatek-vcodec-fix-cancel_work_sync-fail-with.patch:
+
+    allyesconfig: return code #0:
+	../drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c: ../drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c:348 vdec_msg_queue_init() warn: missing unwind goto?
+
+   checkpatch.pl:
+	$ cat patches/0007-media-mediatek-vcodec-fix-cancel_work_sync-fail-with.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:14: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+
+
+Error #512 when building PDF docs
+
