@@ -2,152 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 33DBF72C6C1
-	for <lists+linux-media@lfdr.de>; Mon, 12 Jun 2023 16:00:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FC0F72C893
+	for <lists+linux-media@lfdr.de>; Mon, 12 Jun 2023 16:31:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233694AbjFLOAX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Jun 2023 10:00:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46188 "EHLO
+        id S238179AbjFLObM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Jun 2023 10:31:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233262AbjFLN7s (ORCPT
+        with ESMTP id S238155AbjFLOaz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Jun 2023 09:59:48 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 935AA170E
-        for <linux-media@vger.kernel.org>; Mon, 12 Jun 2023 06:59:19 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Mon, 12 Jun 2023 10:30:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B1BD3C3B
+        for <linux-media@vger.kernel.org>; Mon, 12 Jun 2023 07:28:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1686580081;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=Pz2kuqiSFQSWJR9941DFWUWhLPb+zdyjk+fsL6/Qprg=;
+        b=QLZLZk7trC2r/GjUVtqNtv4lbB138tQPfb4vf3uuCVJdONvyavGjgbTdrVNXNjX8OMkZdR
+        e+UW9ObtNjBie+UOleCQGaSCc/DwFg0hFxgEa9kXILA6u70eesln3Owx3lY4JX4gtHAxV4
+        Zd2R7VsAJ5rsdYcVIOnO8bQ8TiKmTYU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-133-7gjyhIGQMZKq2qLnX_JtIA-1; Mon, 12 Jun 2023 10:16:34 -0400
+X-MC-Unique: 7gjyhIGQMZKq2qLnX_JtIA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E845A62985
-        for <linux-media@vger.kernel.org>; Mon, 12 Jun 2023 13:58:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98E12C433EF;
-        Mon, 12 Jun 2023 13:58:44 +0000 (UTC)
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Cc:     Zheng Zhang <zheng.zhang@email.ucr.edu>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 3/3] Documentation: media: cec: describe new callbacks
-Date:   Mon, 12 Jun 2023 15:58:39 +0200
-Message-Id: <20230612135839.254935-4-hverkuil-cisco@xs4all.nl>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230612135839.254935-1-hverkuil-cisco@xs4all.nl>
-References: <20230612135839.254935-1-hverkuil-cisco@xs4all.nl>
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 54EE4101A53B;
+        Mon, 12 Jun 2023 14:16:34 +0000 (UTC)
+Received: from x1.localdomain.com (unknown [10.39.195.43])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 606D740C20F4;
+        Mon, 12 Jun 2023 14:16:33 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Andy Shevchenko <andy@kernel.org>,
+        =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Dan Scally <dan.scally@ideasonboard.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH 1/2] platform/x86: int3472: discrete: Fix getting active_value
+Date:   Mon, 12 Jun 2023 16:16:31 +0200
+Message-Id: <20230612141632.5232-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Describe the new callbacks and clarify when the adap->lock
-mutex is held or not.
+acpi_object.integer.value is 64 bit, so to get bits 31-24
+the value not only needs to be shifted but also masked.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- Documentation/driver-api/media/cec-core.rst | 44 ++++++++++++++++-----
- 1 file changed, 34 insertions(+), 10 deletions(-)
+ drivers/platform/x86/intel/int3472/discrete.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/driver-api/media/cec-core.rst b/Documentation/driver-api/media/cec-core.rst
-index ae0d20798edc..f1ffdec388f3 100644
---- a/Documentation/driver-api/media/cec-core.rst
-+++ b/Documentation/driver-api/media/cec-core.rst
-@@ -109,9 +109,11 @@ your driver:
- 		int (*adap_monitor_all_enable)(struct cec_adapter *adap, bool enable);
- 		int (*adap_monitor_pin_enable)(struct cec_adapter *adap, bool enable);
- 		int (*adap_log_addr)(struct cec_adapter *adap, u8 logical_addr);
--		void (*adap_configured)(struct cec_adapter *adap, bool configured);
-+		void (*adap_unconfigured)(struct cec_adapter *adap);
- 		int (*adap_transmit)(struct cec_adapter *adap, u8 attempts,
- 				      u32 signal_free_time, struct cec_msg *msg);
-+		void (*adap_nb_transmit_canceled)(struct cec_adapter *adap,
-+						  const struct cec_msg *msg);
- 		void (*adap_status)(struct cec_adapter *adap, struct seq_file *file);
- 		void (*adap_free)(struct cec_adapter *adap);
+diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
+index fc839a73e411..4ef60883154d 100644
+--- a/drivers/platform/x86/intel/int3472/discrete.c
++++ b/drivers/platform/x86/intel/int3472/discrete.c
+@@ -179,7 +179,7 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
+ 	int3472_get_func_and_polarity(type, &func, &polarity);
  
-@@ -122,8 +124,8 @@ your driver:
- 		...
- 	};
- 
--The seven low-level ops deal with various aspects of controlling the CEC adapter
--hardware:
-+These low-level ops deal with various aspects of controlling the CEC adapter
-+hardware. They are all called with the mutex adap->lock held.
- 
- 
- To enable/disable the hardware::
-@@ -179,14 +181,12 @@ can receive directed messages to that address.
- Note that adap_log_addr must return 0 if logical_addr is CEC_LOG_ADDR_INVALID.
- 
- 
--Called when the adapter is fully configured or unconfigured::
-+Called when the adapter is unconfigured::
- 
--	void (*adap_configured)(struct cec_adapter *adap, bool configured);
-+	void (*adap_unconfigured)(struct cec_adapter *adap);
- 
--If configured == true, then the adapter is fully configured, i.e. all logical
--addresses have been successfully claimed. If configured == false, then the
--adapter is unconfigured. If the driver has to take specific actions after
--(un)configuration, then that can be done through this optional callback.
-+The adapter is unconfigured. If the driver has to take specific actions after
-+unconfiguration, then that can be done through this optional callback.
- 
- 
- To transmit a new message::
-@@ -207,6 +207,19 @@ The CEC_FREE_TIME_TO_USEC macro can be used to convert signal_free_time to
- microseconds (one data bit period is 2.4 ms).
- 
- 
-+To pass on the result of a canceled non-blocking transmit::
-+
-+	void (*adap_nb_transmit_canceled)(struct cec_adapter *adap,
-+					  const struct cec_msg *msg);
-+
-+This optional callback can be used to obtain the result of a canceled
-+non-blocking transmit with sequence number msg->sequence. This is
-+called if the transmit was aborted, the transmit timed out (i.e. the
-+hardware never signaled that the transmit finished), or the transmit
-+was successful, but the wait for the expected reply was either aborted
-+or it timed out.
-+
-+
- To log the current CEC hardware status::
- 
- 	void (*adap_status)(struct cec_adapter *adap, struct seq_file *file);
-@@ -372,7 +385,8 @@ Implementing the High-Level CEC Adapter
- ---------------------------------------
- 
- The low-level operations drive the hardware, the high-level operations are
--CEC protocol driven. The following high-level callbacks are available:
-+CEC protocol driven. The high-level callbacks are called without the adap->lock
-+mutex being held. The following high-level callbacks are available:
- 
- .. code-block:: none
- 
-@@ -384,9 +398,19 @@ CEC protocol driven. The following high-level callbacks are available:
- 		...
- 
- 		/* High-level CEC message callback */
-+		void (*configured)(struct cec_adapter *adap);
- 		int (*received)(struct cec_adapter *adap, struct cec_msg *msg);
- 	};
- 
-+Called when the adapter is configured::
-+
-+	void (*configured)(struct cec_adapter *adap);
-+
-+The adapter is fully configured, i.e. all logical addresses have been
-+successfully claimed. If the driver has to take specific actions after
-+configuration, then that can be done through this optional callback.
-+
-+
- The received() callback allows the driver to optionally handle a newly
- received CEC message::
+ 	/* If bits 31-24 of the _DSM entry are all 0 then the signal is inverted */
+-	active_value = obj->integer.value >> 24;
++	active_value = (obj->integer.value >> 24) & 0xff;
+ 	if (!active_value)
+ 		polarity ^= GPIO_ACTIVE_LOW;
  
 -- 
-2.39.2
+2.40.1
 
