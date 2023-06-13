@@ -2,44 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 332BD72DCD0
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 10:40:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C956972DD54
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 11:11:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241470AbjFMIko (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Jun 2023 04:40:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48070 "EHLO
+        id S239834AbjFMJLG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Jun 2023 05:11:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241851AbjFMIkN (ORCPT
+        with ESMTP id S241395AbjFMJLE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Jun 2023 04:40:13 -0400
-Received: from 189.cn (ptr.189.cn [183.61.185.101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 61C87A0;
-        Tue, 13 Jun 2023 01:40:12 -0700 (PDT)
-HMM_SOURCE_IP: 10.64.8.43:49218.162439971
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
-        by 189.cn (HERMES) with SMTP id 42FC2100236;
-        Tue, 13 Jun 2023 16:40:08 +0800 (CST)
-Received: from  ([114.242.206.180])
-        by gateway-151646-dep-75648544bd-7vx9t with ESMTP id eeccf25fcf684add9e175087e8ee34ea for mripard@kernel.org;
-        Tue, 13 Jun 2023 16:40:11 CST
-X-Transaction-ID: eeccf25fcf684add9e175087e8ee34ea
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Sender: 15330273260@189.cn
-Message-ID: <555e160a-0c9d-9145-88f1-a0ecff62240a@189.cn>
-Date:   Tue, 13 Jun 2023 16:40:07 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v14 0/2] drm: add kms driver for loongson display
- controller
-Content-Language: en-US
-To:     Maxime Ripard <mripard@kernel.org>,
-        Sui Jingfeng <suijingfeng@loongson.cn>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Tue, 13 Jun 2023 05:11:04 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE3921A1;
+        Tue, 13 Jun 2023 02:11:03 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6331F630F4;
+        Tue, 13 Jun 2023 09:11:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CA14C433EF;
+        Tue, 13 Jun 2023 09:11:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686647462;
+        bh=3x1vQa4C2vZm/aLZjUrKsrmkj7ZCJR2uls+VZCZHrrc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=nni+VDRcxHMCmL7HaHuIamrAr+jGI5W845fK1XXI/usl+07uT8yr2iucRl71B9dC4
+         7CJ04vWx0JZLFRpnZcWiEZ3xhEk3NBJp1jaHE6VeRmf6E858SEuZfimyzYFPg8M0VR
+         YfHMlGiyAnsEl2iAzOPKtvDS4ID1z37/dyiIYqkBB3DOEzfWDBsO+dEHCt3104Yei4
+         OLANcqsGG52i2UODN0aexcZT9a2/2njvvuk4oqRAMmRRHvlQ3KC1jax5YTcdfPHCZf
+         XDvnNJYHVFOV/uxVEUbKL/qDdfwOHY4NsCkwerXxM/t0aBvZV722SDTcm+yRNsTUJ9
+         mMyWhc7CZHEQw==
+Date:   Tue, 13 Jun 2023 11:10:59 +0200
+From:   Maxime Ripard <mripard@kernel.org>
+To:     Sui Jingfeng <15330273260@189.cn>
+Cc:     Sui Jingfeng <suijingfeng@loongson.cn>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Thomas Zimmermann <tzimmermann@suse.de>,
         David Airlie <airlied@gmail.com>,
         Daniel Vetter <daniel@ffwll.ch>, Li Yi <liyi@loongson.cn>,
@@ -50,17 +47,22 @@ Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
         loongson-kernel@lists.loongnix.cn
+Subject: Re: [PATCH v14 0/2] drm: add kms driver for loongson display
+ controller
+Message-ID: <hvfr6qkepf6l3ymqtp6vhlneeqihnli7g5v7nzd6rirwleffk6@4ernj6xng5rt>
 References: <20230520105718.325819-1-15330273260@189.cn>
  <d4e647d8-294c-abd7-40c6-37381796203d@loongson.cn>
  <a23d6mgl4fbfa4ucgjvwgw7l3somxo4tkhit7ygy55fldlum56@vm3tyjdsx24l>
-From:   Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <a23d6mgl4fbfa4ucgjvwgw7l3somxo4tkhit7ygy55fldlum56@vm3tyjdsx24l>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FROM_LOCAL_DIGITS,
-        FROM_LOCAL_HEX,NICE_REPLY_A,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+ <d2f744b6-e4c9-d1b5-d4ca-470b801c670d@189.cn>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="hpffyxdlrw7g4k3j"
+Content-Disposition: inline
+In-Reply-To: <d2f744b6-e4c9-d1b5-d4ca-470b801c670d@189.cn>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -68,26 +70,47 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-On 2023/6/13 16:30, Maxime Ripard wrote:
+--hpffyxdlrw7g4k3j
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Jun 13, 2023 at 04:35:44PM +0800, Sui Jingfeng wrote:
 > Hi,
->
-> On Mon, Jun 12, 2023 at 10:58:54PM +0800, Sui Jingfeng wrote:
->> Hi,
->>
->>
->> Any ideas for this trivial DC driver? Sorry about my broken English.
->>
->> What to do next? Send a new version?
-> Thomas already told you to merge it in the previous version:
-> https://lore.kernel.org/dri-devel/7b77020f-d543-13bf-e178-bc416bcc728d@suse.de/
->
-> So.. do that?
+>=20
+> On 2023/6/13 16:30, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > On Mon, Jun 12, 2023 at 10:58:54PM +0800, Sui Jingfeng wrote:
+> > > Hi,
+> > >=20
+> > >=20
+> > > Any ideas for this trivial DC driver? Sorry about my broken English.
+> > >=20
+> > > What to do next? Send a new version?
+> > Thomas already told you to merge it in the previous version:
+> > https://lore.kernel.org/dri-devel/7b77020f-d543-13bf-e178-bc416bcc728d@=
+suse.de/
+> >=20
+> > So.. do that?
+>=20
+> Yes, that sound fine.
+>=20
+> But I can't do it myself, would you like to help?
 
-OK, I also want to merge this.
+Why can't you do it yourself?
 
-If there are any other problems, We and other contributor will take the 
-responsibility to fixed it with a separate patch.
+Maxime
 
-It this OK?
+--hpffyxdlrw7g4k3j
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> Maxime
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZIgyowAKCRDj7w1vZxhR
+xRRuAQCrBuuVG4szTbawSRwgsoNQPfbuzW5fwxdZkFu+rKLDCQD+J6ujT7XS4QIG
+mbiB7naiKmWDCd8R0jlmFZzJNw2kDgI=
+=nhdu
+-----END PGP SIGNATURE-----
+
+--hpffyxdlrw7g4k3j--
