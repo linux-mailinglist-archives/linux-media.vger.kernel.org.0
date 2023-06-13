@@ -2,107 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F1DBE72E02B
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 12:55:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3AAE72E04A
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 13:03:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238711AbjFMKzX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Jun 2023 06:55:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42880 "EHLO
+        id S241791AbjFMLDA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Jun 2023 07:03:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239539AbjFMKzP (ORCPT
+        with ESMTP id S239863AbjFMLC7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Jun 2023 06:55:15 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEEF61B8;
-        Tue, 13 Jun 2023 03:55:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686653714; x=1718189714;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vEktzoBpSkrn0wkyvocbOkW43+YZyv0TA5B13Xrvmd8=;
-  b=itOpNpWUXrEfWO1BgmdkTN32G1WQDsq/OSKMRuJdly4DPfBGo8R/qZHJ
-   IgFSwQEocnv5Dxa3Ijpl774UBgu1GCTfDU94uzMoKLljkme4VxXcfIPty
-   iE+r2KjYAL5GUpETJI8ehUUviaRc9qFrS3bppXmolgBOD8nLCQbEJYp6+
-   R41DU9/t9MXPG00Fwmsh0ahGSjqhntOUUTCH2KTWGDGJw4TEUMUY5GsJJ
-   /cV/X0UwFN+A4KMmZOPUhx7nTsDu1nsjikaVYuZ1kFnEQULw4dtfytkc4
-   S2EKcGNvnKQGl7hzEbWU9Amr92dXr8haJFHBZMhr3ar2a7xVgBMNGw8go
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="444670611"
-X-IronPort-AV: E=Sophos;i="6.00,239,1681196400"; 
-   d="scan'208";a="444670611"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 03:55:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="885806358"
-X-IronPort-AV: E=Sophos;i="6.00,239,1681196400"; 
-   d="scan'208";a="885806358"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 03:55:13 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 1A8A711F9D2;
-        Tue, 13 Jun 2023 13:55:10 +0300 (EEST)
-Date:   Tue, 13 Jun 2023 10:55:10 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: v4l2-core: Fix a potential resource leak in
- v4l2_fwnode_parse_link()
-Message-ID: <ZIhLDh567eWqY5vk@kekkonen.localdomain>
-References: <2ddd10ec9e009bbb85518355f1e09e1ecd349925.1685340968.git.christophe.jaillet@wanadoo.fr>
+        Tue, 13 Jun 2023 07:02:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F32FE52
+        for <linux-media@vger.kernel.org>; Tue, 13 Jun 2023 04:02:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1686654133;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Ow+FjqcQ0Uj51qvV8xsI9bQJm+Wxo0EbXiSXPwMbH3c=;
+        b=VopM6dZhCqJDfd0cdkMcGKne1RYjohu/64gnJnrglW5bAuZwGquOdGwWf55ne+mOcpo6bf
+        iLLfPnw3QstKwB8pBfMI0PI0oFfGKwuZ2wFY36TNlFjlmEmtTq6tiVeOy0Mf8RY/QLFEcf
+        GLIDFB///pbMzbm0gmuzI8OHcJUg3YU=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-673-mFpt4g0NMwyi_aDi8WMd-A-1; Tue, 13 Jun 2023 07:02:11 -0400
+X-MC-Unique: mFpt4g0NMwyi_aDi8WMd-A-1
+Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-5149ab05081so4391559a12.2
+        for <linux-media@vger.kernel.org>; Tue, 13 Jun 2023 04:02:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686654130; x=1689246130;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ow+FjqcQ0Uj51qvV8xsI9bQJm+Wxo0EbXiSXPwMbH3c=;
+        b=d583gkWSZ9bpFBL9EJN2rl5EmsnXcHs0UgJwLPwzkk9u7xVJYIyyN9pU2usZn2xidt
+         DXyjTv4kNJt0w3yc917y7r9z1DCHjTpiLVAQgkpceOiWn5QAmyVacjEOu5WrraD8dum5
+         hOsduOPxeTQtKm2Dn09Y4Spf92R0Exsl3S4WyhBGhQaU+ac3t4azD1ZMoip52NqSOQmi
+         Ib4JxYHioQAxjro6Z2MeBdTPus3/fdXbBfCbxAvgX59kPCkKabOxZ/iY/IswncHTHcEa
+         TlRFPiw6HN+bfrTWnyWTfvRxiTnJk/+YMSyh7RN77v6Z9RBuCSGMdZBbe5eTCF6zTQBJ
+         Temg==
+X-Gm-Message-State: AC+VfDy7tHAThMA46TdvyKxDGbgE2/kNk6iq4wXlZSjRh6/s/iMrvP8+
+        frFNkOq7eEmmv3MMbS81+ZtX3QbZhFlKgcTIdtN0NVb0l1dzX7h0xBJysJJTXLXWfKQaFovLTQx
+        X2/oWIdlJ72+ggNcny90igak=
+X-Received: by 2002:a05:6402:1106:b0:50d:fba2:7265 with SMTP id u6-20020a056402110600b0050dfba27265mr7220127edv.16.1686654130222;
+        Tue, 13 Jun 2023 04:02:10 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4UNGDecrSFepZZtmpFy1OLT1r8hsa2RWOGU1o2ZL/k4XJbnUHcSo/HzjwXsG0i/E1hPOMsJQ==
+X-Received: by 2002:a05:6402:1106:b0:50d:fba2:7265 with SMTP id u6-20020a056402110600b0050dfba27265mr7220110edv.16.1686654129920;
+        Tue, 13 Jun 2023 04:02:09 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id a25-20020aa7d919000000b00511aea132b9sm6304622edr.3.2023.06.13.04.02.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Jun 2023 04:02:09 -0700 (PDT)
+Message-ID: <a1549a2b-4fc7-b12d-42af-7ebdb916bac3@redhat.com>
+Date:   Tue, 13 Jun 2023 13:02:08 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2ddd10ec9e009bbb85518355f1e09e1ecd349925.1685340968.git.christophe.jaillet@wanadoo.fr>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 2/2] platform/x86: int3472: discrete: Log a warning if the
+ pin-numbers don't match
+Content-Language: en-US, nl
+To:     =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc:     Andy Shevchenko <andy@kernel.org>,
+        Dan Scally <dan.scally@ideasonboard.com>,
+        platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org
+References: <20230612141632.5232-1-hdegoede@redhat.com>
+ <20230612141632.5232-2-hdegoede@redhat.com>
+ <1b87ee9f-8de8-6923-111d-a9d889451d80@linux.intel.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <1b87ee9f-8de8-6923-111d-a9d889451d80@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Christophe,
+Hi,
 
-On Mon, May 29, 2023 at 08:17:18AM +0200, Christophe JAILLET wrote:
-> 'fwnode is known to be NULL, at this point, so fwnode_handle_put() is a
-> no-op.
+On 6/13/23 10:10, Ilpo Järvinen wrote:
+> On Mon, 12 Jun 2023, Hans de Goede wrote:
 > 
-> Release the reference taken from a previous fwnode_graph_get_port_parent()
-> call instead.
+>> The INT3472 discrete code assumes that the ACPI GPIO resources are
+>> in the same order as the pin-info _DSM entries.
+>>
+>> The returned pin-info includes the pin-number in bits 15-8. Add a check
+>> that this matches with the ACPI GPIO resource pin-number in case
+>> the assumption is not true with some ACPI tables.
+>>
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
+>>  drivers/platform/x86/intel/int3472/discrete.c | 10 +++++++++-
+>>  1 file changed, 9 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
+>> index 4ef60883154d..c1132bbbff41 100644
+>> --- a/drivers/platform/x86/intel/int3472/discrete.c
+>> +++ b/drivers/platform/x86/intel/int3472/discrete.c
+>> @@ -149,8 +149,8 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
+>>  {
+>>  	struct int3472_discrete_device *int3472 = data;
+>>  	struct acpi_resource_gpio *agpio;
+>> +	u8 active_value, pin, type;
+>>  	union acpi_object *obj;
+>> -	u8 active_value, type;
+>>  	const char *err_msg;
+>>  	const char *func;
+>>  	u32 polarity;
+>> @@ -174,10 +174,18 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
+>>  		return 1;
+>>  	}
+>>  
+>> +	/* Bits 7-0 contain the type/function of the pin */
+>>  	type = obj->integer.value & 0xff;
+>>  
+>>  	int3472_get_func_and_polarity(type, &func, &polarity);
+>>  
+>> +	/* Bits 15-8 contain the pin-number on the GPIO chip */
+>> +	pin = (obj->integer.value >> 8) & 0xff;
+>> +	if (pin != agpio->pin_table[0])
+>> +		dev_warn(int3472->dev, "%s %s pin number mismatch _DSM %d resource %d\n",
+>> +			 func, agpio->resource_source.string_ptr, pin,
+>> +			 agpio->pin_table[0]);
+>> +
+>>  	/* If bits 31-24 of the _DSM entry are all 0 then the signal is inverted */
+>>  	active_value = (obj->integer.value >> 24) & 0xff;
+>>  	if (!active_value)
+>>
 > 
-> Fixes: ca50c197bd96 ("[media] v4l: fwnode: Support generic fwnode for parsing standardised properties")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
-> /!\  THIS PATCH IS SPECULATIVE  /!\
->          review with care
-> ---
->  drivers/media/v4l2-core/v4l2-fwnode.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-> index 049c2f2001ea..b7dd467c53fd 100644
-> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
-> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-> @@ -571,7 +571,7 @@ int v4l2_fwnode_parse_link(struct fwnode_handle *fwnode,
->  
->  	fwnode = fwnode_graph_get_remote_endpoint(fwnode);
->  	if (!fwnode) {
-> -		fwnode_handle_put(fwnode);
-> +		fwnode_handle_put(link->local_node);
+> These changes made me wonder why there aren't defines for the fields? 
+> And then FIELD_GET() used to read the field. Most of those comments 
+> would be documented by the define name itself.
 
-link->local_node also needs to be non-NULL for the successful case. The
-condition should take that into account. Could you send v2 with that?
+That is a good idea for v2 I'll add a new 1/2 adding defines + switching
+the existing cases to FIELD_GET() and I'll also switch to FIELD_GET()
+here for v2.
 
->  		return -ENOLINK;
->  	}
->  
+Regards,
 
--- 
-Kind regards,
+Hans
 
-Sakari Ailus
+
+
+
