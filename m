@@ -2,47 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E1C472E8DE
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 18:56:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB14172E8E2
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 18:59:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234840AbjFMQzV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Jun 2023 12:55:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37172 "EHLO
+        id S230507AbjFMQ66 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Jun 2023 12:58:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234794AbjFMQzR (ORCPT
+        with ESMTP id S230259AbjFMQ65 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Jun 2023 12:55:17 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A25819B7
-        for <linux-media@vger.kernel.org>; Tue, 13 Jun 2023 09:55:16 -0700 (PDT)
+        Tue, 13 Jun 2023 12:58:57 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E473123
+        for <linux-media@vger.kernel.org>; Tue, 13 Jun 2023 09:58:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686675316; x=1718211316;
+  t=1686675536; x=1718211536;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=GGK+1OfmDCJe8tqrsvO+QfrMeDwJpoX7pCiTuT5J1iE=;
-  b=UzC345WtvWzGNI4A3tNjO6fYevgJ/RhacCXKHSR3paY8wODp2k4zPE2g
-   Ff7TipXrWdCk8Swq4LW4NTHI7SFW4Om4VEdcKY2YHQxTO0n1hTmUO2cIr
-   olPaasRVgwgiT1zdiQwvxJiFt/SycvLH4RQT0uJgTyIbJD21YrPHELi6a
-   2mY/MOUjc9TyDbw3n95DTkvcVpLHN5XvEGrn5H2OcwxAuiAR6SmVym5TN
-   DZIjHLD3BaelGzUskn7BGuDfgZZQXqmHTLH7E3axYODDlca658u0vDTBB
-   syJHJYwL0riKFVRh5xNSNBQbPaTuNlfGIwF0qaySZ1aAfS6AQxd+Sw7GM
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="360876513"
+  bh=tVuv6ZohR3wkOfRn5ucA2vgMiQcCx4yv8de97jzNVQw=;
+  b=SyZT7SrJBCD2wxZ+GruUXnAn0V7fZjotE8xuaqq3nCO/faVNUH+gHWeW
+   AMDUmKVvFHbBektNUAcCPiEVvy0R3EwpJyN/I+oj7GhEVR50SNJdDtkhh
+   evZrOkxqsJY9dtSfGYr76K5k98TbjgCgqPyvRYuGGQMyxucEU0LHCL9Wu
+   jbFdkLY0xwMvDaVA/4bn7/JpCEVNWXLgLCUB7GsejIAUY46C8tQ0M3jDd
+   P2kou2W0GhV4Sb0bofDoUy/rimRLq5EuPa2kCK5+BpAvJ5VJW7j9qaR7t
+   HqACJdFwroUfvBxEwqAAytdLGKMLL9eekQe1I4GuO5JlKcrBf6xjvNUtR
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="357275855"
 X-IronPort-AV: E=Sophos;i="6.00,240,1681196400"; 
-   d="scan'208";a="360876513"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 09:55:15 -0700
+   d="scan'208";a="357275855"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 09:58:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="958461242"
+X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="711728453"
 X-IronPort-AV: E=Sophos;i="6.00,240,1681196400"; 
-   d="scan'208";a="958461242"
+   d="scan'208";a="711728453"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 09:55:08 -0700
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 09:58:39 -0700
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 21F6A120C1C;
-        Tue, 13 Jun 2023 19:55:06 +0300 (EEST)
-Date:   Tue, 13 Jun 2023 16:55:06 +0000
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 5B4E5120C1C;
+        Tue, 13 Jun 2023 19:58:36 +0300 (EEST)
+Date:   Tue, 13 Jun 2023 16:58:36 +0000
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org,
@@ -73,21 +73,20 @@ Cc:     linux-media@vger.kernel.org,
         Jonathan Hunter <jonathanh@nvidia.com>,
         Sowjanya Komatineni <skomatineni@nvidia.com>,
         Marco Felsch <m.felsch@pengutronix.de>
-Subject: Re: [RESEND PATCH v3 15/32] media: v4l: async: Clean up error
- handling in v4l2_async_match_notify
-Message-ID: <ZIifanYD9dMkcYya@kekkonen.localdomain>
+Subject: Re: [RESEND PATCH v3 16/32] media: v4l: async: Drop duplicate
+ handling when adding connections
+Message-ID: <ZIigPPQagUyhiNwC@kekkonen.localdomain>
 References: <20230525091615.2324824-1-sakari.ailus@linux.intel.com>
- <20230525091615.2324824-16-sakari.ailus@linux.intel.com>
- <20230530055224.GT21633@pendragon.ideasonboard.com>
+ <20230525091615.2324824-17-sakari.ailus@linux.intel.com>
+ <20230530060115.GU21633@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230530055224.GT21633@pendragon.ideasonboard.com>
+In-Reply-To: <20230530060115.GU21633@pendragon.ideasonboard.com>
 X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -96,77 +95,25 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Laurent,
 
-On Tue, May 30, 2023 at 08:52:24AM +0300, Laurent Pinchart wrote:
+On Tue, May 30, 2023 at 09:01:15AM +0300, Laurent Pinchart wrote:
 > Hi Sakari,
 > 
-> Thank you for the patch.
+> On Thu, May 25, 2023 at 12:15:59PM +0300, Sakari Ailus wrote:
+> > The connections are checked for duplicates already when the notifier is
+> > registered. This is effectively a sanity check for driver (and possibly
+> > obscure firmware) bugs. Don't do this when adding the connection.
 > 
-> On Thu, May 25, 2023 at 12:15:58PM +0300, Sakari Ailus wrote:
-> > Add labels for error handling instead of doing it all in individual cases.
-> > Prepare for more functionality in this function.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  drivers/media/v4l2-core/v4l2-async.c | 21 ++++++++++++---------
-> >  1 file changed, 12 insertions(+), 9 deletions(-)
-> > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> > index b1025dfc27a92..f51f0c37210c9 100644
-> > --- a/drivers/media/v4l2-core/v4l2-async.c
-> > +++ b/drivers/media/v4l2-core/v4l2-async.c
-> > @@ -320,10 +320,8 @@ static int v4l2_async_match_notify(struct v4l2_async_notifier *notifier,
-> >  		return ret;
-> >  
-> >  	ret = v4l2_async_nf_call_bound(notifier, sd, asc);
-> > -	if (ret < 0) {
-> > -		v4l2_device_unregister_subdev(sd);
-> > -		return ret;
-> > -	}
-> > +	if (ret < 0)
-> > +		goto err_unregister_subdev;
-> >  
-> >  	/*
-> >  	 * Depending of the function of the entities involved, we may want to
-> > @@ -332,11 +330,8 @@ static int v4l2_async_match_notify(struct v4l2_async_notifier *notifier,
-> >  	 * pad).
-> >  	 */
-> >  	ret = v4l2_async_create_ancillary_links(notifier, sd);
-> > -	if (ret) {
-> > -		v4l2_async_nf_call_unbind(notifier, sd, asc);
-> > -		v4l2_device_unregister_subdev(sd);
-> > -		return ret;
-> > -	}
-> > +	if (ret)
-> > +		goto err_call_unbind;
-> >  
-> >  	list_del(&asc->waiting_entry);
-> >  	sd->asd = asc;
-> > @@ -363,6 +358,14 @@ static int v4l2_async_match_notify(struct v4l2_async_notifier *notifier,
-> >  	subdev_notifier->parent = notifier;
-> >  
-> >  	return v4l2_async_nf_try_all_subdevs(subdev_notifier);
-> 
-> Unrelated to this patch, but shoulnd't this have error handling too ?
+> Isn't it better to have this sanity check when the connection is added,
+> instead of later when the notifier is registered ? The latter is more
+> difficult to debug. If you want to avoid duplicate checks, could we drop
+> the one at notifier registration time ?
 
-You're absolutely right. Bad things will happen if this fails. :-(
+I've never seen or heard this check failing. I'm therefore not very
+concerned keeping it as easy to debug as possible, instead I prefer simpler
+implementation.
 
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-Thank you!
-
-> 
-> > +
-> > +err_call_unbind:
-> > +	v4l2_async_nf_call_unbind(notifier, sd, asc);
-> > +
-> > +err_unregister_subdev:
-> > +	v4l2_device_unregister_subdev(sd);
-> > +
-> > +	return ret;
-> >  }
-> >  
-> >  /* Test all async sub-devices in a notifier for a match. */
+Checking at the registration time is still necessary as the same match
+could have been added to another notifier while this one was being set up.
 
 -- 
 Kind regards,
