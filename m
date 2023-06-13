@@ -2,119 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C15872D505
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 01:37:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4885C72D76C
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 04:42:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237637AbjFLXh3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Jun 2023 19:37:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39776 "EHLO
+        id S235720AbjFMCmo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Jun 2023 22:42:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237529AbjFLXh2 (ORCPT
+        with ESMTP id S233144AbjFMCmn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Jun 2023 19:37:28 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C22E5124;
-        Mon, 12 Jun 2023 16:37:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686613047; x=1718149047;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2Z52hCVOR7DJUTPlLD7xaPNXC1JoIJf4cVIpOC5zfkY=;
-  b=esFWek8zX50g5NNJV+VbZMZeN/+2VAxNs/XL2a2EmE5SUGks/hx3kVs2
-   75jXRzUTsqEak01nH4Inbce/Yu6BnmThXOS4/cLF1W3F1sHkg7AbsAGlj
-   sBTRB6Xn1yCH/uBy7TYGCODU7FA8Sod4ftnReQoNI9NXd4vDYknb1O5B3
-   JAxJmCjnLuR8K0gcxaU5HKuh84g6fG97mL9LVug7vclMoljzQPlG3HEMY
-   HaXiAnYoD90YCoVmFSJRBBfgSHJB4s3+QUc/cyb6TT6Gpa7/GW6H1r2iP
-   Y01hANP4VDjD1GLACXomu6/wWcXJUjbe/IzhTGsXg2w8vaK59WAwP++a7
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="361552038"
-X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; 
-   d="scan'208";a="361552038"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 16:37:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="801209462"
-X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; 
-   d="scan'208";a="801209462"
-Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 12 Jun 2023 16:37:21 -0700
-Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1q8r68-0000qK-1B;
-        Mon, 12 Jun 2023 23:37:20 +0000
-Date:   Tue, 13 Jun 2023 07:36:27 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Helge Deller <deller@gmx.de>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH] fbdev/media: Use GPIO descriptors for VIA GPIO
-Message-ID: <202306130745.DRBLkZcT-lkp@intel.com>
-References: <20230612134500.249178-1-linus.walleij@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230612134500.249178-1-linus.walleij@linaro.org>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Mon, 12 Jun 2023 22:42:43 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78C10171F
+        for <linux-media@vger.kernel.org>; Mon, 12 Jun 2023 19:42:39 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EF03B62F2C
+        for <linux-media@vger.kernel.org>; Tue, 13 Jun 2023 02:42:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F39E8C433D2
+        for <linux-media@vger.kernel.org>; Tue, 13 Jun 2023 02:42:37 +0000 (UTC)
+Date:   Tue, 13 Jun 2023 04:42:36 +0200
+Message-ID: <ccc00623a6a00fe6025c6cd2169b6a7a.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Linus,
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-kernel test robot noticed the following build errors:
+Results of the daily build of media_tree:
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linus/master v6.4-rc6 next-20230609]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+date:			Tue Jun 13 03:00:08 CEST 2023
+media-tree git hash:	d78b9d6671decdaedb539635b1d0a34f8f5934f8
+v4l-utils git hash:	29d0a2c7a42d5fbfdb3725fcd493aad21dd99cb6
+edid-decode git hash:	e48fb384fff4a86ccf81b6293c0358575fb9f092
+gcc version:		i686-linux-gcc (GCC) 13.1.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8371-g475c3cec-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 7a744dc9cad9c3f99a9946a1027df30d84d663fb
+host hardware:		x86_64
+host os:		6.1.0-5-amd64
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Linus-Walleij/fbdev-media-Use-GPIO-descriptors-for-VIA-GPIO/20230612-214746
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230612134500.249178-1-linus.walleij%40linaro.org
-patch subject: [PATCH] fbdev/media: Use GPIO descriptors for VIA GPIO
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230613/202306130745.DRBLkZcT-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build):
-        git remote add media-tree git://linuxtv.org/media_tree.git
-        git fetch media-tree master
-        git checkout media-tree/master
-        b4 shazam https://lore.kernel.org/r/20230612134500.249178-1-linus.walleij@linaro.org
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: WARNINGS
+linux-git-arm-multi: WARNINGS
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: WARNINGS: VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
+Check for strcpy/strncpy/strlcpy: OK
+apps: WARNINGS
+spec-git: OK
+virtme: OK: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 0
+CONFIG_PM=n: OK
+CONFIG_PM_SLEEP=n: WARNINGS
+CONFIG_OF=n: WARNINGS
+CONFIG_DEBUG_FS=n: WARNINGS
+sparse: WARNINGS
+smatch: ERRORS
+kerneldoc: WARNINGS
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306130745.DRBLkZcT-lkp@intel.com/
+Detailed results are available here:
 
-All errors (new ones prefixed by >>):
+https://hverkuil.home.xs4all.nl/logs/Tuesday.log
 
->> drivers/video/fbdev/via/via-gpio.c:13:10: fatal error: linux/via-gpio.h: No such file or directory
-      13 | #include <linux/via-gpio.h>
-         |          ^~~~~~~~~~~~~~~~~~
-   compilation terminated.
+Detailed regression test results are available here:
 
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-dmesg.log
 
-vim +13 drivers/video/fbdev/via/via-gpio.c
+Full logs are available here:
 
-ec66841e495b9a drivers/video/via/via-gpio.c Jonathan Corbet 2010-05-05 @13  #include <linux/via-gpio.h>
-a8a359318530a7 drivers/video/via/via-gpio.c Paul Gortmaker  2011-07-10  14  #include <linux/export.h>
-7e0de022680f78 drivers/video/via/via-gpio.c Jonathan Corbet 2009-12-01  15  
+https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
