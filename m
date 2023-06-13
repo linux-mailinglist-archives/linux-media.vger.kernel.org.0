@@ -2,126 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AD0972E54C
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 16:10:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52EC072E570
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 16:16:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242684AbjFMOJl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Jun 2023 10:09:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34776 "EHLO
+        id S240679AbjFMOOh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Jun 2023 10:14:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242793AbjFMOJi (ORCPT
+        with ESMTP id S239278AbjFMOOe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Jun 2023 10:09:38 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE65B1732
-        for <linux-media@vger.kernel.org>; Tue, 13 Jun 2023 07:09:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686665353; x=1718201353;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XEkYNKkdh42x1yAn+L9Xi/AKLnshZUGDUIOVvVLGRkE=;
-  b=CaPHRDtkdJ+ID2GOanp3nVA1wckEhv7uF9YnUD+OJQxyZ7tPGEiv7GDN
-   KGVwF1SAn4PPrqIqD6VDhzehIKXdUafydvdRq3O5h/rA3N+CPgZp/db8o
-   HgOMDV+YYbrMuhTo2cT5nWE4jjPCmNDfCLv5PtIfcef0nTGMx0NWb3VZ1
-   KxW0wsSPs9Cjv+/WEnSdT5QcfpQ4WxsJEQSxkyColXIn4CA7rV8z2RwWQ
-   K3oCkHKVnM/l/tHA9otx5k18yEFwE6pdcbDdPvAlTmX1Cwp7dPUK1ZPDW
-   to3q3Mc2ldSJBxvyNB3zOP9Z82sldkwDS4Yq7fTeLwkcPg14ihcCvKdw4
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="343029524"
-X-IronPort-AV: E=Sophos;i="6.00,239,1681196400"; 
-   d="scan'208";a="343029524"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 07:08:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="958418114"
-X-IronPort-AV: E=Sophos;i="6.00,239,1681196400"; 
-   d="scan'208";a="958418114"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 07:08:41 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id D677E11F9D2;
-        Tue, 13 Jun 2023 17:08:38 +0300 (EEST)
-Date:   Tue, 13 Jun 2023 14:08:38 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>, hverkuil@xs4all.nl,
-        Francesco Dolcini <francesco@dolcini.it>,
-        aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>, bingbu.cao@intel.com,
-        niklas.soderlund@ragnatech.se,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Sylvain Petinot <sylvain.petinot@foss.st.com>,
-        Eugen Hristev <eugen.hristev@collabora.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Dafna Hirschfeld <dafna@fastmail.com>,
-        Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Yong Deng <yong.deng@magewell.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Benoit Parrot <bparrot@ti.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Marco Felsch <m.felsch@pengutronix.de>
-Subject: Re: [RESEND PATCH v3 07/32] media: v4l: async: Drop unneeded list
- entry initialisation
-Message-ID: <ZIh4ZnLx3sbYX9D+@kekkonen.localdomain>
-References: <20230525091615.2324824-1-sakari.ailus@linux.intel.com>
- <20230525091615.2324824-8-sakari.ailus@linux.intel.com>
- <20230530024650.GH21633@pendragon.ideasonboard.com>
- <ZIh2i7HqUsbSfZ9i@kekkonen.localdomain>
+        Tue, 13 Jun 2023 10:14:34 -0400
+Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6DC541BD3;
+        Tue, 13 Jun 2023 07:14:04 -0700 (PDT)
+Received: from [192.168.4.25] (unknown [62.77.71.229])
+        by mx.gpxsee.org (Postfix) with ESMTPSA id 8F0D6DC81;
+        Tue, 13 Jun 2023 16:13:51 +0200 (CEST)
+Message-ID: <219c6e63-f036-9491-9f4a-c11c824c0b5f@gpxsee.org>
+Date:   Tue, 13 Jun 2023 16:13:51 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZIh2i7HqUsbSfZ9i@kekkonen.localdomain>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [RESEND PATCH v6 1/1] Added Digiteq Automotive MGB4 driver
+Content-Language: en-US
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?UTF-8?Q?Martin_T=c5=afma?= <martin.tuma@digiteqautomotive.com>
+References: <20230524112126.2242-1-tumic@gpxsee.org>
+ <20230524112126.2242-2-tumic@gpxsee.org>
+ <3a7da3cd-8d03-a2c4-0534-a75565aefc13@xs4all.nl>
+ <c544814a-7d99-add9-0397-d56776f911dd@gpxsee.org>
+ <0cec2b34-01bb-ec0e-f215-9e6ed3f44e73@xs4all.nl>
+ <5021c762-3435-719b-18a3-def7888fb5f6@gpxsee.org>
+ <313827c0-3b7a-e70a-b281-cbb5f68e6fd2@xs4all.nl>
+From:   =?UTF-8?Q?Martin_T=c5=afma?= <tumic@gpxsee.org>
+In-Reply-To: <313827c0-3b7a-e70a-b281-cbb5f68e6fd2@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 13, 2023 at 02:00:43PM +0000, Sakari Ailus wrote:
-> Hi Laurent,
+On 13. 06. 23 14:26, Hans Verkuil wrote:
+> On 12/06/2023 16:36, Martin Tůma wrote:
+>> On 12. 06. 23 10:42, Hans Verkuil wrote:
+>>> On 08/06/2023 13:16, Martin Tůma wrote:
+>>>> Hi,
+>>>> This is the "technical" part of my response, comments bellow:
+>>>>
+>>>> On 07. 06. 23 10:41, Hans Verkuil wrote:
+>>>>> Hi Martin,
+>>>>>
+>>>>> Some comments below:
+>>>>>
+>>>>> On 24/05/2023 13:21, tumic@gpxsee.org wrote:
+>>>>>> From: Martin Tůma <martin.tuma@digiteqautomotive.com>
+>>>>
+>>>>>> diff --git a/Documentation/admin-guide/media/mgb4.rst b/Documentation/admin-guide/media/mgb4.rst
+>>>>>> new file mode 100644
+>>>>>> index 000000000000..77db2fa64ab4
+>>>>>> --- /dev/null
+>>>>>> +++ b/Documentation/admin-guide/media/mgb4.rst
+>>>>>> @@ -0,0 +1,352 @@
+>>>>>> +.. SPDX-License-Identifier: GPL-2.0
+>>>>>> +
+>>>>>
+>>>>> Perhaps it is a good idea to start with a high level overview of the
+>>>>> hardware blocks. That might help understand how the various parts are
+>>>>> connected.
+>>>>>
+>>>>
+>>>> This is the "admin-guide" documentation and I'm not sure if the admins (= the card users) are interested in some hardware blocks description. I can for sure ad some basic info like that the card (with
+>>>> the given module) has two inputs and two outputs, but if you hold the card in your hands while installing it into the PCIe slot you definitely notice that ;-)
+>>>
+>>> True, but I don't have that module :-).
+>>>
+>>> I assume the inputs (and also outputs) are mutually exclusive? I.e., only one at a time can be active?
+>>>
+>>> But it is also possible to switch between the inputs/outputs dynamically if you want?
+>>>
+>>> Right now it is hard coded through this property, but I assume there is a reason these
+>>> modules have two inputs and two outputs, so it is odd that it is not possible use
+>>> VIDIOC_S_INPUT/S_OUTPUT to toggle between them.
+>>>
+>>
+>> With the current modules, you can not even theoretically (after changing the FPGA bitstream) change the outputs to inputs or vice versa as the the serializers/deserializers are hardcoded on the modules.
 > 
-> On Tue, May 30, 2023 at 05:46:50AM +0300, Laurent Pinchart wrote:
-> > Hi Sakari,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Thu, May 25, 2023 at 12:15:50PM +0300, Sakari Ailus wrote:
-> > > The list entry is initialised as a head in v4l2_async_register_subdev()
-> > > just before being added to the list. This isn't needed, drop the
-> > > initialisation.
-> > 
-> > Is this really unneeded ? Before the initialization and the list_add()
-> > call there are a few code paths that can access the async_list. For
-> > instance, the error path calls v4l2_async_cleanup(), which calls
-> > 
-> > 	list_del_init(&sd->async_list);
-> > 
-> > That won't work well on an uninitialized (or zero-initialized)
-> > list_head.
+> I think you misunderstand me.
 > 
-> I think you're right, I'll drop this patch. This initialisation will be
-> removed in a later patch though, as the list will be redundant soon.
+> Let's keep it simple: a source is connected to input 0 and you capture from it with V4L2.
+> 
+> Can I dynamically switch to input 1 and capture from that? I.e., each input has a
+> different source connected to it, so userspace can select from which input to capture.
+> 
+> Right now it appears that V4L2 just advertises a single input. And the input_id
+> property is read-only. So that means that input 1 is effectively unusable with
+> the current driver, or am I missing something?
+> 
 
-Actually the list and the field remains, although it becomes unnecessary to
-initialise it. I'll see if this patch would be meaningful later on in the
-series or squashed to another patch.
+You can not mix the inputs. Input 0 is always wired to video0 (or 
+whatever the naming of the video devices may be) and input 1 to video1 
+- there are two v4l2 devices, for every HW input one. The input_id 
+property is just a "hint" which device corresponds to the given HW 
+input. For the GMSL module, the situation is a little bit more 
+complicated, as a single "wire" may contain multiple streams which are 
+extracted by the GMSL deserializer (see the "gmsl_stream_id" property) 
+so one "wire" may be the source of both video0 and video1, but the video 
+streams are different.
 
--- 
-Sakari Ailus
+For the outputs, you can do more with the video_source property. You can 
+for example "duplicate" the input stream to both HW outputs in the 
+loopback mode or duplicate a v4l2 output stream to both HW outputs. In 
+both cases, the duplication happens inside the PCIe card.
+
+>>
+>> I can post here some photo of the card, if it is ok to send image attachement to the mailing list so you have some image of what we are talking about. Or I can even show you the card live when you are
+>> in Prague in few days.
+> 
+> Actually, I'd like that! We'll meet there anyway, so that's a good opportunity to
+> see the real deal :-)
+> 
+
+I have no problem with taking the PCIe card (and the modules) to the 
+conference, but I will definitely not bring the whole setup to see it 
+running there as all together (the PC, monitor, infotainment system, car 
+display and 12V power supply) it takes a whole desk at my office ;-)
+But if you would desperately like to see it "live", you can visit our 
+offices and see it there, if you like.
+
+M.
+
+> Regards,
+> 
+> 	Hans
+
