@@ -2,132 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 043CD72DC08
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 10:07:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8850172DC13
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 10:11:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241036AbjFMIHs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Jun 2023 04:07:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59230 "EHLO
+        id S238909AbjFMIK6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Jun 2023 04:10:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234993AbjFMIHr (ORCPT
+        with ESMTP id S235447AbjFMIK4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Jun 2023 04:07:47 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05C3910CE;
-        Tue, 13 Jun 2023 01:07:46 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id ffacd0b85a97d-30aeee7c8a0so3834494f8f.1;
-        Tue, 13 Jun 2023 01:07:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686643664; x=1689235664;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jVCvnuikxuMkayvXMhnhJV1W770twmco4K8oIyl6qVk=;
-        b=ITi8kRp3sMI/PkbbTaZ89AQ3XwCLefwMYZr709m/UEKHYyqhIRR+6qCSdbsfHwGZMA
-         4pafBFCU5yMtOKM+SlmLu0OASrI+VO/29p00PEh3eA3xGPdJ2M5vsR4wZbV18YnoEte9
-         z0+8G3cabGgg3W20nVXdEZn43CIiFXhTJ2OZ7j+proaC3CSudp8dSfA/0/PuNVss1LIr
-         jxY5cOA2qAAE2IXLf8MKRUt0/xZHhoyFXCcxCEj2ARrDQjQiM1T+4YB0gEmPmR+JjkgK
-         jx3Qu9AHcngfJ/sGQIPVd/dttyxyFZ+V/UKUZuoKAZrQzl0d/fjwX4uPvMvumljrGvD7
-         j5Wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686643664; x=1689235664;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jVCvnuikxuMkayvXMhnhJV1W770twmco4K8oIyl6qVk=;
-        b=eYTkHYOI9bJaCvODOKA81oqJ9qYngrGDqZGxi/iAGE1bL4PdpCf64DGvK875Keqqv9
-         cdnSgL7lNlZJYz6lNV8TT5By/mtL6645+5Jy7PE9rypqFZN17EEk9/Og4cSu2oP3jYCb
-         qMi0SfQEBwaJDrrIjaXMAJtBkNASI1aN45PrcVy2vJYWbWHQ5JB1P838fxfbe8L3/uyt
-         hr2PumBAs2JFSr25dTV5tW7LMQV+VTZbPd2iHVbnr6cSr9jMGUUWgTnqaEt9W+iQK1bq
-         vVIFRnNJsaggg372xROc5KkLpgO254Ce8Gt35AwM/nBp0Pb5iUPMFjjhXt1L+QWSW9fc
-         e68w==
-X-Gm-Message-State: AC+VfDyweZezmPqRrRSLq3zyzcrFpvL3uqJfLrOaTXBpnQJGTxCDDqom
-        XLz+It259ozPeuMalLfpMZdyAuF1yRs=
-X-Google-Smtp-Source: ACHHUZ6K2SbKLlM0iN07nmJITtTy2TyPN4FsjiCyN58Ad66eU5l2fQtW0TJNIp0oPxJ6YuV5QBfCAQ==
-X-Received: by 2002:a5d:60c5:0:b0:307:7959:6461 with SMTP id x5-20020a5d60c5000000b0030779596461mr7170270wrt.31.1686643664224;
-        Tue, 13 Jun 2023 01:07:44 -0700 (PDT)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation.. (mob-5-90-5-141.net.vodafone.it. [5.90.5.141])
-        by smtp.gmail.com with ESMTPSA id t18-20020adfeb92000000b003093a412310sm14559754wrn.92.2023.06.13.01.07.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jun 2023 01:07:43 -0700 (PDT)
-From:   Tommaso Merciai <tomm.merciai@gmail.com>
-Cc:     linuxfancy@googlegroups.com,
-        Tommaso Merciai <tomm.merciai@gmail.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] media: i2c: imx290: drop format param from imx290_ctrl_update
-Date:   Tue, 13 Jun 2023 10:07:34 +0200
-Message-Id: <20230613080734.8151-1-tomm.merciai@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Tue, 13 Jun 2023 04:10:56 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB91FE4E;
+        Tue, 13 Jun 2023 01:10:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686643854; x=1718179854;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=m1Rk6YnaVEg3/LvTCv6Jv04yIkKnjKWMBNr+EyDl4Ag=;
+  b=NlFI9EOSV+wva7/aY03nQXZ78YUUyUEtAGtLgDZw+cSLoSiw7cZuu+l4
+   PBwxqjqwikRulGj4LfjjlvFi454ODNxVPaHWU3MqDzpKVBJQIxPPzV9An
+   dHFWR0nyH/KqNkr4mt6dp0y3YBDQ4WTNz8HTOW4971OH+NJsKzLcS6pBO
+   QGMlT7uDvKbeEsB+n02nFjXBQfgJsA2JpAIp3etT7YOChthE2pQc0IJqu
+   +tvVVzJhhiRvKiV81LhOOw2mYG4GZLp6Q4WLEpv9wr3Cz2ZGanOyKwPwS
+   XWePzzGjuIjGfl35fM/Y32Y6rhb7agPZE5dT6TsHpeKmpz3ahqyRXySeh
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="342952157"
+X-IronPort-AV: E=Sophos;i="6.00,239,1681196400"; 
+   d="scan'208";a="342952157"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 01:10:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="776718645"
+X-IronPort-AV: E=Sophos;i="6.00,239,1681196400"; 
+   d="scan'208";a="776718645"
+Received: from abujor-mobl.ger.corp.intel.com ([10.249.44.113])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 01:10:51 -0700
+Date:   Tue, 13 Jun 2023 11:10:22 +0300 (EEST)
+From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+cc:     Andy Shevchenko <andy@kernel.org>,
+        Dan Scally <dan.scally@ideasonboard.com>,
+        platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH 2/2] platform/x86: int3472: discrete: Log a warning if
+ the pin-numbers don't match
+In-Reply-To: <20230612141632.5232-2-hdegoede@redhat.com>
+Message-ID: <1b87ee9f-8de8-6923-111d-a9d889451d80@linux.intel.com>
+References: <20230612141632.5232-1-hdegoede@redhat.com> <20230612141632.5232-2-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The format param actually is not used in imx290_ctrl_update
-function, let's drop this
+On Mon, 12 Jun 2023, Hans de Goede wrote:
 
-Fixes: bc35f9a21a55 ("media: i2c: imx290: Fix the pixel rate at 148.5Mpix/s")
-Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
----
-Changes since v1:
- - Collected tag from DStevenson
- - Added Fixes as suggested by from DStevenson
+> The INT3472 discrete code assumes that the ACPI GPIO resources are
+> in the same order as the pin-info _DSM entries.
+> 
+> The returned pin-info includes the pin-number in bits 15-8. Add a check
+> that this matches with the ACPI GPIO resource pin-number in case
+> the assumption is not true with some ACPI tables.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/platform/x86/intel/int3472/discrete.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
+> index 4ef60883154d..c1132bbbff41 100644
+> --- a/drivers/platform/x86/intel/int3472/discrete.c
+> +++ b/drivers/platform/x86/intel/int3472/discrete.c
+> @@ -149,8 +149,8 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
+>  {
+>  	struct int3472_discrete_device *int3472 = data;
+>  	struct acpi_resource_gpio *agpio;
+> +	u8 active_value, pin, type;
+>  	union acpi_object *obj;
+> -	u8 active_value, type;
+>  	const char *err_msg;
+>  	const char *func;
+>  	u32 polarity;
+> @@ -174,10 +174,18 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
+>  		return 1;
+>  	}
+>  
+> +	/* Bits 7-0 contain the type/function of the pin */
+>  	type = obj->integer.value & 0xff;
+>  
+>  	int3472_get_func_and_polarity(type, &func, &polarity);
+>  
+> +	/* Bits 15-8 contain the pin-number on the GPIO chip */
+> +	pin = (obj->integer.value >> 8) & 0xff;
+> +	if (pin != agpio->pin_table[0])
+> +		dev_warn(int3472->dev, "%s %s pin number mismatch _DSM %d resource %d\n",
+> +			 func, agpio->resource_source.string_ptr, pin,
+> +			 agpio->pin_table[0]);
+> +
+>  	/* If bits 31-24 of the _DSM entry are all 0 then the signal is inverted */
+>  	active_value = (obj->integer.value >> 24) & 0xff;
+>  	if (!active_value)
+> 
 
- drivers/media/i2c/imx290.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+These changes made me wonder why there aren't defines for the fields? 
+And then FIELD_GET() used to read the field. Most of those comments 
+would be documented by the define name itself.
 
-diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-index 5ea25b7acc55..a84b581682a2 100644
---- a/drivers/media/i2c/imx290.c
-+++ b/drivers/media/i2c/imx290.c
-@@ -902,7 +902,6 @@ static const char * const imx290_test_pattern_menu[] = {
- };
- 
- static void imx290_ctrl_update(struct imx290 *imx290,
--			       const struct v4l2_mbus_framefmt *format,
- 			       const struct imx290_mode *mode)
- {
- 	unsigned int hblank_min = mode->hmax_min - mode->width;
-@@ -1195,7 +1194,7 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
- 	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
- 		imx290->current_mode = mode;
- 
--		imx290_ctrl_update(imx290, &fmt->format, mode);
-+		imx290_ctrl_update(imx290, mode);
- 		imx290_exposure_update(imx290, mode);
- 	}
- 
-@@ -1300,7 +1299,6 @@ static const struct media_entity_operations imx290_subdev_entity_ops = {
- static int imx290_subdev_init(struct imx290 *imx290)
- {
- 	struct i2c_client *client = to_i2c_client(imx290->dev);
--	const struct v4l2_mbus_framefmt *format;
- 	struct v4l2_subdev_state *state;
- 	int ret;
- 
-@@ -1335,8 +1333,7 @@ static int imx290_subdev_init(struct imx290 *imx290)
- 	}
- 
- 	state = v4l2_subdev_lock_and_get_active_state(&imx290->sd);
--	format = v4l2_subdev_get_pad_format(&imx290->sd, state, 0);
--	imx290_ctrl_update(imx290, format, imx290->current_mode);
-+	imx290_ctrl_update(imx290, imx290->current_mode);
- 	v4l2_subdev_unlock_state(state);
- 
- 	return 0;
 -- 
-2.34.1
+ i.
 
