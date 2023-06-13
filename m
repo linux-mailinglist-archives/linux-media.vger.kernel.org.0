@@ -2,164 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DEC772DDE3
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 11:38:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B6A572DDF8
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 11:41:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238798AbjFMJiJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Jun 2023 05:38:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54314 "EHLO
+        id S233159AbjFMJln (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Jun 2023 05:41:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238753AbjFMJiF (ORCPT
+        with ESMTP id S239797AbjFMJld (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Jun 2023 05:38:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9C731701
-        for <linux-media@vger.kernel.org>; Tue, 13 Jun 2023 02:37:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1686649035;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=fjiCa7fyHomUes8Ra9T7Qjm94VOEGQDRQYm/ALeXTi8=;
-        b=JQ8+jl4bhchmR9YoubHDv3lJh/evXQLhNmRqt0L8nIDcKz0YpvbXusb+tWYm8nsqDgePuh
-        jzwEp7k1NuDzRUY5KSLnp7DBnGM/met9ncd00y/vu2uGPxSaCpNVcQO+dAVsKCvjcN7MAx
-        RJg5JlSyp2o0kTJGS+EeSaleiI+J92E=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-235-N6guaL3UNpmDHFiakzOeYw-1; Tue, 13 Jun 2023 05:37:14 -0400
-X-MC-Unique: N6guaL3UNpmDHFiakzOeYw-1
-Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-514b8a3c0d3so4165576a12.0
-        for <linux-media@vger.kernel.org>; Tue, 13 Jun 2023 02:37:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686649033; x=1689241033;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fjiCa7fyHomUes8Ra9T7Qjm94VOEGQDRQYm/ALeXTi8=;
-        b=bFO+1KuHhpbVYHm3b6TOZnVl8OgmVlLFOI5bT3SZcGVnh0jgzJDz1a0P/vf2fGGHsS
-         Gto/bMdkrXiYZCAW3zYG9KPnln+AuuVqZx35X5EkG3T59XEiTwpOiJ1ctNcAUX9UReEc
-         gVdtb5TKe6604x3u/OsCaQq+C4XuowD4eJUoDozkMpZbeGP3r7ruR3WiOMlruT439kXP
-         UCL4Fsg7e/4YoakzxVgbZ7gLxqrTDnOiF6mq2Fw1ZTsoIYjDsHOly1/JGRYth8rWJvRH
-         mYS+xIB0OFMtsJjRIL31mGrmjU15Z+p6stz6L6Zs7r5wkoJU0vWUCr0nTyRhaYFggS93
-         GfoQ==
-X-Gm-Message-State: AC+VfDyn8D5DoENoFoJEBnh03z3MPqsfM9aYEC9HUz3Umqo+LZQOhMj0
-        N7gekzJMJenePWAmRaXwz1o8bVOX9ZsVG3eSOxyEouxwmb91uyq2KVYcgMLIS9GBLRMdDz9j1hB
-        iHTPE2JpKtEEqlYVN1N4lC2M=
-X-Received: by 2002:aa7:db59:0:b0:514:8e5a:8471 with SMTP id n25-20020aa7db59000000b005148e5a8471mr6581379edt.13.1686649033273;
-        Tue, 13 Jun 2023 02:37:13 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5KinlAM8A1bQJFPUHY3xFNpYhGDy+BWt9vyXJL0Okkn/x1Sh6QHGxZslm/vlC0pOo4aMgf+w==
-X-Received: by 2002:aa7:db59:0:b0:514:8e5a:8471 with SMTP id n25-20020aa7db59000000b005148e5a8471mr6581365edt.13.1686649032983;
-        Tue, 13 Jun 2023 02:37:12 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id n21-20020aa7d055000000b0050bc7c882bfsm6029933edo.65.2023.06.13.02.37.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Jun 2023 02:37:12 -0700 (PDT)
-Message-ID: <d14b9b81-d0a5-e967-0e10-a3d3037e345b@redhat.com>
-Date:   Tue, 13 Jun 2023 11:37:11 +0200
+        Tue, 13 Jun 2023 05:41:33 -0400
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2B11510D8;
+        Tue, 13 Jun 2023 02:41:30 -0700 (PDT)
+Received: from loongson.cn (unknown [10.20.42.43])
+        by gateway (Coremail) with SMTP id _____8AxGurJOYhkGJMEAA--.9851S3;
+        Tue, 13 Jun 2023 17:41:29 +0800 (CST)
+Received: from [10.20.42.43] (unknown [10.20.42.43])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8CxXMrIOYhkptkYAA--.62503S3;
+        Tue, 13 Jun 2023 17:41:28 +0800 (CST)
+Message-ID: <5050ec45-b82a-d815-659e-a408e692aea4@loongson.cn>
+Date:   Tue, 13 Jun 2023 17:41:28 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 3/3] atomisp: sh_css_params: write the sp_group config
- according to the ISP model
-Content-Language: en-US, nl
-To:     Kate Hsuan <hpa@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-References: <20230612055718.453554-1-hpa@redhat.com>
- <20230612055718.453554-4-hpa@redhat.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230612055718.453554-4-hpa@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v14 0/2] drm: add kms driver for loongson display
+ controller
+Content-Language: en-US
+To:     Maxime Ripard <mripard@kernel.org>
+Cc:     Sui Jingfeng <15330273260@189.cn>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Li Yi <liyi@loongson.cn>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian Koenig <christian.koenig@amd.com>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        loongson-kernel@lists.loongnix.cn
+References: <20230520105718.325819-1-15330273260@189.cn>
+ <d4e647d8-294c-abd7-40c6-37381796203d@loongson.cn>
+ <a23d6mgl4fbfa4ucgjvwgw7l3somxo4tkhit7ygy55fldlum56@vm3tyjdsx24l>
+ <d2f744b6-e4c9-d1b5-d4ca-470b801c670d@189.cn>
+ <hvfr6qkepf6l3ymqtp6vhlneeqihnli7g5v7nzd6rirwleffk6@4ernj6xng5rt>
+ <42c54caf-0ab9-a075-b641-9e3e21b2a2f3@loongson.cn>
+ <7rbtdidyfpctz22pw2mnt2a6yp34hwp2bdp7usp52ft5mfrfud@nokbyxjip5by>
+From:   Sui Jingfeng <suijingfeng@loongson.cn>
+Organization: Loongson
+In-Reply-To: <7rbtdidyfpctz22pw2mnt2a6yp34hwp2bdp7usp52ft5mfrfud@nokbyxjip5by>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf8CxXMrIOYhkptkYAA--.62503S3
+X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoW7Gr4fZrWkZr13CFWkGFWUWrX_yoW8JF13pr
+        WUtF10kF4kGr1rJrZYvw18tFnYvwn8tr1Uuw1qqr17urWqvr13GF42kr4YkF9xXr97Ca17
+        tF4UXa43tw4jkagCm3ZEXasCq-sJn29KB7ZKAUJUUUUP529EdanIXcx71UUUUU7KY7ZEXa
+        sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+        0xBIdaVrnRJUUUPqb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+        IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+        e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+        0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+        xVWxJr0_GcWln4kS14v26r1q6r43M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
+        xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q
+        6rW5McIj6I8E87Iv67AKxVWxJVW8Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI4
+        8JMxk0xIA0c2IEe2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vI
+        r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Wrv_ZF1lx2IqxVAqx4xG67
+        AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIY
+        rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Xr0_Ar1lIxAIcVC0I7IYx2IY6xkF7I0E14
+        v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWxJVW8
+        Jr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x07j7PE
+        -UUUUU=
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kate,
 
-On 6/12/23 07:57, Kate Hsuan wrote:
-> Pick up the necessary part of sp_group configuration for both model and
-> then copy those parts into a tempetory buffer. This buffer is finally
-> written to the ISP with correct length.
-> 
-> Signed-off-by: Kate Hsuan <hpa@redhat.com>
+On 2023/6/13 17:28, Maxime Ripard wrote:
+> On Tue, Jun 13, 2023 at 05:17:00PM +0800, Sui Jingfeng wrote:
+>> On 2023/6/13 17:10, Maxime Ripard wrote:
+>>> On Tue, Jun 13, 2023 at 04:35:44PM +0800, Sui Jingfeng wrote:
+>>>> Hi,
+>>>>
+>>>> On 2023/6/13 16:30, Maxime Ripard wrote:
+>>>>> Hi,
+>>>>>
+>>>>> On Mon, Jun 12, 2023 at 10:58:54PM +0800, Sui Jingfeng wrote:
+>>>>>> Hi,
+>>>>>>
+>>>>>>
+>>>>>> Any ideas for this trivial DC driver? Sorry about my broken English.
+>>>>>>
+>>>>>> What to do next? Send a new version?
+>>>>> Thomas already told you to merge it in the previous version:
+>>>>> https://lore.kernel.org/dri-devel/7b77020f-d543-13bf-e178-bc416bcc728d@suse.de/
+>>>>>
+>>>>> So.. do that?
+>>>> Yes, that sound fine.
+>>>>
+>>>> But I can't do it myself, would you like to help?
+>>> Why can't you do it yourself?
+>> I don't have a commit access to the drm-misc,
+>>
+>> I think, I can get the commit access in a letter time when I good enough,
+>>
+>> But get the code merged, just merge the latest version is OK.
+> Look at the link in Thomas mail, it's the documentation on how to get
+> commit access.
 
-As mentioned in the review of patch 1/3 the sh_css_internal.h changes
-from patch 1/3 should all be moved here.
+Can I get the commit access at a latter time?
 
-Other then that this looks good to me.
+I do not need the commit access currently.
 
-Regards,
+As long as somebody can help to merge this driver is OK.
 
-Hans
+> Maxime
 
-
-> ---
->  .../staging/media/atomisp/pci/sh_css_params.c | 41 ++++++++++++++++++-
->  1 file changed, 39 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
-> index 588f2adab058..22a9fed006f6 100644
-> --- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-> +++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-> @@ -3720,10 +3720,47 @@ struct ia_css_shading_table *ia_css_get_shading_table(struct ia_css_stream
->  
->  ia_css_ptr sh_css_store_sp_group_to_ddr(void)
->  {
-> +	u8 *write_buf;
-> +	u8 *buf_ptr;
-> +
->  	IA_CSS_ENTER_LEAVE_PRIVATE("void");
-> +
-> +	write_buf = kzalloc(sizeof(struct sh_css_sp_group), GFP_KERNEL);
-> +	if (!write_buf)
-> +		return 0;
-> +
-> +	buf_ptr = write_buf;
-> +	if (IS_ISP2401) {
-> +		memcpy(buf_ptr, &sh_css_sp_group.config, 3);
-> +		buf_ptr += 3;
-> +		memcpy(buf_ptr, &sh_css_sp_group.config.enable_isys_event_queue, 2);
-> +		buf_ptr += 2;
-> +		memset(buf_ptr, 0, 3);
-> +		buf_ptr += 3; /* Padding 3 bytes for struct sh_css_sp_config*/
-> +	} else {
-> +		memcpy(buf_ptr, &sh_css_sp_group.config, sizeof(sh_css_sp_group.config));
-> +		buf_ptr += sizeof(sh_css_sp_group.config);
-> +	}
-> +
-> +	memcpy(buf_ptr, &sh_css_sp_group.pipe, sizeof(sh_css_sp_group.pipe));
-> +	buf_ptr += sizeof(sh_css_sp_group.pipe);
-> +
-> +	if (IS_ISP2401) {
-> +		memcpy(buf_ptr, &sh_css_sp_group.pipe_io, sizeof(sh_css_sp_group.pipe_io));
-> +		buf_ptr += sizeof(sh_css_sp_group.pipe_io);
-> +		memcpy(buf_ptr, &sh_css_sp_group.pipe_io_status,
-> +		       sizeof(sh_css_sp_group.pipe_io_status));
-> +		buf_ptr += sizeof(sh_css_sp_group.pipe_io_status);
-> +	}
-> +
-> +	memcpy(buf_ptr, &sh_css_sp_group.debug, sizeof(sh_css_sp_group.debug));
-> +	buf_ptr += sizeof(sh_css_sp_group.debug);
-> +
->  	hmm_store(xmem_sp_group_ptrs,
-> -		   &sh_css_sp_group,
-> -		   sizeof(struct sh_css_sp_group));
-> +		  write_buf,
-> +		  buf_ptr - write_buf);
-> +
-> +	kfree(write_buf);
->  	return xmem_sp_group_ptrs;
->  }
->  
+-- 
+Jingfeng
 
