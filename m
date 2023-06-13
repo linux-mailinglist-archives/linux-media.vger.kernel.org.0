@@ -2,123 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A68BC72E127
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 13:21:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1898572E166
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 13:24:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235152AbjFMLUr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Jun 2023 07:20:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55256 "EHLO
+        id S242097AbjFMLYi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Jun 2023 07:24:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241780AbjFMLTH (ORCPT
+        with ESMTP id S241693AbjFMLYO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Jun 2023 07:19:07 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F589294C;
-        Tue, 13 Jun 2023 04:17:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686655056; x=1718191056;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version:content-id;
-  bh=nv36s9PsuvVj4NH4vGNtZglB8PdYZFfc+949dgKyhQs=;
-  b=DDvFoiysiw0amImZM0K1uj/1ULjeilsSM6rTBdgJU/D8Kg0UPo7qolDr
-   8rcRbpk+ale8xAN3LFZky76gafLAkEIiF9B7Gfq7IOfs/4ftKxSO9ALjv
-   YnfAoG68zAKjLm5EVSd8+lUJuS5Y3hzICN3NDX2ByagAUpXlaNuUDbTDx
-   XzszeO+iQHUYBSurRirvJrLIyRV0ddRKR65FF2XLMIK78ElH89o15aLT3
-   OuRlnDJEfrPQ1FVpO/+g0sgOQ/3v+0avsj0ved5pXgiAYL0eaiH7m9fhz
-   bAWlNLEAUUNfEer5wziuy+VOnJ6qHBiq/FqVCFOzq0uSY8VxVmYH8J0eY
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="355798371"
-X-IronPort-AV: E=Sophos;i="6.00,239,1681196400"; 
-   d="scan'208";a="355798371"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 04:17:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="781620757"
-X-IronPort-AV: E=Sophos;i="6.00,239,1681196400"; 
-   d="scan'208";a="781620757"
-Received: from abujor-mobl.ger.corp.intel.com ([10.249.44.113])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 04:17:34 -0700
-Date:   Tue, 13 Jun 2023 14:17:31 +0300 (EEST)
-From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-cc:     Andy Shevchenko <andy@kernel.org>,
-        Dan Scally <dan.scally@ideasonboard.com>,
-        platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 2/2] platform/x86: int3472: discrete: Log a warning if
- the pin-numbers don't match
-In-Reply-To: <20230613110810.240193-2-hdegoede@redhat.com>
-Message-ID: <c821a4e0-ff2f-1b8d-a0fa-aadc9c541b6f@linux.intel.com>
-References: <20230613110810.240193-1-hdegoede@redhat.com> <20230613110810.240193-2-hdegoede@redhat.com>
+        Tue, 13 Jun 2023 07:24:14 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 155AD1BE1;
+        Tue, 13 Jun 2023 04:23:56 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1b3c0c476d1so20944665ad.1;
+        Tue, 13 Jun 2023 04:23:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686655431; x=1689247431;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=7Y7yi+Okgc5sTCMPfTkh6DdWUXsya0gJ+xteKBizfC8=;
+        b=VYJsYkRhmamDj0aNWQJOkE+7ttXipRe/tLvjw4RXVYlJrxUeo3Tix2IPWS/huLQCzm
+         G2O12J9IHZGKb06YSDZZX/Qg7iCKNo/mQ7jh93hlk9RHonsEvI08W6+kihAkVEeQL1j5
+         J67c+KII/42VyBcPj8WN7Htnuum9/ImWAmBrd5IWkX31RSC0TTyXK0CrLZTcta7JCO91
+         AMGDjHkX41C5SORTelhnqblJt2THuHdwLcSBeo5smjfjjTgtYT784wO6bJV2FAL5uq8Z
+         6OYs5ydA8eiDht8ia7y1h2DHlQn+8uX/0ITdFNx2lLK8Gq+b5k1u7AVGDtVumOx407tb
+         8woA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686655431; x=1689247431;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7Y7yi+Okgc5sTCMPfTkh6DdWUXsya0gJ+xteKBizfC8=;
+        b=l1LXXuxYEl7Zm9sCQI32HrJssbwlWK4KgF6ZpxTc3Ko3zfBv8J+S50lWeFO3/Ycloq
+         CHm3w02Otsoud7F4e5O4eREjhZ0eboDFqdO//RROpfYm4sQbL/PAJ+8xP/1L/ww1MGAd
+         dXQo0EMhRPLrT5B4oe1eb55IwkjcHkui9z9e0UuG58O4AKggzAXZf0zlkwpiqYxmrY4Y
+         k463x9JoHKwyHCRjNp2Y1WA7HO+NSMehEapC2lcY4zKXYzFKogXv0wvjRefgZqu0+l9N
+         9aQjB4S+mho1mY4bt22Kg6puVzaCWSHW8bIKulHamyO/ICCHizATYaU07VCvJt86Gg+e
+         RaRA==
+X-Gm-Message-State: AC+VfDxT5QVqewMbzGft2gy3A2Rb4PQV2sgIg9NpHxOQD/jQacAunfM2
+        vg/FwsBQni4DLimuCpRW1H4=
+X-Google-Smtp-Source: ACHHUZ5ZMtmfWu4aONz4T6VLColaAUqpKiQI9Drl624Ken5HRMAMAu3DDnkq0vW0Jy6kR2QfcsVLhw==
+X-Received: by 2002:a17:902:b10b:b0:1ae:35ba:8c8f with SMTP id q11-20020a170902b10b00b001ae35ba8c8fmr8408423plr.13.1686655430967;
+        Tue, 13 Jun 2023 04:23:50 -0700 (PDT)
+Received: from [192.168.0.103] ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id a7-20020a170902ecc700b00198d7b52eefsm9946916plh.257.2023.06.13.04.23.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Jun 2023 04:23:50 -0700 (PDT)
+Message-ID: <cc577237-7814-0bea-a152-8acdea844088@gmail.com>
+Date:   Tue, 13 Jun 2023 18:23:30 +0700
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="8323329-1050445301-1686655010=:2099"
-Content-ID: <67e03eb-54cb-cf8-abc-27c699c8c143@linux.intel.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: Fwd: w_scan hangs on 6.3.7 and does not react on kill -9
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Lukasz Kalamlacki <kalamlacki@gmail.com>,
+        Hyunwoo Kim <imv4bel@gmail.com>,
+        Sasha Levin <sashal@kernel.org>,
+        Stefan Lippers-Hollmann <s.l-h@gmx.de>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Regressions <regressions@lists.linux.dev>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <67afa974-835a-77cc-d4bb-49cba0ff5bf5@gmail.com>
+Content-Language: en-US
+In-Reply-To: <67afa974-835a-77cc-d4bb-49cba0ff5bf5@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---8323329-1050445301-1686655010=:2099
-Content-Type: text/plain; CHARSET=ISO-8859-15
-Content-Transfer-Encoding: 8BIT
-Content-ID: <a45d97bf-ccc8-147d-bd46-c84c4c3976b3@linux.intel.com>
-
-On Tue, 13 Jun 2023, Hans de Goede wrote:
-
-> The INT3472 discrete code assumes that the ACPI GPIO resources are
-> in the same order as the pin-info _DSM entries.
+On 6/12/23 20:52, Bagas Sanjaya wrote:
+> Hi,
 > 
-> The returned pin-info includes the pin-number in bits 15-8. Add a check
-> that this matches with the ACPI GPIO resource pin-number in case
-> the assumption is not true with some ACPI tables.
+> I notice a regression report on Bugzilla [1]. Quoting from it:
 > 
-> Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/platform/x86/intel/int3472/discrete.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
+>> w_scan tool on kernel 6.3.7 hangs so badly that it cannot be killed by kill -9 
+>> I tried also w_scan_cpp 20230604 but it also fails I have 2040:8268 Hauppauge soloHD device as reported by lsusb. During reboot of the OS it prints a lot of kernel errors but it is after syslog is killed I guess and in syslog messages I do not see anything. On default Debian kernel 5.10.0-23 this problem does not exists.
 > 
-> diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
-> index a31964076883..850f306214c7 100644
-> --- a/drivers/platform/x86/intel/int3472/discrete.c
-> +++ b/drivers/platform/x86/intel/int3472/discrete.c
-> @@ -154,8 +154,8 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
->  {
->  	struct int3472_discrete_device *int3472 = data;
->  	struct acpi_resource_gpio *agpio;
-> +	u8 active_value, pin, type;
->  	union acpi_object *obj;
-> -	u8 active_value, type;
->  	const char *err_msg;
->  	const char *func;
->  	u32 polarity;
-> @@ -183,6 +183,12 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
->  
->  	int3472_get_func_and_polarity(type, &func, &polarity);
->  
-> +	pin = FIELD_GET(INT3472_GPIO_DSM_PIN, obj->integer.value);
-> +	if (pin != agpio->pin_table[0])
-> +		dev_warn(int3472->dev, "%s %s pin number mismatch _DSM %d resource %d\n",
-> +			 func, agpio->resource_source.string_ptr, pin,
-> +			 agpio->pin_table[0]);
-> +
->  	active_value = FIELD_GET(INT3472_GPIO_DSM_SENSOR_ON_VAL, obj->integer.value);
->  	if (!active_value)
->  		polarity ^= GPIO_ACTIVE_LOW;
+> 
+> See Bugzilla for the full thread and attached dmesg and kernel config.
+> 
+> Lukasz: On what hardware you have this regression? Also, it is really
+> helpful if you can perform bisection (as outlined
+> in Documentation/admin-guide/bug-bisect.html) to find the culprit,
+> when developers can't figure it out by inspecting the code alone.
+> Last but not least, please also try latest mainline (currently v6.4-rc6).
+> 
+> Anyway, I'm adding it to regzbot:
+> 
+> #regzbot introduced: v5.10..v6.3 https://bugzilla.kernel.org/show_bug.cgi?id=217540
+> #regzbot title: w_scan zombie (unkillable) on kernel v6.3
+> 
 
-For both 1 and 2,
+Another reporter on Bugzilla with similar regression as this one had
+bisected the culprit, so:
 
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+Hyunwoo Kim: It looks like this regression is caused by a backported
+commit of yours. Would you like to take a look on it?
 
+#regzbot introduced: 8994830135b38b
 
---
- i.
---8323329-1050445301-1686655010=:2099--
+Thanks.
+
+-- 
+An old man doll... just what I always wanted! - Clara
+
