@@ -2,135 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DEDA572E92E
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 19:17:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DF9672E9DC
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 19:33:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238084AbjFMRP5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Jun 2023 13:15:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46384 "EHLO
+        id S236612AbjFMRar (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Jun 2023 13:30:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237696AbjFMRPz (ORCPT
+        with ESMTP id S240401AbjFMRaR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Jun 2023 13:15:55 -0400
-Received: from smtp.smtpout.orange.fr (smtp-25.smtpout.orange.fr [80.12.242.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9796E19BF
-        for <linux-media@vger.kernel.org>; Tue, 13 Jun 2023 10:15:50 -0700 (PDT)
-Received: from [192.168.1.18] ([86.243.2.178])
-        by smtp.orange.fr with ESMTPA
-        id 97cKqpd5hx5Vb97cKqvfRE; Tue, 13 Jun 2023 19:15:42 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-        s=t20230301; t=1686676542;
-        bh=nJwk0bnAQ0Xv6sG4ivedyKkZihPzSwcBd5Y0QPp0N8Q=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=MVyQ422go+DjjzMaDCYxv4dYV00tNMyAXp4VRoC/u+vRBDxhF+r1NEVXlvPeaj/G1
-         XPSj8iTmg8nxd5idXgfiqg6JZVHpk5RTaUP4LxVOK/IZwbhwMnQfAZS0jhdD4pWjC9
-         cVL/de62rrH4bsDt84FJLrm8k95o8VmS/v4Pyf5unBP2Gj00S1+n5TqYCCRKY95uNM
-         tWaQYID9AN+jWNhvsMRiPF2lb3RKXwTyFlDcXOPYgDmyoEVrFlieyzA+cBWyDHPGLK
-         vreUmFehIue4Nx7PF08o4Fk2E4nLcvvXSN+ZT6q+qjLsM1/KfHEtR3ib8LYjRPbOil
-         6q+UQea0BNfGA==
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Tue, 13 Jun 2023 19:15:42 +0200
-X-ME-IP: 86.243.2.178
-Message-ID: <34b714b6-cb49-1a34-58f5-8b5ef0da2714@wanadoo.fr>
-Date:   Tue, 13 Jun 2023 19:15:40 +0200
+        Tue, 13 Jun 2023 13:30:17 -0400
+Received: from 189.cn (ptr.189.cn [183.61.185.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5B1801BDB;
+        Tue, 13 Jun 2023 10:29:49 -0700 (PDT)
+HMM_SOURCE_IP: 10.64.8.31:52324.1070341810
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
+        by 189.cn (HERMES) with SMTP id 3B4221001AF;
+        Wed, 14 Jun 2023 01:29:27 +0800 (CST)
+Received: from  ([114.242.206.180])
+        by gateway-151646-dep-75648544bd-xp9j7 with ESMTP id 1825973507f140c2a36a73e109c5300e for suijingfeng@loongson.cn;
+        Wed, 14 Jun 2023 01:29:29 CST
+X-Transaction-ID: 1825973507f140c2a36a73e109c5300e
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Sender: 15330273260@189.cn
+Message-ID: <793c4d53-2f45-3a0d-f16c-0607c9e5496a@189.cn>
+Date:   Wed, 14 Jun 2023 01:29:26 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH] media: v4l2-core: Fix a potential resource leak in
- v4l2_fwnode_parse_link()
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-media@vger.kernel.org
-References: <2ddd10ec9e009bbb85518355f1e09e1ecd349925.1685340968.git.christophe.jaillet@wanadoo.fr>
- <ZIhLDh567eWqY5vk@kekkonen.localdomain>
-Content-Language: fr
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <ZIhLDh567eWqY5vk@kekkonen.localdomain>
+Subject: Re: [PATCH v14 1/2] drm: add kms driver for loongson display
+ controller
+Content-Language: en-US
+To:     Sui Jingfeng <suijingfeng@loongson.cn>,
+        WANG Xuerui <kernel@xen0n.name>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Li Yi <liyi@loongson.cn>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian Koenig <christian.koenig@amd.com>,
+        Emil Velikov <emil.l.velikov@gmail.com>
+Cc:     linaro-mm-sig@lists.linaro.org, loongson-kernel@lists.loongnix.cn,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Liu Peibao <liupeibao@loongson.cn>, linux-media@vger.kernel.org
+References: <20230520105718.325819-1-15330273260@189.cn>
+ <20230520105718.325819-2-15330273260@189.cn>
+ <26fd78b9-c074-8341-c99c-4e3b38cd861a@xen0n.name>
+ <14e56806-833b-c01b-ee74-8f16f48df2fc@loongson.cn>
+From:   Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <14e56806-833b-c01b-ee74-8f16f48df2fc@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FROM_LOCAL_DIGITS,
+        FROM_LOCAL_HEX,NICE_REPLY_A,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le 13/06/2023 à 12:55, Sakari Ailus a écrit :
-> Hi Christophe,
-> 
-> On Mon, May 29, 2023 at 08:17:18AM +0200, Christophe JAILLET wrote:
->> 'fwnode is known to be NULL, at this point, so fwnode_handle_put() is a
->> no-op.
->>
->> Release the reference taken from a previous fwnode_graph_get_port_parent()
->> call instead.
->>
->> Fixes: ca50c197bd96 ("[media] v4l: fwnode: Support generic fwnode for parsing standardised properties")
->> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
->> ---
->> /!\  THIS PATCH IS SPECULATIVE  /!\
->>           review with care
->> ---
->>   drivers/media/v4l2-core/v4l2-fwnode.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
->> index 049c2f2001ea..b7dd467c53fd 100644
->> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
->> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
->> @@ -571,7 +571,7 @@ int v4l2_fwnode_parse_link(struct fwnode_handle *fwnode,
->>   
->>   	fwnode = fwnode_graph_get_remote_endpoint(fwnode);
->>   	if (!fwnode) {
->> -		fwnode_handle_put(fwnode);
->> +		fwnode_handle_put(link->local_node);
-> 
-> link->local_node also needs to be non-NULL for the successful case. The
-> condition should take that into account. Could you send v2 with that?
-> 
->>   		return -ENOLINK;
->>   	}
->>   
-> 
 
-Hi,
-something like below?
-
-@@ -568,19 +568,25 @@ int v4l2_fwnode_parse_link(struct fwnode_handle 
-*fwnode,
-  	link->local_id = fwep.id;
-  	link->local_port = fwep.port;
-  	link->local_node = fwnode_graph_get_port_parent(fwnode);
-+	if (!link->local_node)
-+		return -ENOLINK;
-
-  	fwnode = fwnode_graph_get_remote_endpoint(fwnode);
--	if (!fwnode) {
--		fwnode_handle_put(fwnode);
--		return -ENOLINK;
--	}
-+	if (!fwnode)
-+		goto err_put_local_node;
-
-  	fwnode_graph_parse_endpoint(fwnode, &fwep);
-  	link->remote_id = fwep.id;
-  	link->remote_port = fwep.port;
-  	link->remote_node = fwnode_graph_get_port_parent(fwnode);
-+	if (!link->remote_node)
-+		goto err_put_local_node;
-
-  	return 0;
-+
-+err_put_local_node:
-+	fwnode_handle_put(link->local_node);
-+	return -ENOLINK;
-  }
-  EXPORT_SYMBOL_GPL(v4l2_fwnode_parse_link);
+On 2023/6/14 00:20, Sui Jingfeng wrote:
+> We will remote this workaround at next version.
 
 
-CJ
+remote -> remove
+
