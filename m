@@ -2,57 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 099FA72D8CF
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 06:54:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 813E772D9F5
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 08:33:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237677AbjFMEyK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Jun 2023 00:54:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58436 "EHLO
+        id S239808AbjFMGd1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Jun 2023 02:33:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232700AbjFMEyJ (ORCPT
+        with ESMTP id S232063AbjFMGdX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Jun 2023 00:54:09 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D04510D7
-        for <linux-media@vger.kernel.org>; Mon, 12 Jun 2023 21:54:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686632048; x=1718168048;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=2HOLMMgdcuDhEM6L5rLNn/ii+RC2Hg8hItbbxXBaBcA=;
-  b=d+CsNennCRm9zyIcYV4OMbsE7YPPJ7YseJDPOXvssDpdZrbI+KILM+CE
-   R30JGhu9I/vhZbyUX7jqP3nImrASU2d+ehgxuAOv4DkXIfglL4jxx4Rsd
-   AAMMnURsDP7ap6nEZ8jg0Vh0HVGroHd66EutD9EgOWJYqme1GTXUQk4fj
-   oipeHToPu364V9mW2i3Ip+WgEMVQtSHEjIQwNtzSFAd1V/c/LjFGqtKzf
-   seB6ME8q55ScP3ZC9uDx8lbQnvUi0rBt1wUzO1WMJQiBJ2c5MGal9q7K/
-   8h+KZWjAjmGrfNlmJcpUzua8AD5FCH8WJ+J1mNZnPJbV1qPsQDUNXoien
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="421818613"
-X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; 
-   d="scan'208";a="421818613"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 21:54:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="705655235"
-X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; 
-   d="scan'208";a="705655235"
-Received: from icg-kernel3.bj.intel.com ([172.16.126.100])
-  by orsmga007.jf.intel.com with ESMTP; 12 Jun 2023 21:53:59 -0700
-From:   bingbu.cao@intel.com
-To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        hdegoede@redhat.com, dan.scally@ideasonboard.com,
-        arec.kao@intel.com, hao.yao@intel.com
-Cc:     bingbu.cao@linux.intel.com, bingbu.cao@intel.com
-Subject: [PATCH v2] media: ov13b10: add PM control support based on power resources
-Date:   Tue, 13 Jun 2023 13:05:20 +0800
-Message-Id: <20230613050520.1580151-1-bingbu.cao@intel.com>
+        Tue, 13 Jun 2023 02:33:23 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC23C1AD
+        for <linux-media@vger.kernel.org>; Mon, 12 Jun 2023 23:33:20 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id 2adb3069b0e04-4f6255ad8aeso6281955e87.2
+        for <linux-media@vger.kernel.org>; Mon, 12 Jun 2023 23:33:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1686637999; x=1689229999;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SimncKFafOv0EPP1eKWkZkIgfWz007nswpvYVa91Wow=;
+        b=tRuckTlAvRkMrw+uJMUdg/xzExLU21JuW2mnGvTa9Tnpkeph68gjmoOPTglLO3AGmJ
+         j2hcjhsfLb7BvLTmg1u45D8RXSohLWa/sHK3J1y1IeiSjwRmXrQNYwdHDn/QPU9m5XmY
+         HDM88tYhn272cSPtV7/hAeQCnKdGYYezwLx/L5rALO/WjtzcONsJIwpAAr0u8IBcQdj8
+         GumUzxJwVfZ2jbC3QKKNckUh7pv7YtvX/Xj2lGKCrjmcug3Pcsm8fLsLsRdPJc5HCruy
+         QbjIooCOBxbeWyiWQEZndJinJcXeHfHFN6jdXjpbWIi3yHBc5+xZYBSpCeL8DKExItcP
+         oRQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686637999; x=1689229999;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SimncKFafOv0EPP1eKWkZkIgfWz007nswpvYVa91Wow=;
+        b=UJzMMtGWx5/YHSgxdSGnJRZRiiC4KvZ3IaUnRPz64y/YY+X701kRxx9voBtnS4rk2e
+         NSHWZyI18AElTEfw3t5ShwiEloUjVaamn5IBPj8v8VsPsxzeqpJ1CItaE2I4OAZdLmky
+         RHBKQo0wJgozzWctl+xIRnqGCPqm5Ck0U+NFmLNaLpqliC2Bmo7cRmcwVsShxRHizJHB
+         bmmGbe3xpoQ65EmkAxD1DUb0A/5A4dmVwQIjxl0Sh/9VzrOcZ5yLJ0gvX9x/Z9CSVMaN
+         R3DkaZ23bMImokgsMwtuyXNfISd/pbzdc8EMnCGxPYRn+mavaGe69LRzb1VzymsZIZuO
+         2yrA==
+X-Gm-Message-State: AC+VfDyyHLlB9OB45Z1SpxiOpYJ1Fv5n4qUfGKJS1XCTDcEwTEOWzvpp
+        b/kZb1btLVell/AugaCfG9s5qa2S1v9cDvZK1TY=
+X-Google-Smtp-Source: ACHHUZ6qgVHX3zqR77WmOJe4sqm1+2SFQsugU9UqYESZkwsU5sIZFMi1/Xut7Wqgbw5eak1Fiz83QA==
+X-Received: by 2002:a05:6512:604:b0:4f4:b0d0:63fb with SMTP id b4-20020a056512060400b004f4b0d063fbmr4860327lfe.35.1686637999135;
+        Mon, 12 Jun 2023 23:33:19 -0700 (PDT)
+Received: from Fecusia.lan (c-05d8225c.014-348-6c756e10.bbcust.telenor.se. [92.34.216.5])
+        by smtp.gmail.com with ESMTPSA id t11-20020a19ad0b000000b004f3940c2b07sm1658378lfc.274.2023.06.12.23.33.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jun 2023 23:33:18 -0700 (PDT)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Helge Deller <deller@gmx.de>
+Cc:     linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH v2] fbdev/media: Use GPIO descriptors for VIA GPIO
+Date:   Tue, 13 Jun 2023 08:33:14 +0200
+Message-Id: <20230613063314.736889-1-linus.walleij@linaro.org>
 X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -60,185 +73,223 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Bingbu Cao <bingbu.cao@intel.com>
+The VIA fbdev exposes a custom GPIO chip for its GPIOs, these
+are in turn looked up the camera driver using a custom API.
 
-On ACPI based platforms, the ov13b10 camera sensor need to be powered
-up by acquire the PM resource from INT3472. INT3472 will register one
-regulator 'avdd', one reset gpio and clock source for ov13b10.
-Add 2 power interfaces that are registered as runtime PM callbacks.
+Drop the custom API, provide a look-up table and convert to
+GPIO descriptors. Note proper polarity on the RESET line.
 
-Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-Signed-off-by: Hao Yao <hao.yao@intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/media/i2c/ov13b10.c | 100 +++++++++++++++++++++++++++++++++++-
- 1 file changed, 98 insertions(+), 2 deletions(-)
+ChangeLog v1->v2:
+- Fix a missed include (I guess I had an old compiled
+  object that just worked...)
 
-diff --git a/drivers/media/i2c/ov13b10.c b/drivers/media/i2c/ov13b10.c
-index 96d3bd6ab3bd..be2c7d8c83ac 100644
---- a/drivers/media/i2c/ov13b10.c
-+++ b/drivers/media/i2c/ov13b10.c
-@@ -2,6 +2,9 @@
- // Copyright (c) 2021 Intel Corporation.
- 
- #include <linux/acpi.h>
-+#include <linux/clk.h>
-+#include <linux/delay.h>
+I don't know about the merge path for this one, let's merge
+it in the provider (fbdev) if possible.
+This looks like OLPC stuff.
+---
+ drivers/media/platform/via/via-camera.c       | 51 ++++++++-----------
+ drivers/video/fbdev/via/via-core.c            |  2 +-
+ drivers/video/fbdev/via/via-gpio.c            | 28 +++++-----
+ .../video/fbdev/via}/via-gpio.h               |  1 -
+ 4 files changed, 35 insertions(+), 47 deletions(-)
+ rename {include/linux => drivers/video/fbdev/via}/via-gpio.h (84%)
+
+diff --git a/drivers/media/platform/via/via-camera.c b/drivers/media/platform/via/via-camera.c
+index 450254403fa8..4cb8f29e2f14 100644
+--- a/drivers/media/platform/via/via-camera.c
++++ b/drivers/media/platform/via/via-camera.c
+@@ -11,7 +11,7 @@
+ #include <linux/device.h>
+ #include <linux/list.h>
+ #include <linux/pci.h>
+-#include <linux/gpio.h>
 +#include <linux/gpio/consumer.h>
- #include <linux/i2c.h>
- #include <linux/module.h>
- #include <linux/pm_runtime.h>
-@@ -573,6 +576,11 @@ struct ov13b10 {
- 	struct media_pad pad;
+ #include <linux/interrupt.h>
+ #include <linux/platform_device.h>
+ #include <linux/videodev2.h>
+@@ -26,7 +26,6 @@
+ #include <linux/dma-mapping.h>
+ #include <linux/pm_qos.h>
+ #include <linux/via-core.h>
+-#include <linux/via-gpio.h>
+ #include <linux/via_i2c.h>
  
- 	struct v4l2_ctrl_handler ctrl_handler;
+ #ifdef CONFIG_X86
+@@ -71,8 +70,8 @@ struct via_camera {
+ 	/*
+ 	 * GPIO info for power/reset management
+ 	 */
+-	int power_gpio;
+-	int reset_gpio;
++	struct gpio_desc *power_gpio;
++	struct gpio_desc *reset_gpio;
+ 	/*
+ 	 * I/O memory stuff.
+ 	 */
+@@ -180,27 +179,19 @@ static struct via_format *via_find_format(u32 pixelformat)
+  */
+ static int via_sensor_power_setup(struct via_camera *cam)
+ {
+-	int ret;
++	struct device *dev = &cam->platdev->dev;
 +
-+	struct clk *img_clk;
-+	struct regulator *avdd;
-+	struct gpio_desc *reset;
++	cam->power_gpio = devm_gpiod_get(dev, "VGPIO3", GPIOD_OUT_LOW);
++	if (IS_ERR(cam->power_gpio))
++		return dev_err_probe(dev, PTR_ERR(cam->power_gpio),
++				     "failed to get power GPIO");
 +
- 	/* V4L2 Controls */
- 	struct v4l2_ctrl *link_freq;
- 	struct v4l2_ctrl *pixel_rate;
-@@ -1051,6 +1059,52 @@ static int ov13b10_identify_module(struct ov13b10 *ov13b)
++	/* Request the reset line asserted */
++	cam->reset_gpio = devm_gpiod_get(dev, "VGPIO2", GPIOD_OUT_HIGH);
++	if (IS_ERR(cam->reset_gpio))
++		return dev_err_probe(dev, PTR_ERR(cam->reset_gpio),
++				     "failed to get reset GPIO");
+ 
+-	cam->power_gpio = viafb_gpio_lookup("VGPIO3");
+-	cam->reset_gpio = viafb_gpio_lookup("VGPIO2");
+-	if (!gpio_is_valid(cam->power_gpio) || !gpio_is_valid(cam->reset_gpio)) {
+-		dev_err(&cam->platdev->dev, "Unable to find GPIO lines\n");
+-		return -EINVAL;
+-	}
+-	ret = gpio_request(cam->power_gpio, "viafb-camera");
+-	if (ret) {
+-		dev_err(&cam->platdev->dev, "Unable to request power GPIO\n");
+-		return ret;
+-	}
+-	ret = gpio_request(cam->reset_gpio, "viafb-camera");
+-	if (ret) {
+-		dev_err(&cam->platdev->dev, "Unable to request reset GPIO\n");
+-		gpio_free(cam->power_gpio);
+-		return ret;
+-	}
+-	gpio_direction_output(cam->power_gpio, 0);
+-	gpio_direction_output(cam->reset_gpio, 0);
  	return 0;
  }
  
-+static int ov13b10_power_off(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct ov13b10 *ov13b10 = to_ov13b10(sd);
-+
-+	if (ov13b10->reset)
-+		gpiod_set_value_cansleep(ov13b10->reset, 1);
-+
-+	if (ov13b10->avdd)
-+		regulator_disable(ov13b10->avdd);
-+
-+	clk_disable_unprepare(ov13b10->img_clk);
-+
-+	return 0;
-+}
-+
-+static int ov13b10_power_on(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct ov13b10 *ov13b10 = to_ov13b10(sd);
-+	int ret;
-+
-+	ret = clk_prepare_enable(ov13b10->img_clk);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to enable imaging clock: %d", ret);
-+		return ret;
-+	}
-+
-+	if (ov13b10->avdd) {
-+		ret = regulator_enable(ov13b10->avdd);
-+		if (ret < 0) {
-+			dev_err(dev, "failed to enable avdd: %d", ret);
-+			clk_disable_unprepare(ov13b10->img_clk);
-+			return ret;
-+		}
-+	}
-+
-+	if (ov13b10->reset) {
-+		gpiod_set_value_cansleep(ov13b10->reset, 0);
-+		/* 5ms to wait ready after XSHUTDN assert */
-+		usleep_range(5000, 5500);
-+	}
-+
-+	return 0;
-+}
-+
- static int ov13b10_start_streaming(struct ov13b10 *ov13b)
+@@ -209,25 +200,23 @@ static int via_sensor_power_setup(struct via_camera *cam)
+  */
+ static void via_sensor_power_up(struct via_camera *cam)
  {
- 	struct i2c_client *client = v4l2_get_subdevdata(&ov13b->sd);
-@@ -1317,6 +1371,34 @@ static void ov13b10_free_controls(struct ov13b10 *ov13b)
- 	mutex_destroy(&ov13b->mutex);
+-	gpio_set_value(cam->power_gpio, 1);
+-	gpio_set_value(cam->reset_gpio, 0);
++	gpiod_set_value(cam->power_gpio, 1);
++	gpiod_set_value(cam->reset_gpio, 1);
+ 	msleep(20);  /* Probably excessive */
+-	gpio_set_value(cam->reset_gpio, 1);
++	gpiod_set_value(cam->reset_gpio, 0);
+ 	msleep(20);
  }
  
-+static int ov13b10_get_pm_resources(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct ov13b10 *ov13b = to_ov13b10(sd);
-+	int ret;
-+
-+	ov13b->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
-+	if (IS_ERR(ov13b->reset))
-+		return dev_err_probe(dev, PTR_ERR(ov13b->reset),
-+				     "failed to get reset gpio\n");
-+
-+	ov13b->img_clk = devm_clk_get_optional(dev, NULL);
-+	if (IS_ERR(ov13b->img_clk))
-+		return dev_err_probe(dev, PTR_ERR(ov13b->img_clk),
-+				     "failed to get imaging clock\n");
-+
-+	ov13b->avdd = devm_regulator_get_optional(dev, "avdd");
-+	if (IS_ERR(ov13b->avdd)) {
-+		ret = PTR_ERR(ov13b->avdd);
-+		ov13b->avdd = NULL;
-+		if (ret != -ENODEV)
-+			return dev_err_probe(dev, ret,
-+					     "failed to get avdd regulator\n");
-+	}
-+
-+	return 0;
-+}
-+
- static int ov13b10_check_hwcfg(struct device *dev)
+ static void via_sensor_power_down(struct via_camera *cam)
  {
- 	struct v4l2_fwnode_endpoint bus_cfg = {
-@@ -1407,13 +1489,23 @@ static int ov13b10_probe(struct i2c_client *client)
- 	/* Initialize subdev */
- 	v4l2_i2c_subdev_init(&ov13b->sd, client, &ov13b10_subdev_ops);
- 
-+	ret = ov13b10_get_pm_resources(&client->dev);
-+	if (ret)
-+		return ret;
-+
- 	full_power = acpi_dev_state_d0(&client->dev);
- 	if (full_power) {
-+		ov13b10_power_on(&client->dev);
-+		if (ret) {
-+			dev_err(&client->dev, "failed to power on\n");
-+			return ret;
-+		}
-+
- 		/* Check module identity */
- 		ret = ov13b10_identify_module(ov13b);
- 		if (ret) {
- 			dev_err(&client->dev, "failed to find sensor: %d\n", ret);
--			return ret;
-+			goto error_power_off;
- 		}
- 	}
- 
-@@ -1422,7 +1514,7 @@ static int ov13b10_probe(struct i2c_client *client)
- 
- 	ret = ov13b10_init_controls(ov13b);
- 	if (ret)
--		return ret;
-+		goto error_power_off;
- 
- 	/* Initialize subdev */
- 	ov13b->sd.internal_ops = &ov13b10_internal_ops;
-@@ -1462,6 +1554,9 @@ static int ov13b10_probe(struct i2c_client *client)
- 	ov13b10_free_controls(ov13b);
- 	dev_err(&client->dev, "%s failed:%d\n", __func__, ret);
- 
-+error_power_off:
-+	ov13b10_power_off(&client->dev);
-+
- 	return ret;
+-	gpio_set_value(cam->power_gpio, 0);
+-	gpio_set_value(cam->reset_gpio, 0);
++	gpiod_set_value(cam->power_gpio, 0);
++	gpiod_set_value(cam->reset_gpio, 1);
  }
  
-@@ -1479,6 +1574,7 @@ static void ov13b10_remove(struct i2c_client *client)
  
- static const struct dev_pm_ops ov13b10_pm_ops = {
- 	SET_SYSTEM_SLEEP_PM_OPS(ov13b10_suspend, ov13b10_resume)
-+	SET_RUNTIME_PM_OPS(ov13b10_power_off, ov13b10_power_on, NULL)
+ static void via_sensor_power_release(struct via_camera *cam)
+ {
+ 	via_sensor_power_down(cam);
+-	gpio_free(cam->power_gpio);
+-	gpio_free(cam->reset_gpio);
+ }
+ 
+ /* --------------------------------------------------------------------------*/
+diff --git a/drivers/video/fbdev/via/via-core.c b/drivers/video/fbdev/via/via-core.c
+index 2c1803eb196f..908524a74a38 100644
+--- a/drivers/video/fbdev/via/via-core.c
++++ b/drivers/video/fbdev/via/via-core.c
+@@ -11,7 +11,7 @@
+ #include <linux/aperture.h>
+ #include <linux/via-core.h>
+ #include <linux/via_i2c.h>
+-#include <linux/via-gpio.h>
++#include "via-gpio.h"
+ #include "global.h"
+ 
+ #include <linux/module.h>
+diff --git a/drivers/video/fbdev/via/via-gpio.c b/drivers/video/fbdev/via/via-gpio.c
+index f1b670397c02..2719943c06f4 100644
+--- a/drivers/video/fbdev/via/via-gpio.c
++++ b/drivers/video/fbdev/via/via-gpio.c
+@@ -7,10 +7,11 @@
+ 
+ #include <linux/spinlock.h>
+ #include <linux/gpio/driver.h>
++#include <linux/gpio/machine.h>
+ #include <linux/platform_device.h>
+ #include <linux/via-core.h>
+-#include <linux/via-gpio.h>
+ #include <linux/export.h>
++#include "via-gpio.h"
+ 
+ /*
+  * The ports we know about.  Note that the port-25 gpios are not
+@@ -189,19 +190,14 @@ static struct viafb_pm_hooks viafb_gpio_pm_hooks = {
  };
+ #endif /* CONFIG_PM */
  
- #ifdef CONFIG_ACPI
+-/*
+- * Look up a specific gpio and return the number it was assigned.
+- */
+-int viafb_gpio_lookup(const char *name)
+-{
+-	int i;
+-
+-	for (i = 0; i < viafb_gpio_config.gpio_chip.ngpio; i++)
+-		if (!strcmp(name, viafb_gpio_config.active_gpios[i]->vg_name))
+-			return viafb_gpio_config.gpio_chip.base + i;
+-	return -1;
+-}
+-EXPORT_SYMBOL_GPL(viafb_gpio_lookup);
++static struct gpiod_lookup_table viafb_gpio_table = {
++	.dev_id = "viafb-camera",
++	.table = {
++		GPIO_LOOKUP("via-gpio", 2, "VGPIO2", GPIO_ACTIVE_LOW),
++		GPIO_LOOKUP("via-gpio", 3, "VGPIO3", GPIO_ACTIVE_HIGH),
++		{ }
++	},
++};
+ 
+ /*
+  * Platform device stuff.
+@@ -249,12 +245,16 @@ static int viafb_gpio_probe(struct platform_device *platdev)
+ 	 * Get registered.
+ 	 */
+ 	viafb_gpio_config.gpio_chip.base = -1;  /* Dynamic */
++	viafb_gpio_config.gpio_chip.label = "via-gpio";
+ 	ret = gpiochip_add_data(&viafb_gpio_config.gpio_chip,
+ 				&viafb_gpio_config);
+ 	if (ret) {
+ 		printk(KERN_ERR "viafb: failed to add gpios (%d)\n", ret);
+ 		viafb_gpio_config.gpio_chip.ngpio = 0;
+ 	}
++
++	gpiod_add_lookup_table(&viafb_gpio_table);
++
+ #ifdef CONFIG_PM
+ 	viafb_pm_register(&viafb_gpio_pm_hooks);
+ #endif
+diff --git a/include/linux/via-gpio.h b/drivers/video/fbdev/via/via-gpio.h
+similarity index 84%
+rename from include/linux/via-gpio.h
+rename to drivers/video/fbdev/via/via-gpio.h
+index ac34668fd442..2ffedf282f7e 100644
+--- a/include/linux/via-gpio.h
++++ b/drivers/video/fbdev/via/via-gpio.h
+@@ -8,7 +8,6 @@
+ #ifndef __VIA_GPIO_H__
+ #define __VIA_GPIO_H__
+ 
+-extern int viafb_gpio_lookup(const char *name);
+ extern int viafb_gpio_init(void);
+ extern void viafb_gpio_exit(void);
+ #endif
 -- 
-2.40.1
+2.34.1
 
