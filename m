@@ -2,126 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C356772E6C2
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 17:11:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 083C472E786
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 17:43:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239782AbjFMPK4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Jun 2023 11:10:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38920 "EHLO
+        id S241475AbjFMPkg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Jun 2023 11:40:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236388AbjFMPKz (ORCPT
+        with ESMTP id S243036AbjFMPkE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Jun 2023 11:10:55 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 939B8173C
-        for <linux-media@vger.kernel.org>; Tue, 13 Jun 2023 08:10:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686669052; x=1718205052;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eRZObogH/MfsEuLcSx3n66N8BQCM28Pih9tZEg2TIZo=;
-  b=B0qgve26WBD1k4sLnaCvnos5cAQTXcBFdOpXivzmOljG9s4cSAFNe/0n
-   qyrvjZPQsQ00zoD8zgPYKIOqIIfx02etOjo7XkaP3xHY5sKqpr6q5ET/4
-   NCjHu0adNOZH/I/cUqZ3QUkIcZam3G0C0Sw1sjwmSBKxAzGZIOj0xMzV+
-   bkftGo3Yfjynd/uLy5B5kcxQm/1OcYcdAUwSWJBZ3Bo6B+VjOzforgx2D
-   MPdtILZ9VnngQgw7moijl/xAuJRzQEpnffcKeA9auG0Jj+KIGPGu/+tfm
-   5mxqGHUsqqgNxZn/9GVaQ+l4OgpuznSqlrusmJeRDgNliyJty1Ox/+pzR
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="357241297"
-X-IronPort-AV: E=Sophos;i="6.00,240,1681196400"; 
-   d="scan'208";a="357241297"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 08:10:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="689058412"
-X-IronPort-AV: E=Sophos;i="6.00,240,1681196400"; 
-   d="scan'208";a="689058412"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 08:10:29 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id B79B2121526;
-        Tue, 13 Jun 2023 18:10:26 +0300 (EEST)
-Date:   Tue, 13 Jun 2023 15:10:26 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>, hverkuil@xs4all.nl,
-        Francesco Dolcini <francesco@dolcini.it>,
-        aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>, bingbu.cao@intel.com,
-        niklas.soderlund@ragnatech.se,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Sylvain Petinot <sylvain.petinot@foss.st.com>,
-        Eugen Hristev <eugen.hristev@collabora.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Dafna Hirschfeld <dafna@fastmail.com>,
-        Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Yong Deng <yong.deng@magewell.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Benoit Parrot <bparrot@ti.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Marco Felsch <m.felsch@pengutronix.de>
-Subject: Re: [RESEND PATCH v3 13/32] media: v4l: async: Simplify async
- sub-device fwnode matching
-Message-ID: <ZIiG4hag+hn9w1Q/@kekkonen.localdomain>
-References: <20230525091615.2324824-1-sakari.ailus@linux.intel.com>
- <20230525091615.2324824-14-sakari.ailus@linux.intel.com>
- <20230530050848.GR21633@pendragon.ideasonboard.com>
+        Tue, 13 Jun 2023 11:40:04 -0400
+Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A97A1B2
+        for <linux-media@vger.kernel.org>; Tue, 13 Jun 2023 08:39:48 -0700 (PDT)
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com [209.85.128.71])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id DCA243F272
+        for <linux-media@vger.kernel.org>; Tue, 13 Jun 2023 15:39:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1686670784;
+        bh=h2VB2F1nqgPgNlWNC2nzeOkEx2tuyJu/3uifBQZUmKY=;
+        h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+         MIME-Version;
+        b=Px1GsJBpr91+X+7dRDPpYZOSu31kCRXMwUv1yRwhk0LSTw+MnXf3q/0x6j5EMI2Hl
+         PKhNnljqQhYp64fIh0dsOaaY2ENyUvAjU7T/pbozQOHlqO7vUwc7DIwd5njsqZDh5q
+         gxeDlAQPCeEDnq4BfAiNQ4T+ncUVs81YYlWVfvw+Twtlds7tDgHDjh61gqXKpYf+c5
+         SXXGXV8/A+9494aMHL99ZVyGs6CNtDEOn6tNz1alFrVdeZ8ECan4kcqwbDO/vIisgG
+         Mhk4uB9L3HF8h6ByoEMnRXR7/XW4ZiHkTN9JE7KOifUmN1E6ZI2v2cyyC1OHc+rYTg
+         N8U9/Oov+xVwQ==
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-3f7f4dc6ec2so36580855e9.0
+        for <linux-media@vger.kernel.org>; Tue, 13 Jun 2023 08:39:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686670784; x=1689262784;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=h2VB2F1nqgPgNlWNC2nzeOkEx2tuyJu/3uifBQZUmKY=;
+        b=EcsPrSVokIf/CFPnKQyczueOs+nqLUa6h0KfKNMW6aGMFaiuZu6DHwefuOMtr11ymJ
+         H8lik8oEODSB4z/uEHLnJ+V+Kp/nM2t2Z1sicF5t+VfAp78eZTbaNxD+i6WLw0LOsI2g
+         Cto9FrrBSoBLqmnrYmIG18HUztX4S+BkjrSL7RUgGGJrY9ykOPs2T7e2Mhke3cPxg0uW
+         JZd3umMJoBhlluAKLgZSs6bHn1RtiYmI+jfUENL8ovbFLhRjDdtBHh9rOH7Sy7JO/JgK
+         OVbqru0ByKBUJCSEOeM8MYJbNBxdOAa4/Ps/kxd8fuBnlEseNeIuhp4ApU9BQWKrJ+J2
+         wm7A==
+X-Gm-Message-State: AC+VfDzPXxn33NIHHe6ACJXfjsg1IzyNm+qIRn7v1HUu2G/xKS3vNWRV
+        2AeOxrbdnsjO8oOryxssWmo6ceCOynjVCAQ4A6JSOWVRr0bz6kCR23QCak/nLDHMqOVN3Qrscyi
+        zF6VRZ9aGluUowE4eR2n3HJ80C57JmoYX87wfkTKI
+X-Received: by 2002:a05:6000:1248:b0:2f8:3225:2bc2 with SMTP id j8-20020a056000124800b002f832252bc2mr6846729wrx.41.1686670783783;
+        Tue, 13 Jun 2023 08:39:43 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7u6y5BjGv0z8bT/LB9RrsvWeO5qrDCAe7zl2OSeRDtbWoTqJ0KQBMBeO8sS2CFGRWa+dBvvw==
+X-Received: by 2002:a05:6000:1248:b0:2f8:3225:2bc2 with SMTP id j8-20020a056000124800b002f832252bc2mr6846717wrx.41.1686670783535;
+        Tue, 13 Jun 2023 08:39:43 -0700 (PDT)
+Received: from localhost ([194.191.244.86])
+        by smtp.gmail.com with ESMTPSA id b5-20020adff905000000b0030aedb8156esm15556257wrr.102.2023.06.13.08.39.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Jun 2023 08:39:43 -0700 (PDT)
+From:   Juerg Haefliger <juerg.haefliger@canonical.com>
+To:     juerg.haefliger@canonical.com
+Cc:     gregkh@linuxfoundation.org, jbrunet@baylibre.com,
+        khilman@baylibre.com, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev, martin.blumenstingl@googlemail.com,
+        mchehab@kernel.org, narmstrong@baylibre.com,
+        linux-media@vger.kernel.org
+Subject: [PATCH v2 resend 2] media: meson: vdec: Add MODULE_FIRMWARE macro
+Date:   Tue, 13 Jun 2023 17:39:39 +0200
+Message-Id: <20230613153939.152457-1-juerg.haefliger@canonical.com>
+X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20230126153258.1558471-1-juerg.haefliger@canonical.com>
+References: <20230126153258.1558471-1-juerg.haefliger@canonical.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230530050848.GR21633@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+The meson-vdec module loads firmware so add MODULE_FIRMWARE macros to
+provide that information via modinfo.
 
-On Tue, May 30, 2023 at 08:08:48AM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> Thank you for the patch.
-> 
-> On Thu, May 25, 2023 at 12:15:56PM +0300, Sakari Ailus wrote:
-> > V4L2 async sub-device matching originally used the device nodes only.
-> > Endpoint nodes were taken into use instead as using the device nodes was
-> > problematic for it was in some cases ambiguous which link might have been
-> > in question.
-> > 
-> > There is however no need to use endpoint nodes on both sides, as the async
-> > sub-device's fwnode can always be trivially obtained using
-> > fwnode_graph_get_remote_endpoint() when needed while what counts is
-> > whether or not the link is between two device nodes, i.e. the device nodes
-> > match.
-> > 
-> > This will briefly break the adv748x driver but it will be fixed later in
-> > the set, by patch "media: adv748x: Return to endpoint matching".
-> 
-> I'm afraid I don't like this. This series is complex and has a high risk
-> of causing tricky issues. I would like to be able to bisect the changes.
+Signed-off-by: Juerg Haefliger <juerg.haefliger@canonical.com>
+Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
 
-As we discussed separately, this has been tested on both rcar-vin + adv748x
-and i.MX6, I'm not overly concerned of this.
+---
+v2 resend 2:
+  - cc linux-media@vger.kernel.org
+v2:
+  - Drop duplicates
+  - Add Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+---
+ drivers/staging/media/meson/vdec/vdec_platform.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
+diff --git a/drivers/staging/media/meson/vdec/vdec_platform.c b/drivers/staging/media/meson/vdec/vdec_platform.c
+index 88c9d72e1c83..70c9fd7c8bc5 100644
+--- a/drivers/staging/media/meson/vdec/vdec_platform.c
++++ b/drivers/staging/media/meson/vdec/vdec_platform.c
+@@ -280,3 +280,12 @@ const struct vdec_platform vdec_platform_sm1 = {
+ 	.num_formats = ARRAY_SIZE(vdec_formats_sm1),
+ 	.revision = VDEC_REVISION_SM1,
+ };
++
++MODULE_FIRMWARE("meson/vdec/g12a_h264.bin");
++MODULE_FIRMWARE("meson/vdec/g12a_vp9.bin");
++MODULE_FIRMWARE("meson/vdec/gxbb_h264.bin");
++MODULE_FIRMWARE("meson/vdec/gxl_h264.bin");
++MODULE_FIRMWARE("meson/vdec/gxl_mpeg12.bin");
++MODULE_FIRMWARE("meson/vdec/gxl_vp9.bin");
++MODULE_FIRMWARE("meson/vdec/gxm_h264.bin");
++MODULE_FIRMWARE("meson/vdec/sm1_vp9_mmu.bin");
 -- 
-Kind regards,
+2.37.2
 
-Sakari Ailus
