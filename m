@@ -2,117 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A9BD72DD74
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 11:17:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81D6572DD78
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 11:17:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239044AbjFMJRM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Jun 2023 05:17:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44382 "EHLO
+        id S241860AbjFMJRZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Jun 2023 05:17:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238623AbjFMJRK (ORCPT
+        with ESMTP id S239580AbjFMJRX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Jun 2023 05:17:10 -0400
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0649BE56;
-        Tue, 13 Jun 2023 02:17:06 -0700 (PDT)
-Received: from loongson.cn (unknown [10.20.42.43])
-        by gateway (Coremail) with SMTP id _____8DxRukQNIhk0ooEAA--.7740S3;
-        Tue, 13 Jun 2023 17:17:04 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8DxbMoMNIhkCsYYAA--.62232S3;
-        Tue, 13 Jun 2023 17:17:01 +0800 (CST)
-Message-ID: <42c54caf-0ab9-a075-b641-9e3e21b2a2f3@loongson.cn>
-Date:   Tue, 13 Jun 2023 17:17:00 +0800
+        Tue, 13 Jun 2023 05:17:23 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15CFCE6B
+        for <linux-media@vger.kernel.org>; Tue, 13 Jun 2023 02:17:22 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-3f738f579ceso39235665e9.3
+        for <linux-media@vger.kernel.org>; Tue, 13 Jun 2023 02:17:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686647840; x=1689239840;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nEJyTv05x6OnHnCan2916p7K/uAwJ/b5JDptpsstOlY=;
+        b=DAded6QJZGnaYiBOAbyCKBSUcmMkD/J6MARsFtMCeShKLldEDSKIA4po2uT8aySGyt
+         5MVS5iHzJhSPqXMX172Njx3svFZwk1sRFkLo2+qkbmZiLvXZJ4Cb/z2z9SdSwbttH/lf
+         Y04ChxN31Lf02IOaQUiaB6WpihczcRxUg0cQ6vRQeM88oCkDENaswaFhgdcPhJU80QbX
+         eR+ebg8daOPteCXJMQfu9riYPiv57SInZGxlxcJFnnZ8LpCSWc3CxmXpQuF0c0RDPuDP
+         JbG9E5M496hfp2pLrDZtaVE6g0QUkTIHKQb4Et+vlxqtOZ47/haiw8+ZN6qOFNl8x+Cy
+         9YkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686647840; x=1689239840;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nEJyTv05x6OnHnCan2916p7K/uAwJ/b5JDptpsstOlY=;
+        b=SJ4Ia+WOG8qzwZloY9qNiEYUHvwJFIX8mixtKSOgSfk/kLNIvZJtp+QhJEltYmHrLv
+         mRNhkRE0WtCzFMdJWtKp/5Xp/lDsBDsMZuobza0NJbZy0mzQgLNccYV8Jl1i7oFVg4YH
+         TwJiumTCt82wFIwooTlMRnem/rmafvMtkzMEXm+D1pLwKaw4oEITpHIckEEvwUCDO1Y4
+         7XvwkINpnPxUr9KFBX052zop5fb6W6Wua1K57/fQD4fDXA2KChi0A6cUQUeNtUeQW5rZ
+         Hu7d1MGTMTDEybG+g6KafEXWDtoOtls1lfRkNf8ReByqiDyuXS7n3MQsrBDUL0pL/IxV
+         Gc/Q==
+X-Gm-Message-State: AC+VfDx8UqPUNnGM+QOe7DtKzzxWvctUn7DSbnNIo13w3gseLwzS8nk7
+        hMACw45wC8SAHlzXn3O/1GahLTDkSyY=
+X-Google-Smtp-Source: ACHHUZ7Oic0OsuudLNI2XiEpRpe4O3VwrE8nWFM40lvfW4PXyk5sfN0tCvExMOhkHOVp/KvuBwBjDQ==
+X-Received: by 2002:a5d:6b10:0:b0:309:3af4:8c8c with SMTP id v16-20020a5d6b10000000b003093af48c8cmr5686153wrw.54.1686647840108;
+        Tue, 13 Jun 2023 02:17:20 -0700 (PDT)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (mob-5-90-5-141.net.vodafone.it. [5.90.5.141])
+        by smtp.gmail.com with ESMTPSA id cs6-20020a056000088600b0030ae849c70csm14834392wrb.37.2023.06.13.02.17.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Jun 2023 02:17:19 -0700 (PDT)
+Date:   Tue, 13 Jun 2023 11:17:16 +0200
+From:   Tommaso Merciai <tomm.merciai@gmail.com>
+To:     bingbu.cao@intel.com
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        arec.kao@intel.com, hao.yao@intel.com, bingbu.cao@linux.intel.com
+Subject: Re: [PATCH] media: ov13b10: Defer probe if no endpoint found
+Message-ID: <ZIg0HOEluoDDVwfc@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20230613045543.1535492-1-bingbu.cao@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v14 0/2] drm: add kms driver for loongson display
- controller
-Content-Language: en-US
-To:     Maxime Ripard <mripard@kernel.org>,
-        Sui Jingfeng <15330273260@189.cn>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Li Yi <liyi@loongson.cn>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian Koenig <christian.koenig@amd.com>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        loongson-kernel@lists.loongnix.cn
-References: <20230520105718.325819-1-15330273260@189.cn>
- <d4e647d8-294c-abd7-40c6-37381796203d@loongson.cn>
- <a23d6mgl4fbfa4ucgjvwgw7l3somxo4tkhit7ygy55fldlum56@vm3tyjdsx24l>
- <d2f744b6-e4c9-d1b5-d4ca-470b801c670d@189.cn>
- <hvfr6qkepf6l3ymqtp6vhlneeqihnli7g5v7nzd6rirwleffk6@4ernj6xng5rt>
-From:   Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <hvfr6qkepf6l3ymqtp6vhlneeqihnli7g5v7nzd6rirwleffk6@4ernj6xng5rt>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8DxbMoMNIhkCsYYAA--.62232S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj9xXoW7XrWfWw45WF4fGF18KFWDZFc_yoWfGwb_ur
-        1Durs7Gw40qFWUW39xtFyDArZxtrWUJF4fJwn8JFyfX3ZxJFy8Grs7Gr93Za4Yqa1IkF1D
-        Gr15ZF98Kr1v9osvyTuYvTs0mTUanT9S1TB71UUUUbDqnTZGkaVYY2UrUUUUj1kv1TuYvT
-        s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
-        cSsGvfJTRUUUbgxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
-        vaj40_Wr0E3s1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
-        w2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
-        W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-        6r4UJVWxJr1ln4kS14v26r1q6r43M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
-        xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q
-        6rW5McIj6I8E87Iv67AKxVWxJVW8Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI4
-        8JMxk0xIA0c2IEe2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vI
-        r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jw0_GFylx2IqxVAqx4xG67
-        AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIY
-        rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14
-        v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWxJVW8
-        Jr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x07j7PE
-        -UUUUU=
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230613045543.1535492-1-bingbu.cao@intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi,
 
-On 2023/6/13 17:10, Maxime Ripard wrote:
-> On Tue, Jun 13, 2023 at 04:35:44PM +0800, Sui Jingfeng wrote:
->> Hi,
->>
->> On 2023/6/13 16:30, Maxime Ripard wrote:
->>> Hi,
->>>
->>> On Mon, Jun 12, 2023 at 10:58:54PM +0800, Sui Jingfeng wrote:
->>>> Hi,
->>>>
->>>>
->>>> Any ideas for this trivial DC driver? Sorry about my broken English.
->>>>
->>>> What to do next? Send a new version?
->>> Thomas already told you to merge it in the previous version:
->>> https://lore.kernel.org/dri-devel/7b77020f-d543-13bf-e178-bc416bcc728d@suse.de/
->>>
->>> So.. do that?
->> Yes, that sound fine.
->>
->> But I can't do it myself, would you like to help?
-> Why can't you do it yourself?
+On Tue, Jun 13, 2023 at 12:55:43PM +0800, bingbu.cao@intel.com wrote:
+> From: Bingbu Cao <bingbu.cao@intel.com>
+> 
+> The ov13b10 need be connected to a CIO2 or IPU device by bridge, sometimes
+> the bridge driver was not probed before ov13b10 driver, then the absence
+> of the fwnode endpoint for this device is expected, so driver return
+> -EPROBE_DEFER in this case to let the probe occur after bridge driver.
+> 
+> Signed-off-by: Hao Yao <hao.yao@intel.com>
+> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+> ---
+>  drivers/media/i2c/ov13b10.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov13b10.c b/drivers/media/i2c/ov13b10.c
+> index c1430044fb1e..96d3bd6ab3bd 100644
+> --- a/drivers/media/i2c/ov13b10.c
+> +++ b/drivers/media/i2c/ov13b10.c
+> @@ -1331,6 +1331,10 @@ static int ov13b10_check_hwcfg(struct device *dev)
+>  	if (!fwnode)
+>  		return -ENXIO;
+>  
+> +	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
+> +	if (!ep)
+> +		return -EPROBE_DEFER;
+> +
+>  	ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency",
+>  				       &ext_clk);
+>  	if (ret) {
+> @@ -1344,10 +1348,6 @@ static int ov13b10_check_hwcfg(struct device *dev)
+>  		return -EINVAL;
+>  	}
+>  
+> -	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
+> -	if (!ep)
+> -		return -ENXIO;
+> -
+>  	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
+>  	fwnode_handle_put(ep);
+>  	if (ret)
+> -- 
+> 2.40.1
+> 
 
-I don't have a commit access to the drm-misc,
+Looks good to me.
+I see that also some others ov driver are using
+this solution (ov5693, ov7251)
 
-I think, I can get the commit access in a letter time when I good enough,
+Reviewed-by: Tommaso Merciai <tomm.merciai@gmail.com>
 
-But get the code merged, just merge the latest version is OK.
-
-> Maxime
-
--- 
-Jingfeng
-
+Thanks,
+Tommaso
