@@ -2,199 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B8E372E286
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 14:09:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A191072E2B7
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 14:20:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239869AbjFMMJD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Jun 2023 08:09:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53588 "EHLO
+        id S242277AbjFMMTL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Jun 2023 08:19:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234563AbjFMMJB (ORCPT
+        with ESMTP id S241824AbjFMMTA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Jun 2023 08:09:01 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E7C2E55;
-        Tue, 13 Jun 2023 05:09:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686658140; x=1718194140;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=77JdOeqaLtpWVDtMAb1kf7q0hb1+drYDYzJGG71SUZM=;
-  b=KASaKrNXdILRf4TSg1/spcXSkOnEAATqkrQ8bjTlYb/VahwkJbuHRaG9
-   0caMP69SAC8OGnWi+1Vq4qrF3DLVS3S2/yODFpYsB4L0S/tdGtB6FiDYd
-   HUWECmjpdJvOHoFzGPit3y4/ue+DZyna9HrQLK2Vy0MfTzl4jJvE9hGGd
-   TDQNXY/gPy6UZpghXmvfBeg/cNceL88e7vLxqbsq0u/wkITSi8PVHF9iE
-   6J4NuZ/x4RObNBP0c43VlO1R2/DE4B7NrLmy+2TcqoQKjfRU2G5CqzEQm
-   FKH3pczcTHwV6L98Ext5PFFSj5zJpSFqBuZ5DgKoNGSiqecr3S6n+ATyG
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="424194077"
-X-IronPort-AV: E=Sophos;i="6.00,239,1681196400"; 
-   d="scan'208";a="424194077"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 05:08:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="885823097"
-X-IronPort-AV: E=Sophos;i="6.00,239,1681196400"; 
-   d="scan'208";a="885823097"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 05:08:39 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 93DF111F76F;
-        Tue, 13 Jun 2023 15:00:34 +0300 (EEST)
-Date:   Tue, 13 Jun 2023 12:00:34 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Tommaso Merciai <tomm.merciai@gmail.com>,
-        jacopo.mondi@ideasonboard.com, martin.hecht@avnet.eu,
-        linuxfancy@googlegroups.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Gerald Loacker <gerald.loacker@wolfvision.net>,
-        Nicholas Roth <nicholas@rothemail.net>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: Re: [PATCH v2 2/2] media: i2c: Add support for alvium camera
-Message-ID: <ZIhaYk1v69Sp+Xqd@kekkonen.localdomain>
-References: <20230526173955.797226-1-tomm.merciai@gmail.com>
- <20230526173955.797226-3-tomm.merciai@gmail.com>
- <20230529074018.GD25984@pendragon.ideasonboard.com>
- <ZHcd09f5wOKjQdHX@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <20230531113331.GC27043@pendragon.ideasonboard.com>
- <ZHjPyxColttdARQm@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <20230602043126.GM22609@pendragon.ideasonboard.com>
+        Tue, 13 Jun 2023 08:19:00 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7DA6171C;
+        Tue, 13 Jun 2023 05:18:36 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7D8886358F;
+        Tue, 13 Jun 2023 12:18:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0977C433D2;
+        Tue, 13 Jun 2023 12:18:34 +0000 (UTC)
+Message-ID: <72494a61-5be8-033b-5bcd-59699a226002@xs4all.nl>
+Date:   Tue, 13 Jun 2023 14:18:32 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230602043126.GM22609@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [RESEND PATCH v6 1/1] Added Digiteq Automotive MGB4 driver
+Content-Language: en-US
+To:     =?UTF-8?Q?Martin_T=c5=afma?= <tumic@gpxsee.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?UTF-8?Q?Martin_T=c5=afma?= <martin.tuma@digiteqautomotive.com>
+References: <20230524112126.2242-1-tumic@gpxsee.org>
+ <20230524112126.2242-2-tumic@gpxsee.org>
+ <3a7da3cd-8d03-a2c4-0534-a75565aefc13@xs4all.nl>
+ <7072a8f3-5c9e-1170-e480-6fb57b95110f@gpxsee.org>
+ <6b792de3-bb2c-d2b5-a652-eca6d20dad20@xs4all.nl>
+ <c34db414-159a-313f-90eb-2bfc0f4496fa@gpxsee.org>
+ <089e728b-0596-d3e3-39a1-651a3ac73e33@xs4all.nl>
+ <f72a7380-d8bc-24bf-630c-75f8ffd6abf3@gpxsee.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <f72a7380-d8bc-24bf-630c-75f8ffd6abf3@gpxsee.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent, Tommaso,
+Hi Martin,
 
-On Fri, Jun 02, 2023 at 07:31:26AM +0300, Laurent Pinchart wrote:
-> > > > > > diff --git a/drivers/media/i2c/alvium.c b/drivers/media/i2c/alvium.c
-> > > > > > new file mode 100644
-> > > > > > index 000000000000..e77fb6bda64b
-> > > > > > --- /dev/null
-> > > > > > +++ b/drivers/media/i2c/alvium.c
-> > > > > > @@ -0,0 +1,3547 @@
+On 12/06/2023 13:34, Martin Tůma wrote:
+> On 12. 06. 23 10:51, Hans Verkuil wrote:
+>> On 08/06/2023 17:30, Martin Tůma wrote:
+>>> On 08. 06. 23 12:23, Hans Verkuil wrote:
+>>>
+>>>> Can you make a list of which sysfs properties correspond to existing V4L2
+>>>> format or timing fields and which are 'new'?
+>>>>
+>>>
+>>> On the left all the current mgb4 sysfs properties (see the admin-guide doc from the patch for description), on the right v4l2 structures where they could be mapped (may not be true for all of them in
+>>> the patch, I will check it and update the code in v7)
+>>>
+>>>
+>>> --- PCIE CARD ---
+>>>
+>>> module_type        -
+>>> module_version        -
+>>> fw_type            -
+>>> fw_version        -
+>>> serial_number        -
+>>> temperature        hwmon
+>>>
+>>> --- INPUTS ---
+>>>
+>>> input_id        -
+>>> oldi_lane_width        -
+>>> color_mapping        -
+>>> link_status        v4l2_input.status (V4L2_IN_ST_NO_SYNC)
+>>> stream_status        v4l2_input.status (V4L2_IN_ST_NO_SIGNAL)
+>>> video_width        v4l2_bt_timings.width
+>>> video_height        v4l2_bt_timings.height
+>>> vsync_status        v4l2_bt_timings.polarities
+>>> hsync_status        v4l2_bt_timings.polarities
+>>> vsync_gap_length    -
+>>> hsync_gap_length    -
+>>> pclk_frequency        v4l2_bt_timings.pixelclock
+>>> hsync_width        v4l2_bt_timings.hsync
+>>> vsync_width        v4l2_bt_timings.vsync
+>>> hback_porch        v4l2_bt_timings.hbackporch
+>>> hfront_porch        v4l2_bt_timings.hfrontporch
+>>> vback_porch        v4l2_bt_timings.vbackporch
+>>> vfront_porch        v4l2_bt_timings.vfrontporch
+>>> frequency_range        -
+>>> alignment        v4l2_pix_format.bytesperline
+>>> fpdl3_input_width    -
+>>> gmsl_mode        -
+>>> gmsl_stream_id        -
+>>> gmsl_fec        -
+>>>
+>>> --- OUTPUTS ---
+>>>
+>>> output_id        -
+>>> video_source        -
+>>> display_width        v4l2_bt_timings.width
+>>> display_height        v4l2_bt_timings.height
+>>> frame_rate        v4l2_frmivalenum
+>>
+>> The frame rate is a property of the width/height+blanking and the
+>> pixel clock frequency. IMHO it does not make sense to have this as
+>> a writable property. Read-only is OK.
+>>
+>>> hsync_polarity        v4l2_bt_timings.polarities
+>>> vsync_polarity        v4l2_bt_timings.polarities
+>>> de_polarity        -
+>>> pclk_frequency        v4l2_bt_timings.pixelclock
+>>> hsync_width        v4l2_bt_timings.hsync
+>>> vsync_width        v4l2_bt_timings.vsync
+>>> vsync_width        v4l2_bt_timings.vsync
+>>> hback_porch        v4l2_bt_timings.hbackporch
+>>> hfront_porch        v4l2_bt_timings.hfrontporch
+>>> vback_porch        v4l2_bt_timings.vbackporch
+>>> vfront_porch        v4l2_bt_timings.vfrontporch
+>>> alignment        v4l2_pix_format.bytesperline
+>>> fpdl3_output_width    -
+>>>
+>>>
+>>> M.
+>>
+>> The property I am most concerned with is alignment (both for input and output).
+>> But it is not clear to me what the use-case is.
+>>
 > 
-> [snip]
-> 
-> > > > > > +static int alvium_probe(struct i2c_client *client)
-> > > > > > +{
-> > > > > > +	struct device *dev = &client->dev;
-> > > > > > +	struct v4l2_subdev *sd;
-> > > > > > +	struct alvium_dev *alvium;
-> > > > > > +	int ret;
-> > > > > > +
-> > > > > > +	alvium = devm_kzalloc(dev, sizeof(*alvium), GFP_KERNEL);
-> > > > > > +	if (!alvium)
-> > > > > > +		return -ENOMEM;
-> > > > > > +
-> > > > > > +	alvium->i2c_client = client;
-> > > > > > +	ret = alvium_get_dt_data(alvium);
-> > > > > > +	if (ret)
-> > > > > > +		return ret;
-> > > > > > +
-> > > > > > +	mutex_init(&alvium->lock);
-> > > > > > +
-> > > > > > +	sd = &alvium->sd;
-> > > > > > +
-> > > > > > +	/* init alvium sd */
-> > > > > > +	v4l2_i2c_subdev_init(sd, client, &alvium_subdev_ops);
-> > > > > > +
-> > > > > > +	sd->flags |= V4L2_SUBDEV_FL_HAS_EVENTS | V4L2_SUBDEV_FL_HAS_DEVNODE;
-> > > > > > +	alvium->pad.flags = MEDIA_PAD_FL_SOURCE;
-> > > > > > +	sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
-> > > > > > +	sd->entity.ops = &alvium_sd_media_ops;
-> > > > > > +
-> > > > > > +	ret = media_entity_pads_init(&sd->entity, 1, &alvium->pad);
-> > > > > > +	if (ret)
-> > > > > > +		return ret;
-> > > > > > +
-> > > > > > +	sd->dev = dev;
-> > > > > > +
-> > > > > > +	ret = alvium_power_on(alvium);
-> > > > > 
-> > > > > The driver should use runtime PM (with autosuspend), and power on/off in
-> > > > > the .s_stream() handler.
-> > > > 
-> > > > Can we delay the pm implementation as a future patchset?
-> > > > Alvium pm would be tricky (cause is the boot time of the camera)
-> > > > and if is possible I want work on pm later.
-> > > > Let me know. Thanks! :)
-> > > 
-> > > With autosuspend the camera can remain powered up between stream stop
-> > > and stream start, if they happen quickly enough. An autosuspend delay of
-> > > a few seconds is usually a good value. It should be fairly easy to
-> > > implement runtime PM support, you just need to
-> > > 
-> > > - Call alvium_power_on() from the runtime PM resume handler and
-> > >   alvium_power_off() from the runtime PM suspend handler.
-> > > 
-> > > - Call pm_runtime_resume_and_get() and stream on time, and
-> > >   pm_runtime_mark_last_busy() and pm_runtime_put_autosuspend() at stream
-> > >   stop time.
-> > > 
-> > > - Initialize runtime PM at probe time (and clean up at remove time).
-> > >   There's a bit of boilerplate code needed to get that right, but it's
-> > >   not difficult. You can copy it from the imx290 driver.
-> > 
-> > Back to you to clarify this point.
-> > 
-> > Plan as you suggest is handling pm of camera using external
-> > regulator. Problem is that the boot time of the camera is around 5s.
-> 
-> 5s ? Ouch !!
-> 
-> This has two consequences:
-> 
-> - Just probing the camera would take 5s, which is insanely long.
-> - There will be a 5s delay when starting video capture.
-> 
-> There's no 5s delay in the current code, so I assume things work fine
-> because the power regulator is always on, and turned on 5s or more
-> before the driver is loaded. That's pretty fragile.
-> 
-> That camera is clearly not a good fit for an embedded system that cares
-> about power consumption and performance, but we still have to support
-> it. The probe time issue isn't something we can fix, a 5s delay is
-> required.
-> 
-> The stream start issue can be alleviated by keeping the camera on, or
-> offering a way for userspace to turn it on ahead of stream start.
-> Runtime PM autosuspend will help with the former, and I would push the
-> autosuspend delay up as a result of the huge camera boot time. We don't
-> have a good solution of the latter at the moment, it used to be that
-> opening video nodes would power up the whole pipeline, but that has been
-> dropped some time ago in V4L2. Another API extension for this kind of
+> Hi,
+> The use-case is to provide the alignment required by some video processing chips. We have a product based on NVIDIA Jetson TX2 that uses the mgb4 cards and the HW video encoding needs a specific
+> alignment to work.
 
-And that was never a good solution.
+OK. I would suggest that for this property it has a default value of 0 (i.e. a 1 byte alignment),
+and in that case VIDIOC_S_FMT allows userspace to set bytesperline to whatever they want. I.e.,
+this is the normal behavior for DMA engines that can deal with custom padding at the end of each
+line.
 
-> use cases would be useful I think. Sakari, any opinion ?
+If it is > 0, then bytesperline is fixed, based on this value.
 
-I'd approach this with autosuspend, but going forward we could research
-adding an API for V4L2 sub-devices to access PM QoS. This way the device
-could be powered down while the user would have a way to ensure resuming
-the device wouldn't take excessively long.
+That way both methods are supported fairly cleanly.
 
--- 
-Kind regards,
+BTW, what is missing in the property documentation for writable properties is what the default
+value is. That must be documented as well.
 
-Sakari Ailus
+Regards,
+
+	Hans
