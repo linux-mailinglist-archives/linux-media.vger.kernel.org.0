@@ -2,50 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B6B572E25F
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 14:00:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B8E372E286
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 14:09:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241829AbjFMMAH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Jun 2023 08:00:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49990 "EHLO
+        id S239869AbjFMMJD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Jun 2023 08:09:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233858AbjFMMAH (ORCPT
+        with ESMTP id S234563AbjFMMJB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Jun 2023 08:00:07 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C202AC5;
-        Tue, 13 Jun 2023 05:00:02 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1q92gl-0002a9-Fj; Tue, 13 Jun 2023 13:59:55 +0200
-Message-ID: <98909a2f-cb55-b732-409c-ad14c802bf13@leemhuis.info>
-Date:   Tue, 13 Jun 2023 13:59:54 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: Fwd: w_scan hangs on 6.3.7 and does not react on kill -9
-Content-Language: en-US, de-DE
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Tue, 13 Jun 2023 08:09:01 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E7C2E55;
+        Tue, 13 Jun 2023 05:09:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686658140; x=1718194140;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=77JdOeqaLtpWVDtMAb1kf7q0hb1+drYDYzJGG71SUZM=;
+  b=KASaKrNXdILRf4TSg1/spcXSkOnEAATqkrQ8bjTlYb/VahwkJbuHRaG9
+   0caMP69SAC8OGnWi+1Vq4qrF3DLVS3S2/yODFpYsB4L0S/tdGtB6FiDYd
+   HUWECmjpdJvOHoFzGPit3y4/ue+DZyna9HrQLK2Vy0MfTzl4jJvE9hGGd
+   TDQNXY/gPy6UZpghXmvfBeg/cNceL88e7vLxqbsq0u/wkITSi8PVHF9iE
+   6J4NuZ/x4RObNBP0c43VlO1R2/DE4B7NrLmy+2TcqoQKjfRU2G5CqzEQm
+   FKH3pczcTHwV6L98Ext5PFFSj5zJpSFqBuZ5DgKoNGSiqecr3S6n+ATyG
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="424194077"
+X-IronPort-AV: E=Sophos;i="6.00,239,1681196400"; 
+   d="scan'208";a="424194077"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 05:08:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="885823097"
+X-IronPort-AV: E=Sophos;i="6.00,239,1681196400"; 
+   d="scan'208";a="885823097"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 05:08:39 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 93DF111F76F;
+        Tue, 13 Jun 2023 15:00:34 +0300 (EEST)
+Date:   Tue, 13 Jun 2023 12:00:34 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Tommaso Merciai <tomm.merciai@gmail.com>,
+        jacopo.mondi@ideasonboard.com, martin.hecht@avnet.eu,
+        linuxfancy@googlegroups.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Lukasz Kalamlacki <kalamlacki@gmail.com>,
-        Hyunwoo Kim <imv4bel@gmail.com>,
-        Sasha Levin <sashal@kernel.org>,
-        Stefan Lippers-Hollmann <s.l-h@gmx.de>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Regressions <regressions@lists.linux.dev>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <67afa974-835a-77cc-d4bb-49cba0ff5bf5@gmail.com>
- <cc577237-7814-0bea-a152-8acdea844088@gmail.com>
-From:   "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <cc577237-7814-0bea-a152-8acdea844088@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1686657602;40cc4f1c;
-X-HE-SMSGID: 1q92gl-0002a9-Fj
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Gerald Loacker <gerald.loacker@wolfvision.net>,
+        Nicholas Roth <nicholas@rothemail.net>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Subject: Re: [PATCH v2 2/2] media: i2c: Add support for alvium camera
+Message-ID: <ZIhaYk1v69Sp+Xqd@kekkonen.localdomain>
+References: <20230526173955.797226-1-tomm.merciai@gmail.com>
+ <20230526173955.797226-3-tomm.merciai@gmail.com>
+ <20230529074018.GD25984@pendragon.ideasonboard.com>
+ <ZHcd09f5wOKjQdHX@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+ <20230531113331.GC27043@pendragon.ideasonboard.com>
+ <ZHjPyxColttdARQm@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+ <20230602043126.GM22609@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230602043126.GM22609@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,
         URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,49 +84,117 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Laurent, Tommaso,
 
-
-On 13.06.23 13:23, Bagas Sanjaya wrote:
-> On 6/12/23 20:52, Bagas Sanjaya wrote:
->> Hi,
->>
->> I notice a regression report on Bugzilla [1]. Quoting from it:
->>
->>> w_scan tool on kernel 6.3.7 hangs so badly that it cannot be killed by kill -9 
->>> I tried also w_scan_cpp 20230604 but it also fails I have 2040:8268 Hauppauge soloHD device as reported by lsusb. During reboot of the OS it prints a lot of kernel errors but it is after syslog is killed I guess and in syslog messages I do not see anything. On default Debian kernel 5.10.0-23 this problem does not exists.
->>
->>
->> See Bugzilla for the full thread and attached dmesg and kernel config.
->>
->> Lukasz: On what hardware you have this regression? Also, it is really
->> helpful if you can perform bisection (as outlined
->> in Documentation/admin-guide/bug-bisect.html) to find the culprit,
->> when developers can't figure it out by inspecting the code alone.
->> Last but not least, please also try latest mainline (currently v6.4-rc6).
->>
->> Anyway, I'm adding it to regzbot:
->>
->> #regzbot introduced: v5.10..v6.3 https://bugzilla.kernel.org/show_bug.cgi?id=217540
->> #regzbot title: w_scan zombie (unkillable) on kernel v6.3
+On Fri, Jun 02, 2023 at 07:31:26AM +0300, Laurent Pinchart wrote:
+> > > > > > diff --git a/drivers/media/i2c/alvium.c b/drivers/media/i2c/alvium.c
+> > > > > > new file mode 100644
+> > > > > > index 000000000000..e77fb6bda64b
+> > > > > > --- /dev/null
+> > > > > > +++ b/drivers/media/i2c/alvium.c
+> > > > > > @@ -0,0 +1,3547 @@
 > 
-> Another reporter on Bugzilla with similar regression as this one had
-> bisected the culprit, so:
+> [snip]
 > 
-> Hyunwoo Kim: It looks like this regression is caused by a backported
-> commit of yours. Would you like to take a look on it?
+> > > > > > +static int alvium_probe(struct i2c_client *client)
+> > > > > > +{
+> > > > > > +	struct device *dev = &client->dev;
+> > > > > > +	struct v4l2_subdev *sd;
+> > > > > > +	struct alvium_dev *alvium;
+> > > > > > +	int ret;
+> > > > > > +
+> > > > > > +	alvium = devm_kzalloc(dev, sizeof(*alvium), GFP_KERNEL);
+> > > > > > +	if (!alvium)
+> > > > > > +		return -ENOMEM;
+> > > > > > +
+> > > > > > +	alvium->i2c_client = client;
+> > > > > > +	ret = alvium_get_dt_data(alvium);
+> > > > > > +	if (ret)
+> > > > > > +		return ret;
+> > > > > > +
+> > > > > > +	mutex_init(&alvium->lock);
+> > > > > > +
+> > > > > > +	sd = &alvium->sd;
+> > > > > > +
+> > > > > > +	/* init alvium sd */
+> > > > > > +	v4l2_i2c_subdev_init(sd, client, &alvium_subdev_ops);
+> > > > > > +
+> > > > > > +	sd->flags |= V4L2_SUBDEV_FL_HAS_EVENTS | V4L2_SUBDEV_FL_HAS_DEVNODE;
+> > > > > > +	alvium->pad.flags = MEDIA_PAD_FL_SOURCE;
+> > > > > > +	sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
+> > > > > > +	sd->entity.ops = &alvium_sd_media_ops;
+> > > > > > +
+> > > > > > +	ret = media_entity_pads_init(&sd->entity, 1, &alvium->pad);
+> > > > > > +	if (ret)
+> > > > > > +		return ret;
+> > > > > > +
+> > > > > > +	sd->dev = dev;
+> > > > > > +
+> > > > > > +	ret = alvium_power_on(alvium);
+> > > > > 
+> > > > > The driver should use runtime PM (with autosuspend), and power on/off in
+> > > > > the .s_stream() handler.
+> > > > 
+> > > > Can we delay the pm implementation as a future patchset?
+> > > > Alvium pm would be tricky (cause is the boot time of the camera)
+> > > > and if is possible I want work on pm later.
+> > > > Let me know. Thanks! :)
+> > > 
+> > > With autosuspend the camera can remain powered up between stream stop
+> > > and stream start, if they happen quickly enough. An autosuspend delay of
+> > > a few seconds is usually a good value. It should be fairly easy to
+> > > implement runtime PM support, you just need to
+> > > 
+> > > - Call alvium_power_on() from the runtime PM resume handler and
+> > >   alvium_power_off() from the runtime PM suspend handler.
+> > > 
+> > > - Call pm_runtime_resume_and_get() and stream on time, and
+> > >   pm_runtime_mark_last_busy() and pm_runtime_put_autosuspend() at stream
+> > >   stop time.
+> > > 
+> > > - Initialize runtime PM at probe time (and clean up at remove time).
+> > >   There's a bit of boilerplate code needed to get that right, but it's
+> > >   not difficult. You can copy it from the imx290 driver.
+> > 
+> > Back to you to clarify this point.
+> > 
+> > Plan as you suggest is handling pm of camera using external
+> > regulator. Problem is that the boot time of the camera is around 5s.
 > 
-> #regzbot introduced: 8994830135b38b
+> 5s ? Ouch !!
+> 
+> This has two consequences:
+> 
+> - Just probing the camera would take 5s, which is insanely long.
+> - There will be a 5s delay when starting video capture.
+> 
+> There's no 5s delay in the current code, so I assume things work fine
+> because the power regulator is always on, and turned on 5s or more
+> before the driver is loaded. That's pretty fragile.
+> 
+> That camera is clearly not a good fit for an embedded system that cares
+> about power consumption and performance, but we still have to support
+> it. The probe time issue isn't something we can fix, a 5s delay is
+> required.
+> 
+> The stream start issue can be alleviated by keeping the camera on, or
+> offering a way for userspace to turn it on ahead of stream start.
+> Runtime PM autosuspend will help with the former, and I would push the
+> autosuspend delay up as a result of the huge camera boot time. We don't
+> have a good solution of the latter at the moment, it used to be that
+> opening video nodes would power up the whole pipeline, but that has been
+> dropped some time ago in V4L2. Another API extension for this kind of
 
-TWIMC, revert for mainline already in preparation, for details see:
+And that was never a good solution.
 
-https://lore.kernel.org/all/23d5f9d6-f0db-a9af-1291-e9d6ac3cd126@leemhuis.info/
+> use cases would be useful I think. Sakari, any opinion ?
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+I'd approach this with autosuspend, but going forward we could research
+adding an API for V4L2 sub-devices to access PM QoS. This way the device
+could be powered down while the user would have a way to ensure resuming
+the device wouldn't take excessively long.
 
-#regzbot monitor: https://lore.kernel.org/all/20230613053314.70839926@mir/
-#regzbot monitor:
-https://lore.kernel.org/all/20230609082238.3671398-1-mchehab@kernel.org/
+-- 
+Kind regards,
+
+Sakari Ailus
