@@ -2,40 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A804872DC94
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 10:36:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 332BD72DCD0
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 10:40:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241412AbjFMIgN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Jun 2023 04:36:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44796 "EHLO
+        id S241470AbjFMIko (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Jun 2023 04:40:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241418AbjFMIgA (ORCPT
+        with ESMTP id S241851AbjFMIkN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Jun 2023 04:36:00 -0400
-Received: from 189.cn (ptr.189.cn [183.61.185.104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DDEA41BD9;
-        Tue, 13 Jun 2023 01:35:48 -0700 (PDT)
-HMM_SOURCE_IP: 10.64.8.41:42086.2030846205
+        Tue, 13 Jun 2023 04:40:13 -0400
+Received: from 189.cn (ptr.189.cn [183.61.185.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 61C87A0;
+        Tue, 13 Jun 2023 01:40:12 -0700 (PDT)
+HMM_SOURCE_IP: 10.64.8.43:49218.162439971
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
-        by 189.cn (HERMES) with SMTP id 41E6F102959;
-        Tue, 13 Jun 2023 16:35:45 +0800 (CST)
+Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
+        by 189.cn (HERMES) with SMTP id 42FC2100236;
+        Tue, 13 Jun 2023 16:40:08 +0800 (CST)
 Received: from  ([114.242.206.180])
-        by gateway-151646-dep-75648544bd-xwndj with ESMTP id b37dc4d7eeaa4a9c885440c925863fc9 for mripard@kernel.org;
-        Tue, 13 Jun 2023 16:35:47 CST
-X-Transaction-ID: b37dc4d7eeaa4a9c885440c925863fc9
+        by gateway-151646-dep-75648544bd-7vx9t with ESMTP id eeccf25fcf684add9e175087e8ee34ea for mripard@kernel.org;
+        Tue, 13 Jun 2023 16:40:11 CST
+X-Transaction-ID: eeccf25fcf684add9e175087e8ee34ea
 X-Real-From: 15330273260@189.cn
 X-Receive-IP: 114.242.206.180
 X-MEDUSA-Status: 0
 Sender: 15330273260@189.cn
-Message-ID: <d2f744b6-e4c9-d1b5-d4ca-470b801c670d@189.cn>
-Date:   Tue, 13 Jun 2023 16:35:44 +0800
+Message-ID: <555e160a-0c9d-9145-88f1-a0ecff62240a@189.cn>
+Date:   Tue, 13 Jun 2023 16:40:07 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
 Subject: Re: [PATCH v14 0/2] drm: add kms driver for loongson display
  controller
+Content-Language: en-US
 To:     Maxime Ripard <mripard@kernel.org>,
         Sui Jingfeng <suijingfeng@loongson.cn>
 Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -52,7 +53,6 @@ Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 References: <20230520105718.325819-1-15330273260@189.cn>
  <d4e647d8-294c-abd7-40c6-37381796203d@loongson.cn>
  <a23d6mgl4fbfa4ucgjvwgw7l3somxo4tkhit7ygy55fldlum56@vm3tyjdsx24l>
-Content-Language: en-US
 From:   Sui Jingfeng <15330273260@189.cn>
 In-Reply-To: <a23d6mgl4fbfa4ucgjvwgw7l3somxo4tkhit7ygy55fldlum56@vm3tyjdsx24l>
 Content-Type: text/plain; charset=UTF-8; format=flowed
@@ -67,7 +67,6 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
 
 On 2023/6/13 16:30, Maxime Ripard wrote:
 > Hi,
@@ -84,8 +83,11 @@ On 2023/6/13 16:30, Maxime Ripard wrote:
 >
 > So.. do that?
 
-Yes, that sound fine.
+OK, I also want to merge this.
 
-But I can't do it myself, would you like to help?
+If there are any other problems, We and other contributor will take the 
+responsibility to fixed it with a separate patch.
+
+It this OK?
 
 > Maxime
