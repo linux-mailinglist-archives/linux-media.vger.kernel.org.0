@@ -2,160 +2,521 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C726772E67A
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 17:00:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9426072E676
+	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 17:00:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242272AbjFMPAW convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Tue, 13 Jun 2023 11:00:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35550 "EHLO
+        id S241127AbjFMO72 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Jun 2023 10:59:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232792AbjFMPAV (ORCPT
+        with ESMTP id S239766AbjFMO70 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Jun 2023 11:00:21 -0400
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DD0DE5;
-        Tue, 13 Jun 2023 08:00:19 -0700 (PDT)
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-75d4b85b3ccso104572085a.2;
-        Tue, 13 Jun 2023 08:00:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686668418; x=1689260418;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HCZylnYVESKbr03w+qaTawlaNs+/D1wETaN7cDLoL5w=;
-        b=h7mRRon1AfdXBSb6VNymN7CiInAtR3zN3Ebf2osauCNC1OYvVZEAM+xz4omZb+fymp
-         P2EeEIGh9CmqzShvQT3BKXL+WCQGJd83adbQlEl9f0I8zwQkGMy6Xpi2cOqYp2+L8jdd
-         XYZThbqhsU2sM40b1lG4vvOXxWOFGIW8mzNPZXuNED8NmeH1Y0gYbJByQEJbAL9BuL4r
-         /Owka2tU8Uky9TaVzdzYbcj1zlAd2Mpmk8+ucs5zOzszLrQG86UmH7JG6DJxTxk8iH6f
-         ahgO4IzhwnQ/52IgRFZkGAQgXvsP4vhTkZjy4DFldPoprWyv6pGfOU66IP0er4nSwp+s
-         A23Q==
-X-Gm-Message-State: AC+VfDyi3jscrAbCBKn6xZ2iGrioL/iwQKG9grzuqx/asBu8uZUvOXRz
-        9594G5CtqeFg7xlwXLawxTXHkDZB/uO+Okuh
-X-Google-Smtp-Source: ACHHUZ7aNbfLovc1tsSZwLxUh7v5Tw+sr+IXn+vOfC6FjwUse7rGt63HRqJy1YxpEnImUZl1CVtTfQ==
-X-Received: by 2002:a05:620a:8c96:b0:75b:23a1:362c with SMTP id ra22-20020a05620a8c9600b0075b23a1362cmr12349100qkn.61.1686668417521;
-        Tue, 13 Jun 2023 08:00:17 -0700 (PDT)
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com. [209.85.222.172])
-        by smtp.gmail.com with ESMTPSA id h24-20020a05620a10b800b0075772c756e0sm1474651qkk.101.2023.06.13.08.00.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Jun 2023 08:00:17 -0700 (PDT)
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-7606bc82639so105016385a.1;
-        Tue, 13 Jun 2023 08:00:17 -0700 (PDT)
-X-Received: by 2002:a25:9f07:0:b0:bc3:cc17:6250 with SMTP id
- n7-20020a259f07000000b00bc3cc176250mr1355567ybq.1.1686667920065; Tue, 13 Jun
- 2023 07:52:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <OS0PR01MB5922AA27B212F610A5E816138650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230608103929.GO5058@pendragon.ideasonboard.com> <OS0PR01MB592259E6A7ACED4A0548DD228650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230608125019.GD26742@pendragon.ideasonboard.com> <OS0PR01MB5922ECEABE4D6FC385D184008650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB592265BFDF18F860E1EB4CFE8654A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <ZIcRKl3PDy0+yZS9@ninjato> <CAMuHMdV_iwdP+K1us86OB4VtDDqA=P_vNeCP15kqRuXqcYr3hg@mail.gmail.com>
- <ZIcUEdctlgRsGxJ3@ninjato> <CAMuHMdVOkBeKOEW9PkWB3Tqwa6-rC3BQj=W9VAEgeZfgqvQmWQ@mail.gmail.com>
- <ZIeDcVcfxfcMx/BP@shikoro> <CAMuHMdV_Ty=rkcMzsrnJ3YHZngRbyWvYjR_K9Zh7RiAJ4LbvKg@mail.gmail.com>
- <OS0PR01MB59225195B4F2C771F302F7EE8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB59225195B4F2C771F302F7EE8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 13 Jun 2023 16:51:44 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUTAerddXG3zJVRZEAwcrR6V=NFeHwsKV9_tE+ccfw6_w@mail.gmail.com>
-Message-ID: <CAMuHMdUTAerddXG3zJVRZEAwcrR6V=NFeHwsKV9_tE+ccfw6_w@mail.gmail.com>
-Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Wolfram Sang <wsa@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
+        Tue, 13 Jun 2023 10:59:26 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25738BB
+        for <linux-media@vger.kernel.org>; Tue, 13 Jun 2023 07:59:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686668364; x=1718204364;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oVIDz7Ct18n5rvEXWV0i10BuRsJqq27a5OaNxHfLuz4=;
+  b=ZsZcB4HYE+CPsc/zM6neopagVrJDBBCzIy6cMBSVz/3UxtXnecTpRK9Z
+   Ryqi7QwEKfAUva+fM/03sBrvKH4OwSMWG0yQgieqy5IoLDWmGI9AkWwMC
+   CgQ2eEenDEcXpTWE6zXiCE8gPxCzZmMVkWp9kb3l3z41YCFU3YuVDTl8u
+   PpHjeU1fRnU8TkhjsxDniDNgO/1Skx6b+JE3RhwuFVyf0v4JU1hJsRNsV
+   X20PuA2L9twa7GL+WIX1ttp+13+9X/SwdRXr2JF+3H0fcrkcGE0noDzCZ
+   usC6vQ00Rb3yfIbNhCNKNuLRwjgadzZGUjH7dJ5/1s5PSsQl3GoC1emYy
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="386757216"
+X-IronPort-AV: E=Sophos;i="6.00,239,1681196400"; 
+   d="scan'208";a="386757216"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 07:59:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="824424551"
+X-IronPort-AV: E=Sophos;i="6.00,239,1681196400"; 
+   d="scan'208";a="824424551"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 07:58:59 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id AC08C11F9D2;
+        Tue, 13 Jun 2023 17:58:56 +0300 (EEST)
+Date:   Tue, 13 Jun 2023 14:58:56 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>, hverkuil@xs4all.nl,
+        Francesco Dolcini <francesco@dolcini.it>,
+        aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>, bingbu.cao@intel.com,
+        niklas.soderlund@ragnatech.se,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Corey Minyard <cminyard@mvista.com>,
-        =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
-        Antonio Borneo <antonio.borneo@foss.st.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Mark Brown <broonie@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Sylvain Petinot <sylvain.petinot@foss.st.com>,
+        Eugen Hristev <eugen.hristev@collabora.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Dafna Hirschfeld <dafna@fastmail.com>,
+        Hugues Fruchet <hugues.fruchet@foss.st.com>,
+        Yong Deng <yong.deng@magewell.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Benoit Parrot <bparrot@ti.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Marco Felsch <m.felsch@pengutronix.de>
+Subject: Re: [RESEND PATCH v3 12/32] media: v4l: async: Clean up list heads
+ and entries
+Message-ID: <ZIiEMEE1YRzVbT1A@kekkonen.localdomain>
+References: <20230525091615.2324824-1-sakari.ailus@linux.intel.com>
+ <20230525091615.2324824-13-sakari.ailus@linux.intel.com>
+ <20230530030929.GM21633@pendragon.ideasonboard.com>
+ <20230530054059.GA5714@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230530054059.GA5714@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Biju,
+Hi Laurent,
 
-On Tue, Jun 13, 2023 at 12:45 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-> > On Mon, Jun 12, 2023 at 10:43 PM Wolfram Sang <wsa@kernel.org> wrote:
-> > > > Perhaps we should first think through what an ancillary device
-> > > > really is.  My understanding is that it is used to talk to secondary
-> > > > addresses of a multi-address I2C slave device.
-> > >
-> > > As I mentioned somewhere before, this is not the case. Ancillary
-> > > devices are when one *driver* handles more than one address.
-> > > Everything else has been handled differently in the past (for  all the
-> > uses I am aware of).
-> > >
-> > > Yet, I have another idea which is so simple that I wonder if it maybe
-> > > has already been discussed so far?
-> > >
-> > > * have two regs in the bindings
-> > > * use the second reg with i2c_new_client_device to instantiate the
-> > >   RTC sibling. 'struct i2c_board_info', which is one parameter, should
-> > >   have enough options to pass data, e.g it has a software_node.
-> > >
-> > > Should work or did I miss something here?
-> >
-> > That should work, mostly (i2c_new_dummy_device() also calls
-> > i2c_new_client_device()).  And as i2c_board_info has an of_node member
-> > (something I had missed before!), the new I2C device can access the clocks
-> > in the DT node using the standard way.
->
-> Looks like, I cannot assign of_node member like below as it results in pinctrl failure[1]
-> during device bind.
->
-> info.of_node = client->dev.of_node;
->
-> [1]
-> pinctrl-rzg2l 11030000.pinctrl: pin P43_0 already requested by 3-0012; cannot claim for 3-006f
-> pinctrl-rzg2l 11030000.pinctrl: pin-344 (3-006f) status -22
-> pinctrl-rzg2l 11030000.pinctrl: could not request pin 344 (P43_0) from group pmic  on device pinctrl-rzg2l
-> raa215300 3-006f: Error applying setting, reverse things back
+On Tue, May 30, 2023 at 08:40:59AM +0300, Laurent Pinchart wrote:
+> On Tue, May 30, 2023 at 06:09:29AM +0300, Laurent Pinchart wrote:
+> > Hi Sakari,
+> > 
+> > Thank you for the patch.
+> > 
+> > On Thu, May 25, 2023 at 12:15:55PM +0300, Sakari Ailus wrote:
+> > > The naming of list heads and list entries is confusing as they're named
+> > > similarly. Use _list for list head and _entry for list entries.
+> > > 
+> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > ---
+> > >  drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |  2 +-
+> > >  drivers/media/platform/xilinx/xilinx-vipp.c   |  6 +--
+> > >  drivers/media/v4l2-core/v4l2-async.c          | 54 +++++++++----------
+> > >  drivers/staging/media/tegra-video/vi.c        |  4 +-
+> > >  include/media/v4l2-async.h                    | 36 ++++++-------
+> > >  include/media/v4l2-subdev.h                   |  2 +-
+> > >  6 files changed, 52 insertions(+), 52 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
+> > > index 3c84cb1216320..9231d6a65f4ec 100644
+> > > --- a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
+> > > +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
+> > > @@ -1420,7 +1420,7 @@ static int cio2_notifier_complete(struct v4l2_async_notifier *notifier)
+> > >  	unsigned int pad;
+> > >  	int ret;
+> > >  
+> > > -	list_for_each_entry(asd, &cio2->notifier.asd_list, asd_list) {
+> > > +	list_for_each_entry(asd, &cio2->notifier.asd_list, asd_entry) {
+> > >  		s_asd = to_sensor_asd(asd);
+> > >  		q = &cio2->queue[s_asd->csi2.port];
+> > >  
+> > > diff --git a/drivers/media/platform/xilinx/xilinx-vipp.c b/drivers/media/platform/xilinx/xilinx-vipp.c
+> > > index b309af0c83749..52c5a7decf284 100644
+> > > --- a/drivers/media/platform/xilinx/xilinx-vipp.c
+> > > +++ b/drivers/media/platform/xilinx/xilinx-vipp.c
+> > > @@ -56,7 +56,7 @@ xvip_graph_find_entity(struct xvip_composite_device *xdev,
+> > >  	struct xvip_graph_entity *entity;
+> > >  	struct v4l2_async_subdev *asd;
+> > >  
+> > > -	list_for_each_entry(asd, &xdev->notifier.asd_list, asd_list) {
+> > > +	list_for_each_entry(asd, &xdev->notifier.asd_list, asd_entry) {
+> > >  		entity = to_xvip_entity(asd);
+> > >  		if (entity->asd.match.fwnode == fwnode)
+> > >  			return entity;
+> > > @@ -291,7 +291,7 @@ static int xvip_graph_notify_complete(struct v4l2_async_notifier *notifier)
+> > >  	dev_dbg(xdev->dev, "notify complete, all subdevs registered\n");
+> > >  
+> > >  	/* Create links for every entity. */
+> > > -	list_for_each_entry(asd, &xdev->notifier.asd_list, asd_list) {
+> > > +	list_for_each_entry(asd, &xdev->notifier.asd_list, asd_entry) {
+> > >  		entity = to_xvip_entity(asd);
+> > >  		ret = xvip_graph_build_one(xdev, entity);
+> > >  		if (ret < 0)
+> > > @@ -393,7 +393,7 @@ static int xvip_graph_parse(struct xvip_composite_device *xdev)
+> > >  	if (ret < 0)
+> > >  		return 0;
+> > >  
+> > > -	list_for_each_entry(asd, &xdev->notifier.asd_list, asd_list) {
+> > > +	list_for_each_entry(asd, &xdev->notifier.asd_list, asd_entry) {
+> > >  		entity = to_xvip_entity(asd);
+> > >  		ret = xvip_graph_parse_one(xdev, entity->asd.match.fwnode);
+> > >  		if (ret < 0) {
+> > > diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> > > index 5eb9850f1c6c4..06b1e1a1a5f87 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-async.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-async.c
+> > > @@ -213,7 +213,7 @@ v4l2_async_find_match(struct v4l2_async_notifier *notifier,
+> > >  		      struct v4l2_async_match_desc *match);
+> > >  	struct v4l2_async_subdev *asd;
+> > >  
+> > > -	list_for_each_entry(asd, &notifier->waiting, list) {
+> > > +	list_for_each_entry(asd, &notifier->waiting_list, waiting_entry) {
+> > >  		/* bus_type has been verified valid before */
+> > >  		switch (asd->match.type) {
+> > >  		case V4L2_ASYNC_MATCH_TYPE_I2C:
+> > > @@ -262,7 +262,7 @@ v4l2_async_find_subdev_notifier(struct v4l2_subdev *sd)
+> > >  {
+> > >  	struct v4l2_async_notifier *n;
+> > >  
+> > > -	list_for_each_entry(n, &notifier_list, list)
+> > > +	list_for_each_entry(n, &notifier_list, notifier_entry)
+> > >  		if (n->sd == sd)
+> > >  			return n;
+> > >  
+> > > @@ -287,10 +287,10 @@ v4l2_async_nf_can_complete(struct v4l2_async_notifier *notifier)
+> > >  {
+> > >  	struct v4l2_subdev *sd;
+> > >  
+> > > -	if (!list_empty(&notifier->waiting))
+> > > +	if (!list_empty(&notifier->waiting_list))
+> > >  		return false;
+> > >  
+> > > -	list_for_each_entry(sd, &notifier->done, async_list) {
+> > > +	list_for_each_entry(sd, &notifier->done_list, async_list) {
+> > >  		struct v4l2_async_notifier *subdev_notifier =
+> > >  			v4l2_async_find_subdev_notifier(sd);
+> > >  
+> > > @@ -312,7 +312,7 @@ v4l2_async_nf_try_complete(struct v4l2_async_notifier *notifier)
+> > >  	struct v4l2_async_notifier *__notifier = notifier;
+> > >  
+> > >  	/* Quick check whether there are still more sub-devices here. */
+> > > -	if (!list_empty(&notifier->waiting))
+> > > +	if (!list_empty(&notifier->waiting_list))
+> > >  		return 0;
+> > >  
+> > >  	if (notifier->sd)
+> > > @@ -391,13 +391,12 @@ static int v4l2_async_match_notify(struct v4l2_async_notifier *notifier,
+> > >  		return ret;
+> > >  	}
+> > >  
+> > > -	/* Remove from the waiting list */
+> > > -	list_del(&asd->list);
+> > > +	list_del(&asd->waiting_entry);
+> > >  	sd->asd = asd;
+> > >  	sd->notifier = notifier;
+> > >  
+> > >  	/* Move from the global subdevice list to notifier's done */
+> > > -	list_move(&sd->async_list, &notifier->done);
+> > > +	list_move(&sd->async_list, &notifier->done_list);
+> > >  
+> > >  	dev_dbg(notifier_dev(notifier), "v4l2-async: %s bound (ret %d)\n",
+> > >  		dev_name(sd->dev), ret);
+> > > @@ -478,7 +477,7 @@ v4l2_async_nf_unbind_all_subdevs(struct v4l2_async_notifier *notifier,
+> > >  {
+> > >  	struct v4l2_subdev *sd, *tmp;
+> > >  
+> > > -	list_for_each_entry_safe(sd, tmp, &notifier->done, async_list) {
+> > > +	list_for_each_entry_safe(sd, tmp, &notifier->done_list, async_list) {
+> > >  		struct v4l2_async_notifier *subdev_notifier =
+> > >  			v4l2_async_find_subdev_notifier(sd);
+> > >  
+> > > @@ -487,7 +486,8 @@ v4l2_async_nf_unbind_all_subdevs(struct v4l2_async_notifier *notifier,
+> > >  
+> > >  		v4l2_async_nf_call_unbind(notifier, sd, sd->asd);
+> > >  		if (readd)
+> > > -			list_add_tail(&sd->asd->list, &notifier->waiting);
+> > > +			list_add_tail(&sd->asd->waiting_entry,
+> > > +				      &notifier->waiting_list);
+> > >  		v4l2_async_cleanup(sd);
+> > >  
+> > >  		list_move(&sd->async_list, &subdev_list);
+> > > @@ -504,11 +504,11 @@ v4l2_async_nf_has_async_match_entry(struct v4l2_async_notifier *notifier,
+> > >  	struct v4l2_async_subdev *asd;
+> > >  	struct v4l2_subdev *sd;
+> > >  
+> > > -	list_for_each_entry(asd, &notifier->waiting, list)
+> > > +	list_for_each_entry(asd, &notifier->waiting_list, waiting_entry)
+> > >  		if (v4l2_async_match_equal(&asd->match, match))
+> > >  			return true;
+> > >  
+> > > -	list_for_each_entry(sd, &notifier->done, async_list) {
+> > > +	list_for_each_entry(sd, &notifier->done_list, async_list) {
+> > >  		if (WARN_ON(!sd->asd))
+> > >  			continue;
+> > >  
+> > > @@ -533,7 +533,7 @@ v4l2_async_nf_has_async_match(struct v4l2_async_notifier *notifier,
+> > >  	lockdep_assert_held(&list_lock);
+> > >  
+> > >  	/* Check that an asd is not being added more than once. */
+> > > -	list_for_each_entry(asd, &notifier->asd_list, asd_list) {
+> > > +	list_for_each_entry(asd, &notifier->asd_list, asd_entry) {
+> > >  		if (skip_self && &asd->match == match)
+> > >  			break;
+> > >  		if (v4l2_async_match_equal(&asd->match, match))
+> > > @@ -541,7 +541,7 @@ v4l2_async_nf_has_async_match(struct v4l2_async_notifier *notifier,
+> > >  	}
+> > >  
+> > >  	/* Check that an asd does not exist in other notifiers. */
+> > > -	list_for_each_entry(notifier, &notifier_list, list)
+> > > +	list_for_each_entry(notifier, &notifier_list, notifier_entry)
+> > >  		if (v4l2_async_nf_has_async_match_entry(notifier, match))
+> > >  			return true;
+> > >  
+> > > @@ -583,17 +583,17 @@ static int __v4l2_async_nf_register(struct v4l2_async_notifier *notifier)
+> > >  	struct v4l2_async_subdev *asd;
+> > >  	int ret;
+> > >  
+> > > -	INIT_LIST_HEAD(&notifier->waiting);
+> > > -	INIT_LIST_HEAD(&notifier->done);
+> > > +	INIT_LIST_HEAD(&notifier->waiting_list);
+> > > +	INIT_LIST_HEAD(&notifier->done_list);
+> > >  
+> > >  	mutex_lock(&list_lock);
+> > >  
+> > > -	list_for_each_entry(asd, &notifier->asd_list, asd_list) {
+> > > +	list_for_each_entry(asd, &notifier->asd_list, asd_entry) {
+> > >  		ret = v4l2_async_nf_match_valid(notifier, &asd->match, true);
+> > >  		if (ret)
+> > >  			goto err_unlock;
+> > >  
+> > > -		list_add_tail(&asd->list, &notifier->waiting);
+> > > +		list_add_tail(&asd->waiting_entry, &notifier->waiting_list);
+> > >  	}
+> > >  
+> > >  	ret = v4l2_async_nf_try_all_subdevs(notifier);
+> > > @@ -605,7 +605,7 @@ static int __v4l2_async_nf_register(struct v4l2_async_notifier *notifier)
+> > >  		goto err_unbind;
+> > >  
+> > >  	/* Keep also completed notifiers on the list */
+> > > -	list_add(&notifier->list, &notifier_list);
+> > > +	list_add(&notifier->notifier_entry, &notifier_list);
+> > >  
+> > >  	mutex_unlock(&list_lock);
+> > >  
+> > > @@ -670,7 +670,7 @@ __v4l2_async_nf_unregister(struct v4l2_async_notifier *notifier)
+> > >  	notifier->sd = NULL;
+> > >  	notifier->v4l2_dev = NULL;
+> > >  
+> > > -	list_del(&notifier->list);
+> > > +	list_del(&notifier->notifier_entry);
+> > >  }
+> > >  
+> > >  void v4l2_async_nf_unregister(struct v4l2_async_notifier *notifier)
+> > > @@ -690,7 +690,7 @@ static void __v4l2_async_nf_cleanup(struct v4l2_async_notifier *notifier)
+> > >  	if (!notifier || !notifier->asd_list.next)
+> > >  		return;
+> > >  
+> > > -	list_for_each_entry_safe(asd, tmp, &notifier->asd_list, asd_list) {
+> > > +	list_for_each_entry_safe(asd, tmp, &notifier->asd_list, asd_entry) {
+> > >  		switch (asd->match.type) {
+> > >  		case V4L2_ASYNC_MATCH_TYPE_FWNODE:
+> > >  			fwnode_handle_put(asd->match.fwnode);
+> > > @@ -699,7 +699,7 @@ static void __v4l2_async_nf_cleanup(struct v4l2_async_notifier *notifier)
+> > >  			break;
+> > >  		}
+> > >  
+> > > -		list_del(&asd->asd_list);
+> > > +		list_del(&asd->asd_entry);
+> > >  		v4l2_async_nf_call_destroy(notifier, asd);
+> > >  		kfree(asd);
+> > >  	}
+> > > @@ -727,7 +727,7 @@ static int __v4l2_async_nf_add_subdev(struct v4l2_async_notifier *notifier,
+> > >  	if (ret)
+> > >  		goto unlock;
+> > >  
+> > > -	list_add_tail(&asd->asd_list, &notifier->asd_list);
+> > > +	list_add_tail(&asd->asd_entry, &notifier->asd_list);
+> > >  
+> > >  unlock:
+> > >  	mutex_unlock(&list_lock);
+> > > @@ -823,7 +823,7 @@ int v4l2_async_register_subdev(struct v4l2_subdev *sd)
+> > >  
+> > >  	mutex_lock(&list_lock);
+> > >  
+> > > -	list_for_each_entry(notifier, &notifier_list, list) {
+> > > +	list_for_each_entry(notifier, &notifier_list, notifier_entry) {
+> > >  		struct v4l2_device *v4l2_dev =
+> > >  			v4l2_async_nf_find_v4l2_dev(notifier);
+> > >  		struct v4l2_async_subdev *asd;
+> > > @@ -890,7 +890,7 @@ void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
+> > >  	if (sd->asd) {
+> > >  		struct v4l2_async_notifier *notifier = sd->notifier;
+> > >  
+> > > -		list_add(&sd->asd->list, &notifier->waiting);
+> > > +		list_add(&sd->asd->waiting_entry, &notifier->waiting_list);
+> > >  
+> > >  		v4l2_async_nf_call_unbind(notifier, sd, sd->asd);
+> > >  	}
+> > > @@ -944,9 +944,9 @@ static int pending_subdevs_show(struct seq_file *s, void *data)
+> > >  
+> > >  	mutex_lock(&list_lock);
+> > >  
+> > > -	list_for_each_entry(notif, &notifier_list, list) {
+> > > +	list_for_each_entry(notif, &notifier_list, notifier_entry) {
+> > >  		seq_printf(s, "%s:\n", v4l2_async_nf_name(notif));
+> > > -		list_for_each_entry(asd, &notif->waiting, list)
+> > > +		list_for_each_entry(asd, &notif->waiting_list, waiting_entry)
+> > >  			print_waiting_match(s, &asd->match);
+> > >  	}
+> > >  
+> > > diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+> > > index 2f1aff7e87170..350871f34f7cc 100644
+> > > --- a/drivers/staging/media/tegra-video/vi.c
+> > > +++ b/drivers/staging/media/tegra-video/vi.c
+> > > @@ -1565,7 +1565,7 @@ tegra_vi_graph_find_entity(struct tegra_vi_channel *chan,
+> > >  	struct tegra_vi_graph_entity *entity;
+> > >  	struct v4l2_async_subdev *asd;
+> > >  
+> > > -	list_for_each_entry(asd, &chan->notifier.asd_list, asd_list) {
+> > > +	list_for_each_entry(asd, &chan->notifier.asd_list, asd_entry) {
+> > >  		entity = to_tegra_vi_graph_entity(asd);
+> > >  		if (entity->asd.match.fwnode == fwnode)
+> > >  			return entity;
+> > > @@ -1709,7 +1709,7 @@ static int tegra_vi_graph_notify_complete(struct v4l2_async_notifier *notifier)
+> > >  	}
+> > >  
+> > >  	/* create links between the entities */
+> > > -	list_for_each_entry(asd, &chan->notifier.asd_list, asd_list) {
+> > > +	list_for_each_entry(asd, &chan->notifier.asd_list, asd_entry) {
+> > >  		entity = to_tegra_vi_graph_entity(asd);
+> > >  		ret = tegra_vi_graph_build(chan, entity);
+> > >  		if (ret < 0)
+> > > diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
+> > > index 8d1506a9755c3..54f9f45ed3d8e 100644
+> > > --- a/include/media/v4l2-async.h
+> > > +++ b/include/media/v4l2-async.h
+> > > @@ -65,10 +65,10 @@ struct v4l2_async_match_desc {
+> > >   * struct v4l2_async_subdev - sub-device descriptor, as known to a bridge
+> > >   *
+> > >   * @match:	struct of match type and per-bus type matching data sets
+> > > - * @asd_list:	used to add struct v4l2_async_subdev objects to the
+> > > - *		master notifier @asd_list
+> > > - * @list:	used to link struct v4l2_async_subdev objects, waiting to be
+> > > - *		probed, to a notifier->waiting list
+> > > + * @asd_entry:	used to add struct v4l2_async_subdev objects to the
+> > > + *		master notifier @asd_entry
+> > 
+> > I think you mean 'master notifier @asd_list' here.
+> > 
+> > > + * @waiting_entry: used to link struct v4l2_async_subdev objects, waiting to be
+> > > + *		probed, to a notifier->waiting_list list
+> > >   *
+> > >   * When this struct is used as a member in a driver specific struct,
+> > >   * the driver specific struct shall contain the &struct
+> > > @@ -76,8 +76,8 @@ struct v4l2_async_match_desc {
+> > >   */
+> > >  struct v4l2_async_subdev {
+> > >  	struct v4l2_async_match_desc match;
+> > > -	struct list_head list;
+> > > -	struct list_head asd_list;
+> > > +	struct list_head asd_entry;
+> > > +	struct list_head waiting_entry;
+> > >  };
+> > >  
+> > >  /**
+> > > @@ -107,9 +107,9 @@ struct v4l2_async_notifier_operations {
+> > >   * @sd:		sub-device that registered the notifier, NULL otherwise
+> > >   * @parent:	parent notifier
+> > >   * @asd_list:	master list of struct v4l2_async_subdev
+> > > - * @waiting:	list of struct v4l2_async_subdev, waiting for their drivers
+> > > - * @done:	list of struct v4l2_subdev, already probed
+> > > - * @list:	member in a global list of notifiers
+> > > + * @waiting_list: list of struct v4l2_async_subdev, waiting for their drivers
+> > > + * @done_list:	list of struct v4l2_subdev, already probed
+> > > + * @notifier_entry: member in a global list of notifiers
+> > >   */
+> > >  struct v4l2_async_notifier {
+> > >  	const struct v4l2_async_notifier_operations *ops;
+> > > @@ -117,9 +117,9 @@ struct v4l2_async_notifier {
+> > >  	struct v4l2_subdev *sd;
+> > >  	struct v4l2_async_notifier *parent;
+> > >  	struct list_head asd_list;
+> > > -	struct list_head waiting;
+> > > -	struct list_head done;
+> > > -	struct list_head list;
+> > > +	struct list_head waiting_list;
+> > > +	struct list_head done_list;
+> > > +	struct list_head notifier_entry;
+> > >  };
+> > >  
+> > >  /**
+> > > @@ -134,7 +134,7 @@ void v4l2_async_debug_init(struct dentry *debugfs_dir);
+> > >   *
+> > >   * @notifier: pointer to &struct v4l2_async_notifier
+> > >   *
+> > > - * This function initializes the notifier @asd_list. It must be called
+> > > + * This function initializes the notifier @asd_entry. It must be called
+> > >   * before adding a subdevice to a notifier, using one of:
+> > >   * v4l2_async_nf_add_fwnode_remote(), v4l2_async_nf_add_fwnode() or
+> > >   * v4l2_async_nf_add_i2c().
+> > > @@ -147,7 +147,7 @@ __v4l2_async_nf_add_fwnode(struct v4l2_async_notifier *notifier,
+> > >  			   unsigned int asd_struct_size);
+> > >  /**
+> > >   * v4l2_async_nf_add_fwnode - Allocate and add a fwnode async
+> > > - *				subdev to the notifier's master asd_list.
+> > > + *				subdev to the notifier's master asd_entry.
+> > >   *
+> > >   * @notifier: pointer to &struct v4l2_async_notifier
+> > >   * @fwnode: fwnode handle of the sub-device to be matched, pointer to
+> > > @@ -157,7 +157,7 @@ __v4l2_async_nf_add_fwnode(struct v4l2_async_notifier *notifier,
+> > >   *	  sub-device struct, i.e. both begin at the same memory address.
+> > >   *
+> > >   * Allocate a fwnode-matched asd of size asd_struct_size, and add it to the
+> > > - * notifiers @asd_list. The function also gets a reference of the fwnode which
+> > > + * notifiers @asd_entry. The function also gets a reference of the fwnode which
+> 
+> This rename doesn't seem correct, I think it refers to the notifier's
+> asd_list, which didn't get renamed, not the v4l2_async_subdev.asd_list.
+> 
+> > >   * is released later at notifier cleanup time.
+> > >   */
+> > >  #define v4l2_async_nf_add_fwnode(notifier, fwnode, type)		\
+> > > @@ -170,7 +170,7 @@ __v4l2_async_nf_add_fwnode_remote(struct v4l2_async_notifier *notif,
+> > >  /**
+> > >   * v4l2_async_nf_add_fwnode_remote - Allocate and add a fwnode
+> > >   *						  remote async subdev to the
+> > > - *						  notifier's master asd_list.
+> > > + *						  notifier's master asd_entry.
+> 
+> Same here.
+> 
+> > >   *
+> > >   * @notifier: pointer to &struct v4l2_async_notifier
+> > >   * @ep: local endpoint pointing to the remote sub-device to be matched,
+> > > @@ -180,7 +180,7 @@ __v4l2_async_nf_add_fwnode_remote(struct v4l2_async_notifier *notif,
+> > >   *	  sub-device struct, i.e. both begin at the same memory address.
+> > >   *
+> > >   * Gets the remote endpoint of a given local endpoint, set it up for fwnode
+> > > - * matching and adds the async sub-device to the notifier's @asd_list. The
+> > > + * matching and adds the async sub-device to the notifier's @asd_entry. The
+> 
+> Same here.
+> 
+> > >   * function also gets a reference of the fwnode which is released later at
+> > >   * notifier cleanup time.
+> > >   *
+> > > @@ -196,7 +196,7 @@ __v4l2_async_nf_add_i2c(struct v4l2_async_notifier *notifier,
+> > >  			unsigned int asd_struct_size);
+> > >  /**
+> > >   * v4l2_async_nf_add_i2c - Allocate and add an i2c async
+> > > - *				subdev to the notifier's master asd_list.
+> > > + *				subdev to the notifier's master asd_entry.
+> 
+> Same here.
 
-Where do you have a reference to pin P43_0 in your DT?
-The last versions you posted did not have any pinctrl properties?
+There were six instances of this, I think I've renamed them all by mistake.
 
-v6: https://lore.kernel.org/linux-renesas-soc/20230602142426.438375-5-biju.das.jz@bp.renesas.com
-v5: https://lore.kernel.org/linux-renesas-soc/20230522101849.297499-12-biju.das.jz@bp.renesas.com
-
-Gr{oetje,eeting}s,
-
-                        Geert
+Thanks for spotting this.
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Sakari Ailus
