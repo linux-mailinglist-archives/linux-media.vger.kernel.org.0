@@ -2,127 +2,259 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F0D27303DF
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 17:29:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5E2B73041E
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 17:47:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236155AbjFNP30 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Jun 2023 11:29:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36192 "EHLO
+        id S244675AbjFNPrU convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 14 Jun 2023 11:47:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233272AbjFNP3Z (ORCPT
+        with ESMTP id S244998AbjFNPrH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Jun 2023 11:29:25 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 938FFC3;
-        Wed, 14 Jun 2023 08:29:24 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:c623::7a9])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id ECEB36606F4F;
-        Wed, 14 Jun 2023 16:29:21 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1686756563;
-        bh=EwpPaawJ0jLzVbGU6lbdNpBxv2dOVOqXbVeRLYmJrpM=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=SS6KFpNSUEQ21ypiewsTyRCcfKPYRTd9j+btkiu7fW2ZEtoPv3+Sw4tE3U1N4roxu
-         qknkA2tBaWdP/oRSaW4//b5aNlUCIF33YpyaYA2RarM3YrjN+vDjyc5WRP9sRop13M
-         vPo/8FIsNQbviU5npo5wU5WNZAN2kAmc6XsOKOmjY9IS0KzXwXjTm3ZdO2v61UpbCK
-         30J0OAnLOfZsNh8ha5BfnWBRMgnGtGHEvDAZPCx/k1mtDEuqfetVFw5H81X47zEY4Q
-         wTQ4BaPR11ZCqq5FdYXJMmHB9kLIbUF8B+aQoZvBm90HQYEUAWO+4CrbnmnUSyM/sT
-         erLZ8gjFCDSgw==
-Message-ID: <f4a218653814461f02b462ba34cf92682da26bc2.camel@collabora.com>
-Subject: Re: [PATCH 2/4] media: mediatek: vcodec: fix resource leaks in
- vdec_msg_queue_init()
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Dan Carpenter <dan.carpenter@linaro.org>,
-        Yunfei Dong <yunfei.dong@mediatek.com>
-Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, kernel-janitors@vger.kernel.org
-Date:   Wed, 14 Jun 2023 11:29:13 -0400
-In-Reply-To: <b8948d9a-65bc-4f3f-aa90-60addd064819@moroto.mountain>
-References: <b8948d9a-65bc-4f3f-aa90-60addd064819@moroto.mountain>
+        Wed, 14 Jun 2023 11:47:07 -0400
+Received: from irl.hu (irl.hu [95.85.9.111])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C77B270A
+        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 08:46:35 -0700 (PDT)
+Received: from [192.168.2.4] (softdnserr [::ffff:81.182.137.62])
+  (AUTH: CRAM-MD5 soyer@irl.hu, )
+  by irl.hu with ESMTPSA
+  id 000000000007144F.000000006489E0D9.003B4F34; Wed, 14 Jun 2023 17:46:33 +0200
+Message-ID: <3480de8b7cfd17dc93165d816fa624fdba75d0e6.camel@irl.hu>
+Subject: Re: [PATCH] media: uvcvideo: uvc_ctrl_get_rel_speed: use 0 as
+ default
+From:   Gergo Koteles <soyer@irl.hu>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Date:   Wed, 14 Jun 2023 17:46:22 +0200
+In-Reply-To: <CANiDSCupgF6m6T3R=w7BxqVe672cPHk05Yj0yqiW3hLp+GEkdw@mail.gmail.com>
+References: <eb4f7f29a94231c5fa404f7492dba8e7fd9fbb23.1686746422.git.soyer@irl.hu>
+         <CANiDSCsmKvOZFmcBCAtc8D971a=FvRcn_rJgO=omKrCR2fvNOA@mail.gmail.com>
+         <d50992e1f4709eb8f0a34120b70f2b02d3e655e5.camel@irl.hu>
+         <CANiDSCshBFwE+HDqgQ7tc33gNtUuowP5s+bprqxaAF6D6HBO_w@mail.gmail.com>
+         <CANiDSCt193avx+fKgujT7u-4hguEyq=kmfULG75F1LK=fjMLhA@mail.gmail.com>
+         <944fc6422e73a7b1334fdc1856bdf0480c7fc4e9.camel@irl.hu>
+         <CANiDSCupgF6m6T3R=w7BxqVe672cPHk05Yj0yqiW3hLp+GEkdw@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8BIT
 User-Agent: Evolution 3.48.3 (3.48.3-1.fc38) 
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Ricardo,
+On Wed, 2023-06-14 at 17:25 +0200, Ricardo Ribalda wrote:
+> On Wed, 14 Jun 2023 at 17:22, Gergo Koteles <soyer@irl.hu> wrote:
+> > 
+> > Hi Ricardo,
+> > On Wed, 2023-06-14 at 17:08 +0200, Ricardo Ribalda wrote:
+> > > On Wed, 14 Jun 2023 at 17:07, Ricardo Ribalda
+> > > <ribalda@chromium.org>
+> > > wrote:
+> > > > 
+> > > > Hi Soyer
+> > > > 
+> > > > 
+> > > > On Wed, 14 Jun 2023 at 16:59, soyer <soyer@irl.hu> wrote:
+> > > > > 
+> > > > > Hi Ricardo
+> > > > > 
+> > > > > On Wed, 2023-06-14 at 16:19 +0200, Ricardo Ribalda wrote:
+> > > > > > [Now in plain text mode]
+> > > > > > 
+> > > > > > Hi Gergo
+> > > > > > 
+> > > > > > Doesn't your patch affect pan and tilt for all the cameras,
+> > > > > > not
+> > > > > > only
+> > > > > > the BCC950?
+> > > > > > 
+> > > > > Yes, it affects all cameras that support
+> > > > > CT_PANTILT_RELATIVE_CONTROL.
+> > > > > 
+> > > > > > Also it seems that 1 means that device does not support
+> > > > > > programmable
+> > > > > > speed. Is that correct?
+> > > > > > 
+> > > > > > ```
+> > > > > > The bPanSpeed field is used to specify the speed of the
+> > > > > > movement for
+> > > > > > the Pan direction. A low
+> > > > > > number indicates a slow speed and a high number indicates a
+> > > > > > higher
+> > > > > > speed. The GET_MIN,
+> > > > > > GET_MAX and GET_RES requests are used to retrieve the range
+> > > > > > and
+> > > > > > resolution for this field.
+> > > > > > The GET_DEF request is used to retrieve the default value
+> > > > > > for
+> > > > > > this
+> > > > > > field. If the control does not
+> > > > > > support speed control for the Pan control, it will return
+> > > > > > the
+> > > > > > value 1
+> > > > > > in this field for all these
+> > > > > > requests.
+> > > > > > ```
+> > > > 
+> > > > It seems to me that the module is compliant to the standard. It
+> > > > returns 1 as GET_DEF because it does not support speed control.
+> > > > 
+> > > > Maybe you should ignore the speed control instead of changing
+> > > > its
+> > > > default value?
+> > > 
+> > > ( this is the standard I am refering to: 4.2.2.1.15 PanTilt
+> > > (Relative) Control
+> > > 
+> > >  
+> > > https://www.usb.org/document-library/video-class-v15-document-set 
+> > > )
+> > > > 
+> > > > 
+> > 
+> > It's a different API. V4L2 control values are not the same as the
+> > UVC
+> > standard control values.
+> 
+> What I am saying, is that if
+> CT_PANTILT_RELATIVE_CONTROL.bPanSpeed.GET_DEF is 1 you should not
+> create the mapping to
+> V4L2_CID_PAN_SPEED
+> 
+If I set V4L2_CID_PAN_SPEED to 1 (max), the BCC950 starts to move at
+maximum speed. This is what it should do according to description of
+the V4L2_CID_PAN_SPEED.
 
-Le mercredi 14 juin 2023 =C3=A0 16:06 +0300, Dan Carpenter a =C3=A9crit=C2=
-=A0:
-> If we encounter any error in the vdec_msg_queue_init() then we need
-> to set "msg_queue->wdma_addr.size =3D 0;".  Normally, this is done
-> inside the vdec_msg_queue_deinit() function.  However, if the
-> first call to allocate &msg_queue->wdma_addr fails, then the
-> vdec_msg_queue_deinit() function is a no-op.  For that situation, just
-> set the size to zero explicitly and return.
->=20
-> There were two other error paths which did not clean up before returning.
-> Change those error paths to goto mem_alloc_err.
->=20
-> Fixes: b199fe46f35c ("media: mtk-vcodec: Add msg queue feature for lat an=
-d core architecture")
-> Fixes: 2f5d0aef37c6 ("media: mediatek: vcodec: support stateless AV1 deco=
-der")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+My understanding is that, if the camera supports
+CT_PANTILT_RELATIVE_CONTROL there should be a V4L2_CID_PAN_SPEED.
+CT_PANTILT_RELATIVE_CONTROL.bPanSpeed.GET_DEF == 1 only says that only
+one speed is available not a range.
 
-This change looks good to me, thanks again for your work.
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-> ---
->  drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c b/dr=
-ivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
-> index 92ac82eb444e..be25d56712d8 100644
-> --- a/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
-> +++ b/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
-> @@ -307,6 +307,7 @@ int vdec_msg_queue_init(struct vdec_msg_queue *msg_qu=
-eue,
->  	err =3D mtk_vcodec_mem_alloc(ctx, &msg_queue->wdma_addr);
->  	if (err) {
->  		mtk_v4l2_err("failed to allocate wdma_addr buf");
-> +		msg_queue->wdma_addr.size =3D 0;
->  		return -ENOMEM;
->  	}
->  	msg_queue->wdma_rptr_addr =3D msg_queue->wdma_addr.dma_addr;
-> @@ -338,14 +339,14 @@ int vdec_msg_queue_init(struct vdec_msg_queue *msg_=
-queue,
->  			err =3D mtk_vcodec_mem_alloc(ctx, &lat_buf->rd_mv_addr);
->  			if (err) {
->  				mtk_v4l2_err("failed to allocate rd_mv_addr buf[%d]", i);
-> -				return -ENOMEM;
-> +				goto mem_alloc_err;
->  			}
-> =20
->  			lat_buf->tile_addr.size =3D VDEC_LAT_TILE_SZ;
->  			err =3D mtk_vcodec_mem_alloc(ctx, &lat_buf->tile_addr);
->  			if (err) {
->  				mtk_v4l2_err("failed to allocate tile_addr buf[%d]", i);
-> -				return -ENOMEM;
-> +				goto mem_alloc_err;
->  			}
->  		}
-> =20
+> > 
+> > Eg the V4L2_CID_PAN_SPEED control value calculated from
+> > CT_PANTILT_RELATIVE_CONTROL's bPanRelative and bPanSpeed value.
+> > 
+> > It only bothers me that I have to handle these two controls
+> > differently.
+> > 
+> > > > > > 
+> > > > > I started from the V4L2 control description.
+> > > > > 
+> > > > > V4L2_CID_PAN_SPEED (integer)
+> > > > > This control turns the camera horizontally at the specific
+> > > > > speed.
+> > > > > The
+> > > > > unit is undefined. A positive value moves the camera to the
+> > > > > right
+> > > > > (clockwise when viewed from above), a negative value to the
+> > > > > left.
+> > > > > A
+> > > > > value of zero stops the motion if one is in progress and has
+> > > > > no
+> > > > > effect
+> > > > > otherwise.
+> > > > > 
+> > > > > And this is why I thought that 1 is not a good default value,
+> > > > > because
+> > > > > it moves the camera.
+> > > > > The other V4L2 controls have a default value that I can
+> > > > > safely
+> > > > > set the
+> > > > > controls to.
+> > > > > 
+> > > > > Are you using it to determine if the camera supports speed
+> > > > > control?
+> > > > > 
+> > > > > > When you program that value do you see any difference on
+> > > > > > the
+> > > > > > device?
+> > > > > > What is max, min and res?
+> > > > > > 
+> > > > > 
+> > > > > No, it works the same way.
+> > > > > Only the default value changes (from 1 to 0)
+> > > > > 
+> > > > >  pan_speed 0x009a0920 (int)    : min=-1 max=1 step=1
+> > > > > default=0
+> > > > > value=0
+> > > > > tilt_speed 0x009a0921 (int)    : min=-1 max=1 step=1
+> > > > > default=0
+> > > > > value=0
+> > > > > 
+> > > > > 
+> > > > > 
+> > > > > > 
+> > > > > > Thanks!
+> > > > > > 
+> > > > > > Regards!
+> > > > > > 
+> > > > > > 
+> > > > > 
+> > > > > Thanks,
+> > > > > Gergo
+> > > > > 
+> > > > > > On Wed, 14 Jun 2023 at 15:13, Gergo Koteles <soyer@irl.hu>
+> > > > > > wrote:
+> > > > > > > 
+> > > > > > > The Logitech BCC950 incorrectly reports 1 (the max value)
+> > > > > > > for the default values of V4L2_CID_PAN_SPEED,
+> > > > > > > V4L2_CID_TILT_SPEED.
+> > > > > > > 
+> > > > > > > This patch sets them to 0, which is the stop value.
+> > > > > > > 
+> > > > > > > Previous discussion
+> > > > > > > Link:
+> > > > > > > https://lore.kernel.org/all/CAP_ceTy6XVmvTTAmvCp1YU2wxHwXqnarm69Yaz8K4FmpJqYxAg@mail.gmail.com/
+> > > > > > > 
+> > > > > > > Signed-off-by: Gergo Koteles <soyer@irl.hu>
+> > > > > > > ---
+> > > > > > >  drivers/media/usb/uvc/uvc_ctrl.c | 3 ++-
+> > > > > > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > > > > > > 
+> > > > > > > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c
+> > > > > > > b/drivers/media/usb/uvc/uvc_ctrl.c
+> > > > > > > index 5e9d3da862dd..e131958c0930 100644
+> > > > > > > --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> > > > > > > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> > > > > > > @@ -444,9 +444,10 @@ static s32
+> > > > > > > uvc_ctrl_get_rel_speed(struct
+> > > > > > > uvc_control_mapping *mapping,
+> > > > > > >                 return -data[first+1];
+> > > > > > >         case UVC_GET_MAX:
+> > > > > > >         case UVC_GET_RES:
+> > > > > > > +               return data[first+1];
+> > > > > > >         case UVC_GET_DEF:
+> > > > > > >         default:
+> > > > > > > -               return data[first+1];
+> > > > > > > +               return 0;
+> > > > > > >         }
+> > > > > > >  }
+> > > > > > > 
+> > > > > > > 
+> > > > > > > base-commit: be9aac187433af6abba5fcc2e73d91d0794ba360
+> > > > > > > --
+> > > > > > > 2.40.1
+> > > > > > > 
+> > > > > > 
+> > > > > > 
+> > > > > 
+> > > > 
+> > > > 
+> > > > --
+> > > > Ricardo Ribalda
+> > > 
+> > > 
+> > > 
+> > 
+> 
+> 
 
