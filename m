@@ -2,228 +2,401 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E4AE372F7AE
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 10:21:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3C1572F8A9
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 11:06:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243395AbjFNIVt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Jun 2023 04:21:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51720 "EHLO
+        id S243904AbjFNJGa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Jun 2023 05:06:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234114AbjFNIVq (ORCPT
+        with ESMTP id S243481AbjFNJGZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Jun 2023 04:21:46 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2093.outbound.protection.outlook.com [40.107.113.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A5FCCA;
-        Wed, 14 Jun 2023 01:21:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jd5+/DYruh83ds37CY9mwM4p45rRls8yAG4hSKQzG8QWpKeOqJyqxvob+QI835Muq33xVz5gBJGM+xRCdFjjT0wKI/ftla6s70B+o12vcZZBME9yzs0mDHmzhkJL8ZcJJ/Gq669pbKJBTYb2G/7ab0QUykbq47u1GEOOYhLiDvS/AxCCM+rHoXzT66SVrIOVJHg3Mpg+TsNADAtreuD/5WbMT5N9g6CFYjCHpp98uMeTh/+9XrRanLbF7WEvpZEl01glNvMG37Tfm2lv5RtrkO2so7yVKqZ/2Zi029JT4CILlxQU24cUqdNbbAEd2Y2NbyZm0mulU0Oth0TEe8DjyA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=huFXzedHiWbpvRUjmybKB9z89Nhvw5v2A5QXf5JO0iM=;
- b=O4DxSNNKqFp6fgmqX8d4xrDdUexp3a7whPFVOnMK3DrEGSahOtf4M2EYRcN0B+C3RAI+a5EPgagspeEpMOlKqzYmk1Rrcx6RdXKRhmnLAdoPAmfY2uN4YMOM2ih2eabkl5+cAN9Pttk6rwEUGZSd2iSjGuKHNXRR3gejGcQ3HMAvG3/JTsxqSxOUbMv6NqmhL46i7mpkqqvDaHtvYRRLx5FRiN3lTWqCqVKEHjhdmwnX8bF5JX0lyVt1JwQatOMubl7bfeMlmtpJamKGKWGrZAJ7lG5uYjcjRmhXjwdRy2ify9qN5c7fMEDWZh04yhKrhACOhkkLcdMUwTFJyowZkA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=huFXzedHiWbpvRUjmybKB9z89Nhvw5v2A5QXf5JO0iM=;
- b=h+fw7gyTMH0e5C2hVdMSi30Z/Y5ZQsLJkmaHblgPsrhEelDdCgg+S2SIL2iah1ETpzFAa2f2Z9H6vB0OLBr0I0lU2RhBZjZvGMvfCtr7LuvNYxICMLG6+03vKhSKzsCsJjLa1AxcCTWf9jGvxDVvkzvvjSr9UWe6LRDYx5IVUQ0=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TYYPR01MB10611.jpnprd01.prod.outlook.com (2603:1096:400:30b::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.26; Wed, 14 Jun
- 2023 08:21:38 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::bd0a:a38d:b4d2:5d2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::bd0a:a38d:b4d2:5d2%6]) with mapi id 15.20.6455.047; Wed, 14 Jun 2023
- 08:21:38 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Wolfram Sang <wsa@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Mark Brown <broonie@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        =?utf-8?B?VXdlIEtsZWluZS1Lw7ZuaWc=?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Corey Minyard <cminyard@mvista.com>,
-        =?utf-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
-        Antonio Borneo <antonio.borneo@foss.st.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Thread-Topic: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Thread-Index: AQHZjJbXGsyu+Gf1qUyolpKmZgFmTa9w75gAgAALD6CAAyijgIAAQNsAgAq9ooCAACGi4IABRk1QgABIHYCAAALdsIAAIbGAgAAAqmCABhKw0IAAMfIAgAADgjKAAAM7gIAAgX6AgACwEcCAAD30wIAAjmJQgADWpQCAAAETwA==
-Date:   Wed, 14 Jun 2023 08:21:38 +0000
-Message-ID: <OS0PR01MB59225C45554667D342454923865AA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <OS0PR01MB5922ECEABE4D6FC385D184008650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB592265BFDF18F860E1EB4CFE8654A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <ZIcRKl3PDy0+yZS9@ninjato>
- <CAMuHMdV_iwdP+K1us86OB4VtDDqA=P_vNeCP15kqRuXqcYr3hg@mail.gmail.com>
- <ZIcUEdctlgRsGxJ3@ninjato>
- <CAMuHMdVOkBeKOEW9PkWB3Tqwa6-rC3BQj=W9VAEgeZfgqvQmWQ@mail.gmail.com>
- <ZIeDcVcfxfcMx/BP@shikoro>
- <OS0PR01MB592220CCA081848A711D75328655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB592210CE54A9CF953980DFEE8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB59220D794AED55A6B795C3EF8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230614081314.GD17519@pendragon.ideasonboard.com>
-In-Reply-To: <20230614081314.GD17519@pendragon.ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYYPR01MB10611:EE_
-x-ms-office365-filtering-correlation-id: 406f005a-de4f-4311-2518-08db6cb05fe6
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Uvj3SRH49KIYmCXZQ3H/lfJJ9OQsbVcha6ioaMOkNJLOFwQIoiWnqmSQsBwjlOeVYd+g5baz8mCujB42nlr7G4ZLeJQ2+9sWoF1KwhWZVn6+OZV5J1MGT1FEREGf4mT1N300iLd01gATC0xrG9O7RPya1V2YM98FHAe56QMeTXhszp59wjQN8SUDa24qFT7Occqoh//LG7KIyyl3vj84ktlzY8S+ROGjyfrXqXran/CiI2n47KnoMCNcxdGiDVokZJeQ1JJK4oKXtpgGJcvOOMPiivL/H+wk9733tE24XAiT3WRqrQTYmm6KK57EubYM8sWv4NWDBHZBKKiPEgEms9MMK9/vyMAAwfK5Kr0rt7KoXoNULJuQSeWRa525YC33BZCfN4MutCEx1yl2dt7j1IzH/iqxvirY3UF/DE5QMcU5Ml/CWdBujaDIM1UYfwMTcsyWhf7SKAhdUEJ/1YJrpEy1kEZVs7cBIpavpZFT03f09KrLFnxDn2Ah0UvcwxvhJEc5BjX0nELQUIojnArW35pHb6vWA/lAJDMYJrjTmgaCe8xFgJjLMcVYD27Mc2ekYcEjjYt7Ke11BErhK1Dy3WR7/b1GTqYHNibbTbOquEUft2ZtKrerB9gdGHeKbCSJ
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(376002)(366004)(396003)(39860400002)(136003)(451199021)(7406005)(7416002)(4326008)(66556008)(66446008)(52536014)(6916009)(5660300002)(8936002)(41300700001)(2906002)(316002)(66946007)(76116006)(54906003)(8676002)(66476007)(83380400001)(6506007)(9686003)(64756008)(186003)(26005)(86362001)(38070700005)(122000001)(478600001)(7696005)(71200400001)(55016003)(38100700002)(33656002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SlYvRnhYQ3lVczIvWmxjT2ZLdkF5d29mZm1MbWIzRmZ5ZGRHQ21kbnJmOTZt?=
- =?utf-8?B?cnNBdjVpbHJyTDJpQTljWFJSWjJiYS9HY2VUOWVkR3R0RzJsU21QVXBBNjF1?=
- =?utf-8?B?cDNSVXFyUWZRd2YxWDFvSnJIWngrUzF2dmMwSC9Gc0huUlV6aGp3RDBWdm9Y?=
- =?utf-8?B?RU1jQVJKOE03Skp1emRvdk1EU081VXg4UGJuTU84eWFJV0wrUmVzTVhIVDdr?=
- =?utf-8?B?cUo2RDhBUGFtVHA1UFRnT0s4dFNjeHNGNTFBQmhVYUhXSEZtVkhoY042ZUdQ?=
- =?utf-8?B?SzRBYWh3L0M3Z0YyWnlxcDM2S0MwTHZUUklpRnV2MTVUZlBCM0p4NDVrdHhI?=
- =?utf-8?B?VmVlVXRldmNMeHhIbDdhc3o2TVV2RFU4Y0tWM3BnRldvMGg0RVZyV2pQWU43?=
- =?utf-8?B?M3ZJUit6ZlZKL085RTdaMmdFQUV2MUNBQTA3ZmNSSHUyVWFhbGFsK282eEJj?=
- =?utf-8?B?aklMUjQ4MkNsQ2Y4YzhhL01JZzFHbktwRHY0b2w1YkdLMTBuSlNERXl3RTNH?=
- =?utf-8?B?bko1YXl2STdpRzl4MVc5cnN3S0U1NVkxdVltd1BMRVdxM3FiTXdkYXpGcStu?=
- =?utf-8?B?eGU3dmE4N1A3YlhmU0NVZlBJZnp6UzFpak43aHJ4NXA3WTVQQTg3cGszOVVw?=
- =?utf-8?B?aDZJdEV4eS9EUE5CYkxCRm5qd2ZoMlZISzJjLzgxWUh0ZHV3V0NETlRETUpy?=
- =?utf-8?B?OVVTYXhiSkxyb3FvTWZIcENhTC9xdHM3UmZFRmQxU3VuOFRYZ3ExQmZiWlJE?=
- =?utf-8?B?eXlCdFlienJoZXQzaDdZSzhNelpySG1Xb2ltam40MGlvejZmWlRNamdXaXBT?=
- =?utf-8?B?b3NQQXNvWjZ1Zk05ZUl4K0MvUzN1dmtBaytPdW1id3p5L0RtZ0JyMEhnM3ZY?=
- =?utf-8?B?czdZY1c5VlA3UU8zZ3E0ellEaWdpeXh1Z3kyeWk4ZU5Cc2VTL1pXL2lEWFZ6?=
- =?utf-8?B?NEEzNnhsdkx0K2VkMjhRUFJiejBvMk1NeEFMNjNrNTVBaTVnYUNCZHEybHpz?=
- =?utf-8?B?RkdVRjVlSVREZEZEU2JsVkUzTVFqSnY3NW15SDdQc2UwZDRGWVd2TEg3Ykpm?=
- =?utf-8?B?QlNHRmVKQ2EvOG10ZVRWZWVUU1U2K1Jlb3gyTmJpZTh3TFFYdC8wcHNsQ0VI?=
- =?utf-8?B?dzN3UTRPSUphS1RMTnF6S2htSEV4WExEZjFvT3lTV3B2d2p6c1UyR3BnZ0lC?=
- =?utf-8?B?eXVLTTZaUHIzQXU4MUJZcm55U0JWSE5LS0tQMEhCWnYzNS8wYVVtTXJ2VUtY?=
- =?utf-8?B?dUlvZ0hFRDNydGVtMHVnbmZHY3JzV2NoRC9SMlhFRWlsSVoxdHFzeThlcnR1?=
- =?utf-8?B?akpJdFpDeDBXVG44VUVlRzVWcXA5RzhxNndRbkpSZHNTMk13LzR5eTUrUDFj?=
- =?utf-8?B?b2dRRTJEZW9CRUhhMlVhL3BQclBiYllieEZWUlFGam9LTWJqQnJQNTU2OTRL?=
- =?utf-8?B?U0RzSUxZL2grU1ZncUFieUwwQ0R5YjZHNjUvaVZTVmRBWE5tKy8ybTQ3M1FB?=
- =?utf-8?B?U2tiMk53Q2xsdEk0a3RtK3ZNYVZ3WHlndkV4dlJxVjJnV2xZRHlBbmV4MG1z?=
- =?utf-8?B?Y2tBelhmK1h3UFgwaFZ3REVoUGVySzh4Z0xoMlNhSndSbE5NQkowelNPK2dV?=
- =?utf-8?B?Z0RXTi95K1doR3VCNG1ualdXRjY5T3VJQm9KcWQ1UktWaU5UVEI0RWpWZnha?=
- =?utf-8?B?cDZuVDVsdmdwUEtmaXV5dWZ6T1Q4S0g3QU0rUzNwOXIwYXNFZnM0MThPNnhk?=
- =?utf-8?B?M0pIMkpXWkgySXFSSWR3VEIvSEJ1cFdTNlhJRU1YRERZOWczR1Z5RjFqdXB6?=
- =?utf-8?B?eWNwRUxYdXpDUC9OZzF3TkhpYU5lUnlaMHJUMzdkRDZrUVdsMmU3MkwvOWxm?=
- =?utf-8?B?SFZVY0hIbTBTbnZqUXc2aWpZVFM3RGRlTnRJVjR2TnJ1YUwrZnFXUjZNclFl?=
- =?utf-8?B?NWcxTjVMc3pWNmQxbmZQYU4vYzMySDFka1luMmZGaEhUV0FWSVVvTXU2aFRN?=
- =?utf-8?B?NFFKRFJ6WitrU2o1c2F0S09FMnRBdzBBWWMwMVJOM1JMLzExUEhRbXpudmNQ?=
- =?utf-8?B?b1ZHb0RCcHFDMzBQOEozNnFIRXVZNEhnSHpvczdrVGx4ejg3MUNDTkxFcWpa?=
- =?utf-8?Q?vW7RBd2bqA1mhvx3r9VmcqX01?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Wed, 14 Jun 2023 05:06:25 -0400
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABEBD18E;
+        Wed, 14 Jun 2023 02:06:23 -0700 (PDT)
+Received: by mail-oi1-x22c.google.com with SMTP id 5614622812f47-39c84863e34so4223585b6e.2;
+        Wed, 14 Jun 2023 02:06:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686733583; x=1689325583;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rpf/c1t6o3Hw7meKS/h6iHKg1wRkg37xxJhrObhVtHc=;
+        b=UFDUsjZ/JriIMVrnc8iaybpF3rZQTOTlxzkkqPT9oxey3yiiiriYfzOUerZYvE5Acb
+         Y7JmtzUsBxe+xDlUFPaXTx7yxGnFIE1ZLIhi0cYS8IRaZWPa9pkXJUrwKJIzOUKuwkAz
+         A1lSZ/+lZOvu4ESFKV9jcvRusjgIqjPpGTzvw5CWB7i0NWeLfwZXSBLFjKAqlduXIjmY
+         oo4AYk4YZurwJV6594o9mvJGvuxqKoFNZf+SzPIXj0u5s2d/0uS25YU4V4tV/Fuj4Jt/
+         6iqmf/CMwOi5Zw71ds+M0s65GxRG4n1TlHMcfPtV8Zcn58qSlfoGyXFFsZtUrFKDzDdz
+         be8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686733583; x=1689325583;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rpf/c1t6o3Hw7meKS/h6iHKg1wRkg37xxJhrObhVtHc=;
+        b=h0GGZNun5qA0uvxD0Hx+7UBeAfAeLVwafPf/FDqbZw6eBCBrccQuw+3KvXYFukK+St
+         aSz4OQLStOPcYCSwIhfbYU0ZigsPG+tIaqRKP6CENY3wKo/c8xXZO4RxhXRJ1QOoxJqO
+         Lqgk2/FxNaYD/pt4XdP4qrBXAD+qG+fKCYFurmZiXiC/sVNRCAL2bQqXL3p6a+Yt6yMA
+         rG21yjIEZwvNmFFRbJOHFx3BEQLxmvKILwOQ8ERzTpGZYOv2zOhSzmBfKqP5eS+g6up4
+         rXhHrfLDFpLoWnYJEhY5HsVVY23Mi+lT/OpP2oOA/bb04TCBJvS5D7n06pxAVosRydk3
+         ZeHg==
+X-Gm-Message-State: AC+VfDyERzVVyAs0ES9AA+mWWPhp1LsDsCoaY698jR5JqN4zIirnA7zg
+        nNysLxgg+D6YeftEOFIe1tjSrm6ufeAnPRE2bCZlHqPI
+X-Google-Smtp-Source: ACHHUZ6gOHcmHU20mra79pm0AbI6QFq0Sji9ykSi1f11kxR0DPGuVmZtS4qH8jIskRmsGJQXwjtoF7QtKQJF0ynBGws=
+X-Received: by 2002:a05:6808:1403:b0:39a:b35b:a06c with SMTP id
+ w3-20020a056808140300b0039ab35ba06cmr11749445oiv.30.1686733582830; Wed, 14
+ Jun 2023 02:06:22 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 406f005a-de4f-4311-2518-08db6cb05fe6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jun 2023 08:21:38.1951
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7HHBE1cwTdGlt+bgiIvIthis1YkkpotQQ2gCEfjJkn+6son3cYso8/m+MmWWHa26sZ45CrKYa7PJ5bG9gLoWP2y8E6LQsgd4RDsrcVjA2kA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB10611
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20230523101637.3009746-1-AVKrasnov@sberdevices.ru> <20230612185354.09b88e0d@xps-13>
+In-Reply-To: <20230612185354.09b88e0d@xps-13>
+From:   liao jaime <jaimeliao.tw@gmail.com>
+Date:   Wed, 14 Jun 2023 17:06:16 +0800
+Message-ID: <CAAQoYR=aU-tpFYhfKUae=2zbvpzmP3_d4PYp_252qxSsPcVbaQ@mail.gmail.com>
+Subject: Re: [PATCH v4] mtd: rawnand: macronix: OTP access for MX30LFxG18AC
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     Arseniy Krasnov <AVKrasnov@sberdevices.ru>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        oxffffaa@gmail.com, kernel@sberdevices.ru,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Jaime Liao <jaimeliao@mxic.com.tw>,
+        Mason Yang <masonccyang@mxic.com.tw>,
+        linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgTGF1cmVudCwNCg0KVGhhbmtzIGZvciB0aGUgZmVlZGJhY2suDQoNCj4gU3ViamVjdDogUmU6
-IFtQQVRDSCB2NSAwMS8xMV0gaTJjOiBFbmhhbmNlIGkyY19uZXdfYW5jaWxsYXJ5X2RldmljZSBB
-UEkNCj4gDQo+IE9uIFR1ZSwgSnVuIDEzLCAyMDIzIGF0IDA3OjMxOjQ2UE0gKzAwMDAsIEJpanUg
-RGFzIHdyb3RlOg0KPiA+ID4gU3ViamVjdDogUkU6IFtQQVRDSCB2NSAwMS8xMV0gaTJjOiBFbmhh
-bmNlIGkyY19uZXdfYW5jaWxsYXJ5X2RldmljZQ0KPiA+ID4gQVBJDQo+ID4gPiA+IFN1YmplY3Q6
-IFJFOiBbUEFUQ0ggdjUgMDEvMTFdIGkyYzogRW5oYW5jZQ0KPiA+ID4gPiBpMmNfbmV3X2FuY2ls
-bGFyeV9kZXZpY2UgQVBJDQo+ID4gPiA+ID4gU3ViamVjdDogUmU6IFtQQVRDSCB2NSAwMS8xMV0g
-aTJjOiBFbmhhbmNlDQo+ID4gPiA+ID4gaTJjX25ld19hbmNpbGxhcnlfZGV2aWNlIEFQSQ0KPiA+
-ID4gPiA+DQo+ID4gPiA+ID4gSGkgZXZlcnlvbmUsDQo+ID4gPiA+ID4NCj4gPiA+ID4gPiA+IFBl
-cmhhcHMgd2Ugc2hvdWxkIGZpcnN0IHRoaW5rIHRocm91Z2ggd2hhdCBhbiBhbmNpbGxhcnkgZGV2
-aWNlDQo+ID4gPiA+ID4gPiByZWFsbHkgaXMuICBNeSB1bmRlcnN0YW5kaW5nIGlzIHRoYXQgaXQg
-aXMgdXNlZCB0byB0YWxrIHRvDQo+ID4gPiA+ID4gPiBzZWNvbmRhcnkgYWRkcmVzc2VzIG9mIGEg
-bXVsdGktYWRkcmVzcyBJMkMgc2xhdmUgZGV2aWNlLg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gQXMg
-SSBtZW50aW9uZWQgc29tZXdoZXJlIGJlZm9yZSwgdGhpcyBpcyBub3QgdGhlIGNhc2UuIEFuY2ls
-bGFyeQ0KPiA+ID4gPiA+IGRldmljZXMgYXJlIHdoZW4gb25lICpkcml2ZXIqIGhhbmRsZXMgbW9y
-ZSB0aGFuIG9uZSBhZGRyZXNzLg0KPiA+ID4gPiA+IEV2ZXJ5dGhpbmcgZWxzZSBoYXMgYmVlbiBo
-YW5kbGVkIGRpZmZlcmVudGx5IGluIHRoZSBwYXN0IChmb3INCj4gPiA+ID4gPiBhbGwgdGhlIHVz
-ZXMgSSBhbSBhd2FyZSBvZikuDQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBZZXQsIEkgaGF2ZSBhbm90
-aGVyIGlkZWEgd2hpY2ggaXMgc28gc2ltcGxlIHRoYXQgSSB3b25kZXIgaWYgaXQNCj4gPiA+ID4g
-PiBtYXliZSBoYXMgYWxyZWFkeSBiZWVuIGRpc2N1c3NlZCBzbyBmYXI/DQo+ID4gPiA+ID4NCj4g
-PiA+ID4gPiAqIGhhdmUgdHdvIHJlZ3MgaW4gdGhlIGJpbmRpbmdzDQo+ID4gPiA+DQo+ID4gPiA+
-IE9LLCBpdCBpcyBpbmxpbmUgd2l0aCBEVCBtYWludGFpbmVycyBleHBlY3RhdGlvbiBhcyBpdCBp
-cyBtYXRjaGluZw0KPiA+ID4gPiB3aXRoIHJlYWwgaHcgYXMgc2luZ2xlIGRldmljZSBub2RlIGhh
-dmluZyB0d28gcmVncy4NCj4gPiA+ID4NCj4gPiA+ID4gPiAqIHVzZSB0aGUgc2Vjb25kIHJlZyB3
-aXRoIGkyY19uZXdfY2xpZW50X2RldmljZSB0byBpbnN0YW50aWF0ZSB0aGUNCj4gPiA+ID4gPiAg
-IFJUQyBzaWJsaW5nLiAnc3RydWN0IGkyY19ib2FyZF9pbmZvJywgd2hpY2ggaXMgb25lIHBhcmFt
-ZXRlciwNCj4gc2hvdWxkDQo+ID4gPiA+ID4gICBoYXZlIGVub3VnaCBvcHRpb25zIHRvIHBhc3Mg
-ZGF0YSwgZS5nIGl0IGhhcyBhIHNvZnR3YXJlX25vZGUuDQo+ID4gPiA+DQo+ID4gPiA+IE9LLCBJ
-IGNhbiBzZWUgdGhlIGJlbG93IGNhbiBiZSBwYXNzZWQgZnJvbSBQTUlDIHRvIG5ldyBjbGllbnQN
-Cj4gZGV2aWNlLg0KPiA+ID4gPg0KPiA+ID4gPiAJY2xpZW50LT5hZGRyID0gaW5mby0+YWRkcjsN
-Cj4gPiA+ID4NCj4gPiA+ID4gCWNsaWVudC0+aW5pdF9pcnEgPSBpbmZvLT5pcnE7DQo+ID4gPiA+
-DQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBTaG91bGQgd29yayBvciBkaWQgSSBtaXNzIHNvbWV0aGlu
-ZyBoZXJlPw0KPiA+ID4gPg0KPiA+ID4gPiBJIGd1ZXNzIGl0IHdpbGwgd29yay4gV2UgaW5zdGFu
-dGlhdGUgYXBwcm9wcmlhdGUgZGV2aWNlIGJhc2VkIE9uDQo+ID4gPiA+IFBNSUMgcmV2aXNpb24g
-YW5kIHNsYXZlIGFkZHJlc3MgYW5kIElSUSByZXNvdXJjZSBwYXNzZWQgdGhyb3VnaA0KPiA+ID4g
-PiAnc3RydWN0IGkyY19ib2FyZF9pbmZvJw0KPiA+ID4gPg0KPiA+ID4gPiBXaWxsIGNoZWNrIHRo
-aXMgYW5kIHVwZGF0ZSB5b3UuDQo+ID4gPg0KPiA+ID4gaW5mby5pcnEgPSBpcnE7IC0tPklycSBm
-aW5lDQo+ID4gPiBpbmZvLmFkZHIgPSBhZGRyOyAtLT5zbGF2ZSBhZGRyZXNzIGZpbmUgc2l6ZSA9
-IHN0cnNjcHkoaW5mby50eXBlLA0KPiA+ID4gbmFtZSwgc2l6ZW9mKGluZm8udHlwZSkpOyAtLT5p
-bnN0YW50aWF0aW9uIGJhc2VkIG9uIFBNSUMgdmVyc2lvbg0KPiA+ID4gZmluZS4NCj4gPiA+DQo+
-ID4gPiAxKSBIb3cgZG8gd2Ugc2hhcmUgY2xrIGRldGFpbHMgb24gaW5zdGFudGlhdGVkIGRldmlj
-ZSB0byBmaW5kIGlzIGl0DQo+ID4gPiBjb25uZWN0ZWQgdG8gZXh0ZXJuYWwgY3J5c3RhbCBvciBl
-eHRlcm5hbCBjbG9jayBzb3VyY2U/IGFzIHdlIGNhbm5vdA0KPiA+ID4gcGFzcyBvZl9ub2RlIGJl
-dHdlZW4gUE1JQyBhbmQgImkyY19ib2FyZF9pbmZvIiBhcyBpdCByZXN1bHRzIGluDQo+ID4gPiBw
-aW5jdHJsIGZhaWx1cmUuIGluZm8tPnBsYXRmb3JtZGF0YSBhbmQNCj4gPiA+IENsaWVudC0+ZGV2
-LnBsYXRmb3JtZGF0YSB0byByZXRyaWV2ZSB0aGlzIGluZm8/Pw0KPiA+DQo+ID4gT3INCj4gPg0K
-PiA+IEkyQyBpbnN0YW50aWF0aW9uIGJhc2VkIG9uIGFjdHVhbCBvc2NpbGxhdG9yIGJpdCB2YWx1
-ZSwgaWUsIHR3bw0KPiA+IGkyY19kZXZpY2VfaWQncyB3aXRoIG9uZSBmb3Igc2V0dGluZyBvc2Np
-bGxhdG9yIGJpdCBhbmQgYW5vdGhlciBmb3INCj4gPiBjbGVhcmluZyBvc2NpbGxhdG9yIGJpdA0K
-PiA+DQo+ID4gUE1JQyBkcml2ZXIgcGFyc2VzIHRoZSBjbG9jayBkZXRhaWxzLiBCYXNlZCBvbiBm
-aXJtd2FyZSB2ZXJzaW9uIGFuZA0KPiA+IGNsb2NrLCBJdCBpbnN0YW50aWF0ZXMgZWl0aGVyIGky
-Y19kZXZpY2VfaWQgd2l0aCBzZXR0aW5nIG9zY2lsbGF0b3INCj4gPiBiaXQgb3IgY2xlYXJpbmcg
-b3NjaWxsYXRvciBiaXQuDQo+IA0KPiBJIGRvbid0IGxpa2UgdGhhdCBoYWNrLiBJIHN0aWxsIHRo
-aW5rIHRoYXQgdHdvIERUIG5vZGVzIGlzIHRoZSBiZXN0DQo+IG9wdGlvbiwgSSB0aGluayB5b3Un
-cmUgdHJ5aW5nIGhhcmQgdG8gaGFjayBhcm91bmQgYSBwcm9ibGVtIHRoYXQgaXMNCj4gYWN0dWFs
-bHkgbm90IGEgcHJvYmxlbS4NCg0KV2h5IGRvIHlvdSB0aGluayBpdCBpcyBhIGhhY2s/IEkgYmVs
-aWV2ZSByYXRoZXIgaXQgaXMgYWN0dWFsIHNvbHV0aW9uDQoNClBNSUMgaXMgYSBzaW5nbGUgZGV2
-aWNlLCB3aXRoIDIgcmVncywgY2xvY2tzLCBwaW5jdHJsIGFuZCBJUlEgcHJvcGVydGllcy4NClNv
-IGl0IHdpbGwgYmUgcmVwcmVzZW50ZWQgYXMgc2luZ2xlIG5vZGUgd2l0aCBzaW5nbGUgY29tcGF0
-aWJsZS4NCg0KQnkgaW5zdGF0aW5nIGEgY2xpZW50IGRldmljZSwgd2UgYXJlIHNoYXJpbmcgdGhl
-IHJlbGV2YW50IHJlc291cmNlcyB0byBSVEMgZGV2aWNlIGRyaXZlci4NCg0KQ2hlZXJzLA0KQmlq
-dQ0KDQoNCg==
+Hi Miquel
+
+
+>
+> Hello,
+>
+> AVKrasnov@sberdevices.ru wrote on Tue, 23 May 2023 13:16:34 +0300:
+>
+> > This adds support for OTP area access on MX30LFxG18AC chip series.
+>
+> Jaime, any feedback on this? Will you test it?
+>
+> How are we supposed to test the OTP is locked? I see this is still an
+> open point.
+After checking with internal, sub feature parameter are volatile register.
+
+It could be change after enter/exit OTP region or power cycle even OTP
+
+region have been locked.
+
+OTP operation mode still could be enter/exit and region is read only
+after OTP in protect mode.
+
+#program command could execute but no use after setting OTP region in
+protect mode.
+
+So that we can't check whether OTP region is locked via get feature.
+
+And we don't have region for checking status of OTP locked.
+
+>
+> >
+> > Signed-off-by: Arseniy Krasnov <AVKrasnov@sberdevices.ru>
+> > ---
+> >   v1 -> v2:
+> >   * Add slab.h include due to kernel test robot error.
+> >   v2 -> v3:
+> >   * Use 'uint64_t' as input argument for 'do_div()' instead
+> >     of 'unsigned long' due to kernel test robot error.
+> >   v3 -> v4:
+> >   * Use 'dev_err()' instead of 'WARN()'.
+> >   * Call 'match_string()' before checking 'supports_set_get_features'
+> >     in 'macronix_nand_setup_otp().
+> >   * Use 'u8' instead of 'uint8_t' as ./checkpatch.pl wants.
+> >
+> >  drivers/mtd/nand/raw/nand_macronix.c | 216 +++++++++++++++++++++++++++
+> >  1 file changed, 216 insertions(+)
+> >
+> > diff --git a/drivers/mtd/nand/raw/nand_macronix.c b/drivers/mtd/nand/ra=
+w/nand_macronix.c
+> > index 1472f925f386..be1ffa93bebb 100644
+> > --- a/drivers/mtd/nand/raw/nand_macronix.c
+> > +++ b/drivers/mtd/nand/raw/nand_macronix.c
+> > @@ -6,6 +6,7 @@
+> >   * Author: Boris Brezillon <boris.brezillon@free-electrons.com>
+> >   */
+> >
+> > +#include <linux/slab.h>
+> >  #include "linux/delay.h"
+> >  #include "internals.h"
+> >
+> > @@ -31,6 +32,20 @@
+> >
+> >  #define MXIC_CMD_POWER_DOWN 0xB9
+> >
+> > +#define ONFI_FEATURE_ADDR_30LFXG18AC_OTP     0x90
+> > +#define MACRONIX_30LFXG18AC_OTP_START_PAGE   0
+> > +#define MACRONIX_30LFXG18AC_OTP_PAGES                30
+> > +#define MACRONIX_30LFXG18AC_OTP_PAGE_SIZE    2112
+> > +#define MACRONIX_30LFXG18AC_OTP_START_BYTE   \
+> > +     (MACRONIX_30LFXG18AC_OTP_START_PAGE *   \
+> > +      MACRONIX_30LFXG18AC_OTP_PAGE_SIZE)
+> > +#define MACRONIX_30LFXG18AC_OTP_SIZE_BYTES   \
+> > +     (MACRONIX_30LFXG18AC_OTP_PAGES *        \
+> > +      MACRONIX_30LFXG18AC_OTP_PAGE_SIZE)
+> > +
+> > +#define MACRONIX_30LFXG18AC_OTP_EN           BIT(0)
+> > +#define MACRONIX_30LFXG18AC_OTP_LOCKED               BIT(1)
+> > +
+> >  struct nand_onfi_vendor_macronix {
+> >       u8 reserved;
+> >       u8 reliability_func;
+> > @@ -316,6 +331,206 @@ static void macronix_nand_deep_power_down_support=
+(struct nand_chip *chip)
+> >       chip->ops.resume =3D mxic_nand_resume;
+> >  }
+> >
+> > +static int macronix_30lfxg18ac_get_otp_info(struct mtd_info *mtd, size=
+_t len,
+> > +                                         size_t *retlen,
+> > +                                         struct otp_info *buf)
+> > +{
+> > +     if (len < sizeof(*buf))
+> > +             return -EINVAL;
+> > +
+> > +     /* Don't know how to check that OTP is locked. */
+> > +     buf->locked =3D 0;
+> > +     buf->start =3D MACRONIX_30LFXG18AC_OTP_START_BYTE;
+> > +     buf->length =3D MACRONIX_30LFXG18AC_OTP_SIZE_BYTES;
+> > +
+> > +     *retlen =3D sizeof(*buf);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int macronix_30lfxg18ac_otp_enable(struct nand_chip *nand)
+> > +{
+> > +     u8 feature_buf[ONFI_SUBFEATURE_PARAM_LEN] =3D { 0 };
+> > +
+> > +     feature_buf[0] =3D MACRONIX_30LFXG18AC_OTP_EN;
+> > +     return nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
+> > +                              feature_buf);
+> > +}
+> > +
+> > +static int macronix_30lfxg18ac_otp_disable(struct nand_chip *nand)
+> > +{
+> > +     u8 feature_buf[ONFI_SUBFEATURE_PARAM_LEN] =3D { 0 };
+> > +
+> > +     return nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
+> > +                              feature_buf);
+> > +}
+> > +
+> > +static int __macronix_30lfxg18ac_rw_otp(struct mtd_info *mtd,
+> > +                                     loff_t offs_in_flash,
+> > +                                     size_t len, size_t *retlen,
+> > +                                     u_char *buf, bool write)
+> > +{
+> > +     struct nand_chip *nand;
+> > +     size_t bytes_handled;
+> > +     off_t offs_in_page;
+> > +     void *dma_buf;
+> > +     u64 page;
+> > +     int ret;
+> > +
+> > +     /* 'nand_prog/read_page_op()' may use 'buf' as DMA buffer,
+> > +      * so allocate properly aligned memory for it. This is
+> > +      * needed because cross page accesses may lead to unaligned
+> > +      * buffer address for DMA.
+> > +      */
+> > +     dma_buf =3D kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERNEL=
+);
+> > +     if (!dma_buf)
+> > +             return -ENOMEM;
+> > +
+> > +     nand =3D mtd_to_nand(mtd);
+> > +     nand_select_target(nand, 0);
+> > +
+> > +     ret =3D macronix_30lfxg18ac_otp_enable(nand);
+> > +     if (ret)
+> > +             goto out_otp;
+> > +
+> > +     page =3D offs_in_flash;
+> > +     /* 'page' will be result of division. */
+> > +     offs_in_page =3D do_div(page, MACRONIX_30LFXG18AC_OTP_PAGE_SIZE);
+> > +     bytes_handled =3D 0;
+> > +
+> > +     while (bytes_handled < len &&
+> > +            page < MACRONIX_30LFXG18AC_OTP_PAGES) {
+> > +             size_t bytes_to_handle;
+> > +
+> > +             bytes_to_handle =3D min_t(size_t, len - bytes_handled,
+> > +                                     MACRONIX_30LFXG18AC_OTP_PAGE_SIZE=
+ -
+> > +                                     offs_in_page);
+> > +
+> > +             if (write) {
+> > +                     memcpy(dma_buf, &buf[bytes_handled], bytes_to_han=
+dle);
+> > +                     ret =3D nand_prog_page_op(nand, page, offs_in_pag=
+e,
+> > +                                             dma_buf, bytes_to_handle)=
+;
+> > +             } else {
+> > +                     ret =3D nand_read_page_op(nand, page, offs_in_pag=
+e,
+> > +                                             dma_buf, bytes_to_handle)=
+;
+> > +                     if (!ret)
+> > +                             memcpy(&buf[bytes_handled], dma_buf,
+> > +                                    bytes_to_handle);
+> > +             }
+> > +             if (ret)
+> > +                     goto out_otp;
+> > +
+> > +             bytes_handled +=3D bytes_to_handle;
+> > +             offs_in_page =3D 0;
+> > +             page++;
+> > +     }
+> > +
+> > +     *retlen =3D bytes_handled;
+> > +
+> > +out_otp:
+> > +     if (ret)
+> > +             dev_err(&mtd->dev, "failed to perform OTP IO: %i\n", ret)=
+;
+> > +
+> > +     ret =3D macronix_30lfxg18ac_otp_disable(nand);
+> > +     if (ret)
+> > +             dev_err(&mtd->dev, "failed to leave OTP mode after %s\n",
+> > +                     write ? "write" : "read");
+> > +
+> > +     nand_deselect_target(nand);
+> > +     kfree(dma_buf);
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +static int macronix_30lfxg18ac_write_otp(struct mtd_info *mtd, loff_t =
+to,
+> > +                                      size_t len, size_t *rlen,
+> > +                                      const u_char *buf)
+> > +{
+> > +     return __macronix_30lfxg18ac_rw_otp(mtd, to, len, rlen, (u_char *=
+)buf,
+> > +                                         true);
+> > +}
+> > +
+> > +static int macronix_30lfxg18ac_read_otp(struct mtd_info *mtd, loff_t f=
+rom,
+> > +                                     size_t len, size_t *rlen,
+> > +                                     u_char *buf)
+> > +{
+> > +     return __macronix_30lfxg18ac_rw_otp(mtd, from, len, rlen, buf, fa=
+lse);
+> > +}
+> > +
+> > +static int macronix_30lfxg18ac_lock_otp(struct mtd_info *mtd, loff_t f=
+rom,
+> > +                                     size_t len)
+> > +{
+> > +     u8 feature_buf[ONFI_SUBFEATURE_PARAM_LEN] =3D { 0 };
+> > +     struct nand_chip *nand;
+> > +     int ret;
+> > +
+> > +     if (from !=3D MACRONIX_30LFXG18AC_OTP_START_BYTE ||
+> > +         len !=3D MACRONIX_30LFXG18AC_OTP_SIZE_BYTES)
+> > +             return -EINVAL;
+> > +
+> > +     dev_dbg(&mtd->dev, "locking OTP\n");
+> > +
+> > +     nand =3D mtd_to_nand(mtd);
+> > +     nand_select_target(nand, 0);
+> > +
+> > +     feature_buf[0] =3D MACRONIX_30LFXG18AC_OTP_EN |
+> > +                      MACRONIX_30LFXG18AC_OTP_LOCKED;
+> > +     ret =3D nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
+> > +                             feature_buf);
+> > +     if (ret) {
+> > +             dev_err(&mtd->dev,
+> > +                     "failed to lock OTP (set features): %i\n", ret);
+> > +             nand_deselect_target(nand);
+> > +             return ret;
+> > +     }
+> > +
+> > +     /* Do dummy page prog with zero address. */
+> > +     feature_buf[0] =3D 0;
+> > +     ret =3D nand_prog_page_op(nand, 0, 0, feature_buf, 1);
+> > +     if (ret)
+> > +             dev_err(&mtd->dev,
+> > +                     "failed to lock OTP (page prog): %i\n", ret);
+> > +
+> > +     ret =3D macronix_30lfxg18ac_otp_disable(nand);
+> > +     if (ret)
+> > +             dev_err(&mtd->dev, "failed to leave OTP mode after lock\n=
+");
+> > +
+> > +     nand_deselect_target(nand);
+> > +
+> > +     return ret;
+> > +}
+> > +
+> > +static void macronix_nand_setup_otp(struct nand_chip *chip)
+> > +{
+> > +     static const char * const supported_otp_models[] =3D {
+> > +             "MX30LF1G18AC",
+> > +             "MX30LF2G18AC",
+> > +             "MX30LF4G18AC",
+> > +     };
+> > +     struct mtd_info *mtd;
+> > +
+> > +     if (match_string(supported_otp_models,
+> > +                      ARRAY_SIZE(supported_otp_models),
+> > +                      chip->parameters.model) < 0)
+> > +             return;
+> > +
+> > +     if (!chip->parameters.supports_set_get_features)
+> > +             return;
+> > +
+> > +     bitmap_set(chip->parameters.get_feature_list,
+> > +                ONFI_FEATURE_ADDR_30LFXG18AC_OTP, 1);
+> > +     bitmap_set(chip->parameters.set_feature_list,
+> > +                ONFI_FEATURE_ADDR_30LFXG18AC_OTP, 1);
+> > +
+> > +     mtd =3D nand_to_mtd(chip);
+> > +     mtd->_get_fact_prot_info =3D macronix_30lfxg18ac_get_otp_info;
+> > +     mtd->_read_fact_prot_reg =3D macronix_30lfxg18ac_read_otp;
+> > +     mtd->_get_user_prot_info =3D macronix_30lfxg18ac_get_otp_info;
+> > +     mtd->_read_user_prot_reg =3D macronix_30lfxg18ac_read_otp;
+> > +     mtd->_write_user_prot_reg =3D macronix_30lfxg18ac_write_otp;
+> > +     mtd->_lock_user_prot_reg =3D macronix_30lfxg18ac_lock_otp;
+> > +}
+> > +
+> >  static int macronix_nand_init(struct nand_chip *chip)
+> >  {
+> >       if (nand_is_slc(chip))
+> > @@ -325,6 +540,7 @@ static int macronix_nand_init(struct nand_chip *chi=
+p)
+> >       macronix_nand_onfi_init(chip);
+> >       macronix_nand_block_protection_support(chip);
+> >       macronix_nand_deep_power_down_support(chip);
+> > +     macronix_nand_setup_otp(chip);
+> >
+> >       return 0;
+> >  }
+>
+>
+> Thanks,
+> Miqu=C3=A8l
+
+Thanks
+Jaime
