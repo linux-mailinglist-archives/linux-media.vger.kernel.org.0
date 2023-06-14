@@ -2,51 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB48B730759
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 20:31:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A9AB73082B
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 21:25:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234018AbjFNSbO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Jun 2023 14:31:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54476 "EHLO
+        id S236878AbjFNTZO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Jun 2023 15:25:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229559AbjFNSbN (ORCPT
+        with ESMTP id S236328AbjFNTYv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Jun 2023 14:31:13 -0400
-Received: from smtp.smtpout.orange.fr (smtp-20.smtpout.orange.fr [80.12.242.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B977DE3
-        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 11:31:10 -0700 (PDT)
-Received: from pop-os.home ([86.243.2.178])
-        by smtp.orange.fr with ESMTPA
-        id 9VGsqBvw5uHEf9VGtqP6SV; Wed, 14 Jun 2023 20:31:08 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-        s=t20230301; t=1686767468;
-        bh=reNbQlvt6iwnJUAjcJkxGRJU4vzmBikzkd2pe0kBB0M=;
-        h=From:To:Cc:Subject:Date;
-        b=mQgaw/wMo3xhmP22Js9wU/i1RrWxxozS6T6PLcb3um4wW0aVihOiiRViAdIjQkeK2
-         GC5PYs8tcrQdD5kbmW0JlRUKSMi11pr59L3/C4dbfIhz0YYCvb1IX7pRvoA2XhTEFJ
-         jhkIyDEVD8749HDeD3z1r9BlOF3zrPmoE30TA7JtQG3bH7/+QxGQurB1Ys/gjZIDhG
-         diF2/2Jj+nlkGLNpkqjdty+bTWd8+53LKlrQlyoDMbJExn67WyXanFf1Vhxto9V/Ae
-         R8w9Fq9diwxUW1ilUH684bOBvmT8xLtIrW4Hpy1CaLYfZyQrrTz+LCNwBF78b/wLgq
-         IJENaW26ufWRA==
-X-ME-Helo: pop-os.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Wed, 14 Jun 2023 20:31:08 +0200
-X-ME-IP: 86.243.2.178
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Wed, 14 Jun 2023 15:24:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9972B1FDD
+        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 12:23:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1686770632;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=a5sDmWhN+ziUyUh0Om0m4AnhRp0U+N5azCSK967PPkA=;
+        b=f0EWaXfnkfjDWNhaeW+RvszCsKcNB0mDKDDsbHubc7bIcHDDXD8GDCcMO/4Fi6Gt5X3kab
+        /Ah25q5mIPKT1RgTLDjgTTHSYmcNZqSDFFkxOjTz6kuK1J0+OjsRuX18MeI8mVNNE7KkxH
+        iSBqIxot2NY3kKxfKb4r9KpXp/Tfwic=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-80-hPKyn8-JPKi2QZc-cKW9AQ-1; Wed, 14 Jun 2023 15:23:51 -0400
+X-MC-Unique: hPKyn8-JPKi2QZc-cKW9AQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7AC1D80006E;
+        Wed, 14 Jun 2023 19:23:50 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.46])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7AB62140E951;
+        Wed, 14 Jun 2023 19:23:49 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
         linux-media@vger.kernel.org
-Subject: [PATCH v2] media: v4l2-core: Fix a potential resource leak in v4l2_fwnode_parse_link()
-Date:   Wed, 14 Jun 2023 20:31:05 +0200
-Message-Id: <773118ad2c2b56f136e10466997eaaa911e6a422.1686767431.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.34.1
+Subject: [PATCH v2 0/5] media: Add MIPI CCI register access helper functions
+Date:   Wed, 14 Jun 2023 21:23:38 +0200
+Message-Id: <20230614192343.57280-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -54,66 +60,76 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If fwnode_graph_get_remote_endpoint() fails, 'fwnode' is known to be NULL,
-so fwnode_handle_put() is a no-op.
+Hi Laurent, Sakari, et al.,
 
-Release the reference taken from a previous fwnode_graph_get_port_parent()
-call instead.
+Here is v2 of my MIPI CCI register access helper patches.
 
-Also handle fwnode_graph_get_port_parent() failures.
+New in the CCI register access helpers in v2:
+- Drop cci_reg_type enum
+- Make having an encoded reg-width mandatory rather then using 0 to encode
+  8 bit width making reg-addresses without an encoded width default to
+  a width of 8
+- Add support for 64 bit wide registers
+- Introduce a new cci_reg_sequence struct with 64 bit reg values for 64 bit
+  support and without the delay_us field
+- Various kerneldoc updates
+- Stop supporting delays in cci_multi_reg_write()
+- Some includes cleanups
+- Disable regmap locking
 
-In order to fix these issues, add an error handling path to the function
-and the needed gotos.
+Other changes:
+- Add a patch to convert the ov5693 driver (tested on Surface Go)
+- Add a patch to convert the imx290 driver (untested)
 
-Fixes: ca50c197bd96 ("[media] v4l: fwnode: Support generic fwnode for parsing standardised properties")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-v2: - Handle fwnode_graph_get_port_parent() errors   [Sakari Ailus <sakari.ailus@linux.intel.com>]
-    - Rephrase the commit log
+Original (v1) cover-letter:
 
-v1: https://lore.kernel.org/all/2ddd10ec9e009bbb85518355f1e09e1ecd349925.1685340968.git.christophe.jaillet@wanadoo.fr/
----
- drivers/media/v4l2-core/v4l2-fwnode.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+The CSI2 specification specifies a standard method to access camera sensor
+registers called "Camera Control Interface (CCI)".
 
-diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-index 049c2f2001ea..4fa9225aa3d9 100644
---- a/drivers/media/v4l2-core/v4l2-fwnode.c
-+++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-@@ -568,19 +568,29 @@ int v4l2_fwnode_parse_link(struct fwnode_handle *fwnode,
- 	link->local_id = fwep.id;
- 	link->local_port = fwep.port;
- 	link->local_node = fwnode_graph_get_port_parent(fwnode);
-+	if (!link->local_node)
-+		return -ENOLINK;
- 
- 	fwnode = fwnode_graph_get_remote_endpoint(fwnode);
--	if (!fwnode) {
--		fwnode_handle_put(fwnode);
--		return -ENOLINK;
--	}
-+	if (!fwnode)
-+		goto err_put_local_node;
- 
- 	fwnode_graph_parse_endpoint(fwnode, &fwep);
- 	link->remote_id = fwep.id;
- 	link->remote_port = fwep.port;
- 	link->remote_node = fwnode_graph_get_port_parent(fwnode);
-+	if (!link->remote_node)
-+		goto err_put_remote_endpoint;
- 
- 	return 0;
-+
-+err_put_remote_endpoint:
-+	fwnode_handle_put(fwnode);
-+
-+err_put_local_node:
-+	fwnode_handle_put(link->local_node);
-+
-+	return -ENOLINK;
- }
- EXPORT_SYMBOL_GPL(v4l2_fwnode_parse_link);
- 
+Currently a lot of Linux camera sensor drivers all have their own custom
+helpers for this, often copy and pasted from other drivers.
+
+This adds a set of generic helpers for this so that all sensor drivers can
+switch to a single common implementation.
+
+This is based on / the result of our previous discussion on this here:
+Link: https://lore.kernel.org/linux-media/59aefa7f-7bf9-6736-6040-39551329cd0a@redhat.com/
+
+Patches 2-4 are examples of how these helpers can be used and patch 5
+removes the now no longer necessary ov_16bit_addr_reg_helpers.h which was
+the previous attempt to add common CCI access helpers.
+
+Regards,
+
+Hans
+
+
+Hans de Goede (5):
+  media: Add MIPI CCI register access helper functions
+  media: ov5693: Convert to new CCI register access helpers
+  media: imx290: Convert to new CCI register access helpers
+  media: atomisp: ov2680: Convert to new CCI register access helpers
+  media: Remove ov_16bit_addr_reg_helpers.h
+
+ Documentation/driver-api/media/v4l2-cci.rst   |   5 +
+ Documentation/driver-api/media/v4l2-core.rst  |   1 +
+ drivers/media/i2c/Kconfig                     |   2 +
+ drivers/media/i2c/imx290.c                    | 350 +++++------
+ drivers/media/i2c/ov5693.c                    | 574 +++++++-----------
+ drivers/media/v4l2-core/Kconfig               |   5 +
+ drivers/media/v4l2-core/Makefile              |   1 +
+ drivers/media/v4l2-core/v4l2-cci.c            | 157 +++++
+ drivers/staging/media/atomisp/i2c/Kconfig     |   1 +
+ .../media/atomisp/i2c/atomisp-ov2680.c        | 237 +++-----
+ drivers/staging/media/atomisp/i2c/ov2680.h    |  86 +--
+ include/media/ov_16bit_addr_reg_helpers.h     |  92 ---
+ include/media/v4l2-cci.h                      | 121 ++++
+ 13 files changed, 763 insertions(+), 869 deletions(-)
+ create mode 100644 Documentation/driver-api/media/v4l2-cci.rst
+ create mode 100644 drivers/media/v4l2-core/v4l2-cci.c
+ delete mode 100644 include/media/ov_16bit_addr_reg_helpers.h
+ create mode 100644 include/media/v4l2-cci.h
+
 -- 
-2.34.1
+2.40.1
 
