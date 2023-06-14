@@ -2,305 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7957B72FD60
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 13:50:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E25672FEEC
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 14:43:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239767AbjFNLu0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Jun 2023 07:50:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33020 "EHLO
+        id S244684AbjFNMnh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Jun 2023 08:43:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231313AbjFNLuZ (ORCPT
+        with ESMTP id S244680AbjFNMng (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Jun 2023 07:50:25 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E999BA2;
-        Wed, 14 Jun 2023 04:50:23 -0700 (PDT)
-Received: from [IPV6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2] (unknown [IPv6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id C7D1E6606ED1;
-        Wed, 14 Jun 2023 12:50:21 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1686743422;
-        bh=9DNBrynI+HiRfRvrWhvvvBpQCTBoLpIz0X4Xq8IQ6sI=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=ICb+jwxKt+INPGpAuktKxr8rwW5NNORpaVS8MosEyn3MqXNglbRHCSSdVhUv87RL7
-         MSFu/OGJDqR+8DTBIKWhm2p8j/bCOQMXKriA3lC5OBBTQUdWbv3LRv6fqLUwJT/njd
-         cXoXzSqPk+ts5b3eebntXZpJRnrAsTFD5T4KHhs32zj4NOAkOuBJ6PPFfK+aFQCJ7s
-         nJg46uNkDlzTijh4uMj3uOHuUCIflkpYxebVIUZ2zzQzHDszV4Kdb2vGKGQkVbcRU/
-         JTwE46qD677bIJ1tnf4WT57Qv+9WC1/DjZcz+lCFmvyMgCEaccIDh8gNp80B4Rg7Ye
-         V7uYccUG9IlAg==
-Message-ID: <b89035bf-cbdd-e99a-1332-a11885ae8f8b@collabora.com>
-Date:   Wed, 14 Jun 2023 13:50:19 +0200
+        Wed, 14 Jun 2023 08:43:36 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 107011FD4
+        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 05:43:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686746615; x=1718282615;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tjNh81dKo4C8gChwSr63agGeS01/midopVlxJHXTvlE=;
+  b=Uz0mqAP2Bxmyl/YXri1j0OLu+0bPegHDd1KF830UQwjEDsCDIDS5wHtp
+   PoaHY63/dXW0BRcdT2f53937YLD7T2J6sATrUFZT8z3v1htmqbWQAUPEt
+   e3QxNVOEZsLaymWJ1k46NimQ9fkAhMlBveBMVm4u7cupb+EaK4qwfJ/fB
+   uEk6lPVB9Pg+5BOjTtWQrqU5m7VA9q8TjPO0PqfzF8dU3Gmbqt/468rZA
+   /mj/77SUht98V/7rOuJfrDxem4e8IQtj7DSg8jnRdkBzMUQ9feZW9SDeb
+   suUqYDnoNRk89u7N33IftVl+qYw1dbW0mUXKbb21e1p7VWJcH6BbRucBF
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="422201992"
+X-IronPort-AV: E=Sophos;i="6.00,242,1681196400"; 
+   d="scan'208";a="422201992"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 05:43:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="712053706"
+X-IronPort-AV: E=Sophos;i="6.00,242,1681196400"; 
+   d="scan'208";a="712053706"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 05:43:24 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 33AC8120C3B;
+        Wed, 14 Jun 2023 15:43:21 +0300 (EEST)
+Date:   Wed, 14 Jun 2023 12:43:21 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>, hverkuil@xs4all.nl,
+        Francesco Dolcini <francesco@dolcini.it>,
+        aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>, bingbu.cao@intel.com,
+        niklas.soderlund@ragnatech.se,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Sylvain Petinot <sylvain.petinot@foss.st.com>,
+        Eugen Hristev <eugen.hristev@collabora.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Dafna Hirschfeld <dafna@fastmail.com>,
+        Hugues Fruchet <hugues.fruchet@foss.st.com>,
+        Yong Deng <yong.deng@magewell.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Benoit Parrot <bparrot@ti.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Marco Felsch <m.felsch@pengutronix.de>
+Subject: Re: [RESEND PATCH v3 31/32] media: v4l: async: Set v4l2_device in
+ async notifier init
+Message-ID: <ZIm16SJo4fOFx6G4@kekkonen.localdomain>
+References: <20230525091615.2324824-1-sakari.ailus@linux.intel.com>
+ <20230525091615.2324824-32-sakari.ailus@linux.intel.com>
+ <20230530062209.GA6865@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v2,04/10] media: mediatek: vcodec: remove the dependency
- of debug log
-Content-Language: en-US
-To:     =?UTF-8?B?WXVuZmVpIERvbmcgKOiRo+S6kemjnik=?= 
-        <Yunfei.Dong@mediatek.com>,
-        "wenst@chromium.org" <wenst@chromium.org>,
-        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
-        "nfraprado@collabora.com" <nfraprado@collabora.com>,
-        "nicolas.dufresne@collabora.com" <nicolas.dufresne@collabora.com>,
-        "nhebert@chromium.org" <nhebert@chromium.org>,
-        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "frkoenig@chromium.org" <frkoenig@chromium.org>,
-        "stevecho@chromium.org" <stevecho@chromium.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "daniel@ffwll.ch" <daniel@ffwll.ch>,
-        Project_Global_Chrome_Upstream_Group 
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-        "hsinyi@chromium.org" <hsinyi@chromium.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-References: <20230607084901.28021-1-yunfei.dong@mediatek.com>
- <20230607084901.28021-5-yunfei.dong@mediatek.com>
- <ad28c125d9efca1f7e422fffe42dd56cef66b349.camel@collabora.com>
- <6bb7e4b283332f1b76c1550347cb245a57eee90b.camel@mediatek.com>
- <ac3f4becf89d909503caeb8a05883fc38afccd41.camel@collabora.com>
- <925956db-9001-7a4f-700e-c84220103201@collabora.com>
- <e1e00e3207784f48b6adc9c3b6ec48f57795228d.camel@collabora.com>
- <1ea03faee8da26e17690c707464ab1cda405a313.camel@mediatek.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <1ea03faee8da26e17690c707464ab1cda405a313.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230530062209.GA6865@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 14/06/23 11:17, Yunfei Dong (董云飞) ha scritto:
-> Hi AngeloGioacchino,
+Hi Laurent,
+
+On Tue, May 30, 2023 at 09:22:09AM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
 > 
-> How do you think about Nicolas's suggestion?
+> Thank you for the patch.
 > 
-
-Please don't top-post!
-
-Nicolas' suggestion looks good. Please go on.
-
-P.S.: Sorry for the late reply.
-
-Cheers,
-Angelo
-
-
-> On Thu, 2023-06-08 at 11:17 -0400, Nicolas Dufresne wrote:
->>   	
->> External email : Please do not click links or open attachments until
->> you have verified the sender or the content.
->>   Le jeudi 08 juin 2023 à 16:06 +0200, AngeloGioacchino Del Regno a
->> écrit :
->>> Il 08/06/23 15:11, Nicolas Dufresne ha scritto:
->>>> Le jeudi 08 juin 2023 à 07:27 +0000, Yunfei Dong (董云飞) a écrit :
->>>>> Hi Nicolas,
->>>>>
->>>>> Thanks for your review.
->>>>> On Wed, 2023-06-07 at 21:41 -0400, Nicolas Dufresne wrote:
->>>>>>    
->>>>>> External email : Please do not click links or open
->> attachments until
->>>>>> you have verified the sender or the content.
->>>>>>    Hi Yunfei,
->>>>>>
->>>>>> Le mercredi 07 juin 2023 à 16:48 +0800, Yunfei Dong a écrit :
->>>>>>> 'mtk_vcodec_debug' and 'mtk_vcodec_err' depends on
->> 'mtk_vcodec_ctx'
->>>>>>> to get the index of each instance, using the index directly
->> instead
->>>>>>> of with 'mtk_vcodec_ctx'.
->>>>>>>
->>>>>>> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
->>>>>>> ---
->>>>>>>    .../mediatek/vcodec/mtk_vcodec_util.h         |  26 ++-
->>>>>>>    .../vcodec/vdec/vdec_av1_req_lat_if.c         | 105
->> +++++++-----
->>>>>>>    .../mediatek/vcodec/vdec/vdec_h264_if.c       |  62 ++++-
->> --
->>>>>>>    .../mediatek/vcodec/vdec/vdec_h264_req_if.c   |  39 +++--
->>>>>>>    .../vcodec/vdec/vdec_h264_req_multi_if.c      |  80
->> +++++----
->>>>>>>    .../vcodec/vdec/vdec_hevc_req_multi_if.c      |  67 ++++-
->> ---
->>>>>>>    .../mediatek/vcodec/vdec/vdec_vp8_if.c        |  54 ++++-
->> --
->>>>>>>    .../mediatek/vcodec/vdec/vdec_vp8_req_if.c    |  46 +++
->> ---
->>>>>>>    .../mediatek/vcodec/vdec/vdec_vp9_if.c        | 152
->> ++++++++++--
->>>>>> ------
->>>>>>>    .../vcodec/vdec/vdec_vp9_req_lat_if.c         |  84
->> ++++++----
->>>>>>>    .../platform/mediatek/vcodec/vdec_vpu_if.c    |  59 ++++-
->> --
->>>>>>>    .../mediatek/vcodec/venc/venc_h264_if.c       |  86
->> +++++-----
->>>>>>>    .../mediatek/vcodec/venc/venc_vp8_if.c        |  48 +++
->> ---
->>>>>>>    .../platform/mediatek/vcodec/venc_vpu_if.c    |  64 ++++-
->> ---
->>>>>>>    14 files changed, 565 insertions(+), 407 deletions(-)
->>>>>>>
->>>>>>> diff --git
->>>>>> a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h
->>>>>> b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h
->>>>>>> index ecb0bdf3a4f4..ddc12c3e2983 100644
->>>>>>> ---
->> a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h
->>>>>>> +++
->> b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h
->>>>>>> @@ -31,9 +31,8 @@ struct mtk_vcodec_dev;
->>>>>>>    #define mtk_v4l2_err(fmt, args...)                \
->>>>>>>    pr_err("[MTK_V4L2][ERROR] " fmt "\n", ##args)
->>>>>>>    
->>>>>>> -#define mtk_vcodec_err(h, fmt, args...)\
->>>>>>> -pr_err("[MTK_VCODEC][ERROR][%d]: " fmt "\n",\
->>>>>>> -       ((struct mtk_vcodec_ctx *)(h)->ctx)->id, ##args)
->>>>>>> +#define mtk_vcodec_err(plat_dev, inst_id, fmt,
->>>>>> args...)                                 \
->>>>>>> +dev_err(&(plat_dev)->dev, "[MTK_VCODEC][ERROR][%d]: " fmt
->> "\n",
->>>>>> inst_id, ##args)
->>>>>>>    
->>>>>>>    #if defined(CONFIG_DEBUG_FS)
->>>>>>>    extern int mtk_v4l2_dbg_level;
->>>>>>> @@ -46,27 +45,24 @@ extern int mtk_vcodec_dbg;
->>>>>>>     __func__, __LINE__, ##args);        \
->>>>>>>    } while (0)
->>>>>>>    
->>>>>>> -#define mtk_vcodec_debug(h, fmt,
->> args...)                      \
->>>>>>> -do {                      \
->>>>>>> -if (mtk_vcodec_dbg)                      \
->>>>>>> -dev_dbg(&(((struct mtk_vcodec_ctx *)(h)->ctx)->dev-
->>> plat_dev-
->>>>>>> dev),   \
->>>>>>> -"[MTK_VCODEC][%d]: %s, %d " fmt
->> "\n",                         \
->>>>>>> -((struct mtk_vcodec_ctx *)(h)->ctx)-
->>> id,                      \
->>>>>>> -__func__, __LINE__,
->> ##args);                                  \
->>>>>>> +#define mtk_vcodec_debug(plat_dev, inst_id, fmt,
->>>>>> args...)                               \
->>>>>>> +do
->>>>>> {
->>>>>>           \
->>>>>>> +if
->>>>>> (mtk_vcodec_dbg)
->>>>>> \
->>>>>>> +dev_dbg(&(plat_dev)->dev, "[MTK_VCODEC][%d]: %s, %d " fmt
->> "\n", \
->>>>>>
->>>>>> At least in this patch, you systematically pass plat_dev as
->>>>>> <something>->ctx->dev->plat_dev, which is quite long and
->> verbose, any
->>>>>> reason we
->>>>>> can't just pass that <something> here ? We can follow the
->> same
->>>>>> structure path
->>>>>> for both encoder/decoder ?
->>>>>>
->>>>>
->>>>> In order to separate encode and decoder, need to define two
->> different
->>>>> struct mtk_vcodec_dec_ctx and struct mtk_vcodec_enc_ctx.
->>>>>
->>>>> struct mtk_vcodec_ctx won't be used again, need to use platform
->> device
->>>>> to print dev_dbg and dev_err.
->>>>>
->>>>> encoder and decoder using the same interface to print log
->> message.
->>>>
->>>> Just a reminder, I'm just making suggestions, there is no strict
->> action required
->>>> here other then a discussion to try and make the logging a bit
->> more light.
->>>>
->>>> My points was that C macros don't care about types, so if you
->> keep the path to
->>>> the platform device the same (ctx->dev->plat_dev), you could just
->> pass the ctx
->>>> as argument. What I don't know though myself, is if this is
->> actually feasible in
->>>> all code path, but considering you had access to the instance
->> previously, I
->>>> thought it should.
->>>>
->>>
->>> One macro used to access two different structures?
->>>
->>> Please, no.
->>
->> Its up to you. I do think this is an empty statement. Still believe
->> we avoid
->> this code "deterioration". One can always be creative to workaround
->> your
->> concerns.
->>
->> struct base_ctx {
->> struct dev dev;
->> }
->>
->> struct enc_ctx {
->> struct base_ctx;
->> ...
->> }
->>
->> struct src_ctx {
->> ...
->> }
->>
->> But this is in no way more safe then a naming convention, this is
->> macro calls,
->> its not typed.
->>
->> Nicolas
->>
+> On Thu, May 25, 2023 at 12:16:14PM +0300, Sakari Ailus wrote:
+> > Set the v4l2_device already in async notifier init, so struct device
+> > related to it will be available before the notifier is registered.
+> > 
+> > This is done in order to make struct device available earlier, during
+> > construction of the async connections, for sensible debug prints.
 > 
-> In order to speed up the upstream progress, maybe we can discuss it in
-> chat.
+> I'm worried that the tighter dependency between the notifier and the
+> v4l2_device will cause issues later. If it's just to get a struct device
+> pointer, wouldn't it be better to pass the struct device to
+> v4l2_async_nf_init() ?
+
+And add a device field to the notifier?
+
+I'm really not too worried about this; the device field is available from
+the very beginning of the driver's probe function and registering the V4L2
+device does not expose any driver interfaces. So I don't see a technical
+reason for this.
+
+A better name for v4l2_device_register() would actually be
+v4l2_device_init(). Other renaming may follow from that, too. But that is
+out of scope of this set in any case.
+
 > 
-> Best Reagrds,
-> Yunfei Dong
->>>
->>> Regards,
->>> Angelo
->>>
->>>> regards,
->>>> Nicolas
->>>>
->>>>>
->>>>> Best Regards,
->>>>> Yunfei Dong
->>>>>>> +inst_id, __func__, __LINE__, ##args);                   \
->>>>>>>    } while (0)
->>>>>>>    #else
->>>>>>>    #define mtk_v4l2_debug(level, fmt, args...) pr_debug(fmt,
->> ##args)
->>>>>>>    
->>>>>>> -#define mtk_vcodec_debug(h, fmt, args...)\
->>>>>>> -pr_debug("[MTK_VCODEC][%d]: " fmt "\n",\
->>>>>>
->>>>> ...snip...
->>>>
->>>
->>
+> > This patch has been mostly generated using the following two commands:
+> > 
+> > git grep -l v4l2_async_nf_init -- drivers/media/ drivers/staging/media/ |
+> > 	while read i; do perl -e '
+> > 	@a=<>; unlink("'$i'"); open(F, "> '$i'");
+> > 	for $f ({i=>"v4l2_async_nf_init", r=>"v4l2_async_nf_register"},
+> > 		{i=>"v4l2_async_subdev_nf_init",
+> > 		 r=>"v4l2_async_subdev_nf_register"} ) {
+> > 	my $b; @a = map { $b = "$1, $2" if
+> > 	s/$f->{r}\(([^,]*),\s*([^\)]*)\)/v4l2_async_nf_register\($2\)/;
+> > 	$_; } @a; @a = map { if (defined $b) {
+> > 	s/v4l2_async_nf_init\([^\)]*\)/$f->{i}\($b\)/;
+> > 	s/$f->{r}\(\K[^,]*,\s*//; }; $_; } @a; }; print F @a; close F;'
+> > 	< $i; done
+> > 
+> > git grep -lP 'v4l2_async_(subdev_|)nf_init' | xargs perl -i -pe \
+> > 	's/v4l2_async_(subdev_|)nf_init\(\K([^,]*),\s*([^,]*)\)/$3, $2\)/'
+> 
+> It may be nice to play with perl code, but I'd like more focus on the
+> human-readable part of the commit message, please. The above isn't
+> useful to anyone but you, while an English text that explains how the
+> v4l2_async_nf_init() function has now been split into
+> v4l2_async_nf_init() and v4l2_async_subdev_nf_init() is missing.
 
+I can add a few words about this.
 
+The Perl code was useful for re-creating the patch but by now it has been
+modified manually so much it's no longer useful. I'll drop it.
+
+-- 
+Kind regards,
+
+Sakari Ailus
