@@ -2,158 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AB5EB72F779
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 10:13:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78F8A72F77D
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 10:13:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235449AbjFNINT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Jun 2023 04:13:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46488 "EHLO
+        id S235431AbjFNINu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Jun 2023 04:13:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234277AbjFNINR (ORCPT
+        with ESMTP id S230250AbjFNINt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Jun 2023 04:13:17 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58546170E;
-        Wed, 14 Jun 2023 01:13:16 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 01DFC838;
-        Wed, 14 Jun 2023 10:12:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1686730363;
-        bh=EOB+XTys8buj3IJtQdqls61sGqyEJtwNJtRIoWEZ9uM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LYw1K6BAkpTabXiS+mthzurbmsN8oIJaQASbtfjFxsclKy+q78EuJ7fDjwCg54Kv5
-         8T8f8dXNtS5BiMOsjzeZim6/HS8l5/KAwWACDYrcpRAQ12X0Yqf7UznVXxUn8qDikc
-         CSZ2uCgX0+H5ySWns17ifQQTvbRHQ9isBheOOy0g=
-Date:   Wed, 14 Jun 2023 11:13:14 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Wolfram Sang <wsa@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Mark Brown <broonie@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Corey Minyard <cminyard@mvista.com>,
-        Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
-        Antonio Borneo <antonio.borneo@foss.st.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Message-ID: <20230614081314.GD17519@pendragon.ideasonboard.com>
-References: <OS0PR01MB5922ECEABE4D6FC385D184008650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB592265BFDF18F860E1EB4CFE8654A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <ZIcRKl3PDy0+yZS9@ninjato>
- <CAMuHMdV_iwdP+K1us86OB4VtDDqA=P_vNeCP15kqRuXqcYr3hg@mail.gmail.com>
- <ZIcUEdctlgRsGxJ3@ninjato>
- <CAMuHMdVOkBeKOEW9PkWB3Tqwa6-rC3BQj=W9VAEgeZfgqvQmWQ@mail.gmail.com>
- <ZIeDcVcfxfcMx/BP@shikoro>
- <OS0PR01MB592220CCA081848A711D75328655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB592210CE54A9CF953980DFEE8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB59220D794AED55A6B795C3EF8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+        Wed, 14 Jun 2023 04:13:49 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62D4FDF;
+        Wed, 14 Jun 2023 01:13:48 -0700 (PDT)
+Received: from [IPV6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2] (unknown [IPv6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 183A2660217A;
+        Wed, 14 Jun 2023 09:13:46 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1686730426;
+        bh=hyikFg5Dz7zmi/EIssCCeZgYJGF+cMu28Xs3zEK/yXg=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=nJFxFvrVLB3tCXlMcGaXRilrFAQLRM/fy7Vi1Bi3RXUVY74Y1Vglz24j4iFuelm15
+         OjYBDuIBDQXiu7iBFiNWZvn48twBqLM39gOIO/kOYV1IGaPL+ysUQvuZY6uXPcSZAq
+         RrpNUIGxEws9kQWdSwZWb0IK1/D8iJYA7gy3PNnxw07/WkvfkU1JebbpJj28/BBsRz
+         jNC/a1xM1l44nT64E73hbb8BEPMt5uX5tJLbYUDJE53kCiGtg6rtF+fG3LyvZN12vc
+         DrkmYUhO5LrIDa1btKYJjTY/5XJ7+JxD8Ul/hPasZ+PftQ8PTn7vdVjb8jGG/NycYN
+         NkyaqbxadSoOA==
+Message-ID: <d2c11880-afc1-5c0b-229b-2a4080b22fba@collabora.com>
+Date:   Wed, 14 Jun 2023 10:13:43 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <OS0PR01MB59220D794AED55A6B795C3EF8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [PATCH v2 3/5] media: mediatek: vcodec: Read HW active status
+ from clock
+Content-Language: en-US
+To:     Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wenst@chromium.org>,
+        =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
+        <nfraprado@collabora.com>
+Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>, kernel@collabora.com,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
+References: <20230607205714.510012-1-nfraprado@collabora.com>
+ <20230607205714.510012-4-nfraprado@collabora.com>
+ <CAGXv+5HHARvkCYfjPjRKgyWuzv-Dt215z1=yA+_tw4hyasdGQA@mail.gmail.com>
+ <f0018817-d47b-d772-ed9f-9126bf71a0d1@collabora.com>
+ <83770481aa762b69738c27f9d9934dd9.sboyd@kernel.org>
+ <90781ea3-d43a-6267-278c-184050fe456e@collabora.com>
+ <d579dc00ed9877f9daf170134fe781e6.sboyd@kernel.org>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <d579dc00ed9877f9daf170134fe781e6.sboyd@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 13, 2023 at 07:31:46PM +0000, Biju Das wrote:
-> > Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-> > > Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-> > > > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-> > > >
-> > > > Hi everyone,
-> > > >
-> > > > > Perhaps we should first think through what an ancillary device
-> > > > > really is.  My understanding is that it is used to talk to
-> > > > > secondary addresses of a multi-address I2C slave device.
-> > > >
-> > > > As I mentioned somewhere before, this is not the case. Ancillary
-> > > > devices are when one *driver* handles more than one address.
-> > > > Everything else has been handled differently in the past (for  all
-> > > > the uses I am aware of).
-> > > >
-> > > > Yet, I have another idea which is so simple that I wonder if it
-> > > > maybe has already been discussed so far?
-> > > >
-> > > > * have two regs in the bindings
-> > >
-> > > OK, it is inline with DT maintainers expectation as it is matching
-> > > with real hw as single device node having two regs.
-> > >
-> > > > * use the second reg with i2c_new_client_device to instantiate the
-> > > >   RTC sibling. 'struct i2c_board_info', which is one parameter, should
-> > > >   have enough options to pass data, e.g it has a software_node.
-> > >
-> > > OK, I can see the below can be passed from PMIC to new client device.
-> > >
-> > > 	client->addr = info->addr;
-> > >
-> > > 	client->init_irq = info->irq;
-> > >
-> > > >
-> > > > Should work or did I miss something here?
-> > >
-> > > I guess it will work. We instantiate appropriate device based On PMIC
-> > > revision and slave address and IRQ resource passed through 'struct
-> > > i2c_board_info'
-> > >
-> > > Will check this and update you.
-> > 
-> > info.irq = irq; -->Irq fine
-> > info.addr = addr; -->slave address fine
-> > size = strscpy(info.type, name, sizeof(info.type)); -->instantiation based
-> > on PMIC version fine.
-> > 
-> > 1) How do we share clk details on instantiated device to find is it
-> > connected to external crystal or external clock source? as we cannot pass
-> > of_node between PMIC and "i2c_board_info" as it results in pinctrl
-> > failure. info->platformdata and
-> > Client->dev.platformdata to retrieve this info??
+Il 12/06/23 21:19, Stephen Boyd ha scritto:
+> Quoting AngeloGioacchino Del Regno (2023-06-09 00:42:13)
+>> Il 09/06/23 01:56, Stephen Boyd ha scritto:
+>>> Quoting AngeloGioacchino Del Regno (2023-06-08 02:01:58)
+>>>> Il 08/06/23 10:12, Chen-Yu Tsai ha scritto:
+>>>>> On Thu, Jun 8, 2023 at 4:57 AM Nícolas F. R. A. Prado
+>>>>> <nfraprado@collabora.com> wrote:
+>>>>>> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+>>>>>> index 9c652beb3f19..8038472fb67b 100644
+>>>>>> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+>>>>>> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+>>>>>
+>>>>> AFAIK this is still around for clk drivers that haven't moved to clk_hw.
+>>>>> It shouldn't be used by clock consumers. Would it be better to just pass
+>>>>> a syscon?
+>>>>>
+>>>>
+>>>> This is a legit usage of __clk_is_enabled().... because that's what we're really
+>>>> doing here, we're checking if a clock got enabled by the underlying MCU (as that
+>>>> clock goes up after the VDEC boots).
+>>>>
+>>>> If this is *not* acceptable as it is, we will have to add a clock API call to
+>>>> check if a clock is enabled... but it didn't seem worth doing since we don't
+>>>> expect anyone else to have any legit usage of that, or at least, we don't know
+>>>> about anyone else needing that...
+>>>
+>>> The design of the clk.h API has been that no clk consumer should need to
+>>> find out if a clk is enabled. Instead, the clk consumer should enable
+>>> the clk if they want it enabled. Is there no other way to know that the
+>>> vcodec hardware is active?
+>>>
+>>
+>> The firmware gives an indication of "boot done", but that's for the "core" part
+>> of the vcodec... then it manages this clock internally to enable/disable the
+>> "compute" IP of the decoder.
+>>
+>> As far as I know (and I've been researching about this) the firmware will not
+>> give any "decoder powered, clocked - ready to get data" indication, and the
+>> only way that we have to judge whether it is in this specific state or not is
+>> to check if the "VDEC_ACTIVE" clock got enabled by the firmware.
 > 
-> Or 
+> Is Linux ever going to use clk consumer APIs like clk_enable/clk_disable
+> on this VDEC_ACTIVE clk? If the answer is no, then there isn't any
+> reason to put it in the clk framework, and probably syscon is the way to
+> go for now.
 > 
-> I2C instantiation based on actual oscillator bit value, ie, two i2c_device_id's
-> with one for setting oscillator bit and another for clearing oscillator bit
-> 
-> PMIC driver parses the clock details. Based on firmware version and clock, 
-> It instantiates either i2c_device_id with setting oscillator bit or
-> clearing oscillator bit.
 
-I don't like that hack. I still think that two DT nodes is the best
-option, I think you're trying hard to hack around a problem that is
-actually not a problem.
+Not for the current platform, but that may change in future SoCs... we're not sure.
 
--- 
+> Another approach could be to wait for some amount of time after telling
+> firmware to power up and assume the hardware is active.
+> 
+
+That would be highly error prone though. Expecting that the HW is alive means that
+we're 100% sure that both firmware and driver are doing the right thing at every
+moment, which is something that we'd like to assume but, realistically, for safety
+reasons we just don't.
+
+Should we anyway go for a syscon *now* and then change it to a clock later, if any
+new platform needs this as a clock?
+
+I'm in doubt now on how to proceed.
+
+> ----
+> 
+> I see that the __clk_is_enabled() API is being used in some other
+> consumer drivers. I think at one point we were down to one or two users.
+> I'll try to remove this function entirely, but it will still be possible
+> to get at the clk_hw for a clk with __clk_get_hw() and then call
+> clk_hw_is_enabled().
+> 
+
+Makes sense.
+
 Regards,
-
-Laurent Pinchart
+Angelo
