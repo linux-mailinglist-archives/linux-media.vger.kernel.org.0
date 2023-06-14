@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A1D2E730834
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 21:26:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0775730831
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 21:26:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236918AbjFNT0w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Jun 2023 15:26:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50458 "EHLO
+        id S236414AbjFNT0r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Jun 2023 15:26:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236560AbjFNTY7 (ORCPT
+        with ESMTP id S236578AbjFNTZA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Jun 2023 15:24:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2384226A1
-        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 12:23:59 -0700 (PDT)
+        Wed, 14 Jun 2023 15:25:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47D5C268F
+        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 12:24:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1686770638;
+        s=mimecast20190719; t=1686770639;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=UNVcGb909+iEab7qjZtKP5nZEXlvVS392htZWicQv4o=;
-        b=Rt/dap45NEZPmYo4yTPTwgC5hc3j8Ag2Ig2ElZnrK1DrXuB9fAZ+oDLpeEVuaE++CgnedM
-        ou6KOPQ7f3AT0S+XxToc5UKnjqibtJHHSqAshhXB6EIMifmXy5BMJAufAE+AGzwiD2GIMn
-        9NZJqYCQ8yBWTGZrt0Eoy9DCkJGEXuo=
+        bh=8YIlSt15O+Dzk2oj7Oqp3qvXOQNmSfutXO1qnaI3Epc=;
+        b=Vn9O2BTAptJTxLiXFl2wxT0JxKjbaKkouuaYYdfpMHq/nNmcBgGJhnvcHdsRfcu7wfkjld
+        DoeObVQbDoKszbiXm2sjXHJ4nu+ihusl60jqZpxi727a0gRTSgAL6su/kKh+ORf5wcVnaP
+        tMsUWzr6q9UrwCJ0euPSCkHyRgA8WDE=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-211-W0a7FbptPLeuWjaXX0UKbg-1; Wed, 14 Jun 2023 15:23:54 -0400
-X-MC-Unique: W0a7FbptPLeuWjaXX0UKbg-1
+ us-mta-578-Bs399RwOMdiT-mFh7IkZVw-1; Wed, 14 Jun 2023 15:23:55 -0400
+X-MC-Unique: Bs399RwOMdiT-mFh7IkZVw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4770F80006E;
-        Wed, 14 Jun 2023 19:23:54 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 755AD101A52C;
+        Wed, 14 Jun 2023 19:23:55 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.46])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 4B8FD1410F01;
-        Wed, 14 Jun 2023 19:23:53 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 796681415102;
+        Wed, 14 Jun 2023 19:23:54 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>
@@ -45,9 +45,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
         linux-media@vger.kernel.org
-Subject: [PATCH v2 3/5] media: imx290: Convert to new CCI register access helpers
-Date:   Wed, 14 Jun 2023 21:23:41 +0200
-Message-Id: <20230614192343.57280-4-hdegoede@redhat.com>
+Subject: [PATCH v2 4/5] media: atomisp: ov2680: Convert to new CCI register access helpers
+Date:   Wed, 14 Jun 2023 21:23:42 +0200
+Message-Id: <20230614192343.57280-5-hdegoede@redhat.com>
 In-Reply-To: <20230614192343.57280-1-hdegoede@redhat.com>
 References: <20230614192343.57280-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -55,8 +55,8 @@ Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -64,623 +64,552 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Use the new comon CCI register access helpers to replace the private
-register access helpers in the imx290 driver.
+register access helpers in the ov2680 driver.
 
+While at it also switch to using the same register address defines
+as the standard drivers/media/i2c/ov2680.c driver to make merging
+the 2 drivers simpler.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
-Note:
-1. This is untested
-2. For reviewers: all the IMX290_REG_?BIT defines in both the register
-address defines as well as in various reg-sequences were automatically
-changed using search replace.
----
- drivers/media/i2c/Kconfig  |   1 +
- drivers/media/i2c/imx290.c | 357 +++++++++++++++----------------------
- 2 files changed, 147 insertions(+), 211 deletions(-)
+ drivers/staging/media/atomisp/i2c/Kconfig     |   1 +
+ .../media/atomisp/i2c/atomisp-ov2680.c        | 237 ++++++++----------
+ drivers/staging/media/atomisp/i2c/ov2680.h    |  86 +------
+ 3 files changed, 107 insertions(+), 217 deletions(-)
 
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 298884a09196..f6f0d7803a77 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -178,6 +178,7 @@ config VIDEO_IMX290
- 	select VIDEO_V4L2_SUBDEV_API
- 	select REGMAP_I2C
- 	select V4L2_FWNODE
+diff --git a/drivers/staging/media/atomisp/i2c/Kconfig b/drivers/staging/media/atomisp/i2c/Kconfig
+index 16b6b808d4a7..e353b7fdbff0 100644
+--- a/drivers/staging/media/atomisp/i2c/Kconfig
++++ b/drivers/staging/media/atomisp/i2c/Kconfig
+@@ -53,6 +53,7 @@ config VIDEO_ATOMISP_OV2680
+ 	tristate "Omnivision OV2680 sensor support"
+ 	depends on ACPI
+ 	depends on I2C && VIDEO_DEV
 +	select V4L2_CCI
  	help
- 	  This is a Video4Linux2 sensor driver for the Sony
- 	  IMX290 camera sensor.
-diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-index b3f832e9d7e1..d4931e2c35d6 100644
---- a/drivers/media/i2c/imx290.c
-+++ b/drivers/media/i2c/imx290.c
-@@ -21,91 +21,86 @@
- #include <asm/unaligned.h>
+ 	  This is a Video4Linux2 sensor-level driver for the Omnivision
+ 	  OV2680 raw camera.
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+index 4cc2839937af..ffdd7f21f450 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+@@ -23,13 +23,50 @@
+ #include <linux/i2c.h>
+ #include <linux/module.h>
+ #include <linux/pm_runtime.h>
++#include <linux/regmap.h>
+ #include <linux/types.h>
  
- #include <media/media-entity.h>
-+#include <media/v4l2-cci.h>
- #include <media/v4l2-ctrls.h>
+-#include <media/ov_16bit_addr_reg_helpers.h>
  #include <media/v4l2-device.h>
- #include <media/v4l2-event.h>
- #include <media/v4l2-fwnode.h>
- #include <media/v4l2-subdev.h>
  
--#define IMX290_REG_SIZE_SHIFT				16
--#define IMX290_REG_ADDR_MASK				0xffff
--#define IMX290_REG_8BIT(n)				((1U << IMX290_REG_SIZE_SHIFT) | (n))
--#define IMX290_REG_16BIT(n)				((2U << IMX290_REG_SIZE_SHIFT) | (n))
--#define IMX290_REG_24BIT(n)				((3U << IMX290_REG_SIZE_SHIFT) | (n))
--
--#define IMX290_STANDBY					IMX290_REG_8BIT(0x3000)
--#define IMX290_REGHOLD					IMX290_REG_8BIT(0x3001)
--#define IMX290_XMSTA					IMX290_REG_8BIT(0x3002)
--#define IMX290_ADBIT					IMX290_REG_8BIT(0x3005)
-+#define IMX290_STANDBY					CCI_REG8(0x3000)
-+#define IMX290_REGHOLD					CCI_REG8(0x3001)
-+#define IMX290_XMSTA					CCI_REG8(0x3002)
-+#define IMX290_ADBIT					CCI_REG8(0x3005)
- #define IMX290_ADBIT_10BIT				(0 << 0)
- #define IMX290_ADBIT_12BIT				(1 << 0)
--#define IMX290_CTRL_07					IMX290_REG_8BIT(0x3007)
-+#define IMX290_CTRL_07					CCI_REG8(0x3007)
- #define IMX290_VREVERSE					BIT(0)
- #define IMX290_HREVERSE					BIT(1)
- #define IMX290_WINMODE_1080P				(0 << 4)
- #define IMX290_WINMODE_720P				(1 << 4)
- #define IMX290_WINMODE_CROP				(4 << 4)
--#define IMX290_FR_FDG_SEL				IMX290_REG_8BIT(0x3009)
--#define IMX290_BLKLEVEL					IMX290_REG_16BIT(0x300a)
--#define IMX290_GAIN					IMX290_REG_8BIT(0x3014)
--#define IMX290_VMAX					IMX290_REG_24BIT(0x3018)
-+#define IMX290_FR_FDG_SEL				CCI_REG8(0x3009)
-+#define IMX290_BLKLEVEL					CCI_REG16(0x300a)
-+#define IMX290_GAIN					CCI_REG8(0x3014)
-+#define IMX290_VMAX					CCI_REG24(0x3018)
- #define IMX290_VMAX_MAX					0x3ffff
--#define IMX290_HMAX					IMX290_REG_16BIT(0x301c)
-+#define IMX290_HMAX					CCI_REG16(0x301c)
- #define IMX290_HMAX_MAX					0xffff
--#define IMX290_SHS1					IMX290_REG_24BIT(0x3020)
--#define IMX290_WINWV_OB					IMX290_REG_8BIT(0x303a)
--#define IMX290_WINPV					IMX290_REG_16BIT(0x303c)
--#define IMX290_WINWV					IMX290_REG_16BIT(0x303e)
--#define IMX290_WINPH					IMX290_REG_16BIT(0x3040)
--#define IMX290_WINWH					IMX290_REG_16BIT(0x3042)
--#define IMX290_OUT_CTRL					IMX290_REG_8BIT(0x3046)
-+#define IMX290_SHS1					CCI_REG24(0x3020)
-+#define IMX290_WINWV_OB					CCI_REG8(0x303a)
-+#define IMX290_WINPV					CCI_REG16(0x303c)
-+#define IMX290_WINWV					CCI_REG16(0x303e)
-+#define IMX290_WINPH					CCI_REG16(0x3040)
-+#define IMX290_WINWH					CCI_REG16(0x3042)
-+#define IMX290_OUT_CTRL					CCI_REG8(0x3046)
- #define IMX290_ODBIT_10BIT				(0 << 0)
- #define IMX290_ODBIT_12BIT				(1 << 0)
- #define IMX290_OPORTSEL_PARALLEL			(0x0 << 4)
- #define IMX290_OPORTSEL_LVDS_2CH			(0xd << 4)
- #define IMX290_OPORTSEL_LVDS_4CH			(0xe << 4)
- #define IMX290_OPORTSEL_LVDS_8CH			(0xf << 4)
--#define IMX290_XSOUTSEL					IMX290_REG_8BIT(0x304b)
-+#define IMX290_XSOUTSEL					CCI_REG8(0x304b)
- #define IMX290_XSOUTSEL_XVSOUTSEL_HIGH			(0 << 0)
- #define IMX290_XSOUTSEL_XVSOUTSEL_VSYNC			(2 << 0)
- #define IMX290_XSOUTSEL_XHSOUTSEL_HIGH			(0 << 2)
- #define IMX290_XSOUTSEL_XHSOUTSEL_HSYNC			(2 << 2)
--#define IMX290_INCKSEL1					IMX290_REG_8BIT(0x305c)
--#define IMX290_INCKSEL2					IMX290_REG_8BIT(0x305d)
--#define IMX290_INCKSEL3					IMX290_REG_8BIT(0x305e)
--#define IMX290_INCKSEL4					IMX290_REG_8BIT(0x305f)
--#define IMX290_PGCTRL					IMX290_REG_8BIT(0x308c)
--#define IMX290_ADBIT1					IMX290_REG_8BIT(0x3129)
-+#define IMX290_INCKSEL1					CCI_REG8(0x305c)
-+#define IMX290_INCKSEL2					CCI_REG8(0x305d)
-+#define IMX290_INCKSEL3					CCI_REG8(0x305e)
-+#define IMX290_INCKSEL4					CCI_REG8(0x305f)
-+#define IMX290_PGCTRL					CCI_REG8(0x308c)
-+#define IMX290_ADBIT1					CCI_REG8(0x3129)
- #define IMX290_ADBIT1_10BIT				0x1d
- #define IMX290_ADBIT1_12BIT				0x00
--#define IMX290_INCKSEL5					IMX290_REG_8BIT(0x315e)
--#define IMX290_INCKSEL6					IMX290_REG_8BIT(0x3164)
--#define IMX290_ADBIT2					IMX290_REG_8BIT(0x317c)
-+#define IMX290_INCKSEL5					CCI_REG8(0x315e)
-+#define IMX290_INCKSEL6					CCI_REG8(0x3164)
-+#define IMX290_ADBIT2					CCI_REG8(0x317c)
- #define IMX290_ADBIT2_10BIT				0x12
- #define IMX290_ADBIT2_12BIT				0x00
--#define IMX290_CHIP_ID					IMX290_REG_16BIT(0x319a)
--#define IMX290_ADBIT3					IMX290_REG_8BIT(0x31ec)
-+#define IMX290_CHIP_ID					CCI_REG16(0x319a)
-+#define IMX290_ADBIT3					CCI_REG8(0x31ec)
- #define IMX290_ADBIT3_10BIT				0x37
- #define IMX290_ADBIT3_12BIT				0x0e
--#define IMX290_REPETITION				IMX290_REG_8BIT(0x3405)
--#define IMX290_PHY_LANE_NUM				IMX290_REG_8BIT(0x3407)
--#define IMX290_OPB_SIZE_V				IMX290_REG_8BIT(0x3414)
--#define IMX290_Y_OUT_SIZE				IMX290_REG_16BIT(0x3418)
--#define IMX290_CSI_DT_FMT				IMX290_REG_16BIT(0x3441)
-+#define IMX290_REPETITION				CCI_REG8(0x3405)
-+#define IMX290_PHY_LANE_NUM				CCI_REG8(0x3407)
-+#define IMX290_OPB_SIZE_V				CCI_REG8(0x3414)
-+#define IMX290_Y_OUT_SIZE				CCI_REG16(0x3418)
-+#define IMX290_CSI_DT_FMT				CCI_REG16(0x3441)
- #define IMX290_CSI_DT_FMT_RAW10				0x0a0a
- #define IMX290_CSI_DT_FMT_RAW12				0x0c0c
--#define IMX290_CSI_LANE_MODE				IMX290_REG_8BIT(0x3443)
--#define IMX290_EXTCK_FREQ				IMX290_REG_16BIT(0x3444)
--#define IMX290_TCLKPOST					IMX290_REG_16BIT(0x3446)
--#define IMX290_THSZERO					IMX290_REG_16BIT(0x3448)
--#define IMX290_THSPREPARE				IMX290_REG_16BIT(0x344a)
--#define IMX290_TCLKTRAIL				IMX290_REG_16BIT(0x344c)
--#define IMX290_THSTRAIL					IMX290_REG_16BIT(0x344e)
--#define IMX290_TCLKZERO					IMX290_REG_16BIT(0x3450)
--#define IMX290_TCLKPREPARE				IMX290_REG_16BIT(0x3452)
--#define IMX290_TLPX					IMX290_REG_16BIT(0x3454)
--#define IMX290_X_OUT_SIZE				IMX290_REG_16BIT(0x3472)
--#define IMX290_INCKSEL7					IMX290_REG_8BIT(0x3480)
-+#define IMX290_CSI_LANE_MODE				CCI_REG8(0x3443)
-+#define IMX290_EXTCK_FREQ				CCI_REG16(0x3444)
-+#define IMX290_TCLKPOST					CCI_REG16(0x3446)
-+#define IMX290_THSZERO					CCI_REG16(0x3448)
-+#define IMX290_THSPREPARE				CCI_REG16(0x344a)
-+#define IMX290_TCLKTRAIL				CCI_REG16(0x344c)
-+#define IMX290_THSTRAIL					CCI_REG16(0x344e)
-+#define IMX290_TCLKZERO					CCI_REG16(0x3450)
-+#define IMX290_TCLKPREPARE				CCI_REG16(0x3452)
-+#define IMX290_TLPX					CCI_REG16(0x3454)
-+#define IMX290_X_OUT_SIZE				CCI_REG16(0x3472)
-+#define IMX290_INCKSEL7					CCI_REG8(0x3480)
+ #include "ov2680.h"
  
- #define IMX290_PGCTRL_REGEN				BIT(0)
- #define IMX290_PGCTRL_THRU				BIT(1)
-@@ -181,7 +176,7 @@ enum imx290_model {
- 
- struct imx290_model_info {
- 	enum imx290_colour_variant colour_variant;
--	const struct imx290_regval *init_regs;
-+	const struct cci_reg_sequence *init_regs;
- 	size_t init_regs_num;
- 	const char *name;
- };
-@@ -192,11 +187,6 @@ enum imx290_clk_freq {
- 	IMX290_NUM_CLK
++#define OV2680_CHIP_ID				0x2680
++
++#define OV2680_REG_STREAM_CTRL			CCI_REG8(0x0100)
++#define OV2680_REG_SOFT_RESET			CCI_REG8(0x0103)
++
++#define OV2680_REG_CHIP_ID			CCI_REG16(0x300a)
++#define OV2680_REG_SC_CMMN_SUB_ID		CCI_REG8(0x302a)
++
++#define OV2680_REG_EXPOSURE_PK			CCI_REG24(0x3500)
++#define OV2680_REG_R_MANUAL			CCI_REG8(0x3503)
++#define OV2680_REG_GAIN_PK			CCI_REG16(0x350a)
++
++#define OV2680_REG_SENSOR_CTRL_0A		CCI_REG8(0x370a)
++
++#define OV2680_REG_HORIZONTAL_START		CCI_REG16(0x3800)
++#define OV2680_REG_VERTICAL_START		CCI_REG16(0x3802)
++#define OV2680_REG_HORIZONTAL_END		CCI_REG16(0x3804)
++#define OV2680_REG_VERTICAL_END			CCI_REG16(0x3806)
++#define OV2680_REG_HORIZONTAL_OUTPUT_SIZE	CCI_REG16(0x3808)
++#define OV2680_REG_VERTICAL_OUTPUT_SIZE		CCI_REG16(0x380a)
++#define OV2680_REG_TIMING_HTS			CCI_REG16(0x380c)
++#define OV2680_REG_TIMING_VTS			CCI_REG16(0x380e)
++#define OV2680_REG_ISP_X_WIN			CCI_REG16(0x3810)
++#define OV2680_REG_ISP_Y_WIN			CCI_REG16(0x3812)
++#define OV2680_REG_X_INC			CCI_REG8(0x3814)
++#define OV2680_REG_Y_INC			CCI_REG8(0x3815)
++#define OV2680_REG_FORMAT1			CCI_REG8(0x3820)
++#define OV2680_REG_FORMAT2			CCI_REG8(0x3821)
++
++#define OV2680_REG_ISP_CTRL00			CCI_REG8(0x5080)
++
++#define OV2680_REG_X_WIN			CCI_REG16(0x5704)
++#define OV2680_REG_Y_WIN			CCI_REG16(0x5706)
++
++#define OV2680_FRAME_RATE			30
++#define OV2680_INTEGRATION_TIME_MARGIN		8
++
+ static const struct v4l2_rect ov2680_default_crop = {
+ 	.left = OV2680_ACTIVE_START_LEFT,
+ 	.top = OV2680_ACTIVE_START_TOP,
+@@ -37,21 +74,6 @@ static const struct v4l2_rect ov2680_default_crop = {
+ 	.height = OV2680_ACTIVE_HEIGHT,
  };
  
--struct imx290_regval {
--	u32 reg;
--	u32 val;
--};
--
- /*
-  * Clock configuration for registers INCKSEL1 to INCKSEL6.
-  */
-@@ -217,7 +207,7 @@ struct imx290_mode {
- 	u8 link_freq_index;
- 	u8 ctrl_07;
- 
--	const struct imx290_regval *data;
-+	const struct cci_reg_sequence *data;
- 	u32 data_size;
- 
- 	const struct imx290_clk_cfg *clk_cfg;
-@@ -271,7 +261,7 @@ static inline struct imx290 *to_imx290(struct v4l2_subdev *_sd)
-  * Modes and formats
-  */
- 
--static const struct imx290_regval imx290_global_init_settings[] = {
-+static const struct cci_reg_sequence imx290_global_init_settings[] = {
- 	{ IMX290_WINWV_OB, 12 },
- 	{ IMX290_WINPH, 0 },
- 	{ IMX290_WINPV, 0 },
-@@ -279,56 +269,56 @@ static const struct imx290_regval imx290_global_init_settings[] = {
- 	{ IMX290_WINWV, 1097 },
- 	{ IMX290_XSOUTSEL, IMX290_XSOUTSEL_XVSOUTSEL_VSYNC |
- 			   IMX290_XSOUTSEL_XHSOUTSEL_HSYNC },
--	{ IMX290_REG_8BIT(0x3011), 0x02 },
--	{ IMX290_REG_8BIT(0x3012), 0x64 },
--	{ IMX290_REG_8BIT(0x3013), 0x00 },
-+	{ CCI_REG8(0x3011), 0x02 },
-+	{ CCI_REG8(0x3012), 0x64 },
-+	{ CCI_REG8(0x3013), 0x00 },
- };
- 
--static const struct imx290_regval imx290_global_init_settings_290[] = {
--	{ IMX290_REG_8BIT(0x300f), 0x00 },
--	{ IMX290_REG_8BIT(0x3010), 0x21 },
--	{ IMX290_REG_8BIT(0x3016), 0x09 },
--	{ IMX290_REG_8BIT(0x3070), 0x02 },
--	{ IMX290_REG_8BIT(0x3071), 0x11 },
--	{ IMX290_REG_8BIT(0x309b), 0x10 },
--	{ IMX290_REG_8BIT(0x309c), 0x22 },
--	{ IMX290_REG_8BIT(0x30a2), 0x02 },
--	{ IMX290_REG_8BIT(0x30a6), 0x20 },
--	{ IMX290_REG_8BIT(0x30a8), 0x20 },
--	{ IMX290_REG_8BIT(0x30aa), 0x20 },
--	{ IMX290_REG_8BIT(0x30ac), 0x20 },
--	{ IMX290_REG_8BIT(0x30b0), 0x43 },
--	{ IMX290_REG_8BIT(0x3119), 0x9e },
--	{ IMX290_REG_8BIT(0x311c), 0x1e },
--	{ IMX290_REG_8BIT(0x311e), 0x08 },
--	{ IMX290_REG_8BIT(0x3128), 0x05 },
--	{ IMX290_REG_8BIT(0x313d), 0x83 },
--	{ IMX290_REG_8BIT(0x3150), 0x03 },
--	{ IMX290_REG_8BIT(0x317e), 0x00 },
--	{ IMX290_REG_8BIT(0x32b8), 0x50 },
--	{ IMX290_REG_8BIT(0x32b9), 0x10 },
--	{ IMX290_REG_8BIT(0x32ba), 0x00 },
--	{ IMX290_REG_8BIT(0x32bb), 0x04 },
--	{ IMX290_REG_8BIT(0x32c8), 0x50 },
--	{ IMX290_REG_8BIT(0x32c9), 0x10 },
--	{ IMX290_REG_8BIT(0x32ca), 0x00 },
--	{ IMX290_REG_8BIT(0x32cb), 0x04 },
--	{ IMX290_REG_8BIT(0x332c), 0xd3 },
--	{ IMX290_REG_8BIT(0x332d), 0x10 },
--	{ IMX290_REG_8BIT(0x332e), 0x0d },
--	{ IMX290_REG_8BIT(0x3358), 0x06 },
--	{ IMX290_REG_8BIT(0x3359), 0xe1 },
--	{ IMX290_REG_8BIT(0x335a), 0x11 },
--	{ IMX290_REG_8BIT(0x3360), 0x1e },
--	{ IMX290_REG_8BIT(0x3361), 0x61 },
--	{ IMX290_REG_8BIT(0x3362), 0x10 },
--	{ IMX290_REG_8BIT(0x33b0), 0x50 },
--	{ IMX290_REG_8BIT(0x33b2), 0x1a },
--	{ IMX290_REG_8BIT(0x33b3), 0x04 },
-+static const struct cci_reg_sequence imx290_global_init_settings_290[] = {
-+	{ CCI_REG8(0x300f), 0x00 },
-+	{ CCI_REG8(0x3010), 0x21 },
-+	{ CCI_REG8(0x3016), 0x09 },
-+	{ CCI_REG8(0x3070), 0x02 },
-+	{ CCI_REG8(0x3071), 0x11 },
-+	{ CCI_REG8(0x309b), 0x10 },
-+	{ CCI_REG8(0x309c), 0x22 },
-+	{ CCI_REG8(0x30a2), 0x02 },
-+	{ CCI_REG8(0x30a6), 0x20 },
-+	{ CCI_REG8(0x30a8), 0x20 },
-+	{ CCI_REG8(0x30aa), 0x20 },
-+	{ CCI_REG8(0x30ac), 0x20 },
-+	{ CCI_REG8(0x30b0), 0x43 },
-+	{ CCI_REG8(0x3119), 0x9e },
-+	{ CCI_REG8(0x311c), 0x1e },
-+	{ CCI_REG8(0x311e), 0x08 },
-+	{ CCI_REG8(0x3128), 0x05 },
-+	{ CCI_REG8(0x313d), 0x83 },
-+	{ CCI_REG8(0x3150), 0x03 },
-+	{ CCI_REG8(0x317e), 0x00 },
-+	{ CCI_REG8(0x32b8), 0x50 },
-+	{ CCI_REG8(0x32b9), 0x10 },
-+	{ CCI_REG8(0x32ba), 0x00 },
-+	{ CCI_REG8(0x32bb), 0x04 },
-+	{ CCI_REG8(0x32c8), 0x50 },
-+	{ CCI_REG8(0x32c9), 0x10 },
-+	{ CCI_REG8(0x32ca), 0x00 },
-+	{ CCI_REG8(0x32cb), 0x04 },
-+	{ CCI_REG8(0x332c), 0xd3 },
-+	{ CCI_REG8(0x332d), 0x10 },
-+	{ CCI_REG8(0x332e), 0x0d },
-+	{ CCI_REG8(0x3358), 0x06 },
-+	{ CCI_REG8(0x3359), 0xe1 },
-+	{ CCI_REG8(0x335a), 0x11 },
-+	{ CCI_REG8(0x3360), 0x1e },
-+	{ CCI_REG8(0x3361), 0x61 },
-+	{ CCI_REG8(0x3362), 0x10 },
-+	{ CCI_REG8(0x33b0), 0x50 },
-+	{ CCI_REG8(0x33b2), 0x1a },
-+	{ CCI_REG8(0x33b3), 0x04 },
- };
- 
- #define IMX290_NUM_CLK_REGS	2
--static const struct imx290_regval xclk_regs[][IMX290_NUM_CLK_REGS] = {
-+static const struct cci_reg_sequence xclk_regs[][IMX290_NUM_CLK_REGS] = {
- 	[IMX290_CLK_37_125] = {
- 		{ IMX290_EXTCK_FREQ, (37125 * 256) / 1000 },
- 		{ IMX290_INCKSEL7, 0x49 },
-@@ -339,13 +329,13 @@ static const struct imx290_regval xclk_regs[][IMX290_NUM_CLK_REGS] = {
- 	},
- };
- 
--static const struct imx290_regval imx290_global_init_settings_327[] = {
--	{ IMX290_REG_8BIT(0x309e), 0x4A },
--	{ IMX290_REG_8BIT(0x309f), 0x4A },
--	{ IMX290_REG_8BIT(0x313b), 0x61 },
-+static const struct cci_reg_sequence imx290_global_init_settings_327[] = {
-+	{ CCI_REG8(0x309e), 0x4A },
-+	{ CCI_REG8(0x309f), 0x4A },
-+	{ CCI_REG8(0x313b), 0x61 },
- };
- 
--static const struct imx290_regval imx290_1080p_settings[] = {
-+static const struct cci_reg_sequence imx290_1080p_settings[] = {
- 	/* mode settings */
- 	{ IMX290_WINWV_OB, 12 },
- 	{ IMX290_OPB_SIZE_V, 10 },
-@@ -353,7 +343,7 @@ static const struct imx290_regval imx290_1080p_settings[] = {
- 	{ IMX290_Y_OUT_SIZE, 1080 },
- };
- 
--static const struct imx290_regval imx290_720p_settings[] = {
-+static const struct cci_reg_sequence imx290_720p_settings[] = {
- 	/* mode settings */
- 	{ IMX290_WINWV_OB, 6 },
- 	{ IMX290_OPB_SIZE_V, 4 },
-@@ -361,7 +351,7 @@ static const struct imx290_regval imx290_720p_settings[] = {
- 	{ IMX290_Y_OUT_SIZE, 720 },
- };
- 
--static const struct imx290_regval imx290_10bit_settings[] = {
-+static const struct cci_reg_sequence imx290_10bit_settings[] = {
- 	{ IMX290_ADBIT, IMX290_ADBIT_10BIT },
- 	{ IMX290_OUT_CTRL, IMX290_ODBIT_10BIT },
- 	{ IMX290_ADBIT1, IMX290_ADBIT1_10BIT },
-@@ -370,7 +360,7 @@ static const struct imx290_regval imx290_10bit_settings[] = {
- 	{ IMX290_CSI_DT_FMT, IMX290_CSI_DT_FMT_RAW10 },
- };
- 
--static const struct imx290_regval imx290_12bit_settings[] = {
-+static const struct cci_reg_sequence imx290_12bit_settings[] = {
- 	{ IMX290_ADBIT, IMX290_ADBIT_12BIT },
- 	{ IMX290_OUT_CTRL, IMX290_ODBIT_12BIT },
- 	{ IMX290_ADBIT1, IMX290_ADBIT1_12BIT },
-@@ -576,7 +566,7 @@ static inline int imx290_modes_num(const struct imx290 *imx290)
- struct imx290_format_info {
- 	u32 code[IMX290_VARIANT_MAX];
- 	u8 bpp;
--	const struct imx290_regval *regs;
-+	const struct cci_reg_sequence *regs;
- 	unsigned int num_regs;
- };
- 
-@@ -615,63 +605,15 @@ imx290_format_info(const struct imx290 *imx290, u32 code)
- 	return NULL;
- }
- 
--/* -----------------------------------------------------------------------------
-- * Register access
-- */
--
--static int __always_unused imx290_read(struct imx290 *imx290, u32 addr, u32 *value)
+-static int ov2680_write_reg_array(struct i2c_client *client,
+-				  const struct ov2680_reg *reglist)
 -{
--	u8 data[3] = { 0, 0, 0 };
+-	const struct ov2680_reg *next = reglist;
 -	int ret;
 -
--	ret = regmap_raw_read(imx290->regmap, addr & IMX290_REG_ADDR_MASK,
--			      data, (addr >> IMX290_REG_SIZE_SHIFT) & 3);
--	if (ret < 0) {
--		dev_err(imx290->dev, "%u-bit read from 0x%04x failed: %d\n",
--			((addr >> IMX290_REG_SIZE_SHIFT) & 3) * 8,
--			 addr & IMX290_REG_ADDR_MASK, ret);
--		return ret;
+-	for (; next->reg != 0; next++) {
+-		ret = ov_write_reg8(client, next->reg, next->val);
+-		if (ret)
+-			return ret;
 -	}
 -
--	*value = get_unaligned_le24(data);
 -	return 0;
 -}
 -
--static int imx290_write(struct imx290 *imx290, u32 addr, u32 value, int *err)
--{
--	u8 data[3];
--	int ret;
--
--	if (err && *err)
--		return *err;
--
--	put_unaligned_le24(value, data);
--
--	ret = regmap_raw_write(imx290->regmap, addr & IMX290_REG_ADDR_MASK,
--			       data, (addr >> IMX290_REG_SIZE_SHIFT) & 3);
--	if (ret < 0) {
--		dev_err(imx290->dev, "%u-bit write to 0x%04x failed: %d\n",
--			((addr >> IMX290_REG_SIZE_SHIFT) & 3) * 8,
--			 addr & IMX290_REG_ADDR_MASK, ret);
--		if (err)
--			*err = ret;
--	}
--
--	return ret;
--}
--
- static int imx290_set_register_array(struct imx290 *imx290,
--				     const struct imx290_regval *settings,
-+				     const struct cci_reg_sequence *settings,
- 				     unsigned int num_settings)
+ static void ov2680_set_bayer_order(struct ov2680_dev *sensor, struct v4l2_mbus_framefmt *fmt)
  {
--	unsigned int i;
+ 	static const int ov2680_hv_flip_bayer_order[] = {
+@@ -78,7 +100,8 @@ static int ov2680_set_vflip(struct ov2680_dev *sensor, s32 val)
+ 	if (sensor->is_streaming)
+ 		return -EBUSY;
+ 
+-	ret = ov_update_reg(sensor->client, OV2680_REG_FORMAT1, BIT(2), val ? BIT(2) : 0);
++	ret = cci_update_bits(sensor->regmap, OV2680_REG_FORMAT1, BIT(2),
++			      val ? BIT(2) : 0, NULL);
+ 	if (ret < 0)
+ 		return ret;
+ 
+@@ -93,7 +116,8 @@ static int ov2680_set_hflip(struct ov2680_dev *sensor, s32 val)
+ 	if (sensor->is_streaming)
+ 		return -EBUSY;
+ 
+-	ret = ov_update_reg(sensor->client, OV2680_REG_FORMAT2, BIT(2), val ? BIT(2) : 0);
++	ret = cci_update_bits(sensor->regmap, OV2680_REG_FORMAT2, BIT(2),
++			      val ? BIT(2) : 0, NULL);
+ 	if (ret < 0)
+ 		return ret;
+ 
+@@ -103,30 +127,25 @@ static int ov2680_set_hflip(struct ov2680_dev *sensor, s32 val)
+ 
+ static int ov2680_exposure_set(struct ov2680_dev *sensor, u32 exp)
+ {
+-	return ov_write_reg24(sensor->client, OV2680_REG_EXPOSURE_PK_HIGH, exp << 4);
++	return cci_write(sensor->regmap, OV2680_REG_EXPOSURE_PK, exp << 4, NULL);
+ }
+ 
+ static int ov2680_gain_set(struct ov2680_dev *sensor, u32 gain)
+ {
+-	return ov_write_reg16(sensor->client, OV2680_REG_GAIN_PK, gain);
++	return cci_write(sensor->regmap, OV2680_REG_GAIN_PK, gain, NULL);
+ }
+ 
+ static int ov2680_test_pattern_set(struct ov2680_dev *sensor, int value)
+ {
+-	int ret;
++	int ret = 0;
+ 
+ 	if (!value)
+-		return ov_update_reg(sensor->client, OV2680_REG_ISP_CTRL00, BIT(7), 0);
++		return cci_update_bits(sensor->regmap, OV2680_REG_ISP_CTRL00, BIT(7), 0, NULL);
+ 
+-	ret = ov_update_reg(sensor->client, OV2680_REG_ISP_CTRL00, 0x03, value - 1);
+-	if (ret < 0)
+-		return ret;
++	cci_update_bits(sensor->regmap, OV2680_REG_ISP_CTRL00, 0x03, value - 1, &ret);
++	cci_update_bits(sensor->regmap, OV2680_REG_ISP_CTRL00, BIT(7), BIT(7), &ret);
+ 
+-	ret = ov_update_reg(sensor->client, OV2680_REG_ISP_CTRL00, BIT(7), BIT(7));
+-	if (ret < 0)
+-		return ret;
+-
+-	return 0;
++	return ret;
+ }
+ 
+ static int ov2680_s_ctrl(struct v4l2_ctrl *ctrl)
+@@ -171,17 +190,18 @@ static const struct v4l2_ctrl_ops ov2680_ctrl_ops = {
+ 
+ static int ov2680_init_registers(struct v4l2_subdev *sd)
+ {
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
++	struct ov2680_dev *sensor = to_ov2680_sensor(sd);
  	int ret;
  
--	for (i = 0; i < num_settings; ++i, ++settings) {
--		ret = imx290_write(imx290, settings->reg, settings->val, NULL);
--		if (ret < 0)
--			return ret;
--	}
-+	ret = cci_multi_reg_write(imx290->regmap, settings, num_settings, NULL);
+-	ret = ov_write_reg8(client, OV2680_SW_RESET, 0x01);
++	ret = cci_write(sensor->regmap, OV2680_REG_SOFT_RESET, 0x01, NULL);
 +	if (ret < 0)
 +		return ret;
  
- 	/* Provide 10ms settle time */
- 	usleep_range(10000, 11000);
-@@ -689,12 +631,12 @@ static int imx290_set_clock(struct imx290 *imx290)
- 	ret = imx290_set_register_array(imx290, xclk_regs[clk_idx],
- 					IMX290_NUM_CLK_REGS);
+ 	/* Wait for sensor reset */
+ 	usleep_range(1000, 2000);
  
--	imx290_write(imx290, IMX290_INCKSEL1, clk_cfg->incksel1, &ret);
--	imx290_write(imx290, IMX290_INCKSEL2, clk_cfg->incksel2, &ret);
--	imx290_write(imx290, IMX290_INCKSEL3, clk_cfg->incksel3, &ret);
--	imx290_write(imx290, IMX290_INCKSEL4, clk_cfg->incksel4, &ret);
--	imx290_write(imx290, IMX290_INCKSEL5, clk_cfg->incksel5, &ret);
--	imx290_write(imx290, IMX290_INCKSEL6, clk_cfg->incksel6, &ret);
-+	cci_write(imx290->regmap, IMX290_INCKSEL1, clk_cfg->incksel1, &ret);
-+	cci_write(imx290->regmap, IMX290_INCKSEL2, clk_cfg->incksel2, &ret);
-+	cci_write(imx290->regmap, IMX290_INCKSEL3, clk_cfg->incksel3, &ret);
-+	cci_write(imx290->regmap, IMX290_INCKSEL4, clk_cfg->incksel4, &ret);
-+	cci_write(imx290->regmap, IMX290_INCKSEL5, clk_cfg->incksel5, &ret);
-+	cci_write(imx290->regmap, IMX290_INCKSEL6, clk_cfg->incksel6, &ret);
- 
- 	return ret;
- }
-@@ -703,9 +645,9 @@ static int imx290_set_data_lanes(struct imx290 *imx290)
- {
- 	int ret = 0;
- 
--	imx290_write(imx290, IMX290_PHY_LANE_NUM, imx290->nlanes - 1, &ret);
--	imx290_write(imx290, IMX290_CSI_LANE_MODE, imx290->nlanes - 1, &ret);
--	imx290_write(imx290, IMX290_FR_FDG_SEL, 0x01, &ret);
-+	cci_write(imx290->regmap, IMX290_PHY_LANE_NUM, imx290->nlanes - 1, &ret);
-+	cci_write(imx290->regmap, IMX290_CSI_LANE_MODE, imx290->nlanes - 1, &ret);
-+	cci_write(imx290->regmap, IMX290_FR_FDG_SEL, 0x01, &ret);
- 
- 	return ret;
- }
-@@ -716,8 +658,8 @@ static int imx290_set_black_level(struct imx290 *imx290,
- {
- 	unsigned int bpp = imx290_format_info(imx290, format->code)->bpp;
- 
--	return imx290_write(imx290, IMX290_BLKLEVEL,
--			    black_level >> (16 - bpp), err);
-+	return cci_write(imx290->regmap, IMX290_BLKLEVEL,
-+			 black_level >> (16 - bpp), err);
- }
- 
- static int imx290_set_csi_config(struct imx290 *imx290)
-@@ -743,15 +685,15 @@ static int imx290_set_csi_config(struct imx290 *imx290)
- 		return -EINVAL;
- 	}
- 
--	imx290_write(imx290, IMX290_REPETITION, csi_cfg->repetition, &ret);
--	imx290_write(imx290, IMX290_TCLKPOST, csi_cfg->tclkpost, &ret);
--	imx290_write(imx290, IMX290_THSZERO, csi_cfg->thszero, &ret);
--	imx290_write(imx290, IMX290_THSPREPARE, csi_cfg->thsprepare, &ret);
--	imx290_write(imx290, IMX290_TCLKTRAIL, csi_cfg->tclktrail, &ret);
--	imx290_write(imx290, IMX290_THSTRAIL, csi_cfg->thstrail, &ret);
--	imx290_write(imx290, IMX290_TCLKZERO, csi_cfg->tclkzero, &ret);
--	imx290_write(imx290, IMX290_TCLKPREPARE, csi_cfg->tclkprepare, &ret);
--	imx290_write(imx290, IMX290_TLPX, csi_cfg->tlpx, &ret);
-+	cci_write(imx290->regmap, IMX290_REPETITION, csi_cfg->repetition, &ret);
-+	cci_write(imx290->regmap, IMX290_TCLKPOST, csi_cfg->tclkpost, &ret);
-+	cci_write(imx290->regmap, IMX290_THSZERO, csi_cfg->thszero, &ret);
-+	cci_write(imx290->regmap, IMX290_THSPREPARE, csi_cfg->thsprepare, &ret);
-+	cci_write(imx290->regmap, IMX290_TCLKTRAIL, csi_cfg->tclktrail, &ret);
-+	cci_write(imx290->regmap, IMX290_THSTRAIL, csi_cfg->thstrail, &ret);
-+	cci_write(imx290->regmap, IMX290_TCLKZERO, csi_cfg->tclkzero, &ret);
-+	cci_write(imx290->regmap, IMX290_TCLKPREPARE, csi_cfg->tclkprepare, &ret);
-+	cci_write(imx290->regmap, IMX290_TLPX, csi_cfg->tlpx, &ret);
- 
- 	return ret;
- }
-@@ -817,13 +759,12 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
- 
- 	switch (ctrl->id) {
- 	case V4L2_CID_ANALOGUE_GAIN:
--		ret = imx290_write(imx290, IMX290_GAIN, ctrl->val, NULL);
-+		ret = cci_write(imx290->regmap, IMX290_GAIN, ctrl->val, NULL);
- 		break;
- 
- 	case V4L2_CID_VBLANK:
--		ret = imx290_write(imx290, IMX290_VMAX,
--				   ctrl->val + imx290->current_mode->height,
--				   NULL);
-+		ret = cci_write(imx290->regmap, IMX290_VMAX,
-+				ctrl->val + imx290->current_mode->height, NULL);
- 		/*
- 		 * Due to the way that exposure is programmed in this sensor in
- 		 * relation to VMAX, we have to reprogramme it whenever VMAX is
-@@ -835,20 +776,20 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
- 		fallthrough;
- 	case V4L2_CID_EXPOSURE:
- 		vmax = imx290->vblank->val + imx290->current_mode->height;
--		ret = imx290_write(imx290, IMX290_SHS1,
--				   vmax - ctrl->val - 1, NULL);
-+		ret = cci_write(imx290->regmap, IMX290_SHS1,
-+				vmax - ctrl->val - 1, NULL);
- 		break;
- 
- 	case V4L2_CID_TEST_PATTERN:
- 		if (ctrl->val) {
- 			imx290_set_black_level(imx290, format, 0, &ret);
- 			usleep_range(10000, 11000);
--			imx290_write(imx290, IMX290_PGCTRL,
--				     (u8)(IMX290_PGCTRL_REGEN |
--				     IMX290_PGCTRL_THRU |
--				     IMX290_PGCTRL_MODE(ctrl->val)), &ret);
-+			cci_write(imx290->regmap, IMX290_PGCTRL,
-+				  (u8)(IMX290_PGCTRL_REGEN |
-+				       IMX290_PGCTRL_THRU |
-+				       IMX290_PGCTRL_MODE(ctrl->val)), &ret);
- 		} else {
--			imx290_write(imx290, IMX290_PGCTRL, 0x00, &ret);
-+			cci_write(imx290->regmap, IMX290_PGCTRL, 0x00, &ret);
- 			usleep_range(10000, 11000);
- 			imx290_set_black_level(imx290, format,
- 					       IMX290_BLACK_LEVEL_DEFAULT, &ret);
-@@ -856,9 +797,8 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
- 		break;
- 
- 	case V4L2_CID_HBLANK:
--		ret = imx290_write(imx290, IMX290_HMAX,
--				   ctrl->val + imx290->current_mode->width,
--				   NULL);
-+		ret = cci_write(imx290->regmap, IMX290_HMAX,
-+				ctrl->val + imx290->current_mode->width, NULL);
- 		break;
- 
- 	case V4L2_CID_HFLIP:
-@@ -871,7 +811,7 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
- 			reg |= IMX290_HREVERSE;
- 		if (imx290->vflip->val)
- 			reg |= IMX290_VREVERSE;
--		ret = imx290_write(imx290, IMX290_CTRL_07, reg, NULL);
-+		ret = cci_write(imx290->regmap, IMX290_CTRL_07, reg, NULL);
- 		break;
- 	}
- 
-@@ -1074,12 +1014,12 @@ static int imx290_start_streaming(struct imx290 *imx290,
- 		return ret;
- 	}
- 
--	imx290_write(imx290, IMX290_STANDBY, 0x00, &ret);
-+	cci_write(imx290->regmap, IMX290_STANDBY, 0x00, &ret);
- 
- 	msleep(30);
- 
- 	/* Start streaming */
--	return imx290_write(imx290, IMX290_XMSTA, 0x00, &ret);
-+	return cci_write(imx290->regmap, IMX290_XMSTA, 0x00, &ret);
- }
- 
- /* Stop streaming */
-@@ -1087,11 +1027,11 @@ static int imx290_stop_streaming(struct imx290 *imx290)
- {
- 	int ret = 0;
- 
--	imx290_write(imx290, IMX290_STANDBY, 0x01, &ret);
-+	cci_write(imx290->regmap, IMX290_STANDBY, 0x01, &ret);
- 
- 	msleep(30);
- 
--	return imx290_write(imx290, IMX290_XMSTA, 0x01, &ret);
-+	return cci_write(imx290->regmap, IMX290_XMSTA, 0x01, &ret);
- }
- 
- static int imx290_set_stream(struct v4l2_subdev *sd, int enable)
-@@ -1417,11 +1357,6 @@ static const struct dev_pm_ops imx290_pm_ops = {
-  * Probe & remove
-  */
- 
--static const struct regmap_config imx290_regmap_config = {
--	.reg_bits = 16,
--	.val_bits = 8,
--};
+-	ret |= ov2680_write_reg_array(client, ov2680_global_setting);
 -
- static const char * const imx290_supply_name[IMX290_NUM_SUPPLIES] = {
- 	"vdda",
- 	"vddd",
-@@ -1588,7 +1523,7 @@ static int imx290_probe(struct i2c_client *client)
+-	return ret;
++	return regmap_multi_reg_write(sensor->regmap, ov2680_global_setting,
++				      ARRAY_SIZE(ov2680_global_setting));
+ }
+ 
+ static struct v4l2_mbus_framefmt *
+@@ -247,9 +267,8 @@ static void ov2680_calc_mode(struct ov2680_dev *sensor)
+ 
+ static int ov2680_set_mode(struct ov2680_dev *sensor)
+ {
+-	struct i2c_client *client = sensor->client;
+ 	u8 sensor_ctrl_0a, inc, fmt1, fmt2;
+-	int ret;
++	int ret = 0;
+ 
+ 	if (sensor->mode.binning) {
+ 		sensor_ctrl_0a = 0x23;
+@@ -263,77 +282,27 @@ static int ov2680_set_mode(struct ov2680_dev *sensor)
+ 		fmt2 = 0x00;
+ 	}
+ 
+-	ret = ov_write_reg8(client, OV2680_REG_SENSOR_CTRL_0A, sensor_ctrl_0a);
+-	if (ret)
+-		return ret;
++	cci_write(sensor->regmap, OV2680_REG_SENSOR_CTRL_0A, sensor_ctrl_0a, &ret);
++	cci_write(sensor->regmap, OV2680_REG_HORIZONTAL_START, sensor->mode.h_start, &ret);
++	cci_write(sensor->regmap, OV2680_REG_VERTICAL_START, sensor->mode.v_start, &ret);
++	cci_write(sensor->regmap, OV2680_REG_HORIZONTAL_END, sensor->mode.h_end, &ret);
++	cci_write(sensor->regmap, OV2680_REG_VERTICAL_END, sensor->mode.v_end, &ret);
++	cci_write(sensor->regmap, OV2680_REG_HORIZONTAL_OUTPUT_SIZE,
++		  sensor->mode.h_output_size, &ret);
++	cci_write(sensor->regmap, OV2680_REG_VERTICAL_OUTPUT_SIZE,
++		  sensor->mode.v_output_size, &ret);
++	cci_write(sensor->regmap, OV2680_REG_TIMING_HTS, sensor->mode.hts, &ret);
++	cci_write(sensor->regmap, OV2680_REG_TIMING_VTS, sensor->mode.vts, &ret);
++	cci_write(sensor->regmap, OV2680_REG_ISP_X_WIN, 0, &ret);
++	cci_write(sensor->regmap, OV2680_REG_ISP_Y_WIN, 0, &ret);
++	cci_write(sensor->regmap, OV2680_REG_X_INC, inc, &ret);
++	cci_write(sensor->regmap, OV2680_REG_Y_INC, inc, &ret);
++	cci_write(sensor->regmap, OV2680_REG_X_WIN, sensor->mode.h_output_size, &ret);
++	cci_write(sensor->regmap, OV2680_REG_Y_WIN, sensor->mode.v_output_size, &ret);
++	cci_write(sensor->regmap, OV2680_REG_FORMAT1, fmt1, &ret);
++	cci_write(sensor->regmap, OV2680_REG_FORMAT2, fmt2, &ret);
+ 
+-	ret = ov_write_reg16(client, OV2680_HORIZONTAL_START_H, sensor->mode.h_start);
+-	if (ret)
+-		return ret;
+-
+-	ret = ov_write_reg16(client, OV2680_VERTICAL_START_H, sensor->mode.v_start);
+-	if (ret)
+-		return ret;
+-
+-	ret = ov_write_reg16(client, OV2680_HORIZONTAL_END_H, sensor->mode.h_end);
+-	if (ret)
+-		return ret;
+-
+-	ret = ov_write_reg16(client, OV2680_VERTICAL_END_H, sensor->mode.v_end);
+-	if (ret)
+-		return ret;
+-
+-	ret = ov_write_reg16(client, OV2680_HORIZONTAL_OUTPUT_SIZE_H,
+-				 sensor->mode.h_output_size);
+-	if (ret)
+-		return ret;
+-
+-	ret = ov_write_reg16(client, OV2680_VERTICAL_OUTPUT_SIZE_H,
+-				 sensor->mode.v_output_size);
+-	if (ret)
+-		return ret;
+-
+-	ret = ov_write_reg16(client, OV2680_HTS, sensor->mode.hts);
+-	if (ret)
+-		return ret;
+-
+-	ret = ov_write_reg16(client, OV2680_VTS, sensor->mode.vts);
+-	if (ret)
+-		return ret;
+-
+-	ret = ov_write_reg16(client, OV2680_ISP_X_WIN, 0);
+-	if (ret)
+-		return ret;
+-
+-	ret = ov_write_reg16(client, OV2680_ISP_Y_WIN, 0);
+-	if (ret)
+-		return ret;
+-
+-	ret = ov_write_reg8(client, OV2680_X_INC, inc);
+-	if (ret)
+-		return ret;
+-
+-	ret = ov_write_reg8(client, OV2680_Y_INC, inc);
+-	if (ret)
+-		return ret;
+-
+-	ret = ov_write_reg16(client, OV2680_X_WIN, sensor->mode.h_output_size);
+-	if (ret)
+-		return ret;
+-
+-	ret = ov_write_reg16(client, OV2680_Y_WIN, sensor->mode.v_output_size);
+-	if (ret)
+-		return ret;
+-
+-	ret = ov_write_reg8(client, OV2680_REG_FORMAT1, fmt1);
+-	if (ret)
+-		return ret;
+-
+-	ret = ov_write_reg8(client, OV2680_REG_FORMAT2, fmt2);
+-	if (ret)
+-		return ret;
+-
+-	return 0;
++	return ret;
+ }
+ 
+ static int ov2680_set_fmt(struct v4l2_subdev *sd,
+@@ -478,35 +447,26 @@ static int ov2680_init_cfg(struct v4l2_subdev *sd,
+ 	return ov2680_set_fmt(sd, sd_state, &fmt);
+ }
+ 
+-static int ov2680_detect(struct i2c_client *client)
++static int ov2680_detect(struct ov2680_dev *sensor)
+ {
+-	struct i2c_adapter *adapter = client->adapter;
+-	u32 high = 0, low = 0;
+-	int ret;
+-	u16 id;
+-	u8 revision;
++	u64 chip_id, rev;
++	int ret = 0;
+ 
+-	if (!i2c_check_functionality(adapter, I2C_FUNC_I2C))
+-		return -ENODEV;
+-
+-	ret = ov_read_reg8(client, OV2680_SC_CMMN_CHIP_ID_H, &high);
+-	if (ret) {
+-		dev_err(&client->dev, "sensor_id_high read failed (%d)\n", ret);
+-		return -ENODEV;
+-	}
+-	ret = ov_read_reg8(client, OV2680_SC_CMMN_CHIP_ID_L, &low);
+-	id = ((((u16)high) << 8) | (u16)low);
+-
+-	if (id != OV2680_ID) {
+-		dev_err(&client->dev, "sensor ID error 0x%x\n", id);
++	cci_read(sensor->regmap, OV2680_REG_CHIP_ID, &chip_id, &ret);
++	cci_read(sensor->regmap, OV2680_REG_SC_CMMN_SUB_ID, &rev, &ret);
++	if (ret < 0) {
++		dev_err(sensor->dev, "failed to read chip id\n");
+ 		return -ENODEV;
+ 	}
+ 
+-	ret = ov_read_reg8(client, OV2680_SC_CMMN_SUB_ID, &high);
+-	revision = (u8)high & 0x0f;
++	if (chip_id != OV2680_CHIP_ID) {
++		dev_err(sensor->dev, "chip id: 0x%04llx does not match expected 0x%04x\n",
++			chip_id, OV2680_CHIP_ID);
++		return -ENODEV;
++	}
+ 
+-	dev_info(&client->dev, "sensor_revision id = 0x%x, rev= %d\n",
+-		 id, revision);
++	dev_info(sensor->dev, "sensor_revision id = 0x%llx, rev= %lld\n",
++		 chip_id, rev & 0x0f);
+ 
+ 	return 0;
+ }
+@@ -538,11 +498,11 @@ static int ov2680_s_stream(struct v4l2_subdev *sd, int enable)
+ 		if (ret)
+ 			goto error_power_down;
+ 
+-		ret = ov_write_reg8(client, OV2680_SW_STREAM, OV2680_START_STREAMING);
++		ret = cci_write(sensor->regmap, OV2680_REG_STREAM_CTRL, 1, NULL);
+ 		if (ret)
+ 			goto error_power_down;
+ 	} else {
+-		ov_write_reg8(client, OV2680_SW_STREAM, OV2680_STOP_STREAMING);
++		cci_write(sensor->regmap, OV2680_REG_STREAM_CTRL, 0, NULL);
+ 		pm_runtime_put(sensor->sd.dev);
+ 	}
+ 
+@@ -563,6 +523,7 @@ static int ov2680_s_stream(struct v4l2_subdev *sd, int enable)
+ 
+ static int ov2680_s_config(struct v4l2_subdev *sd)
+ {
++	struct ov2680_dev *sensor = to_ov2680_sensor(sd);
+ 	struct i2c_client *client = v4l2_get_subdevdata(sd);
+ 	int ret;
+ 
+@@ -573,7 +534,7 @@ static int ov2680_s_config(struct v4l2_subdev *sd)
+ 	}
+ 
+ 	/* config & detect sensor */
+-	ret = ov2680_detect(client);
++	ret = ov2680_detect(sensor);
+ 	if (ret)
+ 		dev_err(&client->dev, "ov2680_detect err s_config.\n");
+ 
+@@ -586,7 +547,7 @@ static int ov2680_g_frame_interval(struct v4l2_subdev *sd,
+ 				   struct v4l2_subdev_frame_interval *interval)
+ {
+ 	interval->interval.numerator = 1;
+-	interval->interval.denominator = OV2680_FPS;
++	interval->interval.denominator = OV2680_FRAME_RATE;
+ 	return 0;
+ }
+ 
+@@ -638,7 +599,7 @@ static int ov2680_enum_frame_interval(struct v4l2_subdev *sd,
+ 		return -EINVAL;
+ 
+ 	fie->interval.numerator = 1;
+-	fie->interval.denominator = OV2680_FPS;
++	fie->interval.denominator = OV2680_FRAME_RATE;
+ 	return 0;
+ }
+ 
+@@ -738,9 +699,13 @@ static int ov2680_probe(struct i2c_client *client)
+ 	if (!sensor)
  		return -ENOMEM;
  
- 	imx290->dev = dev;
--	imx290->regmap = devm_regmap_init_i2c(client, &imx290_regmap_config);
-+	imx290->regmap = cci_regmap_init_i2c(client, 16);
- 	if (IS_ERR(imx290->regmap)) {
- 		dev_err(dev, "Unable to initialize I2C\n");
- 		return -ENODEV;
++	sensor->regmap = cci_regmap_init_i2c(client, 16);
++	if (IS_ERR(sensor->regmap))
++		return PTR_ERR(sensor->regmap);
++
+ 	mutex_init(&sensor->lock);
+ 
+-	sensor->client = client;
++	sensor->dev = &client->dev;
+ 	v4l2_i2c_subdev_init(&sensor->sd, client, &ov2680_ops);
+ 
+ 	/*
+diff --git a/drivers/staging/media/atomisp/i2c/ov2680.h b/drivers/staging/media/atomisp/i2c/ov2680.h
+index d032af245674..7815522724f7 100644
+--- a/drivers/staging/media/atomisp/i2c/ov2680.h
++++ b/drivers/staging/media/atomisp/i2c/ov2680.h
+@@ -24,6 +24,7 @@
+ #include <linux/delay.h>
+ #include <linux/videodev2.h>
+ #include <linux/spinlock.h>
++#include <media/v4l2-cci.h>
+ #include <media/v4l2-subdev.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-ctrls.h>
+@@ -44,75 +45,12 @@
+ /* 1704 * 1294 * 30fps = 66MHz pixel clock */
+ #define OV2680_PIXELS_PER_LINE			1704
+ #define OV2680_LINES_PER_FRAME			1294
+-#define OV2680_FPS				30
++
+ #define OV2680_SKIP_FRAMES			3
+ 
+ /* If possible send 16 extra rows / lines to the ISP as padding */
+ #define OV2680_END_MARGIN			16
+ 
+-#define OV2680_FOCAL_LENGTH_NUM			334	/*3.34mm*/
+-
+-#define OV2680_INTEGRATION_TIME_MARGIN		8
+-#define OV2680_ID				0x2680
+-
+-/*
+- * OV2680 System control registers
+- */
+-#define OV2680_SW_SLEEP				0x0100
+-#define OV2680_SW_RESET				0x0103
+-#define OV2680_SW_STREAM			0x0100
+-
+-#define OV2680_SC_CMMN_CHIP_ID_H		0x300A
+-#define OV2680_SC_CMMN_CHIP_ID_L		0x300B
+-#define OV2680_SC_CMMN_SCCB_ID			0x302B /* 0x300C*/
+-#define OV2680_SC_CMMN_SUB_ID			0x302A /* process, version*/
+-
+-#define OV2680_GROUP_ACCESS			0x3208 /*Bit[7:4] Group control, Bit[3:0] Group ID*/
+-
+-#define OV2680_REG_EXPOSURE_PK_HIGH		0x3500
+-#define OV2680_REG_GAIN_PK			0x350a
+-
+-#define OV2680_REG_SENSOR_CTRL_0A		0x370a
+-
+-#define OV2680_HORIZONTAL_START_H		0x3800 /* Bit[11:8] */
+-#define OV2680_HORIZONTAL_START_L		0x3801 /* Bit[7:0]  */
+-#define OV2680_VERTICAL_START_H			0x3802 /* Bit[11:8] */
+-#define OV2680_VERTICAL_START_L			0x3803 /* Bit[7:0]  */
+-#define OV2680_HORIZONTAL_END_H			0x3804 /* Bit[11:8] */
+-#define OV2680_HORIZONTAL_END_L			0x3805 /* Bit[7:0]  */
+-#define OV2680_VERTICAL_END_H			0x3806 /* Bit[11:8] */
+-#define OV2680_VERTICAL_END_L			0x3807 /* Bit[7:0]  */
+-#define OV2680_HORIZONTAL_OUTPUT_SIZE_H		0x3808 /* Bit[11:8] */
+-#define OV2680_HORIZONTAL_OUTPUT_SIZE_L		0x3809 /* Bit[7:0]  */
+-#define OV2680_VERTICAL_OUTPUT_SIZE_H		0x380a /* Bit[11:8] */
+-#define OV2680_VERTICAL_OUTPUT_SIZE_L		0x380b /* Bit[7:0]  */
+-#define OV2680_HTS				0x380c
+-#define OV2680_VTS				0x380e
+-#define OV2680_ISP_X_WIN			0x3810
+-#define OV2680_ISP_Y_WIN			0x3812
+-#define OV2680_X_INC				0x3814
+-#define OV2680_Y_INC				0x3815
+-
+-#define OV2680_FRAME_OFF_NUM			0x4202
+-
+-/*Flip/Mirror*/
+-#define OV2680_REG_FORMAT1			0x3820
+-#define OV2680_REG_FORMAT2			0x3821
+-
+-#define OV2680_MWB_RED_GAIN_H			0x5004/*0x3400*/
+-#define OV2680_MWB_GREEN_GAIN_H			0x5006/*0x3402*/
+-#define OV2680_MWB_BLUE_GAIN_H			0x5008/*0x3404*/
+-#define OV2680_MWB_GAIN_MAX			0x0fff
+-
+-#define OV2680_REG_ISP_CTRL00			0x5080
+-
+-#define OV2680_X_WIN				0x5704
+-#define OV2680_Y_WIN				0x5706
+-#define OV2680_WIN_CONTROL			0x5708
+-
+-#define OV2680_START_STREAMING			0x01
+-#define OV2680_STOP_STREAMING			0x00
+-
+ /*
+  * ov2680 device structure.
+  */
+@@ -121,7 +59,8 @@ struct ov2680_dev {
+ 	struct media_pad pad;
+ 	/* Protect against concurrent changes to controls */
+ 	struct mutex lock;
+-	struct i2c_client *client;
++	struct device *dev;
++	struct regmap *regmap;
+ 	struct gpio_desc *powerdown;
+ 	struct fwnode_handle *ep_fwnode;
+ 	bool is_streaming;
+@@ -150,19 +89,6 @@ struct ov2680_dev {
+ 	} ctrls;
+ };
+ 
+-/**
+- * struct ov2680_reg - MI sensor  register format
+- * @type: type of the register
+- * @reg: 16-bit offset to register
+- * @val: 8/16/32-bit register value
+- *
+- * Define a structure for sensor register initialization values
+- */
+-struct ov2680_reg {
+-	u16 reg;
+-	u32 val;	/* @set value for read/mod/write, @mask */
+-};
+-
+ #define to_ov2680_sensor(x) container_of(x, struct ov2680_dev, sd)
+ 
+ static inline struct v4l2_subdev *ctrl_to_sd(struct v4l2_ctrl *ctrl)
+@@ -173,7 +99,7 @@ static inline struct v4l2_subdev *ctrl_to_sd(struct v4l2_ctrl *ctrl)
+ 	return &sensor->sd;
+ }
+ 
+-static struct ov2680_reg const ov2680_global_setting[] = {
++static const struct reg_sequence ov2680_global_setting[] = {
+ 	/* MIPI PHY, 0x10 -> 0x1c enable bp_c_hs_en_lat and bp_d_hs_en_lat */
+ 	{0x3016, 0x1c},
+ 
+@@ -242,8 +168,6 @@ static struct ov2680_reg const ov2680_global_setting[] = {
+ 
+ 	/* DPC THRE RATIO 0x04 (4) -> 0x00 (0) */
+ 	{0x5792, 0x00},
+-
+-	{}
+ };
+ 
+ #endif
 -- 
 2.40.1
 
