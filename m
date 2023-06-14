@@ -2,81 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 80FE17300E2
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 15:57:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06552730189
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 16:19:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236632AbjFNN5l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Jun 2023 09:57:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59890 "EHLO
+        id S245529AbjFNOTT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Jun 2023 10:19:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236270AbjFNN5k (ORCPT
+        with ESMTP id S245505AbjFNOTP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Jun 2023 09:57:40 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E741011B
-        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 06:57:38 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-30fcde6a73cso1466172f8f.2
-        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 06:57:38 -0700 (PDT)
+        Wed, 14 Jun 2023 10:19:15 -0400
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9F3EE5
+        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 07:19:13 -0700 (PDT)
+Received: by mail-qk1-x730.google.com with SMTP id af79cd13be357-7606e639083so119760385a.1
+        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 07:19:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686751057; x=1689343057;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JPa97b/m8awB1y6CgRTH/CJ/m5ee591UF9NZ2XQQOsc=;
-        b=WNNEeJBD1vcyieVRQ0Ke6ZId0JOE110j8GC1VVCVaI+CWwOji2qbhG+5mp0Hemsrhz
-         62kTGusy22dWVYrjBsEoVVpM9plEBeEbi0oUh7GaVrZA9/m4xF/knZH5+uhkgs41S7vf
-         1XCXYrfQ5kSEjqCQkiB8iKwqfLpwrFgPAtMda9oQmijJdP+FNYksMkZ3YJhhBhnVFemc
-         N0bmzIU4BrMMqVTvs0K2yo5531OqfFuIOyISfNacAzOW7IE7/EDYYxlxAkdP9EvrGizw
-         10Yolw+AQeW6Hl5nq/G3bpGna09lvWSBf3jBbp50pabpXMFeAIU8h5uzpcyxiKfU/suN
-         I8bQ==
+        d=chromium.org; s=google; t=1686752352; x=1689344352;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=zbkzHLs44ruxAGk+LlSmbqWoGwZGMK/77GVlyd262SI=;
+        b=gRSoqfRPpZqAK+aYcvwQVC6f99pgmLGZS7jmWpeGWEP2ZGPor7FtQmsbovNGpi/+ta
+         njbYuejtCg9PV1E4qajUuxAowFuUc7AzVB9uDm/J2lRJZtlF3cHGVBFeu0MbvObY4a8r
+         xeCBCOTcctE2YYEkEKppzT2EGodEBTTtlSqRg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686751057; x=1689343057;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JPa97b/m8awB1y6CgRTH/CJ/m5ee591UF9NZ2XQQOsc=;
-        b=dgLSer0kBdkRA8n/CL5gPCP7n1YW/Ap7rHGRCwAwSlctgksbgkeVHIsEfFHDprS6Nx
-         cIOVF937NKP3enwcaGEPcyiBZ7JwxFULFpKNuDvcSuQRWV0fcBvzIHmK0aFSUWxJV7I2
-         qf9BOtxDHYw+KaAns7DkHLTRzemfWp6y8gfO1x/Gh/u0ORo5oDTdcaZ0szQ8+AJcWHrF
-         WaeMQbNdqXA3d1hog7Hbb926NrbU+hxXeXTHvqJQOl//aYEA+iFBSuL0mt1kH++h9KdE
-         ZeH9757e2lU4JZGJ6q2GlVIX1w2v+pH+Mo25LLJ/Kq5/SH91XgVkbHSYs5rj+Xlqdl+y
-         KUZQ==
-X-Gm-Message-State: AC+VfDxoRO4beQFlHlV/AMvZbGESzfFZY3Q0xHo0KS1nB7fX8FXzgEyb
-        qXbDot9Xp4Y/yvwbiTWpHjmVXg==
-X-Google-Smtp-Source: ACHHUZ5q0xfEjsdETTqI7KGtJmGo/tlRbRPlZ+7Xc2ZNFm3qHNRVGXDwHOHEn/T7mDKELNIARHkbQA==
-X-Received: by 2002:a5d:6890:0:b0:30f:c7e4:d207 with SMTP id h16-20020a5d6890000000b0030fc7e4d207mr4562659wru.61.1686751057390;
-        Wed, 14 Jun 2023 06:57:37 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id i1-20020a5d4381000000b0030c4d8930b1sm18237278wrq.91.2023.06.14.06.55.15
+        d=1e100.net; s=20221208; t=1686752352; x=1689344352;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zbkzHLs44ruxAGk+LlSmbqWoGwZGMK/77GVlyd262SI=;
+        b=FPwM+7AMIuDlXKj4EHCny5Cm70Vb52pTpYH+UekdYmr8DBOq2+hTTBnPc2k4umyLI3
+         BJAJTMjkRocFPUtcWwY2nEOZ8Bcw3rtFPFqBv+QkVAnPONcappuEJgPcqO4P4ivCB26W
+         QZnviJYeRJkFHA2EuW2CVpjyAqqIZPnEaQo0PA4gP5nn9uSClte8zelss9qB6yY5ibgp
+         k2j7yHtL9bEwvqDuxPehCNcfWI7h5qu5S/Ze6O9g5dViDLhJsy8icUi8A3HQ10El6Hsw
+         drN2D2agUBn5hTDmjso9+RlJncgHlW6PDwFhnZKbxw7P+J3u1fY+K9UzqkoqvpXU1aJc
+         HubA==
+X-Gm-Message-State: AC+VfDx4Ma1I9u0T/SMBpoEu0WtrG7xeAXj7ZYaA+U9Tzdd/Hco2jXbq
+        /CWh6yNqdPobPtKs/1u5XbcIxwy+J2AEzhcgn/8=
+X-Google-Smtp-Source: ACHHUZ7NfnMRPPCwC9qP7rLsHcrQJfuBJGMP7ajDPMrmX4x8aSOGMfYbLoqulSzqvzsl+lqlwTThtA==
+X-Received: by 2002:a05:620a:4484:b0:75e:b9c2:b1f9 with SMTP id x4-20020a05620a448400b0075eb9c2b1f9mr2389811qkp.8.1686752352454;
+        Wed, 14 Jun 2023 07:19:12 -0700 (PDT)
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com. [209.85.219.49])
+        by smtp.gmail.com with ESMTPSA id w27-20020a05620a129b00b0075945c93107sm4311105qki.102.2023.06.14.07.19.11
+        for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Jun 2023 06:56:06 -0700 (PDT)
-Message-ID: <0411f4ec-79a4-520b-e246-f20ffb0f1e8e@linaro.org>
-Date:   Wed, 14 Jun 2023 14:55:01 +0100
+        Wed, 14 Jun 2023 07:19:11 -0700 (PDT)
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-62dee1b51f9so12583146d6.1
+        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 07:19:11 -0700 (PDT)
+X-Received: by 2002:a05:6214:1c0a:b0:62d:ddeb:3770 with SMTP id
+ u10-20020a0562141c0a00b0062dddeb3770mr1884667qvc.0.1686752351452; Wed, 14 Jun
+ 2023 07:19:11 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH RFC] media: camss: Intepret OF graph connections more
- sensibly
-Content-Language: en-US
-To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
-        Yassine Oudjana <y.oudjana@protonmail.com>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230614-topic-camss_grpah-v1-1-5f4b516310fa@linaro.org>
- <8f53da6d-76ec-a7e1-8308-b676930d224c@linaro.org>
- <efe0b912-24d8-9617-ce6a-aca5dfba6910@linaro.org>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <efe0b912-24d8-9617-ce6a-aca5dfba6910@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+References: <eb4f7f29a94231c5fa404f7492dba8e7fd9fbb23.1686746422.git.soyer@irl.hu>
+In-Reply-To: <eb4f7f29a94231c5fa404f7492dba8e7fd9fbb23.1686746422.git.soyer@irl.hu>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Wed, 14 Jun 2023 16:19:00 +0200
+X-Gmail-Original-Message-ID: <CANiDSCsmKvOZFmcBCAtc8D971a=FvRcn_rJgO=omKrCR2fvNOA@mail.gmail.com>
+Message-ID: <CANiDSCsmKvOZFmcBCAtc8D971a=FvRcn_rJgO=omKrCR2fvNOA@mail.gmail.com>
+Subject: Re: [PATCH] media: uvcvideo: uvc_ctrl_get_rel_speed: use 0 as default
+To:     Gergo Koteles <soyer@irl.hu>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -85,43 +74,75 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 14/06/2023 14:50, Konrad Dybcio wrote:
-> On 14.06.2023 15:48, Bryan O'Donoghue wrote:
->> On 14/06/2023 14:22, Konrad Dybcio wrote:
->>> Not all endpoints of camss have to be populated. In fact, most of the
->>> time they shouldn't be as n-th auxilliary cameras are usually ewaste.
->>>
->>> Don't fail probing the entire camss even even one endpoint is not
->>> linked and throw an error when none is found.
->>>
->>> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->>> ---
->>>    drivers/media/platform/qcom/camss/camss.c | 7 +++----
->>>    1 file changed, 3 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
->>> index 1ef26aea3eae..3aa03fbc94e2 100644
->>> --- a/drivers/media/platform/qcom/camss/camss.c
->>> +++ b/drivers/media/platform/qcom/camss/camss.c
->>> @@ -1084,9 +1084,8 @@ static int camss_of_parse_ports(struct camss *camss)
->>>              remote = of_graph_get_remote_port_parent(node);
->>>            if (!remote) {
->>> -            dev_err(dev, "Cannot get remote parent\n");
->>> -            ret = -EINVAL;
->>> -            goto err_cleanup;
->>> +            of_node_put(node);
->>> +            continue;
->>>            }
->>>              csd = v4l2_async_nf_add_fwnode(&camss->notifier,
->>> @@ -1105,7 +1104,7 @@ static int camss_of_parse_ports(struct camss *camss)
->>>            num_subdevs++;
->>>        }
->>>    -    return num_subdevs;
->>> +    return num_subdevs ? num_subdevs : -EINVAL;
+[Now in plain text mode]
 
-Can you if/else this instead of the ?
+Hi Gergo
 
-Then add my Acked-by:
+Doesn't your patch affect pan and tilt for all the cameras, not only the BCC950?
 
----
-bod
+Also it seems that 1 means that device does not support programmable
+speed. Is that correct?
+
+```
+The bPanSpeed field is used to specify the speed of the movement for
+the Pan direction. A low
+number indicates a slow speed and a high number indicates a higher
+speed. The GET_MIN,
+GET_MAX and GET_RES requests are used to retrieve the range and
+resolution for this field.
+The GET_DEF request is used to retrieve the default value for this
+field. If the control does not
+support speed control for the Pan control, it will return the value 1
+in this field for all these
+requests.
+```
+
+When you program that value do you see any difference on the device?
+What is max, min and res?
+
+Thanks!
+
+Regards!
+
+
+On Wed, 14 Jun 2023 at 15:13, Gergo Koteles <soyer@irl.hu> wrote:
+>
+> The Logitech BCC950 incorrectly reports 1 (the max value)
+> for the default values of V4L2_CID_PAN_SPEED,
+> V4L2_CID_TILT_SPEED.
+>
+> This patch sets them to 0, which is the stop value.
+>
+> Previous discussion
+> Link: https://lore.kernel.org/all/CAP_ceTy6XVmvTTAmvCp1YU2wxHwXqnarm69Yaz8K4FmpJqYxAg@mail.gmail.com/
+>
+> Signed-off-by: Gergo Koteles <soyer@irl.hu>
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index 5e9d3da862dd..e131958c0930 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -444,9 +444,10 @@ static s32 uvc_ctrl_get_rel_speed(struct uvc_control_mapping *mapping,
+>                 return -data[first+1];
+>         case UVC_GET_MAX:
+>         case UVC_GET_RES:
+> +               return data[first+1];
+>         case UVC_GET_DEF:
+>         default:
+> -               return data[first+1];
+> +               return 0;
+>         }
+>  }
+>
+>
+> base-commit: be9aac187433af6abba5fcc2e73d91d0794ba360
+> --
+> 2.40.1
+>
+
+
+-- 
+Ricardo Ribalda
