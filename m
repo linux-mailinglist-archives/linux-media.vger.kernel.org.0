@@ -2,192 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A19872F707
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 09:54:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1316D72F733
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 10:00:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231878AbjFNHya convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 14 Jun 2023 03:54:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57544 "EHLO
+        id S241013AbjFNIAU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Jun 2023 04:00:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231511AbjFNHyN (ORCPT
+        with ESMTP id S243686AbjFNIAH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Jun 2023 03:54:13 -0400
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62C782135;
-        Wed, 14 Jun 2023 00:53:20 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-56fff21c2ebso4526997b3.3;
-        Wed, 14 Jun 2023 00:53:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686729198; x=1689321198;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RVKO0F3nSwUgNwvgXxZdykhH7Fe6dy1ubUvaHr+R9rs=;
-        b=JqQ+zhEdg8dkmXAMzpItDbPUBtABA7k/UucnSimivV6Crsaohs3rnMRHdLC7GsmY2/
-         IpKPfOPyqgWi4vQzmFbcFF/rzrA78weP2sJw8zgtM+jj7Y4Wv2LznFsYmKSMvtRZE+yI
-         gDYIVBMm80JYMP5FJ5tw2MBKM5viI7GS0HpzO5Zd8mz8mw9gfp2GZe8r8m53seD6zJmO
-         pwUJo/FqbRhbcN5KBuKzuFwevQ5XGoclefRiJg3Ujt60l5S1stGShUQgutYk6MIi1+OJ
-         1xluiCw6JWiOuhqb9dON1lE0YxniFx/k5kN0vdz/JEo/bLnWqXdy9LfKlirb7Tsd6imO
-         Zmkg==
-X-Gm-Message-State: AC+VfDx51o2OOkJHS/22Dlo8y948I0Gk40PfMkPRiOP6SsTQz+IsC8YI
-        jlachLcBbGBHNmVQIiMYu27b+Jej7+zxVg==
-X-Google-Smtp-Source: ACHHUZ5MGVQPc1tOSReza0QL5UzNpT1FpmVRBFh7tv++FWyfVZ5fmoHhyuwDeazAsVffQ8Kj++mfMA==
-X-Received: by 2002:a0d:d6c9:0:b0:568:b10a:e430 with SMTP id y192-20020a0dd6c9000000b00568b10ae430mr1153467ywd.25.1686729198206;
-        Wed, 14 Jun 2023 00:53:18 -0700 (PDT)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id k126-20020a816f84000000b0056ffdec590csm283537ywc.41.2023.06.14.00.53.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Jun 2023 00:53:17 -0700 (PDT)
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-bc9782291f5so366027276.1;
-        Wed, 14 Jun 2023 00:53:16 -0700 (PDT)
-X-Received: by 2002:a25:fc13:0:b0:ba8:66fb:dd84 with SMTP id
- v19-20020a25fc13000000b00ba866fbdd84mr1309725ybd.20.1686729196541; Wed, 14
- Jun 2023 00:53:16 -0700 (PDT)
+        Wed, 14 Jun 2023 04:00:07 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E22E310DA;
+        Wed, 14 Jun 2023 01:00:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686729606; x=1718265606;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=N5PcozdZTKgBDrB77IRIFRCU71kv0AKvj26OTZxaeyk=;
+  b=imGRppSBosES1bvHsOeZpsk2ILplEMr+yWtFMZ9F6Z7HYsYE765i+EYV
+   eOMoNJf6Lj07AknAQcZ/hnAciST71aDp9VTYONJxbL48wVK0JtBZwIsix
+   VSil+VYNwwmMefQdQ1fJHkrduKV+2BrfDvOWK95rfTpBQvN4m0/AsBUzy
+   0abjsdyMHZkgZCnnjGbtqJJoY3qSA7MGQlPJp5Mo/TOYrZwse/UNtB+S8
+   9l0xhO0kA/+p5CCYFXjp7Oxz4x0AAG8B8XJ4rLxms+6EHfxH/fxU3//Q7
+   TCD4l21fMtaozx6oYZVr0VylSsmqz8mTczvNk9epo5Bg8PecyeanvlYE2
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="348210181"
+X-IronPort-AV: E=Sophos;i="6.00,242,1681196400"; 
+   d="scan'208";a="348210181"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 01:00:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="715098845"
+X-IronPort-AV: E=Sophos;i="6.00,242,1681196400"; 
+   d="scan'208";a="715098845"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 01:00:03 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id E360711F826;
+        Wed, 14 Jun 2023 11:00:00 +0300 (EEST)
+Date:   Wed, 14 Jun 2023 08:00:00 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: v4l2-core: Fix a potential resource leak in
+ v4l2_fwnode_parse_link()
+Message-ID: <ZIlzgEZCTHmoMm8c@kekkonen.localdomain>
+References: <2ddd10ec9e009bbb85518355f1e09e1ecd349925.1685340968.git.christophe.jaillet@wanadoo.fr>
+ <ZIhLDh567eWqY5vk@kekkonen.localdomain>
+ <34b714b6-cb49-1a34-58f5-8b5ef0da2714@wanadoo.fr>
 MIME-Version: 1.0
-References: <OS0PR01MB5922AA27B212F610A5E816138650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230608103929.GO5058@pendragon.ideasonboard.com> <OS0PR01MB592259E6A7ACED4A0548DD228650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230608125019.GD26742@pendragon.ideasonboard.com> <OS0PR01MB5922ECEABE4D6FC385D184008650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB592265BFDF18F860E1EB4CFE8654A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <ZIcRKl3PDy0+yZS9@ninjato> <CAMuHMdV_iwdP+K1us86OB4VtDDqA=P_vNeCP15kqRuXqcYr3hg@mail.gmail.com>
- <ZIcUEdctlgRsGxJ3@ninjato> <CAMuHMdVOkBeKOEW9PkWB3Tqwa6-rC3BQj=W9VAEgeZfgqvQmWQ@mail.gmail.com>
- <ZIeDcVcfxfcMx/BP@shikoro> <CAMuHMdV_Ty=rkcMzsrnJ3YHZngRbyWvYjR_K9Zh7RiAJ4LbvKg@mail.gmail.com>
- <OS0PR01MB59225195B4F2C771F302F7EE8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdUTAerddXG3zJVRZEAwcrR6V=NFeHwsKV9_tE+ccfw6_w@mail.gmail.com> <OS0PR01MB59224D7C95B9B0037046FCF78655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB59224D7C95B9B0037046FCF78655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 14 Jun 2023 09:53:02 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUhaSKiuVkmoYt1sm87emFZu7HSSCK-e95-Yy=g8Sgo4w@mail.gmail.com>
-Message-ID: <CAMuHMdUhaSKiuVkmoYt1sm87emFZu7HSSCK-e95-Yy=g8Sgo4w@mail.gmail.com>
-Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Wolfram Sang <wsa@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Corey Minyard <cminyard@mvista.com>,
-        =?UTF-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
-        Antonio Borneo <antonio.borneo@foss.st.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Mark Brown <broonie@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <34b714b6-cb49-1a34-58f5-8b5ef0da2714@wanadoo.fr>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Biju,
+Hi Christophe,
 
-On Tue, Jun 13, 2023 at 6:11â€¯PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-> > On Tue, Jun 13, 2023 at 12:45â€¯PM Biju Das <biju.das.jz@bp.renesas.com>
-> > wrote:
-> > > > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device
-> > > > API On Mon, Jun 12, 2023 at 10:43â€¯PM Wolfram Sang <wsa@kernel.org>
-> > wrote:
-> > > > > > Perhaps we should first think through what an ancillary device
-> > > > > > really is.  My understanding is that it is used to talk to
-> > > > > > secondary addresses of a multi-address I2C slave device.
-> > > > >
-> > > > > As I mentioned somewhere before, this is not the case. Ancillary
-> > > > > devices are when one *driver* handles more than one address.
-> > > > > Everything else has been handled differently in the past (for  all
-> > > > > the
-> > > > uses I am aware of).
-> > > > >
-> > > > > Yet, I have another idea which is so simple that I wonder if it
-> > > > > maybe has already been discussed so far?
-> > > > >
-> > > > > * have two regs in the bindings
-> > > > > * use the second reg with i2c_new_client_device to instantiate the
-> > > > >   RTC sibling. 'struct i2c_board_info', which is one parameter,
-> > should
-> > > > >   have enough options to pass data, e.g it has a software_node.
-> > > > >
-> > > > > Should work or did I miss something here?
-> > > >
-> > > > That should work, mostly (i2c_new_dummy_device() also calls
-> > > > i2c_new_client_device()).  And as i2c_board_info has an of_node
-> > > > member (something I had missed before!), the new I2C device can
-> > > > access the clocks in the DT node using the standard way.
-> > >
-> > > Looks like, I cannot assign of_node member like below as it results in
-> > > pinctrl failure[1] during device bind.
-> > >
-> > > info.of_node = client->dev.of_node;
-> > >
-> > > [1]
-> > > pinctrl-rzg2l 11030000.pinctrl: pin P43_0 already requested by 3-0012;
-> > > cannot claim for 3-006f pinctrl-rzg2l 11030000.pinctrl: pin-344
-> > > (3-006f) status -22 pinctrl-rzg2l 11030000.pinctrl: could not request
-> > > pin 344 (P43_0) from group pmic  on device pinctrl-rzg2l
-> > > raa215300 3-006f: Error applying setting, reverse things back
-> >
-> > Where do you have a reference to pin P43_0 in your DT?
->
-> The reference to pin P43_0 is added in the PMIC node.
->
-> I have done modification on my board to test PMIC INT# on RZ/G2L SMARC EVK
-> by wiring R83 on SoM module and PMOD0 PIN7.
->
-> > The last versions you posted did not have any pinctrl properties?
->
-> By default, PMIC_INT# is not populated RZ/G2L SMARC EVK, so I haven't added
-> Support for PMIC_INT# for the patches posted till date.
->
-> Yesterday I checked with HW people, is there a way to enable PMIC_INT#
-> and they told me to do the above HW modification.
->
-> Today I found this issue, with this modified HW and PMIC INT# enabled on the DT,
-> while assigning of_node of PMIC with info.of_node. It is just a coincidence.
+On Tue, Jun 13, 2023 at 07:15:40PM +0200, Christophe JAILLET wrote:
+> Le 13/06/2023 à 12:55, Sakari Ailus a écrit :
+> > Hi Christophe,
+> > 
+> > On Mon, May 29, 2023 at 08:17:18AM +0200, Christophe JAILLET wrote:
+> > > 'fwnode is known to be NULL, at this point, so fwnode_handle_put() is a
+> > > no-op.
+> > > 
+> > > Release the reference taken from a previous fwnode_graph_get_port_parent()
+> > > call instead.
+> > > 
+> > > Fixes: ca50c197bd96 ("[media] v4l: fwnode: Support generic fwnode for parsing standardised properties")
+> > > Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> > > ---
+> > > /!\  THIS PATCH IS SPECULATIVE  /!\
+> > >           review with care
+> > > ---
+> > >   drivers/media/v4l2-core/v4l2-fwnode.c | 2 +-
+> > >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+> > > index 049c2f2001ea..b7dd467c53fd 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-fwnode.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+> > > @@ -571,7 +571,7 @@ int v4l2_fwnode_parse_link(struct fwnode_handle *fwnode,
+> > >   	fwnode = fwnode_graph_get_remote_endpoint(fwnode);
+> > >   	if (!fwnode) {
+> > > -		fwnode_handle_put(fwnode);
+> > > +		fwnode_handle_put(link->local_node);
+> > 
+> > link->local_node also needs to be non-NULL for the successful case. The
+> > condition should take that into account. Could you send v2 with that?
+> > 
+> > >   		return -ENOLINK;
+> > >   	}
+> > 
+> 
+> Hi,
+> something like below?
 
-IC.
+Ah, remote_node must be non-NULL, too, indeed. It was surprisingly broken.
 
-So you now have two Linux devices pointing to the same DT node,
-causing pinctrl issues...
+> 
+> @@ -568,19 +568,25 @@ int v4l2_fwnode_parse_link(struct fwnode_handle
+> *fwnode,
+>  	link->local_id = fwep.id;
+>  	link->local_port = fwep.port;
+>  	link->local_node = fwnode_graph_get_port_parent(fwnode);
+> +	if (!link->local_node)
+> +		return -ENOLINK;
+> 
+>  	fwnode = fwnode_graph_get_remote_endpoint(fwnode);
+> -	if (!fwnode) {
+> -		fwnode_handle_put(fwnode);
+> -		return -ENOLINK;
+> -	}
+> +	if (!fwnode)
+> +		goto err_put_local_node;
 
-I know this won't solve the core issue, but what is the exact pintrl
-configuration you are using? Is this using a GPIO with interrupt
-capabilities, or a dedicated interrupt pin? In case of the former,
-you don't need a pinctrl property in DT, as the GPIO controller itself
-should take care of that by asking the pin controller to configure
-the pin properly through pinctrl_gpio_request().
+On error, fwnode needs to be put from this onwards, too.
 
-Gr{oetje,eeting}s,
+But you can use a single label: fwnode_handle_put() is NULL-safe.
 
-                        Geert
+> 
+>  	fwnode_graph_parse_endpoint(fwnode, &fwep);
+>  	link->remote_id = fwep.id;
+>  	link->remote_port = fwep.port;
+>  	link->remote_node = fwnode_graph_get_port_parent(fwnode);
+> +	if (!link->remote_node)
+> +		goto err_put_local_node;
+> 
+>  	return 0;
+> +
+> +err_put_local_node:
+> +	fwnode_handle_put(link->local_node);
+> +	return -ENOLINK;
+>  }
+>  EXPORT_SYMBOL_GPL(v4l2_fwnode_parse_link);
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Kind regards,
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Sakari Ailus
