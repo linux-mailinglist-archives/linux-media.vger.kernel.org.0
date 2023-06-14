@@ -2,419 +2,196 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC44372F929
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 11:30:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19B4E72F9DC
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 11:54:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244041AbjFNJaU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Jun 2023 05:30:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35310 "EHLO
+        id S238505AbjFNJyg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Jun 2023 05:54:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243950AbjFNJ3r (ORCPT
+        with ESMTP id S243470AbjFNJyc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Jun 2023 05:29:47 -0400
-Received: from mx.sberdevices.ru (mx.sberdevices.ru [45.89.227.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6543C2102;
-        Wed, 14 Jun 2023 02:29:36 -0700 (PDT)
-Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
-        by mx.sberdevices.ru (Postfix) with ESMTP id CB7845FD5E;
-        Wed, 14 Jun 2023 12:29:34 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
-        s=mail; t=1686734974;
-        bh=1Id3JzoivbBSxG0a9QiNV1MIm/F52SVIjgMaprUyT9g=;
-        h=Message-ID:Date:MIME-Version:Subject:From:To:Content-Type;
-        b=sSzWguiOcUdEvb6sj7EqUJZTHKnIwYsHRixCBOO3fDcjrLEJA2Ryb0qmbBc+nxdMK
-         zJtiUjQ3pt+dyL1+2L+uHMpCSsjRGDkK4X4bVoYEI7bJLw8ZZmx+Iw0gv8ONLyV7ZO
-         FqEkUrO8hvdQXtGcNYdRblXN+lI88jXX9p0JT4h4OFTxiYyqBTnWXm4tOlDcoz1Iq7
-         3LcVznbUvgLwJ/5GOBh/8rV6s5NL+G4m5GHwLYmu73pxKnjcJgc0uRiB8poAua9q0c
-         xLPpfd3u150zUjIViZcs3J7QfFoBk0lFI2+ZFuMl2kfFRw9wbZkm5AlMhreCn4AZ+I
-         j5OAB+PFoHi6g==
-Received: from p-i-exch-sc-m01.sberdevices.ru (p-i-exch-sc-m01.sberdevices.ru [172.16.192.107])
-        by mx.sberdevices.ru (Postfix) with ESMTP;
-        Wed, 14 Jun 2023 12:29:33 +0300 (MSK)
-Message-ID: <4f4db4e9-ead7-6cc1-a53a-29f2af9014ee@sberdevices.ru>
-Date:   Wed, 14 Jun 2023 12:24:49 +0300
+        Wed, 14 Jun 2023 05:54:32 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB0C3170E;
+        Wed, 14 Jun 2023 02:54:26 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6CF1875A;
+        Wed, 14 Jun 2023 11:53:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1686736433;
+        bh=jY0sTKHt7HU6uex/YdEGSJnTrZqVcVdf9mAvVYEw74Y=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Dxsn4+wXjL23UbeAgTZBTA9kIynsp3+NX2j2bjzcAGAmVm0JrrLJLjrjnzIJRKyS+
+         GnymMHyDw4ZcNQEpSe1jgsIK1ipLqJp907r7irmXTNfGFJD3eCvb0eA4l/MOyx5y8C
+         +Xu4Ci5sPwHaEQ/Lp/DGZqljH+3PVLvZXvTCT7wg=
+Date:   Wed, 14 Jun 2023 12:54:24 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Wolfram Sang <wsa@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Mark Brown <broonie@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Corey Minyard <cminyard@mvista.com>,
+        Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+        Antonio Borneo <antonio.borneo@foss.st.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+Message-ID: <20230614095424.GJ28480@pendragon.ideasonboard.com>
+References: <ZIcRKl3PDy0+yZS9@ninjato>
+ <CAMuHMdV_iwdP+K1us86OB4VtDDqA=P_vNeCP15kqRuXqcYr3hg@mail.gmail.com>
+ <ZIcUEdctlgRsGxJ3@ninjato>
+ <CAMuHMdVOkBeKOEW9PkWB3Tqwa6-rC3BQj=W9VAEgeZfgqvQmWQ@mail.gmail.com>
+ <ZIeDcVcfxfcMx/BP@shikoro>
+ <OS0PR01MB592220CCA081848A711D75328655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB592210CE54A9CF953980DFEE8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB59220D794AED55A6B795C3EF8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20230614081314.GD17519@pendragon.ideasonboard.com>
+ <OS0PR01MB59225C45554667D342454923865AA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH v4] mtd: rawnand: macronix: OTP access for MX30LFxG18AC
-Content-Language: en-US
-From:   Arseniy Krasnov <avkrasnov@sberdevices.ru>
-To:     Miquel Raynal <miquel.raynal@bootlin.com>,
-        liao jaime <jaimeliao.tw@gmail.com>
-CC:     Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        <oxffffaa@gmail.com>, <kernel@sberdevices.ru>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Jaime Liao <jaimeliao@mxic.com.tw>,
-        Mason Yang <masonccyang@mxic.com.tw>,
-        <linux-mtd@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>
-References: <20230523101637.3009746-1-AVKrasnov@sberdevices.ru>
- <20230612185354.09b88e0d@xps-13>
- <CAAQoYR=aU-tpFYhfKUae=2zbvpzmP3_d4PYp_252qxSsPcVbaQ@mail.gmail.com>
- <20230614111001.6b0417d4@xps-13>
- <24dcecf2-f394-6542-eeb6-ab65ea19708a@sberdevices.ru>
-In-Reply-To: <24dcecf2-f394-6542-eeb6-ab65ea19708a@sberdevices.ru>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [172.16.1.6]
-X-ClientProxiedBy: S-MS-EXCH02.sberdevices.ru (172.16.1.5) To
- p-i-exch-sc-m01.sberdevices.ru (172.16.192.107)
-X-KSMG-Rule-ID: 4
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Status: not scanned, disabled by settings
-X-KSMG-AntiSpam-Interceptor-Info: not scanned
-X-KSMG-AntiPhishing: not scanned, disabled by settings
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2023/06/14 04:50:00 #21499017
-X-KSMG-AntiVirus-Status: Clean, skipped
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <OS0PR01MB59225C45554667D342454923865AA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-On 14.06.2023 12:22, Arseniy Krasnov wrote:
-> Hello Miquel and Jaime!
+On Wed, Jun 14, 2023 at 08:21:38AM +0000, Biju Das wrote:
+> Hi Laurent,
 > 
-> On 14.06.2023 12:10, Miquel Raynal wrote:
->> Hi liao,
->>
->> jaimeliao.tw@gmail.com wrote on Wed, 14 Jun 2023 17:06:16 +0800:
->>
->>> Hi Miquel
->>>
->>>
->>>>
->>>> Hello,
->>>>
->>>> AVKrasnov@sberdevices.ru wrote on Tue, 23 May 2023 13:16:34 +0300:
->>>>  
->>>>> This adds support for OTP area access on MX30LFxG18AC chip series.  
->>>>
->>>> Jaime, any feedback on this? Will you test it?
->>>>
->>>> How are we supposed to test the OTP is locked? I see this is still an
->>>> open point.  
->>> After checking with internal, sub feature parameter are volatile register.
->>>
->>> It could be change after enter/exit OTP region or power cycle even OTP
->>>
->>> region have been locked.
->>>
->>> OTP operation mode still could be enter/exit and region is read only
->>> after OTP in protect mode.
->>>
->>> #program command could execute but no use after setting OTP region in
->>> protect mode.
->>>
->>> So that we can't check whether OTP region is locked via get feature.
->>>
->>> And we don't have region for checking status of OTP locked.
->>
->> Ah, too bad. But thanks a lot for the explanation. Arseniy, can you
->> please change your comment to explain that the bit is volatile and thus
->> there is no way to check if an otp region is locked? I would return
->> EOPNOTSUPP in this case and verify that the core cleanly handles the
->> situation.
+> Thanks for the feedback.
 > 
-> Ok, thanks for details. @Miquel, ok, I'll change comment from "don't know..."
-> to this explanation. About EOPNOTSUPP, IIUC I think it is not good way to
-> suppress '_get_fact_prot_info' and '_get_user_prot_info' callbacks with this
-> return code as it is the only way to know size of OTP region.
+> > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+> > 
+> > On Tue, Jun 13, 2023 at 07:31:46PM +0000, Biju Das wrote:
+> > > > Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device
+> > > > API
+> > > > > Subject: RE: [PATCH v5 01/11] i2c: Enhance
+> > > > > i2c_new_ancillary_device API
+> > > > > > Subject: Re: [PATCH v5 01/11] i2c: Enhance
+> > > > > > i2c_new_ancillary_device API
+> > > > > >
+> > > > > > Hi everyone,
+> > > > > >
+> > > > > > > Perhaps we should first think through what an ancillary device
+> > > > > > > really is.  My understanding is that it is used to talk to
+> > > > > > > secondary addresses of a multi-address I2C slave device.
+> > > > > >
+> > > > > > As I mentioned somewhere before, this is not the case. Ancillary
+> > > > > > devices are when one *driver* handles more than one address.
+> > > > > > Everything else has been handled differently in the past (for
+> > > > > > all the uses I am aware of).
+> > > > > >
+> > > > > > Yet, I have another idea which is so simple that I wonder if it
+> > > > > > maybe has already been discussed so far?
+> > > > > >
+> > > > > > * have two regs in the bindings
+> > > > >
+> > > > > OK, it is inline with DT maintainers expectation as it is matching
+> > > > > with real hw as single device node having two regs.
+> > > > >
+> > > > > > * use the second reg with i2c_new_client_device to instantiate the
+> > > > > >   RTC sibling. 'struct i2c_board_info', which is one parameter, should
+> > > > > >   have enough options to pass data, e.g it has a software_node.
+> > > > >
+> > > > > OK, I can see the below can be passed from PMIC to new client device.
+> > > > >
+> > > > > 	client->addr = info->addr;
+> > > > >
+> > > > > 	client->init_irq = info->irq;
+> > > > >
+> > > > > >
+> > > > > > Should work or did I miss something here?
+> > > > >
+> > > > > I guess it will work. We instantiate appropriate device based On
+> > > > > PMIC revision and slave address and IRQ resource passed through
+> > > > > 'struct i2c_board_info'
+> > > > >
+> > > > > Will check this and update you.
+> > > >
+> > > > info.irq = irq; -->Irq fine
+> > > > info.addr = addr; -->slave address fine size = strscpy(info.type,
+> > > > name, sizeof(info.type)); -->instantiation based on PMIC version
+> > > > fine.
+> > > >
+> > > > 1) How do we share clk details on instantiated device to find is it
+> > > > connected to external crystal or external clock source? as we cannot
+> > > > pass of_node between PMIC and "i2c_board_info" as it results in
+> > > > pinctrl failure. info->platformdata and
+> > > > Client->dev.platformdata to retrieve this info??
+> > >
+> > > Or
+> > >
+> > > I2C instantiation based on actual oscillator bit value, ie, two
+> > > i2c_device_id's with one for setting oscillator bit and another for
+> > > clearing oscillator bit
+> > >
+> > > PMIC driver parses the clock details. Based on firmware version and
+> > > clock, It instantiates either i2c_device_id with setting oscillator
+> > > bit or clearing oscillator bit.
+> > 
+> > I don't like that hack. I still think that two DT nodes is the best
+> > option, I think you're trying hard to hack around a problem that is
+> > actually not a problem.
 > 
-> Thanks, Arseniy
-
-Ahh sorry, there is '_lock_user_prot_reg', it will return EOPNOTSUPP. Now I see:)
-
-Thanks, Arseniy
-
+> Why do you think it is a hack? I believe rather it is actual solution
 > 
->>
->> Thanks,
->> Miquèl
->>
->>>
->>>>  
->>>>>
->>>>> Signed-off-by: Arseniy Krasnov <AVKrasnov@sberdevices.ru>
->>>>> ---
->>>>>   v1 -> v2:
->>>>>   * Add slab.h include due to kernel test robot error.
->>>>>   v2 -> v3:
->>>>>   * Use 'uint64_t' as input argument for 'do_div()' instead
->>>>>     of 'unsigned long' due to kernel test robot error.
->>>>>   v3 -> v4:
->>>>>   * Use 'dev_err()' instead of 'WARN()'.
->>>>>   * Call 'match_string()' before checking 'supports_set_get_features'
->>>>>     in 'macronix_nand_setup_otp().
->>>>>   * Use 'u8' instead of 'uint8_t' as ./checkpatch.pl wants.
->>>>>
->>>>>  drivers/mtd/nand/raw/nand_macronix.c | 216 +++++++++++++++++++++++++++
->>>>>  1 file changed, 216 insertions(+)
->>>>>
->>>>> diff --git a/drivers/mtd/nand/raw/nand_macronix.c b/drivers/mtd/nand/raw/nand_macronix.c
->>>>> index 1472f925f386..be1ffa93bebb 100644
->>>>> --- a/drivers/mtd/nand/raw/nand_macronix.c
->>>>> +++ b/drivers/mtd/nand/raw/nand_macronix.c
->>>>> @@ -6,6 +6,7 @@
->>>>>   * Author: Boris Brezillon <boris.brezillon@free-electrons.com>
->>>>>   */
->>>>>
->>>>> +#include <linux/slab.h>
->>>>>  #include "linux/delay.h"
->>>>>  #include "internals.h"
->>>>>
->>>>> @@ -31,6 +32,20 @@
->>>>>
->>>>>  #define MXIC_CMD_POWER_DOWN 0xB9
->>>>>
->>>>> +#define ONFI_FEATURE_ADDR_30LFXG18AC_OTP     0x90
->>>>> +#define MACRONIX_30LFXG18AC_OTP_START_PAGE   0
->>>>> +#define MACRONIX_30LFXG18AC_OTP_PAGES                30
->>>>> +#define MACRONIX_30LFXG18AC_OTP_PAGE_SIZE    2112
->>>>> +#define MACRONIX_30LFXG18AC_OTP_START_BYTE   \
->>>>> +     (MACRONIX_30LFXG18AC_OTP_START_PAGE *   \
->>>>> +      MACRONIX_30LFXG18AC_OTP_PAGE_SIZE)
->>>>> +#define MACRONIX_30LFXG18AC_OTP_SIZE_BYTES   \
->>>>> +     (MACRONIX_30LFXG18AC_OTP_PAGES *        \
->>>>> +      MACRONIX_30LFXG18AC_OTP_PAGE_SIZE)
->>>>> +
->>>>> +#define MACRONIX_30LFXG18AC_OTP_EN           BIT(0)
->>>>> +#define MACRONIX_30LFXG18AC_OTP_LOCKED               BIT(1)
->>>>> +
->>>>>  struct nand_onfi_vendor_macronix {
->>>>>       u8 reserved;
->>>>>       u8 reliability_func;
->>>>> @@ -316,6 +331,206 @@ static void macronix_nand_deep_power_down_support(struct nand_chip *chip)
->>>>>       chip->ops.resume = mxic_nand_resume;
->>>>>  }
->>>>>
->>>>> +static int macronix_30lfxg18ac_get_otp_info(struct mtd_info *mtd, size_t len,
->>>>> +                                         size_t *retlen,
->>>>> +                                         struct otp_info *buf)
->>>>> +{
->>>>> +     if (len < sizeof(*buf))
->>>>> +             return -EINVAL;
->>>>> +
->>>>> +     /* Don't know how to check that OTP is locked. */
->>>>> +     buf->locked = 0;
->>>>> +     buf->start = MACRONIX_30LFXG18AC_OTP_START_BYTE;
->>>>> +     buf->length = MACRONIX_30LFXG18AC_OTP_SIZE_BYTES;
->>>>> +
->>>>> +     *retlen = sizeof(*buf);
->>>>> +
->>>>> +     return 0;
->>>>> +}
->>>>> +
->>>>> +static int macronix_30lfxg18ac_otp_enable(struct nand_chip *nand)
->>>>> +{
->>>>> +     u8 feature_buf[ONFI_SUBFEATURE_PARAM_LEN] = { 0 };
->>>>> +
->>>>> +     feature_buf[0] = MACRONIX_30LFXG18AC_OTP_EN;
->>>>> +     return nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
->>>>> +                              feature_buf);
->>>>> +}
->>>>> +
->>>>> +static int macronix_30lfxg18ac_otp_disable(struct nand_chip *nand)
->>>>> +{
->>>>> +     u8 feature_buf[ONFI_SUBFEATURE_PARAM_LEN] = { 0 };
->>>>> +
->>>>> +     return nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
->>>>> +                              feature_buf);
->>>>> +}
->>>>> +
->>>>> +static int __macronix_30lfxg18ac_rw_otp(struct mtd_info *mtd,
->>>>> +                                     loff_t offs_in_flash,
->>>>> +                                     size_t len, size_t *retlen,
->>>>> +                                     u_char *buf, bool write)
->>>>> +{
->>>>> +     struct nand_chip *nand;
->>>>> +     size_t bytes_handled;
->>>>> +     off_t offs_in_page;
->>>>> +     void *dma_buf;
->>>>> +     u64 page;
->>>>> +     int ret;
->>>>> +
->>>>> +     /* 'nand_prog/read_page_op()' may use 'buf' as DMA buffer,
->>>>> +      * so allocate properly aligned memory for it. This is
->>>>> +      * needed because cross page accesses may lead to unaligned
->>>>> +      * buffer address for DMA.
->>>>> +      */
->>>>> +     dma_buf = kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERNEL);
->>>>> +     if (!dma_buf)
->>>>> +             return -ENOMEM;
->>>>> +
->>>>> +     nand = mtd_to_nand(mtd);
->>>>> +     nand_select_target(nand, 0);
->>>>> +
->>>>> +     ret = macronix_30lfxg18ac_otp_enable(nand);
->>>>> +     if (ret)
->>>>> +             goto out_otp;
->>>>> +
->>>>> +     page = offs_in_flash;
->>>>> +     /* 'page' will be result of division. */
->>>>> +     offs_in_page = do_div(page, MACRONIX_30LFXG18AC_OTP_PAGE_SIZE);
->>>>> +     bytes_handled = 0;
->>>>> +
->>>>> +     while (bytes_handled < len &&
->>>>> +            page < MACRONIX_30LFXG18AC_OTP_PAGES) {
->>>>> +             size_t bytes_to_handle;
->>>>> +
->>>>> +             bytes_to_handle = min_t(size_t, len - bytes_handled,
->>>>> +                                     MACRONIX_30LFXG18AC_OTP_PAGE_SIZE -
->>>>> +                                     offs_in_page);
->>>>> +
->>>>> +             if (write) {
->>>>> +                     memcpy(dma_buf, &buf[bytes_handled], bytes_to_handle);
->>>>> +                     ret = nand_prog_page_op(nand, page, offs_in_page,
->>>>> +                                             dma_buf, bytes_to_handle);
->>>>> +             } else {
->>>>> +                     ret = nand_read_page_op(nand, page, offs_in_page,
->>>>> +                                             dma_buf, bytes_to_handle);
->>>>> +                     if (!ret)
->>>>> +                             memcpy(&buf[bytes_handled], dma_buf,
->>>>> +                                    bytes_to_handle);
->>>>> +             }
->>>>> +             if (ret)
->>>>> +                     goto out_otp;
->>>>> +
->>>>> +             bytes_handled += bytes_to_handle;
->>>>> +             offs_in_page = 0;
->>>>> +             page++;
->>>>> +     }
->>>>> +
->>>>> +     *retlen = bytes_handled;
->>>>> +
->>>>> +out_otp:
->>>>> +     if (ret)
->>>>> +             dev_err(&mtd->dev, "failed to perform OTP IO: %i\n", ret);
->>>>> +
->>>>> +     ret = macronix_30lfxg18ac_otp_disable(nand);
->>>>> +     if (ret)
->>>>> +             dev_err(&mtd->dev, "failed to leave OTP mode after %s\n",
->>>>> +                     write ? "write" : "read");
->>>>> +
->>>>> +     nand_deselect_target(nand);
->>>>> +     kfree(dma_buf);
->>>>> +
->>>>> +     return ret;
->>>>> +}
->>>>> +
->>>>> +static int macronix_30lfxg18ac_write_otp(struct mtd_info *mtd, loff_t to,
->>>>> +                                      size_t len, size_t *rlen,
->>>>> +                                      const u_char *buf)
->>>>> +{
->>>>> +     return __macronix_30lfxg18ac_rw_otp(mtd, to, len, rlen, (u_char *)buf,
->>>>> +                                         true);
->>>>> +}
->>>>> +
->>>>> +static int macronix_30lfxg18ac_read_otp(struct mtd_info *mtd, loff_t from,
->>>>> +                                     size_t len, size_t *rlen,
->>>>> +                                     u_char *buf)
->>>>> +{
->>>>> +     return __macronix_30lfxg18ac_rw_otp(mtd, from, len, rlen, buf, false);
->>>>> +}
->>>>> +
->>>>> +static int macronix_30lfxg18ac_lock_otp(struct mtd_info *mtd, loff_t from,
->>>>> +                                     size_t len)
->>>>> +{
->>>>> +     u8 feature_buf[ONFI_SUBFEATURE_PARAM_LEN] = { 0 };
->>>>> +     struct nand_chip *nand;
->>>>> +     int ret;
->>>>> +
->>>>> +     if (from != MACRONIX_30LFXG18AC_OTP_START_BYTE ||
->>>>> +         len != MACRONIX_30LFXG18AC_OTP_SIZE_BYTES)
->>>>> +             return -EINVAL;
->>>>> +
->>>>> +     dev_dbg(&mtd->dev, "locking OTP\n");
->>>>> +
->>>>> +     nand = mtd_to_nand(mtd);
->>>>> +     nand_select_target(nand, 0);
->>>>> +
->>>>> +     feature_buf[0] = MACRONIX_30LFXG18AC_OTP_EN |
->>>>> +                      MACRONIX_30LFXG18AC_OTP_LOCKED;
->>>>> +     ret = nand_set_features(nand, ONFI_FEATURE_ADDR_30LFXG18AC_OTP,
->>>>> +                             feature_buf);
->>>>> +     if (ret) {
->>>>> +             dev_err(&mtd->dev,
->>>>> +                     "failed to lock OTP (set features): %i\n", ret);
->>>>> +             nand_deselect_target(nand);
->>>>> +             return ret;
->>>>> +     }
->>>>> +
->>>>> +     /* Do dummy page prog with zero address. */
->>>>> +     feature_buf[0] = 0;
->>>>> +     ret = nand_prog_page_op(nand, 0, 0, feature_buf, 1);
->>>>> +     if (ret)
->>>>> +             dev_err(&mtd->dev,
->>>>> +                     "failed to lock OTP (page prog): %i\n", ret);
->>>>> +
->>>>> +     ret = macronix_30lfxg18ac_otp_disable(nand);
->>>>> +     if (ret)
->>>>> +             dev_err(&mtd->dev, "failed to leave OTP mode after lock\n");
->>>>> +
->>>>> +     nand_deselect_target(nand);
->>>>> +
->>>>> +     return ret;
->>>>> +}
->>>>> +
->>>>> +static void macronix_nand_setup_otp(struct nand_chip *chip)
->>>>> +{
->>>>> +     static const char * const supported_otp_models[] = {
->>>>> +             "MX30LF1G18AC",
->>>>> +             "MX30LF2G18AC",
->>>>> +             "MX30LF4G18AC",
->>>>> +     };
->>>>> +     struct mtd_info *mtd;
->>>>> +
->>>>> +     if (match_string(supported_otp_models,
->>>>> +                      ARRAY_SIZE(supported_otp_models),
->>>>> +                      chip->parameters.model) < 0)
->>>>> +             return;
->>>>> +
->>>>> +     if (!chip->parameters.supports_set_get_features)
->>>>> +             return;
->>>>> +
->>>>> +     bitmap_set(chip->parameters.get_feature_list,
->>>>> +                ONFI_FEATURE_ADDR_30LFXG18AC_OTP, 1);
->>>>> +     bitmap_set(chip->parameters.set_feature_list,
->>>>> +                ONFI_FEATURE_ADDR_30LFXG18AC_OTP, 1);
->>>>> +
->>>>> +     mtd = nand_to_mtd(chip);
->>>>> +     mtd->_get_fact_prot_info = macronix_30lfxg18ac_get_otp_info;
->>>>> +     mtd->_read_fact_prot_reg = macronix_30lfxg18ac_read_otp;
->>>>> +     mtd->_get_user_prot_info = macronix_30lfxg18ac_get_otp_info;
->>>>> +     mtd->_read_user_prot_reg = macronix_30lfxg18ac_read_otp;
->>>>> +     mtd->_write_user_prot_reg = macronix_30lfxg18ac_write_otp;
->>>>> +     mtd->_lock_user_prot_reg = macronix_30lfxg18ac_lock_otp;
->>>>> +}
->>>>> +
->>>>>  static int macronix_nand_init(struct nand_chip *chip)
->>>>>  {
->>>>>       if (nand_is_slc(chip))
->>>>> @@ -325,6 +540,7 @@ static int macronix_nand_init(struct nand_chip *chip)
->>>>>       macronix_nand_onfi_init(chip);
->>>>>       macronix_nand_block_protection_support(chip);
->>>>>       macronix_nand_deep_power_down_support(chip);
->>>>> +     macronix_nand_setup_otp(chip);
->>>>>
->>>>>       return 0;
->>>>>  }  
->>>>
->>>>
->>>> Thanks,
->>>> Miquèl  
->>>
->>> Thanks
->>> Jaime
->>
->>
+> PMIC is a single device, with 2 regs, clocks, pinctrl and IRQ properties.
+> So it will be represented as single node with single compatible.
+
+The chip is a single package that contains two independent devices. This
+is not different than bundling many IP cores in an SoC, we have one DT
+node per IP core, not a single DT node for the SoC. The fact that we're
+dealing with an external physical component here isn't relevant.
+
+> By instating a client device, we are sharing the relevant resources to
+> RTC device driver.
+
+By instantiating a client device, you create a second struct device,
+which is the kernel abstraction of a hardware device. This shows in my
+opinion that we're dealing with two devices here, hence my
+recommendation of using two DT nodes.
+
+As you've noticed, with two devices and a single DT node, pinctrl
+complains. You can hack around that by moving the pinctrl configuration
+from the PMIC DT node to another DT node, and that's one first hack.
+Then, you'll need to have two different device IDs depending on the PMIC
+version to let the RTC driver set the oscillator bit correctly, and
+that's a second hack.
+
+A solution with two DT nodes models the hardware better and is cleaner.
+
+-- 
+Regards,
+
+Laurent Pinchart
