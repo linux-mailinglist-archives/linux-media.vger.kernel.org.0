@@ -2,45 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B5E2B73041E
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 17:47:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28F52730421
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 17:48:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244675AbjFNPrU convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 14 Jun 2023 11:47:20 -0400
+        id S236748AbjFNPsD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Jun 2023 11:48:03 -0400
 Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244998AbjFNPrH (ORCPT
+        with ESMTP id S229569AbjFNPsC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Jun 2023 11:47:07 -0400
-Received: from irl.hu (irl.hu [95.85.9.111])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C77B270A
-        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 08:46:35 -0700 (PDT)
-Received: from [192.168.2.4] (softdnserr [::ffff:81.182.137.62])
-  (AUTH: CRAM-MD5 soyer@irl.hu, )
-  by irl.hu with ESMTPSA
-  id 000000000007144F.000000006489E0D9.003B4F34; Wed, 14 Jun 2023 17:46:33 +0200
-Message-ID: <3480de8b7cfd17dc93165d816fa624fdba75d0e6.camel@irl.hu>
-Subject: Re: [PATCH] media: uvcvideo: uvc_ctrl_get_rel_speed: use 0 as
- default
-From:   Gergo Koteles <soyer@irl.hu>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Date:   Wed, 14 Jun 2023 17:46:22 +0200
-In-Reply-To: <CANiDSCupgF6m6T3R=w7BxqVe672cPHk05Yj0yqiW3hLp+GEkdw@mail.gmail.com>
-References: <eb4f7f29a94231c5fa404f7492dba8e7fd9fbb23.1686746422.git.soyer@irl.hu>
-         <CANiDSCsmKvOZFmcBCAtc8D971a=FvRcn_rJgO=omKrCR2fvNOA@mail.gmail.com>
-         <d50992e1f4709eb8f0a34120b70f2b02d3e655e5.camel@irl.hu>
-         <CANiDSCshBFwE+HDqgQ7tc33gNtUuowP5s+bprqxaAF6D6HBO_w@mail.gmail.com>
-         <CANiDSCt193avx+fKgujT7u-4hguEyq=kmfULG75F1LK=fjMLhA@mail.gmail.com>
-         <944fc6422e73a7b1334fdc1856bdf0480c7fc4e9.camel@irl.hu>
-         <CANiDSCupgF6m6T3R=w7BxqVe672cPHk05Yj0yqiW3hLp+GEkdw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.48.3 (3.48.3-1.fc38) 
+        Wed, 14 Jun 2023 11:48:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4446826AE
+        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 08:47:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1686757628;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=C3a+D3C/eeBbkodn0MdgOMn17x/L2fD2fZ5pEx59nVo=;
+        b=dSTDZSgZONAtIz+8CfiQk2KJo5wSY8+TzDmbaDSsLv2FQK/54FT/4VTAlyc4yPxz2qVa3d
+        rOIyY89/ukyeTAMS0pLIrt+3v4Kh3tVD+fNg8ad316bU8YvHtw6I12BMKlwcmg7jXiapY1
+        k6zqa+Tqc8V7TCELxP9y5iJTxiN2jrY=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-363-Vd3NlRwEMg2tAmAtXsWA9A-1; Wed, 14 Jun 2023 11:47:07 -0400
+X-MC-Unique: Vd3NlRwEMg2tAmAtXsWA9A-1
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-98281e071fdso37803166b.0
+        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 08:47:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686757625; x=1689349625;
+        h=content-transfer-encoding:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=C3a+D3C/eeBbkodn0MdgOMn17x/L2fD2fZ5pEx59nVo=;
+        b=PkxfwxaZbdGEddL0Bt6qyFWPMmORMTrPHNJHanLyD7DO5xKjjoVaXyuMzw0vjBNlLy
+         woiyj5aVG7XoaLSI6m/RfTrOq5HrZZFKlWvvpyHkOepYPBNvmHEbYmbewp7vVrt6hHiS
+         PWmIL+L0rQuhp659W2RPDAoF4pLWbszmza5LSUrubGRShZftbvn9PUtj4cNoLlQygaLY
+         cYebBjEHIvDEp52kI4Wn4HdQtgGHIYoVnaai3KUBq5Jw0t7e+eedkQeRwQJ8oR7Qkdij
+         1Us4FgUkpeoK4tjFgnmZK6YsUHmO0GFDczNUPvGuXRnjg6lpkRxtYYu2QUunpHNOEAaS
+         wfeg==
+X-Gm-Message-State: AC+VfDw8otme4vUMTvy5FveE7YmEccY0QGIQLYADwcClIGoLFiYpjZlL
+        nPX2SzoqBFp08l+nKS1J6y62SJX42ZQRuunb18026M4MpR3iebGychVq4RD3Gyxte/RscNROjuf
+        o0ISuRUMNeTahWTggb310pd5zBSLQWTs=
+X-Received: by 2002:a17:907:70a:b0:974:20bd:6e15 with SMTP id xb10-20020a170907070a00b0097420bd6e15mr15881540ejb.4.1686757625367;
+        Wed, 14 Jun 2023 08:47:05 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5oLFcev992fc8/GhDtu99lsvmvYvjnaagosygFmvbrRaiFReYZ+JdmWsVOli0x99RjZH4TZA==
+X-Received: by 2002:a17:907:70a:b0:974:20bd:6e15 with SMTP id xb10-20020a170907070a00b0097420bd6e15mr15881532ejb.4.1686757625052;
+        Wed, 14 Jun 2023 08:47:05 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? ([2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id i24-20020a17090671d800b00967004187b8sm8111786ejk.36.2023.06.14.08.47.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Jun 2023 08:47:04 -0700 (PDT)
+Message-ID: <ce81b73f-48db-038d-2671-bccbb3490786@redhat.com>
+Date:   Wed, 14 Jun 2023 17:47:01 +0200
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Content-Language: en-US, nl
+To:     Dan Scally <dan.scally@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Subject: OV5693 Kconfig missing a select VIDEO_V4L2_SUBDEV_API ?
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -48,213 +78,22 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
-On Wed, 2023-06-14 at 17:25 +0200, Ricardo Ribalda wrote:
-> On Wed, 14 Jun 2023 at 17:22, Gergo Koteles <soyer@irl.hu> wrote:
-> > 
-> > Hi Ricardo,
-> > On Wed, 2023-06-14 at 17:08 +0200, Ricardo Ribalda wrote:
-> > > On Wed, 14 Jun 2023 at 17:07, Ricardo Ribalda
-> > > <ribalda@chromium.org>
-> > > wrote:
-> > > > 
-> > > > Hi Soyer
-> > > > 
-> > > > 
-> > > > On Wed, 14 Jun 2023 at 16:59, soyer <soyer@irl.hu> wrote:
-> > > > > 
-> > > > > Hi Ricardo
-> > > > > 
-> > > > > On Wed, 2023-06-14 at 16:19 +0200, Ricardo Ribalda wrote:
-> > > > > > [Now in plain text mode]
-> > > > > > 
-> > > > > > Hi Gergo
-> > > > > > 
-> > > > > > Doesn't your patch affect pan and tilt for all the cameras,
-> > > > > > not
-> > > > > > only
-> > > > > > the BCC950?
-> > > > > > 
-> > > > > Yes, it affects all cameras that support
-> > > > > CT_PANTILT_RELATIVE_CONTROL.
-> > > > > 
-> > > > > > Also it seems that 1 means that device does not support
-> > > > > > programmable
-> > > > > > speed. Is that correct?
-> > > > > > 
-> > > > > > ```
-> > > > > > The bPanSpeed field is used to specify the speed of the
-> > > > > > movement for
-> > > > > > the Pan direction. A low
-> > > > > > number indicates a slow speed and a high number indicates a
-> > > > > > higher
-> > > > > > speed. The GET_MIN,
-> > > > > > GET_MAX and GET_RES requests are used to retrieve the range
-> > > > > > and
-> > > > > > resolution for this field.
-> > > > > > The GET_DEF request is used to retrieve the default value
-> > > > > > for
-> > > > > > this
-> > > > > > field. If the control does not
-> > > > > > support speed control for the Pan control, it will return
-> > > > > > the
-> > > > > > value 1
-> > > > > > in this field for all these
-> > > > > > requests.
-> > > > > > ```
-> > > > 
-> > > > It seems to me that the module is compliant to the standard. It
-> > > > returns 1 as GET_DEF because it does not support speed control.
-> > > > 
-> > > > Maybe you should ignore the speed control instead of changing
-> > > > its
-> > > > default value?
-> > > 
-> > > ( this is the standard I am refering to: 4.2.2.1.15 PanTilt
-> > > (Relative) Control
-> > > 
-> > >  
-> > > https://www.usb.org/document-library/video-class-v15-document-set 
-> > > )
-> > > > 
-> > > > 
-> > 
-> > It's a different API. V4L2 control values are not the same as the
-> > UVC
-> > standard control values.
-> 
-> What I am saying, is that if
-> CT_PANTILT_RELATIVE_CONTROL.bPanSpeed.GET_DEF is 1 you should not
-> create the mapping to
-> V4L2_CID_PAN_SPEED
-> 
-If I set V4L2_CID_PAN_SPEED to 1 (max), the BCC950 starts to move at
-maximum speed. This is what it should do according to description of
-the V4L2_CID_PAN_SPEED.
+Hi All,
 
-My understanding is that, if the camera supports
-CT_PANTILT_RELATIVE_CONTROL there should be a V4L2_CID_PAN_SPEED.
-CT_PANTILT_RELATIVE_CONTROL.bPanSpeed.GET_DEF == 1 only says that only
-one speed is available not a range.
+The ov5693 driver uses v4l2_subdev_get_try_crop() /
+v4l2_subdev_get_try_format() both of which are
+only defined if CONFIG_VIDEO_V4L2_SUBDEV_API=y .
 
+Yet it does not do select VIDEO_V4L2_SUBDEV_API
+in its Kconfig bits ?
 
+Note I've not seen any build errors because of this,
+I guess we somehow end up getting away with this...
 
-> > 
-> > Eg the V4L2_CID_PAN_SPEED control value calculated from
-> > CT_PANTILT_RELATIVE_CONTROL's bPanRelative and bPanSpeed value.
-> > 
-> > It only bothers me that I have to handle these two controls
-> > differently.
-> > 
-> > > > > > 
-> > > > > I started from the V4L2 control description.
-> > > > > 
-> > > > > V4L2_CID_PAN_SPEED (integer)
-> > > > > This control turns the camera horizontally at the specific
-> > > > > speed.
-> > > > > The
-> > > > > unit is undefined. A positive value moves the camera to the
-> > > > > right
-> > > > > (clockwise when viewed from above), a negative value to the
-> > > > > left.
-> > > > > A
-> > > > > value of zero stops the motion if one is in progress and has
-> > > > > no
-> > > > > effect
-> > > > > otherwise.
-> > > > > 
-> > > > > And this is why I thought that 1 is not a good default value,
-> > > > > because
-> > > > > it moves the camera.
-> > > > > The other V4L2 controls have a default value that I can
-> > > > > safely
-> > > > > set the
-> > > > > controls to.
-> > > > > 
-> > > > > Are you using it to determine if the camera supports speed
-> > > > > control?
-> > > > > 
-> > > > > > When you program that value do you see any difference on
-> > > > > > the
-> > > > > > device?
-> > > > > > What is max, min and res?
-> > > > > > 
-> > > > > 
-> > > > > No, it works the same way.
-> > > > > Only the default value changes (from 1 to 0)
-> > > > > 
-> > > > >  pan_speed 0x009a0920 (int)    : min=-1 max=1 step=1
-> > > > > default=0
-> > > > > value=0
-> > > > > tilt_speed 0x009a0921 (int)    : min=-1 max=1 step=1
-> > > > > default=0
-> > > > > value=0
-> > > > > 
-> > > > > 
-> > > > > 
-> > > > > > 
-> > > > > > Thanks!
-> > > > > > 
-> > > > > > Regards!
-> > > > > > 
-> > > > > > 
-> > > > > 
-> > > > > Thanks,
-> > > > > Gergo
-> > > > > 
-> > > > > > On Wed, 14 Jun 2023 at 15:13, Gergo Koteles <soyer@irl.hu>
-> > > > > > wrote:
-> > > > > > > 
-> > > > > > > The Logitech BCC950 incorrectly reports 1 (the max value)
-> > > > > > > for the default values of V4L2_CID_PAN_SPEED,
-> > > > > > > V4L2_CID_TILT_SPEED.
-> > > > > > > 
-> > > > > > > This patch sets them to 0, which is the stop value.
-> > > > > > > 
-> > > > > > > Previous discussion
-> > > > > > > Link:
-> > > > > > > https://lore.kernel.org/all/CAP_ceTy6XVmvTTAmvCp1YU2wxHwXqnarm69Yaz8K4FmpJqYxAg@mail.gmail.com/
-> > > > > > > 
-> > > > > > > Signed-off-by: Gergo Koteles <soyer@irl.hu>
-> > > > > > > ---
-> > > > > > >  drivers/media/usb/uvc/uvc_ctrl.c | 3 ++-
-> > > > > > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > > > > > > 
-> > > > > > > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c
-> > > > > > > b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > > > > > index 5e9d3da862dd..e131958c0930 100644
-> > > > > > > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > > > > > > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > > > > > @@ -444,9 +444,10 @@ static s32
-> > > > > > > uvc_ctrl_get_rel_speed(struct
-> > > > > > > uvc_control_mapping *mapping,
-> > > > > > >                 return -data[first+1];
-> > > > > > >         case UVC_GET_MAX:
-> > > > > > >         case UVC_GET_RES:
-> > > > > > > +               return data[first+1];
-> > > > > > >         case UVC_GET_DEF:
-> > > > > > >         default:
-> > > > > > > -               return data[first+1];
-> > > > > > > +               return 0;
-> > > > > > >         }
-> > > > > > >  }
-> > > > > > > 
-> > > > > > > 
-> > > > > > > base-commit: be9aac187433af6abba5fcc2e73d91d0794ba360
-> > > > > > > --
-> > > > > > > 2.40.1
-> > > > > > > 
-> > > > > > 
-> > > > > > 
-> > > > > 
-> > > > 
-> > > > 
-> > > > --
-> > > > Ricardo Ribalda
-> > > 
-> > > 
-> > > 
-> > 
-> 
-> 
+But still I think the select should be added ?
+
+Regards,
+
+Hans
+
 
