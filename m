@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 525F9730A0A
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 23:54:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CACB730A5E
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jun 2023 00:05:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236034AbjFNVyU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Jun 2023 17:54:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51164 "EHLO
+        id S234331AbjFNWE5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Jun 2023 18:04:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235920AbjFNVyS (ORCPT
+        with ESMTP id S236302AbjFNWEz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Jun 2023 17:54:18 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B920268C
-        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 14:54:15 -0700 (PDT)
+        Wed, 14 Jun 2023 18:04:55 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53D5C2695
+        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 15:04:52 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0F99275B;
-        Wed, 14 Jun 2023 23:53:42 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 495EB55;
+        Thu, 15 Jun 2023 00:04:19 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1686779623;
-        bh=/54RWOrMUIb5cdh+eAVEjt3vU/ilRbwFxOgmjg8DCM4=;
+        s=mail; t=1686780259;
+        bh=trk6yPY5Ijf7RFbnsgR5b66Fo6edHGoq4kNkxY6mnMg=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jwv6+xiFD3Yy2D5RqReegQW4DoQ+pmrZbicELK3mB0nUb03pc2Vy4rAKmvEm6v1RE
-         czKzeIXqsuidATl2l/lDrM3BuZLrLmqDzMSaYDQGQgOTVtRfVzaeyb6mcyTIIDyHr2
-         htdjJ/hcq0bA7w55QHbqTzGw7T4Z5Nu1z+7cdUWA=
-Date:   Thu, 15 Jun 2023 00:54:14 +0300
+        b=vObYyaDkhE7BXkBfHQkCgJghBorA+1t1rtPelFZj1cbZxG2GjroDWq7Ilf+AFGFCN
+         TU/0iplC912clMw5BkR+/JnbnE+x+8ydSS7t2o0XRU0bDL/9TFYZb/RLIbmJfEp7Q+
+         B1i0HPb/gr3sTtIdFLBBPiuN23bnMs7YtdhHIgVQ=
+Date:   Thu, 15 Jun 2023 01:04:50 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
         linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 2/5] media: ov5693: Convert to new CCI register access
+Subject: Re: [PATCH v2 3/5] media: imx290: Convert to new CCI register access
  helpers
-Message-ID: <20230614215414.GB28757@pendragon.ideasonboard.com>
+Message-ID: <20230614220450.GC28757@pendragon.ideasonboard.com>
 References: <20230614192343.57280-1-hdegoede@redhat.com>
- <20230614192343.57280-3-hdegoede@redhat.com>
+ <20230614192343.57280-4-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230614192343.57280-3-hdegoede@redhat.com>
+In-Reply-To: <20230614192343.57280-4-hdegoede@redhat.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -55,844 +55,630 @@ Hi Hans,
 
 Thank you for the patch.
 
-On Wed, Jun 14, 2023 at 09:23:40PM +0200, Hans de Goede wrote:
+On Wed, Jun 14, 2023 at 09:23:41PM +0200, Hans de Goede wrote:
 > Use the new comon CCI register access helpers to replace the private
-> register access helpers in the ov5693 driver.
+> register access helpers in the imx290 driver.
 > 
 > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 > ---
-> Note for reviewers all the OV5693_REG_?BIT defines in both the register
-> address defines as well as in ov5693_global_regs[] were automatically
+> Note:
+> 1. This is untested
+> 2. For reviewers: all the IMX290_REG_?BIT defines in both the register
+> address defines as well as in various reg-sequences were automatically
 > changed using search replace.
-> ---
->  drivers/media/i2c/Kconfig  |   1 +
->  drivers/media/i2c/ov5693.c | 574 ++++++++++++++-----------------------
->  2 files changed, 220 insertions(+), 355 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index 11e503129085..298884a09196 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -591,6 +591,7 @@ config VIDEO_OV5693
->  	tristate "OmniVision OV5693 sensor support"
->  	depends on I2C && VIDEO_DEV
->  	select V4L2_FWNODE
-> +	select V4L2_CCI
->  	help
->  	  This is a Video4Linux2 sensor driver for the OmniVision
->  	  OV5693 camera.
-> diff --git a/drivers/media/i2c/ov5693.c b/drivers/media/i2c/ov5693.c
-> index 7f9212cce239..349124e422bd 100644
-> --- a/drivers/media/i2c/ov5693.c
-> +++ b/drivers/media/i2c/ov5693.c
-> @@ -12,7 +12,6 @@
->   * Jake Day
->   */
->  
-> -#include <asm/unaligned.h>
->  #include <linux/acpi.h>
->  #include <linux/clk.h>
->  #include <linux/delay.h>
-> @@ -23,36 +22,32 @@
->  #include <linux/regulator/consumer.h>
->  #include <linux/slab.h>
->  #include <linux/types.h>
-> +
-> +#include <media/v4l2-cci.h>
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-device.h>
->  #include <media/v4l2-fwnode.h>
->  
-> -#define OV5693_REG_8BIT(n)			((1 << 16) | (n))
-> -#define OV5693_REG_16BIT(n)			((2 << 16) | (n))
-> -#define OV5693_REG_24BIT(n)			((3 << 16) | (n))
-> -#define OV5693_REG_SIZE_SHIFT			16
-> -#define OV5693_REG_ADDR_MASK			0xffff
-> -
->  /* System Control */
-> -#define OV5693_SW_RESET_REG			OV5693_REG_8BIT(0x0103)
-> -#define OV5693_SW_STREAM_REG			OV5693_REG_8BIT(0x0100)
-> +#define OV5693_SW_RESET_REG			CCI_REG8(0x0103)
-> +#define OV5693_SW_STREAM_REG			CCI_REG8(0x0100)
->  #define OV5693_START_STREAMING			0x01
->  #define OV5693_STOP_STREAMING			0x00
->  #define OV5693_SW_RESET				0x01
->  
-> -#define OV5693_REG_CHIP_ID			OV5693_REG_16BIT(0x300a)
-> +#define OV5693_REG_CHIP_ID			CCI_REG16(0x300a)
->  /* Yes, this is right. The datasheet for the OV5693 gives its ID as 0x5690 */
->  #define OV5693_CHIP_ID				0x5690
->  
->  /* Exposure */
-> -#define OV5693_EXPOSURE_CTRL_REG		OV5693_REG_24BIT(0x3500)
-> +#define OV5693_EXPOSURE_CTRL_REG		CCI_REG24(0x3500)
->  #define OV5693_EXPOSURE_CTRL_MASK		GENMASK(19, 4)
->  #define OV5693_INTEGRATION_TIME_MARGIN		8
->  #define OV5693_EXPOSURE_MIN			1
->  #define OV5693_EXPOSURE_STEP			1
->  
->  /* Analogue Gain */
-> -#define OV5693_GAIN_CTRL_REG			OV5693_REG_16BIT(0x350a)
-> +#define OV5693_GAIN_CTRL_REG			CCI_REG16(0x350a)
->  #define OV5693_GAIN_CTRL_MASK			GENMASK(10, 4)
->  #define OV5693_GAIN_MIN				1
->  #define OV5693_GAIN_MAX				127
-> @@ -60,9 +55,9 @@
->  #define OV5693_GAIN_STEP			1
->  
->  /* Digital Gain */
-> -#define OV5693_MWB_RED_GAIN_REG			OV5693_REG_16BIT(0x3400)
-> -#define OV5693_MWB_GREEN_GAIN_REG		OV5693_REG_16BIT(0x3402)
-> -#define OV5693_MWB_BLUE_GAIN_REG		OV5693_REG_16BIT(0x3404)
-> +#define OV5693_MWB_RED_GAIN_REG			CCI_REG16(0x3400)
-> +#define OV5693_MWB_GREEN_GAIN_REG		CCI_REG16(0x3402)
-> +#define OV5693_MWB_BLUE_GAIN_REG		CCI_REG16(0x3404)
->  #define OV5693_MWB_GAIN_MASK			GENMASK(11, 0)
->  #define OV5693_MWB_GAIN_MAX			0x0fff
->  #define OV5693_DIGITAL_GAIN_MIN			1
-> @@ -71,36 +66,36 @@
->  #define OV5693_DIGITAL_GAIN_STEP		1
->  
->  /* Timing and Format */
-> -#define OV5693_CROP_START_X_REG			OV5693_REG_16BIT(0x3800)
-> -#define OV5693_CROP_START_Y_REG			OV5693_REG_16BIT(0x3802)
-> -#define OV5693_CROP_END_X_REG			OV5693_REG_16BIT(0x3804)
-> -#define OV5693_CROP_END_Y_REG			OV5693_REG_16BIT(0x3806)
-> -#define OV5693_OUTPUT_SIZE_X_REG		OV5693_REG_16BIT(0x3808)
-> -#define OV5693_OUTPUT_SIZE_Y_REG		OV5693_REG_16BIT(0x380a)
-> +#define OV5693_CROP_START_X_REG			CCI_REG16(0x3800)
-> +#define OV5693_CROP_START_Y_REG			CCI_REG16(0x3802)
-> +#define OV5693_CROP_END_X_REG			CCI_REG16(0x3804)
-> +#define OV5693_CROP_END_Y_REG			CCI_REG16(0x3806)
-> +#define OV5693_OUTPUT_SIZE_X_REG		CCI_REG16(0x3808)
-> +#define OV5693_OUTPUT_SIZE_Y_REG		CCI_REG16(0x380a)
->  
-> -#define OV5693_TIMING_HTS_REG			OV5693_REG_16BIT(0x380c)
-> +#define OV5693_TIMING_HTS_REG			CCI_REG16(0x380c)
->  #define OV5693_FIXED_PPL			2688U
-> -#define OV5693_TIMING_VTS_REG			OV5693_REG_16BIT(0x380e)
-> +#define OV5693_TIMING_VTS_REG			CCI_REG16(0x380e)
->  #define OV5693_TIMING_MAX_VTS			0xffff
->  #define OV5693_TIMING_MIN_VTS			0x04
->  
-> -#define OV5693_OFFSET_START_X_REG		OV5693_REG_16BIT(0x3810)
-> -#define OV5693_OFFSET_START_Y_REG		OV5693_REG_16BIT(0x3812)
-> +#define OV5693_OFFSET_START_X_REG		CCI_REG16(0x3810)
-> +#define OV5693_OFFSET_START_Y_REG		CCI_REG16(0x3812)
->  
-> -#define OV5693_SUB_INC_X_REG			OV5693_REG_8BIT(0x3814)
-> -#define OV5693_SUB_INC_Y_REG			OV5693_REG_8BIT(0x3815)
-> +#define OV5693_SUB_INC_X_REG			CCI_REG8(0x3814)
-> +#define OV5693_SUB_INC_Y_REG			CCI_REG8(0x3815)
->  
-> -#define OV5693_FORMAT1_REG			OV5693_REG_8BIT(0x3820)
-> +#define OV5693_FORMAT1_REG			CCI_REG8(0x3820)
->  #define OV5693_FORMAT1_FLIP_VERT_ISP_EN		BIT(6)
->  #define OV5693_FORMAT1_FLIP_VERT_SENSOR_EN	BIT(1)
->  #define OV5693_FORMAT1_VBIN_EN			BIT(0)
-> -#define OV5693_FORMAT2_REG			OV5693_REG_8BIT(0x3821)
-> +#define OV5693_FORMAT2_REG			CCI_REG8(0x3821)
->  #define OV5693_FORMAT2_HDR_EN			BIT(7)
->  #define OV5693_FORMAT2_FLIP_HORZ_ISP_EN		BIT(2)
->  #define OV5693_FORMAT2_FLIP_HORZ_SENSOR_EN	BIT(1)
->  #define OV5693_FORMAT2_HBIN_EN			BIT(0)
->  
-> -#define OV5693_ISP_CTRL2_REG			OV5693_REG_8BIT(0x5002)
-> +#define OV5693_ISP_CTRL2_REG			CCI_REG8(0x5002)
->  #define OV5693_ISP_SCALE_ENABLE			BIT(7)
->  
->  /* Pixel Array */
-> @@ -116,7 +111,7 @@
->  #define OV5693_MIN_CROP_HEIGHT			2
->  
->  /* Test Pattern */
-> -#define OV5693_TEST_PATTERN_REG			OV5693_REG_8BIT(0x5e00)
-> +#define OV5693_TEST_PATTERN_REG			CCI_REG8(0x5e00)
->  #define OV5693_TEST_PATTERN_ENABLE		BIT(7)
->  #define OV5693_TEST_PATTERN_ROLLING		BIT(6)
->  #define OV5693_TEST_PATTERN_RANDOM		0x01
-> @@ -137,19 +132,10 @@ static const char * const ov5693_supply_names[] = {
->  
->  #define OV5693_NUM_SUPPLIES	ARRAY_SIZE(ov5693_supply_names)
->  
-> -struct ov5693_reg {
-> -	u32 reg;
-> -	u8 val;
-> -};
-> -
-> -struct ov5693_reg_list {
-> -	u32 num_regs;
-> -	const struct ov5693_reg *regs;
-> -};
-> -
->  struct ov5693_device {
->  	struct i2c_client *client;
->  	struct device *dev;
-> +	struct regmap *regmap;
->  
->  	/* Protect against concurrent changes to controls */
->  	struct mutex lock;
-> @@ -189,156 +175,151 @@ struct ov5693_device {
->  	} ctrls;
->  };
->  
-> -static const struct ov5693_reg ov5693_global_regs[] = {
-> -	{OV5693_REG_8BIT(0x3016), 0xf0},
-> -	{OV5693_REG_8BIT(0x3017), 0xf0},
-> -	{OV5693_REG_8BIT(0x3018), 0xf0},
-> -	{OV5693_REG_8BIT(0x3022), 0x01},
-> -	{OV5693_REG_8BIT(0x3028), 0x44},
-> -	{OV5693_REG_8BIT(0x3098), 0x02},
-> -	{OV5693_REG_8BIT(0x3099), 0x19},
-> -	{OV5693_REG_8BIT(0x309a), 0x02},
-> -	{OV5693_REG_8BIT(0x309b), 0x01},
-> -	{OV5693_REG_8BIT(0x309c), 0x00},
-> -	{OV5693_REG_8BIT(0x30a0), 0xd2},
-> -	{OV5693_REG_8BIT(0x30a2), 0x01},
-> -	{OV5693_REG_8BIT(0x30b2), 0x00},
-> -	{OV5693_REG_8BIT(0x30b3), 0x83},
-> -	{OV5693_REG_8BIT(0x30b4), 0x03},
-> -	{OV5693_REG_8BIT(0x30b5), 0x04},
-> -	{OV5693_REG_8BIT(0x30b6), 0x01},
-> -	{OV5693_REG_8BIT(0x3080), 0x01},
-> -	{OV5693_REG_8BIT(0x3104), 0x21},
-> -	{OV5693_REG_8BIT(0x3106), 0x00},
-> -	{OV5693_REG_8BIT(0x3406), 0x01},
-> -	{OV5693_REG_8BIT(0x3503), 0x07},
-> -	{OV5693_REG_8BIT(0x350b), 0x40},
-> -	{OV5693_REG_8BIT(0x3601), 0x0a},
-> -	{OV5693_REG_8BIT(0x3602), 0x38},
-> -	{OV5693_REG_8BIT(0x3612), 0x80},
-> -	{OV5693_REG_8BIT(0x3620), 0x54},
-> -	{OV5693_REG_8BIT(0x3621), 0xc7},
-> -	{OV5693_REG_8BIT(0x3622), 0x0f},
-> -	{OV5693_REG_8BIT(0x3625), 0x10},
-> -	{OV5693_REG_8BIT(0x3630), 0x55},
-> -	{OV5693_REG_8BIT(0x3631), 0xf4},
-> -	{OV5693_REG_8BIT(0x3632), 0x00},
-> -	{OV5693_REG_8BIT(0x3633), 0x34},
-> -	{OV5693_REG_8BIT(0x3634), 0x02},
-> -	{OV5693_REG_8BIT(0x364d), 0x0d},
-> -	{OV5693_REG_8BIT(0x364f), 0xdd},
-> -	{OV5693_REG_8BIT(0x3660), 0x04},
-> -	{OV5693_REG_8BIT(0x3662), 0x10},
-> -	{OV5693_REG_8BIT(0x3663), 0xf1},
-> -	{OV5693_REG_8BIT(0x3665), 0x00},
-> -	{OV5693_REG_8BIT(0x3666), 0x20},
-> -	{OV5693_REG_8BIT(0x3667), 0x00},
-> -	{OV5693_REG_8BIT(0x366a), 0x80},
-> -	{OV5693_REG_8BIT(0x3680), 0xe0},
-> -	{OV5693_REG_8BIT(0x3681), 0x00},
-> -	{OV5693_REG_8BIT(0x3700), 0x42},
-> -	{OV5693_REG_8BIT(0x3701), 0x14},
-> -	{OV5693_REG_8BIT(0x3702), 0xa0},
-> -	{OV5693_REG_8BIT(0x3703), 0xd8},
-> -	{OV5693_REG_8BIT(0x3704), 0x78},
-> -	{OV5693_REG_8BIT(0x3705), 0x02},
-> -	{OV5693_REG_8BIT(0x370a), 0x00},
-> -	{OV5693_REG_8BIT(0x370b), 0x20},
-> -	{OV5693_REG_8BIT(0x370c), 0x0c},
-> -	{OV5693_REG_8BIT(0x370d), 0x11},
-> -	{OV5693_REG_8BIT(0x370e), 0x00},
-> -	{OV5693_REG_8BIT(0x370f), 0x40},
-> -	{OV5693_REG_8BIT(0x3710), 0x00},
-> -	{OV5693_REG_8BIT(0x371a), 0x1c},
-> -	{OV5693_REG_8BIT(0x371b), 0x05},
-> -	{OV5693_REG_8BIT(0x371c), 0x01},
-> -	{OV5693_REG_8BIT(0x371e), 0xa1},
-> -	{OV5693_REG_8BIT(0x371f), 0x0c},
-> -	{OV5693_REG_8BIT(0x3721), 0x00},
-> -	{OV5693_REG_8BIT(0x3724), 0x10},
-> -	{OV5693_REG_8BIT(0x3726), 0x00},
-> -	{OV5693_REG_8BIT(0x372a), 0x01},
-> -	{OV5693_REG_8BIT(0x3730), 0x10},
-> -	{OV5693_REG_8BIT(0x3738), 0x22},
-> -	{OV5693_REG_8BIT(0x3739), 0xe5},
-> -	{OV5693_REG_8BIT(0x373a), 0x50},
-> -	{OV5693_REG_8BIT(0x373b), 0x02},
-> -	{OV5693_REG_8BIT(0x373c), 0x41},
-> -	{OV5693_REG_8BIT(0x373f), 0x02},
-> -	{OV5693_REG_8BIT(0x3740), 0x42},
-> -	{OV5693_REG_8BIT(0x3741), 0x02},
-> -	{OV5693_REG_8BIT(0x3742), 0x18},
-> -	{OV5693_REG_8BIT(0x3743), 0x01},
-> -	{OV5693_REG_8BIT(0x3744), 0x02},
-> -	{OV5693_REG_8BIT(0x3747), 0x10},
-> -	{OV5693_REG_8BIT(0x374c), 0x04},
-> -	{OV5693_REG_8BIT(0x3751), 0xf0},
-> -	{OV5693_REG_8BIT(0x3752), 0x00},
-> -	{OV5693_REG_8BIT(0x3753), 0x00},
-> -	{OV5693_REG_8BIT(0x3754), 0xc0},
-> -	{OV5693_REG_8BIT(0x3755), 0x00},
-> -	{OV5693_REG_8BIT(0x3756), 0x1a},
-> -	{OV5693_REG_8BIT(0x3758), 0x00},
-> -	{OV5693_REG_8BIT(0x3759), 0x0f},
-> -	{OV5693_REG_8BIT(0x376b), 0x44},
-> -	{OV5693_REG_8BIT(0x375c), 0x04},
-> -	{OV5693_REG_8BIT(0x3774), 0x10},
-> -	{OV5693_REG_8BIT(0x3776), 0x00},
-> -	{OV5693_REG_8BIT(0x377f), 0x08},
-> -	{OV5693_REG_8BIT(0x3780), 0x22},
-> -	{OV5693_REG_8BIT(0x3781), 0x0c},
-> -	{OV5693_REG_8BIT(0x3784), 0x2c},
-> -	{OV5693_REG_8BIT(0x3785), 0x1e},
-> -	{OV5693_REG_8BIT(0x378f), 0xf5},
-> -	{OV5693_REG_8BIT(0x3791), 0xb0},
-> -	{OV5693_REG_8BIT(0x3795), 0x00},
-> -	{OV5693_REG_8BIT(0x3796), 0x64},
-> -	{OV5693_REG_8BIT(0x3797), 0x11},
-> -	{OV5693_REG_8BIT(0x3798), 0x30},
-> -	{OV5693_REG_8BIT(0x3799), 0x41},
-> -	{OV5693_REG_8BIT(0x379a), 0x07},
-> -	{OV5693_REG_8BIT(0x379b), 0xb0},
-> -	{OV5693_REG_8BIT(0x379c), 0x0c},
-> -	{OV5693_REG_8BIT(0x3a04), 0x06},
-> -	{OV5693_REG_8BIT(0x3a05), 0x14},
-> -	{OV5693_REG_8BIT(0x3e07), 0x20},
-> -	{OV5693_REG_8BIT(0x4000), 0x08},
-> -	{OV5693_REG_8BIT(0x4001), 0x04},
-> -	{OV5693_REG_8BIT(0x4004), 0x08},
-> -	{OV5693_REG_8BIT(0x4006), 0x20},
-> -	{OV5693_REG_8BIT(0x4008), 0x24},
-> -	{OV5693_REG_8BIT(0x4009), 0x10},
-> -	{OV5693_REG_8BIT(0x4058), 0x00},
-> -	{OV5693_REG_8BIT(0x4101), 0xb2},
-> -	{OV5693_REG_8BIT(0x4307), 0x31},
-> -	{OV5693_REG_8BIT(0x4511), 0x05},
-> -	{OV5693_REG_8BIT(0x4512), 0x01},
-> -	{OV5693_REG_8BIT(0x481f), 0x30},
-> -	{OV5693_REG_8BIT(0x4826), 0x2c},
-> -	{OV5693_REG_8BIT(0x4d02), 0xfd},
-> -	{OV5693_REG_8BIT(0x4d03), 0xf5},
-> -	{OV5693_REG_8BIT(0x4d04), 0x0c},
-> -	{OV5693_REG_8BIT(0x4d05), 0xcc},
-> -	{OV5693_REG_8BIT(0x4837), 0x0a},
-> -	{OV5693_REG_8BIT(0x5003), 0x20},
-> -	{OV5693_REG_8BIT(0x5013), 0x00},
-> -	{OV5693_REG_8BIT(0x5842), 0x01},
-> -	{OV5693_REG_8BIT(0x5843), 0x2b},
-> -	{OV5693_REG_8BIT(0x5844), 0x01},
-> -	{OV5693_REG_8BIT(0x5845), 0x92},
-> -	{OV5693_REG_8BIT(0x5846), 0x01},
-> -	{OV5693_REG_8BIT(0x5847), 0x8f},
-> -	{OV5693_REG_8BIT(0x5848), 0x01},
-> -	{OV5693_REG_8BIT(0x5849), 0x0c},
-> -	{OV5693_REG_8BIT(0x5e10), 0x0c},
-> -	{OV5693_REG_8BIT(0x3820), 0x00},
-> -	{OV5693_REG_8BIT(0x3821), 0x1e},
-> -	{OV5693_REG_8BIT(0x5041), 0x14}
-> -};
-> -
-> -static const struct ov5693_reg_list ov5693_global_setting = {
-> -	.num_regs = ARRAY_SIZE(ov5693_global_regs),
-> -	.regs = ov5693_global_regs,
-> +static const struct cci_reg_sequence ov5693_global_regs[] = {
-> +	{CCI_REG8(0x3016), 0xf0},
-> +	{CCI_REG8(0x3017), 0xf0},
-> +	{CCI_REG8(0x3018), 0xf0},
-> +	{CCI_REG8(0x3022), 0x01},
-> +	{CCI_REG8(0x3028), 0x44},
-> +	{CCI_REG8(0x3098), 0x02},
-> +	{CCI_REG8(0x3099), 0x19},
-> +	{CCI_REG8(0x309a), 0x02},
-> +	{CCI_REG8(0x309b), 0x01},
-> +	{CCI_REG8(0x309c), 0x00},
-> +	{CCI_REG8(0x30a0), 0xd2},
-> +	{CCI_REG8(0x30a2), 0x01},
-> +	{CCI_REG8(0x30b2), 0x00},
-> +	{CCI_REG8(0x30b3), 0x83},
-> +	{CCI_REG8(0x30b4), 0x03},
-> +	{CCI_REG8(0x30b5), 0x04},
-> +	{CCI_REG8(0x30b6), 0x01},
-> +	{CCI_REG8(0x3080), 0x01},
-> +	{CCI_REG8(0x3104), 0x21},
-> +	{CCI_REG8(0x3106), 0x00},
-> +	{CCI_REG8(0x3406), 0x01},
-> +	{CCI_REG8(0x3503), 0x07},
-> +	{CCI_REG8(0x350b), 0x40},
-> +	{CCI_REG8(0x3601), 0x0a},
-> +	{CCI_REG8(0x3602), 0x38},
-> +	{CCI_REG8(0x3612), 0x80},
-> +	{CCI_REG8(0x3620), 0x54},
-> +	{CCI_REG8(0x3621), 0xc7},
-> +	{CCI_REG8(0x3622), 0x0f},
-> +	{CCI_REG8(0x3625), 0x10},
-> +	{CCI_REG8(0x3630), 0x55},
-> +	{CCI_REG8(0x3631), 0xf4},
-> +	{CCI_REG8(0x3632), 0x00},
-> +	{CCI_REG8(0x3633), 0x34},
-> +	{CCI_REG8(0x3634), 0x02},
-> +	{CCI_REG8(0x364d), 0x0d},
-> +	{CCI_REG8(0x364f), 0xdd},
-> +	{CCI_REG8(0x3660), 0x04},
-> +	{CCI_REG8(0x3662), 0x10},
-> +	{CCI_REG8(0x3663), 0xf1},
-> +	{CCI_REG8(0x3665), 0x00},
-> +	{CCI_REG8(0x3666), 0x20},
-> +	{CCI_REG8(0x3667), 0x00},
-> +	{CCI_REG8(0x366a), 0x80},
-> +	{CCI_REG8(0x3680), 0xe0},
-> +	{CCI_REG8(0x3681), 0x00},
-> +	{CCI_REG8(0x3700), 0x42},
-> +	{CCI_REG8(0x3701), 0x14},
-> +	{CCI_REG8(0x3702), 0xa0},
-> +	{CCI_REG8(0x3703), 0xd8},
-> +	{CCI_REG8(0x3704), 0x78},
-> +	{CCI_REG8(0x3705), 0x02},
-> +	{CCI_REG8(0x370a), 0x00},
-> +	{CCI_REG8(0x370b), 0x20},
-> +	{CCI_REG8(0x370c), 0x0c},
-> +	{CCI_REG8(0x370d), 0x11},
-> +	{CCI_REG8(0x370e), 0x00},
-> +	{CCI_REG8(0x370f), 0x40},
-> +	{CCI_REG8(0x3710), 0x00},
-> +	{CCI_REG8(0x371a), 0x1c},
-> +	{CCI_REG8(0x371b), 0x05},
-> +	{CCI_REG8(0x371c), 0x01},
-> +	{CCI_REG8(0x371e), 0xa1},
-> +	{CCI_REG8(0x371f), 0x0c},
-> +	{CCI_REG8(0x3721), 0x00},
-> +	{CCI_REG8(0x3724), 0x10},
-> +	{CCI_REG8(0x3726), 0x00},
-> +	{CCI_REG8(0x372a), 0x01},
-> +	{CCI_REG8(0x3730), 0x10},
-> +	{CCI_REG8(0x3738), 0x22},
-> +	{CCI_REG8(0x3739), 0xe5},
-> +	{CCI_REG8(0x373a), 0x50},
-> +	{CCI_REG8(0x373b), 0x02},
-> +	{CCI_REG8(0x373c), 0x41},
-> +	{CCI_REG8(0x373f), 0x02},
-> +	{CCI_REG8(0x3740), 0x42},
-> +	{CCI_REG8(0x3741), 0x02},
-> +	{CCI_REG8(0x3742), 0x18},
-> +	{CCI_REG8(0x3743), 0x01},
-> +	{CCI_REG8(0x3744), 0x02},
-> +	{CCI_REG8(0x3747), 0x10},
-> +	{CCI_REG8(0x374c), 0x04},
-> +	{CCI_REG8(0x3751), 0xf0},
-> +	{CCI_REG8(0x3752), 0x00},
-> +	{CCI_REG8(0x3753), 0x00},
-> +	{CCI_REG8(0x3754), 0xc0},
-> +	{CCI_REG8(0x3755), 0x00},
-> +	{CCI_REG8(0x3756), 0x1a},
-> +	{CCI_REG8(0x3758), 0x00},
-> +	{CCI_REG8(0x3759), 0x0f},
-> +	{CCI_REG8(0x376b), 0x44},
-> +	{CCI_REG8(0x375c), 0x04},
-> +	{CCI_REG8(0x3774), 0x10},
-> +	{CCI_REG8(0x3776), 0x00},
-> +	{CCI_REG8(0x377f), 0x08},
-> +	{CCI_REG8(0x3780), 0x22},
-> +	{CCI_REG8(0x3781), 0x0c},
-> +	{CCI_REG8(0x3784), 0x2c},
-> +	{CCI_REG8(0x3785), 0x1e},
-> +	{CCI_REG8(0x378f), 0xf5},
-> +	{CCI_REG8(0x3791), 0xb0},
-> +	{CCI_REG8(0x3795), 0x00},
-> +	{CCI_REG8(0x3796), 0x64},
-> +	{CCI_REG8(0x3797), 0x11},
-> +	{CCI_REG8(0x3798), 0x30},
-> +	{CCI_REG8(0x3799), 0x41},
-> +	{CCI_REG8(0x379a), 0x07},
-> +	{CCI_REG8(0x379b), 0xb0},
-> +	{CCI_REG8(0x379c), 0x0c},
-> +	{CCI_REG8(0x3a04), 0x06},
-> +	{CCI_REG8(0x3a05), 0x14},
-> +	{CCI_REG8(0x3e07), 0x20},
-> +	{CCI_REG8(0x4000), 0x08},
-> +	{CCI_REG8(0x4001), 0x04},
-> +	{CCI_REG8(0x4004), 0x08},
-> +	{CCI_REG8(0x4006), 0x20},
-> +	{CCI_REG8(0x4008), 0x24},
-> +	{CCI_REG8(0x4009), 0x10},
-> +	{CCI_REG8(0x4058), 0x00},
-> +	{CCI_REG8(0x4101), 0xb2},
-> +	{CCI_REG8(0x4307), 0x31},
-> +	{CCI_REG8(0x4511), 0x05},
-> +	{CCI_REG8(0x4512), 0x01},
-> +	{CCI_REG8(0x481f), 0x30},
-> +	{CCI_REG8(0x4826), 0x2c},
-> +	{CCI_REG8(0x4d02), 0xfd},
-> +	{CCI_REG8(0x4d03), 0xf5},
-> +	{CCI_REG8(0x4d04), 0x0c},
-> +	{CCI_REG8(0x4d05), 0xcc},
-> +	{CCI_REG8(0x4837), 0x0a},
-> +	{CCI_REG8(0x5003), 0x20},
-> +	{CCI_REG8(0x5013), 0x00},
-> +	{CCI_REG8(0x5842), 0x01},
-> +	{CCI_REG8(0x5843), 0x2b},
-> +	{CCI_REG8(0x5844), 0x01},
-> +	{CCI_REG8(0x5845), 0x92},
-> +	{CCI_REG8(0x5846), 0x01},
-> +	{CCI_REG8(0x5847), 0x8f},
-> +	{CCI_REG8(0x5848), 0x01},
-> +	{CCI_REG8(0x5849), 0x0c},
-> +	{CCI_REG8(0x5e10), 0x0c},
-> +	{CCI_REG8(0x3820), 0x00},
-> +	{CCI_REG8(0x3821), 0x1e},
-> +	{CCI_REG8(0x5041), 0x14}
->  };
->  
->  static const struct v4l2_rect ov5693_default_crop = {
-> @@ -373,115 +354,6 @@ static const u8 ov5693_test_pattern_bits[] = {
->  	OV5693_TEST_PATTERN_ROLLING,
->  };
->  
-> -/* I2C I/O Operations */
-> -
-> -static int ov5693_read_reg(struct ov5693_device *ov5693, u32 addr, u32 *value)
-> -{
-> -	struct i2c_client *client = ov5693->client;
-> -	__be16 reg;
-> -	u8 val[4];
-> -	struct i2c_msg msg[] = {
-> -		{
-> -			.addr	= client->addr,
-> -			.flags	= 0,
-> -			.len	= 2,
-> -			.buf	= (u8 *)&reg,
-> -		},
-> -		{
-> -			.addr	= client->addr,
-> -			.flags	= I2C_M_RD,
-> -			.buf	= (u8 *)&val,
-> -		},
-> -	};
-> -	unsigned int len = ((addr >> OV5693_REG_SIZE_SHIFT) & 3);
-> -	unsigned int i;
-> -	int ret;
-> -
-> -	reg = cpu_to_be16(addr & OV5693_REG_ADDR_MASK);
-> -
-> -	msg[1].len = len;
-> -
-> -	ret = i2c_transfer(client->adapter, msg, 2);
-> -	if (ret < 0)
-> -		return dev_err_probe(&client->dev, ret,
-> -				     "Failed to read register 0x%04x\n",
-> -				     addr & OV5693_REG_ADDR_MASK);
-> -
-> -	*value = 0;
-> -	for (i = 0; i < len; ++i) {
-> -		*value <<= 8;
-> -		*value |= val[i];
-> -	}
-> -
-> -	return 0;
-> -}
-> -
-> -static void ov5693_write_reg(struct ov5693_device *ov5693, u32 addr, u32 value,
-> -			     int *error)
-> -{
-> -	struct i2c_client *client = ov5693->client;
-> -	struct {
-> -		__be16 reg;
-> -		u8 val[4];
-> -	} __packed buf;
-> -	struct i2c_msg msg = {
-> -		.addr	= client->addr,
-> -		.buf	= (u8 *)&buf,
-> -	};
-> -	unsigned int len = ((addr >> OV5693_REG_SIZE_SHIFT) & 3);
-> -	unsigned int i;
-> -	int ret;
-> -
-> -	if (*error < 0)
-> -		return;
-> -
-> -	buf.reg = cpu_to_be16(addr & OV5693_REG_ADDR_MASK);
-> -	for (i = 0; i < len; ++i) {
-> -		buf.val[len - i - 1] = value & 0xff;
-> -		value >>= 8;
-> -	}
-> -
-> -	msg.len	= len + 2;
-> -
-> -	ret = i2c_transfer(client->adapter, &msg, 1);
-> -	if (ret < 0) {
-> -		dev_err(&client->dev, "Failed to write register 0x%04x: %d\n",
-> -			addr & OV5693_REG_ADDR_MASK, ret);
-> -		*error = ret;
-> -	}
-> -}
-> -
-> -static int ov5693_write_reg_array(struct ov5693_device *ov5693,
-> -				  const struct ov5693_reg_list *reglist)
-> -{
-> -	unsigned int i;
-> -	int ret = 0;
-> -
-> -	for (i = 0; i < reglist->num_regs; i++)
-> -		ov5693_write_reg(ov5693, reglist->regs[i].reg,
-> -				 reglist->regs[i].val, &ret);
-> -
-> -	return ret;
-> -}
-> -
-> -static int ov5693_update_bits(struct ov5693_device *ov5693, u32 address,
-> -			      u32 mask, u32 bits)
-> -{
-> -	u32 value = 0;
-> -	int ret;
-> -
-> -	ret = ov5693_read_reg(ov5693, address, &value);
-> -	if (ret)
-> -		return ret;
-> -
-> -	value &= ~mask;
-> -	value |= bits;
-> -
-> -	ov5693_write_reg(ov5693, address, value, &ret);
-> -
-> -	return ret;
-> -}
-> -
->  /* V4L2 Controls Functions */
->  
->  static int ov5693_flip_vert_configure(struct ov5693_device *ov5693,
-> @@ -491,8 +363,8 @@ static int ov5693_flip_vert_configure(struct ov5693_device *ov5693,
->  		  OV5693_FORMAT1_FLIP_VERT_SENSOR_EN;
->  	int ret;
->  
-> -	ret = ov5693_update_bits(ov5693, OV5693_FORMAT1_REG, bits,
-> -				 enable ? bits : 0);
-> +	ret = cci_update_bits(ov5693->regmap, OV5693_FORMAT1_REG, bits,
-> +			      enable ? bits : 0, NULL);
->  	if (ret)
->  		return ret;
->  
-> @@ -506,8 +378,8 @@ static int ov5693_flip_horz_configure(struct ov5693_device *ov5693,
->  		  OV5693_FORMAT2_FLIP_HORZ_SENSOR_EN;
->  	int ret;
->  
-> -	ret = ov5693_update_bits(ov5693, OV5693_FORMAT2_REG, bits,
-> -				 enable ? bits : 0);
-> +	ret = cci_update_bits(ov5693->regmap, OV5693_FORMAT2_REG, bits,
-> +			      enable ? bits : 0, NULL);
->  	if (ret)
->  		return ret;
->  
-> @@ -516,10 +388,10 @@ static int ov5693_flip_horz_configure(struct ov5693_device *ov5693,
->  
->  static int ov5693_get_exposure(struct ov5693_device *ov5693, s32 *value)
->  {
-> -	u32 exposure;
-> +	u64 exposure;
->  	int ret;
->  
-> -	ret = ov5693_read_reg(ov5693, OV5693_EXPOSURE_CTRL_REG, &exposure);
-> +	ret = cci_read(ov5693->regmap, OV5693_EXPOSURE_CTRL_REG, &exposure, NULL);
->  	if (ret)
->  		return ret;
->  
-> @@ -536,17 +408,17 @@ static int ov5693_exposure_configure(struct ov5693_device *ov5693,
->  
->  	exposure = (exposure << 4) & OV5693_EXPOSURE_CTRL_MASK;
->  
-> -	ov5693_write_reg(ov5693, OV5693_EXPOSURE_CTRL_REG, exposure, &ret);
-> +	cci_write(ov5693->regmap, OV5693_EXPOSURE_CTRL_REG, exposure, &ret);
->  
->  	return ret;
->  }
->  
->  static int ov5693_get_gain(struct ov5693_device *ov5693, u32 *gain)
->  {
-> -	u32 value;
-> +	u64 value;
->  	int ret;
->  
-> -	ret = ov5693_read_reg(ov5693, OV5693_GAIN_CTRL_REG, &value);
-> +	ret = cci_read(ov5693->regmap, OV5693_GAIN_CTRL_REG, &value, NULL);
->  	if (ret)
->  		return ret;
->  
-> @@ -563,9 +435,9 @@ static int ov5693_digital_gain_configure(struct ov5693_device *ov5693,
->  
->  	gain &= OV5693_MWB_GAIN_MASK;
->  
-> -	ov5693_write_reg(ov5693, OV5693_MWB_RED_GAIN_REG, gain, &ret);
-> -	ov5693_write_reg(ov5693, OV5693_MWB_GREEN_GAIN_REG, gain, &ret);
-> -	ov5693_write_reg(ov5693, OV5693_MWB_BLUE_GAIN_REG, gain, &ret);
-> +	cci_write(ov5693->regmap, OV5693_MWB_RED_GAIN_REG, gain, &ret);
-> +	cci_write(ov5693->regmap, OV5693_MWB_GREEN_GAIN_REG, gain, &ret);
-> +	cci_write(ov5693->regmap, OV5693_MWB_BLUE_GAIN_REG, gain, &ret);
->  
->  	return ret;
->  }
-> @@ -576,7 +448,7 @@ static int ov5693_analog_gain_configure(struct ov5693_device *ov5693, u32 gain)
->  
->  	gain = (gain << 4) & OV5693_GAIN_CTRL_MASK;
->  
-> -	ov5693_write_reg(ov5693, OV5693_GAIN_CTRL_REG, gain, &ret);
-> +	cci_write(ov5693->regmap, OV5693_GAIN_CTRL_REG, gain, &ret);
->  
->  	return ret;
->  }
-> @@ -586,7 +458,7 @@ static int ov5693_vts_configure(struct ov5693_device *ov5693, u32 vblank)
->  	u16 vts = ov5693->mode.format.height + vblank;
->  	int ret = 0;
->  
-> -	ov5693_write_reg(ov5693, OV5693_TIMING_VTS_REG, vts, &ret);
-> +	cci_write(ov5693->regmap, OV5693_TIMING_VTS_REG, vts, &ret);
->  
->  	return ret;
->  }
-> @@ -595,8 +467,8 @@ static int ov5693_test_pattern_configure(struct ov5693_device *ov5693, u32 idx)
->  {
->  	int ret = 0;
->  
-> -	ov5693_write_reg(ov5693, OV5693_TEST_PATTERN_REG,
-> -			 ov5693_test_pattern_bits[idx], &ret);
-> +	cci_write(ov5693->regmap, OV5693_TEST_PATTERN_REG,
-> +		  ov5693_test_pattern_bits[idx], &ret);
->  
->  	return ret;
->  }
-> @@ -685,59 +557,47 @@ static int ov5693_mode_configure(struct ov5693_device *ov5693)
->  	int ret = 0;
->  
->  	/* Crop Start X */
-> -	ov5693_write_reg(ov5693, OV5693_CROP_START_X_REG, mode->crop.left,
-> -			 &ret);
-> +	cci_write(ov5693->regmap, OV5693_CROP_START_X_REG, mode->crop.left, &ret);
->  
->  	/* Offset X */
-> -	ov5693_write_reg(ov5693, OV5693_OFFSET_START_X_REG, 0, &ret);
-> +	cci_write(ov5693->regmap, OV5693_OFFSET_START_X_REG, 0, &ret);
->  
->  	/* Output Size X */
-> -	ov5693_write_reg(ov5693, OV5693_OUTPUT_SIZE_X_REG, mode->format.width,
-> -			 &ret);
-> +	cci_write(ov5693->regmap, OV5693_OUTPUT_SIZE_X_REG, mode->format.width, &ret);
->  
->  	/* Crop End X */
-> -	ov5693_write_reg(ov5693, OV5693_CROP_END_X_REG,
-> -			 mode->crop.left + mode->crop.width, &ret);
-> +	cci_write(ov5693->regmap, OV5693_CROP_END_X_REG,
-> +		  mode->crop.left + mode->crop.width, &ret);
->  
->  	/* Horizontal Total Size */
-> -	ov5693_write_reg(ov5693, OV5693_TIMING_HTS_REG, OV5693_FIXED_PPL,
-> -			 &ret);
-> +	cci_write(ov5693->regmap, OV5693_TIMING_HTS_REG, OV5693_FIXED_PPL, &ret);
->  
->  	/* Crop Start Y */
-> -	ov5693_write_reg(ov5693, OV5693_CROP_START_Y_REG, mode->crop.top,
-> -			 &ret);
-> +	cci_write(ov5693->regmap, OV5693_CROP_START_Y_REG, mode->crop.top, &ret);
->  
->  	/* Offset Y */
-> -	ov5693_write_reg(ov5693, OV5693_OFFSET_START_Y_REG, 0, &ret);
-> +	cci_write(ov5693->regmap, OV5693_OFFSET_START_Y_REG, 0, &ret);
->  
->  	/* Output Size Y */
-> -	ov5693_write_reg(ov5693, OV5693_OUTPUT_SIZE_Y_REG, mode->format.height,
-> -			 &ret);
-> +	cci_write(ov5693->regmap, OV5693_OUTPUT_SIZE_Y_REG, mode->format.height, &ret);
->  
->  	/* Crop End Y */
-> -	ov5693_write_reg(ov5693, OV5693_CROP_END_Y_REG,
-> -			 mode->crop.top + mode->crop.height, &ret);
-> +	cci_write(ov5693->regmap, OV5693_CROP_END_Y_REG,
-> +		  mode->crop.top + mode->crop.height, &ret);
->  
->  	/* Subsample X increase */
-> -	ov5693_write_reg(ov5693, OV5693_SUB_INC_X_REG,
-> -			 ((mode->inc_x_odd << 4) & 0xf0) | 0x01, &ret);
-> +	cci_write(ov5693->regmap, OV5693_SUB_INC_X_REG,
-> +		  ((mode->inc_x_odd << 4) & 0xf0) | 0x01, &ret);
->  	/* Subsample Y increase */
-> -	ov5693_write_reg(ov5693, OV5693_SUB_INC_Y_REG,
-> -			 ((mode->inc_y_odd << 4) & 0xf0) | 0x01, &ret);
-> -
-> -	if (ret)
-> -		return ret;
-> +	cci_write(ov5693->regmap, OV5693_SUB_INC_Y_REG,
-> +		  ((mode->inc_y_odd << 4) & 0xf0) | 0x01, &ret);
->  
->  	/* Binning */
-> -	ret = ov5693_update_bits(ov5693, OV5693_FORMAT1_REG,
-> -				 OV5693_FORMAT1_VBIN_EN,
-> -				 mode->binning_y ? OV5693_FORMAT1_VBIN_EN : 0);
-> -	if (ret)
-> -		return ret;
-> +	ret = cci_update_bits(ov5693->regmap, OV5693_FORMAT1_REG, OV5693_FORMAT1_VBIN_EN,
-> +			      mode->binning_y ? OV5693_FORMAT1_VBIN_EN : 0, &ret);
-
-You don't need to assign ret here and below.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
+I'll test this shortly.
+
+> ---
+>  drivers/media/i2c/Kconfig  |   1 +
+>  drivers/media/i2c/imx290.c | 357 +++++++++++++++----------------------
+>  2 files changed, 147 insertions(+), 211 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index 298884a09196..f6f0d7803a77 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -178,6 +178,7 @@ config VIDEO_IMX290
+>  	select VIDEO_V4L2_SUBDEV_API
+>  	select REGMAP_I2C
+>  	select V4L2_FWNODE
+> +	select V4L2_CCI
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the Sony
+>  	  IMX290 camera sensor.
+> diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+> index b3f832e9d7e1..d4931e2c35d6 100644
+> --- a/drivers/media/i2c/imx290.c
+> +++ b/drivers/media/i2c/imx290.c
+> @@ -21,91 +21,86 @@
+>  #include <asm/unaligned.h>
 >  
-> -	ret = ov5693_update_bits(ov5693, OV5693_FORMAT2_REG,
-> -				 OV5693_FORMAT2_HBIN_EN,
-> -				 mode->binning_x ? OV5693_FORMAT2_HBIN_EN : 0);
-> +	ret = cci_update_bits(ov5693->regmap, OV5693_FORMAT2_REG, OV5693_FORMAT2_HBIN_EN,
-> +			      mode->binning_x ? OV5693_FORMAT2_HBIN_EN : 0, &ret);
+>  #include <media/media-entity.h>
+> +#include <media/v4l2-cci.h>
+>  #include <media/v4l2-ctrls.h>
+>  #include <media/v4l2-device.h>
+>  #include <media/v4l2-event.h>
+>  #include <media/v4l2-fwnode.h>
+>  #include <media/v4l2-subdev.h>
 >  
->  	return ret;
+> -#define IMX290_REG_SIZE_SHIFT				16
+> -#define IMX290_REG_ADDR_MASK				0xffff
+> -#define IMX290_REG_8BIT(n)				((1U << IMX290_REG_SIZE_SHIFT) | (n))
+> -#define IMX290_REG_16BIT(n)				((2U << IMX290_REG_SIZE_SHIFT) | (n))
+> -#define IMX290_REG_24BIT(n)				((3U << IMX290_REG_SIZE_SHIFT) | (n))
+> -
+> -#define IMX290_STANDBY					IMX290_REG_8BIT(0x3000)
+> -#define IMX290_REGHOLD					IMX290_REG_8BIT(0x3001)
+> -#define IMX290_XMSTA					IMX290_REG_8BIT(0x3002)
+> -#define IMX290_ADBIT					IMX290_REG_8BIT(0x3005)
+> +#define IMX290_STANDBY					CCI_REG8(0x3000)
+> +#define IMX290_REGHOLD					CCI_REG8(0x3001)
+> +#define IMX290_XMSTA					CCI_REG8(0x3002)
+> +#define IMX290_ADBIT					CCI_REG8(0x3005)
+>  #define IMX290_ADBIT_10BIT				(0 << 0)
+>  #define IMX290_ADBIT_12BIT				(1 << 0)
+> -#define IMX290_CTRL_07					IMX290_REG_8BIT(0x3007)
+> +#define IMX290_CTRL_07					CCI_REG8(0x3007)
+>  #define IMX290_VREVERSE					BIT(0)
+>  #define IMX290_HREVERSE					BIT(1)
+>  #define IMX290_WINMODE_1080P				(0 << 4)
+>  #define IMX290_WINMODE_720P				(1 << 4)
+>  #define IMX290_WINMODE_CROP				(4 << 4)
+> -#define IMX290_FR_FDG_SEL				IMX290_REG_8BIT(0x3009)
+> -#define IMX290_BLKLEVEL					IMX290_REG_16BIT(0x300a)
+> -#define IMX290_GAIN					IMX290_REG_8BIT(0x3014)
+> -#define IMX290_VMAX					IMX290_REG_24BIT(0x3018)
+> +#define IMX290_FR_FDG_SEL				CCI_REG8(0x3009)
+> +#define IMX290_BLKLEVEL					CCI_REG16(0x300a)
+> +#define IMX290_GAIN					CCI_REG8(0x3014)
+> +#define IMX290_VMAX					CCI_REG24(0x3018)
+>  #define IMX290_VMAX_MAX					0x3ffff
+> -#define IMX290_HMAX					IMX290_REG_16BIT(0x301c)
+> +#define IMX290_HMAX					CCI_REG16(0x301c)
+>  #define IMX290_HMAX_MAX					0xffff
+> -#define IMX290_SHS1					IMX290_REG_24BIT(0x3020)
+> -#define IMX290_WINWV_OB					IMX290_REG_8BIT(0x303a)
+> -#define IMX290_WINPV					IMX290_REG_16BIT(0x303c)
+> -#define IMX290_WINWV					IMX290_REG_16BIT(0x303e)
+> -#define IMX290_WINPH					IMX290_REG_16BIT(0x3040)
+> -#define IMX290_WINWH					IMX290_REG_16BIT(0x3042)
+> -#define IMX290_OUT_CTRL					IMX290_REG_8BIT(0x3046)
+> +#define IMX290_SHS1					CCI_REG24(0x3020)
+> +#define IMX290_WINWV_OB					CCI_REG8(0x303a)
+> +#define IMX290_WINPV					CCI_REG16(0x303c)
+> +#define IMX290_WINWV					CCI_REG16(0x303e)
+> +#define IMX290_WINPH					CCI_REG16(0x3040)
+> +#define IMX290_WINWH					CCI_REG16(0x3042)
+> +#define IMX290_OUT_CTRL					CCI_REG8(0x3046)
+>  #define IMX290_ODBIT_10BIT				(0 << 0)
+>  #define IMX290_ODBIT_12BIT				(1 << 0)
+>  #define IMX290_OPORTSEL_PARALLEL			(0x0 << 4)
+>  #define IMX290_OPORTSEL_LVDS_2CH			(0xd << 4)
+>  #define IMX290_OPORTSEL_LVDS_4CH			(0xe << 4)
+>  #define IMX290_OPORTSEL_LVDS_8CH			(0xf << 4)
+> -#define IMX290_XSOUTSEL					IMX290_REG_8BIT(0x304b)
+> +#define IMX290_XSOUTSEL					CCI_REG8(0x304b)
+>  #define IMX290_XSOUTSEL_XVSOUTSEL_HIGH			(0 << 0)
+>  #define IMX290_XSOUTSEL_XVSOUTSEL_VSYNC			(2 << 0)
+>  #define IMX290_XSOUTSEL_XHSOUTSEL_HIGH			(0 << 2)
+>  #define IMX290_XSOUTSEL_XHSOUTSEL_HSYNC			(2 << 2)
+> -#define IMX290_INCKSEL1					IMX290_REG_8BIT(0x305c)
+> -#define IMX290_INCKSEL2					IMX290_REG_8BIT(0x305d)
+> -#define IMX290_INCKSEL3					IMX290_REG_8BIT(0x305e)
+> -#define IMX290_INCKSEL4					IMX290_REG_8BIT(0x305f)
+> -#define IMX290_PGCTRL					IMX290_REG_8BIT(0x308c)
+> -#define IMX290_ADBIT1					IMX290_REG_8BIT(0x3129)
+> +#define IMX290_INCKSEL1					CCI_REG8(0x305c)
+> +#define IMX290_INCKSEL2					CCI_REG8(0x305d)
+> +#define IMX290_INCKSEL3					CCI_REG8(0x305e)
+> +#define IMX290_INCKSEL4					CCI_REG8(0x305f)
+> +#define IMX290_PGCTRL					CCI_REG8(0x308c)
+> +#define IMX290_ADBIT1					CCI_REG8(0x3129)
+>  #define IMX290_ADBIT1_10BIT				0x1d
+>  #define IMX290_ADBIT1_12BIT				0x00
+> -#define IMX290_INCKSEL5					IMX290_REG_8BIT(0x315e)
+> -#define IMX290_INCKSEL6					IMX290_REG_8BIT(0x3164)
+> -#define IMX290_ADBIT2					IMX290_REG_8BIT(0x317c)
+> +#define IMX290_INCKSEL5					CCI_REG8(0x315e)
+> +#define IMX290_INCKSEL6					CCI_REG8(0x3164)
+> +#define IMX290_ADBIT2					CCI_REG8(0x317c)
+>  #define IMX290_ADBIT2_10BIT				0x12
+>  #define IMX290_ADBIT2_12BIT				0x00
+> -#define IMX290_CHIP_ID					IMX290_REG_16BIT(0x319a)
+> -#define IMX290_ADBIT3					IMX290_REG_8BIT(0x31ec)
+> +#define IMX290_CHIP_ID					CCI_REG16(0x319a)
+> +#define IMX290_ADBIT3					CCI_REG8(0x31ec)
+>  #define IMX290_ADBIT3_10BIT				0x37
+>  #define IMX290_ADBIT3_12BIT				0x0e
+> -#define IMX290_REPETITION				IMX290_REG_8BIT(0x3405)
+> -#define IMX290_PHY_LANE_NUM				IMX290_REG_8BIT(0x3407)
+> -#define IMX290_OPB_SIZE_V				IMX290_REG_8BIT(0x3414)
+> -#define IMX290_Y_OUT_SIZE				IMX290_REG_16BIT(0x3418)
+> -#define IMX290_CSI_DT_FMT				IMX290_REG_16BIT(0x3441)
+> +#define IMX290_REPETITION				CCI_REG8(0x3405)
+> +#define IMX290_PHY_LANE_NUM				CCI_REG8(0x3407)
+> +#define IMX290_OPB_SIZE_V				CCI_REG8(0x3414)
+> +#define IMX290_Y_OUT_SIZE				CCI_REG16(0x3418)
+> +#define IMX290_CSI_DT_FMT				CCI_REG16(0x3441)
+>  #define IMX290_CSI_DT_FMT_RAW10				0x0a0a
+>  #define IMX290_CSI_DT_FMT_RAW12				0x0c0c
+> -#define IMX290_CSI_LANE_MODE				IMX290_REG_8BIT(0x3443)
+> -#define IMX290_EXTCK_FREQ				IMX290_REG_16BIT(0x3444)
+> -#define IMX290_TCLKPOST					IMX290_REG_16BIT(0x3446)
+> -#define IMX290_THSZERO					IMX290_REG_16BIT(0x3448)
+> -#define IMX290_THSPREPARE				IMX290_REG_16BIT(0x344a)
+> -#define IMX290_TCLKTRAIL				IMX290_REG_16BIT(0x344c)
+> -#define IMX290_THSTRAIL					IMX290_REG_16BIT(0x344e)
+> -#define IMX290_TCLKZERO					IMX290_REG_16BIT(0x3450)
+> -#define IMX290_TCLKPREPARE				IMX290_REG_16BIT(0x3452)
+> -#define IMX290_TLPX					IMX290_REG_16BIT(0x3454)
+> -#define IMX290_X_OUT_SIZE				IMX290_REG_16BIT(0x3472)
+> -#define IMX290_INCKSEL7					IMX290_REG_8BIT(0x3480)
+> +#define IMX290_CSI_LANE_MODE				CCI_REG8(0x3443)
+> +#define IMX290_EXTCK_FREQ				CCI_REG16(0x3444)
+> +#define IMX290_TCLKPOST					CCI_REG16(0x3446)
+> +#define IMX290_THSZERO					CCI_REG16(0x3448)
+> +#define IMX290_THSPREPARE				CCI_REG16(0x344a)
+> +#define IMX290_TCLKTRAIL				CCI_REG16(0x344c)
+> +#define IMX290_THSTRAIL					CCI_REG16(0x344e)
+> +#define IMX290_TCLKZERO					CCI_REG16(0x3450)
+> +#define IMX290_TCLKPREPARE				CCI_REG16(0x3452)
+> +#define IMX290_TLPX					CCI_REG16(0x3454)
+> +#define IMX290_X_OUT_SIZE				CCI_REG16(0x3472)
+> +#define IMX290_INCKSEL7					CCI_REG8(0x3480)
+>  
+>  #define IMX290_PGCTRL_REGEN				BIT(0)
+>  #define IMX290_PGCTRL_THRU				BIT(1)
+> @@ -181,7 +176,7 @@ enum imx290_model {
+>  
+>  struct imx290_model_info {
+>  	enum imx290_colour_variant colour_variant;
+> -	const struct imx290_regval *init_regs;
+> +	const struct cci_reg_sequence *init_regs;
+>  	size_t init_regs_num;
+>  	const char *name;
+>  };
+> @@ -192,11 +187,6 @@ enum imx290_clk_freq {
+>  	IMX290_NUM_CLK
+>  };
+>  
+> -struct imx290_regval {
+> -	u32 reg;
+> -	u32 val;
+> -};
+> -
+>  /*
+>   * Clock configuration for registers INCKSEL1 to INCKSEL6.
+>   */
+> @@ -217,7 +207,7 @@ struct imx290_mode {
+>  	u8 link_freq_index;
+>  	u8 ctrl_07;
+>  
+> -	const struct imx290_regval *data;
+> +	const struct cci_reg_sequence *data;
+>  	u32 data_size;
+>  
+>  	const struct imx290_clk_cfg *clk_cfg;
+> @@ -271,7 +261,7 @@ static inline struct imx290 *to_imx290(struct v4l2_subdev *_sd)
+>   * Modes and formats
+>   */
+>  
+> -static const struct imx290_regval imx290_global_init_settings[] = {
+> +static const struct cci_reg_sequence imx290_global_init_settings[] = {
+>  	{ IMX290_WINWV_OB, 12 },
+>  	{ IMX290_WINPH, 0 },
+>  	{ IMX290_WINPV, 0 },
+> @@ -279,56 +269,56 @@ static const struct imx290_regval imx290_global_init_settings[] = {
+>  	{ IMX290_WINWV, 1097 },
+>  	{ IMX290_XSOUTSEL, IMX290_XSOUTSEL_XVSOUTSEL_VSYNC |
+>  			   IMX290_XSOUTSEL_XHSOUTSEL_HSYNC },
+> -	{ IMX290_REG_8BIT(0x3011), 0x02 },
+> -	{ IMX290_REG_8BIT(0x3012), 0x64 },
+> -	{ IMX290_REG_8BIT(0x3013), 0x00 },
+> +	{ CCI_REG8(0x3011), 0x02 },
+> +	{ CCI_REG8(0x3012), 0x64 },
+> +	{ CCI_REG8(0x3013), 0x00 },
+>  };
+>  
+> -static const struct imx290_regval imx290_global_init_settings_290[] = {
+> -	{ IMX290_REG_8BIT(0x300f), 0x00 },
+> -	{ IMX290_REG_8BIT(0x3010), 0x21 },
+> -	{ IMX290_REG_8BIT(0x3016), 0x09 },
+> -	{ IMX290_REG_8BIT(0x3070), 0x02 },
+> -	{ IMX290_REG_8BIT(0x3071), 0x11 },
+> -	{ IMX290_REG_8BIT(0x309b), 0x10 },
+> -	{ IMX290_REG_8BIT(0x309c), 0x22 },
+> -	{ IMX290_REG_8BIT(0x30a2), 0x02 },
+> -	{ IMX290_REG_8BIT(0x30a6), 0x20 },
+> -	{ IMX290_REG_8BIT(0x30a8), 0x20 },
+> -	{ IMX290_REG_8BIT(0x30aa), 0x20 },
+> -	{ IMX290_REG_8BIT(0x30ac), 0x20 },
+> -	{ IMX290_REG_8BIT(0x30b0), 0x43 },
+> -	{ IMX290_REG_8BIT(0x3119), 0x9e },
+> -	{ IMX290_REG_8BIT(0x311c), 0x1e },
+> -	{ IMX290_REG_8BIT(0x311e), 0x08 },
+> -	{ IMX290_REG_8BIT(0x3128), 0x05 },
+> -	{ IMX290_REG_8BIT(0x313d), 0x83 },
+> -	{ IMX290_REG_8BIT(0x3150), 0x03 },
+> -	{ IMX290_REG_8BIT(0x317e), 0x00 },
+> -	{ IMX290_REG_8BIT(0x32b8), 0x50 },
+> -	{ IMX290_REG_8BIT(0x32b9), 0x10 },
+> -	{ IMX290_REG_8BIT(0x32ba), 0x00 },
+> -	{ IMX290_REG_8BIT(0x32bb), 0x04 },
+> -	{ IMX290_REG_8BIT(0x32c8), 0x50 },
+> -	{ IMX290_REG_8BIT(0x32c9), 0x10 },
+> -	{ IMX290_REG_8BIT(0x32ca), 0x00 },
+> -	{ IMX290_REG_8BIT(0x32cb), 0x04 },
+> -	{ IMX290_REG_8BIT(0x332c), 0xd3 },
+> -	{ IMX290_REG_8BIT(0x332d), 0x10 },
+> -	{ IMX290_REG_8BIT(0x332e), 0x0d },
+> -	{ IMX290_REG_8BIT(0x3358), 0x06 },
+> -	{ IMX290_REG_8BIT(0x3359), 0xe1 },
+> -	{ IMX290_REG_8BIT(0x335a), 0x11 },
+> -	{ IMX290_REG_8BIT(0x3360), 0x1e },
+> -	{ IMX290_REG_8BIT(0x3361), 0x61 },
+> -	{ IMX290_REG_8BIT(0x3362), 0x10 },
+> -	{ IMX290_REG_8BIT(0x33b0), 0x50 },
+> -	{ IMX290_REG_8BIT(0x33b2), 0x1a },
+> -	{ IMX290_REG_8BIT(0x33b3), 0x04 },
+> +static const struct cci_reg_sequence imx290_global_init_settings_290[] = {
+> +	{ CCI_REG8(0x300f), 0x00 },
+> +	{ CCI_REG8(0x3010), 0x21 },
+> +	{ CCI_REG8(0x3016), 0x09 },
+> +	{ CCI_REG8(0x3070), 0x02 },
+> +	{ CCI_REG8(0x3071), 0x11 },
+> +	{ CCI_REG8(0x309b), 0x10 },
+> +	{ CCI_REG8(0x309c), 0x22 },
+> +	{ CCI_REG8(0x30a2), 0x02 },
+> +	{ CCI_REG8(0x30a6), 0x20 },
+> +	{ CCI_REG8(0x30a8), 0x20 },
+> +	{ CCI_REG8(0x30aa), 0x20 },
+> +	{ CCI_REG8(0x30ac), 0x20 },
+> +	{ CCI_REG8(0x30b0), 0x43 },
+> +	{ CCI_REG8(0x3119), 0x9e },
+> +	{ CCI_REG8(0x311c), 0x1e },
+> +	{ CCI_REG8(0x311e), 0x08 },
+> +	{ CCI_REG8(0x3128), 0x05 },
+> +	{ CCI_REG8(0x313d), 0x83 },
+> +	{ CCI_REG8(0x3150), 0x03 },
+> +	{ CCI_REG8(0x317e), 0x00 },
+> +	{ CCI_REG8(0x32b8), 0x50 },
+> +	{ CCI_REG8(0x32b9), 0x10 },
+> +	{ CCI_REG8(0x32ba), 0x00 },
+> +	{ CCI_REG8(0x32bb), 0x04 },
+> +	{ CCI_REG8(0x32c8), 0x50 },
+> +	{ CCI_REG8(0x32c9), 0x10 },
+> +	{ CCI_REG8(0x32ca), 0x00 },
+> +	{ CCI_REG8(0x32cb), 0x04 },
+> +	{ CCI_REG8(0x332c), 0xd3 },
+> +	{ CCI_REG8(0x332d), 0x10 },
+> +	{ CCI_REG8(0x332e), 0x0d },
+> +	{ CCI_REG8(0x3358), 0x06 },
+> +	{ CCI_REG8(0x3359), 0xe1 },
+> +	{ CCI_REG8(0x335a), 0x11 },
+> +	{ CCI_REG8(0x3360), 0x1e },
+> +	{ CCI_REG8(0x3361), 0x61 },
+> +	{ CCI_REG8(0x3362), 0x10 },
+> +	{ CCI_REG8(0x33b0), 0x50 },
+> +	{ CCI_REG8(0x33b2), 0x1a },
+> +	{ CCI_REG8(0x33b3), 0x04 },
+>  };
+>  
+>  #define IMX290_NUM_CLK_REGS	2
+> -static const struct imx290_regval xclk_regs[][IMX290_NUM_CLK_REGS] = {
+> +static const struct cci_reg_sequence xclk_regs[][IMX290_NUM_CLK_REGS] = {
+>  	[IMX290_CLK_37_125] = {
+>  		{ IMX290_EXTCK_FREQ, (37125 * 256) / 1000 },
+>  		{ IMX290_INCKSEL7, 0x49 },
+> @@ -339,13 +329,13 @@ static const struct imx290_regval xclk_regs[][IMX290_NUM_CLK_REGS] = {
+>  	},
+>  };
+>  
+> -static const struct imx290_regval imx290_global_init_settings_327[] = {
+> -	{ IMX290_REG_8BIT(0x309e), 0x4A },
+> -	{ IMX290_REG_8BIT(0x309f), 0x4A },
+> -	{ IMX290_REG_8BIT(0x313b), 0x61 },
+> +static const struct cci_reg_sequence imx290_global_init_settings_327[] = {
+> +	{ CCI_REG8(0x309e), 0x4A },
+> +	{ CCI_REG8(0x309f), 0x4A },
+> +	{ CCI_REG8(0x313b), 0x61 },
+>  };
+>  
+> -static const struct imx290_regval imx290_1080p_settings[] = {
+> +static const struct cci_reg_sequence imx290_1080p_settings[] = {
+>  	/* mode settings */
+>  	{ IMX290_WINWV_OB, 12 },
+>  	{ IMX290_OPB_SIZE_V, 10 },
+> @@ -353,7 +343,7 @@ static const struct imx290_regval imx290_1080p_settings[] = {
+>  	{ IMX290_Y_OUT_SIZE, 1080 },
+>  };
+>  
+> -static const struct imx290_regval imx290_720p_settings[] = {
+> +static const struct cci_reg_sequence imx290_720p_settings[] = {
+>  	/* mode settings */
+>  	{ IMX290_WINWV_OB, 6 },
+>  	{ IMX290_OPB_SIZE_V, 4 },
+> @@ -361,7 +351,7 @@ static const struct imx290_regval imx290_720p_settings[] = {
+>  	{ IMX290_Y_OUT_SIZE, 720 },
+>  };
+>  
+> -static const struct imx290_regval imx290_10bit_settings[] = {
+> +static const struct cci_reg_sequence imx290_10bit_settings[] = {
+>  	{ IMX290_ADBIT, IMX290_ADBIT_10BIT },
+>  	{ IMX290_OUT_CTRL, IMX290_ODBIT_10BIT },
+>  	{ IMX290_ADBIT1, IMX290_ADBIT1_10BIT },
+> @@ -370,7 +360,7 @@ static const struct imx290_regval imx290_10bit_settings[] = {
+>  	{ IMX290_CSI_DT_FMT, IMX290_CSI_DT_FMT_RAW10 },
+>  };
+>  
+> -static const struct imx290_regval imx290_12bit_settings[] = {
+> +static const struct cci_reg_sequence imx290_12bit_settings[] = {
+>  	{ IMX290_ADBIT, IMX290_ADBIT_12BIT },
+>  	{ IMX290_OUT_CTRL, IMX290_ODBIT_12BIT },
+>  	{ IMX290_ADBIT1, IMX290_ADBIT1_12BIT },
+> @@ -576,7 +566,7 @@ static inline int imx290_modes_num(const struct imx290 *imx290)
+>  struct imx290_format_info {
+>  	u32 code[IMX290_VARIANT_MAX];
+>  	u8 bpp;
+> -	const struct imx290_regval *regs;
+> +	const struct cci_reg_sequence *regs;
+>  	unsigned int num_regs;
+>  };
+>  
+> @@ -615,63 +605,15 @@ imx290_format_info(const struct imx290 *imx290, u32 code)
+>  	return NULL;
 >  }
-> @@ -746,9 +606,8 @@ static int ov5693_enable_streaming(struct ov5693_device *ov5693, bool enable)
+>  
+> -/* -----------------------------------------------------------------------------
+> - * Register access
+> - */
+> -
+> -static int __always_unused imx290_read(struct imx290 *imx290, u32 addr, u32 *value)
+> -{
+> -	u8 data[3] = { 0, 0, 0 };
+> -	int ret;
+> -
+> -	ret = regmap_raw_read(imx290->regmap, addr & IMX290_REG_ADDR_MASK,
+> -			      data, (addr >> IMX290_REG_SIZE_SHIFT) & 3);
+> -	if (ret < 0) {
+> -		dev_err(imx290->dev, "%u-bit read from 0x%04x failed: %d\n",
+> -			((addr >> IMX290_REG_SIZE_SHIFT) & 3) * 8,
+> -			 addr & IMX290_REG_ADDR_MASK, ret);
+> -		return ret;
+> -	}
+> -
+> -	*value = get_unaligned_le24(data);
+> -	return 0;
+> -}
+> -
+> -static int imx290_write(struct imx290 *imx290, u32 addr, u32 value, int *err)
+> -{
+> -	u8 data[3];
+> -	int ret;
+> -
+> -	if (err && *err)
+> -		return *err;
+> -
+> -	put_unaligned_le24(value, data);
+> -
+> -	ret = regmap_raw_write(imx290->regmap, addr & IMX290_REG_ADDR_MASK,
+> -			       data, (addr >> IMX290_REG_SIZE_SHIFT) & 3);
+> -	if (ret < 0) {
+> -		dev_err(imx290->dev, "%u-bit write to 0x%04x failed: %d\n",
+> -			((addr >> IMX290_REG_SIZE_SHIFT) & 3) * 8,
+> -			 addr & IMX290_REG_ADDR_MASK, ret);
+> -		if (err)
+> -			*err = ret;
+> -	}
+> -
+> -	return ret;
+> -}
+> -
+>  static int imx290_set_register_array(struct imx290 *imx290,
+> -				     const struct imx290_regval *settings,
+> +				     const struct cci_reg_sequence *settings,
+>  				     unsigned int num_settings)
 >  {
->  	int ret = 0;
->  
-> -	ov5693_write_reg(ov5693, OV5693_SW_STREAM_REG,
-> -			 enable ? OV5693_START_STREAMING :
-> -				  OV5693_STOP_STREAMING, &ret);
-> +	cci_write(ov5693->regmap, OV5693_SW_STREAM_REG,
-> +		  enable ? OV5693_START_STREAMING : OV5693_STOP_STREAMING, &ret);
->  
->  	return ret;
->  }
-> @@ -757,7 +616,7 @@ static int ov5693_sw_reset(struct ov5693_device *ov5693)
->  {
->  	int ret = 0;
->  
-> -	ov5693_write_reg(ov5693, OV5693_SW_RESET_REG, OV5693_SW_RESET, &ret);
-> +	cci_write(ov5693->regmap, OV5693_SW_RESET_REG, OV5693_SW_RESET, &ret);
->  
->  	return ret;
->  }
-> @@ -771,7 +630,8 @@ static int ov5693_sensor_init(struct ov5693_device *ov5693)
->  		return dev_err_probe(ov5693->dev, ret,
->  				     "software reset error\n");
->  
-> -	ret = ov5693_write_reg_array(ov5693, &ov5693_global_setting);
-> +	ret = cci_multi_reg_write(ov5693->regmap, ov5693_global_regs,
-> +				  ARRAY_SIZE(ov5693_global_regs), NULL);
->  	if (ret)
->  		return dev_err_probe(ov5693->dev, ret,
->  				     "global settings error\n");
-> @@ -871,15 +731,15 @@ static int __maybe_unused ov5693_sensor_resume(struct device *dev)
->  static int ov5693_detect(struct ov5693_device *ov5693)
->  {
+> -	unsigned int i;
 >  	int ret;
-> -	u32 id;
-> +	u64 id;
 >  
-> -	ret = ov5693_read_reg(ov5693, OV5693_REG_CHIP_ID, &id);
-> +	ret = cci_read(ov5693->regmap, OV5693_REG_CHIP_ID, &id, NULL);
->  	if (ret)
->  		return ret;
+> -	for (i = 0; i < num_settings; ++i, ++settings) {
+> -		ret = imx290_write(imx290, settings->reg, settings->val, NULL);
+> -		if (ret < 0)
+> -			return ret;
+> -	}
+> +	ret = cci_multi_reg_write(imx290->regmap, settings, num_settings, NULL);
+> +	if (ret < 0)
+> +		return ret;
 >  
->  	if (id != OV5693_CHIP_ID)
->  		return dev_err_probe(ov5693->dev, -ENODEV,
-> -				     "sensor ID mismatch. Found 0x%04x\n", id);
-> +				     "sensor ID mismatch. Found 0x%04llx\n", id);
+>  	/* Provide 10ms settle time */
+>  	usleep_range(10000, 11000);
+> @@ -689,12 +631,12 @@ static int imx290_set_clock(struct imx290 *imx290)
+>  	ret = imx290_set_register_array(imx290, xclk_regs[clk_idx],
+>  					IMX290_NUM_CLK_REGS);
 >  
->  	return 0;
+> -	imx290_write(imx290, IMX290_INCKSEL1, clk_cfg->incksel1, &ret);
+> -	imx290_write(imx290, IMX290_INCKSEL2, clk_cfg->incksel2, &ret);
+> -	imx290_write(imx290, IMX290_INCKSEL3, clk_cfg->incksel3, &ret);
+> -	imx290_write(imx290, IMX290_INCKSEL4, clk_cfg->incksel4, &ret);
+> -	imx290_write(imx290, IMX290_INCKSEL5, clk_cfg->incksel5, &ret);
+> -	imx290_write(imx290, IMX290_INCKSEL6, clk_cfg->incksel6, &ret);
+> +	cci_write(imx290->regmap, IMX290_INCKSEL1, clk_cfg->incksel1, &ret);
+> +	cci_write(imx290->regmap, IMX290_INCKSEL2, clk_cfg->incksel2, &ret);
+> +	cci_write(imx290->regmap, IMX290_INCKSEL3, clk_cfg->incksel3, &ret);
+> +	cci_write(imx290->regmap, IMX290_INCKSEL4, clk_cfg->incksel4, &ret);
+> +	cci_write(imx290->regmap, IMX290_INCKSEL5, clk_cfg->incksel5, &ret);
+> +	cci_write(imx290->regmap, IMX290_INCKSEL6, clk_cfg->incksel6, &ret);
+>  
+>  	return ret;
 >  }
-> @@ -1410,6 +1270,10 @@ static int ov5693_probe(struct i2c_client *client)
->  	ov5693->client = client;
->  	ov5693->dev = &client->dev;
+> @@ -703,9 +645,9 @@ static int imx290_set_data_lanes(struct imx290 *imx290)
+>  {
+>  	int ret = 0;
 >  
-> +	ov5693->regmap = cci_regmap_init_i2c(client, 16);
-> +	if (IS_ERR(ov5693->regmap))
-> +		return PTR_ERR(ov5693->regmap);
-> +
->  	ret = ov5693_check_hwcfg(ov5693);
->  	if (ret)
+> -	imx290_write(imx290, IMX290_PHY_LANE_NUM, imx290->nlanes - 1, &ret);
+> -	imx290_write(imx290, IMX290_CSI_LANE_MODE, imx290->nlanes - 1, &ret);
+> -	imx290_write(imx290, IMX290_FR_FDG_SEL, 0x01, &ret);
+> +	cci_write(imx290->regmap, IMX290_PHY_LANE_NUM, imx290->nlanes - 1, &ret);
+> +	cci_write(imx290->regmap, IMX290_CSI_LANE_MODE, imx290->nlanes - 1, &ret);
+> +	cci_write(imx290->regmap, IMX290_FR_FDG_SEL, 0x01, &ret);
+>  
+>  	return ret;
+>  }
+> @@ -716,8 +658,8 @@ static int imx290_set_black_level(struct imx290 *imx290,
+>  {
+>  	unsigned int bpp = imx290_format_info(imx290, format->code)->bpp;
+>  
+> -	return imx290_write(imx290, IMX290_BLKLEVEL,
+> -			    black_level >> (16 - bpp), err);
+> +	return cci_write(imx290->regmap, IMX290_BLKLEVEL,
+> +			 black_level >> (16 - bpp), err);
+>  }
+>  
+>  static int imx290_set_csi_config(struct imx290 *imx290)
+> @@ -743,15 +685,15 @@ static int imx290_set_csi_config(struct imx290 *imx290)
+>  		return -EINVAL;
+>  	}
+>  
+> -	imx290_write(imx290, IMX290_REPETITION, csi_cfg->repetition, &ret);
+> -	imx290_write(imx290, IMX290_TCLKPOST, csi_cfg->tclkpost, &ret);
+> -	imx290_write(imx290, IMX290_THSZERO, csi_cfg->thszero, &ret);
+> -	imx290_write(imx290, IMX290_THSPREPARE, csi_cfg->thsprepare, &ret);
+> -	imx290_write(imx290, IMX290_TCLKTRAIL, csi_cfg->tclktrail, &ret);
+> -	imx290_write(imx290, IMX290_THSTRAIL, csi_cfg->thstrail, &ret);
+> -	imx290_write(imx290, IMX290_TCLKZERO, csi_cfg->tclkzero, &ret);
+> -	imx290_write(imx290, IMX290_TCLKPREPARE, csi_cfg->tclkprepare, &ret);
+> -	imx290_write(imx290, IMX290_TLPX, csi_cfg->tlpx, &ret);
+> +	cci_write(imx290->regmap, IMX290_REPETITION, csi_cfg->repetition, &ret);
+> +	cci_write(imx290->regmap, IMX290_TCLKPOST, csi_cfg->tclkpost, &ret);
+> +	cci_write(imx290->regmap, IMX290_THSZERO, csi_cfg->thszero, &ret);
+> +	cci_write(imx290->regmap, IMX290_THSPREPARE, csi_cfg->thsprepare, &ret);
+> +	cci_write(imx290->regmap, IMX290_TCLKTRAIL, csi_cfg->tclktrail, &ret);
+> +	cci_write(imx290->regmap, IMX290_THSTRAIL, csi_cfg->thstrail, &ret);
+> +	cci_write(imx290->regmap, IMX290_TCLKZERO, csi_cfg->tclkzero, &ret);
+> +	cci_write(imx290->regmap, IMX290_TCLKPREPARE, csi_cfg->tclkprepare, &ret);
+> +	cci_write(imx290->regmap, IMX290_TLPX, csi_cfg->tlpx, &ret);
+>  
+>  	return ret;
+>  }
+> @@ -817,13 +759,12 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+>  
+>  	switch (ctrl->id) {
+>  	case V4L2_CID_ANALOGUE_GAIN:
+> -		ret = imx290_write(imx290, IMX290_GAIN, ctrl->val, NULL);
+> +		ret = cci_write(imx290->regmap, IMX290_GAIN, ctrl->val, NULL);
+>  		break;
+>  
+>  	case V4L2_CID_VBLANK:
+> -		ret = imx290_write(imx290, IMX290_VMAX,
+> -				   ctrl->val + imx290->current_mode->height,
+> -				   NULL);
+> +		ret = cci_write(imx290->regmap, IMX290_VMAX,
+> +				ctrl->val + imx290->current_mode->height, NULL);
+>  		/*
+>  		 * Due to the way that exposure is programmed in this sensor in
+>  		 * relation to VMAX, we have to reprogramme it whenever VMAX is
+> @@ -835,20 +776,20 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+>  		fallthrough;
+>  	case V4L2_CID_EXPOSURE:
+>  		vmax = imx290->vblank->val + imx290->current_mode->height;
+> -		ret = imx290_write(imx290, IMX290_SHS1,
+> -				   vmax - ctrl->val - 1, NULL);
+> +		ret = cci_write(imx290->regmap, IMX290_SHS1,
+> +				vmax - ctrl->val - 1, NULL);
+>  		break;
+>  
+>  	case V4L2_CID_TEST_PATTERN:
+>  		if (ctrl->val) {
+>  			imx290_set_black_level(imx290, format, 0, &ret);
+>  			usleep_range(10000, 11000);
+> -			imx290_write(imx290, IMX290_PGCTRL,
+> -				     (u8)(IMX290_PGCTRL_REGEN |
+> -				     IMX290_PGCTRL_THRU |
+> -				     IMX290_PGCTRL_MODE(ctrl->val)), &ret);
+> +			cci_write(imx290->regmap, IMX290_PGCTRL,
+> +				  (u8)(IMX290_PGCTRL_REGEN |
+> +				       IMX290_PGCTRL_THRU |
+> +				       IMX290_PGCTRL_MODE(ctrl->val)), &ret);
+>  		} else {
+> -			imx290_write(imx290, IMX290_PGCTRL, 0x00, &ret);
+> +			cci_write(imx290->regmap, IMX290_PGCTRL, 0x00, &ret);
+>  			usleep_range(10000, 11000);
+>  			imx290_set_black_level(imx290, format,
+>  					       IMX290_BLACK_LEVEL_DEFAULT, &ret);
+> @@ -856,9 +797,8 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+>  		break;
+>  
+>  	case V4L2_CID_HBLANK:
+> -		ret = imx290_write(imx290, IMX290_HMAX,
+> -				   ctrl->val + imx290->current_mode->width,
+> -				   NULL);
+> +		ret = cci_write(imx290->regmap, IMX290_HMAX,
+> +				ctrl->val + imx290->current_mode->width, NULL);
+>  		break;
+>  
+>  	case V4L2_CID_HFLIP:
+> @@ -871,7 +811,7 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+>  			reg |= IMX290_HREVERSE;
+>  		if (imx290->vflip->val)
+>  			reg |= IMX290_VREVERSE;
+> -		ret = imx290_write(imx290, IMX290_CTRL_07, reg, NULL);
+> +		ret = cci_write(imx290->regmap, IMX290_CTRL_07, reg, NULL);
+>  		break;
+>  	}
+>  
+> @@ -1074,12 +1014,12 @@ static int imx290_start_streaming(struct imx290 *imx290,
 >  		return ret;
+>  	}
+>  
+> -	imx290_write(imx290, IMX290_STANDBY, 0x00, &ret);
+> +	cci_write(imx290->regmap, IMX290_STANDBY, 0x00, &ret);
+>  
+>  	msleep(30);
+>  
+>  	/* Start streaming */
+> -	return imx290_write(imx290, IMX290_XMSTA, 0x00, &ret);
+> +	return cci_write(imx290->regmap, IMX290_XMSTA, 0x00, &ret);
+>  }
+>  
+>  /* Stop streaming */
+> @@ -1087,11 +1027,11 @@ static int imx290_stop_streaming(struct imx290 *imx290)
+>  {
+>  	int ret = 0;
+>  
+> -	imx290_write(imx290, IMX290_STANDBY, 0x01, &ret);
+> +	cci_write(imx290->regmap, IMX290_STANDBY, 0x01, &ret);
+>  
+>  	msleep(30);
+>  
+> -	return imx290_write(imx290, IMX290_XMSTA, 0x01, &ret);
+> +	return cci_write(imx290->regmap, IMX290_XMSTA, 0x01, &ret);
+>  }
+>  
+>  static int imx290_set_stream(struct v4l2_subdev *sd, int enable)
+> @@ -1417,11 +1357,6 @@ static const struct dev_pm_ops imx290_pm_ops = {
+>   * Probe & remove
+>   */
+>  
+> -static const struct regmap_config imx290_regmap_config = {
+> -	.reg_bits = 16,
+> -	.val_bits = 8,
+> -};
+> -
+>  static const char * const imx290_supply_name[IMX290_NUM_SUPPLIES] = {
+>  	"vdda",
+>  	"vddd",
+> @@ -1588,7 +1523,7 @@ static int imx290_probe(struct i2c_client *client)
+>  		return -ENOMEM;
+>  
+>  	imx290->dev = dev;
+> -	imx290->regmap = devm_regmap_init_i2c(client, &imx290_regmap_config);
+> +	imx290->regmap = cci_regmap_init_i2c(client, 16);
+>  	if (IS_ERR(imx290->regmap)) {
+>  		dev_err(dev, "Unable to initialize I2C\n");
+>  		return -ENODEV;
 
 -- 
 Regards,
