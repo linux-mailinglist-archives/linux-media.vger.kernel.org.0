@@ -2,112 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1286272FFD5
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 15:20:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6910272FFEC
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 15:22:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234964AbjFNNUP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Jun 2023 09:20:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38950 "EHLO
+        id S240899AbjFNNWl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Jun 2023 09:22:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244933AbjFNNTt (ORCPT
+        with ESMTP id S244946AbjFNNWh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Jun 2023 09:19:49 -0400
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11823184
-        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 06:19:48 -0700 (PDT)
-Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-3f8d61cb36cso7054505e9.1
-        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 06:19:47 -0700 (PDT)
+        Wed, 14 Jun 2023 09:22:37 -0400
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C8161FEF
+        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 06:22:34 -0700 (PDT)
+Received: by mail-lj1-x236.google.com with SMTP id 38308e7fff4ca-2b34eb53208so3305221fa.0
+        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 06:22:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686748786; x=1689340786;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PTawR0BST9G8lotfidO6LQNYRUso7ZDIUXpuUcCHtQE=;
-        b=BkNqnKVPVix70BOCgXe1QS8U2bYh+Edg1fvfVenwQ/Ri1EdnqryOIy0ZDW8e4tRjGZ
-         gKywT15Z86R6zMxsROch7kSZqBpTDmKV60o3lgC8wmvibvywkcPd2gST+lF9rS6+E8Z/
-         BzqjJ2VW/T4Mx5qRRXO2O7UjR4O/jT6wfJTgqZbg72kZCLTRN/G7JPNaq9R8hN/xNMB6
-         HWw3AE9CYtxy9ebFDvEmT6Kg4WhNlB/Qc24OigcLyAAbvLLJOLyTD26ZrrvMgFaVCi+Z
-         we0Cf+dolYNcSkqDdd6FasfuwA0+Sok2MdB4LIaRjktDqg/HwbfHxywwfLxOeC23JCql
-         0N2g==
+        d=linaro.org; s=google; t=1686748952; x=1689340952;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QlYwaO+z+1HnbdYgK2cE/Bmko+PlgVBi2h8p1xbV4dk=;
+        b=A0kek7FKuJeZYXzX3n1cYwa0lvyoHTGrU2sLoPUBvMFQhUKHl+ImVQEENn1mCQVN3o
+         IHkOt9XCt+o3hxOogi/E52jhmHh/Yc555zAnTu9p80pPPI8ggKKvNcsvi6YAEbcF8ANp
+         spo32vjJ2soK5HBQlDGF2E9vA3aXyfqaust6T8dbViXEPMdbTrz6EDEkdQ4rtxgjT0HU
+         dFJR7RaYI3B9CYDAbvRNad4ej3vmg14uYRiHHCe9tv2BiF/rrUOva1Xmjxuc+y56orj+
+         Ehe6WLpNZkWxA1x0mYKGGu1E8iWty9xvP+Dvsnl7i8EBk5VGhY/MPanqBYTCMdO33l2a
+         yKfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686748786; x=1689340786;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1686748952; x=1689340952;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=PTawR0BST9G8lotfidO6LQNYRUso7ZDIUXpuUcCHtQE=;
-        b=NplRnfsZJfo066UYFIZ2ZZG4dmsvEBd8o4IJvIc50SMzm40+CJMN5mXvRiuR6pxusx
-         wVVbflCNrp1USHgltvORq2Ii/gTluurKiFcajoKx+NViOanWi7yGRpy95y5howKZ01/H
-         vsMmj5DFPQkOvANIV0x9HTPFpvL767FtFYAIOvf/eao+aDfn7kkNgM/EQHUwwCGnzXlM
-         IASuFdGR7PlqfOlbaT4Xu70UqUyUwCf/cYf0DUAC2gpmffqtTtRoeVomrs+8LRA6oBJM
-         4rcTmnq9JWCxv20/nQhF+NENaCt9BqauqLPm/C+pjRnP589J6EKjwUoqy65kY0aznx9t
-         9K5w==
-X-Gm-Message-State: AC+VfDwf5DVT4sU6SnvosAkKfJOHnRzshGrpvIZRJKtZTqBcmxqkOAUo
-        eFaAn3RbgM8YMLz6CmFhpIbEcQ==
-X-Google-Smtp-Source: ACHHUZ4DeIGubCRzWcvMeuPt39igLK19RrM/aDbDy7aAEaqAAwy/j8foX3lY71X1d6U5MvbZfo2OWA==
-X-Received: by 2002:a05:600c:287:b0:3f6:766:f76f with SMTP id 7-20020a05600c028700b003f60766f76fmr11311559wmk.36.1686748786546;
-        Wed, 14 Jun 2023 06:19:46 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id z21-20020a1c4c15000000b003f80622bb65sm16430946wmf.12.2023.06.14.06.19.44
+        bh=QlYwaO+z+1HnbdYgK2cE/Bmko+PlgVBi2h8p1xbV4dk=;
+        b=SNaNN/nccpHSt+MW9UGR7othaSoX9DsFVjk8EBS+GFfA5IQT7FEA25xEGggm2EcWJ7
+         hHt4umyFKPspxo3MVTMENUi8ffGeAAZNyBL5Sk/jfLh4BQi55b1dSnpauasG6/rEGgcv
+         02RZW0nH9uNqi6yDkxDP3vbFrge5MyPKbe1SdD226xJ4FQKMArWxq6OD/7UyuLx4DvYY
+         gwI8XHSfpQ+T3ZXCUp2MBo9/m3+jmr1XzyRi4R+8PhXFBuhtqlsvb6+6tm57KVmxCZdP
+         YWO0gC+6V6ikRoFXCCEiDeycd2xbmvXYpoX/mZMsnnzn2EJb/CQMVpR8WqV2oYPUORs4
+         6LWQ==
+X-Gm-Message-State: AC+VfDz5AQcz+eLkqv6O6MJ1rLxDSiZhNKhoT8Tco2rDT/d1V4wz1I2J
+        ohwyLQIauYQ7ctvoprGIlS0bVw==
+X-Google-Smtp-Source: ACHHUZ5MceAYLzhvgNgAKOq/h4WDwcWJHeC43W14iWYg6QWmqKN3QoW2ZYC6I4uh2nzUT2WGjAk8VQ==
+X-Received: by 2002:a2e:86cf:0:b0:2a7:7493:9966 with SMTP id n15-20020a2e86cf000000b002a774939966mr638716ljj.24.1686748952498;
+        Wed, 14 Jun 2023 06:22:32 -0700 (PDT)
+Received: from [192.168.1.101] (abyj190.neoplus.adsl.tpnet.pl. [83.9.29.190])
+        by smtp.gmail.com with ESMTPSA id v2-20020a2ea442000000b002a7899eaf9csm2514681ljn.63.2023.06.14.06.22.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jun 2023 06:19:45 -0700 (PDT)
-Date:   Wed, 14 Jun 2023 16:19:41 +0300
-From:   Dan Carpenter <dan.carpenter@linaro.org>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>
-Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH 4/4] media: mediatek: vcodec: Improve an error message
-Message-ID: <0cdeeee4-3bd7-4bd5-88a1-c5ecf7f6a1f8@moroto.mountain>
+        Wed, 14 Jun 2023 06:22:32 -0700 (PDT)
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+Date:   Wed, 14 Jun 2023 15:22:25 +0200
+Subject: [PATCH RFC] media: camss: Intepret OF graph connections more
+ sensibly
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ca491aaa-cfc4-4a84-b7fc-b64f3adc6550@moroto.mountain>
-X-Mailer: git-send-email haha only kidding
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230614-topic-camss_grpah-v1-1-5f4b516310fa@linaro.org>
+X-B4-Tracking: v=1; b=H4sIABC/iWQC/x2N0QrCMAwAf2Xk2UDXFWX+iohkNV0DsyvNFGHs3
+ w0+3sFxOyg3YYVrt0Pjj6isxaA/dRAzlZlRnsbgnR/cuQ+4rVUiRnqpPuZWKeMwppFCugTvIlg
+ 3kTJOjUrMVpb3spisjZN8/6Pb/Th+7YxuJHgAAAA=
+To:     Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
+        Yassine Oudjana <y.oudjana@protonmail.com>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Konrad Dybcio <konrad.dybcio@linaro.org>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1686748951; l=1403;
+ i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
+ bh=EDgfg+lUIqJj9gfFzfZTgsOWNdY99vPNSeSuLOAWWhc=;
+ b=jkyOPuk8pdImD3MqXjm+SeuRsFXWWS724YWTgW7ygW9Qalf83r4qw133m+EbUOffvRW7YJkby
+ 7frUBnscmaxBx4+5REjaLG3URb8zBQQsoe6OZzzEQnxDwlxWuEsLhfH
+X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
+ pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is intended to print the error code but there is a typo so it
-prints IS_ERR() instead of PTR_ERR().
+Not all endpoints of camss have to be populated. In fact, most of the
+time they shouldn't be as n-th auxilliary cameras are usually ewaste.
 
-Fixes: 77f3b023f452 ("media: mediatek: vcodec: Add debugfs interface to get debug information")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+Don't fail probing the entire camss even even one endpoint is not
+linked and throw an error when none is found.
+
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 ---
-This driver has quite a bit of code to handle the case where DEBUG_FS is
-turned off.  It's a bit over engineered.  With debugfs you're normally
-just supposed to call the functions and ignore the errors.
+ drivers/media/platform/qcom/camss/camss.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-But it's also harmless to do it this way.
-
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c
-index 2ebf68d33d57..6957105492ae 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c
-@@ -185,8 +185,8 @@ void mtk_vcodec_dbgfs_init(struct mtk_vcodec_dev *vcodec_dev, bool is_encode)
- 	else
- 		vcodec_dev->dbgfs.vcodec_root = debugfs_create_dir("vcodec-dec", NULL);
- 	if (IS_ERR(vcodec_dev->dbgfs.vcodec_root))
--		dev_err(&vcodec_dev->plat_dev->dev, "create vcodec dir err:%d\n",
--			IS_ERR(vcodec_dev->dbgfs.vcodec_root));
-+		dev_err(&vcodec_dev->plat_dev->dev, "create vcodec dir err:%ld\n",
-+			PTR_ERR(vcodec_dev->dbgfs.vcodec_root));
+diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+index 1ef26aea3eae..3aa03fbc94e2 100644
+--- a/drivers/media/platform/qcom/camss/camss.c
++++ b/drivers/media/platform/qcom/camss/camss.c
+@@ -1084,9 +1084,8 @@ static int camss_of_parse_ports(struct camss *camss)
  
- 	vcodec_root = vcodec_dev->dbgfs.vcodec_root;
- 	debugfs_create_x32("mtk_v4l2_dbg_level", 0644, vcodec_root, &mtk_v4l2_dbg_level);
+ 		remote = of_graph_get_remote_port_parent(node);
+ 		if (!remote) {
+-			dev_err(dev, "Cannot get remote parent\n");
+-			ret = -EINVAL;
+-			goto err_cleanup;
++			of_node_put(node);
++			continue;
+ 		}
+ 
+ 		csd = v4l2_async_nf_add_fwnode(&camss->notifier,
+@@ -1105,7 +1104,7 @@ static int camss_of_parse_ports(struct camss *camss)
+ 		num_subdevs++;
+ 	}
+ 
+-	return num_subdevs;
++	return num_subdevs ? num_subdevs : -EINVAL;
+ 
+ err_cleanup:
+ 	of_node_put(node);
+
+---
+base-commit: b16049b21162bb649cdd8519642a35972b7910fe
+change-id: 20230614-topic-camss_grpah-39f9a4f7420c
+
+Best regards,
 -- 
-2.39.2
+Konrad Dybcio <konrad.dybcio@linaro.org>
 
