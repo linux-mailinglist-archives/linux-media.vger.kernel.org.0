@@ -2,134 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6910272FFEC
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 15:22:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C8AA730049
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 15:43:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240899AbjFNNWl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Jun 2023 09:22:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40056 "EHLO
+        id S245051AbjFNNnu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Jun 2023 09:43:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244946AbjFNNWh (ORCPT
+        with ESMTP id S245049AbjFNNnr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Jun 2023 09:22:37 -0400
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C8161FEF
-        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 06:22:34 -0700 (PDT)
-Received: by mail-lj1-x236.google.com with SMTP id 38308e7fff4ca-2b34eb53208so3305221fa.0
-        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 06:22:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686748952; x=1689340952;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QlYwaO+z+1HnbdYgK2cE/Bmko+PlgVBi2h8p1xbV4dk=;
-        b=A0kek7FKuJeZYXzX3n1cYwa0lvyoHTGrU2sLoPUBvMFQhUKHl+ImVQEENn1mCQVN3o
-         IHkOt9XCt+o3hxOogi/E52jhmHh/Yc555zAnTu9p80pPPI8ggKKvNcsvi6YAEbcF8ANp
-         spo32vjJ2soK5HBQlDGF2E9vA3aXyfqaust6T8dbViXEPMdbTrz6EDEkdQ4rtxgjT0HU
-         dFJR7RaYI3B9CYDAbvRNad4ej3vmg14uYRiHHCe9tv2BiF/rrUOva1Xmjxuc+y56orj+
-         Ehe6WLpNZkWxA1x0mYKGGu1E8iWty9xvP+Dvsnl7i8EBk5VGhY/MPanqBYTCMdO33l2a
-         yKfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686748952; x=1689340952;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QlYwaO+z+1HnbdYgK2cE/Bmko+PlgVBi2h8p1xbV4dk=;
-        b=SNaNN/nccpHSt+MW9UGR7othaSoX9DsFVjk8EBS+GFfA5IQT7FEA25xEGggm2EcWJ7
-         hHt4umyFKPspxo3MVTMENUi8ffGeAAZNyBL5Sk/jfLh4BQi55b1dSnpauasG6/rEGgcv
-         02RZW0nH9uNqi6yDkxDP3vbFrge5MyPKbe1SdD226xJ4FQKMArWxq6OD/7UyuLx4DvYY
-         gwI8XHSfpQ+T3ZXCUp2MBo9/m3+jmr1XzyRi4R+8PhXFBuhtqlsvb6+6tm57KVmxCZdP
-         YWO0gC+6V6ikRoFXCCEiDeycd2xbmvXYpoX/mZMsnnzn2EJb/CQMVpR8WqV2oYPUORs4
-         6LWQ==
-X-Gm-Message-State: AC+VfDz5AQcz+eLkqv6O6MJ1rLxDSiZhNKhoT8Tco2rDT/d1V4wz1I2J
-        ohwyLQIauYQ7ctvoprGIlS0bVw==
-X-Google-Smtp-Source: ACHHUZ5MceAYLzhvgNgAKOq/h4WDwcWJHeC43W14iWYg6QWmqKN3QoW2ZYC6I4uh2nzUT2WGjAk8VQ==
-X-Received: by 2002:a2e:86cf:0:b0:2a7:7493:9966 with SMTP id n15-20020a2e86cf000000b002a774939966mr638716ljj.24.1686748952498;
-        Wed, 14 Jun 2023 06:22:32 -0700 (PDT)
-Received: from [192.168.1.101] (abyj190.neoplus.adsl.tpnet.pl. [83.9.29.190])
-        by smtp.gmail.com with ESMTPSA id v2-20020a2ea442000000b002a7899eaf9csm2514681ljn.63.2023.06.14.06.22.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jun 2023 06:22:32 -0700 (PDT)
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-Date:   Wed, 14 Jun 2023 15:22:25 +0200
-Subject: [PATCH RFC] media: camss: Intepret OF graph connections more
- sensibly
+        Wed, 14 Jun 2023 09:43:47 -0400
+Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 935891BFD;
+        Wed, 14 Jun 2023 06:43:44 -0700 (PDT)
+Received: from [192.168.4.25] (unknown [62.77.71.229])
+        by mx.gpxsee.org (Postfix) with ESMTPSA id 7B677E463;
+        Wed, 14 Jun 2023 15:43:42 +0200 (CEST)
+Message-ID: <ac218118-64db-7832-f02c-a54a6a62bace@gpxsee.org>
+Date:   Wed, 14 Jun 2023 15:43:38 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230614-topic-camss_grpah-v1-1-5f4b516310fa@linaro.org>
-X-B4-Tracking: v=1; b=H4sIABC/iWQC/x2N0QrCMAwAf2Xk2UDXFWX+iohkNV0DsyvNFGHs3
- w0+3sFxOyg3YYVrt0Pjj6isxaA/dRAzlZlRnsbgnR/cuQ+4rVUiRnqpPuZWKeMwppFCugTvIlg
- 3kTJOjUrMVpb3spisjZN8/6Pb/Th+7YxuJHgAAAA=
-To:     Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.2
+Subject: Re: [RESEND PATCH v6 1/1] Added Digiteq Automotive MGB4 driver
+Content-Language: en-US
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
-        Yassine Oudjana <y.oudjana@protonmail.com>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Konrad Dybcio <konrad.dybcio@linaro.org>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1686748951; l=1403;
- i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=EDgfg+lUIqJj9gfFzfZTgsOWNdY99vPNSeSuLOAWWhc=;
- b=jkyOPuk8pdImD3MqXjm+SeuRsFXWWS724YWTgW7ygW9Qalf83r4qw133m+EbUOffvRW7YJkby
- 7frUBnscmaxBx4+5REjaLG3URb8zBQQsoe6OZzzEQnxDwlxWuEsLhfH
-X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
- pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?UTF-8?Q?Martin_T=c5=afma?= <martin.tuma@digiteqautomotive.com>
+References: <20230524112126.2242-1-tumic@gpxsee.org>
+ <20230524112126.2242-2-tumic@gpxsee.org>
+ <3a7da3cd-8d03-a2c4-0534-a75565aefc13@xs4all.nl>
+ <7072a8f3-5c9e-1170-e480-6fb57b95110f@gpxsee.org>
+ <6b792de3-bb2c-d2b5-a652-eca6d20dad20@xs4all.nl>
+ <c34db414-159a-313f-90eb-2bfc0f4496fa@gpxsee.org>
+ <089e728b-0596-d3e3-39a1-651a3ac73e33@xs4all.nl>
+ <f72a7380-d8bc-24bf-630c-75f8ffd6abf3@gpxsee.org>
+ <72494a61-5be8-033b-5bcd-59699a226002@xs4all.nl>
+ <756729ed-18d6-519c-ba61-98afeecaa0b7@gpxsee.org>
+ <2e7209cf-29c4-0245-fefe-deece350bd2c@xs4all.nl>
+From:   =?UTF-8?Q?Martin_T=c5=afma?= <tumic@gpxsee.org>
+In-Reply-To: <2e7209cf-29c4-0245-fefe-deece350bd2c@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Not all endpoints of camss have to be populated. In fact, most of the
-time they shouldn't be as n-th auxilliary cameras are usually ewaste.
+On 13. 06. 23 17:04, Hans Verkuil wrote:
+> Hi Martin,
+> 
+> On 13/06/2023 16:46, Martin Tůma wrote:
+>> On 13. 06. 23 14:18, Hans Verkuil wrote:
+>>> Hi Martin,
+>>>
+>>> On 12/06/2023 13:34, Martin Tůma wrote:
+>>>> On 12. 06. 23 10:51, Hans Verkuil wrote:
+>>>>> On 08/06/2023 17:30, Martin Tůma wrote:
+>>>>>> On 08. 06. 23 12:23, Hans Verkuil wrote:
+>>>>>>
+>>>>>>> Can you make a list of which sysfs properties correspond to existing V4L2
+>>>>>>> format or timing fields and which are 'new'?
+>>>>>>>
+>>>>>>
+>>>>>> On the left all the current mgb4 sysfs properties (see the admin-guide doc from the patch for description), on the right v4l2 structures where they could be mapped (may not be true for all of
+>>>>>> them in
+>>>>>> the patch, I will check it and update the code in v7)
+>>>>>>
+>>>>>>
+>>>>>> --- PCIE CARD ---
+>>>>>>
+>>>>>> module_type        -
+>>>>>> module_version        -
+>>>>>> fw_type            -
+>>>>>> fw_version        -
+>>>>>> serial_number        -
+>>>>>> temperature        hwmon
+>>>>>>
+>>>>>> --- INPUTS ---
+>>>>>>
+>>>>>> input_id        -
+>>>>>> oldi_lane_width        -
+>>>>>> color_mapping        -
+>>>>>> link_status        v4l2_input.status (V4L2_IN_ST_NO_SYNC)
+>>>>>> stream_status        v4l2_input.status (V4L2_IN_ST_NO_SIGNAL)
+>>>>>> video_width        v4l2_bt_timings.width
+>>>>>> video_height        v4l2_bt_timings.height
+>>>>>> vsync_status        v4l2_bt_timings.polarities
+>>>>>> hsync_status        v4l2_bt_timings.polarities
+>>>>>> vsync_gap_length    -
+>>>>>> hsync_gap_length    -
+>>>>>> pclk_frequency        v4l2_bt_timings.pixelclock
+>>>>>> hsync_width        v4l2_bt_timings.hsync
+>>>>>> vsync_width        v4l2_bt_timings.vsync
+>>>>>> hback_porch        v4l2_bt_timings.hbackporch
+>>>>>> hfront_porch        v4l2_bt_timings.hfrontporch
+>>>>>> vback_porch        v4l2_bt_timings.vbackporch
+>>>>>> vfront_porch        v4l2_bt_timings.vfrontporch
+>>>>>> frequency_range        -
+>>>>>> alignment        v4l2_pix_format.bytesperline
+>>>>>> fpdl3_input_width    -
+>>>>>> gmsl_mode        -
+>>>>>> gmsl_stream_id        -
+>>>>>> gmsl_fec        -
+>>>>>>
+>>>>>> --- OUTPUTS ---
+>>>>>>
+>>>>>> output_id        -
+>>>>>> video_source        -
+>>>>>> display_width        v4l2_bt_timings.width
+>>>>>> display_height        v4l2_bt_timings.height
+>>>>>> frame_rate        v4l2_frmivalenum
+>>>>>
+>>>>> The frame rate is a property of the width/height+blanking and the
+>>>>> pixel clock frequency. IMHO it does not make sense to have this as
+>>>>> a writable property. Read-only is OK.
+>>>>>
+>>>>>> hsync_polarity        v4l2_bt_timings.polarities
+>>>>>> vsync_polarity        v4l2_bt_timings.polarities
+>>>>>> de_polarity        -
+>>>>>> pclk_frequency        v4l2_bt_timings.pixelclock
+>>>>>> hsync_width        v4l2_bt_timings.hsync
+>>>>>> vsync_width        v4l2_bt_timings.vsync
+>>>>>> vsync_width        v4l2_bt_timings.vsync
+>>>>>> hback_porch        v4l2_bt_timings.hbackporch
+>>>>>> hfront_porch        v4l2_bt_timings.hfrontporch
+>>>>>> vback_porch        v4l2_bt_timings.vbackporch
+>>>>>> vfront_porch        v4l2_bt_timings.vfrontporch
+>>>>>> alignment        v4l2_pix_format.bytesperline
+>>>>>> fpdl3_output_width    -
+>>>>>>
+>>>>>>
+>>>>>> M.
+>>>>>
+>>>>> The property I am most concerned with is alignment (both for input and output).
+>>>>> But it is not clear to me what the use-case is.
+>>>>>
+>>>>
+>>>> Hi,
+>>>> The use-case is to provide the alignment required by some video processing chips. We have a product based on NVIDIA Jetson TX2 that uses the mgb4 cards and the HW video encoding needs a specific
+>>>> alignment to work.
+>>>
+>>> OK. I would suggest that for this property it has a default value of 0 (i.e. a 1 byte alignment),
+>>> and in that case VIDIOC_S_FMT allows userspace to set bytesperline to whatever they want. I.e.,
+>>> this is the normal behavior for DMA engines that can deal with custom padding at the end of each
+>>> line.
+>>>
+>>> If it is > 0, then bytesperline is fixed, based on this value.
+>>>
+>>> That way both methods are supported fairly cleanly.
+>>>
+>>> BTW, what is missing in the property documentation for writable properties is what the default
+>>> value is. That must be documented as well.
+>>>
+>>
+>> The default value is 1 (no padding, 1 byte alignment), I will add it to the documentation.
+>>
+>> I would really urge to stick with the "set all the properties at one place in sysfs, report them in v4l2" mechanism. Like with most of the properties, there are some special cases and HW related
+>> dependencies across inputs/outputs (the output alignment has to comply with input alignment - see the documentation rst for details) and duplicating this logic together with some additional logic
+>> handling changes from another source - VIDIOC_S_FMT - will make the driver much more complicated and "messy" for no benefit for the user (he will be even more confused).
+> 
+> When mainlining drivers it is important to support the standard APIs as much as possible,
+> otherwise it will become a big mess if every driver does something different. So as
+> maintainer it is my job to ensure that the standard APIs are used.
+> 
+> Looking at the properties that were introduced, most are related to timings, except
+> for alignment. That is really something for VIDIOC_S_FMT. And should be perfectly
+> fine to support as long as alignment is set to 1. If it is > 1, then bytesperline can
+> be set by the driver and userspace can't change it. It adds only very little complexity,
+> but it ensures that the default behavior is consistent with the V4L2 API.
+> 
+> I'm not very keen on all the properties at all, but given the specific nature of
+> this board I can understand it. They are to some extent similar to device tree
+> snippets to configure the device. But 'alignment' is not really part of that,
+> but I'm OK with it as long as the standard method is also supported. And in fact,
+> the property documentation should refer to the standard method as well.
+> 
 
-Don't fail probing the entire camss even even one endpoint is not
-linked and throw an error when none is found.
+Ok, I see your point. I will completely drop the alignment from sysfs 
+and make it configurable only using VIDIOC_S_FMT. This "property" 
+is/will be changed by special SW that uses the v4l2 API anyway. So it is 
+not the case of all the required video stream properties where it is 
+crucial for us that they can all be configured on a single place (using 
+the same basic UDEV rules) and that generic SW like VLC or ffplay can be 
+used to work with the video devices.
 
-Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
----
- drivers/media/platform/qcom/camss/camss.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+M.
 
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 1ef26aea3eae..3aa03fbc94e2 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -1084,9 +1084,8 @@ static int camss_of_parse_ports(struct camss *camss)
- 
- 		remote = of_graph_get_remote_port_parent(node);
- 		if (!remote) {
--			dev_err(dev, "Cannot get remote parent\n");
--			ret = -EINVAL;
--			goto err_cleanup;
-+			of_node_put(node);
-+			continue;
- 		}
- 
- 		csd = v4l2_async_nf_add_fwnode(&camss->notifier,
-@@ -1105,7 +1104,7 @@ static int camss_of_parse_ports(struct camss *camss)
- 		num_subdevs++;
- 	}
- 
--	return num_subdevs;
-+	return num_subdevs ? num_subdevs : -EINVAL;
- 
- err_cleanup:
- 	of_node_put(node);
-
----
-base-commit: b16049b21162bb649cdd8519642a35972b7910fe
-change-id: 20230614-topic-camss_grpah-39f9a4f7420c
-
-Best regards,
--- 
-Konrad Dybcio <konrad.dybcio@linaro.org>
+> Regards,
+> 
+> 	Hans
 
