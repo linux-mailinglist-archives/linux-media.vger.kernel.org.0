@@ -2,110 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B6E872FF47
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 15:01:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26ADA72FF6F
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 15:05:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244790AbjFNNBJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Jun 2023 09:01:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55564 "EHLO
+        id S244821AbjFNNFt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Jun 2023 09:05:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244791AbjFNNBI (ORCPT
+        with ESMTP id S244465AbjFNNFr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Jun 2023 09:01:08 -0400
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 365A4A0
-        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 06:01:07 -0700 (PDT)
-Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-3f7ebb2b82cso6813805e9.2
-        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 06:01:07 -0700 (PDT)
+        Wed, 14 Jun 2023 09:05:47 -0400
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B06D1BD4
+        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 06:05:46 -0700 (PDT)
+Received: by mail-lf1-x131.google.com with SMTP id 2adb3069b0e04-4f764e92931so1172749e87.2
+        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 06:05:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686747665; x=1689339665;
+        d=linaro.org; s=google; t=1686747945; x=1689339945;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=M5eeU3MYYXAYh2E5iCYKDr0TLnHyRTVAM4sI1Tdjqz8=;
-        b=EGjtiqdErQZ0KDQ8990qF7pOqUkaf1ArXWy0+JpSR0mhO8TcX0hY5684CRE5fr4AHy
-         O3WzddL/wzYEMwSglnimoysLKP0ZVfo2n2ACo2QA4qDHkt06eteHRORlp92KV95PCxrN
-         CIdglY2XEhnZPcs0VSh7fuC+2sJwUw8G43Ay2fcXoWdfxTUBYjJZDqo9i1sW3n9hwxqb
-         d+Uxot/06xwBJGFaSseqVwhqGYAf3MSyT2YlA+thnJEimiazB6kJtBeQUR43iF9+5sxZ
-         FHecowOQsrXXeopZuoKhZze7YQ3dkLI9jJm+aQRU2OgfgQnOqx2/SscCbJYtvxJLLzDh
-         OaJg==
+        bh=NpXYhh0i7/zZRYDxH3cRSLHICiT4WhBUrDQHv8jv/TY=;
+        b=qlUG9/5FtENTa5fXIoKa0+kkYpdwqZlddkMKUS1eMk41OvnM03aOFTCm8C12VYu5UF
+         e3hdlRmjofPpUDkqUnJoe3KTrF43HT36YctkAS5moAW4GK4EAZIWaH/xWK6dYf0DMJoq
+         8BT/1YsT9/x4o6Nd0e9MsFT0pOUS4BU8BD8NyJrA4gG7wnkZPCwVW4z+LMt25x6Zp4ey
+         ir0pUSpEHtIe4inXE5FyrgmbF8QrCzTiwjqzaWv+S6yCUJ0v/Ni6JfwZ96wMrmGJjGLM
+         NWfSDV5SWfs9Y+taaKVh01aIaeu8WVmgxIdOlEEvjfKk3GzMJVjbWg2BKZ8mnJRBY3Jj
+         BgZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686747665; x=1689339665;
+        d=1e100.net; s=20221208; t=1686747945; x=1689339945;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=M5eeU3MYYXAYh2E5iCYKDr0TLnHyRTVAM4sI1Tdjqz8=;
-        b=THVKrhrAFcpbx5szzhvoUXNNWsl4332I1haW10AjEWKlJMq8DXahftWTzhZTDp4i8i
-         u94UV9rjVNdsVe9L1N+4rRuemvDBqNl6uPgzB/og3Zn8s6O9ZF74oKpgkyg4Q/IKPB+O
-         3oNmdMRGcKGybq7mwoswIc9f/x6ENcuh9zw9GM9ItKkAt7jO3jrfoz1HdcdFeMV1r4bG
-         gl/oPpPkBAR/KlPOfk6Re0gKtP2CNtCiXSSPmXQQMg4mYMbEmn15GjdgtGF76W7ufwPW
-         mox100szJxN5wrhD2Hj29YYpLPqJBT9fpVh/QUSCeTNZXiFB0eE60jq5vfmQ5DkUD5MB
-         8TjQ==
-X-Gm-Message-State: AC+VfDxFQclNOJM05wPCAro9MazqGHOEXjyf8APD/Q0jHnxc7zag8tz3
-        fMbPRkEwiBw03H9ulXD2KbONR0sWrutohn7h3lw=
-X-Google-Smtp-Source: ACHHUZ5alq6jROl2EwYWwxC0BtpeEy5h6H2vpH7SdWURxFLJDdPrekGdUaWaJ6LxOKtASUQK/VdPlQ==
-X-Received: by 2002:a5d:480f:0:b0:30f:bf9f:fb98 with SMTP id l15-20020a5d480f000000b0030fbf9ffb98mr6818145wrq.28.1686747665714;
-        Wed, 14 Jun 2023 06:01:05 -0700 (PDT)
+        bh=NpXYhh0i7/zZRYDxH3cRSLHICiT4WhBUrDQHv8jv/TY=;
+        b=SRng3+0qYHkjKnpqNeuFtY6VnXKj8c5+/8dUbnbQLtTH36wVDFlFxvcBYZaIyFppg3
+         Ky019S0fGwIR7GMhbu1Xf0FiUKgafFGlvZfkmviJUfLzFdNzKPXMp7EoaNVNcC8pZJnU
+         stb62bxojZdH/8xaELr47tzytSr3GsfAOeT7ph7ykKE/36+i5ynpzu7ewh4eE/alG8Fx
+         VLClUeH1bA+tZ1NTJeaulHGZLUxxxFbaiyxWW5Z9VY/S42UMibo65koZ55jvp11S4uDo
+         MT5CyAFi6Fxd/TSfSEDlNj/dq4cnltV/2esTIF+YPtri0cKuYgbefeUS6l7qBySmf78x
+         REuQ==
+X-Gm-Message-State: AC+VfDx4gVTwMUkE8oek74w92E5U9cdAmZvcSrleXJ/KU/DlhGwjoZBO
+        B93xZ2S/2uqfN3ckrAIZekRX1w==
+X-Google-Smtp-Source: ACHHUZ6K+MrBRSgvgD8L8TQx8zMgyRcFs1eYiYo6kMrefG96FrjoHSgnXbgGKRKIz+4j3Lk5P2pGIw==
+X-Received: by 2002:a19:5045:0:b0:4f6:8156:f6e with SMTP id z5-20020a195045000000b004f681560f6emr5956110lfj.53.1686747944779;
+        Wed, 14 Jun 2023 06:05:44 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id y14-20020adfdf0e000000b003063772a55bsm18140947wrl.61.2023.06.14.06.01.03
+        by smtp.gmail.com with ESMTPSA id z15-20020a7bc7cf000000b003f6129d2e30sm17543647wmk.1.2023.06.14.06.05.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jun 2023 06:01:04 -0700 (PDT)
-Date:   Wed, 14 Jun 2023 16:01:00 +0300
+        Wed, 14 Jun 2023 06:05:43 -0700 (PDT)
+Date:   Wed, 14 Jun 2023 16:05:39 +0300
 From:   Dan Carpenter <dan.carpenter@linaro.org>
-To:     hdegoede@redhat.com
-Cc:     linux-media@vger.kernel.org
-Subject: [bug report] media: atomisp: Add input helper variable for
- isp->asd->inputs[asd->input_curr]
-Message-ID: <533f6930-434a-45f3-afff-127003fa64c9@moroto.mountain>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>
+Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH 1/4] media: mediatek: vcodec: fix potential double free
+Message-ID: <ca491aaa-cfc4-4a84-b7fc-b64f3adc6550@moroto.mountain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Hans de Goede,
+The "lat_buf->private_data" needs to be set to NULL to prevent a
+double free.  How this would happen is if vdec_msg_queue_init() failed
+twice in a row and on the second time it failed earlier than on the
+first time.
 
-This is a semi-automatic email about new static checker warnings.
+The vdec_msg_queue_init() function has a loop which does:
+	for (i = 0; i < NUM_BUFFER_COUNT; i++) {
 
-The patch 9f221053342a: "media: atomisp: Add input helper variable
-for isp->asd->inputs[asd->input_curr]" from May 29, 2023, leads to
-the following Smatch complaint:
+Each iteration initializes one element in the msg_queue->lat_buf[] array
+and then the clean up function vdec_msg_queue_deinit() frees each
+element of the msg_queue->lat_buf[] array.  This clean up code relies
+on the assumption that every element is either initialized or zeroed.
+Leaving a freed pointer which is non-zero breaks the assumption.
 
-    drivers/staging/media/atomisp/pci/atomisp_cmd.c:4283 atomisp_set_fmt_to_snr()
-    warn: variable dereferenced before check 'asd' (see line 4268)
+Fixes: b199fe46f35c ("media: mtk-vcodec: Add msg queue feature for lat and core architecture")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-drivers/staging/media/atomisp/pci/atomisp_cmd.c
-  4267		struct atomisp_sub_device *asd = pipe->asd;
-  4268		struct atomisp_device *isp = asd->isp;
-                                             ^^^^^^^^
-  4269		struct atomisp_input_subdev *input = &isp->inputs[asd->input_curr];
-                                                                  ^^^^^^^^^^^^^^^
-These dereferences were moved in front of the NULL check
+diff --git a/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c b/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
+index f555341ae708..92ac82eb444e 100644
+--- a/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
++++ b/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
+@@ -231,6 +231,7 @@ void vdec_msg_queue_deinit(struct vdec_msg_queue *msg_queue,
+ 			mtk_vcodec_mem_free(ctx, mem);
+ 
+ 		kfree(lat_buf->private_data);
++		lat_buf->private_data = NULL;
+ 	}
+ 
+ 	cancel_work_sync(&msg_queue->core_work);
+-- 
+2.39.2
 
-  4270		const struct atomisp_format_bridge *format;
-  4271		struct v4l2_subdev_state pad_state = {
-  4272			.pads = &input->pad_cfg,
-  4273		};
-  4274		struct v4l2_subdev_format vformat = {
-  4275			.which = V4L2_SUBDEV_FORMAT_TRY,
-  4276		};
-  4277		struct v4l2_mbus_framefmt *ffmt = &vformat.format;
-  4278		struct v4l2_mbus_framefmt *req_ffmt;
-  4279		struct atomisp_input_stream_info *stream_info =
-  4280		    (struct atomisp_input_stream_info *)ffmt->reserved;
-  4281		int ret;
-  4282	
-  4283		if (!asd) {
-                    ^^^^
-Here
-
-  4284			dev_err(pipe->isp->dev, "%s(): asd is NULL, device is %s\n",
-  4285				__func__, vdev->name);
-
-regards,
-dan carpenter
