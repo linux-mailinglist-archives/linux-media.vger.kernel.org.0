@@ -2,202 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 20495730910
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 22:17:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D167B73092A
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 22:30:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236658AbjFNUR5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Jun 2023 16:17:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48720 "EHLO
+        id S229958AbjFNUak (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Jun 2023 16:30:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234231AbjFNUR4 (ORCPT
+        with ESMTP id S231129AbjFNUaW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Jun 2023 16:17:56 -0400
-Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com [IPv6:2607:f8b0:4864:20::f34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 081D6DC
-        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 13:17:55 -0700 (PDT)
-Received: by mail-qv1-xf34.google.com with SMTP id 6a1803df08f44-62df2192d13so19644636d6.1
-        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 13:17:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686773875; x=1689365875;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IcxmApFT/6N8Ux8uKEd+kIHHnNW0VdSxY9Wd4h8kjmQ=;
-        b=XKvpV6Vxb6yq8nkKex1VmbCMS4fcHsBaIQasOW/mUyAjFf2ywkP0HQzzJWwxseuUAK
-         fvV/0zrK3vYYZJ7jhwYrqvZCLMXS5wO4r64EtcsUJ+oK/S48uDiosZWBZ99UdXtrLlsT
-         eE6pku75LNV3jbC1tLsA3ubnKnwIK1GLDlGo3cIk/tfnDDG6hJWD7muD/IVMwLLwyR2M
-         2q1oXB9Y0maM/tT3oMUfhtHsimI4SaeE6Tb7c13tlY5QqfP+SH7fFD0J8qKBtMKOWLiw
-         uYB2dZPNp2MxiArUkG8uZWEw4XoYRbxGLTjVgN3PyFkDWSOsfI1br8wsGT70LUOFOFf3
-         UmPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686773875; x=1689365875;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IcxmApFT/6N8Ux8uKEd+kIHHnNW0VdSxY9Wd4h8kjmQ=;
-        b=Ndd4zwb4AKsM2jMClImLxTQDuc3Fgy5vFlCBji6eP6KD5EKy1/jhKMw/vK0ECHLQSJ
-         GEqfWa2f3k+QPpvr6dSdJF1Czc6v+hhqGpiU3AWtGanR0gEGiyokhhc5L1XvRqqDMF3M
-         iYCmXtjkWpiQRcZbXnNX3bqb8/uQO0AygLEG2cpbOgKMI96eNzFXewACssa00lulM8QW
-         ZaY6Y5bfp7gQ5gJ2QuYsWbSJ8/Ces/r+87LIhPKG67kq91PONst26Yn/lhCZs3nPe0po
-         PZfYfGCIdGbXBC3l1QDeO3EAJpee1s69Qe2ugWLT5rSgVLbvOmN1S5EauOiLilRSXw4o
-         ivsg==
-X-Gm-Message-State: AC+VfDyyfFH0zP0AHpyXUFRCbDVzZp6SnFWQ4IpIUJvS3bbz/o4tGdor
-        xgSr97FMW/YgIo1eqUhrE6hHAi7wDbnm6ilOZn4=
-X-Google-Smtp-Source: ACHHUZ4uXSSN8SGKDRw8J19z0FuD3/Ui50D/nXealhufqZ3C9Cx+jbrPe6Y/NtwNb104Mk9Tkbf5k9wiKyjrRDAS0rc=
-X-Received: by 2002:a05:6214:411e:b0:62d:eae2:a441 with SMTP id
- kc30-20020a056214411e00b0062deae2a441mr11193201qvb.64.1686773875064; Wed, 14
- Jun 2023 13:17:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230614192343.57280-1-hdegoede@redhat.com> <20230614192343.57280-6-hdegoede@redhat.com>
-In-Reply-To: <20230614192343.57280-6-hdegoede@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 14 Jun 2023 23:17:18 +0300
-Message-ID: <CAHp75Vfua83tY7bwXgwkxBk=T6mPazxZ5GYex8Qywhdw6jmRUA@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] media: Remove ov_16bit_addr_reg_helpers.h
+        Wed, 14 Jun 2023 16:30:22 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A45882125
+        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 13:30:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686774621; x=1718310621;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=sCzktRSlIbaoyo4IIb8gBu+Mb9vziceDRLcPNf3lBXY=;
+  b=Dlik/b2r/i6Urto8TU1BgLEZUMynSPAxCG/vzw+k6mkTeWQLTgILrvtD
+   31a39Ea0UEEgcjvkFpg9Zh6CZZ+rlOYDEQWZE0gmWRdagq45UF+hQsVy8
+   qluoDLzs6hBDEvrZsqjfi02ZxbgGg9lyIBmRiAG9hI62ZQ5l7Gr0lBj9+
+   o7N0tq2MM93skSoZlNo5GLUuzTHAlaydRU8HfJlNfa/c5VCR0lq6Bj8hP
+   7c8dnMdXLNd91oXCs8WY1B8ZOdXu58fWuAPLFuM/Ks99wPUWmUWanewFm
+   vLtFtSM6HTwhkrj9+b71xi24nmdPGCpouHZYlacyHF32TatrHaNoPI5NU
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="422329521"
+X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
+   d="scan'208";a="422329521"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 13:30:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="886397033"
+X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
+   d="scan'208";a="886397033"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 13:30:19 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 88947120C62;
+        Wed, 14 Jun 2023 23:30:16 +0300 (EEST)
+Date:   Wed, 14 Jun 2023 20:30:16 +0000
+From:   "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
 To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+Cc:     Dan Scally <dan.scally@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        hverkuil@xs4all.nl
+Subject: Re: OV5693 Kconfig missing a select VIDEO_V4L2_SUBDEV_API ?
+Message-ID: <ZIojWLapfr/pBeQH@kekkonen.localdomain>
+References: <ce81b73f-48db-038d-2671-bccbb3490786@redhat.com>
+ <ZInlO48ACwQ3lwYX@kekkonen.localdomain>
+ <813f8b84-4737-3898-24eb-30099ffb6043@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <813f8b84-4737-3898-24eb-30099ffb6043@redhat.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 14, 2023 at 10:24=E2=80=AFPM Hans de Goede <hdegoede@redhat.com=
-> wrote:
->
-> The helpers in this header are not used anywhere anymore,
-> they have been superseded by the new CCI register access helpers.
+Hi Hans,
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+On Wed, Jun 14, 2023 at 06:50:14PM +0200, Hans de Goede wrote:
+> Hi Sakari,
+> 
+> On 6/14/23 18:05, sakari.ailus@linux.intel.com wrote:
+> > Hi Hans,
+> > 
+> > On Wed, Jun 14, 2023 at 05:47:01PM +0200, Hans de Goede wrote:
+> >> Hi All,
+> >>
+> >> The ov5693 driver uses v4l2_subdev_get_try_crop() /
+> >> v4l2_subdev_get_try_format() both of which are
+> >> only defined if CONFIG_VIDEO_V4L2_SUBDEV_API=y .
+> >>
+> >> Yet it does not do select VIDEO_V4L2_SUBDEV_API
+> >> in its Kconfig bits ?
+> >>
+> >> Note I've not seen any build errors because of this,
+> >> I guess we somehow end up getting away with this...
+> >>
+> >> But still I think the select should be added ?
+> > 
+> > I agree.
+> > 
+> > The reason there haven't been compile failures is that there's a vast
+> > number of sensor drivers that all select this so for a failure you'd need
+> > to select this one but none of the others.
+> > 
+> > I can send a fix.
+> 
+> Also see my follow-up email. If we're going to fix this
+> we really should fix it properly. As mentioned in
+> my folow-up email an intermediate Kconfig option
+> might be best.
+> 
+> E.g. doing:
+> 
+> grep -l v4l2_async_register_subdev drivers/media/i2c/*.c
+> 
+> And comparing that to Kconfig finds the following Kconfig
+> entries lacking a select V4L2_FWNODE / select V4l2_ASYNC
+> 
+> VIDEO_IMX208
+> VIDEO_IMX258
+> VIDEO_IMX274
+> VIDEO_IMX319
+> VIDEO_IMX355
+> VIDEO_OV6650
+> VIDEO_OV7740
+> VIDEO_OV9640
+> VIDEO_OV9650
+> 
+> and I stopped checking after the ov* drivers since I think
+> the above list makes my point.
 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  include/media/ov_16bit_addr_reg_helpers.h | 92 -----------------------
->  1 file changed, 92 deletions(-)
->  delete mode 100644 include/media/ov_16bit_addr_reg_helpers.h
->
-> diff --git a/include/media/ov_16bit_addr_reg_helpers.h b/include/media/ov=
-_16bit_addr_reg_helpers.h
-> deleted file mode 100644
-> index 1c60a50bd795..000000000000
-> --- a/include/media/ov_16bit_addr_reg_helpers.h
-> +++ /dev/null
-> @@ -1,92 +0,0 @@
-> -/* SPDX-License-Identifier: GPL-2.0 */
-> -/*
-> - * I2C register access helpers for Omnivision OVxxxx image sensors which=
- expect
-> - * a 16 bit register address in big-endian format and which have 1-3 byt=
-e
-> - * wide registers, in big-endian format (for the higher width registers)=
-.
-> - *
-> - * Based on the register helpers from drivers/media/i2c/ov2680.c which i=
-s:
-> - * Copyright (C) 2018 Linaro Ltd
-> - */
-> -#ifndef __OV_16BIT_ADDR_REG_HELPERS_H
-> -#define __OV_16BIT_ADDR_REG_HELPERS_H
-> -
-> -#include <asm/unaligned.h>
-> -#include <linux/dev_printk.h>
-> -#include <linux/i2c.h>
-> -
-> -static inline int ov_read_reg(struct i2c_client *client, u16 reg,
-> -                                 unsigned int len, u32 *val)
-> -{
-> -       u8 addr_buf[2], data_buf[4] =3D { };
-> -       struct i2c_msg msgs[2];
-> -       int ret;
-> -
-> -       if (len > 4)
-> -               return -EINVAL;
-> -
-> -       put_unaligned_be16(reg, addr_buf);
-> -
-> -       msgs[0].addr =3D client->addr;
-> -       msgs[0].flags =3D 0;
-> -       msgs[0].len =3D ARRAY_SIZE(addr_buf);
-> -       msgs[0].buf =3D addr_buf;
-> -
-> -       msgs[1].addr =3D client->addr;
-> -       msgs[1].flags =3D I2C_M_RD;
-> -       msgs[1].len =3D len;
-> -       msgs[1].buf =3D &data_buf[4 - len];
-> -
-> -       ret =3D i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
-> -       if (ret !=3D ARRAY_SIZE(msgs)) {
-> -               dev_err(&client->dev, "read error: reg=3D0x%4x: %d\n", re=
-g, ret);
-> -               return -EIO;
-> -       }
-> -
-> -       *val =3D get_unaligned_be32(data_buf);
-> -
-> -       return 0;
-> -}
-> -
-> -#define ov_read_reg8(s, r, v)  ov_read_reg(s, r, 1, v)
-> -#define ov_read_reg16(s, r, v) ov_read_reg(s, r, 2, v)
-> -#define ov_read_reg24(s, r, v) ov_read_reg(s, r, 3, v)
-> -
-> -static inline int ov_write_reg(struct i2c_client *client, u16 reg,
-> -                                  unsigned int len, u32 val)
-> -{
-> -       u8 buf[6];
-> -       int ret;
-> -
-> -       if (len > 4)
-> -               return -EINVAL;
-> -
-> -       put_unaligned_be16(reg, buf);
-> -       put_unaligned_be32(val << (8 * (4 - len)), buf + 2);
-> -       ret =3D i2c_master_send(client, buf, len + 2);
-> -       if (ret !=3D len + 2) {
-> -               dev_err(&client->dev, "write error: reg=3D0x%4x: %d\n", r=
-eg, ret);
-> -               return -EIO;
-> -       }
-> -
-> -       return 0;
-> -}
-> -
-> -#define ov_write_reg8(s, r, v) ov_write_reg(s, r, 1, v)
-> -#define ov_write_reg16(s, r, v)        ov_write_reg(s, r, 2, v)
-> -#define ov_write_reg24(s, r, v)        ov_write_reg(s, r, 3, v)
-> -
-> -static inline int ov_update_reg(struct i2c_client *client, u16 reg, u8 m=
-ask, u8 val)
-> -{
-> -       u32 readval;
-> -       int ret;
-> -
-> -       ret =3D ov_read_reg8(client, reg, &readval);
-> -       if (ret < 0)
-> -               return ret;
-> -
-> -       val =3D (readval & ~mask) | (val & mask);
-> -
-> -       return ov_write_reg8(client, reg, val);
-> -}
-> -
-> -#endif
-> --
-> 2.40.1
->
+Yeah, sometimes difficult to find errors get repeated. Luckily it's "just"
+a compilation problem.
 
+Using V4L2 fwnode and V4L2 sub-device APIs are still unrelated as such
+although in practice they do often happen together. There are still quite a
+few sensor drivers that don't need both of them. Some can be compiled with
+VIDEO_V4L2_SUBDEV_API disabled, too, but I'm not sure how useful that
+really is. The rest are probably not usable outside a very specific scope,
+such as I²C async matching used by a handful of receiver drivers (none use
+MC, thus no sub-device API either).
 
---=20
-With Best Regards,
-Andy Shevchenko
+Perhaps we could group these in two classes where the common class has
+V4L2_FWNODE and VIDEO_V4L2_SUBDEV_API selected? I'm not sure having an
+intermediate, somewhat obscure, option would be helpful.
+
+Also cc Hans and Laurent.
+
+-- 
+Regards,
+
+Sakari Ailus
