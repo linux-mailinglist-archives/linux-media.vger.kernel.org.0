@@ -2,150 +2,228 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78F8A72F77D
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 10:13:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4AE372F7AE
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 10:21:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235431AbjFNINu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Jun 2023 04:13:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46618 "EHLO
+        id S243395AbjFNIVt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Jun 2023 04:21:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230250AbjFNINt (ORCPT
+        with ESMTP id S234114AbjFNIVq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Jun 2023 04:13:49 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62D4FDF;
-        Wed, 14 Jun 2023 01:13:48 -0700 (PDT)
-Received: from [IPV6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2] (unknown [IPv6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 183A2660217A;
-        Wed, 14 Jun 2023 09:13:46 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1686730426;
-        bh=hyikFg5Dz7zmi/EIssCCeZgYJGF+cMu28Xs3zEK/yXg=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=nJFxFvrVLB3tCXlMcGaXRilrFAQLRM/fy7Vi1Bi3RXUVY74Y1Vglz24j4iFuelm15
-         OjYBDuIBDQXiu7iBFiNWZvn48twBqLM39gOIO/kOYV1IGaPL+ysUQvuZY6uXPcSZAq
-         RrpNUIGxEws9kQWdSwZWb0IK1/D8iJYA7gy3PNnxw07/WkvfkU1JebbpJj28/BBsRz
-         jNC/a1xM1l44nT64E73hbb8BEPMt5uX5tJLbYUDJE53kCiGtg6rtF+fG3LyvZN12vc
-         DrkmYUhO5LrIDa1btKYJjTY/5XJ7+JxD8Ul/hPasZ+PftQ8PTn7vdVjb8jGG/NycYN
-         NkyaqbxadSoOA==
-Message-ID: <d2c11880-afc1-5c0b-229b-2a4080b22fba@collabora.com>
-Date:   Wed, 14 Jun 2023 10:13:43 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v2 3/5] media: mediatek: vcodec: Read HW active status
- from clock
-Content-Language: en-US
-To:     Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wenst@chromium.org>,
-        =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
-        <nfraprado@collabora.com>
-Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>, kernel@collabora.com,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Wed, 14 Jun 2023 04:21:46 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2093.outbound.protection.outlook.com [40.107.113.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A5FCCA;
+        Wed, 14 Jun 2023 01:21:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jd5+/DYruh83ds37CY9mwM4p45rRls8yAG4hSKQzG8QWpKeOqJyqxvob+QI835Muq33xVz5gBJGM+xRCdFjjT0wKI/ftla6s70B+o12vcZZBME9yzs0mDHmzhkJL8ZcJJ/Gq669pbKJBTYb2G/7ab0QUykbq47u1GEOOYhLiDvS/AxCCM+rHoXzT66SVrIOVJHg3Mpg+TsNADAtreuD/5WbMT5N9g6CFYjCHpp98uMeTh/+9XrRanLbF7WEvpZEl01glNvMG37Tfm2lv5RtrkO2so7yVKqZ/2Zi029JT4CILlxQU24cUqdNbbAEd2Y2NbyZm0mulU0Oth0TEe8DjyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=huFXzedHiWbpvRUjmybKB9z89Nhvw5v2A5QXf5JO0iM=;
+ b=O4DxSNNKqFp6fgmqX8d4xrDdUexp3a7whPFVOnMK3DrEGSahOtf4M2EYRcN0B+C3RAI+a5EPgagspeEpMOlKqzYmk1Rrcx6RdXKRhmnLAdoPAmfY2uN4YMOM2ih2eabkl5+cAN9Pttk6rwEUGZSd2iSjGuKHNXRR3gejGcQ3HMAvG3/JTsxqSxOUbMv6NqmhL46i7mpkqqvDaHtvYRRLx5FRiN3lTWqCqVKEHjhdmwnX8bF5JX0lyVt1JwQatOMubl7bfeMlmtpJamKGKWGrZAJ7lG5uYjcjRmhXjwdRy2ify9qN5c7fMEDWZh04yhKrhACOhkkLcdMUwTFJyowZkA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=huFXzedHiWbpvRUjmybKB9z89Nhvw5v2A5QXf5JO0iM=;
+ b=h+fw7gyTMH0e5C2hVdMSi30Z/Y5ZQsLJkmaHblgPsrhEelDdCgg+S2SIL2iah1ETpzFAa2f2Z9H6vB0OLBr0I0lU2RhBZjZvGMvfCtr7LuvNYxICMLG6+03vKhSKzsCsJjLa1AxcCTWf9jGvxDVvkzvvjSr9UWe6LRDYx5IVUQ0=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by TYYPR01MB10611.jpnprd01.prod.outlook.com (2603:1096:400:30b::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.26; Wed, 14 Jun
+ 2023 08:21:38 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::bd0a:a38d:b4d2:5d2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::bd0a:a38d:b4d2:5d2%6]) with mapi id 15.20.6455.047; Wed, 14 Jun 2023
+ 08:21:38 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     Wolfram Sang <wsa@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Mark Brown <broonie@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
-References: <20230607205714.510012-1-nfraprado@collabora.com>
- <20230607205714.510012-4-nfraprado@collabora.com>
- <CAGXv+5HHARvkCYfjPjRKgyWuzv-Dt215z1=yA+_tw4hyasdGQA@mail.gmail.com>
- <f0018817-d47b-d772-ed9f-9126bf71a0d1@collabora.com>
- <83770481aa762b69738c27f9d9934dd9.sboyd@kernel.org>
- <90781ea3-d43a-6267-278c-184050fe456e@collabora.com>
- <d579dc00ed9877f9daf170134fe781e6.sboyd@kernel.org>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <d579dc00ed9877f9daf170134fe781e6.sboyd@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        =?utf-8?B?VXdlIEtsZWluZS1Lw7ZuaWc=?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Corey Minyard <cminyard@mvista.com>,
+        =?utf-8?B?TWFyZWsgQmVow7pu?= <kabel@kernel.org>,
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+        Antonio Borneo <antonio.borneo@foss.st.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+Thread-Topic: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+Thread-Index: AQHZjJbXGsyu+Gf1qUyolpKmZgFmTa9w75gAgAALD6CAAyijgIAAQNsAgAq9ooCAACGi4IABRk1QgABIHYCAAALdsIAAIbGAgAAAqmCABhKw0IAAMfIAgAADgjKAAAM7gIAAgX6AgACwEcCAAD30wIAAjmJQgADWpQCAAAETwA==
+Date:   Wed, 14 Jun 2023 08:21:38 +0000
+Message-ID: <OS0PR01MB59225C45554667D342454923865AA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <OS0PR01MB5922ECEABE4D6FC385D184008650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB592265BFDF18F860E1EB4CFE8654A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <ZIcRKl3PDy0+yZS9@ninjato>
+ <CAMuHMdV_iwdP+K1us86OB4VtDDqA=P_vNeCP15kqRuXqcYr3hg@mail.gmail.com>
+ <ZIcUEdctlgRsGxJ3@ninjato>
+ <CAMuHMdVOkBeKOEW9PkWB3Tqwa6-rC3BQj=W9VAEgeZfgqvQmWQ@mail.gmail.com>
+ <ZIeDcVcfxfcMx/BP@shikoro>
+ <OS0PR01MB592220CCA081848A711D75328655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB592210CE54A9CF953980DFEE8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <OS0PR01MB59220D794AED55A6B795C3EF8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <20230614081314.GD17519@pendragon.ideasonboard.com>
+In-Reply-To: <20230614081314.GD17519@pendragon.ideasonboard.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TYYPR01MB10611:EE_
+x-ms-office365-filtering-correlation-id: 406f005a-de4f-4311-2518-08db6cb05fe6
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Uvj3SRH49KIYmCXZQ3H/lfJJ9OQsbVcha6ioaMOkNJLOFwQIoiWnqmSQsBwjlOeVYd+g5baz8mCujB42nlr7G4ZLeJQ2+9sWoF1KwhWZVn6+OZV5J1MGT1FEREGf4mT1N300iLd01gATC0xrG9O7RPya1V2YM98FHAe56QMeTXhszp59wjQN8SUDa24qFT7Occqoh//LG7KIyyl3vj84ktlzY8S+ROGjyfrXqXran/CiI2n47KnoMCNcxdGiDVokZJeQ1JJK4oKXtpgGJcvOOMPiivL/H+wk9733tE24XAiT3WRqrQTYmm6KK57EubYM8sWv4NWDBHZBKKiPEgEms9MMK9/vyMAAwfK5Kr0rt7KoXoNULJuQSeWRa525YC33BZCfN4MutCEx1yl2dt7j1IzH/iqxvirY3UF/DE5QMcU5Ml/CWdBujaDIM1UYfwMTcsyWhf7SKAhdUEJ/1YJrpEy1kEZVs7cBIpavpZFT03f09KrLFnxDn2Ah0UvcwxvhJEc5BjX0nELQUIojnArW35pHb6vWA/lAJDMYJrjTmgaCe8xFgJjLMcVYD27Mc2ekYcEjjYt7Ke11BErhK1Dy3WR7/b1GTqYHNibbTbOquEUft2ZtKrerB9gdGHeKbCSJ
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(376002)(366004)(396003)(39860400002)(136003)(451199021)(7406005)(7416002)(4326008)(66556008)(66446008)(52536014)(6916009)(5660300002)(8936002)(41300700001)(2906002)(316002)(66946007)(76116006)(54906003)(8676002)(66476007)(83380400001)(6506007)(9686003)(64756008)(186003)(26005)(86362001)(38070700005)(122000001)(478600001)(7696005)(71200400001)(55016003)(38100700002)(33656002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SlYvRnhYQ3lVczIvWmxjT2ZLdkF5d29mZm1MbWIzRmZ5ZGRHQ21kbnJmOTZt?=
+ =?utf-8?B?cnNBdjVpbHJyTDJpQTljWFJSWjJiYS9HY2VUOWVkR3R0RzJsU21QVXBBNjF1?=
+ =?utf-8?B?cDNSVXFyUWZRd2YxWDFvSnJIWngrUzF2dmMwSC9Gc0huUlV6aGp3RDBWdm9Y?=
+ =?utf-8?B?RU1jQVJKOE03Skp1emRvdk1EU081VXg4UGJuTU84eWFJV0wrUmVzTVhIVDdr?=
+ =?utf-8?B?cUo2RDhBUGFtVHA1UFRnT0s4dFNjeHNGNTFBQmhVYUhXSEZtVkhoY042ZUdQ?=
+ =?utf-8?B?SzRBYWh3L0M3Z0YyWnlxcDM2S0MwTHZUUklpRnV2MTVUZlBCM0p4NDVrdHhI?=
+ =?utf-8?B?VmVlVXRldmNMeHhIbDdhc3o2TVV2RFU4Y0tWM3BnRldvMGg0RVZyV2pQWU43?=
+ =?utf-8?B?M3ZJUit6ZlZKL085RTdaMmdFQUV2MUNBQTA3ZmNSSHUyVWFhbGFsK282eEJj?=
+ =?utf-8?B?aklMUjQ4MkNsQ2Y4YzhhL01JZzFHbktwRHY0b2w1YkdLMTBuSlNERXl3RTNH?=
+ =?utf-8?B?bko1YXl2STdpRzl4MVc5cnN3S0U1NVkxdVltd1BMRVdxM3FiTXdkYXpGcStu?=
+ =?utf-8?B?eGU3dmE4N1A3YlhmU0NVZlBJZnp6UzFpak43aHJ4NXA3WTVQQTg3cGszOVVw?=
+ =?utf-8?B?aDZJdEV4eS9EUE5CYkxCRm5qd2ZoMlZISzJjLzgxWUh0ZHV3V0NETlRETUpy?=
+ =?utf-8?B?OVVTYXhiSkxyb3FvTWZIcENhTC9xdHM3UmZFRmQxU3VuOFRYZ3ExQmZiWlJE?=
+ =?utf-8?B?eXlCdFlienJoZXQzaDdZSzhNelpySG1Xb2ltam40MGlvejZmWlRNamdXaXBT?=
+ =?utf-8?B?b3NQQXNvWjZ1Zk05ZUl4K0MvUzN1dmtBaytPdW1id3p5L0RtZ0JyMEhnM3ZY?=
+ =?utf-8?B?czdZY1c5VlA3UU8zZ3E0ellEaWdpeXh1Z3kyeWk4ZU5Cc2VTL1pXL2lEWFZ6?=
+ =?utf-8?B?NEEzNnhsdkx0K2VkMjhRUFJiejBvMk1NeEFMNjNrNTVBaTVnYUNCZHEybHpz?=
+ =?utf-8?B?RkdVRjVlSVREZEZEU2JsVkUzTVFqSnY3NW15SDdQc2UwZDRGWVd2TEg3Ykpm?=
+ =?utf-8?B?QlNHRmVKQ2EvOG10ZVRWZWVUU1U2K1Jlb3gyTmJpZTh3TFFYdC8wcHNsQ0VI?=
+ =?utf-8?B?dzN3UTRPSUphS1RMTnF6S2htSEV4WExEZjFvT3lTV3B2d2p6c1UyR3BnZ0lC?=
+ =?utf-8?B?eXVLTTZaUHIzQXU4MUJZcm55U0JWSE5LS0tQMEhCWnYzNS8wYVVtTXJ2VUtY?=
+ =?utf-8?B?dUlvZ0hFRDNydGVtMHVnbmZHY3JzV2NoRC9SMlhFRWlsSVoxdHFzeThlcnR1?=
+ =?utf-8?B?akpJdFpDeDBXVG44VUVlRzVWcXA5RzhxNndRbkpSZHNTMk13LzR5eTUrUDFj?=
+ =?utf-8?B?b2dRRTJEZW9CRUhhMlVhL3BQclBiYllieEZWUlFGam9LTWJqQnJQNTU2OTRL?=
+ =?utf-8?B?U0RzSUxZL2grU1ZncUFieUwwQ0R5YjZHNjUvaVZTVmRBWE5tKy8ybTQ3M1FB?=
+ =?utf-8?B?U2tiMk53Q2xsdEk0a3RtK3ZNYVZ3WHlndkV4dlJxVjJnV2xZRHlBbmV4MG1z?=
+ =?utf-8?B?Y2tBelhmK1h3UFgwaFZ3REVoUGVySzh4Z0xoMlNhSndSbE5NQkowelNPK2dV?=
+ =?utf-8?B?Z0RXTi95K1doR3VCNG1ualdXRjY5T3VJQm9KcWQ1UktWaU5UVEI0RWpWZnha?=
+ =?utf-8?B?cDZuVDVsdmdwUEtmaXV5dWZ6T1Q4S0g3QU0rUzNwOXIwYXNFZnM0MThPNnhk?=
+ =?utf-8?B?M0pIMkpXWkgySXFSSWR3VEIvSEJ1cFdTNlhJRU1YRERZOWczR1Z5RjFqdXB6?=
+ =?utf-8?B?eWNwRUxYdXpDUC9OZzF3TkhpYU5lUnlaMHJUMzdkRDZrUVdsMmU3MkwvOWxm?=
+ =?utf-8?B?SFZVY0hIbTBTbnZqUXc2aWpZVFM3RGRlTnRJVjR2TnJ1YUwrZnFXUjZNclFl?=
+ =?utf-8?B?NWcxTjVMc3pWNmQxbmZQYU4vYzMySDFka1luMmZGaEhUV0FWSVVvTXU2aFRN?=
+ =?utf-8?B?NFFKRFJ6WitrU2o1c2F0S09FMnRBdzBBWWMwMVJOM1JMLzExUEhRbXpudmNQ?=
+ =?utf-8?B?b1ZHb0RCcHFDMzBQOEozNnFIRXVZNEhnSHpvczdrVGx4ejg3MUNDTkxFcWpa?=
+ =?utf-8?Q?vW7RBd2bqA1mhvx3r9VmcqX01?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 406f005a-de4f-4311-2518-08db6cb05fe6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jun 2023 08:21:38.1951
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 7HHBE1cwTdGlt+bgiIvIthis1YkkpotQQ2gCEfjJkn+6son3cYso8/m+MmWWHa26sZ45CrKYa7PJ5bG9gLoWP2y8E6LQsgd4RDsrcVjA2kA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB10611
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 12/06/23 21:19, Stephen Boyd ha scritto:
-> Quoting AngeloGioacchino Del Regno (2023-06-09 00:42:13)
->> Il 09/06/23 01:56, Stephen Boyd ha scritto:
->>> Quoting AngeloGioacchino Del Regno (2023-06-08 02:01:58)
->>>> Il 08/06/23 10:12, Chen-Yu Tsai ha scritto:
->>>>> On Thu, Jun 8, 2023 at 4:57 AM Nícolas F. R. A. Prado
->>>>> <nfraprado@collabora.com> wrote:
->>>>>> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
->>>>>> index 9c652beb3f19..8038472fb67b 100644
->>>>>> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
->>>>>> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
->>>>>
->>>>> AFAIK this is still around for clk drivers that haven't moved to clk_hw.
->>>>> It shouldn't be used by clock consumers. Would it be better to just pass
->>>>> a syscon?
->>>>>
->>>>
->>>> This is a legit usage of __clk_is_enabled().... because that's what we're really
->>>> doing here, we're checking if a clock got enabled by the underlying MCU (as that
->>>> clock goes up after the VDEC boots).
->>>>
->>>> If this is *not* acceptable as it is, we will have to add a clock API call to
->>>> check if a clock is enabled... but it didn't seem worth doing since we don't
->>>> expect anyone else to have any legit usage of that, or at least, we don't know
->>>> about anyone else needing that...
->>>
->>> The design of the clk.h API has been that no clk consumer should need to
->>> find out if a clk is enabled. Instead, the clk consumer should enable
->>> the clk if they want it enabled. Is there no other way to know that the
->>> vcodec hardware is active?
->>>
->>
->> The firmware gives an indication of "boot done", but that's for the "core" part
->> of the vcodec... then it manages this clock internally to enable/disable the
->> "compute" IP of the decoder.
->>
->> As far as I know (and I've been researching about this) the firmware will not
->> give any "decoder powered, clocked - ready to get data" indication, and the
->> only way that we have to judge whether it is in this specific state or not is
->> to check if the "VDEC_ACTIVE" clock got enabled by the firmware.
-> 
-> Is Linux ever going to use clk consumer APIs like clk_enable/clk_disable
-> on this VDEC_ACTIVE clk? If the answer is no, then there isn't any
-> reason to put it in the clk framework, and probably syscon is the way to
-> go for now.
-> 
-
-Not for the current platform, but that may change in future SoCs... we're not sure.
-
-> Another approach could be to wait for some amount of time after telling
-> firmware to power up and assume the hardware is active.
-> 
-
-That would be highly error prone though. Expecting that the HW is alive means that
-we're 100% sure that both firmware and driver are doing the right thing at every
-moment, which is something that we'd like to assume but, realistically, for safety
-reasons we just don't.
-
-Should we anyway go for a syscon *now* and then change it to a clock later, if any
-new platform needs this as a clock?
-
-I'm in doubt now on how to proceed.
-
-> ----
-> 
-> I see that the __clk_is_enabled() API is being used in some other
-> consumer drivers. I think at one point we were down to one or two users.
-> I'll try to remove this function entirely, but it will still be possible
-> to get at the clk_hw for a clk with __clk_get_hw() and then call
-> clk_hw_is_enabled().
-> 
-
-Makes sense.
-
-Regards,
-Angelo
+SGkgTGF1cmVudCwNCg0KVGhhbmtzIGZvciB0aGUgZmVlZGJhY2suDQoNCj4gU3ViamVjdDogUmU6
+IFtQQVRDSCB2NSAwMS8xMV0gaTJjOiBFbmhhbmNlIGkyY19uZXdfYW5jaWxsYXJ5X2RldmljZSBB
+UEkNCj4gDQo+IE9uIFR1ZSwgSnVuIDEzLCAyMDIzIGF0IDA3OjMxOjQ2UE0gKzAwMDAsIEJpanUg
+RGFzIHdyb3RlOg0KPiA+ID4gU3ViamVjdDogUkU6IFtQQVRDSCB2NSAwMS8xMV0gaTJjOiBFbmhh
+bmNlIGkyY19uZXdfYW5jaWxsYXJ5X2RldmljZQ0KPiA+ID4gQVBJDQo+ID4gPiA+IFN1YmplY3Q6
+IFJFOiBbUEFUQ0ggdjUgMDEvMTFdIGkyYzogRW5oYW5jZQ0KPiA+ID4gPiBpMmNfbmV3X2FuY2ls
+bGFyeV9kZXZpY2UgQVBJDQo+ID4gPiA+ID4gU3ViamVjdDogUmU6IFtQQVRDSCB2NSAwMS8xMV0g
+aTJjOiBFbmhhbmNlDQo+ID4gPiA+ID4gaTJjX25ld19hbmNpbGxhcnlfZGV2aWNlIEFQSQ0KPiA+
+ID4gPiA+DQo+ID4gPiA+ID4gSGkgZXZlcnlvbmUsDQo+ID4gPiA+ID4NCj4gPiA+ID4gPiA+IFBl
+cmhhcHMgd2Ugc2hvdWxkIGZpcnN0IHRoaW5rIHRocm91Z2ggd2hhdCBhbiBhbmNpbGxhcnkgZGV2
+aWNlDQo+ID4gPiA+ID4gPiByZWFsbHkgaXMuICBNeSB1bmRlcnN0YW5kaW5nIGlzIHRoYXQgaXQg
+aXMgdXNlZCB0byB0YWxrIHRvDQo+ID4gPiA+ID4gPiBzZWNvbmRhcnkgYWRkcmVzc2VzIG9mIGEg
+bXVsdGktYWRkcmVzcyBJMkMgc2xhdmUgZGV2aWNlLg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gQXMg
+SSBtZW50aW9uZWQgc29tZXdoZXJlIGJlZm9yZSwgdGhpcyBpcyBub3QgdGhlIGNhc2UuIEFuY2ls
+bGFyeQ0KPiA+ID4gPiA+IGRldmljZXMgYXJlIHdoZW4gb25lICpkcml2ZXIqIGhhbmRsZXMgbW9y
+ZSB0aGFuIG9uZSBhZGRyZXNzLg0KPiA+ID4gPiA+IEV2ZXJ5dGhpbmcgZWxzZSBoYXMgYmVlbiBo
+YW5kbGVkIGRpZmZlcmVudGx5IGluIHRoZSBwYXN0IChmb3INCj4gPiA+ID4gPiBhbGwgdGhlIHVz
+ZXMgSSBhbSBhd2FyZSBvZikuDQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBZZXQsIEkgaGF2ZSBhbm90
+aGVyIGlkZWEgd2hpY2ggaXMgc28gc2ltcGxlIHRoYXQgSSB3b25kZXIgaWYgaXQNCj4gPiA+ID4g
+PiBtYXliZSBoYXMgYWxyZWFkeSBiZWVuIGRpc2N1c3NlZCBzbyBmYXI/DQo+ID4gPiA+ID4NCj4g
+PiA+ID4gPiAqIGhhdmUgdHdvIHJlZ3MgaW4gdGhlIGJpbmRpbmdzDQo+ID4gPiA+DQo+ID4gPiA+
+IE9LLCBpdCBpcyBpbmxpbmUgd2l0aCBEVCBtYWludGFpbmVycyBleHBlY3RhdGlvbiBhcyBpdCBp
+cyBtYXRjaGluZw0KPiA+ID4gPiB3aXRoIHJlYWwgaHcgYXMgc2luZ2xlIGRldmljZSBub2RlIGhh
+dmluZyB0d28gcmVncy4NCj4gPiA+ID4NCj4gPiA+ID4gPiAqIHVzZSB0aGUgc2Vjb25kIHJlZyB3
+aXRoIGkyY19uZXdfY2xpZW50X2RldmljZSB0byBpbnN0YW50aWF0ZSB0aGUNCj4gPiA+ID4gPiAg
+IFJUQyBzaWJsaW5nLiAnc3RydWN0IGkyY19ib2FyZF9pbmZvJywgd2hpY2ggaXMgb25lIHBhcmFt
+ZXRlciwNCj4gc2hvdWxkDQo+ID4gPiA+ID4gICBoYXZlIGVub3VnaCBvcHRpb25zIHRvIHBhc3Mg
+ZGF0YSwgZS5nIGl0IGhhcyBhIHNvZnR3YXJlX25vZGUuDQo+ID4gPiA+DQo+ID4gPiA+IE9LLCBJ
+IGNhbiBzZWUgdGhlIGJlbG93IGNhbiBiZSBwYXNzZWQgZnJvbSBQTUlDIHRvIG5ldyBjbGllbnQN
+Cj4gZGV2aWNlLg0KPiA+ID4gPg0KPiA+ID4gPiAJY2xpZW50LT5hZGRyID0gaW5mby0+YWRkcjsN
+Cj4gPiA+ID4NCj4gPiA+ID4gCWNsaWVudC0+aW5pdF9pcnEgPSBpbmZvLT5pcnE7DQo+ID4gPiA+
+DQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBTaG91bGQgd29yayBvciBkaWQgSSBtaXNzIHNvbWV0aGlu
+ZyBoZXJlPw0KPiA+ID4gPg0KPiA+ID4gPiBJIGd1ZXNzIGl0IHdpbGwgd29yay4gV2UgaW5zdGFu
+dGlhdGUgYXBwcm9wcmlhdGUgZGV2aWNlIGJhc2VkIE9uDQo+ID4gPiA+IFBNSUMgcmV2aXNpb24g
+YW5kIHNsYXZlIGFkZHJlc3MgYW5kIElSUSByZXNvdXJjZSBwYXNzZWQgdGhyb3VnaA0KPiA+ID4g
+PiAnc3RydWN0IGkyY19ib2FyZF9pbmZvJw0KPiA+ID4gPg0KPiA+ID4gPiBXaWxsIGNoZWNrIHRo
+aXMgYW5kIHVwZGF0ZSB5b3UuDQo+ID4gPg0KPiA+ID4gaW5mby5pcnEgPSBpcnE7IC0tPklycSBm
+aW5lDQo+ID4gPiBpbmZvLmFkZHIgPSBhZGRyOyAtLT5zbGF2ZSBhZGRyZXNzIGZpbmUgc2l6ZSA9
+IHN0cnNjcHkoaW5mby50eXBlLA0KPiA+ID4gbmFtZSwgc2l6ZW9mKGluZm8udHlwZSkpOyAtLT5p
+bnN0YW50aWF0aW9uIGJhc2VkIG9uIFBNSUMgdmVyc2lvbg0KPiA+ID4gZmluZS4NCj4gPiA+DQo+
+ID4gPiAxKSBIb3cgZG8gd2Ugc2hhcmUgY2xrIGRldGFpbHMgb24gaW5zdGFudGlhdGVkIGRldmlj
+ZSB0byBmaW5kIGlzIGl0DQo+ID4gPiBjb25uZWN0ZWQgdG8gZXh0ZXJuYWwgY3J5c3RhbCBvciBl
+eHRlcm5hbCBjbG9jayBzb3VyY2U/IGFzIHdlIGNhbm5vdA0KPiA+ID4gcGFzcyBvZl9ub2RlIGJl
+dHdlZW4gUE1JQyBhbmQgImkyY19ib2FyZF9pbmZvIiBhcyBpdCByZXN1bHRzIGluDQo+ID4gPiBw
+aW5jdHJsIGZhaWx1cmUuIGluZm8tPnBsYXRmb3JtZGF0YSBhbmQNCj4gPiA+IENsaWVudC0+ZGV2
+LnBsYXRmb3JtZGF0YSB0byByZXRyaWV2ZSB0aGlzIGluZm8/Pw0KPiA+DQo+ID4gT3INCj4gPg0K
+PiA+IEkyQyBpbnN0YW50aWF0aW9uIGJhc2VkIG9uIGFjdHVhbCBvc2NpbGxhdG9yIGJpdCB2YWx1
+ZSwgaWUsIHR3bw0KPiA+IGkyY19kZXZpY2VfaWQncyB3aXRoIG9uZSBmb3Igc2V0dGluZyBvc2Np
+bGxhdG9yIGJpdCBhbmQgYW5vdGhlciBmb3INCj4gPiBjbGVhcmluZyBvc2NpbGxhdG9yIGJpdA0K
+PiA+DQo+ID4gUE1JQyBkcml2ZXIgcGFyc2VzIHRoZSBjbG9jayBkZXRhaWxzLiBCYXNlZCBvbiBm
+aXJtd2FyZSB2ZXJzaW9uIGFuZA0KPiA+IGNsb2NrLCBJdCBpbnN0YW50aWF0ZXMgZWl0aGVyIGky
+Y19kZXZpY2VfaWQgd2l0aCBzZXR0aW5nIG9zY2lsbGF0b3INCj4gPiBiaXQgb3IgY2xlYXJpbmcg
+b3NjaWxsYXRvciBiaXQuDQo+IA0KPiBJIGRvbid0IGxpa2UgdGhhdCBoYWNrLiBJIHN0aWxsIHRo
+aW5rIHRoYXQgdHdvIERUIG5vZGVzIGlzIHRoZSBiZXN0DQo+IG9wdGlvbiwgSSB0aGluayB5b3Un
+cmUgdHJ5aW5nIGhhcmQgdG8gaGFjayBhcm91bmQgYSBwcm9ibGVtIHRoYXQgaXMNCj4gYWN0dWFs
+bHkgbm90IGEgcHJvYmxlbS4NCg0KV2h5IGRvIHlvdSB0aGluayBpdCBpcyBhIGhhY2s/IEkgYmVs
+aWV2ZSByYXRoZXIgaXQgaXMgYWN0dWFsIHNvbHV0aW9uDQoNClBNSUMgaXMgYSBzaW5nbGUgZGV2
+aWNlLCB3aXRoIDIgcmVncywgY2xvY2tzLCBwaW5jdHJsIGFuZCBJUlEgcHJvcGVydGllcy4NClNv
+IGl0IHdpbGwgYmUgcmVwcmVzZW50ZWQgYXMgc2luZ2xlIG5vZGUgd2l0aCBzaW5nbGUgY29tcGF0
+aWJsZS4NCg0KQnkgaW5zdGF0aW5nIGEgY2xpZW50IGRldmljZSwgd2UgYXJlIHNoYXJpbmcgdGhl
+IHJlbGV2YW50IHJlc291cmNlcyB0byBSVEMgZGV2aWNlIGRyaXZlci4NCg0KQ2hlZXJzLA0KQmlq
+dQ0KDQoNCg==
