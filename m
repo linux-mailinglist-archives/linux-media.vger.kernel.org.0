@@ -2,245 +2,440 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 12B0F72EC03
-	for <lists+linux-media@lfdr.de>; Tue, 13 Jun 2023 21:32:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 702E972F14F
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 03:04:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232974AbjFMTb6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Jun 2023 15:31:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37460 "EHLO
+        id S241754AbjFNBEg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Jun 2023 21:04:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232224AbjFMTb4 (ORCPT
+        with ESMTP id S241708AbjFNBEd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Jun 2023 15:31:56 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2113.outbound.protection.outlook.com [40.107.113.113])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4522AEA;
-        Tue, 13 Jun 2023 12:31:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=g7oOddZADmii0AAN2Yzun3EE03ShXtIyQ+Gm6rSV1jkLsVBp/71t0cUOtWVfWSu/qR2YqZhH4Y2f2B1v8iJ44omq7M7Y86TRbkF7eBibgn6HMikkALtKKizhc/+GIMBLcVNuxvDkghhE2FlhcrbBgX3M9MStSfmSq8mPs0erU2GT+DQN0+f1X/BvSDdor6E5PvYfbxCmjk9owPL08ueML74USVLp16qKYRcp/P4wC5A341ZOF/kfWEtDpfvBJpKJyz/VhW38lHMkmAH6EdV+GBaiLVCOr6cv41axY3sh3tsOqBfKvnGVSfLAfSPVCeEHoyA4z+IjhTOC/Nj6g2idrQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0VoPlEpsC0YDhCZRSbbrNb5kCWpCm4F4RXmsUOLtIA4=;
- b=YbB4Qk9j+ROXFIktYNkfbOhE3cozWlC/sPsyz6qZaiXCL4tdPpixY7Xprl4rSAp6MW/6H2W+ah/jTs39Kye4gfImgPLBqq9l0emRqJZum9j+OcwPz6dw0d9u/utG935zYncIMQt8F5vjivqNTvujXHH1xTSrHF6xlrGjneOxrMlss+z8fM9+sOZNM07fr7feFU9GSD3cPTj2bJfutmr3L+DRxBHbX/2rrb8NlYhqqlbzKw3KOelLOQoY1etmLAV4THJy7xVc5rE3v6vNttFB/RpfVXn0WB4Y0ZKBXWzWCMCUtDCha5ir1/1NXyUS+4IGMYYLzzoMSSdxCFCCMBDLCw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0VoPlEpsC0YDhCZRSbbrNb5kCWpCm4F4RXmsUOLtIA4=;
- b=ZWv4w5Arcz+b7keQi2o42JmJ3dZN+SE7o3xPQtf1aXqSkGgjGd1V6Cd+IWAbTKF+rylWoLa1wZm04jRotgg/OM0MOAwLpFli9uchrt//PhnKWm+vrv0AdiIn+0QfeH9MYh73Lk/aRFVFmwJGw11I1Wt9C7M+As/Xax7+MMPiKu8=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OS3PR01MB9607.jpnprd01.prod.outlook.com (2603:1096:604:1cc::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.37; Tue, 13 Jun
- 2023 19:31:48 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::bd0a:a38d:b4d2:5d2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::bd0a:a38d:b4d2:5d2%6]) with mapi id 15.20.6455.047; Tue, 13 Jun 2023
- 19:31:46 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Wolfram Sang <wsa@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Mark Brown <broonie@kernel.org>
-CC:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Corey Minyard <cminyard@mvista.com>,
-        =?iso-8859-1?Q?Marek_Beh=FAn?= <kabel@kernel.org>,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
-        Antonio Borneo <antonio.borneo@foss.st.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Mark Brown <broonie@kernel.org>
-Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Thread-Topic: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Thread-Index: AQHZjJbXGsyu+Gf1qUyolpKmZgFmTa9w75gAgAALD6CAAyijgIAAQNsAgAq9ooCAACGi4IABRk1QgABIHYCAAALdsIAAIbGAgAAAqmCABhKw0IAAMfIAgAADgjKAAAM7gIAAgX6AgACwEcCAAD30wIAAjmJQ
-Date:   Tue, 13 Jun 2023 19:31:46 +0000
-Message-ID: <OS0PR01MB59220D794AED55A6B795C3EF8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <OS0PR01MB5922AA27B212F610A5E816138650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230608103929.GO5058@pendragon.ideasonboard.com>
- <OS0PR01MB592259E6A7ACED4A0548DD228650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230608125019.GD26742@pendragon.ideasonboard.com>
- <OS0PR01MB5922ECEABE4D6FC385D184008650A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB592265BFDF18F860E1EB4CFE8654A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <ZIcRKl3PDy0+yZS9@ninjato>
- <CAMuHMdV_iwdP+K1us86OB4VtDDqA=P_vNeCP15kqRuXqcYr3hg@mail.gmail.com>
- <ZIcUEdctlgRsGxJ3@ninjato>
- <CAMuHMdVOkBeKOEW9PkWB3Tqwa6-rC3BQj=W9VAEgeZfgqvQmWQ@mail.gmail.com>
- <ZIeDcVcfxfcMx/BP@shikoro>
- <OS0PR01MB592220CCA081848A711D75328655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB592210CE54A9CF953980DFEE8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB592210CE54A9CF953980DFEE8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|OS3PR01MB9607:EE_
-x-ms-office365-filtering-correlation-id: 5844b9aa-36c6-4132-9971-08db6c44d3b0
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: +A5o/FXDxNxLW0u/BLGloCaV3ASeWHs3zhk3PUe+lyiavfZxnbAgbdSnu8Yeh77zrc20UU7tE/hFhnYGaNvcOgu0IJy2dfxyEDVtgJL8vEBoMLri9IiWM4m2k7P6LfIvwMWxPHbXSOUy3jGZ1upSvr4DSzgbWDn7Hn4QP50kznDgux4JMMmb6eSV1erZa7PBOW/7Ksfv+SmDnvVXINwQVHvw32B1SJan0V6/8k1NDbgDVTwW8QTyk56jtZ90yYQKIKrZrPVWmSg7uY7incPJj63jkzSrAUvKifrBeQK/hJa3AqKRdUSiAE2WMLc2vLLkYpD5Eyh28S1i8cyzbWOe+cL3nF3pA5PeI9NrlVpXJi6tdnuxXV3geLVQSYOqyG2Qh0xWCeqBCXqkLJJUuQekxYKxZh7JLG4w2koF0lM0ZXNlECAE9AUaHzTZR5W6TSHje3ZKFbomZjXJ70OJ9Xj8gC4FQBXV5Q7ErcCwRy3aYB5f/7NpuZBesXf16EYFFP6cT2jGMBsn8nsddxIaKG9ZA2wKtDJPpTcOcxUVjNeYDvIRMtYXff0DIW1IXt5xdLIhVyi8hnshPkWLuEcO8xKaVMt5DVQdEmeVKZYkEbdWN7y3QqPGwrP7bVnfh9+6ciMF
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(366004)(136003)(376002)(346002)(39860400002)(451199021)(2940100002)(186003)(6506007)(9686003)(41300700001)(38100700002)(316002)(7696005)(83380400001)(33656002)(478600001)(71200400001)(86362001)(54906003)(110136005)(2906002)(38070700005)(8676002)(52536014)(5660300002)(7416002)(8936002)(7406005)(122000001)(55016003)(66946007)(4326008)(66476007)(76116006)(66446008)(64756008)(66556008);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?P3y9uu2nKLWnZ6fwleXxoUamtnbTz5S7kr5YgoBU2msEliXmOeAQ+uQ9tz?=
- =?iso-8859-1?Q?E/2nv3yR4FzSajEyxfpy4os4dqgscLgmEugji8FYpDG4nCJa92I8u3QSh9?=
- =?iso-8859-1?Q?XdJVNi2PaNpVaP6v291UG7CjrlUQi3VHV/H5pDUdZpaDWmwRrTKmOoXJ9W?=
- =?iso-8859-1?Q?RFkblhQFPthvk42DbnjF9LGclkIEmsCtCCL9wa8gmDirVMxfZQtirzSPNL?=
- =?iso-8859-1?Q?apyrtsi2fdtjWvuOYXNV+uDNT9Xa89BaIUwbeoXrB6r3dNG48ZCuyyY5YF?=
- =?iso-8859-1?Q?zWqYIIZ9v7BI7grKQo4N8BW9MatmV38OapzcqffSr43Es0iiTAV1oUtn/C?=
- =?iso-8859-1?Q?59NI4sF+Oh23MywKLovMMoMpXjzHA1JC3HhmnK3sHahnDNiSc7Pjv0Oi59?=
- =?iso-8859-1?Q?hx0Z5ansnR8svWGdCRTKTIOSBgXOjdGkXFZ8L4aT2plwnHMIj64YeUSO/2?=
- =?iso-8859-1?Q?rkaBYMOTRLvUMRamNoegWf4PTc4z8RLEQPoVq7kSbarRTg/D/pqRR7jHaX?=
- =?iso-8859-1?Q?rQL9riQLT1Ow2+kS2fru+IA+ZzPE8EarkVRJexSxNp3qoIBa9xGCRIeAEX?=
- =?iso-8859-1?Q?CrJifHt6UyjdXK/kjNYvIQ3WHg7deRLH08nwnInaoFNcQCgM99JiDjZG78?=
- =?iso-8859-1?Q?QJni7MdidL5RwskGstVa3bDxSMDlVXadMfeqZYGfUUrPPHuVHSbE4I6Fxj?=
- =?iso-8859-1?Q?jbx06iXBA2qD2LMlziqS76XwLtHfIIXEpfPjRf7BjVWv6ZflxyMAAMt/ct?=
- =?iso-8859-1?Q?PsFl6mAOsVOCBHiRrgCqyGHnfBQzqKQSX8XcDH46u3WgvFn6Tp6PYhEu+o?=
- =?iso-8859-1?Q?Ez0Si4+U6xwE3TuN0oQYNuCOd8QzX+oRk3fFtb7IbiuEYO9Oyb52i0gRTN?=
- =?iso-8859-1?Q?aRs+DnnEUULAUaqeV/pwZrVaJVY/rA34F53CBZybvPpDybG6gd5DvlcjyD?=
- =?iso-8859-1?Q?RccMRsqTih0Ob1FOp+NBbZf9wmo+DTOPoFhg1RC6BRUspfAxOz5LoLOo7Q?=
- =?iso-8859-1?Q?aLVEXow5eLCzg82Gp6cHtwdBVNiZYuW14K/32GDr0DCqQenhoDGs1U6m8d?=
- =?iso-8859-1?Q?9lGdq7RJQqod5pJ01blO/bRCLLnWCJ8Emz3cqev2RlJWhlBZaCN3F353Vr?=
- =?iso-8859-1?Q?/wIIFtrF2tsGhrSkIsD25QrtM9i/28BVpAZuLprwloMQBTQmBasPHvmBKa?=
- =?iso-8859-1?Q?FrQiUZN7CtcKxQIBcAaqDUbaZBKr4k8N/WEYLDqQGhp6//v71E1F8EvrhU?=
- =?iso-8859-1?Q?zGJ5XArWp/MyWexzjfLHpNpa4nWurNX6QbvQrf4q+cIId2BLnZkZwTBHqW?=
- =?iso-8859-1?Q?RmqG6x2b6XdZU5eswWGa3/lLo470NtdziXp9UZyyuDkQvyfh+AWkluJJ4X?=
- =?iso-8859-1?Q?4pE3VHIkN/cAsLeMzdAxhc1IybMB7b9J+GjLgZ7UgraOogOMOpUGXcTr6o?=
- =?iso-8859-1?Q?xBZ5UgLtfsEoiJAhnFUYqA51ch9joWUlRb9v8ZU2/VF9oAIKSDnJYDg4uJ?=
- =?iso-8859-1?Q?1/RuyW1Yq7xn+hbD7PgXHroelPNINdYzHwCRrzBOySNLBoztiLdzxl/3uG?=
- =?iso-8859-1?Q?vZGaQ+t1Jj8LIOWbhN9lFtNRMvkilHOap36GYuW7JXJyCbWkCU1BieLSkN?=
- =?iso-8859-1?Q?cFp834Vqq8T+s=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5844b9aa-36c6-4132-9971-08db6c44d3b0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jun 2023 19:31:46.7958
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vjw9D8+CKYbPbtct/NPd8JUCrfMOJMwpxgoXanYONzMsdqWRFfWojNkDTyIP9mrfaZ56UGBOsNcRtoOPjG4Bno6jWOen/33L1FAyrfHOMns=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB9607
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        Tue, 13 Jun 2023 21:04:33 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAD8C1BF3
+        for <linux-media@vger.kernel.org>; Tue, 13 Jun 2023 18:04:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686704670; x=1718240670;
+  h=from:to:cc:subject:date:message-id;
+  bh=3O7KcHb0Dbq11ewfwQcnbbuZ02GyRnWjPlKFFvoxS4k=;
+  b=hL8MkA7a/PEjaH+qehTLNKBigzZSX6uiukk9My0hRfso39sjXB/hi7tk
+   YiwnSPH+zPFyEEWOvVA9saWwU5oR/OmeGwRPEEXlQbFaV5ADOE+b2fTJV
+   1qYIzcbo0Z0O/fJDXqj5DBsHw2ezWRMyQpIoNIn7qPnQkw7vRA37SDVKJ
+   MSYtGycr3OqQBqUZliAUz/sAtudMs9mbqpldiXG1T3A/NNAJjtj3I1nBo
+   Ou2ac6gr7yo4J9G2bsXPkqa8jjTJXizPUzphz4tbA3JG4WktnPRCHq4IE
+   go+Q6BSLVLM2r0ZAOMYhTWZ6BseXvA+lS6LCw7/JA27OLLS0dB0DgfO+L
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="360969427"
+X-IronPort-AV: E=Sophos;i="6.00,241,1681196400"; 
+   d="scan'208";a="360969427"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 18:04:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="958623291"
+X-IronPort-AV: E=Sophos;i="6.00,241,1681196400"; 
+   d="scan'208";a="958623291"
+Received: from shsensorbuild2.sh.intel.com ([10.239.134.197])
+  by fmsmga006.fm.intel.com with ESMTP; 13 Jun 2023 18:04:25 -0700
+From:   Wentong Wu <wentong.wu@intel.com>
+To:     sakari.ailus@linux.intel.com, bingbu.cao@linux.intel.com,
+        andriy.shevchenko@intel.com, linux-media@vger.kernel.org
+Cc:     zhifeng.wang@intel.com, xiang.ye@intel.com, tian.shu.qiu@intel.com,
+        Wentong Wu <wentong.wu@intel.com>
+Subject: [PATCH v1] add IVSC support for IPU bridge driver
+Date:   Wed, 14 Jun 2023 09:04:22 +0800
+Message-Id: <1686704662-7455-1-git-send-email-wentong.wu@intel.com>
+X-Mailer: git-send-email 2.7.4
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Wolfram,
+Previously on ACPI platforms, sensors that are intended to be connected
+to a IPU device for use with the ipu3-cio2 driver lacking the necessary
+connection information in firmware. IPU bridge driver is to connect
+sensors to IPU device via software nodes.
 
-> Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
->=20
-> Hi Wolfram,
->=20
-> Thanks for the feedback.
->=20
-> > Subject: RE: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device
-> > API
-> >
-> > Hi Wolfram,
-> >
-> > Thanks for the feedback.
-> >
-> > > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device
-> > > API
-> > >
-> > > Hi everyone,
-> > >
-> > > > Perhaps we should first think through what an ancillary device
-> > > > really is.  My understanding is that it is used to talk to
-> > > > secondary addresses of a multi-address I2C slave device.
-> > >
-> > > As I mentioned somewhere before, this is not the case. Ancillary
-> > > devices are when one *driver* handles more than one address.
-> > > Everything else has been handled differently in the past (for  all
-> > > the
-> > uses I am aware of).
-> > >
-> > > Yet, I have another idea which is so simple that I wonder if it
-> > > maybe has already been discussed so far?
-> > >
-> > > * have two regs in the bindings
-> >
-> > OK, it is inline with DT maintainers expectation as it is matching
-> > with real hw as single device node having two regs.
-> >
-> > > * use the second reg with i2c_new_client_device to instantiate the
-> > >   RTC sibling. 'struct i2c_board_info', which is one parameter, shoul=
-d
-> > >   have enough options to pass data, e.g it has a software_node.
-> >
-> > OK, I can see the below can be passed from PMIC to new client device.
-> >
-> > 	client->addr =3D info->addr;
-> >
-> > 	client->init_irq =3D info->irq;
-> >
-> > >
-> > > Should work or did I miss something here?
-> >
-> > I guess it will work. We instantiate appropriate device based On PMIC
-> > revision and slave address and IRQ resource passed through 'struct
-> > i2c_board_info'
-> >
-> > Will check this and update you.
->=20
-> info.irq =3D irq; -->Irq fine
-> info.addr =3D addr; -->slave address fine
-> size =3D strscpy(info.type, name, sizeof(info.type)); -->instantiation ba=
-sed
-> on PMIC version fine.
->=20
-> 1) How do we share clk details on instantiated device to find is it
-> connected to external crystal or external clock source? as we cannot pass
-> of_node between PMIC and "i2c_board_info" as it results in pinctrl
-> failure. info->platformdata and
-> Client->dev.platformdata to retrieve this info??
+Currently IVSC located between IPU device and sensors is available in
+existing commercial platforms from multiple OEMs. But the connection
+information between them in firmware is also not enough to build V4L2
+connection graph. This patch parses the connection properties from the
+SSDB buffer in DSDT and build the connection using software nodes.
 
-Or=20
+IVSC driver is based on MEI framework (previously known as HECI), it
+has two MEI clients, MEI CSI and MEI ACE. Both clients are used to
+communicate messages with IVSC firmware. Linux abstracts MEI client
+as a device, whose bus type is MEI. And the device is addressed by a
+GUID/UUID which is part of the device name of MEI client. After figured
+out MEI CSI via the UUID composed device name, this patch setup the
+connection between MEI CSI and IPU, and the connection between MEI CSI
+and sensor via software nodes.
 
-I2C instantiation based on actual oscillator bit value, ie, two i2c_device_=
-id's
-with one for setting oscillator bit and another for clearing oscillator bit
+Signed-off-by: Wentong Wu <wentong.wu@intel.com>
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ drivers/media/pci/intel/ipu-bridge.c | 191 ++++++++++++++++++++++++++++++++++-
+ drivers/media/pci/intel/ipu-bridge.h |  19 +++-
+ 2 files changed, 205 insertions(+), 5 deletions(-)
 
-PMIC driver parses the clock details. Based on firmware version and clock,=
-=20
-It instantiates either i2c_device_id with setting oscillator bit or
-clearing oscillator bit.
+diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
+index 62daa8c..8b0755d 100644
+--- a/drivers/media/pci/intel/ipu-bridge.c
++++ b/drivers/media/pci/intel/ipu-bridge.c
+@@ -4,6 +4,7 @@
+ #include <linux/acpi.h>
+ #include <linux/device.h>
+ #include <linux/i2c.h>
++#include <linux/mei_cl_bus.h>
+ #include <linux/pci.h>
+ #include <linux/property.h>
+ #include <media/v4l2-fwnode.h>
+@@ -11,6 +12,16 @@
+ #include "ipu-bridge.h"
+ 
+ /*
++ * 92335fcf-3203-4472-af93-7b4453ac29da
++ *
++ * Used to build MEI CSI device name to lookup MEI CSI device by
++ * device_find_child_by_name().
++ */
++#define MEI_CSI_UUID							\
++	UUID_LE(0x92335FCF, 0x3203, 0x4472,				\
++		0xAF, 0x93, 0x7b, 0x44, 0x53, 0xAC, 0x29, 0xDA)
++
++/*
+  * Extend this array with ACPI Hardware IDs of devices known to be working
+  * plus the number of link-frequencies expected by their drivers, along with
+  * the frequency values in hertz. This is somewhat opportunistic way of adding
+@@ -61,6 +72,60 @@ static const char * const ipu_vcm_types[] = {
+ 	"lc898212axb",
+ };
+ 
++/*
++ * Used to figure out IVSC device by ipu_bridge_check_ivsc_dev()
++ * instead of device and driver match to probe IVSC device.
++ */
++static const struct acpi_device_id ivsc_acpi_ids[] = {
++	{ "INTC1059" },
++	{ "INTC1095" },
++	{ "INTC100A" },
++	{ "INTC10CF" },
++};
++
++static int ipu_bridge_check_ivsc_dev(struct ipu_sensor *sensor,
++				     struct acpi_device *sensor_adev)
++{
++	acpi_handle handle = acpi_device_handle(sensor_adev);
++	struct acpi_device *consumer, *adev;
++	uuid_le uuid = MEI_CSI_UUID;
++	struct device *csi_dev;
++	unsigned int i;
++	char name[64];
++
++	for (i = 0; i < ARRAY_SIZE(ivsc_acpi_ids); i++) {
++		const struct acpi_device_id *acpi_id = &ivsc_acpi_ids[i];
++
++		for_each_acpi_dev_match(adev, acpi_id->id, NULL, -1) {
++			/* camera sensor depends on IVSC in DSDT */
++			for_each_acpi_consumer_dev(adev, consumer)
++				if (consumer->handle == handle)
++					break;
++
++			if (!consumer)
++				continue;
++
++			snprintf(name, sizeof(name), "%s-%pUl",
++				 dev_name(&adev->dev), &uuid);
++
++			csi_dev = device_find_child_by_name(&adev->dev, name);
++			if (!csi_dev) {
++				acpi_dev_put(adev);
++				dev_err(&adev->dev,
++					"Failed to find MEI CSI dev\n");
++				return -ENODEV;
++			}
++
++			sensor->csi_dev = csi_dev;
++			sensor->ivsc_adev = adev;
++
++			return 0;
++		}
++	}
++
++	return 0;
++}
++
+ static int ipu_bridge_read_acpi_buffer(struct acpi_device *adev, char *id,
+ 				       void *data, u32 size)
+ {
+@@ -137,16 +202,53 @@ static void ipu_bridge_create_fwnode_properties(
+ 	struct ipu_bridge *bridge,
+ 	const struct ipu_sensor_config *cfg)
+ {
+-	u32 rotation;
++	struct ipu_property_names *names = &sensor->prop_names;
++	struct software_node *nodes = sensor->swnodes;
+ 	enum v4l2_fwnode_orientation orientation;
++	u32 rotation;
+ 
+ 	rotation = ipu_bridge_parse_rotation(sensor);
+ 	orientation = ipu_bridge_parse_orientation(sensor);
+ 
+ 	sensor->prop_names = prop_names;
+ 
+-	sensor->local_ref[0] = SOFTWARE_NODE_REFERENCE(&sensor->swnodes[SWNODE_IPU_ENDPOINT]);
+-	sensor->remote_ref[0] = SOFTWARE_NODE_REFERENCE(&sensor->swnodes[SWNODE_SENSOR_ENDPOINT]);
++	if (sensor->csi_dev) {
++		sensor->local_ref[0] =
++			SOFTWARE_NODE_REFERENCE(&nodes[SWNODE_IVSC_SENSOR_ENDPOINT]);
++		sensor->remote_ref[0] =
++			SOFTWARE_NODE_REFERENCE(&nodes[SWNODE_IVSC_IPU_ENDPOINT]);
++		sensor->ivsc_sensor_ref[0] =
++			SOFTWARE_NODE_REFERENCE(&nodes[SWNODE_SENSOR_ENDPOINT]);
++		sensor->ivsc_ipu_ref[0] =
++			SOFTWARE_NODE_REFERENCE(&nodes[SWNODE_IPU_ENDPOINT]);
++
++		sensor->ivsc_sensor_ep_properties[0] =
++			PROPERTY_ENTRY_U32(names->bus_type,
++					   V4L2_FWNODE_BUS_TYPE_CSI2_DPHY);
++		sensor->ivsc_sensor_ep_properties[1] =
++			PROPERTY_ENTRY_U32_ARRAY_LEN(names->data_lanes,
++						     bridge->data_lanes,
++						     sensor->ssdb.lanes);
++		sensor->ivsc_sensor_ep_properties[2] =
++			PROPERTY_ENTRY_REF_ARRAY(names->remote_endpoint,
++						 sensor->ivsc_sensor_ref);
++
++		sensor->ivsc_ipu_ep_properties[0] =
++			PROPERTY_ENTRY_U32(names->bus_type,
++					   V4L2_FWNODE_BUS_TYPE_CSI2_DPHY);
++		sensor->ivsc_ipu_ep_properties[1] =
++			PROPERTY_ENTRY_U32_ARRAY_LEN(names->data_lanes,
++						     bridge->data_lanes,
++						     sensor->ssdb.lanes);
++		sensor->ivsc_ipu_ep_properties[2] =
++			PROPERTY_ENTRY_REF_ARRAY(names->remote_endpoint,
++						 sensor->ivsc_ipu_ref);
++	} else {
++		sensor->local_ref[0] =
++			SOFTWARE_NODE_REFERENCE(&nodes[SWNODE_IPU_ENDPOINT]);
++		sensor->remote_ref[0] =
++			SOFTWARE_NODE_REFERENCE(&nodes[SWNODE_SENSOR_ENDPOINT]);
++	}
+ 
+ 	sensor->dev_properties[0] = PROPERTY_ENTRY_U32(
+ 					sensor->prop_names.clock_frequency,
+@@ -201,6 +303,15 @@ static void ipu_bridge_init_swnode_names(struct ipu_sensor *sensor)
+ 	snprintf(sensor->node_names.endpoint,
+ 		 sizeof(sensor->node_names.endpoint),
+ 		 SWNODE_GRAPH_ENDPOINT_NAME_FMT, 0); /* And endpoint 0 */
++
++	if (sensor->csi_dev) {
++		snprintf(sensor->node_names.ivsc_sensor_port,
++			 sizeof(sensor->node_names.ivsc_sensor_port),
++			 SWNODE_GRAPH_PORT_NAME_FMT, 0);
++		snprintf(sensor->node_names.ivsc_ipu_port,
++			 sizeof(sensor->node_names.ivsc_ipu_port),
++			 SWNODE_GRAPH_PORT_NAME_FMT, 1);
++	}
+ }
+ 
+ static void ipu_bridge_init_swnode_group(struct ipu_sensor *sensor)
+@@ -214,11 +325,31 @@ static void ipu_bridge_init_swnode_group(struct ipu_sensor *sensor)
+ 	sensor->group[SWNODE_IPU_ENDPOINT] = &nodes[SWNODE_IPU_ENDPOINT];
+ 	if (sensor->ssdb.vcmtype)
+ 		sensor->group[SWNODE_VCM] =  &nodes[SWNODE_VCM];
++
++	if (sensor->csi_dev) {
++		sensor->group[SWNODE_IVSC_HID] =
++					&nodes[SWNODE_IVSC_HID];
++		sensor->group[SWNODE_IVSC_SENSOR_PORT] =
++					&nodes[SWNODE_IVSC_SENSOR_PORT];
++		sensor->group[SWNODE_IVSC_SENSOR_ENDPOINT] =
++					&nodes[SWNODE_IVSC_SENSOR_ENDPOINT];
++		sensor->group[SWNODE_IVSC_IPU_PORT] =
++					&nodes[SWNODE_IVSC_IPU_PORT];
++		sensor->group[SWNODE_IVSC_IPU_ENDPOINT] =
++					&nodes[SWNODE_IVSC_IPU_ENDPOINT];
++
++		if (sensor->ssdb.vcmtype)
++			sensor->group[SWNODE_VCM] = &nodes[SWNODE_VCM];
++	} else {
++		if (sensor->ssdb.vcmtype)
++			sensor->group[SWNODE_IVSC_HID] = &nodes[SWNODE_VCM];
++	}
+ }
+ 
+ static void ipu_bridge_create_connection_swnodes(struct ipu_bridge *bridge,
+ 						 struct ipu_sensor *sensor)
+ {
++	struct ipu_node_names *names = &sensor->node_names;
+ 	struct software_node *nodes = sensor->swnodes;
+ 	char vcm_name[ACPI_ID_LEN + 4];
+ 
+@@ -238,6 +369,29 @@ static void ipu_bridge_create_connection_swnodes(struct ipu_bridge *bridge,
+ 						sensor->node_names.endpoint,
+ 						&nodes[SWNODE_IPU_PORT],
+ 						sensor->ipu_properties);
++
++	if (sensor->csi_dev) {
++		snprintf(sensor->ivsc_name, sizeof(sensor->ivsc_name), "%s-%u",
++			 acpi_device_hid(sensor->ivsc_adev), sensor->ssdb.link);
++
++		nodes[SWNODE_IVSC_HID] = NODE_SENSOR(sensor->ivsc_name,
++						     sensor->ivsc_properties);
++		nodes[SWNODE_IVSC_SENSOR_PORT] =
++				NODE_PORT(names->ivsc_sensor_port,
++					  &nodes[SWNODE_IVSC_HID]);
++		nodes[SWNODE_IVSC_SENSOR_ENDPOINT] =
++				NODE_ENDPOINT(names->endpoint,
++					      &nodes[SWNODE_IVSC_SENSOR_PORT],
++					      sensor->ivsc_sensor_ep_properties);
++		nodes[SWNODE_IVSC_IPU_PORT] =
++				NODE_PORT(names->ivsc_ipu_port,
++					  &nodes[SWNODE_IVSC_HID]);
++		nodes[SWNODE_IVSC_IPU_ENDPOINT] =
++				NODE_ENDPOINT(names->endpoint,
++					      &nodes[SWNODE_IVSC_IPU_PORT],
++					      sensor->ivsc_ipu_ep_properties);
++	}
++
+ 	if (sensor->ssdb.vcmtype) {
+ 		/* append ssdb.link to distinguish VCM nodes with same HID */
+ 		snprintf(vcm_name, sizeof(vcm_name), "%s-%u",
+@@ -273,6 +427,22 @@ static void ipu_bridge_instantiate_vcm_i2c_client(struct ipu_sensor *sensor)
+ 	}
+ }
+ 
++static int ipu_bridge_instantiate_ivsc(struct ipu_sensor *sensor)
++{
++	struct fwnode_handle *fwnode;
++
++	if (!sensor->csi_dev)
++		return 0;
++
++	fwnode = software_node_fwnode(&sensor->swnodes[SWNODE_IVSC_HID]);
++	if (!fwnode)
++		return -ENODEV;
++
++	set_secondary_fwnode(sensor->csi_dev, fwnode);
++
++	return 0;
++}
++
+ static void ipu_bridge_unregister_sensors(struct ipu_bridge *bridge)
+ {
+ 	struct ipu_sensor *sensor;
+@@ -284,6 +454,8 @@ static void ipu_bridge_unregister_sensors(struct ipu_bridge *bridge)
+ 		ACPI_FREE(sensor->pld);
+ 		acpi_dev_put(sensor->adev);
+ 		i2c_unregister_device(sensor->vcm_i2c_client);
++		put_device(sensor->csi_dev);
++		acpi_dev_put(sensor->ivsc_adev);
+ 	}
+ }
+ 
+@@ -337,12 +509,16 @@ static int ipu_bridge_connect_sensor(const struct ipu_sensor_config *cfg,
+ 			goto err_free_pld;
+ 		}
+ 
++		ret = ipu_bridge_check_ivsc_dev(sensor, adev);
++		if (ret)
++			goto err_free_pld;
++
+ 		ipu_bridge_create_fwnode_properties(sensor, bridge, cfg);
+ 		ipu_bridge_create_connection_swnodes(bridge, sensor);
+ 
+ 		ret = software_node_register_node_group(sensor->group);
+ 		if (ret)
+-			goto err_free_pld;
++			goto err_put_dev;
+ 
+ 		fwnode = software_node_fwnode(&sensor->swnodes[
+ 						      SWNODE_SENSOR_HID]);
+@@ -356,6 +532,10 @@ static int ipu_bridge_connect_sensor(const struct ipu_sensor_config *cfg,
+ 		primary = acpi_fwnode_handle(adev);
+ 		primary->secondary = fwnode;
+ 
++		ret = ipu_bridge_instantiate_ivsc(sensor);
++		if (ret)
++			goto err_free_swnodes;
++
+ 		ipu_bridge_instantiate_vcm_i2c_client(sensor);
+ 
+ 		dev_info(&ipu->dev, "Found supported sensor %s\n",
+@@ -368,6 +548,9 @@ static int ipu_bridge_connect_sensor(const struct ipu_sensor_config *cfg,
+ 
+ err_free_swnodes:
+ 	software_node_unregister_node_group(sensor->group);
++err_put_dev:
++	put_device(sensor->csi_dev);
++	acpi_dev_put(sensor->ivsc_adev);
+ err_free_pld:
+ 	ACPI_FREE(sensor->pld);
+ err_put_adev:
+diff --git a/drivers/media/pci/intel/ipu-bridge.h b/drivers/media/pci/intel/ipu-bridge.h
+index 8cb733c..72ad9db 100644
+--- a/drivers/media/pci/intel/ipu-bridge.h
++++ b/drivers/media/pci/intel/ipu-bridge.h
+@@ -54,7 +54,12 @@ enum ipu_sensor_swnodes {
+ 	SWNODE_SENSOR_ENDPOINT,
+ 	SWNODE_IPU_PORT,
+ 	SWNODE_IPU_ENDPOINT,
+-	/* Must be last because it is optional / maybe empty */
++	/* below are optional / maybe empty */
++	SWNODE_IVSC_HID,
++	SWNODE_IVSC_SENSOR_PORT,
++	SWNODE_IVSC_SENSOR_ENDPOINT,
++	SWNODE_IVSC_IPU_PORT,
++	SWNODE_IVSC_IPU_ENDPOINT,
+ 	SWNODE_VCM,
+ 	SWNODE_COUNT
+ };
+@@ -101,6 +106,8 @@ struct ipu_property_names {
+ 
+ struct ipu_node_names {
+ 	char port[7];
++	char ivsc_sensor_port[7];
++	char ivsc_ipu_port[7];
+ 	char endpoint[11];
+ 	char remote_port[7];
+ };
+@@ -117,6 +124,10 @@ struct ipu_sensor {
+ 	struct acpi_device *adev;
+ 	struct i2c_client *vcm_i2c_client;
+ 
++	struct device *csi_dev;
++	struct acpi_device *ivsc_adev;
++	char ivsc_name[ACPI_ID_LEN + 4];
++
+ 	/* SWNODE_COUNT + 1 for terminating NULL */
+ 	const struct software_node *group[SWNODE_COUNT + 1];
+ 	struct software_node swnodes[SWNODE_COUNT];
+@@ -129,9 +140,15 @@ struct ipu_sensor {
+ 	struct property_entry ep_properties[5];
+ 	struct property_entry dev_properties[5];
+ 	struct property_entry ipu_properties[3];
++	struct property_entry ivsc_properties[1];
++	struct property_entry ivsc_sensor_ep_properties[4];
++	struct property_entry ivsc_ipu_ep_properties[4];
++
+ 	struct software_node_ref_args local_ref[1];
+ 	struct software_node_ref_args remote_ref[1];
+ 	struct software_node_ref_args vcm_ref[1];
++	struct software_node_ref_args ivsc_sensor_ref[1];
++	struct software_node_ref_args ivsc_ipu_ref[1];
+ };
+ 
+ struct ipu_bridge {
+-- 
+2.7.4
 
-Cheers,
-Biju
