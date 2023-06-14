@@ -2,77 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3157773065E
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 19:55:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB48B730759
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 20:31:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235844AbjFNRz0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Jun 2023 13:55:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33732 "EHLO
+        id S234018AbjFNSbO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Jun 2023 14:31:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234782AbjFNRzZ (ORCPT
+        with ESMTP id S229559AbjFNSbN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Jun 2023 13:55:25 -0400
-Received: from mail-oo1-xc31.google.com (mail-oo1-xc31.google.com [IPv6:2607:f8b0:4864:20::c31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C01C211F
-        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 10:55:23 -0700 (PDT)
-Received: by mail-oo1-xc31.google.com with SMTP id 006d021491bc7-55af55a0fdaso824389eaf.2
-        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 10:55:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686765322; x=1689357322;
-        h=to:subject:message-id:date:from:sender:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YgsQjPYSA4x9EUAST26pLIMgzwk5/fmUNEDBBVE+P4A=;
-        b=VCXPNCraZYaTu7G2pWl4+xMj1l4Y4mQDL11K9iSvgOdGsNAHfuHyLjj8V4vW+9sJAI
-         SajL1EFpxLSNeAT8tjhoryQ1i59otgLUMIBl+0+3JLfNTMWsbDYdrYhpKA5/30UpKxBX
-         n2D+t/3BTp0GMr9jxVUNLq/yPERe9miXMvD/00bADfgA6Zp9zSEqSpGr19t/vJAIki9X
-         +OjVADPsqB1VbM2+YxqMIL4yWp+s/JnCACZMmTS2sqPqHEMBu8rvw4ZDkBwzUIZOR7fx
-         H8StQD2KLRvvEREMDSiuq6H53efasEwySKeAQtwg1zgWmreDb1sgoQGNuU0rUdtcCCvy
-         jpyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686765322; x=1689357322;
-        h=to:subject:message-id:date:from:sender:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YgsQjPYSA4x9EUAST26pLIMgzwk5/fmUNEDBBVE+P4A=;
-        b=XOYKdzviAcHC69Dt93uqzNit8HjE+zYjtt5pM1+Jvv6wtftuOXeAXy4aUYmEepMzzS
-         bvcqUjxaZL88P2oxn0nbLSXucduR/Dttpy/lR3FmNjs03R54VIlt9pGxNOocsCvoB5jq
-         U4HGgI1y9UguH0EzLHsRG47jT6q5CsyNBgAMLPjEVBLEturN6YUH7zEC5T5XQ+ot7rjQ
-         SuNVimZ816tsaHB5fwg8UcET+h41Ndirczxt+32uHEbbYqU4ybiHbB+mIcHhgPXr1VB+
-         VvqM3wSwGilXWYawuGIVsDBf3EhGWpkAtk8joTGJ7mFKdKdCn6XTPNkLAVp78oZ2iqfT
-         noCA==
-X-Gm-Message-State: AC+VfDy6zXrHPYhUkcnI5nQKGzj9yT9GwuN+imBFBQrzMHehwajXm6dO
-        8r2ZlcmWs32yhtjOO//CS5k906LSFq9yccuM6eM=
-X-Google-Smtp-Source: ACHHUZ6UGFPXXI784rUSMFAGSLlxpr84ES9mILD3wsvvfuIbRnHm7KT7cxnaUJ1SUuE4Jyebch3b6+kaQDNHuerCAbM=
-X-Received: by 2002:a4a:bb05:0:b0:558:b78d:8d1e with SMTP id
- f5-20020a4abb05000000b00558b78d8d1emr10506190oop.7.1686765322435; Wed, 14 Jun
- 2023 10:55:22 -0700 (PDT)
+        Wed, 14 Jun 2023 14:31:13 -0400
+Received: from smtp.smtpout.orange.fr (smtp-20.smtpout.orange.fr [80.12.242.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B977DE3
+        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 11:31:10 -0700 (PDT)
+Received: from pop-os.home ([86.243.2.178])
+        by smtp.orange.fr with ESMTPA
+        id 9VGsqBvw5uHEf9VGtqP6SV; Wed, 14 Jun 2023 20:31:08 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+        s=t20230301; t=1686767468;
+        bh=reNbQlvt6iwnJUAjcJkxGRJU4vzmBikzkd2pe0kBB0M=;
+        h=From:To:Cc:Subject:Date;
+        b=mQgaw/wMo3xhmP22Js9wU/i1RrWxxozS6T6PLcb3um4wW0aVihOiiRViAdIjQkeK2
+         GC5PYs8tcrQdD5kbmW0JlRUKSMi11pr59L3/C4dbfIhz0YYCvb1IX7pRvoA2XhTEFJ
+         jhkIyDEVD8749HDeD3z1r9BlOF3zrPmoE30TA7JtQG3bH7/+QxGQurB1Ys/gjZIDhG
+         diF2/2Jj+nlkGLNpkqjdty+bTWd8+53LKlrQlyoDMbJExn67WyXanFf1Vhxto9V/Ae
+         R8w9Fq9diwxUW1ilUH684bOBvmT8xLtIrW4Hpy1CaLYfZyQrrTz+LCNwBF78b/wLgq
+         IJENaW26ufWRA==
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Wed, 14 Jun 2023 20:31:08 +0200
+X-ME-IP: 86.243.2.178
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        linux-media@vger.kernel.org
+Subject: [PATCH v2] media: v4l2-core: Fix a potential resource leak in v4l2_fwnode_parse_link()
+Date:   Wed, 14 Jun 2023 20:31:05 +0200
+Message-Id: <773118ad2c2b56f136e10466997eaaa911e6a422.1686767431.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Sender: mrsthereseninna@gmail.com
-Received: by 2002:a05:6358:998a:b0:f1:be9a:c0c5 with HTTP; Wed, 14 Jun 2023
- 10:55:21 -0700 (PDT)
-From:   Dr Lisa Williams <lw4666555@gmail.com>
-Date:   Wed, 14 Jun 2023 10:55:21 -0700
-X-Google-Sender-Auth: vmAb2NVlphKo8pDPEyDrOAbbRyw
-Message-ID: <CAKVHDg9QnTTM9BZ=iEMEOq+CKt3056rmJg2mz1VtnN8BO1D1tQ@mail.gmail.com>
-Subject: Hi,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+If fwnode_graph_get_remote_endpoint() fails, 'fwnode' is known to be NULL,
+so fwnode_handle_put() is a no-op.
 
-My name is Dr. Lisa Williams, from the United States, currently living
-in the United Kingdom.
+Release the reference taken from a previous fwnode_graph_get_port_parent()
+call instead.
 
-I hope you consider my friend request. I will share some of my photos
-and more details about me when I get your reply.
+Also handle fwnode_graph_get_port_parent() failures.
 
-With love
-Lisa
+In order to fix these issues, add an error handling path to the function
+and the needed gotos.
+
+Fixes: ca50c197bd96 ("[media] v4l: fwnode: Support generic fwnode for parsing standardised properties")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+v2: - Handle fwnode_graph_get_port_parent() errors   [Sakari Ailus <sakari.ailus@linux.intel.com>]
+    - Rephrase the commit log
+
+v1: https://lore.kernel.org/all/2ddd10ec9e009bbb85518355f1e09e1ecd349925.1685340968.git.christophe.jaillet@wanadoo.fr/
+---
+ drivers/media/v4l2-core/v4l2-fwnode.c | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+index 049c2f2001ea..4fa9225aa3d9 100644
+--- a/drivers/media/v4l2-core/v4l2-fwnode.c
++++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+@@ -568,19 +568,29 @@ int v4l2_fwnode_parse_link(struct fwnode_handle *fwnode,
+ 	link->local_id = fwep.id;
+ 	link->local_port = fwep.port;
+ 	link->local_node = fwnode_graph_get_port_parent(fwnode);
++	if (!link->local_node)
++		return -ENOLINK;
+ 
+ 	fwnode = fwnode_graph_get_remote_endpoint(fwnode);
+-	if (!fwnode) {
+-		fwnode_handle_put(fwnode);
+-		return -ENOLINK;
+-	}
++	if (!fwnode)
++		goto err_put_local_node;
+ 
+ 	fwnode_graph_parse_endpoint(fwnode, &fwep);
+ 	link->remote_id = fwep.id;
+ 	link->remote_port = fwep.port;
+ 	link->remote_node = fwnode_graph_get_port_parent(fwnode);
++	if (!link->remote_node)
++		goto err_put_remote_endpoint;
+ 
+ 	return 0;
++
++err_put_remote_endpoint:
++	fwnode_handle_put(fwnode);
++
++err_put_local_node:
++	fwnode_handle_put(link->local_node);
++
++	return -ENOLINK;
+ }
+ EXPORT_SYMBOL_GPL(v4l2_fwnode_parse_link);
+ 
+-- 
+2.34.1
+
