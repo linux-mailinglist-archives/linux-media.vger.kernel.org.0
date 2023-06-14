@@ -2,333 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3848B73057E
-	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 18:56:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3157773065E
+	for <lists+linux-media@lfdr.de>; Wed, 14 Jun 2023 19:55:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232195AbjFNQ4o convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 14 Jun 2023 12:56:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34000 "EHLO
+        id S235844AbjFNRz0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Jun 2023 13:55:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229703AbjFNQ4n (ORCPT
+        with ESMTP id S234782AbjFNRzZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Jun 2023 12:56:43 -0400
-Received: from irl.hu (irl.hu [95.85.9.111])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8877B1BC6
-        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 09:56:41 -0700 (PDT)
-Received: from [192.168.2.4] (softdnserr [::ffff:81.182.137.62])
-  (AUTH: CRAM-MD5 soyer@irl.hu, )
-  by irl.hu with ESMTPSA
-  id 0000000000060124.000000006489F147.003B5213; Wed, 14 Jun 2023 18:56:38 +0200
-Message-ID: <0d2c103938ce4d020553711e4b0b4ce1c38a0152.camel@irl.hu>
-Subject: Re: [PATCH] media: uvcvideo: uvc_ctrl_get_rel_speed: use 0 as
- default
-From:   Gergo Koteles <soyer@irl.hu>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Date:   Wed, 14 Jun 2023 18:56:38 +0200
-In-Reply-To: <CANiDSCs22ztCf8zXVRJS47ZwroTDy_1tOG3OO+tpdtXrxm-j_A@mail.gmail.com>
-References: <eb4f7f29a94231c5fa404f7492dba8e7fd9fbb23.1686746422.git.soyer@irl.hu>
-         <CANiDSCsmKvOZFmcBCAtc8D971a=FvRcn_rJgO=omKrCR2fvNOA@mail.gmail.com>
-         <d50992e1f4709eb8f0a34120b70f2b02d3e655e5.camel@irl.hu>
-         <CANiDSCshBFwE+HDqgQ7tc33gNtUuowP5s+bprqxaAF6D6HBO_w@mail.gmail.com>
-         <CANiDSCt193avx+fKgujT7u-4hguEyq=kmfULG75F1LK=fjMLhA@mail.gmail.com>
-         <944fc6422e73a7b1334fdc1856bdf0480c7fc4e9.camel@irl.hu>
-         <CANiDSCupgF6m6T3R=w7BxqVe672cPHk05Yj0yqiW3hLp+GEkdw@mail.gmail.com>
-         <3480de8b7cfd17dc93165d816fa624fdba75d0e6.camel@irl.hu>
-         <CANiDSCs22ztCf8zXVRJS47ZwroTDy_1tOG3OO+tpdtXrxm-j_A@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.48.3 (3.48.3-1.fc38) 
+        Wed, 14 Jun 2023 13:55:25 -0400
+Received: from mail-oo1-xc31.google.com (mail-oo1-xc31.google.com [IPv6:2607:f8b0:4864:20::c31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C01C211F
+        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 10:55:23 -0700 (PDT)
+Received: by mail-oo1-xc31.google.com with SMTP id 006d021491bc7-55af55a0fdaso824389eaf.2
+        for <linux-media@vger.kernel.org>; Wed, 14 Jun 2023 10:55:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686765322; x=1689357322;
+        h=to:subject:message-id:date:from:sender:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YgsQjPYSA4x9EUAST26pLIMgzwk5/fmUNEDBBVE+P4A=;
+        b=VCXPNCraZYaTu7G2pWl4+xMj1l4Y4mQDL11K9iSvgOdGsNAHfuHyLjj8V4vW+9sJAI
+         SajL1EFpxLSNeAT8tjhoryQ1i59otgLUMIBl+0+3JLfNTMWsbDYdrYhpKA5/30UpKxBX
+         n2D+t/3BTp0GMr9jxVUNLq/yPERe9miXMvD/00bADfgA6Zp9zSEqSpGr19t/vJAIki9X
+         +OjVADPsqB1VbM2+YxqMIL4yWp+s/JnCACZMmTS2sqPqHEMBu8rvw4ZDkBwzUIZOR7fx
+         H8StQD2KLRvvEREMDSiuq6H53efasEwySKeAQtwg1zgWmreDb1sgoQGNuU0rUdtcCCvy
+         jpyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686765322; x=1689357322;
+        h=to:subject:message-id:date:from:sender:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YgsQjPYSA4x9EUAST26pLIMgzwk5/fmUNEDBBVE+P4A=;
+        b=XOYKdzviAcHC69Dt93uqzNit8HjE+zYjtt5pM1+Jvv6wtftuOXeAXy4aUYmEepMzzS
+         bvcqUjxaZL88P2oxn0nbLSXucduR/Dttpy/lR3FmNjs03R54VIlt9pGxNOocsCvoB5jq
+         U4HGgI1y9UguH0EzLHsRG47jT6q5CsyNBgAMLPjEVBLEturN6YUH7zEC5T5XQ+ot7rjQ
+         SuNVimZ816tsaHB5fwg8UcET+h41Ndirczxt+32uHEbbYqU4ybiHbB+mIcHhgPXr1VB+
+         VvqM3wSwGilXWYawuGIVsDBf3EhGWpkAtk8joTGJ7mFKdKdCn6XTPNkLAVp78oZ2iqfT
+         noCA==
+X-Gm-Message-State: AC+VfDy6zXrHPYhUkcnI5nQKGzj9yT9GwuN+imBFBQrzMHehwajXm6dO
+        8r2ZlcmWs32yhtjOO//CS5k906LSFq9yccuM6eM=
+X-Google-Smtp-Source: ACHHUZ6UGFPXXI784rUSMFAGSLlxpr84ES9mILD3wsvvfuIbRnHm7KT7cxnaUJ1SUuE4Jyebch3b6+kaQDNHuerCAbM=
+X-Received: by 2002:a4a:bb05:0:b0:558:b78d:8d1e with SMTP id
+ f5-20020a4abb05000000b00558b78d8d1emr10506190oop.7.1686765322435; Wed, 14 Jun
+ 2023 10:55:22 -0700 (PDT)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Sender: mrsthereseninna@gmail.com
+Received: by 2002:a05:6358:998a:b0:f1:be9a:c0c5 with HTTP; Wed, 14 Jun 2023
+ 10:55:21 -0700 (PDT)
+From:   Dr Lisa Williams <lw4666555@gmail.com>
+Date:   Wed, 14 Jun 2023 10:55:21 -0700
+X-Google-Sender-Auth: vmAb2NVlphKo8pDPEyDrOAbbRyw
+Message-ID: <CAKVHDg9QnTTM9BZ=iEMEOq+CKt3056rmJg2mz1VtnN8BO1D1tQ@mail.gmail.com>
+Subject: Hi,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
+Hi,
 
-On Wed, 2023-06-14 at 18:29 +0200, Ricardo Ribalda wrote:
-> Hi Gergo
-> 
-> 
-> 
-> On Wed, 14 Jun 2023 at 17:46, Gergo Koteles <soyer@irl.hu> wrote:
-> > 
-> > Hi Ricardo,
-> > On Wed, 2023-06-14 at 17:25 +0200, Ricardo Ribalda wrote:
-> > > On Wed, 14 Jun 2023 at 17:22, Gergo Koteles <soyer@irl.hu> wrote:
-> > > > 
-> > > > Hi Ricardo,
-> > > > On Wed, 2023-06-14 at 17:08 +0200, Ricardo Ribalda wrote:
-> > > > > On Wed, 14 Jun 2023 at 17:07, Ricardo Ribalda
-> > > > > <ribalda@chromium.org>
-> > > > > wrote:
-> > > > > > 
-> > > > > > Hi Soyer
-> > > > > > 
-> > > > > > 
-> > > > > > On Wed, 14 Jun 2023 at 16:59, soyer <soyer@irl.hu> wrote:
-> > > > > > > 
-> > > > > > > Hi Ricardo
-> > > > > > > 
-> > > > > > > On Wed, 2023-06-14 at 16:19 +0200, Ricardo Ribalda wrote:
-> > > > > > > > [Now in plain text mode]
-> > > > > > > > 
-> > > > > > > > Hi Gergo
-> > > > > > > > 
-> > > > > > > > Doesn't your patch affect pan and tilt for all the
-> > > > > > > > cameras,
-> > > > > > > > not
-> > > > > > > > only
-> > > > > > > > the BCC950?
-> > > > > > > > 
-> > > > > > > Yes, it affects all cameras that support
-> > > > > > > CT_PANTILT_RELATIVE_CONTROL.
-> > > > > > > 
-> > > > > > > > Also it seems that 1 means that device does not support
-> > > > > > > > programmable
-> > > > > > > > speed. Is that correct?
-> > > > > > > > 
-> > > > > > > > ```
-> > > > > > > > The bPanSpeed field is used to specify the speed of the
-> > > > > > > > movement for
-> > > > > > > > the Pan direction. A low
-> > > > > > > > number indicates a slow speed and a high number
-> > > > > > > > indicates a
-> > > > > > > > higher
-> > > > > > > > speed. The GET_MIN,
-> > > > > > > > GET_MAX and GET_RES requests are used to retrieve the
-> > > > > > > > range
-> > > > > > > > and
-> > > > > > > > resolution for this field.
-> > > > > > > > The GET_DEF request is used to retrieve the default
-> > > > > > > > value
-> > > > > > > > for
-> > > > > > > > this
-> > > > > > > > field. If the control does not
-> > > > > > > > support speed control for the Pan control, it will
-> > > > > > > > return
-> > > > > > > > the
-> > > > > > > > value 1
-> > > > > > > > in this field for all these
-> > > > > > > > requests.
-> > > > > > > > ```
-> > > > > > 
-> > > > > > It seems to me that the module is compliant to the
-> > > > > > standard. It
-> > > > > > returns 1 as GET_DEF because it does not support speed
-> > > > > > control.
-> > > > > > 
-> > > > > > Maybe you should ignore the speed control instead of
-> > > > > > changing
-> > > > > > its
-> > > > > > default value?
-> > > > > 
-> > > > > ( this is the standard I am refering to: 4.2.2.1.15 PanTilt
-> > > > > (Relative) Control
-> > > > > 
-> > > > > 
-> > > > > https://www.usb.org/document-library/video-class-v15-document-set
-> > > > > )
-> > > > > > 
-> > > > > > 
-> > > > 
-> > > > It's a different API. V4L2 control values are not the same as
-> > > > the
-> > > > UVC
-> > > > standard control values.
-> > > 
-> > > What I am saying, is that if
-> > > CT_PANTILT_RELATIVE_CONTROL.bPanSpeed.GET_DEF is 1 you should not
-> > > create the mapping to
-> > > V4L2_CID_PAN_SPEED
-> > > 
-> > If I set V4L2_CID_PAN_SPEED to 1 (max), the BCC950 starts to move
-> > at
-> > maximum speed. This is what it should do according to description
-> > of
-> > the V4L2_CID_PAN_SPEED.
-> > 
-> > My understanding is that, if the camera supports
-> > CT_PANTILT_RELATIVE_CONTROL there should be a V4L2_CID_PAN_SPEED.
-> > CT_PANTILT_RELATIVE_CONTROL.bPanSpeed.GET_DEF == 1 only says that
-> > only
-> > one speed is available not a range.
-> 
-> I think I got confused by the names.
-> 
-> Can you check if this works?
-> 
-> ribalda@alco:~/work/linux$ git diff
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c
-> b/drivers/media/usb/uvc/uvc_ctrl.c
-> index 5e9d3da862dd..abab2f4efc94 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -437,6 +437,7 @@ static s32 uvc_ctrl_get_rel_speed(struct
-> uvc_control_mapping *mapping,
->         s8 rel = (s8)data[first];
-> 
->         switch (query) {
-> +       case UVC_GET_DEF:
->         case UVC_GET_CUR:
->                 return (rel == 0) ? 0 : (rel > 0 ? data[first+1]
->                                                  : -data[first+1]);
-> @@ -444,7 +445,6 @@ static s32 uvc_ctrl_get_rel_speed(struct
-> uvc_control_mapping *mapping,
->                 return -data[first+1];
->         case UVC_GET_MAX:
->         case UVC_GET_RES:
-> -       case UVC_GET_DEF:
->         default:
->                 return data[first+1];
->         }
-> ribalda@alco:~/work/linux$
-> 
-> 
+My name is Dr. Lisa Williams, from the United States, currently living
+in the United Kingdom.
 
-It works this way also.
-Should I send a new version?
+I hope you consider my friend request. I will share some of my photos
+and more details about me when I get your reply.
 
-
-> > 
-> > 
-> > 
-> > > > 
-> > > > Eg the V4L2_CID_PAN_SPEED control value calculated from
-> > > > CT_PANTILT_RELATIVE_CONTROL's bPanRelative and bPanSpeed value.
-> > > > 
-> > > > It only bothers me that I have to handle these two controls
-> > > > differently.
-> > > > 
-> > > > > > > > 
-> > > > > > > I started from the V4L2 control description.
-> > > > > > > 
-> > > > > > > V4L2_CID_PAN_SPEED (integer)
-> > > > > > > This control turns the camera horizontally at the
-> > > > > > > specific
-> > > > > > > speed.
-> > > > > > > The
-> > > > > > > unit is undefined. A positive value moves the camera to
-> > > > > > > the
-> > > > > > > right
-> > > > > > > (clockwise when viewed from above), a negative value to
-> > > > > > > the
-> > > > > > > left.
-> > > > > > > A
-> > > > > > > value of zero stops the motion if one is in progress and
-> > > > > > > has
-> > > > > > > no
-> > > > > > > effect
-> > > > > > > otherwise.
-> > > > > > > 
-> > > > > > > And this is why I thought that 1 is not a good default
-> > > > > > > value,
-> > > > > > > because
-> > > > > > > it moves the camera.
-> > > > > > > The other V4L2 controls have a default value that I can
-> > > > > > > safely
-> > > > > > > set the
-> > > > > > > controls to.
-> > > > > > > 
-> > > > > > > Are you using it to determine if the camera supports
-> > > > > > > speed
-> > > > > > > control?
-> > > > > > > 
-> > > > > > > > When you program that value do you see any difference
-> > > > > > > > on
-> > > > > > > > the
-> > > > > > > > device?
-> > > > > > > > What is max, min and res?
-> > > > > > > > 
-> > > > > > > 
-> > > > > > > No, it works the same way.
-> > > > > > > Only the default value changes (from 1 to 0)
-> > > > > > > 
-> > > > > > >  pan_speed 0x009a0920 (int)    : min=-1 max=1 step=1
-> > > > > > > default=0
-> > > > > > > value=0
-> > > > > > > tilt_speed 0x009a0921 (int)    : min=-1 max=1 step=1
-> > > > > > > default=0
-> > > > > > > value=0
-> > > > > > > 
-> > > > > > > 
-> > > > > > > 
-> > > > > > > > 
-> > > > > > > > Thanks!
-> > > > > > > > 
-> > > > > > > > Regards!
-> > > > > > > > 
-> > > > > > > > 
-> > > > > > > 
-> > > > > > > Thanks,
-> > > > > > > Gergo
-> > > > > > > 
-> > > > > > > > On Wed, 14 Jun 2023 at 15:13, Gergo Koteles
-> > > > > > > > <soyer@irl.hu>
-> > > > > > > > wrote:
-> > > > > > > > > 
-> > > > > > > > > The Logitech BCC950 incorrectly reports 1 (the max
-> > > > > > > > > value)
-> > > > > > > > > for the default values of V4L2_CID_PAN_SPEED,
-> > > > > > > > > V4L2_CID_TILT_SPEED.
-> > > > > > > > > 
-> > > > > > > > > This patch sets them to 0, which is the stop value.
-> > > > > > > > > 
-> > > > > > > > > Previous discussion
-> > > > > > > > > Link:
-> > > > > > > > > https://lore.kernel.org/all/CAP_ceTy6XVmvTTAmvCp1YU2wxHwXqnarm69Yaz8K4FmpJqYxAg@mail.gmail.com/
-> > > > > > > > > 
-> > > > > > > > > Signed-off-by: Gergo Koteles <soyer@irl.hu>
-> > > > > > > > > ---
-> > > > > > > > >  drivers/media/usb/uvc/uvc_ctrl.c | 3 ++-
-> > > > > > > > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > > > > > > > > 
-> > > > > > > > > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c
-> > > > > > > > > b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > > > > > > > index 5e9d3da862dd..e131958c0930 100644
-> > > > > > > > > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > > > > > > > > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > > > > > > > @@ -444,9 +444,10 @@ static s32
-> > > > > > > > > uvc_ctrl_get_rel_speed(struct
-> > > > > > > > > uvc_control_mapping *mapping,
-> > > > > > > > >                 return -data[first+1];
-> > > > > > > > >         case UVC_GET_MAX:
-> > > > > > > > >         case UVC_GET_RES:
-> > > > > > > > > +               return data[first+1];
-> > > > > > > > >         case UVC_GET_DEF:
-> > > > > > > > >         default:
-> > > > > > > > > -               return data[first+1];
-> > > > > > > > > +               return 0;
-> > > > > > > > >         }
-> > > > > > > > >  }
-> > > > > > > > > 
-> > > > > > > > > 
-> > > > > > > > > base-commit: be9aac187433af6abba5fcc2e73d91d0794ba360
-> > > > > > > > > --
-> > > > > > > > > 2.40.1
-> > > > > > > > > 
-> > > > > > > > 
-> > > > > > > > 
-> > > > > > > 
-> > > > > > 
-> > > > > > 
-> > > > > > --
-> > > > > > Ricardo Ribalda
-> > > > > 
-> > > > > 
-> > > > > 
-> > > > 
-> > > 
-> > > 
-> > 
-> 
-> 
-> --
-> Ricardo Ribalda
-
+With love
+Lisa
