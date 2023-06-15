@@ -2,82 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 36BEB7313B2
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jun 2023 11:26:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5A107314C7
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jun 2023 12:04:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240711AbjFOJ0e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Jun 2023 05:26:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58328 "EHLO
+        id S239935AbjFOKEH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Jun 2023 06:04:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241350AbjFOJ0c (ORCPT
+        with ESMTP id S238214AbjFOKEG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Jun 2023 05:26:32 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C83A82119;
-        Thu, 15 Jun 2023 02:26:30 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5DE7A891;
-        Thu, 15 Jun 2023 11:25:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1686821157;
-        bh=z2fjv28uDwvZBbvY+fvir6Fi3JY2PKdEPOOLrAyZrwM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gFxO8Yd46K1/xNYsGf4rN56KsVxYMTaNtNrD6uKkI6NRstgIp/2+ztZLlHuxDiE2r
-         Vo0LCT0nMNUfzjnuV7fz94y77+hvFGBhwN1TWpt5FkcLX1MWFRZRNSX4x8ijq9miNh
-         eZdwdJS5w1pLFxBU+0lb0IrKBAKdSNk5rvhh8omM=
-Date:   Thu, 15 Jun 2023 12:26:29 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Wolfram Sang <wsa@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Mark Brown <broonie@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Thu, 15 Jun 2023 06:04:06 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A5552703
+        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 03:04:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686823445; x=1718359445;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vvpjwov+wN4nQHWhG6cLBFlcLw+Wf9W305uDzZQo6wY=;
+  b=WGxNxpNt/BRc1ath0drlLKQQ2ONKWIZTwaa90fEyaTJzdrYCWCuu9XoY
+   KYNzFeyArZEjnxiWBp+rinbPLejKoLze+0znxU7NJ/nT1m1FdRnNOzWKc
+   0r8H37Ug5kA4vLqVKkXneWYGq+l2AClLCdbMI4JYZIT7aLxH5ANts8+Bt
+   mWqTAPp/axToxnMTYJ7kt/Xe7eh1A5uL7ruRvfFQVJLBwPnE//TnWDwcx
+   ZXQIPBSmbvlEZGqkCibtyGyXoJpIwkSrU/aVn4gi8xU5+AOT2JLUF/LnS
+   FRiugrTL4rpXN32gLxrf5CA2nOwSi3FzKkgCYSpRGEIQXRm1c9LH7gRH7
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="387308068"
+X-IronPort-AV: E=Sophos;i="6.00,244,1681196400"; 
+   d="scan'208";a="387308068"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 03:04:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="777600939"
+X-IronPort-AV: E=Sophos;i="6.00,244,1681196400"; 
+   d="scan'208";a="777600939"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 03:04:03 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 649D51202B5;
+        Thu, 15 Jun 2023 12:54:52 +0300 (EEST)
+Date:   Thu, 15 Jun 2023 09:54:52 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Corey Minyard <cminyard@mvista.com>,
-        Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
-        Antonio Borneo <antonio.borneo@foss.st.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Message-ID: <20230615092629.GG741@pendragon.ideasonboard.com>
-References: <ZIcUEdctlgRsGxJ3@ninjato>
- <CAMuHMdVOkBeKOEW9PkWB3Tqwa6-rC3BQj=W9VAEgeZfgqvQmWQ@mail.gmail.com>
- <ZIeDcVcfxfcMx/BP@shikoro>
- <OS0PR01MB592220CCA081848A711D75328655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB592210CE54A9CF953980DFEE8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <OS0PR01MB59220D794AED55A6B795C3EF8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230614081314.GD17519@pendragon.ideasonboard.com>
- <OS0PR01MB59225C45554667D342454923865AA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <20230614095424.GJ28480@pendragon.ideasonboard.com>
- <OS0PR01MB592279423F94849882512AED865AA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 1/5] media: Add MIPI CCI register access helper
+ functions
+Message-ID: <ZIrf7Ku9LHRCIU5K@kekkonen.localdomain>
+References: <20230614192343.57280-1-hdegoede@redhat.com>
+ <20230614192343.57280-2-hdegoede@redhat.com>
+ <ZIolnOxs29H8EUmC@kekkonen.localdomain>
+ <4c9b2cec-e026-e527-2253-fc541ec85d05@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <OS0PR01MB592279423F94849882512AED865AA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+In-Reply-To: <4c9b2cec-e026-e527-2253-fc541ec85d05@redhat.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -85,150 +70,129 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 14, 2023 at 11:30:48AM +0000, Biju Das wrote:
-> > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-> > On Wed, Jun 14, 2023 at 08:21:38AM +0000, Biju Das wrote:
->> > > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-> > > > On Tue, Jun 13, 2023 at 07:31:46PM +0000, Biju Das wrote:
-> > > > > > Subject: RE: [PATCH v5 01/11] i2c: Enhance
-> > > > > > i2c_new_ancillary_device API
-> > > > > > > Subject: RE: [PATCH v5 01/11] i2c: Enhance
-> > > > > > > i2c_new_ancillary_device API
-> > > > > > > > Subject: Re: [PATCH v5 01/11] i2c: Enhance
-> > > > > > > > i2c_new_ancillary_device API
-> > > > > > > >
-> > > > > > > > Hi everyone,
-> > > > > > > >
-> > > > > > > > > Perhaps we should first think through what an ancillary
-> > > > > > > > > device really is.  My understanding is that it is used to
-> > > > > > > > > talk to secondary addresses of a multi-address I2C slave device.
-> > > > > > > >
-> > > > > > > > As I mentioned somewhere before, this is not the case.
-> > > > > > > > Ancillary devices are when one *driver* handles more than one address.
-> > > > > > > > Everything else has been handled differently in the past
-> > > > > > > > (for all the uses I am aware of).
-> > > > > > > >
-> > > > > > > > Yet, I have another idea which is so simple that I wonder if
-> > > > > > > > it maybe has already been discussed so far?
-> > > > > > > >
-> > > > > > > > * have two regs in the bindings
-> > > > > > >
-> > > > > > > OK, it is inline with DT maintainers expectation as it is
-> > > > > > > matching with real hw as single device node having two regs.
-> > > > > > >
-> > > > > > > > * use the second reg with i2c_new_client_device to instantiate the
-> > > > > > > >   RTC sibling. 'struct i2c_board_info', which is one parameter, should
-> > > > > > > >   have enough options to pass data, e.g it has a software_node.
-> > > > > > >
-> > > > > > > OK, I can see the below can be passed from PMIC to new client device.
-> > > > > > >
-> > > > > > > 	client->addr = info->addr;
-> > > > > > >
-> > > > > > > 	client->init_irq = info->irq;
-> > > > > > >
-> > > > > > > >
-> > > > > > > > Should work or did I miss something here?
-> > > > > > >
-> > > > > > > I guess it will work. We instantiate appropriate device based
-> > > > > > > On PMIC revision and slave address and IRQ resource passed
-> > > > > > > through 'struct i2c_board_info'
-> > > > > > >
-> > > > > > > Will check this and update you.
-> > > > > >
-> > > > > > info.irq = irq; -->Irq fine
-> > > > > > info.addr = addr; -->slave address fine size =
-> > > > > > strscpy(info.type, name, sizeof(info.type)); -->instantiation
-> > > > > > based on PMIC version fine.
-> > > > > >
-> > > > > > 1) How do we share clk details on instantiated device to find is
-> > > > > > it connected to external crystal or external clock source? as we
-> > > > > > cannot pass of_node between PMIC and "i2c_board_info" as it
-> > > > > > results in pinctrl failure. info->platformdata and
-> > > > > > Client->dev.platformdata to retrieve this info??
-> > > > >
-> > > > > Or
-> > > > >
-> > > > > I2C instantiation based on actual oscillator bit value, ie, two
-> > > > > i2c_device_id's with one for setting oscillator bit and another
-> > > > > for clearing oscillator bit
-> > > > >
-> > > > > PMIC driver parses the clock details. Based on firmware version
-> > > > > and clock, It instantiates either i2c_device_id with setting
-> > > > > oscillator bit or clearing oscillator bit.
-> > > >
-> > > > I don't like that hack. I still think that two DT nodes is the best
-> > > > option, I think you're trying hard to hack around a problem that is
-> > > > actually not a problem.
-> > >
-> > > Why do you think it is a hack? I believe rather it is actual solution
-> > >
-> > > PMIC is a single device, with 2 regs, clocks, pinctrl and IRQ properties.
-> > > So it will be represented as single node with single compatible.
+Hi Hans,
+
+On Thu, Jun 15, 2023 at 10:45:35AM +0200, Hans de Goede wrote:
+> Hi Sakari,
+> 
+> On 6/14/23 22:39, Sakari Ailus wrote:
+
+...
+> >> diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
+> >> index 348559bc2468..523ba243261d 100644
+> >> --- a/drivers/media/v4l2-core/Kconfig
+> >> +++ b/drivers/media/v4l2-core/Kconfig
+> >> @@ -74,6 +74,11 @@ config V4L2_FWNODE
+> >>  config V4L2_ASYNC
+> >>  	tristate
+> >>  
+> >> +config V4L2_CCI
+> >> +	tristate
+> >> +	depends on I2C
 > > 
-> > The chip is a single package that contains two independent devices. This
-> > is not different than bundling many IP cores in an SoC, we have one DT
-> > node per IP core, not a single DT node for the SoC. The fact that we're
-> > dealing with an external physical component here isn't relevant.
+> > This won't do anything if the dependent driver will select V4L2_CCI, will
+> > it? I'd let the sensor driver depend on I2C instead. CCI is also supported
+> > on I3C, for instance.
 > 
-> DT maintainer's new requirement is a single device node for a device.
+> It will cause a Kconfig error if the dependent driver does not depend
+> on I2C. Kconfig items doing select MUST depend on all the depends on
+> of the items they are selecting; and (continued below)
 
-That's the default rule, I haven't seen a clear statement that it has to
-apply to 100% of the cases.
+Maybe this has changed? It used to be that these cases were silently
+ignored and it wasn't that long ago. I haven't been following this up.
 
-Regardless, in this case there are two devices inside a package, so
-having two DT nodes doesn't break the rule.
+Nevertheless, this shouldn't depend on I2C as such.
 
-> If a device supports more functionalities just instantiate and bind it.
 > 
-> I already gone through mainlining MTU3a device, with 3 separate dt nodes
-> and finally ends up in single device node instantiating PWM/Counter/Timer nodes.
-> 
-> Here also I started with 2 device nodes, and ends up in single device node
-> as it is a single device.
-> 
-> I think from dt point it is correct to have single device node for
-> a device. even though device contains PMIC and RTC as separate functionality
-> With shared resources like IRQ, PINS and Clocks as at the PMIC device is the one
-> exposes to this to outside world.
-> 
-> > > By instating a client device, we are sharing the relevant resources to
-> > > RTC device driver.
 > > 
-> > By instantiating a client device, you create a second struct device, which
-> > is the kernel abstraction of a hardware device. This shows in my opinion
-> > that we're dealing with two devices here, hence my recommendation of using
-> > two DT nodes.
+> >> +	select REGMAP_I2C
+> > 
+> > This is a good question.
+> > 
+> > How about adding V4L2_CCI_I2C that would select REGMAP_I2C?
 > 
-> Two DT nodes is the problem. DT maintainer's don't like it, for them it is just
-> one device which provides PMIC/RTC functionality.
+> v4l2-cci.ko uses the devm_regmap_init_i2c() symbol, so
+> REGMAP_I2C must be enabled when V4L2_CCI is enabled and
+> REGMAP_I2C is a symbol which should be selected rather
+> then depended on when necessary.
 
-Have they followed this discussion ?
+I agree.
 
-> > As you've noticed, with two devices and a single DT node, pinctrl
-> > complains. You can hack around that by moving the pinctrl configuration
-> > from the PMIC DT node to another DT node, and that's one first hack.
-> 
-> PMIC device expose pins and it binds the pins during probe. Since it is a single device,
-> we don't need to share this to RTC device. We just need to add pinctrl definitions
-> in PMIC device node. This is not a hack.
-> 
-> > Then, you'll need to have two different device IDs depending on the PMIC
-> > version to let the RTC driver set the oscillator bit correctly, and that's
-> > a second hack.
-> 
-> PMIC has all the information, so it can instantiate and bind with the configuration
-> needed for second device. So it is not a hack.
-> 
-> > A solution with two DT nodes models the hardware better and is cleaner.
-> 
-> But looks like all other people are happy with single DT node. 
+...
 
-At the end of the day, it's not my driver, and not my subsystems, so
-I'll let you make mistakes if you're happy with them. I still strongly
-think it's a mistake, but I can't get everybody to do things right, can
-I ? :-)
+> >> +/**
+> >> + * cci_regmap_init_i2c() - Create regmap to use with cci_*() register access functions
+> >> + *
+> >> + * @client: i2c_client to create the regmap for
+> >> + * @reg_addr_bits: register address width to use (8 or 16)
+> >> + *
+> >> + * Note the memory for the created regmap is devm() managed, tied to the client.
+> >> + *
+> >> + * Return: %0 on success or a negative error code on failure.
+> >> + */
+> >> +struct regmap *cci_regmap_init_i2c(struct i2c_client *client, int reg_addr_bits);
+> >> +
+> >> +#endif
+> > 
+> > Could you run
+> > 
+> > 	./scripts/checkpatch.pl --strict --max-line-length=80
+> > 
+> > on this?
+> 
+> As I mentioned during the v1 review where you also asked about
+> the 80 column limit, can we first please have an official
+> decision what the column limit is for drivers/media and then
+> also document this somewhere?
+
+This is documented in
+Documentation/driver-api/media/maintainer-entry-profile.rst and media tree
+follows that.
+
+> 
+> Also note that you are asking me to modify the checkpatch
+> default max-line-length here. So basically you are deviating
+> from the official kernel coding style standards here.
+
+We're not. Note that checkpatch.pl is a tool to check code, it isn't the
+coding style itself, which is documented in
+Documentation/process/coding-style.rst . The default in checkpatch.pl was
+changed as it often produced many warnings where there was a justified
+reason for having longer lines (such as violating other rules in coding
+style).
+
+> 
+> You are asking for 80 columns. Andy often adds review remarks
+> along the lines of:
+> 
+> "this can fit on a single line" assuming the now official 100
+> chars hard limit.
+
+I know...
+
+> 
+> And I cannot make both you and Andy happy at the same time.
+> So please pick a limit, *document it* and then stick with it.
+> 
+> This current inconsistency between reviewers is unhelpful.
+> 
+> My personal opinion on this is that sometimes going over
+> 80 chars actually results in better readable code,
+> so I have a slight preference to just stick with the kernel
+> default of 100 chars. Sticking to the kernel default also
+> makes life a lot easier for people contributing to multiple
+> subsystems. So my vote goes to sticking with the new
+> kernel default of 100 chars.
+> 
+> I'm happy to adjust this patch-set to fit everything in
+> 80 chars, but can we please first get some clarity on
+> what actual column limit we want for drivers/media ?
+
+Answered above. Note that the limit is not strict but it appears that in
+this set there are many longer lines than 80 but no apparent reason for
+having them that way.
 
 -- 
-Regards,
+Kind regards,
 
-Laurent Pinchart
+Sakari Ailus
