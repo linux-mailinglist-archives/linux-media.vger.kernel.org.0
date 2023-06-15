@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CB0E731B05
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jun 2023 16:15:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55038731B15
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jun 2023 16:15:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344996AbjFOOP2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Jun 2023 10:15:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43244 "EHLO
+        id S1344911AbjFOOPq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Jun 2023 10:15:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344993AbjFOOPX (ORCPT
+        with ESMTP id S1345019AbjFOOPn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Jun 2023 10:15:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF6DA273E
-        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 07:14:33 -0700 (PDT)
+        Thu, 15 Jun 2023 10:15:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00405294C
+        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 07:14:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1686838473;
+        s=mimecast20190719; t=1686838492;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=ojB8W48nW4hg1D3hfUlGo9qqdSiklyUlr6Ve23HfkGw=;
-        b=TUGtpenFNlxIecrVBtjF7U3QUlHJnWsRDpChf0PNV+oUWIZTIJ2xkaexz6OyEnWW+kK1Ar
-        xgeGUvqXm+UQMAzZKI211YeId69Mqn+mfKwOK5BnNlczKV9ATHWph6iYaCEIfvTchSI1PD
-        6geVCa/QyRlv+PpLWszkU4yuoTbx26s=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=ET/nzhEYWy+raA5z/6dMaglG9+rMGZ2aXJ+SjOLGuzQ=;
+        b=YZQXYPN4QC5PPUjE9uCMnps6HOpVeET4cSd+c6pp+Ek0LgSGN9rc/LVMeRlQSchqpvVrX5
+        8XsKac/7t7JTtmfY1gnc3gvaPH7L/wIRO3oJ0ndsJQ/nor3eS6vj2Fd/S+fJsUzli6+PN9
+        FzGQ64ROt4m+62Gx/yAubjvoGwTSBgw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-473-O9o08K6YO5OoZwZFb6lJTg-1; Thu, 15 Jun 2023 10:14:28 -0400
-X-MC-Unique: O9o08K6YO5OoZwZFb6lJTg-1
+ us-mta-646-8B0j76y1Nu6whvjepiSU7w-1; Thu, 15 Jun 2023 10:14:45 -0400
+X-MC-Unique: 8B0j76y1Nu6whvjepiSU7w-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 12D32831026;
-        Thu, 15 Jun 2023 14:14:11 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5AE2A3C0DDA2;
+        Thu, 15 Jun 2023 14:14:12 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.154])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id F1EF048FB01;
-        Thu, 15 Jun 2023 14:14:09 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 4519D48FB01;
+        Thu, 15 Jun 2023 14:14:11 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Daniel Scally <dan.scally@ideasonboard.com>
@@ -46,9 +46,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
         Tommaso Merciai <tomm.merciai@gmail.com>,
         linux-media@vger.kernel.org
-Subject: [PATCH v2 15/28] media: ov2680: Add support for 19.2 MHz clock
-Date:   Thu, 15 Jun 2023 16:13:36 +0200
-Message-Id: <20230615141349.172363-16-hdegoede@redhat.com>
+Subject: [PATCH v2 16/28] media: ov2680: Add endpoint matching support
+Date:   Thu, 15 Jun 2023 16:13:37 +0200
+Message-Id: <20230615141349.172363-17-hdegoede@redhat.com>
 In-Reply-To: <20230615141349.172363-1-hdegoede@redhat.com>
 References: <20230615141349.172363-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -56,121 +56,110 @@ Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Most x86/ACPI boards use the ov2680 with a 19.2 MHz xvclk,
-rather then the expected 24MHz, add support for this.
-
-Compensate for the lower clk by setting a higher PLL multiplier
-of 69 when using 19.2 MHz vs the default multiplier of 55 for
-a 24MHz xvclk.
+Add endpoint matching support and defer probe() until
+the endpoint fwnode is available. This is necessary on ACPI
+platforms where the bridge code creating the fwnodes may also e.g.
+set the "clock-frequency" device property and add GPIO mappings.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/media/i2c/ov2680.c | 41 +++++++++++++++++++++++++++++++-------
- 1 file changed, 34 insertions(+), 7 deletions(-)
+ drivers/media/i2c/ov2680.c | 28 +++++++++++++++++++++-------
+ 1 file changed, 21 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
-index a6a83f0e53f3..d4ef34859914 100644
+index d4ef34859914..52ae265612fa 100644
 --- a/drivers/media/i2c/ov2680.c
 +++ b/drivers/media/i2c/ov2680.c
-@@ -27,14 +27,13 @@
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-subdev.h>
+@@ -103,6 +103,7 @@ struct ov2680_ctrls {
  
--#define OV2680_XVCLK_VALUE			24000000
+ struct ov2680_dev {
+ 	struct device			*dev;
++	struct fwnode_handle		*ep_fwnode;
+ 	struct regmap			*regmap;
+ 	struct v4l2_subdev		sd;
+ 
+@@ -638,6 +639,7 @@ static int ov2680_v4l2_register(struct ov2680_dev *sensor)
+ 	sensor->sd.flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
+ 	sensor->pad.flags = MEDIA_PAD_FL_SOURCE;
+ 	sensor->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
++	sensor->sd.fwnode = sensor->ep_fwnode;
+ 
+ 	ret = media_entity_pads_init(&sensor->sd.entity, 1, &sensor->pad);
+ 	if (ret < 0)
+@@ -799,29 +801,39 @@ static int ov2680_probe(struct i2c_client *client)
+ 	if (IS_ERR(sensor->regmap))
+ 		return PTR_ERR(sensor->regmap);
+ 
++	/*
++	 * Sometimes the fwnode graph is initialized by the bridge driver.
++	 * Bridge drivers doing this may also add GPIO mappings, wait for this.
++	 */
++	sensor->ep_fwnode = fwnode_graph_get_next_endpoint(dev_fwnode(dev),
++							   NULL);
++	if (!sensor->ep_fwnode)
++		return dev_err_probe(dev, -EPROBE_DEFER,
++				     "waiting for fwnode graph endpoint\n");
++
++	mutex_init(&sensor->lock);
++
+ 	ret = ov2680_parse_dt(sensor);
+ 	if (ret < 0)
+-		return -EINVAL;
++		goto err_fwnode_put;
+ 
+ 	ret = ov2680_mode_init(sensor);
+ 	if (ret < 0)
+-		return ret;
++		goto err_fwnode_put;
+ 
+ 	ret = ov2680_get_regulators(sensor);
+ 	if (ret < 0) {
+ 		dev_err(dev, "failed to get regulators\n");
+-		return ret;
++		goto err_fwnode_put;
+ 	}
+ 
+-	mutex_init(&sensor->lock);
 -
- #define OV2680_CHIP_ID				0x2680
+ 	/*
+ 	 * Power up and verify the chip now, so that if runtime pm is
+ 	 * disabled the chip is left on and streaming will work.
+ 	 */
+ 	ret = ov2680_power_on(sensor);
+ 	if (ret < 0)
+-		goto lock_destroy;
++		goto err_fwnode_put;
  
- #define OV2680_REG_STREAM_CTRL			CCI_REG8(0x0100)
- #define OV2680_REG_SOFT_RESET			CCI_REG8(0x0103)
+ 	ret = ov2680_check_id(sensor);
+ 	if (ret < 0)
+@@ -848,9 +860,10 @@ static int ov2680_probe(struct i2c_client *client)
+ 	pm_runtime_put_noidle(&client->dev);
+ err_powerdown:
+ 	ov2680_power_off(sensor);
+-lock_destroy:
++err_fwnode_put:
+ 	dev_err(dev, "ov2680 init fail: %d\n", ret);
+ 	mutex_destroy(&sensor->lock);
++	fwnode_handle_put(sensor->ep_fwnode);
  
- #define OV2680_REG_CHIP_ID			CCI_REG16(0x300a)
-+#define OV2680_REG_PLL_MULTIPLIER		CCI_REG16(0x3081)
- 
- #define OV2680_REG_EXPOSURE_PK			CCI_REG24(0x3500)
- #define OV2680_REG_R_MANUAL			CCI_REG8(0x3503)
-@@ -69,6 +68,21 @@ static const char * const ov2680_supply_name[] = {
- 
- #define OV2680_NUM_SUPPLIES ARRAY_SIZE(ov2680_supply_name)
- 
-+enum {
-+	OV2680_19_2_MHZ,
-+	OV2680_24_MHZ,
-+};
-+
-+static const unsigned long ov2680_xvclk_freqs[] = {
-+	[OV2680_19_2_MHZ] = 19200000,
-+	[OV2680_24_MHZ] = 24000000,
-+};
-+
-+static const u8 ov2680_pll_multipliers[] = {
-+	[OV2680_19_2_MHZ] = 69,
-+	[OV2680_24_MHZ] = 55,
-+};
-+
- struct ov2680_mode_info {
- 	const char *name;
- 	enum ov2680_mode_id id;
-@@ -95,6 +109,7 @@ struct ov2680_dev {
- 	struct media_pad		pad;
- 	struct clk			*xvclk;
- 	u32				xvclk_freq;
-+	u8				pll_mult;
- 	struct regulator_bulk_data	supplies[OV2680_NUM_SUPPLIES];
- 
- 	struct gpio_desc		*pwdn_gpio;
-@@ -284,6 +299,11 @@ static int ov2680_stream_enable(struct ov2680_dev *sensor)
- {
- 	int ret;
- 
-+	ret = cci_write(sensor->regmap, OV2680_REG_PLL_MULTIPLIER,
-+			sensor->pll_mult, NULL);
-+	if (ret < 0)
-+		return ret;
-+
- 	ret = regmap_multi_reg_write(sensor->regmap,
- 				     ov2680_mode_init_data.reg_data,
- 				     ov2680_mode_init_data.reg_data_size);
-@@ -699,7 +719,7 @@ static int ov2680_parse_dt(struct ov2680_dev *sensor)
- 	struct device *dev = sensor->dev;
- 	struct gpio_desc *gpio;
- 	unsigned int rate = 0;
--	int ret;
-+	int i, ret;
+ 	return ret;
+ }
+@@ -864,6 +877,7 @@ static void ov2680_remove(struct i2c_client *client)
+ 	mutex_destroy(&sensor->lock);
+ 	media_entity_cleanup(&sensor->sd.entity);
+ 	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
++	fwnode_handle_put(sensor->ep_fwnode);
  
  	/*
- 	 * The pin we want is named XSHUTDN in the datasheet. Linux sensor
-@@ -747,12 +767,19 @@ static int ov2680_parse_dt(struct ov2680_dev *sensor)
- 	}
- 
- 	sensor->xvclk_freq = rate ?: clk_get_rate(sensor->xvclk);
--	if (sensor->xvclk_freq != OV2680_XVCLK_VALUE) {
--		dev_err(dev, "wrong xvclk frequency %d HZ, expected: %d Hz\n",
--			sensor->xvclk_freq, OV2680_XVCLK_VALUE);
--		return -EINVAL;
-+
-+	for (i = 0; i < ARRAY_SIZE(ov2680_xvclk_freqs); i++) {
-+		if (sensor->xvclk_freq == ov2680_xvclk_freqs[i])
-+			break;
- 	}
- 
-+	if (i == ARRAY_SIZE(ov2680_xvclk_freqs))
-+		return dev_err_probe(dev, -EINVAL,
-+				     "unsupported xvclk frequency %d Hz\n",
-+				     sensor->xvclk_freq);
-+
-+	sensor->pll_mult = ov2680_pll_multipliers[i];
-+
- 	return 0;
- }
- 
+ 	 * Disable runtime PM. In case runtime PM is disabled in the kernel,
 -- 
 2.40.1
 
