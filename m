@@ -2,72 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 13C21730D4A
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jun 2023 04:40:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26E5B730D64
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jun 2023 04:58:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237549AbjFOCk0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Jun 2023 22:40:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35840 "EHLO
+        id S237578AbjFOC6h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Jun 2023 22:58:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230340AbjFOCkZ (ORCPT
+        with ESMTP id S237188AbjFOC6g (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Jun 2023 22:40:25 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E77E7213B;
-        Wed, 14 Jun 2023 19:40:16 -0700 (PDT)
-X-UUID: f2a2ad060b2511ee9cb5633481061a41-20230615
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=eQybYwFxnvI3vuuWur4bgXmoSoSVNEMP2kVuU3LM5gA=;
-        b=XHLzqh0dY6e4uITSszke46RiJ71Xldjw1rdzAHZYSgIJL+QRGA8guEaqTFtiZemvwfOAxhuBymBuUBKfukSgBiAXTT+E1/0e7yjWGWijQKPjITUrrmqz7zVUiOgStPM13Hym1h087ig+23IchzxxUZSplBsuuKTQq4SkJEUhV4o=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.26,REQID:b3f2598c-046e-4517-895f-7a6709ef80db,IP:0,U
-        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-        release,TS:0
-X-CID-META: VersionHash:cb9a4e1,CLOUDID:efc3783e-de1e-4348-bc35-c96f92f1dcbb,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-UUID: f2a2ad060b2511ee9cb5633481061a41-20230615
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw01.mediatek.com
-        (envelope-from <kyrie.wu@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 86299784; Thu, 15 Jun 2023 10:40:10 +0800
-Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Thu, 15 Jun 2023 10:40:09 +0800
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Thu, 15 Jun 2023 10:40:09 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CrasRwhrmEnX2mOwwKJY+tOT/aUHKPu8sh9OWQM8IZZzcaDEALxAGyVGNWZsgekSnCI4yn1afl+wIJWmiiSVBxlmdBUFGm2kri3Mm8qV735yl0FYhVphtcjKbtMLvLw8RuqiRDN/0NN9exjExk8AO0lLjA3YyKK1Bgy7MrRn1X/4ZVNDN2oAMe1LzBPzxE2RG3yzJg/1a2xAcPq8KF5uWO4aQ7v3RkPUJ3Lck7qnuqVnlEo1kGovBUKDrhf7L+JAavXbu5OfbuM/nYy59PG9uEb0zGOZwiexuS0Lu/LApc7waUPra0K0S1zFWOLsWnITsmegfdHRMzhntsaV4a144A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eQybYwFxnvI3vuuWur4bgXmoSoSVNEMP2kVuU3LM5gA=;
- b=IdO3NBqWGP964c+hZV9FqYbTiyck7KH4axYHVmpN0v4/mrK50wqt5zZyNlnD4bVIfvBbJSMvJeeUmE2QiYUsHUz2sjoZ66kaYbwfoRyKFlMe+N0LgcgmH0aX8inm++jn8L0Cy53nCwZUgbhrFuSQ0s1CCGsNJyV9NzASHp6oAOEdzMzdErq2j/D3Bx+EFh+gzXBaNdmRLvmBMYXQ48dY3UZEWTtNlnraV9UEGapgCqPjalzCu8MCXkj5/T/nItVEd5WH1FXsVIwWgJQKxA7hbI7lvFhnYy6Qvo844lpXIN3jw8S37+MxA3KdlGEyIeU9QleR//4c3lX+SRl05jUVdg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
+        Wed, 14 Jun 2023 22:58:36 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D08DA26AD;
+        Wed, 14 Jun 2023 19:58:33 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id 98e67ed59e1d1-25bf7568f73so2783328a91.2;
+        Wed, 14 Jun 2023 19:58:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eQybYwFxnvI3vuuWur4bgXmoSoSVNEMP2kVuU3LM5gA=;
- b=CpFyYP+eXNeUdiGi8Fd+X4JlGNf/MnB0RvE6NMEjaiFiJrQsSv5kEpwdSMy+PlXkAAqLPLU3R5fIMJ/G9cGW4GGLQv6+jZUMcgvGHucBKKMWEmRfkbCgviXUAGL8rVa3DViys4ViiHjNrmMf1QFLjlX+kRVivl0x7G+0PxYXtKI=
-Received: from PUZPR03MB6186.apcprd03.prod.outlook.com (2603:1096:301:b9::5)
- by TY0PR03MB6608.apcprd03.prod.outlook.com (2603:1096:400:206::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.33; Thu, 15 Jun
- 2023 02:40:06 +0000
-Received: from PUZPR03MB6186.apcprd03.prod.outlook.com
- ([fe80::7e2f:d980:be6d:8f67]) by PUZPR03MB6186.apcprd03.prod.outlook.com
- ([fe80::7e2f:d980:be6d:8f67%5]) with mapi id 15.20.6477.028; Thu, 15 Jun 2023
- 02:40:06 +0000
-From:   =?utf-8?B?S3lyaWUgV3UgKOWQtOaZlyk=?= <Kyrie.Wu@mediatek.com>
-To:     "hackerzheng666@gmail.com" <hackerzheng666@gmail.com>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        d=gmail.com; s=20221208; t=1686797913; x=1689389913;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OGPx7bJVsyDj4jcHO+3IQ73K7X+AwNDbM5Hz0PycnPc=;
+        b=rsnWkRCuLmKoX0eAGBoUBt74nsMMYYCk0qxWaezXkiiHl5SeRsFlfCSEHlpw9SIiFi
+         X7xWPfK8GX2F/Kh70mwxA660s320fvAUK9Csq7YT1bgO+7LzCjH2dtYJXGG9WGX4n1RI
+         G4QhqDfntMDrLFrhPWhQJjfLIvaKtqP44E6eyro5T71Y4qtlnmLVyNYeKbj+ckUlCRrI
+         cut8qSVQVaNnCRgHqA8fv7tombetUIh2VTwnDUC64qvQen2IhIPblWqquvb/DDdAlY5p
+         VGfJXbrGtGA0ahiLTZxm2ScirQncN28kW5OlXadTwplt+QDH2ksQkCWHBqzNXm/OqLFM
+         BaVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686797913; x=1689389913;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OGPx7bJVsyDj4jcHO+3IQ73K7X+AwNDbM5Hz0PycnPc=;
+        b=FPSFl1YPe6bXfgDHF3nAKDi0uobLzseoULK2l6Pza118Vw6aIEoBo65lYcAa/1pIux
+         Nqgl1BYHoGvoeAHLpYS+cnT8qoPSSiwQTyP7x7yaRm4MxzDkSOMzYcb+mmGXNWhHPvyJ
+         r5Vb/lK9ma/LMSbjy/ibNYzLEDoeJG6kqmsTQeJLSt1u5FAsfHVwFyjulOUEo10VvHjR
+         +GkCnfxSEQbQDAGWDR5axYjDFkmWz7983whYnb9FCN2xazYDYjK05k/3ez8ozbh7awQj
+         fmmVzCziFEYLYemPaKEoIg8vYOIrUxLI7ftcWqqJV4pjyMmEYZniFtIE2F0o0LyTDNEu
+         rw/Q==
+X-Gm-Message-State: AC+VfDyzeniZ3ZGOtq6fdEDSNzoWk8qZrylhh0LaNM5egISue61Y4o2o
+        uAmAePhbs0IvKS/oQcLL1P6OO8nY44Ik0FSBBio=
+X-Google-Smtp-Source: ACHHUZ7ud0SppqDz5Y+49u8RL06quj9Rne84on4SOgU3mIJqO6C/Gf7DjTRTZvZfS74G7IPRXOYEwYB84k4Dcl5fWVI=
+X-Received: by 2002:a17:90a:2:b0:247:529f:92d7 with SMTP id
+ 2-20020a17090a000200b00247529f92d7mr3341410pja.8.1686797912736; Wed, 14 Jun
+ 2023 19:58:32 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230306062633.200427-1-zyytlz.wz@163.com> <CAJedcCzeVwwi9SkkwouFXUAVhF-tKF4dkqsFqVQwszSwY1SJ0A@mail.gmail.com>
+ <57c17bfd-83f3-fcce-0eab-e28469fb0ced@collabora.com> <11c2bce1e5286ad3a9a5be2ee59c2beac168f135.camel@mediatek.com>
+ <CAJedcCx13sz5h=fWvJU38P_1W-zd6yZe=iSMpO28_E_kAqUGDA@mail.gmail.com>
+ <cfa2f64d2d01ffc53a6afdc9a5b867bbcb07b5f6.camel@mediatek.com>
+ <CAJedcCwhk_XuMF8keGZGBTVBZSMuoQeyV_7L1H2VeT2x_vj-ZQ@mail.gmail.com>
+ <86c98d73b0d294e143014ea5e15d0a5d065e1a66.camel@mediatek.com>
+ <CAJedcCyiczZiKm=zQyYwJCszmEHKYX+sVEBx7UC082pS5K5Oww@mail.gmail.com>
+ <0bf5c11128f96d820f8e3ffaf5e9402aa0c0a1a5.camel@mediatek.com>
+ <CAJedcCyVOpNyXsm6NW738tPvGF_nNDh_NCKXqKWgrnhKV5y-2g@mail.gmail.com>
+ <CAJedcCw6ZiTfKRGkO9OQ+5Ykx=S3b5MMKW_vD3SX+i+tON6hVA@mail.gmail.com>
+ <7dac4bde1216df33c12ecc3fb19ac1499478facf.camel@mediatek.com>
+ <CAJedcCwkCwtDM3Yo5gCQX7G_WpFg6YVgFAPzjHa61X0nNcL0pA@mail.gmail.com>
+ <94ff8d75d88c7ab356949ad319c3085e45ac2488.camel@mediatek.com>
+ <CAJedcCwgVTLJsYTncnt5ab6yAqbrJ7oGf9Ftak1vCoemeQz16w@mail.gmail.com> <54e3e5cd0160c8a592a5e783d9e1b2e20fe30555.camel@mediatek.com>
+In-Reply-To: <54e3e5cd0160c8a592a5e783d9e1b2e20fe30555.camel@mediatek.com>
+From:   Zheng Hacker <hackerzheng666@gmail.com>
+Date:   Thu, 15 Jun 2023 10:58:21 +0800
+Message-ID: <CAJedcCw0t-cubOWXOssRiGa0Ltf-XkCh-0Tu7NjftkBsOVYUnQ@mail.gmail.com>
+Subject: Re: [RESEND PATCH] media: mtk-jpeg: Fix use after free bug due to
+ uncanceled work
+To:     =?UTF-8?B?S3lyaWUgV3UgKOWQtOaZlyk=?= <Kyrie.Wu@mediatek.com>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-mediatek@lists.infradead.org" 
         <linux-mediatek@lists.infradead.org>,
         "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
@@ -75,547 +77,672 @@ CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "mchehab@kernel.org" <mchehab@kernel.org>,
         "zyytlz.wz@163.com" <zyytlz.wz@163.com>,
         "alex000young@gmail.com" <alex000young@gmail.com>,
-        =?utf-8?B?QmluIExpdSAo5YiY5b2sKQ==?= <bin.liu@mediatek.com>,
-        =?utf-8?B?SXJ1aSBXYW5nICjnjovnkZ4p?= <Irui.Wang@mediatek.com>,
+        =?UTF-8?B?QmluIExpdSAo5YiY5b2sKQ==?= <bin.liu@mediatek.com>,
+        =?UTF-8?B?SXJ1aSBXYW5nICjnjovnkZ4p?= <Irui.Wang@mediatek.com>,
         "linux-arm-kernel@lists.infradead.org" 
         <linux-arm-kernel@lists.infradead.org>,
         "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
         "angelogioacchino.delregno@collabora.com" 
         <angelogioacchino.delregno@collabora.com>,
         "1395428693sheep@gmail.com" <1395428693sheep@gmail.com>
-Subject: Re: [RESEND PATCH] media: mtk-jpeg: Fix use after free bug due to
- uncanceled work
-Thread-Topic: [RESEND PATCH] media: mtk-jpeg: Fix use after free bug due to
- uncanceled work
-Thread-Index: AQHZUNol+KoTCb2NbEShoW8BcHTMZK7vGQcAgABRWYCAALIggIAACusAgAAUAgCAACxIAIAAGJ4AgAAZ3oCAAXZhAIAHjPmAgAANdgCAXJQngIAE0P+AgDCzhoA=
-Date:   Thu, 15 Jun 2023 02:40:06 +0000
-Message-ID: <54e3e5cd0160c8a592a5e783d9e1b2e20fe30555.camel@mediatek.com>
-References: <20230306062633.200427-1-zyytlz.wz@163.com>
-         <CAJedcCzeVwwi9SkkwouFXUAVhF-tKF4dkqsFqVQwszSwY1SJ0A@mail.gmail.com>
-         <57c17bfd-83f3-fcce-0eab-e28469fb0ced@collabora.com>
-         <11c2bce1e5286ad3a9a5be2ee59c2beac168f135.camel@mediatek.com>
-         <CAJedcCx13sz5h=fWvJU38P_1W-zd6yZe=iSMpO28_E_kAqUGDA@mail.gmail.com>
-         <cfa2f64d2d01ffc53a6afdc9a5b867bbcb07b5f6.camel@mediatek.com>
-         <CAJedcCwhk_XuMF8keGZGBTVBZSMuoQeyV_7L1H2VeT2x_vj-ZQ@mail.gmail.com>
-         <86c98d73b0d294e143014ea5e15d0a5d065e1a66.camel@mediatek.com>
-         <CAJedcCyiczZiKm=zQyYwJCszmEHKYX+sVEBx7UC082pS5K5Oww@mail.gmail.com>
-         <0bf5c11128f96d820f8e3ffaf5e9402aa0c0a1a5.camel@mediatek.com>
-         <CAJedcCyVOpNyXsm6NW738tPvGF_nNDh_NCKXqKWgrnhKV5y-2g@mail.gmail.com>
-         <CAJedcCw6ZiTfKRGkO9OQ+5Ykx=S3b5MMKW_vD3SX+i+tON6hVA@mail.gmail.com>
-         <7dac4bde1216df33c12ecc3fb19ac1499478facf.camel@mediatek.com>
-         <CAJedcCwkCwtDM3Yo5gCQX7G_WpFg6YVgFAPzjHa61X0nNcL0pA@mail.gmail.com>
-         <94ff8d75d88c7ab356949ad319c3085e45ac2488.camel@mediatek.com>
-         <CAJedcCwgVTLJsYTncnt5ab6yAqbrJ7oGf9Ftak1vCoemeQz16w@mail.gmail.com>
-In-Reply-To: <CAJedcCwgVTLJsYTncnt5ab6yAqbrJ7oGf9Ftak1vCoemeQz16w@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PUZPR03MB6186:EE_|TY0PR03MB6608:EE_
-x-ms-office365-filtering-correlation-id: a40166b4-43a8-4883-eac3-08db6d49d446
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: SHwPoqHAP7wPH1aZT4lCd7Xw3JF1njujieU/xgOxGFnaakyshyYE6cjadlXZc7vd7iqToedj1Pi7aFcY8EXT2VGHiISWbaAlQPh5bSRtpBdDAJXAPIEY8n4aDqVI5PySoIHYywfrk/SeLT+XyvmCeKkgA8kfmboGcudxsaMduQuUTYc5V1UyR4+m20bXQ65I+QAXQKpiKFP/49Xra1NczC107bTUGOBeaeegQKuNxzZNDLco5wTjC+XR9fY/xZxn2s5LqgUN+HJ8+VYCQSSQODAAqcT0oNb2Y5BHEeA/OVAdZl7cE8mCKsxAimL+tYgMJE8IJOThSpxCm6IyOX9SOEHEwlMe4e8T6+VDsa2JIqodglZETx2QJA0T0EmVXQRq/Cn6WIx6hic6GzI/PThH+ypTyvinymYL9d01/9GF0zxJdbNjmudZ2RV1myOYUqkEbM0YtffFN4WDoacv3cHlg0ujrOIhzGsNh76CNHZGY3vKYTzQ8GcshyIRO24sB7Euyr70xVN1VFTsNXolsBk3vimf/ZWekw1Ox9h+XwphNydIziG6wibupWJG6cz7LlSJxOuTn26wusm1B+IDC8mzcKKgImmVWj9zqgqRpsc4XOs=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR03MB6186.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(39860400002)(346002)(366004)(396003)(376002)(451199021)(966005)(71200400001)(478600001)(6486002)(26005)(186003)(36756003)(85182001)(83380400001)(2616005)(38100700002)(38070700005)(86362001)(6506007)(6512007)(122000001)(6916009)(66446008)(64756008)(66946007)(4326008)(66476007)(76116006)(66556008)(316002)(91956017)(8936002)(8676002)(7416002)(5660300002)(30864003)(2906002)(54906003)(41300700001)(579004);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?eUhJUjVvbnZhemc3YVI4cHVuVHc5ZEt2WjVZOGh2NEhaV1QwQVpWbzlFVHZB?=
- =?utf-8?B?ME1HTWNJc2h6c2pac2JZS1lHOWZlbkp0SThYV2pPaXl5UGU2K2tqcldUYmJh?=
- =?utf-8?B?Q3lXcFdIRkdiNFBoVEh1K0UycHE1eDlvLzlIV3RNdnNyZHQrR2IwYkRzakJ4?=
- =?utf-8?B?bklhR212L2RNQU1USEd3bE92bS82Q0dtRGdFWFBGZ2RFWHJ1ZlRndjF0N1lD?=
- =?utf-8?B?QmpLa1VLbHVFUGZXZmFHcll5UG9TaVZNMjAzZkY4b3l4Z2lpTTlIdTZlczhZ?=
- =?utf-8?B?NFBFVHRQSGF6UW56dkROL2xVeUkrWkpGaXNDcTE0QTRKbkUvQzJTMFY1MEtG?=
- =?utf-8?B?Qm14Q0ZOVkZRKzFIQjl1MTlJQW1ZSm5mZ2FQMzROOXIxQXIySjh5YkgxLy9l?=
- =?utf-8?B?T2Jpb2VLQnpyakRlUjI0UE5paVhnQm9tb0w5bndXSmhrZTAxR2JDM04rWVY0?=
- =?utf-8?B?U1RKNURJZWxheE9PRWFDaS94L00ydTc2VllmSlJobE42MjRRTmJUaWlhMWFh?=
- =?utf-8?B?ZHpvbDZ3VUYzdXhGUVVJUjFPRUhkbDdZRFNCZDFPU2MwWXhsazJYNjlzaDA1?=
- =?utf-8?B?dWRKdTRoMDFOKzVhOGtZMXhnN2dneGF0aVVUSDdvdlZDVlpJK1llTHQzNEpK?=
- =?utf-8?B?V0g0YjNQd05YRGxWNXBXcU1xM3F2YVNlVFNnV1BDVS85dktVWVJ3TExvdUlL?=
- =?utf-8?B?ZzVRb1RTcEVEdWg3NWdMZnNoK3dPQ3RTazdOVmw0YktHWHdIb3RNRkJZMGNu?=
- =?utf-8?B?T0JwSDRTVzRNemt1NGd3eU9DQm5iR1VtRE9UbkY3cjZlTHB5K2FVMitUUFpX?=
- =?utf-8?B?YU1PekpKWHZaK1RIM1djcENBYkIxelVNN053cW5ZQjlJOGxITDZZWEw2Zkti?=
- =?utf-8?B?dlhxbWFZODk1SWZRckQ2NEhGSTdVWWVjdGtCY3NSU25uTXQrWmM2THZ1SytU?=
- =?utf-8?B?YTd3OCt2OHdML2NEaGhrVDBObitUZWFpUGs4bHkrZWM4Ny9YU0lYZ2NMUUlK?=
- =?utf-8?B?TWU1aUhvVFZwZXh5Ukx3ckV1MCtTNU9URktndkY3bXA1cnk3cVIyUlZPMHMz?=
- =?utf-8?B?UlNqamtOTjBXVUcwOEVPc0Fabk1QcVJPQ0lFalhEc0NPQVF4SmpzU1RZZUhm?=
- =?utf-8?B?cVI0MWNaclhoVmlTemRWSEtzbmRNSnZuUmRTZjdheDQ1TnlvakQyNGRlaU16?=
- =?utf-8?B?SldoL2loZHMvL1Q2aDhCdjVKNnVLK3FYUy9tOTBmeHBIcW1lc0hMMnJla1NM?=
- =?utf-8?B?djYyWUtIYTRBcS9Hb25TSEVqSkhld20yUHBRSUVoQWxsbFFhN081N25XMks4?=
- =?utf-8?B?N2gxeXZ3U2U5ZkJzVldlR0NjeXo1eHI3ZCtiVnNLdmlNY0xjN0ZiOFBWUUtO?=
- =?utf-8?B?WlNqUERUUEJkM3QvMllvLzBtQyt2Z0ZJd2hZOXJON3V5V24zTHhmOVAvNEdS?=
- =?utf-8?B?RGlGVWRKWWQ4cW9kQVgyM0VYcWtpbmRpb1FQUUplN29nLzFFYVZqTndYTVB3?=
- =?utf-8?B?Z1FuTzB1L3g5SzJOQnMwaEhGZnRqODZYWmhJSWlIR21CSm5rK2xQSk8vRVVB?=
- =?utf-8?B?cW9ydFRMRStQL0ZaekdPcFE3djBhMmcwQzZLTTI5TmM1UFJEVjFJTUtodkRD?=
- =?utf-8?B?ZEJtT0xmV1ZoZ2dTaC9HSHJuUy9Fei9xRndsUk1pOUkrbi9aRDROUmI4ajdI?=
- =?utf-8?B?M1BlTjZvTTdIeUwvc1pCNkg4YjZxaVF1dUNaTWUvT3pqK2JCanBYWnBtNWg3?=
- =?utf-8?B?cktiUVEvOW9BaElLbTB0cjM1VFI0ZkU1a2F1MXhYRHZmbmhsQ1puK1ZhMHVZ?=
- =?utf-8?B?Zk1heEpISmFTZHhYT3NuTnpVNk1BbUQzbWcrQW5LclQ3aFdhYUdobDVxamxX?=
- =?utf-8?B?K1l3cGJxTU9sZVJNclJXd1R2MkFMV3ViK2lITmZVNEFKdTlqbUdZU3VDS2Zv?=
- =?utf-8?B?Z3kzVERDM2JMOEl5YVF1MGY1Z1ZEUmVXSGxmait1RE4zNXgrUmlUdkFoQjZx?=
- =?utf-8?B?Z3lDSm5WVTluRUc4VkJnNndzSnZLLzN5U3IyRkpOd3hiTjNYWVkzSXhya3Jh?=
- =?utf-8?B?azRzbDRENGc4SGc2MlViaERRTTViWm16NUlmNjBYalBGaVVjcGJPR1VPRDZD?=
- =?utf-8?Q?81jBhtJqHsHfh5lpDUZO3zRzw?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <78C2DF1C58FB82458213E3F029C2AE86@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PUZPR03MB6186.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a40166b4-43a8-4883-eac3-08db6d49d446
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jun 2023 02:40:06.4453
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: TvD6wjTlNiqt5beQD/jDnL96SyFVWGYbMzUtHE39wdKh32hcFeOz9seBrdmCyverhQmA1m3SEWsDXXFRiXcL6w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR03MB6608
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,
-        T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,UNPARSEABLE_RELAY autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-T24gTW9uLCAyMDIzLTA1LTE1IGF0IDEwOjU3ICswODAwLCBaaGVuZyBIYWNrZXIgd3JvdGU6DQo+
-IEV4dGVybmFsIGVtYWlsIDogUGxlYXNlIGRvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFj
-aG1lbnRzIHVudGlsDQo+IHlvdSBoYXZlIHZlcmlmaWVkIHRoZSBzZW5kZXIgb3IgdGhlIGNvbnRl
-bnQuDQo+IA0KPiANCj4gSGkgS3lyaWUsDQo+IA0KPiBJIHRoaW5rIHlvdXIgYW5hbHlzaXMgaXMg
-cmlnaHQsIEknbGwgbWFrZSB0aGUgY2hhbmdlIGluIHRoZSBuZXh0DQo+IHZlcnNpb24uDQo+IA0K
-PiBCZXN0IHJlZ2FyZHMsDQo+IFpoZW5nDQo+IA0KRGVhciBaaGVuZywNCg0KQ291bGQgeW91IHBs
-ZWFzZSB1cGRhdGUgdGhlIG5leHQgdmVyc2lvbiBhdCBhbnkgY29udmVuaWVudCB0aW1lPw0KDQpU
-aGFua3MuDQoNCkJzZXQgUmVnYXJkcywNCkt5cmllLg0KDQo+IEt5cmllIFd1ICjlkLTmmZcpIDxL
-eXJpZS5XdUBtZWRpYXRlay5jb20+IOS6jjIwMjPlubQ15pyIMTLml6XlkajkupQgMDk6MjTlhpnp
-gZPvvJoNCj4gPiANCj4gPiBPbiBUdWUsIDIwMjMtMDMtMTQgYXQgMTE6MzcgKzA4MDAsIFpoZW5n
-IEhhY2tlciB3cm90ZToNCj4gPiA+IEt5cmllIFd1ICjlkLTmmZcpIDxLeXJpZS5XdUBtZWRpYXRl
-ay5jb20+IOS6jjIwMjPlubQz5pyIMTTml6XlkajkuowgMTA6NDnlhpnpgZPvvJoNCj4gPiA+ID4g
-DQo+ID4gPiA+IE9uIFRodSwgMjAyMy0wMy0wOSBhdCAxNTozMSArMDgwMCwgWmhlbmcgSGFja2Vy
-IHdyb3RlOg0KPiA+ID4gPiA+IERlYXIgS3lyaWUsDQo+ID4gPiA+ID4gDQo+ID4gPiA+ID4gR3Vl
-bnRlciBnYXZlIHNvbWUgYWR2aWNlIGFib3V0IHRoaXMgaXNzdWUgaW4gWzFdLiBBcyB3ZSBhcmUN
-Cj4gPiA+ID4gPiBub3QNCj4gPiA+ID4gPiBmYW1pbGlhciB3aXRoIHRoZSBjb2RlIGhlcmUsIGNv
-dWxkIHlvdSBwbGVhc2Ugc2VlIGlmIHRoZSBidWcNCj4gPiA+ID4gPiByZWFsbHkNCj4gPiA+ID4g
-PiBleGlzdHM/DQo+ID4gPiA+ID4gDQo+ID4gPiA+ID4gWzFdDQo+ID4gPiA+ID4gDQo+ID4gDQo+
-ID4gDQpodHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvZTAzMTM0ZjktOTQzMy1hYjZiLTE3MGEt
-OGNlNzUyZmNjZGViQHJvZWNrLXVzLm5ldC8NCj4gPiA+ID4gPiANCj4gPiA+ID4gPiBCZXN0IHJl
-Z2FyZHMsDQo+ID4gPiA+ID4gWmhlbmcNCj4gPiA+ID4gDQo+ID4gPiA+IERlYXIgemhlbmcsDQo+
-ID4gPiA+IA0KPiA+ID4gPiBJIGhhdmUgbm8gbW9yZSBxdWVzdGlvbnMgZm9yIHlvdXIgcGF0Y2gs
-IHRoYW5rIHlvdSBmb3IgeW91cg0KPiA+ID4gPiBjb250cmlidXRpb24gdG8gbXRrIGpwZWcgZHJp
-dmVyLg0KPiA+ID4gPiANCj4gPiA+IA0KPiA+ID4gVGhhbmtzIGZvciB5b3VyIGRldGFpbGVkIHJl
-dmlldyBhbmQgZXhwbGFuYXRpb24gYWJvdXQgdGhlIGNvZGUuIEkNCj4gPiA+IGhhdmUNCj4gPiA+
-IGxlYXJuZWQgYSBsb3QNCj4gPiA+IGZyb20gaXQuIEhhdmUgYSBuaWNlIGRheSA6KQ0KPiA+ID4g
-DQo+ID4gPiBCZXN0IHJlZ2FyZHMsDQo+ID4gPiBaaGVuZw0KPiA+IA0KPiA+IERlYXIgWmhlbmcs
-DQo+ID4gDQo+ID4gSSB0aGluayB0aGF0IGNhbmNlbF9kZWxheWVkX3dvcmssIGFkZGVkIGluIHJl
-bW92ZSBmdW5jdGlvbiwgc2hvdWxkDQo+ID4gY2hhbmdlIHRvIGNhbmNlbF9kZWxheWVkX3dvcmtf
-c3luYyB0byBzb2x2ZSBVQUYuIFRoZSBjb3JyZXNwb25kaW5nDQo+ID4gb3BlcmF0aW9uIGZsb3cg
-aXMgc2hvd24gYXMgZm9sbG93Og0KPiA+ICAgICAgIENQVTAgICAgICAgICAgICAgICAgICAgICAg
-Q1BVMQ0KPiA+ICAgICAgICAgICAgICAgICAgICAgICB8bXRrX2pwZWdfam9iX3RpbWVvdXRfd29y
-aw0KPiA+IG10a19qcGVnX3JlbW92ZSAgICAgICB8DQo+ID4gICBjYW5jZWxfZGVsYXllZF93b3Jr
-IHwNCj4gPiAgIHY0bDJfbTJtX3JlbGVhc2UgICAgfA0KPiA+ICAgICBrZnJlZShtMm1fZGV2KTsg
-ICB8DQo+ID4gICAgICAgICAgICAgICAgICAgICAgIHwNCj4gPiAgICAgICAgICAgICAgICAgICAg
-ICAgfCB2NGwyX20ybV9nZXRfY3Vycl9wcml2DQo+ID4gICAgICAgICAgICAgICAgICAgICAgIHwg
-IG0ybV9kZXYtPmN1cnJfY3R4IC8vdXNlDQo+ID4gDQo+ID4gSWYgY2FuY2VsX2RlbGF5ZWRfd29y
-ayBpcyBjYWxsZWQgaW4gYXN5bmMgbW9kZSBsaWtlIGFib3ZlLCBhbmQgdGhlDQo+ID4gbTJtX2Rl
-diBpcyBmcmVlZC4gQnV0IGl0IGlzIHVzZWQgaW4gbXRrX2pwZWdfam9iX3RpbWVvdXRfd29yaywg
-dGhpcw0KPiA+IGNhbGxpbmcgbWF5IGNhdXNlIFVBRi4NCj4gPiANCj4gPiBUaGFua3MuDQo+ID4g
-PiANCj4gPiA+ID4gPiANCj4gPiA+ID4gPiANCj4gPiA+ID4gPiANCj4gPiA+ID4gPiBaaGVuZyBI
-YWNrZXIgPGhhY2tlcnpoZW5nNjY2QGdtYWlsLmNvbT4g5LqOMjAyM+W5tDPmnIg45pel5ZGo5LiJ
-IDE3OjEx5YaZ6YGT77yaDQo+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+IERlYXIgS3lyaWUsDQo+
-ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+IFNvcnJ5IGZvciBteSBtaXN1bmRlcnN0YW5kaW5nLiBJ
-J3ZlIHNlZW4gdGhlIHRpbWVvdXQgd29ya2VyDQo+ID4gPiA+ID4gPiBpcw0KPiA+ID4gPiA+ID4g
-Ym91bmQNCj4gPiA+ID4gPiA+IHdpdGggbXRrX2pwZWdkZWNfdGltZW91dF93b3JrIHJhdGhlciB0
-aGFuDQo+ID4gPiA+ID4gPiBtdGtfanBlZ19qb2JfdGltZW91dF93b3JrLlNvDQo+ID4gPiA+ID4g
-PiB0aGUgY29tcGV0aXRpb24gd29uJ3QgaGFwcGVuLg0KPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4g
-PiBCYWNrIHRvIHRoZSBiZWdpbm5pbmcgc2NlbmUsIEkgc3RpbGwgZG9uJ3Qga25vdyBpZiBpdCdz
-IGENCj4gPiA+ID4gPiA+IFVBRg0KPiA+ID4gPiA+ID4gaXNzdWUNCj4gPiA+ID4gPiA+IG9yDQo+
-ID4gPiA+ID4gPiBub3QuIFRoZSBub3JtYWwgc2NoZWR1bGUgaXMgdmVyeSBzdHJvbmcgdG8gbWUu
-IElmIHdlIGNhbg0KPiA+ID4gPiA+ID4gY2FsbA0KPiA+ID4gPiA+ID4gbXRrX2pwZWdfcmVtb3Zl
-IGRpcmVjdGx5IHdpdGhvdXQgY2FsbGluZyBtdGtfanBlZ19yZWxlYXNlLA0KPiA+ID4gPiA+ID4g
-VGhlIFVBRiBpcyBzdGlsbCBwb3NzaWJsZS4gT3RoZXJ3aXMsIEkgdGhpbmsgaXQncyBzYWZlDQo+
-ID4gPiA+ID4gPiBoZXJlLg0KPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiBCZXN0IHJlZ2FyZHMs
-DQo+ID4gPiA+ID4gPiBaaGVuZw0KPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiBLeXJpZSBXdSAo
-5ZC05pmXKSA8S3lyaWUuV3VAbWVkaWF0ZWsuY29tPiDkuo4yMDIz5bm0M+aciDjml6XlkajkuIkg
-MTU6MznlhpnpgZPvvJoNCj4gPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+IE9uIFdlZCwgMjAy
-My0wMy0wOCBhdCAxNDoxMCArMDgwMCwgWmhlbmcgSGFja2VyIHdyb3RlOg0KPiA+ID4gPiA+ID4g
-PiA+IEhpIEt5cmllLA0KPiA+ID4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiA+IEFmdGVyIHJl
-dmlld2luZyB0aGUgY29kZSwgSSBmb3VuZCBhbm90aGUgcG9zc2libGUgY29kZQ0KPiA+ID4gPiA+
-ID4gPiA+IHBhdGguIEFzDQo+ID4gPiA+ID4gPiA+ID4gSSBhbQ0KPiA+ID4gPiA+ID4gPiA+IG5v
-dCBmYW1pbGlhciB3aXRoIHRoZSBtb2R1bGUuIEl0IGhhcyBoaWdoIHBvc3NpYmlsaXR5DQo+ID4g
-PiA+ID4gPiA+ID4gaXQncw0KPiA+ID4gPiA+ID4gPiA+IHdyb25nLg0KPiA+ID4gPiA+ID4gPiA+
-IENvdWxkIHBsZWFzZSBoZWxwIG1lIGNoZWNrIHRoaXM/IFZlcnkgbXVjaCBhcHByZWNpYXRlZA0K
-PiA+ID4gPiA+ID4gPiA+IGZvcg0KPiA+ID4gPiA+ID4gPiA+IHlvdXINCj4gPiA+ID4gPiA+ID4g
-PiB2YWx1YWJsZSB0aW1lLg0KPiA+ID4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiA+IEluIHN1
-bW1hcnksIG10a19qcGVnZGVjX3dvcmtlciB3YXMgc2V0IGluIG10a19qcGVnX29wZW4NCj4gPiA+
-ID4gPiA+ID4gPiBhbmQNCj4gPiA+ID4gPiA+ID4gPiBzdGFydGVkDQo+ID4gPiA+ID4gPiA+ID4g
-aW4NCj4gPiA+ID4gPiA+ID4gPiBtdGtfanBlZ19tdWx0aWNvcmVfZGVjX2RldmljZV9ydW4sIHdo
-aWNoIG1hZGUgaXQNCj4gPiA+ID4gPiA+ID4gPiBydW5uaW5nIG9uDQo+ID4gPiA+ID4gPiA+ID4g
-Y3B1MS4NCj4gPiA+ID4gPiA+ID4gPiBJbnNpZGUgdGhlIG10a19qcGVnX211bHRpY29yZV9kZWNf
-ZGV2aWNlX3J1biwgaXQgd2lsbA0KPiA+ID4gPiA+ID4gPiA+IGNhbGwNCj4gPiA+ID4gPiA+ID4g
-PiBzY2hlZHVsZV9kZWxheWVkX3dvcmsgIHRvIHN0YXJ0IHRoZSB0aW1lb3V0X3dvcmssIHdoaWNo
-DQo+ID4gPiA+ID4gPiA+ID4gd2lsbA0KPiA+ID4gPiA+ID4gPiA+IG1ha2UgaXQNCj4gPiA+ID4g
-PiA+ID4gPiBydW5uaW5nIG9uIGNwdTIuIE1lYW53aGlsZSwgd2UgY2FuIGNhbGwNCj4gPiA+ID4g
-PiA+ID4gPiBtdGtfanBlZ19yZWxlYXNlIHRvIGNhbmNlbCB0aGUgam9iLiBCdXQgdGhlcmUgbWln
-aHQgYmUNCj4gPiA+ID4gPiA+ID4gPiBhDQo+ID4gPiA+ID4gPiA+ID4gcmFjZQ0KPiA+ID4gPiA+
-ID4gPiA+IGJldHdlZW4NCj4gPiA+ID4gPiA+ID4gPiBtdGtfanBlZ2RlY193b3JrZXIgYW5kIHY0
-bDJfbTJtX2NhbmNlbF9qb2IuIEl0IG1heSBjYWxsDQo+ID4gPiA+ID4gPiA+ID4gdjRsMl9tMm1f
-am9iX2ZpbmlzaCB0b28gZWFybHkgdG8gd2FrZSB1cCB0aGUgZXZlbnQuDQo+ID4gPiA+ID4gPiA+
-ID4gVGhlIHJlbW92ZSB3aWxsIGdvIG9uLCB0aGUgb3RoZXIgcmFjZSBpcyBhcyBkZXNjcmliZWQN
-Cj4gPiA+ID4gPiA+ID4gPiBlYXJsaWVyLg0KPiA+ID4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4g
-PiA+IGNwdTAgICAgICAgICAgICAgICAgICAgICAgICAgY3B1MSAgICAgICAgICAgICAgICAgIGNw
-dTINCj4gPiA+ID4gPiA+ID4gPiAoMSktPmRldmljZV9ydW4NCj4gPiA+ID4gPiA+ID4gPiBtdGtf
-anBlZ19tdWx0aWNvcmUNCj4gPiA+ID4gPiA+ID4gPiBfZGVjX2RldmljZV9ydW4NCj4gPiA+ID4g
-PiA+ID4gPiBxdWV1ZV93b3JrDQo+ID4gPiA+ID4gPiA+ID4gKGpwZWctPndvcmtxdWV1ZSwNCj4g
-PiA+ID4gPiA+ID4gPiAmY3R4LT5qcGVnX3dvcmspOw0KPiA+ID4gPiA+ID4gPiA+ICAgICAgICAg
-ICAgICAgICAgICAgICAoMiltdGtfanBlZ2RlY193b3JrZXINCj4gPiA+ID4gPiA+ID4gPiAoMylt
-dGtfanBlZ19yZWxlYXNlDQo+ID4gPiA+ID4gPiA+ID4gdjRsMl9tMm1fY2FuY2VsX2pvYg0KPiA+
-ID4gPiA+ID4gPiA+IHdhaXQgZXZlbnQNCj4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4g
-PiAgICAgICAgICAgICAgICAgICAgICAgc2NoZWR1bGVfZGVsYXllZF93b3JrDQo+ID4gPiA+ID4g
-PiA+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAoNCltdGtf
-anBlZw0KPiA+ID4gPiA+ID4gPiA+IF9qb2INCj4gPiA+ID4gPiA+ID4gPiBfdGltDQo+ID4gPiA+
-ID4gPiA+ID4gZW91dF93DQo+ID4gPiA+ID4gPiA+ID4gb3JrDQo+ID4gPiA+ID4gPiA+ID4gICAg
-ICAgICAgICAgICAgICAgICAgICg1KXY0bDJfbTJtX2pvYl9maW5pc2gNCj4gPiA+ID4gPiA+ID4g
-PiAgICAgICAgICAgICAgICAgICAgICAgd2FrZSB1cA0KPiA+ID4gPiA+ID4gPiA+ICg2KW10a19q
-cGVnX3JlbW92ZQ0KPiA+ID4gPiA+ID4gPiA+IHY0bDJfbTJtX3JlbGVhc2UNCj4gPiA+ID4gPiA+
-ID4gPiBrZnJlZShtMm1fZGV2KQ0KPiA+ID4gPiA+ID4gPiA+ICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgKDcpdjRsMl9tMm0NCj4gPiA+ID4gPiA+ID4gPiBfZ2V0
-DQo+ID4gPiA+ID4gPiA+ID4gX2N1cg0KPiA+ID4gPiA+ID4gPiA+IHJfcHJpdg0KPiA+ID4gPiA+
-ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gRGVhciB6aGVuZywNCj4gPiA+
-ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+IFRoZSBtdGtfanBlZ19tdWx0aWNvcmVfZGVjX2Rldmlj
-ZV9ydW4gZnVuY3Rpb24gaXMgdXNlZA0KPiA+ID4gPiA+ID4gPiBmb3INCj4gPiA+ID4gPiA+ID4g
-bXVsdGktDQo+ID4gPiA+ID4gPiA+IGh3DQo+ID4gPiA+ID4gPiA+IGpwZWcgZGVjb2RpbmcuIElu
-c3RlYWQgb2Ygc2NoZWR1bGluZw0KPiA+ID4gPiA+ID4gPiBtdGtfanBlZ19qb2JfdGltZW91dF93
-b3JrLA0KPiA+ID4gPiA+ID4gPiBtdGtfanBlZ2RlY193b3JrZXIgaXMgc2NoZWR1bGVkIGluIHRo
-aXMgZnVuY3Rpb24uDQo+ID4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiBUaGUgbXRrX2pwZWdf
-ZGVjX2RldmljZV9ydW4gZnVuY3Rpb24gaXMgdXNlZCBmb3Igc2luZ2xlDQo+ID4gPiA+ID4gPiA+
-IGh3DQo+ID4gPiA+ID4gPiA+IGpwZWcNCj4gPiA+ID4gPiA+ID4gZGVjb2RpbmcsIHdoaWNoIHNj
-aGVkdWxlcyBtdGtfanBlZ19qb2JfdGltZW91dF93b3JrLg0KPiA+ID4gPiA+ID4gPiANCj4gPiA+
-ID4gPiA+ID4gQSBkcml2ZXIgaXMgZWl0aGVyIGEgc2luZ2xlIGh3IGRyaXZlciBvciBhIG11bHRp
-LWh3DQo+ID4gPiA+ID4gPiA+IGRyaXZlcg0KPiA+ID4gPiA+ID4gPiBhbmQNCj4gPiA+ID4gPiA+
-ID4gY2Fubm90DQo+ID4gPiA+ID4gPiA+IHJlcHJlc2VudCBib3RoIGF0IHRoZSBzYW1lIHRpbWUu
-DQo+ID4gPiA+ID4gPiA+IG10a19qcGVnX2pvYl90aW1lb3V0X3dvcmsgYW5kIG10a19qcGVnZGVj
-X3dvcmtlciBjYW5ub3QNCj4gPiA+ID4gPiA+ID4gYmUNCj4gPiA+ID4gPiA+ID4gc2NoZWR1bGVk
-IGF0DQo+ID4gPiA+ID4gPiA+IHRoZSBzYW1lIHRpbWUuDQo+ID4gPiA+ID4gPiA+IFNvIG10a19q
-cGVnX2pvYl90aW1lb3V0X3dvcmsgY2FsbHMgdjRsMl9tMm1fam9iX2ZpbmlzaA0KPiA+ID4gPiA+
-ID4gPiB3b3VsZA0KPiA+ID4gPiA+ID4gPiBub3QNCj4gPiA+ID4gPiA+ID4gY2F1c2UNCj4gPiA+
-ID4gPiA+ID4gY29tcGV0aXRpb24gYmV0d2VlbiB0aGUgbXRrX2pwZWdkZWNfd29ya2VyIGFuZA0K
-PiA+ID4gPiA+ID4gPiB2NGwyX20ybV9jYW5jZWxfam9iLg0KPiA+ID4gPiA+ID4gPiANCj4gPiA+
-ID4gPiA+ID4gUmVnYXJkcywNCj4gPiA+ID4gPiA+ID4gS3lyaWUuDQo+ID4gPiA+ID4gPiA+IA0K
-PiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiBLeXJpZSBXdSAo5ZC05pmXKSA8S3lyaWUu
-V3VAbWVkaWF0ZWsuY29tPiDkuo4yMDIz5bm0M+aciDjml6XlkajkuIkNCj4gPiA+ID4gPiA+ID4g
-PiAxMTozMuWGmemBk++8mg0KPiA+ID4gPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+ID4gPiBP
-biBXZWQsIDIwMjMtMDMtMDggYXQgMTA6MjAgKzA4MDAsIFpoZW5nIEhhY2tlcg0KPiA+ID4gPiA+
-ID4gPiA+ID4gd3JvdGU6DQo+ID4gPiA+ID4gPiA+ID4gPiA+IEhpIEt5cmllLA0KPiA+ID4gPiA+
-ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiA+ID4gVGhhbmsgeW91IGZvciB5b3VyIGNhcmVm
-dWwgYW5hbHlzaXMgYW5kIHJlc3BvbnNlLiBJDQo+ID4gPiA+ID4gPiA+ID4gPiA+IHN0aWxsDQo+
-ID4gPiA+ID4gPiA+ID4gPiA+IGhhdmUNCj4gPiA+ID4gPiA+ID4gPiA+ID4gc29tZQ0KPiA+ID4g
-PiA+ID4gPiA+ID4gPiBhcmVhcyB0aGF0IEkgZG9uJ3QgcXVpdGUgdW5kZXJzdGFuZCBhbmQgd291
-bGQgbGlrZQ0KPiA+ID4gPiA+ID4gPiA+ID4gPiB0bw0KPiA+ID4gPiA+ID4gPiA+ID4gPiBhc2sN
-Cj4gPiA+ID4gPiA+ID4gPiA+ID4gZm9yDQo+ID4gPiA+ID4gPiA+ID4gPiA+IGNsYXJpZmljYXRp
-b24uIFRoYXQgaXMsIGhvdyBkbyB0aGUgZnVuY3Rpb24NCj4gPiA+ID4gPiA+ID4gPiA+ID4gcG9p
-bnRlcnMNCj4gPiA+ID4gPiA+ID4gPiA+ID4gZm9yDQo+ID4gPiA+ID4gPiA+ID4gPiA+IHN0b3AN
-Cj4gPiA+ID4gPiA+ID4gPiA+ID4gc3RyZWFtaW5nLCBpbml0aWFsaXplZCBhcw0KPiA+ID4gPiA+
-ID4gPiA+ID4gPiBtdGtfanBlZ19lbmNfc3RvcF9zdHJlYW1pbmcNCj4gPiA+ID4gPiA+ID4gPiA+
-ID4gYW5kDQo+ID4gPiA+ID4gPiA+ID4gPiA+IG10a19qcGVnX2RlY19zdG9wX3N0cmVhbWluZywg
-ZW5zdXJlIHRoYXQgdGhlIHdvcmtlcg0KPiA+ID4gPiA+ID4gPiA+ID4gPiBpcw0KPiA+ID4gPiA+
-ID4gPiA+ID4gPiBjYW5jZWxlZD8NCj4gPiA+ID4gPiA+ID4gPiA+ID4gSQ0KPiA+ID4gPiA+ID4g
-PiA+ID4gPiB3b3VsZCBncmVhdGx5IGFwcHJlY2lhdGUgeW91ciByZXNwb25zZS4NCj4gPiA+ID4g
-PiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+ID4gPiA+IEJlc3QgcmVnYXJkcywNCj4gPiA+ID4g
-PiA+ID4gPiA+ID4gWmhlbmcNCj4gPiA+ID4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiA+ID4g
-RGVhciB6aGVuZywNCj4gPiA+ID4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiA+ID4gRm9yIHN0
-b3Agc3RyZWFtaW5nLCB3aGF0IEkgbWVhbiBpcyB0aGF0IHN0b3BwcGluZw0KPiA+ID4gPiA+ID4g
-PiA+ID4ganBlZw0KPiA+ID4gPiA+ID4gPiA+ID4gZGVjb2Rpbmcgb3INCj4gPiA+ID4gPiA+ID4g
-PiA+IGVuY29kaW5nLg0KPiA+ID4gPiA+ID4gPiA+ID4gT2ssIGxldCBtZSBpbnRyb2R1Y2UgdGhl
-IHN3IGZsb3cgb2Ygc3RvcCBzdHJlYW1pbmc6DQo+ID4gPiA+ID4gPiA+ID4gPiBGaXJzdGx5LCB0
-aGUgYXBwIHdpbGwgY2FsbCB2NGwyX20ybV9pb2N0bF9zdHJlYW1vZmYsDQo+ID4gPiA+ID4gPiA+
-ID4gPiB3aGljaA0KPiA+ID4gPiA+ID4gPiA+ID4gd2lsbA0KPiA+ID4gPiA+ID4gPiA+ID4gY2Fs
-bA0KPiA+ID4gPiA+ID4gPiA+ID4gdjRsMl9tMm1fY2FuY2VsX2pvYiwgaWYgaXQgZmluZHMgYSBq
-b2IgcnVubmluZyhhcyB5b3UNCj4gPiA+ID4gPiA+ID4gPiA+IG5vdGUsDQo+ID4gPiA+ID4gPiA+
-ID4gPiBjcHUxIGlzDQo+ID4gPiA+ID4gPiA+ID4gPiBydW5uaW5nKSwgaXQgd2lsbCB3YWl0IGV2
-ZW50LCB0aGUgZXZlbnQgaXMgd2FrZSB1cCBieQ0KPiA+ID4gPiA+ID4gPiA+ID4gdjRsMl9tMm1f
-am9iX2ZpbmlzaCBmdW5jdGlvbi4gQW5kIHY0bDJfbTJtX2pvYl9maW5pc2gNCj4gPiA+ID4gPiA+
-ID4gPiA+IGlzDQo+ID4gPiA+ID4gPiA+ID4gPiBjYWxsZWQgYnkNCj4gPiA+ID4gPiA+ID4gPiA+
-IGpwZWcNCj4gPiA+ID4gPiA+ID4gPiA+IGRlYy9lbmMgaXJxIGhhbmRsZXIsIHdoaWNoIG1lYW5z
-IHRoYXQgdGhlIHdhaXR0aW5nDQo+ID4gPiA+ID4gPiA+ID4gPiB3b3VsZA0KPiA+ID4gPiA+ID4g
-PiA+ID4gcmVzdWx0IG10aw0KPiA+ID4gPiA+ID4gPiA+ID4gaHcNCj4gPiA+ID4gPiA+ID4gPiA+
-IHRvIGZpbmlzaCBkZWMvZW5jLCBpcnEgd2lsbCBvY2N1ciBhbmQgaXJxIGhhbmRsZXINCj4gPiA+
-ID4gPiA+ID4gPiA+IHdvdWxkDQo+ID4gPiA+ID4gPiA+ID4gPiBjYW5jZWwNCj4gPiA+ID4gPiA+
-ID4gPiA+IHRpbWVvdXQNCj4gPiA+ID4gPiA+ID4gPiA+IHdvcmtlci4gVGhlIGZvbGxvdyBpcyBz
-aG93biBhcyBibG93Lg0KPiA+ID4gPiA+ID4gPiA+ID4gdjRsMl9tMm1faW9jdGxfc3RyZWFtb2Zm
-DQo+ID4gPiA+ID4gPiA+ID4gPiAgICB2NGwyX20ybV9jYW5jZWxfam9iICAgICAgICAgICAgICAg
-IG10a19qcGVnX2VuY19pcg0KPiA+ID4gPiA+ID4gPiA+ID4gcS9tdA0KPiA+ID4gPiA+ID4gPiA+
-ID4ga19qcA0KPiA+ID4gPiA+ID4gPiA+ID4gZWdfZGVjDQo+ID4gPiA+ID4gPiA+ID4gPiBfaXJx
-DQo+ID4gPiA+ID4gPiA+ID4gPiAgICAgICAgd2FpdCBldm5ldCA8LS0tLS0tIHdha2UgdXAgLS0t
-LS0tDQo+ID4gPiA+ID4gPiA+ID4gPiB2NGwyX20ybV9qb2JfZmluaXNoDQo+ID4gPiA+ID4gPiA+
-ID4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY2FuY2VsDQo+ID4g
-PiA+ID4gPiA+ID4gPiB0aW1lb3V0DQo+ID4gPiA+ID4gPiA+ID4gPiB3b3JrDQo+ID4gPiA+ID4g
-PiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiA+IEFzIG1lbnRpb25lZCBhYm92ZSwgaWYgaXQgaXMg
-bm9ybWFsIHN0b3Agc3RyZWFtaW5nDQo+ID4gPiA+ID4gPiA+ID4gPiBhY3Rpb24sDQo+ID4gPiA+
-ID4gPiA+ID4gPiB0aGVyZQ0KPiA+ID4gPiA+ID4gPiA+ID4gd2lsbA0KPiA+ID4gPiA+ID4gPiA+
-ID4gYmUgbm8gaGFwcGVuIHRoYXQgdGhlIHRpbWVvdXQgd29ya2VyIGRvZXMgbm90DQo+ID4gPiA+
-ID4gPiA+ID4gPiBjYW5jZWxlZC4NCj4gPiA+ID4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiA+
-ID4gQnV0IGlmIG10a19qcGVnX3JlbW92ZSBpcyBjYWxsZWQgZGlyZWN0bHkgd2l0aG91dA0KPiA+
-ID4gPiA+ID4gPiA+ID4gYWJvdmUNCj4gPiA+ID4gPiA+ID4gPiA+IGZsb3csDQo+ID4gPiA+ID4g
-PiA+ID4gPiBpdA0KPiA+ID4gPiA+ID4gPiA+ID4gd291bGQNCj4gPiA+ID4gPiA+ID4gPiA+IGNh
-dXNlIGxvdHMgb2YgaXNzdWVzLg0KPiA+ID4gPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+ID4g
-PiBSZWdhcmRzLA0KPiA+ID4gPiA+ID4gPiA+ID4gS3lyaWUuDQo+ID4gPiA+ID4gPiA+ID4gPiA+
-IA0KPiA+ID4gPiA+ID4gPiA+ID4gPiBLeXJpZSBXdSAo5ZC05pmXKSA8S3lyaWUuV3VAbWVkaWF0
-ZWsuY29tPiDkuo4yMDIz5bm0M+aciDjml6XlkajkuIkNCj4gPiA+ID4gPiA+ID4gPiA+ID4gMTA6
-MDLlhpnpgZPvvJoNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiA+ID4g
-PiBPbiBUdWUsIDIwMjMtMDMtMDcgYXQgMjM6MDMgKzA4MDAsIFpoZW5nIEhhY2tlcg0KPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+IHdyb3RlOg0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gVGhlIHRpbWVy
-IGZ1bmN0aW9uIHdhcyBzZXQgaW4gbXRrX2pwZWdfcHJvYmUNCj4gPiA+ID4gPiA+ID4gPiA+ID4g
-PiA+IHdpdGgNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IG10a19qcGVnX2pvYl90aW1lb3V0X3dv
-cmsgZnVuY3Rpb24uDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBBbmQgdGhlIHdvcmtlciBpcyBz
-dGFydGVkIGluDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBtdGtfanBlZ19kZWNfZGV2aWNlX3J1
-bi4NCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IFRoZXJlIGFyZSB0d28gZnVuY3Rpb25zIChtdGtf
-anBlZ19lbmNfaXJxIGFuZA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gbXRrX2pwZWdfZGVjX2ly
-cSkNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IHdoaWNoDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4g
-PiBtYXkgY2FuY2VsIHRoZSB3b3JrZXIuDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBUaGV5IGFy
-ZSB1c2VkIGFzIElSUSBoYW5kbGVyIGZ1bmN0aW9uIHdoaWNoIGlzDQo+ID4gPiA+ID4gPiA+ID4g
-PiA+ID4gPiBzYXZlZCBhcw0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gZnVuY3Rpb24NCj4gPiA+
-ID4gPiA+ID4gPiA+ID4gPiA+IHBvaW50ZXIgaW4gYSB2YXJpYWJsZS4NCj4gPiA+ID4gPiA+ID4g
-PiA+ID4gPiA+IEluIG10a19qcGVnX3Byb2JlLCB0aGV5IGFyZSByZWdpc3RlcmVkIGJ5DQo+ID4g
-PiA+ID4gPiA+ID4gPiA+ID4gPiBkZXZtX3JlcXVlc3RfaXJxOg0KPiA+ID4gPiA+ID4gPiA+ID4g
-PiA+ID4gDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiByZXQgPSBkZXZtX3JlcXVlc3RfaXJxKCZw
-ZGV2LT5kZXYsDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiAgICAgICAgICAgICAgICBqcGVnX2ly
-cSwNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ICAgICAgICAgICAgICAgIGpwZWctPnZhcmlhbnQt
-PmlycV9oYW5kbGVyLA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gICAgICAgICAgICAgICAgMCwN
-Cj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ICAgICAgICAgICAgICAgIHBkZXYtPm5hbWUsIGpwZWcp
-Ow0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gICAgIGlmIChyZXQpIHsNCj4gPiA+ID4gPiA+ID4g
-PiA+ID4gPiA+ICAgICAgIGRldl9lcnIoJnBkZXYtPmRldiwgIkZhaWxlZCB0byByZXF1ZXN0DQo+
-ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBqcGVnX2lycQ0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4g
-JWQNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ICglZClcbiIsDQo+ID4gPiA+ID4gPiA+ID4gPiA+
-ID4gPiAgICAgICAgIGpwZWdfaXJxLCByZXQpOw0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gICAg
-ICAgcmV0dXJuIHJldDsNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ICAgICB9DQo+ID4gPiA+ID4g
-PiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IEhvd2V2ZXIsIGlmIHdlIHJl
-bW92ZSB0aGUgbW9kdWxlIHdpdGhvdXQNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IHRyaWdnZXJp
-bmcNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IHRoZQ0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4g
-aXJxLA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gdGhlDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4g
-PiB3b3JrZXIgd2lsbCBuZXZlciBiZSByZW1vdmVkLg0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4g
-DQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBBcyBmb3IgdGhlIHNjaGVkdWxlLCBtdGtfanBlZ19k
-ZWNfZGV2aWNlX3J1bg0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gYW5kDQo+ID4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiBtdGtfanBlZ19lbmNfZGV2aWNlX3J1biB3aWxsIHN0YXJ0IHRoZSB3b3JrZXIu
-DQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBUaGUgc2NoZWR1bGUgaW52b2tpbmcgaXMgcXVpdGUg
-Y29tcGxpY2F0ZWQuIEFzDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBmYXINCj4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiA+IGFzIEkNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IGtub3csDQo+ID4gPiA+
-ID4gPiA+ID4gPiA+ID4gPiB0aGUNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IGludm9raW5nIGNo
-YWluIGlzIGFzIGZvbGxvd3M6DQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiA+IHY0bDJfbTJtX2luaXQtPnY0bDJfbTJtX2RldmljZV9ydW5fd29yay0NCj4g
-PiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gdjRsMl9tMm1fdHJ5X3J1bg0KPiA+ID4gPiA+ID4gPiA+
-ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiB0aGUgdjRsMl9tMm1fZGV2aWNlX3J1
-bl93b3JrIGZ1bmN0aW9uIGlzIGFsc28gYQ0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gd29ya2Vy
-DQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiB3aGljaA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4g
-aXMNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IHNldA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4g
-aW4NCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IHY0bDJfbTJtX2luaXQgYW5kIHN0YXJ0ZWQgaW4N
-Cj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IHY0bDJfbTJtX3NjaGVkdWxlX25leHRfam9iLg0KPiA+
-ID4gPiA+ID4gPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBCZWZvcmUgY2Fs
-bGluZyByZW1vdmUgZnVuY3Rpb24sDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiB0aGUgIG10a19q
-cGVnX3JlbGVhc2UNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IHdhcw0KPiA+ID4gPiA+ID4gPiA+
-ID4gPiA+ID4gaW52b2tlZA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gdG8NCj4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiA+IHJlbGVhc2UgdGhlIHJlbGF0ZWQgcmVzb3VyY2UuDQo+ID4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IHY0bDJfbTJtX2NhbmNlbF9qb2Ig
-d2lsbCBjYW5jZWwgdGhlIGpvYiBieQ0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gY2FsbGluZw0K
-PiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gbTJtX2Rldi0+bTJtX29wcy0+am9iX2Fib3J0KG0ybV9j
-dHgtPnByaXYpLg0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+ID4gPiA+
-ID4gPiBCdXQgdGhpcyB3aWxsIG9ubHkgY2FuY2VsIHRoZSBjdXJyZW50IHF1ZXVlIGJ5DQo+ID4g
-PiA+ID4gPiA+ID4gPiA+ID4gPiBsaXN0X2RlbCgmbTJtX2Rldi0+Y3Vycl9jdHgtPnF1ZXVlKTsN
-Cj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gSSB0aGlu
-ayB0aGlzIGNhbiBub3QgY2FuY2VsIHRoZSBwb3N0ZWQgdGFzaw0KPiA+ID4gPiA+ID4gPiA+ID4g
-PiA+ID4gbWVudGlvbmVkDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBiZWZvcmUuDQo+ID4gPiA+
-ID4gPiA+ID4gPiA+ID4gPiBTbw0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gSQ0KPiA+ID4gPiA+
-ID4gPiA+ID4gPiA+ID4gdGhpbmsgaWYgbXRrX2pwZWdfam9iX3RpbWVvdXRfd29yaw0KPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBpcyB3b3JraW5nIG9u
-LCBhbmQgdXNpbmcganBlZy0+bTJtX2RldiBhZnRlcg0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4g
-ZnJlZWluZyBpdA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gaW4NCj4gPiA+ID4gPiA+ID4gPiA+
-ID4gPiA+IG10a19qcGVnX3JlbW92ZSwgaXQgd2lsbCBjYXVzZSBhIFVBRiBidWcuDQo+ID4gPiA+
-ID4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IHN0YXRpYyBpbnQgbXRr
-X2pwZWdfcmVsZWFzZShzdHJ1Y3QgZmlsZSAqZmlsZSkNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+
-IHsNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ICAgc3RydWN0IG10a19qcGVnX2RldiAqanBlZyA9
-DQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiB2aWRlb19kcnZkYXRhKGZpbGUpOw0KPiA+ID4gPiA+
-ID4gPiA+ID4gPiA+ID4gICBzdHJ1Y3QgbXRrX2pwZWdfY3R4ICpjdHggPQ0KPiA+ID4gPiA+ID4g
-PiA+ID4gPiA+ID4gbXRrX2pwZWdfZmhfdG9fY3R4KGZpbGUtDQo+ID4gPiA+ID4gPiA+ID4gPiA+
-ID4gPiA+IHByaXZhdGVfZGF0YSk7DQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+ICAgbXV0ZXhfbG9jaygmanBlZy0+bG9jayk7DQo+ID4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiAgIHY0bDJfY3RybF9oYW5kbGVyX2ZyZWUoJmN0eC0+Y3RybF9oZGwpOw0KPiA+
-ID4gPiA+ID4gPiA+ID4gPiA+ID4gICBbMV0gdjRsMl9tMm1fY3R4X3JlbGVhc2UoY3R4LT5maC5t
-Mm1fY3R4KTsNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ICAgdjRsMl9maF9kZWwoJmN0eC0+Zmgp
-Ow0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gICB2NGwyX2ZoX2V4aXQoJmN0eC0+ZmgpOw0KPiA+
-ID4gPiA+ID4gPiA+ID4gPiA+ID4gICBrZnJlZShjdHgpOw0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+
-ID4gICBtdXRleF91bmxvY2soJmpwZWctPmxvY2spOw0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4g
-ICByZXR1cm4gMDsNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IH0NCj4gPiA+ID4gPiA+ID4gPiA+
-ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gdm9pZCB2NGwyX20ybV9jdHhfcmVsZWFz
-ZShzdHJ1Y3QgdjRsMl9tMm1fY3R4DQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiAqbTJtX2N0eCkN
-Cj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IHsNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ICAgLyog
-d2FpdCB1bnRpbCB0aGUgY3VycmVudCBjb250ZXh0IGlzIGRlcXVldWVkDQo+ID4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiBmcm9tDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBqb2JfcXVldWUgKi8NCj4g
-PiA+ID4gPiA+ID4gPiA+ID4gPiA+ICAgWzJdIHY0bDJfbTJtX2NhbmNlbF9qb2IobTJtX2N0eCk7
-DQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ICAgdmIy
-X3F1ZXVlX3JlbGVhc2UoJm0ybV9jdHgtPmNhcF9xX2N0eC5xKTsNCj4gPiA+ID4gPiA+ID4gPiA+
-ID4gPiA+ICAgdmIyX3F1ZXVlX3JlbGVhc2UoJm0ybV9jdHgtPm91dF9xX2N0eC5xKTsNCj4gPiA+
-ID4gPiA+ID4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gICBrZnJlZShtMm1f
-Y3R4KTsNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IH0NCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+
-IA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gTm90ZSB0aGF0IGFsbCBvZiB0aGlzIGlzIHN0YXRp
-YyBhbmFseXNpcywgd2hpY2gNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IG1heQ0KPiA+ID4gPiA+
-ID4gPiA+ID4gPiA+ID4gYmUNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IGZhbHNlDQo+ID4gPiA+
-ID4gPiA+ID4gPiA+ID4gPiBwb3NpdGl2ZS4NCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IEZlZWwg
-ZnJlZSB0byB0ZWxsIG1lIGlmIHRoZXJlIGlzIHNvbWV0aGluZyBJJ3ZlDQo+ID4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiBtaXNzZWQuDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiA+IFJlZ2FyZCwNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IFpoZW5nDQo+ID4g
-PiA+ID4gPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gRGVhciBaaGVuZywNCj4g
-PiA+ID4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiBZb3Ugc2V0IHVwIGFu
-IGFwcGxpY2F0aW9uIHNjZW5hcmlvOg0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+IGNwdTEgaXMgdXNp
-bmcgdGhlIG10ay1qcGVnIGRyaXZlciBhbmQgdGltZW91dA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+
-IHdvcmsNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiBoYXMNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiBi
-ZWVuDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gc2NoZWR1bGVkLg0KPiA+ID4gPiA+ID4gPiA+ID4g
-PiA+IEF0IHRoZSBzYW1lIHRpbWUgY3B1MCB3YW50ZWQgdG8gcmVtb3ZlIHRoZSBtdGstDQo+ID4g
-PiA+ID4gPiA+ID4gPiA+ID4ganBlZw0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+IGRyaXZlciwNCj4g
-PiA+ID4gPiA+ID4gPiA+ID4gPiB3aGljaA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+IGNhdXNlZCB0
-aGUgVUFGIGJ1Zy4NCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiBJIHdvbmRlciBpZiBzdWNoIGFuIGly
-cmF0aW9uYWwgYXBwbGljYXRpb24NCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiBzY2VuYXJpbw0KPiA+
-ID4gPiA+ID4gPiA+ID4gPiA+IGNvdWxkDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gZXhpc3QuDQo+
-ID4gPiA+ID4gPiA+ID4gPiA+ID4gVGhpcw0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+IHNjZW5hcmlv
-LCBhcyB5b3UgZGVzY3JpYmVkLCBub3Qgb25seSBsZWFkcyB0byB0aGUNCj4gPiA+ID4gPiA+ID4g
-PiA+ID4gPiBwcm9ibGVtcyB5b3UNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiBtZW50aW9uZWQsIGJ1
-dCBhbHNvIHRvIG91dHB1dCZjYXB0dXJlIG1lbW9yeQ0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+IGxl
-YWtzDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gYW5kDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gdW5y
-ZWxlYXNlZA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+IHJlc291cmNlcywgc3VjaCBhcyBzcGlubG9j
-ay4NCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiBUeXBpY2FsbHksIGlmIHdlIHdhbnQgdG8gcmVtb3Zl
-IHRoZSBkcml2ZXIsIHdlDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gZmlyc3RseSBkbw0KPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+IHN0b3ANCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiBzdHJlYW1pbmcsIHdo
-aWNoIGVuc3VyZXMgdGhhdCB0aGUgd29ya2VyIGhhcyBiZWVuDQo+ID4gPiA+ID4gPiA+ID4gPiA+
-ID4gY2FuY2VsZWQuDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gSSBhZ3JlZSB3aXRoIHlvdXIgY2hh
-bmdlcyBmcm9tIHRoZSBwZXJzcGVjdGl2ZSBvZg0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+IHN0cmVu
-Z3RoZW5pbmcNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiB0aGUNCj4gPiA+ID4gPiA+ID4gPiA+ID4g
-PiByb2J1c3RuZXNzIG9mIHRoZSBkcml2ZXIgY29kZS4NCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiAN
-Cj4gPiA+ID4gPiA+ID4gPiA+ID4gPiBSZWdhcmRzLA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+IEt5
-cmllLg0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBJ
-cnVpIFdhbmcgKOeOi+eRnikgPElydWkuV2FuZ0BtZWRpYXRlay5jb20+DQo+ID4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiDkuo4yMDIz5bm0M+aciDfml6XlkajkuowNCj4gPiA+ID4gPiA+ID4gPiA+ID4g
-PiA+IDE4OjIz5YaZ6YGT77yaDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+
-ID4gPiA+ID4gPiA+ID4gPiBEZWFyIEFuZ2VsbyBhbmQgWmhlbmcsDQo+ID4gPiA+ID4gPiA+ID4g
-PiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBUaGFua3MgZm9yIHlvdXIgcGF0
-Y2ggYW5kIGNvbW1lbnRzLg0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiA+ID4gRGVhciBLeXJpZSwNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gDQo+
-ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IFBsZWFzZSBoZWxwIHRvIGNoZWNrIHRoaXMsIHRoYW5r
-cy4NCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+
-IEJlc3QgUmVnYXJkcw0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4g
-PiA+ID4gPiA+ID4gT24gVHVlLCAyMDIzLTAzLTA3IGF0IDEwOjQ5ICswMTAwLA0KPiA+ID4gPiA+
-ID4gPiA+ID4gPiA+ID4gPiBBbmdlbG9HaW9hY2NoaW5vDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4g
-PiA+IERlbA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBSZWdubw0KPiA+ID4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiB3cm90ZToNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBJbCAwNy8wMy8y
-MyAxMDoyNywgWmhlbmcgSGFja2VyIGhhIHNjcml0dG86DQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4g
-PiA+ID4gPiBIaSwNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+ID4gSXMgdGhlcmUgYW55b25lIHdobyBjYW4gaGVscCB3aXRoIHRoaXM/
-IEkNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IGNhbg0KPiA+ID4gPiA+ID4gPiA+ID4g
-PiA+ID4gPiA+ID4gcHJvdmlkZQ0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gbW9yZQ0K
-PiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gZGV0YWlscw0KPiA+ID4gPiA+ID4gPiA+ID4g
-PiA+ID4gPiA+ID4gbGlrZSBpbnZva2luZyBjaGFpbiBpZiBuZWVkZWQuDQo+ID4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+ID4gPiBQcm92aWRpbmcgbW9yZSBkZXRhaWxzIGlzIGFsd2F5cyBnb29k
-Lg0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IFBsZWFzZQ0KPiA+ID4gPiA+ID4gPiA+ID4g
-PiA+ID4gPiA+IGRvLg0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+IE1lYW53aGlsZSwgYWRkaW5nIElydWkgV2FuZyB0byB0aGUgbG9vcDoN
-Cj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBoZSdzDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4g
-PiA+ID4gZG9pbmcNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBtdGstDQo+ID4gPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+ID4ganBlZy4NCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiANCj4g
-PiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBSZWdhcmRzLA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+
-ID4gPiA+IEFuZ2Vsbw0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+ID4gVGhhbmtzLA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4g
-WmhlbmcNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiA+ID4g
-PiA+ID4gPiA+ID4gWmhlbmcgV2FuZyA8enl5dGx6Lnd6QDE2My5jb20+DQo+ID4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiA+ID4gPiDkuo4yMDIz5bm0M+aciDbml6XlkajkuIANCj4gPiA+ID4gPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+IDE0OjI45YaZ6YGT77yaDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+
-ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBJbiBtdGtfanBlZ19wcm9i
-ZSwgJmpwZWctDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID5qb2JfdGltZW91dF93
-b3JrDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IGlzDQo+ID4gPiA+ID4gPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+IGJvdW5kDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IHdp
-dGgNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gbXRrX2pwZWdfam9iX3RpbWVvdXRf
-d29yay4gVGhlbg0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBtdGtfanBlZ19kZWNf
-ZGV2aWNlX3J1bg0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBhbmQgbXRrX2pwZWdf
-ZW5jX2RldmljZV9ydW4gbWF5IGJlDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IGNh
-bGxlZA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiB0bw0KPiA+ID4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiA+ID4gPiBzdGFydA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiB0
-aGUNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gd29yay4NCj4gPiA+ID4gPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+ID4gSWYgd2UgcmVtb3ZlIHRoZSBtb2R1bGUgd2hpY2ggd2lsbCBjYWxs
-DQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IG10a19qcGVnX3JlbW92ZQ0KPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiB0byBtYWtlIGNsZWFudXAsIHRoZXJlIG1heSBiZSBh
-DQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IHVuZmluaXNoZWQNCj4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiA+ID4gPiA+ID4gd29yay4gVGhlDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+
-ID4gPiA+IHBvc3NpYmxlIHNlcXVlbmNlIGlzIGFzIGZvbGxvd3MsIHdoaWNoDQo+ID4gPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+ID4gPiA+IHdpbGwNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+
-ID4gY2F1c2UgYQ0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiB0eXBpY2FsIFVBRiBi
-dWcuDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiA+ID4g
-PiA+ID4gPiA+ID4gPiBGaXggaXQgYnkgY2FuY2VsaW5nIHRoZSB3b3JrIGJlZm9yZQ0KPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBjbGVhbnVwDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4g
-PiA+ID4gPiA+IGluDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IHRoZQ0KPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBtdGtfanBlZ19yZW1vdmUNCj4gPiA+ID4gPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IENQVTAg
-ICAgICAgICAgICAgICAgICBDUFUxDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IA0K
-PiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiAgICAgICAgICAgICAgICAgICAgICB8bXRr
-X2pwZWdfam9iX3RpbWUNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gb3V0Xw0KPiA+
-ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiB3b3JrDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4g
-PiA+ID4gPiA+IG10a19qcGVnX3JlbW92ZSAgICAgfA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4g
-PiA+ID4gPiAgICB2NGwyX20ybV9yZWxlYXNlICB8DQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+
-ID4gPiA+ICAgICAga2ZyZWUobTJtX2Rldik7IHwNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4g
-PiA+ID4gICAgICAgICAgICAgICAgICAgICAgfA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+
-ID4gPiAgICAgICAgICAgICAgICAgICAgICB8DQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4g
-PiA+IHY0bDJfbTJtX2dldF9jdXJyX3ByaXYNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+
-ID4gICAgICAgICAgICAgICAgICAgICAgfCAgIG0ybV9kZXYtDQo+ID4gPiA+ID4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiA+ID5jdXJyX2N0eA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiAv
-L3VzZQ0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiA+ID4gU2lnbmVkLW9mZi1ieTogWmhlbmcgV2FuZyA8DQo+ID4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiA+ID4gPiA+IHp5eXRsei53ekAxNjMuY29tPg0KPiA+ID4gPiA+ID4gPiA+ID4g
-PiA+ID4gPiA+ID4gPiAtLS0NCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gDQo+ID4g
-PiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbWVkaWF0
-ZWsvanBlZy9tdA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBrX2pwDQo+ID4gPiA+
-ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IGVnX2MNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4g
-PiA+ID4gb3JlLmMNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+
-IDIgKy0NCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gICAxIGZpbGUgY2hhbmdlZCwg
-MSBpbnNlcnRpb24oKyksIDENCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gZGVsZXRp
-b24oLSkNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+IGRpZmYgLS1naXQNCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+
-ID4gYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL21lZGlhdGVrL2pwZWcvDQo+ID4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiA+ID4gPiA+IG10a18NCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4g
-anBlZw0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBfY29yZS4NCj4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiA+ID4gPiA+ID4gYw0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBi
-L2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbWVkaWF0ZWsvanBlZy8NCj4gPiA+ID4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiA+ID4gbXRrXw0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBqcGVn
-DQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IF9jb3JlLg0KPiA+ID4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiA+ID4gPiBjDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IGluZGV4
-IDk2OTUxNmE5NDBiYS4uMzY0NTEzZTc4OTdlIDEwMDY0NA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiAtLS0NCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gYS9kcml2ZXJz
-L21lZGlhL3BsYXRmb3JtL21lZGlhdGVrL2pwZWcvDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+
-ID4gPiA+IG10a18NCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4ganBlZw0KPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBfY29yZS4NCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+
-ID4gPiA+ID4gYw0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiArKysNCj4gPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL21lZGlhdGVr
-L2pwZWcvDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+IG10a18NCj4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiA+ID4gPiA+ID4ganBlZw0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4g
-PiBfY29yZS4NCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gYw0KPiA+ID4gPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+ID4gPiBAQCAtMTc5Myw3ICsxNzkzLDcgQEAgc3RhdGljIGludA0KPiA+
-ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBtdGtfanBlZ19wcm9iZShzdHJ1Y3QNCj4gPiA+
-ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiAgIHN0YXRpYyBpbnQgbXRrX2pwZWdfcmVtb3ZlKHN0
-cnVjdA0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiBwbGF0Zm9ybV9kZXZpY2UNCj4g
-PiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gKnBkZXYpDQo+ID4gPiA+ID4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiA+ICAgew0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiAgICAgICAg
-ICBzdHJ1Y3QgbXRrX2pwZWdfZGV2ICpqcGVnID0NCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4g
-PiA+ID4gcGxhdGZvcm1fZ2V0X2RydmRhdGEocGRldik7DQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4g
-PiA+ID4gPiA+IC0NCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gKyAgICAgICBjYW5j
-ZWxfZGVsYXllZF93b3JrKCZqcGVnLQ0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+
-IGpvYl90aW1lb3V0X3dvcmspOw0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiANCj4g
-PiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gICAgICAgICAgcG1fcnVudGltZV9kaXNhYmxl
-KCZwZGV2LQ0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ZGV2KTsNCj4gPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gICAgICAgICAgdmlkZW9fdW5yZWdpc3Rlcl9kZXZpY2Uo
-anBlZy0NCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiB2ZGV2KTsNCj4gPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+
-ICAgICAgICAgIHY0bDJfbTJtX3JlbGVhc2UoanBlZy0NCj4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+
-ID4gPiA+ID4gPm0ybV9kZXYpOw0KPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiAtLQ0K
-PiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiAyLjI1LjENCj4gPiA+ID4gPiA+ID4gPiA+
-ID4gPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4g
-PiA+ID4gPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+ID4gPiA+ID4gPiA+ID4gDQo=
+Hi Kyrie,
+
+Thanks for your kind reminder. I'll write the patch as soon as I can.
+
+Best regards,
+Zheng Wang
+
+Kyrie Wu (=E5=90=B4=E6=99=97) <Kyrie.Wu@mediatek.com> =E4=BA=8E2023=E5=B9=
+=B46=E6=9C=8815=E6=97=A5=E5=91=A8=E5=9B=9B 10:40=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Mon, 2023-05-15 at 10:57 +0800, Zheng Hacker wrote:
+> > External email : Please do not click links or open attachments until
+> > you have verified the sender or the content.
+> >
+> >
+> > Hi Kyrie,
+> >
+> > I think your analysis is right, I'll make the change in the next
+> > version.
+> >
+> > Best regards,
+> > Zheng
+> >
+> Dear Zheng,
+>
+> Could you please update the next version at any convenient time?
+>
+> Thanks.
+>
+> Bset Regards,
+> Kyrie.
+>
+> > Kyrie Wu (=E5=90=B4=E6=99=97) <Kyrie.Wu@mediatek.com> =E4=BA=8E2023=E5=
+=B9=B45=E6=9C=8812=E6=97=A5=E5=91=A8=E4=BA=94 09:24=E5=86=99=E9=81=93=EF=BC=
+=9A
+> > >
+> > > On Tue, 2023-03-14 at 11:37 +0800, Zheng Hacker wrote:
+> > > > Kyrie Wu (=E5=90=B4=E6=99=97) <Kyrie.Wu@mediatek.com> =E4=BA=8E2023=
+=E5=B9=B43=E6=9C=8814=E6=97=A5=E5=91=A8=E4=BA=8C 10:49=E5=86=99=E9=81=93=EF=
+=BC=9A
+> > > > >
+> > > > > On Thu, 2023-03-09 at 15:31 +0800, Zheng Hacker wrote:
+> > > > > > Dear Kyrie,
+> > > > > >
+> > > > > > Guenter gave some advice about this issue in [1]. As we are
+> > > > > > not
+> > > > > > familiar with the code here, could you please see if the bug
+> > > > > > really
+> > > > > > exists?
+> > > > > >
+> > > > > > [1]
+> > > > > >
+> > >
+> > >
+> https://lore.kernel.org/all/e03134f9-9433-ab6b-170a-8ce752fccdeb@roeck-us=
+.net/
+> > > > > >
+> > > > > > Best regards,
+> > > > > > Zheng
+> > > > >
+> > > > > Dear zheng,
+> > > > >
+> > > > > I have no more questions for your patch, thank you for your
+> > > > > contribution to mtk jpeg driver.
+> > > > >
+> > > >
+> > > > Thanks for your detailed review and explanation about the code. I
+> > > > have
+> > > > learned a lot
+> > > > from it. Have a nice day :)
+> > > >
+> > > > Best regards,
+> > > > Zheng
+> > >
+> > > Dear Zheng,
+> > >
+> > > I think that cancel_delayed_work, added in remove function, should
+> > > change to cancel_delayed_work_sync to solve UAF. The corresponding
+> > > operation flow is shown as follow:
+> > >       CPU0                      CPU1
+> > >                       |mtk_jpeg_job_timeout_work
+> > > mtk_jpeg_remove       |
+> > >   cancel_delayed_work |
+> > >   v4l2_m2m_release    |
+> > >     kfree(m2m_dev);   |
+> > >                       |
+> > >                       | v4l2_m2m_get_curr_priv
+> > >                       |  m2m_dev->curr_ctx //use
+> > >
+> > > If cancel_delayed_work is called in async mode like above, and the
+> > > m2m_dev is freed. But it is used in mtk_jpeg_job_timeout_work, this
+> > > calling may cause UAF.
+> > >
+> > > Thanks.
+> > > >
+> > > > > >
+> > > > > >
+> > > > > >
+> > > > > > Zheng Hacker <hackerzheng666@gmail.com> =E4=BA=8E2023=E5=B9=B43=
+=E6=9C=888=E6=97=A5=E5=91=A8=E4=B8=89 17:11=E5=86=99=E9=81=93=EF=BC=9A
+> > > > > > >
+> > > > > > > Dear Kyrie,
+> > > > > > >
+> > > > > > > Sorry for my misunderstanding. I've seen the timeout worker
+> > > > > > > is
+> > > > > > > bound
+> > > > > > > with mtk_jpegdec_timeout_work rather than
+> > > > > > > mtk_jpeg_job_timeout_work.So
+> > > > > > > the competition won't happen.
+> > > > > > >
+> > > > > > > Back to the beginning scene, I still don't know if it's a
+> > > > > > > UAF
+> > > > > > > issue
+> > > > > > > or
+> > > > > > > not. The normal schedule is very strong to me. If we can
+> > > > > > > call
+> > > > > > > mtk_jpeg_remove directly without calling mtk_jpeg_release,
+> > > > > > > The UAF is still possible. Otherwis, I think it's safe
+> > > > > > > here.
+> > > > > > >
+> > > > > > > Best regards,
+> > > > > > > Zheng
+> > > > > > >
+> > > > > > > Kyrie Wu (=E5=90=B4=E6=99=97) <Kyrie.Wu@mediatek.com> =E4=BA=
+=8E2023=E5=B9=B43=E6=9C=888=E6=97=A5=E5=91=A8=E4=B8=89 15:39=E5=86=99=E9=81=
+=93=EF=BC=9A
+> > > > > > > >
+> > > > > > > > On Wed, 2023-03-08 at 14:10 +0800, Zheng Hacker wrote:
+> > > > > > > > > Hi Kyrie,
+> > > > > > > > >
+> > > > > > > > > After reviewing the code, I found anothe possible code
+> > > > > > > > > path. As
+> > > > > > > > > I am
+> > > > > > > > > not familiar with the module. It has high possibility
+> > > > > > > > > it's
+> > > > > > > > > wrong.
+> > > > > > > > > Could please help me check this? Very much appreciated
+> > > > > > > > > for
+> > > > > > > > > your
+> > > > > > > > > valuable time.
+> > > > > > > > >
+> > > > > > > > > In summary, mtk_jpegdec_worker was set in mtk_jpeg_open
+> > > > > > > > > and
+> > > > > > > > > started
+> > > > > > > > > in
+> > > > > > > > > mtk_jpeg_multicore_dec_device_run, which made it
+> > > > > > > > > running on
+> > > > > > > > > cpu1.
+> > > > > > > > > Inside the mtk_jpeg_multicore_dec_device_run, it will
+> > > > > > > > > call
+> > > > > > > > > schedule_delayed_work  to start the timeout_work, which
+> > > > > > > > > will
+> > > > > > > > > make it
+> > > > > > > > > running on cpu2. Meanwhile, we can call
+> > > > > > > > > mtk_jpeg_release to cancel the job. But there might be
+> > > > > > > > > a
+> > > > > > > > > race
+> > > > > > > > > between
+> > > > > > > > > mtk_jpegdec_worker and v4l2_m2m_cancel_job. It may call
+> > > > > > > > > v4l2_m2m_job_finish too early to wake up the event.
+> > > > > > > > > The remove will go on, the other race is as described
+> > > > > > > > > earlier.
+> > > > > > > > >
+> > > > > > > > > cpu0                         cpu1                  cpu2
+> > > > > > > > > (1)->device_run
+> > > > > > > > > mtk_jpeg_multicore
+> > > > > > > > > _dec_device_run
+> > > > > > > > > queue_work
+> > > > > > > > > (jpeg->workqueue,
+> > > > > > > > > &ctx->jpeg_work);
+> > > > > > > > >                       (2)mtk_jpegdec_worker
+> > > > > > > > > (3)mtk_jpeg_release
+> > > > > > > > > v4l2_m2m_cancel_job
+> > > > > > > > > wait event
+> > > > > > > > >
+> > > > > > > > >                       schedule_delayed_work
+> > > > > > > > >                                             (4)mtk_jpeg
+> > > > > > > > > _job
+> > > > > > > > > _tim
+> > > > > > > > > eout_w
+> > > > > > > > > ork
+> > > > > > > > >                       (5)v4l2_m2m_job_finish
+> > > > > > > > >                       wake up
+> > > > > > > > > (6)mtk_jpeg_remove
+> > > > > > > > > v4l2_m2m_release
+> > > > > > > > > kfree(m2m_dev)
+> > > > > > > > >                                             (7)v4l2_m2m
+> > > > > > > > > _get
+> > > > > > > > > _cur
+> > > > > > > > > r_priv
+> > > > > > > > >
+> > > > > > > >
+> > > > > > > > Dear zheng,
+> > > > > > > >
+> > > > > > > > The mtk_jpeg_multicore_dec_device_run function is used
+> > > > > > > > for
+> > > > > > > > multi-
+> > > > > > > > hw
+> > > > > > > > jpeg decoding. Instead of scheduling
+> > > > > > > > mtk_jpeg_job_timeout_work,
+> > > > > > > > mtk_jpegdec_worker is scheduled in this function.
+> > > > > > > >
+> > > > > > > > The mtk_jpeg_dec_device_run function is used for single
+> > > > > > > > hw
+> > > > > > > > jpeg
+> > > > > > > > decoding, which schedules mtk_jpeg_job_timeout_work.
+> > > > > > > >
+> > > > > > > > A driver is either a single hw driver or a multi-hw
+> > > > > > > > driver
+> > > > > > > > and
+> > > > > > > > cannot
+> > > > > > > > represent both at the same time.
+> > > > > > > > mtk_jpeg_job_timeout_work and mtk_jpegdec_worker cannot
+> > > > > > > > be
+> > > > > > > > scheduled at
+> > > > > > > > the same time.
+> > > > > > > > So mtk_jpeg_job_timeout_work calls v4l2_m2m_job_finish
+> > > > > > > > would
+> > > > > > > > not
+> > > > > > > > cause
+> > > > > > > > competition between the mtk_jpegdec_worker and
+> > > > > > > > v4l2_m2m_cancel_job.
+> > > > > > > >
+> > > > > > > > Regards,
+> > > > > > > > Kyrie.
+> > > > > > > >
+> > > > > > > >
+> > > > > > > > > Kyrie Wu (=E5=90=B4=E6=99=97) <Kyrie.Wu@mediatek.com> =E4=
+=BA=8E2023=E5=B9=B43=E6=9C=888=E6=97=A5=E5=91=A8=E4=B8=89
+> > > > > > > > > 11:32=E5=86=99=E9=81=93=EF=BC=9A
+> > > > > > > > > >
+> > > > > > > > > > On Wed, 2023-03-08 at 10:20 +0800, Zheng Hacker
+> > > > > > > > > > wrote:
+> > > > > > > > > > > Hi Kyrie,
+> > > > > > > > > > >
+> > > > > > > > > > > Thank you for your careful analysis and response. I
+> > > > > > > > > > > still
+> > > > > > > > > > > have
+> > > > > > > > > > > some
+> > > > > > > > > > > areas that I don't quite understand and would like
+> > > > > > > > > > > to
+> > > > > > > > > > > ask
+> > > > > > > > > > > for
+> > > > > > > > > > > clarification. That is, how do the function
+> > > > > > > > > > > pointers
+> > > > > > > > > > > for
+> > > > > > > > > > > stop
+> > > > > > > > > > > streaming, initialized as
+> > > > > > > > > > > mtk_jpeg_enc_stop_streaming
+> > > > > > > > > > > and
+> > > > > > > > > > > mtk_jpeg_dec_stop_streaming, ensure that the worker
+> > > > > > > > > > > is
+> > > > > > > > > > > canceled?
+> > > > > > > > > > > I
+> > > > > > > > > > > would greatly appreciate your response.
+> > > > > > > > > > >
+> > > > > > > > > > > Best regards,
+> > > > > > > > > > > Zheng
+> > > > > > > > > >
+> > > > > > > > > > Dear zheng,
+> > > > > > > > > >
+> > > > > > > > > > For stop streaming, what I mean is that stoppping
+> > > > > > > > > > jpeg
+> > > > > > > > > > decoding or
+> > > > > > > > > > encoding.
+> > > > > > > > > > Ok, let me introduce the sw flow of stop streaming:
+> > > > > > > > > > Firstly, the app will call v4l2_m2m_ioctl_streamoff,
+> > > > > > > > > > which
+> > > > > > > > > > will
+> > > > > > > > > > call
+> > > > > > > > > > v4l2_m2m_cancel_job, if it finds a job running(as you
+> > > > > > > > > > note,
+> > > > > > > > > > cpu1 is
+> > > > > > > > > > running), it will wait event, the event is wake up by
+> > > > > > > > > > v4l2_m2m_job_finish function. And v4l2_m2m_job_finish
+> > > > > > > > > > is
+> > > > > > > > > > called by
+> > > > > > > > > > jpeg
+> > > > > > > > > > dec/enc irq handler, which means that the waitting
+> > > > > > > > > > would
+> > > > > > > > > > result mtk
+> > > > > > > > > > hw
+> > > > > > > > > > to finish dec/enc, irq will occur and irq handler
+> > > > > > > > > > would
+> > > > > > > > > > cancel
+> > > > > > > > > > timeout
+> > > > > > > > > > worker. The follow is shown as blow.
+> > > > > > > > > > v4l2_m2m_ioctl_streamoff
+> > > > > > > > > >    v4l2_m2m_cancel_job                mtk_jpeg_enc_ir
+> > > > > > > > > > q/mt
+> > > > > > > > > > k_jp
+> > > > > > > > > > eg_dec
+> > > > > > > > > > _irq
+> > > > > > > > > >        wait evnet <------ wake up ------
+> > > > > > > > > > v4l2_m2m_job_finish
+> > > > > > > > > >                                         cancel
+> > > > > > > > > > timeout
+> > > > > > > > > > work
+> > > > > > > > > >
+> > > > > > > > > > As mentioned above, if it is normal stop streaming
+> > > > > > > > > > action,
+> > > > > > > > > > there
+> > > > > > > > > > will
+> > > > > > > > > > be no happen that the timeout worker does not
+> > > > > > > > > > canceled.
+> > > > > > > > > >
+> > > > > > > > > > But if mtk_jpeg_remove is called directly without
+> > > > > > > > > > above
+> > > > > > > > > > flow,
+> > > > > > > > > > it
+> > > > > > > > > > would
+> > > > > > > > > > cause lots of issues.
+> > > > > > > > > >
+> > > > > > > > > > Regards,
+> > > > > > > > > > Kyrie.
+> > > > > > > > > > >
+> > > > > > > > > > > Kyrie Wu (=E5=90=B4=E6=99=97) <Kyrie.Wu@mediatek.com>=
+ =E4=BA=8E2023=E5=B9=B43=E6=9C=888=E6=97=A5=E5=91=A8=E4=B8=89
+> > > > > > > > > > > 10:02=E5=86=99=E9=81=93=EF=BC=9A
+> > > > > > > > > > > >
+> > > > > > > > > > > > On Tue, 2023-03-07 at 23:03 +0800, Zheng Hacker
+> > > > > > > > > > > > wrote:
+> > > > > > > > > > > > > The timer function was set in mtk_jpeg_probe
+> > > > > > > > > > > > > with
+> > > > > > > > > > > > > mtk_jpeg_job_timeout_work function.
+> > > > > > > > > > > > > And the worker is started in
+> > > > > > > > > > > > > mtk_jpeg_dec_device_run.
+> > > > > > > > > > > > > There are two functions (mtk_jpeg_enc_irq and
+> > > > > > > > > > > > > mtk_jpeg_dec_irq)
+> > > > > > > > > > > > > which
+> > > > > > > > > > > > > may cancel the worker.
+> > > > > > > > > > > > > They are used as IRQ handler function which is
+> > > > > > > > > > > > > saved as
+> > > > > > > > > > > > > function
+> > > > > > > > > > > > > pointer in a variable.
+> > > > > > > > > > > > > In mtk_jpeg_probe, they are registered by
+> > > > > > > > > > > > > devm_request_irq:
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > ret =3D devm_request_irq(&pdev->dev,
+> > > > > > > > > > > > >                jpeg_irq,
+> > > > > > > > > > > > >                jpeg->variant->irq_handler,
+> > > > > > > > > > > > >                0,
+> > > > > > > > > > > > >                pdev->name, jpeg);
+> > > > > > > > > > > > >     if (ret) {
+> > > > > > > > > > > > >       dev_err(&pdev->dev, "Failed to request
+> > > > > > > > > > > > > jpeg_irq
+> > > > > > > > > > > > > %d
+> > > > > > > > > > > > > (%d)\n",
+> > > > > > > > > > > > >         jpeg_irq, ret);
+> > > > > > > > > > > > >       return ret;
+> > > > > > > > > > > > >     }
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > However, if we remove the module without
+> > > > > > > > > > > > > triggering
+> > > > > > > > > > > > > the
+> > > > > > > > > > > > > irq,
+> > > > > > > > > > > > > the
+> > > > > > > > > > > > > worker will never be removed.
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > As for the schedule, mtk_jpeg_dec_device_run
+> > > > > > > > > > > > > and
+> > > > > > > > > > > > > mtk_jpeg_enc_device_run will start the worker.
+> > > > > > > > > > > > > The schedule invoking is quite complicated. As
+> > > > > > > > > > > > > far
+> > > > > > > > > > > > > as I
+> > > > > > > > > > > > > know,
+> > > > > > > > > > > > > the
+> > > > > > > > > > > > > invoking chain is as follows:
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > v4l2_m2m_init->v4l2_m2m_device_run_work-
+> > > > > > > > > > > > > > v4l2_m2m_try_run
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > the v4l2_m2m_device_run_work function is also a
+> > > > > > > > > > > > > worker
+> > > > > > > > > > > > > which
+> > > > > > > > > > > > > is
+> > > > > > > > > > > > > set
+> > > > > > > > > > > > > in
+> > > > > > > > > > > > > v4l2_m2m_init and started in
+> > > > > > > > > > > > > v4l2_m2m_schedule_next_job.
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > Before calling remove function,
+> > > > > > > > > > > > > the  mtk_jpeg_release
+> > > > > > > > > > > > > was
+> > > > > > > > > > > > > invoked
+> > > > > > > > > > > > > to
+> > > > > > > > > > > > > release the related resource.
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > v4l2_m2m_cancel_job will cancel the job by
+> > > > > > > > > > > > > calling
+> > > > > > > > > > > > > m2m_dev->m2m_ops->job_abort(m2m_ctx->priv).
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > But this will only cancel the current queue by
+> > > > > > > > > > > > > list_del(&m2m_dev->curr_ctx->queue);
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > I think this can not cancel the posted task
+> > > > > > > > > > > > > mentioned
+> > > > > > > > > > > > > before.
+> > > > > > > > > > > > > So
+> > > > > > > > > > > > > I
+> > > > > > > > > > > > > think if mtk_jpeg_job_timeout_work
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > is working on, and using jpeg->m2m_dev after
+> > > > > > > > > > > > > freeing it
+> > > > > > > > > > > > > in
+> > > > > > > > > > > > > mtk_jpeg_remove, it will cause a UAF bug.
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > static int mtk_jpeg_release(struct file *file)
+> > > > > > > > > > > > > {
+> > > > > > > > > > > > >   struct mtk_jpeg_dev *jpeg =3D
+> > > > > > > > > > > > > video_drvdata(file);
+> > > > > > > > > > > > >   struct mtk_jpeg_ctx *ctx =3D
+> > > > > > > > > > > > > mtk_jpeg_fh_to_ctx(file-
+> > > > > > > > > > > > > > private_data);
+> > > > > > > > > > > > >
+> > > > > > > > > > > > >   mutex_lock(&jpeg->lock);
+> > > > > > > > > > > > >   v4l2_ctrl_handler_free(&ctx->ctrl_hdl);
+> > > > > > > > > > > > >   [1] v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+> > > > > > > > > > > > >   v4l2_fh_del(&ctx->fh);
+> > > > > > > > > > > > >   v4l2_fh_exit(&ctx->fh);
+> > > > > > > > > > > > >   kfree(ctx);
+> > > > > > > > > > > > >   mutex_unlock(&jpeg->lock);
+> > > > > > > > > > > > >   return 0;
+> > > > > > > > > > > > > }
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > void v4l2_m2m_ctx_release(struct v4l2_m2m_ctx
+> > > > > > > > > > > > > *m2m_ctx)
+> > > > > > > > > > > > > {
+> > > > > > > > > > > > >   /* wait until the current context is dequeued
+> > > > > > > > > > > > > from
+> > > > > > > > > > > > > job_queue */
+> > > > > > > > > > > > >   [2] v4l2_m2m_cancel_job(m2m_ctx);
+> > > > > > > > > > > > >
+> > > > > > > > > > > > >   vb2_queue_release(&m2m_ctx->cap_q_ctx.q);
+> > > > > > > > > > > > >   vb2_queue_release(&m2m_ctx->out_q_ctx.q);
+> > > > > > > > > > > > >
+> > > > > > > > > > > > >   kfree(m2m_ctx);
+> > > > > > > > > > > > > }
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > Note that all of this is static analysis, which
+> > > > > > > > > > > > > may
+> > > > > > > > > > > > > be
+> > > > > > > > > > > > > false
+> > > > > > > > > > > > > positive.
+> > > > > > > > > > > > > Feel free to tell me if there is something I've
+> > > > > > > > > > > > > missed.
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > Regard,
+> > > > > > > > > > > > > Zheng
+> > > > > > > > > > > >
+> > > > > > > > > > > > Dear Zheng,
+> > > > > > > > > > > >
+> > > > > > > > > > > > You set up an application scenario:
+> > > > > > > > > > > > cpu1 is using the mtk-jpeg driver and timeout
+> > > > > > > > > > > > work
+> > > > > > > > > > > > has
+> > > > > > > > > > > > been
+> > > > > > > > > > > > scheduled.
+> > > > > > > > > > > > At the same time cpu0 wanted to remove the mtk-
+> > > > > > > > > > > > jpeg
+> > > > > > > > > > > > driver,
+> > > > > > > > > > > > which
+> > > > > > > > > > > > caused the UAF bug.
+> > > > > > > > > > > > I wonder if such an irrational application
+> > > > > > > > > > > > scenario
+> > > > > > > > > > > > could
+> > > > > > > > > > > > exist.
+> > > > > > > > > > > > This
+> > > > > > > > > > > > scenario, as you described, not only leads to the
+> > > > > > > > > > > > problems you
+> > > > > > > > > > > > mentioned, but also to output&capture memory
+> > > > > > > > > > > > leaks
+> > > > > > > > > > > > and
+> > > > > > > > > > > > unreleased
+> > > > > > > > > > > > resources, such as spinlock.
+> > > > > > > > > > > > Typically, if we want to remove the driver, we
+> > > > > > > > > > > > firstly do
+> > > > > > > > > > > > stop
+> > > > > > > > > > > > streaming, which ensures that the worker has been
+> > > > > > > > > > > > canceled.
+> > > > > > > > > > > > I agree with your changes from the perspective of
+> > > > > > > > > > > > strengthening
+> > > > > > > > > > > > the
+> > > > > > > > > > > > robustness of the driver code.
+> > > > > > > > > > > >
+> > > > > > > > > > > > Regards,
+> > > > > > > > > > > > Kyrie.
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > Irui Wang (=E7=8E=8B=E7=91=9E) <Irui.Wang@mediate=
+k.com>
+> > > > > > > > > > > > > =E4=BA=8E2023=E5=B9=B43=E6=9C=887=E6=97=A5=E5=91=
+=A8=E4=BA=8C
+> > > > > > > > > > > > > 18:23=E5=86=99=E9=81=93=EF=BC=9A
+> > > > > > > > > > > > > >
+> > > > > > > > > > > > > > Dear Angelo and Zheng,
+> > > > > > > > > > > > > >
+> > > > > > > > > > > > > > Thanks for your patch and comments.
+> > > > > > > > > > > > > >
+> > > > > > > > > > > > > > Dear Kyrie,
+> > > > > > > > > > > > > >
+> > > > > > > > > > > > > > Please help to check this, thanks.
+> > > > > > > > > > > > > >
+> > > > > > > > > > > > > > Best Regards
+> > > > > > > > > > > > > >
+> > > > > > > > > > > > > > On Tue, 2023-03-07 at 10:49 +0100,
+> > > > > > > > > > > > > > AngeloGioacchino
+> > > > > > > > > > > > > > Del
+> > > > > > > > > > > > > > Regno
+> > > > > > > > > > > > > > wrote:
+> > > > > > > > > > > > > > > Il 07/03/23 10:27, Zheng Hacker ha scritto:
+> > > > > > > > > > > > > > > > Hi,
+> > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > Is there anyone who can help with this? I
+> > > > > > > > > > > > > > > > can
+> > > > > > > > > > > > > > > > provide
+> > > > > > > > > > > > > > > > more
+> > > > > > > > > > > > > > > > details
+> > > > > > > > > > > > > > > > like invoking chain if needed.
+> > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > Providing more details is always good.
+> > > > > > > > > > > > > > > Please
+> > > > > > > > > > > > > > > do.
+> > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > Meanwhile, adding Irui Wang to the loop:
+> > > > > > > > > > > > > > > he's
+> > > > > > > > > > > > > > > doing
+> > > > > > > > > > > > > > > mtk-
+> > > > > > > > > > > > > > > jpeg.
+> > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > Regards,
+> > > > > > > > > > > > > > > Angelo
+> > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > Thanks,
+> > > > > > > > > > > > > > > > Zheng
+> > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > Zheng Wang <zyytlz.wz@163.com>
+> > > > > > > > > > > > > > > > =E4=BA=8E2023=E5=B9=B43=E6=9C=886=E6=97=A5=
+=E5=91=A8=E4=B8=80
+> > > > > > > > > > > > > > > > 14:28=E5=86=99=E9=81=93=EF=BC=9A
+> > > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > > In mtk_jpeg_probe, &jpeg-
+> > > > > > > > > > > > > > > > > >job_timeout_work
+> > > > > > > > > > > > > > > > > is
+> > > > > > > > > > > > > > > > > bound
+> > > > > > > > > > > > > > > > > with
+> > > > > > > > > > > > > > > > > mtk_jpeg_job_timeout_work. Then
+> > > > > > > > > > > > > > > > > mtk_jpeg_dec_device_run
+> > > > > > > > > > > > > > > > > and mtk_jpeg_enc_device_run may be
+> > > > > > > > > > > > > > > > > called
+> > > > > > > > > > > > > > > > > to
+> > > > > > > > > > > > > > > > > start
+> > > > > > > > > > > > > > > > > the
+> > > > > > > > > > > > > > > > > work.
+> > > > > > > > > > > > > > > > > If we remove the module which will call
+> > > > > > > > > > > > > > > > > mtk_jpeg_remove
+> > > > > > > > > > > > > > > > > to make cleanup, there may be a
+> > > > > > > > > > > > > > > > > unfinished
+> > > > > > > > > > > > > > > > > work. The
+> > > > > > > > > > > > > > > > > possible sequence is as follows, which
+> > > > > > > > > > > > > > > > > will
+> > > > > > > > > > > > > > > > > cause a
+> > > > > > > > > > > > > > > > > typical UAF bug.
+> > > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > > Fix it by canceling the work before
+> > > > > > > > > > > > > > > > > cleanup
+> > > > > > > > > > > > > > > > > in
+> > > > > > > > > > > > > > > > > the
+> > > > > > > > > > > > > > > > > mtk_jpeg_remove
+> > > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > > CPU0                  CPU1
+> > > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > >                      |mtk_jpeg_job_time
+> > > > > > > > > > > > > > > > > out_
+> > > > > > > > > > > > > > > > > work
+> > > > > > > > > > > > > > > > > mtk_jpeg_remove     |
+> > > > > > > > > > > > > > > > >    v4l2_m2m_release  |
+> > > > > > > > > > > > > > > > >      kfree(m2m_dev); |
+> > > > > > > > > > > > > > > > >                      |
+> > > > > > > > > > > > > > > > >                      |
+> > > > > > > > > > > > > > > > > v4l2_m2m_get_curr_priv
+> > > > > > > > > > > > > > > > >                      |   m2m_dev-
+> > > > > > > > > > > > > > > > > >curr_ctx
+> > > > > > > > > > > > > > > > > //use
+> > > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > > Signed-off-by: Zheng Wang <
+> > > > > > > > > > > > > > > > > zyytlz.wz@163.com>
+> > > > > > > > > > > > > > > > > ---
+> > > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > > drivers/media/platform/mediatek/jpeg/mt
+> > > > > > > > > > > > > > > > > k_jp
+> > > > > > > > > > > > > > > > > eg_c
+> > > > > > > > > > > > > > > > > ore.c
+> > > > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > > 2 +-
+> > > > > > > > > > > > > > > > >   1 file changed, 1 insertion(+), 1
+> > > > > > > > > > > > > > > > > deletion(-)
+> > > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > > diff --git
+> > > > > > > > > > > > > > > > > a/drivers/media/platform/mediatek/jpeg/
+> > > > > > > > > > > > > > > > > mtk_
+> > > > > > > > > > > > > > > > > jpeg
+> > > > > > > > > > > > > > > > > _core.
+> > > > > > > > > > > > > > > > > c
+> > > > > > > > > > > > > > > > > b/drivers/media/platform/mediatek/jpeg/
+> > > > > > > > > > > > > > > > > mtk_
+> > > > > > > > > > > > > > > > > jpeg
+> > > > > > > > > > > > > > > > > _core.
+> > > > > > > > > > > > > > > > > c
+> > > > > > > > > > > > > > > > > index 969516a940ba..364513e7897e 100644
+> > > > > > > > > > > > > > > > > ---
+> > > > > > > > > > > > > > > > > a/drivers/media/platform/mediatek/jpeg/
+> > > > > > > > > > > > > > > > > mtk_
+> > > > > > > > > > > > > > > > > jpeg
+> > > > > > > > > > > > > > > > > _core.
+> > > > > > > > > > > > > > > > > c
+> > > > > > > > > > > > > > > > > +++
+> > > > > > > > > > > > > > > > > b/drivers/media/platform/mediatek/jpeg/
+> > > > > > > > > > > > > > > > > mtk_
+> > > > > > > > > > > > > > > > > jpeg
+> > > > > > > > > > > > > > > > > _core.
+> > > > > > > > > > > > > > > > > c
+> > > > > > > > > > > > > > > > > @@ -1793,7 +1793,7 @@ static int
+> > > > > > > > > > > > > > > > > mtk_jpeg_probe(struct
+> > > > > > > > > > > > > > > > > platform_device *pdev)
+> > > > > > > > > > > > > > > > >   static int mtk_jpeg_remove(struct
+> > > > > > > > > > > > > > > > > platform_device
+> > > > > > > > > > > > > > > > > *pdev)
+> > > > > > > > > > > > > > > > >   {
+> > > > > > > > > > > > > > > > >          struct mtk_jpeg_dev *jpeg =3D
+> > > > > > > > > > > > > > > > > platform_get_drvdata(pdev);
+> > > > > > > > > > > > > > > > > -
+> > > > > > > > > > > > > > > > > +       cancel_delayed_work(&jpeg-
+> > > > > > > > > > > > > > > > > > job_timeout_work);
+> > > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > >          pm_runtime_disable(&pdev-
+> > > > > > > > > > > > > > > > > >dev);
+> > > > > > > > > > > > > > > > >          video_unregister_device(jpeg-
+> > > > > > > > > > > > > > > > > > vdev);
+> > > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > >          v4l2_m2m_release(jpeg-
+> > > > > > > > > > > > > > > > > >m2m_dev);
+> > > > > > > > > > > > > > > > > --
+> > > > > > > > > > > > > > > > > 2.25.1
+> > > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > >
