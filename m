@@ -2,71 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 89BAC731B24
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jun 2023 16:18:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F57B731AFE
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jun 2023 16:15:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345026AbjFOOSC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Jun 2023 10:18:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46004 "EHLO
+        id S1344974AbjFOOPG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Jun 2023 10:15:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345037AbjFOOSA (ORCPT
+        with ESMTP id S1345059AbjFOOPC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Jun 2023 10:18:00 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F1A1294C
-        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 07:17:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686838641; x=1718374641;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+3+tTG2dXLTNUwooYkMq9ofyQtX/EkxFsr2c+kl8hjo=;
-  b=U2gGp7PHDqI3ox4gy7cGc1PGyakM0TR6PHB40+MxyC6J1x6tYTnPg2Am
-   pi3fXPWzatcvNKBVt4fnoMqsVYOmXIUge+XoK0mOl3RYLGJ7yv507q5my
-   YyJocl2X/oKkl2CttoRMgHnaD8zab5Lw7cX/+QOfjK8aIKVfm4Kdgsb2c
-   1hcSCudPBl5zcsWODtY8JgAn9OHvXEfA2deMhDXzivyoO2yxrBWGW+15A
-   mfT2/yNsERCkQtfRl+hPSNV+8Lk0v+JTc/2/ruafm6ctJnAzZm/oe5583
-   opeSPo/wyE1XeNcWOZ/20uRgUKy9GEEhlKr/oPkX5CgKZPrO/v703+S/J
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="343635552"
-X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; 
-   d="scan'208";a="343635552"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 06:29:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="712455534"
-X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; 
-   d="scan'208";a="712455534"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 06:29:02 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 993991202B5;
-        Thu, 15 Jun 2023 16:28:59 +0300 (EEST)
-Date:   Thu, 15 Jun 2023 13:28:59 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Thu, 15 Jun 2023 10:15:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5176B1FE5
+        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 07:14:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1686838454;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=mN1MYEsjbIejYgqwr3ElwyTgpp4YsrCcH+/obmijHWI=;
+        b=Iyi2Te3+Uu/D0NFW1BDiAyRERJglgmwxqWnzHt5gY4dV+CBHJoE0GhLh9ulk6pe8SEM0CS
+        c+5sEh7pWSYh7C2Plx3ysBmTjayn6pBpA48UGqy1SBUi3aK1D7Buk63j+sD34GvkHZfJ1Z
+        zkqTRGNUenXPltCIs3/Tqn/pIG/8rK0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-526-ECU1dUE4NKCDHMxwpvrTJQ-1; Thu, 15 Jun 2023 10:14:10 -0400
+X-MC-Unique: ECU1dUE4NKCDHMxwpvrTJQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9A9D8857F92;
+        Thu, 15 Jun 2023 14:13:51 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.192.154])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 83D4448FB01;
+        Thu, 15 Jun 2023 14:13:50 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+        Tommaso Merciai <tomm.merciai@gmail.com>,
         linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] media: Add MIPI CCI register access helper
- functions
-Message-ID: <ZIsSG+HS38A2gSwd@kekkonen.localdomain>
-References: <20230614192343.57280-1-hdegoede@redhat.com>
- <20230614192343.57280-2-hdegoede@redhat.com>
- <ZIolnOxs29H8EUmC@kekkonen.localdomain>
- <4c9b2cec-e026-e527-2253-fc541ec85d05@redhat.com>
- <ZIrf7Ku9LHRCIU5K@kekkonen.localdomain>
- <647c6bf0-2ad3-16bd-8081-7f4244f60938@redhat.com>
- <ZIr41hzdphg1UbJy@kekkonen.localdomain>
- <f10d2b2d-1496-936c-c609-38279d8f6262@redhat.com>
- <ZIsP4ohiO7gHi+eC@kekkonen.localdomain>
+Subject: [PATCH v2 00/28] media: ov2680: Bugfixes + ACPI + selection(crop-tgt) API support
+Date:   Thu, 15 Jun 2023 16:13:21 +0200
+Message-Id: <20230615141349.172363-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZIsP4ohiO7gHi+eC@kekkonen.localdomain>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,107 +61,101 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jun 15, 2023 at 01:19:30PM +0000, Sakari Ailus wrote:
-> Hi Hans,
-> 
-> On Thu, Jun 15, 2023 at 02:05:02PM +0200, Hans de Goede wrote:
-> > Hi,
-> > 
-> > On 6/15/23 13:41, Sakari Ailus wrote:
-> > > Hi Hans,
-> > > 
-> > > On Thu, Jun 15, 2023 at 12:15:47PM +0200, Hans de Goede wrote:
-> > >> Hi,
-> > >>
-> > >> On 6/15/23 11:54, Sakari Ailus wrote:
-> > >>> Hi Hans,
-> > >>>
-> > >>> On Thu, Jun 15, 2023 at 10:45:35AM +0200, Hans de Goede wrote:
-> > >>>> Hi Sakari,
-> > >>>>
-> > >>>> On 6/14/23 22:39, Sakari Ailus wrote:
-> > >>>
-> > >>> ...
-> > >>>>>> diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
-> > >>>>>> index 348559bc2468..523ba243261d 100644
-> > >>>>>> --- a/drivers/media/v4l2-core/Kconfig
-> > >>>>>> +++ b/drivers/media/v4l2-core/Kconfig
-> > >>>>>> @@ -74,6 +74,11 @@ config V4L2_FWNODE
-> > >>>>>>  config V4L2_ASYNC
-> > >>>>>>  	tristate
-> > >>>>>>  
-> > >>>>>> +config V4L2_CCI
-> > >>>>>> +	tristate
-> > >>>>>> +	depends on I2C
-> > >>>>>
-> > >>>>> This won't do anything if the dependent driver will select V4L2_CCI, will
-> > >>>>> it? I'd let the sensor driver depend on I2C instead. CCI is also supported
-> > >>>>> on I3C, for instance.
-> > >>>>
-> > >>>> It will cause a Kconfig error if the dependent driver does not depend
-> > >>>> on I2C. Kconfig items doing select MUST depend on all the depends on
-> > >>>> of the items they are selecting; and (continued below)
-> > >>>
-> > >>> Maybe this has changed? It used to be that these cases were silently
-> > >>> ignored and it wasn't that long ago. I haven't been following this up.
-> > >>>
-> > >>> Nevertheless, this shouldn't depend on I2C as such.
-> > >>>
-> > >>>>
-> > >>>>>
-> > >>>>>> +	select REGMAP_I2C
-> > >>>>>
-> > >>>>> This is a good question.
-> > >>>>>
-> > >>>>> How about adding V4L2_CCI_I2C that would select REGMAP_I2C?
-> > >>>>
-> > >>>> v4l2-cci.ko uses the devm_regmap_init_i2c() symbol, so
-> > >>>> REGMAP_I2C must be enabled when V4L2_CCI is enabled and
-> > >>>> REGMAP_I2C is a symbol which should be selected rather
-> > >>>> then depended on when necessary.
-> > >>>
-> > >>> I agree.
-> > >>
-> > >> If you agree that because of the symbol dependency that
-> > >> the select REGMAP_I2C is necessary then the depends on I2C
-> > >> is also necessary because any Kconfig symbol selecting
-> > >> another symbol MUST depends on all of the dependencies
-> > >> of the selected symbol and REGMAP_I2C has:
-> > >>
-> > >> config REGMAP_I2C
-> > >>         tristate
-> > >>         depends on I2C
-> > > 
-> > > Yes.
-> > > 
-> > > How about putting cci_regmap_init_i2c() behind an #ifdef? Then there
-> > > wouldn't be a need for REGMAP_I2C unconditionally, but dependent on I2C.
-> > > 
-> > > I guess right now I2C is more or less given in many systems but binding CCI
-> > > to it still seems dubious.
-> > 
-> > Yes, I can wrap the cci_regmap_init_i2c() prototype +
-> > implementation in
-> > 
-> > #ifdef CONFIG_REGMAP_I2C
-> > 
-> > for version 4. Downside of this is that all i2c sensor drivers
-> > which want to use the CCI helpers now will need to have
-> > a select REGMAP_I2C added to their Kconfig snippet.
-> 
-> Not if you add a new option for V4L2_CCI, a bit like you suggested for
-> sensor driver dependencies in general:
-> 
-> config V4L2_CCI_I2C
-> 	tristate
-> 	depends on I2C
-> 	select REGMAP_I2C
-> 	select V4L2_CCI
-> 
-> So individual drivers would then select this instead of the plain V4L2_CCI.
+Hi All,
 
-In fact nearly the same can be achieved by just renaming V4L2_CCI
-V4L2_CCI_I2C now.
+Here is v2 of my ov2680 sensor driver patch series.
+
+Changes in v2
+- Drop "media: Add MIPI CCI register access helper functions"
+  (being reviewed in its own thread / patch-submission)
+- Drop "media: ov2680: Add g_skip_frames op support"
+- Add "media: ov2680: Fix regulators being left enabled on
+  ov2680_power_on() errors"
+- Add "media: ov2680: Add link-freq and pixel-rate controls"
+  with this the driver now works on IPU3 with ipu3-capture.sh
+  (libcamera support requires adding a couple more controls)
+- Limit line length to 80 chars everywhere
+- Address various small remarks from Andy
+
+During all the work done on the atomisp driver I have mostly been testing
+on devices with an ov2680 sensor. As such I have also done a lot of work
+on the atomisp-ov2680.c atomisp specific sensor driver.
+
+With the latest atomisp code from:
+https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/tag/?h=media-atomisp-6.5-1
+
+The atomisp code can now work with standard v4l2 sensor drivers using
+the selections (crop-tgt) api and v4l2-async sensor driver registration.
+
+This patch series modifies the main drivers/media/i2c/ov2680.c driver
+to add bugfixes, ACPI enumeration, selection API support and further
+improvments. After this the driver can be used with the atomisp driver
+and atomisp-ov2680.c can be dropped.
+
+This also gets the driver much closer to having everything needed for
+use with IPU3 / libcamera. I have a Lenovo Miix 510 now with an IPU3 +
+ov2680 sensor and with this series raw-capture using the ipu3-capture.sh
+script works. I plan to work on libcamera support for this in the near
+future.
+
+This series consist of 3 parts:
+
+1. Patches 1-8 are bugfixes these are put first for backporting
+
+2. Patch 9 converts the ov2680 driver to the new CCI helpers,
+the same has been done in the other series with the atomisp-ov2680
+driver and this makes it much easier to sync things up.
+
+Note this depends on the new CCI register helpers, these are being
+reviewed here:
+
+https://lore.kernel.org/linux-media/20230614192343.57280-1-hdegoede@redhat.com/
+
+3. Patches 9 - 28 implement the ACPI enumeration,
+selection API support and further improvments.
+
+Regards,
+
+Hans
+
+
+Hans de Goede (28):
+  media: ov2680: Remove auto-gain and auto-exposure controls
+  media: ov2680: Fix ov2680_bayer_order()
+  media: ov2680: Fix vflip / hflip set functions
+  media: ov2680: Use select VIDEO_V4L2_SUBDEV_API
+  media: ov2680: Don't take the lock for try_fmt calls
+  media: ov2680: Add ov2680_fill_format() helper function
+  media: ov2680: Fix ov2680_set_fmt() which == V4L2_SUBDEV_FORMAT_TRY
+    not working
+  media: ov2680: Fix regulators being left enabled on ov2680_power_on()
+    errors
+  media: ov2680: Convert to new CCI register access helpers
+  media: ov2680: Store dev instead of i2c_client in ov2680_dev
+  media: ov2680: Check for "powerdown" GPIO con-id before checking for
+    "reset" GPIO con-id
+  media: ov2680: Add runtime-pm support
+  media: ov2680: Drop is_enabled flag
+  media: ov2680: Add support for more clk setups
+  media: ov2680: Add support for 19.2 MHz clock
+  media: ov2680: Add endpoint matching support
+  media: ov2680: Add support for ACPI enumeration
+  media: ov2680: Fix ov2680_enum_frame_interval()
+  media: ov2680: Annotate the per mode register setting lists
+  media: ov2680: Add ov2680_mode struct
+  media: ov2680: Make setting the mode algorithm based
+  media: ov2680: Add an __ov2680_get_pad_format() helper function
+  media: ov2680: Implement selection support
+  media: ov2680: Fix exposure and gain ctrls range and default value
+  media: ov2680: Add a bunch of register tweaks
+  media: ov2680: Drop unnecessary pad checks
+  media: ov2680: Read and log sensor revision during probe
+  media: ov2680: Add link-freq and pixel-rate controls
+
+ drivers/media/i2c/Kconfig  |    2 +
+ drivers/media/i2c/ov2680.c | 1316 +++++++++++++++++++-----------------
+ 2 files changed, 689 insertions(+), 629 deletions(-)
 
 -- 
-Sakari Ailus
+2.40.1
+
