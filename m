@@ -2,89 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C7BEF731B93
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jun 2023 16:40:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CBDE731B97
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jun 2023 16:41:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241558AbjFOOkL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Jun 2023 10:40:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56988 "EHLO
+        id S241347AbjFOOlq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Jun 2023 10:41:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345123AbjFOOkH (ORCPT
+        with ESMTP id S1343810AbjFOOlm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Jun 2023 10:40:07 -0400
-Received: from 189.cn (ptr.189.cn [183.61.185.103])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 236211707;
-        Thu, 15 Jun 2023 07:40:03 -0700 (PDT)
-HMM_SOURCE_IP: 10.64.8.43:38118.1572836322
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
-        by 189.cn (HERMES) with SMTP id A4EC7100295;
-        Thu, 15 Jun 2023 22:36:20 +0800 (CST)
-Received: from  ([114.242.206.180])
-        by gateway-151646-dep-75648544bd-7vx9t with ESMTP id f757833a38c0491a9b3e100f3191d20a for maarten.lankhorst@linux.intel.com;
-        Thu, 15 Jun 2023 22:36:21 CST
-X-Transaction-ID: f757833a38c0491a9b3e100f3191d20a
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Sender: 15330273260@189.cn
-From:   Sui Jingfeng <15330273260@189.cn>
-To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Sui Jingfeng <suijingfeng@loongson.cn>,
-        Christian Koenig <christian.koenig@amd.com>
-Cc:     inux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Thu, 15 Jun 2023 10:41:42 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D394170E
+        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 07:41:42 -0700 (PDT)
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="338556617"
+X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; 
+   d="scan'208";a="338556617"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 07:41:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="662820506"
+X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; 
+   d="scan'208";a="662820506"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga003.jf.intel.com with ESMTP; 15 Jun 2023 07:41:34 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andy@kernel.org>)
+        id 1q9oAG-003xr9-2W;
+        Thu, 15 Jun 2023 17:41:32 +0300
+Date:   Thu, 15 Jun 2023 17:41:32 +0300
+From:   Andy Shevchenko <andy@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kate Hsuan <hpa@redhat.com>,
+        Tommaso Merciai <tomm.merciai@gmail.com>,
         linux-media@vger.kernel.org
-Subject: [PATCH v15 2/2] MAINTAINERS: add maintainers for DRM LOONGSON driver
-Date:   Thu, 15 Jun 2023 22:36:13 +0800
-Message-Id: <20230615143613.1236245-3-15330273260@189.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230615143613.1236245-1-15330273260@189.cn>
-References: <20230615143613.1236245-1-15330273260@189.cn>
+Subject: Re: [PATCH v2 17/28] media: ov2680: Add support for ACPI enumeration
+Message-ID: <ZIsjHCpGbJt0QxL2@smile.fi.intel.com>
+References: <20230615141349.172363-1-hdegoede@redhat.com>
+ <20230615141349.172363-18-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FROM_LOCAL_DIGITS,
-        FROM_LOCAL_HEX,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230615141349.172363-18-hdegoede@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Sui Jingfeng <suijingfeng@loongson.cn>
+On Thu, Jun 15, 2023 at 04:13:38PM +0200, Hans de Goede wrote:
+> Add an acpi_match_table now that all the other bits necessary for
+> ACPI support are in place.
 
-This patch add Sui Jingfeng as maintainer to drm/loongson driver.
+...
 
-Signed-off-by: Sui Jingfeng <suijingfeng@loongson.cn>
----
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+> +static const struct acpi_device_id ov2680_acpi_ids[] = {
+> +	{ "OVTI2680" },
+> +	{ /* sentinel */ },
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 225e20582a96..70262eb6e614 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6956,6 +6956,13 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	drivers/gpu/drm/lima/
- F:	include/uapi/drm/lima_drm.h
- 
-+DRM DRIVERS FOR LOONGSON
-+M:	Sui Jingfeng <suijingfeng@loongson.cn>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Supported
-+T:	git git://anongit.freedesktop.org/drm/drm-misc
-+F:	drivers/gpu/drm/loongson/
-+
- DRM DRIVERS FOR MEDIATEK
- M:	Chun-Kuang Hu <chunkuang.hu@kernel.org>
- M:	Philipp Zabel <p.zabel@pengutronix.de>
+Comma is not needed for the terminator entry.
+
+> +};
+
 -- 
-2.25.1
+With Best Regards,
+Andy Shevchenko
+
 
