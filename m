@@ -2,354 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0F27731101
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jun 2023 09:41:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E846A731103
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jun 2023 09:41:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238824AbjFOHlW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Jun 2023 03:41:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54020 "EHLO
+        id S238940AbjFOHlY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Jun 2023 03:41:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245490AbjFOHkW (ORCPT
+        with ESMTP id S238877AbjFOHlW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Jun 2023 03:40:22 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 206282D61
-        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 00:39:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686814795; x=1718350795;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DkqQ5QQJoIc5JpYvsO+m9TMUGXFCWyPspjqSfPYfM/Y=;
-  b=BDmzn8qLOGKn2DSoVXK/Hb1M+VjkGFSyJQg6EsRDP2g0bwXgUc6J3I8q
-   bMrVua90EkiUBM0wKG+6oLCu/o4HZgjvbG5gPWFnFYX+N7MLXd3PLjov/
-   6AfqXtypXcDfpppIfwVVuTDd0zitSXhhHliYAp2o6QFfUO9ICM9ZHoSnE
-   /eBPkysQD73UQhAe5Hz0e3D5xhCGioDNAVvJjEF5dsiP27gL04vv6GGXP
-   uS56KjrqkLjSEohUqt3E0GKyuZ5QAAactDCe+DkjprbnADrLk806gQQYB
-   I3di3pykMSEUMZKYecZgjo+7SHKiTna0CpRGcTag1XjTZSeAySxUo8zW9
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="348509569"
-X-IronPort-AV: E=Sophos;i="6.00,244,1681196400"; 
-   d="scan'208";a="348509569"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 00:36:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="712355571"
-X-IronPort-AV: E=Sophos;i="6.00,244,1681196400"; 
-   d="scan'208";a="712355571"
-Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 15 Jun 2023 00:36:15 -0700
-Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1q9hWg-0001c7-1t;
-        Thu, 15 Jun 2023 07:36:14 +0000
-Date:   Thu, 15 Jun 2023 15:35:26 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [linux-next:master 7549/10326]
- drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1022:1:
- warning: the frame size of 1112 bytes is larger than 1024 bytes
-Message-ID: <202306151506.goHEegOd-lkp@intel.com>
+        Thu, 15 Jun 2023 03:41:22 -0400
+Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BD86E69
+        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 00:41:03 -0700 (PDT)
+Received: by mail-qk1-x735.google.com with SMTP id af79cd13be357-7607919000aso272963985a.3
+        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 00:41:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1686814861; x=1689406861;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Oqj2ebvLfPmvYAyt7OAZpC63YWJwTlRk+nfYe4vKGvM=;
+        b=n46JGfWXcSGpxCMcRWz4W5ku4qqbxejF+nmH+rzhlShYP5Iguu47Um0loqa0E/cCaX
+         B4ZoY4dA+6Miu53zsitO4rDC4EsdYELKkgrRFDRPK7Yk0grL108nbD6hd883FPGNHtJ1
+         Z+0bJzhhiodmcyshjJ4X8w/RW5V6Um2kk/ZHM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686814861; x=1689406861;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Oqj2ebvLfPmvYAyt7OAZpC63YWJwTlRk+nfYe4vKGvM=;
+        b=OjoiNiqqr/xEedHK7xesVuDT0CBYpD1TJcRn+kHoHKKxOClkH9JUzgUEqIKQ+bAM6V
+         g8PNy00T4d8Iwt/Ao8CPrnoMXg7ZmYWrfEA021g6fYnd6N/+mv80+K2cUjB8HDaYgUiL
+         22PjGbhz/P7tNBm6kP+hboSYKxnA1fhK6uy7VtWoMMwtSKxgW2rQvt5RbCEN4hGxYL05
+         j08Rq2UDexvMmzjwbXrilmhLPhRUsjF84boMgV8dDl9B7y4x+MbtrGYfVNdxDmqf5HBU
+         qecBpaI3AOh6U42bbCnv64NjCPEnxXEZiQQ8wc8yaZ0EdAO6Ce231JL9WjV5baVHGcHZ
+         f9FQ==
+X-Gm-Message-State: AC+VfDzDgCXEcYfgWr3MQ7Y2PL6cZKzxu46vJhWPbaVt58cjn2khZSYx
+        1tG1N2DRj5NuJucKTzhqjh25pcuUZr+YEtCnoVD9jw==
+X-Google-Smtp-Source: ACHHUZ6hjnMcl9qck6aTiM2ICsXgdPh9FYo61hU3uJxh1OHpe8Iisv7LK4cloZAel2QFejWR7N1zbA==
+X-Received: by 2002:a05:620a:8d6:b0:75b:23a1:411 with SMTP id z22-20020a05620a08d600b0075b23a10411mr14822994qkz.39.1686814861260;
+        Thu, 15 Jun 2023 00:41:01 -0700 (PDT)
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com. [209.85.219.53])
+        by smtp.gmail.com with ESMTPSA id w8-20020a05620a148800b0075b168fcde9sm5072275qkj.77.2023.06.15.00.41.00
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Jun 2023 00:41:00 -0700 (PDT)
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-62de5392c7bso23738046d6.2
+        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 00:41:00 -0700 (PDT)
+X-Received: by 2002:a05:6214:d8e:b0:625:77a0:86b0 with SMTP id
+ e14-20020a0562140d8e00b0062577a086b0mr17727226qve.45.1686814859782; Thu, 15
+ Jun 2023 00:40:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20230426082923.132909-1-yunkec@google.com>
+In-Reply-To: <20230426082923.132909-1-yunkec@google.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Thu, 15 Jun 2023 16:40:48 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5APBojPkQBHHzDeLYa0wcTzGwqB49dhmc_jTFcTTgdqfA@mail.gmail.com>
+Message-ID: <CAAFQd5APBojPkQBHHzDeLYa0wcTzGwqB49dhmc_jTFcTTgdqfA@mail.gmail.com>
+Subject: Re: [PATCH v11 00/11] media: Implement UVC v1.5 ROI
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Yunke Cao <yunkec@google.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        linux-media@vger.kernel.org, Yunke Cao <yunkec@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   925294c9aa184801cc0a451b69a18dd0fe7d847d
-commit: 727a400686a2c0d25015c9e44916a59b72882f83 [7549/10326] media: verisilicon: Add Rockchip AV1 decoder
-config: arm-randconfig-r046-20230615 (https://download.01.org/0day-ci/archive/20230615/202306151506.goHEegOd-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=727a400686a2c0d25015c9e44916a59b72882f83
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 727a400686a2c0d25015c9e44916a59b72882f83
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/media/platform/verisilicon/
+Hi Hans and Laurent,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306151506.goHEegOd-lkp@intel.com/
+On Wed, Apr 26, 2023 at 5:29=E2=80=AFPM Yunke Cao <yunkec@google.com> wrote=
+:
+>
+> From: Yunke Cao <yunkec@chromium.org>
+>
+> Hi,
+>
+> This patch set implements UVC v1.5 region of interest using V4L2
+> control API. I rebased v10 and resended.
+>
+> ROI control is consisted two uvc specific controls.
+> 1. A rectangle control with a newly added type V4L2_CTRL_TYPE_RECT.
+> 2. An auto control with type bitmask.
+>
+> V4L2_CTRL_WHICH_MIN/MAX_VAL is added to support the rectangle control.
+>
+> Tested on two different usb cameras using v4l2-compliance, v4l2-ctl
+> and calling ioctls.
+>
+> 1/11 adds V4L2_CTRL_TYPE_RECT.
+> 2/11, 3/11, 4/11 refactors uvc_ctrl.c.
+> 5/11 adds support for compound controls.
+> 6/11 is a cherry-pick for Hans' implementation of
+> V4L2_CTRL_WHICH_MIN/MAX_VAL in v4l2-core.
+> 7/11 documents min/max for the rectangle control.
+> 8/11 supports MIN/MAX in UVC.
+> 9/11 implements ROI in UVC.
+> 10/11 initializes ROI control to default value.
+> 11/11 documents the changes.
+>
 
-All warnings (new ones prefixed by >>):
+Would you have some time to take a look at this series, please? Thanks
+in advance!
 
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c: In function 'rockchip_vpu981_av1_dec_set_segmentation':
->> drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1022:1: warning: the frame size of 1112 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-    1022 | }
-         | ^
+I think we need Hans's acks for 1, 6 and 7, since they modify the
+control framework and then from Laurent for the uvc driver parts.
 
+Best regards,
+Tomasz
 
-vim +1022 drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
-
-   776	
-   777	static void rockchip_vpu981_av1_dec_set_segmentation(struct hantro_ctx *ctx)
-   778	{
-   779		struct hantro_av1_dec_hw_ctx *av1_dec = &ctx->av1_dec;
-   780		struct hantro_av1_dec_ctrls *ctrls = &av1_dec->ctrls;
-   781		const struct v4l2_ctrl_av1_frame *frame = ctrls->frame;
-   782		const struct v4l2_av1_segmentation *seg = &frame->segmentation;
-   783		u32 segval[V4L2_AV1_MAX_SEGMENTS][V4L2_AV1_SEG_LVL_MAX] = { 0 };
-   784		struct hantro_dev *vpu = ctx->dev;
-   785		u8 segsign = 0, preskip_segid = 0, last_active_seg = 0, i, j;
-   786	
-   787		if (!!(seg->flags & V4L2_AV1_SEGMENTATION_FLAG_ENABLED) &&
-   788		    frame->primary_ref_frame < V4L2_AV1_REFS_PER_FRAME) {
-   789			int idx = rockchip_vpu981_get_frame_index(ctx, frame->primary_ref_frame);
-   790	
-   791			if (idx >= 0) {
-   792				dma_addr_t luma_addr, mv_addr = 0;
-   793				struct hantro_decoded_buffer *seg;
-   794				size_t mv_offset = rockchip_vpu981_av1_dec_chroma_size(ctx);
-   795	
-   796				seg = vb2_to_hantro_decoded_buf(&av1_dec->frame_refs[idx].vb2_ref->vb2_buf);
-   797				luma_addr = hantro_get_dec_buf_addr(ctx, &seg->base.vb.vb2_buf);
-   798				mv_addr = luma_addr + mv_offset;
-   799	
-   800				hantro_write_addr(vpu, AV1_SEGMENTATION, mv_addr);
-   801				hantro_reg_write(vpu, &av1_use_temporal3_mvs, 1);
-   802			}
-   803		}
-   804	
-   805		hantro_reg_write(vpu, &av1_segment_temp_upd_e,
-   806				 !!(seg->flags & V4L2_AV1_SEGMENTATION_FLAG_TEMPORAL_UPDATE));
-   807		hantro_reg_write(vpu, &av1_segment_upd_e,
-   808				 !!(seg->flags & V4L2_AV1_SEGMENTATION_FLAG_UPDATE_MAP));
-   809		hantro_reg_write(vpu, &av1_segment_e,
-   810				 !!(seg->flags & V4L2_AV1_SEGMENTATION_FLAG_ENABLED));
-   811	
-   812		hantro_reg_write(vpu, &av1_error_resilient,
-   813				 !!(frame->flags & V4L2_AV1_FRAME_FLAG_ERROR_RESILIENT_MODE));
-   814	
-   815		if (IS_INTRA(frame->frame_type) ||
-   816		    !!(frame->flags & V4L2_AV1_FRAME_FLAG_ERROR_RESILIENT_MODE)) {
-   817			hantro_reg_write(vpu, &av1_use_temporal3_mvs, 0);
-   818		}
-   819	
-   820		if (seg->flags & V4L2_AV1_SEGMENTATION_FLAG_ENABLED) {
-   821			int s;
-   822	
-   823			for (s = 0; s < V4L2_AV1_MAX_SEGMENTS; s++) {
-   824				if (seg->feature_enabled[s] &
-   825				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_ALT_Q)) {
-   826					segval[s][V4L2_AV1_SEG_LVL_ALT_Q] =
-   827					    clamp(abs(seg->feature_data[s][V4L2_AV1_SEG_LVL_ALT_Q]),
-   828						  0, 255);
-   829					segsign |=
-   830						(seg->feature_data[s][V4L2_AV1_SEG_LVL_ALT_Q] < 0) << s;
-   831				}
-   832	
-   833				if (seg->feature_enabled[s] &
-   834				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_ALT_LF_Y_V))
-   835					segval[s][V4L2_AV1_SEG_LVL_ALT_LF_Y_V] =
-   836						clamp(abs(seg->feature_data[s][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]),
-   837						      -63, 63);
-   838	
-   839				if (seg->feature_enabled[s] &
-   840				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_ALT_LF_Y_H))
-   841					segval[s][V4L2_AV1_SEG_LVL_ALT_LF_Y_H] =
-   842					    clamp(abs(seg->feature_data[s][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]),
-   843						  -63, 63);
-   844	
-   845				if (seg->feature_enabled[s] &
-   846				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_ALT_LF_U))
-   847					segval[s][V4L2_AV1_SEG_LVL_ALT_LF_U] =
-   848					    clamp(abs(seg->feature_data[s][V4L2_AV1_SEG_LVL_ALT_LF_U]),
-   849						  -63, 63);
-   850	
-   851				if (seg->feature_enabled[s] &
-   852				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_ALT_LF_V))
-   853					segval[s][V4L2_AV1_SEG_LVL_ALT_LF_V] =
-   854					    clamp(abs(seg->feature_data[s][V4L2_AV1_SEG_LVL_ALT_LF_V]),
-   855						  -63, 63);
-   856	
-   857				if (frame->frame_type && seg->feature_enabled[s] &
-   858				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_REF_FRAME))
-   859					segval[s][V4L2_AV1_SEG_LVL_REF_FRAME]++;
-   860	
-   861				if (seg->feature_enabled[s] &
-   862				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_REF_SKIP))
-   863					segval[s][V4L2_AV1_SEG_LVL_REF_SKIP] = 1;
-   864	
-   865				if (seg->feature_enabled[s] &
-   866				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_REF_GLOBALMV))
-   867					segval[s][V4L2_AV1_SEG_LVL_REF_GLOBALMV] = 1;
-   868			}
-   869		}
-   870	
-   871		for (i = 0; i < V4L2_AV1_MAX_SEGMENTS; i++) {
-   872			for (j = 0; j < V4L2_AV1_SEG_LVL_MAX; j++) {
-   873				if (seg->feature_enabled[i]
-   874				    & V4L2_AV1_SEGMENT_FEATURE_ENABLED(j)) {
-   875					preskip_segid |= (j >= V4L2_AV1_SEG_LVL_REF_FRAME);
-   876					last_active_seg = max(i, last_active_seg);
-   877				}
-   878			}
-   879		}
-   880	
-   881		hantro_reg_write(vpu, &av1_last_active_seg, last_active_seg);
-   882		hantro_reg_write(vpu, &av1_preskip_segid, preskip_segid);
-   883	
-   884		hantro_reg_write(vpu, &av1_seg_quant_sign, segsign);
-   885	
-   886		/* Write QP, filter level, ref frame and skip for every segment */
-   887		hantro_reg_write(vpu, &av1_quant_seg0,
-   888				 segval[0][V4L2_AV1_SEG_LVL_ALT_Q]);
-   889		hantro_reg_write(vpu, &av1_filt_level_delta0_seg0,
-   890				 segval[0][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
-   891		hantro_reg_write(vpu, &av1_filt_level_delta1_seg0,
-   892				 segval[0][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
-   893		hantro_reg_write(vpu, &av1_filt_level_delta2_seg0,
-   894				 segval[0][V4L2_AV1_SEG_LVL_ALT_LF_U]);
-   895		hantro_reg_write(vpu, &av1_filt_level_delta3_seg0,
-   896				 segval[0][V4L2_AV1_SEG_LVL_ALT_LF_V]);
-   897		hantro_reg_write(vpu, &av1_refpic_seg0,
-   898				 segval[0][V4L2_AV1_SEG_LVL_REF_FRAME]);
-   899		hantro_reg_write(vpu, &av1_skip_seg0,
-   900				 segval[0][V4L2_AV1_SEG_LVL_REF_SKIP]);
-   901		hantro_reg_write(vpu, &av1_global_mv_seg0,
-   902				 segval[0][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
-   903	
-   904		hantro_reg_write(vpu, &av1_quant_seg1,
-   905				 segval[1][V4L2_AV1_SEG_LVL_ALT_Q]);
-   906		hantro_reg_write(vpu, &av1_filt_level_delta0_seg1,
-   907				 segval[1][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
-   908		hantro_reg_write(vpu, &av1_filt_level_delta1_seg1,
-   909				 segval[1][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
-   910		hantro_reg_write(vpu, &av1_filt_level_delta2_seg1,
-   911				 segval[1][V4L2_AV1_SEG_LVL_ALT_LF_U]);
-   912		hantro_reg_write(vpu, &av1_filt_level_delta3_seg1,
-   913				 segval[1][V4L2_AV1_SEG_LVL_ALT_LF_V]);
-   914		hantro_reg_write(vpu, &av1_refpic_seg1,
-   915				 segval[1][V4L2_AV1_SEG_LVL_REF_FRAME]);
-   916		hantro_reg_write(vpu, &av1_skip_seg1,
-   917				 segval[1][V4L2_AV1_SEG_LVL_REF_SKIP]);
-   918		hantro_reg_write(vpu, &av1_global_mv_seg1,
-   919				 segval[1][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
-   920	
-   921		hantro_reg_write(vpu, &av1_quant_seg2,
-   922				 segval[2][V4L2_AV1_SEG_LVL_ALT_Q]);
-   923		hantro_reg_write(vpu, &av1_filt_level_delta0_seg2,
-   924				 segval[2][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
-   925		hantro_reg_write(vpu, &av1_filt_level_delta1_seg2,
-   926				 segval[2][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
-   927		hantro_reg_write(vpu, &av1_filt_level_delta2_seg2,
-   928				 segval[2][V4L2_AV1_SEG_LVL_ALT_LF_U]);
-   929		hantro_reg_write(vpu, &av1_filt_level_delta3_seg2,
-   930				 segval[2][V4L2_AV1_SEG_LVL_ALT_LF_V]);
-   931		hantro_reg_write(vpu, &av1_refpic_seg2,
-   932				 segval[2][V4L2_AV1_SEG_LVL_REF_FRAME]);
-   933		hantro_reg_write(vpu, &av1_skip_seg2,
-   934				 segval[2][V4L2_AV1_SEG_LVL_REF_SKIP]);
-   935		hantro_reg_write(vpu, &av1_global_mv_seg2,
-   936				 segval[2][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
-   937	
-   938		hantro_reg_write(vpu, &av1_quant_seg3,
-   939				 segval[3][V4L2_AV1_SEG_LVL_ALT_Q]);
-   940		hantro_reg_write(vpu, &av1_filt_level_delta0_seg3,
-   941				 segval[3][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
-   942		hantro_reg_write(vpu, &av1_filt_level_delta1_seg3,
-   943				 segval[3][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
-   944		hantro_reg_write(vpu, &av1_filt_level_delta2_seg3,
-   945				 segval[3][V4L2_AV1_SEG_LVL_ALT_LF_U]);
-   946		hantro_reg_write(vpu, &av1_filt_level_delta3_seg3,
-   947				 segval[3][V4L2_AV1_SEG_LVL_ALT_LF_V]);
-   948		hantro_reg_write(vpu, &av1_refpic_seg3,
-   949				 segval[3][V4L2_AV1_SEG_LVL_REF_FRAME]);
-   950		hantro_reg_write(vpu, &av1_skip_seg3,
-   951				 segval[3][V4L2_AV1_SEG_LVL_REF_SKIP]);
-   952		hantro_reg_write(vpu, &av1_global_mv_seg3,
-   953				 segval[3][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
-   954	
-   955		hantro_reg_write(vpu, &av1_quant_seg4,
-   956				 segval[4][V4L2_AV1_SEG_LVL_ALT_Q]);
-   957		hantro_reg_write(vpu, &av1_filt_level_delta0_seg4,
-   958				 segval[4][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
-   959		hantro_reg_write(vpu, &av1_filt_level_delta1_seg4,
-   960				 segval[4][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
-   961		hantro_reg_write(vpu, &av1_filt_level_delta2_seg4,
-   962				 segval[4][V4L2_AV1_SEG_LVL_ALT_LF_U]);
-   963		hantro_reg_write(vpu, &av1_filt_level_delta3_seg4,
-   964				 segval[4][V4L2_AV1_SEG_LVL_ALT_LF_V]);
-   965		hantro_reg_write(vpu, &av1_refpic_seg4,
-   966				 segval[4][V4L2_AV1_SEG_LVL_REF_FRAME]);
-   967		hantro_reg_write(vpu, &av1_skip_seg4,
-   968				 segval[4][V4L2_AV1_SEG_LVL_REF_SKIP]);
-   969		hantro_reg_write(vpu, &av1_global_mv_seg4,
-   970				 segval[4][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
-   971	
-   972		hantro_reg_write(vpu, &av1_quant_seg5,
-   973				 segval[5][V4L2_AV1_SEG_LVL_ALT_Q]);
-   974		hantro_reg_write(vpu, &av1_filt_level_delta0_seg5,
-   975				 segval[5][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
-   976		hantro_reg_write(vpu, &av1_filt_level_delta1_seg5,
-   977				 segval[5][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
-   978		hantro_reg_write(vpu, &av1_filt_level_delta2_seg5,
-   979				 segval[5][V4L2_AV1_SEG_LVL_ALT_LF_U]);
-   980		hantro_reg_write(vpu, &av1_filt_level_delta3_seg5,
-   981				 segval[5][V4L2_AV1_SEG_LVL_ALT_LF_V]);
-   982		hantro_reg_write(vpu, &av1_refpic_seg5,
-   983				 segval[5][V4L2_AV1_SEG_LVL_REF_FRAME]);
-   984		hantro_reg_write(vpu, &av1_skip_seg5,
-   985				 segval[5][V4L2_AV1_SEG_LVL_REF_SKIP]);
-   986		hantro_reg_write(vpu, &av1_global_mv_seg5,
-   987				 segval[5][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
-   988	
-   989		hantro_reg_write(vpu, &av1_quant_seg6,
-   990				 segval[6][V4L2_AV1_SEG_LVL_ALT_Q]);
-   991		hantro_reg_write(vpu, &av1_filt_level_delta0_seg6,
-   992				 segval[6][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
-   993		hantro_reg_write(vpu, &av1_filt_level_delta1_seg6,
-   994				 segval[6][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
-   995		hantro_reg_write(vpu, &av1_filt_level_delta2_seg6,
-   996				 segval[6][V4L2_AV1_SEG_LVL_ALT_LF_U]);
-   997		hantro_reg_write(vpu, &av1_filt_level_delta3_seg6,
-   998				 segval[6][V4L2_AV1_SEG_LVL_ALT_LF_V]);
-   999		hantro_reg_write(vpu, &av1_refpic_seg6,
-  1000				 segval[6][V4L2_AV1_SEG_LVL_REF_FRAME]);
-  1001		hantro_reg_write(vpu, &av1_skip_seg6,
-  1002				 segval[6][V4L2_AV1_SEG_LVL_REF_SKIP]);
-  1003		hantro_reg_write(vpu, &av1_global_mv_seg6,
-  1004				 segval[6][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
-  1005	
-  1006		hantro_reg_write(vpu, &av1_quant_seg7,
-  1007				 segval[7][V4L2_AV1_SEG_LVL_ALT_Q]);
-  1008		hantro_reg_write(vpu, &av1_filt_level_delta0_seg7,
-  1009				 segval[7][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
-  1010		hantro_reg_write(vpu, &av1_filt_level_delta1_seg7,
-  1011				 segval[7][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
-  1012		hantro_reg_write(vpu, &av1_filt_level_delta2_seg7,
-  1013				 segval[7][V4L2_AV1_SEG_LVL_ALT_LF_U]);
-  1014		hantro_reg_write(vpu, &av1_filt_level_delta3_seg7,
-  1015				 segval[7][V4L2_AV1_SEG_LVL_ALT_LF_V]);
-  1016		hantro_reg_write(vpu, &av1_refpic_seg7,
-  1017				 segval[7][V4L2_AV1_SEG_LVL_REF_FRAME]);
-  1018		hantro_reg_write(vpu, &av1_skip_seg7,
-  1019				 segval[7][V4L2_AV1_SEG_LVL_REF_SKIP]);
-  1020		hantro_reg_write(vpu, &av1_global_mv_seg7,
-  1021				 segval[7][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
-> 1022	}
-  1023	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Changelog since v9:
+> - Reordered patches, move MIN/MAX related patches (patch 6, 7, 8) before
+>   implementing ROI control in UVC. Clamping set current ROI value based o=
+n
+>   MIN/MAX values.
+> - Fixed some minor issues. Changelog in patches.
+> Changelog since v9:
+> - Rebased onto Linus' master branch.
+> - Fixed some minor issues. Changelog in patches.
+> Changelog since v9:
+> - Rebased onto Linus' master branch.
+> - Fixed some minor issues. Changelog in patches.
+> Changelog since v8:
+> - Rebased onto media-stage master (v6.1-rc2).
+> - Addressed Hans' comments in 8/11 v4l2-ctrls: add support for
+>   V4L2_CTRL_WHICH_MIN/MAX_VAL. Including adding a new documentation patch
+>   9/11.
+> Changelog since v7:
+> - Rebased onto media-stage master.
+> - Move the factoring logic from 5/10 to 2/10 and 3/10 (new patch in v8).
+> - In patch 4/10, split uvc_control_mapping.size to v4l2 and data size.
+> - Move initializing ROI control from 5/10 into its own patch 7/10.
+> - Address some comments. Changelogs are in patches.
+>
+> Hans Verkuil (1):
+>   v4l2-ctrls: add support for V4L2_CTRL_WHICH_MIN/MAX_VAL
+>
+> Yunke Cao (10):
+>   media: v4l2_ctrl: Add V4L2_CTRL_TYPE_RECT
+>   media: uvcvideo: add uvc_ctrl_get_boundary for getting default value
+>   media: uvcvideo: introduce __uvc_ctrl_get_std()
+>   media: uvcvideo: Split uvc_control_mapping.size to v4l2 and data size
+>   media: uvcvideo: Add support for compound controls
+>   media: v4l2: document the usage of min/max for V4L2_CTRL_TYPE_RECT
+>   media: uvcvideo: support V4L2_CTRL_WHICH_MIN/MAX_VAL
+>   media: uvcvideo: implement UVC v1.5 ROI
+>   media: uvcvideo: initilaize ROI control to default value
+>   media: uvcvideo: document UVC v1.5 ROI
+>
+>  .../userspace-api/media/drivers/uvcvideo.rst  |  64 +-
+>  .../media/v4l/vidioc-g-ext-ctrls.rst          |  15 +-
+>  .../media/v4l/vidioc-queryctrl.rst            |  11 +
+>  .../media/videodev2.h.rst.exceptions          |   3 +
+>  drivers/media/i2c/imx214.c                    |   5 +-
+>  .../media/platform/qcom/venus/venc_ctrls.c    |   9 +-
+>  drivers/media/usb/uvc/uvc_ctrl.c              | 702 ++++++++++++++----
+>  drivers/media/usb/uvc/uvc_v4l2.c              |  18 +-
+>  drivers/media/usb/uvc/uvcvideo.h              |  24 +-
+>  drivers/media/v4l2-core/v4l2-ctrls-api.c      |  57 +-
+>  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 171 ++++-
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |   4 +-
+>  include/media/v4l2-ctrls.h                    |  36 +-
+>  include/uapi/linux/usb/video.h                |   1 +
+>  include/uapi/linux/uvcvideo.h                 |  13 +
+>  include/uapi/linux/v4l2-controls.h            |   9 +
+>  include/uapi/linux/videodev2.h                |   4 +
+>  17 files changed, 942 insertions(+), 204 deletions(-)
+>
+> --
+> 2.40.1.495.gc816e09b53d-goog
+>
