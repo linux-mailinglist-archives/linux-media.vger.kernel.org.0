@@ -2,168 +2,347 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9719B731208
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jun 2023 10:23:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E92C6731228
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jun 2023 10:30:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243843AbjFOIW6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Jun 2023 04:22:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51440 "EHLO
+        id S238456AbjFOIaB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Jun 2023 04:30:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237024AbjFOIW5 (ORCPT
+        with ESMTP id S244486AbjFOI3w (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Jun 2023 04:22:57 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD9D01A3
-        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 01:22:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686817376; x=1718353376;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=z2EL8TEURKk/+S2DAYA4xzeF2xRSb/a6k5+zwJ5FdZo=;
-  b=OLiFVFM/uWPvC4JIbAxqRnLm/urdIEac9pyRdkGBji46Z5i7bPPeJAf6
-   HxDJ1YitzCQKDZGZgLhH3VKJH/z8nJa+6nzmKpa2GingiQr6AmZEUwlL1
-   +LgIF2nRhjRcDROnbwIFnauMRZV+IFXvOb5iJ3SCWm7tvHD6MuZVdAuvO
-   Nq4u98aRRbYiNaUmyYQg8rmyTnO05HePBOD8BguxufRBAbjL9XyXKjXT5
-   SQvPmP9C2YxcGWR4xA39VaVIToIchb/ARqCLfRTpqH2i5YITLNfswaFod
-   xt+6rM9Z8Y3EECxALPljolLJCdmxxXQrayzVEc8Mtf01eU+WjaQ7gsvPe
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="424740976"
-X-IronPort-AV: E=Sophos;i="6.00,244,1681196400"; 
-   d="scan'208";a="424740976"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 01:22:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="742151365"
-X-IronPort-AV: E=Sophos;i="6.00,244,1681196400"; 
-   d="scan'208";a="742151365"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 01:22:54 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id BA54911FAE0;
-        Thu, 15 Jun 2023 11:22:51 +0300 (EEST)
-Date:   Thu, 15 Jun 2023 08:22:51 +0000
-From:   "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Dan Scally <dan.scally@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        hverkuil@xs4all.nl
-Subject: Re: OV5693 Kconfig missing a select VIDEO_V4L2_SUBDEV_API ?
-Message-ID: <ZIrKW7WMv2rpwiCq@kekkonen.localdomain>
-References: <ce81b73f-48db-038d-2671-bccbb3490786@redhat.com>
- <ZInlO48ACwQ3lwYX@kekkonen.localdomain>
- <813f8b84-4737-3898-24eb-30099ffb6043@redhat.com>
- <ZIojWLapfr/pBeQH@kekkonen.localdomain>
- <20230614212257.GB20723@pendragon.ideasonboard.com>
- <20230614212345.GC20723@pendragon.ideasonboard.com>
+        Thu, 15 Jun 2023 04:29:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 911AF1FE2
+        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 01:29:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1686817743;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=guth8KDbOiYo8RwCg1ZfKaXqLh/2fH2B7zVkLpg+/qk=;
+        b=RQ3gDt+vJoyYbvgMPTKzb6cFUzhzBG5hBe9Va/o9BF2+lJAQK+y0RsqFKaqdUOgBzz5nIT
+        eaaohx8qfLaN0ophno5dHj9ua+fOxgjANMoSpvz+7Np27SxiwlQkRieAqI9bJecvoacoYQ
+        3OHBx8qB3NdZxq4aS9ywh+GZPxDGk/I=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-671-Jwyedbn7N-C02AUleau-kA-1; Thu, 15 Jun 2023 04:29:02 -0400
+X-MC-Unique: Jwyedbn7N-C02AUleau-kA-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-9715654ab36so133944966b.0
+        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 01:29:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686817739; x=1689409739;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=guth8KDbOiYo8RwCg1ZfKaXqLh/2fH2B7zVkLpg+/qk=;
+        b=OKHvQRTzwbwwdOooDV1jrDLv9OnxdxP0Dv5kOXHC4oLE8xLiqSKF5ZyHLsuFbFVbnf
+         auk1nI6NSeo98YHf7BJTvnE7H7WC3CFERueRZYCuthOxehWgVhuW+rURxxa9as2vP1wz
+         MRcPcSmwgKthRwKX18QqOVJ8Cz/T1SE62WvLLSr9WNBqm8jMi8Au6CJUwqFCWXC+KGLE
+         FV21zYu+E27EjtAPP67uZWMmkGRsLEeDYFsHRqVKWbJccir1QP5EHeQFeiat56xrded7
+         HHipsR0idjwfudrZN8uYIV6Sn0aF5SyXiQrBEOQW5lX+HNDOmcZ+1QL3dJphObmRbcoO
+         ayKw==
+X-Gm-Message-State: AC+VfDwUB8jj2EqsHeixbgHci5D0HxLECOhFZeboExv3OODep6SoWsDh
+        jYc3wANNGyARHEtJkBfPk7dcYXA+eszjqfSPyjCEfZNWKQXTWO0sjAyJNevnY44qN+3meClWXG9
+        er6tRGJbN1RWRDhJ7A06KnN0=
+X-Received: by 2002:a17:906:dc94:b0:92b:3c78:91fa with SMTP id cs20-20020a170906dc9400b0092b3c7891famr17397615ejc.28.1686817739631;
+        Thu, 15 Jun 2023 01:28:59 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ65gDOHCSrVSwVM783FT6jXUL4lZwITiNM310Goc53URqaQkhFVt4dfKAjQA/BQh4R2Q6Cw2A==
+X-Received: by 2002:a17:906:dc94:b0:92b:3c78:91fa with SMTP id cs20-20020a170906dc9400b0092b3c7891famr17397598ejc.28.1686817739251;
+        Thu, 15 Jun 2023 01:28:59 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id y20-20020a1709063a9400b00965e9b435dfsm8956945ejd.65.2023.06.15.01.28.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Jun 2023 01:28:57 -0700 (PDT)
+Message-ID: <a28b0bb9-0733-b32a-35cc-9d517317d4bd@redhat.com>
+Date:   Thu, 15 Jun 2023 10:28:56 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230614212345.GC20723@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v3] media: ov13b10: add PM control support based on power
+ resources
+Content-Language: en-US, nl
+To:     bingbu.cao@intel.com, linux-media@vger.kernel.org,
+        sakari.ailus@linux.intel.com, dan.scally@ideasonboard.com,
+        arec.kao@intel.com, hao.yao@intel.com
+Cc:     bingbu.cao@linux.intel.com
+References: <20230615055416.2975328-1-bingbu.cao@intel.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230615055416.2975328-1-bingbu.cao@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi,
 
-On Thu, Jun 15, 2023 at 12:23:45AM +0300, Laurent Pinchart wrote:
-> On Thu, Jun 15, 2023 at 12:22:58AM +0300, Laurent Pinchart wrote:
-> > On Wed, Jun 14, 2023 at 08:30:16PM +0000, sakari.ailus@linux.intel.com wrote:
-> > > On Wed, Jun 14, 2023 at 06:50:14PM +0200, Hans de Goede wrote:
-> > > > On 6/14/23 18:05, sakari.ailus@linux.intel.com wrote:
-> > > > > On Wed, Jun 14, 2023 at 05:47:01PM +0200, Hans de Goede wrote:
-> > > > >> Hi All,
-> > > > >>
-> > > > >> The ov5693 driver uses v4l2_subdev_get_try_crop() /
-> > > > >> v4l2_subdev_get_try_format() both of which are
-> > > > >> only defined if CONFIG_VIDEO_V4L2_SUBDEV_API=y .
-> > > > >>
-> > > > >> Yet it does not do select VIDEO_V4L2_SUBDEV_API
-> > > > >> in its Kconfig bits ?
-> > > > >>
-> > > > >> Note I've not seen any build errors because of this,
-> > > > >> I guess we somehow end up getting away with this...
-> > > > >>
-> > > > >> But still I think the select should be added ?
-> > > > > 
-> > > > > I agree.
-> > > > > 
-> > > > > The reason there haven't been compile failures is that there's a vast
-> > > > > number of sensor drivers that all select this so for a failure you'd need
-> > > > > to select this one but none of the others.
-> > > > > 
-> > > > > I can send a fix.
-> > > > 
-> > > > Also see my follow-up email. If we're going to fix this
-> > > > we really should fix it properly. As mentioned in
-> > > > my folow-up email an intermediate Kconfig option
-> > > > might be best.
-> > > > 
-> > > > E.g. doing:
-> > > > 
-> > > > grep -l v4l2_async_register_subdev drivers/media/i2c/*.c
-> > > > 
-> > > > And comparing that to Kconfig finds the following Kconfig
-> > > > entries lacking a select V4L2_FWNODE / select V4l2_ASYNC
-> > > > 
-> > > > VIDEO_IMX208
-> > > > VIDEO_IMX258
-> > > > VIDEO_IMX274
-> > > > VIDEO_IMX319
-> > > > VIDEO_IMX355
-> > > > VIDEO_OV6650
-> > > > VIDEO_OV7740
-> > > > VIDEO_OV9640
-> > > > VIDEO_OV9650
-> > > > 
-> > > > and I stopped checking after the ov* drivers since I think
-> > > > the above list makes my point.
-> > > 
-> > > Yeah, sometimes difficult to find errors get repeated. Luckily it's "just"
-> > > a compilation problem.
-> > > 
-> > > Using V4L2 fwnode and V4L2 sub-device APIs are still unrelated as such
-> > > although in practice they do often happen together. There are still quite a
-> > > few sensor drivers that don't need both of them. Some can be compiled with
-> > > VIDEO_V4L2_SUBDEV_API disabled, too, but I'm not sure how useful that
-> > > really is. The rest are probably not usable outside a very specific scope,
-> > > such as I²C async matching used by a handful of receiver drivers (none use
-> > > MC, thus no sub-device API either).
-> > > 
-> > > Perhaps we could group these in two classes where the common class has
-> > > V4L2_FWNODE and VIDEO_V4L2_SUBDEV_API selected? I'm not sure having an
-> > > intermediate, somewhat obscure, option would be helpful.
-> > > 
-> > > Also cc Hans and Laurent.
-> > 
-> > I'm all for simplifying the current state and removing the need to get
-> > every Kconfig entry right by moving the dependencies to a common
-> > location.
+On 6/15/23 07:54, bingbu.cao@intel.com wrote:
+> From: Bingbu Cao <bingbu.cao@intel.com>
 > 
-> Also, if sensor drivers are encouraged to use new APIs, but not all of
-> them have been converted, I'd be fine selecting the new APIs
-> unconditionally even if no selected sensor driver uses them.
+> On ACPI based platforms, the ov13b10 camera sensor need to be powered
+> up by acquire the PM resource from INT3472. INT3472 will register one
+> regulator 'avdd', one reset gpio and clock source for ov13b10.
+> Add 2 power interfaces that are registered as runtime PM callbacks.
+> 
+> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+> Signed-off-by: Hao Yao <hao.yao@intel.com>
+> Suggested-by: Hans de Goede <hdegoede@redhat.com>
 
-There are old drivers that do not need these features and there has been
-discussion there may be a desire to disable features to make the kernel
-smaller (for e.g. OpenWRT), however I suspect in this case it's more likely
-drivers that are little used.
+Thanks, patch looks good to me:
 
-Similarly to sensor drivers needing V4L2_FWNODE, lens drivers will need
-V4L2_ASYNC.
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
-I can post patches, not quite sure yet whether this approach is also better
-on stable kernels. Quite possibly so.
+Regards,
 
--- 
-Kind regards,
+Hans
 
-Sakari Ailus
+
+
+> ---
+> 
+> v2->v3:
+>  - remove unnecessary 'reset' gpio NULL check
+>  - use DEFINE_RUNTIME_DEV_PM_OPS() to simplify the PM ops
+> v1->v2:
+>  - use supply name 'avdd' instead of 'vcc'
+>  - remove some unnecessary checks
+>  - correct the power on error handling
+> 
+> ---
+>  drivers/media/i2c/ov13b10.c | 120 +++++++++++++++++++++++++++++++++---
+>  1 file changed, 110 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov13b10.c b/drivers/media/i2c/ov13b10.c
+> index 96d3bd6ab3bd..8ae335549413 100644
+> --- a/drivers/media/i2c/ov13b10.c
+> +++ b/drivers/media/i2c/ov13b10.c
+> @@ -2,6 +2,9 @@
+>  // Copyright (c) 2021 Intel Corporation.
+>  
+>  #include <linux/acpi.h>
+> +#include <linux/clk.h>
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+>  #include <linux/i2c.h>
+>  #include <linux/module.h>
+>  #include <linux/pm_runtime.h>
+> @@ -573,6 +576,11 @@ struct ov13b10 {
+>  	struct media_pad pad;
+>  
+>  	struct v4l2_ctrl_handler ctrl_handler;
+> +
+> +	struct clk *img_clk;
+> +	struct regulator *avdd;
+> +	struct gpio_desc *reset;
+> +
+>  	/* V4L2 Controls */
+>  	struct v4l2_ctrl *link_freq;
+>  	struct v4l2_ctrl *pixel_rate;
+> @@ -1051,6 +1059,49 @@ static int ov13b10_identify_module(struct ov13b10 *ov13b)
+>  	return 0;
+>  }
+>  
+> +static int ov13b10_power_off(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct ov13b10 *ov13b10 = to_ov13b10(sd);
+> +
+> +	gpiod_set_value_cansleep(ov13b10->reset, 1);
+> +
+> +	if (ov13b10->avdd)
+> +		regulator_disable(ov13b10->avdd);
+> +
+> +	clk_disable_unprepare(ov13b10->img_clk);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ov13b10_power_on(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct ov13b10 *ov13b10 = to_ov13b10(sd);
+> +	int ret;
+> +
+> +	ret = clk_prepare_enable(ov13b10->img_clk);
+> +	if (ret < 0) {
+> +		dev_err(dev, "failed to enable imaging clock: %d", ret);
+> +		return ret;
+> +	}
+> +
+> +	if (ov13b10->avdd) {
+> +		ret = regulator_enable(ov13b10->avdd);
+> +		if (ret < 0) {
+> +			dev_err(dev, "failed to enable avdd: %d", ret);
+> +			clk_disable_unprepare(ov13b10->img_clk);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	gpiod_set_value_cansleep(ov13b10->reset, 0);
+> +	/* 5ms to wait ready after XSHUTDN assert */
+> +	usleep_range(5000, 5500);
+> +
+> +	return 0;
+> +}
+> +
+>  static int ov13b10_start_streaming(struct ov13b10 *ov13b)
+>  {
+>  	struct i2c_client *client = v4l2_get_subdevdata(&ov13b->sd);
+> @@ -1145,7 +1196,7 @@ static int ov13b10_set_stream(struct v4l2_subdev *sd, int enable)
+>  	return ret;
+>  }
+>  
+> -static int __maybe_unused ov13b10_suspend(struct device *dev)
+> +static int ov13b10_suspend(struct device *dev)
+>  {
+>  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+>  	struct ov13b10 *ov13b = to_ov13b10(sd);
+> @@ -1153,26 +1204,35 @@ static int __maybe_unused ov13b10_suspend(struct device *dev)
+>  	if (ov13b->streaming)
+>  		ov13b10_stop_streaming(ov13b);
+>  
+> +	ov13b10_power_off(dev);
+> +
+>  	return 0;
+>  }
+>  
+> -static int __maybe_unused ov13b10_resume(struct device *dev)
+> +static int ov13b10_resume(struct device *dev)
+>  {
+>  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+>  	struct ov13b10 *ov13b = to_ov13b10(sd);
+>  	int ret;
+>  
+> +	ret = ov13b10_power_on(dev);
+> +	if (ret)
+> +		goto pm_fail;
+> +
+>  	if (ov13b->streaming) {
+>  		ret = ov13b10_start_streaming(ov13b);
+>  		if (ret)
+> -			goto error;
+> +			goto stop_streaming;
+>  	}
+>  
+>  	return 0;
+>  
+> -error:
+> +stop_streaming:
+>  	ov13b10_stop_streaming(ov13b);
+> +	ov13b10_power_off(dev);
+> +pm_fail:
+>  	ov13b->streaming = false;
+> +
+>  	return ret;
+>  }
+>  
+> @@ -1317,6 +1377,34 @@ static void ov13b10_free_controls(struct ov13b10 *ov13b)
+>  	mutex_destroy(&ov13b->mutex);
+>  }
+>  
+> +static int ov13b10_get_pm_resources(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct ov13b10 *ov13b = to_ov13b10(sd);
+> +	int ret;
+> +
+> +	ov13b->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
+> +	if (IS_ERR(ov13b->reset))
+> +		return dev_err_probe(dev, PTR_ERR(ov13b->reset),
+> +				     "failed to get reset gpio\n");
+> +
+> +	ov13b->img_clk = devm_clk_get_optional(dev, NULL);
+> +	if (IS_ERR(ov13b->img_clk))
+> +		return dev_err_probe(dev, PTR_ERR(ov13b->img_clk),
+> +				     "failed to get imaging clock\n");
+> +
+> +	ov13b->avdd = devm_regulator_get_optional(dev, "avdd");
+> +	if (IS_ERR(ov13b->avdd)) {
+> +		ret = PTR_ERR(ov13b->avdd);
+> +		ov13b->avdd = NULL;
+> +		if (ret != -ENODEV)
+> +			return dev_err_probe(dev, ret,
+> +					     "failed to get avdd regulator\n");
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int ov13b10_check_hwcfg(struct device *dev)
+>  {
+>  	struct v4l2_fwnode_endpoint bus_cfg = {
+> @@ -1407,13 +1495,23 @@ static int ov13b10_probe(struct i2c_client *client)
+>  	/* Initialize subdev */
+>  	v4l2_i2c_subdev_init(&ov13b->sd, client, &ov13b10_subdev_ops);
+>  
+> +	ret = ov13b10_get_pm_resources(&client->dev);
+> +	if (ret)
+> +		return ret;
+> +
+>  	full_power = acpi_dev_state_d0(&client->dev);
+>  	if (full_power) {
+> +		ov13b10_power_on(&client->dev);
+> +		if (ret) {
+> +			dev_err(&client->dev, "failed to power on\n");
+> +			return ret;
+> +		}
+> +
+>  		/* Check module identity */
+>  		ret = ov13b10_identify_module(ov13b);
+>  		if (ret) {
+>  			dev_err(&client->dev, "failed to find sensor: %d\n", ret);
+> -			return ret;
+> +			goto error_power_off;
+>  		}
+>  	}
+>  
+> @@ -1422,7 +1520,7 @@ static int ov13b10_probe(struct i2c_client *client)
+>  
+>  	ret = ov13b10_init_controls(ov13b);
+>  	if (ret)
+> -		return ret;
+> +		goto error_power_off;
+>  
+>  	/* Initialize subdev */
+>  	ov13b->sd.internal_ops = &ov13b10_internal_ops;
+> @@ -1462,6 +1560,9 @@ static int ov13b10_probe(struct i2c_client *client)
+>  	ov13b10_free_controls(ov13b);
+>  	dev_err(&client->dev, "%s failed:%d\n", __func__, ret);
+>  
+> +error_power_off:
+> +	ov13b10_power_off(&client->dev);
+> +
+>  	return ret;
+>  }
+>  
+> @@ -1477,9 +1578,8 @@ static void ov13b10_remove(struct i2c_client *client)
+>  	pm_runtime_disable(&client->dev);
+>  }
+>  
+> -static const struct dev_pm_ops ov13b10_pm_ops = {
+> -	SET_SYSTEM_SLEEP_PM_OPS(ov13b10_suspend, ov13b10_resume)
+> -};
+> +static DEFINE_RUNTIME_DEV_PM_OPS(ov13b10_pm_ops, ov13b10_suspend,
+> +				 ov13b10_resume, NULL);
+>  
+>  #ifdef CONFIG_ACPI
+>  static const struct acpi_device_id ov13b10_acpi_ids[] = {
+> @@ -1493,7 +1593,7 @@ MODULE_DEVICE_TABLE(acpi, ov13b10_acpi_ids);
+>  static struct i2c_driver ov13b10_i2c_driver = {
+>  	.driver = {
+>  		.name = "ov13b10",
+> -		.pm = &ov13b10_pm_ops,
+> +		.pm = pm_ptr(&ov13b10_pm_ops),
+>  		.acpi_match_table = ACPI_PTR(ov13b10_acpi_ids),
+>  	},
+>  	.probe_new = ov13b10_probe,
+
