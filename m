@@ -2,197 +2,191 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5A107314C7
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jun 2023 12:04:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9767E7314CF
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jun 2023 12:05:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239935AbjFOKEH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Jun 2023 06:04:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56578 "EHLO
+        id S245715AbjFOKFV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Jun 2023 06:05:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238214AbjFOKEG (ORCPT
+        with ESMTP id S245755AbjFOKFS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Jun 2023 06:04:06 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A5552703
-        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 03:04:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686823445; x=1718359445;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vvpjwov+wN4nQHWhG6cLBFlcLw+Wf9W305uDzZQo6wY=;
-  b=WGxNxpNt/BRc1ath0drlLKQQ2ONKWIZTwaa90fEyaTJzdrYCWCuu9XoY
-   KYNzFeyArZEjnxiWBp+rinbPLejKoLze+0znxU7NJ/nT1m1FdRnNOzWKc
-   0r8H37Ug5kA4vLqVKkXneWYGq+l2AClLCdbMI4JYZIT7aLxH5ANts8+Bt
-   mWqTAPp/axToxnMTYJ7kt/Xe7eh1A5uL7ruRvfFQVJLBwPnE//TnWDwcx
-   ZXQIPBSmbvlEZGqkCibtyGyXoJpIwkSrU/aVn4gi8xU5+AOT2JLUF/LnS
-   FRiugrTL4rpXN32gLxrf5CA2nOwSi3FzKkgCYSpRGEIQXRm1c9LH7gRH7
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="387308068"
-X-IronPort-AV: E=Sophos;i="6.00,244,1681196400"; 
-   d="scan'208";a="387308068"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 03:04:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="777600939"
-X-IronPort-AV: E=Sophos;i="6.00,244,1681196400"; 
-   d="scan'208";a="777600939"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 03:04:03 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 649D51202B5;
-        Thu, 15 Jun 2023 12:54:52 +0300 (EEST)
-Date:   Thu, 15 Jun 2023 09:54:52 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Thu, 15 Jun 2023 06:05:18 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8D552717
+        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 03:05:15 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-9829b12b80fso105079566b.2
+        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 03:05:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686823514; x=1689415514;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=GcXc7oEkJIqfHQrM7DT44JanmFGkZij22S/C5m0f+u0=;
+        b=Gx+ysIOs9WTPUhOOyHDPVq3CyE6EJXoBp5k3eQOHsONn4L7+jWCTgBAs+x6kC8D0g0
+         Vx+HYXwEaXZKl7k6iE5Ehp9AbTIN/8ZeczSm/ZI9urnjdoNN+YKwHvSeZMA34wCVJXah
+         jZwZOeq09M/e0/OhiiY8E5YWabd0RoRpUMjhPgI2fFPCucKSi0XQA2QJ27TARDc8wl+0
+         +m/edF0I8m0zIqb1e9xTz7/3OWXC7+BXqltEeBaMH/lRXJqZBv8gNsumqdaA7p68zDha
+         WlcyDX1ci+Xz49yNJ4gNEX70uo+ohvkuE3KYMr4AWX8TrXOqpU/YfNmxUvaxM/PK7Vpq
+         Hbsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686823514; x=1689415514;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GcXc7oEkJIqfHQrM7DT44JanmFGkZij22S/C5m0f+u0=;
+        b=Bb67NS8WzlgKNFD62mYWQQMSGpEeUjloa12hB3Ubu3x/wiEPTcxCfh4geZyXpbYe6R
+         rghJHsRjgCeLN4D/RdIuprTpFNzoIrambgemRfwxUuYM1Kbj/Hv2spzYVcYxM6vjaI1r
+         yZ+IqAkoe8Xn2TGyvHqMaj4I8ZJ9GgK+nNgtBxxC3WAhpEaIJNhp0XZgCqer288PilwI
+         qPFG2zOmkx7031EgvTDlNNXUNPfUHwSYWADcyrPpvHm8nT/Ml5hmSy0lP13hLmLIKDCi
+         0w+ziRh1jG2widXNQrk8qophjI/g1/+Hl6LWKcKHwhHYFtDGbWRTj0r0I3MSLwF1NveA
+         Y3EA==
+X-Gm-Message-State: AC+VfDynzaFFXauSdQZU/Tq1Bv69PleYb8Ojx3lDFX9fHByoJUtsgZQF
+        0hVN1Eq+pmh8qbK5WfYgvEZgD3wru/k=
+X-Google-Smtp-Source: ACHHUZ552Y+uhUykmuMa4nDlJxR1Da62db2TsNnBGaqdo5w02t4CLG8KbwgzYHgA3FV0aQg3I7lrTA==
+X-Received: by 2002:a17:907:745:b0:978:adad:fe18 with SMTP id xc5-20020a170907074500b00978adadfe18mr17604723ejb.21.1686823513811;
+        Thu, 15 Jun 2023 03:05:13 -0700 (PDT)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-2-39-142-242.cust.vodafonedsl.it. [2.39.142.242])
+        by smtp.gmail.com with ESMTPSA id b16-20020a170906491000b0095342bfb701sm9363484ejq.16.2023.06.15.03.05.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Jun 2023 03:05:13 -0700 (PDT)
+Date:   Thu, 15 Jun 2023 12:05:11 +0200
+From:   Tommaso Merciai <tomm.merciai@gmail.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
         linux-media@vger.kernel.org
 Subject: Re: [PATCH v2 1/5] media: Add MIPI CCI register access helper
  functions
-Message-ID: <ZIrf7Ku9LHRCIU5K@kekkonen.localdomain>
+Message-ID: <ZIriVxMVVxG2dsUO@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
 References: <20230614192343.57280-1-hdegoede@redhat.com>
  <20230614192343.57280-2-hdegoede@redhat.com>
  <ZIolnOxs29H8EUmC@kekkonen.localdomain>
- <4c9b2cec-e026-e527-2253-fc541ec85d05@redhat.com>
+ <20230614213429.GA28757@pendragon.ideasonboard.com>
+ <ZIo1kHgYMK84iMj7@kekkonen.localdomain>
+ <b8e5f3f7-d82d-390b-ac63-824a42c3f6cd@redhat.com>
+ <20230615092100.GE741@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <4c9b2cec-e026-e527-2253-fc541ec85d05@redhat.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230615092100.GE741@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi Hans, Laurent, Sakari,
 
-On Thu, Jun 15, 2023 at 10:45:35AM +0200, Hans de Goede wrote:
-> Hi Sakari,
-> 
-> On 6/14/23 22:39, Sakari Ailus wrote:
+Can I cherry-pick this patch and use these new functions also
+for cci regs of the alvium driver? Are on going to be merge?
 
-...
-> >> diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
-> >> index 348559bc2468..523ba243261d 100644
-> >> --- a/drivers/media/v4l2-core/Kconfig
-> >> +++ b/drivers/media/v4l2-core/Kconfig
-> >> @@ -74,6 +74,11 @@ config V4L2_FWNODE
-> >>  config V4L2_ASYNC
-> >>  	tristate
-> >>  
-> >> +config V4L2_CCI
-> >> +	tristate
-> >> +	depends on I2C
+Let me know.
+Thanks! :)
+
+Regards,
+Tommaso
+
+On Thu, Jun 15, 2023 at 12:21:00PM +0300, Laurent Pinchart wrote:
+> On Thu, Jun 15, 2023 at 11:11:20AM +0200, Hans de Goede wrote:
+> > Hi Sakari,
 > > 
-> > This won't do anything if the dependent driver will select V4L2_CCI, will
-> > it? I'd let the sensor driver depend on I2C instead. CCI is also supported
-> > on I3C, for instance.
-> 
-> It will cause a Kconfig error if the dependent driver does not depend
-> on I2C. Kconfig items doing select MUST depend on all the depends on
-> of the items they are selecting; and (continued below)
-
-Maybe this has changed? It used to be that these cases were silently
-ignored and it wasn't that long ago. I haven't been following this up.
-
-Nevertheless, this shouldn't depend on I2C as such.
-
-> 
+> > On 6/14/23 23:48, Sakari Ailus wrote:
+> > > Hi Laurent,
+> > > 
+> > > On Thu, Jun 15, 2023 at 12:34:29AM +0300, Laurent Pinchart wrote:
+> > >> Hello,
+> > >>
+> > >> On Wed, Jun 14, 2023 at 08:39:56PM +0000, Sakari Ailus wrote:
+> > >>> On Wed, Jun 14, 2023 at 09:23:39PM +0200, Hans de Goede wrote:
+> > >>>> The CSI2 specification specifies a standard method to access camera sensor
+> > >>>> registers called "Camera Control Interface (CCI)".
+> > >>>>
+> > >>>> This uses either 8 or 16 bit (big-endian wire order) register addresses
+> > >>>> and supports 8, 16, 24 or 32 bit (big-endian wire order) register widths.
+> > >>>>
+> > >>>> Currently a lot of Linux camera sensor drivers all have their own custom
+> > >>>> helpers for this, often copy and pasted from other drivers.
+> > >>>>
+> > >>>> Add a set of generic helpers for this so that all sensor drivers can
+> > >>>> switch to a single common implementation.
+> > >>>>
+> > >>>> These helpers take an extra optional "int *err" function parameter,
+> > >>>> this can be used to chain a bunch of register accesses together with
+> > >>>> only a single error check at the end, rather then needing to error
+> > >>>> check each individual register access. The first failing call will
+> > >>>> set the contents of err to a non 0 value and all other calls will
+> > >>>> then become no-ops.
+> > >>>>
+> > >>>> Link: https://lore.kernel.org/linux-media/59aefa7f-7bf9-6736-6040-39551329cd0a@redhat.com/
+> > >>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> > >>>> ---
+> > >>>> Changes in v2:
+> > >>>> - Drop cci_reg_type enum
+> > >>>> - Make having an encoded reg-width mandatory rather then using 0 to encode
+> > >>>>   8 bit width making reg-addresses without an encoded width default to
+> > >>>>   a width of 8
+> > >>>> - Add support for 64 bit wide registers
+> > >>
+> > >> I'm in two minds about this. This means that the read and write
+> > >> functions take a u64 argument, which will be less efficient on 32-bit
+> > >> platforms. I think it would be possible, with some macro magic, to
+> > >> accept different argument sizes, but maybe that's a micro-optimization
+> > >> that would actually result in worse code. 
+> > >>
+> > >> 64-bit support could be useful, but as far as I can tell, it's not used
+> > >> in this series, so maybe we could leave this for later ?
+> > > 
+> > > I prefer to have it now, I just told Tommaso working on the Alvium driver
+> > > to use this, and he needs 64-bit access. :-)
+> > > 
+> > > You could also easily have 32-bit and 64-bit variant of the functions, with
+> > > C11 _Generic(). Introducing it now would be easier than later.
 > > 
-> >> +	select REGMAP_I2C
+> > I took a quick look at C11 _Generic() and that looks at the type
+> > of "things" so in this case it would look at type of the val argument.
 > > 
-> > This is a good question.
+> > Problem is that that can still be e.g. an int when doing a
+> > read/write from a 64 bit registers.
 > > 
-> > How about adding V4L2_CCI_I2C that would select REGMAP_I2C?
-> 
-> v4l2-cci.ko uses the devm_regmap_init_i2c() symbol, so
-> REGMAP_I2C must be enabled when V4L2_CCI is enabled and
-> REGMAP_I2C is a symbol which should be selected rather
-> then depended on when necessary.
-
-I agree.
-
-...
-
-> >> +/**
-> >> + * cci_regmap_init_i2c() - Create regmap to use with cci_*() register access functions
-> >> + *
-> >> + * @client: i2c_client to create the regmap for
-> >> + * @reg_addr_bits: register address width to use (8 or 16)
-> >> + *
-> >> + * Note the memory for the created regmap is devm() managed, tied to the client.
-> >> + *
-> >> + * Return: %0 on success or a negative error code on failure.
-> >> + */
-> >> +struct regmap *cci_regmap_init_i2c(struct i2c_client *client, int reg_addr_bits);
-> >> +
-> >> +#endif
+> > So we would then need to handle the 64 bit width case in the 32
+> > bit versions of the functions too.
 > > 
-> > Could you run
+> > And likewise I can see someone passing a long on a 64 bit
+> > arch while doing a cci_write() to a non 64 bit register.
 > > 
-> > 	./scripts/checkpatch.pl --strict --max-line-length=80
+> > So this would basically mean copy and pasting cci_read()
+> > + cci_write() 2x with the only difference being one
+> > variant taking a 32 bit val argument and the other a
+> > 64 bit val argument.
 > > 
-> > on this?
+> > This seems like premature optimization to me.
+> > 
+> > As mentioned in my reply to Laurent if we want to
+> > optimize things we really should look at avoiding
+> > unnecessary i2c transfers, or packing multiple
+> > writes into a single i2c transfer for writes to
+> > subsequent registers. That is where significant
+> > speedups can be made.
 > 
-> As I mentioned during the v1 review where you also asked about
-> the 80 column limit, can we first please have an official
-> decision what the column limit is for drivers/media and then
-> also document this somewhere?
-
-This is documented in
-Documentation/driver-api/media/maintainer-entry-profile.rst and media tree
-follows that.
-
+> This is something I'd really like to see, but it's way more work.
 > 
-> Also note that you are asking me to modify the checkpatch
-> default max-line-length here. So basically you are deviating
-> from the official kernel coding style standards here.
-
-We're not. Note that checkpatch.pl is a tool to check code, it isn't the
-coding style itself, which is documented in
-Documentation/process/coding-style.rst . The default in checkpatch.pl was
-changed as it often produced many warnings where there was a justified
-reason for having longer lines (such as violating other rules in coding
-style).
-
+> There's an important need of applying changes atomically, which is often
+> not possible to strictly guarantee over I2C. Userspace ends up writing
+> V4L2 controls as quickly as it can after the start of a frame, hoping
+> they will all reach the sensor before the end of the frame. Some
+> platforms have camera-specific I2C controllers that have the ability to
+> buffer I2C transfers and issue them based on a hardware trigger. How to
+> fit this in thé kernel I2C API will be an interesting exercise.
 > 
-> You are asking for 80 columns. Andy often adds review remarks
-> along the lines of:
+> -- 
+> Regards,
 > 
-> "this can fit on a single line" assuming the now official 100
-> chars hard limit.
-
-I know...
-
-> 
-> And I cannot make both you and Andy happy at the same time.
-> So please pick a limit, *document it* and then stick with it.
-> 
-> This current inconsistency between reviewers is unhelpful.
-> 
-> My personal opinion on this is that sometimes going over
-> 80 chars actually results in better readable code,
-> so I have a slight preference to just stick with the kernel
-> default of 100 chars. Sticking to the kernel default also
-> makes life a lot easier for people contributing to multiple
-> subsystems. So my vote goes to sticking with the new
-> kernel default of 100 chars.
-> 
-> I'm happy to adjust this patch-set to fit everything in
-> 80 chars, but can we please first get some clarity on
-> what actual column limit we want for drivers/media ?
-
-Answered above. Note that the limit is not strict but it appears that in
-this set there are many longer lines than 80 but no apparent reason for
-having them that way.
-
--- 
-Kind regards,
-
-Sakari Ailus
+> Laurent Pinchart
