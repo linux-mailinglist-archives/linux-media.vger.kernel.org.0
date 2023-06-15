@@ -2,82 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E60CE731822
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jun 2023 14:06:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73C6273190F
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jun 2023 14:39:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344689AbjFOMGw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Jun 2023 08:06:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50882 "EHLO
+        id S244403AbjFOMjW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Jun 2023 08:39:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344684AbjFOMGi (ORCPT
+        with ESMTP id S231163AbjFOMjU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Jun 2023 08:06:38 -0400
+        Thu, 15 Jun 2023 08:39:20 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F22C82120
-        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 05:05:08 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9055F1FE5
+        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 05:38:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1686830708;
+        s=mimecast20190719; t=1686832719;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=vT5YPefdclIvpGGO3OhnRz7E2rEkyVfPWr51ZrtvFrw=;
-        b=OTWurTU++MlilIJ+vSezmjaBEQqTNVsxJW6Wsy408XseIHIy9LkwiAANGdRHFOSoIHrrVH
-        eOpXxXekZ+HW6tZQJL+6BBdUyBOD/ldwqTgHdAhgyS8U+SQP2Y6vIWDSSQHY/CouO4tbku
-        HNffERtt9rGCFc9kY0KFNu9cT8Y4L4A=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=4y5XlF7+P4puBisHahWVb8CkbwNpV9TQalR2O3xuL3g=;
+        b=ceV4i9sPrQy+r6jVcqVgfVs4jwc8Ui8uZ+UlPkPQ+aQbYF0nM//r+Dlecgs1gWL20Dwp9R
+        12T1In3UW8shvCM4tEZHuFuskrkGs23u3QmgybPBAMkqxzHfsWZoSY71Sj+DvhhYyGR0N7
+        NFuRvGZdq3j6sZazDFHwLMFa8HyNdE0=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-518-C1myEKQpN_Cmy9UJuR1nnA-1; Thu, 15 Jun 2023 08:05:06 -0400
-X-MC-Unique: C1myEKQpN_Cmy9UJuR1nnA-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-98286c6cbeaso108209766b.1
-        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 05:05:05 -0700 (PDT)
+ us-mta-98-yU9wU-OHOJ--q_rjXzubtQ-1; Thu, 15 Jun 2023 08:38:38 -0400
+X-MC-Unique: yU9wU-OHOJ--q_rjXzubtQ-1
+Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-514a6909c35so7112521a12.3
+        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 05:38:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686830704; x=1689422704;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20221208; t=1686832717; x=1689424717;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vT5YPefdclIvpGGO3OhnRz7E2rEkyVfPWr51ZrtvFrw=;
-        b=IJ1ThamFFl/2XstCMuQNp5vjTmVaiHhhROm3BTVUCD+3SWU7T0Ie5T0cA5+3baEpUq
-         kiC9R99yniY+ys+KlMp/ZYhkvpPC1qPOnBmBxI3BCB9dXogUMb1AupwCWl6f2fDid1FP
-         xu2Yc7FiA6o4yi15eU03MQwLPmOx3PaMgWJv3qxgJVIu3ZnEsL6l16A0Ca98i62D6OR/
-         NxHSCxVKsotpAndlbVk7chlnXpsBNi5+lGvxCfFOp033vqivFCnqGmBMsUQ2QufxhTgy
-         4DDR18NSPhmXbr7jzvI7sYozTqAccOiTAJ29C3jMIHtiPqaIhUm6s0LgJcIFeZQeVJQ9
-         tUpw==
-X-Gm-Message-State: AC+VfDy9Hba3NpN0th3MFvVZF+Cxlxw3hKFuH4nr7jyeQH1oFgTfY4K1
-        Xhz88P4LCvnrhUV97uC0m/TTqJRXd7FVM5r5E9W+ng349Le01XCsoBtCn7QpHD1eplFC7hnsO0f
-        FUsUHCiZ7T+t0djbKqk2rYJ6G//0OTsI=
-X-Received: by 2002:a17:907:9710:b0:96f:a8c2:77ad with SMTP id jg16-20020a170907971000b0096fa8c277admr19369310ejc.63.1686830704427;
-        Thu, 15 Jun 2023 05:05:04 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7GulmIezcwMd23dOmH6wBBpIItmUdT6BbLJuOngoRrGGTvc/jQbHnr7Wc1MPsfq8Bvf+pFXw==
-X-Received: by 2002:a17:907:9710:b0:96f:a8c2:77ad with SMTP id jg16-20020a170907971000b0096fa8c277admr19369292ejc.63.1686830704126;
-        Thu, 15 Jun 2023 05:05:04 -0700 (PDT)
+        bh=4y5XlF7+P4puBisHahWVb8CkbwNpV9TQalR2O3xuL3g=;
+        b=V0L4ILowxHtGsagyq9Ubz4hiRGKInp52SibItIH14OQWS2gY9KRxrwRQh0+QRxFDys
+         BTINQv2AsCU/GTY0VQjQIlCFhKzyckK7y6ZpmzKpR49TPu+5OTDzLCXetDkKXTCyTl2P
+         x2HYKXA21nbJrMETiJanFa8KPDwFuXbpS/gzEeiDVq6U/Dty6StlxMM7PEXqwGtscLGh
+         8R7p6M/B4Unj0+JjBArcx/0YnEcktUI1Dn5u+4ahvTq6kzenY5Mx+fmNY3MTKT/+4IYw
+         xN0ZCdF9QIH+Urps5o1saLxfBADglc2z2Pfe7pRjgrFftDtzqLSRfY2YcUe36ciim3au
+         x63A==
+X-Gm-Message-State: AC+VfDxZd208ZwqQYzYHmAZL6z3iyMi+tbuCVrJ6f1UFRl16q5S96LSS
+        Rhr8gorAZsMPcF9G+Y2EIFXWM+CIy0820231hUCDwYuPqoEphrKIxb6VPdwoFODCuL0JGcsFBWG
+        Ep6t2EF2UjN8i9c9QH1FtZLo=
+X-Received: by 2002:a05:6402:1acc:b0:519:608a:142 with SMTP id ba12-20020a0564021acc00b00519608a0142mr2913999edb.33.1686832717549;
+        Thu, 15 Jun 2023 05:38:37 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6+qIZ7tAmzegaBiAZKQ8qhI6L0DzRMftKtOqVHNA9h3sit8G1ZKZxiLY0YhH4WoepECeAj2A==
+X-Received: by 2002:a05:6402:1acc:b0:519:608a:142 with SMTP id ba12-20020a0564021acc00b00519608a0142mr2913982edb.33.1686832717226;
+        Thu, 15 Jun 2023 05:38:37 -0700 (PDT)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id y9-20020a17090668c900b0098242730348sm3189777ejr.72.2023.06.15.05.05.02
+        by smtp.gmail.com with ESMTPSA id s3-20020a056402164300b00510d8e43fe0sm8870903edx.7.2023.06.15.05.38.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Jun 2023 05:05:02 -0700 (PDT)
-Message-ID: <f10d2b2d-1496-936c-c609-38279d8f6262@redhat.com>
-Date:   Thu, 15 Jun 2023 14:05:02 +0200
+        Thu, 15 Jun 2023 05:38:35 -0700 (PDT)
+Message-ID: <0f58b3ca-125f-d4c6-9f7f-87a240e945dc@redhat.com>
+Date:   Thu, 15 Jun 2023 14:38:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v2 1/5] media: Add MIPI CCI register access helper
- functions
+Subject: Re: [PATCH 0/4] platform/x86: int3472: discrete: Regulator rework /
+ Lenovo Miix 510 support
+To:     Dan Scally <dan.scally@ideasonboard.com>,
+        Hao Yao <hao.yao@intel.com>, Bingbu Cao <bingbu.cao@intel.com>
+Cc:     =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org
+References: <20230609204228.74967-1-hdegoede@redhat.com>
 Content-Language: en-US, nl
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-        linux-media@vger.kernel.org
-References: <20230614192343.57280-1-hdegoede@redhat.com>
- <20230614192343.57280-2-hdegoede@redhat.com>
- <ZIolnOxs29H8EUmC@kekkonen.localdomain>
- <4c9b2cec-e026-e527-2253-fc541ec85d05@redhat.com>
- <ZIrf7Ku9LHRCIU5K@kekkonen.localdomain>
- <647c6bf0-2ad3-16bd-8081-7f4244f60938@redhat.com>
- <ZIr41hzdphg1UbJy@kekkonen.localdomain>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <ZIr41hzdphg1UbJy@kekkonen.localdomain>
+In-Reply-To: <20230609204228.74967-1-hdegoede@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -91,89 +85,42 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi All,
 
-On 6/15/23 13:41, Sakari Ailus wrote:
-> Hi Hans,
+On 6/9/23 22:42, Hans de Goede wrote:
+> Hi Dan, Hao Yao and Bingbu Cao,
 > 
-> On Thu, Jun 15, 2023 at 12:15:47PM +0200, Hans de Goede wrote:
->> Hi,
->>
->> On 6/15/23 11:54, Sakari Ailus wrote:
->>> Hi Hans,
->>>
->>> On Thu, Jun 15, 2023 at 10:45:35AM +0200, Hans de Goede wrote:
->>>> Hi Sakari,
->>>>
->>>> On 6/14/23 22:39, Sakari Ailus wrote:
->>>
->>> ...
->>>>>> diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
->>>>>> index 348559bc2468..523ba243261d 100644
->>>>>> --- a/drivers/media/v4l2-core/Kconfig
->>>>>> +++ b/drivers/media/v4l2-core/Kconfig
->>>>>> @@ -74,6 +74,11 @@ config V4L2_FWNODE
->>>>>>  config V4L2_ASYNC
->>>>>>  	tristate
->>>>>>  
->>>>>> +config V4L2_CCI
->>>>>> +	tristate
->>>>>> +	depends on I2C
->>>>>
->>>>> This won't do anything if the dependent driver will select V4L2_CCI, will
->>>>> it? I'd let the sensor driver depend on I2C instead. CCI is also supported
->>>>> on I3C, for instance.
->>>>
->>>> It will cause a Kconfig error if the dependent driver does not depend
->>>> on I2C. Kconfig items doing select MUST depend on all the depends on
->>>> of the items they are selecting; and (continued below)
->>>
->>> Maybe this has changed? It used to be that these cases were silently
->>> ignored and it wasn't that long ago. I haven't been following this up.
->>>
->>> Nevertheless, this shouldn't depend on I2C as such.
->>>
->>>>
->>>>>
->>>>>> +	select REGMAP_I2C
->>>>>
->>>>> This is a good question.
->>>>>
->>>>> How about adding V4L2_CCI_I2C that would select REGMAP_I2C?
->>>>
->>>> v4l2-cci.ko uses the devm_regmap_init_i2c() symbol, so
->>>> REGMAP_I2C must be enabled when V4L2_CCI is enabled and
->>>> REGMAP_I2C is a symbol which should be selected rather
->>>> then depended on when necessary.
->>>
->>> I agree.
->>
->> If you agree that because of the symbol dependency that
->> the select REGMAP_I2C is necessary then the depends on I2C
->> is also necessary because any Kconfig symbol selecting
->> another symbol MUST depends on all of the dependencies
->> of the selected symbol and REGMAP_I2C has:
->>
->> config REGMAP_I2C
->>         tristate
->>         depends on I2C
+> Patches 1/2 drop the sensor-config stuff since I thought we should be
+> able to make things work without any board specific fixups.
 > 
-> Yes.
+> This is the result of my working on getting IPU6 to work on Jasper Lake
+> for $dayjob and then tonight I switched to trying to get the ov2680
+> on the Lenovo Miix 510 to work and it turns out that does require some
+> board specific workarounds after all :|
 > 
-> How about putting cci_regmap_init_i2c() behind an #ifdef? Then there
-> wouldn't be a need for REGMAP_I2C unconditionally, but dependent on I2C.
+> With this series together with my recent ov2680 sensor driver series:
+> https://lore.kernel.org/linux-media/20230607164712.63579-1-hdegoede@redhat.com/
+> I can get the ov2680 driver to load and successfully read the id register:
 > 
-> I guess right now I2C is more or less given in many systems but binding CCI
-> to it still seems dubious.
+> [   11.365319] ipu3-cio2 0000:00:14.3: Found supported sensor OVTI2680:00
+> [   11.431595] ov2680 i2c-OVTI2680:00: supply DOVDD not found, using dummy regulator
+> [   11.433125] ov2680 i2c-OVTI2680:00: supply DVDD not found, using dummy regulator
+> [   11.454698] ov2680 i2c-OVTI2680:00: sensor_revision id = 0x2680, rev= 0
+> 
+> Dan, currently the DMI match used only matches the 12IKB version of
+> the Miix 510 I think you have a 12ISK version. Can you verify this
+> works there too?  I guess we can just drop the KB part of the DMI
+> match if this works on the 12ISK version too.
+> 
+> Hao Yao and Bingbu Cao I think that the way the issue with how different
+> drivers may expect different regulator supply-ids is of interest to you
+> too. Note I see that the mainline version of ov13b10.c does not have
+> regulator support at all yet. So when adding this please just use
+> one of the existing set of supply-names + the bulk API like how
+> the ov5693.c driver is doing. In this case no int3472 driver changes
+> will be necessary at all.
 
-Yes, I can wrap the cci_regmap_init_i2c() prototype +
-implementation in
-
-#ifdef CONFIG_REGMAP_I2C
-
-for version 4. Downside of this is that all i2c sensor drivers
-which want to use the CCI helpers now will need to have
-a select REGMAP_I2C added to their Kconfig snippet.
+I've added this to my review-hans (soon to be for-next) branch now.
 
 Regards,
 
@@ -181,23 +128,18 @@ Hans
 
 
 
-	
 
+> Hans de Goede (4):
+>   platform/x86: int3472: discrete: Drop GPIO remapping support
+>   platform/x86: int3472: discrete: Remove sensor_config-s
+>   platform/x86: int3472: discrete: Add support for 1 GPIO regulator
+>     shared between 2 sensors
+>   platform/x86: int3472: discrete: Add alternative "AVDD" regulator
+>     supply name
 > 
->>
->> <snip>
->>
->>> This is documented in
->>> Documentation/driver-api/media/maintainer-entry-profile.rst and media tree
->>> follows that.
->>
->> Ah, I missed that. Ok, I'll run
->>
->> ./scripts/checkpatch.pl --strict --max-line-length=80
->>
->> and fix the warnings, with maybe one or 2 exceptions
->> where longer lines really make the code more readable.
-> 
-> Thank you.
+>  .../x86/intel/int3472/clk_and_regulator.c     | 72 ++++++++++++++----
+>  drivers/platform/x86/intel/int3472/common.h   | 14 +---
+>  drivers/platform/x86/intel/int3472/discrete.c | 76 ++-----------------
+>  3 files changed, 66 insertions(+), 96 deletions(-)
 > 
 
