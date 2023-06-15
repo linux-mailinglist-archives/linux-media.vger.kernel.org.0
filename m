@@ -2,180 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BC0E7314EF
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jun 2023 12:09:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E384731507
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jun 2023 12:16:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343718AbjFOKJT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Jun 2023 06:09:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60476 "EHLO
+        id S244914AbjFOKQo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Jun 2023 06:16:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343750AbjFOKJL (ORCPT
+        with ESMTP id S245382AbjFOKQk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Jun 2023 06:09:11 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 383DD30C1
-        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 03:08:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686823731; x=1718359731;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4GQ3YGO1r0rkbPaNJvrO9T3j4Zn79dspuv38aE9XzJU=;
-  b=O7UqO8QkXDSzxa8fm4Chg5A68d6+hm4tyheiTAdS//oNhNXusM+J205f
-   5sfvPI1w6f69p7BORvBoCCQgA5KEc6ojIJXz5FdyY/P0/xaNFPcyk888R
-   wZwheYkdbWoYUMiVZl5qSzmzE/ZBBvFXGV9nkJL7EEpxbP8xEnsnuY2kG
-   fdJpeDOZ4c0VIHHJtvFJwi7JGQPU9qMuZp4VrKN/jG9WK1fOaPZ5xDDMO
-   5G9cBwZwU1FQaja5K16lm6L06yEZWdVLpmKTRP16+wsZkS3M6BkzR8Yrl
-   eQdxiIlx4YOc2JcWDVOCHITPF+KrbLztGHqCCtkJlTDLIPlFwPIbJWr5H
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="387309024"
-X-IronPort-AV: E=Sophos;i="6.00,244,1681196400"; 
-   d="scan'208";a="387309024"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 03:08:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="777602931"
-X-IronPort-AV: E=Sophos;i="6.00,244,1681196400"; 
-   d="scan'208";a="777602931"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 03:08:09 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 5521E1202B5;
-        Thu, 15 Jun 2023 13:08:07 +0300 (EEST)
-Date:   Thu, 15 Jun 2023 10:08:07 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>
+        Thu, 15 Jun 2023 06:16:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E8D6271E
+        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 03:15:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1686824152;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=7pgP7UVhubru72z/gjrrKvy2991Kq99wDmbSW06Wmqg=;
+        b=IM8Zb3nmsat0dL63aNCz7fKTeXIQBjF6klIezNwq6gG0lslBqQB0xUMV9eXojDhFysrlU8
+        JA+4OHnoclAPFVP9V6Cr/sEwWRzqulzBFyKUYnf+cw2LvKztITB0gU051BGk0jommEHEBw
+        mIUObOgDc3eECFfFstqBE5NhBf8Tswk=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-457-ZpWhCatUOpKLaP-oGF2KjA-1; Thu, 15 Jun 2023 06:15:51 -0400
+X-MC-Unique: ZpWhCatUOpKLaP-oGF2KjA-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-9829a080268so71592966b.3
+        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 03:15:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686824150; x=1689416150;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7pgP7UVhubru72z/gjrrKvy2991Kq99wDmbSW06Wmqg=;
+        b=GZN4l9bK/JoJ263ls/v73a3TwTXYTOgJ98Q9Z3o4PxtKr8QrL/3EwuCOHaX7PFeMHi
+         xQM+VvMGlokwRFNjMR25Qyjkj2rGQkRh256q3hUi4CfKEI5FadwYqxv2M0YX704Lj8fn
+         Y2Q3FP2R4TVXEGBHByjOOj86mKSn7NVbPMSq5eipvlI8dO6HNIFadyuwoHsbq+fJe59R
+         I6rYAKIkxlvfpYQrfC8eZoxE+XkMyFOdoaT75tLAld/+e7QTZ2fkoi8aQoDMm2Svx1pb
+         d9AXsI/Wghdghcm5qKmm7Xt5/3SEnuk8QkeELR5ADwUh3DG25PatR5sVt522KIu/H5ob
+         y3bg==
+X-Gm-Message-State: AC+VfDwUkY6EuijJ+u9jI7PwhgsI0ijMnPkfSdKYP1Ym1rT0s1UUvBnn
+        J7/7OtB2JgIcHCZV4qbYvVAygHikXZNRVdeiWaEZ6Oy39Q/F6cWUDk9Oi1stMLA4lXgzOb9F+nT
+        MBZx0pIZDYl0te6PDLnDf2DrdGtNIUDQ=
+X-Received: by 2002:a17:907:25ca:b0:94e:4489:f24d with SMTP id ae10-20020a17090725ca00b0094e4489f24dmr16637081ejc.61.1686824150123;
+        Thu, 15 Jun 2023 03:15:50 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4F/zhsIJO2158SYTDNyDWv1IVfCkLHFr6JymQcvk0JeVReez9rkLDWHMyiKH0RClV73RqFbQ==
+X-Received: by 2002:a17:907:25ca:b0:94e:4489:f24d with SMTP id ae10-20020a17090725ca00b0094e4489f24dmr16637072ejc.61.1686824149860;
+        Thu, 15 Jun 2023 03:15:49 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id dk17-20020a170906f0d100b0097886843f75sm9307038ejb.177.2023.06.15.03.15.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Jun 2023 03:15:48 -0700 (PDT)
+Message-ID: <647c6bf0-2ad3-16bd-8081-7f4244f60938@redhat.com>
+Date:   Thu, 15 Jun 2023 12:15:47 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2 1/5] media: Add MIPI CCI register access helper
+ functions
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
         linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] media: Add MIPI CCI register access helper
- functions
-Message-ID: <ZIrjB0LiB3Y/BLzd@kekkonen.localdomain>
 References: <20230614192343.57280-1-hdegoede@redhat.com>
  <20230614192343.57280-2-hdegoede@redhat.com>
  <ZIolnOxs29H8EUmC@kekkonen.localdomain>
- <20230614213429.GA28757@pendragon.ideasonboard.com>
- <ZIo1kHgYMK84iMj7@kekkonen.localdomain>
- <b8e5f3f7-d82d-390b-ac63-824a42c3f6cd@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b8e5f3f7-d82d-390b-ac63-824a42c3f6cd@redhat.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+ <4c9b2cec-e026-e527-2253-fc541ec85d05@redhat.com>
+ <ZIrf7Ku9LHRCIU5K@kekkonen.localdomain>
+Content-Language: en-US, nl
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <ZIrf7Ku9LHRCIU5K@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi,
 
-On Thu, Jun 15, 2023 at 11:11:20AM +0200, Hans de Goede wrote:
-> Hi Sakari,
+On 6/15/23 11:54, Sakari Ailus wrote:
+> Hi Hans,
 > 
-> On 6/14/23 23:48, Sakari Ailus wrote:
-> > Hi Laurent,
-> > 
-> > On Thu, Jun 15, 2023 at 12:34:29AM +0300, Laurent Pinchart wrote:
-> >> Hello,
-> >>
-> >> On Wed, Jun 14, 2023 at 08:39:56PM +0000, Sakari Ailus wrote:
-> >>> On Wed, Jun 14, 2023 at 09:23:39PM +0200, Hans de Goede wrote:
-> >>>> The CSI2 specification specifies a standard method to access camera sensor
-> >>>> registers called "Camera Control Interface (CCI)".
-> >>>>
-> >>>> This uses either 8 or 16 bit (big-endian wire order) register addresses
-> >>>> and supports 8, 16, 24 or 32 bit (big-endian wire order) register widths.
-> >>>>
-> >>>> Currently a lot of Linux camera sensor drivers all have their own custom
-> >>>> helpers for this, often copy and pasted from other drivers.
-> >>>>
-> >>>> Add a set of generic helpers for this so that all sensor drivers can
-> >>>> switch to a single common implementation.
-> >>>>
-> >>>> These helpers take an extra optional "int *err" function parameter,
-> >>>> this can be used to chain a bunch of register accesses together with
-> >>>> only a single error check at the end, rather then needing to error
-> >>>> check each individual register access. The first failing call will
-> >>>> set the contents of err to a non 0 value and all other calls will
-> >>>> then become no-ops.
-> >>>>
-> >>>> Link: https://lore.kernel.org/linux-media/59aefa7f-7bf9-6736-6040-39551329cd0a@redhat.com/
-> >>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> >>>> ---
-> >>>> Changes in v2:
-> >>>> - Drop cci_reg_type enum
-> >>>> - Make having an encoded reg-width mandatory rather then using 0 to encode
-> >>>>   8 bit width making reg-addresses without an encoded width default to
-> >>>>   a width of 8
-> >>>> - Add support for 64 bit wide registers
-> >>
-> >> I'm in two minds about this. This means that the read and write
-> >> functions take a u64 argument, which will be less efficient on 32-bit
-> >> platforms. I think it would be possible, with some macro magic, to
-> >> accept different argument sizes, but maybe that's a micro-optimization
-> >> that would actually result in worse code. 
-> >>
-> >> 64-bit support could be useful, but as far as I can tell, it's not used
-> >> in this series, so maybe we could leave this for later ?
-> > 
-> > I prefer to have it now, I just told Tommaso working on the Alvium driver
-> > to use this, and he needs 64-bit access. :-)
-> > 
-> > You could also easily have 32-bit and 64-bit variant of the functions, with
-> > C11 _Generic(). Introducing it now would be easier than later.
+> On Thu, Jun 15, 2023 at 10:45:35AM +0200, Hans de Goede wrote:
+>> Hi Sakari,
+>>
+>> On 6/14/23 22:39, Sakari Ailus wrote:
 > 
-> I took a quick look at C11 _Generic() and that looks at the type
-> of "things" so in this case it would look at type of the val argument.
+> ...
+>>>> diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
+>>>> index 348559bc2468..523ba243261d 100644
+>>>> --- a/drivers/media/v4l2-core/Kconfig
+>>>> +++ b/drivers/media/v4l2-core/Kconfig
+>>>> @@ -74,6 +74,11 @@ config V4L2_FWNODE
+>>>>  config V4L2_ASYNC
+>>>>  	tristate
+>>>>  
+>>>> +config V4L2_CCI
+>>>> +	tristate
+>>>> +	depends on I2C
+>>>
+>>> This won't do anything if the dependent driver will select V4L2_CCI, will
+>>> it? I'd let the sensor driver depend on I2C instead. CCI is also supported
+>>> on I3C, for instance.
+>>
+>> It will cause a Kconfig error if the dependent driver does not depend
+>> on I2C. Kconfig items doing select MUST depend on all the depends on
+>> of the items they are selecting; and (continued below)
 > 
-> Problem is that that can still be e.g. an int when doing a
-> read/write from a 64 bit registers.
-
-I suppose the compiler would warn you in that case, the same way it would
-without _Generic().
-
+> Maybe this has changed? It used to be that these cases were silently
+> ignored and it wasn't that long ago. I haven't been following this up.
 > 
-> So we would then need to handle the 64 bit width case in the 32
-> bit versions of the functions too.
-
-I'd feel annoyed having to have a u64 to read an 8-bit register. But
-maybe that's not an issue in practice after all. Just extra memory used for
-no reason (register lists).
-
+> Nevertheless, this shouldn't depend on I2C as such.
 > 
-> And likewise I can see someone passing a long on a 64 bit
-> arch while doing a cci_write() to a non 64 bit register.
+>>
+>>>
+>>>> +	select REGMAP_I2C
+>>>
+>>> This is a good question.
+>>>
+>>> How about adding V4L2_CCI_I2C that would select REGMAP_I2C?
+>>
+>> v4l2-cci.ko uses the devm_regmap_init_i2c() symbol, so
+>> REGMAP_I2C must be enabled when V4L2_CCI is enabled and
+>> REGMAP_I2C is a symbol which should be selected rather
+>> then depended on when necessary.
 > 
-> So this would basically mean copy and pasting cci_read()
-> + cci_write() 2x with the only difference being one
-> variant taking a 32 bit val argument and the other a
-> 64 bit val argument.
-> 
-> This seems like premature optimization to me.
+> I agree.
 
-Perhaps so, but it's difficult to do that later. Or, well, you can
-introduce the 32-bit variant but you'd have to change users in order to use
-it in existing code. That's unlikely to happen.
+If you agree that because of the symbol dependency that
+the select REGMAP_I2C is necessary then the depends on I2C
+is also necessary because any Kconfig symbol selecting
+another symbol MUST depends on all of the dependencies
+of the selected symbol and REGMAP_I2C has:
 
-> 
-> As mentioned in my reply to Laurent if we want to
-> optimize things we really should look at avoiding
-> unnecessary i2c transfers, or packing multiple
-> writes into a single i2c transfer for writes to
-> subsequent registers. That is where significant
-> speedups can be made.
+config REGMAP_I2C
+        tristate
+        depends on I2C
 
-In the latter case, yes, there's something that can be done in the CCI
-code. Then there are also devices that aren't fully compatible but require
-e.g. 8-bit read and/or write access. We need e.g. flags so the driver can
-tell not to merge writes. I haven't checked if there's already something in
-regmap flags we could use in that case.
+<snip>
 
--- 
-Kind regards,
+> This is documented in
+> Documentation/driver-api/media/maintainer-entry-profile.rst and media tree
+> follows that.
 
-Sakari Ailus
+Ah, I missed that. Ok, I'll run
+
+./scripts/checkpatch.pl --strict --max-line-length=80
+
+and fix the warnings, with maybe one or 2 exceptions
+where longer lines really make the code more readable.
+
+Regards,
+
+Hans
+
