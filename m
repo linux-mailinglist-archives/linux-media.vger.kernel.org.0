@@ -2,50 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D06FD731385
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jun 2023 11:21:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE0197313A6
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jun 2023 11:23:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244500AbjFOJVM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Jun 2023 05:21:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54464 "EHLO
+        id S245203AbjFOJX1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Jun 2023 05:23:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245496AbjFOJVF (ORCPT
+        with ESMTP id S245380AbjFOJXW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Jun 2023 05:21:05 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FEF02120
-        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 02:21:01 -0700 (PDT)
+        Thu, 15 Jun 2023 05:23:22 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6D1E1FF9;
+        Thu, 15 Jun 2023 02:23:13 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BBB66891;
-        Thu, 15 Jun 2023 11:20:28 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C46B2891;
+        Thu, 15 Jun 2023 11:22:39 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1686820829;
-        bh=BVoeVraAbSCO+rtKtJIIbQfapDwlFFmJ3KXis8HMhKg=;
+        s=mail; t=1686820960;
+        bh=mNdaQXh9jAr6C4bAiPVDZwZZnVIc9TVp7LHdiC9DdY4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GVCMNMAkxpCnVUxO0XQrrBaZY7vkxdSwEmgJFi3BOZu2UOlRxnW/d4rUXdd/xUuFN
-         PhHTuy+ME6y0uvqTxG7c1tTD+8Nju79j33Wy48SCc0fSch0WSdWVTIj26m8OoAGP8l
-         P3ER/truPKnI06XbGmVoHvH1Tm3PcrZOnGjl0iGo=
-Date:   Thu, 15 Jun 2023 12:21:00 +0300
+        b=q0BNG8MPag0lN46PEPCAdkWdLLfFFVdpsvXChwHzNZ7t/Jnr1WHDSXKbqMkeWzpZL
+         Yz+mfnr6+AjG1fEg5iyFRaImE4/6+DMJt61S2M11qQD2KhhoIMap9ILrgco61tR0qj
+         VzgeEw0c/Sz+auhF8kcreVgtyGtknUicDo/gcQM4=
+Date:   Thu, 15 Jun 2023 12:23:12 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Wolfram Sang <wsa@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] media: Add MIPI CCI register access helper
- functions
-Message-ID: <20230615092100.GE741@pendragon.ideasonboard.com>
-References: <20230614192343.57280-1-hdegoede@redhat.com>
- <20230614192343.57280-2-hdegoede@redhat.com>
- <ZIolnOxs29H8EUmC@kekkonen.localdomain>
- <20230614213429.GA28757@pendragon.ideasonboard.com>
- <ZIo1kHgYMK84iMj7@kekkonen.localdomain>
- <b8e5f3f7-d82d-390b-ac63-824a42c3f6cd@redhat.com>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Corey Minyard <cminyard@mvista.com>,
+        Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+        Antonio Borneo <antonio.borneo@foss.st.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+Message-ID: <20230615092312.GF741@pendragon.ideasonboard.com>
+References: <CAMuHMdV_iwdP+K1us86OB4VtDDqA=P_vNeCP15kqRuXqcYr3hg@mail.gmail.com>
+ <ZIcUEdctlgRsGxJ3@ninjato>
+ <CAMuHMdVOkBeKOEW9PkWB3Tqwa6-rC3BQj=W9VAEgeZfgqvQmWQ@mail.gmail.com>
+ <ZIeDcVcfxfcMx/BP@shikoro>
+ <CAMuHMdV_Ty=rkcMzsrnJ3YHZngRbyWvYjR_K9Zh7RiAJ4LbvKg@mail.gmail.com>
+ <OS0PR01MB59225195B4F2C771F302F7EE8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAMuHMdUTAerddXG3zJVRZEAwcrR6V=NFeHwsKV9_tE+ccfw6_w@mail.gmail.com>
+ <OS0PR01MB59224D7C95B9B0037046FCF78655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAMuHMdUhaSKiuVkmoYt1sm87emFZu7HSSCK-e95-Yy=g8Sgo4w@mail.gmail.com>
+ <CAMuHMdX4QxmFJi3q61ByOFG38KgcGMxPQMeXyPA3r1D9098BMg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b8e5f3f7-d82d-390b-ac63-824a42c3f6cd@redhat.com>
+In-Reply-To: <CAMuHMdX4QxmFJi3q61ByOFG38KgcGMxPQMeXyPA3r1D9098BMg@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
@@ -55,96 +86,83 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jun 15, 2023 at 11:11:20AM +0200, Hans de Goede wrote:
-> Hi Sakari,
+On Thu, Jun 15, 2023 at 10:07:39AM +0200, Geert Uytterhoeven wrote:
+> On Wed, Jun 14, 2023 at 9:53 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Tue, Jun 13, 2023 at 6:11 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > > > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
+> > > > On Tue, Jun 13, 2023 at 12:45 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > > > > > Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device
+> > > > > > API On Mon, Jun 12, 2023 at 10:43 PM Wolfram Sang <wsa@kernel.org> wrote:
+> > > > > > > > Perhaps we should first think through what an ancillary device
+> > > > > > > > really is.  My understanding is that it is used to talk to
+> > > > > > > > secondary addresses of a multi-address I2C slave device.
+> > > > > > >
+> > > > > > > As I mentioned somewhere before, this is not the case. Ancillary
+> > > > > > > devices are when one *driver* handles more than one address.
+> > > > > > > Everything else has been handled differently in the past (for  all
+> > > > > > > the uses I am aware of).
+> > > > > > >
+> > > > > > > Yet, I have another idea which is so simple that I wonder if it
+> > > > > > > maybe has already been discussed so far?
+> > > > > > >
+> > > > > > > * have two regs in the bindings
+> > > > > > > * use the second reg with i2c_new_client_device to instantiate the
+> > > > > > >   RTC sibling. 'struct i2c_board_info', which is one parameter, should
+> > > > > > >   have enough options to pass data, e.g it has a software_node.
+> > > > > > >
+> > > > > > > Should work or did I miss something here?
+> > > > > >
+> > > > > > That should work, mostly (i2c_new_dummy_device() also calls
+> > > > > > i2c_new_client_device()).  And as i2c_board_info has an of_node
+> > > > > > member (something I had missed before!), the new I2C device can
+> > > > > > access the clocks in the DT node using the standard way.
+> > > > >
+> > > > > Looks like, I cannot assign of_node member like below as it results in
+> > > > > pinctrl failure[1] during device bind.
+> > > > >
+> > > > > info.of_node = client->dev.of_node;
+> > > > >
+> > > > > [1]
+> > > > > pinctrl-rzg2l 11030000.pinctrl: pin P43_0 already requested by 3-0012;
+> > > > > cannot claim for 3-006f pinctrl-rzg2l 11030000.pinctrl: pin-344
+> > > > > (3-006f) status -22 pinctrl-rzg2l 11030000.pinctrl: could not request
+> > > > > pin 344 (P43_0) from group pmic  on device pinctrl-rzg2l
+> > > > > raa215300 3-006f: Error applying setting, reverse things back
+> > > >
+> > > > Where do you have a reference to pin P43_0 in your DT?
+> > >
+> > > The reference to pin P43_0 is added in the PMIC node.
+> > >
+> > > I have done modification on my board to test PMIC INT# on RZ/G2L SMARC EVK
+> > > by wiring R83 on SoM module and PMOD0 PIN7.
+> > >
+> > > > The last versions you posted did not have any pinctrl properties?
+> > >
+> > > By default, PMIC_INT# is not populated RZ/G2L SMARC EVK, so I haven't added
+> > > Support for PMIC_INT# for the patches posted till date.
+> > >
+> > > Yesterday I checked with HW people, is there a way to enable PMIC_INT#
+> > > and they told me to do the above HW modification.
+> > >
+> > > Today I found this issue, with this modified HW and PMIC INT# enabled on the DT,
+> > > while assigning of_node of PMIC with info.of_node. It is just a coincidence.
+> >
+> > IC.
+> >
+> > So you now have two Linux devices pointing to the same DT node,
+> > causing pinctrl issues...
 > 
-> On 6/14/23 23:48, Sakari Ailus wrote:
-> > Hi Laurent,
-> > 
-> > On Thu, Jun 15, 2023 at 12:34:29AM +0300, Laurent Pinchart wrote:
-> >> Hello,
-> >>
-> >> On Wed, Jun 14, 2023 at 08:39:56PM +0000, Sakari Ailus wrote:
-> >>> On Wed, Jun 14, 2023 at 09:23:39PM +0200, Hans de Goede wrote:
-> >>>> The CSI2 specification specifies a standard method to access camera sensor
-> >>>> registers called "Camera Control Interface (CCI)".
-> >>>>
-> >>>> This uses either 8 or 16 bit (big-endian wire order) register addresses
-> >>>> and supports 8, 16, 24 or 32 bit (big-endian wire order) register widths.
-> >>>>
-> >>>> Currently a lot of Linux camera sensor drivers all have their own custom
-> >>>> helpers for this, often copy and pasted from other drivers.
-> >>>>
-> >>>> Add a set of generic helpers for this so that all sensor drivers can
-> >>>> switch to a single common implementation.
-> >>>>
-> >>>> These helpers take an extra optional "int *err" function parameter,
-> >>>> this can be used to chain a bunch of register accesses together with
-> >>>> only a single error check at the end, rather then needing to error
-> >>>> check each individual register access. The first failing call will
-> >>>> set the contents of err to a non 0 value and all other calls will
-> >>>> then become no-ops.
-> >>>>
-> >>>> Link: https://lore.kernel.org/linux-media/59aefa7f-7bf9-6736-6040-39551329cd0a@redhat.com/
-> >>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> >>>> ---
-> >>>> Changes in v2:
-> >>>> - Drop cci_reg_type enum
-> >>>> - Make having an encoded reg-width mandatory rather then using 0 to encode
-> >>>>   8 bit width making reg-addresses without an encoded width default to
-> >>>>   a width of 8
-> >>>> - Add support for 64 bit wide registers
-> >>
-> >> I'm in two minds about this. This means that the read and write
-> >> functions take a u64 argument, which will be less efficient on 32-bit
-> >> platforms. I think it would be possible, with some macro magic, to
-> >> accept different argument sizes, but maybe that's a micro-optimization
-> >> that would actually result in worse code. 
-> >>
-> >> 64-bit support could be useful, but as far as I can tell, it's not used
-> >> in this series, so maybe we could leave this for later ?
-> > 
-> > I prefer to have it now, I just told Tommaso working on the Alvium driver
-> > to use this, and he needs 64-bit access. :-)
-> > 
-> > You could also easily have 32-bit and 64-bit variant of the functions, with
-> > C11 _Generic(). Introducing it now would be easier than later.
+> So don't set info.of_node? ;-)
 > 
-> I took a quick look at C11 _Generic() and that looks at the type
-> of "things" so in this case it would look at type of the val argument.
-> 
-> Problem is that that can still be e.g. an int when doing a
-> read/write from a 64 bit registers.
-> 
-> So we would then need to handle the 64 bit width case in the 32
-> bit versions of the functions too.
-> 
-> And likewise I can see someone passing a long on a 64 bit
-> arch while doing a cci_write() to a non 64 bit register.
-> 
-> So this would basically mean copy and pasting cci_read()
-> + cci_write() 2x with the only difference being one
-> variant taking a 32 bit val argument and the other a
-> 64 bit val argument.
-> 
-> This seems like premature optimization to me.
-> 
-> As mentioned in my reply to Laurent if we want to
-> optimize things we really should look at avoiding
-> unnecessary i2c transfers, or packing multiple
-> writes into a single i2c transfer for writes to
-> subsequent registers. That is where significant
-> speedups can be made.
+> Without of_node, devm_clk_get() and friends falls back to registered
+> clkdevs. So you could call clk_register_clkdev() from within the
+> PMIC driver, and can keep on using devm_clk_get_optional() in the
+> ISL1208 driver.
 
-This is something I'd really like to see, but it's way more work.
+Seriously, how many hacks are we piling ? :-)
 
-There's an important need of applying changes atomically, which is often
-not possible to strictly guarantee over I2C. Userspace ends up writing
-V4L2 controls as quickly as it can after the start of a frame, hoping
-they will all reach the sensor before the end of the frame. Some
-platforms have camera-specific I2C controllers that have the ability to
-buffer I2C transfers and issue them based on a hardware trigger. How to
-fit this in thé kernel I2C API will be an interesting exercise.
+> If that fails, there's also software_node.properties, or even the good
+> old platform_data...
 
 -- 
 Regards,
