@@ -2,158 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D6C5373134B
-	for <lists+linux-media@lfdr.de>; Thu, 15 Jun 2023 11:13:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5F82731364
+	for <lists+linux-media@lfdr.de>; Thu, 15 Jun 2023 11:17:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240706AbjFOJN5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Jun 2023 05:13:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50758 "EHLO
+        id S241297AbjFOJRl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Jun 2023 05:17:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245438AbjFOJN4 (ORCPT
+        with ESMTP id S229907AbjFOJRe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Jun 2023 05:13:56 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 063DD119
-        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 02:13:54 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E427E891;
-        Thu, 15 Jun 2023 11:13:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1686820402;
-        bh=G6TG7AfXCiwj8Mc1JG0JvEc1HDgY7yEZNE/AvIby9v0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JZZnm4RgZh5cvzNo2Z18E3+Op8MXPuq+Pb+VCugJX4OUC/mb7iHRaV31DSdFnl301
-         DrQqAbYZ/zuQQ2ss/tSy/mRIR/SRLTvkA1BiJY6ZaVuwkzaBmT+Wbn9Vxxv0iKUbnf
-         bbez5h7Lsn5o2tOglarCrgHOgQ0CyANf9UQp31UU=
-Date:   Thu, 15 Jun 2023 12:13:53 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Dan Scally <dan.scally@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        hverkuil@xs4all.nl
-Subject: Re: OV5693 Kconfig missing a select VIDEO_V4L2_SUBDEV_API ?
-Message-ID: <20230615091353.GD741@pendragon.ideasonboard.com>
-References: <ce81b73f-48db-038d-2671-bccbb3490786@redhat.com>
- <ZInlO48ACwQ3lwYX@kekkonen.localdomain>
- <813f8b84-4737-3898-24eb-30099ffb6043@redhat.com>
- <ZIojWLapfr/pBeQH@kekkonen.localdomain>
- <20230614212257.GB20723@pendragon.ideasonboard.com>
- <20230614212345.GC20723@pendragon.ideasonboard.com>
- <ZIrKW7WMv2rpwiCq@kekkonen.localdomain>
+        Thu, 15 Jun 2023 05:17:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE7A219B5
+        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 02:16:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1686820612;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=fszieq+i4P0P95WhMAl0SF2cRNprRZwDxpfmWR3xLes=;
+        b=FFDt8sxjbIkIB7N6ivwINBmYtiYa+4OiG8fhT72a2n7hk3Gy917Wu5+JjYkoAAQvKPpnRZ
+        4RcDEeR6nTG+ETS+JuGhiZvLSeOx/z3ypZAItRWQobbEVJlHmY7jKxOwiEdtUKbJnQCa57
+        N/mKWJmTKZdm0pg6TSo66rONx9Z5Ul4=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-537-RcOKGlPuOPihF8E13hG3gQ-1; Thu, 15 Jun 2023 05:16:50 -0400
+X-MC-Unique: RcOKGlPuOPihF8E13hG3gQ-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-9715654aba1so92051766b.0
+        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 02:16:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686820609; x=1689412609;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fszieq+i4P0P95WhMAl0SF2cRNprRZwDxpfmWR3xLes=;
+        b=enfEqECfjz1dpsTyqXG+Hwjm1KPvUrgbFsP9CqXDUmaW/CSdeXDps2L0ekBhdYo3AU
+         j6SsvZTAkH8quW4KKKS+B4b/Sibcq1d2+7qemta7ktDuZ5LrKVY5ZW+pGwKc2tf8fMnM
+         GwkTFF7rzkM8w4WCB0/wHj7OW7MSdRrCNaYmlK/40KK2ZtknT741Jd84137lAelfrDYE
+         S9+nHEa3BSi0JvISXCNDgPxd4LoG9lgLOBar3Vov9/IqAIqNufG5nZAjUYkr8W+YJv+g
+         2qy5xW6hPSzeDIuL71wvEl7VMrSQ4JKBhIVMA8xJXz3A5YRzHUJfC4KAmxSaCCMOhWAi
+         u+mw==
+X-Gm-Message-State: AC+VfDwnX8BGW0y0RbeKUDlJCLA1QPuTLqGqMSJtuysiCrYEU9wc1e8h
+        0xN0nDNJRqSlHimSzFAsRdSTYiNRMIM6qC4Pk28Kel4J7jT/EIfrMDn8a2oRL8jSHexP5WHLYve
+        MtCfqL2nomMru3+VtVbeH5e4=
+X-Received: by 2002:a17:907:2d07:b0:967:13a3:d82c with SMTP id gs7-20020a1709072d0700b0096713a3d82cmr4196681ejc.26.1686820608870;
+        Thu, 15 Jun 2023 02:16:48 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4KTu61Z59Cg2OxYvRF24c/cfXn3GevH7bwO1FdDt/CEMOP8yHdyprQ5eqojs909PRobGKBQQ==
+X-Received: by 2002:a17:907:2d07:b0:967:13a3:d82c with SMTP id gs7-20020a1709072d0700b0096713a3d82cmr4196673ejc.26.1686820608636;
+        Thu, 15 Jun 2023 02:16:48 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id oq19-20020a170906cc9300b00977e0bcff1esm9200524ejb.10.2023.06.15.02.16.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Jun 2023 02:16:47 -0700 (PDT)
+Message-ID: <4087b38a-13f0-ade2-0a22-a7452b85c9be@redhat.com>
+Date:   Thu, 15 Jun 2023 11:16:46 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2 2/5] media: ov5693: Convert to new CCI register access
+ helpers
+Content-Language: en-US, nl
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+        linux-media@vger.kernel.org
+References: <20230614192343.57280-1-hdegoede@redhat.com>
+ <20230614192343.57280-3-hdegoede@redhat.com>
+ <CAHp75VdJd_2Wo06cyGgHDr9B+V9kV56oHWpc_EcUHeFSiFfMeA@mail.gmail.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <CAHp75VdJd_2Wo06cyGgHDr9B+V9kV56oHWpc_EcUHeFSiFfMeA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZIrKW7WMv2rpwiCq@kekkonen.localdomain>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Andy,
 
-On Thu, Jun 15, 2023 at 08:22:51AM +0000, sakari.ailus@linux.intel.com wrote:
-> On Thu, Jun 15, 2023 at 12:23:45AM +0300, Laurent Pinchart wrote:
-> > On Thu, Jun 15, 2023 at 12:22:58AM +0300, Laurent Pinchart wrote:
-> > > On Wed, Jun 14, 2023 at 08:30:16PM +0000, sakari.ailus@linux.intel.com wrote:
-> > > > On Wed, Jun 14, 2023 at 06:50:14PM +0200, Hans de Goede wrote:
-> > > > > On 6/14/23 18:05, sakari.ailus@linux.intel.com wrote:
-> > > > > > On Wed, Jun 14, 2023 at 05:47:01PM +0200, Hans de Goede wrote:
-> > > > > >> Hi All,
-> > > > > >>
-> > > > > >> The ov5693 driver uses v4l2_subdev_get_try_crop() /
-> > > > > >> v4l2_subdev_get_try_format() both of which are
-> > > > > >> only defined if CONFIG_VIDEO_V4L2_SUBDEV_API=y .
-> > > > > >>
-> > > > > >> Yet it does not do select VIDEO_V4L2_SUBDEV_API
-> > > > > >> in its Kconfig bits ?
-> > > > > >>
-> > > > > >> Note I've not seen any build errors because of this,
-> > > > > >> I guess we somehow end up getting away with this...
-> > > > > >>
-> > > > > >> But still I think the select should be added ?
-> > > > > > 
-> > > > > > I agree.
-> > > > > > 
-> > > > > > The reason there haven't been compile failures is that there's a vast
-> > > > > > number of sensor drivers that all select this so for a failure you'd need
-> > > > > > to select this one but none of the others.
-> > > > > > 
-> > > > > > I can send a fix.
-> > > > > 
-> > > > > Also see my follow-up email. If we're going to fix this
-> > > > > we really should fix it properly. As mentioned in
-> > > > > my folow-up email an intermediate Kconfig option
-> > > > > might be best.
-> > > > > 
-> > > > > E.g. doing:
-> > > > > 
-> > > > > grep -l v4l2_async_register_subdev drivers/media/i2c/*.c
-> > > > > 
-> > > > > And comparing that to Kconfig finds the following Kconfig
-> > > > > entries lacking a select V4L2_FWNODE / select V4l2_ASYNC
-> > > > > 
-> > > > > VIDEO_IMX208
-> > > > > VIDEO_IMX258
-> > > > > VIDEO_IMX274
-> > > > > VIDEO_IMX319
-> > > > > VIDEO_IMX355
-> > > > > VIDEO_OV6650
-> > > > > VIDEO_OV7740
-> > > > > VIDEO_OV9640
-> > > > > VIDEO_OV9650
-> > > > > 
-> > > > > and I stopped checking after the ov* drivers since I think
-> > > > > the above list makes my point.
-> > > > 
-> > > > Yeah, sometimes difficult to find errors get repeated. Luckily it's "just"
-> > > > a compilation problem.
-> > > > 
-> > > > Using V4L2 fwnode and V4L2 sub-device APIs are still unrelated as such
-> > > > although in practice they do often happen together. There are still quite a
-> > > > few sensor drivers that don't need both of them. Some can be compiled with
-> > > > VIDEO_V4L2_SUBDEV_API disabled, too, but I'm not sure how useful that
-> > > > really is. The rest are probably not usable outside a very specific scope,
-> > > > such as I²C async matching used by a handful of receiver drivers (none use
-> > > > MC, thus no sub-device API either).
-> > > > 
-> > > > Perhaps we could group these in two classes where the common class has
-> > > > V4L2_FWNODE and VIDEO_V4L2_SUBDEV_API selected? I'm not sure having an
-> > > > intermediate, somewhat obscure, option would be helpful.
-> > > > 
-> > > > Also cc Hans and Laurent.
-> > > 
-> > > I'm all for simplifying the current state and removing the need to get
-> > > every Kconfig entry right by moving the dependencies to a common
-> > > location.
-> > 
-> > Also, if sensor drivers are encouraged to use new APIs, but not all of
-> > them have been converted, I'd be fine selecting the new APIs
-> > unconditionally even if no selected sensor driver uses them.
+On 6/14/23 22:13, Andy Shevchenko wrote:
+> On Wed, Jun 14, 2023 at 10:24 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>>
+>> Use the new comon CCI register access helpers to replace the private
+>> register access helpers in the ov5693 driver.
 > 
-> There are old drivers that do not need these features and there has been
-> discussion there may be a desire to disable features to make the kernel
-> smaller (for e.g. OpenWRT), however I suspect in this case it's more likely
-> drivers that are little used.
-
-Just to be clear, I didn't mean selecting V4L2_FWNODE, V4L2_ASYNC and
-VIDEO_V4L2_SUBDEV_API unconditionally, but when any sensor driver is
-selected. If a device has a camera, memory requirements increase
-significantly and I don't think enabling the above options will make a
-real difference.
-
-> Similarly to sensor drivers needing V4L2_FWNODE, lens drivers will need
-> V4L2_ASYNC.
+> ...
 > 
-> I can post patches, not quite sure yet whether this approach is also better
-> on stable kernels. Quite possibly so.
+>>  struct ov5693_device {
+>>         struct i2c_client *client;
+>>         struct device *dev;
+>> +       struct regmap *regmap;
+> 
+> I forgot what the conclusion was regarding this. Now we have a client
+> (which embeds the struct device), struct device pointer (is it the
+> same device?), and now regmap, associated with (yet another?) struct
+> device.
 
--- 
+All 3 device pointers will point to the same device.
+
+I think that having both a struct device *dev and
+a  struct regmap *regmap is fine even though the
+dev can also be gotten from the regmap with 
+regmap_get_device() note that regmap_get_device()
+is not an inline, so it comes with some execution cost.
+
+And when used to set a global dev helper var in
+functions the compiler must always call it even if
+the helper var is only used to log errors.
+
+But I agree that the pre-existing situation of having
+both a client and a dev pointer is unnecessary.
+
+And I just checked and after these changes the client
+pointer is unused, so I'll drop that for the next version.
+
 Regards,
 
-Laurent Pinchart
+Hans
+
+
+
+
+> 
+>>         } ctrls;
+>>  };
+> 
+> 
+> 
+> --
+> With Best Regards,
+> Andy Shevchenko
+> 
+
