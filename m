@@ -2,161 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F20F373373B
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jun 2023 19:13:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35F17733758
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jun 2023 19:22:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346085AbjFPRNz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Jun 2023 13:13:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53590 "EHLO
+        id S1344957AbjFPRW1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Jun 2023 13:22:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230327AbjFPRNx (ORCPT
+        with ESMTP id S229705AbjFPRWY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Jun 2023 13:13:53 -0400
-Received: from mail-il1-f208.google.com (mail-il1-f208.google.com [209.85.166.208])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0BDAC5
-        for <linux-media@vger.kernel.org>; Fri, 16 Jun 2023 10:13:52 -0700 (PDT)
-Received: by mail-il1-f208.google.com with SMTP id e9e14a558f8ab-34087ba5febso7340845ab.3
-        for <linux-media@vger.kernel.org>; Fri, 16 Jun 2023 10:13:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686935632; x=1689527632;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IE+IFgH6pBWU74MLE12W2IiGw5dTrwTIG9FskakYaH8=;
-        b=REOyxKGt1cuvhZ3Ao+LzhyTfF/fdsfSQpMbdV4FwHdjPtjf9ufYWEgCgf0DMRfUtSi
-         tBk8Z1fwk+WSkJZvX0FCA9D21uHNMowQYbnXs7il6BQuSsuq/ZuEt2eyFu5A74vHEdsA
-         P+2Q17vWdPRU28D2nURww/t31fqUEjKXKLvz1BsBWy8utUqvqW0QtusdY9FmMwkBywK6
-         +1I1AwI0EaiG/nwiXTxawp6sqdcTpD9K48NJw5c8C3N9vKPUrKfperStDVqcBULF1U3A
-         drQU2kZhUKvWgP1ove6ufxxK9AC9Q0oZdqx5wOpW8It0vbWZ3YN1qA3M4nmPFTlfWVMm
-         cOgw==
-X-Gm-Message-State: AC+VfDz/KdvBMkff/e9rs/ecssiOTKjZ1Bm3/vA0xgj3klrp9TJdn+KX
-        S8z6SIy6qKj1DRCEkPX/bnN1q3W2sTOCuKb9goiL3M0P4TRG
-X-Google-Smtp-Source: ACHHUZ4UhvkP4/LPnHJkjajtZ1DyrJAzMgklZjd7Mve6Qb3UssRUhPjwh+TohoE83+mT/KsicAAY4E4CPZ/D4RxtPzuZlb9Cd6aJ
+        Fri, 16 Jun 2023 13:22:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B9581FF7
+        for <linux-media@vger.kernel.org>; Fri, 16 Jun 2023 10:21:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1686936097;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=Or7V6fNTKr0tf/TZRfsDhLdrkCX5u0NKugLK/qmwU70=;
+        b=Rne9w/UHyutBZam4IN7E7TDLUEgu5u9xL7PY8pLaw4IHY+EXmF2yJRz6z3cFOTOQGmh1et
+        ZQjJ13BmirWq8Rz9OKbStn75dV8QWUZFAQ3mG2pqzeX0cBO5AQ+DjQHk0AfC6Pt4L5d4RV
+        HhrK98pxbGvGToNoCyIMZ33fSyI53z4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-556--2835Oc2PyC7gIYrDa9M9A-1; Fri, 16 Jun 2023 13:21:34 -0400
+X-MC-Unique: -2835Oc2PyC7gIYrDa9M9A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C2E0B802666;
+        Fri, 16 Jun 2023 17:21:33 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.192.38])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C4DE540C95E1;
+        Fri, 16 Jun 2023 17:21:32 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Daniel Scally <dan.scally@ideasonboard.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH v2 0/6] platform/x86: int3472: discrete: Various improvements
+Date:   Fri, 16 Jun 2023 19:21:26 +0200
+Message-ID: <20230616172132.37859-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-X-Received: by 2002:a92:c60a:0:b0:33e:5ea2:bd07 with SMTP id
- p10-20020a92c60a000000b0033e5ea2bd07mr1112842ilm.6.1686935631932; Fri, 16 Jun
- 2023 10:13:51 -0700 (PDT)
-Date:   Fri, 16 Jun 2023 10:13:51 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000019b2b105fe424f00@google.com>
-Subject: [syzbot] [media?] [usb?] WARNING in imon_probe
-From:   syzbot <syzbot+1c41b2e045dc086f58be@syzkaller.appspotmail.com>
-To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, mchehab@kernel.org, sean@mess.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi All,
 
-syzbot found the following issue on:
+Here is a v2 of my previous 2 int3472 patch series merged into
+1 bigger series.
 
-HEAD commit:    fd37b884003c io_uring/io-wq: don't clear PF_IO_WORKER on e..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=13f67407280000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=5bcee04c3b2a8237
-dashboard link: https://syzkaller.appspot.com/bug?extid=1c41b2e045dc086f58be
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1339b027280000
+Changes in v2:
+- Use static_assert() to check that GPIO_REGULATOR_SUPPLY_MAP_COUNT
+  and ARRAY_SIZE(skl_int3472_regulator_map_supplies) match
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/7108f22d99d8/disk-fd37b884.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/83e4f595c21b/vmlinux-fd37b884.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/16c5c6a2de66/bzImage-fd37b884.xz
+and this also collects all the various Tested-by-s + Reviewed-by-s.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+1c41b2e045dc086f58be@syzkaller.appspotmail.com
+Regards,
 
-usb 1-1: 2:1 : UAC_AS_GENERAL descriptor not found
-------------[ cut here ]------------
-DEBUG_LOCKS_WARN_ON(lock->magic != lock)
-WARNING: CPU: 1 PID: 4606 at kernel/locking/mutex.c:582 __mutex_lock_common kernel/locking/mutex.c:582 [inline]
-WARNING: CPU: 1 PID: 4606 at kernel/locking/mutex.c:582 __mutex_lock+0x9f8/0x1350 kernel/locking/mutex.c:747
-Modules linked in:
-CPU: 1 PID: 4606 Comm: kworker/1:3 Not tainted 6.4.0-rc6-syzkaller-00006-gfd37b884003c #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/25/2023
-Workqueue: usb_hub_wq hub_event
-RIP: 0010:__mutex_lock_common kernel/locking/mutex.c:582 [inline]
-RIP: 0010:__mutex_lock+0x9f8/0x1350 kernel/locking/mutex.c:747
-Code: 08 84 d2 0f 85 7e 08 00 00 8b 05 5f a8 67 04 85 c0 0f 85 1b f7 ff ff 48 c7 c6 80 59 4c 8a 48 c7 c7 40 57 4c 8a e8 08 ee 38 f7 <0f> 0b e9 01 f7 ff ff 48 8b 7c 24 30 be 08 00 00 00 e8 e2 02 c4 f7
-RSP: 0018:ffffc9000346efb0 EFLAGS: 00010286
-RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
-RDX: ffff888025839dc0 RSI: ffffffff814c03b7 RDI: 0000000000000001
-RBP: ffff88807bc74ea8 R08: 0000000000000001 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000001 R12: 0000000000000000
-R13: dffffc0000000000 R14: ffff888020037000 R15: ffff88807bc750d1
-FS:  0000000000000000(0000) GS:ffff8880b9900000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007ffc66ff2f38 CR3: 0000000023c93000 CR4: 00000000003506e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- imon_init_intf1 drivers/media/rc/imon.c:2321 [inline]
- imon_probe+0x1e5/0x3630 drivers/media/rc/imon.c:2449
- usb_probe_interface+0x30f/0x960 drivers/usb/core/driver.c:396
- call_driver_probe drivers/base/dd.c:579 [inline]
- really_probe+0x240/0xca0 drivers/base/dd.c:658
- __driver_probe_device+0x1df/0x4b0 drivers/base/dd.c:800
- driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:830
- __device_attach_driver+0x1d4/0x2e0 drivers/base/dd.c:958
- bus_for_each_drv+0x149/0x1d0 drivers/base/bus.c:457
- __device_attach+0x1e4/0x4b0 drivers/base/dd.c:1030
- bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
- device_add+0x112d/0x1a40 drivers/base/core.c:3625
- usb_set_configuration+0x1196/0x1bc0 drivers/usb/core/message.c:2211
- usb_generic_driver_probe+0xcf/0x130 drivers/usb/core/generic.c:238
- usb_probe_device+0xd8/0x2c0 drivers/usb/core/driver.c:293
- call_driver_probe drivers/base/dd.c:579 [inline]
- really_probe+0x240/0xca0 drivers/base/dd.c:658
- __driver_probe_device+0x1df/0x4b0 drivers/base/dd.c:800
- driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:830
- __device_attach_driver+0x1d4/0x2e0 drivers/base/dd.c:958
- bus_for_each_drv+0x149/0x1d0 drivers/base/bus.c:457
- __device_attach+0x1e4/0x4b0 drivers/base/dd.c:1030
- bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
- device_add+0x112d/0x1a40 drivers/base/core.c:3625
- usb_new_device+0xcb2/0x19d0 drivers/usb/core/hub.c:2575
- hub_port_connect drivers/usb/core/hub.c:5407 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5551 [inline]
- port_event drivers/usb/core/hub.c:5711 [inline]
- hub_event+0x2d9e/0x4e40 drivers/usb/core/hub.c:5793
- process_one_work+0x99a/0x15e0 kernel/workqueue.c:2405
- worker_thread+0x67d/0x10c0 kernel/workqueue.c:2552
- kthread+0x344/0x440 kernel/kthread.c:379
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:308
- </TASK>
+Hans
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Hans de Goede (6):
+  platform/x86: int3472: discrete: Drop GPIO remapping support
+  platform/x86: int3472: discrete: Remove sensor_config-s
+  platform/x86: int3472: discrete: Add support for 1 GPIO regulator
+    shared between 2 sensors
+  platform/x86: int3472: discrete: Add alternative "AVDD" regulator
+    supply name
+  platform/x86: int3472: discrete: Use FIELD_GET() on the GPIO _DSM
+    return value
+  platform/x86: int3472: discrete: Log a warning if the pin-numbers
+    don't match
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+ .../x86/intel/int3472/clk_and_regulator.c     | 72 +++++++++++---
+ drivers/platform/x86/intel/int3472/common.h   | 14 +--
+ drivers/platform/x86/intel/int3472/discrete.c | 94 ++++---------------
+ 3 files changed, 79 insertions(+), 101 deletions(-)
 
-If the bug is already fixed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+-- 
+2.41.0
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to change bug's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the bug is a duplicate of another bug, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
