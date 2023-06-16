@@ -2,55 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F2840733329
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jun 2023 16:08:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF979733344
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jun 2023 16:15:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229965AbjFPOIg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Jun 2023 10:08:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58502 "EHLO
+        id S1343743AbjFPOP1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Jun 2023 10:15:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229952AbjFPOIe (ORCPT
+        with ESMTP id S1344435AbjFPOPY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Jun 2023 10:08:34 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF01C2738
-        for <linux-media@vger.kernel.org>; Fri, 16 Jun 2023 07:08:32 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-982a88ca610so99504866b.2
-        for <linux-media@vger.kernel.org>; Fri, 16 Jun 2023 07:08:32 -0700 (PDT)
+        Fri, 16 Jun 2023 10:15:24 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D957B30ED
+        for <linux-media@vger.kernel.org>; Fri, 16 Jun 2023 07:15:14 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-5186a157b85so1020511a12.0
+        for <linux-media@vger.kernel.org>; Fri, 16 Jun 2023 07:15:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686924511; x=1689516511;
+        d=gmail.com; s=20221208; t=1686924913; x=1689516913;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=GnZq59C7jQkwi8KuF2QU3lUfBhLT/L6MUY4vkKEIJlI=;
-        b=BWlHOuRgbmXH9YEpZqQgNSMH8z3XpyRWab7lKPvylggAksmMIH735rlTmWuoKLOvmH
-         gLyGtN8fj9GM3GtT9CYHaZXYFS/5qG2T4JrJQKG9FW6+NY95BJJJJW4d7oEXLjeNXsUE
-         6MlIsYZedAE19yZVQliD0nfzGeQes5T7lqlpboiQYbEw6YQ9GqHIq6MmY9Cz/vS5PKf6
-         vIVrS37PoftA3Sb23EEs7AR84f2srMmU1GTHja5iXAv9J2vkvLy3YsZOpAmGC9ts2D/r
-         eaSQ//h5Rjn+kElOl9EJyOSz/Ll3SnlBRmy9aRwgoyxVQvOVHGPhm7l5SkLTwcdJ6sCq
-         VODQ==
+        bh=jgV47FWXEqL0mX6BmReEmBxkEb4jMhbpEd4bFVKHj0s=;
+        b=kyEzH1NWT1xCmZreSiN4T5twUFI/T/ujCqHkfdBQMjl5kNtzJFnLYhpDbT61GuE263
+         aPfC8JFh1qxQRLsCFCF0tVJGCGxIC2TsJLQBavJviS1YHZfYFgcuL6DZkuxpqX685Wr3
+         GKIYM9Z1maVoVQg6SLqMNnskpLlqkgEzQbs8LGK+k610tmXNfQQ1LuKT6ZnAVmh7oN+d
+         KAzMOWTxQfgeL2K5PxfcT2LKtJjzzNCL373qQ1W/OXgzrq58+r5D3AmZDbOcLmlemApH
+         qFq+F70B0FMr1nwGNrsrn2dEu22Cq1b9zVg/ZQnGvbn5+hO9pjJTyNJfGvkTt5xjVflS
+         dgrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686924511; x=1689516511;
+        d=1e100.net; s=20221208; t=1686924913; x=1689516913;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GnZq59C7jQkwi8KuF2QU3lUfBhLT/L6MUY4vkKEIJlI=;
-        b=G3LB0Y6Inm5VpHtW7yItFPg9/GVa42RnhkrR1PL+K8E8s9Gq0IdRFHKFds5CmLeXg4
-         uUe4mCNqOWvKqBmVqABiF7YKgS1EEgA9bQ+LnRngPz0/r8Ub5x6pCNX3DTfGhwUKVRIg
-         W2JXIgDu69geGztakz1ZPhktjtIjGsT+qMkjBFog6jIKL65+/y1RKwzVrtUbKBM2FI+4
-         f/6VkW+AuDEZyuL4dwf4lzFRwIBLzCFl2B6J4LTaGuZR7Eqg19jzleHirCv/jjRhtBWN
-         eO0ka1KGe9mH3diYYmt5alK7LFqQIDq7JpBoB+JqCYUCeypJfbMRo5IZrka+fuXj5jSx
-         oSTw==
-X-Gm-Message-State: AC+VfDyvc48gcm0kpvgTUTpVPDjTqcWCpNZony3uIz2wNSzYwbpk5ZZO
-        kH/o1Grt6dHYKKOodod9iUs=
-X-Google-Smtp-Source: ACHHUZ4td6FSYAA0Ei8V8y3hZNc0v8yVPsy0IgMJ817h8dOhlkjyDDmsgj46bbjro5CwqVzLAPblgg==
-X-Received: by 2002:a17:907:16a6:b0:974:5ef9:f4d4 with SMTP id hc38-20020a17090716a600b009745ef9f4d4mr2404081ejc.5.1686924510745;
-        Fri, 16 Jun 2023 07:08:30 -0700 (PDT)
+        bh=jgV47FWXEqL0mX6BmReEmBxkEb4jMhbpEd4bFVKHj0s=;
+        b=koJ4+RLXHXHaBqWKr2EU/TMAuCT9RxguUQbpaPKAJj8aH5UNvODXbWujrzY7vVyWHS
+         CcITDDkBAFvR460hb1ZZ8RDyfI8e1phVgjLM593mwtDl+VXpUHRWCIbtH/nrphhcW/Gi
+         yt+mLlRb3jVA4vPCo1XrztdVmrqM8xgCHoCnqcyQocd7s+M2eSuBRJrfPqLVGIFPaTO6
+         YiDdzgPYmDyiEAwKkK27jO3zXetoCnMNyW5xPH9sw9ESDy5P4fWBshN2+oknmxF/a8BI
+         lbYlS+sfIvjMWDIgX8p+xoG6UFm0kcP9bk001ppmdBtF0su2quXv61w+fftsiEDKqRCH
+         FwHw==
+X-Gm-Message-State: AC+VfDxkap+Zrv3k744REajcRP9LBEK9j9TwBXK2vy66WWLknCqqHbwJ
+        Drm/+SbXkEUMw/PECOlg9B1RUseSkjU=
+X-Google-Smtp-Source: ACHHUZ45EccK6kYb9ZavTP1gACoQ3ayjqkNTBhZg2NO5nDJHgvk/9pWqSZuZGHQTJMNlrw1VI6RyNQ==
+X-Received: by 2002:a17:907:8a04:b0:96a:b12d:2fdf with SMTP id sc4-20020a1709078a0400b0096ab12d2fdfmr2244385ejc.12.1686924912878;
+        Fri, 16 Jun 2023 07:15:12 -0700 (PDT)
 Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-2-39-142-242.cust.vodafonedsl.it. [2.39.142.242])
-        by smtp.gmail.com with ESMTPSA id r9-20020a170906550900b0098296b1fdd0sm2620755ejp.133.2023.06.16.07.08.29
+        by smtp.gmail.com with ESMTPSA id a13-20020a170906684d00b0096f7500502csm10811785ejs.199.2023.06.16.07.15.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jun 2023 07:08:29 -0700 (PDT)
-Date:   Fri, 16 Jun 2023 16:08:27 +0200
+        Fri, 16 Jun 2023 07:15:12 -0700 (PDT)
+Date:   Fri, 16 Jun 2023 16:15:09 +0200
 From:   Tommaso Merciai <tomm.merciai@gmail.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Hans de Goede <hdegoede@redhat.com>,
@@ -60,7 +60,7 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         linux-media@vger.kernel.org
 Subject: Re: [PATCH v2 1/5] media: Add MIPI CCI register access helper
  functions
-Message-ID: <ZIxs28NCnPFQwvNE@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+Message-ID: <ZIxubbZ6IY9MBqvN@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
 References: <20230615092100.GE741@pendragon.ideasonboard.com>
  <ZIriVxMVVxG2dsUO@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
  <71aa3c7e-5bb2-afe6-a9a5-390307a8b3f9@redhat.com>
@@ -85,9 +85,6 @@ X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
-
-Hi Laurent,
-Thanks for your time.
 
 On Fri, Jun 16, 2023 at 04:41:24PM +0300, Laurent Pinchart wrote:
 > Hi Tommaso,
@@ -229,13 +226,9 @@ On Fri, Jun 16, 2023 at 04:41:24PM +0300, Laurent Pinchart wrote:
 > 
 > 	return ret;
 
-Understood your reason.
-Totally agree.
-To be honest I did not think about it.
+Is worth to add is also in alvium_write_hshake right?
 
-I'll fix this in v7. (I have also to fix .h tab space :'))
-
-Thanks & Regards,
+Regards,
 Tommaso
 
 > 
