@@ -2,156 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8052E7333C2
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jun 2023 16:38:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E9B57333D6
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jun 2023 16:43:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345402AbjFPOiC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Jun 2023 10:38:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45030 "EHLO
+        id S1345665AbjFPOnT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Jun 2023 10:43:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345182AbjFPOh7 (ORCPT
+        with ESMTP id S230368AbjFPOnS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Jun 2023 10:37:59 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96DEA30E7;
-        Fri, 16 Jun 2023 07:37:56 -0700 (PDT)
+        Fri, 16 Jun 2023 10:43:18 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB75519B5;
+        Fri, 16 Jun 2023 07:43:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686926276; x=1718462276;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2veLEf490knl4gAIjPQCKjmkISoob58F0/w88Mad1aw=;
-  b=amwTuwPxubI5PBoxPxGbDIH3NsV7TV+Nvt6e6XTjQTTMvGbamhqK4Ts2
-   3AMpFHEE3AsMktRKsK1YArdDxAujWs0A5cdsyHK53ns0vxt/QKTAVm/+f
-   6AAvI7ylynuP23yopG1w8uUrnir32ckb1haNR0lGSN65SboKRhzhiK/W0
-   dZRVMzi86dwAGMqYi23QANK3Bk2Pi8NNABCnFG/Dgy29DRY9TuCGd8NBl
-   OoE2xp1ldS0vIhpFIs7eMn2iXvzf+61fJx0TepFVk5Uy3cjCKsxotsrlw
-   7WjpvrIJ9F9vavcNuvEUbshz8C90L6SPmeSsnnIsa8On86HXj48+dFHcu
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="339558452"
+  t=1686926597; x=1718462597;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=K2g2JGeLr7QbMNnChySDPCIFrNL8eGLfo9YkCI+2hEQ=;
+  b=ZOqzlcIp1ghIgzEZwPxbYVOso3IXVbtfP//fwsD6sEHHBhVaOBPDk5sr
+   9rC7ekDUyr51xveOsytYjhhkLEeUk5wC/KCy+CSKQDm48bxGgSivHxASH
+   H/m/zacvhyKLztjGmiOoyaW/3EU+B5kcRpg3RindK8gZoqH2ZDxl6LWVf
+   u66MUmFFbSp4tY/l8RY8w5gow7ZkeKRJTnvaRFZ9HoF5UFuVN9OO9KuBp
+   VgVtXEItq9p02Q9eu6Cwslb8ch8s/ZtWhSF+YjECBMbSr7migSdJGEqAp
+   zLl7HZ/VC7SwJ0hGWfAUQmVyU/L7v1MOAFDfZGV2Fy104i0lFp4LaReq/
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="348937410"
 X-IronPort-AV: E=Sophos;i="6.00,247,1681196400"; 
-   d="scan'208";a="339558452"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 07:37:45 -0700
+   d="scan'208";a="348937410"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 07:43:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="857408631"
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="716047644"
 X-IronPort-AV: E=Sophos;i="6.00,247,1681196400"; 
-   d="scan'208";a="857408631"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga001.fm.intel.com with ESMTP; 16 Jun 2023 07:37:40 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@intel.com>)
-        id 1qAAa1-004Ixf-2g;
-        Fri, 16 Jun 2023 17:37:37 +0300
-Date:   Fri, 16 Jun 2023 17:37:37 +0300
-From:   Andy Shevchenko <andriy.shevchenko@intel.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+   d="scan'208";a="716047644"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga007.fm.intel.com with ESMTP; 16 Jun 2023 07:43:14 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id EF493379; Fri, 16 Jun 2023 17:43:23 +0300 (EEST)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Alexey Dobriyan <adobriyan@gmail.com>, linux-kernel@vger.kernel.org
+Cc:     linux-media@vger.kernel.org,
         Luca Ceresoli <luca.ceresoli@bootlin.com>,
         Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Wolfram Sang <wsa@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>,
-        Satish Nagireddy <satish.nagireddy@getcruise.com>
-Subject: Re: [PATCH v14 17/18] media: i2c: ds90ub953: Restructure clkout
- management
-Message-ID: <ZIxzsUbuUz3ysA31@smile.fi.intel.com>
-References: <20230616135922.442979-1-tomi.valkeinen@ideasonboard.com>
- <20230616135922.442979-18-tomi.valkeinen@ideasonboard.com>
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 1/1] math.h: Introduce struct u8_fract and struct s8_fract
+Date:   Fri, 16 Jun 2023 17:43:18 +0300
+Message-Id: <20230616144318.39532-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.40.0.1.gaa8946217a0b
+In-Reply-To: <ZIxzsUbuUz3ysA31@smile.fi.intel.com>
+References: <ZIxzsUbuUz3ysA31@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230616135922.442979-18-tomi.valkeinen@ideasonboard.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 16, 2023 at 04:59:21PM +0300, Tomi Valkeinen wrote:
-> Separate clkout calculations and register writes into two functions:
-> ub953_calc_clkout_params and ub953_write_clkout_regs, and add a struct
-> ub953_clkout_data that is used to store the clkout parameters.
+Seems there going to be users for these data types, besides
+quite likely existing users that may benifit from them.
 
-...
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ include/linux/math.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> +struct ub953_clkout_data {
-> +	u32 hs_div;
-> +	u32 m;
-> +	u32 n;
-
-Please, use struxt u32_fract instead of m/n.
-
-> +	unsigned long rate;
-> +};
-
-...
-
-> +static void ub953_calc_clkout_params(struct ub953_data *priv,
-> +				     unsigned long target_rate,
-> +				     struct ub953_clkout_data *clkout_data)
-> +{
-> +	struct device *dev = &priv->client->dev;
-> +	unsigned long clkout_rate;
-> +	u64 fc_rate;
-> +
-> +	fc_rate = ub953_get_fc_rate(priv);
-> +
-> +	if (priv->hw_data->is_ub971) {
-> +		u8 m, n;
-
-Ditto. struct u8_fract; (But probably needs to be added into math.h.
-I'll Ack/Rb such a patch when one appears.
-
-> +		clkout_rate = ub953_calc_clkout_ub971(priv, target_rate,
-> +						      fc_rate, &m, &n);
-
-Can be also parameter to that function.
-
-> +		clkout_data->m = m;
-> +		clkout_data->n = n;
-> +
-> +		dev_dbg(dev, "%s %llu * %u / (8 * %u) = %lu (requested %lu)",
-> +			__func__, fc_rate, m, n, clkout_rate, target_rate);
-> +	} else {
-> +		u8 hs_div, m, n;
-
-Yeah, and so on...
-
-> +		clkout_rate = ub953_calc_clkout_ub953(priv, target_rate,
-> +						      fc_rate, &hs_div, &m, &n);
-> +
-> +		clkout_data->hs_div = hs_div;
-> +		clkout_data->m = m;
-> +		clkout_data->n = n;
-> +
-> +		dev_dbg(dev, "%s %llu / %u * %u / %u = %lu (requested %lu)",
-> +			__func__, fc_rate, hs_div, m, n, clkout_rate,
-> +			target_rate);
-> +	}
-> +
-> +	clkout_data->rate = clkout_rate;
-> +}
-
+diff --git a/include/linux/math.h b/include/linux/math.h
+index 2d388650c556..449a29b73f6d 100644
+--- a/include/linux/math.h
++++ b/include/linux/math.h
+@@ -112,6 +112,8 @@ struct type##_fract {					\
+ 	__##type numerator;				\
+ 	__##type denominator;				\
+ };
++__STRUCT_FRACT(s8)
++__STRUCT_FRACT(u8)
+ __STRUCT_FRACT(s16)
+ __STRUCT_FRACT(u16)
+ __STRUCT_FRACT(s32)
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.40.0.1.gaa8946217a0b
 
