@@ -2,47 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E2F857339F5
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jun 2023 21:35:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31AC27339F7
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jun 2023 21:35:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345736AbjFPTfJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Jun 2023 15:35:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35814 "EHLO
+        id S1345788AbjFPTfK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Jun 2023 15:35:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232824AbjFPTfH (ORCPT
+        with ESMTP id S1345543AbjFPTfI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Jun 2023 15:35:07 -0400
+        Fri, 16 Jun 2023 15:35:08 -0400
 Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 436D812B;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 451D610D8;
         Fri, 16 Jun 2023 12:35:06 -0700 (PDT)
 Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 1BADC1C0AB3; Fri, 16 Jun 2023 21:20:25 +0200 (CEST)
+        id BD8B11C0E70; Fri, 16 Jun 2023 21:21:23 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-        t=1686943225;
+        t=1686943283;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=y2rk4kvRju7aOubnhyw279OvS/0R0h16k1UJKj1ECT0=;
-        b=EKnmzidIIuwAvSs73weaxKF/7sTzsUp22pM97tkv98yWE6urggNR4x5pYkrZfoo8rSBE6S
-        LPVSByzdO3HPAp+rc/6AZP+qSCK6SrbgZOjeYtNKTApiDl8Uzc5txtXTf4AV+BlxwWzVlW
-        IKN16Az1LunExwuA+Q+M8pnVPNTNIro=
-Date:   Fri, 16 Jun 2023 21:20:24 +0200
+        bh=2+gFMPS9WwhZRw1F6SzcR7U1vGuPtvHeVgBGYeYYC6A=;
+        b=oNRyRkePJgSlMzbW/yS+aAyMbho0lBjCJwyurekTctOfEfRAx15dy6j7FHqSjMevssX0Ql
+        1ap5vluAvbu75Qt0nOUHXXQ4PxKRB9G5EVWP0tEG/UYYWcEYLOm0Q7XP/2VPEbSKMRe5wz
+        9MBB1tmohhmvRfrxN5nChDwkUiszbWc=
+Date:   Fri, 16 Jun 2023 21:21:23 +0200
 From:   Pavel Machek <pavel@ucw.cz>
 To:     Sasha Levin <sashal@kernel.org>
 Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Wei Chen <harperchen1110@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>, serjk@netup.ru,
-        aospan@netup.ru, linux-media@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 4.14 09/20] media: netup_unidvb: fix irq init by
- register it at the end of probe
-Message-ID: <ZIy1+CA55P2YC4xA@duo.ucw.cz>
-References: <20230525184520.2004878-1-sashal@kernel.org>
- <20230525184520.2004878-9-sashal@kernel.org>
+        YongSu Yoo <yongsuyoo0215@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>, v4bel@theori.io,
+        linma@zju.edu.cn, linux-media@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 6.3 23/67] media: dvb_ca_en50221: fix a size
+ write bug
+Message-ID: <ZIy2MxIvrIABE1vX@duo.ucw.cz>
+References: <20230525183144.1717540-1-sashal@kernel.org>
+ <20230525183144.1717540-23-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="WUFgJ3P2V9We42OX"
+        protocol="application/pgp-signature"; boundary="hOGZ+jrDjYq/U51m"
 Content-Disposition: inline
-In-Reply-To: <20230525184520.2004878-9-sashal@kernel.org>
+In-Reply-To: <20230525183144.1717540-23-sashal@kernel.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
@@ -54,68 +54,41 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---WUFgJ3P2V9We42OX
+--hOGZ+jrDjYq/U51m
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi!
 
-> [ Upstream commit e6ad6233592593079db5c8fa592c298e51bc1356 ]
->=20
-> IRQ handler netup_spi_interrupt() takes spinlock spi->lock. The lock
-> is initialized in netup_spi_init(). However, irq handler is registered
-> before initializing the lock.
->=20
-> Spinlock dma->lock and i2c->lock suffer from the same problem.
->=20
-> Fix this by registering the irq at the end of probe.
+I believe you have typo in the comment:
 
-Are you sure you got the error handling right? AFAICT
-netup_unidvb_dma_fini(ndev, 0/1); is needed here.
+
+> @@ -778,11 +778,13 @@ static int dvb_ca_en50221_read_data(struct dvb_ca_p=
+rivate *ca, int slot,
+>   * @buf: The data in this buffer is treated as a complete link-level pac=
+ket to
+>   *	 be written.
+>   * @bytes_write: Size of ebuf.
+> + * @size_write_flag: A flag on Command Register which says whether the l=
+ink size
+> + * information will be writen or not.
+
+writen -> written.
 
 Best regards,
 								Pavel
-
-> +++ b/drivers/media/pci/netup_unidvb/netup_unidvb_core.c
-> @@ -943,6 +938,14 @@ static int netup_unidvb_initdev(struct pci_dev *pci_=
-dev,
->  		dev_err(&pci_dev->dev, "netup_unidvb: DMA setup failed\n");
->  		goto dma_setup_err;
->  	}
-> +
-> +	if (request_irq(pci_dev->irq, netup_unidvb_isr, IRQF_SHARED,
-> +			"netup_unidvb", pci_dev) < 0) {
-> +		dev_err(&pci_dev->dev,
-> +			"%s(): can't get IRQ %d\n", __func__, pci_dev->irq);
-> +		goto dma_setup_err;
-> +	}
-> +
->  	dev_info(&pci_dev->dev,
->  		"netup_unidvb: device has been initialized\n");
->  	return 0;
-> @@ -961,8 +964,6 @@ static int netup_unidvb_initdev(struct pci_dev *pci_d=
-ev,
->  	dma_free_coherent(&pci_dev->dev, ndev->dma_size,
->  			ndev->dma_virt, ndev->dma_phys);
->  dma_alloc_err:
-> -	free_irq(pci_dev->irq, pci_dev);
-> -irq_request_err:
->  	iounmap(ndev->lmmio1);
->  pci_bar1_error:
->  	iounmap(ndev->lmmio0);
-
 --=20
 People of Russia, stop Putin before his war on Ukraine escalates.
 
---WUFgJ3P2V9We42OX
+--hOGZ+jrDjYq/U51m
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZIy1+AAKCRAw5/Bqldv6
-8gDrAKCvBjMhvOg8OA9Ur99mEYfRHtkahgCfdlhmTq7oTObM0PyEosH8Lwk13Nk=
-=9xtk
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZIy2MwAKCRAw5/Bqldv6
+8n+aAJ94LmLIJ0u61qZEHYBeFOXVlNJvDgCeJY1rg6J/8A0srzUeUam9rJSfzcw=
+=Zt1d
 -----END PGP SIGNATURE-----
 
---WUFgJ3P2V9We42OX--
+--hOGZ+jrDjYq/U51m--
