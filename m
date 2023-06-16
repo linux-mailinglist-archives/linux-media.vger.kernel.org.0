@@ -2,128 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 704BA7331DA
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jun 2023 15:06:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53A447331F4
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jun 2023 15:13:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345274AbjFPNGg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Jun 2023 09:06:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54460 "EHLO
+        id S1345570AbjFPNNQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Jun 2023 09:13:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231782AbjFPNGf (ORCPT
+        with ESMTP id S1345557AbjFPNNN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Jun 2023 09:06:35 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E9302D77;
-        Fri, 16 Jun 2023 06:06:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686920794; x=1718456794;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kmDwdXdCqysX9s168Eg4s4iYxEBlcW+iZlTT/8p/uPE=;
-  b=XHWdQbVxueB9BeT+OIpquWomEr7kDmy9Q5NSJHoWnnC1gyWGBT0zXubl
-   dbIG7KJsz4mMLogPAIHSmlR00298DDi316vMzMJYp84gpSxWTOmuF6V2d
-   GopHoJcO0wP0KPwxlkFMIf/ofSt85jluftqMRBU94lIMnp7NUaWICNNzi
-   EyeQi+Mf3lq70UFMbpHzvSPw/33uEcHB2O+rmEpbLhKeceScCbM4usQ/e
-   kkwyY232W2Oft/jSIqigw9qt8Sp+waCQrbcxvjse+BBUkPu7UIQvGQX5R
-   kmcCCeYn4OojLZRetB0+IEppwdw6MUkpA2uaPZ3Jd2USArGsnaJpF4nKT
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="445591175"
-X-IronPort-AV: E=Sophos;i="6.00,247,1681196400"; 
-   d="scan'208";a="445591175"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 06:06:33 -0700
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="746257381"
-X-IronPort-AV: E=Sophos;i="6.00,247,1681196400"; 
-   d="scan'208";a="746257381"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 16 Jun 2023 06:06:27 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qA99m-0001G4-2i;
-        Fri, 16 Jun 2023 13:06:26 +0000
-Date:   Fri, 16 Jun 2023 21:06:17 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Tommaso Merciai <tomm.merciai@gmail.com>
-Cc:     oe-kbuild-all@lists.linux.dev, jacopo.mondi@ideasonboard.com,
-        laurent.pinchart@ideasonboard.com, martin.hecht@avnet.eu,
-        michael.roeder@avnet.eu, linuxfancy@googlegroups.com,
-        hdegoede@redhat.com, Tommaso Merciai <tomm.merciai@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Gerald Loacker <gerald.loacker@wolfvision.net>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Nicholas Roth <nicholas@rothemail.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Mikhail Rudenko <mike.rudenko@gmail.com>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 3/3] media: i2c: Add support for alvium camera
-Message-ID: <202306162030.twEiu4Wm-lkp@intel.com>
-References: <20230616095713.187544-4-tomm.merciai@gmail.com>
+        Fri, 16 Jun 2023 09:13:13 -0400
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B019235A7
+        for <linux-media@vger.kernel.org>; Fri, 16 Jun 2023 06:13:08 -0700 (PDT)
+Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-3f8c9cb3144so5355335e9.0
+        for <linux-media@vger.kernel.org>; Fri, 16 Jun 2023 06:13:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1686921187; x=1689513187;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JgRqkCmLSNrRg0kzYH/gYvgx0ftRsyaeR1bjLn9ohCw=;
+        b=nnmldJE1cqVEB3z6tQT1R7QHIonwbqyKADSkliHOx4r9glNa66H8oF/KUHKM54RpkQ
+         6D1G1LtKnYguRmmeW+zav9/jnuN6+nChpqFPJ4v/vJy44uZXX99GefkTZK488dYGsDNe
+         qLNFHeQg3D6AD6WHGKNvyrtOScCT2WhVe47QKjSZzQAQK2UsE6wXRre7c6IJonhglBzw
+         1hbg9WLXhUWdrJg8hRNpbhM2XF9UEQQWpKou2RUA+rZOxaGXBbb3ezGuodFU5tFO7Xz7
+         msZZwHdUEnabtImuuCpSteVRT9h73T5MG2rHh7Pa9WzS4TgTLlKvZDw2uozNMqnnwpNf
+         Z7Tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686921187; x=1689513187;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JgRqkCmLSNrRg0kzYH/gYvgx0ftRsyaeR1bjLn9ohCw=;
+        b=NmbkmszjnikPeT3m6SN8eSiLYWOaN7g4/whJuJrx1vrzJNMFJyAcOTWYcZxCr6XxZq
+         oXECU4tgz8ePVTaVR0ZPgyE8ONnYfn7Tpn00Y8ULOPJLBNyog71dkMaZVM38Lnwdb5gO
+         0zn4HbXoMNInBW1gnQP+1a8AzBdJzVqqbKWa5Sayo6AJHqOtXQd39xZSp1FNQOF4mhqe
+         UDhp/aP1h1PAeaWBC7e8qjx7YqeFAR/4snfQqqK9Ysz15upolYLBeLrgfPdQkMoELMib
+         7SgUDBxY0csg0M0NEOEZT/wmuQaA5ZASjf27r7ygYmWv/n/Ukn7Ovm1zNSBPNgljmT9N
+         /FcQ==
+X-Gm-Message-State: AC+VfDzvITklgMvtTBDooZEvowjZ50CHqz7Q08M7+8IMddTv1zJLQQFC
+        Es/xXjXhYZZ6vDXOm8SVUasPng==
+X-Google-Smtp-Source: ACHHUZ6PjvZeXabO13ItqPLMS9+xmOpBl0+X8Yf52uVDge1YdwdjlMRILf7KOevIONlKvHJnOq15VA==
+X-Received: by 2002:a1c:ed08:0:b0:3f7:e3dd:8a47 with SMTP id l8-20020a1ced08000000b003f7e3dd8a47mr1584365wmh.11.1686921187163;
+        Fri, 16 Jun 2023 06:13:07 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id y20-20020a7bcd94000000b003f60a446fe5sm2163536wmj.29.2023.06.16.06.13.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Jun 2023 06:13:05 -0700 (PDT)
+Message-ID: <fa665e61-f36a-5f65-4837-8d7c8c6a052e@linaro.org>
+Date:   Fri, 16 Jun 2023 14:13:03 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230616095713.187544-4-tomm.merciai@gmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v6 3/6] media: starfive: Add basic driver
+Content-Language: en-US
+To:     Jack Zhu <jack.zhu@starfivetech.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Eugen Hristev <eugen.hristev@collabora.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, changhuang.liang@starfivetech.com
+References: <20230525083202.67933-1-jack.zhu@starfivetech.com>
+ <20230525083202.67933-4-jack.zhu@starfivetech.com>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20230525083202.67933-4-jack.zhu@starfivetech.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tommaso,
+On 25/05/2023 09:31, Jack Zhu wrote:
+> Add basic platform driver for StarFive Camera Subsystem.
+> 
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
 
-kernel test robot noticed the following build errors:
+One thing here is the patch title and hence commit message.
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on robh/for-next linus/master v6.4-rc6 next-20230616]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+"media: starfive:" doesn't really tell you this is a camera versus say a 
+encoder/decoder.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tommaso-Merciai/dt-bindings-vendor-prefixes-Add-prefix-alliedvision/20230616-180025
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230616095713.187544-4-tomm.merciai%40gmail.com
-patch subject: [PATCH v6 3/3] media: i2c: Add support for alvium camera
-config: sparc-randconfig-r002-20230616 (https://download.01.org/0day-ci/archive/20230616/202306162030.twEiu4Wm-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230616/202306162030.twEiu4Wm-lkp@intel.com/reproduce)
+I see you've used the name "camss" for your driver, which I think is a 
+perfectly good and logical choice - however if you started to make 
+commits along the lines of "media: camss" that would conflict with the 
+qcom camss.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306162030.twEiu4Wm-lkp@intel.com/
+How about for starfive and qcom by the way, we do what Laurent did in
 
-All errors (new ones prefixed by >>):
+commit 3e8537b4c15172bfe1b285c3155ed5c37d523cd3
+Author: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Date:   Wed Dec 21 10:33:39 2022 +0100
 
-   In file included from drivers/media/i2c/alvium-csi2.c:33:
->> drivers/media/i2c/alvium-csi2.h:15:10: fatal error: media/v4l2-cci.h: No such file or directory
-      15 | #include <media/v4l2-cci.h>
-         |          ^~~~~~~~~~~~~~~~~~
-   compilation terminated.
+     media: ti: omap3isp: Use media_pipeline_for_each_entity()
 
+i.e. future StarFive commits for camera would be "media: starfive: 
+camss" and similarly for Qualcomm "media: qualcomm: camss"
 
-vim +15 drivers/media/i2c/alvium-csi2.h
+The point being the commit title namespace should be instructive and 
+specific re: 3e8537b4c15172bfe1b285c3155ed5c37d523cd3
 
-    12	
-    13	#include <linux/kernel.h>
-    14	#include <linux/regulator/consumer.h>
-  > 15	#include <media/v4l2-cci.h>
-    16	#include <media/v4l2-common.h>
-    17	#include <media/v4l2-ctrls.h>
-    18	#include <media/v4l2-fwnode.h>
-    19	#include <media/v4l2-subdev.h>
-    20	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+---
+bod
