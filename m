@@ -2,96 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 85D5073251E
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jun 2023 04:17:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF0627325A9
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jun 2023 05:10:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240418AbjFPCRd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Jun 2023 22:17:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42304 "EHLO
+        id S240970AbjFPDKZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Jun 2023 23:10:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230076AbjFPCRb (ORCPT
+        with ESMTP id S242175AbjFPDKT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Jun 2023 22:17:31 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E84E296A
-        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 19:17:30 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id 4fb4d7f45d1cf-51a324beca6so243325a12.1
-        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 19:17:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1686881848; x=1689473848;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=QRMbq2VvSqK0Urjp22PwUm17As2BrZ4veHF95ybZPJ0=;
-        b=bovBaQF8JKXet/eDzUBjdG1a68cWfRtaYnJSeJrz4RnISnZ94Z0sUZp5O/yC0dlpEV
-         kwzbllsU2r+GfoUhVKhBrp84l4BJJ69jQi6LaBNIJZe6kEo+aqvmjzdwQrogOYqiHFqC
-         6In4C/POAngZkjnCgcv94h1LCyqnTtkdzG878=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686881848; x=1689473848;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QRMbq2VvSqK0Urjp22PwUm17As2BrZ4veHF95ybZPJ0=;
-        b=lkKasVJSyUeVOQd1k/3N3J8OQVidVSFRY7u2njwY92DUnA7aZQalb8ob3ORjD7chep
-         IOk3X1Cy745D/toDVKA1lsMGlyCpKGpuStAxEjGiOp+c3socwlAKqW4ptkgT0EU95LVh
-         ApOEqtyN6+Uausog/0gxRQz6iyFfBAL/7j5V81L5/zEX0ANIg4rJ405R/mPQWfQjntv9
-         HGvzxILpX5sR9idnhQATawDvAMWi5RGtzaQF82XAxJdV/IreAHOi+N0uD0be0i4zkure
-         dIhVgznL6iMKgVTS1musbHqCNQhhmfu3EqSWn4F7FQB+R0som0OBJejPqEHNBxlydHxR
-         HzZg==
-X-Gm-Message-State: AC+VfDwQ1Dk1ajcoetyN3EZYxHzeCRvCEERqi+sXwMTnVJoVA25qCl2d
-        f3KB/tsUXB3D2zj0sIwr/EJYPx3BM7heju2ZJ+8nn4k7
-X-Google-Smtp-Source: ACHHUZ5Wi4DPPm5jZcPkVb2s/YP5LmaDzBVO51GUeRmxhpMCjSlI/b0U33NvhMGuK0V8fs6OV58HGg==
-X-Received: by 2002:a17:906:f2c8:b0:958:801b:9945 with SMTP id gz8-20020a170906f2c800b00958801b9945mr482642ejb.31.1686881848703;
-        Thu, 15 Jun 2023 19:17:28 -0700 (PDT)
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com. [209.85.208.50])
-        by smtp.gmail.com with ESMTPSA id m25-20020a170906235900b00982aec29db1sm1335689eja.126.2023.06.15.19.17.27
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Jun 2023 19:17:28 -0700 (PDT)
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-51a324beca6so243301a12.1
-        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 19:17:27 -0700 (PDT)
-X-Received: by 2002:a50:fb03:0:b0:51a:2f22:6564 with SMTP id
- d3-20020a50fb03000000b0051a2f226564mr279108edq.39.1686881847426; Thu, 15 Jun
- 2023 19:17:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230615121721.1f901ebb@sal.lan>
-In-Reply-To: <20230615121721.1f901ebb@sal.lan>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Thu, 15 Jun 2023 19:17:10 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgiL88k26bmOXwkRojVUwkcGdXHBm2-+PwtXUja88+tEA@mail.gmail.com>
-Message-ID: <CAHk-=wgiL88k26bmOXwkRojVUwkcGdXHBm2-+PwtXUja88+tEA@mail.gmail.com>
+        Thu, 15 Jun 2023 23:10:19 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 449ED2D40;
+        Thu, 15 Jun 2023 20:10:19 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BC0056268C;
+        Fri, 16 Jun 2023 03:10:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E5D08C433C9;
+        Fri, 16 Jun 2023 03:10:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686885017;
+        bh=TnzTtFWw5IJ94FWe5qRmJupS56VK5HKdScy8PgqdyY0=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=KQLuH2SAvMWUzjzB3diaG8ACdumvwvbRrkyZ9+rjpWeZc/gUGz7TOvdpE7GsdgIbq
+         I2FoUm0n8ivmhA+jd2kIjwG425zvuLs5BSxoa65R5z68/5MAH1huRS89e6NPKrF5P3
+         fFUBqe0QljX1p0NPrKuqP7tdHxlA+fwUnZmrjuVu1ELTrmxrOeOi0MVsuXrLiy06l/
+         zroSfqQgZ1vRg9g4BVpvJgs921cvdS76Zo+5kty8clcBG4OjiijqgQeCvKDodaTrBe
+         evZiaH2n8uuqJuVVlZADfFBnf5HnsMHEah0mEKZs+zg3ojm6WNuToi/5aV6pBwBL1x
+         MfoJfzP6Rtveg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C288BC64458;
+        Fri, 16 Jun 2023 03:10:17 +0000 (UTC)
 Subject: Re: [GIT PULL for v6.4-rc7] media fixes
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20230615121721.1f901ebb@sal.lan>
+References: <20230615121721.1f901ebb@sal.lan>
+X-PR-Tracked-List-Id: <linux-media.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20230615121721.1f901ebb@sal.lan>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.4-6
+X-PR-Tracked-Commit-Id: ec21a38df77a5aefbd2f70c48127003b6f259cf3
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: c926a55f650ce58eae33cda504d50ac1837d53fd
+Message-Id: <168688501779.31465.3699955042361078322.pr-tracker-bot@kernel.org>
+Date:   Fri, 16 Jun 2023 03:10:17 +0000
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 15 Jun 2023 at 04:17, Mauro Carvalho Chehab <mchehab@kernel.org> wrote:
->
-> Mauro Carvalho Chehab (3):
->       Merge tag 'v6.4-rc4' into v4l_for_linus
->       Merge tag 'v6.4-rc5' into v4l_for_linus
->       Revert "media: dvb-core: Fix use-after-free on race condition at dvb_frontend"
+The pull request you sent on Thu, 15 Jun 2023 12:17:21 +0100:
 
-Please don't do those back-merges. Particularly the *pointless* ones
-with bad commit messages.
+> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.4-6
 
-I've pulled this, bnut your tree literally had three commits, two of
-which were WRONG. Their commit messages were pure garbage.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/c926a55f650ce58eae33cda504d50ac1837d53fd
 
-Don't do this. Seriously. It's garbage.
+Thank you!
 
-If you can't do proper merges with proper commit messages, just don't
-merge things. It's that easy.
-
-              Linus
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
