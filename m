@@ -2,62 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 22EB37325A8
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jun 2023 05:10:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 266B37326AF
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jun 2023 07:36:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241688AbjFPDKX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Jun 2023 23:10:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37186 "EHLO
+        id S231701AbjFPFgv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Jun 2023 01:36:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242181AbjFPDKT (ORCPT
+        with ESMTP id S229756AbjFPFgt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Jun 2023 23:10:19 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E696F297F;
-        Thu, 15 Jun 2023 20:10:18 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        Fri, 16 Jun 2023 01:36:49 -0400
+X-Greylist: delayed 314 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 15 Jun 2023 22:36:48 PDT
+Received: from box.trvn.ru (box.trvn.ru [194.87.146.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56A0D2976
+        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 22:36:48 -0700 (PDT)
+Received: from authenticated-user (box.trvn.ru [194.87.146.52])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 753AB624E3;
-        Fri, 16 Jun 2023 03:10:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B0808C433C0;
-        Fri, 16 Jun 2023 03:10:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686885017;
-        bh=Urkn7w/gCujuzVzsD62vYANPn6pMOymn6mnoP0nXIik=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=uXA2+6bfg+tHCk2ZqZ4D7q2qfkdej2qfMLFScZpx99OsavxSypitJ8cdS943hkZFF
-         yNP4BVYU7TGHX7e/RPkyIsJ+3LexmRzulxwQdvfjG9WrH0uPZYp8e4+VQGue5Dw2tE
-         k0lp92HbzNsxeGN39Kuv5uWctHTZI5+jcpC1Q0n86Q2Bq9gX2IfPGQY1abyV0Kbe7G
-         4nfWVahsJdRJQunJ3TNp/lufuF5Yg6I2bSPabLFOczQogQw1CGLwlBDvEJpvjHB79z
-         yhZ9xyfSoWhU0vBa/sScrhDZrEuKgNuUq2MKk7SP8EVrkyYrlNAWhe6JIAeuJc1voG
-         uraI9K7YAIydA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 90485C3274B;
-        Fri, 16 Jun 2023 03:10:17 +0000 (UTC)
-Subject: Re: [GIT PULL for v6.4-rc5] media fixes
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20230604140137.1f160782@sal.lan>
-References: <20230604140137.1f160782@sal.lan>
-X-PR-Tracked-List-Id: <linux-media.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20230604140137.1f160782@sal.lan>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.4-4
-X-PR-Tracked-Commit-Id: 899e373ef0b0d3f1c2712a849f019de4f46bfa02
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 4b0a5014ee2b0984f2410d657dc582a8387585ae
-Message-Id: <168688501757.31465.7761977128116634058.pr-tracker-bot@kernel.org>
-Date:   Fri, 16 Jun 2023 03:10:17 +0000
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        by box.trvn.ru (Postfix) with ESMTPSA id 58B3A40901;
+        Fri, 16 Jun 2023 10:31:28 +0500 (+05)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=trvn.ru; s=mail;
+        t=1686893489; bh=W3BlNMaiG3cHQL4Ng0ytzSXIonyV1hxmRIBmdcXY2DA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=43O0re6ckxF+pQP5jc8kmicy2CjfzN4Fztdb4MQIovS2GMHHP8RD0DnSF5ofvMito
+         +IoGeQLlyTHvVsZULfGobaaTH4nJ1uUP/wcMUSbtHYkZyYI20779H8OVPHSBWiaTDq
+         sY4nLro8MukesWGvHnLi+vtRdvufQShqqaiNVNNc0JUQi758R4M5WCk+/njE5d6qnE
+         wYsX7iBx6KEo6pYa3PVzesoYOIOrbSkUdpyx/LSc2JLc3hJl30CT/8Hnln37YEqw5H
+         9VDr5IDYReVyTTRRn8CCVeP98XqMaKjmNj3YulIF3gnUGAYDIBBk+vHXnpVNFAsoLS
+         K8sesLLznxnUQ==
+MIME-Version: 1.0
+Date:   Fri, 16 Jun 2023 10:31:26 +0500
+From:   Nikita Travkin <nikita@trvn.ru>
+To:     Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: venus: core: Set up secure memory ranges for
+ SC7180
+In-Reply-To: <20230616-topic-sc7180_venus_lawp-v1-1-15a8f44d474e@linaro.org>
+References: <20230616-topic-sc7180_venus_lawp-v1-1-15a8f44d474e@linaro.org>
+Message-ID: <8adfa758ba13e70a3cd28a9c8a45738f@trvn.ru>
+X-Sender: nikita@trvn.ru
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,15 +61,40 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The pull request you sent on Sun, 4 Jun 2023 14:01:37 +0100:
+Konrad Dybcio писал(а) 16.06.2023 04:36:
+> Not all SC7180 devices ship with ChromeOS firmware. WoA devices use
+> Android-like TZ, which uses PAS for image authentication. That requires
+> the predefined virtual address ranges to be passed via scm calls.
+> Define them to enable Venus on non-CrOS SC7180 devices.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.4-4
+This does indeed bring up the venus for me now. Thanks! 
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/4b0a5014ee2b0984f2410d657dc582a8387585ae
+Tested-by: Nikita Travkin <nikita@trvn.ru> # Aspire 1
 
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+> ---
+>  drivers/media/platform/qcom/venus/core.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+> index 2ae867cb4c48..bee1b4c98060 100644
+> --- a/drivers/media/platform/qcom/venus/core.c
+> +++ b/drivers/media/platform/qcom/venus/core.c
+> @@ -760,6 +760,10 @@ static const struct venus_resources sc7180_res = {
+>  	.vmem_size = 0,
+>  	.vmem_addr = 0,
+>  	.dma_mask = 0xe0000000 - 1,
+> +	.cp_start = 0,
+> +	.cp_size = 0x70800000,
+> +	.cp_nonpixel_start = 0x1000000,
+> +	.cp_nonpixel_size = 0x24800000,
+>  	.fwname = "qcom/venus-5.4/venus.mdt",
+>  };
+>  
+> 
+> ---
+> base-commit: 925294c9aa184801cc0a451b69a18dd0fe7d847d
+> change-id: 20230616-topic-sc7180_venus_lawp-965e5fd18c7a
+> 
+> Best regards,
