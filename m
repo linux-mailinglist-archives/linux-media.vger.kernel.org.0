@@ -2,122 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6304A7323BB
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jun 2023 01:37:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85D5073251E
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jun 2023 04:17:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239485AbjFOXhE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Jun 2023 19:37:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56532 "EHLO
+        id S240418AbjFPCRd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Jun 2023 22:17:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239318AbjFOXhD (ORCPT
+        with ESMTP id S230076AbjFPCRb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Jun 2023 19:37:03 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AF3B2948
-        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 16:37:01 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id 2adb3069b0e04-4f6370ddd27so19050e87.0
-        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 16:37:01 -0700 (PDT)
+        Thu, 15 Jun 2023 22:17:31 -0400
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E84E296A
+        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 19:17:30 -0700 (PDT)
+Received: by mail-ed1-x52b.google.com with SMTP id 4fb4d7f45d1cf-51a324beca6so243325a12.1
+        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 19:17:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686872219; x=1689464219;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gdJJ9+n9IRKzLwmspC95Y35DrYAR/DTBRoHRTZGhZyY=;
-        b=avRMt4C2kPx7TE6eiY9u6yHoPok027p/AeOSqKP9Ru5H8PN5X1VGm2KxUvg0xp6ExH
-         e1qPBkUf0psLZ+h/j4H2ZaZyxXuH+pBToTv64SrzTtZGNxOGXhAEULXcXCcGhgdpCqSV
-         k1l41Fttq1Pi6Ffr766pG1DtIpX8tFw6C8wD2aiyaO7SSe3BiTovwL8gI0Vti10EOzgE
-         PZkD2MpAcCqcYvI1F08z+k3PgAMWLDb+rR+01XKUZ4THqX+eAhbxzEPUAvnYu9xfc3SL
-         j2nGictXtZwIj+9wnb+e+CErYrwq7StVzUTWTdVlZYgRL5ol1Vvx5KZ3IyAXZm9WP/n4
-         5tbw==
+        d=linux-foundation.org; s=google; t=1686881848; x=1689473848;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=QRMbq2VvSqK0Urjp22PwUm17As2BrZ4veHF95ybZPJ0=;
+        b=bovBaQF8JKXet/eDzUBjdG1a68cWfRtaYnJSeJrz4RnISnZ94Z0sUZp5O/yC0dlpEV
+         kwzbllsU2r+GfoUhVKhBrp84l4BJJ69jQi6LaBNIJZe6kEo+aqvmjzdwQrogOYqiHFqC
+         6In4C/POAngZkjnCgcv94h1LCyqnTtkdzG878=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686872219; x=1689464219;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1686881848; x=1689473848;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gdJJ9+n9IRKzLwmspC95Y35DrYAR/DTBRoHRTZGhZyY=;
-        b=YpXOef+Bo4hqHFiLU5f/niTt8InNkTfhCPr20IM1XMItlKvcqtBZyPaVvPUMIA61zs
-         lz6sfJmgSP3nP1dLaKUAhxnNYYKbcgYZHIaOKxb/hG1isnOUz+qoE4ScgoHu8cfz4Gkk
-         jEioDKhn7In7RZC6YmgJLpvnNR8nW+BD9CJU1vV3uuZsC7pfAnlnv7vDZQq7f2Z3/gpI
-         P432gQdYWqOVC6BRnBjErs9onxqirKChFiac3nrXY1R5D248HOHuMix88Dy4kOXhHlI8
-         w/uP/soO0fJkkg80vaAYokUIA90IpCjHCxJuB/Zk1f3628UMOUeyun3u7gpjJx/KQDr0
-         Tcag==
-X-Gm-Message-State: AC+VfDw2KMTwTEvydEQaYQTzyWTBAafueRF0HGjs8Mlvw8O+ZGD47xtW
-        tpYVNcLrLzW/qw5xixA9Llh+3w==
-X-Google-Smtp-Source: ACHHUZ7DYmN/QRx0U9s1ok/upaVNmStFp3pK98PKKkmgqb1rLau3RN/FYfCMY//aCov1R//URRFlXQ==
-X-Received: by 2002:a05:6512:606:b0:4f4:c972:981f with SMTP id b6-20020a056512060600b004f4c972981fmr105872lfe.54.1686872219539;
-        Thu, 15 Jun 2023 16:36:59 -0700 (PDT)
-Received: from [192.168.1.101] (abyj190.neoplus.adsl.tpnet.pl. [83.9.29.190])
-        by smtp.gmail.com with ESMTPSA id n25-20020ac24919000000b004f61ae50a7dsm2761423lfi.142.2023.06.15.16.36.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Jun 2023 16:36:59 -0700 (PDT)
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-Date:   Fri, 16 Jun 2023 01:36:58 +0200
-Subject: [PATCH] media: venus: core: Set up secure memory ranges for SC7180
+        bh=QRMbq2VvSqK0Urjp22PwUm17As2BrZ4veHF95ybZPJ0=;
+        b=lkKasVJSyUeVOQd1k/3N3J8OQVidVSFRY7u2njwY92DUnA7aZQalb8ob3ORjD7chep
+         IOk3X1Cy745D/toDVKA1lsMGlyCpKGpuStAxEjGiOp+c3socwlAKqW4ptkgT0EU95LVh
+         ApOEqtyN6+Uausog/0gxRQz6iyFfBAL/7j5V81L5/zEX0ANIg4rJ405R/mPQWfQjntv9
+         HGvzxILpX5sR9idnhQATawDvAMWi5RGtzaQF82XAxJdV/IreAHOi+N0uD0be0i4zkure
+         dIhVgznL6iMKgVTS1musbHqCNQhhmfu3EqSWn4F7FQB+R0som0OBJejPqEHNBxlydHxR
+         HzZg==
+X-Gm-Message-State: AC+VfDwQ1Dk1ajcoetyN3EZYxHzeCRvCEERqi+sXwMTnVJoVA25qCl2d
+        f3KB/tsUXB3D2zj0sIwr/EJYPx3BM7heju2ZJ+8nn4k7
+X-Google-Smtp-Source: ACHHUZ5Wi4DPPm5jZcPkVb2s/YP5LmaDzBVO51GUeRmxhpMCjSlI/b0U33NvhMGuK0V8fs6OV58HGg==
+X-Received: by 2002:a17:906:f2c8:b0:958:801b:9945 with SMTP id gz8-20020a170906f2c800b00958801b9945mr482642ejb.31.1686881848703;
+        Thu, 15 Jun 2023 19:17:28 -0700 (PDT)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com. [209.85.208.50])
+        by smtp.gmail.com with ESMTPSA id m25-20020a170906235900b00982aec29db1sm1335689eja.126.2023.06.15.19.17.27
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Jun 2023 19:17:28 -0700 (PDT)
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-51a324beca6so243301a12.1
+        for <linux-media@vger.kernel.org>; Thu, 15 Jun 2023 19:17:27 -0700 (PDT)
+X-Received: by 2002:a50:fb03:0:b0:51a:2f22:6564 with SMTP id
+ d3-20020a50fb03000000b0051a2f226564mr279108edq.39.1686881847426; Thu, 15 Jun
+ 2023 19:17:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230616-topic-sc7180_venus_lawp-v1-1-15a8f44d474e@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAJmgi2QC/x2N0QqDMAwAf0XyvELrsLr9yhgSY5yBUksznSD+u
- 2WPd3DcAcpZWOFZHZB5E5UlFnC3CmjG+GEjY2GobX233nnzXZKQUWpdZ/uN46p9wF8yD99wM42
- uoxah1AMqmyFjpLn0cQ2hyJR5kv2/e73P8wJmoSC5fgAAAA==
-To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
-        Nikita Travkin <nikita@trvn.ru>, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Konrad Dybcio <konrad.dybcio@linaro.org>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1686872218; l=1142;
- i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
- bh=SnxJxghJqJ9uhVZbjXUcGSZM2YFGDcZxmB3hYFB3gWM=;
- b=Cnh6syjdwDe950DfMtQqhOHmyL3ekvZwsm5d4D8wPap9mVlerIdV7VwLXR1w8qfSpUyt2i+mI
- Mz5NghdVn0yBnML617bZrIskyRxnu7EO87p8CDPCe1PX/pnbSZsY3xf
-X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
- pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+References: <20230615121721.1f901ebb@sal.lan>
+In-Reply-To: <20230615121721.1f901ebb@sal.lan>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Thu, 15 Jun 2023 19:17:10 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgiL88k26bmOXwkRojVUwkcGdXHBm2-+PwtXUja88+tEA@mail.gmail.com>
+Message-ID: <CAHk-=wgiL88k26bmOXwkRojVUwkcGdXHBm2-+PwtXUja88+tEA@mail.gmail.com>
+Subject: Re: [GIT PULL for v6.4-rc7] media fixes
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Not all SC7180 devices ship with ChromeOS firmware. WoA devices use
-Android-like TZ, which uses PAS for image authentication. That requires
-the predefined virtual address ranges to be passed via scm calls.
-Define them to enable Venus on non-CrOS SC7180 devices.
+On Thu, 15 Jun 2023 at 04:17, Mauro Carvalho Chehab <mchehab@kernel.org> wrote:
+>
+> Mauro Carvalho Chehab (3):
+>       Merge tag 'v6.4-rc4' into v4l_for_linus
+>       Merge tag 'v6.4-rc5' into v4l_for_linus
+>       Revert "media: dvb-core: Fix use-after-free on race condition at dvb_frontend"
 
-Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
----
- drivers/media/platform/qcom/venus/core.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Please don't do those back-merges. Particularly the *pointless* ones
+with bad commit messages.
 
-diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-index 2ae867cb4c48..bee1b4c98060 100644
---- a/drivers/media/platform/qcom/venus/core.c
-+++ b/drivers/media/platform/qcom/venus/core.c
-@@ -760,6 +760,10 @@ static const struct venus_resources sc7180_res = {
- 	.vmem_size = 0,
- 	.vmem_addr = 0,
- 	.dma_mask = 0xe0000000 - 1,
-+	.cp_start = 0,
-+	.cp_size = 0x70800000,
-+	.cp_nonpixel_start = 0x1000000,
-+	.cp_nonpixel_size = 0x24800000,
- 	.fwname = "qcom/venus-5.4/venus.mdt",
- };
- 
+I've pulled this, bnut your tree literally had three commits, two of
+which were WRONG. Their commit messages were pure garbage.
 
----
-base-commit: 925294c9aa184801cc0a451b69a18dd0fe7d847d
-change-id: 20230616-topic-sc7180_venus_lawp-965e5fd18c7a
+Don't do this. Seriously. It's garbage.
 
-Best regards,
--- 
-Konrad Dybcio <konrad.dybcio@linaro.org>
+If you can't do proper merges with proper commit messages, just don't
+merge things. It's that easy.
 
+              Linus
