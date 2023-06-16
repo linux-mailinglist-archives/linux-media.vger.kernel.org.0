@@ -2,123 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C4F4F7327A3
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jun 2023 08:32:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 525477327D4
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jun 2023 08:46:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240557AbjFPGcu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Jun 2023 02:32:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35000 "EHLO
+        id S241114AbjFPGqZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Jun 2023 02:46:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242562AbjFPGcn (ORCPT
+        with ESMTP id S229762AbjFPGqY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Jun 2023 02:32:43 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4523B270E;
-        Thu, 15 Jun 2023 23:32:42 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        Fri, 16 Jun 2023 02:46:24 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 953261FE5;
+        Thu, 15 Jun 2023 23:46:22 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C937062527;
-        Fri, 16 Jun 2023 06:32:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83E8DC433C0;
-        Fri, 16 Jun 2023 06:32:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1686897161;
-        bh=+AQvRVdsmhAwTh0/YKVAYP4Euxnx0LOU4wvyWcc0gp8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uXkS0nTzeCZautZAubDXV7Aiu3ZWpl1xK5h5cg0yILzQZvxhuAFTKK2G3cgkOZVE9
-         8nlLsOvvw5KAoVSyKPOIo2dj7lBOl/Pb045bY0pVik/UjKYmVPasCSxwxpDgwORHte
-         2U28cW+EcvVAAE3UX5aWQPOa0lJEW6ehU6jWOYyOvdB2Wd08Xb5VEF2BmPm7cd2klD
-         wu3AIa62oLjRJHsSZBn5+aRJlU/RQ0L0QzSrZyBJP3FwOJZNuq4yTf+B5TywRnljc2
-         AKrUzBRAIL40UTpiLsCXAK1HaJwEhJTjojxxNNqgRMGbJEHC3uF95vDRphc5vx+K+N
-         ng67bgjEiStTA==
-Date:   Fri, 16 Jun 2023 08:32:38 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Corey Minyard <cminyard@mvista.com>,
-        Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
-        Antonio Borneo <antonio.borneo@foss.st.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v5 01/11] i2c: Enhance i2c_new_ancillary_device API
-Message-ID: <ZIwCBlb5xcLZ70w4@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>, David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-        Corey Minyard <cminyard@mvista.com>,
-        Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
-        Antonio Borneo <antonio.borneo@foss.st.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-        Mark Brown <broonie@kernel.org>
-References: <ZIcUEdctlgRsGxJ3@ninjato>
- <CAMuHMdVOkBeKOEW9PkWB3Tqwa6-rC3BQj=W9VAEgeZfgqvQmWQ@mail.gmail.com>
- <ZIeDcVcfxfcMx/BP@shikoro>
- <CAMuHMdV_Ty=rkcMzsrnJ3YHZngRbyWvYjR_K9Zh7RiAJ4LbvKg@mail.gmail.com>
- <OS0PR01MB59225195B4F2C771F302F7EE8655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdUTAerddXG3zJVRZEAwcrR6V=NFeHwsKV9_tE+ccfw6_w@mail.gmail.com>
- <OS0PR01MB59224D7C95B9B0037046FCF78655A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdUhaSKiuVkmoYt1sm87emFZu7HSSCK-e95-Yy=g8Sgo4w@mail.gmail.com>
- <CAMuHMdX4QxmFJi3q61ByOFG38KgcGMxPQMeXyPA3r1D9098BMg@mail.gmail.com>
- <20230615092312.GF741@pendragon.ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="DnLPxrEEezdDXnuZ"
-Content-Disposition: inline
-In-Reply-To: <20230615092312.GF741@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 532C72222B;
+        Fri, 16 Jun 2023 06:46:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1686897981; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=COaC0ynmHzfg2cnfvrZm7LmbT7lmgDotepixVwr8yu8=;
+        b=O158tCXqjS+pgxh38t0qOwwTfr599e2FCqhHSylrVG+kFYgOZkvdBfLIznj8Ucj/lqQEmR
+        QwIubs6Yz7T3uZeyIM1IwCcOPSCLHRqFkHLKBv8l4ysTCjbUWnhw01nhmEo1Tem/dHPw16
+        7f5W6UTcKrV5Ax8HkIRy0c9boR4clzQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1686897981;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=COaC0ynmHzfg2cnfvrZm7LmbT7lmgDotepixVwr8yu8=;
+        b=rddJRqYvXxvlbA8bk7L4VlG38sprBgB7dnxX5VA7a9ngnmuKFrLlHWNgdmAkIBi9qu8FDT
+        I7ZSqa/LlpmfHcCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 33929138E8;
+        Fri, 16 Jun 2023 06:46:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id ADWrCz0FjGSWdwAAMHmgww
+        (envelope-from <tiwai@suse.de>); Fri, 16 Jun 2023 06:46:21 +0000
+Date:   Fri, 16 Jun 2023 08:46:20 +0200
+Message-ID: <877cs39a6b.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Revert "media: dvb-core: Fix use-after-free on race condition at dvb_frontend"
+In-Reply-To: <20230609082238.3671398-1-mchehab@kernel.org>
+References: <20230609082238.3671398-1-mchehab@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -126,45 +68,77 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Fri, 09 Jun 2023 10:22:38 +0200,
+Mauro Carvalho Chehab wrote:
+> 
+> As reported by Thomas Voegtle <tv@lio96.de>, sometimes a DVB card does
+> not initialize properly booting Linux 6.4-rc4. This is not always, maybe
+> in 3 out of 4 attempts.
+> 
+> After double-checking, the root cause seems to be related to the
+> UAF fix, which is causing a race issue:
+> 
+> [   26.332149] tda10071 7-0005: found a 'NXP TDA10071' in cold state, will try to load a firmware
+> [   26.340779] tda10071 7-0005: downloading firmware from file 'dvb-fe-tda10071.fw'
+> [  989.277402] INFO: task vdr:743 blocked for more than 491 seconds.
+> [  989.283504]       Not tainted 6.4.0-rc5-i5 #249
+> [  989.288036] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+> [  989.295860] task:vdr             state:D stack:0     pid:743   ppid:711    flags:0x00004002
+> [  989.295865] Call Trace:
+> [  989.295867]  <TASK>
+> [  989.295869]  __schedule+0x2ea/0x12d0
+> [  989.295877]  ? asm_sysvec_apic_timer_interrupt+0x16/0x20
+> [  989.295881]  schedule+0x57/0xc0
+> [  989.295884]  schedule_preempt_disabled+0xc/0x20
+> [  989.295887]  __mutex_lock.isra.16+0x237/0x480
+> [  989.295891]  ? dvb_get_property.isra.10+0x1bc/0xa50
+> [  989.295898]  ? dvb_frontend_stop+0x36/0x180
+> [  989.338777]  dvb_frontend_stop+0x36/0x180
+> [  989.338781]  dvb_frontend_open+0x2f1/0x470
+> [  989.338784]  dvb_device_open+0x81/0xf0
+> [  989.338804]  ? exact_lock+0x20/0x20
+> [  989.338808]  chrdev_open+0x7f/0x1c0
+> [  989.338811]  ? generic_permission+0x1a2/0x230
+> [  989.338813]  ? link_path_walk.part.63+0x340/0x380
+> [  989.338815]  ? exact_lock+0x20/0x20
+> [  989.338817]  do_dentry_open+0x18e/0x450
+> [  989.374030]  path_openat+0xca5/0xe00
+> [  989.374031]  ? terminate_walk+0xec/0x100
+> [  989.374034]  ? path_lookupat+0x93/0x140
+> [  989.374036]  do_filp_open+0xc0/0x140
+> [  989.374038]  ? __call_rcu_common.constprop.91+0x92/0x240
+> [  989.374041]  ? __check_object_size+0x147/0x260
+> [  989.374043]  ? __check_object_size+0x147/0x260
+> [  989.374045]  ? alloc_fd+0xbb/0x180
+> [  989.374048]  ? do_sys_openat2+0x243/0x310
+> [  989.374050]  do_sys_openat2+0x243/0x310
+> [  989.374052]  do_sys_open+0x52/0x80
+> [  989.374055]  do_syscall_64+0x5b/0x80
+> [  989.421335]  ? __task_pid_nr_ns+0x92/0xa0
+> [  989.421337]  ? syscall_exit_to_user_mode+0x20/0x40
+> [  989.421339]  ? do_syscall_64+0x67/0x80
+> [  989.421341]  ? syscall_exit_to_user_mode+0x20/0x40
+> [  989.421343]  ? do_syscall_64+0x67/0x80
+> [  989.421345]  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+> [  989.421348] RIP: 0033:0x7fe895d067e3
+> [  989.421349] RSP: 002b:00007fff933c2ba0 EFLAGS: 00000293 ORIG_RAX: 0000000000000101
+> [  989.421351] RAX: ffffffffffffffda RBX: 00007fff933c2c10 RCX: 00007fe895d067e3
+> [  989.421352] RDX: 0000000000000802 RSI: 00005594acdce160 RDI: 00000000ffffff9c
+> [  989.421353] RBP: 0000000000000802 R08: 0000000000000000 R09: 0000000000000000
+> [  989.421353] R10: 0000000000000000 R11: 0000000000000293 R12: 0000000000000001
+> [  989.421354] R13: 00007fff933c2ca0 R14: 00000000ffffffff R15: 00007fff933c2c90
+> [  989.421355]  </TASK>
+> 
+> This reverts commit 6769a0b7ee0c3b31e1b22c3fadff2bfb642de23f.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 
---DnLPxrEEezdDXnuZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Note that CVE-2022-45885 was assigned for the original issue as a
+security bug, and now it's reopened by this revert.
+
+Please let me know if you have a fix in another form.
 
 
-> > Without of_node, devm_clk_get() and friends falls back to registered
-> > clkdevs. So you could call clk_register_clkdev() from within the
-> > PMIC driver, and can keep on using devm_clk_get_optional() in the
-> > ISL1208 driver.
->=20
-> Seriously, how many hacks are we piling ? :-)
+thanks,
 
-For this particular case, why do you consider this a hack? I previously
-suggested the solution that the PMIC driver exposes a clock to be
-consumed for the RTC driver even for the "two DT node solution". Because
-it then avoids a custom property with a phandle to the other node with
-regular DT clock bindings. I'd think we need sth like that in any case.
-
-
---DnLPxrEEezdDXnuZ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmSMAgIACgkQFA3kzBSg
-KbaH5w/+L6rsiVafrxQ0Kiqgl0zxXCAKjoLdRSiBeHu7L7Pgl1Jim9SXVD9QNiyu
-TMsAJZgDMO1a/FPrnD1VXF/IO6rTz9fIMamBjAr1QoV1ySD+3dOTPcw92SmB/UsD
-PN8l5zn1rH3ebNei3hnLP76JfMDZbi9TsBYHsfgsaVl5//4P1+BNxb06WEOhtuQZ
-GxttDVUonhpc6ePqfE/kzBtw/2ku3AzdsxL50bKQMflgnowB9ondDTJ++8/YC+aR
-1LUzgF6DLipvDAwlDEeAzhokCvIFepn+t0owJNnUxjj6pypAb3xvrFrgX5CHISIA
-mhBJWM+GMtxEwKJePRoVdKn8MG9QPGQxFA27W9aZx38rJvlA6l87qVLdD3KHjMWq
-7o77OjhIOvo5gaD+kKCRAkH2Vy/7P5ZwGDe0Qg8Dezj1j6u1yrIhCMmvGcYf7GkO
-YGuu3K1cJBq2MRZg+Zo5M6+hE/X5yUjShvOW1nTd27K30iEPwEMcfRB6SN8/dcbV
-GS7Ow91cbp6hPV8pGRIbkDrUYNwCIGVPQIsPcDCqy9u8mpv/FFyTBIGBZ/IrZBzG
-WAQOsBAAOScx8BKCohamosJFUciCQwd27OcTmTdzSS+wuGM6Rp0kODn9aIu7uEdX
-mwPyiQLe19ForiH8BO/Myax/CwhqXt2L4MSD9GCAESo4xk8IjNc=
-=OTwr
------END PGP SIGNATURE-----
-
---DnLPxrEEezdDXnuZ--
+Takashi
