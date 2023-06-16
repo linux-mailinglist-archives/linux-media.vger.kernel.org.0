@@ -2,109 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AEC13733391
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jun 2023 16:27:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 939997333A0
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jun 2023 16:33:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345504AbjFPO1e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Jun 2023 10:27:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40022 "EHLO
+        id S1343842AbjFPOdZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Jun 2023 10:33:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242043AbjFPO1d (ORCPT
+        with ESMTP id S229470AbjFPOdY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Jun 2023 10:27:33 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD95330E3
-        for <linux-media@vger.kernel.org>; Fri, 16 Jun 2023 07:27:32 -0700 (PDT)
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 42AC2C67;
-        Fri, 16 Jun 2023 16:26:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1686925619;
-        bh=zLi90lQFtrxYxC7yb7TQtpEmOKBT+eP3vfXUSWkplOY=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=rQJgbZkKgqTUMLWP4zXCUscQbHFK2HQGDRVPwYlM9oj3ZHSdt0JFNLSvQdEdLeYPm
-         GCVH9XEZgvwYvbCg3gWc8nArEdN55kCERmYzICWjLp/fcyVI6aFbM3lCaShLrtKs+/
-         1x6PUP8Jd46GTe1oOvVW9qH7R0mey5Itmwc+ILXM=
-Message-ID: <85a2d382-573d-c65f-8f1f-c50e0391e54d@ideasonboard.com>
-Date:   Fri, 16 Jun 2023 15:27:28 +0100
+        Fri, 16 Jun 2023 10:33:24 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05C9C30E7;
+        Fri, 16 Jun 2023 07:33:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686926003; x=1718462003;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bvGpNDLA3a0FFTGl0eVY+fodubNpqqXghduB4BJyHyg=;
+  b=lMbLfizi9C+rva15GSFUPQboSfuPo0os/zih35nUvpG/tosrS3DwlNIg
+   5Jh/AT8BZEuwXdZHoEejn8AXZ4aiDsOwftCWjJ6Y+J5gDzXtCzpPoF3QF
+   s+gu5FcqlIed1aFGQY+ojak8IpggztllsYTnQ8Jaz7RPH8zxuDiE5I7Gl
+   pvPHgjgT7gQKOgLuFLFQVrT3EZfIqeoq8hjnm0YB+RU3coo++y8W2tA2c
+   D74b2rMGm8HihqhJvqxUHQnPZQ4hGzAvyboI+64qPxo8R/mw3HE9aUSv1
+   0AkdB7l7T0jjK70NBZgchJu3zEjIaAQo85n8ji6maI+a5ABQYy+Uypr/1
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="338843656"
+X-IronPort-AV: E=Sophos;i="6.00,247,1681196400"; 
+   d="scan'208";a="338843656"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 07:33:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="742691961"
+X-IronPort-AV: E=Sophos;i="6.00,247,1681196400"; 
+   d="scan'208";a="742691961"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga008.jf.intel.com with ESMTP; 16 Jun 2023 07:33:16 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andriy.shevchenko@intel.com>)
+        id 1qAAVl-004Iuf-1D;
+        Fri, 16 Jun 2023 17:33:13 +0300
+Date:   Fri, 16 Jun 2023 17:33:13 +0300
+From:   Andy Shevchenko <andriy.shevchenko@intel.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Wolfram Sang <wsa@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mike Pagano <mpagano@gentoo.org>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>,
+        Satish Nagireddy <satish.nagireddy@getcruise.com>
+Subject: Re: [PATCH v14 15/18] media: i2c: ds90ub953: Handle
+ V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK
+Message-ID: <ZIxyqTdEsS40emBV@smile.fi.intel.com>
+References: <20230616135922.442979-1-tomi.valkeinen@ideasonboard.com>
+ <20230616135922.442979-16-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 08/28] media: ov2680: Fix regulators being left enabled
- on ov2680_power_on() errors
-Content-Language: en-US
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-        Tommaso Merciai <tomm.merciai@gmail.com>,
-        linux-media@vger.kernel.org
-References: <20230615141349.172363-1-hdegoede@redhat.com>
- <20230615141349.172363-9-hdegoede@redhat.com>
-From:   Dan Scally <dan.scally@ideasonboard.com>
-In-Reply-To: <20230615141349.172363-9-hdegoede@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230616135922.442979-16-tomi.valkeinen@ideasonboard.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans
+On Fri, Jun 16, 2023 at 04:59:19PM +0300, Tomi Valkeinen wrote:
+> Handle V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK flag to configure the CSI-2 RX
+> continuous/non-continuous clock register.
 
-On 15/06/2023 15:13, Hans de Goede wrote:
-> When the ov2680_power_on() "sensor soft reset failed" path is hit during
-> probe() the WARN() about putting an enabled regulator at
-> drivers/regulator/core.c:2398 triggers 3 times (once for each regulator),
-> filling dmesg with backtraces.
->
-> Fix this by properly disabling the regulators on ov2680_power_on() errors.
->
-> Fixes: 3ee47cad3e69 ("media: ov2680: Add Omnivision OV2680 sensor driver")
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
+...
+
+>  	struct regmap		*regmap;
+
+I forgot if we discussed this along with i2c_client *client nearby. Since I
+reviewed Hans' patches the pure struct device *dev (instead of *client) might
+make more sense, despite being duplicative with regmap associated device.
+
+>  	u32			num_data_lanes;
+> +	bool			non_cont_clk;
+>  
+>  	struct gpio_chip	gpio_chip;
+
+And also try to place this as a first member and see (by using bloat-o-meter,
+for example) if it saves bytes.
+
+I'm wondering if we have tools like pahole but which suggests the better layout
+based on the code generation... Maybe something along with clang?
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
-
->   drivers/media/i2c/ov2680.c | 8 ++++++--
->   1 file changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
-> index 7fc4b39ebb37..55fc56ffad31 100644
-> --- a/drivers/media/i2c/ov2680.c
-> +++ b/drivers/media/i2c/ov2680.c
-> @@ -475,7 +475,7 @@ static int ov2680_power_on(struct ov2680_dev *sensor)
->   		ret = ov2680_write_reg(sensor, OV2680_REG_SOFT_RESET, 0x01);
->   		if (ret != 0) {
->   			dev_err(dev, "sensor soft reset failed\n");
-> -			return ret;
-> +			goto err_disable_regulators;
->   		}
->   		usleep_range(1000, 2000);
->   	} else {
-> @@ -485,7 +485,7 @@ static int ov2680_power_on(struct ov2680_dev *sensor)
->   
->   	ret = clk_prepare_enable(sensor->xvclk);
->   	if (ret < 0)
-> -		return ret;
-> +		goto err_disable_regulators;
->   
->   	sensor->is_enabled = true;
->   
-> @@ -495,6 +495,10 @@ static int ov2680_power_on(struct ov2680_dev *sensor)
->   	ov2680_stream_disable(sensor);
->   
->   	return 0;
-> +
-> +err_disable_regulators:
-> +	regulator_bulk_disable(OV2680_NUM_SUPPLIES, sensor->supplies);
-> +	return ret;
->   }
->   
->   static int ov2680_s_power(struct v4l2_subdev *sd, int on)
