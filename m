@@ -2,83 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5607733625
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jun 2023 18:34:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E674C7336EA
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jun 2023 18:58:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345234AbjFPQeb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Jun 2023 12:34:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55390 "EHLO
+        id S1345964AbjFPQ6o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Jun 2023 12:58:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344921AbjFPQe2 (ORCPT
+        with ESMTP id S1346064AbjFPQ6E (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Jun 2023 12:34:28 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88CA530F9
-        for <linux-media@vger.kernel.org>; Fri, 16 Jun 2023 09:34:17 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-970056276acso126334466b.2
-        for <linux-media@vger.kernel.org>; Fri, 16 Jun 2023 09:34:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686933256; x=1689525256;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=YuvemalEXbE8yRP0Bic1Nda8GRAH3NT6euddGBtXqn8=;
-        b=DiSfr+zol9cBXrDOP2UdblEqmgIa1WAjkS4tnQgS/7Dd/6M7gWcTZDNM2SwM6zb5zi
-         56uqC6dxR+cr7VpL9Wj/RjqDvza2EIvpF3aGW2msmplUU7MtfOdzWkSQzKuKmfWkmp8J
-         kFPKJlYwNRJ+h84YSD7rtVBXZs/PVNUCcBVx88wJca399n/O0+faKh4DN7r8aaxg+3j5
-         Pim+M81R0zCK8sLa+8V4VAWbVEqR7+NdDTVnfJav8A5DVQnFD33UvrUgh2ho2HAZlLKQ
-         qkqALPZIGUNoiJEeY0hHcwO9RRjTFxy9+cjqxh5ofcTE5Vg2iaPu/Hr07knmNCKQMcS3
-         mlQA==
+        Fri, 16 Jun 2023 12:58:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 039EA421E
+        for <linux-media@vger.kernel.org>; Fri, 16 Jun 2023 09:55:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1686934506;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=3WRPlLxbUh9HGYRKH9lcmWn+FVbFD4z0nptiyR3ssAk=;
+        b=Z99pCq7gv3KMzGTWC8ZFoEvFGExirRK2RnKgcmrizX3dYQba3hipY7cbcrdy3SEBvOD755
+        VHSyCcyxRR9kwcx71hZnlJZ06pKOY1kF4Je63EGzGwYntgSyi4TD0mGCn/pl/SCf5quAdT
+        fNgBlOCZCk4QzmqyZFxhVIgQvwljf7Q=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-425-CzsgognFOxuBMa8OSWvilQ-1; Fri, 16 Jun 2023 12:55:05 -0400
+X-MC-Unique: CzsgognFOxuBMa8OSWvilQ-1
+Received: by mail-lf1-f71.google.com with SMTP id 2adb3069b0e04-4edc7406cb5so797978e87.3
+        for <linux-media@vger.kernel.org>; Fri, 16 Jun 2023 09:55:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686933256; x=1689525256;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20221208; t=1686934504; x=1689526504;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YuvemalEXbE8yRP0Bic1Nda8GRAH3NT6euddGBtXqn8=;
-        b=Qvuq2rRtZc0k2BCvt42LCw7R4m4TE3QE65m87yL7hs1ZY9VB2otvCXuANHmSpCppbe
-         LywBztzfzHj8Tr3wMjFOX/ICcA4Icaw8DP62PKlcLQMHDHWvwpwIPez4GSl7KjWzHfyC
-         eoblqV8I/NIknAhu2rLI5S7qAyhuKRjUTt7dDixqPP2ti6DC6QB7OH77BfnpGqO55xDW
-         iAYdutNbXGIWTj1YG3Asa7oI/ZXetuLD24HMz/3wtcIm9BDTPfML59grkGE1hv1X/MK+
-         UnPEiJiFBEyaJBICTk2NyfflFVOxOoH6+WmzkGZ8W6JTsD9xWIPWhKOxDxjt+sZQVMu3
-         dy4A==
-X-Gm-Message-State: AC+VfDyhwynjJ+8nB4ujmsBrN+FpZ5sgHmDgjJSqgo4M648QvqFUOW/S
-        nbuuMSTLHMZKU8ro2kqVYdyus34pz/4=
-X-Google-Smtp-Source: ACHHUZ4eWOgDeUk6Y/Q/KEFDVvmimv5G/5hfK6N6xnd0Wnz8fCxYKwGT3a1bftxQZSA9ITAslSs/zg==
-X-Received: by 2002:a17:907:8687:b0:973:91a5:bff1 with SMTP id qa7-20020a170907868700b0097391a5bff1mr2374648ejc.68.1686933255678;
-        Fri, 16 Jun 2023 09:34:15 -0700 (PDT)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-2-39-142-242.cust.vodafonedsl.it. [2.39.142.242])
-        by smtp.gmail.com with ESMTPSA id a27-20020a1709062b1b00b00982898e7a47sm3126300ejg.185.2023.06.16.09.34.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jun 2023 09:34:15 -0700 (PDT)
-Date:   Fri, 16 Jun 2023 18:34:08 +0200
-From:   Tommaso Merciai <tomm.merciai@gmail.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
+        bh=3WRPlLxbUh9HGYRKH9lcmWn+FVbFD4z0nptiyR3ssAk=;
+        b=R6oKmLvU65+OwesIPXYroZbdyyNPaLKCwnoN8fVFXxnCoorxDUeWzNVwJPBQMNoFYv
+         vQGxt3qcu/NwfDLi2AKyFIjLvRVbUwkSfzqPeGGSqRNngpe9bCg2k79zjYIwpZrgXjPx
+         +p8fUMQGd9QC8UbkdcRjoPghrEmaS9nxygPLVZo+wek/TEDRFF188myPOGQPpBen4gyM
+         pebu9qsMv7jbs0JPDkmkREmP7chlvbctW2nNaTM0tQ6u0Tfuw8PfJ24bkDvp9Cs1twnq
+         PvM/ss9aFNrx8prtRIOgSAJSEPOgtb73hG5m3nFf7Apv62O1vYbj843n0Iiowjfj+qou
+         RjfQ==
+X-Gm-Message-State: AC+VfDz76wimlz7kXBWyDGrU0Y5+PsTI/Ab3lRXi8erCtpcRgqWgNgkj
+        tj3uz053B30PzRFsVN3hW7yICgvbjQ3d23pKfaRRNKs/Fja+vD3wXxccxqKIlXGmc9qHvQRNxxs
+        otaDNwiWFKIvM3TrCMQk73P8=
+X-Received: by 2002:a19:7018:0:b0:4f7:6470:b4eb with SMTP id h24-20020a197018000000b004f76470b4ebmr1834889lfc.0.1686934503873;
+        Fri, 16 Jun 2023 09:55:03 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5I5ceQQQeWTHmTG5vV2Bvsxackrk/DK4aU6IK62cdod8k2KfeCcsF56wAOcPUWIQCNSI6oVw==
+X-Received: by 2002:a19:7018:0:b0:4f7:6470:b4eb with SMTP id h24-20020a197018000000b004f76470b4ebmr1834878lfc.0.1686934503495;
+        Fri, 16 Jun 2023 09:55:03 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id d10-20020a056402078a00b0051a38fdd75fsm776409edy.19.2023.06.16.09.55.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Jun 2023 09:55:02 -0700 (PDT)
+Message-ID: <73420627-f49a-eaf2-8544-02af15cfd6db@redhat.com>
+Date:   Fri, 16 Jun 2023 18:54:54 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v2 1/5] media: Add MIPI CCI register access helper
+ functions
+Content-Language: en-US, nl
+To:     Tommaso Merciai <tomm.merciai@gmail.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
         linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] media: Add MIPI CCI register access helper
- functions
-Message-ID: <ZIyPAMbazSGE6MyN@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-References: <ZIr8CFZzq0MttUf+@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <ZIolnOxs29H8EUmC@kekkonen.localdomain>
+ <20230614213429.GA28757@pendragon.ideasonboard.com>
+ <ZIo1kHgYMK84iMj7@kekkonen.localdomain>
+ <b8e5f3f7-d82d-390b-ac63-824a42c3f6cd@redhat.com>
+ <20230615092100.GE741@pendragon.ideasonboard.com>
+ <ZIriVxMVVxG2dsUO@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+ <71aa3c7e-5bb2-afe6-a9a5-390307a8b3f9@redhat.com>
+ <ZIr1YVf15ZBJvguX@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+ <ZIr8CFZzq0MttUf+@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
  <3b79c522-4bba-fd38-e087-8a506ae14a23@redhat.com>
  <ZIs5L1owIKEkg6aW@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <20230615165236.GJ741@pendragon.ideasonboard.com>
- <ZIuOoFCjBOvoILsl@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <20230616134124.GC14547@pendragon.ideasonboard.com>
- <ZIxubbZ6IY9MBqvN@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <20230616141706.GF14547@pendragon.ideasonboard.com>
- <ZIx4D/lQFZ+19hWS@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <20230616150736.GH14547@pendragon.ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230616150736.GH14547@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <ZIs5L1owIKEkg6aW@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -86,419 +95,139 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
-Thanks for your comments.
+Hi Tommaso,
 
-On Fri, Jun 16, 2023 at 06:07:36PM +0300, Laurent Pinchart wrote:
-> On Fri, Jun 16, 2023 at 04:56:15PM +0200, Tommaso Merciai wrote:
-> > On Fri, Jun 16, 2023 at 05:17:06PM +0300, Laurent Pinchart wrote:
-> > > On Fri, Jun 16, 2023 at 04:15:09PM +0200, Tommaso Merciai wrote:
-> > > > On Fri, Jun 16, 2023 at 04:41:24PM +0300, Laurent Pinchart wrote:
-> > > > > On Fri, Jun 16, 2023 at 12:20:16AM +0200, Tommaso Merciai wrote:
-> > > > > > On Thu, Jun 15, 2023 at 07:52:36PM +0300, Laurent Pinchart wrote:
-> > > > > > > On Thu, Jun 15, 2023 at 06:15:43PM +0200, Tommaso Merciai wrote:
-> > > > > > > > On Thu, Jun 15, 2023 at 02:00:46PM +0200, Hans de Goede wrote:
-> > > > > > > > > On 6/15/23 13:54, Tommaso Merciai wrote:
-> > > > > > > > > > On Thu, Jun 15, 2023 at 01:26:25PM +0200, Tommaso Merciai wrote:
-> > > > > > > > > >> On Thu, Jun 15, 2023 at 01:10:40PM +0200, Hans de Goede wrote:
-> > > > > > > > > >>> On 6/15/23 12:05, Tommaso Merciai wrote:
-> > > > > > > > > >>>> Hi Hans, Laurent, Sakari,
-> > > > > > > > > >>>>
-> > > > > > > > > >>>> Can I cherry-pick this patch and use these new functions also
-> > > > > > > > > >>>> for cci regs of the alvium driver?
-> > > > > > > > > >>>
-> > > > > > > > > >>> Yes that sounds like a good plan.
-> > > > > > > > > >>>
-> > > > > > > > > >>>> Are on going to be merge?
-> > > > > > > > > >>>
-> > > > > > > > > >>> Yes this will hopefully get merged upstream soon.
-> > > > > > > > > >>
-> > > > > > > > > >> Thanks for the info!
-> > > > > > > > > >>
-> > > > > > > > > >> I want to ask you your opinion about this:
-> > > > > > > > > >>
-> > > > > > > > > >> Into alvium driver actually I'm using the following defines
-> > > > > > > > > >> manipulations:
-> > > > > > > > > >>
-> > > > > > > > > >> #define REG_BCRM_REG_ADDR_R				REG_BCRM_CCI_16BIT(0x0014)
-> > > > > > > > > >>
-> > > > > > > > > >> #define REG_BCRM_FEATURE_INQUIRY_R			REG_BCRM_V4L2_64BIT(0x0008)
-> > > > > > > > > >> #define REG_BCRM_DEVICE_FIRMWARE_VERSION_R		REG_BCRM_V4L2_64BIT(0x0010)
-> > > > > > > > > >>
-> > > > > > > > > >> My plan is to use your cci API for cci register in this way defines
-> > > > > > > > > >> became like:
-> > > > > > > > > >>
-> > > > > > > > > >> #define REG_BCRM_REG_ADDR_R				CCI_REG16(0x0014)
-> > > > > > > > > >>
-> > > > > > > > > >> And leave v4l2 regs are it are right now:
-> > > > > > > > > >>
-> > > > > > > > > >> #define REG_BCRM_FEATURE_INQUIRY_R			REG_BCRM_V4L2_64BIT(0x0008)
-> > > > > > > > > >> #define REG_BCRM_DEVICE_FIRMWARE_VERSION_R		REG_BCRM_V4L2_64BIT(0x0010)
-> > > > > > > > > >>
-> > > > > > > > > >> What do you think about?
-> > > > > > > > > > 
-> > > > > > > > > > Or maybe is worth don't use v4l2 bit for v4l2 regs, I think is implicit
-> > > > > > > > > > that what regs that are not CCI are v4l2, then we return wit the
-> > > > > > > > > > following defines:
-> > > > > > > > > > 
-> > > > > > > > > > 
-> > > > > > > > > > 
-> > > > > > > > > > #define REG_BCRM_REG_ADDR_R                           CCI_REG16(0x0014)
-> > > > > > > > > > ^CCI regs
-> > > > > > > > > > 
-> > > > > > > > > > #define REG_BCRM_FEATURE_INQUIRY_R                    0x0008 
-> > > > > > > > > > #define REG_BCRM_DEVICE_FIRMWARE_VERSION_R            0x0010
-> > > > > > > > > > ^v4l2 regs
-> > > > > > > > > 
-> > > > > > > > > I'm not sure what you mean with "V4L2" registers ? I guess you mean
-> > > > > > > > > registers which cannot be accessed through the CCI helper functions,
-> > > > > > > > > but starting with v2 this is no longer true. There now is a CCI_REG64()
-> > > > > > > > > so you can simply use that.
-> > > > > > > > 
-> > > > > > > > I'm playing a bit with v3 of your cci api :)
-> > > > > > > > 
-> > > > > > > > My problem is the following, bcrm regs are not real regs but are offset
-> > > > > > > > from bcrm address (this is not fixed, it depends on the camera).
-> > > > > > > > 
-> > > > > > > > Then the workflow is:
-> > > > > > > > 
-> > > > > > > >  - read bcrm_address (base address)
-> > > > > > > >  - then sum this to the offset (regs)
-> > > > > > > > 
-> > > > > > > > Myabe this clarify:
-> > > > > > > > 
-> > > > > > > > static int alvium_read(struct alvium_dev *alvium, u32 reg, u64 *val)
-> > > > > > > 
-> > > > > > > I would add a int *err argument to your read and write wrappers.
-> > > > > > 
-> > > > > > 
-> > > > > > Thanks for your hint!
-> > > > > > What about using:
-> > > > > > 
-> > > > > > static int alvium_write(struct alvium_dev *alvium, u32 reg, u64 val)
-> > > > > > {
-> > > > > > 	if (reg & REG_BCRM_V4L2) {
-> > > > > > 		reg &= ~REG_BCRM_V4L2;
-> > > > > > 		reg += alvium->bcrm_addr;
-> > > > > > 	}
-> > > > > > 
-> > > > > > 	return cci_write(alvium->regmap, reg, val, NULL);
-> > > > > > }
-> > > > > > 
-> > > > > > Then:
-> > > > > > 
-> > > > > > 	ret = alvium_write(alvium, reg, val);
-> > > > > > 	if (ret) {
-> > > > > > 		dev_err(dev, "Fail to write reg\n");
-> > > > > > 		return ret;
-> > > > > > 	}
-> > > > > > 
-> > > > > > 
-> > > > > > I prefer to use this format if for you is ok.
-> > > > > > Let me know.
-> > > > > 
-> > > > > This is fine when you have to write a single register only, but it makes
-> > > > > things more complicated when writing multiple registers. Consider this:
-> > > > > 
-> > > > > 	int ret;
-> > > > > 
-> > > > > 	ret = alvium_write(alvium, REG_A, val);
-> > > > > 	if (ret)
-> > > > > 		return ret;
-> > > > > 
-> > > > > 	ret = alvium_write(alvium, REG_B, val);
-> > > > > 	if (ret)
-> > > > > 		return ret;
-> > > > > 
-> > > > > 	ret = alvium_write(alvium, REG_C, val);
-> > > > > 	if (ret)
-> > > > > 		return ret;
-> > > > > 
-> > > > > 	ret = alvium_write(alvium, REG_D, val);
-> > > > > 	if (ret)
-> > > > > 		return ret;
-> > > > > 
-> > > > > 	return 0;
-> > > > > 
-> > > > > and compare it to
-> > > > > 
-> > > > > 	int ret = 0;
-> > > > > 
-> > > > > 	alvium_write(alvium, REG_A, val, &ret);
-> > > > > 	alvium_write(alvium, REG_B, val, &ret);
-> > > > > 	alvium_write(alvium, REG_C, val, &ret);
-> > > > > 	alvium_write(alvium, REG_D, val, &ret);
-> > > > > 
-> > > > > 	return ret;
-> > > > 
-> > > > Is worth to add is also in alvium_write_hshake right?
-> > 
-> > Checking this... :)
-> > 
-> > Most of the driver don't use so much sequence of writes/reads
-> > and to be honest I want know where it fail
-> > 
-> > 
-> > For example:
-> > 
-> > static int alvium_write_hshake(struct alvium_dev *alvium, u32 reg, u64 val,
-> > 							   int *err)
-> > {
-> > 	struct device *dev = &alvium->i2c_client->dev;
-> > 	u64 hshake_regval;
-> > 	u8 hshake_bit;
-> > 
-> > 	if (err && *err)
-> > 		return *err;
-> > 
-> > 	if (!alvium->bcrm_addr)
-> > 		return -EINVAL;
-> > 
-> > 	/* reset handshake bit */
-> > 	alvium_write(alvium, REG_BCRM_WRITE_HANDSHAKE_RW, 0, err);
-> > 
-> > 	/* write alvium reg*/
-> > 	alvium_write(alvium, reg, val, err);
+On 6/15/23 18:15, Tommaso Merciai wrote:
+> Hi Hans,
 > 
-> You want to return here in case of error, as the poll loop below has no
-> chance of succeeding.
+> On Thu, Jun 15, 2023 at 02:00:46PM +0200, Hans de Goede wrote:
+>> Hi,
+>>
+>> On 6/15/23 13:54, Tommaso Merciai wrote:
+>>> On Thu, Jun 15, 2023 at 01:26:25PM +0200, Tommaso Merciai wrote:
+>>>> Hi Hans,
+>>>>
+>>>> On Thu, Jun 15, 2023 at 01:10:40PM +0200, Hans de Goede wrote:
+>>>>> Hi Tommaso,
+>>>>>
+>>>>> On 6/15/23 12:05, Tommaso Merciai wrote:
+>>>>>> Hi Hans, Laurent, Sakari,
+>>>>>>
+>>>>>> Can I cherry-pick this patch and use these new functions also
+>>>>>> for cci regs of the alvium driver?
+>>>>>
+>>>>> Yes that sounds like a good plan.
+>>>>>
+>>>>>> Are on going to be merge?
+>>>>>
+>>>>> Yes this will hopefully get merged upstream soon.
+>>>>
+>>>> Thanks for the info!
+>>>>
+>>>> I want to ask you your opinion about this:
+>>>>
+>>>> Into alvium driver actually I'm using the following defines
+>>>> manipulations:
+>>>>
+>>>> #define REG_BCRM_REG_ADDR_R				REG_BCRM_CCI_16BIT(0x0014)
+>>>>
+>>>> #define REG_BCRM_FEATURE_INQUIRY_R			REG_BCRM_V4L2_64BIT(0x0008)
+>>>> #define REG_BCRM_DEVICE_FIRMWARE_VERSION_R		REG_BCRM_V4L2_64BIT(0x0010)
+>>>>
+>>>> My plan is to use your cci API for cci register in this way defines
+>>>> became like:
+>>>>
+>>>> #define REG_BCRM_REG_ADDR_R				CCI_REG16(0x0014)
+>>>>
+>>>> And leave v4l2 regs are it are right now:
+>>>>
+>>>> #define REG_BCRM_FEATURE_INQUIRY_R			REG_BCRM_V4L2_64BIT(0x0008)
+>>>> #define REG_BCRM_DEVICE_FIRMWARE_VERSION_R		REG_BCRM_V4L2_64BIT(0x0010)
+>>>>
+>>>> What do you think about?
+>>>
+>>> Or maybe is worth don't use v4l2 bit for v4l2 regs, I think is implicit
+>>> that what regs that are not CCI are v4l2, then we return wit the
+>>> following defines:
+>>>
+>>>
+>>>
+>>> #define REG_BCRM_REG_ADDR_R                           CCI_REG16(0x0014)
+>>> ^CCI regs
+>>>
+>>> #define REG_BCRM_FEATURE_INQUIRY_R                    0x0008 
+>>> #define REG_BCRM_DEVICE_FIRMWARE_VERSION_R            0x0010
+>>> ^v4l2 regs
+>>
+>> I'm not sure what you mean with "V4L2" registers ? I guess you mean
+>> registers which cannot be accessed through the CCI helper functions,
+>> but starting with v2 this is no longer true. There now is a CCI_REG64()
+>> so you can simply use that.
 > 
-> > 
-> > 	/* poll handshake bit since bit0 = 1*/
-> > 	do {
-> > 		alvium_read(alvium, REG_BCRM_WRITE_HANDSHAKE_RW, &hshake_regval, err);
-> > 		hshake_bit = (hshake_regval & BCRM_HANDSHAKE_W_DONE_EN_BIT);
-> > 
-> > 	} while (!hshake_bit);
+> I'm playing a bit with v3 of your cci api :)
 > 
-> This needs a timeout. The read_poll_timeout() macro can be useful. Same
-> below.
+> My problem is the following, bcrm regs are not real regs but are offset
+> from bcrm address (this is not fixed, it depends on the camera).
+> 
+> Then the workflow is:
+> 
+>  - read bcrm_address (base address)
+>  - then sum this to the offset (regs)
+> 
+> Myabe this clarify:
+> 
+> static int alvium_read(struct alvium_dev *alvium, u32 reg, u64 *val)
+> {
+> 	int ret;
+> 
+> 	if (reg & REG_BCRM_V4L2)
+> 		reg += alvium->bcrm_addr;
+> 
+> 	cci_read(alvium->regmap, reg, val, &ret);
+> 	if (ret)
+> 		return ret;
+> 
+> 	return 0;
+> }
+> 
+> int alvium_write(struct alvium_dev *alvium, u32 reg, u64 val)
+> {
+> 	int ret;
+> 
+> 	if (reg & REG_BCRM_V4L2)
+> 		reg += alvium->bcrm_addr;
+> 
+> 	cci_write(alvium->regmap, reg, val, &ret);
+> 	if (ret)
+> 		return ret;
+> 
+> 	return 0;
+> }
+> 
+> Where for example:
+> 
+> #define REG_BCRM_V4L2		BIT(31)
+> #define REG_BCRM_V4L2_64BIT(n)	(REG_BCRM_V4L2 | CCI_REG64(n))
+> 
+> #define REG_BCRM_WRITE_HANDSHAKE_RW REG_BCRM_V4L2_8BIT(0x0418)
+> 
+> 
+> But I'm not sure that I'm in the right direction. 
+> 
+> In real I need first to get the real address then sum the bcrm_address
+> if this is a bcrm regs(offset) then re-incapsule the address into the
+> right CCI_REG# defines.
 
-Thanks! :)
+Ah I see, so you have a set of windowed registers where
+the base address of these registers may change.
 
-> 
-> > 
-> > 	/* reset handshake bit, write 0 to bit0 */
-> > 	alvium_write(alvium, REG_BCRM_WRITE_HANDSHAKE_RW, 0, err);
-> 
-> This also needs to return if an error occurs.
-> 
-> > 
-> > 	/* poll handshake bit since bit0 = 0 */
-> > 	do {
-> > 		alvium_read(alvium, REG_BCRM_WRITE_HANDSHAKE_RW, &hshake_regval, err);
-> > 		hshake_bit = (hshake_regval & BCRM_HANDSHAKE_W_DONE_EN_BIT);
-> > 
-> > 	} while (hshake_bit);
-> > 
-> > 	return *err;
-> > }
-> > 
-> > If some write/read fail and have the same regs I want to know where the issue
-> > is... Then I have to go back to the previous implementation..
-> > 
-> > I know that also cci API provides some print.
-> > But maybe the older version is more straight forwed under debug
-> > perspective...
-> > 
-> > Maybe is better to have more code in this case
-> > This is my first impression following your way :)
-> > 
-> > Do you agree on this?
-> 
-> My comment was related to the callers of this function, not its internal
-> implementation. If there's a common pattern where alvium_write_hshake()
-> is called in a sequence of write operations then it should have an int
-> *err argument.
+What I don't understand though is why you use V4L2 in the
+name of the #defines for this? Does the datasheet actually
+name them like this ? V4L2 stands for video4linux version 2,
+so unless these registers are somehow Linux specific using
+V4L2 in the #define names is a bit weird IMHO.
 
-My question is:
+Regards,
 
-Except in the alvium_write_hshake function where you can see these
-sequence of write/read operations? Same for _hshake_wrtie.
-In my opinion there are not to much sequence of read/write operation
-into the alvium driver, no?
+Hans
 
-I'm missing something?
-
-Thanks & Regards,
-Tommaso
-
-> 
-> > > I'd say it's worth everywhere you can have multiple writes.
-> > > 
-> > > > > > > > {
-> > > > > > > > 	int ret;
-> > > > > > > > 
-> > > > > > > > 	if (reg & REG_BCRM_V4L2)
-> > > > > > > > 		reg += alvium->bcrm_addr;
-> > > > > > > > 
-> > > > > > > 
-> > > > > > > You should also clear the REG_BCRM_V4L2 bit here:
-> > > > > > > 
-> > > > > > >  	if (reg & REG_BCRM_V4L2) {
-> > > > > > > 		reg &= ~REG_BCRM_V4L2;
-> > > > > > >  		reg += alvium->bcrm_addr;
-> > > > > > > 	}
-> > > > > > > 
-> > > > > > > > 	cci_read(alvium->regmap, reg, val, &ret);
-> > > > > > > > 	if (ret)
-> > > > > > > > 		return ret;
-> > > > > > > > 
-> > > > > > > > 	return 0;
-> > > > > > > 
-> > > > > > > Just
-> > > > > > > 
-> > > > > > > 	return cci_read(alvium->regmap, reg, val, err);
-> > > > > > > 
-> > > > > > > Same for alvium_write()..
-> > > > > > > 
-> > > > > > > > }
-> > > > > > > > 
-> > > > > > > > int alvium_write(struct alvium_dev *alvium, u32 reg, u64 val)
-> > > > > > > > {
-> > > > > > > > 	int ret;
-> > > > > > > > 
-> > > > > > > > 	if (reg & REG_BCRM_V4L2)
-> > > > > > > > 		reg += alvium->bcrm_addr;
-> > > > > > > > 
-> > > > > > > > 	cci_write(alvium->regmap, reg, val, &ret);
-> > > > > > > > 	if (ret)
-> > > > > > > > 		return ret;
-> > > > > > > > 
-> > > > > > > > 	return 0;
-> > > > > > > > }
-> > > > > > > > 
-> > > > > > > > Where for example:
-> > > > > > > > 
-> > > > > > > > #define REG_BCRM_V4L2		BIT(31)
-> > > > > > > > #define REG_BCRM_V4L2_64BIT(n)	(REG_BCRM_V4L2 | CCI_REG64(n))
-> > > > > > > > 
-> > > > > > > > #define REG_BCRM_WRITE_HANDSHAKE_RW REG_BCRM_V4L2_8BIT(0x0418)
-> > > > > > > > 
-> > > > > > > > 
-> > > > > > > > But I'm not sure that I'm in the right direction. 
-> > > > > > > 
-> > > > > > > This looks good to me.
-> > > > > > > 
-> > > > > > > The fact that both Hans' helpers and part of the Alvium camera registers
-> > > > > > > are named CCI is not a complete coincidence, but it doesn't mean they're
-> > > > > > > identical. I would thus keep the REG_BCRM_CCI_* macros for clarity,
-> > > > > > > simply defining them as CCI_* wrappers:
-> > > > > > > 
-> > > > > > > #define REG_BCRM_V4L2_8BIT(n)		CCI_REG8(n)
-> > > > > > > ...
-> > > > > > > 
-> > > > > > > > In real I need first to get the real address then sum the bcrm_address
-> > > > > > > > if this is a bcrm regs(offset) then re-incapsule the address into the
-> > > > > > > > right CCI_REG# defines.
-> > > > > > > > 
-> > > > > > > > Then I'm not completely sure that cci fits my use case.
-> > > > > > > > What do you think about?
-> > > > > > > > 
-> > > > > > > > Btw really great work! :)
-> > > > > > > > 
-> > > > > > > > > > ?
-> > > > > > > > > > 
-> > > > > > > > > >>> Note I'm about to send out a v3 addressing some small
-> > > > > > > > > >>> remarks on this v2. I'll Cc you on that.
-> > > > > > > > > >>
-> > > > > > > > > >> Thanks, in this way I can test that and let you know my feedback.
-> > > > > > > > > >>
-> > > > > > > > > >>>> Let me know.
-> > > > > > > > > >>>> Thanks! :)
-> > > > > > > > > >>>>
-> > > > > > > > > >>>> On Thu, Jun 15, 2023 at 12:21:00PM +0300, Laurent Pinchart wrote:
-> > > > > > > > > >>>>> On Thu, Jun 15, 2023 at 11:11:20AM +0200, Hans de Goede wrote:
-> > > > > > > > > >>>>>> On 6/14/23 23:48, Sakari Ailus wrote:
-> > > > > > > > > >>>>>>> On Thu, Jun 15, 2023 at 12:34:29AM +0300, Laurent Pinchart wrote:
-> > > > > > > > > >>>>>>>> On Wed, Jun 14, 2023 at 08:39:56PM +0000, Sakari Ailus wrote:
-> > > > > > > > > >>>>>>>>> On Wed, Jun 14, 2023 at 09:23:39PM +0200, Hans de Goede wrote:
-> > > > > > > > > >>>>>>>>>> The CSI2 specification specifies a standard method to access camera sensor
-> > > > > > > > > >>>>>>>>>> registers called "Camera Control Interface (CCI)".
-> > > > > > > > > >>>>>>>>>>
-> > > > > > > > > >>>>>>>>>> This uses either 8 or 16 bit (big-endian wire order) register addresses
-> > > > > > > > > >>>>>>>>>> and supports 8, 16, 24 or 32 bit (big-endian wire order) register widths.
-> > > > > > > > > >>>>>>>>>>
-> > > > > > > > > >>>>>>>>>> Currently a lot of Linux camera sensor drivers all have their own custom
-> > > > > > > > > >>>>>>>>>> helpers for this, often copy and pasted from other drivers.
-> > > > > > > > > >>>>>>>>>>
-> > > > > > > > > >>>>>>>>>> Add a set of generic helpers for this so that all sensor drivers can
-> > > > > > > > > >>>>>>>>>> switch to a single common implementation.
-> > > > > > > > > >>>>>>>>>>
-> > > > > > > > > >>>>>>>>>> These helpers take an extra optional "int *err" function parameter,
-> > > > > > > > > >>>>>>>>>> this can be used to chain a bunch of register accesses together with
-> > > > > > > > > >>>>>>>>>> only a single error check at the end, rather then needing to error
-> > > > > > > > > >>>>>>>>>> check each individual register access. The first failing call will
-> > > > > > > > > >>>>>>>>>> set the contents of err to a non 0 value and all other calls will
-> > > > > > > > > >>>>>>>>>> then become no-ops.
-> > > > > > > > > >>>>>>>>>>
-> > > > > > > > > >>>>>>>>>> Link: https://lore.kernel.org/linux-media/59aefa7f-7bf9-6736-6040-39551329cd0a@redhat.com/
-> > > > > > > > > >>>>>>>>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> > > > > > > > > >>>>>>>>>> ---
-> > > > > > > > > >>>>>>>>>> Changes in v2:
-> > > > > > > > > >>>>>>>>>> - Drop cci_reg_type enum
-> > > > > > > > > >>>>>>>>>> - Make having an encoded reg-width mandatory rather then using 0 to encode
-> > > > > > > > > >>>>>>>>>>   8 bit width making reg-addresses without an encoded width default to
-> > > > > > > > > >>>>>>>>>>   a width of 8
-> > > > > > > > > >>>>>>>>>> - Add support for 64 bit wide registers
-> > > > > > > > > >>>>>>>>
-> > > > > > > > > >>>>>>>> I'm in two minds about this. This means that the read and write
-> > > > > > > > > >>>>>>>> functions take a u64 argument, which will be less efficient on 32-bit
-> > > > > > > > > >>>>>>>> platforms. I think it would be possible, with some macro magic, to
-> > > > > > > > > >>>>>>>> accept different argument sizes, but maybe that's a micro-optimization
-> > > > > > > > > >>>>>>>> that would actually result in worse code. 
-> > > > > > > > > >>>>>>>>
-> > > > > > > > > >>>>>>>> 64-bit support could be useful, but as far as I can tell, it's not used
-> > > > > > > > > >>>>>>>> in this series, so maybe we could leave this for later ?
-> > > > > > > > > >>>>>>>
-> > > > > > > > > >>>>>>> I prefer to have it now, I just told Tommaso working on the Alvium driver
-> > > > > > > > > >>>>>>> to use this, and he needs 64-bit access. :-)
-> > > > > > > > > >>>>>>>
-> > > > > > > > > >>>>>>> You could also easily have 32-bit and 64-bit variant of the functions, with
-> > > > > > > > > >>>>>>> C11 _Generic(). Introducing it now would be easier than later.
-> > > > > > > > > >>>>>>
-> > > > > > > > > >>>>>> I took a quick look at C11 _Generic() and that looks at the type
-> > > > > > > > > >>>>>> of "things" so in this case it would look at type of the val argument.
-> > > > > > > > > >>>>>>
-> > > > > > > > > >>>>>> Problem is that that can still be e.g. an int when doing a
-> > > > > > > > > >>>>>> read/write from a 64 bit registers.
-> > > > > > > > > >>>>>>
-> > > > > > > > > >>>>>> So we would then need to handle the 64 bit width case in the 32
-> > > > > > > > > >>>>>> bit versions of the functions too.
-> > > > > > > > > >>>>>>
-> > > > > > > > > >>>>>> And likewise I can see someone passing a long on a 64 bit
-> > > > > > > > > >>>>>> arch while doing a cci_write() to a non 64 bit register.
-> > > > > > > > > >>>>>>
-> > > > > > > > > >>>>>> So this would basically mean copy and pasting cci_read()
-> > > > > > > > > >>>>>> + cci_write() 2x with the only difference being one
-> > > > > > > > > >>>>>> variant taking a 32 bit val argument and the other a
-> > > > > > > > > >>>>>> 64 bit val argument.
-> > > > > > > > > >>>>>>
-> > > > > > > > > >>>>>> This seems like premature optimization to me.
-> > > > > > > > > >>>>>>
-> > > > > > > > > >>>>>> As mentioned in my reply to Laurent if we want to
-> > > > > > > > > >>>>>> optimize things we really should look at avoiding
-> > > > > > > > > >>>>>> unnecessary i2c transfers, or packing multiple
-> > > > > > > > > >>>>>> writes into a single i2c transfer for writes to
-> > > > > > > > > >>>>>> subsequent registers. That is where significant
-> > > > > > > > > >>>>>> speedups can be made.
-> > > > > > > > > >>>>>
-> > > > > > > > > >>>>> This is something I'd really like to see, but it's way more work.
-> > > > > > > > > >>>>>
-> > > > > > > > > >>>>> There's an important need of applying changes atomically, which is often
-> > > > > > > > > >>>>> not possible to strictly guarantee over I2C. Userspace ends up writing
-> > > > > > > > > >>>>> V4L2 controls as quickly as it can after the start of a frame, hoping
-> > > > > > > > > >>>>> they will all reach the sensor before the end of the frame. Some
-> > > > > > > > > >>>>> platforms have camera-specific I2C controllers that have the ability to
-> > > > > > > > > >>>>> buffer I2C transfers and issue them based on a hardware trigger. How to
-> > > > > > > > > >>>>> fit this in thé kernel I2C API will be an interesting exercise.
-> > > 
-> > > -- 
-> > > Regards,
-> > > 
-> > > Laurent Pinchart
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
