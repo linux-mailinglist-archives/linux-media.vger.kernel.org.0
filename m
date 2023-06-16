@@ -2,118 +2,177 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C3A3D7333E9
-	for <lists+linux-media@lfdr.de>; Fri, 16 Jun 2023 16:47:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 319267333EC
+	for <lists+linux-media@lfdr.de>; Fri, 16 Jun 2023 16:49:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345721AbjFPOrV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Jun 2023 10:47:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51020 "EHLO
+        id S229770AbjFPOtG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Jun 2023 10:49:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345709AbjFPOrU (ORCPT
+        with ESMTP id S230517AbjFPOtF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Jun 2023 10:47:20 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F49030EB;
-        Fri, 16 Jun 2023 07:47:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686926839; x=1718462839;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=3pdNeP0i/PgyncqKPW3Fgnkmv3W9fkTO/Cx83udpRkk=;
-  b=fODlW8eAKDpDp9XRDtWANG3eSmWyDsu678TnTGW+FSSzeGe8HTpdRmjf
-   za+fM8Sjzwc7UDJJn55Y2Fme4xNXuqIW934EgZyNP2nSt6vP8A4FjNxcW
-   uXK2iRngdXdE20umn6b8p3Gus29MBdlCJtilrSXClSTkl2xicTe2ySNc8
-   wXeZJPAcoY054zota+wjX+gw+9/j8KqkXuTBSlE7VItMOz0XziHrfdGKt
-   pm+HTj0CYmimKKUZ+vFYe8GyoKPOJLXDp4o/1WY+LI7HXGHNNDsdcJxmg
-   nG1xmYXvWtkFduH69TY/qPEmJDt8vRR8CvB/VuYTgSZXG+HAbXl9Pq38y
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="359237419"
-X-IronPort-AV: E=Sophos;i="6.00,247,1681196400"; 
-   d="scan'208";a="359237419"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 07:47:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="663210345"
-X-IronPort-AV: E=Sophos;i="6.00,247,1681196400"; 
-   d="scan'208";a="663210345"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga003.jf.intel.com with ESMTP; 16 Jun 2023 07:47:12 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@intel.com>)
-        id 1qAAjG-004J3L-0o;
-        Fri, 16 Jun 2023 17:47:10 +0300
-Date:   Fri, 16 Jun 2023 17:47:09 +0300
-From:   Andy Shevchenko <andriy.shevchenko@intel.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Wolfram Sang <wsa@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Fri, 16 Jun 2023 10:49:05 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 039C630E7;
+        Fri, 16 Jun 2023 07:49:04 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 71A9863DCE;
+        Fri, 16 Jun 2023 14:49:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E387DC433C8;
+        Fri, 16 Jun 2023 14:48:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686926942;
+        bh=8PHm9QC8vIhbyTtp0cJ+k53orRmf0g+m7GbXYTsDqoM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=nOqxJkOV7qE4jg5x4HRQDLiMypRFcXeisOQMHsuoQd/mdYhyYyLs7zCQw9+Ly6I37
+         rJVg1SMFN6QtkE4xwZrUWCpnKN3bvEMEi9JbMWTbEwPAwV7pQYcRT/nJcI5oCMX0Db
+         LN9KxA7zAFEdvDeohI14t2WFwdyaUh3t86ekomcrEDmLivsp58UWLc+wf9P6xobh1x
+         HAMK+KOMiEqeAehgZbI7oA4H6xln8FQD+ualLaWVlDJ9x3WYoTMfbDrk6EhILRku1a
+         zC3X17HvXEk4CpDVo/zDAJzUHjD6NNzNj1IbGFeIpFlFmtj+P6QTuwzDwsVHGbw//o
+         FVyipDF9zaRwQ==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>,
-        Satish Nagireddy <satish.nagireddy@getcruise.com>
-Subject: Re: [PATCH v14 18/18] media: i2c: ds90ub953: Support non-sync mode
-Message-ID: <ZIx17WC7plfDPpmc@smile.fi.intel.com>
-References: <20230616135922.442979-1-tomi.valkeinen@ideasonboard.com>
- <20230616135922.442979-19-tomi.valkeinen@ideasonboard.com>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>, kernel test robot <lkp@intel.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] media: verisilicon: fix excessive stack usage
+Date:   Fri, 16 Jun 2023 16:48:47 +0200
+Message-Id: <20230616144854.3818934-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230616135922.442979-19-tomi.valkeinen@ideasonboard.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 16, 2023 at 04:59:22PM +0300, Tomi Valkeinen wrote:
-> Add support for FPD-Link non-sync mode with external clock. The only
-> thing that needs to be added is the calculation for the clkout.
+From: Arnd Bergmann <arnd@arndb.de>
 
-...
+In some configurations, gcc decides not to inline the register accessor functions,
+which in turn leads to lots of temporary hantro_reg structures on the stack that
+cannot be eliminated because they escape into an uninlined function:
 
-> +	switch (priv->mode) {
-> +	case UB953_MODE_SYNC:
-> +		if (priv->hw_data->is_ub971)
-> +			return priv->plat_data->bc_rate * 160ull;
-> +		else
-> +			return priv->plat_data->bc_rate / 2 * 160ull;
+drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1022:1: warning: the frame size of 1112 bytes is larger than 1024 bytes [-Wframe-larger-than=]
 
-Redundant 'else'.
+Mark all of these as __always_inline so the compiler is able to completely
+eliminate the temporary structures instead, which brings the stack usage
+back down to just the normal local variables.
 
-Do I understand correctly you don't want to fallthrough because it will give
-±160 in the rate (depending if it's even or odd)?
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202306151506.goHEegOd-lkp@intel.com/
+Fixes: 727a400686a2c ("media: verisilicon: Add Rockchip AV1 decoder")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/media/platform/verisilicon/hantro.h | 22 ++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-> +	case UB953_MODE_NONSYNC_EXT:
-> +		/* CLKIN_DIV = 1 always */
-> +		return clk_get_rate(priv->clkin) * 80ull;
-> +
-> +	default:
->  		/* Not supported */
->  		return 0;
->  	}
-
+diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/platform/verisilicon/hantro.h
+index 6523ffb748812..6c5e56ce5b351 100644
+--- a/drivers/media/platform/verisilicon/hantro.h
++++ b/drivers/media/platform/verisilicon/hantro.h
+@@ -370,26 +370,26 @@ extern int hantro_debug;
+ 	pr_err("%s:%d: " fmt, __func__, __LINE__, ##args)
+ 
+ /* Structure access helpers. */
+-static inline struct hantro_ctx *fh_to_ctx(struct v4l2_fh *fh)
++static __always_inline struct hantro_ctx *fh_to_ctx(struct v4l2_fh *fh)
+ {
+ 	return container_of(fh, struct hantro_ctx, fh);
+ }
+ 
+ /* Register accessors. */
+-static inline void vepu_write_relaxed(struct hantro_dev *vpu,
++static __always_inline void vepu_write_relaxed(struct hantro_dev *vpu,
+ 				      u32 val, u32 reg)
+ {
+ 	vpu_debug(6, "0x%04x = 0x%08x\n", reg / 4, val);
+ 	writel_relaxed(val, vpu->enc_base + reg);
+ }
+ 
+-static inline void vepu_write(struct hantro_dev *vpu, u32 val, u32 reg)
++static __always_inline void vepu_write(struct hantro_dev *vpu, u32 val, u32 reg)
+ {
+ 	vpu_debug(6, "0x%04x = 0x%08x\n", reg / 4, val);
+ 	writel(val, vpu->enc_base + reg);
+ }
+ 
+-static inline u32 vepu_read(struct hantro_dev *vpu, u32 reg)
++static __always_inline u32 vepu_read(struct hantro_dev *vpu, u32 reg)
+ {
+ 	u32 val = readl(vpu->enc_base + reg);
+ 
+@@ -397,27 +397,27 @@ static inline u32 vepu_read(struct hantro_dev *vpu, u32 reg)
+ 	return val;
+ }
+ 
+-static inline void vdpu_write_relaxed(struct hantro_dev *vpu,
++static __always_inline void vdpu_write_relaxed(struct hantro_dev *vpu,
+ 				      u32 val, u32 reg)
+ {
+ 	vpu_debug(6, "0x%04x = 0x%08x\n", reg / 4, val);
+ 	writel_relaxed(val, vpu->dec_base + reg);
+ }
+ 
+-static inline void vdpu_write(struct hantro_dev *vpu, u32 val, u32 reg)
++static __always_inline void vdpu_write(struct hantro_dev *vpu, u32 val, u32 reg)
+ {
+ 	vpu_debug(6, "0x%04x = 0x%08x\n", reg / 4, val);
+ 	writel(val, vpu->dec_base + reg);
+ }
+ 
+-static inline void hantro_write_addr(struct hantro_dev *vpu,
++static __always_inline void hantro_write_addr(struct hantro_dev *vpu,
+ 				     unsigned long offset,
+ 				     dma_addr_t addr)
+ {
+ 	vdpu_write(vpu, addr & 0xffffffff, offset);
+ }
+ 
+-static inline u32 vdpu_read(struct hantro_dev *vpu, u32 reg)
++static __always_inline u32 vdpu_read(struct hantro_dev *vpu, u32 reg)
+ {
+ 	u32 val = readl(vpu->dec_base + reg);
+ 
+@@ -425,7 +425,7 @@ static inline u32 vdpu_read(struct hantro_dev *vpu, u32 reg)
+ 	return val;
+ }
+ 
+-static inline u32 vdpu_read_mask(struct hantro_dev *vpu,
++static __always_inline u32 vdpu_read_mask(struct hantro_dev *vpu,
+ 				 const struct hantro_reg *reg,
+ 				 u32 val)
+ {
+@@ -437,14 +437,14 @@ static inline u32 vdpu_read_mask(struct hantro_dev *vpu,
+ 	return v;
+ }
+ 
+-static inline void hantro_reg_write(struct hantro_dev *vpu,
++static __always_inline void hantro_reg_write(struct hantro_dev *vpu,
+ 				    const struct hantro_reg *reg,
+ 				    u32 val)
+ {
+ 	vdpu_write_relaxed(vpu, vdpu_read_mask(vpu, reg, val), reg->base);
+ }
+ 
+-static inline void hantro_reg_write_s(struct hantro_dev *vpu,
++static __always_inline void hantro_reg_write_s(struct hantro_dev *vpu,
+ 				      const struct hantro_reg *reg,
+ 				      u32 val)
+ {
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.39.2
 
