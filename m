@@ -2,100 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 727AF733C27
-	for <lists+linux-media@lfdr.de>; Sat, 17 Jun 2023 00:14:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A650733DA7
+	for <lists+linux-media@lfdr.de>; Sat, 17 Jun 2023 04:42:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345712AbjFPWOd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Jun 2023 18:14:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53900 "EHLO
+        id S232048AbjFQCml (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Jun 2023 22:42:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345724AbjFPWO3 (ORCPT
+        with ESMTP id S229493AbjFQCmk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Jun 2023 18:14:29 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CA4D1FF5;
-        Fri, 16 Jun 2023 15:14:27 -0700 (PDT)
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7DAB08E1;
-        Sat, 17 Jun 2023 00:13:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1686953632;
-        bh=3xCPeWHH0cBffVrsIuImdGBvDgV44XrHQG/XTlLrZt0=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=XA+31oBdOM+FBraru2ZCvLhyzsuEh7iijr+iZnDny7Jpcl9YAV/3qCcGkA0ZI4flF
-         kkRb2Vfg4iy+SQb6sOVT/flT1R8Nz12YdYszsxtIbUHhPTIo3FxF55hnxEC2Er4WJv
-         N3Lx0QLy9x7qncQv1DDgMEvkIZkKmurQjGpbVmg8=
-Message-ID: <d1ec42e1-530a-ed13-7056-cce5ca423626@ideasonboard.com>
-Date:   Fri, 16 Jun 2023 23:14:21 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 4/6] platform/x86: int3472: discrete: Add alternative
- "AVDD" regulator supply name
-Content-Language: en-US
-To:     Hans de Goede <hdegoede@redhat.com>,
-        =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Andy Shevchenko <andy@kernel.org>
-Cc:     platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org,
-        Hao Yao <hao.yao@intel.com>
-References: <20230616172132.37859-1-hdegoede@redhat.com>
- <20230616172132.37859-5-hdegoede@redhat.com>
-From:   Dan Scally <dan.scally@ideasonboard.com>
-In-Reply-To: <20230616172132.37859-5-hdegoede@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+        Fri, 16 Jun 2023 22:42:40 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CE6512D
+        for <linux-media@vger.kernel.org>; Fri, 16 Jun 2023 19:42:39 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9D7E4609FF
+        for <linux-media@vger.kernel.org>; Sat, 17 Jun 2023 02:42:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EE41C433C8
+        for <linux-media@vger.kernel.org>; Sat, 17 Jun 2023 02:42:37 +0000 (UTC)
+Date:   Sat, 17 Jun 2023 04:42:35 +0200
+Message-ID: <bc139407792fa03f115be3cda8b3b56c.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-On 16/06/2023 18:21, Hans de Goede wrote:
-> Add an "AVDD" regulator supply name alias to the supply-map which
-> gets registered for the INT3472 GPIO regulator.
->
-> This is necessary for the ov2680 driver which expects "AVDD" rather then
-> "avdd". Updating the ov2680 driver to use "avdd" is not possible because
-> that will break compatibility with existing DT / DTB files.
->
-> Tested-by: Hao Yao <hao.yao@intel.com>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
+Results of the daily build of media_tree:
 
+date:			Sat Jun 17 03:00:07 CEST 2023
+media-tree git hash:	d78b9d6671decdaedb539635b1d0a34f8f5934f8
+v4l-utils git hash:	29d0a2c7a42d5fbfdb3725fcd493aad21dd99cb6
+edid-decode git hash:	a31e680438789d45207497bf999a20cf6e2c0ec1
+gcc version:		i686-linux-gcc (GCC) 13.1.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8371-g475c3cec-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 7a744dc9cad9c3f99a9946a1027df30d84d663fb
+host hardware:		x86_64
+host os:		6.1.0-5-amd64
 
-Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: WARNINGS
+linux-git-arm-multi: WARNINGS
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: WARNINGS: VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
+Check for strcpy/strncpy/strlcpy: OK
+apps: WARNINGS
+spec-git: OK
+virtme: OK: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 0
+virtme-32: WARNINGS: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 2
+CONFIG_PM=n: OK
+CONFIG_PM_SLEEP=n: WARNINGS
+CONFIG_OF=n: WARNINGS
+CONFIG_DEBUG_FS=n: WARNINGS
+sparse: WARNINGS
+smatch: ERRORS
+kerneldoc: WARNINGS
 
->   drivers/platform/x86/intel/int3472/clk_and_regulator.c | 1 +
->   drivers/platform/x86/intel/int3472/common.h            | 2 +-
->   2 files changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/platform/x86/intel/int3472/clk_and_regulator.c b/drivers/platform/x86/intel/int3472/clk_and_regulator.c
-> index a5c60b86f5de..61aeca804ba2 100644
-> --- a/drivers/platform/x86/intel/int3472/clk_and_regulator.c
-> +++ b/drivers/platform/x86/intel/int3472/clk_and_regulator.c
-> @@ -248,6 +248,7 @@ void skl_int3472_unregister_clock(struct int3472_discrete_device *int3472)
->    */
->   static const char * const skl_int3472_regulator_map_supplies[] = {
->   	"avdd",
-> +	"AVDD",
->   };
->   
->   static_assert(ARRAY_SIZE(skl_int3472_regulator_map_supplies) ==
-> diff --git a/drivers/platform/x86/intel/int3472/common.h b/drivers/platform/x86/intel/int3472/common.h
-> index fd2a3d3884fa..9f29baa13860 100644
-> --- a/drivers/platform/x86/intel/int3472/common.h
-> +++ b/drivers/platform/x86/intel/int3472/common.h
-> @@ -28,7 +28,7 @@
->   
->   #define GPIO_REGULATOR_NAME_LENGTH				21
->   #define GPIO_REGULATOR_SUPPLY_NAME_LENGTH			9
-> -#define GPIO_REGULATOR_SUPPLY_MAP_COUNT				1
-> +#define GPIO_REGULATOR_SUPPLY_MAP_COUNT				2
->   
->   #define INT3472_LED_MAX_NAME_LEN				32
->   
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
