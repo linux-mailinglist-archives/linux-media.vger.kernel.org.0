@@ -2,100 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A650733DA7
-	for <lists+linux-media@lfdr.de>; Sat, 17 Jun 2023 04:42:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9A20733F76
+	for <lists+linux-media@lfdr.de>; Sat, 17 Jun 2023 10:11:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232048AbjFQCml (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Jun 2023 22:42:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54466 "EHLO
+        id S229852AbjFQILP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 17 Jun 2023 04:11:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbjFQCmk (ORCPT
+        with ESMTP id S232285AbjFQILN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Jun 2023 22:42:40 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CE6512D
-        for <linux-media@vger.kernel.org>; Fri, 16 Jun 2023 19:42:39 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9D7E4609FF
-        for <linux-media@vger.kernel.org>; Sat, 17 Jun 2023 02:42:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EE41C433C8
-        for <linux-media@vger.kernel.org>; Sat, 17 Jun 2023 02:42:37 +0000 (UTC)
-Date:   Sat, 17 Jun 2023 04:42:35 +0200
-Message-ID: <bc139407792fa03f115be3cda8b3b56c.hverkuil@xs4all.nl>
-From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        Sat, 17 Jun 2023 04:11:13 -0400
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A22031BF2
+        for <linux-media@vger.kernel.org>; Sat, 17 Jun 2023 01:11:11 -0700 (PDT)
+Received: by mail-qt1-x82f.google.com with SMTP id d75a77b69052e-3fde606976dso1413321cf.1
+        for <linux-media@vger.kernel.org>; Sat, 17 Jun 2023 01:11:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686989470; x=1689581470;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MWQNGLK/qseLS2fgWBrtpuV4pmsnjGbMg/iUuFsRN24=;
+        b=aSzx/3xoAfZ7wPvHYAot5nj1QE4GtQZWoQM1yFnsPNiYtwjIspnSk/PwNbVlrtx8yC
+         T1H/shZekzqq00hajSAR9sBEFpkqodTQd4HFqi3yd6ftQzIbs5RUjNiPP1Y+HpsvDesW
+         KL7xMuZB9ubF9oDMP9N8qoPXhq3asfwmrTiwSuN+cmbUBe9TGLt6NtfKz6Id6jVM+iaI
+         nFtU77JX+1MZ97v5pr1Uxt2KGLhSk4PZj0alEgnZhxbiz+XsTuOEuDwW4cllmZG+QXzL
+         wJ0H8vOn645iqWm4hbDr218BZXivKej6YtKC2VKPVvqD6cBdYqMPhvAo4kDVqboc0w1W
+         qgfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686989470; x=1689581470;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MWQNGLK/qseLS2fgWBrtpuV4pmsnjGbMg/iUuFsRN24=;
+        b=TuJfadx3+GsYhEFEwhLgTu6+N29btkNDGhMGd0AhSVKcfC8U7BxW02SmRmmR2zq/RM
+         vtgz768HivMxTQyKgxOiREfP3tKzFlLIlLER0dD/6fNvriyHImg345isSf2KcV+SV9MY
+         7cSVGr2WIwYkdgiZMKu2cMC7Kn/H20Xr2SIBXss1jeUozmHQcp9kh7VYm3TPhC4CzAmH
+         Og5J0P+BGYZKzE0rCrZOZsRPA3fm3XFMUW+YS2Ws6v9Sa/AwGRMJtvnuUwQdij2hbfs5
+         GQCmWTBG8jwbeQWXQ+MuYPqQFKkJ1JzY7Z2gzxA0oRVFc4GjiXUWPdQK9f0EVYhj6H8q
+         RJkg==
+X-Gm-Message-State: AC+VfDziuXMcQX9OLAHnCo2W54PCCtq4UNGPBzCGvbMUY4W5OLxUglC3
+        xN0sGJDK4/FggHI7l4POGl4jbm5s9yVIwg+WLQo=
+X-Google-Smtp-Source: ACHHUZ6MG5dsi1Ip7rS6wITfDSyyxU9ZtBorgpN3bcAZV4Z8feYQf4sdrPCSIUIurw70pVgLxpsqp0beq2+/1bImWug=
+X-Received: by 2002:ac8:5c47:0:b0:3f6:bbca:f235 with SMTP id
+ j7-20020ac85c47000000b003f6bbcaf235mr5889682qtj.40.1686989470182; Sat, 17 Jun
+ 2023 01:11:10 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ac8:5803:0:b0:3e6:4de8:bdf5 with HTTP; Sat, 17 Jun 2023
+ 01:11:09 -0700 (PDT)
+Reply-To: richestatesfamily@gmail.com
+From:   Richard Warren <richrichwarren@gmail.com>
+Date:   Sat, 17 Jun 2023 21:11:09 +1300
+Message-ID: <CACsZJV=vhWakLkKo1NwJyWdkNQgamNB5Ze9sAjGhdZg8-mF1sA@mail.gmail.com>
+Subject: I will like you to assist me invest in your country will detail you
+ more after hearing from you
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=4.3 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
-
-Results of the daily build of media_tree:
-
-date:			Sat Jun 17 03:00:07 CEST 2023
-media-tree git hash:	d78b9d6671decdaedb539635b1d0a34f8f5934f8
-v4l-utils git hash:	29d0a2c7a42d5fbfdb3725fcd493aad21dd99cb6
-edid-decode git hash:	a31e680438789d45207497bf999a20cf6e2c0ec1
-gcc version:		i686-linux-gcc (GCC) 13.1.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8371-g475c3cec-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 7a744dc9cad9c3f99a9946a1027df30d84d663fb
-host hardware:		x86_64
-host os:		6.1.0-5-amd64
-
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: WARNINGS
-linux-git-arm-multi: WARNINGS
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-i686: WARNINGS
-linux-git-x86_64: WARNINGS
-Check COMPILE_TEST: WARNINGS: VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
-Check for strcpy/strncpy/strlcpy: OK
-apps: WARNINGS
-spec-git: OK
-virtme: OK: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 2
-CONFIG_PM=n: OK
-CONFIG_PM_SLEEP=n: WARNINGS
-CONFIG_OF=n: WARNINGS
-CONFIG_DEBUG_FS=n: WARNINGS
-sparse: WARNINGS
-smatch: ERRORS
-kerneldoc: WARNINGS
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+I will like you to assist me invest in your country will detail you
+more after hearing from you
