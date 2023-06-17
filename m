@@ -2,67 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CE5D7341B7
-	for <lists+linux-media@lfdr.de>; Sat, 17 Jun 2023 16:44:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB3F3734253
+	for <lists+linux-media@lfdr.de>; Sat, 17 Jun 2023 18:55:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235937AbjFQOop (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 17 Jun 2023 10:44:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56582 "EHLO
+        id S231804AbjFQQzL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 17 Jun 2023 12:55:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236051AbjFQOon (ORCPT
+        with ESMTP id S230257AbjFQQzJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 17 Jun 2023 10:44:43 -0400
-Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A67281BF3;
-        Sat, 17 Jun 2023 07:44:42 -0700 (PDT)
-Received: by mail-qv1-xf35.google.com with SMTP id 6a1803df08f44-630074df712so7011796d6.1;
-        Sat, 17 Jun 2023 07:44:42 -0700 (PDT)
+        Sat, 17 Jun 2023 12:55:09 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E552C1993
+        for <linux-media@vger.kernel.org>; Sat, 17 Jun 2023 09:55:06 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-982a0232bdcso292497266b.1
+        for <linux-media@vger.kernel.org>; Sat, 17 Jun 2023 09:55:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687013081; x=1689605081;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sLolGhYclmQaW5o7zV+d/VOXcPSOBFE0oX7ksBODT6U=;
-        b=oDRxMSjUN186InS30QTEzlvpBOEvG5QFhozhA2mLKPQqsnnVT6Kf55AZH+Ltz3TfR8
-         z/WUpBGyoDEDyjwBBuxEsCzVsh4I63/S+bi1Rnsdfi9GCRMj7GCsq5P+XZIsB+3Xir35
-         jU9z+W+SaRTtToMioy0h1hXKCzoxf8Nczjl1NnJTcxXugDmBz8+9lPSM/ZSpNIr5YNEK
-         rSVj5PlKLyz+oeMJSuXeTj9G/Q843TtuNGMXdimlQPdBOZfUKJy1mTR0EGjkh4aEiZql
-         79I72xJULuWn9UtlmLlxNcvpVd3M3jEeIGlmxqWJH2hCIj1LOF2m1i76KZQEtheeZFqZ
-         O7Gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687013081; x=1689605081;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=gmail.com; s=20221208; t=1687020905; x=1689612905;
+        h=to:subject:message-id:date:from:sender:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sLolGhYclmQaW5o7zV+d/VOXcPSOBFE0oX7ksBODT6U=;
-        b=AHFa/0Au4LFEz9JKFIJkVc38HUZrUKj6Pj1wev47fZLvtqlnvP94cYW+bKlYTH4Vvs
-         CC9Cu+4N68tHv63KuJFL9dvotKfFXIbmaHM4vRxB7joh4M+9FQemr1EUTXIcN4Ie79/r
-         KoF74d5778nd6VtJzToxOyjHAHa9+nl6fUh7hYZsoxthdwgp5lD0thcdUaB1p5d9np9d
-         uZ6gUYDXqq3CnN/AL5m7AKsaWkFE0SGEDGcyKYVHtR7emyPPBsxE4Gm0CVOzsUwLrqZv
-         4aby0X0Z25vp3/z8W7uv1vZViK42OFDvQ+DVWRJTOeS7AuJJXlnNw5X2jIEZ+vDfIk2A
-         iK+Q==
-X-Gm-Message-State: AC+VfDyMi3XXhvp3xi72Vppha81kaC7B4zwJmWv+alX2HPhmkTEGT/mF
-        pXLTs1N5SWZO7tawKRvoALgt+v2AuP6IoeTMXvex2pv1+h0=
-X-Google-Smtp-Source: ACHHUZ4p9RNOf744Cx4yu79ntGpssxEc5tCzmUVkD/J/iAhgxdCiBH0PJYimoJSo4cbKLmga6+xQ7QS5GXtZo5HDmQo=
-X-Received: by 2002:a05:6214:124b:b0:625:7c0b:4640 with SMTP id
- r11-20020a056214124b00b006257c0b4640mr6481569qvv.22.1687013081669; Sat, 17
- Jun 2023 07:44:41 -0700 (PDT)
+        bh=YgsQjPYSA4x9EUAST26pLIMgzwk5/fmUNEDBBVE+P4A=;
+        b=B7G7BepedhNo6t13ST6j2exw0x1ZwmPLVEEL3yxeHecRh038gzTrDkWWrtQmqVS3YY
+         /TF2soaIOjayutNM5vRnbbrURmOkTvG32YHkiqOWlSlrgOt0PPfJfcsthvrEP0taYCRD
+         gQlq1vPdNotdIXCMXJjmnfl2ndziy0omZ3xjLY/A8lmvOJCTX6mNudyTMnmGPXYlsNGa
+         SFUlVFLDM9TDGIDCuURZ749AA75BYPM1yqy/zFBZM/bEBkNs/TzoywCUI9GBsl+7knrf
+         ALRzVNGxJiZwybeZpbktw/E5jAWOAcdBl/UdW1eAcnu2hyYNRyekxtuBwVr/9vK1lvC8
+         gWdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687020905; x=1689612905;
+        h=to:subject:message-id:date:from:sender:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YgsQjPYSA4x9EUAST26pLIMgzwk5/fmUNEDBBVE+P4A=;
+        b=U49SmrtrbSb6IgOIFr2C7yEuZ+TS0p+1BfgeGR/5MpxIsHQLWrstMD7oAzz377WFmu
+         ely1BsZyBPMaiqINyRlNRu4PEr8IpuOE0/+hyreyK7Ob70XZNqg8RJO6zAY4xXr0Fw9u
+         mEOhz1vncKQpVu3WBGagtIO7idkyLkQunSXtBeDqjzNUgtfIzTySdWigAiIKiV9THoOm
+         o3gQzimt3BOA0TM9PDqNZyrAxZ/ZyxQimdLGsb5Q3tobYzJwsrvoOoCRidd2/E00iKD7
+         vmt3EkgLVjovKSIrHjLHzJMIpgsL0BCZZnGhk/MisG0xfR5nq/PcDmJtx/p2zZZ389jJ
+         +Zig==
+X-Gm-Message-State: AC+VfDwyp+8EJQqn50PjVria5RCTSfE8ipYvWnCXk7SjvhRlSYJM4nyo
+        wSCa4DIegapxFBZYBSr6h3SGpuwQkVVIJVGeEq0=
+X-Google-Smtp-Source: ACHHUZ4vEX+inrtqwHd+bRSNE4Vl63pRotTdLXX6y1F+F4HxtrUIYCthBlskJGvNksHnytK6olEOfYgR6VPBeamEGlI=
+X-Received: by 2002:a17:906:da8b:b0:982:26c5:6525 with SMTP id
+ xh11-20020a170906da8b00b0098226c56525mr5401200ejb.60.1687020904881; Sat, 17
+ Jun 2023 09:55:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230616172132.37859-1-hdegoede@redhat.com> <20230616172132.37859-7-hdegoede@redhat.com>
-In-Reply-To: <20230616172132.37859-7-hdegoede@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 17 Jun 2023 17:44:04 +0300
-Message-ID: <CAHp75VfUN3ckdqcj=W8y_Mh8-wt3KHyFsc2grC92r9x42uM9mQ@mail.gmail.com>
-Subject: Re: [PATCH v2 6/6] platform/x86: int3472: discrete: Log a warning if
- the pin-numbers don't match
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org
+Sender: princeeminentunuebholo@gmail.com
+Received: by 2002:a50:718d:0:b0:21d:e168:6561 with HTTP; Sat, 17 Jun 2023
+ 09:55:04 -0700 (PDT)
+From:   Dr Lisa Williams <lw4666555@gmail.com>
+Date:   Sat, 17 Jun 2023 09:55:04 -0700
+X-Google-Sender-Auth: EL0NkoyJdlUROZ0VFp0rOFL_6dY
+Message-ID: <CAK0EZHQuR_Fh7-p5pqVzqbQd=4OLJtJJthAQUxoV08CqbXwgzw@mail.gmail.com>
+Subject: Hi,
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
@@ -72,26 +66,13 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 16, 2023 at 8:21=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
- wrote:
->
-> The INT3472 discrete code assumes that the ACPI GPIO resources are
-> in the same order as the pin-info _DSM entries.
->
-> The returned pin-info includes the pin-number in bits 15-8. Add a check
-> that this matches with the ACPI GPIO resource pin-number in case
-> the assumption is not true with some ACPI tables.
+Hi,
 
-...
+My name is Dr. Lisa Williams, from the United States, currently living
+in the United Kingdom.
 
-> +       pin =3D FIELD_GET(INT3472_GPIO_DSM_PIN, obj->integer.value);
+I hope you consider my friend request. I will share some of my photos
+and more details about me when I get your reply.
 
-I believe the definition should be in this patch which sounds to me
-more logical.
-
-
-
-
---
-With Best Regards,
-Andy Shevchenko
+With love
+Lisa
