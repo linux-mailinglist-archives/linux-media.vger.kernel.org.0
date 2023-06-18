@@ -2,140 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A8DF734318
-	for <lists+linux-media@lfdr.de>; Sat, 17 Jun 2023 20:43:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FD7F7344CF
+	for <lists+linux-media@lfdr.de>; Sun, 18 Jun 2023 05:34:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234202AbjFQSmz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 17 Jun 2023 14:42:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50138 "EHLO
+        id S229489AbjFRDeq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 17 Jun 2023 23:34:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346455AbjFQSmy (ORCPT
+        with ESMTP id S229468AbjFRDeo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 17 Jun 2023 14:42:54 -0400
-Received: from mail-il1-f208.google.com (mail-il1-f208.google.com [209.85.166.208])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C19A19BE
-        for <linux-media@vger.kernel.org>; Sat, 17 Jun 2023 11:42:47 -0700 (PDT)
-Received: by mail-il1-f208.google.com with SMTP id e9e14a558f8ab-340c149231fso16010335ab.2
-        for <linux-media@vger.kernel.org>; Sat, 17 Jun 2023 11:42:47 -0700 (PDT)
+        Sat, 17 Jun 2023 23:34:44 -0400
+Received: from mail-oo1-xc29.google.com (mail-oo1-xc29.google.com [IPv6:2607:f8b0:4864:20::c29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC772A9
+        for <linux-media@vger.kernel.org>; Sat, 17 Jun 2023 20:34:43 -0700 (PDT)
+Received: by mail-oo1-xc29.google.com with SMTP id 006d021491bc7-55b3d77c9deso1689899eaf.0
+        for <linux-media@vger.kernel.org>; Sat, 17 Jun 2023 20:34:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687059283; x=1689651283;
+        h=content-transfer-encoding:to:subject:message-id:date:from:sender
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=wWTmMQSsiLodfdKu7C8lcuyX7WesZia949PML8BXbEI=;
+        b=OtgLRtPllh3KDqzqNkqOxvsXSvSSXHDpxV5kDngJMLEbQEU9XnzIKFQjqy29iEU2nz
+         EPn3fG7gpTQvoQ/pP+dvWLXpF4hDnM2VJGFHIduapzx1ik4KfScwkrj+wSPjVMItBTLf
+         sMNvDk53IVTwNox43sp/m/V/LEOVKgaLOJhSZwvj5R7sxPpQDzaXaGRh4K8NY49w2Nfs
+         IRB8MmupyUliJ9qLJgtyEkkeXwIVbQSwx8NnkMOdxNP/4JFF/2dEVq7UulxzqfMauN8W
+         6PknazULb6qu461Xk042bGcTvss/tYX4PP43bT3M0x/e6doC35rBJPC7ruBXKYOsEV8c
+         /r6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687027366; x=1689619366;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DBaDf6IaqpzK1ZRigtHt9P4RoGRnNk1rRIyUUGVymcY=;
-        b=ZfXCpjthRG099w8Nb4JOSgVRD13guVFah+iXjYqCWiKmvhVZFEQ+lCs6NnTQpBA52j
-         SqU0d8Ovi1UoC65iEOF6SexxRVJKCe+92y+XhV2aNgpAuD3l0vqE/2L5FvOHBtLJfsjd
-         7Z/m7ymVOruNlPaxTM/LyejOWeDQ3ZA397wZD8LUuf+ctle2HQrQNJ5GNIgGdM9vc+sF
-         boXV8Vs1aqjSdrmVieSqWRNWOmLXAMHLpABKqQNGnS/+TwABM0TPIvLfsHwGL+VRnhPu
-         6VT0+TRzhTRlhwpIliFMuHPbzDXIr2g0oJ5YBcsDk1QvHj8uk3fi9LM4x8c1v/WY/GhS
-         Bvcg==
-X-Gm-Message-State: AC+VfDzkox/SaStoM5Q1u1ah30mxzBIkdTPFtAz53E7UzE3umrb1mjWG
-        hOAhjluCROhllF65MXQy6XR/Pr7JKge5rqKWNjJil98EIbci
-X-Google-Smtp-Source: ACHHUZ7CYafZSONe2OvDQu1FzU/g//AWiU+h+oZNfT7C8pKY2i6K0k+u8Q1dvFGQcIC5sN+Dv8KKCW7XpvJDLw7jCAqjoAFcGZXK
+        d=1e100.net; s=20221208; t=1687059283; x=1689651283;
+        h=content-transfer-encoding:to:subject:message-id:date:from:sender
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wWTmMQSsiLodfdKu7C8lcuyX7WesZia949PML8BXbEI=;
+        b=NGb8jKwUHu/OHb9rcqEZ2LRWjWUr2cWvTzwh02OQU6PGefsLSheGcU/T7bISADvIcS
+         Zsp70wrfKAN116e6M4z0sqI0FpDF7t1YrCpWG/H9VjtTY7KXg3oFgNdes7+4sXBJrh++
+         /I75PGMHm68cFbu/QnktpygXUUqSr182RFl9wIp+Fn/kbczu2+tuWjLCfJS1KdkqtAq3
+         57HVyQDYPKSzBT3u5pZ3ZSH7SFG2ePPK0do2lhprXJJpalGGU7kOYrsgMfjpWulTzZtS
+         r0XNyIkWfNjSMWv3K2t2ppm7ChPcjEvkWHYbKiqm2SbCoV7MEBIUmKRdE9leWAtXFWfG
+         wgtQ==
+X-Gm-Message-State: AC+VfDwi5Q62uoSZkZqHg3/QZ1mhpCFSZW22cBi5LQnm0ED+dghpatkj
+        0djx7fFbkV0VB6YmUcVv9U2fd38pmuiTMf1K1aw=
+X-Google-Smtp-Source: ACHHUZ7a4dNypGX/aJqQ1WulH57GCGDIykIQMmkdHAPooAyMoVqEX+NAA4iLdv7a+ywATf0I8koMN2k7YbyMisbp8P0=
+X-Received: by 2002:a4a:c90d:0:b0:555:5106:c483 with SMTP id
+ v13-20020a4ac90d000000b005555106c483mr3777727ooq.6.1687059282952; Sat, 17 Jun
+ 2023 20:34:42 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 2002:a92:d204:0:b0:338:bdd7:d439 with SMTP id
- y4-20020a92d204000000b00338bdd7d439mr1512731ily.6.1687027366660; Sat, 17 Jun
- 2023 11:42:46 -0700 (PDT)
-Date:   Sat, 17 Jun 2023 11:42:46 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000ea931b05fe57aa62@google.com>
-Subject: [syzbot] [dri?] KMSAN: uninit-value in drm_mode_setcrtc
-From:   syzbot <syzbot+4fad2e57beb6397ab2fc@syzkaller.appspotmail.com>
-To:     airlied@gmail.com, christian.koenig@amd.com, daniel@ffwll.ch,
-        dri-devel@lists.freedesktop.org, glider@google.com,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, maarten.lankhorst@linux.intel.com,
-        mripard@kernel.org, sumit.semwal@linaro.org,
-        syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
+Sender: hubertinecoul@gmail.com
+Received: by 2002:ac9:5b55:0:b0:4d9:6a76:96b3 with HTTP; Sat, 17 Jun 2023
+ 20:34:42 -0700 (PDT)
+From:   "Mrs. Ruth Roberto" <robertoruth48@gmail.com>
+Date:   Sat, 17 Jun 2023 19:34:42 -0800
+X-Google-Sender-Auth: EBgydHfYtTc1Bwz0jVUFv5mDDyg
+Message-ID: <CAAEzwMkozf_mGGa_63FrQi4KDieW4NzGNnVpQPYBnJanzu9mtw@mail.gmail.com>
+Subject: I trust in God
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=4.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,LOTS_OF_MONEY,
+        MONEY_FRAUD_3,NA_DOLLARS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_HK_NAME_FM_MR_MRS,T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
-
-syzbot found the following issue on:
-
-HEAD commit:    2741f1b02117 string: use __builtin_memcpy() in strlcpy/str..
-git tree:       https://github.com/google/kmsan.git master
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=17bb33d1280000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=753079601b2300f9
-dashboard link: https://syzkaller.appspot.com/bug?extid=4fad2e57beb6397ab2fc
-compiler:       Debian clang version 15.0.7, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16d669a5280000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14d8f095280000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/ebd05512d8d7/disk-2741f1b0.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/aa555b09582c/vmlinux-2741f1b0.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/5ea0934e02cc/bzImage-2741f1b0.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+4fad2e57beb6397ab2fc@syzkaller.appspotmail.com
-
-=====================================================
-BUG: KMSAN: uninit-value in drm_mode_setcrtc+0x1ad3/0x24a0 drivers/gpu/drm/drm_crtc.c:896
- drm_mode_setcrtc+0x1ad3/0x24a0 drivers/gpu/drm/drm_crtc.c:896
- drm_ioctl_kernel+0x5ae/0x730 drivers/gpu/drm/drm_ioctl.c:788
- drm_ioctl+0xd12/0x1590 drivers/gpu/drm/drm_ioctl.c:891
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:870 [inline]
- __se_sys_ioctl+0x222/0x400 fs/ioctl.c:856
- __x64_sys_ioctl+0x96/0xe0 fs/ioctl.c:856
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x41/0xc0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-
-Uninit was created at:
- slab_post_alloc_hook+0x12d/0xb60 mm/slab.h:716
- slab_alloc_node mm/slub.c:3451 [inline]
- __kmem_cache_alloc_node+0x4ff/0x8b0 mm/slub.c:3490
- __do_kmalloc_node mm/slab_common.c:965 [inline]
- __kmalloc+0x121/0x3c0 mm/slab_common.c:979
- kmalloc_array include/linux/slab.h:596 [inline]
- drm_mode_setcrtc+0x1dba/0x24a0 drivers/gpu/drm/drm_crtc.c:846
- drm_ioctl_kernel+0x5ae/0x730 drivers/gpu/drm/drm_ioctl.c:788
- drm_ioctl+0xd12/0x1590 drivers/gpu/drm/drm_ioctl.c:891
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:870 [inline]
- __se_sys_ioctl+0x222/0x400 fs/ioctl.c:856
- __x64_sys_ioctl+0x96/0xe0 fs/ioctl.c:856
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x41/0xc0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-
-CPU: 1 PID: 4955 Comm: syz-executor275 Not tainted 6.4.0-rc4-syzkaller-g2741f1b02117 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/25/2023
-=====================================================
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the bug is already fixed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to change bug's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the bug is a duplicate of another bug, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+Dear,
+It is true we do not know each other before but please bear with me,
+I=E2=80=99m writing you this mail from a Hospital bed. My name is Mrs.
+Ruth Roberto. I am a widow and very sick now. I am suffering from
+Endometrial Cancer which my doctor has confirmed that I will not
+survive it because of some damages. Now because of the condition of my
+health I have decided to donate out my late husband hard earn money
+the sum of ($3, 500,000.00) Three Million, Five Hundred Thousand Us
+Dollars on Charity Purpose through your help.if you are interested get
+back for more details.
+Mrs. Ruth Roberto
