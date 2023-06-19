@@ -2,142 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E7E31735DDA
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jun 2023 21:27:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 14B7F735F4A
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jun 2023 23:39:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232374AbjFST1D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Jun 2023 15:27:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42132 "EHLO
+        id S229648AbjFSVjD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Jun 2023 17:39:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229518AbjFST1C (ORCPT
+        with ESMTP id S229547AbjFSVjC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Jun 2023 15:27:02 -0400
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4195A9F;
-        Mon, 19 Jun 2023 12:26:58 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id D4AAD5C036B;
-        Mon, 19 Jun 2023 15:26:55 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Mon, 19 Jun 2023 15:26:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-transfer-encoding:content-type:content-type:date
-        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to; s=fm1; t=
-        1687202815; x=1687289215; bh=RkdhSqLZgVEX1NN/WLsswvWnrGRK9C1YpT+
-        3WFY7fJs=; b=lqi9LNlWDqkiNo12WAlGf5470UOr5JZtzm/5UlrqyrtS4Ly5E7Q
-        yHm8eP7v/j6Eb/H+WfNdf9H2W0gE4YQ5172dDEyqM+1/1kMu/nhwrkPx/RSnW7kZ
-        QzM9l2t85HLrsuNAEWPomJ69F5BBNI3X300UdjF4Tr1lYFMhX6UiQWT4k4JXX4If
-        WzXR2V/C1ZGnVTrcNh+/rRasL0MCiGg01GUdac0dypFkDUi8XPJ6G+nLtDCi0Lry
-        PWrCa88MRHkbJ+MsfUWoqWoWWvzrWT9bFqKYuiYnjxVW3+OU7rj9Y2FYOS6plDXy
-        1YlF8JhK7aeKKce8Wa9WC/CM3H7aixVeU8Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:content-type:date:date:feedback-id:feedback-id
-        :from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-        1687202815; x=1687289215; bh=RkdhSqLZgVEX1NN/WLsswvWnrGRK9C1YpT+
-        3WFY7fJs=; b=p01IQHTz6KkHuhYq6u3hE/P9uumBXV8balAzp1bvsZZOkXSHFR9
-        VkxLLFw1ovBtOtphGc/uGPFpOKmp8OgwjnDJb7CuK5vl4kQwvVrcSxvDywxKdlp6
-        qCelVMvzPT8bBEyk4hyoX4O3UVYaW8RSCqvy6K7OVXomWxncQiqKpt+MetIC5LDl
-        pZ99b8qxIgT5+W2mI70GJKZ1lto7SQHVZs3dPobjFZmxKJFMaPE1S1Tr7Vh9DnGc
-        GQItxtdPo7AH3wEBhE4lYkL2NZ6ErqMsf/2XSaHgw0iCWXdwgmUZ2EomQDifvG6S
-        F+/foTtq8vuPLQUi5b0PZg85tyftLkdWHYg==
-X-ME-Sender: <xms:_quQZLmpyV9ZI1dQ2Zeyk08OAiJGtYzpvde6aA4eAbjK7s6kWv6BFA>
-    <xme:_quQZO2V2yP1UKBSub2bBdHetWkwQORL-FdSLfMG0iUjvHPulxJVBFKNQ0RDkVsAp
-    Kex7apeFIF9Nrv5pQ4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeefvddgudefhecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedf
-    tehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrf
-    grthhtvghrnhepgeefjeehvdelvdffieejieejiedvvdfhleeivdelveehjeelteegudek
-    tdfgjeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    eprghrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:_quQZBocDkFMAUMCbVoJ_7I69BiuZ7RTpfAmOfFlWZw1f2BeMtxhIA>
-    <xmx:_quQZDm_HBnodVkCpUQrsm3jc6JmfIlK87dUVxV5wD2VB7_NKaqjFg>
-    <xmx:_quQZJ1l2ndt4OZwHsiEQyNWqN6AELxAekS4ytcm5SAAs4s9tTTs_A>
-    <xmx:_6uQZCI_RFTqzhbpNr5nwcRDafw5iXhWDAmRToH3HnaC3OHt-kY8kg>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id CDAB4B60086; Mon, 19 Jun 2023 15:26:54 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-496-g8c46984af0-fm-20230615.001-g8c46984a
-Mime-Version: 1.0
-Message-Id: <300ecb3e-8747-4399-8452-77724f85330b@app.fastmail.com>
-In-Reply-To: <d9f088d1d548c8735b393a15d5a16dbd914ddeca.camel@collabora.com>
-References: <20230616144854.3818934-1-arnd@kernel.org>
- <20230616144854.3818934-2-arnd@kernel.org>
- <e264ac3a15e0f115aa7e941a77eb312429b8f65e.camel@collabora.com>
- <063a8886-fd31-425f-901c-fc830512eca3@app.fastmail.com>
- <d9f088d1d548c8735b393a15d5a16dbd914ddeca.camel@collabora.com>
-Date:   Mon, 19 Jun 2023 21:26:34 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Nicolas Dufresne" <nicolas.dufresne@collabora.com>,
-        "Arnd Bergmann" <arnd@kernel.org>,
-        "Ezequiel Garcia" <ezequiel@vanguardiasur.com.ar>,
-        "Philipp Zabel" <p.zabel@pengutronix.de>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>
-Cc:     "Hans Verkuil" <hverkuil-cisco@xs4all.nl>,
-        "Benjamin Gaignard" <benjamin.gaignard@collabora.com>,
-        "Jernej Skrabec" <jernej.skrabec@gmail.com>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: verisilicon: change confusingly named relaxed register
- access
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 19 Jun 2023 17:39:02 -0400
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E828E64
+        for <linux-media@vger.kernel.org>; Mon, 19 Jun 2023 14:39:01 -0700 (PDT)
+Received: by mail-lj1-x235.google.com with SMTP id 38308e7fff4ca-2b4725e9917so27688901fa.2
+        for <linux-media@vger.kernel.org>; Mon, 19 Jun 2023 14:39:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1687210739; x=1689802739;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NJqgFyZORxKSRICxsmBFhPlaldFyLWkexWK7bDGxjGc=;
+        b=RPfDbbXupqzacz7KmZUEQIISSc1lhv+2xRsN7vCGYpBl6AXY9CbUmlVWhZ98RO3D42
+         nVQ8K02IklHfRbbOREnhR5b8ttJtfv5xqS3zYzOKuo76kZCzNQQqoqeAO4AUV2DFuUzG
+         DniqlfoxeWNQlHekVLs0UT9jbTxhIjD2aUk0Esm/2CsTRRKhZ0pD10m8d1ZG6AyGuYws
+         YwK9aOTmhf+qQCZ6mDc8Dxyb5p3EEvQ6npsQ7e/ZtvUyZU2WEN8z+0PBX6gwIWBQi0qW
+         fSyQdThWVI6RDHslTDs5eRZQoUcmG9jTevSVKtBGTZHvByvIDf6E+fV2/YAWve5/wkkh
+         KfVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687210739; x=1689802739;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NJqgFyZORxKSRICxsmBFhPlaldFyLWkexWK7bDGxjGc=;
+        b=gqkqUXt100Rbtd6GuzD+d7ZZaBBfQILC2lbU73O3HOncFKX8P2Snmzi8OTCbXnAX+a
+         u9BgoDnXoT1zgsIhpyS1ssnJExDP/RHcmsuREvEh7gx6scgorwO5cBFNQz7vAUJw3J5a
+         HyIqfZcubaGhIh7p9Qv4hu9ym9yrUTMICT6QNCmD4XoHH1tLzd0zXpULQ1K8B3yeTPzw
+         UcO3c+CCyhnAlINrDZS41gmcJ+gecMz0C7SH+V/1/JddTSZX5AYLeEIR06auhPZjdoIz
+         2kHV1Piqf1QcNIaaMI4STZ0y+frqGltGi/fClDNTnX/FJeSiZYkqudPHV05kXq2mOPRT
+         L8eA==
+X-Gm-Message-State: AC+VfDw9akw6Ha+pmsJJkiO55GpsXjLYcljm6ERVBW+gDTO4oF/gKqel
+        o8X6Dp4Sv/9nAGZkKOGYOmkx+g==
+X-Google-Smtp-Source: ACHHUZ7mho7mHSB6JCzN3pI1HKBCa5gj+wq/4VTVHdrMTAaqPwUmQrdQYLCZ6sPJApcpZkejhtLHCA==
+X-Received: by 2002:a2e:9189:0:b0:2b4:75b7:edda with SMTP id f9-20020a2e9189000000b002b475b7eddamr2530334ljg.24.1687210739281;
+        Mon, 19 Jun 2023 14:38:59 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:a0db:1f00::8a5? (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
+        by smtp.gmail.com with ESMTPSA id e22-20020a2e8ed6000000b002adc2fe3fc8sm66717ljl.4.2023.06.19.14.38.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Jun 2023 14:38:58 -0700 (PDT)
+Message-ID: <c25ba108-1363-9c6f-3d02-2524ede7484e@linaro.org>
+Date:   Tue, 20 Jun 2023 00:38:57 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] drm/msm: Fix typo in comment
+Content-Language: en-GB
+To:     zhumao001@208suo.com, robdclark@gmail.com,
+        quic_abhinavk@quicinc.com, airlied@gmail.com, daniel@ffwll.ch,
+        sumit.semwal@linaro.org, christian.koenig@amd.com, sean@poorly.run
+Cc:     linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20230618143813.15142-1-dengshaomin@cdjrlc.com>
+ <20230618143813.15142-4-dengshaomin@cdjrlc.com>
+ <610b47a2989976b9dae162ecc55ddc85@208suo.com>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <610b47a2989976b9dae162ecc55ddc85@208suo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jun 19, 2023, at 20:29, Nicolas Dufresne wrote:
-> Le lundi 19 juin 2023 =C3=A0 16:49 +0200, Arnd Bergmann a =C3=A9crit=C2=
-=A0:
->> >=20
->> > In this text you spoke about potential performance side effects of =
-existing code
->> > and your changes, but its left all very vague and theoretical. Have=
- you done any
->> > measurement ? Do you need help with the manner ?
->>=20
->> I don't have this hardware and have not done any measurements.
->> Obviously the only point of using relaxed accessors is to
->> improve performance in critical code paths, but from the way they
->> are used here it seems that this was instead just an accident
->> and nobody else did any comparisons either.
->>=20
->> My guess would be that if one wanted to speed up the register
->> access, a better way would be to use a regmap cache to avoid
->> reading registers when the contents are already known.
->
-> All I know is that for the majority of registers when programming stat=
-eless
-> codecs, each 32bit word of registers are fully written too, the read v=
-alue is
-> not always meaningful (its a value from last time the HW has been trig=
-gered) and
-> should be ignored, so better to not do that. As for regmap, there is f=
-olks that
-> have reported regmap to be completely overkill for this type of hardwa=
-re.
+On 18/06/2023 17:54, zhumao001@208suo.com wrote:
+> Fix typo in comment of msm_gem.c.
+> 
+> Signed-off-by: Zhu Mao <zhumao001@208suo.com>
+> ---
+>   drivers/gpu/drm/msm/msm_gem.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
-Right, most likely neither the cache nor avoiding the readl() is necessa=
-ry,
-and that was exactly my point to start with: don't add potentially dange=
-rous
-microoptimizations like relaxed accessors unless the obvious optimizatio=
-ns
-are also needed and used.
+This patch doesn't apply. Please use git send-email to send patches.
 
-Obviously, testing my patch would still be a good idea before applying i=
-t.
+-- 
+With best wishes
+Dmitry
 
-       Arnd
