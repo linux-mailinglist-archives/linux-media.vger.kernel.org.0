@@ -2,140 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B565734C98
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jun 2023 09:45:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E3D6734D6F
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jun 2023 10:20:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229538AbjFSHpe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Jun 2023 03:45:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39592 "EHLO
+        id S230208AbjFSIU3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Jun 2023 04:20:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbjFSHpc (ORCPT
+        with ESMTP id S229454AbjFSIU1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Jun 2023 03:45:32 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3D5BB1;
-        Mon, 19 Jun 2023 00:45:30 -0700 (PDT)
-Received: from [IPV6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2] (unknown [IPv6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id E859E6606EAC;
-        Mon, 19 Jun 2023 08:45:28 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1687160729;
-        bh=PUG5piy46+BtYUKqIE057P4sOhXAzTDm9lhm1PwoWoY=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=GGqRtKhW4JTknQ5gxd+v4wckj01dUHFUW/D+sKxscKEtYmWQbkXiunIs2qh+v+Zhd
-         dcuWE4vDEjQjJaelk+7IgREEp2ZFdhfqTZtVJHgk5ClzG7Jvel9Uhh8xg9Q/edK9XA
-         mEYgdCxOjqpyA7XFmmsXn+z26lg6lrRQkDEoVrCKWo0aJm5F4CBP4Gpr3BzGKSR1Db
-         Wm1aFnS9KerDDF+f82XQAJoEbvHOzZw6jJIgYFL2fDzYd3QMM4YEtBWoOHquj8dtCE
-         KbLlNwPdhdPdHwdbXyNM0+lLgm+qQbLvDA5iPXpPTe3Oog1hy1F9XSBQBjuFuX/2rJ
-         4j+X8ySOP18nA==
-Message-ID: <4736dabb-8585-3906-d6f1-165eff96eb26@collabora.com>
-Date:   Mon, 19 Jun 2023 09:45:27 +0200
+        Mon, 19 Jun 2023 04:20:27 -0400
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEF07E50;
+        Mon, 19 Jun 2023 01:20:21 -0700 (PDT)
+Received: from ed3e173716be.home.arpa (unknown [124.16.138.129])
+        by APP-05 (Coremail) with SMTP id zQCowAD3_7vUDZBkfYFsAQ--.5512S2;
+        Mon, 19 Jun 2023 16:12:04 +0800 (CST)
+From:   Jiasheng Jiang <jiasheng@iscas.ac.cn>
+To:     dwlsalmeida@gmail.com, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Subject: [PATCH 1/2] media: vidtv: psi: Add check for kstrdup
+Date:   Mon, 19 Jun 2023 16:12:01 +0800
+Message-Id: <20230619081202.25283-1-jiasheng@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2 3/5] media: mediatek: vcodec: Read HW active status
- from clock
-Content-Language: en-US
-To:     Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wenst@chromium.org>,
-        =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
-        <nfraprado@collabora.com>
-Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>, kernel@collabora.com,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
-References: <20230607205714.510012-1-nfraprado@collabora.com>
- <20230607205714.510012-4-nfraprado@collabora.com>
- <CAGXv+5HHARvkCYfjPjRKgyWuzv-Dt215z1=yA+_tw4hyasdGQA@mail.gmail.com>
- <f0018817-d47b-d772-ed9f-9126bf71a0d1@collabora.com>
- <83770481aa762b69738c27f9d9934dd9.sboyd@kernel.org>
- <90781ea3-d43a-6267-278c-184050fe456e@collabora.com>
- <d579dc00ed9877f9daf170134fe781e6.sboyd@kernel.org>
- <d2c11880-afc1-5c0b-229b-2a4080b22fba@collabora.com>
- <d97a0c8e7aeb4216b361839bc3c9bd54.sboyd@kernel.org>
- <76a641e6-64ef-a973-422c-de50d498e52f@collabora.com>
- <eee9a51a9fbe44f028ef33cd92c18a51.sboyd@kernel.org>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <eee9a51a9fbe44f028ef33cd92c18a51.sboyd@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-CM-TRANSID: zQCowAD3_7vUDZBkfYFsAQ--.5512S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxWry7ury8Zw4xCr1rZw4fKrg_yoW5CF1Upa
+        yrW3Z0yrWIgr4Yga15Jw1kZFy5Can7tF4rCry2qw13Z34fur45KF17A3WY9rs5A34Svr4a
+        vFW5tw13Wry5JFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUkq14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+        6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+        CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+        2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+        W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6r43
+        MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr
+        0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0E
+        wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJV
+        W8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAI
+        cVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjMKZJUUUUU==
+X-Originating-IP: [124.16.138.129]
+X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 15/06/23 19:40, Stephen Boyd ha scritto:
-> Quoting AngeloGioacchino Del Regno (2023-06-15 00:30:56)
->> Il 15/06/23 02:40, Stephen Boyd ha scritto:
->>> Quoting AngeloGioacchino Del Regno (2023-06-14 01:13:43)
->>>> Il 12/06/23 21:19, Stephen Boyd ha scritto:
->>>>> Quoting AngeloGioacchino Del Regno (2023-06-09 00:42:13)
->>>>>> Il 09/06/23 01:56, Stephen Boyd ha scritto:
->>>>>>> Quoting AngeloGioacchino Del Regno (2023-06-08 02:01:58)
->>>>>>>> Il 08/06/23 10:12, Chen-Yu Tsai ha scritto:
->>>>>>>>> On Thu, Jun 8, 2023 at 4:57 AM Nícolas F. R. A. Prado
->>>>>>>>> <nfraprado@collabora.com> wrote:
->>>>>>
->>>>>> The firmware gives an indication of "boot done", but that's for the "core" part
->>>>>> of the vcodec... then it manages this clock internally to enable/disable the
->>>>>> "compute" IP of the decoder.
->>>>>>
->>>>>> As far as I know (and I've been researching about this) the firmware will not
->>>>>> give any "decoder powered, clocked - ready to get data" indication, and the
->>>>>> only way that we have to judge whether it is in this specific state or not is
->>>>>> to check if the "VDEC_ACTIVE" clock got enabled by the firmware.
->>>>>
->>>>> Is Linux ever going to use clk consumer APIs like clk_enable/clk_disable
->>>>> on this VDEC_ACTIVE clk? If the answer is no, then there isn't any
->>>>> reason to put it in the clk framework, and probably syscon is the way to
->>>>> go for now.
->>>>>
->>>>
->>>> Not for the current platform, but that may change in future SoCs... we're not sure.
->>>
->>> If you're not using the clk consumer APIs then it shouldn't be a clk.
->>>
->>>>
->>>>> Another approach could be to wait for some amount of time after telling
->>>>> firmware to power up and assume the hardware is active.
->>>>>
->>>>
->>>> That would be highly error prone though. Expecting that the HW is alive means that
->>>> we're 100% sure that both firmware and driver are doing the right thing at every
->>>> moment, which is something that we'd like to assume but, realistically, for safety
->>>> reasons we just don't.
->>>>
->>>> Should we anyway go for a syscon *now* and then change it to a clock later, if any
->>>> new platform needs this as a clock?
->>>
->>> Yeah. Or implement this as a power domain and have it read the register
->>> directly waiting to return from the power_on()?
->>
->> A power domain would force us to incorrectly describe the hardware in the bindings
->> though, I think... so, Nícolas, please, let's go for a syscon at this point, as it
-> 
-> You don't have to add the power domain in DT, do you? You can populate a
-> power domain in software directly?
-> 
+Add check for the return value of kstrdup() and return the error
+if it fails in order to avoid NULL pointer dereference.
 
-Right. I didn't evaluate that possibility at all. Looks good!
+Fixes: 7a7899f6f58e ("media: vidtv: psi: Implement an Event Information Table (EIT)")
+Fixes: c2f78f0cb294 ("media: vidtv: psi: add a Network Information Table (NIT)")
+Fixes: f90cf6079bf6 ("media: vidtv: add a bridge driver")
+Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+---
+ drivers/media/test-drivers/vidtv/vidtv_psi.c | 45 +++++++++++++++++---
+ 1 file changed, 40 insertions(+), 5 deletions(-)
 
->> really looks like being the only viable option.
->>
->> Stephen, many thanks for the valuable suggestions and the nice conversation.
->>
-> 
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_psi.c b/drivers/media/test-drivers/vidtv/vidtv_psi.c
+index ce0b7a6e92dc..2a51c898c11e 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_psi.c
++++ b/drivers/media/test-drivers/vidtv/vidtv_psi.c
+@@ -301,16 +301,29 @@ struct vidtv_psi_desc_service *vidtv_psi_service_desc_init(struct vidtv_psi_desc
+ 
+ 	desc->service_name_len = service_name_len;
+ 
+-	if (service_name && service_name_len)
++	if (service_name && service_name_len) {
+ 		desc->service_name = kstrdup(service_name, GFP_KERNEL);
++		if (!desc->service_name)
++			goto free_desc;
++	}
+ 
+ 	desc->provider_name_len = provider_name_len;
+ 
+-	if (provider_name && provider_name_len)
++	if (provider_name && provider_name_len) {
+ 		desc->provider_name = kstrdup(provider_name, GFP_KERNEL);
++		if (!desc->provider_name)
++			goto free_desc_service_name;
++	}
+ 
+ 	vidtv_psi_desc_chain(head, (struct vidtv_psi_desc *)desc);
+ 	return desc;
++
++free_desc_service_name:
++	if (service_name && service_name_len)
++		kfree(desc->service_name);
++free_desc:
++	kfree(desc);
++	return NULL;
+ }
+ 
+ struct vidtv_psi_desc_registration
+@@ -355,8 +368,13 @@ struct vidtv_psi_desc_network_name
+ 
+ 	desc->length = network_name_len;
+ 
+-	if (network_name && network_name_len)
++	if (network_name && network_name_len) {
+ 		desc->network_name = kstrdup(network_name, GFP_KERNEL);
++		if (!desc->network_name) {
++			kfree(desc);
++			return NULL;
++		}
++	}
+ 
+ 	vidtv_psi_desc_chain(head, (struct vidtv_psi_desc *)desc);
+ 	return desc;
+@@ -442,15 +460,32 @@ struct vidtv_psi_desc_short_event
+ 		iso_language_code = "eng";
+ 
+ 	desc->iso_language_code = kstrdup(iso_language_code, GFP_KERNEL);
++	if (!desc->iso_language_code)
++		goto free_desc;
+ 
+-	if (event_name && event_name_len)
++	if (event_name && event_name_len) {
+ 		desc->event_name = kstrdup(event_name, GFP_KERNEL);
++		if (!desc->event_name)
++			goto free_desc_language_code;
++	}
+ 
+-	if (text && text_len)
++	if (text && text_len) {
+ 		desc->text = kstrdup(text, GFP_KERNEL);
++		if (!desc->text)
++			goto free_desc_event_name;
++	}
+ 
+ 	vidtv_psi_desc_chain(head, (struct vidtv_psi_desc *)desc);
+ 	return desc;
++
++free_desc_event_name:
++	if (event_name && event_name_len)
++		kfree(desc->event_name);
++free_desc_language_code:
++	kfree(desc->iso_language_code);
++free_desc:
++	kfree(desc);
++	return NULL;
+ }
+ 
+ struct vidtv_psi_desc *vidtv_psi_desc_clone(struct vidtv_psi_desc *desc)
+-- 
+2.25.1
 
