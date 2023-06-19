@@ -2,93 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FC58735A0A
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jun 2023 16:50:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A423F735A13
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jun 2023 16:53:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232213AbjFSOuK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Jun 2023 10:50:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45906 "EHLO
+        id S231768AbjFSOxx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Jun 2023 10:53:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232200AbjFSOuI (ORCPT
+        with ESMTP id S229448AbjFSOxw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Jun 2023 10:50:08 -0400
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03385C1;
-        Mon, 19 Jun 2023 07:50:06 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id ADE525C02DC;
-        Mon, 19 Jun 2023 10:50:04 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Mon, 19 Jun 2023 10:50:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-transfer-encoding:content-type:content-type:date
-        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to; s=fm1; t=
-        1687186204; x=1687272604; bh=Ox0mGgHLkp5N/Da4WUkUcZFzC5y5KCU3DdU
-        4cU5s0Zw=; b=uBukndHQGWLUkt5Elnl5NgRUP7VADlbyByjzxpYFPTCu6ZQkXkW
-        EuO6nRksRTSITxAS041IgShdDE/C8nTnzCS7s+KZ4sgX6fv6hI2se4CxS3f76Cel
-        P4ZqwZ2nOukWFZcSdwaDdraA+vnJ1lG0EYHRF7+UXlzs90o5yeMkfrs7nMAAZEK3
-        X3Pd/FoSMQ/gIs5V+CHZCfBNZdcNzQ5SwsRMhOJ9/JciE/N6W9hfB33m7yfbtupm
-        9H+jHbnWngZ6Rn/8sSIBLubLAbe59dNfS4uFYJ2GJnNy68mS1j7tEA7MtrS6Equz
-        x1kQ67rUB17ZXrv0EkRvrnlrLXmZMNDbu8g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:content-type:date:date:feedback-id:feedback-id
-        :from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-        1687186204; x=1687272604; bh=Ox0mGgHLkp5N/Da4WUkUcZFzC5y5KCU3DdU
-        4cU5s0Zw=; b=BlQIjlC4NmqbmqO/N50HX0TO6aj3XPhHGD7M9YlMcqHrSp+rasA
-        HsYFM3OHe592/b0g5KK9mszRBYFpelGzdavoUPRhfMLRRbYFj0QEc2vqC/OAicj6
-        k+vRxIuu6wlDRpXXi3opAdHsWh3CGny8wP/7moaXopic9tdQhKXtAmHJ8vVVZTAf
-        VZ6Z8ss9uvYbSipcfWyx/j2V51PwTCM7ilQUkrjJnZKfqY6v3uR2+u1GwOTrlkOL
-        FY5YX1ZFR0waug0Knym4rss67fjXHFFdn4ZAWHOpAb49Xxx//wdmeRtVp7BLueus
-        64bMxkkTpglzcGdQP7EnXj0ahq7qRiH8lMQ==
-X-ME-Sender: <xms:HGuQZFgGOAhuUZ4CKNgTny7qdd2QSQY5T65AhPpH_OtUQoQf8pAoZA>
-    <xme:HGuQZKDfo0bl_ti3SX1Ai2pN33AvW9DTfaSARGUffcyYwD9W0XrPgKHZcI5YVdsww
-    zsvn2-YHI0G60mzM3M>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgeefvddgjeelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeegfeejhedvledvffeijeeijeeivddvhfeliedvleevheejleetgedukedt
-    gfejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:HGuQZFFPkC1g4AxtOWHiKVCoutxonI8fb5p5FMcCuCJi2eDvuqzzQg>
-    <xmx:HGuQZKT3Q682uKecNV6ASB1RYXERLp9xPObFiBF6sbUTsV5BosHdaw>
-    <xmx:HGuQZCyN4W8k3O2ouLqLZXxIUD5jo4CMTfcEv7HaYaUskz9b1zX9lg>
-    <xmx:HGuQZBmupTpROysgmBoVV2vahoAhxBiXsQC9ASt9WJXsIqsz_4HAgw>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 1B2F9B60086; Mon, 19 Jun 2023 10:50:03 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-496-g8c46984af0-fm-20230615.001-g8c46984a
-Mime-Version: 1.0
-Message-Id: <063a8886-fd31-425f-901c-fc830512eca3@app.fastmail.com>
-In-Reply-To: <e264ac3a15e0f115aa7e941a77eb312429b8f65e.camel@collabora.com>
-References: <20230616144854.3818934-1-arnd@kernel.org>
- <20230616144854.3818934-2-arnd@kernel.org>
- <e264ac3a15e0f115aa7e941a77eb312429b8f65e.camel@collabora.com>
-Date:   Mon, 19 Jun 2023 16:49:41 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Nicolas Dufresne" <nicolas.dufresne@collabora.com>,
-        "Arnd Bergmann" <arnd@kernel.org>,
-        "Ezequiel Garcia" <ezequiel@vanguardiasur.com.ar>,
-        "Philipp Zabel" <p.zabel@pengutronix.de>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>
-Cc:     "Hans Verkuil" <hverkuil-cisco@xs4all.nl>,
-        "Benjamin Gaignard" <benjamin.gaignard@collabora.com>,
-        "Jernej Skrabec" <jernej.skrabec@gmail.com>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: verisilicon: change confusingly named relaxed register
- access
-Content-Type: text/plain;charset=utf-8
+        Mon, 19 Jun 2023 10:53:52 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94059B9;
+        Mon, 19 Jun 2023 07:53:50 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:c623::7a9])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: nicolas)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id C89126605835;
+        Mon, 19 Jun 2023 15:53:47 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1687186429;
+        bh=niF9buWzQfwlsD8+0WxDqigxgGldCwE0sdhB490duRw=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=RhrO/fhYzcvZx98RzqYQEiLJ3TrEGalMfd8nk6+RGKBrbPebHnFya2IPl8ACCknPs
+         z12yy74T+6f7Sr3fQp9PkczyG7btBA7Qx0gAGvujtPx/gmlyNiQg8SEO3Ztl9SkJov
+         +pkyG1pldjVC9wxwggOYh7cXTwHAmIlwM9iPc5hQYOzk0gwOHH6nw65EnDeJiKF/7n
+         AVXPXrjemTJIWP9FBpeC/AKcxiStQbs7Vl4wp/6paBHeMnf4UF/qHRBMJGN64nJptg
+         sPQ3ol+T2wK117drQlXHia3H3Paz6M7SmZ8Kg4m1ybskgaiEdn847LrjSg64B9sbRG
+         YQY+mzwOXewQg==
+Message-ID: <e6a1ed5937c3a2182ba6b7a90572f905a62269f3.camel@collabora.com>
+Subject: Re: [PATCH v3,03/11] media: mediatek: vcodec: re-write shared
+ interface
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        =?ISO-8859-1?Q?N=EDcolas?= "F . R . A . Prado" 
+        <nfraprado@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Nathan Hebert <nhebert@chromium.org>
+Cc:     Chen-Yu Tsai <wenst@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+Date:   Mon, 19 Jun 2023 10:53:38 -0400
+In-Reply-To: <20230617103255.20239-4-yunfei.dong@mediatek.com>
+References: <20230617103255.20239-1-yunfei.dong@mediatek.com>
+         <20230617103255.20239-4-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+User-Agent: Evolution 3.48.3 (3.48.3-1.fc38) 
+MIME-Version: 1.0
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -96,44 +69,246 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jun 19, 2023, at 16:41, Nicolas Dufresne wrote:
-> Le vendredi 16 juin 2023 =C3=A0 16:48 +0200, Arnd Bergmann a =C3=A9cri=
-t=C2=A0:
->> From: Arnd Bergmann <arnd@arndb.de>
->>=20
->> The register abstraction has wrappers around both the normal writel()
->> and its writel_relaxed() counterpart, but this has led to a lot of us=
-ers
->> ending up with the relaxed version.
->>=20
->> There is sometimes a need to intentionally pick the relaxed accessor =
-for
->> performance critical functions, but I noticed that each hantro_reg_wr=
-ite()
->> call also contains a non-relaxed readl(), which is typically much more
->> expensive than a writel, so there is little benefit here but an added
->> risk of missing a serialization against DMA.
->>=20
->> To make this behave like other interfaces, use the normal accessor by
->> default and only provide the relaxed version as an alternative for
->> performance critical code. hantro_postproc.c is the only place that
->> used both the relaxed and normal writel, but this does not seem
->> cricital either, so change it all to the normal ones.
->
-> In this text you spoke about potential performance side effects of exi=
-sting code
-> and your changes, but its left all very vague and theoretical. Have yo=
-u done any
-> measurement ? Do you need help with the manner ?
 
-I don't have this hardware and have not done any measurements.
-Obviously the only point of using relaxed accessors is to
-improve performance in critical code paths, but from the way they
-are used here it seems that this was instead just an accident
-and nobody else did any comparisons either.
+Hi Yunfei,
 
-My guess would be that if one wanted to speed up the register
-access, a better way would be to use a regmap cache to avoid
-reading registers when the contents are already known.
 
-     Arnd
+Le samedi 17 juin 2023 =C3=A0 18:32 +0800, Yunfei Dong a =C3=A9crit=C2=A0:
+> Re-write shared interface which encoder and decoder used at
+> the same time. Using the common struct as the parameter of
+> these interface in order to remove the depedency.
+>=20
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> ---
+>  .../mediatek/vcodec/mtk_vcodec_intr.c         | 30 ++++++++++++-------
+>  .../mediatek/vcodec/mtk_vcodec_intr.h         |  3 +-
+>  .../mediatek/vcodec/mtk_vcodec_util.c         | 19 +++++-------
+>  .../mediatek/vcodec/mtk_vcodec_util.h         |  9 ++----
+>  .../mediatek/vcodec/vdec/vdec_vp8_if.c        | 14 ++++-----
+>  .../mediatek/vcodec/venc/venc_h264_if.c       |  2 +-
+>  .../mediatek/vcodec/venc/venc_vp8_if.c        |  2 +-
+>  7 files changed, 39 insertions(+), 40 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_intr.c b/d=
+rivers/media/platform/mediatek/vcodec/mtk_vcodec_intr.c
+> index 552b4c93d972..daa44f635727 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_intr.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_intr.c
+> @@ -11,32 +11,40 @@
+>  #include "mtk_vcodec_intr.h"
+>  #include "mtk_vcodec_util.h"
+> =20
+> -int mtk_vcodec_wait_for_done_ctx(struct mtk_vcodec_ctx *ctx,
+> -				 int command, unsigned int timeout_ms,
+> +int mtk_vcodec_wait_for_done_ctx(void *priv, int command, unsigned int t=
+imeout_ms,
+>  				 unsigned int hw_id)
+>  {
+> +	struct mtk_vcodec_ctx *ctx =3D priv;
+>  	long timeout_jiff, ret;
+> -	int status =3D 0;
+> +	int status =3D 0, ctx_id, ctx_type;
+> +	int *ctx_int_cond, *ctx_int_type;
+> +	wait_queue_head_t *ctx_queue;
+> +
+> +	ctx_id =3D ctx->id;
+> +	ctx_type =3D ctx->type;
+> +	ctx_int_cond =3D ctx->int_cond;
+> +	ctx_int_type =3D ctx->int_type;
+> +	ctx_queue =3D ctx->queue;
+> =20
+>  	timeout_jiff =3D msecs_to_jiffies(timeout_ms);
+> -	ret =3D wait_event_interruptible_timeout(ctx->queue[hw_id],
+> -					       ctx->int_cond[hw_id],
+> +	ret =3D wait_event_interruptible_timeout(ctx_queue[hw_id],
+> +					       ctx_int_cond[hw_id],
+>  					       timeout_jiff);
+> =20
+>  	if (!ret) {
+>  		status =3D -1;	/* timeout */
+>  		mtk_v4l2_err("[%d] cmd=3D%d, type=3D%d, dec timeout=3D%ums (%d %d)",
+> -			     ctx->id, command, ctx->type, timeout_ms,
+> -			     ctx->int_cond[hw_id], ctx->int_type[hw_id]);
+> +			     ctx_id, command, ctx_type, timeout_ms,
+> +			     ctx_int_cond[hw_id], ctx_int_type[hw_id]);
+>  	} else if (-ERESTARTSYS =3D=3D ret) {
+>  		status =3D -1;
+>  		mtk_v4l2_err("[%d] cmd=3D%d, type=3D%d, dec inter fail (%d %d)",
+> -			     ctx->id, command, ctx->type,
+> -			     ctx->int_cond[hw_id], ctx->int_type[hw_id]);
+> +			     ctx_id, command, ctx_type,
+> +			     ctx_int_cond[hw_id], ctx_int_type[hw_id]);
+>  	}
+> =20
+> -	ctx->int_cond[hw_id] =3D 0;
+> -	ctx->int_type[hw_id] =3D 0;
+> +	ctx_int_cond[hw_id] =3D 0;
+> +	ctx_int_type[hw_id] =3D 0;
+> =20
+>  	return status;
+>  }
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_intr.h b/d=
+rivers/media/platform/mediatek/vcodec/mtk_vcodec_intr.h
+> index 9681f492813b..11bf0ef94d5d 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_intr.h
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_intr.h
+> @@ -12,8 +12,7 @@
+>  struct mtk_vcodec_ctx;
+
+You have a forward declaration here.
+
+> =20
+>  /* timeout is ms */
+> -int mtk_vcodec_wait_for_done_ctx(struct mtk_vcodec_ctx *ctx,
+> -				 int command, unsigned int timeout_ms,
+> +int mtk_vcodec_wait_for_done_ctx(void *priv, int command, unsigned int t=
+imeout_ms,
+>  				 unsigned int hw_id);
+
+So has the CTX is only uses has a pointer, its hard to follow why you need =
+to
+hide the type here. At least its not clear to me how this helps with the go=
+al
+set in the commit message and would simply like to understand before giving=
+ an
+r-b.
+
+> =20
+>  #endif /* _MTK_VCODEC_INTR_H_ */
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.c b/d=
+rivers/media/platform/mediatek/vcodec/mtk_vcodec_util.c
+> index f214e6f67005..847e321f4fcc 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.c
+> @@ -21,24 +21,20 @@ int mtk_v4l2_dbg_level;
+>  EXPORT_SYMBOL(mtk_v4l2_dbg_level);
+>  #endif
+> =20
+> -void __iomem *mtk_vcodec_get_reg_addr(struct mtk_vcodec_ctx *data,
+> -					unsigned int reg_idx)
+> +void __iomem *mtk_vcodec_get_reg_addr(void __iomem **reg_base, unsigned =
+int reg_idx)
+>  {
+> -	struct mtk_vcodec_ctx *ctx =3D (struct mtk_vcodec_ctx *)data;
+> -
+> -	if (!data || reg_idx >=3D NUM_MAX_VCODEC_REG_BASE) {
+> +	if (reg_idx >=3D NUM_MAX_VCODEC_REG_BASE) {
+>  		mtk_v4l2_err("Invalid arguments, reg_idx=3D%d", reg_idx);
+>  		return NULL;
+>  	}
+> -	return ctx->dev->reg_base[reg_idx];
+> +	return reg_base[reg_idx];
+>  }
+>  EXPORT_SYMBOL(mtk_vcodec_get_reg_addr);
+> =20
+> -int mtk_vcodec_mem_alloc(struct mtk_vcodec_ctx *data,
+> -			struct mtk_vcodec_mem *mem)
+> +int mtk_vcodec_mem_alloc(void *priv, struct mtk_vcodec_mem *mem)
+>  {
+>  	unsigned long size =3D mem->size;
+> -	struct mtk_vcodec_ctx *ctx =3D (struct mtk_vcodec_ctx *)data;
+> +	struct mtk_vcodec_ctx *ctx =3D priv;
+>  	struct device *dev =3D &ctx->dev->plat_dev->dev;
+> =20
+>  	mem->va =3D dma_alloc_coherent(dev, size, &mem->dma_addr, GFP_KERNEL);
+> @@ -57,11 +53,10 @@ int mtk_vcodec_mem_alloc(struct mtk_vcodec_ctx *data,
+>  }
+>  EXPORT_SYMBOL(mtk_vcodec_mem_alloc);
+> =20
+> -void mtk_vcodec_mem_free(struct mtk_vcodec_ctx *data,
+> -			struct mtk_vcodec_mem *mem)
+> +void mtk_vcodec_mem_free(void *priv, struct mtk_vcodec_mem *mem)
+>  {
+>  	unsigned long size =3D mem->size;
+> -	struct mtk_vcodec_ctx *ctx =3D (struct mtk_vcodec_ctx *)data;
+> +	struct mtk_vcodec_ctx *ctx =3D priv;
+>  	struct device *dev =3D &ctx->dev->plat_dev->dev;
+> =20
+>  	if (!mem->va) {
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h b/d=
+rivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h
+> index 88d389b65f13..827937bcb4b4 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h
+> @@ -68,12 +68,9 @@ extern int mtk_vcodec_dbg;
+>  #define mtk_vcodec_debug_enter(h)  mtk_vcodec_debug(h, "+")
+>  #define mtk_vcodec_debug_leave(h)  mtk_vcodec_debug(h, "-")
+> =20
+> -void __iomem *mtk_vcodec_get_reg_addr(struct mtk_vcodec_ctx *data,
+> -				unsigned int reg_idx);
+> -int mtk_vcodec_mem_alloc(struct mtk_vcodec_ctx *data,
+> -				struct mtk_vcodec_mem *mem);
+> -void mtk_vcodec_mem_free(struct mtk_vcodec_ctx *data,
+> -				struct mtk_vcodec_mem *mem);
+> +void __iomem *mtk_vcodec_get_reg_addr(void __iomem **reg_base, unsigned =
+int reg_idx);
+> +int mtk_vcodec_mem_alloc(void *priv, struct mtk_vcodec_mem *mem);
+> +void mtk_vcodec_mem_free(void *priv, struct mtk_vcodec_mem *mem);
+>  void mtk_vcodec_set_curr_ctx(struct mtk_vcodec_dev *vdec_dev,
+>  			     struct mtk_vcodec_ctx *ctx, int hw_idx);
+>  struct mtk_vcodec_ctx *mtk_vcodec_get_curr_ctx(struct mtk_vcodec_dev *vd=
+ec_dev,
+> diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_if.c b/=
+drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_if.c
+> index 88c046731754..5edbccc9ae68 100644
+> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_if.c
+> @@ -167,13 +167,13 @@ struct vdec_vp8_inst {
+> =20
+>  static void get_hw_reg_base(struct vdec_vp8_inst *inst)
+>  {
+> -	inst->reg_base.top =3D mtk_vcodec_get_reg_addr(inst->ctx, VDEC_TOP);
+> -	inst->reg_base.cm =3D mtk_vcodec_get_reg_addr(inst->ctx, VDEC_CM);
+> -	inst->reg_base.hwd =3D mtk_vcodec_get_reg_addr(inst->ctx, VDEC_HWD);
+> -	inst->reg_base.sys =3D mtk_vcodec_get_reg_addr(inst->ctx, VDEC_SYS);
+> -	inst->reg_base.misc =3D mtk_vcodec_get_reg_addr(inst->ctx, VDEC_MISC);
+> -	inst->reg_base.ld =3D mtk_vcodec_get_reg_addr(inst->ctx, VDEC_LD);
+> -	inst->reg_base.hwb =3D mtk_vcodec_get_reg_addr(inst->ctx, VDEC_HWB);
+> +	inst->reg_base.top =3D mtk_vcodec_get_reg_addr(inst->ctx->dev->reg_base=
+, VDEC_TOP);
+> +	inst->reg_base.cm =3D mtk_vcodec_get_reg_addr(inst->ctx->dev->reg_base,=
+ VDEC_CM);
+> +	inst->reg_base.hwd =3D mtk_vcodec_get_reg_addr(inst->ctx->dev->reg_base=
+, VDEC_HWD);
+> +	inst->reg_base.sys =3D mtk_vcodec_get_reg_addr(inst->ctx->dev->reg_base=
+, VDEC_SYS);
+> +	inst->reg_base.misc =3D mtk_vcodec_get_reg_addr(inst->ctx->dev->reg_bas=
+e, VDEC_MISC);
+> +	inst->reg_base.ld =3D mtk_vcodec_get_reg_addr(inst->ctx->dev->reg_base,=
+ VDEC_LD);
+> +	inst->reg_base.hwb =3D mtk_vcodec_get_reg_addr(inst->ctx->dev->reg_base=
+, VDEC_HWB);
+>  }
+> =20
+>  static void write_hw_segmentation_data(struct vdec_vp8_inst *inst)
+> diff --git a/drivers/media/platform/mediatek/vcodec/venc/venc_h264_if.c b=
+/drivers/media/platform/mediatek/vcodec/venc/venc_h264_if.c
+> index 60fd165c0d94..10365c95ebbe 100644
+> --- a/drivers/media/platform/mediatek/vcodec/venc/venc_h264_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/venc/venc_h264_if.c
+> @@ -612,7 +612,7 @@ static int h264_enc_init(struct mtk_vcodec_ctx *ctx)
+>  	inst->ctx =3D ctx;
+>  	inst->vpu_inst.ctx =3D ctx;
+>  	inst->vpu_inst.id =3D is_ext ? SCP_IPI_VENC_H264 : IPI_VENC_H264;
+> -	inst->hw_base =3D mtk_vcodec_get_reg_addr(inst->ctx, VENC_SYS);
+> +	inst->hw_base =3D mtk_vcodec_get_reg_addr(inst->ctx->dev->reg_base, VEN=
+C_SYS);
+> =20
+>  	mtk_vcodec_debug_enter(inst);
+> =20
+> diff --git a/drivers/media/platform/mediatek/vcodec/venc/venc_vp8_if.c b/=
+drivers/media/platform/mediatek/vcodec/venc/venc_vp8_if.c
+> index 56ce58f761f1..73ebc35d7c99 100644
+> --- a/drivers/media/platform/mediatek/vcodec/venc/venc_vp8_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/venc/venc_vp8_if.c
+> @@ -336,7 +336,7 @@ static int vp8_enc_init(struct mtk_vcodec_ctx *ctx)
+>  	inst->ctx =3D ctx;
+>  	inst->vpu_inst.ctx =3D ctx;
+>  	inst->vpu_inst.id =3D IPI_VENC_VP8;
+> -	inst->hw_base =3D mtk_vcodec_get_reg_addr(inst->ctx, VENC_LT_SYS);
+> +	inst->hw_base =3D mtk_vcodec_get_reg_addr(inst->ctx->dev->reg_base, VEN=
+C_LT_SYS);
+> =20
+>  	mtk_vcodec_debug_enter(inst);
+> =20
+
