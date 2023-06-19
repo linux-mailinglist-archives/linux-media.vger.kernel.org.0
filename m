@@ -2,90 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 35177734D80
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jun 2023 10:23:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A006734E31
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jun 2023 10:43:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229818AbjFSIXM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Jun 2023 04:23:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59634 "EHLO
+        id S230293AbjFSInR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Jun 2023 04:43:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229777AbjFSIXL (ORCPT
+        with ESMTP id S229674AbjFSImz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Jun 2023 04:23:11 -0400
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7420B110
-        for <linux-media@vger.kernel.org>; Mon, 19 Jun 2023 01:23:09 -0700 (PDT)
-Received: by mail-oi1-x22e.google.com with SMTP id 5614622812f47-39ed35dfa91so627700b6e.3
-        for <linux-media@vger.kernel.org>; Mon, 19 Jun 2023 01:23:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687162989; x=1689754989;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=rJ/7Kbo9gs7zs3QTF5nFKkJrBjocKGAtdax9LA/wsFg=;
-        b=NLf6vD/d4D6D+lJPXzleg9rbn2gKSMoq11CpAwhYkVIks3leekaXGsKXSdUAm4yZ1C
-         +4YF4j6TuM18yPbH9DNO/VR5i2ViUuQiSi+YkFSky4Q25QePCkbRnJh99uhVGwMwv+8D
-         GV9a1riDUUpNw0T0yAFuFDCuAu1/Hz9gD3U092Z1A3KLI+gYBs3KWHeuOFKmCk1s6O1R
-         Ll6p3AQWfan4weJOR8lP1xiPKCM/eW53tKENszJdhypPVMv/eaUIzy/GKGWuaPNs7hd6
-         P28/JvevALvVKLvH4tBTtIx2dMTLpT3QFNNOh9+IA2d5q+MhVmgOh9NcGIUFKBYu+P3M
-         xUmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687162989; x=1689754989;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rJ/7Kbo9gs7zs3QTF5nFKkJrBjocKGAtdax9LA/wsFg=;
-        b=YEIqK0wJ83rkiERdEUg46nSzDd8uFeCvd2VOWKd2DfnQWBURuK/Ik7Fh30qk0CClRN
-         5Mn/SX/o3VwwnGDwSlFbPBz6Nmj0hFTFCYeHmp7+hWQgeRc6xVlgGfcH6bYlQFGB/74w
-         6xrJxsv4OHgXjlvO8mLsFpm4Cer/NqJ//pYaR3+QKSlyUM19zNNryNhfD18Cq7DzRgEQ
-         xFV766U7GzwTe50cE5IenT0u/NdOgpNppi7fuk2zXdFB7xdiY2I5nlZF8kukOUHweK8D
-         GKsoKCihYg0acGwI73L8OZIbgc4Ob6b6fFiY6nc3Jf5Jnc/z1ZFOdM4a0oHe+gOpfyjA
-         t52Q==
-X-Gm-Message-State: AC+VfDycF22wtkUKRtsVpfsO7WY7UBJec0eUDNnpHIlsOuHC93Fvrr/8
-        YcikWOMsFk2vgMljZ6tf613PxwzlraS4SXNC1No=
-X-Google-Smtp-Source: ACHHUZ7xXWI1tUNtP/JB2dF1+YgJ9pCGhDZ2nbjCMGY6bBUrWZGi7lemw+OtzL1PNiza9ybvjNZEOwjbA7YROhNuljY=
-X-Received: by 2002:a05:6808:179f:b0:39e:df4f:e68f with SMTP id
- bg31-20020a056808179f00b0039edf4fe68fmr1411558oib.6.1687162988421; Mon, 19
- Jun 2023 01:23:08 -0700 (PDT)
+        Mon, 19 Jun 2023 04:42:55 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 265D03A92;
+        Mon, 19 Jun 2023 01:40:48 -0700 (PDT)
+Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 18098547;
+        Mon, 19 Jun 2023 10:39:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1687163998;
+        bh=6NJRwC5Dr2vzbjlVl+AeJg6cppAZ6p7cGxmaf/F5s+A=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=PaMdwDVelUCr2Bpl2OTfDXcqBa72Fpqc3Hu/XO7d+sfRqTSba/rZCj1lwsB+RT3uR
+         gIs59uF6Vc5B3SJS4habkckkrntXpSc/YOZGagGbM0stbTIGIvGlg/AkMT1KEKFO5J
+         +4E8WyJYBT0wdbv/Q2lI9F6NGyDLy4rYgedF8/Wg=
+Message-ID: <fa3f72a1-8f69-e3f1-96c3-5e53c612afe7@ideasonboard.com>
+Date:   Mon, 19 Jun 2023 11:40:28 +0300
 MIME-Version: 1.0
-Received: by 2002:a05:6a20:7a03:b0:11f:4412:fc6f with HTTP; Mon, 19 Jun 2023
- 01:23:07 -0700 (PDT)
-From:   loan offer <skyexpressccourier@gmail.com>
-Date:   Sun, 18 Jun 2023 20:23:07 -1200
-Message-ID: <CAPmwR52j7zm-Awe-ot5fGOpMsqBUBT3=-J55ZhyWw_ET0GurJw@mail.gmail.com>
-Subject: Greetings From Saudi Arabia
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=3.6 required=5.0 tests=BAYES_50,DEAR_SOMETHING,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        FREEMAIL_REPLY,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ***
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v14 11/18] media: i2c: ds90ub9xx: Select GPIOLIB rather
+ than OF_GPIO
+Content-Language: en-US
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Wolfram Sang <wsa@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mike Pagano <mpagano@gentoo.org>,
+        =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
+        Marek Vasut <marex@denx.de>,
+        Satish Nagireddy <satish.nagireddy@getcruise.com>
+References: <20230616135922.442979-1-tomi.valkeinen@ideasonboard.com>
+ <20230616135922.442979-12-tomi.valkeinen@ideasonboard.com>
+ <ZIxu+IvTSaFW3erU@smile.fi.intel.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <ZIxu+IvTSaFW3erU@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Sir,
+On 16/06/2023 17:17, Andy Shevchenko wrote:
+> On Fri, Jun 16, 2023 at 04:59:15PM +0300, Tomi Valkeinen wrote:
+>> Select GPIOLIB rather than OF_GPIO, as the drivers use gpiolib
+>> functionality, but no of_gpio (directly).
+> 
+> This is useful change, but has to be folded in the original code.
+> We do not want even a trace of newly added OF_GPIO.
 
-Need funding for your project or your business ? We are looking for
-foreign direct investment partners in any of the sectors stated below and we are
-willing to provide financing for up to US$ ten Billion to corporate
-bodies, companies, industries and entrepreneurs with profitable
-business ideas and investment projects that can generate the required
-ROI, so you can draw from this opportunity. We are currently providing
-funds in any of the sectors stated below. Energy & Power,
-construction, Agriculture, Acquisitions, Healthcare or Hospital, Real
-Estate, Oil & Gas, IT, technology, transport, mining,marine
-transportation and manufacturing, Education, hotels, etc. We are
-willing to finance your projects. We have developed a new funding
-method that does not take longer to receive funding from our
-customers. If you are seriously pursuing Foreign Direct Investment or
-Joint Venture for your projects in any of the sectors above or are you
-seeking a Loan to expand your Business or seeking funds to finance
-your business or project ? We are willing to fund your business and we
-would like you to provide us with your comprehensive business plan for
-our team of investment experts to review. Kindly contact me with below
-email: yousefahmedalgosaibi@consultant.com
+Yes, I think the first three new patches should be squashed:
 
-Regards
-Mr. Yousef Ahmed
+   media: i2c: ds90ub960: Fix use of UB960_SR_FWD_CTL1
+   media: i2c: ds90ub9xx: Add COMMON_CLK kconfig dependency
+   media: i2c: ds90ub9xx: Select GPIOLIB rather than OF_GPIO
+
+The rest... Thinking about it now, I should have perhaps left them out, 
+as they're not fixing issues, and perhaps they just confuse the merging 
+process.
+
+  Tomi
+
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> 
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> ---
+>>   drivers/media/i2c/Kconfig | 6 +++---
+>>   1 file changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+>> index 8a5f09a3de6c..29fc00e30d8b 100644
+>> --- a/drivers/media/i2c/Kconfig
+>> +++ b/drivers/media/i2c/Kconfig
+>> @@ -1622,7 +1622,7 @@ config VIDEO_DS90UB913
+>>   	depends on OF && I2C && VIDEO_DEV && COMMON_CLK
+>>   	select I2C_ATR
+>>   	select MEDIA_CONTROLLER
+>> -	select OF_GPIO
+>> +	select GPIOLIB
+>>   	select REGMAP_I2C
+>>   	select V4L2_FWNODE
+>>   	select VIDEO_V4L2_SUBDEV_API
+>> @@ -1635,7 +1635,7 @@ config VIDEO_DS90UB953
+>>   	depends on OF && I2C && VIDEO_DEV && COMMON_CLK
+>>   	select I2C_ATR
+>>   	select MEDIA_CONTROLLER
+>> -	select OF_GPIO
+>> +	select GPIOLIB
+>>   	select REGMAP_I2C
+>>   	select V4L2_FWNODE
+>>   	select VIDEO_V4L2_SUBDEV_API
+>> @@ -1648,7 +1648,7 @@ config VIDEO_DS90UB960
+>>   	depends on OF && I2C && VIDEO_DEV && COMMON_CLK
+>>   	select I2C_ATR
+>>   	select MEDIA_CONTROLLER
+>> -	select OF_GPIO
+>> +	select GPIOLIB
+>>   	select REGMAP_I2C
+>>   	select V4L2_FWNODE
+>>   	select VIDEO_V4L2_SUBDEV_API
+>> -- 
+>> 2.34.1
+>>
+> 
+
