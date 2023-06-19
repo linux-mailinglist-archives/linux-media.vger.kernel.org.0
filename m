@@ -2,66 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D3AFF734F0F
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jun 2023 11:05:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53644734F78
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jun 2023 11:17:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230453AbjFSJFX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Jun 2023 05:05:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38456 "EHLO
+        id S230212AbjFSJRZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Jun 2023 05:17:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231131AbjFSJE5 (ORCPT
+        with ESMTP id S229732AbjFSJRY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Jun 2023 05:04:57 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58803AD;
-        Mon, 19 Jun 2023 02:04:56 -0700 (PDT)
-Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 261E6FB;
-        Mon, 19 Jun 2023 11:04:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1687165460;
-        bh=+SksVrsMHgEBW8BF4m3gnrQDCstsaJ2nBtdSpsK2iIQ=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=pz7pjujvp5IQEz3T+uG+w2BFrFA3ezbQZamn6qoaWiUSORPnX1EAr5OSAQpFql5Tf
-         JtaEGkuRplrTEnV+gMw93kx5vyRMQqnVcRriln+BDROW79niHcmNxCr5NN+Eco0Ob0
-         5qAcI8U8hJnA6x8M9wIp3gV+alBgqhS84Pgy3ijk=
-Message-ID: <47bdb323-9350-0b58-f956-39d286e16c45@ideasonboard.com>
-Date:   Mon, 19 Jun 2023 12:04:49 +0300
+        Mon, 19 Jun 2023 05:17:24 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2699883
+        for <linux-media@vger.kernel.org>; Mon, 19 Jun 2023 02:17:23 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Ql40b6hnYz49Py9
+        for <linux-media@vger.kernel.org>; Mon, 19 Jun 2023 12:17:19 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1687166240;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=eaYiKhUSRI5sE17BBIa+FrC4lnUTPZCsig1TKfurh7M=;
+        b=BV/T1NsnWfhubIrXhPd9pCjn7G3EerQN3gii/2FZMT2yAUtodOkBMZTAn535ZITGD/eDLw
+        9dOzOgjKIowBq7Wt22F2ABuH3XIhib6HzvyUhxk7Tk/tkA48lAXcWpD880VIDXwHIXEAa+
+        PvDXZb/MKqjJXLK7uG1Co+17vvct9R87m34u2zep/HBk89NXP8Ou5G0iLIU8V34+lJMirc
+        ErYrJnrQiEkcY9T3vDXz0FjeNB/FPhrCL6nB6L1WVKxFytnYKmTyXMRVShLEXulp5XAgMv
+        L41siqXvRX4DGrTTDmeruLPEIAo52zIImwv4F9C+8DPAeODRwpgGrxAEwAYEUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1687166240;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=eaYiKhUSRI5sE17BBIa+FrC4lnUTPZCsig1TKfurh7M=;
+        b=P7a98wfuAO7ZzqNkru6Yg0Ek+dRd+LDjBO015vHgE2v5gA0a6cRgvGS6DmI/4J/wWaXq26
+        faWTeRrO/JcHwU93yD4toscJXzKXms0tkz7uwajEdGGFmEJabZJS5rpjTeILeHdyJ4TNsP
+        +aDngQmTz9jJ5gce4R8gklTsGLW00VZO1JnwxVNg8K3dnf7p9CdUQbN7QUr6VQmqGsVa2+
+        GqJwJmqbJmnen9MLODRAqJIIWBt0hEoOCSGxrxQyhTHzI4B1I/LClgbSSt9v3c6oGmdoJg
+        WQKYQ0LxXyhxCURdEELPoq2EsrTGPgi/4q/FzInLFftxBerV31iNeMoFOa2Lbw==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1687166240; a=rsa-sha256;
+        cv=none;
+        b=PKuK1Q5vPcRj5itDRTX3fpZUUkpam4+IeSR3EO11ICsGJibDWzxZ2G1t0FEHiIgQNNIhCC
+        TlkU+qKVxAPbwIlb9ZZTIPBWWxWVyy1+LFaKWydUhxT+4zqxgrhHTnxAsj7ZRDH4qRh1tb
+        s25Y20jPAHgLVAj1G6ztiAtYVSOkpZ0vssK8dzU1WRRS6YCZBapQ2KejcLqhgd8iHrKzzX
+        FJQEVJWGjhb6rpeLgfwJdRhCY0o8GOKZuFqTcIzgjPTrMm4nBelaDl72iVFDYUVf5WTJhM
+        RQnWmBo280Lb2ELFjq/47zPLtGqjJOVxbsWBWPuVUzQdPIhxiLiENhNSuK1tDA==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 53C53634C94
+        for <linux-media@vger.kernel.org>; Mon, 19 Jun 2023 12:17:19 +0300 (EEST)
+Date:   Mon, 19 Jun 2023 12:17:19 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Subject: [GIT FIXES FOR 6.4] Fix compile warnings and errors for tc358756 and
+ atomisp
+Message-ID: <ZJAdH+Ftqyd79QF4@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v14 16/18] media: i2c: ds90ub960: Allow FPD-Link async
- mode
-Content-Language: en-US
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Matti Vaittinen <Matti.Vaittinen@fi.rohmeurope.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Wolfram Sang <wsa@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Rosin <peda@axentia.se>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mike Pagano <mpagano@gentoo.org>,
-        =?UTF-8?Q?Krzysztof_Ha=c5=82asa?= <khalasa@piap.pl>,
-        Marek Vasut <marex@denx.de>,
-        Satish Nagireddy <satish.nagireddy@getcruise.com>
-References: <20230616135922.442979-1-tomi.valkeinen@ideasonboard.com>
- <20230616135922.442979-17-tomi.valkeinen@ideasonboard.com>
- <ZIxy5qKjiMZluGOf@smile.fi.intel.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <ZIxy5qKjiMZluGOf@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -70,22 +77,39 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 16/06/2023 17:34, Andy Shevchenko wrote:
-> On Fri, Jun 16, 2023 at 04:59:20PM +0300, Tomi Valkeinen wrote:
->> Allow using FPD-Link in async mode. The driver handles it correctly, but
->> the mode was blocked at probe time as there wasn't HW to test this with.
->> Now the mode has been tested, and it works.
-> 
-> Looks good, but I assume you will incorporate this into the original code.
+Hi Mauro,
 
-Perhaps, but to be honest, I just want to get the basic set merged, as 
-it's been circulating for so many years. So, as I mentioned in the 
-earlier email, it was perhaps a mistake to include these additional 
-changes...
+These two patches address compile warnings and dependency-related build
+failures for tc358746 and atomisp drivers.
 
-If the reviews for the new commits are quick and easy, I can squash them 
-and send a v15. But if there's anything that needs more discussions, I'd 
-like to leave the rest for later.
+Please pull.
 
-  Tomi
 
+The following changes since commit ac9a78681b921877518763ba0e89202254349d1b:
+
+  Linux 6.4-rc1 (2023-05-07 13:34:35 -0700)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/fixes-6.4-3-signed
+
+for you to fetch changes up to afbb61fca19be4eaf2cfacece749f2815686dde0:
+
+  media: staging: atomisp: select V4L2_FWNODE (2023-06-19 12:11:55 +0300)
+
+----------------------------------------------------------------
+V4L2 fixes for 6.4
+
+----------------------------------------------------------------
+Sakari Ailus (2):
+      media: tc358746: Address compiler warnings
+      media: staging: atomisp: select V4L2_FWNODE
+
+ drivers/media/i2c/tc358746.c          | 4 ++--
+ drivers/staging/media/atomisp/Kconfig | 1 +
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+-- 
+Kind regards,
+
+Sakari Ailus
