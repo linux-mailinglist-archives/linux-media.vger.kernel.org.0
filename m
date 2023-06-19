@@ -2,116 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC3C0735946
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jun 2023 16:14:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58BF9735963
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jun 2023 16:22:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232156AbjFSON7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Jun 2023 10:13:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55952 "EHLO
+        id S230133AbjFSOWc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Jun 2023 10:22:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232059AbjFSON4 (ORCPT
+        with ESMTP id S229485AbjFSOWb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Jun 2023 10:13:56 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BD59E7B
-        for <linux-media@vger.kernel.org>; Mon, 19 Jun 2023 07:13:51 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-51a20c744ebso4164956a12.1
-        for <linux-media@vger.kernel.org>; Mon, 19 Jun 2023 07:13:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687184029; x=1689776029;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jVJ0BYxgwjT3FqtgMQASJ1B7HEopYnAjVGB5hh3e82E=;
-        b=M9z4P28nrWagW+IjU4/HCdHHlcaQEqWX7EhrBPn1H9FU9ONO2pp1EL7jsnMEg7I4ll
-         8xceJ4/OUlji0kH8mkofXiti0XNSLOkB+0Wf65ZU6tfTxko/+anKk/1IzQtfC9nnhqSn
-         v0saRZq6uSUhQLNS5JT3kdhnjZ1/DyphBy0cqE3yW2OKeZHjRnC6OjUVX+4oCtNaiyT0
-         nEvPBH35+Sk+tWFKYpqAJs0dpnJouPKSb3L5KOAJ2FDdXEY0jtAzK+tNFs328b615JL0
-         /6vKlg8BGmt4r1XepjO9UvUPwEkZC6srmp/+i8Iy9RuuagsWQKejiIk0zVJtpTdvqsaa
-         zNpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687184029; x=1689776029;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jVJ0BYxgwjT3FqtgMQASJ1B7HEopYnAjVGB5hh3e82E=;
-        b=TRy6qea4hfC7/0uh0UpwdEwzeDAB9zGsZITRAZPkln+sQwW6NyclxLUdzQSbFFgaTo
-         TxFgCy5ZIipy3uH/EUbcU56h+eI0TDww3Vynne5T5Q/Ak+4bMV06Jlq1E6IDtNHK56xr
-         6w4a6XCR1EagPcybRXfvewLiV7w52Qb2TMxXep4tTVZURapQlgrUdgX0P7Vd55lCy9sb
-         mvluBasWnQbYW7KhbAa3YqPfIFfMgfvRR5LCq+AVzBVvwKuMeRhBYSZ7PVlt2yZ2ylui
-         ZDwCFw02U5OQ8jM4fbSRg4AeIbg+TQuRMSdmqzLsIrMKJHj80DMdE00B8HeD5HLgzLjf
-         1WPw==
-X-Gm-Message-State: AC+VfDy9FFGm7G2eDZuAOJzrO6Ix7jJDMPsD64g3Adb9bMNiT22Gxdr3
-        GRSbtrnGYH28ED4aARFgGipGqQ==
-X-Google-Smtp-Source: ACHHUZ7O2sSAG3s4Vml5tVOvx0rnJQoDa5gdvDzwpYu+SWO687o/I76se/9w1hJ7dH9KrjVmuODOeQ==
-X-Received: by 2002:a05:6402:164c:b0:51a:4452:ae0c with SMTP id s12-20020a056402164c00b0051a4452ae0cmr4540560edx.35.1687184029619;
-        Mon, 19 Jun 2023 07:13:49 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.26])
-        by smtp.gmail.com with ESMTPSA id p4-20020a05640210c400b005158563be4asm13096759edu.33.2023.06.19.07.13.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Jun 2023 07:13:49 -0700 (PDT)
-Message-ID: <158425ec-86e8-ca3e-eed8-e14b37c42730@linaro.org>
-Date:   Mon, 19 Jun 2023 16:13:44 +0200
+        Mon, 19 Jun 2023 10:22:31 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63047FE;
+        Mon, 19 Jun 2023 07:22:30 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 4E46C2189A;
+        Mon, 19 Jun 2023 14:22:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1687184547; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ywjVukmToU8k6hdCdSSEnWj9wcqGQTjDhK/qRMDRYos=;
+        b=Ql+MwzwIQNf/VBcGuKV3L3rRd/qQBmSBH2D57o/k3hSkP/8UxE/dfnIGU373Oc7J7iQGEC
+        hGhlKQz8n3jKmpjeKtw9jc//GbF5l3hKoCqRVXcNJ1MtkXrkgGXZ2pGZ3lACN8v/50/c18
+        tcEhvXOHtcbqRvUU4kLcCV6GdIV7f6o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1687184547;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ywjVukmToU8k6hdCdSSEnWj9wcqGQTjDhK/qRMDRYos=;
+        b=fuXJtLQR5Czn4lK2ttgweKxBT7d09EJ8h3rlcWfUn4tkmHo1vbZOnIjvyhM0zsH/iqBoS7
+        sX1iT0zmCCsFtpBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D7915138E8;
+        Mon, 19 Jun 2023 14:22:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id caG0M6JkkGTRIAAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Mon, 19 Jun 2023 14:22:26 +0000
+Message-ID: <f7ded369-e384-db01-dc8c-6a5183f20409@suse.de>
+Date:   Mon, 19 Jun 2023 16:22:26 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH 01/28] media: cec: ch7322: drop of_match_ptr for ID table
-To:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Joe Tessler <jrt@google.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Wenyou Yang <wenyou.yang@microchip.com>,
-        Bin Liu <bin.liu@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Patrice Chotard <patrice.chotard@foss.st.com>,
-        Yong Deng <yong.deng@magewell.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-rockchip@lists.infradead.org
-References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
- <98a77653-ec58-56c4-9893-3b424f67c87e@linaro.org>
- <5afcec8b-b8f6-35b0-278a-5de185e4a7a2@xs4all.nl>
- <ZG9XJCD98VWjGjTN@valkosipuli.retiisi.eu>
- <ZG9ger4WE2VWoVEF@valkosipuli.retiisi.eu>
+Subject: Re: [PATCH 4/9] drm/verisilicon: Add gem driver for JH7110 SoC
+To:     Keith Zhao <keith.zhao@starfivetech.com>,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Shengyang Chen <shengyang.chen@starfivetech.com>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Jagan Teki <jagan@edgeble.ai>,
+        Rob Herring <robh+dt@kernel.org>,
+        Chris Morgan <macromorgan@hotmail.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Changhuang Liang <changhuang.liang@starfivetech.com>,
+        Jack Zhu <jack.zhu@starfivetech.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Shawn Guo <shawnguo@kernel.org>, christian.koenig@amd.com
+References: <20230602074043.33872-1-keith.zhao@starfivetech.com>
+ <20230602074043.33872-5-keith.zhao@starfivetech.com>
 Content-Language: en-US
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <ZG9ger4WE2VWoVEF@valkosipuli.retiisi.eu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230602074043.33872-5-keith.zhao@starfivetech.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------AQmo0XbTycWWIDd2erzQxco5"
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -120,58 +90,120 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 25/05/2023 15:19, Sakari Ailus wrote:
-> Hi folks,
-> 
-> On Thu, May 25, 2023 at 03:40:04PM +0300, Sakari Ailus wrote:
->> Hi Hans,
->>
->> On Sat, May 13, 2023 at 11:57:33AM +0200, Hans Verkuil wrote:
->>> On 12/05/2023 18:35, Krzysztof Kozlowski wrote:
->>>> On 12/03/2023 14:12, Krzysztof Kozlowski wrote:
->>>>> The driver can match only via the DT table so the table should be always
->>>>> used and the of_match_ptr does not have any sense (this also allows ACPI
->>>>> matching via PRP0001, even though it might not be relevant here).
->>>>>
->>>>>   drivers/media/cec/i2c/ch7322.c:583:34: error: ‘ch7322_of_match’ defined but not used [-Werror=unused-const-variable=]
->>>>>
->>>>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>>>> ---
->>>>
->>>> Hans, Sakari,
->>>>
->>>> Can you pick up the patchset? There was positive feedback:
->>>> https://patchwork.linuxtv.org/project/linux-media/patch/20230312131318.351173-1-krzysztof.kozlowski@linaro.org/
->>>>
->>>> but it seems it was not applied.
->>>
->>> I see it is delegated to Sakari in patchwork and marked Under Review, but I don't
->>> see a corresponding pull request for this series.
->>>
->>> Sakari, did something go wrong?
->>
->> I spotted this as Hans notified me in IRC, I wasn't cc'd. Apologies for
->> this --- I intended to take these but I think I must have missed something
->> important in the process. I'll take them now.
->>
->> Thanks.
-> 
-> This no longer applied cleanly. Mostly there was fuzz near .of_match_table
-> changes as probe_new (and remove_new?) changes have been recently merged.
-> There were other issues as well, I marked a few patches in the set "not
-> applicable" as other patches had already done equivalent changes earlier.
-> 
-> There were substance-changing changes in the 20th patch, replied to the
-> disuccsion there.
-> 
-> I've pushed the result here and intend to send PR to Mauro soon if there
-> are no issues:
-> 
-> <URL:https://git.linuxtv.org/sailus/media_tree.git/log/?h=of-match-ptr>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------AQmo0XbTycWWIDd2erzQxco5
+Content-Type: multipart/mixed; boundary="------------nV5DH2JaYJn29RZXOOhf0f8I";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Keith Zhao <keith.zhao@starfivetech.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Emil Renner Berthing <kernel@esmil.dk>,
+ Shengyang Chen <shengyang.chen@starfivetech.com>,
+ Conor Dooley <conor+dt@kernel.org>, Albert Ou <aou@eecs.berkeley.edu>,
+ Jagan Teki <jagan@edgeble.ai>, Rob Herring <robh+dt@kernel.org>,
+ Chris Morgan <macromorgan@hotmail.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Changhuang Liang <changhuang.liang@starfivetech.com>,
+ Jack Zhu <jack.zhu@starfivetech.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Shawn Guo <shawnguo@kernel.org>, christian.koenig@amd.com
+Message-ID: <f7ded369-e384-db01-dc8c-6a5183f20409@suse.de>
+Subject: Re: [PATCH 4/9] drm/verisilicon: Add gem driver for JH7110 SoC
+References: <20230602074043.33872-1-keith.zhao@starfivetech.com>
+ <20230602074043.33872-5-keith.zhao@starfivetech.com>
+In-Reply-To: <20230602074043.33872-5-keith.zhao@starfivetech.com>
 
-One month later, I still don't see this set in the linux-next.  What's
-happening here?
+--------------nV5DH2JaYJn29RZXOOhf0f8I
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Best regards,
-Krzysztof
+SGkNCg0KQW0gMDIuMDYuMjMgdW0gMDk6NDAgc2NocmllYiBLZWl0aCBaaGFvOg0KPiBUaGlz
+IHBhdGNoIGltcGxlbWVudHMgZ2VtIHJlbGF0ZWQgQVBJcyBmb3IgSkg3MTAwIFNvQy4NCg0K
+cGxlYXNlIGFsc28gc2VlIG15IG90aGVyIHJlcGx5IHRvIHRoaXMgcGF0Y2guIE15IG1haWwg
+Y2xpZW50IGhhZCBhIGJ1ZyANCmJlZm9yZSBJIGNvdWxkIGZpbmlzaCBpdC4gQmVsb3cgYXJl
+IHNvbWUgbW9yZSBjb21tZW50cy4NCg0KPiANCj4gU2lnbmVkLW9mZi1ieTogS2VpdGggWmhh
+byA8a2VpdGguemhhb0BzdGFyZml2ZXRlY2guY29tPg0KPiAtLS0NClsuLi5dDQo+ICsjaWZu
+ZGVmIF9fVlNfR0VNX0hfXw0KPiArI2RlZmluZSBfX1ZTX0dFTV9IX18NCj4gKw0KPiArI2lu
+Y2x1ZGUgPGxpbnV4L2RtYS1idWYuaD4NCj4gKw0KPiArI2luY2x1ZGUgPGRybS9kcm1fZ2Vt
+Lmg+DQo+ICsjaW5jbHVkZSA8ZHJtL2RybV9wcmltZS5oPg0KPiArDQo+ICsjaW5jbHVkZSAi
+dnNfZHJ2LmgiDQo+ICsvKg0KPiArICoNCj4gKyAqIEBiYXNlOiBkcm0gZ2VtIG9iamVjdC4N
+Cj4gKyAqIEBzaXplOiBzaXplIHJlcXVlc3RlZCBmcm9tIHVzZXINCj4gKyAqIEBjb29raWU6
+IGNvb2tpZSByZXR1cm5lZCBieSBkbWFfYWxsb2NfYXR0cnMNCj4gKyAqCS0gbm90IGtlcm5l
+bCB2aXJ0dWFsIGFkZHJlc3Mgd2l0aCBETUFfQVRUUl9OT19LRVJORUxfTUFQUElORw0KPiAr
+ICogQGRtYV9hZGRyOiBidXMgYWRkcmVzcyhhY2Nlc3NlZCBieSBkbWEpIHRvIGFsbG9jYXRl
+ZCBtZW1vcnkgcmVnaW9uLg0KPiArICoJLSB0aGlzIGFkZHJlc3MgY291bGQgYmUgcGh5c2lj
+YWwgYWRkcmVzcyB3aXRob3V0IElPTU1VIGFuZA0KPiArICoJZGV2aWNlIGFkZHJlc3Mgd2l0
+aCBJT01NVS4NCj4gKyAqIEBkbWFfYXR0cnM6IGF0dHJpYnV0ZSBmb3IgRE1BIEFQSQ0KPiAr
+ICogQGdldF9wYWdlczogZmxhZyBmb3IgbWFudWFsbHkgYXBwbHlpbmcgZm9yIG5vbi1jb250
+aWd1b3VzIG1lbW9yeS4NCj4gKyAqIEBwYWdlczogQXJyYXkgb2YgYmFja2luZyBwYWdlcy4N
+Cj4gKyAqIEBzZ3Q6IEltcG9ydGVkIHNnX3RhYmxlLg0KPiArICoNCj4gKyAqLw0KPiArc3Ry
+dWN0IHZzX2dlbV9vYmplY3Qgew0KPiArCXN0cnVjdCBkcm1fZ2VtX29iamVjdAliYXNlOw0K
+PiArCXNpemVfdAkJCXNpemU7DQo+ICsJdm9pZAkJCSpjb29raWU7DQo+ICsJZG1hX2FkZHJf
+dAkJZG1hX2FkZHI7DQo+ICsJdTMyCQkJCWlvdmE7DQo+ICsJdW5zaWduZWQgbG9uZwlkbWFf
+YXR0cnM7DQo+ICsJYm9vbAkJCWdldF9wYWdlczsNCj4gKwlzdHJ1Y3QgcGFnZQkJKipwYWdl
+czsNCj4gKwlzdHJ1Y3Qgc2dfdGFibGUgKnNndDsNCj4gK307DQo+ICsNCj4gK3N0YXRpYyBp
+bmxpbmUNCj4gK3N0cnVjdCB2c19nZW1fb2JqZWN0ICp0b192c19nZW1fb2JqZWN0KHN0cnVj
+dCBkcm1fZ2VtX29iamVjdCAqb2JqKQ0KPiArew0KPiArCXJldHVybiBjb250YWluZXJfb2Yo
+b2JqLCBzdHJ1Y3QgdnNfZ2VtX29iamVjdCwgYmFzZSk7DQo+ICt9DQo+ICsNCj4gK3N0cnVj
+dCB2c19nZW1fb2JqZWN0ICp2c19nZW1fY3JlYXRlX29iamVjdChzdHJ1Y3QgZHJtX2Rldmlj
+ZSAqZGV2LA0KPiArCQkJCQkgICBzaXplX3Qgc2l6ZSk7DQo+ICsNCj4gK2ludCB2c19nZW1f
+cHJpbWVfdm1hcChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwgc3RydWN0IGlvc3lzX21h
+cCAqbWFwKTsNCj4gK3ZvaWQgdnNfZ2VtX3ByaW1lX3Z1bm1hcChzdHJ1Y3QgZHJtX2dlbV9v
+YmplY3QgKm9iaiwgc3RydWN0IGlvc3lzX21hcCAqbWFwKTsNCg0KSSdkIGNvbnNpZGVyIHRo
+aXMgYmFkIHN0eWxlLiBZb3VyIGZ1bmN0aW9ucyBhcmUgaW4gdGhlIHZzXyBuYW1lc3BhY2Us
+IHNvIA0KdGhleSBzaG91bGQgdGFrZSBhIHZzX2dlbV9vYmplY3QgYXMgZmlyc3QgYXJndW1l
+bnQuIFJhdGhlciBpbXBsZW1lbnQgDQp2c19nZW1fcHJpbWVfdm1hcChzdHJ1Y3QgdnNfZ2Vt
+X29iamVjdCAqdnNfb2JqLCBzdHJ1Y3QgaW9zeXNfbWFwICptYXApDQphbmQgX3Z1bm1hcCgp
+IGFuZCBfbW1hcCgpLg0KDQpGb3IgdGhlIGNhbGxiYWNrcyBpbiBzdHJ1Y3QgZHJtX2dlbW9i
+amVjdF9mdW5jcywgeW91IGNhbiB3cml0ZSBzbWFsbCANCndyYXBwZXJzIGFyb3VuZCB0aGUg
+aGVscGVycyB0byBkbyB0aGUgdHlwZSBjYXN0aW5nLiBTZWUgDQpkcm1fZ2VtX3NobWVtX29i
+amVjdF9tbWFwKCkgYW5kIGRybV9nZW1fc2htZW1fbW1hcCgpIGZvciBhbiBleGFtcGxlLg0K
+DQpodHRwczovL2VsaXhpci5ib290bGluLmNvbS9saW51eC9sYXRlc3Qvc291cmNlL2luY2x1
+ZGUvZHJtL2RybV9nZW1fc2htZW1faGVscGVyLmgjTDIzMw0KDQoNCg0KPiArDQo+ICtpbnQg
+dnNfZ2VtX3ByaW1lX21tYXAoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmosDQo+ICsJCSAg
+ICAgIHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hKTsNCj4gKw0KPiAraW50IHZzX2dlbV9k
+dW1iX2NyZWF0ZShzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGVfcHJpdiwNCj4gKwkJICAgICAgIHN0
+cnVjdCBkcm1fZGV2aWNlICpkcm0sDQo+ICsJCSAgICAgICBzdHJ1Y3QgZHJtX21vZGVfY3Jl
+YXRlX2R1bWIgKmFyZ3MpOw0KPiArDQo+ICtpbnQgdnNfZ2VtX21tYXAoc3RydWN0IGZpbGUg
+KmZpbHAsIHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hKTsNCj4gKw0KPiArc3RydWN0IHNn
+X3RhYmxlICp2c19nZW1fcHJpbWVfZ2V0X3NnX3RhYmxlKHN0cnVjdCBkcm1fZ2VtX29iamVj
+dCAqb2JqKTsNCj4gKw0KPiArc3RydWN0IGRybV9nZW1fb2JqZWN0ICp2c19nZW1fcHJpbWVf
+aW1wb3J0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsDQo+ICsJCQkJCSAgIHN0cnVjdCBkbWFf
+YnVmICpkbWFfYnVmKTsNCj4gK3N0cnVjdCBkcm1fZ2VtX29iamVjdCAqDQo+ICt2c19nZW1f
+cHJpbWVfaW1wb3J0X3NnX3RhYmxlKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsDQo+ICsJCQkg
+ICAgIHN0cnVjdCBkbWFfYnVmX2F0dGFjaG1lbnQgKmF0dGFjaCwNCj4gKwkJCSAgICAgc3Ry
+dWN0IHNnX3RhYmxlICpzZ3QpOw0KPiArDQo+ICsjZW5kaWYgLyogX19WU19HRU1fSF9fICov
+DQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXIN
+ClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2Ug
+MTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBN
+eWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcg
+TnVlcm5iZXJnKQ0K
 
+--------------nV5DH2JaYJn29RZXOOhf0f8I--
+
+--------------AQmo0XbTycWWIDd2erzQxco5
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSQZKIFAwAAAAAACgkQlh/E3EQov+Dh
+sg/9FK6lyEoYAw1QEf7gjCF9MaR0OxJb/gGkeJsLnmfPwbjmHytGMUlUQEOkKo9BUdQHBx8wH7Sl
+6FCw7hCTHTSHVXb/I7IE/TsSbPijqFOeMdQAvUMdy1g/EV/K3U3DE3YtqX4/IYCYna+wPduHzxOJ
+r5VSgWZfZVskQxqAUPaTLbWlt9JoXlGB+KfoMFX02kJA5yu0Gag1q60C88eyvUGehuhSkTe4aEfq
+CewqJ6+qGUGCStV81G9WJM0swEoFH+yThuNylfOR3KDcibC1zsUoQ1EJgZv4Zu9CjDgNOv1dNBeM
+yqcRO9VZnTunJ2QK8v8c1po0XyZnDgx/JbqGvKFcbpOng30ODvk9qDnVw/oY+I3tCwT07pgDTlOc
+FpyyBH56sdhwiLQ4kQMF/K6CEomDvudttRBURlZ758SbmQcLgEq8wLqnaMfYdKIl+YWiIl9sFb5o
+y5Zu8OT7RMdockxADbi44cWyZ9u0A2k/AqQBItNwSf+j0KPVzQd6FSCejMSynDFRp55ggLXu5XdF
+QlFAzCDD6eUw0zbOa93PQir5cFH4RpXMDcNDSNFRc9cmJP8mXLklM+oCmIeLq8B8qJFet+FDLm4C
+YgGLzd/sjr59jNjS2BQ0fVeJGFID5bJY6FPyho9xUirldXVdJJhHf4NB6hLNo4dGy8W/r4H5s1MS
+qZM=
+=yGOr
+-----END PGP SIGNATURE-----
+
+--------------AQmo0XbTycWWIDd2erzQxco5--
