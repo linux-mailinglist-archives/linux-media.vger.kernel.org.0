@@ -2,65 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C0686734C3B
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jun 2023 09:17:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F66E734C57
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jun 2023 09:27:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229848AbjFSHRl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Jun 2023 03:17:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58588 "EHLO
+        id S229636AbjFSH1a convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 19 Jun 2023 03:27:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229552AbjFSHRl (ORCPT
+        with ESMTP id S229482AbjFSH10 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Jun 2023 03:17:41 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 992201A8
-        for <linux-media@vger.kernel.org>; Mon, 19 Jun 2023 00:17:40 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2518D6151C
-        for <linux-media@vger.kernel.org>; Mon, 19 Jun 2023 07:17:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EF94C433CA
-        for <linux-media@vger.kernel.org>; Mon, 19 Jun 2023 07:17:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687159059;
-        bh=k6yK8la4rYBlv69i0VKV/a+wDbod7RaHwGJX0ZYu/dg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=L2Ea18iWXASq9SXqxW8X1Lp0NmFfqIYnIEpgPcWWYHmmQl+h1DgMAW3EDDmvgj6iG
-         4ceqKAYwPL4Vf0PeRDRDZ39UUofdeZoqnmt4s5ZoCMNL0AmQlKSpwLHiyIySfT93UE
-         qKCa3tRtqZTsUFhpN20tYbbMv6hIxF/I5OLtcT2pIRKi0V1lApqq8+i+RwQ0TCoZjA
-         s8BpR7YTbVKFnJwn1w+/Xfht+ZUBlZ/cdrEtq12F6iToAFFfVRX6+Le6IMfLrc6j5Y
-         q39twJ0A2fWBZEn163UBAWVp1piG3UJy6/E/oGyz9j3/Yw7fTjWyUcBQKcieGmxhIa
-         NVq+9kEH3Jdyw==
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-bad0c4f6f50so4662253276.1
-        for <linux-media@vger.kernel.org>; Mon, 19 Jun 2023 00:17:39 -0700 (PDT)
-X-Gm-Message-State: AC+VfDzi8WwmN+bJ+0adojZmizSG1KtGvuQS5VkEpTCOpfzycJIXqumR
-        fB5TENuFnAXD+veqbhjZdWgTIOlE3B4i/khmkIg=
-X-Google-Smtp-Source: ACHHUZ5VNSh6EDNs3Xesrd6IYdsENJQ2NabLYlpsbKnEJj5xvUG2DUdArUiX0sSIGvHIer5zRPIpB7L626A55JlKBbs=
-X-Received: by 2002:a25:ac9d:0:b0:bc4:f2e5:5343 with SMTP id
- x29-20020a25ac9d000000b00bc4f2e55343mr5827873ybi.28.1687159058632; Mon, 19
- Jun 2023 00:17:38 -0700 (PDT)
+        Mon, 19 Jun 2023 03:27:26 -0400
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 253E6121;
+        Mon, 19 Jun 2023 00:27:22 -0700 (PDT)
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+        by fd01.gateway.ufhost.com (Postfix) with ESMTP id 378B88138;
+        Mon, 19 Jun 2023 15:27:14 +0800 (CST)
+Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Mon, 19 Jun
+ 2023 15:27:14 +0800
+Received: from [192.168.1.218] (180.164.60.184) by EXMBX073.cuchost.com
+ (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Mon, 19 Jun
+ 2023 15:27:13 +0800
+Message-ID: <73ded260-3967-7547-9317-f4cbe5bcbb1c@starfivetech.com>
+Date:   Mon, 19 Jun 2023 15:27:13 +0800
 MIME-Version: 1.0
-References: <20230618181740.42432-1-hdegoede@redhat.com>
-In-Reply-To: <20230618181740.42432-1-hdegoede@redhat.com>
-From:   Ricardo Ribalda Delgado <ribalda@kernel.org>
-Date:   Mon, 19 Jun 2023 09:17:22 +0200
-X-Gmail-Original-Message-ID: <CAPybu_0kT0RNDCx1M8rWGN9WP39EXtopzbJYts1rWBTXH-F81g@mail.gmail.com>
-Message-ID: <CAPybu_0kT0RNDCx1M8rWGN9WP39EXtopzbJYts1rWBTXH-F81g@mail.gmail.com>
-Subject: Re: [PATCH] media: ad5820: Drop unsupported ad5823 from i2c_ and
- of_device_id tables
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v6 3/6] media: starfive: Add basic driver
+Content-Language: en-US
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Eugen Hristev <eugen.hristev@collabora.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <changhuang.liang@starfivetech.com>
+References: <20230525083202.67933-1-jack.zhu@starfivetech.com>
+ <20230525083202.67933-4-jack.zhu@starfivetech.com>
+ <fa665e61-f36a-5f65-4837-8d7c8c6a052e@linaro.org>
+From:   Jack Zhu <jack.zhu@starfivetech.com>
+In-Reply-To: <fa665e61-f36a-5f65-4837-8d7c8c6a052e@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX073.cuchost.com
+ (172.16.6.83)
+X-YovoleRuleAgent: yovoleflag
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -68,19 +67,42 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans
+Hi Bryan,
 
-Thanks for your patch.
+Thank you for your comments.
 
-When we added support for this  we had no access to the datasheet.
+On 2023/6/16 21:13, Bryan O'Donoghue wrote:
+> On 25/05/2023 09:31, Jack Zhu wrote:
+>> Add basic platform driver for StarFive Camera Subsystem.
+>>
+>> Reviewed-by: Bryan O'Donoghue <c.odonoghue@linaro.org>
+>> Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
+> 
+> One thing here is the patch title and hence commit message.
+> 
+> "media: starfive:" doesn't really tell you this is a camera versus say a encoder/decoder.
+> 
+> I see you've used the name "camss" for your driver, which I think is a perfectly good and logical choice - however if you started to make commits along the lines of "media: camss" that would conflict with the qcom camss.
+> 
+> How about for starfive and qcom by the way, we do what Laurent did in
+> 
+> commit 3e8537b4c15172bfe1b285c3155ed5c37d523cd3
+> Author: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Date:   Wed Dec 21 10:33:39 2022 +0100
+> 
+>     media: ti: omap3isp: Use media_pipeline_for_each_entity()
+> 
+> i.e. future StarFive commits for camera would be "media: starfive: camss" and similarly for Qualcomm "media: qualcomm: camss"
+> 
+> The point being the commit title namespace should be instructive and specific re: 3e8537b4c15172bfe1b285c3155ed5c37d523cd3
+> 
 
-Regards
+Okay， I will add a camss directory under the starfive directory and modify the patch title.
 
-On Sun, Jun 18, 2023 at 8:17=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
- wrote:
->
-> Fixes: b8bf73136bae ("media: ad5820: Add support for ad5821 and ad5823")
-> Cc: Pavel Machek <pavel@ucw.cz>
-> Cc: Ricardo Ribalda Delgado <ribalda@kernel.org>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+> bod
+
+-- 
+Regards,
+
+Jack Zhu
