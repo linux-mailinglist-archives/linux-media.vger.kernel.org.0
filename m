@@ -2,114 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B182773479A
-	for <lists+linux-media@lfdr.de>; Sun, 18 Jun 2023 20:18:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A0BA734975
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jun 2023 02:24:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229550AbjFRSSg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 18 Jun 2023 14:18:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59240 "EHLO
+        id S229518AbjFSAYn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 18 Jun 2023 20:24:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229521AbjFRSSf (ORCPT
+        with ESMTP id S229513AbjFSAYm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 18 Jun 2023 14:18:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD44EAA
-        for <linux-media@vger.kernel.org>; Sun, 18 Jun 2023 11:17:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1687112267;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=PYQdVMUqNfC3tSh5mFYgKCL0bXZs+1UhR11OrbqPkWA=;
-        b=PVt9zh0wQDMVzu6Y/GRZozFtQaJiKnNOjC/7C+AxVjHre6bJYjOMFbA0aFVQSgP3grK5zG
-        yX9JmSm/yOX7maRbGaK3TXzaSQrM5hYFXoh9Pmj3JRO1pXVN6olTppG8YPt/GIYlAADgrG
-        c0Y0zLCLx1lNWZtZHfSCYiPnB7MhsYg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-9-bYBcxI_6O8-ZSBUeMZXiwQ-1; Sun, 18 Jun 2023 14:17:43 -0400
-X-MC-Unique: bYBcxI_6O8-ZSBUeMZXiwQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EC11585A58C;
-        Sun, 18 Jun 2023 18:17:42 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.192.65])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A41C7440CB;
-        Sun, 18 Jun 2023 18:17:41 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Pavel Machek <pavel@ucw.cz>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org,
-        Ricardo Ribalda Delgado <ribalda@kernel.org>
-Subject: [PATCH] media: ad5820: Drop unsupported ad5823 from i2c_ and of_device_id tables
-Date:   Sun, 18 Jun 2023 20:17:40 +0200
-Message-ID: <20230618181740.42432-1-hdegoede@redhat.com>
+        Sun, 18 Jun 2023 20:24:42 -0400
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com [IPv6:2607:f8b0:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BC91E4D;
+        Sun, 18 Jun 2023 17:24:40 -0700 (PDT)
+Received: by mail-ot1-x331.google.com with SMTP id 46e09a7af769-6b44b5adfd3so1936147a34.3;
+        Sun, 18 Jun 2023 17:24:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687134280; x=1689726280;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KEmDS2p8yjBfYlfB/iT3dpocB29HdgNOixmRsTqFoPQ=;
+        b=n01n1B1tGlntSnuy4b1JwNT5ifgmjeITHLn0NlkjenDrw+PEQuhDsEKetwZmQAjRLf
+         uiC0DCHu4cfleoVBIoAylHp9h8acVV+VAYgFr3zdUk188yMvVFT1XJTdbvBLXtFsWLLj
+         lv2xHB2zoFSqwpcLNEZ55g1hOZ0Dn76eHzVDH0cg3oE93MpOEuaQQgO+somBdZixKe3s
+         j4dNkUe9I9hhg7l4Ft9pK3VYgU1cIkKvmQvKP6NBXBShvIa8gKB9qT6yK6HU7tYwv6vJ
+         STpWZ4ER0kaTXEH7Q68FjzC8gwy2ig7dggl3jZosVAib9tVkliSyPZxboWi+t/1lGIxw
+         jiyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687134280; x=1689726280;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=KEmDS2p8yjBfYlfB/iT3dpocB29HdgNOixmRsTqFoPQ=;
+        b=F80eFJuN4HH+Q5IstfySpw3mckmpa/j7vMZOmsn+Rigfs5EJVZ/SqZXIJCwYh5UkmP
+         7IAwiO9Z8zp6L7u+yjKPdAgpd1mkk427rkLFh7Vt76OAMPfOAwcvZnSdmID1/8V1nwID
+         Q38Hw4mzgOb9znO3xOqJemkaHkvqP8xVzyAL3fjYMlhyWG52J55hnB9rgUhhFBZ3F7hj
+         YjEPo4K+jqDETfMEuWXRl0DiGFTPMdrhPa176W0P1UVbwFuBJHz7uNZubvpdUdiVCpNu
+         nneUV2xrHlMhvd3qB6Hz6m+yVhG0MrxatwOVJ4433dgsoX6ApP7t+OLK6v/C/SpV790C
+         l+JQ==
+X-Gm-Message-State: AC+VfDwGIBH+PH4XrX2odRzJ57lLIDuhlLfhxeCQWIIpcQgUIKJTSgbx
+        cK2hV4Ci/8vuiquk1D0i/A0xmhYSg/4=
+X-Google-Smtp-Source: ACHHUZ5o2qY03OHoswZtTdeRjesgO49FTz2FBobZYESYSyBx3gRmEcK2lJYL5q5kz256+OENnWC8fA==
+X-Received: by 2002:a05:6358:cd1c:b0:12b:d79a:d433 with SMTP id gv28-20020a056358cd1c00b0012bd79ad433mr4383161rwb.11.1687134279460;
+        Sun, 18 Jun 2023 17:24:39 -0700 (PDT)
+Received: from [192.168.0.103] ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id i25-20020aa787d9000000b0064f51ee5b90sm6335043pfo.62.2023.06.18.17.24.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 18 Jun 2023 17:24:39 -0700 (PDT)
+Message-ID: <a7f997fc-e7cc-cf67-3ac0-80ed30346511@gmail.com>
+Date:   Mon, 19 Jun 2023 07:24:32 +0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Content-Language: en-US
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>, rouckat@quick.cz,
+        Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Regressions <regressions@lists.linux.dev>,
+        Linux Media <linux-media@vger.kernel.org>,
+        Linux Stable <stable@vger.kernel.org>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Fwd: in linux 6.3.7-200.fc38.x86_64 goes vlc in time to switch tv
+ channels to zombie-process
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The supported ad5820 and ad5821 VCMs both use a single 16 bit register
-which is written by sending 2 bytes with the data directly after sending
-the i2c-client address.
+Hi,
 
-The ad5823 OTOH has a more typical i2c / smbus device setup with multiple
-8 bit registers where the first byte send after the i2c-client address is
-the register address and the actual data only starts from the second byte
-after the i2c-client address.
+I notice a regression report on Bugzilla [1]. Quoting from it:
 
-The ad5823 i2c_ and of_device_id-s was added at the same time as
-the ad5821 ids with as rationale:
+> vmlinuz-6.3.7-200.fc38.x86_64  and vmlinuz-6.3.8-200.fc38.x86_64
+> 
+> in the switch tv channel to another vlc stay blocked and and the loading of firmware newer ending. power must be switch to off.
+> from dmesg:
+> 
+> dvb-tuner-si2141-a10-01.fw
+> dvb-demod-si2168-d60-01.fw 
+> firmware version: D 6.0.13
+> 
+> restart of dvb modules is impossible, They stay working. 
+> 
+> kernel 6.3.5-200.fc38.x86_64 works  OK. I don't how works kernel 6.3.6-200.fc38.x86_64
+> 
+> this same error is in vmlinuz-6.3.5-200.fc38.x86_64 and earliers but there is the occurence accesptable.
+> 
+> listing from 6.3.5 kernel:
+> 
+> [ 3378.026035] si2168 7-0064: firmware version: D 6.0.13
+> [ 3431.891579] si2168 7-0064: downloading firmware from file 'dvb-demod-si2168-d60-01.fw'
+> [ 3434.037278] usb 1-4: dvb_usb_v2: 2nd usb_bulk_msg() failed=-110
+> [ 3434.037289] si2168 7-0064: firmware download failed -110
+> [ 3436.085265] usb 1-4: dvb_usb_v2: usb_bulk_msg() failed=-110
+> 
+> lsmod |grep dvb
+> dvb_usb_dvbsky         32768  2
+> dvb_usb_v2             57344  1 dvb_usb_dvbsky
+> m88ds3103              49152  1 dvb_usb_dvbsky
+> dvb_core              192512  3 dvb_usb_v2,m88ds3103,dvb_usb_dvbsky
+> m
+> 
+> modprobe -r dvb_usb_dvbsky
+> modprobe: FATAL: Module dvb_usb_dvbsky is in use.
+> 
+> ?????? The problem in dvb_usb_dvbsky or firmware ?????   
+> 
+> The answer from https://bugzilla.rpmfusion.org was:
+> 
+> If it was working with previous kernel this is likely a kernel regression. 
+> please forward to the dvb sub-system maintainers.
+> 
+> this problen insist a long time (years), but not too horible
 
-"""
-Some camera modules also refer that AD5823 is a replacement of AD5820:
-https://download.kamami.com/p564094-OV8865_DS.pdf
-"""
+See Bugzilla for the full thread and attached dmesg and lsusb.
 
-The AD5823 may be an electrical and functional replacement of the AD5820,
-but from a software pov it is not compatible at all and it is going to
-need its own driver, drop its id from the ad5820 driver.
+Thorsten: The reporter can't perform bisection for he has problem
+compiling his own vanilla kernel (see comment 8 on the Bugzilla
+ticket, albeit with translated make(1) output). Can you take a look on
+it?
 
-Fixes: b8bf73136bae ("media: ad5820: Add support for ad5821 and ad5823")
-Cc: Pavel Machek <pavel@ucw.cz>
-Cc: Ricardo Ribalda Delgado <ribalda@kernel.org>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/media/i2c/ad5820.c | 2 --
- 1 file changed, 2 deletions(-)
+Anyway, I'm adding it to regzbot (as stable-specific regression
+for now):
 
-diff --git a/drivers/media/i2c/ad5820.c b/drivers/media/i2c/ad5820.c
-index 5f605b9be3b1..1543d24f522c 100644
---- a/drivers/media/i2c/ad5820.c
-+++ b/drivers/media/i2c/ad5820.c
-@@ -349,7 +349,6 @@ static void ad5820_remove(struct i2c_client *client)
- static const struct i2c_device_id ad5820_id_table[] = {
- 	{ "ad5820", 0 },
- 	{ "ad5821", 0 },
--	{ "ad5823", 0 },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, ad5820_id_table);
-@@ -357,7 +356,6 @@ MODULE_DEVICE_TABLE(i2c, ad5820_id_table);
- static const struct of_device_id ad5820_of_table[] = {
- 	{ .compatible = "adi,ad5820" },
- 	{ .compatible = "adi,ad5821" },
--	{ .compatible = "adi,ad5823" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, ad5820_of_table);
+#regzbot introduced: v6.3.5..v6.3.7 https://bugzilla.kernel.org/show_bug.cgi?id=217566
+#regzbot title: switching TV channel causes VLC and firmware loading hang
+
+Thanks.
+
+[1]: https://bugzilla.kernel.org/show_bug.cgi?id=217566
+
 -- 
-2.41.0
-
+An old man doll... just what I always wanted! - Clara
