@@ -2,61 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F60F73596D
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jun 2023 16:25:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E7E97359D9
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jun 2023 16:41:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230307AbjFSOZC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Jun 2023 10:25:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33842 "EHLO
+        id S231316AbjFSOle (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Jun 2023 10:41:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229481AbjFSOZC (ORCPT
+        with ESMTP id S229782AbjFSOld (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Jun 2023 10:25:02 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5693FE;
-        Mon, 19 Jun 2023 07:25:00 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5C860894;
-        Mon, 19 Jun 2023 16:24:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1687184664;
-        bh=3Ro5i980p6NavDlOLVF/G+6p10912/ppU8vBFFVE4zI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=U6kDOrNsuUz1fmtq4obX6/O5rMOzBrSO21r/765Ib0tMVo/8m0qz7yJaWUUyGV4Rv
-         rJ5gXN0oiR7+YJ0HuMyIjrQ9NHdnTUmsYaKoL+MpK3LkD3BOyKpj7Rdh0K60KWInWZ
-         HueHfU5KHyjPLSHVYgzAhlJ6Q9gsO373fCeUJIws=
-Date:   Mon, 19 Jun 2023 17:24:58 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Tommaso Merciai <tomm.merciai@gmail.com>,
-        jacopo.mondi@ideasonboard.com, martin.hecht@avnet.eu,
-        michael.roeder@avnet.eu, linuxfancy@googlegroups.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Gerald Loacker <gerald.loacker@wolfvision.net>,
-        Nicholas Roth <nicholas@rothemail.net>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Mikhail Rudenko <mike.rudenko@gmail.com>,
-        Shawn Tu <shawnx.tu@intel.com>, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v5 3/3] media: i2c: Add support for alvium camera
-Message-ID: <20230619142458.GE10462@pendragon.ideasonboard.com>
-References: <20230608083127.545750-1-tomm.merciai@gmail.com>
- <20230608083127.545750-4-tomm.merciai@gmail.com>
- <ZILuNrA9cMaI9ihP@kekkonen.localdomain>
- <ZIMklWtBW8fx/Ddd@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <ZJAy4vRxI9uEUwQj@kekkonen.localdomain>
+        Mon, 19 Jun 2023 10:41:33 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88C2EA0;
+        Mon, 19 Jun 2023 07:41:31 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:15:c623::7a9])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nicolas)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id DF50766003B0;
+        Mon, 19 Jun 2023 15:41:28 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1687185690;
+        bh=bcT+FUOyCCJiCPzg14oHY8Ywv+HBklrEGs40i6TF2xY=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=AyWK+LOjmnPIPsG3d7SkdRNoF/0Bn0+DmYPq/Wv493u7FX+kO0bZj/FEifFHkcG5m
+         14igAaYZt+KKr5tDUR1N9OFop2PbFp5upv64sXrwFHanfag8fvX2NoDfekZCp+edoH
+         E2yzQ0dJVkW8fgedCceiz+6Wv/eaWE6ydL3l9imwR4KBPJS/REMvAF4U1DXVQxIHGs
+         H7u3k3APT7Dob7RTWMQIE9Kps9z3wjYCAkY9qWLTmzrwvtkxAbIGZETVRzr3HkVwAi
+         2vWOAwFv1Hmj5IlKmctEHNGjCo5Ogc8eDiFy04WMbuXxk/5slAAMmKVlzFHJVzwaDI
+         EYraxJK6XtYTw==
+Message-ID: <e264ac3a15e0f115aa7e941a77eb312429b8f65e.camel@collabora.com>
+Subject: Re: [PATCH 2/2] media: verisilicon: change confusingly named
+ relaxed register access
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Arnd Bergmann <arnd@kernel.org>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Date:   Mon, 19 Jun 2023 10:41:19 -0400
+In-Reply-To: <20230616144854.3818934-2-arnd@kernel.org>
+References: <20230616144854.3818934-1-arnd@kernel.org>
+         <20230616144854.3818934-2-arnd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.3 (3.48.3-1.fc38) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZJAy4vRxI9uEUwQj@kekkonen.localdomain>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,103 +63,112 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jun 19, 2023 at 10:50:10AM +0000, Sakari Ailus wrote:
-> On Fri, Jun 09, 2023 at 03:09:41PM +0200, Tommaso Merciai wrote:
-> > On Fri, Jun 09, 2023 at 09:17:42AM +0000, Sakari Ailus wrote:
-> > > On Thu, Jun 08, 2023 at 10:31:16AM +0200, Tommaso Merciai wrote:
-> > > > The Alvium camera is shipped with sensor + isp in the same housing.
-> > > > The camera can be equipped with one out of various sensor and abstract
-> > > > the user from this. Camera is connected via MIPI CSI-2.
-> > > > 
-> > > > Most of the camera module features are supported, with the main exception
-> > > > being fw update.
-> > > > 
-> > > > The driver provides all mandatory, optional and recommended V4L2 controls
-> > > > for maximum compatibility with libcamera
-> > > > 
-> > > > References:
-> > > >  - https://www.alliedvision.com/en/products/embedded-vision-solutions
-> > > > 
-> > > > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
-> > > > ---
-> > > > Changes since v2:
-> > > >  - Removed gpios/clock handling as suggested by LPinchart
-> > > >  - Added vcc-ext-in supply support as suggested by LPinchart
-> > > >  - Fixed alvium_setup_mipi_fmt funct as suggested by CJAILLET
-> > > >  - Removed upside_down/hshake_bit priv data as suggested by CJAILLET
-> > > >  - Fixed commit body as suggested by LPinchart
-> > > >  - Mv alvium_set_streamon_delay to yalvium_set_lp2hs_delay
-> > > >  - Fixed comment on lp2hs prop as suggested by LPinchart
-> > > >  - Added pm resume/suspend functs as suggested by LPinchart
-> > > >  - Dropped alvium_link_setup/alvium_s_power as suggested by LPinchart
-> > > >  - Fixed regs defines as suggested by LPinchart
-> > > >  - Fixed typedef as suggested by LPinchart
-> > > >  - Dropped bcrm_v/fw_v from priv data as suggested by LPinchart
-> > > >  - Now driver use the subdev active state to store the active format and crop
-> > > >    as suggested by LPinchart
-> > > >  - Dropped alvium_is_csi2/i2c_to_alvium as suggested by LPinchart
-> > > > 
-> > > > Changes since v3:
-> > > >  - Fixed warnings Reported-by: kernel test robot <lkp@intel.com>
-> > > > 
-> > > > Changes since v4:
-> > > >  - Removed print into alvium_get_dt_data for alliedvision,lp2hs-delay-us as
-> > > >    suggested by CDooley
-> > > > 
-> > > >  drivers/media/i2c/Kconfig       |   10 +
-> > > >  drivers/media/i2c/Makefile      |    1 +
-> > > >  drivers/media/i2c/alvium-csi2.c | 3479 +++++++++++++++++++++++++++++++
-> > > >  drivers/media/i2c/alvium-csi2.h |  485 +++++
-> > > >  4 files changed, 3975 insertions(+)
-> > > >  create mode 100644 drivers/media/i2c/alvium-csi2.c
-> > > >  create mode 100644 drivers/media/i2c/alvium-csi2.h
+Hi Arnd,
 
-[snip]
+Le vendredi 16 juin 2023 =C3=A0 16:48 +0200, Arnd Bergmann a =C3=A9crit=C2=
+=A0:
+> From: Arnd Bergmann <arnd@arndb.de>
+>=20
+> The register abstraction has wrappers around both the normal writel()
+> and its writel_relaxed() counterpart, but this has led to a lot of users
+> ending up with the relaxed version.
+>=20
+> There is sometimes a need to intentionally pick the relaxed accessor for
+> performance critical functions, but I noticed that each hantro_reg_write(=
+)
+> call also contains a non-relaxed readl(), which is typically much more
+> expensive than a writel, so there is little benefit here but an added
+> risk of missing a serialization against DMA.
+>=20
+> To make this behave like other interfaces, use the normal accessor by
+> default and only provide the relaxed version as an alternative for
+> performance critical code. hantro_postproc.c is the only place that
+> used both the relaxed and normal writel, but this does not seem
+> cricital either, so change it all to the normal ones.
 
-> > > > diff --git a/drivers/media/i2c/alvium-csi2.c b/drivers/media/i2c/alvium-csi2.c
-> > > > new file mode 100644
-> > > > index 000000000000..52c9263075cf
-> > > > --- /dev/null
-> > > > +++ b/drivers/media/i2c/alvium-csi2.c
-> > > > @@ -0,0 +1,3479 @@
+In this text you spoke about potential performance side effects of existing=
+ code
+and your changes, but its left all very vague and theoretical. Have you don=
+e any
+measurement ? Do you need help with the manner ?
 
-[snip]
+regards,
+Nicolas
 
-> > > > +static int alvium_get_img_width_params(struct alvium_dev *alvium)
-> > > > +{
-> > > > +	struct device *dev = &alvium->i2c_client->dev;
-> > > > +	int ret;
-> > > > +	u64 val;
-> > > > +
-> > > > +	if (!alvium->bcrm_addr)
-> > > > +		return -EINVAL;
-> > > > +
-> > > > +	ret = alvium_read(alvium,
-> > > > +			  REG_BCRM_IMG_WIDTH_MIN_R,
-> > > > +			  &val);
-> > > > +	if (ret) {
-> > > > +		dev_err(dev, "Fail to read img min width reg\n");
-> > > > +		return ret;
-> > > > +	}
-> > > 
-> > > Could you add a macro that assigns the value to the variable (or a struct
-> > > field in this case) when the read is successful? Add the print if you think
-> > > you need it.
-> > 
-> > I don't get this comment.
-> > Can you explain me better your plan please.
-> 
-> You have exactly the same pattern repeated over and over in a number of
-> functions. I'd like you to add a macro (or a function) that takes what
-> varies as arguments, and call that function here. It would reduce a lot of
-> the repeated lines code here.
-> 
-> ...
+>=20
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> I did not look whether there is an actual bug here, just noticed this
+> when I debugged the excessive stack usage.
+> ---
+>  drivers/media/platform/verisilicon/hantro.h          |  6 +++---
+>  drivers/media/platform/verisilicon/hantro_postproc.c | 12 ++++++------
+>  2 files changed, 9 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/=
+platform/verisilicon/hantro.h
+> index 6c5e56ce5b351..a481d957fef93 100644
+> --- a/drivers/media/platform/verisilicon/hantro.h
+> +++ b/drivers/media/platform/verisilicon/hantro.h
+> @@ -441,14 +441,14 @@ static __always_inline void hantro_reg_write(struct=
+ hantro_dev *vpu,
+>  				    const struct hantro_reg *reg,
+>  				    u32 val)
+>  {
+> -	vdpu_write_relaxed(vpu, vdpu_read_mask(vpu, reg, val), reg->base);
+> +	vdpu_write(vpu, vdpu_read_mask(vpu, reg, val), reg->base);
+>  }
+> =20
+> -static __always_inline void hantro_reg_write_s(struct hantro_dev *vpu,
+> +static __always_inline void hantro_reg_write_relaxed(struct hantro_dev *=
+vpu,
+>  				      const struct hantro_reg *reg,
+>  				      u32 val)
+>  {
+> -	vdpu_write(vpu, vdpu_read_mask(vpu, reg, val), reg->base);
+> +	vdpu_write_relaxed(vpu, vdpu_read_mask(vpu, reg, val), reg->base);
+>  }
+> =20
+>  void *hantro_get_ctrl(struct hantro_ctx *ctx, u32 id);
+> diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drive=
+rs/media/platform/verisilicon/hantro_postproc.c
+> index c977d64105b18..0224ff68ab3fc 100644
+> --- a/drivers/media/platform/verisilicon/hantro_postproc.c
+> +++ b/drivers/media/platform/verisilicon/hantro_postproc.c
+> @@ -21,11 +21,11 @@
+>  			 val); \
+>  }
+> =20
+> -#define HANTRO_PP_REG_WRITE_S(vpu, reg_name, val) \
+> +#define HANTRO_PP_REG_WRITE_RELAXED(vpu, reg_name, val) \
+>  { \
+> -	hantro_reg_write_s(vpu, \
+> -			   &hantro_g1_postproc_regs.reg_name, \
+> -			   val); \
+> +	hantro_reg_write_relaxed(vpu, \
+> +				 &hantro_g1_postproc_regs.reg_name, \
+> +				 val); \
+>  }
+> =20
+>  #define VPU_PP_IN_YUYV			0x0
+> @@ -72,7 +72,7 @@ static void hantro_postproc_g1_enable(struct hantro_ctx=
+ *ctx)
+>  	dma_addr_t dst_dma;
+> =20
+>  	/* Turn on pipeline mode. Must be done first. */
+> -	HANTRO_PP_REG_WRITE_S(vpu, pipeline_en, 0x1);
+> +	HANTRO_PP_REG_WRITE(vpu, pipeline_en, 0x1);
+> =20
+>  	src_pp_fmt =3D VPU_PP_IN_NV12;
+> =20
+> @@ -242,7 +242,7 @@ static void hantro_postproc_g1_disable(struct hantro_=
+ctx *ctx)
+>  {
+>  	struct hantro_dev *vpu =3D ctx->dev;
+> =20
+> -	HANTRO_PP_REG_WRITE_S(vpu, pipeline_en, 0x0);
+> +	HANTRO_PP_REG_WRITE(vpu, pipeline_en, 0x0);
+>  }
+> =20
+>  static void hantro_postproc_g2_disable(struct hantro_ctx *ctx)
 
-The best option is to print an error message in alvium_read() and drop
-all error messages from the callers.
-
--- 
-Regards,
-
-Laurent Pinchart
