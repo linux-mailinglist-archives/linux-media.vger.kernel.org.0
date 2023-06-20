@@ -2,81 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D88347369B8
-	for <lists+linux-media@lfdr.de>; Tue, 20 Jun 2023 12:46:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 122487369F2
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jun 2023 12:53:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231191AbjFTKqA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Jun 2023 06:46:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33072 "EHLO
+        id S232339AbjFTKxm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Jun 2023 06:53:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229746AbjFTKp6 (ORCPT
+        with ESMTP id S231351AbjFTKxl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Jun 2023 06:45:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A34DB170A
-        for <linux-media@vger.kernel.org>; Tue, 20 Jun 2023 03:44:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1687257876;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ONCSTWvDzW9P2kSA0X/B/sFo3vDt2b7SS93G2FNlhfs=;
-        b=izJD6GkCKVazOh7Vef6aKLUkxrTY5DcbI1f0go7NFv1ZMs2uClf4K6PJDJF4sylpCjkPPf
-        RAjBR16TjU59PiP638iY8d0s3dSwJEmdff9YSGOmSAuxLXpjFhfw8YlXLs3LudeOr5pGjT
-        ZBilyLmKlTmz+MQgjZ/EsY8xEG6kgLE=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-554-22xXYLjzP7WhuoPjaZn9FQ-1; Tue, 20 Jun 2023 06:44:35 -0400
-X-MC-Unique: 22xXYLjzP7WhuoPjaZn9FQ-1
-Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-51a1d77e563so3062514a12.3
-        for <linux-media@vger.kernel.org>; Tue, 20 Jun 2023 03:44:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687257858; x=1689849858;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ONCSTWvDzW9P2kSA0X/B/sFo3vDt2b7SS93G2FNlhfs=;
-        b=Hym7rnvEv2ocfXZ/En5LDPcO6a1lqLg4mE16D18MQDwtkUwq4kgXtquJEcU0zQMueW
-         cxQxZa6Pffz9fgq5oSkTlfmGmHaT+jbTo8A+hQ4kd4VPLISgSE6P10Aoc/n+6Uvac3C/
-         0z84OhSnYSBh4EMrvedzDxHJCDzXw2q63AYRHQeoRouAm+RSQaETmKhBqP35LbUJjVF4
-         qXA+aiG8jkJufcKsHfYpcvD4QxjR9keHk2o1dYqjeOUfjoyApikUsHGRMEgiXrlbyxLF
-         Jj212GHr0lWaEXII8ZRKnQKDvhENTpt4qKa6rHSDxoH8hfHatAGmN/iKHSpYPbw5lv2n
-         v8BA==
-X-Gm-Message-State: AC+VfDwKbeGLdVfD4KDCltEb4DKBud0AP0CSbnoqUPjVQlfB3K0ALStU
-        XpkRjWV0hVSKenqel8NUpC6OtWt4MxhSYm3Gisjj1KHU5r2qFqdcGF422Oxikq21v/GZjiOuHSh
-        rvKMLGqMBbwFqRo7/b+N6haM=
-X-Received: by 2002:aa7:d30f:0:b0:51a:4c86:e555 with SMTP id p15-20020aa7d30f000000b0051a4c86e555mr4639101edq.40.1687257858525;
-        Tue, 20 Jun 2023 03:44:18 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7T2O5iLbLc+k+4O9CHLPAq+N4ey4Nk6dDxJl+IpzEYcPgnSY9xjTvOdolGV9QrxYE+PIOV+g==
-X-Received: by 2002:aa7:d30f:0:b0:51a:4c86:e555 with SMTP id p15-20020aa7d30f000000b0051a4c86e555mr4639094edq.40.1687257858282;
-        Tue, 20 Jun 2023 03:44:18 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id u24-20020aa7d898000000b0051897e3b5efsm960707edq.42.2023.06.20.03.44.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Jun 2023 03:44:17 -0700 (PDT)
-Message-ID: <744bb522-a4b2-4bda-3a02-e63795151d84@redhat.com>
-Date:   Tue, 20 Jun 2023 12:44:16 +0200
+        Tue, 20 Jun 2023 06:53:41 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44323101;
+        Tue, 20 Jun 2023 03:53:40 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A466410FE;
+        Tue, 20 Jun 2023 12:53:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1687258382;
+        bh=I0BPPwNAumQeRerMbaf7O4uwBZloklDsd4XDwA4fhfY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pSx9rsaKGPU1EbVfBTj4Jwl+hOYM1P1TnYSte1zICAPOceh0pwj6Xiu5i3wFF7H1J
+         wkkMi7pUsD6JBPHZrjJGrWFQjaTiHnpWPNfP6tm2C2XZ+X/H/wfTRQyIeOkJwII4LZ
+         o5kU72xzOwnIzdVZmex2mtvoWRJtNufcvy/cr540=
+Date:   Tue, 20 Jun 2023 13:53:35 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Tommaso Merciai <tomm.merciai@gmail.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        jacopo.mondi@ideasonboard.com, martin.hecht@avnet.eu,
+        michael.roeder@avnet.eu, linuxfancy@googlegroups.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Gerald Loacker <gerald.loacker@wolfvision.net>,
+        Nicholas Roth <nicholas@rothemail.net>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Mikhail Rudenko <mike.rudenko@gmail.com>,
+        Shawn Tu <shawnx.tu@intel.com>, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v5 3/3] media: i2c: Add support for alvium camera
+Message-ID: <20230620105335.GC26467@pendragon.ideasonboard.com>
+References: <20230608083127.545750-1-tomm.merciai@gmail.com>
+ <20230608083127.545750-4-tomm.merciai@gmail.com>
+ <ZILuNrA9cMaI9ihP@kekkonen.localdomain>
+ <ZIMklWtBW8fx/Ddd@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+ <ZJAy4vRxI9uEUwQj@kekkonen.localdomain>
+ <20230619142458.GE10462@pendragon.ideasonboard.com>
+ <ZJExEwhVK+8IVaB8@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+ <20230620094328.GA26467@pendragon.ideasonboard.com>
+ <ZJGB7vkJpxd3JrSh@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2 0/6] platform/x86: int3472: discrete: Various
- improvements
-Content-Language: en-US, nl
-To:     =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Daniel Scally <dan.scally@ideasonboard.com>
-Cc:     platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org
-References: <20230616172132.37859-1-hdegoede@redhat.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230616172132.37859-1-hdegoede@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZJGB7vkJpxd3JrSh@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -84,44 +69,161 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
+Hi Tommaso,
 
-On 6/16/23 19:21, Hans de Goede wrote:
-> Hi All,
+On Tue, Jun 20, 2023 at 12:39:42PM +0200, Tommaso Merciai wrote:
+> On Tue, Jun 20, 2023 at 12:43:28PM +0300, Laurent Pinchart wrote:
+> > On Tue, Jun 20, 2023 at 06:54:43AM +0200, Tommaso Merciai wrote:
+> > > On Mon, Jun 19, 2023 at 05:24:58PM +0300, Laurent Pinchart wrote:
+> > > > On Mon, Jun 19, 2023 at 10:50:10AM +0000, Sakari Ailus wrote:
+> > > > > On Fri, Jun 09, 2023 at 03:09:41PM +0200, Tommaso Merciai wrote:
+> > > > > > On Fri, Jun 09, 2023 at 09:17:42AM +0000, Sakari Ailus wrote:
+> > > > > > > On Thu, Jun 08, 2023 at 10:31:16AM +0200, Tommaso Merciai wrote:
+> > > > > > > > The Alvium camera is shipped with sensor + isp in the same housing.
+> > > > > > > > The camera can be equipped with one out of various sensor and abstract
+> > > > > > > > the user from this. Camera is connected via MIPI CSI-2.
+> > > > > > > > 
+> > > > > > > > Most of the camera module features are supported, with the main exception
+> > > > > > > > being fw update.
+> > > > > > > > 
+> > > > > > > > The driver provides all mandatory, optional and recommended V4L2 controls
+> > > > > > > > for maximum compatibility with libcamera
+> > > > > > > > 
+> > > > > > > > References:
+> > > > > > > >  - https://www.alliedvision.com/en/products/embedded-vision-solutions
+> > > > > > > > 
+> > > > > > > > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+> > > > > > > > ---
+> > > > > > > > Changes since v2:
+> > > > > > > >  - Removed gpios/clock handling as suggested by LPinchart
+> > > > > > > >  - Added vcc-ext-in supply support as suggested by LPinchart
+> > > > > > > >  - Fixed alvium_setup_mipi_fmt funct as suggested by CJAILLET
+> > > > > > > >  - Removed upside_down/hshake_bit priv data as suggested by CJAILLET
+> > > > > > > >  - Fixed commit body as suggested by LPinchart
+> > > > > > > >  - Mv alvium_set_streamon_delay to yalvium_set_lp2hs_delay
+> > > > > > > >  - Fixed comment on lp2hs prop as suggested by LPinchart
+> > > > > > > >  - Added pm resume/suspend functs as suggested by LPinchart
+> > > > > > > >  - Dropped alvium_link_setup/alvium_s_power as suggested by LPinchart
+> > > > > > > >  - Fixed regs defines as suggested by LPinchart
+> > > > > > > >  - Fixed typedef as suggested by LPinchart
+> > > > > > > >  - Dropped bcrm_v/fw_v from priv data as suggested by LPinchart
+> > > > > > > >  - Now driver use the subdev active state to store the active format and crop
+> > > > > > > >    as suggested by LPinchart
+> > > > > > > >  - Dropped alvium_is_csi2/i2c_to_alvium as suggested by LPinchart
+> > > > > > > > 
+> > > > > > > > Changes since v3:
+> > > > > > > >  - Fixed warnings Reported-by: kernel test robot <lkp@intel.com>
+> > > > > > > > 
+> > > > > > > > Changes since v4:
+> > > > > > > >  - Removed print into alvium_get_dt_data for alliedvision,lp2hs-delay-us as
+> > > > > > > >    suggested by CDooley
+> > > > > > > > 
+> > > > > > > >  drivers/media/i2c/Kconfig       |   10 +
+> > > > > > > >  drivers/media/i2c/Makefile      |    1 +
+> > > > > > > >  drivers/media/i2c/alvium-csi2.c | 3479 +++++++++++++++++++++++++++++++
+> > > > > > > >  drivers/media/i2c/alvium-csi2.h |  485 +++++
+> > > > > > > >  4 files changed, 3975 insertions(+)
+> > > > > > > >  create mode 100644 drivers/media/i2c/alvium-csi2.c
+> > > > > > > >  create mode 100644 drivers/media/i2c/alvium-csi2.h
+> > > > 
+> > > > [snip]
+> > > > 
+> > > > > > > > diff --git a/drivers/media/i2c/alvium-csi2.c b/drivers/media/i2c/alvium-csi2.c
+> > > > > > > > new file mode 100644
+> > > > > > > > index 000000000000..52c9263075cf
+> > > > > > > > --- /dev/null
+> > > > > > > > +++ b/drivers/media/i2c/alvium-csi2.c
+> > > > > > > > @@ -0,0 +1,3479 @@
+> > > > 
+> > > > [snip]
+> > > > 
+> > > > > > > > +static int alvium_get_img_width_params(struct alvium_dev *alvium)
+> > > > > > > > +{
+> > > > > > > > +	struct device *dev = &alvium->i2c_client->dev;
+> > > > > > > > +	int ret;
+> > > > > > > > +	u64 val;
+> > > > > > > > +
+> > > > > > > > +	if (!alvium->bcrm_addr)
+> > > > > > > > +		return -EINVAL;
+> > > > > > > > +
+> > > > > > > > +	ret = alvium_read(alvium,
+> > > > > > > > +			  REG_BCRM_IMG_WIDTH_MIN_R,
+> > > > > > > > +			  &val);
+> > > > > > > > +	if (ret) {
+> > > > > > > > +		dev_err(dev, "Fail to read img min width reg\n");
+> > > > > > > > +		return ret;
+> > > > > > > > +	}
+> > > > > > > 
+> > > > > > > Could you add a macro that assigns the value to the variable (or a struct
+> > > > > > > field in this case) when the read is successful? Add the print if you think
+> > > > > > > you need it.
+> > > > > > 
+> > > > > > I don't get this comment.
+> > > > > > Can you explain me better your plan please.
+> > > > > 
+> > > > > You have exactly the same pattern repeated over and over in a number of
+> > > > > functions. I'd like you to add a macro (or a function) that takes what
+> > > > > varies as arguments, and call that function here. It would reduce a lot of
+> > > > > the repeated lines code here.
+> > > > > 
+> > > > > ...
+> > > > 
+> > > > The best option is to print an error message in alvium_read() and drop
+> > > > all error messages from the callers.
+> > > 
+> > > What about don't print anything? We already have prints that comes from
+> > > CCI API if some errors occurs. Laurent suggest me this into some
+> > > previous comments. Let me know.
+> > 
+> > We need to print something somewhere as silent failures are bad. The
+> > messages printed by the CCI helpers are good enough, so no need to print
+> > anything specific in the alvium driver.
 > 
-> Here is a v2 of my previous 2 int3472 patch series merged into
-> 1 bigger series.
+> Oooks I'll follow your way on v7, thanks Laurent.
+> My plan is to switch to the following implementation:
 > 
-> Changes in v2:
-> - Use static_assert() to check that GPIO_REGULATOR_SUPPLY_MAP_COUNT
->   and ARRAY_SIZE(skl_int3472_regulator_map_supplies) match
 > 
-> and this also collects all the various Tested-by-s + Reviewed-by-s.
+> static int alvium_get_img_width_params(struct alvium_dev *alvium)
+> {
+> 	struct device *dev = &alvium->i2c_client->dev;
+> 	u64 val;
+> 	int ret = 0;
+> 
+> 	if (!alvium->bcrm_addr)
+> 		return -EINVAL;
+> 
+> 	alvium_read(alvium, REG_BCRM_IMG_WIDTH_MIN_R, &val, &ret);
+> 	alvium->img_min_width = val;
+> 	dev_dbg(dev, "Min img width: %d\n", alvium->img_min_width);
+> 
+> 	alvium_read(alvium, REG_BCRM_IMG_WIDTH_MAX_R, &val, NULL);
 
-I've added this (v2) to my review-hans (soon to be for-next) branch now (again).
+I assume you mean &ret and not NULL here.
 
+> 	alvium->img_max_width = val;
+> 	dev_dbg(dev, "Max img width: %d\n", alvium->img_max_width);
+> 
+> 	alvium_read(alvium, REG_BCRM_IMG_WIDTH_INC_R, &val, &ret);
+> 	alvium->img_inc_width = val;
+> 	dev_dbg(dev, "img width increment: %d px\n", alvium->img_inc_width);
+> 
+> 	return ret;
+> }
+> 
+> Like you suggest. :)
+> What do you think about?
+
+I would probably drop the debug messages, or at least group them all in
+a single message at the end of the function to print all three values.
+You should also not print the values if an error occurs during the
+reads, as they will be undefined.
+
+In general, while debug messages are useful, they should be used with
+parcimony. Printing every single parameter passed by userspace, or
+adding a debug message at the beginning of every function, would make
+the kernel log very noisy and doesn't bring that much value.
+
+-- 
 Regards,
 
-Hans
-
-
-
-
-> Hans de Goede (6):
->   platform/x86: int3472: discrete: Drop GPIO remapping support
->   platform/x86: int3472: discrete: Remove sensor_config-s
->   platform/x86: int3472: discrete: Add support for 1 GPIO regulator
->     shared between 2 sensors
->   platform/x86: int3472: discrete: Add alternative "AVDD" regulator
->     supply name
->   platform/x86: int3472: discrete: Use FIELD_GET() on the GPIO _DSM
->     return value
->   platform/x86: int3472: discrete: Log a warning if the pin-numbers
->     don't match
-> 
->  .../x86/intel/int3472/clk_and_regulator.c     | 72 +++++++++++---
->  drivers/platform/x86/intel/int3472/common.h   | 14 +--
->  drivers/platform/x86/intel/int3472/discrete.c | 94 ++++---------------
->  3 files changed, 79 insertions(+), 101 deletions(-)
-> 
-
+Laurent Pinchart
