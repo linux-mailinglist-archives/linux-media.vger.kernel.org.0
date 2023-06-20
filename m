@@ -2,59 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4364B736507
-	for <lists+linux-media@lfdr.de>; Tue, 20 Jun 2023 09:44:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9ABCD736593
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jun 2023 10:01:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231234AbjFTHoP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Jun 2023 03:44:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43886 "EHLO
+        id S231322AbjFTIBZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Jun 2023 04:01:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231211AbjFTHnu (ORCPT
+        with ESMTP id S231272AbjFTIBC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Jun 2023 03:43:50 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4467B1A7;
-        Tue, 20 Jun 2023 00:43:34 -0700 (PDT)
-Received: from [IPV6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2] (unknown [IPv6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2])
+        Tue, 20 Jun 2023 04:01:02 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 431371730;
+        Tue, 20 Jun 2023 01:01:00 -0700 (PDT)
+Received: from [IPV6:2a01:e0a:120:3210:6e77:5147:3eca:d8bb] (unknown [IPv6:2a01:e0a:120:3210:6e77:5147:3eca:d8bb])
         (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 0AFB76602242;
-        Tue, 20 Jun 2023 08:43:31 +0100 (BST)
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 508876602121;
+        Tue, 20 Jun 2023 09:00:58 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1687247012;
-        bh=EC8RhzFWNfZy8dsFV1foY8bZFeIESKFCvug6BRbkaM4=;
+        s=mail; t=1687248058;
+        bh=7QcfFKjwwy3oIIB+optJvNNXQHWLLCPVIQa7o8GKpg0=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=TftgeGNohO/Odsdn5+P1zsXb/c8PQ0woD+hT9C6E3W9ZsWetSg9p0OyphKpMUW2rS
-         X4ykNveWTI6bl20mE+4JQuaRiplDGBmFS5fmjbOKFrw+ytqmdy0B1jxX720MzaM9fr
-         aVdRuKgy8fJxCISIkC4nZ1MiZxGSzOyLROJZ3myx7/CEicEKmFHVMJOFVuS91EOknS
-         gNn6JchPQHztYffsRduIzUGiVNXzmncGd99n/qvbeoSk2dGRTlX8gC1P6EpiUMjVko
-         ucxqyx2+brkr2P+kPhyiJYODrlAYk2FgdWXC+Dx4gwrl9gGCS4DMtz7hIiuB0rypcr
-         QbCPhEUjUb4fQ==
-Message-ID: <88d39014-fd06-d801-fa10-387e1aa24e15@collabora.com>
-Date:   Tue, 20 Jun 2023 09:43:29 +0200
+        b=oPBoKjsVECgNIICizc0K3KRL8pDEGtMWD6uDQ+v/UXXuwBMTVuSzaqBJDXY50eNnu
+         uhIUE2jI27bbn2XTsQBEEfL1Lyz/Ut4vciK9Wu/zJT2NLLaYHwtUE0w70nYa+b7ONe
+         FpqOloQJvxn8k7aRs6IWGxsDDf0UrRmgMftQVQxTKg7dAoztx7pZHtnpBtQjrFvHyg
+         0KFRZR7lwXba2N0o/WArAKzkSVjWUPPsKFwWLm3FXtrDeyF4eCIVJHgCuO11AgLBHR
+         74UYPvwq8ME5s0bD85U/AxgWFh2LwyKLqhZbida9cK3wN0tLWCSMzOJtquknmZF/jO
+         7KnB/00teWKig==
+Message-ID: <707b241b-c361-afde-c264-b3cd54f81f44@collabora.com>
+Date:   Tue, 20 Jun 2023 10:00:56 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v3 4/6] media: mediatek: vcodec: Define address for
- VDEC_HW_ACTIVE
-To:     =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
-        <nfraprado@collabora.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     kernel@collabora.com, Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
-References: <20230620000349.2122191-1-nfraprado@collabora.com>
- <20230620000349.2122191-5-nfraprado@collabora.com>
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 2/2] media: verisilicon: change confusingly named relaxed
+ register access
+To:     Arnd Bergmann <arnd@arndb.de>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Arnd Bergmann <arnd@kernel.org>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+References: <20230616144854.3818934-1-arnd@kernel.org>
+ <20230616144854.3818934-2-arnd@kernel.org>
+ <e264ac3a15e0f115aa7e941a77eb312429b8f65e.camel@collabora.com>
+ <063a8886-fd31-425f-901c-fc830512eca3@app.fastmail.com>
+ <d9f088d1d548c8735b393a15d5a16dbd914ddeca.camel@collabora.com>
+ <300ecb3e-8747-4399-8452-77724f85330b@app.fastmail.com>
 Content-Language: en-US
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230620000349.2122191-5-nfraprado@collabora.com>
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <300ecb3e-8747-4399-8452-77724f85330b@app.fastmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -67,50 +70,42 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 20/06/23 02:03, Nícolas F. R. A. Prado ha scritto:
-> The VDEC_HW_ACTIVE bit is located at offset 0, bit 4 of the VDECSYS
-> iospace. Only the mask was previously defined, with the address being
-> implicit. Explicitly define the address, and append a '_MASK' suffix to
-> the mask, to make accesses to this bit clearer.
-> 
-> This commit brings no functional change.
-> 
-> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> 
-> ---
-> 
-> Changes in v3:
-> - Added this commit
-> 
->   drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c | 4 ++--
->   drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.c  | 4 ++--
->   drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.h  | 3 ++-
->   3 files changed, 6 insertions(+), 5 deletions(-)
-> 
 
-..snip..
+Le 19/06/2023 à 21:26, Arnd Bergmann a écrit :
+> On Mon, Jun 19, 2023, at 20:29, Nicolas Dufresne wrote:
+>> Le lundi 19 juin 2023 à 16:49 +0200, Arnd Bergmann a écrit :
+>>>> In this text you spoke about potential performance side effects of existing code
+>>>> and your changes, but its left all very vague and theoretical. Have you done any
+>>>> measurement ? Do you need help with the manner ?
+>>> I don't have this hardware and have not done any measurements.
+>>> Obviously the only point of using relaxed accessors is to
+>>> improve performance in critical code paths, but from the way they
+>>> are used here it seems that this was instead just an accident
+>>> and nobody else did any comparisons either.
+>>>
+>>> My guess would be that if one wanted to speed up the register
+>>> access, a better way would be to use a regmap cache to avoid
+>>> reading registers when the contents are already known.
+>> All I know is that for the majority of registers when programming stateless
+>> codecs, each 32bit word of registers are fully written too, the read value is
+>> not always meaningful (its a value from last time the HW has been triggered) and
+>> should be ignored, so better to not do that. As for regmap, there is folks that
+>> have reported regmap to be completely overkill for this type of hardware.
+> Right, most likely neither the cache nor avoiding the readl() is necessary,
+> and that was exactly my point to start with: don't add potentially dangerous
+> microoptimizations like relaxed accessors unless the obvious optimizations
+> are also needed and used.
+>
+> Obviously, testing my patch would still be a good idea before applying it.
 
-> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.h b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.h
-> index 36faa8d9d681..caa2d0a48a90 100644
-> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.h
-> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.h
-> @@ -12,7 +12,8 @@
->   
->   #include "mtk_vcodec_drv.h"
->   
-> -#define VDEC_HW_ACTIVE 0x10
-> +#define VDEC_HW_ACTIVE_ADDR 0x0
-> +#define VDEC_HW_ACTIVE_MASK 0x10
+I have test the patches on IMX8M (HEVC decoder) and RK3588 (AV1 decoder).
+I notice not regression or problems, conformance tests scores remain identical.
 
-#define VDEC_HW_ACTIVE_MASK	BIT(4)
+For the both patches:
+Tested-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 
-...because it's a bit, as you wrote in the commit description :-)
+Thanks for the patches,
+Benjamin
 
-Cheers,
-Angelo
-
->   #define VDEC_IRQ_CFG 0x11
->   #define VDEC_IRQ_CLR 0x10
->   #define VDEC_IRQ_CFG_REG 0xa4
-
-
+>
+>         Arnd
