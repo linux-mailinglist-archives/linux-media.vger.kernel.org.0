@@ -2,131 +2,203 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE4FD73629D
-	for <lists+linux-media@lfdr.de>; Tue, 20 Jun 2023 06:19:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5334C7362DD
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jun 2023 06:55:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230304AbjFTETl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Jun 2023 00:19:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42394 "EHLO
+        id S230202AbjFTEz1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Jun 2023 00:55:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229803AbjFTETj (ORCPT
+        with ESMTP id S230037AbjFTEz0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Jun 2023 00:19:39 -0400
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27DE510C1;
-        Mon, 19 Jun 2023 21:19:37 -0700 (PDT)
-Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-34220bb6a80so12188805ab.0;
-        Mon, 19 Jun 2023 21:19:37 -0700 (PDT)
+        Tue, 20 Jun 2023 00:55:26 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFDC1F1;
+        Mon, 19 Jun 2023 21:55:22 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-977e0fbd742so583746166b.2;
+        Mon, 19 Jun 2023 21:55:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687236921; x=1689828921;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UQhBYvgvjJaBu+x58O4y0fjxZr52NtNh3QoxohJM54o=;
+        b=n8SAn7pIaY9D4f2HuKiL5LTlAaKgpYXgbxz9ZWc3NWeFlSlBmZdb4aSenvBmvk6fRA
+         V6JYKo3icscEiKGlshmBEHx2Vm+e9YOBLl/r1maZK6poSPca9ulN5/Uctz4mGms+uxx9
+         vc1yMKHCHxhOnJU085tX4Qybh4ipAZ6pYbRdAKlGeVOioJvhgknpwpLAUBrDGs3Phv12
+         hao8nSLjb1LXKZk1bwztuBxn3xs68lM8sGZHzc8reOLx3Yw5dT+HtuVnIN6k0HoAPaKG
+         fKvhvr/zHZ9r/oMl2JqUxgBTMasHAWo7u+IHOcXfMm/e/ikV+5AS9fRso2LQ9SdnalK6
+         amWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687234776; x=1689826776;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Sh29mDazIKPfkU+LPfbBtHYj2+YZmyOLjiHNSQfuOnE=;
-        b=d8IU6iGYpf68F0AyqL/zaP42yvjPJ1enpS07TluxUVMgl14x/axopG1nWaa5XleYVI
-         FExL6Y4IQ689FYORQfibx0hiZ+ZHJIPWm4o+iSegmWti/T4bNSpd0/TOfMJmnyUokLzt
-         6AEaJujFxE3WmQnd9cttchBvd6bM0OR1CG+YYD30glWH4ZG6VnF/mLCwRpf28vkL+K+B
-         +xSR4AxkFOAc18Z1k/KfUqR384Fot17X/41yuV2nB15BrcFijbU+GVg6rsxYOvlcZ/7f
-         uiPNj81mIZqkEdtcnK4WK0F+gJkFeO2bgD4aORC/KxCmt0i9IbOBvducvBvk8t8bRTQb
-         Knlw==
-X-Gm-Message-State: AC+VfDx4alYcDoYwyURqkM/NIJ/eZzPZAgBG1scFsRH7A8Wj3v1AtGkt
-        x8qan8JuTOQDyZ5TP29ciw==
-X-Google-Smtp-Source: ACHHUZ7lkmVnePBOGOiBhlULsO0AhX4yF7u5ETMb83OMXNvfopi0mxO6T6Jwan14AyiFgT35Dgwi2A==
-X-Received: by 2002:a92:c6c4:0:b0:341:c983:295 with SMTP id v4-20020a92c6c4000000b00341c9830295mr7576192ilm.21.1687234776309;
-        Mon, 19 Jun 2023 21:19:36 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id l12-20020a02a88c000000b004267c5b61d3sm400266jam.97.2023.06.19.21.19.34
+        d=1e100.net; s=20221208; t=1687236921; x=1689828921;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UQhBYvgvjJaBu+x58O4y0fjxZr52NtNh3QoxohJM54o=;
+        b=flq9DMn5KXb4F/4XVwjmbhx6yAEH3qxzrhqQi0MOoE0uRcPFAvWaDtpoCe5VIihDZ9
+         p1XWcEu5aHJau0hEkBsKKXtyWNk0tn7L0W/PWY+71zf/+w1nwDLAEGZWKgdngeL/p0oS
+         UpomUr9GNG+/28IHg+qtY0FDnP5d0gQWrmzTuK3DevLG+SATuee+FFHRTiSrluVeAEr/
+         y4RR+R6wtH1THPQFHAGcUWDw8FP0aqdd8rjzBXtzvUjvbGA7KmAvzZZh0YdLQ0pqbTJE
+         Gs/M1sRgTswO3wKSXFBLa0DOc7Ems7qkRJRK8OPywKOVXtJv3NgB1kDxVRsZvM36ZVjB
+         vnWw==
+X-Gm-Message-State: AC+VfDw+e68XxYOgpyo4cnRJ8ZVyXNhlAsSaObkk6EoEsV5mxSIoElOl
+        LrhojS1goO7VckY4oLqXt3w=
+X-Google-Smtp-Source: ACHHUZ7AUaYLo9xm/hRXZ6aXSkJ/Nnlw8HiseMchSkyeW3xVL7JPTugHIyHEwWc8bO6s7qZJXyLgUA==
+X-Received: by 2002:a17:906:f8cb:b0:975:3037:b7bc with SMTP id lh11-20020a170906f8cb00b009753037b7bcmr7305682ejb.30.1687236920871;
+        Mon, 19 Jun 2023 21:55:20 -0700 (PDT)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation ([37.159.32.100])
+        by smtp.gmail.com with ESMTPSA id rh8-20020a17090720e800b0098282bb8effsm610626ejb.196.2023.06.19.21.55.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jun 2023 21:19:35 -0700 (PDT)
-Received: (nullmailer pid 2419560 invoked by uid 1000);
-        Tue, 20 Jun 2023 04:19:32 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        devicetree@vger.kernel.org,
+        Mon, 19 Jun 2023 21:55:20 -0700 (PDT)
+Date:   Tue, 20 Jun 2023 06:54:43 +0200
+From:   Tommaso Merciai <tomm.merciai@gmail.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        jacopo.mondi@ideasonboard.com, martin.hecht@avnet.eu,
+        michael.roeder@avnet.eu, linuxfancy@googlegroups.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-In-Reply-To: <20230620031111.3776-2-yuji2.ishikawa@toshiba.co.jp>
-References: <20230620031111.3776-1-yuji2.ishikawa@toshiba.co.jp>
- <20230620031111.3776-2-yuji2.ishikawa@toshiba.co.jp>
-Message-Id: <168723477296.2419503.15109926967268215697.robh@kernel.org>
-Subject: Re: [PATCH v6 1/5] dt-bindings: media: platform: visconti: Add
- Toshiba Visconti Video Input Interface bindings
-Date:   Mon, 19 Jun 2023 22:19:32 -0600
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
-        autolearn_force=no version=3.4.6
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Gerald Loacker <gerald.loacker@wolfvision.net>,
+        Nicholas Roth <nicholas@rothemail.net>,
+        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Mikhail Rudenko <mike.rudenko@gmail.com>,
+        Shawn Tu <shawnx.tu@intel.com>, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v5 3/3] media: i2c: Add support for alvium camera
+Message-ID: <ZJExEwhVK+8IVaB8@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20230608083127.545750-1-tomm.merciai@gmail.com>
+ <20230608083127.545750-4-tomm.merciai@gmail.com>
+ <ZILuNrA9cMaI9ihP@kekkonen.localdomain>
+ <ZIMklWtBW8fx/Ddd@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+ <ZJAy4vRxI9uEUwQj@kekkonen.localdomain>
+ <20230619142458.GE10462@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230619142458.GE10462@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Laurent, Sakari,
 
-On Tue, 20 Jun 2023 12:11:07 +0900, Yuji Ishikawa wrote:
-> Adds the Device Tree binding documentation that allows to describe
-> the Video Input Interface found in Toshiba Visconti SoCs.
+On Mon, Jun 19, 2023 at 05:24:58PM +0300, Laurent Pinchart wrote:
+> On Mon, Jun 19, 2023 at 10:50:10AM +0000, Sakari Ailus wrote:
+> > On Fri, Jun 09, 2023 at 03:09:41PM +0200, Tommaso Merciai wrote:
+> > > On Fri, Jun 09, 2023 at 09:17:42AM +0000, Sakari Ailus wrote:
+> > > > On Thu, Jun 08, 2023 at 10:31:16AM +0200, Tommaso Merciai wrote:
+> > > > > The Alvium camera is shipped with sensor + isp in the same housing.
+> > > > > The camera can be equipped with one out of various sensor and abstract
+> > > > > the user from this. Camera is connected via MIPI CSI-2.
+> > > > > 
+> > > > > Most of the camera module features are supported, with the main exception
+> > > > > being fw update.
+> > > > > 
+> > > > > The driver provides all mandatory, optional and recommended V4L2 controls
+> > > > > for maximum compatibility with libcamera
+> > > > > 
+> > > > > References:
+> > > > >  - https://www.alliedvision.com/en/products/embedded-vision-solutions
+> > > > > 
+> > > > > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+> > > > > ---
+> > > > > Changes since v2:
+> > > > >  - Removed gpios/clock handling as suggested by LPinchart
+> > > > >  - Added vcc-ext-in supply support as suggested by LPinchart
+> > > > >  - Fixed alvium_setup_mipi_fmt funct as suggested by CJAILLET
+> > > > >  - Removed upside_down/hshake_bit priv data as suggested by CJAILLET
+> > > > >  - Fixed commit body as suggested by LPinchart
+> > > > >  - Mv alvium_set_streamon_delay to yalvium_set_lp2hs_delay
+> > > > >  - Fixed comment on lp2hs prop as suggested by LPinchart
+> > > > >  - Added pm resume/suspend functs as suggested by LPinchart
+> > > > >  - Dropped alvium_link_setup/alvium_s_power as suggested by LPinchart
+> > > > >  - Fixed regs defines as suggested by LPinchart
+> > > > >  - Fixed typedef as suggested by LPinchart
+> > > > >  - Dropped bcrm_v/fw_v from priv data as suggested by LPinchart
+> > > > >  - Now driver use the subdev active state to store the active format and crop
+> > > > >    as suggested by LPinchart
+> > > > >  - Dropped alvium_is_csi2/i2c_to_alvium as suggested by LPinchart
+> > > > > 
+> > > > > Changes since v3:
+> > > > >  - Fixed warnings Reported-by: kernel test robot <lkp@intel.com>
+> > > > > 
+> > > > > Changes since v4:
+> > > > >  - Removed print into alvium_get_dt_data for alliedvision,lp2hs-delay-us as
+> > > > >    suggested by CDooley
+> > > > > 
+> > > > >  drivers/media/i2c/Kconfig       |   10 +
+> > > > >  drivers/media/i2c/Makefile      |    1 +
+> > > > >  drivers/media/i2c/alvium-csi2.c | 3479 +++++++++++++++++++++++++++++++
+> > > > >  drivers/media/i2c/alvium-csi2.h |  485 +++++
+> > > > >  4 files changed, 3975 insertions(+)
+> > > > >  create mode 100644 drivers/media/i2c/alvium-csi2.c
+> > > > >  create mode 100644 drivers/media/i2c/alvium-csi2.h
 > 
-> Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
-> Reviewed-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-> ---
-> Changelog v2:
-> - no change
+> [snip]
 > 
-> Changelog v3:
-> - no change
+> > > > > diff --git a/drivers/media/i2c/alvium-csi2.c b/drivers/media/i2c/alvium-csi2.c
+> > > > > new file mode 100644
+> > > > > index 000000000000..52c9263075cf
+> > > > > --- /dev/null
+> > > > > +++ b/drivers/media/i2c/alvium-csi2.c
+> > > > > @@ -0,0 +1,3479 @@
 > 
-> Changelog v4:
-> - fix style problems at the v3 patch
-> - remove "index" member
-> - update example
+> [snip]
 > 
-> Changelog v5:
-> - no change
+> > > > > +static int alvium_get_img_width_params(struct alvium_dev *alvium)
+> > > > > +{
+> > > > > +	struct device *dev = &alvium->i2c_client->dev;
+> > > > > +	int ret;
+> > > > > +	u64 val;
+> > > > > +
+> > > > > +	if (!alvium->bcrm_addr)
+> > > > > +		return -EINVAL;
+> > > > > +
+> > > > > +	ret = alvium_read(alvium,
+> > > > > +			  REG_BCRM_IMG_WIDTH_MIN_R,
+> > > > > +			  &val);
+> > > > > +	if (ret) {
+> > > > > +		dev_err(dev, "Fail to read img min width reg\n");
+> > > > > +		return ret;
+> > > > > +	}
+> > > > 
+> > > > Could you add a macro that assigns the value to the variable (or a struct
+> > > > field in this case) when the read is successful? Add the print if you think
+> > > > you need it.
+> > > 
+> > > I don't get this comment.
+> > > Can you explain me better your plan please.
+> > 
+> > You have exactly the same pattern repeated over and over in a number of
+> > functions. I'd like you to add a macro (or a function) that takes what
+> > varies as arguments, and call that function here. It would reduce a lot of
+> > the repeated lines code here.
+> > 
+> > ...
 > 
-> Changelog v6:
-> - add register definition of BUS-IF and MPU
+> The best option is to print an error message in alvium_read() and drop
+> all error messages from the callers.
+
+What about don't print anything? We already have prints that comes from
+CCI API if some errors occurs. Laurent suggest me this into some
+previous comments. Let me know.
+
+Thanks & Regards,
+Tommaso
+
+
 > 
->  .../bindings/media/toshiba,visconti-viif.yaml | 102 ++++++++++++++++++
->  1 file changed, 102 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml
+> -- 
+> Regards,
 > 
-
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/toshiba,visconti-viif.yaml: title: 'Toshiba Visconti5 SoC Video Input Interface Device Tree Bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
-	hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
-	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230620031111.3776-2-yuji2.ishikawa@toshiba.co.jp
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+> Laurent Pinchart
