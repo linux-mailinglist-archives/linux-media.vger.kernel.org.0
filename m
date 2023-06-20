@@ -2,95 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 14B7F735F4A
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jun 2023 23:39:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3428473604F
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jun 2023 02:04:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229648AbjFSVjD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Jun 2023 17:39:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53584 "EHLO
+        id S229843AbjFTAEF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Jun 2023 20:04:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229547AbjFSVjC (ORCPT
+        with ESMTP id S229671AbjFTAED (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Jun 2023 17:39:02 -0400
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E828E64
-        for <linux-media@vger.kernel.org>; Mon, 19 Jun 2023 14:39:01 -0700 (PDT)
-Received: by mail-lj1-x235.google.com with SMTP id 38308e7fff4ca-2b4725e9917so27688901fa.2
-        for <linux-media@vger.kernel.org>; Mon, 19 Jun 2023 14:39:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687210739; x=1689802739;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NJqgFyZORxKSRICxsmBFhPlaldFyLWkexWK7bDGxjGc=;
-        b=RPfDbbXupqzacz7KmZUEQIISSc1lhv+2xRsN7vCGYpBl6AXY9CbUmlVWhZ98RO3D42
-         nVQ8K02IklHfRbbOREnhR5b8ttJtfv5xqS3zYzOKuo76kZCzNQQqoqeAO4AUV2DFuUzG
-         DniqlfoxeWNQlHekVLs0UT9jbTxhIjD2aUk0Esm/2CsTRRKhZ0pD10m8d1ZG6AyGuYws
-         YwK9aOTmhf+qQCZ6mDc8Dxyb5p3EEvQ6npsQ7e/ZtvUyZU2WEN8z+0PBX6gwIWBQi0qW
-         fSyQdThWVI6RDHslTDs5eRZQoUcmG9jTevSVKtBGTZHvByvIDf6E+fV2/YAWve5/wkkh
-         KfVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687210739; x=1689802739;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NJqgFyZORxKSRICxsmBFhPlaldFyLWkexWK7bDGxjGc=;
-        b=gqkqUXt100Rbtd6GuzD+d7ZZaBBfQILC2lbU73O3HOncFKX8P2Snmzi8OTCbXnAX+a
-         u9BgoDnXoT1zgsIhpyS1ssnJExDP/RHcmsuREvEh7gx6scgorwO5cBFNQz7vAUJw3J5a
-         HyIqfZcubaGhIh7p9Qv4hu9ym9yrUTMICT6QNCmD4XoHH1tLzd0zXpULQ1K8B3yeTPzw
-         UcO3c+CCyhnAlINrDZS41gmcJ+gecMz0C7SH+V/1/JddTSZX5AYLeEIR06auhPZjdoIz
-         2kHV1Piqf1QcNIaaMI4STZ0y+frqGltGi/fClDNTnX/FJeSiZYkqudPHV05kXq2mOPRT
-         L8eA==
-X-Gm-Message-State: AC+VfDw9akw6Ha+pmsJJkiO55GpsXjLYcljm6ERVBW+gDTO4oF/gKqel
-        o8X6Dp4Sv/9nAGZkKOGYOmkx+g==
-X-Google-Smtp-Source: ACHHUZ7mho7mHSB6JCzN3pI1HKBCa5gj+wq/4VTVHdrMTAaqPwUmQrdQYLCZ6sPJApcpZkejhtLHCA==
-X-Received: by 2002:a2e:9189:0:b0:2b4:75b7:edda with SMTP id f9-20020a2e9189000000b002b475b7eddamr2530334ljg.24.1687210739281;
-        Mon, 19 Jun 2023 14:38:59 -0700 (PDT)
-Received: from ?IPV6:2001:14ba:a0db:1f00::8a5? (dzdqv0yyyyyyyyyyybcwt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::8a5])
-        by smtp.gmail.com with ESMTPSA id e22-20020a2e8ed6000000b002adc2fe3fc8sm66717ljl.4.2023.06.19.14.38.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Jun 2023 14:38:58 -0700 (PDT)
-Message-ID: <c25ba108-1363-9c6f-3d02-2524ede7484e@linaro.org>
-Date:   Tue, 20 Jun 2023 00:38:57 +0300
+        Mon, 19 Jun 2023 20:04:03 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67E2A1AD;
+        Mon, 19 Jun 2023 17:04:01 -0700 (PDT)
+Received: from notapiano.myfiosgateway.com (zone.collabora.co.uk [167.235.23.81])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nfraprado)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id E4FC56605992;
+        Tue, 20 Jun 2023 01:03:55 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1687219439;
+        bh=dRdASRjcg3gh8xdvmAjk5IeDVNUJ5py/Gpoxgpqy9mM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=c2E96qafu1qO5q5VvpdtSbfzvaJQJ/BYXbg1YV3/zV3XEg94ANjku3aPaOBpd1VNu
+         FFyr9eVuYPxoASrBzh3WqKv2UAM6PdEob2sUpK/3SB1U0X3I7HCw54DQj6XY6kL2VV
+         mGVjV4ql2soeAUhDL17nF8CvAWe1LBUiHVWpe1xO/2vhAVddRSiUNx+ufQn2p+A+Zq
+         EzvU0M/VewaI8oUYn0PQv9+1/UygIABJNvE8I45ZtE862nBPhGcvkychinTaIoE1J3
+         JqEiP1yBVjLxZVHcKSaPyrodhKXabm7jhhE2ugQb/ozFLhtNf9vOAOH7ZEiLfsopJR
+         WiZIlby23js5Q==
+From:   =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
+        <nfraprado@collabora.com>
+To:     Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>, kernel@collabora.com,
+        =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
+        <nfraprado@collabora.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+Subject: [PATCH v3 0/6] Enable decoder for mt8183
+Date:   Mon, 19 Jun 2023 20:03:33 -0400
+Message-ID: <20230620000349.2122191-1-nfraprado@collabora.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] drm/msm: Fix typo in comment
-Content-Language: en-GB
-To:     zhumao001@208suo.com, robdclark@gmail.com,
-        quic_abhinavk@quicinc.com, airlied@gmail.com, daniel@ffwll.ch,
-        sumit.semwal@linaro.org, christian.koenig@amd.com, sean@poorly.run
-Cc:     linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20230618143813.15142-1-dengshaomin@cdjrlc.com>
- <20230618143813.15142-4-dengshaomin@cdjrlc.com>
- <610b47a2989976b9dae162ecc55ddc85@208suo.com>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <610b47a2989976b9dae162ecc55ddc85@208suo.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 18/06/2023 17:54, zhumao001@208suo.com wrote:
-> Fix typo in comment of msm_gem.c.
-> 
-> Signed-off-by: Zhu Mao <zhumao001@208suo.com>
-> ---
->   drivers/gpu/drm/msm/msm_gem.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
 
-This patch doesn't apply. Please use git send-email to send patches.
+This series enables the hardware decoder present on mt8183. At first
+glance, the only missing piece is the devicetree node for it, however,
+simply adding it as is would cause an address collision between the
+first register iospace and the clock-controller node, so a rework of the
+dt-binding and driver, as well as addition of a new syscon phandle
+property, were needed first.
+
+Tested that H264 decoding works with the hardware decoder on
+mt8183-kukui-jacuzzi-juniper-sku16, giving a fluster score of 98/135 on
+the JVT-AVC_V1 test suite. And ensured other SoCs (MT8192 and MT8195)
+still work as usual.
+
+Changes in v3:
+- Switched the handling of the VDEC_HW_ACTIVE bit to use a syscon
+  instead of the 'active' clock
+
+Changes in v2:
+- Merged commit 1 (media: dt-bindings: mediatek,vcodec: Allow single
+  clock for mt8183) into commit 3 (media: dt-bindings: mediatek,vcodec:
+  Remove VDEC_SYS for mt8183)
+- Further constrained properties in dt-binding
+- Added CLK_IGNORE_UNUSED flag to active clock
+- Reformatted reg-names in DT node
+
+Nícolas F. R. A. Prado (5):
+  media: dt-bindings: mediatek,vcodec: Allow single clock for mt8183
+  media: dt-bindings: mediatek,vcodec: Don't require assigned-clocks
+  media: dt-bindings: mediatek,vcodec: Remove VDEC_SYS for mt8183
+  media: mediatek: vcodec: Define address for VDEC_HW_ACTIVE
+  media: mediatek: vcodec: Read HW active status from syscon on MT8183
+
+Yunfei Dong (1):
+  arm64: dts: mediatek: mt8183: Add decoder
+
+ .../media/mediatek,vcodec-decoder.yaml        | 69 +++++++++++++++---
+ arch/arm64/boot/dts/mediatek/mt8183.dtsi      | 30 ++++++++
+ .../mediatek/vcodec/mtk_vcodec_dec_drv.c      | 71 ++++++++++++++++---
+ .../mediatek/vcodec/mtk_vcodec_dec_hw.c       |  4 +-
+ .../mediatek/vcodec/mtk_vcodec_dec_hw.h       |  3 +-
+ .../platform/mediatek/vcodec/mtk_vcodec_drv.h |  1 +
+ 6 files changed, 153 insertions(+), 25 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.41.0
 
