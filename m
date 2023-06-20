@@ -2,69 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 89AAE7371AA
-	for <lists+linux-media@lfdr.de>; Tue, 20 Jun 2023 18:32:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBD39737217
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jun 2023 18:50:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232527AbjFTQcR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Jun 2023 12:32:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56830 "EHLO
+        id S231704AbjFTQu2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Jun 2023 12:50:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231948AbjFTQb5 (ORCPT
+        with ESMTP id S231775AbjFTQu0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Jun 2023 12:31:57 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0DBB1FE7;
-        Tue, 20 Jun 2023 09:31:11 -0700 (PDT)
-Received: from notapiano (zone.collabora.co.uk [167.235.23.81])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: nfraprado)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 2D5FD6600873;
-        Tue, 20 Jun 2023 17:31:06 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1687278669;
-        bh=Y9tvPReig8gmKXdmzgK1D+yZ0bHJi1pX+/SYM0CaaCQ=;
+        Tue, 20 Jun 2023 12:50:26 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A79951982
+        for <linux-media@vger.kernel.org>; Tue, 20 Jun 2023 09:50:23 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A2513B2A;
+        Tue, 20 Jun 2023 18:49:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1687279786;
+        bh=bnwYiRxvBlXdL1PIU04piPleljKrkOxgy8Z88GwsxGY=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Vf3K1+F7Y1XW2cVGXJmAn9KJj9mP5Epmo3LI1I5+xTE73Yqh5QgptpZv5v2f/lGZf
-         xh74/x7jKjp0g06k3QYw7oDfGwJT0WmnC1aPXCuXaiolPKDVbZTbaqpLv9ku/nyV5a
-         Dkh3fNuZlWN872H4KcidPxRI6iufj1fBDptlXqh6lBGsRvlOzM0u9cTxN2OA5R2iFM
-         eT5iL/l8x2UE3TiF++xHqLYwHgGX2iJDPp4yAcSX2RPt6IQiL9EAh3J0O2bdvgvn/v
-         RF/ArBZ3zEEjzdZJPQ6jzPdzVDNB0HkYKRcXmgTwzft5LrbfGn3s04WCRclDh7Nwv5
-         EwO5rEpF3MoRw==
-Date:   Tue, 20 Jun 2023 12:31:02 -0400
-From:   =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado 
-        <nfraprado@collabora.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>, kernel@collabora.com,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v3 3/6] media: dt-bindings: mediatek,vcodec: Remove
- VDEC_SYS for mt8183
-Message-ID: <6b41c5e4-bae9-4c99-8a28-7272c8a598a3@notapiano>
-References: <20230620000349.2122191-1-nfraprado@collabora.com>
- <20230620000349.2122191-4-nfraprado@collabora.com>
- <8b5e4a9b-7496-02a1-d3b6-a0be8ea85798@linaro.org>
- <a82b7f2d-04d4-4ac0-9a72-ad1c17118e19@notapiano>
- <cb2dd67a-d3df-f194-6595-789d12b38f3d@linaro.org>
+        b=nqLIHD2slPMhkHifa594IDpQkQdWvPzILSO6vPuUe9wDwKkKfIMafVy3ha419R1sH
+         U8IFgSPU2sJcF9ScuAJDYH0st0fMjmovya2Ho4oWw/dC3316laf/qQux6L+hY5TFJP
+         Z6PUCh4yVmHQOYfxo7I4EohepJ3xL08hnP7Ladxo=
+Date:   Tue, 20 Jun 2023 19:50:19 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>, hverkuil@xs4all.nl,
+        Francesco Dolcini <francesco@dolcini.it>,
+        aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>, bingbu.cao@intel.com,
+        niklas.soderlund@ragnatech.se,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Sylvain Petinot <sylvain.petinot@foss.st.com>,
+        Eugen Hristev <eugen.hristev@collabora.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Dafna Hirschfeld <dafna@fastmail.com>,
+        Hugues Fruchet <hugues.fruchet@foss.st.com>,
+        Yong Deng <yong.deng@magewell.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Benoit Parrot <bparrot@ti.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Marco Felsch <m.felsch@pengutronix.de>
+Subject: Re: [RESEND PATCH v3 25/32] media: marvell: cafe: Register V4L2
+ device earlier
+Message-ID: <20230620165019.GG26467@pendragon.ideasonboard.com>
+References: <20230525091615.2324824-1-sakari.ailus@linux.intel.com>
+ <20230525091615.2324824-26-sakari.ailus@linux.intel.com>
+ <20230530050033.GQ21633@pendragon.ideasonboard.com>
+ <ZJF0ypJT7PxIoHjN@kekkonen.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cb2dd67a-d3df-f194-6595-789d12b38f3d@linaro.org>
+In-Reply-To: <ZJF0ypJT7PxIoHjN@kekkonen.localdomain>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -73,144 +77,121 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 20, 2023 at 03:00:00PM +0200, Krzysztof Kozlowski wrote:
-> On 20/06/2023 14:46, Nícolas F. R. A. Prado wrote:
-> > On Tue, Jun 20, 2023 at 10:12:14AM +0200, Krzysztof Kozlowski wrote:
-> >> On 20/06/2023 02:03, Nícolas F. R. A. Prado wrote:
-> >>> The binding expects the first register space to be VDEC_SYS. But on
-> >>> mt8183, which uses the stateless decoders, this space is used only for
-> >>> controlling clocks and resets, which are better described as separate
-> >>> clock-controller and reset-controller nodes.
-> >>>
-> >>> In fact, in mt8173's devicetree there are already such separate
-> >>> clock-controller nodes, which cause duplicate addresses between the
-> >>> vdecsys node and the vcodec node. But for this SoC, since the stateful
-> >>> decoder code makes other uses of the VDEC_SYS register space, it's not
-> >>> straightforward to remove it.
-> >>>
-> >>> In order to avoid the same address conflict to happen on mt8183,
-> >>> since the only current use of the VDEC_SYS register space in
-> >>> the driver is to read the status of a hardware controlled clock, remove
-> >>> the VDEC_SYS register space from the binding and describe an extra
-> >>> syscon that will be used to directly check the hardware status.
-> >>>
-> >>> Also add reg-names to be able to tell that this new register schema is
-> >>> used, so the driver can keep backward compatibility.
-> >>>
-> >>> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> >>>
-> >>> ---
-> >>> I dropped the tags from this commit since a syscon is now used instead
-> >>> of an extra clock.
-> >>>
-> >>> Changes in v3:
-> >>> - Removed the active clock
-> >>> - Added a mediatek,vdecsys syscon property
-> >>>
-> >>> Changes in v2:
-> >>> - Merged with patch 1 (media: dt-bindings: mediatek,vcodec: Allow single
-> >>>   clock for mt8183) to avoid changing number of clocks twice
-> >>> - Added maxItems to reg-names
-> >>> - Constrained clocks for each compatible
-> >>> - Reordered properties for each compatible
-> >>>
-> >>>  .../media/mediatek,vcodec-decoder.yaml        | 30 +++++++++++++++++++
-> >>>  1 file changed, 30 insertions(+)
-> >>>
-> >>> diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
-> >>> index 1e56ece44aee..2f625c50bbfe 100644
-> >>> --- a/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
-> >>> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
-> >>> @@ -21,8 +21,13 @@ properties:
-> >>>        - mediatek,mt8183-vcodec-dec
-> >>>  
-> >>>    reg:
-> >>> +    minItems: 11
-> >>>      maxItems: 12
-> >>>  
-> >>> +  reg-names:
-> >>> +    minItems: 11
-> >>> +    maxItems: 11
-> >>
-> >> maxItems: 12
-> >>
-> >>> +
-> >>>    interrupts:
-> >>>      maxItems: 1
-> >>>  
-> >>> @@ -60,6 +65,10 @@ properties:
-> >>>      description:
-> >>>        Describes point to scp.
-> >>>  
-> >>> +  mediatek,vdecsys:
-> >>> +    $ref: /schemas/types.yaml#/definitions/phandle
-> >>> +    description: Phandle to the vdecsys syscon node.
-> >>> +
-> >>>  required:
-> >>>    - compatible
-> >>>    - reg
-> >>> @@ -79,8 +88,26 @@ allOf:
-> >>>      then:
-> >>>        required:
-> >>>          - mediatek,scp
-> >>> +        - mediatek,vdecsys
-> >>>  
-> >>>        properties:
-> >>> +        reg:
-> >>> +          maxItems: 11
-> >>> +
-> >>> +        reg-names:
-> >>> +          items:
-> >>> +            - const: misc
-> >>> +            - const: ld
-> >>> +            - const: top
-> >>> +            - const: cm
-> >>> +            - const: ad
-> >>> +            - const: av
-> >>> +            - const: pp
-> >>> +            - const: hwd
-> >>> +            - const: hwq
-> >>> +            - const: hwb
-> >>> +            - const: hwg
-> >>> +
-> >>>          clocks:
-> >>>            minItems: 1
-> >>>            maxItems: 1
-> >>> @@ -101,6 +128,9 @@ allOf:
-> >>>          - mediatek,vpu
-> >>>  
-> >>>        properties:
-> >>> +        reg:
-> >>> +          minItems: 12
-> >>
-> >>
-> >> What about reg-names here? They should be also defined and in sync with
-> >> regs.
-> > 
-> > That's intentional. As described in the commit message, mt8173 will keep having
-> > the VDEC_SYS iospace, while mt8183 won't. And we use the presence of reg-names
-> > to tell them apart.
-> > 
-> > So, mt8173 has 12 regs, no reg-names and no syscon, while mt8183 has 11 regs,
-> > with reg-names and the syscon.
+On Tue, Jun 20, 2023 at 09:43:38AM +0000, Sakari Ailus wrote:
+> Hi Laurent,
 > 
-> reg-names is not the way to tell apart variants. Compatible is. If you
-> add reg-names for one variant, it's expected to have it defined for
-> other as well, because the order of items in reg is always fixed.
+> On Tue, May 30, 2023 at 08:00:33AM +0300, Laurent Pinchart wrote:
+> > Hi Sakari,
+> > 
+> > Thank you for the patch.
+> > 
+> > On Thu, May 25, 2023 at 12:16:08PM +0300, Sakari Ailus wrote:
+> > > Register V4L2 device before the async notifier so the struct device will
+> > > be available for the notifier which makes it possible to use it for debug
+> > > prints.
+> > 
+> > Please record in the commit message that this is to prepare for patch
+> > 31/32. Same comment for other patches in this series.
+> 
+> I've already added the text that tells the purpose is to make future debug
+> prints possible (with the device). Would you like to have the patch subject
+> here or something else?
 
-But differentiating with compatible in this case would be wrong, since it's not
-not something inherent to the SoC. We really just want to be able to tell
-whether the vdecsys iospace is supplied as a reg or as a syscon.
+I meant it would be nice to record in the commit message here that the
+v4l2-async framework will start making use of the dev field in a
+subsequent patch, and that this patch prepares for it.
 
-This series focuses on getting the mt8183 decoder working, and as part of that
-introduces the binding and DT node for mt8183 with vdecsys as a syscon instead
-of a reg, to avoid introducing new 'duplicate unit-address' DT warnings.
+> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > ---
+> > >  drivers/media/platform/marvell/cafe-driver.c | 11 +++++++++--
+> > >  drivers/media/platform/marvell/mcam-core.c   |  6 ------
+> > >  2 files changed, 9 insertions(+), 8 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/platform/marvell/cafe-driver.c b/drivers/media/platform/marvell/cafe-driver.c
+> > > index dd1bba70bd791..fbfbb9f67ddfc 100644
+> > > --- a/drivers/media/platform/marvell/cafe-driver.c
+> > > +++ b/drivers/media/platform/marvell/cafe-driver.c
+> > > @@ -536,6 +536,10 @@ static int cafe_pci_probe(struct pci_dev *pdev,
+> > >  	if (ret)
+> > >  		goto out_pdown;
+> > >  
+> > > +	ret = v4l2_device_register(mcam->dev, &mcam->v4l2_dev);
+> > > +	if (ret)
+> > > +		goto out_smbus_shutdown;
+> > > +
+> > >  	v4l2_async_nf_init(&mcam->notifier);
+> > >  
+> > >  	asd = v4l2_async_nf_add_i2c(&mcam->notifier,
+> > > @@ -544,12 +548,12 @@ static int cafe_pci_probe(struct pci_dev *pdev,
+> > >  				    struct v4l2_async_connection);
+> > >  	if (IS_ERR(asd)) {
+> > >  		ret = PTR_ERR(asd);
+> > > -		goto out_smbus_shutdown;
+> > > +		goto out_v4l2_device_unregister;
+> > >  	}
+> > >  
+> > >  	ret = mccic_register(mcam);
+> > >  	if (ret)
+> > > -		goto out_smbus_shutdown;
+> > > +		goto out_v4l2_device_unregister;
+> > >  
+> > >  	clkdev_create(mcam->mclk, "xclk", "%d-%04x",
+> > >  		i2c_adapter_id(cam->i2c_adapter), ov7670_info.addr);
+> > > @@ -565,6 +569,8 @@ static int cafe_pci_probe(struct pci_dev *pdev,
+> > >  
+> > >  out_mccic_shutdown:
+> > >  	mccic_shutdown(mcam);
+> > > +out_v4l2_device_unregister:
+> > > +	v4l2_device_unregister(&mcam->v4l2_dev);
+> > >  out_smbus_shutdown:
+> > >  	cafe_smbus_shutdown(cam);
+> > >  out_pdown:
+> > > @@ -587,6 +593,7 @@ static int cafe_pci_probe(struct pci_dev *pdev,
+> > >  static void cafe_shutdown(struct cafe_camera *cam)
+> > >  {
+> > >  	mccic_shutdown(&cam->mcam);
+> > > +	v4l2_device_unregister(&cam->mcam.v4l2_dev);
+> > >  	cafe_smbus_shutdown(cam);
+> > >  	free_irq(cam->pdev->irq, cam);
+> > >  	pci_iounmap(cam->pdev, cam->mcam.regs);
+> > > diff --git a/drivers/media/platform/marvell/mcam-core.c b/drivers/media/platform/marvell/mcam-core.c
+> > > index 3cee6d6b83fa9..bcfcecdb03ea2 100644
+> > > --- a/drivers/media/platform/marvell/mcam-core.c
+> > > +++ b/drivers/media/platform/marvell/mcam-core.c
+> > > @@ -1866,10 +1866,6 @@ int mccic_register(struct mcam_camera *cam)
+> > >  	/*
+> > >  	 * Register with V4L
+> > >  	 */
+> > 
+> > The comment doesn't seem valid anymore.
+> 
+> I'll drop it from v4.
+> 
+> > > -	ret = v4l2_device_register(cam->dev, &cam->v4l2_dev);
+> > > -	if (ret)
+> > > -		goto out;
+> > > -
+> > >  	mutex_init(&cam->s_mutex);
+> > >  	cam->state = S_NOTREADY;
+> > >  	mcam_set_config_needed(cam, 1);
+> > > @@ -1915,7 +1911,6 @@ int mccic_register(struct mcam_camera *cam)
+> > >  
+> > >  out:
+> > >  	v4l2_async_nf_unregister(&cam->notifier);
+> > > -	v4l2_device_unregister(&cam->v4l2_dev);
+> > >  	v4l2_async_nf_cleanup(&cam->notifier);
+> > >  	return ret;
+> > >  }
+> > > @@ -1937,7 +1932,6 @@ void mccic_shutdown(struct mcam_camera *cam)
+> > >  		mcam_free_dma_bufs(cam);
+> > >  	v4l2_ctrl_handler_free(&cam->ctrl_handler);
+> > >  	v4l2_async_nf_unregister(&cam->notifier);
+> > > -	v4l2_device_unregister(&cam->v4l2_dev);
+> > >  	v4l2_async_nf_cleanup(&cam->notifier);
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(mccic_shutdown);
 
-But in a separate series we could drop vdecsys from mt8173's reg as well,
-passing it as a syscon instead, which would solve the warning on that platform,
-though some more driver changes would be needed to be able to handle it for that
-SoC. The newer SoCs like mt8192, mt8195, etc, should also get vdecsys dropped
-from their regs to have a correct memory description.
+-- 
+Regards,
 
-Thanks,
-Nícolas
+Laurent Pinchart
