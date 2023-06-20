@@ -2,132 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C7CFD736A9A
-	for <lists+linux-media@lfdr.de>; Tue, 20 Jun 2023 13:13:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F019B736BD2
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jun 2023 14:22:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231955AbjFTLNt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Jun 2023 07:13:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48952 "EHLO
+        id S231966AbjFTMWe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Jun 2023 08:22:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230422AbjFTLNs (ORCPT
+        with ESMTP id S231962AbjFTMWc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Jun 2023 07:13:48 -0400
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 859AAB2
-        for <linux-media@vger.kernel.org>; Tue, 20 Jun 2023 04:13:47 -0700 (PDT)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 35KBDfIi109877;
-        Tue, 20 Jun 2023 06:13:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1687259621;
-        bh=bi8313S3HkxdFv45NUWJgiI45nwYZmQtsj64O+bRJuM=;
-        h=Date:Subject:To:CC:References:From:In-Reply-To;
-        b=mkm9hVTFp5PE1lasv0CkrUb+oFQ01ykAgtjICTGZxG/+ttMcMl9R9CAdUzmTZyEoI
-         9oRnk2JX7FUoBGad4ymdp1Q6HRvvsYyEHA79Vd4M3fheVyxEJq9h+62CQZwfpRGiWp
-         Lf2dIV3y46WLwSFoSBERD7G+7ZWLbxxqgtfXbwx8=
-Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 35KBDfNT030737
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 20 Jun 2023 06:13:41 -0500
-Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 20
- Jun 2023 06:13:41 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 20 Jun 2023 06:13:41 -0500
-Received: from [172.24.145.199] (ileaxei01-snat.itg.ti.com [10.180.69.5])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 35KBDdb9108482;
-        Tue, 20 Jun 2023 06:13:40 -0500
-Message-ID: <cf7cd716-22b2-917a-c3db-413fd451410c@ti.com>
-Date:   Tue, 20 Jun 2023 16:43:38 +0530
+        Tue, 20 Jun 2023 08:22:32 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 733D510F8;
+        Tue, 20 Jun 2023 05:22:30 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-986d871a9beso601104766b.1;
+        Tue, 20 Jun 2023 05:22:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687263749; x=1689855749;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fcq5N60nfQxL2AkC4k0hnO6HDG5qwiL6ahvDhw8nL84=;
+        b=f4iwAfeupafLiAk53S671K/Us/NF85GSm9sArN7JrWgnD09WojbNv9zgSjQ3xGRQTk
+         yyKLLM5mJm9ZVmBwCcCch3+le4uZBZEmQQ8vUsYrFTQLCVgwMlegXefkCTJIGCjRe8H3
+         wGnjzOjV1P0MB13j6KAZFTWkJLYj0gCZQTpLoJccu9zDXzshgqwuu33TIc+Z1tmGnlsZ
+         /Vj08U059PG+HQgE9QbzQaJnljPIrkqdgaz8adwXLqsDqG6539GZnNeIirnxsRojFU6P
+         Z8GnMQectYtnoZZHwbcwDhiUamQPtE0laAqmfFXnpVUyYiKimRwbyQi3QXfrNciU6ITC
+         9s+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687263749; x=1689855749;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Fcq5N60nfQxL2AkC4k0hnO6HDG5qwiL6ahvDhw8nL84=;
+        b=AfZ9zXzfKcErOuxN3LWKMptgOQUrJVZr8FLXTPF7+Gj+6bdY1KfTYhjeMrEUmzMjBK
+         dQJRdAkgsKY6UUNULv0EMExDdRMLbn3Slul76tuS+K6vClzNq5Aa20VcbAj34DRtTW7a
+         FeL/jwC0xApUtmMAB1WMC1dLpTGUMznuEiZbFhIg9SpTg/9P0MndS0SLd5sfVJkjx1gd
+         pCQekVCG9b6rWwvzNnDTymhSgDhP0hWS4fs0gJICQ+oTORzBRYvmpn650SaWSviEzexK
+         O/r/IehEnGIeroRkBSGN+fNG9L0L8Z7XWkcnDTdlXnCkoQczwj5MHtziYCD+0tOP2VX7
+         64iw==
+X-Gm-Message-State: AC+VfDzeDb53fTBYEZk8+P2H/ot13b5aPLMeZTA0Q62ZsynVuoZDmq/U
+        AO79d+8lwNbE8n0IJqUiS/0=
+X-Google-Smtp-Source: ACHHUZ7knw1bOSFq09Yrnd43GlWmbxcwd1QNNfpraauZ1FAM4WxwAZIkpoDomsGKK0r87gg1Qgi5Bg==
+X-Received: by 2002:a17:907:e8b:b0:988:9b29:5647 with SMTP id ho11-20020a1709070e8b00b009889b295647mr4844928ejc.77.1687263748615;
+        Tue, 20 Jun 2023 05:22:28 -0700 (PDT)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation.station (net-2-39-142-242.cust.vodafonedsl.it. [2.39.142.242])
+        by smtp.gmail.com with ESMTPSA id me16-20020a170906aed000b0098669cc16b2sm1305200ejb.83.2023.06.20.05.22.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Jun 2023 05:22:28 -0700 (PDT)
+From:   Tommaso Merciai <tomm.merciai@gmail.com>
+Cc:     jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com,
+        martin.hecht@avnet.eu, michael.roeder@avnet.eu,
+        linuxfancy@googlegroups.com, hdegoede@redhat.com,
+        Tommaso Merciai <tomm.merciai@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Gerald Loacker <gerald.loacker@wolfvision.net>,
+        Mikhail Rudenko <mike.rudenko@gmail.com>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Nicholas Roth <nicholas@rothemail.net>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH v7 0/3] media: i2c: Add support for alvium camera
+Date:   Tue, 20 Jun 2023 14:22:17 +0200
+Message-Id: <20230620122225.58862-1-tomm.merciai@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [ANN] Media Summit June 26th: Please let me know if you will
- attend
-Content-Language: en-US
-To:     Tommaso Merciai <tomm.merciai@gmail.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-CC:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Martin Hecht <martin.hecht@avnet.eu>,
-        Michael Roeder <michael.roeder@avnet.eu>
-References: <aec8b9e1-25d4-d0bc-63b6-68ff06e06683@xs4all.nl>
- <ZHCoYqlctSsqSUHE@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-From:   Devarsh Thakkar <devarsht@ti.com>
-In-Reply-To: <ZHCoYqlctSsqSUHE@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hello All,
 
-On 26/05/23 18:08, Tommaso Merciai wrote:
-> Hello Hans,
-> 
-> On Mon, May 15, 2023 at 04:34:20PM +0200, Hans Verkuil wrote:
->> Hi all,
->>
->> We organized a Media Summit on Monday June 26th in Prague. It is held
->> at the Holiday Inn close by the conference centre where the Embedded
->> Open Source Summit is held (1).
->>
->> Holiday Inn Prague Congress Centre - Meeting room "E"
->> Na Pankráci 1684/ 15, 140 00 Praha 4-Nusle
->> https://www.ihg.com/holidayinn/hotels/us/en/prague/prgnp/hoteldetail
->>
->> We have room for about 20 people, so let me know if you plan to attend
->> in person. That way we know how many people we'll get.
-> 
-> Thanks for your effort on support/create this event.
-> 
-> I don't have particular topics. I would like to attend in person too, if possible.
-> In real we are me and other 2 guys that are in cc (Martin Hecht and Michael Roeder).
-> 
-> Let me know if can be possible for us to partecipate at this event.
-> Many thanks! :)
-> 
-> Regards,
-> Tommaso
-> 
->>
->> Regarding remote participation: only if there is really no other way.
->> Meeting face-to-face once a year is important IMHO, and attending remotely
->> is a poor substitute. That said, if it is really necessary to set something
->> up, then I can do the same I did in Dublin, setting up a Webex meeting.
->> That worked reasonably well, except that I will need to bring a better
->> speaker since I learned that the laptop speaker was pretty bad.
->>
->> If you do want to participate remotely, please let me know as well.
->>
+This series add support for Allied Vision Alvium camera.
+The Alvium camera is shipped with sensor + isp in the same housing.
+The camera can be equipped with one out of various sensor and abstract
+the user from this. Camera is connected via MIPI CSI-2.
 
-Thanks for organizing this and sorry for the late intimation, I am interested
-to participate remotely too as not able to travel. I am from Texas Instruments
-and currently working on linux media related driver and frameworks.
+Working on top of Ideas on Board (branch: ideasonboard/v6.2/isi)
+I'm able to test the driver on imx8mp-evk.
+I collect also some patches to enable HDMI on imx8mp-evk from Pengutronix
+(branch: pengutronix-imx8mp-hdmi)
 
-Could you please let me know if it's possible for me to attend remotely ?
+I collect the patchset required to enable ISI + HDMI on imx8mp-evk into
+the following branch from Avnet Silica Software & Services EMEA [1].
 
-Regards
-Devarsh
+Some documentation on testing ISP and ISI of imx8mp-evk here [2].
 
->> I'll post a separate email with the draft Agenda for the media summit.
->>
->> Hope to see you all in Prague!
->>
->> Regards,
->>
->> 	Hans
->>
->> (1) https://events.linuxfoundation.org/embedded-open-source-summit/
-> 
-> 
+Thanks all for the great work!
+
+[1] - https://github.com/avs-sas/linux/tree/tm/ideasonboard/v6.4.0-rc2/isi/imx8mp_evk/alvium_drv_skel1e_v1
+[2] - https://gist.github.com/Scott31393/077a10024a6058536d3f2fdde476265a
+
+Tommaso Merciai (3):
+  dt-bindings: vendor-prefixes: Add prefix alliedvision
+  media: dt-bindings: alvium: add document YAML binding
+  media: i2c: Add support for alvium camera
+
+ .../media/i2c/alliedvision,alvium-csi2.yaml   |   97 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+ MAINTAINERS                                   |    9 +
+ drivers/media/i2c/Kconfig                     |   11 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/alvium-csi2.c               | 2767 +++++++++++++++++
+ drivers/media/i2c/alvium-csi2.h               |  474 +++
+ 7 files changed, 3361 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.yaml
+ create mode 100644 drivers/media/i2c/alvium-csi2.c
+ create mode 100644 drivers/media/i2c/alvium-csi2.h
+
+-- 
+2.34.1
+
