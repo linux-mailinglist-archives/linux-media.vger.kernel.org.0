@@ -2,61 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FCAE7365CE
-	for <lists+linux-media@lfdr.de>; Tue, 20 Jun 2023 10:11:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C79BA7365D2
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jun 2023 10:12:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231700AbjFTILe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Jun 2023 04:11:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34808 "EHLO
+        id S231800AbjFTIMU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Jun 2023 04:12:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231769AbjFTILT (ORCPT
+        with ESMTP id S231723AbjFTIMT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Jun 2023 04:11:19 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67E9A1BE
-        for <linux-media@vger.kernel.org>; Tue, 20 Jun 2023 01:11:18 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-30fcda210cfso4170365f8f.3
-        for <linux-media@vger.kernel.org>; Tue, 20 Jun 2023 01:11:18 -0700 (PDT)
+        Tue, 20 Jun 2023 04:12:19 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12AB4E4A
+        for <linux-media@vger.kernel.org>; Tue, 20 Jun 2023 01:12:18 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-3f9b258f3d8so14319615e9.1
+        for <linux-media@vger.kernel.org>; Tue, 20 Jun 2023 01:12:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687248677; x=1689840677;
+        d=linaro.org; s=google; t=1687248736; x=1689840736;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=XdyvTbKbtxFhVlxAUsNkcPNLTdItEsqylIYcTSmrmVw=;
-        b=YKGzUefLgxKAL8ZEALam9+JDwZQfINLmjzcz4XsXQ9gevee+KgIbnSriINUMJ3XkN4
-         t+Lx/HfIGMIKPiIi3r+82G8zlwxyuKx0CTa+/G58lalCDq4CMSuYmzU6wR6nX5EtPOAf
-         n4csHx9o+NWks2zCzNdOKVtMmGuGOun+VniZf6l+8KIX9ne87GsSqDtP3ebv6BvTDvSW
-         dm0AoCujSpRMDWo6zaHBgh9z4lVGTZs5mhyj7Dwd2080v/qUla4jMxiqQyUpsiZkMJCP
-         jsKYdsNJ62bku+qh2FgI+r2/WzZSheLudch+ZXirXHahmTzzixijR0ec49KBMz5FnAEA
-         Ajcw==
+        bh=2KRzE3IxHv0D72WxLTYYk5f9VrvCEP7kc7aTHTFKOSI=;
+        b=qNDBWvbudemDgPmOjnbu080AyvX8nOks7ZLsys7A4wfr+7VWtU26irPr90roJ30HcM
+         GbWu6dlSkQX77ZWpwWA6jSUeISJ5jxEs82+08vFEDzk/hN4oQH0/mwyq+ziJq0FQkNGw
+         Of+e9HOUY/sUl8Iz/A3o4o1oLV4BiWQuXJfHcdvg5tdRXDQK8bMhoE7yov2rYSvKQHY8
+         78+Q9+bHG3srLrD1hF2i9ACQ0zFDUoQkYbylSUsxNrCWRVXmTLCgu+shGZgrFTWZ8L3k
+         2KRrwrLEVI8z927SBQ1RfzUkCRmOL8DEN9j29rrbw0vzH+nP1nIqQDn1JdQnxo54UgIB
+         xt2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687248677; x=1689840677;
+        d=1e100.net; s=20221208; t=1687248736; x=1689840736;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XdyvTbKbtxFhVlxAUsNkcPNLTdItEsqylIYcTSmrmVw=;
-        b=X7uTQSPXQHERHQ55m/9YodgzPUUrSZzAr1Y+XPJjKqWguVhxFR+xYksIUU1wNYe6WG
-         zkOvJVHZHw3NPJsFSzbTzzIE0jpbIVGM4Wzj0N9DrPmlebaERmmg5L0Yfefx61prjNAC
-         BXhA9WJ1ZO7l0okvENJwSHZriyfYtKqIuIAQ2WbmoEZ4Ji6nYxOsdoE7k2YqqHwhbjmm
-         jcTV7WOKqLfKtPI2OGk80DaiHeFhXZ4Snz+MZPtd3v8rbsNvHcmuB6bEWUAY+1iSkSA1
-         7ZryG+vQkUIfsRHcZkaJr3fpdUdigcgZynARYxxqIXCgebEwVEjnv/QYuAsTazywb6dm
-         /r0g==
-X-Gm-Message-State: AC+VfDzN6YRffiGyfYKr/vqqoNov/dW8+lQf/h5xXPzVA5Wbp2xFPhHg
-        XFgKoLzuPOKpP+QLhBrd2YDTgA==
-X-Google-Smtp-Source: ACHHUZ5cdhpOJNZAgxuoKeMYSqVchTg56R1O3JGrDeBzA2TRG8isJFpUv0+JvTtzb9gqVGSbosBGrQ==
-X-Received: by 2002:a5d:44cf:0:b0:310:4fa3:5b0f with SMTP id z15-20020a5d44cf000000b003104fa35b0fmr8696296wrr.69.1687248676928;
-        Tue, 20 Jun 2023 01:11:16 -0700 (PDT)
+        bh=2KRzE3IxHv0D72WxLTYYk5f9VrvCEP7kc7aTHTFKOSI=;
+        b=YmNv0806p85JXmvvNpaeD9jHihp9bd5AJy4opqjDvj1EUZAZrOh55zbEosaVDftCdK
+         KDxv5pkNYGZ1fM5vhJ9RfqkZBXgab4WIlYN39TfPjuDWlnKsrOdEngQTvii8Euu5BWKC
+         nJrDJAAHFp0KTB9SBp/ovLszHudElAXUARiOcQCy0kjXnum5pIkE2Q4/l4OpmJrG8jwd
+         vsNPHtCblU9MuGwN8EXnXCQvMlZaPveU9UBgcVg+IO5pppQqFclEIUJfMu2+XV9NftuU
+         G/c4Lg3jAMGwzYgr4bvjp+wBnlsLhtWj/7Ce8fda0yeIfLqd/Tl8e2ynqYMprdqdmKLn
+         t5Lg==
+X-Gm-Message-State: AC+VfDzlTmUs25l9cesZuxIAcyOeuBbrfe9JXIYAAuRVF90mJkFPTrNP
+        si6H+twnkMrBPlLu/rWw/Uno/g==
+X-Google-Smtp-Source: ACHHUZ5VCMlfw7GJ9Qf2HaNFEaUXnZ28ODluape1E5lbYbI6NEx+mawbOnCdpFyStP6LzFieyg4ZUw==
+X-Received: by 2002:a7b:c450:0:b0:3f7:367a:bd28 with SMTP id l16-20020a7bc450000000b003f7367abd28mr10053356wmi.4.1687248736480;
+        Tue, 20 Jun 2023 01:12:16 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.26])
-        by smtp.gmail.com with ESMTPSA id l14-20020adfe58e000000b0030fd03e3d25sm1383032wrm.75.2023.06.20.01.11.15
+        by smtp.gmail.com with ESMTPSA id p25-20020a1c7419000000b003f8fac0ad4bsm1674906wmc.17.2023.06.20.01.12.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Jun 2023 01:11:16 -0700 (PDT)
-Message-ID: <c6183e35-2e3b-624c-dd97-05a0cb1a7c3f@linaro.org>
-Date:   Tue, 20 Jun 2023 10:11:14 +0200
+        Tue, 20 Jun 2023 01:12:16 -0700 (PDT)
+Message-ID: <8b5e4a9b-7496-02a1-d3b6-a0be8ea85798@linaro.org>
+Date:   Tue, 20 Jun 2023 10:12:14 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH v3 1/6] media: dt-bindings: mediatek,vcodec: Allow single
- clock for mt8183
+Subject: Re: [PATCH v3 3/6] media: dt-bindings: mediatek,vcodec: Remove
+ VDEC_SYS for mt8183
 Content-Language: en-US
 To:     =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
         <nfraprado@collabora.com>,
@@ -75,9 +75,9 @@ Cc:     AngeloGioacchino Del Regno
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-mediatek@lists.infradead.org
 References: <20230620000349.2122191-1-nfraprado@collabora.com>
- <20230620000349.2122191-2-nfraprado@collabora.com>
+ <20230620000349.2122191-4-nfraprado@collabora.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230620000349.2122191-2-nfraprado@collabora.com>
+In-Reply-To: <20230620000349.2122191-4-nfraprado@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -91,17 +91,115 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 20/06/2023 02:03, Nícolas F. R. A. Prado wrote:
-> MT8173 and MT8183 have different clocks, and consequently clock-names.
-> Relax the number of clocks and set clock-names based on compatible.
+> The binding expects the first register space to be VDEC_SYS. But on
+> mt8183, which uses the stateless decoders, this space is used only for
+> controlling clocks and resets, which are better described as separate
+> clock-controller and reset-controller nodes.
 > 
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
+> In fact, in mt8173's devicetree there are already such separate
+> clock-controller nodes, which cause duplicate addresses between the
+> vdecsys node and the vcodec node. But for this SoC, since the stateful
+> decoder code makes other uses of the VDEC_SYS register space, it's not
+> straightforward to remove it.
+> 
+> In order to avoid the same address conflict to happen on mt8183,
+> since the only current use of the VDEC_SYS register space in
+> the driver is to read the status of a hardware controlled clock, remove
+> the VDEC_SYS register space from the binding and describe an extra
+> syscon that will be used to directly check the hardware status.
+> 
+> Also add reg-names to be able to tell that this new register schema is
+> used, so the driver can keep backward compatibility.
+> 
 > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 > 
 > ---
+> I dropped the tags from this commit since a syscon is now used instead
+> of an extra clock.
+> 
+> Changes in v3:
+> - Removed the active clock
+> - Added a mediatek,vdecsys syscon property
+> 
+> Changes in v2:
+> - Merged with patch 1 (media: dt-bindings: mediatek,vcodec: Allow single
+>   clock for mt8183) to avoid changing number of clocks twice
+> - Added maxItems to reg-names
+> - Constrained clocks for each compatible
+> - Reordered properties for each compatible
+> 
+>  .../media/mediatek,vcodec-decoder.yaml        | 30 +++++++++++++++++++
+>  1 file changed, 30 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
+> index 1e56ece44aee..2f625c50bbfe 100644
+> --- a/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
+> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
+> @@ -21,8 +21,13 @@ properties:
+>        - mediatek,mt8183-vcodec-dec
+>  
+>    reg:
+> +    minItems: 11
+>      maxItems: 12
+>  
+> +  reg-names:
+> +    minItems: 11
+> +    maxItems: 11
+
+maxItems: 12
+
+> +
+>    interrupts:
+>      maxItems: 1
+>  
+> @@ -60,6 +65,10 @@ properties:
+>      description:
+>        Describes point to scp.
+>  
+> +  mediatek,vdecsys:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: Phandle to the vdecsys syscon node.
+> +
+>  required:
+>    - compatible
+>    - reg
+> @@ -79,8 +88,26 @@ allOf:
+>      then:
+>        required:
+>          - mediatek,scp
+> +        - mediatek,vdecsys
+>  
+>        properties:
+> +        reg:
+> +          maxItems: 11
+> +
+> +        reg-names:
+> +          items:
+> +            - const: misc
+> +            - const: ld
+> +            - const: top
+> +            - const: cm
+> +            - const: ad
+> +            - const: av
+> +            - const: pp
+> +            - const: hwd
+> +            - const: hwq
+> +            - const: hwb
+> +            - const: hwg
+> +
+>          clocks:
+>            minItems: 1
+>            maxItems: 1
+> @@ -101,6 +128,9 @@ allOf:
+>          - mediatek,vpu
+>  
+>        properties:
+> +        reg:
+> +          minItems: 12
 
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+What about reg-names here? They should be also defined and in sync with
+regs.
 
 Best regards,
 Krzysztof
