@@ -2,220 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F34D6736C90
-	for <lists+linux-media@lfdr.de>; Tue, 20 Jun 2023 15:00:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA5A5736D8B
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jun 2023 15:42:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232529AbjFTNAQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Jun 2023 09:00:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41416 "EHLO
+        id S232180AbjFTNmI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Jun 2023 09:42:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232428AbjFTNAP (ORCPT
+        with ESMTP id S229966AbjFTNmG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Jun 2023 09:00:15 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B312419A5
-        for <linux-media@vger.kernel.org>; Tue, 20 Jun 2023 06:00:05 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-3113da5260dso2103962f8f.2
-        for <linux-media@vger.kernel.org>; Tue, 20 Jun 2023 06:00:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687266003; x=1689858003;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=X+elCcDfXZKuzDxi8bk9krk/t0/AVdCFoDUPSesylM0=;
-        b=x9OMHTeXkE4gRObSwizT9qOmCj7avu5YFmrDEXhpwXqGRkRBCVAx9PGebZ+qEM3RDZ
-         OvOgc7z0BeNlQdEsytlaLHZKwfmTP33fsNW6PJw8ZqAyFkXv18FMyk1DAut2nMN5JH/I
-         zfNgBTR87OXG+4VydFkH32FlNYPGw9iKUJbAMWzHhTvNAEn3gwq/DajenzDfMflyfTCr
-         AOsXZKoNUwCX8BN+56D093RNgyDZdDrRkC4hv61wAltfIvdCZ5Mh5YrI2UvFRcQoobA7
-         e8UauKvf12qTrcdQ58msGnWJb8Vtb4sowzs/nKPy83OCl/aHK9PsYoALzgKcL/mQWVAb
-         7yRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687266003; x=1689858003;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=X+elCcDfXZKuzDxi8bk9krk/t0/AVdCFoDUPSesylM0=;
-        b=C87qqt3g+IoAsla5gqwvF+ggK44oKjbawGtxl2lr06xGY3kMEq9R57ARvv+qC4F3FP
-         iBCYF+nv3/Eeux3Z5kjKU3YY+w98YqgR+4ksyJx0+ysJxR/0T2rAzyHyWXOPO+gQYA8H
-         bancyxCFwZVV7+Zezt0mKIN+OuDp0575ubJFunerUG5Sc3uGUIvxms4JLlCJy6icLTTR
-         +FQTUkD6fD0do/qG8OCNU4eDdV3wV/pfRI6L41x6bMsGkvJorbOhfqQHlfHrm6s088pS
-         9gvb9V0jGTHC/6tVzH5kabYHHYw6tp8f7182VivMxSn2XHd9s8DQe++exStf/ZJemICU
-         2UNg==
-X-Gm-Message-State: AC+VfDyeOTLJkyrzR+KC+OpqSDNtk4uT6GWIqBDBnqzy20YoR6kXxZPg
-        7O5iOYYXYFpUGoA305hHFXZ9cA==
-X-Google-Smtp-Source: ACHHUZ7+RTCp6Fqh2DGFZd4QI8q4rCVwvR1dP1d4BsM+sEN9iT/ExN2dSH4aidrmOPnQaMslTcJQwg==
-X-Received: by 2002:adf:df12:0:b0:30d:af7c:5046 with SMTP id y18-20020adfdf12000000b0030daf7c5046mr7667598wrl.60.1687266003293;
-        Tue, 20 Jun 2023 06:00:03 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.26])
-        by smtp.gmail.com with ESMTPSA id e14-20020adfef0e000000b0030c2e3c7fb3sm1930310wro.101.2023.06.20.06.00.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Jun 2023 06:00:02 -0700 (PDT)
-Message-ID: <cb2dd67a-d3df-f194-6595-789d12b38f3d@linaro.org>
-Date:   Tue, 20 Jun 2023 15:00:00 +0200
+        Tue, 20 Jun 2023 09:42:06 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EF9CFC;
+        Tue, 20 Jun 2023 06:42:05 -0700 (PDT)
+Received: from umang.jainideasonboard.com (unknown [103.86.18.208])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B6007440;
+        Tue, 20 Jun 2023 15:41:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1687268488;
+        bh=d1szohQyYfDBoebryFpnghAI3f1i8yqhV6L6y/y+p20=;
+        h=From:To:Cc:Subject:Date:From;
+        b=NKFfZR9gtHPQkyd3XTOoWTsCa+jh70KeWrvAefdh4XbgfqreafecHc8QDGvYB/Paq
+         9Ar+NtBWrJPpt44pmr83HSYT+/t0TYDbdlRgRECE16QNrpXdiT5r8YYs4Xfbezlp+E
+         3cjMF5m+d3LyAYlSAvxBpTLEGeN0hSCWoytCHxwA=
+From:   Umang Jain <umang.jain@ideasonboard.com>
+To:     linux-staging@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     stefan.wahren@i2se.com, gregkh@linuxfoundation.org,
+        f.fainelli@gmail.com, athierry@redhat.com, error27@gmail.com,
+        dave.stevenson@raspberrypi.com, kieran.bingham@ideasonboard.com,
+        laurent.pinchart@ideasonboard.com,
+        Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH v7 0/5] staging: vc04_services: vchiq: Register devices with a custom bus_type
+Date:   Tue, 20 Jun 2023 19:11:47 +0530
+Message-Id: <20230620134152.383569-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v3 3/6] media: dt-bindings: mediatek,vcodec: Remove
- VDEC_SYS for mt8183
-Content-Language: en-US
-To:     =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
-        <nfraprado@collabora.com>
-Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>, kernel@collabora.com,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mediatek@lists.infradead.org
-References: <20230620000349.2122191-1-nfraprado@collabora.com>
- <20230620000349.2122191-4-nfraprado@collabora.com>
- <8b5e4a9b-7496-02a1-d3b6-a0be8ea85798@linaro.org>
- <a82b7f2d-04d4-4ac0-9a72-ad1c17118e19@notapiano>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <a82b7f2d-04d4-4ac0-9a72-ad1c17118e19@notapiano>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 20/06/2023 14:46, Nícolas F. R. A. Prado wrote:
-> On Tue, Jun 20, 2023 at 10:12:14AM +0200, Krzysztof Kozlowski wrote:
->> On 20/06/2023 02:03, Nícolas F. R. A. Prado wrote:
->>> The binding expects the first register space to be VDEC_SYS. But on
->>> mt8183, which uses the stateless decoders, this space is used only for
->>> controlling clocks and resets, which are better described as separate
->>> clock-controller and reset-controller nodes.
->>>
->>> In fact, in mt8173's devicetree there are already such separate
->>> clock-controller nodes, which cause duplicate addresses between the
->>> vdecsys node and the vcodec node. But for this SoC, since the stateful
->>> decoder code makes other uses of the VDEC_SYS register space, it's not
->>> straightforward to remove it.
->>>
->>> In order to avoid the same address conflict to happen on mt8183,
->>> since the only current use of the VDEC_SYS register space in
->>> the driver is to read the status of a hardware controlled clock, remove
->>> the VDEC_SYS register space from the binding and describe an extra
->>> syscon that will be used to directly check the hardware status.
->>>
->>> Also add reg-names to be able to tell that this new register schema is
->>> used, so the driver can keep backward compatibility.
->>>
->>> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
->>>
->>> ---
->>> I dropped the tags from this commit since a syscon is now used instead
->>> of an extra clock.
->>>
->>> Changes in v3:
->>> - Removed the active clock
->>> - Added a mediatek,vdecsys syscon property
->>>
->>> Changes in v2:
->>> - Merged with patch 1 (media: dt-bindings: mediatek,vcodec: Allow single
->>>   clock for mt8183) to avoid changing number of clocks twice
->>> - Added maxItems to reg-names
->>> - Constrained clocks for each compatible
->>> - Reordered properties for each compatible
->>>
->>>  .../media/mediatek,vcodec-decoder.yaml        | 30 +++++++++++++++++++
->>>  1 file changed, 30 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
->>> index 1e56ece44aee..2f625c50bbfe 100644
->>> --- a/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
->>> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
->>> @@ -21,8 +21,13 @@ properties:
->>>        - mediatek,mt8183-vcodec-dec
->>>  
->>>    reg:
->>> +    minItems: 11
->>>      maxItems: 12
->>>  
->>> +  reg-names:
->>> +    minItems: 11
->>> +    maxItems: 11
->>
->> maxItems: 12
->>
->>> +
->>>    interrupts:
->>>      maxItems: 1
->>>  
->>> @@ -60,6 +65,10 @@ properties:
->>>      description:
->>>        Describes point to scp.
->>>  
->>> +  mediatek,vdecsys:
->>> +    $ref: /schemas/types.yaml#/definitions/phandle
->>> +    description: Phandle to the vdecsys syscon node.
->>> +
->>>  required:
->>>    - compatible
->>>    - reg
->>> @@ -79,8 +88,26 @@ allOf:
->>>      then:
->>>        required:
->>>          - mediatek,scp
->>> +        - mediatek,vdecsys
->>>  
->>>        properties:
->>> +        reg:
->>> +          maxItems: 11
->>> +
->>> +        reg-names:
->>> +          items:
->>> +            - const: misc
->>> +            - const: ld
->>> +            - const: top
->>> +            - const: cm
->>> +            - const: ad
->>> +            - const: av
->>> +            - const: pp
->>> +            - const: hwd
->>> +            - const: hwq
->>> +            - const: hwb
->>> +            - const: hwg
->>> +
->>>          clocks:
->>>            minItems: 1
->>>            maxItems: 1
->>> @@ -101,6 +128,9 @@ allOf:
->>>          - mediatek,vpu
->>>  
->>>        properties:
->>> +        reg:
->>> +          minItems: 12
->>
->>
->> What about reg-names here? They should be also defined and in sync with
->> regs.
-> 
-> That's intentional. As described in the commit message, mt8173 will keep having
-> the VDEC_SYS iospace, while mt8183 won't. And we use the presence of reg-names
-> to tell them apart.
-> 
-> So, mt8173 has 12 regs, no reg-names and no syscon, while mt8183 has 11 regs,
-> with reg-names and the syscon.
+The patch series added a new bus type vchiq_bus_type and registers
+child devices in order to move them away from using platform
+device/driver.
 
-reg-names is not the way to tell apart variants. Compatible is. If you
-add reg-names for one variant, it's expected to have it defined for
-other as well, because the order of items in reg is always fixed.
+Patch 1/5 and 2/5 adds a new bus_type and registers them to vchiq
+interface
 
-Best regards,
-Krzysztof
+Patch 3/5 and 4/5 moves the bcm2835-camera and bcm2835-audio
+to the new bus respectively
+
+Patch 5/5 removes a platform registeration helper which is no
+longer required.
+
+Changes in v7:
+(5 out of 6 patches from v6 merged)
+- Split the main patch (6/6) as requested.
+- Use struct vchiq_device * instead of struct device * in
+  all bus functions.
+- Drop additional name attribute displayed in sysfs (redundant info)
+- Document vchiq_interface doesn't enumerate device discovery
+- remove EXPORT_SYMBOL_GPL(vchiq_bus_type)
+
+Changes in v6:
+- Split struct device and struct driver wrappers in vchiq_device.[ch]
+- Move vchiq_bus_type definition to vchiq_device.[ch] as well
+- return error on bus_register() failure
+- drop dma_set_mask_and_coherent
+- trivial variable name change
+
+Changes in v5:
+- Fixup missing "staging: " in commits' subject line
+- No code changes from v4
+
+Changes in v4:
+- Introduce patches to drop include directives from Makefile
+
+Changes in v3:
+- Rework entirely to replace platform devices/driver model
+
+-v2:
+https://lore.kernel.org/all/20221222191500.515795-1-umang.jain@ideasonboard.com/
+
+-v1:
+https://lore.kernel.org/all/20221220084404.19280-1-umang.jain@ideasonboard.com/
+
+Umang Jain (5):
+  staging: vc04_services: vchiq_arm: Add new bus type and device type
+  staging: vc04_services: vchiq_arm: Register vchiq_bus_type
+  staging: bcm2835-camera: Register bcm2835-camera with vchiq_bus_type
+  staging: bcm2835-audio: Register bcm2835-audio with vchiq_bus_type
+  staging: vc04_services: vchiq_arm: Remove vchiq_register_child()
+
+ drivers/staging/vc04_services/Makefile        |  1 +
+ .../vc04_services/bcm2835-audio/bcm2835.c     | 17 ++--
+ .../bcm2835-camera/bcm2835-camera.c           | 16 ++--
+ .../interface/vchiq_arm/vchiq_arm.c           | 56 +++++++------
+ .../interface/vchiq_arm/vchiq_device.c        | 78 +++++++++++++++++++
+ .../interface/vchiq_arm/vchiq_device.h        | 43 ++++++++++
+ 6 files changed, 165 insertions(+), 46 deletions(-)
+ create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+ create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
+
+-- 
+2.39.1
 
