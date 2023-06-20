@@ -2,215 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6659B7360D6
-	for <lists+linux-media@lfdr.de>; Tue, 20 Jun 2023 02:44:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6A4E736199
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jun 2023 04:43:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230018AbjFTAoa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Jun 2023 20:44:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38614 "EHLO
+        id S229690AbjFTCnF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Jun 2023 22:43:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229963AbjFTAoO (ORCPT
+        with ESMTP id S229454AbjFTCnE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Jun 2023 20:44:14 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EED921997
-        for <linux-media@vger.kernel.org>; Mon, 19 Jun 2023 17:43:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687221822; x=1718757822;
-  h=date:from:to:cc:subject:message-id;
-  bh=lE7mF9aLB0YQswz3oaxpo5ryctxG7uAguH8+svhk2Qk=;
-  b=Vj86ab1xUDm7uZVoovhHJ3fEgDFcXnlsW6qW8N3U41d605xdnAG725w3
-   QFoiLaVXPYstfdlV2uNSgDHFnb51FmKDwxhQENRYGr/IN/k3kqoHJAh5+
-   iMEp/I9Qp47qEii76ni0rShWzdWwQJmsVnaNSh1o2dk3ej3xNeGIs1Rje
-   GHFLdjRglwhp8eG0drtRnblNjmlQKgr2jxcwk9wqZjP0jlL0O0PHtd6P6
-   EAvS7D9m8FywZS1Hp38xQXaJs4cEgEXDVK6a/S0mUtLA2VNDVaV6Pq0CB
-   ecwocqjUYcksHrtUa+g78bs0JCfdovhpYmMwbLhokzsJ102H8woNl+B++
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="425688511"
-X-IronPort-AV: E=Sophos;i="6.00,255,1681196400"; 
-   d="scan'208";a="425688511"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2023 17:43:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="1044044035"
-X-IronPort-AV: E=Sophos;i="6.00,255,1681196400"; 
-   d="scan'208";a="1044044035"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 19 Jun 2023 17:43:41 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qBPTA-0005IX-13;
-        Tue, 20 Jun 2023 00:43:40 +0000
-Date:   Tue, 20 Jun 2023 08:42:40 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org
-Subject: [sailus-media-tree:fixes] BUILD SUCCESS
- afbb61fca19be4eaf2cfacece749f2815686dde0
-Message-ID: <202306200838.L3q2zgKg-lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 19 Jun 2023 22:43:04 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3462E74
+        for <linux-media@vger.kernel.org>; Mon, 19 Jun 2023 19:43:02 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4372860DF6
+        for <linux-media@vger.kernel.org>; Tue, 20 Jun 2023 02:43:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51221C433C0
+        for <linux-media@vger.kernel.org>; Tue, 20 Jun 2023 02:43:01 +0000 (UTC)
+Date:   Tue, 20 Jun 2023 04:42:59 +0200
+Message-ID: <9e4cc9c71b4e33bf414641c5f25b391a.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git fixes
-branch HEAD: afbb61fca19be4eaf2cfacece749f2815686dde0  media: staging: atomisp: select V4L2_FWNODE
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-elapsed time: 732m
+Results of the daily build of media_tree:
 
-configs tested: 138
-configs skipped: 12
+date:			Tue Jun 20 03:00:07 CEST 2023
+media-tree git hash:	d78b9d6671decdaedb539635b1d0a34f8f5934f8
+v4l-utils git hash:	5c9ebe57cead6049651d3d9727cd623e8a17eac8
+edid-decode git hash:	a31e680438789d45207497bf999a20cf6e2c0ec1
+gcc version:		i686-linux-gcc (GCC) 13.1.0
+sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
+sparse version:		v0.6.4-39-gce1a6720-dirty
+smatch repo:            git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8371-g475c3cec-dirty
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 7a744dc9cad9c3f99a9946a1027df30d84d663fb
+host hardware:		x86_64
+host os:		6.1.0-5-amd64
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: WARNINGS
+linux-git-arm-multi: WARNINGS
+linux-git-powerpc64: OK
+linux-git-arm64: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: WARNINGS: VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
+Check for strcpy/strncpy/strlcpy: OK
+apps: WARNINGS
+spec-git: OK
+virtme: OK: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 0
+virtme-32: OK: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 0
+CONFIG_PM=n: OK
+CONFIG_PM_SLEEP=n: WARNINGS
+CONFIG_OF=n: WARNINGS
+CONFIG_DEBUG_FS=n: WARNINGS
+sparse: WARNINGS
+smatch: ERRORS
+kerneldoc: WARNINGS
 
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r015-20230619   gcc  
-alpha                randconfig-r034-20230619   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r005-20230619   gcc  
-arc                  randconfig-r043-20230619   gcc  
-arc                  randconfig-r043-20230620   gcc  
-arc                    vdk_hs38_smp_defconfig   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                          gemini_defconfig   gcc  
-arm                  randconfig-r002-20230619   clang
-arm                  randconfig-r003-20230619   clang
-arm                  randconfig-r046-20230619   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                randconfig-r031-20230619   gcc  
-csky                                defconfig   gcc  
-csky                 randconfig-r002-20230619   gcc  
-csky                 randconfig-r004-20230619   gcc  
-hexagon              randconfig-r006-20230619   clang
-hexagon              randconfig-r041-20230619   clang
-hexagon              randconfig-r045-20230619   clang
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-r004-20230619   gcc  
-i386         buildonly-randconfig-r005-20230619   gcc  
-i386         buildonly-randconfig-r006-20230619   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-i001-20230619   gcc  
-i386                 randconfig-i002-20230619   gcc  
-i386                 randconfig-i003-20230619   gcc  
-i386                 randconfig-i004-20230619   gcc  
-i386                 randconfig-i005-20230619   gcc  
-i386                 randconfig-i006-20230619   gcc  
-i386                 randconfig-i011-20230619   clang
-i386                 randconfig-i012-20230619   clang
-i386                 randconfig-i013-20230619   clang
-i386                 randconfig-i014-20230619   clang
-i386                 randconfig-i015-20230619   clang
-i386                 randconfig-i016-20230619   clang
-i386                 randconfig-r012-20230619   clang
-i386                 randconfig-r032-20230619   gcc  
-i386                 randconfig-r033-20230619   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch            randconfig-r006-20230619   gcc  
-loongarch            randconfig-r013-20230619   gcc  
-loongarch            randconfig-r021-20230619   gcc  
-m68k                             allmodconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                 randconfig-r001-20230619   gcc  
-m68k                 randconfig-r021-20230619   gcc  
-m68k                 randconfig-r034-20230619   gcc  
-m68k                 randconfig-r036-20230619   gcc  
-microblaze           randconfig-r011-20230619   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                 randconfig-r013-20230619   gcc  
-nios2                               defconfig   gcc  
-nios2                randconfig-r003-20230619   gcc  
-nios2                randconfig-r004-20230619   gcc  
-nios2                randconfig-r032-20230619   gcc  
-openrisc             randconfig-r011-20230619   gcc  
-openrisc             randconfig-r016-20230619   gcc  
-openrisc             randconfig-r033-20230619   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc               randconfig-r001-20230619   gcc  
-parisc               randconfig-r023-20230619   gcc  
-parisc               randconfig-r035-20230619   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc              randconfig-r013-20230619   clang
-powerpc                     taishan_defconfig   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r042-20230619   clang
-riscv                randconfig-r042-20230620   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r025-20230619   clang
-s390                 randconfig-r044-20230619   clang
-s390                 randconfig-r044-20230620   gcc  
-sh                               allmodconfig   gcc  
-sh                         microdev_defconfig   gcc  
-sh                   randconfig-r025-20230619   gcc  
-sh                   randconfig-r034-20230619   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                randconfig-r035-20230619   gcc  
-sparc64              randconfig-r005-20230619   gcc  
-sparc64              randconfig-r006-20230619   gcc  
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                   randconfig-r005-20230619   clang
-um                   randconfig-r015-20230619   gcc  
-um                   randconfig-r016-20230619   gcc  
-um                   randconfig-r033-20230619   clang
-um                           x86_64_defconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-r001-20230619   gcc  
-x86_64       buildonly-randconfig-r002-20230619   gcc  
-x86_64       buildonly-randconfig-r003-20230619   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-a001-20230619   gcc  
-x86_64               randconfig-a002-20230619   gcc  
-x86_64               randconfig-a003-20230619   gcc  
-x86_64               randconfig-a004-20230619   gcc  
-x86_64               randconfig-a005-20230619   gcc  
-x86_64               randconfig-a006-20230619   gcc  
-x86_64               randconfig-a011-20230619   clang
-x86_64               randconfig-a012-20230619   clang
-x86_64               randconfig-a013-20230619   clang
-x86_64               randconfig-a014-20230619   clang
-x86_64               randconfig-a015-20230619   clang
-x86_64               randconfig-a016-20230619   clang
-x86_64               randconfig-r003-20230619   gcc  
-x86_64               randconfig-r012-20230619   clang
-x86_64               randconfig-r014-20230619   clang
-x86_64               randconfig-r024-20230619   clang
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa               randconfig-r012-20230619   gcc  
-xtensa               randconfig-r024-20230619   gcc  
-xtensa               randconfig-r025-20230619   gcc  
-xtensa               randconfig-r026-20230619   gcc  
+Detailed results are available here:
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+https://hverkuil.home.xs4all.nl/logs/Tuesday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
