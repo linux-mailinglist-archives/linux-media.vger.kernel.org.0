@@ -2,102 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B2E0F73834B
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jun 2023 14:13:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B24EC738394
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jun 2023 14:21:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231811AbjFULN0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Jun 2023 07:13:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41736 "EHLO
+        id S231279AbjFUMSX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Jun 2023 08:18:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230499AbjFULNY (ORCPT
+        with ESMTP id S230009AbjFUMSW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Jun 2023 07:13:24 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 105E219F
-        for <linux-media@vger.kernel.org>; Wed, 21 Jun 2023 04:13:22 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-98934f000a5so223183066b.2
-        for <linux-media@vger.kernel.org>; Wed, 21 Jun 2023 04:13:21 -0700 (PDT)
+        Wed, 21 Jun 2023 08:18:22 -0400
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D03BE10C;
+        Wed, 21 Jun 2023 05:18:19 -0700 (PDT)
+Received: by mail-lj1-x232.google.com with SMTP id 38308e7fff4ca-2b46cad2fd9so59730591fa.1;
+        Wed, 21 Jun 2023 05:18:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1687346000; x=1689938000;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=iUXdQtUDPb9Ggmn6wVlKaK9PtP3dZPjwZcKdxRJgZJo=;
-        b=FYt0KhnCYS4Sun7Oh2BKsve5pz72ZaT7sxgdBjMK6jMz/EDNBcD48RcOWsLxHQVNhN
-         k04VcbHfRPUBbXn5FrjVL0BteBT2awHzyTiYr38Gu654APIf1NbDGEaoFW+O42yRmeYy
-         L4JNGHUQbrpu83FzlqWINUrG8C/NN6zJydwS5+li1lKN6F+CfYVkeFs7LApz5xcvqqP2
-         0OC6hQB0YXQIHYKA+oZHFbaNydEDPOxU7r0MDZyCH2i+Qm5Fy2K3n2qoygziaamTiFNN
-         gPnRtXz/p9aJQTDO9QNy9I4RrLZz+QDmnCVmDAw3NeQkBzJwV8CPnA1n125nt1v/lbQm
-         MiAA==
+        d=gmail.com; s=20221208; t=1687349898; x=1689941898;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5pZTs7wMZ0BYXuZPnTcmyw2sMgPd+LLhQOmvBxF+zh0=;
+        b=hPY3aaZKh3+hpknbkVrtmxsGiIGpyQb7f+K9ZaIrdyRzeHndbyBBituhAfeeCH+Ix1
+         sT925xkkVEVyIJn6zsVntEvtPIX4Q/UhzHeBUBQKOflaJYJWKcAQvXwxDaBhu9Il6aeA
+         bWibsITaEbM5lxI4iOpnHuVOBb+0g5o+55eq2givzfpZHbrX/9NKs8awvu5hWeIRg7OH
+         jWsty0b/nP+hCKVM5k/pSvuS0ZFGJK6Q5SMaRUOc9bAZYhmntXEB3GIWGC0fpWJKONsk
+         28g4WmvNLZWKrn+7fbaK1YTvXSyPCvHRncZZWyIG7bYweMBihyBzRKIkjl7q+FK4lCid
+         EWJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687346000; x=1689938000;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iUXdQtUDPb9Ggmn6wVlKaK9PtP3dZPjwZcKdxRJgZJo=;
-        b=fX4ijtK8cTMRctGWXtXr8bvpC57EConUhm+kGkvRg3NrDIF+blvR7iF48yHhyj8Vok
-         NqRVfzNYvHx5NBvwCvK2Pbi34g8UTMO63GzvIX6TR9KuB5Noe45A5ntF0qPoghovAZgc
-         xWlIS8JA99zSpBxjG1cBXYKkOGmi2RBqLlCrNJq3l44rBSeRWrqgYiMnYjFMf9+J82si
-         FCJZkKitcJw1bFARcky6MTPduTSzF7D+U8c1zciIrztxhuLetJC7kbkeTJ87ZshEuoTf
-         Gc4yJ7dKRYU/tLP8WhS3beF6jzSq1gCwUeJFVxi0N5Q6Q9oVv118VotD0GC7cVTj+lIO
-         4pYQ==
-X-Gm-Message-State: AC+VfDyYM5Fg2rQQZnoEY9Gzn2S5/Op5XiD4xHiiwtI3KX07pWKrVO7G
-        FXmgs5tb/Pc1z5cSQJ4GVOeB5A==
-X-Google-Smtp-Source: ACHHUZ5lEurz3Tk5KBdB4xWqwYLad1q1cw2XYM5BoZPsqDgkn5rliMY8I3dkFMkw6V7SsZ4UZyvx5Q==
-X-Received: by 2002:a17:907:97cd:b0:989:5a7d:f43a with SMTP id js13-20020a17090797cd00b009895a7df43amr2726340ejc.66.1687346000214;
-        Wed, 21 Jun 2023 04:13:20 -0700 (PDT)
-Received: from [192.168.1.172] (158.22.5.93.rev.sfr.net. [93.5.22.158])
-        by smtp.gmail.com with ESMTPSA id i10-20020a17090685ca00b0098873024c95sm2997823ejy.136.2023.06.21.04.13.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Jun 2023 04:13:19 -0700 (PDT)
-Message-ID: <d57dd954-b36d-95a5-91c0-c1cfb7290dc0@baylibre.com>
-Date:   Wed, 21 Jun 2023 13:13:18 +0200
+        d=1e100.net; s=20221208; t=1687349898; x=1689941898;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5pZTs7wMZ0BYXuZPnTcmyw2sMgPd+LLhQOmvBxF+zh0=;
+        b=TjmniI4+G66N7RWpRHDXwlZ2bMpcxWTRMg4k1hCIRfkjQEJ7llarR6Z6NPzVW87ZVK
+         4S4HQW4712gifgn4U3zR2Z5vIAcxggvob+r1l8qrBz9ZOvNSxXupdXJ4i62sYAjQ4fPR
+         ijP+nTw21d7zcxvxsJMJt3BcKvjn3JrNnpYbHmm7xXDpkcfTqm7R7ASl/OpdHyJzL+T6
+         0LBM7Xxl12NXzzMan7mlIBUB+nTxa6dN5kCcw8l5np/HI2G+N5v6sKgh8j9Si31pW/6i
+         StgFG1ELnZekDFREpqmjp+eZ8Ml3vFHTt1IyfZTwxf0kK1/INTZGZRAfkO7HDg9Isl7n
+         K4BQ==
+X-Gm-Message-State: AC+VfDwFk3adVFsUhArUBou54GeZE0X0uMDgK6Gc9X5ZVoWMQI/dVyvn
+        742txqSVlOqjmoWsdstrnOo=
+X-Google-Smtp-Source: ACHHUZ7RUDikRcO1bSyrPSV6dRKWHu6Oic1opMvMZxTIQ7EEmU1OIBYEkfljxBhr3LduxHDLt5XcnA==
+X-Received: by 2002:a2e:8443:0:b0:2b1:d588:a1a5 with SMTP id u3-20020a2e8443000000b002b1d588a1a5mr9268781ljh.52.1687349897805;
+        Wed, 21 Jun 2023 05:18:17 -0700 (PDT)
+Received: from emma-rogzephyrusg14ga401iv (sa-84-52-56-253.saturn.infonet.ee. [84.52.56.253])
+        by smtp.gmail.com with ESMTPSA id u21-20020a2e9b15000000b002b44b8409b5sm887141lji.75.2023.06.21.05.18.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jun 2023 05:18:17 -0700 (PDT)
+Date:   Wed, 21 Jun 2023 15:18:06 +0300
+From:   emma <emma.t.christy@gmail.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     ezequiel@vanguardiasur.com.ar, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Subject: [PATCH] media: rkvdec: removed redundant blank
+ line
+Message-ID: <20230621151806.6b56f121@emma-rogzephyrusg14ga401iv>
+In-Reply-To: <2023062136-drench-pasty-79a2@gregkh>
+References: <20230621092223.10805-1-emma.t.christy@gmail.com>
+        <2023062136-drench-pasty-79a2@gregkh>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 1/5] media: dt-bindings: mediatek,vcodec: Don't require
- assigned-clocks
-Content-Language: en-US
-To:     =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
-        <nfraprado@collabora.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     kernel@collabora.com,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mediatek@lists.infradead.org
-References: <20230607205714.510012-1-nfraprado@collabora.com>
- <20230607205714.510012-2-nfraprado@collabora.com>
-From:   Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <20230607205714.510012-2-nfraprado@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 07/06/2023 22:53, Nícolas F. R. A. Prado wrote:
-> On MT8183 it's not necessary to configure the parent for the clocks.
-> Remove the assigned-clocks and assigned-clock-parents from the required
-> list.
+On Wed, 21 Jun 2023 12:51:11 +0200
+Greg KH <gregkh@linuxfoundation.org> wrote:
 
-Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
+> On Wed, Jun 21, 2023 at 12:22:23PM +0300, emma christy wrote:
+> > Adhere to Linux kernel coding style. Removed redundant blank line.
+> > Issue found by checkpatch.
+> > 
+> > Signed-off-by: emma christy <emma.t.christy@gmail.com>  
+> 
+> You might need to write this as "Emma Christy", right?
+> 
+> Also, your "Subject" line has an additional [PATCH] and "Subject:" in
+> it somehow.
+> 
+> thanks,
+> 
+> greg k-h
 
--- 
-Regards,
-Alexandre
+I am sorry for the errors, I am still new at this.
 
+I did mean to sign as "Emma Christy". Should I resubmit the patch,
+because of this?
+The extra "Subject" got added during "git send-email" and I didn't
+notice. The extra "[PATCH]" was added by me as I did not know it would
+be added automatically later. I will not make these mistakes again.
+
+Thank You,
+
+Emma Christy
