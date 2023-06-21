@@ -2,159 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 89C55738A03
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jun 2023 17:44:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 453D0738CF5
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jun 2023 19:21:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233757AbjFUPoC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Jun 2023 11:44:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50072 "EHLO
+        id S230462AbjFURVY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Jun 2023 13:21:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233751AbjFUPnq (ORCPT
+        with ESMTP id S230076AbjFURVU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Jun 2023 11:43:46 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 166551FD0
-        for <linux-media@vger.kernel.org>; Wed, 21 Jun 2023 08:43:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687362200; x=1718898200;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=v2hTPBRjWyycB+oBzlubA2AR2RefbqoPoO8L9IF0GG4=;
-  b=bjCg6miOAREdRQLhZDbsSqo1Hn00d8NQiRFnkGgUz0k3IB6iMy6RWZ9z
-   Xy395D7dWm10EF8ApZsoxpHDPax90PLBitUXo/btOrWDRCaSSNd8PIWf+
-   BIOkk04fMitMp5VuCX7XLInye4hIVVHt7TH7X0E3wSlBUge4QCc7OtZR4
-   CfA+nsi4nBOmaNaAoSIH0xjCfJ0WoE+c8GcqAcdaUrWu++8HrGx7OVfUE
-   spL/3AYF+XMwcCHM8zjGFrTBIyRubXgsI3DW9Cij7ol+1Dpf5RWA8wUk3
-   6DOIh15YggITtHC4UO6DNUO+PjAf97xVhe8MEe8iMdAUxSijJSjHyyg10
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="339830988"
-X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; 
-   d="scan'208";a="339830988"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 08:43:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="859004860"
-X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; 
-   d="scan'208";a="859004860"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 08:43:12 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 731A611FA52;
-        Wed, 21 Jun 2023 18:43:09 +0300 (EEST)
-Date:   Wed, 21 Jun 2023 15:43:09 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>, hverkuil@xs4all.nl,
-        Francesco Dolcini <francesco@dolcini.it>,
-        aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>, bingbu.cao@intel.com,
-        niklas.soderlund@ragnatech.se,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Sylvain Petinot <sylvain.petinot@foss.st.com>,
-        Eugen Hristev <eugen.hristev@collabora.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Dafna Hirschfeld <dafna@fastmail.com>,
-        Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Yong Deng <yong.deng@magewell.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Benoit Parrot <bparrot@ti.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Marco Felsch <m.felsch@pengutronix.de>
-Subject: Re: [RESEND PATCH v3 23/32] media: pxa_camera: Fix probe error
- handling
-Message-ID: <ZJMaje9BH3D3g7wq@kekkonen.localdomain>
-References: <20230525091615.2324824-1-sakari.ailus@linux.intel.com>
- <20230525091615.2324824-24-sakari.ailus@linux.intel.com>
- <20230530045125.GN21633@pendragon.ideasonboard.com>
+        Wed, 21 Jun 2023 13:21:20 -0400
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4D6019A3
+        for <linux-media@vger.kernel.org>; Wed, 21 Jun 2023 10:21:18 -0700 (PDT)
+Received: by mail-yb1-xb2e.google.com with SMTP id 3f1490d57ef6-bd6446528dcso5933868276.2
+        for <linux-media@vger.kernel.org>; Wed, 21 Jun 2023 10:21:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1687368078; x=1689960078;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fSAk//p3tdpjYImZmcR5EhVEtjoOajC1V7uGVNMF2Bg=;
+        b=q/QuiXaZ88rtUbd3QeAHuuJ5YdEG8Dj33lwUpfxAKx2j6K8dza966+C6Vx9qTjeHAC
+         dvjLDPex73PhJtmsc00qVmNWc81PBSoK5/DqmDEkoQRwZg7wdCgDYwv6KNw7NQHQg0ss
+         QCxMpM2hyzH5EJ0IKPpWTrAOr75BDqkN90Q3p4Z+NGub6vJjdVMSx+/dWrdARkm/qa+K
+         j6nLL7mAq/4hVfWhFluDu/adCBBVVG4zebIR3JHTZ/osWCH9Wbr92Ycmird8V3zgA09l
+         iM+oXXoIN7YX8PqJDsa+yxmqavyepFXWWbCVfvkQEus4wkvqcgdDn/f+isiJhlvZC9Fa
+         qF2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687368078; x=1689960078;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fSAk//p3tdpjYImZmcR5EhVEtjoOajC1V7uGVNMF2Bg=;
+        b=RgVMQ+NoHJsBjGzIaztxaW9cImQbxIh4xXRzP0qQhXTGJeW5v/4LkIioGDCGceLszw
+         wsSDL/fgPY9RmeIHTzIGD1el5YOR+PLYu63YyECWDtvhJ0/MYuSKI81dvuwd/CHYWitY
+         LdhEhvFM1WixxxK0eV/pZc7NY3HlxOh91Wg96YHc6SIXaqklDzTDsVKYDiLVOo5ouohq
+         gF9WXL+QlR6u29q+Yk5AgKAoJL3YuxACx17vBWGQoIJhxdYLZtJrqK9ZtwpPKDEtOE6y
+         lCRkmGm/jotknuXhS7qn8n5/PTQY3ScC9FvtKA9syEWOa9atyMdXBZ7hCspmVTcba3kq
+         NcoQ==
+X-Gm-Message-State: AC+VfDzLYI4msRAT0U41rjKpUNktInvrjr9t1y1Ww278IT5Em7ZzL/SA
+        SsAtUcfg751pveaglNY4NiUQ4jv3phnBXvlxbYltBw==
+X-Google-Smtp-Source: ACHHUZ6QsXC3OAIyOliYBKtqphS99pcdIqKPy8YCP9uA7AvPGJKpRGqoCdEsBhlAqNN17J1t3eSvc6iLsH8DsBI66fE=
+X-Received: by 2002:a25:d3c6:0:b0:bcb:f3cc:e965 with SMTP id
+ e189-20020a25d3c6000000b00bcbf3cce965mr12582408ybf.11.1687368078014; Wed, 21
+ Jun 2023 10:21:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230530045125.GN21633@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_PASS,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20230529223935.2672495-1-dmitry.osipenko@collabora.com> <20230529223935.2672495-3-dmitry.osipenko@collabora.com>
+In-Reply-To: <20230529223935.2672495-3-dmitry.osipenko@collabora.com>
+From:   "T.J. Mercier" <tjmercier@google.com>
+Date:   Wed, 21 Jun 2023 10:21:07 -0700
+Message-ID: <CABdmKX2RU2iYyUssBpwS17zA1dfegjzdo4pxp0r8cOCWcY9=kg@mail.gmail.com>
+Subject: Re: [PATCH v4 2/6] dma-buf/heaps: Don't assert held reservation lock
+ for dma-buf mmapping
+To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <jstultz@google.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Tomi Valkeinen <tomba@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        kernel@collabora.com, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+On Mon, May 29, 2023 at 3:46=E2=80=AFPM Dmitry Osipenko
+<dmitry.osipenko@collabora.com> wrote:
+>
+> Don't assert held dma-buf reservation lock on memory mapping of exported
+> buffer.
+>
+> We're going to change dma-buf mmap() locking policy such that exporters
+> will have to handle the lock. The previous locking policy caused deadlock
+> problem for DRM drivers in a case of self-imported dma-bufs once these
+> drivers are moved to use reservation lock universally. The problem
+> solved by moving the lock down to exporters. This patch prepares dma-buf
+> heaps for the locking policy update.
+>
+Hi Dmitry,
 
-Thanks for the review.
+I see that in patch 6 of this series calls to
+dma_resv_lock/dma_resv_unlock have been added to the
+drm_gem_shmem_helper functions and some exporters. But I'm curious why
+no dma_resv_lock/dma_resv_unlock calls were added to these two dma-buf
+heap exporters for mmap?
 
-On Tue, May 30, 2023 at 07:51:25AM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> Thank you for the patch.
-> 
-> On Thu, May 25, 2023 at 12:16:06PM +0300, Sakari Ailus wrote:
-> > Fix and simplify error handling in pxa_camera probe, by moving devm_*()
-> > functions early in the probe function and then tearing down what was set
-> > up on error patch.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  drivers/media/platform/intel/pxa_camera.c | 48 ++++++++++++-----------
-> >  1 file changed, 25 insertions(+), 23 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/intel/pxa_camera.c b/drivers/media/platform/intel/pxa_camera.c
-> > index f0d316d5fe27c..dad5e8d97683e 100644
-> > --- a/drivers/media/platform/intel/pxa_camera.c
-> > +++ b/drivers/media/platform/intel/pxa_camera.c
-> > @@ -2289,6 +2289,24 @@ static int pxa_camera_probe(struct platform_device *pdev)
-> >  	if (IS_ERR(pcdev->clk))
-> >  		return PTR_ERR(pcdev->clk);
-> >  
-> > +	/*
-> > +	 * Request the regions.
-> > +	 */
-> > +	base = devm_ioremap_resource(&pdev->dev, res);
-> > +	if (IS_ERR(base))
-> > +		return PTR_ERR(base);
-> > +
-> > +	pcdev->irq = irq;
-> > +	pcdev->base = base;
-> > +
-> > +	/* request irq */
-> > +	err = devm_request_irq(&pdev->dev, pcdev->irq, pxa_camera_irq, 0,
-> > +			       PXA_CAM_DRV_NAME, pcdev);
-> > +	if (err) {
-> > +		dev_err(&pdev->dev, "Camera interrupt register failed\n");
-> > +		return err;
-> > +	}
-> > +
-> 
-> The IRQ should not be requested before the device is initialized, to
-> avoid spurious IRQs at probe time. I don't think the driver currently
-> handles this very well, but moving IRQ registration up is the wrong
-> direction. As this particular change isn't needed to clean up the
-> notifier, I would keep the devm_request_irq() call where it is.
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Thanks,
+T.J.
 
-Fair enough. I'll move this to just before registering the async
-sub-device.
-
-devm_request_irq() is also problematic as an IRQ may still happen once the
-driver has executed much of its remove function. I this case this isn't
-probably too much of an issue though.
-
--- 
-Regards,
-
-Sakari Ailus
+> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> ---
+>  drivers/dma-buf/heaps/cma_heap.c    | 3 ---
+>  drivers/dma-buf/heaps/system_heap.c | 3 ---
+>  2 files changed, 6 deletions(-)
+>
+> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma=
+_heap.c
+> index 1131fb943992..28fb04eccdd0 100644
+> --- a/drivers/dma-buf/heaps/cma_heap.c
+> +++ b/drivers/dma-buf/heaps/cma_heap.c
+> @@ -13,7 +13,6 @@
+>  #include <linux/dma-buf.h>
+>  #include <linux/dma-heap.h>
+>  #include <linux/dma-map-ops.h>
+> -#include <linux/dma-resv.h>
+>  #include <linux/err.h>
+>  #include <linux/highmem.h>
+>  #include <linux/io.h>
+> @@ -183,8 +182,6 @@ static int cma_heap_mmap(struct dma_buf *dmabuf, stru=
+ct vm_area_struct *vma)
+>  {
+>         struct cma_heap_buffer *buffer =3D dmabuf->priv;
+>
+> -       dma_resv_assert_held(dmabuf->resv);
+> -
+>         if ((vma->vm_flags & (VM_SHARED | VM_MAYSHARE)) =3D=3D 0)
+>                 return -EINVAL;
+>
+> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/=
+system_heap.c
+> index e8bd10e60998..fcf836ba9c1f 100644
+> --- a/drivers/dma-buf/heaps/system_heap.c
+> +++ b/drivers/dma-buf/heaps/system_heap.c
+> @@ -13,7 +13,6 @@
+>  #include <linux/dma-buf.h>
+>  #include <linux/dma-mapping.h>
+>  #include <linux/dma-heap.h>
+> -#include <linux/dma-resv.h>
+>  #include <linux/err.h>
+>  #include <linux/highmem.h>
+>  #include <linux/mm.h>
+> @@ -202,8 +201,6 @@ static int system_heap_mmap(struct dma_buf *dmabuf, s=
+truct vm_area_struct *vma)
+>         struct sg_page_iter piter;
+>         int ret;
+>
+> -       dma_resv_assert_held(dmabuf->resv);
+> -
+>         for_each_sgtable_page(table, &piter, vma->vm_pgoff) {
+>                 struct page *page =3D sg_page_iter_page(&piter);
+>
+> --
+> 2.40.1
+>
