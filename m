@@ -2,291 +2,325 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C2AC1738E8B
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jun 2023 20:25:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F0A9738FA9
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jun 2023 21:09:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230042AbjFUSZU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Jun 2023 14:25:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50494 "EHLO
+        id S230235AbjFUTJC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Jun 2023 15:09:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230005AbjFUSZT (ORCPT
+        with ESMTP id S229680AbjFUTJB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Jun 2023 14:25:19 -0400
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2B4AD1730;
-        Wed, 21 Jun 2023 11:25:16 -0700 (PDT)
-Received: from loongson.cn (unknown [10.20.42.43])
-        by gateway (Coremail) with SMTP id _____8Cx5cSKQJNkez4AAA--.406S3;
-        Thu, 22 Jun 2023 02:25:14 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8CxvM6JQJNkDQsBAA--.6225S3;
-        Thu, 22 Jun 2023 02:25:13 +0800 (CST)
-Message-ID: <fa93ddef-c33e-adf2-3ad1-e40a59d6f8d6@loongson.cn>
-Date:   Thu, 22 Jun 2023 02:25:12 +0800
+        Wed, 21 Jun 2023 15:09:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8E721726
+        for <linux-media@vger.kernel.org>; Wed, 21 Jun 2023 12:08:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1687374491;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=NEmlXOWN5xon1mu2udWpriWSvGoI+UuGNBEZkTcUaEU=;
+        b=ZWzma1dg23IfxuQ6tCEZ/wnTpsrl+OXT2eJYsD/c12cmrhuiBgzgIDawsb4I6VteDvNlFM
+        dDUFHS/NPVYkBJiQv1WeItjBG1HTU05C76zzlNH3DcFrLBwXly5oEqzjSVFXYRWzrimO/C
+        btnMyHWUjuOyGH2MPj0xHY1tKAsaLGE=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-171-tFQrNJjcOcGnTyJE3IMuhQ-1; Wed, 21 Jun 2023 15:08:10 -0400
+X-MC-Unique: tFQrNJjcOcGnTyJE3IMuhQ-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-986db3313f0so357579866b.3
+        for <linux-media@vger.kernel.org>; Wed, 21 Jun 2023 12:08:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687374489; x=1689966489;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NEmlXOWN5xon1mu2udWpriWSvGoI+UuGNBEZkTcUaEU=;
+        b=J4WQSgH5EcFRtCWrjnUZ5dVX6ICfB3HaNCqP7fu8ZhlxAvYayhvQxLp6D1fbTnQ9Sx
+         fqpo1RJhJHj7/MOmy5pNJMU4SDbJa7DNCkx5gro0FpID7nGTMxvxtBA/vvzJ216LULPR
+         pm6yjma1ibFShppq0SCCTeQBAXXf3yZfVbf4rBotJCPszdS6uEE73XLIorCdYIrSjwZ2
+         jsFBbXW9kwPOGS04WfNlJYF8yQ+p7pVHMIFU05fNlAR8WE+8ixIziMncxl6qOd3/k1rE
+         rthEmzoT/2ORtbbqAq8laPJl0j5WUR8gO9BHhpLyD8KobXbgxChnhG20dAxJ9nX9afaX
+         UMhQ==
+X-Gm-Message-State: AC+VfDw+WDxNab85q0tTWmaTmn1QnjeiXnfcBlcrwTNv6YczfAxr1Vf4
+        kMjFWoNG8Rwp6GB413M3t4xlYN3G6pkfhsDtldY00XHI9Q75SGonEUM18m6xquWyBF/aaLemACp
+        l2jfM0bhUtLU6BesS7/sWVQU=
+X-Received: by 2002:a17:907:72c7:b0:98c:e72c:6b83 with SMTP id du7-20020a17090772c700b0098ce72c6b83mr1485909ejc.45.1687374488852;
+        Wed, 21 Jun 2023 12:08:08 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4iMKcEBF8XNyTnb7TbftEc8afsFeexMwbjEJir+5Sa5+cI2kuUFld49cWsjdK20n5b4A0hEg==
+X-Received: by 2002:a17:907:72c7:b0:98c:e72c:6b83 with SMTP id du7-20020a17090772c700b0098ce72c6b83mr1485899ejc.45.1687374488501;
+        Wed, 21 Jun 2023 12:08:08 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id q25-20020a170906145900b0098503ba0db4sm3594563ejc.149.2023.06.21.12.08.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Jun 2023 12:08:07 -0700 (PDT)
+Message-ID: <90723e18-5ad6-b2bc-fee3-c7b037370333@redhat.com>
+Date:   Wed, 21 Jun 2023 21:08:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v15 0/2] drm: Add kms driver for loongson display
- controller
-To:     Sui Jingfeng <15330273260@189.cn>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian Koenig <christian.koenig@amd.com>
-Cc:     inux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org
-References: <20230615143613.1236245-1-15330273260@189.cn>
-Content-Language: en-US
-From:   Sui Jingfeng <suijingfeng@loongson.cn>
-Organization: Loongson
-In-Reply-To: <20230615143613.1236245-1-15330273260@189.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxvM6JQJNkDQsBAA--.6225S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoW3XF4DWry3ury3CF1fGFWDJrc_yoWDJry3pF
-        43Aa4FkrWkJF12yr9xA3W8GFyrZa4fWFWS9F17X3sIgrWDAryUZrn8ZFW5JrW7ZFy7Xry2
-        qr93K3yUG3Wa93gCm3ZEXasCq-sJn29KB7ZKAUJUUUUD529EdanIXcx71UUUUU7KY7ZEXa
-        sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-        0xBIdaVrnRJUUUPab4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-        IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-        e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-        0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-        6r4j6r4UJwAaw2AFwI0_JF0_Jw1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0c
-        Ia020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jw0_
-        WrylYx0Ex4A2jsIE14v26F4j6r4UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
-        1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxG
-        rwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14
-        v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkG
-        c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI
-        0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26F4j6r4U
-        JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU28nYUU
-        UUU
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v3 3/3] media: atomisp: sh_css_internal: sh_css_params:
+ Unifying sh_css_sp_group data structure
+Content-Language: en-US, nl
+To:     Kate Hsuan <hpa@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20230619052453.48598-1-hpa@redhat.com>
+ <20230619052453.48598-4-hpa@redhat.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230619052453.48598-4-hpa@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Kate,
 
-Dear maintainers:
+Thank you for the new version. One small remark below.
+
+On 6/19/23 07:24, Kate Hsuan wrote:
+> Since some parts of the data structure elements are determined in compile
+> time, the configuration data structure should be compiled for both two
+> ISP models. In order to set the configuration for both ISP models in
+> runtime, The sh_css_sp_group is unified to one data structure for the
+> configuration to ensure the data structure can be used for both ISP2400
+> and 2401 in runtime. Also, the unused codes for debug purpose are removed.
+> 
+> Form the aspect of ISP setting, the length and the content of the
+> configuration structure for ISP2400 and ISP2401 are different. So, we
+> need to pick up the necessary part of sp_group configuration for both
+> models and then copy those parts into a temporary buffer. This buffer
+> is finally written to the ISP with the corresponding length.
+> 
+> Signed-off-by: Kate Hsuan <hpa@redhat.com>
+> ---
+>  .../media/atomisp/pci/sh_css_internal.h       | 41 +------------------
+>  .../staging/media/atomisp/pci/sh_css_params.c | 41 ++++++++++++++++++-
+>  2 files changed, 41 insertions(+), 41 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/sh_css_internal.h b/drivers/staging/media/atomisp/pci/sh_css_internal.h
+> index d98f1323441e..2349eb4d3767 100644
+> --- a/drivers/staging/media/atomisp/pci/sh_css_internal.h
+> +++ b/drivers/staging/media/atomisp/pci/sh_css_internal.h
+> @@ -22,9 +22,7 @@
+>  #include <platform_support.h>
+>  #include <linux/stdarg.h>
+>  
+> -#if !defined(ISP2401)
+>  #include "input_formatter.h"
+> -#endif
+>  #include "input_system.h"
+>  
+>  #include "ia_css_types.h"
+
+The patch hunk starting here: 
+
+> @@ -86,31 +84,8 @@
+>  #define SH_CSS_MAX_IF_CONFIGS	3 /* Must match with IA_CSS_NR_OF_CONFIGS (not defined yet).*/
+>  #define SH_CSS_IF_CONFIG_NOT_NEEDED	0xFF
+>  
+> -/*
+> - * SH_CSS_MAX_SP_THREADS:
+> - *	 sp threads visible to host with connected communication queues
+> - *	 these threads are capable of running an image pipe
+> - * SH_CSS_MAX_SP_INTERNAL_THREADS:
+> - *	 internal sp service threads, no communication queues to host
+> - *	 these threads can't be used as image pipe
+> - */
+> -
+> -#if !defined(ISP2401)
+> -#define SH_CSS_SP_INTERNAL_METADATA_THREAD	1
+> -#else
+> -#define SH_CSS_SP_INTERNAL_METADATA_THREAD	0
+> -#endif
+> -
+> -#define SH_CSS_SP_INTERNAL_SERVICE_THREAD		1
+> -
+>  #define SH_CSS_MAX_SP_THREADS		5
+>  
+> -#define SH_CSS_MAX_SP_INTERNAL_THREADS	(\
+> -	 SH_CSS_SP_INTERNAL_SERVICE_THREAD +\
+> -	 SH_CSS_SP_INTERNAL_METADATA_THREAD)
+> -
+> -#define SH_CSS_MAX_PIPELINES	SH_CSS_MAX_SP_THREADS
+> -
+>  /**
+>   * The C99 standard does not specify the exact object representation of structs;
+>   * the representation is compiler dependent.
+
+And ending here.
+
+Really belongs in: [PATCH v3 2/3] media: atomisp: Removed unused
+HAS_WATCHDOG_SP_THREAD_DEBUG debug.
+
+I have moved this patch hunk to patch 2/3 while merging this
+series into my atomisp branch:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=media-atomisp
+
+Regards,
+
+Hans
 
 
-Any chance to get this driver merged ?
-
-I have already write this driver by myself from the zero, iterate about 
-15 times?
-
-it there anything missing?
-
-
-On 2023/6/15 22:36, Sui Jingfeng wrote:
-> From: Sui Jingfeng <suijingfeng@loongson.cn>
->
-> Loongson display controller IP has been integrated in both Loongson north
-> bridge chipset (ls7a1000/ls7a2000) and Loongson SoCs (ls2k1000/ls2k2000).
-> It has even been included in Loongson's BMC products. It has two display
-> pipes, and each display pipe supports a primary plane and a cursor plane.
->
-> For the DC in the LS7a1000, each display pipe has a DVO output interface,
-> which is able to support 1920x1080@60Hz. For the DC in the LS7A2000, each
-> display pipe is equipped with a built-in HDMI encoder, which is compliant
-> with the HDMI 1.4 specification. The first display pipe is also equipped
-> with a transparent VGA encoder, which is parallel with the HDMI encoder.
-> To get a decent performance for writing framebuffer data to the VRAM, the
-> write combine support should be enabled.
->
-> v1 -> v2:
->   1) Use hpd status reg when polling for ls7a2000.
->   2) Fix all warnings that emerged when compiling with W=1.
->
-> v2 -> v3:
->   1) Add COMPILE_TEST to Kconfig and make the driver off by default
->   2) Alphabetical sorting headers (Thomas)
->   3) Untangle register access functions as much as possible (Thomas)
->   4) Switch to TTM-based memory manager (Thomas)
->   5) Add the chip ID detection function which can be used to distinguish
->      chip models
->   6) Revise the built-in HDMI phy driver, nearly all main stream mode below
->      4K@30Hz is tested, and this driver supports clone(mirror) display mode
->      and extend(joint) display mode.
->
-> v3 -> v4:
->   1) Quickly fix a small mistake.
->
-> v4 -> v5:
->   1) Add per display pipe debugfs support to the builtin HDMI encoder.
->
-> v5 -> v6:
->   1) Remove stray code which didn't get used, say lsdc_of_get_reserved_ram
->   2) Fix all typos I could found, make sentences and code more readable
->   3) Untangle lsdc_hdmi*_connector_detect() function according to the pipe
->   4) Rename this driver as loongson.
->
-> v6 -> v7:
-> 1) Add prime support for buffer self-sharing, sharing buffer with
->     drm/etnaviv is also tested and it works with limitations.
-> 2) Implement buffer object tracking with list_head.
-> 3) Add S3(sleep to RAM) support
-> 4) Rewrite lsdc_bo_move since TTM core stop allocating resources
->      during BO creation. Patch V1 ~ V6 of this series no longer work.
->      Thus, we send V7.
->
-> v7 -> v8:
->   1) Zero a compile warning on a 32-bit platform, compile with W=1
->   2) Revise lsdc_bo_gpu_offset() and make minor cleanups.
->   3) Pageflip tested on the virtual terminal with the following commands:
->
->      modetest -M loongson -s 32:1920x1080 -v
->      modetest -M loongson -s 34:1920x1080 -v -F tiles
->
->     It works like a charm, when running the pageflip test with dual screens
->     configuration, another two additional BOs were created by the modetest,
->     VRAM usage up to 40+ MB, well we have at least 64MB, still enough.
->
->     # cat bos
->
->         bo[0000]: size:     8112kB VRAM
->         bo[0001]: size:       16kB VRAM
->         bo[0002]: size:       16kB VRAM
->         bo[0003]: size:    16208kB VRAM
->         bo[0004]: size:     8112kB VRAM
->         bo[0005]: size:     8112kB VRAM
->
-> v8 -> v9:
->   1) Select I2C and I2C_ALGOBIT in Kconfig, should depend on MMU.
->   2) Using pci_get_domain_bus_and_slot to get the GPU device.
->
-> v9 -> v10:
->   1) Revise lsdc_drm_freeze() to implement S3 correctly. We realized that
->      the pinned BO could not be moved, the VRAM lost power when sleeping
->      to RAM. Thus, the data in the buffer who is pinned in VRAM will get
->      lost when resumed. Yet it's not a big problem because this driver
->      relies on the CPU to update the front framebuffer. We can see the
->      garbage data when resume from S3, but the screen will show the right
->      image as I move the cursor. This is due to the CPU repaint. v10 of
->      this patch makes S3 perfect by unpin all of the BOs in VRAM, evict
->      them all to system RAM in lsdc_drm_freeze().
->
-> v10 -> v11:
->   1) On a double-screen case, The buffer object backing the single giant
->      framebuffer is referenced by two GEM objects; hence, it will be
->      pinned at least twice by prepare_fb() function. This causes its pin
->      count > 1. V10 of this patch only unpins VRAM BOs once when suspend,
->      which is not correct on double-screen case. V11 of this patch unpin
->      the BOs until its pin count reaches zero when suspend. Then, we make
->      the S3 support complete finally. With v11, I can't see any garbage
->      data when resume.
->
->   2) Fix vblank wait timeout when disable CRTC.
->   3) Test against IGT, at least fbdev test and kms_flip test passed.
->   4) Rewrite pixel PLL update function, magic numbers eliminated (Emil)
->   5) Drop a few common hardware features description in lsdc_desc (Emil)
->   6) Drop lsdc_mode_config_mode_valid(), instead add restrictions in dumb
->      create function. (Emil)
->   7) Untangle the ls7a1000 case and ls7a2000 case completely (Thomas)
->
-> v11 -> v12:
->   none
->
-> v12 -> v13:
->   1) Add benchmarks to figure out the bandwidth of the hardware platform.
->      Usage:
->      # cd /sys/kernel/debug/dri/0/
->      # cat benchmark
->
->   2) VRAM is filled with garbage data if uninitialized, add a buffer
->      clearing procedure (lsdc_bo_clear), clear the BO on creation time.
->   3) Update copyrights and adjust coding style (Huacai)
->
-> v13 -> v14:
->   1) Trying to add async update support for cursor plane.
->
-> v14 -> v15:
->   1) Add lsdc_vga_set_decode() funciton, which allow us remove multi-video
->      cards workaround, now it allow drm/loongson, drm/amdgpu, drm/etnaviv
->      co-exist in the system, more is also possible (Emil and Xuerui)
->   2) Fix typos and grammar mistakes as much as possible (Xuerui)
->   3) Unify copyrights as GPL-2.0+ (Xuerui)
->   4) Fix a bug introduce since V13, TTM may import BO from other drivers,
->      we shouldn't clear it on such a case.
->
-> Sui Jingfeng (2):
->    drm: Add kms driver for loongson display controller
->    MAINTAINERS: add maintainers for DRM LOONGSON driver
->
->   MAINTAINERS                                   |    7 +
->   drivers/gpu/drm/Kconfig                       |    2 +
->   drivers/gpu/drm/Makefile                      |    1 +
->   drivers/gpu/drm/loongson/Kconfig              |   17 +
->   drivers/gpu/drm/loongson/Makefile             |   22 +
->   drivers/gpu/drm/loongson/loongson_device.c    |  102 ++
->   drivers/gpu/drm/loongson/loongson_module.c    |   33 +
->   drivers/gpu/drm/loongson/loongson_module.h    |   12 +
->   drivers/gpu/drm/loongson/lsdc_benchmark.c     |  133 +++
->   drivers/gpu/drm/loongson/lsdc_benchmark.h     |   13 +
->   drivers/gpu/drm/loongson/lsdc_crtc.c          | 1024 +++++++++++++++++
->   drivers/gpu/drm/loongson/lsdc_debugfs.c       |  110 ++
->   drivers/gpu/drm/loongson/lsdc_drv.c           |  458 ++++++++
->   drivers/gpu/drm/loongson/lsdc_drv.h           |  388 +++++++
->   drivers/gpu/drm/loongson/lsdc_gem.c           |  311 +++++
->   drivers/gpu/drm/loongson/lsdc_gem.h           |   37 +
->   drivers/gpu/drm/loongson/lsdc_gfxpll.c        |  199 ++++
->   drivers/gpu/drm/loongson/lsdc_gfxpll.h        |   52 +
->   drivers/gpu/drm/loongson/lsdc_i2c.c           |  179 +++
->   drivers/gpu/drm/loongson/lsdc_i2c.h           |   29 +
->   drivers/gpu/drm/loongson/lsdc_irq.c           |   74 ++
->   drivers/gpu/drm/loongson/lsdc_irq.h           |   16 +
->   drivers/gpu/drm/loongson/lsdc_output.h        |   21 +
->   drivers/gpu/drm/loongson/lsdc_output_7a1000.c |  178 +++
->   drivers/gpu/drm/loongson/lsdc_output_7a2000.c |  552 +++++++++
->   drivers/gpu/drm/loongson/lsdc_pixpll.c        |  481 ++++++++
->   drivers/gpu/drm/loongson/lsdc_pixpll.h        |   86 ++
->   drivers/gpu/drm/loongson/lsdc_plane.c         |  799 +++++++++++++
->   drivers/gpu/drm/loongson/lsdc_probe.c         |   56 +
->   drivers/gpu/drm/loongson/lsdc_probe.h         |   12 +
->   drivers/gpu/drm/loongson/lsdc_regs.h          |  406 +++++++
->   drivers/gpu/drm/loongson/lsdc_ttm.c           |  591 ++++++++++
->   drivers/gpu/drm/loongson/lsdc_ttm.h           |   99 ++
->   33 files changed, 6500 insertions(+)
->   create mode 100644 drivers/gpu/drm/loongson/Kconfig
->   create mode 100644 drivers/gpu/drm/loongson/Makefile
->   create mode 100644 drivers/gpu/drm/loongson/loongson_device.c
->   create mode 100644 drivers/gpu/drm/loongson/loongson_module.c
->   create mode 100644 drivers/gpu/drm/loongson/loongson_module.h
->   create mode 100644 drivers/gpu/drm/loongson/lsdc_benchmark.c
->   create mode 100644 drivers/gpu/drm/loongson/lsdc_benchmark.h
->   create mode 100644 drivers/gpu/drm/loongson/lsdc_crtc.c
->   create mode 100644 drivers/gpu/drm/loongson/lsdc_debugfs.c
->   create mode 100644 drivers/gpu/drm/loongson/lsdc_drv.c
->   create mode 100644 drivers/gpu/drm/loongson/lsdc_drv.h
->   create mode 100644 drivers/gpu/drm/loongson/lsdc_gem.c
->   create mode 100644 drivers/gpu/drm/loongson/lsdc_gem.h
->   create mode 100644 drivers/gpu/drm/loongson/lsdc_gfxpll.c
->   create mode 100644 drivers/gpu/drm/loongson/lsdc_gfxpll.h
->   create mode 100644 drivers/gpu/drm/loongson/lsdc_i2c.c
->   create mode 100644 drivers/gpu/drm/loongson/lsdc_i2c.h
->   create mode 100644 drivers/gpu/drm/loongson/lsdc_irq.c
->   create mode 100644 drivers/gpu/drm/loongson/lsdc_irq.h
->   create mode 100644 drivers/gpu/drm/loongson/lsdc_output.h
->   create mode 100644 drivers/gpu/drm/loongson/lsdc_output_7a1000.c
->   create mode 100644 drivers/gpu/drm/loongson/lsdc_output_7a2000.c
->   create mode 100644 drivers/gpu/drm/loongson/lsdc_pixpll.c
->   create mode 100644 drivers/gpu/drm/loongson/lsdc_pixpll.h
->   create mode 100644 drivers/gpu/drm/loongson/lsdc_plane.c
->   create mode 100644 drivers/gpu/drm/loongson/lsdc_probe.c
->   create mode 100644 drivers/gpu/drm/loongson/lsdc_probe.h
->   create mode 100644 drivers/gpu/drm/loongson/lsdc_regs.h
->   create mode 100644 drivers/gpu/drm/loongson/lsdc_ttm.c
->   create mode 100644 drivers/gpu/drm/loongson/lsdc_ttm.h
->
--- 
-Jingfeng
+> @@ -357,14 +332,12 @@ struct sh_css_sp_debug_command {
+>  	u32 dma_sw_reg;
+>  };
+>  
+> -#if !defined(ISP2401)
+>  /* SP input formatter configuration.*/
+>  struct sh_css_sp_input_formatter_set {
+>  	u32				stream_format;
+>  	input_formatter_cfg_t	config_a;
+>  	input_formatter_cfg_t	config_b;
+>  };
+> -#endif
+>  
+>  #define IA_CSS_MIPI_SIZE_CHECK_MAX_NOF_ENTRIES_PER_PORT (3)
+>  
+> @@ -377,7 +350,7 @@ struct sh_css_sp_config {
+>  	     frames are locked when their EOF event is successfully sent to the
+>  	     host (true) or when they are passed to the preview/video pipe
+>  	     (false). */
+> -#if !defined(ISP2401)
+> +
+>  	struct {
+>  		u8					a_changed;
+>  		u8					b_changed;
+> @@ -385,15 +358,13 @@ struct sh_css_sp_config {
+>  		struct sh_css_sp_input_formatter_set
+>  			set[SH_CSS_MAX_IF_CONFIGS]; /* CSI-2 port is used as index. */
+>  	} input_formatter;
+> -#endif
+> -#if !defined(ISP2401)
+> +
+>  	sync_generator_cfg_t	sync_gen;
+>  	tpg_cfg_t		tpg;
+>  	prbs_cfg_t		prbs;
+>  	input_system_cfg_t	input_circuit;
+>  	u8			input_circuit_cfg_changed;
+>  	u32		mipi_sizes_for_check[N_CSI_PORTS][IA_CSS_MIPI_SIZE_CHECK_MAX_NOF_ENTRIES_PER_PORT];
+> -#endif
+>  	u8                 enable_isys_event_queue;
+>  	u8			disable_cont_vf;
+>  };
+> @@ -409,7 +380,6 @@ enum sh_css_stage_type {
+>  #define SH_CSS_PIPE_CONFIG_SAMPLE_PARAMS_MASK \
+>  	((SH_CSS_PIPE_CONFIG_SAMPLE_PARAMS << SH_CSS_MAX_SP_THREADS) - 1)
+>  
+> -#if defined(ISP2401)
+>  struct sh_css_sp_pipeline_terminal {
+>  	union {
+>  		/* Input System 2401 */
+> @@ -442,7 +412,6 @@ struct sh_css_sp_pipeline_io_status {
+>  	u32	running[N_INPUT_SYSTEM_CSI_PORT];	/** configured streams */
+>  };
+>  
+> -#endif
+>  enum sh_css_port_dir {
+>  	SH_CSS_PORT_INPUT  = 0,
+>  	SH_CSS_PORT_OUTPUT  = 1
+> @@ -641,10 +610,8 @@ struct sh_css_sp_stage {
+>  struct sh_css_sp_group {
+>  	struct sh_css_sp_config		config;
+>  	struct sh_css_sp_pipeline	pipe[SH_CSS_MAX_SP_THREADS];
+> -#if defined(ISP2401)
+>  	struct sh_css_sp_pipeline_io	pipe_io[SH_CSS_MAX_SP_THREADS];
+>  	struct sh_css_sp_pipeline_io_status	pipe_io_status;
+> -#endif
+>  	struct sh_css_sp_debug_command	debug;
+>  };
+>  
+> @@ -922,13 +889,11 @@ sh_css_frame_info_set_width(struct ia_css_frame_info *info,
+>  			    unsigned int width,
+>  			    unsigned int aligned);
+>  
+> -#if !defined(ISP2401)
+>  
+>  unsigned int
+>  sh_css_get_mipi_sizes_for_check(const unsigned int port,
+>  				const unsigned int idx);
+>  
+> -#endif
+>  
+>  ia_css_ptr
+>  sh_css_store_sp_group_to_ddr(void);
+> @@ -971,11 +936,9 @@ sh_css_continuous_is_enabled(uint8_t pipe_num);
+>  struct ia_css_pipe *
+>  find_pipe_by_num(uint32_t pipe_num);
+>  
+> -#ifdef ISP2401
+>  void
+>  ia_css_get_crop_offsets(
+>      struct ia_css_pipe *pipe,
+>      struct ia_css_frame_info *in_frame);
+> -#endif
+>  
+>  #endif /* _SH_CSS_INTERNAL_H_ */
+> diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
+> index 588f2adab058..5667e855da76 100644
+> --- a/drivers/staging/media/atomisp/pci/sh_css_params.c
+> +++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+> @@ -3720,10 +3720,47 @@ struct ia_css_shading_table *ia_css_get_shading_table(struct ia_css_stream
+>  
+>  ia_css_ptr sh_css_store_sp_group_to_ddr(void)
+>  {
+> +	u8 *write_buf;
+> +	u8 *buf_ptr;
+> +
+>  	IA_CSS_ENTER_LEAVE_PRIVATE("void");
+> +
+> +	write_buf = kzalloc(sizeof(u8) * 8192, GFP_KERNEL);
+> +	if (!write_buf)
+> +		return 0;
+> +
+> +	buf_ptr = write_buf;
+> +	if (IS_ISP2401) {
+> +		memcpy(buf_ptr, &sh_css_sp_group.config, 3);
+> +		buf_ptr += 3;
+> +		memcpy(buf_ptr, &sh_css_sp_group.config.enable_isys_event_queue, 2);
+> +		buf_ptr += 2;
+> +		memset(buf_ptr, 0, 3);
+> +		buf_ptr += 3; /* Padding 3 bytes for struct sh_css_sp_config*/
+> +	} else {
+> +		memcpy(buf_ptr, &sh_css_sp_group.config, sizeof(sh_css_sp_group.config));
+> +		buf_ptr += sizeof(sh_css_sp_group.config);
+> +	}
+> +
+> +	memcpy(buf_ptr, &sh_css_sp_group.pipe, sizeof(sh_css_sp_group.pipe));
+> +	buf_ptr += sizeof(sh_css_sp_group.pipe);
+> +
+> +	if (IS_ISP2401) {
+> +		memcpy(buf_ptr, &sh_css_sp_group.pipe_io, sizeof(sh_css_sp_group.pipe_io));
+> +		buf_ptr += sizeof(sh_css_sp_group.pipe_io);
+> +		memcpy(buf_ptr, &sh_css_sp_group.pipe_io_status,
+> +		       sizeof(sh_css_sp_group.pipe_io_status));
+> +		buf_ptr += sizeof(sh_css_sp_group.pipe_io_status);
+> +	}
+> +
+> +	memcpy(buf_ptr, &sh_css_sp_group.debug, sizeof(sh_css_sp_group.debug));
+> +	buf_ptr += sizeof(sh_css_sp_group.debug);
+> +
+>  	hmm_store(xmem_sp_group_ptrs,
+> -		   &sh_css_sp_group,
+> -		   sizeof(struct sh_css_sp_group));
+> +		  write_buf,
+> +		  buf_ptr - write_buf);
+> +
+> +	kfree(write_buf);
+>  	return xmem_sp_group_ptrs;
+>  }
+>  
 
