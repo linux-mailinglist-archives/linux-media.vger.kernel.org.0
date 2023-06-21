@@ -2,176 +2,257 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BFF7737AA9
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jun 2023 07:43:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3763E737E50
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jun 2023 11:17:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229803AbjFUFnL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Jun 2023 01:43:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42270 "EHLO
+        id S231578AbjFUInD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Jun 2023 04:43:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229638AbjFUFnJ (ORCPT
+        with ESMTP id S229732AbjFUImn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Jun 2023 01:43:09 -0400
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2086.outbound.protection.outlook.com [40.107.223.86])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E72FEDD;
-        Tue, 20 Jun 2023 22:42:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Az4ZBOegOTttbfbuk7eCeQOndgN+zKYk8XOxUNT54w69bUcS/hnXdQ9QzxJzwgb4O0eg9mcQt+QXv9tndbXAuoLfKGZGno/K7c6fwwGPTtueHllDXV+jkcgJYD4HtspRpRHUCrHi80JUJJYD93Q6mSmbrzV+uU3jzUEp1jwdm+pji/pOlWqqzVR9dFiDuWR0RHhVOVqgxOwPHwGEvLfihJrxXo7YHamd/+1Jhwfgyj0gjIdSj5V6dHqF9NGbjbyL+b8QJRIHjYf81PIQE8l+IiA9EBKZeYWSJc4eSwkYQuIe0LvUFx9NvkYQKHp9dSBZ4Sw5XWaM5o63KaqWWMgAiw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zgZv+2gMHxu/0E0CpazjgZ4//rCP4La54AbpwNfO1aA=;
- b=EHTfjOBnsoYbfpUfNHvz9ip4KR2tXsy5bqOa+NCN3NCixAEYWqBX9RZEzm2TP4lLjzjNP821BTDWS4oWe2hQcTS/+4rqxPAI0jCtkG3/FHpdpbfU6dILZwyDxbiKUlVJm3O7SIAmzuTfXXx8vNNev+C8CsUusWBppaOuqEtZnuklheonGwL3xYof6pJq/OSgTgsJWI095Vqr3SBPAHNghBbdQc6evcS+RhhUQ4KY6zKdt5JQ2aqYKxet6x5KsX3GEplvU3WyQGHUdyqQHVNuIvPUOtmQsmOjVkUdKDHADLAYzdigH5CyFwtM+2Lby+Kta5Cq/I/ZdsfTMOFTt+i/uw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zgZv+2gMHxu/0E0CpazjgZ4//rCP4La54AbpwNfO1aA=;
- b=q3IuvTgm83UzLvZGvlOf70xUbbpwTAcGa9k2sAlrgERSUvcHX0dNoO/XXdPR6TqbAQyhqbH+nLdxCVQMxm2rf3FTItKEcaUqUwMmXmusQxYPzIIGHnyE1ywIbDEYykhEs1WflxvxfWqRIKVps418EWx59OTww4ZQp2xeoK6/gBI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by MN0PR12MB5978.namprd12.prod.outlook.com (2603:10b6:208:37d::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.21; Wed, 21 Jun
- 2023 05:42:51 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::384a:95a4:8819:ee84]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::384a:95a4:8819:ee84%7]) with mapi id 15.20.6521.023; Wed, 21 Jun 2023
- 05:42:51 +0000
-Message-ID: <3ddf2152-392f-095d-3db6-c0c5c56e0cbf@amd.com>
-Date:   Wed, 21 Jun 2023 07:42:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v4 5/6] dma-buf: Change locking policy for mmap()
-Content-Language: en-US
-To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>
-Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        linux-tegra@vger.kernel.org, kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <jstultz@google.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Emil Velikov <emil.l.velikov@gmail.com>
-References: <20230529223935.2672495-1-dmitry.osipenko@collabora.com>
- <20230529223935.2672495-6-dmitry.osipenko@collabora.com>
- <91466907-d4e1-1619-27a8-a49a01cbc8f1@collabora.com>
- <1a04706a-caee-114c-6b6e-e4fdb815e619@collabora.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <1a04706a-caee-114c-6b6e-e4fdb815e619@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0033.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1c::12) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+        Wed, 21 Jun 2023 04:42:43 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 966E8211D
+        for <linux-media@vger.kernel.org>; Wed, 21 Jun 2023 01:41:54 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-988689a5f44so420368166b.1
+        for <linux-media@vger.kernel.org>; Wed, 21 Jun 2023 01:41:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1687336913; x=1689928913;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WmyMT+1AUqoR/yYld5R4nlU6HP4+c5LBSnMns61rspM=;
+        b=AYUFnWHIQIvm1Xq9L65EGvF7S5pNfuo/ZEwN3QT/ttQzGt19W/sEm1OgAUEB2n3ekh
+         tiWrHd/4eZhZcMnEmqU0oysX756sqkYiCjeSSgESBknr5sJxj3LihIhSnuJiEaLq/Dgp
+         ttizVr3XhH5LxEyyvLFuM98v/vQfp/GdHZGUONN32s5h5TEhI6ggr+oEIl7uoLoPZWLh
+         sGL6d3tEoCtllPmZrHjQ4a82SXjseVTEiii6qjBOc/ezhTz0JwLmYwJg8Y3/DzW8wg2q
+         k7XUaYIHbDzg/IgksIJWn8m+ENRLfIMnXkH7AB+6aqUIPmUJN+zXwX8VsArkFBiovhOu
+         0Cnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687336913; x=1689928913;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WmyMT+1AUqoR/yYld5R4nlU6HP4+c5LBSnMns61rspM=;
+        b=iylbJn0+M9nWWwEdV7MzaVsNb6EHUqgjatE4h7YxUltV/+nwXUNczAgfP4XqKBxdwt
+         FyXk9h1/HTv2XiAn+uCZzm4/Zsu0DGPwL/2FqtQXashbKmBMi99BaSU1VHoJnfgBFrxe
+         IornNShxIa/H+mUZQjazn+OWJ5OrN8TAeMNezhxNmduU1iiz9TYSBCC5KYZftUy5K/8s
+         6qHd6WEahhaFhvdYjcxT0PWbUSW6n/X3/QIWtEub28wCWEZr4rWRwh22sNIN4D7WODYY
+         /dhEuJC/qaDQ0to9ZlcRX0e6+ieIa9bgRNV86B5/E+42LBNXyBVpNU7dS+q/FxgDcWuf
+         EBxw==
+X-Gm-Message-State: AC+VfDxhWDqgulywVXRVcYVxuBZDJkedMJ6nwIdB6gimPUck5c4aiosV
+        1vk++NNWWQNqCCRUj/UJSiYj5Q==
+X-Google-Smtp-Source: ACHHUZ5rxR4eyS+PEFn295VDdxkdEq0Gm2K9yulyOuf77XPzqePt1rcFTBqjEgvEthZNb2qtwNhdZA==
+X-Received: by 2002:a17:907:6d8e:b0:988:d01a:4d57 with SMTP id sb14-20020a1709076d8e00b00988d01a4d57mr7571083ejc.28.1687336912950;
+        Wed, 21 Jun 2023 01:41:52 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.26])
+        by smtp.gmail.com with ESMTPSA id a21-20020a170906191500b0096a6be0b66dsm2691388eje.208.2023.06.21.01.41.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Jun 2023 01:41:52 -0700 (PDT)
+Message-ID: <9c36cdbb-7204-f9ca-6191-88e0f0f71915@linaro.org>
+Date:   Wed, 21 Jun 2023 10:41:49 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|MN0PR12MB5978:EE_
-X-MS-Office365-Filtering-Correlation-Id: bc5f793a-2ffb-487b-0b25-08db721a5a4e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: a+JD2ksYGqEZti4V8zVY0Yafmri8LuNsqeK+BWJ8R8zNRgGvBks0aZuLl/SXpoT1yQP2COmWB1TeYodpca+n0yAfBma2C9phFykp15DtrKpz+rbCgpd5CTZoVtDFu8GHdR/sEdAEvsbjacc8PyWGmSKHA2FT4xgkfwP9hYLI1JdtFQ6c7G73Ojdzzm6oSa0xgqHgn2IJmXWLyTytzn88joggKPtRWfAI0eCJF9/CT0A1XO6zC+950YSm4Tu13yfgiibIulDg2KUrO7DPOeMOxa4Rg9NMLlj24LGK4AaY00xziEXXkc2N39TwLlnk02NZx1FcTgyJhJIl744P4YMkVNoiruyFpN+Awa5/IsUdgX0YdPYJ6bhwPXLvT81UdbHXnY6lVb/DNosKjuc1/A3W2KrBFvgPXQUu3BJwVAUVcdwHeInJ7twUcXhr3gkx0Z87xdgE4fuNTw6yqc6R5YJyiALNq3J10EELsbMiK4pttNABAagCgJE84tn/K8PDnKISwZMFwCdobFk1Uy7l8P8DRoCKQQ2nQZfvx1QXT3JkhkEOoCWdPmzIeNKQmYFvDkajMxnoAoT2vWfcCFCi6i7obGd4uFU2pmXSJVoJ9BkqTJLoCq2tNx1GG6KmfDGBeCF+U0m1UydFhZZCop0JA+C01A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(39860400002)(136003)(396003)(376002)(366004)(451199021)(31696002)(36756003)(86362001)(31686004)(38100700002)(8676002)(8936002)(83380400001)(66476007)(186003)(6512007)(54906003)(41300700001)(6506007)(53546011)(316002)(2616005)(6666004)(478600001)(6486002)(66946007)(4326008)(66556008)(110136005)(7416002)(2906002)(5660300002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bHVqT2lFdGZ1NDFLVUF0Nm4ySFBmb1ozNEJ4T1pSMmVVdGpWaTNRMGpqNmtZ?=
- =?utf-8?B?WFgwOHdaNEtHWm9oNG41ZFBXOTBweTJQbXlOVm04eDdCMXJ4U0NnZUQxMGFO?=
- =?utf-8?B?Y1VoUWtpTGtSK2w4a3VaQWVDcmxzRUlkV2hma0FHdUhnWDNOYTNFSHYyekNP?=
- =?utf-8?B?R3YySFcyeGU3akxSUllnSEgwSGhBVmtTY3R0Q3Z3b25BSUIxVnJ0RXhjTC92?=
- =?utf-8?B?NDkyeEtPdVNvd3ZybXhJSDFBUXJQejJGWDNCdGpoeFQrM0Y0VzBLTTlkL3pV?=
- =?utf-8?B?Mkp5cE1rZ001c2FMd0NxQ254SGZmMTM5T0N3V2xHVjNxaU5HU1luNkpCWWg5?=
- =?utf-8?B?aXF1bG1jNVkvcmdueTlnRk1yNHBlZFJnN2FYcTcvWGFvc2xyMXNKUDRDUVVH?=
- =?utf-8?B?bkx2QnUzMkJJNDF1aHE2cjkzYkVUTWpwQ3JRZVRmVWFiM2JYRUtRZ3MydGlu?=
- =?utf-8?B?VktKWlh1RkpxRGVZQnBld2ZPS0lmK0U3S095d2dvN3JiQTY2Mnpaak1vVlgx?=
- =?utf-8?B?NlhMNUwrWjJ4YVRDdjA4MHhZQU1IOUVBbDV4Vy9qSHVIWGFGa1JKTWdzbW9q?=
- =?utf-8?B?TkVwdUJzdkV6NkZ6UUZ6L2ZyUmZ3TEpWOUE5dXA0T0NzaE9CRWttcHdjOUxx?=
- =?utf-8?B?WWNMSndxMTlvdjhWeUx4VVVMdnhzM1FwQnZJQzZDSWFxZDlJWlVIOVY1WSt5?=
- =?utf-8?B?eVpnbnVPL2k2TGJBeXNEZkRCWnYzV1JQS20wVlhaK3hXL01Ua0lvbEtrcFFv?=
- =?utf-8?B?cE9NUXl5aytxWDVvT2g2ZURUTXVqbUxHOFZ1Vm0wcGF2RUZOYUlEUTcxUXQ0?=
- =?utf-8?B?SEMrN2R0dVRmekpiOWJXQlN6TnpFSXZvazR4blZKdjVXY2x2TEQyLzFwSXlx?=
- =?utf-8?B?OUJCcTNxVTFESTc4aWllNitoYlNZbkNKZi9IUVp3a0gxdy9oRzc0Rkxvazhw?=
- =?utf-8?B?SldXYnVucTBGZi9XeFl0VXY5blp3ektCMTlCRGxiTHplTW81a2R6WGZpTi9Z?=
- =?utf-8?B?ZXU3RmQxQ3d5MlRVWEtORUNBc1kzY3hEc0MxamhlbDA0aUpCZ0JCakVrUlox?=
- =?utf-8?B?c0xWL29hS0RxTTRTbThqb2VTeDJHWmtyYklTUHBaS29HOEc3cXFrcVZGWFBv?=
- =?utf-8?B?WllQMGszVzI1Ym5JSkNHVjJVdFF1bDJibmNHZXFxY25Oc09ZS2laK1hJWHRE?=
- =?utf-8?B?czBwQXA1WW9UcVdMR0Rxc3M5NE5ranl1SFFUMmNwQk9UNmdGd0h3L2tVN0FJ?=
- =?utf-8?B?RFBBTHQrZlpPU1pzK0FXUGtFaE9aMmxUYWJNemRkcmJTR2t3amZGTVF6WFFQ?=
- =?utf-8?B?QU5paEFuZWpjMEU1bWhuYzFvZmpuQ21wVDRXUjExZWVxOWN6djRuU050TXNT?=
- =?utf-8?B?SXg2aG1VekxKa2tMTFJnZ0IraWtIZnEyaEpnL2dTVTRkRjJkTzRMSjF3RnJs?=
- =?utf-8?B?RHovQzYrWU9RYWEzNjRGMXJSUGN6NVBOd3BSVysxNDlGcFlrZ29HcERsaDE1?=
- =?utf-8?B?TGIwWHlKeG14WGwzMG8yL2U0UVZSUmt6SS9PUE90ankzT1RQdEZxWmhEMUtv?=
- =?utf-8?B?OWZad2dpdS9xUVhnSldFbGNHQXhERURnRnhURk02YTY4UlNtT3h6Y25QT1l1?=
- =?utf-8?B?emdkMFdwcnYxTmN2cjRYcmZPR2tnR3ZFOHV3SXNtbFZzdzE5b3paTllobm9q?=
- =?utf-8?B?aHdPUnlpTEJxS0FWT2NYNlFIcW9JNUpNVHRXZGFHbkEyeXBiby9vYnYxNW1t?=
- =?utf-8?B?elRiMTY5ckIzS3g5VFRtS0ErVzBNMzJQVGxKeGxJZHliSnQxRUI3Z2tCa0p3?=
- =?utf-8?B?MVVNSmNyNkI0T2ZZSGxwLzhnUWF0Y0pnWXlsb1NON2hiM3R0VWJ3Y1l1OWJH?=
- =?utf-8?B?eVlZdy9IQ2hxSmQzSGc3SVZYSWhvd0ZtK3p0OSs5OStlMnNXYmhVSUQrLzE0?=
- =?utf-8?B?U3BFY1d2RkNjWC9NN1VwZWQzOFMxZXpkaDFkbC83NmpWcllraDZtN21qNWRL?=
- =?utf-8?B?MXR2c3BBVXYxZ2V3dUxjdDhJcVNVMExYcjhnTW9aNmtHa0R5MEF1djR0NU5K?=
- =?utf-8?B?QnV1RDNwSGRTWWwyNEp4NlBOQ0J1cjhrUDJyc1JlWTNTWk9JUVF2VE95eHFZ?=
- =?utf-8?B?R05sK1F1SjloUi9jeXpOaDNQd2d4ZldvZ3l5em5XVjkvY1M4N1A1eTd3TTdX?=
- =?utf-8?Q?Gq8TtZtAEcr7Q8ghDZT5pmnCUon30ZL/HwIAY0NbKlvA?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc5f793a-2ffb-487b-0b25-08db721a5a4e
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jun 2023 05:42:51.6345
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fVD5WqFgVauW4MlRepXYjDI9Zj/QWnTDo41v5J6n/IWZ8YvKmIux9c7pz/utnb9b
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5978
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v3 3/6] media: dt-bindings: mediatek,vcodec: Remove
+ VDEC_SYS for mt8183
+Content-Language: en-US
+To:     =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
+        <nfraprado@collabora.com>
+Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>, kernel@collabora.com,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+References: <20230620000349.2122191-1-nfraprado@collabora.com>
+ <20230620000349.2122191-4-nfraprado@collabora.com>
+ <8b5e4a9b-7496-02a1-d3b6-a0be8ea85798@linaro.org>
+ <a82b7f2d-04d4-4ac0-9a72-ad1c17118e19@notapiano>
+ <cb2dd67a-d3df-f194-6595-789d12b38f3d@linaro.org>
+ <6b41c5e4-bae9-4c99-8a28-7272c8a598a3@notapiano>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <6b41c5e4-bae9-4c99-8a28-7272c8a598a3@notapiano>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 20.06.23 um 17:58 schrieb Dmitry Osipenko:
-> On 5/31/23 22:58, Dmitry Osipenko wrote:
->> On 5/30/23 01:39, Dmitry Osipenko wrote:
->>> Change locking policy of mmap() callback, making exporters responsible
->>> for handling dma-buf reservation locking. Previous locking policy stated
->>> that dma-buf is locked for both importers and exporters by the dma-buf
->>> core, which caused a deadlock problem for DRM drivers in a case of
->>> self-imported dma-bufs which required to take the lock from the DRM
->>> exporter side.
+On 20/06/2023 18:31, Nícolas F. R. A. Prado wrote:
+> On Tue, Jun 20, 2023 at 03:00:00PM +0200, Krzysztof Kozlowski wrote:
+>> On 20/06/2023 14:46, Nícolas F. R. A. Prado wrote:
+>>> On Tue, Jun 20, 2023 at 10:12:14AM +0200, Krzysztof Kozlowski wrote:
+>>>> On 20/06/2023 02:03, Nícolas F. R. A. Prado wrote:
+>>>>> The binding expects the first register space to be VDEC_SYS. But on
+>>>>> mt8183, which uses the stateless decoders, this space is used only for
+>>>>> controlling clocks and resets, which are better described as separate
+>>>>> clock-controller and reset-controller nodes.
+>>>>>
+>>>>> In fact, in mt8173's devicetree there are already such separate
+>>>>> clock-controller nodes, which cause duplicate addresses between the
+>>>>> vdecsys node and the vcodec node. But for this SoC, since the stateful
+>>>>> decoder code makes other uses of the VDEC_SYS register space, it's not
+>>>>> straightforward to remove it.
+>>>>>
+>>>>> In order to avoid the same address conflict to happen on mt8183,
+>>>>> since the only current use of the VDEC_SYS register space in
+>>>>> the driver is to read the status of a hardware controlled clock, remove
+>>>>> the VDEC_SYS register space from the binding and describe an extra
+>>>>> syscon that will be used to directly check the hardware status.
+>>>>>
+>>>>> Also add reg-names to be able to tell that this new register schema is
+>>>>> used, so the driver can keep backward compatibility.
+>>>>>
+>>>>> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+>>>>>
+>>>>> ---
+>>>>> I dropped the tags from this commit since a syscon is now used instead
+>>>>> of an extra clock.
+>>>>>
+>>>>> Changes in v3:
+>>>>> - Removed the active clock
+>>>>> - Added a mediatek,vdecsys syscon property
+>>>>>
+>>>>> Changes in v2:
+>>>>> - Merged with patch 1 (media: dt-bindings: mediatek,vcodec: Allow single
+>>>>>   clock for mt8183) to avoid changing number of clocks twice
+>>>>> - Added maxItems to reg-names
+>>>>> - Constrained clocks for each compatible
+>>>>> - Reordered properties for each compatible
+>>>>>
+>>>>>  .../media/mediatek,vcodec-decoder.yaml        | 30 +++++++++++++++++++
+>>>>>  1 file changed, 30 insertions(+)
+>>>>>
+>>>>> diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
+>>>>> index 1e56ece44aee..2f625c50bbfe 100644
+>>>>> --- a/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
+>>>>> +++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
+>>>>> @@ -21,8 +21,13 @@ properties:
+>>>>>        - mediatek,mt8183-vcodec-dec
+>>>>>  
+>>>>>    reg:
+>>>>> +    minItems: 11
+>>>>>      maxItems: 12
+>>>>>  
+>>>>> +  reg-names:
+>>>>> +    minItems: 11
+>>>>> +    maxItems: 11
+>>>>
+>>>> maxItems: 12
+>>>>
+>>>>> +
+>>>>>    interrupts:
+>>>>>      maxItems: 1
+>>>>>  
+>>>>> @@ -60,6 +65,10 @@ properties:
+>>>>>      description:
+>>>>>        Describes point to scp.
+>>>>>  
+>>>>> +  mediatek,vdecsys:
+>>>>> +    $ref: /schemas/types.yaml#/definitions/phandle
+>>>>> +    description: Phandle to the vdecsys syscon node.
+>>>>> +
+>>>>>  required:
+>>>>>    - compatible
+>>>>>    - reg
+>>>>> @@ -79,8 +88,26 @@ allOf:
+>>>>>      then:
+>>>>>        required:
+>>>>>          - mediatek,scp
+>>>>> +        - mediatek,vdecsys
+>>>>>  
+>>>>>        properties:
+>>>>> +        reg:
+>>>>> +          maxItems: 11
+>>>>> +
+>>>>> +        reg-names:
+>>>>> +          items:
+>>>>> +            - const: misc
+>>>>> +            - const: ld
+>>>>> +            - const: top
+>>>>> +            - const: cm
+>>>>> +            - const: ad
+>>>>> +            - const: av
+>>>>> +            - const: pp
+>>>>> +            - const: hwd
+>>>>> +            - const: hwq
+>>>>> +            - const: hwb
+>>>>> +            - const: hwg
+>>>>> +
+>>>>>          clocks:
+>>>>>            minItems: 1
+>>>>>            maxItems: 1
+>>>>> @@ -101,6 +128,9 @@ allOf:
+>>>>>          - mediatek,vpu
+>>>>>  
+>>>>>        properties:
+>>>>> +        reg:
+>>>>> +          minItems: 12
+>>>>
+>>>>
+>>>> What about reg-names here? They should be also defined and in sync with
+>>>> regs.
 >>>
->>> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
->>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->>> ---
->>>   drivers/dma-buf/dma-buf.c | 17 +++--------------
->>>   1 file changed, 3 insertions(+), 14 deletions(-)
->> Christian, you acked the drm patch of this series sometime ago, perhaps
->> it also implies implicit ack to this patch, but I'd prefer to have the
->> explicit ack. I'll apply this series to drm-misc later this week if
->> you'll approve this dma-buf change. Thanks in advance!
-> I'll merge the patches tomorrow. If there are any additional comments,
-> then please don't hesitate to post them.
+>>> That's intentional. As described in the commit message, mt8173 will keep having
+>>> the VDEC_SYS iospace, while mt8183 won't. And we use the presence of reg-names
+>>> to tell them apart.
+>>>
+>>> So, mt8173 has 12 regs, no reg-names and no syscon, while mt8183 has 11 regs,
+>>> with reg-names and the syscon.
+>>
+>> reg-names is not the way to tell apart variants. Compatible is. If you
+>> add reg-names for one variant, it's expected to have it defined for
+>> other as well, because the order of items in reg is always fixed.
+> 
+> But differentiating with compatible in this case would be wrong, since it's not
+> not something inherent to the SoC. We really just want to be able to tell
+> whether the vdecsys iospace is supplied as a reg or as a syscon.
 
-Sorry for not responding earlier, I have been moving both my office as 
-well as my household and still catching up.
+Wait, you should not have one device or even family of devices taking
+their IO space with two different methods. It's exactly the same device,
+the same bus.
 
-I don't have time for an in-deep review, but my ack stands for the whole 
-series.
+> 
+> This series focuses on getting the mt8183 decoder working, and as part of that
+> introduces the binding and DT node for mt8183 with vdecsys as a syscon instead
+> of a reg, to avoid introducing new 'duplicate unit-address' DT warnings.
 
-Regards,
-Christian.
+I got patches 1, 2, 3 and 6, nothing more so I cannot comment on what
+else you are trying to do here. Since you did not cc me, it's not relevant.
+
+Your DTS change does nothing like switching from MMIO to syscon.
+
+But anyway this variant comes with some set of regs and reg-names. Other
+variant comes with different set. In all cases they should be defined,
+even by "defined" means not allowed.
+
+> 
+> But in a separate series we could drop vdecsys from mt8173's reg as well,
+> passing it as a syscon instead, which would solve the warning on that platform,
+> though some more driver changes would be needed to be able to handle it for that
+> SoC. The newer SoCs like mt8192, mt8195, etc, should also get vdecsys dropped
+> from their regs to have a correct memory description.
+> 
+
+Sure, but I don't understand how does it affect defining and making
+specific regs/reg-names or keeping them loose.
+
+Best regards,
+Krzysztof
+
