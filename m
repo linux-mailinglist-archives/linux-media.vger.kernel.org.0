@@ -2,197 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 818D973A801
-	for <lists+linux-media@lfdr.de>; Thu, 22 Jun 2023 20:15:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DBB273A81C
+	for <lists+linux-media@lfdr.de>; Thu, 22 Jun 2023 20:19:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229726AbjFVSPy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Jun 2023 14:15:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52354 "EHLO
+        id S230215AbjFVSTx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Jun 2023 14:19:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229564AbjFVSPx (ORCPT
+        with ESMTP id S231506AbjFVST1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Jun 2023 14:15:53 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5F741FE9;
-        Thu, 22 Jun 2023 11:15:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687457751; x=1718993751;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LqHYatwS9he45PlnmiG0fLcLzzMWMxq5QFiD20ydpu8=;
-  b=KeuoFJKpsZmDrv+Jwi36xEbVi4QVRv59Q5wZdUwpYTrwloAWl+QYsMEj
-   jrXY/wuJc+JpMMQJPRHq0yQC8PUE141LJDMl+kOzILyj13JjYk6uaYUCq
-   klznQaaELsBbDHhzwE1eRakwQ9ctYiTJaALrjc0AV329uDhK6pvgTN0Yf
-   8yrQ37EZcFciQGuBBLPtUUCh8P8tdMmbMg9O9/5E7rTa3wsgWx44N4TmK
-   /0JM4cXBS+aA/Pv3bvEPUtdo6LqiYq8ivIe2/lQEVugy2IU82lX3YN9cO
-   3g4B3i2vfmF7H0PnqHNPsoZ6hjYuh/CyX12iasE7NbyUfo7z4FBMLTL0V
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="446947735"
-X-IronPort-AV: E=Sophos;i="6.01,149,1684825200"; 
-   d="scan'208";a="446947735"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 11:15:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="839162330"
-X-IronPort-AV: E=Sophos;i="6.01,149,1684825200"; 
-   d="scan'208";a="839162330"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 22 Jun 2023 11:15:45 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qCOqP-0007jf-0f;
-        Thu, 22 Jun 2023 18:15:45 +0000
-Date:   Fri, 23 Jun 2023 02:14:52 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Tommaso Merciai <tomm.merciai@gmail.com>
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com,
-        martin.hecht@avnet.eu, michael.roeder@avnet.eu,
-        linuxfancy@googlegroups.com, hdegoede@redhat.com,
-        Tommaso Merciai <tomm.merciai@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Gerald Loacker <gerald.loacker@wolfvision.net>,
-        Mikhail Rudenko <mike.rudenko@gmail.com>,
-        Nicholas Roth <nicholas@rothemail.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 3/3] media: i2c: Add support for alvium camera
-Message-ID: <202306230242.H8qeniQt-lkp@intel.com>
-References: <20230620122225.58862-4-tomm.merciai@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230620122225.58862-4-tomm.merciai@gmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Thu, 22 Jun 2023 14:19:27 -0400
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D6EA268F
+        for <linux-media@vger.kernel.org>; Thu, 22 Jun 2023 11:19:16 -0700 (PDT)
+Received: by mail-oi1-x229.google.com with SMTP id 5614622812f47-39ecf031271so3943138b6e.1
+        for <linux-media@vger.kernel.org>; Thu, 22 Jun 2023 11:19:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20221208.gappssmtp.com; s=20221208; t=1687457955; x=1690049955;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2eCSU8eCreQMQARaqFK0Z7W8VecyujL3iJIi084r8bk=;
+        b=hJ2zkmtwhWO4g6OT6PCjZBUnY/2he9q5drY/j/hU4kEwc0SEnsoJHwTW8w45eM3b4w
+         RN+PcJ/CqcpXve69GuN6LRpJXwbStZICZdvtuz9ODFbTBwVrIi4df9d37SnQbadciOVX
+         PUWTPjiEemuj1TK613lA+nTvPw7a9KxaI1DpKzSwG53ZJ6cICspUvwoP2+qVvLhzdJBO
+         XvSD2WpkIhuOezesW//T48I3MF5cbE7ICNuM9mESqaUSO6Sb1IIqLdz128uSW8oE6emF
+         WFbEZsha4ORo5ZYpAK507l77w6vQFM/JTqFd6iyy9X378usl35oJycAQ0wWSu9U37mM8
+         J7ZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687457955; x=1690049955;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2eCSU8eCreQMQARaqFK0Z7W8VecyujL3iJIi084r8bk=;
+        b=lPTY7KaUocHevvthZiyx89fE0Lly9NZOjgrEIsq0zMnaBWEhMVhn5SdMFlv3I8fm2Q
+         3kiLRpqbA2aJqPgthVDHfv+CbwJX0mD3syKrlRsRQ+LjDCT0qlklp8Bxmkw+d+iIC5mx
+         PDXwM0KX4dq5j39dSaVX2Hv96OGODJYW1JNTIK0JW3BztFjoyI+xPpJzLg97WB71VfW7
+         Yq3mXsoq396qJWz6htEpGHXAm5IR8yRz/TLJ2UgBO0yOGI1AjosjaLAcxQNYbORC2bDt
+         x0IG1jPbTzHa4/6bVSDwOhIerY/YNv5GYzJZp/0pe3qDwfLYgPbYQ/Ok00f5N/FpkWcl
+         UACQ==
+X-Gm-Message-State: AC+VfDwkiCZtikU6qO30B69q4B5Rl6P1dNefPZrLIN2Wk+iOU5u7tYZN
+        gZZfu+pTp5SjkdWu6U+celYOFw==
+X-Google-Smtp-Source: ACHHUZ7EBnnb4fJReoZIx5GFM1PIx+0BLy2Aj/TnlqNdQHm7hdf+kUGwMO2gLRRcnjXYslyeHFqv0w==
+X-Received: by 2002:a05:6808:8e8:b0:39e:dc23:d835 with SMTP id d8-20020a05680808e800b0039edc23d835mr13371412oic.48.1687457955221;
+        Thu, 22 Jun 2023 11:19:15 -0700 (PDT)
+Received: from localhost ([50.221.140.188])
+        by smtp.gmail.com with ESMTPSA id h8-20020a63df48000000b00548fb73874asm5184584pgj.37.2023.06.22.11.19.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Jun 2023 11:19:14 -0700 (PDT)
+Date:   Thu, 22 Jun 2023 11:19:14 -0700 (PDT)
+X-Google-Original-Date: Thu, 22 Jun 2023 11:18:34 PDT (-0700)
+Subject:     Re: [PATCH 0/9] Add DRM driver for StarFive SoC JH7110
+In-Reply-To: <20230602074043.33872-1-keith.zhao@starfivetech.com>
+CC:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        airlied@gmail.com, daniel@ffwll.ch, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        kernel@esmil.dk, Paul Walmsley <paul.walmsley@sifive.com>,
+        aou@eecs.berkeley.edu, maarten.lankhorst@linux.intel.com,
+        mripard@kernel.org, tzimmermann@suse.de, p.zabel@pengutronix.de,
+        sumit.semwal@linaro.org, christian.koenig@amd.com,
+        andersson@kernel.org, heiko@sntech.de, shawnguo@kernel.org,
+        jagan@edgeble.ai, macromorgan@hotmail.com,
+        keith.zhao@starfivetech.com, jack.zhu@starfivetech.com,
+        shengyang.chen@starfivetech.com, changhuang.liang@starfivetech.com
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     keith.zhao@starfivetech.com
+Message-ID: <mhng-17a80922-c7a0-4717-adfa-0959d3dfab77@palmer-ri-x1c9a>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tommaso,
+On Fri, 02 Jun 2023 00:40:34 PDT (-0700), keith.zhao@starfivetech.com wrote:
+> Hi,
+>
+> This series is a DRM driver for StarFive SoC JH7110, which includes a
+> display controller driver for Verisilicon DC8200 and an HMDI driver.
+>
+> We use GEM framework for buffer management and allocate memory by
+> using DMA APIs.
+>
+> The JH7110 display subsystem includes a display controller Verisilicon
+> DC8200 and an HDMI transmitter. The HDMI TX IP is designed for transmitting
+> video and audio data from DC8200 to a display device. The HDMI TX IP
+> consists of  the digital controller and the physical layer.
+>
+> This series does not support HDMI audio driver.
+>
+> Keith Zhao (9):
+>   dt-bindings: display: Add yamls for JH7110 display subsystem
+>   riscv: dts: starfive: jh7110: add dc&hdmi controller node
+>   drm/verisilicon: Add basic drm driver
+>   drm/verisilicon: Add gem driver for JH7110 SoC
+>   drm/verisilicon: Add mode config funcs
+>   drm/verisilicon: Add drm crtc funcs
+>   drm/verisilicon: Add drm plane funcs
+>   drm/verisilicon: Add verisilicon dc controller driver
+>   drm/verisilicon: Add starfive hdmi driver
+>
+>  .../display/verisilicon/starfive-hdmi.yaml    |   93 +
+>  .../display/verisilicon/verisilicon-dc.yaml   |  110 +
+>  .../display/verisilicon/verisilicon-drm.yaml  |   42 +
+>  .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+>  MAINTAINERS                                   |    9 +
+>  .../jh7110-starfive-visionfive-2.dtsi         |   87 +
+>  arch/riscv/boot/dts/starfive/jh7110.dtsi      |   46 +
+>  drivers/gpu/drm/Kconfig                       |    2 +
+>  drivers/gpu/drm/Makefile                      |    1 +
+>  drivers/gpu/drm/verisilicon/Kconfig           |   24 +
+>  drivers/gpu/drm/verisilicon/Makefile          |   13 +
+>  drivers/gpu/drm/verisilicon/starfive_hdmi.c   |  928 ++++++++
+>  drivers/gpu/drm/verisilicon/starfive_hdmi.h   |  296 +++
+>  drivers/gpu/drm/verisilicon/vs_crtc.c         |  388 ++++
+>  drivers/gpu/drm/verisilicon/vs_crtc.h         |   74 +
+>  drivers/gpu/drm/verisilicon/vs_dc.c           | 1040 +++++++++
+>  drivers/gpu/drm/verisilicon/vs_dc.h           |   62 +
+>  drivers/gpu/drm/verisilicon/vs_dc_hw.c        | 2008 +++++++++++++++++
+>  drivers/gpu/drm/verisilicon/vs_dc_hw.h        |  496 ++++
+>  drivers/gpu/drm/verisilicon/vs_drv.c          |  301 +++
+>  drivers/gpu/drm/verisilicon/vs_drv.h          |   52 +
+>  drivers/gpu/drm/verisilicon/vs_fb.c           |  181 ++
+>  drivers/gpu/drm/verisilicon/vs_fb.h           |   15 +
+>  drivers/gpu/drm/verisilicon/vs_gem.c          |  372 +++
+>  drivers/gpu/drm/verisilicon/vs_gem.h          |   72 +
+>  drivers/gpu/drm/verisilicon/vs_plane.c        |  440 ++++
+>  drivers/gpu/drm/verisilicon/vs_plane.h        |   74 +
+>  drivers/gpu/drm/verisilicon/vs_type.h         |   72 +
+>  include/uapi/drm/drm_fourcc.h                 |   83 +
+>  include/uapi/drm/vs_drm.h                     |   50 +
+>  30 files changed, 7433 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/verisilicon/starfive-hdmi.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/verisilicon/verisilicon-dc.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/verisilicon/verisilicon-drm.yaml
+>  create mode 100644 drivers/gpu/drm/verisilicon/Kconfig
+>  create mode 100644 drivers/gpu/drm/verisilicon/Makefile
+>  create mode 100644 drivers/gpu/drm/verisilicon/starfive_hdmi.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/starfive_hdmi.h
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc.h
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_dc.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_dc.h
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_dc_hw.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_dc_hw.h
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_drv.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_drv.h
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_fb.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_fb.h
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_gem.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_gem.h
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_plane.c
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_plane.h
+>  create mode 100644 drivers/gpu/drm/verisilicon/vs_type.h
+>  create mode 100644 include/uapi/drm/vs_drm.h
 
-kernel test robot noticed the following build errors:
+This popped up in the RISC-V patchwork, so
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on robh/for-next linus/master v6.4-rc7 next-20230622]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Acked-by: Palmer Dabbelt <palmer@rivosinc.com> # RISC-V
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tommaso-Merciai/dt-bindings-vendor-prefixes-Add-prefix-alliedvision/20230620-202420
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230620122225.58862-4-tomm.merciai%40gmail.com
-patch subject: [PATCH v7 3/3] media: i2c: Add support for alvium camera
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20230623/202306230242.H8qeniQt-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230623/202306230242.H8qeniQt-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306230242.H8qeniQt-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/media/i2c/alvium-csi2.c:10:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/media/i2c/alvium-csi2.c:10:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/media/i2c/alvium-csi2.c:10:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from drivers/media/i2c/alvium-csi2.c:23:
->> drivers/media/i2c/alvium-csi2.h:15:10: fatal error: 'media/v4l2-cci.h' file not found
-      15 | #include <media/v4l2-cci.h>
-         |          ^~~~~~~~~~~~~~~~~~
-   6 warnings and 1 error generated.
-
-
-vim +15 drivers/media/i2c/alvium-csi2.h
-
-    12	
-    13	#include <linux/kernel.h>
-    14	#include <linux/regulator/consumer.h>
-  > 15	#include <media/v4l2-cci.h>
-    16	#include <media/v4l2-common.h>
-    17	#include <media/v4l2-ctrls.h>
-    18	#include <media/v4l2-fwnode.h>
-    19	#include <media/v4l2-subdev.h>
-    20	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+in case anyone was looking for one -- I definately don't know anything 
+about DRM, though, so not sure that means much...
