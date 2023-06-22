@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3611A739FD7
-	for <lists+linux-media@lfdr.de>; Thu, 22 Jun 2023 13:41:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44EE1739FE3
+	for <lists+linux-media@lfdr.de>; Thu, 22 Jun 2023 13:43:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230478AbjFVLlh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Jun 2023 07:41:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42520 "EHLO
+        id S229978AbjFVLm7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Jun 2023 07:42:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229806AbjFVLl3 (ORCPT
+        with ESMTP id S229866AbjFVLm6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Jun 2023 07:41:29 -0400
+        Thu, 22 Jun 2023 07:42:58 -0400
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F328919A9
-        for <linux-media@vger.kernel.org>; Thu, 22 Jun 2023 04:41:25 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C1151BEA
+        for <linux-media@vger.kernel.org>; Thu, 22 Jun 2023 04:42:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687434086; x=1718970086;
+  t=1687434154; x=1718970154;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=PH/Lt4USvLPg7ZduDLBxRfHE9SEtNE5Iotd2RME68jo=;
-  b=YXb9cLLb4uOX4dBnMbMcMNP/KvkXT6Zk1juNpCztlos+hw7HcO240BDq
-   LdphxO1RGeenML+MHVTMB+3xIUq6OZJbyvdYnh0nZOQRuN2UcIYMwyRdp
-   H4Q7ySwBKdLmmze3Qwxu7V9ZGSR5RYbHKJnh4OZuzEkwJzWhb7ZcLcLhX
-   laP1kb9S6dB2FHYmKwmHlmzzeEhA8+oRffVRbMcq5+FUjz1uJqLKcto4z
-   o3owYM6rRZn0Kj9lS6jHJc/k8dRe8qVduflU+De0U/uuXrok/F2ui2c5K
-   EqfHHFXbX67580mPopZ2LMTckpdjZxKcDP5jrG4GU3UnkbliImaB9/nJD
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="340800371"
+  bh=lMyocsYe8347/6/fZMarFHN/YLQ84zRdVsQcyvcK7aw=;
+  b=KlG9hHzA5I5GaQo6ojMk6fX/9ouuf9wv/F6aLl0ZjmVoyym9Lg+g32TE
+   AatRjx/cL9yRr4N6hB8PBKLnPOuV0FKPdtG6eSI41VpLJb7RNyaK9xpHt
+   TrctFG0JPz8IAx75SbbnP2eHKICTiYkyEVyZ1mXwahowh9yOnpLfffOph
+   hbcEpLnBWPr4dF5DhXR0DZt7Tq81jdCSQud3Wr3Bffpuo45t6/Y0YSUht
+   oK5V+nrn8X4HLCePXrRTXlNS55iho/Ng2Wjulb/PPGN3WDbuqyhNNMkhb
+   HPaaE3oCHHtgaoNrsNr8IDydZCXZft5LaTpgBAVvDBvkgwR+VsnZ79GaV
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="340800595"
 X-IronPort-AV: E=Sophos;i="6.00,263,1681196400"; 
-   d="scan'208";a="340800371"
+   d="scan'208";a="340800595"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 04:41:21 -0700
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 04:41:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="839013549"
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="839013572"
 X-IronPort-AV: E=Sophos;i="6.00,263,1681196400"; 
-   d="scan'208";a="839013549"
+   d="scan'208";a="839013572"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
   by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 04:41:12 -0700
 Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 48327120ECD;
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 4D65A120ECF;
         Thu, 22 Jun 2023 14:40:51 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
         (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1qCIg3-003oU7-0f;
+        id 1qCIg3-003oUC-0j;
         Thu, 22 Jun 2023 14:40:39 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
@@ -76,9 +76,9 @@ Cc:     laurent.pinchart@ideasonboard.com,
         Jonathan Hunter <jonathanh@nvidia.com>,
         Sowjanya Komatineni <skomatineni@nvidia.com>,
         Marco Felsch <m.felsch@pengutronix.de>
-Subject: [PATCH v4 28/38] media: adv748x: Return to endpoint matching
-Date:   Thu, 22 Jun 2023 14:40:18 +0300
-Message-Id: <20230622114028.908825-29-sakari.ailus@linux.intel.com>
+Subject: [PATCH v4 29/38] media: pxa_camera: Fix probe error handling
+Date:   Thu, 22 Jun 2023 14:40:19 +0300
+Message-Id: <20230622114028.908825-30-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230622114028.908825-1-sakari.ailus@linux.intel.com>
 References: <20230622114028.908825-1-sakari.ailus@linux.intel.com>
@@ -95,63 +95,115 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Return the two CSI-2 transmitters of adv748x to endpoint matching. This
-should make the driver work again as expected.
+Fix and simplify error handling in pxa_camera probe, by moving devm_*()
+functions early in the probe function and then tearing down what was set
+up on error patch.
 
-Fixes: ("media: v4l: async: Simplify async sub-device fwnode matching")
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Tested-by: Philipp Zabel <p.zabel@pengutronix.de> # imx6qp
 Tested_by: Niklas Söderlund <niklas.soderlund@ragnatech.se> # rcar + adv746x
 Tested-by: Aishwarya Kothari <aishwarya.kothari@toradex.com> # Apalis i.MX6Q with TC358743
 ---
- drivers/media/i2c/adv748x/adv748x-csi2.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ drivers/media/platform/intel/pxa_camera.c | 48 ++++++++++++-----------
+ 1 file changed, 25 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/media/i2c/adv748x/adv748x-csi2.c b/drivers/media/i2c/adv748x/adv748x-csi2.c
-index b6f93c1db3d2a..a5a7cb228896b 100644
---- a/drivers/media/i2c/adv748x/adv748x-csi2.c
-+++ b/drivers/media/i2c/adv748x/adv748x-csi2.c
-@@ -296,8 +296,6 @@ int adv748x_csi2_init(struct adv748x_state *state, struct adv748x_csi2 *tx)
- 	if (!is_tx_enabled(tx))
- 		return 0;
+diff --git a/drivers/media/platform/intel/pxa_camera.c b/drivers/media/platform/intel/pxa_camera.c
+index f0d316d5fe27c..a583186a5140b 100644
+--- a/drivers/media/platform/intel/pxa_camera.c
++++ b/drivers/media/platform/intel/pxa_camera.c
+@@ -2289,6 +2289,16 @@ static int pxa_camera_probe(struct platform_device *pdev)
+ 	if (IS_ERR(pcdev->clk))
+ 		return PTR_ERR(pcdev->clk);
  
--	/* FIXME: Do endpoint matching again! */
--
- 	adv748x_subdev_init(&tx->sd, state, &adv748x_csi2_ops,
- 			    MEDIA_ENT_F_VID_IF_BRIDGE,
- 			    is_txa(tx) ? "txa" : "txb");
-@@ -313,10 +311,15 @@ int adv748x_csi2_init(struct adv748x_state *state, struct adv748x_csi2 *tx)
- 	if (ret)
- 		return ret;
- 
--	ret = adv748x_csi2_init_controls(tx);
-+	ret = v4l2_async_subdev_endpoint_add(&tx->sd,
-+					     of_fwnode_handle(state->endpoints[tx->port]));
- 	if (ret)
- 		goto err_free_media;
- 
-+	ret = adv748x_csi2_init_controls(tx);
-+	if (ret)
-+		goto err_cleanup_subdev;
++	/*
++	 * Request the regions.
++	 */
++	base = devm_ioremap_resource(&pdev->dev, res);
++	if (IS_ERR(base))
++		return PTR_ERR(base);
 +
- 	ret = v4l2_async_register_subdev(&tx->sd);
- 	if (ret)
- 		goto err_free_ctrl;
-@@ -325,6 +328,8 @@ int adv748x_csi2_init(struct adv748x_state *state, struct adv748x_csi2 *tx)
++	pcdev->irq = irq;
++	pcdev->base = base;
++
+ 	v4l2_async_nf_init(&pcdev->notifier);
+ 	pcdev->res = res;
+ 	pcdev->pdata = pdev->dev.platform_data;
+@@ -2338,21 +2348,12 @@ static int pxa_camera_probe(struct platform_device *pdev)
+ 	spin_lock_init(&pcdev->lock);
+ 	mutex_init(&pcdev->mlock);
  
- err_free_ctrl:
- 	v4l2_ctrl_handler_free(&tx->ctrl_hdl);
-+err_cleanup_subdev:
-+	v4l2_subdev_cleanup(&tx->sd);
- err_free_media:
- 	media_entity_cleanup(&tx->sd.entity);
+-	/*
+-	 * Request the regions.
+-	 */
+-	base = devm_ioremap_resource(&pdev->dev, res);
+-	if (IS_ERR(base))
+-		return PTR_ERR(base);
+-
+-	pcdev->irq = irq;
+-	pcdev->base = base;
+-
+ 	/* request dma */
+ 	pcdev->dma_chans[0] = dma_request_chan(&pdev->dev, "CI_Y");
+ 	if (IS_ERR(pcdev->dma_chans[0])) {
+ 		dev_err(&pdev->dev, "Can't request DMA for Y\n");
+-		return PTR_ERR(pcdev->dma_chans[0]);
++		err = PTR_ERR(pcdev->dma_chans[0]);
++		goto exit_notifier_cleanup;
+ 	}
  
-@@ -339,4 +344,5 @@ void adv748x_csi2_cleanup(struct adv748x_csi2 *tx)
- 	v4l2_async_unregister_subdev(&tx->sd);
- 	media_entity_cleanup(&tx->sd.entity);
- 	v4l2_ctrl_handler_free(&tx->ctrl_hdl);
-+	v4l2_subdev_cleanup(&tx->sd);
+ 	pcdev->dma_chans[1] = dma_request_chan(&pdev->dev, "CI_U");
+@@ -2379,14 +2380,6 @@ static int pxa_camera_probe(struct platform_device *pdev)
+ 		}
+ 	}
+ 
+-	/* request irq */
+-	err = devm_request_irq(&pdev->dev, pcdev->irq, pxa_camera_irq, 0,
+-			       PXA_CAM_DRV_NAME, pcdev);
+-	if (err) {
+-		dev_err(&pdev->dev, "Camera interrupt register failed\n");
+-		goto exit_free_dma;
+-	}
+-
+ 	tasklet_setup(&pcdev->task_eof, pxa_camera_eof);
+ 
+ 	pxa_camera_activate(pcdev);
+@@ -2398,16 +2391,23 @@ static int pxa_camera_probe(struct platform_device *pdev)
+ 
+ 	err = pxa_camera_init_videobuf2(pcdev);
+ 	if (err)
+-		goto exit_notifier_cleanup;
++		goto exit_v4l2_device_unregister;
++
++	/* request irq */
++	err = devm_request_irq(&pdev->dev, pcdev->irq, pxa_camera_irq, 0,
++			       PXA_CAM_DRV_NAME, pcdev);
++	if (err) {
++		dev_err(&pdev->dev, "Camera interrupt register failed\n");
++		goto exit_v4l2_device_unregister;
++	}
+ 
+ 	pcdev->notifier.ops = &pxa_camera_sensor_ops;
+ 	err = v4l2_async_nf_register(&pcdev->v4l2_dev, &pcdev->notifier);
+ 	if (err)
+-		goto exit_notifier_cleanup;
++		goto exit_v4l2_device_unregister;
+ 
+ 	return 0;
+-exit_notifier_cleanup:
+-	v4l2_async_nf_cleanup(&pcdev->notifier);
++exit_v4l2_device_unregister:
+ 	v4l2_device_unregister(&pcdev->v4l2_dev);
+ exit_deactivate:
+ 	pxa_camera_deactivate(pcdev);
+@@ -2418,6 +2418,8 @@ static int pxa_camera_probe(struct platform_device *pdev)
+ 	dma_release_channel(pcdev->dma_chans[1]);
+ exit_free_dma_y:
+ 	dma_release_channel(pcdev->dma_chans[0]);
++exit_notifier_cleanup:
++	v4l2_async_nf_cleanup(&pcdev->notifier);
+ 	return err;
  }
+ 
 -- 
 2.39.2
 
