@@ -2,131 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DCB93738FFA
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jun 2023 21:24:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C8857395D6
+	for <lists+linux-media@lfdr.de>; Thu, 22 Jun 2023 05:30:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229969AbjFUTYa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Jun 2023 15:24:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58060 "EHLO
+        id S229784AbjFVDag (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Jun 2023 23:30:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229791AbjFUTY2 (ORCPT
+        with ESMTP id S229704AbjFVDae (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Jun 2023 15:24:28 -0400
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B70989D
-        for <linux-media@vger.kernel.org>; Wed, 21 Jun 2023 12:24:27 -0700 (PDT)
-Received: by mail-oi1-x234.google.com with SMTP id 5614622812f47-3a04e5baffcso586476b6e.3
-        for <linux-media@vger.kernel.org>; Wed, 21 Jun 2023 12:24:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1687375467; x=1689967467;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3U/QVAcqafkSNVhY1lWQzZCl4SRVhE5bPBjfKlpQ8Pk=;
-        b=ohqyLjyj3sePxyXy1PsG7sE32dVzhextzF1VCRFgF9hi6WmLhRM7JxacUR2oArMILn
-         1UNZ8ufLZ2uyUoKHdIFxhhl7j1sSfdvAEtccccgKimWbvfdZQbtrLMZKcrP3gAd/nlO+
-         zPVVB+cKijH3DYkEDWnsyCSXyNF9iRj0L2lubKyMyr8b6vfTQCm7/mkQlixLPe8S2B5V
-         ey3Ahmo9UeqQi4c42wQyFTPhSKbf26RzGbX3Nr8GZnIYDcC4iG8zv1FLFK9y7vsboLbo
-         drN5YjmK6Kkgo+1tsNrD5QYgDaOCzq85c0qOA+PVBpocfAtG6jvvCyI4Fe1Jk4erzZL5
-         2x0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687375467; x=1689967467;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3U/QVAcqafkSNVhY1lWQzZCl4SRVhE5bPBjfKlpQ8Pk=;
-        b=AWZbq9n4k0XB2ESd6tGBtE2fdj7zdCH5p3yrvznrqTtWuFSYySs8qo+0j0x0Af1Yrs
-         nFXOM968CV96HcFSilJvGWmUlfllrV+BQYZi1MdyxvqwQNUP1DCd12eTzUreAtSzciql
-         Q0v1pdBeTk1yjlxBHRLxcJUSd+HcqbxrUW6fgkf0TGZJNitns9oSrKzPMa4O3AHvvoXL
-         dbJ2BIZPm1EgtbzGGY7rjfRAx/jYOugnH88VhJPs+QTRiDkaqCKdpgzeZZ0qSnv4+oEi
-         4+PgQn0vPh2OAZczwaP2XOKHjM8fIMGjXzyTzgWBk59ySVLPKGvQLQR+bVupmw5MuBsG
-         CyEg==
-X-Gm-Message-State: AC+VfDzakEmAWaXZL43MGY0IN35ieb5cD3kmr06danaw2imiqRxliFLH
-        RUuO2lFuLDQXuDbk9JuWepGAxX92YvYYkEQrybfMRA==
-X-Google-Smtp-Source: ACHHUZ63c9VKGQPwrxlmnGSKM+PWQK9x+DysUQbbBYaDfelOmNODcRzkOZdsEmMV5VhtSDgSqYOgfcdGJy5fkttcu2g=
-X-Received: by 2002:a05:6359:a26:b0:12c:9960:ec1e with SMTP id
- el38-20020a0563590a2600b0012c9960ec1emr10367224rwb.19.1687375466725; Wed, 21
- Jun 2023 12:24:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230529223935.2672495-1-dmitry.osipenko@collabora.com>
- <20230529223935.2672495-3-dmitry.osipenko@collabora.com> <CABdmKX2RU2iYyUssBpwS17zA1dfegjzdo4pxp0r8cOCWcY9=kg@mail.gmail.com>
- <106bc72b-9358-de06-6f3f-06fdfa3859cd@collabora.com>
-In-Reply-To: <106bc72b-9358-de06-6f3f-06fdfa3859cd@collabora.com>
-From:   "T.J. Mercier" <tjmercier@google.com>
-Date:   Wed, 21 Jun 2023 12:24:15 -0700
-Message-ID: <CABdmKX0SJvW30PEriUhW9kmKQuhrEHHPiVbyUYPbgYCyh40hFg@mail.gmail.com>
-Subject: Re: [PATCH v4 2/6] dma-buf/heaps: Don't assert held reservation lock
- for dma-buf mmapping
-To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <jstultz@google.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Wed, 21 Jun 2023 23:30:34 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63A111BCD;
+        Wed, 21 Jun 2023 20:30:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687404633; x=1718940633;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AZvU9ZeEZYTZ0Y5lwWUlf/o2NDHD8zNYuhg9CSqAe5k=;
+  b=S7N4uPTuEfnhAyiyKuqGsGbcgYt6BwO4m0sdQtjfTKZmn02lAJybrm/I
+   VSse/psOBbPu/hL8/OB3LROWp4Z2qfOYJ4MGxvZ0EzSZyksqeJkMctpSg
+   pfN+88f0Zoi0ExQXW5OYvqqG2bG+1IYfq3HbUix1K8ExaiD+y7BkJJYdk
+   YgFo/E5f1eN+n8pR13e3l+4YOJAZHDfhR6JGTpDbUVi+5T9549mQGmySc
+   bcTijXW0cikqhvjesN5WE79MtJZkUOXHTfeXVSI1OTiDpKQG5xn3wofwp
+   Fl86pdGBBIKBj0Gx0LfmHztllJsUWeSCdRGm1BomOzC46QjE3FOEemQES
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="357869008"
+X-IronPort-AV: E=Sophos;i="6.00,262,1681196400"; 
+   d="scan'208";a="357869008"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 20:30:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="827727304"
+X-IronPort-AV: E=Sophos;i="6.00,262,1681196400"; 
+   d="scan'208";a="827727304"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 21 Jun 2023 20:30:28 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qCB1f-0007In-31;
+        Thu, 22 Jun 2023 03:30:27 +0000
+Date:   Thu, 22 Jun 2023 11:29:43 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Jack Zhu <jack.zhu@starfivetech.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        kernel@collabora.com, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>, bryan.odonoghue@linaro.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Eugen Hristev <eugen.hristev@collabora.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, jack.zhu@starfivetech.com,
+        changhuang.liang@starfivetech.com
+Subject: Re: [PATCH v7 5/6] media: starfive: camss: Add ISP driver
+Message-ID: <202306221112.MnLtMzRo-lkp@intel.com>
+References: <20230619112838.19797-6-jack.zhu@starfivetech.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230619112838.19797-6-jack.zhu@starfivetech.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 21, 2023 at 11:16=E2=80=AFAM Dmitry Osipenko
-<dmitry.osipenko@collabora.com> wrote:
->
-> Hi,
->
-> On 6/21/23 20:21, T.J. Mercier wrote:
-> > On Mon, May 29, 2023 at 3:46=E2=80=AFPM Dmitry Osipenko
-> > <dmitry.osipenko@collabora.com> wrote:
-> >>
-> >> Don't assert held dma-buf reservation lock on memory mapping of export=
-ed
-> >> buffer.
-> >>
-> >> We're going to change dma-buf mmap() locking policy such that exporter=
-s
-> >> will have to handle the lock. The previous locking policy caused deadl=
-ock
-> >> problem for DRM drivers in a case of self-imported dma-bufs once these
-> >> drivers are moved to use reservation lock universally. The problem
-> >> solved by moving the lock down to exporters. This patch prepares dma-b=
-uf
-> >> heaps for the locking policy update.
-> >>
-> > Hi Dmitry,
-> >
-> > I see that in patch 6 of this series calls to
-> > dma_resv_lock/dma_resv_unlock have been added to the
-> > drm_gem_shmem_helper functions and some exporters. But I'm curious why
-> > no dma_resv_lock/dma_resv_unlock calls were added to these two dma-buf
-> > heap exporters for mmap?
->
-> DMA-buf heaps are exporters, drm_gem_shmem_helper is importer. Locking
-> rules are different for importers and exporters.
->
-> DMA-heaps use own locking, they can be moved to resv lock in the future.
->
-> DMA-heaps don't protect internal data in theirs mmap() implementations,
-> nothing to protect there.
->
-Thanks.
+Hi Jack,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on robh/for-next linus/master v6.4-rc7 next-20230621]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jack-Zhu/media-dt-bindings-Add-JH7110-Camera-Subsystem/20230619-193105
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230619112838.19797-6-jack.zhu%40starfivetech.com
+patch subject: [PATCH v7 5/6] media: starfive: camss: Add ISP driver
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230622/202306221112.MnLtMzRo-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230622/202306221112.MnLtMzRo-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306221112.MnLtMzRo-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/media/platform/starfive/camss/stf_camss.c:173:13: warning: variable 'pad_num' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+           } else if (port == STF_PORT_DVP) {
+                      ^~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/starfive/camss/stf_camss.c:178:18: note: uninitialized use occurs here
+           for (i = 0; i < pad_num; ++i) {
+                           ^~~~~~~
+   drivers/media/platform/starfive/camss/stf_camss.c:173:9: note: remove the 'if' if its condition is always true
+           } else if (port == STF_PORT_DVP) {
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/starfive/camss/stf_camss.c:168:25: note: initialize the variable 'pad_num' to silence this warning
+           unsigned int i, pad_num;
+                                  ^
+                                   = 0
+   1 warning generated.
+--
+>> drivers/media/platform/starfive/camss/stf_isp.c:113:13: warning: variable 'formats' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+           } else if (pad == STF_ISP_PAD_SRC) {
+                      ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/starfive/camss/stf_isp.c:127:18: note: uninitialized use occurs here
+           for (i = 0; i < formats->nfmts; i++) {
+                           ^~~~~~~
+   drivers/media/platform/starfive/camss/stf_isp.c:113:9: note: remove the 'if' if its condition is always true
+           } else if (pad == STF_ISP_PAD_SRC) {
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/starfive/camss/stf_isp.c:105:40: note: initialize the variable 'formats' to silence this warning
+           const struct isp_format_table *formats;
+                                                 ^
+                                                  = NULL
+   1 warning generated.
+
+
+vim +173 drivers/media/platform/starfive/camss/stf_camss.c
+
+   156	
+   157	static int stfcamss_subdev_notifier_bound(struct v4l2_async_notifier *async,
+   158						  struct v4l2_subdev *subdev,
+   159						  struct v4l2_async_subdev *asd)
+   160	{
+   161		struct stfcamss *stfcamss =
+   162			container_of(async, struct stfcamss, notifier);
+   163		struct stfcamss_async_subdev *csd =
+   164			container_of(asd, struct stfcamss_async_subdev, asd);
+   165		enum stf_port_num port = csd->port;
+   166		struct stf_isp_dev *isp_dev = &stfcamss->isp_dev;
+   167		struct media_pad *pad[STF_PADS_NUM];
+   168		unsigned int i, pad_num;
+   169	
+   170		if (port == STF_PORT_CSI2RX) {
+   171			pad[0] = &isp_dev->pads[STF_PAD_SINK];
+   172			pad_num = 1;
+ > 173		} else if (port == STF_PORT_DVP) {
+   174			dev_err(stfcamss->dev, "Not support DVP sensor\n");
+   175			return -EPERM;
+   176		}
+   177	
+   178		for (i = 0; i < pad_num; ++i) {
+   179			int ret;
+   180	
+   181			ret = v4l2_create_fwnode_links_to_pad(subdev, pad[i], 0);
+   182			if (ret < 0)
+   183				return ret;
+   184		}
+   185	
+   186		return 0;
+   187	}
+   188	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
