@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0148E739FE1
-	for <lists+linux-media@lfdr.de>; Thu, 22 Jun 2023 13:42:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80237739FD9
+	for <lists+linux-media@lfdr.de>; Thu, 22 Jun 2023 13:41:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230122AbjFVLmi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Jun 2023 07:42:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43426 "EHLO
+        id S231144AbjFVLlk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Jun 2023 07:41:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229978AbjFVLmg (ORCPT
+        with ESMTP id S231147AbjFVLlg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Jun 2023 07:42:36 -0400
+        Thu, 22 Jun 2023 07:41:36 -0400
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75B622128
-        for <linux-media@vger.kernel.org>; Thu, 22 Jun 2023 04:41:58 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75AC81BFA
+        for <linux-media@vger.kernel.org>; Thu, 22 Jun 2023 04:41:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687434118; x=1718970118;
+  t=1687434089; x=1718970089;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=LjXLcO+v3YuoiO4jDNwsM9hxz55JwJevbk46iPOtuRk=;
-  b=htY7dD57FtsaU0GNvOjTFKx0d2rO9VOMqm4M9CYRu+EFKv5i2LYsaDDG
-   T/4R+W9/BnTueyOfYwidd8eDRfH+rcD6jjJ16RmzYJvXAj9kxZTUgNRfN
-   AlExGRtkc+Y6vBAxNcS+a3Z3Y05iszOJQ0vknugKQJYzvmfQ2AVllOnfZ
-   sh5apCZjhMsfgWva0WCXGk18SK5xC71/aAMyStY5/6T/5eQrKt2VGWPwI
-   IZeed4W0gBZiWWPTV0RVYZTd4moMlhDxQCtQTHYP/z2Ct3+h1mrB2vaC7
-   Hj6JFLE/X93Ko40GrGDw+xDERPYMOzipWLjnbPnIZ30DTK14ukwIyVfg5
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="340800545"
+  bh=OJIp/XpT1bOLGaJCEVeDwzAFJtcHvlR/lZV2fN/tNyg=;
+  b=KOybJGLhieu3yBDCZSdkAxLL8wbGaxDdJjoHRIA1YAOCcluhniznW8cg
+   BDSsq5WbNZ74SgtrZK5v+k6iwK/hZL2b8eVE6sIUqsFIp5b7hW/n34THV
+   LVJece/v8PlZfIm0EWFsMWkdIIB3aSM4zsBTX6F4DJFaTd2EZ1iFULzZ/
+   xc+SXzAP6a+NBbaso3rrBY07eo0B3jOzY++PdkWuyqgN8XAnR1inbI7IY
+   A4pkyst28VoupcOpkNCBW2jT4mocuAzfFT7IQzNfEiOEnU0cg5a3j6BGC
+   HrnZIY0oy50E3hsSaXKqdYHv61RBfkRkMIDrGslTXLwrj0exNIopQnhh9
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="340800404"
 X-IronPort-AV: E=Sophos;i="6.00,263,1681196400"; 
-   d="scan'208";a="340800545"
+   d="scan'208";a="340800404"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 04:41:22 -0700
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 04:41:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="839013564"
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="839013544"
 X-IronPort-AV: E=Sophos;i="6.00,263,1681196400"; 
-   d="scan'208";a="839013564"
+   d="scan'208";a="839013544"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
   by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 04:41:12 -0700
 Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 58718120ED2;
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 5E1ED120ED8;
         Thu, 22 Jun 2023 14:40:51 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
         (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1qCIg3-003oUM-0r;
+        id 1qCIg3-003oUR-0w;
         Thu, 22 Jun 2023 14:40:39 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
@@ -76,9 +76,9 @@ Cc:     laurent.pinchart@ideasonboard.com,
         Jonathan Hunter <jonathanh@nvidia.com>,
         Sowjanya Komatineni <skomatineni@nvidia.com>,
         Marco Felsch <m.felsch@pengutronix.de>
-Subject: [PATCH v4 31/38] media: marvell: cafe: Register V4L2 device earlier
-Date:   Thu, 22 Jun 2023 14:40:21 +0300
-Message-Id: <20230622114028.908825-32-sakari.ailus@linux.intel.com>
+Subject: [PATCH v4 32/38] media: am437x-vpfe: Register V4L2 device early
+Date:   Thu, 22 Jun 2023 14:40:22 +0300
+Message-Id: <20230622114028.908825-33-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20230622114028.908825-1-sakari.ailus@linux.intel.com>
 References: <20230622114028.908825-1-sakari.ailus@linux.intel.com>
@@ -95,7 +95,7 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Register V4L2 device before the async notifier. This way the device can be
+Register V4L2 device before the async notifier.This way the device can be
 made available to the V4L2 async framework from the notifier init time
 onwards. A subsequent patch will add struct v4l2_device as an argument to
 v4l2_async_nf_init().
@@ -105,91 +105,92 @@ Tested-by: Philipp Zabel <p.zabel@pengutronix.de> # imx6qp
 Tested_by: Niklas Söderlund <niklas.soderlund@ragnatech.se> # rcar + adv746x
 Tested-by: Aishwarya Kothari <aishwarya.kothari@toradex.com> # Apalis i.MX6Q with TC358743
 ---
- drivers/media/platform/marvell/cafe-driver.c | 11 +++++++++--
- drivers/media/platform/marvell/mcam-core.c   |  9 ---------
- 2 files changed, 9 insertions(+), 11 deletions(-)
+ .../media/platform/ti/am437x/am437x-vpfe.c    | 27 +++++++++----------
+ 1 file changed, 13 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/media/platform/marvell/cafe-driver.c b/drivers/media/platform/marvell/cafe-driver.c
-index dd1bba70bd791..fbfbb9f67ddfc 100644
---- a/drivers/media/platform/marvell/cafe-driver.c
-+++ b/drivers/media/platform/marvell/cafe-driver.c
-@@ -536,6 +536,10 @@ static int cafe_pci_probe(struct pci_dev *pdev,
- 	if (ret)
- 		goto out_pdown;
+diff --git a/drivers/media/platform/ti/am437x/am437x-vpfe.c b/drivers/media/platform/ti/am437x/am437x-vpfe.c
+index a1e01ef5ebddb..1457a188fea12 100644
+--- a/drivers/media/platform/ti/am437x/am437x-vpfe.c
++++ b/drivers/media/platform/ti/am437x/am437x-vpfe.c
+@@ -2403,10 +2403,17 @@ static int vpfe_probe(struct platform_device *pdev)
  
-+	ret = v4l2_device_register(mcam->dev, &mcam->v4l2_dev);
-+	if (ret)
-+		goto out_smbus_shutdown;
+ 	vpfe->pdev = &pdev->dev;
+ 
++	ret = v4l2_device_register(&pdev->dev, &vpfe->v4l2_dev);
++	if (ret) {
++		vpfe_err(vpfe, "Unable to register v4l2 device.\n");
++		return ret;
++	}
 +
- 	v4l2_async_nf_init(&mcam->notifier);
- 
- 	asd = v4l2_async_nf_add_i2c(&mcam->notifier,
-@@ -544,12 +548,12 @@ static int cafe_pci_probe(struct pci_dev *pdev,
- 				    struct v4l2_async_connection);
- 	if (IS_ERR(asd)) {
- 		ret = PTR_ERR(asd);
--		goto out_smbus_shutdown;
-+		goto out_v4l2_device_unregister;
+ 	vpfe_cfg = vpfe_get_pdata(vpfe);
+ 	if (!vpfe_cfg) {
+ 		dev_err(&pdev->dev, "No platform data\n");
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto probe_out_cleanup;
  	}
  
- 	ret = mccic_register(mcam);
- 	if (ret)
--		goto out_smbus_shutdown;
-+		goto out_v4l2_device_unregister;
- 
- 	clkdev_create(mcam->mclk, "xclk", "%d-%04x",
- 		i2c_adapter_id(cam->i2c_adapter), ov7670_info.addr);
-@@ -565,6 +569,8 @@ static int cafe_pci_probe(struct pci_dev *pdev,
- 
- out_mccic_shutdown:
- 	mccic_shutdown(mcam);
-+out_v4l2_device_unregister:
-+	v4l2_device_unregister(&mcam->v4l2_dev);
- out_smbus_shutdown:
- 	cafe_smbus_shutdown(cam);
- out_pdown:
-@@ -587,6 +593,7 @@ static int cafe_pci_probe(struct pci_dev *pdev,
- static void cafe_shutdown(struct cafe_camera *cam)
- {
- 	mccic_shutdown(&cam->mcam);
-+	v4l2_device_unregister(&cam->mcam.v4l2_dev);
- 	cafe_smbus_shutdown(cam);
- 	free_irq(cam->pdev->irq, cam);
- 	pci_iounmap(cam->pdev, cam->mcam.regs);
-diff --git a/drivers/media/platform/marvell/mcam-core.c b/drivers/media/platform/marvell/mcam-core.c
-index 3cee6d6b83fa9..7a6e043ac7539 100644
---- a/drivers/media/platform/marvell/mcam-core.c
-+++ b/drivers/media/platform/marvell/mcam-core.c
-@@ -1863,13 +1863,6 @@ int mccic_register(struct mcam_camera *cam)
- 		goto out;
+ 	vpfe->cfg = vpfe_cfg;
+@@ -2433,13 +2440,6 @@ static int vpfe_probe(struct platform_device *pdev)
+ 		goto probe_out_cleanup;
  	}
  
--	/*
--	 * Register with V4L
--	 */
--	ret = v4l2_device_register(cam->dev, &cam->v4l2_dev);
--	if (ret)
--		goto out;
+-	ret = v4l2_device_register(&pdev->dev, &vpfe->v4l2_dev);
+-	if (ret) {
+-		vpfe_err(vpfe,
+-			"Unable to register v4l2 device.\n");
+-		goto probe_out_cleanup;
+-	}
 -
- 	mutex_init(&cam->s_mutex);
- 	cam->state = S_NOTREADY;
- 	mcam_set_config_needed(cam, 1);
-@@ -1915,7 +1908,6 @@ int mccic_register(struct mcam_camera *cam)
+ 	/* set the driver data in platform device */
+ 	platform_set_drvdata(pdev, vpfe);
+ 	/* Enabling module functional clock */
+@@ -2449,7 +2449,7 @@ static int vpfe_probe(struct platform_device *pdev)
+ 	ret = pm_runtime_resume_and_get(&pdev->dev);
+ 	if (ret < 0) {
+ 		vpfe_err(vpfe, "Unable to resume device.\n");
+-		goto probe_out_v4l2_unregister;
++		goto probe_out_cleanup;
+ 	}
  
- out:
- 	v4l2_async_nf_unregister(&cam->notifier);
--	v4l2_device_unregister(&cam->v4l2_dev);
- 	v4l2_async_nf_cleanup(&cam->notifier);
+ 	vpfe_ccdc_config_defaults(ccdc);
+@@ -2462,7 +2462,7 @@ static int vpfe_probe(struct platform_device *pdev)
+ 				GFP_KERNEL);
+ 	if (!vpfe->sd) {
+ 		ret = -ENOMEM;
+-		goto probe_out_v4l2_unregister;
++		goto probe_out_cleanup;
+ 	}
+ 
+ 	vpfe->notifier.ops = &vpfe_async_ops;
+@@ -2470,15 +2470,14 @@ static int vpfe_probe(struct platform_device *pdev)
+ 	if (ret) {
+ 		vpfe_err(vpfe, "Error registering async notifier\n");
+ 		ret = -EINVAL;
+-		goto probe_out_v4l2_unregister;
++		goto probe_out_cleanup;
+ 	}
+ 
+ 	return 0;
+ 
+-probe_out_v4l2_unregister:
+-	v4l2_device_unregister(&vpfe->v4l2_dev);
+ probe_out_cleanup:
+ 	v4l2_async_nf_cleanup(&vpfe->notifier);
++	v4l2_device_unregister(&vpfe->v4l2_dev);
  	return ret;
  }
-@@ -1937,7 +1929,6 @@ void mccic_shutdown(struct mcam_camera *cam)
- 		mcam_free_dma_bufs(cam);
- 	v4l2_ctrl_handler_free(&cam->ctrl_handler);
- 	v4l2_async_nf_unregister(&cam->notifier);
--	v4l2_device_unregister(&cam->v4l2_dev);
- 	v4l2_async_nf_cleanup(&cam->notifier);
+ 
+@@ -2493,8 +2492,8 @@ static void vpfe_remove(struct platform_device *pdev)
+ 
+ 	v4l2_async_nf_unregister(&vpfe->notifier);
+ 	v4l2_async_nf_cleanup(&vpfe->notifier);
+-	v4l2_device_unregister(&vpfe->v4l2_dev);
+ 	video_unregister_device(&vpfe->video_dev);
++	v4l2_device_unregister(&vpfe->v4l2_dev);
  }
- EXPORT_SYMBOL_GPL(mccic_shutdown);
+ 
+ #ifdef CONFIG_PM_SLEEP
 -- 
 2.39.2
 
