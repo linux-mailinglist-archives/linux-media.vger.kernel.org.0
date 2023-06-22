@@ -2,222 +2,315 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1988A7397EC
-	for <lists+linux-media@lfdr.de>; Thu, 22 Jun 2023 09:12:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F4D6739CEB
+	for <lists+linux-media@lfdr.de>; Thu, 22 Jun 2023 11:28:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230444AbjFVHMp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Jun 2023 03:12:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37618 "EHLO
+        id S231723AbjFVJ2G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Jun 2023 05:28:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230390AbjFVHMo (ORCPT
+        with ESMTP id S231697AbjFVJ1h (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Jun 2023 03:12:44 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35EF71BD5;
-        Thu, 22 Jun 2023 00:12:42 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-51bebdc4787so181995a12.2;
-        Thu, 22 Jun 2023 00:12:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687417960; x=1690009960;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yEEz1N4+BSweLodIciDOwkHhZXsydRRIWfH217+phOg=;
-        b=RMb88+VG5HlFSeBWTVoKI30o0HAB+bw6QQwtqzkurLJMDDjZiSIx07+fxw9SgT1lWt
-         eiX2gZsB9vkFUX5/HcojhxveklMw5CxZeFv0csBkiMvZBKWbJUk1KYtu+KKCuE/LRYyG
-         IudtXNcS+Zue0W4XW/X6NVq/6SXvsM0D4FrLeqDxGggP9HIDBuKQeDhd9YW6/uR4Cf/a
-         cntdGz0n4k3UXDUUiXRTuvlDKaKzxefPp2DheEue/wE179wjRkMcg8ZXJg7R1nBknf4h
-         LlVNDlaf/duqbhqU+uH6FwPWVPgxRi4sN7uUfsjxTEDOrxjMNPsivgsP9O/gx+11wtcW
-         2mkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687417960; x=1690009960;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yEEz1N4+BSweLodIciDOwkHhZXsydRRIWfH217+phOg=;
-        b=YOLmfcF2S7ZyRvCTPozwPyxeN2eTCC9mFd0CGXhBpaY8c3+HRNKP9MLXDtVa719u6w
-         r143Zlop/wT3xCoI+yb/sX/ATQHXpU7f8I9gI+M3s2l8mcIc0elwVWSKqHqQoq+AbVWw
-         zuiP2Kf2UUc6mxl6Gn8jJFv+sd6MYDUYNPWV9bM1tyaOEABVHP+q9eS8QZQ5ACNizNL8
-         mWYCMseomdna6wX5bKL+0qfVwdOH5ZeozMdpMWsWl+mPGyLmgku9u4xAhaIuyU5uLOJ8
-         jtUQhFUJIa5a3aIM0K+BGCqFzX3mH7bYXKCd8gZlf+PFqwLamMO7VEPeXO50C0BZUBbv
-         F+5w==
-X-Gm-Message-State: AC+VfDzZdMOY6l8PEIzUSeCvj3J8oU4J9CxbYHMnjdwZ0G5U83L/9rpd
-        7Q8fPoiWVkPlN7ssnYcu0x3aWVzKIfGcIg==
-X-Google-Smtp-Source: ACHHUZ4LXiFyN0aLTZQNzmXiWCPGxKEtQnscCTtPpOAOPM3KBDCNK84whNa8vmKPKLKVOhH84C2eww==
-X-Received: by 2002:a17:907:98c:b0:982:8c28:c50d with SMTP id bf12-20020a170907098c00b009828c28c50dmr12957469ejc.58.1687417960570;
-        Thu, 22 Jun 2023 00:12:40 -0700 (PDT)
-Received: from [127.0.1.1] ([91.230.2.244])
-        by smtp.gmail.com with ESMTPSA id bq26-20020a170906d0da00b0096f5b48fe43sm4134923ejb.47.2023.06.22.00.12.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jun 2023 00:12:40 -0700 (PDT)
-From:   Benjamin Bara <bbara93@gmail.com>
-Date:   Thu, 22 Jun 2023 09:12:24 +0200
-Subject: [PATCH WIP RFC v2 2/2] media: i2c: imx290: Add support for
- V4L2_CID_VTOTAL
+        Thu, 22 Jun 2023 05:27:37 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DFB330E3;
+        Thu, 22 Jun 2023 02:18:33 -0700 (PDT)
+Received: from [IPV6:2a01:cb08:8af8:5b00:626e:5b8f:fa0f:ad38] (2a01cb088af85b00626e5b8ffa0fad38.ipv6.abo.wanadoo.fr [IPv6:2a01:cb08:8af8:5b00:626e:5b8f:fa0f:ad38])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: jmassot)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 4419A660706D;
+        Thu, 22 Jun 2023 10:18:31 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1687425511;
+        bh=Ib/XVk9MKhVAdq/PW9I6LfZTNNz9ldYe634L1da0PJE=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=cNGZJRWIJEJqj20bZ08SVZUQGVjovz0AjrSAbe2+zw9B5x++aWZED3bI4YQ1Tvn4a
+         ckWexvmoTd1VpynP1/gUXT6Tp+8joUzgHR4OBqgp3oTIKQnqWtgGeZlYxDCcivV/f+
+         VkTO16Pt3F2jWB9Zoj+c77GSkCfq5J1ajf/z3gygM2Fdll73jzVt4ZOEJkejSYVcBb
+         w5AwZD/p/ymfKdFFDHMBiI9jjPllwKkNz9iwmtdD8NWhNBJ9ghcPq6UxSmVyRg5HZy
+         rGI23lu0mqj0IPKJ9zfg3guCjFyIfICo8EAIqoRi1Lxr9/N/rupU6PT+i650gGjjRF
+         ff5rF/3/Ta00g==
+Message-ID: <512f54f5-60d5-db68-dce3-96cf70519b6c@collabora.com>
+Date:   Thu, 22 Jun 2023 11:18:28 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v7 00/13] CSI2RX support on J721E
+Content-Language: en-US
+To:     Vaishnav Achath <vaishnav.a@ti.com>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, mripard@kernel.org, mchehab@kernel.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com
+Cc:     linux-kernel@vger.kernel.org, bparrot@ti.com,
+        niklas.soderlund+renesas@ragnatech.se, j-luthra@ti.com,
+        devarsht@ti.com, praneeth@ti.com, u-kumar1@ti.com, vigneshr@ti.com,
+        nm@ti.com, martyn.welch@collabora.com,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+References: <20230314115516.667-1-vaishnav.a@ti.com>
+ <28707378-c4e7-38b6-48f5-63b0834c18c9@ideasonboard.com>
+From:   Julien Massot <julien.massot@collabora.com>
+In-Reply-To: <28707378-c4e7-38b6-48f5-63b0834c18c9@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230609-v4l2-vtotal-v2-2-cf29925f4517@skidata.com>
-References: <20230609-v4l2-vtotal-v2-0-cf29925f4517@skidata.com>
-In-Reply-To: <20230609-v4l2-vtotal-v2-0-cf29925f4517@skidata.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Manivannan Sadhasivam <mani@kernel.org>
-Cc:     laurent.pinchart@ideasonboard.com, jacopo.mondi@ideasonboard.com,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Benjamin Bara <benjamin.bara@skidata.com>
-X-Mailer: b4 0.12.2
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Benjamin Bara <benjamin.bara@skidata.com>
+Hi Vaishnav,
 
-The new V4L2_CID_VTOTAL control represents the VMAX register.
-Implementing it simplifies calculations in user space, as it is
-independent of the current mode (format height), meaning its value does
-not change with format changes.
+  On 14/03/2023 13:55, Vaishnav Achath wrote:
+> Hi,
+>
+> This series adds support for CSI2 capture on J721E. It includes some
+> fixes to the Cadence CSI2RX driver, and adds the TI CSI2RX wrapper 
+> driver.
+We are testing this patch series and experienced some strange behaviour,
+with the same sequence of 5-10 frames repeated over and over.
+(Almost the same sequence since frames have different md5sum)
 
-Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
+To solve this issue we had to forward port some functions from the TI 
+BSP Kernel[1] such as ti_csi2rx_restart_dma, and ti_csi2rx_drain_dma.
+
+Can you consider this issue for the next patchset version?
+
+Thank you,
+Julien
+
+
+Here are the modifications we made for information only.
+
 ---
- drivers/media/i2c/imx290.c | 47 ++++++++++++++++++++++++++++++++++------------
- 1 file changed, 35 insertions(+), 12 deletions(-)
+  .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 138 +++++++++++++++---
+  1 file changed, 117 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-index 5ea25b7acc55..42938400efb0 100644
---- a/drivers/media/i2c/imx290.c
-+++ b/drivers/media/i2c/imx290.c
-@@ -255,6 +255,7 @@ struct imx290 {
- 	struct v4l2_ctrl *link_freq;
- 	struct v4l2_ctrl *hblank;
- 	struct v4l2_ctrl *vblank;
-+	struct v4l2_ctrl *vtotal;
- 	struct v4l2_ctrl *exposure;
- 	struct {
- 		struct v4l2_ctrl *hflip;
-@@ -782,8 +783,7 @@ static void imx290_exposure_update(struct imx290 *imx290,
- {
- 	unsigned int exposure_max;
- 
--	exposure_max = imx290->vblank->val + mode->height -
--		       IMX290_EXPOSURE_OFFSET;
-+	exposure_max = imx290->vtotal->val - IMX290_EXPOSURE_OFFSET;
- 	__v4l2_ctrl_modify_range(imx290->exposure, 1, exposure_max, 1,
- 				 exposure_max);
- }
-@@ -794,7 +794,7 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
- 					     struct imx290, ctrls);
- 	const struct v4l2_mbus_framefmt *format;
- 	struct v4l2_subdev_state *state;
--	int ret = 0, vmax;
-+	int ret = 0;
- 
- 	/*
- 	 * Return immediately for controls that don't need to be applied to the
-@@ -803,10 +803,22 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
- 	if (ctrl->flags & V4L2_CTRL_FLAG_READ_ONLY)
- 		return 0;
- 
--	if (ctrl->id == V4L2_CID_VBLANK) {
--		/* Changing vblank changes the allowed range for exposure. */
-+	/* Changing vtotal changes the allowed range for exposure. */
-+	if (ctrl->id == V4L2_CID_VTOTAL)
- 		imx290_exposure_update(imx290, imx290->current_mode);
--	}
+diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c 
+b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+index 1af7b0b09cfc..e8579dbf07b4 100644
+--- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
++++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+@@ -46,6 +46,8 @@
+  #define MAX_WIDTH_BYTES			SZ_16K
+  #define MAX_HEIGHT_LINES		SZ_16K
+
++#define DRAIN_TIMEOUT_MS		50
 +
-+	/*
-+	 * vblank and vtotal depend on each other, therefore also update the
-+	 * other one.
-+	 */
-+	if (ctrl->id == V4L2_CID_VBLANK &&
-+	    imx290->vtotal->val != ctrl->val + imx290->current_mode->height)
-+		__v4l2_ctrl_s_ctrl(imx290->vtotal,
-+				   ctrl->val + imx290->current_mode->height);
-+	if (ctrl->id == V4L2_CID_VTOTAL &&
-+	    imx290->vblank->val != ctrl->val - imx290->current_mode->height)
-+		__v4l2_ctrl_s_ctrl(imx290->vblank,
-+				   ctrl->val - imx290->current_mode->height);
- 
- 	/* V4L2 controls values will be applied only when power is already up */
- 	if (!pm_runtime_get_if_in_use(imx290->dev))
-@@ -821,9 +833,14 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
- 		break;
- 
- 	case V4L2_CID_VBLANK:
--		ret = imx290_write(imx290, IMX290_VMAX,
--				   ctrl->val + imx290->current_mode->height,
--				   NULL);
-+		/* vblank is updated by vtotal. */
-+		break;
+  struct ti_csi2rx_fmt {
+  	u32				fourcc;	/* Four character code. */
+  	u32				code;	/* Mbus code. */
+@@ -498,6 +500,59 @@ static void ti_csi2rx_setup_shim(struct 
+ti_csi2rx_dev *csi)
+  	writel(reg, csi->shim + SHIM_PSI_CFG0);
+  }
+
++static void ti_csi2rx_drain_callback(void *param)
++{
++	struct completion *drain_complete = param;
 +
-+	case V4L2_CID_VTOTAL:
-+		ret = imx290_write(imx290, IMX290_VMAX, ctrl->val, NULL);
++	complete(drain_complete);
++}
++
++static int ti_csi2rx_drain_dma(struct ti_csi2rx_dev *csi)
++{
++	struct dma_async_tx_descriptor *desc;
++	struct device *dev = csi->dma.chan->device->dev;
++	struct completion drain_complete;
++	void *buf;
++	size_t len = csi->v_fmt.fmt.pix.sizeimage;
++	dma_addr_t addr;
++	dma_cookie_t cookie;
++	int ret;
++
++	init_completion(&drain_complete);
++
++	buf = dma_alloc_coherent(dev, len, &addr, GFP_KERNEL | GFP_ATOMIC);
++	if (!buf)
++		return -ENOMEM;
++
++	desc = dmaengine_prep_slave_single(csi->dma.chan, addr, len,
++					   DMA_DEV_TO_MEM,
++					   DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
++	if (!desc) {
++		ret = -EIO;
++		goto out;
++	}
++
++	desc->callback = ti_csi2rx_drain_callback;
++	desc->callback_param = &drain_complete;
++
++	cookie = dmaengine_submit(desc);
++	ret = dma_submit_error(cookie);
++	if (ret)
++		goto out;
++
++	dma_async_issue_pending(csi->dma.chan);
++
++	if (!wait_for_completion_timeout(&drain_complete,
++					 msecs_to_jiffies(DRAIN_TIMEOUT_MS))) {
++		dmaengine_terminate_sync(csi->dma.chan);
++		ret = -ETIMEDOUT;
++		goto out;
++	}
++out:
++	dma_free_coherent(dev, len, buf, addr);
++	return ret;
++}
++
+  static void ti_csi2rx_dma_callback(void *param)
+  {
+  	struct ti_csi2rx_buffer *buf = param;
+@@ -564,24 +619,61 @@ static int ti_csi2rx_start_dma(struct 
+ti_csi2rx_dev *csi,
+  }
+
+  static void ti_csi2rx_cleanup_buffers(struct ti_csi2rx_dev *csi,
+-				      enum vb2_buffer_state state)
++				      enum vb2_buffer_state buf_state)
+  {
+  	struct ti_csi2rx_dma *dma = &csi->dma;
+-	struct ti_csi2rx_buffer *buf = NULL, *tmp;
++	struct ti_csi2rx_buffer *buf = NULL, *tmp, *curr;;
++	enum ti_csi2rx_dma_state state;
+  	unsigned long flags;
++	int ret;
+
+  	spin_lock_irqsave(&dma->lock, flags);
+  	list_for_each_entry_safe(buf, tmp, &csi->dma.queue, list) {
+  		list_del(&buf->list);
+-		vb2_buffer_done(&buf->vb.vb2_buf, state);
++		vb2_buffer_done(&buf->vb.vb2_buf, buf_state);
+  	}
+
+-	if (dma->curr)
+-		vb2_buffer_done(&dma->curr->vb.vb2_buf, state);
+-
++	curr = csi->dma.curr;
++	state = csi->dma.state;
+  	dma->curr = NULL;
+  	dma->state = TI_CSI2RX_DMA_STOPPED;
+  	spin_unlock_irqrestore(&dma->lock, flags);
++
++	if (state != TI_CSI2RX_DMA_STOPPED) {
++		ret = ti_csi2rx_drain_dma(csi);
 +		if (ret)
-+			goto err;
++			dev_dbg(csi->dev,
++				"Failed to drain DMA. Next frame might be bogus\n");
++		dmaengine_terminate_sync(csi->dma.chan);
++	}
 +
- 		/*
- 		 * Due to the way that exposure is programmed in this sensor in
- 		 * relation to VMAX, we have to reprogramme it whenever VMAX is
-@@ -834,9 +851,8 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
- 		ctrl = imx290->exposure;
- 		fallthrough;
- 	case V4L2_CID_EXPOSURE:
--		vmax = imx290->vblank->val + imx290->current_mode->height;
- 		ret = imx290_write(imx290, IMX290_SHS1,
--				   vmax - ctrl->val - 1, NULL);
-+				   imx290->vtotal->val - ctrl->val - 1, NULL);
- 		break;
- 
- 	case V4L2_CID_TEST_PATTERN:
-@@ -880,6 +896,7 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
- 		break;
- 	}
- 
-+err:
- 	pm_runtime_mark_last_busy(imx290->dev);
- 	pm_runtime_put_autosuspend(imx290->dev);
- 
-@@ -911,11 +928,14 @@ static void imx290_ctrl_update(struct imx290 *imx290,
- 	unsigned int vblank_max = IMX290_VMAX_MAX - mode->height;
- 
- 	__v4l2_ctrl_s_ctrl(imx290->link_freq, mode->link_freq_index);
-+	__v4l2_ctrl_s_ctrl(imx290->vblank, imx290->vtotal->val - mode->height);
- 
- 	__v4l2_ctrl_modify_range(imx290->hblank, hblank_min, hblank_max, 1,
- 				 hblank_min);
- 	__v4l2_ctrl_modify_range(imx290->vblank, vblank_min, vblank_max, 1,
- 				 vblank_min);
-+	__v4l2_ctrl_modify_range(imx290->vtotal, mode->vmax_min,
-+				 IMX290_VMAX_MAX, 1, mode->vmax_min);
- }
- 
- static int imx290_ctrl_init(struct imx290 *imx290)
-@@ -947,7 +967,7 @@ static int imx290_ctrl_init(struct imx290 *imx290)
- 
- 	/*
- 	 * Correct range will be determined through imx290_ctrl_update setting
--	 * V4L2_CID_VBLANK.
-+	 * V4L2_CID_VTOTAL.
- 	 */
- 	imx290->exposure = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
- 					     V4L2_CID_EXPOSURE, 1, 65535, 1,
-@@ -983,6 +1003,9 @@ static int imx290_ctrl_init(struct imx290 *imx290)
- 
- 	imx290->vblank = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
- 					   V4L2_CID_VBLANK, 1, 1, 1, 1);
-+	imx290->vtotal = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
-+					   V4L2_CID_VTOTAL, 1, IMX290_VMAX_MAX,
-+					   1, 1);
- 
- 	imx290->hflip = v4l2_ctrl_new_std(&imx290->ctrls, &imx290_ctrl_ops,
- 					  V4L2_CID_HFLIP, 0, 1, 1, 0);
++	if (curr)
++		vb2_buffer_done(&curr->vb.vb2_buf, buf_state);
++}
++
++static int ti_csi2rx_restart_dma(struct ti_csi2rx_dev *csi,
++				 struct ti_csi2rx_buffer *buf)
++{
++	struct ti_csi2rx_dma *dma = &csi->dma;
++	unsigned long flags = 0;
++	int ret = 0;
++
++	ret = ti_csi2rx_drain_dma(csi);
++	if (ret)
++		dev_warn(csi->dev,
++			 "Failed to drain DMA. Next frame might be bogus\n");
++
++	ret = ti_csi2rx_start_dma(csi, buf);
++	if (ret) {
++		dev_err(csi->dev, "Failed to start DMA: %d\n", ret);
++		spin_lock_irqsave(&dma->lock, flags);
++		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
++		dma->curr = NULL;
++		dma->state = TI_CSI2RX_DMA_IDLE;
++		spin_unlock_irqrestore(&dma->lock, flags);
++	}
++
++	return ret;
+  }
+
+  static int ti_csi2rx_queue_setup(struct vb2_queue *q, unsigned int 
+*nbuffers,
+@@ -622,6 +714,7 @@ static void ti_csi2rx_buffer_queue(struct vb2_buffer 
+*vb)
+  	struct ti_csi2rx_dev *csi = vb2_get_drv_priv(vb->vb2_queue);
+  	struct ti_csi2rx_buffer *buf;
+  	struct ti_csi2rx_dma *dma = &csi->dma;
++	bool restart_dma = false;
+  	unsigned long flags = 0;
+  	int ret;
+
+@@ -634,21 +727,30 @@ static void ti_csi2rx_buffer_queue(struct 
+vb2_buffer *vb)
+  	 * But if DMA has stalled due to lack of buffers, restart it now.
+  	 */
+  	if (dma->state == TI_CSI2RX_DMA_IDLE) {
+-		ret = ti_csi2rx_start_dma(csi, buf);
+-		if (ret) {
+-			dev_err(csi->dev, "Failed to start DMA: %d\n", ret);
+-			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_QUEUED);
+-			goto unlock;
+-		}
+-
++		/*
++		 * Do not restart DMA with the lock held because
++		 * ti_csi2rx_drain_dma() might block when allocating a buffer.
++		 * There won't be a race on queueing DMA anyway since the
++		 * callback is not being fired.
++		 */
++		restart_dma = true;
+  		dma->curr = buf;
+  		dma->state = TI_CSI2RX_DMA_ACTIVE;
+  	} else {
+  		list_add_tail(&buf->list, &dma->queue);
+  	}
+-
+-unlock:
+  	spin_unlock_irqrestore(&dma->lock, flags);
++
++	if (restart_dma) {
++		/*
++		 * Once frames start dropping, some data gets stuck in the DMA
++		 * pipeline somewhere. So the first DMA transfer after frame
++		 * drops gives a partial frame. This is obviously not useful to
++		 * the application and will only confuse it. Issue a DMA
++		 * transaction to drain that up.
++		 */
++		ti_csi2rx_restart_dma(csi, buf);
++	}
+  }
+
+  static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned 
+int count)
+@@ -718,12 +820,6 @@ static void ti_csi2rx_stop_streaming(struct 
+vb2_queue *vq)
+
+  	writel(0, csi->shim + SHIM_CNTL);
+
+-	ret = dmaengine_terminate_sync(csi->dma.chan);
+-	if (ret)
+-		dev_err(csi->dev, "Failed to stop DMA: %d\n", ret);
+-
+-	writel(0, csi->shim + SHIM_DMACNTX);
+-
+  	ti_csi2rx_cleanup_buffers(csi, VB2_BUF_STATE_ERROR);
+  }
 
 -- 
-2.34.1
+2.41.0
 
+
+[1] TI BSP kernel : 
+https://git.ti.com/cgit/ti-linux-kernel/ti-linux-kernel/tree/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c?h=ti-linux-6.1.y-cicd
+
+-- 
+Julien Massot
+Senior Software Engineer
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
+Registered in England & Wales, no. 5513718
