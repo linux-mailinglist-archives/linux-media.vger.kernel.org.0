@@ -2,88 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF93873A078
-	for <lists+linux-media@lfdr.de>; Thu, 22 Jun 2023 14:03:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D50B73A196
+	for <lists+linux-media@lfdr.de>; Thu, 22 Jun 2023 15:14:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231327AbjFVMD5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Jun 2023 08:03:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55990 "EHLO
+        id S231579AbjFVNOB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Jun 2023 09:14:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231310AbjFVMDl (ORCPT
+        with ESMTP id S229437AbjFVNOA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Jun 2023 08:03:41 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44E8E2132
-        for <linux-media@vger.kernel.org>; Thu, 22 Jun 2023 05:03:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687435386; x=1718971386;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0fz1Fsf0ELy03TjoaVka/LKTd8jg9PeLbIBynBpZRMg=;
-  b=DqbKep5Qs2uhpxB3D9TrLvE8hEnyFi+EiU37ZAUa2RN18xyGSa/mepFe
-   Bb9MqoyJTtImFLSNMSt4gulLJGt9bJN6eyj6VJGDjKg71SjBoapc1Gaq/
-   VbfhL+a3kP9lIYkMG7e/RQmt9NRkTH5t4927uCI715sAU6lfpuCLHEWY1
-   arl1C2By7s9XJuwC6aJAPV0y3KS+MIOz9urAerBPYXIgPp+KgpIT9wHMA
-   QuqygyIYbzn1ksCNRi+mmvYgpyAQD1RUS+HfYDQ+GniqLn4xGF2cyS80U
-   2A0Oxc3rq0aYpJaSBnELVcf8c8+J2JWRnQvAi3AS+uypmRTdPWiXqURMZ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="345200362"
-X-IronPort-AV: E=Sophos;i="6.00,263,1681196400"; 
-   d="scan'208";a="345200362"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 05:02:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="827870341"
-X-IronPort-AV: E=Sophos;i="6.00,263,1681196400"; 
-   d="scan'208";a="827870341"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 05:02:11 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 3AD9C1202A4;
-        Thu, 22 Jun 2023 15:02:08 +0300 (EEST)
-Date:   Thu, 22 Jun 2023 12:02:08 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>, hverkuil@xs4all.nl,
-        Francesco Dolcini <francesco@dolcini.it>,
-        aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>, bingbu.cao@intel.com,
-        niklas.soderlund@ragnatech.se,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Sylvain Petinot <sylvain.petinot@foss.st.com>,
-        Eugen Hristev <eugen.hristev@collabora.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Dafna Hirschfeld <dafna@fastmail.com>,
-        Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Yong Deng <yong.deng@magewell.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Benoit Parrot <bparrot@ti.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Marco Felsch <m.felsch@pengutronix.de>
-Subject: Re: [RESEND PATCH v3 17/32] media: v4l: async: Rework internal lists
-Message-ID: <ZJQ4QPCBsAxG7RtL@kekkonen.localdomain>
-References: <20230525091615.2324824-1-sakari.ailus@linux.intel.com>
- <20230525091615.2324824-18-sakari.ailus@linux.intel.com>
- <20230530061153.GA6404@pendragon.ideasonboard.com>
+        Thu, 22 Jun 2023 09:14:00 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 317E210F8;
+        Thu, 22 Jun 2023 06:13:59 -0700 (PDT)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:7d72:676c:e745:a6ef])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 411256607115;
+        Thu, 22 Jun 2023 14:13:57 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1687439637;
+        bh=7Bj5hAoh3Iuvgs44g1/kDJV9XKTUPPQFWhuUxH1CfxU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=F/M4eSTFBa0RVdvd99Qfx5JodBeCZuvC5W+xcR2jfJ9AoPKorjPt4DR3Aom0jclX7
+         FOld3+gclSyEgJCEeZxnFr7DxjrvNjZSuM5JA+JEoVzLEZ10L9rxNHb4gDuWT7o7oL
+         1aXA2ccbTIZvNlNcCWQAhY2a/FgiXkmFhZZp1vHGUlK9CxDcI33Jh7u13bdfEXsoT2
+         YiSwiNniqrsZj9TjnZM9r6WDNMShGgadZI0PSMPFT17DwPmRsXnYNokP88lmzGB4MI
+         Xon5UQAYvyEJfN/ufvy+FqNaNus1SRDnaFK2nYpSgubd2ikSLAdz+i/wq7f2WUvHeg
+         tuMOaSBrPra+Q==
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To:     mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v3 00/11] Add DELETE_BUF ioctl
+Date:   Thu, 22 Jun 2023 15:13:38 +0200
+Message-Id: <20230622131349.144160-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230530061153.GA6404@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -91,39 +58,85 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Unlike when resolution change on keyframes, dynamic resolution change
+on inter frames doesn't allow to do a stream off/on sequence because
+it is need to keep all previous references alive to decode inter frames.
+This constraint have two main problems:
+- more memory consumption.
+- more buffers in use.
+To solve these issue this series introduce DELETE_BUF ioctl and remove
+the 32 buffers limit per queue.
 
-On Tue, May 30, 2023 at 09:11:53AM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> Thank you for the patch.
-> 
-> On Thu, May 25, 2023 at 12:16:00PM +0300, Sakari Ailus wrote:
-> > This patch re-arranges internal V4L2 async lists for preparation of
-> > supporting multiple connections per sub-device as well as cleaning up used
-> > lists.
-> > 
-> > The list of unbound V4L2 sub-devices is maintained for the purpose of
-> > listing those sub-devices only, not for their binding status. Also, the
-> > V4L2 async connections have a single list entry in the notifier's list, be
-> > that either waiting or done lists, while the notifier's asc_list is
-> > removed.
-> 
-> Please use the imperative style in commit messages. To me it's unclear
-> if "is" here refers to the status before or after this patch. I need a
-> clear description of what you're doing in order to check if the code
-> matches the intent. Guessing the intent from the code makes review more
-> difficult and less useful.
+VP9 conformance tests using fluster give a score of 210/305.
+The 25 resize inter tests (vp90-2-21-resize_inter_* files) are ok
+but require to use postprocessor.
 
-I'll reword this as:
+Kernel branch is available here:
+https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/remove_vb2_queue_limit_v3
 
-The list of unbound V4L2 sub-devices shall be maintained for the purpose of
-listing those sub-devices only, not for their bindin status. Also, the V4L2
-async connections now have, instead of two list entries, a single list
-entry in the notifier's list, be that either waiting or done lists, while
-the notifier's asc_list is removed.
+GStreamer branch to use DELETE_BUF ioctl and testing dynamic resolution
+change is here:
+https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/commits/VP9_drc
+
+changes in version 3:
+- Use Xarray API to store allocated video buffers.
+- No module parameter to limit the number of buffer per queue.
+- Use Xarray inside Verisilicon driver to store postprocessor buffers
+  and remove VB2_MAX_FRAME limit.
+- Allow Versilicon driver to change of resolution while streaming
+- Various fixes the Verisilicon VP9 code to improve fluster score.
+ 
+changes in version 2:
+- Use a dynamic array and not a list to keep trace of allocated buffers.
+  Not use IDR interface because it is marked as deprecated in kernel
+  documentation.
+- Add a module parameter to limit the number of buffer per queue.
+- Add DELETE_BUF ioctl and m2m helpers.
+
+Benjamin Gaignard (11):
+  media: videobuf2: Access vb2_queue bufs array through helper functions
+  media: videobuf2: Use Xarray instead of static buffers array
+  media: videobuf2: Remove VB2_MAX_FRAME limit on buffer storage
+  media: videobuf2: Stop define VB2_MAX_FRAME as global
+  media: verisilicon: Refactor postprocessor to store more buffers
+  media: verisilicon: Store chroma and motion vectors offset
+  media: verisilicon: vp9: Use destination buffer height to compute
+    chroma offset
+  media: verisilicon: postproc: Fix down scale test
+  media: verisilicon: vp9: Allow to change resolution while streaming
+  media: v4l2: Add DELETE_BUF ioctl
+  media: v4l2: Add mem2mem helpers for DELETE_BUF ioctl
+
+ .../userspace-api/media/v4l/user-func.rst     |   1 +
+ .../media/v4l/vidioc-delete-buf.rst           |  51 ++++
+ .../media/common/videobuf2/videobuf2-core.c   | 275 ++++++++++++++----
+ .../media/common/videobuf2/videobuf2-v4l2.c   |  34 ++-
+ drivers/media/platform/amphion/vdec.c         |   1 +
+ drivers/media/platform/amphion/vpu_dbg.c      |  22 +-
+ .../platform/mediatek/jpeg/mtk_jpeg_core.c    |   6 +-
+ .../vcodec/vdec/vdec_vp9_req_lat_if.c         |   4 +-
+ drivers/media/platform/qcom/venus/hfi.h       |   2 +
+ drivers/media/platform/st/sti/hva/hva-v4l2.c  |   4 +
+ drivers/media/platform/verisilicon/hantro.h   |   8 +-
+ .../platform/verisilicon/hantro_g2_vp9_dec.c  |  10 +-
+ .../media/platform/verisilicon/hantro_hw.h    |   4 +-
+ .../platform/verisilicon/hantro_postproc.c    | 114 +++++---
+ .../media/platform/verisilicon/hantro_v4l2.c  |  37 +--
+ drivers/media/test-drivers/vim2m.c            |   1 +
+ drivers/media/test-drivers/visl/visl-dec.c    |  28 +-
+ drivers/media/v4l2-core/v4l2-dev.c            |   1 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  10 +
+ drivers/media/v4l2-core/v4l2-mem2mem.c        |  20 ++
+ .../staging/media/atomisp/pci/atomisp_ioctl.c |   2 +-
+ drivers/staging/media/ipu3/ipu3-v4l2.c        |   2 +
+ include/media/v4l2-ioctl.h                    |   4 +
+ include/media/v4l2-mem2mem.h                  |  12 +
+ include/media/videobuf2-core.h                |  16 +-
+ include/media/videobuf2-v4l2.h                |  15 +-
+ include/uapi/linux/videodev2.h                |   2 +
+ 27 files changed, 523 insertions(+), 163 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/vidioc-delete-buf.rst
 
 -- 
-Kind regards,
+2.39.2
 
-Sakari Ailus
