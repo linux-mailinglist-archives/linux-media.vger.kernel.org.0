@@ -2,172 +2,215 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 113C273BC71
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jun 2023 18:21:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4143573C284
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jun 2023 23:20:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229464AbjFWQVl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Jun 2023 12:21:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39522 "EHLO
+        id S232850AbjFWVUE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Jun 2023 17:20:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229509AbjFWQVj (ORCPT
+        with ESMTP id S232937AbjFWVTo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Jun 2023 12:21:39 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 352522133
-        for <linux-media@vger.kernel.org>; Fri, 23 Jun 2023 09:21:37 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-3fa70ec8d17so19369155e9.1
-        for <linux-media@vger.kernel.org>; Fri, 23 Jun 2023 09:21:37 -0700 (PDT)
+        Fri, 23 Jun 2023 17:19:44 -0400
+X-Greylist: delayed 211 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 23 Jun 2023 14:18:49 PDT
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 095473A9A;
+        Fri, 23 Jun 2023 14:18:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687537295; x=1690129295;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=s66CMFI3pxYY1rtYgcyJdXI802GvMkDoIKZwY+RkMlI=;
-        b=cI2KnYSqgIOoakdI/3f3XO2RXeuD/j4SZ+Ef8O749EjrPtDd/n0MH7RNPJcHxw053c
-         4JdpeIlNC7TpplMXPqOmMqBD3+PMKQQrQq+AOXCR0ZTi8Kbwt+s7w9WNH3jhjopgWmYV
-         zu3hG0fGwJSLWfCsFEJMoOnURlCxD9vd/C/XXhD9Q4M9G3OqhE0DaaRIev6wXTgOmJEv
-         7Als6e875b5lKxYnsW8VGgc6aKrzW+uqioLMDoFU0YFpuAcyKGB4qaFY7/vsg9BnV7jW
-         A7qgkj/eMpFVsYgkXaIPyhH5yvCSC7oRFh/FXYZ42gSz+q1caVNTsXqeekNQnKSO25Ok
-         a0bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687537295; x=1690129295;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=s66CMFI3pxYY1rtYgcyJdXI802GvMkDoIKZwY+RkMlI=;
-        b=DTs5XYVVrouTgpp95RJXHsVnpaKD/vLqEMgzwocjjxJsU0McNp0iEIcLky3Y9SvVWu
-         o0iUVFnO8MjaRtxeg8XdHnBaWxYSuyKeEhNPR+KbES1QLtn5xQsa4yP1aGrisfERTFrR
-         9BG0Vm+cSkTe/8rjViCfn/SjwVkaEI8MtZ/oWmC6pKXQTO4NquNfaSd/cnVkW6hf3bGX
-         DMDfh1VN3kciyrrjq0zPnt7lavKToZnMK7X0PINgkplj0afq9aW79l7J2TYAOXsjnLDO
-         Q06XI/rO60HsUejmPjv+F0vTR/3gi/ktze3cSLE6BipPbdAJdtCx+poJhGKTQxPgeNBS
-         M/OQ==
-X-Gm-Message-State: AC+VfDyeHqyG0nvb56QqQW+DemPjo5n23jojmjECKeNX9bIjG1UbFBP+
-        HaB9Q5+fuYuqqeA65zgpzwNmfw==
-X-Google-Smtp-Source: ACHHUZ5vUrAy2DIbSp5wbwuXEk164vw3cptb3GXQkvceDrMBht3gEh9SIMUtT4+I0MV7m7y+bP5L7A==
-X-Received: by 2002:a1c:7705:0:b0:3f9:6f7:9d7d with SMTP id t5-20020a1c7705000000b003f906f79d7dmr17403667wmi.0.1687537295609;
-        Fri, 23 Jun 2023 09:21:35 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.26])
-        by smtp.gmail.com with ESMTPSA id 14-20020a05600c024e00b003f50d6ee334sm2726014wmj.47.2023.06.23.09.21.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Jun 2023 09:21:35 -0700 (PDT)
-Message-ID: <6af2faf2-8624-948b-6efa-3bf00695293b@linaro.org>
-Date:   Fri, 23 Jun 2023 18:21:31 +0200
+  d=inria.fr; s=dc;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=yokMEiNdELJzyHFQdE73QSq1qzFaQMznhY0/hFJPXdI=;
+  b=PQ1b0Em2N9AUVeD/LpbU+ZN+rhktTH+Y6Q7VDw8Cf3pNA0l+BtcyhZxn
+   ojeRsFjGxDD8u0+Y/YOKGSuPFSO6phFB8O6SWqeWn+vMMRvPryqL5bt/o
+   lImhNqRZeaTWVm1/g7h+gT/Zhi5gA6YeaCo8RJpx27aob7O1b3mfST+O1
+   0=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.01,153,1684792800"; 
+   d="scan'208";a="59686157"
+Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2023 23:15:09 +0200
+From:   Julia Lawall <Julia.Lawall@inria.fr>
+To:     linux-staging@lists.linux.dev
+Cc:     keescook@chromium.org, kernel-janitors@vger.kernel.org,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>, linux-sgx@vger.kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        kasan-dev@googlegroups.com,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>, iommu@lists.linux.dev,
+        linux-tegra@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
+        Krishna Reddy <vdumpa@nvidia.com>, linux-scsi@vger.kernel.org,
+        linux-rdma@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        Shailend Chand <shailend@google.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <jstultz@google.com>, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org,
+        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+        virtualization@lists.linux-foundation.org, mhi@lists.linux.dev,
+        linux-arm-msm@vger.kernel.org, linux-btrfs@vger.kernel.org,
+        intel-gvt-dev@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org,
+        VMware Graphics Reviewers 
+        <linux-graphics-maintainer@vmware.com>,
+        linux-hyperv@vger.kernel.org
+Subject: [PATCH 00/26] use array_size
+Date:   Fri, 23 Jun 2023 23:14:31 +0200
+Message-Id: <20230623211457.102544-1-Julia.Lawall@inria.fr>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v3 3/6] media: dt-bindings: mediatek,vcodec: Remove
- VDEC_SYS for mt8183
-To:     =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
-        <nfraprado@collabora.com>
-Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>, kernel@collabora.com,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mediatek@lists.infradead.org
-References: <20230620000349.2122191-1-nfraprado@collabora.com>
- <20230620000349.2122191-4-nfraprado@collabora.com>
- <8b5e4a9b-7496-02a1-d3b6-a0be8ea85798@linaro.org>
- <a82b7f2d-04d4-4ac0-9a72-ad1c17118e19@notapiano>
- <cb2dd67a-d3df-f194-6595-789d12b38f3d@linaro.org>
- <6b41c5e4-bae9-4c99-8a28-7272c8a598a3@notapiano>
- <9c36cdbb-7204-f9ca-6191-88e0f0f71915@linaro.org>
- <132ec056-2186-4be5-9770-4d8c4d07bd76@notapiano>
-Content-Language: en-US
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <132ec056-2186-4be5-9770-4d8c4d07bd76@notapiano>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 21/06/2023 20:00, Nícolas F. R. A. Prado wrote:
->>
->> But anyway this variant comes with some set of regs and reg-names. Other
->> variant comes with different set. In all cases they should be defined,
->> even by "defined" means not allowed.
-> 
-> I'm not sure what you mean. Are you suggesting to disable reg-names on mt8173?
+Use array_size to protect against multiplication overflows.
 
-That's one of the options if for some reason you don't want to define them.
+This follows up on the following patches by Kees Cook from 2018.
 
-> 
->>
->>>
->>> But in a separate series we could drop vdecsys from mt8173's reg as well,
->>> passing it as a syscon instead, which would solve the warning on that platform,
->>> though some more driver changes would be needed to be able to handle it for that
->>> SoC. The newer SoCs like mt8192, mt8195, etc, should also get vdecsys dropped
->>> from their regs to have a correct memory description.
->>>
->>
->> Sure, but I don't understand how does it affect defining and making
->> specific regs/reg-names or keeping them loose.
-> 
-> We need some way to tell in the driver whether the first reg is VDEC_SYS or not.
-> Since so far reg-names have not been used for the vcodec, the simplest, and
-> cleanest, way to do it, is to add reg-names when VDEC_SYS is not present. When
-> the other SoCs are updated to no longer have the first reg as VDEC_SYS, they
-> would also have reg-names added to their binding, to clearly indicate that.
+42bc47b35320 ("treewide: Use array_size() in vmalloc()")
+fad953ce0b22 ("treewide: Use array_size() in vzalloc()")
 
-Don't use reg-names for that. The order of entries is anyway strict.
+The changes were done using the following Coccinelle semantic patch,
+adapted from the one posted by Kees.
 
-> 
-> For example, for mt8173 we currently have
-> 
-> 		vcodec_dec: vcodec@16000000 {
-> 			compatible = "mediatek,mt8173-vcodec-dec";
-> 			reg = <0 0x16000000 0 0x100>,	/* VDEC_SYS */
-> 			      <0 0x16020000 0 0x1000>,	/* VDEC_MISC */
-> 			      <0 0x16021000 0 0x800>,	/* VDEC_LD */
-> 			      <0 0x16021800 0 0x800>,	/* VDEC_TOP */
-> 			      <0 0x16022000 0 0x1000>,	/* VDEC_CM */
-> 			      <0 0x16023000 0 0x1000>,	/* VDEC_AD */
-> 			      <0 0x16024000 0 0x1000>,	/* VDEC_AV */
-> 			      <0 0x16025000 0 0x1000>,	/* VDEC_PP */
-> 			      <0 0x16026800 0 0x800>,	/* VDEC_HWD */
-> 			      <0 0x16027000 0 0x800>,	/* VDEC_HWQ */
-> 			      <0 0x16027800 0 0x800>,	/* VDEC_HWB */
-> 			      <0 0x16028400 0 0x400>;	/* VDEC_HWG */
-> 
-> In a future series, when removing VDEC_SYS from it, it would become
-> 
-> 		vcodec_dec: vcodec@16020000 {
-> 			compatible = "mediatek,mt8173-vcodec-dec";
-> 			reg = <0 0x16020000 0 0x1000>,	/* VDEC_MISC */
-> 			      <0 0x16021000 0 0x800>,	/* VDEC_LD */
-> 			      <0 0x16021800 0 0x800>,	/* VDEC_TOP */
-> 			      <0 0x16022000 0 0x1000>,	/* VDEC_CM */
-> 			      <0 0x16023000 0 0x1000>,	/* VDEC_AD */
-> 			      <0 0x16024000 0 0x1000>,	/* VDEC_AV */
-> 			      <0 0x16025000 0 0x1000>,	/* VDEC_PP */
-> 			      <0 0x16026800 0 0x800>,	/* VDEC_HWD */
-> 			      <0 0x16027000 0 0x800>,	/* VDEC_HWQ */
-> 			      <0 0x16027800 0 0x800>,	/* VDEC_HWB */
-> 			      <0 0x16028400 0 0x400>;	/* VDEC_HWG */
-> 			reg-names = "misc", "ld", "top", "cm", "ad", "av", "pp",
->                                     "hwd", "hwq", "hwb", "hwg";
+// Drop single-byte sizes and redundant parens.
+@@
+    expression COUNT;
+    typedef u8;
+    typedef __u8;
+    type t = {u8,__u8,char,unsigned char};
+    identifier alloc = {vmalloc,vzalloc};
+@@
+      alloc(
+-           (sizeof(t)) * (COUNT)
++           COUNT
+      , ...)
 
-So you want to use reg-names to avoid ABI break. This is not the reason
-not to define reg-names for other case.
+// 3-factor product with 2 sizeof(variable), with redundant parens removed.
+@@
+    expression COUNT;
+    size_t e1, e2, e3;
+    identifier alloc = {vmalloc,vzalloc};
+@@
+
+(    
+      alloc(
+-           (e1) * (e2) * (e3)
++           array3_size(e1, e2, e3)
+      ,...)
+|
+      alloc(
+-           (e1) * (e2) * (COUNT)
++           array3_size(COUNT, e1, e2)
+      ,...)
+)
+
+// 3-factor product with 1 sizeof(type) or sizeof(expression), with
+// redundant parens removed.
+@@
+    expression STRIDE, COUNT;
+    size_t e;
+    identifier alloc = {vmalloc,vzalloc};
+@@
+
+      alloc(
+-           (e) * (COUNT) * (STRIDE)
++           array3_size(COUNT, STRIDE, e)
+      ,...)
+
+// Any remaining multi-factor products, first at least 3-factor products
+// when they're not all constants...
+@@
+    expression E1, E2, E3;
+    constant C1, C2, C3;
+    identifier alloc = {vmalloc,vzalloc};
+@@
+    
+(
+      alloc(C1 * C2 * C3,...)
+|
+      alloc(
+-           (E1) * (E2) * (E3)
++           array3_size(E1, E2, E3)
+      ,...)
+)
+
+// 2-factor product with sizeof(type/expression) and identifier or constant.
+@@
+    size_t e1,e2;
+    expression COUNT;
+    identifier alloc = {vmalloc,vzalloc};
+@@
+
+(
+      alloc(
+-           (e1) * (e2)
++           array_size(e1, e2)
+      ,...)
+|
+      alloc(
+-           (e1) * (COUNT)
++           array_size(COUNT, e1)
+      ,...)
+)
+    
+// And then all remaining 2 factors products when they're not all constants.
+@@
+    expression E1, E2;
+    constant C1, C2;
+    identifier alloc = {vmalloc,vzalloc};
+@@
+    
+(
+      alloc(C1 * C2,...)
+|
+      alloc(
+-           (E1) * (E2)
++           array_size(E1, E2)
+      ,...)
+)
 
 
+---
 
-Best regards,
-Krzysztof
-
+ arch/x86/kernel/cpu/sgx/main.c                    |    3 ++-
+ drivers/accel/habanalabs/common/device.c          |    3 ++-
+ drivers/accel/habanalabs/common/state_dump.c      |    6 +++---
+ drivers/bus/mhi/host/init.c                       |    4 ++--
+ drivers/comedi/comedi_buf.c                       |    4 ++--
+ drivers/dma-buf/heaps/system_heap.c               |    2 +-
+ drivers/gpu/drm/gud/gud_pipe.c                    |    2 +-
+ drivers/gpu/drm/i915/gvt/gtt.c                    |    6 ++++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.c           |    2 +-
+ drivers/infiniband/hw/bnxt_re/qplib_res.c         |    4 ++--
+ drivers/infiniband/hw/erdma/erdma_verbs.c         |    4 ++--
+ drivers/infiniband/sw/siw/siw_qp.c                |    4 ++--
+ drivers/infiniband/sw/siw/siw_verbs.c             |    6 +++---
+ drivers/iommu/tegra-gart.c                        |    4 ++--
+ drivers/net/ethernet/amd/pds_core/core.c          |    4 ++--
+ drivers/net/ethernet/freescale/enetc/enetc.c      |    4 ++--
+ drivers/net/ethernet/google/gve/gve_tx.c          |    2 +-
+ drivers/net/ethernet/marvell/octeon_ep/octep_rx.c |    2 +-
+ drivers/net/ethernet/microsoft/mana/hw_channel.c  |    2 +-
+ drivers/net/ethernet/pensando/ionic/ionic_lif.c   |    4 ++--
+ drivers/scsi/fnic/fnic_trace.c                    |    2 +-
+ drivers/scsi/qla2xxx/qla_init.c                   |    4 ++--
+ drivers/staging/media/ipu3/ipu3-mmu.c             |    2 +-
+ drivers/vdpa/vdpa_user/iova_domain.c              |    3 +--
+ drivers/virtio/virtio_mem.c                       |    6 +++---
+ fs/btrfs/zoned.c                                  |    5 +++--
+ kernel/kcov.c                                     |    2 +-
+ lib/test_vmalloc.c                                |   12 ++++++------
+ 28 files changed, 56 insertions(+), 52 deletions(-)
