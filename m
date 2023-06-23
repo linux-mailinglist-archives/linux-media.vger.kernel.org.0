@@ -2,117 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 15F6173BBE1
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jun 2023 17:41:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 113C273BC71
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jun 2023 18:21:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232644AbjFWPlc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Jun 2023 11:41:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51026 "EHLO
+        id S229464AbjFWQVl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Jun 2023 12:21:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232626AbjFWPla (ORCPT
+        with ESMTP id S229509AbjFWQVj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Jun 2023 11:41:30 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C90462135
-        for <linux-media@vger.kernel.org>; Fri, 23 Jun 2023 08:41:24 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1qCiuF-0005nd-N4; Fri, 23 Jun 2023 17:41:03 +0200
-Received: from mfe by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1qCiuE-0007FL-Eg; Fri, 23 Jun 2023 17:41:02 +0200
-Date:   Fri, 23 Jun 2023 17:41:02 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Gerald Loacker <gerald.loacker@wolfvision.net>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Mikhail Rudenko <mike.rudenko@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Vincent Shih <vincent.sunplus@gmail.com>,
-        Mark Brown <broonie@kernel.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: Re: [PATCH] media: tc358746: select CONFIG_GENERIC_PHY
-Message-ID: <20230623154102.gjyorfxpzvbnfa4y@pengutronix.de>
-References: <20230623152318.2276816-1-arnd@kernel.org>
+        Fri, 23 Jun 2023 12:21:39 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 352522133
+        for <linux-media@vger.kernel.org>; Fri, 23 Jun 2023 09:21:37 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-3fa70ec8d17so19369155e9.1
+        for <linux-media@vger.kernel.org>; Fri, 23 Jun 2023 09:21:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1687537295; x=1690129295;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=s66CMFI3pxYY1rtYgcyJdXI802GvMkDoIKZwY+RkMlI=;
+        b=cI2KnYSqgIOoakdI/3f3XO2RXeuD/j4SZ+Ef8O749EjrPtDd/n0MH7RNPJcHxw053c
+         4JdpeIlNC7TpplMXPqOmMqBD3+PMKQQrQq+AOXCR0ZTi8Kbwt+s7w9WNH3jhjopgWmYV
+         zu3hG0fGwJSLWfCsFEJMoOnURlCxD9vd/C/XXhD9Q4M9G3OqhE0DaaRIev6wXTgOmJEv
+         7Als6e875b5lKxYnsW8VGgc6aKrzW+uqioLMDoFU0YFpuAcyKGB4qaFY7/vsg9BnV7jW
+         A7qgkj/eMpFVsYgkXaIPyhH5yvCSC7oRFh/FXYZ42gSz+q1caVNTsXqeekNQnKSO25Ok
+         a0bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687537295; x=1690129295;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=s66CMFI3pxYY1rtYgcyJdXI802GvMkDoIKZwY+RkMlI=;
+        b=DTs5XYVVrouTgpp95RJXHsVnpaKD/vLqEMgzwocjjxJsU0McNp0iEIcLky3Y9SvVWu
+         o0iUVFnO8MjaRtxeg8XdHnBaWxYSuyKeEhNPR+KbES1QLtn5xQsa4yP1aGrisfERTFrR
+         9BG0Vm+cSkTe/8rjViCfn/SjwVkaEI8MtZ/oWmC6pKXQTO4NquNfaSd/cnVkW6hf3bGX
+         DMDfh1VN3kciyrrjq0zPnt7lavKToZnMK7X0PINgkplj0afq9aW79l7J2TYAOXsjnLDO
+         Q06XI/rO60HsUejmPjv+F0vTR/3gi/ktze3cSLE6BipPbdAJdtCx+poJhGKTQxPgeNBS
+         M/OQ==
+X-Gm-Message-State: AC+VfDyeHqyG0nvb56QqQW+DemPjo5n23jojmjECKeNX9bIjG1UbFBP+
+        HaB9Q5+fuYuqqeA65zgpzwNmfw==
+X-Google-Smtp-Source: ACHHUZ5vUrAy2DIbSp5wbwuXEk164vw3cptb3GXQkvceDrMBht3gEh9SIMUtT4+I0MV7m7y+bP5L7A==
+X-Received: by 2002:a1c:7705:0:b0:3f9:6f7:9d7d with SMTP id t5-20020a1c7705000000b003f906f79d7dmr17403667wmi.0.1687537295609;
+        Fri, 23 Jun 2023 09:21:35 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.26])
+        by smtp.gmail.com with ESMTPSA id 14-20020a05600c024e00b003f50d6ee334sm2726014wmj.47.2023.06.23.09.21.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 23 Jun 2023 09:21:35 -0700 (PDT)
+Message-ID: <6af2faf2-8624-948b-6efa-3bf00695293b@linaro.org>
+Date:   Fri, 23 Jun 2023 18:21:31 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230623152318.2276816-1-arnd@kernel.org>
-User-Agent: NeoMutt/20180716
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v3 3/6] media: dt-bindings: mediatek,vcodec: Remove
+ VDEC_SYS for mt8183
+To:     =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
+        <nfraprado@collabora.com>
+Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>, kernel@collabora.com,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+References: <20230620000349.2122191-1-nfraprado@collabora.com>
+ <20230620000349.2122191-4-nfraprado@collabora.com>
+ <8b5e4a9b-7496-02a1-d3b6-a0be8ea85798@linaro.org>
+ <a82b7f2d-04d4-4ac0-9a72-ad1c17118e19@notapiano>
+ <cb2dd67a-d3df-f194-6595-789d12b38f3d@linaro.org>
+ <6b41c5e4-bae9-4c99-8a28-7272c8a598a3@notapiano>
+ <9c36cdbb-7204-f9ca-6191-88e0f0f71915@linaro.org>
+ <132ec056-2186-4be5-9770-4d8c4d07bd76@notapiano>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <132ec056-2186-4be5-9770-4d8c4d07bd76@notapiano>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Arnd,
+On 21/06/2023 20:00, Nícolas F. R. A. Prado wrote:
+>>
+>> But anyway this variant comes with some set of regs and reg-names. Other
+>> variant comes with different set. In all cases they should be defined,
+>> even by "defined" means not allowed.
+> 
+> I'm not sure what you mean. Are you suggesting to disable reg-names on mt8173?
 
-thanks for the patch.
+That's one of the options if for some reason you don't want to define them.
 
-On 23-06-23, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> The tc358746 driver selects CONFIG_GENERIC_PHY_MIPI_DPHY and links to
-> that, but this fails when CONFIG_GENERIC_PHY is disabled, because Kbuild
-> then never enters the drivers/phy directory for building object files:
+>>
+>>>
+>>> But in a separate series we could drop vdecsys from mt8173's reg as well,
+>>> passing it as a syscon instead, which would solve the warning on that platform,
+>>> though some more driver changes would be needed to be able to handle it for that
+>>> SoC. The newer SoCs like mt8192, mt8195, etc, should also get vdecsys dropped
+>>> from their regs to have a correct memory description.
+>>>
+>>
+>> Sure, but I don't understand how does it affect defining and making
+>> specific regs/reg-names or keeping them loose.
 > 
-> ERROR: modpost: "phy_mipi_dphy_get_default_config_for_hsclk" [drivers/media/i2c/tc358746.ko] undefined!
-> 
-> Add an explicit 'select GENERIC_PHY' here to ensure that the directory
-> is entered, and add another dependency on that symbol so make it
-> more obvious what is going on if another driver has the same problem,
-> as this will produce a Kconfig warning.
-> 
-> Fixes: 80a21da360516 ("media: tc358746: add Toshiba TC358746 Parallel to CSI-2 bridge driver")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> We need some way to tell in the driver whether the first reg is VDEC_SYS or not.
+> Since so far reg-names have not been used for the vcodec, the simplest, and
+> cleanest, way to do it, is to add reg-names when VDEC_SYS is not present. When
+> the other SoCs are updated to no longer have the first reg as VDEC_SYS, they
+> would also have reg-names added to their binding, to clearly indicate that.
 
-Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
+Don't use reg-names for that. The order of entries is anyway strict.
 
-> ---
->  drivers/media/i2c/Kconfig | 1 +
->  drivers/phy/Kconfig       | 1 +
->  2 files changed, 2 insertions(+)
 > 
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index cf675ac4b1326..226454b6a90dd 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -1305,6 +1305,7 @@ config VIDEO_TC358746
->  	select VIDEO_V4L2_SUBDEV_API
->  	select MEDIA_CONTROLLER
->  	select V4L2_FWNODE
-> +	select GENERIC_PHY
->  	select GENERIC_PHY_MIPI_DPHY
->  	select REGMAP_I2C
->  	help
-> diff --git a/drivers/phy/Kconfig b/drivers/phy/Kconfig
-> index f46e3148d286d..8dba9596408f2 100644
-> --- a/drivers/phy/Kconfig
-> +++ b/drivers/phy/Kconfig
-> @@ -18,6 +18,7 @@ config GENERIC_PHY
->  
->  config GENERIC_PHY_MIPI_DPHY
->  	bool
-> +	depends on GENERIC_PHY
->  	help
->  	  Generic MIPI D-PHY support.
->  
-> -- 
-> 2.39.2
+> For example, for mt8173 we currently have
 > 
+> 		vcodec_dec: vcodec@16000000 {
+> 			compatible = "mediatek,mt8173-vcodec-dec";
+> 			reg = <0 0x16000000 0 0x100>,	/* VDEC_SYS */
+> 			      <0 0x16020000 0 0x1000>,	/* VDEC_MISC */
+> 			      <0 0x16021000 0 0x800>,	/* VDEC_LD */
+> 			      <0 0x16021800 0 0x800>,	/* VDEC_TOP */
+> 			      <0 0x16022000 0 0x1000>,	/* VDEC_CM */
+> 			      <0 0x16023000 0 0x1000>,	/* VDEC_AD */
+> 			      <0 0x16024000 0 0x1000>,	/* VDEC_AV */
+> 			      <0 0x16025000 0 0x1000>,	/* VDEC_PP */
+> 			      <0 0x16026800 0 0x800>,	/* VDEC_HWD */
+> 			      <0 0x16027000 0 0x800>,	/* VDEC_HWQ */
+> 			      <0 0x16027800 0 0x800>,	/* VDEC_HWB */
+> 			      <0 0x16028400 0 0x400>;	/* VDEC_HWG */
 > 
+> In a future series, when removing VDEC_SYS from it, it would become
+> 
+> 		vcodec_dec: vcodec@16020000 {
+> 			compatible = "mediatek,mt8173-vcodec-dec";
+> 			reg = <0 0x16020000 0 0x1000>,	/* VDEC_MISC */
+> 			      <0 0x16021000 0 0x800>,	/* VDEC_LD */
+> 			      <0 0x16021800 0 0x800>,	/* VDEC_TOP */
+> 			      <0 0x16022000 0 0x1000>,	/* VDEC_CM */
+> 			      <0 0x16023000 0 0x1000>,	/* VDEC_AD */
+> 			      <0 0x16024000 0 0x1000>,	/* VDEC_AV */
+> 			      <0 0x16025000 0 0x1000>,	/* VDEC_PP */
+> 			      <0 0x16026800 0 0x800>,	/* VDEC_HWD */
+> 			      <0 0x16027000 0 0x800>,	/* VDEC_HWQ */
+> 			      <0 0x16027800 0 0x800>,	/* VDEC_HWB */
+> 			      <0 0x16028400 0 0x400>;	/* VDEC_HWG */
+> 			reg-names = "misc", "ld", "top", "cm", "ad", "av", "pp",
+>                                     "hwd", "hwq", "hwb", "hwg";
+
+So you want to use reg-names to avoid ABI break. This is not the reason
+not to define reg-names for other case.
+
+
+
+Best regards,
+Krzysztof
+
