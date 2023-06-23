@@ -2,47 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 90F6173C28B
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jun 2023 23:20:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D631873C2A5
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jun 2023 23:21:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231954AbjFWVUg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Jun 2023 17:20:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50704 "EHLO
+        id S232986AbjFWVVv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Jun 2023 17:21:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233083AbjFWVUA (ORCPT
+        with ESMTP id S232861AbjFWVVV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Jun 2023 17:20:00 -0400
+        Fri, 23 Jun 2023 17:21:21 -0400
 Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6390F4214
-        for <linux-media@vger.kernel.org>; Fri, 23 Jun 2023 14:19:06 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C77B63A8B
+        for <linux-media@vger.kernel.org>; Fri, 23 Jun 2023 14:20:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=inria.fr; s=dc;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=v1C6X9Yx4yVXOAdKb8gSIcJ1cJexwLFD0Mhp8hyTXpM=;
-  b=ibGdS6fGsGhc/uttTGaoiJpbUVLv1dQE53RQlyqWPi8I8jYsjA4QPhsG
-   69vuLyA1lvbPNf9DFQ9xV+59969GQRIT64vAPf+BtV5VoJBI5MAp5KGAg
-   4j/AIfruYXqvPQ99dB1Q5fqTn+WPSuJXNvhdtCBICTm1jBC06qptZY2WA
-   c=;
+  bh=W1WB9Wb0BvRRcBkbSVITYF4i4Xscr+EN0kvgwOJ6wOs=;
+  b=WmG/JpBrM0La8Q7SPsscDO+9vwp6o00kURhYuE4MeUme0ls/EvAKTJhY
+   mp+BcN1WhFW8+h7eRAujDv59DBrIbAx6oxgu581730TSsqjI0R/hG8vwc
+   R2wBhiJozXLBTfyUjGNSc07qmFKw/jr6X7BSNFOgHP2+n6nDAix+z1p0U
+   Q=;
 Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
 X-IronPort-AV: E=Sophos;i="6.01,153,1684792800"; 
-   d="scan'208";a="59686164"
+   d="scan'208";a="59686181"
 Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2023 23:15:10 +0200
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2023 23:15:14 +0200
 From:   Julia Lawall <Julia.Lawall@inria.fr>
-To:     Sumit Semwal <sumit.semwal@linaro.org>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     keescook@chromium.org, kernel-janitors@vger.kernel.org,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <jstultz@google.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 06/26] dma-buf: system_heap: use array_size
-Date:   Fri, 23 Jun 2023 23:14:37 +0200
-Message-Id: <20230623211457.102544-7-Julia.Lawall@inria.fr>
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 23/26] media: staging: imgu: use array_size
+Date:   Fri, 23 Jun 2023 23:14:54 +0200
+Message-Id: <20230623211457.102544-24-Julia.Lawall@inria.fr>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20230623211457.102544-1-Julia.Lawall@inria.fr>
 References: <20230623211457.102544-1-Julia.Lawall@inria.fr>
@@ -64,20 +62,17 @@ The changes were done using the following Coccinelle semantic patch:
 
 // <smpl>
 @@
-    size_t e1,e2;
-    expression COUNT;
-    identifier alloc = {vmalloc,vzalloc,kvmalloc,kvzalloc};
+    expression E1, E2;
+    constant C1, C2;
+    identifier alloc = {vmalloc,vzalloc};
 @@
-
+    
 (
-      alloc(
--           (e1) * (e2)
-+           array_size(e1, e2)
-      ,...)
+      alloc(C1 * C2,...)
 |
       alloc(
--           (e1) * (COUNT)
-+           array_size(COUNT, e1)
+-           (E1) * (E2)
++           array_size(E1, E2)
       ,...)
 )
 // </smpl>
@@ -85,20 +80,20 @@ The changes were done using the following Coccinelle semantic patch:
 Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
 
 ---
- drivers/dma-buf/heaps/system_heap.c |    2 +-
+ drivers/staging/media/ipu3/ipu3-mmu.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index ee7059399e9c..fb7867599874 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -221,7 +221,7 @@ static void *system_heap_do_vmap(struct system_heap_buffer *buffer)
- {
- 	struct sg_table *table = &buffer->sg_table;
- 	int npages = PAGE_ALIGN(buffer->len) / PAGE_SIZE;
--	struct page **pages = vmalloc(sizeof(struct page *) * npages);
-+	struct page **pages = vmalloc(array_size(npages, sizeof(struct page *)));
- 	struct page **tmp = pages;
- 	struct sg_page_iter piter;
- 	void *vaddr;
+diff --git a/drivers/staging/media/ipu3/ipu3-mmu.c b/drivers/staging/media/ipu3/ipu3-mmu.c
+index cb9bf5fb29a5..9c4adb815c94 100644
+--- a/drivers/staging/media/ipu3/ipu3-mmu.c
++++ b/drivers/staging/media/ipu3/ipu3-mmu.c
+@@ -464,7 +464,7 @@ struct imgu_mmu_info *imgu_mmu_init(struct device *parent, void __iomem *base)
+ 	 * Allocate the array of L2PT CPU pointers, initialized to zero,
+ 	 * which means the dummy L2PT allocated above.
+ 	 */
+-	mmu->l2pts = vzalloc(IPU3_PT_PTES * sizeof(*mmu->l2pts));
++	mmu->l2pts = vzalloc(array_size(IPU3_PT_PTES, sizeof(*mmu->l2pts)));
+ 	if (!mmu->l2pts)
+ 		goto fail_l2pt;
+ 
 
