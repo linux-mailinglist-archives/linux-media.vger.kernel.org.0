@@ -2,260 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C86EA73BAE2
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jun 2023 16:57:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79E9C73BB50
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jun 2023 17:13:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232098AbjFWO5X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Jun 2023 10:57:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50050 "EHLO
+        id S232622AbjFWPNR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Jun 2023 11:13:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232344AbjFWO4w (ORCPT
+        with ESMTP id S231501AbjFWPMI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Jun 2023 10:56:52 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBBE62136;
-        Fri, 23 Jun 2023 07:56:40 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BDB8DD5F;
-        Fri, 23 Jun 2023 16:56:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1687532161;
-        bh=qlSeLA7AwsNcc+6RnyaobyYnL725JuzygrXuObFz9hg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Z34FGxc7qciJD0E/UZeHg8UHHtzVNzTeQlVRfaNKxIMJ+JTb6kLAPiRuG/4ZVek83
-         3hBBcwoKZahlBaKNwloSONRo4fj48lTVq6eXu+R6CqRGbqg8vyNdowssKBjCDS3AOg
-         tQ6p4XRYlGMgAEX47gw2bpB4nWVf/fo1kaOI0DXM=
-Date:   Fri, 23 Jun 2023 17:56:37 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 02/39] media: uapi: Add MEDIA_BUS_FMT_RGB666_2X9 variants
-Message-ID: <20230623145637.GF2112@pendragon.ideasonboard.com>
-References: <cover.1687423204.git.geert+renesas@glider.be>
- <97fc74f2eaee860d1ed215c43193a0e36d014d42.1687423204.git.geert+renesas@glider.be>
+        Fri, 23 Jun 2023 11:12:08 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D88232116;
+        Fri, 23 Jun 2023 08:11:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687533079; x=1719069079;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Rx5rxTjZywE9SSTSseHg/Sc6c4OWkUAeUcWp+yPZTQ4=;
+  b=H9NUY+Yp+d81csGjoJSguOlub4eGXQFFvjdNNYHZVXM7BZ41MzuXRZZX
+   JGPHTBNjT8+hGLHZ6ZAjT432exRgIDd3VJeCvCqhJSMFxGUQU0XGNT974
+   l3UOaIVZeC7bgvujMpD6kH+OpoALuh/nvKov0Teve4k6P6gyO7WRTd9xG
+   SluNp47UzuRbPiJchme6x8xyUZMjeIXlm9xyCUjcuevp051csKoybaTK/
+   Ww6TR9IpKG+LkFUEvvEdCu/XoOMZQdq/0GnoIJ0JWzgvnd1TUOE6nlLwu
+   EQ/KziXOQcpjEWdQZBdv1rM7zLzO2K7E22wdptoc6st6v53yd7Gb6abEW
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10750"; a="345540975"
+X-IronPort-AV: E=Sophos;i="6.01,152,1684825200"; 
+   d="scan'208";a="345540975"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2023 08:11:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10750"; a="889506053"
+X-IronPort-AV: E=Sophos;i="6.01,152,1684825200"; 
+   d="scan'208";a="889506053"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 23 Jun 2023 08:11:11 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qCiRK-0008Lr-15;
+        Fri, 23 Jun 2023 15:11:10 +0000
+Date:   Fri, 23 Jun 2023 23:10:54 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com
+Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: Re: [PATCH v3 01/11] media: videobuf2: Access vb2_queue bufs array
+ through helper functions
+Message-ID: <202306232218.dOcWboPB-lkp@intel.com>
+References: <20230622131349.144160-2-benjamin.gaignard@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <97fc74f2eaee860d1ed215c43193a0e36d014d42.1687423204.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20230622131349.144160-2-benjamin.gaignard@collabora.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Geert,
+Hi Benjamin,
 
-Thank you for the patch.
+kernel test robot noticed the following build errors:
 
-On Thu, Jun 22, 2023 at 11:21:14AM +0200, Geert Uytterhoeven wrote:
-> Add the RGB666 9:9 formats MEDIA_BUS_FMT_RGB666_2X9_BE and
-> MEDIA_BUS_FMT_RGB666_2X9_LE.  The former is supported by the SH-Mobile
-> LCD Controller.
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on linus/master v6.4-rc7 next-20230623]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-If MEDIA_BUS_FMT_RGB666_2X9_LE isn't supported, I'd leave it out for
-now. It can be added later once a driver needs it.
+url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Access-vb2_queue-bufs-array-through-helper-functions/20230622-214122
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230622131349.144160-2-benjamin.gaignard%40collabora.com
+patch subject: [PATCH v3 01/11] media: videobuf2: Access vb2_queue bufs array through helper functions
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230623/202306232218.dOcWboPB-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230623/202306232218.dOcWboPB-lkp@intel.com/reproduce)
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306232218.dOcWboPB-lkp@intel.com/
 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: linux-media@vger.kernel.org
-> ---
->  .../media/v4l/subdev-formats.rst              | 144 ++++++++++++++++++
->  include/uapi/linux/media-bus-format.h         |   4 +-
->  2 files changed, 147 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> index a3a35eeed70846ba..4bbcdec101384cb1 100644
-> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> @@ -949,6 +949,150 @@ The following tables list existing packed RGB formats.
->        - b\ :sub:`2`
->        - b\ :sub:`1`
->        - b\ :sub:`0`
-> +    * .. _MEDIA-BUS-FMT-RGB666-2X9-BE:
-> +
-> +      - MEDIA_BUS_FMT_RGB666_2X9_BE
-> +      - 0x1025
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      - r\ :sub:`5`
-> +      - r\ :sub:`4`
-> +      - r\ :sub:`3`
-> +      - r\ :sub:`2`
-> +      - r\ :sub:`1`
-> +      - r\ :sub:`0`
-> +      - g\ :sub:`5`
-> +      - g\ :sub:`4`
-> +      - g\ :sub:`3`
-> +    * -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      - g\ :sub:`2`
-> +      - g\ :sub:`1`
-> +      - g\ :sub:`0`
-> +      - b\ :sub:`5`
-> +      - b\ :sub:`4`
-> +      - b\ :sub:`3`
-> +      - b\ :sub:`2`
-> +      - b\ :sub:`1`
-> +      - b\ :sub:`0`
-> +    * .. _MEDIA-BUS-FMT-RGB666-2X9-LE:
-> +
-> +      - MEDIA_BUS_FMT_RGB666_2X9_LE
-> +      - 0x1026
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      - g\ :sub:`2`
-> +      - g\ :sub:`1`
-> +      - g\ :sub:`0`
-> +      - b\ :sub:`5`
-> +      - b\ :sub:`4`
-> +      - b\ :sub:`3`
-> +      - b\ :sub:`2`
-> +      - b\ :sub:`1`
-> +      - b\ :sub:`0`
-> +    * -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      - r\ :sub:`5`
-> +      - r\ :sub:`4`
-> +      - r\ :sub:`3`
-> +      - r\ :sub:`2`
-> +      - r\ :sub:`1`
-> +      - r\ :sub:`0`
-> +      - g\ :sub:`5`
-> +      - g\ :sub:`4`
-> +      - g\ :sub:`3`
->      * .. _MEDIA-BUS-FMT-BGR666-1X18:
->  
->        - MEDIA_BUS_FMT_BGR666_1X18
-> diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
-> index a03c543cb072de30..07105f530400511e 100644
-> --- a/include/uapi/linux/media-bus-format.h
-> +++ b/include/uapi/linux/media-bus-format.h
-> @@ -34,7 +34,7 @@
->  
->  #define MEDIA_BUS_FMT_FIXED			0x0001
->  
-> -/* RGB - next is	0x1025 */
-> +/* RGB - next is	0x1027 */
->  #define MEDIA_BUS_FMT_RGB444_1X12		0x1016
->  #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE	0x1001
->  #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE	0x1002
-> @@ -46,6 +46,8 @@
->  #define MEDIA_BUS_FMT_RGB565_2X8_BE		0x1007
->  #define MEDIA_BUS_FMT_RGB565_2X8_LE		0x1008
->  #define MEDIA_BUS_FMT_RGB666_1X18		0x1009
-> +#define MEDIA_BUS_FMT_RGB666_2X9_BE		0x1025
-> +#define MEDIA_BUS_FMT_RGB666_2X9_LE		0x1026
->  #define MEDIA_BUS_FMT_BGR666_1X18		0x1023
->  #define MEDIA_BUS_FMT_RBG888_1X24		0x100e
->  #define MEDIA_BUS_FMT_RGB666_1X24_CPADHI	0x1015
+All errors (new ones prefixed by >>):
+
+   drivers/staging/media/atomisp/pci/atomisp_ioctl.c: In function 'atomisp_dqbuf_wrapper':
+>> drivers/staging/media/atomisp/pci/atomisp_ioctl.c:1080:33: error: incompatible type for argument 1 of 'vb2_get_buffer'
+    1080 |         vb = vb2_get_buffer(pipe->vb_queue, buf->index);
+         |                             ~~~~^~~~~~~~~~
+         |                                 |
+         |                                 struct vb2_queue
+   In file included from include/media/videobuf2-v4l2.h:16,
+                    from drivers/staging/media/atomisp//pci/ia_css_frame_public.h:23,
+                    from drivers/staging/media/atomisp/pci/sh_css_legacy.h:22,
+                    from drivers/staging/media/atomisp/pci/atomisp_internal.h:34,
+                    from drivers/staging/media/atomisp/pci/atomisp_cmd.h:30,
+                    from drivers/staging/media/atomisp/pci/atomisp_ioctl.c:27:
+   include/media/videobuf2-core.h:1239:67: note: expected 'struct vb2_queue *' but argument is of type 'struct vb2_queue'
+    1239 | static inline struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q,
+         |                                                 ~~~~~~~~~~~~~~~~~~^
+
+
+vim +/vb2_get_buffer +1080 drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+
+  1065	
+  1066	static int atomisp_dqbuf_wrapper(struct file *file, void *fh, struct v4l2_buffer *buf)
+  1067	{
+  1068		struct video_device *vdev = video_devdata(file);
+  1069		struct atomisp_video_pipe *pipe = atomisp_to_video_pipe(vdev);
+  1070		struct atomisp_sub_device *asd = pipe->asd;
+  1071		struct atomisp_device *isp = video_get_drvdata(vdev);
+  1072		struct ia_css_frame *frame;
+  1073		struct vb2_buffer *vb;
+  1074		int ret;
+  1075	
+  1076		ret = vb2_ioctl_dqbuf(file, fh, buf);
+  1077		if (ret)
+  1078			return ret;
+  1079	
+> 1080		vb = vb2_get_buffer(pipe->vb_queue, buf->index);
+  1081		frame = vb_to_frame(vb);
+  1082	
+  1083		buf->reserved = asd->frame_status[buf->index];
+  1084	
+  1085		/*
+  1086		 * Hack:
+  1087		 * Currently frame_status in the enum type which takes no more lower
+  1088		 * 8 bit.
+  1089		 * use bit[31:16] for exp_id as it is only in the range of 1~255
+  1090		 */
+  1091		buf->reserved &= 0x0000ffff;
+  1092		if (!(buf->flags & V4L2_BUF_FLAG_ERROR))
+  1093			buf->reserved |= frame->exp_id;
+  1094		buf->reserved2 = pipe->frame_config_id[buf->index];
+  1095	
+  1096		dev_dbg(isp->dev,
+  1097			"dqbuf buffer %d (%s) with exp_id %d, isp_config_id %d\n",
+  1098			buf->index, vdev->name, buf->reserved >> 16, buf->reserved2);
+  1099		return 0;
+  1100	}
+  1101	
 
 -- 
-Regards,
-
-Laurent Pinchart
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
