@@ -2,100 +2,220 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4079C73AEB9
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jun 2023 04:42:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41CFA73B041
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jun 2023 07:46:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230008AbjFWCmh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Jun 2023 22:42:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51076 "EHLO
+        id S230042AbjFWFqa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Jun 2023 01:46:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229685AbjFWCmg (ORCPT
+        with ESMTP id S229961AbjFWFq1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Jun 2023 22:42:36 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6F271FD2
-        for <linux-media@vger.kernel.org>; Thu, 22 Jun 2023 19:42:34 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 81B1D6192D
-        for <linux-media@vger.kernel.org>; Fri, 23 Jun 2023 02:42:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9555CC433C8
-        for <linux-media@vger.kernel.org>; Fri, 23 Jun 2023 02:42:33 +0000 (UTC)
-Date:   Fri, 23 Jun 2023 04:42:31 +0200
-Message-ID: <d9ab8ace92644eacb0d08fbcaec98767.hverkuil@xs4all.nl>
-From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        Fri, 23 Jun 2023 01:46:27 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1450F268C
+        for <linux-media@vger.kernel.org>; Thu, 22 Jun 2023 22:46:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687499162; x=1719035162;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8GNiX3M77PVeymdNW0lw2a6lhQqDnRvS7gvXn3WLmq8=;
+  b=IusvaS+n/a9KbDnJVvxhe4vsVuQPiFt4Fskhd9y+4baU0khsn0m413U6
+   UG2HpnCQ2u4z+sqUYVEuse84cgxIyGtfn7DAM9Ys5i0GrfwMmjPyeg+Ll
+   MmkDIZdjq/0thAlmRTpFG/3s98pFltWn8iSpZ8fKNMfeeDA/uJKEGX+o7
+   rvFJM8CLUaT0nhcb5VzPM7x+3R5olhMywmaIMi6se7JJSPqjRZ6YcvIen
+   ItDp88X7K+JpHiC5TT/HI5kIDQlpgeujQhORUVeWbF2d6BuYlncSWviQ5
+   OCvjfFyURTER3WwPLuqMogd7Oy5RRY+3luQIDHdb7R1wvZuklBrixB4JZ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="426678377"
+X-IronPort-AV: E=Sophos;i="6.01,151,1684825200"; 
+   d="scan'208";a="426678377"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 22:46:00 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="749662464"
+X-IronPort-AV: E=Sophos;i="6.01,151,1684825200"; 
+   d="scan'208";a="749662464"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 22 Jun 2023 22:45:59 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qCZcM-000817-0y;
+        Fri, 23 Jun 2023 05:45:58 +0000
+Date:   Fri, 23 Jun 2023 13:45:46 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linux-media@vger.kernel.org
+Subject: [sailus-media-tree:master 57/58]
+ include/media/v4l2-subdev.h:1159:25: error: no member named 'entity' in
+ 'struct v4l2_subdev'
+Message-ID: <202306231315.r0N0wLfe-lkp@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HEXHASH_WORD,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+Hi Sakari,
 
-Results of the daily build of media_tree:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-date:			Fri Jun 23 03:00:05 CEST 2023
-media-tree git hash:	d78b9d6671decdaedb539635b1d0a34f8f5934f8
-v4l-utils git hash:	16e70e28584c3462b4a0745266cecc39d1fbb945
-edid-decode git hash:	a31e680438789d45207497bf999a20cf6e2c0ec1
-gcc version:		i686-linux-gcc (GCC) 13.1.0
-sparse repo:            git://git.kernel.org/pub/scm/devel/sparse/sparse.git
-sparse version:		v0.6.4-39-gce1a6720-dirty
-smatch repo:            git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8371-g475c3cec-dirty
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 7a744dc9cad9c3f99a9946a1027df30d84d663fb
-host hardware:		x86_64
-host os:		6.1.0-5-amd64
+tree:   git://linuxtv.org/sailus/media_tree.git master
+head:   e03cd35afd1787dc8daadbd61ad47da455bc76eb
+commit: 8e18f69a26469c79a76acf172967833adb89c55e [57/58] media: i2c: Select V4L2_FWNODE and VIDEO_V4L2_SUBDEV_API for sensors
+config: i386-randconfig-i014-20230623 (https://download.01.org/0day-ci/archive/20230623/202306231315.r0N0wLfe-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230623/202306231315.r0N0wLfe-lkp@intel.com/reproduce)
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: WARNINGS
-linux-git-arm-multi: WARNINGS
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-i686: WARNINGS
-linux-git-x86_64: WARNINGS
-Check COMPILE_TEST: WARNINGS: VIDEOBUF_VMALLOC VIDEOBUF_DMA_CONTIG
-Check for strcpy/strncpy/strlcpy: OK
-apps: WARNINGS
-spec-git: OK
-virtme: WARNINGS: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 4
-CONFIG_PM=n: OK
-CONFIG_PM_SLEEP=n: WARNINGS
-CONFIG_OF=n: WARNINGS
-CONFIG_DEBUG_FS=n: WARNINGS
-sparse: WARNINGS
-smatch: ERRORS
-kerneldoc: WARNINGS
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306231315.r0N0wLfe-lkp@intel.com/
 
-Detailed results are available here:
+All error/warnings (new ones prefixed by >>):
 
-https://hverkuil.home.xs4all.nl/logs/Friday.log
+   In file included from drivers/media/v4l2-core/tuner-core.c:30:
+   In file included from include/media/tuner.h:14:
+   In file included from include/media/v4l2-mc.h:15:
+>> include/media/v4l2-subdev.h:1159:25: error: no member named 'entity' in 'struct v4l2_subdev'
+           if (WARN_ON(pad >= sd->entity.num_pads))
+                              ~~  ^
+   include/asm-generic/bug.h:122:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on = !!(condition);                              \
+                                  ^~~~~~~~~
+   In file included from drivers/media/v4l2-core/tuner-core.c:30:
+   In file included from include/media/tuner.h:14:
+   In file included from include/media/v4l2-mc.h:15:
+   include/media/v4l2-subdev.h:1179:25: error: no member named 'entity' in 'struct v4l2_subdev'
+           if (WARN_ON(pad >= sd->entity.num_pads))
+                              ~~  ^
+   include/asm-generic/bug.h:122:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on = !!(condition);                              \
+                                  ^~~~~~~~~
+   In file included from drivers/media/v4l2-core/tuner-core.c:30:
+   In file included from include/media/tuner.h:14:
+   In file included from include/media/v4l2-mc.h:15:
+   include/media/v4l2-subdev.h:1199:25: error: no member named 'entity' in 'struct v4l2_subdev'
+           if (WARN_ON(pad >= sd->entity.num_pads))
+                              ~~  ^
+   include/asm-generic/bug.h:122:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on = !!(condition);                              \
+                                  ^~~~~~~~~
+   3 errors generated.
+--
+   In file included from drivers/media/v4l2-core/v4l2-subdev.c:23:
+   In file included from include/media/v4l2-device.h:13:
+>> include/media/v4l2-subdev.h:1159:25: error: no member named 'entity' in 'struct v4l2_subdev'
+           if (WARN_ON(pad >= sd->entity.num_pads))
+                              ~~  ^
+   include/asm-generic/bug.h:122:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on = !!(condition);                              \
+                                  ^~~~~~~~~
+   In file included from drivers/media/v4l2-core/v4l2-subdev.c:23:
+   In file included from include/media/v4l2-device.h:13:
+   include/media/v4l2-subdev.h:1179:25: error: no member named 'entity' in 'struct v4l2_subdev'
+           if (WARN_ON(pad >= sd->entity.num_pads))
+                              ~~  ^
+   include/asm-generic/bug.h:122:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on = !!(condition);                              \
+                                  ^~~~~~~~~
+   In file included from drivers/media/v4l2-core/v4l2-subdev.c:23:
+   In file included from include/media/v4l2-device.h:13:
+   include/media/v4l2-subdev.h:1199:25: error: no member named 'entity' in 'struct v4l2_subdev'
+           if (WARN_ON(pad >= sd->entity.num_pads))
+                              ~~  ^
+   include/asm-generic/bug.h:122:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on = !!(condition);                              \
+                                  ^~~~~~~~~
+>> drivers/media/v4l2-core/v4l2-subdev.c:55:10: error: call to undeclared function '__v4l2_subdev_state_alloc'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+           state = __v4l2_subdev_state_alloc(sd, "fh->state->lock", &key);
+                   ^
+>> drivers/media/v4l2-core/v4l2-subdev.c:55:8: error: incompatible integer to pointer conversion assigning to 'struct v4l2_subdev_state *' from 'int' [-Wint-conversion]
+           state = __v4l2_subdev_state_alloc(sd, "fh->state->lock", &key);
+                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/v4l2-core/v4l2-subdev.c:66:2: error: call to undeclared function '__v4l2_subdev_state_free'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+           __v4l2_subdev_state_free(fh->state);
+           ^
+>> drivers/media/v4l2-core/v4l2-subdev.c:91:32: error: no member named 'entity' in 'struct v4l2_subdev'
+           if (sd->v4l2_dev->mdev && sd->entity.graph_obj.mdev->dev) {
+                                     ~~  ^
+   drivers/media/v4l2-core/v4l2-subdev.c:94:15: error: no member named 'entity' in 'struct v4l2_subdev'
+                   owner = sd->entity.graph_obj.mdev->dev->driver->owner;
+                           ~~  ^
+>> drivers/media/v4l2-core/v4l2-subdev.c:179:8: error: call to undeclared function 'v4l2_subdev_state_get_stream_format'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+                   if (!v4l2_subdev_state_get_stream_format(state, pad, stream))
+                        ^
+   drivers/media/v4l2-core/v4l2-subdev.c:179:8: note: did you mean 'v4l2_subdev_get_pad_format'?
+   include/media/v4l2-subdev.h:1153:1: note: 'v4l2_subdev_get_pad_format' declared here
+   v4l2_subdev_get_pad_format(struct v4l2_subdev *sd,
+   ^
+>> drivers/media/v4l2-core/v4l2-subdev.c:504:9: error: call to undeclared function 'v4l2_subdev_get_unlocked_active_state'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+                                v4l2_subdev_get_unlocked_active_state(sd);
+                                ^
+>> drivers/media/v4l2-core/v4l2-subdev.c:502:41: warning: pointer/integer type mismatch in conditional expression ('struct v4l2_subdev_state *' and 'int') [-Wconditional-type-mismatch]
+           return which == V4L2_SUBDEV_FORMAT_TRY ?
+                                                  ^
+   drivers/media/v4l2-core/v4l2-subdev.c:899:39: error: no member named 'entity' in 'struct v4l2_subdev'
+                           const struct media_pad *pads = sd->entity.pads;
+                                                          ~~  ^
+   drivers/media/v4l2-core/v4l2-subdev.c:905:31: error: no member named 'entity' in 'struct v4l2_subdev'
+                           if (route->sink_pad >= sd->entity.num_pads)
+                                                  ~~  ^
+   drivers/media/v4l2-core/v4l2-subdev.c:912:33: error: no member named 'entity' in 'struct v4l2_subdev'
+                           if (route->source_pad >= sd->entity.num_pads)
+                                                    ~~  ^
+>> drivers/media/v4l2-core/v4l2-subdev.c:979:4: error: call to undeclared function 'v4l2_subdev_lock_state'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+                           v4l2_subdev_lock_state(state);
+                           ^
+>> drivers/media/v4l2-core/v4l2-subdev.c:984:4: error: call to undeclared function 'v4l2_subdev_unlock_state'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+                           v4l2_subdev_unlock_state(state);
+                           ^
+   1 warning and 15 errors generated.
 
-Detailed regression test results are available here:
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
+   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=y] && MEDIA_CONTROLLER [=n]
+   Selected by [y]:
+   - VIDEO_CAMERA_SENSOR [=y] && MEDIA_SUPPORT [=y] && VIDEO_DEV [=y] && MEDIA_CAMERA_SUPPORT [=y]
 
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-dmesg.log
 
-Full logs are available here:
+vim +1159 include/media/v4l2-subdev.h
 
-https://hverkuil.home.xs4all.nl/logs/Friday.tar.bz2
+02679876b74d26 Mauro Carvalho Chehab 2017-12-19  1143  
+02679876b74d26 Mauro Carvalho Chehab 2017-12-19  1144  /**
+2f91838c3b717b Tomi Valkeinen        2022-04-12  1145   * v4l2_subdev_get_pad_format - ancillary routine to call
+02679876b74d26 Mauro Carvalho Chehab 2017-12-19  1146   *	&struct v4l2_subdev_pad_config->try_fmt
+02679876b74d26 Mauro Carvalho Chehab 2017-12-19  1147   *
+02679876b74d26 Mauro Carvalho Chehab 2017-12-19  1148   * @sd: pointer to &struct v4l2_subdev
+0d346d2a6f54f0 Tomi Valkeinen        2021-06-10  1149   * @state: pointer to &struct v4l2_subdev_state
+0d346d2a6f54f0 Tomi Valkeinen        2021-06-10  1150   * @pad: index of the pad in the &struct v4l2_subdev_state->pads array
+02679876b74d26 Mauro Carvalho Chehab 2017-12-19  1151   */
+8ecbde62c063d7 Hans Verkuil          2020-07-17  1152  static inline struct v4l2_mbus_framefmt *
+2f91838c3b717b Tomi Valkeinen        2022-04-12  1153  v4l2_subdev_get_pad_format(struct v4l2_subdev *sd,
+0d346d2a6f54f0 Tomi Valkeinen        2021-06-10  1154  			   struct v4l2_subdev_state *state,
+ab9bb73a066459 Mauro Carvalho Chehab 2017-12-19  1155  			   unsigned int pad)
+ab9bb73a066459 Mauro Carvalho Chehab 2017-12-19  1156  {
+2ba3e38517f5a4 Sakari Ailus          2022-08-26  1157  	if (WARN_ON(!state))
+2ba3e38517f5a4 Sakari Ailus          2022-08-26  1158  		return NULL;
+ab9bb73a066459 Mauro Carvalho Chehab 2017-12-19 @1159  	if (WARN_ON(pad >= sd->entity.num_pads))
+ab9bb73a066459 Mauro Carvalho Chehab 2017-12-19  1160  		pad = 0;
+0d346d2a6f54f0 Tomi Valkeinen        2021-06-10  1161  	return &state->pads[pad].try_fmt;
+7cd5a16b22af7d Stanimir Varbanov     2010-05-21  1162  }
+7cd5a16b22af7d Stanimir Varbanov     2010-05-21  1163  
 
-The Media Infrastructure API from this daily build is here:
+:::::: The code at line 1159 was first introduced by commit
+:::::: ab9bb73a0664595b76bb6e4a7ae10064aa58379f media: v4l2-subdev: get rid of __V4L2_SUBDEV_MK_GET_TRY() macro
 
-https://hverkuil.home.xs4all.nl/spec/index.html
+:::::: TO: Mauro Carvalho Chehab <mchehab@s-opensource.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@s-opensource.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
