@@ -2,129 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2664E73CAAD
-	for <lists+linux-media@lfdr.de>; Sat, 24 Jun 2023 14:03:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CAB3673CB74
+	for <lists+linux-media@lfdr.de>; Sat, 24 Jun 2023 16:52:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229559AbjFXMDI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 24 Jun 2023 08:03:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45156 "EHLO
+        id S231916AbjFXOwp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 24 Jun 2023 10:52:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbjFXMDH (ORCPT
+        with ESMTP id S229445AbjFXOwp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 24 Jun 2023 08:03:07 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B8D1116
-        for <linux-media@vger.kernel.org>; Sat, 24 Jun 2023 05:03:04 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1qD1yh-0004QA-Ft; Sat, 24 Jun 2023 14:02:55 +0200
-Message-ID: <d34ed005-730a-a985-663f-48671ec15a94@leemhuis.info>
-Date:   Sat, 24 Jun 2023 14:02:54 +0200
+        Sat, 24 Jun 2023 10:52:45 -0400
+Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.196])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AFA47E56;
+        Sat, 24 Jun 2023 07:52:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=1ZSFg
+        IwAdkqH7N1HARcWbHynu04UbnWZF0dHrxv5TFE=; b=clZDSTXXOe1roNMml2F4c
+        0lkMYMEJANi7FzkxBOjJtyLTExgu4Zo+3xPnFGT+pOjbkTpwS+arNAYvie8AXHJA
+        G3Djnzn2U0G33Pr8Id02IdMsSg+BOT8M6s0HvcOkpcilannIeFetr9y+/7acENZW
+        VH0VHZsVBsEeFeDQ/seBoo=
+Received: from leanderwang-LC2.localdomain (unknown [111.206.145.21])
+        by zwqz-smtp-mta-g1-2 (Coremail) with SMTP id _____wBXizjPApdkbk0WAw--.46043S2;
+        Sat, 24 Jun 2023 22:50:55 +0800 (CST)
+From:   Zheng Wang <zyytlz.wz@163.com>
+To:     Kyrie.Wu@mediatek.com
+Cc:     bin.liu@mediatek.com, mchehab@kernel.org, matthias.bgg@gmail.com,
+        angelogioacchino.delregno@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, Irui.Wang@mediatek.com,
+        security@kernel.org, hackerzheng666@gmail.com,
+        1395428693sheep@gmail.com, alex000young@gmail.com,
+        Zheng Wang <zyytlz.wz@163.com>
+Subject: [PATCH v2] media: mtk-jpeg: Fix use after free bug due to uncanceled work
+Date:   Sat, 24 Jun 2023 22:50:50 +0800
+Message-Id: <20230624145050.2471885-1-zyytlz.wz@163.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH] media: uvcvideo: Fix menu count handling for userspace XU
- mappings
-Content-Language: en-US, de-DE
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Poncho <poncho@spahan.ch>, linux-media@vger.kernel.org,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        regressions@lists.linux.dev
-References: <20230606170919.GJ25679@pendragon.ideasonboard.com>
- <20230606171150.12875-1-laurent.pinchart@ideasonboard.com>
- <785fcf0b-3f63-a0da-3eea-f57124e99e15@spahan.ch>
- <20230624002517.GF1669@pendragon.ideasonboard.com>
- <7dd4f71e-afbd-2f0a-b6bb-8324916ab3d1@leemhuis.info>
- <20230624104017.GH1669@pendragon.ideasonboard.com>
-From:   "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <20230624104017.GH1669@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1687608184;387e4272;
-X-HE-SMSGID: 1qD1yh-0004QA-Ft
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wBXizjPApdkbk0WAw--.46043S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7uF17uw15Jr4xtw4xCFy7trb_yoW8Wr43pr
+        W3K3yUCrWUGFs0qr1UJ3W7ZFyrCwnxKa1xWr17uw4Iv393Jrs7JryFya48tFWIyF92kayf
+        Jr18X34xGr4qvFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0ziaZXrUUUUU=
+X-Originating-IP: [111.206.145.21]
+X-CM-SenderInfo: h2113zf2oz6qqrwthudrp/1tbiXRKYU1WBqAoK0wAAsr
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_BL,RCVD_IN_MSPIKE_L4,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 24.06.23 12:40, Laurent Pinchart wrote:
-> On Sat, Jun 24, 2023 at 11:07:14AM +0200, Thorsten Leemhuis wrote:
->> On 24.06.23 02:25, Laurent Pinchart wrote:
->>> On Wed, Jun 21, 2023 at 05:26:39PM +0200, Poncho wrote:
->>>> Friendly ping. I think this patch was forgotten.
->>> Thanks for the reminder. I'll send a pull request for v6.6.
->>
->> Why 6.6? If this would be a feature I'd fully understand. But this
->> afaics fixes a regression and thus should be handled as one, even if
->> it's a regression from a earlier release. For details see this recent
->> mail from Linus:
->>
->> https://lore.kernel.org/all/CAHk-=wis_qQy4oDNynNKi5b7Qhosmxtoj1jxo5wmB6SRUwQUBQ@mail.gmail.com/
-> 
-> Linus has decided to not pull from the media tree for the next kernel
-> release due to a set of mishaps, see
-> https://lore.kernel.org/linux-media/CAHk-=wgzU8_dGn0Yg+DyX7ammTkDUCyEJ4C=NvnHRhxKWC7Wpw@mail.gmail.com/.
+In mtk_jpeg_probe, &jpeg->job_timeout_work is bound with
+mtk_jpeg_job_timeout_work. Then mtk_jpeg_dec_device_run
+and mtk_jpeg_enc_device_run may be called to start the
+work.
+If we remove the module which will call mtk_jpeg_remove
+to make cleanup, there may be a unfinished work. The
+possible sequence is as follows, which will cause a
+typical UAF bug.
 
-Yeah, I remember.
+Fix it by canceling the work before cleanup in the mtk_jpeg_remove
 
-> Re-reading the mail, fixes should be fine
+CPU0                  CPU1
 
-Yup, he even pulled some fixes during this cycle.
+                    |mtk_jpeg_job_timeout_work
+mtk_jpeg_remove     |
+  v4l2_m2m_release  |
+    kfree(m2m_dev); |
+                    |
+                    | v4l2_m2m_get_curr_priv
+                    |   m2m_dev->curr_ctx //use
+Fixes: b2f0d2724ba4 ("[media] vcodec: mediatek: Add Mediatek JPEG Decoder Driver")
+Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
+---
+- v2: use cancel_delayed_work_sync instead of cancel_delayed_work suggested by Kyrie.
+---
+ drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-> even if the issue has been
-> there for several releases. I'll send send a pull request for v6.5.
+diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+index 0051f372a66c..6069ecf420b0 100644
+--- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
++++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+@@ -1816,6 +1816,7 @@ static void mtk_jpeg_remove(struct platform_device *pdev)
+ {
+ 	struct mtk_jpeg_dev *jpeg = platform_get_drvdata(pdev);
+ 
++	cancel_delayed_work_sync(&jpeg->job_timeout_work);
+ 	pm_runtime_disable(&pdev->dev);
+ 	video_unregister_device(jpeg->vdev);
+ 	v4l2_m2m_release(jpeg->m2m_dev);
+-- 
+2.25.1
 
-Great, thx!
-
->> Side note: as it's a regression it would be good if this commit had a
->> "CC: <stable..." tag as well.
-> I've already added that to my tree.
-
-Thx, too!
-
-Ciao, Thorsten
-
->> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
->> --
->> Everything you wanna know about Linux kernel regression tracking:
->> https://linux-regtracking.leemhuis.info/about/#tldr
->> If I did something stupid, please tell me, as explained on that page.
->>
->>>> On 06.06.23 19:11, Laurent Pinchart wrote:
->>>>> When commit 716c330433e3 ("media: uvcvideo: Use standard names for
->>>>> menus") reworked the handling of menu controls, it inadvertently
->>>>> replaced a GENMASK(n - 1, 0) with a BIT_MASK(n). The latter isn't
->>>>> equivalent to the former, which broke adding XU mappings from userspace.
->>>>> Fix it.
->>>>>
->>>>> Reported-by: Poncho <poncho@spahan.ch>
->>>>> Link: https://lore.kernel.org/linux-media/468a36ec-c3ac-cb47-e12f-5906239ae3cd@spahan.ch/
->>>>> Fixes: 716c330433e3 ("media: uvcvideo: Use standard names for menus")
->>>>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>>>> ---
->>>>> This is untested. Poncho, would you be able to test this patch to see if
->>>>> it fixes your issue ?
->>>>> ---
->>>>>   drivers/media/usb/uvc/uvc_v4l2.c | 2 +-
->>>>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
->>>>> index 5ac2a424b13d..f4988f03640a 100644
->>>>> --- a/drivers/media/usb/uvc/uvc_v4l2.c
->>>>> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
->>>>> @@ -45,7 +45,7 @@ static int uvc_control_add_xu_mapping(struct uvc_video_chain *chain,
->>>>>   	map->menu_names = NULL;
->>>>>   	map->menu_mapping = NULL;
->>>>>   
->>>>> -	map->menu_mask = BIT_MASK(xmap->menu_count);
->>>>> +	map->menu_mask = GENMASK(xmap->menu_count - 1, 0);
->>>>>   
->>>>>   	size = xmap->menu_count * sizeof(*map->menu_mapping);
->>>>>   	map->menu_mapping = kzalloc(size, GFP_KERNEL);
-> 
