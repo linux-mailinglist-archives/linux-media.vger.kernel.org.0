@@ -2,55 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CAB3673CB74
-	for <lists+linux-media@lfdr.de>; Sat, 24 Jun 2023 16:52:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC42173CD71
+	for <lists+linux-media@lfdr.de>; Sun, 25 Jun 2023 01:34:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231916AbjFXOwp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 24 Jun 2023 10:52:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42840 "EHLO
+        id S230034AbjFXXee (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 24 Jun 2023 19:34:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbjFXOwp (ORCPT
+        with ESMTP id S229939AbjFXXe3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 24 Jun 2023 10:52:45 -0400
-Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.196])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AFA47E56;
-        Sat, 24 Jun 2023 07:52:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=1ZSFg
-        IwAdkqH7N1HARcWbHynu04UbnWZF0dHrxv5TFE=; b=clZDSTXXOe1roNMml2F4c
-        0lkMYMEJANi7FzkxBOjJtyLTExgu4Zo+3xPnFGT+pOjbkTpwS+arNAYvie8AXHJA
-        G3Djnzn2U0G33Pr8Id02IdMsSg+BOT8M6s0HvcOkpcilannIeFetr9y+/7acENZW
-        VH0VHZsVBsEeFeDQ/seBoo=
-Received: from leanderwang-LC2.localdomain (unknown [111.206.145.21])
-        by zwqz-smtp-mta-g1-2 (Coremail) with SMTP id _____wBXizjPApdkbk0WAw--.46043S2;
-        Sat, 24 Jun 2023 22:50:55 +0800 (CST)
-From:   Zheng Wang <zyytlz.wz@163.com>
-To:     Kyrie.Wu@mediatek.com
-Cc:     bin.liu@mediatek.com, mchehab@kernel.org, matthias.bgg@gmail.com,
-        angelogioacchino.delregno@collabora.com,
+        Sat, 24 Jun 2023 19:34:29 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 415BA10F4;
+        Sat, 24 Jun 2023 16:34:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687649668; x=1719185668;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uSich5WtIL4xEDBsn+PUSmiT50AF+RCLc8UMqP5tImA=;
+  b=Kox0T0vk10oRBNLnPo8erjBEidnzQMqWPog1vNTdr3a/2yz1HkPTRh/P
+   YOyN9CeLYUy7zzQduV7c/JkHh1gkjp2d+00HB0MVYJFlm6JjPrbhB2oMW
+   cYqUu9Ad2TFy8be12ItJ72d2vRPTVvfPLYDQee54J6Vf/l56HXcJm0f+d
+   16iuXq2aX4WjDb1KiTvnOwNxfyDLy11KB7+LrNoYC6SYdoV6/uvJSU2+H
+   os9J5NNIvFIHRAP0qDSe1GqCwFXw0k4tkiCRkyv1BgG7MBb7xmzsLdlgu
+   zILeIWs2xaWNqgSkiU5GgyzCNEMOiEOK0+aT5z5zxrzYuaJQJu3wbVndH
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="391122035"
+X-IronPort-AV: E=Sophos;i="6.01,156,1684825200"; 
+   d="scan'208";a="391122035"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2023 16:34:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="839837858"
+X-IronPort-AV: E=Sophos;i="6.01,156,1684825200"; 
+   d="scan'208";a="839837858"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 24 Jun 2023 16:34:22 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qDClq-0009Xr-05;
+        Sat, 24 Jun 2023 23:34:22 +0000
+Date:   Sun, 25 Jun 2023 07:34:12 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, Irui.Wang@mediatek.com,
-        security@kernel.org, hackerzheng666@gmail.com,
-        1395428693sheep@gmail.com, alex000young@gmail.com,
-        Zheng Wang <zyytlz.wz@163.com>
-Subject: [PATCH v2] media: mtk-jpeg: Fix use after free bug due to uncanceled work
-Date:   Sat, 24 Jun 2023 22:50:50 +0800
-Message-Id: <20230624145050.2471885-1-zyytlz.wz@163.com>
-X-Mailer: git-send-email 2.25.1
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: Re: [PATCH v3 01/11] media: videobuf2: Access vb2_queue bufs array
+ through helper functions
+Message-ID: <202306250705.Ts4zHhMG-lkp@intel.com>
+References: <20230622131349.144160-2-benjamin.gaignard@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wBXizjPApdkbk0WAw--.46043S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7uF17uw15Jr4xtw4xCFy7trb_yoW8Wr43pr
-        W3K3yUCrWUGFs0qr1UJ3W7ZFyrCwnxKa1xWr17uw4Iv393Jrs7JryFya48tFWIyF92kayf
-        Jr18X34xGr4qvFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0ziaZXrUUUUU=
-X-Originating-IP: [111.206.145.21]
-X-CM-SenderInfo: h2113zf2oz6qqrwthudrp/1tbiXRKYU1WBqAoK0wAAsr
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_BL,RCVD_IN_MSPIKE_L4,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230622131349.144160-2-benjamin.gaignard@collabora.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -58,46 +76,81 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In mtk_jpeg_probe, &jpeg->job_timeout_work is bound with
-mtk_jpeg_job_timeout_work. Then mtk_jpeg_dec_device_run
-and mtk_jpeg_enc_device_run may be called to start the
-work.
-If we remove the module which will call mtk_jpeg_remove
-to make cleanup, there may be a unfinished work. The
-possible sequence is as follows, which will cause a
-typical UAF bug.
+Hi Benjamin,
 
-Fix it by canceling the work before cleanup in the mtk_jpeg_remove
+kernel test robot noticed the following build errors:
 
-CPU0                  CPU1
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on linus/master v6.4-rc7 next-20230623]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-                    |mtk_jpeg_job_timeout_work
-mtk_jpeg_remove     |
-  v4l2_m2m_release  |
-    kfree(m2m_dev); |
-                    |
-                    | v4l2_m2m_get_curr_priv
-                    |   m2m_dev->curr_ctx //use
-Fixes: b2f0d2724ba4 ("[media] vcodec: mediatek: Add Mediatek JPEG Decoder Driver")
-Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
----
-- v2: use cancel_delayed_work_sync instead of cancel_delayed_work suggested by Kyrie.
----
- drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c | 1 +
- 1 file changed, 1 insertion(+)
+url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Access-vb2_queue-bufs-array-through-helper-functions/20230622-214122
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230622131349.144160-2-benjamin.gaignard%40collabora.com
+patch subject: [PATCH v3 01/11] media: videobuf2: Access vb2_queue bufs array through helper functions
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230625/202306250705.Ts4zHhMG-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230625/202306250705.Ts4zHhMG-lkp@intel.com/reproduce)
 
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-index 0051f372a66c..6069ecf420b0 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-@@ -1816,6 +1816,7 @@ static void mtk_jpeg_remove(struct platform_device *pdev)
- {
- 	struct mtk_jpeg_dev *jpeg = platform_get_drvdata(pdev);
- 
-+	cancel_delayed_work_sync(&jpeg->job_timeout_work);
- 	pm_runtime_disable(&pdev->dev);
- 	video_unregister_device(jpeg->vdev);
- 	v4l2_m2m_release(jpeg->m2m_dev);
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306250705.Ts4zHhMG-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/staging/media/atomisp/pci/atomisp_ioctl.c:1080:22: error: passing 'struct vb2_queue' to parameter of incompatible type 'struct vb2_queue *'; take the address with &
+           vb = vb2_get_buffer(pipe->vb_queue, buf->index);
+                               ^~~~~~~~~~~~~~
+                               &
+   include/media/videobuf2-core.h:1239:67: note: passing argument to parameter 'q' here
+   static inline struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q,
+                                                                     ^
+   1 error generated.
+
+
+vim +1080 drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+
+  1065	
+  1066	static int atomisp_dqbuf_wrapper(struct file *file, void *fh, struct v4l2_buffer *buf)
+  1067	{
+  1068		struct video_device *vdev = video_devdata(file);
+  1069		struct atomisp_video_pipe *pipe = atomisp_to_video_pipe(vdev);
+  1070		struct atomisp_sub_device *asd = pipe->asd;
+  1071		struct atomisp_device *isp = video_get_drvdata(vdev);
+  1072		struct ia_css_frame *frame;
+  1073		struct vb2_buffer *vb;
+  1074		int ret;
+  1075	
+  1076		ret = vb2_ioctl_dqbuf(file, fh, buf);
+  1077		if (ret)
+  1078			return ret;
+  1079	
+> 1080		vb = vb2_get_buffer(pipe->vb_queue, buf->index);
+  1081		frame = vb_to_frame(vb);
+  1082	
+  1083		buf->reserved = asd->frame_status[buf->index];
+  1084	
+  1085		/*
+  1086		 * Hack:
+  1087		 * Currently frame_status in the enum type which takes no more lower
+  1088		 * 8 bit.
+  1089		 * use bit[31:16] for exp_id as it is only in the range of 1~255
+  1090		 */
+  1091		buf->reserved &= 0x0000ffff;
+  1092		if (!(buf->flags & V4L2_BUF_FLAG_ERROR))
+  1093			buf->reserved |= frame->exp_id;
+  1094		buf->reserved2 = pipe->frame_config_id[buf->index];
+  1095	
+  1096		dev_dbg(isp->dev,
+  1097			"dqbuf buffer %d (%s) with exp_id %d, isp_config_id %d\n",
+  1098			buf->index, vdev->name, buf->reserved >> 16, buf->reserved2);
+  1099		return 0;
+  1100	}
+  1101	
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
