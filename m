@@ -2,47 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F35E773E04B
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jun 2023 15:15:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D598673E123
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jun 2023 15:54:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230223AbjFZNPf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Jun 2023 09:15:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60086 "EHLO
+        id S230167AbjFZNyc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Jun 2023 09:54:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229904AbjFZNPe (ORCPT
+        with ESMTP id S230154AbjFZNyb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Jun 2023 09:15:34 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A27B5186
-        for <linux-media@vger.kernel.org>; Mon, 26 Jun 2023 06:15:27 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 189922D8;
-        Mon, 26 Jun 2023 15:14:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1687785286;
-        bh=swbiITGrCsxxCIcev51yEA/3XUzTUQDM27IEphsoUgo=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=MNp4PpwNB03GWd/GLl7fy5JDIiSrQvF+XwPgLh+/TFEuGMR0s8qT9jVRExMMR5a6a
-         oq9XdJ/EkYpLC8iDBy3qHaDPTlbNasMFwJg2ym7mjiF/NaEBGNv+dZaXt+Md3nO3bz
-         HQb6EXvs26ue8mJy+7HajCG8Q2Q2LEuV5FV1kJuE=
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230626090533.556406-1-u.kleine-koenig@pengutronix.de>
-References: <20230626090533.556406-1-u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH] media: i2c: ov01a10: Switch back to use struct i2c_driver::probe
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, kernel@pengutronix.de
-To:     Bingbu Cao <bingbu.cao@intel.com>,
+        Mon, 26 Jun 2023 09:54:31 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1240BB;
+        Mon, 26 Jun 2023 06:54:27 -0700 (PDT)
+Received: from notapiano (unknown [IPv6:2600:4041:5b1a:cd00:524d:e95d:1a9c:492a])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nfraprado)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id BD8396606EB0;
+        Mon, 26 Jun 2023 14:54:24 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1687787666;
+        bh=vPot9MUKkOYeQ5g+0bFfY2mVDK/SndwkrBQ4//H5fyE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=dgDTgATTKt9HO2Xm0JijQcDuSDhcy8L3YmdOIqdi/oHgz0QaxxyCVebm7fFY5AxOX
+         Dq0gLF3VQdMk+1Ve0O0rUVuroIdrK2MgT+oR+P4Mhp69LPby9e+AE9Cw2jOZhhwsnr
+         kre/za8hZ7J1KKy+FiSLZ2HGwwJmBsDCogB7w6mA0XoGZJhT8lHjUZqygxuw2p15dk
+         opJYENUzEhu4foEDuKKiLSszwqiGemP1+k6nDMjWCLlVhnTcMITlpygo3pB8QORHSj
+         WHyooiY4qrcwshKSwwRYW1leKohGKYUEWaa3Ep40YkdiiG+62uua0oGagqXUnPDYDv
+         YDd5RaZWtOzwg==
+Date:   Mon, 26 Jun 2023 09:54:20 -0400
+From:   =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado 
+        <nfraprado@collabora.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>, kernel@collabora.com,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Uwe =?utf-8?q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Date:   Mon, 26 Jun 2023 14:15:21 +0100
-Message-ID: <168778532149.1052803.13469156046955364918@Monstersaurus>
-User-Agent: alot/0.10
+        Rob Herring <robh+dt@kernel.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v3 3/6] media: dt-bindings: mediatek,vcodec: Remove
+ VDEC_SYS for mt8183
+Message-ID: <aef120c8-bb25-476f-8976-7f699a851334@notapiano>
+References: <20230620000349.2122191-1-nfraprado@collabora.com>
+ <20230620000349.2122191-4-nfraprado@collabora.com>
+ <8b5e4a9b-7496-02a1-d3b6-a0be8ea85798@linaro.org>
+ <a82b7f2d-04d4-4ac0-9a72-ad1c17118e19@notapiano>
+ <cb2dd67a-d3df-f194-6595-789d12b38f3d@linaro.org>
+ <6b41c5e4-bae9-4c99-8a28-7272c8a598a3@notapiano>
+ <9c36cdbb-7204-f9ca-6191-88e0f0f71915@linaro.org>
+ <132ec056-2186-4be5-9770-4d8c4d07bd76@notapiano>
+ <6af2faf2-8624-948b-6efa-3bf00695293b@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6af2faf2-8624-948b-6efa-3bf00695293b@linaro.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -50,40 +76,87 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Uwe Kleine-K=C3=B6nig (2023-06-26 10:05:33)
-> struct i2c_driver::probe_new is about to go away. Switch the driver to
-> use the probe callback with the same prototype.
->=20
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+On Fri, Jun 23, 2023 at 06:21:31PM +0200, Krzysztof Kozlowski wrote:
+> On 21/06/2023 20:00, Nícolas F. R. A. Prado wrote:
+> >>
+> >> But anyway this variant comes with some set of regs and reg-names. Other
+> >> variant comes with different set. In all cases they should be defined,
+> >> even by "defined" means not allowed.
+> > 
+> > I'm not sure what you mean. Are you suggesting to disable reg-names on mt8173?
+> 
+> That's one of the options if for some reason you don't want to define them.
+> 
+> > 
+> >>
+> >>>
+> >>> But in a separate series we could drop vdecsys from mt8173's reg as well,
+> >>> passing it as a syscon instead, which would solve the warning on that platform,
+> >>> though some more driver changes would be needed to be able to handle it for that
+> >>> SoC. The newer SoCs like mt8192, mt8195, etc, should also get vdecsys dropped
+> >>> from their regs to have a correct memory description.
+> >>>
+> >>
+> >> Sure, but I don't understand how does it affect defining and making
+> >> specific regs/reg-names or keeping them loose.
+> > 
+> > We need some way to tell in the driver whether the first reg is VDEC_SYS or not.
+> > Since so far reg-names have not been used for the vcodec, the simplest, and
+> > cleanest, way to do it, is to add reg-names when VDEC_SYS is not present. When
+> > the other SoCs are updated to no longer have the first reg as VDEC_SYS, they
+> > would also have reg-names added to their binding, to clearly indicate that.
+> 
+> Don't use reg-names for that. The order of entries is anyway strict.
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Since the order of entries is strict, if I remove VDEC_SYS from mt8183, I also
+need to remove it from mt8173, is that what you mean? I would still check for
+the presence of reg-names in the driver to differentiate whether the old or new
+binding is used, you just don't want different reg-names between compatibles in
+the binding?
 
-I'll try to keep my eye open on incoming drivers too to spot these.
+> 
+> > 
+> > For example, for mt8173 we currently have
+> > 
+> > 		vcodec_dec: vcodec@16000000 {
+> > 			compatible = "mediatek,mt8173-vcodec-dec";
+> > 			reg = <0 0x16000000 0 0x100>,	/* VDEC_SYS */
+> > 			      <0 0x16020000 0 0x1000>,	/* VDEC_MISC */
+> > 			      <0 0x16021000 0 0x800>,	/* VDEC_LD */
+> > 			      <0 0x16021800 0 0x800>,	/* VDEC_TOP */
+> > 			      <0 0x16022000 0 0x1000>,	/* VDEC_CM */
+> > 			      <0 0x16023000 0 0x1000>,	/* VDEC_AD */
+> > 			      <0 0x16024000 0 0x1000>,	/* VDEC_AV */
+> > 			      <0 0x16025000 0 0x1000>,	/* VDEC_PP */
+> > 			      <0 0x16026800 0 0x800>,	/* VDEC_HWD */
+> > 			      <0 0x16027000 0 0x800>,	/* VDEC_HWQ */
+> > 			      <0 0x16027800 0 0x800>,	/* VDEC_HWB */
+> > 			      <0 0x16028400 0 0x400>;	/* VDEC_HWG */
+> > 
+> > In a future series, when removing VDEC_SYS from it, it would become
+> > 
+> > 		vcodec_dec: vcodec@16020000 {
+> > 			compatible = "mediatek,mt8173-vcodec-dec";
+> > 			reg = <0 0x16020000 0 0x1000>,	/* VDEC_MISC */
+> > 			      <0 0x16021000 0 0x800>,	/* VDEC_LD */
+> > 			      <0 0x16021800 0 0x800>,	/* VDEC_TOP */
+> > 			      <0 0x16022000 0 0x1000>,	/* VDEC_CM */
+> > 			      <0 0x16023000 0 0x1000>,	/* VDEC_AD */
+> > 			      <0 0x16024000 0 0x1000>,	/* VDEC_AV */
+> > 			      <0 0x16025000 0 0x1000>,	/* VDEC_PP */
+> > 			      <0 0x16026800 0 0x800>,	/* VDEC_HWD */
+> > 			      <0 0x16027000 0 0x800>,	/* VDEC_HWQ */
+> > 			      <0 0x16027800 0 0x800>,	/* VDEC_HWB */
+> > 			      <0 0x16028400 0 0x400>;	/* VDEC_HWG */
+> > 			reg-names = "misc", "ld", "top", "cm", "ad", "av", "pp",
+> >                                     "hwd", "hwq", "hwb", "hwg";
+> 
+> So you want to use reg-names to avoid ABI break. This is not the reason
+> not to define reg-names for other case.
 
-Thanks
---
-Kieran
+There will be an ABI break anyway when the first reg is removed (as shown
+above), I'm just trying to avoid churn: adding a reg-name that will be removed
+later.
 
-
-> ---
->  drivers/media/i2c/ov01a10.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/i2c/ov01a10.c b/drivers/media/i2c/ov01a10.c
-> index de5bc19e715b..2b9e1b3a3bf4 100644
-> --- a/drivers/media/i2c/ov01a10.c
-> +++ b/drivers/media/i2c/ov01a10.c
-> @@ -992,7 +992,7 @@ static struct i2c_driver ov01a10_i2c_driver =3D {
->                 .pm =3D &ov01a10_pm_ops,
->                 .acpi_match_table =3D ACPI_PTR(ov01a10_acpi_ids),
->         },
-> -       .probe_new =3D ov01a10_probe,
-> +       .probe =3D ov01a10_probe,
->         .remove =3D ov01a10_remove,
->  };
-> =20
->=20
-> base-commit: cde0edf98f75221f299486e27a317aa02dc1cf7c
-> --=20
-> 2.39.2
->
+Thanks,
+Nícolas
