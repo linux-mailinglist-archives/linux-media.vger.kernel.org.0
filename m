@@ -2,201 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A31B073E352
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jun 2023 17:30:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D50173E37E
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jun 2023 17:36:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231158AbjFZPaP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Jun 2023 11:30:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47926 "EHLO
+        id S231213AbjFZPgm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Jun 2023 11:36:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229771AbjFZPaN (ORCPT
+        with ESMTP id S231223AbjFZPgl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Jun 2023 11:30:13 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2E4B18E
-        for <linux-media@vger.kernel.org>; Mon, 26 Jun 2023 08:30:11 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-313f18f5295so1375646f8f.3
-        for <linux-media@vger.kernel.org>; Mon, 26 Jun 2023 08:30:11 -0700 (PDT)
+        Mon, 26 Jun 2023 11:36:41 -0400
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EF54F3
+        for <linux-media@vger.kernel.org>; Mon, 26 Jun 2023 08:36:39 -0700 (PDT)
+Received: by mail-io1-xd2e.google.com with SMTP id ca18e2360f4ac-77acb04309dso206812839f.2
+        for <linux-media@vger.kernel.org>; Mon, 26 Jun 2023 08:36:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687793410; x=1690385410;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CQSMKa1lqIeXBAWXkGHFFZVwVC13OaPv1XUC7vDJ6CI=;
-        b=bMiI3fFIy/oqErys2CQAu7hnmar4xwo3C92bbg9o/f7Ue1lAAneFRRWea7AFfsFv3d
-         n75FESTifIp+ymYqG/NhTiRxbvkhJBI4mPDjfnMq+1JfPn2/SrYH9UXOfz/4cddyeaWA
-         ZKD3lfitdbY5DPdhf2vESVNS4hYFfF/mD3GqiwH8TXDwoA53J5gBF7r9sYMVWRNmo8ta
-         OGKlu1zPnxKDVkfaBLHa5/SQsRMPOND3YqIe8yyATypmvSKBGgUmkGdr1MYhj4fq5Qgw
-         fIrs3ePqxSoy2jbZ48DvuJwCKU1KgqvU9CA8VxAqRFy6b1oBERdWRNYQGm0zxuTP2PRv
-         Mx4w==
+        d=gmail.com; s=20221208; t=1687793798; x=1690385798;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yqPoVErgqrF1rFCO4uaZZ2AIPLilClQCeem0nDVSjFU=;
+        b=fc4DKTMHsdKl6Tg08F/9XuozkWPRpnrtsowclNabyb3121VaTfIy1uUXkXUJ7+lo8O
+         taDhcGHpvWlwzbdR0HTg2NDcD386VPcTH54sG0ToOjfs53iyxIu8+yMxF1eKFxADtI9M
+         GJBNwVQ4b7kI8Y6LuPV9U677OADdPDeK4YSM45yAU0ZpPe3pqfhkNR1q87hI3nhX82Xf
+         QmT+YJQyRkw7YFuLnT8np/vUhB5qgHyOWtyS5IkOTXrEA6Nqoj0tHLSOUqZrnX2GLDVi
+         glSXHWB0q6O37bxEXnFn9NMzb/yw7r5lWZ/jZG0RNG1XHGDa1Y4gteqflBWXYIm8TF2G
+         XrSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687793410; x=1690385410;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CQSMKa1lqIeXBAWXkGHFFZVwVC13OaPv1XUC7vDJ6CI=;
-        b=UbOWRAOdOHJH37M8fM4Chs+ua7ofXxsimeZTduqec9UJ0Wq56H8yN2erfqbDy7+SBW
-         ngqc0hxydDf8q4i4/19bpDbj26X1+PcqckGt0pbrv/NOp2ujU4TOdaT7RCQ8Ape7pjyR
-         FGA+QHfeX0tY43ENz46DMsQ45CKRboPzJ777bOnaDM7p7yz+78/TpU3w/SZVpfSqE7+0
-         sgUAYN84PM9tLYOCibq9iZAE6HXeXwZIz3UwgXKSWdJvt06cLv6q6LgkZxhJRazqhX+c
-         XPY/4td3jlrebHUMT8KVNxj0/NWfJERfLNqS1tYBLNeAe8ha1u49+8RlOF+Wkn3GrdS7
-         LNnw==
-X-Gm-Message-State: AC+VfDzBi7I4zGljSm546JA+qt8FUvKW5VG+BOmYBRs8RW9K67k+fXSB
-        AKCHQUJokpVacl4v+/k4U3HvyQ==
-X-Google-Smtp-Source: ACHHUZ4TAv/xBlOCnaHre8LFq3CjLmWT47Zbg3P0zn2fX5oHlNK+Fb+4CY7bXvgsCy51VP/LF88gpw==
-X-Received: by 2002:a05:6000:1008:b0:30f:c1f5:e91e with SMTP id a8-20020a056000100800b0030fc1f5e91emr25146865wrx.27.1687793410264;
-        Mon, 26 Jun 2023 08:30:10 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.26])
-        by smtp.gmail.com with ESMTPSA id f14-20020a5d58ee000000b00313f1c5b56dsm3001356wrd.79.2023.06.26.08.30.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Jun 2023 08:30:09 -0700 (PDT)
-Message-ID: <9bf3f3d0-9655-3549-1d1b-02816f51b666@linaro.org>
-Date:   Mon, 26 Jun 2023 17:30:07 +0200
+        d=1e100.net; s=20221208; t=1687793798; x=1690385798;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yqPoVErgqrF1rFCO4uaZZ2AIPLilClQCeem0nDVSjFU=;
+        b=CQ2dD/DnVA0BZlgT/xQowe8Qaf3W2XpnPvNNLHOWvM2aI0vbt/Zq3aq5jvSsWUUlhE
+         BRxECbP0VOFvcz77WbwSbCw3vFsA6DTvpDGLe5GqJFHNWM50N/VjD6BZAf8TBhRgIHm1
+         VxfL33f6GvD+WiSdQ10Eaa2aCsPF+4BHpqK+4VWrTySTbyAntsLLo+fTjvO+zTGf/w7H
+         mVihAeEWR3uhuIn2doo85aCIfovoCGzZQwPWSPuKCSYzCNFNbGAvca7pSNQAPi+MuBIZ
+         LTQZSTuvpe2UTr+2/4ByK+yNK4g+RfEvHpN15efvN3o2U//A5slTPqvTviptH5/1dIOb
+         94Fw==
+X-Gm-Message-State: AC+VfDy7Kf1CTLSG/rzP6BSk3bZvuEq8nvCsFq9xBzuI/qBTcvO7yjIs
+        1IDZbBRnlr8fUyiEdiW5f4AdeJNg8YIgQlDOE4l5P+Bc0Bgp9evR
+X-Google-Smtp-Source: ACHHUZ5r1RizWQwB26dYDaZOe9ljJSCgs11ZHEVHGdksdcCG+NTJAw1aSTpkquf1o5WopTrfxujK8AI39f/QL6qFb40=
+X-Received: by 2002:a6b:e503:0:b0:783:62f7:3e2c with SMTP id
+ y3-20020a6be503000000b0078362f73e2cmr2393944ioc.9.1687793798503; Mon, 26 Jun
+ 2023 08:36:38 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v3 3/6] media: dt-bindings: mediatek,vcodec: Remove
- VDEC_SYS for mt8183
-Content-Language: en-US
-To:     =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
-        <nfraprado@collabora.com>
-Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>, kernel@collabora.com,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mediatek@lists.infradead.org
-References: <20230620000349.2122191-1-nfraprado@collabora.com>
- <20230620000349.2122191-4-nfraprado@collabora.com>
- <8b5e4a9b-7496-02a1-d3b6-a0be8ea85798@linaro.org>
- <a82b7f2d-04d4-4ac0-9a72-ad1c17118e19@notapiano>
- <cb2dd67a-d3df-f194-6595-789d12b38f3d@linaro.org>
- <6b41c5e4-bae9-4c99-8a28-7272c8a598a3@notapiano>
- <9c36cdbb-7204-f9ca-6191-88e0f0f71915@linaro.org>
- <132ec056-2186-4be5-9770-4d8c4d07bd76@notapiano>
- <6af2faf2-8624-948b-6efa-3bf00695293b@linaro.org>
- <aef120c8-bb25-476f-8976-7f699a851334@notapiano>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <aef120c8-bb25-476f-8976-7f699a851334@notapiano>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+References: <20230622114028.908825-1-sakari.ailus@linux.intel.com> <20230622114028.908825-36-sakari.ailus@linux.intel.com>
+In-Reply-To: <20230622114028.908825-36-sakari.ailus@linux.intel.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Mon, 26 Jun 2023 16:36:12 +0100
+Message-ID: <CA+V-a8tH3SzG6wr6oznap2Z3Y3H5i67W51Kpk5CbndTb7ARcPg@mail.gmail.com>
+Subject: Re: [PATCH v4 35/38] media: davinci: Init async notifier after
+ registering V4L2 device
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        Philipp Zabel <p.zabel@pengutronix.de>, hverkuil@xs4all.nl,
+        Francesco Dolcini <francesco@dolcini.it>,
+        aishwarya.kothari@toradex.com, Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>, bingbu.cao@intel.com,
+        niklas.soderlund@ragnatech.se,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Sylvain Petinot <sylvain.petinot@foss.st.com>,
+        Eugen Hristev <eugen.hristev@collabora.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Dafna Hirschfeld <dafna@fastmail.com>,
+        Hugues Fruchet <hugues.fruchet@foss.st.com>,
+        Yong Deng <yong.deng@magewell.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Benoit Parrot <bparrot@ti.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Marco Felsch <m.felsch@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 26/06/2023 15:54, Nícolas F. R. A. Prado wrote:
-> On Fri, Jun 23, 2023 at 06:21:31PM +0200, Krzysztof Kozlowski wrote:
->> On 21/06/2023 20:00, Nícolas F. R. A. Prado wrote:
->>>>
->>>> But anyway this variant comes with some set of regs and reg-names. Other
->>>> variant comes with different set. In all cases they should be defined,
->>>> even by "defined" means not allowed.
->>>
->>> I'm not sure what you mean. Are you suggesting to disable reg-names on mt8173?
->>
->> That's one of the options if for some reason you don't want to define them.
->>
->>>
->>>>
->>>>>
->>>>> But in a separate series we could drop vdecsys from mt8173's reg as well,
->>>>> passing it as a syscon instead, which would solve the warning on that platform,
->>>>> though some more driver changes would be needed to be able to handle it for that
->>>>> SoC. The newer SoCs like mt8192, mt8195, etc, should also get vdecsys dropped
->>>>> from their regs to have a correct memory description.
->>>>>
->>>>
->>>> Sure, but I don't understand how does it affect defining and making
->>>> specific regs/reg-names or keeping them loose.
->>>
->>> We need some way to tell in the driver whether the first reg is VDEC_SYS or not.
->>> Since so far reg-names have not been used for the vcodec, the simplest, and
->>> cleanest, way to do it, is to add reg-names when VDEC_SYS is not present. When
->>> the other SoCs are updated to no longer have the first reg as VDEC_SYS, they
->>> would also have reg-names added to their binding, to clearly indicate that.
->>
->> Don't use reg-names for that. The order of entries is anyway strict.
-> 
-> Since the order of entries is strict, if I remove VDEC_SYS from mt8183, I also
-> need to remove it from mt8173, is that what you mean?
+Hi Sakari,
 
-It's different compatible, so it can have different entries.
+Thank you for the patch.
 
+On Thu, Jun 22, 2023 at 12:41=E2=80=AFPM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> Initialise the V4L2 async notifier after registering the V4L2 device, jus=
+t
+> before parsing DT for async sub-devices. This way the device can be made
+> available to the V4L2 async framework from the notifier init time onwards=
+.
+> A subsequent patch will add struct v4l2_device as an argument to
+> v4l2_async_nf_init().
+>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Tested-by: Philipp Zabel <p.zabel@pengutronix.de> # imx6qp
+> Tested_by: Niklas S=C3=B6derlund <niklas.soderlund@ragnatech.se> # rcar +=
+ adv746x
+> Tested-by: Aishwarya Kothari <aishwarya.kothari@toradex.com> # Apalis i.M=
+X6Q with TC358743
+> ---
+>  .../media/platform/ti/davinci/vpif_capture.c    | 17 ++++++++---------
+>  1 file changed, 8 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/media/platform/ti/davinci/vpif_capture.c b/drivers/m=
+edia/platform/ti/davinci/vpif_capture.c
+> index a63c9e51dac41..9b97e26be0892 100644
+> --- a/drivers/media/platform/ti/davinci/vpif_capture.c
+> +++ b/drivers/media/platform/ti/davinci/vpif_capture.c
+> @@ -1608,18 +1608,12 @@ static __init int vpif_probe(struct platform_devi=
+ce *pdev)
+>         int res_idx =3D 0;
+>         int i, err;
+>
+> -       pdev->dev.platform_data =3D vpif_capture_get_pdata(pdev);
+> -       if (!pdev->dev.platform_data) {
+> -               dev_warn(&pdev->dev, "Missing platform data.  Giving up.\=
+n");
+> -               return -EINVAL;
+> -       }
+> -
+>         vpif_dev =3D &pdev->dev;
+>
+>         err =3D initialize_vpif();
+>         if (err) {
+>                 v4l2_err(vpif_dev->driver, "Error initializing vpif\n");
+> -               goto cleanup;
+> +               return err;
+>         }
+>
+>         err =3D v4l2_device_register(vpif_dev, &vpif_obj.v4l2_dev);
+> @@ -1655,6 +1649,12 @@ static __init int vpif_probe(struct platform_devic=
+e *pdev)
+>                 goto vpif_unregister;
+>         }
+>
+> +       pdev->dev.platform_data =3D vpif_capture_get_pdata(pdev);
+Just a couple of lines above we reference pdev->dev.platform_data
+while assigning it to vpif_obj.config, so this has to be moved prior
+to assigning vpif_obj.config.
 
-> I would still check for
-> the presence of reg-names in the driver to differentiate whether the old or new
-> binding is used, you just don't want different reg-names between compatibles in
-> the binding?
+> +       if (!pdev->dev.platform_data) {
+> +               dev_warn(&pdev->dev, "Missing platform data.  Giving up.\=
+n");
+unrelated to this patch maybe we can drop the extra space after data.  Givi=
+ng..
 
-I wrote already what I want:
-
-  In all cases they should be defined, even by "defined" means not allowed.
-
-Now of course the best would be if the reg-names are always the same, at
-least in respect of order of items. This is what we try to do for all
-devices.
-
-> 
->>
->>>
->>> For example, for mt8173 we currently have
->>>
->>> 		vcodec_dec: vcodec@16000000 {
->>> 			compatible = "mediatek,mt8173-vcodec-dec";
->>> 			reg = <0 0x16000000 0 0x100>,	/* VDEC_SYS */
->>> 			      <0 0x16020000 0 0x1000>,	/* VDEC_MISC */
->>> 			      <0 0x16021000 0 0x800>,	/* VDEC_LD */
->>> 			      <0 0x16021800 0 0x800>,	/* VDEC_TOP */
->>> 			      <0 0x16022000 0 0x1000>,	/* VDEC_CM */
->>> 			      <0 0x16023000 0 0x1000>,	/* VDEC_AD */
->>> 			      <0 0x16024000 0 0x1000>,	/* VDEC_AV */
->>> 			      <0 0x16025000 0 0x1000>,	/* VDEC_PP */
->>> 			      <0 0x16026800 0 0x800>,	/* VDEC_HWD */
->>> 			      <0 0x16027000 0 0x800>,	/* VDEC_HWQ */
->>> 			      <0 0x16027800 0 0x800>,	/* VDEC_HWB */
->>> 			      <0 0x16028400 0 0x400>;	/* VDEC_HWG */
->>>
->>> In a future series, when removing VDEC_SYS from it, it would become
->>>
->>> 		vcodec_dec: vcodec@16020000 {
->>> 			compatible = "mediatek,mt8173-vcodec-dec";
->>> 			reg = <0 0x16020000 0 0x1000>,	/* VDEC_MISC */
->>> 			      <0 0x16021000 0 0x800>,	/* VDEC_LD */
->>> 			      <0 0x16021800 0 0x800>,	/* VDEC_TOP */
->>> 			      <0 0x16022000 0 0x1000>,	/* VDEC_CM */
->>> 			      <0 0x16023000 0 0x1000>,	/* VDEC_AD */
->>> 			      <0 0x16024000 0 0x1000>,	/* VDEC_AV */
->>> 			      <0 0x16025000 0 0x1000>,	/* VDEC_PP */
->>> 			      <0 0x16026800 0 0x800>,	/* VDEC_HWD */
->>> 			      <0 0x16027000 0 0x800>,	/* VDEC_HWQ */
->>> 			      <0 0x16027800 0 0x800>,	/* VDEC_HWB */
->>> 			      <0 0x16028400 0 0x400>;	/* VDEC_HWG */
->>> 			reg-names = "misc", "ld", "top", "cm", "ad", "av", "pp",
->>>                                     "hwd", "hwq", "hwb", "hwg";
->>
->> So you want to use reg-names to avoid ABI break. This is not the reason
->> not to define reg-names for other case.
-> 
-> There will be an ABI break anyway when the first reg is removed (as shown
-> above), I'm just trying to avoid churn: adding a reg-name that will be removed
-> later.
-
-So remove the reg-name now and there will be no "later"?
-
-Best regards,
-Krzysztof
-
+Cheers,
+Prabhakar
