@@ -2,94 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CFE7A73E027
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jun 2023 15:05:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F35E773E04B
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jun 2023 15:15:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229904AbjFZNFr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Jun 2023 09:05:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54928 "EHLO
+        id S230223AbjFZNPf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Jun 2023 09:15:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230268AbjFZNFl (ORCPT
+        with ESMTP id S229904AbjFZNPe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Jun 2023 09:05:41 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B35AE7A;
-        Mon, 26 Jun 2023 06:05:38 -0700 (PDT)
-Received: from [192.168.2.254] (109-252-154-132.dynamic.spd-mgts.ru [109.252.154.132])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: dmitry.osipenko)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id BCCD36606EF9;
-        Mon, 26 Jun 2023 14:05:35 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1687784737;
-        bh=UduXksLELXstu/IT+fN/u2qfAoyq+jaxriMeJJQvIMM=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=NrgukjA1DHJj1g7zNjrN/5FsxxcF05ysjW5CddwQDyvmub9yTZmZfcfCi1zocvuQs
-         tKnhwifaeyEv0gyFrsBp6pXUKEIJ/jD1c/vVStDTe71ma2gejUp/lAZSQNd2YRsOtK
-         ZGqTay3e0HR9Y/knPtp+nSSlzp9ZoJ9w9E5wdGHJ5Yu0cCVFiNTAUJojSddZ/qoT5M
-         osqOer+obrMLx/wHp7XfRlUOn7AmJmt+eNmgm6D5uDi81CFyspZ0ecmB+tRUDOvqNs
-         b7ZDWOIvFbSmlfJL+d6Xs9g08fKOHWnL3rIJ65Re1zJ41jLzy/SMKKBFvqjwnhXW0Y
-         2kOyALaDANEeQ==
-Message-ID: <4f652b3b-8691-84f4-037a-64950a30d496@collabora.com>
-Date:   Mon, 26 Jun 2023 16:05:33 +0300
+        Mon, 26 Jun 2023 09:15:34 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A27B5186
+        for <linux-media@vger.kernel.org>; Mon, 26 Jun 2023 06:15:27 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 189922D8;
+        Mon, 26 Jun 2023 15:14:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1687785286;
+        bh=swbiITGrCsxxCIcev51yEA/3XUzTUQDM27IEphsoUgo=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=MNp4PpwNB03GWd/GLl7fy5JDIiSrQvF+XwPgLh+/TFEuGMR0s8qT9jVRExMMR5a6a
+         oq9XdJ/EkYpLC8iDBy3qHaDPTlbNasMFwJg2ym7mjiF/NaEBGNv+dZaXt+Md3nO3bz
+         HQb6EXvs26ue8mJy+7HajCG8Q2Q2LEuV5FV1kJuE=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.1
-Subject: Re: [PATCH v4 6/6] drm/shmem-helper: Switch to reservation lock
-Content-Language: en-US
-To:     Boris Brezillon <boris.brezillon@collabora.com>
-Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <jstultz@google.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Tomi Valkeinen <tomba@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20230626090533.556406-1-u.kleine-koenig@pengutronix.de>
+References: <20230626090533.556406-1-u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH] media: i2c: ov01a10: Switch back to use struct i2c_driver::probe
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, kernel@pengutronix.de
+To:     Bingbu Cao <bingbu.cao@intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        kernel@collabora.com, linux-media@vger.kernel.org
-References: <20230529223935.2672495-1-dmitry.osipenko@collabora.com>
- <20230529223935.2672495-7-dmitry.osipenko@collabora.com>
- <20230626114014.2c837255@collabora.com>
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20230626114014.2c837255@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        Uwe =?utf-8?q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Date:   Mon, 26 Jun 2023 14:15:21 +0100
+Message-ID: <168778532149.1052803.13469156046955364918@Monstersaurus>
+User-Agent: alot/0.10
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/26/23 12:40, Boris Brezillon wrote:
-> I think here is the major problem I have with this patch: you've made
-> drm_gem_shmem_{get_pages,pin}() private, which forces me to call
-> drm_gem_shmem_pin() in a path where I already acquired the resv lock
-> (using the drm_exec infra proposed by Christian). That would
-> probably work if you were letting ret == -EALREADY go through, but I'm
-> wondering if it wouldn't be preferable to expose
-> drm_gem_shmem_pin_locked().
+Quoting Uwe Kleine-K=C3=B6nig (2023-06-26 10:05:33)
+> struct i2c_driver::probe_new is about to go away. Switch the driver to
+> use the probe callback with the same prototype.
+>=20
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 
-You should be free to expose the necessary functions. They are private
-because nobody need them so far and we don't want to export unused
-functions.
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
--- 
-Best regards,
-Dmitry
+I'll try to keep my eye open on incoming drivers too to spot these.
 
+Thanks
+--
+Kieran
+
+
+> ---
+>  drivers/media/i2c/ov01a10.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/media/i2c/ov01a10.c b/drivers/media/i2c/ov01a10.c
+> index de5bc19e715b..2b9e1b3a3bf4 100644
+> --- a/drivers/media/i2c/ov01a10.c
+> +++ b/drivers/media/i2c/ov01a10.c
+> @@ -992,7 +992,7 @@ static struct i2c_driver ov01a10_i2c_driver =3D {
+>                 .pm =3D &ov01a10_pm_ops,
+>                 .acpi_match_table =3D ACPI_PTR(ov01a10_acpi_ids),
+>         },
+> -       .probe_new =3D ov01a10_probe,
+> +       .probe =3D ov01a10_probe,
+>         .remove =3D ov01a10_remove,
+>  };
+> =20
+>=20
+> base-commit: cde0edf98f75221f299486e27a317aa02dc1cf7c
+> --=20
+> 2.39.2
+>
