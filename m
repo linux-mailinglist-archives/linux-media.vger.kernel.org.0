@@ -2,158 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CEEA740396
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 20:52:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D28887404D3
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 22:18:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231182AbjF0Swn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jun 2023 14:52:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37184 "EHLO
+        id S231303AbjF0US1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jun 2023 16:18:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230229AbjF0Swm (ORCPT
+        with ESMTP id S231326AbjF0USP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jun 2023 14:52:42 -0400
-Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FB471BF9
-        for <linux-media@vger.kernel.org>; Tue, 27 Jun 2023 11:52:40 -0700 (PDT)
-Received: by mail-qt1-x831.google.com with SMTP id d75a77b69052e-4007b5bafceso46601cf.1
-        for <linux-media@vger.kernel.org>; Tue, 27 Jun 2023 11:52:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1687891959; x=1690483959;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XanXoDlHYuqu7WYlucQ21J3KG2JUv31j1KTL+YaYRcw=;
-        b=tPrpWdnP56AC15CdynAtlLaMhZcoMrwTEd/uWTCfR3x6ZSk2aQs18un036H4Ui91Mz
-         yipTpkAWSSEw3sBbMhjNPTFYagOc2smOlg8be0RQW47nzZtgo+C5Ptfe55oDSxjaSkX0
-         idJ5n7fJQSXQxasfFIWbg2LKCscxSP6nA95ZRZt6P+sFiMDn6Y+k3aHiI3giIk0UJOI+
-         RsBiyEWPVmLE1yxdaMJ8gPZHKUeeMrjGJJGfIo73hE1hVi5UIcHUAG/2LgLNnAze8rTB
-         /iF1/wOik0/z5RMYKefbcBecyhdwgNOoRGVNJZZZCrdwIR3VXSMUnaseQ55GbmLr05Td
-         l7VA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687891959; x=1690483959;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XanXoDlHYuqu7WYlucQ21J3KG2JUv31j1KTL+YaYRcw=;
-        b=kRqRAgbCzerop6h36opRAchHd9t1TyVJQbb2PC1GA2e489gNIvVnUd6x8Qc1Abm/fa
-         vCJAPPkEEYiMVG7+ZI/u4ToZUdmqM0BErsNtmkb17J+n7z/fkH0hsqKTa/CNrZrQEZ3u
-         R9jMu6a1QzsQj05aEoPd2SHERJC9vGXD7KmelMciDTaNEz0BPiJnsJj+W+eoBC0OfaLB
-         yyYZEziGaiF4BtS5o0IW6UeJXrmSXOPRilVwLs8tQeM0CXdNM3XWtcdY67Do6a6t1oe/
-         VEYoPzw33ZkZItMfCA53Wf3L77N4ity43E3ARIqZbjUxdekhqtf50PqIabx5dBB1zfI0
-         GOzQ==
-X-Gm-Message-State: AC+VfDwqIuli/Q+98BSM7RD74MiwyAWP5KXssNcyurRuAjhx4PWiqLwF
-        4DdjTZphRiIBzyMzg6MRlQqaRQSw0CYO7uGuu6Rn
-X-Google-Smtp-Source: ACHHUZ5dfRe4sjCsi1avwvjKJ8EPuqVzC75vPw7U/LlRFR2FRvQRAfeRSfejLqd26KQk3zITWlc71jc5mXyGnWmKbCs=
-X-Received: by 2002:ac8:5905:0:b0:3f8:5b2:aef0 with SMTP id
- 5-20020ac85905000000b003f805b2aef0mr19156qty.24.1687891959197; Tue, 27 Jun
- 2023 11:52:39 -0700 (PDT)
+        Tue, 27 Jun 2023 16:18:15 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDA512D78;
+        Tue, 27 Jun 2023 13:17:57 -0700 (PDT)
+Received: from umang.jainideasonboard.com (85-160-38-115.reb.o2.cz [85.160.38.115])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 762DA558;
+        Tue, 27 Jun 2023 22:15:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1687896954;
+        bh=TIFiNJEDvQFSgG2MNZKI8qDDNZkiyZVpQNwFUn17Ctg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=tK53ar5zjb/pr4JJGvg/7QweqXo0DQWVymyT02CjARQTSN4TBGrhkBE21SHigYx3p
+         5AmjWePQzH9Wyv3XiE+GMAaWJHaShEk+jF43opmUQNNR7YMe0OA8MxAlIYZMMxd3o3
+         aB7RausGhbTjaisFKeoN6m8mcI/FlNnNPkyMRI9Q=
+From:   Umang Jain <umang.jain@ideasonboard.com>
+To:     linux-staging@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     stefan.wahren@i2se.com, gregkh@linuxfoundation.org,
+        f.fainelli@gmail.com, athierry@redhat.com, error27@gmail.com,
+        dave.stevenson@raspberrypi.com, kieran.bingham@ideasonboard.com,
+        laurent.pinchart@ideasonboard.com,
+        Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH v8 0/5] staging: vc04_services: vchiq: Register devices with a custom bus_type
+Date:   Tue, 27 Jun 2023 22:16:23 +0200
+Message-Id: <20230627201628.207483-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-References: <20230627144339.144478-1-Julia.Lawall@inria.fr> <20230627144339.144478-7-Julia.Lawall@inria.fr>
-In-Reply-To: <20230627144339.144478-7-Julia.Lawall@inria.fr>
-From:   John Stultz <jstultz@google.com>
-Date:   Tue, 27 Jun 2023 11:52:27 -0700
-Message-ID: <CANDhNCrPHJjDwGLMY_p8Z21bCnBvTzQmztYqRykTBD9t-+mbcQ@mail.gmail.com>
-Subject: Re: [PATCH v2 06/24] dma-buf: system_heap: use vmalloc_array and vcalloc
-To:     Julia Lawall <Julia.Lawall@inria.fr>
-Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
-        kernel-janitors@vger.kernel.org, keescook@chromium.org,
-        christophe.jaillet@wanadoo.fr, kuba@kernel.org,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 27, 2023 at 7:44=E2=80=AFAM Julia Lawall <Julia.Lawall@inria.fr=
-> wrote:
->
-> Use vmalloc_array and vcalloc to protect against
-> multiplication overflows.
->
-> The changes were done using the following Coccinelle
-> semantic patch:
->
-> // <smpl>
-> @initialize:ocaml@
-> @@
->
-> let rename alloc =3D
->   match alloc with
->     "vmalloc" -> "vmalloc_array"
->   | "vzalloc" -> "vcalloc"
->   | _ -> failwith "unknown"
->
-> @@
->     size_t e1,e2;
->     constant C1, C2;
->     expression E1, E2, COUNT, x1, x2, x3;
->     typedef u8;
->     typedef __u8;
->     type t =3D {u8,__u8,char,unsigned char};
->     identifier alloc =3D {vmalloc,vzalloc};
->     fresh identifier realloc =3D script:ocaml(alloc) { rename alloc };
-> @@
->
-> (
->       alloc(x1*x2*x3)
-> |
->       alloc(C1 * C2)
-> |
->       alloc((sizeof(t)) * (COUNT), ...)
-> |
-> -     alloc((e1) * (e2))
-> +     realloc(e1, e2)
-> |
-> -     alloc((e1) * (COUNT))
-> +     realloc(COUNT, e1)
-> |
-> -     alloc((E1) * (E2))
-> +     realloc(E1, E2)
-> )
-> // </smpl>
->
-> Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
->
-> ---
-> v2: Use vmalloc_array and vcalloc instead of array_size.
-> This also leaves a multiplication of a constant by a sizeof
-> as is.  Two patches are thus dropped from the series.
->
->  drivers/dma-buf/heaps/system_heap.c |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff -u -p a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/=
-system_heap.c
-> --- a/drivers/dma-buf/heaps/system_heap.c
-> +++ b/drivers/dma-buf/heaps/system_heap.c
-> @@ -221,7 +221,7 @@ static void *system_heap_do_vmap(struct
->  {
->         struct sg_table *table =3D &buffer->sg_table;
->         int npages =3D PAGE_ALIGN(buffer->len) / PAGE_SIZE;
-> -       struct page **pages =3D vmalloc(sizeof(struct page *) * npages);
-> +       struct page **pages =3D vmalloc_array(npages, sizeof(struct page =
-*));
->         struct page **tmp =3D pages;
->         struct sg_page_iter piter;
->         void *vaddr;
+The patch series added a new bus type vchiq_bus_type and registers
+child devices in order to move them away from using platform
+device/driver.
 
-Seems reasonable. Thanks for sending this out!
+Patch 1/5 and 2/5 adds a new bus_type and registers them to vchiq
+interface
 
-Acked-by: John Stultz <jstultz@google.com>
+Patch 3/5 and 4/5 moves the bcm2835-camera and bcm2835-audio
+to the new bus respectively
 
-thanks
--john
+Patch 5/5 removes a platform registeration helper which is no
+longer required.
+
+Changes in v8:
+- Drop dual licensing. Instead use GPL-2.0 only for patch 1/5
+
+Changes in v7:
+(5 out of 6 patches from v6 merged)
+- Split the main patch (6/6) as requested.
+- Use struct vchiq_device * instead of struct device * in
+  all bus functions.
+- Drop additional name attribute displayed in sysfs (redundant info)
+- Document vchiq_interface doesn't enumerate device discovery
+- remove EXPORT_SYMBOL_GPL(vchiq_bus_type)
+
+Changes in v6:
+- Split struct device and struct driver wrappers in vchiq_device.[ch]
+- Move vchiq_bus_type definition to vchiq_device.[ch] as well
+- return error on bus_register() failure
+- drop dma_set_mask_and_coherent
+- trivial variable name change
+
+Changes in v5:
+- Fixup missing "staging: " in commits' subject line
+- No code changes from v4
+
+Changes in v4:
+- Introduce patches to drop include directives from Makefile
+
+Changes in v3:
+- Rework entirely to replace platform devices/driver model
+
+-v2:
+https://lore.kernel.org/all/20221222191500.515795-1-umang.jain@ideasonboard.com/
+
+-v1:
+https://lore.kernel.org/all/20221220084404.19280-1-umang.jain@ideasonboard.com/
+
+
+Umang Jain (5):
+  staging: vc04_services: vchiq_arm: Add new bus type and device type
+  staging: vc04_services: vchiq_arm: Register vchiq_bus_type
+  staging: bcm2835-camera: Register bcm2835-camera with vchiq_bus_type
+  staging: bcm2835-audio: Register bcm2835-audio with vchiq_bus_type
+  staging: vc04_services: vchiq_arm: Remove vchiq_register_child()
+
+ drivers/staging/vc04_services/Makefile        |  1 +
+ .../vc04_services/bcm2835-audio/bcm2835.c     | 17 ++--
+ .../bcm2835-camera/bcm2835-camera.c           | 16 ++--
+ .../interface/vchiq_arm/vchiq_arm.c           | 56 +++++++------
+ .../interface/vchiq_arm/vchiq_device.c        | 78 +++++++++++++++++++
+ .../interface/vchiq_arm/vchiq_device.h        | 43 ++++++++++
+ 6 files changed, 165 insertions(+), 46 deletions(-)
+ create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+ create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
+
+-- 
+2.39.1
+
