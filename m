@@ -2,100 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 802597404DA
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 22:20:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5022B74050C
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 22:39:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231232AbjF0UUZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jun 2023 16:20:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41334 "EHLO
+        id S230163AbjF0Ujv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jun 2023 16:39:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229593AbjF0UUU (ORCPT
+        with ESMTP id S231478AbjF0Uju (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jun 2023 16:20:20 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DE222D58;
-        Tue, 27 Jun 2023 13:20:01 -0700 (PDT)
-Received: from umang.jainideasonboard.com (85-160-38-115.reb.o2.cz [85.160.38.115])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC8953212;
-        Tue, 27 Jun 2023 22:15:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1687896959;
-        bh=aTEauMEul+vJmNEkdf5DceHvA7fGrWLQch/ls0rhujQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jmxFLJPjZ5HrCNXMwM6MWIbUGG4j30l7LhlebFosbJpl6BeB1IfvveRNFXSvZbn7K
-         63sVCA0ykeCRxFDN2tEIW2YD4ZIxE1in7uVNNzE1HvljgAv9xMKKhgltAn3MzRnxmp
-         sjayfkeI9Ns5Ld3MIe28dBs1h+kIRUNa+Wh6JqQc=
-From:   Umang Jain <umang.jain@ideasonboard.com>
-To:     linux-staging@lists.linux.dev,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     stefan.wahren@i2se.com, gregkh@linuxfoundation.org,
-        f.fainelli@gmail.com, athierry@redhat.com, error27@gmail.com,
-        dave.stevenson@raspberrypi.com, kieran.bingham@ideasonboard.com,
-        laurent.pinchart@ideasonboard.com,
-        Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH v8 5/5] staging: vc04_services: vchiq_arm: Remove vchiq_register_child()
-Date:   Tue, 27 Jun 2023 22:16:28 +0200
-Message-Id: <20230627201628.207483-6-umang.jain@ideasonboard.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230627201628.207483-1-umang.jain@ideasonboard.com>
-References: <20230627201628.207483-1-umang.jain@ideasonboard.com>
+        Tue, 27 Jun 2023 16:39:50 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D050198A
+        for <linux-media@vger.kernel.org>; Tue, 27 Jun 2023 13:39:49 -0700 (PDT)
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="427682242"
+X-IronPort-AV: E=Sophos;i="6.01,163,1684825200"; 
+   d="scan'208";a="427682242"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 13:39:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="786787983"
+X-IronPort-AV: E=Sophos;i="6.01,163,1684825200"; 
+   d="scan'208";a="786787983"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga004.fm.intel.com with ESMTP; 27 Jun 2023 13:39:28 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andy@kernel.org>)
+        id 1qEFTD-000Q4e-0N;
+        Tue, 27 Jun 2023 23:39:27 +0300
+Date:   Tue, 27 Jun 2023 23:39:26 +0300
+From:   Andy Shevchenko <andy@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kate Hsuan <hpa@redhat.com>, Hao Yao <hao.yao@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org
+Subject: Re: [PATCH 06/12] media: ipu3-cio2: Add a
+ cio2_bridge_parse_sensor_fwnode() helper function
+Message-ID: <ZJtI/j9RUp3Nv8s3@smile.fi.intel.com>
+References: <20230627175643.114778-1-hdegoede@redhat.com>
+ <20230627175643.114778-7-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230627175643.114778-7-hdegoede@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-vchiq_register_child() is used to registered child devices as platform
-devices. Now that the child devices are migrated to use the
-vchiq_bus_type instead, they will be registered to that. Hence, drop
-vchiq_register_child() as it is no more required.
+On Tue, Jun 27, 2023 at 07:56:36PM +0200, Hans de Goede wrote:
+> The code to go from ACPI sensor info to a fwnode-tree with connector
+> nodes and endpoint properties is 99% the same for the atomisp2 and
+> the IPU3.
+> 
+> The main difference is that atomisp2 devices do not have a SSDB table
+> with various info.
+> 
+> Abstract out the parsing of the sensor's ACPI fwnode into a helper
+> function and store the parsed results, rather then the raw SSDB
+> in struct cio2_sensor.
+> 
+> This is a preparation patch for making the cio2-bridge code more generic
+> so that it can be shared with the atomisp driver.
 
-Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
----
- .../interface/vchiq_arm/vchiq_arm.c           | 22 -------------------
- 1 file changed, 22 deletions(-)
+...
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 75da37fa6372..3c52b09c49ea 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -1778,28 +1778,6 @@ static const struct of_device_id vchiq_of_match[] = {
- };
- MODULE_DEVICE_TABLE(of, vchiq_of_match);
- 
--static struct platform_device *
--vchiq_register_child(struct platform_device *pdev, const char *name)
--{
--	struct platform_device_info pdevinfo;
--	struct platform_device *child;
--
--	memset(&pdevinfo, 0, sizeof(pdevinfo));
--
--	pdevinfo.parent = &pdev->dev;
--	pdevinfo.name = name;
--	pdevinfo.id = PLATFORM_DEVID_NONE;
--	pdevinfo.dma_mask = DMA_BIT_MASK(32);
--
--	child = platform_device_register_full(&pdevinfo);
--	if (IS_ERR(child)) {
--		dev_warn(&pdev->dev, "%s not registered\n", name);
--		child = NULL;
--	}
--
--	return child;
--}
--
- static int vchiq_probe(struct platform_device *pdev)
- {
- 	struct device_node *fw_node;
+> +	if (ssdb.vcmtype > ARRAY_SIZE(cio2_vcm_types)) {
+> +		dev_warn(&adev->dev, "Unknown VCM type %d\n", ssdb.vcmtype);
+> +		ssdb.vcmtype = 0;
+> +	}
+
+I'm wondering if we actually can add the first entry in the types as UNKNOWN or
+so, and hence
+
+	if (ssdb.vcmtype >= ARRAY_SIZE(cio2_vcm_types)) {
+		...
+	}
+
+
+> +	if (ssdb.vcmtype)
+> +		sensor->vcm_type = cio2_vcm_types[ssdb.vcmtype - 1];
+
+...and here the conditional can be dropped.
+
+	sensor->vcm_type = cio2_vcm_types[ssdb.vcmtype];
+
+Maybe it's a material for a separate change... Dunno.
+
 -- 
-2.39.1
+With Best Regards,
+Andy Shevchenko
+
 
