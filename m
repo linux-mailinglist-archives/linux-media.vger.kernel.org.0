@@ -2,378 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 53E6573FF25
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 17:01:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BED4273FD5C
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 16:07:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231345AbjF0PA6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jun 2023 11:00:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59898 "EHLO
+        id S231372AbjF0OHV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jun 2023 10:07:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230195AbjF0PA5 (ORCPT
+        with ESMTP id S231351AbjF0OHU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jun 2023 11:00:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 449C3FA
-        for <linux-media@vger.kernel.org>; Tue, 27 Jun 2023 08:00:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1687878012;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ShseNxfXXxfnIb148XD8n6NmouB69TgdS0NPQ2fWsXQ=;
-        b=MfReiWwDwx7lylWZPNow8sPa0JBBqYI6SZc0GPoZ+pZaSqqoGS2Idm2LhUlTvah1/jsAcE
-        ysuIrK6duPCQc9J1Cca05WEZN/RpcHtAwUyL7vhI1BgK7SY0iLHiRb/86+x+JLuaIzjKpR
-        ktNHgcX1ergxFbWKCtiWL3rrFn7yf/E=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-251-S7R3W0ISMq-uQWavta-zOw-1; Tue, 27 Jun 2023 09:18:52 -0400
-X-MC-Unique: S7R3W0ISMq-uQWavta-zOw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 916113815EEA;
-        Tue, 27 Jun 2023 13:18:51 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.194.24])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 42E38401061;
-        Tue, 27 Jun 2023 13:18:50 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-        Tommaso Merciai <tomm.merciai@gmail.com>,
-        linux-media@vger.kernel.org
-Subject: [PATCH v3 12/29] media: ov2680: Add runtime-pm support
-Date:   Tue, 27 Jun 2023 15:18:13 +0200
-Message-ID: <20230627131830.54601-13-hdegoede@redhat.com>
-In-Reply-To: <20230627131830.54601-1-hdegoede@redhat.com>
-References: <20230627131830.54601-1-hdegoede@redhat.com>
+        Tue, 27 Jun 2023 10:07:20 -0400
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FA872D6A;
+        Tue, 27 Jun 2023 07:07:18 -0700 (PDT)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35RDPSLg028459;
+        Tue, 27 Jun 2023 16:06:58 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=date : from : to :
+ cc : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=selector1; bh=ua1duTEqW5T5GC/jOwW1wwLIXtNNQBIm6X1goj4Ur48=;
+ b=Z6mbBX/eqCNPGEa54p9IF127hCNBgjNjrDkmb6pEuKordVcGYpas1Dxk3Ma1R7ik7h7m
+ oEL2o8UGaKyrqrO9k7J7kxTXUuipLc7efEpDS9xuIxJ3nlJZZ5N5GOsZ+IC/yLTDlRv4
+ d2nAfjI1oU+pLTTSd06JW6AMSqOX8sfevoeOgzxpvio2Uknihqv7LhZK9iKmZzr4rsvj
+ TFO7o+Q3mIMZVuetOmd8REzPUYOP1U0PwmE5J/y8aq8Gu3Ld9Og6p6fraboq9DfIYWDB
+ vzSiZZv121CP6/WsTQ/RsAfRBo8II7VNlV45K2vT6Ohqo29Izuonjl2F3iaoTGABOCyE mg== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3rg0n188qv-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 27 Jun 2023 16:06:58 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 67515100057;
+        Tue, 27 Jun 2023 16:06:50 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5DB4323C6AC;
+        Tue, 27 Jun 2023 16:06:50 +0200 (CEST)
+Received: from gnbcxd0016.gnb.st.com (10.129.178.213) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Tue, 27 Jun
+ 2023 16:06:49 +0200
+Date:   Tue, 27 Jun 2023 16:06:40 +0200
+From:   Alain Volmat <alain.volmat@foss.st.com>
+To:     <yqsun1997@gmail.com>
+CC:     <mchehab@kernel.org>, <matthias.bgg@gmail.com>,
+        <angelogioacchino.delregno@collabora.com>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>, <499671216@qq.com>
+Subject: Re: [PATCH] OOB read and write in mdp_prepare_buffer
+Message-ID: <20230627140640.GA3605278@gnbcxd0016.gnb.st.com>
+Mail-Followup-To: yqsun1997@gmail.com, mchehab@kernel.org,
+        matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, 499671216@qq.com
+References: <20230627082731.1769620-1-yqsun1997@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230627082731.1769620-1-yqsun1997@gmail.com>
+X-Disclaimer: ce message est personnel / this message is private
+X-Originating-IP: [10.129.178.213]
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-27_10,2023-06-27_01,2023-05-22_02
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Remove the obsolete s_power() callback and instead use runtime-pm +
-autosuspend, powering-on the sensor on s_stream(1) and releasing
-the runtime-pm reference on s_stream(0).
+Hi,
 
-This also removes the need for ov2680_mode_restore() instead
-ov2680_stream_enable() now takes care of all sensor initalization
-after power-on.
+On Tue, Jun 27, 2023 at 04:27:31PM +0800, yqsun1997@gmail.com wrote:
+> From: yqsun1997 <yqsun1997@gmail.com>
+> 
+> Because format in struct img_image_buffer max index is IMG_MAX_PLANES ==3,
+> The num_planes max index is 8.so will be OOB like in mdp_prepare_buffer.
 
-This is a preparation patch for adding ACPI support.
+Similarly as your other patch, could you describe why you need to
+increase the IMG_MAX_PLANES while I suspect your driver only needs to
+deal with 3 planes.  While the maximum num_planes value that can be
+given by the user is 8, this has to be first compared to the configured
+format prior to reaching this function.
 
-Note this also removes putting the clock lane into LP-11 state from
-ov2680_power_on() since now streaming will start immediately after
-powering on the sensor there is no need to put the clock lane
-in a low power state.
+> 
+> static void mdp_prepare_buffer(struct img_image_buffer *b,
+>                                struct mdp_frame *frame, struct vb2_buffer *vb)
+> {
+>         struct v4l2_pix_format_mplane *pix_mp = &frame->format.fmt.pix_mp;
+>         unsigned int i;
+> 
+>         b->format.colorformat = frame->mdp_fmt->mdp_color;
+>         b->format.ycbcr_prof = frame->ycbcr_prof;
+>         for (i = 0; i < pix_mp->num_planes; ++i) {
+>                 u32 stride = mdp_fmt_get_stride(frame->mdp_fmt,
+>                         pix_mp->plane_fmt[i].bytesperline, i);
+> 
+>                 b->format.plane_fmt[i].stride = stride;  //oob
+>                 ......
+> 
+> Signed-off-by: yqsun1997 <yqsun1997@gmail.com>
+> ---
+>  drivers/media/platform/mediatek/mdp3/mtk-mdp3-type.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-type.h b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-type.h
+> index ae0396806..e2e991a34 100644
+> --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-type.h
+> +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-type.h
+> @@ -11,7 +11,7 @@
+>  
+>  #define IMG_MAX_HW_INPUTS	3
+>  #define IMG_MAX_HW_OUTPUTS	4
+> -#define IMG_MAX_PLANES		3
+> +#define IMG_MAX_PLANES		8
+>  #define IMG_MAX_COMPONENTS	20
+>  
+>  struct img_crop {
+> -- 
+> 2.39.2
+> 
 
-Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/media/i2c/ov2680.c | 134 +++++++++++++++++--------------------
- 1 file changed, 61 insertions(+), 73 deletions(-)
-
-diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
-index 0de047c49c31..56aaf67c1d82 100644
---- a/drivers/media/i2c/ov2680.c
-+++ b/drivers/media/i2c/ov2680.c
-@@ -18,6 +18,7 @@
- #include <linux/init.h>
- #include <linux/module.h>
- #include <linux/of_device.h>
-+#include <linux/pm_runtime.h>
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
- 
-@@ -99,7 +100,6 @@ struct ov2680_dev {
- 	struct gpio_desc		*pwdn_gpio;
- 	struct mutex			lock; /* protect members */
- 
--	bool				mode_pending_changes;
- 	bool				is_enabled;
- 	bool				is_streaming;
- 
-@@ -282,19 +282,15 @@ static int ov2680_exposure_set(struct ov2680_dev *sensor, u32 exp)
- }
- 
- static int ov2680_stream_enable(struct ov2680_dev *sensor)
--{
--	return cci_write(sensor->regmap, OV2680_REG_STREAM_CTRL, 1, NULL);
--}
--
--static int ov2680_stream_disable(struct ov2680_dev *sensor)
--{
--	return cci_write(sensor->regmap, OV2680_REG_STREAM_CTRL, 0, NULL);
--}
--
--static int ov2680_mode_set(struct ov2680_dev *sensor)
- {
- 	int ret;
- 
-+	ret = regmap_multi_reg_write(sensor->regmap,
-+				     ov2680_mode_init_data.reg_data,
-+				     ov2680_mode_init_data.reg_data_size);
-+	if (ret < 0)
-+		return ret;
-+
- 	ret = regmap_multi_reg_write(sensor->regmap,
- 				     sensor->current_mode->reg_data,
- 				     sensor->current_mode->reg_data_size);
-@@ -306,22 +302,12 @@ static int ov2680_mode_set(struct ov2680_dev *sensor)
- 	if (ret < 0)
- 		return ret;
- 
--	sensor->mode_pending_changes = false;
--
--	return 0;
-+	return cci_write(sensor->regmap, OV2680_REG_STREAM_CTRL, 1, NULL);
- }
- 
--static int ov2680_mode_restore(struct ov2680_dev *sensor)
-+static int ov2680_stream_disable(struct ov2680_dev *sensor)
- {
--	int ret;
--
--	ret = regmap_multi_reg_write(sensor->regmap,
--				     ov2680_mode_init_data.reg_data,
--				     ov2680_mode_init_data.reg_data_size);
--	if (ret < 0)
--		return ret;
--
--	return ov2680_mode_set(sensor);
-+	return cci_write(sensor->regmap, OV2680_REG_STREAM_CTRL, 0, NULL);
- }
- 
- static int ov2680_power_off(struct ov2680_dev *sensor)
-@@ -369,11 +355,6 @@ static int ov2680_power_on(struct ov2680_dev *sensor)
- 
- 	sensor->is_enabled = true;
- 
--	/* Set clock lane into LP-11 state */
--	ov2680_stream_enable(sensor);
--	usleep_range(1000, 2000);
--	ov2680_stream_disable(sensor);
--
- 	return 0;
- 
- err_disable_regulators:
-@@ -381,26 +362,6 @@ static int ov2680_power_on(struct ov2680_dev *sensor)
- 	return ret;
- }
- 
--static int ov2680_s_power(struct v4l2_subdev *sd, int on)
--{
--	struct ov2680_dev *sensor = to_ov2680_dev(sd);
--	int ret = 0;
--
--	mutex_lock(&sensor->lock);
--
--	if (on)
--		ret = ov2680_power_on(sensor);
--	else
--		ret = ov2680_power_off(sensor);
--
--	if (on && ret == 0)
--		ret = ov2680_mode_restore(sensor);
--
--	mutex_unlock(&sensor->lock);
--
--	return ret;
--}
--
- static int ov2680_s_g_frame_interval(struct v4l2_subdev *sd,
- 				     struct v4l2_subdev_frame_interval *fi)
- {
-@@ -423,16 +384,20 @@ static int ov2680_s_stream(struct v4l2_subdev *sd, int enable)
- 	if (sensor->is_streaming == !!enable)
- 		goto unlock;
- 
--	if (enable && sensor->mode_pending_changes) {
--		ret = ov2680_mode_set(sensor);
-+	if (enable) {
-+		ret = pm_runtime_resume_and_get(sensor->sd.dev);
- 		if (ret < 0)
- 			goto unlock;
--	}
- 
--	if (enable)
- 		ret = ov2680_stream_enable(sensor);
--	else
-+		if (ret < 0) {
-+			pm_runtime_put(sensor->sd.dev);
-+			goto unlock;
-+		}
-+	} else {
- 		ret = ov2680_stream_disable(sensor);
-+		pm_runtime_put(sensor->sd.dev);
-+	}
- 
- 	sensor->is_streaming = !!enable;
- 
-@@ -519,7 +484,6 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
- 
- 	sensor->current_mode = mode;
- 	sensor->fmt = format->format;
--	sensor->mode_pending_changes = true;
- 
- unlock:
- 	mutex_unlock(&sensor->lock);
-@@ -603,10 +567,6 @@ static const struct v4l2_ctrl_ops ov2680_ctrl_ops = {
- 	.s_ctrl = ov2680_s_ctrl,
- };
- 
--static const struct v4l2_subdev_core_ops ov2680_core_ops = {
--	.s_power = ov2680_s_power,
--};
--
- static const struct v4l2_subdev_video_ops ov2680_video_ops = {
- 	.g_frame_interval	= ov2680_s_g_frame_interval,
- 	.s_frame_interval	= ov2680_s_g_frame_interval,
-@@ -623,7 +583,6 @@ static const struct v4l2_subdev_pad_ops ov2680_pad_ops = {
- };
- 
- static const struct v4l2_subdev_ops ov2680_subdev_ops = {
--	.core	= &ov2680_core_ops,
- 	.video	= &ov2680_video_ops,
- 	.pad	= &ov2680_pad_ops,
- };
-@@ -643,8 +602,6 @@ static int ov2680_mode_init(struct ov2680_dev *sensor)
- 
- 	sensor->current_mode = init_mode;
- 
--	sensor->mode_pending_changes = true;
--
- 	return 0;
- }
- 
-@@ -722,8 +679,6 @@ static int ov2680_check_id(struct ov2680_dev *sensor)
- 	u64 chip_id;
- 	int ret;
- 
--	ov2680_power_on(sensor);
--
- 	ret = cci_read(sensor->regmap, OV2680_REG_CHIP_ID, &chip_id, NULL);
- 	if (ret < 0) {
- 		dev_err(sensor->dev, "failed to read chip id\n");
-@@ -811,18 +766,39 @@ static int ov2680_probe(struct i2c_client *client)
- 
- 	mutex_init(&sensor->lock);
- 
--	ret = ov2680_check_id(sensor);
-+	/*
-+	 * Power up and verify the chip now, so that if runtime pm is
-+	 * disabled the chip is left on and streaming will work.
-+	 */
-+	ret = ov2680_power_on(sensor);
- 	if (ret < 0)
- 		goto lock_destroy;
- 
-+	ret = ov2680_check_id(sensor);
-+	if (ret < 0)
-+		goto err_powerdown;
-+
-+	pm_runtime_set_active(&client->dev);
-+	pm_runtime_get_noresume(&client->dev);
-+	pm_runtime_enable(&client->dev);
-+
- 	ret = ov2680_v4l2_register(sensor);
- 	if (ret < 0)
--		goto lock_destroy;
-+		goto err_pm_runtime;
-+
-+	pm_runtime_set_autosuspend_delay(&client->dev, 1000);
-+	pm_runtime_use_autosuspend(&client->dev);
-+	pm_runtime_put_autosuspend(&client->dev);
- 
- 	dev_info(dev, "ov2680 init correctly\n");
- 
- 	return 0;
- 
-+err_pm_runtime:
-+	pm_runtime_disable(&client->dev);
-+	pm_runtime_put_noidle(&client->dev);
-+err_powerdown:
-+	ov2680_power_off(sensor);
- lock_destroy:
- 	dev_err(dev, "ov2680 init fail: %d\n", ret);
- 	mutex_destroy(&sensor->lock);
-@@ -839,9 +815,18 @@ static void ov2680_remove(struct i2c_client *client)
- 	mutex_destroy(&sensor->lock);
- 	media_entity_cleanup(&sensor->sd.entity);
- 	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
-+
-+	/*
-+	 * Disable runtime PM. In case runtime PM is disabled in the kernel,
-+	 * make sure to turn power off manually.
-+	 */
-+	pm_runtime_disable(&client->dev);
-+	if (!pm_runtime_status_suspended(&client->dev))
-+		ov2680_power_off(sensor);
-+	pm_runtime_set_suspended(&client->dev);
- }
- 
--static int __maybe_unused ov2680_suspend(struct device *dev)
-+static int ov2680_suspend(struct device *dev)
- {
- 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
- 	struct ov2680_dev *sensor = to_ov2680_dev(sd);
-@@ -849,15 +834,19 @@ static int __maybe_unused ov2680_suspend(struct device *dev)
- 	if (sensor->is_streaming)
- 		ov2680_stream_disable(sensor);
- 
--	return 0;
-+	return ov2680_power_off(sensor);
- }
- 
--static int __maybe_unused ov2680_resume(struct device *dev)
-+static int ov2680_resume(struct device *dev)
- {
- 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
- 	struct ov2680_dev *sensor = to_ov2680_dev(sd);
- 	int ret;
- 
-+	ret = ov2680_power_on(sensor);
-+	if (ret < 0)
-+		goto stream_disable;
-+
- 	if (sensor->is_streaming) {
- 		ret = ov2680_stream_enable(sensor);
- 		if (ret < 0)
-@@ -873,9 +862,8 @@ static int __maybe_unused ov2680_resume(struct device *dev)
- 	return ret;
- }
- 
--static const struct dev_pm_ops ov2680_pm_ops = {
--	SET_SYSTEM_SLEEP_PM_OPS(ov2680_suspend, ov2680_resume)
--};
-+static DEFINE_RUNTIME_DEV_PM_OPS(ov2680_pm_ops, ov2680_suspend, ov2680_resume,
-+				 NULL);
- 
- static const struct of_device_id ov2680_dt_ids[] = {
- 	{ .compatible = "ovti,ov2680" },
-@@ -886,7 +874,7 @@ MODULE_DEVICE_TABLE(of, ov2680_dt_ids);
- static struct i2c_driver ov2680_i2c_driver = {
- 	.driver = {
- 		.name  = "ov2680",
--		.pm = &ov2680_pm_ops,
-+		.pm = pm_sleep_ptr(&ov2680_pm_ops),
- 		.of_match_table	= of_match_ptr(ov2680_dt_ids),
- 	},
- 	.probe		= ov2680_probe,
--- 
-2.41.0
-
+Regards,
+Alain
