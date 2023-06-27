@@ -2,188 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C1D674012C
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 18:30:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 368BB740177
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 18:40:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230007AbjF0QaR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jun 2023 12:30:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47232 "EHLO
+        id S232438AbjF0Qk2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jun 2023 12:40:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232244AbjF0Q3X (ORCPT
+        with ESMTP id S231721AbjF0Qk0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jun 2023 12:29:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E475635AD
-        for <linux-media@vger.kernel.org>; Tue, 27 Jun 2023 09:28:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1687883181;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=TPwd6LVPcSJwU3KxUyiSmwHEPo8aol4SenanrVGRmGM=;
-        b=bhgP0YBTqMpMxkNOCq9c1LCH6m0LnF3T8KnKUhf+UZB8w69i7/MFkCarbAXs30NMxjJGw/
-        QqPNbeS/XGIzP2VFcNx32480Um1+XdzfAQpcpV6PUl+8oZ2QuexdUe82dL1dnsimFKxnHK
-        YHjfB8yHq7mDjVQiSS5DMxrL5IQ7t2g=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-92-jaCRwmsPMCSXBe4C8bKDcw-1; Tue, 27 Jun 2023 12:26:17 -0400
-X-MC-Unique: jaCRwmsPMCSXBe4C8bKDcw-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-987a0365f77so263090766b.1
-        for <linux-media@vger.kernel.org>; Tue, 27 Jun 2023 09:26:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687883170; x=1690475170;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TPwd6LVPcSJwU3KxUyiSmwHEPo8aol4SenanrVGRmGM=;
-        b=ehHJaGBSqQWHXVQcYJCs3/FjrmnZPVrZFzsOam/NI2g1cVJVrSVL/dRNyZrRc7w1tc
-         b1kkNlQEm8Yoi9+6KVVJbPRrRO8P5jRCjE0rHTgVsPaw0sNrI1VDQxlMg79oTsajJSco
-         S9c9hQJTk9X+BKf6g/DuLCPm9p23nczWhSRKh8dTRc0HiJPCVdW+3uTjcHj+UMjulAUN
-         LmC5IPq6xiMHK7mdVBO+TDVYyDg7gFjd+njsaHORqJy2KiMfe1GRT1BuhcysZAKBkaSK
-         V8SnM+Q8mcDL8wHk47h4QxuBxrWT6lJ6T1EZZTait4Ie/Z/PGDYRcmoY/2HcgqOaFubf
-         FnlQ==
-X-Gm-Message-State: AC+VfDxKtymX0QKD1qKjv2XzmOuSPDgzsukoOePy6j2uJvyh8gAOzE8e
-        KQM6oG2K1MgLF58RxZvxcDDqfxLrN5PDzOpQ9AyhPVkoiF37mB5VeXYPICW3ImSrjxATjV/uZAH
-        qWM/aOSA8282eLLVE5AaXlR8=
-X-Received: by 2002:a17:906:411b:b0:992:5135:4106 with SMTP id j27-20020a170906411b00b0099251354106mr473932ejk.29.1687883170007;
-        Tue, 27 Jun 2023 09:26:10 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4b2AV6vBs7TEP7T2bwgMJhFwr4BfhGSuj4Qo8OPVRz2+R7wovMQNoJeowarnwTDYdrkX11ow==
-X-Received: by 2002:a17:906:411b:b0:992:5135:4106 with SMTP id j27-20020a170906411b00b0099251354106mr473915ejk.29.1687883169678;
-        Tue, 27 Jun 2023 09:26:09 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id rl25-20020a170907217900b0098d80adcc23sm4679641ejb.113.2023.06.27.09.26.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Jun 2023 09:26:09 -0700 (PDT)
-Message-ID: <b0152c64-6e1a-41ae-c497-7b552f2be6d4@redhat.com>
-Date:   Tue, 27 Jun 2023 18:26:08 +0200
+        Tue, 27 Jun 2023 12:40:26 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1DDEF4;
+        Tue, 27 Jun 2023 09:40:24 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 59458611EB;
+        Tue, 27 Jun 2023 16:40:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9D8F0C433C9;
+        Tue, 27 Jun 2023 16:40:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687884023;
+        bh=Mddr9IEnVSSEtvey/EPFRhLi4YnxlTkalZzmHZ6bmJ8=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=XGRGiORnH0FmaQ+kclMjYIsE8aiZt7Gs4g5WBNw+zT0ASSus8daZkKZirfbcgaoBv
+         HsuO0nskJhLaiZxylU7zlINMijGNLl9q7WEg/ms3Lh/IrCmjj2LVp6pXCXh1uqP4W3
+         kOcx2VCa4pIOSzcMTF35giAc72J/A42BnFN7K4h/MvLUE7JXaOanngW1cFFib+5J4v
+         8N2ABirViOcrN32FYcrvP15sAv/TezaSVGJHU9rgp1d1sCUFbyUbMRRUsWjqDMoEYN
+         HlJlhL0V9YgQDqvmqEWLdtvBli6Q5b70JaJ8QNh8cP8DiB/xBCXlUB+GXHpoI+1ee3
+         oj4CRUwtvenNQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 7B046C64458;
+        Tue, 27 Jun 2023 16:40:23 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v3 24/29] media: ov2680: Fix exposure and gain ctrls range
- and default value
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-        Tommaso Merciai <tomm.merciai@gmail.com>,
-        linux-media@vger.kernel.org
-References: <20230627131830.54601-1-hdegoede@redhat.com>
- <20230627131830.54601-25-hdegoede@redhat.com>
- <ufoycurk666obqqn4yljfkumhjsql7syqxcuu2m52k5adty7qd@w5sprhel4noq>
-Content-Language: en-US, nl
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <ufoycurk666obqqn4yljfkumhjsql7syqxcuu2m52k5adty7qd@w5sprhel4noq>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2 00/24] use vmalloc_array and vcalloc
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <168788402349.21860.17350888958370358926.git-patchwork-notify@kernel.org>
+Date:   Tue, 27 Jun 2023 16:40:23 +0000
+References: <20230627144339.144478-1-Julia.Lawall@inria.fr>
+In-Reply-To: <20230627144339.144478-1-Julia.Lawall@inria.fr>
+To:     Julia Lawall <julia.lawall@inria.fr>
+Cc:     linux-hyperv@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        keescook@chromium.org, christophe.jaillet@wanadoo.fr,
+        kuba@kernel.org, kasan-dev@googlegroups.com, andreyknvl@gmail.com,
+        dvyukov@google.com, iommu@lists.linux.dev,
+        linux-tegra@vger.kernel.org, robin.murphy@arm.com,
+        vdumpa@nvidia.com, virtualization@lists.linux-foundation.org,
+        xuanzhuo@linux.alibaba.com, linux-scsi@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
+        jstultz@google.com, Brian.Starkey@arm.com, labbott@redhat.com,
+        lmark@codeaurora.org, benjamin.gaignard@collabora.com,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, shailend@google.com,
+        linux-rdma@vger.kernel.org, mhi@lists.linux.dev,
+        linux-arm-msm@vger.kernel.org, linux-btrfs@vger.kernel.org,
+        intel-gvt-dev@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, dave.hansen@linux.intel.com,
+        hpa@zytor.com, linux-sgx@vger.kernel.org
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hello:
 
-On 6/27/23 17:16, Jacopo Mondi wrote:
-> Hi Hans
->   another drive-by question
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Tue, 27 Jun 2023 16:43:15 +0200 you wrote:
+> The functions vmalloc_array and vcalloc were introduced in
 > 
-> On Tue, Jun 27, 2023 at 03:18:25PM +0200, Hans de Goede wrote:
->> The exposure control's max effective value is VTS - 8, set the control
->> range to match this. Thas means that if/when a future commit makes VTS
->> configurable as a control itself the exposure range needs to be
->> updated dynamically to match the VTS value.
->>
->> The gain control goes from 0 - 1023, higher values wrap around to
->> the lowest gain setting.
->>
->> Also stop setting 0 as default for both controls this leads to
->> a totally black picture which is no good. This is esp. important
->> for tests of the sensor driver without (userspace driven)
->> auto exposure / gain.
+> commit a8749a35c399 ("mm: vmalloc: introduce array allocation functions")
 > 
-> I see the driver uses V4L2_CID_GAIN. Is this intentional or should
-> this be V4L2_CID_ANALOGUE_GAIN? As you're plumbing libcamera support
-> in, this is the control libcamera expects to use to control analogue
-> gain.
-
-That is a good question. I've not changed this for worries about
-existing users. Although given the previous state of the existing
-code I wonder if there are any existing users?
-
-So what is the policy on this ?
-
-Also I still need to figure out what the actual range
-(as in amplification at lowest + highest setting) of the gain
-control is, because AFAIk libcamera wants to know this.
-
-Any hints on how to do this ? Also are there any docs on
-how a driver should implement V4L2_CID_ANALOGUE_GAIN wrt range?
-
-E.g. is the driver expected do to some conversion of values
-to make the control always set a specific amplification for
-a specific value?
-
-Regards,
-
-Hans
-
-
-
+> but are not used much yet.  This series introduces uses of
+> these functions, to protect against multiplication overflows.
 > 
->>
->> Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->>  drivers/media/i2c/ov2680.c | 9 +++++++--
->>  1 file changed, 7 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
->> index 6591ce3b9244..e26a6487d421 100644
->> --- a/drivers/media/i2c/ov2680.c
->> +++ b/drivers/media/i2c/ov2680.c
->> @@ -81,6 +81,9 @@
->>  /* If possible send 16 extra rows / lines to the ISP as padding */
->>  #define OV2680_END_MARGIN			16
->>
->> +/* Max exposure time is VTS - 8 */
->> +#define OV2680_INTEGRATION_TIME_MARGIN		8
->> +
->>  #define OV2680_DEFAULT_WIDTH			800
->>  #define OV2680_DEFAULT_HEIGHT			600
->>
->> @@ -823,6 +826,7 @@ static int ov2680_v4l2_register(struct ov2680_dev *sensor)
->>  	const struct v4l2_ctrl_ops *ops = &ov2680_ctrl_ops;
->>  	struct ov2680_ctrls *ctrls = &sensor->ctrls;
->>  	struct v4l2_ctrl_handler *hdl = &ctrls->handler;
->> +	int exp_max = OV2680_LINES_PER_FRAME - OV2680_INTEGRATION_TIME_MARGIN;
->>  	int ret = 0;
->>
->>  	v4l2_i2c_subdev_init(&sensor->sd, client, &ov2680_subdev_ops);
->> @@ -849,9 +853,10 @@ static int ov2680_v4l2_register(struct ov2680_dev *sensor)
->>  					0, 0, test_pattern_menu);
->>
->>  	ctrls->exposure = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_EXPOSURE,
->> -					    0, 32767, 1, 0);
->> +					    0, exp_max, 1, exp_max);
->>
->> -	ctrls->gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_GAIN, 0, 2047, 1, 0);
->> +	ctrls->gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_GAIN,
->> +					0, 1023, 1, 250);
->>
->>  	if (hdl->error) {
->>  		ret = hdl->error;
->> --
->> 2.41.0
->>
-> 
+> [...]
+
+Here is the summary with links:
+  - [v2,02/24] octeon_ep: use vmalloc_array and vcalloc
+    https://git.kernel.org/netdev/net-next/c/32d462a5c3e5
+  - [v2,04/24] gve: use vmalloc_array and vcalloc
+    https://git.kernel.org/netdev/net-next/c/a13de901e8d5
+  - [v2,09/24] pds_core: use vmalloc_array and vcalloc
+    https://git.kernel.org/netdev/net-next/c/906a76cc7645
+  - [v2,11/24] ionic: use vmalloc_array and vcalloc
+    https://git.kernel.org/netdev/net-next/c/f712c8297e0a
+  - [v2,18/24] net: enetc: use vmalloc_array and vcalloc
+    https://git.kernel.org/netdev/net-next/c/fa87c54693ae
+  - [v2,22/24] net: mana: use vmalloc_array and vcalloc
+    https://git.kernel.org/netdev/net-next/c/e9c74f8b8a31
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
