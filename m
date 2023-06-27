@@ -2,148 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A4A8D7402C5
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 19:58:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CEEA740396
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 20:52:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231504AbjF0R6Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jun 2023 13:58:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37972 "EHLO
+        id S231182AbjF0Swn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jun 2023 14:52:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231588AbjF0R6X (ORCPT
+        with ESMTP id S230229AbjF0Swm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jun 2023 13:58:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDEFA358A
-        for <linux-media@vger.kernel.org>; Tue, 27 Jun 2023 10:57:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1687888630;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=itt6oqukh1+EnQXouEStoimfB0wBOa+JiwN4KAGdN5M=;
-        b=SfLVe75Hfuc2ZTuqujE1DUn029YD3C+6Ia7YxZ4O2afmMoaJhWX8iW+eGFgHhH8laVFdCU
-        cZE6EGwUCSekaZrk4DmPX7W+3rSX3LZgT2Rt+ow9t7IwT4Kn8Hb5vrRdnBByQrXUmT+b+q
-        n7UDJfRxy+SpfGkaU6p2MhPw7Hkcj2c=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-573-eUrcKxeOMDyI3gYM2Qdk0g-1; Tue, 27 Jun 2023 13:57:06 -0400
-X-MC-Unique: eUrcKxeOMDyI3gYM2Qdk0g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 673F33C0FC9E;
-        Tue, 27 Jun 2023 17:57:05 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.194.24])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C1C91200B677;
-        Tue, 27 Jun 2023 17:57:02 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-        Hao Yao <hao.yao@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
-        linux-media@vger.kernel.org
-Subject: [PATCH 12/12] [RFC] media: dw9719: Drop hack to enable "vsio" regulator
-Date:   Tue, 27 Jun 2023 19:56:42 +0200
-Message-ID: <20230627175643.114778-13-hdegoede@redhat.com>
-In-Reply-To: <20230627175643.114778-1-hdegoede@redhat.com>
-References: <20230627175643.114778-1-hdegoede@redhat.com>
+        Tue, 27 Jun 2023 14:52:42 -0400
+Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FB471BF9
+        for <linux-media@vger.kernel.org>; Tue, 27 Jun 2023 11:52:40 -0700 (PDT)
+Received: by mail-qt1-x831.google.com with SMTP id d75a77b69052e-4007b5bafceso46601cf.1
+        for <linux-media@vger.kernel.org>; Tue, 27 Jun 2023 11:52:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1687891959; x=1690483959;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XanXoDlHYuqu7WYlucQ21J3KG2JUv31j1KTL+YaYRcw=;
+        b=tPrpWdnP56AC15CdynAtlLaMhZcoMrwTEd/uWTCfR3x6ZSk2aQs18un036H4Ui91Mz
+         yipTpkAWSSEw3sBbMhjNPTFYagOc2smOlg8be0RQW47nzZtgo+C5Ptfe55oDSxjaSkX0
+         idJ5n7fJQSXQxasfFIWbg2LKCscxSP6nA95ZRZt6P+sFiMDn6Y+k3aHiI3giIk0UJOI+
+         RsBiyEWPVmLE1yxdaMJ8gPZHKUeeMrjGJJGfIo73hE1hVi5UIcHUAG/2LgLNnAze8rTB
+         /iF1/wOik0/z5RMYKefbcBecyhdwgNOoRGVNJZZZCrdwIR3VXSMUnaseQ55GbmLr05Td
+         l7VA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687891959; x=1690483959;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XanXoDlHYuqu7WYlucQ21J3KG2JUv31j1KTL+YaYRcw=;
+        b=kRqRAgbCzerop6h36opRAchHd9t1TyVJQbb2PC1GA2e489gNIvVnUd6x8Qc1Abm/fa
+         vCJAPPkEEYiMVG7+ZI/u4ToZUdmqM0BErsNtmkb17J+n7z/fkH0hsqKTa/CNrZrQEZ3u
+         R9jMu6a1QzsQj05aEoPd2SHERJC9vGXD7KmelMciDTaNEz0BPiJnsJj+W+eoBC0OfaLB
+         yyYZEziGaiF4BtS5o0IW6UeJXrmSXOPRilVwLs8tQeM0CXdNM3XWtcdY67Do6a6t1oe/
+         VEYoPzw33ZkZItMfCA53Wf3L77N4ity43E3ARIqZbjUxdekhqtf50PqIabx5dBB1zfI0
+         GOzQ==
+X-Gm-Message-State: AC+VfDwqIuli/Q+98BSM7RD74MiwyAWP5KXssNcyurRuAjhx4PWiqLwF
+        4DdjTZphRiIBzyMzg6MRlQqaRQSw0CYO7uGuu6Rn
+X-Google-Smtp-Source: ACHHUZ5dfRe4sjCsi1avwvjKJ8EPuqVzC75vPw7U/LlRFR2FRvQRAfeRSfejLqd26KQk3zITWlc71jc5mXyGnWmKbCs=
+X-Received: by 2002:ac8:5905:0:b0:3f8:5b2:aef0 with SMTP id
+ 5-20020ac85905000000b003f805b2aef0mr19156qty.24.1687891959197; Tue, 27 Jun
+ 2023 11:52:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+References: <20230627144339.144478-1-Julia.Lawall@inria.fr> <20230627144339.144478-7-Julia.Lawall@inria.fr>
+In-Reply-To: <20230627144339.144478-7-Julia.Lawall@inria.fr>
+From:   John Stultz <jstultz@google.com>
+Date:   Tue, 27 Jun 2023 11:52:27 -0700
+Message-ID: <CANDhNCrPHJjDwGLMY_p8Z21bCnBvTzQmztYqRykTBD9t-+mbcQ@mail.gmail.com>
+Subject: Re: [PATCH v2 06/24] dma-buf: system_heap: use vmalloc_array and vcalloc
+To:     Julia Lawall <Julia.Lawall@inria.fr>
+Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
+        kernel-janitors@vger.kernel.org, keescook@chromium.org,
+        christophe.jaillet@wanadoo.fr, kuba@kernel.org,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Drop the hack where the driver is getting + enabling a "vsio" regulator
-even though the dw9719 does not have a vsio pin / power-plane at all.
+On Tue, Jun 27, 2023 at 7:44=E2=80=AFAM Julia Lawall <Julia.Lawall@inria.fr=
+> wrote:
+>
+> Use vmalloc_array and vcalloc to protect against
+> multiplication overflows.
+>
+> The changes were done using the following Coccinelle
+> semantic patch:
+>
+> // <smpl>
+> @initialize:ocaml@
+> @@
+>
+> let rename alloc =3D
+>   match alloc with
+>     "vmalloc" -> "vmalloc_array"
+>   | "vzalloc" -> "vcalloc"
+>   | _ -> failwith "unknown"
+>
+> @@
+>     size_t e1,e2;
+>     constant C1, C2;
+>     expression E1, E2, COUNT, x1, x2, x3;
+>     typedef u8;
+>     typedef __u8;
+>     type t =3D {u8,__u8,char,unsigned char};
+>     identifier alloc =3D {vmalloc,vzalloc};
+>     fresh identifier realloc =3D script:ocaml(alloc) { rename alloc };
+> @@
+>
+> (
+>       alloc(x1*x2*x3)
+> |
+>       alloc(C1 * C2)
+> |
+>       alloc((sizeof(t)) * (COUNT), ...)
+> |
+> -     alloc((e1) * (e2))
+> +     realloc(e1, e2)
+> |
+> -     alloc((e1) * (COUNT))
+> +     realloc(COUNT, e1)
+> |
+> -     alloc((E1) * (E2))
+> +     realloc(E1, E2)
+> )
+> // </smpl>
+>
+> Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
+>
+> ---
+> v2: Use vmalloc_array and vcalloc instead of array_size.
+> This also leaves a multiplication of a constant by a sizeof
+> as is.  Two patches are thus dropped from the series.
+>
+>  drivers/dma-buf/heaps/system_heap.c |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff -u -p a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/=
+system_heap.c
+> --- a/drivers/dma-buf/heaps/system_heap.c
+> +++ b/drivers/dma-buf/heaps/system_heap.c
+> @@ -221,7 +221,7 @@ static void *system_heap_do_vmap(struct
+>  {
+>         struct sg_table *table =3D &buffer->sg_table;
+>         int npages =3D PAGE_ALIGN(buffer->len) / PAGE_SIZE;
+> -       struct page **pages =3D vmalloc(sizeof(struct page *) * npages);
+> +       struct page **pages =3D vmalloc_array(npages, sizeof(struct page =
+*));
+>         struct page **tmp =3D pages;
+>         struct sg_page_iter piter;
+>         void *vaddr;
 
-Now that drivers/media/common/intel-cio2-bridge.c adds device-link
-making the VCM a consumer of the sensor this hack is no longer necessary.
+Seems reasonable. Thanks for sending this out!
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
-Note to reviewers, the dw9719 driver is not upstream yet (I plan to
-resubmit it soon with this squashed in). This patch is only included
-in this patch-set to illustrate how the VCM -> sensor device-link
-avoids the need for hacks like this.
----
- drivers/media/i2c/dw9719.c | 27 +++++++--------------------
- 1 file changed, 7 insertions(+), 20 deletions(-)
+Acked-by: John Stultz <jstultz@google.com>
 
-diff --git a/drivers/media/i2c/dw9719.c b/drivers/media/i2c/dw9719.c
-index 94b76b4b2463..5fe01a125c1a 100644
---- a/drivers/media/i2c/dw9719.c
-+++ b/drivers/media/i2c/dw9719.c
-@@ -35,14 +35,12 @@
- #define DW9719_DEFAULT_VCM_FREQ		0x60
- #define DW9719_ENABLE_RINGING		0x02
- 
--#define NUM_REGULATORS			2
--
- #define to_dw9719_device(x) container_of(x, struct dw9719_device, sd)
- 
- struct dw9719_device {
- 	struct device *dev;
- 	struct i2c_client *client;
--	struct regulator_bulk_data regulators[NUM_REGULATORS];
-+	struct regulator *regulator;
- 	struct v4l2_subdev sd;
- 
- 	struct dw9719_v4l2_ctrls {
-@@ -131,14 +129,14 @@ static int dw9719_detect(struct dw9719_device *dw9719)
- 
- static int dw9719_power_down(struct dw9719_device *dw9719)
- {
--	return regulator_bulk_disable(NUM_REGULATORS, dw9719->regulators);
-+	return regulator_disable(dw9719->regulator);
- }
- 
- static int dw9719_power_up(struct dw9719_device *dw9719)
- {
- 	int ret;
- 
--	ret = regulator_bulk_enable(NUM_REGULATORS, dw9719->regulators);
-+	ret = regulator_enable(dw9719->regulator);
- 	if (ret)
- 		return ret;
- 
-@@ -315,21 +313,10 @@ static int dw9719_probe(struct i2c_client *client)
- 	dw9719->client = client;
- 	dw9719->dev = &client->dev;
- 
--	dw9719->regulators[0].supply = "vdd";
--	/*
--	 * The DW9719 has only the 1 VDD voltage input, but some PMICs such as
--	 * the TPS68470 PMIC have I2C passthrough capability, to disconnect the
--	 * sensor's I2C pins from the I2C bus when the sensors VSIO (Sensor-IO)
--	 * is off, because some sensors then short these pins to ground;
--	 * and the DW9719 might sit behind this passthrough, this it needs to
--	 * enable VSIO as that will also enable the I2C passthrough.
--	 */
--	dw9719->regulators[1].supply = "vsio";
--
--	ret = devm_regulator_bulk_get(&client->dev, NUM_REGULATORS,
--				      dw9719->regulators);
--	if (ret)
--		return dev_err_probe(&client->dev, ret, "getting regulators\n");
-+	dw9719->regulator = devm_regulator_get(&client->dev, "vdd");
-+	if (IS_ERR(dw9719->regulator))
-+		return dev_err_probe(&client->dev, PTR_ERR(dw9719->regulator),
-+				     "getting regulator\n");
- 
- 	v4l2_i2c_subdev_init(&dw9719->sd, client, &dw9719_ops);
- 	dw9719->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
--- 
-2.41.0
-
+thanks
+-john
