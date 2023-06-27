@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7813F7402BB
+	by mail.lfdr.de (Postfix) with ESMTP id C11FF7402BC
 	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 19:57:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231882AbjF0R5y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jun 2023 13:57:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37392 "EHLO
+        id S231879AbjF0R5z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jun 2023 13:57:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231879AbjF0R5p (ORCPT
+        with ESMTP id S231886AbjF0R5p (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 27 Jun 2023 13:57:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EC83297C
-        for <linux-media@vger.kernel.org>; Tue, 27 Jun 2023 10:56:56 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C98E30D8
+        for <linux-media@vger.kernel.org>; Tue, 27 Jun 2023 10:56:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1687888615;
+        s=mimecast20190719; t=1687888616;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=IXspoUMbXahzIwGsmqD0Xy6ILU3RyqBjkkqTnQxjZu4=;
-        b=RzfkTDDELg8I9Vy4SNF/vnE/BjUXt86zx577qBpO6SvYaBqop0ITZjn61fX21JYgryhj9i
-        6FCSYZQdN+uVL+gPNXYBeqtYiZE49Yf4wxom81oYydq1/gmX0TKzOe27YlAPorhHj8EI3/
-        kOWq+Ec1J9zN5C31NrI2WnZRwPT2VNw=
+        bh=PmJGJf7PHFMYCPKvlc6eoiKx4hcI9rJSnVS9cs6J5XM=;
+        b=ALu1Lvv+68u0YqatBX3+K6mUMXMXvB2ES/+Z+VqVOskhTqDw+1u6dXS50rc1PK5IR5uUz+
+        uZlTzT6v157kvXbTRc+k+lgLSuoS/AOEDK/000uB2RE6593BKt2frXX827HIPG8zLd74kr
+        OoSrkZEU2fJxENovhXX5U7UDZOZihMo=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-118-AClckXdLN6iCSoHSBqW9eQ-1; Tue, 27 Jun 2023 13:56:52 -0400
-X-MC-Unique: AClckXdLN6iCSoHSBqW9eQ-1
+ us-mta-453-wbT-lN8zNemno8N2ZqNTyQ-1; Tue, 27 Jun 2023 13:56:53 -0400
+X-MC-Unique: wbT-lN8zNemno8N2ZqNTyQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 610E1280BC51;
-        Tue, 27 Jun 2023 17:56:51 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E87A61C08963;
+        Tue, 27 Jun 2023 17:56:52 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.194.24])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 125D3200A3AD;
-        Tue, 27 Jun 2023 17:56:49 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 94506200B677;
+        Tue, 27 Jun 2023 17:56:51 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -47,9 +47,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
         Hao Yao <hao.yao@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
         linux-media@vger.kernel.org
-Subject: [PATCH 04/12] media: ipu3-cio2: Store dev pointer in struct cio2_bridge
-Date:   Tue, 27 Jun 2023 19:56:34 +0200
-Message-ID: <20230627175643.114778-5-hdegoede@redhat.com>
+Subject: [PATCH 05/12] media: ipu3-cio2: Only keep PLD around while parsing
+Date:   Tue, 27 Jun 2023 19:56:35 +0200
+Message-ID: <20230627175643.114778-6-hdegoede@redhat.com>
 In-Reply-To: <20230627175643.114778-1-hdegoede@redhat.com>
 References: <20230627175643.114778-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -65,103 +65,161 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Store the dev pointer in struct cio2_bridge instead of passing it
-around 3 levels deep.
+There is no need to keep a reference to the PLD struct around,
+it is only used once the get the sensor orientation.
 
-This takes up slightly more memory but further patches in this series
-add more data which needs to be passed around making passing
-everything as arguments cumbersome and those further patches also
-add data to struct cio2_bridge.
+Rename cio2_bridge_parse_orientation() to cio2_bridge_get_orientation()
+and make it also get + put the PLD.
 
-To be consistent with these upcoming patches also add
-the dev pointer to struct cio2_bridge.
+This is a preparation patch for making the cio2-bridge code more generic
+so that it can be shared with the atomisp driver.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/media/pci/intel/ipu3/cio2-bridge.c | 15 +++++++--------
- drivers/media/pci/intel/ipu3/cio2-bridge.h |  1 +
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ drivers/media/pci/intel/ipu3/cio2-bridge.c | 51 ++++++++++++----------
+ drivers/media/pci/intel/ipu3/cio2-bridge.h |  2 +-
+ 2 files changed, 30 insertions(+), 23 deletions(-)
 
 diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.c b/drivers/media/pci/intel/ipu3/cio2-bridge.c
-index 72a28844dfdb..746c1dda31d1 100644
+index 746c1dda31d1..741ef54f0d65 100644
 --- a/drivers/media/pci/intel/ipu3/cio2-bridge.c
 +++ b/drivers/media/pci/intel/ipu3/cio2-bridge.c
-@@ -286,8 +286,7 @@ static void cio2_bridge_unregister_sensors(struct cio2_bridge *bridge)
+@@ -112,23 +112,40 @@ static u32 cio2_bridge_parse_rotation(struct cio2_sensor *sensor)
+ 	}
  }
  
- static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
--				      struct cio2_bridge *bridge,
--				      struct device *dev)
-+				      struct cio2_bridge *bridge)
+-static enum v4l2_fwnode_orientation cio2_bridge_parse_orientation(struct cio2_sensor *sensor)
++static enum v4l2_fwnode_orientation
++cio2_bridge_get_orientation(struct acpi_device *adev)
  {
+-	switch (sensor->pld->panel) {
++	enum v4l2_fwnode_orientation orientation;
++	struct acpi_pld_info *pld;
++	acpi_status status;
++
++	status = acpi_get_physical_device_location(adev->handle, &pld);
++	if (ACPI_FAILURE(status)) {
++		dev_warn(&adev->dev, "_PLD call failed using unknown orientation\n");
++		return V4L2_FWNODE_ORIENTATION_EXTERNAL;
++	}
++
++	switch (pld->panel) {
+ 	case ACPI_PLD_PANEL_FRONT:
+-		return V4L2_FWNODE_ORIENTATION_FRONT;
++		orientation = V4L2_FWNODE_ORIENTATION_FRONT;
++		break;
+ 	case ACPI_PLD_PANEL_BACK:
+-		return V4L2_FWNODE_ORIENTATION_BACK;
++		orientation = V4L2_FWNODE_ORIENTATION_BACK;
++		break;
+ 	case ACPI_PLD_PANEL_TOP:
+ 	case ACPI_PLD_PANEL_LEFT:
+ 	case ACPI_PLD_PANEL_RIGHT:
+ 	case ACPI_PLD_PANEL_UNKNOWN:
+-		return V4L2_FWNODE_ORIENTATION_EXTERNAL;
++		orientation = V4L2_FWNODE_ORIENTATION_EXTERNAL;
++		break;
+ 	default:
+-		dev_warn(&sensor->adev->dev, "Unknown _PLD panel value %d\n",
+-			 sensor->pld->panel);
+-		return V4L2_FWNODE_ORIENTATION_EXTERNAL;
++		dev_warn(&adev->dev, "Unknown _PLD panel val %d\n", pld->panel);
++		orientation = V4L2_FWNODE_ORIENTATION_EXTERNAL;
++		break;
+ 	}
++
++	ACPI_FREE(pld);
++	return orientation;
+ }
+ 
+ static void cio2_bridge_create_fwnode_properties(
+@@ -137,10 +154,8 @@ static void cio2_bridge_create_fwnode_properties(
+ 	const struct cio2_sensor_config *cfg)
+ {
+ 	u32 rotation;
+-	enum v4l2_fwnode_orientation orientation;
+ 
+ 	rotation = cio2_bridge_parse_rotation(sensor);
+-	orientation = cio2_bridge_parse_orientation(sensor);
+ 
+ 	sensor->prop_names = prop_names;
+ 
+@@ -155,7 +170,7 @@ static void cio2_bridge_create_fwnode_properties(
+ 					rotation);
+ 	sensor->dev_properties[2] = PROPERTY_ENTRY_U32(
+ 					sensor->prop_names.orientation,
+-					orientation);
++					sensor->orientation);
+ 	if (sensor->ssdb.vcmtype) {
+ 		sensor->vcm_ref[0] =
+ 			SOFTWARE_NODE_REFERENCE(&sensor->swnodes[SWNODE_VCM]);
+@@ -279,7 +294,6 @@ static void cio2_bridge_unregister_sensors(struct cio2_bridge *bridge)
+ 	for (i = 0; i < bridge->n_sensors; i++) {
+ 		sensor = &bridge->sensors[i];
+ 		software_node_unregister_node_group(sensor->group);
+-		ACPI_FREE(sensor->pld);
+ 		acpi_dev_put(sensor->adev);
+ 		i2c_unregister_device(sensor->vcm_i2c_client);
+ 	}
+@@ -291,7 +305,6 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
  	struct fwnode_handle *fwnode, *primary;
  	struct cio2_sensor *sensor;
-@@ -301,7 +300,7 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
+ 	struct acpi_device *adev;
+-	acpi_status status;
+ 	int ret;
  
- 		if (bridge->n_sensors >= CIO2_NUM_PORTS) {
- 			acpi_dev_put(adev);
--			dev_err(dev, "Exceeded available CIO2 ports\n");
-+			dev_err(bridge->dev, "Exceeded available CIO2 ports\n");
- 			return -EINVAL;
+ 	for_each_acpi_dev_match(adev, cfg->hid, NULL, -1) {
+@@ -321,17 +334,13 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
+ 			sensor->ssdb.vcmtype = 0;
  		}
  
-@@ -356,7 +355,7 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
+-		status = acpi_get_physical_device_location(adev->handle, &sensor->pld);
+-		if (ACPI_FAILURE(status)) {
+-			ret = -ENODEV;
+-			goto err_put_adev;
+-		}
++		sensor->orientation = cio2_bridge_get_orientation(adev);
  
- 		cio2_bridge_instantiate_vcm_i2c_client(sensor);
+ 		if (sensor->ssdb.lanes > CIO2_MAX_LANES) {
+ 			dev_err(&adev->dev,
+ 				"Number of lanes in SSDB is invalid\n");
+ 			ret = -EINVAL;
+-			goto err_free_pld;
++			goto err_put_adev;
+ 		}
  
--		dev_info(dev, "Found supported sensor %s\n",
-+		dev_info(bridge->dev, "Found supported sensor %s\n",
- 			 acpi_dev_name(adev));
+ 		cio2_bridge_create_fwnode_properties(sensor, bridge, cfg);
+@@ -339,7 +348,7 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
  
- 		bridge->n_sensors++;
-@@ -373,8 +372,7 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
- 	return ret;
- }
- 
--static int cio2_bridge_connect_sensors(struct cio2_bridge *bridge,
--				       struct device *dev)
-+static int cio2_bridge_connect_sensors(struct cio2_bridge *bridge)
- {
- 	unsigned int i;
- 	int ret;
-@@ -383,7 +381,7 @@ static int cio2_bridge_connect_sensors(struct cio2_bridge *bridge,
- 		const struct cio2_sensor_config *cfg =
- 			&cio2_supported_sensors[i];
- 
--		ret = cio2_bridge_connect_sensor(cfg, bridge, dev);
-+		ret = cio2_bridge_connect_sensor(cfg, bridge);
+ 		ret = software_node_register_node_group(sensor->group);
  		if (ret)
- 			goto err_unregister_sensors;
- 	}
-@@ -446,6 +444,7 @@ int cio2_bridge_init(struct device *dev)
- 	strscpy(bridge->cio2_node_name, CIO2_HID,
- 		sizeof(bridge->cio2_node_name));
- 	bridge->cio2_hid_node.name = bridge->cio2_node_name;
-+	bridge->dev = dev;
+-			goto err_free_pld;
++			goto err_put_adev;
  
- 	ret = software_node_register(&bridge->cio2_hid_node);
- 	if (ret < 0) {
-@@ -463,7 +462,7 @@ int cio2_bridge_init(struct device *dev)
- 	for (i = 0; i < CIO2_MAX_LANES; i++)
- 		bridge->data_lanes[i] = i + 1;
+ 		fwnode = software_node_fwnode(&sensor->swnodes[
+ 						      SWNODE_SENSOR_HID]);
+@@ -365,8 +374,6 @@ static int cio2_bridge_connect_sensor(const struct cio2_sensor_config *cfg,
  
--	ret = cio2_bridge_connect_sensors(bridge, dev);
-+	ret = cio2_bridge_connect_sensors(bridge);
- 	if (ret || bridge->n_sensors == 0)
- 		goto err_unregister_cio2;
- 
+ err_free_swnodes:
+ 	software_node_unregister_node_group(sensor->group);
+-err_free_pld:
+-	ACPI_FREE(sensor->pld);
+ err_put_adev:
+ 	acpi_dev_put(adev);
+ 	return ret;
 diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.h b/drivers/media/pci/intel/ipu3/cio2-bridge.h
-index a824b96bcdf2..8045ceab899b 100644
+index 8045ceab899b..e42c5c3cf856 100644
 --- a/drivers/media/pci/intel/ipu3/cio2-bridge.h
 +++ b/drivers/media/pci/intel/ipu3/cio2-bridge.h
-@@ -137,6 +137,7 @@ struct cio2_sensor {
- };
+@@ -125,7 +125,7 @@ struct cio2_sensor {
+ 	struct cio2_node_names node_names;
  
- struct cio2_bridge {
-+	struct device *dev;
- 	char cio2_node_name[ACPI_ID_LEN];
- 	struct software_node cio2_hid_node;
- 	u32 data_lanes[4];
+ 	struct cio2_sensor_ssdb ssdb;
+-	struct acpi_pld_info *pld;
++	enum v4l2_fwnode_orientation orientation;
+ 
+ 	struct cio2_property_names prop_names;
+ 	struct property_entry ep_properties[5];
 -- 
 2.41.0
 
