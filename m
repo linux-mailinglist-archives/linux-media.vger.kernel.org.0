@@ -2,69 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3111873FBF8
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 14:28:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9C6673FC2B
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 14:52:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230423AbjF0M22 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jun 2023 08:28:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42264 "EHLO
+        id S229841AbjF0MwE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jun 2023 08:52:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229926AbjF0M21 (ORCPT
+        with ESMTP id S229732AbjF0MwD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jun 2023 08:28:27 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 545D72706;
-        Tue, 27 Jun 2023 05:28:24 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-98e39784a85so464370566b.1;
-        Tue, 27 Jun 2023 05:28:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687868902; x=1690460902;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tATW33xeNVNgsfO7kNHXzZcJ0gMJZAgbl6N8NUDs/RE=;
-        b=nTgRcX6rj9m25biFDQ+GiAvKhgT0s6sBGS6wrujE1mq8fwQT6kRc2XDapu/rPo8fL8
-         TOxxqyYuW83myTjNO2zsFHsxnECDbWMByunXlwhcMgJ9OWBYvSjR/cR+spB2ID7evDH1
-         OLEXKUcNvl3nZanq1vBw4Dw032wAvP8JN0Mr/KQd6Xp/uDnD8rN9ALfDHFKZVkS+0qQQ
-         jhw9/ZSEcTDcsYy2cuplY3aXpxsr0PCAIo5d/c+XC+z5mViBhOmNOWtX5FsseQrN0mcT
-         mArBBcgKnUNZEatu5TFYez+CL5SvlNlpE1JaDwwhaqb/+KaT30faRv1G8OU5CMqcoebv
-         aOgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687868902; x=1690460902;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tATW33xeNVNgsfO7kNHXzZcJ0gMJZAgbl6N8NUDs/RE=;
-        b=Nlft5zqcHq8OM9afHRv3pDTltvAa546WZt46MN7EkqDXEkJ6SGetleOQGNJz185de9
-         sb91EH4tJSBzoZHlFio55q+h/mrE56Hx2SgShf7FDrsXDsGG85RzUN2yK9q/pBWjXpZz
-         6LO2CrwRFiIyMYiu+Q6OfJbEycxSKIDdmlL2GFicfZd11fKrquFoU0BPyLHaYZX0ZYR3
-         5JuJ/X/0Rrnuyc7orMJa98Bj3h57iP53v7tajVcfPVykfLg9J0sXOJwnrjGJUQjTAALE
-         8DFD463U1rK9R0soWuhZPzeRKJDa8jieDSljQQyTWfs5KG8igCh2iKYCwREWg6Qq/dW3
-         pz8Q==
-X-Gm-Message-State: AC+VfDy90bczbj7NrAFo8mFJkgt+YMtSOVahwgx1SlcGxkhJA7aDNxeO
-        OuEK5XF5A5WjED/G/x1/tD3UBlKlucpoR2Qtd+Q=
-X-Google-Smtp-Source: ACHHUZ5ApV7cvX4Q3CRArtLi2hrH4sXtiyypn8GcRYX+zEVHohR2QS2IdF+C/5GXLK6stLqSbf/y7TRXavlF2dEF0ug=
-X-Received: by 2002:a17:907:7ba5:b0:982:4b35:c0b6 with SMTP id
- ne37-20020a1709077ba500b009824b35c0b6mr31461984ejc.1.1687868902416; Tue, 27
- Jun 2023 05:28:22 -0700 (PDT)
+        Tue, 27 Jun 2023 08:52:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF751270F
+        for <linux-media@vger.kernel.org>; Tue, 27 Jun 2023 05:51:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1687870279;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=9uZxaUb730DTDmJwjyMxnaggbZWBqZdDwLV5FHNCafA=;
+        b=Yr5KadwKAolB3hWM2DY3xe2RNNRuZN8wi78diiSXLyL+Ei7sx+dFVj6oaJlwckjctgEpaX
+        C8OZa4iugq7ZrVxfQib22KBLYWmU+yQWyHxw8IQQvp8DbGZnRxVEA89gKpJNcWzXS9Iytv
+        e220LMwmN07S6iTEBcboAcAOzlk7+3I=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-145-RfE_0BX1NR6APEYndXybiw-1; Tue, 27 Jun 2023 08:51:13 -0400
+X-MC-Unique: RfE_0BX1NR6APEYndXybiw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 38D551C28CFC;
+        Tue, 27 Jun 2023 12:51:11 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.194.24])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C020B1400C35;
+        Tue, 27 Jun 2023 12:51:09 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+        Tommaso Merciai <tomm.merciai@gmail.com>,
+        linux-media@vger.kernel.org
+Subject: [PATCH v4 0/5] media: Add MIPI CCI register access helper functions
+Date:   Tue, 27 Jun 2023 14:51:03 +0200
+Message-ID: <20230627125109.52354-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-References: <20230627081002.1768990-1-yqsun1997@gmail.com> <20230627104237.GA3601890@gnbcxd0016.gnb.st.com>
-In-Reply-To: <20230627104237.GA3601890@gnbcxd0016.gnb.st.com>
-From:   sun yq <yqsun1997@gmail.com>
-Date:   Tue, 27 Jun 2023 20:28:11 +0800
-Message-ID: <CAA0BgY_bKg4qXmtmWqHQW+EOvfXUG0FqRtAJ7A8C40uL1v8qVA@mail.gmail.com>
-Subject: Re: [PATCH] OOB read and write in mtk multiple places
-To:     yqsun1997@gmail.com, tiffany.lin@mediatek.com,
-        andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
-        matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, 499671216@qq.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -73,65 +64,90 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When using V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE, the number of planes is
-controlled by the user. Only checking the oob at the function may miss
-other functions, so it is appropriate to change the size of the macro.
-You can refer to other functions, such as
-mtk_dip_vb2_video_queue_setup, the max plane size of this module is 8
+Hi Laurent, Sakari, et al.,
+
+Here is v4 of my MIPI CCI register access helper patches.
+
+New in the CCI register access helpers in v4:
+- Add V4L2_CCI_I2C Kconfig and wrap devm_cci_regmap_init_i2c()
+  with if IS_ENABLED(CONFIG_V4L2_CCI_I2C)
+
+New in the CCI register access helpers in v3:
+- Use unsigned int instead of int in a couple of places
+- Run + fix checkpatch.pl --strict --max-line-length=80
+- Rename cci_regmap_init_i2c() to devm_cci_regmap_init_i2c()
+- Some small kerneldoc text tweaks
+
+Other changes in v3:
+- Some small tweaks to some of the driver conversions,
+  see individual patch changelogs
+
+New in the CCI register access helpers in v2:
+- Drop cci_reg_type enum
+- Make having an encoded reg-width mandatory rather then using 0 to encode
+  8 bit width making reg-addresses without an encoded width default to
+  a width of 8
+- Add support for 64 bit wide registers
+- Introduce a new cci_reg_sequence struct with 64 bit reg values for 64 bit
+  support and without the delay_us field
+- Various kerneldoc updates
+- Stop supporting delays in cci_multi_reg_write()
+- Some includes cleanups
+- Disable regmap locking
+
+Other changes in v2:
+- Add a patch to convert the ov5693 driver (tested on Surface Go)
+- Add a patch to convert the imx290 driver (untested)
+
+Original (v1) cover-letter:
+
+The CSI2 specification specifies a standard method to access camera sensor
+registers called "Camera Control Interface (CCI)".
+
+Currently a lot of Linux camera sensor drivers all have their own custom
+helpers for this, often copy and pasted from other drivers.
+
+This adds a set of generic helpers for this so that all sensor drivers can
+switch to a single common implementation.
+
+This is based on / the result of our previous discussion on this here:
+Link: https://lore.kernel.org/linux-media/59aefa7f-7bf9-6736-6040-39551329cd0a@redhat.com/
+
+Patches 2-4 are examples of how these helpers can be used and patch 5
+removes the now no longer necessary ov_16bit_addr_reg_helpers.h which was
+the previous attempt to add common CCI access helpers.
+
+Regards,
+
+Hans
 
 
-On Tue, Jun 27, 2023 at 6:42=E2=80=AFPM Alain Volmat <alain.volmat@foss.st.=
-com> wrote:
->
-> Hi,
->
-> I had a look at some places where this macro MTK_VCODEC_MAX_PLANES
-> is being used, such as q_data->bytesperline etc.
-> This patch seems to be increasing the table size from 3 to 8 but,
-> if my understanding is correct doesn't solve the issue that
-> (taking the example you give in vidioc_venc_g_fmt) the table
-> bytesperline is accessed taking into account a num_planes values which
-> is unchecked if appropriate for this driver.
->
-> What are the 8 planes you are referring to ?
->
-> While increasing the table to 8 might also be necessary, it seems to me
-> that the real OOB access issue should be solved by checking the num of
-> planes value.
->
-> Regards,
-> Alain
->
-> On Tue, Jun 27, 2023 at 04:10:02PM +0800, yqsun1997@gmail.com wrote:
-> > From: yqsun1997 <yqsun1997@gmail.com>
-> >
-> > The num_planes max index is 8,
-> > but bytesperline and bytesperline in struct mtk_q_data,
-> > The max index is MTK_VCODEC_MAX_PLANES =3D=3D 3,
-> > so will cause OOB read and write in multiple places.like vidioc_venc_g_=
-fmt
-> > same as commit 8fbcf730
-> >
-> > Signed-off-by: yqsun1997 <yqsun1997@gmail.com>
-> > ---
-> >  drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h b/=
-drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h
-> > index 9acab54fd..c2c157675 100644
-> > --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h
-> > +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h
-> > @@ -22,7 +22,7 @@
-> >  #define MTK_VCODEC_DEC_NAME  "mtk-vcodec-dec"
-> >  #define MTK_VCODEC_ENC_NAME  "mtk-vcodec-enc"
-> >
-> > -#define MTK_VCODEC_MAX_PLANES        3
-> > +#define MTK_VCODEC_MAX_PLANES        8
-> >  #define MTK_V4L2_BENCHMARK   0
-> >  #define WAIT_INTR_TIMEOUT_MS 1000
-> >  #define IS_VDEC_LAT_ARCH(hw_arch) ((hw_arch) >=3D MTK_VDEC_LAT_SINGLE_=
-CORE)
-> > --
-> > 2.39.2
-> >
+Hans de Goede (5):
+  media: Add MIPI CCI register access helper functions
+  media: ov5693: Convert to new CCI register access helpers
+  media: imx290: Convert to new CCI register access helpers
+  media: atomisp: ov2680: Convert to new CCI register access helpers
+  media: Remove ov_16bit_addr_reg_helpers.h
+
+ Documentation/driver-api/media/v4l2-cci.rst   |   5 +
+ Documentation/driver-api/media/v4l2-core.rst  |   1 +
+ drivers/media/i2c/Kconfig                     |   2 +
+ drivers/media/i2c/imx290.c                    | 360 +++++------
+ drivers/media/i2c/ov5693.c                    | 585 +++++++-----------
+ drivers/media/v4l2-core/Kconfig               |   9 +
+ drivers/media/v4l2-core/Makefile              |   1 +
+ drivers/media/v4l2-core/v4l2-cci.c            | 166 +++++
+ drivers/staging/media/atomisp/i2c/Kconfig     |   1 +
+ .../media/atomisp/i2c/atomisp-ov2680.c        | 251 ++++----
+ drivers/staging/media/atomisp/i2c/ov2680.h    |  86 +--
+ include/media/ov_16bit_addr_reg_helpers.h     |  92 ---
+ include/media/v4l2-cci.h                      | 125 ++++
+ 13 files changed, 807 insertions(+), 877 deletions(-)
+ create mode 100644 Documentation/driver-api/media/v4l2-cci.rst
+ create mode 100644 drivers/media/v4l2-core/v4l2-cci.c
+ delete mode 100644 include/media/ov_16bit_addr_reg_helpers.h
+ create mode 100644 include/media/v4l2-cci.h
+
+-- 
+2.41.0
+
