@@ -2,107 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 84E44740248
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 19:36:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC1BF7402BD
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 19:58:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231578AbjF0Rfx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jun 2023 13:35:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53630 "EHLO
+        id S231555AbjF0R55 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jun 2023 13:57:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230482AbjF0Rfv (ORCPT
+        with ESMTP id S231890AbjF0R5p (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jun 2023 13:35:51 -0400
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 510E4269E;
-        Tue, 27 Jun 2023 10:35:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=iIHKX23DruyWxNvBPEkGuI6LxtvA8lzHrP07ul+XeWg=;
-  b=Ixk+uerCSeTIr9ry6BMbctwfqD/cZnATnAx+lIta14URQK6WCY5xHjGm
-   o3KZXqW1gNajuttsDVa436Hys12QuNPP2txSbbx2HNdh9pIRN48Mulca3
-   yAySyKmwGTMzvh54rhJs1cScpvyPiplespvWI9GEO7/NX4JgVXoWk5zMN
-   0=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.01,163,1684792800"; 
-   d="scan'208";a="59972658"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 19:35:47 +0200
-Date:   Tue, 27 Jun 2023 19:35:47 +0200 (CEST)
-From:   Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To:     Julia Lawall <Julia.Lawall@inria.fr>
-cc:     Sakari Ailus <sakari.ailus@linux.intel.com>, keescook@chromium.org,
-        kernel-janitors@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Tue, 27 Jun 2023 13:57:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66A412D59
+        for <linux-media@vger.kernel.org>; Tue, 27 Jun 2023 10:56:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1687888612;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=fQXCr8AYuGTJgufWH9PIwJSfI0EOgxMbJ383PgbiS9Y=;
+        b=U4QL1Il6ih0nBoBBOQja+LGye42AUYAQdGgz6B4XJXxjlhaipA4I9jqLPVTgczrxGTwtRm
+        b6is9kA4in7ZjGbDfOaW3iHwCNgaDxTP5dt2CwShqmAdvWmZbKeH5bIfv6V/+oOf3cD9RR
+        nL5VLEoDBgOaOA3bWS/sHaQ6jCQi83Q=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-541-WI_MuUZLMeKEf8F09I_2cg-1; Tue, 27 Jun 2023 13:56:45 -0400
+X-MC-Unique: WI_MuUZLMeKEf8F09I_2cg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 38DEE1C08962;
+        Tue, 27 Jun 2023 17:56:45 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.194.24])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C0955200B677;
+        Tue, 27 Jun 2023 17:56:43 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 23/26] media: staging: imgu: use array_size
-In-Reply-To: <20230623211457.102544-24-Julia.Lawall@inria.fr>
-Message-ID: <alpine.DEB.2.22.394.2306271933480.3150@hadrien>
-References: <20230623211457.102544-1-Julia.Lawall@inria.fr> <20230623211457.102544-24-Julia.Lawall@inria.fr>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+        Hao Yao <hao.yao@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
+        linux-media@vger.kernel.org
+Subject: [PATCH 00/12] media: intel-cio2-bridge: Add shared intel-cio2-bridge code, rework VCM instantiation
+Date:   Tue, 27 Jun 2023 19:56:30 +0200
+Message-ID: <20230627175643.114778-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi All,
+
+While working on adding (proper) VCM support to the atomisp code
+I found myself copying yet more code from
+drivers/media/pci/intel/ipu3/cio2-bridge.c into the atomisp code.
+
+So I decided that it really was time to factor out the common code
+(most of the code) from intel/ipu3/cio2-bridge.c into its own
+helper library and then share it between the atomisp and IPU3 code.
+
+This will hopefully also be useful for the ongoing work to upstream
+IPU6 input system support which also needs this functionality and
+currently contains a 3th copy of this code in the out of tree driver.
+
+This set consists of the following parts:
+
+Patch 1     A bugfix for a recent change to the cio2-bridge code
+Patches 2-8 Cleanup / preparation patches
+Patch 9     Move the main body of the cio2-bridge.c code into
+            a new shared intel-cio2-bridge module
+Patch 10    Drop cio2-bridge code copy from atomisp, switching to
+            the shared intel-cio2-bridge module
+Patch 11    Rework how VCM client instantiation is done so that
+            a device-link can be added from VCM to sensor to
+            fix issues with the VCM power-state being tied to
+            the sensor power state
+Patch 12    Example patch to show how patch 11 avoids the need
+            for hacks in VCM drivers caused by the shared power state
+            (not intended for merging)
+
+Regards,
+
+Hans
 
 
-On Fri, 23 Jun 2023, Julia Lawall wrote:
+Hans de Goede (12):
+  media: ipu3-cio2: Do not use on stack memory for software_node.name
+    field
+  media: ipu3-cio2: Move initialization of node_names.vcm to
+    cio2_bridge_init_swnode_names()
+  media: ipu3-cio2: Make cio2_bridge_init() take a regular struct device
+    as argument
+  media: ipu3-cio2: Store dev pointer in struct cio2_bridge
+  media: ipu3-cio2: Only keep PLD around while parsing
+  media: ipu3-cio2: Add a cio2_bridge_parse_sensor_fwnode() helper
+    function
+  media: ipu3-cio2: Add a parse_sensor_fwnode callback to
+    cio2_bridge_init()
+  media: ipu3-cio2: Add supported_sensors parameter to
+    cio2_bridge_init()
+  media: ipu3-cio2: Move cio2_bridge_init() code into a new shared
+    intel-cio2-bridge.ko
+  media: atomisp: csi2-bridge: Switch to new common cio2_bridge_init()
+  media: intel-cio2-bridge: Add a runtime-pm device-link between VCM and
+    sensor
+  [RFC] media: dw9719: Drop hack to enable "vsio" regulator
 
-> Use array_size to protect against multiplication overflows.
->
-> The changes were done using the following Coccinelle semantic patch:
->
-> // <smpl>
-> @@
->     expression E1, E2;
->     constant C1, C2;
->     identifier alloc = {vmalloc,vzalloc};
-> @@
->
-> (
->       alloc(C1 * C2,...)
-> |
->       alloc(
-> -           (E1) * (E2)
-> +           array_size(E1, E2)
->       ,...)
-> )
-> // </smpl>
->
-> Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
->
-> ---
->  drivers/staging/media/ipu3/ipu3-mmu.c |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/staging/media/ipu3/ipu3-mmu.c b/drivers/staging/media/ipu3/ipu3-mmu.c
-> index cb9bf5fb29a5..9c4adb815c94 100644
-> --- a/drivers/staging/media/ipu3/ipu3-mmu.c
-> +++ b/drivers/staging/media/ipu3/ipu3-mmu.c
-> @@ -464,7 +464,7 @@ struct imgu_mmu_info *imgu_mmu_init(struct device *parent, void __iomem *base)
->  	 * Allocate the array of L2PT CPU pointers, initialized to zero,
->  	 * which means the dummy L2PT allocated above.
->  	 */
-> -	mmu->l2pts = vzalloc(IPU3_PT_PTES * sizeof(*mmu->l2pts));
-> +	mmu->l2pts = vzalloc(array_size(IPU3_PT_PTES, sizeof(*mmu->l2pts)));
->  	if (!mmu->l2pts)
->  		goto fail_l2pt;
+ MAINTAINERS                                   |   9 +
+ drivers/media/common/Kconfig                  |   4 +
+ drivers/media/common/Makefile                 |   1 +
+ drivers/media/common/intel-cio2-bridge.c      | 464 ++++++++++++++++++
+ drivers/media/i2c/dw9719.c                    |  27 +-
+ drivers/media/pci/intel/ipu3/Kconfig          |   1 +
+ drivers/media/pci/intel/ipu3/cio2-bridge.c    | 464 +++---------------
+ drivers/media/pci/intel/ipu3/cio2-bridge.h    | 146 ------
+ drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |   7 +-
+ drivers/media/pci/intel/ipu3/ipu3-cio2.h      |   7 +-
+ drivers/staging/media/atomisp/Kconfig         |   2 +
+ .../staging/media/atomisp/pci/atomisp_csi2.h  |  67 ---
+ .../media/atomisp/pci/atomisp_csi2_bridge.c   | 307 ++----------
+ include/media/intel-cio2-bridge.h             | 105 ++++
+ 14 files changed, 723 insertions(+), 888 deletions(-)
+ create mode 100644 drivers/media/common/intel-cio2-bridge.c
+ delete mode 100644 drivers/media/pci/intel/ipu3/cio2-bridge.h
+ create mode 100644 include/media/intel-cio2-bridge.h
 
-I think that this patch can be dropped.  Since it is a multiplcation of
-two constants, if there is an overflow, I guess the compiler would detect
-it?
+-- 
+2.41.0
 
-julia
