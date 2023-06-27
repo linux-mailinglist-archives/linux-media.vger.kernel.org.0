@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5638773FCAA
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 15:20:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1C6273FCA9
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 15:20:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229881AbjF0NUO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jun 2023 09:20:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60272 "EHLO
+        id S230003AbjF0NUM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jun 2023 09:20:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230106AbjF0NUI (ORCPT
+        with ESMTP id S229841AbjF0NUH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jun 2023 09:20:08 -0400
+        Tue, 27 Jun 2023 09:20:07 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11565171A
-        for <linux-media@vger.kernel.org>; Tue, 27 Jun 2023 06:18:47 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04D061722
+        for <linux-media@vger.kernel.org>; Tue, 27 Jun 2023 06:18:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1687871927;
+        s=mimecast20190719; t=1687871929;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=VwO1a1IjoFoGQprf//V47HWez7maIaOWf7otJqJ9XUM=;
-        b=Sd6MXr4TldIe10ZPFi2qpagfIE3lZO/rnRDchFv+QVqsaj3YdqJz17xTLaj7nBsRf73IhC
-        OXi4Kb+65cUY9SG2I1I3WBvTxC1+59Zpy/8ACEm6Gok9E5O4auOdPYl0BqPqoJpxk6iohq
-        dqujvIWdFGprhrlns5/vYefZD6LS41c=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=fHbL8+wVyI61OsstH321bPv7X8D81LFoXSuSBgq+A9A=;
+        b=MpZUIJK3//OtezrIFCBITl86vdLVQe5wysXH9+AQY7gef4He/WUOw7l2xf9zRDkSryH8iD
+        /kFJw4vjpS5TMUcV8EcAvX2dA9JkxDagjQuNWQ7EgaL/Gcs4unKt70dFO4E5WXNdKpIKcR
+        VtZM3QnSt0D72q7uqWmtQfAxFpZa1cI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-546-c0Ad4pAKM_q31cQeZ5tp4w-1; Tue, 27 Jun 2023 09:18:43 -0400
-X-MC-Unique: c0Ad4pAKM_q31cQeZ5tp4w-1
+ us-mta-22-3McF31v6OzqJiKjdBHz3iQ-1; Tue, 27 Jun 2023 09:18:44 -0400
+X-MC-Unique: 3McF31v6OzqJiKjdBHz3iQ-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6394B185A794;
-        Tue, 27 Jun 2023 13:18:42 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E5E881C0512D;
+        Tue, 27 Jun 2023 13:18:43 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.194.24])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 1319A400F5A;
-        Tue, 27 Jun 2023 13:18:40 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 97D5B401061;
+        Tue, 27 Jun 2023 13:18:42 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -48,9 +48,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
         Tommaso Merciai <tomm.merciai@gmail.com>,
         linux-media@vger.kernel.org
-Subject: [PATCH v3 06/29] media: ov2680: Add ov2680_fill_format() helper function
-Date:   Tue, 27 Jun 2023 15:18:07 +0200
-Message-ID: <20230627131830.54601-7-hdegoede@redhat.com>
+Subject: [PATCH v3 07/29] media: ov2680: Fix ov2680_set_fmt() which == V4L2_SUBDEV_FORMAT_TRY not working
+Date:   Tue, 27 Jun 2023 15:18:08 +0200
+Message-ID: <20230627131830.54601-8-hdegoede@redhat.com>
 In-Reply-To: <20230627131830.54601-1-hdegoede@redhat.com>
 References: <20230627131830.54601-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -66,136 +66,84 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a ov2680_fill_format() helper function and use this everywhere were
-a v4l2_mbus_framefmt struct needs to be filled in so that the driver always
-fills it consistently.
+ov2680_set_fmt() which == V4L2_SUBDEV_FORMAT_TRY was getting
+the try_fmt v4l2_mbus_framefmt struct from the passed in sd_state
+and then storing the contents of that into the return by reference
+format->format struct.
 
-This is a preparation patch for fixing ov2680_set_fmt()
-which == V4L2_SUBDEV_FORMAT_TRY calls not properly filling in
-the passed in v4l2_mbus_framefmt struct.
+While the right thing to do would be filling format->format based on
+the just looked up mode and then store the results of that in
+sd_state->pads[0].try_fmt .
 
-Note that for ov2680_init_cfg() this now simply always fills
-the try_fmt struct of the passed in sd_state. This is correct because
-ov2680_init_cfg() is never called with a NULL sd_state so the old
-sd_state check is not necessary.
+Before the previous change introducing ov2680_fill_format() this
+resulted in ov2680_set_fmt() which == V4L2_SUBDEV_FORMAT_TRY always
+returning the zero-ed out sd_state->pads[0].try_fmt in format->format
+breaking callers using this.
+
+After the introduction of ov2680_fill_format() which at least
+initializes sd_state->pads[0].try_fmt properly, format->format
+is now always being filled with the default 800x600 mode set by
+ov2680_init_cfg() independent of the actual requested mode.
+
+Move the filling of format->format with ov2680_fill_format() to
+before the if (which == V4L2_SUBDEV_FORMAT_TRY) and then store
+the filled in format->format in sd_state->pads[0].try_fmt to
+fix this.
+
+Note this removes the fmt local variable because IMHO having a local
+variable which points to a sub-struct of one of the function arguments
+just leads to confusion when reading the code.
 
 Fixes: 3ee47cad3e69 ("media: ov2680: Add Omnivision OV2680 sensor driver")
 Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/media/i2c/ov2680.c | 49 +++++++++++++++++++++-----------------
- 1 file changed, 27 insertions(+), 22 deletions(-)
+ drivers/media/i2c/ov2680.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
-index 2b20990f4cf5..c4a46c734d82 100644
+index c4a46c734d82..7fc4b39ebb37 100644
 --- a/drivers/media/i2c/ov2680.c
 +++ b/drivers/media/i2c/ov2680.c
-@@ -54,6 +54,9 @@
- #define OV2680_WIDTH_MAX		1600
- #define OV2680_HEIGHT_MAX		1200
- 
-+#define OV2680_DEFAULT_WIDTH			800
-+#define OV2680_DEFAULT_HEIGHT			600
-+
- enum ov2680_mode_id {
- 	OV2680_MODE_QUXGA_800_600,
- 	OV2680_MODE_720P_1280_720,
-@@ -315,7 +318,8 @@ static void ov2680_power_down(struct ov2680_dev *sensor)
- 	usleep_range(5000, 10000);
- }
- 
--static void ov2680_set_bayer_order(struct ov2680_dev *sensor)
-+static void ov2680_set_bayer_order(struct ov2680_dev *sensor,
-+				   struct v4l2_mbus_framefmt *fmt)
+@@ -603,7 +603,6 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
+ 			  struct v4l2_subdev_format *format)
  {
- 	int hv_flip = 0;
+ 	struct ov2680_dev *sensor = to_ov2680_dev(sd);
+-	struct v4l2_mbus_framefmt *fmt = &format->format;
+ 	struct v4l2_mbus_framefmt *try_fmt;
+ 	const struct ov2680_mode_info *mode;
+ 	int ret = 0;
+@@ -612,14 +611,18 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
+ 		return -EINVAL;
  
-@@ -325,7 +329,19 @@ static void ov2680_set_bayer_order(struct ov2680_dev *sensor)
- 	if (sensor->ctrls.hflip && sensor->ctrls.hflip->val)
- 		hv_flip += 2;
+ 	mode = v4l2_find_nearest_size(ov2680_mode_data,
+-				      ARRAY_SIZE(ov2680_mode_data), width,
+-				      height, fmt->width, fmt->height);
++				      ARRAY_SIZE(ov2680_mode_data),
++				      width, height,
++				      format->format.width,
++				      format->format.height);
+ 	if (!mode)
+ 		return -EINVAL;
  
--	sensor->fmt.code = ov2680_hv_flip_bayer_order[hv_flip];
-+	fmt->code = ov2680_hv_flip_bayer_order[hv_flip];
-+}
++	ov2680_fill_format(sensor, &format->format, mode->width, mode->height);
 +
-+static void ov2680_fill_format(struct ov2680_dev *sensor,
-+			       struct v4l2_mbus_framefmt *fmt,
-+			       unsigned int width, unsigned int height)
-+{
-+	memset(fmt, 0, sizeof(*fmt));
-+	fmt->width = width;
-+	fmt->height = height;
-+	fmt->field = V4L2_FIELD_NONE;
-+	fmt->colorspace = V4L2_COLORSPACE_SRGB;
-+	ov2680_set_bayer_order(sensor, fmt);
- }
+ 	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
+ 		try_fmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
+-		format->format = *try_fmt;
++		*try_fmt = format->format;
+ 		return 0;
+ 	}
  
- static int ov2680_set_vflip(struct ov2680_dev *sensor, s32 val)
-@@ -340,7 +356,7 @@ static int ov2680_set_vflip(struct ov2680_dev *sensor, s32 val)
- 	if (ret < 0)
- 		return ret;
- 
--	ov2680_set_bayer_order(sensor);
-+	ov2680_set_bayer_order(sensor, &sensor->fmt);
- 	return 0;
- }
- 
-@@ -356,7 +372,7 @@ static int ov2680_set_hflip(struct ov2680_dev *sensor, s32 val)
- 	if (ret < 0)
- 		return ret;
- 
--	ov2680_set_bayer_order(sensor);
-+	ov2680_set_bayer_order(sensor, &sensor->fmt);
- 	return 0;
- }
- 
-@@ -614,10 +630,7 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
+@@ -630,8 +633,6 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
  		goto unlock;
  	}
  
--	fmt->width = mode->width;
--	fmt->height = mode->height;
--	fmt->code = sensor->fmt.code;
--	fmt->colorspace = sensor->fmt.colorspace;
-+	ov2680_fill_format(sensor, fmt, mode->width, mode->height);
- 
+-	ov2680_fill_format(sensor, fmt, mode->width, mode->height);
+-
  	sensor->current_mode = mode;
  	sensor->fmt = format->format;
-@@ -632,16 +645,11 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
- static int ov2680_init_cfg(struct v4l2_subdev *sd,
- 			   struct v4l2_subdev_state *sd_state)
- {
--	struct v4l2_subdev_format fmt = {
--		.which = sd_state ? V4L2_SUBDEV_FORMAT_TRY
--		: V4L2_SUBDEV_FORMAT_ACTIVE,
--		.format = {
--			.width = 800,
--			.height = 600,
--		}
--	};
-+	struct ov2680_dev *sensor = to_ov2680_dev(sd);
- 
--	return ov2680_set_fmt(sd, sd_state, &fmt);
-+	ov2680_fill_format(sensor, &sd_state->pads[0].try_fmt,
-+			   OV2680_DEFAULT_WIDTH, OV2680_DEFAULT_HEIGHT);
-+	return 0;
- }
- 
- static int ov2680_enum_frame_size(struct v4l2_subdev *sd,
-@@ -740,11 +748,8 @@ static int ov2680_mode_init(struct ov2680_dev *sensor)
- 	const struct ov2680_mode_info *init_mode;
- 
- 	/* set initial mode */
--	sensor->fmt.code = MEDIA_BUS_FMT_SBGGR10_1X10;
--	sensor->fmt.width = 800;
--	sensor->fmt.height = 600;
--	sensor->fmt.field = V4L2_FIELD_NONE;
--	sensor->fmt.colorspace = V4L2_COLORSPACE_SRGB;
-+	ov2680_fill_format(sensor, &sensor->fmt,
-+			   OV2680_DEFAULT_WIDTH, OV2680_DEFAULT_HEIGHT);
- 
- 	sensor->frame_interval.denominator = OV2680_FRAME_RATE;
- 	sensor->frame_interval.numerator = 1;
+ 	sensor->mode_pending_changes = true;
 -- 
 2.41.0
 
