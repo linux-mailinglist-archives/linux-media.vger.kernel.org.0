@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 36DA673FCA5
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 15:19:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23D2173FCA4
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 15:19:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230164AbjF0NTg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jun 2023 09:19:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60148 "EHLO
+        id S230070AbjF0NTb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jun 2023 09:19:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229567AbjF0NTc (ORCPT
+        with ESMTP id S229567AbjF0NTZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jun 2023 09:19:32 -0400
+        Tue, 27 Jun 2023 09:19:25 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B4061708
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F35DD1712
         for <linux-media@vger.kernel.org>; Tue, 27 Jun 2023 06:18:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1687871926;
+        s=mimecast20190719; t=1687871927;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=NfZz4l0E8Qxe1bXnfJr54cZUMFOp4bpHi3RBu6x8zVM=;
-        b=EGobD5OmqZSpyRtSYynWsNEcwLBewF8O88ReU/5mt7ewvmUI7Y0I0pCRHs9hF5mP8nOa4S
-        dddwe3CzsgmhbRLUYtSnUM/Rd1m61/suxuELAsFUHlv3IIQR+cLQBKQLQKHO7KQ58ySox2
-        K0CFRnTrFjb4bJ0zoL+Gei1ZTj2BFh8=
+        bh=XXDZMJiE6MrDYHyPuXPqIDejJizXioiJ8sueQT8WryU=;
+        b=XFpKMYTPkMLQNQwlmX8emyZ3SaQC4H3MPwDwzhMolv/Zsn3QPNhypZct2qErcyW7aLTgVM
+        l5a3EmeNacgEXtcjNwvkAQAutKvE5AI2tTSFY0YOK8svyas0qKWLgGxOUlvnbCDbh326j0
+        AJmpzr6hbsBEaF4vew9sXhUUCiRKia0=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-540-X5v77JYrNqiNjViRHlxL9g-1; Tue, 27 Jun 2023 09:18:40 -0400
-X-MC-Unique: X5v77JYrNqiNjViRHlxL9g-1
+ us-mta-592-hoJvNA06M4Ov91nUIk7k9Q-1; Tue, 27 Jun 2023 09:18:42 -0400
+X-MC-Unique: hoJvNA06M4Ov91nUIk7k9Q-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 49F182815E25;
-        Tue, 27 Jun 2023 13:18:39 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D2AA22815E3C;
+        Tue, 27 Jun 2023 13:18:40 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.194.24])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id F0B01400F5A;
-        Tue, 27 Jun 2023 13:18:37 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 802E1401061;
+        Tue, 27 Jun 2023 13:18:39 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -48,9 +48,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
         Tommaso Merciai <tomm.merciai@gmail.com>,
         linux-media@vger.kernel.org
-Subject: [PATCH v3 04/29] media: ov2680: Use select VIDEO_V4L2_SUBDEV_API
-Date:   Tue, 27 Jun 2023 15:18:05 +0200
-Message-ID: <20230627131830.54601-5-hdegoede@redhat.com>
+Subject: [PATCH v3 05/29] media: ov2680: Don't take the lock for try_fmt calls
+Date:   Tue, 27 Jun 2023 15:18:06 +0200
+Message-ID: <20230627131830.54601-6-hdegoede@redhat.com>
 In-Reply-To: <20230627131830.54601-1-hdegoede@redhat.com>
 References: <20230627131830.54601-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -66,102 +66,56 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Select VIDEO_V4L2_SUBDEV_API in Kconfig and drop the
-ifdef CONFIG_VIDEO_V4L2_SUBDEV_API checks, like other callers
-of v4l2_subdev_get_try_format() do.
+On ov2680_set_fmt() calls with format->which == V4L2_SUBDEV_FORMAT_TRY,
+ov2680_set_fmt() does not talk to the sensor.
 
-This is a preparation patch for fixing ov2680_set_fmt()
-which == V4L2_SUBDEV_FORMAT_TRY calls not properly filling in
-the passed in v4l2_mbus_framefmt struct.
+So in this case there is no need to lock the sensor->lock mutex or
+to check that the sensor is streaming.
 
 Fixes: 3ee47cad3e69 ("media: ov2680: Add Omnivision OV2680 sensor driver")
-Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
 Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/media/i2c/Kconfig  |  1 +
- drivers/media/i2c/ov2680.c | 16 ++--------------
- 2 files changed, 3 insertions(+), 14 deletions(-)
+ drivers/media/i2c/ov2680.c | 20 +++++++++-----------
+ 1 file changed, 9 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 6365c15bc4d4..1a6598561cf8 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -447,6 +447,7 @@ config VIDEO_OV2680
- 	tristate "OmniVision OV2680 sensor support"
- 	depends on VIDEO_DEV && I2C
- 	select MEDIA_CONTROLLER
-+	select VIDEO_V4L2_SUBDEV_API
- 	select V4L2_FWNODE
- 	help
- 	  This is a Video4Linux2 sensor driver for the OmniVision
 diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
-index c93810f84ed7..f6297874af3b 100644
+index f6297874af3b..2b20990f4cf5 100644
 --- a/drivers/media/i2c/ov2680.c
 +++ b/drivers/media/i2c/ov2680.c
-@@ -562,7 +562,6 @@ static int ov2680_get_fmt(struct v4l2_subdev *sd,
- {
- 	struct ov2680_dev *sensor = to_ov2680_dev(sd);
- 	struct v4l2_mbus_framefmt *fmt = NULL;
--	int ret = 0;
- 
+@@ -595,24 +595,22 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
  	if (format->pad != 0)
  		return -EINVAL;
-@@ -570,22 +569,17 @@ static int ov2680_get_fmt(struct v4l2_subdev *sd,
- 	mutex_lock(&sensor->lock);
  
- 	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- 		fmt = v4l2_subdev_get_try_format(&sensor->sd, sd_state,
- 						 format->pad);
--#else
+-	mutex_lock(&sensor->lock);
+-
+-	if (sensor->is_streaming) {
+-		ret = -EBUSY;
+-		goto unlock;
+-	}
+-
+ 	mode = v4l2_find_nearest_size(ov2680_mode_data,
+ 				      ARRAY_SIZE(ov2680_mode_data), width,
+ 				      height, fmt->width, fmt->height);
+-	if (!mode) {
 -		ret = -EINVAL;
--#endif
- 	} else {
- 		fmt = &sensor->fmt;
- 	}
- 
--	if (fmt)
--		format->format = *fmt;
-+	format->format = *fmt;
- 
- 	mutex_unlock(&sensor->lock);
- 
--	return ret;
-+	return 0;
- }
- 
- static int ov2680_set_fmt(struct v4l2_subdev *sd,
-@@ -594,9 +588,7 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
- {
- 	struct ov2680_dev *sensor = to_ov2680_dev(sd);
- 	struct v4l2_mbus_framefmt *fmt = &format->format;
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- 	struct v4l2_mbus_framefmt *try_fmt;
--#endif
- 	const struct ov2680_mode_info *mode;
- 	int ret = 0;
- 
-@@ -619,10 +611,8 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
- 	}
+-		goto unlock;
+-	}
++	if (!mode)
++		return -EINVAL;
  
  	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
  		try_fmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
  		format->format = *try_fmt;
--#endif
++		return 0;
++	}
++
++	mutex_lock(&sensor->lock);
++
++	if (sensor->is_streaming) {
++		ret = -EBUSY;
  		goto unlock;
  	}
- 
-@@ -780,9 +770,7 @@ static int ov2680_v4l2_register(struct ov2680_dev *sensor)
- 	v4l2_i2c_subdev_init(&sensor->sd, sensor->i2c_client,
- 			     &ov2680_subdev_ops);
- 
--#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
- 	sensor->sd.flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
--#endif
- 	sensor->pad.flags = MEDIA_PAD_FL_SOURCE;
- 	sensor->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
  
 -- 
 2.41.0
