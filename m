@@ -2,123 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78C0773FF74
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 17:16:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D8F373FF92
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 17:22:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231582AbjF0PQj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jun 2023 11:16:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40286 "EHLO
+        id S232358AbjF0PWl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jun 2023 11:22:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230145AbjF0PQh (ORCPT
+        with ESMTP id S229967AbjF0PWj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jun 2023 11:16:37 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9BF226B1
-        for <linux-media@vger.kernel.org>; Tue, 27 Jun 2023 08:16:36 -0700 (PDT)
-Received: from ideasonboard.com (unknown [193.85.242.128])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C8D40556;
-        Tue, 27 Jun 2023 17:15:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1687878954;
-        bh=/2jLmuHzO3lMr2W4CCAMU6sqvJSdZ09uYqMUXB36DC8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QqCegiKd18MBsrtHMSYNfD3Oj0MTj/TabEjYLgovceMEyrnLPQcj9petzLYgUSXiJ
-         lCY+QUkQRnMPLMi1fr4Wo1hAeDfSHJbosHfbT+HGCAnSYcXmexTa6Hbl3T/LSgwAKT
-         s/DQMfONdNbHysKx9Wl6c4FenPu+smzPF+xkixhM=
-Date:   Tue, 27 Jun 2023 17:16:31 +0200
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-        Tommaso Merciai <tomm.merciai@gmail.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 24/29] media: ov2680: Fix exposure and gain ctrls
- range and default value
-Message-ID: <ufoycurk666obqqn4yljfkumhjsql7syqxcuu2m52k5adty7qd@w5sprhel4noq>
-References: <20230627131830.54601-1-hdegoede@redhat.com>
- <20230627131830.54601-25-hdegoede@redhat.com>
+        Tue, 27 Jun 2023 11:22:39 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E2382942;
+        Tue, 27 Jun 2023 08:22:38 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-3f9bdb01ec0so55952065e9.2;
+        Tue, 27 Jun 2023 08:22:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687879357; x=1690471357;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IpTJWyv0zeCs9vl2nRoZaqUzt7MMDQDCNCafFpN+rt4=;
+        b=UrfLdfT1KVP3WVEwjVfdRfixOlZYb1f95OYjSH1LfqNxw1RXb0hR5SyMz+8x5FdzEf
+         A5sw25qTgVG9qU/Hh9RRWiOicAxvMraxYM2Y+b4sBkf6GX6JVS7eX55D3MHD5cvPW4N1
+         2qJNH7oOvo6ocWN3qnMFu5ZHZZHZeuluLJpGRJU1Gom8s8pYVIsZC7Nj7LiyamaBM7ed
+         bAwwfhuBK6LaI9uqszspCVZvIa5bE3HJthsQxBjYR7FWCnY4Vuk5HQvoTSMCFAdsKEMD
+         vGIKSZ6wDBdZQIxPmX/ktXDCo0oQwsH6vpyWcW7ce2tOBTXNqA98O66mC+lqI294TIhK
+         RgQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687879357; x=1690471357;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IpTJWyv0zeCs9vl2nRoZaqUzt7MMDQDCNCafFpN+rt4=;
+        b=U0I6h5nBCWy76dCURvGav/M4pNLZlzpl9eaLrfvBNhW74qyN2GrX3M6QIDlLsfTQr/
+         wQQB1r8CeIxvYN5m1ZZP/h+Vnu88i/yhN45y1xINnYvGu6qfEIMCdo4CXK0V4uEd9Tz1
+         yvyt60IhvMmfejS7tw/rYrLzVFFRLDI326kBloCtUSkAmSRoxHJRN7iSlp0FAoYVfr8i
+         FU2IQv0EqVLDQkt1J6w9IxpEB6/yVawmxu2PP7TaGP2m1TRU9JIJ56hmJedes4zuTZq4
+         8WLu8hIy2jcbu2k8JBX7tVQrBinHgXGuVxj19+G19IN7ngXR7iamMwZ7FRuRi1u04V51
+         4uUg==
+X-Gm-Message-State: AC+VfDzfUO7+vdzLnVd7go2bRqH60yRjekylC8W4fhYk8CUMz7VyTf30
+        uDWCRpHJw/6BAmZdrsF0jIPDajFdMQeqOA==
+X-Google-Smtp-Source: ACHHUZ4r5ONkO5s/FhTu6NksD5GcctdRolmKRLtcod7q7cStbsJu62dnB3Oo0/5OG/wxMjx2qEeldg==
+X-Received: by 2002:a05:600c:2245:b0:3f8:f4f3:82ec with SMTP id a5-20020a05600c224500b003f8f4f382ecmr26820705wmm.8.1687879356637;
+        Tue, 27 Jun 2023 08:22:36 -0700 (PDT)
+Received: from [192.168.0.101] (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.googlemail.com with ESMTPSA id p8-20020a7bcc88000000b003fb225d414fsm4733425wma.21.2023.06.27.08.22.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Jun 2023 08:22:36 -0700 (PDT)
+Message-ID: <bb22b565-a309-063c-4c7f-dcc9f7195371@gmail.com>
+Date:   Tue, 27 Jun 2023 16:22:34 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230627131830.54601-25-hdegoede@redhat.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH][next] media: bt8xx: make read-only arrays static
+Content-Language: en-US
+To:     Tommaso Merciai <tomm.merciai@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20230627134851.728487-1-colin.i.king@gmail.com>
+ <ZJr0WvhFfCILwbeP@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+ <2b17acc9-44c3-acf6-0674-04a43aa742e0@gmail.com>
+ <ZJr81Tg285kr4oEs@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+From:   "Colin King (gmail)" <colin.i.king@gmail.com>
+In-Reply-To: <ZJr81Tg285kr4oEs@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans
-  another drive-by question
+On 27/06/2023 16:14, Tommaso Merciai wrote:
+> Hi Coli,
+> 
+> On Tue, Jun 27, 2023 at 04:04:38PM +0100, Colin King (gmail) wrote:
+>> On 27/06/2023 15:38, Tommaso Merciai wrote:
+>>> Hi Colin,
+>>>
+>>> On Tue, Jun 27, 2023 at 02:48:51PM +0100, Colin Ian King wrote:
+>>>> Don't populate the arrays on the stack, instead make them static const.
+>>>> Also add spaces between values to clean up checkpatch style warnings.
+>>>>
+>>>> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+>>>> ---
+>>>>    drivers/media/pci/bt8xx/dvb-bt8xx.c | 12 ++++++++----
+>>>>    1 file changed, 8 insertions(+), 4 deletions(-)
+>>>>
+>>>> diff --git a/drivers/media/pci/bt8xx/dvb-bt8xx.c b/drivers/media/pci/bt8xx/dvb-bt8xx.c
+>>>> index 4cb890b949c3..df83b59a618d 100644
+>>>> --- a/drivers/media/pci/bt8xx/dvb-bt8xx.c
+>>>> +++ b/drivers/media/pci/bt8xx/dvb-bt8xx.c
+>>>> @@ -190,11 +190,15 @@ static int cx24108_tuner_set_params(struct dvb_frontend *fe)
+>>>>    	u32 freq = c->frequency;
+>>>>    	int i, a, n, pump;
+>>>>    	u32 band, pll;
+>>>> -	u32 osci[]={950000,1019000,1075000,1178000,1296000,1432000,
+>>>> -		1576000,1718000,1856000,2036000,2150000};
+>>>> -	u32 bandsel[]={0,0x00020000,0x00040000,0x00100800,0x00101000,
+>>>> +	static const u32 osci[] = {
+>>>> +		950000, 1019000, 1075000, 1178000, 1296000, 1432000,
+>>>> +		1576000, 1718000, 1856000, 2036000, 2150000
+>>>> +	};
+>>>> +	static const u32 bandsel[] = {
+>>>> +		0, 0x00020000, 0x00040000, 0x00100800, 0x00101000,
+>>>>    		0x00102000,0x00104000,0x00108000,0x00110000,
+> +			0x00102000, 0x00104000, 0x00108000, 0x00110000,
+> 
+> ERROR: space required after that ',' (ctx:VxV)
+> #199: FILE: drivers/media/pci/bt8xx/dvb-bt8xx.c:199:
+> +		0x00102000,0x00104000,0x00108000,0x00110000,
 
-On Tue, Jun 27, 2023 at 03:18:25PM +0200, Hans de Goede wrote:
-> The exposure control's max effective value is VTS - 8, set the control
-> range to match this. Thas means that if/when a future commit makes VTS
-> configurable as a control itself the exposure range needs to be
-> updated dynamically to match the VTS value.
->
-> The gain control goes from 0 - 1023, higher values wrap around to
-> the lowest gain setting.
->
-> Also stop setting 0 as default for both controls this leads to
-> a totally black picture which is no good. This is esp. important
-> for tests of the sensor driver without (userspace driven)
-> auto exposure / gain.
+Yep, I can see it now, I'll send a V2. :-/
 
-I see the driver uses V4L2_CID_GAIN. Is this intentional or should
-this be V4L2_CID_ANALOGUE_GAIN? As you're plumbing libcamera support
-in, this is the control libcamera expects to use to control analogue
-gain.
+> 
+> I'm wrong?
+> 
+> Regards,
+> Tommaso
+> 
+>>>
+>>> Are you not missing space also here?
+>>
+>> I can't see the space you are referring to.
+>>
+>>>
+>>>> -		0x00120000,0x00140000};
+>>>> +		0x00120000, 0x00140000
+>>>> +	};
+>>>>    	#define XTAL 1011100 /* Hz, really 1.0111 MHz and a /10 prescaler */
+>>>>    	dprintk("cx24108 debug: entering SetTunerFreq, freq=%d\n", freq);
+>>>> -- 
+>>>> 2.39.2
+>>>>
+>>>
+>>> Regards,
+>>> Tommaso
+>>
 
->
-> Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/media/i2c/ov2680.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
-> index 6591ce3b9244..e26a6487d421 100644
-> --- a/drivers/media/i2c/ov2680.c
-> +++ b/drivers/media/i2c/ov2680.c
-> @@ -81,6 +81,9 @@
->  /* If possible send 16 extra rows / lines to the ISP as padding */
->  #define OV2680_END_MARGIN			16
->
-> +/* Max exposure time is VTS - 8 */
-> +#define OV2680_INTEGRATION_TIME_MARGIN		8
-> +
->  #define OV2680_DEFAULT_WIDTH			800
->  #define OV2680_DEFAULT_HEIGHT			600
->
-> @@ -823,6 +826,7 @@ static int ov2680_v4l2_register(struct ov2680_dev *sensor)
->  	const struct v4l2_ctrl_ops *ops = &ov2680_ctrl_ops;
->  	struct ov2680_ctrls *ctrls = &sensor->ctrls;
->  	struct v4l2_ctrl_handler *hdl = &ctrls->handler;
-> +	int exp_max = OV2680_LINES_PER_FRAME - OV2680_INTEGRATION_TIME_MARGIN;
->  	int ret = 0;
->
->  	v4l2_i2c_subdev_init(&sensor->sd, client, &ov2680_subdev_ops);
-> @@ -849,9 +853,10 @@ static int ov2680_v4l2_register(struct ov2680_dev *sensor)
->  					0, 0, test_pattern_menu);
->
->  	ctrls->exposure = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_EXPOSURE,
-> -					    0, 32767, 1, 0);
-> +					    0, exp_max, 1, exp_max);
->
-> -	ctrls->gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_GAIN, 0, 2047, 1, 0);
-> +	ctrls->gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_GAIN,
-> +					0, 1023, 1, 250);
->
->  	if (hdl->error) {
->  		ret = hdl->error;
-> --
-> 2.41.0
->
