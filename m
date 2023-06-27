@@ -2,413 +2,388 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F9ED73F78D
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 10:40:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C72773F7A2
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 10:43:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231292AbjF0IkG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jun 2023 04:40:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42710 "EHLO
+        id S231775AbjF0Inj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jun 2023 04:43:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231246AbjF0Ijo (ORCPT
+        with ESMTP id S230088AbjF0Ing (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jun 2023 04:39:44 -0400
-Received: from EUR01-HE1-obe.outbound.protection.outlook.com (mail-he1eur01on2089.outbound.protection.outlook.com [40.107.13.89])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 688A92733;
-        Tue, 27 Jun 2023 01:39:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DCgRONQKrd9Muo+HvSFsZeW8NXriBnnaPdGn2xLjEdjEYJcbsepv/PDju4Cv3w0ozX1VxnVSs19KkT6G2dqWTvBzAQJXSZuRurXwCj7PxKSGIO+cdg1Ko/WvQtJXPLdBKd2fclPzWgtL0w14Db6S1/FXPANNa63092w8+JQ9Jpr9ZvAxl3ZWFEJHvOCPysZhCJlEHSGEntn69Uo/4zyp5H0y4vWrAiGSDs/qoRbjm/UiRZLXOr/nUpTDNaheoAMta4MWGRURX21tdnzaNvGcB3f0indUbrg8quJywZRG7rnz+kWluFdAdzoKvP8hKbFoPowZnEqngM3Qj8rooSzT8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3MJtMN5xyr7Q6PQVFx7qqzE/exBzBkjmIcOxSN13F6U=;
- b=UksHrpNsAO+c0aWBK6nVWt5l/NQDpZ+4pScMn56lK9JOKRR8ZLUWrMu4z/BBEwWwd4jf4NRp6MfkfNxBVfoCzv20Y2vCCwSM8tcuF7XuSMh4Q7TJ+BlZFJb1DXrM8arA7V+dh0CZHQjHXF3CBHK2ljS2fDLADqRi8Eui2ontKXDrPhDhwPn2qZQfKHbwQMcAUYE8UCU3hu4hm2AvBiF1X8FFuyeXIh3Gk9lX9mWs92xAGsCc5al3TCP+CcjROWorYWiWw8rs/cu+EkyNhbdcJGRsqt6Zy8Xj5WFHHzaERXm/c+ySy/xAIq85khGnK7LDO+38S//cJUJSNhIjrsTQKQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector2-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3MJtMN5xyr7Q6PQVFx7qqzE/exBzBkjmIcOxSN13F6U=;
- b=LgtxA2CWPAz2rfAHuPsmCIO7xcAmiplyAjTxIShSlovQ6Bg8i0ANpFkCkaV3I9wDWmHO+heONok/uQHULjtJGRGBWWeddZbqjPLs24KcgWeqvjmpTb0Wl3ZqrurMwc3xC9rcOjx4Y6XJrpD+54D2n3LOibntokF7M4Bb7WAB5bw=
-Received: from AS8PR04MB9080.eurprd04.prod.outlook.com (2603:10a6:20b:447::16)
- by AM7PR04MB6775.eurprd04.prod.outlook.com (2603:10a6:20b:102::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.23; Tue, 27 Jun
- 2023 08:39:37 +0000
-Received: from AS8PR04MB9080.eurprd04.prod.outlook.com
- ([fe80::1a0c:99b1:603a:e219]) by AS8PR04MB9080.eurprd04.prod.outlook.com
- ([fe80::1a0c:99b1:603a:e219%3]) with mapi id 15.20.6521.023; Tue, 27 Jun 2023
- 08:39:37 +0000
-From:   "G.N. Zhou (OSS)" <guoniu.zhou@oss.nxp.com>
-To:     Tommaso Merciai <tomm.merciai@gmail.com>,
-        "G.N. Zhou (OSS)" <guoniu.zhou@oss.nxp.com>
-CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        dl-linux-imx <linux-imx@nxp.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "laurent.pinchart@ideasonboard.com" 
-        <laurent.pinchart@ideasonboard.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "Xavier Roumegue (OSS)" <xavier.roumegue@oss.nxp.com>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        "jacopo.mondi@ideasonboard.com" <jacopo.mondi@ideasonboard.com>,
-        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
-Subject: RE: [PATCH v2 2/2] media: nxp: imx-isi: add ISI support for i.MX93
-Thread-Topic: [PATCH v2 2/2] media: nxp: imx-isi: add ISI support for i.MX93
-Thread-Index: AQHZp92B65YKmnjO1UecaCnFr0fHM6+eUkeAgAABw5A=
-Date:   Tue, 27 Jun 2023 08:39:37 +0000
-Message-ID: <AS8PR04MB9080A3CB605161966A7898B0FA27A@AS8PR04MB9080.eurprd04.prod.outlook.com>
-References: <20230626032735.49500-1-guoniu.zhou@oss.nxp.com>
- <20230626032735.49500-3-guoniu.zhou@oss.nxp.com>
- <ZJqdGeMCMzWJcQv/@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-In-Reply-To: <ZJqdGeMCMzWJcQv/@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS8PR04MB9080:EE_|AM7PR04MB6775:EE_
-x-ms-office365-filtering-correlation-id: 071062f9-e7d8-4ebf-db66-08db76ea0a69
-x-ms-exchange-sharedmailbox-routingagent-processed: True
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 84FZ1GoTT4/qM5Kg+RJUZJGblYdUTutgJzlG4nokdcxdBaTmTaXAjlhkfn9K3FTBa5FQH0/ereHd5Kf8Vnyq2RzN4cL4KSE1J1kh1Adi0TPUsgfGmHeBtnAbcLZm6FoKjLHLqmtrTba0zDF/5t4ymdSMp7eHyO+HB7MyjyfdbMxgOsoXrjVm/wk4Ev7znV55Lho/JD5MBiBf9v483dPxg23iur+Uc1QjJ7wi064JR474cCegFZ1flNPUqe2bzf8N4D54bGntLjCrlV1DDY4Qwh41UBHDEF5nsPqtYC6WeUJsHsc6TwLYC9MUE1zPinGkl6dn/Cq+QmcJY0wVbpNfN3vpklbsIyxLB9g6HGkeX6Ypb5mxeAo/gA2CpSfO4Nj76pUVjeQTBWkJLgN1962MKNx7/iEcKxSMpiori32ScC8H+Us9lEU2MA8apIJ4htPZNRdJ4mnL7g8/XYQEjIvWRIbyxTOprxhwUBeM9d+rnjFp62ILqhVCBst7rMlTKy/zIq9yynGM6z5pxTer9AirPwEeE/KkKsNk4rwfBSgzsxcGh5RLbN24iVDh0K1nA0eAX/3vaG0Jp5uE6yM7kp1gAjYCf1vaxjppg9l8Vxi37rptL4Ixm7euWccNv69naKkw
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB9080.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(396003)(376002)(136003)(366004)(346002)(451199021)(83380400001)(7696005)(110136005)(478600001)(54906003)(53546011)(9686003)(33656002)(66556008)(66946007)(2906002)(186003)(6506007)(30864003)(26005)(66476007)(64756008)(71200400001)(66446008)(7416002)(316002)(41300700001)(76116006)(38100700002)(8676002)(5660300002)(52536014)(8936002)(122000001)(4326008)(55016003)(86362001)(38070700005);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?gb2312?B?MVR4bjJqWHFyZm5pN0xkT0ppZGdhWWF3eERoMDJXbjBVZUZ4cGJwN0lXS1dx?=
- =?gb2312?B?OG9UUWs4a3d5U0V6Z0xlK0RKV3VrRktoRXpnVVg2TWNtNkxxSzlEOEtYWlRl?=
- =?gb2312?B?d0YwZVVIREJ6SU5VRkJzdVhFVzdPb2pOSHhiZ1NXMVpKM2dsSVpWOXdvTVBu?=
- =?gb2312?B?MXgyS3RIcjk3NU1RaWFrcm1MWlhEc0lpM0prQW11R0IwT25BZWtMRHZZbXRk?=
- =?gb2312?B?dHkrK3lacTg2TllVVU5QZzFUYWtMSlpKdmQyMmdXMjM1QkpzZlU2dVEvYkIv?=
- =?gb2312?B?M3VqbTBMLzhmR0NIa3pkSVJweWgzRDFQRGxKblV2dEgyUFRqM0NjQkREN1pD?=
- =?gb2312?B?UVlhcithK0M5Tkc2UkR1Q1JyeXkzKzFpdVR1Q0V0RW5qMXVGQ0s4aXcxa1Fr?=
- =?gb2312?B?NWlMT3lPRk5CQmpHZmMrZkJyOUdXUVBNamdNcmxhU2JHTzZSSFM0NU83SzEx?=
- =?gb2312?B?Q0haSW5VNFRlSFQ4bTRmU1N1OUFDTUVDdWhkUHI1REhLeUZyRmxveVJpY1g2?=
- =?gb2312?B?QjdrZzFaZCszMlFaL1ZlTFBaOFBPcnh3VGQ4VkJ1VUlWMS81akl5QURQSDV1?=
- =?gb2312?B?R0o2WFJwWWgveUZyUzZrMjlhTjl3SVNaRnpZZXZyQUlDem43WmZqbVc4UXcr?=
- =?gb2312?B?dTNZSUlIbW1FTW1QWjNnZW9VZXErVUcrc0Y1THo5bkx4TmpOcEVISWFVZnRR?=
- =?gb2312?B?YlFySWp5MU9kT0lNWFVTQ0RiZTg3QUtXaFcyM283RVNMbmVYRlNGeDl3a3M3?=
- =?gb2312?B?M3Nna05mS29RZk9qUjFOV3NIbDdzbXpMa29Rakp5amM2eWN1VzZoZDdaNHFs?=
- =?gb2312?B?V0h3bDlzWXBSVUlFcGIyMUp3dzZ3Z2tnUXJrV0lUSDNhMXBGZEtCd05RRDBq?=
- =?gb2312?B?ODJWZFE3NmY4aXd2NFRaMTVRdS85S3ZCQW5SNTV1RWdzZXVydlJ2TkRmVXJa?=
- =?gb2312?B?SG9kVU9NbCtDbEdXaTMyaGtQM0xDeVllbFBkTzJLM0xZYVFyYW9NamJ4dmZh?=
- =?gb2312?B?ZGErdnljQm8wVCtIZUtNRVloWGxkN1g4dXNwR0ZUVkNaQTVCNVB1K1NrK1N1?=
- =?gb2312?B?VHBocG5kaDlkOSt0RWxqaU5UN2J3VE1hejJjK0pVTittanJDN3IrRTdYY2Q3?=
- =?gb2312?B?UEljd1kvV2FoTlhVRmcxdEFjTVlQaE9EU1EzbWdGRHJmSXAyelpvTnNBRkhl?=
- =?gb2312?B?cHB3WjJzK0Y1TEhONk94ZUJxZ0JTUXJKUXBqcmw0RU9Jd2h6MzBGRGZiNmFR?=
- =?gb2312?B?UkdvZ05ONTVlS1ZxQWdRNWdWWUtneDgwamFWS09kcWxxT1FHc2Z6WDJna1Uw?=
- =?gb2312?B?eFhRS09wS2srdGZKUkhwNHYzVkxucUVwZzhzNllJOEw4alMwNC9ISGVQb01K?=
- =?gb2312?B?U2NsK2htY2tqVUlSL01ZVVhLV09USlNKYTJLV0FuQk9qYjg3bnU1UytIVWdn?=
- =?gb2312?B?R09ITmU4ZHFOV003R0hVZUpIRjdpL0psU1Q4dldVL2tEdERuSzRJZ0tMUmZS?=
- =?gb2312?B?SDQwVzJYaDJYNXdOS2VKZHZzL0hKcWtZR0hOTFdkMTBZVDhhS1IvRFJscklt?=
- =?gb2312?B?WnpsdmplQ0J4elU5Smg1dTdwZkovK1BuQkVMTlFydmh1M09rS3hDL1pKRWhh?=
- =?gb2312?B?UUhHbzFRcEZlTXI1RC9xT1ZlMGNqZEoxVXh6dXcxWTFRLzBWWENWSHl2WGMx?=
- =?gb2312?B?dE53SVA0M25LRHBJZkZtSzFacjgwc1RDSlA2VUlnOVhsQ3JvUEw0M0VmTEFl?=
- =?gb2312?B?L1VSTWRGWUlGa2ZMVUZmc3JDeUxFdnRMNmZxWEtLRHNaNzV6dFBVQ3NjcGU5?=
- =?gb2312?B?NFJJYzQyNklOL0ZKSWl1bG9JamtpQzZKOWF1OTVpOFhLUXh0MklaaXNnZzZl?=
- =?gb2312?B?c1BJM3BYaTJhLzRpS01kaEJNUkREL01SbGl1bzRsQjdxUmI1OGp4aUg5UlpJ?=
- =?gb2312?B?cUNkZzVONUJQUEZPME9weFhiUjhiMkFMTEpnQnlKdTNZUm1IdGQwait5QkhY?=
- =?gb2312?B?MXY2NFJiSFF0MFBHOWNHN0RjKytPRElqdFJubTNhVmlITS91Zm4wZjRxYnFZ?=
- =?gb2312?B?ckh5cDVRMzJCT2RaZUg0RkdvZ1MwZnc2TEZDWEIwa0FCemJYSlFCNHRWcHpX?=
- =?gb2312?Q?CnWqSThbeknQDsGO8KiFj12R4?=
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+        Tue, 27 Jun 2023 04:43:36 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04A39FC;
+        Tue, 27 Jun 2023 01:43:34 -0700 (PDT)
+Received: from [IPV6:2a01:e0a:120:3210:8022:d131:505c:c461] (unknown [IPv6:2a01:e0a:120:3210:8022:d131:505c:c461])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id E42AA6607102;
+        Tue, 27 Jun 2023 09:43:32 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1687855413;
+        bh=c0PGEBEliqWwx30S7I9VDw4FeXubEDDT0VRtcMq3mEI=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=Z4/6z2ozoJ6Jl1EtqZgNmcrwimmMYr7rTJc+xciE0Ua1byFGV/zhmIflGoiascrY9
+         kMfOSKFrcCQAxFivNV4kELP4Cf3paLR5eAMxDViTYnBHp3j94HPeWmhLVE0dEGdRNz
+         Xb73mDdspnKz9ZrGEqVoavOGkMEIVdX5JSggaIEpRXxldWTICdQEPzqIp6H98Ve4tK
+         Llg3MhxmYjDgV77ndBuF+/qQI8QhtAYG1vBPbMTxUfAReL27RLQFqWe33Irqt8xWSl
+         6V+cNTfNOb7oRovU/AM42B8DE2Hcn66nK4s8xMAWgdYe9WSw0DioT3hjx/iG6ks1R/
+         ykOjVeYz/Ziow==
+Message-ID: <42a45bad-09c7-ffb6-49cb-29ec0826599d@collabora.com>
+Date:   Tue, 27 Jun 2023 10:43:31 +0200
 MIME-Version: 1.0
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB9080.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 071062f9-e7d8-4ebf-db66-08db76ea0a69
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Jun 2023 08:39:37.2079
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: zmTA4d22OpLLkbyCk+azdoyr4uBxn2Kulz4cWsZs47M5RMyAyNgyX8RddpNUltHPr32hHqIdLkrlHck6pLt3Rg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR04MB6775
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v3 10/11] media: v4l2: Add DELETE_BUF ioctl
+To:     Hsia-Jun Li <Randy.Li@synaptics.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        p.zabel@pengutronix.de, ming.qian@nxp.com,
+        hverkuil-cisco@xs4all.nl, gregkh@linuxfoundation.org,
+        ezequiel@vanguardiasur.com.ar,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, nicolas.dufresne@collabora.com,
+        linux-staging@lists.linux.dev, kernel@collabora.com,
+        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com
+References: <20230622131349.144160-1-benjamin.gaignard@collabora.com>
+ <20230622131349.144160-11-benjamin.gaignard@collabora.com>
+ <80a03c29-6f3d-43f1-755c-10f3ae2c2756@synaptics.com>
+Content-Language: en-US
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <80a03c29-6f3d-43f1-755c-10f3ae2c2756@synaptics.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgVG9tbWFzbywNCg0KVGhhbmtzIGZvciB5b3VyIGNvbW1lbnRzLiBJIGhhdmUgdXBkYXRlZCB2
-ZXJzaW9uIDMgYW5kIHlvdXIgY29tbWVudHMgaGF2ZSBiZWVuIGhhbmRsZWQgaW4gdGhlIG5ldyB2
-ZXJzaW9uIHBhdGNoZXMuDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTog
-VG9tbWFzbyBNZXJjaWFpIDx0b21tLm1lcmNpYWlAZ21haWwuY29tPg0KPiBTZW50OiAyMDIzxOo2
-1MIyN8jVIDE2OjI2DQo+IFRvOiBHLk4uIFpob3UgKE9TUykgPGd1b25pdS56aG91QG9zcy5ueHAu
-Y29tPg0KPiBDYzogbGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnOyBkbC1saW51eC1pbXggPGxp
-bnV4LWlteEBueHAuY29tPjsNCj4gZGV2aWNldHJlZUB2Z2VyLmtlcm5lbC5vcmc7IGxhdXJlbnQu
-cGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbTsNCj4gbWNoZWhhYkBrZXJuZWwub3JnOyByb2JoK2R0
-QGtlcm5lbC5vcmc7IGtyenlzenRvZi5rb3psb3dza2krZHRAbGluYXJvLm9yZzsNCj4gY29ub3Ir
-ZHRAa2VybmVsLm9yZzsgWGF2aWVyIFJvdW1lZ3VlIChPU1MpDQo+IDx4YXZpZXIucm91bWVndWVA
-b3NzLm54cC5jb20+OyBrZXJuZWxAcGVuZ3V0cm9uaXguZGU7DQo+IGphY29wby5tb25kaUBpZGVh
-c29uYm9hcmQuY29tOyBzYWthcmkuYWlsdXNAbGludXguaW50ZWwuY29tDQo+IFN1YmplY3Q6IFJl
-OiBbUEFUQ0ggdjIgMi8yXSBtZWRpYTogbnhwOiBpbXgtaXNpOiBhZGQgSVNJIHN1cHBvcnQgZm9y
-IGkuTVg5Mw0KPiANCj4gQ2F1dGlvbjogVGhpcyBpcyBhbiBleHRlcm5hbCBlbWFpbC4gUGxlYXNl
-IHRha2UgY2FyZSB3aGVuIGNsaWNraW5nIGxpbmtzIG9yIG9wZW5pbmcNCj4gYXR0YWNobWVudHMu
-IFdoZW4gaW4gZG91YnQsIHJlcG9ydCB0aGUgbWVzc2FnZSB1c2luZyB0aGUgJ1JlcG9ydCB0aGlz
-IGVtYWlsJw0KPiBidXR0b24NCj4gDQo+IA0KPiBIaSBHdW9uaXUsDQo+IA0KPiBPbiBNb24sIEp1
-biAyNiwgMjAyMyBhdCAxMToyNzozNUFNICswODAwLCBndW9uaXUuemhvdUBvc3MubnhwLmNvbSB3
-cm90ZToNCj4gPiBGcm9tOiAiR3Vvbml1Lnpob3UiIDxndW9uaXUuemhvdUBueHAuY29tPg0KPiA+
-DQo+ID4gQWJzdHJhY3QgZ2Fza2V0IG9wZXJhdGlvbiBhbmQgZHJpdmVyIHNob3VsZCBpbXBsZW1l
-bnQgdGhlbSBmb3IgU29DDQo+ID4gd2hpY2ggc3VwcG9ydCBnYXNrZXQuDQo+ID4NCj4gPiBpLk1Y
-OTMgdXNlIGEgZGlmZmVyZW50IGdhc2tldCB3aGljaCBoYXMgZGlmZmVyZW50IHJlZ2lzdGVyIGRl
-ZmluaXRpb24NCj4gPiBjb21wYXJlZCB3aXRoIGkuTVg4LiBIZW5jZSBpbXBsZW1lbnQgdGhlIGdh
-c2tldCBjYWxsYmFja3MgaW4gb3JkZXIgdG8NCj4gPiBhZGQgSVNJIHN1cHBvcnQgZm9yIGkuTVg5
-My4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEd1b25pdS56aG91IDxndW9uaXUuemhvdUBueHAu
-Y29tPg0KPiA+IC0tLQ0KPiA+ICAuLi4vcGxhdGZvcm0vbnhwL2lteDgtaXNpL2lteDgtaXNpLWNv
-cmUuYyAgICAgfCAxMTAgKysrKysrKysrKysrKysrKysrDQo+ID4gIC4uLi9wbGF0Zm9ybS9ueHAv
-aW14OC1pc2kvaW14OC1pc2ktY29yZS5oICAgICB8ICAzMyArKysrKysNCj4gPiAgLi4uL3BsYXRm
-b3JtL254cC9pbXg4LWlzaS9pbXg4LWlzaS1jcm9zc2Jhci5jIHwgIDUxICsrKystLS0tDQo+ID4g
-IDMgZmlsZXMgY2hhbmdlZCwgMTY5IGluc2VydGlvbnMoKyksIDI1IGRlbGV0aW9ucygtKQ0KPiA+
-DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbnhwL2lteDgtaXNpL2lt
-eDgtaXNpLWNvcmUuYw0KPiA+IGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9ueHAvaW14OC1pc2kv
-aW14OC1pc2ktY29yZS5jDQo+ID4gaW5kZXggMjUzZTc3MTg5YjY5Li5kMzcxNDVmYjdmMTQgMTAw
-NjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9ueHAvaW14OC1pc2kvaW14OC1p
-c2ktY29yZS5jDQo+ID4gKysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9ueHAvaW14OC1pc2kv
-aW14OC1pc2ktY29yZS5jDQo+ID4gQEAgLTE0LDYgKzE0LDcgQEANCj4gPiAgI2luY2x1ZGUgPGxp
-bnV4L3BtLmg+DQo+ID4gICNpbmNsdWRlIDxsaW51eC9wbV9ydW50aW1lLmg+DQo+ID4gICNpbmNs
-dWRlIDxsaW51eC9wcm9wZXJ0eS5oPg0KPiA+ICsjaW5jbHVkZSA8bGludXgvcmVnbWFwLmg+DQo+
-ID4gICNpbmNsdWRlIDxsaW51eC9zbGFiLmg+DQo+ID4gICNpbmNsdWRlIDxsaW51eC9zdHJpbmcu
-aD4NCj4gPiAgI2luY2x1ZGUgPGxpbnV4L3R5cGVzLmg+DQo+ID4gQEAgLTI3OSw2ICsyODAsNTQg
-QEAgc3RhdGljIGNvbnN0IHN0cnVjdCBjbGtfYnVsa19kYXRhIG14Y19pbXg4bW5fY2xrc1tdDQo+
-ID0gew0KPiA+ICAgICAgIHsgLmlkID0gImFwYiIgfSwNCj4gPiAgfTsNCj4gPg0KPiA+ICtzdGF0
-aWMgaW50IG14Y19pbXg4X2dhc2tldF9jb25maWcoc3RydWN0IG14Y19pc2lfZGV2ICppc2ksDQo+
-ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjb25zdCBzdHJ1Y3QgdjRsMl9tYnVz
-X2ZyYW1lX2Rlc2MgKmZkLA0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY29u
-c3Qgc3RydWN0IHY0bDJfbWJ1c19mcmFtZWZtdCAqZm10LA0KPiA+ICsgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgY29uc3QgdW5zaWduZWQgaW50IHBvcnQpIHsNCj4gPiArICAgICB1MzIg
-dmFsOw0KPiA+ICsNCj4gPiArICAgICByZWdtYXBfd3JpdGUoaXNpLT5nYXNrZXQsIEdBU0tFVF9C
-QVNFKHBvcnQpICsgR0FTS0VUX0hTSVpFLA0KPiBmbXQtPndpZHRoKTsNCj4gPiArICAgICByZWdt
-YXBfd3JpdGUoaXNpLT5nYXNrZXQsIEdBU0tFVF9CQVNFKHBvcnQpICsgR0FTS0VUX1ZTSVpFLA0K
-PiA+ICsgZm10LT5oZWlnaHQpOw0KPiA+ICsNCj4gPiArICAgICB2YWwgPSBHQVNLRVRfQ1RSTF9E
-QVRBX1RZUEUoZmQtPmVudHJ5WzBdLmJ1cy5jc2kyLmR0KTsNCj4gPiArICAgICBpZiAoZmQtPmVu
-dHJ5WzBdLmJ1cy5jc2kyLmR0ID09IE1JUElfQ1NJMl9EVF9ZVVY0MjJfOEIpDQo+ID4gKyAgICAg
-ICAgICAgICB2YWwgfD0gR0FTS0VUX0NUUkxfRFVBTF9DT01QX0VOQUJMRTsNCj4gPiArDQo+ID4g
-KyAgICAgcmVnbWFwX3dyaXRlKGlzaS0+Z2Fza2V0LCBHQVNLRVRfQkFTRShwb3J0KSArIEdBU0tF
-VF9DVFJMLCB2YWwpOw0KPiA+ICsNCj4gPiArICAgICBkZXZfZGJnKGlzaS0+ZGV2LCAidy9oPSgl
-ZCwgJWQpLCBkYXRhIHR5cGU9MHgleFxuIiwNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICBm
-bXQtPndpZHRoLCBmbXQtPmhlaWdodCwNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICBmZC0+
-ZW50cnlbMF0uYnVzLmNzaTIuZHQpOw0KPiANCj4gUmVjZWl2ZSB3YXJuaW5nIGZyb20gY2hlY2tw
-YXRjaC5wbDoNCg0KRHJvcCB0aGUgZGVidWcgbWVzc2FnZSBpbiB2Mw0KDQo+IA0KPiBDSEVDSzog
-QWxpZ25tZW50IHNob3VsZCBtYXRjaCBvcGVuIHBhcmVudGhlc2lzDQo+ICM0OTogRklMRTogZHJp
-dmVycy9tZWRpYS9wbGF0Zm9ybS9ueA0KcC9pbXg4LWlzaS9pbXg4LWlzaS1jb3JlLmM6MzAwOg0K
-PiArICAgICAgIGRldl9kYmcoaXNpLT5kZXYsICJ3L2g9KCVkLCAlZCksIGRhdGEgdHlwZT0weCV4
-XG4iLA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgIGZtdC0+d2lkdGgsIGZtdC0+aGVpZ2h0
-LA0KPiANCj4gPiArDQo+ID4gKyAgICAgcmV0dXJuIDA7DQo+ID4gK30NCj4gPiArDQo+ID4gK3N0
-YXRpYyBpbnQgbXhjX2lteDhfZ2Fza2V0X2VuYWJsZShzdHJ1Y3QgbXhjX2lzaV9kZXYgKmlzaSwN
-Cj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGNvbnN0IHVuc2lnbmVkIGludCBw
-b3J0KSB7DQo+ID4gKyAgICAgdTMyIHZhbDsNCj4gPiArDQo+ID4gKyAgICAgcmVnbWFwX3JlYWQo
-aXNpLT5nYXNrZXQsIEdBU0tFVF9CQVNFKHBvcnQpLCAmdmFsKTsNCj4gPiArICAgICB2YWwgfD0g
-R0FTS0VUX0NUUkxfRU5BQkxFOw0KPiA+ICsNCj4gPiArICAgICByZWdtYXBfd3JpdGUoaXNpLT5n
-YXNrZXQsIEdBU0tFVF9CQVNFKHBvcnQpICsgR0FTS0VUX0NUUkwsIHZhbCk7DQo+ID4gKw0KPiA+
-ICsgICAgIHJldHVybiAwOw0KPiA+ICt9DQo+ID4gKw0KPiA+ICtzdGF0aWMgdm9pZCBteGNfaW14
-OF9nYXNrZXRfZGlzYWJsZShzdHJ1Y3QgbXhjX2lzaV9kZXYgKmlzaSwNCj4gPiArICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgY29uc3QgdW5zaWduZWQgaW50IHBvcnQpIHsNCj4gPiAr
-ICAgICByZWdtYXBfd3JpdGUoaXNpLT5nYXNrZXQsIEdBU0tFVF9CQVNFKHBvcnQpICsgR0FTS0VU
-X0NUUkwsIDApOyB9DQo+ID4gKw0KPiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IG14Y19nYXNrZXRf
-b3BzIG14Y19pbXg4X2dhc2tldF9vcHMgPSB7DQo+ID4gKyAgICAgLmNvbmZpZyA9IG14Y19pbXg4
-X2dhc2tldF9jb25maWcsDQo+ID4gKyAgICAgLmVuYWJsZSA9IG14Y19pbXg4X2dhc2tldF9lbmFi
-bGUsDQo+ID4gKyAgICAgLmRpc2FibGUgPSBteGNfaW14OF9nYXNrZXRfZGlzYWJsZSwgfTsNCj4g
-PiArDQo+ID4gIHN0YXRpYyBjb25zdCBzdHJ1Y3QgbXhjX2lzaV9wbGF0X2RhdGEgbXhjX2lteDht
-bl9kYXRhID0gew0KPiA+ICAgICAgIC5tb2RlbCAgICAgICAgICAgICAgICAgID0gTVhDX0lTSV9J
-TVg4TU4sDQo+ID4gICAgICAgLm51bV9wb3J0cyAgICAgICAgICAgICAgPSAxLA0KPiA+IEBAIC0y
-OTAsNiArMzM5LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBteGNfaXNpX3BsYXRfZGF0YQ0KPiBt
-eGNfaW14OG1uX2RhdGEgPSB7DQo+ID4gICAgICAgLm51bV9jbGtzICAgICAgICAgICAgICAgPSBB
-UlJBWV9TSVpFKG14Y19pbXg4bW5fY2xrcyksDQo+ID4gICAgICAgLmJ1Zl9hY3RpdmVfcmV2ZXJz
-ZSAgICAgPSBmYWxzZSwNCj4gPiAgICAgICAuaGFzX2dhc2tldCAgICAgICAgICAgICA9IHRydWUs
-DQo+ID4gKyAgICAgLmdhc2tldF9vcHMgICAgICAgICAgICAgPSAmbXhjX2lteDhfZ2Fza2V0X29w
-cywNCj4gPiAgICAgICAuaGFzXzM2Yml0X2RtYSAgICAgICAgICA9IGZhbHNlLA0KPiA+ICB9Ow0K
-PiA+DQo+ID4gQEAgLTMwNCw2ICszNTQsNjUgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBteGNfaXNp
-X3BsYXRfZGF0YQ0KPiBteGNfaW14OG1wX2RhdGEgPSB7DQo+ID4gICAgICAgLm51bV9jbGtzICAg
-ICAgICAgICAgICAgPSBBUlJBWV9TSVpFKG14Y19pbXg4bW5fY2xrcyksDQo+ID4gICAgICAgLmJ1
-Zl9hY3RpdmVfcmV2ZXJzZSAgICAgPSB0cnVlLA0KPiA+ICAgICAgIC5oYXNfZ2Fza2V0ICAgICAg
-ICAgICAgID0gdHJ1ZSwNCj4gPiArICAgICAuZ2Fza2V0X29wcyAgICAgICAgICAgICA9ICZteGNf
-aW14OF9nYXNrZXRfb3BzLA0KPiA+ICsgICAgIC5oYXNfMzZiaXRfZG1hICAgICAgICAgID0gdHJ1
-ZSwNCj4gPiArfTsNCj4gPiArDQo+ID4gK3N0YXRpYyBpbnQgbXhjX2lteDkzX2dhc2tldF9jb25m
-aWcoc3RydWN0IG14Y19pc2lfZGV2ICppc2ksDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgY29uc3Qgc3RydWN0IHY0bDJfbWJ1c19mcmFtZV9kZXNjDQo+ICpmZCwNCj4gPiAr
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjb25zdCBzdHJ1Y3QgdjRsMl9tYnVzX2Zy
-YW1lZm10DQo+ICpmbXQsDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY29u
-c3QgdW5zaWduZWQgaW50IHBvcnQpIHsNCj4gPiArICAgICB1MzIgdmFsOw0KPiA+ICsNCj4gPiAr
-ICAgICB2YWwgPSBESVNQX01JWF9DQU1FUkFfTVVYX0RBVEFfVFlQRShmZC0+ZW50cnlbMF0uYnVz
-LmNzaTIuZHQpOw0KPiA+ICsgICAgIHJlZ21hcF93cml0ZShpc2ktPmdhc2tldCwgRElTUF9NSVhf
-Q0FNRVJBX01VWCwgdmFsKTsNCj4gPiArDQo+ID4gKyAgICAgZGV2X2RiZyhpc2ktPmRldiwgImRh
-dGEgdHlwZT0weCV4XG4iLCBmZC0+ZW50cnlbMF0uYnVzLmNzaTIuZHQpOw0KPiA+ICsNCj4gPiAr
-ICAgICByZXR1cm4gMDsNCj4gPiArfQ0KPiA+ICsNCj4gPiArc3RhdGljIGludCBteGNfaW14OTNf
-Z2Fza2V0X2VuYWJsZShzdHJ1Y3QgbXhjX2lzaV9kZXYgKmlzaSwNCj4gPiArICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICBjb25zdCB1bnNpZ25lZCBpbnQgcG9ydCkgew0KPiA+ICsgICAg
-IHUzMiB2YWw7DQo+ID4gKw0KPiA+ICsgICAgIHJlZ21hcF9yZWFkKGlzaS0+Z2Fza2V0LCBESVNQ
-X01JWF9DQU1FUkFfTVVYLCAmdmFsKTsNCj4gPiArICAgICB2YWwgfD0gRElTUF9NSVhfQ0FNRVJB
-X01VWF9HQVNLRVRfRU5BQkxFOw0KPiA+ICsgICAgIHJlZ21hcF93cml0ZShpc2ktPmdhc2tldCwg
-RElTUF9NSVhfQ0FNRVJBX01VWCwgdmFsKTsNCj4gPiArDQo+ID4gKyAgICAgcmV0dXJuIDA7DQo+
-ID4gK30NCj4gPiArDQo+ID4gK3N0YXRpYyB2b2lkIG14Y19pbXg5M19nYXNrZXRfZGlzYWJsZShz
-dHJ1Y3QgbXhjX2lzaV9kZXYgKmlzaSwNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIHVuc2lnbmVkIGludCBwb3J0KSB7DQo+ID4gKyAgICAgdTMyIHZhbDsNCj4gPiArDQo+
-ID4gKyAgICAgcmVnbWFwX3JlYWQoaXNpLT5nYXNrZXQsIERJU1BfTUlYX0NBTUVSQV9NVVgsICZ2
-YWwpOw0KPiA+ICsgICAgIHZhbCAmPSB+RElTUF9NSVhfQ0FNRVJBX01VWF9HQVNLRVRfRU5BQkxF
-Ow0KPiA+ICsgICAgIHJlZ21hcF93cml0ZShpc2ktPmdhc2tldCwgRElTUF9NSVhfQ0FNRVJBX01V
-WCwgdmFsKTsgfQ0KPiA+ICsNCj4gPiArc3RhdGljIGNvbnN0IHN0cnVjdCBteGNfZ2Fza2V0X29w
-cyBteGNfaW14OTNfZ2Fza2V0X29wcyA9IHsNCj4gPiArICAgICAuY29uZmlnID0gbXhjX2lteDkz
-X2dhc2tldF9jb25maWcsDQo+ID4gKyAgICAgLmVuYWJsZSA9IG14Y19pbXg5M19nYXNrZXRfZW5h
-YmxlLA0KPiA+ICsgICAgIC5kaXNhYmxlID0gbXhjX2lteDkzX2dhc2tldF9kaXNhYmxlLCB9Ow0K
-PiA+ICsNCj4gPiArc3RhdGljIGNvbnN0IHN0cnVjdCBteGNfaXNpX3BsYXRfZGF0YSBteGNfaW14
-OTNfZGF0YSA9IHsNCj4gPiArICAgICAubW9kZWwgICAgICAgICAgICAgICAgICA9IE1YQ19JU0lf
-SU1YOTMsDQo+ID4gKyAgICAgLm51bV9wb3J0cyAgICAgICAgICAgICAgPSAxLA0KPiA+ICsgICAg
-IC5udW1fY2hhbm5lbHMgICAgICAgICAgID0gMSwNCj4gPiArICAgICAucmVnX29mZnNldCAgICAg
-ICAgICAgICA9IDAsDQo+ID4gKyAgICAgLmllcl9yZWcgICAgICAgICAgICAgICAgPSAmbXhjX2lt
-eDhfaXNpX2llcl92MiwNCj4gPiArICAgICAuc2V0X3RoZCAgICAgICAgICAgICAgICA9ICZteGNf
-aW14OF9pc2lfdGhkX3YxLA0KPiA+ICsgICAgIC5jbGtzICAgICAgICAgICAgICAgICAgID0gbXhj
-X2lteDhtbl9jbGtzLA0KPiA+ICsgICAgIC5udW1fY2xrcyAgICAgICAgICAgICAgID0gQVJSQVlf
-U0laRShteGNfaW14OG1uX2Nsa3MpLA0KPiA+ICsgICAgIC5idWZfYWN0aXZlX3JldmVyc2UgICAg
-ID0gdHJ1ZSwNCj4gPiArICAgICAuaGFzX2dhc2tldCAgICAgICAgICAgICA9IHRydWUsDQo+ID4g
-KyAgICAgLmdhc2tldF9vcHMgICAgICAgICAgICAgPSAmbXhjX2lteDkzX2dhc2tldF9vcHMsDQo+
-ID4gICAgICAgLmhhc18zNmJpdF9kbWEgICAgICAgICAgPSB0cnVlLA0KPiA+ICB9Ow0KPiA+DQo+
-ID4gQEAgLTUxOCw2ICs2MjcsNyBAQCBzdGF0aWMgaW50IG14Y19pc2lfcmVtb3ZlKHN0cnVjdCBw
-bGF0Zm9ybV9kZXZpY2UNCj4gPiAqcGRldikgIHN0YXRpYyBjb25zdCBzdHJ1Y3Qgb2ZfZGV2aWNl
-X2lkIG14Y19pc2lfb2ZfbWF0Y2hbXSA9IHsNCj4gPiAgICAgICB7IC5jb21wYXRpYmxlID0gImZz
-bCxpbXg4bW4taXNpIiwgLmRhdGEgPSAmbXhjX2lteDhtbl9kYXRhIH0sDQo+ID4gICAgICAgeyAu
-Y29tcGF0aWJsZSA9ICJmc2wsaW14OG1wLWlzaSIsIC5kYXRhID0gJm14Y19pbXg4bXBfZGF0YSB9
-LA0KPiA+ICsgICAgIHsgLmNvbXBhdGlibGUgPSAiZnNsLGlteDkzLWlzaSIsIC5kYXRhID0gJm14
-Y19pbXg5M19kYXRhIH0sDQo+ID4gICAgICAgeyAvKiBzZW50aW5lbCAqLyB9LA0KPiA+ICB9Ow0K
-PiA+ICBNT0RVTEVfREVWSUNFX1RBQkxFKG9mLCBteGNfaXNpX29mX21hdGNoKTsgZGlmZiAtLWdp
-dA0KPiA+IGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9ueHAvaW14OC1pc2kvaW14OC1pc2ktY29y
-ZS5oDQo+ID4gYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL254cC9pbXg4LWlzaS9pbXg4LWlzaS1j
-b3JlLmgNCj4gPiBpbmRleCBlNDY5Nzg4YTllNmMuLmM0MjVlZGI2ZmJlYSAxMDA2NDQNCj4gPiAt
-LS0gYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL254cC9pbXg4LWlzaS9pbXg4LWlzaS1jb3JlLmgN
-Cj4gPiArKysgYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL254cC9pbXg4LWlzaS9pbXg4LWlzaS1j
-b3JlLmgNCj4gPiBAQCAtMTgsNiArMTgsNyBAQA0KPiA+DQo+ID4gICNpbmNsdWRlIDxtZWRpYS9t
-ZWRpYS1kZXZpY2UuaD4NCj4gPiAgI2luY2x1ZGUgPG1lZGlhL21lZGlhLWVudGl0eS5oPg0KPiA+
-ICsjaW5jbHVkZSA8bWVkaWEvbWlwaS1jc2kyLmg+DQo+ID4gICNpbmNsdWRlIDxtZWRpYS92NGwy
-LWFzeW5jLmg+DQo+ID4gICNpbmNsdWRlIDxtZWRpYS92NGwyLWN0cmxzLmg+DQo+ID4gICNpbmNs
-dWRlIDxtZWRpYS92NGwyLWRldi5oPg0KPiA+IEBAIC01OSw2ICs2MCwyNyBAQCBzdHJ1Y3QgdjRs
-Ml9tMm1fZGV2Ow0KPiA+ICAjZGVmaW5lIE1YQ19JU0lfTTJNICAgICAgICAgICAgICAgICAgIm14
-Yy1pc2ktbTJtIg0KPiA+ICAjZGVmaW5lIE1YQ19NQVhfUExBTkVTICAgICAgICAgICAgICAgICAg
-ICAgICAzDQo+ID4NCj4gPiArLyogR0FTS0VUIChpLk1YOE1OIGFuZCBpLk1YOE1QIG9ubHkpICov
-DQo+ID4gKyNkZWZpbmUgR0FTS0VUX0JBU0UobikgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgKDB4MDA2MCArIChuKSAqDQo+IDB4MzApDQo+ID4gKw0KPiA+ICsjZGVmaW5lIEdBU0tFVF9D
-VFJMICAgICAgICAgICAgICAgICAgICAgICAgICAweDAwMDANCj4gPiArI2RlZmluZSBHQVNLRVRf
-Q1RSTF9EQVRBX1RZUEUoZHQpICAgICAgICAgICAgKChkdCkgPDwgOCkNCj4gPiArI2RlZmluZSBH
-QVNLRVRfQ1RSTF9EQVRBX1RZUEVfTUFTSyAgICAgICAgICAgKDB4M2YgPDwgOCkNCj4gPiArI2Rl
-ZmluZSBHQVNLRVRfQ1RSTF9EVUFMX0NPTVBfRU5BQkxFICAgICAgICAgQklUKDEpDQo+ID4gKyNk
-ZWZpbmUgR0FTS0VUX0NUUkxfRU5BQkxFICAgICAgICAgICAgICAgICAgIEJJVCgwKQ0KPiA+ICsN
-Cj4gPiArI2RlZmluZSBHQVNLRVRfSFNJWkUgICAgICAgICAgICAgICAgICAgICAgICAgMHgwMDA0
-DQo+ID4gKyNkZWZpbmUgR0FTS0VUX1ZTSVpFICAgICAgICAgICAgICAgICAgICAgICAgIDB4MDAw
-OA0KPiA+ICsNCj4gPiArLyogZGlzcG1peF9HUFIgcmVnaXN0ZXIgKGkuTVg5MyBvbmx5KSAqLw0K
-PiA+ICsjZGVmaW5lIERJU1BfTUlYX0NBTUVSQV9NVVggICAgICAgICAgICAgICAgICAgICAweDMw
-DQo+ID4gKyNkZWZpbmUgRElTUF9NSVhfQ0FNRVJBX01VWF9EQVRBX1RZUEUoeCkgICAgICAgICgo
-KHgpICYgMHgzZikgPDwgMykNCj4gPiArI2RlZmluZSBESVNQX01JWF9DQU1FUkFfTVVYX0dBU0tF
-VF9FTkFCTEUgICAgICAgQklUKDE2KQ0KPiA+ICsNCj4gPiArI2RlZmluZSBESVNQX01JWF9DU0lf
-UkVHICAgICAgICAgICAgICAgICAgICAgICAgMHg0OA0KPiA+ICsjZGVmaW5lIERJU1BfTUlYX0NT
-SV9SRUdfQ0ZHRlJFUVJBTkdFKHgpICAgICAgICAoKHgpICAmIDB4M2YpDQo+ID4gKyNkZWZpbmUg
-RElTUF9NSVhfQ1NJX1JFR19IU0ZSRVFSQU5HRSh4KSAgICAgICAgICgoKHgpICYgMHg3ZikgPDwg
-OCkNCj4gPiArDQo+IA0KPiBeQ2FuIHlvdSB1c2UgdGFicyBpbnN0ZWFkIG9mIHNwYWNlIGhlcmU/
-DQoNCkRvbmUgaW4gdjMNCg0KPiANCj4gDQo+ID4gIHN0cnVjdCBteGNfaXNpX2RldjsNCj4gPiAg
-c3RydWN0IG14Y19pc2lfbTJtX2N0eDsNCj4gPg0KPiA+IEBAIC0xNDcsOSArMTY5LDE5IEBAIHN0
-cnVjdCBteGNfaXNpX3NldF90aGQgew0KPiA+ICAgICAgIHN0cnVjdCBteGNfaXNpX3BhbmljX3Ro
-ZCBwYW5pY19zZXRfdGhkX3Y7ICB9Ow0KPiA+DQo+ID4gK3N0cnVjdCBteGNfZ2Fza2V0X29wcyB7
-DQo+ID4gKyAgICAgaW50ICgqZW5hYmxlKShzdHJ1Y3QgbXhjX2lzaV9kZXYgKmlzaSwgY29uc3Qg
-dW5zaWduZWQgaW50IHBvcnQpOw0KPiA+ICsgICAgIGludCAoKmNvbmZpZykoc3RydWN0IG14Y19p
-c2lfZGV2ICppc2ksDQo+ID4gKyAgICAgICAgICAgICAgICAgICBjb25zdCBzdHJ1Y3QgdjRsMl9t
-YnVzX2ZyYW1lX2Rlc2MgKmZkLA0KPiA+ICsgICAgICAgICAgICAgICAgICAgY29uc3Qgc3RydWN0
-IHY0bDJfbWJ1c19mcmFtZWZtdCAqZm10LA0KPiA+ICsgICAgICAgICAgICAgICAgICAgY29uc3Qg
-dW5zaWduZWQgaW50IHBvcnQpOw0KPiA+ICsgICAgIHZvaWQgKCpkaXNhYmxlKShzdHJ1Y3QgbXhj
-X2lzaV9kZXYgKmlzaSwgY29uc3QgdW5zaWduZWQgaW50DQo+ID4gK3BvcnQpOyB9Ow0KPiA+ICsN
-Cj4gPiAgZW51bSBtb2RlbCB7DQo+ID4gICAgICAgTVhDX0lTSV9JTVg4TU4sDQo+ID4gICAgICAg
-TVhDX0lTSV9JTVg4TVAsDQo+ID4gKyAgICAgTVhDX0lTSV9JTVg5MywNCj4gPiAgfTsNCj4gPg0K
-PiA+ICBzdHJ1Y3QgbXhjX2lzaV9wbGF0X2RhdGEgew0KPiA+IEBAIC0xNjAsNiArMTkyLDcgQEAg
-c3RydWN0IG14Y19pc2lfcGxhdF9kYXRhIHsNCj4gPiAgICAgICBjb25zdCBzdHJ1Y3QgbXhjX2lz
-aV9pZXJfcmVnICAqaWVyX3JlZzsNCj4gPiAgICAgICBjb25zdCBzdHJ1Y3QgbXhjX2lzaV9zZXRf
-dGhkICpzZXRfdGhkOw0KPiA+ICAgICAgIGNvbnN0IHN0cnVjdCBjbGtfYnVsa19kYXRhICpjbGtz
-Ow0KPiA+ICsgICAgIGNvbnN0IHN0cnVjdCBteGNfZ2Fza2V0X29wcyAqZ2Fza2V0X29wczsNCj4g
-PiAgICAgICB1bnNpZ25lZCBpbnQgbnVtX2Nsa3M7DQo+ID4gICAgICAgYm9vbCBidWZfYWN0aXZl
-X3JldmVyc2U7DQo+ID4gICAgICAgYm9vbCBoYXNfZ2Fza2V0Ow0KPiA+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL21lZGlhL3BsYXRmb3JtL254cC9pbXg4LWlzaS9pbXg4LWlzaS1jcm9zc2Jhci5jDQo+
-ID4gYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL254cC9pbXg4LWlzaS9pbXg4LWlzaS1jcm9zc2Jh
-ci5jDQo+ID4gaW5kZXggZjc0NDdiMmY0ZDc3Li44NTViMzFlM2RhZGUgMTAwNjQ0DQo+ID4gLS0t
-IGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9ueHAvaW14OC1pc2kvaW14OC1pc2ktY3Jvc3NiYXIu
-Yw0KPiA+ICsrKyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbnhwL2lteDgtaXNpL2lteDgtaXNp
-LWNyb3NzYmFyLmMNCj4gPiBAQCAtMjUsMjAgKzI1LDYgQEAgc3RhdGljIGlubGluZSBzdHJ1Y3Qg
-bXhjX2lzaV9jcm9zc2Jhcg0KPiAqdG9faXNpX2Nyb3NzYmFyKHN0cnVjdCB2NGwyX3N1YmRldiAq
-c2QpDQo+ID4gICAgICAgcmV0dXJuIGNvbnRhaW5lcl9vZihzZCwgc3RydWN0IG14Y19pc2lfY3Jv
-c3NiYXIsIHNkKTsgIH0NCj4gPg0KPiA+IC0vKg0KPiA+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gPiAtLS0t
-LS0tDQo+ID4gLSAqIE1lZGlhIGJsb2NrIGNvbnRyb2wgKGkuTVg4TU4gYW5kIGkuTVg4TVAgb25s
-eSkNCj4gPiAtICovDQo+ID4gLSNkZWZpbmUgR0FTS0VUX0JBU0UobikgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgKDB4MDA2MCArIChuKSAqDQo+IDB4MzApDQo+ID4gLQ0KPiA+IC0jZGVm
-aW5lIEdBU0tFVF9DVFJMICAgICAgICAgICAgICAgICAgICAgICAgICAweDAwMDANCj4gPiAtI2Rl
-ZmluZSBHQVNLRVRfQ1RSTF9EQVRBX1RZUEUoZHQpICAgICAgICAgICAgKChkdCkgPDwgOCkNCj4g
-PiAtI2RlZmluZSBHQVNLRVRfQ1RSTF9EQVRBX1RZUEVfTUFTSyAgICAgICAgICAgKDB4M2YgPDwg
-OCkNCj4gPiAtI2RlZmluZSBHQVNLRVRfQ1RSTF9EVUFMX0NPTVBfRU5BQkxFICAgICAgICAgQklU
-KDEpDQo+ID4gLSNkZWZpbmUgR0FTS0VUX0NUUkxfRU5BQkxFICAgICAgICAgICAgICAgICAgIEJJ
-VCgwKQ0KPiA+IC0NCj4gPiAtI2RlZmluZSBHQVNLRVRfSFNJWkUgICAgICAgICAgICAgICAgICAg
-ICAgICAgMHgwMDA0DQo+ID4gLSNkZWZpbmUgR0FTS0VUX1ZTSVpFICAgICAgICAgICAgICAgICAg
-ICAgICAgIDB4MDAwOA0KPiA+IC0NCj4gPiAgc3RhdGljIGludCBteGNfaXNpX2Nyb3NzYmFyX2dh
-c2tldF9lbmFibGUoc3RydWN0IG14Y19pc2lfY3Jvc3NiYXIgKnhiYXIsDQo+ID4gICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0cnVjdCB2NGwyX3N1YmRldl9zdGF0ZQ0K
-PiAqc3RhdGUsDQo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0
-cnVjdCB2NGwyX3N1YmRldg0KPiAqcmVtb3RlX3NkLA0KPiA+IEBAIC00NiwxMyArMzIsMTYgQEAg
-c3RhdGljIGludCBteGNfaXNpX2Nyb3NzYmFyX2dhc2tldF9lbmFibGUoc3RydWN0DQo+ID4gbXhj
-X2lzaV9jcm9zc2JhciAqeGJhciwgIHsNCj4gPiAgICAgICBzdHJ1Y3QgbXhjX2lzaV9kZXYgKmlz
-aSA9IHhiYXItPmlzaTsNCj4gPiAgICAgICBjb25zdCBzdHJ1Y3QgdjRsMl9tYnVzX2ZyYW1lZm10
-ICpmbXQ7DQo+ID4gKyAgICAgY29uc3Qgc3RydWN0IG14Y19nYXNrZXRfb3BzICpnYXNrZXRfb3Bz
-ID0gTlVMTDsNCj4gPiAgICAgICBzdHJ1Y3QgdjRsMl9tYnVzX2ZyYW1lX2Rlc2MgZmQ7DQo+ID4g
-LSAgICAgdTMyIHZhbDsNCj4gPiAgICAgICBpbnQgcmV0Ow0KPiA+DQo+ID4gICAgICAgaWYgKCFp
-c2ktPnBkYXRhLT5oYXNfZ2Fza2V0KQ0KPiA+ICAgICAgICAgICAgICAgcmV0dXJuIDA7DQo+ID4N
-Cj4gPiArICAgICBpZiAoaXNpLT5wZGF0YS0+Z2Fza2V0X29wcykNCj4gPiArICAgICAgICAgICAg
-IGdhc2tldF9vcHMgPSBpc2ktPnBkYXRhLT5nYXNrZXRfb3BzOw0KPiA+ICsNCj4gPiAgICAgICAv
-Kg0KPiA+ICAgICAgICAqIENvbmZpZ3VyZSBhbmQgZW5hYmxlIHRoZSBnYXNrZXQgd2l0aCB0aGUg
-ZnJhbWUgc2l6ZSBhbmQgQ1NJLTIgZGF0YQ0KPiA+ICAgICAgICAqIHR5cGUuIEZvciBZVVY0MjIg
-OC1iaXQsIGVuYWJsZSBkdWFsIGNvbXBvbmVudCBtb2RlDQo+ID4gdW5jb25kaXRpb25hbGx5LCBA
-QCAtNzcsMTYgKzY2LDIzIEBAIHN0YXRpYyBpbnQNCj4gbXhjX2lzaV9jcm9zc2Jhcl9nYXNrZXRf
-ZW5hYmxlKHN0cnVjdCBteGNfaXNpX2Nyb3NzYmFyICp4YmFyLA0KPiA+ICAgICAgIGlmICghZm10
-KQ0KPiA+ICAgICAgICAgICAgICAgcmV0dXJuIC1FSU5WQUw7DQo+ID4NCj4gPiAtICAgICByZWdt
-YXBfd3JpdGUoaXNpLT5nYXNrZXQsIEdBU0tFVF9CQVNFKHBvcnQpICsgR0FTS0VUX0hTSVpFLA0K
-PiBmbXQtPndpZHRoKTsNCj4gPiAtICAgICByZWdtYXBfd3JpdGUoaXNpLT5nYXNrZXQsIEdBU0tF
-VF9CQVNFKHBvcnQpICsgR0FTS0VUX1ZTSVpFLA0KPiBmbXQtPmhlaWdodCk7DQo+ID4gLQ0KPiA+
-IC0gICAgIHZhbCA9IEdBU0tFVF9DVFJMX0RBVEFfVFlQRShmZC5lbnRyeVswXS5idXMuY3NpMi5k
-dCkNCj4gPiAtICAgICAgICAgfCBHQVNLRVRfQ1RSTF9FTkFCTEU7DQo+ID4gLQ0KPiA+IC0gICAg
-IGlmIChmZC5lbnRyeVswXS5idXMuY3NpMi5kdCA9PSBNSVBJX0NTSTJfRFRfWVVWNDIyXzhCKQ0K
-PiA+IC0gICAgICAgICAgICAgdmFsIHw9IEdBU0tFVF9DVFJMX0RVQUxfQ09NUF9FTkFCTEU7DQo+
-ID4gKyAgICAgaWYgKGdhc2tldF9vcHMgJiYgZ2Fza2V0X29wcy0+Y29uZmlnKSB7DQo+ID4gKyAg
-ICAgICAgICAgICByZXQgPSBnYXNrZXRfb3BzLT5jb25maWcoaXNpLCAmZmQsIGZtdCwgcG9ydCk7
-DQo+ID4gKyAgICAgICAgICAgICBpZiAocmV0KSB7DQo+ID4gKyAgICAgICAgICAgICAgICAgICAg
-IGRldl9lcnIoaXNpLT5kZXYsDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgImZh
-aWxlZCB0byBjb25maWd1cmUgZ2Fza2V0JWRcbiIsIHBvcnQpOw0KPiANCj4gV2hhdCBhYm91dCBr
-ZWVwIHRoaXMgcHJpbnQgb24gdGhlIHNhbWUgbGluZT8NCg0KT2ssIEkgd2lsbCB1cGRhdGUgd2hl
-biBoYW5kbGUgY29tbWVudHMgaW4gdjMgaWYgaGF2ZS4gSWYgbm8sIEkgd2lsbCBzZW5kIGEgbmV3
-IHZlcnNpb24gaWYgaXQncyBuZWNlc3NhcnkuDQoNCj4gDQo+ID4gKyAgICAgICAgICAgICAgICAg
-ICAgIHJldHVybiByZXQ7DQo+ID4gKyAgICAgICAgICAgICB9DQo+ID4gKyAgICAgfQ0KPiA+DQo+
-ID4gLSAgICAgcmVnbWFwX3dyaXRlKGlzaS0+Z2Fza2V0LCBHQVNLRVRfQkFTRShwb3J0KSArIEdB
-U0tFVF9DVFJMLCB2YWwpOw0KPiA+ICsgICAgIGlmIChnYXNrZXRfb3BzICYmIGdhc2tldF9vcHMt
-PmVuYWJsZSkgew0KPiA+ICsgICAgICAgICAgICAgcmV0ID0gZ2Fza2V0X29wcy0+ZW5hYmxlKGlz
-aSwgcG9ydCk7DQo+ID4gKyAgICAgICAgICAgICBpZiAocmV0KSB7DQo+ID4gKyAgICAgICAgICAg
-ICAgICAgICAgIGRldl9lcnIoaXNpLT5kZXYsDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgImZhaWxlZCB0byBlbmFibGUgZ2Fza2V0JWRcbiIsIHBvcnQpOw0KPiANCj4gU2FtZSBo
-ZXJlIDopDQo+IA0KPiA+ICsgICAgICAgICAgICAgICAgICAgICByZXR1cm4gcmV0Ow0KPiA+ICsg
-ICAgICAgICAgICAgfQ0KPiA+ICsgICAgIH0NCj4gPg0KPiA+ICAgICAgIHJldHVybiAwOw0KPiA+
-ICB9DQo+ID4gQEAgLTk1LDExICs5MSwxNiBAQCBzdGF0aWMgdm9pZCBteGNfaXNpX2Nyb3NzYmFy
-X2dhc2tldF9kaXNhYmxlKHN0cnVjdA0KPiBteGNfaXNpX2Nyb3NzYmFyICp4YmFyLA0KPiA+ICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHVuc2lnbmVkIGludCBwb3J0
-KSAgew0KPiA+ICAgICAgIHN0cnVjdCBteGNfaXNpX2RldiAqaXNpID0geGJhci0+aXNpOw0KPiA+
-ICsgICAgIGNvbnN0IHN0cnVjdCBteGNfZ2Fza2V0X29wcyAqZ2Fza2V0X29wcyA9IE5VTEw7DQo+
-ID4NCj4gPiAgICAgICBpZiAoIWlzaS0+cGRhdGEtPmhhc19nYXNrZXQpDQo+ID4gICAgICAgICAg
-ICAgICByZXR1cm47DQo+ID4NCj4gPiAtICAgICByZWdtYXBfd3JpdGUoaXNpLT5nYXNrZXQsIEdB
-U0tFVF9CQVNFKHBvcnQpICsgR0FTS0VUX0NUUkwsIDApOw0KPiA+ICsgICAgIGlmIChpc2ktPnBk
-YXRhLT5nYXNrZXRfb3BzKQ0KPiA+ICsgICAgICAgICAgICAgZ2Fza2V0X29wcyA9IGlzaS0+cGRh
-dGEtPmdhc2tldF9vcHM7DQo+ID4gKw0KPiA+ICsgICAgIGlmIChnYXNrZXRfb3BzICYmIGdhc2tl
-dF9vcHMtPmRpc2FibGUpDQo+ID4gKyAgICAgICAgICAgICBnYXNrZXRfb3BzLT5kaXNhYmxlKGlz
-aSwgcG9ydCk7DQo+ID4gIH0NCj4gDQo+IA0KPiBUaGFua3MgJiBSZWdhcmRzLA0KPiBUb21tYXNv
-DQo+IA0KPiA+DQo+ID4gIC8qIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+ID4gLS0NCj4gPiAyLjM3
-LjENCj4gPg0K
+
+Le 27/06/2023 à 09:30, Hsia-Jun Li a écrit :
+>
+> On 6/22/23 21:13, Benjamin Gaignard wrote:
+>> CAUTION: Email originated externally, do not click links or open 
+>> attachments unless you recognize the sender and know the content is 
+>> safe.
+>>
+>>
+>> VIDIOC_DELETE_BUF ioctl allows to delete a buffer from a queue.
+>>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> ---
+>>   .../userspace-api/media/v4l/user-func.rst     |  1 +
+>>   .../media/v4l/vidioc-delete-buf.rst           | 51 +++++++++++++++++++
+>>   .../media/common/videobuf2/videobuf2-core.c   | 33 ++++++++++++
+>>   .../media/common/videobuf2/videobuf2-v4l2.c   |  6 +++
+>>   drivers/media/v4l2-core/v4l2-dev.c            |  1 +
+>>   drivers/media/v4l2-core/v4l2-ioctl.c          | 10 ++++
+>>   include/media/v4l2-ioctl.h                    |  4 ++
+>>   include/media/videobuf2-core.h                |  9 ++++
+>>   include/media/videobuf2-v4l2.h                | 11 ++++
+>>   include/uapi/linux/videodev2.h                |  2 +
+>>   10 files changed, 128 insertions(+)
+>>   create mode 100644 
+>> Documentation/userspace-api/media/v4l/vidioc-delete-buf.rst
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/user-func.rst 
+>> b/Documentation/userspace-api/media/v4l/user-func.rst
+>> index 15ff0bf7bbe6..8c74016e12fd 100644
+>> --- a/Documentation/userspace-api/media/v4l/user-func.rst
+>> +++ b/Documentation/userspace-api/media/v4l/user-func.rst
+>> @@ -17,6 +17,7 @@ Function Reference
+>>       vidioc-dbg-g-chip-info
+>>       vidioc-dbg-g-register
+>>       vidioc-decoder-cmd
+>> +    vidioc-delete-buf
+>>       vidioc-dqevent
+>>       vidioc-dv-timings-cap
+>>       vidioc-encoder-cmd
+>> diff --git 
+>> a/Documentation/userspace-api/media/v4l/vidioc-delete-buf.rst 
+>> b/Documentation/userspace-api/media/v4l/vidioc-delete-buf.rst
+>> new file mode 100644
+>> index 000000000000..0e7ce58f91bc
+>> --- /dev/null
+>> +++ b/Documentation/userspace-api/media/v4l/vidioc-delete-buf.rst
+>> @@ -0,0 +1,51 @@
+>> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+>> +.. c:namespace:: V4L
+>> +
+>> +.. _VIDIOC_DELETE_BUF:
+>> +
+>> +************************
+>> +ioctl VIDIOC_DELETE_BUF
+>> +************************
+>> +
+>> +Name
+>> +====
+>> +
+>> +VIDIOC_DELETE_BUF - Delete a buffer from a queue
+>> +
+>> +Synopsis
+>> +========
+>> +
+>> +.. c:macro:: VIDIOC_DELETE_BUF
+>> +
+>> +``int ioctl(int fd, VIDIOC_DELETE_BUF, struct v4l2_buffer *argp)``
+>> +
+>> +Arguments
+>> +=========
+>> +
+>> +``fd``
+>> +    File descriptor returned by :c:func:`open()`.
+>> +
+>> +``argp``
+>> +    Pointer to struct :c:type:`v4l2_buffer`.
+>> +
+>> +Description
+>> +===========
+>> +
+>> +Applications can optionally call the :ref:`VIDIOC_DELETE_BUF` ioctl to
+>> +delete a buffer from a queue.
+>> +
+>> +The struct :c:type:`v4l2_buffer` structure is specified in
+>> +:ref:`buffer`.
+>> +
+>> +Return Value
+>> +============
+>> +
+>> +On success 0 is returned, on error -1 and the ``errno`` variable is set
+>> +appropriately. The generic error codes are described at the
+>> +:ref:`Generic Error Codes <gen-errors>` chapter.
+>> +
+>> +EBUSY
+>> +    File I/O is in progress.
+>> +
+>> +EINVAL
+>> +    The buffer ``index`` doesn't exist in the queue.
+>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c 
+>> b/drivers/media/common/videobuf2/videobuf2-core.c
+>> index 899783f67580..aa546c972c3d 100644
+>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+>> @@ -1637,6 +1637,39 @@ int vb2_core_prepare_buf(struct vb2_queue *q, 
+>> unsigned int index, void *pb)
+>>   }
+>>   EXPORT_SYMBOL_GPL(vb2_core_prepare_buf);
+>>
+>> +int vb2_core_delete_buf(struct vb2_queue *q, unsigned int index)
+>> +{
+>> +       struct vb2_buffer *vb;
+>> +
+>> +       vb = vb2_get_buffer(q, index);
+>> +       if (!vb) {
+>> +               dprintk(q, 1, "invalid buffer index %d\n", index);
+>> +               return -EINVAL;
+>> +       }
+>> +
+>> +       if (vb->state != VB2_BUF_STATE_DEQUEUED) {
+>> +               dprintk(q, 1, "can't delete non dequeued buffer index 
+>> %d\n", index);
+>> +               return -EINVAL;
+>> +       }
+>> +
+> I know the driver could implement its own 
+> v4l2_ioctl_ops->vidioc_delete_buf() that check whether a buffer is 
+> used by the hardware as a future reference frame.
+> But I think we need a flag to let the user know which buffer is still 
+> used by the hardware.
+> Alternative ref case is safe, we only know it's existing when it is 
+> dequeued in current V4L2 buffer mechanism.
+> While the Golden reference frame, such long term reference frame could 
+> last much longer.
+
+It is up to userland stack to know frames life time, it got the information for that.
+
+>> +       if (vb->planes[0].mem_priv)
+>> +               call_void_vb_qop(vb, buf_cleanup, vb);
+>> +
+>> +       /* Free MMAP buffers or release USERPTR buffers */
+>> +       if (q->memory == VB2_MEMORY_MMAP)
+>> +               __vb2_buf_mem_free(vb);
+>> +       else if (q->memory == VB2_MEMORY_DMABUF)
+>> +               __vb2_buf_dmabuf_put(vb);
+>> +       else
+>> +               __vb2_buf_userptr_put(vb);
+>> +
+>> +       vb2_queue_remove_buffer(q, vb);
+>> +       kfree(vb);
+>> +
+>> +       dprintk(q, 2, "buffer %d deleted\n", index);
+>> +       return 0;
+>> +}
+>> +
+>>   /*
+>>    * vb2_start_streaming() - Attempt to start streaming.
+>>    * @q:         videobuf2 queue
+>> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c 
+>> b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+>> index 724135d41f7f..cea666c17b41 100644
+>> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+>> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+>> @@ -751,6 +751,12 @@ int vb2_prepare_buf(struct vb2_queue *q, struct 
+>> media_device *mdev,
+>>   }
+>>   EXPORT_SYMBOL_GPL(vb2_prepare_buf);
+>>
+>> +int vb2_delete_buf(struct vb2_queue *q, struct v4l2_buffer *b)
+>> +{
+>> +       return vb2_core_delete_buf(q, b->index);
+>> +}
+>> +EXPORT_SYMBOL_GPL(vb2_delete_buf);
+>> +
+>>   int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers 
+>> *create)
+>>   {
+>>          unsigned requested_planes = 1;
+>> diff --git a/drivers/media/v4l2-core/v4l2-dev.c 
+>> b/drivers/media/v4l2-core/v4l2-dev.c
+>> index f81279492682..80ace2e1e932 100644
+>> --- a/drivers/media/v4l2-core/v4l2-dev.c
+>> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+>> @@ -720,6 +720,7 @@ static void determine_valid_ioctls(struct 
+>> video_device *vdev)
+>>                  SET_VALID_IOCTL(ops, VIDIOC_PREPARE_BUF, 
+>> vidioc_prepare_buf);
+>>                  SET_VALID_IOCTL(ops, VIDIOC_STREAMON, vidioc_streamon);
+>>                  SET_VALID_IOCTL(ops, VIDIOC_STREAMOFF, 
+>> vidioc_streamoff);
+>> +               SET_VALID_IOCTL(ops, VIDIOC_DELETE_BUF, 
+>> vidioc_delete_buf);
+>>          }
+>>
+>>          if (is_vid || is_vbi || is_meta) {
+>> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c 
+>> b/drivers/media/v4l2-core/v4l2-ioctl.c
+>> index a858acea6547..1c737279d3ef 100644
+>> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+>> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+>> @@ -2156,6 +2156,15 @@ static int v4l_prepare_buf(const struct 
+>> v4l2_ioctl_ops *ops,
+>>          return ret ? ret : ops->vidioc_prepare_buf(file, fh, b);
+>>   }
+>>
+>> +static int v4l_delete_buf(const struct v4l2_ioctl_ops *ops,
+>> +                         struct file *file, void *fh, void *arg)
+>> +{
+>> +       struct v4l2_buffer *b = arg;
+>> +       int ret = check_fmt(file, b->type);
+>> +
+>> +       return ret ? ret : ops->vidioc_delete_buf(file, fh, b);
+>> +}
+>> +
+>>   static int v4l_g_parm(const struct v4l2_ioctl_ops *ops,
+>>                                  struct file *file, void *fh, void *arg)
+>>   {
+>> @@ -2905,6 +2914,7 @@ static const struct v4l2_ioctl_info 
+>> v4l2_ioctls[] = {
+>>          IOCTL_INFO(VIDIOC_ENUM_FREQ_BANDS, v4l_enum_freq_bands, 
+>> v4l_print_freq_band, 0),
+>>          IOCTL_INFO(VIDIOC_DBG_G_CHIP_INFO, v4l_dbg_g_chip_info, 
+>> v4l_print_dbg_chip_info, INFO_FL_CLEAR(v4l2_dbg_chip_info, match)),
+>>          IOCTL_INFO(VIDIOC_QUERY_EXT_CTRL, v4l_query_ext_ctrl, 
+>> v4l_print_query_ext_ctrl, INFO_FL_CTRL | 
+>> INFO_FL_CLEAR(v4l2_query_ext_ctrl, id)),
+>> +       IOCTL_INFO(VIDIOC_DELETE_BUF, v4l_delete_buf, 
+>> v4l_print_buffer, INFO_FL_QUEUE),
+>>   };
+>>   #define V4L2_IOCTLS ARRAY_SIZE(v4l2_ioctls)
+>>
+>> diff --git a/include/media/v4l2-ioctl.h b/include/media/v4l2-ioctl.h
+>> index edb733f21604..2f232ed884c7 100644
+>> --- a/include/media/v4l2-ioctl.h
+>> +++ b/include/media/v4l2-ioctl.h
+>> @@ -163,6 +163,8 @@ struct v4l2_fh;
+>>    *     :ref:`VIDIOC_CREATE_BUFS <vidioc_create_bufs>` ioctl
+>>    * @vidioc_prepare_buf: pointer to the function that implements
+>>    *     :ref:`VIDIOC_PREPARE_BUF <vidioc_prepare_buf>` ioctl
+>> + * @vidioc_delete_buf: pointer to the function that implements
+>> + *     :ref:`VIDIOC_DELETE_BUF <vidioc_delete_buf>` ioctl
+>>    * @vidioc_overlay: pointer to the function that implements
+>>    *     :ref:`VIDIOC_OVERLAY <vidioc_overlay>` ioctl
+>>    * @vidioc_g_fbuf: pointer to the function that implements
+>> @@ -422,6 +424,8 @@ struct v4l2_ioctl_ops {
+>>                                    struct v4l2_create_buffers *b);
+>>          int (*vidioc_prepare_buf)(struct file *file, void *fh,
+>>                                    struct v4l2_buffer *b);
+>> +       int (*vidioc_delete_buf)(struct file *file, void *fh,
+>> +                                struct v4l2_buffer *b);
+>>
+>>          int (*vidioc_overlay)(struct file *file, void *fh, unsigned 
+>> int i);
+>>          int (*vidioc_g_fbuf)(struct file *file, void *fh,
+>> diff --git a/include/media/videobuf2-core.h 
+>> b/include/media/videobuf2-core.h
+>> index 080b783d608d..0f9e68f76b77 100644
+>> --- a/include/media/videobuf2-core.h
+>> +++ b/include/media/videobuf2-core.h
+>> @@ -840,6 +840,15 @@ int vb2_core_create_bufs(struct vb2_queue *q, 
+>> enum vb2_memory memory,
+>>    */
+>>   int vb2_core_prepare_buf(struct vb2_queue *q, unsigned int index, 
+>> void *pb);
+>>
+>> +/**
+>> + * vb2_core_delete_buf() -
+>> + * @q: pointer to &struct vb2_queue with videobuf2 queue.
+>> + * @index:     id number of the buffer.
+>> + *
+>> + *  Return: returns zero on success; an error code otherwise.
+>> + */
+>> +int vb2_core_delete_buf(struct vb2_queue *q, unsigned int index);
+>> +
+>>   /**
+>>    * vb2_core_qbuf() - Queue a buffer from userspace
+>>    *
+>> diff --git a/include/media/videobuf2-v4l2.h 
+>> b/include/media/videobuf2-v4l2.h
+>> index 88a7a565170e..3beeb4c735f0 100644
+>> --- a/include/media/videobuf2-v4l2.h
+>> +++ b/include/media/videobuf2-v4l2.h
+>> @@ -114,6 +114,17 @@ int vb2_create_bufs(struct vb2_queue *q, struct 
+>> v4l2_create_buffers *create);
+>>    */
+>>   int vb2_prepare_buf(struct vb2_queue *q, struct media_device *mdev,
+>>                      struct v4l2_buffer *b);
+>> +/**
+>> + * vb2_delete_buf() - Delete the buffer from the queue
+>> + *
+>> + * @q:         pointer to &struct vb2_queue with videobuf2 queue.
+>> + * @b:         buffer structure passed from userspace to
+>> + *             &v4l2_ioctl_ops->vidioc_delete_buf handler in driver
+>> + *
+>> + * The return values from this function are intended to be directly 
+>> returned
+>> + * from &v4l2_ioctl_ops->vidioc_delete_buf handler in driver.
+>> + */
+>> +int vb2_delete_buf(struct vb2_queue *q, struct v4l2_buffer *b);
+>>
+>>   /**
+>>    * vb2_qbuf() - Queue a buffer from userspace
+>> diff --git a/include/uapi/linux/videodev2.h 
+>> b/include/uapi/linux/videodev2.h
+>> index aee75eb9e686..31bba1915642 100644
+>> --- a/include/uapi/linux/videodev2.h
+>> +++ b/include/uapi/linux/videodev2.h
+>> @@ -2702,6 +2702,8 @@ struct v4l2_create_buffers {
+>>   #define VIDIOC_DBG_G_CHIP_INFO  _IOWR('V', 102, struct 
+>> v4l2_dbg_chip_info)
+>>
+>>   #define VIDIOC_QUERY_EXT_CTRL  _IOWR('V', 103, struct 
+>> v4l2_query_ext_ctrl)
+>> +#define VIDIOC_DELETE_BUF      _IOWR('V', 104, struct v4l2_buffer)
+>> +
+>>
+>>   /* Reminder: when adding new ioctls please add support for them to
+>>      drivers/media/v4l2-core/v4l2-compat-ioctl32.c as well! */
+>> -- 
+>> 2.39.2
+>>
