@@ -2,148 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C6E1474056E
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 23:04:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC54B7405BD
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 23:38:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230399AbjF0VEt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jun 2023 17:04:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60482 "EHLO
+        id S230332AbjF0Vik (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jun 2023 17:38:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41628 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231187AbjF0VEm (ORCPT
+        with ESMTP id S229912AbjF0Vij (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jun 2023 17:04:42 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7056510F0
-        for <linux-media@vger.kernel.org>; Tue, 27 Jun 2023 14:04:41 -0700 (PDT)
-X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="364228794"
-X-IronPort-AV: E=Sophos;i="6.01,163,1684825200"; 
-   d="scan'208";a="364228794"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 14:04:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="751912201"
-X-IronPort-AV: E=Sophos;i="6.01,163,1684825200"; 
-   d="scan'208";a="751912201"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga001.jf.intel.com with ESMTP; 27 Jun 2023 14:04:38 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andy@kernel.org>)
-        id 1qEFrY-000QLb-2V;
-        Wed, 28 Jun 2023 00:04:36 +0300
-Date:   Wed, 28 Jun 2023 00:04:36 +0300
-From:   Andy Shevchenko <andy@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>,
+        Tue, 27 Jun 2023 17:38:39 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8324726B6;
+        Tue, 27 Jun 2023 14:38:38 -0700 (PDT)
+Received: from notapiano (zone.collabora.co.uk [167.235.23.81])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nfraprado)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 7759D6607165;
+        Tue, 27 Jun 2023 22:38:34 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1687901916;
+        bh=cWkXTYDt/bMN7/WXTJkUfgfgP3H+Af/AjtPCKz5D3x4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=HSDaRNvc1M2EN3RY1Pq8UC24N8DQTLqgClDJG4ECDz8mb2Hp/onmIpVYPU73ACGZZ
+         BR/IV+PWVbp4M/+cMsjrsTL6ZoukxBw4Ooyez+T2EGj/iVkfchk38fRlGSkyBsI4iO
+         nEj8Sypo5BAATF8NGPXynu7qwbPfjr1/TXgpdmw1ftakpGZM45RXEU8JtnNDY6i8UK
+         2ENTjRp1ltPvIpsMSHXIuD6AYDRfU1hLCaZKVtez/Jnei6h3KfudzohiLfN4DiqMCJ
+         QO+xLHpwGDiQPjKP9N+CatPE4mR7GdTrNZJcnPIPM6+07Q6uUBB1B0tQLb5tY8Vj02
+         Iq1FaAY15mrHw==
+Date:   Tue, 27 Jun 2023 17:38:30 -0400
+From:   =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado 
+        <nfraprado@collabora.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>, kernel@collabora.com,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kate Hsuan <hpa@redhat.com>, Hao Yao <hao.yao@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org
-Subject: Re: [PATCH 00/12] media: intel-cio2-bridge: Add shared
- intel-cio2-bridge code, rework VCM instantiation
-Message-ID: <ZJtO5Lgd511lqJoj@smile.fi.intel.com>
-References: <20230627175643.114778-1-hdegoede@redhat.com>
+        Rob Herring <robh+dt@kernel.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v3 3/6] media: dt-bindings: mediatek,vcodec: Remove
+ VDEC_SYS for mt8183
+Message-ID: <51dfbae5-4250-4b89-adb5-ff0ebf52cc52@notapiano>
+References: <20230620000349.2122191-4-nfraprado@collabora.com>
+ <8b5e4a9b-7496-02a1-d3b6-a0be8ea85798@linaro.org>
+ <a82b7f2d-04d4-4ac0-9a72-ad1c17118e19@notapiano>
+ <cb2dd67a-d3df-f194-6595-789d12b38f3d@linaro.org>
+ <6b41c5e4-bae9-4c99-8a28-7272c8a598a3@notapiano>
+ <9c36cdbb-7204-f9ca-6191-88e0f0f71915@linaro.org>
+ <132ec056-2186-4be5-9770-4d8c4d07bd76@notapiano>
+ <6af2faf2-8624-948b-6efa-3bf00695293b@linaro.org>
+ <aef120c8-bb25-476f-8976-7f699a851334@notapiano>
+ <9bf3f3d0-9655-3549-1d1b-02816f51b666@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230627175643.114778-1-hdegoede@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9bf3f3d0-9655-3549-1d1b-02816f51b666@linaro.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 27, 2023 at 07:56:30PM +0200, Hans de Goede wrote:
-> Hi All,
+On Mon, Jun 26, 2023 at 05:30:07PM +0200, Krzysztof Kozlowski wrote:
+> On 26/06/2023 15:54, Nícolas F. R. A. Prado wrote:
+> > On Fri, Jun 23, 2023 at 06:21:31PM +0200, Krzysztof Kozlowski wrote:
+> >> On 21/06/2023 20:00, Nícolas F. R. A. Prado wrote:
+> >>>>
+> >>>> But anyway this variant comes with some set of regs and reg-names. Other
+> >>>> variant comes with different set. In all cases they should be defined,
+> >>>> even by "defined" means not allowed.
+> >>>
+> >>> I'm not sure what you mean. Are you suggesting to disable reg-names on mt8173?
+> >>
+> >> That's one of the options if for some reason you don't want to define them.
+> >>
+> >>>
+> >>>>
+> >>>>>
+> >>>>> But in a separate series we could drop vdecsys from mt8173's reg as well,
+> >>>>> passing it as a syscon instead, which would solve the warning on that platform,
+> >>>>> though some more driver changes would be needed to be able to handle it for that
+> >>>>> SoC. The newer SoCs like mt8192, mt8195, etc, should also get vdecsys dropped
+> >>>>> from their regs to have a correct memory description.
+> >>>>>
+> >>>>
+> >>>> Sure, but I don't understand how does it affect defining and making
+> >>>> specific regs/reg-names or keeping them loose.
+> >>>
+> >>> We need some way to tell in the driver whether the first reg is VDEC_SYS or not.
+> >>> Since so far reg-names have not been used for the vcodec, the simplest, and
+> >>> cleanest, way to do it, is to add reg-names when VDEC_SYS is not present. When
+> >>> the other SoCs are updated to no longer have the first reg as VDEC_SYS, they
+> >>> would also have reg-names added to their binding, to clearly indicate that.
+> >>
+> >> Don't use reg-names for that. The order of entries is anyway strict.
+> > 
+> > Since the order of entries is strict, if I remove VDEC_SYS from mt8183, I also
+> > need to remove it from mt8173, is that what you mean?
 > 
-> While working on adding (proper) VCM support to the atomisp code
-> I found myself copying yet more code from
-> drivers/media/pci/intel/ipu3/cio2-bridge.c into the atomisp code.
+> It's different compatible, so it can have different entries.
 > 
-> So I decided that it really was time to factor out the common code
-> (most of the code) from intel/ipu3/cio2-bridge.c into its own
-> helper library and then share it between the atomisp and IPU3 code.
 > 
-> This will hopefully also be useful for the ongoing work to upstream
-> IPU6 input system support which also needs this functionality and
-> currently contains a 3th copy of this code in the out of tree driver.
+> > I would still check for
+> > the presence of reg-names in the driver to differentiate whether the old or new
+> > binding is used, you just don't want different reg-names between compatibles in
+> > the binding?
+> 
+> I wrote already what I want:
+> 
+>   In all cases they should be defined, even by "defined" means not allowed.
+> 
+> Now of course the best would be if the reg-names are always the same, at
+> least in respect of order of items. This is what we try to do for all
+> devices.
+> 
+> > 
+> >>
+> >>>
+> >>> For example, for mt8173 we currently have
+> >>>
+> >>> 		vcodec_dec: vcodec@16000000 {
+> >>> 			compatible = "mediatek,mt8173-vcodec-dec";
+> >>> 			reg = <0 0x16000000 0 0x100>,	/* VDEC_SYS */
+> >>> 			      <0 0x16020000 0 0x1000>,	/* VDEC_MISC */
+> >>> 			      <0 0x16021000 0 0x800>,	/* VDEC_LD */
+> >>> 			      <0 0x16021800 0 0x800>,	/* VDEC_TOP */
+> >>> 			      <0 0x16022000 0 0x1000>,	/* VDEC_CM */
+> >>> 			      <0 0x16023000 0 0x1000>,	/* VDEC_AD */
+> >>> 			      <0 0x16024000 0 0x1000>,	/* VDEC_AV */
+> >>> 			      <0 0x16025000 0 0x1000>,	/* VDEC_PP */
+> >>> 			      <0 0x16026800 0 0x800>,	/* VDEC_HWD */
+> >>> 			      <0 0x16027000 0 0x800>,	/* VDEC_HWQ */
+> >>> 			      <0 0x16027800 0 0x800>,	/* VDEC_HWB */
+> >>> 			      <0 0x16028400 0 0x400>;	/* VDEC_HWG */
+> >>>
+> >>> In a future series, when removing VDEC_SYS from it, it would become
+> >>>
+> >>> 		vcodec_dec: vcodec@16020000 {
+> >>> 			compatible = "mediatek,mt8173-vcodec-dec";
+> >>> 			reg = <0 0x16020000 0 0x1000>,	/* VDEC_MISC */
+> >>> 			      <0 0x16021000 0 0x800>,	/* VDEC_LD */
+> >>> 			      <0 0x16021800 0 0x800>,	/* VDEC_TOP */
+> >>> 			      <0 0x16022000 0 0x1000>,	/* VDEC_CM */
+> >>> 			      <0 0x16023000 0 0x1000>,	/* VDEC_AD */
+> >>> 			      <0 0x16024000 0 0x1000>,	/* VDEC_AV */
+> >>> 			      <0 0x16025000 0 0x1000>,	/* VDEC_PP */
+> >>> 			      <0 0x16026800 0 0x800>,	/* VDEC_HWD */
+> >>> 			      <0 0x16027000 0 0x800>,	/* VDEC_HWQ */
+> >>> 			      <0 0x16027800 0 0x800>,	/* VDEC_HWB */
+> >>> 			      <0 0x16028400 0 0x400>;	/* VDEC_HWG */
+> >>> 			reg-names = "misc", "ld", "top", "cm", "ad", "av", "pp",
+> >>>                                     "hwd", "hwq", "hwb", "hwg";
+> >>
+> >> So you want to use reg-names to avoid ABI break. This is not the reason
+> >> not to define reg-names for other case.
+> > 
+> > There will be an ABI break anyway when the first reg is removed (as shown
+> > above), I'm just trying to avoid churn: adding a reg-name that will be removed
+> > later.
+> 
+> So remove the reg-name now and there will be no "later"?
 
-I like the idea.
-Some nit-picks here and there, but in general
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
+OK, I'll send a v4 with VDEC_SYS also removed from mt8173.
 
-> This set consists of the following parts:
-> 
-> Patch 1     A bugfix for a recent change to the cio2-bridge code
-> Patches 2-8 Cleanup / preparation patches
-> Patch 9     Move the main body of the cio2-bridge.c code into
->             a new shared intel-cio2-bridge module
-> Patch 10    Drop cio2-bridge code copy from atomisp, switching to
->             the shared intel-cio2-bridge module
-> Patch 11    Rework how VCM client instantiation is done so that
->             a device-link can be added from VCM to sensor to
->             fix issues with the VCM power-state being tied to
->             the sensor power state
-> Patch 12    Example patch to show how patch 11 avoids the need
->             for hacks in VCM drivers caused by the shared power state
->             (not intended for merging)
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-> Hans de Goede (12):
->   media: ipu3-cio2: Do not use on stack memory for software_node.name
->     field
->   media: ipu3-cio2: Move initialization of node_names.vcm to
->     cio2_bridge_init_swnode_names()
->   media: ipu3-cio2: Make cio2_bridge_init() take a regular struct device
->     as argument
->   media: ipu3-cio2: Store dev pointer in struct cio2_bridge
->   media: ipu3-cio2: Only keep PLD around while parsing
->   media: ipu3-cio2: Add a cio2_bridge_parse_sensor_fwnode() helper
->     function
->   media: ipu3-cio2: Add a parse_sensor_fwnode callback to
->     cio2_bridge_init()
->   media: ipu3-cio2: Add supported_sensors parameter to
->     cio2_bridge_init()
->   media: ipu3-cio2: Move cio2_bridge_init() code into a new shared
->     intel-cio2-bridge.ko
->   media: atomisp: csi2-bridge: Switch to new common cio2_bridge_init()
->   media: intel-cio2-bridge: Add a runtime-pm device-link between VCM and
->     sensor
->   [RFC] media: dw9719: Drop hack to enable "vsio" regulator
-> 
->  MAINTAINERS                                   |   9 +
->  drivers/media/common/Kconfig                  |   4 +
->  drivers/media/common/Makefile                 |   1 +
->  drivers/media/common/intel-cio2-bridge.c      | 464 ++++++++++++++++++
->  drivers/media/i2c/dw9719.c                    |  27 +-
->  drivers/media/pci/intel/ipu3/Kconfig          |   1 +
->  drivers/media/pci/intel/ipu3/cio2-bridge.c    | 464 +++---------------
->  drivers/media/pci/intel/ipu3/cio2-bridge.h    | 146 ------
->  drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |   7 +-
->  drivers/media/pci/intel/ipu3/ipu3-cio2.h      |   7 +-
->  drivers/staging/media/atomisp/Kconfig         |   2 +
->  .../staging/media/atomisp/pci/atomisp_csi2.h  |  67 ---
->  .../media/atomisp/pci/atomisp_csi2_bridge.c   | 307 ++----------
->  include/media/intel-cio2-bridge.h             | 105 ++++
->  14 files changed, 723 insertions(+), 888 deletions(-)
->  create mode 100644 drivers/media/common/intel-cio2-bridge.c
->  delete mode 100644 drivers/media/pci/intel/ipu3/cio2-bridge.h
->  create mode 100644 include/media/intel-cio2-bridge.h
-> 
-> -- 
-> 2.41.0
-> 
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Thanks,
+Nícolas
