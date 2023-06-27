@@ -2,86 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BCF573F9B2
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 12:09:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 325D773FA29
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 12:25:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231696AbjF0KJo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jun 2023 06:09:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35142 "EHLO
+        id S231938AbjF0KZq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jun 2023 06:25:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231889AbjF0KJM (ORCPT
+        with ESMTP id S232202AbjF0KZL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jun 2023 06:09:12 -0400
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD4E63593;
-        Tue, 27 Jun 2023 03:07:07 -0700 (PDT)
-Received: from fsav116.sakura.ne.jp (fsav116.sakura.ne.jp [27.133.134.243])
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 35RA65lu033475;
-        Tue, 27 Jun 2023 19:06:05 +0900 (JST)
-        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav116.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav116.sakura.ne.jp);
- Tue, 27 Jun 2023 19:06:05 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav116.sakura.ne.jp)
-Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-        (authenticated bits=0)
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 35RA65wO033472
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-        Tue, 27 Jun 2023 19:06:05 +0900 (JST)
-        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <ecb32549-8b6f-4b8d-b832-4f86adb95183@I-love.SAKURA.ne.jp>
-Date:   Tue, 27 Jun 2023 19:06:04 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [syzbot] [tomoyo?] [bpf?] INFO: rcu detected stall in
- security_file_open (6)
-Content-Language: en-US
-To:     Sean Young <sean@mess.org>,
+        Tue, 27 Jun 2023 06:25:11 -0400
+Received: from mail.astralinux.ru (mail.astralinux.ru [217.74.38.119])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4F6C2968;
+        Tue, 27 Jun 2023 03:23:50 -0700 (PDT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.astralinux.ru (Postfix) with ESMTP id CA37D186675E;
+        Tue, 27 Jun 2023 13:23:46 +0300 (MSK)
+Received: from mail.astralinux.ru ([127.0.0.1])
+        by localhost (rbta-msk-vsrv-mail01.astralinux.ru [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id i0vgddjJrO1C; Tue, 27 Jun 2023 13:23:46 +0300 (MSK)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.astralinux.ru (Postfix) with ESMTP id 7DF631865F57;
+        Tue, 27 Jun 2023 13:23:46 +0300 (MSK)
+X-Virus-Scanned: amavisd-new at astralinux.ru
+Received: from mail.astralinux.ru ([127.0.0.1])
+        by localhost (rbta-msk-vsrv-mail01.astralinux.ru [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id dqY1wNlJLr1V; Tue, 27 Jun 2023 13:23:46 +0300 (MSK)
+Received: from anastasia-huawei.. (unknown [89.222.134.55])
+        by mail.astralinux.ru (Postfix) with ESMTPSA id 683C71865B39;
+        Tue, 27 Jun 2023 13:23:44 +0300 (MSK)
+From:   Anastasia Belova <abelova@astralinux.ru>
+To:     stable@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Anastasia Belova <abelova@astralinux.ru>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-References: <0000000000001526c405ff196bc1@google.com>
-Cc:     syzkaller-bugs@googlegroups.com,
-        syzbot <syzbot+bb11ad7bb33b56ca4d4b@syzkaller.appspotmail.com>,
-        USB list <linux-usb@vger.kernel.org>
-From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <0000000000001526c405ff196bc1@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Xiaomeng Tong <xiam0nd.tong@gmail.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        lvc-project@linuxtesting.org
+Subject: [PATCH 5.10 0/1] media: atomisp: fix "variable dereferenced before check 'asd'"
+Date:   Tue, 27 Jun 2023 13:23:33 +0300
+Message-Id: <20230627102334.18781-1-abelova@astralinux.ru>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Ping?
+The variable 'asd', which may be NULL, is dereferenced before
+check. The problem has been fixed by the following patch=20
+which can be cleanly applied to the 5.10 branch.=20
 
-How do you plan to avoid printk() flooding?
-
-#syz dup: INFO: rcu detected stall in newfstatat (3)
-
-On 2023/06/27 18:51, syzbot wrote:
-> Hello,
-> 
-> syzbot found the following issue on:
-> 
-> HEAD commit:    8a28a0b6f1a1 Merge tag 'net-6.4-rc8' of git://git.kernel.o..
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=1335a9db280000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=2cbd298d0aff1140
-> dashboard link: https://syzkaller.appspot.com/bug?extid=bb11ad7bb33b56ca4d4b
-> compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16841cc0a80000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16fc6e1f280000
-> 
-> Downloadable assets:
-> disk image: https://storage.googleapis.com/syzbot-assets/d02009a9822d/disk-8a28a0b6.raw.xz
-> vmlinux: https://storage.googleapis.com/syzbot-assets/f33ad4ef1182/vmlinux-8a28a0b6.xz
-> kernel image: https://storage.googleapis.com/syzbot-assets/f795a8ae7a8c/bzImage-8a28a0b6.xz
-> 
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+bb11ad7bb33b56ca4d4b@syzkaller.appspotmail.com
-
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
