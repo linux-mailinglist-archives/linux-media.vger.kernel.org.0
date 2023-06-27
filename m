@@ -2,275 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BEA873F091
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 03:32:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0AC773F458
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 08:16:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229913AbjF0BcE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Jun 2023 21:32:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41308 "EHLO
+        id S230156AbjF0GQF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jun 2023 02:16:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229647AbjF0Bbu (ORCPT
+        with ESMTP id S230158AbjF0GQB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Jun 2023 21:31:50 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2412E5B
-        for <linux-media@vger.kernel.org>; Mon, 26 Jun 2023 18:31:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687829509; x=1719365509;
-  h=date:from:to:cc:subject:message-id;
-  bh=8RYOiW/FmFkjn+Qc4B05PeziZhXA2/xh5WG0Lhqpj6A=;
-  b=J0feybHOCWLW343r3LzoR+mEakzyobe4b6d/Igff+iPQVCqUvKtuYACE
-   5rGFO8R5FCEJ3z6WEn+pgTJMNaa4vK7w+D2txbrDXdJN8ZorVEY/a9ywL
-   OUR5oc5Eoo2kb6YPXWbr78zT0xMt1/zsdfFaShOsw1arRctVt6QT4/BRt
-   ocA8D1vURjJjrtgcmImRPsetyh/fchACvzFUzapOftO1xMWp+NqU8IXCF
-   bNjeNdJQx1SiTl7KFltliXSDdbt7KhQf90lPJFgHM2ikrfWvz9Oxm8lx9
-   RhOorr/kC+aMIYB8qZRqbruVMbUYe/WpIY5gyrIqWl6iEatoji7/bUEGB
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="364890264"
-X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
-   d="scan'208";a="364890264"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2023 18:31:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="716355281"
-X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
-   d="scan'208";a="716355281"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 26 Jun 2023 18:31:48 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qDxYZ-000Ba3-0B;
-        Tue, 27 Jun 2023 01:31:47 +0000
-Date:   Tue, 27 Jun 2023 09:30:50 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org
-Subject: [sailus-media-tree:async-multi] BUILD SUCCESS
- db8058c1f01d05352a8a26195a42dd8c7b1c2c10
-Message-ID: <202306270948.Dm5LbPpi-lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        Tue, 27 Jun 2023 02:16:01 -0400
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2044.outbound.protection.outlook.com [40.107.20.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F17B926AE;
+        Mon, 26 Jun 2023 23:15:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Qoy/dYfOQaCKRVcFAdf0CjhE3BJpDgHyWvn03Y62rPaRBnl9DS0E5V7aq5t+7/wrEdyaV0/QYowh5IZZWynOYF6ZyTl8L1Jiu06+MzFTGFxQfaH5OZU9nCkLl71BUMNOOEKm9+T92MGwv1d0gse1UCPNgJ3tPyl8Xb+YTNEGs3CEmgTIEz++cP3PB+zeQivamBWOr/pLtiNSDl068FFRR92WHe+bJ0Ye8U7dIb+FDACwkgXeqCidjDe6HuhqbdxO+Ad1laANW//xG1VhPB8jz0vNjoM0Q6q1QnXAHFL10K0uqAyPgac1wN02ccZF0wEWuu14rJDCPyAVmlYReehiGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sZYy3Z06HS9uc2pXf0fLHyI7YXzlfheYvJYaM4GejMU=;
+ b=VereF60hZmTHhD4dM/bibnSUOcBPQzkKCdgqu2wnxdrbI5iBEm1N5qwqYW3Q5VPkxIbMS+FpOQP+cSTx1rI6NC13b76QXANnRNH5Erk67UNPoD2gPh1Jsb8TnO36+EB6qgOLY7fJrYNk+mfs8KmdMY7BgWAi6FUxcAZEENrV7pBC2iJ5VgpiDKom4NhZUT65ziSXwQ3NcbaxHSzW0mD/QtJwyus50EZ4ae87CLgoETcwxdOiSs68npvpGzQw8/RiNVpMVsbTT2VvSnc1HK92/cj430wdt9Pa03k+CF8tvrzdutdNbiR5K6TdZf3KFOW4NFKf+NJEE9zuEDb3OAfMMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector2-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sZYy3Z06HS9uc2pXf0fLHyI7YXzlfheYvJYaM4GejMU=;
+ b=NDlUraUuF0loI/B3BSPgbbWnLUT7ksdycFL4OAGfkpvytjZQQ2ew2GTQr57zHCeFS2cpnSoxWU/tV1dl5GQrdgKlWj6zo3mNYaRUs5XOtb9+iaKHPW7Jl1jXBQ0oUMV6MqEgBk0myFFVMNjXNRiV5GkBf/DTS+qaBtYUof3GW6c=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from AS8PR04MB9080.eurprd04.prod.outlook.com (2603:10a6:20b:447::16)
+ by DB8PR04MB7004.eurprd04.prod.outlook.com (2603:10a6:10:11c::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.26; Tue, 27 Jun
+ 2023 06:15:35 +0000
+Received: from AS8PR04MB9080.eurprd04.prod.outlook.com
+ ([fe80::1a0c:99b1:603a:e219]) by AS8PR04MB9080.eurprd04.prod.outlook.com
+ ([fe80::1a0c:99b1:603a:e219%3]) with mapi id 15.20.6521.023; Tue, 27 Jun 2023
+ 06:15:34 +0000
+From:   guoniu.zhou@oss.nxp.com
+To:     linux-media@vger.kernel.org, linux-imx@nxp.com,
+        devicetree@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, xavier.roumegue@oss.nxp.com,
+        kernel@pengutronix.de, jacopo.mondi@ideasonboard.com,
+        sakari.ailus@linux.intel.com
+Subject: [PATCH v3 0/3] add ISI support for iMX93 
+Date:   Tue, 27 Jun 2023 14:20:14 +0800
+Message-Id: <20230627062017.1135114-1-guoniu.zhou@oss.nxp.com>
+X-Mailer: git-send-email 2.37.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR01CA0032.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:192::18) To AS8PR04MB9080.eurprd04.prod.outlook.com
+ (2603:10a6:20b:447::16)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8PR04MB9080:EE_|DB8PR04MB7004:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5b01ce58-7d5f-4a5f-b20c-08db76d5eb06
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: M4uw+64xdq3d524m+cTzhZVd8F/hIX/nRjkJC+mUoetmXIF3wN7cOhdEsr9RzvyXQrz+OF598+nuz3/0GPSb1uTH1ayWvVc6u/AQV2t/jxP/J5+aSzwSem3pgP1sVyo1W9+1KlouLzTMzGlYb60EGG2PdK+TkxCGTSHcbnwT+lBw4w7y6dzw7P+w6Dws5/trBdqDVbX99kcMtnBuJofwvOczYdWEZPWxw2Diu18fvDItAHZTPMzlcpQZb8RgS//nnNfJFXB2Xe/Naz1e7JXHGLl3HgUp6WZdtklRJLmXQphnziPq/EhcULOyLUMzc8qMHPKy5LAX+mYjaJtBgaaqT+DKOzJi/K2U1tTXBePtRqGx19Nz4AXf3z1kr8tY+0U0pwYzREwIMJrWdDYtYdyQ264DUdQkguOlu6m600TmNQ6gtmllftV3bJUBFNzfZE6hWMWz4Y/S05W2SZXp3wnh5Qw9qFJeOJNoFeXCcVS2WIsAbfDBGNVhdhmWQ88/a/2ZIiUvOY5ygdvNGZl+dTI8zVR54UvXKkn5CzdW/xJ8SDuhaLI1SjSRq6Ha8s5VEEmjxwJGu6HjcBA5p/bXDOsUHekOWwVw5rcWASH08YxTztZhJ2a7ot2NG1LMVZlntKAl
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB9080.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(366004)(376002)(346002)(136003)(396003)(451199021)(186003)(2906002)(26005)(1076003)(4743002)(52116002)(38350700002)(2616005)(38100700002)(6512007)(6506007)(5660300002)(41300700001)(9686003)(66556008)(83380400001)(66476007)(66946007)(8936002)(8676002)(6666004)(7416002)(316002)(478600001)(86362001)(6486002)(4326008);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?t0MBFmhPNuUKJXQ6OgLY4hEIgKFzX7i1UPN4KAd8Azc+8unAnmkLjAS3czkh?=
+ =?us-ascii?Q?wrjxdC1CVeU7hVrbX0jif70tZe+Mc4fjmH6AFA8E0UKF1GmgB7vKpjg0ZXy0?=
+ =?us-ascii?Q?1Mp3olPZfpgpLodUfY2BwfNZrdKL90kz1UFOZmiRUsPXlgIcJz9XmX3f90W0?=
+ =?us-ascii?Q?zV7WwgCXq37hqAQGJm0+gOdFZPYMU0HXmNFet+HLqM7K9eVFFP3enQ0HnYop?=
+ =?us-ascii?Q?JxIE8um8Y72N/YVyZpLJ6HB1EuZVDLkHSm4sXWdEjesUjf+2dLPkS0uXXLv7?=
+ =?us-ascii?Q?yc4E+TqeXu34dHBXmxd8hKwCE3Mwk3AhxOd62ZBIT1tYKtRUNKEAzczr4lLO?=
+ =?us-ascii?Q?XHfU/x1JefhWazaxXDHYmTdlX3sMs+woKLFN8cKF4essr34hB4fABcTyhGpw?=
+ =?us-ascii?Q?7Uux7INEuf7GKVLldo3bp4tHXLKWz34XBxFkjfznpAV1BXxZToL79xoNGKHM?=
+ =?us-ascii?Q?FQlRUtp8jmW3HCOA+UuIXlOutXmDoLUOiJk/Rq+iVcECGmDkPv7z9FCkSMYd?=
+ =?us-ascii?Q?rq8XXBLmfQcjJGJBZXljbf0XYev4JwTd9flsEJ+B/POy45TlPZmEzJXXp5a4?=
+ =?us-ascii?Q?+JV0+T9dgQ00CGHH0RMMTyTF1d5oDxQgj9hLV9v/Ix5hrYvY8yZHDyWRGoat?=
+ =?us-ascii?Q?MtMYnQdyvlQ3j3LOw3pw0UzmgyiqMPRTW6ctAvk/ZV/3rjbzm8QXCXZtAi+l?=
+ =?us-ascii?Q?L4Zht9TPT/EzpifFQqZLMY6kCJPxuk3Ql7zAMmfEXenAR2Sk9vMYVQzmh8UN?=
+ =?us-ascii?Q?SFQ62cPQz73zYs2GHRvem52OHMNP6cs5cki21bP+uG184tr9gsz2XHpO1sXJ?=
+ =?us-ascii?Q?bbGVfYtH39vJySjqN2UAZ9OPrwawb48JVNCrQx1bz2qIu6r5gSYx7t0yf2Y/?=
+ =?us-ascii?Q?PmLnPqzKp5GcX6+oOSn/PHvok9LCCbnN/Bc0dRKZLdr3UddTR5iq3NKsy5qT?=
+ =?us-ascii?Q?D1Sc3XNLSFK7ifiIvXGb5/jYrw409GZ8Og0LZNfyB7Ra6CUNj648YwokSRUX?=
+ =?us-ascii?Q?UbP3ysBvzq5NDcr+eJoXFTy7tVTpiaKZQU7sn98TxCCV0Vr1cTggvPhHsOe+?=
+ =?us-ascii?Q?84o9aMroS9TncPYR/5+jPVVC2fMbQ8OHGUI843a8G8MIU4zLafujdnWetta9?=
+ =?us-ascii?Q?2Gg8KJmEhFQCdwT9mpEIynj4FTxabJDcqMEoORB/SlfAr0Qd+d6mzXC/D1zw?=
+ =?us-ascii?Q?MMu1s8cbS2Ik/Imxk151CaYgPGUa6NaRiJYaTYQP+3Y2BGfc7Co249Q0LYZ7?=
+ =?us-ascii?Q?hYl/DZupKmrHbBWb/EKbwqCOu9zJA05uPYweNcnAZofT/EQsNNbC3x2mnvA+?=
+ =?us-ascii?Q?tbjA/aXTN4gfbx5f7V29iHsHf0vWHQ651ZQfIEpYm/qbmSFWMBHywgQigL24?=
+ =?us-ascii?Q?+bUsvkIm3XTn7VEQgNpts1tDAXq0yBxvkXBcKSzCWsutzR2B4uI93CE7G66M?=
+ =?us-ascii?Q?QJ7TbXyFGmFPbqzzVIAynoCLAvt4OKhd1lLU+FBTWDeVqKoSEGQe7EXgMF/g?=
+ =?us-ascii?Q?+7qCs8ryg87sqMdT/Vdu4B3wA1Kn+pq40yxe0weCUORaKht81srXRZXjfZIm?=
+ =?us-ascii?Q?IG2IZnb1iOxBU0XJEFfUkUz06BWgeTwy1sVFN65N?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5b01ce58-7d5f-4a5f-b20c-08db76d5eb06
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB9080.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jun 2023 06:15:34.8665
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UXsAkJCS8x1x+AeE1IxkM+Qj9xkwml8OalT//45y7gel+WDrj9YCG3aZyr3XbQdMw8p8y1LI7q7ZR8I2t10CSw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB7004
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git async-multi
-branch HEAD: db8058c1f01d05352a8a26195a42dd8c7b1c2c10  media: Documentation: v4l: Document sub-device notifiers
+From: "Guoniu.zhou" <guoniu.zhou@nxp.com>
 
-elapsed time: 6474m
+NXP i.MX93 family almost reuse ISI IP from i.MX8M family, so add
+it support in current ISI driver
 
-configs tested: 196
-configs skipped: 12
+Changes in version 3:
+- Split [PATCH v2 2/2] into two patches, one create a separate file to
+  store gasket operation and the other to add ISI support for i.MX93.
+- Drop some debug message in gasket operation.
+- Merge .gasket_enable and .gasket_config to .gasket_enable
+- Drop some dead code
+- Some other small updates
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Changes in version 2:
+- Remove two patches which used to rename imx8 to imx.
+  [PATCH 1/4] media: dt-bindings: media: rename nxp,imx8-isi.yaml to nxp,imx-isi.yaml
+  [PATCH 2/4] media: nxp: rename imx8-isi to imx-isi and remove reference to i.MX8
+- Modify commit log to more accurately match its goal.
+- Remove redundant "media" in patch subject.
 
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r014-20230621   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                     haps_hs_smp_defconfig   gcc  
-arc                        nsimosci_defconfig   gcc  
-arc                  randconfig-r001-20230622   gcc  
-arc                  randconfig-r012-20230622   gcc  
-arc                  randconfig-r043-20230622   gcc  
-arc                           tb10x_defconfig   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                         at91_dt_defconfig   gcc  
-arm                         bcm2835_defconfig   clang
-arm                        clps711x_defconfig   gcc  
-arm                                 defconfig   gcc  
-arm                          gemini_defconfig   gcc  
-arm                       imx_v4_v5_defconfig   clang
-arm                      integrator_defconfig   gcc  
-arm                        keystone_defconfig   gcc  
-arm                        neponset_defconfig   clang
-arm                       netwinder_defconfig   clang
-arm                          pxa910_defconfig   gcc  
-arm                  randconfig-r015-20230622   clang
-arm                  randconfig-r022-20230622   clang
-arm                  randconfig-r025-20230622   clang
-arm                  randconfig-r046-20230622   clang
-arm                         s5pv210_defconfig   clang
-arm                        shmobile_defconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                randconfig-r013-20230622   gcc  
-arm64                randconfig-r022-20230622   gcc  
-csky                             alldefconfig   gcc  
-csky                                defconfig   gcc  
-csky                 randconfig-r011-20230621   gcc  
-csky                 randconfig-r012-20230621   gcc  
-csky                 randconfig-r025-20230622   gcc  
-csky                 randconfig-r032-20230622   gcc  
-hexagon              randconfig-r003-20230622   clang
-hexagon              randconfig-r016-20230622   clang
-hexagon              randconfig-r023-20230622   clang
-hexagon              randconfig-r041-20230622   clang
-hexagon              randconfig-r045-20230622   clang
-i386                             alldefconfig   gcc  
-i386                             allyesconfig   clang
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-r004-20230622   clang
-i386         buildonly-randconfig-r005-20230622   clang
-i386         buildonly-randconfig-r006-20230622   clang
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-i001-20230622   clang
-i386                 randconfig-i002-20230622   clang
-i386                 randconfig-i003-20230622   clang
-i386                 randconfig-i004-20230622   clang
-i386                 randconfig-i005-20230622   clang
-i386                 randconfig-i006-20230622   clang
-i386                 randconfig-i011-20230622   gcc  
-i386                 randconfig-i012-20230622   gcc  
-i386                 randconfig-i013-20230622   gcc  
-i386                 randconfig-i014-20230622   gcc  
-i386                 randconfig-i015-20230622   gcc  
-i386                 randconfig-i016-20230622   gcc  
-i386                 randconfig-r003-20230622   clang
-i386                 randconfig-r023-20230622   gcc  
-i386                 randconfig-r026-20230622   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch            randconfig-r002-20230622   gcc  
-loongarch            randconfig-r021-20230622   gcc  
-loongarch            randconfig-r024-20230622   gcc  
-m68k                             allmodconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                       bvme6000_defconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                          hp300_defconfig   gcc  
-m68k                       m5249evb_defconfig   gcc  
-m68k                        m5272c3_defconfig   gcc  
-m68k                        mvme147_defconfig   gcc  
-m68k                 randconfig-r013-20230621   gcc  
-microblaze           randconfig-r002-20230622   gcc  
-microblaze           randconfig-r006-20230622   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                        bcm47xx_defconfig   gcc  
-mips                        bcm63xx_defconfig   clang
-mips                           ci20_defconfig   gcc  
-mips                           gcw0_defconfig   gcc  
-mips                     loongson1b_defconfig   gcc  
-mips                     loongson2k_defconfig   clang
-mips                malta_qemu_32r6_defconfig   clang
-mips                      maltaaprp_defconfig   clang
-mips                           mtx1_defconfig   clang
-mips                      pic32mzda_defconfig   clang
-mips                 randconfig-r024-20230622   clang
-nios2                         10m50_defconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                randconfig-r005-20230622   gcc  
-openrisc             randconfig-r026-20230622   gcc  
-openrisc                 simple_smp_defconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                generic-64bit_defconfig   gcc  
-parisc               randconfig-r003-20230622   gcc  
-parisc64                         alldefconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                    adder875_defconfig   gcc  
-powerpc                          allmodconfig   clang
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                 canyonlands_defconfig   gcc  
-powerpc                      cm5200_defconfig   gcc  
-powerpc                       eiger_defconfig   gcc  
-powerpc                       holly_defconfig   gcc  
-powerpc                  iss476-smp_defconfig   gcc  
-powerpc                      makalu_defconfig   gcc  
-powerpc                     mpc512x_defconfig   clang
-powerpc                 mpc8315_rdb_defconfig   clang
-powerpc                     mpc83xx_defconfig   gcc  
-powerpc                      pcm030_defconfig   gcc  
-powerpc              randconfig-r034-20230622   clang
-powerpc                    sam440ep_defconfig   gcc  
-powerpc                      tqm8xx_defconfig   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r006-20230622   clang
-riscv                randconfig-r013-20230622   gcc  
-riscv                randconfig-r042-20230622   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r001-20230622   clang
-s390                 randconfig-r011-20230622   gcc  
-s390                 randconfig-r021-20230622   gcc  
-s390                 randconfig-r036-20230622   clang
-s390                 randconfig-r044-20230622   gcc  
-sh                               allmodconfig   gcc  
-sh                        dreamcast_defconfig   gcc  
-sh                         ecovec24_defconfig   gcc  
-sh                 kfr2r09-romimage_defconfig   gcc  
-sh                          kfr2r09_defconfig   gcc  
-sh                            migor_defconfig   gcc  
-sh                          polaris_defconfig   gcc  
-sh                          r7780mp_defconfig   gcc  
-sh                          r7785rp_defconfig   gcc  
-sh                   randconfig-r004-20230622   gcc  
-sh                   randconfig-r011-20230622   gcc  
-sh                   randconfig-r031-20230622   gcc  
-sh                          rsk7201_defconfig   gcc  
-sh                          rsk7203_defconfig   gcc  
-sh                          rsk7264_defconfig   gcc  
-sh                          sdk7786_defconfig   gcc  
-sh                           se7206_defconfig   gcc  
-sh                           se7343_defconfig   gcc  
-sh                           se7619_defconfig   gcc  
-sh                           se7751_defconfig   gcc  
-sh                             sh03_defconfig   gcc  
-sh                   sh7770_generic_defconfig   gcc  
-sh                  sh7785lcr_32bit_defconfig   gcc  
-sh                            titan_defconfig   gcc  
-sh                              ul2_defconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                randconfig-r005-20230622   gcc  
-sparc                randconfig-r012-20230622   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                   randconfig-r001-20230622   gcc  
-um                   randconfig-r015-20230621   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-r001-20230622   clang
-x86_64       buildonly-randconfig-r002-20230622   clang
-x86_64       buildonly-randconfig-r003-20230622   clang
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-r022-20230622   gcc  
-x86_64               randconfig-r025-20230622   gcc  
-x86_64                           rhel-8.3-bpf   gcc  
-x86_64                          rhel-8.3-func   gcc  
-x86_64                    rhel-8.3-kselftests   gcc  
-x86_64                         rhel-8.3-kunit   gcc  
-x86_64                           rhel-8.3-kvm   gcc  
-x86_64                           rhel-8.3-ltp   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                  audio_kc705_defconfig   gcc  
-xtensa                generic_kc705_defconfig   gcc  
-xtensa               randconfig-r014-20230622   gcc  
+Guoniu.zhou (3):
+  media: dt-bindings: nxp,imx8-isi: add i.MX93 ISI compatible string
+  media: nxp: imx8-isi: move i.MX8 gasket configuration to an ops
+    structure
+  media: nxp: imx8-isi: add ISI support for i.MX93
 
+ .../bindings/media/nxp,imx8-isi.yaml          |  5 +-
+ drivers/media/platform/nxp/imx8-isi/Makefile  |  2 +-
+ .../platform/nxp/imx8-isi/imx8-isi-core.c     | 32 +++++++++--
+ .../platform/nxp/imx8-isi/imx8-isi-core.h     | 42 ++++++++++++++-
+ .../platform/nxp/imx8-isi/imx8-isi-crossbar.c | 42 +++++----------
+ .../platform/nxp/imx8-isi/imx8-isi-gasket.c   | 53 +++++++++++++++++++
+ 6 files changed, 142 insertions(+), 34 deletions(-)
+ create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c
+
+base-commit: be9aac187433af6abba5fcc2e73d91d0794ba360
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.37.1
+
