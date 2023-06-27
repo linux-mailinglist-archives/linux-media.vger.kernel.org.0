@@ -2,111 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FCF673FFDE
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 17:37:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76C5B73FFE9
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 17:42:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231158AbjF0Phn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jun 2023 11:37:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51212 "EHLO
+        id S230247AbjF0PmH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jun 2023 11:42:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229562AbjF0Phm (ORCPT
+        with ESMTP id S229562AbjF0PmG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jun 2023 11:37:42 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8800810D5;
-        Tue, 27 Jun 2023 08:37:41 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-313df030ccaso4416543f8f.1;
-        Tue, 27 Jun 2023 08:37:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687880260; x=1690472260;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=05iaNFO9lF/8ux6dacOd00yFXxHKqE9KRL91PmH4iR8=;
-        b=HDiL5kKJ++QF2ciUWwq5MHxKmUazYLWtD6TMmVxJP8G6PhkCBcqJ+IZRvi5Cj7cROX
-         R/RYu6m5U2AfCbcxn82t0MW2AWEKIPCPTCNM9+E2barnHVmwmRgk2ATKAwXDeONfdwQr
-         77Yl6C4fmJlVWhsgxn+PX3o4Xg+likPCVE5dEbfXvDiM/KVXYk9ZkaM1VLLGiLUZeAW+
-         UwvuSQEWw+vsLeOZH/aDLzSV0DfMHiMpOHTtv1G2A9mwKybKU/aImvNNWxV9Orj1DNs3
-         9gvqzjSq1g9OvDQVmJeJwPhwXWdhLpsGvFw3Kpuhj/VVBBz6iVn2eKXiiH0f/5DTSMvh
-         kVQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687880260; x=1690472260;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=05iaNFO9lF/8ux6dacOd00yFXxHKqE9KRL91PmH4iR8=;
-        b=DSl0PF4B0yzoLUb+M/fh/a7aQdT84uGuQ6AA/5/mtPPibndsWDVx76BAtBtW1C2cqL
-         1eGdPOgAlzSFfYMVNbw23zQaKc4OZ3X0+hLzQSCBckkSFEyDylobBbZ/+h0Q0PUGipFe
-         zH0PNkYjnf8c/98kkrwciXiC++TH2eQPm+hIJ/Bs3zxKMrFI93QudSMtcByJMpZ4lIUU
-         wzGO/H6xtpZmgyZUiXB4EsNlTMTPJeN/AxIitA2oqLGEpmN8bjPBThxpn2PTULaPArbF
-         Pb9GvYYTOxCPyfGoAvIi6RAPVn4kgKnDZ8LDLlp7HPiucZY5kCMCzZk8DevtPqF1seRj
-         m9YQ==
-X-Gm-Message-State: AC+VfDzcIUJcqB0Fh7MzIS7GyB2a3Ohd6rPgwj6RXsjFy64RSUdUehPB
-        a8S2NREfqUVQSwsPjPdXxKM=
-X-Google-Smtp-Source: ACHHUZ4xuhPVqi/+8MF/Jjb+zsL9pz37GeZY7l0b2Z51yIpe/o3441sUxo3rEz+abIWpiSEvl1C2Uw==
-X-Received: by 2002:a5d:4e8f:0:b0:30f:c703:8be3 with SMTP id e15-20020a5d4e8f000000b0030fc7038be3mr24263683wru.42.1687880259519;
-        Tue, 27 Jun 2023 08:37:39 -0700 (PDT)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id v10-20020a5d590a000000b0030631a599a0sm10707214wrd.24.2023.06.27.08.37.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jun 2023 08:37:38 -0700 (PDT)
-From:   Colin Ian King <colin.i.king@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH][next][V2] media: bt8xx: make read-only arrays static
-Date:   Tue, 27 Jun 2023 16:37:38 +0100
-Message-Id: <20230627153738.736026-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.39.2
+        Tue, 27 Jun 2023 11:42:06 -0400
+Received: from 189.cn (ptr.189.cn [183.61.185.101])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 90396113;
+        Tue, 27 Jun 2023 08:42:03 -0700 (PDT)
+HMM_SOURCE_IP: 10.64.8.41:47796.1468361982
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
+        by 189.cn (HERMES) with SMTP id C284D1001BD;
+        Tue, 27 Jun 2023 23:41:57 +0800 (CST)
+Received: from  ([114.242.206.180])
+        by gateway-151646-dep-75648544bd-xwndj with ESMTP id 092d237c49d1407192172e5a3eeb9f6f for suijingfeng@loongson.cn;
+        Tue, 27 Jun 2023 23:41:58 CST
+X-Transaction-ID: 092d237c49d1407192172e5a3eeb9f6f
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Sender: 15330273260@189.cn
+Message-ID: <db89b457-8a15-2109-1a65-eee182234fc3@189.cn>
+Date:   Tue, 27 Jun 2023 23:41:55 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v15 1/2] drm: Add kms driver for loongson display
+ controller
+Content-Language: en-US
+To:     Sui Jingfeng <suijingfeng@loongson.cn>,
+        Huacai Chen <chenhuacai@kernel.org>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian Koenig <christian.koenig@amd.com>,
+        loongson-kernel@lists.loongnix.cn, inux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        dri-devel@lists.freedesktop.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Liu Peibao <liupeibao@loongson.cn>, linux-media@vger.kernel.org
+References: <20230615143613.1236245-1-15330273260@189.cn>
+ <20230615143613.1236245-2-15330273260@189.cn>
+ <CAAhV-H704swbRxsZoJN5ef3X41n9Vw-js_73tptK3cAjCWP6tQ@mail.gmail.com>
+ <f1f24be6-20c6-03de-a4a7-4ad874b8a0f5@loongson.cn>
+ <CAAhV-H5_B5g5tkv29z2bPBeiuR-gaBgRMFPSmOp1U+bqrOGQPA@mail.gmail.com>
+ <7e60a8a7-e7c9-285c-a997-7404c2b8f802@loongson.cn>
+From:   Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <7e60a8a7-e7c9-285c-a997-7404c2b8f802@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FROM_LOCAL_DIGITS,
+        FROM_LOCAL_HEX,NICE_REPLY_A,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Don't populate the arrays on the stack, instead make them static const.
-Also add spaces between values to clean up checkpatch style warnings.
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
+On 2023/6/27 23:27, Sui Jingfeng wrote:
+> Hi,
+>
+> On 2023/6/19 18:19, Huacai Chen wrote:
+>>> Single patch is more easy to manage.
+>>>
+>>> The first patch of this driver should comes a whole.
+>> Benchmarks and debugfs are not the very basic parts.
+>
+> In the V2,
+>
+> Thomas told me that if we implement our own TTM-based memory manager,
+>
+> we will also have the possibility of implementing a faster console.
+>
+>
+> Back to that time I do not even know the bandwidth of our hardware.
+>
+> 1) The bandwidth of copying buffer from the system RAM to system RAM;
+>
+> 2) The bandwidth of copying buffer from the system RAM to dedicated VRAM;
+>
+> 3) The bandwidth of copying buffer from the dedicated VRAM to system RAM;
+>
+>
+> We can make the right decision only when we know the various bandwidth 
+> listed as above.
+>
+> How to implement it.
+>
 
-V2: actually fix up the spaces correctly
+I means that the benchmarks can actually improve your cognition toward 
+the hardware.
 
----
- drivers/media/pci/bt8xx/dvb-bt8xx.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+Where is the bottleneck of the performance.
 
-diff --git a/drivers/media/pci/bt8xx/dvb-bt8xx.c b/drivers/media/pci/bt8xx/dvb-bt8xx.c
-index 4cb890b949c3..390cbba6c065 100644
---- a/drivers/media/pci/bt8xx/dvb-bt8xx.c
-+++ b/drivers/media/pci/bt8xx/dvb-bt8xx.c
-@@ -190,11 +190,15 @@ static int cx24108_tuner_set_params(struct dvb_frontend *fe)
- 	u32 freq = c->frequency;
- 	int i, a, n, pump;
- 	u32 band, pll;
--	u32 osci[]={950000,1019000,1075000,1178000,1296000,1432000,
--		1576000,1718000,1856000,2036000,2150000};
--	u32 bandsel[]={0,0x00020000,0x00040000,0x00100800,0x00101000,
--		0x00102000,0x00104000,0x00108000,0x00110000,
--		0x00120000,0x00140000};
-+	static const u32 osci[] = {
-+		950000, 1019000, 1075000, 1178000, 1296000, 1432000,
-+		1576000, 1718000, 1856000, 2036000, 2150000
-+	};
-+	static const u32 bandsel[] = {
-+		0, 0x00020000, 0x00040000, 0x00100800, 0x00101000,
-+		0x00102000, 0x00104000, 0x00108000, 0x00110000,
-+		0x00120000, 0x00140000
-+	};
- 
- 	#define XTAL 1011100 /* Hz, really 1.0111 MHz and a /10 prescaler */
- 	dprintk("cx24108 debug: entering SetTunerFreq, freq=%d\n", freq);
--- 
-2.39.2
+It also can be a kind of self test, to verify if various parts works as 
+expected.
 
