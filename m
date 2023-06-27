@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 03DCA7402C6
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 19:58:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4A8D7402C5
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 19:58:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231867AbjF0R60 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jun 2023 13:58:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37922 "EHLO
+        id S231504AbjF0R6Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jun 2023 13:58:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231696AbjF0R6X (ORCPT
+        with ESMTP id S231588AbjF0R6X (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 27 Jun 2023 13:58:23 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE62D30DA
-        for <linux-media@vger.kernel.org>; Tue, 27 Jun 2023 10:57:07 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDEFA358A
+        for <linux-media@vger.kernel.org>; Tue, 27 Jun 2023 10:57:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1687888626;
+        s=mimecast20190719; t=1687888630;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=kYbzLaH2jVeq5v43JT+7cqrn5RHT3y2f4UHhPLIIFQY=;
-        b=RYJOP9if6mq12+GxLG7zvLrVb8UzU9doo8ACsmDymFhJP1FBqwOj7mqwM6s/HVfSSXsf6P
-        Qm2s6HTlQlCgN2QlOTuegKbC29jYPDYlBnx88kq84gDWWGO9dFVVNH09iH4XxoJfky7e69
-        ohsBFujZYdV+gccF7kO5j6FKSWGAqEg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=itt6oqukh1+EnQXouEStoimfB0wBOa+JiwN4KAGdN5M=;
+        b=SfLVe75Hfuc2ZTuqujE1DUn029YD3C+6Ia7YxZ4O2afmMoaJhWX8iW+eGFgHhH8laVFdCU
+        cZE6EGwUCSekaZrk4DmPX7W+3rSX3LZgT2Rt+ow9t7IwT4Kn8Hb5vrRdnBByQrXUmT+b+q
+        n7UDJfRxy+SpfGkaU6p2MhPw7Hkcj2c=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-187-nfO2pKnBMqiO32alBH2Gyg-1; Tue, 27 Jun 2023 13:57:03 -0400
-X-MC-Unique: nfO2pKnBMqiO32alBH2Gyg-1
+ us-mta-573-eUrcKxeOMDyI3gYM2Qdk0g-1; Tue, 27 Jun 2023 13:57:06 -0400
+X-MC-Unique: eUrcKxeOMDyI3gYM2Qdk0g-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8E055858EED;
-        Tue, 27 Jun 2023 17:57:02 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 673F33C0FC9E;
+        Tue, 27 Jun 2023 17:57:05 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.194.24])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3E96D200A3AD;
-        Tue, 27 Jun 2023 17:57:01 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C1C91200B677;
+        Tue, 27 Jun 2023 17:57:02 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -47,9 +47,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
         Hao Yao <hao.yao@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
         linux-media@vger.kernel.org
-Subject: [PATCH 11/12] media: intel-cio2-bridge: Add a runtime-pm device-link between VCM and sensor
-Date:   Tue, 27 Jun 2023 19:56:41 +0200
-Message-ID: <20230627175643.114778-12-hdegoede@redhat.com>
+Subject: [PATCH 12/12] [RFC] media: dw9719: Drop hack to enable "vsio" regulator
+Date:   Tue, 27 Jun 2023 19:56:42 +0200
+Message-ID: <20230627175643.114778-13-hdegoede@redhat.com>
 In-Reply-To: <20230627175643.114778-1-hdegoede@redhat.com>
 References: <20230627175643.114778-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -65,332 +65,85 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In most cases when a VCM is used there is a single integrated module
-with the sensor + VCM + lens. This means that the sensor and VCM often
-share regulators and possibly also something like a powerdown pin.
+Drop the hack where the driver is getting + enabling a "vsio" regulator
+even though the dw9719 does not have a vsio pin / power-plane at all.
 
-In the ACPI tables this is modelled as a single ACPI device with
-multiple I2cSerialBus resources.
-
-On atomisp devices the regulators and clks are modelled as ACPI
-power-resources, which are controlled by the (ACPI) power state
-of the sensor. So the sensor must be in D0 power state for the VCM
-to work.
-
-To make this work add a device-link with DL_FLAG_PM_RUNTIME flag
-so that the sensor will automatically be runtime-resumed whenever
-the VCM is runtime-resumed.
-
-This requires the probing of the VCM and thus the creation of the VCM
-I2C-client to be delayed till after the sensor driver has bound.
-
-Move the instantiation of the VCM I2C-client to the v4l2_async_notifier
-bound op, so that it is done after the sensor driver has bound; and
-add code to add the device-link.
-
-This fixes the problem with the shared ACPI power-resources on atomisp2
-and this avoids the need for VCM related workarounds on IPU3.
-
-E.g. until now the dw9719 driver needed to get and control a Vsio
-(V sensor IO) regulator since that needs to be enabled to enable I2C
-pass-through on the PMIC on the sensor module. So the driver was
-controlling this regulator even though the actual dw9719 chip has no
-Vsio pin / power-plane.
-
-This also removes the need for intel_cio2_bridge_init() to return
--EPROBE_DEFER since the VCM is now instantiated later.
+Now that drivers/media/common/intel-cio2-bridge.c adds device-link
+making the VCM a consumer of the sensor this hack is no longer necessary.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/media/common/intel-cio2-bridge.c      | 160 +++++++++++-------
- drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |   5 +
- drivers/media/pci/intel/ipu3/ipu3-cio2.h      |   3 +
- include/media/intel-cio2-bridge.h             |   4 +-
- 4 files changed, 111 insertions(+), 61 deletions(-)
+Note to reviewers, the dw9719 driver is not upstream yet (I plan to
+resubmit it soon with this squashed in). This patch is only included
+in this patch-set to illustrate how the VCM -> sensor device-link
+avoids the need for hacks like this.
+---
+ drivers/media/i2c/dw9719.c | 27 +++++++--------------------
+ 1 file changed, 7 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/media/common/intel-cio2-bridge.c b/drivers/media/common/intel-cio2-bridge.c
-index 2f4256f9152c..997581bcc3b9 100644
---- a/drivers/media/common/intel-cio2-bridge.c
-+++ b/drivers/media/common/intel-cio2-bridge.c
-@@ -5,7 +5,9 @@
- #include <linux/acpi.h>
- #include <linux/device.h>
- #include <linux/i2c.h>
-+#include <linux/pm_runtime.h>
- #include <linux/property.h>
-+#include <linux/workqueue.h>
+diff --git a/drivers/media/i2c/dw9719.c b/drivers/media/i2c/dw9719.c
+index 94b76b4b2463..5fe01a125c1a 100644
+--- a/drivers/media/i2c/dw9719.c
++++ b/drivers/media/i2c/dw9719.c
+@@ -35,14 +35,12 @@
+ #define DW9719_DEFAULT_VCM_FREQ		0x60
+ #define DW9719_ENABLE_RINGING		0x02
  
- #include <media/intel-cio2-bridge.h>
- #include <media/v4l2-fwnode.h>
-@@ -189,30 +191,111 @@ static void cio2_bridge_create_connection_swnodes(
- 	cio2_bridge_init_swnode_group(sensor);
- }
- 
--static void cio2_bridge_instantiate_vcm_i2c_client(
--	struct intel_cio2_sensor *sensor)
--{
--	struct i2c_board_info board_info = { };
-+/*
-+ * The actual instantiation must be done from a workqueue to avoid
-+ * a deadlock on taking list_lock from v4l2-async twice.
-+ */
-+struct intel_cio2_bridge_instantiate_vcm_work_data {
-+	struct work_struct work;
-+	struct device *sensor;
- 	char name[16];
-+	struct i2c_board_info board_info;
-+};
- 
--	if (!sensor->vcm_type)
--		return;
-+static void intel_cio2_bridge_instantiate_vcm_work(struct work_struct *_work)
-+{
-+	struct intel_cio2_bridge_instantiate_vcm_work_data *work =
-+		container_of(_work,
-+			     struct intel_cio2_bridge_instantiate_vcm_work_data,
-+			     work);
-+	struct acpi_device *adev = ACPI_COMPANION(work->sensor);
-+	struct i2c_client *vcm_client;
-+	bool put_fwnode = true;
-+	int ret;
- 
--	snprintf(name, sizeof(name), "%s-VCM", acpi_dev_name(sensor->adev));
--	board_info.dev_name = name;
--	strscpy(board_info.type, sensor->vcm_type, ARRAY_SIZE(board_info.type));
--	board_info.swnode = &sensor->swnodes[SWNODE_VCM];
+-#define NUM_REGULATORS			2
 -
--	sensor->vcm_i2c_client =
--		i2c_acpi_new_device_by_fwnode(acpi_fwnode_handle(sensor->adev),
--					      1, &board_info);
--	if (IS_ERR(sensor->vcm_i2c_client)) {
--		dev_warn(&sensor->adev->dev, "Error instantiation VCM i2c-client: %ld\n",
--			 PTR_ERR(sensor->vcm_i2c_client));
--		sensor->vcm_i2c_client = NULL;
-+	/*
-+	 * The client may get probed before the device_link gets added below
-+	 * make sure the sensor is powered-up during probe.
-+	 */
-+	ret = pm_runtime_get_sync(work->sensor);
-+	if (ret < 0) {
-+		dev_err(work->sensor, "Error %d runtime-resuming sensor, cannot instantiate VCM\n",
-+			ret);
-+		goto out;
- 	}
-+
-+	/*
-+	 * Note the client is created only once and then kept around
-+	 * even after a rmmod, just like the software-nodes.
-+	 */
-+	vcm_client = i2c_acpi_new_device_by_fwnode(acpi_fwnode_handle(adev),
-+						   1, &work->board_info);
-+	if (IS_ERR(vcm_client)) {
-+		dev_err(work->sensor, "Error instantiating VCM client: %ld\n",
-+			PTR_ERR(vcm_client));
-+		goto out;
-+	}
-+
-+	device_link_add(&vcm_client->dev, work->sensor, DL_FLAG_PM_RUNTIME);
-+
-+	dev_info(work->sensor, "Instantiated %s VCM\n", work->board_info.type);
-+	put_fwnode = false; /* Ownership has passed to the i2c-client */
-+
-+out:
-+	pm_runtime_put(work->sensor);
-+	put_device(work->sensor);
-+	if (put_fwnode)
-+		fwnode_handle_put(work->board_info.fwnode);
-+	kfree(work);
- }
+ #define to_dw9719_device(x) container_of(x, struct dw9719_device, sd)
  
-+int intel_cio2_bridge_instantiate_vcm(struct device *sensor)
-+{
-+	struct intel_cio2_bridge_instantiate_vcm_work_data *work;
-+	struct acpi_device *adev = ACPI_COMPANION(sensor);
-+	struct fwnode_handle *vcm_fwnode;
-+	struct i2c_client *vcm_client;
-+	char *sep;
-+
-+	if (!adev)
-+		return 0;
-+
-+	vcm_fwnode = fwnode_find_reference(dev_fwnode(sensor), "lens-focus", 0);
-+	if (IS_ERR(vcm_fwnode))
-+		return 0;
-+
-+	/* When reloading modules the client will already exist */
-+	vcm_client = i2c_find_device_by_fwnode(vcm_fwnode);
-+	if (vcm_client) {
-+		fwnode_handle_put(vcm_fwnode);
-+		put_device(&vcm_client->dev);
-+		return 0;
-+	}
-+
-+	work = kzalloc(sizeof(*work), GFP_KERNEL);
-+	if (!work) {
-+		fwnode_handle_put(vcm_fwnode);
-+		return -ENOMEM;
-+	}
-+
-+	INIT_WORK(&work->work, intel_cio2_bridge_instantiate_vcm_work);
-+	work->sensor = get_device(sensor);
-+	snprintf(work->name, sizeof(work->name), "%s-VCM",
-+		 acpi_dev_name(adev));
-+	work->board_info.dev_name = work->name;
-+	work->board_info.fwnode = vcm_fwnode;
-+	strscpy(work->board_info.type, fwnode_get_name(vcm_fwnode),
-+		I2C_NAME_SIZE);
-+	/* Strip "-<link>" postfix */
-+	sep = strchrnul(work->board_info.type, '-');
-+	*sep = 0;
-+
-+	queue_work(system_long_wq, &work->work);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(intel_cio2_bridge_instantiate_vcm);
-+
- static void cio2_bridge_unregister_sensors(struct intel_cio2_bridge *bridge)
+ struct dw9719_device {
+ 	struct device *dev;
+ 	struct i2c_client *client;
+-	struct regulator_bulk_data regulators[NUM_REGULATORS];
++	struct regulator *regulator;
+ 	struct v4l2_subdev sd;
+ 
+ 	struct dw9719_v4l2_ctrls {
+@@ -131,14 +129,14 @@ static int dw9719_detect(struct dw9719_device *dw9719)
+ 
+ static int dw9719_power_down(struct dw9719_device *dw9719)
  {
- 	struct intel_cio2_sensor *sensor;
-@@ -222,7 +305,6 @@ static void cio2_bridge_unregister_sensors(struct intel_cio2_bridge *bridge)
- 		sensor = &bridge->sensors[i];
- 		software_node_unregister_node_group(sensor->group);
- 		acpi_dev_put(sensor->adev);
--		i2c_unregister_device(sensor->vcm_i2c_client);
- 	}
+-	return regulator_bulk_disable(NUM_REGULATORS, dw9719->regulators);
++	return regulator_disable(dw9719->regulator);
  }
  
-@@ -273,8 +355,6 @@ static int cio2_bridge_connect_sensor(
- 		primary = acpi_fwnode_handle(adev);
- 		primary->secondary = fwnode;
- 
--		cio2_bridge_instantiate_vcm_i2c_client(sensor);
--
- 		dev_info(bridge->dev, "Found supported sensor %s\n",
- 			 acpi_dev_name(adev));
- 
-@@ -311,41 +391,6 @@ static int cio2_bridge_connect_sensors(struct intel_cio2_bridge *bridge)
- 	return ret;
- }
- 
--/*
-- * The VCM cannot be probed until the PMIC is completely setup. We cannot rely
-- * on -EPROBE_DEFER for this, since the consumer<->supplier relations between
-- * the VCM and regulators/clks are not described in ACPI, instead they are
-- * passed as board-data to the PMIC drivers. Since -PROBE_DEFER does not work
-- * for the clks/regulators the VCM i2c-clients must not be instantiated until
-- * the PMIC is fully setup.
-- *
-- * The sensor/VCM ACPI device has an ACPI _DEP on the PMIC, check this using the
-- * acpi_dev_ready_for_enumeration() helper, like the i2c-core-acpi code does
-- * for the sensors.
-- */
--static int cio2_bridge_sensors_are_ready(
--	const struct intel_cio2_sensor_config *supported_sensors)
--{
--	struct acpi_device *adev;
--	bool ready = true;
--	unsigned int i;
--
--	for (i = 0; supported_sensors[i].hid; i++) {
--		const struct intel_cio2_sensor_config *cfg =
--			&supported_sensors[i];
--
--		for_each_acpi_dev_match(adev, cfg->hid, NULL, -1) {
--			if (!adev->status.enabled)
--				continue;
--
--			if (!acpi_dev_ready_for_enumeration(adev))
--				ready = false;
--		}
--	}
--
--	return ready;
--}
--
- int intel_cio2_bridge_init(
- 	struct device *dev,
- 	int (*parse_sensor_fwnode)(struct acpi_device *adev,
-@@ -358,9 +403,6 @@ int intel_cio2_bridge_init(
- 	unsigned int i;
+ static int dw9719_power_up(struct dw9719_device *dw9719)
+ {
  	int ret;
  
--	if (!cio2_bridge_sensors_are_ready(supported_sensors))
--		return -EPROBE_DEFER;
+-	ret = regulator_bulk_enable(NUM_REGULATORS, dw9719->regulators);
++	ret = regulator_enable(dw9719->regulator);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -315,21 +313,10 @@ static int dw9719_probe(struct i2c_client *client)
+ 	dw9719->client = client;
+ 	dw9719->dev = &client->dev;
+ 
+-	dw9719->regulators[0].supply = "vdd";
+-	/*
+-	 * The DW9719 has only the 1 VDD voltage input, but some PMICs such as
+-	 * the TPS68470 PMIC have I2C passthrough capability, to disconnect the
+-	 * sensor's I2C pins from the I2C bus when the sensors VSIO (Sensor-IO)
+-	 * is off, because some sensors then short these pins to ground;
+-	 * and the DW9719 might sit behind this passthrough, this it needs to
+-	 * enable VSIO as that will also enable the I2C passthrough.
+-	 */
+-	dw9719->regulators[1].supply = "vsio";
 -
- 	bridge = kzalloc(sizeof(*bridge), GFP_KERNEL);
- 	if (!bridge)
- 		return -ENOMEM;
-diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-index afc3255b5eb8..a22d213d66e9 100644
---- a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-+++ b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-@@ -1386,10 +1386,15 @@ static int cio2_notifier_bound(struct v4l2_async_notifier *notifier,
- 	struct cio2_device *cio2 = to_cio2_device(notifier);
- 	struct sensor_async_subdev *s_asd = to_sensor_asd(asd);
- 	struct cio2_queue *q;
-+	int ret;
+-	ret = devm_regulator_bulk_get(&client->dev, NUM_REGULATORS,
+-				      dw9719->regulators);
+-	if (ret)
+-		return dev_err_probe(&client->dev, ret, "getting regulators\n");
++	dw9719->regulator = devm_regulator_get(&client->dev, "vdd");
++	if (IS_ERR(dw9719->regulator))
++		return dev_err_probe(&client->dev, PTR_ERR(dw9719->regulator),
++				     "getting regulator\n");
  
- 	if (cio2->queue[s_asd->csi2.port].sensor)
- 		return -EBUSY;
- 
-+	ret = intel_cio2_bridge_instantiate_vcm(sd->dev);
-+	if (ret)
-+		return ret;
-+
- 	q = &cio2->queue[s_asd->csi2.port];
- 
- 	q->csi2 = s_asd->csi2;
-diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.h b/drivers/media/pci/intel/ipu3/ipu3-cio2.h
-index 7ff7915f9823..208d60364f44 100644
---- a/drivers/media/pci/intel/ipu3/ipu3-cio2.h
-+++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.h
-@@ -12,6 +12,7 @@
- 
- #include <asm/page.h>
- 
-+#include <media/intel-cio2-bridge.h>
- #include <media/media-device.h>
- #include <media/media-entity.h>
- #include <media/v4l2-async.h>
-@@ -463,6 +464,8 @@ static inline struct cio2_queue *vb2q_to_cio2_queue(struct vb2_queue *vq)
- int cio2_bridge_init(struct device *dev);
- #else
- static inline int cio2_bridge_init(struct device *dev) { return 0; }
-+static inline int
-+intel_cio2_bridge_instantiate_vcm(struct device *dev) { return 0; }
- #endif
- 
- #endif
-diff --git a/include/media/intel-cio2-bridge.h b/include/media/intel-cio2-bridge.h
-index 90fde180faef..faa60a5b1cd8 100644
---- a/include/media/intel-cio2-bridge.h
-+++ b/include/media/intel-cio2-bridge.h
-@@ -10,7 +10,6 @@
- #include <media/v4l2-fwnode.h>
- 
- struct acpi_device;
--struct i2c_client;
- 
- #define INTEL_CIO2_HID					"INT343E"
- #define INTEL_CIO2_MAX_LANES				4
-@@ -56,7 +55,6 @@ struct intel_cio2_sensor {
- 	/* append link(u8) in "-%u" format as suffix of HID */
- 	char name[ACPI_ID_LEN + 4];
- 	struct acpi_device *adev;
--	struct i2c_client *vcm_i2c_client;
- 
- 	/* SWNODE_COUNT + 1 for terminating NULL */
- 	const struct software_node *group[SWNODE_COUNT + 1];
-@@ -99,6 +97,8 @@ int intel_cio2_bridge_init(
- 				   const struct intel_cio2_sensor_config *cfg),
- 	const struct intel_cio2_sensor_config *supported_sensors);
- 
-+int intel_cio2_bridge_instantiate_vcm(struct device *sensor);
-+
- enum v4l2_fwnode_orientation
- intel_cio2_bridge_get_orientation(struct acpi_device *adev);
- 
+ 	v4l2_i2c_subdev_init(&dw9719->sd, client, &dw9719_ops);
+ 	dw9719->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
 -- 
 2.41.0
 
