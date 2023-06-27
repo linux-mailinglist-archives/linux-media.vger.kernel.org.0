@@ -2,53 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6147173FE80
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 16:41:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0ABF73FEB1
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 16:45:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231226AbjF0OlX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jun 2023 10:41:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42296 "EHLO
+        id S231843AbjF0Op1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jun 2023 10:45:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229629AbjF0OlU (ORCPT
+        with ESMTP id S232067AbjF0Ooz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jun 2023 10:41:20 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 017733590
-        for <linux-media@vger.kernel.org>; Tue, 27 Jun 2023 07:40:53 -0700 (PDT)
-Received: from [192.168.144.60] (90-182-211-1.rcp.o2.cz [90.182.211.1])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 33BD410A;
-        Tue, 27 Jun 2023 16:40:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1687876809;
-        bh=YHiu8DHNTNkAIafKqmBUmEE2RM5OWafhR18eWVejASM=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=gzXtpwqjKdjJrPuIrySQ/cg4kkMzxkjmBSbd1DFdpgAwl8NI5dG/WOIvootPDqS0e
-         7ojn5cXY4AkpYrNCiWw7jaYWwvbQy4lZJpKzKu6a4NOnjCpADqTcSlK1qD/CKR9Meq
-         5xua2BN0Xxo5CIW21V6ahXnlBLfyjOmdC8dj6TPU=
-Message-ID: <08701132-eab4-fc44-d14d-6dc72ec5c4c4@ideasonboard.com>
-Date:   Tue, 27 Jun 2023 16:40:45 +0200
+        Tue, 27 Jun 2023 10:44:55 -0400
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CD33358A;
+        Tue, 27 Jun 2023 07:44:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=lz+eaKXjltZfgC96+KOEH+DiV357kqzsKaP1ME9j9JM=;
+  b=YpuufV72ER5dSm9wrYSnJ+nyISX1oQx33v1s2pGZoMDoTbTZApc/Qnr+
+   jWRuBVmLvwZwmibFQ5jrR1vtZ5noOKi7DSKRNrP0U1BZ9FCltFGcibx6p
+   ck1ThN0OMstSb7PrPLh1Mq91rYGjkQ4mlVR9Zej3KEIn+kL4eNkAXPzxE
+   c=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.01,162,1684792800"; 
+   d="scan'208";a="114936315"
+Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 16:43:51 +0200
+From:   Julia Lawall <Julia.Lawall@inria.fr>
+To:     linux-hyperv@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, keescook@chromium.org,
+        christophe.jaillet@wanadoo.fr, kuba@kernel.org,
+        kasan-dev@googlegroups.com,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>, iommu@lists.linux.dev,
+        linux-tegra@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
+        Krishna Reddy <vdumpa@nvidia.com>,
+        virtualization@lists.linux-foundation.org,
+        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+        linux-scsi@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org, John Stultz <jstultz@google.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Laura Abbott <labbott@redhat.com>,
+        Liam Mark <lmark@codeaurora.org>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, Shailend Chand <shailend@google.com>,
+        linux-rdma@vger.kernel.org, mhi@lists.linux.dev,
+        linux-arm-msm@vger.kernel.org, linux-btrfs@vger.kernel.org,
+        intel-gvt-dev@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-sgx@vger.kernel.org
+Subject: [PATCH v2 00/24] use vmalloc_array and vcalloc
+Date:   Tue, 27 Jun 2023 16:43:15 +0200
+Message-Id: <20230627144339.144478-1-Julia.Lawall@inria.fr>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v3 11/29] media: ov2680: Check for "powerdown" GPIO con-id
- before checking for "reset" GPIO con-id
-Content-Language: en-US
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-        Tommaso Merciai <tomm.merciai@gmail.com>,
-        linux-media@vger.kernel.org
-References: <20230627131830.54601-1-hdegoede@redhat.com>
- <20230627131830.54601-12-hdegoede@redhat.com>
-From:   Dan Scally <dan.scally@ideasonboard.com>
-In-Reply-To: <20230627131830.54601-12-hdegoede@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
         SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -57,121 +70,83 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans
+The functions vmalloc_array and vcalloc were introduced in
 
-On 27/06/2023 15:18, Hans de Goede wrote:
-> The datasheet of the OV2680 labels the single GPIO to put the sensor in
-> powersaving mode as XSHUTDN aka shutdown, _not_ reset.
->
-> This is important because some boards have standardized sensor connectors
-> which allow connecting various sensor modules. These connectors have both
-> reset and powerdown signals and the powerdown signal is routed to
-> the OV2680's XSHUTDN pin.
->
-> On x86/ACPI multiple Bay Trail, Cherry Trail, Sky Lake and Kaby Lake models
-> have an OV2680 connected to the ISP2 / IPU3. On these devices the GPIOS are
-> not described in DT instead the GPIOs are described with an Intel specific
-> DSM which labels them as either powerdown or reset. Often this DSM returns
-> both reset and powerdown pins even though the OV2680 has only 1 such pin.
->
-> For the ov2680 driver to work on these devices it must use the GPIO with
-> "powerdown" as con-id, matching the XSHUTDN name from the datasheet.
->
-> As for why "powerdown" vs say "shutdown" the ACPI DSM -> con-id mapping
-> code is shared, so we must use standardized names and currently all of
-> the following sensor drivers already use "powerdown":
-> adv7180, gc0310, isl7998x, ov02a10, ov2659, ov5640, ov5648, ov5670,
-> ov5693, ov7670, ov772x, ov7740, ov8858, ov8865 and ov9650 .
->
-> Where as the hi846 driver is the lonely standout using "shutdown".
->
-> Try the "powerdown" con-id first to make things work, falling back to
-> "reset" to keep existing DT setups working.
->
-> Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
+commit a8749a35c399 ("mm: vmalloc: introduce array allocation functions")
 
+but are not used much yet.  This series introduces uses of
+these functions, to protect against multiplication overflows.
 
-Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+The changes were done using the following Coccinelle semantic
+patch.
 
->   drivers/media/i2c/ov2680.c | 29 ++++++++++++++++++++---------
->   1 file changed, 20 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
-> index 824e2962e7d5..0de047c49c31 100644
-> --- a/drivers/media/i2c/ov2680.c
-> +++ b/drivers/media/i2c/ov2680.c
-> @@ -96,7 +96,7 @@ struct ov2680_dev {
->   	u32				xvclk_freq;
->   	struct regulator_bulk_data	supplies[OV2680_NUM_SUPPLIES];
->   
-> -	struct gpio_desc		*reset_gpio;
-> +	struct gpio_desc		*pwdn_gpio;
->   	struct mutex			lock; /* protect members */
->   
->   	bool				mode_pending_changes;
-> @@ -180,19 +180,19 @@ static inline struct v4l2_subdev *ctrl_to_sd(struct v4l2_ctrl *ctrl)
->   
->   static void ov2680_power_up(struct ov2680_dev *sensor)
->   {
-> -	if (!sensor->reset_gpio)
-> +	if (!sensor->pwdn_gpio)
->   		return;
->   
-> -	gpiod_set_value(sensor->reset_gpio, 0);
-> +	gpiod_set_value(sensor->pwdn_gpio, 0);
->   	usleep_range(5000, 10000);
->   }
->   
->   static void ov2680_power_down(struct ov2680_dev *sensor)
->   {
-> -	if (!sensor->reset_gpio)
-> +	if (!sensor->pwdn_gpio)
->   		return;
->   
-> -	gpiod_set_value(sensor->reset_gpio, 1);
-> +	gpiod_set_value(sensor->pwdn_gpio, 1);
->   	usleep_range(5000, 10000);
->   }
->   
-> @@ -350,7 +350,7 @@ static int ov2680_power_on(struct ov2680_dev *sensor)
->   		return ret;
->   	}
->   
-> -	if (!sensor->reset_gpio) {
-> +	if (!sensor->pwdn_gpio) {
->   		ret = cci_write(sensor->regmap, OV2680_REG_SOFT_RESET, 0x01,
->   				NULL);
->   		if (ret != 0) {
-> @@ -742,16 +742,27 @@ static int ov2680_check_id(struct ov2680_dev *sensor)
->   static int ov2680_parse_dt(struct ov2680_dev *sensor)
->   {
->   	struct device *dev = sensor->dev;
-> +	struct gpio_desc *gpio;
->   	int ret;
->   
-> -	sensor->reset_gpio = devm_gpiod_get_optional(dev, "reset",
-> -						     GPIOD_OUT_HIGH);
-> -	ret = PTR_ERR_OR_ZERO(sensor->reset_gpio);
-> +	/*
-> +	 * The pin we want is named XSHUTDN in the datasheet. Linux sensor
-> +	 * drivers have standardized on using "powerdown" as con-id name
-> +	 * for powerdown or shutdown pins. Older DTB files use "reset",
-> +	 * so fallback to that if there is no "powerdown" pin.
-> +	 */
-> +	gpio = devm_gpiod_get_optional(dev, "powerdown", GPIOD_OUT_HIGH);
-> +	if (!gpio)
-> +		gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
-> +
-> +	ret = PTR_ERR_OR_ZERO(gpio);
->   	if (ret < 0) {
->   		dev_dbg(dev, "error while getting reset gpio: %d\n", ret);
->   		return ret;
->   	}
->   
-> +	sensor->pwdn_gpio = gpio;
-> +
->   	sensor->xvclk = devm_clk_get(dev, "xvclk");
->   	if (IS_ERR(sensor->xvclk)) {
->   		dev_err(dev, "xvclk clock missing or invalid\n");
+@initialize:ocaml@
+@@
+
+let rename alloc =
+  match alloc with
+    "vmalloc" -> "vmalloc_array"
+  | "vzalloc" -> "vcalloc"
+  | _ -> failwith "unknown"
+
+@@
+    size_t e1,e2;
+    constant C1, C2;
+    expression E1, E2, COUNT, x1, x2, x3;
+    typedef u8;
+    typedef __u8;
+    type t = {u8,__u8,char,unsigned char};
+    identifier alloc = {vmalloc,vzalloc};
+    fresh identifier realloc = script:ocaml(alloc) { rename alloc };
+@@
+
+(
+      alloc(x1*x2*x3)
+|
+      alloc(C1 * C2)
+|
+      alloc((sizeof(t)) * (COUNT), ...)
+|
+-     alloc((e1) * (e2))
++     realloc(e1, e2)
+|
+-     alloc((e1) * (COUNT))
++     realloc(COUNT, e1)
+|
+-     alloc((E1) * (E2))
++     realloc(E1, E2)
+)
+
+v2: This series uses vmalloc_array and vcalloc instead of
+array_size.  It also leaves a multiplication of a constant by a
+sizeof as is.  Two patches are thus dropped from the series.
+
+---
+
+ arch/x86/kernel/cpu/sgx/main.c                    |    2 +-
+ drivers/accel/habanalabs/common/device.c          |    3 ++-
+ drivers/accel/habanalabs/common/state_dump.c      |    7 ++++---
+ drivers/bus/mhi/host/init.c                       |    2 +-
+ drivers/comedi/comedi_buf.c                       |    4 ++--
+ drivers/dma-buf/heaps/system_heap.c               |    2 +-
+ drivers/gpu/drm/gud/gud_pipe.c                    |    2 +-
+ drivers/gpu/drm/i915/gvt/gtt.c                    |    6 ++++--
+ drivers/infiniband/hw/bnxt_re/qplib_res.c         |    4 ++--
+ drivers/infiniband/hw/erdma/erdma_verbs.c         |    4 ++--
+ drivers/infiniband/sw/siw/siw_qp.c                |    4 ++--
+ drivers/infiniband/sw/siw/siw_verbs.c             |    6 +++---
+ drivers/iommu/tegra-gart.c                        |    4 ++--
+ drivers/net/ethernet/amd/pds_core/core.c          |    4 ++--
+ drivers/net/ethernet/freescale/enetc/enetc.c      |    4 ++--
+ drivers/net/ethernet/google/gve/gve_tx.c          |    2 +-
+ drivers/net/ethernet/marvell/octeon_ep/octep_rx.c |    2 +-
+ drivers/net/ethernet/microsoft/mana/hw_channel.c  |    2 +-
+ drivers/net/ethernet/pensando/ionic/ionic_lif.c   |    4 ++--
+ drivers/scsi/fnic/fnic_trace.c                    |    2 +-
+ drivers/scsi/qla2xxx/qla_init.c                   |    4 ++--
+ drivers/vdpa/vdpa_user/iova_domain.c              |    4 ++--
+ drivers/virtio/virtio_mem.c                       |    6 +++---
+ fs/btrfs/zoned.c                                  |    4 ++--
+ kernel/kcov.c                                     |    2 +-
+ lib/test_vmalloc.c                                |    9 +++++----
+ 26 files changed, 52 insertions(+), 47 deletions(-)
