@@ -2,55 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EA52273FDDE
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 16:33:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BE9B73FDF0
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 16:35:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231372AbjF0OdG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jun 2023 10:33:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36286 "EHLO
+        id S231469AbjF0Ofw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jun 2023 10:35:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231345AbjF0Ocy (ORCPT
+        with ESMTP id S229667AbjF0Oft (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jun 2023 10:32:54 -0400
+        Tue, 27 Jun 2023 10:35:49 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E81BC2D69
-        for <linux-media@vger.kernel.org>; Tue, 27 Jun 2023 07:32:52 -0700 (PDT)
-Received: from [192.168.144.60] (90-182-211-1.rcp.o2.cz [90.182.211.1])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A419510A;
-        Tue, 27 Jun 2023 16:32:11 +0200 (CEST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 062592D6A
+        for <linux-media@vger.kernel.org>; Tue, 27 Jun 2023 07:35:48 -0700 (PDT)
+Received: from ideasonboard.com (unknown [193.85.242.128])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 406DE10A;
+        Tue, 27 Jun 2023 16:35:07 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1687876331;
-        bh=aG6d6cGBQBb0+El4Ox6cx16dpizDfUtQjbpiO3evZYE=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=HlKmXLf2CRithNLT5i+rcji2WHbfdZBzEkSC1cYixoML7/INbhqLHYr6/VpFL1VuM
-         OVVxJj4CVRhS/0CewaRov8O4PJ5hxrtfQGTD2RxcMzReuxHRRmHtTnybBSyLqguHgl
-         /SfpgOmE3SgfzYSEfw96ebb7UcKKJ5F4KsQFtxbE=
-Message-ID: <675a3add-6c74-6206-8ede-2573d7c07df3@ideasonboard.com>
-Date:   Tue, 27 Jun 2023 16:32:47 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v3 07/29] media: ov2680: Fix ov2680_set_fmt() which ==
- V4L2_SUBDEV_FORMAT_TRY not working
-Content-Language: en-US
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        s=mail; t=1687876507;
+        bh=qgXqsmC2nHodK0zceId2tC4YjP6hHIj22nFsqgutDb8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lL0Ki9E6oT8j/UjT79N8W4zKJxWPkJZ066T6qYxHxiIQn1+laUY+o3kbiARKkk7xZ
+         uEV5TMKcPJRCUSWa5wDfQ9sUQRSclKqtkMQIohWZn93PBnCD9523TGIP+vsppaVWBe
+         6AanSWZph1XBiKgaYkLR+JAdwo8xojl2ngVoH+z8=
+Date:   Tue, 27 Jun 2023 16:35:43 +0200
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
         Tommaso Merciai <tomm.merciai@gmail.com>,
         linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 03/29] media: ov2680: Fix vflip / hflip set functions
+Message-ID: <swuf2k4tatjfsjjta2ul36ph7xncs3l5vq2jby4hf2zww3s4k5@6lqbvl2vkxkc>
 References: <20230627131830.54601-1-hdegoede@redhat.com>
- <20230627131830.54601-8-hdegoede@redhat.com>
-From:   Dan Scally <dan.scally@ideasonboard.com>
-In-Reply-To: <20230627131830.54601-8-hdegoede@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+ <20230627131830.54601-4-hdegoede@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230627131830.54601-4-hdegoede@redhat.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -59,90 +56,128 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Hans
 
-On 27/06/2023 15:18, Hans de Goede wrote:
-> ov2680_set_fmt() which == V4L2_SUBDEV_FORMAT_TRY was getting
-> the try_fmt v4l2_mbus_framefmt struct from the passed in sd_state
-> and then storing the contents of that into the return by reference
-> format->format struct.
+On Tue, Jun 27, 2023 at 03:18:04PM +0200, Hans de Goede wrote:
+> ov2680_vflip_disable() / ov2680_hflip_disable() pass BIT(0) instead of
+> 0 as value to ov2680_mod_reg().
 >
-> While the right thing to do would be filling format->format based on
-> the just looked up mode and then store the results of that in
-> sd_state->pads[0].try_fmt .
+> While fixing this also:
 >
-> Before the previous change introducing ov2680_fill_format() this
-> resulted in ov2680_set_fmt() which == V4L2_SUBDEV_FORMAT_TRY always
-> returning the zero-ed out sd_state->pads[0].try_fmt in format->format
-> breaking callers using this.
+> 1. Stop having separate enable/disable functions for hflip / vflip
+> 2. Move the is_streaming check, which is unique to hflip / vflip
+>    into the ov2680_set_?flip() functions.
+
+The patch looks good, but one little question on the controls update
+procedure.
+
+Usually s_ctrl() handlers checks for the sensor power state, like the
+driver here is already doing by testing the is_enabled[*] flag, but they
+usually call __v4l2_ctrl_handler_setup() unconditionally at
+s_stream(1) time, not only if a new mode has been applied by calling
+s_fmt(). Controls could be updated by userspace while the sensor is
+powered off, and new values should be applied regardless if a new mode,
+has been applied or not.
+
+Does it make sense to you ?
+
+[*] or better, if the sensor is ported to use pm_runtime first (by
+dropping support for the deprecated .s_power(), or do you need
+s_power() on your platform ?) you can use pm_runtime_get_if_in_use()
+instead of keeping track manually of the is_enabled flag.
+
 >
-> After the introduction of ov2680_fill_format() which at least
-> initializes sd_state->pads[0].try_fmt properly, format->format
-> is now always being filled with the default 800x600 mode set by
-> ov2680_init_cfg() independent of the actual requested mode.
->
-> Move the filling of format->format with ov2680_fill_format() to
-> before the if (which == V4L2_SUBDEV_FORMAT_TRY) and then store
-> the filled in format->format in sd_state->pads[0].try_fmt to
-> fix this.
->
-> Note this removes the fmt local variable because IMHO having a local
-> variable which points to a sub-struct of one of the function arguments
-> just leads to confusion when reading the code.
+> for a nice code cleanup.
 >
 > Fixes: 3ee47cad3e69 ("media: ov2680: Add Omnivision OV2680 sensor driver")
+> Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
 > Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
 > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 > ---
-
-
-For #5, #6 and this one:
-
-
-Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
-
-
->   drivers/media/i2c/ov2680.c | 13 +++++++------
->   1 file changed, 7 insertions(+), 6 deletions(-)
+>  drivers/media/i2c/ov2680.c | 50 ++++++++++----------------------------
+>  1 file changed, 13 insertions(+), 37 deletions(-)
 >
 > diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
-> index c4a46c734d82..7fc4b39ebb37 100644
+> index 2001e08253ef..c93810f84ed7 100644
 > --- a/drivers/media/i2c/ov2680.c
 > +++ b/drivers/media/i2c/ov2680.c
-> @@ -603,7 +603,6 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
->   			  struct v4l2_subdev_format *format)
->   {
->   	struct ov2680_dev *sensor = to_ov2680_dev(sd);
-> -	struct v4l2_mbus_framefmt *fmt = &format->format;
->   	struct v4l2_mbus_framefmt *try_fmt;
->   	const struct ov2680_mode_info *mode;
->   	int ret = 0;
-> @@ -612,14 +611,18 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
->   		return -EINVAL;
->   
->   	mode = v4l2_find_nearest_size(ov2680_mode_data,
-> -				      ARRAY_SIZE(ov2680_mode_data), width,
-> -				      height, fmt->width, fmt->height);
-> +				      ARRAY_SIZE(ov2680_mode_data),
-> +				      width, height,
-> +				      format->format.width,
-> +				      format->format.height);
->   	if (!mode)
->   		return -EINVAL;
->   
-> +	ov2680_fill_format(sensor, &format->format, mode->width, mode->height);
+> @@ -328,11 +328,15 @@ static void ov2680_set_bayer_order(struct ov2680_dev *sensor)
+>  	sensor->fmt.code = ov2680_hv_flip_bayer_order[hv_flip];
+>  }
+>
+> -static int ov2680_vflip_enable(struct ov2680_dev *sensor)
+> +static int ov2680_set_vflip(struct ov2680_dev *sensor, s32 val)
+>  {
+>  	int ret;
+>
+> -	ret = ov2680_mod_reg(sensor, OV2680_REG_FORMAT1, BIT(2), BIT(2));
+> +	if (sensor->is_streaming)
+> +		return -EBUSY;
 > +
->   	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
->   		try_fmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
-> -		format->format = *try_fmt;
-> +		*try_fmt = format->format;
->   		return 0;
->   	}
->   
-> @@ -630,8 +633,6 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
->   		goto unlock;
->   	}
->   
-> -	ov2680_fill_format(sensor, fmt, mode->width, mode->height);
+> +	ret = ov2680_mod_reg(sensor, OV2680_REG_FORMAT1,
+> +			     BIT(2), val ? BIT(2) : 0);
+>  	if (ret < 0)
+>  		return ret;
+>
+> @@ -340,33 +344,15 @@ static int ov2680_vflip_enable(struct ov2680_dev *sensor)
+>  	return 0;
+>  }
+>
+> -static int ov2680_vflip_disable(struct ov2680_dev *sensor)
+> +static int ov2680_set_hflip(struct ov2680_dev *sensor, s32 val)
+>  {
+>  	int ret;
+>
+> -	ret = ov2680_mod_reg(sensor, OV2680_REG_FORMAT1, BIT(2), BIT(0));
+> -	if (ret < 0)
+> -		return ret;
+> +	if (sensor->is_streaming)
+> +		return -EBUSY;
+>
+> -	return ov2680_bayer_order(sensor);
+> -}
 > -
->   	sensor->current_mode = mode;
->   	sensor->fmt = format->format;
->   	sensor->mode_pending_changes = true;
+> -static int ov2680_hflip_enable(struct ov2680_dev *sensor)
+> -{
+> -	int ret;
+> -
+> -	ret = ov2680_mod_reg(sensor, OV2680_REG_FORMAT2, BIT(2), BIT(2));
+> -	if (ret < 0)
+> -		return ret;
+> -
+> -	return ov2680_bayer_order(sensor);
+> -}
+> -
+> -static int ov2680_hflip_disable(struct ov2680_dev *sensor)
+> -{
+> -	int ret;
+> -
+> -	ret = ov2680_mod_reg(sensor, OV2680_REG_FORMAT2, BIT(2), BIT(0));
+> +	ret = ov2680_mod_reg(sensor, OV2680_REG_FORMAT2,
+> +			     BIT(2), val ? BIT(2) : 0);
+>  	if (ret < 0)
+>  		return ret;
+>
+> @@ -720,19 +706,9 @@ static int ov2680_s_ctrl(struct v4l2_ctrl *ctrl)
+>  	case V4L2_CID_EXPOSURE:
+>  		return ov2680_exposure_set(sensor, ctrl->val);
+>  	case V4L2_CID_VFLIP:
+> -		if (sensor->is_streaming)
+> -			return -EBUSY;
+> -		if (ctrl->val)
+> -			return ov2680_vflip_enable(sensor);
+> -		else
+> -			return ov2680_vflip_disable(sensor);
+> +		return ov2680_set_vflip(sensor, ctrl->val);
+>  	case V4L2_CID_HFLIP:
+> -		if (sensor->is_streaming)
+> -			return -EBUSY;
+> -		if (ctrl->val)
+> -			return ov2680_hflip_enable(sensor);
+> -		else
+> -			return ov2680_hflip_disable(sensor);
+> +		return ov2680_set_hflip(sensor, ctrl->val);
+>  	case V4L2_CID_TEST_PATTERN:
+>  		return ov2680_test_pattern_set(sensor, ctrl->val);
+>  	default:
+> --
+> 2.41.0
+>
