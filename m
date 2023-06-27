@@ -2,127 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B6C573FF36
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 17:04:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12C2473FF4E
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 17:08:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230423AbjF0PEo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jun 2023 11:04:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33876 "EHLO
+        id S231465AbjF0PIr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jun 2023 11:08:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229790AbjF0PEn (ORCPT
+        with ESMTP id S231764AbjF0PIp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jun 2023 11:04:43 -0400
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5966B97;
-        Tue, 27 Jun 2023 08:04:42 -0700 (PDT)
-Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-3fa99742af9so21735425e9.2;
-        Tue, 27 Jun 2023 08:04:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687878281; x=1690470281;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=flxUY/GjVm03jw49gNx/Qy5C1bgJNdklvrVyfZAIyFU=;
-        b=FHSmWc8HaepVYP52x25LhodOpA+3+2KN1GyFNlBK3uV2xugZNwZMqWG8jZyeaAVfyH
-         KbOsRh1uLaNaRX5EP6hn6l4RcI44s1HLKYaN/hui+Kd6Emhawhh7DgYX8gVoLZckmmq+
-         TCsFZo8z6WHumOJNB11Cj/J7TML8Yjul/Z1sJGPVxZe31/dw36EB/7fN/yKB9b2+YBps
-         6H6qtoxRoef/vHk/3efOVQ0LUS6ihg+gSsDDFrMl3TnMeQd/uLSuBmlCgNjsfHyw/pSC
-         bxA4iY47LI6IYolp5tir1p3Sfv72Jr+RmwXhsx0bw7lfzEu56u98Jur67v4VKxv4MAHH
-         zypQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687878281; x=1690470281;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=flxUY/GjVm03jw49gNx/Qy5C1bgJNdklvrVyfZAIyFU=;
-        b=kQV2V2Y2TC5L5sgRECcc20md/urAO9D9K/iBf5hflb4u6FcxSPpH2IjnMbEQMTcLw7
-         BnpQvyyQxDq3SDP9o4Aujw+hTOMHuaAk8WXmLM/bsn5+3J4tZDkVCpAB8GGmLFsZQj8R
-         T5bPy+WYhUvQJBN47TzwKdNLidQcWQYPuydIVu8crxe/SpFGPbI9obH1q5oiYZXN2O2i
-         MjvC8Y2KyhtLtyEhI0d3he+QfPIPuDDlQjVhqWgf3TSAXhGh/BpWHqf2TLdr2eP+X01W
-         vVdpF+cqAJLVFWhdUPwQtj0grDx3K+63tXvuSnB1tu6RVN29Lil0CJE5U/60ECAJe/Cn
-         zveg==
-X-Gm-Message-State: AC+VfDzpPwAR+6ulxJwpdiTFZbUdRwcgpOf8LYnAsc+1r2doYRoBpS2d
-        06zQrMk2ecPqi3zsPW/ZcdJaOz7enMRoBg==
-X-Google-Smtp-Source: ACHHUZ4NvRe+wbx+RoAlBXuD6tmiYSIBE5iIdesHIoh5sgBFI25o+9Vwjw4foKp0nAxiKjX4NPIZkA==
-X-Received: by 2002:a7b:c411:0:b0:3fb:52c3:a177 with SMTP id k17-20020a7bc411000000b003fb52c3a177mr2522391wmi.4.1687878280608;
-        Tue, 27 Jun 2023 08:04:40 -0700 (PDT)
-Received: from [192.168.0.101] (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.googlemail.com with ESMTPSA id f7-20020a1c6a07000000b003fb5e3710d3sm3112585wmc.43.2023.06.27.08.04.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Jun 2023 08:04:39 -0700 (PDT)
-Message-ID: <2b17acc9-44c3-acf6-0674-04a43aa742e0@gmail.com>
-Date:   Tue, 27 Jun 2023 16:04:38 +0100
+        Tue, 27 Jun 2023 11:08:45 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5BBA19B5
+        for <linux-media@vger.kernel.org>; Tue, 27 Jun 2023 08:08:44 -0700 (PDT)
+Received: from ideasonboard.com (unknown [193.85.242.128])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 65D9CAF3;
+        Tue, 27 Jun 2023 17:08:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1687878483;
+        bh=7oHyFJOYsWCwSXak4u9Z85DEW1TnUYIQ0MwzmdbwHmM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=VKx46ux27nsjldeCh5T3a9SBZvjDJX6YaERJQ6LPyMdBweC5v/WHcEVXRYiX+U/ov
+         iZ0yRtvr4EpgRtq29GFHLJ/NvCay6LxO4yW4QKuRpIgXLqcPrbvBOnl1Tk8A1kBXWf
+         FFNqhC8QngP6z7j70NmjFpmilXXpT+KUaKEbwGkY=
+Date:   Tue, 27 Jun 2023 17:08:39 +0200
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+        Tommaso Merciai <tomm.merciai@gmail.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 07/29] media: ov2680: Fix ov2680_set_fmt() which ==
+ V4L2_SUBDEV_FORMAT_TRY not working
+Message-ID: <abnylacvx7hhhvpu7bmcuyf7cwm2g7snmbngwi3ckaowfakuqe@yvk7ghilhru5>
+References: <20230627131830.54601-1-hdegoede@redhat.com>
+ <20230627131830.54601-8-hdegoede@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH][next] media: bt8xx: make read-only arrays static
-Content-Language: en-US
-To:     Tommaso Merciai <tomm.merciai@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20230627134851.728487-1-colin.i.king@gmail.com>
- <ZJr0WvhFfCILwbeP@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-From:   "Colin King (gmail)" <colin.i.king@gmail.com>
-In-Reply-To: <ZJr0WvhFfCILwbeP@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230627131830.54601-8-hdegoede@redhat.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 27/06/2023 15:38, Tommaso Merciai wrote:
-> Hi Colin,
-> 
-> On Tue, Jun 27, 2023 at 02:48:51PM +0100, Colin Ian King wrote:
->> Don't populate the arrays on the stack, instead make them static const.
->> Also add spaces between values to clean up checkpatch style warnings.
->>
->> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
->> ---
->>   drivers/media/pci/bt8xx/dvb-bt8xx.c | 12 ++++++++----
->>   1 file changed, 8 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/media/pci/bt8xx/dvb-bt8xx.c b/drivers/media/pci/bt8xx/dvb-bt8xx.c
->> index 4cb890b949c3..df83b59a618d 100644
->> --- a/drivers/media/pci/bt8xx/dvb-bt8xx.c
->> +++ b/drivers/media/pci/bt8xx/dvb-bt8xx.c
->> @@ -190,11 +190,15 @@ static int cx24108_tuner_set_params(struct dvb_frontend *fe)
->>   	u32 freq = c->frequency;
->>   	int i, a, n, pump;
->>   	u32 band, pll;
->> -	u32 osci[]={950000,1019000,1075000,1178000,1296000,1432000,
->> -		1576000,1718000,1856000,2036000,2150000};
->> -	u32 bandsel[]={0,0x00020000,0x00040000,0x00100800,0x00101000,
->> +	static const u32 osci[] = {
->> +		950000, 1019000, 1075000, 1178000, 1296000, 1432000,
->> +		1576000, 1718000, 1856000, 2036000, 2150000
->> +	};
->> +	static const u32 bandsel[] = {
->> +		0, 0x00020000, 0x00040000, 0x00100800, 0x00101000,
->>   		0x00102000,0x00104000,0x00108000,0x00110000,
-> 
-> Are you not missing space also here?
+Hi Hans
 
-I can't see the space you are referring to.
+On Tue, Jun 27, 2023 at 03:18:08PM +0200, Hans de Goede wrote:
+> ov2680_set_fmt() which == V4L2_SUBDEV_FORMAT_TRY was getting
+> the try_fmt v4l2_mbus_framefmt struct from the passed in sd_state
+> and then storing the contents of that into the return by reference
+> format->format struct.
+>
+> While the right thing to do would be filling format->format based on
+> the just looked up mode and then store the results of that in
+> sd_state->pads[0].try_fmt .
+>
+> Before the previous change introducing ov2680_fill_format() this
+> resulted in ov2680_set_fmt() which == V4L2_SUBDEV_FORMAT_TRY always
+> returning the zero-ed out sd_state->pads[0].try_fmt in format->format
+> breaking callers using this.
+>
+> After the introduction of ov2680_fill_format() which at least
+> initializes sd_state->pads[0].try_fmt properly, format->format
+> is now always being filled with the default 800x600 mode set by
+> ov2680_init_cfg() independent of the actual requested mode.
+>
+> Move the filling of format->format with ov2680_fill_format() to
+> before the if (which == V4L2_SUBDEV_FORMAT_TRY) and then store
+> the filled in format->format in sd_state->pads[0].try_fmt to
+> fix this.
+>
+> Note this removes the fmt local variable because IMHO having a local
+> variable which points to a sub-struct of one of the function arguments
+> just leads to confusion when reading the code.
+>
+> Fixes: 3ee47cad3e69 ("media: ov2680: Add Omnivision OV2680 sensor driver")
+> Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/media/i2c/ov2680.c | 13 +++++++------
+>  1 file changed, 7 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
+> index c4a46c734d82..7fc4b39ebb37 100644
+> --- a/drivers/media/i2c/ov2680.c
+> +++ b/drivers/media/i2c/ov2680.c
+> @@ -603,7 +603,6 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
+>  			  struct v4l2_subdev_format *format)
+>  {
+>  	struct ov2680_dev *sensor = to_ov2680_dev(sd);
+> -	struct v4l2_mbus_framefmt *fmt = &format->format;
+>  	struct v4l2_mbus_framefmt *try_fmt;
+>  	const struct ov2680_mode_info *mode;
+>  	int ret = 0;
+> @@ -612,14 +611,18 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
+>  		return -EINVAL;
+>
+>  	mode = v4l2_find_nearest_size(ov2680_mode_data,
+> -				      ARRAY_SIZE(ov2680_mode_data), width,
+> -				      height, fmt->width, fmt->height);
+> +				      ARRAY_SIZE(ov2680_mode_data),
+> +				      width, height,
+> +				      format->format.width,
+> +				      format->format.height);
+>  	if (!mode)
+>  		return -EINVAL;
 
-> 
->> -		0x00120000,0x00140000};
->> +		0x00120000, 0x00140000
->> +	};
->>   
->>   	#define XTAL 1011100 /* Hz, really 1.0111 MHz and a /10 prescaler */
->>   	dprintk("cx24108 debug: entering SetTunerFreq, freq=%d\n", freq);
->> -- 
->> 2.39.2
->>
-> 
-> Regards,
-> Tommaso
+Nit: only if you have to resend, could this be dropped? mode will be NULL
+only if ov2680_mode_data[] has no entries.
 
+>
+> +	ov2680_fill_format(sensor, &format->format, mode->width, mode->height);
+> +
+>  	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
+>  		try_fmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
+> -		format->format = *try_fmt;
+> +		*try_fmt = format->format;
+>  		return 0;
+>  	}
+>
+> @@ -630,8 +633,6 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
+>  		goto unlock;
+>  	}
+>
+> -	ov2680_fill_format(sensor, fmt, mode->width, mode->height);
+> -
+>  	sensor->current_mode = mode;
+>  	sensor->fmt = format->format;
+>  	sensor->mode_pending_changes = true;
+> --
+> 2.41.0
+>
