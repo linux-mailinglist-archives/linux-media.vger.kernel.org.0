@@ -2,80 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EA3873FD0C
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 15:44:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9C7173FD2D
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 15:49:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230336AbjF0NoX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jun 2023 09:44:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41906 "EHLO
+        id S231285AbjF0NtL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jun 2023 09:49:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230284AbjF0NoW (ORCPT
+        with ESMTP id S231224AbjF0Ns5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jun 2023 09:44:22 -0400
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A1D22115;
-        Tue, 27 Jun 2023 06:44:20 -0700 (PDT)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35RC4fK3017073;
-        Tue, 27 Jun 2023 15:44:00 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=date : from : to :
- cc : subject : message-id : references : mime-version : content-type :
- content-transfer-encoding : in-reply-to; s=selector1;
- bh=gb/GTincEGAMp60icRQgZirL/MSQpEL+fvlyld9bd+c=;
- b=M9myctKtAHQ4gFPupVkZEOOEz34Sy7bzAYQKf06TOliA/xhNizxbCJyrorDgf6I+31nm
- IUp6kZe6kHrDOEd996V9qlCYm2NoR3UfpmQRhGckoVrrOmNT4ppn2WgVDRr5uIoUGvxl
- c1YcpqV88/1VvhvRbvT9h/EGCn/XSNZzhzCOUT3BXDIhpzOpD/qAXMlitdpesM2nWtpN
- l4PhKRlJ3KKDtnM9ZrKBqihhAMidT0aIR7wxGDRxXaWMhA25jcCsXD4LOG06HfqTJ7fz
- jAH2fpGTpiuRU+dmZ3w9Q1VeCnvEm9KcJQEILcEM/mhavHvx2ptVL2V5utQ0HY/q2GcA eA== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3rfv7a23mj-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 27 Jun 2023 15:44:00 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id F38BD100057;
-        Tue, 27 Jun 2023 15:43:59 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id E76A7237D9B;
-        Tue, 27 Jun 2023 15:43:59 +0200 (CEST)
-Received: from gnbcxd0016.gnb.st.com (10.129.178.213) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Tue, 27 Jun
- 2023 15:43:59 +0200
-Date:   Tue, 27 Jun 2023 15:43:51 +0200
-From:   Alain Volmat <alain.volmat@foss.st.com>
-To:     sun yq <yqsun1997@gmail.com>
-CC:     <tiffany.lin@mediatek.com>, <andrew-ct.chen@mediatek.com>,
-        <yunfei.dong@mediatek.com>, <matthias.bgg@gmail.com>,
-        <angelogioacchino.delregno@collabora.com>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>, <499671216@qq.com>
-Subject: Re: [PATCH] OOB read and write in mtk multiple places
-Message-ID: <20230627134314.GA3605030@gnbcxd0016.gnb.st.com>
-Mail-Followup-To: sun yq <yqsun1997@gmail.com>, tiffany.lin@mediatek.com,
-        andrew-ct.chen@mediatek.com, yunfei.dong@mediatek.com,
-        matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, 499671216@qq.com
-References: <20230627081002.1768990-1-yqsun1997@gmail.com>
- <20230627104237.GA3601890@gnbcxd0016.gnb.st.com>
- <CAA0BgY_bKg4qXmtmWqHQW+EOvfXUG0FqRtAJ7A8C40uL1v8qVA@mail.gmail.com>
+        Tue, 27 Jun 2023 09:48:57 -0400
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E63532D62;
+        Tue, 27 Jun 2023 06:48:54 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-3fb10fd9ad3so19196705e9.0;
+        Tue, 27 Jun 2023 06:48:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687873733; x=1690465733;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JqpiHtecb9C65DHHvOJv3B2wwux1crTE1Hic8Ce6/L4=;
+        b=V2k9AFsCpd5fPtYvki3IdaGAOVQns/84yXy0EQeQzkz6JcR24ZH3XwM4wIxeOiAJC7
+         uE5CBB9ZKEH5BK8ZveSilQdZQ9oXYBnQHU4ooZsW+dSBTN6mDkdEyiryDLF98GI1Sil6
+         Z9UByBBzbUwcKGLHjuI2KZPff7tEfnSsFYnyATIXzJFeVeieV+zLvDjddz2N4a2yR5hk
+         yCCLuWkE64kI/gsLW5GE1qYUHlFKqECaY0+xoIg1ihWgfYXAjlGQlEjh4aN4USg1y+HS
+         /7GLOJGN+JXCU32Ug6xNlRgQ3l6FqKwMIcFvXWyFnTmmnJVxTTnpnY9MlNekpwNOoE7N
+         qMoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687873733; x=1690465733;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JqpiHtecb9C65DHHvOJv3B2wwux1crTE1Hic8Ce6/L4=;
+        b=EI6qUUL5KXPAlgs4eUVgoRaa8yvOmk9LqfhnsyEH9bbRhW7JjXtdGtaxlF3T5Uagqk
+         BkOH/a21jE2FNpwLcZJB32UqEgLlYOC7yFWLhsiqSnFdp0pioFmTwC64l7dQXZa4o+yV
+         QJa4BLHbaSqohnasDunovd6UBBSemGgzHZS05UYFAi8yNExj0OOnoBIa+SBQYchi8ff2
+         UeytIRRO734Lt5rI88QOFGTDh8KoHqSb7w9hbSR9S0XoyPxSBmuGz31l9DuheTi29Lcz
+         3VhVJGBCbn4h8fXrRvnhwwn1PfqY0si8EIY6xeYmpvISjScpCwOVfuHvqd8Urzs+HRjo
+         v8iA==
+X-Gm-Message-State: AC+VfDx5NZw2olHKI+G1k3lR7K1s1kc2Joy6sIcrcIeAbRg9Pugg0V/x
+        86mmIC1oNVHbYLzXO8SHim4=
+X-Google-Smtp-Source: ACHHUZ7ObcIX3NdFQkDirjNljZfgfmkV0MHKzii8w+mAA8/EbhgJ2dv7kapt7PF6IQ/IvCkxgLb1Fg==
+X-Received: by 2002:a05:600c:2152:b0:3f9:a6f3:8a53 with SMTP id v18-20020a05600c215200b003f9a6f38a53mr20815220wml.20.1687873733154;
+        Tue, 27 Jun 2023 06:48:53 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id v2-20020a5d6102000000b003127a21e986sm10345778wrt.104.2023.06.27.06.48.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Jun 2023 06:48:52 -0700 (PDT)
+From:   Colin Ian King <colin.i.king@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH][next] media: bt8xx: make read-only arrays static
+Date:   Tue, 27 Jun 2023 14:48:51 +0100
+Message-Id: <20230627134851.728487-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAA0BgY_bKg4qXmtmWqHQW+EOvfXUG0FqRtAJ7A8C40uL1v8qVA@mail.gmail.com>
-X-Disclaimer: ce message est personnel / this message is private
-X-Originating-IP: [10.129.178.213]
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-27_09,2023-06-27_01,2023-05-22_02
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -83,69 +70,38 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Don't populate the arrays on the stack, instead make them static const.
+Also add spaces between values to clean up checkpatch style warnings.
 
-On Tue, Jun 27, 2023 at 08:28:11PM +0800, sun yq wrote:
-> When using V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE, the number of planes is
-> controlled by the user. Only checking the oob at the function may miss
-> other functions, so it is appropriate to change the size of the macro.
-> You can refer to other functions, such as
-o> mtk_dip_vb2_video_queue_setup, the max plane size of this module is 8
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/media/pci/bt8xx/dvb-bt8xx.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-To my understanding, the vcodec driver only has formats requiring up to
-3 planes.  Could you explain why you need to change this macro to 8 ?
-Could you please describe the issue you had which led to this change ?
+diff --git a/drivers/media/pci/bt8xx/dvb-bt8xx.c b/drivers/media/pci/bt8xx/dvb-bt8xx.c
+index 4cb890b949c3..df83b59a618d 100644
+--- a/drivers/media/pci/bt8xx/dvb-bt8xx.c
++++ b/drivers/media/pci/bt8xx/dvb-bt8xx.c
+@@ -190,11 +190,15 @@ static int cx24108_tuner_set_params(struct dvb_frontend *fe)
+ 	u32 freq = c->frequency;
+ 	int i, a, n, pump;
+ 	u32 band, pll;
+-	u32 osci[]={950000,1019000,1075000,1178000,1296000,1432000,
+-		1576000,1718000,1856000,2036000,2150000};
+-	u32 bandsel[]={0,0x00020000,0x00040000,0x00100800,0x00101000,
++	static const u32 osci[] = {
++		950000, 1019000, 1075000, 1178000, 1296000, 1432000,
++		1576000, 1718000, 1856000, 2036000, 2150000
++	};
++	static const u32 bandsel[] = {
++		0, 0x00020000, 0x00040000, 0x00100800, 0x00101000,
+ 		0x00102000,0x00104000,0x00108000,0x00110000,
+-		0x00120000,0x00140000};
++		0x00120000, 0x00140000
++	};
+ 
+ 	#define XTAL 1011100 /* Hz, really 1.0111 MHz and a /10 prescaler */
+ 	dprintk("cx24108 debug: entering SetTunerFreq, freq=%d\n", freq);
+-- 
+2.39.2
 
-> 
-> 
-> On Tue, Jun 27, 2023 at 6:42 PM Alain Volmat <alain.volmat@foss.st.com> wrote:
-> >
-> > Hi,
-> >
-> > I had a look at some places where this macro MTK_VCODEC_MAX_PLANES
-> > is being used, such as q_data->bytesperline etc.
-> > This patch seems to be increasing the table size from 3 to 8 but,
-> > if my understanding is correct doesn't solve the issue that
-> > (taking the example you give in vidioc_venc_g_fmt) the table
-> > bytesperline is accessed taking into account a num_planes values which
-> > is unchecked if appropriate for this driver.
-> >
-> > What are the 8 planes you are referring to ?
-> >
-> > While increasing the table to 8 might also be necessary, it seems to me
-> > that the real OOB access issue should be solved by checking the num of
-> > planes value.
-> >
-> > Regards,
-> > Alain
-> >
-> > On Tue, Jun 27, 2023 at 04:10:02PM +0800, yqsun1997@gmail.com wrote:
-> > > From: yqsun1997 <yqsun1997@gmail.com>
-> > >
-> > > The num_planes max index is 8,
-> > > but bytesperline and bytesperline in struct mtk_q_data,
-> > > The max index is MTK_VCODEC_MAX_PLANES == 3,
-> > > so will cause OOB read and write in multiple places.like vidioc_venc_g_fmt
-> > > same as commit 8fbcf730
-> > >
-> > > Signed-off-by: yqsun1997 <yqsun1997@gmail.com>
-> > > ---
-> > >  drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h
-> > > index 9acab54fd..c2c157675 100644
-> > > --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h
-> > > +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h
-> > > @@ -22,7 +22,7 @@
-> > >  #define MTK_VCODEC_DEC_NAME  "mtk-vcodec-dec"
-> > >  #define MTK_VCODEC_ENC_NAME  "mtk-vcodec-enc"
-> > >
-> > > -#define MTK_VCODEC_MAX_PLANES        3
-> > > +#define MTK_VCODEC_MAX_PLANES        8
-> > >  #define MTK_V4L2_BENCHMARK   0
-> > >  #define WAIT_INTR_TIMEOUT_MS 1000
-> > >  #define IS_VDEC_LAT_ARCH(hw_arch) ((hw_arch) >= MTK_VDEC_LAT_SINGLE_CORE)
-> > > --
-> > > 2.39.2
-> > >
