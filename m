@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BD5D73FCAB
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 15:20:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9420173FCB1
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 15:20:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230284AbjF0NUR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jun 2023 09:20:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60292 "EHLO
+        id S230310AbjF0NU0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jun 2023 09:20:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230229AbjF0NUJ (ORCPT
+        with ESMTP id S230429AbjF0NUQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jun 2023 09:20:09 -0400
+        Tue, 27 Jun 2023 09:20:16 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AF702940
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBEBB2941
         for <linux-media@vger.kernel.org>; Tue, 27 Jun 2023 06:19:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1687871940;
+        s=mimecast20190719; t=1687871941;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=21oop10atv4i2mUn7JYeY6golLr5h43+JH0ncJUgiEw=;
-        b=Oh+JzhJD6T9M/W+vzmA0FdP+FH2O5uxroEO4r2FAip9hVKvmshkn5fUECuDtK4XejJlVN9
-        Yje/g0Hc6GMbA6xlPP+rVvV4nOk83b43bYJBQxJKXRfqh3c0CHCSFZ3/SpD7jr6vgAHEAj
-        iPzcCcPn1XDZG2dmLFkkHC6XGVh1R8A=
+        bh=zqHYLuZlUnYyO2Nr0/24De269B6QEu0BhPoL28EBl+8=;
+        b=TpSx94sU7bQbgTuKR3ZBG0m1/tzv25ba5lXnaIvJBPbghBFBcTZG2/pxoaer6p+2rIX6Ur
+        c9yzvZpKh3NWD0LvfKDKSysznQJR18weSa3Hd1gC/hdn1cxrB+GK0xPXH35zDvcJbHtHmH
+        uHpYgU0OXiqvXLEBcg0kfKLuSpornkk=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-230-xBgCYTqtObC21vB7IcgkXA-1; Tue, 27 Jun 2023 09:18:55 -0400
-X-MC-Unique: xBgCYTqtObC21vB7IcgkXA-1
+ us-mta-296-Cg5-b8kmORWqnTB0OVsGCw-1; Tue, 27 Jun 2023 09:18:57 -0400
+X-MC-Unique: Cg5-b8kmORWqnTB0OVsGCw-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A38A13815EF6;
-        Tue, 27 Jun 2023 13:18:54 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3215E3C01C24;
+        Tue, 27 Jun 2023 13:18:56 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.194.24])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 53983401061;
-        Tue, 27 Jun 2023 13:18:53 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id D8CF2401061;
+        Tue, 27 Jun 2023 13:18:54 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -48,9 +48,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
         Tommaso Merciai <tomm.merciai@gmail.com>,
         linux-media@vger.kernel.org
-Subject: [PATCH v3 14/29] media: ov2680: Add support for more clk setups
-Date:   Tue, 27 Jun 2023 15:18:15 +0200
-Message-ID: <20230627131830.54601-15-hdegoede@redhat.com>
+Subject: [PATCH v3 15/29] media: ov2680: Add support for 19.2 MHz clock
+Date:   Tue, 27 Jun 2023 15:18:16 +0200
+Message-ID: <20230627131830.54601-16-hdegoede@redhat.com>
 In-Reply-To: <20230627131830.54601-1-hdegoede@redhat.com>
 References: <20230627131830.54601-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -66,80 +66,114 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On ACPI systems the following 2 scenarios are possible:
+Most x86/ACPI boards use the ov2680 with a 19.2 MHz xvclk,
+rather then the expected 24MHz, add support for this.
 
-1. The xvclk is fully controlled by ACPI powermanagement, so there
-   is no "xvclk" for the driver to get (since it is abstracted away).
-   In this case there will be a "clock-frequency" device property
-   to tell the driver the xvclk rate.
-
-2. There is a xvclk modelled in the clk framework for the driver,
-   but the clk-generator may not be set to the right frequency
-   yet. In this case there will also be a "clock-frequency" device
-   property and the driver is expected to set the rate of the xvclk
-   through this frequency through the clk framework.
-
-Handle both these scenarios by switching to devm_clk_get_optional()
-and checking for a "clock-frequency" device property.
-
-This is modelled after how the same issue was fixed for the ov8865 in
-commit 73dcffeb2ff9 ("media: i2c: Support 19.2MHz input clock in ov8865").
+Compensate for the lower clk by setting a higher PLL multiplier
+of 69 when using 19.2 MHz vs the default multiplier of 55 for
+a 24MHz xvclk.
 
 Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/media/i2c/ov2680.c | 26 ++++++++++++++++++++++++--
- 1 file changed, 24 insertions(+), 2 deletions(-)
+ drivers/media/i2c/ov2680.c | 41 +++++++++++++++++++++++++++++++-------
+ 1 file changed, 34 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
-index b7c23286700e..a6a83f0e53f3 100644
+index a6a83f0e53f3..d4ef34859914 100644
 --- a/drivers/media/i2c/ov2680.c
 +++ b/drivers/media/i2c/ov2680.c
-@@ -698,6 +698,7 @@ static int ov2680_parse_dt(struct ov2680_dev *sensor)
+@@ -27,14 +27,13 @@
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-subdev.h>
+ 
+-#define OV2680_XVCLK_VALUE			24000000
+-
+ #define OV2680_CHIP_ID				0x2680
+ 
+ #define OV2680_REG_STREAM_CTRL			CCI_REG8(0x0100)
+ #define OV2680_REG_SOFT_RESET			CCI_REG8(0x0103)
+ 
+ #define OV2680_REG_CHIP_ID			CCI_REG16(0x300a)
++#define OV2680_REG_PLL_MULTIPLIER		CCI_REG16(0x3081)
+ 
+ #define OV2680_REG_EXPOSURE_PK			CCI_REG24(0x3500)
+ #define OV2680_REG_R_MANUAL			CCI_REG8(0x3503)
+@@ -69,6 +68,21 @@ static const char * const ov2680_supply_name[] = {
+ 
+ #define OV2680_NUM_SUPPLIES ARRAY_SIZE(ov2680_supply_name)
+ 
++enum {
++	OV2680_19_2_MHZ,
++	OV2680_24_MHZ,
++};
++
++static const unsigned long ov2680_xvclk_freqs[] = {
++	[OV2680_19_2_MHZ] = 19200000,
++	[OV2680_24_MHZ] = 24000000,
++};
++
++static const u8 ov2680_pll_multipliers[] = {
++	[OV2680_19_2_MHZ] = 69,
++	[OV2680_24_MHZ] = 55,
++};
++
+ struct ov2680_mode_info {
+ 	const char *name;
+ 	enum ov2680_mode_id id;
+@@ -95,6 +109,7 @@ struct ov2680_dev {
+ 	struct media_pad		pad;
+ 	struct clk			*xvclk;
+ 	u32				xvclk_freq;
++	u8				pll_mult;
+ 	struct regulator_bulk_data	supplies[OV2680_NUM_SUPPLIES];
+ 
+ 	struct gpio_desc		*pwdn_gpio;
+@@ -284,6 +299,11 @@ static int ov2680_stream_enable(struct ov2680_dev *sensor)
  {
- 	struct device *dev = sensor->dev;
- 	struct gpio_desc *gpio;
-+	unsigned int rate = 0;
  	int ret;
  
++	ret = cci_write(sensor->regmap, OV2680_REG_PLL_MULTIPLIER,
++			sensor->pll_mult, NULL);
++	if (ret < 0)
++		return ret;
++
+ 	ret = regmap_multi_reg_write(sensor->regmap,
+ 				     ov2680_mode_init_data.reg_data,
+ 				     ov2680_mode_init_data.reg_data_size);
+@@ -699,7 +719,7 @@ static int ov2680_parse_dt(struct ov2680_dev *sensor)
+ 	struct device *dev = sensor->dev;
+ 	struct gpio_desc *gpio;
+ 	unsigned int rate = 0;
+-	int ret;
++	int i, ret;
+ 
  	/*
-@@ -718,13 +719,34 @@ static int ov2680_parse_dt(struct ov2680_dev *sensor)
- 
- 	sensor->pwdn_gpio = gpio;
- 
--	sensor->xvclk = devm_clk_get(dev, "xvclk");
-+	sensor->xvclk = devm_clk_get_optional(dev, "xvclk");
- 	if (IS_ERR(sensor->xvclk)) {
- 		dev_err(dev, "xvclk clock missing or invalid\n");
- 		return PTR_ERR(sensor->xvclk);
+ 	 * The pin we want is named XSHUTDN in the datasheet. Linux sensor
+@@ -747,12 +767,19 @@ static int ov2680_parse_dt(struct ov2680_dev *sensor)
  	}
  
--	sensor->xvclk_freq = clk_get_rate(sensor->xvclk);
-+	/*
-+	 * We could have either a 24MHz or 19.2MHz clock rate from either DT or
-+	 * ACPI... but we also need to support the weird IPU3 case which will
-+	 * have an external clock AND a clock-frequency property. Check for the
-+	 * clock-frequency property and if found, set that rate if we managed
-+	 * to acquire a clock. This should cover the ACPI case. If the system
-+	 * uses devicetree then the configured rate should already be set, so
-+	 * we can just read it.
-+	 */
-+	ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency",
-+				       &rate);
-+	if (ret && !sensor->xvclk)
-+		return dev_err_probe(dev, ret, "invalid clock config\n");
+ 	sensor->xvclk_freq = rate ?: clk_get_rate(sensor->xvclk);
+-	if (sensor->xvclk_freq != OV2680_XVCLK_VALUE) {
+-		dev_err(dev, "wrong xvclk frequency %d HZ, expected: %d Hz\n",
+-			sensor->xvclk_freq, OV2680_XVCLK_VALUE);
+-		return -EINVAL;
 +
-+	if (!ret && sensor->xvclk) {
-+		ret = clk_set_rate(sensor->xvclk, rate);
-+		if (ret)
-+			return dev_err_probe(dev, ret,
-+					     "failed to set clock rate\n");
-+	}
++	for (i = 0; i < ARRAY_SIZE(ov2680_xvclk_freqs); i++) {
++		if (sensor->xvclk_freq == ov2680_xvclk_freqs[i])
++			break;
+ 	}
+ 
++	if (i == ARRAY_SIZE(ov2680_xvclk_freqs))
++		return dev_err_probe(dev, -EINVAL,
++				     "unsupported xvclk frequency %d Hz\n",
++				     sensor->xvclk_freq);
 +
-+	sensor->xvclk_freq = rate ?: clk_get_rate(sensor->xvclk);
- 	if (sensor->xvclk_freq != OV2680_XVCLK_VALUE) {
- 		dev_err(dev, "wrong xvclk frequency %d HZ, expected: %d Hz\n",
- 			sensor->xvclk_freq, OV2680_XVCLK_VALUE);
++	sensor->pll_mult = ov2680_pll_multipliers[i];
++
+ 	return 0;
+ }
+ 
 -- 
 2.41.0
 
