@@ -2,109 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 368BB740177
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 18:40:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62B627401BB
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 18:56:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232438AbjF0Qk2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jun 2023 12:40:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58006 "EHLO
+        id S229998AbjF0Q4C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jun 2023 12:56:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231721AbjF0Qk0 (ORCPT
+        with ESMTP id S229788AbjF0Qzy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jun 2023 12:40:26 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1DDEF4;
-        Tue, 27 Jun 2023 09:40:24 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 59458611EB;
-        Tue, 27 Jun 2023 16:40:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9D8F0C433C9;
-        Tue, 27 Jun 2023 16:40:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687884023;
-        bh=Mddr9IEnVSSEtvey/EPFRhLi4YnxlTkalZzmHZ6bmJ8=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=XGRGiORnH0FmaQ+kclMjYIsE8aiZt7Gs4g5WBNw+zT0ASSus8daZkKZirfbcgaoBv
-         HsuO0nskJhLaiZxylU7zlINMijGNLl9q7WEg/ms3Lh/IrCmjj2LVp6pXCXh1uqP4W3
-         kOcx2VCa4pIOSzcMTF35giAc72J/A42BnFN7K4h/MvLUE7JXaOanngW1cFFib+5J4v
-         8N2ABirViOcrN32FYcrvP15sAv/TezaSVGJHU9rgp1d1sCUFbyUbMRRUsWjqDMoEYN
-         HlJlhL0V9YgQDqvmqEWLdtvBli6Q5b70JaJ8QNh8cP8DiB/xBCXlUB+GXHpoI+1ee3
-         oj4CRUwtvenNQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 7B046C64458;
-        Tue, 27 Jun 2023 16:40:23 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Tue, 27 Jun 2023 12:55:54 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E58BC10A
+        for <linux-media@vger.kernel.org>; Tue, 27 Jun 2023 09:55:53 -0700 (PDT)
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="351408563"
+X-IronPort-AV: E=Sophos;i="6.01,163,1684825200"; 
+   d="scan'208";a="351408563"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 09:55:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="861202831"
+X-IronPort-AV: E=Sophos;i="6.01,163,1684825200"; 
+   d="scan'208";a="861202831"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga001.fm.intel.com with ESMTP; 27 Jun 2023 09:55:50 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andy@kernel.org>)
+        id 1qEBym-000NiW-2V;
+        Tue, 27 Jun 2023 19:55:48 +0300
+Date:   Tue, 27 Jun 2023 19:55:48 +0300
+From:   Andy Shevchenko <andy@kernel.org>
+To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kate Hsuan <hpa@redhat.com>,
+        Tommaso Merciai <tomm.merciai@gmail.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 07/29] media: ov2680: Fix ov2680_set_fmt() which ==
+ V4L2_SUBDEV_FORMAT_TRY not working
+Message-ID: <ZJsUlErfzcpBNljz@smile.fi.intel.com>
+References: <20230627131830.54601-1-hdegoede@redhat.com>
+ <20230627131830.54601-8-hdegoede@redhat.com>
+ <abnylacvx7hhhvpu7bmcuyf7cwm2g7snmbngwi3ckaowfakuqe@yvk7ghilhru5>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2 00/24] use vmalloc_array and vcalloc
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <168788402349.21860.17350888958370358926.git-patchwork-notify@kernel.org>
-Date:   Tue, 27 Jun 2023 16:40:23 +0000
-References: <20230627144339.144478-1-Julia.Lawall@inria.fr>
-In-Reply-To: <20230627144339.144478-1-Julia.Lawall@inria.fr>
-To:     Julia Lawall <julia.lawall@inria.fr>
-Cc:     linux-hyperv@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        keescook@chromium.org, christophe.jaillet@wanadoo.fr,
-        kuba@kernel.org, kasan-dev@googlegroups.com, andreyknvl@gmail.com,
-        dvyukov@google.com, iommu@lists.linux.dev,
-        linux-tegra@vger.kernel.org, robin.murphy@arm.com,
-        vdumpa@nvidia.com, virtualization@lists.linux-foundation.org,
-        xuanzhuo@linux.alibaba.com, linux-scsi@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
-        jstultz@google.com, Brian.Starkey@arm.com, labbott@redhat.com,
-        lmark@codeaurora.org, benjamin.gaignard@collabora.com,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, shailend@google.com,
-        linux-rdma@vger.kernel.org, mhi@lists.linux.dev,
-        linux-arm-msm@vger.kernel.org, linux-btrfs@vger.kernel.org,
-        intel-gvt-dev@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org, dave.hansen@linux.intel.com,
-        hpa@zytor.com, linux-sgx@vger.kernel.org
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <abnylacvx7hhhvpu7bmcuyf7cwm2g7snmbngwi3ckaowfakuqe@yvk7ghilhru5>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello:
+On Tue, Jun 27, 2023 at 05:08:39PM +0200, Jacopo Mondi wrote:
+> On Tue, Jun 27, 2023 at 03:18:08PM +0200, Hans de Goede wrote:
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+...
 
-On Tue, 27 Jun 2023 16:43:15 +0200 you wrote:
-> The functions vmalloc_array and vcalloc were introduced in
+> >  	mode = v4l2_find_nearest_size(ov2680_mode_data,
+> > -				      ARRAY_SIZE(ov2680_mode_data), width,
+> > -				      height, fmt->width, fmt->height);
+> > +				      ARRAY_SIZE(ov2680_mode_data),
+> > +				      width, height,
+> > +				      format->format.width,
+> > +				      format->format.height);
+> >  	if (!mode)
+> >  		return -EINVAL;
 > 
-> commit a8749a35c399 ("mm: vmalloc: introduce array allocation functions")
-> 
-> but are not used much yet.  This series introduces uses of
-> these functions, to protect against multiplication overflows.
-> 
-> [...]
+> Nit: only if you have to resend, could this be dropped? mode will be NULL
+> only if ov2680_mode_data[] has no entries.
 
-Here is the summary with links:
-  - [v2,02/24] octeon_ep: use vmalloc_array and vcalloc
-    https://git.kernel.org/netdev/net-next/c/32d462a5c3e5
-  - [v2,04/24] gve: use vmalloc_array and vcalloc
-    https://git.kernel.org/netdev/net-next/c/a13de901e8d5
-  - [v2,09/24] pds_core: use vmalloc_array and vcalloc
-    https://git.kernel.org/netdev/net-next/c/906a76cc7645
-  - [v2,11/24] ionic: use vmalloc_array and vcalloc
-    https://git.kernel.org/netdev/net-next/c/f712c8297e0a
-  - [v2,18/24] net: enetc: use vmalloc_array and vcalloc
-    https://git.kernel.org/netdev/net-next/c/fa87c54693ae
-  - [v2,22/24] net: mana: use vmalloc_array and vcalloc
-    https://git.kernel.org/netdev/net-next/c/e9c74f8b8a31
+We shouldn't rely on the implementation details of some API if it's not
+advertised that way. Even if it is, the robustness of the code is better with
+this check.
 
-You are awesome, thank you!
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+With Best Regards,
+Andy Shevchenko
 
 
