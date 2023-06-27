@@ -2,381 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D45A73FD87
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 16:14:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4320073FDAA
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jun 2023 16:20:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230079AbjF0OOF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Jun 2023 10:14:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56224 "EHLO
+        id S231421AbjF0OUv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Jun 2023 10:20:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229454AbjF0OOD (ORCPT
+        with ESMTP id S229664AbjF0OUt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Jun 2023 10:14:03 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 032D910FB;
-        Tue, 27 Jun 2023 07:14:02 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (unknown [193.85.242.128])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E374210A;
-        Tue, 27 Jun 2023 16:13:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1687875201;
-        bh=NHPZSCiRMCE+7wxbLLk3Cr/Q6zn9VCy9PVVuROol45U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JQawF+qB5trFVHd2oPwk51iVZ0XmZThKrFSJfYZdoGihmgEHFiilg9j+pX69tblj3
-         reJ9B1DTOZg9y4ZacK4DL0PLHmUMgV73h1PAlZGUwwPKVSBd5mLAmKVvfw+FU+k0et
-         dUASQk2zM2HemKlLGuAKMBntMttwAvyM4eQBRgw8=
-Date:   Tue, 27 Jun 2023 17:13:59 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     guoniu.zhou@oss.nxp.com
-Cc:     linux-media@vger.kernel.org, linux-imx@nxp.com,
-        devicetree@vger.kernel.org, mchehab@kernel.org, robh+dt@kernel.org,
+        Tue, 27 Jun 2023 10:20:49 -0400
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C91410FB;
+        Tue, 27 Jun 2023 07:20:43 -0700 (PDT)
+Received: by mail-io1-f52.google.com with SMTP id ca18e2360f4ac-78372b896d0so34139639f.2;
+        Tue, 27 Jun 2023 07:20:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687875642; x=1690467642;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OfMhQxv/tqq5qRWXSfqHV0OsP7qCdcYWK9QnNf2Zs2Q=;
+        b=itygGYcYH1wOkz7+Vy2M+pLdV9rGEsdYwZJ3imXP1jT2oN6Kgbw7SUacU3rtGZ+hDG
+         SELyGFejna9+INsZN6XYIzQutGYRUc0NTTXPelbqPKYb2qnyaiaA0R80g6ZTTDNJ7pgZ
+         MGF+QvG+kwFIhhXyVc/Exa2qx47QbQFeD0GQ7XtcPRcHLNEDpgzpmlNLDoH393Sx/Cvy
+         TN8WWzHBGLbzdaUACTFNqfs3bek3VgfjkS8BgKVZm1ZcwGwLEDbw9kp4vQfJpMsLQiky
+         34gPJcJRtWyhjITguaURKNBXw19YzmWIu01KvVhfkST5UkJ2YK1QN9IAA1kQGFzu+1Im
+         vT+w==
+X-Gm-Message-State: AC+VfDwrHtu8+t68Ortn6UiHkFpCXo141BbBPyUgL9mvrGUFqs8mFbCt
+        yafcT+iowaTiILUgydBhVQ==
+X-Google-Smtp-Source: ACHHUZ7SLW0mgiR2gKe0dOlQ2akkFzOYwTZ2w032utRrALWSg63J2LjZSHDTS+/BC8Ct7GzzJGN7Nw==
+X-Received: by 2002:a6b:5905:0:b0:77e:2883:13f3 with SMTP id n5-20020a6b5905000000b0077e288313f3mr32407254iob.14.1687875642644;
+        Tue, 27 Jun 2023 07:20:42 -0700 (PDT)
+Received: from robh_at_kernel.org ([64.188.179.250])
+        by smtp.gmail.com with ESMTPSA id q2-20020a02a302000000b004291389c449sm1633115jai.5.2023.06.27.07.20.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Jun 2023 07:20:41 -0700 (PDT)
+Received: (nullmailer pid 1866655 invoked by uid 1000);
+        Tue, 27 Jun 2023 14:20:39 -0000
+Date:   Tue, 27 Jun 2023 08:20:39 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     guoniu.zhou@oss.nxp.com, linux-media@vger.kernel.org,
+        linux-imx@nxp.com, devicetree@vger.kernel.org,
+        laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
         xavier.roumegue@oss.nxp.com, kernel@pengutronix.de,
-        jacopo.mondi@ideasonboard.com, sakari.ailus@linux.intel.com
-Subject: Re: [PATCH v3 2/3] media: nxp: imx8-isi: move i.MX8 gasket
- configuration to an ops structure
-Message-ID: <20230627141359.GD14185@pendragon.ideasonboard.com>
-References: <20230627062017.1135114-1-guoniu.zhou@oss.nxp.com>
- <20230627062017.1135114-3-guoniu.zhou@oss.nxp.com>
- <20230627140913.GB14185@pendragon.ideasonboard.com>
+        jacopo.mondi@ideasonboard.com, sakari.ailus@linux.intel.com,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>
+Subject: Re: [PATCH 3/4] media: dt-bindings: media: nxp,imx-isi: i.MX93
+ support
+Message-ID: <20230627142039.GA1857774-robh@kernel.org>
+References: <20230625080916.3553621-1-guoniu.zhou@oss.nxp.com>
+ <20230625080916.3553621-4-guoniu.zhou@oss.nxp.com>
+ <63eb8605-fa23-fe13-e635-1cfdbcafb5c7@linaro.org>
+ <82371522-c062-6fb4-7449-96edeae33a09@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230627140913.GB14185@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <82371522-c062-6fb4-7449-96edeae33a09@linaro.org>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 27, 2023 at 05:09:13PM +0300, Laurent Pinchart wrote:
-> Hi Guoniu,
-> 
-> Thank you for the patch.
-> 
-> On Tue, Jun 27, 2023 at 02:20:16PM +0800, guoniu.zhou@oss.nxp.com wrote:
-> > From: "Guoniu.zhou" <guoniu.zhou@nxp.com>
+On Sun, Jun 25, 2023 at 10:27:08AM +0200, Krzysztof Kozlowski wrote:
+> On 25/06/2023 10:22, Krzysztof Kozlowski wrote:
+> > On 25/06/2023 10:09, guoniu.zhou@oss.nxp.com wrote:
+> >> From: "Guoniu.zhou" <guoniu.zhou@nxp.com>
+> >>
+> >> Add i.MX93 support since it reuse ISI which used in i.MX8M family.
+> >>
+> >> Signed-off-by: Guoniu.zhou <guoniu.zhou@nxp.com>
 > > 
-> > Move i.MX8MN and i.MX8MP gasket configuration to an ops structure.
-> 
-> Commit messages should explain the reason behind the change, not just
-> what the change does. The *why* is considered even more important than
-> the *what*, as it's (usually) possible to understand what a patch does
-> by reading it, while the reason is much more difficult to get from just
-> looking at the code.
-> 
-> In this case, the commit message could be
-> 
-> "The i.MX93 includes an ISI instance compatible with the imx8-isi
-> driver, but with a different gasket. To prepare for this, make the
-> gasket configuration modular by moving the code to an ops structure."
-> 
-> > Signed-off-by: Guoniu.zhou <guoniu.zhou@nxp.com>
-> > ---
-> >  drivers/media/platform/nxp/imx8-isi/Makefile  |  2 +-
-> >  .../platform/nxp/imx8-isi/imx8-isi-core.c     | 12 ++++--
-> >  .../platform/nxp/imx8-isi/imx8-isi-core.h     | 30 ++++++++++++-
-> >  .../platform/nxp/imx8-isi/imx8-isi-crossbar.c | 42 +++++++------------
-> >  .../platform/nxp/imx8-isi/imx8-isi-gasket.c   | 32 ++++++++++++++
-> >  5 files changed, 85 insertions(+), 33 deletions(-)
+> > Subject: Drop duplicated "media:"
 > > 
-> > diff --git a/drivers/media/platform/nxp/imx8-isi/Makefile b/drivers/media/platform/nxp/imx8-isi/Makefile
-> > index 9bff9297686d..4376e8e0c962 100644
-> > --- a/drivers/media/platform/nxp/imx8-isi/Makefile
-> > +++ b/drivers/media/platform/nxp/imx8-isi/Makefile
-> > @@ -1,7 +1,7 @@
-> >  # SPDX-License-Identifier: GPL-2.0-only
-> >  
-> >  imx8-isi-y := imx8-isi-core.o imx8-isi-crossbar.o imx8-isi-hw.o \
-> > -	imx8-isi-pipe.o imx8-isi-video.o
-> > +	imx8-isi-pipe.o imx8-isi-video.o imx8-isi-gasket.o
+> >> ---
+> >>  Documentation/devicetree/bindings/media/nxp,imx-isi.yaml | 5 ++++-
+> >>  1 file changed, 4 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/media/nxp,imx-isi.yaml b/Documentation/devicetree/bindings/media/nxp,imx-isi.yaml
+> >> index 1ce9440bde32..ddad1d8778f3 100644
+> >> --- a/Documentation/devicetree/bindings/media/nxp,imx-isi.yaml
+> >> +++ b/Documentation/devicetree/bindings/media/nxp,imx-isi.yaml
+> >> @@ -21,6 +21,7 @@ properties:
+> >>      enum:
+> >>        - fsl,imx8mn-isi
+> >>        - fsl,imx8mp-isi
+> >> +      - fsl,imx93-isi
+> > 
+> > Imx93 is a family of devices, not specific device, so I hope you
+> > understand that it is a bit against the recommendation of specific
+> > compatibles and you guarantee that all devices within family will be
+> > identical.
 > 
-> Please use alphabetical order.
 > 
-> >  imx8-isi-$(CONFIG_DEBUG_FS) += imx8-isi-debug.o
-> >  imx8-isi-$(CONFIG_VIDEO_IMX8_ISI_M2M) += imx8-isi-m2m.o
-> >  
-> > diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
-> > index 253e77189b69..d645b2f6fa5a 100644
-> > --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
-> > +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
-> > @@ -279,6 +279,12 @@ static const struct clk_bulk_data mxc_imx8mn_clks[] = {
-> >  	{ .id = "apb" },
-> >  };
-> >  
-> > +/* Gasket operations for i.MX8MN and i.MX8MP */
-> > +static const struct mxc_gasket_ops mxc_imx8_gasket_ops = {
-> > +	.enable = mxc_imx8_gasket_enable,
-> > +	.disable = mxc_imx8_gasket_disable,
-> > +};
-> > +
+> And looking more this won't be true. There are significant differences
+> between devices in the "imx93" family:
+> 1. number of A55 cores and their frequency
+> 2. Presence or not of NPU
+> 3. MIPI-CSI or Parallel camera
+> 4. MIPI-DSI, LVDS or Parallel display
+> 5. 1 or 2 Gigabit Ethernet
 > 
-> This can be moved to imx8-isi-gasket.c. You will need to add an
-> 
-> extern const struct mxc_gasket_ops mxc_imx8_gasket_ops;
-> 
-> to imx8-isi-core.h, and remove the declarations of the
-> mxc_imx8_gasket_enable() and mxc_imx8_gasket_disable() disable from the
-> header (and make those functions static).
-> 
-> >  static const struct mxc_isi_plat_data mxc_imx8mn_data = {
-> >  	.model			= MXC_ISI_IMX8MN,
-> >  	.num_ports		= 1,
-> > @@ -289,7 +295,7 @@ static const struct mxc_isi_plat_data mxc_imx8mn_data = {
-> >  	.clks			= mxc_imx8mn_clks,
-> >  	.num_clks		= ARRAY_SIZE(mxc_imx8mn_clks),
-> >  	.buf_active_reverse	= false,
-> > -	.has_gasket		= true,
-> > +	.gasket_ops		= &mxc_imx8_gasket_ops,
-> >  	.has_36bit_dma		= false,
-> >  };
-> >  
-> > @@ -303,7 +309,7 @@ static const struct mxc_isi_plat_data mxc_imx8mp_data = {
-> >  	.clks			= mxc_imx8mn_clks,
-> >  	.num_clks		= ARRAY_SIZE(mxc_imx8mn_clks),
-> >  	.buf_active_reverse	= true,
-> > -	.has_gasket		= true,
-> > +	.gasket_ops		= &mxc_imx8_gasket_ops,
-> >  	.has_36bit_dma		= true,
-> >  };
-> >  
-> > @@ -443,7 +449,7 @@ static int mxc_isi_probe(struct platform_device *pdev)
-> >  		return PTR_ERR(isi->regs);
-> >  	}
-> >  
-> > -	if (isi->pdata->has_gasket) {
-> > +	if (isi->pdata->gasket_ops) {
-> >  		isi->gasket = syscon_regmap_lookup_by_phandle(dev->of_node,
-> >  							      "fsl,blk-ctrl");
-> >  		if (IS_ERR(isi->gasket)) {
-> > diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
-> > index e469788a9e6c..4f920d650153 100644
-> > --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
-> > +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
-> > @@ -12,12 +12,14 @@
-> >  
-> >  #include <linux/list.h>
-> >  #include <linux/mutex.h>
-> > +#include <linux/regmap.h>
-> 
-> This isn't needed here.
-> 
-> >  #include <linux/spinlock.h>
-> >  #include <linux/types.h>
-> >  #include <linux/videodev2.h>
-> >  
-> >  #include <media/media-device.h>
-> >  #include <media/media-entity.h>
-> > +#include <media/mipi-csi2.h>
-> 
-> Not needed either.
-> 
-> >  #include <media/v4l2-async.h>
-> >  #include <media/v4l2-ctrls.h>
-> >  #include <media/v4l2-dev.h>
-> > @@ -59,6 +61,18 @@ struct v4l2_m2m_dev;
-> >  #define MXC_ISI_M2M			"mxc-isi-m2m"
-> >  #define MXC_MAX_PLANES			3
-> >  
-> > +/* GASKET (i.MX8MN and i.MX8MP only) */
-> > +#define GASKET_BASE(n)				(0x0060 + (n) * 0x30)
-> > +
-> > +#define GASKET_CTRL				0x0000
-> > +#define GASKET_CTRL_DATA_TYPE(dt)		((dt) << 8)
-> > +#define GASKET_CTRL_DATA_TYPE_MASK		(0x3f << 8)
-> > +#define GASKET_CTRL_DUAL_COMP_ENABLE		BIT(1)
-> > +#define GASKET_CTRL_ENABLE			BIT(0)
-> > +
-> > +#define GASKET_HSIZE				0x0004
-> > +#define GASKET_VSIZE				0x0008
-> > +
-> 
-> Those macros can be moved to imx8-isi-gasket.c.
-> 
-> >  struct mxc_isi_dev;
-> >  struct mxc_isi_m2m_ctx;
-> >  
-> > @@ -147,6 +161,14 @@ struct mxc_isi_set_thd {
-> >  	struct mxc_isi_panic_thd panic_set_thd_v;
-> >  };
-> >  
-> > +struct mxc_gasket_ops {
-> > +	int (*enable)(struct mxc_isi_dev *isi,
-> > +		      const struct v4l2_mbus_frame_desc *fd,
-> > +		      const struct v4l2_mbus_framefmt *fmt,
-> > +		      const unsigned int port);
-> > +	void (*disable)(struct mxc_isi_dev *isi, const unsigned int port);
-> > +};
-> > +
-> >  enum model {
-> >  	MXC_ISI_IMX8MN,
-> >  	MXC_ISI_IMX8MP,
-> > @@ -159,10 +181,10 @@ struct mxc_isi_plat_data {
-> >  	unsigned int reg_offset;
-> >  	const struct mxc_isi_ier_reg  *ier_reg;
-> >  	const struct mxc_isi_set_thd *set_thd;
-> > +	const struct mxc_gasket_ops *gasket_ops;
-> >  	const struct clk_bulk_data *clks;
-> >  	unsigned int num_clks;
-> >  	bool buf_active_reverse;
-> > -	bool has_gasket;
-> >  	bool has_36bit_dma;
-> >  };
-> >  
-> > @@ -379,6 +401,12 @@ void mxc_isi_channel_set_outbuf(struct mxc_isi_pipe *pipe,
-> >  u32 mxc_isi_channel_irq_status(struct mxc_isi_pipe *pipe, bool clear);
-> >  void mxc_isi_channel_irq_clear(struct mxc_isi_pipe *pipe);
-> >  
-> > +int mxc_imx8_gasket_enable(struct mxc_isi_dev *isi,
-> > +			   const struct v4l2_mbus_frame_desc *fd,
-> > +			   const struct v4l2_mbus_framefmt *fmt,
-> > +			   const unsigned int port);
-> > +void mxc_imx8_gasket_disable(struct mxc_isi_dev *isi, const unsigned int port);
-> > +
-> >  #if IS_ENABLED(CONFIG_DEBUG_FS)
-> >  void mxc_isi_debug_init(struct mxc_isi_dev *isi);
-> >  void mxc_isi_debug_cleanup(struct mxc_isi_dev *isi);
-> > diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
-> > index f7447b2f4d77..d803fda3fdaf 100644
-> > --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
-> > +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
-> > @@ -25,32 +25,18 @@ static inline struct mxc_isi_crossbar *to_isi_crossbar(struct v4l2_subdev *sd)
-> >  	return container_of(sd, struct mxc_isi_crossbar, sd);
-> >  }
-> >  
-> > -/* -----------------------------------------------------------------------------
-> > - * Media block control (i.MX8MN and i.MX8MP only)
-> > - */
-> > -#define GASKET_BASE(n)				(0x0060 + (n) * 0x30)
-> > -
-> > -#define GASKET_CTRL				0x0000
-> > -#define GASKET_CTRL_DATA_TYPE(dt)		((dt) << 8)
-> > -#define GASKET_CTRL_DATA_TYPE_MASK		(0x3f << 8)
-> > -#define GASKET_CTRL_DUAL_COMP_ENABLE		BIT(1)
-> > -#define GASKET_CTRL_ENABLE			BIT(0)
-> > -
-> > -#define GASKET_HSIZE				0x0004
-> > -#define GASKET_VSIZE				0x0008
-> > -
-> >  static int mxc_isi_crossbar_gasket_enable(struct mxc_isi_crossbar *xbar,
-> >  					  struct v4l2_subdev_state *state,
-> >  					  struct v4l2_subdev *remote_sd,
-> >  					  u32 remote_pad, unsigned int port)
-> >  {
-> >  	struct mxc_isi_dev *isi = xbar->isi;
-> > +	const struct mxc_gasket_ops *gasket_ops = isi->pdata->gasket_ops;
-> >  	const struct v4l2_mbus_framefmt *fmt;
-> >  	struct v4l2_mbus_frame_desc fd;
-> > -	u32 val;
-> >  	int ret;
-> >  
-> > -	if (!isi->pdata->has_gasket)
-> > +	if (!gasket_ops)
-> >  		return 0;
-> >  
-> >  	/*
-> > @@ -77,16 +63,14 @@ static int mxc_isi_crossbar_gasket_enable(struct mxc_isi_crossbar *xbar,
-> >  	if (!fmt)
-> >  		return -EINVAL;
-> >  
-> > -	regmap_write(isi->gasket, GASKET_BASE(port) + GASKET_HSIZE, fmt->width);
-> > -	regmap_write(isi->gasket, GASKET_BASE(port) + GASKET_VSIZE, fmt->height);
-> > -
-> > -	val = GASKET_CTRL_DATA_TYPE(fd.entry[0].bus.csi2.dt)
-> > -	    | GASKET_CTRL_ENABLE;
-> > -
-> > -	if (fd.entry[0].bus.csi2.dt == MIPI_CSI2_DT_YUV422_8B)
-> > -		val |= GASKET_CTRL_DUAL_COMP_ENABLE;
-> > -
-> > -	regmap_write(isi->gasket, GASKET_BASE(port) + GASKET_CTRL, val);
-> > +	if (gasket_ops->enable) {
-> 
-> I would drop this check. Both gasket ops are mandatory, we don't need to
-> support situations where only enable or disable are provided.
-> 
-> > +		ret = gasket_ops->enable(isi, &fd, fmt, port);
-> > +		if (ret) {
-> > +			dev_err(isi->dev,
-> > +				"failed to enable gasket%d\n", port);
-> > +			return ret;
-> > +		}
+> Why NXP just cannot follow standard rules here?
 
-Another comment, the enable operation never fails, so you can make it a
-void function and drop the error check.
+That could all be just binning, packaging, or fused options in which 
+case a common compatible is fine.
 
-> > +	}
-> >  
-> >  	return 0;
-> >  }
-> > @@ -95,11 +79,13 @@ static void mxc_isi_crossbar_gasket_disable(struct mxc_isi_crossbar *xbar,
-> >  					    unsigned int port)
-> >  {
-> >  	struct mxc_isi_dev *isi = xbar->isi;
-> > +	const struct mxc_gasket_ops *gasket_ops = isi->pdata->gasket_ops;
-> >  
-> > -	if (!isi->pdata->has_gasket)
-> > +	if (!gasket_ops)
-> >  		return;
-> >  
-> > -	regmap_write(isi->gasket, GASKET_BASE(port) + GASKET_CTRL, 0);
-> > +	if (gasket_ops->disable)
-> 
-> Same here, you can drop this check.
-> 
-> > +		gasket_ops->disable(isi, port);
-> >  }
-> >  
-> >  /* -----------------------------------------------------------------------------
-> > diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c
-> > new file mode 100644
-> > index 000000000000..39f8d0e8b15d
-> > --- /dev/null
-> > +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c
-> > @@ -0,0 +1,32 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Copyright 2019-2023 NXP
-> > + */
-> > +
-> 
-> You'll need
-> 
-> #include <linux/regmap.h>
-> #include <media/mipi-csi2.h>
-> 
-> > +#include "imx8-isi-core.h"
-> > +
-> > +/* Configure and enable gasket for i.MX8MN and i.MX8P */
-> > +int mxc_imx8_gasket_enable(struct mxc_isi_dev *isi,
-> > +			   const struct v4l2_mbus_frame_desc *fd,
-> > +			   const struct v4l2_mbus_framefmt *fmt,
-> > +			   const unsigned int port)
-> > +{
-> > +	u32 val;
-> > +
-> > +	regmap_write(isi->gasket, GASKET_BASE(port) + GASKET_HSIZE, fmt->width);
-> > +	regmap_write(isi->gasket, GASKET_BASE(port) + GASKET_VSIZE, fmt->height);
-> > +
-> > +	val = GASKET_CTRL_DATA_TYPE(fd->entry[0].bus.csi2.dt);
-> > +	if (fd->entry[0].bus.csi2.dt == MIPI_CSI2_DT_YUV422_8B)
-> > +		val |= GASKET_CTRL_DUAL_COMP_ENABLE;
-> > +
-> > +	val |= GASKET_CTRL_ENABLE;
-> > +	regmap_write(isi->gasket, GASKET_BASE(port) + GASKET_CTRL, val);
-> > +	return 0;
-> > +}
-> > +
-> > +/* Disable gasket for i.MX8MN and i.MX8P */
-> > +void mxc_imx8_gasket_disable(struct mxc_isi_dev *isi, const unsigned int port)
-> > +{
-> > +	regmap_write(isi->gasket, GASKET_BASE(port) + GASKET_CTRL, 0);
-> > +}
+Rob
 
--- 
-Regards,
-
-Laurent Pinchart
