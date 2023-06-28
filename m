@@ -2,71 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F6047411CA
-	for <lists+linux-media@lfdr.de>; Wed, 28 Jun 2023 14:55:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8F557411E6
+	for <lists+linux-media@lfdr.de>; Wed, 28 Jun 2023 15:04:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230287AbjF1MzP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Jun 2023 08:55:15 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:38040 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231706AbjF1MxE (ORCPT
+        id S230430AbjF1NDv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Jun 2023 09:03:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43896 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229533AbjF1NDu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Jun 2023 08:53:04 -0400
-Received: from [192.168.144.60] (90-182-211-1.rcp.o2.cz [90.182.211.1])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D41016C8;
-        Wed, 28 Jun 2023 14:52:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1687956743;
-        bh=MdGMOK65aWlevzoUjFlSgzxLaB/B82cvbOvq4tP00VE=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=hYF2dA6ON2lWdFssmZFD17gb/b/Cdp8ZVpRlv6zNDp4xtwmzCmOHB4Y8RRkeTtBjz
-         QtjRzlAMkE2WubOi2OjqtU+1ppX5wXn5e5X6b11BKF4hlfAaj8FfTsFGIuEWpvEsRj
-         xN3sxOTVfZ+AcrAbC9shynVZ+WBLSu3mZyN2ZL18=
-Message-ID: <615910df-2db4-453c-249b-8d4a33bc0ca3@ideasonboard.com>
-Date:   Wed, 28 Jun 2023 14:53:00 +0200
+        Wed, 28 Jun 2023 09:03:50 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 782B42110;
+        Wed, 28 Jun 2023 06:03:49 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0D81B61328;
+        Wed, 28 Jun 2023 13:03:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63EACC433C0;
+        Wed, 28 Jun 2023 13:03:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687957428;
+        bh=P66gHZJ7j77wWis96oF6KJ5NyIpuzPIhqa8Ws293cdw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=IlYtPlZZ3p701Gno3JE7mrUNMem3fznktwgwgxczfNagLUHKsLJ4MokWmH/PcfHDD
+         AU3/lYyNyvNbEV2gdEcwUzW6dgkH50DWwOdNR7zruAI/Nc4VtGhIsW33HwR/a1YIOX
+         Yw0g1UjWDOrQNMUh///RlDNcRgjkWqGL/tRcfx786OjVKvbbzN8E+RVSqMR5xO+hn4
+         a5CnSpQyG5dPI5OUMw9OQCPmqRPoqJdEcusDCQYCpXOhDuGeB/1sbR7lB/d+vUnlKq
+         W+IWT55bRjAA6ec32RF5OPlK5ob1TYu+prViY84ixJ/2l8NavObCvC03t2x49T75C7
+         LhPX409PkP5rQ==
+Received: from mchehab by mail.kernel.org with local (Exim 4.96)
+        (envelope-from <mchehab@kernel.org>)
+        id 1qEUpl-000rfb-2F;
+        Wed, 28 Jun 2023 15:03:45 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     linux-media@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH] media: dvb: mb86a20s: get rid of a clang-15 warning
+Date:   Wed, 28 Jun 2023 15:03:39 +0200
+Message-ID: <20230628130339.206261-1-mchehab@kernel.org>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 09/12] media: ipu3-cio2: Move cio2_bridge_init() code into
- a new shared intel-cio2-bridge.ko
-To:     Andy Shevchenko <andy@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kate Hsuan <hpa@redhat.com>, Hao Yao <hao.yao@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org
-References: <20230627175643.114778-1-hdegoede@redhat.com>
- <20230627175643.114778-10-hdegoede@redhat.com>
- <ZJtMysrWwpKb7woL@smile.fi.intel.com>
-Content-Language: en-US
-From:   Dan Scally <dan.scally@ideasonboard.com>
-In-Reply-To: <ZJtMysrWwpKb7woL@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello all
+When building with clang-15: this warning is produced:
 
-On 27/06/2023 22:55, Andy Shevchenko wrote:
-> On Tue, Jun 27, 2023 at 07:56:39PM +0200, Hans de Goede wrote:
->> Move all the code implementing cio2_bridge_init() into a new shared
->> intel-cio2-bridge.ko, so that it can be reused by the atomisp driver
->> (and maybe also by the future IPU6 CSI2 driver).
->>
->> Note this just moves a bunch of stuff around prefixes some symbols /
->> defines with intel_ / INTEL_ no functional changes.
-> ...
->
->> +EXPORT_SYMBOL(intel_cio2_bridge_init);
-> Why not GPL?
-> Perhaps namespace?
->
-> ...
->
-> Seems to me that name CIO2 in AtomISP case sounds a bit weird.
-> Maybe ipu/isp should be used instead?
-I agree here, since it's a specific device. But there's already some picked patches to turn the 
-cio2-bridge into the ipu-bridge, so probably this needs to rebase on top of that work.
+	../drivers/media/dvb-frontends/mb86a20s.c:1572:6: error: variable 'active_layers' set but not used [-Werror,-Wunused-but-set-variable]
+	        int active_layers = 0, pre_ber_layers = 0, post_ber_layers = 0;
+	            ^
+	1 error generated.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+---
+ drivers/media/dvb-frontends/mb86a20s.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/drivers/media/dvb-frontends/mb86a20s.c b/drivers/media/dvb-frontends/mb86a20s.c
+index b74b9afed9a2..125fed4891ba 100644
+--- a/drivers/media/dvb-frontends/mb86a20s.c
++++ b/drivers/media/dvb-frontends/mb86a20s.c
+@@ -1569,7 +1569,7 @@ static int mb86a20s_get_stats(struct dvb_frontend *fe, int status_nr)
+ 	u32 t_post_bit_error = 0, t_post_bit_count = 0;
+ 	u32 block_error = 0, block_count = 0;
+ 	u32 t_block_error = 0, t_block_count = 0;
+-	int active_layers = 0, pre_ber_layers = 0, post_ber_layers = 0;
++	int pre_ber_layers = 0, post_ber_layers = 0;
+ 	int per_layers = 0;
+ 
+ 	dev_dbg(&state->i2c->dev, "%s called.\n", __func__);
+@@ -1589,9 +1589,6 @@ static int mb86a20s_get_stats(struct dvb_frontend *fe, int status_nr)
+ 
+ 	for (layer = 0; layer < NUM_LAYERS; layer++) {
+ 		if (c->isdbt_layer_enabled & (1 << layer)) {
+-			/* Layer is active and has rc segments */
+-			active_layers++;
+-
+ 			/* Handle BER before vterbi */
+ 			rc = mb86a20s_get_pre_ber(fe, layer,
+ 						  &bit_error, &bit_count);
+-- 
+2.41.0
+
