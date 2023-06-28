@@ -2,121 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D306740CD0
-	for <lists+linux-media@lfdr.de>; Wed, 28 Jun 2023 11:31:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3A94740DEE
+	for <lists+linux-media@lfdr.de>; Wed, 28 Jun 2023 12:03:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231296AbjF1J2B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Jun 2023 05:28:01 -0400
-Received: from mail-io1-f54.google.com ([209.85.166.54]:51612 "EHLO
-        mail-io1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234530AbjF1JSO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Jun 2023 05:18:14 -0400
-Received: by mail-io1-f54.google.com with SMTP id ca18e2360f4ac-78358268d1bso137972639f.3;
-        Wed, 28 Jun 2023 02:18:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687943893; x=1690535893;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=y3rNiHDzzvT5fn4zsItuTLUfPl9yseXqas/GeAA6tTU=;
-        b=M2xdpC9YyeyaqFLVRhoUphFWh/NJZL5y3wh37KlDHKx15LF9dkTy7xWghSqOmTODAA
-         HuLyzM1pRFraLNh94tH91euZIBL7m5w6q+hdgNvG5Mjj8hQLsyO0TOxdLTKwks1lobiu
-         AqgcleOHNt+IQO6dVm3HBM7Pjg9pcHQfwlG4nK1pwGDW6Alq1n9YndOTPLp4DjU4uVdk
-         M/WNJmr36IOGf43qGk8K6xClmtBS79jqTGtSQNNKn/nAdIZhy1rNq1PZtqqqLSGLAx8a
-         /tzWJwkMQQxWQpKeUrnm1EclF/TM2DM7exMfckcPpYsx65HcK6SPOiEM3X8UdAX40itw
-         KgUQ==
-X-Gm-Message-State: AC+VfDxufqd99VleAS5ZOjwe3iT3Lf1NaPUZAekpp0TDHtiCjkk4IikV
-        ayclH1boIF5baxBJ1TvWtNvYGhZDnw==
-X-Google-Smtp-Source: ACHHUZ5hdew/tbjh37LxMK1//ANp1jJhQJGeMCqjFo7ZC1u/XMFXJeJvxavj99PxkNADBXvIkZi10w==
-X-Received: by 2002:a6b:d808:0:b0:783:491a:13fe with SMTP id y8-20020a6bd808000000b00783491a13femr11503497iob.5.1687943893293;
-        Wed, 28 Jun 2023 02:18:13 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id p14-20020a02b38e000000b0042adbd157b5sm1089962jan.179.2023.06.28.02.18.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jun 2023 02:18:12 -0700 (PDT)
-Received: (nullmailer pid 4146586 invoked by uid 1000);
-        Wed, 28 Jun 2023 09:18:10 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        id S230216AbjF1Jvo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Jun 2023 05:51:44 -0400
+Received: from mga12.intel.com ([192.55.52.136]:28990 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230093AbjF1JiC (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 28 Jun 2023 05:38:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687945082; x=1719481082;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bMH1H2qgHMXVW7BeCJJ/EQn7XjdejMnvVsBOxaBiSus=;
+  b=VX8M8axO2EejqqRZyjPh0Guo2HbuMSJZjkVpOT308HC9Kn48n6Zk3m7w
+   pFBQ1kDTHAUjkrMjqWpbeuZjOBDAUmrzubFF6WAsKjEyDJtFHl9oc7jdi
+   ETN7DoGJqJgC0ANL3bAYmDmzvF9S+O6OVC0rzbyXd6uA9tuGTcZFwghs2
+   SbhEem5PCd4gypKOwbfP2xiosLx93nE4qkcJP95g+9kIKCa5F81MHfE4C
+   FrkwAbqAWjf4mh4jCnqCk//h7mx0Iehm85v8+kPkIX+r5EMbZi6sjPMrX
+   +mqhk14ecl0drhUPAyoUHURY4Nc4ZJBQznR/TegnJqEd+rhMPUEcapGJ0
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="341384723"
+X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
+   d="scan'208";a="341384723"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2023 02:37:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="786986658"
+X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
+   d="scan'208";a="786986658"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 28 Jun 2023 02:37:26 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qERc6-000DAF-0G;
+        Wed, 28 Jun 2023 09:37:26 +0000
+Date:   Wed, 28 Jun 2023 17:36:26 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Tommaso Merciai <tomm.merciai@gmail.com>
+Cc:     oe-kbuild-all@lists.linux.dev, jacopo.mondi@ideasonboard.com,
+        laurent.pinchart@ideasonboard.com, martin.hecht@avnet.eu,
+        michael.roeder@avnet.eu, linuxfancy@googlegroups.com,
+        hdegoede@redhat.com, Tommaso Merciai <tomm.merciai@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Gerald Loacker <gerald.loacker@wolfvision.net>,
+        Mikhail Rudenko <mike.rudenko@gmail.com>,
+        Nicholas Roth <nicholas@rothemail.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 3/3] media: i2c: Add support for alvium camera
+Message-ID: <202306281747.eCVPev24-lkp@intel.com>
+References: <20230620122225.58862-4-tomm.merciai@gmail.com>
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     guoniu.zhou@oss.nxp.com
-Cc:     krzysztof.kozlowski+dt@linaro.org, sakari.ailus@linux.intel.com,
-        laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
-        robh+dt@kernel.org, xavier.roumegue@oss.nxp.com,
-        conor+dt@kernel.org, linux-media@vger.kernel.org,
-        linux-imx@nxp.com, kernel@pengutronix.de,
-        devicetree@vger.kernel.org, jacopo.mondi@ideasonboard.com
-In-Reply-To: <20230628064251.1774296-2-guoniu.zhou@oss.nxp.com>
-References: <20230628064251.1774296-1-guoniu.zhou@oss.nxp.com>
- <20230628064251.1774296-2-guoniu.zhou@oss.nxp.com>
-Message-Id: <168794389087.4146462.8940502156407485967.robh@kernel.org>
-Subject: Re: [PATCH v4 1/3] media: dt-bindings: nxp,imx8-isi: add i.MX93
- ISI compatible string
-Date:   Wed, 28 Jun 2023 03:18:10 -0600
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230620122225.58862-4-tomm.merciai@gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Tommaso,
 
-On Wed, 28 Jun 2023 14:42:49 +0800, guoniu.zhou@oss.nxp.com wrote:
-> From: "Guoniu.zhou" <guoniu.zhou@nxp.com>
-> 
-> Add the compatible string support for i.MX93 ISI.
-> 
-> Signed-off-by: Guoniu.zhou <guoniu.zhou@nxp.com>
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Tommaso Merciai <tomm.merciai@gmail.com>
-> ---
->  Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
+kernel test robot noticed the following build errors:
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on robh/for-next linus/master v6.4 next-20230627]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-yamllint warnings/errors:
+url:    https://github.com/intel-lab-lkp/linux/commits/Tommaso-Merciai/dt-bindings-vendor-prefixes-Add-prefix-alliedvision/20230620-202420
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230620122225.58862-4-tomm.merciai%40gmail.com
+patch subject: [PATCH v7 3/3] media: i2c: Add support for alvium camera
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230628/202306281747.eCVPev24-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230628/202306281747.eCVPev24-lkp@intel.com/reproduce)
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/clock/milbeaut-clock.example.dtb: /example-2/serial@1e700010: failed to match any schema with compatible: ['socionext,milbeaut-usio-uart']
-Documentation/devicetree/bindings/clock/sprd,sc9863a-clk.example.dtb: /example-1/syscon@20e00000: failed to match any schema with compatible: ['sprd,sc9863a-glbregs', 'syscon', 'simple-mfd']
-Documentation/devicetree/bindings/leds/common.example.dtb: /example-2/i2c/led-controller@30: failed to match any schema with compatible: ['panasonic,an30259a']
-Documentation/devicetree/bindings/sound/audio-graph-card2.example.dtb: /example-0/cpu: failed to match any schema with compatible: ['cpu-driver']
-Documentation/devicetree/bindings/sound/audio-graph-card2.example.dtb: /example-0/codec: failed to match any schema with compatible: ['codec-driver']
-Documentation/devicetree/bindings/thermal/brcm,avs-ro-thermal.example.dtb: /example-0/avs-monitor@7d5d2000: failed to match any schema with compatible: ['brcm,bcm2711-avs-monitor', 'syscon', 'simple-mfd']
-Documentation/devicetree/bindings/thermal/imx-thermal.example.dtb: /example-0/anatop@20c8000: failed to match any schema with compatible: ['fsl,imx6q-anatop', 'syscon', 'simple-mfd']
-Documentation/devicetree/bindings/i2c/qcom,i2c-cci.example.dtb: /example-0/cci@ac4a000/i2c-bus@1/camera@60: failed to match any schema with compatible: ['ovti,ov7251']
-Documentation/devicetree/bindings/iio/adc/ti,palmas-gpadc.example.dtb: /example-0/pmic: failed to match any schema with compatible: ['ti,twl6035-pmic', 'ti,palmas-pmic']
-Documentation/devicetree/bindings/iio/adc/ti,palmas-gpadc.example.dtb: /example-0/pmic: failed to match any schema with compatible: ['ti,twl6035-pmic', 'ti,palmas-pmic']
-Documentation/devicetree/bindings/input/mediatek,pmic-keys.example.dtb: /example-0/pmic: failed to match any schema with compatible: ['mediatek,mt6397']
-Documentation/devicetree/bindings/input/sprd,sc27xx-vibrator.example.dtb: /example-0/pmic@0: failed to match any schema with compatible: ['sprd,sc2731']
-Documentation/devicetree/bindings/dma/dma-controller.example.dtb: /example-0/dma-controller@48000000: failed to match any schema with compatible: ['ti,omap-sdma']
-Documentation/devicetree/bindings/dma/dma-router.example.dtb: /example-0/dma-router@4a002b78: failed to match any schema with compatible: ['ti,dra7-dma-crossbar']
-Documentation/devicetree/bindings/memory-controllers/ingenic,nemc.example.dtb: /example-0/memory-controller@13410000/ethernet@6: failed to match any schema with compatible: ['davicom,dm9000']
-Documentation/devicetree/bindings/arm/hisilicon/controller/sysctrl.example.dtb: /example-0/system-controller@802000/clock@0: failed to match any schema with compatible: ['hisilicon,hi3620-clock']
-Documentation/devicetree/bindings/arm/hisilicon/controller/cpuctrl.example.dtb: /example-0/cpuctrl@a22000/clock@0: failed to match any schema with compatible: ['hisilicon,hix5hd2-clock']
-Documentation/devicetree/bindings/arm/hisilicon/controller/hi3798cv200-perictrl.example.dtb: /example-0/peripheral-controller@8a20000/phy@850: failed to match any schema with compatible: ['hisilicon,hi3798cv200-combphy']
-Documentation/devicetree/bindings/media/rockchip-isp1.example.dtb: /example-0/parent/i2c/camera@36: failed to match any schema with compatible: ['ovti,ov5695']
-Documentation/devicetree/bindings/net/marvell,mvusb.example.dtb: /example-0/usb/mdio@1/switch@0: failed to match any schema with compatible: ['marvell,mv88e6190']
-Documentation/devicetree/bindings/net/qca,ar71xx.example.dtb: /example-0/ethernet@1a000000/mdio/switch@10: failed to match any schema with compatible: ['qca,ar9331-switch']
-Documentation/devicetree/bindings/reset/hisilicon,hi3660-reset.example.dtb: /example-0/iomcu@ffd7e000: failed to match any schema with compatible: ['hisilicon,hi3660-iomcu', 'syscon']
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306281747.eCVPev24-lkp@intel.com/
 
-doc reference errors (make refcheckdocs):
+All errors (new ones prefixed by >>):
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230628064251.1774296-2-guoniu.zhou@oss.nxp.com
+   In file included from drivers/media/i2c/alvium-csi2.c:23:
+>> drivers/media/i2c/alvium-csi2.h:15:10: fatal error: media/v4l2-cci.h: No such file or directory
+      15 | #include <media/v4l2-cci.h>
+         |          ^~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+vim +15 drivers/media/i2c/alvium-csi2.h
 
-pip3 install dtschema --upgrade
+    12	
+    13	#include <linux/kernel.h>
+    14	#include <linux/regulator/consumer.h>
+  > 15	#include <media/v4l2-cci.h>
+    16	#include <media/v4l2-common.h>
+    17	#include <media/v4l2-ctrls.h>
+    18	#include <media/v4l2-fwnode.h>
+    19	#include <media/v4l2-subdev.h>
+    20	
 
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
