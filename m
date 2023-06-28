@@ -2,165 +2,291 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 58EF1740E6D
-	for <lists+linux-media@lfdr.de>; Wed, 28 Jun 2023 12:13:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46F95740EA9
+	for <lists+linux-media@lfdr.de>; Wed, 28 Jun 2023 12:26:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230356AbjF1KNc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Jun 2023 06:13:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54918 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233470AbjF1KKt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Jun 2023 06:10:49 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0A3A3AAB;
-        Wed, 28 Jun 2023 03:09:34 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-9922d6f003cso207180566b.0;
-        Wed, 28 Jun 2023 03:09:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687946973; x=1690538973;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8Osa+sqzunCfgSVMTf5LNK7jPD500rEs+nNv3O7VOhU=;
-        b=JBqXHfLGZ/b6JXkE2bmBNKNSCl4IsgBxe59NraVtvAqa+FX8eqr5hPftgi8tgbbsC4
-         ehTt208s+MGm2bNpm9J7fPORw11So39eQp6eGcuulfjhJQvugxOFt79zRo+HyQ1w55Qv
-         bQ/S+7+foVtTijdEoNcEN0HnnLnlSKNXAauwHlnhA2jatUO2DM7cFOe0WhN8+gmVz+sQ
-         RggctWprYR+9uSX7yr7HsC8AGP6KBrJlRFvBWV8jXZ8+VqxU95m234hofEQpFw5us7UI
-         +M46nV2xcOVEVOH+h2LbZLCvbXm10a/K8N9HCoewSsbpGngO96b0d1zw45SYvfLJwA2w
-         yezQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687946973; x=1690538973;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8Osa+sqzunCfgSVMTf5LNK7jPD500rEs+nNv3O7VOhU=;
-        b=bl070midOWy/bgLppFv4cRM84646bz3jWSetKzLBcy3xSVr9E+XI43qmrJhIiLnQtX
-         kz6wGtQQH0fc40tCnM3sig6WkiQImVxSOAlyxPxltMzDRZRuTqqF9aYF3JZwXEstlG2K
-         LgFM1FWH5CNeQHBQ4dTbJ0vxDYKqMlC5w6HpZz2RI8pd6CXUl1c00gIPhIsZZxfifLAR
-         CN1h6ro0nbkBxUvQLLxKKsbNp1hXL+z9yJrLe957b6tWzF5UyOemJ4QhjDwRo2UWJgNI
-         07XKJ0etRHiokPuQqgAR6Mn+nm0heSgjH6WqceOPFI9toX0voCfYDDMw9u9mi95gyeu9
-         EFCg==
-X-Gm-Message-State: AC+VfDwDilS81pYQO4lg4Hn+j1gOBROlPXvAVDMnPkzXRJfs8w84DndE
-        0CyQW1v4LYVtXA0oxPN928dE/7uTnFagXdtPrZM=
-X-Google-Smtp-Source: ACHHUZ4hV0XF9mN/Yy7HZaehKx5DaM6NMZQ2Ggx6m6TRWZMsZVTRBKRzapqwf+mEqU8SM4IFLM92V+FRAoLJCQobX+Q=
-X-Received: by 2002:a17:906:80d0:b0:98d:e7e3:5ab7 with SMTP id
- a16-20020a17090680d000b0098de7e35ab7mr9123961ejx.11.1687946973053; Wed, 28
- Jun 2023 03:09:33 -0700 (PDT)
+        id S231461AbjF1K0x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Jun 2023 06:26:53 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:50954 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231455AbjF1KYr (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 28 Jun 2023 06:24:47 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1qESLt-0099lu-Ly; Wed, 28 Jun 2023 10:24:45 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.96)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1qESLr-000FIx-0e;
+        Wed, 28 Jun 2023 10:24:43 +0000
+Date:   Wed, 28 Jun 2023 10:24:42 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <1154965521.2.1687947882480@builder.linuxtv.org>
+Subject: Build failed in Jenkins: xawtv3 #9
 MIME-Version: 1.0
-References: <20230627082731.1769620-1-yqsun1997@gmail.com> <20230627140640.GA3605278@gnbcxd0016.gnb.st.com>
- <CAA0BgY_Lj+hQdevrgK8y=wLztddnh+npP-hWz_XaPbi-5mzwnQ@mail.gmail.com> <20230628063353.GA3625616@gnbcxd0016.gnb.st.com>
-In-Reply-To: <20230628063353.GA3625616@gnbcxd0016.gnb.st.com>
-From:   sun yq <yqsun1997@gmail.com>
-Date:   Wed, 28 Jun 2023 18:09:22 +0800
-Message-ID: <CAA0BgY_1Rn4LJ4NM7ZMNgG1K-V9Uy0HTi6bMg_o3cPDWj7NfKQ@mail.gmail.com>
-Subject: Re: [PATCH] OOB read and write in mdp_prepare_buffer
-To:     sun yq <yqsun1997@gmail.com>, mchehab@kernel.org,
-        matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, 499671216@qq.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-        lindbergh.monkeyblade.net
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: xawtv3
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alain,
+See <https://builder.linuxtv.org/job/xawtv3/9/display/redirect>
 
-May I ask if you are the person involved in the code?We should  listen
-to the opinions of the code owner.
+Changes:
 
-On Wed, Jun 28, 2023 at 2:34=E2=80=AFPM Alain Volmat <alain.volmat@foss.st.=
-com> wrote:
->
-> Hi,
->
-> On Wed, Jun 28, 2023 at 07:28:54AM +0800, sun yq wrote:
-> > Hi,
-> > Because there are many functions using the plane, increasing the max
-> > number of the plane is to maximize the solution to all possible oob
-> > places.
->
-> I don't think it is the right approach then.  If the HW is only handling
-> 3 planes, there should be no reason to have to allocate for 8 planes.  I
-> suspect that this 8 value is coming from the maximum allowed plane
-> number in V4L2 right ?
-> INHO driver should simply be fixed to ensure that num_plane won't go
-> higher than the real number of plane allocated in the structures.
-> It should be possible to get the num_plane value from the format
-> selected.
->
-> Alain
->
-> >
-> > On Tue, Jun 27, 2023 at 10:06=E2=80=AFPM Alain Volmat <alain.volmat@fos=
-s.st.com> wrote:
-> > >
-> > > Hi,
-> > >
-> > > On Tue, Jun 27, 2023 at 04:27:31PM +0800, yqsun1997@gmail.com wrote:
-> > > > From: yqsun1997 <yqsun1997@gmail.com>
-> > > >
-> > > > Because format in struct img_image_buffer max index is IMG_MAX_PLAN=
-ES =3D=3D3,
-> > > > The num_planes max index is 8.so will be OOB like in mdp_prepare_bu=
-ffer.
-> > >
-> > > Similarly as your other patch, could you describe why you need to
-> > > increase the IMG_MAX_PLANES while I suspect your driver only needs to
-> > > deal with 3 planes.  While the maximum num_planes value that can be
-> > > given by the user is 8, this has to be first compared to the configur=
-ed
-> > > format prior to reaching this function.
-> > >
-> > > >
-> > > > static void mdp_prepare_buffer(struct img_image_buffer *b,
-> > > >                                struct mdp_frame *frame, struct vb2_=
-buffer *vb)
-> > > > {
-> > > >         struct v4l2_pix_format_mplane *pix_mp =3D &frame->format.fm=
-t.pix_mp;
-> > > >         unsigned int i;
-> > > >
-> > > >         b->format.colorformat =3D frame->mdp_fmt->mdp_color;
-> > > >         b->format.ycbcr_prof =3D frame->ycbcr_prof;
-> > > >         for (i =3D 0; i < pix_mp->num_planes; ++i) {
-> > > >                 u32 stride =3D mdp_fmt_get_stride(frame->mdp_fmt,
-> > > >                         pix_mp->plane_fmt[i].bytesperline, i);
-> > > >
-> > > >                 b->format.plane_fmt[i].stride =3D stride;  //oob
-> > > >                 ......
-> > > >
-> > > > Signed-off-by: yqsun1997 <yqsun1997@gmail.com>
-> > > > ---
-> > > >  drivers/media/platform/mediatek/mdp3/mtk-mdp3-type.h | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-type.h b=
-/drivers/media/platform/mediatek/mdp3/mtk-mdp3-type.h
-> > > > index ae0396806..e2e991a34 100644
-> > > > --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-type.h
-> > > > +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-type.h
-> > > > @@ -11,7 +11,7 @@
-> > > >
-> > > >  #define IMG_MAX_HW_INPUTS    3
-> > > >  #define IMG_MAX_HW_OUTPUTS   4
-> > > > -#define IMG_MAX_PLANES               3
-> > > > +#define IMG_MAX_PLANES               8
-> > > >  #define IMG_MAX_COMPONENTS   20
-> > > >
-> > > >  struct img_crop {
-> > > > --
-> > > > 2.39.2
-> > > >
-> > >
-> > > Regards,
-> > > Alain
+
+------------------------------------------
+Started by user Mauro Carvalho Chehab
+Running as Mauro Carvalho Chehab
+Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/xawtv3/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/xawtv3/ws/.git> # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/xawtv3.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/xawtv3.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.39.2'
+ > git fetch --tags --force --progress -- git://linuxtv.org/xawtv3.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 36dc44e68e5886339b4a0fbe3f404fb1a4fd2292 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 36dc44e68e5886339b4a0fbe3f404fb1a4fd2292 # timeout=10
+Commit message: "v4l-conf: simplify stat message"
+ > git rev-list --no-walk 36dc44e68e5886339b4a0fbe3f404fb1a4fd2292 # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse 36dc44e68e5886339b4a0fbe3f404fb1a4fd2292^{commit} # timeout=10
+The recommended git tool is: NONE
+No credentials specified
+[GitCheckoutListener] Recording commits of 'git git://linuxtv.org/xawtv3.git'
+[GitCheckoutListener] Found previous build 'xawtv3 #8' that contains recorded Git commits
+[GitCheckoutListener] -> Starting recording of new commits since '36dc44e'
+[GitCheckoutListener] -> Single parent commit found - branch is already descendant of target branch head
+[GitCheckoutListener] -> Using head commit '36dc44e' as starting point
+[GitCheckoutListener] -> No new commits found
+[GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@71f7547'
+[xawtv3] $ /bin/sh -xe /tmp/jenkins1424690666015522530.sh
++ ./autogen.sh
++ autoconf
+configure.ac:5: warning: The macro `AC_CONFIG_HEADER' is obsolete.
+configure.ac:5: You should run autoupdate.
+./lib/autoconf/status.m4:719: AC_CONFIG_HEADER is expanded from...
+configure.ac:5: the top level
+configure.ac:362: warning: AC_OUTPUT should be used without arguments.
+configure.ac:362: You should run autoupdate.
++ autoheader
++ rm -rf autom4te.cache
++ ./configure
+checking for gcc... gcc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether the compiler supports GNU C... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to enable C11 features... none needed
+checking for g++... g++
+checking whether the compiler supports GNU C++... yes
+checking whether g++ accepts -g... yes
+checking for g++ option to enable C++11 features... none needed
+checking how to run the C preprocessor... gcc -E
+checking for a BSD-compatible install... /usr/bin/install -c
+checking for gccmakedep... no
+checking for makedepend... no
+checking for stdio.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for strings.h... yes
+checking for sys/stat.h... yes
+checking for sys/types.h... yes
+checking for unistd.h... yes
+checking for sys/mkdev.h... no
+checking for sys/sysmacros.h... yes
+checking for grep that handles long lines and -e... /usr/bin/grep
+checking for egrep... /usr/bin/grep -E
+checking for getopt.h... yes
+checking for soundcard.h... no
+checking for unistd.h... (cached) yes
+checking for sys/select.h... yes
+checking for sys/soundcard.h... yes
+checking for alsa/asoundlib.h... yes
+checking for linux/joystick.h... yes
+checking for dev/ic/bt8xx.h... no
+checking for machine/ioctl_bt848.h... no
+checking for ftello... yes
+checking for fseeko... yes
+checking for getpt... yes
+checking for getnameinfo... yes
+checking for getopt_long... yes
+checking for strcasestr... yes
+checking for dlopen... yes
+checking for ELF... yes
+checking for pthread_create in -lpthread... yes
+checking for main in -lossaudio... no
+checking for initscr in -lncursesw... yes
+checking for X... libraries , headers 
+checking for gethostbyname... yes
+checking for connect... yes
+checking for remove... yes
+checking for shmat... yes
+checking for IceConnectionNumber in -lICE... yes
+checking for Xft... yes
+checking for v4l2_fd_open in -lv4l2... yes
+checking for explain_open in -lexplain... no
+checking for jpeg_start_compress in -ljpeg... yes
+checking for snd_seq_open in -lasound... yes
+checking for lirc_init in -llirc_client... yes
+checking for vbi_capture_fd in -lzvbi... yes
+checking for aa_autoinit in -laa... yes
+checking for dv_decoder_new in -ldv... yes
+checking for lqt_query_registry in -lquicktime... yes
+checking for XF86DGAQueryExtension in -lXxf86dga... yes
+checking for XF86VidModeQueryExtension in -lXxf86vm... yes
+checking for DPMSQueryExtension in -lXdpms... no
+checking for DPMSQueryExtension in -lXext... yes
+checking for XineramaQueryExtension in -lXinerama... yes
+checking for XRenderQueryExtension in -lXrender... yes
+checking for XRRConfigCurrentConfiguration in -lXrandr... yes
+checking for XvQueryExtension in -lXv... yes
+checking for XmStringGenerate in -lXm... yes
+checking for glXChooseVisual in -lGL... yes
+checking for X11 config directory... /etc/X11
+checking for X11 app-defaults directory... /etc/X11/app-defaults
+checking if mmx should be used... no
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: WARNING:  'Makefile.in' seems to ignore the --datarootdir setting
+config.status: creating xawtv.spec
+config.status: creating config.h
+
+compile time options summary
+============================
+
+    aalib        : yes
+    alsa         : yes
+    dv           : yes
+    QuickTime    : yes
+    OpenMotif    : yes
+    X11R6        : yes
+    OpenGL       : yes
+    zvbi         : yes
+    libv4l       : yes
+    libexplain   : no
+    lirc         : yes
+
++ ./configure
+checking for gcc... gcc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether the compiler supports GNU C... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to enable C11 features... none needed
+checking for g++... g++
+checking whether the compiler supports GNU C++... yes
+checking whether g++ accepts -g... yes
+checking for g++ option to enable C++11 features... none needed
+checking how to run the C preprocessor... gcc -E
+checking for a BSD-compatible install... /usr/bin/install -c
+checking for gccmakedep... no
+checking for makedepend... no
+checking for stdio.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for strings.h... yes
+checking for sys/stat.h... yes
+checking for sys/types.h... yes
+checking for unistd.h... yes
+checking for sys/mkdev.h... no
+checking for sys/sysmacros.h... yes
+checking for grep that handles long lines and -e... /usr/bin/grep
+checking for egrep... /usr/bin/grep -E
+checking for getopt.h... yes
+checking for soundcard.h... no
+checking for unistd.h... (cached) yes
+checking for sys/select.h... yes
+checking for sys/soundcard.h... yes
+checking for alsa/asoundlib.h... yes
+checking for linux/joystick.h... yes
+checking for dev/ic/bt8xx.h... no
+checking for machine/ioctl_bt848.h... no
+checking for ftello... yes
+checking for fseeko... yes
+checking for getpt... yes
+checking for getnameinfo... yes
+checking for getopt_long... yes
+checking for strcasestr... yes
+checking for dlopen... yes
+checking for ELF... yes
+checking for pthread_create in -lpthread... yes
+checking for main in -lossaudio... no
+checking for initscr in -lncursesw... yes
+checking for X... libraries , headers 
+checking for gethostbyname... yes
+checking for connect... yes
+checking for remove... yes
+checking for shmat... yes
+checking for IceConnectionNumber in -lICE... yes
+checking for Xft... yes
+checking for v4l2_fd_open in -lv4l2... yes
+checking for explain_open in -lexplain... no
+checking for jpeg_start_compress in -ljpeg... yes
+checking for snd_seq_open in -lasound... yes
+checking for lirc_init in -llirc_client... yes
+checking for vbi_capture_fd in -lzvbi... yes
+checking for aa_autoinit in -laa... yes
+checking for dv_decoder_new in -ldv... yes
+checking for lqt_query_registry in -lquicktime... yes
+checking for XF86DGAQueryExtension in -lXxf86dga... yes
+checking for XF86VidModeQueryExtension in -lXxf86vm... yes
+checking for DPMSQueryExtension in -lXdpms... no
+checking for DPMSQueryExtension in -lXext... yes
+checking for XineramaQueryExtension in -lXinerama... yes
+checking for XRenderQueryExtension in -lXrender... yes
+checking for XRRConfigCurrentConfiguration in -lXrandr... yes
+checking for XvQueryExtension in -lXv... yes
+checking for XmStringGenerate in -lXm... yes
+checking for glXChooseVisual in -lGL... yes
+checking for X11 config directory... /etc/X11
+checking for X11 app-defaults directory... /etc/X11/app-defaults
+checking if mmx should be used... no
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: WARNING:  'Makefile.in' seems to ignore the --datarootdir setting
+config.status: creating xawtv.spec
+config.status: creating config.h
+config.status: config.h is unchanged
+
+compile time options summary
+============================
+
+    aalib        : yes
+    alsa         : yes
+    dv           : yes
+    QuickTime    : yes
+    OpenMotif    : yes
+    X11R6        : yes
+    OpenGL       : yes
+    zvbi         : yes
+    libv4l       : yes
+    libexplain   : no
+    lirc         : yes
+
++ make
+make: *** No rule to make target '/usr/include/x86_64-linux-gnu/bits/sys_errlist.h', needed by 'console/dump-mixers.o'.  Stop.
+Build step 'Execute shell' marked build as failure
