@@ -2,193 +2,216 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8680E741BA7
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jun 2023 00:08:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CEAA741BE7
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jun 2023 00:48:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231897AbjF1WIr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Jun 2023 18:08:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42224 "EHLO
+        id S231561AbjF1WsZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Jun 2023 18:48:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231718AbjF1WIp (ORCPT
+        with ESMTP id S231650AbjF1Wr4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Jun 2023 18:08:45 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4EEF2111
-        for <linux-media@vger.kernel.org>; Wed, 28 Jun 2023 15:08:43 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 26E316135C
-        for <linux-media@vger.kernel.org>; Wed, 28 Jun 2023 22:08:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 385C2C433C8;
-        Wed, 28 Jun 2023 22:08:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687990122;
-        bh=oD8jyc7fNPFEigWhEE6GUAm46EKvFixy4ZKVcvTME0I=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=NEdqsNnA8WyCP1e+hInyU3NyQ6RFdG2q0hybKrrQQHTZbG+72b7Azyh5qD9fRGkhX
-         g3XT7tpR32Q8aImY2iojYUp3OOIfGRfZYna0qUMfXbQoHocISYu7rO+VBTlVmfKvMt
-         Eu5KssbYIZaTuxjQp8O1lkusnxFBjT+dHzExMwgaNVdX80y4z0G5MHHclvUFaWhWQ/
-         HbmvEaXMh/xaHDxUpvELkkOE/BkDO9CZfQlGPS7Vx7OTIlA3owmqqwlTffTKgP3gXk
-         +r014Xv8fkvnmtEFSSN3E9/7zrhuwCEMoVd7pvD3hjrRmFcx02QRxcM/hYrHfQttMA
-         benHbPX2jj+hw==
-Date:   Thu, 29 Jun 2023 00:08:37 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     "Linux regression tracking (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-Cc:     Linux regressions mailing list <regressions@lists.linux.dev>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Martijn Braam <martijn@brixit.nl>, jernej.skrabec@gmail.com,
-        sakari.ailus@linux.intel.com, linux-media@vger.kernel.org,
-        hverkuil@xs4all.nl,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sebastian Fricke <sebastian.fricke@collabora.com>
-Subject: Re: [REGRESSION] breakage in sun6i-csi media api
-Message-ID: <20230629000837.122abd21@sal.lan>
-In-Reply-To: <25cf3947-1fe0-7280-09e2-3dc107b2c8e7@leemhuis.info>
-References: <f13c27fb-2afe-b94e-aad9-ed5ecc818183@brixit.nl>
-        <ZHmzZUkcFK8Gq_JL@aptenodytes>
-        <e168d246-528d-b615-aa50-af8f17af4442@brixit.nl>
-        <ZHm46or-MhTb457b@aptenodytes>
-        <20230602100352.GK19463@pendragon.ideasonboard.com>
-        <25cf3947-1fe0-7280-09e2-3dc107b2c8e7@leemhuis.info>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+        Wed, 28 Jun 2023 18:47:56 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 322063C0E;
+        Wed, 28 Jun 2023 15:44:37 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2139C905;
+        Thu, 29 Jun 2023 00:43:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1687992234;
+        bh=8kUftu7lYSaZy3TqVKWV5nfS/HXx3yf+27+tAyJIkyk=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=iJ6U8CHr0KCHygB+rhCg58KJj/2gAUDwcbI9GZA/3cbYVkCDbLNSPNJUxRiMOBxL3
+         6QXplw2JoYKR1UHRlsFcIzvHMwb7eoxrf01EKEtVm0T6qZI2y2Pw1JRea8swrf7opv
+         B20v0j+nvh6J8xT2iNTjwNljt9CnWsDOkTD0aplY=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20230627201628.207483-4-umang.jain@ideasonboard.com>
+References: <20230627201628.207483-1-umang.jain@ideasonboard.com> <20230627201628.207483-4-umang.jain@ideasonboard.com>
+Subject: Re: [PATCH v8 3/5] staging: bcm2835-camera: Register bcm2835-camera with vchiq_bus_type
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     stefan.wahren@i2se.com, gregkh@linuxfoundation.org,
+        f.fainelli@gmail.com, athierry@redhat.com, error27@gmail.com,
+        dave.stevenson@raspberrypi.com, laurent.pinchart@ideasonboard.com,
+        Umang Jain <umang.jain@ideasonboard.com>
+To:     Umang Jain <umang.jain@ideasonboard.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        linux-staging@lists.linux.dev
+Date:   Wed, 28 Jun 2023 23:44:31 +0100
+Message-ID: <168799227183.3298351.12365161998104715465@Monstersaurus>
+User-Agent: alot/0.10
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,
+        T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Mon, 26 Jun 2023 14:23:50 +0200
-"Linux regression tracking (Thorsten Leemhuis)" <regressions@leemhuis.info> escreveu:
+Quoting Umang Jain (2023-06-27 21:16:26)
+> Register the bcm2835-camera with the vchiq_bus_type instead of using
+> platform driver/device.
+>=20
+> Also the VCHIQ firmware doesn't support device enumeration, hence
+> one has to maintain a list of devices to be registered in the interface.
+>=20
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>  .../bcm2835-camera/bcm2835-camera.c           | 16 +++++++-------
+>  .../interface/vchiq_arm/vchiq_arm.c           | 21 ++++++++++++++++---
+>  2 files changed, 26 insertions(+), 11 deletions(-)
+>=20
+> diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.=
+c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+> index 346d00df815a..f37b2a881d92 100644
+> --- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+> +++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+> @@ -24,8 +24,9 @@
+>  #include <media/v4l2-event.h>
+>  #include <media/v4l2-common.h>
+>  #include <linux/delay.h>
+> -#include <linux/platform_device.h>
+> =20
+> +#include "../interface/vchiq_arm/vchiq_arm.h"
+> +#include "../interface/vchiq_arm/vchiq_device.h"
+>  #include "../vchiq-mmal/mmal-common.h"
+>  #include "../vchiq-mmal/mmal-encodings.h"
+>  #include "../vchiq-mmal/mmal-vchiq.h"
+> @@ -1841,7 +1842,7 @@ static struct v4l2_format default_v4l2_format =3D {
+>         .fmt.pix.sizeimage =3D 1024 * 768,
+>  };
+> =20
+> -static int bcm2835_mmal_probe(struct platform_device *pdev)
+> +static int bcm2835_mmal_probe(struct vchiq_device *device)
+>  {
+>         int ret;
+>         struct bcm2835_mmal_dev *dev;
+> @@ -1896,7 +1897,7 @@ static int bcm2835_mmal_probe(struct platform_devic=
+e *pdev)
+>                                                        &camera_instance);
+>                 ret =3D v4l2_device_register(NULL, &dev->v4l2_dev);
+>                 if (ret) {
+> -                       dev_err(&pdev->dev, "%s: could not register V4L2 =
+device: %d\n",
+> +                       dev_err(&device->dev, "%s: could not register V4L=
+2 device: %d\n",
+>                                 __func__, ret);
+>                         goto free_dev;
+>                 }
+> @@ -1976,7 +1977,7 @@ static int bcm2835_mmal_probe(struct platform_devic=
+e *pdev)
+>         return ret;
+>  }
+> =20
+> -static void bcm2835_mmal_remove(struct platform_device *pdev)
+> +static void bcm2835_mmal_remove(struct vchiq_device *device)
+>  {
+>         int camera;
+>         struct vchiq_mmal_instance *instance =3D gdev[0]->instance;
+> @@ -1988,17 +1989,16 @@ static void bcm2835_mmal_remove(struct platform_d=
+evice *pdev)
+>         vchiq_mmal_finalise(instance);
+>  }
+> =20
+> -static struct platform_driver bcm2835_camera_driver =3D {
+> +static struct vchiq_driver bcm2835_camera_driver =3D {
+>         .probe          =3D bcm2835_mmal_probe,
+> -       .remove_new     =3D bcm2835_mmal_remove,
+> +       .remove         =3D bcm2835_mmal_remove,
+>         .driver         =3D {
+>                 .name   =3D "bcm2835-camera",
+>         },
+>  };
+> =20
+> -module_platform_driver(bcm2835_camera_driver)
+> +module_vchiq_driver(bcm2835_camera_driver)
+> =20
+>  MODULE_DESCRIPTION("Broadcom 2835 MMAL video capture");
+>  MODULE_AUTHOR("Vincent Sanders");
+>  MODULE_LICENSE("GPL");
+> -MODULE_ALIAS("platform:bcm2835-camera");
 
-> Hi, Thorsten here, the Linux kernel's regression tracker. Top-posting
-> for once, to make this easily accessible to everyone.
-> 
-> Paul, what happened to this? It looks like this fall through the cracks,
-> but maybe I'm missing something, that's why I ask.
+This bit worries me. I think that's how module autoloading is handled.
 
-On a quick look, checking the proposed app fix[1], it sounds to me that
-the application is not prepared to actually use the devices that are
-enumerated, as it is setting only the values that are known.
+Can you check into the details of MODULE_ALIAS and follow the rabbit
+hole for a bit? It's a few years since I last went down there so I can't
+remember the specifics right now.
 
-See, the media controller has the MEDIA_IOC_G_TOPOLOGY ioctl [2], which
-enumerates the entire sub-device topology.
+Except for that, I think this looks good.
 
-The current application was just expecting two sub-devices, failing
-if other devices are added on newer Kernels. This is not how this uAPI is
-supposed to work.
 
-[1] https://gitlab.com/postmarketOS/megapixels/-/merge_requests/31/diffs?commit_id=38bbee084126b15d39c1bce5cb5d45e6efea64fa
-[2] https://gitlab.com/postmarketOS/megapixels/-/blob/master/src/device.c#L106
-
-Now, I was told during yesterday, during the Media Summit that there are
-new apps since Kernel 6.2 that do require setting the bridge with different
-configurations. Paul/Sebastian: is this the case? If so, could you provide
-more details about it?
-
-If this is true, it seems too late to revert the changes, as this will
-break other existing applications.
-
-IMO, the best here would be to modify the application to be smarter,
-using the topology actually reported by MEDIA_IOC_G_TOPOLOGY, instead
-on relying on some specific hard-coded types.
-
-Regards,
-Mauro
-
-> 
-> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
-> --
-> Everything you wanna know about Linux kernel regression tracking:
-> https://linux-regtracking.leemhuis.info/about/#tldr
-> If I did something stupid, please tell me, as explained on that page.
-> 
-> #regzbot poke
-> 
-> On 02.06.23 12:03, Laurent Pinchart wrote:
-> > On Fri, Jun 02, 2023 at 11:39:54AM +0200, Paul Kocialkowski wrote:  
-> >> (Re-adding folks from the original email, adding Laurent and Hans.)
-> >> On Fri 02 Jun 23, 11:24, Martijn Braam wrote:  
-> >>>
-> >>> That's basically it yes. My software doesn't expect the bridge block,
-> >>> because it wasn't there. The pipeline always worked "automatically".
-> >>>
-> >>> This is the workaround that's been made now it run on newer kernels:
-> >>> https://gitlab.com/postmarketOS/megapixels/-/merge_requests/31
-> >>>
-> >>> I'm pretty sure format propagation would fix this issue.  
-> >>
-> >> Okay that's good to know.
-> >>
-> >> To be honest it's still not very clear to me if in-driver format propagation is
-> >> a "nice to have" feature or something that all media pipeline drivers are
-> >> supposed to implement.  
-> > 
-> > For MC-based drivers, in-kernel propagation *inside* subdevs is
-> > mandatory, in-kernel propagration *between* subdevs is not allowed. The
-> > latter is the responsibility of userspace.
-> > 
-> > For traditional (I'd say legacy, but I know not everybody likes that
-> > term :-)) drivers that only expose video device nodes and do not expose
-> > subdev nodes to userspace, the driver is responsible for configuring the
-> > full pipeline internally based on the S_FMT call on the video nodes
-> > only. This isn't applicable to the sun6i-csi driver, as it exposes
-> > subdev nodes to userspace.
-> >   
-> >> Anyway I feel like this is not really a regression but a result of the driver
-> >> being converted to a newer API.
-> >>
-> >> Also there's a V4L2_CAP_IO_MC flag which should indicate that the video device
-> >> must be controlled via the media controller API instead of being
-> >> video-device-centric, but I've seen comments asking not to set the flag even
-> >> when MC is used so I'm a bit confused here.  
-> > 
-> > Would you have pointers to those comments ?
-> >   
-> >> Perhaps the flag is only required when there is no automatic format
-> >> propagation?  
-> > 
-> > The flag is more or less required when you expose subdev nodes to
-> > userspace.
-> >   
-> >> If anyone has solid answers on these points I'd be happy to read some
-> >> clarification (and act accordingly).
-> >>  
-> >>> On 6/2/23 11:16, Paul Kocialkowski wrote:  
-> >>>> Hi Martijn,
-> >>>>
-> >>>> On Thu 01 Jun 23, 23:19, Martijn Braam wrote:  
-> >>>>> It seems like this commit:
-> >>>>>
-> >>>>> media: sun6i-csi: Add bridge v4l2 subdev with port management
-> >>>>>
-> >>>>> Has changed the way the media pipeline on a64 devices, in my case the PINE64
-> >>>>> PinePhone works. Since this is an API towards userspace and there's active
-> >>>>> applications that use it I think this counts as a regression.  
-> >>>> Do you have more details on what changed specifically?
-> >>>>
-> >>>> The commit added a bridge subdev in addition to the video node, which is
-> >>>> generally a better description of the CSI hardware and also a necessity
-> >>>> to support the ISP data flow.
-> >>>>
-> >>>> Maybe your userspace application is not configuring the bridge media block with
-> >>>> the right format, which results in a mismatch?
-> >>>>
-> >>>> Some work was started to achieve automatic format propagation, perhaps it
-> >>>> would be enough to solve your issue.
-> >>>>
-> >>>> Cheers,
-> >>>>
-> >>>> Paul
-> >>>>  
-> >>>>> #regzbot introduced: 0d2b746b1bef73de62d2d311e594a7ffed4ca43  
-> >   
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.=
+c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index e8d40f891449..79d4d0eeb5fb 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -67,7 +67,6 @@ int vchiq_susp_log_level =3D VCHIQ_LOG_ERROR;
+>  DEFINE_SPINLOCK(msg_queue_spinlock);
+>  struct vchiq_state g_state;
+> =20
+> -static struct platform_device *bcm2835_camera;
+>  static struct platform_device *bcm2835_audio;
+> =20
+>  struct vchiq_drvdata {
+> @@ -134,6 +133,15 @@ struct vchiq_pagelist_info {
+>         unsigned int scatterlist_mapped;
+>  };
+> =20
+> +/*
+> + * The devices implemented in the VCHIQ firmware are not discoverable,
+> + * so we need to maintain a list of them in order to register them with
+> + * the interface.
+> + */
+> +static const char *const vchiq_devices[] =3D {
+> +       "bcm2835-camera",
+> +};
+> +
+>  static void __iomem *g_regs;
+>  /* This value is the size of the L2 cache lines as understood by the
+>   * VPU firmware, which determines the required alignment of the
+> @@ -1798,6 +1806,7 @@ static int vchiq_probe(struct platform_device *pdev)
+>         struct device_node *fw_node;
+>         const struct of_device_id *of_id;
+>         struct vchiq_drvdata *drvdata;
+> +       unsigned int i;
+>         int err;
+> =20
+>         of_id =3D of_match_node(vchiq_of_match, pdev->dev.of_node);
+> @@ -1840,9 +1849,15 @@ static int vchiq_probe(struct platform_device *pde=
+v)
+>                 goto error_exit;
+>         }
+> =20
+> -       bcm2835_camera =3D vchiq_register_child(pdev, "bcm2835-camera");
+>         bcm2835_audio =3D vchiq_register_child(pdev, "bcm2835_audio");
+> =20
+> +       for (i =3D 0; i < ARRAY_SIZE(vchiq_devices); i++) {
+> +               err =3D vchiq_device_register(&pdev->dev, vchiq_devices[i=
+]);
+> +               if (err)
+> +                       dev_err(&pdev->dev, "Failed to register %s vchiq =
+device\n",
+> +                       vchiq_devices[i]);
+> +       }
+> +
+>         return 0;
+> =20
+>  failed_platform_init:
+> @@ -1854,7 +1869,7 @@ static int vchiq_probe(struct platform_device *pdev)
+>  static void vchiq_remove(struct platform_device *pdev)
+>  {
+>         platform_device_unregister(bcm2835_audio);
+> -       platform_device_unregister(bcm2835_camera);
+> +       bus_for_each_dev(&vchiq_bus_type, NULL, NULL, vchiq_device_unregi=
+ster);
+>         vchiq_debugfs_deinit();
+>         vchiq_deregister_chrdev();
+>  }
+> --=20
+> 2.39.1
+>
