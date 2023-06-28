@@ -2,205 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 05D39741322
-	for <lists+linux-media@lfdr.de>; Wed, 28 Jun 2023 15:58:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D6B874137D
+	for <lists+linux-media@lfdr.de>; Wed, 28 Jun 2023 16:15:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231518AbjF1N6V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Jun 2023 09:58:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30375 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230270AbjF1N6U (ORCPT
+        id S230280AbjF1OPG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Jun 2023 10:15:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53086 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231919AbjF1OO5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Jun 2023 09:58:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1687960648;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=TyekAqzQ9iB8Ezg9x5ZxJmX0nm6iWMF3ioFxoTUmXA4=;
-        b=M9qsuRDH9jCtknzcd6fgeVXjXc7I1Gp4HLwdPLz9ipKGftChvw6RqRrYVqGR8VjmdP96sE
-        MxaEr+Q79gGrpiRDVi0uGl9GCJ5EyblODgGH7Hs/8dd+EnQ52C6izRSDvCklsIETvEsYxH
-        4DpINmsZfkKgfcwmZEZrnhWdiS0SKMA=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-572-TJjZCRv6M5aDQqPfaF7GYQ-1; Wed, 28 Jun 2023 09:57:26 -0400
-X-MC-Unique: TJjZCRv6M5aDQqPfaF7GYQ-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-94f7a2b21fdso506475566b.2
-        for <linux-media@vger.kernel.org>; Wed, 28 Jun 2023 06:57:24 -0700 (PDT)
+        Wed, 28 Jun 2023 10:14:57 -0400
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B1C5294C
+        for <linux-media@vger.kernel.org>; Wed, 28 Jun 2023 07:14:56 -0700 (PDT)
+Received: by mail-qk1-x736.google.com with SMTP id af79cd13be357-7659cb9c42aso308605485a.3
+        for <linux-media@vger.kernel.org>; Wed, 28 Jun 2023 07:14:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1687961695; x=1690553695;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=M4HXk/V1OnfOeEnFiFE7tfKo/Y5HRGL+Y21Pg98YmeI=;
+        b=L2ctDOtKykoZXduo+Q/ZHOZ3nofYRgYz42iBKbQRAZC4+lLFM/4eH8PZ8+MR4l2Il6
+         nKq13lwON2VER/QH/m4IHEw2/8jlvYSsBPOLRyiKhQGa87xhILL6nTo6tX2HoJyJQ+PO
+         6prHC7HQOLq+kQRwbVA2RzV+LT2we7KoSKCNzBdQUuffUE8JjcWKtqVapDjoooXnvqld
+         tQk7vtDv+Zr4AB7elJUTyvuilGypLCyBWal5zpXWB18x6xZ07D6kxhFudCrof/nXIEBB
+         SQXi152Ywx9EaAymkr/xEWPSzdAo+LA78PumXc74RBQLkWEdX4MrsmadSf7JFOFYNVbu
+         e83A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687960643; x=1690552643;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TyekAqzQ9iB8Ezg9x5ZxJmX0nm6iWMF3ioFxoTUmXA4=;
-        b=K1EVHzWmOwOoYLHFlI+gfOesv9UCrHTJtUz/lsCy8SbIvfz9IOEgMk3/kfs98quDtr
-         nbYadyBBvY9FkhXoyuKLaq0VMExtmYJhNhhf4aXrxVK/xUU58mMsYHKR1Eof/ZJcaExK
-         LMOnyAItZa+9QG9D4yoCc5M9YSWnmR5e3UtZowvtvonhxLkDEsY77HOOXFd6GaCFUj+q
-         ZbDkERYn6uiAZ6LAQV9vXUyEAWaNX6SqsxCbvqc21q9FAH/z3oBpy2uXKSzyyLaznMcF
-         yt8kzc4fVOwgRl2McN+dDxp6K3ShHYSrrGlZ4m/ucT9NNnKLoSNGqnojkgxBHFMOsCd0
-         mLqA==
-X-Gm-Message-State: AC+VfDzXeHX9YHu2zHR759zmmd2Dgb24vg8KKEDEeMxnxvgJiy9E1epQ
-        R27fxzHwi6V+SPlFQNYIkzHLQ6QveMltKowkIeYwfSD8pvHiFYmQPQe2Xi8+CZQ4bNPxN/7CpEO
-        DM3/dewQL6faEEJZUiMU3yNI=
-X-Received: by 2002:a17:907:3f87:b0:97d:9b73:690b with SMTP id hr7-20020a1709073f8700b0097d9b73690bmr34998367ejc.59.1687960643046;
-        Wed, 28 Jun 2023 06:57:23 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ7tVt50P39iJphpef1DTohck9xJCSkr/9BbkTcht0qZ6iZCSjEgovaCJTrHwmogPQhuiYyysw==
-X-Received: by 2002:a17:907:3f87:b0:97d:9b73:690b with SMTP id hr7-20020a1709073f8700b0097d9b73690bmr34998359ejc.59.1687960642785;
-        Wed, 28 Jun 2023 06:57:22 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id b21-20020a170906491500b009828dac8425sm5679139ejq.105.2023.06.28.06.57.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Jun 2023 06:57:21 -0700 (PDT)
-Message-ID: <f943821e-360f-b46a-7bc6-b1696afe14c9@redhat.com>
-Date:   Wed, 28 Jun 2023 15:57:20 +0200
+        d=1e100.net; s=20221208; t=1687961695; x=1690553695;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=M4HXk/V1OnfOeEnFiFE7tfKo/Y5HRGL+Y21Pg98YmeI=;
+        b=PxjOOBiUqGXesM+4J8rQMPAhAyUZulxzaWokDW5TZVNrBVRJv4o7dVVR2Oec1/EGh8
+         LHdzF+3vpQd53XBuwORQKTEIZ2aSw63FtP0BasTJ+Czid2jGPL3W7p78AlplpuDj2nx1
+         z+QyuFu1DMZGeNFp8MokdEU8s+PwbKrUH7ptpvKAESouvYtp9tqRkLHKjgkck+IX3ywS
+         aSB5IiS+JKRjjvLGb4d5WGFmsc7KxiHfk7iC9d2v1qVKvz83WXfkntRiZEL+Mojh8iUX
+         ZLbptbxzRfwEnjJYyuflTDx3h60LraWUvI4f48eoF9E+IBdxd1oLGtqXH+ovHrUOtVTq
+         qdhQ==
+X-Gm-Message-State: AC+VfDxvl+dZJs0CdEmkF441BB7DE4CloE7ud431lmcCDnaAQDcS++4Q
+        np51DQREiZkmx9qAxA1v3E+fEQ==
+X-Google-Smtp-Source: ACHHUZ6ed4myxYLDN5CdzCuRp7Jj0zkGdk90IsdEk+YubiN2Cliq+QVCIpr4EnKNIeV5xqdX8bJXrQ==
+X-Received: by 2002:a05:620a:190f:b0:767:a33:a9e6 with SMTP id bj15-20020a05620a190f00b007670a33a9e6mr5626575qkb.52.1687961695584;
+        Wed, 28 Jun 2023 07:14:55 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:15:c623::7a9])
+        by smtp.gmail.com with ESMTPSA id z22-20020ae9c116000000b0075c9e048b19sm5117285qki.29.2023.06.28.07.14.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Jun 2023 07:14:55 -0700 (PDT)
+Message-ID: <f4d8a22dfc36abff1b4cd1e6ff7c03107dcfb4eb.camel@ndufresne.ca>
+Subject: Re: [PATCH] media: amphion: reinit vpu if reqbufs output 0
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Ming Qian <ming.qian@nxp.com>, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl
+Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        xiahong.bao@nxp.com, eagle.zhou@nxp.com, tao.jiang_2@nxp.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Date:   Wed, 28 Jun 2023 10:14:54 -0400
+In-Reply-To: <20230613074846.25964-1-ming.qian@nxp.com>
+References: <20230613074846.25964-1-ming.qian@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.3 (3.48.3-1.fc38) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 00/12] media: intel-cio2-bridge: Add shared
- intel-cio2-bridge code, rework VCM instantiation
-Content-Language: en-US, nl
-To:     "Cao, Bingbu" <bingbu.cao@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-        "Yao, Hao" <hao.yao@intel.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-References: <20230627175643.114778-1-hdegoede@redhat.com>
- <DM8PR11MB5653A2A59A5858F0880889369924A@DM8PR11MB5653.namprd11.prod.outlook.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <DM8PR11MB5653A2A59A5858F0880889369924A@DM8PR11MB5653.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bingbu,
+Hi,
 
-On 6/28/23 03:19, Cao, Bingbu wrote:
-> Hans,
-> 
-> Thanks for your patch.
-> 
-> ------------------------------------------------------------------------
-> BRs,  
-> Bingbu Cao 
-> 
->> -----Original Message-----
->> From: Hans de Goede <hdegoede@redhat.com>
->> Sent: Wednesday, June 28, 2023 01:57
->> To: Sakari Ailus <sakari.ailus@linux.intel.com>; Laurent Pinchart
->> <laurent.pinchart@ideasonboard.com>; Daniel Scally
->> <dan.scally@ideasonboard.com>
->> Cc: Hans de Goede <hdegoede@redhat.com>; Mauro Carvalho Chehab
->> <mchehab@kernel.org>; Andy Shevchenko <andy@kernel.org>; Kate Hsuan
->> <hpa@redhat.com>; Yao, Hao <hao.yao@intel.com>; Cao, Bingbu
->> <bingbu.cao@intel.com>; linux-media@vger.kernel.org
->> Subject: [PATCH 00/12] media: intel-cio2-bridge: Add shared intel-cio2-
->> bridge code, rework VCM instantiation
->>
->> Hi All,
->>
->> While working on adding (proper) VCM support to the atomisp code I found
->> myself copying yet more code from drivers/media/pci/intel/ipu3/cio2-
->> bridge.c into the atomisp code.
->>
->> So I decided that it really was time to factor out the common code (most of
->> the code) from intel/ipu3/cio2-bridge.c into its own helper library and
->> then share it between the atomisp and IPU3 code.
->>
->> This will hopefully also be useful for the ongoing work to upstream
->> IPU6 input system support which also needs this functionality and currently
->> contains a 3th copy of this code in the out of tree driver.
->>
->> This set consists of the following parts:
->>
->> Patch 1     A bugfix for a recent change to the cio2-bridge code
->> Patches 2-8 Cleanup / preparation patches
->> Patch 9     Move the main body of the cio2-bridge.c code into
->>            a new shared intel-cio2-bridge module
-> 
-> Another cio2-bridge patch - https://patchwork.kernel.org/project/linux-media/patch/20230517103004.724264-1-bingbu.cao@intel.com/
-> I remember Sakari include it in the latest pull request. 
+Le mardi 13 juin 2023 =C3=A0 15:48 +0800, Ming Qian a =C3=A9crit=C2=A0:
+> according to v4l2 stateful decoder document 4.5.1.3. State Machine,
+> the state should change from seek to initialization
+> if call VIDIOC_REQBUFS(OUTPUT, 0).
+>=20
+> so reinit the vpu decoder if reqbufs output 0
+>=20
+> Fixes: 6de8d628df6e ("media: amphion: add v4l2 m2m vpu decoder stateful d=
+river")
+> Signed-off-by: Ming Qian <ming.qian@nxp.com>
+>=20
 
-Ah, yes looks like I need to rebase this on top of that patch,
-as Dan also mentioned in another reply.
+No regressions seen with this change so far.
 
-But I don't see this patch in media-staging yet:
-https://git.linuxtv.org/media_stage.git/log/
+Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-Is there a branch for the pull-request on which I can rebase this
-available somewhere ?
+And also:
 
-Regards,
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-Hans
-
-
-
-
-> 
->> Patch 10    Drop cio2-bridge code copy from atomisp, switching to
->>            the shared intel-cio2-bridge module
->> Patch 11    Rework how VCM client instantiation is done so that
->>            a device-link can be added from VCM to sensor to
->>            fix issues with the VCM power-state being tied to
->>            the sensor power state
->> Patch 12    Example patch to show how patch 11 avoids the need
->>            for hacks in VCM drivers caused by the shared power state
->>            (not intended for merging)
->>
->> Regards,
->>
->> Hans
->>
->>
->> Hans de Goede (12):
->>  media: ipu3-cio2: Do not use on stack memory for software_node.name
->>    field
->>  media: ipu3-cio2: Move initialization of node_names.vcm to
->>    cio2_bridge_init_swnode_names()
->>  media: ipu3-cio2: Make cio2_bridge_init() take a regular struct device
->>    as argument
->>  media: ipu3-cio2: Store dev pointer in struct cio2_bridge
->>  media: ipu3-cio2: Only keep PLD around while parsing
->>  media: ipu3-cio2: Add a cio2_bridge_parse_sensor_fwnode() helper
->>    function
->>  media: ipu3-cio2: Add a parse_sensor_fwnode callback to
->>    cio2_bridge_init()
->>  media: ipu3-cio2: Add supported_sensors parameter to
->>    cio2_bridge_init()
->>  media: ipu3-cio2: Move cio2_bridge_init() code into a new shared
->>    intel-cio2-bridge.ko
->>  media: atomisp: csi2-bridge: Switch to new common cio2_bridge_init()
->>  media: intel-cio2-bridge: Add a runtime-pm device-link between VCM and
->>    sensor
->>  [RFC] media: dw9719: Drop hack to enable "vsio" regulator
->>
->> MAINTAINERS                                   |   9 +
->> drivers/media/common/Kconfig                  |   4 +
->> drivers/media/common/Makefile                 |   1 +
->> drivers/media/common/intel-cio2-bridge.c      | 464 ++++++++++++++++++
->> drivers/media/i2c/dw9719.c                    |  27 +-
->> drivers/media/pci/intel/ipu3/Kconfig          |   1 +
->> drivers/media/pci/intel/ipu3/cio2-bridge.c    | 464 +++---------------
->> drivers/media/pci/intel/ipu3/cio2-bridge.h    | 146 ------
->> drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |   7 +-
->> drivers/media/pci/intel/ipu3/ipu3-cio2.h      |   7 +-
->> drivers/staging/media/atomisp/Kconfig         |   2 +
->> .../staging/media/atomisp/pci/atomisp_csi2.h  |  67 ---
->> .../media/atomisp/pci/atomisp_csi2_bridge.c   | 307 ++----------
->> include/media/intel-cio2-bridge.h             | 105 ++++
->> 14 files changed, 723 insertions(+), 888 deletions(-)  create mode 100644
->> drivers/media/common/intel-cio2-bridge.c
->> delete mode 100644 drivers/media/pci/intel/ipu3/cio2-bridge.h
->> create mode 100644 include/media/intel-cio2-bridge.h
->>
->> --
->> 2.41.0
-> 
+thanks,
+Nicolas
+=20
+> ---
+>  drivers/media/platform/amphion/vdec.c     | 2 --
+>  drivers/media/platform/amphion/vpu_v4l2.c | 7 ++++++-
+>  2 files changed, 6 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/amphion/vdec.c b/drivers/media/platfo=
+rm/amphion/vdec.c
+> index 6515f3cdb7a7..56c4deea4494 100644
+> --- a/drivers/media/platform/amphion/vdec.c
+> +++ b/drivers/media/platform/amphion/vdec.c
+> @@ -1453,9 +1453,7 @@ static void vdec_release(struct vpu_inst *inst)
+>  {
+>  	if (inst->id !=3D VPU_INST_NULL_ID)
+>  		vpu_trace(inst->dev, "[%d]\n", inst->id);
+> -	vpu_inst_lock(inst);
+>  	vdec_stop(inst, true);
+> -	vpu_inst_unlock(inst);
+>  }
+> =20
+>  static void vdec_cleanup(struct vpu_inst *inst)
+> diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/pl=
+atform/amphion/vpu_v4l2.c
+> index 810e93d2c954..8c9028df3bf4 100644
+> --- a/drivers/media/platform/amphion/vpu_v4l2.c
+> +++ b/drivers/media/platform/amphion/vpu_v4l2.c
+> @@ -489,6 +489,11 @@ static int vpu_vb2_queue_setup(struct vb2_queue *vq,
+>  	for (i =3D 0; i < cur_fmt->mem_planes; i++)
+>  		psize[i] =3D vpu_get_fmt_plane_size(cur_fmt, i);
+> =20
+> +	if (V4L2_TYPE_IS_OUTPUT(vq->type) && inst->state =3D=3D VPU_CODEC_STATE=
+_SEEK) {
+> +		vpu_trace(inst->dev, "reinit when VIDIOC_REQBUFS(OUTPUT, 0)\n");
+> +		call_void_vop(inst, release);
+> +	}
+> +
+>  	return 0;
+>  }
+> =20
+> @@ -773,9 +778,9 @@ int vpu_v4l2_close(struct file *file)
+>  		v4l2_m2m_ctx_release(inst->fh.m2m_ctx);
+>  		inst->fh.m2m_ctx =3D NULL;
+>  	}
+> +	call_void_vop(inst, release);
+>  	vpu_inst_unlock(inst);
+> =20
+> -	call_void_vop(inst, release);
+>  	vpu_inst_unregister(inst);
+>  	vpu_inst_put(inst);
+> =20
 
