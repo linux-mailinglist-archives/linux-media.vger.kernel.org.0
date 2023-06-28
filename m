@@ -2,224 +2,203 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A1A01741629
-	for <lists+linux-media@lfdr.de>; Wed, 28 Jun 2023 18:17:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D143474164F
+	for <lists+linux-media@lfdr.de>; Wed, 28 Jun 2023 18:27:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230311AbjF1QQs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Jun 2023 12:16:48 -0400
-Received: from mail-io1-f45.google.com ([209.85.166.45]:44042 "EHLO
-        mail-io1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229622AbjF1QQr (ORCPT
+        id S231509AbjF1Q1b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Jun 2023 12:27:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38336 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231537AbjF1Q10 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Jun 2023 12:16:47 -0400
-Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-783698a37beso4117439f.0;
-        Wed, 28 Jun 2023 09:16:47 -0700 (PDT)
+        Wed, 28 Jun 2023 12:27:26 -0400
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03E58268A
+        for <linux-media@vger.kernel.org>; Wed, 28 Jun 2023 09:27:25 -0700 (PDT)
+Received: by mail-qk1-x730.google.com with SMTP id af79cd13be357-7658752ce2fso315135085a.1
+        for <linux-media@vger.kernel.org>; Wed, 28 Jun 2023 09:27:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1687969644; x=1690561644;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=3pEp4gR1EagFJJ0VQJvzcXKOpy0bwlfLoZKm6nYgbtU=;
+        b=dLAT1hcfd0IQVA+8RNG9bGGVzawki9G6zN4TLnnB6tOfI6o4xQW9l1AAs72d7sNQNd
+         mzbONnySMY2THL/0CpCr96Puft6Vdy5lm+l0FIbDenw2mHiwRaQzOWkd1InKQhp4gG1m
+         wTzni6bZuucb1qP/dwhm56EyxuWWfgEglxjvInJEgzcLeoFLmipucJgWiQRn3AH1WT7N
+         SHheBlPo4IhyffQDIt9rgF+06f2I2/ShRz14V8gY0lKRcU3MBrk5QG+L9iCQ7JbrsKpW
+         GJg052byuT5KNlocLQPc4xv+1FCESrZVJWdQm0TFgFhrWLQQlopUtTAR4RfKPRGZLO1S
+         5Lfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687969006; x=1690561006;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=htVedDEmcjjaxJlEqBa4D/zkQXewAse2yRYZ266VGrM=;
-        b=e7Cx2vIEOTu5FR0cZwPjOtXmLKbb7Dx+59rNFVZR162gE5Is/3YKha6XP4JTiC1dQ3
-         kPrFu7PAdkewr2Moy1fTbkUInvUSpVB4h0ZvitEDye1OfjmHkoDBlZjUgVNH7mRYQfet
-         uiQD0UDHEw5L+2Hg5Qo7Gy5olSBJ7JS2UltEyicAe16K76eW9AFM12EShzrkNB99wgou
-         +5BKr6kzTmvfpUjhk8k2EoX8G2OCs95AVzErrtt9F79sTjCT+o3akX2q2WuwmwAzf/sV
-         hENzdW+0TNsTEayFTFi03WXh34bE2aEmfClYa38EfixYogFTvtRE5DSKy7eOJoXf8Fpu
-         0drQ==
-X-Gm-Message-State: AC+VfDyz8uIZEzCHj2cTzqjp3sUPSxQyykke4ii052ucVbx2tU6hnDSl
-        YgDDW8PFcQzExpUTCe6LxA==
-X-Google-Smtp-Source: ACHHUZ4VWJSeckMCOOX8IS5sRGxdvtXZOYo+4R30I5kVNC8cyMGscHSnDZjQwIgwQsltRL0ef2N6hQ==
-X-Received: by 2002:a6b:e503:0:b0:783:62f7:3e2c with SMTP id y3-20020a6be503000000b0078362f73e2cmr9951382ioc.9.1687969006521;
-        Wed, 28 Jun 2023 09:16:46 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id l11-20020a02cceb000000b003e8a17d7b1fsm3346801jaq.27.2023.06.28.09.16.44
+        d=1e100.net; s=20221208; t=1687969644; x=1690561644;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3pEp4gR1EagFJJ0VQJvzcXKOpy0bwlfLoZKm6nYgbtU=;
+        b=mGVWe199w1hDEgiE7+/Y8gk+xsbcUN1zPXQfK7lmRH2upbFduiXAxjSkIHn7kEmT6y
+         WqQD+cBgsCQbV/Rx47I5s7zp4APjxq9Aow0JqbG2cp7E7kMRuiMfHmBzcETlLcgQP3Ss
+         Y8e+YnMskvcTxRfowXdxe5wBwAjpdd5lQaLwGJr2f6b52v0/HpG+pUEFDcj8E9ilrceN
+         rrRuOX8ltbO5JfpZOPWZYdOy98cK89xI8huEVyGaV4oNSCW45/Ba2PdoZ2uWngWUoBm7
+         MeuTWJ6+lZaUtg9oCGoETMWIyojuQ9RvdGi6FQjm9t4IyNb/s3eCeI+Rlf8emwJbJ+2n
+         a3NA==
+X-Gm-Message-State: AC+VfDx7QGr01ECo6iQOjDALj+6lWjNJMj+66PsQXGQ1GEQN9v+5FgxP
+        ZpN44z6IVTAS7+QU/m/ixXKmVg==
+X-Google-Smtp-Source: ACHHUZ4QJ2AelSefHWakS6doxVyxAdK4YMYSTI/TTNNPiJ/HeyfZQPqNCAAfEFrpe8j2TvgUKYm3vQ==
+X-Received: by 2002:a05:620a:4114:b0:766:fd7c:f52e with SMTP id j20-20020a05620a411400b00766fd7cf52emr8623940qko.66.1687969644015;
+        Wed, 28 Jun 2023 09:27:24 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:15:c623::7a9])
+        by smtp.gmail.com with ESMTPSA id d11-20020a37c40b000000b007625382f4ccsm5197460qki.69.2023.06.28.09.27.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jun 2023 09:16:45 -0700 (PDT)
-Received: (nullmailer pid 568564 invoked by uid 1000);
-        Wed, 28 Jun 2023 16:16:43 -0000
-Date:   Wed, 28 Jun 2023 10:16:43 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Julien Stephan <jstephan@baylibre.com>
-Cc:     Phi-bang Nguyen <pnguyen@baylibre.com>,
-        Andy Hsieh <andy.hsieh@mediatek.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Conor Dooley <conor+dt@kernel.org>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        devicetree@vger.kernel.org,
-        Florian Sylvestre <fsylvestre@baylibre.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-        Louis Kuo <louis.kuo@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Moudy Ho <moudy.ho@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        Vasily Gorbik <gor@linux.ibm.com>
-Subject: Re: [PATCH 3/4] dt-bindings: media: add mediatek ISP3.0 camsv
-Message-ID: <20230628161643.GA567104-robh@kernel.org>
-References: <20230628145412.1610260-1-jstephan@baylibre.com>
- <20230628145412.1610260-4-jstephan@baylibre.com>
+        Wed, 28 Jun 2023 09:27:23 -0700 (PDT)
+Message-ID: <6674abe5681c0f4a4e4466e034393359346cfda7.camel@ndufresne.ca>
+Subject: Re: [PATCH v7 1/9] media: v4l2: Extend pixel formats to unify
+ single/multi-planar handling (and more)
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Hsia-Jun Li <Randy.Li@synaptics.com>, ayaka <ayaka@soulik.info>
+Cc:     linux-media@vger.kernel.org, Brian.Starkey@arm.com,
+        boris.brezillon@collabora.com, frkoenig@chromium.org,
+        hans.verkuil@cisco.com, hiroh@chromium.org, hverkuil@xs4all.nl,
+        kernel@collabora.com, laurent.pinchart@ideasonboard.com,
+        linux-kernel@vger.kernel.org, mchehab@kernel.org,
+        narmstrong@baylibre.com, sakari.ailus@iki.fi,
+        stanimir.varbanov@linaro.org, tfiga@chromium.org,
+        Helen Koike <helen.koike@collabora.com>
+Date:   Wed, 28 Jun 2023 12:27:22 -0400
+In-Reply-To: <1e3a583f-f9ef-d2d3-6571-ac3b79d800ce@synaptics.com>
+References: <20230206043308.28365-1-ayaka@soulik.info>
+         <20230206043308.28365-2-ayaka@soulik.info>
+         <1e3a583f-f9ef-d2d3-6571-ac3b79d800ce@synaptics.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.3 (3.48.3-1.fc38) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230628145412.1610260-4-jstephan@baylibre.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 28, 2023 at 04:52:54PM +0200, Julien Stephan wrote:
-> From: Phi-bang Nguyen <pnguyen@baylibre.com>
-> 
-> This adds the bindings, for the ISP3.0 camsv module embedded in
-> some Mediatek SoC, such as the mt8365
-> 
-> Signed-off-by: Phi-bang Nguyen <pnguyen@baylibre.com>
-> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-> ---
->  .../bindings/media/mediatek,mt8365-camsv.yaml | 113 ++++++++++++++++++
->  MAINTAINERS                                   |   1 +
->  2 files changed, 114 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8365-camsv.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/mediatek,mt8365-camsv.yaml b/Documentation/devicetree/bindings/media/mediatek,mt8365-camsv.yaml
-> new file mode 100644
-> index 000000000000..e8ef6e0fd4bf
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/mediatek,mt8365-camsv.yaml
-> @@ -0,0 +1,113 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (c) 2023 MediaTek, BayLibre
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/mediatek,mt8365-camsv.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: MediaTek CAMSV 3.0
-> +
-> +maintainers:
-> +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> +  - Julien Stephan <jstephan@baylibre.com>
-> +  - Andy Hsieh <andy.hsieh@mediatek.com>
-> +
-> +description:
-> +  The CAMSV is a set of DMA engines connected to the SENINF CSI-2
-> +  receivers. The number of CAMSVs depend on the SoC model.
-> +
-> +properties:
-> +  compatible:
-> +    const: mediatek,mt8365-camsv
-> +
-> +  reg:
-> +    maxItems: 3
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: cam clock
-> +      - description: camtg clock
-> +      - description: camsv clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: camsys_cam_cgpdn
-> +      - const: camsys_camtg_cgpdn
-> +      - const: camsys_camsv
-> +
-> +  iommus:
-> +    maxItems: 1
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        unevaluatedProperties: false
-> +        description: connection point for camsv0
-> +
-> +        patternProperties:
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
+Hi,
 
-You can't have this and graph.yaml#/properties/port as the latter will 
-prevent extra properties under 'endpoint'.
+please avoid HTML replies on the mailing list.
 
-> +            unevaluatedProperties: false
-> +
-> +    required:
-> +      - port@0
-> +
-> +required:
-> +  - compatible
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - power-domains
-> +  - iommus
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/clock/mediatek,mt8365-clk.h>
-> +    #include <dt-bindings/memory/mediatek,mt8365-larb-port.h>
-> +    #include <dt-bindings/power/mediatek,mt8365-power.h>
-> +
-> +    soc {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        camsv1: camsv@15050000 {
-> +            compatible = "mediatek,mt8365-camsv";
-> +            reg = <0 0x15050000 0 0x0040>,
-> +            <0 0x15050208 0 0x0020>,
-> +            <0 0x15050400 0 0x0100>;
-> +            interrupts = <GIC_SPI 186 IRQ_TYPE_LEVEL_LOW>;
-> +            clocks = <&camsys CLK_CAM>,
-> +            <&camsys CLK_CAMTG>,
-> +            <&camsys CLK_CAMSV0>;
-> +            clock-names = "camsys_cam_cgpdn", "camsys_camtg_cgpdn",
-> +            "camsys_camsv";
-> +            iommus = <&iommu M4U_PORT_CAM_IMGO>;
-> +            power-domains = <&spm MT8365_POWER_DOMAIN_CAM>;
-> +
-> +            ports {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +                port@0 {
-> +                    reg = <0>;
-> +                    camsv1_endpoint: endpoint {
-> +                        remote-endpoint = <&seninf_camsv1_endpoint>;
-> +                    };
-> +                };
-> +            };
-> +        };
-> +    };
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 4f83682732e6..2256ddcc4ca6 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -13261,6 +13261,7 @@ M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->  M:	Julien Stephan <jstephan@baylibre.com>
->  M:	Andy Hsieh <andy.hsieh@mediatek.com>
->  S:	Supported
-> +F:	Documentation/devicetree/bindings/media/mediatek,mt8365-camsv.yaml
->  F:	Documentation/devicetree/bindings/media/mediatek,mt8365-seninf.yaml
->  F:	drivers/media/platform/mediatek/isp/isp_30/seninf/*
->  
-> -- 
-> 2.41.0
-> 
+Le mardi 27 juin 2023 =C3=A0 14:42 +0800, Hsia-Jun Li a =C3=A9crit=C2=A0:
+> > +/**
+> > + * struct v4l2_ext_pix_format - extended multiplanar format definition
+> > + * @type:		enum v4l2_buf_type; type of the data stream
+> > + * @width:		image width in pixels
+> > + * @height:		image height in pixels
+> > + * @pixelformat:	little endian four character code (fourcc)
+> > + * @modifier:		modifier applied to the format (used for tiled formats
+> > + *			and other kind of HW-specific formats, like compressed
+> > + *			formats) as defined in drm_fourcc.h
+> > + * @field:		enum v4l2_field; field order (for interlaced video)
+> > + * @colorspace:		enum v4l2_colorspace; supplemental to pixelformat
+> > + * @plane_fmt:		per-plane information
+> > + * @flags:		format flags (V4L2_PIX_FMT_FLAG_*)
+> > + * @ycbcr_enc:		enum v4l2_ycbcr_encoding, Y'CbCr encoding
+> > + * @hsv_enc:		enum v4l2_hsv_encoding, HSV encoding
+> > + * @quantization:	enum v4l2_quantization, colorspace quantization
+> > + * @xfer_func:		enum v4l2_xfer_func, colorspace transfer function
+> > + * @reserved:		drivers and applications must zero this array
+> > + */
+> > +struct v4l2_ext_pix_format {
+> > +	__u32				type;
+> > +	__u32				width;
+> > +	__u32				height;
+> > +	__u32				pixelformat;
+> > +	__u64				modifier;
+> > +	__u32				field;
+> > +	__u32				colorspace;
+> > +
+> > +	struct v4l2_plane_pix_format	plane_fmt[VIDEO_MAX_PLANES];
+> > +	__u8				flags;
+> > +	 union {
+> > +		__u8				ycbcr_enc;
+> > +		__u8				hsv_enc;
+> > +	};
+> > +	__u8				quantization;
+> > +	__u8				xfer_func;
+> >=20
+> > =C2=A0=C2=A0=C2=A0=C2=A0
+> >=20
+> >=20
+> >=20
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0I heard that a suggestion that we could remove co=
+lorimetry fields
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0here.
+> =C2=A0=C2=A0=C2=A0=C2=A0Although those are useless for codec M2M drivers =
+if no pixel
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0formats translation invoked.
+> =C2=A0=C2=A0=C2=A0=C2=A0Even HDMI(DRM) cares about colorspace.
+> =C2=A0=C2=A0=C2=A0=C2=A0For example if a downsink(TV) shows RGB formats,=
+=C2=A0 with an YUV
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0input frame buffer, colorimetry would=
+ be important or the wrong
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0EOTF would be used. If YUV is MPEG ra=
+nge(linear EOTF) while a
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0non-linear EOFT (full range) is used,=
+ you would found the black is
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0not black enough while the white look=
+s a gray. Also color bias
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0would happen.
+> =C2=A0=C2=A0=C2=A0=C2=A0This problem may not happen to a ultra high resol=
+ution TV while
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0only YUV type color formats are suppo=
+rted due to HDMI bandwidth
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0limitation.
+> =C2=A0=C2=A0=C2=A0=C2=A0The problem I want to raise is the time cost for =
+enumeration.
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Each pixel format with a colorimetry =
+setting would invoke a
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ioctl(). For the application likes Gs=
+treamer would enum all the
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0possible colorimetries.
+> =C2=A0=C2=A0=C2=A0=C2=A0It would be better we could have something like D=
+RM blob id that
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0application could copy the data from =
+a non-DMA buffer from the
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0kernel.
+
+This is a good topic. Colorimetry could indeed be moved away from the forma=
+t,
+considering they cannot be enumerated. It remains that this information nee=
+ds to
+be passed around, and the format of a blob in media space is not has restri=
+cted
+as with display HW. I think keeping an "exploded version" of the colorimetr=
+y
+remains needed.
+
+Remember though that for stateful decoder, were the information could be st=
+ored
+in the bitstream, the decoder is responsible for returning that information=
+.
+Currently its passed through the G_FMT call, it would need to be replaced w=
+ith a
+control, similar to the HDR10 static metadata. If the colorimetry is no lon=
+ger
+static in the future, and may change while streaming, one option would be R=
+O
+request. This was foreseen for HDR10+ and Dolby Vision metadata notably, th=
+ough
+other options exists.
+
+There exist known decoders that can do YUV to RGB conversion using an inlin=
+e
+post procesor (VC8000D and newer is an example), and for these to return co=
+rrect
+colors, the colorimetry information needs to be passed. So its not strictly
+useless.
+
+In short, if we drop colorimetry from format, we also need to go ahead and
+design a replacement for it, that allow for the application to detect chang=
+es.
+
+regards,
+Nicolas
+
