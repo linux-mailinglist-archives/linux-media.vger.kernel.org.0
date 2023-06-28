@@ -2,181 +2,193 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 38E05741AA8
-	for <lists+linux-media@lfdr.de>; Wed, 28 Jun 2023 23:22:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8680E741BA7
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jun 2023 00:08:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231637AbjF1VWW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Jun 2023 17:22:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58070 "EHLO
+        id S231897AbjF1WIr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Jun 2023 18:08:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231615AbjF1VVc (ORCPT
+        with ESMTP id S231718AbjF1WIp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Jun 2023 17:21:32 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAC352974;
-        Wed, 28 Jun 2023 14:16:05 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (85-160-58-109.reb.o2.cz [85.160.58.109])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 479BF9CA;
-        Wed, 28 Jun 2023 23:15:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1687986924;
-        bh=77nJ0fGw+uL5vfsiYs5CiYEvuL9mewmxbmaSs+0tbKM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=eh1DRSBDCKWKpcqzu6IQuuQM92tlJ6fc0oz7R68yvzkOcZGv+abHnUo6mcHuW0VUJ
-         mR4ivbDAZF65SYewP6KinLW0XZ9GPAH5w9aZG198tQoXHdOaPUksnub6NCwirbeWer
-         6/wjYZz3l+BHtic47p5Do/ZDu1GAFgaFml32yejk=
-Date:   Thu, 29 Jun 2023 00:16:04 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     guoniu.zhou@oss.nxp.com
-Cc:     linux-media@vger.kernel.org, linux-imx@nxp.com,
-        devicetree@vger.kernel.org, mchehab@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        xavier.roumegue@oss.nxp.com, kernel@pengutronix.de,
-        jacopo.mondi@ideasonboard.com, sakari.ailus@linux.intel.com
-Subject: Re: [PATCH v4 3/3] media: nxp: imx8-isi: add ISI support for i.MX93
-Message-ID: <20230628211604.GB27706@pendragon.ideasonboard.com>
-References: <20230628064251.1774296-1-guoniu.zhou@oss.nxp.com>
- <20230628064251.1774296-4-guoniu.zhou@oss.nxp.com>
+        Wed, 28 Jun 2023 18:08:45 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4EEF2111
+        for <linux-media@vger.kernel.org>; Wed, 28 Jun 2023 15:08:43 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 26E316135C
+        for <linux-media@vger.kernel.org>; Wed, 28 Jun 2023 22:08:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 385C2C433C8;
+        Wed, 28 Jun 2023 22:08:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687990122;
+        bh=oD8jyc7fNPFEigWhEE6GUAm46EKvFixy4ZKVcvTME0I=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=NEdqsNnA8WyCP1e+hInyU3NyQ6RFdG2q0hybKrrQQHTZbG+72b7Azyh5qD9fRGkhX
+         g3XT7tpR32Q8aImY2iojYUp3OOIfGRfZYna0qUMfXbQoHocISYu7rO+VBTlVmfKvMt
+         Eu5KssbYIZaTuxjQp8O1lkusnxFBjT+dHzExMwgaNVdX80y4z0G5MHHclvUFaWhWQ/
+         HbmvEaXMh/xaHDxUpvELkkOE/BkDO9CZfQlGPS7Vx7OTIlA3owmqqwlTffTKgP3gXk
+         +r014Xv8fkvnmtEFSSN3E9/7zrhuwCEMoVd7pvD3hjrRmFcx02QRxcM/hYrHfQttMA
+         benHbPX2jj+hw==
+Date:   Thu, 29 Jun 2023 00:08:37 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     "Linux regression tracking (Thorsten Leemhuis)" 
+        <regressions@leemhuis.info>
+Cc:     Linux regressions mailing list <regressions@lists.linux.dev>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Martijn Braam <martijn@brixit.nl>, jernej.skrabec@gmail.com,
+        sakari.ailus@linux.intel.com, linux-media@vger.kernel.org,
+        hverkuil@xs4all.nl,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sebastian Fricke <sebastian.fricke@collabora.com>
+Subject: Re: [REGRESSION] breakage in sun6i-csi media api
+Message-ID: <20230629000837.122abd21@sal.lan>
+In-Reply-To: <25cf3947-1fe0-7280-09e2-3dc107b2c8e7@leemhuis.info>
+References: <f13c27fb-2afe-b94e-aad9-ed5ecc818183@brixit.nl>
+        <ZHmzZUkcFK8Gq_JL@aptenodytes>
+        <e168d246-528d-b615-aa50-af8f17af4442@brixit.nl>
+        <ZHm46or-MhTb457b@aptenodytes>
+        <20230602100352.GK19463@pendragon.ideasonboard.com>
+        <25cf3947-1fe0-7280-09e2-3dc107b2c8e7@leemhuis.info>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230628064251.1774296-4-guoniu.zhou@oss.nxp.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,
-        T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 28, 2023 at 02:42:51PM +0800, guoniu.zhou@oss.nxp.com wrote:
-> From: "Guoniu.zhou" <guoniu.zhou@nxp.com>
+Em Mon, 26 Jun 2023 14:23:50 +0200
+"Linux regression tracking (Thorsten Leemhuis)" <regressions@leemhuis.info> escreveu:
+
+> Hi, Thorsten here, the Linux kernel's regression tracker. Top-posting
+> for once, to make this easily accessible to everyone.
 > 
-> i.MX93 use a different gasket which has different register definition
-> compared with i.MX8. Hence implement the gasket callbacks in order to
-> add ISI support for i.MX93.
-> 
-> Signed-off-by: Guoniu.zhou <guoniu.zhou@nxp.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  .../platform/nxp/imx8-isi/imx8-isi-core.c     | 15 ++++++++++
->  .../platform/nxp/imx8-isi/imx8-isi-core.h     |  2 ++
->  .../platform/nxp/imx8-isi/imx8-isi-gasket.c   | 28 +++++++++++++++++++
->  3 files changed, 45 insertions(+)
-> 
-> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
-> index f2774325dd61..13a0225de634 100644
-> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
-> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
-> @@ -304,6 +304,20 @@ static const struct mxc_isi_plat_data mxc_imx8mp_data = {
->  	.has_36bit_dma		= true,
->  };
->  
-> +static const struct mxc_isi_plat_data mxc_imx93_data = {
-> +	.model			= MXC_ISI_IMX93,
-> +	.num_ports		= 1,
-> +	.num_channels		= 1,
-> +	.reg_offset		= 0,
-> +	.ier_reg		= &mxc_imx8_isi_ier_v2,
-> +	.set_thd		= &mxc_imx8_isi_thd_v1,
-> +	.clks			= mxc_imx8mn_clks,
-> +	.num_clks		= ARRAY_SIZE(mxc_imx8mn_clks),
-> +	.buf_active_reverse	= true,
-> +	.gasket_ops		= &mxc_imx93_gasket_ops,
-> +	.has_36bit_dma		= false,
-> +};
-> +
->  /* -----------------------------------------------------------------------------
->   * Power management
->   */
-> @@ -515,6 +529,7 @@ static int mxc_isi_remove(struct platform_device *pdev)
->  static const struct of_device_id mxc_isi_of_match[] = {
->  	{ .compatible = "fsl,imx8mn-isi", .data = &mxc_imx8mn_data },
->  	{ .compatible = "fsl,imx8mp-isi", .data = &mxc_imx8mp_data },
-> +	{ .compatible = "fsl,imx93-isi", .data = &mxc_imx93_data },
->  	{ /* sentinel */ },
->  };
->  MODULE_DEVICE_TABLE(of, mxc_isi_of_match);
-> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
-> index 87182ebb99f0..ddd3d8ce4000 100644
-> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
-> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
-> @@ -150,6 +150,7 @@ struct mxc_gasket_ops {
->  enum model {
->  	MXC_ISI_IMX8MN,
->  	MXC_ISI_IMX8MP,
-> +	MXC_ISI_IMX93,
->  };
->  
->  struct mxc_isi_plat_data {
-> @@ -287,6 +288,7 @@ struct mxc_isi_dev {
->  };
->  
->  extern const struct mxc_gasket_ops mxc_imx8_gasket_ops;
-> +extern const struct mxc_gasket_ops mxc_imx93_gasket_ops;
->  
->  int mxc_isi_crossbar_init(struct mxc_isi_dev *isi);
->  void mxc_isi_crossbar_cleanup(struct mxc_isi_crossbar *xbar);
-> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c
-> index f3758af59db1..96f36a6d8a3c 100644
-> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c
-> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c
-> @@ -19,6 +19,11 @@
->  #define GASKET_HSIZE				0x0004
->  #define GASKET_VSIZE				0x0008
->  
-> +/* dispmix_GPR register (i.MX93 only) */
-> +#define DISP_MIX_CAMERA_MUX                     0x30
-> +#define DISP_MIX_CAMERA_MUX_DATA_TYPE(x)        (((x) & 0x3f) << 3)
-> +#define DISP_MIX_CAMERA_MUX_GASKET_ENABLE       BIT(16)
-> +
->  /* Configure and enable gasket for i.MX8MN and i.MX8P */
->  static void mxc_imx8_gasket_enable(struct mxc_isi_dev *isi,
->  				   const struct v4l2_mbus_frame_desc *fd,
-> @@ -50,3 +55,26 @@ const struct mxc_gasket_ops mxc_imx8_gasket_ops = {
->  	.enable = mxc_imx8_gasket_enable,
->  	.disable = mxc_imx8_gasket_disable,
->  };
+> Paul, what happened to this? It looks like this fall through the cracks,
+> but maybe I'm missing something, that's why I ask.
 
-Following the comment on 2/3, let's add
+On a quick look, checking the proposed app fix[1], it sounds to me that
+the application is not prepared to actually use the devices that are
+enumerated, as it is setting only the values that are known.
 
-/* -----------------------------------------------------------------------------
- * i.MX93 gasket
- */
+See, the media controller has the MEDIA_IOC_G_TOPOLOGY ioctl [2], which
+enumerates the entire sub-device topology.
 
-, move the three DISP_MIX_CAMERA_MUX* macros here, and drop the comments
-before the enable and disable functions.
+The current application was just expecting two sub-devices, failing
+if other devices are added on newer Kernels. This is not how this uAPI is
+supposed to work.
 
-> +
-> +/* Configure and enable gasket for i.MX93 */
-> +static void mxc_imx93_gasket_enable(struct mxc_isi_dev *isi,
-> +				    const struct v4l2_mbus_frame_desc *fd,
-> +				    const struct v4l2_mbus_framefmt *fmt,
-> +				    const unsigned int port)
-> +{
-> +	u32 val;
-> +
-> +	val = DISP_MIX_CAMERA_MUX_DATA_TYPE(fd->entry[0].bus.csi2.dt);
-> +	val |= DISP_MIX_CAMERA_MUX_GASKET_ENABLE;
-> +	regmap_write(isi->gasket, DISP_MIX_CAMERA_MUX, val);
-> +}
-> +
-> +static void mxc_imx93_gasket_disable(struct mxc_isi_dev *isi,
-> +				     unsigned int port)
-> +{
-> +	regmap_write(isi->gasket, DISP_MIX_CAMERA_MUX, 0);
-> +}
+[1] https://gitlab.com/postmarketOS/megapixels/-/merge_requests/31/diffs?commit_id=38bbee084126b15d39c1bce5cb5d45e6efea64fa
+[2] https://gitlab.com/postmarketOS/megapixels/-/blob/master/src/device.c#L106
 
-Missing blank line.
+Now, I was told during yesterday, during the Media Summit that there are
+new apps since Kernel 6.2 that do require setting the bridge with different
+configurations. Paul/Sebastian: is this the case? If so, could you provide
+more details about it?
 
-> +const struct mxc_gasket_ops mxc_imx93_gasket_ops = {
-> +	.enable = mxc_imx93_gasket_enable,
-> +	.disable = mxc_imx93_gasket_disable,
-> +};
+If this is true, it seems too late to revert the changes, as this will
+break other existing applications.
 
--- 
+IMO, the best here would be to modify the application to be smarter,
+using the topology actually reported by MEDIA_IOC_G_TOPOLOGY, instead
+on relying on some specific hard-coded types.
+
 Regards,
+Mauro
 
-Laurent Pinchart
+> 
+> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+> --
+> Everything you wanna know about Linux kernel regression tracking:
+> https://linux-regtracking.leemhuis.info/about/#tldr
+> If I did something stupid, please tell me, as explained on that page.
+> 
+> #regzbot poke
+> 
+> On 02.06.23 12:03, Laurent Pinchart wrote:
+> > On Fri, Jun 02, 2023 at 11:39:54AM +0200, Paul Kocialkowski wrote:  
+> >> (Re-adding folks from the original email, adding Laurent and Hans.)
+> >> On Fri 02 Jun 23, 11:24, Martijn Braam wrote:  
+> >>>
+> >>> That's basically it yes. My software doesn't expect the bridge block,
+> >>> because it wasn't there. The pipeline always worked "automatically".
+> >>>
+> >>> This is the workaround that's been made now it run on newer kernels:
+> >>> https://gitlab.com/postmarketOS/megapixels/-/merge_requests/31
+> >>>
+> >>> I'm pretty sure format propagation would fix this issue.  
+> >>
+> >> Okay that's good to know.
+> >>
+> >> To be honest it's still not very clear to me if in-driver format propagation is
+> >> a "nice to have" feature or something that all media pipeline drivers are
+> >> supposed to implement.  
+> > 
+> > For MC-based drivers, in-kernel propagation *inside* subdevs is
+> > mandatory, in-kernel propagration *between* subdevs is not allowed. The
+> > latter is the responsibility of userspace.
+> > 
+> > For traditional (I'd say legacy, but I know not everybody likes that
+> > term :-)) drivers that only expose video device nodes and do not expose
+> > subdev nodes to userspace, the driver is responsible for configuring the
+> > full pipeline internally based on the S_FMT call on the video nodes
+> > only. This isn't applicable to the sun6i-csi driver, as it exposes
+> > subdev nodes to userspace.
+> >   
+> >> Anyway I feel like this is not really a regression but a result of the driver
+> >> being converted to a newer API.
+> >>
+> >> Also there's a V4L2_CAP_IO_MC flag which should indicate that the video device
+> >> must be controlled via the media controller API instead of being
+> >> video-device-centric, but I've seen comments asking not to set the flag even
+> >> when MC is used so I'm a bit confused here.  
+> > 
+> > Would you have pointers to those comments ?
+> >   
+> >> Perhaps the flag is only required when there is no automatic format
+> >> propagation?  
+> > 
+> > The flag is more or less required when you expose subdev nodes to
+> > userspace.
+> >   
+> >> If anyone has solid answers on these points I'd be happy to read some
+> >> clarification (and act accordingly).
+> >>  
+> >>> On 6/2/23 11:16, Paul Kocialkowski wrote:  
+> >>>> Hi Martijn,
+> >>>>
+> >>>> On Thu 01 Jun 23, 23:19, Martijn Braam wrote:  
+> >>>>> It seems like this commit:
+> >>>>>
+> >>>>> media: sun6i-csi: Add bridge v4l2 subdev with port management
+> >>>>>
+> >>>>> Has changed the way the media pipeline on a64 devices, in my case the PINE64
+> >>>>> PinePhone works. Since this is an API towards userspace and there's active
+> >>>>> applications that use it I think this counts as a regression.  
+> >>>> Do you have more details on what changed specifically?
+> >>>>
+> >>>> The commit added a bridge subdev in addition to the video node, which is
+> >>>> generally a better description of the CSI hardware and also a necessity
+> >>>> to support the ISP data flow.
+> >>>>
+> >>>> Maybe your userspace application is not configuring the bridge media block with
+> >>>> the right format, which results in a mismatch?
+> >>>>
+> >>>> Some work was started to achieve automatic format propagation, perhaps it
+> >>>> would be enough to solve your issue.
+> >>>>
+> >>>> Cheers,
+> >>>>
+> >>>> Paul
+> >>>>  
+> >>>>> #regzbot introduced: 0d2b746b1bef73de62d2d311e594a7ffed4ca43  
+> >   
