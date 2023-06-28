@@ -2,203 +2,333 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D143474164F
-	for <lists+linux-media@lfdr.de>; Wed, 28 Jun 2023 18:27:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A39C741623
+	for <lists+linux-media@lfdr.de>; Wed, 28 Jun 2023 18:15:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231509AbjF1Q1b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Jun 2023 12:27:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38336 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231537AbjF1Q10 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Jun 2023 12:27:26 -0400
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03E58268A
-        for <linux-media@vger.kernel.org>; Wed, 28 Jun 2023 09:27:25 -0700 (PDT)
-Received: by mail-qk1-x730.google.com with SMTP id af79cd13be357-7658752ce2fso315135085a.1
-        for <linux-media@vger.kernel.org>; Wed, 28 Jun 2023 09:27:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1687969644; x=1690561644;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=3pEp4gR1EagFJJ0VQJvzcXKOpy0bwlfLoZKm6nYgbtU=;
-        b=dLAT1hcfd0IQVA+8RNG9bGGVzawki9G6zN4TLnnB6tOfI6o4xQW9l1AAs72d7sNQNd
-         mzbONnySMY2THL/0CpCr96Puft6Vdy5lm+l0FIbDenw2mHiwRaQzOWkd1InKQhp4gG1m
-         wTzni6bZuucb1qP/dwhm56EyxuWWfgEglxjvInJEgzcLeoFLmipucJgWiQRn3AH1WT7N
-         SHheBlPo4IhyffQDIt9rgF+06f2I2/ShRz14V8gY0lKRcU3MBrk5QG+L9iCQ7JbrsKpW
-         GJg052byuT5KNlocLQPc4xv+1FCESrZVJWdQm0TFgFhrWLQQlopUtTAR4RfKPRGZLO1S
-         5Lfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687969644; x=1690561644;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3pEp4gR1EagFJJ0VQJvzcXKOpy0bwlfLoZKm6nYgbtU=;
-        b=mGVWe199w1hDEgiE7+/Y8gk+xsbcUN1zPXQfK7lmRH2upbFduiXAxjSkIHn7kEmT6y
-         WqQD+cBgsCQbV/Rx47I5s7zp4APjxq9Aow0JqbG2cp7E7kMRuiMfHmBzcETlLcgQP3Ss
-         Y8e+YnMskvcTxRfowXdxe5wBwAjpdd5lQaLwGJr2f6b52v0/HpG+pUEFDcj8E9ilrceN
-         rrRuOX8ltbO5JfpZOPWZYdOy98cK89xI8huEVyGaV4oNSCW45/Ba2PdoZ2uWngWUoBm7
-         MeuTWJ6+lZaUtg9oCGoETMWIyojuQ9RvdGi6FQjm9t4IyNb/s3eCeI+Rlf8emwJbJ+2n
-         a3NA==
-X-Gm-Message-State: AC+VfDx7QGr01ECo6iQOjDALj+6lWjNJMj+66PsQXGQ1GEQN9v+5FgxP
-        ZpN44z6IVTAS7+QU/m/ixXKmVg==
-X-Google-Smtp-Source: ACHHUZ4QJ2AelSefHWakS6doxVyxAdK4YMYSTI/TTNNPiJ/HeyfZQPqNCAAfEFrpe8j2TvgUKYm3vQ==
-X-Received: by 2002:a05:620a:4114:b0:766:fd7c:f52e with SMTP id j20-20020a05620a411400b00766fd7cf52emr8623940qko.66.1687969644015;
-        Wed, 28 Jun 2023 09:27:24 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:15:c623::7a9])
-        by smtp.gmail.com with ESMTPSA id d11-20020a37c40b000000b007625382f4ccsm5197460qki.69.2023.06.28.09.27.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jun 2023 09:27:23 -0700 (PDT)
-Message-ID: <6674abe5681c0f4a4e4466e034393359346cfda7.camel@ndufresne.ca>
-Subject: Re: [PATCH v7 1/9] media: v4l2: Extend pixel formats to unify
- single/multi-planar handling (and more)
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Hsia-Jun Li <Randy.Li@synaptics.com>, ayaka <ayaka@soulik.info>
-Cc:     linux-media@vger.kernel.org, Brian.Starkey@arm.com,
-        boris.brezillon@collabora.com, frkoenig@chromium.org,
-        hans.verkuil@cisco.com, hiroh@chromium.org, hverkuil@xs4all.nl,
-        kernel@collabora.com, laurent.pinchart@ideasonboard.com,
-        linux-kernel@vger.kernel.org, mchehab@kernel.org,
-        narmstrong@baylibre.com, sakari.ailus@iki.fi,
-        stanimir.varbanov@linaro.org, tfiga@chromium.org,
-        Helen Koike <helen.koike@collabora.com>
-Date:   Wed, 28 Jun 2023 12:27:22 -0400
-In-Reply-To: <1e3a583f-f9ef-d2d3-6571-ac3b79d800ce@synaptics.com>
-References: <20230206043308.28365-1-ayaka@soulik.info>
-         <20230206043308.28365-2-ayaka@soulik.info>
-         <1e3a583f-f9ef-d2d3-6571-ac3b79d800ce@synaptics.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.3 (3.48.3-1.fc38) 
+        id S231355AbjF1QPU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Jun 2023 12:15:20 -0400
+Received: from mx.gpxsee.org ([37.205.14.76]:34572 "EHLO mx.gpxsee.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231465AbjF1QPK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 28 Jun 2023 12:15:10 -0400
+Received: from mgb4.digiteq.red (unknown [62.77.71.229])
+        by mx.gpxsee.org (Postfix) with ESMTPSA id 9277A2CC9F;
+        Wed, 28 Jun 2023 18:15:08 +0200 (CEST)
+From:   tumic@gpxsee.org
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?UTF-8?q?Martin=20T=C5=AFma?= <martin.tuma@digiteqautomotive.com>
+Subject: [PATCH v7 0/2] Digiteq Automotive MGB4 driver
+Date:   Wed, 28 Jun 2023 20:15:06 +0200
+Message-Id: <20230628181508.2777-1-tumic@gpxsee.org>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-        lindbergh.monkeyblade.net
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+From: Martin Tůma <martin.tuma@digiteqautomotive.com>
+
 Hi,
+This patch adds a driver for the Digiteq Automotive MGB4 grabber card.
+MGB4 is a modular frame grabber PCIe card for automotive video interfaces
+(FPD-Link and GMSL for now). It is based on a Xilinx FPGA and uses their
+XDMA IP core for DMA transfers. Additionally, Xilinx I2C and SPI IP cores
+which already have drivers in linux are used in the design.
 
-please avoid HTML replies on the mailing list.
+The driver is a quite standard v4l2 driver, with one exception - there are
+a lot of sysfs options that may/must be set before opening the v4l2 device
+to adapt the card on a specific signal (see mgb4.rst for details)
+as the card must be able to work with various signal sources (or displays)
+that can not be auto-detected.
 
-Le mardi 27 juin 2023 =C3=A0 14:42 +0800, Hsia-Jun Li a =C3=A9crit=C2=A0:
-> > +/**
-> > + * struct v4l2_ext_pix_format - extended multiplanar format definition
-> > + * @type:		enum v4l2_buf_type; type of the data stream
-> > + * @width:		image width in pixels
-> > + * @height:		image height in pixels
-> > + * @pixelformat:	little endian four character code (fourcc)
-> > + * @modifier:		modifier applied to the format (used for tiled formats
-> > + *			and other kind of HW-specific formats, like compressed
-> > + *			formats) as defined in drm_fourcc.h
-> > + * @field:		enum v4l2_field; field order (for interlaced video)
-> > + * @colorspace:		enum v4l2_colorspace; supplemental to pixelformat
-> > + * @plane_fmt:		per-plane information
-> > + * @flags:		format flags (V4L2_PIX_FMT_FLAG_*)
-> > + * @ycbcr_enc:		enum v4l2_ycbcr_encoding, Y'CbCr encoding
-> > + * @hsv_enc:		enum v4l2_hsv_encoding, HSV encoding
-> > + * @quantization:	enum v4l2_quantization, colorspace quantization
-> > + * @xfer_func:		enum v4l2_xfer_func, colorspace transfer function
-> > + * @reserved:		drivers and applications must zero this array
-> > + */
-> > +struct v4l2_ext_pix_format {
-> > +	__u32				type;
-> > +	__u32				width;
-> > +	__u32				height;
-> > +	__u32				pixelformat;
-> > +	__u64				modifier;
-> > +	__u32				field;
-> > +	__u32				colorspace;
-> > +
-> > +	struct v4l2_plane_pix_format	plane_fmt[VIDEO_MAX_PLANES];
-> > +	__u8				flags;
-> > +	 union {
-> > +		__u8				ycbcr_enc;
-> > +		__u8				hsv_enc;
-> > +	};
-> > +	__u8				quantization;
-> > +	__u8				xfer_func;
-> >=20
-> > =C2=A0=C2=A0=C2=A0=C2=A0
-> >=20
-> >=20
-> >=20
->=20
-> =C2=A0=C2=A0=C2=A0=C2=A0I heard that a suggestion that we could remove co=
-lorimetry fields
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0here.
-> =C2=A0=C2=A0=C2=A0=C2=A0Although those are useless for codec M2M drivers =
-if no pixel
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0formats translation invoked.
-> =C2=A0=C2=A0=C2=A0=C2=A0Even HDMI(DRM) cares about colorspace.
-> =C2=A0=C2=A0=C2=A0=C2=A0For example if a downsink(TV) shows RGB formats,=
-=C2=A0 with an YUV
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0input frame buffer, colorimetry would=
- be important or the wrong
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0EOTF would be used. If YUV is MPEG ra=
-nge(linear EOTF) while a
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0non-linear EOFT (full range) is used,=
- you would found the black is
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0not black enough while the white look=
-s a gray. Also color bias
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0would happen.
-> =C2=A0=C2=A0=C2=A0=C2=A0This problem may not happen to a ultra high resol=
-ution TV while
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0only YUV type color formats are suppo=
-rted due to HDMI bandwidth
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0limitation.
-> =C2=A0=C2=A0=C2=A0=C2=A0The problem I want to raise is the time cost for =
-enumeration.
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Each pixel format with a colorimetry =
-setting would invoke a
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ioctl(). For the application likes Gs=
-treamer would enum all the
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0possible colorimetries.
-> =C2=A0=C2=A0=C2=A0=C2=A0It would be better we could have something like D=
-RM blob id that
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0application could copy the data from =
-a non-DMA buffer from the
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0kernel.
+Changes in v7:
+* Now using hwmon for FPGA temperature reporting.
+* Now using VIDIOC_S_FMT and v4l2_pix_format.bytesperline for setting
+  the alignment.
+* Removed the magic sleep when loading the i2c/spi adapter modules (solved by
+  request_module() calls with propper - "platform:" prefixed - module
+  names).
+* Now properly reporting all the timings info in the VIDIOC_G_DV_TIMINGS
+  ioctls.
+* Updated the documentation.
+* Minor fixes as discussed in the v6 review.
+* Added debugfs access to the FPGA registers.
 
-This is a good topic. Colorimetry could indeed be moved away from the forma=
-t,
-considering they cannot be enumerated. It remains that this information nee=
-ds to
-be passed around, and the format of a blob in media space is not has restri=
-cted
-as with display HW. I think keeping an "exploded version" of the colorimetr=
-y
-remains needed.
+Changes in v6:
+* Rebased to current master that includes the Xilinx XDMA driver.
 
-Remember though that for stateful decoder, were the information could be st=
-ored
-in the bitstream, the decoder is responsible for returning that information=
-.
-Currently its passed through the G_FMT call, it would need to be replaced w=
-ith a
-control, similar to the HDR10 static metadata. If the colorimetry is no lon=
-ger
-static in the future, and may change while streaming, one option would be R=
-O
-request. This was foreseen for HDR10+ and Dolby Vision metadata notably, th=
-ough
-other options exists.
+Changes in v5:
+* Removed unused <linux/version.h> includes
 
-There exist known decoders that can do YUV to RGB conversion using an inlin=
-e
-post procesor (VC8000D and newer is an example), and for these to return co=
-rrect
-colors, the colorimetry information needs to be passed. So its not strictly
-useless.
+Changes in v4:
+* Redesigned the signal change handling logic. Now using the propper timings
+  API in the video input driver and a propper open() syscall check/logic in
+  the video output driver.
+* Fixed all minor issues from v3 review.
+* 'checkpatch.pl --strict' used for checking the code.
 
-In short, if we drop colorimetry from format, we also need to go ahead and
-design a replacement for it, that allow for the application to detect chang=
-es.
+Changes in v3:
+* Rebased the DMA transfers part to use the new XDMA driver from Xilinx/AMD
 
-regards,
-Nicolas
+Changes in v2:
+* Completely rewritten the original Xilinx's XDMA driver to meet kernel code
+  standards.
+* Added all required "to" and "cc" mail addresses.
+
+
+===== v4l2-compliance results - input =====
+
+v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
+
+Compliance test for mgb4 device /dev/video0:
+
+Driver Info:
+        Driver name      : mgb4
+        Card type        : MGB4 PCIe Card
+        Bus info         : PCI:0000:01:00.0
+        Driver version   : 6.4.0
+        Capabilities     : 0x85200001
+                Video Capture
+                Read/Write
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x05200001
+                Video Capture
+                Read/Write
+                Streaming
+                Extended Pix Format
+
+Required ioctls:
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/video0 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 1 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK
+        test VIDIOC_DV_TIMINGS_CAP: OK
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+        test VIDIOC_QUERYCTRL: OK (Not Supported)
+        test VIDIOC_G/S_CTRL: OK (Not Supported)
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+                warn: v4l2-test-controls.cpp(1139): V4L2_CID_DV_RX_POWER_PRESENT not found for input 0
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 0 Private Controls: 0
+
+Format ioctls (Input 0):
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls (Input 0):
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+
+Total for mgb4 device /dev/video0: 45, Succeeded: 45, Failed: 0, Warnings: 1
+
+===== v4l2-compliance results - output =====
+
+v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
+
+Compliance test for mgb4 device /dev/video2:
+
+Driver Info:
+        Driver name      : mgb4
+        Card type        : MGB4 PCIe Card
+        Bus info         : PCI:0000:01:00.0
+        Driver version   : 6.4.0
+        Capabilities     : 0x85200002
+                Video Output
+                Read/Write
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x05200002
+                Video Output
+                Read/Write
+                Streaming
+                Extended Pix Format
+
+Required ioctls:
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/video2 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 1 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Output 0):
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+        test VIDIOC_QUERYCTRL: OK (Not Supported)
+        test VIDIOC_G/S_CTRL: OK (Not Supported)
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 0 Private Controls: 0
+
+Format ioctls (Output 0):
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls (Output 0):
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Output 0):
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+
+Total for mgb4 device /dev/video2: 45, Succeeded: 45, Failed: 0, Warnings: 0
+
+
+Martin Tůma (2):
+  Added Digiteq Automotive MGB4 driver
+  Added Digiteq Automotive MGB4 driver documentation
+
+ Documentation/admin-guide/media/mgb4.rst      | 369 +++++++
+ .../admin-guide/media/pci-cardlist.rst        |   1 +
+ .../admin-guide/media/v4l-drivers.rst         |   1 +
+ MAINTAINERS                                   |   7 +
+ drivers/media/pci/Kconfig                     |   1 +
+ drivers/media/pci/Makefile                    |   1 +
+ drivers/media/pci/mgb4/Kconfig                |  17 +
+ drivers/media/pci/mgb4/Makefile               |   6 +
+ drivers/media/pci/mgb4/mgb4_cmt.c             | 244 +++++
+ drivers/media/pci/mgb4/mgb4_cmt.h             |  17 +
+ drivers/media/pci/mgb4/mgb4_core.c            | 705 +++++++++++++
+ drivers/media/pci/mgb4/mgb4_core.h            |  70 ++
+ drivers/media/pci/mgb4/mgb4_dma.c             | 123 +++
+ drivers/media/pci/mgb4/mgb4_dma.h             |  18 +
+ drivers/media/pci/mgb4/mgb4_i2c.c             | 140 +++
+ drivers/media/pci/mgb4/mgb4_i2c.h             |  35 +
+ drivers/media/pci/mgb4/mgb4_io.h              |  33 +
+ drivers/media/pci/mgb4/mgb4_regs.c            |  30 +
+ drivers/media/pci/mgb4/mgb4_regs.h            |  35 +
+ drivers/media/pci/mgb4/mgb4_sysfs.h           |  18 +
+ drivers/media/pci/mgb4/mgb4_sysfs_in.c        | 757 ++++++++++++++
+ drivers/media/pci/mgb4/mgb4_sysfs_out.c       | 700 +++++++++++++
+ drivers/media/pci/mgb4/mgb4_sysfs_pci.c       |  71 ++
+ drivers/media/pci/mgb4/mgb4_trigger.c         | 208 ++++
+ drivers/media/pci/mgb4/mgb4_trigger.h         |   8 +
+ drivers/media/pci/mgb4/mgb4_vin.c             | 930 ++++++++++++++++++
+ drivers/media/pci/mgb4/mgb4_vin.h             |  69 ++
+ drivers/media/pci/mgb4/mgb4_vout.c            | 594 +++++++++++
+ drivers/media/pci/mgb4/mgb4_vout.h            |  65 ++
+ 29 files changed, 5273 insertions(+)
+ create mode 100644 Documentation/admin-guide/media/mgb4.rst
+ create mode 100644 drivers/media/pci/mgb4/Kconfig
+ create mode 100644 drivers/media/pci/mgb4/Makefile
+ create mode 100644 drivers/media/pci/mgb4/mgb4_cmt.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_cmt.h
+ create mode 100644 drivers/media/pci/mgb4/mgb4_core.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_core.h
+ create mode 100644 drivers/media/pci/mgb4/mgb4_dma.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_dma.h
+ create mode 100644 drivers/media/pci/mgb4/mgb4_i2c.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_i2c.h
+ create mode 100644 drivers/media/pci/mgb4/mgb4_io.h
+ create mode 100644 drivers/media/pci/mgb4/mgb4_regs.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_regs.h
+ create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs.h
+ create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_in.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_out.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_sysfs_pci.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_trigger.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_trigger.h
+ create mode 100644 drivers/media/pci/mgb4/mgb4_vin.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_vin.h
+ create mode 100644 drivers/media/pci/mgb4/mgb4_vout.c
+ create mode 100644 drivers/media/pci/mgb4/mgb4_vout.h
+
+
+base-commit: 933174ae28ba72ab8de5b35cb7c98fc211235096
+-- 
+2.40.1
 
