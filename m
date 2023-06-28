@@ -2,59 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A9FC1741905
-	for <lists+linux-media@lfdr.de>; Wed, 28 Jun 2023 21:49:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73D85741A08
+	for <lists+linux-media@lfdr.de>; Wed, 28 Jun 2023 23:08:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230238AbjF1TtH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Jun 2023 15:49:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58640 "EHLO
+        id S231607AbjF1VIa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Jun 2023 17:08:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229924AbjF1TtG (ORCPT
+        with ESMTP id S230470AbjF1VI3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Jun 2023 15:49:06 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70B8F1BE9;
-        Wed, 28 Jun 2023 12:49:05 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 076FA61446;
-        Wed, 28 Jun 2023 19:49:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BEB4C433C8;
-        Wed, 28 Jun 2023 19:49:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687981744;
-        bh=F1SDy6om5FvcGfWGnomK4jMWzXGYxk5LjwftHO75iUE=;
-        h=From:To:Cc:Subject:Date:From;
-        b=USQqeiQ+R5urRUVwMUdR9enMdsK+s/6hobILgsdWjPqekIX4T7xppnc0GQrmZDn2V
-         RlyMrO7KvbuP3u/WmnwH+S7VX4UtNlA60bO2n/ysV2/IeozQFh9syFJc01vCQLMn4i
-         lpL5aUFa8tfTDEUk/8IpYGV6dop9ohyKK9kmioOkVEgVg1mVI8Dr5JnTBcA0r9wuI+
-         FY5hXuu+7tEFmudiB5/XmwP/t6YGi7UbYbbhr8ZVsoLR4E+Lc4D7cC4RYW0EkEnXtX
-         f/JaxY5ProNb82XEKFCX4Y3+t7ArxCAVSsDdBJP21BksDxKT8EPS8CratwmkeHwv2n
-         1GIKIaPXhpShg==
-Received: from mchehab by mail.kernel.org with local (Exim 4.96)
-        (envelope-from <mchehab@kernel.org>)
-        id 1qEb9x-001Nj0-23;
-        Wed, 28 Jun 2023 21:49:01 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     linux-media@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, Zhou jie <zhoujie@nfschina.com>,
-        llvm@lists.linux.dev
-Subject: [PATCH] media: wl128x: fix a clang warning
-Date:   Wed, 28 Jun 2023 21:48:53 +0200
-Message-ID: <6badd27ebfa718d5737f517f18b29a3e0f6e43f8.1687981726.git.mchehab@kernel.org>
-X-Mailer: git-send-email 2.41.0
+        Wed, 28 Jun 2023 17:08:29 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10D671FE4;
+        Wed, 28 Jun 2023 14:08:26 -0700 (PDT)
+Received: from [192.168.0.136] (85-160-58-109.reb.o2.cz [85.160.58.109])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0E1D99CA;
+        Wed, 28 Jun 2023 23:07:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1687986463;
+        bh=fswXHoRwKQMY/lVAgOQAgGj1xqVcfYILCuZoWk6AESs=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=ZbyHoXHmH47wE1rI/T1W7bCNPC5AizKYQdRHE1GhzAm2TNax6jrAIZgZz2MUx4gEK
+         oWqEkJgOZt7l8w9gEoCv1AB0LMb4EYEd+dMgZ+HS6U7HqD7xPmwX1LYJgv7phgM5c6
+         OuO+XGkrWMNTNh//Se+2hLQuLQQv6PIWmLcrm0G8=
+Message-ID: <07fb61ff-59e3-42af-8930-26674d3dd402@ideasonboard.com>
+Date:   Wed, 28 Jun 2023 23:08:19 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v8 2/5] staging: vc04_services: vchiq_arm: Register
+ vchiq_bus_type
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        linux-staging@lists.linux.dev
+Cc:     stefan.wahren@i2se.com, gregkh@linuxfoundation.org,
+        f.fainelli@gmail.com, athierry@redhat.com, error27@gmail.com,
+        dave.stevenson@raspberrypi.com, laurent.pinchart@ideasonboard.com
+References: <20230627201628.207483-1-umang.jain@ideasonboard.com>
+ <20230627201628.207483-3-umang.jain@ideasonboard.com>
+ <168795128917.2878450.12280941046284606847@Monstersaurus>
+Content-Language: en-US
+From:   Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <168795128917.2878450.12280941046284606847@Monstersaurus>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,56 +57,80 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Clang-16 produces this warning, which is fatal with CONFIG_WERROR:
+Hi Kieran,
 
-	../drivers/media/radio/wl128x/fmdrv_common.c:1237:19: error: variable 'cmd_cnt' set but not used [-Werror,-Wunused-but-set-variable]
-	        int ret, fw_len, cmd_cnt;
-	                         ^
-	1 error generated.
+On 6/28/23 1:21 PM, Kieran Bingham wrote:
+> Quoting Umang Jain (2023-06-27 21:16:25)
+>> Register the vchiq_bus_type bus with the vchiq interface.
+>> The bcm2835-camera nad bcm2835_audio will be registered to this bus type
+> s/nad/and/
 
-What happens is that cmd_cnt tracks the amount of firmware data packets
-were transfered, which is printed only when debug is used.
+Oops,  v9 probably?
+>
+> Is it possible to rename bcm2835_audio to bcm2835-audio for consistency?
+> Or is that baked into existing usage/abi already?
 
-Switch to use the firmware count, as the message is all about reporting
-a partial firmware transfer.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
----
- drivers/media/radio/wl128x/fmdrv_common.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/media/radio/wl128x/fmdrv_common.c b/drivers/media/radio/wl128x/fmdrv_common.c
-index cbd49dff6d74..b31b7ed60bbe 100644
---- a/drivers/media/radio/wl128x/fmdrv_common.c
-+++ b/drivers/media/radio/wl128x/fmdrv_common.c
-@@ -1234,9 +1234,8 @@ static int fm_download_firmware(struct fmdev *fmdev, const u8 *fw_name)
- 	struct bts_action *action;
- 	struct bts_action_delay *delay;
- 	u8 *fw_data;
--	int ret, fw_len, cmd_cnt;
-+	int ret, fw_len;
- 
--	cmd_cnt = 0;
- 	set_bit(FM_FW_DW_INPROGRESS, &fmdev->flag);
- 
- 	ret = request_firmware(&fw_entry, fw_name,
-@@ -1272,7 +1271,6 @@ static int fm_download_firmware(struct fmdev *fmdev, const u8 *fw_name)
- 			if (ret)
- 				goto rel_fw;
- 
--			cmd_cnt++;
- 			break;
- 
- 		case ACTION_DELAY:	/* Delay */
-@@ -1284,7 +1282,7 @@ static int fm_download_firmware(struct fmdev *fmdev, const u8 *fw_name)
- 		fw_data += (sizeof(struct bts_action) + (action->size));
- 		fw_len -= (sizeof(struct bts_action) + (action->size));
- 	}
--	fmdbg("Firmware commands(%d) loaded to chip\n", cmd_cnt);
-+	fmdbg("Transfered only %d of %d bytes of the firmware to chip\n", fw_entry->size - fw_len, fw_entry->size);
- rel_fw:
- 	release_firmware(fw_entry);
- 	clear_bit(FM_FW_DW_INPROGRESS, &fmdev->flag);
--- 
-2.41.0
+well, there are more (bcm2835_hdmi, bcm2835_headphones) so, I don't 
+think I will address in this series.
+>
+> If it can be changed, I think it's probably something to do in an
+> independent patch at the end of the series anyway.
+>
+> I suspect this patch could be merged with 1/5 but I think it's ok
+> separate too.
+>
+>
+> Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+>
+>> going ahead.
+>>
+>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+>> ---
+>>   .../vc04_services/interface/vchiq_arm/vchiq_arm.c        | 9 +++++++++
+>>   1 file changed, 9 insertions(+)
+>>
+>> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+>> index aa2313f3bcab..e8d40f891449 100644
+>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+>> @@ -12,6 +12,7 @@
+>>   #include <linux/cdev.h>
+>>   #include <linux/fs.h>
+>>   #include <linux/device.h>
+>> +#include <linux/device/bus.h>
+>>   #include <linux/mm.h>
+>>   #include <linux/highmem.h>
+>>   #include <linux/pagemap.h>
+>> @@ -34,6 +35,7 @@
+>>   #include "vchiq_ioctl.h"
+>>   #include "vchiq_arm.h"
+>>   #include "vchiq_debugfs.h"
+>> +#include "vchiq_device.h"
+>>   #include "vchiq_connected.h"
+>>   #include "vchiq_pagelist.h"
+>>   
+>> @@ -1870,6 +1872,12 @@ static int __init vchiq_driver_init(void)
+>>   {
+>>          int ret;
+>>   
+>> +       ret = bus_register(&vchiq_bus_type);
+>> +       if (ret) {
+>> +               pr_err("Failed to register %s\n", vchiq_bus_type.name);
+>> +               return ret;
+>> +       }
+>> +
+>>          ret = platform_driver_register(&vchiq_driver);
+>>          if (ret)
+>>                  pr_err("Failed to register vchiq driver\n");
+>> @@ -1880,6 +1888,7 @@ module_init(vchiq_driver_init);
+>>   
+>>   static void __exit vchiq_driver_exit(void)
+>>   {
+>> +       bus_unregister(&vchiq_bus_type);
+>>          platform_driver_unregister(&vchiq_driver);
+>>   }
+>>   module_exit(vchiq_driver_exit);
+>> -- 
+>> 2.39.1
+>>
 
