@@ -2,30 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 24C617410F7
-	for <lists+linux-media@lfdr.de>; Wed, 28 Jun 2023 14:35:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6200574117C
+	for <lists+linux-media@lfdr.de>; Wed, 28 Jun 2023 14:44:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231190AbjF1MfH convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 28 Jun 2023 08:35:07 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:55424 "EHLO www.linuxtv.org"
+        id S231841AbjF1MmW convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 28 Jun 2023 08:42:22 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:56440 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230187AbjF1MfF (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Jun 2023 08:35:05 -0400
+        id S232511AbjF1Mi6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 28 Jun 2023 08:38:58 -0400
 Received: from builder.linuxtv.org ([140.211.167.10])
         by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1qEUNz-009CT9-JD; Wed, 28 Jun 2023 12:35:03 +0000
+        id 1qEURj-009CYF-5D; Wed, 28 Jun 2023 12:38:55 +0000
 Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
         by builder.linuxtv.org with esmtp (Exim 4.96)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1qEUNy-000kiE-0d;
-        Wed, 28 Jun 2023 12:35:01 +0000
-Date:   Wed, 28 Jun 2023 12:35:01 +0000 (UTC)
+        id 1qEURh-000oCX-2x;
+        Wed, 28 Jun 2023 12:38:53 +0000
+Date:   Wed, 28 Jun 2023 12:38:53 +0000 (UTC)
 From:   Jenkins Builder Robot <jenkins@linuxtv.org>
 To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1443427732.7.1687955701487@builder.linuxtv.org>
-Subject: Build failed in Jenkins: xawtv3 #10
+Message-ID: <832081210.8.1687955933205@builder.linuxtv.org>
+In-Reply-To: <1443427732.7.1687955701487@builder.linuxtv.org>
+References: <1443427732.7.1687955701487@builder.linuxtv.org>
+Subject: Build failed in Jenkins: xawtv3 #11
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8BIT
@@ -37,19 +39,19 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/xawtv3/10/display/redirect>
+See <https://builder.linuxtv.org/job/xawtv3/11/display/redirect>
 
 Changes:
 
 
 ------------------------------------------
-[...truncated 1.13 KB...]
+[...truncated 1020 B...]
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/xawtv3.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/xawtv3.git
  > git --version # timeout=10
  > git --version # 'git version 2.39.2'
  > git fetch --tags --force --progress -- git://linuxtv.org/xawtv3.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git config remote.origin.url git://linuxtv.org/xawtv3.git # timeout=10
- > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
-Avoid second fetch
  > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
 Checking out Revision 36dc44e68e5886339b4a0fbe3f404fb1a4fd2292 (refs/remotes/origin/master)
  > git config core.sparsecheckout # timeout=10
@@ -62,13 +64,13 @@ No credentials specified
 The recommended git tool is: NONE
 No credentials specified
 [GitCheckoutListener] Recording commits of 'git git://linuxtv.org/xawtv3.git'
-[GitCheckoutListener] Found previous build 'xawtv3 #9' that contains recorded Git commits
+[GitCheckoutListener] Found previous build 'xawtv3 #10' that contains recorded Git commits
 [GitCheckoutListener] -> Starting recording of new commits since '36dc44e'
 [GitCheckoutListener] -> Single parent commit found - branch is already descendant of target branch head
 [GitCheckoutListener] -> Using head commit '36dc44e' as starting point
 [GitCheckoutListener] -> No new commits found
 [GitCheckoutListener] -> Git commit decorator could not be created for SCM 'hudson.plugins.git.GitSCM@71f7547'
-[xawtv3] $ /bin/sh -xe /tmp/jenkins8855287693969766230.sh
+[xawtv3] $ /bin/sh -xe /tmp/jenkins3882940555995009423.sh
 + ./autogen.sh
 + autoconf
 configure.ac:5: warning: The macro `AC_CONFIG_HEADER' is obsolete.
