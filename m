@@ -2,104 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D80F47420DC
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jun 2023 09:19:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45B047420E6
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jun 2023 09:24:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232046AbjF2HTG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Jun 2023 03:19:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51062 "EHLO
+        id S231961AbjF2HYM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Jun 2023 03:24:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231269AbjF2HTF (ORCPT
+        with ESMTP id S231191AbjF2HYJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Jun 2023 03:19:05 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E7502116;
-        Thu, 29 Jun 2023 00:19:03 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B76F6614D7;
-        Thu, 29 Jun 2023 07:19:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 595EAC433C8;
-        Thu, 29 Jun 2023 07:19:00 +0000 (UTC)
-Message-ID: <63bd261c-f05c-0530-6271-a4d82ccf7797@xs4all.nl>
-Date:   Thu, 29 Jun 2023 09:18:58 +0200
+        Thu, 29 Jun 2023 03:24:09 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4517BE58
+        for <linux-media@vger.kernel.org>; Thu, 29 Jun 2023 00:24:08 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1qEm0c-009bCT-A9; Thu, 29 Jun 2023 07:24:06 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.96)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1qEm0Z-0031vG-1R;
+        Thu, 29 Jun 2023 07:24:03 +0000
+Date:   Thu, 29 Jun 2023 07:24:02 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <512694978.0.1688023442721@builder.linuxtv.org>
+In-Reply-To: <832081210.8.1687955933205@builder.linuxtv.org>
+References: <832081210.8.1687955933205@builder.linuxtv.org>
+Subject: Jenkins build is back to normal : xawtv3 #12
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] OOB read and write in mdp_prepare_buffer
-Content-Language: en-US
-To:     yqsun1997@gmail.com, mchehab@kernel.org
-Cc:     matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, 499671216@qq.com
-References: <20230627082731.1769620-1-yqsun1997@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20230627082731.1769620-1-yqsun1997@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: xawtv3
+X-Jenkins-Result: SUCCESS
+Auto-submitted: auto-generated
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi!
+See <https://builder.linuxtv.org/job/xawtv3/12/display/redirect?page=changes>
 
-On 6/27/23 10:27, yqsun1997@gmail.com wrote:
-> From: yqsun1997 <yqsun1997@gmail.com>
-> 
-> Because format in struct img_image_buffer max index is IMG_MAX_PLANES ==3,
-> The num_planes max index is 8.so will be OOB like in mdp_prepare_buffer.
-> 
-> static void mdp_prepare_buffer(struct img_image_buffer *b,
->                                 struct mdp_frame *frame, struct vb2_buffer *vb)
-> {
->          struct v4l2_pix_format_mplane *pix_mp = &frame->format.fmt.pix_mp;
->          unsigned int i;
-> 
->          b->format.colorformat = frame->mdp_fmt->mdp_color;
->          b->format.ycbcr_prof = frame->ycbcr_prof;
->          for (i = 0; i < pix_mp->num_planes; ++i) {
-
-Unless there is a bug in the driver, pix_mp->num_planes will never 
-exceed 3. Userspace might certainly pass more than 3 planes, but only 
-the first pix_mp->num_planes should ever be used.
-
-If pix_mp->num_planes can ever be more than 3, then that would be the 
-real bug.
-
-Regards,
-
-	Hans
-
->                  u32 stride = mdp_fmt_get_stride(frame->mdp_fmt,
->                          pix_mp->plane_fmt[i].bytesperline, i);
-> 
->                  b->format.plane_fmt[i].stride = stride;  //oob
->                  ......
-> 
-> Signed-off-by: yqsun1997 <yqsun1997@gmail.com>
-> ---
->   drivers/media/platform/mediatek/mdp3/mtk-mdp3-type.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-type.h b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-type.h
-> index ae0396806..e2e991a34 100644
-> --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-type.h
-> +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-type.h
-> @@ -11,7 +11,7 @@
->   
->   #define IMG_MAX_HW_INPUTS	3
->   #define IMG_MAX_HW_OUTPUTS	4
-> -#define IMG_MAX_PLANES		3
-> +#define IMG_MAX_PLANES		8
->   #define IMG_MAX_COMPONENTS	20
->   
->   struct img_crop {
