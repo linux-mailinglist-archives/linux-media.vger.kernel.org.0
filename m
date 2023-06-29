@@ -2,204 +2,216 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D02D1741F89
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jun 2023 07:10:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12E29742097
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jun 2023 08:46:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231496AbjF2FKV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Jun 2023 01:10:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54124 "EHLO
+        id S231843AbjF2GqH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Jun 2023 02:46:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231154AbjF2FKT (ORCPT
+        with ESMTP id S232267AbjF2GpM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Jun 2023 01:10:19 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64ABB270A;
-        Wed, 28 Jun 2023 22:10:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688015418; x=1719551418;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6LQAu91eVGZWW31xWhtJ43lX+y8sn/3qZXLOGp6FHk0=;
-  b=Ol6ec8y/b7GISf+4fs0hT47optLW1bOD7gdI0xgRjBQ2mHGUuHSHzLMh
-   MU8zbwlokuDAWNMWkmtUsh4wNCDL807qP4IGwjw8AGP9dLcaBHZ6AUCo7
-   xWsz+ZzRLeeoTC1kpRpauiPAQgZWF8qnaa4rDjEzp8537RfKsc7g1EA5i
-   HOnVbygyjaDtTIVZ5tGJaWfrzzUzyR4YdmEnlGch98gBvze4VDrxI8coZ
-   cWYQk0Fa0FExxGnslUczYajhOewTtYZ0D8E8wPgJtSfQApxZKpmtFieFV
-   lfiauEOITSCDHuHm5YYZAVFzdJb969UOkMuMV5hl627Jyn4KHxza22gvM
+        Thu, 29 Jun 2023 02:45:12 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 211741727;
+        Wed, 28 Jun 2023 23:43:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1688021000; x=1719557000;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=G+uOQkDR2E0nxUFvjbja0K0Gxq+1DDCLe5LQgn9NGO0=;
+  b=mWlnIt1CrXBA16J8GsKQ2MAJfcZviXzBE1YJWHy8mXgH/9ujCtMTk0S4
+   5CRz20AnkNDwqlxKYHPj4noLZ4M5o9IxMQjWfS34tm/1CGx2M0O2yI2/E
+   0oPOQ8me0DtdfDQ4Xb4tBri+cnyq4NIFkg3hp3RDM0lSe8z0qD3g+0qAd
+   DAS4dwwHgdi4RVUVGvzT/ynJ4lDn+AZbBe5smKT68b+sOCU6iidb3Gxjz
+   dYfSaj9oM69XEylVwuwQg+UvgZMHF3Oq0dzPDX8Hm2SP7nNWdjzU0ZuPK
+   WDgUmpfFEzJ58psz2UYNVUuv4yR2rnCFGovHwfKr9HSS8MU39Li5GzivP
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="342362852"
-X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
-   d="scan'208";a="342362852"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2023 22:10:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="694496366"
-X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
-   d="scan'208";a="694496366"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 28 Jun 2023 22:10:11 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qEjv0-000DqN-1O;
-        Thu, 29 Jun 2023 05:10:10 +0000
-Date:   Thu, 29 Jun 2023 13:09:26 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Tomasz Figa <tfiga@google.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-        Irui Wang <irui.wang@mediatek.com>,
-        George Sun <george.sun@mediatek.com>,
-        Steve Cho <stevecho@chromium.org>, devicetree@vger.kernel.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com,
-        linux-kernel@vger.kernel.org,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-        linux-mediatek@lists.infradead.org,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: media: mediatek: vcodec: fix AV1 decode fail for 36bit iova
-Message-ID: <202306291250.o5AmGFiC-lkp@intel.com>
-References: <20230628054111.8967-1-xiaoyong.lu@mediatek.com>
+X-IronPort-AV: E=Sophos;i="6.01,167,1684792800"; 
+   d="scan'208";a="31667920"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 29 Jun 2023 08:43:17 +0200
+Received: from steina-w.localnet (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id F1841280078;
+        Thu, 29 Jun 2023 08:43:16 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     linux-media@vger.kernel.org, linux-imx@nxp.com,
+        devicetree@vger.kernel.org, guoniu.zhou@oss.nxp.com
+Cc:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, xavier.roumegue@oss.nxp.com,
+        kernel@pengutronix.de, jacopo.mondi@ideasonboard.com,
+        sakari.ailus@linux.intel.com
+Subject: Re: [PATCH v5 3/3] media: nxp: imx8-isi: add ISI support for i.MX93
+Date:   Thu, 29 Jun 2023 08:43:16 +0200
+Message-ID: <5948448.lOV4Wx5bFT@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20230629013621.2388121-4-guoniu.zhou@oss.nxp.com>
+References: <20230629013621.2388121-1-guoniu.zhou@oss.nxp.com> <20230629013621.2388121-4-guoniu.zhou@oss.nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230628054111.8967-1-xiaoyong.lu@mediatek.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Xiaoyong,
+Hi Guoniu,
 
-kernel test robot noticed the following build warnings:
+thanks for the patch series.
 
-[auto build test WARNING on next-20230627]
-[cannot apply to media-tree/master v6.4 v6.4-rc7 v6.4-rc6 linus/master v6.4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Am Donnerstag, 29. Juni 2023, 03:36:21 CEST schrieb guoniu.zhou@oss.nxp.com:
+> ********************
+> Achtung externe E-Mail: =D6ffnen Sie Anh=E4nge und Links nur, wenn Sie wi=
+ssen,
+> dass diese aus einer sicheren Quelle stammen und sicher sind. Leiten Sie
+> die E-Mail im Zweifelsfall zur Pr=FCfung an den IT-Helpdesk weiter.
+> Attention external email: Open attachments and links only if you know that
+> they are from a secure source and are safe. In doubt forward the email to
+> the IT-Helpdesk to check it. ********************
+>=20
+> From: "Guoniu.zhou" <guoniu.zhou@nxp.com>
+>=20
+> i.MX93 use a different gasket which has different register definition
+> compared with i.MX8. Hence implement the gasket callbacks in order to
+> add ISI support for i.MX93.
+>=20
+> Signed-off-by: Guoniu.zhou <guoniu.zhou@nxp.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  .../platform/nxp/imx8-isi/imx8-isi-core.c     | 15 ++++++++++
+>  .../platform/nxp/imx8-isi/imx8-isi-core.h     |  2 ++
+>  .../platform/nxp/imx8-isi/imx8-isi-gasket.c   | 30 +++++++++++++++++++
+>  3 files changed, 47 insertions(+)
+>=20
+> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
+> b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c index
+> 5165f8960c2c..27bd18b7ee65 100644
+> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
+> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
+> @@ -307,6 +307,20 @@ static const struct mxc_isi_plat_data mxc_imx8mp_dat=
+a =3D
+> { .has_36bit_dma		=3D true,
+>  };
+>=20
+> +static const struct mxc_isi_plat_data mxc_imx93_data =3D {
+> +	.model			=3D MXC_ISI_IMX93,
+> +	.num_ports		=3D 1,
+> +	.num_channels		=3D 1,
+> +	.reg_offset		=3D 0,
+> +	.ier_reg		=3D &mxc_imx8_isi_ier_v2,
+> +	.set_thd		=3D &mxc_imx8_isi_thd_v1,
+> +	.clks			=3D mxc_imx8mn_clks,
+> +	.num_clks		=3D ARRAY_SIZE(mxc_imx8mn_clks),
+> +	.buf_active_reverse	=3D true,
+> +	.gasket_ops		=3D &mxc_imx93_gasket_ops,
+> +	.has_36bit_dma		=3D false,
+> +};
+> +
+>  /*
+> -------------------------------------------------------------------------=
+=2D-
+> -- * Power management
+>   */
+> @@ -518,6 +532,7 @@ static int mxc_isi_remove(struct platform_device *pde=
+v)
+>  static const struct of_device_id mxc_isi_of_match[] =3D {
+>  	{ .compatible =3D "fsl,imx8mn-isi", .data =3D &mxc_imx8mn_data },
+>  	{ .compatible =3D "fsl,imx8mp-isi", .data =3D &mxc_imx8mp_data },
+> +	{ .compatible =3D "fsl,imx93-isi", .data =3D &mxc_imx93_data },
+>  	{ /* sentinel */ },
+>  };
+>  MODULE_DEVICE_TABLE(of, mxc_isi_of_match);
+> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
+> b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h index
+> 78ca047d93d1..2810ebe9b5f7 100644
+> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
+> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
+> @@ -158,6 +158,7 @@ struct mxc_gasket_ops {
+>  enum model {
+>  	MXC_ISI_IMX8MN,
+>  	MXC_ISI_IMX8MP,
+> +	MXC_ISI_IMX93,
+>  };
+>=20
+>  struct mxc_isi_plat_data {
+> @@ -295,6 +296,7 @@ struct mxc_isi_dev {
+>  };
+>=20
+>  extern const struct mxc_gasket_ops mxc_imx8_gasket_ops;
+> +extern const struct mxc_gasket_ops mxc_imx93_gasket_ops;
+>=20
+>  int mxc_isi_crossbar_init(struct mxc_isi_dev *isi);
+>  void mxc_isi_crossbar_cleanup(struct mxc_isi_crossbar *xbar);
+> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c
+> b/drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c index
+> 1d632dc60699..50ac1d3a2b6f 100644
+> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c
+> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c
+> @@ -53,3 +53,33 @@ const struct mxc_gasket_ops mxc_imx8_gasket_ops =3D {
+>  	.enable =3D mxc_imx8_gasket_enable,
+>  	.disable =3D mxc_imx8_gasket_disable,
+>  };
+> +
+> +/*
+> -------------------------------------------------------------------------=
+=2D-
+> -- + * i.MX93 gasket
+> + **/
+> +
+> +#define DISP_MIX_CAMERA_MUX                     0x30
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xiaoyong-Lu/media-mediatek-vcodec-fix-AV1-decode-fail-for-36bit-iova/20230628-134327
-base:   next-20230627
-patch link:    https://lore.kernel.org/r/20230628054111.8967-1-xiaoyong.lu%40mediatek.com
-patch subject: media: mediatek: vcodec: fix AV1 decode fail for 36bit iova
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230629/202306291250.o5AmGFiC-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230629/202306291250.o5AmGFiC-lkp@intel.com/reproduce)
+Which peripheral does this refer to? I would assume it is the Media Mix Dom=
+ain=20
+Block Control, but there is no register at 0x30 mentioned in the reference=
+=20
+manual. You have some additional information?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306291250.o5AmGFiC-lkp@intel.com/
+Also which type of input did you use? MIPI-CSI2 or parallel interface?
 
-All warnings (new ones prefixed by >>):
+Thanks and best regards,
+Alexander
 
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: In function 'vdec_av1_slice_setup_tile_buffer':
->> drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1676:91: warning: suggest parentheses around '+' inside '<<' [-Wparentheses]
-    1676 |                 tile_info_buf[tile_info_base + 1] = (unsigned int)(tile_buf_pa >> 4) << 4 +
-         |                                                                                         ~~^
-    1677 |                         ((unsigned int)(tile_buf_pa >> 32) & 0xf);
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                          
+> +#define DISP_MIX_CAMERA_MUX_DATA_TYPE(x)        (((x) & 0x3f) << 3)
+> +#define DISP_MIX_CAMERA_MUX_GASKET_ENABLE       BIT(16)
+> +static void mxc_imx93_gasket_enable(struct mxc_isi_dev *isi,
+> +				    const struct v4l2_mbus_frame_desc=20
+*fd,
+> +				    const struct v4l2_mbus_framefmt=20
+*fmt,
+> +				    const unsigned int port)
+> +{
+> +	u32 val;
+> +
+> +	val =3D DISP_MIX_CAMERA_MUX_DATA_TYPE(fd->entry[0].bus.csi2.dt);
+> +	val |=3D DISP_MIX_CAMERA_MUX_GASKET_ENABLE;
+> +	regmap_write(isi->gasket, DISP_MIX_CAMERA_MUX, val);
+> +}
+> +
+> +static void mxc_imx93_gasket_disable(struct mxc_isi_dev *isi,
+> +				     unsigned int port)
+> +{
+> +	regmap_write(isi->gasket, DISP_MIX_CAMERA_MUX, 0);
+> +}
+> +
+> +const struct mxc_gasket_ops mxc_imx93_gasket_ops =3D {
+> +	.enable =3D mxc_imx93_gasket_enable,
+> +	.disable =3D mxc_imx93_gasket_disable,
+> +};
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SM_GCC_8350
-   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
-   Selected by [m]:
-   - SM_VIDEOCC_8350 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-   WARNING: unmet direct dependencies detected for SM_GCC_8450
-   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
-   Selected by [m]:
-   - SM_GPUCC_8450 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-   - SM_VIDEOCC_8450 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-   WARNING: unmet direct dependencies detected for SM_GCC_8550
-   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
-   Selected by [m]:
-   - SM_GPUCC_8550 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-   - SM_VIDEOCC_8550 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
 
 
-vim +1676 drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c
-
-  1649	
-  1650	static void vdec_av1_slice_setup_tile_buffer(struct vdec_av1_slice_instance *instance,
-  1651						     struct vdec_av1_slice_vsi *vsi,
-  1652						     struct mtk_vcodec_mem *bs)
-  1653	{
-  1654		struct vdec_av1_slice_tile_group *tile_group = &instance->tile_group;
-  1655		struct vdec_av1_slice_uncompressed_header *uh = &vsi->frame.uh;
-  1656		struct vdec_av1_slice_tile *tile = &uh->tile;
-  1657		u32 tile_num, tile_row, tile_col;
-  1658		u32 allow_update_cdf = 0;
-  1659		u32 sb_boundary_x_m1 = 0, sb_boundary_y_m1 = 0;
-  1660		int tile_info_base;
-  1661		u64 tile_buf_pa;
-  1662		u32 *tile_info_buf = instance->tile.va;
-  1663		u64 pa = (u64)bs->dma_addr;
-  1664	
-  1665		if (uh->disable_cdf_update == 0)
-  1666			allow_update_cdf = 1;
-  1667	
-  1668		for (tile_num = 0; tile_num < tile_group->num_tiles; tile_num++) {
-  1669			/* each uint32 takes place of 4 bytes */
-  1670			tile_info_base = (AV1_TILE_BUF_SIZE * tile_num) >> 2;
-  1671			tile_row = tile_num / tile->tile_cols;
-  1672			tile_col = tile_num % tile->tile_cols;
-  1673			tile_info_buf[tile_info_base + 0] = (tile_group->tile_size[tile_num] << 3);
-  1674			tile_buf_pa = pa + tile_group->tile_start_offset[tile_num];
-  1675	
-> 1676			tile_info_buf[tile_info_base + 1] = (unsigned int)(tile_buf_pa >> 4) << 4 +
-  1677				((unsigned int)(tile_buf_pa >> 32) & 0xf);
-  1678			tile_info_buf[tile_info_base + 2] = (tile_buf_pa % 16) << 3;
-  1679	
-  1680			sb_boundary_x_m1 =
-  1681				(tile->mi_col_starts[tile_col + 1] - tile->mi_col_starts[tile_col] - 1) &
-  1682				0x3f;
-  1683			sb_boundary_y_m1 =
-  1684				(tile->mi_row_starts[tile_row + 1] - tile->mi_row_starts[tile_row] - 1) &
-  1685				0x1ff;
-  1686	
-  1687			tile_info_buf[tile_info_base + 3] = (sb_boundary_y_m1 << 7) | sb_boundary_x_m1;
-  1688			tile_info_buf[tile_info_base + 4] = ((allow_update_cdf << 18) | (1 << 16));
-  1689	
-  1690			if (tile_num == tile->context_update_tile_id &&
-  1691			    uh->disable_frame_end_update_cdf == 0)
-  1692				tile_info_buf[tile_info_base + 4] |= (1 << 17);
-  1693	
-  1694			mtk_vcodec_debug(instance, "// tile buf %d pos(%dx%d) offset 0x%x\n",
-  1695					 tile_num, tile_row, tile_col, tile_info_base);
-  1696			mtk_vcodec_debug(instance, "// %08x %08x %08x %08x\n",
-  1697					 tile_info_buf[tile_info_base + 0],
-  1698					 tile_info_buf[tile_info_base + 1],
-  1699					 tile_info_buf[tile_info_base + 2],
-  1700					 tile_info_buf[tile_info_base + 3]);
-  1701			mtk_vcodec_debug(instance, "// %08x %08x %08x %08x\n",
-  1702					 tile_info_buf[tile_info_base + 4],
-  1703					 tile_info_buf[tile_info_base + 5],
-  1704					 tile_info_buf[tile_info_base + 6],
-  1705					 tile_info_buf[tile_info_base + 7]);
-  1706		}
-  1707	}
-  1708	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
