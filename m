@@ -2,70 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B99207422AE
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jun 2023 10:52:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C49A87423CC
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jun 2023 12:15:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232197AbjF2Iwq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Jun 2023 04:52:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57032 "EHLO
+        id S231855AbjF2KPw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Jun 2023 06:15:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232371AbjF2IwO (ORCPT
+        with ESMTP id S231848AbjF2KPP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Jun 2023 04:52:14 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6483C10D5
-        for <linux-media@vger.kernel.org>; Thu, 29 Jun 2023 01:52:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de;
- s=s31663417; t=1688028723; x=1688633523; i=heinz-kemner@gmx.de;
- bh=frcCV1k9oG9oKj3dpUqdJg1PxRT2RSN/XKdLCPjaYaY=;
- h=X-UI-Sender-Class:Date:To:From:Subject;
- b=tzmcaVrCXZVe/yrBIRXIK50XDwMB+zHAe8/9Yg6Yx+4MAXFWWL/lyc8MLiK04wPj+t72rFd
- 23DIx5sscIiW0hlhYQeMSnWc6D6jsWSorEiWocyhYXsEGuYVMHEa6uPREUOJfMiUaj8kWTZgT
- bq0sbMZ616v7lnCjdpDaRtFNhlfK8q45eEEwfSfhrBPAQ0bvRzkqxKYAW4/GQv25oQX2GsqLi
- /kLk738+R7BAJMHWLOl+iq9d96cuV8eE6AdkDzZMHDegCBIV55ISAGrAbPMbzdwxErM+TsM8t
- Y0KXcZc/QHafT8XyQlj4zHyVSwgKdbqRuUtexD06vjZkqM8jT4Nw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.2.101] ([91.52.25.55]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MZTqg-1qaDjh2frC-00WVUT for
- <linux-media@vger.kernel.org>; Thu, 29 Jun 2023 10:52:03 +0200
-Message-ID: <2ad0efa8-25ad-9754-fd65-01b394fd1b66@gmx.de>
-Date:   Thu, 29 Jun 2023 10:52:03 +0200
+        Thu, 29 Jun 2023 06:15:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08EA030F1
+        for <linux-media@vger.kernel.org>; Thu, 29 Jun 2023 03:11:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1688033465;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Bijh5chUEAjtU4inzJ6s9CVJJTgZ7eyxRP2EplrQgNw=;
+        b=TIRVUJnYMxreJX/pO3jhBFk9RIR5Bs/wycirgBLwRQAcsKtmWagWNFimP5n9/gspXkHLfC
+        9UwkfkP+Swm+5xjBK4BG4snf0ev1BxM/4AzeT3GLyl6kiehmyxTFcVY+L/J/3wJwgzjZla
+        PNh4B+EQwWFGBVVro2h2J5ZWcEZa07E=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-564-3IeIyPFdOCidOJD2cIKeew-1; Thu, 29 Jun 2023 06:11:04 -0400
+X-MC-Unique: 3IeIyPFdOCidOJD2cIKeew-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-987accb96dbso47384466b.2
+        for <linux-media@vger.kernel.org>; Thu, 29 Jun 2023 03:11:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688033462; x=1690625462;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bijh5chUEAjtU4inzJ6s9CVJJTgZ7eyxRP2EplrQgNw=;
+        b=Cvay4Z7LtV3QdwCd2UbR7Yxci9VgUpwPOGxcgzcIv8booIaiU58uUyw+P4arWj9sZ3
+         SjBwwqf1QLong1WNMPcXtIkG+pG8LKQ38fpe3Yjd7ftQ+PxUtkQMxkZo6wzRxdoH9z1Z
+         1M2LsTF5wB0dfi2uWqedjznKP3e5sCyRCoSe+oB87Y8XgpuQRxZASYAo3LNxFKtWIN49
+         oXYNQ0ZbBMsLrUWcMZp46/U3QZ8+EDZMA9IrLkgs6JmO+vGvu+/u3jI5qjseN5EHpMBD
+         K4OM8SVEqHWRGc5j13eCO/kejS8Nl0itILMLuOkKuvvLuxltVmP6r07h8oatujStafGT
+         2Rdw==
+X-Gm-Message-State: AC+VfDxBsR+o3mX1Ik5MrKd+qx4WZ6NynJgxflAHKbIZRudanTSxpSiv
+        AGGfTmm3xdbdnXp1+z3g/b9jKMDxMZtS3SMMj1OSNbBVxL39gn+fGbNhqCdK05H/MgA9bv30REe
+        QPjMGXjGsby/uRTX4qUtf0lx1P7qOUJs=
+X-Received: by 2002:a17:907:26cc:b0:98a:29ca:c58e with SMTP id bp12-20020a17090726cc00b0098a29cac58emr22130827ejc.27.1688033462681;
+        Thu, 29 Jun 2023 03:11:02 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4IYgmtgSXeupEWER9mBQVhXYF+0IBmsNmF7gtkUfekKxDtHL/16/K5WKz123cJAAeprw4TbQ==
+X-Received: by 2002:a17:907:26cc:b0:98a:29ca:c58e with SMTP id bp12-20020a17090726cc00b0098a29cac58emr22130817ejc.27.1688033462364;
+        Thu, 29 Jun 2023 03:11:02 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:2a07:3a01:67e5:daf9:cec0:df6? (2001-1c00-2a07-3a01-67e5-daf9-cec0-0df6.cable.dynamic.v6.ziggo.nl. [2001:1c00:2a07:3a01:67e5:daf9:cec0:df6])
+        by smtp.gmail.com with ESMTPSA id k13-20020a17090646cd00b009889c4bd8absm6604845ejs.216.2023.06.29.03.11.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Jun 2023 03:11:01 -0700 (PDT)
+Message-ID: <199f7d7a-ae7a-3a08-0a92-14511db0daf5@redhat.com>
+Date:   Thu, 29 Jun 2023 12:11:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-To:     linux-media@vger.kernel.org
-Content-Language: de-DE
-From:   Heinz Kemner <Heinz-Kemner@gmx.de>
-Subject: ID 046d:08e5 not listed
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH 1/1] media: i2c: Select V4L2_FWNODE and
+ VIDEO_V4L2_SUBDEV_API for sensors
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Dan Scally <dan.scally@ideasonboard.com>, hverkuil@xs4all.nl
+References: <20230629081116.919253-1-sakari.ailus@linux.intel.com>
+Content-Language: en-US
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230629081116.919253-1-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:lOPIdpS0PkTsIasgDmh4BUnEt9Lq1vsUXe7gNl9PWCCUaxUSmFC
- QslrvHhBLo6fpVhaTfb6vbDidvJvn+iY26pbF91HOsaY/TKfyqg3s6mO2N6vkeVcS4mguBH
- GKpvMQJHL3IsUYQqjuYSgk9KN/C7PaacKr2+6SPjNiFP3BdEUsvbwFGeMszRjLD0n6PlyV1
- nuwAf16Y8mSYyhVQ+LLaQ==
-UI-OutboundReport: notjunk:1;M01:P0:qX0hIBkVcq8=;+/6Azuyz5MGmzLf89WDbscOUGx/
- FQCq2RLmGeylhxRF0/WdsHGbS2EXFsUNPbPE5h96PaQ5v064D5b9EwIWLDQBs4dqfEai7+rrv
- XUbfO5Bi+k5gKI9TK8oaPISgdGJ7L4/l23zxtxjYSxUasT6OcCD2DGBgtZFlm4dYcgt1bTnQB
- XSiBd6Duf1ldeKQ6cSgm9cTDOiR70qOhzVrPWZ605TrLgtlvCMoARAKqcaW756CF10xcJ82Nf
- EDm5DAH6eGkRVmBqAOCRMuw4CAzTl2WBncvvEUholGi4EMzCTvNZAsPkLyQwK+wYEkYtgHQWs
- KiXz6I2tdFkVloR8lQyBXK6YniC2xYdkJe/7hf+zpyS3oo0P2mliOTm/c2nkK6l/7LTqSuTin
- rl7VDqShYQj9m5Sk+LG6km+iWF/jungUdjTx2e7k41XK5Fzld8/J6C+dn6kwuAcWEde89S2bi
- 2NDAEPaa75UJiyBa3pwAaBEVcBbBJz7HpiNgHAJnuknq/RR7Zml8KQgG/58iToDEf/hZRwZFt
- YVT7FBuBnKwoyGpG4M+V+ku/rPEEmNTK0j8ZtV+GzBOnrVcWUENgfgkYZDYj3oQihn5I6amiz
- TncEVfXNOOFbaZGrcyGx5euyDyduhSxrW3bfSAeczIyybwgxG5EqabrbC/UyOWv/73eejwGTV
- YG0CTkcp7B8SJkENK6blSWVQpY1rPVhoX7LoVepxitQN+N+vXkf6EN4aZeTw5OwPhnG93Jfmk
- IAyDz5bYZ/pQHLsYmRi9mHpM8RnFs3kZooKEv3U5oAXPyR9hoZi3pvaDZg4dYYuzXTx3Logdf
- RjzdoMwR/CdqF7x2MCxytbiPTQdk9aHlnzx3INBjIEZiIdBWfiFu7VY6yfmK1Rpxl467MtlHq
- eQL6MwyHRy0w/PL8Wp0FuC7LV1oPOnCjn8gKhHfhzXwXvETCc2UiRdg5Bj0jRJGHD2jhDv1+0
- ONfJ2g==
-X-Spam-Status: No, score=-0.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,EMPTY_MESSAGE,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Sakari,
+
+On 6/29/23 10:11, Sakari Ailus wrote:
+> Select V4L2_FWNODE and VIDEO_V4L2_SUBDEV_API for all sensor drivers. This
+> also adds the options to drivers that don't specifically need them, these
+> are still seldom used drivers using old APIs. The upside is that these
+> should now all compile --- many drivers have had missing dependencies.
+> 
+> The "menu" is replaced by selectable "menuconfig" to select the needed
+> V4L2_FWNODE and VIDEO_V4L2_SUBDEV_API options.
+> 
+> Reported-by: Hans de Goede <hdegoede@redhat.com>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
+Thank you for working on this. This looks good to me, but shouldn't
+all the existing sensor Kconfig bits then have their depends on
+MEDIA_CAMERA_SUPPORT / MEDIA_CONTROLLER and select V4L2_FWNODE / VIDEO_V4L2_SUBDEV_API
+bits dropped ?
+
+Regards,
+
+Hans
+
+
+> ---
+>  drivers/media/i2c/Kconfig | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index 815c83135021c..1d64b8a94b955 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -25,8 +25,15 @@ config VIDEO_IR_I2C
+>  # V4L2 I2C drivers that are related with Camera support
+>  #
+>  
+> -menu "Camera sensor devices"
+> -	visible if MEDIA_CAMERA_SUPPORT
+> +menuconfig VIDEO_CAMERA_SENSOR
+> +	bool "Camera sensor devices"
+> +	depends on MEDIA_CAMERA_SUPPORT
+> +	depends on MEDIA_CONTROLLER
+> +	select V4L2_FWNODE
+> +	select VIDEO_V4L2_SUBDEV_API
+> +	default y
+> +
+> +if VIDEO_CAMERA_SENSOR
+>  
+>  config VIDEO_APTINA_PLL
+>  	tristate
+> @@ -810,7 +817,7 @@ config VIDEO_ST_VGXY61
+>  source "drivers/media/i2c/ccs/Kconfig"
+>  source "drivers/media/i2c/et8ek8/Kconfig"
+>  
+> -endmenu
+> +endif
+>  
+>  menu "Lens drivers"
+>  	visible if MEDIA_CAMERA_SUPPORT
 
