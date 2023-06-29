@@ -2,131 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F3919742B16
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jun 2023 19:19:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BDBA4742B1C
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jun 2023 19:21:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232006AbjF2RTa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Jun 2023 13:19:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53316 "EHLO
+        id S231950AbjF2RVO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Jun 2023 13:21:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231855AbjF2RT2 (ORCPT
+        with ESMTP id S231430AbjF2RVK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Jun 2023 13:19:28 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2C943596
-        for <linux-media@vger.kernel.org>; Thu, 29 Jun 2023 10:19:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688059167; x=1719595167;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pfq0HxNEjP2diMh3jIGc3fn7ia43IXmcpiUdGPYgsac=;
-  b=jVF3XPfbtP3vAHdP42HfZcWA+HYkjikcwMbiVerkiQCB26GsG7ClMGZD
-   uNsOnKZlBXKKTO7Cldp62dM7k3/HS17W1+xQApWFM3PRAPx7bXCOgDfnZ
-   nRGAWxWE4JUCGwni8/gA5dL9D1I9poFTAuLdMuoENeSkmUIvCt001xoCA
-   UpkdqP6Fhft80GURZVsTHEE7OughJfBhQ9HTMVqSJe/+GFKqcFexPt0cK
-   byMzmwQH+40PeR/7Mhl1E+9uPHitosRir9ux5DqBaB2KtBvR+rchWHEhe
-   aW6FAaUN4SYXDr2wlWTs42R8fkKUWaDEifu1F6fBesMqf7vs8D+2hDYEy
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="425858070"
-X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
-   d="scan'208";a="425858070"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 10:19:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="891475443"
-X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
-   d="scan'208";a="891475443"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 10:19:25 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 766551206E6;
-        Thu, 29 Jun 2023 20:19:22 +0300 (EEST)
-Date:   Thu, 29 Jun 2023 17:19:22 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
-        Dan Scally <dan.scally@ideasonboard.com>, hverkuil@xs4all.nl
-Subject: Re: [PATCH v2 1/1] media: i2c: Select V4L2_FWNODE and
- VIDEO_V4L2_SUBDEV_API for sensors
-Message-ID: <ZJ29GtYlX0e3POgo@kekkonen.localdomain>
-References: <20230629122648.924600-1-sakari.ailus@linux.intel.com>
- <20230629161829.GB12476@pendragon.ideasonboard.com>
- <20230629162330.GC12476@pendragon.ideasonboard.com>
+        Thu, 29 Jun 2023 13:21:10 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 11D573595;
+        Thu, 29 Jun 2023 10:21:07 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 08712C14;
+        Thu, 29 Jun 2023 10:21:51 -0700 (PDT)
+Received: from [10.57.33.98] (unknown [10.57.33.98])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E3C073F64C;
+        Thu, 29 Jun 2023 10:21:04 -0700 (PDT)
+Message-ID: <94d4b082-7b08-82e0-bb42-6ac36821ea61@arm.com>
+Date:   Thu, 29 Jun 2023 18:20:58 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230629162330.GC12476@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 3/6] dma-mapping: add a dma_alloc_noncontiguous API
+Content-Language: en-GB
+To:     Christoph Hellwig <hch@lst.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@google.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        iommu@lists.linux-foundation.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20210301085236.947011-1-hch@lst.de>
+ <20210301085236.947011-4-hch@lst.de>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20210301085236.947011-4-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+[Archaeology ensues...]
 
-On Thu, Jun 29, 2023 at 07:23:30PM +0300, Laurent Pinchart wrote:
-> On Thu, Jun 29, 2023 at 07:18:29PM +0300, Laurent Pinchart wrote:
-> > Hi Sakari,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Thu, Jun 29, 2023 at 03:26:48PM +0300, Sakari Ailus wrote:
-> > > Select V4L2_FWNODE and VIDEO_V4L2_SUBDEV_API for all sensor drivers. This
-> > > also adds the options to drivers that don't specifically need them, these
-> > > are still seldom used drivers using old APIs. The upside is that these
-> > > should now all compile --- many drivers have had missing dependencies.
-> > > 
-> > > The "menu" is replaced by selectable "menuconfig" to select the needed
-> > > V4L2_FWNODE and VIDEO_V4L2_SUBDEV_API options.
-> > > 
-> > > Also select MEDIA_CONTROLLER which VIDEO_V4L2_SUBDEV_API effectively
-> > > depends on.
-> > > 
-> > > Reported-by: Hans de Goede <hdegoede@redhat.com>
-> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > ---
-> > > since v1:
-> > > 
-> > > - Select MEDIA_CONTROLLER, don't depend on it.
-> > > 
-> > >  drivers/media/i2c/Kconfig | 13 ++++++++++---
-> > >  1 file changed, 10 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> > > index 815c83135021c..c7ffaa79abeb9 100644
-> > > --- a/drivers/media/i2c/Kconfig
-> > > +++ b/drivers/media/i2c/Kconfig
-> > > @@ -25,8 +25,15 @@ config VIDEO_IR_I2C
-> > >  # V4L2 I2C drivers that are related with Camera support
-> > >  #
-> > >  
-> > > -menu "Camera sensor devices"
-> > > -	visible if MEDIA_CAMERA_SUPPORT
-> > > +menuconfig VIDEO_CAMERA_SENSOR
-> > > +	bool "Camera sensor devices"
-> > > +	depends on MEDIA_CAMERA_SUPPORT
-> > > +	select MEDIA_CONTROLLER
-> > > +	select V4L2_FWNODE
-> > > +	select VIDEO_V4L2_SUBDEV_API
-> > > +	default y
-> > > +
-> > > +if VIDEO_CAMERA_SENSOR
-> > 
-> > Shouldn't you then remove the MEDIA_CONTROLLER, V4L2_FWNODE and
-> > VIDEO_V4L2_SUBDEV_API selection from individual drivers' Kconfig entries
-> > ?
-> 
-> I've read your reply to Hans in v1. I'm fine doing it in a separate
-> patch, but could it be bundled in the same series ?
+On 2021-03-01 08:52, Christoph Hellwig wrote:
+[...]
+> +static struct sg_table *alloc_single_sgt(struct device *dev, size_t size,
+> +		enum dma_data_direction dir, gfp_t gfp)
+> +{
+> +	struct sg_table *sgt;
+> +	struct page *page;
+> +
+> +	sgt = kmalloc(sizeof(*sgt), gfp);
+> +	if (!sgt)
+> +		return NULL;
+> +	if (sg_alloc_table(sgt, 1, gfp))
+> +		goto out_free_sgt;
+> +	page = __dma_alloc_pages(dev, size, &sgt->sgl->dma_address, dir, gfp);
+> +	if (!page)
+> +		goto out_free_table;
+> +	sg_set_page(sgt->sgl, page, PAGE_ALIGN(size), 0);
+> +	sg_dma_len(sgt->sgl) = sgt->sgl->length;
+> +	return sgt;
+> +out_free_table:
+> +	sg_free_table(sgt);
+> +out_free_sgt:
+> +	kfree(sgt);
+> +	return NULL;
+> +}
+> +
+> +struct sg_table *dma_alloc_noncontiguous(struct device *dev, size_t size,
+> +		enum dma_data_direction dir, gfp_t gfp, unsigned long attrs)
+> +{
+> +	const struct dma_map_ops *ops = get_dma_ops(dev);
+> +	struct sg_table *sgt;
+> +
+> +	if (WARN_ON_ONCE(attrs & ~DMA_ATTR_ALLOC_SINGLE_PAGES))
+> +		return NULL;
+> +
+> +	if (ops && ops->alloc_noncontiguous)
+> +		sgt = ops->alloc_noncontiguous(dev, size, dir, gfp, attrs);
+> +	else
+> +		sgt = alloc_single_sgt(dev, size, dir, gfp);
+> +
+> +	if (sgt) {
+> +		sgt->nents = 1;
+> +		debug_dma_map_sg(dev, sgt->sgl, sgt->orig_nents, 1, dir);
 
-Sure. I'll add cc to stable --- I have opes it applies to at least most
-recent stable trees. As this hasn't been reported until now, I wouldn't
-really worry the earlier ones.
+It turns out this is liable to trip up DMA_API_DEBUG_SG (potentially 
+even in the alloc_single_sgt() case), since we've filled in sgt without 
+paying attention to the device's segment boundary/size parameters.
 
--- 
-Sakari Ailus
+Now, it would be entirely possible to make the allocators "properly" 
+partition the pages into multiple segments per those constraints, but 
+given that there's no actual dma_map_sg() operation involved, and AFAIR 
+the intent here is really only to describe a single DMA-contiguous 
+buffer as pages, rather than represent a true scatter-gather operation, 
+I'm now wondering whether it makes more sense to just make dma-debug a 
+bit cleverer instead. Any other opinions?
+
+Thanks,
+Robin.
+
+> +	}
+> +	return sgt;
+> +}
