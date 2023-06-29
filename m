@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C1674741DAC
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jun 2023 03:41:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 86236741DA8
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jun 2023 03:41:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229583AbjF2BcB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Jun 2023 21:32:01 -0400
-Received: from mail-vi1eur03on2084.outbound.protection.outlook.com ([40.107.103.84]:40800
-        "EHLO EUR03-VI1-obe.outbound.protection.outlook.com"
+        id S231253AbjF2BcD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Jun 2023 21:32:03 -0400
+Received: from mail-db5eur01on2070.outbound.protection.outlook.com ([40.107.15.70]:23617
+        "EHLO EUR01-DB5-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229533AbjF2Bb6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Jun 2023 21:31:58 -0400
+        id S229533AbjF2BcC (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 28 Jun 2023 21:32:02 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YfbKwjMEsgcU9xAZthoav7lTask1gm+cP5zSKpIR4HidlV8MK29r9Z8FBkCelUqoO7zSW0/fI40wkEDGA72AI2OjThh54dYM/C04VWvY0bLdYxw0DSJgLbaOtmTMX2qM0cjRe4Mxl89Q3jGbWDdzBUkH+6dPX2GAKJR3iXy7tAJHxGfegbtTQ/VDeOfIq/I2c9SbDJHOY67wLKyUm0UrUEZZRq2pW6O1+gILnte/vPqdLRTvElh3y781QJMBD0STfdkT3N1iyTPSE2JcxEgadw1n6WE58GdvtiOI09S3iOprIjxtCU2Lm6xURGtzjZQx+9hzCB8AGL89UJnqRdL/3w==
+ b=m9Es6VB7JPfqeWl2j7tcD6KPkIIkiUAU1T9PQcvu5/2U64N+ve6teb1SID8ANiJNPifvPGB1VstQCFgUYEC9i+JplGvOEJP2RUGzMX+d0LYlqRcnWgeVrdCwZ6nG8eDP0cCSQVGhyFNzGcFZcB6eqr6QtdljAtuGvSZvhUO3czFV1SV63cdvyV7CzYqeZ4udbl2NI/mbcowP/FdjbirJh9mhcZ33VljvdrKOeicqY2iYbwL/WsnziSvitDQCQI6e8BF7qNd9KgF3QQglVBzqxSjE58/IUS8BQ39J70eOi7S2arf0cqGraS4ecmzo54o+g1rCpyewTUw11856cbVGPg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Rfi/kAEK3VI9Ew4GBwiCZ/JdsGyhepbeHLi8+Rh3lw4=;
- b=a9GyDD4xzLp+e/gksqzg6EnPqHf59NECgB2Ar//qyIR0jICFwo+CZIeb0DHyGCqHw7lEPlRXQTQcJH89yMSsY5KszdBR5POZGiKwp37muGCJUt9u8JDO1gUmXGMeOV7t6rqqsALuLw7+695c/xB0u1tHmILPug0INloFh8DAleFJJu18Emq9yT88vTkeK+/yoChkO/L1t9B/tj+q8D9ZAqODaycYVw4ocS/fTM1mWHx2+blZlM5dA5jWPxEIPzFRkBJl9lJFwrdboJthuXa2HFKdoBL0kjpOwgD/0TDRcAitgHLR79am67zELCsLzhRakPMsmJcYKD9oRB1RpFtA+Q==
+ bh=lQ2n4JnWeEMqgafZoLQ6XCu6gebAuRrrt/yVJ+PpQ6c=;
+ b=d9RhFHgqUceuhRofx3YJdemxgGH8My/6cktKJiqYpev7eYNluj5BLvB3oYG0KMaywx+R89NNtPl419R8nyHkZ6elm/KqFwTyvogWDtlMVDyba3pN5mW52fmFgZP/9WP3b3HXdzsFT+WtZcoR+ItO848aJWxmTE2QbZHJ302qi5fFy3SbnPfWujwhMDPB7n0TrpcbTeiV8EVENqUHIxBVoKdo4UBrMBcfk1DkXrABwVagpR8Cu1qHQs02DV3M2Ib0iuN9GpnBUwMeI8ur07U6DrrO2BEhWAq8qR26aLHgcZEcP6sfAJwroQ8Nd1m9CW0ndyr8NTqyt0HGzL49Dj46Dg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
  s=selector2-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Rfi/kAEK3VI9Ew4GBwiCZ/JdsGyhepbeHLi8+Rh3lw4=;
- b=Tdb8yG3of8jRxVt8j2kzJjrkJHk2vaEeLW81mtjqKYiS33MiVoMQZLUo8UaciHnYFegtiwJmpr0vLqR2EaAk3+DVfV9DHReasfrBlfvmgG8FcpVExrGXKb3739+ped+87IJrYG2UbflOeGNfodofUkhubGaU9PwAyyijFNRdKWc=
+ bh=lQ2n4JnWeEMqgafZoLQ6XCu6gebAuRrrt/yVJ+PpQ6c=;
+ b=T2iNHm+/X57tTx5p6DG57bSUmVJNz4MAnQ6pyNQIqscBM/rOKn8s6mkuA7rpjkowUi3cMCl+Cq5rfNOVM0h4EDGrBw4OIDDcezjUxkwYZvvhYNFA2Bvhnx5Uz+/3cMClMOWpC5oQhIYmsgwPf/pdc5kvPp9eBlSLWulQzFg7mDY=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=oss.nxp.com;
 Received: from AS8PR04MB9080.eurprd04.prod.outlook.com (2603:10a6:20b:447::16)
  by PAWPR04MB9888.eurprd04.prod.outlook.com (2603:10a6:102:385::6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.26; Thu, 29 Jun
- 2023 01:31:55 +0000
+ 2023 01:32:00 +0000
 Received: from AS8PR04MB9080.eurprd04.prod.outlook.com
  ([fe80::1a0c:99b1:603a:e219]) by AS8PR04MB9080.eurprd04.prod.outlook.com
  ([fe80::1a0c:99b1:603a:e219%3]) with mapi id 15.20.6544.019; Thu, 29 Jun 2023
- 01:31:55 +0000
+ 01:32:00 +0000
 From:   guoniu.zhou@oss.nxp.com
 To:     linux-media@vger.kernel.org, linux-imx@nxp.com,
         devicetree@vger.kernel.org
@@ -46,10 +46,12 @@ Cc:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
         conor+dt@kernel.org, xavier.roumegue@oss.nxp.com,
         kernel@pengutronix.de, jacopo.mondi@ideasonboard.com,
         sakari.ailus@linux.intel.com
-Subject: [PATCH v5 0/3] add ISI support for iMX93
-Date:   Thu, 29 Jun 2023 09:36:18 +0800
-Message-Id: <20230629013621.2388121-1-guoniu.zhou@oss.nxp.com>
+Subject: [PATCH v5 1/3] media: dt-bindings: nxp,imx8-isi: add i.MX93 ISI compatible string
+Date:   Thu, 29 Jun 2023 09:36:19 +0800
+Message-Id: <20230629013621.2388121-2-guoniu.zhou@oss.nxp.com>
 X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20230629013621.2388121-1-guoniu.zhou@oss.nxp.com>
+References: <20230629013621.2388121-1-guoniu.zhou@oss.nxp.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: SI2PR01CA0021.apcprd01.prod.exchangelabs.com
@@ -59,51 +61,51 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AS8PR04MB9080:EE_|PAWPR04MB9888:EE_
-X-MS-Office365-Filtering-Correlation-Id: e7391dcd-b894-45f2-3858-08db78409f97
+X-MS-Office365-Filtering-Correlation-Id: c3d62bdd-2c2a-4f44-1d38-08db7840a248
 X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2oEv4+rL2SggWJ61YTmJoHy77vUz7coRsjLBwRV5QfRMExn7N8rDQyWndVfpKGKn7O4sLp+QjlBvN1iwZxsZWis1DzTSAWakkM8LpXg171AJlllVVjsULQtNNdjEuiYfLMY+j7RbH8tHkGGaTeE8pz/xawcXPvJsRtiFzRALGsU8buQJA/IdIJ+Dg6Kv7PRkqFuAyqELW5bpMlKFDnUE7lcPhsV0uyHS4xopfp4JnUXdgG0cCPxMFPSZNxul8n22GfXu3dNtYj8jdMpnvM9E0cOlT5xVpcUp3Xz19vS2X6e43xTaiJE4xUUOwePaMiijVpK5HHVeDsD2GuQl5+uHrqenWYkMQa35XHkJEPfSDpDNi9C+zm4bEn5KproS1494FWBg3MCfmVoPapTvGd/VVBgA1zlULd2+Rdx+0W6yxOOUAN+1ES1sJxUtWEyr6xJS0KWoe22evjSCv+Rg081ljNV3XAVk2mdH88ypPFGUm1MfGx9UVsNy2Fw+aiWUAofvdmDdhhdQCcJNa/q1FFhg/9IG6Gf9bKW4mNaYk6aBB8NGEnm8Qu6SljmQYEqDEo1lr0rwupFxiMmmvuj/QGumf1lTBBMWMfVO8526sPg86IbYI7icb1KAnS/RkV6UFpRa
+X-Microsoft-Antispam-Message-Info: Jquw96FkzFplEQgyMxwo5GEA9DZdWK6snh9kLP/N0XUbEWzp/5QpbgYn1P4WxQ9h43i7oNh5DmuKhMfwqw+IMLKjLiG3CxMzETJa7S6P6ybHY5KEuJvdAS19bX1pr+qq2AYPaN5cLTbI1+6U+Bd/yrVKUopfmJnPutYl8eKKEgWck98MJESyNNXWqbHPAjY7HgQgIQqQCvNuSfGTN8oRVgLbY8wy7ij18Qd6Oz9/PNJN0SRE8CF0/vQ+5ARlmk/ZfIFLW0ZzwOldm64e8OdLSvh4bDnkTIYE679OBiFucqzSfJS3Sv+hsok49ObNxA7MhoDHRrzJ2/pl5kITa/PGlFYzp9a2L7t4wT1CIzmMpPNFWUdBfDNzC6209qb4yd3jgK1FfOdp/f55u/6HUdZWsFZt6IEfBos8irkNwQoT89edc/NpYSR3J+g6OA4lVxykjgz50RLLfJK9WcLPZlKMjkLVslKDZlVtSUrSdCkYt+wTKDAnBlYyNc5qGjQXWLqVDNmuzjpTf++oM7zAnNXLMwyI2z/oEZIqA61+fOsD6y/gJdq3lJFlNIvADhCNnnuOOklQzl6q6BtdCJ2RCF9hPClHFDWwl2JoQDJqNAPPRH00c6s5/5M/6StP5qyezlQ6
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB9080.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(136003)(376002)(366004)(39860400002)(396003)(451199021)(6512007)(1076003)(5660300002)(7416002)(66556008)(8936002)(4326008)(66946007)(316002)(66476007)(8676002)(478600001)(6506007)(86362001)(2906002)(41300700001)(26005)(52116002)(6486002)(186003)(9686003)(2616005)(6666004)(38100700002)(38350700002)(83380400001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RnMkYTHBCqms7rsb/RWxNZrgKqi98GQLFysDGobDAfhmxtSHtMn8my8KrvYQ?=
- =?us-ascii?Q?LpnBbADCcsPz5ZMDtjCjEjTEtZorsDEj8p+3sy7eH7/hXK8i6+/A/E0iKFXo?=
- =?us-ascii?Q?UrM5kMiIdP49T7NFaYgERKSkkS1rzDcM00xzDu2oTQnzY1tsDUo3rlsdMsfF?=
- =?us-ascii?Q?n7oiZTepbywO+PKz3+8IHUtvK+mNfu5mD86t/I7iVJ40ddrFUERdEoi8njLD?=
- =?us-ascii?Q?+qgJl3ZOibqdEo/d7L0qlGe3h3Qt7n75NwQJs5q5I6fPuL+SnFwWR4ttMdTs?=
- =?us-ascii?Q?Ucx558ZSEX11g8H4VD+QDJibrG2YkCvpyuQk9FY6cUpPRQM8ogyh3dtRKxan?=
- =?us-ascii?Q?gmvkhTfN61snhKo9Eearz//ok9A1f2XFL5bwZQYNZFJuYveMznASwaZBS2ap?=
- =?us-ascii?Q?LSNLTAifztlLXLwLr6AO32puRXrTB82C86dMwTlf5G0i42TRzmP73bw3/6aj?=
- =?us-ascii?Q?t9P/65oPHMnVyVdqPmpCzbiKSplGkk+84BzsZOdi/iO1sgEl7S6+K5obkgm1?=
- =?us-ascii?Q?8A58MrMT+JDjmwIv/eiwJDtAF8T789kUznLeewC39Ep9f24ahxI38K/CBM+0?=
- =?us-ascii?Q?NB8pY6mIcm5xYXwRZi6iyzS1IyMfYAoYXFZIk5CCRkpEYOt57I1B95sKBwUf?=
- =?us-ascii?Q?BF6fdzdC+6TFWb+Xi6SpFvaIOeDiUmk4r8GyIwhZQ6S0z0pZ9Gr6EOU6jnc1?=
- =?us-ascii?Q?U5UOyDF01WtWHElDk66fRWT7f2NHtCiom6q4vo8cVhxYF1qF6RcVnR8fnutF?=
- =?us-ascii?Q?Rapl99BqeTtSdhB9uZcxbdccrDi2anPXFf7iXcSxQFO2C5i/7kaKT+gWtMPs?=
- =?us-ascii?Q?ee45Ui/jzcXXKJvVNWaCTAx9ICWSs1MXKfefvORGWA4/3i0E0SYzlsEQGRW5?=
- =?us-ascii?Q?B2VZI5LnBakxwlSrggO3zy84sj+NEie85+eWNodJnyDfh9bK9egZxOGEu7+8?=
- =?us-ascii?Q?5zxWTsT7jApJVZLXAcgf4YOU46E0DGAc36qK08d7TkgowQWJ1/p4W7/SlTmO?=
- =?us-ascii?Q?N7J7NDMGqLWbYVWaaqLySjRIjVQgXBG8qkt4x4QbBB5/XCsUKCnoKvF2Gjfp?=
- =?us-ascii?Q?k+p382QwhPdgsnXnue5P5ajx5JeLLxyA/n+jv+jQiAfMweaftCuBKP0mSRGg?=
- =?us-ascii?Q?5B0DktyZyxYg3GCDCl+NKBUxECoE0sAChnYHf9U4S/bsxPnBDZ0hkQHoynvd?=
- =?us-ascii?Q?pEh61w3Nyss2zQATZfqCVIZJ5QseeNgeEZQZjxbGCI+Ien1bu+MnEPdR3ccW?=
- =?us-ascii?Q?qTSvWWBSla/sMyniFdnmQmoImXUvV33OQZ2vh02IIiuR7D5YV97e52Vm076y?=
- =?us-ascii?Q?Hj8dIYjzv59UNBH+Oeob9Z67SU0cFmOehMrcjqk4bU5dSVq7xZLQH8PMSliM?=
- =?us-ascii?Q?/essy+6mKI4X4WBi334j6IP9bj5dxziJkpBrk8rEaeErzRuwdkKn/eNCu2QH?=
- =?us-ascii?Q?0WXPlWVcgyE8HW+h2HH1dKmIgpSIaPl/VrrfES6+Gy5TOrIXZ7bx+4YeAV07?=
- =?us-ascii?Q?gTn2XTNmGkxIRqv7BUvy0ogzUacLkfEuc5/xvRhcY8KfUk3BsKYjdaqW6Eke?=
- =?us-ascii?Q?2Dzw5So1WJYMTJBKGV21ZrAdjN5+zELoyDEKWC9Y?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?kpvQ8y8oqsZCU8JqPpIG/xpHq5rBPiumMUD8lqaWXktlBvW5jKghz0kiZU3O?=
+ =?us-ascii?Q?QGu8c12bB77xVJ678vO5p6E8WNzE109UfezTUmEPWAfOlSqlahUyHK9NxB6C?=
+ =?us-ascii?Q?kPsukFK514w/XiympFAhxGur7D+guih9mazx32KcnnTOCIZw0LzS+/M1Sutm?=
+ =?us-ascii?Q?a0vWzChB3EacXbXN0Ltfz9Q6dSAsemBS1iDRgRU1eQoIPAStzDy2aNrpxMsK?=
+ =?us-ascii?Q?HJ4J9WqbHRbWIMd5Ty+uvNgUHXC5Yy0L8HpX0ksUh+aRX9LoHL7JmHcnfmUG?=
+ =?us-ascii?Q?vF7YJ/pyVR/+BLFKGQMRIKO1UWT+48QitfHbl4tKz87Kg1MDlznl1kSJENrP?=
+ =?us-ascii?Q?6h+GGk13onqSe7QuPvicZGMd/Ytfc808cZfA553hZlgVS/nc/320OgiWe6a0?=
+ =?us-ascii?Q?yzmWthPFmKXkv33eYd0Lz2QUtg/r60Og/SiZt48VSLeATz6f2I7Aky38iACf?=
+ =?us-ascii?Q?2VIbI6/KWaLrbojW8BUQj+fERG6E+vhyaghlEXQmdwc4QYE0RgiYMFIP35pp?=
+ =?us-ascii?Q?N60BmSqDx0sp3XTeLDw+9aqdddDvgVJfhZMXuDhYTYIT4kysj0kjRErAjoOh?=
+ =?us-ascii?Q?KtykTRDqMVtam6Z4lU15ZT0IQZo/6d6dVeMMwIocAsqfBWfQ181Tb2WjRf/E?=
+ =?us-ascii?Q?hULgR7QpRZKh9t81Vs5xA5mx5xc+L/NjxLH0bsqyIZzqytnfMVT0R17gG5SF?=
+ =?us-ascii?Q?02BXW8B3MhhWcI4uLAmWRo93YzvgMn6wwxgJSHLENzHqSC7Jl6mCxcyNLrTq?=
+ =?us-ascii?Q?yDzCn4Zql8D6xcFv7oBeDBrRFhuK+JKWMfJ0LWD+3TDqLeAV2SpdyZyxohS3?=
+ =?us-ascii?Q?qKgo7GUrb61ro9WksJ43zieFGWB0MKMiaLHUBKxJJHmcea+NhGf6w4k4HBE8?=
+ =?us-ascii?Q?p2Go6Z5sWBcsJu0iacSBGoklUncApvg5n0TKDO8AGttpzut5O+Pozdz/8tiE?=
+ =?us-ascii?Q?oH6TG7EapE168InUGhFxofdY09hwl7n/r53EvPzRPlNq3GZY/9PeZRvuzhFB?=
+ =?us-ascii?Q?+DyuvjfKwPU+nVhDCNi7dz4qGG4twuuafrXvsDHZ7eXtqj/EWdnHWmqLwaI7?=
+ =?us-ascii?Q?W+J2EofalOp+TJaVrk3B2fCCCCSrpCobBB80H2blN3kKor0/AeVDFDVWTe6l?=
+ =?us-ascii?Q?aX5yqcJHaNu90xL61qzoOCIln1Wj29VrKfpmBdzWy9d/F9Bmg7PBjCTb2IRB?=
+ =?us-ascii?Q?QE8sEc3rLeMFqTdtoC9Zg9PEM+Ev4R7MtI49jxJFo6MrPzJblDWWU4D5dLvu?=
+ =?us-ascii?Q?9ncvYaHT4zC9PD3+eIls3JceaKblbAGw5ZkibDg3mxF8FCSa+Bt/l/kxleI+?=
+ =?us-ascii?Q?zj1APcwv6C0Es1Tn9NXbdkqlMn78QyMme7yf5GMfx0cxdVRzKhIVPWFyPDqf?=
+ =?us-ascii?Q?Lz+2bp8kMQ7A1cv6YB+awNVTUrxlPFzKxVaMvkElz6ytYrrdRYh0qbrMEl1S?=
+ =?us-ascii?Q?l23qF8Uv+1YVwvPETh4cO9C1m6aGFA9wPuCzelfXYiRdr8WVeMYkR/YNjHss?=
+ =?us-ascii?Q?06I+e9zB5WlvHRvXngl/Bxw3rEaT0kXw3efwCvnlSiPxY7XQSyRf0P3UjIX2?=
+ =?us-ascii?Q?zY/rGUPQ8Dn/5hx59RwpphNVyPt4aD5n8HigVRod?=
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e7391dcd-b894-45f2-3858-08db78409f97
+X-MS-Exchange-CrossTenant-Network-Message-Id: c3d62bdd-2c2a-4f44-1d38-08db7840a248
 X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB9080.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2023 01:31:55.7014
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2023 01:32:00.2124
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iV6b1nIG31J1C/3I9ENJfPGxnXeWf+XWFA8nNv80/ZBJDi2mFrlIUzJ6meWaYxEyRWIDVU1zMyTbTPw+M12r/A==
+X-MS-Exchange-CrossTenant-UserPrincipalName: LTc2vgw7hQqw8f4CQwrpKuXfJzmfor2pf9AtkqkeyBLOUEpBXfFN275p9VrJxe3sc2pJ8ARuVjt8JJx67Lis4Q==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR04MB9888
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -111,49 +113,39 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: "Guoniu.zhou" <guoniu.zhou@nxp.com>
 
-NXP i.MX93 family almost reuse ISI IP from i.MX8M family, so add
-it support in current ISI driver
+Add the compatible string support for i.MX93 ISI.
 
-Changes in version 5:
-- Add back some header files removed in version 4
-- Refine some comments placement to make code more clearly
+Signed-off-by: Guoniu.zhou <guoniu.zhou@nxp.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Tommaso Merciai <tomm.merciai@gmail.com>
+---
+ Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Changes in version 4:
-- Update commit message to explain why need to move gasket ops to a structure
-- Remove some redundant and unused header files
-- Move gasket ops structure variable to imx8-isi-gasket.c and export them by extern
-- Drop some check
-
-Changes in version 3:
-- Split [PATCH v2 2/2] into two patches, one create a separate file to
-  store gasket operation and the other to add ISI support for i.MX93.
-- Drop some debug message in gasket operation.
-- Merge .gasket_enable and .gasket_config to .gasket_enable
-- Drop some dead code
-- Some other small updates
-
-Changes in version 2:
-- Remove two patches which used to rename imx8 to imx.
-  [PATCH 1/4] media: dt-bindings: media: rename nxp,imx8-isi.yaml to nxp,imx-isi.yaml
-  [PATCH 2/4] media: nxp: rename imx8-isi to imx-isi and remove reference to i.MX8
-- Modify commit log to more accurately match its goal.
-- Remove redundant "media" in patch subject.
-
-Guoniu.zhou (3):
-  media: dt-bindings: nxp,imx8-isi: add i.MX93 ISI compatible string
-  media: nxp: imx8-isi: move i.MX8 gasket configuration to an ops
-    structure
-  media: nxp: imx8-isi: add ISI support for i.MX93
-
- .../bindings/media/nxp,imx8-isi.yaml          |  5 +-
- drivers/media/platform/nxp/imx8-isi/Makefile  |  4 +-
- .../platform/nxp/imx8-isi/imx8-isi-core.c     | 21 ++++-
- .../platform/nxp/imx8-isi/imx8-isi-core.h     | 14 ++-
- .../platform/nxp/imx8-isi/imx8-isi-crossbar.c | 36 ++------
- .../platform/nxp/imx8-isi/imx8-isi-gasket.c   | 85 +++++++++++++++++++
- 6 files changed, 128 insertions(+), 37 deletions(-)
- create mode 100644 drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c
-
+diff --git a/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml b/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
+index 6038b9b5ab36..e4665469a86c 100644
+--- a/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
++++ b/Documentation/devicetree/bindings/media/nxp,imx8-isi.yaml
+@@ -21,6 +21,7 @@ properties:
+     enum:
+       - fsl,imx8mn-isi
+       - fsl,imx8mp-isi
++      - fsl,imx93-isi
+ 
+   reg:
+     maxItems: 1
+@@ -72,7 +73,9 @@ allOf:
+       properties:
+         compatible:
+           contains:
+-            const: fsl,imx8mn-isi
++            enum:
++              - fsl,imx8mn-isi
++              - fsl,imx93-isi
+     then:
+       properties:
+         interrupts:
 -- 
 2.37.1
 
