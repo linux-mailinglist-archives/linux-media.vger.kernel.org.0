@@ -2,151 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 940C07426B4
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jun 2023 14:49:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D519B742912
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jun 2023 17:04:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231482AbjF2MtP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Jun 2023 08:49:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34560 "EHLO
+        id S232449AbjF2PEt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Jun 2023 11:04:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231566AbjF2MtK (ORCPT
+        with ESMTP id S232491AbjF2PEq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Jun 2023 08:49:10 -0400
-Received: from mail-vk1-xa32.google.com (mail-vk1-xa32.google.com [IPv6:2607:f8b0:4864:20::a32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96EE21FD8;
-        Thu, 29 Jun 2023 05:49:08 -0700 (PDT)
-Received: by mail-vk1-xa32.google.com with SMTP id 71dfb90a1353d-4717089ae5bso240095e0c.0;
-        Thu, 29 Jun 2023 05:49:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688042947; x=1690634947;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vibqGgTSkZNI78S50QxrbWxjy/o83ic28jzcG95Wy2Q=;
-        b=P3EPMDYmvOSSNO9IpZqusoOBhARr6/ZEj3M9vLeC2NLXktdqWrxRP6VCiBJB2OfVNO
-         poEVY6xEQCXTliwFgS7PtM5HIu6UcG9AeFUQT9d3+0PK1E8f5g3lD/9H8L8gZ3jvqgyq
-         E3MATdkd4sCHDdQIL8RznP6cNlvtmN34rMtE+aUmE7aDTLDM+xoyod8fJ+HpUMWjmc7C
-         LDWLNoZa81W3LdFza0scs6+quKYp5DrvUtWbvDybN9e4w5ER1pqgVhtpQ2KQt0cq84to
-         eh+Ot6kJKqTWzN1RoCAGL6YJsKiOw2Cjut2vNti/xl6r2ofFasHqv0v7msfHvoyhYpxE
-         JIzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688042947; x=1690634947;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vibqGgTSkZNI78S50QxrbWxjy/o83ic28jzcG95Wy2Q=;
-        b=XJr369u5Yr2eVqs1qAc4UNjYY4jo//0GoQCdb1rKN7ZloVB7r74ZqtmViZ65u8xGoK
-         RiycA+zo633XJhI7Jw1u8wbc1OJGwBow5Ln9WtXOMOGYT5c1f5aX/vxjxQqZQEi63hjN
-         /eWd6HPevbi3b6uzY3LokG/1zPsmdnvPLufLcbCxlwHTIVyv0wyp54ksDwc/15cL4nMK
-         ny5kwhHT8TWk0t+R070oBzYO9rvgVxkLjcGXnLJAFjhXyaoPSwrsiNtkgPjSRFHXup0H
-         H9z4kfkSICKgoa4zgdAbqvnhA+XW+WFrN7O9R/x19Ry/redTrp16Yk1MukaMhXPR7N1c
-         yvTw==
-X-Gm-Message-State: AC+VfDx7gT4j243fUkQZe3G6hYDAjpwHxiWV+MUVrPG1ppKAmDwrrRwo
-        YoIQ3VpCzevqrz7em2PPRy3Eq0hiJ1NUZOoOqts=
-X-Google-Smtp-Source: ACHHUZ7Imuyy+vaxv6ag//M1MbImCVZ/QGl59+QnilJ6V+R09MX3TvxgWSai1hFKtmimL+klvWeZki159QVoEgIick8=
-X-Received: by 2002:a1f:c1c3:0:b0:471:5224:bbdf with SMTP id
- r186-20020a1fc1c3000000b004715224bbdfmr19495635vkf.3.1688042947552; Thu, 29
- Jun 2023 05:49:07 -0700 (PDT)
+        Thu, 29 Jun 2023 11:04:46 -0400
+X-Greylist: delayed 894 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 29 Jun 2023 08:04:43 PDT
+Received: from refb02.tmes.trendmicro.eu (refb02.tmes.trendmicro.eu [18.185.115.60])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A71AB30F0
+        for <linux-media@vger.kernel.org>; Thu, 29 Jun 2023 08:04:43 -0700 (PDT)
+Received: from 104.47.7.174_.trendmicro.com (unknown [172.21.19.51])
+        by refb02.tmes.trendmicro.eu (Postfix) with ESMTPS id C9F11108D82D5
+        for <linux-media@vger.kernel.org>; Thu, 29 Jun 2023 14:49:52 +0000 (UTC)
+Received: from 104.47.7.174_.trendmicro.com (unknown [172.21.199.100])
+        by repost01.tmes.trendmicro.eu (Postfix) with SMTP id 244D210001234;
+        Thu, 29 Jun 2023 14:49:51 +0000 (UTC)
+X-TM-MAIL-RECEIVED-TIME: 1688050178.713000
+X-TM-MAIL-UUID: 67d40f0c-723f-4a07-8140-b912dc22be84
+Received: from DEU01-BE0-obe.outbound.protection.outlook.com (unknown [104.47.7.174])
+        by repre01.tmes.trendmicro.eu (Trend Micro Email Security) with ESMTPS id AE4621000031D;
+        Thu, 29 Jun 2023 14:49:38 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JoHXcDuy99jLDXURhUlzN4gyxFPzpfAW/RjP7u1MabxjTigrWqk3G2PhkgdUkxFAV/Je+bf7ZEQSvR2R8G+SJiisScaB36bmX9vaSraYfts8OQGROgpu99NrbacZenCrOIjzOJoqvtWWOOm3OuL+++mhxo4JLnarEXD6BKeG+zy6yhPi5B0A0LjWHM97nnyrhSZUcnkozkyu3uLy40WoFMzGLX6s+KskZ8okOAYqeApCnEZcHfzjrjlAdA0hI6yNZmbWPEIvvKgQCNKYqIUYnpWuATZmaIkQt/h5REs6wcNzKUcpWrLTz/ktFnRIf/vQY7Cpv3GCH+ti33fWT2H3uQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uXE0H22iw+cpckPfVbWhUzcsGOxy+sHiyyCjodERnMY=;
+ b=noXSRX0VcBc0eXPqSbBIeIu0R7ksQ++yaTlV6rYl7iveNve/k/urq3P0vbGcZLqzshcgD8EyCi22CYU224HzKjTawxZK0fOs2OEdfc5UOGYW0KLkevS7mSSKYdknxhvPWLwgUkvShPzRP7SxNqpavTuq7c4y6AJwzBAInX3YjFx7N3zQ26uuBRH6fNAMxqdIiv6Mi14cCZrzEr7BQO/5dWaDVqRE4MMCj0p6eyemujGAO/GA5BMiSSup56eiYdyyFk9BZ7LQFKrYo0bkjBt7nThlCX9PMO094IWNK/93b1gAw9G5J/NLG03xjDC5NxtUhOcnIQJTh2hKV2GeDEa7iw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 217.66.60.4) smtp.rcpttodomain=chromium.org smtp.mailfrom=opensynergy.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=opensynergy.com; dkim=none (message not signed); arc=none
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 217.66.60.4)
+ smtp.mailfrom=opensynergy.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=opensynergy.com;
+Received-SPF: Pass (protection.outlook.com: domain of opensynergy.com
+ designates 217.66.60.4 as permitted sender) receiver=protection.outlook.com;
+ client-ip=217.66.60.4; helo=SR-MAIL-03.open-synergy.com; pr=C
+From:   Alexander Gordeev <Alexander.Gordeev@opensynergy.com>
+To:     virtio-comment@lists.oasis-open.org,
+        virtio-dev@lists.oasis-open.org
+Cc:     Alexander Gordeev <Alexander.Gordeev@opensynergy.com>,
+        Albert Esteve <aesteve@redhat.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        alex.bennee@linaro.org,
+        Andrew Gazizov <andrew.gazizov@opensynergy.com>,
+        Andrii Cherniavskyi <andrii.cherniavskyi@opensynergy.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Enric Balletbo i Serra <eballetb@redhat.com>,
+        Enrico Granata <egranata@google.com>,
+        Gustavo Padovan <gustavo.padovan@collabora.com>,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Marcin Wojtas <mwojtas@google.com>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        Peter Griffin <peter.griffin@linaro.org>,
+        Tomasz Figa <tfiga@chromium.org>, Matti.Moell@opensynergy.com,
+        bag@semihalf.com, bgrzesik@google.com, hmazur@google.com,
+        mikrawczyk@google.com, srosek@google.com, zyta@google.com,
+        linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org
+Subject: [RFC PATCH v8 0/1] Virtio video device specification
+Date:   Thu, 29 Jun 2023 16:49:14 +0200
+Message-Id: <20230629144915.597188-1-Alexander.Gordeev@opensynergy.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230502084430.234182-1-milkfafa@gmail.com> <20230502084430.234182-8-milkfafa@gmail.com>
- <e43029b5-edbb-9358-a0a6-a104ff2fa154@xs4all.nl>
-In-Reply-To: <e43029b5-edbb-9358-a0a6-a104ff2fa154@xs4all.nl>
-From:   Kun-Fa Lin <milkfafa@gmail.com>
-Date:   Thu, 29 Jun 2023 20:48:56 +0800
-Message-ID: <CADnNmFpSg+nU+gvc-CUzYRJ6newCrgLesoLda6kHJ6o2a8Su5A@mail.gmail.com>
-Subject: Re: [PATCH v12 7/7] media: nuvoton: Add driver for NPCM video capture
- and encode engine
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     mchehab@kernel.org, avifishman70@gmail.com, tmaimon77@gmail.com,
-        tali.perry1@gmail.com, venture@google.com, yuenn@google.com,
-        benjaminfair@google.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, andrzej.p@collabora.com,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
-        kwliu@nuvoton.com, kflin@nuvoton.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1EUR05FT039:EE_|FR0P281MB2046:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 0bf81e8f-0f0a-4dbe-b644-08db78b00f99
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: zX2xceQkmOiDI1mEwvCjEjCRe+ZctXd5Dxrfzho9lSMu7dzcifEGX8+h/12j1PfzA8vbfbPpDxZ+DHc2wQOcEigZAJHl1LNcesaSypJGONx7UDeRPh6fmuMQKsWH21KX+RkB9hg/dVKHFM3DJgjEJLmjdp2dfdj25hA5A0iu0MIB1tE+mah4twICr6MG4vYtv7paeEGuRQyEnRlXkNwPOikjAP5Yu5E4vI7MAu+BZil3eVuIxTNrIqycBHL5bpcFIZfzg9y1XkqAk1DwCS8YZi7nwdPKm4jDtAu2FV1HSmXT+3ogHpJoguEOXa+83ALQ6LzBHoAWDq9iTnIKLKUvhnc/tuDX8GhsrRWyRsqyyj6TWUCbYGmJ/du71pBoV//dfrEdP9HkSd6UUze/yP8/5Q+Imtzi4pC/CodYLtr6EnUkz62eCvZFX3JZB68E+Y7C8oUHA/KgBVe7elPFJiTVKe23Bwc8gsCt5hm7tRzjFfIQ9lKJJw1e/rYO+jaHHfAWR0yCv6LMKwZbJY0CqNCd56Gss0lrBMjozhgHKpBXIMHtq0GHT1OQ3aAZZie5xrq+chsIguU4J+8B3z4VgKmvJtHpazcDjgyb3T6jFXO9mtIrvgEa7sJlBYqGEcgHceUHsobmfjY1xYfaPCvMzojAQC7LrewaO28j0aaDpkEGogXNZulBvH6lHKIQxPyhdr8bVfSMTgtOWiarzH0U2lo6zklY90Wmyggn3W5++aWnIx7fKjz7qXIXsTVBpFPsPOCvBjhV3HFLkgsCbad+au/OOg==
+X-Forefront-Antispam-Report: CIP:217.66.60.4;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SR-MAIL-03.open-synergy.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(396003)(376002)(39840400004)(346002)(136003)(451199021)(46966006)(36840700001)(7416002)(5930299015)(1076003)(5660300002)(336012)(4326008)(316002)(70206006)(478600001)(36756003)(70586007)(8676002)(8936002)(2906002)(186003)(54906003)(966005)(36860700001)(42186006)(40480700001)(41300700001)(82310400005)(86362001)(81166007)(47076005)(26005)(2616005)(83380400001)(36900700001);DIR:OUT;SFP:1102;
+X-OriginatorOrg: opensynergy.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2023 14:49:37.3585
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0bf81e8f-0f0a-4dbe-b644-08db78b00f99
+X-MS-Exchange-CrossTenant-Id: 800fae25-9b1b-4edc-993d-c939c4e84a64
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=800fae25-9b1b-4edc-993d-c939c4e84a64;Ip=[217.66.60.4];Helo=[SR-MAIL-03.open-synergy.com]
+X-MS-Exchange-CrossTenant-AuthSource: VI1EUR05FT039.eop-eur05.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: FR0P281MB2046
+X-TM-AS-ERS: 104.47.7.174-0.0.0.0
+X-TMASE-Version: StarCloud-1.3-9.1.1011-27722.000
+X-TMASE-Result: 10--13.217400-4.000000
+X-TMASE-MatchedRID: xXA8JSLb31tKqT77NMMyNxZu3Ax5Ngq859KGlOljPvu4xpDSsMYz9Ik+
+        ek903bmdJIE8B+MatXg0MlZvaRoxGC6T4pgCl/M6R6eMmpdkcdk6Cu19Vtgyg//cMgrTjbBkRQc
+        XrCueZFhpO0BOxhTlbJA/ATZ0Yg5D0GDK5hZjJXyB7KF1cYE+v/emg0BhV6PFu5fROEbKeImvU1
+        tCOC5lhTIs3LEAaA7XSE3uK2tLdI1NOAGUOSRGeF7YyKSX4fHjFQ/jDVQKXn4eyPVZe0RJiUkgG
+        AfseSYI2agkMppXv0n2CX+DNSvaTpVqXn8k6sIeju2XlcEx9HQFgK3XHdr3w4loy91GB/ZEB0lB
+        bq8327NXoinqR4tvX6Wz+FpE58Tnk/dA6P3T5Fuw0Dfrl0kL6wjIhAT2d4YVyEYRIXZC1hLpS1H
+        JaayLrp6fQ44SVZDd6xA0Ava73nBHnLDmms99+BEuOqgkm3/1h7z+gmKKj0oDf6I8jFx+tgxKJh
+        lMXnCqcYO7LzLWqS5krrVhD7Q0DkmcU+PbeIu4GrcQV6ODggA/FSuCUJL71oRUjoIe39qe
+X-TMASE-XGENCLOUD: 63fc4136-7300-4884-b1b5-fe214e3d4904-0-0-200-0
+X-TM-Deliver-Signature: E20E4B2E1F2FAFE8063F4F07ED9B9661
+X-TM-Addin-Auth: VzlyViWVjvreRq2jAlTwoTktHB4Ho5ISkitaE0gRjobWlTcvBcoo7FvhCQp
+        mVsk50NE5mQ3+HxUDNOTk1pKfopxjKVGMM8D1RuxoUxYePHY36dB9ztQeqLNiloSE98p0Jh/Zjo
+        NsvI/waMsFTPSNlthdAoupefPv9Z0v1/f4/+7IC3czAvDnUzDk8vPzUEGEIY10AW4/oDkKqVf0q
+        EnN7tjUBZCjkxf5cnPsdrf8N4Qik+JG0UbyLBf3PmM/46VNuHBF5baIN+XoxOi/TjbkeKu3meYT
+        lEqCQJ7eOOKwrGAHzXYwHgWy5owzp5lE6Kia.t7kmS6ReXbQ3us1rnwxn9AffsQCChUxohIKm43
+        LwVrB6EYZlfqhGKuYkACBR3mEnKGyaHZo8FqjacPojkifyNZsw+DjRRqpW0xZuvEMdM/nCWOf97
+        alY759K5Z31JrC2hYG4HoHvUMirIEDdknuLzM9qhmnF1jJBiXO0fqn8dOKQZDxjR4wMnxr6bvYr
+        FS1G3ThoVVM/AujSKXh+D7lj9T+FMrfSfnaU0gnWq9Wk0KBI0MZDbPexv6Z7vCKczITuBMguhxh
+        f3lhmWmIii5opOSx87+IcwiLausIhaJmbuSQwAYumRf7QI8t84T1bR3XQt4IH/1dBhx2Fu5UVnw
+        DqBQ==
+X-TM-Addin-ProductCode: EMS
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=opensynergy.com;
+        s=TM-DKIM-20210503141657; t=1688050191;
+        bh=0vYK3F+00qzY6tgYrDYn2jmyyaCVmzedj4Tjbgvevhw=; l=3149;
+        h=From:To:Date;
+        b=Ymn84sk52EWKJPWWXE3j/OJeeocbKwETMnMIoqNFqO6fqWp9/uYYbkQNYp58rexc0
+         qbQqFl6hHDzjfI7XSdIZCnTDYXKODPy73krAY3d2piHVSWeV4r5SHVngyq4WkfmMZm
+         q9eBkcCVkUt7x+yFf4ry+teuGojZAcfhE7eh7SwucOf2VO5rbz7+VRsIJS4JXnEmyi
+         gZW8BUNrAb9d1rWip/Z1TY422pykWdyB0rHvJov1DfvQUuGHR+rbXSDMB9hwPddVPv
+         4vFN4ys41owTVDd2IrBime44UBPHOZnNilQwTEx769nTEbftqwdvBw2evC59mwWgRC
+         FrXUM2kmHwP9w==
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi,
 
-> Apologies for the delay in reviewing this. As you may have noticed, we
-> have too many incoming patches and not enough reviewers, so it takes
-> too often way too long before I have time to review drivers like this.
+This is the 8th version of virtio-video device patch. Feedback would be very
+appreciated.
 
-That's OK. I appreciate your time and comments.
+The main change coming with this draft is the introduction of background
+operations and delayed responses to commands (the term is taken from the SCMI
+spec) over eventq. Now most of the commands work like this. The only
+exceptions are STREAM_CREATE and RESOURCE_ATTACH_BACKING commands. This should
+help avoid commandq descriptors exhaustion. Also I introduced "in band" and
+"out of band" handling of SET_PARAMS command. Out of band is the way how it
+was done before i.e. the command is handled immediately after dequeuing from
+commandq. In band means putting it into device's INPUT queue so that it can
+be executed precisely after a certain input resource and before the next one.
+These two changes allowed me to represent the events as a custom case of the
+delayed responses. Also this enables processing resolution changes embedded in
+the stream and coming from outside in the same way. I think this makes it
+possible to implement V4L2 Requests API.
 
-> > +     /* Resolution changed */
-> > +     if (status & VCD_STAT_VHT_CHG || status & VCD_STAT_HAC_CHG)
-> > +             schedule_work(&video->res_work);
->
-> I don't think you need to schedule work. If the resolution changed,
-> then you can just call vb2_queue_error and queue the SOURCE_CHANGED
-> event here. You don't need to detect the resolution, you know it has changed,
-> so just inform userspace and that will call QUERY_DV_TIMINGS.
+Questions for discussion/roadmap:
+1. It looks like the current way of describing the device capabilities is not
+very well extendable. I'd like to change it again. The goal is that after
+adding new generic parameters/new codecs/new codec parameters and covering
+them with the feature flags the format of the device response doesn't depend
+that much on the enabled flags. My current idea is to convert this into a
+serie of descriptors with offsets and sizes, so that the device can then
+simply adjust offsets and sizes, but keep that layout the same. Any ideas here
+would be appreciated.
+2. Since draft v7 the device is expected to provide all and every one of its
+capabilities as a response to the DEVICE_QUERY_CAPS command. Maybe the device
+shouldn't adjust the parameters itself now?
+3. I think the last piece, that is missing completely, is QoS. How can the
+device indicate to the driver, that it is saturated? How could the device be
+shared between multiple guests in a fair way?
 
-OK. Will modify it as you suggested.
+Full PDF: https://drive.google.com/file/d/1uPg4kxThlNPBSiC4b5veyFz4OFGytU7v/view?usp=sharing
+PDF with the video section only: https://drive.google.com/file/d/1iW3MbseRZLovlxpc4XAF8VTvhQ_Tww6q/view?usp=sharing
 
-> > +     if (status & VCD_STAT_IFOR || status & VCD_STAT_IFOT) {
-> > +             dev_warn(video->dev, "VCD FIFO overrun or over thresholds\n");
-> > +             npcm_video_stop(video);
-> > +             npcm_video_start(video);
->
-> This is dangerous: video_start detects the resolution and can update the
-> width/height. So now there can be a mismatch between what userspace expects
-> and what the DMA sends.
->
-> I would make a new npcm_video_init(video) function that does the initial
-> timings detection. Call that on the first open. The npcm_video_start drops
-> that code and just uses the last set timings.
->
-> Feel free to use an alternative to this, as long as restarting the video
-> here doesn't change the width/height/format as a side-effect.
+Changelog v7 -> v8:
+* Added the delayed responses to commands sent on the eventq.
+* Added the in band STREAM_SET_PARAMS command handling.
+* Implemented device events using the newly added delayed responses.
 
-Understood. I've checked that it can just call npcm_video_start_frame (in which
-npcm_video_vcd_state_machine_reset will be called to reset VCD state
-machine and FIFOs) and
-the width/height/format will not be changed.
+Alexander Gordeev (1):
+  virtio-video: Add virtio video device specification
 
-> > +     if (*num_buffers > MAX_REQ_BUFS)
-> > +             *num_buffers = MAX_REQ_BUFS;
->
-> Why limit this? Can't you just use rect[VIDEO_MAX_FRAME]?
+ conformance.tex                           |    4 +
+ content.tex                               |    1 +
+ device-types/video/description.tex        | 2040 +++++++++++++++++++++
+ device-types/video/device-conformance.tex |   22 +
+ device-types/video/driver-conformance.tex |   16 +
+ introduction.tex                          |   21 +
+ 6 files changed, 2104 insertions(+)
+ create mode 100644 device-types/video/description.tex
+ create mode 100644 device-types/video/device-conformance.tex
+ create mode 100644 device-types/video/driver-conformance.tex
 
-I just realized VIDEO_MAX_FRAME is a common define in videodev2.h.
-Will change to use it.
+-- 
+2.34.1
 
-> > +     /*
-> > +      * When a video buffer is dequeued, free associated rect_list and
-> > +      * capture next frame.
-> > +      */
-> > +     head = &video->list[video->vb_index];
-> > +     list_for_each_safe(pos, nx, head) {
-> > +             tmp = list_entry(pos, struct rect_list, list);
-> > +             list_del(&tmp->list);
-> > +             kfree(tmp);
-> > +     }
-> > +
-> > +     if (npcm_video_start_frame(video)) {
->
-> This is weird. This is not normally done here since you never know when
-> userspace will dequeue a buffer.
->
-> I would expect to see this called:
->
-> 1) In start_streaming (so that works)
-> 2) When a buffer is captured and vb2_buffer_done is called: if another
->    empty buffer is available, then use that.
-> 3) in buf_queue: if the buffer list was empty, and vb2_start_streaming_called()
->    is true, then you can start capturing again.
-
-Will modify as you suggested. Thanks for the guide.
-
-Regards,
-Marvin
