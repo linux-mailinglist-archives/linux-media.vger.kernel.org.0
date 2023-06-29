@@ -2,123 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DABF174266A
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jun 2023 14:28:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 940C07426B4
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jun 2023 14:49:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232086AbjF2M2G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Jun 2023 08:28:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56390 "EHLO
+        id S231482AbjF2MtP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Jun 2023 08:49:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232226AbjF2M13 (ORCPT
+        with ESMTP id S231566AbjF2MtK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Jun 2023 08:27:29 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23BFF3A8E
-        for <linux-media@vger.kernel.org>; Thu, 29 Jun 2023 05:27:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688041648; x=1719577648;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=r9Gl4fS+xYYUN2ePZi1fYbS0Zt8SYJYCO88ngdoVEog=;
-  b=Uo5LoUpG4PrKpOV4XDg8exaSgdEJvmUtgS2qhG0hJN14xpJqNlo6/Tvz
-   t25FsLATCmcVLgT1VQ6H/PeGU07dqGcOd+TaGD/rhoyXRtud9lLKcVQrt
-   oxuf8LiIu2rXQ2JfXy8qN6OujvizUTMydlHbTkSebvf8CzfoR7zd3nCph
-   r1BM7JRFnhc0EsuExPvOHeKYr61uHmO4xgj6SxKLAm7+Z3UGuldnhZK+t
-   d/C5fUU6atM4Cf4p4vrorJb5PmwYNw0iQ9Lnis/erTrb3muYd/Yv2CNwb
-   T78DzNHGVUrmHgx5TaaxA9d9tXfSQ+PQT3vGXXcpLCWntnw7SmVwJL84A
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="365555389"
-X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
-   d="scan'208";a="365555389"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 05:27:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="963972660"
-X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
-   d="scan'208";a="963972660"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 05:27:25 -0700
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id B0C8C1206E6;
-        Thu, 29 Jun 2023 15:27:22 +0300 (EEST)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
-        (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1qEqji-003sX6-0r;
-        Thu, 29 Jun 2023 15:26:58 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Dan Scally <dan.scally@ideasonboard.com>, hverkuil@xs4all.nl
-Subject: [PATCH v2 1/1] media: i2c: Select V4L2_FWNODE and VIDEO_V4L2_SUBDEV_API for sensors
-Date:   Thu, 29 Jun 2023 15:26:48 +0300
-Message-Id: <20230629122648.924600-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
+        Thu, 29 Jun 2023 08:49:10 -0400
+Received: from mail-vk1-xa32.google.com (mail-vk1-xa32.google.com [IPv6:2607:f8b0:4864:20::a32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96EE21FD8;
+        Thu, 29 Jun 2023 05:49:08 -0700 (PDT)
+Received: by mail-vk1-xa32.google.com with SMTP id 71dfb90a1353d-4717089ae5bso240095e0c.0;
+        Thu, 29 Jun 2023 05:49:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1688042947; x=1690634947;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=vibqGgTSkZNI78S50QxrbWxjy/o83ic28jzcG95Wy2Q=;
+        b=P3EPMDYmvOSSNO9IpZqusoOBhARr6/ZEj3M9vLeC2NLXktdqWrxRP6VCiBJB2OfVNO
+         poEVY6xEQCXTliwFgS7PtM5HIu6UcG9AeFUQT9d3+0PK1E8f5g3lD/9H8L8gZ3jvqgyq
+         E3MATdkd4sCHDdQIL8RznP6cNlvtmN34rMtE+aUmE7aDTLDM+xoyod8fJ+HpUMWjmc7C
+         LDWLNoZa81W3LdFza0scs6+quKYp5DrvUtWbvDybN9e4w5ER1pqgVhtpQ2KQt0cq84to
+         eh+Ot6kJKqTWzN1RoCAGL6YJsKiOw2Cjut2vNti/xl6r2ofFasHqv0v7msfHvoyhYpxE
+         JIzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688042947; x=1690634947;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vibqGgTSkZNI78S50QxrbWxjy/o83ic28jzcG95Wy2Q=;
+        b=XJr369u5Yr2eVqs1qAc4UNjYY4jo//0GoQCdb1rKN7ZloVB7r74ZqtmViZ65u8xGoK
+         RiycA+zo633XJhI7Jw1u8wbc1OJGwBow5Ln9WtXOMOGYT5c1f5aX/vxjxQqZQEi63hjN
+         /eWd6HPevbi3b6uzY3LokG/1zPsmdnvPLufLcbCxlwHTIVyv0wyp54ksDwc/15cL4nMK
+         ny5kwhHT8TWk0t+R070oBzYO9rvgVxkLjcGXnLJAFjhXyaoPSwrsiNtkgPjSRFHXup0H
+         H9z4kfkSICKgoa4zgdAbqvnhA+XW+WFrN7O9R/x19Ry/redTrp16Yk1MukaMhXPR7N1c
+         yvTw==
+X-Gm-Message-State: AC+VfDx7gT4j243fUkQZe3G6hYDAjpwHxiWV+MUVrPG1ppKAmDwrrRwo
+        YoIQ3VpCzevqrz7em2PPRy3Eq0hiJ1NUZOoOqts=
+X-Google-Smtp-Source: ACHHUZ7Imuyy+vaxv6ag//M1MbImCVZ/QGl59+QnilJ6V+R09MX3TvxgWSai1hFKtmimL+klvWeZki159QVoEgIick8=
+X-Received: by 2002:a1f:c1c3:0:b0:471:5224:bbdf with SMTP id
+ r186-20020a1fc1c3000000b004715224bbdfmr19495635vkf.3.1688042947552; Thu, 29
+ Jun 2023 05:49:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20230502084430.234182-1-milkfafa@gmail.com> <20230502084430.234182-8-milkfafa@gmail.com>
+ <e43029b5-edbb-9358-a0a6-a104ff2fa154@xs4all.nl>
+In-Reply-To: <e43029b5-edbb-9358-a0a6-a104ff2fa154@xs4all.nl>
+From:   Kun-Fa Lin <milkfafa@gmail.com>
+Date:   Thu, 29 Jun 2023 20:48:56 +0800
+Message-ID: <CADnNmFpSg+nU+gvc-CUzYRJ6newCrgLesoLda6kHJ6o2a8Su5A@mail.gmail.com>
+Subject: Re: [PATCH v12 7/7] media: nuvoton: Add driver for NPCM video capture
+ and encode engine
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     mchehab@kernel.org, avifishman70@gmail.com, tmaimon77@gmail.com,
+        tali.perry1@gmail.com, venture@google.com, yuenn@google.com,
+        benjaminfair@google.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, andrzej.p@collabora.com,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
+        kwliu@nuvoton.com, kflin@nuvoton.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Select V4L2_FWNODE and VIDEO_V4L2_SUBDEV_API for all sensor drivers. This
-also adds the options to drivers that don't specifically need them, these
-are still seldom used drivers using old APIs. The upside is that these
-should now all compile --- many drivers have had missing dependencies.
+Hi Hans,
 
-The "menu" is replaced by selectable "menuconfig" to select the needed
-V4L2_FWNODE and VIDEO_V4L2_SUBDEV_API options.
+> Apologies for the delay in reviewing this. As you may have noticed, we
+> have too many incoming patches and not enough reviewers, so it takes
+> too often way too long before I have time to review drivers like this.
 
-Also select MEDIA_CONTROLLER which VIDEO_V4L2_SUBDEV_API effectively
-depends on.
+That's OK. I appreciate your time and comments.
 
-Reported-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
-since v1:
+> > +     /* Resolution changed */
+> > +     if (status & VCD_STAT_VHT_CHG || status & VCD_STAT_HAC_CHG)
+> > +             schedule_work(&video->res_work);
+>
+> I don't think you need to schedule work. If the resolution changed,
+> then you can just call vb2_queue_error and queue the SOURCE_CHANGED
+> event here. You don't need to detect the resolution, you know it has changed,
+> so just inform userspace and that will call QUERY_DV_TIMINGS.
 
-- Select MEDIA_CONTROLLER, don't depend on it.
+OK. Will modify it as you suggested.
 
- drivers/media/i2c/Kconfig | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+> > +     if (status & VCD_STAT_IFOR || status & VCD_STAT_IFOT) {
+> > +             dev_warn(video->dev, "VCD FIFO overrun or over thresholds\n");
+> > +             npcm_video_stop(video);
+> > +             npcm_video_start(video);
+>
+> This is dangerous: video_start detects the resolution and can update the
+> width/height. So now there can be a mismatch between what userspace expects
+> and what the DMA sends.
+>
+> I would make a new npcm_video_init(video) function that does the initial
+> timings detection. Call that on the first open. The npcm_video_start drops
+> that code and just uses the last set timings.
+>
+> Feel free to use an alternative to this, as long as restarting the video
+> here doesn't change the width/height/format as a side-effect.
 
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 815c83135021c..c7ffaa79abeb9 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -25,8 +25,15 @@ config VIDEO_IR_I2C
- # V4L2 I2C drivers that are related with Camera support
- #
- 
--menu "Camera sensor devices"
--	visible if MEDIA_CAMERA_SUPPORT
-+menuconfig VIDEO_CAMERA_SENSOR
-+	bool "Camera sensor devices"
-+	depends on MEDIA_CAMERA_SUPPORT
-+	select MEDIA_CONTROLLER
-+	select V4L2_FWNODE
-+	select VIDEO_V4L2_SUBDEV_API
-+	default y
-+
-+if VIDEO_CAMERA_SENSOR
- 
- config VIDEO_APTINA_PLL
- 	tristate
-@@ -810,7 +817,7 @@ config VIDEO_ST_VGXY61
- source "drivers/media/i2c/ccs/Kconfig"
- source "drivers/media/i2c/et8ek8/Kconfig"
- 
--endmenu
-+endif
- 
- menu "Lens drivers"
- 	visible if MEDIA_CAMERA_SUPPORT
--- 
-2.39.2
+Understood. I've checked that it can just call npcm_video_start_frame (in which
+npcm_video_vcd_state_machine_reset will be called to reset VCD state
+machine and FIFOs) and
+the width/height/format will not be changed.
 
+> > +     if (*num_buffers > MAX_REQ_BUFS)
+> > +             *num_buffers = MAX_REQ_BUFS;
+>
+> Why limit this? Can't you just use rect[VIDEO_MAX_FRAME]?
+
+I just realized VIDEO_MAX_FRAME is a common define in videodev2.h.
+Will change to use it.
+
+> > +     /*
+> > +      * When a video buffer is dequeued, free associated rect_list and
+> > +      * capture next frame.
+> > +      */
+> > +     head = &video->list[video->vb_index];
+> > +     list_for_each_safe(pos, nx, head) {
+> > +             tmp = list_entry(pos, struct rect_list, list);
+> > +             list_del(&tmp->list);
+> > +             kfree(tmp);
+> > +     }
+> > +
+> > +     if (npcm_video_start_frame(video)) {
+>
+> This is weird. This is not normally done here since you never know when
+> userspace will dequeue a buffer.
+>
+> I would expect to see this called:
+>
+> 1) In start_streaming (so that works)
+> 2) When a buffer is captured and vb2_buffer_done is called: if another
+>    empty buffer is available, then use that.
+> 3) in buf_queue: if the buffer list was empty, and vb2_start_streaming_called()
+>    is true, then you can start capturing again.
+
+Will modify as you suggested. Thanks for the guide.
+
+Regards,
+Marvin
