@@ -2,216 +2,213 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 12E29742097
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jun 2023 08:46:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 697327420B5
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jun 2023 09:03:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231843AbjF2GqH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Jun 2023 02:46:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44144 "EHLO
+        id S231882AbjF2HDx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Jun 2023 03:03:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232267AbjF2GpM (ORCPT
+        with ESMTP id S231430AbjF2HDu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Jun 2023 02:45:12 -0400
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 211741727;
-        Wed, 28 Jun 2023 23:43:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1688021000; x=1719557000;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=G+uOQkDR2E0nxUFvjbja0K0Gxq+1DDCLe5LQgn9NGO0=;
-  b=mWlnIt1CrXBA16J8GsKQ2MAJfcZviXzBE1YJWHy8mXgH/9ujCtMTk0S4
-   5CRz20AnkNDwqlxKYHPj4noLZ4M5o9IxMQjWfS34tm/1CGx2M0O2yI2/E
-   0oPOQ8me0DtdfDQ4Xb4tBri+cnyq4NIFkg3hp3RDM0lSe8z0qD3g+0qAd
-   DAS4dwwHgdi4RVUVGvzT/ynJ4lDn+AZbBe5smKT68b+sOCU6iidb3Gxjz
-   dYfSaj9oM69XEylVwuwQg+UvgZMHF3Oq0dzPDX8Hm2SP7nNWdjzU0ZuPK
-   WDgUmpfFEzJ58psz2UYNVUuv4yR2rnCFGovHwfKr9HSS8MU39Li5GzivP
-   w==;
-X-IronPort-AV: E=Sophos;i="6.01,167,1684792800"; 
-   d="scan'208";a="31667920"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 29 Jun 2023 08:43:17 +0200
-Received: from steina-w.localnet (unknown [10.123.53.21])
+        Thu, 29 Jun 2023 03:03:50 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1D5A1BE1;
+        Thu, 29 Jun 2023 00:03:48 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id F1841280078;
-        Thu, 29 Jun 2023 08:43:16 +0200 (CEST)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     linux-media@vger.kernel.org, linux-imx@nxp.com,
-        devicetree@vger.kernel.org, guoniu.zhou@oss.nxp.com
-Cc:     laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, xavier.roumegue@oss.nxp.com,
-        kernel@pengutronix.de, jacopo.mondi@ideasonboard.com,
-        sakari.ailus@linux.intel.com
-Subject: Re: [PATCH v5 3/3] media: nxp: imx8-isi: add ISI support for i.MX93
-Date:   Thu, 29 Jun 2023 08:43:16 +0200
-Message-ID: <5948448.lOV4Wx5bFT@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20230629013621.2388121-4-guoniu.zhou@oss.nxp.com>
-References: <20230629013621.2388121-1-guoniu.zhou@oss.nxp.com> <20230629013621.2388121-4-guoniu.zhou@oss.nxp.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3BA3B6148F;
+        Thu, 29 Jun 2023 07:03:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 994CEC433C0;
+        Thu, 29 Jun 2023 07:03:44 +0000 (UTC)
+Message-ID: <567481c3-08bc-3bb8-5538-0d296ee539d9@xs4all.nl>
+Date:   Thu, 29 Jun 2023 09:03:42 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 1/2] media: verisilicon: fix excessive stack usage
+To:     Nathan Chancellor <nathan@kernel.org>,
+        Arnd Bergmann <arnd@kernel.org>
+Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        kernel test robot <lkp@intel.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+References: <20230616144854.3818934-1-arnd@kernel.org>
+ <20230628182617.GA911656@dev-arch.thelio-3990X>
+Content-Language: en-US
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20230628182617.GA911656@dev-arch.thelio-3990X>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Guoniu,
+Hi all,
 
-thanks for the patch series.
+On 6/28/23 20:26, Nathan Chancellor wrote:
+> On Fri, Jun 16, 2023 at 04:48:47PM +0200, Arnd Bergmann wrote:
+>> From: Arnd Bergmann <arnd@arndb.de>
+>>
+>> In some configurations, gcc decides not to inline the register accessor functions,
+>> which in turn leads to lots of temporary hantro_reg structures on the stack that
+>> cannot be eliminated because they escape into an uninlined function:
+>>
+>> drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1022:1: warning: the frame size of 1112 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+>>
+>> Mark all of these as __always_inline so the compiler is able to completely
+>> eliminate the temporary structures instead, which brings the stack usage
+>> back down to just the normal local variables.
+>>
+>> Reported-by: kernel test robot <lkp@intel.com>
+>> Closes: https://lore.kernel.org/oe-kbuild-all/202306151506.goHEegOd-lkp@intel.com/
+>> Fixes: 727a400686a2c ("media: verisilicon: Add Rockchip AV1 decoder")
+>> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> 
+> For what it's worth, this patch massively helps with avoiding a warning
+> with clang 16.x and older, for presumably a similar reason, since this
+> happens with allmodconfig, which turns on a bunch of sanitizers.
+> 
+> https://github.com/ClangBuiltLinux/linux/issues/1875
+> 
+> Before this change:
+> 
+>    drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:2097:5: error: stack frame size (2096) exceeds limit (2048) in 'rockchip_vpu981_av1_dec_run' [-Werror,-Wframe-larger-than]
+>    int rockchip_vpu981_av1_dec_run(struct hantro_ctx *ctx)
+>        ^
+>    238/2096 (11.35%) spills, 1858/2096 (88.65%) variables
+> 
+> After this change:
+> 
+>    drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:2097:5: error: stack frame size (496) exceeds limit (200) in 'rockchip_vpu981_av1_dec_run' [-Werror,-Wframe-larger-than]
+>    int rockchip_vpu981_av1_dec_run(struct hantro_ctx *ctx)
+>        ^
+>    265/496 (53.43%) spills, 231/496 (46.57%) variables
+> 
+> If this could be picked up either before the 6.5 media pull goes out or
+> at some point during the -rc cycle, that would be great!
 
-Am Donnerstag, 29. Juni 2023, 03:36:21 CEST schrieb guoniu.zhou@oss.nxp.com:
-> ********************
-> Achtung externe E-Mail: =D6ffnen Sie Anh=E4nge und Links nur, wenn Sie wi=
-ssen,
-> dass diese aus einer sicheren Quelle stammen und sicher sind. Leiten Sie
-> die E-Mail im Zweifelsfall zur Pr=FCfung an den IT-Helpdesk weiter.
-> Attention external email: Open attachments and links only if you know that
-> they are from a secure source and are safe. In doubt forward the email to
-> the IT-Helpdesk to check it. ********************
->=20
-> From: "Guoniu.zhou" <guoniu.zhou@nxp.com>
->=20
-> i.MX93 use a different gasket which has different register definition
-> compared with i.MX8. Hence implement the gasket callbacks in order to
-> add ISI support for i.MX93.
->=20
-> Signed-off-by: Guoniu.zhou <guoniu.zhou@nxp.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  .../platform/nxp/imx8-isi/imx8-isi-core.c     | 15 ++++++++++
->  .../platform/nxp/imx8-isi/imx8-isi-core.h     |  2 ++
->  .../platform/nxp/imx8-isi/imx8-isi-gasket.c   | 30 +++++++++++++++++++
->  3 files changed, 47 insertions(+)
->=20
-> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
-> b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c index
-> 5165f8960c2c..27bd18b7ee65 100644
-> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
-> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.c
-> @@ -307,6 +307,20 @@ static const struct mxc_isi_plat_data mxc_imx8mp_dat=
-a =3D
-> { .has_36bit_dma		=3D true,
->  };
->=20
-> +static const struct mxc_isi_plat_data mxc_imx93_data =3D {
-> +	.model			=3D MXC_ISI_IMX93,
-> +	.num_ports		=3D 1,
-> +	.num_channels		=3D 1,
-> +	.reg_offset		=3D 0,
-> +	.ier_reg		=3D &mxc_imx8_isi_ier_v2,
-> +	.set_thd		=3D &mxc_imx8_isi_thd_v1,
-> +	.clks			=3D mxc_imx8mn_clks,
-> +	.num_clks		=3D ARRAY_SIZE(mxc_imx8mn_clks),
-> +	.buf_active_reverse	=3D true,
-> +	.gasket_ops		=3D &mxc_imx93_gasket_ops,
-> +	.has_36bit_dma		=3D false,
-> +};
-> +
->  /*
-> -------------------------------------------------------------------------=
-=2D-
-> -- * Power management
->   */
-> @@ -518,6 +532,7 @@ static int mxc_isi_remove(struct platform_device *pde=
-v)
->  static const struct of_device_id mxc_isi_of_match[] =3D {
->  	{ .compatible =3D "fsl,imx8mn-isi", .data =3D &mxc_imx8mn_data },
->  	{ .compatible =3D "fsl,imx8mp-isi", .data =3D &mxc_imx8mp_data },
-> +	{ .compatible =3D "fsl,imx93-isi", .data =3D &mxc_imx93_data },
->  	{ /* sentinel */ },
->  };
->  MODULE_DEVICE_TABLE(of, mxc_isi_of_match);
-> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
-> b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h index
-> 78ca047d93d1..2810ebe9b5f7 100644
-> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
-> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-core.h
-> @@ -158,6 +158,7 @@ struct mxc_gasket_ops {
->  enum model {
->  	MXC_ISI_IMX8MN,
->  	MXC_ISI_IMX8MP,
-> +	MXC_ISI_IMX93,
->  };
->=20
->  struct mxc_isi_plat_data {
-> @@ -295,6 +296,7 @@ struct mxc_isi_dev {
->  };
->=20
->  extern const struct mxc_gasket_ops mxc_imx8_gasket_ops;
-> +extern const struct mxc_gasket_ops mxc_imx93_gasket_ops;
->=20
->  int mxc_isi_crossbar_init(struct mxc_isi_dev *isi);
->  void mxc_isi_crossbar_cleanup(struct mxc_isi_crossbar *xbar);
-> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c
-> b/drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c index
-> 1d632dc60699..50ac1d3a2b6f 100644
-> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c
-> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-gasket.c
-> @@ -53,3 +53,33 @@ const struct mxc_gasket_ops mxc_imx8_gasket_ops =3D {
->  	.enable =3D mxc_imx8_gasket_enable,
->  	.disable =3D mxc_imx8_gasket_disable,
->  };
-> +
-> +/*
-> -------------------------------------------------------------------------=
-=2D-
-> -- + * i.MX93 gasket
-> + **/
-> +
-> +#define DISP_MIX_CAMERA_MUX                     0x30
+Once the merge window closes I'll make a PR to get it in 6.5.
 
-Which peripheral does this refer to? I would assume it is the Media Mix Dom=
-ain=20
-Block Control, but there is no register at 0x30 mentioned in the reference=
-=20
-manual. You have some additional information?
+Regards,
 
-Also which type of input did you use? MIPI-CSI2 or parallel interface?
+	Hans
 
-Thanks and best regards,
-Alexander
-
-> +#define DISP_MIX_CAMERA_MUX_DATA_TYPE(x)        (((x) & 0x3f) << 3)
-> +#define DISP_MIX_CAMERA_MUX_GASKET_ENABLE       BIT(16)
-> +static void mxc_imx93_gasket_enable(struct mxc_isi_dev *isi,
-> +				    const struct v4l2_mbus_frame_desc=20
-*fd,
-> +				    const struct v4l2_mbus_framefmt=20
-*fmt,
-> +				    const unsigned int port)
-> +{
-> +	u32 val;
-> +
-> +	val =3D DISP_MIX_CAMERA_MUX_DATA_TYPE(fd->entry[0].bus.csi2.dt);
-> +	val |=3D DISP_MIX_CAMERA_MUX_GASKET_ENABLE;
-> +	regmap_write(isi->gasket, DISP_MIX_CAMERA_MUX, val);
-> +}
-> +
-> +static void mxc_imx93_gasket_disable(struct mxc_isi_dev *isi,
-> +				     unsigned int port)
-> +{
-> +	regmap_write(isi->gasket, DISP_MIX_CAMERA_MUX, 0);
-> +}
-> +
-> +const struct mxc_gasket_ops mxc_imx93_gasket_ops =3D {
-> +	.enable =3D mxc_imx93_gasket_enable,
-> +	.disable =3D mxc_imx93_gasket_disable,
-> +};
-
-
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
-
+> 
+> Tested-by: Nathan Chancellor <nathan@kernel.org>
+> 
+>> ---
+>>   drivers/media/platform/verisilicon/hantro.h | 22 ++++++++++-----------
+>>   1 file changed, 11 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/platform/verisilicon/hantro.h
+>> index 6523ffb748812..6c5e56ce5b351 100644
+>> --- a/drivers/media/platform/verisilicon/hantro.h
+>> +++ b/drivers/media/platform/verisilicon/hantro.h
+>> @@ -370,26 +370,26 @@ extern int hantro_debug;
+>>   	pr_err("%s:%d: " fmt, __func__, __LINE__, ##args)
+>>   
+>>   /* Structure access helpers. */
+>> -static inline struct hantro_ctx *fh_to_ctx(struct v4l2_fh *fh)
+>> +static __always_inline struct hantro_ctx *fh_to_ctx(struct v4l2_fh *fh)
+>>   {
+>>   	return container_of(fh, struct hantro_ctx, fh);
+>>   }
+>>   
+>>   /* Register accessors. */
+>> -static inline void vepu_write_relaxed(struct hantro_dev *vpu,
+>> +static __always_inline void vepu_write_relaxed(struct hantro_dev *vpu,
+>>   				      u32 val, u32 reg)
+>>   {
+>>   	vpu_debug(6, "0x%04x = 0x%08x\n", reg / 4, val);
+>>   	writel_relaxed(val, vpu->enc_base + reg);
+>>   }
+>>   
+>> -static inline void vepu_write(struct hantro_dev *vpu, u32 val, u32 reg)
+>> +static __always_inline void vepu_write(struct hantro_dev *vpu, u32 val, u32 reg)
+>>   {
+>>   	vpu_debug(6, "0x%04x = 0x%08x\n", reg / 4, val);
+>>   	writel(val, vpu->enc_base + reg);
+>>   }
+>>   
+>> -static inline u32 vepu_read(struct hantro_dev *vpu, u32 reg)
+>> +static __always_inline u32 vepu_read(struct hantro_dev *vpu, u32 reg)
+>>   {
+>>   	u32 val = readl(vpu->enc_base + reg);
+>>   
+>> @@ -397,27 +397,27 @@ static inline u32 vepu_read(struct hantro_dev *vpu, u32 reg)
+>>   	return val;
+>>   }
+>>   
+>> -static inline void vdpu_write_relaxed(struct hantro_dev *vpu,
+>> +static __always_inline void vdpu_write_relaxed(struct hantro_dev *vpu,
+>>   				      u32 val, u32 reg)
+>>   {
+>>   	vpu_debug(6, "0x%04x = 0x%08x\n", reg / 4, val);
+>>   	writel_relaxed(val, vpu->dec_base + reg);
+>>   }
+>>   
+>> -static inline void vdpu_write(struct hantro_dev *vpu, u32 val, u32 reg)
+>> +static __always_inline void vdpu_write(struct hantro_dev *vpu, u32 val, u32 reg)
+>>   {
+>>   	vpu_debug(6, "0x%04x = 0x%08x\n", reg / 4, val);
+>>   	writel(val, vpu->dec_base + reg);
+>>   }
+>>   
+>> -static inline void hantro_write_addr(struct hantro_dev *vpu,
+>> +static __always_inline void hantro_write_addr(struct hantro_dev *vpu,
+>>   				     unsigned long offset,
+>>   				     dma_addr_t addr)
+>>   {
+>>   	vdpu_write(vpu, addr & 0xffffffff, offset);
+>>   }
+>>   
+>> -static inline u32 vdpu_read(struct hantro_dev *vpu, u32 reg)
+>> +static __always_inline u32 vdpu_read(struct hantro_dev *vpu, u32 reg)
+>>   {
+>>   	u32 val = readl(vpu->dec_base + reg);
+>>   
+>> @@ -425,7 +425,7 @@ static inline u32 vdpu_read(struct hantro_dev *vpu, u32 reg)
+>>   	return val;
+>>   }
+>>   
+>> -static inline u32 vdpu_read_mask(struct hantro_dev *vpu,
+>> +static __always_inline u32 vdpu_read_mask(struct hantro_dev *vpu,
+>>   				 const struct hantro_reg *reg,
+>>   				 u32 val)
+>>   {
+>> @@ -437,14 +437,14 @@ static inline u32 vdpu_read_mask(struct hantro_dev *vpu,
+>>   	return v;
+>>   }
+>>   
+>> -static inline void hantro_reg_write(struct hantro_dev *vpu,
+>> +static __always_inline void hantro_reg_write(struct hantro_dev *vpu,
+>>   				    const struct hantro_reg *reg,
+>>   				    u32 val)
+>>   {
+>>   	vdpu_write_relaxed(vpu, vdpu_read_mask(vpu, reg, val), reg->base);
+>>   }
+>>   
+>> -static inline void hantro_reg_write_s(struct hantro_dev *vpu,
+>> +static __always_inline void hantro_reg_write_s(struct hantro_dev *vpu,
+>>   				      const struct hantro_reg *reg,
+>>   				      u32 val)
+>>   {
+>> -- 
+>> 2.39.2
+>>
