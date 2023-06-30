@@ -2,59 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D68CC743DA1
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jun 2023 16:37:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B986743DA2
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jun 2023 16:38:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232543AbjF3OhR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Jun 2023 10:37:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42760 "EHLO
+        id S232644AbjF3OiF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Jun 2023 10:38:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230462AbjF3OhQ (ORCPT
+        with ESMTP id S230462AbjF3OiE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Jun 2023 10:37:16 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15DCD35A6
-        for <linux-media@vger.kernel.org>; Fri, 30 Jun 2023 07:37:15 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id 4fb4d7f45d1cf-51a52a7d859so3334790a12.0
-        for <linux-media@vger.kernel.org>; Fri, 30 Jun 2023 07:37:15 -0700 (PDT)
+        Fri, 30 Jun 2023 10:38:04 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1141A35A6
+        for <linux-media@vger.kernel.org>; Fri, 30 Jun 2023 07:38:03 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-992f15c36fcso64251266b.3
+        for <linux-media@vger.kernel.org>; Fri, 30 Jun 2023 07:38:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688135833; x=1690727833;
+        d=gmail.com; s=20221208; t=1688135881; x=1690727881;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wO3TwhEsbsy6faMxeKen000rLUcOTmafDPe65SXCTjo=;
-        b=e0zOv8Y7deNKwgb6dAf87CeyQYmquWQnAFwHQzyH3ZqFQZt/caLUhlZajeloQkBcwb
-         BLFH0zk9wFkLHlZTdAmIUu98ip89IYMVV/3zyQ7bVDtDcOnK7okRiD9a7E1FhQGsDDTP
-         qHVnvbwgsR/ICU/aT+wbjws44zUbGav0RfwwLR+5lMs5WI2IMtXdwZjuuIOv6bfENVu7
-         fpTvohHBTOEgtUTdIMVq+dWCYOBLRky1RKftupWXVXW3krlXmWOOtXQ+LrvnCZLxspx3
-         Vkt30rADhEr1oHBgFbsgRz8lPcnKAgTd92z2ZHV8LEZs6HmNjFeF10kP/x2AnIDeb+yy
-         O0xg==
+        bh=2sW+eca0V3mx7tiIBToT6vP5keH4x7usRv62cG2GqeQ=;
+        b=nw59yFShzsxKZB6r7BiJAgrSRAGdPdn7TdrvDHTvKcSftjg+qCNGWIXlwNtKitt+XG
+         uDRcTI+lM9mSoPxNLyVzDjKxIXeYL+t1dcy7QGeSgEd3elvMpmk9hf/FAkM/G6OkOVxt
+         1z+eoAU91T6sRob2cD3ZAhW9vxUlpHwp99BPz9iOwKomWc84VZmXw+keAORMNjRt14Yx
+         8KNHnWfi5VZB/JOIhFA2RSYNZZkU9iOskmHy/lHk30z5jsqwNkU353mOw8XUx1R/0my/
+         IsqoQ10mzaTnTTh+yec6RyTH0TAYrJEtCZ+wcmyIsx56ZHZuNfEc7LGvSoyESI8aNQ4z
+         M1Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688135833; x=1690727833;
+        d=1e100.net; s=20221208; t=1688135881; x=1690727881;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wO3TwhEsbsy6faMxeKen000rLUcOTmafDPe65SXCTjo=;
-        b=CgN3CCannJGe9sCapj2+Rwq1jhcJMAmyXcb07edJcZKOwz7tzZ5LzHvzRgAaw/cg88
-         eF68dG/GrlEOFgybWyhRwlUjTxDbwjiXGf5FIb7vxU1B2QxDprmiJcDdAvA87W4GG/km
-         0GG1Shz3OYHA/Rx7WEatphD4KzJKhwsgoV+I14vwzJ6rSkS8yVihMA4oE40sVy3qBuCL
-         4eMEEkfNwyI2OpgEe8SG0xZfCwjaoO/n6Xo4FHNjDvew/T7DSbLriRmhGhPJ2Rpeq8dC
-         BYIKGOiciG2AdTl8N8e5Pi7MGOxxrcEDNsFz46j62I57iDIMQCvD0vFThIq98f7tC7kS
-         RV7w==
-X-Gm-Message-State: AC+VfDwvSUssEd4msp1jtu0GBLu2u2kiMkEKX0GI6MNZW8RjfJB1GaEB
-        ddOFMc4/U0qe2swUXWmcpSQf/j1vxowV/a5w1dM=
-X-Google-Smtp-Source: ACHHUZ6V+C/3yEZVpEiyKlX5b5/Od8mQOOOhaCHTwb8MGTCc5lDLhJNZuw2Mu5XK0LOop2Y3PH2EJqFxzmt05JTUkBQ=
-X-Received: by 2002:aa7:cfda:0:b0:51a:4039:b9e with SMTP id
- r26-20020aa7cfda000000b0051a40390b9emr7336003edy.9.1688135833487; Fri, 30 Jun
- 2023 07:37:13 -0700 (PDT)
+        bh=2sW+eca0V3mx7tiIBToT6vP5keH4x7usRv62cG2GqeQ=;
+        b=FyZO7yBpfwPXrQX+yojJG14GzH98ZGuc/AE4ZQbnFdI+ftwgmA/GPM12MzY7YHrcIF
+         gtMFtnj3eiZa/fjBtqng1jf6pIpvjrCSL6qQtIGUtQDhsDvoGVTgSwaUc+eLQcXHM+ND
+         EWdApFBA3oC5lodJmLOmCR3US71cpxq0xAUieAeZkQHG75FRGeWUQLOTGBUl2w0mnMYd
+         6430lDBhe/Lo4NILm2FBzzszuLeqhDnZ2Quf11VyJZMqF6QKHJd1cXnSCrUAsE3C2C/u
+         c9O4/s8aZclAUoygmbNGDCDtMm/LXLAQuY3ttkr8tCT8wjN70+ShAkVmUi+yEacdRdTk
+         Xt2A==
+X-Gm-Message-State: ABy/qLauqnBPzWubtmXhtkTs9P94MMTW4GHKMPbCHFfF4MnEW+PxvSCS
+        7QlB7uK0Y42WleLK4y7TZBOkH4TzFxqKUx31JQreWzva4wsPsg==
+X-Google-Smtp-Source: APBJJlEpGO7qY5PQlx2+edAMWeKX0No/VBwutnFe5jdzExcamKgvXTuGNU/CeK/XGwkL1qb/3FWScGvW53SJn4ia3dY=
+X-Received: by 2002:a50:ec8c:0:b0:51d:9dd1:29d0 with SMTP id
+ e12-20020a50ec8c000000b0051d9dd129d0mr1895388edr.23.1688135881300; Fri, 30
+ Jun 2023 07:38:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230630110643.209761-1-hdegoede@redhat.com> <20230630110643.209761-11-hdegoede@redhat.com>
-In-Reply-To: <20230630110643.209761-11-hdegoede@redhat.com>
+References: <20230630110643.209761-1-hdegoede@redhat.com> <20230630110643.209761-12-hdegoede@redhat.com>
+In-Reply-To: <20230630110643.209761-12-hdegoede@redhat.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 30 Jun 2023 17:36:37 +0300
-Message-ID: <CAHp75VeEi5vMvEqC+kmAZQg2PeRCFXWrJ9J6jrW6CxRQ9iM3bQ@mail.gmail.com>
-Subject: Re: [PATCH v2 10/15] media: ipu-bridge: Add a parse_sensor_fwnode
- callback to ipu_bridge_init()
+Date:   Fri, 30 Jun 2023 17:37:25 +0300
+Message-ID: <CAHp75VfiWQRkN4uxD9YmMC70_N5bvMhAVYd5ATaZ9ae_gwcrrA@mail.gmail.com>
+Subject: Re: [PATCH v2 11/15] media: ipu-bridge: Move ipu-bridge.h to include/media/
 To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -75,57 +74,71 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 30, 2023 at 2:21=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
+On Fri, Jun 30, 2023 at 2:07=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
  wrote:
 >
-> Add a parse_sensor_fwnode callback to ipu_bridge_init(), so that
+> Move ipu-bridge.h to include/media/, so that it can also be used by
+> the atomisp code.
 
-->parse_sensor_fwnode()
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-> ipu_bridge_init() can be used with other sensor fwnode parse functions
-> then just ipu_bridge_parse_ssdb().
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/media/pci/intel/ipu-bridge.c                    | 4 ++--
+>  drivers/media/pci/intel/ipu3/ipu3-cio2.c                | 3 ++-
+>  {drivers/media/pci/intel =3D> include/media}/ipu-bridge.h | 0
+>  3 files changed, 4 insertions(+), 3 deletions(-)
+>  rename {drivers/media/pci/intel =3D> include/media}/ipu-bridge.h (100%)
 >
-> This will allow the ipu3-bridge code to also be used by the atomisp
-> driver.
+> diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/int=
+el/ipu-bridge.c
+> index d60992fbdbeb..eb7c56e8ef9f 100644
+> --- a/drivers/media/pci/intel/ipu-bridge.c
+> +++ b/drivers/media/pci/intel/ipu-bridge.c
+> @@ -5,9 +5,9 @@
+>  #include <linux/device.h>
+>  #include <linux/i2c.h>
+>  #include <linux/property.h>
+> -#include <media/v4l2-fwnode.h>
+>
+> -#include "ipu-bridge.h"
+> +#include <media/ipu-bridge.h>
+> +#include <media/v4l2-fwnode.h>
+>
+>  /*
+>   * Extend this array with ACPI Hardware IDs of devices known to be worki=
+ng
+> diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci=
+/intel/ipu3/ipu3-cio2.c
+> index 26c4c1375990..51a6d7cc44d2 100644
+> --- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+> +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+> @@ -22,6 +22,8 @@
+>  #include <linux/pm_runtime.h>
+>  #include <linux/property.h>
+>  #include <linux/vmalloc.h>
+> +
+> +#include <media/ipu-bridge.h>
+>  #include <media/v4l2-ctrls.h>
+>  #include <media/v4l2-device.h>
+>  #include <media/v4l2-event.h>
+> @@ -29,7 +31,6 @@
+>  #include <media/v4l2-ioctl.h>
+>  #include <media/videobuf2-dma-sg.h>
+>
+> -#include "../ipu-bridge.h"
+>  #include "ipu3-cio2.h"
+>
+>  struct ipu3_cio2_fmt {
+> diff --git a/drivers/media/pci/intel/ipu-bridge.h b/include/media/ipu-bri=
+dge.h
+> similarity index 100%
+> rename from drivers/media/pci/intel/ipu-bridge.h
+> rename to include/media/ipu-bridge.h
+> --
+> 2.41.0
+>
 
-...
-
-> +int ipu_bridge_init(struct device *dev,
-> +                   int (*parse_sensor_fwnode)(struct acpi_device *adev,
-> +                                              struct ipu_sensor *sensor)=
-)
-
-Wondering if
-
-  typedef ipu_parse_sensor_fwnode_t ...
-
-will make all the code better looking.
-
-...
-
-> +       int (*parse_sensor_fwnode)(struct acpi_device *adev,
-> +                                  struct ipu_sensor *sensor);
-
-Ditto.
-
-...
-
-> +int ipu_bridge_init(struct device *dev,
-> +                   int (*parse_sensor_fwnode)(struct acpi_device *adev,
-> +                                              struct ipu_sensor *sensor)=
-);
-
-Ditto.
-
-...
-
-> +/* Use a define to avoid the parse_sensor_fwnode arg getting evaluated *=
-/
-
-@parse_sensor_fwnode
-argument
-
-> +#define ipu_bridge_init(dev, parse_sensor_fwnode)      (0)
 
 --=20
 With Best Regards,
