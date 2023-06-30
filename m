@@ -2,235 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4486B743D8D
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jun 2023 16:33:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D68CC743DA1
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jun 2023 16:37:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232543AbjF3Odm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Jun 2023 10:33:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40818 "EHLO
+        id S232543AbjF3OhR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Jun 2023 10:37:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232168AbjF3Odk (ORCPT
+        with ESMTP id S230462AbjF3OhQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Jun 2023 10:33:40 -0400
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFEB510D7;
-        Fri, 30 Jun 2023 07:33:38 -0700 (PDT)
-Received: by mail-io1-f47.google.com with SMTP id ca18e2360f4ac-783549ef058so78580639f.2;
-        Fri, 30 Jun 2023 07:33:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688135618; x=1690727618;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        Fri, 30 Jun 2023 10:37:16 -0400
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15DCD35A6
+        for <linux-media@vger.kernel.org>; Fri, 30 Jun 2023 07:37:15 -0700 (PDT)
+Received: by mail-ed1-x52a.google.com with SMTP id 4fb4d7f45d1cf-51a52a7d859so3334790a12.0
+        for <linux-media@vger.kernel.org>; Fri, 30 Jun 2023 07:37:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1688135833; x=1690727833;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=V5AMZs/zHCV83IWK4W4QITPU73mgpFl6qrkuUYgrguc=;
-        b=kvMnnKpsTbzkszQcfo9MM/acNefMn3Eo2m4fdyc0ejydgbryAEY0jH9haiwtiNdaeZ
-         8Fn34YrAwxm2w6tuqJB6AdaaZFm3CpOHUw+ep1zmAauFw72CgXYViepO7oshVHGHhE34
-         pSGGNianiNUNHaDmorkl7yGK4GvuO3E0Uu0QaANrJHP9i61T8Mxp1ByjKkconcdLu7AR
-         Bjq4A/3BPoH25Qz1DcFJQfuiP3Wh/yWgo3Rbz+gjE9BfrZmrlJyiSpuzp6Q0OrpXmTUI
-         IXlaH1hb5AZrQEaG+fOANcCR4DRQ/LXlg/HHS6QjQdKOB8KtuPq2yMkxpgg4RcCDkNVf
-         Vb+w==
-X-Gm-Message-State: AC+VfDz1nwnwNA0xb1j/TIiJ+VGf7l5/1jSJMlcMe1cj/glSjxiEDbgz
-        RuSHuehKC2Y7dFgn4f5epA==
-X-Google-Smtp-Source: ACHHUZ5gLqxx6Di1Cy2RVzFLNSkHxTHWCY6kl8qNN9ObQlrwhBXxOQWC0wRrGWkgWM7iA7NSJZlV4A==
-X-Received: by 2002:a5e:8302:0:b0:774:94e1:3aee with SMTP id x2-20020a5e8302000000b0077494e13aeemr3063334iom.6.1688135617882;
-        Fri, 30 Jun 2023 07:33:37 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id r5-20020a056638100500b0042319c38763sm4571263jab.15.2023.06.30.07.33.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jun 2023 07:33:37 -0700 (PDT)
-Received: (nullmailer pid 1431708 invoked by uid 1000);
-        Fri, 30 Jun 2023 14:33:35 -0000
-Date:   Fri, 30 Jun 2023 08:33:35 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Julien Stephan <jstephan@baylibre.com>
-Cc:     Phi-bang Nguyen <pnguyen@baylibre.com>,
-        Andy Hsieh <andy.hsieh@mediatek.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Conor Dooley <conor+dt@kernel.org>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        devicetree@vger.kernel.org,
-        Florian Sylvestre <fsylvestre@baylibre.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-        Louis Kuo <louis.kuo@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Moudy Ho <moudy.ho@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        Vasily Gorbik <gor@linux.ibm.com>
-Subject: Re: [PATCH v2 3/4] dt-bindings: media: add mediatek ISP3.0 camsv
-Message-ID: <20230630143335.GA1430949-robh@kernel.org>
-References: <20230630100321.1951138-1-jstephan@baylibre.com>
- <20230630100321.1951138-4-jstephan@baylibre.com>
+        bh=wO3TwhEsbsy6faMxeKen000rLUcOTmafDPe65SXCTjo=;
+        b=e0zOv8Y7deNKwgb6dAf87CeyQYmquWQnAFwHQzyH3ZqFQZt/caLUhlZajeloQkBcwb
+         BLFH0zk9wFkLHlZTdAmIUu98ip89IYMVV/3zyQ7bVDtDcOnK7okRiD9a7E1FhQGsDDTP
+         qHVnvbwgsR/ICU/aT+wbjws44zUbGav0RfwwLR+5lMs5WI2IMtXdwZjuuIOv6bfENVu7
+         fpTvohHBTOEgtUTdIMVq+dWCYOBLRky1RKftupWXVXW3krlXmWOOtXQ+LrvnCZLxspx3
+         Vkt30rADhEr1oHBgFbsgRz8lPcnKAgTd92z2ZHV8LEZs6HmNjFeF10kP/x2AnIDeb+yy
+         O0xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688135833; x=1690727833;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wO3TwhEsbsy6faMxeKen000rLUcOTmafDPe65SXCTjo=;
+        b=CgN3CCannJGe9sCapj2+Rwq1jhcJMAmyXcb07edJcZKOwz7tzZ5LzHvzRgAaw/cg88
+         eF68dG/GrlEOFgybWyhRwlUjTxDbwjiXGf5FIb7vxU1B2QxDprmiJcDdAvA87W4GG/km
+         0GG1Shz3OYHA/Rx7WEatphD4KzJKhwsgoV+I14vwzJ6rSkS8yVihMA4oE40sVy3qBuCL
+         4eMEEkfNwyI2OpgEe8SG0xZfCwjaoO/n6Xo4FHNjDvew/T7DSbLriRmhGhPJ2Rpeq8dC
+         BYIKGOiciG2AdTl8N8e5Pi7MGOxxrcEDNsFz46j62I57iDIMQCvD0vFThIq98f7tC7kS
+         RV7w==
+X-Gm-Message-State: AC+VfDwvSUssEd4msp1jtu0GBLu2u2kiMkEKX0GI6MNZW8RjfJB1GaEB
+        ddOFMc4/U0qe2swUXWmcpSQf/j1vxowV/a5w1dM=
+X-Google-Smtp-Source: ACHHUZ6V+C/3yEZVpEiyKlX5b5/Od8mQOOOhaCHTwb8MGTCc5lDLhJNZuw2Mu5XK0LOop2Y3PH2EJqFxzmt05JTUkBQ=
+X-Received: by 2002:aa7:cfda:0:b0:51a:4039:b9e with SMTP id
+ r26-20020aa7cfda000000b0051a40390b9emr7336003edy.9.1688135833487; Fri, 30 Jun
+ 2023 07:37:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230630100321.1951138-4-jstephan@baylibre.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
-        autolearn_force=no version=3.4.6
+References: <20230630110643.209761-1-hdegoede@redhat.com> <20230630110643.209761-11-hdegoede@redhat.com>
+In-Reply-To: <20230630110643.209761-11-hdegoede@redhat.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 30 Jun 2023 17:36:37 +0300
+Message-ID: <CAHp75VeEi5vMvEqC+kmAZQg2PeRCFXWrJ9J6jrW6CxRQ9iM3bQ@mail.gmail.com>
+Subject: Re: [PATCH v2 10/15] media: ipu-bridge: Add a parse_sensor_fwnode
+ callback to ipu_bridge_init()
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+        Hao Yao <hao.yao@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 30, 2023 at 12:01:52PM +0200, Julien Stephan wrote:
-> From: Phi-bang Nguyen <pnguyen@baylibre.com>
-> 
-> This adds the bindings, for the ISP3.0 camsv module embedded in
-> some Mediatek SoC, such as the mt8365
-> 
-> Signed-off-by: Phi-bang Nguyen <pnguyen@baylibre.com>
-> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-> ---
->  .../bindings/media/mediatek,mt8365-camsv.yaml | 113 ++++++++++++++++++
->  MAINTAINERS                                   |   1 +
->  2 files changed, 114 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8365-camsv.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/mediatek,mt8365-camsv.yaml b/Documentation/devicetree/bindings/media/mediatek,mt8365-camsv.yaml
-> new file mode 100644
-> index 000000000000..d81fa5d6db74
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/mediatek,mt8365-camsv.yaml
-> @@ -0,0 +1,113 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (c) 2023 MediaTek, BayLibre
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/mediatek,mt8365-camsv.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: MediaTek CAMSV 3.0
-> +
-> +maintainers:
-> +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> +  - Julien Stephan <jstephan@baylibre.com>
-> +  - Andy Hsieh <andy.hsieh@mediatek.com>
-> +
-> +description:
-> +  The CAMSV is a set of DMA engines connected to the SENINF CSI-2
-> +  receivers. The number of CAMSVs depend on the SoC model.
-> +
-> +properties:
-> +  compatible:
-> +    const: mediatek,mt8365-camsv
-> +
-> +  reg:
-> +    maxItems: 3
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: cam clock
-> +      - description: camtg clock
-> +      - description: camsv clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: camsys_cam_cgpdn
-> +      - const: camsys_camtg_cgpdn
-> +      - const: camsys_camsv
-> +
-> +  iommus:
-> +    maxItems: 1
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        unevaluatedProperties: false
+On Fri, Jun 30, 2023 at 2:21=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
+ wrote:
+>
+> Add a parse_sensor_fwnode callback to ipu_bridge_init(), so that
 
-Drop
+->parse_sensor_fwnode()
 
-> +        description: connection point for camsv0
-> +
-> +        properties:
+> ipu_bridge_init() can be used with other sensor fwnode parse functions
+> then just ipu_bridge_parse_ssdb().
+>
+> This will allow the ipu3-bridge code to also be used by the atomisp
+> driver.
 
-Drop
+...
 
-> +          endpoint:
-> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> +            unevaluatedProperties: false
-> +
-> +    required:
-> +      - port@0
-> +
-> +required:
-> +  - compatible
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - power-domains
-> +  - iommus
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/clock/mediatek,mt8365-clk.h>
-> +    #include <dt-bindings/memory/mediatek,mt8365-larb-port.h>
-> +    #include <dt-bindings/power/mediatek,mt8365-power.h>
-> +
-> +    soc {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        camsv1: camsv@15050000 {
-> +            compatible = "mediatek,mt8365-camsv";
-> +            reg = <0 0x15050000 0 0x0040>,
-> +            <0 0x15050208 0 0x0020>,
-> +            <0 0x15050400 0 0x0100>;
-> +            interrupts = <GIC_SPI 186 IRQ_TYPE_LEVEL_LOW>;
-> +            clocks = <&camsys CLK_CAM>,
-> +            <&camsys CLK_CAMTG>,
-> +            <&camsys CLK_CAMSV0>;
-> +            clock-names = "camsys_cam_cgpdn", "camsys_camtg_cgpdn",
-> +            "camsys_camsv";
-> +            iommus = <&iommu M4U_PORT_CAM_IMGO>;
-> +            power-domains = <&spm MT8365_POWER_DOMAIN_CAM>;
-> +
-> +            ports {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +                port@0 {
-> +                    reg = <0>;
-> +                    camsv1_endpoint: endpoint {
-> +                        remote-endpoint = <&seninf_camsv1_endpoint>;
-> +                    };
-> +                };
-> +            };
-> +        };
-> +    };
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 9fda342ad331..60b2bceca584 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -13355,6 +13355,7 @@ M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->  M:	Julien Stephan <jstephan@baylibre.com>
->  M:	Andy Hsieh <andy.hsieh@mediatek.com>
->  S:	Supported
-> +F:	Documentation/devicetree/bindings/media/mediatek,mt8365-camsv.yaml
->  F:	Documentation/devicetree/bindings/media/mediatek,mt8365-seninf.yaml
->  F:	drivers/media/platform/mediatek/isp/isp_30/seninf/*
->  
-> -- 
-> 2.41.0
-> 
+> +int ipu_bridge_init(struct device *dev,
+> +                   int (*parse_sensor_fwnode)(struct acpi_device *adev,
+> +                                              struct ipu_sensor *sensor)=
+)
+
+Wondering if
+
+  typedef ipu_parse_sensor_fwnode_t ...
+
+will make all the code better looking.
+
+...
+
+> +       int (*parse_sensor_fwnode)(struct acpi_device *adev,
+> +                                  struct ipu_sensor *sensor);
+
+Ditto.
+
+...
+
+> +int ipu_bridge_init(struct device *dev,
+> +                   int (*parse_sensor_fwnode)(struct acpi_device *adev,
+> +                                              struct ipu_sensor *sensor)=
+);
+
+Ditto.
+
+...
+
+> +/* Use a define to avoid the parse_sensor_fwnode arg getting evaluated *=
+/
+
+@parse_sensor_fwnode
+argument
+
+> +#define ipu_bridge_init(dev, parse_sensor_fwnode)      (0)
+
+--=20
+With Best Regards,
+Andy Shevchenko
