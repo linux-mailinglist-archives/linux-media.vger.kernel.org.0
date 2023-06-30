@@ -2,114 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D3062743DA6
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jun 2023 16:39:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 459AA743DA8
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jun 2023 16:40:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232631AbjF3OjV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Jun 2023 10:39:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43236 "EHLO
+        id S232682AbjF3Okb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Jun 2023 10:40:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232543AbjF3OjI (ORCPT
+        with ESMTP id S230462AbjF3Ok3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Jun 2023 10:39:08 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41FCF3A81
-        for <linux-media@vger.kernel.org>; Fri, 30 Jun 2023 07:39:07 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-51dd0205b2cso3320874a12.1
-        for <linux-media@vger.kernel.org>; Fri, 30 Jun 2023 07:39:07 -0700 (PDT)
+        Fri, 30 Jun 2023 10:40:29 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B0E435AF
+        for <linux-media@vger.kernel.org>; Fri, 30 Jun 2023 07:40:26 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-4f86e6e4038so2424535e87.0
+        for <linux-media@vger.kernel.org>; Fri, 30 Jun 2023 07:40:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688135946; x=1690727946;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1UFB87q2kv8WaQOK3N2yemLotG6FuDt2f/A2jhtIoDw=;
-        b=Cs+sO7YKmvVcUYO+9dx87zV3i0zsTjn/8sY+0qsEXY+ppfXcm0xVSkBJJxwpb1lydm
-         R0QxwrsHo5ghKP7Rkh5D8LneKfv2txKh4id0BDds3PQ/3nGcZ3Vy01cMfK7tqEbwsu72
-         cg2+KQXLZFlzr04rXtfD0PKJAchbXVhzudSQqm8zE23mWoAVTUe2A8PDmhtSa/zVrIx0
-         DE5cDo1x73+Dr6BBOMQfffOFJLg8zgQKka7ZSmlvgYVk3gWCFAtjY20nLsN47yhMxRMZ
-         eUR+5zbjl6Np0QozocZXRp4djl1La2Svxx02+L6PC6OyQfl1obrB3NQPXhKNjCRrJe8P
-         gDJQ==
+        d=semihalf.com; s=google; t=1688136025; x=1690728025;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YvEx3RaTLGXPx4GzzRnbkgUJYYMtxml/54Bl1CcEZSU=;
+        b=AGtbxnHKbXaWDDdI8S9Gfw2SSp6vXWkCQ2I3RuRmVEe4mDJpKStORqSIb/0DH9M7M7
+         rbs2QjGqZYrzqC7KSBkomRkh2OfiqGFAMcsE/qUgf2HO1OtoAdJjLJxNwmMFJ6rr0oM4
+         4FM+e1YIyT+MtwEewTmbS60Y0C528V8/fFeN9lMuRCo4/ycd6GoZayeG5GzzndHmrgG4
+         si/NL6s1UxvF9Mnoy95Nsc7rpPyIZ6EKu1GL+JwdsXD9QE6IBG6gul0rb2gP2OVHJ22m
+         /kS7kao9gf3Wc18SDr9c7sC75+xLDhuuCcJy73G0pcH9Y7cSB8xPgLKtab08OwvIbgcP
+         qGvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688135946; x=1690727946;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1UFB87q2kv8WaQOK3N2yemLotG6FuDt2f/A2jhtIoDw=;
-        b=SEimpoLD1pkQWRTTgXZkwbUemnY1DwVbZVTmLTZaM2SXk5YI/gkUTMMrn//59P3aOP
-         vLAoWaSAdopk2Ro1udubS2+7DKiAKh/V+fGpFHMxMgCb07b4TSRQHOfQ3ljBC8nk8rJe
-         8lEIhRA2NSzdF+uzCT7TDUFodqFE5hHjmKX+wf8zQ1G05KDLiQbEHtHzZDHbHr58AfoY
-         x0V+rYeI9Ydz82dZBFnnzXJtpWdPEpfEq2UIjYGnuL8ZB7vmGDSwLaXRKcM5oB0Vxkz+
-         p3PriRJAQGcAjlyYYr0DvEfzdveGVNYJM7UZe/amy0z+87bxwstYukHgSjFs8igTJRtR
-         ME3g==
-X-Gm-Message-State: AC+VfDxm9ZheEzF6w7P7UvEagojtSrJ92UdUbJE+hYbDaiwOmqKMG+en
-        wojvyjhGxzjv+BBJFqRkvyjLV/9Pmrpm+ztYBLA=
-X-Google-Smtp-Source: ACHHUZ6QtHYNa0x/Mcbb7OWl4iEN/o3ZtEJSizEcOkZl96brYL0oVcWlp9o2oYIy2tLek76Ul7S219IuejJLBNBYQuE=
-X-Received: by 2002:a05:6402:4486:b0:51b:cd0f:562 with SMTP id
- er6-20020a056402448600b0051bcd0f0562mr6826929edb.4.1688135945536; Fri, 30 Jun
- 2023 07:39:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230630110643.209761-1-hdegoede@redhat.com> <20230630110643.209761-13-hdegoede@redhat.com>
-In-Reply-To: <20230630110643.209761-13-hdegoede@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 30 Jun 2023 17:38:29 +0300
-Message-ID: <CAHp75Vdp6TQOdX1Jq=bL=SJ_27nAzpnQGV+NauXYQM2UjSfqNQ@mail.gmail.com>
-Subject: Re: [PATCH v2 12/15] media: ipu-bridge: Add GalaxyCore GC0310 to ipu_supported_sensors[]
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-        Hao Yao <hao.yao@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
+        d=1e100.net; s=20221208; t=1688136025; x=1690728025;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YvEx3RaTLGXPx4GzzRnbkgUJYYMtxml/54Bl1CcEZSU=;
+        b=izgCUT9vCCeZ+tYkUBon8b5x4aUUtyuCH4q+1LBl7wjZoIfT/K1SzTsG3iFckw0hG/
+         SxBcup2pA/ZpG3fy38z0XAM2w/siFpI4qHPPXPy4+TA8T0LfIgQ0NP3X+sXpxqtq1maH
+         6Tjhrv6DUZLDB9GM93su6UFLxojQyN4yg+6V3DYSVX5a41jIOUe/J9NoxfcG1LKvN84K
+         0V5HxeAgxNogcLmB/RfmxFTex4TggmrXM1MPqjtaDiKkSaQCqJeCdW/xwUBybuJ2eIZN
+         b7x55lHZiqTU2QXgYyilrH/OV65Xte1mYmG4fvNNFvLnbwrhlaBGuXjuNNxqUxEnAVtu
+         ocVw==
+X-Gm-Message-State: AC+VfDz5jyIsA6jIN1qKu6nGBVcVejQE7Se+6nmTFFeLjCJLAhkP5NNB
+        fjJryIYlBdJZjp0gh5hiHqBXnQ==
+X-Google-Smtp-Source: ACHHUZ6ICKaLNAzs2Em4En8f9SO77xD+3Sm7yrZR8UCALUDwn9rHYUDGwTeKvmwSMroxzeXy90sagA==
+X-Received: by 2002:a05:6512:1049:b0:4f6:1307:80b0 with SMTP id c9-20020a056512104900b004f6130780b0mr2606438lfb.12.1688136024576;
+        Fri, 30 Jun 2023 07:40:24 -0700 (PDT)
+Received: from panikiel.roam.corp.google.com (staticline-31-182-201-26.toya.net.pl. [31.182.201.26])
+        by smtp.gmail.com with ESMTPSA id b7-20020a056512024700b004f85d80ca64sm2750402lfo.221.2023.06.30.07.40.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Jun 2023 07:40:24 -0700 (PDT)
+From:   =?UTF-8?q?Pawe=C5=82=20Anikiel?= <pan@semihalf.com>
+To:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc:     dinguyen@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        mchehab@kernel.org, upstream@semihalf.com, amstan@chromium.org,
+        ribalda@chromium.org,
+        =?UTF-8?q?Pawe=C5=82=20Anikiel?= <pan@semihalf.com>
+Subject: [RFC PATCH 0/3] Google Chameleon v3 video driver
+Date:   Fri, 30 Jun 2023 16:40:03 +0200
+Message-ID: <20230630144006.1513270-1-pan@semihalf.com>
+X-Mailer: git-send-email 2.41.0.255.g8b1d071c50-goog
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 30, 2023 at 2:07=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
- wrote:
->
-> The GalaxyCore GC0310 is used together with the atomisp no various
+The Google Chameleon v3 is a testing device for external displays. It
+is based on an Arria 10 SoCFPGA. This patch adds a V4L2 driver for the
+video system. The video system consists of:
+  * Six video interfaces (DMA ping pong buffers) in the FPGA, called
+  "framebuffers".
+  * Two Intel DisplayPort DPRX IP cores in the FPGA, one MST x4, one SST
+  * IT68051 chip, handled by EC firmware
 
-on ?
+The driver is implemented as a single device driver, because the video
+interface devices need to talk to the DisplayPort IP core devices
+(e.g. to configure the EDID). This has the effect of the DPRX driver
+being in the chameleonv3 directory even though it's an Intel IP.
 
-> devices, add it to ipu_supported_sensors[].
+The DPRX code handles all the AUX communication (DPCD, sideband messages,
+message transfers). There is similarity to what's already present in
+the DRM subsystem, but I found it hard to reuse that code effectively.
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+My main concern is with the overall structure of the driver - how it's
+divided into parts, the interfaces and APIs used, etc. Any feedback is
+greately appreciated.
 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/media/pci/intel/ipu-bridge.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/int=
-el/ipu-bridge.c
-> index eb7c56e8ef9f..07a34f20af8e 100644
-> --- a/drivers/media/pci/intel/ipu-bridge.c
-> +++ b/drivers/media/pci/intel/ipu-bridge.c
-> @@ -36,6 +36,8 @@ static const struct ipu_sensor_config ipu_supported_sen=
-sors[] =3D {
->         IPU_SENSOR_CONFIG("INT3537", 1, 437000000),
->         /* Omnivision ov13b10 */
->         IPU_SENSOR_CONFIG("OVTIDB10", 1, 560000000),
-> +       /* GalaxyCore GC0310 */
-> +       IPU_SENSOR_CONFIG("INT0310", 0),
->  };
->
->  static const struct ipu_property_names prop_names =3D {
-> --
-> 2.41.0
->
+Paweł Anikiel (3):
+  media: Add 10, 12, and 16 bit RGB formats
+  media: Add Google Chameleon v3 video driver
+  ARM: dts: Add Chameleon v3 video node
 
+ .../socfpga/socfpga_arria10_chameleonv3.dts   |  54 ++
+ drivers/media/platform/Kconfig                |   1 +
+ drivers/media/platform/Makefile               |   1 +
+ drivers/media/platform/google/Kconfig         |   4 +
+ drivers/media/platform/google/Makefile        |   2 +
+ .../media/platform/google/chameleonv3/Kconfig |   9 +
+ .../platform/google/chameleonv3/Makefile      |  15 +
+ .../platform/google/chameleonv3/chv3-core.c   | 292 ++++++++++
+ .../platform/google/chameleonv3/chv3-core.h   |  17 +
+ .../platform/google/chameleonv3/chv3-fb.c     | 539 ++++++++++++++++++
+ .../platform/google/chameleonv3/chv3-fb.h     |  34 ++
+ .../platform/google/chameleonv3/dprx-aux.c    |  77 +++
+ .../platform/google/chameleonv3/dprx-dp.c     |  82 +++
+ .../platform/google/chameleonv3/dprx-dpcd.c   | 424 ++++++++++++++
+ .../platform/google/chameleonv3/dprx-dprx.c   | 262 +++++++++
+ .../platform/google/chameleonv3/dprx-edid.c   |  39 ++
+ .../platform/google/chameleonv3/dprx-i2c.c    |  41 ++
+ .../platform/google/chameleonv3/dprx-mt.c     | 184 ++++++
+ .../platform/google/chameleonv3/dprx-sbmsg.c  | 162 ++++++
+ .../media/platform/google/chameleonv3/dprx.h  | 128 +++++
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   5 +
+ include/uapi/linux/videodev2.h                |   5 +
+ 22 files changed, 2377 insertions(+)
+ create mode 100644 drivers/media/platform/google/Kconfig
+ create mode 100644 drivers/media/platform/google/Makefile
+ create mode 100644 drivers/media/platform/google/chameleonv3/Kconfig
+ create mode 100644 drivers/media/platform/google/chameleonv3/Makefile
+ create mode 100644 drivers/media/platform/google/chameleonv3/chv3-core.c
+ create mode 100644 drivers/media/platform/google/chameleonv3/chv3-core.h
+ create mode 100644 drivers/media/platform/google/chameleonv3/chv3-fb.c
+ create mode 100644 drivers/media/platform/google/chameleonv3/chv3-fb.h
+ create mode 100644 drivers/media/platform/google/chameleonv3/dprx-aux.c
+ create mode 100644 drivers/media/platform/google/chameleonv3/dprx-dp.c
+ create mode 100644 drivers/media/platform/google/chameleonv3/dprx-dpcd.c
+ create mode 100644 drivers/media/platform/google/chameleonv3/dprx-dprx.c
+ create mode 100644 drivers/media/platform/google/chameleonv3/dprx-edid.c
+ create mode 100644 drivers/media/platform/google/chameleonv3/dprx-i2c.c
+ create mode 100644 drivers/media/platform/google/chameleonv3/dprx-mt.c
+ create mode 100644 drivers/media/platform/google/chameleonv3/dprx-sbmsg.c
+ create mode 100644 drivers/media/platform/google/chameleonv3/dprx.h
 
---=20
-With Best Regards,
-Andy Shevchenko
+-- 
+2.41.0.255.g8b1d071c50-goog
+
