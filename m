@@ -2,70 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AC2A743558
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jun 2023 08:52:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFDF3743646
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jun 2023 09:57:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232088AbjF3GwK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Jun 2023 02:52:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40244 "EHLO
+        id S232017AbjF3H5y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Jun 2023 03:57:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232215AbjF3GwC (ORCPT
+        with ESMTP id S230427AbjF3H5u (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Jun 2023 02:52:02 -0400
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77E2B2D56
-        for <linux-media@vger.kernel.org>; Thu, 29 Jun 2023 23:51:59 -0700 (PDT)
-Received: by mail-lj1-x22f.google.com with SMTP id 38308e7fff4ca-2b698937f85so24313461fa.2
-        for <linux-media@vger.kernel.org>; Thu, 29 Jun 2023 23:51:59 -0700 (PDT)
+        Fri, 30 Jun 2023 03:57:50 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B66D5170B;
+        Fri, 30 Jun 2023 00:57:47 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-3128fcd58f3so1793221f8f.1;
+        Fri, 30 Jun 2023 00:57:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1688107918; x=1690699918;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=cBW2ODM2guWVZdVNnU/ZES/eGWsE5AoCM8ERdHN+G5k=;
-        b=nc8+oxUWp5DFHwbTo0NYizKyGgQgFkvBhDxNPNUsX8fFlcDRgc0UjitbA/WmZT5gGt
-         AQpS5FWCMK0OPMWi/7kJHZs/8o2YooPQP6kUMt/8T9wLWfZoRhawJhk6Vl9H+wPbanba
-         90z5RH1PDVJZr190f6x7kcWYHbjz4Yp5G15QJe1ZYcylHcyuB0I23QmyQhYnKo+HqcNT
-         fLUX0hFlqLU5O9M9YVGb95bdksWjo5UDmUoHS0CkDhSYf7LBQJnLrJjJarrcS/JQfmLL
-         L7dMPM9wiKNu4234i+W6K2e/iSSiyLJ4qVIP4xLpW6liN0iH3A26PS/qRWaZ+yCmuKRm
-         rs+Q==
+        d=gmail.com; s=20221208; t=1688111866; x=1690703866;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=f1oSNH4YpSoAOwVpPwfuADPnn2NfW9arFUVTEKiYWyk=;
+        b=N2XMCwCaALKOeVzeJrSaYu76zsmgVhOIJtjJ0zALu4joYaFV7WzJwCu/HxsORpmEl7
+         d1Q0+l8RSQ1cU9R27ej7HtotppJnZtRtHUZXOr5hPPqgVdayy6pM1L/lKjtJWWRj6QV1
+         wbtOEkixbqNEDRvcLAcNHr9dzpuPreTMVSdJXemFejz8e0Nr3YiImjzGn5qv0B2VdSk/
+         eytpoHVN462AzVpOGYw6jN+8JCaatgC4d1ypMm+zEzysAQNBiR5+LVrumI6oN8BGOyaf
+         M5uarZG37vhzcAQJARRlvqP6ehgGt7HW56XAKJgmBMn7p2hTQywiSeK8MOM//4NyXaJ8
+         Dbew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688107918; x=1690699918;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20221208; t=1688111866; x=1690703866;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cBW2ODM2guWVZdVNnU/ZES/eGWsE5AoCM8ERdHN+G5k=;
-        b=PT77Z6pqDgDQrGkt6qUz7+jS/JkiUi4afKvfr4XB7skDYrmnrpC60bgyVJYza67+Mw
-         1IwJgj72WsEN67qE9HRkxS4vNw3CLoaEJjRoccIauZD2Z2JdrbsNXc9yU/vKzgKcG/5V
-         0FdNAPNuZFd4TnaaZdUMyuURXuE5uQFuIyZAcxmSinRhrBewiJ9yjf9ECuhPUsZm8AxP
-         K2eavnrMqBKlNNkWoDc/a3YJMkI/aA/4ZhlHqY1sAyeY48dWbR3jdElUMIQFfR1Gnj55
-         07/EJPXS25ccAt1aPLVLA4yVjQ2SGjPK9DFxh2UxB/V5DptTg29nsYUNI20Tv7ZR0d+6
-         qZYw==
-X-Gm-Message-State: ABy/qLZWB5OJZLAwkN4YcKPGs8ZES2cf5CLt7cqTsS6fJBX8Wxx8ZV6b
-        NHxV7SWyKzyUnyZ1Vu/YJgzXrLzxliP/c9C+UybSFw==
-X-Google-Smtp-Source: APBJJlHNp8Ainsp3NPDijOl5zudm1amCzUpI/b6OsWN0NSoMe20xSzSBReBYTUzp2a7lNP1NV1Z5kJiY4LeNW3XdO5k=
-X-Received: by 2002:a2e:8e8d:0:b0:2b1:ad15:fe38 with SMTP id
- z13-20020a2e8e8d000000b002b1ad15fe38mr1273612ljk.3.1688107917676; Thu, 29 Jun
- 2023 23:51:57 -0700 (PDT)
+        bh=f1oSNH4YpSoAOwVpPwfuADPnn2NfW9arFUVTEKiYWyk=;
+        b=QFtGJhv7YN5R/mcx5TzvKADfOWU1R741Kn62JTF8AxhTucWNVcZhz6BmiNlAWI5p45
+         ssHAQ7S8am06/GL8GMt4fyu/44zFf98KtHTFSKY1D9WIM31FcRIDTqmPBXZpn5pBWc95
+         8fAUIuKnXcq3kk+o9zol0fZb9ExOXA1wkJJVyW/rwhJLiQ7GSDRAuuthOmsockGz0hFz
+         vA5QPlHPROVpSNl+R2Palao9xPWCglk8tvrc6nwIsNO2H1BNx4/HcRFXSmxAIbq6TMSg
+         J0FIuyUKVR2Tg9BdU5HSjk9QRvOmceQs1ZvEQ8lFHZCWVughcQqn/9d+y0E2y+iYVPd7
+         cJNg==
+X-Gm-Message-State: ABy/qLZUVnjyhexKAVJMxyA7qvw5Wbcie4y9mxlTp5Tl0gDq3Mb9/gRX
+        52s7fR0WP5prwFN0dEZ21uI=
+X-Google-Smtp-Source: APBJJlFFxTx9HwQcewwPwSSgJgYcbVqcwRReJ86o0te0HJC6qB3e+yiRKb0fAh3zjLuzaUf0HG4dWw==
+X-Received: by 2002:adf:fa88:0:b0:313:ec90:ac23 with SMTP id h8-20020adffa88000000b00313ec90ac23mr1436840wrr.13.1688111865928;
+        Fri, 30 Jun 2023 00:57:45 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id a11-20020a056000050b00b003110dc7f408sm17808031wrf.41.2023.06.30.00.57.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Jun 2023 00:57:45 -0700 (PDT)
+From:   Colin Ian King <colin.i.king@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH][next] media: wl128x: Fix spelling mistake "Transfered" -> "Transferred"
+Date:   Fri, 30 Jun 2023 08:57:44 +0100
+Message-Id: <20230630075744.15444-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <CABdmKX0A8mqz5cS4+CqjRgpQQKuSp=3SvE1KJ_di09VjJQVoGg@mail.gmail.com>
- <20230630045246.1674919-1-jstultz@google.com>
-In-Reply-To: <20230630045246.1674919-1-jstultz@google.com>
-From:   Sumit Semwal <sumit.semwal@linaro.org>
-Date:   Fri, 30 Jun 2023 12:21:46 +0530
-Message-ID: <CAO_48GEtT_rG=7aDG8g7Eosu0RWqzuNqGwsW7ODdomwu=ekafg@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: Add T.J. Mercier as reviewer for DMA-BUF
- HEAPS FRAMEWORK
-To:     John Stultz <jstultz@google.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        "T . J . Mercier" <tjmercier@google.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,48 +70,26 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi John,
+There is a spelling mistake in a fmdbg message. Fix it.
 
-On Fri, 30 Jun 2023 at 10:22, John Stultz <jstultz@google.com> wrote:
->
-> T.J. has been responsible for dmab-buf items on the Android team
-> for awhile now, so it would be great to have him on as a reviewer.
->
-> Cc: T.J. Mercier <tjmercier@google.com>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> Cc: Brian Starkey <Brian.Starkey@arm.com>
-> Cc: John Stultz <jstultz@google.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Cc: kernel-team@android.com
-> Signed-off-by: John Stultz <jstultz@google.com>
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/media/radio/wl128x/fmdrv_common.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thank you for the patch;
-Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
+diff --git a/drivers/media/radio/wl128x/fmdrv_common.c b/drivers/media/radio/wl128x/fmdrv_common.c
+index b31b7ed60bbe..ca6f09e58e62 100644
+--- a/drivers/media/radio/wl128x/fmdrv_common.c
++++ b/drivers/media/radio/wl128x/fmdrv_common.c
+@@ -1282,7 +1282,7 @@ static int fm_download_firmware(struct fmdev *fmdev, const u8 *fw_name)
+ 		fw_data += (sizeof(struct bts_action) + (action->size));
+ 		fw_len -= (sizeof(struct bts_action) + (action->size));
+ 	}
+-	fmdbg("Transfered only %d of %d bytes of the firmware to chip\n", fw_entry->size - fw_len, fw_entry->size);
++	fmdbg("Transferred only %d of %d bytes of the firmware to chip\n", fw_entry->size - fw_len, fw_entry->size);
+ rel_fw:
+ 	release_firmware(fw_entry);
+ 	clear_bit(FM_FW_DW_INPROGRESS, &fmdev->flag);
+-- 
+2.39.2
 
-I'll push it to drm-misc along with the one removing Liam.
-
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index cb075f52d97b..f4e92b968ed7 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6184,6 +6184,7 @@ R:        Benjamin Gaignard <benjamin.gaignard@collabora.com>
->  R:     Laura Abbott <labbott@redhat.com>
->  R:     Brian Starkey <Brian.Starkey@arm.com>
->  R:     John Stultz <jstultz@google.com>
-> +R:     T.J. Mercier <tjmercier@google.com>
->  L:     linux-media@vger.kernel.org
->  L:     dri-devel@lists.freedesktop.org
->  L:     linaro-mm-sig@lists.linaro.org (moderated for non-subscribers)
-> --
-> 2.41.0.255.g8b1d071c50-goog
->
-
-Best,
-Sumit.
