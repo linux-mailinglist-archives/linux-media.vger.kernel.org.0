@@ -2,98 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F384743A92
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jun 2023 13:14:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31199743A51
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jun 2023 13:08:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232804AbjF3LOI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Jun 2023 07:14:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57210 "EHLO
+        id S232330AbjF3LIO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Jun 2023 07:08:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232916AbjF3LNy (ORCPT
+        with ESMTP id S232372AbjF3LHx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Jun 2023 07:13:54 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F6443C34
-        for <linux-media@vger.kernel.org>; Fri, 30 Jun 2023 04:13:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688123624; x=1719659624;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=cEy6/SAvUVm0NMOWUFBFc3aWA48lpAETSD1n0tuDBGs=;
-  b=HSH1exEN0xADj16SS1lTpU32waLZLk8dfNFAl9V4Tm9Dd9/EUsv/3TWB
-   VwuxyiNFnnG2iZDTCFyb84IA8TaD4xJsTM4qBQINiWAyorrSi/dk1mvkw
-   oGWReLVTXHuWxTFL5elRYJg2nCBE4VtSAUA+U7mDkc8c0Fj+7wdHk65Iz
-   Q5tbhEAdd9/bgQyIabBnAHVBKyUhwyQ6/hMtZPaJzTY19xAbARVUQ1qfZ
-   IW+CYxXUE6QHKs5sQC3CNQ6pqDi0NblzojA1wywb52zIgJs6GNF+btg9N
-   65V/y+wj1nf4Drs46qjBwoG5x2BBPNjsO1YDX/PyLs+p5yDk6RKumaBXT
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="448748059"
-X-IronPort-AV: E=Sophos;i="6.01,170,1684825200"; 
-   d="scan'208";a="448748059"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2023 04:13:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="891727910"
-X-IronPort-AV: E=Sophos;i="6.01,170,1684825200"; 
-   d="scan'208";a="891727910"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2023 04:13:25 -0700
-Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 1A16D12022F;
-        Fri, 30 Jun 2023 14:03:06 +0300 (EEST)
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     mchehab@kernel.org
-Subject: [PATCH 2/2] media: MAINTAINERS: Add documentation under V4L2 camera sensors
-Date:   Fri, 30 Jun 2023 14:03:04 +0300
-Message-Id: <20230630110304.98942-3-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230630110304.98942-1-sakari.ailus@linux.intel.com>
-References: <20230630110304.98942-1-sakari.ailus@linux.intel.com>
+        Fri, 30 Jun 2023 07:07:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7950E1FCB
+        for <linux-media@vger.kernel.org>; Fri, 30 Jun 2023 04:06:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1688123211;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=Hz56BT7c5dXaoSnbOYv8xxRUU2eae8Bc2EAuUODSjNY=;
+        b=NZwYFFbAwCLj8EzpYbV2q+rTW4vsJQ1M3q8vGQGqr4jA8zxo1dzJRtd5SJYN+zyY2CPdZv
+        A86r/w2Lr4+uLw1tzwKBbuTiP1L35GwvIN6mRElEuihjA4mQzr4wN+WKwY43yENoexVt1B
+        dLb5Jf7yCthwAd130tliuDPyE+RE5eI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-358-yLt83ealNf-OygJaObZQ9A-1; Fri, 30 Jun 2023 07:06:46 -0400
+X-MC-Unique: yLt83ealNf-OygJaObZQ9A-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9006E1C0726F;
+        Fri, 30 Jun 2023 11:06:45 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.193.184])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 1FBA4492B02;
+        Fri, 30 Jun 2023 11:06:43 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+        Hao Yao <hao.yao@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
+        linux-media@vger.kernel.org
+Subject: [PATCH v2 00/15] media: ipu-bridge: Shared with atomisp, rework VCM instantiation
+Date:   Fri, 30 Jun 2023 13:06:28 +0200
+Message-ID: <20230630110643.209761-1-hdegoede@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add documentation related files under the camera sensor entry. Add the
-word "CAMERA" to the subject as well since there are many other kinds of
-sensors.
+Hi All,
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- MAINTAINERS | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Here is v2 of my patch-series to make the atomisp code share the
+ACPI -> sensor fwnode bridge code with the IPU3 (and IPU6 code).
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1fc59cd2fc0d..2d3f3c8f7689 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -22117,7 +22117,7 @@ F:	drivers/media/v4l2-core/v4l2-fwnode.c
- F:	include/media/v4l2-async.h
- F:	include/media/v4l2-fwnode.h
- 
--V4L2 SENSOR AND LENS DRIVERS
-+V4L2 CAMERA SENSOR AND LENS DRIVERS
- M:	Sakari Ailus <sakari.ailus@linux.intel.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
-@@ -22132,6 +22132,8 @@ F:	drivers/media/i2c/st-vgxy61.c
- F:	drivers/media/i2c/dw*
- F:	drivers/media/i2c/ak*
- F:	drivers/media/i2c/lm*
-+F:	Documentation/driver-api/media/camera-sensor.rst
-+F:	Documentation/driver-api/media/tx-rx.rst
- 
- VF610 NAND DRIVER
- M:	Stefan Agner <stefan@agner.ch>
+The last 2 patches also rework VCM instantiation, which was my
+initial reason for unifying / sharing the code.
+
+Changes in v2:
+- Rebase on top of f54eb0ac7c1a ("media: ipu3-cio2: rename cio2 bridge
+  to ipu bridge and move out of ipu3")
+  (rebase on top of sailus/media_tree.git/for-6.6-1.4-signed)
+- Share the ipu_supported_sensors[] array between atomisp and IPU3/IPU6
+  (leave it in ipu-bridge.c instead of giving each consumer its own copy)
+- 2 new bugfixes:
+  media: ipu-bridge: Fix null pointer deref on SSDB/PLD parsing warnings  
+  media: ipu-bridge: Allow building as module
+
+Original cover-letter:
+
+While working on adding (proper) VCM support to the atomisp code
+I found myself copying yet more code from
+drivers/media/pci/intel/ipu3/cio2-bridge.c into the atomisp code.
+
+So I decided that it really was time to factor out the common code
+(most of the code) from intel/ipu3/cio2-bridge.c into its own
+helper library and then share it between the atomisp and IPU3 code.
+
+This will hopefully also be useful for the ongoing work to upstream
+IPU6 input system support which also needs this functionality and
+currently contains a 3th copy of this code in the out of tree driver.
+
+This set consists of the following parts:
+
+Patches 1-4  Bugfixes for recent changes
+Patches 5-12 Cleanup / preparation patches
+Patch 13     Drop ipu-bridge code copy from atomisp, switching to
+             the shared ipu-bridge module
+Patch 14     Rework how VCM client instantiation is done so that
+             a device-link can be added from VCM to sensor to
+             fix issues with the VCM power-state being tied to
+             the sensor power state
+Patch 15     Example patch to show how patch 11 avoids the need
+             for hacks in VCM drivers caused by the shared power state
+             (not intended for merging)
+
+Regards,
+
+Hans
+
+
+Hans de Goede (15):
+  media: ipu-bridge: Fix null pointer deref on SSDB/PLD parsing warnings
+  media: ipu-bridge: Do not use on stack memory for software_node.name
+    field
+  media: ipu-bridge: Move initialization of node_names.vcm to
+    ipu_bridge_init_swnode_names()
+  media: ipu-bridge: Allow building as module
+  media: ipu-bridge: Make ipu_bridge_init() take a regular struct device
+    as argument
+  media: ipu-bridge: Store dev pointer in struct ipu_bridge
+  media: ipu-bridge: Only keep PLD around while parsing
+  media: ipu-bridge: Add a ipu_bridge_parse_ssdb() helper function
+  media: ipu-bridge: Drop early setting of sensor->adev
+  media: ipu-bridge: Add a parse_sensor_fwnode callback to
+    ipu_bridge_init()
+  media: ipu-bridge: Move ipu-bridge.h to include/media/
+  media: ipu-bridge: Add GalaxyCore GC0310 to ipu_supported_sensors[]
+  media: atomisp: csi2-bridge: Switch to new common ipu_bridge_init()
+  media: ipu-bridge: Add a runtime-pm device-link between VCM and sensor
+  [RFC] media: dw9719: Drop hack to enable "vsio" regulator
+
+ drivers/media/i2c/dw9719.c                    |  27 +-
+ drivers/media/pci/intel/Kconfig               |  19 +-
+ drivers/media/pci/intel/ipu-bridge.c          | 334 +++++++++++-------
+ drivers/media/pci/intel/ipu3/Kconfig          |  20 ++
+ drivers/media/pci/intel/ipu3/ipu3-cio2.c      |  10 +-
+ drivers/staging/media/atomisp/Kconfig         |   2 +
+ .../staging/media/atomisp/pci/atomisp_csi2.h  |  67 ----
+ .../media/atomisp/pci/atomisp_csi2_bridge.c   | 328 +++--------------
+ .../staging/media/atomisp/pci/atomisp_v4l2.c  |   1 +
+ .../pci/intel => include/media}/ipu-bridge.h  |  26 +-
+ 10 files changed, 303 insertions(+), 531 deletions(-)
+ rename {drivers/media/pci/intel => include/media}/ipu-bridge.h (80%)
+
 -- 
-2.39.2
+2.41.0
 
