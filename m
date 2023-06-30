@@ -2,66 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 01FB37442DD
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jun 2023 21:46:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B094A7442F9
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jun 2023 21:54:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231455AbjF3Tqs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Jun 2023 15:46:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35446 "EHLO
+        id S232042AbjF3Ty4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Jun 2023 15:54:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229503AbjF3Tqp (ORCPT
+        with ESMTP id S232449AbjF3Tyy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Jun 2023 15:46:45 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F32F3C01
-        for <linux-media@vger.kernel.org>; Fri, 30 Jun 2023 12:46:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688154404; x=1719690404;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5gtlQGYMm1ULeNUjSy6Nn3R1aUjHM5HNjqOWPEVH1+8=;
-  b=nJtZuuhVq0PPkjxFkmK1MullL5sy9Y66AMhHfOGjto1dcLn5L1fKtpr2
-   uCO14scb2rQrgq0P+iX6+15JbRv++FFWqqBlkL0pI7kN8sREtXpRxYypk
-   9d/4tZODEzt78HsYAcfSqxwmWtsVvJLStfuLDnTbgYXbBMHkMT1aNLkn2
-   pP0VAOi5fGBze5OHTMhbRbSr1K14zNybuEafPxwAvlGXf3MJ5T7LdZe7X
-   0by3C47yU4kgTEw2PWBf9L1AIXDMhfCj+1nJ+igsIqIR+E42wW/tWRWkt
-   ypkXdwczZ/AXMRYkWTc9zTkTKKKYVeOVhLgwl+6IWF/SIN+t9lNUKfqn2
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="359955255"
-X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; 
-   d="scan'208";a="359955255"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2023 12:46:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="721080924"
-X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; 
-   d="scan'208";a="721080924"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 30 Jun 2023 12:46:41 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qFK4n-000FJl-0N;
-        Fri, 30 Jun 2023 19:46:41 +0000
-Date:   Sat, 1 Jul 2023 03:45:49 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [linux-next:master 7313/12815]
- drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1888:5:
- warning: stack frame size (2208) exceeds limit (2048) in
- 'rockchip_vpu981_av1_dec_run'
-Message-ID: <202307010357.sY3iLanr-lkp@intel.com>
+        Fri, 30 Jun 2023 15:54:54 -0400
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0C32107
+        for <linux-media@vger.kernel.org>; Fri, 30 Jun 2023 12:54:53 -0700 (PDT)
+Received: by mail-yb1-xb2a.google.com with SMTP id 3f1490d57ef6-be30cbe88b3so2221143276.1
+        for <linux-media@vger.kernel.org>; Fri, 30 Jun 2023 12:54:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1688154893; x=1690746893;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qwJVEajk6sjD7pKhMJ8nLrUS9jcG5+GhwtGSJo7hXhE=;
+        b=tMKxA1rvuVOfttdgJoZv6MaLRnwVg8j+/TriQO8mdTDOazSNrNi+WwUi/Gc1aPop/Q
+         U5lyBwHF2Pk0gd/bvRv9zHYMvRDFntewjNDT1HtD4ZzrqkZMDoIyRWK/obI/N2yKBfmN
+         lJpSYB7jO6SRcGocpniDZqWmTKW4Ztx5SXeoLT60DQcH82IfKlOxlFt7ntLGgi6/3856
+         G+2R/94O+RPc8LvSRFH7hymsPvDQbs+sYiTuTBzPR5gMz5VTJN8uhHDfIRGRyGqkPfgv
+         3MTlbtcKL+5CdJgViSLzkPHkLbXjOJkwyUUHaNvp2xegLtSvJY8YjXt3PdY9Rk6tm1FK
+         nKZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688154893; x=1690746893;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qwJVEajk6sjD7pKhMJ8nLrUS9jcG5+GhwtGSJo7hXhE=;
+        b=jmuGCwEqW7xYWI6Y6UDdTOF7qJ2Tm1BMzcDmcxDNqqrtqZepVtNipq5Ok6Z+d58w6h
+         SrIWlN/DT81kJqoNXXBYTmFsNyFwMYkN6laBllPuflaIeV11sDVbfS7Z7x35+G1KZKGo
+         4Hh24NKNsDXWTBfEA/ZmDCfQhomc1JbmIrOkLlJy4Gj1iVrQ8XJVRinWbwGCwBYky/SA
+         q8lglvjjFylxYV+1X+1vGy0cLvlbMvDVuMI7xBsivrzVAEKhqXFwA7/pKq5AhaVdAM66
+         E3y75jYC9ogAN5LG4stBx+93VdU9s2CHlck/nYtpxloUzDLAialBILKVpQYusPpEWEpF
+         McJw==
+X-Gm-Message-State: ABy/qLZeJn0GPHHoH4ICymPoKPL5JNqYu7JD0OlQ9vrQGezXAkhvlfzq
+        vu7BPDe+i7ff6kqvme1l53rsFdcAcPjl2inG0eii6g==
+X-Google-Smtp-Source: APBJJlEQ1nYLUOhJ/Uuqs45GkvzI1ma7uVmZgBTHXjG9xRnpwZWNf4CfnE8yBJ7BW9uSQfZJSO3GHFjEeUi7rjPlsK4=
+X-Received: by 2002:a25:add0:0:b0:c01:55d:91d with SMTP id d16-20020a25add0000000b00c01055d091dmr3427876ybe.45.1688154892929;
+ Fri, 30 Jun 2023 12:54:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+References: <20230630162111.3051783-1-jstultz@google.com>
+In-Reply-To: <20230630162111.3051783-1-jstultz@google.com>
+From:   "T.J. Mercier" <tjmercier@google.com>
+Date:   Fri, 30 Jun 2023 12:54:42 -0700
+Message-ID: <CABdmKX1qpMTaT=NaG5B+43gaWtoNK=jR5yysKNXMyeyYW10uDQ@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: Remove Laura Abbott from DMA-BUF HEAPS FRAMEWORK
+To:     John Stultz <jstultz@google.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,101 +74,30 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6352a698ca5bf26a9199202666b16cf741f579f6
-commit: 727a400686a2c0d25015c9e44916a59b72882f83 [7313/12815] media: verisilicon: Add Rockchip AV1 decoder
-config: riscv-randconfig-r021-20230701 (https://download.01.org/0day-ci/archive/20230701/202307010357.sY3iLanr-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230701/202307010357.sY3iLanr-lkp@intel.com/reproduce)
+On Fri, Jun 30, 2023 at 9:21=E2=80=AFAM John Stultz <jstultz@google.com> wr=
+ote:
+>
+> Laura's email address has not been valid for quite awhile now,
+> so wanted to clean up the reviewer list here.
+>
+> I reached out to Laura who said it made sense to drop her from
+> the list, so this patch does that.
+>
+> I do want to recognize Laura's long time contribution to this
+> area and her previous ION maintainership, as this couldn't
+> have gone upstream without her prior efforts. Many thanks!
+>
+> Cc: Laura Abbott <labbott@kernel.org>
+> Cc: T.J. Mercier <tjmercier@google.com>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> Cc: Brian Starkey <Brian.Starkey@arm.com>
+> Cc: John Stultz <jstultz@google.com>
+> Cc: linux-media@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Cc: kernel-team@android.com
+> Acked-by: Laura Abbott <labbott@kernel.org>
+> Signed-off-by: John Stultz <jstultz@google.com>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307010357.sY3iLanr-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1888:5: warning: stack frame size (2208) exceeds limit (2048) in 'rockchip_vpu981_av1_dec_run' [-Wframe-larger-than]
-   int rockchip_vpu981_av1_dec_run(struct hantro_ctx *ctx)
-       ^
-   375/2208 (16.98%) spills, 1833/2208 (83.02%) variables
-   1 warning generated.
-
-
-vim +/rockchip_vpu981_av1_dec_run +1888 drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
-
-  1887	
-> 1888	int rockchip_vpu981_av1_dec_run(struct hantro_ctx *ctx)
-  1889	{
-  1890		struct hantro_dev *vpu = ctx->dev;
-  1891		struct vb2_v4l2_buffer *vb2_src;
-  1892		int ret;
-  1893	
-  1894		hantro_start_prepare_run(ctx);
-  1895	
-  1896		ret = rockchip_vpu981_av1_dec_prepare_run(ctx);
-  1897		if (ret)
-  1898			goto prepare_error;
-  1899	
-  1900		vb2_src = hantro_get_src_buf(ctx);
-  1901		if (!vb2_src) {
-  1902			ret = -EINVAL;
-  1903			goto prepare_error;
-  1904		}
-  1905	
-  1906		rockchip_vpu981_av1_dec_clean_refs(ctx);
-  1907		rockchip_vpu981_av1_dec_frame_ref(ctx, vb2_src->vb2_buf.timestamp);
-  1908	
-  1909		rockchip_vpu981_av1_dec_set_parameters(ctx);
-  1910		rockchip_vpu981_av1_dec_set_global_model(ctx);
-  1911		rockchip_vpu981_av1_dec_set_tile_info(ctx);
-  1912		rockchip_vpu981_av1_dec_set_reference_frames(ctx);
-  1913		rockchip_vpu981_av1_dec_set_segmentation(ctx);
-  1914		rockchip_vpu981_av1_dec_set_loopfilter(ctx);
-  1915		rockchip_vpu981_av1_dec_set_picture_dimensions(ctx);
-  1916		rockchip_vpu981_av1_dec_set_cdef(ctx);
-  1917		rockchip_vpu981_av1_dec_set_lr(ctx);
-  1918		rockchip_vpu981_av1_dec_set_prob(ctx);
-  1919	
-  1920		hantro_reg_write(vpu, &av1_dec_mode, AV1_DEC_MODE);
-  1921		hantro_reg_write(vpu, &av1_dec_out_ec_byte_word, 0);
-  1922		hantro_reg_write(vpu, &av1_write_mvs_e, 1);
-  1923		hantro_reg_write(vpu, &av1_dec_out_ec_bypass, 1);
-  1924		hantro_reg_write(vpu, &av1_dec_clk_gate_e, 1);
-  1925	
-  1926		hantro_reg_write(vpu, &av1_dec_abort_e, 0);
-  1927		hantro_reg_write(vpu, &av1_dec_tile_int_e, 0);
-  1928	
-  1929		hantro_reg_write(vpu, &av1_dec_alignment, 64);
-  1930		hantro_reg_write(vpu, &av1_apf_disable, 0);
-  1931		hantro_reg_write(vpu, &av1_apf_threshold, 8);
-  1932		hantro_reg_write(vpu, &av1_dec_buswidth, 2);
-  1933		hantro_reg_write(vpu, &av1_dec_max_burst, 16);
-  1934		hantro_reg_write(vpu, &av1_error_conceal_e, 0);
-  1935		hantro_reg_write(vpu, &av1_axi_rd_ostd_threshold, 64);
-  1936		hantro_reg_write(vpu, &av1_axi_wr_ostd_threshold, 64);
-  1937	
-  1938		hantro_reg_write(vpu, &av1_ext_timeout_cycles, 0xfffffff);
-  1939		hantro_reg_write(vpu, &av1_ext_timeout_override_e, 1);
-  1940		hantro_reg_write(vpu, &av1_timeout_cycles, 0xfffffff);
-  1941		hantro_reg_write(vpu, &av1_timeout_override_e, 1);
-  1942	
-  1943		rockchip_vpu981_av1_dec_set_output_buffer(ctx);
-  1944		rockchip_vpu981_av1_dec_set_input_buffer(ctx, vb2_src);
-  1945	
-  1946		hantro_end_prepare_run(ctx);
-  1947	
-  1948		hantro_reg_write(vpu, &av1_dec_e, 1);
-  1949	
-  1950		return 0;
-  1951	
-  1952	prepare_error:
-  1953		hantro_end_prepare_run(ctx);
-  1954		hantro_irq_done(vpu, VB2_BUF_STATE_ERROR);
-  1955		return ret;
-  1956	}
-  1957	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Reviewed-by: T.J. Mercier <tjmercier@google.com>
