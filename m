@@ -2,58 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DB4D743CF9
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jun 2023 15:46:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F1251743D23
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jun 2023 16:04:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232071AbjF3NqQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Jun 2023 09:46:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56198 "EHLO
+        id S232402AbjF3OEL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Jun 2023 10:04:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232260AbjF3NqP (ORCPT
+        with ESMTP id S230100AbjF3OEJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Jun 2023 09:46:15 -0400
+        Fri, 30 Jun 2023 10:04:09 -0400
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E439C420E
-        for <linux-media@vger.kernel.org>; Fri, 30 Jun 2023 06:45:34 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A8F73A99
+        for <linux-media@vger.kernel.org>; Fri, 30 Jun 2023 07:04:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688132734; x=1719668734;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=S8OLqXFtlkyUaSmPZAiDeJYJDznDok7BNuE2vdXur84=;
-  b=EQSQspZRc7gJybffoRPg9t6+86lKqzVtBuDBN4ebg90VU3hhvuUoiN1D
-   tHdyaYpCBcaTI2PbodxcuoZDlmpGB2PlWu5LyM6TP5gpE/Sfvlw2CDMWZ
-   ee/u+3tGCPIy0HJYVKauflD0rNny0aPC72SIHfRGrkRH7HkSXKOq4f3ie
-   NcQypMa0unm++8aGq5iOgBADMvjk5ZTf1do8xAUm8FvEQi91cou6SF9tt
-   atypx7R2MnZJMHaEshC9ETBusLloP0aVf7DCvl+s1lNBAiPOOPD5D/asj
-   34/MvEkShdDaqpl/SQrV3VDy8QR/6IwIAmm7TS0Wa8tx9CTnHQ3/lv4fQ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="352217360"
-X-IronPort-AV: E=Sophos;i="6.01,170,1684825200"; 
-   d="scan'208";a="352217360"
+  t=1688133849; x=1719669849;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=yYN3YxkH0xWEXBE/Bd0wREpM2AvEfBSTU9IzSy+0Q9c=;
+  b=IuyH3POefAtaHMvKmG30fJZG9AUglQiQGkNbeVn+MF3DpCE0DkXDdJ4A
+   cjntnGU/h8SFNcvsPt9FFs6tgjjFdaDmWe7j8VzrHGwKDOStovMY9xu7h
+   Uh1V5U2gnbb3afMF7d7G3Zh5XsTSDB+Hl9Bs+8R8Q9TXwnQUWoRzTT2no
+   9JajoCrNgQpv4vH0+G4uxqd/itdiqlX2Aq/xt8wRBudl3BKzdBad27JK6
+   rpnVitSTOhnVS0y72RrLSccXwJbNROvZubLXwZU5WUmOirrQ+2U9avpCl
+   U3W7ZmPyOeQCu7FCrz2QXZTRK6koOnqkaT4SwtXDj5Xg7j023VlH64h5E
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="352220850"
+X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; 
+   d="scan'208";a="352220850"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2023 06:45:30 -0700
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2023 07:04:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="783083742"
-X-IronPort-AV: E=Sophos;i="6.01,170,1684825200"; 
-   d="scan'208";a="783083742"
+X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="783086515"
+X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; 
+   d="scan'208";a="783086515"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2023 06:45:28 -0700
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2023 07:03:58 -0700
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 1F4581203D3;
-        Fri, 30 Jun 2023 16:45:20 +0300 (EEST)
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id C4D1F1203D3;
+        Fri, 30 Jun 2023 17:03:54 +0300 (EEST)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
-Cc:     Wentong Wu <wentong.wu@intel.com>, bingbu.cao@linux.intel.com,
-        andriy.shevchenko@intel.com, zhifeng.wang@intel.com,
-        xiang.ye@intel.com, tian.shu.qiu@intel.com,
-        Hans de Goede <hdegoede@redhat.com>
-Subject: [PATCH v2 2/2] media: ipu-bridge: Make exported IPU bridge symbol GPL-only in a NS
-Date:   Fri, 30 Jun 2023 16:45:06 +0300
-Message-Id: <20230630134506.109269-3-sakari.ailus@linux.intel.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 0/2] Move camera sensor dependencies to top level menu
+Date:   Fri, 30 Jun 2023 17:03:52 +0300
+Message-Id: <20230630140354.111404-1-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230630134506.109269-1-sakari.ailus@linux.intel.com>
-References: <20230630134506.109269-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -67,27 +63,25 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Switch to EXPORT_SYMBOL_NS_GPL() on ipu_bridge_instantiate_vcm(). The rest
-of the ipu bridge symbols are this way already.
+Hi,
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/pci/intel/ipu-bridge.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This set moves selecting the common sensor driver dependencies to the top
+level menu and removes the options from individual driver entries. The
+first patch is cc'd to stable from 6.1. It applies with some fuzz while
+for 5.15 it applies with a fuzz but to a wrong place. I don't think we'll
+need to care much about that version anyway, albeit I'll port one for
+that, too, if there that gets reported. Any thouhgts?
 
-diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
-index 2811e716ea62..c2f62d98a655 100644
---- a/drivers/media/pci/intel/ipu-bridge.c
-+++ b/drivers/media/pci/intel/ipu-bridge.c
-@@ -549,7 +549,7 @@ int ipu_bridge_instantiate_vcm(struct device *sensor)
- 
- 	return 0;
- }
--EXPORT_SYMBOL(ipu_bridge_instantiate_vcm);
-+EXPORT_SYMBOL_NS_GPL(ipu_bridge_instantiate_vcm, INTEL_IPU_BRIDGE);
- 
- static int ipu_bridge_instantiate_ivsc(struct ipu_sensor *sensor)
- {
+Sakari Ailus (2):
+  media: i2c: Select V4L2_FWNODE and VIDEO_V4L2_SUBDEV_API for sensors
+  media: i2c: Stop selecting common features for individual camera
+    drivers
+
+ drivers/media/i2c/Kconfig        | 162 ++-----------------------------
+ drivers/media/i2c/ccs/Kconfig    |   3 -
+ drivers/media/i2c/et8ek8/Kconfig |   3 -
+ 3 files changed, 10 insertions(+), 158 deletions(-)
+
 -- 
 2.39.2
 
