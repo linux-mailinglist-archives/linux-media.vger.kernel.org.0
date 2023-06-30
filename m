@@ -2,197 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E386743E46
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jun 2023 17:06:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EC46743E62
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jun 2023 17:15:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232929AbjF3PGm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Jun 2023 11:06:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59154 "EHLO
+        id S232536AbjF3PPD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Jun 2023 11:15:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232943AbjF3PGj (ORCPT
+        with ESMTP id S232355AbjF3POu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Jun 2023 11:06:39 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57BB51FFA
-        for <linux-media@vger.kernel.org>; Fri, 30 Jun 2023 08:06:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688137591; x=1719673591;
-  h=date:from:to:cc:subject:message-id;
-  bh=FvkgsLB99JG2hjJj0+xcDxbLCwRtb8ECjaxadeJb9rc=;
-  b=X2dQ0yxG7Q3EVpW4QMreakCtFdLDsyeNL33toBplMzU07+iX0dfrBL8o
-   mrPuBuigQJPBJt7VY8CojgxuU8rrfZNQAWM6oV/6RvfRvi+qX88iPaxW3
-   zFzJ0Tx6+6UwT9s2n64q3k2WcFkZyYowfLTUxo9f/egXlxgeq4yLYmsRo
-   +G0wFr/vfnad+Hjo5Vbtik5CSqr6j54gBefKBk8jN8BoX5JFzz8TB5BJe
-   iOM3gJiW26tmEKcydlcpRxCXfeau/tq44lUuRSj1ZYAryvME5Ulc/EFf6
-   kjSKoQK9MQ+Fh1pBXgRCJY5h+FMff6GR+9oxU83XZqaj3pUATxbtF7D7G
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="362457013"
-X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; 
-   d="scan'208";a="362457013"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2023 08:06:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="783112985"
-X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; 
-   d="scan'208";a="783112985"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 30 Jun 2023 08:06:29 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qFFhd-000F3d-0j;
-        Fri, 30 Jun 2023 15:06:29 +0000
-Date:   Fri, 30 Jun 2023 23:06:08 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [linuxtv-media-stage:master] BUILD SUCCESS
- c61480a2ea5e5b997d10dfda556d3a63e31f87cd
-Message-ID: <202306302306.IWDYTf49-lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        Fri, 30 Jun 2023 11:14:50 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBD38273B;
+        Fri, 30 Jun 2023 08:14:48 -0700 (PDT)
+Received: from notapiano.myfiosgateway.com (zone.collabora.co.uk [167.235.23.81])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nfraprado)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id A96FE6606E8F;
+        Fri, 30 Jun 2023 16:14:42 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1688138086;
+        bh=jVo3WNeds8sK5Pxd5xxnTIN/UCq1LsJU3CgBkczPgyI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=SeNtEsY8eeza03E7UHal4qruDipxfp0f25usWCmK1J1XYtA0yMxSZmr4WFqVwMYs9
+         b2Mfp0FBtsVgLZd+UkuSp/PykZB8YzJMsD/b5B2YGReRAKxUA/GrBe9KPpfb7SS4Hb
+         oY2rs719sudhsChMvcLaK/oDa5/urKtoTwNWdO4nK4DFMdKPp0iiScMFJ3UylRI9n8
+         Pfl5YPUP/BBvEhITf8l4U4Y8B6fvjiAOSXqru+8zG0iwCMPQy1kgE1XkZn9mTpo5k8
+         okA2UoYMYXtHyq70JX5H0kLA+Uac4SfB3chspgc3iQWAsG2KOyxzhDcd2YPNjD24OM
+         tpNVlCjLy7mzg==
+From:   =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
+        <nfraprado@collabora.com>
+To:     Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>, kernel@collabora.com,
+        =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= 
+        <nfraprado@collabora.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+Subject: [PATCH v5 0/7] Enable decoder for mt8183
+Date:   Fri, 30 Jun 2023 11:14:06 -0400
+Message-ID: <20230630151436.155586-1-nfraprado@collabora.com>
+X-Mailer: git-send-email 2.41.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: https://git.linuxtv.org/media_stage.git master
-branch HEAD: c61480a2ea5e5b997d10dfda556d3a63e31f87cd  media: wl128x: fix a clang warning
 
-elapsed time: 1853m
+This series enables the hardware decoder present on mt8183. At first
+glance, the only missing piece is the devicetree node for it, however,
+simply adding it as is would cause an address collision between the
+first register iospace and the clock-controller node, so a rework of the
+dt-binding and driver, as well as addition of a new syscon phandle
+property, were needed first.
 
-configs tested: 120
-configs skipped: 9
+Tested that H264 decoding works with the hardware decoder on
+mt8183-kukui-jacuzzi-juniper-sku16, giving a fluster score of 98/135 on
+the JVT-AVC_V1 test suite. And ensured other SoCs (MT8192 and MT8195)
+still work as usual.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Changes in v5:
+- Added explicit include to patch 5 following 0day report
 
-tested configs:
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-alpha                randconfig-r021-20230630   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                  randconfig-r043-20230629   gcc  
-arm                              allmodconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                  randconfig-r006-20230629   clang
-arm                  randconfig-r034-20230629   clang
-arm                  randconfig-r046-20230629   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                randconfig-r013-20230630   clang
-arm64                randconfig-r034-20230629   gcc  
-csky                                defconfig   gcc  
-csky                 randconfig-r031-20230629   gcc  
-hexagon              randconfig-r014-20230629   clang
-hexagon              randconfig-r024-20230630   clang
-hexagon              randconfig-r041-20230629   clang
-hexagon              randconfig-r045-20230629   clang
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-r004-20230629   gcc  
-i386         buildonly-randconfig-r005-20230629   gcc  
-i386         buildonly-randconfig-r006-20230629   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                 randconfig-i001-20230629   gcc  
-i386                 randconfig-i002-20230629   gcc  
-i386                 randconfig-i003-20230629   gcc  
-i386                 randconfig-i004-20230629   gcc  
-i386                 randconfig-i005-20230629   gcc  
-i386                 randconfig-i006-20230629   gcc  
-i386                 randconfig-i011-20230629   clang
-i386                 randconfig-i012-20230629   clang
-i386                 randconfig-i013-20230629   clang
-i386                 randconfig-i014-20230629   clang
-i386                 randconfig-i015-20230629   clang
-i386                 randconfig-i016-20230629   clang
-i386                 randconfig-r012-20230629   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch            randconfig-r005-20230629   gcc  
-loongarch            randconfig-r025-20230630   gcc  
-m68k                             allmodconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                 randconfig-r014-20230630   gcc  
-m68k                 randconfig-r026-20230630   gcc  
-microblaze           randconfig-r012-20230630   gcc  
-microblaze           randconfig-r016-20230629   gcc  
-microblaze           randconfig-r032-20230629   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                 randconfig-r033-20230629   clang
-mips                 randconfig-r036-20230629   clang
-nios2                               defconfig   gcc  
-openrisc             randconfig-r035-20230629   gcc  
-openrisc             randconfig-r036-20230629   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                randconfig-r022-20230630   clang
-riscv                randconfig-r023-20230629   clang
-riscv                randconfig-r032-20230629   gcc  
-riscv                randconfig-r042-20230629   clang
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                 randconfig-r023-20230630   clang
-s390                 randconfig-r044-20230629   clang
-sh                               allmodconfig   gcc  
-sh                   randconfig-r003-20230629   gcc  
-sh                   randconfig-r035-20230629   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64              randconfig-r024-20230629   gcc  
-sparc64              randconfig-r033-20230629   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                   randconfig-r001-20230629   clang
-um                   randconfig-r026-20230629   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-r001-20230629   gcc  
-x86_64       buildonly-randconfig-r002-20230629   gcc  
-x86_64       buildonly-randconfig-r003-20230629   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64               randconfig-r002-20230629   gcc  
-x86_64               randconfig-r011-20230629   clang
-x86_64               randconfig-r015-20230630   clang
-x86_64               randconfig-r021-20230629   clang
-x86_64               randconfig-x001-20230629   clang
-x86_64               randconfig-x002-20230629   clang
-x86_64               randconfig-x003-20230629   clang
-x86_64               randconfig-x004-20230629   clang
-x86_64               randconfig-x005-20230629   clang
-x86_64               randconfig-x006-20230629   clang
-x86_64               randconfig-x011-20230629   gcc  
-x86_64               randconfig-x012-20230629   gcc  
-x86_64               randconfig-x013-20230629   gcc  
-x86_64               randconfig-x014-20230629   gcc  
-x86_64               randconfig-x015-20230629   gcc  
-x86_64               randconfig-x016-20230629   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa               randconfig-r022-20230629   gcc  
+Changes in v4:
+- Removed VDEC_SYS reg from mt8173 as well
+- Made driver handling cleaner
+
+Changes in v3:
+- Switched the handling of the VDEC_HW_ACTIVE bit to use a syscon
+  instead of the 'active' clock
+
+Changes in v2:
+- Merged commit 1 (media: dt-bindings: mediatek,vcodec: Allow single
+  clock for mt8183) into commit 3 (media: dt-bindings: mediatek,vcodec:
+  Remove VDEC_SYS for mt8183)
+- Further constrained properties in dt-binding
+- Added CLK_IGNORE_UNUSED flag to active clock
+- Reformatted reg-names in DT node
+
+Nícolas F. R. A. Prado (6):
+  media: dt-bindings: mediatek,vcodec: Allow single clock for mt8183
+  media: dt-bindings: mediatek,vcodec: Don't require assigned-clocks
+  media: dt-bindings: mediatek,vcodec: Remove VDEC_SYS register space
+  media: mediatek: vcodec: Define address for VDEC_HW_ACTIVE
+  media: mediatek: vcodec: Read HW active status from syscon
+  arm64: dts: mediatek: mt8173: Drop VDEC_SYS reg from decoder
+
+Yunfei Dong (1):
+  arm64: dts: mediatek: mt8183: Add decoder
+
+ .../media/mediatek,vcodec-decoder.yaml        | 67 ++++++++++++----
+ arch/arm64/boot/dts/mediatek/mt8173.dtsi      |  8 +-
+ arch/arm64/boot/dts/mediatek/mt8183.dtsi      | 30 ++++++++
+ .../mediatek/vcodec/mtk_vcodec_dec_drv.c      | 77 ++++++++++++++++---
+ .../mediatek/vcodec/mtk_vcodec_dec_hw.c       |  4 +-
+ .../mediatek/vcodec/mtk_vcodec_dec_hw.h       |  3 +-
+ .../platform/mediatek/vcodec/mtk_vcodec_drv.h |  1 +
+ .../mediatek/vcodec/mtk_vcodec_util.c         | 15 ++++
+ .../mediatek/vcodec/mtk_vcodec_util.h         |  2 +
+ .../mediatek/vcodec/vdec/vdec_vp8_if.c        | 10 +--
+ 10 files changed, 178 insertions(+), 39 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.41.0
+
