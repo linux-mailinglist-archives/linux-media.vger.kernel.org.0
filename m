@@ -2,131 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 48B1E74388E
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jun 2023 11:44:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E9907438B3
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jun 2023 11:52:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232883AbjF3JoK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Jun 2023 05:44:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44096 "EHLO
+        id S232301AbjF3JwB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Jun 2023 05:52:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232866AbjF3JoH (ORCPT
+        with ESMTP id S230178AbjF3JwA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Jun 2023 05:44:07 -0400
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2057.outbound.protection.outlook.com [40.107.96.57])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6772B2122;
-        Fri, 30 Jun 2023 02:44:04 -0700 (PDT)
+        Fri, 30 Jun 2023 05:52:00 -0400
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2078.outbound.protection.outlook.com [40.107.92.78])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E66261726;
+        Fri, 30 Jun 2023 02:51:58 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=X6UISPD85L4hI+Iq6UPMCIXnQ/U/BaQ48sLC6p1HmAZLflkk+xAE3V8Ei5xOD7CHJiuduhAykRDFm7JJsvYdl2FZnvUQ+npIW80p37yhLALAISEHSALo50V15iZDf/2lWktrK0V/7sQPM5hX4Xem0mw7CXMNQRG7B7p/yoMi2K0oU2EZezBUi6KIgJye92wMFcoTOKUiIk8lQxmFGTM78zt+7jAfMj8bskeh1PsmAmJRHMfAMLPs++jahJKF90H8b7BdAavpQtJQ80Y/u9r3Y+Kie5K1Tv9/D4Q1wPc9AuCwDFPH64wyTVERPXu4yTBzdMa0WjuuuF9uIEfgw6XDRA==
+ b=MkOxNA9K3e0RMtXKEZIVQaSHxgKDfYIdWdcDoJrZr42kScFsAmvdygKHRbhRvYD0JVwi6MCL4x4JWETb2jLGRNbcNIVhtH5ut7LwoW/cb1zOJyl1af/mzqn/qi4YDqTRUnruZmaQniUF+hEznkSAsRVlbSQNSGcZe9souruxlE1oiPdYV18tbB7A4JimNuHa6toP61FBFLgsc/mftNqJzXNJ/UpIfixIgploVHi7ESAuRqGsw5QGPTI4hiLBQplh9ZRs/NyAINF8krubRKpUcFoaj1Wff3XkYTadiLTvNCbrZmGeLkiygrNogN3KgXo0J7zPJBchIR78hubZUX3mpQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=N7DkB/DmvYTnQLjlghxo72nuTlcCLT1Int1j/ApLVMo=;
- b=ZI1TPX4EZUsxWsIdXJjoujC9DaYPmRxMh4+8FKv4MKC+GXB+Yr+ump3Urv5P/WJsiaoIW1hw9YYElIuSjPqoxoO2ZSxthhYa697lUfk+D1U4YVLQtL3NNVqe1Pjl84FOW7IP+KjNC1j31TzDgzVh8lKLDsBlSoZTAtsnYfqdbz3kMf5FBjBz8wzzrTFPBvJFFIm0uwxo4uT+MZsyBxgZeUMqiIcGjv2TK0nX7A2l2DkrLkoVVO2dD933kVNwO+wBXGEz7aDwbUOYf1t4+o8mvBC9jjMkxQdUCHngA0YbBMJ7AsaR5RjocXOEDbJQEya/n4UsamkAzophjPpK7h/zTQ==
+ bh=bEb50R7C/FR4tGGhtnS6qhQEBLBgoH9vsOoJ0v4mUG0=;
+ b=HKZs6U1+Jy5F5S9AviKGXONfUj+cuaX+TqREJSxFcqp/Q2FztMOuIjMgie56sZGFGY6nso0YPGTZg2Ayl8KPZtIqLdxRuwxRm6O7Kz98T0yiapFLd2Jj0wSXEPuBacSNucb4GgdepZmAex2uwW3INkg5jDZGX9cJoitikzrD4VswN6Kb1DGj0yHrpX1L0BrNyDs6G6jCOb6sWquIZ6VUIKWUDbo/vMvcdPqTDxLIzoqqDgPqXFLNpjGv1+qUDAxAuprxi7r6bORKIG9l+IlxC9uIfhUINkPcabsGvVFw6YGkEJlj1wpyVyk6NM6KTGor07JtURHXgxNKmOfVfKRZNw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=synaptics.com; dmarc=pass action=none
  header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N7DkB/DmvYTnQLjlghxo72nuTlcCLT1Int1j/ApLVMo=;
- b=oXgAU3glnsO9g4V4zwGx6php3/MMLzxMU6pUpiQchto0vc9zRq5GXdsdfGwocUFx8e63Mx5vw+zYcqyslryeMVi4o8fV+qXma0+3jmk1HoolBBK380rGCsHmkOuRIg063HlmPVDSNjX1mwvKr/HnjIb+NsjeKYIbCM4aSQOAMUQ=
+ bh=bEb50R7C/FR4tGGhtnS6qhQEBLBgoH9vsOoJ0v4mUG0=;
+ b=HLiJ+vPO9Rg59mqR1Rmtivy+mGB6ZuC43o676QZfpecIxKI2RsW/HdFYiMHohBwEG6Rh3hfrCHL6RaRJq/OFLZJhWqq1ur7D9RRIyva8rpNvw86aVEzgxS+f9CCpLkyUObRsEusdb2lXVCqrWg1exf53e4E+GJ0cUaczf68GQOQ=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=synaptics.com;
 Received: from DM6PR03MB5196.namprd03.prod.outlook.com (2603:10b6:5:24a::19)
- by SA2PR03MB5722.namprd03.prod.outlook.com (2603:10b6:806:110::10) with
+ by BLAPR03MB5649.namprd03.prod.outlook.com (2603:10b6:208:291::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.15; Fri, 30 Jun
- 2023 09:44:01 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.26; Fri, 30 Jun
+ 2023 09:51:56 +0000
 Received: from DM6PR03MB5196.namprd03.prod.outlook.com
  ([fe80::6882:b9c1:2b2d:998d]) by DM6PR03MB5196.namprd03.prod.outlook.com
  ([fe80::6882:b9c1:2b2d:998d%5]) with mapi id 15.20.6544.019; Fri, 30 Jun 2023
- 09:44:01 +0000
-Message-ID: <54833256-7d88-9316-4f0f-b8c57552cd7b@synaptics.com>
-Date:   Fri, 30 Jun 2023 17:43:51 +0800
+ 09:51:56 +0000
+Message-ID: <e7444263-0ce5-1575-8cca-1e51b1cfbe9a@synaptics.com>
+Date:   Fri, 30 Jun 2023 17:51:47 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH v3 10/11] media: v4l2: Add DELETE_BUF ioctl
+Subject: Re: [PATCH v3 04/11] media: videobuf2: Stop define VB2_MAX_FRAME as
+ global
 Content-Language: en-GB
-From:   Hsia-Jun Li <Randy.Li@synaptics.com>
 To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        p.zabel@pengutronix.de, ming.qian@nxp.com,
-        hverkuil-cisco@xs4all.nl, gregkh@linuxfoundation.org,
-        ezequiel@vanguardiasur.com.ar,
-        linux-arm-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, m.szyprowski@samsung.com,
         linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, nicolas.dufresne@collabora.com,
-        linux-staging@lists.linux.dev, kernel@collabora.com,
-        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
-        ayaka <ayaka@soulik.info>
+        hverkuil-cisco@xs4all.nl, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, linux-rockchip@lists.infradead.org,
+        mchehab@kernel.org, linux-staging@lists.linux.dev,
+        ming.qian@nxp.com, kernel@collabora.com,
+        gregkh@linuxfoundation.org, tfiga@chromium.org,
+        nicolas.dufresne@collabora.com
 References: <20230622131349.144160-1-benjamin.gaignard@collabora.com>
- <20230622131349.144160-11-benjamin.gaignard@collabora.com>
- <80a03c29-6f3d-43f1-755c-10f3ae2c2756@synaptics.com>
- <42a45bad-09c7-ffb6-49cb-29ec0826599d@collabora.com>
- <3b22fda9-4a0e-2c03-2f12-19e5e3239235@synaptics.com>
-In-Reply-To: <3b22fda9-4a0e-2c03-2f12-19e5e3239235@synaptics.com>
+ <20230622131349.144160-5-benjamin.gaignard@collabora.com>
+From:   Hsia-Jun Li <Randy.Li@synaptics.com>
+In-Reply-To: <20230622131349.144160-5-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PH8PR22CA0018.namprd22.prod.outlook.com
- (2603:10b6:510:2d1::24) To DM6PR03MB5196.namprd03.prod.outlook.com
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR03CA0251.namprd03.prod.outlook.com
+ (2603:10b6:a03:3a0::16) To DM6PR03MB5196.namprd03.prod.outlook.com
  (2603:10b6:5:24a::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR03MB5196:EE_|SA2PR03MB5722:EE_
-X-MS-Office365-Filtering-Correlation-Id: 39baca81-1323-449b-7275-08db794e888c
+X-MS-TrafficTypeDiagnostic: DM6PR03MB5196:EE_|BLAPR03MB5649:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4b48e132-8e81-4c81-9c4a-08db794fa3ea
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: s7FBEZEFnt7NJ6N/cIalxbp6aRNdqTFxWHyszGvUr8f7usXJqGJnJndrnRDP3mpN8fB4XtWUWg9mejFcXCz2oQZInsPISXthohG325O7HL7ELG4lt04q+AquRrWNC3BdyjZNMU3jQeuQ5yfVq+nCfOwBl2cEfnNESukmlj3M1KjPCiItXEc/gu+vnUisSFrf7nU9crqP4u4sNm7mAjR6Xfkfp6lblY0s+hRcLLSb3t9mNi8oXC4/UQi8OZkiPJJ+GGnjvjIoDqp3Ziq/3vK4J9vNRc1L4NIX/Ck1zHG1hgI4bHTMYhkD9FQVizoIcz1igQ4x4XlcSBzCjmohOdW24TbeXfCDrmuBhqPGDpp98ZITsPpt7VLXqPVhMjvg+muRe5f5/33ahE2yPHfHqfKYtDf9uBwu1BQZQQn5W6SxGab9hJPpL2qTJIXOFP4zmXSbjgyGxnups1/OReSiq8uAZkDBnXmkA04OtNommJSpr+P38FYqYJH1ZlyvmsOKzNkaQWV0oRKSP5PeHpvOPF04Ul1Pw4xeTYICpRRfS91RrpHSLRz/n9OP4f5Dw2wDhNtDbic30dkJ0VNLj7n6Rmvtd369D36dfmEiuXCUQ7LJ8jdRqA2vOe8Ed2YQmmbU+DaTPxNoIFW6/j/u599Grn5qQuRwFHZeStc7tmTU2N25RlPVOf9FQnt2u5HuquITaCER
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR03MB5196.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(346002)(366004)(376002)(396003)(136003)(39850400004)(451199021)(38100700002)(38350700002)(31696002)(86362001)(36756003)(31686004)(66946007)(6486002)(8676002)(41300700001)(478600001)(53546011)(8936002)(6506007)(5660300002)(6512007)(26005)(7416002)(2616005)(30864003)(186003)(66574015)(83380400001)(2906002)(52116002)(4326008)(6666004)(66476007)(66556008)(316002)(6916009)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: qO5mTdCOUcAOJ4dGFhXg0peUkH4kRGANA4uYvpO72OA4jFXRhJnNKWcUCZDCzc25FW09rctOWDfqQf8tb0/Sq867TC1EumMEmJ21r1vdHWx6LAxmBJSf9LNuBpRuu5CRJBUxfFvIqDRN8lBVWR+e8mY41dLMvHP8z5xk8XlneWiIrXexB+iPnpOBRx2pWQdyHGapY7lQTibY7giudLnN8ZcBL0XxKL/dp0UtJfmRreeMgBnEifffWVxHEYTb1TtaE+e7rhVhFGST9jjRkj0jWGv8u6PqmFV8ffg5JZw3yykc0B+exz8n9tmqZ/ok+0OVW5Q2YfIJlo8kU0ryeVZZVOWeCa7wilCR4RZ5FoXMThB+vK/GU74P+DGRGz+MxdndhCHAvmTma1VsuPxjFaj+wZdFHFvJ0AWHk8omG9PQzV6v8hy9BAglePkobssAZqtt2gXKEQVNkSrc9JnZOxRz1P+8+X6R8QKEqG2ejNfMSl9ZxKyNGV0smlp72yM6ukYdWS7isnDn/YY5eKi+ERPMOyqnY75kah9lrCPLogd4Z2of0i+edxr1WlN7SkPN8a5XN8zt4WaeaUl1Ph0pvJd5LRIaV/cYmAW+10hzxbr1LwKO1oUq7yRaEXExEspAxyHkM0n7ssDOaaVzdGwifEB+TnJTRkSyMkG+oC/Kud5yNpLDu2Cob0aLseZofiFHe2Q9
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR03MB5196.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(376002)(136003)(346002)(396003)(39850400004)(366004)(451199021)(53546011)(6506007)(36756003)(66556008)(6486002)(83380400001)(478600001)(26005)(2616005)(6666004)(52116002)(6512007)(186003)(2906002)(86362001)(7416002)(316002)(5660300002)(66476007)(38350700002)(31696002)(66946007)(8676002)(6916009)(41300700001)(4326008)(38100700002)(8936002)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S3Z4WVJMUGdDSHVIdVE0NmFDYVZ3MDhCOGwxaXVFRDBFaFlSQ3RsU0t0Mk1X?=
- =?utf-8?B?SXZ2c0JMbUNOREUzbG5rQ0RzMmZMS1BjYXNFTzNFVXlEUlovUXlwVGNGMUxS?=
- =?utf-8?B?NUFoSmRvaXpQMFpPcmdQY0tvcWRsMEl4M1hCYmMweEdsem1TTHB3R2xhdW01?=
- =?utf-8?B?WitaWHVrbm5udGF6Q2VQWUNzMFZCWGNLYlJvVWhmLy9Ha1l5UjUxOXJLTG9X?=
- =?utf-8?B?UWdkRGZ4MnpYL3JhSG0rTDVoVkQ1VzNkN3ZYMXgwaC83blpVMGFJMTRtUUF5?=
- =?utf-8?B?QkNWdC91T09FL2tQYWZpYk5yQ0FzQ3dTS2ZIM1I5NmZvUisvRXJ3RTNGSnhZ?=
- =?utf-8?B?amt3UjF5eUVCL1Bhc0RSKzV2Y2RQRnk2REFmc2x4M04wMldGK3Z2SFBJQ3Zu?=
- =?utf-8?B?aEhubjZvbkNCZWxTRERiemplVkFIVnpIS2l6VDN4YzVGYVdraTFxUlNVS2NI?=
- =?utf-8?B?eUIrU1o2bGgrbVZEZm5UT2JBZGNzcFAyWEFESURKTzdEYytoQzlxVmJ3THU5?=
- =?utf-8?B?VEliZFFnNmk4WlI3OUxpblVKNG8xaG5XcFNrUG9vSXZUUmxOOURkQXhUKzBY?=
- =?utf-8?B?ZWNaOTk1K2ZWWkpEMlRRMXhBenVmT3R2UUx4cDRrOE9ldFRBYmZJRERUMDhj?=
- =?utf-8?B?ZllvMXR1Qk1hTlBkeVBqK0FMcHVVcHc0KytkTktGMGZLOFNvZDZLNSthRVll?=
- =?utf-8?B?Q0hWREhjYVplV3QySVBHc3Era3ptR0IrQkdzMEo2YXVrV2s1Q2hvZkJid0F5?=
- =?utf-8?B?MHNwckpOa1ZqMWU0UEFkRVlzNG5ab0hKVUZBTEUyTnNlb051d0tVdmVTVHFx?=
- =?utf-8?B?NWM3UkRQaUJBemREbUZVYlNTNkFjRzFTdGVDczQvT1c5Z0ZVcmp6UGV1ZGY3?=
- =?utf-8?B?V1IrL3BZbGUvZUp2MFJ1ZGQ4dFJwRmRPbXo1NU1hOTdtNHhZUldwK2JOWFkx?=
- =?utf-8?B?Mi9Vcy9ZMFNncjNUN0FLcTZPcWNhdDBoaUE2RS9QZ2tRaGZSN2V1OWdDUGFY?=
- =?utf-8?B?WlRMSXdzSVhMelRkUTJYSi8rRi9NN2pLa2QrN0c4Tzc1TDlPZm8yMGhZVHlt?=
- =?utf-8?B?bUtNaVZqS3lEZ3lySC9FalQ4L2F2TW9yZ3A5TVVLQlFXYlB5dDcrZlAzMloy?=
- =?utf-8?B?cU9hR2JsMGFmeEdkWW0waHA0UU1XaktvQW11YURRZ0t0VTI2SnNGL05GdzI3?=
- =?utf-8?B?N0grVmhZS0xUZVRxakhWMzVwd0E0dTNQR1o5VW1MMEVTdmowUUNONGRqU05H?=
- =?utf-8?B?WGpERndEWjJ5UkJwUE1INTNIVlpiUzBQcy9TUW9YOFBmRGNONmxpRTZEcW1S?=
- =?utf-8?B?a1ZESWFIbFBTc1RYc1dLMmV2UUc1RVVPNGluVHBYV2IxVHBtUk4yZjFxSis3?=
- =?utf-8?B?cWhNZFBmQWI5UUU3S3J4TFVEOWV2NHlRaVdTb1N5T2t1cE12OU4vaWxHUWEw?=
- =?utf-8?B?cDg1WG1oWGVVK3NqR3MrUjFCaDlwSnZGREF2aDcybUxPL25XelRQQ09rWGdO?=
- =?utf-8?B?R0hMaFdMUk0xUnRIQk1OQ3FsVk9Dc09IT2hHRXdmU0hkSG1NWW1UbmQ5MFhX?=
- =?utf-8?B?VGdxTnJBa1Q0eFR3M21MTjNWUExnbHhic2NlQWFLeFphSXBPc0ZFemFSTU56?=
- =?utf-8?B?N2gzTldBN2VtMWszNXpKL21ySEUyMFNCdjRPcmVkQ3dGTkVaMzg2Mkd3WG1Z?=
- =?utf-8?B?bDgwNWQ3aTV5L0c1VW5xWG9QaEcwUmt0YlRYd0R5L1NzRTFNNGtIMmMzWXNF?=
- =?utf-8?B?L3FyUmtEemVpNkFKMFhJbEljcmVyVlV2cUd5YXRpVU5kRmdnWGpPTVA3cXhr?=
- =?utf-8?B?WWZXbmExVlpZeU14OG91RnJxc1B3bFJQcU04SG1JZ0xtcEhibGFvVjlRZ3c0?=
- =?utf-8?B?NnlJR0xDdlJmSUxMSGlqYnZKOXFmVmRBU2FnNlZVd0FYK3hMZjd2Wlk4aFBT?=
- =?utf-8?B?MnNRTFJTSEpnU1FmNy9tNUlnNnhJZk0yY0c1VnRaQitteVFqQXQ1NWFEando?=
- =?utf-8?B?SlpBWkN4RVRJbjhscmtnQVNDdUxGUnpQeE0wcXlZRzh2eFB5SDVxS3c0Z2xM?=
- =?utf-8?B?NUNXSUVUSzJldmRlM28wQ0IrMCs3dnhHdTJwNitwSTg3aE9NaXFYdFkydVcw?=
- =?utf-8?Q?729SEZKKA6AHFTk5rToS7Mi65?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UGlKY0U4cXg0T1M5YzJJNXVOODVHbURJZ3ZsNmRxckt0RlFMd0YvQXpmRFNZ?=
+ =?utf-8?B?UzFXdExMSXc2ejkyRzNqeVBxcWRjNW9kTHVVYUNLMVloOEtCeTcrRnBtaU0y?=
+ =?utf-8?B?UjJFSDBETjUxNzlpQmNKblpTcHdKSUZNSkh0N2x4SWJKRElqV0U5N2VLQTNz?=
+ =?utf-8?B?UmpuZDdVbnZZSmhYYnZFV1BBUk5DWHBtTFVSYXNmMlVBcUVkcWlSV2NFTXQv?=
+ =?utf-8?B?WmY5L1dDY2hRREhBMEVsNmUrSXRqZjlnSEt3VGt6SjJETEZ3TlEzWWlpbVR0?=
+ =?utf-8?B?cFV1N1NvcGxUNUZya2hKdmhXOWNaZWJuZWVNampURWZrQ3lYU3BRMUNFZFRr?=
+ =?utf-8?B?a3pMbHJjTEpiV2oyd2RwUjJtNUtmanEzQ1FFTnB2UWliWVdyOFh0eHBjV2hM?=
+ =?utf-8?B?M2ZKZUZUQXJyR2VYV3ppbHJ3SXVUN3FNYjAxZUhDeFZhYlRYa1dtVlJpNXRk?=
+ =?utf-8?B?SGFSUHZLaTNZNWZhQlc1cElTS1d3eEZraUV0b3Y3M01aWGwrbzZUeU90eENr?=
+ =?utf-8?B?ZWVUY1B3dS9Db1p5aDl2OUJWSkkzazhhaUovMnVrbmpDcGtsUUJlVjJBOS9S?=
+ =?utf-8?B?c1lTQWIrYXlrZmdiOHlSTGJVS0tHNWw5OXVCalhsR3hIQlkrYlhvL3RhT0hV?=
+ =?utf-8?B?NmREUk1NTFlieE5HcVdualR0YnVQeCt0dnJpTGRjdUV4WWkvUFlzcCtFbEtB?=
+ =?utf-8?B?TlNCaVd5bDR2ZGt0QXRqNDFJSHVxTlhDTWo1L1FtZlQ1UENXODBWSlBJZ1ow?=
+ =?utf-8?B?WTVkOTVpc0FyaXcyL2JhY0RHMHJDc1FsR3NndXM0d2hreGdUaXc0czZQOHFp?=
+ =?utf-8?B?T1c3T2U3Z05qWmpFaXZPcmVaNnMxSnQrVGhLRkUwNjF1OXRuNzJSaFV5QUJM?=
+ =?utf-8?B?Ui9ydXZqRm5qK2s5Qnhqd1EzdEJERlFCV0VWWVlQTVZxSUFxUnJQblJaSUlB?=
+ =?utf-8?B?UDNwYUxDWDgrRjc2YTc2dW50QmlMUEdHaEpodlI0VnNoSWE4OUd5NUg0M1Nl?=
+ =?utf-8?B?MmsxVnFMeFlKNlhxVnRrQVRySVk5TmxQdTl3NU8xTjQvUUozdUtZbjlnS1Ju?=
+ =?utf-8?B?Z0Y1VGF4YmNCalAyNXRLeUtKUnBjNXcrT05ZYmRCS2RKbWQ2eVRRVWhJMEdm?=
+ =?utf-8?B?RHFadjZMcEk2UWNpRWxvcTdHd1pIcytmOHdDNDRZTmJXUXZnQWJSdmtYRU1J?=
+ =?utf-8?B?YldQRCtrTVlUUmNKYnY3Mk5TS2tCSGNOVVc1L0dsaEtpSHJ3UWtNaTA5cW56?=
+ =?utf-8?B?MElWMitTSmkxWmhLV0VMdFdHMERXb3JXcGh5ZVJRaXF2YjJzRzR0cExteTBR?=
+ =?utf-8?B?QU9BRC9DN2xlbVp2K2FZK2NNUVZEcG8zTXdKYTVyanRGWEVVVERFUmRzQmxt?=
+ =?utf-8?B?eGhVbHJxOU1VZTVhek1XdzBRWUtWdEdMY1NGWWc0NW82UExpa25FcCtSaHRX?=
+ =?utf-8?B?TzdzMGdLQmtKcG1MS2c1UkFTb2FpQXdZTWtUcUdrOWxUbS84VG5JY2taVlVw?=
+ =?utf-8?B?SnlTNTdyTGhvT2NQT05KVzE0ZmI5bURiVmhDY3NuQ1kyTWlEVTBaa0tybWU1?=
+ =?utf-8?B?UTFKVlVqOFg4RlFIcTR3T1pMVzNKazh3QVJaKy9aYWhhY2poSkFDbVgxWENn?=
+ =?utf-8?B?Y0lLelZkNW1rSHl0T0ZjekI3QkVRN1g4cE1pTzRJYlZMMTN2NVZnajdiU1dZ?=
+ =?utf-8?B?ODdqQTlwQTJySmhxbUhEWDIxSjB0bGlFdkprN2sycVdLR1hQNHhHWXZ0ajRa?=
+ =?utf-8?B?UEQvV2d6VHppNHVaNTRCRTJoZnp4OTJQYUlPcVRiT0xHS1pqRVIxVDBqaXND?=
+ =?utf-8?B?RmpnM1dLNnhtTVFoNTNsSEhFMVVyS2hpTDhFUlhJbXZjNFUxOUJmcWFEWm9O?=
+ =?utf-8?B?UW1kNnNvdXpIVUgzVjd4dDk1WWRlN0tOVWdZbXFJZFdIc0kzMDdQZTVvSVpW?=
+ =?utf-8?B?SXFSZWNzVUpHRWN1OVJvU0hyRjJ2a3FBVFlqUjdFd0cyOG1LM1dmVWhZTEpt?=
+ =?utf-8?B?ZkJ6YkVsVjgxckllRVVtVlMzZStDNDNHMnNNUHhudjJteE43Vk9DT0FIT05D?=
+ =?utf-8?B?cUVIZGpHNkcreXZmYktCakdTU0M2L1ZWd0FxQy9ESGo0dUg5NjlGcmVVWmx4?=
+ =?utf-8?Q?o4hyEU2pzt0GGOo0PYbVbFeer?=
 X-OriginatorOrg: synaptics.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39baca81-1323-449b-7275-08db794e888c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4b48e132-8e81-4c81-9c4a-08db794fa3ea
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR03MB5196.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2023 09:44:01.0278
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2023 09:51:56.3519
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xnpMqRyz11mO7cBQYZOAD8e4PJR22rnHZ5o6aedqgEJFp1KIAFECAMkP92viXEcC+lzJovfl5BU7y3kKBfokhg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR03MB5722
+X-MS-Exchange-CrossTenant-UserPrincipalName: ULsmvgYV14IAdasUocgpYSLNM4ydMnyY4s/2LA4xKfb8qRSP+6YsylPo4FsHmHff6vqW01cJ1EN5M9biQb7YxA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR03MB5649
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
         SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -138,369 +135,141 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-On 6/27/23 16:47, Hsia-Jun Li wrote:
-> CAUTION: Email originated externally, do not click links or open 
-> attachments unless you recognize the sender and know the content is safe.
+On 6/22/23 21:13, Benjamin Gaignard wrote:
+> CAUTION: Email originated externally, do not click links or open attachments unless you recognize the sender and know the content is safe.
 >
 >
-> On 6/27/23 16:43, Benjamin Gaignard wrote:
->> CAUTION: Email originated externally, do not click links or open
->> attachments unless you recognize the sender and know the content is 
->> safe.
->>
->>
->> Le 27/06/2023 à 09:30, Hsia-Jun Li a écrit :
->>>
->>> On 6/22/23 21:13, Benjamin Gaignard wrote:
->>>> CAUTION: Email originated externally, do not click links or open
->>>> attachments unless you recognize the sender and know the content is
->>>> safe.
->>>>
->>>>
->>>> VIDIOC_DELETE_BUF ioctl allows to delete a buffer from a queue.
->>>>
->>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>>> ---
->>>>   .../userspace-api/media/v4l/user-func.rst     |  1 +
->>>>   .../media/v4l/vidioc-delete-buf.rst           | 51
->>>> +++++++++++++++++++
->>>>   .../media/common/videobuf2/videobuf2-core.c   | 33 ++++++++++++
->>>>   .../media/common/videobuf2/videobuf2-v4l2.c   |  6 +++
->>>>   drivers/media/v4l2-core/v4l2-dev.c            |  1 +
->>>>   drivers/media/v4l2-core/v4l2-ioctl.c          | 10 ++++
->>>>   include/media/v4l2-ioctl.h                    |  4 ++
->>>>   include/media/videobuf2-core.h                |  9 ++++
->>>>   include/media/videobuf2-v4l2.h                | 11 ++++
->>>>   include/uapi/linux/videodev2.h                |  2 +
->>>>   10 files changed, 128 insertions(+)
->>>>   create mode 100644
->>>> Documentation/userspace-api/media/v4l/vidioc-delete-buf.rst
->>>>
->>>> diff --git a/Documentation/userspace-api/media/v4l/user-func.rst
->>>> b/Documentation/userspace-api/media/v4l/user-func.rst
->>>> index 15ff0bf7bbe6..8c74016e12fd 100644
->>>> --- a/Documentation/userspace-api/media/v4l/user-func.rst
->>>> +++ b/Documentation/userspace-api/media/v4l/user-func.rst
->>>> @@ -17,6 +17,7 @@ Function Reference
->>>>       vidioc-dbg-g-chip-info
->>>>       vidioc-dbg-g-register
->>>>       vidioc-decoder-cmd
->>>> +    vidioc-delete-buf
->>>>       vidioc-dqevent
->>>>       vidioc-dv-timings-cap
->>>>       vidioc-encoder-cmd
->>>> diff --git
->>>> a/Documentation/userspace-api/media/v4l/vidioc-delete-buf.rst
->>>> b/Documentation/userspace-api/media/v4l/vidioc-delete-buf.rst
->>>> new file mode 100644
->>>> index 000000000000..0e7ce58f91bc
->>>> --- /dev/null
->>>> +++ b/Documentation/userspace-api/media/v4l/vidioc-delete-buf.rst
->>>> @@ -0,0 +1,51 @@
->>>> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
->>>> +.. c:namespace:: V4L
->>>> +
->>>> +.. _VIDIOC_DELETE_BUF:
->>>> +
->>>> +************************
->>>> +ioctl VIDIOC_DELETE_BUF
->>>> +************************
->>>> +
->>>> +Name
->>>> +====
->>>> +
->>>> +VIDIOC_DELETE_BUF - Delete a buffer from a queue
->>>> +
->>>> +Synopsis
->>>> +========
->>>> +
->>>> +.. c:macro:: VIDIOC_DELETE_BUF
->>>> +
->>>> +``int ioctl(int fd, VIDIOC_DELETE_BUF, struct v4l2_buffer *argp)``
->>>> +
->>>> +Arguments
->>>> +=========
->>>> +
->>>> +``fd``
->>>> +    File descriptor returned by :c:func:`open()`.
->>>> +
->>>> +``argp``
->>>> +    Pointer to struct :c:type:`v4l2_buffer`.
->>>> +
->>>> +Description
->>>> +===========
->>>> +
->>>> +Applications can optionally call the :ref:`VIDIOC_DELETE_BUF` 
->>>> ioctl to
->>>> +delete a buffer from a queue.
->>>> +
->>>> +The struct :c:type:`v4l2_buffer` structure is specified in
->>>> +:ref:`buffer`.
->>>> +
->>>> +Return Value
->>>> +============
->>>> +
->>>> +On success 0 is returned, on error -1 and the ``errno`` variable is
->>>> set
->>>> +appropriately. The generic error codes are described at the
->>>> +:ref:`Generic Error Codes <gen-errors>` chapter.
->>>> +
->>>> +EBUSY
->>>> +    File I/O is in progress.
->>>> +
->>>> +EINVAL
->>>> +    The buffer ``index`` doesn't exist in the queue.
->>>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c
->>>> b/drivers/media/common/videobuf2/videobuf2-core.c
->>>> index 899783f67580..aa546c972c3d 100644
->>>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
->>>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
->>>> @@ -1637,6 +1637,39 @@ int vb2_core_prepare_buf(struct vb2_queue *q,
->>>> unsigned int index, void *pb)
->>>>   }
->>>>   EXPORT_SYMBOL_GPL(vb2_core_prepare_buf);
->>>>
->>>> +int vb2_core_delete_buf(struct vb2_queue *q, unsigned int index)
->>>> +{
->>>> +       struct vb2_buffer *vb;
->>>> +
->>>> +       vb = vb2_get_buffer(q, index);
->>>> +       if (!vb) {
->>>> +               dprintk(q, 1, "invalid buffer index %d\n", index);
->>>> +               return -EINVAL;
->>>> +       }
->>>> +
->>>> +       if (vb->state != VB2_BUF_STATE_DEQUEUED) {
->>>> +               dprintk(q, 1, "can't delete non dequeued buffer index
->>>> %d\n", index);
->>>> +               return -EINVAL;
->>>> +       }
->>>> +
->>> I know the driver could implement its own
->>> v4l2_ioctl_ops->vidioc_delete_buf() that check whether a buffer is
->>> used by the hardware as a future reference frame.
->>> But I think we need a flag to let the user know which buffer is still
->>> used by the hardware.
->>> Alternative ref case is safe, we only know it's existing when it is
->>> dequeued in current V4L2 buffer mechanism.
->>> While the Golden reference frame, such long term reference frame could
->>> last much longer.
->>
->> It is up to userland stack to know frames life time, it got the
->> information for that.
->
-> That is true for the stateless codec driver.
->
-> While application for stateful decoder could never do that. It also
-> breaks what the document said:
->
-> "The backing memory of |CAPTURE| buffers that are used as reference
-> frames by the stream may be read by the hardware even after they are
-> dequeued. Consequently, the client should avoid writing into this memory
-> while the |CAPTURE| queue is streaming. Failure to observe this may
-> result in corruption of decoded frames."
->
->>
->>>> +       if (vb->planes[0].mem_priv)
->>>> +               call_void_vb_qop(vb, buf_cleanup, vb);
->>>> +
->>>> +       /* Free MMAP buffers or release USERPTR buffers */
->>>> +       if (q->memory == VB2_MEMORY_MMAP)
->>>> +               __vb2_buf_mem_free(vb);
+> After changing bufs arrays to a dynamic allocated array
+> VB2_MAX_FRAME doesn't mean anything for videobuf2 core.
 
-Here is another problem for the existing application, the mmap() from 
-the mmap offset or exportbuffer fd would not create a reference to 
-buffer in this step(while the exportbuffer would create one itself).
+I think make it 64 which is the VB2_MAX_FRAME in Android GKI kernel is 
+more reasonable.
 
-When you delete a buffer, you may not release it from its virtual memory 
-space, leaving a corrupted virtual memory space. Also this behavior is 
-right, because mmap(2) says:
+It would be hard to iterate the whole array, it would go worse with a 
+filter. Such iterate may need to go twice because you mix 
+post-processing buffer and decoding buffer(with MV) in the same array.
 
-"After  the  mmap()  call has returned, the file descriptor, fd, can be 
-closed immediately without invalidating the map‐ping."
-
->>>> +       else if (q->memory == VB2_MEMORY_DMABUF)
->>>> +               __vb2_buf_dmabuf_put(vb);
->>>> +       else
->>>> +               __vb2_buf_userptr_put(vb);
->>>> +
->>>> +       vb2_queue_remove_buffer(q, vb);
->>>> +       kfree(vb);
->>>> +
->>>> +       dprintk(q, 2, "buffer %d deleted\n", index);
->>>> +       return 0;
->>>> +}
->>>> +
->>>>   /*
->>>>    * vb2_start_streaming() - Attempt to start streaming.
->>>>    * @q:         videobuf2 queue
->>>> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c
->>>> b/drivers/media/common/videobuf2/videobuf2-v4l2.c
->>>> index 724135d41f7f..cea666c17b41 100644
->>>> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
->>>> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
->>>> @@ -751,6 +751,12 @@ int vb2_prepare_buf(struct vb2_queue *q, struct
->>>> media_device *mdev,
->>>>   }
->>>>   EXPORT_SYMBOL_GPL(vb2_prepare_buf);
->>>>
->>>> +int vb2_delete_buf(struct vb2_queue *q, struct v4l2_buffer *b)
->>>> +{
->>>> +       return vb2_core_delete_buf(q, b->index);
->>>> +}
->>>> +EXPORT_SYMBOL_GPL(vb2_delete_buf);
->>>> +
->>>>   int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers
->>>> *create)
->>>>   {
->>>>          unsigned requested_planes = 1;
->>>> diff --git a/drivers/media/v4l2-core/v4l2-dev.c
->>>> b/drivers/media/v4l2-core/v4l2-dev.c
->>>> index f81279492682..80ace2e1e932 100644
->>>> --- a/drivers/media/v4l2-core/v4l2-dev.c
->>>> +++ b/drivers/media/v4l2-core/v4l2-dev.c
->>>> @@ -720,6 +720,7 @@ static void determine_valid_ioctls(struct
->>>> video_device *vdev)
->>>>                  SET_VALID_IOCTL(ops, VIDIOC_PREPARE_BUF,
->>>> vidioc_prepare_buf);
->>>>                  SET_VALID_IOCTL(ops, VIDIOC_STREAMON,
->>>> vidioc_streamon);
->>>>                  SET_VALID_IOCTL(ops, VIDIOC_STREAMOFF,
->>>> vidioc_streamoff);
->>>> +               SET_VALID_IOCTL(ops, VIDIOC_DELETE_BUF,
->>>> vidioc_delete_buf);
->>>>          }
->>>>
->>>>          if (is_vid || is_vbi || is_meta) {
->>>> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c
->>>> b/drivers/media/v4l2-core/v4l2-ioctl.c
->>>> index a858acea6547..1c737279d3ef 100644
->>>> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
->>>> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
->>>> @@ -2156,6 +2156,15 @@ static int v4l_prepare_buf(const struct
->>>> v4l2_ioctl_ops *ops,
->>>>          return ret ? ret : ops->vidioc_prepare_buf(file, fh, b);
->>>>   }
->>>>
->>>> +static int v4l_delete_buf(const struct v4l2_ioctl_ops *ops,
->>>> +                         struct file *file, void *fh, void *arg)
->>>> +{
->>>> +       struct v4l2_buffer *b = arg;
->>>> +       int ret = check_fmt(file, b->type);
->>>> +
->>>> +       return ret ? ret : ops->vidioc_delete_buf(file, fh, b);
->>>> +}
->>>> +
->>>>   static int v4l_g_parm(const struct v4l2_ioctl_ops *ops,
->>>>                                  struct file *file, void *fh, void
->>>> *arg)
->>>>   {
->>>> @@ -2905,6 +2914,7 @@ static const struct v4l2_ioctl_info
->>>> v4l2_ioctls[] = {
->>>>          IOCTL_INFO(VIDIOC_ENUM_FREQ_BANDS, v4l_enum_freq_bands,
->>>> v4l_print_freq_band, 0),
->>>>          IOCTL_INFO(VIDIOC_DBG_G_CHIP_INFO, v4l_dbg_g_chip_info,
->>>> v4l_print_dbg_chip_info, INFO_FL_CLEAR(v4l2_dbg_chip_info, match)),
->>>>          IOCTL_INFO(VIDIOC_QUERY_EXT_CTRL, v4l_query_ext_ctrl,
->>>> v4l_print_query_ext_ctrl, INFO_FL_CTRL |
->>>> INFO_FL_CLEAR(v4l2_query_ext_ctrl, id)),
->>>> +       IOCTL_INFO(VIDIOC_DELETE_BUF, v4l_delete_buf,
->>>> v4l_print_buffer, INFO_FL_QUEUE),
->>>>   };
->>>>   #define V4L2_IOCTLS ARRAY_SIZE(v4l2_ioctls)
->>>>
->>>> diff --git a/include/media/v4l2-ioctl.h b/include/media/v4l2-ioctl.h
->>>> index edb733f21604..2f232ed884c7 100644
->>>> --- a/include/media/v4l2-ioctl.h
->>>> +++ b/include/media/v4l2-ioctl.h
->>>> @@ -163,6 +163,8 @@ struct v4l2_fh;
->>>>    *     :ref:`VIDIOC_CREATE_BUFS <vidioc_create_bufs>` ioctl
->>>>    * @vidioc_prepare_buf: pointer to the function that implements
->>>>    *     :ref:`VIDIOC_PREPARE_BUF <vidioc_prepare_buf>` ioctl
->>>> + * @vidioc_delete_buf: pointer to the function that implements
->>>> + *     :ref:`VIDIOC_DELETE_BUF <vidioc_delete_buf>` ioctl
->>>>    * @vidioc_overlay: pointer to the function that implements
->>>>    *     :ref:`VIDIOC_OVERLAY <vidioc_overlay>` ioctl
->>>>    * @vidioc_g_fbuf: pointer to the function that implements
->>>> @@ -422,6 +424,8 @@ struct v4l2_ioctl_ops {
->>>>                                    struct v4l2_create_buffers *b);
->>>>          int (*vidioc_prepare_buf)(struct file *file, void *fh,
->>>>                                    struct v4l2_buffer *b);
->>>> +       int (*vidioc_delete_buf)(struct file *file, void *fh,
->>>> +                                struct v4l2_buffer *b);
->>>>
->>>>          int (*vidioc_overlay)(struct file *file, void *fh, unsigned
->>>> int i);
->>>>          int (*vidioc_g_fbuf)(struct file *file, void *fh,
->>>> diff --git a/include/media/videobuf2-core.h
->>>> b/include/media/videobuf2-core.h
->>>> index 080b783d608d..0f9e68f76b77 100644
->>>> --- a/include/media/videobuf2-core.h
->>>> +++ b/include/media/videobuf2-core.h
->>>> @@ -840,6 +840,15 @@ int vb2_core_create_bufs(struct vb2_queue *q,
->>>> enum vb2_memory memory,
->>>>    */
->>>>   int vb2_core_prepare_buf(struct vb2_queue *q, unsigned int index,
->>>> void *pb);
->>>>
->>>> +/**
->>>> + * vb2_core_delete_buf() -
->>>> + * @q: pointer to &struct vb2_queue with videobuf2 queue.
->>>> + * @index:     id number of the buffer.
->>>> + *
->>>> + *  Return: returns zero on success; an error code otherwise.
->>>> + */
->>>> +int vb2_core_delete_buf(struct vb2_queue *q, unsigned int index);
->>>> +
->>>>   /**
->>>>    * vb2_core_qbuf() - Queue a buffer from userspace
->>>>    *
->>>> diff --git a/include/media/videobuf2-v4l2.h
->>>> b/include/media/videobuf2-v4l2.h
->>>> index 88a7a565170e..3beeb4c735f0 100644
->>>> --- a/include/media/videobuf2-v4l2.h
->>>> +++ b/include/media/videobuf2-v4l2.h
->>>> @@ -114,6 +114,17 @@ int vb2_create_bufs(struct vb2_queue *q, struct
->>>> v4l2_create_buffers *create);
->>>>    */
->>>>   int vb2_prepare_buf(struct vb2_queue *q, struct media_device *mdev,
->>>>                      struct v4l2_buffer *b);
->>>> +/**
->>>> + * vb2_delete_buf() - Delete the buffer from the queue
->>>> + *
->>>> + * @q:         pointer to &struct vb2_queue with videobuf2 queue.
->>>> + * @b:         buffer structure passed from userspace to
->>>> + *             &v4l2_ioctl_ops->vidioc_delete_buf handler in driver
->>>> + *
->>>> + * The return values from this function are intended to be directly
->>>> returned
->>>> + * from &v4l2_ioctl_ops->vidioc_delete_buf handler in driver.
->>>> + */
->>>> +int vb2_delete_buf(struct vb2_queue *q, struct v4l2_buffer *b);
->>>>
->>>>   /**
->>>>    * vb2_qbuf() - Queue a buffer from userspace
->>>> diff --git a/include/uapi/linux/videodev2.h
->>>> b/include/uapi/linux/videodev2.h
->>>> index aee75eb9e686..31bba1915642 100644
->>>> --- a/include/uapi/linux/videodev2.h
->>>> +++ b/include/uapi/linux/videodev2.h
->>>> @@ -2702,6 +2702,8 @@ struct v4l2_create_buffers {
->>>>   #define VIDIOC_DBG_G_CHIP_INFO  _IOWR('V', 102, struct
->>>> v4l2_dbg_chip_info)
->>>>
->>>>   #define VIDIOC_QUERY_EXT_CTRL  _IOWR('V', 103, struct
->>>> v4l2_query_ext_ctrl)
->>>> +#define VIDIOC_DELETE_BUF      _IOWR('V', 104, struct v4l2_buffer)
->>>> +
->>>>
->>>>   /* Reminder: when adding new ioctls please add support for them to
->>>>      drivers/media/v4l2-core/v4l2-compat-ioctl32.c as well! */
->>>> -- 
->>>> 2.39.2
->>>>
-> -- 
-> Hsia-Jun(Randy) Li
+> Remove it from the core definitions but keep it for drivers internal
+> needs.
+>
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>   drivers/media/common/videobuf2/videobuf2-core.c               | 2 ++
+>   drivers/media/platform/amphion/vdec.c                         | 1 +
+>   .../media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c | 2 ++
+>   drivers/media/platform/qcom/venus/hfi.h                       | 2 ++
+>   drivers/media/platform/verisilicon/hantro_hw.h                | 2 ++
+>   drivers/staging/media/ipu3/ipu3-v4l2.c                        | 2 ++
+>   include/media/videobuf2-core.h                                | 1 -
+>   include/media/videobuf2-v4l2.h                                | 4 ----
+>   8 files changed, 11 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index 86e1e926fa45..899783f67580 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -31,6 +31,8 @@
+>
+>   #include <trace/events/vb2.h>
+>
+> +#define VB2_MAX_FRAME  32
+> +
+>   static int debug;
+>   module_param(debug, int, 0644);
+>
+> diff --git a/drivers/media/platform/amphion/vdec.c b/drivers/media/platform/amphion/vdec.c
+> index 3fa1a74a2e20..b3219f6d17fa 100644
+> --- a/drivers/media/platform/amphion/vdec.c
+> +++ b/drivers/media/platform/amphion/vdec.c
+> @@ -28,6 +28,7 @@
+>
+>   #define VDEC_MIN_BUFFER_CAP            8
+>   #define VDEC_MIN_BUFFER_OUT            8
+> +#define VB2_MAX_FRAME                  32
+>
+>   struct vdec_fs_info {
+>          char name[8];
+> diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+> index 6532a69f1fa8..a1e0f24bb91c 100644
+> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+> @@ -16,6 +16,8 @@
+>   #include "../vdec_drv_if.h"
+>   #include "../vdec_vpu_if.h"
+>
+> +#define VB2_MAX_FRAME  32
+> +
+>   /* reset_frame_context defined in VP9 spec */
+>   #define VP9_RESET_FRAME_CONTEXT_NONE0 0
+>   #define VP9_RESET_FRAME_CONTEXT_NONE1 1
+> diff --git a/drivers/media/platform/qcom/venus/hfi.h b/drivers/media/platform/qcom/venus/hfi.h
+> index f25d412d6553..bd5ca5a8b945 100644
+> --- a/drivers/media/platform/qcom/venus/hfi.h
+> +++ b/drivers/media/platform/qcom/venus/hfi.h
+> @@ -10,6 +10,8 @@
+>
+>   #include "hfi_helper.h"
+>
+> +#define VB2_MAX_FRAME                          32
+> +
+>   #define VIDC_SESSION_TYPE_VPE                  0
+>   #define VIDC_SESSION_TYPE_ENC                  1
+>   #define VIDC_SESSION_TYPE_DEC                  2
+> diff --git a/drivers/media/platform/verisilicon/hantro_hw.h b/drivers/media/platform/verisilicon/hantro_hw.h
+> index e83f0c523a30..9e8faf7ba6fb 100644
+> --- a/drivers/media/platform/verisilicon/hantro_hw.h
+> +++ b/drivers/media/platform/verisilicon/hantro_hw.h
+> @@ -15,6 +15,8 @@
+>   #include <media/v4l2-vp9.h>
+>   #include <media/videobuf2-core.h>
+>
+> +#define VB2_MAX_FRAME  32
+> +
+>   #define DEC_8190_ALIGN_MASK    0x07U
+>
+>   #define MB_DIM                 16
+> diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
+> index e530767e80a5..6627b5c2d4d6 100644
+> --- a/drivers/staging/media/ipu3/ipu3-v4l2.c
+> +++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
+> @@ -10,6 +10,8 @@
+>   #include "ipu3.h"
+>   #include "ipu3-dmamap.h"
+>
+> +#define VB2_MAX_FRAME  32
+> +
+>   /******************** v4l2_subdev_ops ********************/
+>
+>   #define IPU3_RUNNING_MODE_VIDEO                0
+> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+> index 77921cf894ef..080b783d608d 100644
+> --- a/include/media/videobuf2-core.h
+> +++ b/include/media/videobuf2-core.h
+> @@ -20,7 +20,6 @@
+>   #include <media/media-request.h>
+>   #include <media/frame_vector.h>
+>
+> -#define VB2_MAX_FRAME  (32)
+>   #define VB2_MAX_PLANES (8)
+>
+>   /**
+> diff --git a/include/media/videobuf2-v4l2.h b/include/media/videobuf2-v4l2.h
+> index 5a845887850b..88a7a565170e 100644
+> --- a/include/media/videobuf2-v4l2.h
+> +++ b/include/media/videobuf2-v4l2.h
+> @@ -15,10 +15,6 @@
+>   #include <linux/videodev2.h>
+>   #include <media/videobuf2-core.h>
+>
+> -#if VB2_MAX_FRAME != VIDEO_MAX_FRAME
+> -#error VB2_MAX_FRAME != VIDEO_MAX_FRAME
+> -#endif
+> -
+>   #if VB2_MAX_PLANES != VIDEO_MAX_PLANES
+>   #error VB2_MAX_PLANES != VIDEO_MAX_PLANES
+>   #endif
+> --
+> 2.39.2
 >
 -- 
 Hsia-Jun(Randy) Li
