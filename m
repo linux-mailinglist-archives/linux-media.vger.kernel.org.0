@@ -2,72 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D98E2743DD9
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jun 2023 16:48:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E386743E46
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jun 2023 17:06:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232530AbjF3OsX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Jun 2023 10:48:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49106 "EHLO
+        id S232929AbjF3PGm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Jun 2023 11:06:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232176AbjF3OsW (ORCPT
+        with ESMTP id S232943AbjF3PGj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Jun 2023 10:48:22 -0400
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AC9899
-        for <linux-media@vger.kernel.org>; Fri, 30 Jun 2023 07:48:21 -0700 (PDT)
-Received: by mail-lf1-x12c.google.com with SMTP id 2adb3069b0e04-4fafe87c6fbso3153565e87.3
-        for <linux-media@vger.kernel.org>; Fri, 30 Jun 2023 07:48:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688136500; x=1690728500;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sRnM0H8J6blrCccEsxr/QiWt2OaHhHxnSQkWlkCjlNU=;
-        b=O0Mxg+C5fsJOgIWTSM+F4B6yO1F8OkiHzSz9nKL2hqzzwyJX78pQVHfcsA0/wIBptt
-         3qmlvQU56mYjyXYqrpc17Vy21h8OELn5KbuXtO7WkcP5Ce8pTFbh4Hx7xg08ThqQaOGF
-         DwUR1mh+oZx5kv8d2fg9xtPYBqx1Nn3EzSY0tuzH0z3hZGvpqRDUIk7sL7qdQXdT5ZNT
-         qyn6dJO30IXI/P0IIZ5TdcN1mb4ssNRNNCoYDfIxH5p6IF+Veo1ifV7sntkxpgsJQTSy
-         CDom5AisCMsnzbzFbIszDbXnhVQm6skEji5574vjqmapEBB1E/Jl46kXQuoRSxZLDbNb
-         jvBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688136500; x=1690728500;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sRnM0H8J6blrCccEsxr/QiWt2OaHhHxnSQkWlkCjlNU=;
-        b=XcYHNAY1PKqu60WRHyh4Zwk6VzkGcqrorC29BOXyQ6onX60jCUGDVjj6aLreM90Bzd
-         UMjSqVJZoq14ehWP1WWK61mu4glOG5So/egboGKQhLn7eNyJeyj3s0hotx0t5gz+iX2r
-         Oprf2MRnuIO5ERg68LNgK9lgJGLOHe9/Kfu78l6S6H7UidRkBK5O14lavw7gpwS4f4wA
-         cePXz+4pbhPsr0x5ll9QErYDTz9TVRKYSaMhfLuIM4dCHVhQzBhR/vbdunl/2BRv88EH
-         RPpaWwSOKOtf7ullwtBmblWnsKnc9hC5anfTGwDaavS0unLzNb+w5VopPf0Dpaeal8dL
-         Ig3Q==
-X-Gm-Message-State: ABy/qLY4KRDRezBWks9/IxIH7kGkTVgj5H/FWLVZmN/xQGjo5z7BNDAc
-        6G/TM9Kxf0dRhKh9ZSjnSvgQQX95FjVZZEG5o4hyEFVpHyY=
-X-Google-Smtp-Source: APBJJlHsVD4M2wt/qbBntGeB9hJf/w3ork0w+Nr0pjUuJU7kn0XIjw+Jb4QF1UjnW6F1CnGSQBMbNtDx0jISx5xetrM=
-X-Received: by 2002:a19:3846:0:b0:4f9:556b:93c4 with SMTP id
- d6-20020a193846000000b004f9556b93c4mr1979857lfj.31.1688136499404; Fri, 30 Jun
- 2023 07:48:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230630110643.209761-1-hdegoede@redhat.com> <20230630110643.209761-15-hdegoede@redhat.com>
-In-Reply-To: <20230630110643.209761-15-hdegoede@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 30 Jun 2023 17:47:43 +0300
-Message-ID: <CAHp75VdjysnGwVsYjgHU6NYkXsfjfpKPze0VoD7fJ_8xB-b9KA@mail.gmail.com>
-Subject: Re: [PATCH v2 14/15] media: ipu-bridge: Add a runtime-pm device-link
- between VCM and sensor
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-        Hao Yao <hao.yao@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        Fri, 30 Jun 2023 11:06:39 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57BB51FFA
+        for <linux-media@vger.kernel.org>; Fri, 30 Jun 2023 08:06:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688137591; x=1719673591;
+  h=date:from:to:cc:subject:message-id;
+  bh=FvkgsLB99JG2hjJj0+xcDxbLCwRtb8ECjaxadeJb9rc=;
+  b=X2dQ0yxG7Q3EVpW4QMreakCtFdLDsyeNL33toBplMzU07+iX0dfrBL8o
+   mrPuBuigQJPBJt7VY8CojgxuU8rrfZNQAWM6oV/6RvfRvi+qX88iPaxW3
+   zFzJ0Tx6+6UwT9s2n64q3k2WcFkZyYowfLTUxo9f/egXlxgeq4yLYmsRo
+   +G0wFr/vfnad+Hjo5Vbtik5CSqr6j54gBefKBk8jN8BoX5JFzz8TB5BJe
+   iOM3gJiW26tmEKcydlcpRxCXfeau/tq44lUuRSj1ZYAryvME5Ulc/EFf6
+   kjSKoQK9MQ+Fh1pBXgRCJY5h+FMff6GR+9oxU83XZqaj3pUATxbtF7D7G
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="362457013"
+X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; 
+   d="scan'208";a="362457013"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2023 08:06:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="783112985"
+X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; 
+   d="scan'208";a="783112985"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 30 Jun 2023 08:06:29 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qFFhd-000F3d-0j;
+        Fri, 30 Jun 2023 15:06:29 +0000
+Date:   Fri, 30 Jun 2023 23:06:08 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [linuxtv-media-stage:master] BUILD SUCCESS
+ c61480a2ea5e5b997d10dfda556d3a63e31f87cd
+Message-ID: <202306302306.IWDYTf49-lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,59 +60,139 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 30, 2023 at 2:07=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
- wrote:
->
-> In most cases when a VCM is used there is a single integrated module
-> with the sensor + VCM + lens. This means that the sensor and VCM often
-> share regulators and possibly also something like a powerdown pin.
->
-> In the ACPI tables this is modelled as a single ACPI device with
-> multiple I2cSerialBus resources.
->
-> On atomisp devices the regulators and clks are modelled as ACPI
-> power-resources, which are controlled by the (ACPI) power state
-> of the sensor. So the sensor must be in D0 power state for the VCM
-> to work.
->
-> To make this work add a device-link with DL_FLAG_PM_RUNTIME flag
-> so that the sensor will automatically be runtime-resumed whenever
-> the VCM is runtime-resumed.
->
-> This requires the probing of the VCM and thus the creation of the VCM
-> I2C-client to be delayed till after the sensor driver has bound.
->
-> Move the instantiation of the VCM I2C-client to the v4l2_async_notifier
-> bound op, so that it is done after the sensor driver has bound; and
-> add code to add the device-link.
->
-> This fixes the problem with the shared ACPI power-resources on atomisp2
-> and this avoids the need for VCM related workarounds on IPU3 / IPU6.
->
-> E.g. until now the dw9719 driver needed to get and control a Vsio
-> (V sensor IO) regulator since that needs to be enabled to enable I2C
-> pass-through on the PMIC on the sensor module. So the driver was
-> controlling this regulator even though the actual dw9719 chip has no
-> Vsio pin / power-plane.
->
-> This also removes the need for ipu_bridge_init() to return
-> -EPROBE_DEFER since the VCM is now instantiated later.
+tree/branch: https://git.linuxtv.org/media_stage.git master
+branch HEAD: c61480a2ea5e5b997d10dfda556d3a63e31f87cd  media: wl128x: fix a clang warning
 
-...
+elapsed time: 1853m
 
-> +static void ipu_bridge_instantiate_vcm_work(struct work_struct *_work)
-> +{
-> +       struct ipu_bridge_instantiate_vcm_work_data *work =3D
-> +               container_of(_work,
-> +                            struct ipu_bridge_instantiate_vcm_work_data,
-> +                            work);
+configs tested: 120
+configs skipped: 9
 
-Just noticed this plenty of *work.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Perhaps call the parameter work and the stack variable wdata or so?
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r021-20230630   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r043-20230629   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                  randconfig-r006-20230629   clang
+arm                  randconfig-r034-20230629   clang
+arm                  randconfig-r046-20230629   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r013-20230630   clang
+arm64                randconfig-r034-20230629   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r031-20230629   gcc  
+hexagon              randconfig-r014-20230629   clang
+hexagon              randconfig-r024-20230630   clang
+hexagon              randconfig-r041-20230629   clang
+hexagon              randconfig-r045-20230629   clang
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-r004-20230629   gcc  
+i386         buildonly-randconfig-r005-20230629   gcc  
+i386         buildonly-randconfig-r006-20230629   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-i001-20230629   gcc  
+i386                 randconfig-i002-20230629   gcc  
+i386                 randconfig-i003-20230629   gcc  
+i386                 randconfig-i004-20230629   gcc  
+i386                 randconfig-i005-20230629   gcc  
+i386                 randconfig-i006-20230629   gcc  
+i386                 randconfig-i011-20230629   clang
+i386                 randconfig-i012-20230629   clang
+i386                 randconfig-i013-20230629   clang
+i386                 randconfig-i014-20230629   clang
+i386                 randconfig-i015-20230629   clang
+i386                 randconfig-i016-20230629   clang
+i386                 randconfig-r012-20230629   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r005-20230629   gcc  
+loongarch            randconfig-r025-20230630   gcc  
+m68k                             allmodconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r014-20230630   gcc  
+m68k                 randconfig-r026-20230630   gcc  
+microblaze           randconfig-r012-20230630   gcc  
+microblaze           randconfig-r016-20230629   gcc  
+microblaze           randconfig-r032-20230629   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                 randconfig-r033-20230629   clang
+mips                 randconfig-r036-20230629   clang
+nios2                               defconfig   gcc  
+openrisc             randconfig-r035-20230629   gcc  
+openrisc             randconfig-r036-20230629   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r022-20230630   clang
+riscv                randconfig-r023-20230629   clang
+riscv                randconfig-r032-20230629   gcc  
+riscv                randconfig-r042-20230629   clang
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r023-20230630   clang
+s390                 randconfig-r044-20230629   clang
+sh                               allmodconfig   gcc  
+sh                   randconfig-r003-20230629   gcc  
+sh                   randconfig-r035-20230629   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64              randconfig-r024-20230629   gcc  
+sparc64              randconfig-r033-20230629   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                   randconfig-r001-20230629   clang
+um                   randconfig-r026-20230629   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-r001-20230629   gcc  
+x86_64       buildonly-randconfig-r002-20230629   gcc  
+x86_64       buildonly-randconfig-r003-20230629   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-r002-20230629   gcc  
+x86_64               randconfig-r011-20230629   clang
+x86_64               randconfig-r015-20230630   clang
+x86_64               randconfig-r021-20230629   clang
+x86_64               randconfig-x001-20230629   clang
+x86_64               randconfig-x002-20230629   clang
+x86_64               randconfig-x003-20230629   clang
+x86_64               randconfig-x004-20230629   clang
+x86_64               randconfig-x005-20230629   clang
+x86_64               randconfig-x006-20230629   clang
+x86_64               randconfig-x011-20230629   gcc  
+x86_64               randconfig-x012-20230629   gcc  
+x86_64               randconfig-x013-20230629   gcc  
+x86_64               randconfig-x014-20230629   gcc  
+x86_64               randconfig-x015-20230629   gcc  
+x86_64               randconfig-x016-20230629   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa               randconfig-r022-20230629   gcc  
 
->  }
-
---=20
-With Best Regards,
-Andy Shevchenko
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
