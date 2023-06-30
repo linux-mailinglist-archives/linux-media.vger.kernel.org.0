@@ -2,117 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E7C16743F3B
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jun 2023 17:54:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F7AF743F9E
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jun 2023 18:21:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232071AbjF3Pye (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Jun 2023 11:54:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56998 "EHLO
+        id S232449AbjF3QVR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Jun 2023 12:21:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232975AbjF3Pyb (ORCPT
+        with ESMTP id S232302AbjF3QVR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Jun 2023 11:54:31 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC1AA3C06;
-        Fri, 30 Jun 2023 08:54:30 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 60BD16178A;
-        Fri, 30 Jun 2023 15:54:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54E29C433C0;
-        Fri, 30 Jun 2023 15:54:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1688140469;
-        bh=3UxnCn0uKRWtw0gFGbXkslK1m3C/e7mRctYkrXYRER8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nEOT2RDrMyVotMws4YABB+hxaLTELOoPVGVFqSiq41H6IesDtPs9UZC4zDuYg0Up2
-         Zg8PXkbR9PFVqlQFtCJfssEp4HZn+zk7axTiOO9n3ygma+ddLKYrTgl/25YkAiE5/f
-         0h/0KkksDmvOVZnVhbwvXuJMA5L9GwEppi025BMB5dDcsEgFeQc/OMgw3ZuKgtFwPm
-         udXrOkNqKPkjxumsMI0uKSXPPULvFjUQjqT16FeMgxCpqV9b0OV9OldFpZP2ghh6NC
-         cwK6+LM3KIomgurPZMzIBYcJTYao2gw57JCI6PJB4LAmyLFvzVlsbi/8PXlmZBU1xC
-         z473u/Jpk3YXQ==
-Date:   Fri, 30 Jun 2023 08:54:27 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Rix <trix@redhat.com>, Zhou jie <zhoujie@nfschina.com>,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH] media: wl128x: fix a clang warning
-Message-ID: <20230630155427.GA2889176@dev-arch.thelio-3990X>
-References: <6badd27ebfa718d5737f517f18b29a3e0f6e43f8.1687981726.git.mchehab@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6badd27ebfa718d5737f517f18b29a3e0f6e43f8.1687981726.git.mchehab@kernel.org>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Fri, 30 Jun 2023 12:21:17 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31CDF3ABC
+        for <linux-media@vger.kernel.org>; Fri, 30 Jun 2023 09:21:16 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-c0d62f4487cso1933001276.0
+        for <linux-media@vger.kernel.org>; Fri, 30 Jun 2023 09:21:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1688142075; x=1690734075;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=tmI1or0XTS7Hn6WBYUj9O4F+BRUYRNflOyMy4FV7LJM=;
+        b=Wl2L6CE38QgBvIOu5iEIjH1dP66LLE6Ms7p8AfxgJ0snRicrG3kjNt5lF/w/oYArpt
+         snZHK2JWiwKS1vQx/3eCgThyxArpAuKoJ7mDJtjQrfP6AYk6/pPEMsEDGAhnR6uoa5zF
+         mKTGKUQmqz6eBx4jb9FRuD/3TMadTlPhYL39dXT0XLIwLcUBv2V3r+FZ2J+ua4UpSl9F
+         b3gF2oAF/bW+84N2cy4PdiNse71SUaZwtxO6U5N6J1YyTXWDWm5f3M0fyNms5gJFwZoX
+         9A1lgtm1u0UFRsMW+oMy1/UC52IZlHh+5j2QcoEsSh/UdfYlVJT0TtS55byoHtaee9Z9
+         PbYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688142075; x=1690734075;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tmI1or0XTS7Hn6WBYUj9O4F+BRUYRNflOyMy4FV7LJM=;
+        b=HM0IiaKd3AoR5W8KW5PnRpC++9Sl8XNOECcUqcoRf1TNUGLfb+/Byf46+AK8BDdV/z
+         WqXpJ7+N9QxaP5NmWHNg8ejVwZPRsIEnByg0cfB15uu2+iE/xKCvesL7z4CURMu2/zKV
+         5LtFQZOmvs3xMLtLY5wkzJYVhkPU58Vn4e/YBt2Jm9pelqprZznUnAbTUCYocrMWlU7k
+         G1WYHJi0UqS06IyKAqg3aeGyP81gTdysKdihUJgh9qJd6L1WKVRAihZtKgDblzTqUb7s
+         yP6EZJxNYXe3W6rZcYtOh1FjSUA5LPiXy4ZtRsPt5JNPcLHCQdG3R8la6k2RjcjBsbYd
+         jWdA==
+X-Gm-Message-State: ABy/qLazbabyY7FXRuvmjLVhJbAEw6JIcfmqn89L6JGMFG3wysGZoMKL
+        SgGTul6NzWVsZs+mh14wxtnA7VrEovo=
+X-Google-Smtp-Source: APBJJlHD9CFDbrXlL1q/Tx0IjaqkF0QgIxLv3w4dEKVcSLFdBqoW9yS9DDKgdFV6JkUafSPiOI3r9J/kKFKe
+X-Received: from jstultz-noogler2.c.googlers.com ([fda3:e722:ac3:cc00:24:72f4:c0a8:600])
+ (user=jstultz job=sendgmr) by 2002:a25:6b12:0:b0:c24:7d1c:6145 with SMTP id
+ g18-20020a256b12000000b00c247d1c6145mr27237ybc.2.1688142075426; Fri, 30 Jun
+ 2023 09:21:15 -0700 (PDT)
+Date:   Fri, 30 Jun 2023 16:20:33 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.41.0.255.g8b1d071c50-goog
+Message-ID: <20230630162111.3051783-1-jstultz@google.com>
+Subject: [PATCH] MAINTAINERS: Remove Laura Abbott from DMA-BUF HEAPS FRAMEWORK
+From:   John Stultz <jstultz@google.com>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     John Stultz <jstultz@google.com>,
+        Laura Abbott <labbott@kernel.org>,
+        "T . J . Mercier" <tjmercier@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 28, 2023 at 09:48:53PM +0200, Mauro Carvalho Chehab wrote:
-> Clang-16 produces this warning, which is fatal with CONFIG_WERROR:
-> 
-> 	../drivers/media/radio/wl128x/fmdrv_common.c:1237:19: error: variable 'cmd_cnt' set but not used [-Werror,-Wunused-but-set-variable]
-> 	        int ret, fw_len, cmd_cnt;
-> 	                         ^
-> 	1 error generated.
-> 
-> What happens is that cmd_cnt tracks the amount of firmware data packets
-> were transfered, which is printed only when debug is used.
+Laura's email address has not been valid for quite awhile now,
+so wanted to clean up the reviewer list here.
 
-Alternatively, fmdbg() could be defined with no_printk(), so that the
-variable appears used in all configurations, but this does not seem
-unreasonable either.
+I reached out to Laura who said it made sense to drop her from
+the list, so this patch does that.
 
-> Switch to use the firmware count, as the message is all about reporting
-> a partial firmware transfer.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> ---
->  drivers/media/radio/wl128x/fmdrv_common.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/radio/wl128x/fmdrv_common.c b/drivers/media/radio/wl128x/fmdrv_common.c
-> index cbd49dff6d74..b31b7ed60bbe 100644
-> --- a/drivers/media/radio/wl128x/fmdrv_common.c
-> +++ b/drivers/media/radio/wl128x/fmdrv_common.c
-> @@ -1234,9 +1234,8 @@ static int fm_download_firmware(struct fmdev *fmdev, const u8 *fw_name)
->  	struct bts_action *action;
->  	struct bts_action_delay *delay;
->  	u8 *fw_data;
-> -	int ret, fw_len, cmd_cnt;
-> +	int ret, fw_len;
->  
-> -	cmd_cnt = 0;
->  	set_bit(FM_FW_DW_INPROGRESS, &fmdev->flag);
->  
->  	ret = request_firmware(&fw_entry, fw_name,
-> @@ -1272,7 +1271,6 @@ static int fm_download_firmware(struct fmdev *fmdev, const u8 *fw_name)
->  			if (ret)
->  				goto rel_fw;
->  
-> -			cmd_cnt++;
->  			break;
->  
->  		case ACTION_DELAY:	/* Delay */
-> @@ -1284,7 +1282,7 @@ static int fm_download_firmware(struct fmdev *fmdev, const u8 *fw_name)
->  		fw_data += (sizeof(struct bts_action) + (action->size));
->  		fw_len -= (sizeof(struct bts_action) + (action->size));
->  	}
-> -	fmdbg("Firmware commands(%d) loaded to chip\n", cmd_cnt);
-> +	fmdbg("Transfered only %d of %d bytes of the firmware to chip\n", fw_entry->size - fw_len, fw_entry->size);
->  rel_fw:
->  	release_firmware(fw_entry);
->  	clear_bit(FM_FW_DW_INPROGRESS, &fmdev->flag);
-> -- 
-> 2.41.0
-> 
+I do want to recognize Laura's long time contribution to this
+area and her previous ION maintainership, as this couldn't
+have gone upstream without her prior efforts. Many thanks!
+
+Cc: Laura Abbott <labbott@kernel.org>
+Cc: T.J. Mercier <tjmercier@google.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: Brian Starkey <Brian.Starkey@arm.com>
+Cc: John Stultz <jstultz@google.com>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: kernel-team@android.com
+Acked-by: Laura Abbott <labbott@kernel.org>
+Signed-off-by: John Stultz <jstultz@google.com>
+---
+ MAINTAINERS | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f4e92b968ed7..6b28b59cbdb9 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6181,7 +6181,6 @@ F:	kernel/dma/
+ DMA-BUF HEAPS FRAMEWORK
+ M:	Sumit Semwal <sumit.semwal@linaro.org>
+ R:	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+-R:	Laura Abbott <labbott@redhat.com>
+ R:	Brian Starkey <Brian.Starkey@arm.com>
+ R:	John Stultz <jstultz@google.com>
+ R:	T.J. Mercier <tjmercier@google.com>
+-- 
+2.41.0.255.g8b1d071c50-goog
+
