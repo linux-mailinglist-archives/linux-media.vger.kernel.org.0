@@ -2,57 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 54F7C744AAA
-	for <lists+linux-media@lfdr.de>; Sat,  1 Jul 2023 19:16:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16C53744BBC
+	for <lists+linux-media@lfdr.de>; Sun,  2 Jul 2023 01:13:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229778AbjGARQb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 1 Jul 2023 13:16:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60494 "EHLO
+        id S229649AbjGAXNf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 1 Jul 2023 19:13:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229477AbjGARQa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Jul 2023 13:16:30 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD9961FE8;
-        Sat,  1 Jul 2023 10:16:29 -0700 (PDT)
+        with ESMTP id S229477AbjGAXNe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Jul 2023 19:13:34 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E68EE10DC;
+        Sat,  1 Jul 2023 16:13:33 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 618EB60B61;
-        Sat,  1 Jul 2023 17:16:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B676C433C7;
-        Sat,  1 Jul 2023 17:16:27 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7BD6360A29;
+        Sat,  1 Jul 2023 23:13:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1E98C433C9;
+        Sat,  1 Jul 2023 23:13:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1688231788;
-        bh=iuoEM5TLrGLiGT/miHKKQ7Yf7kCvrkAytDld5d1Z1KU=;
-        h=Date:From:To:Cc:Subject:From;
-        b=M7Iw+flUPp5hBxYi22CSg15Dxk6sCTfNhi1Ns6UslhVnTxV4UJfAMk31AKcEHYV+W
-         gXP9A2EBaHyUNyEct6lAIu6NHMAqA0CTnWGdGlLciu+G3AEVzqsfWknSCFzYlfx1YH
-         iDIeM+4DxecrcPM/L+6eBNJd38syWpf0dQm6ELaupvuY5Hc/SmLl6Q0pDpA5/TyUlT
-         ZoULBheBxc/Od+xgkwuKkFv5XXeQwVlMu8ZcT7emKCbK+lkC0a/KIhlCd2go1MUVAN
-         okDt0+zkNRAxxw4lXiaLKvNPPp7OjEyMtIt5CAm7Ij4Thqdwa9adScgjEqk8bh7S+z
-         fxiVbjJvQFn2Q==
-Date:   Sat, 1 Jul 2023 11:17:22 -0600
-From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        linux-hardening@vger.kernel.org
-Subject: [PATCH][next] media: venus: Use struct_size_t() helper in
- pkt_session_unset_buffers()
-Message-ID: <ZKBfoqSl61jfpO2r@work>
+        s=k20201202; t=1688253212;
+        bh=GICJRTi1UBgWyszLEfObDb7ZtWarNasw276bsUk9Edo=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ABeUQ/HYxoMx4QNp6spPUkG54BOEVOZZgI49j1meSVbaR/V8ISazd/2jhieBs5FRl
+         9TXi1qENoQImrN7kgt51WZIu03YBOsL66LlCm7joI7kdAZNjkVBPq+9j2wMQBxzBXb
+         f7tG/QAlAbLP//QLDdrNzyAYh+SlCKFGYRkgId1LE90c6fqo0wgW+fiLktYD+ewhS0
+         uvK+rQj+pH1NqFKPNDZcD5iEDE+WvjG6uNT6ok13FfzxG6fGlGQkA4zcrBbO7KQJd9
+         d2crJt0i7Ln6RJ6uqrMzdgnAvRKGLv9eUwoW9julgFSBvTJedoKmXb2YVyjgOrFaoA
+         dqhEj4XQN/ZRg==
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-4f96d680399so4947571e87.0;
+        Sat, 01 Jul 2023 16:13:32 -0700 (PDT)
+X-Gm-Message-State: ABy/qLZ9jbvS+JESE+oumBl+z1sCfbG5BJlZpSYVI5OMrIzjAk4myabC
+        +qR1dKGeoj1Wdh+QFfRp8Vf80BKPn0E3NqX8+w==
+X-Google-Smtp-Source: APBJJlE9BpPtxXnE/La0Tl+6juXJWlIVshoPEKn3r0kp7hY2oRRITeV9xtlN2CPvQoh+eGMqTfvY3/pJslXS8anUemU=
+X-Received: by 2002:a05:6512:718:b0:4fb:7a4e:b573 with SMTP id
+ b24-20020a056512071800b004fb7a4eb573mr4707448lfs.5.1688253210855; Sat, 01 Jul
+ 2023 16:13:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+References: <20230630100321.1951138-1-jstephan@baylibre.com> <20230630100321.1951138-3-jstephan@baylibre.com>
+In-Reply-To: <20230630100321.1951138-3-jstephan@baylibre.com>
+From:   Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date:   Sun, 2 Jul 2023 07:13:19 +0800
+X-Gmail-Original-Message-ID: <CAAOTY__ZzR52fQdsC=J_sH60hz7rsRhBnSOL3trzu-KyOvpNqg@mail.gmail.com>
+Message-ID: <CAAOTY__ZzR52fQdsC=J_sH60hz7rsRhBnSOL3trzu-KyOvpNqg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] media: platform: mediatek: isp_30: add mediatek
+ ISP3.0 sensor interface
+To:     Julien Stephan <jstephan@baylibre.com>
+Cc:     Louis Kuo <louis.kuo@mediatek.com>,
+        Phi-bang Nguyen <pnguyen@baylibre.com>,
+        Florian Sylvestre <fsylvestre@baylibre.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Andy Hsieh <andy.hsieh@mediatek.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Conor Dooley <conor+dt@kernel.org>,
+        daoyuan huang <daoyuan.huang@mediatek.com>,
+        devicetree@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Moudy Ho <moudy.ho@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Vasily Gorbik <gor@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -61,29 +82,55 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Prefer struct_size_t() over struct_size() when no pointer instance
-of the structure type is present.
+Hi, Julien:
 
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
----
- drivers/media/platform/qcom/venus/hfi_cmds.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Julien Stephan <jstephan@baylibre.com> =E6=96=BC 2023=E5=B9=B46=E6=9C=8830=
+=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=886:05=E5=AF=AB=E9=81=93=EF=BC=
+=9A
+>
+> From: Louis Kuo <louis.kuo@mediatek.com>
+>
+> This will add the mediatek ISP3.0 seninf (sensor interface) driver found
+> on several Mediatek SoCs such as the mt8365.
+>
+> Then seninf module has 4 physical CSI-2 inputs. Depending on the soc they
+> may not be all connected.
+>
+> Signed-off-by: Louis Kuo <louis.kuo@mediatek.com>
+> Signed-off-by: Phi-bang Nguyen <pnguyen@baylibre.com>
+> Signed-off-by: Florian Sylvestre <fsylvestre@baylibre.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> ---
+>  MAINTAINERS                                   |    1 +
+>  drivers/media/platform/mediatek/Kconfig       |    1 +
+>  drivers/media/platform/mediatek/Makefile      |    1 +
+>  drivers/media/platform/mediatek/isp/Kconfig   |    2 +
+>  drivers/media/platform/mediatek/isp/Makefile  |    3 +
+>  .../platform/mediatek/isp/isp_30/Kconfig      |   16 +
+>  .../platform/mediatek/isp/isp_30/Makefile     |    3 +
+>  .../mediatek/isp/isp_30/seninf/Makefile       |    5 +
+>  .../mediatek/isp/isp_30/seninf/mtk_seninf.c   | 1561 +++++++++++++++++
+>  .../isp/isp_30/seninf/mtk_seninf_reg.h        |   99 ++
 
-diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
-index 7f0802a5518c..3418d2dd9371 100644
---- a/drivers/media/platform/qcom/venus/hfi_cmds.c
-+++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
-@@ -251,8 +251,8 @@ int pkt_session_unset_buffers(struct hfi_session_release_buffer_pkt *pkt,
- 
- 		pkt->extradata_size = 0;
- 		pkt->shdr.hdr.size =
--			struct_size((struct hfi_session_set_buffers_pkt *)0,
--				    buffer_info, bd->num_buffers);
-+			struct_size_t(struct hfi_session_set_buffers_pkt,
-+				      buffer_info, bd->num_buffers);
- 	}
- 
- 	pkt->response_req = bd->response_required;
--- 
-2.34.1
+I think it's not necessary to create a folder isp_30 inside isp and
+you could just place all file in isp folder because there are only few
+files. After adding more and more files then we consider to create
+folder to separate them.
 
+Regards,
+Chun-Kuang.
+
+>  10 files changed, 1692 insertions(+)
+>  create mode 100644 drivers/media/platform/mediatek/isp/Kconfig
+>  create mode 100644 drivers/media/platform/mediatek/isp/Makefile
+>  create mode 100644 drivers/media/platform/mediatek/isp/isp_30/Kconfig
+>  create mode 100644 drivers/media/platform/mediatek/isp/isp_30/Makefile
+>  create mode 100644 drivers/media/platform/mediatek/isp/isp_30/seninf/Mak=
+efile
+>  create mode 100644 drivers/media/platform/mediatek/isp/isp_30/seninf/mtk=
+_seninf.c
+>  create mode 100644 drivers/media/platform/mediatek/isp/isp_30/seninf/mtk=
+_seninf_reg.h
+>
+>
