@@ -2,193 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 62B5274436F
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jun 2023 22:44:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D29637445C8
+	for <lists+linux-media@lfdr.de>; Sat,  1 Jul 2023 03:11:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232636AbjF3UoA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Jun 2023 16:44:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53420 "EHLO
+        id S229585AbjGABLx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Jun 2023 21:11:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229919AbjF3Un6 (ORCPT
+        with ESMTP id S229447AbjGABLw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Jun 2023 16:43:58 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39DD03C07
-        for <linux-media@vger.kernel.org>; Fri, 30 Jun 2023 13:43:57 -0700 (PDT)
+        Fri, 30 Jun 2023 21:11:52 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A1132D63;
+        Fri, 30 Jun 2023 18:11:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688157837; x=1719693837;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=4gMiUwZY0bZW9YmfgwN4PSttOidZn4uGQM8Cmq2XO8k=;
-  b=VSmLqOY1Tn1POTsLIk1TWr2h3Aic3xFCoBDQj50LNwu7tVe03oI36TDH
-   j+DW10dCWO2riKJiXH8146rXCNnmva4cFi2MeF19QuTGYrMBAs1ajkwsY
-   f3VaJnBzlvq0RbVFbfADqCx5j4AL4EuXMXz35hSJl8HxcM7aQqLglQRSA
-   aG6P+i78qEQLMzsVybaAabVEm5Qhu35zO990unmb+JNCFj0Cb/0WDL06e
-   yqa28uURfc6awqbd8EsDfuuP+AaOMlbmpKeJ4z0TwDv7MplupjT2Zc5o/
-   cWK6xjv65QYeHJzaFm8kfpI3eY0nkAoKvMlg+gsXZ+BVWkukKg63vJ+bo
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="448866733"
-X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; 
-   d="scan'208";a="448866733"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2023 13:43:56 -0700
+  t=1688173911; x=1719709911;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=x9ZaQO5NnrgahINNKMNn+BHcwWxUER7/Hx8AwMHcro4=;
+  b=CpIpjst8kif7PALgswE+/ys+7fAVyHS3lxTWkgtUbrgfmnRcis/oc8MX
+   2YWQK4q+K3wTAyUf+msKdfp+duja1IkpU4zvF7MZzteC+/LgqckKbvcUn
+   mtQyOdWsheqnVn+2kUntYI8FOEJ8aq1Z34Tg0FWm8CrvHMDYdJI9NDrEX
+   UZlElepWXX1iIjW00/KPLXde4W0A4VJNn3inzedD7NZ+ByjBh5NJPRoOL
+   Xi4qa4QULIgtle2PuzEjd8k4P8c7MtAb8PYqNFVjcVQIXnxk06y/B629d
+   NC7GDSiH8rbcUsJI6wN30mtj2ElVwRzcp1L5j+dylQyVk89F2Dpq1nS6x
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="352354126"
+X-IronPort-AV: E=Sophos;i="6.01,172,1684825200"; 
+   d="scan'208";a="352354126"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2023 18:11:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="841987232"
-X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; 
-   d="scan'208";a="841987232"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2023 13:43:55 -0700
-Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 66E9A1207EB;
-        Fri, 30 Jun 2023 23:43:51 +0300 (EEST)
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
-        hongju.wang@intel.com, hverkuil@xs4all.nl
-Subject: [PATCH 7/7] media: v4l: Support line-based metadata capture
-Date:   Fri, 30 Jun 2023 23:43:38 +0300
-Message-Id: <20230630204338.126583-8-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230630204338.126583-1-sakari.ailus@linux.intel.com>
-References: <20230630204338.126583-1-sakari.ailus@linux.intel.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="721146895"
+X-IronPort-AV: E=Sophos;i="6.01,172,1684825200"; 
+   d="scan'208";a="721146895"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 30 Jun 2023 18:11:49 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qFP9Q-000FWX-2Y;
+        Sat, 01 Jul 2023 01:11:48 +0000
+Date:   Sat, 1 Jul 2023 09:11:05 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [sailus-media-tree:metadata 2/7] htmldocs:
+ Documentation/userspace-api/media/mediactl/media-types.rst:379: WARNING:
+ Inline literal start-string without end-string.
+Message-ID: <202307010949.G2WKDFxB-lkp@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-many camera sensors, among other devices, transmit embedded data and image
-data for each CSI-2 frame. This embedded data typically contains register
-configuration of the sensor that has been used to capture the image data
-of the same frame.
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   acd95717f9d98767ad03e91b1b171352f9bcbaf9
+commit: ddc2319ca1f78e14505d93d17298b951c52b3c4b [2/7] media: mc: Add INTERNAL pad flag
+reproduce: (https://download.01.org/0day-ci/archive/20230701/202307010949.G2WKDFxB-lkp@intel.com/reproduce)
 
-The embedded data is received by the CSI-2 receiver and has the same
-properties as the image data, including that it is line based: it has
-width, height and bytesperline (stride).
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307010949.G2WKDFxB-lkp@intel.com/
 
-Add these fields to struct v4l2_meta_format and document them.
+All warnings (new ones prefixed by >>):
 
-Also add V4L2_FMT_FLAG_META_LINE_BASED to tell a given format is
-line-based i.e. these fields of struct v4l2_meta_format are valid for it.
+>> Documentation/userspace-api/media/mediactl/media-types.rst:379: WARNING: Inline literal start-string without end-string.
+>> Documentation/userspace-api/media/glossary.rst:117: WARNING: term not in glossary: v4l2 api
+>> Documentation/userspace-api/media/glossary.rst:130: WARNING: term not in glossary: v4l2 hardware
+>> Documentation/userspace-api/media/glossary.rst:207: WARNING: term not in glossary: v4l2 sub-device
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- .../userspace-api/media/v4l/dev-meta.rst          | 15 +++++++++++++++
- .../userspace-api/media/v4l/vidioc-enum-fmt.rst   |  7 +++++++
- .../media/videodev2.h.rst.exceptions              |  1 +
- drivers/media/v4l2-core/v4l2-ioctl.c              |  5 +++--
- include/uapi/linux/videodev2.h                    | 10 ++++++++++
- 5 files changed, 36 insertions(+), 2 deletions(-)
+vim +379 Documentation/userspace-api/media/mediactl/media-types.rst
 
-diff --git a/Documentation/userspace-api/media/v4l/dev-meta.rst b/Documentation/userspace-api/media/v4l/dev-meta.rst
-index 0e7e1ee1471a..4b24bae6e171 100644
---- a/Documentation/userspace-api/media/v4l/dev-meta.rst
-+++ b/Documentation/userspace-api/media/v4l/dev-meta.rst
-@@ -65,3 +65,18 @@ to 0.
-       - ``buffersize``
-       - Maximum buffer size in bytes required for data. The value is set by the
-         driver.
-+    * - __u32
-+      - ``width``
-+      - Width of a line of metadata in samples. Valid when :c:type`v4l2_fmtdesc`
-+	flag ``V4L2_FMT_FLAG_META_LINE_BASED`` is set, otherwise zero. See
-+	:c:func:`VIDIOC_ENUM_FMT`.
-+    * - __u32
-+      - ``height``
-+      - Number of rows of metadata. Valid when :c:type`v4l2_fmtdesc` flag
-+	``V4L2_FMT_FLAG_META_LINE_BASED`` is set, otherwise zero. See
-+	:c:func:`VIDIOC_ENUM_FMT`.
-+    * - __u32
-+      - ``bytesperline``
-+      - Offset in bytes between the beginning of two consecutive lines. Valid
-+	when :c:type`v4l2_fmtdesc` flag ``V4L2_FMT_FLAG_META_LINE_BASED`` is
-+	set, otherwise zero. See :c:func:`VIDIOC_ENUM_FMT`.
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-index 000c154b0f98..6d7664345a4e 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-@@ -227,6 +227,13 @@ the ``mbus_code`` field is handled differently:
- 	The application can ask to configure the quantization of the capture
- 	device when calling the :ref:`VIDIOC_S_FMT <VIDIOC_G_FMT>` ioctl with
- 	:ref:`V4L2_PIX_FMT_FLAG_SET_CSC <v4l2-pix-fmt-flag-set-csc>` set.
-+    * - ``V4L2_FMT_FLAG_META_LINE_BASED``
-+      - 0x0200
-+      - The metadata format is line-based. In this case the ``width``,
-+	``height`` and ``bytesperline`` fields of :c:type:`v4l2_meta_format` are
-+	valid. The buffer consists of ``height`` lines, each having ``width``
-+	bytes of data and offset between the beginning of each two consecutive
-+	lines is ``bytesperline``.
- 
- Return Value
- ============
-diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-index 2a589d34b80e..5d623bf03bc5 100644
---- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-+++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-@@ -211,6 +211,7 @@ replace define V4L2_FMT_FLAG_CSC_XFER_FUNC fmtdesc-flags
- replace define V4L2_FMT_FLAG_CSC_YCBCR_ENC fmtdesc-flags
- replace define V4L2_FMT_FLAG_CSC_HSV_ENC fmtdesc-flags
- replace define V4L2_FMT_FLAG_CSC_QUANTIZATION fmtdesc-flags
-+replace define V4L2_FMT_FLAG_META_LINE_BASED fmtdesc-flags
- 
- # V4L2 timecode types
- replace define V4L2_TC_TYPE_24FPS timecode-type
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 7781b0bd3e7d..2c7a7a6059cc 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -343,8 +343,9 @@ static void v4l_print_format(const void *arg, bool write_only)
- 	case V4L2_BUF_TYPE_META_OUTPUT:
- 		meta = &p->fmt.meta;
- 		pixelformat = meta->dataformat;
--		pr_cont(", dataformat=%p4cc, buffersize=%u\n",
--			&pixelformat, meta->buffersize);
-+		pr_cont(", dataformat=%p4cc, buffersize=%u, width=%u, height=%u, bytesperline=%u\n",
-+			&pixelformat, meta->buffersize, meta->width,
-+			meta->height, meta->bytesperline);
- 		break;
- 	}
- }
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 13d404699842..7485920f1ac9 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -873,6 +873,7 @@ struct v4l2_fmtdesc {
- #define V4L2_FMT_FLAG_CSC_YCBCR_ENC		0x0080
- #define V4L2_FMT_FLAG_CSC_HSV_ENC		V4L2_FMT_FLAG_CSC_YCBCR_ENC
- #define V4L2_FMT_FLAG_CSC_QUANTIZATION		0x0100
-+#define V4L2_FMT_FLAG_META_LINE_BASED		0x0200
- 
- 	/* Frame Size and frame rate enumeration */
- /*
-@@ -2407,10 +2408,19 @@ struct v4l2_sdr_format {
-  * struct v4l2_meta_format - metadata format definition
-  * @dataformat:		little endian four character code (fourcc)
-  * @buffersize:		maximum size in bytes required for data
-+ * @width:		number of bytes of data per line (valid for line based
-+ *			formats only, see format documentation)
-+ * @height:		number of lines of data per buffer (valid for line based
-+ *			formats only)
-+ * @bytesperline:	offset between the beginnings of two adjacent lines in
-+ *			bytes (valid for line based formats only)
-  */
- struct v4l2_meta_format {
- 	__u32				dataformat;
- 	__u32				buffersize;
-+	__u32				width;
-+	__u32				height;
-+	__u32				bytesperline;
- } __attribute__ ((packed));
- 
- /**
+   365	
+   366	.. flat-table:: Media pad flags
+   367	    :header-rows:  0
+   368	    :stub-columns: 0
+   369	
+   370	    *  -  ``MEDIA_PAD_FL_SINK``
+   371	       -  Input pad, relative to the entity. Input pads sink data and are
+   372		  targets of links.
+   373	
+   374	    *  -  ``MEDIA_PAD_FL_SOURCE``
+   375	       -  Output pad, relative to the entity. Output pads source data and
+   376		  are origins of links.
+   377	
+   378	    *  -  ``MEDIA_PAD_FL_MUST_CONNECT``
+ > 379	       -  If this flag is set and the pad is linked to any other pad, then at
+   380		  least one of those links must be enabled for the entity to be able to
+   381		  :ref:``stream <media-glossary-stream>. There could be temporary
+   382		  reasons (e.g. device configuration dependent) for the pad to need
+   383		  enabled links even when this flag isn't set; the absence of the flag
+   384		  doesn't imply there is none.
+   385	
+   386	    *  -  ``MEDIA_PAD_FL_INTERNAL``
+   387	       -  The internal flag indicates an internal pad that has no external
+   388		  connections. Such a pad shall not be connected with a link. The
+   389		  internal flag indicates that the stream either starts or ends in the
+   390		  entity. For a given pad, the presence of the internal flag
+   391		  necessitates the presence of either ``MEDIA_PAD_FL_SINK`` or
+   392		  ``MEDIA_PAD_FL_SOURCE`` flag.
+   393	
+
 -- 
-2.39.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
