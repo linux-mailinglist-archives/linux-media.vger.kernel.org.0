@@ -2,135 +2,200 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 16C53744BBC
-	for <lists+linux-media@lfdr.de>; Sun,  2 Jul 2023 01:13:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60CDC744BC3
+	for <lists+linux-media@lfdr.de>; Sun,  2 Jul 2023 01:25:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229649AbjGAXNf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 1 Jul 2023 19:13:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33600 "EHLO
+        id S229540AbjGAXZ1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 1 Jul 2023 19:25:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229477AbjGAXNe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Jul 2023 19:13:34 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E68EE10DC;
-        Sat,  1 Jul 2023 16:13:33 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7BD6360A29;
-        Sat,  1 Jul 2023 23:13:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1E98C433C9;
-        Sat,  1 Jul 2023 23:13:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1688253212;
-        bh=GICJRTi1UBgWyszLEfObDb7ZtWarNasw276bsUk9Edo=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ABeUQ/HYxoMx4QNp6spPUkG54BOEVOZZgI49j1meSVbaR/V8ISazd/2jhieBs5FRl
-         9TXi1qENoQImrN7kgt51WZIu03YBOsL66LlCm7joI7kdAZNjkVBPq+9j2wMQBxzBXb
-         f7tG/QAlAbLP//QLDdrNzyAYh+SlCKFGYRkgId1LE90c6fqo0wgW+fiLktYD+ewhS0
-         uvK+rQj+pH1NqFKPNDZcD5iEDE+WvjG6uNT6ok13FfzxG6fGlGQkA4zcrBbO7KQJd9
-         d2crJt0i7Ln6RJ6uqrMzdgnAvRKGLv9eUwoW9julgFSBvTJedoKmXb2YVyjgOrFaoA
-         dqhEj4XQN/ZRg==
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-4f96d680399so4947571e87.0;
-        Sat, 01 Jul 2023 16:13:32 -0700 (PDT)
-X-Gm-Message-State: ABy/qLZ9jbvS+JESE+oumBl+z1sCfbG5BJlZpSYVI5OMrIzjAk4myabC
-        +qR1dKGeoj1Wdh+QFfRp8Vf80BKPn0E3NqX8+w==
-X-Google-Smtp-Source: APBJJlE9BpPtxXnE/La0Tl+6juXJWlIVshoPEKn3r0kp7hY2oRRITeV9xtlN2CPvQoh+eGMqTfvY3/pJslXS8anUemU=
-X-Received: by 2002:a05:6512:718:b0:4fb:7a4e:b573 with SMTP id
- b24-20020a056512071800b004fb7a4eb573mr4707448lfs.5.1688253210855; Sat, 01 Jul
- 2023 16:13:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230630100321.1951138-1-jstephan@baylibre.com> <20230630100321.1951138-3-jstephan@baylibre.com>
-In-Reply-To: <20230630100321.1951138-3-jstephan@baylibre.com>
-From:   Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date:   Sun, 2 Jul 2023 07:13:19 +0800
-X-Gmail-Original-Message-ID: <CAAOTY__ZzR52fQdsC=J_sH60hz7rsRhBnSOL3trzu-KyOvpNqg@mail.gmail.com>
-Message-ID: <CAAOTY__ZzR52fQdsC=J_sH60hz7rsRhBnSOL3trzu-KyOvpNqg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] media: platform: mediatek: isp_30: add mediatek
- ISP3.0 sensor interface
-To:     Julien Stephan <jstephan@baylibre.com>
-Cc:     Louis Kuo <louis.kuo@mediatek.com>,
-        Phi-bang Nguyen <pnguyen@baylibre.com>,
-        Florian Sylvestre <fsylvestre@baylibre.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Andy Hsieh <andy.hsieh@mediatek.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Conor Dooley <conor+dt@kernel.org>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        devicetree@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Moudy Ho <moudy.ho@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Vasily Gorbik <gor@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S229477AbjGAXZ0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Jul 2023 19:25:26 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E092D1725
+        for <linux-media@vger.kernel.org>; Sat,  1 Jul 2023 16:25:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688253925; x=1719789925;
+  h=date:from:to:cc:subject:message-id;
+  bh=DcAB3hugwAEd7hqgOQOZBh20V9M7LyH7r/JdVrnkRPg=;
+  b=UD4b+7G+SQtKLE0wQav7X0GMHQBFMLMg2Fea4ExVK7sYgupeWULYI1rc
+   KeS3UcwJ+YdZc6iGUCtpqNOXvC2LdsvdICkFnWMrGnxHd/vzrMefD5tRu
+   zZd3TphiBS4WVpJIkvwznWCfI1GPiz8ytFBJT50yr8WQW2edCbUaTwDaM
+   6a9p1jAa7jJRBx1OPfstbD1tf8wcLWXutdNWNqzKcQLtnd96R+pWJQ5i8
+   77RjGBVnQGy+HRfleQNbtsht5fFK7NSorNBUFZW7Fv//Uru6NbkapvFww
+   HLz8fuv1pofi+fziTv5BwjrQhNA5TSkex5SZiMG7XFGotX3gSupasTMbA
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10758"; a="360115258"
+X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
+   d="scan'208";a="360115258"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2023 16:25:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10758"; a="712166166"
+X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
+   d="scan'208";a="712166166"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 01 Jul 2023 16:25:23 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qFjxz-000GKN-0H;
+        Sat, 01 Jul 2023 23:25:23 +0000
+Date:   Sun, 02 Jul 2023 07:24:53 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata] BUILD SUCCESS
+ 59aa267f8720e10029004c6d25ce3f93741d1334
+Message-ID: <202307020751.IpDshTY9-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi, Julien:
+tree/branch: git://linuxtv.org/sailus/media_tree.git metadata
+branch HEAD: 59aa267f8720e10029004c6d25ce3f93741d1334  media: v4l: Support line-based metadata capture
 
-Julien Stephan <jstephan@baylibre.com> =E6=96=BC 2023=E5=B9=B46=E6=9C=8830=
-=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=886:05=E5=AF=AB=E9=81=93=EF=BC=
-=9A
->
-> From: Louis Kuo <louis.kuo@mediatek.com>
->
-> This will add the mediatek ISP3.0 seninf (sensor interface) driver found
-> on several Mediatek SoCs such as the mt8365.
->
-> Then seninf module has 4 physical CSI-2 inputs. Depending on the soc they
-> may not be all connected.
->
-> Signed-off-by: Louis Kuo <louis.kuo@mediatek.com>
-> Signed-off-by: Phi-bang Nguyen <pnguyen@baylibre.com>
-> Signed-off-by: Florian Sylvestre <fsylvestre@baylibre.com>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-> ---
->  MAINTAINERS                                   |    1 +
->  drivers/media/platform/mediatek/Kconfig       |    1 +
->  drivers/media/platform/mediatek/Makefile      |    1 +
->  drivers/media/platform/mediatek/isp/Kconfig   |    2 +
->  drivers/media/platform/mediatek/isp/Makefile  |    3 +
->  .../platform/mediatek/isp/isp_30/Kconfig      |   16 +
->  .../platform/mediatek/isp/isp_30/Makefile     |    3 +
->  .../mediatek/isp/isp_30/seninf/Makefile       |    5 +
->  .../mediatek/isp/isp_30/seninf/mtk_seninf.c   | 1561 +++++++++++++++++
->  .../isp/isp_30/seninf/mtk_seninf_reg.h        |   99 ++
+elapsed time: 754m
 
-I think it's not necessary to create a folder isp_30 inside isp and
-you could just place all file in isp folder because there are only few
-files. After adding more and more files then we consider to create
-folder to separate them.
+configs tested: 124
+configs skipped: 2
 
-Regards,
-Chun-Kuang.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
->  10 files changed, 1692 insertions(+)
->  create mode 100644 drivers/media/platform/mediatek/isp/Kconfig
->  create mode 100644 drivers/media/platform/mediatek/isp/Makefile
->  create mode 100644 drivers/media/platform/mediatek/isp/isp_30/Kconfig
->  create mode 100644 drivers/media/platform/mediatek/isp/isp_30/Makefile
->  create mode 100644 drivers/media/platform/mediatek/isp/isp_30/seninf/Mak=
-efile
->  create mode 100644 drivers/media/platform/mediatek/isp/isp_30/seninf/mtk=
-_seninf.c
->  create mode 100644 drivers/media/platform/mediatek/isp/isp_30/seninf/mtk=
-_seninf_reg.h
->
->
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r011-20230701   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r021-20230701   gcc  
+arc                  randconfig-r043-20230701   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                         bcm2835_defconfig   clang
+arm                                 defconfig   gcc  
+arm                         mv78xx0_defconfig   clang
+arm                        mvebu_v5_defconfig   clang
+arm                       netwinder_defconfig   clang
+arm                          pxa3xx_defconfig   gcc  
+arm                  randconfig-r026-20230701   gcc  
+arm                  randconfig-r046-20230701   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r034-20230701   gcc  
+csky                                defconfig   gcc  
+hexagon              randconfig-r041-20230701   clang
+hexagon              randconfig-r045-20230701   clang
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-r004-20230701   gcc  
+i386         buildonly-randconfig-r005-20230701   gcc  
+i386         buildonly-randconfig-r006-20230701   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-i001-20230701   gcc  
+i386                 randconfig-i002-20230701   gcc  
+i386                 randconfig-i003-20230701   gcc  
+i386                 randconfig-i004-20230701   gcc  
+i386                 randconfig-i005-20230701   gcc  
+i386                 randconfig-i006-20230701   gcc  
+i386                 randconfig-i011-20230701   clang
+i386                 randconfig-i012-20230701   clang
+i386                 randconfig-i013-20230701   clang
+i386                 randconfig-i014-20230701   clang
+i386                 randconfig-i015-20230701   clang
+i386                 randconfig-i016-20230701   clang
+i386                 randconfig-r001-20230701   gcc  
+i386                 randconfig-r006-20230701   gcc  
+i386                 randconfig-r031-20230701   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r025-20230701   gcc  
+m68k                             allmodconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r005-20230701   gcc  
+m68k                 randconfig-r013-20230701   gcc  
+microblaze           randconfig-r003-20230701   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                     loongson1b_defconfig   gcc  
+mips                    maltaup_xpa_defconfig   gcc  
+mips                          rm200_defconfig   clang
+nios2                               defconfig   gcc  
+nios2                randconfig-r012-20230701   gcc  
+nios2                randconfig-r015-20230701   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc               randconfig-r035-20230701   gcc  
+parisc64                            defconfig   gcc  
+powerpc                      acadia_defconfig   clang
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                      bamboo_defconfig   gcc  
+powerpc                   bluestone_defconfig   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r024-20230701   clang
+riscv                randconfig-r042-20230701   clang
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r022-20230701   clang
+s390                 randconfig-r033-20230701   gcc  
+s390                 randconfig-r044-20230701   clang
+sh                               allmodconfig   gcc  
+sh                   randconfig-r002-20230701   gcc  
+sh                   randconfig-r016-20230701   gcc  
+sh                           se7724_defconfig   gcc  
+sh                              ul2_defconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64              randconfig-r014-20230701   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                   randconfig-r023-20230701   gcc  
+um                   randconfig-r036-20230701   clang
+um                           x86_64_defconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-r001-20230701   gcc  
+x86_64       buildonly-randconfig-r002-20230701   gcc  
+x86_64       buildonly-randconfig-r003-20230701   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-x001-20230701   clang
+x86_64               randconfig-x002-20230701   clang
+x86_64               randconfig-x003-20230701   clang
+x86_64               randconfig-x004-20230701   clang
+x86_64               randconfig-x005-20230701   clang
+x86_64               randconfig-x006-20230701   clang
+x86_64               randconfig-x011-20230701   gcc  
+x86_64               randconfig-x012-20230701   gcc  
+x86_64               randconfig-x013-20230701   gcc  
+x86_64               randconfig-x014-20230701   gcc  
+x86_64               randconfig-x015-20230701   gcc  
+x86_64               randconfig-x016-20230701   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                           alldefconfig   gcc  
+xtensa               randconfig-r004-20230701   gcc  
+xtensa               randconfig-r032-20230701   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
