@@ -2,61 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 917A374478B
-	for <lists+linux-media@lfdr.de>; Sat,  1 Jul 2023 09:09:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 899BF74481F
+	for <lists+linux-media@lfdr.de>; Sat,  1 Jul 2023 11:06:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230166AbjGAHJX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 1 Jul 2023 03:09:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56190 "EHLO
+        id S229557AbjGAJGz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 1 Jul 2023 05:06:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229514AbjGAHIr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Jul 2023 03:08:47 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 480066EA1;
-        Sat,  1 Jul 2023 00:03:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688194999; x=1719730999;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=b2tdZDijpkNbhOaoKT4z5wlvbzHwp1PIa7BELo0bGqo=;
-  b=arv7jGevgPjUvK6DAIWBDHDJw7Po3JJWEgYN6hOITuiOr5DgutyqJ9t+
-   3NKN4Pfjw5U/owjAtpDhj9tdmKfeGP0aBZE4yeLqGr4nl6V+G16d3GYq4
-   /Lvp/fcvb2WtCfHUHwelPNmInaSzOWlSIwgg2G0DF4ZIj3KHlafKdbmfN
-   SiFidcH8i5iOvoeSj/xngvnICU4crCyR5gLVZjOHphw2FJB9FNWv/NZYY
-   uOeLFRMiTW4v86soHnVkGl1IhoLbPIkReImSWMQGlWp/3h8vb3vdKiWfa
-   W78BvUZdTcoYBuBRCNe/O1YyJxVKWQ+FsWTFlyNGp3ivaAVO9Z8QlCZAj
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="360040594"
-X-IronPort-AV: E=Sophos;i="6.01,172,1684825200"; 
-   d="scan'208";a="360040594"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2023 00:02:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="783313192"
-X-IronPort-AV: E=Sophos;i="6.01,172,1684825200"; 
-   d="scan'208";a="783313192"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 01 Jul 2023 00:02:01 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qFUcJ-000Fn3-31;
-        Sat, 01 Jul 2023 07:01:59 +0000
-Date:   Sat, 1 Jul 2023 15:01:42 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [sailus-media-tree:metadata 7/7] htmldocs:
- Documentation/output/videodev2.h.rst:6: WARNING: undefined label:
- v4l2-fmt-flag-meta-line-based (if the link has no caption the label must
- precede a section header)
-Message-ID: <202307011445.xI9djX6d-lkp@intel.com>
+        with ESMTP id S229452AbjGAJGy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 1 Jul 2023 05:06:54 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 380799E;
+        Sat,  1 Jul 2023 02:06:49 -0700 (PDT)
+X-UUID: 9936a9cc17ee11ee9cb5633481061a41-20230701
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=W3jSrELTXqHxAyOLqDfz/nZ3j+MAw+i0E6FGyxIbrI0=;
+        b=USz0t5UNVfubVTRNjFx/crLydxLQRn792jBUZ3L4lWoG/mHl8P55d/So8jPIM+tanyf3Bh1H+2XZo7yLqmXxT99jZU9Qb2NX0rsvZvH4R6xaxVppsKYMto+TznTDw86JlxyikMQI3TuvrL2k/wJ5ysePA4OMiXFtRw7EqIy55EM=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.27,REQID:5ff68c12-8989-4786-b329-7c2df0f34e69,IP:0,U
+        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+        N:release,TS:100
+X-CID-INFO: VERSION:1.1.27,REQID:5ff68c12-8989-4786-b329-7c2df0f34e69,IP:0,URL
+        :0,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTIO
+        N:quarantine,TS:100
+X-CID-META: VersionHash:01c9525,CLOUDID:aa1581da-b4fa-43c8-9c3e-0d3fabd03ec0,B
+        ulkID:230701170646LIZD5JJY,BulkQuantity:0,Recheck:0,SF:38|29|28|17|19|48,T
+        C:nil,Content:0,EDM:-3,IP:nil,URL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,CO
+        L:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_SDM,TF_CID_SPAM_ASC,TF_CID_SPAM_FAS,
+        TF_CID_SPAM_FSD,TF_CID_SPAM_ULN
+X-UUID: 9936a9cc17ee11ee9cb5633481061a41-20230701
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw01.mediatek.com
+        (envelope-from <irui.wang@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 235621867; Sat, 01 Jul 2023 17:06:43 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Sat, 1 Jul 2023 17:05:55 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Sat, 1 Jul 2023 17:05:54 +0800
+From:   Irui Wang <irui.wang@mediatek.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+CC:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        Irui Wang <irui.wang@mediatek.com>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>
+Subject: [PATCH] media: mediatek: vcodec: Add a flag to indicate vdec_fb finding status
+Date:   Sat, 1 Jul 2023 17:05:21 +0800
+Message-ID: <20230701090521.22240-1-irui.wang@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK:  N
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,
+        T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,UNPARSEABLE_RELAY,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,22 +74,44 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   acd95717f9d98767ad03e91b1b171352f9bcbaf9
-commit: 028cb656529e4cd7e40b21b97b078d5fb7809eed [7/7] media: v4l: Support line-based metadata capture
-reproduce: (https://download.01.org/0day-ci/archive/20230701/202307011445.xI9djX6d-lkp@intel.com/reproduce)
+"fb_use_list" is vp9 stateful decoder driver to store current
+used or referenced frame buffer, and "fb_free_list" is used to
+store current available to be freed frame buffer. When the
+target frame buffer cannot be found in "fb_use_list", "NULL"
+should be returned to prevent unexpected frame buffer from being
+placed into "fb_free_list".
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307011445.xI9djX6d-lkp@intel.com/
+Signed-off-by: Irui Wang <irui.wang@mediatek.com>
+---
+ drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-All warnings (new ones prefixed by >>):
-
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-fmt-flag-meta-line-based (if the link has no caption the label must precede a section header)
-
-vim +6 Documentation/output/videodev2.h.rst
-
+diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c
+index 70b8383f7c8e..e77d5a2452c1 100644
+--- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c
++++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c
+@@ -220,15 +220,21 @@ static struct vdec_fb *vp9_rm_from_fb_use_list(struct vdec_vp9_inst
+ {
+ 	struct vdec_fb *fb = NULL;
+ 	struct vdec_fb_node *node;
++	bool found = false;
+ 
+ 	list_for_each_entry(node, &inst->fb_use_list, list) {
+ 		fb = (struct vdec_fb *)node->fb;
+ 		if (fb->base_y.va == addr) {
+ 			list_move_tail(&node->list,
+ 				       &inst->available_fb_node_list);
++			found = true;
+ 			break;
+ 		}
+ 	}
++
++	if (!found)
++		fb = NULL;
++
+ 	return fb;
+ }
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.25.1
+
