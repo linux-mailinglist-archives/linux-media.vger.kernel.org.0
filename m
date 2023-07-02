@@ -2,371 +2,252 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 97DA9744FA6
-	for <lists+linux-media@lfdr.de>; Sun,  2 Jul 2023 20:23:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08F52745288
+	for <lists+linux-media@lfdr.de>; Sun,  2 Jul 2023 23:45:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229849AbjGBSXR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 2 Jul 2023 14:23:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50918 "EHLO
+        id S229795AbjGBVpL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 2 Jul 2023 17:45:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229817AbjGBSXQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 2 Jul 2023 14:23:16 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6FCDC0
-        for <linux-media@vger.kernel.org>; Sun,  2 Jul 2023 11:23:12 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-98377c5d53eso432452366b.0
-        for <linux-media@vger.kernel.org>; Sun, 02 Jul 2023 11:23:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1688322191; x=1690914191;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qzr/VwRbbgwsrmE6jlZJ9FcP3Vc2cGWHqLjQfvYlffY=;
-        b=iDFLGVhtmva98VVo1s7qaAtOvSb8hoZWP8hPCdQ4DFiRLtfr9Od2UOFA5bcj3ueX+Z
-         Q/DHkOcVx73Yem8FSZwZcOGDX1YUo7SdB4uX5hy0p8PwCShj3sudB3xpoRNvN9eB/5WS
-         AlrKev4iUUm3r0ir27SCMDF9IR/UhGtZmubXdidRdSiMK9+dCSeI2Exjz7CFMmTwzmd3
-         sB1Ded1tyihdP7JQiRd1zV++gqtifXqhaw2LkQLxAeBXhjG35OJus7RtEahQ7BQsRfIe
-         upbMphX7kKXqo1BcrUpTItzijk1zXzhyU6J92tZJm1kKyCQok4y3awICBT/gpRLdQSoy
-         qW4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688322191; x=1690914191;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Qzr/VwRbbgwsrmE6jlZJ9FcP3Vc2cGWHqLjQfvYlffY=;
-        b=kmjbmzJGf1R2AkZA0kxZd3IT0MyvVWi53BUVcsKmoE+UeP4hfVJ4mcQw8ij7LqGTQZ
-         bb/VZuphlngXt3bUPxzOC2WJTCx1idn3fbOz9w/Cno1Gg0Pk7cpXYsqrfRwwUc1aBmoR
-         Zvea5jnBC2rlzeutcKWxrJa+LtRdp3gw45O/xmfvjA1cL8xYx1558sF0eN6oEF5gyXco
-         6S+fhgP+DRKJTJJgi0OE8Ez6HmR2CDVm8sIpHSuVpCa13IVnBdUPdGCWcDeAt5HaREJC
-         jGR5PAHK1+mSVnv/KFlAENWRdxt1ABpXigvZZ9KL+zqiUXtqtW5BggC/2+Shung+SgnP
-         R4tQ==
-X-Gm-Message-State: ABy/qLZQqF0o6vGooIx3ibUwtD2jZQon0k9uWPxKV9zfms4ph4YlNf3X
-        NuKw6Yr3vyE0KbBXwule9Pc+aQ==
-X-Google-Smtp-Source: ACHHUZ53KUKEp/qx2RT5nWxkeQ2K5QRc74L6k4flhy2OCKXv5BYIsQU3P3oC04yPG5HR5Pl0ibYw7Q==
-X-Received: by 2002:a17:906:d9cf:b0:988:f2ad:73e9 with SMTP id qk15-20020a170906d9cf00b00988f2ad73e9mr5829930ejb.52.1688322191275;
-        Sun, 02 Jul 2023 11:23:11 -0700 (PDT)
-Received: from krzk-bin.. ([217.169.179.6])
-        by smtp.gmail.com with ESMTPSA id p11-20020a1709060e8b00b00993159ce075sm2584698ejf.210.2023.07.02.11.23.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Jul 2023 11:23:10 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Leo Yan <leo.yan@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, coresight@lists.linaro.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        linux-rockchip@lists.infradead.org, linux-iio@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-amlogic@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
-        linux-remoteproc@vger.kernel.org, linux-usb@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] dt-bindings: cleanup DTS example whitespaces
-Date:   Sun,  2 Jul 2023 20:23:08 +0200
-Message-Id: <20230702182308.7583-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S229504AbjGBVpK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 2 Jul 2023 17:45:10 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24C459B;
+        Sun,  2 Jul 2023 14:45:08 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (85-160-45-219.reb.o2.cz [85.160.45.219])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 317D1289;
+        Sun,  2 Jul 2023 23:44:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1688334262;
+        bh=L0A+CSse+ZZwGQMatO+vsGlMTevU2JMdn5WBMdfzOV4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=T1HvoVZ11BcOHAHEvl7vpuazlvFHRehT5cbf0Sta9E/ro/z4XOy7gxC6I2oMLIK85
+         EPX2Wyxtqm1Z9rtqpbO/Ni3Grje1p1rT/PrXjvzDljtRELCYlWasTJ8f9COUApRejT
+         yhpGN+D69GehW88NBL9TqaLstgfHwv9naVF+1xNc=
+Date:   Mon, 3 Jul 2023 00:45:05 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
+        dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
+        kernel-list@raspberrypi.com, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-rpi-kernel@lists.infradead.org, lukasz@jany.st,
+        mchehab@kernel.org, naush@raspberrypi.com, robh@kernel.org,
+        tomi.valkeinen@ideasonboard.com,
+        bcm-kernel-feedback-list@broadcom.com, stefan.wahren@i2se.com
+Subject: Re: [PATCH v5 04/11] media: bcm2835-unicam: Add support for
+ CCP2/CSI2 camera interface
+Message-ID: <20230702214505.GB16995@pendragon.ideasonboard.com>
+References: <20220208155027.891055-1-jeanmichel.hautbois@ideasonboard.com>
+ <20220208155027.891055-5-jeanmichel.hautbois@ideasonboard.com>
+ <YhihbncnSlmvrn/D@valkosipuli.retiisi.eu>
+ <20230702152356.GA16995@pendragon.ideasonboard.com>
+ <ZKG/bej80eL13Qqp@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZKG/bej80eL13Qqp@valkosipuli.retiisi.eu>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The DTS code coding style expects spaces around '=' sign.
+Hi Sakari,
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On Sun, Jul 02, 2023 at 06:18:21PM +0000, Sakari Ailus wrote:
+> On Sun, Jul 02, 2023 at 06:23:56PM +0300, Laurent Pinchart wrote:
+> > On Fri, Feb 25, 2022 at 11:29:18AM +0200, Sakari Ailus wrote:
+> > > On Tue, Feb 08, 2022 at 04:50:20PM +0100, Jean-Michel Hautbois wrote:
+> > > > Add driver for the Unicam camera receiver block on BCM283x processors.
+> > > > It is represented as two video device nodes: unicam-image and
+> > > > unicam-embedded which are connected to an internal subdev (named
+> > > > unicam-subdev) in order to manage streams routing.
+> > > > 
+> > > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > > > Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
+> > > > Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+> > > > 
+> > > > ---
+> > > > v4:
+> > > >   - Add the vendor prefox for DT name
+> > > >   - Use the reg-names in DT parsing
+> > > >   - Remove MAINTAINERS entry
+> > > > 
+> > > > v3 main changes:
+> > > >   - Change code organization
+> > > >   - Remove unused variables
+> > > >   - Correct the fmt_meta functions
+> > > >   - Rewrite the start/stop streaming
+> > > >     - You can now start the image node alone, but not the metadata one
+> > > >     - The buffers are allocated per-node
+> > > >     - only the required stream is started, if the route exists and is
+> > > >       enabled
+> > > >   - Prefix the macros with UNICAM_ to not have too generic names
+> > > >   - Drop colorspace support
+> > > >     -> This is causing issues in the try-fmt v4l2-compliance test
+> > > >   test VIDIOC_G_FMT: OK
+> > > > 	fail: v4l2-test-formats.cpp(363): colorspace >= 0xff
+> > > > 	fail: v4l2-test-formats.cpp(465): testColorspace(!node->is_io_mc, pix.pixelformat, pix.colorspace, pix.ycbcr_enc, pix.quantization)
+> > > >   test VIDIOC_TRY_FMT: FAIL
+> > > > 	fail: v4l2-test-formats.cpp(363): colorspace >= 0xff
+> > > > 	fail: v4l2-test-formats.cpp(465): testColorspace(!node->is_io_mc, pix.pixelformat, pix.colorspace, pix.ycbcr_enc, pix.quantization)
+> > > >   test VIDIOC_S_FMT: FAIL
+> > > > 
+> > > > v2: Remove the unicam_{info,debug,error} macros and use
+> > > > dev_dbg/dev_err instead.
+> > > > ---
+> > > >  drivers/media/platform/Kconfig                |    1 +
+> > > >  drivers/media/platform/Makefile               |    2 +
+> > > >  drivers/media/platform/bcm2835/Kconfig        |   21 +
+> > > >  drivers/media/platform/bcm2835/Makefile       |    3 +
+> > > >  .../platform/bcm2835/bcm2835-unicam-regs.h    |  253 ++
+> > > >  .../media/platform/bcm2835/bcm2835-unicam.c   | 2570 +++++++++++++++++
+> > > >  6 files changed, 2850 insertions(+)
+> > > >  create mode 100644 drivers/media/platform/bcm2835/Kconfig
+> > > >  create mode 100644 drivers/media/platform/bcm2835/Makefile
+> > > >  create mode 100644 drivers/media/platform/bcm2835/bcm2835-unicam-regs.h
+> > > >  create mode 100644 drivers/media/platform/bcm2835/bcm2835-unicam.c
+> > 
+> > [snip]
+> > 
+> > > > diff --git a/drivers/media/platform/bcm2835/bcm2835-unicam-regs.h b/drivers/media/platform/bcm2835/bcm2835-unicam-regs.h
+> > > > new file mode 100644
+> > > > index 000000000000..b8d297076a02
+> > > > --- /dev/null
+> > > > +++ b/drivers/media/platform/bcm2835/bcm2835-unicam-regs.h
+> > 
+> > [snip]
+> > 
+> > > > +static int unicam_connect_of_subdevs(struct unicam_device *unicam)
+> > > > +{
+> > > > +	struct v4l2_fwnode_endpoint ep = { };
+> > > > +	struct fwnode_handle *ep_handle;
+> > > > +	struct v4l2_async_subdev *asd;
+> > > > +	unsigned int lane;
+> > > > +	int ret = -EINVAL;
+> > > > +
+> > > > +	if (of_property_read_u32(unicam->dev->of_node, "brcm,num-data-lanes",
+> > > > +				 &unicam->max_data_lanes) < 0) {
+> > > 
+> > > As you're already using fwnode API below, you could use
+> > > device_property_read_u32() here.
+> > > 
+> > > You can then replace of_device.h by mod_devicetable.h. Up to you.
+> > > 
+> > > > +		dev_err(unicam->dev, "DT property %s not set\n",
+> > > > +			"brcm,num-data-lanes");
+> > > > +		return -EINVAL;
+> > > > +	}
+> > > > +
+> > > > +	/* Get the local endpoint and remote device. */
+> > > > +	ep_handle = fwnode_graph_get_endpoint_by_id(dev_fwnode(unicam->dev),
+> > > > +						    0, 0,
+> > > > +						    FWNODE_GRAPH_ENDPOINT_NEXT);
+> > > > +	if (!ep_handle) {
+> > > > +		dev_err(unicam->dev, "No endpoint\n");
+> > > > +		return -ENODEV;
+> > > > +	}
+> > > > +
+> > > > +	/* Parse the local endpoint and validate its configuration. */
+> > > > +	if (v4l2_fwnode_endpoint_alloc_parse(ep_handle, &ep)) {
+> > > 
+> > > As you don't need link-frequencies property parsing, you should use
+> > > v4l2_fwnode_endpoint_parse(). That avoids having to call
+> > > v4l2_fwnode_endpoint_free().
+> > > 
+> > > > +		dev_err(unicam->dev, "could not parse endpoint\n");
+> > > > +		goto cleanup_exit;
+> > > > +	}
+> > > > +
+> > > > +	dev_dbg(unicam->dev, "parsed local endpoint, bus_type %u\n",
+> > > > +		ep.bus_type);
+> > > > +
+> > > > +	unicam->bus_type = ep.bus_type;
+> > > > +
+> > > > +	switch (ep.bus_type) {
+> > > > +	case V4L2_MBUS_CSI2_DPHY:
+> > > > +		switch (ep.bus.mipi_csi2.num_data_lanes) {
+> > > > +		case 1:
+> > > > +		case 2:
+> > > > +		case 4:
+> > > > +			break;
+> > > > +
+> > > > +		default:
+> > > > +			dev_err(unicam->dev, "%u data lanes not supported\n",
+> > > > +				ep.bus.mipi_csi2.num_data_lanes);
+> > > > +			goto cleanup_exit;
+> > > > +		}
+> > > > +
+> > > > +		for (lane = 0; lane < ep.bus.mipi_csi2.num_data_lanes; lane++) {
+> > > > +			if (ep.bus.mipi_csi2.data_lanes[lane] != lane + 1) {
+> > > > +				dev_err(unicam->dev, "data lanes reordering not supported\n");
+> > > > +				goto cleanup_exit;
+> > > > +			}
+> > > > +		}
+> > > > +
+> > > > +		if (ep.bus.mipi_csi2.num_data_lanes > unicam->max_data_lanes) {
+> > > > +			dev_err(unicam->dev, "endpoint requires %u data lanes when %u are supported\n",
+> > > > +				ep.bus.mipi_csi2.num_data_lanes,
+> > > > +				unicam->max_data_lanes);
+> > > > +		}
+> > > > +
+> > > > +		unicam->active_data_lanes = ep.bus.mipi_csi2.num_data_lanes;
+> > > > +		unicam->bus_flags = ep.bus.mipi_csi2.flags;
+> > > > +
+> > > > +		break;
+> > > > +
+> > > > +	case V4L2_MBUS_CCP2:
+> > > > +		if (ep.bus.mipi_csi1.clock_lane != 0 ||
+> > > > +		    ep.bus.mipi_csi1.data_lane != 1) {
+> > > > +			dev_err(unicam->dev, "unsupported lanes configuration\n");
+> > > 
+> > > If the hardware doesn't support lane remapping for CCP2, then that should
+> > > be reflected in DT bindings, i.e. data-lanes isn't relevant. There's no
+> > > need to check that here.
+> > 
+> > Should the above check for CSI-2 be dropped as well then ?
+> 
+> Same for CSI-2, too: if there's nothing to configure there (lane remapping)
+> there's no need to validate that part of the DT either.
 
----
+OK, I'll drop that.
 
-Rob,
+> > > > +			goto cleanup_exit;
+> > > > +		}
+> > > > +
+> > > > +		unicam->max_data_lanes = 1;
+> > > > +		unicam->active_data_lanes = 1;
+> > > > +		unicam->bus_flags = ep.bus.mipi_csi1.strobe;
+> > > > +		break;
+> > > > +
+> > > > +	default:
+> > > > +		/* Unsupported bus type */
+> > > > +		dev_err(unicam->dev, "unsupported bus type %u\n",
+> > > > +			ep.bus_type);
+> > > > +		goto cleanup_exit;
+> > > > +	}
+> > > > +
+> > > > +	dev_dbg(unicam->dev, "%s bus, %u data lanes, flags=0x%08x\n",
+> > > > +		unicam->bus_type == V4L2_MBUS_CSI2_DPHY ? "CSI-2" : "CCP2",
+> > > > +		unicam->active_data_lanes, unicam->bus_flags);
+> > > 
+> > > V4l2-fwnode already prints this information I believe.
+> > 
+> > True. It does so with pr_debug() though, it would be nice to use
+> > dev_dbg(). That's a candidate for a separate fix of course.
+> 
+> The reason for using pr_debug() is that the device isn't used by the fwnode
+> framework. Would you add that just for debug prints? Note that the device
+> nodes themselves are already being printed so it adds little to the
+> usefulness of the messages.
 
-Maybe this could go via your tree? Rebased on your for-next:
-v6.4-rc2-45-gf0ac35049606
----
- .../bindings/arm/arm,coresight-cti.yaml        | 18 +++++++++---------
- .../bindings/arm/keystone/ti,sci.yaml          |  8 ++++----
- .../devicetree/bindings/display/msm/gmu.yaml   |  2 +-
- .../display/panel/samsung,s6e8aa0.yaml         |  2 +-
- .../display/rockchip/rockchip-vop.yaml         |  4 ++--
- .../bindings/iio/adc/ti,adc108s102.yaml        |  2 +-
- .../bindings/media/renesas,rzg2l-cru.yaml      |  4 ++--
- .../devicetree/bindings/media/renesas,vin.yaml |  4 ++--
- .../devicetree/bindings/mtd/mtd-physmap.yaml   |  2 +-
- .../bindings/net/mediatek-dwmac.yaml           |  2 +-
- .../bindings/perf/amlogic,g12-ddr-pmu.yaml     |  4 ++--
- .../bindings/phy/mediatek,dsi-phy.yaml         |  2 +-
- .../remoteproc/amlogic,meson-mx-ao-arc.yaml    |  2 +-
- .../devicetree/bindings/usb/mediatek,mtu3.yaml |  2 +-
- .../devicetree/bindings/usb/ti,am62-usb.yaml   |  2 +-
- 15 files changed, 30 insertions(+), 30 deletions(-)
+I'll send patches, we can discuss their usefulness there.
 
-diff --git a/Documentation/devicetree/bindings/arm/arm,coresight-cti.yaml b/Documentation/devicetree/bindings/arm/arm,coresight-cti.yaml
-index 0c5b875cb654..d6c84b6e7fe6 100644
---- a/Documentation/devicetree/bindings/arm/arm,coresight-cti.yaml
-+++ b/Documentation/devicetree/bindings/arm/arm,coresight-cti.yaml
-@@ -287,7 +287,7 @@ examples:
-             arm,trig-in-sigs = <0 1>;
-             arm,trig-in-types = <PE_DBGTRIGGER
-                                  PE_PMUIRQ>;
--            arm,trig-out-sigs=<0 1 2 >;
-+            arm,trig-out-sigs = <0 1 2 >;
-             arm,trig-out-types = <PE_EDBGREQ
-                                   PE_DBGRESTART
-                                   PE_CTIIRQ>;
-@@ -309,24 +309,24 @@ examples:
- 
-       trig-conns@0 {
-         reg = <0>;
--        arm,trig-in-sigs=<0>;
--        arm,trig-in-types=<GEN_INTREQ>;
--        arm,trig-out-sigs=<0>;
--        arm,trig-out-types=<GEN_HALTREQ>;
-+        arm,trig-in-sigs = <0>;
-+        arm,trig-in-types = <GEN_INTREQ>;
-+        arm,trig-out-sigs = <0>;
-+        arm,trig-out-types = <GEN_HALTREQ>;
-         arm,trig-conn-name = "sys_profiler";
-       };
- 
-       trig-conns@1 {
-         reg = <1>;
--        arm,trig-out-sigs=<2 3>;
--        arm,trig-out-types=<GEN_HALTREQ GEN_RESTARTREQ>;
-+        arm,trig-out-sigs = <2 3>;
-+        arm,trig-out-types = <GEN_HALTREQ GEN_RESTARTREQ>;
-         arm,trig-conn-name = "watchdog";
-       };
- 
-       trig-conns@2 {
-         reg = <2>;
--        arm,trig-in-sigs=<1 6>;
--        arm,trig-in-types=<GEN_HALTREQ GEN_RESTARTREQ>;
-+        arm,trig-in-sigs = <1 6>;
-+        arm,trig-in-types = <GEN_HALTREQ GEN_RESTARTREQ>;
-         arm,trig-conn-name = "g_counter";
-       };
-     };
-diff --git a/Documentation/devicetree/bindings/arm/keystone/ti,sci.yaml b/Documentation/devicetree/bindings/arm/keystone/ti,sci.yaml
-index 91b96065f7df..86b59de7707e 100644
---- a/Documentation/devicetree/bindings/arm/keystone/ti,sci.yaml
-+++ b/Documentation/devicetree/bindings/arm/keystone/ti,sci.yaml
-@@ -96,8 +96,8 @@ examples:
-       compatible = "ti,k2g-sci";
-       ti,system-reboot-controller;
-       mbox-names = "rx", "tx";
--      mboxes= <&msgmgr 5 2>,
--              <&msgmgr 0 0>;
-+      mboxes = <&msgmgr 5 2>,
-+               <&msgmgr 0 0>;
-       reg-names = "debug_messages";
-       reg = <0x02921800 0x800>;
-     };
-@@ -107,8 +107,8 @@ examples:
-       compatible = "ti,k2g-sci";
-       ti,host-id = <12>;
-       mbox-names = "rx", "tx";
--      mboxes= <&secure_proxy_main 11>,
--              <&secure_proxy_main 13>;
-+      mboxes = <&secure_proxy_main 11>,
-+               <&secure_proxy_main 13>;
-       reg-names = "debug_messages";
-       reg = <0x44083000 0x1000>;
- 
-diff --git a/Documentation/devicetree/bindings/display/msm/gmu.yaml b/Documentation/devicetree/bindings/display/msm/gmu.yaml
-index 029d72822d8b..65b02c7a1211 100644
---- a/Documentation/devicetree/bindings/display/msm/gmu.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/gmu.yaml
-@@ -225,7 +225,7 @@ examples:
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
- 
-     gmu: gmu@506a000 {
--        compatible="qcom,adreno-gmu-630.2", "qcom,adreno-gmu";
-+        compatible = "qcom,adreno-gmu-630.2", "qcom,adreno-gmu";
- 
-         reg = <0x506a000 0x30000>,
-               <0xb280000 0x10000>,
-diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
-index 1cdc91b3439f..200fbf1c74a0 100644
---- a/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
-@@ -74,7 +74,7 @@ examples:
-             vdd3-supply = <&vcclcd_reg>;
-             vci-supply = <&vlcd_reg>;
-             reset-gpios = <&gpy4 5 0>;
--            power-on-delay= <50>;
-+            power-on-delay = <50>;
-             reset-delay = <100>;
-             init-delay = <100>;
-             panel-width-mm = <58>;
-diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
-index 6f43d885c9b3..df61cb5f5c54 100644
---- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
-+++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
-@@ -121,11 +121,11 @@ examples:
-         #size-cells = <0>;
-         vopb_out_edp: endpoint@0 {
-           reg = <0>;
--          remote-endpoint=<&edp_in_vopb>;
-+          remote-endpoint = <&edp_in_vopb>;
-         };
-         vopb_out_hdmi: endpoint@1 {
-           reg = <1>;
--          remote-endpoint=<&hdmi_in_vopb>;
-+          remote-endpoint = <&hdmi_in_vopb>;
-         };
-       };
-     };
-diff --git a/Documentation/devicetree/bindings/iio/adc/ti,adc108s102.yaml b/Documentation/devicetree/bindings/iio/adc/ti,adc108s102.yaml
-index 9b072b057f16..a60b1e100ee4 100644
---- a/Documentation/devicetree/bindings/iio/adc/ti,adc108s102.yaml
-+++ b/Documentation/devicetree/bindings/iio/adc/ti,adc108s102.yaml
-@@ -35,7 +35,7 @@ unevaluatedProperties: false
- examples:
-   - |
-     spi {
--        #address-cells= <1>;
-+        #address-cells = <1>;
-         #size-cells = <0>;
- 
-         adc@0 {
-diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-index 7dde7967c886..1e72b8808d24 100644
---- a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-+++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-@@ -137,7 +137,7 @@ examples:
- 
-                 cru_parallel_in: endpoint@0 {
-                     reg = <0>;
--                    remote-endpoint= <&ov5642>;
-+                    remote-endpoint = <&ov5642>;
-                     hsync-active = <1>;
-                     vsync-active = <1>;
-                 };
-@@ -150,7 +150,7 @@ examples:
- 
-                 cru_csi_in: endpoint@0 {
-                     reg = <0>;
--                    remote-endpoint= <&csi_cru_in>;
-+                    remote-endpoint = <&csi_cru_in>;
-                 };
-             };
-         };
-diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-index 91e8f368fb52..324703bfb1bd 100644
---- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
-+++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-@@ -303,11 +303,11 @@ examples:
- 
-                             vin0csi20: endpoint@0 {
-                                     reg = <0>;
--                                    remote-endpoint= <&csi20vin0>;
-+                                    remote-endpoint = <&csi20vin0>;
-                             };
-                             vin0csi40: endpoint@2 {
-                                     reg = <2>;
--                                    remote-endpoint= <&csi40vin0>;
-+                                    remote-endpoint = <&csi40vin0>;
-                             };
-                     };
-             };
-diff --git a/Documentation/devicetree/bindings/mtd/mtd-physmap.yaml b/Documentation/devicetree/bindings/mtd/mtd-physmap.yaml
-index f8c976898a95..18f6733408b4 100644
---- a/Documentation/devicetree/bindings/mtd/mtd-physmap.yaml
-+++ b/Documentation/devicetree/bindings/mtd/mtd-physmap.yaml
-@@ -164,7 +164,7 @@ examples:
-             reg = <0 0xf80000>;
-         };
-         firmware@f80000 {
--            label ="firmware";
-+            label = "firmware";
-             reg = <0xf80000 0x80000>;
-             read-only;
-         };
-diff --git a/Documentation/devicetree/bindings/net/mediatek-dwmac.yaml b/Documentation/devicetree/bindings/net/mediatek-dwmac.yaml
-index 0fa2132fa4f4..400aedb58205 100644
---- a/Documentation/devicetree/bindings/net/mediatek-dwmac.yaml
-+++ b/Documentation/devicetree/bindings/net/mediatek-dwmac.yaml
-@@ -156,7 +156,7 @@ examples:
-         reg = <0x1101c000 0x1300>;
-         interrupts = <GIC_SPI 237 IRQ_TYPE_LEVEL_LOW>;
-         interrupt-names = "macirq";
--        phy-mode ="rgmii-rxid";
-+        phy-mode = "rgmii-rxid";
-         mac-address = [00 55 7b b5 7d f7];
-         clock-names = "axi",
-                       "apb",
-diff --git a/Documentation/devicetree/bindings/perf/amlogic,g12-ddr-pmu.yaml b/Documentation/devicetree/bindings/perf/amlogic,g12-ddr-pmu.yaml
-index 50f46a6898b1..4adab0149108 100644
---- a/Documentation/devicetree/bindings/perf/amlogic,g12-ddr-pmu.yaml
-+++ b/Documentation/devicetree/bindings/perf/amlogic,g12-ddr-pmu.yaml
-@@ -42,8 +42,8 @@ examples:
-   - |
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
-     pmu {
--        #address-cells=<2>;
--        #size-cells=<2>;
-+        #address-cells = <2>;
-+        #size-cells = <2>;
- 
-         pmu@ff638000 {
-             compatible = "amlogic,g12a-ddr-pmu";
-diff --git a/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml b/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
-index 26f2b887cfc1..b8d77165c4a1 100644
---- a/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
-+++ b/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
-@@ -83,7 +83,7 @@ examples:
-         clocks = <&clk26m>;
-         clock-output-names = "mipi_tx0_pll";
-         drive-strength-microamp = <4000>;
--        nvmem-cells= <&mipi_tx_calibration>;
-+        nvmem-cells = <&mipi_tx_calibration>;
-         nvmem-cell-names = "calibration-data";
-         #clock-cells = <0>;
-         #phy-cells = <0>;
-diff --git a/Documentation/devicetree/bindings/remoteproc/amlogic,meson-mx-ao-arc.yaml b/Documentation/devicetree/bindings/remoteproc/amlogic,meson-mx-ao-arc.yaml
-index 3100cb870170..76e8ca44906a 100644
---- a/Documentation/devicetree/bindings/remoteproc/amlogic,meson-mx-ao-arc.yaml
-+++ b/Documentation/devicetree/bindings/remoteproc/amlogic,meson-mx-ao-arc.yaml
-@@ -75,7 +75,7 @@ additionalProperties: false
- examples:
-   - |
-     remoteproc@1c {
--      compatible= "amlogic,meson8-ao-arc", "amlogic,meson-mx-ao-arc";
-+      compatible = "amlogic,meson8-ao-arc", "amlogic,meson-mx-ao-arc";
-       reg = <0x1c 0x8>, <0x38 0x8>;
-       reg-names = "remap", "cpu";
-       resets = <&media_cpu_reset>;
-diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-index 478214ab045e..a59d91243ac8 100644
---- a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-+++ b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-@@ -304,7 +304,7 @@ examples:
-   # Dual role switch with type-c
-   - |
-     usb@11201000 {
--        compatible ="mediatek,mt8183-mtu3", "mediatek,mtu3";
-+        compatible = "mediatek,mt8183-mtu3", "mediatek,mtu3";
-         reg = <0x11201000 0x2e00>, <0x11203e00 0x0100>;
-         reg-names = "mac", "ippc";
-         interrupts = <GIC_SPI 72 IRQ_TYPE_LEVEL_LOW>;
-diff --git a/Documentation/devicetree/bindings/usb/ti,am62-usb.yaml b/Documentation/devicetree/bindings/usb/ti,am62-usb.yaml
-index d25fc708e32c..fec5651f5602 100644
---- a/Documentation/devicetree/bindings/usb/ti,am62-usb.yaml
-+++ b/Documentation/devicetree/bindings/usb/ti,am62-usb.yaml
-@@ -92,7 +92,7 @@ examples:
- 
-         usb@31100000 {
-           compatible = "snps,dwc3";
--          reg =<0x00 0x31100000 0x00 0x50000>;
-+          reg = <0x00 0x31100000 0x00 0x50000>;
-           interrupts = <GIC_SPI 226 IRQ_TYPE_LEVEL_HIGH>, /* irq.0 */
-                        <GIC_SPI 226 IRQ_TYPE_LEVEL_HIGH>; /* irq.0 */
-           interrupt-names = "host", "peripheral";
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
