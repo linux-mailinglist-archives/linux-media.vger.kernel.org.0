@@ -2,80 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 37ABC744D16
-	for <lists+linux-media@lfdr.de>; Sun,  2 Jul 2023 11:51:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 128A2744D41
+	for <lists+linux-media@lfdr.de>; Sun,  2 Jul 2023 12:30:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229875AbjGBJvG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 2 Jul 2023 05:51:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44490 "EHLO
+        id S229704AbjGBKaO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 2 Jul 2023 06:30:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229460AbjGBJvE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 2 Jul 2023 05:51:04 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BE0FDC;
-        Sun,  2 Jul 2023 02:51:03 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 303A860C08;
-        Sun,  2 Jul 2023 09:51:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97340C433C9;
-        Sun,  2 Jul 2023 09:51:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1688291462;
-        bh=hA6GlV1UqjmkA56DuucUvDkCtcQNNv7bBEGovbx1Fk4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ZpIl/0mG6g7ahPl4aF1WDSXW7RQg9KvEDECwPSFMQx37AzIMDwjuCHi389WTobdKX
-         qbNVP3QmxSOHSpTJE1ZaHERJE3GJk5r2mlPiDnGMKzb9pcRFiqDBpyRvqSkMfzaHRo
-         u2fQG5AUc5aBwq3R/Xn8EtCALrgOExsdYWAAjYqqtbeg9DdutKx1+tLAC2p/kgajQu
-         8b1xKFNpAjOmKS9zyNHkIspK1RrD2aTI0kxrJLm1Cu9d66e3QwzVyOQDeJRmO9tgyX
-         +DX+B0u9pUbtJhaVD84Uyw3dihGIyUnBUPM791RZYucOAkTlNtc2WJ3XCYKyQZZ9e4
-         u/9Ta1MLQ+OvQ==
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-4f86e6e4038so4299480e87.0;
-        Sun, 02 Jul 2023 02:51:01 -0700 (PDT)
-X-Gm-Message-State: AC+VfDz4kLwAy0IRrgyPJqnSfAKaPAsFI8D7qVe9sXDxokJjCeTWoGRm
-        hFFBtlffmN9upFunnRH9LyJ+xhvoi4Gf3NQUgw==
-X-Google-Smtp-Source: ACHHUZ6L2kvXHzm79mMIeDZDgvuDYbbSjie/ZH4uVr+PSQ9kioutb93cROQeonW8J6th9h92WSPRzm6UmI0vRxIH6IE=
-X-Received: by 2002:a05:6512:2828:b0:4f8:75d5:e14f with SMTP id
- cf40-20020a056512282800b004f875d5e14fmr3736142lfb.28.1688291459662; Sun, 02
- Jul 2023 02:50:59 -0700 (PDT)
+        with ESMTP id S229533AbjGBKaN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 2 Jul 2023 06:30:13 -0400
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45014E6F
+        for <linux-media@vger.kernel.org>; Sun,  2 Jul 2023 03:30:12 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id ffacd0b85a97d-311367a3e12so4592178f8f.2
+        for <linux-media@vger.kernel.org>; Sun, 02 Jul 2023 03:30:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1688293811; x=1690885811;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=E/AKobFXk2c7axAYUWlFRY5XKu7EkRHpm3DTOLsRDMw=;
+        b=qYeuy69OwZ+bkpFiGmLnLvQV+HdgH8p5lPD1W6N+UirHmEQp/EQYsPcT5BdhVSXLC9
+         AxItyQc+1FnHfifuChU4xhxfm/rXJSzZNe1KRhFTmyfN4i5VqMqZo7m82Zvib45z34Bu
+         HJoNGec4gqBa5X3uvSyRZSyjR5GdzBYRmC4HJl27XkNvl9JATaW5R8srXSWZKJzBCnq1
+         nBNkY0RsiWdUEgXR4T7JlB1riEbuVeeqWAcrn4JMABRXjWUHVz/TYNfaaHf7LUKHD5Vk
+         DoQbA4SLBYpR04RSQxq9buZbfgKmRVdTaF2rkV4xq1XR3Ei78FSMxscPGsnWGayjAQHP
+         +Kcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688293811; x=1690885811;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=E/AKobFXk2c7axAYUWlFRY5XKu7EkRHpm3DTOLsRDMw=;
+        b=XC78NGlt/yrJPN9USCuF/b391JeFrzBDHVrN4eOk5X4F4aj3v0cte7kFenpLJYCw40
+         9TRg6a1xnjhhcGaJTaaRvFaDOHvio/2CnBvC0fhorMDHcDCgVkDLrGuSWaSCXVqZQf7m
+         HWGAsPn3uoes9JT/KzCspOEPXawa1ObZhxeXLo02EzvIaFd59/ji0ONhYA+/3o2cbxDx
+         CkvRxsS8EG69GAolwx39i1UtdRq12Pqt9DVUJptmCWSR0jpUNcEpB2rIrS7v2Nbfqpvn
+         miE4SdHj4xl6V2TQz7gOQNHdXPrqBQWBmEO5BuiOlh4Au5AmbTLd9V2vKL62F9gDiyQN
+         OLXA==
+X-Gm-Message-State: ABy/qLaDlu4YwNHbWwLSLwVKe3qFhK8m4beRLeSEZ6Xyxesz9jikvKnS
+        HrDTs+ItE41orK8rH8vzYIefWQ==
+X-Google-Smtp-Source: APBJJlGd1Q363NUQ95fT39f6EGsQ1a//7/2PXR2vnTVuYr5WHw1UQOY0P0dU26vA//L8rrC45Cvh2A==
+X-Received: by 2002:a5d:4ac2:0:b0:313:e161:d013 with SMTP id y2-20020a5d4ac2000000b00313e161d013mr6654510wrs.15.1688293810652;
+        Sun, 02 Jul 2023 03:30:10 -0700 (PDT)
+Received: from [192.168.10.214] ([217.169.179.6])
+        by smtp.gmail.com with ESMTPSA id o7-20020aa7dd47000000b0051bf57aa0c6sm8969693edw.87.2023.07.02.03.30.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 02 Jul 2023 03:30:10 -0700 (PDT)
+Message-ID: <3348348a-ee62-c9c4-d9b4-0df6745ff6a0@linaro.org>
+Date:   Sun, 2 Jul 2023 12:30:09 +0200
 MIME-Version: 1.0
-References: <20230630100321.1951138-1-jstephan@baylibre.com> <20230630100321.1951138-5-jstephan@baylibre.com>
-In-Reply-To: <20230630100321.1951138-5-jstephan@baylibre.com>
-From:   Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date:   Sun, 2 Jul 2023 17:50:47 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8z9YDrC6yJ80TUJQ6FmU6wQOdgGJ0eCN15gu0LYds0ig@mail.gmail.com>
-Message-ID: <CAAOTY_8z9YDrC6yJ80TUJQ6FmU6wQOdgGJ0eCN15gu0LYds0ig@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] media: platform: mediatek: isp_30: add mediatek
- ISP3.0 camsv
-To:     Julien Stephan <jstephan@baylibre.com>
-Cc:     Phi-bang Nguyen <pnguyen@baylibre.com>,
-        Florian Sylvestre <fsylvestre@baylibre.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Andy Hsieh <andy.hsieh@mediatek.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Conor Dooley <conor+dt@kernel.org>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        devicetree@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-        Louis Kuo <louis.kuo@mediatek.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v5 3/7] media: dt-bindings: mediatek,vcodec: Remove
+ VDEC_SYS register space
+To:     =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
+        <nfraprado@collabora.com>,
         Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>, kernel@collabora.com,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Moudy Ho <moudy.ho@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Vasily Gorbik <gor@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+References: <20230630151436.155586-1-nfraprado@collabora.com>
+ <20230630151436.155586-4-nfraprado@collabora.com>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230630151436.155586-4-nfraprado@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -83,93 +89,24 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi, Julien:
+On 30/06/2023 17:14, Nícolas F. R. A. Prado wrote:
+> The binding expects the first register space to be VDEC_SYS. However
+> this register space is already assigned to a different node on both
+> MT8173 and MT8183: a clock-controller node called 'vdecsys' which is
+> also a syscon.
+> 
+> In order to resolve the overlapping address ranges, remove the VDEC_SYS
+> register space from the video decoder, and add a new property to hold
+> the phandle to the syscon, so that iospace can still be handled.
+> 
+> Also add reg-names to be able to tell that this new register schema is
+> used, so the driver can keep backward compatibility.
+> 
+> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
-Julien Stephan <jstephan@baylibre.com> =E6=96=BC 2023=E5=B9=B46=E6=9C=8830=
-=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=886:06=E5=AF=AB=E9=81=93=EF=BC=
-=9A
->
-> From: Phi-bang Nguyen <pnguyen@baylibre.com>
->
-> This driver provides a path to bypass the SoC ISP so that image data
-> coming from the SENINF can go directly into memory without any image
-> processing. This allows the use of an external ISP.
->
-> Signed-off-by: Phi-bang Nguyen <pnguyen@baylibre.com>
-> Signed-off-by: Florian Sylvestre <fsylvestre@baylibre.com>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-> ---
 
-[snip]
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-> +
-> +static irqreturn_t isp_irq_camsv30(int irq, void *data)
-> +{
-> +       struct mtk_cam_dev *cam_dev =3D (struct mtk_cam_dev *)data;
-> +       struct mtk_cam_dev_buffer *buf;
-> +       unsigned long flags =3D 0;
-> +       unsigned int irq_status;
-> +
-> +       spin_lock_irqsave(&cam_dev->irqlock, flags);
-> +
-> +       irq_status =3D mtk_camsv30_read(cam_dev, CAMSV_INT_STATUS);
-> +
-> +       if (irq_status & INT_ST_MASK_CAMSV_ERR) {
-> +               dev_err(cam_dev->dev, "irq error 0x%x\n",
-> +                       (unsigned int)(irq_status & INT_ST_MASK_CAMSV_ERR=
-));
-> +       }
-> +
-> +       /* De-queue frame */
-> +       if (irq_status & CAMSV_IRQ_PASS1_DON) {
-> +               cam_dev->sequence++;
-> +
-> +               if (!cam_dev->is_dummy_used) {
-> +                       buf =3D list_first_entry_or_null(&cam_dev->buf_li=
-st,
-> +                                                      struct mtk_cam_dev=
-_buffer,
-> +                                                      list);
-> +                       if (buf) {
-> +                               buf->v4l2_buf.sequence =3D cam_dev->seque=
-nce;
-> +                               buf->v4l2_buf.vb2_buf.timestamp =3D ktime=
-_get_ns();
-> +                               vb2_buffer_done(&buf->v4l2_buf.vb2_buf,
-> +                                               VB2_BUF_STATE_DONE);
-> +                               list_del(&buf->list);
-> +                       }
-> +               }
-> +
-> +               if (list_empty(&cam_dev->buf_list)) {
-> +                       (*cam_dev->hw_functions->mtk_cam_update_buffers_a=
-dd)
-> +                                               (cam_dev, &cam_dev->dummy=
-);
+Best regards,
+Krzysztof
 
-It's not necessary to use function pointer. Call
-mtk_camsv30_update_buffers_add() directly.
-
-Regards,
-Chun-Kuang.
-
-> +                       cam_dev->is_dummy_used =3D true;
-> +               } else {
-> +                       buf =3D list_first_entry_or_null(&cam_dev->buf_li=
-st,
-> +                                                      struct mtk_cam_dev=
-_buffer,
-> +                                                      list);
-> +                       (*cam_dev->hw_functions->mtk_cam_update_buffers_a=
-dd)
-> +                                               (cam_dev, buf);
-> +                       cam_dev->is_dummy_used =3D false;
-> +               }
-> +       }
-> +
-> +       spin_unlock_irqrestore(&cam_dev->irqlock, flags);
-> +
-> +       return IRQ_HANDLED;
-> +}
-> +
