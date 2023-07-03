@@ -2,72 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DCD9745DD8
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jul 2023 15:52:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61F9D745EF4
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jul 2023 16:45:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231162AbjGCNwj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jul 2023 09:52:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34112 "EHLO
+        id S231519AbjGCOpZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jul 2023 10:45:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230364AbjGCNwh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jul 2023 09:52:37 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09BCFE5D;
-        Mon,  3 Jul 2023 06:52:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688392355; x=1719928355;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=u3/uFS/BD6PK7Y2v1f21Dr+CJPu59wRry4Ju0Ge6hAY=;
-  b=Ktu/jyKwiIsatuLiWOGwlFUdheOrZ6ZWgsxp0h0or/nE0IObYvfJSCL+
-   iGIaGhHZ1IepHywbZosjgV/yQf8bbhOTR7nUTAuupe4VyApRT0/SxKW3d
-   SOdimaoRGRXCa57JGPBx+e9onJFcL0Wgb8X2dVWt1XWoiwrDMbMzHl52q
-   5ZPWTFhWCIHC1o+WpS/7Svab09QOYDYPRqrqYkNmTdEw4y1EyKAJ108hh
-   3rbHEkkBWi526QxTMbonZn4VBNLK9BahFZ+2NaTlTtk+NKwOOdPgmYfK3
-   orCeropOr3Pz/e+Rvwr52mkLoYG+FxiWRS3Hao95JhLkmPlFL87zbrvTK
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="361744812"
-X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
-   d="scan'208";a="361744812"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2023 06:52:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="831839501"
-X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
-   d="scan'208";a="831839501"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga002.fm.intel.com with ESMTP; 03 Jul 2023 06:52:28 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id A114C17C; Mon,  3 Jul 2023 16:52:31 +0300 (EEST)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Mark Brown <broonie@kernel.org>,
-        David Lin <CTLIN0@nuvoton.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        alsa-devel@alsa-project.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, Antti Palosaari <crope@iki.fi>,
-        Sergey Kozlov <serjk@netup.ru>, Abylay Ospan <aospan@netup.ru>,
-        Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>,
-        Michael Krufky <mkrufky@linuxtv.org>,
-        Matthias Schwarzott <zzam@gentoo.org>,
-        Akihiro Tsukada <tskd08@gmail.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH v2 4/4] ASoC: nau8825: Replace copied'n'pasted intlog10()
-Date:   Mon,  3 Jul 2023 16:52:11 +0300
-Message-Id: <20230703135211.87416-5-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.40.0.1.gaa8946217a0b
-In-Reply-To: <20230703135211.87416-1-andriy.shevchenko@linux.intel.com>
-References: <20230703135211.87416-1-andriy.shevchenko@linux.intel.com>
+        with ESMTP id S231511AbjGCOpL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jul 2023 10:45:11 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CB5010CE;
+        Mon,  3 Jul 2023 07:44:52 -0700 (PDT)
+Received: from [192.168.0.136] (85-160-45-219.reb.o2.cz [85.160.45.219])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6D019558;
+        Mon,  3 Jul 2023 16:44:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1688395445;
+        bh=gY4+xWjRxQqKzgbz5r4Gqf9iuuKb3qum48HfTwqVoME=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=kvCmMAlOGe3KhkmBcK3B67kVoraHZWy5ufOidnsjV5bHCemAe1MVvtRf8pSXemww7
+         jKKrwVTjJ3qSkL4cd+7+0mb4MEyw6S1cgiUZUmp3OI6vzVWF9HJf/Qzi8Zic0+Xe0N
+         /xaafLDmvyd7Rmi9jfuj33F6V+DjiOH+T1zZUsbM=
+Message-ID: <f080a725-65ea-c3fe-896a-5ac711dddfc1@ideasonboard.com>
+Date:   Mon, 3 Jul 2023 16:44:39 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v8 3/5] staging: bcm2835-camera: Register bcm2835-camera
+ with vchiq_bus_type
+Content-Language: en-US
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     linux-staging@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, stefan.wahren@i2se.com,
+        f.fainelli@gmail.com, athierry@redhat.com, error27@gmail.com,
+        dave.stevenson@raspberrypi.com, kieran.bingham@ideasonboard.com,
+        laurent.pinchart@ideasonboard.com
+References: <20230627201628.207483-1-umang.jain@ideasonboard.com>
+ <20230627201628.207483-4-umang.jain@ideasonboard.com>
+ <2023070319-daycare-pointless-abba@gregkh>
+From:   Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <2023070319-daycare-pointless-abba@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,148 +57,84 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As the code even references to dvb_math.c, which is now available
-as int_log.c, replace its content by the calling respective API.
+Hi Greg,
 
-Acked-by: Mark Brown <broonie@kernel.org>
-Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Link: https://lore.kernel.org/r/20230619172019.21457-5-andriy.shevchenko@linux.intel.com
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- sound/soc/codecs/nau8825.c | 93 ++------------------------------------
- 1 file changed, 3 insertions(+), 90 deletions(-)
+On 7/3/23 3:29 PM, Greg KH wrote:
+> On Tue, Jun 27, 2023 at 10:16:26PM +0200, Umang Jain wrote:
+>> Register the bcm2835-camera with the vchiq_bus_type instead of using
+>> platform driver/device.
+>>
+>> Also the VCHIQ firmware doesn't support device enumeration, hence
+>> one has to maintain a list of devices to be registered in the interface.
+>>
+>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+>> ---
+>>   .../bcm2835-camera/bcm2835-camera.c           | 16 +++++++-------
+>>   .../interface/vchiq_arm/vchiq_arm.c           | 21 ++++++++++++++++---
+>>   2 files changed, 26 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+>> index 346d00df815a..f37b2a881d92 100644
+>> --- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+>> +++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+>> @@ -24,8 +24,9 @@
+>>   #include <media/v4l2-event.h>
+>>   #include <media/v4l2-common.h>
+>>   #include <linux/delay.h>
+>> -#include <linux/platform_device.h>
+>>   
+>> +#include "../interface/vchiq_arm/vchiq_arm.h"
+>> +#include "../interface/vchiq_arm/vchiq_device.h"
+>>   #include "../vchiq-mmal/mmal-common.h"
+>>   #include "../vchiq-mmal/mmal-encodings.h"
+>>   #include "../vchiq-mmal/mmal-vchiq.h"
+>> @@ -1841,7 +1842,7 @@ static struct v4l2_format default_v4l2_format = {
+>>   	.fmt.pix.sizeimage = 1024 * 768,
+>>   };
+>>   
+>> -static int bcm2835_mmal_probe(struct platform_device *pdev)
+>> +static int bcm2835_mmal_probe(struct vchiq_device *device)
+>>   {
+>>   	int ret;
+>>   	struct bcm2835_mmal_dev *dev;
+>> @@ -1896,7 +1897,7 @@ static int bcm2835_mmal_probe(struct platform_device *pdev)
+>>   						       &camera_instance);
+>>   		ret = v4l2_device_register(NULL, &dev->v4l2_dev);
+>>   		if (ret) {
+>> -			dev_err(&pdev->dev, "%s: could not register V4L2 device: %d\n",
+>> +			dev_err(&device->dev, "%s: could not register V4L2 device: %d\n",
+>>   				__func__, ret);
+>>   			goto free_dev;
+>>   		}
+>> @@ -1976,7 +1977,7 @@ static int bcm2835_mmal_probe(struct platform_device *pdev)
+>>   	return ret;
+>>   }
+>>   
+>> -static void bcm2835_mmal_remove(struct platform_device *pdev)
+>> +static void bcm2835_mmal_remove(struct vchiq_device *device)
+>>   {
+>>   	int camera;
+>>   	struct vchiq_mmal_instance *instance = gdev[0]->instance;
+>> @@ -1988,17 +1989,16 @@ static void bcm2835_mmal_remove(struct platform_device *pdev)
+>>   	vchiq_mmal_finalise(instance);
+>>   }
+>>   
+>> -static struct platform_driver bcm2835_camera_driver = {
+>> +static struct vchiq_driver bcm2835_camera_driver = {
+>>   	.probe		= bcm2835_mmal_probe,
+>> -	.remove_new	= bcm2835_mmal_remove,
+>> +	.remove		= bcm2835_mmal_remove,
+> No need to change this here, right?  That's independant of this patch
+> series.
 
-diff --git a/sound/soc/codecs/nau8825.c b/sound/soc/codecs/nau8825.c
-index 9e0e4ddf128e..5cb0de648bd3 100644
---- a/sound/soc/codecs/nau8825.c
-+++ b/sound/soc/codecs/nau8825.c
-@@ -11,6 +11,7 @@
- #include <linux/module.h>
- #include <linux/delay.h>
- #include <linux/init.h>
-+#include <linux/int_log.h>
- #include <linux/i2c.h>
- #include <linux/regmap.h>
- #include <linux/slab.h>
-@@ -38,7 +39,6 @@
- #define NAU_FVCO_MIN 90000000
- 
- /* cross talk suppression detection */
--#define LOG10_MAGIC 646456993
- #define GAIN_AUGMENT 22500
- #define SIDETONE_BASE 207000
- 
-@@ -219,42 +219,6 @@ static const struct reg_sequence nau8825_regmap_patch[] = {
- 	{ NAU8825_REG_MIC_BIAS, 0x0046 },
- };
- 
--
--static const unsigned short logtable[256] = {
--	0x0000, 0x0171, 0x02e0, 0x044e, 0x05ba, 0x0725, 0x088e, 0x09f7,
--	0x0b5d, 0x0cc3, 0x0e27, 0x0f8a, 0x10eb, 0x124b, 0x13aa, 0x1508,
--	0x1664, 0x17bf, 0x1919, 0x1a71, 0x1bc8, 0x1d1e, 0x1e73, 0x1fc6,
--	0x2119, 0x226a, 0x23ba, 0x2508, 0x2656, 0x27a2, 0x28ed, 0x2a37,
--	0x2b80, 0x2cc8, 0x2e0f, 0x2f54, 0x3098, 0x31dc, 0x331e, 0x345f,
--	0x359f, 0x36de, 0x381b, 0x3958, 0x3a94, 0x3bce, 0x3d08, 0x3e41,
--	0x3f78, 0x40af, 0x41e4, 0x4319, 0x444c, 0x457f, 0x46b0, 0x47e1,
--	0x4910, 0x4a3f, 0x4b6c, 0x4c99, 0x4dc5, 0x4eef, 0x5019, 0x5142,
--	0x526a, 0x5391, 0x54b7, 0x55dc, 0x5700, 0x5824, 0x5946, 0x5a68,
--	0x5b89, 0x5ca8, 0x5dc7, 0x5ee5, 0x6003, 0x611f, 0x623a, 0x6355,
--	0x646f, 0x6588, 0x66a0, 0x67b7, 0x68ce, 0x69e4, 0x6af8, 0x6c0c,
--	0x6d20, 0x6e32, 0x6f44, 0x7055, 0x7165, 0x7274, 0x7383, 0x7490,
--	0x759d, 0x76aa, 0x77b5, 0x78c0, 0x79ca, 0x7ad3, 0x7bdb, 0x7ce3,
--	0x7dea, 0x7ef0, 0x7ff6, 0x80fb, 0x81ff, 0x8302, 0x8405, 0x8507,
--	0x8608, 0x8709, 0x8809, 0x8908, 0x8a06, 0x8b04, 0x8c01, 0x8cfe,
--	0x8dfa, 0x8ef5, 0x8fef, 0x90e9, 0x91e2, 0x92db, 0x93d2, 0x94ca,
--	0x95c0, 0x96b6, 0x97ab, 0x98a0, 0x9994, 0x9a87, 0x9b7a, 0x9c6c,
--	0x9d5e, 0x9e4f, 0x9f3f, 0xa02e, 0xa11e, 0xa20c, 0xa2fa, 0xa3e7,
--	0xa4d4, 0xa5c0, 0xa6ab, 0xa796, 0xa881, 0xa96a, 0xaa53, 0xab3c,
--	0xac24, 0xad0c, 0xadf2, 0xaed9, 0xafbe, 0xb0a4, 0xb188, 0xb26c,
--	0xb350, 0xb433, 0xb515, 0xb5f7, 0xb6d9, 0xb7ba, 0xb89a, 0xb97a,
--	0xba59, 0xbb38, 0xbc16, 0xbcf4, 0xbdd1, 0xbead, 0xbf8a, 0xc065,
--	0xc140, 0xc21b, 0xc2f5, 0xc3cf, 0xc4a8, 0xc580, 0xc658, 0xc730,
--	0xc807, 0xc8de, 0xc9b4, 0xca8a, 0xcb5f, 0xcc34, 0xcd08, 0xcddc,
--	0xceaf, 0xcf82, 0xd054, 0xd126, 0xd1f7, 0xd2c8, 0xd399, 0xd469,
--	0xd538, 0xd607, 0xd6d6, 0xd7a4, 0xd872, 0xd93f, 0xda0c, 0xdad9,
--	0xdba5, 0xdc70, 0xdd3b, 0xde06, 0xded0, 0xdf9a, 0xe063, 0xe12c,
--	0xe1f5, 0xe2bd, 0xe385, 0xe44c, 0xe513, 0xe5d9, 0xe69f, 0xe765,
--	0xe82a, 0xe8ef, 0xe9b3, 0xea77, 0xeb3b, 0xebfe, 0xecc1, 0xed83,
--	0xee45, 0xef06, 0xefc8, 0xf088, 0xf149, 0xf209, 0xf2c8, 0xf387,
--	0xf446, 0xf505, 0xf5c3, 0xf680, 0xf73e, 0xf7fb, 0xf8b7, 0xf973,
--	0xfa2f, 0xfaea, 0xfba5, 0xfc60, 0xfd1a, 0xfdd4, 0xfe8e, 0xff47
--};
--
- /**
-  * nau8825_sema_acquire - acquire the semaphore of nau88l25
-  * @nau8825:  component to register the codec private data with
-@@ -368,65 +332,14 @@ static void nau8825_hpvol_ramp(struct nau8825 *nau8825,
- }
- 
- /**
-- * nau8825_intlog10_dec3 - Computes log10 of a value
-- * the result is round off to 3 decimal. This function takes reference to
-- * dvb-math. The source code locates as the following.
-- * Linux/drivers/media/dvb-core/dvb_math.c
-+ * nau8825_intlog10_dec3 - Computes log10 of a value, rounding the result to 3 decimal places.
-  * @value:  input for log10
-  *
-  * return log10(value) * 1000
-  */
- static u32 nau8825_intlog10_dec3(u32 value)
- {
--	u32 msb, logentry, significand, interpolation, log10val;
--	u64 log2val;
--
--	/* first detect the msb (count begins at 0) */
--	msb = fls(value) - 1;
--	/**
--	 *      now we use a logtable after the following method:
--	 *
--	 *      log2(2^x * y) * 2^24 = x * 2^24 + log2(y) * 2^24
--	 *      where x = msb and therefore 1 <= y < 2
--	 *      first y is determined by shifting the value left
--	 *      so that msb is bit 31
--	 *              0x00231f56 -> 0x8C7D5800
--	 *      the result is y * 2^31 -> "significand"
--	 *      then the highest 9 bits are used for a table lookup
--	 *      the highest bit is discarded because it's always set
--	 *      the highest nine bits in our example are 100011000
--	 *      so we would use the entry 0x18
--	 */
--	significand = value << (31 - msb);
--	logentry = (significand >> 23) & 0xff;
--	/**
--	 *      last step we do is interpolation because of the
--	 *      limitations of the log table the error is that part of
--	 *      the significand which isn't used for lookup then we
--	 *      compute the ratio between the error and the next table entry
--	 *      and interpolate it between the log table entry used and the
--	 *      next one the biggest error possible is 0x7fffff
--	 *      (in our example it's 0x7D5800)
--	 *      needed value for next table entry is 0x800000
--	 *      so the interpolation is
--	 *      (error / 0x800000) * (logtable_next - logtable_current)
--	 *      in the implementation the division is moved to the end for
--	 *      better accuracy there is also an overflow correction if
--	 *      logtable_next is 256
--	 */
--	interpolation = ((significand & 0x7fffff) *
--		((logtable[(logentry + 1) & 0xff] -
--		logtable[logentry]) & 0xffff)) >> 15;
--
--	log2val = ((msb << 24) + (logtable[logentry] << 8) + interpolation);
--	/**
--	 *      log10(x) = log2(x) * log10(2)
--	 */
--	log10val = (log2val * LOG10_MAGIC) >> 31;
--	/**
--	 *      the result is round off to 3 decimal
--	 */
--	return log10val / ((1 << 24) / 1000);
-+	return intlog10(value) / ((1 << 24) / 1000);
- }
- 
- /**
--- 
-2.40.0.1.gaa8946217a0b
+Why not ?
+
+Should I have "remove_new()"  in the struct vchiq_driver {..} [Patch 
+1/5] instead of "remove()"  -  match up with platform_driver virtual 
+interface ?
+
+>
+> thanks,
+>
+> greg k-h
 
