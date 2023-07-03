@@ -2,322 +2,526 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 87F3574576D
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jul 2023 10:36:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FCCD7457B9
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jul 2023 10:51:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230027AbjGCIgH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jul 2023 04:36:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37348 "EHLO
+        id S229648AbjGCIvI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jul 2023 04:51:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230258AbjGCIfo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jul 2023 04:35:44 -0400
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2072.outbound.protection.outlook.com [40.107.243.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69DB1E44;
-        Mon,  3 Jul 2023 01:35:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AvTMYrJzm+Ng+2FOJUcWNUT20fv8gwOMdGq4tdC4OkylhksyAoH3K3/ihcqFJGx6nnRPDCabxZwoGoJd0ASqglv4L3QDJuYRyiT9WU+McyxlFmsGr2wtVdbYCHwtF57/Ktz4/n5FTI/ZNHIksIjcIvqYLtYeQo2yXDLyquKqZqHsKpNbiFCvxcL05/O/Fed/gy7BLxdvOqCKRXyjCKnHB9whSyWmizz3GPa22mwiG+ujltSK3knfRgfCGsmjYx+A2fTstzY/XIugLA8N5cmUzMx8DOAuTLG49G1dE5WIfkxkKA0Ts+RCD3QBnIAbcsUdMm1TlkdHqL53eCaPxAh6ZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YxXYZmpJUpbSYTXnd2F4QLWkGX/o4clLvmyUwZJ1biY=;
- b=DLcZYQp3gsrHfjBDEq8Gl7VkGgjWv7O/8Zu/cK4tYr8Y7I1M2dcA9PMv2FVpIE5a72eNHDbS/i5eVOZHKapIqTYsoiruWV8YePtR07XVW0RCcBSPN0RfGGEEGh3oK4B8Q9lm4UC/9Mg5Yt7gsdK1pr2P1CHoL5c2LBctaN11g3Qq06ovMW2fmpeku9DrAeOuR84SxniMKWfqWH07nKsz1NlTTl10qtU5U/M725H9Oczmq4lRzvq4uO+hAFsVPcKAALIUhe81y9w5z7wYxqJLg4Es9SwgVWaxRyRFmtoyZfoSE/ctcGc2gSIxjIEoKHHboFYJXcGtQKKcQ59TSLNm+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synaptics.com; dmarc=pass action=none
- header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YxXYZmpJUpbSYTXnd2F4QLWkGX/o4clLvmyUwZJ1biY=;
- b=mKpOUFcOWVrJzIbansEH3DSjUEQeFmQtZ7iUJJZeOHpZuglQGPjN3tkOT7dcYTZfQM5zC4sLu7zBRCBpvqbSrIFAnHFdqXBdV0nkGLQkWsvzkzpwbqRtW5bOMA2XXKMbB8vChJ748+FdvkT7f7usDrsE9r8pXcdNuUIllvRxvGs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=synaptics.com;
-Received: from DM6PR03MB5196.namprd03.prod.outlook.com (2603:10b6:5:24a::19)
- by BN9PR03MB6058.namprd03.prod.outlook.com (2603:10b6:408:137::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.24; Mon, 3 Jul
- 2023 08:35:39 +0000
-Received: from DM6PR03MB5196.namprd03.prod.outlook.com
- ([fe80::6882:b9c1:2b2d:998d]) by DM6PR03MB5196.namprd03.prod.outlook.com
- ([fe80::6882:b9c1:2b2d:998d%5]) with mapi id 15.20.6544.024; Mon, 3 Jul 2023
- 08:35:38 +0000
-Message-ID: <25b21252-0d3a-3e50-0012-57055f386fee@synaptics.com>
-Date:   Mon, 3 Jul 2023 16:35:30 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v3 04/11] media: videobuf2: Stop define VB2_MAX_FRAME as
- global
-Content-Language: en-GB
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, m.szyprowski@samsung.com,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        hverkuil-cisco@xs4all.nl, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, linux-rockchip@lists.infradead.org,
-        mchehab@kernel.org, linux-staging@lists.linux.dev,
-        ming.qian@nxp.com, kernel@collabora.com,
-        gregkh@linuxfoundation.org, tfiga@chromium.org,
-        nicolas.dufresne@collabora.com
-References: <20230622131349.144160-1-benjamin.gaignard@collabora.com>
- <20230622131349.144160-5-benjamin.gaignard@collabora.com>
- <e7444263-0ce5-1575-8cca-1e51b1cfbe9a@synaptics.com>
- <5cb3f216-5041-a155-5d2c-059dc1f15024@collabora.com>
-From:   Hsia-Jun Li <Randy.Li@synaptics.com>
-In-Reply-To: <5cb3f216-5041-a155-5d2c-059dc1f15024@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BY3PR03CA0028.namprd03.prod.outlook.com
- (2603:10b6:a03:39a::33) To DM6PR03MB5196.namprd03.prod.outlook.com
- (2603:10b6:5:24a::19)
+        with ESMTP id S230242AbjGCIvC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jul 2023 04:51:02 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78FF5E62
+        for <linux-media@vger.kernel.org>; Mon,  3 Jul 2023 01:50:46 -0700 (PDT)
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 20AD2512;
+        Mon,  3 Jul 2023 10:49:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1688374193;
+        bh=9rq2j09pBYJyYids0vtkQtobV6OIix8soA1EHlS1snw=;
+        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
+        b=XUuseWUZVjtyKOMd9BsSRb3rs+tW88Ysqy/s1NyOJ3y/4cozAKN1Zti1PeYAp2byA
+         Y6pv7pkDWHaOIy6PSXJ+bWnKO1QRFtWXv2VRC0ZQp9lHF14wMfaFO7oOjyIXX2P99o
+         uEw+DxgHO6SVH0ErSVJpqGamAq2uFEJYRmsvMkFA=
+Message-ID: <3b803ec2-30e0-8d5e-06b2-ac8695b0d624@ideasonboard.com>
+Date:   Mon, 3 Jul 2023 09:50:33 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR03MB5196:EE_|BN9PR03MB6058:EE_
-X-MS-Office365-Filtering-Correlation-Id: 25d1422f-48e6-4956-650e-08db7ba07a7f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PqAGwFESGZ3Xm6T0p87nvXx2CxRoxX/qhMtvqOpWgaX0a6Ma+QPfqFFLAKMCQtArQY/SUdbwbYLgz4+C2BSP7wQXt57qW1PEV6Ip00ZNfP5FvyhRmj4OkQWa1rfPdMelXyvVyPRSKatWBsch1LLWV1bAcys2r74gbe0P4l0oRqq7FAMHwIZtYNdbgugIryAL1V24mcHo7dTHlzBWIdGZ+16mUO47B+hP7l7q2bTEntWpIg2BJsnG+iLozbs91/n8DiEzodfgNX0M/kPDfq6gzjxnpJPnBhwZDCxbsKrilQHvNEGojsB+3AhXRVynWOQPo/6qkFFTxyCeV48LeVrhsK6SzPb6iFwujxV2LRvNbPqysdyci/lz7/YS+64uXCupeNYmPTM7JshK/FOJf13pI0PzoUllxhiXNkli2ky2ZQjpdSn/N9ZuzAOkQK41BbC8lWEaOJ8EvK1NW4jRUTy5zvxsYzj1AoCMdUfgpJwE0+CH4pfXHWo57CdFscrEgFen1k8FgKcyh9FAd0w88kIrueUYKgJLYshqVb2diQsWhEiKHBVE3bsgj167krNB8jTgW4ErJt6R8KhJ6Wa5pSbFJbQwXqzUXeguib3jW4TVBZK7X4bttrC4qDKr74mOGE5E9yqH272FSmqKqbiHcZyip++toy2YrYV+309kuRdf5ctES5mRG6k5ab9QaJrdfUVH
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR03MB5196.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(39860400002)(346002)(396003)(376002)(136003)(366004)(451199021)(26005)(31686004)(478600001)(6666004)(6512007)(6506007)(31696002)(86362001)(2616005)(186003)(38350700002)(38100700002)(6916009)(66556008)(66946007)(4326008)(66476007)(83380400001)(66574015)(52116002)(6486002)(53546011)(316002)(5660300002)(8676002)(8936002)(7416002)(41300700001)(2906002)(36756003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y1BwUS9Gc1RraFhWWXluazNva3g0bUIxNVVtekluMjArZDRBNGxXb1d1N0li?=
- =?utf-8?B?V01IQXJmdTM3am1UYTFCdjhRTENMUFNOeVpoUEpMbGlUNkVnU0NYMFBiSG81?=
- =?utf-8?B?NUx1Q0d1TENPY1NTVS85Z2szWi9sVC82UGhWS2M1ZXZQS3dvVmdyRG9wek9h?=
- =?utf-8?B?ZmN4US9wcTU4Ykw5V2krVEtIZ2d6bTYwRFFGUmdPNTBUMTlzWGdqbzhjRFNk?=
- =?utf-8?B?Ujh1S00wQUtwUEt4L2lyWkl4R1l2OXNQaWpIaFM1QVYrUzV2ZHFCMFpqckt2?=
- =?utf-8?B?Zy9VVDhzOXNKenJVRWFJL0VwcDk4RXRYT0hCcUxZTkRrWHkyYXlSYUs3aVlx?=
- =?utf-8?B?WHd1em1kVy8rMnQ3dHZQbExMejdyWFBrR3BPRnJ0Y0Q4cllXbGFSSysveVhx?=
- =?utf-8?B?Y2ZURmRBcytaTDlkTXVEMkJVSTE5TnN5c2NiaHZUaUVWeHA0VHZBK2lHcGhn?=
- =?utf-8?B?U3pieXVCUjRKUHNYWkRlQ3d4ZVg4R0E3ZDZtU3Vmb29NSlgxVytYZGlUb2Rv?=
- =?utf-8?B?UWRZbUxYUmJaYWNacVFUNStVb0dMQmVkTmJ3UVp0VG9LdVRLQ09peUtaVUxO?=
- =?utf-8?B?dUtFSElxSlhiS2JybG95eXkrdDFHY05NUHBrV2wrcVRVK21MQUVWa0d2eElW?=
- =?utf-8?B?ajJKLzNCZjFrTFB0THJmYXNOYjRLM1pwamJFNUtyRE5lTFpFQXliVVlvcE9U?=
- =?utf-8?B?YkZJSElpdFRlOUFIeEpaUDhtYTd3YWZrekdWSjNvSWQwdENSM3BOMXo4bEdK?=
- =?utf-8?B?TkpUbWtoYmtvNTIwRW40d2pHVDJubndkVFBVRUtZbmcwMEFjY3REcW54NWEv?=
- =?utf-8?B?V1Eya1c2UnNSeDN6QlhUV2VJU1NYeTRGQUk0TzBQZnlSTXdzTFpXTHZLdFFY?=
- =?utf-8?B?Q3ljdkxSTnYrYzdmMjdUc2dpWUhWVXk2V1MwTDE3UW5lOFU5cGxCMStSZFIw?=
- =?utf-8?B?cGVoVWsrSnI5RUEzS0ZWa3IvRXVkMzBMM3pkVkUyWDBDcXZKNng4OTR5bFJK?=
- =?utf-8?B?aVVCUHJUK1k4bnE3OHErQjNSUXlVWjRFTE56VVRGeDMvVE1STXFOYW9GS3dq?=
- =?utf-8?B?bTZ2RkQ3a3RYTEtKVEg0cnp3NHRuOEFiSUFhZmVWVzE3NTZnRHZBRlNlMmJD?=
- =?utf-8?B?ZlE5Ukx3alo0SExaVmFGL25uZ3VoRG5SRmtOckZjOVNIRzNSbFFkQmxGaWxp?=
- =?utf-8?B?SE9EUm5Md0tpQkVTb0tWcU92UjZrNVBHU2Y0QkNTY0VWN3gweGdtY0doQjlh?=
- =?utf-8?B?b3piT045MHZEQmZjV29jTnVVZ2dyQjZ3YWxEUVJ2SmdIdXlqUGprVXZ0ZVMw?=
- =?utf-8?B?QzZpMWFkYVlCTVFuYUxIb3RPUnRFbjZBeU9jMVgyRnZ3bXc0eG93TW9UK3Z1?=
- =?utf-8?B?V1pocTRPcVJOVFVNUHcvRXVXN3lRT1dOaWc0VDBzdTMwQkdRRnN0ZXluMWxG?=
- =?utf-8?B?UGI4SnJOSWxTS3EvOGs4NzZrK0gzM3VnMVhwUFBJUm9DdGZjdFhoektqTk1R?=
- =?utf-8?B?SWNySXAxeHBmZHlOdlJUUmdTd2k2amZxekRGSDRNOEwrbnp0bjVXcjJoTGRZ?=
- =?utf-8?B?b01BTFphZXkvMU9KRUNCb3VlZ2p4aXF2THVjcjhLWHdRdERQTTVKbVdCam9T?=
- =?utf-8?B?Tjd4OElWcXNudVJTelB1eFp1OVZkczZCck1LK1hxdzRnSERLbHdkZnUwQkx1?=
- =?utf-8?B?Tll6bzdlVkdVU2VzbXpUcmFpM0NUWWJQcmFFWDdRTGNwZFFkSzJpSGZhWVlF?=
- =?utf-8?B?K3ZBUXRNSmNPVUI2NHNHektnWlU2TDJxd2h5N2FtdnlCQUI5UmNscE9rb1kr?=
- =?utf-8?B?aFU2WldxYTM0Q3ZwM1dLR3c3TzNMdnlMdE8vcWNvREJvSlNyOEMyQnZwbTVM?=
- =?utf-8?B?UDhQK29JNGZlYkRmMlQrNkUwdFM0SmM1c0NkcFhIQ0J5MUw5UDdRQnZDbFJz?=
- =?utf-8?B?L2IxQktoV0IzZXkrdlVDSGk2VkRlTWV2Qk1PTDdRRzJlUTZ1MlYycE9YK0NR?=
- =?utf-8?B?K0REeXIwVUtlbTA0YnNBdjFWcnQ2Um5WcWliV0xISkxjVUxGZFhXRnZnN29s?=
- =?utf-8?B?QnRCWjhuZWwza1FjQlR3akJoTmY3YlV0bWZPeGduSzlhbVdpL0E1UlJZQlAw?=
- =?utf-8?Q?oO1GVOzDZGRQzudi3GKReBEjj?=
-X-OriginatorOrg: synaptics.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 25d1422f-48e6-4956-650e-08db7ba07a7f
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR03MB5196.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2023 08:35:38.4169
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kyozrvIdu+LDsyKNsp1k7ugEG8veho+CT3ALItpQksLwEKf1OWHHkHFkFJhAUGkahRYN+tmKByQoa6PvJwwtCw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR03MB6058
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Content-Language: en-US
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+        Tommaso Merciai <tomm.merciai@gmail.com>,
+        linux-media@vger.kernel.org
+References: <20230627131830.54601-1-hdegoede@redhat.com>
+ <20230627131830.54601-22-hdegoede@redhat.com>
+From:   Dan Scally <dan.scally@ideasonboard.com>
+Subject: Re: [PATCH v3 21/29] media: ov2680: Make setting the mode algorithm
+ based
+In-Reply-To: <20230627131830.54601-22-hdegoede@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Hans
 
-On 7/3/23 16:09, Benjamin Gaignard wrote:
-> CAUTION: Email originated externally, do not click links or open 
-> attachments unless you recognize the sender and know the content is safe.
+On 27/06/2023 15:18, Hans de Goede wrote:
+> Instead of using a long fixed register settings list for each resolution,
+> calculate the register settings based on the requested width + height.
 >
+> This is based on atomisp-ov2680 commit 0611888592df ("media: atomisp:
+> ov2680: Make setting the modes algorithm based").
 >
-> Le 30/06/2023 à 11:51, Hsia-Jun Li a écrit :
->>
->> On 6/22/23 21:13, Benjamin Gaignard wrote:
->>> CAUTION: Email originated externally, do not click links or open
->>> attachments unless you recognize the sender and know the content is
->>> safe.
->>>
->>>
->>> After changing bufs arrays to a dynamic allocated array
->>> VB2_MAX_FRAME doesn't mean anything for videobuf2 core.
->>
->> I think make it 64 which is the VB2_MAX_FRAME in Android GKI kernel is
->> more reasonable.
->>
->> It would be hard to iterate the whole array, it would go worse with a
->> filter. Such iterate may need to go twice because you mix
->> post-processing buffer and decoding buffer(with MV) in the same array.
+> This will allow future enhancements like adding hblank and vblank controls
+> and adding selection support.
 >
-> Here I don't want to change drivers behavior so I keep the same value.
-> If it happens that they need more buffers, like for dynamic resolution 
-> change
-> feature for Verisilicon VP9 decoder, case by case patches will be needed.
+> This also adds properly prgramming the ISP window and setting
+
+
+s/prgramming/programming
+
+
+This looks mostly good but I have one query down below.
+
+> the manual ISP window control bit in register 0x5708, this is
+> necessary for the hflip and vflip conrols to work properly.
 >
-I just don't like the idea that using a variant length array here.
-
-And I could explain why you won't need so many buffers for the 
-performance of decoding.
-
-VP9 could support 10 reference frames in dpb.
-
-Even for those frequent resolution changing test set, it would only 
-happen to two resolutions,
-
-32 would be enough for 20 buffers of two resolution plus golden frames. 
-It also leaves enough slots for re-order latency.
-
-If your case had more two resolutions, likes low->medium->high.
-
-I would suggest just skip the medium resolutions, just allocate the 
-lower one first for fast playback then the highest for all the possible
-
-medium cases. Reallocation happens frequently would only cause memory 
-fragment, nothing benefits your performance.
-
+> Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>   drivers/media/i2c/ov2680.c | 315 +++++++++++++++++--------------------
+>   1 file changed, 143 insertions(+), 172 deletions(-)
 >
->>
->>> Remove it from the core definitions but keep it for drivers internal
->>> needs.
->>>
->>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>> ---
->>>   drivers/media/common/videobuf2/videobuf2-core.c | 2 ++
->>>   drivers/media/platform/amphion/vdec.c | 1 +
->>> .../media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c | 2 ++
->>>   drivers/media/platform/qcom/venus/hfi.h | 2 ++
->>>   drivers/media/platform/verisilicon/hantro_hw.h | 2 ++
->>>   drivers/staging/media/ipu3/ipu3-v4l2.c | 2 ++
->>>   include/media/videobuf2-core.h | 1 -
->>>   include/media/videobuf2-v4l2.h | 4 ----
->>>   8 files changed, 11 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c
->>> b/drivers/media/common/videobuf2/videobuf2-core.c
->>> index 86e1e926fa45..899783f67580 100644
->>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
->>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
->>> @@ -31,6 +31,8 @@
->>>
->>>   #include <trace/events/vb2.h>
->>>
->>> +#define VB2_MAX_FRAME  32
->>> +
->>>   static int debug;
->>>   module_param(debug, int, 0644);
->>>
->>> diff --git a/drivers/media/platform/amphion/vdec.c
->>> b/drivers/media/platform/amphion/vdec.c
->>> index 3fa1a74a2e20..b3219f6d17fa 100644
->>> --- a/drivers/media/platform/amphion/vdec.c
->>> +++ b/drivers/media/platform/amphion/vdec.c
->>> @@ -28,6 +28,7 @@
->>>
->>>   #define VDEC_MIN_BUFFER_CAP            8
->>>   #define VDEC_MIN_BUFFER_OUT            8
->>> +#define VB2_MAX_FRAME                  32
->>>
->>>   struct vdec_fs_info {
->>>          char name[8];
->>> diff --git
->>> a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
->>> b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
->>> index 6532a69f1fa8..a1e0f24bb91c 100644
->>> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
->>> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
->>> @@ -16,6 +16,8 @@
->>>   #include "../vdec_drv_if.h"
->>>   #include "../vdec_vpu_if.h"
->>>
->>> +#define VB2_MAX_FRAME  32
->>> +
->>>   /* reset_frame_context defined in VP9 spec */
->>>   #define VP9_RESET_FRAME_CONTEXT_NONE0 0
->>>   #define VP9_RESET_FRAME_CONTEXT_NONE1 1
->>> diff --git a/drivers/media/platform/qcom/venus/hfi.h
->>> b/drivers/media/platform/qcom/venus/hfi.h
->>> index f25d412d6553..bd5ca5a8b945 100644
->>> --- a/drivers/media/platform/qcom/venus/hfi.h
->>> +++ b/drivers/media/platform/qcom/venus/hfi.h
->>> @@ -10,6 +10,8 @@
->>>
->>>   #include "hfi_helper.h"
->>>
->>> +#define VB2_MAX_FRAME                          32
->>> +
->>>   #define VIDC_SESSION_TYPE_VPE                  0
->>>   #define VIDC_SESSION_TYPE_ENC                  1
->>>   #define VIDC_SESSION_TYPE_DEC                  2
->>> diff --git a/drivers/media/platform/verisilicon/hantro_hw.h
->>> b/drivers/media/platform/verisilicon/hantro_hw.h
->>> index e83f0c523a30..9e8faf7ba6fb 100644
->>> --- a/drivers/media/platform/verisilicon/hantro_hw.h
->>> +++ b/drivers/media/platform/verisilicon/hantro_hw.h
->>> @@ -15,6 +15,8 @@
->>>   #include <media/v4l2-vp9.h>
->>>   #include <media/videobuf2-core.h>
->>>
->>> +#define VB2_MAX_FRAME  32
->>> +
->>>   #define DEC_8190_ALIGN_MASK    0x07U
->>>
->>>   #define MB_DIM                 16
->>> diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c
->>> b/drivers/staging/media/ipu3/ipu3-v4l2.c
->>> index e530767e80a5..6627b5c2d4d6 100644
->>> --- a/drivers/staging/media/ipu3/ipu3-v4l2.c
->>> +++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
->>> @@ -10,6 +10,8 @@
->>>   #include "ipu3.h"
->>>   #include "ipu3-dmamap.h"
->>>
->>> +#define VB2_MAX_FRAME  32
->>> +
->>>   /******************** v4l2_subdev_ops ********************/
->>>
->>>   #define IPU3_RUNNING_MODE_VIDEO                0
->>> diff --git a/include/media/videobuf2-core.h
->>> b/include/media/videobuf2-core.h
->>> index 77921cf894ef..080b783d608d 100644
->>> --- a/include/media/videobuf2-core.h
->>> +++ b/include/media/videobuf2-core.h
->>> @@ -20,7 +20,6 @@
->>>   #include <media/media-request.h>
->>>   #include <media/frame_vector.h>
->>>
->>> -#define VB2_MAX_FRAME  (32)
->>>   #define VB2_MAX_PLANES (8)
->>>
->>>   /**
->>> diff --git a/include/media/videobuf2-v4l2.h
->>> b/include/media/videobuf2-v4l2.h
->>> index 5a845887850b..88a7a565170e 100644
->>> --- a/include/media/videobuf2-v4l2.h
->>> +++ b/include/media/videobuf2-v4l2.h
->>> @@ -15,10 +15,6 @@
->>>   #include <linux/videodev2.h>
->>>   #include <media/videobuf2-core.h>
->>>
->>> -#if VB2_MAX_FRAME != VIDEO_MAX_FRAME
->>> -#error VB2_MAX_FRAME != VIDEO_MAX_FRAME
->>> -#endif
->>> -
->>>   #if VB2_MAX_PLANES != VIDEO_MAX_PLANES
->>>   #error VB2_MAX_PLANES != VIDEO_MAX_PLANES
->>>   #endif
->>> -- 
->>> 2.39.2
->>>
--- 
-Hsia-Jun(Randy) Li
+> diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
+> index 79789b9efadf..15e0b0ef5e8f 100644
+> --- a/drivers/media/i2c/ov2680.c
+> +++ b/drivers/media/i2c/ov2680.c
+> @@ -38,28 +38,44 @@
+>   #define OV2680_REG_EXPOSURE_PK			CCI_REG24(0x3500)
+>   #define OV2680_REG_R_MANUAL			CCI_REG8(0x3503)
+>   #define OV2680_REG_GAIN_PK			CCI_REG16(0x350a)
+> +
+> +#define OV2680_REG_SENSOR_CTRL_0A		CCI_REG8(0x370a)
+> +
+> +#define OV2680_REG_HORIZONTAL_START		CCI_REG16(0x3800)
+> +#define OV2680_REG_VERTICAL_START		CCI_REG16(0x3802)
+> +#define OV2680_REG_HORIZONTAL_END		CCI_REG16(0x3804)
+> +#define OV2680_REG_VERTICAL_END			CCI_REG16(0x3806)
+> +#define OV2680_REG_HORIZONTAL_OUTPUT_SIZE	CCI_REG16(0x3808)
+> +#define OV2680_REG_VERTICAL_OUTPUT_SIZE		CCI_REG16(0x380a)
+>   #define OV2680_REG_TIMING_HTS			CCI_REG16(0x380c)
+>   #define OV2680_REG_TIMING_VTS			CCI_REG16(0x380e)
+> +#define OV2680_REG_ISP_X_WIN			CCI_REG16(0x3810)
+> +#define OV2680_REG_ISP_Y_WIN			CCI_REG16(0x3812)
+> +#define OV2680_REG_X_INC			CCI_REG8(0x3814)
+> +#define OV2680_REG_Y_INC			CCI_REG8(0x3815)
+>   #define OV2680_REG_FORMAT1			CCI_REG8(0x3820)
+>   #define OV2680_REG_FORMAT2			CCI_REG8(0x3821)
+>   
+>   #define OV2680_REG_ISP_CTRL00			CCI_REG8(0x5080)
+>   
+> +#define OV2680_REG_X_WIN			CCI_REG16(0x5704)
+> +#define OV2680_REG_Y_WIN			CCI_REG16(0x5706)
+> +
+>   #define OV2680_FRAME_RATE			30
+>   
+> -#define OV2680_WIDTH_MAX			1600
+> -#define OV2680_HEIGHT_MAX			1200
+> +#define OV2680_NATIVE_WIDTH			1616
+> +#define OV2680_NATIVE_HEIGHT			1216
+> +
+> +/* 66MHz pixel clock: 66MHz / 1704 * 1294 = 30fps */
+> +#define OV2680_PIXELS_PER_LINE			1704
+> +#define OV2680_LINES_PER_FRAME			1294
+> +
+> +/* If possible send 16 extra rows / lines to the ISP as padding */
+> +#define OV2680_END_MARGIN			16
+>   
+>   #define OV2680_DEFAULT_WIDTH			800
+>   #define OV2680_DEFAULT_HEIGHT			600
+>   
+> -enum ov2680_mode_id {
+> -	OV2680_MODE_QUXGA_800_600,
+> -	OV2680_MODE_720P_1280_720,
+> -	OV2680_MODE_UXGA_1600_1200,
+> -	OV2680_MODE_MAX,
+> -};
+> -
+>   static const char * const ov2680_supply_name[] = {
+>   	"DOVDD",
+>   	"DVDD",
+> @@ -83,15 +99,6 @@ static const u8 ov2680_pll_multipliers[] = {
+>   	[OV2680_24_MHZ] = 55,
+>   };
+>   
+> -struct ov2680_mode_info {
+> -	const char *name;
+> -	enum ov2680_mode_id id;
+> -	u32 width;
+> -	u32 height;
+> -	const struct reg_sequence *reg_data;
+> -	u32 reg_data_size;
+> -};
+> -
+>   struct ov2680_ctrls {
+>   	struct v4l2_ctrl_handler handler;
+>   	struct v4l2_ctrl *exposure;
+> @@ -104,6 +111,15 @@ struct ov2680_ctrls {
+>   struct ov2680_mode {
+>   	struct v4l2_mbus_framefmt	fmt;
+>   	struct v4l2_fract		frame_interval;
+> +	bool				binning;
+> +	u16				h_start;
+> +	u16				v_start;
+> +	u16				h_end;
+> +	u16				v_end;
+> +	u16				h_output_size;
+> +	u16				v_output_size;
+> +	u16				hts;
+> +	u16				vts;
+>   };
+>   
+>   struct ov2680_dev {
+> @@ -125,8 +141,6 @@ struct ov2680_dev {
+>   
+>   	struct ov2680_ctrls		ctrls;
+>   	struct ov2680_mode		mode;
+> -
+> -	const struct ov2680_mode_info	*current_mode;
+>   };
+>   
+>   static const char * const test_pattern_menu[] = {
+> @@ -144,136 +158,19 @@ static const int ov2680_hv_flip_bayer_order[] = {
+>   	MEDIA_BUS_FMT_SRGGB10_1X10,
+>   };
+>   
+> -static const struct reg_sequence ov2680_setting_30fps_QUXGA_800_600[] = {
+> -	/* Set PLL SP DIV to 1 for binning mode */
+> -	{0x3086, 0x01},
+> -
+> -	/* Sensor control register 0x0a to 0x23 for binning mode */
+> -	{0x370a, 0x23},
+> -
+> -	/* Set X and Y output size to 800x600 */
+> -	{0x3808, 0x03},
+> -	{0x3809, 0x20},
+> -	{0x380a, 0x02},
+> -	{0x380b, 0x58},
+> -
+> -	/* Set HTS + VTS to 1708x644 */
+> -	{0x380c, 0x06},
+> -	{0x380d, 0xac},
+> -	{0x380e, 0x02},
+> -	{0x380f, 0x84},
+> -
+> -	/* Set ISP WIN X and Y start to 4x4 */
+> -	{0x3811, 0x04},
+> -	{0x3813, 0x04},
+> -
+> -	/* Set X INC and Y INC for binning */
+> -	{0x3814, 0x31},
+> -	{0x3815, 0x31},
+> -
+> -	/* Initialize FORMAT1 to default/reset value (vflip disabled) */
+> -	{0x3820, 0xc0},
+> +static const struct reg_sequence ov2680_global_setting[] = {
+> +	/* R MANUAL set exposure and gain to manual (hw does not do auto) */
+> +	{0x3503, 0x03},
+>   
+>   	/* Set black level compensation range to 0 - 3 (default 0 - 11) */
+>   	{0x4008, 0x00},
+>   	{0x4009, 0x03},
+>   
+> -	/* Set MIPI pclk period to 0x1e (default/reset is 0x18) */
+> -	{0x4837, 0x1e},
+> -
+> -	/* Initialize exposure to 0x4ee (overridden by the ctrl, drop this */
+> -	{0x3501, 0x4e},
+> -	{0x3502, 0xe0},
+> -
+> -	/* R MANUAL set exposure and gain to manual (hw does not do auto) */
+> -	{0x3503, 0x03},
+> -};
+> -
+> -static const struct reg_sequence ov2680_setting_30fps_720P_1280_720[] = {
+> -	/* Set PLL SP DIV to 0 for not binning mode */
+> -	{0x3086, 0x00},
+> -
+> -	/* Set X and Y output size to 1280x720 */
+> -	{0x3808, 0x05},
+> -	{0x3809, 0x00},
+> -	{0x380a, 0x02},
+> -	{0x380b, 0xd0},
+> -
+> -	/* Set HTS + VTS to 1704x1294 */
+> -	{0x380c, 0x06},
+> -	{0x380d, 0xa8},
+> -	{0x380e, 0x05},
+> -	{0x380f, 0x0e},
+> -
+> -	/* Set ISP WIN X and Y start to 8x6 */
+> -	{0x3811, 0x08},
+> -	{0x3813, 0x06},
+> -
+> -	/* Set X INC and Y INC for non binning */
+> -	{0x3814, 0x11},
+> -	{0x3815, 0x11},
+> -
+> -	/* Initialize FORMAT1 to default/reset value (vflip disabled) */
+> -	{0x3820, 0xc0},
+> -
+> -	/* Set backlight compensation range start to 0 */
+> -	{0x4008, 0x00},
+> -};
+> -
+> -static const struct reg_sequence ov2680_setting_30fps_UXGA_1600_1200[] = {
+> -	/* Set PLL SP DIV to 0 for not binning mode */
+> -	{0x3086, 0x00},
+> -
+> -	/* Initialize exposure to 0x4ee (overridden by the ctrl, drop this */
+> -	{0x3501, 0x4e},
+> -	{0x3502, 0xe0},
+> -
+> -	/* Set X and Y output size to 1600x1200 */
+> -	{0x3808, 0x06},
+> -	{0x3809, 0x40},
+> -	{0x380a, 0x04},
+> -	{0x380b, 0xb0},
+> -
+> -	/* Set HTS + VTS to 1704x1294 */
+> -	{0x380c, 0x06},
+> -	{0x380d, 0xa8},
+> -	{0x380e, 0x05},
+> -	{0x380f, 0x0e},
+> -
+> -	/* Set ISP WIN X and Y start to 0x0 */
+> -	{0x3811, 0x00},
+> -	{0x3813, 0x00},
+> -
+> -	/* Set X INC and Y INC for non binning */
+> -	{0x3814, 0x11},
+> -	{0x3815, 0x11},
+> -
+> -	/* Initialize FORMAT1 to default/reset value (vflip disabled) */
+> -	{0x3820, 0xc0},
+> -
+> -	/* Set backlight compensation range start to 0 */
+> -	{0x4008, 0x00},
+> -
+> -	/* Set MIPI pclk period to default/reset value of 0x18 */
+> -	{0x4837, 0x18}
+> -};
+> -
+> -static const struct ov2680_mode_info ov2680_mode_init_data = {
+> -	"mode_quxga_800_600", OV2680_MODE_QUXGA_800_600, 800, 600,
+> -	ov2680_setting_30fps_QUXGA_800_600,
+> -	ARRAY_SIZE(ov2680_setting_30fps_QUXGA_800_600),
+> -};
+> -
+> -static const struct ov2680_mode_info ov2680_mode_data[OV2680_MODE_MAX] = {
+> -	{"mode_quxga_800_600", OV2680_MODE_QUXGA_800_600,
+> -	 800, 600, ov2680_setting_30fps_QUXGA_800_600,
+> -	 ARRAY_SIZE(ov2680_setting_30fps_QUXGA_800_600)},
+> -	{"mode_720p_1280_720", OV2680_MODE_720P_1280_720,
+> -	 1280, 720, ov2680_setting_30fps_720P_1280_720,
+> -	 ARRAY_SIZE(ov2680_setting_30fps_720P_1280_720)},
+> -	{"mode_uxga_1600_1200", OV2680_MODE_UXGA_1600_1200,
+> -	 1600, 1200, ov2680_setting_30fps_UXGA_1600_1200,
+> -	 ARRAY_SIZE(ov2680_setting_30fps_UXGA_1600_1200)},
+> +	/*
+> +	 * Window CONTROL 0x00 -> 0x01, enable manual window control,
+> +	 * this is necessary for full size flip and mirror support.
+> +	 */
+> +	{0x5708, 0x01},
+>   };
+>   
+>   static struct ov2680_dev *to_ov2680_dev(struct v4l2_subdev *sd)
+> @@ -331,6 +228,85 @@ static void ov2680_fill_format(struct ov2680_dev *sensor,
+>   	ov2680_set_bayer_order(sensor, fmt);
+>   }
+>   
+> +static void ov2680_calc_mode(struct ov2680_dev *sensor)
+> +{
+> +	int width = sensor->mode.fmt.width;
+> +	int height = sensor->mode.fmt.height;
+> +	int orig_width = width;
+> +	int orig_height = height;
+> +
+> +	if (width  <= (OV2680_NATIVE_WIDTH / 2) &&
+> +	    height <= (OV2680_NATIVE_HEIGHT / 2)) {
+> +		sensor->mode.binning = true;
+> +		width *= 2;
+> +		height *= 2;
+> +	} else {
+> +		sensor->mode.binning = false;
+> +	}
+> +
+> +	sensor->mode.h_start = ((OV2680_NATIVE_WIDTH - width) / 2) & ~1;
+> +	sensor->mode.v_start = ((OV2680_NATIVE_HEIGHT - height) / 2) & ~1;
+> +	sensor->mode.h_end =
+> +		min(sensor->mode.h_start + width + OV2680_END_MARGIN - 1,
+> +		    OV2680_NATIVE_WIDTH - 1);
+> +	sensor->mode.v_end =
+> +		min(sensor->mode.v_start + height + OV2680_END_MARGIN - 1,
+> +		    OV2680_NATIVE_HEIGHT - 1);
+> +	sensor->mode.h_output_size = orig_width;
+> +	sensor->mode.v_output_size = orig_height;
+> +	sensor->mode.hts = OV2680_PIXELS_PER_LINE;
+> +	sensor->mode.vts = OV2680_LINES_PER_FRAME;
+> +}
+> +
+> +static int ov2680_set_mode(struct ov2680_dev *sensor)
+> +{
+> +	u8 sensor_ctrl_0a, inc, fmt1, fmt2;
+> +	int ret = 0;
+> +
+> +	if (sensor->mode.binning) {
+> +		sensor_ctrl_0a = 0x23;
+> +		inc = 0x31;
+> +		fmt1 = 0xc2;
+> +		fmt2 = 0x01;
+> +	} else {
+> +		sensor_ctrl_0a = 0x21;
+> +		inc = 0x11;
+> +		fmt1 = 0xc0;
+> +		fmt2 = 0x00;
+> +	}
+> +
+> +	cci_write(sensor->regmap, OV2680_REG_SENSOR_CTRL_0A,
+> +		  sensor_ctrl_0a, &ret);
+> +	cci_write(sensor->regmap, OV2680_REG_HORIZONTAL_START,
+> +		  sensor->mode.h_start, &ret);
+> +	cci_write(sensor->regmap, OV2680_REG_VERTICAL_START,
+> +		  sensor->mode.v_start, &ret);
+> +	cci_write(sensor->regmap, OV2680_REG_HORIZONTAL_END,
+> +		  sensor->mode.h_end, &ret);
+> +	cci_write(sensor->regmap, OV2680_REG_VERTICAL_END,
+> +		  sensor->mode.v_end, &ret);
+> +	cci_write(sensor->regmap, OV2680_REG_HORIZONTAL_OUTPUT_SIZE,
+> +		  sensor->mode.h_output_size, &ret);
+> +	cci_write(sensor->regmap, OV2680_REG_VERTICAL_OUTPUT_SIZE,
+> +		  sensor->mode.v_output_size, &ret);
+> +	cci_write(sensor->regmap, OV2680_REG_TIMING_HTS,
+> +		  sensor->mode.hts, &ret);
+> +	cci_write(sensor->regmap, OV2680_REG_TIMING_VTS,
+> +		  sensor->mode.vts, &ret);
+> +	cci_write(sensor->regmap, OV2680_REG_ISP_X_WIN, 0, &ret);
+> +	cci_write(sensor->regmap, OV2680_REG_ISP_Y_WIN, 0, &ret);
+> +	cci_write(sensor->regmap, OV2680_REG_X_INC, inc, &ret);
+> +	cci_write(sensor->regmap, OV2680_REG_Y_INC, inc, &ret);
+> +	cci_write(sensor->regmap, OV2680_REG_X_WIN,
+> +		  sensor->mode.h_output_size, &ret);
+> +	cci_write(sensor->regmap, OV2680_REG_Y_WIN,
+> +		  sensor->mode.v_output_size, &ret);
+> +	cci_write(sensor->regmap, OV2680_REG_FORMAT1, fmt1, &ret);
+> +	cci_write(sensor->regmap, OV2680_REG_FORMAT2, fmt2, &ret);
+> +
+> +	return ret;
+> +}
+> +
+>   static int ov2680_set_vflip(struct ov2680_dev *sensor, s32 val)
+>   {
+>   	int ret;
+> @@ -400,14 +376,12 @@ static int ov2680_stream_enable(struct ov2680_dev *sensor)
+>   		return ret;
+>   
+>   	ret = regmap_multi_reg_write(sensor->regmap,
+> -				     ov2680_mode_init_data.reg_data,
+> -				     ov2680_mode_init_data.reg_data_size);
+> +				     ov2680_global_setting,
+> +				     ARRAY_SIZE(ov2680_global_setting));
+>   	if (ret < 0)
+>   		return ret;
+>   
+> -	ret = regmap_multi_reg_write(sensor->regmap,
+> -				     sensor->current_mode->reg_data,
+> -				     sensor->current_mode->reg_data_size);
+> +	ret = ov2680_set_mode(sensor);
+>   	if (ret < 0)
+>   		return ret;
+>   
+> @@ -557,21 +531,18 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
+>   {
+>   	struct ov2680_dev *sensor = to_ov2680_dev(sd);
+>   	struct v4l2_mbus_framefmt *try_fmt;
+> -	const struct ov2680_mode_info *mode;
+> +	unsigned int width, height;
+>   	int ret = 0;
+>   
+>   	if (format->pad != 0)
+>   		return -EINVAL;
+>   
+> -	mode = v4l2_find_nearest_size(ov2680_mode_data,
+> -				      ARRAY_SIZE(ov2680_mode_data),
+> -				      width, height,
+> -				      format->format.width,
+> -				      format->format.height);
+> -	if (!mode)
+> -		return -EINVAL;
+> +	width = min_t(unsigned int, ALIGN(format->format.width, 2),
+> +		      OV2680_NATIVE_WIDTH);
+> +	height = min_t(unsigned int, ALIGN(format->format.height, 2),
+> +		       OV2680_NATIVE_HEIGHT);
+>   
+> -	ov2680_fill_format(sensor, &format->format, mode->width, mode->height);
+> +	ov2680_fill_format(sensor, &format->format, width, height);
+>   
+>   	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
+>   		try_fmt = v4l2_subdev_get_try_format(sd, sd_state, 0);
+> @@ -586,8 +557,8 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
+>   		goto unlock;
+>   	}
+>   
+> -	sensor->current_mode = mode;
+>   	sensor->mode.fmt = format->format;
+> +	ov2680_calc_mode(sensor);
+>   
+>   unlock:
+>   	mutex_unlock(&sensor->lock);
+> @@ -609,15 +580,20 @@ static int ov2680_enum_frame_size(struct v4l2_subdev *sd,
+>   				  struct v4l2_subdev_state *sd_state,
+>   				  struct v4l2_subdev_frame_size_enum *fse)
+>   {
+> -	int index = fse->index;
+> +	static const struct v4l2_frmsize_discrete ov2680_frame_sizes[] = {
+> +		{ 1600, 1200 },
+> +		{ 1280,  720 },
+> +		{  800,  600 },
+> +	};
+> +	u32 index = fse->index;
+>   
+> -	if (index >= OV2680_MODE_MAX || index < 0)
+> +	if (index >= ARRAY_SIZE(ov2680_frame_sizes))
+>   		return -EINVAL;
+>   
+> -	fse->min_width = ov2680_mode_data[index].width;
+> -	fse->min_height = ov2680_mode_data[index].height;
+> -	fse->max_width = ov2680_mode_data[index].width;
+> -	fse->max_height = ov2680_mode_data[index].height;
+> +	fse->min_width = ov2680_frame_sizes[index].width;
+> +	fse->min_height = ov2680_frame_sizes[index].height;
+> +	fse->max_width = ov2680_frame_sizes[index].width;
+> +	fse->max_height = ov2680_frame_sizes[index].height;
+>   
+>   	return 0;
+>   }
 
+
+Unless I'm missing something, .set_fmt() will let you set any arbitrary frame size you like within 
+the bounds of the ov2680's pixel array. That's good, but why then should this callback only report 
+the three discrete sizes?
+
+> @@ -700,19 +676,14 @@ static const struct v4l2_subdev_ops ov2680_subdev_ops = {
+>   
+>   static int ov2680_mode_init(struct ov2680_dev *sensor)
+>   {
+> -	const struct ov2680_mode_info *init_mode;
+> -
+>   	/* set initial mode */
+>   	ov2680_fill_format(sensor, &sensor->mode.fmt,
+>   			   OV2680_DEFAULT_WIDTH, OV2680_DEFAULT_HEIGHT);
+> +	ov2680_calc_mode(sensor);
+>   
+>   	sensor->mode.frame_interval.denominator = OV2680_FRAME_RATE;
+>   	sensor->mode.frame_interval.numerator = 1;
+>   
+> -	init_mode = &ov2680_mode_init_data;
+> -
+> -	sensor->current_mode = init_mode;
+> -
+>   	return 0;
+>   }
+>   
