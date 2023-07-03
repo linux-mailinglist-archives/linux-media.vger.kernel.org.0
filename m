@@ -2,167 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 80DB774546C
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jul 2023 06:12:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37F7274554F
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jul 2023 08:15:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229973AbjGCEM2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jul 2023 00:12:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41368 "EHLO
+        id S229849AbjGCGOx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jul 2023 02:14:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229954AbjGCEM0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jul 2023 00:12:26 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40E09188;
-        Sun,  2 Jul 2023 21:12:23 -0700 (PDT)
-X-UUID: cbbced24195711eeb20a276fd37b9834-20230703
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=WKCqMlWUdJ74eCGtSlMayq3+Cf1g4E/aAy3lflI64Vo=;
-        b=u5OYFh6A9us8vRMYsBVddRwx2cgbXcaAnTJNvye3Q37z5+FbYlU9iilVeToxZQXwUEbrXPCvbBKZQXHYM6klc2Uh2OmYEoJSjRb+oueCVU8Xj+QBxrK1FVr8ayqGcRjM2Ad+lAnOnqPU8adMxfGIlhjGU09/wEO3vR5UOhiCQpM=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.27,REQID:2d3646c9-6841-4c81-b6f8-113f4f2e6e5b,IP:0,U
-        RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:51,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-        N:release,TS:46
-X-CID-INFO: VERSION:1.1.27,REQID:2d3646c9-6841-4c81-b6f8-113f4f2e6e5b,IP:0,URL
-        :0,TC:0,Content:-5,EDM:0,RT:0,SF:51,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-        release,TS:46
-X-CID-META: VersionHash:01c9525,CLOUDID:1e2c7d0d-26a8-467f-b838-f99719a9c083,B
-        ulkID:230703121218BLYW7NYY,BulkQuantity:0,Recheck:0,SF:17|19|48|38|29|28|1
-        02,TC:nil,Content:0,EDM:-3,IP:nil,URL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,C
-        OL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_ULS,TF_CID_SPAM_SNR,
-        TF_CID_SPAM_SDM
-X-UUID: cbbced24195711eeb20a276fd37b9834-20230703
-Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by mailgw02.mediatek.com
-        (envelope-from <irui.wang@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1480779589; Mon, 03 Jul 2023 12:12:16 +0800
-Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
- MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Mon, 3 Jul 2023 12:12:15 +0800
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Mon, 3 Jul 2023 12:12:15 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fTU1i6JS8b9Ku+YndxMRBGKzc7YAyyqaqSbpfLDl8ZAwny+L1MsYodrS3mYqDY2DCOMLsvzfjzqO7IxzjuK0lcoZQ3maiTIhbrtOR0jksyY5Mbu7nQffwqC+pX986AFVywxKJbXMCDPGfmnhG8Gtog9ykS2h9FaS0OduWGe9betXcQQl51f/t9yfvjex66ET7oWhAwjMt7Zx72AAbk8M1wl8PJzG13JPJ7XpsddEbXBXEcXJ+TvT5iOm1fHTMCDZPb4iTe7J5uwexBMe3J+GSYb+cHFfM/K3ca0tdbV953PnxNiSnshUl4jkET6gKr/vFCE0Ie5FuGho6pDRrCNqvQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WKCqMlWUdJ74eCGtSlMayq3+Cf1g4E/aAy3lflI64Vo=;
- b=TqLLbIRJ7N1jKAzv5g2rKj2Fvt9QN5//DFShQJ8aYjSvJN0VNt33qTIDzxJFM5PCyKvzPrYDVms6fb9pNCMZf3RslrERIxjbllp0u2ejHRbzQm0+g7ZpmetTBVT50vGKoXLHXM/VS89xUttJvDXlG68dnujqWBi+CE0EMde6hDGHk23DApHZgIZAx5t8aOMUthJXo2pFbJdLtRF9KzQ6sUfa989Am+6sCqq2QTTFMntNVZUFZmujtjTNdQ5NXf5UBnlKh+OH+8FxM0eJ9uwakkBIDfM1l5WgpImQBlVCwXij6uOAY+Wk3GQ92V7ctBXEf+59leKspjXLBSoRXm94tA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WKCqMlWUdJ74eCGtSlMayq3+Cf1g4E/aAy3lflI64Vo=;
- b=Fejmaho4rE8fuzI6WQ1etYqp4uWH5WRsfZXxHlj4b07fr2CK42LWKe3FHxicMnB6dE/Vj3rGwWTggBAPcY5n7aNbs8ywEx3BEQZco2AqNuGzEy/GNknYuQ58ulR/aKgt3xJNiQysC6/S1C4JUrIMgxZ/35+kkhz+5IMRJSkWzIE=
-Received: from SEZPR03MB7947.apcprd03.prod.outlook.com (2603:1096:101:187::6)
- by KL1PR03MB7969.apcprd03.prod.outlook.com (2603:1096:820:f9::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.24; Mon, 3 Jul
- 2023 04:11:12 +0000
-Received: from SEZPR03MB7947.apcprd03.prod.outlook.com
- ([fe80::6d6e:d439:f9d3:1098]) by SEZPR03MB7947.apcprd03.prod.outlook.com
- ([fe80::6d6e:d439:f9d3:1098%4]) with mapi id 15.20.6521.026; Mon, 3 Jul 2023
- 04:11:12 +0000
-From:   =?utf-8?B?SXJ1aSBXYW5nICjnjovnkZ4p?= <Irui.Wang@mediatek.com>
-To:     "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>
-CC:     "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        =?utf-8?B?TWFvZ3VhbmcgTWVuZyAo5a2f5q+b5bm/KQ==?= 
-        <Maoguang.Meng@mediatek.com>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        =?utf-8?B?WXVuZmVpIERvbmcgKOiRo+S6kemjnik=?= 
-        <Yunfei.Dong@mediatek.com>,
-        Project_Global_Chrome_Upstream_Group 
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: Re: [PATCH] media: mediatek: vcodec: Add a flag to indicate vdec_fb
- finding status
-Thread-Topic: [PATCH] media: mediatek: vcodec: Add a flag to indicate vdec_fb
- finding status
-Thread-Index: AQHZq/tdUnJwjXKeE0KkZqXSsj9GzK+ncNaA
-Date:   Mon, 3 Jul 2023 04:11:12 +0000
-Message-ID: <4bd5aad43622742f1078f8bc4167803ed20f6a68.camel@mediatek.com>
-References: <20230701090521.22240-1-irui.wang@mediatek.com>
-In-Reply-To: <20230701090521.22240-1-irui.wang@mediatek.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SEZPR03MB7947:EE_|KL1PR03MB7969:EE_
-x-ms-office365-filtering-correlation-id: 59974a44-ea48-4393-a87a-08db7b7b89c0
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: X9IlyJ4j37b2MwvwfIEYi5tLpaRV3cCpdql6aBvyOcYDp+HuwnPyajK1OTWdUWEsHNGPHjI1EFShzaqmozMFlfyyn/Uk5ZYuG585IxwhIfMn8t9ExGlMxS5Zq+KsNMfNfN2auCXe/JInchz16C9YrSISFAM+C6qTBUNqVYA5w+0F2d33Of9GYmUng6VOTqxBXltHrZIf4g9bVFRYJrN7NEv5It40zQ7SV3eVqitFRQ3LGbOZvbPb2DR9l24crYu1FYiw+3QKG/IyEvmFhdNWZiUFjPtg+Vo53e7CyIzeN0YabcIdghNE2VIXUvWrPHIdQzcjFJLtEfrKRqqiPoYOwQ2kxO7cJHxVLomhP3aX0L2CgfBkDUOcff8ZBJjH1T70z1P+cInFy+E3hxn8w4O+dbWft9PjReQ9KGqph8AoNQ9UykTj+rgfjyRgSUEQBZ2U4aq/PoFw5Pei2JycHf1wfM+IEk2RcTZA7ASJnyPfUbGAIReVFn5WBuQO1Gq+6iVfgPRqsPIXeziI5qcrxpAM4W6UeGIWzaLMzF1KFmQtTzh8c3YL1Cae7bz231PdvMCgV7zotr/LTQIfRlRNvqcidtBrJTHN3r+d+sKg830v9DgPy2ieTkc29N8XLrCA++I+Mg8Thxye+kDU0P+fU6Si5Q==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR03MB7947.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(346002)(376002)(396003)(366004)(39860400002)(451199021)(107886003)(26005)(478600001)(71200400001)(6512007)(966005)(6506007)(86362001)(2616005)(186003)(38100700002)(54906003)(64756008)(66446008)(66556008)(66946007)(4326008)(66476007)(83380400001)(110136005)(91956017)(6486002)(76116006)(316002)(122000001)(5660300002)(8676002)(8936002)(38070700005)(41300700001)(2906002)(36756003)(85182001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?dW5NK1NJdENsalkvdk9HWUFLNWU3UnNSeE9XRkJMWmFKL0dqY0QvTlh2OGhN?=
- =?utf-8?B?L0UyZitWRzQ1ZGorVHYvRkF3ZURVN29qL3pzZno3V0NndjZIc1E1eGdLbUtt?=
- =?utf-8?B?UlB1K2VSdXRNWUNoZUNiOHdWSkRTL0ZBcnJ0TTdLVFo4MmhIYkgxY3BBb2xQ?=
- =?utf-8?B?Wm5YYjUzSmxQWnhpcTNPU0N2S2pWYUh3UUNxQ3pQWHh4Z013NVJ2ZGpxTU5R?=
- =?utf-8?B?UXI5SjhEWGJ0YU9nMlh1NFhsTFZIcWs4OHM5ZGFSRjlJSk1IQVQ0elZrMmJ1?=
- =?utf-8?B?RkZFVWpoSWpBd1FOQW5GSGpVL3ZZTmNwODRjekxocWVmTkJCeUdkOHJtd0N1?=
- =?utf-8?B?OGFxRnhralIrV01EY2xacEwwdVNZRmZBYW5Cb0w5akxXTDdnQnM3NzNtRURN?=
- =?utf-8?B?WWxjWmJ1Q1ZhaDVtMllJUEFGbGREV2UxZWwyUEZkZWRnTE1mRXpFam5aK1Yy?=
- =?utf-8?B?VUovZW81SEVTMFhhZ0Z0b3lhZzUwcFFzYU4wUVhnVEIxVUEzeUFpZklTaGdx?=
- =?utf-8?B?Tm9JaDR3aStpOUpySDNNTktkV0lrbjQ5alBnSERySzlwMXhZdC9yL0kwWXU5?=
- =?utf-8?B?dFV0RUlRUTlIYW15VzFvVUxERjM4UlRYZUpNUHVhU2pmSnp1WDZtVkRNUkdJ?=
- =?utf-8?B?cEYvOU01aHB0SUVjaUNUcHhQVEZKUUlyWFozTUV3NllnNG1JVnhhTUpaU2lW?=
- =?utf-8?B?djZSd05WWUZvUVdDSW1rMVZLeXljbitNcjRUK1JyUlFnRzVIT2Nidmp2cTV1?=
- =?utf-8?B?ZmZ3bUtBQVZ4dVB6V0pKdzFuTkIvcCtvSjhlRUI3TngyMGUvVzcyZ2hWSU5L?=
- =?utf-8?B?R1JwRmZ4ZndEUkszVXlPd0xzWVZQNGJockp1MkxTL25EcW4yMGs0ZDBLcEwv?=
- =?utf-8?B?bG01bmRTYVREbGxNWmFEY2JRRVppelhzTmw5UDMwUTczT3FUaVlsdEJhVVVt?=
- =?utf-8?B?c2luQm1kMEl0VTBnUXNZV3lzalhNUUVpT2ZLWjArT3hvV0w3OTl4NWU3MG92?=
- =?utf-8?B?bnV6WTBCb1lCbGU4U1NrNW0yWkVvMjJYZ0U0QmJkWTdjTU9ZU3hFT3gvNWc3?=
- =?utf-8?B?NlBYWTdCQUlnUEpjZjREdGpOZEV2THdDR0g2dEdYQjF5ZHd4alBjMUUyNGZB?=
- =?utf-8?B?TDZ2TVdPK3hncWRVeW9veVl1bmhITnBXR2w5aWordmZMTS9VRE5EZVBhN1V5?=
- =?utf-8?B?SWJ6cmx3TzZxOERrN2tTbXpXei9oL21wa1dXYURseG1WMTFJTzUvcC92MXov?=
- =?utf-8?B?N21wQzhFVXYwejNBczF1MDJHM1M3aUszOVhFQUJYOVU0QjdObjB6NXF4bWhJ?=
- =?utf-8?B?R1JqL2JqcTRwWWxuTUt0QldFcVhjK05GRStNNjYxb0NzazlxMTUvUjFvcDJK?=
- =?utf-8?B?R3RVSDVtYlpjZzJTbUtsamNYL1VKVjREZHM3YXN4WTNoMStIQUtLUEF2TXFO?=
- =?utf-8?B?NllPR0hRcHFUZTZFWDdEM01LN043UjV6b3dRejR2RE1MTFJoZis4ajBSa3hz?=
- =?utf-8?B?d000dW9oL29lWXd0NzNQQ2svM0RFbzhPSUN5NXp5emxvN01HeWRMMTd2QS9o?=
- =?utf-8?B?VFFSS0RyUStJcU9ETGtsaXBucHRHaFlESDdDd25tUDBCNXhJUU1pUk5MWGxj?=
- =?utf-8?B?bktLdDlLZFNJUVZ1VjNZVi9Qc3JlVVpJN3VMcFJuSHhuSFJkbTlQQjI5Z0dH?=
- =?utf-8?B?NVgrK2RMSGxITmxOem51WXlpenY3clFnZnBUeDBWZGVpM1pHSnJuUnBSeXdL?=
- =?utf-8?B?YzkwSVplZmxNMFJVYTF0Q2I1bnc2U2JSNUxaM29WWVJnOUhTMko1V2k5cEU4?=
- =?utf-8?B?U21IeWh2aVoyNXNiZ2R6MEFIdHVKMGNBU0o1SVZaY0Nwam1lTXBFdjc0T3BH?=
- =?utf-8?B?dEU4VTQ5VUdONEU3S2hSemh4cC9FTm5qSUdrMmhpOFdaZTE4RVlqTzNyTUlE?=
- =?utf-8?B?Y2kwa2ovNm1ZMTFlZXlycUxlOC94MTB1WiswYjNhTTBaWGdrQmhUN3hCSUUv?=
- =?utf-8?B?MUxZQ09DSmRUOTFjTjlsSEdjUjJ0aW05c2UyelJrVVI4RnR6K002NE5VazBx?=
- =?utf-8?B?MFRncW5pSUxxU0E3Qk9aZENHaUdRVkE3Ylp4ZFd4SzIwU1pGeEhackM1eHE3?=
- =?utf-8?B?a2VDWWU1MXpCRG5xbmQyV1ZoYVpuRkVnMjRINHA2Ly9BcmVXMUQ5aHQ0YkdK?=
- =?utf-8?B?bFE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <DAE922CB29ED194983D1FD4142924CDB@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        with ESMTP id S229657AbjGCGOw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jul 2023 02:14:52 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9352AB6;
+        Sun,  2 Jul 2023 23:14:50 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CDDF260DB7;
+        Mon,  3 Jul 2023 06:14:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED243C433C8;
+        Mon,  3 Jul 2023 06:14:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1688364889;
+        bh=71i61et0NvIpFt5rPtyybhPeLueX9+VnRk2K3tMKO2E=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=GNxEqWvt6L4357voI1MWJaqS+4HjbEFikTgtT1jMV4Bz1qX4GO1v2Qc25+TatGHMg
+         aerG4iLREKBMNJl6HQBcJ46huuLWjiUSx8eJ2WzWdmxFMYnyzIDitcLdp8rA4M4G6H
+         4aRqNMfkxW2yjX/kt4b+kWcHgVfIBpzocJnISk63StEg9E2gjO+sYrsbCnkjOB4uG0
+         CO2MEYcFptlefUjy8aHHHQJN/UWsVSJCqtw7/b37i3LKh0pfN6fvMs/Jnt42mhS+/S
+         AzdyoiXGnJUhDGz8nISY4D5zSZWeT6cCkM2G5Cpd5OV6ole3iyfmsUKIx3KFAIa2nP
+         VxPm2dHbQo3tg==
+Date:   Mon, 3 Jul 2023 08:14:41 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Uwe =?UTF-8?B?S2xlaW5lLUs=?= =?UTF-8?B?w7ZuaWc=?= 
+        <u.kleine-koenig@pengutronix.de>, Mark Brown <broonie@kernel.org>,
+        David Lin <CTLIN0@nuvoton.com>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
+        Antti Palosaari <crope@iki.fi>, Sergey Kozlov <serjk@netup.ru>,
+        Abylay Ospan <aospan@netup.ru>,
+        Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>,
+        Michael Krufky <mkrufky@linuxtv.org>,
+        Matthias Schwarzott <zzam@gentoo.org>,
+        Akihiro Tsukada <tskd08@gmail.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH v1 1/4] lib/math: Move dvb_math.c into
+ lib/math/int_log.c
+Message-ID: <20230703081441.6d67c80a@sal.lan>
+In-Reply-To: <20230619172019.21457-2-andriy.shevchenko@linux.intel.com>
+References: <20230619172019.21457-1-andriy.shevchenko@linux.intel.com>
+        <20230619172019.21457-2-andriy.shevchenko@linux.intel.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR03MB7947.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59974a44-ea48-4393-a87a-08db7b7b89c0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jul 2023 04:11:12.5352
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: wDgiwquo6uDePPZR14P4cF+LpO3DLJVMHwbr5SQguZhl6YK5iSP4KT13+u45Nbd/z+PJIsz3Dxe0tRrqOczAYw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR03MB7969
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -170,32 +68,496 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-RGVhciBhbGwsDQoNCkEgbmV3IHBhdGNoIHYyIGhhcyBiZWVuIHNlbnQ6IA0KaHR0cHM6Ly9wYXRj
-aHdvcmsua2VybmVsLm9yZy9wcm9qZWN0L2xpbnV4LW1lZGlhL2xpc3QvP3Nlcmllcz03NjE4OTIN
-Cg0KY3VycmVudCBwYXRjaCBpcyBzdXBlcnNlZGVkIGFuZCBjYW4gYmUgYWJhbmRvbmVkLg0KDQpU
-aGFuayB5b3UgdmVyeSBtdWNoDQoNCk9uIFNhdCwgMjAyMy0wNy0wMSBhdCAxNzowNSArMDgwMCwg
-SXJ1aSBXYW5nIHdyb3RlOg0KPiAiZmJfdXNlX2xpc3QiIGlzIHZwOSBzdGF0ZWZ1bCBkZWNvZGVy
-IGRyaXZlciB0byBzdG9yZSBjdXJyZW50DQo+IHVzZWQgb3IgcmVmZXJlbmNlZCBmcmFtZSBidWZm
-ZXIsIGFuZCAiZmJfZnJlZV9saXN0IiBpcyB1c2VkIHRvDQo+IHN0b3JlIGN1cnJlbnQgYXZhaWxh
-YmxlIHRvIGJlIGZyZWVkIGZyYW1lIGJ1ZmZlci4gV2hlbiB0aGUNCj4gdGFyZ2V0IGZyYW1lIGJ1
-ZmZlciBjYW5ub3QgYmUgZm91bmQgaW4gImZiX3VzZV9saXN0IiwgIk5VTEwiDQo+IHNob3VsZCBi
-ZSByZXR1cm5lZCB0byBwcmV2ZW50IHVuZXhwZWN0ZWQgZnJhbWUgYnVmZmVyIGZyb20gYmVpbmcN
-Cj4gcGxhY2VkIGludG8gImZiX2ZyZWVfbGlzdCIuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBJcnVp
-IFdhbmcgPGlydWkud2FuZ0BtZWRpYXRlay5jb20+DQo+IC0tLQ0KPiAgZHJpdmVycy9tZWRpYS9w
-bGF0Zm9ybS9tZWRpYXRlay92Y29kZWMvdmRlYy92ZGVjX3ZwOV9pZi5jIHwgNiArKysrKysNCj4g
-IDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKykNCj4gDQo+IGRpZmYgLS1naXQNCj4gYS9k
-cml2ZXJzL21lZGlhL3BsYXRmb3JtL21lZGlhdGVrL3Zjb2RlYy92ZGVjL3ZkZWNfdnA5X2lmLmMN
-Cj4gYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL21lZGlhdGVrL3Zjb2RlYy92ZGVjL3ZkZWNfdnA5
-X2lmLmMNCj4gaW5kZXggNzBiODM4M2Y3YzhlLi5lNzdkNWEyNDUyYzEgMTAwNjQ0DQo+IC0tLSBh
-L2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbWVkaWF0ZWsvdmNvZGVjL3ZkZWMvdmRlY192cDlfaWYu
-Yw0KPiArKysgYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL21lZGlhdGVrL3Zjb2RlYy92ZGVjL3Zk
-ZWNfdnA5X2lmLmMNCj4gQEAgLTIyMCwxNSArMjIwLDIxIEBAIHN0YXRpYyBzdHJ1Y3QgdmRlY19m
-Yg0KPiAqdnA5X3JtX2Zyb21fZmJfdXNlX2xpc3Qoc3RydWN0IHZkZWNfdnA5X2luc3QNCj4gIHsN
-Cj4gIAlzdHJ1Y3QgdmRlY19mYiAqZmIgPSBOVUxMOw0KPiAgCXN0cnVjdCB2ZGVjX2ZiX25vZGUg
-Km5vZGU7DQo+ICsJYm9vbCBmb3VuZCA9IGZhbHNlOw0KPiAgDQo+ICAJbGlzdF9mb3JfZWFjaF9l
-bnRyeShub2RlLCAmaW5zdC0+ZmJfdXNlX2xpc3QsIGxpc3QpIHsNCj4gIAkJZmIgPSAoc3RydWN0
-IHZkZWNfZmIgKilub2RlLT5mYjsNCj4gIAkJaWYgKGZiLT5iYXNlX3kudmEgPT0gYWRkcikgew0K
-PiAgCQkJbGlzdF9tb3ZlX3RhaWwoJm5vZGUtPmxpc3QsDQo+ICAJCQkJICAgICAgICZpbnN0LT5h
-dmFpbGFibGVfZmJfbm9kZV9saXN0KTsNCj4gKwkJCWZvdW5kID0gdHJ1ZTsNCj4gIAkJCWJyZWFr
-Ow0KPiAgCQl9DQo+ICAJfQ0KPiArDQo+ICsJaWYgKCFmb3VuZCkNCj4gKwkJZmIgPSBOVUxMOw0K
-PiArDQo+ICAJcmV0dXJuIGZiOw0KPiAgfQ0KPiAgDQo=
+Em Mon, 19 Jun 2023 20:20:16 +0300
+Andy Shevchenko <andriy.shevchenko@linux.intel.com> escreveu:
+
+> Some existing and new users may benefit from the intlog2() and
+> intlog10() APIs, make them wide available.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  Documentation/driver-api/media/dtv-common.rst         |  2 +-
+>  drivers/media/dvb-core/Makefile                       |  2 +-
+>  drivers/media/dvb-frontends/af9013_priv.h             |  2 +-
+>  drivers/media/dvb-frontends/af9033_priv.h             |  2 +-
+>  drivers/media/dvb-frontends/cxd2820r_priv.h           |  2 +-
+>  drivers/media/dvb-frontends/cxd2841er.c               |  2 +-
+>  .../dvb-frontends/cxd2880/cxd2880_tnrdmd_dvbt2_mon.c  |  2 +-
+>  .../dvb-frontends/cxd2880/cxd2880_tnrdmd_dvbt_mon.c   |  2 +-
+>  drivers/media/dvb-frontends/cxd2880/cxd2880_top.c     |  2 +-
+>  drivers/media/dvb-frontends/dib7000p.c                |  2 +-
+>  drivers/media/dvb-frontends/dib8000.c                 |  2 +-
+>  drivers/media/dvb-frontends/dib9000.c                 |  2 +-
+>  drivers/media/dvb-frontends/drxk_hard.c               |  2 +-
+>  drivers/media/dvb-frontends/lgdt3305.c                |  2 +-
+>  drivers/media/dvb-frontends/lgdt3306a.c               |  2 +-
+>  drivers/media/dvb-frontends/lgdt330x.c                |  2 +-
+>  drivers/media/dvb-frontends/m88ds3103_priv.h          |  2 +-
+>  drivers/media/dvb-frontends/mn88443x.c                |  2 +-
+>  drivers/media/dvb-frontends/mn88472_priv.h            |  2 +-
+>  drivers/media/dvb-frontends/mn88473_priv.h            |  2 +-
+>  drivers/media/dvb-frontends/or51132.c                 |  2 +-
+>  drivers/media/dvb-frontends/or51211.c                 |  2 +-
+>  drivers/media/dvb-frontends/rtl2830_priv.h            |  2 +-
+>  drivers/media/dvb-frontends/rtl2832_priv.h            |  2 +-
+>  drivers/media/dvb-frontends/si2165.c                  |  2 +-
+>  drivers/media/dvb-frontends/stv0367.c                 |  2 +-
+>  drivers/media/dvb-frontends/tc90522.c                 |  2 +-
+>  drivers/media/dvb-frontends/tda10048.c                |  2 +-
+>  include/{media/dvb_math.h => linux/int_log.h}         |  7 +++----
+>  lib/math/Makefile                                     |  2 +-
+>  .../media/dvb-core/dvb_math.c => lib/math/int_log.c   | 11 ++++++-----
+>  31 files changed, 38 insertions(+), 38 deletions(-)
+>  rename include/{media/dvb_math.h => linux/int_log.h} (92%)
+>  rename drivers/media/dvb-core/dvb_math.c => lib/math/int_log.c (95%)
+> 
+> diff --git a/Documentation/driver-api/media/dtv-common.rst b/Documentation/driver-api/media/dtv-common.rst
+> index f8b2c4dc8170..cf234e0e101a 100644
+> --- a/Documentation/driver-api/media/dtv-common.rst
+> +++ b/Documentation/driver-api/media/dtv-common.rst
+> @@ -9,7 +9,7 @@ Math functions
+>  Provide some commonly-used math functions, usually required in order to
+>  estimate signal strength and signal to noise measurements in dB.
+>  
+> -.. kernel-doc:: include/media/dvb_math.h
+> +.. kernel-doc:: include/linux/int_log.h
+
+Hmm... maybe the best would be to move the kernel-doc tag to be on
+a more generic place, as this will now be used outside media, and we
+don't want to risk having multiple kernel-doc entries to the same
+header - as it breaks cross-references.
+
+After fixed:
+
+Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+
+
+>  
+>  
+>  DVB devices
+> diff --git a/drivers/media/dvb-core/Makefile b/drivers/media/dvb-core/Makefile
+> index 62b028ded9f7..1cb3ca67bed9 100644
+> --- a/drivers/media/dvb-core/Makefile
+> +++ b/drivers/media/dvb-core/Makefile
+> @@ -8,6 +8,6 @@ dvb-vb2-$(CONFIG_DVB_MMAP) := dvb_vb2.o
+>  
+>  dvb-core-objs := dvbdev.o dmxdev.o dvb_demux.o			\
+>  		 dvb_ca_en50221.o dvb_frontend.o		\
+> -		 $(dvb-net-y) dvb_ringbuffer.o $(dvb-vb2-y) dvb_math.o
+> +		 $(dvb-net-y) dvb_ringbuffer.o $(dvb-vb2-y)
+>  
+>  obj-$(CONFIG_DVB_CORE) += dvb-core.o
+> diff --git a/drivers/media/dvb-frontends/af9013_priv.h b/drivers/media/dvb-frontends/af9013_priv.h
+> index 3b9b9424fe1a..bba7a9693a23 100644
+> --- a/drivers/media/dvb-frontends/af9013_priv.h
+> +++ b/drivers/media/dvb-frontends/af9013_priv.h
+> @@ -12,7 +12,7 @@
+>  #define AF9013_PRIV_H
+>  
+>  #include <media/dvb_frontend.h>
+> -#include <media/dvb_math.h>
+> +#include <linux/int_log.h>
+>  #include "af9013.h"
+>  #include <linux/firmware.h>
+>  #include <linux/i2c-mux.h>
+> diff --git a/drivers/media/dvb-frontends/af9033_priv.h b/drivers/media/dvb-frontends/af9033_priv.h
+> index 0e64da0cdeab..7560da75ef00 100644
+> --- a/drivers/media/dvb-frontends/af9033_priv.h
+> +++ b/drivers/media/dvb-frontends/af9033_priv.h
+> @@ -14,7 +14,7 @@
+>  #include <linux/math64.h>
+>  #include <linux/regmap.h>
+>  #include <linux/kernel.h>
+> -#include <media/dvb_math.h>
+> +#include <linux/int_log.h>
+>  
+>  struct reg_val {
+>  	u32 reg;
+> diff --git a/drivers/media/dvb-frontends/cxd2820r_priv.h b/drivers/media/dvb-frontends/cxd2820r_priv.h
+> index 9b4d9cf8563d..605320bbc12b 100644
+> --- a/drivers/media/dvb-frontends/cxd2820r_priv.h
+> +++ b/drivers/media/dvb-frontends/cxd2820r_priv.h
+> @@ -11,7 +11,7 @@
+>  
+>  #include <linux/dvb/version.h>
+>  #include <media/dvb_frontend.h>
+> -#include <media/dvb_math.h>
+> +#include <linux/int_log.h>
+>  #include "cxd2820r.h"
+>  #include <linux/gpio/driver.h> /* For gpio_chip */
+>  #include <linux/math64.h>
+> diff --git a/drivers/media/dvb-frontends/cxd2841er.c b/drivers/media/dvb-frontends/cxd2841er.c
+> index 5431f922f55e..ef403a9fb753 100644
+> --- a/drivers/media/dvb-frontends/cxd2841er.c
+> +++ b/drivers/media/dvb-frontends/cxd2841er.c
+> @@ -22,7 +22,7 @@
+>  #include <linux/dynamic_debug.h>
+>  #include <linux/kernel.h>
+>  
+> -#include <media/dvb_math.h>
+> +#include <linux/int_log.h>
+>  #include <media/dvb_frontend.h>
+>  #include "cxd2841er.h"
+>  #include "cxd2841er_priv.h"
+> diff --git a/drivers/media/dvb-frontends/cxd2880/cxd2880_tnrdmd_dvbt2_mon.c b/drivers/media/dvb-frontends/cxd2880/cxd2880_tnrdmd_dvbt2_mon.c
+> index 604580bf7cf7..4e173dd87ecf 100644
+> --- a/drivers/media/dvb-frontends/cxd2880/cxd2880_tnrdmd_dvbt2_mon.c
+> +++ b/drivers/media/dvb-frontends/cxd2880/cxd2880_tnrdmd_dvbt2_mon.c
+> @@ -11,7 +11,7 @@
+>  #include "cxd2880_tnrdmd_dvbt2.h"
+>  #include "cxd2880_tnrdmd_dvbt2_mon.h"
+>  
+> -#include <media/dvb_math.h>
+> +#include <linux/int_log.h>
+>  
+>  static const int ref_dbm_1000[4][8] = {
+>  	{-96000, -95000, -94000, -93000, -92000, -92000, -98000, -97000},
+> diff --git a/drivers/media/dvb-frontends/cxd2880/cxd2880_tnrdmd_dvbt_mon.c b/drivers/media/dvb-frontends/cxd2880/cxd2880_tnrdmd_dvbt_mon.c
+> index fedc3b4a2fa0..86d5a1e4022a 100644
+> --- a/drivers/media/dvb-frontends/cxd2880/cxd2880_tnrdmd_dvbt_mon.c
+> +++ b/drivers/media/dvb-frontends/cxd2880/cxd2880_tnrdmd_dvbt_mon.c
+> @@ -11,7 +11,7 @@
+>  #include "cxd2880_tnrdmd_dvbt.h"
+>  #include "cxd2880_tnrdmd_dvbt_mon.h"
+>  
+> -#include <media/dvb_math.h>
+> +#include <linux/int_log.h>
+>  
+>  static const int ref_dbm_1000[3][5] = {
+>  	{-93000, -91000, -90000, -89000, -88000},
+> diff --git a/drivers/media/dvb-frontends/cxd2880/cxd2880_top.c b/drivers/media/dvb-frontends/cxd2880/cxd2880_top.c
+> index d5b1b3788e39..f67b6d24b8d4 100644
+> --- a/drivers/media/dvb-frontends/cxd2880/cxd2880_top.c
+> +++ b/drivers/media/dvb-frontends/cxd2880/cxd2880_top.c
+> @@ -11,7 +11,7 @@
+>  #include <linux/spi/spi.h>
+>  
+>  #include <media/dvb_frontend.h>
+> -#include <media/dvb_math.h>
+> +#include <linux/int_log.h>
+>  
+>  #include "cxd2880.h"
+>  #include "cxd2880_tnrdmd_mon.h"
+> diff --git a/drivers/media/dvb-frontends/dib7000p.c b/drivers/media/dvb-frontends/dib7000p.c
+> index a90d2f51868f..b791e687d2e2 100644
+> --- a/drivers/media/dvb-frontends/dib7000p.c
+> +++ b/drivers/media/dvb-frontends/dib7000p.c
+> @@ -13,7 +13,7 @@
+>  #include <linux/mutex.h>
+>  #include <asm/div64.h>
+>  
+> -#include <media/dvb_math.h>
+> +#include <linux/int_log.h>
+>  #include <media/dvb_frontend.h>
+>  
+>  #include "dib7000p.h"
+> diff --git a/drivers/media/dvb-frontends/dib8000.c b/drivers/media/dvb-frontends/dib8000.c
+> index fe19d127abb3..2abda7d1cb6e 100644
+> --- a/drivers/media/dvb-frontends/dib8000.c
+> +++ b/drivers/media/dvb-frontends/dib8000.c
+> @@ -13,7 +13,7 @@
+>  #include <linux/mutex.h>
+>  #include <asm/div64.h>
+>  
+> -#include <media/dvb_math.h>
+> +#include <linux/int_log.h>
+>  
+>  #include <media/dvb_frontend.h>
+>  
+> diff --git a/drivers/media/dvb-frontends/dib9000.c b/drivers/media/dvb-frontends/dib9000.c
+> index 914ca820c174..1c57587a917a 100644
+> --- a/drivers/media/dvb-frontends/dib9000.c
+> +++ b/drivers/media/dvb-frontends/dib9000.c
+> @@ -11,7 +11,7 @@
+>  #include <linux/i2c.h>
+>  #include <linux/mutex.h>
+>  
+> -#include <media/dvb_math.h>
+> +#include <linux/int_log.h>
+>  #include <media/dvb_frontend.h>
+>  
+>  #include "dib9000.h"
+> diff --git a/drivers/media/dvb-frontends/drxk_hard.c b/drivers/media/dvb-frontends/drxk_hard.c
+> index 3301ef75d441..6ad4f202f1bf 100644
+> --- a/drivers/media/dvb-frontends/drxk_hard.c
+> +++ b/drivers/media/dvb-frontends/drxk_hard.c
+> @@ -20,7 +20,7 @@
+>  #include <media/dvb_frontend.h>
+>  #include "drxk.h"
+>  #include "drxk_hard.h"
+> -#include <media/dvb_math.h>
+> +#include <linux/int_log.h>
+>  
+>  static int power_down_dvbt(struct drxk_state *state, bool set_power_mode);
+>  static int power_down_qam(struct drxk_state *state);
+> diff --git a/drivers/media/dvb-frontends/lgdt3305.c b/drivers/media/dvb-frontends/lgdt3305.c
+> index 62d743988919..c15d3735d34c 100644
+> --- a/drivers/media/dvb-frontends/lgdt3305.c
+> +++ b/drivers/media/dvb-frontends/lgdt3305.c
+> @@ -10,7 +10,7 @@
+>  #include <asm/div64.h>
+>  #include <linux/dvb/frontend.h>
+>  #include <linux/slab.h>
+> -#include <media/dvb_math.h>
+> +#include <linux/int_log.h>
+>  #include "lgdt3305.h"
+>  
+>  static int debug;
+> diff --git a/drivers/media/dvb-frontends/lgdt3306a.c b/drivers/media/dvb-frontends/lgdt3306a.c
+> index 70258884126b..3c6650f6e9a3 100644
+> --- a/drivers/media/dvb-frontends/lgdt3306a.c
+> +++ b/drivers/media/dvb-frontends/lgdt3306a.c
+> @@ -12,7 +12,7 @@
+>  #include <asm/div64.h>
+>  #include <linux/kernel.h>
+>  #include <linux/dvb/frontend.h>
+> -#include <media/dvb_math.h>
+> +#include <linux/int_log.h>
+>  #include "lgdt3306a.h"
+>  #include <linux/i2c-mux.h>
+>  
+> diff --git a/drivers/media/dvb-frontends/lgdt330x.c b/drivers/media/dvb-frontends/lgdt330x.c
+> index 83565209c3b1..97a10996c7fa 100644
+> --- a/drivers/media/dvb-frontends/lgdt330x.c
+> +++ b/drivers/media/dvb-frontends/lgdt330x.c
+> @@ -28,7 +28,7 @@
+>  #include <asm/byteorder.h>
+>  
+>  #include <media/dvb_frontend.h>
+> -#include <media/dvb_math.h>
+> +#include <linux/int_log.h>
+>  #include "lgdt330x_priv.h"
+>  #include "lgdt330x.h"
+>  
+> diff --git a/drivers/media/dvb-frontends/m88ds3103_priv.h b/drivers/media/dvb-frontends/m88ds3103_priv.h
+> index aa5306f40201..594ad9cbc2cc 100644
+> --- a/drivers/media/dvb-frontends/m88ds3103_priv.h
+> +++ b/drivers/media/dvb-frontends/m88ds3103_priv.h
+> @@ -10,7 +10,7 @@
+>  
+>  #include <media/dvb_frontend.h>
+>  #include "m88ds3103.h"
+> -#include <media/dvb_math.h>
+> +#include <linux/int_log.h>
+>  #include <linux/firmware.h>
+>  #include <linux/i2c-mux.h>
+>  #include <linux/regmap.h>
+> diff --git a/drivers/media/dvb-frontends/mn88443x.c b/drivers/media/dvb-frontends/mn88443x.c
+> index 2ce5692bc22c..db2921c736af 100644
+> --- a/drivers/media/dvb-frontends/mn88443x.c
+> +++ b/drivers/media/dvb-frontends/mn88443x.c
+> @@ -10,7 +10,7 @@
+>  #include <linux/gpio/consumer.h>
+>  #include <linux/of_device.h>
+>  #include <linux/regmap.h>
+> -#include <media/dvb_math.h>
+> +#include <linux/int_log.h>
+>  
+>  #include "mn88443x.h"
+>  
+> diff --git a/drivers/media/dvb-frontends/mn88472_priv.h b/drivers/media/dvb-frontends/mn88472_priv.h
+> index 337562723f88..41f14bd67bfd 100644
+> --- a/drivers/media/dvb-frontends/mn88472_priv.h
+> +++ b/drivers/media/dvb-frontends/mn88472_priv.h
+> @@ -9,7 +9,7 @@
+>  #define MN88472_PRIV_H
+>  
+>  #include <media/dvb_frontend.h>
+> -#include <media/dvb_math.h>
+> +#include <linux/int_log.h>
+>  #include "mn88472.h"
+>  #include <linux/firmware.h>
+>  #include <linux/regmap.h>
+> diff --git a/drivers/media/dvb-frontends/mn88473_priv.h b/drivers/media/dvb-frontends/mn88473_priv.h
+> index eca7f4e2b769..e9daaacfa22f 100644
+> --- a/drivers/media/dvb-frontends/mn88473_priv.h
+> +++ b/drivers/media/dvb-frontends/mn88473_priv.h
+> @@ -9,7 +9,7 @@
+>  #define MN88473_PRIV_H
+>  
+>  #include <media/dvb_frontend.h>
+> -#include <media/dvb_math.h>
+> +#include <linux/int_log.h>
+>  #include "mn88473.h"
+>  #include <linux/math64.h>
+>  #include <linux/firmware.h>
+> diff --git a/drivers/media/dvb-frontends/or51132.c b/drivers/media/dvb-frontends/or51132.c
+> index 24de1b115158..355f3598627b 100644
+> --- a/drivers/media/dvb-frontends/or51132.c
+> +++ b/drivers/media/dvb-frontends/or51132.c
+> @@ -27,7 +27,7 @@
+>  #include <linux/slab.h>
+>  #include <asm/byteorder.h>
+>  
+> -#include <media/dvb_math.h>
+> +#include <linux/int_log.h>
+>  #include <media/dvb_frontend.h>
+>  #include "or51132.h"
+>  
+> diff --git a/drivers/media/dvb-frontends/or51211.c b/drivers/media/dvb-frontends/or51211.c
+> index ddcaea5c9941..ae732dc5116e 100644
+> --- a/drivers/media/dvb-frontends/or51211.c
+> +++ b/drivers/media/dvb-frontends/or51211.c
+> @@ -26,7 +26,7 @@
+>  #include <linux/slab.h>
+>  #include <asm/byteorder.h>
+>  
+> -#include <media/dvb_math.h>
+> +#include <linux/int_log.h>
+>  #include <media/dvb_frontend.h>
+>  #include "or51211.h"
+>  
+> diff --git a/drivers/media/dvb-frontends/rtl2830_priv.h b/drivers/media/dvb-frontends/rtl2830_priv.h
+> index fae78ed78522..ae1fc24a4d84 100644
+> --- a/drivers/media/dvb-frontends/rtl2830_priv.h
+> +++ b/drivers/media/dvb-frontends/rtl2830_priv.h
+> @@ -9,7 +9,7 @@
+>  #define RTL2830_PRIV_H
+>  
+>  #include <media/dvb_frontend.h>
+> -#include <media/dvb_math.h>
+> +#include <linux/int_log.h>
+>  #include "rtl2830.h"
+>  #include <linux/i2c-mux.h>
+>  #include <linux/math64.h>
+> diff --git a/drivers/media/dvb-frontends/rtl2832_priv.h b/drivers/media/dvb-frontends/rtl2832_priv.h
+> index 5f79f95b9475..f11ba038d5f0 100644
+> --- a/drivers/media/dvb-frontends/rtl2832_priv.h
+> +++ b/drivers/media/dvb-frontends/rtl2832_priv.h
+> @@ -14,7 +14,7 @@
+>  #include <linux/bitops.h>
+>  
+>  #include <media/dvb_frontend.h>
+> -#include <media/dvb_math.h>
+> +#include <linux/int_log.h>
+>  #include "rtl2832.h"
+>  
+>  struct rtl2832_dev {
+> diff --git a/drivers/media/dvb-frontends/si2165.c b/drivers/media/dvb-frontends/si2165.c
+> index 72810efd1a96..434d003bf397 100644
+> --- a/drivers/media/dvb-frontends/si2165.c
+> +++ b/drivers/media/dvb-frontends/si2165.c
+> @@ -19,7 +19,7 @@
+>  #include <linux/regmap.h>
+>  
+>  #include <media/dvb_frontend.h>
+> -#include <media/dvb_math.h>
+> +#include <linux/int_log.h>
+>  #include "si2165_priv.h"
+>  #include "si2165.h"
+>  
+> diff --git a/drivers/media/dvb-frontends/stv0367.c b/drivers/media/dvb-frontends/stv0367.c
+> index 95e376f23506..a93f40617469 100644
+> --- a/drivers/media/dvb-frontends/stv0367.c
+> +++ b/drivers/media/dvb-frontends/stv0367.c
+> @@ -15,7 +15,7 @@
+>  #include <linux/slab.h>
+>  #include <linux/i2c.h>
+>  
+> -#include <media/dvb_math.h>
+> +#include <linux/int_log.h>
+>  
+>  #include "stv0367.h"
+>  #include "stv0367_defs.h"
+> diff --git a/drivers/media/dvb-frontends/tc90522.c b/drivers/media/dvb-frontends/tc90522.c
+> index 879f028f9682..1f8cbf45554a 100644
+> --- a/drivers/media/dvb-frontends/tc90522.c
+> +++ b/drivers/media/dvb-frontends/tc90522.c
+> @@ -21,7 +21,7 @@
+>  #include <linux/kernel.h>
+>  #include <linux/math64.h>
+>  #include <linux/dvb/frontend.h>
+> -#include <media/dvb_math.h>
+> +#include <linux/int_log.h>
+>  #include "tc90522.h"
+>  
+>  #define TC90522_I2C_THRU_REG 0xfe
+> diff --git a/drivers/media/dvb-frontends/tda10048.c b/drivers/media/dvb-frontends/tda10048.c
+> index 0b3f6999515e..3cb4e5270e4f 100644
+> --- a/drivers/media/dvb-frontends/tda10048.c
+> +++ b/drivers/media/dvb-frontends/tda10048.c
+> @@ -16,7 +16,7 @@
+>  #include <linux/math64.h>
+>  #include <asm/div64.h>
+>  #include <media/dvb_frontend.h>
+> -#include <media/dvb_math.h>
+> +#include <linux/int_log.h>
+>  #include "tda10048.h"
+>  
+>  #define TDA10048_DEFAULT_FIRMWARE "dvb-fe-tda10048-1.0.fw"
+> diff --git a/include/media/dvb_math.h b/include/linux/int_log.h
+> similarity index 92%
+> rename from include/media/dvb_math.h
+> rename to include/linux/int_log.h
+> index 8690ec42954d..332306202464 100644
+> --- a/include/media/dvb_math.h
+> +++ b/include/linux/int_log.h
+> @@ -1,6 +1,5 @@
+>  /*
+> - * dvb-math provides some complex fixed-point math
+> - * operations shared between the dvb related stuff
+> + * Provides fixed-point logarithm operations.
+>   *
+>   * Copyright (C) 2006 Christoph Pfister (christophpfister@gmail.com)
+>   *
+> @@ -15,8 +14,8 @@
+>   * GNU Lesser General Public License for more details.
+>   */
+>  
+> -#ifndef __DVB_MATH_H
+> -#define __DVB_MATH_H
+> +#ifndef __LINUX_INT_LOG_H
+> +#define __LINUX_INT_LOG_H
+>  
+>  #include <linux/types.h>
+>  
+> diff --git a/lib/math/Makefile b/lib/math/Makefile
+> index bfac26ddfc22..91fcdb0c9efe 100644
+> --- a/lib/math/Makefile
+> +++ b/lib/math/Makefile
+> @@ -1,5 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+> -obj-y += div64.o gcd.o lcm.o int_pow.o int_sqrt.o reciprocal_div.o
+> +obj-y += div64.o gcd.o lcm.o int_log.o int_pow.o int_sqrt.o reciprocal_div.o
+>  
+>  obj-$(CONFIG_CORDIC)		+= cordic.o
+>  obj-$(CONFIG_PRIME_NUMBERS)	+= prime_numbers.o
+> diff --git a/drivers/media/dvb-core/dvb_math.c b/lib/math/int_log.c
+> similarity index 95%
+> rename from drivers/media/dvb-core/dvb_math.c
+> rename to lib/math/int_log.c
+> index dc90564d7f34..322df25a22d6 100644
+> --- a/drivers/media/dvb-core/dvb_math.c
+> +++ b/lib/math/int_log.c
+> @@ -1,6 +1,5 @@
+>  /*
+> - * dvb-math provides some complex fixed-point math
+> - * operations shared between the dvb related stuff
+> + * Provides fixed-point logarithm operations.
+>   *
+>   * Copyright (C) 2006 Christoph Pfister (christophpfister@gmail.com)
+>   *
+> @@ -16,10 +15,12 @@
+>   */
+>  
+>  #include <linux/bitops.h>
+> +#include <linux/export.h>
+> +#include <linux/int_log.h>
+>  #include <linux/kernel.h>
+> -#include <linux/module.h>
+> +#include <linux/types.h>
+> +
+>  #include <asm/bug.h>
+> -#include <media/dvb_math.h>
+>  
+>  static const unsigned short logtable[256] = {
+>  	0x0000, 0x0171, 0x02e0, 0x044e, 0x05ba, 0x0725, 0x088e, 0x09f7,
+> @@ -53,7 +54,7 @@ static const unsigned short logtable[256] = {
+>  	0xe82a, 0xe8ef, 0xe9b3, 0xea77, 0xeb3b, 0xebfe, 0xecc1, 0xed83,
+>  	0xee45, 0xef06, 0xefc8, 0xf088, 0xf149, 0xf209, 0xf2c8, 0xf387,
+>  	0xf446, 0xf505, 0xf5c3, 0xf680, 0xf73e, 0xf7fb, 0xf8b7, 0xf973,
+> -	0xfa2f, 0xfaea, 0xfba5, 0xfc60, 0xfd1a, 0xfdd4, 0xfe8e, 0xff47
+> +	0xfa2f, 0xfaea, 0xfba5, 0xfc60, 0xfd1a, 0xfdd4, 0xfe8e, 0xff47,
+>  };
+>  
+>  unsigned int intlog2(u32 value)
