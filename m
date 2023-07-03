@@ -2,377 +2,208 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 017A274605A
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jul 2023 18:05:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A995C74608C
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jul 2023 18:15:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229989AbjGCQFC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jul 2023 12:05:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42044 "EHLO
+        id S231162AbjGCQPh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jul 2023 12:15:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229597AbjGCQFB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jul 2023 12:05:01 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB0FEE67
-        for <linux-media@vger.kernel.org>; Mon,  3 Jul 2023 09:04:56 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1b80ddce748so22825795ad.3
-        for <linux-media@vger.kernel.org>; Mon, 03 Jul 2023 09:04:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1688400296; x=1690992296;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UBEn+DORUJ5ij2DLOyIr1+keFOgWZdq/wK0YAWYuj18=;
-        b=wF1J8mqRpZ/0eHecvY4A6d0+f61b+gLvgtgwZ8kNufHjfAFZDZBgnY8CBXJ8cpjeN4
-         n/iS1HnDgYMUwDvOXpGzd9N7cFJx2kstYDzXBhUgXLTa0hrWXCPclNWgUaMenCy1TDVg
-         nbxXRjQy8ML0HprfQFB/HnzTOWNTUf6f/UT80KdAhoFukugUsPKCwzFTWb8XVioL2rNj
-         sNI4jANkgEX3k7nRXfw6uy13PENUpRiQU3DjJrkCQoewutdEvrFvtj3d2tDhhy2lOds6
-         wxg1hCpW6ApALyDUyENW0BaznLAVqftyb6WSI/ypuMfGe9eCOGhhLfku/QPpQnq42KZp
-         2jcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688400296; x=1690992296;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UBEn+DORUJ5ij2DLOyIr1+keFOgWZdq/wK0YAWYuj18=;
-        b=BcwFUAh2zgK5qqfethT3HMEfEBaMWUNOuxAs52/2Jcb7adYNREOoFrZ31L61s8Gs3h
-         Txs3OoaDfzJboGVF/d421m4kWYbc1cCmaaJRljI3J7BSCvvhzis8JVPDclDcLgK1gttS
-         qdUCPS4C31UX2MlBRHd0Iq0uINFn5HqjopWlhnj6At+8lTUCoxGudryJ/OMDCHe5d5h2
-         Z1IHXu6Vf85RDxMI9KFiDgFnsXiq26ufeWBRK5DqW6yKFdYqUMBCw6T/WHrhv3kz0Y/f
-         ytSZt1nJHicERSlVOtrI5/ae4U8K5IJoq+2sbsAj9l2n5lYujITuASVxT/r6Lq3aXl4Z
-         765w==
-X-Gm-Message-State: ABy/qLYJzFPBxAOhvzJU7jwluTt+KaaLXRyhjdj73DHuw6GZmtk49UmU
-        p0tSasDmM794fjxBNzeds5t4ag==
-X-Google-Smtp-Source: APBJJlGjEgZXbJ/Z6L8I7MLh6q1bS6/iEJLDe5vdJOhJhJXD38MLY3FNvd2g70KJTdpLSSdLro04Kg==
-X-Received: by 2002:a17:903:496:b0:1b8:63c6:84ab with SMTP id jj22-20020a170903049600b001b863c684abmr6673059plb.61.1688400296152;
-        Mon, 03 Jul 2023 09:04:56 -0700 (PDT)
-Received: from p14s ([2604:3d09:148c:c800:6f20:cb07:ed03:2be8])
-        by smtp.gmail.com with ESMTPSA id x3-20020a1709027c0300b001ab1b7bae5asm15454989pll.184.2023.07.03.09.04.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jul 2023 09:04:55 -0700 (PDT)
-Date:   Mon, 3 Jul 2023 10:04:52 -0600
-From:   Mathieu Poirier <mathieu.poirier@linaro.org>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Leo Yan <leo.yan@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, coresight@lists.linaro.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        linux-rockchip@lists.infradead.org, linux-iio@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-amlogic@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
-        linux-remoteproc@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: cleanup DTS example whitespaces
-Message-ID: <ZKLxpAKTQ3P3KNYb@p14s>
-References: <20230702182308.7583-1-krzysztof.kozlowski@linaro.org>
+        with ESMTP id S229960AbjGCQPg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jul 2023 12:15:36 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABF97138;
+        Mon,  3 Jul 2023 09:15:31 -0700 (PDT)
+Received: from [192.168.0.136] (85-160-45-219.reb.o2.cz [85.160.45.219])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BD379558;
+        Mon,  3 Jul 2023 18:14:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1688400886;
+        bh=gYlggtONKgyVLfFg4FtFyUz5L/xvCsECWtCLrY31uig=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=msRwoBw60b1gOoHX+D4O5wN+njZRs2V+cqX9TQ9jTLW9ddVBQi4ACufTLFzJVsXHD
+         ckis2R45sa+5xOn/piTaBdeZMqOAbVRJQhObYnwzFd5g9wrzWe3fFA+WADD2T9+0vB
+         RWKkDvAcCn+VBzFxKyGf3OGuRkHU32TLzxX4s7KI=
+Message-ID: <d84acc1e-e933-b304-b513-f097c79d8a17@ideasonboard.com>
+Date:   Mon, 3 Jul 2023 18:15:25 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230702182308.7583-1-krzysztof.kozlowski@linaro.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v8 1/5] staging: vc04_services: vchiq_arm: Add new bus
+ type and device type
+Content-Language: en-US
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     linux-staging@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, stefan.wahren@i2se.com,
+        f.fainelli@gmail.com, athierry@redhat.com, error27@gmail.com,
+        dave.stevenson@raspberrypi.com, kieran.bingham@ideasonboard.com,
+        laurent.pinchart@ideasonboard.com
+References: <20230627201628.207483-1-umang.jain@ideasonboard.com>
+ <20230627201628.207483-2-umang.jain@ideasonboard.com>
+ <2023070302-gallon-unison-2b9c@gregkh>
+From:   Umang Jain <umang.jain@ideasonboard.com>
+In-Reply-To: <2023070302-gallon-unison-2b9c@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Jul 02, 2023 at 08:23:08PM +0200, Krzysztof Kozlowski wrote:
-> The DTS code coding style expects spaces around '=' sign.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> ---
-> 
-> Rob,
-> 
-> Maybe this could go via your tree? Rebased on your for-next:
-> v6.4-rc2-45-gf0ac35049606
-> ---
->  .../bindings/arm/arm,coresight-cti.yaml        | 18 +++++++++---------
->  .../bindings/arm/keystone/ti,sci.yaml          |  8 ++++----
->  .../devicetree/bindings/display/msm/gmu.yaml   |  2 +-
->  .../display/panel/samsung,s6e8aa0.yaml         |  2 +-
->  .../display/rockchip/rockchip-vop.yaml         |  4 ++--
->  .../bindings/iio/adc/ti,adc108s102.yaml        |  2 +-
->  .../bindings/media/renesas,rzg2l-cru.yaml      |  4 ++--
->  .../devicetree/bindings/media/renesas,vin.yaml |  4 ++--
->  .../devicetree/bindings/mtd/mtd-physmap.yaml   |  2 +-
->  .../bindings/net/mediatek-dwmac.yaml           |  2 +-
->  .../bindings/perf/amlogic,g12-ddr-pmu.yaml     |  4 ++--
->  .../bindings/phy/mediatek,dsi-phy.yaml         |  2 +-
->  .../remoteproc/amlogic,meson-mx-ao-arc.yaml    |  2 +-
->  .../devicetree/bindings/usb/mediatek,mtu3.yaml |  2 +-
->  .../devicetree/bindings/usb/ti,am62-usb.yaml   |  2 +-
->  15 files changed, 30 insertions(+), 30 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/arm/arm,coresight-cti.yaml b/Documentation/devicetree/bindings/arm/arm,coresight-cti.yaml
-> index 0c5b875cb654..d6c84b6e7fe6 100644
-> --- a/Documentation/devicetree/bindings/arm/arm,coresight-cti.yaml
-> +++ b/Documentation/devicetree/bindings/arm/arm,coresight-cti.yaml
-> @@ -287,7 +287,7 @@ examples:
->              arm,trig-in-sigs = <0 1>;
->              arm,trig-in-types = <PE_DBGTRIGGER
->                                   PE_PMUIRQ>;
-> -            arm,trig-out-sigs=<0 1 2 >;
-> +            arm,trig-out-sigs = <0 1 2 >;
->              arm,trig-out-types = <PE_EDBGREQ
->                                    PE_DBGRESTART
->                                    PE_CTIIRQ>;
-> @@ -309,24 +309,24 @@ examples:
->  
->        trig-conns@0 {
->          reg = <0>;
-> -        arm,trig-in-sigs=<0>;
-> -        arm,trig-in-types=<GEN_INTREQ>;
-> -        arm,trig-out-sigs=<0>;
-> -        arm,trig-out-types=<GEN_HALTREQ>;
-> +        arm,trig-in-sigs = <0>;
-> +        arm,trig-in-types = <GEN_INTREQ>;
-> +        arm,trig-out-sigs = <0>;
-> +        arm,trig-out-types = <GEN_HALTREQ>;
->          arm,trig-conn-name = "sys_profiler";
->        };
->  
->        trig-conns@1 {
->          reg = <1>;
-> -        arm,trig-out-sigs=<2 3>;
-> -        arm,trig-out-types=<GEN_HALTREQ GEN_RESTARTREQ>;
-> +        arm,trig-out-sigs = <2 3>;
-> +        arm,trig-out-types = <GEN_HALTREQ GEN_RESTARTREQ>;
->          arm,trig-conn-name = "watchdog";
->        };
->  
->        trig-conns@2 {
->          reg = <2>;
-> -        arm,trig-in-sigs=<1 6>;
-> -        arm,trig-in-types=<GEN_HALTREQ GEN_RESTARTREQ>;
-> +        arm,trig-in-sigs = <1 6>;
-> +        arm,trig-in-types = <GEN_HALTREQ GEN_RESTARTREQ>;
->          arm,trig-conn-name = "g_counter";
->        };
->      };
-> diff --git a/Documentation/devicetree/bindings/arm/keystone/ti,sci.yaml b/Documentation/devicetree/bindings/arm/keystone/ti,sci.yaml
-> index 91b96065f7df..86b59de7707e 100644
-> --- a/Documentation/devicetree/bindings/arm/keystone/ti,sci.yaml
-> +++ b/Documentation/devicetree/bindings/arm/keystone/ti,sci.yaml
-> @@ -96,8 +96,8 @@ examples:
->        compatible = "ti,k2g-sci";
->        ti,system-reboot-controller;
->        mbox-names = "rx", "tx";
-> -      mboxes= <&msgmgr 5 2>,
-> -              <&msgmgr 0 0>;
-> +      mboxes = <&msgmgr 5 2>,
-> +               <&msgmgr 0 0>;
->        reg-names = "debug_messages";
->        reg = <0x02921800 0x800>;
->      };
-> @@ -107,8 +107,8 @@ examples:
->        compatible = "ti,k2g-sci";
->        ti,host-id = <12>;
->        mbox-names = "rx", "tx";
-> -      mboxes= <&secure_proxy_main 11>,
-> -              <&secure_proxy_main 13>;
-> +      mboxes = <&secure_proxy_main 11>,
-> +               <&secure_proxy_main 13>;
->        reg-names = "debug_messages";
->        reg = <0x44083000 0x1000>;
->  
-> diff --git a/Documentation/devicetree/bindings/display/msm/gmu.yaml b/Documentation/devicetree/bindings/display/msm/gmu.yaml
-> index 029d72822d8b..65b02c7a1211 100644
-> --- a/Documentation/devicetree/bindings/display/msm/gmu.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/gmu.yaml
-> @@ -225,7 +225,7 @@ examples:
->      #include <dt-bindings/interrupt-controller/arm-gic.h>
->  
->      gmu: gmu@506a000 {
-> -        compatible="qcom,adreno-gmu-630.2", "qcom,adreno-gmu";
-> +        compatible = "qcom,adreno-gmu-630.2", "qcom,adreno-gmu";
->  
->          reg = <0x506a000 0x30000>,
->                <0xb280000 0x10000>,
-> diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
-> index 1cdc91b3439f..200fbf1c74a0 100644
-> --- a/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
-> @@ -74,7 +74,7 @@ examples:
->              vdd3-supply = <&vcclcd_reg>;
->              vci-supply = <&vlcd_reg>;
->              reset-gpios = <&gpy4 5 0>;
-> -            power-on-delay= <50>;
-> +            power-on-delay = <50>;
->              reset-delay = <100>;
->              init-delay = <100>;
->              panel-width-mm = <58>;
-> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
-> index 6f43d885c9b3..df61cb5f5c54 100644
-> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
-> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
-> @@ -121,11 +121,11 @@ examples:
->          #size-cells = <0>;
->          vopb_out_edp: endpoint@0 {
->            reg = <0>;
-> -          remote-endpoint=<&edp_in_vopb>;
-> +          remote-endpoint = <&edp_in_vopb>;
->          };
->          vopb_out_hdmi: endpoint@1 {
->            reg = <1>;
-> -          remote-endpoint=<&hdmi_in_vopb>;
-> +          remote-endpoint = <&hdmi_in_vopb>;
->          };
->        };
->      };
-> diff --git a/Documentation/devicetree/bindings/iio/adc/ti,adc108s102.yaml b/Documentation/devicetree/bindings/iio/adc/ti,adc108s102.yaml
-> index 9b072b057f16..a60b1e100ee4 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/ti,adc108s102.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/ti,adc108s102.yaml
-> @@ -35,7 +35,7 @@ unevaluatedProperties: false
->  examples:
->    - |
->      spi {
-> -        #address-cells= <1>;
-> +        #address-cells = <1>;
->          #size-cells = <0>;
->  
->          adc@0 {
-> diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> index 7dde7967c886..1e72b8808d24 100644
-> --- a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> @@ -137,7 +137,7 @@ examples:
->  
->                  cru_parallel_in: endpoint@0 {
->                      reg = <0>;
-> -                    remote-endpoint= <&ov5642>;
-> +                    remote-endpoint = <&ov5642>;
->                      hsync-active = <1>;
->                      vsync-active = <1>;
->                  };
-> @@ -150,7 +150,7 @@ examples:
->  
->                  cru_csi_in: endpoint@0 {
->                      reg = <0>;
-> -                    remote-endpoint= <&csi_cru_in>;
-> +                    remote-endpoint = <&csi_cru_in>;
->                  };
->              };
->          };
-> diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> index 91e8f368fb52..324703bfb1bd 100644
-> --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> @@ -303,11 +303,11 @@ examples:
->  
->                              vin0csi20: endpoint@0 {
->                                      reg = <0>;
-> -                                    remote-endpoint= <&csi20vin0>;
-> +                                    remote-endpoint = <&csi20vin0>;
->                              };
->                              vin0csi40: endpoint@2 {
->                                      reg = <2>;
-> -                                    remote-endpoint= <&csi40vin0>;
-> +                                    remote-endpoint = <&csi40vin0>;
->                              };
->                      };
->              };
-> diff --git a/Documentation/devicetree/bindings/mtd/mtd-physmap.yaml b/Documentation/devicetree/bindings/mtd/mtd-physmap.yaml
-> index f8c976898a95..18f6733408b4 100644
-> --- a/Documentation/devicetree/bindings/mtd/mtd-physmap.yaml
-> +++ b/Documentation/devicetree/bindings/mtd/mtd-physmap.yaml
-> @@ -164,7 +164,7 @@ examples:
->              reg = <0 0xf80000>;
->          };
->          firmware@f80000 {
-> -            label ="firmware";
-> +            label = "firmware";
->              reg = <0xf80000 0x80000>;
->              read-only;
->          };
-> diff --git a/Documentation/devicetree/bindings/net/mediatek-dwmac.yaml b/Documentation/devicetree/bindings/net/mediatek-dwmac.yaml
-> index 0fa2132fa4f4..400aedb58205 100644
-> --- a/Documentation/devicetree/bindings/net/mediatek-dwmac.yaml
-> +++ b/Documentation/devicetree/bindings/net/mediatek-dwmac.yaml
-> @@ -156,7 +156,7 @@ examples:
->          reg = <0x1101c000 0x1300>;
->          interrupts = <GIC_SPI 237 IRQ_TYPE_LEVEL_LOW>;
->          interrupt-names = "macirq";
-> -        phy-mode ="rgmii-rxid";
-> +        phy-mode = "rgmii-rxid";
->          mac-address = [00 55 7b b5 7d f7];
->          clock-names = "axi",
->                        "apb",
-> diff --git a/Documentation/devicetree/bindings/perf/amlogic,g12-ddr-pmu.yaml b/Documentation/devicetree/bindings/perf/amlogic,g12-ddr-pmu.yaml
-> index 50f46a6898b1..4adab0149108 100644
-> --- a/Documentation/devicetree/bindings/perf/amlogic,g12-ddr-pmu.yaml
-> +++ b/Documentation/devicetree/bindings/perf/amlogic,g12-ddr-pmu.yaml
-> @@ -42,8 +42,8 @@ examples:
->    - |
->      #include <dt-bindings/interrupt-controller/arm-gic.h>
->      pmu {
-> -        #address-cells=<2>;
-> -        #size-cells=<2>;
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
->  
->          pmu@ff638000 {
->              compatible = "amlogic,g12a-ddr-pmu";
-> diff --git a/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml b/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
-> index 26f2b887cfc1..b8d77165c4a1 100644
-> --- a/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
-> +++ b/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
-> @@ -83,7 +83,7 @@ examples:
->          clocks = <&clk26m>;
->          clock-output-names = "mipi_tx0_pll";
->          drive-strength-microamp = <4000>;
-> -        nvmem-cells= <&mipi_tx_calibration>;
-> +        nvmem-cells = <&mipi_tx_calibration>;
->          nvmem-cell-names = "calibration-data";
->          #clock-cells = <0>;
->          #phy-cells = <0>;
-> diff --git a/Documentation/devicetree/bindings/remoteproc/amlogic,meson-mx-ao-arc.yaml b/Documentation/devicetree/bindings/remoteproc/amlogic,meson-mx-ao-arc.yaml
-> index 3100cb870170..76e8ca44906a 100644
-> --- a/Documentation/devicetree/bindings/remoteproc/amlogic,meson-mx-ao-arc.yaml
-> +++ b/Documentation/devicetree/bindings/remoteproc/amlogic,meson-mx-ao-arc.yaml
-> @@ -75,7 +75,7 @@ additionalProperties: false
->  examples:
->    - |
->      remoteproc@1c {
-> -      compatible= "amlogic,meson8-ao-arc", "amlogic,meson-mx-ao-arc";
-> +      compatible = "amlogic,meson8-ao-arc", "amlogic,meson-mx-ao-arc";
+Hi Greg,
 
-Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+(resending because it got bounced off a few lists due a line a copied 
+with HTML tag..)
 
->        reg = <0x1c 0x8>, <0x38 0x8>;
->        reg-names = "remap", "cpu";
->        resets = <&media_cpu_reset>;
-> diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-> index 478214ab045e..a59d91243ac8 100644
-> --- a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-> +++ b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-> @@ -304,7 +304,7 @@ examples:
->    # Dual role switch with type-c
->    - |
->      usb@11201000 {
-> -        compatible ="mediatek,mt8183-mtu3", "mediatek,mtu3";
-> +        compatible = "mediatek,mt8183-mtu3", "mediatek,mtu3";
->          reg = <0x11201000 0x2e00>, <0x11203e00 0x0100>;
->          reg-names = "mac", "ippc";
->          interrupts = <GIC_SPI 72 IRQ_TYPE_LEVEL_LOW>;
-> diff --git a/Documentation/devicetree/bindings/usb/ti,am62-usb.yaml b/Documentation/devicetree/bindings/usb/ti,am62-usb.yaml
-> index d25fc708e32c..fec5651f5602 100644
-> --- a/Documentation/devicetree/bindings/usb/ti,am62-usb.yaml
-> +++ b/Documentation/devicetree/bindings/usb/ti,am62-usb.yaml
-> @@ -92,7 +92,7 @@ examples:
->  
->          usb@31100000 {
->            compatible = "snps,dwc3";
-> -          reg =<0x00 0x31100000 0x00 0x50000>;
-> +          reg = <0x00 0x31100000 0x00 0x50000>;
->            interrupts = <GIC_SPI 226 IRQ_TYPE_LEVEL_HIGH>, /* irq.0 */
->                         <GIC_SPI 226 IRQ_TYPE_LEVEL_HIGH>; /* irq.0 */
->            interrupt-names = "host", "peripheral";
-> -- 
-> 2.34.1
-> 
+On 7/3/23 3:28 PM, Greg KH wrote:
+> On Tue, Jun 27, 2023 at 10:16:24PM +0200, Umang Jain wrote:
+>> The devices that the vchiq interface registers (bcm2835-audio,
+>> bcm2835-camera) are implemented and exposed by the VC04 firmware.
+>> The device tree describes the VC04 itself with the resources required
+>> to communicate with it through a mailbox interface. However, the
+>> vchiq interface registers these devices as platform devices. This
+>> also means the specific drivers for these devices are getting
+>> registered as platform drivers. This is not correct and a blatant
+>> abuse of platform device/driver.
+>>
+>> Add a new bus type, vchiq_bus_type and device type (struct vchiq_device)
+>> which will be used to migrate child devices that the vchiq interfaces
+>> creates/registers from the platform device/driver.
+>>
+>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+>> ---
+>>   drivers/staging/vc04_services/Makefile        |  1 +
+>>   .../interface/vchiq_arm/vchiq_device.c        | 78 +++++++++++++++++++
+>>   .../interface/vchiq_arm/vchiq_device.h        | 43 ++++++++++
+>>   3 files changed, 122 insertions(+)
+>>   create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+>>   create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
+>>
+>> diff --git a/drivers/staging/vc04_services/Makefile b/drivers/staging/vc04_services/Makefile
+>> index 44794bdf6173..2d071e55e175 100644
+>> --- a/drivers/staging/vc04_services/Makefile
+>> +++ b/drivers/staging/vc04_services/Makefile
+>> @@ -5,6 +5,7 @@ vchiq-objs := \
+>>      interface/vchiq_arm/vchiq_core.o  \
+>>      interface/vchiq_arm/vchiq_arm.o \
+>>      interface/vchiq_arm/vchiq_debugfs.o \
+>> +   interface/vchiq_arm/vchiq_device.o \
+>>      interface/vchiq_arm/vchiq_connected.o \
+>>   
+>>   ifdef CONFIG_VCHIQ_CDEV
+>> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+>> new file mode 100644
+>> index 000000000000..dff312e9735c
+>> --- /dev/null
+>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+>> @@ -0,0 +1,78 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * vchiq_device.c - VCHIQ generic device and bus-type
+>> + *
+>> + * Copyright (c) 2023 Ideas On Board Oy
+>> + */
+>> +
+>> +#include <linux/device/bus.h>
+>> +#include <linux/slab.h>
+>> +#include <linux/string.h>
+>> +
+>> +#include "vchiq_device.h"
+>> +
+>> +static int vchiq_bus_type_match(struct device *dev, struct device_driver *drv);
+>> +
+>> +struct bus_type vchiq_bus_type = {
+>> +	.name   = "vchiq-bus",
+>> +	.match  = vchiq_bus_type_match,
+>> +};
+>> +
+>> +static int vchiq_bus_type_match(struct device *dev, struct device_driver *drv)
+>> +{
+>> +	if (dev->bus == &vchiq_bus_type &&
+>> +	    strcmp(dev_name(dev), drv->name) == 0)
+>> +		return 1;
+>> +	return 0;
+>> +}
+>> +
+>> +static void vchiq_device_release(struct device *dev)
+>> +{
+>> +	struct vchiq_device *device;
+>> +
+>> +	device = container_of(dev, struct vchiq_device, dev);
+>> +	kfree(device);
+>> +}
+>> +
+>> +int vchiq_device_register(struct device *parent, const char *name)
+>> +{
+>> +	struct vchiq_device *device = NULL;
+> No need to set this to NULL.
+>
+>> +	int ret;
+>> +
+>> +	device = kzalloc(sizeof(*device), GFP_KERNEL);
+>> +	if (!device)
+>> +		return -ENOMEM;
+>> +
+>> +	device->dev.init_name = name;
+>> +	device->dev.parent = parent;
+>> +	device->dev.bus = &vchiq_bus_type;
+>> +	device->dev.release = vchiq_device_release;
+>> +
+>> +	ret = device_register(&device->dev);
+>> +	if (ret) {
+>> +		put_device(&device->dev);
+>> +		return -EINVAL;
+> Why not return the error given to you?
+>
+>> +	}
+>> +
+>> +	return 0;
+> You create a new device, shouldn't you return it?  How is it going to be
+> looked up again?
+
+So I haven't come across usage of the device other than unregistered 
+right now. If you look at the platform_device static instances of 
+bcm2835_camera, bcm2835-audio, they are also just used for unregistering 
+the devices only.
+
+So for unregistering devices on vchiq_bus - I am using the
+
+     bus_for_each_dev(&vchiq_bus_type, NULL, NULL, vchiq_device_unregister);
+
+in patch 3/5.
+
+So basically I can return the instances right now, but there would be no 
+user of those instances.
+>
+>> +}
+>> +
+>> +int vchiq_device_unregister(struct device *dev, void *data)
+> You should be passing in a sruct vchiq_device *device here, right?
+>
+> And why the void pointer you do nothing with?
+
+ack
+>
+>
+>> +{
+>> +	device_unregister(dev);
+>> +	return 0;
+>> +}
+> No need to export this?
+
+In the previous reviews you mentioned not to export it. The 
+vchiq_bus_type is internal to the vchiq_driver to register it's child 
+devices. I don't think any other module will be using this bus directly? 
+Maybe I'm mistaken?
+>
+> thanks,
+>
+> greg k-h
+
