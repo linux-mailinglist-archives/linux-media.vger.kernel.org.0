@@ -2,144 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 45D34745C3B
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jul 2023 14:30:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA2C7745C4B
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jul 2023 14:33:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230085AbjGCMaN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jul 2023 08:30:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47332 "EHLO
+        id S230489AbjGCMdV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jul 2023 08:33:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229597AbjGCMaM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jul 2023 08:30:12 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 343DE109;
-        Mon,  3 Jul 2023 05:30:11 -0700 (PDT)
-Received: from [IPV6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2] (unknown [IPv6:2001:b07:2ed:14ed:c5f8:7372:f042:90a2])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 55DCA6606F62;
-        Mon,  3 Jul 2023 13:30:08 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1688387409;
-        bh=10ULvzLVa3uPh6pWKGK9iBRw5HZ3uis1iLD8mOYhqfw=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=J5fThttroPprXqRHHKBLtoaDz50gaGczy9Po19sSzCmkUgjfbnoJtSmqWQ91atMLn
-         hbOMMYb1dA04xd3lL+5fPpFEyJ56r38hCVBntW89RuqMKWG8pes7Tzt6ecbDvH7i6L
-         vJuGuwiV3kAJ3vHwEoUeqBVJy4SAo8rUjf4MmR3OCmbF6fODUY22ZqTJKjwIDG33JS
-         hvluBaHKUorn2TK2lcjZbd2tR013Z5JllRopxhxwhs2T2BI1lc74BlILmtgKAWZQ1b
-         dK7If3bPNBXDwqAfbEIJZGag3IQ0NuPhr8Apt6UfxtmFNcyuy12rCStcLU0Su/hq3Y
-         L0z16RWX5C+Nw==
-Message-ID: <2dd412f0-86cb-3ae0-305d-0e8192b9128a@collabora.com>
-Date:   Mon, 3 Jul 2023 14:30:06 +0200
+        with ESMTP id S230512AbjGCMdT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jul 2023 08:33:19 -0400
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBC27E7F
+        for <linux-media@vger.kernel.org>; Mon,  3 Jul 2023 05:33:14 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id 38308e7fff4ca-2b6a084a34cso64727311fa.1
+        for <linux-media@vger.kernel.org>; Mon, 03 Jul 2023 05:33:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1688387593; x=1690979593;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=LhfrXDCit7gC6UNJ9zxd5YYkATKXfztakGAxqCORjpU=;
+        b=PTl2J96D/DXP0ioiXlDXQjPk2eQQE0gU3gHy4fVUouQkTXVBHc8HamEz+VFjkBb/Wo
+         rSVDk0IS1EdDa0cFQv/xbkQSySukP+PEITp0V0QJ6FOpe69lLDqBgOTAzRKow0TebR31
+         mHxl8FJ50wsSJ+6kbVX3++u/E97yiO+LPniBpIeFcSlacKIWjqwUuVUfydTwPQXZxztA
+         C0DZSgrkLC8Wov3PEWDplUxli2LpSxnrhNIHt7J/y4LQE6Fj1KBKsf50qSWLTuK3Jh+O
+         fj1qQEF2eGAwLRsswRc5B8hPB1Eph+og0ER3Khp1FCR8mwgNFsQznxvG/3AGjKA1hiYL
+         O3ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688387593; x=1690979593;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LhfrXDCit7gC6UNJ9zxd5YYkATKXfztakGAxqCORjpU=;
+        b=bigwoSJhnQ+eVfspyyjCygtDi0bM2sRdPLzYfT/HqXHMqvjtNq5ahr4b6PiLYanev9
+         4C648OFahEfep+i8YVohEtKgKOzZom5q/wFBnp9jpf1curXqI6cJQCHBEMy1U/xfANin
+         NDvfxEa5AXyoX8VM34yEUeIBPseNlIMquv+MIXoZG02Ke+WbTGVaTE0uIU9iA3apc+jD
+         wbKXk89wzDy2XEBQJtVp/t3/y3upgykFy6XBqbkjUQD+aFwLr/ymg9pMUhDyUw71qzfs
+         QBtBHTpEudOev9Qf91uTK9HgOgyqopL1gTJZhXkcvRyYFi5gBI0M30OJGVRquQSTM6Nq
+         +XJg==
+X-Gm-Message-State: ABy/qLZdrw8XBEfyimW8o6Fll9pg7/Y+4k0CdPVFwxCOBLbCrRbdoiRM
+        B2wCjOVpFcOUQXlINmMDP6H5lw==
+X-Google-Smtp-Source: APBJJlGgueiIvReR4RZC34W5mgNbDVir3z0bbYJoEIBN1p28sRET5jJ5DVkKA1f1FPRpigRYzKtQvA==
+X-Received: by 2002:a2e:81d3:0:b0:2b6:ef5d:965c with SMTP id s19-20020a2e81d3000000b002b6ef5d965cmr242828ljg.44.1688387593103;
+        Mon, 03 Jul 2023 05:33:13 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.26])
+        by smtp.gmail.com with ESMTPSA id rp25-20020a170906d97900b0098e17ea781csm11095329ejb.94.2023.07.03.05.33.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Jul 2023 05:33:12 -0700 (PDT)
+Message-ID: <df7440e2-58b0-9f12-8f37-4f0d9050f934@linaro.org>
+Date:   Mon, 3 Jul 2023 14:33:10 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH v2 2/4] media: platform: mediatek: isp_30: add mediatek
- ISP3.0 sensor interface
+Subject: Re: [RFC PATCH 3/3] ARM: dts: Add Chameleon v3 video node
 Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Cc:     Julien Stephan <jstephan@baylibre.com>,
-        Louis Kuo <louis.kuo@mediatek.com>,
-        Phi-bang Nguyen <pnguyen@baylibre.com>,
-        Florian Sylvestre <fsylvestre@baylibre.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Andy Hsieh <andy.hsieh@mediatek.com>,
-        Conor Dooley <conor+dt@kernel.org>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        devicetree@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Moudy Ho <moudy.ho@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Vasily Gorbik <gor@linux.ibm.com>
-References: <20230630100321.1951138-1-jstephan@baylibre.com>
- <20230630100321.1951138-3-jstephan@baylibre.com>
- <CAAOTY_-qu2RWr496wXxc1Cp14eZfzKt4QgEH8fJns2LOjpwi8Q@mail.gmail.com>
- <CAAOTY_9SFRMb7d3c62SVDnZY00hRAZ=9wBi9QCcv1UKuc8iBtQ@mail.gmail.com>
- <20230703121853.GA16531@pendragon.ideasonboard.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20230703121853.GA16531@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     =?UTF-8?Q?Pawe=c5=82_Anikiel?= <pan@semihalf.com>,
+        Conor Dooley <conor@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dinguyen@kernel.org,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, mchehab@kernel.org, upstream@semihalf.com,
+        amstan@chromium.org, ribalda@chromium.org
+References: <20230630144006.1513270-1-pan@semihalf.com>
+ <20230630144006.1513270-4-pan@semihalf.com>
+ <20230630-scrimmage-antelope-7d1f82d491fc@spud>
+ <CAF9_jYT1Fz4hBQrNtgkM6mU-JVH=ZxsJnkaLDsa5uoEV_hTLVA@mail.gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CAF9_jYT1Fz4hBQrNtgkM6mU-JVH=ZxsJnkaLDsa5uoEV_hTLVA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 03/07/23 14:18, Laurent Pinchart ha scritto:
-> On Sun, Jul 02, 2023 at 05:20:25PM +0800, Chun-Kuang Hu wrote:
->> Chun-Kuang Hu <chunkuang.hu@kernel.org> 於 2023年7月2日 週日 上午7:35寫道：
->>> Julien Stephan <jstephan@baylibre.com> 於 2023年6月30日 週五 下午6:05寫道：
->>>>
->>>> From: Louis Kuo <louis.kuo@mediatek.com>
->>>>
->>>> This will add the mediatek ISP3.0 seninf (sensor interface) driver found
->>>> on several Mediatek SoCs such as the mt8365.
->>>>
->>>> Then seninf module has 4 physical CSI-2 inputs. Depending on the soc they
->>>> may not be all connected.
->>>>
->>>> Signed-off-by: Louis Kuo <louis.kuo@mediatek.com>
->>>> Signed-off-by: Phi-bang Nguyen <pnguyen@baylibre.com>
->>>> Signed-off-by: Florian Sylvestre <fsylvestre@baylibre.com>
->>>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>>> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
->>>>
+On 03/07/2023 13:44, Paweł Anikiel wrote:
+>>> diff --git a/arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dts b/arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dts
+>>> index 422d00cd4c74..5e66363d4ab5 100644
+>>> --- a/arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dts
+>>> +++ b/arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dts
+>>> @@ -10,6 +10,60 @@ / {
+>>>       compatible = "google,chameleon-v3", "enclustra,mercury-aa1",
+>>>                    "altr,socfpga-arria10", "altr,socfpga";
 >>>
->>> [snip]
->>>
->>>> +
->>>> +static const struct mtk_seninf_conf seninf_8365_conf = {
->>>> +       .model = "mtk-camsys-3.0",
->>>> +       .nb_inputs = 4,
->>>> +       .nb_muxes = 6,
->>>> +       .nb_outputs = 4,
->>>> +};
->>>> +
->>>> +static const struct of_device_id mtk_seninf_of_match[] = {
->>>> +       {
->>>> +               .compatible = "mediatek,mt8365-seninf",
->>>> +               .data = &seninf_8365_conf,
->>>
->>> Now only support one SoC, so it's necessary to select the SoC data and
->>> you could directly place the data in the code. After support other
+>>> +     soc {
+>>> +             video@c0060500 {
+>>> +                     compatible = "google,chv3-video";
 >>
->> Typo.
->>
->> Now only support one SoC, so it's not necessary to select the SoC data
->> and you could directly place the data in the code.
+>> This compatible does not seem to be documented & I did not see a comment
+>> about the lack of a binding in the cover letter. What am I missing?
 > 
-> I think Julien has visibility on other SoCs that could use the same
-> driver, and has designed the mtk_seninf_conf structure accordingly. I'll
-> let Julien confirm (or tell I'm wrong).
-> 
+> Yes, the compatible is not documented for now (I'll do that in a later
+> patchset), sorry for not mentioning that in the cover letter.
 
-You're not wrong.
+You cannot add undocumented compatible. This cannot be fixed in "a later
+patchset".
 
-Cheers,
-Angelo
-
->>> SoC, so we could know what should be placed in struct mtg_seninf_conf
->>> (Now we have no any information).
->>>
->>>> +       },
->>>> +       {
->>>> +       },
->>>> +};
->>>> +MODULE_DEVICE_TABLE(of, mtk_seninf_of_match);
-> 
-
+Best regards,
+Krzysztof
 
