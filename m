@@ -2,72 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 11E267458AE
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jul 2023 11:46:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E680745998
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jul 2023 12:05:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230298AbjGCJqJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jul 2023 05:46:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46782 "EHLO
+        id S231235AbjGCKFg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jul 2023 06:05:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230064AbjGCJqH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jul 2023 05:46:07 -0400
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com [IPv6:2607:f8b0:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AE341B5
-        for <linux-media@vger.kernel.org>; Mon,  3 Jul 2023 02:46:02 -0700 (PDT)
-Received: by mail-ot1-x32a.google.com with SMTP id 46e09a7af769-6b73b839025so3507627a34.1
-        for <linux-media@vger.kernel.org>; Mon, 03 Jul 2023 02:46:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1688377561; x=1690969561;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=TbmK849oZWBsIIXxzmxsrG4bxrPx0q2kPEKRNXqKLLA=;
-        b=FqaaBvfUvfBo3SBcsGzEMd1dvUZtm5NWEBpoBibAj65q9of6VirCq02/CPvzUE6J8M
-         Uhy5EVVpLr6ulJBY6fH/FRFZDHqELxw5AqluLllSTfRK8Ot+Y7fgK/B7fDdHTY0tDglk
-         aNBH29aK3CDBk7a+I6h5OtQDpqa2MgUlIAOY7TV32j+2bhe0Vnzs5nJl6906QtAMyUCT
-         GdDrC9klhyzRd3p1mIM0Q6JIf+MjdXHrTDOEwXZnZsJK+RVZA5+pBy+/iMeczLIiYMZL
-         T60ZrAExpo3e7Jl1THy4p7eU2ks0Ads/ozDYxk5B/CSAw2H6+lFHSWADkRkZd8aqZ38a
-         Dq/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688377561; x=1690969561;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TbmK849oZWBsIIXxzmxsrG4bxrPx0q2kPEKRNXqKLLA=;
-        b=P6QbFjs1UfwonPGN9UA6ANrez3bD6Oof/aY58f6OZRDQapAu4gqxOyxByNclZi6Nan
-         m1z4gsbA/cg4C3v45dTvYQSyQJzkxBYy5PHWpIsP8I9U+Noa3OKvvAUhPNdS3Bkj5E+L
-         Em3UhVmvWhZYNuCqVHldTLdTAXpBE5Pl5hcfu0mL3q9fO2E6cUBhnOFoFz+2XKqA+exl
-         aXdjIJidXOqCS9GDwlNRCsDP4NLivHnutcAoJlWLDD66nfSVIM/xs2tARS32uhmPG67l
-         q6IRxKyVVQfMpngrTqIJHm5vkBDKwgX54zK58ilKT8PrSnBxj/2YLLs7zRXZK2DVyvS4
-         9gzw==
-X-Gm-Message-State: AC+VfDz+D8zFi6EyiIzSy4vYRM1yxE7PNFieMkdNTIWVplYEBbpOKhTL
-        Dp+6jiKzbFaYMkhnzFPv0M4Fjc3SmaBjMkYJHXNuIg==
-X-Google-Smtp-Source: ACHHUZ7zcZZyp7iHEMoo1jOtwoGBPvK4/0F8HZmYDuVnyhpaegVixWOILIghS+RgeHmrQTN8C2D6HtJ1A50/NzsYIh8=
-X-Received: by 2002:a9d:6b19:0:b0:6b5:ee8f:73af with SMTP id
- g25-20020a9d6b19000000b006b5ee8f73afmr10267752otp.5.1688377561413; Mon, 03
- Jul 2023 02:46:01 -0700 (PDT)
+        with ESMTP id S231260AbjGCKFK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jul 2023 06:05:10 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0EA81728;
+        Mon,  3 Jul 2023 03:04:45 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7263060E8B;
+        Mon,  3 Jul 2023 10:04:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69801C433C7;
+        Mon,  3 Jul 2023 10:04:41 +0000 (UTC)
+Message-ID: <04dec113-f6d8-a9f8-0a8a-3279ff5fe870@xs4all.nl>
+Date:   Mon, 3 Jul 2023 12:04:39 +0200
 MIME-Version: 1.0
-References: <20230702182308.7583-1-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230702182308.7583-1-krzysztof.kozlowski@linaro.org>
-From:   Mike Leach <mike.leach@linaro.org>
-Date:   Mon, 3 Jul 2023 10:45:50 +0100
-Message-ID: <CAJ9a7ViDdBeom-pBEOEySN7e78GYjPkqSXvS9Has1aA-egQdLA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: cleanup DTS example whitespaces
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Leo Yan <leo.yan@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, coresight@lists.linaro.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        linux-rockchip@lists.infradead.org, linux-iio@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-amlogic@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
-        linux-remoteproc@vger.kernel.org, linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 1/6] media: v4l2: Add audio capture and output support
+Content-Language: en-US
+To:     Shengjiu Wang <shengjiu.wang@gmail.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Shengjiu Wang <shengjiu.wang@nxp.com>, tfiga@chromium.org,
+        m.szyprowski@samsung.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
+        lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz,
+        tiwai@suse.com, alsa-devel@alsa-project.org,
+        linuxppc-dev@lists.ozlabs.org, Jacopo Mondi <jacopo@jmondi.org>
+References: <1688002673-28493-1-git-send-email-shengjiu.wang@nxp.com>
+ <1688002673-28493-2-git-send-email-shengjiu.wang@nxp.com>
+ <ZJ6o5fT4V4HXivFa@valkosipuli.retiisi.eu>
+ <CAA+D8AND1yZ7eZLjBGxVF=i3hLMecUm-j7AVHN9npJi-4=3VrA@mail.gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <CAA+D8AND1yZ7eZLjBGxVF=i3hLMecUm-j7AVHN9npJi-4=3VrA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,317 +56,421 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, 2 Jul 2023 at 19:23, Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> The DTS code coding style expects spaces around '=' sign.
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->
-> ---
->
-> Rob,
->
-> Maybe this could go via your tree? Rebased on your for-next:
-> v6.4-rc2-45-gf0ac35049606
-> ---
->  .../bindings/arm/arm,coresight-cti.yaml        | 18 +++++++++---------
->  .../bindings/arm/keystone/ti,sci.yaml          |  8 ++++----
->  .../devicetree/bindings/display/msm/gmu.yaml   |  2 +-
->  .../display/panel/samsung,s6e8aa0.yaml         |  2 +-
->  .../display/rockchip/rockchip-vop.yaml         |  4 ++--
->  .../bindings/iio/adc/ti,adc108s102.yaml        |  2 +-
->  .../bindings/media/renesas,rzg2l-cru.yaml      |  4 ++--
->  .../devicetree/bindings/media/renesas,vin.yaml |  4 ++--
->  .../devicetree/bindings/mtd/mtd-physmap.yaml   |  2 +-
->  .../bindings/net/mediatek-dwmac.yaml           |  2 +-
->  .../bindings/perf/amlogic,g12-ddr-pmu.yaml     |  4 ++--
->  .../bindings/phy/mediatek,dsi-phy.yaml         |  2 +-
->  .../remoteproc/amlogic,meson-mx-ao-arc.yaml    |  2 +-
->  .../devicetree/bindings/usb/mediatek,mtu3.yaml |  2 +-
->  .../devicetree/bindings/usb/ti,am62-usb.yaml   |  2 +-
->  15 files changed, 30 insertions(+), 30 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/arm/arm,coresight-cti.yaml b/Documentation/devicetree/bindings/arm/arm,coresight-cti.yaml
-> index 0c5b875cb654..d6c84b6e7fe6 100644
-> --- a/Documentation/devicetree/bindings/arm/arm,coresight-cti.yaml
-> +++ b/Documentation/devicetree/bindings/arm/arm,coresight-cti.yaml
-> @@ -287,7 +287,7 @@ examples:
->              arm,trig-in-sigs = <0 1>;
->              arm,trig-in-types = <PE_DBGTRIGGER
->                                   PE_PMUIRQ>;
-> -            arm,trig-out-sigs=<0 1 2 >;
-> +            arm,trig-out-sigs = <0 1 2 >;
->              arm,trig-out-types = <PE_EDBGREQ
->                                    PE_DBGRESTART
->                                    PE_CTIIRQ>;
-> @@ -309,24 +309,24 @@ examples:
->
->        trig-conns@0 {
->          reg = <0>;
-> -        arm,trig-in-sigs=<0>;
-> -        arm,trig-in-types=<GEN_INTREQ>;
-> -        arm,trig-out-sigs=<0>;
-> -        arm,trig-out-types=<GEN_HALTREQ>;
-> +        arm,trig-in-sigs = <0>;
-> +        arm,trig-in-types = <GEN_INTREQ>;
-> +        arm,trig-out-sigs = <0>;
-> +        arm,trig-out-types = <GEN_HALTREQ>;
->          arm,trig-conn-name = "sys_profiler";
->        };
->
->        trig-conns@1 {
->          reg = <1>;
-> -        arm,trig-out-sigs=<2 3>;
-> -        arm,trig-out-types=<GEN_HALTREQ GEN_RESTARTREQ>;
-> +        arm,trig-out-sigs = <2 3>;
-> +        arm,trig-out-types = <GEN_HALTREQ GEN_RESTARTREQ>;
->          arm,trig-conn-name = "watchdog";
->        };
->
->        trig-conns@2 {
->          reg = <2>;
-> -        arm,trig-in-sigs=<1 6>;
-> -        arm,trig-in-types=<GEN_HALTREQ GEN_RESTARTREQ>;
-> +        arm,trig-in-sigs = <1 6>;
-> +        arm,trig-in-types = <GEN_HALTREQ GEN_RESTARTREQ>;
->          arm,trig-conn-name = "g_counter";
->        };
->      };
+On 03/07/2023 11:54, Shengjiu Wang wrote:
+> Hi Sakari
+> 
+> On Fri, Jun 30, 2023 at 6:05 PM Sakari Ailus <sakari.ailus@iki.fi <mailto:sakari.ailus@iki.fi>> wrote:
+> 
+>     Hi Shengjiu,
+> 
+>     On Thu, Jun 29, 2023 at 09:37:48AM +0800, Shengjiu Wang wrote:
+>     > Audio signal processing has the requirement for memory to
+>     > memory similar as Video.
+>     >
+>     > This patch is to add this support in v4l2 framework, defined
+>     > new buffer type V4L2_BUF_TYPE_AUDIO_CAPTURE and
+>     > V4L2_BUF_TYPE_AUDIO_OUTPUT, defined new format v4l2_audio_format
+>     > for audio case usage.
+> 
+>     Why are you proposing to add this to V4L2 framework instead of doing this
+>     within ALSA?
+> 
+>     Also cc Hans and Jacopo.
+> 
+> 
+> There is no such memory to memory interface defined in ALSA.  Seems
+> ALSA is not designed for M2M cases.
+> 
+> V4L2 is designed for video, radio, image, sdr, meta...,   so I think audio can be
+> naturally added to the support scope.  
 
-for above CTI chagnes
+While I do not have an objection as such supporting this as part of V4L2, I do
+want to know if the ALSA maintainers think it is OK as well before I am going
+to spend time on this.
 
-Acked-by: Mike Leach <mike.leach@linaro.org>
+In principle the V4L2 mem2mem framework doesn't really care what type of data
+is processed, it is just a matter of adding audio types (or reusing them from ALSA,
+which is presumably the intention here).
 
+Regards,
 
-> diff --git a/Documentation/devicetree/bindings/arm/keystone/ti,sci.yaml b/Documentation/devicetree/bindings/arm/keystone/ti,sci.yaml
-> index 91b96065f7df..86b59de7707e 100644
-> --- a/Documentation/devicetree/bindings/arm/keystone/ti,sci.yaml
-> +++ b/Documentation/devicetree/bindings/arm/keystone/ti,sci.yaml
-> @@ -96,8 +96,8 @@ examples:
->        compatible = "ti,k2g-sci";
->        ti,system-reboot-controller;
->        mbox-names = "rx", "tx";
-> -      mboxes= <&msgmgr 5 2>,
-> -              <&msgmgr 0 0>;
-> +      mboxes = <&msgmgr 5 2>,
-> +               <&msgmgr 0 0>;
->        reg-names = "debug_messages";
->        reg = <0x02921800 0x800>;
->      };
-> @@ -107,8 +107,8 @@ examples:
->        compatible = "ti,k2g-sci";
->        ti,host-id = <12>;
->        mbox-names = "rx", "tx";
-> -      mboxes= <&secure_proxy_main 11>,
-> -              <&secure_proxy_main 13>;
-> +      mboxes = <&secure_proxy_main 11>,
-> +               <&secure_proxy_main 13>;
->        reg-names = "debug_messages";
->        reg = <0x44083000 0x1000>;
->
-> diff --git a/Documentation/devicetree/bindings/display/msm/gmu.yaml b/Documentation/devicetree/bindings/display/msm/gmu.yaml
-> index 029d72822d8b..65b02c7a1211 100644
-> --- a/Documentation/devicetree/bindings/display/msm/gmu.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/gmu.yaml
-> @@ -225,7 +225,7 @@ examples:
->      #include <dt-bindings/interrupt-controller/arm-gic.h>
->
->      gmu: gmu@506a000 {
-> -        compatible="qcom,adreno-gmu-630.2", "qcom,adreno-gmu";
-> +        compatible = "qcom,adreno-gmu-630.2", "qcom,adreno-gmu";
->
->          reg = <0x506a000 0x30000>,
->                <0xb280000 0x10000>,
-> diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
-> index 1cdc91b3439f..200fbf1c74a0 100644
-> --- a/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa0.yaml
-> @@ -74,7 +74,7 @@ examples:
->              vdd3-supply = <&vcclcd_reg>;
->              vci-supply = <&vlcd_reg>;
->              reset-gpios = <&gpy4 5 0>;
-> -            power-on-delay= <50>;
-> +            power-on-delay = <50>;
->              reset-delay = <100>;
->              init-delay = <100>;
->              panel-width-mm = <58>;
-> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
-> index 6f43d885c9b3..df61cb5f5c54 100644
-> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
-> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop.yaml
-> @@ -121,11 +121,11 @@ examples:
->          #size-cells = <0>;
->          vopb_out_edp: endpoint@0 {
->            reg = <0>;
-> -          remote-endpoint=<&edp_in_vopb>;
-> +          remote-endpoint = <&edp_in_vopb>;
->          };
->          vopb_out_hdmi: endpoint@1 {
->            reg = <1>;
-> -          remote-endpoint=<&hdmi_in_vopb>;
-> +          remote-endpoint = <&hdmi_in_vopb>;
->          };
->        };
->      };
-> diff --git a/Documentation/devicetree/bindings/iio/adc/ti,adc108s102.yaml b/Documentation/devicetree/bindings/iio/adc/ti,adc108s102.yaml
-> index 9b072b057f16..a60b1e100ee4 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/ti,adc108s102.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/ti,adc108s102.yaml
-> @@ -35,7 +35,7 @@ unevaluatedProperties: false
->  examples:
->    - |
->      spi {
-> -        #address-cells= <1>;
-> +        #address-cells = <1>;
->          #size-cells = <0>;
->
->          adc@0 {
-> diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> index 7dde7967c886..1e72b8808d24 100644
-> --- a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> @@ -137,7 +137,7 @@ examples:
->
->                  cru_parallel_in: endpoint@0 {
->                      reg = <0>;
-> -                    remote-endpoint= <&ov5642>;
-> +                    remote-endpoint = <&ov5642>;
->                      hsync-active = <1>;
->                      vsync-active = <1>;
->                  };
-> @@ -150,7 +150,7 @@ examples:
->
->                  cru_csi_in: endpoint@0 {
->                      reg = <0>;
-> -                    remote-endpoint= <&csi_cru_in>;
-> +                    remote-endpoint = <&csi_cru_in>;
->                  };
->              };
->          };
-> diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> index 91e8f368fb52..324703bfb1bd 100644
-> --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> @@ -303,11 +303,11 @@ examples:
->
->                              vin0csi20: endpoint@0 {
->                                      reg = <0>;
-> -                                    remote-endpoint= <&csi20vin0>;
-> +                                    remote-endpoint = <&csi20vin0>;
->                              };
->                              vin0csi40: endpoint@2 {
->                                      reg = <2>;
-> -                                    remote-endpoint= <&csi40vin0>;
-> +                                    remote-endpoint = <&csi40vin0>;
->                              };
->                      };
->              };
-> diff --git a/Documentation/devicetree/bindings/mtd/mtd-physmap.yaml b/Documentation/devicetree/bindings/mtd/mtd-physmap.yaml
-> index f8c976898a95..18f6733408b4 100644
-> --- a/Documentation/devicetree/bindings/mtd/mtd-physmap.yaml
-> +++ b/Documentation/devicetree/bindings/mtd/mtd-physmap.yaml
-> @@ -164,7 +164,7 @@ examples:
->              reg = <0 0xf80000>;
->          };
->          firmware@f80000 {
-> -            label ="firmware";
-> +            label = "firmware";
->              reg = <0xf80000 0x80000>;
->              read-only;
->          };
-> diff --git a/Documentation/devicetree/bindings/net/mediatek-dwmac.yaml b/Documentation/devicetree/bindings/net/mediatek-dwmac.yaml
-> index 0fa2132fa4f4..400aedb58205 100644
-> --- a/Documentation/devicetree/bindings/net/mediatek-dwmac.yaml
-> +++ b/Documentation/devicetree/bindings/net/mediatek-dwmac.yaml
-> @@ -156,7 +156,7 @@ examples:
->          reg = <0x1101c000 0x1300>;
->          interrupts = <GIC_SPI 237 IRQ_TYPE_LEVEL_LOW>;
->          interrupt-names = "macirq";
-> -        phy-mode ="rgmii-rxid";
-> +        phy-mode = "rgmii-rxid";
->          mac-address = [00 55 7b b5 7d f7];
->          clock-names = "axi",
->                        "apb",
-> diff --git a/Documentation/devicetree/bindings/perf/amlogic,g12-ddr-pmu.yaml b/Documentation/devicetree/bindings/perf/amlogic,g12-ddr-pmu.yaml
-> index 50f46a6898b1..4adab0149108 100644
-> --- a/Documentation/devicetree/bindings/perf/amlogic,g12-ddr-pmu.yaml
-> +++ b/Documentation/devicetree/bindings/perf/amlogic,g12-ddr-pmu.yaml
-> @@ -42,8 +42,8 @@ examples:
->    - |
->      #include <dt-bindings/interrupt-controller/arm-gic.h>
->      pmu {
-> -        #address-cells=<2>;
-> -        #size-cells=<2>;
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
->
->          pmu@ff638000 {
->              compatible = "amlogic,g12a-ddr-pmu";
-> diff --git a/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml b/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
-> index 26f2b887cfc1..b8d77165c4a1 100644
-> --- a/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
-> +++ b/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
-> @@ -83,7 +83,7 @@ examples:
->          clocks = <&clk26m>;
->          clock-output-names = "mipi_tx0_pll";
->          drive-strength-microamp = <4000>;
-> -        nvmem-cells= <&mipi_tx_calibration>;
-> +        nvmem-cells = <&mipi_tx_calibration>;
->          nvmem-cell-names = "calibration-data";
->          #clock-cells = <0>;
->          #phy-cells = <0>;
-> diff --git a/Documentation/devicetree/bindings/remoteproc/amlogic,meson-mx-ao-arc.yaml b/Documentation/devicetree/bindings/remoteproc/amlogic,meson-mx-ao-arc.yaml
-> index 3100cb870170..76e8ca44906a 100644
-> --- a/Documentation/devicetree/bindings/remoteproc/amlogic,meson-mx-ao-arc.yaml
-> +++ b/Documentation/devicetree/bindings/remoteproc/amlogic,meson-mx-ao-arc.yaml
-> @@ -75,7 +75,7 @@ additionalProperties: false
->  examples:
->    - |
->      remoteproc@1c {
-> -      compatible= "amlogic,meson8-ao-arc", "amlogic,meson-mx-ao-arc";
-> +      compatible = "amlogic,meson8-ao-arc", "amlogic,meson-mx-ao-arc";
->        reg = <0x1c 0x8>, <0x38 0x8>;
->        reg-names = "remap", "cpu";
->        resets = <&media_cpu_reset>;
-> diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-> index 478214ab045e..a59d91243ac8 100644
-> --- a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-> +++ b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-> @@ -304,7 +304,7 @@ examples:
->    # Dual role switch with type-c
->    - |
->      usb@11201000 {
-> -        compatible ="mediatek,mt8183-mtu3", "mediatek,mtu3";
-> +        compatible = "mediatek,mt8183-mtu3", "mediatek,mtu3";
->          reg = <0x11201000 0x2e00>, <0x11203e00 0x0100>;
->          reg-names = "mac", "ippc";
->          interrupts = <GIC_SPI 72 IRQ_TYPE_LEVEL_LOW>;
-> diff --git a/Documentation/devicetree/bindings/usb/ti,am62-usb.yaml b/Documentation/devicetree/bindings/usb/ti,am62-usb.yaml
-> index d25fc708e32c..fec5651f5602 100644
-> --- a/Documentation/devicetree/bindings/usb/ti,am62-usb.yaml
-> +++ b/Documentation/devicetree/bindings/usb/ti,am62-usb.yaml
-> @@ -92,7 +92,7 @@ examples:
->
->          usb@31100000 {
->            compatible = "snps,dwc3";
-> -          reg =<0x00 0x31100000 0x00 0x50000>;
-> +          reg = <0x00 0x31100000 0x00 0x50000>;
->            interrupts = <GIC_SPI 226 IRQ_TYPE_LEVEL_HIGH>, /* irq.0 */
->                         <GIC_SPI 226 IRQ_TYPE_LEVEL_HIGH>; /* irq.0 */
->            interrupt-names = "host", "peripheral";
-> --
-> 2.34.1
->
->
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+	Hans
 
+> 
+> Thanks.
+>  
+> Best regards
+> Shengjiu Wang
+> 
+>      
+> 
+> 
+>     >
+>     > The created audio device is named "/dev/audioX".
+>     >
+>     > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com <mailto:shengjiu.wang@nxp.com>>
+>     > ---
+>     >  .../media/common/videobuf2/videobuf2-v4l2.c   |  4 ++
+>     >  drivers/media/v4l2-core/v4l2-dev.c            | 17 ++++++
+>     >  drivers/media/v4l2-core/v4l2-ioctl.c          | 52 +++++++++++++++++++
+>     >  include/media/v4l2-dev.h                      |  2 +
+>     >  include/media/v4l2-ioctl.h                    | 34 ++++++++++++
+>     >  include/uapi/linux/videodev2.h                | 19 +++++++
+>     >  6 files changed, 128 insertions(+)
+>     >
+>     > diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+>     > index c7a54d82a55e..12f2be2773a2 100644
+>     > --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+>     > +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+>     > @@ -785,6 +785,10 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
+>     >       case V4L2_BUF_TYPE_META_OUTPUT:
+>     >               requested_sizes[0] = f->fmt.meta.buffersize;
+>     >               break;
+>     > +     case V4L2_BUF_TYPE_AUDIO_CAPTURE:
+>     > +     case V4L2_BUF_TYPE_AUDIO_OUTPUT:
+>     > +             requested_sizes[0] = f->fmt.audio.buffersize;
+>     > +             break;
+>     >       default:
+>     >               return -EINVAL;
+>     >       }
+>     > diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+>     > index f81279492682..67484f4c6eaf 100644
+>     > --- a/drivers/media/v4l2-core/v4l2-dev.c
+>     > +++ b/drivers/media/v4l2-core/v4l2-dev.c
+>     > @@ -553,6 +553,7 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>     >       bool is_tch = vdev->vfl_type == VFL_TYPE_TOUCH;
+>     >       bool is_meta = vdev->vfl_type == VFL_TYPE_VIDEO &&
+>     >                      (vdev->device_caps & meta_caps);
+>     > +     bool is_audio = vdev->vfl_type == VFL_TYPE_AUDIO;
+>     >       bool is_rx = vdev->vfl_dir != VFL_DIR_TX;
+>     >       bool is_tx = vdev->vfl_dir != VFL_DIR_RX;
+>     >       bool is_io_mc = vdev->device_caps & V4L2_CAP_IO_MC;
+>     > @@ -664,6 +665,19 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>     >               SET_VALID_IOCTL(ops, VIDIOC_S_FMT, vidioc_s_fmt_meta_out);
+>     >               SET_VALID_IOCTL(ops, VIDIOC_TRY_FMT, vidioc_try_fmt_meta_out);
+>     >       }
+>     > +     if (is_audio && is_rx) {
+>     > +             /* audio capture specific ioctls */
+>     > +             SET_VALID_IOCTL(ops, VIDIOC_ENUM_FMT, vidioc_enum_fmt_audio_cap);
+>     > +             SET_VALID_IOCTL(ops, VIDIOC_G_FMT, vidioc_g_fmt_audio_cap);
+>     > +             SET_VALID_IOCTL(ops, VIDIOC_S_FMT, vidioc_s_fmt_audio_cap);
+>     > +             SET_VALID_IOCTL(ops, VIDIOC_TRY_FMT, vidioc_try_fmt_audio_cap);
+>     > +     } else if (is_audio && is_tx) {
+>     > +             /* audio output specific ioctls */
+>     > +             SET_VALID_IOCTL(ops, VIDIOC_ENUM_FMT, vidioc_enum_fmt_audio_out);
+>     > +             SET_VALID_IOCTL(ops, VIDIOC_G_FMT, vidioc_g_fmt_audio_out);
+>     > +             SET_VALID_IOCTL(ops, VIDIOC_S_FMT, vidioc_s_fmt_audio_out);
+>     > +             SET_VALID_IOCTL(ops, VIDIOC_TRY_FMT, vidioc_try_fmt_audio_out);
+>     > +     }
+>     >       if (is_vbi) {
+>     >               /* vbi specific ioctls */
+>     >               if ((is_rx && (ops->vidioc_g_fmt_vbi_cap ||
+>     > @@ -927,6 +941,9 @@ int __video_register_device(struct video_device *vdev,
+>     >       case VFL_TYPE_TOUCH:
+>     >               name_base = "v4l-touch";
+>     >               break;
+>     > +     case VFL_TYPE_AUDIO:
+>     > +             name_base = "audio";
+>     > +             break;
+>     >       default:
+>     >               pr_err("%s called with unknown type: %d\n",
+>     >                      __func__, type);
+>     > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+>     > index a858acea6547..26bc4b0d8ef0 100644
+>     > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+>     > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+>     > @@ -188,6 +188,8 @@ const char *v4l2_type_names[] = {
+>     >       [V4L2_BUF_TYPE_SDR_OUTPUT]         = "sdr-out",
+>     >       [V4L2_BUF_TYPE_META_CAPTURE]       = "meta-cap",
+>     >       [V4L2_BUF_TYPE_META_OUTPUT]        = "meta-out",
+>     > +     [V4L2_BUF_TYPE_AUDIO_CAPTURE]      = "audio-cap",
+>     > +     [V4L2_BUF_TYPE_AUDIO_OUTPUT]       = "audio-out",
+>     >  };
+>     >  EXPORT_SYMBOL(v4l2_type_names);
+>     > 
+>     > @@ -276,6 +278,7 @@ static void v4l_print_format(const void *arg, bool write_only)
+>     >       const struct v4l2_sliced_vbi_format *sliced;
+>     >       const struct v4l2_window *win;
+>     >       const struct v4l2_meta_format *meta;
+>     > +     const struct v4l2_audio_format *audio;
+>     >       u32 pixelformat;
+>     >       u32 planes;
+>     >       unsigned i;
+>     > @@ -346,6 +349,12 @@ static void v4l_print_format(const void *arg, bool write_only)
+>     >               pr_cont(", dataformat=%p4cc, buffersize=%u\n",
+>     >                       &pixelformat, meta->buffersize);
+>     >               break;
+>     > +     case V4L2_BUF_TYPE_AUDIO_CAPTURE:
+>     > +     case V4L2_BUF_TYPE_AUDIO_OUTPUT:
+>     > +             audio = &p->fmt.audio;
+>     > +             pr_cont(", rate=%u, format=%u, channels=%u, buffersize=%u\n",
+>     > +                     audio->rate, audio->format, audio->channels, audio->buffersize);
+>     > +             break;
+>     >       }
+>     >  }
+>     > 
+>     > @@ -927,6 +936,7 @@ static int check_fmt(struct file *file, enum v4l2_buf_type type)
+>     >       bool is_tch = vfd->vfl_type == VFL_TYPE_TOUCH;
+>     >       bool is_meta = vfd->vfl_type == VFL_TYPE_VIDEO &&
+>     >                      (vfd->device_caps & meta_caps);
+>     > +     bool is_audio = vfd->vfl_type == VFL_TYPE_AUDIO;
+>     >       bool is_rx = vfd->vfl_dir != VFL_DIR_TX;
+>     >       bool is_tx = vfd->vfl_dir != VFL_DIR_RX;
+>     > 
+>     > @@ -992,6 +1002,14 @@ static int check_fmt(struct file *file, enum v4l2_buf_type type)
+>     >               if (is_meta && is_tx && ops->vidioc_g_fmt_meta_out)
+>     >                       return 0;
+>     >               break;
+>     > +     case V4L2_BUF_TYPE_AUDIO_CAPTURE:
+>     > +             if (is_audio && is_rx && ops->vidioc_g_fmt_audio_cap)
+>     > +                     return 0;
+>     > +             break;
+>     > +     case V4L2_BUF_TYPE_AUDIO_OUTPUT:
+>     > +             if (is_audio && is_tx && ops->vidioc_g_fmt_audio_out)
+>     > +                     return 0;
+>     > +             break;
+>     >       default:
+>     >               break;
+>     >       }
+>     > @@ -1592,6 +1610,16 @@ static int v4l_enum_fmt(const struct v4l2_ioctl_ops *ops,
+>     >                       break;
+>     >               ret = ops->vidioc_enum_fmt_meta_out(file, fh, arg);
+>     >               break;
+>     > +     case V4L2_BUF_TYPE_AUDIO_CAPTURE:
+>     > +             if (unlikely(!ops->vidioc_enum_fmt_audio_cap))
+>     > +                     break;
+>     > +             ret = ops->vidioc_enum_fmt_audio_cap(file, fh, arg);
+>     > +             break;
+>     > +     case V4L2_BUF_TYPE_AUDIO_OUTPUT:
+>     > +             if (unlikely(!ops->vidioc_enum_fmt_audio_out))
+>     > +                     break;
+>     > +             ret = ops->vidioc_enum_fmt_audio_out(file, fh, arg);
+>     > +             break;
+>     >       }
+>     >       if (ret == 0)
+>     >               v4l_fill_fmtdesc(p);
+>     > @@ -1668,6 +1696,10 @@ static int v4l_g_fmt(const struct v4l2_ioctl_ops *ops,
+>     >               return ops->vidioc_g_fmt_meta_cap(file, fh, arg);
+>     >       case V4L2_BUF_TYPE_META_OUTPUT:
+>     >               return ops->vidioc_g_fmt_meta_out(file, fh, arg);
+>     > +     case V4L2_BUF_TYPE_AUDIO_CAPTURE:
+>     > +             return ops->vidioc_g_fmt_audio_cap(file, fh, arg);
+>     > +     case V4L2_BUF_TYPE_AUDIO_OUTPUT:
+>     > +             return ops->vidioc_g_fmt_audio_out(file, fh, arg);
+>     >       }
+>     >       return -EINVAL;
+>     >  }
+>     > @@ -1779,6 +1811,16 @@ static int v4l_s_fmt(const struct v4l2_ioctl_ops *ops,
+>     >                       break;
+>     >               memset_after(p, 0, fmt.meta);
+>     >               return ops->vidioc_s_fmt_meta_out(file, fh, arg);
+>     > +     case V4L2_BUF_TYPE_AUDIO_CAPTURE:
+>     > +             if (unlikely(!ops->vidioc_s_fmt_audio_cap))
+>     > +                     break;
+>     > +             memset_after(p, 0, fmt.audio);
+>     > +             return ops->vidioc_s_fmt_audio_cap(file, fh, arg);
+>     > +     case V4L2_BUF_TYPE_AUDIO_OUTPUT:
+>     > +             if (unlikely(!ops->vidioc_s_fmt_audio_out))
+>     > +                     break;
+>     > +             memset_after(p, 0, fmt.audio);
+>     > +             return ops->vidioc_s_fmt_audio_out(file, fh, arg);
+>     >       }
+>     >       return -EINVAL;
+>     >  }
+>     > @@ -1887,6 +1929,16 @@ static int v4l_try_fmt(const struct v4l2_ioctl_ops *ops,
+>     >                       break;
+>     >               memset_after(p, 0, fmt.meta);
+>     >               return ops->vidioc_try_fmt_meta_out(file, fh, arg);
+>     > +     case V4L2_BUF_TYPE_AUDIO_CAPTURE:
+>     > +             if (unlikely(!ops->vidioc_try_fmt_audio_cap))
+>     > +                     break;
+>     > +             memset_after(p, 0, fmt.audio);
+>     > +             return ops->vidioc_try_fmt_audio_cap(file, fh, arg);
+>     > +     case V4L2_BUF_TYPE_AUDIO_OUTPUT:
+>     > +             if (unlikely(!ops->vidioc_try_fmt_audio_out))
+>     > +                     break;
+>     > +             memset_after(p, 0, fmt.audio);
+>     > +             return ops->vidioc_try_fmt_audio_out(file, fh, arg);
+>     >       }
+>     >       return -EINVAL;
+>     >  }
+>     > diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
+>     > index e0a13505f88d..0924e6d1dab1 100644
+>     > --- a/include/media/v4l2-dev.h
+>     > +++ b/include/media/v4l2-dev.h
+>     > @@ -30,6 +30,7 @@
+>     >   * @VFL_TYPE_SUBDEV: for V4L2 subdevices
+>     >   * @VFL_TYPE_SDR:    for Software Defined Radio tuners
+>     >   * @VFL_TYPE_TOUCH:  for touch sensors
+>     > + * @VFL_TYPE_AUDIO:  for audio input/output devices
+>     >   * @VFL_TYPE_MAX:    number of VFL types, must always be last in the enum
+>     >   */
+>     >  enum vfl_devnode_type {
+>     > @@ -39,6 +40,7 @@ enum vfl_devnode_type {
+>     >       VFL_TYPE_SUBDEV,
+>     >       VFL_TYPE_SDR,
+>     >       VFL_TYPE_TOUCH,
+>     > +     VFL_TYPE_AUDIO,
+>     >       VFL_TYPE_MAX /* Shall be the last one */
+>     >  };
+>     > 
+>     > diff --git a/include/media/v4l2-ioctl.h b/include/media/v4l2-ioctl.h
+>     > index edb733f21604..f840cf740ce1 100644
+>     > --- a/include/media/v4l2-ioctl.h
+>     > +++ b/include/media/v4l2-ioctl.h
+>     > @@ -45,6 +45,12 @@ struct v4l2_fh;
+>     >   * @vidioc_enum_fmt_meta_out: pointer to the function that implements
+>     >   *   :ref:`VIDIOC_ENUM_FMT <vidioc_enum_fmt>` ioctl logic
+>     >   *   for metadata output
+>     > + * @vidioc_enum_fmt_audio_cap: pointer to the function that implements
+>     > + *   :ref:`VIDIOC_ENUM_FMT <vidioc_enum_fmt>` ioctl logic
+>     > + *   for audio capture
+>     > + * @vidioc_enum_fmt_audio_out: pointer to the function that implements
+>     > + *   :ref:`VIDIOC_ENUM_FMT <vidioc_enum_fmt>` ioctl logic
+>     > + *   for audio output
+>     >   * @vidioc_g_fmt_vid_cap: pointer to the function that implements
+>     >   *   :ref:`VIDIOC_G_FMT <vidioc_g_fmt>` ioctl logic for video capture
+>     >   *   in single plane mode
+>     > @@ -79,6 +85,10 @@ struct v4l2_fh;
+>     >   *   :ref:`VIDIOC_G_FMT <vidioc_g_fmt>` ioctl logic for metadata capture
+>     >   * @vidioc_g_fmt_meta_out: pointer to the function that implements
+>     >   *   :ref:`VIDIOC_G_FMT <vidioc_g_fmt>` ioctl logic for metadata output
+>     > + * @vidioc_g_fmt_audio_cap: pointer to the function that implements
+>     > + *   :ref:`VIDIOC_G_FMT <vidioc_g_fmt>` ioctl logic for audio capture
+>     > + * @vidioc_g_fmt_audio_out: pointer to the function that implements
+>     > + *   :ref:`VIDIOC_G_FMT <vidioc_g_fmt>` ioctl logic for audio output
+>     >   * @vidioc_s_fmt_vid_cap: pointer to the function that implements
+>     >   *   :ref:`VIDIOC_S_FMT <vidioc_g_fmt>` ioctl logic for video capture
+>     >   *   in single plane mode
+>     > @@ -113,6 +123,10 @@ struct v4l2_fh;
+>     >   *   :ref:`VIDIOC_S_FMT <vidioc_g_fmt>` ioctl logic for metadata capture
+>     >   * @vidioc_s_fmt_meta_out: pointer to the function that implements
+>     >   *   :ref:`VIDIOC_S_FMT <vidioc_g_fmt>` ioctl logic for metadata output
+>     > + * @vidioc_s_fmt_audio_cap: pointer to the function that implements
+>     > + *   :ref:`VIDIOC_S_FMT <vidioc_g_fmt>` ioctl logic for audio capture
+>     > + * @vidioc_s_fmt_audio_out: pointer to the function that implements
+>     > + *   :ref:`VIDIOC_S_FMT <vidioc_g_fmt>` ioctl logic for audio output
+>     >   * @vidioc_try_fmt_vid_cap: pointer to the function that implements
+>     >   *   :ref:`VIDIOC_TRY_FMT <vidioc_g_fmt>` ioctl logic for video capture
+>     >   *   in single plane mode
+>     > @@ -149,6 +163,10 @@ struct v4l2_fh;
+>     >   *   :ref:`VIDIOC_TRY_FMT <vidioc_g_fmt>` ioctl logic for metadata capture
+>     >   * @vidioc_try_fmt_meta_out: pointer to the function that implements
+>     >   *   :ref:`VIDIOC_TRY_FMT <vidioc_g_fmt>` ioctl logic for metadata output
+>     > + * @vidioc_try_fmt_audio_cap: pointer to the function that implements
+>     > + *   :ref:`VIDIOC_TRY_FMT <vidioc_g_fmt>` ioctl logic for audio capture
+>     > + * @vidioc_try_fmt_audio_out: pointer to the function that implements
+>     > + *   :ref:`VIDIOC_TRY_FMT <vidioc_g_fmt>` ioctl logic for audio output
+>     >   * @vidioc_reqbufs: pointer to the function that implements
+>     >   *   :ref:`VIDIOC_REQBUFS <vidioc_reqbufs>` ioctl
+>     >   * @vidioc_querybuf: pointer to the function that implements
+>     > @@ -315,6 +333,10 @@ struct v4l2_ioctl_ops {
+>     >                                       struct v4l2_fmtdesc *f);
+>     >       int (*vidioc_enum_fmt_meta_out)(struct file *file, void *fh,
+>     >                                       struct v4l2_fmtdesc *f);
+>     > +     int (*vidioc_enum_fmt_audio_cap)(struct file *file, void *fh,
+>     > +                                      struct v4l2_fmtdesc *f);
+>     > +     int (*vidioc_enum_fmt_audio_out)(struct file *file, void *fh,
+>     > +                                      struct v4l2_fmtdesc *f);
+>     > 
+>     >       /* VIDIOC_G_FMT handlers */
+>     >       int (*vidioc_g_fmt_vid_cap)(struct file *file, void *fh,
+>     > @@ -345,6 +367,10 @@ struct v4l2_ioctl_ops {
+>     >                                    struct v4l2_format *f);
+>     >       int (*vidioc_g_fmt_meta_out)(struct file *file, void *fh,
+>     >                                    struct v4l2_format *f);
+>     > +     int (*vidioc_g_fmt_audio_cap)(struct file *file, void *fh,
+>     > +                                   struct v4l2_format *f);
+>     > +     int (*vidioc_g_fmt_audio_out)(struct file *file, void *fh,
+>     > +                                   struct v4l2_format *f);
+>     > 
+>     >       /* VIDIOC_S_FMT handlers */
+>     >       int (*vidioc_s_fmt_vid_cap)(struct file *file, void *fh,
+>     > @@ -375,6 +401,10 @@ struct v4l2_ioctl_ops {
+>     >                                    struct v4l2_format *f);
+>     >       int (*vidioc_s_fmt_meta_out)(struct file *file, void *fh,
+>     >                                    struct v4l2_format *f);
+>     > +     int (*vidioc_s_fmt_audio_cap)(struct file *file, void *fh,
+>     > +                                   struct v4l2_format *f);
+>     > +     int (*vidioc_s_fmt_audio_out)(struct file *file, void *fh,
+>     > +                                   struct v4l2_format *f);
+>     > 
+>     >       /* VIDIOC_TRY_FMT handlers */
+>     >       int (*vidioc_try_fmt_vid_cap)(struct file *file, void *fh,
+>     > @@ -405,6 +435,10 @@ struct v4l2_ioctl_ops {
+>     >                                      struct v4l2_format *f);
+>     >       int (*vidioc_try_fmt_meta_out)(struct file *file, void *fh,
+>     >                                      struct v4l2_format *f);
+>     > +     int (*vidioc_try_fmt_audio_cap)(struct file *file, void *fh,
+>     > +                                     struct v4l2_format *f);
+>     > +     int (*vidioc_try_fmt_audio_out)(struct file *file, void *fh,
+>     > +                                     struct v4l2_format *f);
+>     > 
+>     >       /* Buffer handlers */
+>     >       int (*vidioc_reqbufs)(struct file *file, void *fh,
+>     > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+>     > index aee75eb9e686..a7af28f4c8c3 100644
+>     > --- a/include/uapi/linux/videodev2.h
+>     > +++ b/include/uapi/linux/videodev2.h
+>     > @@ -153,6 +153,8 @@ enum v4l2_buf_type {
+>     >       V4L2_BUF_TYPE_SDR_OUTPUT           = 12,
+>     >       V4L2_BUF_TYPE_META_CAPTURE         = 13,
+>     >       V4L2_BUF_TYPE_META_OUTPUT          = 14,
+>     > +     V4L2_BUF_TYPE_AUDIO_CAPTURE        = 15,
+>     > +     V4L2_BUF_TYPE_AUDIO_OUTPUT         = 16,
+>     >       /* Deprecated, do not use */
+>     >       V4L2_BUF_TYPE_PRIVATE              = 0x80,
+>     >  };
+>     > @@ -169,6 +171,7 @@ enum v4l2_buf_type {
+>     >        || (type) == V4L2_BUF_TYPE_VBI_OUTPUT                  \
+>     >        || (type) == V4L2_BUF_TYPE_SLICED_VBI_OUTPUT           \
+>     >        || (type) == V4L2_BUF_TYPE_SDR_OUTPUT                  \
+>     > +      || (type) == V4L2_BUF_TYPE_AUDIO_OUTPUT                \
+>     >        || (type) == V4L2_BUF_TYPE_META_OUTPUT)
+>     > 
+>     >  #define V4L2_TYPE_IS_CAPTURE(type) (!V4L2_TYPE_IS_OUTPUT(type))
+>     > @@ -2404,6 +2407,20 @@ struct v4l2_meta_format {
+>     >       __u32                           buffersize;
+>     >  } __attribute__ ((packed));
+>     > 
+>     > +/**
+>     > + * struct v4l2_audio_format - audio data format definition
+>     > + * @rate:            sample rate
+>     > + * @format:          sample format
+>     > + * @channels:                channel numbers
+>     > + * @buffersize:              maximum size in bytes required for data
+>     > + */
+>     > +struct v4l2_audio_format {
+>     > +     __u32                           rate;
+>     > +     __u32                           format;
+>     > +     __u32                           channels;
+>     > +     __u32                           buffersize;
+>     > +} __attribute__ ((packed));
+>     > +
+>     >  /**
+>     >   * struct v4l2_format - stream data format
+>     >   * @type:    enum v4l2_buf_type; type of the data stream
+>     > @@ -2412,6 +2429,7 @@ struct v4l2_meta_format {
+>     >   * @win:     definition of an overlaid image
+>     >   * @vbi:     raw VBI capture or output parameters
+>     >   * @sliced:  sliced VBI capture or output parameters
+>     > + * @audio:   definition of an audio format
+>     >   * @raw_data:        placeholder for future extensions and custom formats
+>     >   * @fmt:     union of @pix, @pix_mp, @win, @vbi, @sliced, @sdr, @meta
+>     >   *           and @raw_data
+>     > @@ -2426,6 +2444,7 @@ struct v4l2_format {
+>     >               struct v4l2_sliced_vbi_format   sliced;  /* V4L2_BUF_TYPE_SLICED_VBI_CAPTURE */
+>     >               struct v4l2_sdr_format          sdr;     /* V4L2_BUF_TYPE_SDR_CAPTURE */
+>     >               struct v4l2_meta_format         meta;    /* V4L2_BUF_TYPE_META_CAPTURE */
+>     > +             struct v4l2_audio_format        audio;   /* V4L2_BUF_TYPE_AUDIO_CAPTURE */
+>     >               __u8    raw_data[200];                   /* user-defined */
+>     >       } fmt;
+>     >  };
+>     > --
+>     > 2.34.1
+>     >
+> 
+>     -- 
+>     Sakari Ailus
+> 
 
-
--- 
-Mike Leach
-Principal Engineer, ARM Ltd.
-Manchester Design Centre. UK
