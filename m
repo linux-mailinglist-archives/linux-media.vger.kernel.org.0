@@ -2,133 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 88AD574555B
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jul 2023 08:18:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C23907455AC
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jul 2023 08:58:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230011AbjGCGS1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jul 2023 02:18:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38236 "EHLO
+        id S229888AbjGCG6P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jul 2023 02:58:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229771AbjGCGS0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jul 2023 02:18:26 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D76B2BF;
-        Sun,  2 Jul 2023 23:18:25 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7485B60DC6;
-        Mon,  3 Jul 2023 06:18:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36CFFC433C8;
-        Mon,  3 Jul 2023 06:18:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1688365104;
-        bh=b02O7hMAe/0cdSzPP3WCdlJ3T6kG6Hi5gr453ff6ODI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=AaWAZ0MzR5WlM8LsDfCGcJYsVnapu6kw3CisOBlzAeBV65fsgiHj4cTCvUVhiPIXg
-         OWZalDz2U4a5HKVY1ries+snvEPAN5HyGHqmrzszj1Tsai1ox2Wns/gdYr+nnOXCkN
-         hSoOzk1I0NMqkaFaP9CvULBEZ+pw4Cnt1hmw6Yctc6sxyRegJ0XgDy3Q/2nvH7qLUe
-         lXK15gu9WWAliwPVRDZWqp8FG1w7v7J73PeQpU1dmRKdTp1gtpuqigtK6c2oa6xSyg
-         GHkI4K0Bsl8GHo4vYtDDdrF+8+xgRj04wNrn+uNUySINBhEzFIfI2OtIm3OrbcFGHZ
-         cJBJvLinemqQQ==
-Date:   Mon, 3 Jul 2023 08:18:16 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Uwe =?UTF-8?B?S2xlaW5lLUs=?= =?UTF-8?B?w7ZuaWc=?= 
-        <u.kleine-koenig@pengutronix.de>, Mark Brown <broonie@kernel.org>,
-        David Lin <CTLIN0@nuvoton.com>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
-        Antti Palosaari <crope@iki.fi>, Sergey Kozlov <serjk@netup.ru>,
-        Abylay Ospan <aospan@netup.ru>,
-        Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>,
-        Michael Krufky <mkrufky@linuxtv.org>,
-        Matthias Schwarzott <zzam@gentoo.org>,
-        Akihiro Tsukada <tskd08@gmail.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH v1 0/4] ASoC: remove copy of intlog10()
-Message-ID: <20230703081816.37028ab7@sal.lan>
-In-Reply-To: <20230619172019.21457-1-andriy.shevchenko@linux.intel.com>
-References: <20230619172019.21457-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+        with ESMTP id S229884AbjGCG6N (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jul 2023 02:58:13 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9582AD1
+        for <linux-media@vger.kernel.org>; Sun,  2 Jul 2023 23:58:10 -0700 (PDT)
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C886C512;
+        Mon,  3 Jul 2023 08:57:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1688367445;
+        bh=9xYePQXJzcFlbM0ykc2GiRGv/hzJrce0EJ1CadJbYxU=;
+        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
+        b=thoOEcS+b+pkHh4wmFH2btcSiVROGlFGTqg8gzxVRVnwS/QK728WeLKN++KdadPUD
+         gWsxlO8jLCK8CO/bIu57PbwHkCh5s0YHJa1VDCyR4Q3lUd67vtMYr+Qv61IQ6xmVhe
+         HUsG2piipiFWVUXZe5CZKT8WebSD46rfZX8yyjJU=
+Message-ID: <f8e73804-5d40-e9a4-d044-f13276613ca1@ideasonboard.com>
+Date:   Mon, 3 Jul 2023 07:58:05 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+        Tommaso Merciai <tomm.merciai@gmail.com>,
+        linux-media@vger.kernel.org
+References: <20230627131830.54601-1-hdegoede@redhat.com>
+ <20230627131830.54601-15-hdegoede@redhat.com>
+Content-Language: en-US
+From:   Dan Scally <dan.scally@ideasonboard.com>
+Subject: Re: [PATCH v3 14/29] media: ov2680: Add support for more clk setups
+In-Reply-To: <20230627131830.54601-15-hdegoede@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Mon, 19 Jun 2023 20:20:15 +0300
-Andy Shevchenko <andriy.shevchenko@linux.intel.com> escreveu:
+Morning Hans
 
-> The first three patches moves intlog10() to be available in entire
-> kernel. The last one removes copy of it in one driver. Besides already
-> good Lines of Code (LoC) statistics the upcoming users, if any, can
-> utilize the exported functions.
-> 
-> The series can be routed either via ASoC tree or media tree.
-> 
-> Note, int_log.h is separated from math.h due to licensing.
-> I dunno if we can mix two in a single header file. In any
-> case we may do it later on.
-> 
-> Andy Shevchenko (4):
->   lib/math: Move dvb_math.c into lib/math/int_log.c
->   lib/math/int_log: Use ARRAY_SIZE(logtable) where makes sense
->   lib/math/int_log: Replace LGPL-2.1-or-later boilerplate with SPDX
->     identifier
->   ASoC: nau8825: Replace copied'n'pasted intlog10()
+On 27/06/2023 15:18, Hans de Goede wrote:
+> On ACPI systems the following 2 scenarios are possible:
+>
+> 1. The xvclk is fully controlled by ACPI powermanagement, so there
+>     is no "xvclk" for the driver to get (since it is abstracted away).
+>     In this case there will be a "clock-frequency" device property
+>     to tell the driver the xvclk rate.
+>
+> 2. There is a xvclk modelled in the clk framework for the driver,
+>     but the clk-generator may not be set to the right frequency
+>     yet. In this case there will also be a "clock-frequency" device
+>     property and the driver is expected to set the rate of the xvclk
+>     through this frequency through the clk framework.
+>
+> Handle both these scenarios by switching to devm_clk_get_optional()
+> and checking for a "clock-frequency" device property.
+>
+> This is modelled after how the same issue was fixed for the ov8865 in
+> commit 73dcffeb2ff9 ("media: i2c: Support 19.2MHz input clock in ov8865").
+>
+> Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
 
-It probably makes sense to apply it at ASoC tree, as the relevant
-change is there.
 
-I have just one small nit on patch 1/4, which should be trivial to
-solve. Once done, feel free to merge it with  my ack:
+Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
 
-Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-
-> 
->  Documentation/driver-api/media/dtv-common.rst |  2 +-
->  drivers/media/dvb-core/Makefile               |  2 +-
->  drivers/media/dvb-frontends/af9013_priv.h     |  2 +-
->  drivers/media/dvb-frontends/af9033_priv.h     |  2 +-
->  drivers/media/dvb-frontends/cxd2820r_priv.h   |  2 +-
->  drivers/media/dvb-frontends/cxd2841er.c       |  2 +-
->  .../cxd2880/cxd2880_tnrdmd_dvbt2_mon.c        |  2 +-
->  .../cxd2880/cxd2880_tnrdmd_dvbt_mon.c         |  2 +-
->  .../media/dvb-frontends/cxd2880/cxd2880_top.c |  2 +-
->  drivers/media/dvb-frontends/dib7000p.c        |  2 +-
->  drivers/media/dvb-frontends/dib8000.c         |  2 +-
->  drivers/media/dvb-frontends/dib9000.c         |  2 +-
->  drivers/media/dvb-frontends/drxk_hard.c       |  2 +-
->  drivers/media/dvb-frontends/lgdt3305.c        |  2 +-
->  drivers/media/dvb-frontends/lgdt3306a.c       |  2 +-
->  drivers/media/dvb-frontends/lgdt330x.c        |  2 +-
->  drivers/media/dvb-frontends/m88ds3103_priv.h  |  2 +-
->  drivers/media/dvb-frontends/mn88443x.c        |  2 +-
->  drivers/media/dvb-frontends/mn88472_priv.h    |  2 +-
->  drivers/media/dvb-frontends/mn88473_priv.h    |  2 +-
->  drivers/media/dvb-frontends/or51132.c         |  2 +-
->  drivers/media/dvb-frontends/or51211.c         |  2 +-
->  drivers/media/dvb-frontends/rtl2830_priv.h    |  2 +-
->  drivers/media/dvb-frontends/rtl2832_priv.h    |  2 +-
->  drivers/media/dvb-frontends/si2165.c          |  2 +-
->  drivers/media/dvb-frontends/stv0367.c         |  2 +-
->  drivers/media/dvb-frontends/tc90522.c         |  2 +-
->  drivers/media/dvb-frontends/tda10048.c        |  2 +-
->  include/{media/dvb_math.h => linux/int_log.h} | 18 +---
->  lib/math/Makefile                             |  2 +-
->  .../dvb-core/dvb_math.c => lib/math/int_log.c | 26 ++----
->  sound/soc/codecs/nau8825.c                    | 93 +------------------
->  32 files changed, 45 insertions(+), 150 deletions(-)
->  rename include/{media/dvb_math.h => linux/int_log.h} (63%)
->  rename drivers/media/dvb-core/dvb_math.c => lib/math/int_log.c (84%)
-> 
+>   drivers/media/i2c/ov2680.c | 26 ++++++++++++++++++++++++--
+>   1 file changed, 24 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
+> index b7c23286700e..a6a83f0e53f3 100644
+> --- a/drivers/media/i2c/ov2680.c
+> +++ b/drivers/media/i2c/ov2680.c
+> @@ -698,6 +698,7 @@ static int ov2680_parse_dt(struct ov2680_dev *sensor)
+>   {
+>   	struct device *dev = sensor->dev;
+>   	struct gpio_desc *gpio;
+> +	unsigned int rate = 0;
+>   	int ret;
+>   
+>   	/*
+> @@ -718,13 +719,34 @@ static int ov2680_parse_dt(struct ov2680_dev *sensor)
+>   
+>   	sensor->pwdn_gpio = gpio;
+>   
+> -	sensor->xvclk = devm_clk_get(dev, "xvclk");
+> +	sensor->xvclk = devm_clk_get_optional(dev, "xvclk");
+>   	if (IS_ERR(sensor->xvclk)) {
+>   		dev_err(dev, "xvclk clock missing or invalid\n");
+>   		return PTR_ERR(sensor->xvclk);
+>   	}
+>   
+> -	sensor->xvclk_freq = clk_get_rate(sensor->xvclk);
+> +	/*
+> +	 * We could have either a 24MHz or 19.2MHz clock rate from either DT or
+> +	 * ACPI... but we also need to support the weird IPU3 case which will
+> +	 * have an external clock AND a clock-frequency property. Check for the
+> +	 * clock-frequency property and if found, set that rate if we managed
+> +	 * to acquire a clock. This should cover the ACPI case. If the system
+> +	 * uses devicetree then the configured rate should already be set, so
+> +	 * we can just read it.
+> +	 */
+> +	ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency",
+> +				       &rate);
+> +	if (ret && !sensor->xvclk)
+> +		return dev_err_probe(dev, ret, "invalid clock config\n");
+> +
+> +	if (!ret && sensor->xvclk) {
+> +		ret = clk_set_rate(sensor->xvclk, rate);
+> +		if (ret)
+> +			return dev_err_probe(dev, ret,
+> +					     "failed to set clock rate\n");
+> +	}
+> +
+> +	sensor->xvclk_freq = rate ?: clk_get_rate(sensor->xvclk);
+>   	if (sensor->xvclk_freq != OV2680_XVCLK_VALUE) {
+>   		dev_err(dev, "wrong xvclk frequency %d HZ, expected: %d Hz\n",
+>   			sensor->xvclk_freq, OV2680_XVCLK_VALUE);
