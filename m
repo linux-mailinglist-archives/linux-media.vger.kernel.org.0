@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B54F746360
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jul 2023 21:36:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B9DC746380
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jul 2023 21:46:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230489AbjGCTgT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jul 2023 15:36:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49590 "EHLO
+        id S230218AbjGCTqv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jul 2023 15:46:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229504AbjGCTgS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jul 2023 15:36:18 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F52AE62;
-        Mon,  3 Jul 2023 12:36:13 -0700 (PDT)
+        with ESMTP id S229585AbjGCTqt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jul 2023 15:46:49 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1ADFE5F;
+        Mon,  3 Jul 2023 12:46:44 -0700 (PDT)
 Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:10:88d9::7a9])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 5C8626606F85;
-        Mon,  3 Jul 2023 20:36:10 +0100 (BST)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id D8A4F6606F85;
+        Mon,  3 Jul 2023 20:46:41 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1688412972;
-        bh=rtxytAtwCKhEGjZPPePBApqg0LwkZFTXWo8ER+5VH+U=;
+        s=mail; t=1688413603;
+        bh=0ryNXFZoUZejGZL23TKTc3co/7pUk0UBW+5GqihFkls=;
         h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=Z8wiWeboafqA8oM1ClerYqIloeWCii8J2Rkf2U8WmHg/ioHqi4gsxP2OKYtim8sSK
-         wBHedDzvN7KYzk33Tboyehs1UztGkpWn0eeh0pNqFBpFSJY/BWXxG1VrULNDhO1q3J
-         h4JAsYPjM8rzy99k4m9BB9p1dGeNk3+6lilqKEfCfp/6vVzmTlvkf923OmLEhPkr/0
-         mDhXUJroAAd5Y+cAapHfpf2FYJXeM/7YWYrS34dwsNApEg3YfFRsYy/YNAIDTjKN3Z
-         4HddTbFYh2mRn7LHVsYorWGUg4hH7APemK6KwGQts0wCnd7Ka3q6zT7YKYWRkKRX3x
-         i/JnL9+/gevWw==
-Message-ID: <1e51d52aa370f286dd8c53f75f2aabcc257a6093.camel@collabora.com>
-Subject: Re: [PATCH v4,05/11] media: mediatek: vcodec: remove the dependency
- of vcodec debug log
+        b=Nb6HvAweZbLKqg2DRSxWyjqM4681XDPvBTnorVXL96/Ek7bGiCgCLIKm9jCeNcmNK
+         K85G8NSndzvY03xjrLcOWJwWtvmwC8y8BP4zhpSzKiwSI2HKFo24V5EegA0WFqotIo
+         WYIuVGa7TImxYR7pysxv567aaD94aUf16k0NzUyH0Huws5Mdnnvj5mfdXnvJfl9Eqb
+         rBPWwwCLQIhYZK3DjNTqrG9Ap9/Tykx86Z6hwkMIaU7FsSN9GUGzbYHfJGRKZZNfpY
+         dsxIqBWzaEJKbEOAjlS4Jpi6dgSI5FAM2b9E0TmwJWOP2UccQvTLv4bHIZ0jXyxuvV
+         CVFBlebw3miPg==
+Message-ID: <48b38696cd895b045b96e6076a844c3eeac90092.camel@collabora.com>
+Subject: Re: [PATCH v4,06/11] media: mediatek: vcodec: replace pr_* with
+ dev_* for v4l2 debug message
 From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
 To:     Yunfei Dong <yunfei.dong@mediatek.com>,
         =?ISO-8859-1?Q?N=EDcolas?= "F . R . A . Prado" 
@@ -51,10 +51,10 @@ Cc:     Chen-Yu Tsai <wenst@chromium.org>,
         linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org,
         Project_Global_Chrome_Upstream_Group@mediatek.com
-Date:   Mon, 03 Jul 2023 15:36:02 -0400
-In-Reply-To: <20230626035346.30654-6-yunfei.dong@mediatek.com>
+Date:   Mon, 03 Jul 2023 15:46:32 -0400
+In-Reply-To: <20230626035346.30654-7-yunfei.dong@mediatek.com>
 References: <20230626035346.30654-1-yunfei.dong@mediatek.com>
-         <20230626035346.30654-6-yunfei.dong@mediatek.com>
+         <20230626035346.30654-7-yunfei.dong@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.3 (3.48.3-1.fc38) 
@@ -69,96 +69,2413 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Le lundi 26 juin 2023 =C3=A0 11:53 +0800, Yunfei Dong a =C3=A9crit=C2=A0:
-> 'mtk_vcodec_debug' and 'mtk_vcodec_err' depends on 'mtk_vcodec_ctx'
-> to get the index of each instance. Define two different macro
-> mtk_vdec_debug and mtk_venc_debug for decoder and encoder, and re-write
-> macro mtk_vcodec_debug as the common interface which is called
-> by mtk_vdec_debug and mtk_venc_debug. The vcodec debug log can be
-> separeated by encoder and decoder.
+> Adding different macro mtk_v4l2_vdec_dbg and mtk_v4l2_venc_dbg for
+> encoder and decoder. Then calling the common marco mtk_v4l2_debug to
+> print debug message.
+>=20
+> Replace pr_err with dev_err for 'mtk_v4l2_err' debug message.
+> Replace pr_debug with dev_dbg for 'mtk_v4l2_debug' debug message.
 >=20
 > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-
 > ---
->  .../mediatek/vcodec/mtk_vcodec_util.h         |  34 +++--
->  .../vcodec/vdec/vdec_av1_req_lat_if.c         | 123 +++++++++--------
->  .../mediatek/vcodec/vdec/vdec_h264_if.c       |  66 +++++-----
->  .../mediatek/vcodec/vdec/vdec_h264_req_if.c   |  46 +++----
->  .../vcodec/vdec/vdec_h264_req_multi_if.c      | 124 +++++++++---------
->  .../vcodec/vdec/vdec_hevc_req_multi_if.c      |  94 +++++++------
->  .../mediatek/vcodec/vdec/vdec_vp8_if.c        |  47 ++++---
->  .../mediatek/vcodec/vdec/vdec_vp8_req_if.c    |  66 +++++-----
->  .../mediatek/vcodec/vdec/vdec_vp9_if.c        | 122 ++++++++---------
->  .../vcodec/vdec/vdec_vp9_req_lat_if.c         | 108 +++++++--------
->  .../platform/mediatek/vcodec/vdec_vpu_if.c    |  45 ++++---
->  .../mediatek/vcodec/venc/venc_h264_if.c       |  69 +++++-----
->  .../mediatek/vcodec/venc/venc_vp8_if.c        |  32 ++---
->  .../platform/mediatek/vcodec/venc_vpu_if.c    |  53 ++++----
->  14 files changed, 494 insertions(+), 535 deletions(-)
+>  .../platform/mediatek/vcodec/mtk_vcodec_dec.c | 116 +++++-----
+>  .../mediatek/vcodec/mtk_vcodec_dec_drv.c      |  53 ++---
+>  .../mediatek/vcodec/mtk_vcodec_dec_hw.c       |   7 +-
+>  .../mediatek/vcodec/mtk_vcodec_dec_pm.c       |  19 +-
+>  .../mediatek/vcodec/mtk_vcodec_dec_stateful.c | 143 ++++++------
+>  .../vcodec/mtk_vcodec_dec_stateless.c         |  62 ++---
+>  .../platform/mediatek/vcodec/mtk_vcodec_enc.c | 211 ++++++++----------
+>  .../mediatek/vcodec/mtk_vcodec_enc_drv.c      |  45 ++--
+>  .../mediatek/vcodec/mtk_vcodec_enc_pm.c       |   8 +-
+>  .../platform/mediatek/vcodec/mtk_vcodec_fw.c  |   2 +-
+>  .../mediatek/vcodec/mtk_vcodec_fw_scp.c       |   2 +-
+>  .../mediatek/vcodec/mtk_vcodec_fw_vpu.c       |   7 +-
+>  .../mediatek/vcodec/mtk_vcodec_intr.c         |  12 +-
+>  .../mediatek/vcodec/mtk_vcodec_util.c         |  30 ++-
+>  .../mediatek/vcodec/mtk_vcodec_util.h         |  24 +-
+>  .../vcodec/vdec/vdec_av1_req_lat_if.c         |  10 +-
+>  .../mediatek/vcodec/vdec/vdec_h264_req_if.c   |  14 +-
+>  .../vcodec/vdec/vdec_h264_req_multi_if.c      |  16 +-
+>  .../vcodec/vdec/vdec_hevc_req_multi_if.c      |  14 +-
+>  .../platform/mediatek/vcodec/vdec_drv_if.c    |   4 +-
+>  .../platform/mediatek/vcodec/vdec_msg_queue.c |  52 +++--
+>  .../platform/mediatek/vcodec/vdec_msg_queue.h |   2 +
+>  .../platform/mediatek/vcodec/vdec_vpu_if.c    |   2 +-
+>  23 files changed, 413 insertions(+), 442 deletions(-)
 >=20
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c b/dr=
+ivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+> index 93fcea821001..269f90fe0a1a 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+> @@ -82,7 +82,7 @@ static int vidioc_decoder_cmd(struct file *file, void *=
+priv,
+>  	if (ret)
+>  		return ret;
+> =20
+> -	mtk_v4l2_debug(1, "decoder cmd=3D%u", cmd->cmd);
+> +	mtk_v4l2_vdec_dbg(1, ctx, "decoder cmd=3D%u", cmd->cmd);
+>  	dst_vq =3D v4l2_m2m_get_vq(ctx->m2m_ctx,
+>  				V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+>  	switch (cmd->cmd) {
+> @@ -90,11 +90,11 @@ static int vidioc_decoder_cmd(struct file *file, void=
+ *priv,
+>  		src_vq =3D v4l2_m2m_get_vq(ctx->m2m_ctx,
+>  				V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
+>  		if (!vb2_is_streaming(src_vq)) {
+> -			mtk_v4l2_debug(1, "Output stream is off. No need to flush.");
+> +			mtk_v4l2_vdec_dbg(1, ctx, "Output stream is off. No need to flush.");
+>  			return 0;
+>  		}
+>  		if (!vb2_is_streaming(dst_vq)) {
+> -			mtk_v4l2_debug(1, "Capture stream is off. No need to flush.");
+> +			mtk_v4l2_vdec_dbg(1, ctx, "Capture stream is off. No need to flush.")=
+;
+>  			return 0;
+>  		}
+>  		v4l2_m2m_buf_queue(ctx->m2m_ctx, &ctx->empty_flush_buf.vb);
+> @@ -172,8 +172,7 @@ static int vidioc_vdec_qbuf(struct file *file, void *=
+priv,
+>  	struct mtk_vcodec_ctx *ctx =3D fh_to_ctx(priv);
+> =20
+>  	if (ctx->state =3D=3D MTK_STATE_ABORT) {
+> -		mtk_v4l2_err("[%d] Call on QBUF after unrecoverable error",
+> -				ctx->id);
+> +		mtk_v4l2_vdec_err(ctx, "[%d] Call on QBUF after unrecoverable error", =
+ctx->id);
+>  		return -EIO;
+>  	}
+> =20
+> @@ -186,8 +185,7 @@ static int vidioc_vdec_dqbuf(struct file *file, void =
+*priv,
+>  	struct mtk_vcodec_ctx *ctx =3D fh_to_ctx(priv);
+> =20
+>  	if (ctx->state =3D=3D MTK_STATE_ABORT) {
+> -		mtk_v4l2_err("[%d] Call on DQBUF after unrecoverable error",
+> -				ctx->id);
+> +		mtk_v4l2_vdec_err(ctx, "[%d] Call on DQBUF after unrecoverable error",=
+ ctx->id);
+>  		return -EIO;
+>  	}
+> =20
+> @@ -288,11 +286,10 @@ static int vidioc_try_fmt(struct mtk_vcodec_ctx *ct=
+x, struct v4l2_format *f,
+>  		    (pix_fmt_mp->height + 64) <=3D frmsize->max_height)
+>  			pix_fmt_mp->height +=3D 64;
+> =20
+> -		mtk_v4l2_debug(0,
+> -			"before resize width=3D%d, height=3D%d, after resize width=3D%d, heig=
+ht=3D%d, sizeimage=3D%d",
+> -			tmp_w, tmp_h, pix_fmt_mp->width,
+> -			pix_fmt_mp->height,
+> -			pix_fmt_mp->width * pix_fmt_mp->height);
+> +		mtk_v4l2_vdec_dbg(0, ctx,
+> +				  "before resize wxh=3D%dx%d, after resize wxh=3D%dx%d, sizeimage=3D=
+%d",
+> +				  tmp_w, tmp_h, pix_fmt_mp->width, pix_fmt_mp->height,
+> +				  pix_fmt_mp->width * pix_fmt_mp->height);
+> =20
+>  		pix_fmt_mp->num_planes =3D fmt->num_planes;
+>  		pix_fmt_mp->plane_fmt[0].sizeimage =3D
+> @@ -344,7 +341,7 @@ static int vidioc_try_fmt_vid_out_mplane(struct file =
+*file, void *priv,
+>  	}
+> =20
+>  	if (pix_fmt_mp->plane_fmt[0].sizeimage =3D=3D 0) {
+> -		mtk_v4l2_err("sizeimage of output format must be given");
+> +		mtk_v4l2_vdec_err(ctx, "sizeimage of output format must be given");
+>  		return -EINVAL;
+>  	}
+> =20
+> @@ -432,7 +429,7 @@ static int vidioc_vdec_s_fmt(struct file *file, void =
+*priv,
+>  	const struct mtk_video_fmt *fmt;
+>  	const struct mtk_vcodec_dec_pdata *dec_pdata =3D ctx->dev->vdec_pdata;
+> =20
+> -	mtk_v4l2_debug(3, "[%d]", ctx->id);
+> +	mtk_v4l2_vdec_dbg(3, ctx, "[%d]", ctx->id);
+> =20
+>  	q_data =3D mtk_vdec_get_q_data(ctx, f->type);
+>  	if (!q_data)
+> @@ -446,7 +443,7 @@ static int vidioc_vdec_s_fmt(struct file *file, void =
+*priv,
+>  	if (!dec_pdata->uses_stateless_api &&
+>  	    f->type =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE &&
+>  	    vb2_is_busy(&ctx->m2m_ctx->out_q_ctx.q)) {
+> -		mtk_v4l2_err("out_q_ctx buffers already requested");
+> +		mtk_v4l2_vdec_err(ctx, "out_q_ctx buffers already requested");
+>  		ret =3D -EBUSY;
+>  	}
+> =20
+> @@ -456,7 +453,7 @@ static int vidioc_vdec_s_fmt(struct file *file, void =
+*priv,
+>  	 */
+>  	if ((f->type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) &&
+>  	    vb2_is_busy(&ctx->m2m_ctx->cap_q_ctx.q)) {
+> -		mtk_v4l2_err("cap_q_ctx buffers already requested");
+> +		mtk_v4l2_vdec_err(ctx, "cap_q_ctx buffers already requested");
+>  		ret =3D -EBUSY;
+>  	}
+> =20
+> @@ -491,8 +488,8 @@ static int vidioc_vdec_s_fmt(struct file *file, void =
+*priv,
+>  		if (ctx->state =3D=3D MTK_STATE_FREE) {
+>  			ret =3D vdec_if_init(ctx, q_data->fmt->fourcc);
+>  			if (ret) {
+> -				mtk_v4l2_err("[%d]: vdec_if_init() fail ret=3D%d",
+> -					ctx->id, ret);
+> +				mtk_v4l2_vdec_err(ctx, "[%d]: vdec_if_init() fail ret=3D%d",
+> +						  ctx->id, ret);
+>  				return -EINVAL;
+>  			}
+>  			ctx->state =3D MTK_STATE_INIT;
+> @@ -515,8 +512,8 @@ static int vidioc_vdec_s_fmt(struct file *file, void =
+*priv,
+>  		 */
+>  		ret =3D vdec_if_get_param(ctx, GET_PARAM_PIC_INFO, &ctx->picinfo);
+>  		if (ret) {
+> -			mtk_v4l2_err("[%d]Error!! Get GET_PARAM_PICTURE_INFO Fail",
+> -				     ctx->id);
+> +			mtk_v4l2_vdec_err(ctx, "[%d]Error!! Get GET_PARAM_PICTURE_INFO Fail",
+> +					  ctx->id);
+>  		}
+> =20
+>  		ctx->last_decoded_picinfo =3D ctx->picinfo;
+> @@ -540,11 +537,13 @@ static int vidioc_vdec_s_fmt(struct file *file, voi=
+d *priv,
+> =20
+>  		ctx->q_data[MTK_Q_DATA_DST].coded_width =3D ctx->picinfo.buf_w;
+>  		ctx->q_data[MTK_Q_DATA_DST].coded_height =3D ctx->picinfo.buf_h;
+> -		mtk_v4l2_debug(2, "[%d] vdec_if_init() num_plane =3D %d wxh=3D%dx%d pi=
+c wxh=3D%dx%d sz[0]=3D0x%x sz[1]=3D0x%x",
+> -			       ctx->id, pix_mp->num_planes, ctx->picinfo.buf_w, ctx->picinfo.=
+buf_h,
+> -			       ctx->picinfo.pic_w, ctx->picinfo.pic_h,
+> -			       ctx->q_data[MTK_Q_DATA_DST].sizeimage[0],
+> -			       ctx->q_data[MTK_Q_DATA_DST].sizeimage[1]);
+> +		mtk_v4l2_vdec_dbg(2, ctx,
+> +				  "[%d] init() plane:%d wxh=3D%dx%d pic wxh=3D%dx%d sz=3D0x%x_0x%x",
+> +				  ctx->id, pix_mp->num_planes,
+> +				  ctx->picinfo.buf_w, ctx->picinfo.buf_h,
+> +				  ctx->picinfo.pic_w, ctx->picinfo.pic_h,
+> +				  ctx->q_data[MTK_Q_DATA_DST].sizeimage[0],
+> +				  ctx->q_data[MTK_Q_DATA_DST].sizeimage[1]);
+>  	}
+>  	return 0;
+>  }
+> @@ -570,14 +569,11 @@ static int vidioc_enum_framesizes(struct file *file=
+, void *priv,
+>  		fsize->type =3D V4L2_FRMSIZE_TYPE_STEPWISE;
+>  		fsize->stepwise =3D dec_pdata->vdec_formats[i].frmsize;
+> =20
+> -		mtk_v4l2_debug(1, "%x, %d %d %d %d %d %d",
+> -				ctx->dev->dec_capability,
+> -				fsize->stepwise.min_width,
+> -				fsize->stepwise.max_width,
+> -				fsize->stepwise.step_width,
+> -				fsize->stepwise.min_height,
+> -				fsize->stepwise.max_height,
+> -				fsize->stepwise.step_height);
+> +		mtk_v4l2_vdec_dbg(1, ctx, "%x, %d %d %d %d %d %d",
+> +				  ctx->dev->dec_capability, fsize->stepwise.min_width,
+> +				  fsize->stepwise.max_width, fsize->stepwise.step_width,
+> +				  fsize->stepwise.min_height, fsize->stepwise.max_height,
+> +				  fsize->stepwise.step_height);
+> =20
+>  		return 0;
+>  	}
+> @@ -641,7 +637,7 @@ static int vidioc_vdec_g_fmt(struct file *file, void =
+*priv,
+> =20
+>  	vq =3D v4l2_m2m_get_vq(ctx->m2m_ctx, f->type);
+>  	if (!vq) {
+> -		mtk_v4l2_err("no vb2 queue for type=3D%d", f->type);
+> +		mtk_v4l2_vdec_err(ctx, "no vb2 queue for type=3D%d", f->type);
+>  		return -EINVAL;
+>  	}
+> =20
+> @@ -712,8 +708,8 @@ static int vidioc_vdec_g_fmt(struct file *file, void =
+*priv,
+>  		pix_mp->plane_fmt[1].bytesperline =3D q_data->bytesperline[1];
+>  		pix_mp->plane_fmt[1].sizeimage =3D q_data->sizeimage[1];
+> =20
+> -		mtk_v4l2_debug(1, "[%d] type=3D%d state=3D%d Format information could =
+not be read, not ready yet!",
+> -				ctx->id, f->type, ctx->state);
+> +		mtk_v4l2_vdec_dbg(1, ctx, "[%d] type=3D%d state=3D%d Format informatio=
+n not ready!",
+> +				  ctx->id, f->type, ctx->state);
+>  	}
+> =20
+>  	return 0;
+> @@ -730,7 +726,7 @@ int vb2ops_vdec_queue_setup(struct vb2_queue *vq, uns=
+igned int *nbuffers,
+>  	q_data =3D mtk_vdec_get_q_data(ctx, vq->type);
+> =20
+>  	if (q_data =3D=3D NULL) {
+> -		mtk_v4l2_err("vq->type=3D%d err\n", vq->type);
+> +		mtk_v4l2_vdec_err(ctx, "vq->type=3D%d err\n", vq->type);
+>  		return -EINVAL;
+>  	}
+> =20
+> @@ -756,10 +752,9 @@ int vb2ops_vdec_queue_setup(struct vb2_queue *vq, un=
+signed int *nbuffers,
+>  			sizes[i] =3D q_data->sizeimage[i];
+>  	}
+> =20
+> -	mtk_v4l2_debug(1,
+> -			"[%d]\t type =3D %d, get %d plane(s), %d buffer(s) of size 0x%x 0x%x =
+",
+> -			ctx->id, vq->type, *nplanes, *nbuffers,
+> -			sizes[0], sizes[1]);
+> +	mtk_v4l2_vdec_dbg(1, ctx,
+> +			  "[%d]\t type =3D %d, get %d plane(s), %d buffer(s) of size 0x%x 0x%=
+x ",
+> +			  ctx->id, vq->type, *nplanes, *nbuffers, sizes[0], sizes[1]);
+> =20
+>  	return 0;
+>  }
+> @@ -770,16 +765,15 @@ int vb2ops_vdec_buf_prepare(struct vb2_buffer *vb)
+>  	struct mtk_q_data *q_data;
+>  	int i;
+> =20
+> -	mtk_v4l2_debug(3, "[%d] (%d) id=3D%d",
+> -			ctx->id, vb->vb2_queue->type, vb->index);
+> +	mtk_v4l2_vdec_dbg(3, ctx, "[%d] (%d) id=3D%d",
+> +			  ctx->id, vb->vb2_queue->type, vb->index);
+> =20
+>  	q_data =3D mtk_vdec_get_q_data(ctx, vb->vb2_queue->type);
+> =20
+>  	for (i =3D 0; i < q_data->fmt->num_planes; i++) {
+>  		if (vb2_plane_size(vb, i) < q_data->sizeimage[i]) {
+> -			mtk_v4l2_err("data will not fit into plane %d (%lu < %d)",
+> -				i, vb2_plane_size(vb, i),
+> -				q_data->sizeimage[i]);
+> +			mtk_v4l2_vdec_err(ctx, "data will not fit into plane %d (%lu < %d)",
+> +					  i, vb2_plane_size(vb, i), q_data->sizeimage[i]);
+>  			return -EINVAL;
+>  		}
+>  		if (!V4L2_TYPE_IS_OUTPUT(vb->type))
+> @@ -807,7 +801,7 @@ void vb2ops_vdec_buf_finish(struct vb2_buffer *vb)
+>  	mutex_unlock(&ctx->lock);
+> =20
+>  	if (buf_error) {
+> -		mtk_v4l2_err("Unrecoverable error on buffer.");
+> +		mtk_v4l2_vdec_err(ctx, "Unrecoverable error on buffer.");
+>  		ctx->state =3D MTK_STATE_ABORT;
+>  	}
+>  }
+> @@ -843,8 +837,8 @@ void vb2ops_vdec_stop_streaming(struct vb2_queue *q)
+>  	struct mtk_vcodec_ctx *ctx =3D vb2_get_drv_priv(q);
+>  	int ret;
+> =20
+> -	mtk_v4l2_debug(3, "[%d] (%d) state=3D(%x) ctx->decoded_frame_cnt=3D%d",
+> -			ctx->id, q->type, ctx->state, ctx->decoded_frame_cnt);
+> +	mtk_v4l2_vdec_dbg(3, ctx, "[%d] (%d) state=3D(%x) ctx->decoded_frame_cn=
+t=3D%d",
+> +			  ctx->id, q->type, ctx->state, ctx->decoded_frame_cnt);
+> =20
+>  	if (q->type =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
+>  		while ((src_buf =3D v4l2_m2m_src_buf_remove(ctx->m2m_ctx))) {
+> @@ -870,17 +864,17 @@ void vb2ops_vdec_stop_streaming(struct vb2_queue *q=
+)
+>  		 */
+>  		ctx->picinfo =3D ctx->last_decoded_picinfo;
+> =20
+> -		mtk_v4l2_debug(2,
+> -				"[%d]-> new(%d,%d), old(%d,%d), real(%d,%d)",
+> -				ctx->id, ctx->last_decoded_picinfo.pic_w,
+> -				ctx->last_decoded_picinfo.pic_h,
+> -				ctx->picinfo.pic_w, ctx->picinfo.pic_h,
+> -				ctx->last_decoded_picinfo.buf_w,
+> -				ctx->last_decoded_picinfo.buf_h);
+> +		mtk_v4l2_vdec_dbg(2, ctx,
+> +				  "[%d]-> new(%d,%d), old(%d,%d), real(%d,%d)",
+> +				  ctx->id, ctx->last_decoded_picinfo.pic_w,
+> +				  ctx->last_decoded_picinfo.pic_h,
+> +				  ctx->picinfo.pic_w, ctx->picinfo.pic_h,
+> +				  ctx->last_decoded_picinfo.buf_w,
+> +				  ctx->last_decoded_picinfo.buf_h);
+> =20
+>  		ret =3D ctx->dev->vdec_pdata->flush_decoder(ctx);
+>  		if (ret)
+> -			mtk_v4l2_err("DecodeFinal failed, ret=3D%d", ret);
+> +			mtk_v4l2_vdec_err(ctx, "DecodeFinal failed, ret=3D%d", ret);
+>  	}
+>  	ctx->state =3D MTK_STATE_FLUSH;
+> =20
+> @@ -905,7 +899,7 @@ static int m2mops_vdec_job_ready(void *m2m_priv)
+>  {
+>  	struct mtk_vcodec_ctx *ctx =3D m2m_priv;
+> =20
+> -	mtk_v4l2_debug(3, "[%d]", ctx->id);
+> +	mtk_v4l2_vdec_dbg(3, ctx, "[%d]", ctx->id);
+> =20
+>  	if (ctx->state =3D=3D MTK_STATE_ABORT)
+>  		return 0;
+> @@ -973,7 +967,7 @@ int mtk_vcodec_dec_queue_init(void *priv, struct vb2_=
+queue *src_vq,
+>  	struct mtk_vcodec_ctx *ctx =3D priv;
+>  	int ret =3D 0;
+> =20
+> -	mtk_v4l2_debug(3, "[%d]", ctx->id);
+> +	mtk_v4l2_vdec_dbg(3, ctx, "[%d]", ctx->id);
+> =20
+>  	src_vq->type		=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
+>  	src_vq->io_modes	=3D VB2_DMABUF | VB2_MMAP;
+> @@ -988,7 +982,7 @@ int mtk_vcodec_dec_queue_init(void *priv, struct vb2_=
+queue *src_vq,
+> =20
+>  	ret =3D vb2_queue_init(src_vq);
+>  	if (ret) {
+> -		mtk_v4l2_err("Failed to initialize videobuf2 queue(output)");
+> +		mtk_v4l2_vdec_err(ctx, "Failed to initialize videobuf2 queue(output)")=
+;
+>  		return ret;
+>  	}
+>  	dst_vq->type		=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+> @@ -1004,7 +998,7 @@ int mtk_vcodec_dec_queue_init(void *priv, struct vb2=
+_queue *src_vq,
+> =20
+>  	ret =3D vb2_queue_init(dst_vq);
+>  	if (ret)
+> -		mtk_v4l2_err("Failed to initialize videobuf2 queue(capture)");
+> +		mtk_v4l2_vdec_err(ctx, "Failed to initialize videobuf2 queue(capture)"=
+);
+> =20
+>  	return ret;
+>  }
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c =
+b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+> index 03721eda2769..4469c2411f40 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+> @@ -25,7 +25,7 @@
+>  #include "mtk_vcodec_util.h"
+>  #include "mtk_vcodec_fw.h"
+> =20
+> -static int mtk_vcodec_get_hw_count(struct mtk_vcodec_dev *dev)
+> +static int mtk_vcodec_get_hw_count(struct mtk_vcodec_ctx *ctx, struct mt=
+k_vcodec_dev *dev)
+>  {
+>  	switch (dev->vdec_pdata->hw_arch) {
+>  	case MTK_VDEC_PURE_SINGLE_CORE:
+> @@ -33,7 +33,7 @@ static int mtk_vcodec_get_hw_count(struct mtk_vcodec_de=
+v *dev)
+>  	case MTK_VDEC_LAT_SINGLE_CORE:
+>  		return MTK_VDEC_ONE_LAT_ONE_CORE;
+>  	default:
+> -		mtk_v4l2_err("hw arch %d not supported", dev->vdec_pdata->hw_arch);
+> +		mtk_v4l2_vdec_err(ctx, "hw arch %d not supported", dev->vdec_pdata->hw=
+_arch);
+>  		return MTK_VDEC_NO_HW;
+>  	}
+>  }
+> @@ -52,8 +52,7 @@ static irqreturn_t mtk_vcodec_dec_irq_handler(int irq, =
+void *priv)
+>  	/* check if HW active or not */
+>  	cg_status =3D readl(dev->reg_base[0]);
+>  	if ((cg_status & VDEC_HW_ACTIVE) !=3D 0) {
+> -		mtk_v4l2_err("DEC ISR, VDEC active is not 0x0 (0x%08x)",
+> -			     cg_status);
+> +		mtk_v4l2_vdec_err(ctx, "DEC ISR, VDEC active is not 0x0 (0x%08x)", cg_=
+status);
+>  		return IRQ_HANDLED;
+>  	}
+> =20
+> @@ -71,9 +70,7 @@ static irqreturn_t mtk_vcodec_dec_irq_handler(int irq, =
+void *priv)
+> =20
+>  	wake_up_ctx(ctx, MTK_INST_IRQ_RECEIVED, 0);
+> =20
+> -	mtk_v4l2_debug(3,
+> -			"mtk_vcodec_dec_irq_handler :wake up ctx %d, dec_done_status=3D%x",
+> -			ctx->id, dec_done_status);
+> +	mtk_v4l2_vdec_dbg(3, ctx, "wake up ctx %d, dec_done_status=3D%x", ctx->=
+id, dec_done_status);
+> =20
+>  	return IRQ_HANDLED;
+>  }
+> @@ -96,7 +93,7 @@ static int mtk_vcodec_get_reg_bases(struct mtk_vcodec_d=
+ev *dev)
+>  		if (IS_ERR(dev->reg_base[i]))
+>  			return PTR_ERR(dev->reg_base[i]);
+> =20
+> -		mtk_v4l2_debug(2, "reg[%d] base=3D%p", i, dev->reg_base[i]);
+> +		dev_dbg(&pdev->dev, "reg[%d] base=3D%p", i, dev->reg_base[i]);
+>  	}
+> =20
+>  	return 0;
+> @@ -156,7 +153,7 @@ static int fops_vcodec_open(struct file *file)
+>  	INIT_LIST_HEAD(&ctx->list);
+>  	ctx->dev =3D dev;
+>  	if (ctx->dev->vdec_pdata->is_subdev_supported) {
+> -		hw_count =3D mtk_vcodec_get_hw_count(dev);
+> +		hw_count =3D mtk_vcodec_get_hw_count(ctx, dev);
+>  		if (!hw_count || !dev->subdev_prob_done) {
+>  			ret =3D -EINVAL;
+>  			goto err_ctrls_setup;
+> @@ -176,15 +173,14 @@ static int fops_vcodec_open(struct file *file)
+>  	ctx->type =3D MTK_INST_DECODER;
+>  	ret =3D dev->vdec_pdata->ctrls_setup(ctx);
+>  	if (ret) {
+> -		mtk_v4l2_err("Failed to setup mt vcodec controls");
+> +		mtk_v4l2_vdec_err(ctx, "Failed to setup mt vcodec controls");
+>  		goto err_ctrls_setup;
+>  	}
+>  	ctx->m2m_ctx =3D v4l2_m2m_ctx_init(dev->m2m_dev_dec, ctx,
+>  		&mtk_vcodec_dec_queue_init);
+>  	if (IS_ERR((__force void *)ctx->m2m_ctx)) {
+>  		ret =3D PTR_ERR((__force void *)ctx->m2m_ctx);
+> -		mtk_v4l2_err("Failed to v4l2_m2m_ctx_init() (%d)",
+> -			ret);
+> +		mtk_v4l2_vdec_err(ctx, "Failed to v4l2_m2m_ctx_init() (%d)", ret);
+>  		goto err_m2m_ctx_init;
+>  	}
+>  	src_vq =3D v4l2_m2m_get_vq(ctx->m2m_ctx,
+> @@ -202,14 +198,14 @@ static int fops_vcodec_open(struct file *file)
+>  			 * Return 0 if downloading firmware successfully,
+>  			 * otherwise it is failed
+>  			 */
+> -			mtk_v4l2_err("failed to load firmware!");
+> +			mtk_v4l2_vdec_err(ctx, "failed to load firmware!");
+>  			goto err_load_fw;
+>  		}
+> =20
+>  		dev->dec_capability =3D
+>  			mtk_vcodec_fw_get_vdec_capa(dev->fw_handler);
+> =20
+> -		mtk_v4l2_debug(0, "decoder capability %x", dev->dec_capability);
+> +		mtk_v4l2_vdec_dbg(0, ctx, "decoder capability %x", dev->dec_capability=
+);
+>  	}
+> =20
+>  	ctx->dev->vdec_pdata->init_vdec_params(ctx);
+> @@ -218,8 +214,7 @@ static int fops_vcodec_open(struct file *file)
+>  	mtk_vcodec_dbgfs_create(ctx);
+> =20
+>  	mutex_unlock(&dev->dev_mutex);
+> -	mtk_v4l2_debug(0, "%s decoder [%d]", dev_name(&dev->plat_dev->dev),
+> -			ctx->id);
+> +	mtk_v4l2_vdec_dbg(0, ctx, "%s decoder [%d]", dev_name(&dev->plat_dev->d=
+ev), ctx->id);
+>  	return ret;
+> =20
+>  	/* Deinit when failure occurred */
+> @@ -241,7 +236,7 @@ static int fops_vcodec_release(struct file *file)
+>  	struct mtk_vcodec_dev *dev =3D video_drvdata(file);
+>  	struct mtk_vcodec_ctx *ctx =3D fh_to_ctx(file->private_data);
+> =20
+> -	mtk_v4l2_debug(0, "[%d] decoder", ctx->id);
+> +	mtk_v4l2_vdec_dbg(0, ctx, "[%d] decoder", ctx->id);
+>  	mutex_lock(&dev->dev_mutex);
+> =20
+>  	/*
+> @@ -296,7 +291,7 @@ static int mtk_vcodec_probe(struct platform_device *p=
+dev)
+>  					 &rproc_phandle)) {
+>  		fw_type =3D SCP;
+>  	} else {
+> -		mtk_v4l2_err("Could not get vdec IPI device");
+> +		dev_dbg(&pdev->dev, "Could not get vdec IPI device");
+>  		return -ENODEV;
+>  	}
+>  	dma_set_max_seg_size(&pdev->dev, UINT_MAX);
+> @@ -316,7 +311,7 @@ static int mtk_vcodec_probe(struct platform_device *p=
+dev)
+>  			alloc_ordered_workqueue("core-decoder",
+>  						WQ_MEM_RECLAIM | WQ_FREEZABLE);
+>  		if (!dev->core_workqueue) {
+> -			mtk_v4l2_err("Failed to create core workqueue");
+> +			dev_dbg(&pdev->dev, "Failed to create core workqueue");
+>  			ret =3D -EINVAL;
+>  			goto err_res;
+>  		}
+> @@ -332,13 +327,13 @@ static int mtk_vcodec_probe(struct platform_device =
+*pdev)
+> =20
+>  	ret =3D v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
+>  	if (ret) {
+> -		mtk_v4l2_err("v4l2_device_register err=3D%d", ret);
+> +		dev_err(&pdev->dev, "v4l2_device_register err=3D%d", ret);
+>  		goto err_core_workq;
+>  	}
+> =20
+>  	vfd_dec =3D video_device_alloc();
+>  	if (!vfd_dec) {
+> -		mtk_v4l2_err("Failed to allocate video device");
+> +		dev_err(&pdev->dev, "Failed to allocate video device");
+>  		ret =3D -ENOMEM;
+>  		goto err_dec_alloc;
+>  	}
+> @@ -359,7 +354,7 @@ static int mtk_vcodec_probe(struct platform_device *p=
+dev)
+> =20
+>  	dev->m2m_dev_dec =3D v4l2_m2m_init(&mtk_vdec_m2m_ops);
+>  	if (IS_ERR((__force void *)dev->m2m_dev_dec)) {
+> -		mtk_v4l2_err("Failed to init mem2mem dec device");
+> +		dev_err(&pdev->dev, "Failed to init mem2mem dec device");
+>  		ret =3D PTR_ERR((__force void *)dev->m2m_dev_dec);
+>  		goto err_dec_alloc;
+>  	}
+> @@ -368,7 +363,7 @@ static int mtk_vcodec_probe(struct platform_device *p=
+dev)
+>  		alloc_ordered_workqueue(MTK_VCODEC_DEC_NAME,
+>  			WQ_MEM_RECLAIM | WQ_FREEZABLE);
+>  	if (!dev->decode_workqueue) {
+> -		mtk_v4l2_err("Failed to create decode workqueue");
+> +		dev_err(&pdev->dev, "Failed to create decode workqueue");
+>  		ret =3D -EINVAL;
+>  		goto err_event_workq;
+>  	}
+> @@ -377,7 +372,7 @@ static int mtk_vcodec_probe(struct platform_device *p=
+dev)
+>  		ret =3D of_platform_populate(pdev->dev.of_node, NULL, NULL,
+>  					   &pdev->dev);
+>  		if (ret) {
+> -			mtk_v4l2_err("Main device of_platform_populate failed.");
+> +			dev_err(&pdev->dev, "Main device of_platform_populate failed.");
+>  			goto err_reg_cont;
+>  		}
+>  	} else {
+> @@ -390,7 +385,7 @@ static int mtk_vcodec_probe(struct platform_device *p=
+dev)
+> =20
+>  	ret =3D video_register_device(vfd_dec, VFL_TYPE_VIDEO, -1);
+>  	if (ret) {
+> -		mtk_v4l2_err("Failed to register video device");
+> +		dev_err(&pdev->dev, "Failed to register video device");
+>  		goto err_reg_cont;
+>  	}
+> =20
+> @@ -409,21 +404,21 @@ static int mtk_vcodec_probe(struct platform_device =
+*pdev)
+>  		ret =3D v4l2_m2m_register_media_controller(dev->m2m_dev_dec, dev->vfd_=
+dec,
+>  							 MEDIA_ENT_F_PROC_VIDEO_DECODER);
+>  		if (ret) {
+> -			mtk_v4l2_err("Failed to register media controller");
+> +			dev_err(&pdev->dev, "Failed to register media controller");
+>  			goto err_dec_mem_init;
+>  		}
+> =20
+>  		ret =3D media_device_register(&dev->mdev_dec);
+>  		if (ret) {
+> -			mtk_v4l2_err("Failed to register media device");
+> +			dev_err(&pdev->dev, "Failed to register media device");
+>  			goto err_media_reg;
+>  		}
+> =20
+> -		mtk_v4l2_debug(0, "media registered as /dev/media%d", vfd_dec->minor);
+> +		dev_dbg(&pdev->dev, "media registered as /dev/media%d", vfd_dec->minor=
+);
+>  	}
+> =20
+>  	mtk_vcodec_dbgfs_init(dev, false);
+> -	mtk_v4l2_debug(0, "decoder registered as /dev/video%d", vfd_dec->minor)=
+;
+> +	dev_dbg(&pdev->dev, "decoder registered as /dev/video%d", vfd_dec->mino=
+r);
+> =20
+>  	return 0;
+> =20
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.c b=
+/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.c
+> index e1cb2f8dca33..7c4d8ec201e3 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_hw.c
+> @@ -77,8 +77,7 @@ static irqreturn_t mtk_vdec_hw_irq_handler(int irq, voi=
+d *priv)
+>  	/* check if HW active or not */
+>  	cg_status =3D readl(dev->reg_base[VDEC_HW_SYS]);
+>  	if (cg_status & VDEC_HW_ACTIVE) {
+> -		mtk_v4l2_err("vdec active is not 0x0 (0x%08x)",
+> -			     cg_status);
+> +		mtk_v4l2_vdec_err(ctx, "vdec active is not 0x0 (0x%08x)", cg_status);
+>  		return IRQ_HANDLED;
+>  	}
+> =20
+> @@ -93,8 +92,8 @@ static irqreturn_t mtk_vdec_hw_irq_handler(int irq, voi=
+d *priv)
+> =20
+>  	wake_up_ctx(ctx, MTK_INST_IRQ_RECEIVED, dev->hw_idx);
+> =20
+> -	mtk_v4l2_debug(3, "wake up ctx %d, dec_done_status=3D%x",
+> -		       ctx->id, dec_done_status);
+> +	mtk_v4l2_vdec_dbg(3, ctx, "wake up ctx %d, dec_done_status=3D%x",
+> +			  ctx->id, dec_done_status);
+> =20
+>  	return IRQ_HANDLED;
+>  }
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_pm.c b=
+/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_pm.c
+> index 777d445999e9..3ab996705b97 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_pm.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_pm.c
+> @@ -32,7 +32,7 @@ int mtk_vcodec_init_dec_clk(struct platform_device *pde=
+v, struct mtk_vcodec_pm *
+>  		if (!dec_clk->clk_info)
+>  			return -ENOMEM;
+>  	} else {
+> -		mtk_v4l2_err("Failed to get vdec clock count");
+> +		dev_err(&pdev->dev, "Failed to get vdec clock count");
+>  		return -EINVAL;
+>  	}
+> =20
+> @@ -41,14 +41,13 @@ int mtk_vcodec_init_dec_clk(struct platform_device *p=
+dev, struct mtk_vcodec_pm *
+>  		ret =3D of_property_read_string_index(pdev->dev.of_node,
+>  			"clock-names", i, &clk_info->clk_name);
+>  		if (ret) {
+> -			mtk_v4l2_err("Failed to get clock name id =3D %d", i);
+> +			dev_err(&pdev->dev, "Failed to get clock name id =3D %d", i);
+>  			return ret;
+>  		}
+>  		clk_info->vcodec_clk =3D devm_clk_get(&pdev->dev,
+>  			clk_info->clk_name);
+>  		if (IS_ERR(clk_info->vcodec_clk)) {
+> -			mtk_v4l2_err("devm_clk_get (%d)%s fail", i,
+> -				clk_info->clk_name);
+> +			dev_err(&pdev->dev, "devm_clk_get (%d)%s fail", i, clk_info->clk_name=
+);
+>  			return PTR_ERR(clk_info->vcodec_clk);
+>  		}
+>  	}
+> @@ -63,7 +62,7 @@ static int mtk_vcodec_dec_pw_on(struct mtk_vcodec_pm *p=
+m)
+> =20
+>  	ret =3D pm_runtime_resume_and_get(pm->dev);
+>  	if (ret)
+> -		mtk_v4l2_err("pm_runtime_resume_and_get fail %d", ret);
+> +		dev_err(pm->dev, "pm_runtime_resume_and_get fail %d", ret);
+> =20
+>  	return ret;
+>  }
+> @@ -74,7 +73,7 @@ static void mtk_vcodec_dec_pw_off(struct mtk_vcodec_pm =
+*pm)
+> =20
+>  	ret =3D pm_runtime_put(pm->dev);
+>  	if (ret && ret !=3D -EAGAIN)
+> -		mtk_v4l2_err("pm_runtime_put fail %d", ret);
+> +		dev_err(pm->dev, "pm_runtime_put fail %d", ret);
+>  }
+> =20
+>  static void mtk_vcodec_dec_clock_on(struct mtk_vcodec_pm *pm)
+> @@ -86,7 +85,7 @@ static void mtk_vcodec_dec_clock_on(struct mtk_vcodec_p=
+m *pm)
+>  	for (i =3D 0; i < dec_clk->clk_num; i++) {
+>  		ret =3D clk_prepare_enable(dec_clk->clk_info[i].vcodec_clk);
+>  		if (ret) {
+> -			mtk_v4l2_err("clk_prepare_enable %d %s fail %d", i,
+> +			dev_err(pm->dev, "clk_prepare_enable %d %s fail %d", i,
+>  				dec_clk->clk_info[i].clk_name, ret);
+>  			goto error;
+>  		}
+> @@ -120,7 +119,7 @@ static void mtk_vcodec_dec_enable_irq(struct mtk_vcod=
+ec_dev *vdec_dev, int hw_id
+>  		if (subdev_dev)
+>  			enable_irq(subdev_dev->dec_irq);
+>  		else
+> -			mtk_v4l2_err("Failed to get hw dev\n");
+> +			dev_err(&vdec_dev->plat_dev->dev, "Failed to get hw dev\n");
+>  	} else {
+>  		enable_irq(vdec_dev->dec_irq);
+>  	}
+> @@ -138,7 +137,7 @@ static void mtk_vcodec_dec_disable_irq(struct mtk_vco=
+dec_dev *vdec_dev, int hw_i
+>  		if (subdev_dev)
+>  			disable_irq(subdev_dev->dec_irq);
+>  		else
+> -			mtk_v4l2_err("Failed to get hw dev\n");
+> +			dev_err(&vdec_dev->plat_dev->dev, "Failed to get hw dev\n");
+>  	} else {
+>  		disable_irq(vdec_dev->dec_irq);
+>  	}
+> @@ -185,7 +184,7 @@ static struct mtk_vcodec_pm *mtk_vcodec_dec_get_pm(st=
+ruct mtk_vcodec_dev *vdec_d
+>  		if (subdev_dev)
+>  			return &subdev_dev->pm;
+> =20
+> -		mtk_v4l2_err("Failed to get hw dev\n");
+> +		dev_err(&vdec_dev->plat_dev->dev, "Failed to get hw dev\n");
+>  		return NULL;
+>  	}
+> =20
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_statef=
+ul.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c
+> index 0fbd030026c7..3c289b08bc87 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateful.c
+> @@ -61,15 +61,16 @@ static struct vb2_buffer *get_display_buffer(struct m=
+tk_vcodec_ctx *ctx)
+>  	struct mtk_video_dec_buf *dstbuf;
+>  	struct vb2_v4l2_buffer *vb;
+> =20
+> -	mtk_v4l2_debug(3, "[%d]", ctx->id);
+> +	mtk_v4l2_vdec_dbg(3, ctx, "[%d]", ctx->id);
+>  	if (vdec_if_get_param(ctx, GET_PARAM_DISP_FRAME_BUFFER,
+>  			      &disp_frame_buffer)) {
+> -		mtk_v4l2_err("[%d]Cannot get param : GET_PARAM_DISP_FRAME_BUFFER", ctx=
+->id);
+> +		mtk_v4l2_vdec_err(ctx, "[%d]Cannot get param : GET_PARAM_DISP_FRAME_BU=
+FFER",
+> +				  ctx->id);
+>  		return NULL;
+>  	}
+> =20
+>  	if (!disp_frame_buffer) {
+> -		mtk_v4l2_debug(3, "No display frame buffer");
+> +		mtk_v4l2_vdec_dbg(3, ctx, "No display frame buffer");
+>  		return NULL;
+>  	}
+> =20
+> @@ -78,9 +79,9 @@ static struct vb2_buffer *get_display_buffer(struct mtk=
+_vcodec_ctx *ctx)
+>  	vb =3D &dstbuf->m2m_buf.vb;
+>  	mutex_lock(&ctx->lock);
+>  	if (dstbuf->used) {
+> -		mtk_v4l2_debug(2, "[%d]status=3D%x queue id=3D%d to done_list %d",
+> -			       ctx->id, disp_frame_buffer->status,
+> -			       vb->vb2_buf.index, dstbuf->queued_in_vb2);
+> +		mtk_v4l2_vdec_dbg(2, ctx, "[%d]status=3D%x queue id=3D%d to done_list =
+%d",
+> +				  ctx->id, disp_frame_buffer->status,
+> +				  vb->vb2_buf.index, dstbuf->queued_in_vb2);
+> =20
+>  		v4l2_m2m_buf_done(vb, VB2_BUF_STATE_DONE);
+>  		ctx->decoded_frame_cnt++;
+> @@ -105,16 +106,16 @@ static struct vb2_buffer *get_free_buffer(struct mt=
+k_vcodec_ctx *ctx)
+> =20
+>  	if (vdec_if_get_param(ctx, GET_PARAM_FREE_FRAME_BUFFER,
+>  			      &free_frame_buffer)) {
+> -		mtk_v4l2_err("[%d] Error!! Cannot get param", ctx->id);
+> +		mtk_v4l2_vdec_err(ctx, "[%d] Error!! Cannot get param", ctx->id);
+>  		return NULL;
+>  	}
+>  	if (!free_frame_buffer) {
+> -		mtk_v4l2_debug(3, " No free frame buffer");
+> +		mtk_v4l2_vdec_dbg(3, ctx, " No free frame buffer");
+>  		return NULL;
+>  	}
+> =20
+> -	mtk_v4l2_debug(3, "[%d] tmp_frame_addr =3D 0x%p", ctx->id,
+> -		       free_frame_buffer);
+> +	mtk_v4l2_vdec_dbg(3, ctx, "[%d] tmp_frame_addr =3D 0x%p", ctx->id,
+> +			  free_frame_buffer);
+> =20
+>  	dstbuf =3D container_of(free_frame_buffer, struct mtk_video_dec_buf,
+>  			      frame_buffer);
+> @@ -131,9 +132,9 @@ static struct vb2_buffer *get_free_buffer(struct mtk_=
+vcodec_ctx *ctx)
+>  			 * This reduce overheads that dq/q unused capture
+>  			 * buffer. In this case, queued_in_vb2 =3D true.
+>  			 */
+> -			mtk_v4l2_debug(2, "[%d]status=3D%x queue id=3D%d to rdy_queue %d",
+> -				       ctx->id, free_frame_buffer->status,
+> -				       vb->vb2_buf.index, dstbuf->queued_in_vb2);
+> +			mtk_v4l2_vdec_dbg(2, ctx, "[%d]status=3D%x queue id=3D%d to rdy_queue=
+ %d",
+> +					  ctx->id, free_frame_buffer->status,
+> +					  vb->vb2_buf.index, dstbuf->queued_in_vb2);
+>  			v4l2_m2m_buf_queue(ctx->m2m_ctx, vb);
+>  		} else if (!dstbuf->queued_in_vb2 && dstbuf->queued_in_v4l2) {
+>  			/*
+> @@ -146,10 +147,10 @@ static struct vb2_buffer *get_free_buffer(struct mt=
+k_vcodec_ctx *ctx)
+>  			 * means this buffer is not from previous decode
+>  			 * output.
+>  			 */
+> -			mtk_v4l2_debug(2,
+> -				       "[%d]status=3D%x queue id=3D%d to rdy_queue",
+> -				       ctx->id, free_frame_buffer->status,
+> -				       vb->vb2_buf.index);
+> +			mtk_v4l2_vdec_dbg(2, ctx,
+> +					  "[%d]status=3D%x queue id=3D%d to rdy_queue",
+> +					  ctx->id, free_frame_buffer->status,
+> +					  vb->vb2_buf.index);
+>  			v4l2_m2m_buf_queue(ctx->m2m_ctx, vb);
+>  			dstbuf->queued_in_vb2 =3D true;
+>  		} else {
+> @@ -161,10 +162,10 @@ static struct vb2_buffer *get_free_buffer(struct mt=
+k_vcodec_ctx *ctx)
+>  			 * When this buffer q from user space, it could
+>  			 * directly q to vb2 buffer
+>  			 */
+> -			mtk_v4l2_debug(3, "[%d]status=3D%x err queue id=3D%d %d %d",
+> -				       ctx->id, free_frame_buffer->status,
+> -				       vb->vb2_buf.index, dstbuf->queued_in_vb2,
+> -				       dstbuf->queued_in_v4l2);
+> +			mtk_v4l2_vdec_dbg(3, ctx, "[%d]status=3D%x err queue id=3D%d %d %d",
+> +					  ctx->id, free_frame_buffer->status,
+> +					  vb->vb2_buf.index, dstbuf->queued_in_vb2,
+> +					  dstbuf->queued_in_v4l2);
+>  		}
+>  		dstbuf->used =3D false;
+>  	}
+> @@ -191,7 +192,7 @@ static void mtk_vdec_queue_res_chg_event(struct mtk_v=
+codec_ctx *ctx)
+>  		.u.src_change.changes =3D V4L2_EVENT_SRC_CH_RESOLUTION,
+>  	};
+> =20
+> -	mtk_v4l2_debug(1, "[%d]", ctx->id);
+> +	mtk_v4l2_vdec_dbg(1, ctx, "[%d]", ctx->id);
+>  	v4l2_event_queue_fh(&ctx->fh, &ev_src_ch);
+>  }
+> =20
+> @@ -202,7 +203,7 @@ static int mtk_vdec_flush_decoder(struct mtk_vcodec_c=
+tx *ctx)
+> =20
+>  	ret =3D vdec_if_decode(ctx, NULL, NULL, &res_chg);
+>  	if (ret)
+> -		mtk_v4l2_err("DecodeFinal failed, ret=3D%d", ret);
+> +		mtk_v4l2_vdec_err(ctx, "DecodeFinal failed, ret=3D%d", ret);
+> =20
+>  	clean_display_buffer(ctx);
+>  	clean_free_buffer(ctx);
+> @@ -221,14 +222,14 @@ static void mtk_vdec_update_fmt(struct mtk_vcodec_c=
+tx *ctx,
+>  	for (k =3D 0; k < num_supported_formats; k++) {
+>  		fmt =3D &mtk_video_formats[k];
+>  		if (fmt->fourcc =3D=3D pixelformat) {
+> -			mtk_v4l2_debug(1, "Update cap fourcc(%d -> %d)",
+> -				       dst_q_data->fmt->fourcc, pixelformat);
+> +			mtk_v4l2_vdec_dbg(1, ctx, "Update cap fourcc(%d -> %d)",
+> +					  dst_q_data->fmt->fourcc, pixelformat);
+>  			dst_q_data->fmt =3D fmt;
+>  			return;
+>  		}
+>  	}
+> =20
+> -	mtk_v4l2_err("Cannot get fourcc(%d), using init value", pixelformat);
+> +	mtk_v4l2_vdec_err(ctx, "Cannot get fourcc(%d), using init value", pixel=
+format);
+>  }
+> =20
+>  static int mtk_vdec_pic_info_update(struct mtk_vcodec_ctx *ctx)
+> @@ -238,7 +239,8 @@ static int mtk_vdec_pic_info_update(struct mtk_vcodec=
+_ctx *ctx)
+> =20
+>  	if (vdec_if_get_param(ctx, GET_PARAM_PIC_INFO,
+>  			      &ctx->last_decoded_picinfo)) {
+> -		mtk_v4l2_err("[%d]Error!! Cannot get param : GET_PARAM_PICTURE_INFO ER=
+R", ctx->id);
+> +		mtk_v4l2_vdec_err(ctx, "[%d]Error!! Cannot get param : GET_PARAM_PICTU=
+RE_INFO ERR",
+> +				  ctx->id);
+>  		return -EINVAL;
+>  	}
+> =20
+> @@ -246,7 +248,7 @@ static int mtk_vdec_pic_info_update(struct mtk_vcodec=
+_ctx *ctx)
+>  	    ctx->last_decoded_picinfo.pic_h =3D=3D 0 ||
+>  	    ctx->last_decoded_picinfo.buf_w =3D=3D 0 ||
+>  	    ctx->last_decoded_picinfo.buf_h =3D=3D 0) {
+> -		mtk_v4l2_err("Cannot get correct pic info");
+> +		mtk_v4l2_vdec_err(ctx, "Cannot get correct pic info");
+>  		return -EINVAL;
+>  	}
+> =20
+> @@ -258,15 +260,15 @@ static int mtk_vdec_pic_info_update(struct mtk_vcod=
+ec_ctx *ctx)
+>  	    ctx->last_decoded_picinfo.pic_h =3D=3D ctx->picinfo.pic_h)
+>  		return 0;
+> =20
+> -	mtk_v4l2_debug(1, "[%d]-> new(%d,%d), old(%d,%d), real(%d,%d)", ctx->id=
+,
+> -		       ctx->last_decoded_picinfo.pic_w,
+> -		       ctx->last_decoded_picinfo.pic_h, ctx->picinfo.pic_w,
+> -		       ctx->picinfo.pic_h, ctx->last_decoded_picinfo.buf_w,
+> -		       ctx->last_decoded_picinfo.buf_h);
+> +	mtk_v4l2_vdec_dbg(1, ctx, "[%d]-> new(%d,%d), old(%d,%d), real(%d,%d)",=
+ ctx->id,
+> +			  ctx->last_decoded_picinfo.pic_w,
+> +			  ctx->last_decoded_picinfo.pic_h, ctx->picinfo.pic_w,
+> +			  ctx->picinfo.pic_h, ctx->last_decoded_picinfo.buf_w,
+> +			  ctx->last_decoded_picinfo.buf_h);
+> =20
+>  	ret =3D vdec_if_get_param(ctx, GET_PARAM_DPB_SIZE, &dpbsize);
+>  	if (dpbsize =3D=3D 0)
+> -		mtk_v4l2_err("Incorrect dpb size, ret=3D%d", ret);
+> +		mtk_v4l2_vdec_err(ctx, "Incorrect dpb size, ret=3D%d", ret);
+> =20
+>  	ctx->dpb_size =3D dpbsize;
+> =20
+> @@ -288,14 +290,14 @@ static void mtk_vdec_worker(struct work_struct *wor=
+k)
+>  	src_buf =3D v4l2_m2m_next_src_buf(ctx->m2m_ctx);
+>  	if (!src_buf) {
+>  		v4l2_m2m_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx);
+> -		mtk_v4l2_debug(1, "[%d] src_buf empty!!", ctx->id);
+> +		mtk_v4l2_vdec_dbg(1, ctx, "[%d] src_buf empty!!", ctx->id);
+>  		return;
+>  	}
+> =20
+>  	dst_buf =3D v4l2_m2m_next_dst_buf(ctx->m2m_ctx);
+>  	if (!dst_buf) {
+>  		v4l2_m2m_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx);
+> -		mtk_v4l2_debug(1, "[%d] dst_buf empty!!", ctx->id);
+> +		mtk_v4l2_vdec_dbg(1, ctx, "[%d] dst_buf empty!!", ctx->id);
+>  		return;
+>  	}
+> =20
+> @@ -313,15 +315,15 @@ static void mtk_vdec_worker(struct work_struct *wor=
+k)
+>  		vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 1);
+>  	pfb->base_c.size =3D ctx->picinfo.fb_sz[1];
+>  	pfb->status =3D 0;
+> -	mtk_v4l2_debug(3, "=3D=3D=3D>[%d] vdec_if_decode() =3D=3D=3D>", ctx->id=
+);
+> +	mtk_v4l2_vdec_dbg(3, ctx, "=3D=3D=3D>[%d] vdec_if_decode() =3D=3D=3D>",=
+ ctx->id);
+> =20
+> -	mtk_v4l2_debug(3,
+> -		       "id=3D%d Framebuf  pfb=3D%p VA=3D%p Y_DMA=3D%pad C_DMA=3D%pad S=
+ize=3D%zx",
+> -		       dst_buf->vb2_buf.index, pfb, pfb->base_y.va,
+> -		       &pfb->base_y.dma_addr, &pfb->base_c.dma_addr, pfb->base_y.size)=
+;
+> +	mtk_v4l2_vdec_dbg(3, ctx,
+> +			  "id=3D%d Framebuf  pfb=3D%p VA=3D%p Y_DMA=3D%pad C_DMA=3D%pad Size=
+=3D%zx",
+> +			  dst_buf->vb2_buf.index, pfb, pfb->base_y.va,
+> +			  &pfb->base_y.dma_addr, &pfb->base_c.dma_addr, pfb->base_y.size);
+> =20
+>  	if (src_buf =3D=3D &ctx->empty_flush_buf.vb) {
+> -		mtk_v4l2_debug(1, "Got empty flush input buffer.");
+> +		mtk_v4l2_vdec_dbg(1, ctx, "Got empty flush input buffer.");
+>  		src_buf =3D v4l2_m2m_src_buf_remove(ctx->m2m_ctx);
+> =20
+>  		/* update dst buf status */
+> @@ -350,12 +352,12 @@ static void mtk_vdec_worker(struct work_struct *wor=
+k)
+>  	buf.size =3D (size_t)src_buf->vb2_buf.planes[0].bytesused;
+>  	if (!buf.va) {
+>  		v4l2_m2m_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx);
+> -		mtk_v4l2_err("[%d] id=3D%d src_addr is NULL!!", ctx->id,
+> -			     src_buf->vb2_buf.index);
+> +		mtk_v4l2_vdec_err(ctx, "[%d] id=3D%d src_addr is NULL!!", ctx->id,
+> +				  src_buf->vb2_buf.index);
+>  		return;
+>  	}
+> -	mtk_v4l2_debug(3, "[%d] Bitstream VA=3D%p DMA=3D%pad Size=3D%zx vb=3D%p=
+",
+> -		       ctx->id, buf.va, &buf.dma_addr, buf.size, src_buf);
+> +	mtk_v4l2_vdec_dbg(3, ctx, "[%d] Bitstream VA=3D%p DMA=3D%pad Size=3D%zx=
+ vb=3D%p",
+> +			  ctx->id, buf.va, &buf.dma_addr, buf.size, src_buf);
+>  	dst_buf->vb2_buf.timestamp =3D src_buf->vb2_buf.timestamp;
+>  	dst_buf->timecode =3D src_buf->timecode;
+>  	mutex_lock(&ctx->lock);
+> @@ -366,9 +368,10 @@ static void mtk_vdec_worker(struct work_struct *work=
+)
+>  	ret =3D vdec_if_decode(ctx, &buf, pfb, &res_chg);
+> =20
+>  	if (ret) {
+> -		mtk_v4l2_err(" <=3D=3D=3D[%d], src_buf[%d] sz=3D0x%zx pts=3D%llu dst_b=
+uf[%d] vdec_if_decode() ret=3D%d res_chg=3D%d=3D=3D=3D>",
+> -			     ctx->id, src_buf->vb2_buf.index, buf.size,
+> -			     src_buf->vb2_buf.timestamp, dst_buf->vb2_buf.index, ret, res_chg=
+);
+> +		mtk_v4l2_vdec_err(ctx,
+> +				  "[%d] decode src[%d] sz=3D0x%zx pts=3D%llu dst[%d] ret=3D%d res_ch=
+g=3D%d",
+> +				  ctx->id, src_buf->vb2_buf.index, buf.size,
+> +				  src_buf->vb2_buf.timestamp, dst_buf->vb2_buf.index, ret, res_chg);
+>  		src_buf =3D v4l2_m2m_src_buf_remove(ctx->m2m_ctx);
+>  		if (ret =3D=3D -EIO) {
+>  			mutex_lock(&ctx->lock);
+> @@ -421,8 +424,8 @@ static void vb2ops_vdec_stateful_buf_queue(struct vb2=
+_buffer *vb)
+>  	struct vb2_v4l2_buffer *vb2_v4l2;
+>  	struct mtk_q_data *dst_q_data;
+> =20
+> -	mtk_v4l2_debug(3, "[%d] (%d) id=3D%d, vb=3D%p", ctx->id,
+> -		       vb->vb2_queue->type, vb->index, vb);
+> +	mtk_v4l2_vdec_dbg(3, ctx, "[%d] (%d) id=3D%d, vb=3D%p", ctx->id,
+> +			  vb->vb2_queue->type, vb->index, vb);
+>  	/*
+>  	 * check if this buffer is ready to be used after decode
+>  	 */
+> @@ -448,20 +451,19 @@ static void vb2ops_vdec_stateful_buf_queue(struct v=
+b2_buffer *vb)
+>  	v4l2_m2m_buf_queue(ctx->m2m_ctx, to_vb2_v4l2_buffer(vb));
+> =20
+>  	if (ctx->state !=3D MTK_STATE_INIT) {
+> -		mtk_v4l2_debug(3, "[%d] already init driver %d", ctx->id,
+> -			       ctx->state);
+> +		mtk_v4l2_vdec_dbg(3, ctx, "[%d] already init driver %d", ctx->id, ctx-=
+>state);
+>  		return;
+>  	}
+> =20
+>  	src_buf =3D v4l2_m2m_next_src_buf(ctx->m2m_ctx);
+>  	if (!src_buf) {
+> -		mtk_v4l2_err("No src buffer");
+> +		mtk_v4l2_vdec_err(ctx, "No src buffer");
+>  		return;
+>  	}
+> =20
+>  	if (src_buf =3D=3D &ctx->empty_flush_buf.vb) {
+>  		/* This shouldn't happen. Just in case. */
+> -		mtk_v4l2_err("Invalid flush buffer.");
+> +		mtk_v4l2_vdec_err(ctx, "Invalid flush buffer.");
+>  		v4l2_m2m_src_buf_remove(ctx->m2m_ctx);
+>  		return;
+>  	}
+> @@ -469,9 +471,8 @@ static void vb2ops_vdec_stateful_buf_queue(struct vb2=
+_buffer *vb)
+>  	src_mem.va =3D vb2_plane_vaddr(&src_buf->vb2_buf, 0);
+>  	src_mem.dma_addr =3D vb2_dma_contig_plane_dma_addr(&src_buf->vb2_buf, 0=
+);
+>  	src_mem.size =3D (size_t)src_buf->vb2_buf.planes[0].bytesused;
+> -	mtk_v4l2_debug(2, "[%d] buf id=3D%d va=3D%p dma=3D%pad size=3D%zx", ctx=
+->id,
+> -		       src_buf->vb2_buf.index, src_mem.va, &src_mem.dma_addr,
+> -		       src_mem.size);
+> +	mtk_v4l2_vdec_dbg(2, ctx, "[%d] buf id=3D%d va=3D%p dma=3D%pad size=3D%=
+zx", ctx->id,
+> +			  src_buf->vb2_buf.index, src_mem.va, &src_mem.dma_addr, src_mem.size=
+);
+> =20
+>  	ret =3D vdec_if_decode(ctx, &src_mem, NULL, &res_chg);
+>  	if (ret || !res_chg) {
+> @@ -484,20 +485,22 @@ static void vb2ops_vdec_stateful_buf_queue(struct v=
+b2_buffer *vb)
+> =20
+>  		src_buf =3D v4l2_m2m_src_buf_remove(ctx->m2m_ctx);
+>  		if (ret =3D=3D -EIO) {
+> -			mtk_v4l2_err("[%d] Unrecoverable error in vdec_if_decode.", ctx->id);
+> +			mtk_v4l2_vdec_err(ctx, "[%d] Unrecoverable error in vdec_if_decode.",
+> +					  ctx->id);
+>  			ctx->state =3D MTK_STATE_ABORT;
+>  			v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_ERROR);
+>  		} else {
+>  			v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_DONE);
+>  		}
+> -		mtk_v4l2_debug(ret ? 0 : 1,
+> -			       "[%d] vdec_if_decode() src_buf=3D%d, size=3D%zu, fail=3D%d, re=
+s_chg=3D%d",
+> -			       ctx->id, src_buf->vb2_buf.index, src_mem.size, ret, res_chg);
+> +		mtk_v4l2_vdec_dbg(ret ? 0 : 1, ctx,
+> +				  "[%d] decode() src_buf=3D%d, size=3D%zu, fail=3D%d, res_chg=3D%d",
+> +				  ctx->id, src_buf->vb2_buf.index, src_mem.size, ret, res_chg);
+>  		return;
+>  	}
+> =20
+>  	if (vdec_if_get_param(ctx, GET_PARAM_PIC_INFO, &ctx->picinfo)) {
+> -		mtk_v4l2_err("[%d]Error!! Cannot get param : GET_PARAM_PICTURE_INFO ER=
+R", ctx->id);
+> +		mtk_v4l2_vdec_err(ctx, "[%d]Error!! Cannot get param : GET_PARAM_PICTU=
+RE_INFO ERR",
+> +				  ctx->id);
+>  		return;
+>  	}
+> =20
+> @@ -508,17 +511,17 @@ static void vb2ops_vdec_stateful_buf_queue(struct v=
+b2_buffer *vb)
+>  		dst_q_data->bytesperline[i] =3D ctx->picinfo.buf_w;
+>  	}
+> =20
+> -	mtk_v4l2_debug(2, "[%d] vdec_if_init() OK wxh=3D%dx%d pic wxh=3D%dx%d s=
+z[0]=3D0x%x sz[1]=3D0x%x",
+> -		       ctx->id, ctx->picinfo.buf_w, ctx->picinfo.buf_h, ctx->picinfo.p=
+ic_w,
+> -		       ctx->picinfo.pic_h, dst_q_data->sizeimage[0], dst_q_data->sizei=
+mage[1]);
+> +	mtk_v4l2_vdec_dbg(2, ctx, "[%d] init OK wxh=3D%dx%d pic wxh=3D%dx%d sz[=
+0]=3D0x%x sz[1]=3D0x%x",
+> +			  ctx->id, ctx->picinfo.buf_w, ctx->picinfo.buf_h, ctx->picinfo.pic_w=
+,
+> +			  ctx->picinfo.pic_h, dst_q_data->sizeimage[0], dst_q_data->sizeimage=
+[1]);
+> =20
+>  	ret =3D vdec_if_get_param(ctx, GET_PARAM_DPB_SIZE, &dpbsize);
+>  	if (dpbsize =3D=3D 0)
+> -		mtk_v4l2_err("[%d] GET_PARAM_DPB_SIZE fail=3D%d", ctx->id, ret);
+> +		mtk_v4l2_vdec_err(ctx, "[%d] GET_PARAM_DPB_SIZE fail=3D%d", ctx->id, r=
+et);
+> =20
+>  	ctx->dpb_size =3D dpbsize;
+>  	ctx->state =3D MTK_STATE_HEADER;
+> -	mtk_v4l2_debug(1, "[%d] dpbsize=3D%d", ctx->id, ctx->dpb_size);
+> +	mtk_v4l2_vdec_dbg(1, ctx, "[%d] dpbsize=3D%d", ctx->id, ctx->dpb_size);
+> =20
+>  	mtk_vdec_queue_res_chg_event(ctx);
+>  }
+> @@ -533,7 +536,7 @@ static int mtk_vdec_g_v_ctrl(struct v4l2_ctrl *ctrl)
+>  		if (ctx->state >=3D MTK_STATE_HEADER) {
+>  			ctrl->val =3D ctx->dpb_size;
+>  		} else {
+> -			mtk_v4l2_debug(0, "Seqinfo not ready");
+> +			mtk_v4l2_vdec_dbg(0, ctx, "Seqinfo not ready");
+>  			ctrl->val =3D 0;
+>  		}
+>  		break;
+> @@ -570,7 +573,7 @@ static int mtk_vcodec_dec_ctrls_setup(struct mtk_vcod=
+ec_ctx *ctx)
+>  			       V4L2_MPEG_VIDEO_H264_PROFILE_MAIN);
+> =20
+>  	if (ctx->ctrl_hdl.error) {
+> -		mtk_v4l2_err("Adding control failed %d", ctx->ctrl_hdl.error);
+> +		mtk_v4l2_vdec_err(ctx, "Adding control failed %d", ctx->ctrl_hdl.error=
+);
+>  		return ctx->ctrl_hdl.error;
+>  	}
+> =20
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_statel=
+ess.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c
+> index db1e14a1bd6c..ffe05ff31dd1 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c
+> @@ -232,10 +232,10 @@ static void mtk_vdec_stateless_cap_to_disp(struct m=
+tk_vcodec_ctx *ctx, int error
+>  	vb2_dst =3D v4l2_m2m_dst_buf_remove(ctx->m2m_ctx);
+>  	if (vb2_dst) {
+>  		v4l2_m2m_buf_done(vb2_dst, state);
+> -		mtk_v4l2_debug(2, "free frame buffer id:%d to done list",
+> -			       vb2_dst->vb2_buf.index);
+> +		mtk_v4l2_vdec_dbg(2, ctx, "free frame buffer id:%d to done list",
+> +				  vb2_dst->vb2_buf.index);
+>  	} else {
+> -		mtk_v4l2_err("dst buffer is NULL");
+> +		mtk_v4l2_vdec_err(ctx, "dst buffer is NULL");
+>  	}
+> =20
+>  	if (src_buf_req)
+> @@ -251,7 +251,7 @@ static struct vdec_fb *vdec_get_cap_buffer(struct mtk=
+_vcodec_ctx *ctx)
+> =20
+>  	vb2_v4l2 =3D v4l2_m2m_next_dst_buf(ctx->m2m_ctx);
+>  	if (!vb2_v4l2) {
+> -		mtk_v4l2_debug(1, "[%d] dst_buf empty!!", ctx->id);
+> +		mtk_v4l2_vdec_dbg(1, ctx, "[%d] dst_buf empty!!", ctx->id);
+>  		return NULL;
+>  	}
+> =20
+> @@ -269,9 +269,10 @@ static struct vdec_fb *vdec_get_cap_buffer(struct mt=
+k_vcodec_ctx *ctx)
+>  			vb2_dma_contig_plane_dma_addr(dst_buf, 1);
+>  		pfb->base_c.size =3D ctx->q_data[MTK_Q_DATA_DST].sizeimage[1];
+>  	}
+> -	mtk_v4l2_debug(1, "id=3D%d Framebuf  pfb=3D%p VA=3D%p Y_DMA=3D%pad C_DM=
+A=3D%pad Size=3D%zx frame_count =3D %d",
+> -		       dst_buf->index, pfb, pfb->base_y.va, &pfb->base_y.dma_addr,
+> -		       &pfb->base_c.dma_addr, pfb->base_y.size, ctx->decoded_frame_cnt=
+);
+> +	mtk_v4l2_vdec_dbg(1, ctx,
+> +			  "id=3D%d Framebuf pfb=3D%p VA=3D%p Y/C_DMA=3D%pad_%pad Sz=3D%zx fra=
+me_count =3D %d",
+> +			  dst_buf->index, pfb, pfb->base_y.va, &pfb->base_y.dma_addr,
+> +			  &pfb->base_c.dma_addr, pfb->base_y.size, ctx->decoded_frame_cnt);
+> =20
+>  	return pfb;
+>  }
+> @@ -300,7 +301,7 @@ static void mtk_vdec_worker(struct work_struct *work)
+>  	vb2_v4l2_src =3D v4l2_m2m_next_src_buf(ctx->m2m_ctx);
+>  	if (!vb2_v4l2_src) {
+>  		v4l2_m2m_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx);
+> -		mtk_v4l2_debug(1, "[%d] no available source buffer", ctx->id);
+> +		mtk_v4l2_vdec_dbg(1, ctx, "[%d] no available source buffer", ctx->id);
+>  		return;
+>  	}
+> =20
+> @@ -309,33 +310,34 @@ static void mtk_vdec_worker(struct work_struct *wor=
+k)
+>  				   m2m_buf.vb);
+>  	bs_src =3D &dec_buf_src->bs_buffer;
+> =20
+> -	mtk_v4l2_debug(3, "[%d] (%d) id=3D%d, vb=3D%p", ctx->id,
+> -		       vb2_src->vb2_queue->type, vb2_src->index, vb2_src);
+> +	mtk_v4l2_vdec_dbg(3, ctx, "[%d] (%d) id=3D%d, vb=3D%p", ctx->id,
+> +			  vb2_src->vb2_queue->type, vb2_src->index, vb2_src);
+> =20
+>  	bs_src->va =3D vb2_plane_vaddr(vb2_src, 0);
+>  	bs_src->dma_addr =3D vb2_dma_contig_plane_dma_addr(vb2_src, 0);
+>  	bs_src->size =3D (size_t)vb2_src->planes[0].bytesused;
+>  	if (!bs_src->va) {
+>  		v4l2_m2m_job_finish(dev->m2m_dev_dec, ctx->m2m_ctx);
+> -		mtk_v4l2_err("[%d] id=3D%d source buffer is NULL", ctx->id,
+> -			     vb2_src->index);
+> +		mtk_v4l2_vdec_err(ctx, "[%d] id=3D%d source buffer is NULL", ctx->id,
+> +				  vb2_src->index);
+>  		return;
+>  	}
+> =20
+> -	mtk_v4l2_debug(3, "[%d] Bitstream VA=3D%p DMA=3D%pad Size=3D%zx vb=3D%p=
+",
+> -		       ctx->id, bs_src->va, &bs_src->dma_addr, bs_src->size, vb2_src);
+> +	mtk_v4l2_vdec_dbg(3, ctx, "[%d] Bitstream VA=3D%p DMA=3D%pad Size=3D%zx=
+ vb=3D%p",
+> +			  ctx->id, bs_src->va, &bs_src->dma_addr, bs_src->size, vb2_src);
+>  	/* Apply request controls. */
+>  	src_buf_req =3D vb2_src->req_obj.req;
+>  	if (src_buf_req)
+>  		v4l2_ctrl_request_setup(src_buf_req, &ctx->ctrl_hdl);
+>  	else
+> -		mtk_v4l2_err("vb2 buffer media request is NULL");
+> +		mtk_v4l2_vdec_err(ctx, "vb2 buffer media request is NULL");
+> =20
+>  	ret =3D vdec_if_decode(ctx, bs_src, NULL, &res_chg);
+>  	if (ret && ret !=3D -EAGAIN) {
+> -		mtk_v4l2_err(" <=3D=3D=3D[%d], src_buf[%d] sz=3D0x%zx pts=3D%llu vdec_=
+if_decode() ret=3D%d res_chg=3D%d=3D=3D=3D>",
+> -			     ctx->id, vb2_src->index, bs_src->size,
+> -			     vb2_src->timestamp, ret, res_chg);
+> +		mtk_v4l2_vdec_err(ctx,
+> +				  "[%d] decode src_buf[%d] sz=3D0x%zx pts=3D%llu ret=3D%d res_chg=3D=
+%d",
+> +				  ctx->id, vb2_src->index, bs_src->size,
+> +				  vb2_src->timestamp, ret, res_chg);
+>  		if (ret =3D=3D -EIO) {
+>  			mutex_lock(&ctx->lock);
+>  			dec_buf_src->error =3D true;
+> @@ -363,7 +365,8 @@ static void vb2ops_vdec_stateless_buf_queue(struct vb=
+2_buffer *vb)
+>  	struct mtk_vcodec_ctx *ctx =3D vb2_get_drv_priv(vb->vb2_queue);
+>  	struct vb2_v4l2_buffer *vb2_v4l2 =3D to_vb2_v4l2_buffer(vb);
+> =20
+> -	mtk_v4l2_debug(3, "[%d] (%d) id=3D%d, vb=3D%p", ctx->id, vb->vb2_queue-=
+>type, vb->index, vb);
+> +	mtk_v4l2_vdec_dbg(3, ctx, "[%d] (%d) id=3D%d, vb=3D%p", ctx->id, vb->vb=
+2_queue->type,
+> +			  vb->index, vb);
+> =20
+>  	mutex_lock(&ctx->lock);
+>  	v4l2_m2m_buf_queue(ctx->m2m_ctx, vb2_v4l2);
+> @@ -374,9 +377,9 @@ static void vb2ops_vdec_stateless_buf_queue(struct vb=
+2_buffer *vb)
+>  	/* If an OUTPUT buffer, we may need to update the state */
+>  	if (ctx->state =3D=3D MTK_STATE_INIT) {
+>  		ctx->state =3D MTK_STATE_HEADER;
+> -		mtk_v4l2_debug(1, "Init driver from init to header.");
+> +		mtk_v4l2_vdec_dbg(1, ctx, "Init driver from init to header.");
+>  	} else {
+> -		mtk_v4l2_debug(3, "[%d] already init driver %d", ctx->id, ctx->state);
+> +		mtk_v4l2_vdec_dbg(3, ctx, "[%d] already init driver %d", ctx->id, ctx-=
+>state);
+>  	}
+>  }
+> =20
+> @@ -393,7 +396,7 @@ static int mtk_vcodec_dec_ctrls_setup(struct mtk_vcod=
+ec_ctx *ctx)
+> =20
+>  	v4l2_ctrl_handler_init(&ctx->ctrl_hdl, NUM_CTRLS);
+>  	if (ctx->ctrl_hdl.error) {
+> -		mtk_v4l2_err("v4l2_ctrl_handler_init failed\n");
+> +		mtk_v4l2_vdec_err(ctx, "v4l2_ctrl_handler_init failed\n");
+>  		return ctx->ctrl_hdl.error;
+>  	}
+> =20
+> @@ -402,7 +405,8 @@ static int mtk_vcodec_dec_ctrls_setup(struct mtk_vcod=
+ec_ctx *ctx)
+> =20
+>  		v4l2_ctrl_new_custom(&ctx->ctrl_hdl, &cfg, NULL);
+>  		if (ctx->ctrl_hdl.error) {
+> -			mtk_v4l2_err("Adding control %d failed %d", i, ctx->ctrl_hdl.error);
+> +			mtk_v4l2_vdec_err(ctx, "Adding control %d failed %d", i,
+> +					  ctx->ctrl_hdl.error);
+>  			return ctx->ctrl_hdl.error;
+>  		}
+>  	}
+> @@ -421,11 +425,11 @@ static int fops_media_request_validate(struct media=
+_request *mreq)
+>  		/* We expect exactly one buffer with the request */
+>  		break;
+>  	case 0:
+> -		mtk_v4l2_debug(1, "No buffer provided with the request");
+> +		pr_debug("[MTK VCODEC] No buffer provided with the request");
+>=20
+I suggest following the same format as the macro, "<devname>:
+[MTK_V4L2][ERROR]", you can probably have a macro for that formatting. This
+would ensure consitency for all the trace without context. Some of the trac=
+e
+don't even name anything MTK/VCODEC, like av1_error: prefix. I'd like to se=
+e
+these fixed.
+
+pr_debug(MTK_DBG_STR "No buffer provided with...");
+
+Or add ...no_ctx() debug macro, prepending the string ? This would be up to=
+ your
+preference.
+
+regards,
+Nicolas
+
+>=20
+>  		return -ENOENT;
+>  	default:
+> -		mtk_v4l2_debug(1, "Too many buffers (%d) provided with the request",
+> -			       buffer_cnt);
+> +		pr_debug("[MTK VCODEC] Too many buffers (%d) provided with the request=
+",
+> +			 buffer_cnt);
+>  		return -EINVAL;
+>  	}
+> =20
+> @@ -470,13 +474,13 @@ static void mtk_vcodec_add_formats(unsigned int fou=
+rcc,
+>  		mtk_video_formats[count_formats].num_planes =3D 2;
+>  		break;
+>  	default:
+> -		mtk_v4l2_err("Can not add unsupported format type");
+> +		mtk_v4l2_vdec_err(ctx, "Can not add unsupported format type");
+>  		return;
+>  	}
+> =20
+>  	num_formats++;
+> -	mtk_v4l2_debug(3, "num_formats: %d dec_capability: 0x%x",
+> -		       count_formats, ctx->dev->dec_capability);
+> +	mtk_v4l2_vdec_dbg(3, ctx, "num_formats: %d dec_capability: 0x%x",
+> +			  count_formats, ctx->dev->dec_capability);
+>  }
+> =20
+>  static void mtk_vcodec_get_supported_formats(struct mtk_vcodec_ctx *ctx)
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c b/dr=
+ivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+> index 9ff439a50f53..276da79d98e7 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc.c
+> @@ -51,63 +51,53 @@ static int vidioc_venc_s_ctrl(struct v4l2_ctrl *ctrl)
+> =20
+>  	switch (ctrl->id) {
+>  	case V4L2_CID_MPEG_VIDEO_BITRATE_MODE:
+> -		mtk_v4l2_debug(2, "V4L2_CID_MPEG_VIDEO_BITRATE_MODE val=3D %d",
+> -			       ctrl->val);
+> +		mtk_v4l2_venc_dbg(2, ctx, "V4L2_CID_MPEG_VIDEO_BITRATE_MODE val=3D %d"=
+, ctrl->val);
+>  		if (ctrl->val !=3D V4L2_MPEG_VIDEO_BITRATE_MODE_CBR) {
+> -			mtk_v4l2_err("Unsupported bitrate mode =3D%d", ctrl->val);
+> +			mtk_v4l2_venc_err(ctx, "Unsupported bitrate mode =3D%d", ctrl->val);
+>  			ret =3D -EINVAL;
+>  		}
+>  		break;
+>  	case V4L2_CID_MPEG_VIDEO_BITRATE:
+> -		mtk_v4l2_debug(2, "V4L2_CID_MPEG_VIDEO_BITRATE val =3D %d",
+> -			       ctrl->val);
+> +		mtk_v4l2_venc_dbg(2, ctx, "V4L2_CID_MPEG_VIDEO_BITRATE val =3D %d", ct=
+rl->val);
+>  		p->bitrate =3D ctrl->val;
+>  		ctx->param_change |=3D MTK_ENCODE_PARAM_BITRATE;
+>  		break;
+>  	case V4L2_CID_MPEG_VIDEO_B_FRAMES:
+> -		mtk_v4l2_debug(2, "V4L2_CID_MPEG_VIDEO_B_FRAMES val =3D %d",
+> -			       ctrl->val);
+> +		mtk_v4l2_venc_dbg(2, ctx, "V4L2_CID_MPEG_VIDEO_B_FRAMES val =3D %d", c=
+trl->val);
+>  		p->num_b_frame =3D ctrl->val;
+>  		break;
+>  	case V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE:
+> -		mtk_v4l2_debug(2, "V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE val =3D %d",
+> -			       ctrl->val);
+> +		mtk_v4l2_venc_dbg(2, ctx, "V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE val =3D=
+ %d",
+> +				  ctrl->val);
+>  		p->rc_frame =3D ctrl->val;
+>  		break;
+>  	case V4L2_CID_MPEG_VIDEO_H264_MAX_QP:
+> -		mtk_v4l2_debug(2, "V4L2_CID_MPEG_VIDEO_H264_MAX_QP val =3D %d",
+> -			       ctrl->val);
+> +		mtk_v4l2_venc_dbg(2, ctx, "V4L2_CID_MPEG_VIDEO_H264_MAX_QP val =3D %d"=
+, ctrl->val);
+>  		p->h264_max_qp =3D ctrl->val;
+>  		break;
+>  	case V4L2_CID_MPEG_VIDEO_HEADER_MODE:
+> -		mtk_v4l2_debug(2, "V4L2_CID_MPEG_VIDEO_HEADER_MODE val =3D %d",
+> -			       ctrl->val);
+> +		mtk_v4l2_venc_dbg(2, ctx, "V4L2_CID_MPEG_VIDEO_HEADER_MODE val =3D %d"=
+, ctrl->val);
+>  		p->seq_hdr_mode =3D ctrl->val;
+>  		break;
+>  	case V4L2_CID_MPEG_VIDEO_MB_RC_ENABLE:
+> -		mtk_v4l2_debug(2, "V4L2_CID_MPEG_VIDEO_MB_RC_ENABLE val =3D %d",
+> -			       ctrl->val);
+> +		mtk_v4l2_venc_dbg(2, ctx, "V4L2_CID_MPEG_VIDEO_MB_RC_ENABLE val =3D %d=
+", ctrl->val);
+>  		p->rc_mb =3D ctrl->val;
+>  		break;
+>  	case V4L2_CID_MPEG_VIDEO_H264_PROFILE:
+> -		mtk_v4l2_debug(2, "V4L2_CID_MPEG_VIDEO_H264_PROFILE val =3D %d",
+> -			       ctrl->val);
+> +		mtk_v4l2_venc_dbg(2, ctx, "V4L2_CID_MPEG_VIDEO_H264_PROFILE val =3D %d=
+", ctrl->val);
+>  		p->h264_profile =3D ctrl->val;
+>  		break;
+>  	case V4L2_CID_MPEG_VIDEO_H264_LEVEL:
+> -		mtk_v4l2_debug(2, "V4L2_CID_MPEG_VIDEO_H264_LEVEL val =3D %d",
+> -			       ctrl->val);
+> +		mtk_v4l2_venc_dbg(2, ctx, "V4L2_CID_MPEG_VIDEO_H264_LEVEL val =3D %d",=
+ ctrl->val);
+>  		p->h264_level =3D ctrl->val;
+>  		break;
+>  	case V4L2_CID_MPEG_VIDEO_H264_I_PERIOD:
+> -		mtk_v4l2_debug(2, "V4L2_CID_MPEG_VIDEO_H264_I_PERIOD val =3D %d",
+> -			       ctrl->val);
+> +		mtk_v4l2_venc_dbg(2, ctx, "V4L2_CID_MPEG_VIDEO_H264_I_PERIOD val =3D %=
+d", ctrl->val);
+>  		p->intra_period =3D ctrl->val;
+>  		ctx->param_change |=3D MTK_ENCODE_PARAM_INTRA_PERIOD;
+>  		break;
+>  	case V4L2_CID_MPEG_VIDEO_GOP_SIZE:
+> -		mtk_v4l2_debug(2, "V4L2_CID_MPEG_VIDEO_GOP_SIZE val =3D %d",
+> -			       ctrl->val);
+> +		mtk_v4l2_venc_dbg(2, ctx, "V4L2_CID_MPEG_VIDEO_GOP_SIZE val =3D %d", c=
+trl->val);
+>  		p->gop_size =3D ctrl->val;
+>  		ctx->param_change |=3D MTK_ENCODE_PARAM_GOP_SIZE;
+>  		break;
+> @@ -116,10 +106,10 @@ static int vidioc_venc_s_ctrl(struct v4l2_ctrl *ctr=
+l)
+>  		 * FIXME - what vp8 profiles are actually supported?
+>  		 * The ctrl is added (with only profile 0 supported) for now.
+>  		 */
+> -		mtk_v4l2_debug(2, "V4L2_CID_MPEG_VIDEO_VP8_PROFILE val =3D %d", ctrl->=
+val);
+> +		mtk_v4l2_venc_dbg(2, ctx, "V4L2_CID_MPEG_VIDEO_VP8_PROFILE val =3D %d"=
+, ctrl->val);
+>  		break;
+>  	case V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME:
+> -		mtk_v4l2_debug(2, "V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME");
+> +		mtk_v4l2_venc_dbg(2, ctx, "V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME");
+>  		p->force_intra =3D 1;
+>  		ctx->param_change |=3D MTK_ENCODE_PARAM_FORCE_INTRA;
+>  		break;
+> @@ -341,11 +331,12 @@ static int vidioc_try_fmt_out(struct mtk_vcodec_ctx=
+ *ctx, struct v4l2_format *f,
+>  	if (pix_fmt_mp->height < tmp_h && (pix_fmt_mp->height + 32) <=3D max_he=
+ight)
+>  		pix_fmt_mp->height +=3D 32;
+> =20
+> -	mtk_v4l2_debug(0, "before resize w=3D%d, h=3D%d, after resize w=3D%d, h=
+=3D%d, sizeimage=3D%d %d",
+> -		       tmp_w, tmp_h, pix_fmt_mp->width,
+> -		       pix_fmt_mp->height,
+> -		       pix_fmt_mp->plane_fmt[0].sizeimage,
+> -		       pix_fmt_mp->plane_fmt[1].sizeimage);
+> +	mtk_v4l2_venc_dbg(0, ctx,
+> +			  "before resize wxh=3D%dx%d, after resize wxh=3D%dx%d, sizeimage=3D%=
+d %d",
+> +			  tmp_w, tmp_h, pix_fmt_mp->width,
+> +			  pix_fmt_mp->height,
+> +			  pix_fmt_mp->plane_fmt[0].sizeimage,
+> +			  pix_fmt_mp->plane_fmt[1].sizeimage);
+> =20
+>  	pix_fmt_mp->num_planes =3D fmt->num_planes;
+>  	pix_fmt_mp->plane_fmt[0].sizeimage =3D
+> @@ -396,7 +387,7 @@ static void mtk_venc_set_param(struct mtk_vcodec_ctx =
+*ctx,
+>  		param->input_yuv_fmt =3D VENC_YUV_FORMAT_NV21;
+>  		break;
+>  	default:
+> -		mtk_v4l2_err("Unsupported fourcc =3D%d", q_data_src->fmt->fourcc);
+> +		mtk_v4l2_venc_err(ctx, "Unsupported fourcc =3D%d", q_data_src->fmt->fo=
+urcc);
+>  		break;
+>  	}
+>  	param->h264_profile =3D enc_params->h264_profile;
+> @@ -414,13 +405,13 @@ static void mtk_venc_set_param(struct mtk_vcodec_ct=
+x *ctx,
+>  	param->gop_size =3D enc_params->gop_size;
+>  	param->bitrate =3D enc_params->bitrate;
+> =20
+> -	mtk_v4l2_debug(0,
+> -		"fmt 0x%x, P/L %d/%d, w/h %d/%d, buf %d/%d, fps/bps %d/%d, gop %d, i_p=
+eriod %d",
+> -		param->input_yuv_fmt, param->h264_profile,
+> -		param->h264_level, param->width, param->height,
+> -		param->buf_width, param->buf_height,
+> -		param->frm_rate, param->bitrate,
+> -		param->gop_size, param->intra_period);
+> +	mtk_v4l2_venc_dbg(0, ctx,
+> +			  "fmt 0x%x, P/L %d/%d w/h %d/%d buf %d/%d fps/bps %d/%d gop %d i_per=
+ %d",
+> +			  param->input_yuv_fmt, param->h264_profile,
+> +			  param->h264_level, param->width, param->height,
+> +			  param->buf_width, param->buf_height,
+> +			  param->frm_rate, param->bitrate,
+> +			  param->gop_size, param->intra_period);
+>  }
+> =20
+>  static int vidioc_venc_s_fmt_cap(struct file *file, void *priv,
+> @@ -435,12 +426,12 @@ static int vidioc_venc_s_fmt_cap(struct file *file,=
+ void *priv,
+> =20
+>  	vq =3D v4l2_m2m_get_vq(ctx->m2m_ctx, f->type);
+>  	if (!vq) {
+> -		mtk_v4l2_err("fail to get vq");
+> +		mtk_v4l2_venc_err(ctx, "fail to get vq");
+>  		return -EINVAL;
+>  	}
+> =20
+>  	if (vb2_is_busy(vq)) {
+> -		mtk_v4l2_err("queue busy");
+> +		mtk_v4l2_venc_err(ctx, "queue busy");
+>  		return -EBUSY;
+>  	}
+> =20
+> @@ -468,8 +459,8 @@ static int vidioc_venc_s_fmt_cap(struct file *file, v=
+oid *priv,
+>  	if (ctx->state =3D=3D MTK_STATE_FREE) {
+>  		ret =3D venc_if_init(ctx, q_data->fmt->fourcc);
+>  		if (ret) {
+> -			mtk_v4l2_err("venc_if_init failed=3D%d, codec type=3D%x",
+> -					ret, q_data->fmt->fourcc);
+> +			mtk_v4l2_venc_err(ctx, "venc_if_init failed=3D%d, codec type=3D%x",
+> +					  ret, q_data->fmt->fourcc);
+>  			return -EBUSY;
+>  		}
+>  		ctx->state =3D MTK_STATE_INIT;
+> @@ -490,12 +481,12 @@ static int vidioc_venc_s_fmt_out(struct file *file,=
+ void *priv,
+> =20
+>  	vq =3D v4l2_m2m_get_vq(ctx->m2m_ctx, f->type);
+>  	if (!vq) {
+> -		mtk_v4l2_err("fail to get vq");
+> +		mtk_v4l2_venc_err(ctx, "fail to get vq");
+>  		return -EINVAL;
+>  	}
+> =20
+>  	if (vb2_is_busy(vq)) {
+> -		mtk_v4l2_err("queue busy");
+> +		mtk_v4l2_venc_err(ctx, "queue busy");
+>  		return -EBUSY;
+>  	}
+> =20
+> @@ -670,8 +661,8 @@ static int vidioc_venc_qbuf(struct file *file, void *=
+priv,
+>  	struct mtk_vcodec_ctx *ctx =3D fh_to_ctx(priv);
+> =20
+>  	if (ctx->state =3D=3D MTK_STATE_ABORT) {
+> -		mtk_v4l2_err("[%d] Call on QBUF after unrecoverable error",
+> -				ctx->id);
+> +		mtk_v4l2_venc_err(ctx, "[%d] Call on QBUF after unrecoverable error",
+> +				  ctx->id);
+>  		return -EIO;
+>  	}
+> =20
+> @@ -685,8 +676,8 @@ static int vidioc_venc_dqbuf(struct file *file, void =
+*priv,
+>  	int ret;
+> =20
+>  	if (ctx->state =3D=3D MTK_STATE_ABORT) {
+> -		mtk_v4l2_err("[%d] Call on QBUF after unrecoverable error",
+> -				ctx->id);
+> +		mtk_v4l2_venc_err(ctx, "[%d] Call on QBUF after unrecoverable error",
+> +				  ctx->id);
+>  		return -EIO;
+>  	}
+> =20
+> @@ -724,8 +715,8 @@ static int vidioc_encoder_cmd(struct file *file, void=
+ *priv,
+>  	int ret;
+> =20
+>  	if (ctx->state =3D=3D MTK_STATE_ABORT) {
+> -		mtk_v4l2_err("[%d] Call to CMD after unrecoverable error",
+> -			     ctx->id);
+> +		mtk_v4l2_venc_err(ctx, "[%d] Call to CMD after unrecoverable error",
+> +				  ctx->id);
+>  		return -EIO;
+>  	}
+> =20
+> @@ -737,7 +728,7 @@ static int vidioc_encoder_cmd(struct file *file, void=
+ *priv,
+>  	if (ctx->is_flushing)
+>  		return -EBUSY;
+> =20
+> -	mtk_v4l2_debug(1, "encoder cmd=3D%u", cmd->cmd);
+> +	mtk_v4l2_venc_dbg(1, ctx, "encoder cmd=3D%u", cmd->cmd);
+> =20
+>  	dst_vq =3D v4l2_m2m_get_vq(ctx->m2m_ctx,
+>  				 V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+> @@ -746,11 +737,11 @@ static int vidioc_encoder_cmd(struct file *file, vo=
+id *priv,
+>  		src_vq =3D v4l2_m2m_get_vq(ctx->m2m_ctx,
+>  					 V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
+>  		if (!vb2_is_streaming(src_vq)) {
+> -			mtk_v4l2_debug(1, "Output stream is off. No need to flush.");
+> +			mtk_v4l2_venc_dbg(1, ctx, "Output stream is off. No need to flush.");
+>  			return 0;
+>  		}
+>  		if (!vb2_is_streaming(dst_vq)) {
+> -			mtk_v4l2_debug(1, "Capture stream is off. No need to flush.");
+> +			mtk_v4l2_venc_dbg(1, ctx, "Capture stream is off. No need to flush.")=
+;
+>  			return 0;
+>  		}
+>  		ctx->is_flushing =3D true;
+> @@ -841,9 +832,8 @@ static int vb2ops_venc_buf_prepare(struct vb2_buffer =
+*vb)
+> =20
+>  	for (i =3D 0; i < q_data->fmt->num_planes; i++) {
+>  		if (vb2_plane_size(vb, i) < q_data->sizeimage[i]) {
+> -			mtk_v4l2_err("data will not fit into plane %d (%lu < %d)",
+> -				i, vb2_plane_size(vb, i),
+> -				q_data->sizeimage[i]);
+> +			mtk_v4l2_venc_err(ctx, "data will not fit into plane %d (%lu < %d)",
+> +					  i, vb2_plane_size(vb, i), q_data->sizeimage[i]);
+>  			return -EINVAL;
+>  		}
+>  	}
+> @@ -863,10 +853,8 @@ static void vb2ops_venc_buf_queue(struct vb2_buffer =
+*vb)
+> =20
+>  	if ((vb->vb2_queue->type =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) &&
+>  	    (ctx->param_change !=3D MTK_ENCODE_PARAM_NONE)) {
+> -		mtk_v4l2_debug(1, "[%d] Before id=3D%d encode parameter change %x",
+> -			       ctx->id,
+> -			       vb2_v4l2->vb2_buf.index,
+> -			       ctx->param_change);
+> +		mtk_v4l2_venc_dbg(1, ctx, "[%d] Before id=3D%d encode parameter change=
+ %x",
+> +				  ctx->id, vb2_v4l2->vb2_buf.index, ctx->param_change);
+>  		mtk_buf->param_change =3D ctx->param_change;
+>  		mtk_buf->enc_params =3D ctx->enc_params;
+>  		ctx->param_change =3D MTK_ENCODE_PARAM_NONE;
+> @@ -901,14 +889,14 @@ static int vb2ops_venc_start_streaming(struct vb2_q=
+ueue *q, unsigned int count)
+> =20
+>  	ret =3D pm_runtime_resume_and_get(&ctx->dev->plat_dev->dev);
+>  	if (ret < 0) {
+> -		mtk_v4l2_err("pm_runtime_resume_and_get fail %d", ret);
+> +		mtk_v4l2_venc_err(ctx, "pm_runtime_resume_and_get fail %d", ret);
+>  		goto err_start_stream;
+>  	}
+> =20
+>  	mtk_venc_set_param(ctx, &param);
+>  	ret =3D venc_if_set_param(ctx, VENC_SET_PARAM_ENC, &param);
+>  	if (ret) {
+> -		mtk_v4l2_err("venc_if_set_param failed=3D%d", ret);
+> +		mtk_v4l2_venc_err(ctx, "venc_if_set_param failed=3D%d", ret);
+>  		ctx->state =3D MTK_STATE_ABORT;
+>  		goto err_set_param;
+>  	}
+> @@ -921,7 +909,7 @@ static int vb2ops_venc_start_streaming(struct vb2_que=
+ue *q, unsigned int count)
+>  					VENC_SET_PARAM_PREPEND_HEADER,
+>  					NULL);
+>  		if (ret) {
+> -			mtk_v4l2_err("venc_if_set_param failed=3D%d", ret);
+> +			mtk_v4l2_venc_err(ctx, "venc_if_set_param failed=3D%d", ret);
+>  			ctx->state =3D MTK_STATE_ABORT;
+>  			goto err_set_param;
+>  		}
+> @@ -933,7 +921,7 @@ static int vb2ops_venc_start_streaming(struct vb2_que=
+ue *q, unsigned int count)
+>  err_set_param:
+>  	pm_ret =3D pm_runtime_put(&ctx->dev->plat_dev->dev);
+>  	if (pm_ret < 0)
+> -		mtk_v4l2_err("pm_runtime_put fail %d", pm_ret);
+> +		mtk_v4l2_venc_err(ctx, "pm_runtime_put fail %d", pm_ret);
+> =20
+>  err_start_stream:
+>  	for (i =3D 0; i < q->num_buffers; ++i) {
+> @@ -944,9 +932,8 @@ static int vb2ops_venc_start_streaming(struct vb2_que=
+ue *q, unsigned int count)
+>  		 * can be marked as done.
+>  		 */
+>  		if (buf && buf->state =3D=3D VB2_BUF_STATE_ACTIVE) {
+> -			mtk_v4l2_debug(0, "[%d] id=3D%d, type=3D%d, %d -> VB2_BUF_STATE_QUEUE=
+D",
+> -					ctx->id, i, q->type,
+> -					(int)buf->state);
+> +			mtk_v4l2_venc_dbg(0, ctx, "[%d] id=3D%d, type=3D%d, %d->VB2_BUF_STATE=
+_QUEUED",
+> +					  ctx->id, i, q->type, (int)buf->state);
+>  			v4l2_m2m_buf_done(to_vb2_v4l2_buffer(buf),
+>  					  VB2_BUF_STATE_QUEUED);
+>  		}
+> @@ -961,7 +948,7 @@ static void vb2ops_venc_stop_streaming(struct vb2_que=
+ue *q)
+>  	struct vb2_v4l2_buffer *src_buf, *dst_buf;
+>  	int ret;
+> =20
+> -	mtk_v4l2_debug(2, "[%d]-> type=3D%d", ctx->id, q->type);
+> +	mtk_v4l2_venc_dbg(2, ctx, "[%d]-> type=3D%d", ctx->id, q->type);
+> =20
+>  	if (q->type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
+>  		while ((dst_buf =3D v4l2_m2m_dst_buf_remove(ctx->m2m_ctx))) {
+> @@ -972,7 +959,7 @@ static void vb2ops_venc_stop_streaming(struct vb2_que=
+ue *q)
+>  		if (ctx->is_flushing) {
+>  			struct v4l2_m2m_buffer *b, *n;
+> =20
+> -			mtk_v4l2_debug(1, "STREAMOFF called while flushing");
+> +			mtk_v4l2_venc_dbg(1, ctx, "STREAMOFF called while flushing");
+>  			/*
+>  			 * STREAMOFF could be called before the flush buffer is
+>  			 * dequeued. Check whether empty flush buf is still in
+> @@ -1006,21 +993,21 @@ static void vb2ops_venc_stop_streaming(struct vb2_=
+queue *q)
+>  	     vb2_is_streaming(&ctx->m2m_ctx->out_q_ctx.q)) ||
+>  	    (q->type =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE &&
+>  	     vb2_is_streaming(&ctx->m2m_ctx->cap_q_ctx.q))) {
+> -		mtk_v4l2_debug(1, "[%d]-> q type %d out=3D%d cap=3D%d",
+> -			       ctx->id, q->type,
+> -			       vb2_is_streaming(&ctx->m2m_ctx->out_q_ctx.q),
+> -			       vb2_is_streaming(&ctx->m2m_ctx->cap_q_ctx.q));
+> +		mtk_v4l2_venc_dbg(1, ctx, "[%d]-> q type %d out=3D%d cap=3D%d",
+> +				  ctx->id, q->type,
+> +				  vb2_is_streaming(&ctx->m2m_ctx->out_q_ctx.q),
+> +				  vb2_is_streaming(&ctx->m2m_ctx->cap_q_ctx.q));
+>  		return;
+>  	}
+> =20
+>  	/* Release the encoder if both streams are stopped. */
+>  	ret =3D venc_if_deinit(ctx);
+>  	if (ret)
+> -		mtk_v4l2_err("venc_if_deinit failed=3D%d", ret);
+> +		mtk_v4l2_venc_err(ctx, "venc_if_deinit failed=3D%d", ret);
+> =20
+>  	ret =3D pm_runtime_put(&ctx->dev->plat_dev->dev);
+>  	if (ret < 0)
+> -		mtk_v4l2_err("pm_runtime_put fail %d", ret);
+> +		mtk_v4l2_venc_err(ctx, "pm_runtime_put fail %d", ret);
+> =20
+>  	ctx->state =3D MTK_STATE_FREE;
+>  }
+> @@ -1054,7 +1041,7 @@ static int mtk_venc_encode_header(void *priv)
+> =20
+>  	dst_buf =3D v4l2_m2m_dst_buf_remove(ctx->m2m_ctx);
+>  	if (!dst_buf) {
+> -		mtk_v4l2_debug(1, "No dst buffer");
+> +		mtk_v4l2_venc_dbg(1, ctx, "No dst buffer");
+>  		return -EINVAL;
+>  	}
+> =20
+> @@ -1062,12 +1049,10 @@ static int mtk_venc_encode_header(void *priv)
+>  	bs_buf.dma_addr =3D vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0)=
+;
+>  	bs_buf.size =3D (size_t)dst_buf->vb2_buf.planes[0].length;
+> =20
+> -	mtk_v4l2_debug(1,
+> -			"[%d] buf id=3D%d va=3D0x%p dma_addr=3D0x%llx size=3D%zu",
+> -			ctx->id,
+> -			dst_buf->vb2_buf.index, bs_buf.va,
+> -			(u64)bs_buf.dma_addr,
+> -			bs_buf.size);
+> +	mtk_v4l2_venc_dbg(1, ctx,
+> +			  "[%d] buf id=3D%d va=3D0x%p dma_addr=3D0x%llx size=3D%zu",
+> +			  ctx->id, dst_buf->vb2_buf.index, bs_buf.va,
+> +			  (u64)bs_buf.dma_addr, bs_buf.size);
+> =20
+>  	ret =3D venc_if_encode(ctx,
+>  			VENC_START_OPT_ENCODE_SEQUENCE_HEADER,
+> @@ -1077,7 +1062,7 @@ static int mtk_venc_encode_header(void *priv)
+>  		vb2_set_plane_payload(&dst_buf->vb2_buf, 0, 0);
+>  		ctx->state =3D MTK_STATE_ABORT;
+>  		v4l2_m2m_buf_done(dst_buf, VB2_BUF_STATE_ERROR);
+> -		mtk_v4l2_err("venc_if_encode failed=3D%d", ret);
+> +		mtk_v4l2_venc_err(ctx, "venc_if_encode failed=3D%d", ret);
+>  		return -EINVAL;
+>  	}
+>  	src_buf =3D v4l2_m2m_next_src_buf(ctx->m2m_ctx);
+> @@ -1085,7 +1070,7 @@ static int mtk_venc_encode_header(void *priv)
+>  		dst_buf->vb2_buf.timestamp =3D src_buf->vb2_buf.timestamp;
+>  		dst_buf->timecode =3D src_buf->timecode;
+>  	} else {
+> -		mtk_v4l2_err("No timestamp for the header buffer.");
+> +		mtk_v4l2_venc_err(ctx, "No timestamp for the header buffer.");
+>  	}
+> =20
+>  	ctx->state =3D MTK_STATE_HEADER;
+> @@ -1114,10 +1099,8 @@ static int mtk_venc_param_change(struct mtk_vcodec=
+_ctx *ctx)
+> =20
+>  	if (mtk_buf->param_change & MTK_ENCODE_PARAM_BITRATE) {
+>  		enc_prm.bitrate =3D mtk_buf->enc_params.bitrate;
+> -		mtk_v4l2_debug(1, "[%d] id=3D%d, change param br=3D%d",
+> -				ctx->id,
+> -				vb2_v4l2->vb2_buf.index,
+> -				enc_prm.bitrate);
+> +		mtk_v4l2_venc_dbg(1, ctx, "[%d] id=3D%d, change param br=3D%d",
+> +				  ctx->id, vb2_v4l2->vb2_buf.index, enc_prm.bitrate);
+>  		ret |=3D venc_if_set_param(ctx,
+>  					 VENC_SET_PARAM_ADJUST_BITRATE,
+>  					 &enc_prm);
+> @@ -1125,27 +1108,23 @@ static int mtk_venc_param_change(struct mtk_vcode=
+c_ctx *ctx)
+>  	if (!ret && mtk_buf->param_change & MTK_ENCODE_PARAM_FRAMERATE) {
+>  		enc_prm.frm_rate =3D mtk_buf->enc_params.framerate_num /
+>  				   mtk_buf->enc_params.framerate_denom;
+> -		mtk_v4l2_debug(1, "[%d] id=3D%d, change param fr=3D%d",
+> -			       ctx->id,
+> -			       vb2_v4l2->vb2_buf.index,
+> -			       enc_prm.frm_rate);
+> +		mtk_v4l2_venc_dbg(1, ctx, "[%d] id=3D%d, change param fr=3D%d",
+> +				  ctx->id, vb2_v4l2->vb2_buf.index, enc_prm.frm_rate);
+>  		ret |=3D venc_if_set_param(ctx,
+>  					 VENC_SET_PARAM_ADJUST_FRAMERATE,
+>  					 &enc_prm);
+>  	}
+>  	if (!ret && mtk_buf->param_change & MTK_ENCODE_PARAM_GOP_SIZE) {
+>  		enc_prm.gop_size =3D mtk_buf->enc_params.gop_size;
+> -		mtk_v4l2_debug(1, "change param intra period=3D%d",
+> -			       enc_prm.gop_size);
+> +		mtk_v4l2_venc_dbg(1, ctx, "change param intra period=3D%d", enc_prm.go=
+p_size);
+>  		ret |=3D venc_if_set_param(ctx,
+>  					 VENC_SET_PARAM_GOP_SIZE,
+>  					 &enc_prm);
+>  	}
+>  	if (!ret && mtk_buf->param_change & MTK_ENCODE_PARAM_FORCE_INTRA) {
+> -		mtk_v4l2_debug(1, "[%d] id=3D%d, change param force I=3D%d",
+> -				ctx->id,
+> -				vb2_v4l2->vb2_buf.index,
+> -				mtk_buf->enc_params.force_intra);
+> +		mtk_v4l2_venc_dbg(1, ctx, "[%d] id=3D%d, change param force I=3D%d",
+> +				  ctx->id, vb2_v4l2->vb2_buf.index,
+> +				  mtk_buf->enc_params.force_intra);
+>  		if (mtk_buf->enc_params.force_intra)
+>  			ret |=3D venc_if_set_param(ctx,
+>  						 VENC_SET_PARAM_FORCE_INTRA,
+> @@ -1156,8 +1135,8 @@ static int mtk_venc_param_change(struct mtk_vcodec_=
+ctx *ctx)
+> =20
+>  	if (ret) {
+>  		ctx->state =3D MTK_STATE_ABORT;
+> -		mtk_v4l2_err("venc_if_set_param %d failed=3D%d",
+> -				mtk_buf->param_change, ret);
+> +		mtk_v4l2_venc_err(ctx, "venc_if_set_param %d failed=3D%d",
+> +				  mtk_buf->param_change, ret);
+>  		return -1;
+>  	}
+> =20
+> @@ -1218,14 +1197,11 @@ static void mtk_venc_worker(struct work_struct *w=
+ork)
+>  	bs_buf.dma_addr =3D vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0)=
+;
+>  	bs_buf.size =3D (size_t)dst_buf->vb2_buf.planes[0].length;
+> =20
+> -	mtk_v4l2_debug(2,
+> -			"Framebuf PA=3D%llx Size=3D0x%zx;PA=3D0x%llx Size=3D0x%zx;PA=3D0x%llx=
+ Size=3D%zu",
+> -			(u64)frm_buf.fb_addr[0].dma_addr,
+> -			frm_buf.fb_addr[0].size,
+> -			(u64)frm_buf.fb_addr[1].dma_addr,
+> -			frm_buf.fb_addr[1].size,
+> -			(u64)frm_buf.fb_addr[2].dma_addr,
+> -			frm_buf.fb_addr[2].size);
+> +	mtk_v4l2_venc_dbg(2, ctx,
+> +			  "Framebuf PA=3D%llx Size=3D0x%zx;PA=3D0x%llx Size=3D0x%zx;PA=3D0x%l=
+lx Size=3D%zu",
+> +			  (u64)frm_buf.fb_addr[0].dma_addr, frm_buf.fb_addr[0].size,
+> +			  (u64)frm_buf.fb_addr[1].dma_addr, frm_buf.fb_addr[1].size,
+> +			  (u64)frm_buf.fb_addr[2].dma_addr, frm_buf.fb_addr[2].size);
+> =20
+>  	ret =3D venc_if_encode(ctx, VENC_START_OPT_ENCODE_FRAME,
+>  			     &frm_buf, &bs_buf, &enc_result);
+> @@ -1240,20 +1216,19 @@ static void mtk_venc_worker(struct work_struct *w=
+ork)
+>  		v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_ERROR);
+>  		vb2_set_plane_payload(&dst_buf->vb2_buf, 0, 0);
+>  		v4l2_m2m_buf_done(dst_buf, VB2_BUF_STATE_ERROR);
+> -		mtk_v4l2_err("venc_if_encode failed=3D%d", ret);
+> +		mtk_v4l2_venc_err(ctx, "venc_if_encode failed=3D%d", ret);
+>  	} else {
+>  		v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_DONE);
+>  		vb2_set_plane_payload(&dst_buf->vb2_buf, 0, enc_result.bs_size);
+>  		v4l2_m2m_buf_done(dst_buf, VB2_BUF_STATE_DONE);
+> -		mtk_v4l2_debug(2, "venc_if_encode bs size=3D%d",
+> -				 enc_result.bs_size);
+> +		mtk_v4l2_venc_dbg(2, ctx, "venc_if_encode bs size=3D%d",
+> +				  enc_result.bs_size);
+>  	}
+> =20
+>  	v4l2_m2m_job_finish(ctx->dev->m2m_dev_enc, ctx->m2m_ctx);
+> =20
+> -	mtk_v4l2_debug(1, "<=3D=3D=3D src_buf[%d] dst_buf[%d] venc_if_encode re=
+t=3D%d Size=3D%u=3D=3D=3D>",
+> -			src_buf->vb2_buf.index, dst_buf->vb2_buf.index, ret,
+> -			enc_result.bs_size);
+> +	mtk_v4l2_venc_dbg(1, ctx, "<=3D=3D=3D src_buf[%d] dst_buf[%d] venc_if_e=
+ncode ret=3D%d Size=3D%u=3D=3D=3D>",
+> +			  src_buf->vb2_buf.index, dst_buf->vb2_buf.index, ret, enc_result.bs_=
+size);
+>  }
+> =20
+>  static void m2mops_venc_device_run(void *priv)
+> @@ -1277,8 +1252,7 @@ static int m2mops_venc_job_ready(void *m2m_priv)
+>  	struct mtk_vcodec_ctx *ctx =3D m2m_priv;
+> =20
+>  	if (ctx->state =3D=3D MTK_STATE_ABORT || ctx->state =3D=3D MTK_STATE_FR=
+EE) {
+> -		mtk_v4l2_debug(3, "[%d]Not ready: state=3D0x%x.",
+> -			       ctx->id, ctx->state);
+> +		mtk_v4l2_venc_dbg(3, ctx, "[%d]Not ready: state=3D0x%x.", ctx->id, ctx=
+->state);
+>  		return 0;
+>  	}
+> =20
+> @@ -1413,8 +1387,7 @@ int mtk_vcodec_enc_ctrls_setup(struct mtk_vcodec_ct=
+x *ctx)
+> =20
+> =20
+>  	if (handler->error) {
+> -		mtk_v4l2_err("Init control handler fail %d",
+> -				handler->error);
+> +		mtk_v4l2_venc_err(ctx, "Init control handler fail %d", handler->error)=
+;
+>  		return handler->error;
+>  	}
+> =20
+> @@ -1482,7 +1455,7 @@ void mtk_vcodec_enc_release(struct mtk_vcodec_ctx *=
+ctx)
+>  	int ret =3D venc_if_deinit(ctx);
+> =20
+>  	if (ret)
+> -		mtk_v4l2_err("venc_if_deinit failed=3D%d", ret);
+> +		mtk_v4l2_venc_err(ctx, "venc_if_deinit failed=3D%d", ret);
+> =20
+>  	ctx->state =3D MTK_STATE_FREE;
+>  }
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c =
+b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
+> index 0db81e150b18..cb1dcbcb16bb 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
+> @@ -97,12 +97,11 @@ static irqreturn_t mtk_vcodec_enc_irq_handler(int irq=
+, void *priv)
+> =20
+>  	core_id =3D dev->venc_pdata->core_id;
+>  	if (core_id < 0 || core_id >=3D NUM_MAX_VCODEC_REG_BASE) {
+> -		mtk_v4l2_err("Invalid core id: %d, ctx id: %d",
+> -			     core_id, ctx->id);
+> +		mtk_v4l2_venc_err(ctx, "Invalid core id: %d, ctx id: %d", core_id, ctx=
+->id);
+>  		return IRQ_HANDLED;
+>  	}
+> =20
+> -	mtk_v4l2_debug(1, "id: %d, core id: %d", ctx->id, core_id);
+> +	mtk_v4l2_venc_dbg(1, ctx, "id: %d, core id: %d", ctx->id, core_id);
+> =20
+>  	addr =3D dev->reg_base[core_id] + MTK_VENC_IRQ_ACK_OFFSET;
+> =20
+> @@ -143,16 +142,14 @@ static int fops_vcodec_open(struct file *file)
+>  	ctx->type =3D MTK_INST_ENCODER;
+>  	ret =3D mtk_vcodec_enc_ctrls_setup(ctx);
+>  	if (ret) {
+> -		mtk_v4l2_err("Failed to setup controls() (%d)",
+> -				ret);
+> +		mtk_v4l2_venc_err(ctx, "Failed to setup controls() (%d)", ret);
+>  		goto err_ctrls_setup;
+>  	}
+>  	ctx->m2m_ctx =3D v4l2_m2m_ctx_init(dev->m2m_dev_enc, ctx,
+>  					 &mtk_vcodec_enc_queue_init);
+>  	if (IS_ERR((__force void *)ctx->m2m_ctx)) {
+>  		ret =3D PTR_ERR((__force void *)ctx->m2m_ctx);
+> -		mtk_v4l2_err("Failed to v4l2_m2m_ctx_init() (%d)",
+> -				ret);
+> +		mtk_v4l2_venc_err(ctx, "Failed to v4l2_m2m_ctx_init() (%d)", ret);
+>  		goto err_m2m_ctx_init;
+>  	}
+>  	src_vq =3D v4l2_m2m_get_vq(ctx->m2m_ctx,
+> @@ -171,23 +168,23 @@ static int fops_vcodec_open(struct file *file)
+>  			 * Return 0 if downloading firmware successfully,
+>  			 * otherwise it is failed
+>  			 */
+> -			mtk_v4l2_err("vpu_load_firmware failed!");
+> +			mtk_v4l2_venc_err(ctx, "vpu_load_firmware failed!");
+>  			goto err_load_fw;
+>  		}
+> =20
+>  		dev->enc_capability =3D
+>  			mtk_vcodec_fw_get_venc_capa(dev->fw_handler);
+> -		mtk_v4l2_debug(0, "encoder capability %x", dev->enc_capability);
+> +		mtk_v4l2_venc_dbg(0, ctx, "encoder capability %x", dev->enc_capability=
+);
+>  	}
+> =20
+> -	mtk_v4l2_debug(2, "Create instance [%d]@%p m2m_ctx=3D%p ",
+> -			ctx->id, ctx, ctx->m2m_ctx);
+> +	mtk_v4l2_venc_dbg(2, ctx, "Create instance [%d]@%p m2m_ctx=3D%p ",
+> +			  ctx->id, ctx, ctx->m2m_ctx);
+> =20
+>  	list_add(&ctx->list, &dev->ctx_list);
+> =20
+>  	mutex_unlock(&dev->dev_mutex);
+> -	mtk_v4l2_debug(0, "%s encoder [%d]", dev_name(&dev->plat_dev->dev),
+> -			ctx->id);
+> +	mtk_v4l2_venc_dbg(0, ctx, "%s encoder [%d]", dev_name(&dev->plat_dev->d=
+ev),
+> +			  ctx->id);
+>  	return ret;
+> =20
+>  	/* Deinit when failure occurred */
+> @@ -209,7 +206,7 @@ static int fops_vcodec_release(struct file *file)
+>  	struct mtk_vcodec_dev *dev =3D video_drvdata(file);
+>  	struct mtk_vcodec_ctx *ctx =3D fh_to_ctx(file->private_data);
+> =20
+> -	mtk_v4l2_debug(1, "[%d] encoder", ctx->id);
+> +	mtk_v4l2_venc_dbg(1, ctx, "[%d] encoder", ctx->id);
+>  	mutex_lock(&dev->dev_mutex);
+> =20
+>  	v4l2_m2m_ctx_release(ctx->m2m_ctx);
+> @@ -255,7 +252,7 @@ static int mtk_vcodec_probe(struct platform_device *p=
+dev)
+>  					 &rproc_phandle)) {
+>  		fw_type =3D SCP;
+>  	} else {
+> -		mtk_v4l2_err("Could not get venc IPI device");
+> +		dev_err(&pdev->dev, "[MTK VCODEC] Could not get venc IPI device");
+>  		return -ENODEV;
+>  	}
+>  	dma_set_max_seg_size(&pdev->dev, UINT_MAX);
+> @@ -267,7 +264,7 @@ static int mtk_vcodec_probe(struct platform_device *p=
+dev)
+>  	dev->venc_pdata =3D of_device_get_match_data(&pdev->dev);
+>  	ret =3D mtk_vcodec_init_enc_clk(dev);
+>  	if (ret < 0) {
+> -		dev_err(&pdev->dev, "Failed to get mtk vcodec clock source!");
+> +		dev_err(&pdev->dev, "[MTK VCODEC] Failed to get mtk vcodec clock sourc=
+e!");
+>  		goto err_enc_pm;
+>  	}
+> =20
+> @@ -292,7 +289,7 @@ static int mtk_vcodec_probe(struct platform_device *p=
+dev)
+>  			       0, pdev->name, dev);
+>  	if (ret) {
+>  		dev_err(&pdev->dev,
+> -			"Failed to install dev->enc_irq %d (%d) core_id (%d)",
+> +			"[MTK VCODEC] Failed to install dev->enc_irq %d (%d) core_id (%d)",
+>  			dev->enc_irq, ret, dev->venc_pdata->core_id);
+>  		ret =3D -EINVAL;
+>  		goto err_res;
+> @@ -307,14 +304,14 @@ static int mtk_vcodec_probe(struct platform_device =
+*pdev)
+> =20
+>  	ret =3D v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
+>  	if (ret) {
+> -		mtk_v4l2_err("v4l2_device_register err=3D%d", ret);
+> +		dev_err(&pdev->dev, "[MTK VCODEC] v4l2_device_register err=3D%d", ret)=
+;
+>  		goto err_res;
+>  	}
+> =20
+>  	/* allocate video device for encoder and register it */
+>  	vfd_enc =3D video_device_alloc();
+>  	if (!vfd_enc) {
+> -		mtk_v4l2_err("Failed to allocate video device");
+> +		dev_err(&pdev->dev, "[MTK VCODEC] Failed to allocate video device");
+>  		ret =3D -ENOMEM;
+>  		goto err_enc_alloc;
+>  	}
+> @@ -335,7 +332,7 @@ static int mtk_vcodec_probe(struct platform_device *p=
+dev)
+> =20
+>  	dev->m2m_dev_enc =3D v4l2_m2m_init(&mtk_venc_m2m_ops);
+>  	if (IS_ERR((__force void *)dev->m2m_dev_enc)) {
+> -		mtk_v4l2_err("Failed to init mem2mem enc device");
+> +		dev_err(&pdev->dev, "[MTK VCODEC] Failed to init mem2mem enc device");
+>  		ret =3D PTR_ERR((__force void *)dev->m2m_dev_enc);
+>  		goto err_enc_mem_init;
+>  	}
+> @@ -345,20 +342,20 @@ static int mtk_vcodec_probe(struct platform_device =
+*pdev)
+>  						WQ_MEM_RECLAIM |
+>  						WQ_FREEZABLE);
+>  	if (!dev->encode_workqueue) {
+> -		mtk_v4l2_err("Failed to create encode workqueue");
+> +		dev_err(&pdev->dev, "[MTK VCODEC] Failed to create encode workqueue");
+>  		ret =3D -EINVAL;
+>  		goto err_event_workq;
+>  	}
+> =20
+>  	ret =3D video_register_device(vfd_enc, VFL_TYPE_VIDEO, -1);
+>  	if (ret) {
+> -		mtk_v4l2_err("Failed to register video device");
+> +		dev_err(&pdev->dev, "[MTK VCODEC] Failed to register video device");
+>  		goto err_enc_reg;
+>  	}
+> =20
+>  	mtk_vcodec_dbgfs_init(dev, true);
+> -	mtk_v4l2_debug(0, "encoder %d registered as /dev/video%d",
+> -		       dev->venc_pdata->core_id, vfd_enc->num);
+> +	dev_dbg(&pdev->dev,  "[MTK VCODEC] encoder %d registered as /dev/video%=
+d",
+> +		dev->venc_pdata->core_id, vfd_enc->num);
+> =20
+>  	return 0;
+> =20
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c b=
+/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c
+> index 7055954eb2af..3165e114b221 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_pm.c
+> @@ -35,7 +35,7 @@ int mtk_vcodec_init_enc_clk(struct mtk_vcodec_dev *mtkd=
+ev)
+>  		if (!enc_clk->clk_info)
+>  			return -ENOMEM;
+>  	} else {
+> -		mtk_v4l2_err("Failed to get venc clock count");
+> +		dev_err(pm->dev, "[MTK VCODEC] Failed to get venc clock count");
+>  		return -EINVAL;
+>  	}
+> =20
+> @@ -44,13 +44,13 @@ int mtk_vcodec_init_enc_clk(struct mtk_vcodec_dev *mt=
+kdev)
+>  		ret =3D of_property_read_string_index(pdev->dev.of_node,
+>  			"clock-names", i, &clk_info->clk_name);
+>  		if (ret) {
+> -			mtk_v4l2_err("venc failed to get clk name %d", i);
+> +			dev_err(pm->dev, "[MTK VCODEC] venc failed to get clk name %d", i);
+>  			return ret;
+>  		}
+>  		clk_info->vcodec_clk =3D devm_clk_get(&pdev->dev,
+>  			clk_info->clk_name);
+>  		if (IS_ERR(clk_info->vcodec_clk)) {
+> -			mtk_v4l2_err("venc devm_clk_get (%d)%s fail", i,
+> +			dev_err(pm->dev, "[MTK VCODEC] venc devm_clk_get (%d)%s fail", i,
+>  				clk_info->clk_name);
+>  			return PTR_ERR(clk_info->vcodec_clk);
+>  		}
+> @@ -67,7 +67,7 @@ void mtk_vcodec_enc_clock_on(struct mtk_vcodec_pm *pm)
+>  	for (i =3D 0; i < enc_clk->clk_num; i++) {
+>  		ret =3D clk_prepare_enable(enc_clk->clk_info[i].vcodec_clk);
+>  		if (ret) {
+> -			mtk_v4l2_err("venc clk_prepare_enable %d %s fail %d", i,
+> +			dev_err(pm->dev, "[MTK VCODEC] venc clk_prepare_enable %d %s fail %d"=
+, i,
+>  				enc_clk->clk_info[i].clk_name, ret);
+>  			goto clkerr;
+>  		}
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_fw.c b/dri=
+vers/media/platform/mediatek/vcodec/mtk_vcodec_fw.c
+> index be9159acacf8..623dd916d09e 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_fw.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_fw.c
+> @@ -14,7 +14,7 @@ struct mtk_vcodec_fw *mtk_vcodec_fw_select(void *priv, =
+enum mtk_vcodec_fw_type t
+>  	case SCP:
+>  		return mtk_vcodec_fw_scp_init(priv, fw_use);
+>  	default:
+> -		mtk_v4l2_err("invalid vcodec fw type");
+> +		pr_err("invalid vcodec fw type");
+>  		return ERR_PTR(-EINVAL);
+>  	}
+>  }
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_fw_scp.c b=
+/drivers/media/platform/mediatek/vcodec/mtk_vcodec_fw_scp.c
+> index 9a2472442c6f..71ff1a6ae872 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_fw_scp.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_fw_scp.c
+> @@ -63,7 +63,7 @@ struct mtk_vcodec_fw *mtk_vcodec_fw_scp_init(void *priv=
+, enum mtk_vcodec_fw_use
+>  	plat_dev =3D dev->plat_dev;
+>  	scp =3D scp_get(plat_dev);
+>  	if (!scp) {
+> -		mtk_v4l2_err("could not get vdec scp handle");
+> +		dev_err(&dev->plat_dev->dev, "could not get vdec scp handle");
+>  		return ERR_PTR(-EPROBE_DEFER);
+>  	}
+> =20
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_fw_vpu.c b=
+/drivers/media/platform/mediatek/vcodec/mtk_vcodec_fw_vpu.c
+> index 46a028031133..ee6846886dd6 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_fw_vpu.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_fw_vpu.c
+> @@ -56,13 +56,12 @@ static void mtk_vcodec_vpu_reset_handler(void *priv)
+>  	struct mtk_vcodec_dev *dev =3D priv;
+>  	struct mtk_vcodec_ctx *ctx;
+> =20
+> -	mtk_v4l2_err("Watchdog timeout!!");
+> +	dev_err(&dev->plat_dev->dev, "Watchdog timeout!!");
+> =20
+>  	mutex_lock(&dev->dev_mutex);
+>  	list_for_each_entry(ctx, &dev->ctx_list, list) {
+>  		ctx->state =3D MTK_STATE_ABORT;
+> -		mtk_v4l2_debug(0, "[%d] Change to state MTK_STATE_ABORT",
+> -			       ctx->id);
+> +		mtk_v4l2_vdec_dbg(0, ctx, "[%d] Change to state MTK_STATE_ABORT", ctx-=
+>id);
+>  	}
+>  	mutex_unlock(&dev->dev_mutex);
+>  }
+> @@ -98,7 +97,7 @@ struct mtk_vcodec_fw *mtk_vcodec_fw_vpu_init(void *priv=
+, enum mtk_vcodec_fw_use
+>  	plat_dev =3D dev->plat_dev;
+>  	fw_pdev =3D vpu_get_plat_device(plat_dev);
+>  	if (!fw_pdev) {
+> -		mtk_v4l2_err("firmware device is not ready");
+> +		dev_err(&dev->plat_dev->dev, "firmware device is not ready");
+>  		return ERR_PTR(-EINVAL);
+>  	}
+> =20
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_intr.c b/d=
+rivers/media/platform/mediatek/vcodec/mtk_vcodec_intr.c
+> index daa44f635727..5a06be55915b 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_intr.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_intr.c
+> @@ -33,14 +33,14 @@ int mtk_vcodec_wait_for_done_ctx(void *priv, int comm=
+and, unsigned int timeout_m
+> =20
+>  	if (!ret) {
+>  		status =3D -1;	/* timeout */
+> -		mtk_v4l2_err("[%d] cmd=3D%d, type=3D%d, dec timeout=3D%ums (%d %d)",
+> -			     ctx_id, command, ctx_type, timeout_ms,
+> -			     ctx_int_cond[hw_id], ctx_int_type[hw_id]);
+> +		dev_err(&ctx->dev->plat_dev->dev, "[%d] cmd=3D%d, type=3D%d, dec timeo=
+ut=3D%ums (%d %d)",
+> +			ctx_id, command, ctx_type, timeout_ms,
+> +			ctx_int_cond[hw_id], ctx_int_type[hw_id]);
+>  	} else if (-ERESTARTSYS =3D=3D ret) {
+>  		status =3D -1;
+> -		mtk_v4l2_err("[%d] cmd=3D%d, type=3D%d, dec inter fail (%d %d)",
+> -			     ctx_id, command, ctx_type,
+> -			     ctx_int_cond[hw_id], ctx_int_type[hw_id]);
+> +		dev_err(&ctx->dev->plat_dev->dev, "[%d] cmd=3D%d, type=3D%d, dec inter=
+ fail (%d %d)",
+> +			ctx_id, command, ctx_type,
+> +			ctx_int_cond[hw_id], ctx_int_type[hw_id]);
+>  	}
+> =20
+>  	ctx_int_cond[hw_id] =3D 0;
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.c b/d=
+rivers/media/platform/mediatek/vcodec/mtk_vcodec_util.c
+> index 847e321f4fcc..4e524594df4a 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.c
+> @@ -24,7 +24,7 @@ EXPORT_SYMBOL(mtk_v4l2_dbg_level);
+>  void __iomem *mtk_vcodec_get_reg_addr(void __iomem **reg_base, unsigned =
+int reg_idx)
+>  {
+>  	if (reg_idx >=3D NUM_MAX_VCODEC_REG_BASE) {
+> -		mtk_v4l2_err("Invalid arguments, reg_idx=3D%d", reg_idx);
+> +		pr_err("Invalid arguments, reg_idx=3D%d", reg_idx);
+>  		return NULL;
+>  	}
+>  	return reg_base[reg_idx];
+> @@ -39,15 +39,14 @@ int mtk_vcodec_mem_alloc(void *priv, struct mtk_vcode=
+c_mem *mem)
+> =20
+>  	mem->va =3D dma_alloc_coherent(dev, size, &mem->dma_addr, GFP_KERNEL);
+>  	if (!mem->va) {
+> -		mtk_v4l2_err("%s dma_alloc size=3D%ld failed!", dev_name(dev),
+> -			     size);
+> +		mtk_v4l2_vdec_err(ctx, "%s dma_alloc size=3D%ld failed!", dev_name(dev=
+), size);
+>  		return -ENOMEM;
+>  	}
+> =20
+> -	mtk_v4l2_debug(3, "[%d]  - va      =3D %p", ctx->id, mem->va);
+> -	mtk_v4l2_debug(3, "[%d]  - dma     =3D 0x%lx", ctx->id,
+> -		       (unsigned long)mem->dma_addr);
+> -	mtk_v4l2_debug(3, "[%d]    size =3D 0x%lx", ctx->id, size);
+> +	mtk_v4l2_vdec_dbg(3, ctx, "[%d]  - va      =3D %p", ctx->id, mem->va);
+> +	mtk_v4l2_vdec_dbg(3, ctx, "[%d]  - dma     =3D 0x%lx", ctx->id,
+> +			  (unsigned long)mem->dma_addr);
+> +	mtk_v4l2_vdec_dbg(3, ctx, "[%d]    size =3D 0x%lx", ctx->id, size);
+> =20
+>  	return 0;
+>  }
+> @@ -60,15 +59,14 @@ void mtk_vcodec_mem_free(void *priv, struct mtk_vcode=
+c_mem *mem)
+>  	struct device *dev =3D &ctx->dev->plat_dev->dev;
+> =20
+>  	if (!mem->va) {
+> -		mtk_v4l2_err("%s dma_free size=3D%ld failed!", dev_name(dev),
+> -			     size);
+> +		mtk_v4l2_vdec_err(ctx, "%s dma_free size=3D%ld failed!", dev_name(dev)=
+, size);
+>  		return;
+>  	}
+> =20
+> -	mtk_v4l2_debug(3, "[%d]  - va      =3D %p", ctx->id, mem->va);
+> -	mtk_v4l2_debug(3, "[%d]  - dma     =3D 0x%lx", ctx->id,
+> -		       (unsigned long)mem->dma_addr);
+> -	mtk_v4l2_debug(3, "[%d]    size =3D 0x%lx", ctx->id, size);
+> +	mtk_v4l2_vdec_dbg(3, ctx, "[%d]  - va      =3D %p", ctx->id, mem->va);
+> +	mtk_v4l2_vdec_dbg(3, ctx, "[%d]  - dma     =3D 0x%lx", ctx->id,
+> +			  (unsigned long)mem->dma_addr);
+> +	mtk_v4l2_vdec_dbg(3, ctx, "[%d]    size =3D 0x%lx", ctx->id, size);
+> =20
+>  	dma_free_coherent(dev, size, mem->va, mem->dma_addr);
+>  	mem->va =3D NULL;
+> @@ -80,7 +78,7 @@ EXPORT_SYMBOL(mtk_vcodec_mem_free);
+>  void *mtk_vcodec_get_hw_dev(struct mtk_vcodec_dev *dev, int hw_idx)
+>  {
+>  	if (hw_idx >=3D MTK_VDEC_HW_MAX || hw_idx < 0 || !dev->subdev_dev[hw_id=
+x]) {
+> -		mtk_v4l2_err("hw idx is out of range:%d", hw_idx);
+> +		dev_err(&dev->plat_dev->dev, "hw idx is out of range:%d", hw_idx);
+>  		return NULL;
+>  	}
+> =20
+> @@ -98,7 +96,7 @@ void mtk_vcodec_set_curr_ctx(struct mtk_vcodec_dev *vde=
+c_dev,
+>  	if (vdec_dev->vdec_pdata->is_subdev_supported) {
+>  		subdev_dev =3D mtk_vcodec_get_hw_dev(vdec_dev, hw_idx);
+>  		if (!subdev_dev) {
+> -			mtk_v4l2_err("Failed to get hw dev");
+> +			dev_err(&vdec_dev->plat_dev->dev, "Failed to get hw dev");
+>  			spin_unlock_irqrestore(&vdec_dev->irqlock, flags);
+>  			return;
+>  		}
+> @@ -121,7 +119,7 @@ struct mtk_vcodec_ctx *mtk_vcodec_get_curr_ctx(struct=
+ mtk_vcodec_dev *vdec_dev,
+>  	if (vdec_dev->vdec_pdata->is_subdev_supported) {
+>  		subdev_dev =3D mtk_vcodec_get_hw_dev(vdec_dev, hw_idx);
+>  		if (!subdev_dev) {
+> -			mtk_v4l2_err("Failed to get hw dev");
+> +			dev_err(&vdec_dev->plat_dev->dev, "Failed to get hw dev");
+>  			spin_unlock_irqrestore(&vdec_dev->irqlock, flags);
+>  			return NULL;
+>  		}
 > diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h b/d=
 rivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h
-> index a356f42362e4..a684a7e4ab6e 100644
+> index a684a7e4ab6e..e68323ce8eeb 100644
 > --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h
 > +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h
-> @@ -31,9 +31,8 @@ struct mtk_vcodec_dev;
->  #define mtk_v4l2_err(fmt, args...)                \
->  	pr_err("[MTK_V4L2][ERROR] " fmt "\n", ##args)
+> @@ -28,8 +28,8 @@ struct mtk_vcodec_dev;
+>  #undef pr_fmt
+>  #define pr_fmt(fmt) "%s(),%d: " fmt, __func__, __LINE__
 > =20
-> -#define mtk_vcodec_err(h, fmt, args...)				\
-> -	pr_err("[MTK_VCODEC][ERROR][%d]: " fmt "\n",		\
-> -	       ((struct mtk_vcodec_ctx *)(h)->ctx)->id, ##args)
-> +#define mtk_vcodec_err(inst_id, plat_dev, fmt, args...)                 =
+> -#define mtk_v4l2_err(fmt, args...)                \
+> -	pr_err("[MTK_V4L2][ERROR] " fmt "\n", ##args)
+> +#define mtk_v4l2_err(plat_dev, fmt, args...)                            =
+\
+> +	dev_err(&(plat_dev)->dev, "[MTK_V4L2][ERROR] " fmt "\n", ##args)
+> =20
+>  #define mtk_vcodec_err(inst_id, plat_dev, fmt, args...)                 =
                 \
-> +	dev_err(&(plat_dev)->dev, "[MTK_VCODEC][ERROR][%d]: " fmt "\n", inst_id=
+>  	dev_err(&(plat_dev)->dev, "[MTK_VCODEC][ERROR][%d]: " fmt "\n", inst_id=
 , ##args)
-> =20
->  #if defined(CONFIG_DEBUG_FS)
+> @@ -38,11 +38,11 @@ struct mtk_vcodec_dev;
 >  extern int mtk_v4l2_dbg_level;
-> @@ -46,22 +45,31 @@ extern int mtk_vcodec_dbg;
->  				 __func__, __LINE__, ##args);	        \
->  	} while (0)
+>  extern int mtk_vcodec_dbg;
 > =20
-> -#define mtk_vcodec_debug(h, fmt, args...)				                      \
-> -	do {								                      \
-> -		if (mtk_vcodec_dbg)					                      \
-> -			dev_dbg(&(((struct mtk_vcodec_ctx *)(h)->ctx)->dev->plat_dev->dev),  =
- \
-> -				"[MTK_VCODEC][%d]: %s, %d " fmt "\n",                         \
-> -				((struct mtk_vcodec_ctx *)(h)->ctx)->id,                      \
-> -				__func__, __LINE__, ##args);                                  \
-> +#define mtk_vcodec_debug(inst_id, plat_dev, fmt, args...)               =
-                \
+> -#define mtk_v4l2_debug(level, fmt, args...)				\
+> -	do {								\
+> -		if (mtk_v4l2_dbg_level >=3D (level))			\
+> -			pr_debug("[MTK_V4L2] %s, %d: " fmt "\n",        \
+> -				 __func__, __LINE__, ##args);	        \
+> +#define mtk_v4l2_debug(plat_dev, level, fmt, args...)                   =
+          \
 > +	do {                                                                   =
-         \
-> +		if (mtk_vcodec_dbg)                                                   =
-  \
-> +			dev_dbg(&(plat_dev)->dev, "[MTK_VCODEC][%d]: %s, %d " fmt "\n", \
-> +				inst_id, __func__, __LINE__, ##args);                   \
+   \
+> +		if (mtk_v4l2_dbg_level >=3D (level))                                \
+> +			dev_dbg(&(plat_dev)->dev, "[MTK_V4L2] %s, %d: " fmt "\n", \
+> +				 __func__, __LINE__, ##args);                     \
 >  	} while (0)
->  #else
->  #define mtk_v4l2_debug(level, fmt, args...) pr_debug(fmt, ##args)
 > =20
-> -#define mtk_vcodec_debug(h, fmt, args...)			\
-> -	pr_debug("[MTK_VCODEC][%d]: " fmt "\n",			\
-> -		((struct mtk_vcodec_ctx *)(h)->ctx)->id, ##args)
-> +#define mtk_vcodec_debug(inst_id, plat_dev, fmt, args...)			\
-> +	dev_dbg(&(plat_dev)->dev, "[MTK_VCODEC][%d]: " fmt "\n", inst_id, ##arg=
-s)
->  #endif
+>  #define mtk_vcodec_debug(inst_id, plat_dev, fmt, args...)               =
+                \
+> @@ -70,6 +70,16 @@ extern int mtk_vcodec_dbg;
+>  #define mtk_venc_debug(ctx, fmt, args...)                              \
+>  	mtk_vcodec_debug((ctx)->id, (ctx)->dev->plat_dev, fmt, ##args)
 > =20
-> +#define mtk_vdec_err(ctx, fmt, args...)                               \
-> +	mtk_vcodec_err((ctx)->id, (ctx)->dev->plat_dev, fmt, ##args)
+> +#define mtk_v4l2_vdec_err(ctx, fmt, args...) mtk_v4l2_err((ctx)->dev->pl=
+at_dev, fmt, ##args)
 > +
-> +#define mtk_vdec_debug(ctx, fmt, args...)                             \
-> +	mtk_vcodec_debug((ctx)->id, (ctx)->dev->plat_dev, fmt, ##args)
+> +#define mtk_v4l2_vdec_dbg(level, ctx, fmt, args...)             \
+> +	mtk_v4l2_debug((ctx)->dev->plat_dev, level, fmt, ##args)
 > +
-> +#define mtk_venc_err(ctx, fmt, args...)                               \
-> +	mtk_vcodec_err((ctx)->id, (ctx)->dev->plat_dev, fmt, ##args)
+> +#define mtk_v4l2_venc_err(ctx, fmt, args...) mtk_v4l2_err((ctx)->dev->pl=
+at_dev, fmt, ##args)
 > +
-> +#define mtk_venc_debug(ctx, fmt, args...)                              \
-> +	mtk_vcodec_debug((ctx)->id, (ctx)->dev->plat_dev, fmt, ##args)
+> +#define mtk_v4l2_venc_dbg(level, ctx, fmt, args...)             \
+> +	mtk_v4l2_debug((ctx)->dev->plat_dev, level, fmt, ##args)
 > +
 >  void __iomem *mtk_vcodec_get_reg_addr(void __iomem **reg_base, unsigned =
 int reg_idx);
@@ -166,3282 +2483,416 @@ int reg_idx);
 >  void mtk_vcodec_mem_free(void *priv, struct mtk_vcodec_mem *mem);
 > diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat=
 _if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c
-> index 404a1a23fd40..dfed8fe7f54c 100644
+> index dfed8fe7f54c..fcfc673ca58b 100644
 > --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c
 > +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c
-> @@ -778,12 +778,11 @@ static int vdec_av1_slice_init_cdf_table(struct vde=
-c_av1_slice_instance *instanc
->  	remote_cdf_table =3D mtk_vcodec_fw_map_dm_addr(ctx->dev->fw_handler,
->  						     (u32)vsi->cdf_table_addr);
->  	if (IS_ERR(remote_cdf_table)) {
-> -		mtk_vcodec_err(instance, "failed to map cdf table\n");
-> +		mtk_vdec_err(ctx, "failed to map cdf table\n");
->  		return PTR_ERR(remote_cdf_table);
+> @@ -861,8 +861,8 @@ static void vdec_av1_slice_decrease_ref_count(struct =
+vdec_av1_slice_slot *slots,
+>  	frame_info[fb_idx].ref_count--;
+>  	if (frame_info[fb_idx].ref_count < 0) {
+>  		frame_info[fb_idx].ref_count =3D 0;
+> -		mtk_v4l2_err("av1_error: %s() fb_idx %d decrease ref_count error\n",
+> -			     __func__, fb_idx);
+> +		pr_err("av1_error: %s() fb_idx %d decrease ref_count error\n",
+> +		       __func__, fb_idx);
 >  	}
 > =20
-> -	mtk_vcodec_debug(instance, "map cdf table to 0x%p\n",
-> -			 remote_cdf_table);
-> +	mtk_vdec_debug(ctx, "map cdf table to 0x%p\n", remote_cdf_table);
+>  	vdec_av1_slice_clear_fb(&frame_info[fb_idx]);
+> @@ -910,7 +910,7 @@ static void vdec_av1_slice_setup_slot(struct vdec_av1=
+_slice_instance *instance,
+>  	vsi->slot_id =3D vdec_av1_slice_get_new_slot(vsi);
 > =20
->  	if (instance->cdf_table.va)
->  		mtk_vcodec_mem_free(ctx, &instance->cdf_table);
-> @@ -810,11 +809,11 @@ static int vdec_av1_slice_init_iq_table(struct vdec=
-_av1_slice_instance *instance
->  	remote_iq_table =3D mtk_vcodec_fw_map_dm_addr(ctx->dev->fw_handler,
->  						    (u32)vsi->iq_table_addr);
->  	if (IS_ERR(remote_iq_table)) {
-> -		mtk_vcodec_err(instance, "failed to map iq table\n");
-> +		mtk_vdec_err(ctx, "failed to map iq table\n");
->  		return PTR_ERR(remote_iq_table);
+>  	if (vsi->slot_id =3D=3D AV1_INVALID_IDX) {
+> -		mtk_v4l2_err("warning:av1 get invalid index slot\n");
+> +		mtk_v4l2_vdec_err(instance->ctx, "warning:av1 get invalid index slot\n=
+");
+>  		vsi->slot_id =3D 0;
 >  	}
-> =20
-> -	mtk_vcodec_debug(instance, "map iq table to 0x%p\n", remote_iq_table);
-> +	mtk_vdec_debug(ctx, "map iq table to 0x%p\n", remote_iq_table);
-> =20
->  	if (instance->iq_table.va)
->  		mtk_vcodec_mem_free(ctx, &instance->iq_table);
-> @@ -965,8 +964,8 @@ static int vdec_av1_slice_alloc_working_buffer(struct=
- vdec_av1_slice_instance *i
->  	if (level =3D=3D instance->level)
->  		return 0;
-> =20
-> -	mtk_vcodec_debug(instance, "resolution level changed from %u to %u, %ux=
-%u",
-> -			 instance->level, level, w, h);
-> +	mtk_vdec_debug(ctx, "resolution level changed from %u to %u, %ux%u",
-> +		       instance->level, level, w, h);
-> =20
->  	max_sb_w =3D DIV_ROUND_UP(max_w, 128);
->  	max_sb_h =3D DIV_ROUND_UP(max_h, 128);
-> @@ -1400,17 +1399,17 @@ static int vdec_av1_slice_setup_tile_group(struct=
- vdec_av1_slice_instance *insta
-> =20
->  	if (tile_group->num_tiles !=3D tge_size ||
->  	    tile_group->num_tiles > V4L2_AV1_MAX_TILE_COUNT) {
-> -		mtk_vcodec_err(instance, "invalid tge_size %d, tile_num:%d\n",
-> -			       tge_size, tile_group->num_tiles);
-> +		mtk_vdec_err(instance->ctx, "invalid tge_size %d, tile_num:%d\n",
-> +			     tge_size, tile_group->num_tiles);
->  		return -EINVAL;
->  	}
-> =20
->  	for (i =3D 0; i < tge_size; i++) {
->  		if (i !=3D ctrl_tge[i].tile_row * vsi->frame.uh.tile.tile_cols +
->  		    ctrl_tge[i].tile_col) {
-> -			mtk_vcodec_err(instance, "invalid tge info %d, %d %d %d\n",
-> -				       i, ctrl_tge[i].tile_row, ctrl_tge[i].tile_col,
-> -				       vsi->frame.uh.tile.tile_rows);
-> +			mtk_vdec_err(instance->ctx, "invalid tge info %d, %d %d %d\n",
-> +				     i, ctrl_tge[i].tile_row, ctrl_tge[i].tile_col,
-> +				     vsi->frame.uh.tile.tile_rows);
->  			return -EINVAL;
->  		}
->  		tile_group->tile_size[i] =3D ctrl_tge[i].tile_size;
-> @@ -1639,7 +1638,7 @@ static void vdec_av1_slice_setup_seg_buffer(struct =
-vdec_av1_slice_instance *inst
-> =20
->  	/* reset segment buffer */
->  	if (uh->primary_ref_frame =3D=3D AV1_PRIMARY_REF_NONE || !uh->seg.segme=
-ntation_enabled) {
-> -		mtk_vcodec_debug(instance, "reset seg %d\n", vsi->slot_id);
-> +		mtk_vdec_debug(instance->ctx, "reset seg %d\n", vsi->slot_id);
->  		if (vsi->slot_id !=3D AV1_INVALID_IDX) {
->  			buf =3D &instance->seg[vsi->slot_id];
->  			memset(buf->va, 0, buf->size);
-> @@ -1690,18 +1689,18 @@ static void vdec_av1_slice_setup_tile_buffer(stru=
-ct vdec_av1_slice_instance *ins
->  		    uh->disable_frame_end_update_cdf =3D=3D 0)
->  			tile_info_buf[tile_info_base + 4] |=3D (1 << 17);
-> =20
-> -		mtk_vcodec_debug(instance, "// tile buf %d pos(%dx%d) offset 0x%x\n",
-> -				 tile_num, tile_row, tile_col, tile_info_base);
-> -		mtk_vcodec_debug(instance, "// %08x %08x %08x %08x\n",
-> -				 tile_info_buf[tile_info_base + 0],
-> -				 tile_info_buf[tile_info_base + 1],
-> -				 tile_info_buf[tile_info_base + 2],
-> -				 tile_info_buf[tile_info_base + 3]);
-> -		mtk_vcodec_debug(instance, "// %08x %08x %08x %08x\n",
-> -				 tile_info_buf[tile_info_base + 4],
-> -				 tile_info_buf[tile_info_base + 5],
-> -				 tile_info_buf[tile_info_base + 6],
-> -				 tile_info_buf[tile_info_base + 7]);
-> +		mtk_vdec_debug(instance->ctx, "// tile buf %d pos(%dx%d) offset 0x%x\n=
-",
-> +			       tile_num, tile_row, tile_col, tile_info_base);
-> +		mtk_vdec_debug(instance->ctx, "// %08x %08x %08x %08x\n",
-> +			       tile_info_buf[tile_info_base + 0],
-> +			       tile_info_buf[tile_info_base + 1],
-> +			       tile_info_buf[tile_info_base + 2],
-> +			       tile_info_buf[tile_info_base + 3]);
-> +		mtk_vdec_debug(instance->ctx, "// %08x %08x %08x %08x\n",
-> +			       tile_info_buf[tile_info_base + 4],
-> +			       tile_info_buf[tile_info_base + 5],
-> +			       tile_info_buf[tile_info_base + 6],
-> +			       tile_info_buf[tile_info_base + 7]);
->  	}
->  }
-> =20
-> @@ -1743,8 +1742,8 @@ static int vdec_av1_slice_update_lat(struct vdec_av=
-1_slice_instance *instance,
->  	struct vdec_av1_slice_vsi *vsi;
-> =20
->  	vsi =3D &pfc->vsi;
-> -	mtk_vcodec_debug(instance, "frame %u LAT CRC 0x%08x, output size is %d\=
-n",
-> -			 pfc->seq, vsi->state.crc[0], vsi->state.out_size);
-> +	mtk_vdec_debug(instance->ctx, "frame %u LAT CRC 0x%08x, output size is =
-%d\n",
-> +		       pfc->seq, vsi->state.crc[0], vsi->state.out_size);
-> =20
->  	/* buffer full, need to re-decode */
->  	if (vsi->state.full) {
-> @@ -1855,12 +1854,12 @@ static int vdec_av1_slice_update_core(struct vdec=
-_av1_slice_instance *instance,
->  {
->  	struct vdec_av1_slice_vsi *vsi =3D instance->core_vsi;
-> =20
-> -	mtk_vcodec_debug(instance, "frame %u Y_CRC %08x %08x %08x %08x\n",
-> -			 pfc->seq, vsi->state.crc[0], vsi->state.crc[1],
-> -			 vsi->state.crc[2], vsi->state.crc[3]);
-> -	mtk_vcodec_debug(instance, "frame %u C_CRC %08x %08x %08x %08x\n",
-> -			 pfc->seq, vsi->state.crc[8], vsi->state.crc[9],
-> -			 vsi->state.crc[10], vsi->state.crc[11]);
-> +	mtk_vdec_debug(instance->ctx, "frame %u Y_CRC %08x %08x %08x %08x\n",
-> +		       pfc->seq, vsi->state.crc[0], vsi->state.crc[1],
-> +		       vsi->state.crc[2], vsi->state.crc[3]);
-> +	mtk_vdec_debug(instance->ctx, "frame %u C_CRC %08x %08x %08x %08x\n",
-> +		       pfc->seq, vsi->state.crc[8], vsi->state.crc[9],
-> +		       vsi->state.crc[10], vsi->state.crc[11]);
-> =20
->  	return 0;
->  }
-> @@ -1883,14 +1882,14 @@ static int vdec_av1_slice_init(struct mtk_vcodec_=
-ctx *ctx)
-> =20
->  	ret =3D vpu_dec_init(&instance->vpu);
->  	if (ret) {
-> -		mtk_vcodec_err(instance, "failed to init vpu dec, ret %d\n", ret);
-> +		mtk_vdec_err(ctx, "failed to init vpu dec, ret %d\n", ret);
->  		goto error_vpu_init;
->  	}
-> =20
->  	/* init vsi and global flags */
->  	vsi =3D instance->vpu.vsi;
->  	if (!vsi) {
-> -		mtk_vcodec_err(instance, "failed to get AV1 vsi\n");
-> +		mtk_vdec_err(ctx, "failed to get AV1 vsi\n");
->  		ret =3D -EINVAL;
->  		goto error_vsi;
->  	}
-> @@ -1898,20 +1897,20 @@ static int vdec_av1_slice_init(struct mtk_vcodec_=
-ctx *ctx)
->  	instance->core_vsi =3D mtk_vcodec_fw_map_dm_addr(ctx->dev->fw_handler, =
-(u32)vsi->core_vsi);
-> =20
->  	if (!instance->core_vsi) {
-> -		mtk_vcodec_err(instance, "failed to get AV1 core vsi\n");
-> +		mtk_vdec_err(ctx, "failed to get AV1 core vsi\n");
->  		ret =3D -EINVAL;
->  		goto error_vsi;
->  	}
-> =20
->  	if (vsi->vsi_size !=3D sizeof(struct vdec_av1_slice_vsi))
-> -		mtk_vcodec_err(instance, "remote vsi size 0x%x mismatch! expected: 0x%=
-zx\n",
-> -			       vsi->vsi_size, sizeof(struct vdec_av1_slice_vsi));
-> +		mtk_vdec_err(ctx, "remote vsi size 0x%x mismatch! expected: 0x%zx\n",
-> +			     vsi->vsi_size, sizeof(struct vdec_av1_slice_vsi));
-> =20
->  	instance->irq_enabled =3D 1;
->  	instance->inneracing_mode =3D IS_VDEC_INNER_RACING(instance->ctx->dev->=
-dec_capability);
-> =20
-> -	mtk_vcodec_debug(instance, "vsi 0x%p core_vsi 0x%llx 0x%p, inneracing_m=
-ode %d\n",
-> -			 vsi, vsi->core_vsi, instance->core_vsi, instance->inneracing_mode);
-> +	mtk_vdec_debug(ctx, "vsi 0x%p core_vsi 0x%llx 0x%p, inneracing_mode %d\=
-n",
-> +		       vsi, vsi->core_vsi, instance->core_vsi, instance->inneracing_mo=
-de);
-> =20
->  	ret =3D vdec_av1_slice_init_cdf_table(instance);
->  	if (ret)
-> @@ -1938,7 +1937,7 @@ static void vdec_av1_slice_deinit(void *h_vdec)
-> =20
->  	if (!instance)
->  		return;
-> -	mtk_vcodec_debug(instance, "h_vdec 0x%p\n", h_vdec);
-> +	mtk_vdec_debug(instance->ctx, "h_vdec 0x%p\n", h_vdec);
->  	vpu_dec_deinit(&instance->vpu);
->  	vdec_av1_slice_free_working_buffer(instance);
->  	vdec_msg_queue_deinit(&instance->ctx->msg_queue, instance->ctx);
-> @@ -1951,7 +1950,7 @@ static int vdec_av1_slice_flush(void *h_vdec, struc=
-t mtk_vcodec_mem *bs,
->  	struct vdec_av1_slice_instance *instance =3D h_vdec;
->  	int i;
-> =20
-> -	mtk_vcodec_debug(instance, "flush ...\n");
-> +	mtk_vdec_debug(instance->ctx, "flush ...\n");
-> =20
->  	vdec_msg_queue_wait_lat_buf_full(&instance->ctx->msg_queue);
-> =20
-> @@ -1966,7 +1965,7 @@ static void vdec_av1_slice_get_pic_info(struct vdec=
-_av1_slice_instance *instance
->  	struct mtk_vcodec_ctx *ctx =3D instance->ctx;
->  	u32 data[3];
-> =20
-> -	mtk_vcodec_debug(instance, "w %u h %u\n", ctx->picinfo.pic_w, ctx->pici=
-nfo.pic_h);
-> +	mtk_vdec_debug(ctx, "w %u h %u\n", ctx->picinfo.pic_w, ctx->picinfo.pic=
-_h);
-> =20
->  	data[0] =3D ctx->picinfo.pic_w;
->  	data[1] =3D ctx->picinfo.pic_h;
-> @@ -1996,8 +1995,8 @@ static void vdec_av1_slice_get_crop_info(struct vde=
-c_av1_slice_instance *instanc
->  	cr->width =3D ctx->picinfo.pic_w;
->  	cr->height =3D ctx->picinfo.pic_h;
-> =20
-> -	mtk_vcodec_debug(instance, "l=3D%d, t=3D%d, w=3D%d, h=3D%d\n",
-> -			 cr->left, cr->top, cr->width, cr->height);
-> +	mtk_vdec_debug(ctx, "l=3D%d, t=3D%d, w=3D%d, h=3D%d\n",
-> +		       cr->left, cr->top, cr->width, cr->height);
->  }
-> =20
->  static int vdec_av1_slice_get_param(void *h_vdec, enum vdec_get_param_ty=
-pe type, void *out)
-> @@ -2015,7 +2014,7 @@ static int vdec_av1_slice_get_param(void *h_vdec, e=
-num vdec_get_param_type type,
->  		vdec_av1_slice_get_crop_info(instance, out);
->  		break;
->  	default:
-> -		mtk_vcodec_err(instance, "invalid get parameter type=3D%d\n", type);
-> +		mtk_vdec_err(instance->ctx, "invalid get parameter type=3D%d\n", type)=
-;
->  		return -EINVAL;
->  	}
-> =20
-> @@ -2039,7 +2038,7 @@ static int vdec_av1_slice_lat_decode(void *h_vdec, =
-struct mtk_vcodec_mem *bs,
->  	/* init msgQ for the first time */
->  	if (vdec_msg_queue_init(&ctx->msg_queue, ctx,
->  				vdec_av1_slice_core_decode, sizeof(*pfc))) {
-> -		mtk_vcodec_err(instance, "failed to init AV1 msg queue\n");
-> +		mtk_vdec_err(ctx, "failed to init AV1 msg queue\n");
->  		return -ENOMEM;
->  	}
-> =20
-> @@ -2049,7 +2048,7 @@ static int vdec_av1_slice_lat_decode(void *h_vdec, =
-struct mtk_vcodec_mem *bs,
-> =20
->  	lat_buf =3D vdec_msg_queue_dqbuf(&ctx->msg_queue.lat_ctx);
->  	if (!lat_buf) {
-> -		mtk_vcodec_err(instance, "failed to get AV1 lat buf\n");
-> +		mtk_vdec_err(ctx, "failed to get AV1 lat buf\n");
->  		return -EAGAIN;
->  	}
->  	pfc =3D (struct vdec_av1_slice_pfc *)lat_buf->private_data;
-> @@ -2061,14 +2060,14 @@ static int vdec_av1_slice_lat_decode(void *h_vdec=
-, struct mtk_vcodec_mem *bs,
-> =20
->  	ret =3D vdec_av1_slice_setup_lat(instance, bs, lat_buf, pfc);
->  	if (ret) {
-> -		mtk_vcodec_err(instance, "failed to setup AV1 lat ret %d\n", ret);
-> +		mtk_vdec_err(ctx, "failed to setup AV1 lat ret %d\n", ret);
->  		goto err_free_fb_out;
->  	}
-> =20
->  	vdec_av1_slice_vsi_to_remote(vsi, instance->vsi);
->  	ret =3D vpu_dec_start(&instance->vpu, NULL, 0);
->  	if (ret) {
-> -		mtk_vcodec_err(instance, "failed to dec AV1 ret %d\n", ret);
-> +		mtk_vdec_err(ctx, "failed to dec AV1 ret %d\n", ret);
->  		goto err_free_fb_out;
->  	}
->  	if (instance->inneracing_mode)
-> @@ -2080,7 +2079,7 @@ static int vdec_av1_slice_lat_decode(void *h_vdec, =
-struct mtk_vcodec_mem *bs,
->  						   MTK_VDEC_LAT0);
->  		/* update remote vsi if decode timeout */
->  		if (ret) {
-> -			mtk_vcodec_err(instance, "AV1 Frame %d decode timeout %d\n", pfc->seq=
-, ret);
-> +			mtk_vdec_err(ctx, "AV1 Frame %d decode timeout %d\n", pfc->seq, ret);
->  			WRITE_ONCE(instance->vsi->state.timeout, 1);
->  		}
->  		vpu_dec_end(&instance->vpu);
-> @@ -2091,7 +2090,7 @@ static int vdec_av1_slice_lat_decode(void *h_vdec, =
-struct mtk_vcodec_mem *bs,
-> =20
->  	/* LAT trans full, re-decode */
->  	if (ret =3D=3D -EAGAIN) {
-> -		mtk_vcodec_err(instance, "AV1 Frame %d trans full\n", pfc->seq);
-> +		mtk_vdec_err(ctx, "AV1 Frame %d trans full\n", pfc->seq);
->  		if (!instance->inneracing_mode)
->  			vdec_msg_queue_qbuf(&ctx->msg_queue.lat_ctx, lat_buf);
->  		return 0;
-> @@ -2099,14 +2098,14 @@ static int vdec_av1_slice_lat_decode(void *h_vdec=
-, struct mtk_vcodec_mem *bs,
-> =20
->  	/* LAT trans full, no more UBE or decode timeout */
->  	if (ret =3D=3D -ENOMEM || vsi->state.timeout) {
-> -		mtk_vcodec_err(instance, "AV1 Frame %d insufficient buffer or timeout\=
-n", pfc->seq);
-> +		mtk_vdec_err(ctx, "AV1 Frame %d insufficient buffer or timeout\n", pfc=
-->seq);
->  		if (!instance->inneracing_mode)
->  			vdec_msg_queue_qbuf(&ctx->msg_queue.lat_ctx, lat_buf);
->  		return -EBUSY;
->  	}
->  	vsi->trans.dma_addr_end +=3D ctx->msg_queue.wdma_addr.dma_addr;
-> -	mtk_vcodec_debug(instance, "lat dma 1 0x%pad 0x%pad\n",
-> -			 &pfc->vsi.trans.dma_addr, &pfc->vsi.trans.dma_addr_end);
-> +	mtk_vdec_debug(ctx, "lat dma 1 0x%pad 0x%pad\n",
-> +		       &pfc->vsi.trans.dma_addr, &pfc->vsi.trans.dma_addr_end);
-> =20
->  	vdec_msg_queue_update_ube_wptr(&ctx->msg_queue, vsi->trans.dma_addr_end=
-);
-> =20
-> @@ -2120,7 +2119,7 @@ static int vdec_av1_slice_lat_decode(void *h_vdec, =
-struct mtk_vcodec_mem *bs,
->  	vdec_msg_queue_qbuf(&ctx->msg_queue.lat_ctx, lat_buf);
-> =20
->  	if (pfc)
-> -		mtk_vcodec_err(instance, "slice dec number: %d err: %d", pfc->seq, ret=
-);
-> +		mtk_vdec_err(ctx, "slice dec number: %d err: %d", pfc->seq, ret);
-> =20
->  	return ret;
->  }
-> @@ -2153,13 +2152,13 @@ static int vdec_av1_slice_core_decode(struct vdec=
-_lat_buf *lat_buf)
-> =20
->  	ret =3D vdec_av1_slice_setup_core(instance, fb, lat_buf, pfc);
->  	if (ret) {
-> -		mtk_vcodec_err(instance, "vdec_av1_slice_setup_core\n");
-> +		mtk_vdec_err(ctx, "vdec_av1_slice_setup_core\n");
->  		goto err;
->  	}
->  	vdec_av1_slice_vsi_to_remote(&pfc->vsi, instance->core_vsi);
->  	ret =3D vpu_dec_core(&instance->vpu);
->  	if (ret) {
-> -		mtk_vcodec_err(instance, "vpu_dec_core\n");
-> +		mtk_vdec_err(ctx, "vpu_dec_core\n");
->  		goto err;
->  	}
-> =20
-> @@ -2169,7 +2168,7 @@ static int vdec_av1_slice_core_decode(struct vdec_l=
-at_buf *lat_buf)
->  						   MTK_VDEC_CORE);
->  		/* update remote vsi if decode timeout */
->  		if (ret) {
-> -			mtk_vcodec_err(instance, "AV1 frame %d core timeout\n", pfc->seq);
-> +			mtk_vdec_err(ctx, "AV1 frame %d core timeout\n", pfc->seq);
->  			WRITE_ONCE(instance->vsi->state.timeout, 1);
->  		}
->  		vpu_dec_core_end(&instance->vpu);
-> @@ -2177,12 +2176,12 @@ static int vdec_av1_slice_core_decode(struct vdec=
-_lat_buf *lat_buf)
-> =20
->  	ret =3D vdec_av1_slice_update_core(instance, lat_buf, pfc);
->  	if (ret) {
-> -		mtk_vcodec_err(instance, "vdec_av1_slice_update_core\n");
-> +		mtk_vdec_err(ctx, "vdec_av1_slice_update_core\n");
->  		goto err;
->  	}
-> =20
-> -	mtk_vcodec_debug(instance, "core dma_addr_end 0x%pad\n",
-> -			 &instance->core_vsi->trans.dma_addr_end);
-> +	mtk_vdec_debug(ctx, "core dma_addr_end 0x%pad\n",
-> +		       &instance->core_vsi->trans.dma_addr_end);
->  	vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, instance->core_vsi->tra=
-ns.dma_addr_end);
-> =20
->  	ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req);
-> diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_if.c b=
-/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_if.c
-> index 24312a90afbb..ca5437ae37f6 100644
-> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_if.c
-> @@ -144,7 +144,7 @@ static int allocate_predication_buf(struct vdec_h264_=
-inst *inst)
->  	inst->pred_buf.size =3D BUF_PREDICTION_SZ;
->  	err =3D mtk_vcodec_mem_alloc(inst->ctx, &inst->pred_buf);
->  	if (err) {
-> -		mtk_vcodec_err(inst, "failed to allocate ppl buf");
-> +		mtk_vdec_err(inst->ctx, "failed to allocate ppl buf");
->  		return err;
->  	}
-> =20
-> @@ -176,7 +176,7 @@ static int alloc_mv_buf(struct vdec_h264_inst *inst, =
-struct vdec_pic_info *pic)
->  		mem->size =3D buf_sz;
->  		err =3D mtk_vcodec_mem_alloc(inst->ctx, mem);
->  		if (err) {
-> -			mtk_vcodec_err(inst, "failed to allocate mv buf");
-> +			mtk_vdec_err(inst->ctx, "failed to allocate mv buf");
->  			return err;
->  		}
->  		inst->vsi->mv_buf_dma[i] =3D mem->dma_addr;
-> @@ -207,9 +207,9 @@ static int check_list_validity(struct vdec_h264_inst =
-*inst, bool disp_list)
->  	if (list->count > H264_MAX_FB_NUM ||
->  	    list->read_idx >=3D H264_MAX_FB_NUM ||
->  	    list->write_idx >=3D H264_MAX_FB_NUM) {
-> -		mtk_vcodec_err(inst, "%s list err: cnt=3D%d r_idx=3D%d w_idx=3D%d",
-> -			       disp_list ? "disp" : "free", list->count,
-> -			       list->read_idx, list->write_idx);
-> +		mtk_vdec_err(inst->ctx, "%s list err: cnt=3D%d r_idx=3D%d w_idx=3D%d",
-> +			     disp_list ? "disp" : "free", list->count,
-> +			     list->read_idx, list->write_idx);
->  		return -EINVAL;
->  	}
-> =20
-> @@ -226,12 +226,12 @@ static void put_fb_to_free(struct vdec_h264_inst *i=
-nst, struct vdec_fb *fb)
-> =20
->  		list =3D &inst->vsi->list_free;
->  		if (list->count =3D=3D H264_MAX_FB_NUM) {
-> -			mtk_vcodec_err(inst, "[FB] put fb free_list full");
-> +			mtk_vdec_err(inst->ctx, "[FB] put fb free_list full");
->  			return;
->  		}
-> =20
-> -		mtk_vcodec_debug(inst, "[FB] put fb into free_list @(%p, %llx)",
-> -				 fb->base_y.va, (u64)fb->base_y.dma_addr);
-> +		mtk_vdec_debug(inst->ctx, "[FB] put fb into free_list @(%p, %llx)",
-> +			       fb->base_y.va, (u64)fb->base_y.dma_addr);
-> =20
->  		list->fb_list[list->write_idx].vdec_fb_va =3D (u64)(uintptr_t)fb;
->  		list->write_idx =3D (list->write_idx =3D=3D H264_MAX_FB_NUM - 1) ?
-> @@ -244,10 +244,9 @@ static void get_pic_info(struct vdec_h264_inst *inst=
-,
->  			 struct vdec_pic_info *pic)
->  {
->  	*pic =3D inst->vsi->pic;
-> -	mtk_vcodec_debug(inst, "pic(%d, %d), buf(%d, %d)",
-> -			 pic->pic_w, pic->pic_h, pic->buf_w, pic->buf_h);
-> -	mtk_vcodec_debug(inst, "fb size: Y(%d), C(%d)",
-> -			 pic->fb_sz[0], pic->fb_sz[1]);
-> +	mtk_vdec_debug(inst->ctx, "pic(%d, %d), buf(%d, %d)",
-> +		       pic->pic_w, pic->pic_h, pic->buf_w, pic->buf_h);
-> +	mtk_vdec_debug(inst->ctx, "fb size: Y(%d), C(%d)", pic->fb_sz[0], pic->=
-fb_sz[1]);
->  }
-> =20
->  static void get_crop_info(struct vdec_h264_inst *inst, struct v4l2_rect =
-*cr)
-> @@ -257,14 +256,14 @@ static void get_crop_info(struct vdec_h264_inst *in=
-st, struct v4l2_rect *cr)
->  	cr->width =3D inst->vsi->crop.width;
->  	cr->height =3D inst->vsi->crop.height;
-> =20
-> -	mtk_vcodec_debug(inst, "l=3D%d, t=3D%d, w=3D%d, h=3D%d",
-> -			 cr->left, cr->top, cr->width, cr->height);
-> +	mtk_vdec_debug(inst->ctx, "l=3D%d, t=3D%d, w=3D%d, h=3D%d", cr->left, c=
-r->top,
-> +		       cr->width, cr->height);
->  }
-> =20
->  static void get_dpb_size(struct vdec_h264_inst *inst, unsigned int *dpb_=
-sz)
->  {
->  	*dpb_sz =3D inst->vsi->dec.dpb_sz;
-> -	mtk_vcodec_debug(inst, "sz=3D%d", *dpb_sz);
-> +	mtk_vdec_debug(inst->ctx, "sz=3D%d", *dpb_sz);
->  }
-> =20
->  static int vdec_h264_init(struct mtk_vcodec_ctx *ctx)
-> @@ -283,7 +282,7 @@ static int vdec_h264_init(struct mtk_vcodec_ctx *ctx)
-> =20
->  	err =3D vpu_dec_init(&inst->vpu);
->  	if (err) {
-> -		mtk_vcodec_err(inst, "vdec_h264 init err=3D%d", err);
-> +		mtk_vdec_err(ctx, "vdec_h264 init err=3D%d", err);
->  		goto error_free_inst;
->  	}
-> =20
-> @@ -292,7 +291,7 @@ static int vdec_h264_init(struct mtk_vcodec_ctx *ctx)
->  	if (err)
->  		goto error_deinit;
-> =20
-> -	mtk_vcodec_debug(inst, "H264 Instance >> %p", inst);
-> +	mtk_vdec_debug(ctx, "H264 Instance >> %p", inst);
-> =20
->  	ctx->drv_handle =3D inst;
->  	return 0;
-> @@ -344,8 +343,8 @@ static int vdec_h264_decode(void *h_vdec, struct mtk_=
-vcodec_mem *bs,
->  	uint64_t y_fb_dma =3D fb ? (u64)fb->base_y.dma_addr : 0;
->  	uint64_t c_fb_dma =3D fb ? (u64)fb->base_c.dma_addr : 0;
-> =20
-> -	mtk_vcodec_debug(inst, "+ [%d] FB y_dma=3D%llx c_dma=3D%llx va=3D%p",
-> -			 ++inst->num_nalu, y_fb_dma, c_fb_dma, fb);
-> +	mtk_vdec_debug(inst->ctx, "+ [%d] FB y_dma=3D%llx c_dma=3D%llx va=3D%p"=
-,
-> +		       ++inst->num_nalu, y_fb_dma, c_fb_dma, fb);
-> =20
->  	/* bs NULL means flush decoder */
->  	if (bs =3D=3D NULL)
-> @@ -355,15 +354,15 @@ static int vdec_h264_decode(void *h_vdec, struct mt=
-k_vcodec_mem *bs,
->  	buf_sz =3D bs->size;
->  	nal_start_idx =3D find_start_code(buf, buf_sz);
->  	if (nal_start_idx < 0) {
-> -		mtk_vcodec_err(inst, "invalid nal start code");
-> +		mtk_vdec_err(inst->ctx, "invalid nal start code");
->  		err =3D -EIO;
->  		goto err_free_fb_out;
->  	}
-> =20
->  	nal_start =3D buf[nal_start_idx];
->  	nal_type =3D NAL_TYPE(buf[nal_start_idx]);
-> -	mtk_vcodec_debug(inst, "\n + NALU[%d] type %d +\n", inst->num_nalu,
-> -			 nal_type);
-> +	mtk_vdec_debug(inst->ctx, "\n + NALU[%d] type %d +\n", inst->num_nalu,
-> +		       nal_type);
-> =20
->  	if (nal_type =3D=3D NAL_H264_PPS) {
->  		buf_sz -=3D nal_start_idx;
-> @@ -384,8 +383,7 @@ static int vdec_h264_decode(void *h_vdec, struct mtk_=
-vcodec_mem *bs,
->  	err =3D vpu_dec_start(vpu, data, 2);
->  	if (err) {
->  		if (err > 0 && (DEC_ERR_RET(err) =3D=3D H264_ERR_NOT_VALID)) {
-> -			mtk_vcodec_err(inst, "- error bitstream - err =3D %d -",
-> -				       err);
-> +			mtk_vdec_err(inst->ctx, "- error bitstream - err =3D %d -", err);
->  			err =3D -EIO;
->  		}
->  		goto err_free_fb_out;
-> @@ -395,7 +393,7 @@ static int vdec_h264_decode(void *h_vdec, struct mtk_=
-vcodec_mem *bs,
->  	if (*res_chg) {
->  		struct vdec_pic_info pic;
-> =20
-> -		mtk_vcodec_debug(inst, "- resolution changed -");
-> +		mtk_vdec_debug(inst->ctx, "- resolution changed -");
->  		get_pic_info(inst, &pic);
-> =20
->  		if (inst->vsi->dec.realloc_mv_buf) {
-> @@ -416,13 +414,12 @@ static int vdec_h264_decode(void *h_vdec, struct mt=
-k_vcodec_mem *bs,
->  		vpu_dec_end(vpu);
->  	}
-> =20
-> -	mtk_vcodec_debug(inst, "\n - NALU[%d] type=3D%d -\n", inst->num_nalu,
-> -			 nal_type);
-> +	mtk_vdec_debug(inst->ctx, "\n - NALU[%d] type=3D%d -\n", inst->num_nalu=
-, nal_type);
->  	return 0;
-> =20
->  err_free_fb_out:
->  	put_fb_to_free(inst, fb);
-> -	mtk_vcodec_err(inst, "\n - NALU[%d] err=3D%d -\n", inst->num_nalu, err)=
-;
-> +	mtk_vdec_err(inst->ctx, "\n - NALU[%d] err=3D%d -\n", inst->num_nalu, e=
-rr);
->  	return err;
->  }
-> =20
-> @@ -436,8 +433,7 @@ static void vdec_h264_get_fb(struct vdec_h264_inst *i=
-nst,
->  		return;
-> =20
->  	if (list->count =3D=3D 0) {
-> -		mtk_vcodec_debug(inst, "[FB] there is no %s fb",
-> -				 disp_list ? "disp" : "free");
-> +		mtk_vdec_debug(inst->ctx, "[FB] there is no %s fb", disp_list ? "disp"=
- : "free");
->  		*out_fb =3D NULL;
->  		return;
->  	}
-> @@ -447,10 +443,10 @@ static void vdec_h264_get_fb(struct vdec_h264_inst =
-*inst,
->  	fb->status |=3D (disp_list ? FB_ST_DISPLAY : FB_ST_FREE);
-> =20
->  	*out_fb =3D fb;
-> -	mtk_vcodec_debug(inst, "[FB] get %s fb st=3D%d poc=3D%d %llx",
-> -			 disp_list ? "disp" : "free",
-> -			 fb->status, list->fb_list[list->read_idx].poc,
-> -			 list->fb_list[list->read_idx].vdec_fb_va);
-> +	mtk_vdec_debug(inst->ctx, "[FB] get %s fb st=3D%d poc=3D%d %llx",
-> +		       disp_list ? "disp" : "free",
-> +		       fb->status, list->fb_list[list->read_idx].poc,
-> +		       list->fb_list[list->read_idx].vdec_fb_va);
-> =20
->  	list->read_idx =3D (list->read_idx =3D=3D H264_MAX_FB_NUM - 1) ?
->  			 0 : list->read_idx + 1;
-> @@ -484,7 +480,7 @@ static int vdec_h264_get_param(void *h_vdec, enum vde=
-c_get_param_type type,
->  		break;
-> =20
->  	default:
-> -		mtk_vcodec_err(inst, "invalid get parameter type=3D%d", type);
-> +		mtk_vdec_err(inst->ctx, "invalid get parameter type=3D%d", type);
->  		return -EINVAL;
->  	}
-> =20
+>  	cur_frame_info =3D &vsi->slots.frame_info[vsi->slot_id];
+> @@ -1504,8 +1504,8 @@ static void vdec_av1_slice_setup_ref(struct vdec_av=
+1_slice_pfc *pfc,
+>  		slot_id =3D frame->ref_frame_map[ref_idx];
+>  		frame_info =3D &slots->frame_info[slot_id];
+>  		if (slot_id =3D=3D AV1_INVALID_IDX) {
+> -			mtk_v4l2_err("cannot match reference[%d] 0x%llx\n", i,
+> -				     ctrl_fh->reference_frame_ts[ref_idx]);
+> +			pr_err("cannot match reference[%d] 0x%llx\n", i,
+> +			       ctrl_fh->reference_frame_ts[ref_idx]);
+>  			frame->order_hints[i] =3D 0;
+>  			frame->ref_frame_valid[i] =3D 0;
+>  			continue;
 > diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_if=
 .c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_if.c
-> index dc6ee266f232..250746db366b 100644
+> index 250746db366b..bdff1d2feb1c 100644
 > --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_if.c
 > +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_if.c
-> @@ -162,7 +162,7 @@ static int allocate_predication_buf(struct vdec_h264_=
-slice_inst *inst)
->  	inst->pred_buf.size =3D BUF_PREDICTION_SZ;
->  	err =3D mtk_vcodec_mem_alloc(inst->ctx, &inst->pred_buf);
->  	if (err) {
-> -		mtk_vcodec_err(inst, "failed to allocate ppl buf");
-> +		mtk_vdec_err(inst->ctx, "failed to allocate ppl buf");
->  		return err;
->  	}
-> =20
-> @@ -195,7 +195,7 @@ static int alloc_mv_buf(struct vdec_h264_slice_inst *=
+> @@ -187,7 +187,7 @@ static int alloc_mv_buf(struct vdec_h264_slice_inst *=
 inst,
->  		mem->size =3D buf_sz;
->  		err =3D mtk_vcodec_mem_alloc(inst->ctx, mem);
->  		if (err) {
-> -			mtk_vcodec_err(inst, "failed to allocate mv buf");
-> +			mtk_vdec_err(inst->ctx, "failed to allocate mv buf");
->  			return err;
->  		}
->  		inst->vsi_ctx.mv_buf_dma[i] =3D mem->dma_addr;
-> @@ -230,11 +230,11 @@ static void get_pic_info(struct vdec_h264_slice_ins=
+>  	struct mtk_vcodec_mem *mem =3D NULL;
+>  	unsigned int buf_sz =3D mtk_vdec_h264_get_mv_buf_size(pic->buf_w, pic->=
+buf_h);
+> =20
+> -	mtk_v4l2_debug(3, "size =3D 0x%x", buf_sz);
+> +	mtk_v4l2_vdec_dbg(3, inst->ctx, "size =3D 0x%x", buf_sz);
+>  	for (i =3D 0; i < H264_MAX_MV_NUM; i++) {
+>  		mem =3D &inst->mv_buf[i];
+>  		if (mem->va)
+> @@ -243,12 +243,12 @@ static void get_pic_info(struct vdec_h264_slice_ins=
 t *inst,
->  		ctx->q_data[MTK_Q_DATA_DST].fmt->num_planes;
+>  		    ctx->last_decoded_picinfo.buf_h !=3D ctx->picinfo.buf_h)
+>  			inst->vsi_ctx.dec.realloc_mv_buf =3D true;
 > =20
->  	*pic =3D ctx->picinfo;
-> -	mtk_vcodec_debug(inst, "pic(%d, %d), buf(%d, %d)",
-> -			 ctx->picinfo.pic_w, ctx->picinfo.pic_h,
-> -			 ctx->picinfo.buf_w, ctx->picinfo.buf_h);
-> -	mtk_vcodec_debug(inst, "Y/C(%d, %d)", ctx->picinfo.fb_sz[0],
-> -			 ctx->picinfo.fb_sz[1]);
-> +	mtk_vdec_debug(inst->ctx, "pic(%d, %d), buf(%d, %d)",
-> +		       ctx->picinfo.pic_w, ctx->picinfo.pic_h,
-> +		       ctx->picinfo.buf_w, ctx->picinfo.buf_h);
-> +	mtk_vdec_debug(inst->ctx, "Y/C(%d, %d)", ctx->picinfo.fb_sz[0],
-> +		       ctx->picinfo.fb_sz[1]);
-> =20
->  	if (ctx->last_decoded_picinfo.pic_w !=3D ctx->picinfo.pic_w ||
->  	    ctx->last_decoded_picinfo.pic_h !=3D ctx->picinfo.pic_h) {
-> @@ -259,14 +259,14 @@ static void get_crop_info(struct vdec_h264_slice_in=
-st *inst, struct v4l2_rect *c
->  	cr->width =3D inst->vsi_ctx.crop.width;
->  	cr->height =3D inst->vsi_ctx.crop.height;
-> =20
-> -	mtk_vcodec_debug(inst, "l=3D%d, t=3D%d, w=3D%d, h=3D%d",
-> -			 cr->left, cr->top, cr->width, cr->height);
-> +	mtk_vdec_debug(inst->ctx, "l=3D%d, t=3D%d, w=3D%d, h=3D%d",
-> +		       cr->left, cr->top, cr->width, cr->height);
->  }
-> =20
->  static void get_dpb_size(struct vdec_h264_slice_inst *inst, unsigned int=
- *dpb_sz)
->  {
->  	*dpb_sz =3D inst->vsi_ctx.dec.dpb_sz;
-> -	mtk_vcodec_debug(inst, "sz=3D%d", *dpb_sz);
-> +	mtk_vdec_debug(inst->ctx, "sz=3D%d", *dpb_sz);
->  }
-> =20
->  static int vdec_h264_slice_init(struct mtk_vcodec_ctx *ctx)
-> @@ -285,7 +285,7 @@ static int vdec_h264_slice_init(struct mtk_vcodec_ctx=
- *ctx)
-> =20
->  	err =3D vpu_dec_init(&inst->vpu);
->  	if (err) {
-> -		mtk_vcodec_err(inst, "vdec_h264 init err=3D%d", err);
-> +		mtk_vdec_err(ctx, "vdec_h264 init err=3D%d", err);
->  		goto error_free_inst;
+> -		mtk_v4l2_debug(1, "ResChg: (%d %d) : old(%d, %d) -> new(%d, %d)",
+> -			       inst->vsi_ctx.dec.resolution_changed,
+> -			       inst->vsi_ctx.dec.realloc_mv_buf,
+> -			       ctx->last_decoded_picinfo.pic_w,
+> -			       ctx->last_decoded_picinfo.pic_h,
+> -			       ctx->picinfo.pic_w, ctx->picinfo.pic_h);
+> +		mtk_v4l2_vdec_dbg(1, inst->ctx, "ResChg: (%d %d) : old(%d, %d) -> new(=
+%d, %d)",
+> +				  inst->vsi_ctx.dec.resolution_changed,
+> +				  inst->vsi_ctx.dec.realloc_mv_buf,
+> +				  ctx->last_decoded_picinfo.pic_w,
+> +				  ctx->last_decoded_picinfo.pic_h,
+> +				  ctx->picinfo.pic_w, ctx->picinfo.pic_h);
 >  	}
-> =20
-> @@ -297,13 +297,13 @@ static int vdec_h264_slice_init(struct mtk_vcodec_c=
-tx *ctx)
->  	if (err)
->  		goto error_deinit;
-> =20
-> -	mtk_vcodec_debug(inst, "struct size =3D %zu,%zu,%zu,%zu\n",
-> -			 sizeof(struct mtk_h264_sps_param),
-> -			 sizeof(struct mtk_h264_pps_param),
-> -			 sizeof(struct mtk_h264_dec_slice_param),
-> -			 sizeof(struct mtk_h264_dpb_info));
-> +	mtk_vdec_debug(ctx, "struct size =3D %zu,%zu,%zu,%zu\n",
-> +		       sizeof(struct mtk_h264_sps_param),
-> +		       sizeof(struct mtk_h264_pps_param),
-> +		       sizeof(struct mtk_h264_dec_slice_param),
-> +		       sizeof(struct mtk_h264_dpb_info));
-> =20
-> -	mtk_vcodec_debug(inst, "H264 Instance >> %p", inst);
-> +	mtk_vdec_debug(ctx, "H264 Instance >> %p", inst);
-> =20
->  	ctx->drv_handle =3D inst;
->  	return 0;
-> @@ -354,8 +354,8 @@ static int vdec_h264_slice_decode(void *h_vdec, struc=
-t mtk_vcodec_mem *bs,
->  	y_fb_dma =3D fb ? (u64)fb->base_y.dma_addr : 0;
->  	c_fb_dma =3D fb ? (u64)fb->base_c.dma_addr : 0;
-> =20
-> -	mtk_vcodec_debug(inst, "+ [%d] FB y_dma=3D%llx c_dma=3D%llx va=3D%p",
-> -			 inst->num_nalu, y_fb_dma, c_fb_dma, fb);
-> +	mtk_vdec_debug(inst->ctx, "+ [%d] FB y_dma=3D%llx c_dma=3D%llx va=3D%p"=
-,
-> +		       inst->num_nalu, y_fb_dma, c_fb_dma, fb);
-> =20
->  	inst->vsi_ctx.dec.bs_dma =3D (uint64_t)bs->dma_addr;
->  	inst->vsi_ctx.dec.y_fb_dma =3D y_fb_dma;
-> @@ -380,7 +380,7 @@ static int vdec_h264_slice_decode(void *h_vdec, struc=
-t mtk_vcodec_mem *bs,
-> =20
->  	*res_chg =3D inst->vsi_ctx.dec.resolution_changed;
->  	if (*res_chg) {
-> -		mtk_vcodec_debug(inst, "- resolution changed -");
-> +		mtk_vdec_debug(inst->ctx, "- resolution changed -");
->  		if (inst->vsi_ctx.dec.realloc_mv_buf) {
->  			err =3D alloc_mv_buf(inst, &inst->ctx->picinfo);
->  			inst->vsi_ctx.dec.realloc_mv_buf =3D false;
-> @@ -404,11 +404,11 @@ static int vdec_h264_slice_decode(void *h_vdec, str=
-uct mtk_vcodec_mem *bs,
->  	vpu_dec_end(vpu);
-> =20
->  	memcpy(&inst->vsi_ctx, inst->vpu.vsi, sizeof(inst->vsi_ctx));
-> -	mtk_vcodec_debug(inst, "\n - NALU[%d]", inst->num_nalu);
-> +	mtk_vdec_debug(inst->ctx, "\n - NALU[%d]", inst->num_nalu);
->  	return 0;
-> =20
->  err_free_fb_out:
-> -	mtk_vcodec_err(inst, "\n - NALU[%d] err=3D%d -\n", inst->num_nalu, err)=
-;
-> +	mtk_vdec_err(inst->ctx, "\n - NALU[%d] err=3D%d -\n", inst->num_nalu, e=
-rr);
->  	return err;
 >  }
-> =20
-> @@ -430,7 +430,7 @@ static int vdec_h264_slice_get_param(void *h_vdec, en=
-um vdec_get_param_type type
->  		break;
-> =20
->  	default:
-> -		mtk_vcodec_err(inst, "invalid get parameter type=3D%d", type);
-> +		mtk_vdec_err(inst->ctx, "invalid get parameter type=3D%d", type);
->  		return -EINVAL;
->  	}
 > =20
 > diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_mu=
 lti_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_=
 if.c
-> index 3cb5b967f48a..2a160dcb5296 100644
+> index 2a160dcb5296..1c2389e63e4c 100644
 > --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.=
 c
 > +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.=
 c
-> @@ -199,7 +199,7 @@ static int vdec_h264_slice_fill_decode_parameters(str=
-uct vdec_h264_slice_inst *i
->  		return PTR_ERR(pps);
+> @@ -294,7 +294,7 @@ static void vdec_h264_slice_fill_decode_reflist(struc=
+t vdec_h264_slice_inst *ins
+>  	mtk_vdec_h264_fill_dpb_info(inst->ctx, &slice_param->decode_params,
+>  				    slice_param->h264_dpb_info);
 > =20
->  	if (dec_params->flags & V4L2_H264_DECODE_PARAM_FLAG_FIELD_PIC) {
-> -		mtk_vcodec_err(inst, "No support for H.264 field decoding.");
-> +		mtk_vdec_err(inst->ctx, "No support for H.264 field decoding.");
->  		inst->is_field_bitstream =3D true;
->  		return -EINVAL;
->  	}
-> @@ -322,7 +322,7 @@ static int vdec_h264_slice_alloc_mv_buf(struct vdec_h=
-264_slice_inst *inst,
->  		mem->size =3D buf_sz;
->  		err =3D mtk_vcodec_mem_alloc(inst->ctx, mem);
->  		if (err) {
-> -			mtk_vcodec_err(inst, "failed to allocate mv buf");
-> +			mtk_vdec_err(inst->ctx, "failed to allocate mv buf");
->  			return err;
->  		}
->  	}
-> @@ -359,11 +359,11 @@ static void vdec_h264_slice_get_pic_info(struct vde=
-c_h264_slice_inst *inst)
->  	inst->cap_num_planes =3D
->  		ctx->q_data[MTK_Q_DATA_DST].fmt->num_planes;
-> =20
-> -	mtk_vcodec_debug(inst, "pic(%d, %d), buf(%d, %d)",
-> -			 ctx->picinfo.pic_w, ctx->picinfo.pic_h,
-> -			 ctx->picinfo.buf_w, ctx->picinfo.buf_h);
-> -	mtk_vcodec_debug(inst, "Y/C(%d, %d)", ctx->picinfo.fb_sz[0],
-> -			 ctx->picinfo.fb_sz[1]);
-> +	mtk_vdec_debug(ctx, "pic(%d, %d), buf(%d, %d)",
-> +		       ctx->picinfo.pic_w, ctx->picinfo.pic_h,
-> +		       ctx->picinfo.buf_w, ctx->picinfo.buf_h);
-> +	mtk_vdec_debug(ctx, "Y/C(%d, %d)", ctx->picinfo.fb_sz[0],
-> +		       ctx->picinfo.fb_sz[1]);
-> =20
->  	if (ctx->last_decoded_picinfo.pic_w !=3D ctx->picinfo.pic_w ||
->  	    ctx->last_decoded_picinfo.pic_h !=3D ctx->picinfo.pic_h) {
-> @@ -389,8 +389,8 @@ static void vdec_h264_slice_get_crop_info(struct vdec=
-_h264_slice_inst *inst,
->  	cr->width =3D inst->ctx->picinfo.pic_w;
->  	cr->height =3D inst->ctx->picinfo.pic_h;
-> =20
-> -	mtk_vcodec_debug(inst, "l=3D%d, t=3D%d, w=3D%d, h=3D%d",
-> -			 cr->left, cr->top, cr->width, cr->height);
-> +	mtk_vdec_debug(inst->ctx, "l=3D%d, t=3D%d, w=3D%d, h=3D%d",
-> +		       cr->left, cr->top, cr->width, cr->height);
->  }
-> =20
->  static int vdec_h264_slice_init(struct mtk_vcodec_ctx *ctx)
-> @@ -412,7 +412,7 @@ static int vdec_h264_slice_init(struct mtk_vcodec_ctx=
- *ctx)
-> =20
->  	err =3D vpu_dec_init(&inst->vpu);
->  	if (err) {
-> -		mtk_vcodec_err(inst, "vdec_h264 init err=3D%d", err);
-> +		mtk_vdec_err(ctx, "vdec_h264 init err=3D%d", err);
->  		goto error_free_inst;
->  	}
-> =20
-> @@ -423,14 +423,14 @@ static int vdec_h264_slice_init(struct mtk_vcodec_c=
-tx *ctx)
->  	inst->resolution_changed =3D true;
->  	inst->realloc_mv_buf =3D true;
-> =20
-> -	mtk_vcodec_debug(inst, "lat struct size =3D %d,%d,%d,%d vsi: %d\n",
-> -			 (int)sizeof(struct mtk_h264_sps_param),
-> -			 (int)sizeof(struct mtk_h264_pps_param),
-> -			 (int)sizeof(struct vdec_h264_slice_lat_dec_param),
-> -			 (int)sizeof(struct mtk_h264_dpb_info),
-> -			 vsi_size);
-> -	mtk_vcodec_debug(inst, "lat H264 instance >> %p, codec_type =3D 0x%x",
-> -			 inst, inst->vpu.codec_type);
-> +	mtk_vdec_debug(ctx, "lat struct size =3D %d,%d,%d,%d vsi: %d\n",
-> +		       (int)sizeof(struct mtk_h264_sps_param),
-> +		       (int)sizeof(struct mtk_h264_pps_param),
-> +		       (int)sizeof(struct vdec_h264_slice_lat_dec_param),
-> +		       (int)sizeof(struct mtk_h264_dpb_info),
-> +		       vsi_size);
-> +	mtk_vdec_debug(ctx, "lat H264 instance >> %p, codec_type =3D 0x%x",
-> +		       inst, inst->vpu.codec_type);
-> =20
->  	ctx->drv_handle =3D inst;
->  	return 0;
-> @@ -464,14 +464,14 @@ static int vdec_h264_slice_core_decode(struct vdec_=
-lat_buf *lat_buf)
->  	struct mtk_vcodec_mem *mem;
->  	struct vdec_vpu_inst *vpu =3D &inst->vpu;
-> =20
-> -	mtk_vcodec_debug(inst, "[h264-core] vdec_h264 core decode");
-> +	mtk_vdec_debug(ctx, "[h264-core] vdec_h264 core decode");
->  	memcpy(&inst->vsi_core->h264_slice_params, &share_info->h264_slice_para=
-ms,
->  	       sizeof(share_info->h264_slice_params));
-> =20
->  	fb =3D ctx->dev->vdec_pdata->get_cap_buffer(ctx);
->  	if (!fb) {
->  		err =3D -EBUSY;
-> -		mtk_vcodec_err(inst, "fb buffer is NULL");
-> +		mtk_vdec_err(ctx, "fb buffer is NULL");
->  		goto vdec_dec_end;
->  	}
-> =20
-> @@ -483,8 +483,7 @@ static int vdec_h264_slice_core_decode(struct vdec_la=
-t_buf *lat_buf)
->  	else
->  		c_fb_dma =3D (u64)fb->base_c.dma_addr;
-> =20
-> -	mtk_vcodec_debug(inst, "[h264-core] y/c addr =3D 0x%llx 0x%llx", y_fb_d=
-ma,
-> -			 c_fb_dma);
-> +	mtk_vdec_debug(ctx, "[h264-core] y/c addr =3D 0x%llx 0x%llx", y_fb_dma,=
- c_fb_dma);
-> =20
->  	inst->vsi_core->dec.y_fb_dma =3D y_fb_dma;
->  	inst->vsi_core->dec.c_fb_dma =3D c_fb_dma;
-> @@ -514,7 +513,7 @@ static int vdec_h264_slice_core_decode(struct vdec_la=
-t_buf *lat_buf)
-> =20
->  	err =3D vpu_dec_core(vpu);
->  	if (err) {
-> -		mtk_vcodec_err(inst, "core decode err=3D%d", err);
-> +		mtk_vdec_err(ctx, "core decode err=3D%d", err);
->  		goto vdec_dec_end;
->  	}
-> =20
-> @@ -522,22 +521,21 @@ static int vdec_h264_slice_core_decode(struct vdec_=
-lat_buf *lat_buf)
->  	timeout =3D mtk_vcodec_wait_for_done_ctx(inst->ctx, MTK_INST_IRQ_RECEIV=
-ED,
->  					       WAIT_INTR_TIMEOUT_MS, MTK_VDEC_CORE);
->  	if (timeout)
-> -		mtk_vcodec_err(inst, "core decode timeout: pic_%d",
-> -			       ctx->decoded_frame_cnt);
-> +		mtk_vdec_err(ctx, "core decode timeout: pic_%d", ctx->decoded_frame_cn=
+> -	mtk_v4l2_debug(3, "cur poc =3D %d\n", dec_params->bottom_field_order_cn=
 t);
->  	inst->vsi_core->dec.timeout =3D !!timeout;
+> +	mtk_v4l2_vdec_dbg(3, inst->ctx, "cur poc =3D %d\n", dec_params->bottom_=
+field_order_cnt);
+>  	/* Build the reference lists */
+>  	v4l2_h264_init_reflist_builder(&reflist_builder, dec_params, sps,
+>  				       inst->dpb);
+> @@ -314,7 +314,7 @@ static int vdec_h264_slice_alloc_mv_buf(struct vdec_h=
+264_slice_inst *inst,
+>  	struct mtk_vcodec_mem *mem;
+>  	int i, err;
 > =20
->  	vpu_dec_core_end(vpu);
-> -	mtk_vcodec_debug(inst, "pic[%d] crc: 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x=
- 0x%x",
-> -			 ctx->decoded_frame_cnt,
-> -			 inst->vsi_core->dec.crc[0], inst->vsi_core->dec.crc[1],
-> -			 inst->vsi_core->dec.crc[2], inst->vsi_core->dec.crc[3],
-> -			 inst->vsi_core->dec.crc[4], inst->vsi_core->dec.crc[5],
-> -			 inst->vsi_core->dec.crc[6], inst->vsi_core->dec.crc[7]);
-> +	mtk_vdec_debug(ctx, "pic[%d] crc: 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x=
-%x",
-> +		       ctx->decoded_frame_cnt,
-> +		       inst->vsi_core->dec.crc[0], inst->vsi_core->dec.crc[1],
-> +		       inst->vsi_core->dec.crc[2], inst->vsi_core->dec.crc[3],
-> +		       inst->vsi_core->dec.crc[4], inst->vsi_core->dec.crc[5],
-> +		       inst->vsi_core->dec.crc[6], inst->vsi_core->dec.crc[7]);
+> -	mtk_v4l2_debug(3, "size =3D 0x%x", buf_sz);
+> +	mtk_v4l2_vdec_dbg(3, inst->ctx, "size =3D 0x%x", buf_sz);
+>  	for (i =3D 0; i < H264_MAX_MV_NUM; i++) {
+>  		mem =3D &inst->mv_buf[i];
+>  		if (mem->va)
+> @@ -372,12 +372,12 @@ static void vdec_h264_slice_get_pic_info(struct vde=
+c_h264_slice_inst *inst)
+>  		    ctx->last_decoded_picinfo.buf_h !=3D ctx->picinfo.buf_h)
+>  			inst->realloc_mv_buf =3D true;
 > =20
->  vdec_dec_end:
->  	vdec_msg_queue_update_ube_rptr(&lat_buf->ctx->msg_queue, share_info->tr=
-ans_end);
->  	ctx->dev->vdec_pdata->cap_to_disp(ctx, !!err, lat_buf->src_buf_req);
-> -	mtk_vcodec_debug(inst, "core decode done err=3D%d", err);
-> +	mtk_vdec_debug(ctx, "core decode done err=3D%d", err);
->  	ctx->decoded_frame_cnt++;
->  	return 0;
->  }
-> @@ -594,7 +592,7 @@ static int vdec_h264_slice_lat_decode(void *h_vdec, s=
-truct mtk_vcodec_mem *bs,
-> =20
->  	lat_buf =3D vdec_msg_queue_dqbuf(&inst->ctx->msg_queue.lat_ctx);
->  	if (!lat_buf) {
-> -		mtk_vcodec_debug(inst, "failed to get lat buffer");
-> +		mtk_vdec_debug(inst->ctx, "failed to get lat buffer");
->  		return -EAGAIN;
+> -		mtk_v4l2_debug(1, "resChg: (%d %d) : old(%d, %d) -> new(%d, %d)",
+> -			       inst->resolution_changed,
+> -			       inst->realloc_mv_buf,
+> -			       ctx->last_decoded_picinfo.pic_w,
+> -			       ctx->last_decoded_picinfo.pic_h,
+> -			       ctx->picinfo.pic_w, ctx->picinfo.pic_h);
+> +		mtk_v4l2_vdec_dbg(1, inst->ctx, "resChg: (%d %d) : old(%d, %d) -> new(=
+%d, %d)",
+> +				  inst->resolution_changed,
+> +				  inst->realloc_mv_buf,
+> +				  ctx->last_decoded_picinfo.pic_w,
+> +				  ctx->last_decoded_picinfo.pic_h,
+> +				  ctx->picinfo.pic_w, ctx->picinfo.pic_h);
 >  	}
->  	share_info =3D lat_buf->private_data;
-> @@ -623,7 +621,7 @@ static int vdec_h264_slice_lat_decode(void *h_vdec, s=
-truct mtk_vcodec_mem *bs,
-> =20
->  	*res_chg =3D inst->resolution_changed;
->  	if (inst->resolution_changed) {
-> -		mtk_vcodec_debug(inst, "- resolution changed -");
-> +		mtk_vdec_debug(inst->ctx, "- resolution changed -");
->  		if (inst->realloc_mv_buf) {
->  			err =3D vdec_h264_slice_alloc_mv_buf(inst, &inst->ctx->picinfo);
->  			inst->realloc_mv_buf =3D false;
-> @@ -646,19 +644,19 @@ static int vdec_h264_slice_lat_decode(void *h_vdec,=
- struct mtk_vcodec_mem *bs,
-> =20
->  	inst->vsi->trans_end =3D inst->ctx->msg_queue.wdma_rptr_addr;
->  	inst->vsi->trans_start =3D inst->ctx->msg_queue.wdma_wptr_addr;
-> -	mtk_vcodec_debug(inst, "lat:trans(0x%llx 0x%llx) err:0x%llx",
-> -			 inst->vsi->wdma_start_addr,
-> -			 inst->vsi->wdma_end_addr,
-> -			 inst->vsi->wdma_err_addr);
-> -
-> -	mtk_vcodec_debug(inst, "slice(0x%llx 0x%llx) rprt((0x%llx 0x%llx))",
-> -			 inst->vsi->slice_bc_start_addr,
-> -			 inst->vsi->slice_bc_end_addr,
-> -			 inst->vsi->trans_start,
-> -			 inst->vsi->trans_end);
-> +	mtk_vdec_debug(inst->ctx, "lat:trans(0x%llx 0x%llx) err:0x%llx",
-> +		       inst->vsi->wdma_start_addr,
-> +		       inst->vsi->wdma_end_addr,
-> +		       inst->vsi->wdma_err_addr);
-> +
-> +	mtk_vdec_debug(inst->ctx, "slice(0x%llx 0x%llx) rprt((0x%llx 0x%llx))",
-> +		       inst->vsi->slice_bc_start_addr,
-> +		       inst->vsi->slice_bc_end_addr,
-> +		       inst->vsi->trans_start,
-> +		       inst->vsi->trans_end);
->  	err =3D vpu_dec_start(vpu, data, 2);
->  	if (err) {
-> -		mtk_vcodec_debug(inst, "lat decode err: %d", err);
-> +		mtk_vdec_debug(inst->ctx, "lat decode err: %d", err);
->  		goto err_free_fb_out;
->  	}
-> =20
-> @@ -677,7 +675,7 @@ static int vdec_h264_slice_lat_decode(void *h_vdec, s=
-truct mtk_vcodec_mem *bs,
->  	timeout =3D mtk_vcodec_wait_for_done_ctx(inst->ctx, MTK_INST_IRQ_RECEIV=
-ED,
->  					       WAIT_INTR_TIMEOUT_MS, MTK_VDEC_LAT0);
->  	if (timeout)
-> -		mtk_vcodec_err(inst, "lat decode timeout: pic_%d", inst->slice_dec_num=
-);
-> +		mtk_vdec_err(inst->ctx, "lat decode timeout: pic_%d", inst->slice_dec_=
-num);
->  	inst->vsi->dec.timeout =3D !!timeout;
-> =20
->  	err =3D vpu_dec_end(vpu);
-> @@ -685,7 +683,7 @@ static int vdec_h264_slice_lat_decode(void *h_vdec, s=
-truct mtk_vcodec_mem *bs,
->  		if (!IS_VDEC_INNER_RACING(inst->ctx->dev->dec_capability))
->  			vdec_msg_queue_qbuf(&inst->ctx->msg_queue.lat_ctx, lat_buf);
->  		inst->slice_dec_num++;
-> -		mtk_vcodec_err(inst, "lat dec fail: pic_%d err:%d", inst->slice_dec_nu=
-m, err);
-> +		mtk_vdec_err(inst->ctx, "lat dec fail: pic_%d err:%d", inst->slice_dec=
-_num, err);
->  		return -EINVAL;
->  	}
-> =20
-> @@ -698,14 +696,14 @@ static int vdec_h264_slice_lat_decode(void *h_vdec,=
- struct mtk_vcodec_mem *bs,
->  		       sizeof(share_info->h264_slice_params));
->  		vdec_msg_queue_qbuf(&inst->ctx->msg_queue.core_ctx, lat_buf);
->  	}
-> -	mtk_vcodec_debug(inst, "dec num: %d lat crc: 0x%x 0x%x 0x%x", inst->sli=
-ce_dec_num,
-> -			 inst->vsi->dec.crc[0], inst->vsi->dec.crc[1], inst->vsi->dec.crc[2])=
-;
-> +	mtk_vdec_debug(inst->ctx, "dec num: %d lat crc: 0x%x 0x%x 0x%x", inst->=
-slice_dec_num,
-> +		       inst->vsi->dec.crc[0], inst->vsi->dec.crc[1], inst->vsi->dec.cr=
-c[2]);
-> =20
->  	inst->slice_dec_num++;
->  	return 0;
->  err_free_fb_out:
->  	vdec_msg_queue_qbuf(&inst->ctx->msg_queue.lat_ctx, lat_buf);
-> -	mtk_vcodec_err(inst, "slice dec number: %d err: %d", inst->slice_dec_nu=
-m, err);
-> +	mtk_vdec_err(inst->ctx, "slice dec number: %d err: %d", inst->slice_dec=
-_num, err);
->  	return err;
 >  }
 > =20
-> @@ -732,8 +730,8 @@ static int vdec_h264_slice_single_decode(void *h_vdec=
-, struct mtk_vcodec_mem *bs
-> =20
->  	y_fb_dma =3D fb ? (u64)fb->base_y.dma_addr : 0;
->  	c_fb_dma =3D fb ? (u64)fb->base_c.dma_addr : 0;
-> -	mtk_vcodec_debug(inst, "[h264-dec] [%d] y_dma=3D%llx c_dma=3D%llx",
-> -			 inst->ctx->decoded_frame_cnt, y_fb_dma, c_fb_dma);
-> +	mtk_vdec_debug(inst->ctx, "[h264-dec] [%d] y_dma=3D%llx c_dma=3D%llx",
-> +		       inst->ctx->decoded_frame_cnt, y_fb_dma, c_fb_dma);
-> =20
->  	inst->vsi_ctx.dec.bs_buf_addr =3D (u64)bs->dma_addr;
->  	inst->vsi_ctx.dec.bs_buf_size =3D bs->size;
-> @@ -757,7 +755,7 @@ static int vdec_h264_slice_single_decode(void *h_vdec=
-, struct mtk_vcodec_mem *bs
-> =20
->  	*res_chg =3D inst->resolution_changed;
->  	if (inst->resolution_changed) {
-> -		mtk_vcodec_debug(inst, "- resolution changed -");
-> +		mtk_vdec_debug(inst->ctx, "- resolution changed -");
->  		if (inst->realloc_mv_buf) {
->  			err =3D vdec_h264_slice_alloc_mv_buf(inst, &inst->ctx->picinfo);
->  			inst->realloc_mv_buf =3D false;
-> @@ -781,8 +779,7 @@ static int vdec_h264_slice_single_decode(void *h_vdec=
-, struct mtk_vcodec_mem *bs
->  	err =3D mtk_vcodec_wait_for_done_ctx(inst->ctx, MTK_INST_IRQ_RECEIVED,
->  					   WAIT_INTR_TIMEOUT_MS, MTK_VDEC_CORE);
->  	if (err)
-> -		mtk_vcodec_err(inst, "decode timeout: pic_%d",
-> -			       inst->ctx->decoded_frame_cnt);
-> +		mtk_vdec_err(inst->ctx, "decode timeout: pic_%d", inst->ctx->decoded_f=
-rame_cnt);
-> =20
->  	inst->vsi->dec.timeout =3D !!err;
->  	err =3D vpu_dec_end(vpu);
-> @@ -790,19 +787,18 @@ static int vdec_h264_slice_single_decode(void *h_vd=
-ec, struct mtk_vcodec_mem *bs
->  		goto err_free_fb_out;
-> =20
->  	memcpy(&inst->vsi_ctx, inst->vpu.vsi, sizeof(inst->vsi_ctx));
-> -	mtk_vcodec_debug(inst, "pic[%d] crc: 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x=
- 0x%x",
-> -			 inst->ctx->decoded_frame_cnt,
-> -			 inst->vsi_ctx.dec.crc[0], inst->vsi_ctx.dec.crc[1],
-> -			 inst->vsi_ctx.dec.crc[2], inst->vsi_ctx.dec.crc[3],
-> -			 inst->vsi_ctx.dec.crc[4], inst->vsi_ctx.dec.crc[5],
-> -			 inst->vsi_ctx.dec.crc[6], inst->vsi_ctx.dec.crc[7]);
-> +	mtk_vdec_debug(inst->ctx, "pic[%d] crc: 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0=
-x%x 0x%x",
-> +		       inst->ctx->decoded_frame_cnt,
-> +		       inst->vsi_ctx.dec.crc[0], inst->vsi_ctx.dec.crc[1],
-> +		       inst->vsi_ctx.dec.crc[2], inst->vsi_ctx.dec.crc[3],
-> +		       inst->vsi_ctx.dec.crc[4], inst->vsi_ctx.dec.crc[5],
-> +		       inst->vsi_ctx.dec.crc[6], inst->vsi_ctx.dec.crc[7]);
-> =20
->  	inst->ctx->decoded_frame_cnt++;
->  	return 0;
-> =20
->  err_free_fb_out:
-> -	mtk_vcodec_err(inst, "dec frame number: %d err: %d",
-> -		       inst->ctx->decoded_frame_cnt, err);
-> +	mtk_vdec_err(inst->ctx, "dec frame number: %d err: %d", inst->ctx->deco=
-ded_frame_cnt, err);
->  	return err;
->  }
-> =20
-> @@ -839,7 +835,7 @@ static int vdec_h264_slice_get_param(void *h_vdec, en=
-um vdec_get_param_type type
->  		vdec_h264_slice_get_crop_info(inst, out);
->  		break;
->  	default:
-> -		mtk_vcodec_err(inst, "invalid get parameter type=3D%d", type);
-> +		mtk_vdec_err(inst->ctx, "invalid get parameter type=3D%d", type);
->  		return -EINVAL;
->  	}
->  	return 0;
 > diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_hevc_req_mu=
 lti_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_hevc_req_multi_=
 if.c
-> index 0bb5b54578e9..5a864bcfe7ba 100644
+> index 5a864bcfe7ba..aa32b7cbf6f1 100644
 > --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_hevc_req_multi_if.=
 c
 > +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_hevc_req_multi_if.=
 c
-> @@ -657,7 +657,7 @@ static int vdec_hevc_slice_alloc_mv_buf(struct vdec_h=
+> @@ -649,7 +649,7 @@ static int vdec_hevc_slice_alloc_mv_buf(struct vdec_h=
 evc_slice_inst *inst,
->  		mem->size =3D buf_sz;
->  		err =3D mtk_vcodec_mem_alloc(inst->ctx, mem);
->  		if (err) {
-> -			mtk_vcodec_err(inst, "failed to allocate mv buf");
-> +			mtk_vdec_err(inst->ctx, "failed to allocate mv buf");
->  			return err;
->  		}
->  	}
-> @@ -694,11 +694,11 @@ static void vdec_hevc_slice_get_pic_info(struct vde=
+>  	struct mtk_vcodec_mem *mem;
+>  	int i, err;
+> =20
+> -	mtk_v4l2_debug(3, "allocate mv buffer size =3D 0x%x", buf_sz);
+> +	mtk_v4l2_vdec_dbg(3, inst->ctx, "allocate mv buffer size =3D 0x%x", buf=
+_sz);
+>  	for (i =3D 0; i < HEVC_MAX_MV_NUM; i++) {
+>  		mem =3D &inst->mv_buf[i];
+>  		if (mem->va)
+> @@ -707,12 +707,12 @@ static void vdec_hevc_slice_get_pic_info(struct vde=
 c_hevc_slice_inst *inst)
->  	inst->cap_num_planes =3D
->  		ctx->q_data[MTK_Q_DATA_DST].fmt->num_planes;
+>  		    ctx->last_decoded_picinfo.buf_h !=3D ctx->picinfo.buf_h)
+>  			inst->realloc_mv_buf =3D true;
 > =20
-> -	mtk_vcodec_debug(inst, "pic(%d, %d), buf(%d, %d)",
-> -			 ctx->picinfo.pic_w, ctx->picinfo.pic_h,
-> -			 ctx->picinfo.buf_w, ctx->picinfo.buf_h);
-> -	mtk_vcodec_debug(inst, "Y/C(%d, %d)", ctx->picinfo.fb_sz[0],
-> -			 ctx->picinfo.fb_sz[1]);
-> +	mtk_vdec_debug(ctx, "pic(%d, %d), buf(%d, %d)",
-> +		       ctx->picinfo.pic_w, ctx->picinfo.pic_h,
-> +		       ctx->picinfo.buf_w, ctx->picinfo.buf_h);
-> +	mtk_vdec_debug(ctx, "Y/C(%d, %d)", ctx->picinfo.fb_sz[0],
-> +		       ctx->picinfo.fb_sz[1]);
-> =20
->  	if (ctx->last_decoded_picinfo.pic_w !=3D ctx->picinfo.pic_w ||
->  	    ctx->last_decoded_picinfo.pic_h !=3D ctx->picinfo.pic_h) {
-> @@ -724,8 +724,8 @@ static void vdec_hevc_slice_get_crop_info(struct vdec=
-_hevc_slice_inst *inst,
->  	cr->width =3D inst->ctx->picinfo.pic_w;
->  	cr->height =3D inst->ctx->picinfo.pic_h;
-> =20
-> -	mtk_vcodec_debug(inst, "l=3D%d, t=3D%d, w=3D%d, h=3D%d",
-> -			 cr->left, cr->top, cr->width, cr->height);
-> +	mtk_vdec_debug(inst->ctx, "l=3D%d, t=3D%d, w=3D%d, h=3D%d",
-> +		       cr->left, cr->top, cr->width, cr->height);
+> -		mtk_v4l2_debug(1, "resChg: (%d %d) : old(%d, %d) -> new(%d, %d)",
+> -			       inst->resolution_changed,
+> -			       inst->realloc_mv_buf,
+> -			       ctx->last_decoded_picinfo.pic_w,
+> -			       ctx->last_decoded_picinfo.pic_h,
+> -			       ctx->picinfo.pic_w, ctx->picinfo.pic_h);
+> +		mtk_v4l2_vdec_dbg(1, inst->ctx, "resChg: (%d %d) : old(%d, %d) -> new(=
+%d, %d)",
+> +				  inst->resolution_changed,
+> +				  inst->realloc_mv_buf,
+> +				  ctx->last_decoded_picinfo.pic_w,
+> +				  ctx->last_decoded_picinfo.pic_h,
+> +				  ctx->picinfo.pic_w, ctx->picinfo.pic_h);
+>  	}
 >  }
 > =20
->  static int vdec_hevc_slice_setup_lat_buffer(struct vdec_hevc_slice_inst =
-*inst,
-> @@ -747,7 +747,7 @@ static int vdec_hevc_slice_setup_lat_buffer(struct vd=
-ec_hevc_slice_inst *inst,
+> diff --git a/drivers/media/platform/mediatek/vcodec/vdec_drv_if.c b/drive=
+rs/media/platform/mediatek/vcodec/vdec_drv_if.c
+> index 06d393174cc2..e66faf50892b 100644
+> --- a/drivers/media/platform/mediatek/vcodec/vdec_drv_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/vdec_drv_if.c
+> @@ -75,7 +75,7 @@ int vdec_if_decode(struct mtk_vcodec_ctx *ctx, struct m=
+tk_vcodec_mem *bs,
 > =20
->  	*res_chg =3D inst->resolution_changed;
->  	if (inst->resolution_changed) {
-> -		mtk_vcodec_debug(inst, "- resolution changed -");
-> +		mtk_vdec_debug(inst->ctx, "- resolution changed -");
->  		if (inst->realloc_mv_buf) {
->  			err =3D vdec_hevc_slice_alloc_mv_buf(inst, &inst->ctx->picinfo);
->  			inst->realloc_mv_buf =3D false;
-> @@ -779,16 +779,16 @@ static int vdec_hevc_slice_setup_lat_buffer(struct =
-vdec_hevc_slice_inst *inst,
->  	share_info->trans.dma_addr =3D inst->vsi->trans.dma_addr;
->  	share_info->trans.dma_addr_end =3D inst->vsi->trans.dma_addr_end;
+>  	if (bs) {
+>  		if ((bs->dma_addr & 63) !=3D 0) {
+> -			mtk_v4l2_err("bs dma_addr should 64 byte align");
+> +			mtk_v4l2_vdec_err(ctx, "bs dma_addr should 64 byte align");
+>  			return -EINVAL;
+>  		}
+>  	}
+> @@ -83,7 +83,7 @@ int vdec_if_decode(struct mtk_vcodec_ctx *ctx, struct m=
+tk_vcodec_mem *bs,
+>  	if (fb) {
+>  		if (((fb->base_y.dma_addr & 511) !=3D 0) ||
+>  		    ((fb->base_c.dma_addr & 511) !=3D 0)) {
+> -			mtk_v4l2_err("frame buffer dma_addr should 512 byte align");
+> +			mtk_v4l2_vdec_err(ctx, "frame buffer dma_addr should 512 byte align")=
+;
+>  			return -EINVAL;
+>  		}
+>  	}
+> diff --git a/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c b/dr=
+ivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
+> index f555341ae708..1b2d01b15032 100644
+> --- a/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
+> +++ b/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
+> @@ -77,7 +77,7 @@ int vdec_msg_queue_qbuf(struct vdec_msg_queue_ctx *msg_=
+ctx, struct vdec_lat_buf
 > =20
-> -	mtk_vcodec_debug(inst, "lat: ube addr/size(0x%llx 0x%llx) err:0x%llx",
-> -			 inst->vsi->ube.buf,
-> -			 inst->vsi->ube.padding,
-> -			 inst->vsi->err_map.buf);
-> +	mtk_vdec_debug(inst->ctx, "lat: ube addr/size(0x%llx 0x%llx) err:0x%llx=
+>  	head =3D vdec_get_buf_list(msg_ctx->hardware_index, buf);
+>  	if (!head) {
+> -		mtk_v4l2_err("fail to qbuf: %d", msg_ctx->hardware_index);
+> +		mtk_v4l2_vdec_err(buf->ctx, "fail to qbuf: %d", msg_ctx->hardware_inde=
+x);
+>  		return -EINVAL;
+>  	}
+> =20
+> @@ -95,8 +95,8 @@ int vdec_msg_queue_qbuf(struct vdec_msg_queue_ctx *msg_=
+ctx, struct vdec_lat_buf
+>  		}
+>  	}
+> =20
+> -	mtk_v4l2_debug(3, "enqueue buf type: %d addr: 0x%p num: %d",
+> -		       msg_ctx->hardware_index, buf, msg_ctx->ready_num);
+> +	mtk_v4l2_vdec_dbg(3, buf->ctx, "enqueue buf type: %d addr: 0x%p num: %d=
 ",
-> +		       inst->vsi->ube.buf,
-> +		       inst->vsi->ube.padding,
-> +		       inst->vsi->err_map.buf);
-> =20
-> -	mtk_vcodec_debug(inst, "slice addr/size(0x%llx 0x%llx) trans start/end(=
-(0x%llx 0x%llx))",
-> -			 inst->vsi->slice_bc.buf,
-> -			 inst->vsi->slice_bc.padding,
-> -			 inst->vsi->trans.buf,
-> -			 inst->vsi->trans.padding);
-> +	mtk_vdec_debug(inst->ctx, "slice addr/size(0x%llx 0x%llx) trans start/e=
-nd((0x%llx 0x%llx))",
-> +		       inst->vsi->slice_bc.buf,
-> +		       inst->vsi->slice_bc.padding,
-> +		       inst->vsi->trans.buf,
-> +		       inst->vsi->trans.padding);
+> +			  msg_ctx->hardware_index, buf, msg_ctx->ready_num);
+>  	spin_unlock(&msg_ctx->ready_lock);
 > =20
 >  	return 0;
->  }
-> @@ -806,7 +806,7 @@ static int vdec_hevc_slice_setup_core_buffer(struct v=
-dec_hevc_slice_inst *inst,
+> @@ -123,8 +123,6 @@ struct vdec_lat_buf *vdec_msg_queue_dqbuf(struct vdec=
+_msg_queue_ctx *msg_ctx)
 > =20
->  	fb =3D ctx->dev->vdec_pdata->get_cap_buffer(ctx);
->  	if (!fb) {
-> -		mtk_vcodec_err(inst, "fb buffer is NULL");
-> +		mtk_vdec_err(inst->ctx, "fb buffer is NULL");
->  		return -EBUSY;
+>  	spin_lock(&msg_ctx->ready_lock);
+>  	if (list_empty(&msg_ctx->ready_queue)) {
+> -		mtk_v4l2_debug(3, "queue is NULL, type:%d num: %d",
+> -			       msg_ctx->hardware_index, msg_ctx->ready_num);
+>  		spin_unlock(&msg_ctx->ready_lock);
+> =20
+>  		if (msg_ctx->hardware_index =3D=3D MTK_VDEC_CORE)
+> @@ -146,15 +144,15 @@ struct vdec_lat_buf *vdec_msg_queue_dqbuf(struct vd=
+ec_msg_queue_ctx *msg_ctx)
+>  	head =3D vdec_get_buf_list(msg_ctx->hardware_index, buf);
+>  	if (!head) {
+>  		spin_unlock(&msg_ctx->ready_lock);
+> -		mtk_v4l2_err("fail to dqbuf: %d", msg_ctx->hardware_index);
+> +		mtk_v4l2_vdec_err(buf->ctx, "fail to dqbuf: %d", msg_ctx->hardware_ind=
+ex);
+>  		return NULL;
 >  	}
+>  	list_del(head);
+>  	vdec_msg_queue_dec(&buf->ctx->msg_queue, msg_ctx->hardware_index);
 > =20
-> @@ -817,8 +817,7 @@ static int vdec_hevc_slice_setup_core_buffer(struct v=
-dec_hevc_slice_inst *inst,
->  	else
->  		c_fb_dma =3D (u64)fb->base_c.dma_addr;
+>  	msg_ctx->ready_num--;
+> -	mtk_v4l2_debug(3, "dqueue buf type:%d addr: 0x%p num: %d",
+> -		       msg_ctx->hardware_index, buf, msg_ctx->ready_num);
+> +	mtk_v4l2_vdec_dbg(3, buf->ctx, "dqueue buf type:%d addr: 0x%p num: %d",
+> +			  msg_ctx->hardware_index, buf, msg_ctx->ready_num);
+>  	spin_unlock(&msg_ctx->ready_lock);
 > =20
-> -	mtk_vcodec_debug(inst, "[hevc-core] y/c addr =3D 0x%llx 0x%llx", y_fb_d=
-ma,
-> -			 c_fb_dma);
-> +	mtk_vdec_debug(inst->ctx, "[hevc-core] y/c addr =3D 0x%llx 0x%llx", y_f=
-b_dma, c_fb_dma);
-> =20
->  	inst->vsi_core->fb.y.dma_addr =3D y_fb_dma;
->  	inst->vsi_core->fb.y.size =3D ctx->picinfo.fb_sz[0];
-> @@ -874,7 +873,7 @@ static int vdec_hevc_slice_init(struct mtk_vcodec_ctx=
- *ctx)
->  	ctx->drv_handle =3D inst;
->  	err =3D vpu_dec_init(&inst->vpu);
->  	if (err) {
-> -		mtk_vcodec_err(inst, "vdec_hevc init err=3D%d", err);
-> +		mtk_vdec_err(ctx, "vdec_hevc init err=3D%d", err);
->  		goto error_free_inst;
->  	}
-> =20
-> @@ -891,14 +890,14 @@ static int vdec_hevc_slice_init(struct mtk_vcodec_c=
-tx *ctx)
->  	if (err)
->  		goto error_free_inst;
-> =20
-> -	mtk_vcodec_debug(inst, "lat struct size =3D %d,%d,%d,%d vsi: %d\n",
-> -			 (int)sizeof(struct mtk_hevc_sps_param),
-> -			 (int)sizeof(struct mtk_hevc_pps_param),
-> -			 (int)sizeof(struct vdec_hevc_slice_lat_dec_param),
-> -			 (int)sizeof(struct mtk_hevc_dpb_info),
-> +	mtk_vdec_debug(ctx, "lat struct size =3D %d,%d,%d,%d vsi: %d\n",
-> +		       (int)sizeof(struct mtk_hevc_sps_param),
-> +		       (int)sizeof(struct mtk_hevc_pps_param),
-> +		       (int)sizeof(struct vdec_hevc_slice_lat_dec_param),
-> +		       (int)sizeof(struct mtk_hevc_dpb_info),
->  			 vsi_size);
-> -	mtk_vcodec_debug(inst, "lat hevc instance >> %p, codec_type =3D 0x%x",
-> -			 inst, inst->vpu.codec_type);
-> +	mtk_vdec_debug(ctx, "lat hevc instance >> %p, codec_type =3D 0x%x",
-> +		       inst, inst->vpu.codec_type);
-> =20
->  	return 0;
->  error_free_inst:
-> @@ -930,7 +929,7 @@ static int vdec_hevc_slice_core_decode(struct vdec_la=
-t_buf *lat_buf)
->  	struct vdec_hevc_slice_share_info *share_info =3D lat_buf->private_data=
-;
->  	struct vdec_vpu_inst *vpu =3D &inst->vpu;
-> =20
-> -	mtk_vcodec_debug(inst, "[hevc-core] vdec_hevc core decode");
-> +	mtk_vdec_debug(ctx, "[hevc-core] vdec_hevc core decode");
->  	memcpy(&inst->vsi_core->hevc_slice_params, &share_info->hevc_slice_para=
-ms,
->  	       sizeof(share_info->hevc_slice_params));
-> =20
-> @@ -942,7 +941,7 @@ static int vdec_hevc_slice_core_decode(struct vdec_la=
-t_buf *lat_buf)
->  					    share_info);
->  	err =3D vpu_dec_core(vpu);
->  	if (err) {
-> -		mtk_vcodec_err(inst, "core decode err=3D%d", err);
-> +		mtk_vdec_err(ctx, "core decode err=3D%d", err);
->  		goto vdec_dec_end;
->  	}
-> =20
-> @@ -950,22 +949,21 @@ static int vdec_hevc_slice_core_decode(struct vdec_=
-lat_buf *lat_buf)
->  	timeout =3D mtk_vcodec_wait_for_done_ctx(inst->ctx, MTK_INST_IRQ_RECEIV=
-ED,
->  					       WAIT_INTR_TIMEOUT_MS, MTK_VDEC_CORE);
->  	if (timeout)
-> -		mtk_vcodec_err(inst, "core decode timeout: pic_%d",
-> -			       ctx->decoded_frame_cnt);
-> +		mtk_vdec_err(ctx, "core decode timeout: pic_%d", ctx->decoded_frame_cn=
-t);
->  	inst->vsi_core->dec.timeout =3D !!timeout;
-> =20
->  	vpu_dec_core_end(vpu);
-> -	mtk_vcodec_debug(inst, "pic[%d] crc: 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x=
- 0x%x",
-> -			 ctx->decoded_frame_cnt,
-> -			 inst->vsi_core->dec.crc[0], inst->vsi_core->dec.crc[1],
-> -			 inst->vsi_core->dec.crc[2], inst->vsi_core->dec.crc[3],
-> -			 inst->vsi_core->dec.crc[4], inst->vsi_core->dec.crc[5],
-> -			 inst->vsi_core->dec.crc[6], inst->vsi_core->dec.crc[7]);
-> +	mtk_vdec_debug(ctx, "pic[%d] crc: 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x=
-%x",
-> +		       ctx->decoded_frame_cnt,
-> +		       inst->vsi_core->dec.crc[0], inst->vsi_core->dec.crc[1],
-> +		       inst->vsi_core->dec.crc[2], inst->vsi_core->dec.crc[3],
-> +		       inst->vsi_core->dec.crc[4], inst->vsi_core->dec.crc[5],
-> +		       inst->vsi_core->dec.crc[6], inst->vsi_core->dec.crc[7]);
-> =20
->  vdec_dec_end:
->  	vdec_msg_queue_update_ube_rptr(&lat_buf->ctx->msg_queue, share_info->tr=
-ans.dma_addr_end);
->  	ctx->dev->vdec_pdata->cap_to_disp(ctx, !!err, lat_buf->src_buf_req);
-> -	mtk_vcodec_debug(inst, "core decode done err=3D%d", err);
-> +	mtk_vdec_debug(ctx, "core decode done err=3D%d", err);
->  	ctx->decoded_frame_cnt++;
->  	return 0;
->  }
-> @@ -993,7 +991,7 @@ static int vdec_hevc_slice_lat_decode(void *h_vdec, s=
-truct mtk_vcodec_mem *bs,
-> =20
->  	lat_buf =3D vdec_msg_queue_dqbuf(&inst->ctx->msg_queue.lat_ctx);
->  	if (!lat_buf) {
-> -		mtk_vcodec_debug(inst, "failed to get lat buffer");
-> +		mtk_vdec_debug(inst->ctx, "failed to get lat buffer");
->  		return -EAGAIN;
->  	}
-> =20
-> @@ -1008,7 +1006,7 @@ static int vdec_hevc_slice_lat_decode(void *h_vdec,=
- struct mtk_vcodec_mem *bs,
-> =20
->  	err =3D vpu_dec_start(vpu, data, 2);
->  	if (err) {
-> -		mtk_vcodec_debug(inst, "lat decode err: %d", err);
-> +		mtk_vdec_debug(inst->ctx, "lat decode err: %d", err);
->  		goto err_free_fb_out;
->  	}
-> =20
-> @@ -1022,7 +1020,7 @@ static int vdec_hevc_slice_lat_decode(void *h_vdec,=
- struct mtk_vcodec_mem *bs,
->  	timeout =3D mtk_vcodec_wait_for_done_ctx(inst->ctx, MTK_INST_IRQ_RECEIV=
-ED,
->  					       WAIT_INTR_TIMEOUT_MS, MTK_VDEC_LAT0);
->  	if (timeout)
-> -		mtk_vcodec_err(inst, "lat decode timeout: pic_%d", inst->slice_dec_num=
-);
-> +		mtk_vdec_err(inst->ctx, "lat decode timeout: pic_%d", inst->slice_dec_=
-num);
->  	inst->vsi->dec.timeout =3D !!timeout;
-> =20
->  	err =3D vpu_dec_end(vpu);
-> @@ -1030,7 +1028,7 @@ static int vdec_hevc_slice_lat_decode(void *h_vdec,=
- struct mtk_vcodec_mem *bs,
->  		if (!IS_VDEC_INNER_RACING(inst->ctx->dev->dec_capability))
->  			vdec_msg_queue_qbuf(&inst->ctx->msg_queue.lat_ctx, lat_buf);
->  		inst->slice_dec_num++;
-> -		mtk_vcodec_err(inst, "lat dec fail: pic_%d err:%d", inst->slice_dec_nu=
-m, err);
-> +		mtk_vdec_err(inst->ctx, "lat dec fail: pic_%d err:%d", inst->slice_dec=
-_num, err);
->  		return -EINVAL;
->  	}
-> =20
-> @@ -1043,14 +1041,14 @@ static int vdec_hevc_slice_lat_decode(void *h_vde=
-c, struct mtk_vcodec_mem *bs,
->  		       sizeof(share_info->hevc_slice_params));
->  		vdec_msg_queue_qbuf(&inst->ctx->msg_queue.core_ctx, lat_buf);
->  	}
-> -	mtk_vcodec_debug(inst, "dec num: %d lat crc: 0x%x 0x%x 0x%x", inst->sli=
-ce_dec_num,
-> -			 inst->vsi->dec.crc[0], inst->vsi->dec.crc[1], inst->vsi->dec.crc[2])=
-;
-> +	mtk_vdec_debug(inst->ctx, "dec num: %d lat crc: 0x%x 0x%x 0x%x", inst->=
-slice_dec_num,
-> +		       inst->vsi->dec.crc[0], inst->vsi->dec.crc[1], inst->vsi->dec.cr=
-c[2]);
-> =20
->  	inst->slice_dec_num++;
->  	return 0;
->  err_free_fb_out:
->  	vdec_msg_queue_qbuf(&inst->ctx->msg_queue.lat_ctx, lat_buf);
-> -	mtk_vcodec_err(inst, "slice dec number: %d err: %d", inst->slice_dec_nu=
-m, err);
-> +	mtk_vdec_err(inst->ctx, "slice dec number: %d err: %d", inst->slice_dec=
-_num, err);
->  	return err;
->  }
-> =20
-> @@ -1081,7 +1079,7 @@ static int vdec_hevc_slice_get_param(void *h_vdec, =
-enum vdec_get_param_type type
->  		vdec_hevc_slice_get_crop_info(inst, out);
->  		break;
->  	default:
-> -		mtk_vcodec_err(inst, "invalid get parameter type=3D%d", type);
-> +		mtk_vdec_err(inst->ctx, "invalid get parameter type=3D%d", type);
->  		return -EINVAL;
->  	}
->  	return 0;
-> diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_if.c b/=
-drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_if.c
-> index fb5bc30b113b..295cb2ee5c4a 100644
-> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_if.c
-> @@ -284,10 +284,10 @@ static void get_pic_info(struct vdec_vp8_inst *inst=
-, struct vdec_pic_info *pic)
+>  	return buf;
+> @@ -164,7 +162,7 @@ void vdec_msg_queue_update_ube_rptr(struct vdec_msg_q=
+ueue *msg_queue, uint64_t u
 >  {
->  	*pic =3D inst->vsi->pic;
-> =20
-> -	mtk_vcodec_debug(inst, "pic(%d, %d), buf(%d, %d)",
-> -			 pic->pic_w, pic->pic_h, pic->buf_w, pic->buf_h);
-> -	mtk_vcodec_debug(inst, "fb size: Y(%d), C(%d)",
-> -			 pic->fb_sz[0], pic->fb_sz[1]);
-> +	mtk_vdec_debug(inst->ctx, "pic(%d, %d), buf(%d, %d)",
-> +		       pic->pic_w, pic->pic_h, pic->buf_w, pic->buf_h);
-> +	mtk_vdec_debug(inst->ctx, "fb size: Y(%d), C(%d)",
-> +		       pic->fb_sz[0], pic->fb_sz[1]);
+>  	spin_lock(&msg_queue->lat_ctx.ready_lock);
+>  	msg_queue->wdma_rptr_addr =3D ube_rptr;
+> -	mtk_v4l2_debug(3, "update ube rprt (0x%llx)", ube_rptr);
+> +	mtk_v4l2_vdec_dbg(3, msg_queue->ctx, "update ube rprt (0x%llx)", ube_rp=
+tr);
+>  	spin_unlock(&msg_queue->lat_ctx.ready_lock);
 >  }
 > =20
->  static void vp8_dec_finish(struct vdec_vp8_inst *inst)
-> @@ -295,7 +295,7 @@ static void vp8_dec_finish(struct vdec_vp8_inst *inst=
-)
->  	struct vdec_fb_node *node;
->  	uint64_t prev_y_dma =3D inst->vsi->dec.prev_y_dma;
+> @@ -172,20 +170,19 @@ void vdec_msg_queue_update_ube_wptr(struct vdec_msg=
+_queue *msg_queue, uint64_t u
+>  {
+>  	spin_lock(&msg_queue->lat_ctx.ready_lock);
+>  	msg_queue->wdma_wptr_addr =3D ube_wptr;
+> -	mtk_v4l2_debug(3, "update ube wprt: (0x%llx 0x%llx) offset: 0x%llx",
+> -		       msg_queue->wdma_rptr_addr, msg_queue->wdma_wptr_addr,
+> -		       ube_wptr);
+> +	mtk_v4l2_vdec_dbg(3, msg_queue->ctx, "update ube wprt: (0x%llx 0x%llx) =
+offset: 0x%llx",
+> +			  msg_queue->wdma_rptr_addr, msg_queue->wdma_wptr_addr,
+> +			  ube_wptr);
+>  	spin_unlock(&msg_queue->lat_ctx.ready_lock);
+>  }
 > =20
-> -	mtk_vcodec_debug(inst, "prev fb base dma=3D%llx", prev_y_dma);
-> +	mtk_vdec_debug(inst->ctx, "prev fb base dma=3D%llx", prev_y_dma);
-> =20
->  	/* put last decode ok frame to fb_free_list */
->  	if (prev_y_dma !=3D 0) {
-> @@ -370,7 +370,7 @@ static int alloc_working_buf(struct vdec_vp8_inst *in=
-st)
->  	mem->size =3D VP8_WORKING_BUF_SZ;
->  	err =3D mtk_vcodec_mem_alloc(inst->ctx, mem);
->  	if (err) {
-> -		mtk_vcodec_err(inst, "Cannot allocate working buffer");
-> +		mtk_vdec_err(inst->ctx, "Cannot allocate working buffer");
->  		return err;
+>  bool vdec_msg_queue_wait_lat_buf_full(struct vdec_msg_queue *msg_queue)
+>  {
+>  	if (atomic_read(&msg_queue->lat_list_cnt) =3D=3D NUM_BUFFER_COUNT) {
+> -		mtk_v4l2_debug(3, "wait buf full: list(%d %d) ready_num:%d status:%d",
+> -			       atomic_read(&msg_queue->lat_list_cnt),
+> -			       atomic_read(&msg_queue->core_list_cnt),
+> -			       msg_queue->lat_ctx.ready_num,
+> -			       msg_queue->status);
+> +		mtk_v4l2_vdec_dbg(3, msg_queue->ctx, "wait buf full: (%d %d) ready:%d =
+status:%d",
+> +				  atomic_read(&msg_queue->lat_list_cnt),
+> +				  atomic_read(&msg_queue->core_list_cnt),
+> +				  msg_queue->lat_ctx.ready_num, msg_queue->status);
+>  		return true;
 >  	}
 > =20
-> @@ -404,7 +404,7 @@ static int vdec_vp8_init(struct mtk_vcodec_ctx *ctx)
+> @@ -193,10 +190,10 @@ bool vdec_msg_queue_wait_lat_buf_full(struct vdec_m=
+sg_queue *msg_queue)
+>  	vdec_msg_queue_qbuf(&msg_queue->core_ctx, &msg_queue->empty_lat_buf);
+>  	wait_event(msg_queue->core_dec_done, msg_queue->flush_done);
 > =20
->  	err =3D vpu_dec_init(&inst->vpu);
+> -	mtk_v4l2_debug(3, "flush done =3D> ready_num:%d status:%d list(%d %d)",
+> -		       msg_queue->lat_ctx.ready_num, msg_queue->status,
+> -		       atomic_read(&msg_queue->lat_list_cnt),
+> -		       atomic_read(&msg_queue->core_list_cnt));
+> +	mtk_v4l2_vdec_dbg(3, msg_queue->ctx, "flush done =3D> ready_num:%d stat=
+us:%d list(%d %d)",
+> +			  msg_queue->lat_ctx.ready_num, msg_queue->status,
+> +			  atomic_read(&msg_queue->lat_list_cnt),
+> +			  atomic_read(&msg_queue->core_list_cnt));
+> =20
+>  	return false;
+>  }
+> @@ -305,7 +302,7 @@ int vdec_msg_queue_init(struct vdec_msg_queue *msg_qu=
+eue,
+>  					     ctx->picinfo.buf_h);
+>  	err =3D mtk_vcodec_mem_alloc(ctx, &msg_queue->wdma_addr);
 >  	if (err) {
-> -		mtk_vcodec_err(inst, "vdec_vp8 init err=3D%d", err);
-> +		mtk_vdec_err(ctx, "vdec_vp8 init err=3D%d", err);
->  		goto error_free_inst;
+> -		mtk_v4l2_err("failed to allocate wdma_addr buf");
+> +		mtk_v4l2_vdec_err(ctx, "failed to allocate wdma_addr buf");
+>  		return -ENOMEM;
 >  	}
+>  	msg_queue->wdma_rptr_addr =3D msg_queue->wdma_addr.dma_addr;
+> @@ -315,20 +312,21 @@ int vdec_msg_queue_init(struct vdec_msg_queue *msg_=
+queue,
+>  	msg_queue->empty_lat_buf.core_decode =3D NULL;
+>  	msg_queue->empty_lat_buf.is_last_frame =3D true;
 > =20
-> @@ -415,7 +415,7 @@ static int vdec_vp8_init(struct mtk_vcodec_ctx *ctx)
->  		goto error_deinit;
+> +	msg_queue->ctx =3D ctx;
+>  	for (i =3D 0; i < NUM_BUFFER_COUNT; i++) {
+>  		lat_buf =3D &msg_queue->lat_buf[i];
 > =20
->  	get_hw_reg_base(inst);
-> -	mtk_vcodec_debug(inst, "VP8 Instance >> %p", inst);
-> +	mtk_vdec_debug(ctx, "VP8 Instance >> %p", inst);
-> =20
->  	ctx->drv_handle =3D inst;
->  	return 0;
-> @@ -448,8 +448,8 @@ static int vdec_vp8_decode(void *h_vdec, struct mtk_v=
-codec_mem *bs,
->  	y_fb_dma =3D fb ? (u64)fb->base_y.dma_addr : 0;
->  	c_fb_dma =3D fb ? (u64)fb->base_c.dma_addr : 0;
-> =20
-> -	mtk_vcodec_debug(inst, "+ [%d] FB y_dma=3D%llx c_dma=3D%llx fb=3D%p",
-> -			 inst->frm_cnt, y_fb_dma, c_fb_dma, fb);
-> +	mtk_vdec_debug(inst->ctx, "+ [%d] FB y_dma=3D%llx c_dma=3D%llx fb=3D%p"=
-,
-> +		       inst->frm_cnt, y_fb_dma, c_fb_dma, fb);
-> =20
->  	inst->cur_fb =3D fb;
->  	dec->bs_dma =3D (unsigned long)bs->dma_addr;
-> @@ -457,7 +457,7 @@ static int vdec_vp8_decode(void *h_vdec, struct mtk_v=
-codec_mem *bs,
->  	dec->cur_y_fb_dma =3D y_fb_dma;
->  	dec->cur_c_fb_dma =3D c_fb_dma;
-> =20
-> -	mtk_vcodec_debug(inst, "\n + FRAME[%d] +\n", inst->frm_cnt);
-> +	mtk_vdec_debug(inst->ctx, "\n + FRAME[%d] +\n", inst->frm_cnt);
-> =20
->  	write_hw_segmentation_data(inst);
->  	enable_hw_rw_function(inst);
-> @@ -472,7 +472,7 @@ static int vdec_vp8_decode(void *h_vdec, struct mtk_v=
-codec_mem *bs,
->  	if (err) {
->  		add_fb_to_free_list(inst, fb);
->  		if (dec->wait_key_frame) {
-> -			mtk_vcodec_debug(inst, "wait key frame !");
-> +			mtk_vdec_debug(inst->ctx, "wait key frame !");
->  			return 0;
->  		}
-> =20
-> @@ -480,7 +480,7 @@ static int vdec_vp8_decode(void *h_vdec, struct mtk_v=
-codec_mem *bs,
->  	}
-> =20
->  	if (dec->resolution_changed) {
-> -		mtk_vcodec_debug(inst, "- resolution_changed -");
-> +		mtk_vdec_debug(inst->ctx, "- resolution_changed -");
->  		*res_chg =3D true;
->  		add_fb_to_free_list(inst, fb);
->  		return 0;
-> @@ -500,14 +500,13 @@ static int vdec_vp8_decode(void *h_vdec, struct mtk=
-_vcodec_mem *bs,
->  	if (err)
->  		goto error;
-> =20
-> -	mtk_vcodec_debug(inst, "\n - FRAME[%d] - show=3D%d\n", inst->frm_cnt,
-> -			 dec->show_frame);
-> +	mtk_vdec_debug(inst->ctx, "\n - FRAME[%d] - show=3D%d\n", inst->frm_cnt=
-, dec->show_frame);
->  	inst->frm_cnt++;
->  	*res_chg =3D false;
->  	return 0;
-> =20
->  error:
-> -	mtk_vcodec_err(inst, "\n - FRAME[%d] - err=3D%d\n", inst->frm_cnt, err)=
+>  		lat_buf->wdma_err_addr.size =3D VDEC_ERR_MAP_SZ_AVC;
+>  		err =3D mtk_vcodec_mem_alloc(ctx, &lat_buf->wdma_err_addr);
+>  		if (err) {
+> -			mtk_v4l2_err("failed to allocate wdma_err_addr buf[%d]", i);
+> +			mtk_v4l2_vdec_err(ctx, "failed to allocate wdma_err_addr buf[%d]", i)=
 ;
-> +	mtk_vdec_err(inst->ctx, "\n - FRAME[%d] - err=3D%d\n", inst->frm_cnt, e=
-rr);
->  	return err;
->  }
-> =20
-> @@ -522,11 +521,10 @@ static void get_disp_fb(struct vdec_vp8_inst *inst,=
- struct vdec_fb **out_fb)
->  		list_move_tail(&node->list, &inst->available_fb_node_list);
->  		fb =3D (struct vdec_fb *)node->fb;
->  		fb->status |=3D FB_ST_DISPLAY;
-> -		mtk_vcodec_debug(inst, "[FB] get disp fb %p st=3D%d",
-> -				 node->fb, fb->status);
-> +		mtk_vdec_debug(inst->ctx, "[FB] get disp fb %p st=3D%d", node->fb, fb-=
->status);
->  	} else {
->  		fb =3D NULL;
-> -		mtk_vcodec_debug(inst, "[FB] there is no disp fb");
-> +		mtk_vdec_debug(inst->ctx, "[FB] there is no disp fb");
->  	}
-> =20
->  	*out_fb =3D fb;
-> @@ -543,11 +541,10 @@ static void get_free_fb(struct vdec_vp8_inst *inst,=
- struct vdec_fb **out_fb)
->  		list_move_tail(&node->list, &inst->available_fb_node_list);
->  		fb =3D (struct vdec_fb *)node->fb;
->  		fb->status |=3D FB_ST_FREE;
-> -		mtk_vcodec_debug(inst, "[FB] get free fb %p st=3D%d",
-> -				 node->fb, fb->status);
-> +		mtk_vdec_debug(inst->ctx, "[FB] get free fb %p st=3D%d", node->fb, fb-=
->status);
->  	} else {
->  		fb =3D NULL;
-> -		mtk_vcodec_debug(inst, "[FB] there is no free fb");
-> +		mtk_vdec_debug(inst->ctx, "[FB] there is no free fb");
->  	}
-> =20
->  	*out_fb =3D fb;
-> @@ -559,8 +556,8 @@ static void get_crop_info(struct vdec_vp8_inst *inst,=
- struct v4l2_rect *cr)
->  	cr->top =3D 0;
->  	cr->width =3D inst->vsi->pic.pic_w;
->  	cr->height =3D inst->vsi->pic.pic_h;
-> -	mtk_vcodec_debug(inst, "get crop info l=3D%d, t=3D%d, w=3D%d, h=3D%d",
-> -			 cr->left, cr->top, cr->width, cr->height);
-> +	mtk_vdec_debug(inst->ctx, "get crop info l=3D%d, t=3D%d, w=3D%d, h=3D%d=
-",
-> +		       cr->left, cr->top, cr->width, cr->height);
->  }
-> =20
->  static int vdec_vp8_get_param(void *h_vdec, enum vdec_get_param_type typ=
-e,
-> @@ -590,7 +587,7 @@ static int vdec_vp8_get_param(void *h_vdec, enum vdec=
-_get_param_type type,
->  		break;
-> =20
->  	default:
-> -		mtk_vcodec_err(inst, "invalid get parameter type=3D%d", type);
-> +		mtk_vdec_err(inst->ctx, "invalid get parameter type=3D%d", type);
->  		return -EINVAL;
->  	}
-> =20
-> diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_req_if.=
-c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_req_if.c
-> index f7181f4a4d2a..4193fe20bb92 100644
-> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_req_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_req_if.c
-> @@ -137,11 +137,11 @@ static void vdec_vp8_slice_get_pic_info(struct vdec=
-_vp8_slice_inst *inst)
->  	inst->vsi->pic.buf_h =3D ctx->picinfo.buf_h;
->  	inst->vsi->pic.fb_sz[0] =3D ctx->picinfo.fb_sz[0];
->  	inst->vsi->pic.fb_sz[1] =3D ctx->picinfo.fb_sz[1];
-> -	mtk_vcodec_debug(inst, "pic(%d, %d), buf(%d, %d)",
-> -			 ctx->picinfo.pic_w, ctx->picinfo.pic_h,
-> -			 ctx->picinfo.buf_w, ctx->picinfo.buf_h);
-> -	mtk_vcodec_debug(inst, "fb size: Y(%d), C(%d)",
-> -			 ctx->picinfo.fb_sz[0], ctx->picinfo.fb_sz[1]);
-> +	mtk_vdec_debug(inst->ctx, "pic(%d, %d), buf(%d, %d)",
-> +		       ctx->picinfo.pic_w, ctx->picinfo.pic_h,
-> +		       ctx->picinfo.buf_w, ctx->picinfo.buf_h);
-> +	mtk_vdec_debug(inst->ctx, "fb size: Y(%d), C(%d)",
-> +		       ctx->picinfo.fb_sz[0], ctx->picinfo.fb_sz[1]);
->  }
-> =20
->  static int vdec_vp8_slice_alloc_working_buf(struct vdec_vp8_slice_inst *=
-inst)
-> @@ -153,7 +153,7 @@ static int vdec_vp8_slice_alloc_working_buf(struct vd=
-ec_vp8_slice_inst *inst)
->  	mem->size =3D VP8_SEG_ID_SZ;
->  	err =3D mtk_vcodec_mem_alloc(inst->ctx, mem);
->  	if (err) {
-> -		mtk_vcodec_err(inst, "Cannot allocate working buffer");
-> +		mtk_vdec_err(inst->ctx, "Cannot allocate working buffer");
->  		return err;
->  	}
->  	inst->vsi->dec.seg_id_buf_dma =3D (u64)mem->dma_addr;
-> @@ -162,7 +162,7 @@ static int vdec_vp8_slice_alloc_working_buf(struct vd=
-ec_vp8_slice_inst *inst)
->  	mem->size =3D VP8_PP_WRAPY_SZ;
->  	err =3D mtk_vcodec_mem_alloc(inst->ctx, mem);
->  	if (err) {
-> -		mtk_vcodec_err(inst, "cannot allocate WRAP Y buffer");
-> +		mtk_vdec_err(inst->ctx, "cannot allocate WRAP Y buffer");
->  		return err;
->  	}
->  	inst->vsi->dec.wrap_y_dma =3D (u64)mem->dma_addr;
-> @@ -171,7 +171,7 @@ static int vdec_vp8_slice_alloc_working_buf(struct vd=
-ec_vp8_slice_inst *inst)
->  	mem->size =3D VP8_PP_WRAPC_SZ;
->  	err =3D mtk_vcodec_mem_alloc(inst->ctx, mem);
->  	if (err) {
-> -		mtk_vcodec_err(inst, "cannot allocate WRAP C buffer");
-> +		mtk_vdec_err(inst->ctx, "cannot allocate WRAP C buffer");
->  		return err;
->  	}
->  	inst->vsi->dec.wrap_c_dma =3D (u64)mem->dma_addr;
-> @@ -180,7 +180,7 @@ static int vdec_vp8_slice_alloc_working_buf(struct vd=
-ec_vp8_slice_inst *inst)
->  	mem->size =3D VP8_VLD_PRED_SZ;
->  	err =3D mtk_vcodec_mem_alloc(inst->ctx, mem);
->  	if (err) {
-> -		mtk_vcodec_err(inst, "cannot allocate vld wrapper buffer");
-> +		mtk_vdec_err(inst->ctx, "cannot allocate vld wrapper buffer");
->  		return err;
->  	}
->  	inst->vsi->dec.vld_wrapper_dma =3D (u64)mem->dma_addr;
-> @@ -249,8 +249,8 @@ static int vdec_vp8_slice_get_decode_parameters(struc=
-t vdec_vp8_slice_inst *inst
->  		vb =3D vb2_find_buffer(vq, referenct_ts);
->  		if (!vb) {
->  			if (!V4L2_VP8_FRAME_IS_KEY_FRAME(frame_header))
-> -				mtk_vcodec_err(inst, "reference invalid: index(%d) ts(%lld)",
-> -					       index, referenct_ts);
-> +				mtk_vdec_err(inst->ctx, "reference invalid: index(%d) ts(%lld)",
-> +					     index, referenct_ts);
->  			inst->vsi->vp8_dpb_info[index].reference_flag =3D 0;
->  			continue;
->  		}
-> @@ -291,7 +291,7 @@ static int vdec_vp8_slice_init(struct mtk_vcodec_ctx =
-*ctx)
-> =20
->  	err =3D vpu_dec_init(&inst->vpu);
->  	if (err) {
-> -		mtk_vcodec_err(inst, "vdec_vp8 init err=3D%d", err);
-> +		mtk_vdec_err(ctx, "vdec_vp8 init err=3D%d", err);
->  		goto error_free_inst;
->  	}
-> =20
-> @@ -300,11 +300,11 @@ static int vdec_vp8_slice_init(struct mtk_vcodec_ct=
-x *ctx)
->  	if (err)
->  		goto error_deinit;
-> =20
-> -	mtk_vcodec_debug(inst, "vp8 struct size =3D %d vsi: %d\n",
-> -			 (int)sizeof(struct v4l2_ctrl_vp8_frame),
-> -			 (int)sizeof(struct vdec_vp8_slice_vsi));
-> -	mtk_vcodec_debug(inst, "vp8:%p, codec_type =3D 0x%x vsi: 0x%p",
-> -			 inst, inst->vpu.codec_type, inst->vpu.vsi);
-> +	mtk_vdec_debug(ctx, "vp8 struct size =3D %d vsi: %d\n",
-> +		       (int)sizeof(struct v4l2_ctrl_vp8_frame),
-> +		       (int)sizeof(struct vdec_vp8_slice_vsi));
-> +	mtk_vdec_debug(ctx, "vp8:%p, codec_type =3D 0x%x vsi: 0x%p",
-> +		       inst, inst->vpu.codec_type, inst->vpu.vsi);
-> =20
->  	ctx->drv_handle =3D inst;
->  	return 0;
-> @@ -350,10 +350,10 @@ static int vdec_vp8_slice_decode(void *h_vdec, stru=
-ct mtk_vcodec_mem *bs,
->  	inst->vsi->dec.cur_y_fb_dma =3D y_fb_dma;
->  	inst->vsi->dec.cur_c_fb_dma =3D c_fb_dma;
-> =20
-> -	mtk_vcodec_debug(inst, "frame[%d] bs(%zu 0x%llx) y/c(0x%llx 0x%llx)",
-> -			 inst->ctx->decoded_frame_cnt,
-> -			 bs->size, (u64)bs->dma_addr,
-> -			 y_fb_dma, c_fb_dma);
-> +	mtk_vdec_debug(inst->ctx, "frame[%d] bs(%zu 0x%llx) y/c(0x%llx 0x%llx)"=
-,
-> +		       inst->ctx->decoded_frame_cnt,
-> +		       bs->size, (u64)bs->dma_addr,
-> +		       y_fb_dma, c_fb_dma);
-> =20
->  	v4l2_m2m_buf_copy_metadata(&src_buf_info->m2m_buf.vb,
->  				   &dst_buf_info->m2m_buf.vb, true);
-> @@ -364,12 +364,12 @@ static int vdec_vp8_slice_decode(void *h_vdec, stru=
-ct mtk_vcodec_mem *bs,
-> =20
->  	err =3D vpu_dec_start(vpu, &data, 1);
->  	if (err) {
-> -		mtk_vcodec_debug(inst, "vp8 dec start err!");
-> +		mtk_vdec_debug(inst->ctx, "vp8 dec start err!");
->  		goto error;
->  	}
-> =20
->  	if (inst->vsi->dec.resolution_changed) {
-> -		mtk_vcodec_debug(inst, "- resolution_changed -");
-> +		mtk_vdec_debug(inst->ctx, "- resolution_changed -");
->  		*res_chg =3D true;
->  		return 0;
->  	}
-> @@ -380,15 +380,15 @@ static int vdec_vp8_slice_decode(void *h_vdec, stru=
-ct mtk_vcodec_mem *bs,
-> =20
->  	err =3D vpu_dec_end(vpu);
->  	if (err || timeout)
-> -		mtk_vcodec_debug(inst, "vp8 dec error timeout:%d err: %d pic_%d",
-> -				 timeout, err, inst->ctx->decoded_frame_cnt);
-> +		mtk_vdec_debug(inst->ctx, "vp8 dec error timeout:%d err: %d pic_%d",
-> +			       timeout, err, inst->ctx->decoded_frame_cnt);
-> =20
-> -	mtk_vcodec_debug(inst, "pic[%d] crc: 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x=
- 0x%x",
-> -			 inst->ctx->decoded_frame_cnt,
-> -			 inst->vsi->dec.crc[0], inst->vsi->dec.crc[1],
-> -			 inst->vsi->dec.crc[2], inst->vsi->dec.crc[3],
-> -			 inst->vsi->dec.crc[4], inst->vsi->dec.crc[5],
-> -			 inst->vsi->dec.crc[6], inst->vsi->dec.crc[7]);
-> +	mtk_vdec_debug(inst->ctx, "pic[%d] crc: 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0=
-x%x 0x%x",
-> +		       inst->ctx->decoded_frame_cnt,
-> +		       inst->vsi->dec.crc[0], inst->vsi->dec.crc[1],
-> +		       inst->vsi->dec.crc[2], inst->vsi->dec.crc[3],
-> +		       inst->vsi->dec.crc[4], inst->vsi->dec.crc[5],
-> +		       inst->vsi->dec.crc[6], inst->vsi->dec.crc[7]);
-> =20
->  	inst->ctx->decoded_frame_cnt++;
->  error:
-> @@ -404,13 +404,13 @@ static int vdec_vp8_slice_get_param(void *h_vdec, e=
-num vdec_get_param_type type,
->  		vdec_vp8_slice_get_pic_info(inst);
->  		break;
->  	case GET_PARAM_CROP_INFO:
-> -		mtk_vcodec_debug(inst, "No need to get vp8 crop information.");
-> +		mtk_vdec_debug(inst->ctx, "No need to get vp8 crop information.");
->  		break;
->  	case GET_PARAM_DPB_SIZE:
->  		*((unsigned int *)out) =3D VP8_DPB_SIZE;
->  		break;
->  	default:
-> -		mtk_vcodec_err(inst, "invalid get parameter type=3D%d", type);
-> +		mtk_vdec_err(inst->ctx, "invalid get parameter type=3D%d", type);
->  		return -EINVAL;
->  	}
-> =20
-> diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c b/=
-drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c
-> index 70b8383f7c8e..62c2b3b021e6 100644
-> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c
-> @@ -246,7 +246,7 @@ static void vp9_add_to_fb_free_list(struct vdec_vp9_i=
-nst *inst,
->  			list_move_tail(&node->list, &inst->fb_free_list);
->  		}
->  	} else {
-> -		mtk_vcodec_debug(inst, "No free fb node");
-> +		mtk_vdec_debug(inst->ctx, "No free fb node");
->  	}
->  }
-> =20
-> @@ -330,7 +330,7 @@ static int vp9_get_sf_ref_fb(struct vdec_vp9_inst *in=
-st)
->  	}
-> =20
->  	if (idx =3D=3D ARRAY_SIZE(vsi->sf_ref_fb)) {
-> -		mtk_vcodec_err(inst, "List Full");
-> +		mtk_vdec_err(inst->ctx, "List Full");
->  		return -1;
->  	}
-> =20
-> @@ -339,7 +339,7 @@ static int vp9_get_sf_ref_fb(struct vdec_vp9_inst *in=
-st)
->  		vsi->buf_len_sz_y;
-> =20
->  	if (mtk_vcodec_mem_alloc(inst->ctx, mem_basy_y)) {
-> -		mtk_vcodec_err(inst, "Cannot allocate sf_ref_buf y_buf");
-> +		mtk_vdec_err(inst->ctx, "Cannot allocate sf_ref_buf y_buf");
->  		return -1;
->  	}
-> =20
-> @@ -348,7 +348,7 @@ static int vp9_get_sf_ref_fb(struct vdec_vp9_inst *in=
-st)
->  		vsi->buf_len_sz_c;
-> =20
->  	if (mtk_vcodec_mem_alloc(inst->ctx, mem_basy_c)) {
-> -		mtk_vcodec_err(inst, "Cannot allocate sf_ref_fb c_buf");
-> +		mtk_vdec_err(inst->ctx, "Cannot allocate sf_ref_fb c_buf");
->  		return -1;
->  	}
->  	vsi->sf_ref_fb[idx].used =3D 0;
-> @@ -377,17 +377,13 @@ static bool vp9_alloc_work_buf(struct vdec_vp9_inst=
- *inst)
-> =20
->  	if ((vsi->pic_w > max_pic_w) ||
->  		(vsi->pic_h > max_pic_h)) {
-> -		mtk_vcodec_err(inst, "Invalid w/h %d/%d",
-> -				vsi->pic_w, vsi->pic_h);
-> +		mtk_vdec_err(inst->ctx, "Invalid w/h %d/%d", vsi->pic_w, vsi->pic_h);
->  		return false;
->  	}
-> =20
-> -	mtk_vcodec_debug(inst, "BUF CHG(%d): w/h/sb_w/sb_h=3D%d/%d/%d/%d",
-> -			vsi->resolution_changed,
-> -			vsi->pic_w,
-> -			vsi->pic_h,
-> -			vsi->buf_w,
-> -			vsi->buf_h);
-> +	mtk_vdec_debug(inst->ctx, "BUF CHG(%d): w/h/sb_w/sb_h=3D%d/%d/%d/%d",
-> +		       vsi->resolution_changed, vsi->pic_w,
-> +		       vsi->pic_h, vsi->buf_w, vsi->buf_h);
-> =20
->  	mem =3D &inst->mv_buf;
->  	if (mem->va)
-> @@ -398,7 +394,7 @@ static bool vp9_alloc_work_buf(struct vdec_vp9_inst *=
-inst)
->  	result =3D mtk_vcodec_mem_alloc(inst->ctx, mem);
->  	if (result) {
->  		mem->size =3D 0;
-> -		mtk_vcodec_err(inst, "Cannot allocate mv_buf");
-> +		mtk_vdec_err(inst->ctx, "Cannot allocate mv_buf");
->  		return false;
->  	}
->  	/* Set the va again */
-> @@ -415,7 +411,7 @@ static bool vp9_alloc_work_buf(struct vdec_vp9_inst *=
-inst)
->  	result =3D mtk_vcodec_mem_alloc(inst->ctx, mem);
->  	if (result) {
->  		mem->size =3D 0;
-> -		mtk_vcodec_err(inst, "Cannot allocate seg_id_buf");
-> +		mtk_vdec_err(inst->ctx, "Cannot allocate seg_id_buf");
->  		return false;
->  	}
->  	/* Set the va again */
-> @@ -436,7 +432,7 @@ static bool vp9_add_to_fb_disp_list(struct vdec_vp9_i=
-nst *inst,
->  	struct vdec_fb_node *node;
-> =20
->  	if (!fb) {
-> -		mtk_vcodec_err(inst, "fb =3D=3D NULL");
-> +		mtk_vdec_err(inst->ctx, "fb =3D=3D NULL");
->  		return false;
->  	}
-> =20
-> @@ -446,7 +442,7 @@ static bool vp9_add_to_fb_disp_list(struct vdec_vp9_i=
-nst *inst,
->  		node->fb =3D fb;
->  		list_move_tail(&node->list, &inst->fb_disp_list);
->  	} else {
-> -		mtk_vcodec_err(inst, "No available fb node");
-> +		mtk_vdec_err(inst->ctx, "No available fb node");
->  		return false;
->  	}
-> =20
-> @@ -492,10 +488,10 @@ static void vp9_swap_frm_bufs(struct vdec_vp9_inst =
-*inst)
->  			 * size
->  			 */
->  			if (frm_to_show->fb !=3D NULL)
-> -				mtk_vcodec_err(inst,
-> -					"inst->cur_fb->base_y.size=3D%zu, frm_to_show->fb.base_y.size=3D%zu=
-",
-> -					inst->cur_fb->base_y.size,
-> -					frm_to_show->fb->base_y.size);
-> +				mtk_vdec_err(inst->ctx,
-> +					     "base_y.size=3D%zu, frm_to_show: base_y.size=3D%zu",
-> +					     inst->cur_fb->base_y.size,
-> +					     frm_to_show->fb->base_y.size);
->  		}
->  		if (!vp9_is_sf_ref_fb(inst, inst->cur_fb)) {
->  			if (vsi->show_frame & BIT(0))
-> @@ -582,20 +578,19 @@ static bool vp9_decode_end_proc(struct vdec_vp9_ins=
-t *inst)
->  	if (!vsi->show_existing_frame) {
->  		ret =3D vp9_wait_dec_end(inst);
->  		if (!ret) {
-> -			mtk_vcodec_err(inst, "Decode failed, Decode Timeout @[%d]",
-> -				vsi->frm_num);
-> +			mtk_vdec_err(inst->ctx, "Decode failed, Decode Timeout @[%d]",
-> +				     vsi->frm_num);
->  			return false;
+>  			goto mem_alloc_err;
 >  		}
 > =20
->  		if (vpu_dec_end(&inst->vpu)) {
-> -			mtk_vcodec_err(inst, "vp9_dec_vpu_end failed");
-> +			mtk_vdec_err(inst->ctx, "vp9_dec_vpu_end failed");
->  			return false;
->  		}
-> -		mtk_vcodec_debug(inst, "Decode Ok @%d (%d/%d)", vsi->frm_num,
-> -				vsi->pic_w, vsi->pic_h);
-> +		mtk_vdec_debug(inst->ctx, "Decode Ok @%d (%d/%d)", vsi->frm_num,
-> +			       vsi->pic_w, vsi->pic_h);
->  	} else {
-> -		mtk_vcodec_debug(inst, "Decode Ok @%d (show_existing_frame)",
-> -				vsi->frm_num);
-> +		mtk_vdec_debug(inst->ctx, "Decode Ok @%d (show_existing_frame)", vsi->=
-frm_num);
->  	}
-> =20
->  	vp9_swap_frm_bufs(inst);
-> @@ -624,10 +619,9 @@ static struct vdec_fb *vp9_rm_from_fb_disp_list(stru=
-ct vdec_vp9_inst *inst)
->  		fb =3D (struct vdec_fb *)node->fb;
->  		fb->status |=3D FB_ST_DISPLAY;
->  		list_move_tail(&node->list, &inst->available_fb_node_list);
-> -		mtk_vcodec_debug(inst, "[FB] get disp fb %p st=3D%d",
-> -				 node->fb, fb->status);
-> +		mtk_vdec_debug(inst->ctx, "[FB] get disp fb %p st=3D%d", node->fb, fb-=
->status);
->  	} else
-> -		mtk_vcodec_debug(inst, "[FB] there is no disp fb");
-> +		mtk_vdec_debug(inst->ctx, "[FB] there is no disp fb");
-> =20
->  	return fb;
->  }
-> @@ -638,7 +632,7 @@ static bool vp9_add_to_fb_use_list(struct vdec_vp9_in=
-st *inst,
->  	struct vdec_fb_node *node;
-> =20
->  	if (!fb) {
-> -		mtk_vcodec_debug(inst, "fb =3D=3D NULL");
-> +		mtk_vdec_debug(inst->ctx, "fb =3D=3D NULL");
->  		return false;
->  	}
-> =20
-> @@ -648,7 +642,7 @@ static bool vp9_add_to_fb_use_list(struct vdec_vp9_in=
-st *inst,
->  		node->fb =3D fb;
->  		list_move_tail(&node->list, &inst->fb_use_list);
->  	} else {
-> -		mtk_vcodec_err(inst, "No free fb node");
-> +		mtk_vdec_err(inst->ctx, "No free fb node");
->  		return false;
->  	}
->  	return true;
-> @@ -665,7 +659,7 @@ static void vp9_reset(struct vdec_vp9_inst *inst)
->  	inst->vsi->sf_next_ref_fb_idx =3D vp9_get_sf_ref_fb(inst);
-> =20
->  	if (vpu_dec_reset(&inst->vpu))
-> -		mtk_vcodec_err(inst, "vp9_dec_vpu_reset failed");
-> +		mtk_vdec_err(inst->ctx, "vp9_dec_vpu_reset failed");
-> =20
->  	/* Set the va again, since vpu_dec_reset will clear mv_buf in vpu */
->  	inst->vsi->mv_buf.va =3D (unsigned long)inst->mv_buf.va;
-> @@ -706,11 +700,9 @@ static void get_pic_info(struct vdec_vp9_inst *inst,=
- struct vdec_pic_info *pic)
->  	pic->buf_w =3D inst->vsi->buf_w;
->  	pic->buf_h =3D inst->vsi->buf_h;
-> =20
-> -	mtk_vcodec_debug(inst, "pic(%d, %d), buf(%d, %d)",
-> -		 pic->pic_w, pic->pic_h, pic->buf_w, pic->buf_h);
-> -	mtk_vcodec_debug(inst, "fb size: Y(%d), C(%d)",
-> -		pic->fb_sz[0],
-> -		pic->fb_sz[1]);
-> +	mtk_vdec_debug(inst->ctx, "pic(%d, %d), buf(%d, %d)",
-> +		       pic->pic_w, pic->pic_h, pic->buf_w, pic->buf_h);
-> +	mtk_vdec_debug(inst->ctx, "fb size: Y(%d), C(%d)", pic->fb_sz[0], pic->=
-fb_sz[1]);
->  }
-> =20
->  static void get_disp_fb(struct vdec_vp9_inst *inst, struct vdec_fb **out=
-_fb)
-> @@ -732,10 +724,9 @@ static void get_free_fb(struct vdec_vp9_inst *inst, =
-struct vdec_fb **out_fb)
->  		list_move_tail(&node->list, &inst->available_fb_node_list);
->  		fb =3D (struct vdec_fb *)node->fb;
->  		fb->status |=3D FB_ST_FREE;
-> -		mtk_vcodec_debug(inst, "[FB] get free fb %p st=3D%d",
-> -				 node->fb, fb->status);
-> +		mtk_vdec_debug(inst->ctx, "[FB] get free fb %p st=3D%d", node->fb, fb-=
->status);
->  	} else {
-> -		mtk_vcodec_debug(inst, "[FB] there is no free fb");
-> +		mtk_vdec_debug(inst->ctx, "[FB] there is no free fb");
->  	}
-> =20
->  	*out_fb =3D fb;
-> @@ -744,18 +735,15 @@ static void get_free_fb(struct vdec_vp9_inst *inst,=
- struct vdec_fb **out_fb)
->  static int validate_vsi_array_indexes(struct vdec_vp9_inst *inst,
->  		struct vdec_vp9_vsi *vsi) {
->  	if (vsi->sf_frm_idx >=3D VP9_MAX_FRM_BUF_NUM - 1) {
-> -		mtk_vcodec_err(inst, "Invalid vsi->sf_frm_idx=3D%u.",
-> -				vsi->sf_frm_idx);
-> +		mtk_vdec_err(inst->ctx, "Invalid vsi->sf_frm_idx=3D%u.", vsi->sf_frm_i=
-dx);
->  		return -EIO;
->  	}
->  	if (vsi->frm_to_show_idx >=3D VP9_MAX_FRM_BUF_NUM) {
-> -		mtk_vcodec_err(inst, "Invalid vsi->frm_to_show_idx=3D%u.",
-> -				vsi->frm_to_show_idx);
-> +		mtk_vdec_err(inst->ctx, "Invalid vsi->frm_to_show_idx=3D%u.", vsi->frm=
-_to_show_idx);
->  		return -EIO;
->  	}
->  	if (vsi->new_fb_idx >=3D VP9_MAX_FRM_BUF_NUM) {
-> -		mtk_vcodec_err(inst, "Invalid vsi->new_fb_idx=3D%u.",
-> -				vsi->new_fb_idx);
-> +		mtk_vdec_err(inst->ctx, "Invalid vsi->new_fb_idx=3D%u.", vsi->new_fb_i=
-dx);
->  		return -EIO;
->  	}
->  	return 0;
-> @@ -769,7 +757,7 @@ static void vdec_vp9_deinit(void *h_vdec)
-> =20
->  	ret =3D vpu_dec_deinit(&inst->vpu);
->  	if (ret)
-> -		mtk_vcodec_err(inst, "vpu_dec_deinit failed");
-> +		mtk_vdec_err(inst->ctx, "vpu_dec_deinit failed");
-> =20
->  	mem =3D &inst->mv_buf;
->  	if (mem->va)
-> @@ -798,7 +786,7 @@ static int vdec_vp9_init(struct mtk_vcodec_ctx *ctx)
->  	inst->vpu.ctx =3D ctx;
-> =20
->  	if (vpu_dec_init(&inst->vpu)) {
-> -		mtk_vcodec_err(inst, "vp9_dec_vpu_init failed");
-> +		mtk_vdec_err(inst->ctx, "vp9_dec_vpu_init failed");
->  		goto err_deinit_inst;
->  	}
-> =20
-> @@ -829,17 +817,17 @@ static int vdec_vp9_decode(void *h_vdec, struct mtk=
-_vcodec_mem *bs,
->  	*res_chg =3D false;
-> =20
->  	if ((bs =3D=3D NULL) && (fb =3D=3D NULL)) {
-> -		mtk_vcodec_debug(inst, "[EOS]");
-> +		mtk_vdec_debug(inst->ctx, "[EOS]");
->  		vp9_reset(inst);
->  		return ret;
->  	}
-> =20
->  	if (bs =3D=3D NULL) {
-> -		mtk_vcodec_err(inst, "bs =3D=3D NULL");
-> +		mtk_vdec_err(inst->ctx, "bs =3D=3D NULL");
->  		return -EINVAL;
->  	}
-> =20
-> -	mtk_vcodec_debug(inst, "Input BS Size =3D %zu", bs->size);
-> +	mtk_vdec_debug(inst->ctx, "Input BS Size =3D %zu", bs->size);
-> =20
->  	while (1) {
->  		struct vdec_fb *cur_fb =3D NULL;
-> @@ -882,7 +870,7 @@ static int vdec_vp9_decode(void *h_vdec, struct mtk_v=
-codec_mem *bs,
-> =20
->  		ret =3D vpu_dec_start(&inst->vpu, data, 3);
->  		if (ret) {
-> -			mtk_vcodec_err(inst, "vpu_dec_start failed");
-> +			mtk_vdec_err(inst->ctx, "vpu_dec_start failed");
->  			goto DECODE_ERROR;
+>  		lat_buf->slice_bc_addr.size =3D VDEC_LAT_SLICE_HEADER_SZ;
+>  		err =3D mtk_vcodec_mem_alloc(ctx, &lat_buf->slice_bc_addr);
+>  		if (err) {
+> -			mtk_v4l2_err("failed to allocate wdma_addr buf[%d]", i);
+> +			mtk_v4l2_vdec_err(ctx, "failed to allocate wdma_addr buf[%d]", i);
+>  			goto mem_alloc_err;
 >  		}
 > =20
-> @@ -892,7 +880,7 @@ static int vdec_vp9_decode(void *h_vdec, struct mtk_v=
-codec_mem *bs,
->  			if (vsi->show_frame & BIT(2)) {
->  				ret =3D vpu_dec_start(&inst->vpu, NULL, 0);
->  				if (ret) {
-> -					mtk_vcodec_err(inst, "vpu trig decoder failed");
-> +					mtk_vdec_err(inst->ctx, "vpu trig decoder failed");
->  					goto DECODE_ERROR;
->  				}
+> @@ -336,14 +334,14 @@ int vdec_msg_queue_init(struct vdec_msg_queue *msg_=
+queue,
+>  			lat_buf->rd_mv_addr.size =3D VDEC_RD_MV_BUFFER_SZ;
+>  			err =3D mtk_vcodec_mem_alloc(ctx, &lat_buf->rd_mv_addr);
+>  			if (err) {
+> -				mtk_v4l2_err("failed to allocate rd_mv_addr buf[%d]", i);
+> +				mtk_v4l2_vdec_err(ctx, "failed to allocate rd_mv_addr buf[%d]", i);
+>  				return -ENOMEM;
 >  			}
-> @@ -900,7 +888,7 @@ static int vdec_vp9_decode(void *h_vdec, struct mtk_v=
-codec_mem *bs,
 > =20
->  		ret =3D validate_vsi_array_indexes(inst, vsi);
->  		if (ret) {
-> -			mtk_vcodec_err(inst, "Invalid values from VPU.");
-> +			mtk_vdec_err(inst->ctx, "Invalid values from VPU.");
->  			goto DECODE_ERROR;
+>  			lat_buf->tile_addr.size =3D VDEC_LAT_TILE_SZ;
+>  			err =3D mtk_vcodec_mem_alloc(ctx, &lat_buf->tile_addr);
+>  			if (err) {
+> -				mtk_v4l2_err("failed to allocate tile_addr buf[%d]", i);
+> +				mtk_v4l2_vdec_err(ctx, "failed to allocate tile_addr buf[%d]", i);
+>  				return -ENOMEM;
+>  			}
 >  		}
-> =20
-> @@ -926,18 +914,18 @@ static int vdec_vp9_decode(void *h_vdec, struct mtk=
-_vcodec_mem *bs,
->  		if (!vp9_is_sf_ref_fb(inst, inst->cur_fb))
->  			vp9_add_to_fb_use_list(inst, inst->cur_fb);
-> =20
-> -		mtk_vcodec_debug(inst, "[#pic %d]", vsi->frm_num);
-> +		mtk_vdec_debug(inst->ctx, "[#pic %d]", vsi->frm_num);
-> =20
->  		if (vsi->show_existing_frame)
-> -			mtk_vcodec_debug(inst,
-> -				"drv->new_fb_idx=3D%d, drv->frm_to_show_idx=3D%d",
-> -				vsi->new_fb_idx, vsi->frm_to_show_idx);
-> +			mtk_vdec_debug(inst->ctx,
-> +				       "drv->new_fb_idx=3D%d, drv->frm_to_show_idx=3D%d",
-> +				       vsi->new_fb_idx, vsi->frm_to_show_idx);
-> =20
->  		if (vsi->show_existing_frame && (vsi->frm_to_show_idx <
->  					VP9_MAX_FRM_BUF_NUM)) {
-> -			mtk_vcodec_debug(inst,
-> -				"Skip Decode drv->new_fb_idx=3D%d, drv->frm_to_show_idx=3D%d",
-> -				vsi->new_fb_idx, vsi->frm_to_show_idx);
-> +			mtk_vdec_debug(inst->ctx,
-> +				       "Skip Decode drv->new_fb_idx=3D%d, drv->frm_to_show_idx=3D%d"=
-,
-> +				       vsi->new_fb_idx, vsi->frm_to_show_idx);
-> =20
->  			vp9_ref_cnt_fb(inst, &vsi->new_fb_idx,
->  					vsi->frm_to_show_idx);
-> @@ -954,14 +942,14 @@ static int vdec_vp9_decode(void *h_vdec, struct mtk=
-_vcodec_mem *bs,
-> =20
->  		if (vsi->resolution_changed) {
->  			*res_chg =3D true;
-> -			mtk_vcodec_debug(inst, "VDEC_ST_RESOLUTION_CHANGED");
-> +			mtk_vdec_debug(inst->ctx, "VDEC_ST_RESOLUTION_CHANGED");
-> =20
->  			ret =3D 0;
->  			goto DECODE_ERROR;
+> @@ -359,7 +357,7 @@ int vdec_msg_queue_init(struct vdec_msg_queue *msg_qu=
+eue,
+>  		lat_buf->is_last_frame =3D false;
+>  		err =3D vdec_msg_queue_qbuf(&msg_queue->lat_ctx, lat_buf);
+>  		if (err) {
+> -			mtk_v4l2_err("failed to qbuf buf[%d]", i);
+> +			mtk_v4l2_vdec_err(ctx, "failed to qbuf buf[%d]", i);
+>  			goto mem_alloc_err;
 >  		}
-> =20
->  		if (!vp9_decode_end_proc(inst)) {
-> -			mtk_vcodec_err(inst, "vp9_decode_end_proc");
-> +			mtk_vdec_err(inst->ctx, "vp9_decode_end_proc");
->  			ret =3D -EINVAL;
->  			goto DECODE_ERROR;
->  		}
-> @@ -985,8 +973,8 @@ static void get_crop_info(struct vdec_vp9_inst *inst,=
- struct v4l2_rect *cr)
->  	cr->top =3D 0;
->  	cr->width =3D inst->vsi->pic_w;
->  	cr->height =3D inst->vsi->pic_h;
-> -	mtk_vcodec_debug(inst, "get crop info l=3D%d, t=3D%d, w=3D%d, h=3D%d\n"=
-,
-> -			 cr->left, cr->top, cr->width, cr->height);
-> +	mtk_vdec_debug(inst->ctx, "get crop info l=3D%d, t=3D%d, w=3D%d, h=3D%d=
-\n",
-> +		       cr->left, cr->top, cr->width, cr->height);
->  }
-> =20
->  static int vdec_vp9_get_param(void *h_vdec, enum vdec_get_param_type typ=
-e,
-> @@ -1012,7 +1000,7 @@ static int vdec_vp9_get_param(void *h_vdec, enum vd=
-ec_get_param_type type,
->  		get_crop_info(inst, out);
->  		break;
->  	default:
-> -		mtk_vcodec_err(inst, "not supported param type %d", type);
-> +		mtk_vdec_err(inst->ctx, "not supported param type %d", type);
->  		ret =3D -EINVAL;
->  		break;
 >  	}
-> diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat=
-_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-> index c2f90848f498..913077d6e701 100644
-> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-> @@ -518,7 +518,7 @@ static int vdec_vp9_slice_init_default_frame_ctx(stru=
-ct vdec_vp9_slice_instance
->  	remote_frame_ctx =3D mtk_vcodec_fw_map_dm_addr(ctx->dev->fw_handler,
->  						     (u32)vsi->default_frame_ctx);
->  	if (!remote_frame_ctx) {
-> -		mtk_vcodec_err(instance, "failed to map default frame ctx\n");
-> +		mtk_vdec_err(ctx, "failed to map default frame ctx\n");
->  		return -EINVAL;
->  	}
+> diff --git a/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.h b/dr=
+ivers/media/platform/mediatek/vcodec/vdec_msg_queue.h
+> index 2a745e902ad1..2f82cc08caa3 100644
+> --- a/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.h
+> +++ b/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.h
+> @@ -100,6 +100,7 @@ struct vdec_lat_buf {
+>   * @empty_lat_buf: the last lat buf used to flush decode
+>   * @core_dec_done: core work queue decode done event
+>   * @status: current context decode status for core hardware
+> + * @ctx: mtk vcodec context information
+>   */
+>  struct vdec_msg_queue {
+>  	struct vdec_lat_buf lat_buf[NUM_BUFFER_COUNT];
+> @@ -118,6 +119,7 @@ struct vdec_msg_queue {
+>  	struct vdec_lat_buf empty_lat_buf;
+>  	wait_queue_head_t core_dec_done;
+>  	int status;
+> +	struct mtk_vcodec_ctx *ctx;
+>  };
 > =20
-> @@ -577,8 +577,8 @@ static int vdec_vp9_slice_alloc_working_buffer(struct=
- vdec_vp9_slice_instance *i
->  	if (level =3D=3D instance->level)
->  		return 0;
-> =20
-> -	mtk_vcodec_debug(instance, "resolution level changed, from %u to %u, %u=
-x%u",
-> -			 instance->level, level, w, h);
-> +	mtk_vdec_debug(ctx, "resolution level changed, from %u to %u, %ux%u",
-> +		       instance->level, level, w, h);
-> =20
->  	max_sb_w =3D DIV_ROUND_UP(max_w, 64);
->  	max_sb_h =3D DIV_ROUND_UP(max_h, 64);
-> @@ -1025,9 +1025,9 @@ static int vdec_vp9_slice_setup_prob_buffer(struct =
-vdec_vp9_slice_instance *inst
-> =20
->  	uh =3D &vsi->frame.uh;
-> =20
-> -	mtk_vcodec_debug(instance, "ctx dirty %u idx %d\n",
-> -			 instance->dirty[uh->frame_context_idx],
-> -			 uh->frame_context_idx);
-> +	mtk_vdec_debug(instance->ctx, "ctx dirty %u idx %d\n",
-> +		       instance->dirty[uh->frame_context_idx],
-> +		       uh->frame_context_idx);
-> =20
->  	if (instance->dirty[uh->frame_context_idx])
->  		frame_ctx =3D &instance->frame_ctx[uh->frame_context_idx];
-> @@ -1051,7 +1051,7 @@ static void vdec_vp9_slice_setup_seg_buffer(struct =
-vdec_vp9_slice_instance *inst
->  	    uh->error_resilient_mode ||
->  	    uh->frame_width !=3D instance->width ||
->  	    uh->frame_height !=3D instance->height) {
-> -		mtk_vcodec_debug(instance, "reset seg\n");
-> +		mtk_vdec_debug(instance->ctx, "reset seg\n");
->  		memset(buf->va, 0, buf->size);
->  	}
->  }
-> @@ -1093,16 +1093,14 @@ static int vdec_vp9_slice_setup_tile_buffer(struc=
-t vdec_vp9_slice_instance *inst
->  	cols =3D 1 << cols_log2;
-> =20
->  	if (rows > 4 || cols > 64) {
-> -		mtk_vcodec_err(instance, "tile_rows %u tile_cols %u\n",
-> -			       rows, cols);
-> +		mtk_vdec_err(instance->ctx, "tile_rows %u tile_cols %u\n", rows, cols)=
-;
->  		return -EINVAL;
->  	}
-> =20
->  	offset =3D uh->uncompressed_header_size +
->  		uh->header_size_in_bytes;
->  	if (bs->size <=3D offset) {
-> -		mtk_vcodec_err(instance, "bs size %zu tile offset %u\n",
-> -			       bs->size, offset);
-> +		mtk_vdec_err(instance->ctx, "bs size %zu tile offset %u\n", bs->size, =
-offset);
->  		return -EINVAL;
->  	}
-> =20
-> @@ -1596,14 +1594,12 @@ static int vdec_vp9_slice_update_single(struct vd=
-ec_vp9_slice_instance *instance
->  	vsi =3D &pfc->vsi;
->  	memcpy(&pfc->state[0], &vsi->state, sizeof(vsi->state));
-> =20
-> -	mtk_vcodec_debug(instance, "Frame %u Y_CRC %08x %08x %08x %08x\n",
-> -			 pfc->seq,
-> -			 vsi->state.crc[0], vsi->state.crc[1],
-> -			 vsi->state.crc[2], vsi->state.crc[3]);
-> -	mtk_vcodec_debug(instance, "Frame %u C_CRC %08x %08x %08x %08x\n",
-> -			 pfc->seq,
-> -			 vsi->state.crc[4], vsi->state.crc[5],
-> -			 vsi->state.crc[6], vsi->state.crc[7]);
-> +	mtk_vdec_debug(instance->ctx, "Frame %u Y_CRC %08x %08x %08x %08x\n",
-> +		       pfc->seq, vsi->state.crc[0], vsi->state.crc[1],
-> +		       vsi->state.crc[2], vsi->state.crc[3]);
-> +	mtk_vdec_debug(instance->ctx, "Frame %u C_CRC %08x %08x %08x %08x\n",
-> +		       pfc->seq, vsi->state.crc[4], vsi->state.crc[5],
-> +		       vsi->state.crc[6], vsi->state.crc[7]);
-> =20
->  	vdec_vp9_slice_update_prob(instance, vsi);
-> =20
-> @@ -1624,10 +1620,10 @@ static int vdec_vp9_slice_update_lat(struct vdec_=
-vp9_slice_instance *instance,
->  	vsi =3D &pfc->vsi;
->  	memcpy(&pfc->state[0], &vsi->state, sizeof(vsi->state));
-> =20
-> -	mtk_vcodec_debug(instance, "Frame %u LAT CRC 0x%08x %lx %lx\n",
-> -			 pfc->seq, vsi->state.crc[0],
-> -			 (unsigned long)vsi->trans.dma_addr,
-> -			 (unsigned long)vsi->trans.dma_addr_end);
-> +	mtk_vdec_debug(instance->ctx, "Frame %u LAT CRC 0x%08x %lx %lx\n",
-> +		       pfc->seq, vsi->state.crc[0],
-> +		       (unsigned long)vsi->trans.dma_addr,
-> +		       (unsigned long)vsi->trans.dma_addr_end);
-> =20
->  	/* buffer full, need to re-decode */
->  	if (vsi->state.full) {
-> @@ -1844,14 +1840,12 @@ static int vdec_vp9_slice_update_core(struct vdec=
-_vp9_slice_instance *instance,
->  	vsi =3D &pfc->vsi;
->  	memcpy(&pfc->state[1], &vsi->state, sizeof(vsi->state));
-> =20
-> -	mtk_vcodec_debug(instance, "Frame %u Y_CRC %08x %08x %08x %08x\n",
-> -			 pfc->seq,
-> -			 vsi->state.crc[0], vsi->state.crc[1],
-> -			 vsi->state.crc[2], vsi->state.crc[3]);
-> -	mtk_vcodec_debug(instance, "Frame %u C_CRC %08x %08x %08x %08x\n",
-> -			 pfc->seq,
-> -			 vsi->state.crc[4], vsi->state.crc[5],
-> -			 vsi->state.crc[6], vsi->state.crc[7]);
-> +	mtk_vdec_debug(instance->ctx, "Frame %u Y_CRC %08x %08x %08x %08x\n",
-> +		       pfc->seq, vsi->state.crc[0], vsi->state.crc[1],
-> +		       vsi->state.crc[2], vsi->state.crc[3]);
-> +	mtk_vdec_debug(instance->ctx, "Frame %u C_CRC %08x %08x %08x %08x\n",
-> +		       pfc->seq, vsi->state.crc[4], vsi->state.crc[5],
-> +		       vsi->state.crc[6], vsi->state.crc[7]);
-> =20
->  	return 0;
->  }
-> @@ -1874,7 +1868,7 @@ static int vdec_vp9_slice_init(struct mtk_vcodec_ct=
-x *ctx)
-> =20
->  	ret =3D vpu_dec_init(&instance->vpu);
->  	if (ret) {
-> -		mtk_vcodec_err(instance, "failed to init vpu dec, ret %d\n", ret);
-> +		mtk_vdec_err(ctx, "failed to init vpu dec, ret %d\n", ret);
->  		goto error_vpu_init;
->  	}
-> =20
-> @@ -1882,7 +1876,7 @@ static int vdec_vp9_slice_init(struct mtk_vcodec_ct=
-x *ctx)
-> =20
->  	vsi =3D instance->vpu.vsi;
->  	if (!vsi) {
-> -		mtk_vcodec_err(instance, "failed to get VP9 vsi\n");
-> +		mtk_vdec_err(ctx, "failed to get VP9 vsi\n");
->  		ret =3D -EINVAL;
->  		goto error_vsi;
->  	}
-> @@ -1890,7 +1884,7 @@ static int vdec_vp9_slice_init(struct mtk_vcodec_ct=
-x *ctx)
->  	instance->core_vsi =3D mtk_vcodec_fw_map_dm_addr(ctx->dev->fw_handler,
->  						       (u32)vsi->core_vsi);
->  	if (!instance->core_vsi) {
-> -		mtk_vcodec_err(instance, "failed to get VP9 core vsi\n");
-> +		mtk_vdec_err(ctx, "failed to get VP9 core vsi\n");
->  		ret =3D -EINVAL;
->  		goto error_vsi;
->  	}
-> @@ -1931,7 +1925,7 @@ static int vdec_vp9_slice_flush(void *h_vdec, struc=
-t mtk_vcodec_mem *bs,
->  {
->  	struct vdec_vp9_slice_instance *instance =3D h_vdec;
-> =20
-> -	mtk_vcodec_debug(instance, "flush ...\n");
-> +	mtk_vdec_debug(instance->ctx, "flush ...\n");
->  	if (instance->ctx->dev->vdec_pdata->hw_arch !=3D MTK_VDEC_PURE_SINGLE_C=
-ORE)
->  		vdec_msg_queue_wait_lat_buf_full(&instance->ctx->msg_queue);
->  	return vpu_dec_reset(&instance->vpu);
-> @@ -1942,8 +1936,7 @@ static void vdec_vp9_slice_get_pic_info(struct vdec=
-_vp9_slice_instance *instance
->  	struct mtk_vcodec_ctx *ctx =3D instance->ctx;
->  	unsigned int data[3];
-> =20
-> -	mtk_vcodec_debug(instance, "w %u h %u\n",
-> -			 ctx->picinfo.pic_w, ctx->picinfo.pic_h);
-> +	mtk_vdec_debug(instance->ctx, "w %u h %u\n", ctx->picinfo.pic_w, ctx->p=
-icinfo.pic_h);
-> =20
->  	data[0] =3D ctx->picinfo.pic_w;
->  	data[1] =3D ctx->picinfo.pic_h;
-> @@ -1975,11 +1968,10 @@ static int vdec_vp9_slice_get_param(void *h_vdec,=
- enum vdec_get_param_type type,
->  		vdec_vp9_slice_get_dpb_size(instance, out);
->  		break;
->  	case GET_PARAM_CROP_INFO:
-> -		mtk_vcodec_debug(instance, "No need to get vp9 crop information.");
-> +		mtk_vdec_debug(instance->ctx, "No need to get vp9 crop information.");
->  		break;
->  	default:
-> -		mtk_vcodec_err(instance, "invalid get parameter type=3D%d\n",
-> -			       type);
-> +		mtk_vdec_err(instance->ctx, "invalid get parameter type=3D%d\n", type)=
-;
->  		return -EINVAL;
->  	}
-> =20
-> @@ -2011,14 +2003,14 @@ static int vdec_vp9_slice_single_decode(void *h_v=
-dec, struct mtk_vcodec_mem *bs,
-> =20
->  	ret =3D vdec_vp9_slice_setup_single(instance, bs, fb, pfc);
->  	if (ret) {
-> -		mtk_vcodec_err(instance, "Failed to setup VP9 single ret %d\n", ret);
-> +		mtk_vdec_err(ctx, "Failed to setup VP9 single ret %d\n", ret);
->  		return ret;
->  	}
->  	vdec_vp9_slice_vsi_to_remote(vsi, instance->vsi);
-> =20
->  	ret =3D vpu_dec_start(&instance->vpu, NULL, 0);
->  	if (ret) {
-> -		mtk_vcodec_err(instance, "Failed to dec VP9 ret %d\n", ret);
-> +		mtk_vdec_err(ctx, "Failed to dec VP9 ret %d\n", ret);
->  		return ret;
->  	}
-> =20
-> @@ -2026,7 +2018,7 @@ static int vdec_vp9_slice_single_decode(void *h_vde=
-c, struct mtk_vcodec_mem *bs,
->  					   WAIT_INTR_TIMEOUT_MS, MTK_VDEC_CORE);
->  	/* update remote vsi if decode timeout */
->  	if (ret) {
-> -		mtk_vcodec_err(instance, "VP9 decode timeout %d\n", ret);
-> +		mtk_vdec_err(ctx, "VP9 decode timeout %d\n", ret);
->  		WRITE_ONCE(instance->vsi->state.timeout, 1);
->  	}
-> =20
-> @@ -2035,7 +2027,7 @@ static int vdec_vp9_slice_single_decode(void *h_vde=
-c, struct mtk_vcodec_mem *bs,
->  	vdec_vp9_slice_vsi_from_remote(vsi, instance->vsi, 0);
->  	ret =3D vdec_vp9_slice_update_single(instance, pfc);
->  	if (ret) {
-> -		mtk_vcodec_err(instance, "VP9 decode error: %d\n", ret);
-> +		mtk_vdec_err(ctx, "VP9 decode error: %d\n", ret);
->  		return ret;
->  	}
-> =20
-> @@ -2069,7 +2061,7 @@ static int vdec_vp9_slice_lat_decode(void *h_vdec, =
-struct mtk_vcodec_mem *bs,
-> =20
->  	lat_buf =3D vdec_msg_queue_dqbuf(&instance->ctx->msg_queue.lat_ctx);
->  	if (!lat_buf) {
-> -		mtk_vcodec_debug(instance, "Failed to get VP9 lat buf\n");
-> +		mtk_vdec_debug(ctx, "Failed to get VP9 lat buf\n");
->  		return -EAGAIN;
->  	}
->  	pfc =3D (struct vdec_vp9_slice_pfc *)lat_buf->private_data;
-> @@ -2081,14 +2073,14 @@ static int vdec_vp9_slice_lat_decode(void *h_vdec=
-, struct mtk_vcodec_mem *bs,
-> =20
->  	ret =3D vdec_vp9_slice_setup_lat(instance, bs, lat_buf, pfc);
->  	if (ret) {
-> -		mtk_vcodec_err(instance, "Failed to setup VP9 lat ret %d\n", ret);
-> +		mtk_vdec_err(ctx, "Failed to setup VP9 lat ret %d\n", ret);
->  		goto err_free_fb_out;
->  	}
->  	vdec_vp9_slice_vsi_to_remote(vsi, instance->vsi);
-> =20
->  	ret =3D vpu_dec_start(&instance->vpu, NULL, 0);
->  	if (ret) {
-> -		mtk_vcodec_err(instance, "Failed to dec VP9 ret %d\n", ret);
-> +		mtk_vdec_err(ctx, "Failed to dec VP9 ret %d\n", ret);
->  		goto err_free_fb_out;
->  	}
-> =20
-> @@ -2097,7 +2089,7 @@ static int vdec_vp9_slice_lat_decode(void *h_vdec, =
-struct mtk_vcodec_mem *bs,
->  						   WAIT_INTR_TIMEOUT_MS, MTK_VDEC_LAT0);
->  		/* update remote vsi if decode timeout */
->  		if (ret) {
-> -			mtk_vcodec_err(instance, "VP9 decode timeout %d pic %d\n", ret, pfc->=
-seq);
-> +			mtk_vdec_err(ctx, "VP9 decode timeout %d pic %d\n", ret, pfc->seq);
->  			WRITE_ONCE(instance->vsi->state.timeout, 1);
->  		}
->  		vpu_dec_end(&instance->vpu);
-> @@ -2108,13 +2100,13 @@ static int vdec_vp9_slice_lat_decode(void *h_vdec=
-, struct mtk_vcodec_mem *bs,
-> =20
->  	/* LAT trans full, no more UBE or decode timeout */
->  	if (ret) {
-> -		mtk_vcodec_err(instance, "VP9 decode error: %d\n", ret);
-> +		mtk_vdec_err(ctx, "VP9 decode error: %d\n", ret);
->  		goto err_free_fb_out;
->  	}
-> =20
-> -	mtk_vcodec_debug(instance, "lat dma addr: 0x%lx 0x%lx\n",
-> -			 (unsigned long)pfc->vsi.trans.dma_addr,
-> -			 (unsigned long)pfc->vsi.trans.dma_addr_end);
-> +	mtk_vdec_debug(ctx, "lat dma addr: 0x%lx 0x%lx\n",
-> +		       (unsigned long)pfc->vsi.trans.dma_addr,
-> +		       (unsigned long)pfc->vsi.trans.dma_addr_end);
-> =20
->  	vdec_msg_queue_update_ube_wptr(&ctx->msg_queue,
->  				       vsi->trans.dma_addr_end +
-> @@ -2169,14 +2161,14 @@ static int vdec_vp9_slice_core_decode(struct vdec=
-_lat_buf *lat_buf)
-> =20
->  	ret =3D vdec_vp9_slice_setup_core(instance, fb, lat_buf, pfc);
->  	if (ret) {
-> -		mtk_vcodec_err(instance, "vdec_vp9_slice_setup_core\n");
-> +		mtk_vdec_err(ctx, "vdec_vp9_slice_setup_core\n");
->  		goto err;
->  	}
->  	vdec_vp9_slice_vsi_to_remote(&pfc->vsi, instance->core_vsi);
-> =20
->  	ret =3D vpu_dec_core(&instance->vpu);
->  	if (ret) {
-> -		mtk_vcodec_err(instance, "vpu_dec_core\n");
-> +		mtk_vdec_err(ctx, "vpu_dec_core\n");
->  		goto err;
->  	}
-> =20
-> @@ -2185,7 +2177,7 @@ static int vdec_vp9_slice_core_decode(struct vdec_l=
-at_buf *lat_buf)
->  						   WAIT_INTR_TIMEOUT_MS, MTK_VDEC_CORE);
->  		/* update remote vsi if decode timeout */
->  		if (ret) {
-> -			mtk_vcodec_err(instance, "VP9 core timeout pic %d\n", pfc->seq);
-> +			mtk_vdec_err(ctx, "VP9 core timeout pic %d\n", pfc->seq);
->  			WRITE_ONCE(instance->core_vsi->state.timeout, 1);
->  		}
->  		vpu_dec_core_end(&instance->vpu);
-> @@ -2194,13 +2186,13 @@ static int vdec_vp9_slice_core_decode(struct vdec=
-_lat_buf *lat_buf)
->  	vdec_vp9_slice_vsi_from_remote(&pfc->vsi, instance->core_vsi, 1);
->  	ret =3D vdec_vp9_slice_update_core(instance, lat_buf, pfc);
->  	if (ret) {
-> -		mtk_vcodec_err(instance, "vdec_vp9_slice_update_core\n");
-> +		mtk_vdec_err(ctx, "vdec_vp9_slice_update_core\n");
->  		goto err;
->  	}
-> =20
->  	pfc->vsi.trans.dma_addr_end +=3D ctx->msg_queue.wdma_addr.dma_addr;
-> -	mtk_vcodec_debug(instance, "core dma_addr_end 0x%lx\n",
-> -			 (unsigned long)pfc->vsi.trans.dma_addr_end);
-> +	mtk_vdec_debug(ctx, "core dma_addr_end 0x%lx\n",
-> +		       (unsigned long)pfc->vsi.trans.dma_addr_end);
->  	vdec_msg_queue_update_ube_rptr(&ctx->msg_queue, pfc->vsi.trans.dma_addr=
-_end);
->  	ctx->dev->vdec_pdata->cap_to_disp(ctx, 0, lat_buf->src_buf_req);
-> =20
+>  /**
 > diff --git a/drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c b/drive=
 rs/media/platform/mediatek/vcodec/vdec_vpu_if.c
-> index 60e5b70fa127..ab15ee6e2005 100644
+> index ab15ee6e2005..d82391411ba1 100644
 > --- a/drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c
 > +++ b/drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c
-> @@ -16,7 +16,7 @@ static void handle_init_ack_msg(const struct vdec_vpu_i=
-pi_init_ack *msg)
->  	struct vdec_vpu_inst *vpu =3D (struct vdec_vpu_inst *)
+> @@ -91,7 +91,7 @@ static void vpu_dec_ipi_handler(void *data, unsigned in=
+t len, void *priv)
 >  					(unsigned long)msg->ap_inst_addr;
 > =20
-> -	mtk_vcodec_debug(vpu, "+ ap_inst_addr =3D 0x%llx", msg->ap_inst_addr);
-> +	mtk_vdec_debug(vpu->ctx, "+ ap_inst_addr =3D 0x%llx", msg->ap_inst_addr=
-);
-> =20
->  	/* mapping VPU address to kernel virtual address */
->  	/* the content in vsi is initialized to 0 in VPU */
-> @@ -24,7 +24,7 @@ static void handle_init_ack_msg(const struct vdec_vpu_i=
-pi_init_ack *msg)
->  					     msg->vpu_inst_addr);
->  	vpu->inst_addr =3D msg->vpu_inst_addr;
-> =20
-> -	mtk_vcodec_debug(vpu, "- vpu_inst_addr =3D 0x%x", vpu->inst_addr);
-> +	mtk_vdec_debug(vpu->ctx, "- vpu_inst_addr =3D 0x%x", vpu->inst_addr);
-> =20
->  	/* Set default ABI version if dealing with unversioned firmware. */
->  	vpu->fw_abi_version =3D 0;
-> @@ -40,7 +40,7 @@ static void handle_init_ack_msg(const struct vdec_vpu_i=
-pi_init_ack *msg)
-> =20
->  	/* Check firmware version. */
->  	vpu->fw_abi_version =3D msg->vdec_abi_version;
-> -	mtk_vcodec_debug(vpu, "firmware version 0x%x\n", vpu->fw_abi_version);
-> +	mtk_vdec_debug(vpu->ctx, "firmware version 0x%x\n", vpu->fw_abi_version=
-);
->  	switch (vpu->fw_abi_version) {
->  	case 1:
->  		break;
-> @@ -48,8 +48,7 @@ static void handle_init_ack_msg(const struct vdec_vpu_i=
-pi_init_ack *msg)
->  		vpu->inst_id =3D msg->inst_id;
->  		break;
->  	default:
-> -		mtk_vcodec_err(vpu, "unhandled firmware version 0x%x\n",
-> -			       vpu->fw_abi_version);
-> +		mtk_vdec_err(vpu->ctx, "unhandled firmware version 0x%x\n", vpu->fw_ab=
-i_version);
->  		vpu->failure =3D 1;
->  		break;
->  	}
-> @@ -60,7 +59,7 @@ static void handle_get_param_msg_ack(const struct vdec_=
-vpu_ipi_get_param_ack *ms
->  	struct vdec_vpu_inst *vpu =3D (struct vdec_vpu_inst *)
->  					(unsigned long)msg->ap_inst_addr;
-> =20
-> -	mtk_vcodec_debug(vpu, "+ ap_inst_addr =3D 0x%llx", msg->ap_inst_addr);
-> +	mtk_vdec_debug(vpu->ctx, "+ ap_inst_addr =3D 0x%llx", msg->ap_inst_addr=
-);
-> =20
->  	/* param_type is enum vdec_get_param_type */
->  	switch (msg->param_type) {
-> @@ -69,7 +68,7 @@ static void handle_get_param_msg_ack(const struct vdec_=
-vpu_ipi_get_param_ack *ms
->  		vpu->fb_sz[1] =3D msg->data[1];
->  		break;
->  	default:
-> -		mtk_vcodec_err(vpu, "invalid get param type=3D%d", msg->param_type);
-> +		mtk_vdec_err(vpu->ctx, "invalid get param type=3D%d", msg->param_type)=
-;
->  		vpu->failure =3D 1;
->  		break;
->  	}
-> @@ -96,7 +95,7 @@ static void vpu_dec_ipi_handler(void *data, unsigned in=
-t len, void *priv)
+>  	if (!vpu) {
+> -		mtk_v4l2_err("ap_inst_addr is NULL, did the SCP hang or crash?");
+> +		mtk_v4l2_vdec_err(vpu->ctx, "ap_inst_addr is NULL, did the SCP hang or=
+ crash?");
 >  		return;
->  	}
-> =20
-> -	mtk_vcodec_debug(vpu, "+ id=3D%X", msg->msg_id);
-> +	mtk_vdec_debug(vpu->ctx, "+ id=3D%X", msg->msg_id);
-> =20
->  	vpu->failure =3D msg->status;
->  	vpu->signaled =3D 1;
-> @@ -119,12 +118,12 @@ static void vpu_dec_ipi_handler(void *data, unsigne=
-d int len, void *priv)
->  			handle_get_param_msg_ack(data);
->  			break;
->  		default:
-> -			mtk_vcodec_err(vpu, "invalid msg=3D%X", msg->msg_id);
-> +			mtk_vdec_err(vpu->ctx, "invalid msg=3D%X", msg->msg_id);
->  			break;
->  		}
->  	}
-> =20
-> -	mtk_vcodec_debug(vpu, "- id=3D%X", msg->msg_id);
-> +	mtk_vdec_debug(vpu->ctx, "- id=3D%X", msg->msg_id);
->  }
-> =20
->  static int vcodec_vpu_send_msg(struct vdec_vpu_inst *vpu, void *msg, int=
- len)
-> @@ -132,7 +131,7 @@ static int vcodec_vpu_send_msg(struct vdec_vpu_inst *=
-vpu, void *msg, int len)
->  	int err, id, msgid;
-> =20
->  	msgid =3D *(uint32_t *)msg;
-> -	mtk_vcodec_debug(vpu, "id=3D%X", msgid);
-> +	mtk_vdec_debug(vpu->ctx, "id=3D%X", msgid);
-> =20
->  	vpu->failure =3D 0;
->  	vpu->signaled =3D 0;
-> @@ -150,8 +149,8 @@ static int vcodec_vpu_send_msg(struct vdec_vpu_inst *=
-vpu, void *msg, int len)
->  	err =3D mtk_vcodec_fw_ipi_send(vpu->ctx->dev->fw_handler, id, msg,
->  				     len, 2000);
->  	if (err) {
-> -		mtk_vcodec_err(vpu, "send fail vpu_id=3D%d msg_id=3D%X status=3D%d",
-> -			       id, msgid, err);
-> +		mtk_vdec_err(vpu->ctx, "send fail vpu_id=3D%d msg_id=3D%X status=3D%d"=
-,
-> +			     id, msgid, err);
->  		return err;
->  	}
-> =20
-> @@ -163,7 +162,7 @@ static int vcodec_send_ap_ipi(struct vdec_vpu_inst *v=
-pu, unsigned int msg_id)
->  	struct vdec_ap_ipi_cmd msg;
->  	int err =3D 0;
-> =20
-> -	mtk_vcodec_debug(vpu, "+ id=3D%X", msg_id);
-> +	mtk_vdec_debug(vpu->ctx, "+ id=3D%X", msg_id);
-> =20
->  	memset(&msg, 0, sizeof(msg));
->  	msg.msg_id =3D msg_id;
-> @@ -174,7 +173,7 @@ static int vcodec_send_ap_ipi(struct vdec_vpu_inst *v=
-pu, unsigned int msg_id)
->  	msg.codec_type =3D vpu->codec_type;
-> =20
->  	err =3D vcodec_vpu_send_msg(vpu, &msg, sizeof(msg));
-> -	mtk_vcodec_debug(vpu, "- id=3D%X ret=3D%d", msg_id, err);
-> +	mtk_vdec_debug(vpu->ctx, "- id=3D%X ret=3D%d", msg_id, err);
->  	return err;
->  }
-> =20
-> @@ -189,7 +188,7 @@ int vpu_dec_init(struct vdec_vpu_inst *vpu)
->  	err =3D mtk_vcodec_fw_ipi_register(vpu->ctx->dev->fw_handler, vpu->id,
->  					 vpu->handler, "vdec", NULL);
->  	if (err) {
-> -		mtk_vcodec_err(vpu, "vpu_ipi_register fail status=3D%d", err);
-> +		mtk_vdec_err(vpu->ctx, "vpu_ipi_register fail status=3D%d", err);
->  		return err;
->  	}
-> =20
-> @@ -198,7 +197,7 @@ int vpu_dec_init(struct vdec_vpu_inst *vpu)
->  						 vpu->core_id, vpu->handler,
->  						 "vdec", NULL);
->  		if (err) {
-> -			mtk_vcodec_err(vpu, "vpu_ipi_register core fail status=3D%d", err);
-> +			mtk_vdec_err(vpu->ctx, "vpu_ipi_register core fail status=3D%d", err)=
-;
->  			return err;
->  		}
->  	}
-> @@ -208,10 +207,10 @@ int vpu_dec_init(struct vdec_vpu_inst *vpu)
->  	msg.ap_inst_addr =3D (unsigned long)vpu;
->  	msg.codec_type =3D vpu->codec_type;
-> =20
-> -	mtk_vcodec_debug(vpu, "vdec_inst=3D%p", vpu);
-> +	mtk_vdec_debug(vpu->ctx, "vdec_inst=3D%p", vpu);
-> =20
->  	err =3D vcodec_vpu_send_msg(vpu, (void *)&msg, sizeof(msg));
-> -	mtk_vcodec_debug(vpu, "- ret=3D%d", err);
-> +	mtk_vdec_debug(vpu->ctx, "- ret=3D%d", err);
->  	return err;
->  }
-> =20
-> @@ -222,7 +221,7 @@ int vpu_dec_start(struct vdec_vpu_inst *vpu, uint32_t=
- *data, unsigned int len)
->  	int err =3D 0;
-> =20
->  	if (len > ARRAY_SIZE(msg.data)) {
-> -		mtk_vcodec_err(vpu, "invalid len =3D %d\n", len);
-> +		mtk_vdec_err(vpu->ctx, "invalid len =3D %d\n", len);
->  		return -EINVAL;
->  	}
-> =20
-> @@ -238,7 +237,7 @@ int vpu_dec_start(struct vdec_vpu_inst *vpu, uint32_t=
- *data, unsigned int len)
->  	msg.codec_type =3D vpu->codec_type;
-> =20
->  	err =3D vcodec_vpu_send_msg(vpu, (void *)&msg, sizeof(msg));
-> -	mtk_vcodec_debug(vpu, "- ret=3D%d", err);
-> +	mtk_vdec_debug(vpu->ctx, "- ret=3D%d", err);
->  	return err;
->  }
-> =20
-> @@ -249,7 +248,7 @@ int vpu_dec_get_param(struct vdec_vpu_inst *vpu, uint=
-32_t *data,
->  	int err;
-> =20
->  	if (len > ARRAY_SIZE(msg.data)) {
-> -		mtk_vcodec_err(vpu, "invalid len =3D %d\n", len);
-> +		mtk_vdec_err(vpu->ctx, "invalid len =3D %d\n", len);
->  		return -EINVAL;
->  	}
-> =20
-> @@ -261,7 +260,7 @@ int vpu_dec_get_param(struct vdec_vpu_inst *vpu, uint=
-32_t *data,
->  	msg.codec_type =3D vpu->codec_type;
-> =20
->  	err =3D vcodec_vpu_send_msg(vpu, (void *)&msg, sizeof(msg));
-> -	mtk_vcodec_debug(vpu, "- ret=3D%d", err);
-> +	mtk_vdec_debug(vpu->ctx, "- ret=3D%d", err);
->  	return err;
->  }
-> =20
-> diff --git a/drivers/media/platform/mediatek/vcodec/venc/venc_h264_if.c b=
-/drivers/media/platform/mediatek/vcodec/venc/venc_h264_if.c
-> index c821ed427537..5abc9c4e6d4f 100644
-> --- a/drivers/media/platform/mediatek/vcodec/venc/venc_h264_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/venc/venc_h264_if.c
-> @@ -240,13 +240,13 @@ static unsigned int h264_get_profile(struct venc_h2=
-64_inst *inst,
->  	case V4L2_MPEG_VIDEO_H264_PROFILE_HIGH:
->  		return 100;
->  	case V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELINE:
-> -		mtk_vcodec_err(inst, "unsupported CONSTRAINED_BASELINE");
-> +		mtk_venc_err(inst->ctx, "unsupported CONSTRAINED_BASELINE");
->  		return 0;
->  	case V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED:
-> -		mtk_vcodec_err(inst, "unsupported EXTENDED");
-> +		mtk_venc_err(inst->ctx, "unsupported EXTENDED");
->  		return 0;
->  	default:
-> -		mtk_vcodec_debug(inst, "unsupported profile %d", profile);
-> +		mtk_venc_debug(inst->ctx, "unsupported profile %d", profile);
->  		return 100;
->  	}
->  }
-> @@ -256,7 +256,7 @@ static unsigned int h264_get_level(struct venc_h264_i=
-nst *inst,
->  {
->  	switch (level) {
->  	case V4L2_MPEG_VIDEO_H264_LEVEL_1B:
-> -		mtk_vcodec_err(inst, "unsupported 1B");
-> +		mtk_venc_err(inst->ctx, "unsupported 1B");
->  		return 0;
->  	case V4L2_MPEG_VIDEO_H264_LEVEL_1_0:
->  		return 10;
-> @@ -289,7 +289,7 @@ static unsigned int h264_get_level(struct venc_h264_i=
-nst *inst,
->  	case V4L2_MPEG_VIDEO_H264_LEVEL_5_1:
->  		return 51;
->  	default:
-> -		mtk_vcodec_debug(inst, "unsupported level %d", level);
-> +		mtk_venc_debug(inst->ctx, "unsupported level %d", level);
->  		return 31;
->  	}
->  }
-> @@ -360,8 +360,7 @@ static int h264_enc_alloc_work_buf(struct venc_h264_i=
-nst *inst, bool is_34bit)
->  			ret =3D mtk_vcodec_mem_alloc(inst->ctx,
->  						   &inst->work_bufs[i]);
->  			if (ret) {
-> -				mtk_vcodec_err(inst,
-> -					       "cannot allocate buf %d", i);
-> +				mtk_venc_err(inst->ctx, "cannot allocate buf %d", i);
->  				goto err_alloc;
->  			}
->  			/*
-> @@ -385,18 +384,17 @@ static int h264_enc_alloc_work_buf(struct venc_h264=
-_inst *inst, bool is_34bit)
->  		else
->  			wb[i].iova =3D inst->work_bufs[i].dma_addr;
-> =20
-> -		mtk_vcodec_debug(inst,
-> -				 "work_buf[%d] va=3D0x%p iova=3D%pad size=3D%zu",
-> -				 i, inst->work_bufs[i].va,
-> -				 &inst->work_bufs[i].dma_addr,
-> -				 inst->work_bufs[i].size);
-> +		mtk_venc_debug(inst->ctx, "work_buf[%d] va=3D0x%p iova=3D%pad size=3D%=
-zu",
-> +			       i, inst->work_bufs[i].va,
-> +			       &inst->work_bufs[i].dma_addr,
-> +			       inst->work_bufs[i].size);
->  	}
-> =20
->  	/* the pps_buf is used by AP side only */
->  	inst->pps_buf.size =3D 128;
->  	ret =3D mtk_vcodec_mem_alloc(inst->ctx, &inst->pps_buf);
->  	if (ret) {
-> -		mtk_vcodec_err(inst, "cannot allocate pps_buf");
-> +		mtk_venc_err(inst->ctx, "cannot allocate pps_buf");
->  		goto err_alloc;
->  	}
-> =20
-> @@ -416,7 +414,7 @@ static unsigned int h264_enc_wait_venc_done(struct ve=
-nc_h264_inst *inst)
->  	if (!mtk_vcodec_wait_for_done_ctx(ctx, MTK_INST_IRQ_RECEIVED,
->  					  WAIT_INTR_TIMEOUT_MS, 0)) {
->  		irq_status =3D ctx->irq_status;
-> -		mtk_vcodec_debug(inst, "irq_status %x <-", irq_status);
-> +		mtk_venc_debug(ctx, "irq_status %x <-", irq_status);
->  	}
->  	return irq_status;
->  }
-> @@ -450,13 +448,12 @@ static int h264_encode_sps(struct venc_h264_inst *i=
-nst,
-> =20
->  	irq_status =3D h264_enc_wait_venc_done(inst);
->  	if (irq_status !=3D MTK_VENC_IRQ_STATUS_SPS) {
-> -		mtk_vcodec_err(inst, "expect irq status %d",
-> -			       MTK_VENC_IRQ_STATUS_SPS);
-> +		mtk_venc_err(inst->ctx, "expect irq status %d", MTK_VENC_IRQ_STATUS_SP=
-S);
->  		return -EINVAL;
->  	}
-> =20
->  	*bs_size =3D h264_read_reg(inst, VENC_PIC_BITSTREAM_BYTE_CNT);
-> -	mtk_vcodec_debug(inst, "bs size %d <-", *bs_size);
-> +	mtk_venc_debug(inst->ctx, "bs size %d <-", *bs_size);
-> =20
->  	return ret;
->  }
-> @@ -474,13 +471,12 @@ static int h264_encode_pps(struct venc_h264_inst *i=
-nst,
-> =20
->  	irq_status =3D h264_enc_wait_venc_done(inst);
->  	if (irq_status !=3D MTK_VENC_IRQ_STATUS_PPS) {
-> -		mtk_vcodec_err(inst, "expect irq status %d",
-> -			       MTK_VENC_IRQ_STATUS_PPS);
-> +		mtk_venc_err(inst->ctx, "expect irq status %d", MTK_VENC_IRQ_STATUS_PP=
-S);
->  		return -EINVAL;
->  	}
-> =20
->  	*bs_size =3D h264_read_reg(inst, VENC_PIC_BITSTREAM_BYTE_CNT);
-> -	mtk_vcodec_debug(inst, "bs size %d <-", *bs_size);
-> +	mtk_venc_debug(inst->ctx, "bs size %d <-", *bs_size);
-> =20
->  	return ret;
->  }
-> @@ -519,7 +515,7 @@ static int h264_encode_frame(struct venc_h264_inst *i=
-nst,
->  	struct venc_frame_info frame_info;
->  	struct mtk_vcodec_ctx *ctx =3D inst->ctx;
-> =20
-> -	mtk_vcodec_debug(inst, "frm_cnt =3D %d\n ", inst->frm_cnt);
-> +	mtk_venc_debug(ctx, "frm_cnt =3D %d\n ", inst->frm_cnt);
-> =20
->  	if (MTK_ENC_IOVA_IS_34BIT(ctx)) {
->  		gop_size =3D inst->vsi_34->config.gop_size;
-> @@ -532,9 +528,9 @@ static int h264_encode_frame(struct venc_h264_inst *i=
-nst,
->  	frame_info.skip_frm_count =3D inst->skip_frm_cnt;
->  	frame_info.frm_type =3D h264_frame_type(inst->frm_cnt, gop_size,
->  					      intra_period);
-> -	mtk_vcodec_debug(inst, "frm_count =3D %d,skip_frm_count =3D%d,frm_type=
-=3D%d.\n",
-> -			 frame_info.frm_count, frame_info.skip_frm_count,
-> -			 frame_info.frm_type);
-> +	mtk_venc_debug(ctx, "frm_count =3D %d,skip_frm_count =3D%d,frm_type=3D%=
-d.\n",
-> +		       frame_info.frm_count, frame_info.skip_frm_count,
-> +		       frame_info.frm_type);
-> =20
->  	ret =3D vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_FRAME,
->  			     frm_buf, bs_buf, &frame_info);
-> @@ -557,15 +553,15 @@ static int h264_encode_frame(struct venc_h264_inst =
-*inst,
-> =20
->  	irq_status =3D h264_enc_wait_venc_done(inst);
->  	if (irq_status !=3D MTK_VENC_IRQ_STATUS_FRM) {
-> -		mtk_vcodec_err(inst, "irq_status=3D%d failed", irq_status);
-> +		mtk_venc_err(ctx, "irq_status=3D%d failed", irq_status);
->  		return -EIO;
->  	}
-> =20
->  	*bs_size =3D h264_read_reg(inst, VENC_PIC_BITSTREAM_BYTE_CNT);
-> =20
->  	++inst->frm_cnt;
-> -	mtk_vcodec_debug(inst, "frm %d bs_size %d key_frm %d <-",
-> -			 inst->frm_cnt, *bs_size, inst->vpu_inst.is_key_frm);
-> +	mtk_venc_debug(ctx, "frm %d bs_size %d key_frm %d <-",
-> +		       inst->frm_cnt, *bs_size, inst->vpu_inst.is_key_frm);
-> =20
->  	return 0;
->  }
-> @@ -576,7 +572,7 @@ static void h264_encode_filler(struct venc_h264_inst =
-*inst, void *buf,
->  	unsigned char *p =3D buf;
-> =20
->  	if (size < H264_FILLER_MARKER_SIZE) {
-> -		mtk_vcodec_err(inst, "filler size too small %d", size);
-> +		mtk_venc_err(inst->ctx, "filler size too small %d", size);
->  		return;
->  	}
-> =20
-> @@ -626,7 +622,7 @@ static int h264_enc_encode(void *handle,
->  	struct venc_h264_inst *inst =3D (struct venc_h264_inst *)handle;
->  	struct mtk_vcodec_ctx *ctx =3D inst->ctx;
-> =20
-> -	mtk_vcodec_debug(inst, "opt %d ->", opt);
-> +	mtk_venc_debug(ctx, "opt %d ->", opt);
-> =20
->  	enable_irq(ctx->dev->enc_irq);
-> =20
-> @@ -661,7 +657,7 @@ static int h264_enc_encode(void *handle,
->  			break;
->  		}
-> =20
-> -		mtk_vcodec_debug(inst, "h264_encode_frame prepend SPS/PPS");
-> +		mtk_venc_debug(ctx, "h264_encode_frame prepend SPS/PPS");
-> =20
->  		ret =3D h264_encode_header(inst, bs_buf, &bs_size_hdr);
->  		if (ret)
-> @@ -688,9 +684,8 @@ static int h264_enc_encode(void *handle,
-> =20
->  		result->bs_size =3D hdr_sz + filler_sz + bs_size_frm;
-> =20
-> -		mtk_vcodec_debug(inst, "hdr %d filler %d frame %d bs %d",
-> -				 hdr_sz, filler_sz, bs_size_frm,
-> -				 result->bs_size);
-> +		mtk_venc_debug(ctx, "hdr %d filler %d frame %d bs %d",
-> +			       hdr_sz, filler_sz, bs_size_frm, result->bs_size);
-> =20
->  		inst->prepend_hdr =3D 0;
->  		result->is_key_frm =3D inst->vpu_inst.is_key_frm;
-> @@ -698,7 +693,7 @@ static int h264_enc_encode(void *handle,
->  	}
-> =20
->  	default:
-> -		mtk_vcodec_err(inst, "venc_start_opt %d not supported", opt);
-> +		mtk_venc_err(ctx, "venc_start_opt %d not supported", opt);
->  		ret =3D -EINVAL;
->  		break;
->  	}
-> @@ -706,7 +701,7 @@ static int h264_enc_encode(void *handle,
->  encode_err:
-> =20
->  	disable_irq(ctx->dev->enc_irq);
-> -	mtk_vcodec_debug(inst, "opt %d <-", opt);
-> +	mtk_venc_debug(ctx, "opt %d <-", opt);
-> =20
->  	return ret;
->  }
-> @@ -758,7 +753,7 @@ static int h264_enc_set_param(void *handle,
->  	struct mtk_vcodec_ctx *ctx =3D inst->ctx;
->  	const bool is_34bit =3D MTK_ENC_IOVA_IS_34BIT(ctx);
-> =20
-> -	mtk_vcodec_debug(inst, "->type=3D%d", type);
-> +	mtk_venc_debug(ctx, "->type=3D%d", type);
-> =20
->  	switch (type) {
->  	case VENC_SET_PARAM_ENC:
-> @@ -781,7 +776,7 @@ static int h264_enc_set_param(void *handle,
-> =20
->  	case VENC_SET_PARAM_PREPEND_HEADER:
->  		inst->prepend_hdr =3D 1;
-> -		mtk_vcodec_debug(inst, "set prepend header mode");
-> +		mtk_venc_debug(ctx, "set prepend header mode");
->  		break;
->  	case VENC_SET_PARAM_FORCE_INTRA:
->  	case VENC_SET_PARAM_GOP_SIZE:
-> diff --git a/drivers/media/platform/mediatek/vcodec/venc/venc_vp8_if.c b/=
-drivers/media/platform/mediatek/vcodec/venc/venc_vp8_if.c
-> index ddcdb565db17..ff54064497f1 100644
-> --- a/drivers/media/platform/mediatek/vcodec/venc/venc_vp8_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/venc/venc_vp8_if.c
-> @@ -171,8 +171,7 @@ static int vp8_enc_alloc_work_buf(struct venc_vp8_ins=
-t *inst)
->  		inst->work_bufs[i].size =3D wb[i].size;
->  		ret =3D mtk_vcodec_mem_alloc(inst->ctx, &inst->work_bufs[i]);
->  		if (ret) {
-> -			mtk_vcodec_err(inst,
-> -				       "cannot alloc work_bufs[%d]", i);
-> +			mtk_venc_err(inst->ctx, "cannot alloc work_bufs[%d]", i);
->  			goto err_alloc;
->  		}
->  		/*
-> @@ -193,11 +192,10 @@ static int vp8_enc_alloc_work_buf(struct venc_vp8_i=
-nst *inst)
->  		}
->  		wb[i].iova =3D inst->work_bufs[i].dma_addr;
-> =20
-> -		mtk_vcodec_debug(inst,
-> -				 "work_bufs[%d] va=3D0x%p,iova=3D%pad,size=3D%zu",
-> -				 i, inst->work_bufs[i].va,
-> -				 &inst->work_bufs[i].dma_addr,
-> -				 inst->work_bufs[i].size);
-> +		mtk_venc_debug(inst->ctx, "work_bufs[%d] va=3D0x%p,iova=3D%pad,size=3D=
-%zu",
-> +			       i, inst->work_bufs[i].va,
-> +			       &inst->work_bufs[i].dma_addr,
-> +			       inst->work_bufs[i].size);
->  	}
-> =20
->  	return ret;
-> @@ -216,7 +214,7 @@ static unsigned int vp8_enc_wait_venc_done(struct ven=
-c_vp8_inst *inst)
->  	if (!mtk_vcodec_wait_for_done_ctx(ctx, MTK_INST_IRQ_RECEIVED,
->  					  WAIT_INTR_TIMEOUT_MS, 0)) {
->  		irq_status =3D ctx->irq_status;
-> -		mtk_vcodec_debug(inst, "isr return %x", irq_status);
-> +		mtk_venc_debug(ctx, "isr return %x", irq_status);
->  	}
->  	return irq_status;
->  }
-> @@ -261,8 +259,7 @@ static int vp8_enc_compose_one_frame(struct venc_vp8_=
-inst *inst,
->  	}
-> =20
->  	if (bs_buf->size < bs_hdr_len + bs_frm_size + ac_tag_size) {
-> -		mtk_vcodec_err(inst, "bitstream buf size is too small(%zu)",
-> -			       bs_buf->size);
-> +		mtk_venc_err(inst->ctx, "bitstream buf size is too small(%zu)", bs_buf=
-->size);
->  		return -EINVAL;
->  	}
-> =20
-> @@ -292,7 +289,7 @@ static int vp8_enc_encode_frame(struct venc_vp8_inst =
-*inst,
->  	int ret =3D 0;
->  	unsigned int irq_status;
-> =20
-> -	mtk_vcodec_debug(inst, "->frm_cnt=3D%d", inst->frm_cnt);
-> +	mtk_venc_debug(inst->ctx, "->frm_cnt=3D%d", inst->frm_cnt);
-> =20
->  	ret =3D vpu_enc_encode(&inst->vpu_inst, 0, frm_buf, bs_buf, NULL);
->  	if (ret)
-> @@ -300,18 +297,17 @@ static int vp8_enc_encode_frame(struct venc_vp8_ins=
-t *inst,
-> =20
->  	irq_status =3D vp8_enc_wait_venc_done(inst);
->  	if (irq_status !=3D MTK_VENC_IRQ_STATUS_FRM) {
-> -		mtk_vcodec_err(inst, "irq_status=3D%d failed", irq_status);
-> +		mtk_venc_err(inst->ctx, "irq_status=3D%d failed", irq_status);
->  		return -EIO;
->  	}
-> =20
->  	if (vp8_enc_compose_one_frame(inst, bs_buf, bs_size)) {
-> -		mtk_vcodec_err(inst, "vp8_enc_compose_one_frame failed");
-> +		mtk_venc_err(inst->ctx, "vp8_enc_compose_one_frame failed");
->  		return -EINVAL;
->  	}
-> =20
->  	inst->frm_cnt++;
-> -	mtk_vcodec_debug(inst, "<-size=3D%d key_frm=3D%d", *bs_size,
-> -			 inst->vpu_inst.is_key_frm);
-> +	mtk_venc_debug(inst->ctx, "<-size=3D%d key_frm=3D%d", *bs_size, inst->v=
-pu_inst.is_key_frm);
-> =20
->  	return ret;
->  }
-> @@ -364,7 +360,7 @@ static int vp8_enc_encode(void *handle,
->  		break;
-> =20
->  	default:
-> -		mtk_vcodec_err(inst, "opt not support:%d", opt);
-> +		mtk_venc_err(ctx, "opt not support:%d", opt);
->  		ret =3D -EINVAL;
->  		break;
->  	}
-> @@ -382,7 +378,7 @@ static int vp8_enc_set_param(void *handle,
->  	int ret =3D 0;
->  	struct venc_vp8_inst *inst =3D (struct venc_vp8_inst *)handle;
-> =20
-> -	mtk_vcodec_debug(inst, "->type=3D%d", type);
-> +	mtk_venc_debug(inst->ctx, "->type=3D%d", type);
-> =20
->  	switch (type) {
->  	case VENC_SET_PARAM_ENC:
-> @@ -413,7 +409,7 @@ static int vp8_enc_set_param(void *handle,
->  	 */
->  	case VENC_SET_PARAM_TS_MODE:
->  		inst->ts_mode =3D 1;
-> -		mtk_vcodec_debug(inst, "set ts_mode");
-> +		mtk_venc_debug(inst->ctx, "set ts_mode");
->  		break;
-> =20
->  	default:
-> diff --git a/drivers/media/platform/mediatek/vcodec/venc_vpu_if.c b/drive=
-rs/media/platform/mediatek/vcodec/venc_vpu_if.c
-> index 63ebab28242c..c69f66b6d341 100644
-> --- a/drivers/media/platform/mediatek/vcodec/venc_vpu_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/venc_vpu_if.c
-> @@ -22,14 +22,13 @@ static void handle_enc_init_msg(struct venc_vpu_inst =
-*vpu, const void *data)
->  		return;
-> =20
->  	/* Check firmware version. */
-> -	mtk_vcodec_debug(vpu, "firmware version: 0x%x\n",
-> -			 msg->venc_abi_version);
-> +	mtk_venc_debug(vpu->ctx, "firmware version: 0x%x\n", msg->venc_abi_vers=
-ion);
->  	switch (msg->venc_abi_version) {
->  	case 1:
->  		break;
->  	default:
-> -		mtk_vcodec_err(vpu, "unhandled firmware version 0x%x\n",
-> -			       msg->venc_abi_version);
-> +		mtk_venc_err(vpu->ctx, "unhandled firmware version 0x%x\n",
-> +			     msg->venc_abi_version);
->  		vpu->failure =3D 1;
->  		break;
->  	}
-> @@ -50,13 +49,12 @@ static void vpu_enc_ipi_handler(void *data, unsigned =
-int len, void *priv)
->  	struct venc_vpu_inst *vpu =3D
->  		(struct venc_vpu_inst *)(unsigned long)msg->venc_inst;
-> =20
-> -	mtk_vcodec_debug(vpu, "msg_id %x inst %p status %d",
-> -			 msg->msg_id, vpu, msg->status);
-> +	mtk_venc_debug(vpu->ctx, "msg_id %x inst %p status %d", msg->msg_id, vp=
-u, msg->status);
-> =20
->  	vpu->signaled =3D 1;
->  	vpu->failure =3D (msg->status !=3D VENC_IPI_MSG_STATUS_OK);
->  	if (vpu->failure) {
-> -		mtk_vcodec_err(vpu, "vpu enc status failure %d", vpu->failure);
-> +		mtk_venc_err(vpu->ctx, "vpu enc status failure %d", vpu->failure);
->  		return;
->  	}
-> =20
-> @@ -72,7 +70,7 @@ static void vpu_enc_ipi_handler(void *data, unsigned in=
-t len, void *priv)
->  	case VPU_IPIMSG_ENC_DEINIT_DONE:
->  		break;
->  	default:
-> -		mtk_vcodec_err(vpu, "unknown msg id %x", msg->msg_id);
-> +		mtk_venc_err(vpu->ctx, "unknown msg id %x", msg->msg_id);
->  		break;
->  	}
->  }
-> @@ -83,15 +81,15 @@ static int vpu_enc_send_msg(struct venc_vpu_inst *vpu=
-, void *msg,
->  	int status;
-> =20
->  	if (!vpu->ctx->dev->fw_handler) {
-> -		mtk_vcodec_err(vpu, "inst dev is NULL");
-> +		mtk_venc_err(vpu->ctx, "inst dev is NULL");
->  		return -EINVAL;
->  	}
-> =20
->  	status =3D mtk_vcodec_fw_ipi_send(vpu->ctx->dev->fw_handler, vpu->id, m=
-sg,
->  					len, 2000);
->  	if (status) {
-> -		mtk_vcodec_err(vpu, "vpu_ipi_send msg_id %x len %d fail %d",
-> -			       *(uint32_t *)msg, len, status);
-> +		mtk_venc_err(vpu->ctx, "vpu_ipi_send msg_id %x len %d fail %d",
-> +			     *(uint32_t *)msg, len, status);
->  		return -EINVAL;
->  	}
->  	if (vpu->failure)
-> @@ -113,7 +111,7 @@ int vpu_enc_init(struct venc_vpu_inst *vpu)
->  					    vpu_enc_ipi_handler, "venc", NULL);
-> =20
->  	if (status) {
-> -		mtk_vcodec_err(vpu, "vpu_ipi_register fail %d", status);
-> +		mtk_venc_err(vpu->ctx, "vpu_ipi_register fail %d", status);
->  		return -EINVAL;
->  	}
-> =20
-> @@ -121,7 +119,7 @@ int vpu_enc_init(struct venc_vpu_inst *vpu)
->  	out.msg_id =3D AP_IPIMSG_ENC_INIT;
->  	out.venc_inst =3D (unsigned long)vpu;
->  	if (vpu_enc_send_msg(vpu, &out, sizeof(out))) {
-> -		mtk_vcodec_err(vpu, "AP_IPIMSG_ENC_INIT fail");
-> +		mtk_venc_err(vpu->ctx, "AP_IPIMSG_ENC_INIT fail");
->  		return -EINVAL;
->  	}
-> =20
-> @@ -157,7 +155,7 @@ int vpu_enc_set_param(struct venc_vpu_inst *vpu,
->  		sizeof(struct venc_ap_ipi_msg_set_param);
->  	struct venc_ap_ipi_msg_set_param_ext out;
-> =20
-> -	mtk_vcodec_debug(vpu, "id %d ->", id);
-> +	mtk_venc_debug(vpu->ctx, "id %d ->", id);
-> =20
->  	memset(&out, 0, sizeof(out));
->  	out.base.msg_id =3D AP_IPIMSG_ENC_SET_PARAM;
-> @@ -199,16 +197,15 @@ int vpu_enc_set_param(struct venc_vpu_inst *vpu,
->  		out.base.data_item =3D 0;
->  		break;
->  	default:
-> -		mtk_vcodec_err(vpu, "id %d not supported", id);
-> +		mtk_venc_err(vpu->ctx, "id %d not supported", id);
->  		return -EINVAL;
->  	}
->  	if (vpu_enc_send_msg(vpu, &out, msg_size)) {
-> -		mtk_vcodec_err(vpu,
-> -			       "AP_IPIMSG_ENC_SET_PARAM %d fail", id);
-> +		mtk_venc_err(vpu->ctx, "AP_IPIMSG_ENC_SET_PARAM %d fail", id);
->  		return -EINVAL;
->  	}
-> =20
-> -	mtk_vcodec_debug(vpu, "id %d <-", id);
-> +	mtk_venc_debug(vpu->ctx, "id %d <-", id);
-> =20
->  	return 0;
->  }
-> @@ -225,7 +222,7 @@ static int vpu_enc_encode_32bits(struct venc_vpu_inst=
- *vpu,
->  		sizeof(struct venc_ap_ipi_msg_enc);
->  	struct venc_ap_ipi_msg_enc_ext out;
-> =20
-> -	mtk_vcodec_debug(vpu, "bs_mode %d ->", bs_mode);
-> +	mtk_venc_debug(vpu->ctx, "bs_mode %d ->", bs_mode);
-> =20
->  	memset(&out, 0, sizeof(out));
->  	out.base.msg_id =3D AP_IPIMSG_ENC_ENCODE;
-> @@ -239,7 +236,7 @@ static int vpu_enc_encode_32bits(struct venc_vpu_inst=
- *vpu,
->  			out.base.input_addr[1] =3D frm_buf->fb_addr[1].dma_addr;
->  			out.base.input_addr[2] =3D frm_buf->fb_addr[2].dma_addr;
->  		} else {
-> -			mtk_vcodec_err(vpu, "dma_addr not align to 16");
-> +			mtk_venc_err(vpu->ctx, "dma_addr not align to 16");
->  			return -EINVAL;
->  		}
->  	}
-> @@ -254,8 +251,7 @@ static int vpu_enc_encode_32bits(struct venc_vpu_inst=
- *vpu,
->  		out.data[2] =3D frame_info->frm_type;
->  	}
->  	if (vpu_enc_send_msg(vpu, &out, msg_size)) {
-> -		mtk_vcodec_err(vpu, "AP_IPIMSG_ENC_ENCODE %d fail",
-> -			       bs_mode);
-> +		mtk_venc_err(vpu->ctx, "AP_IPIMSG_ENC_ENCODE %d fail", bs_mode);
->  		return -EINVAL;
->  	}
-> =20
-> @@ -271,7 +267,7 @@ static int vpu_enc_encode_34bits(struct venc_vpu_inst=
- *vpu,
->  	struct venc_ap_ipi_msg_enc_ext_34 out;
->  	size_t msg_size =3D sizeof(struct venc_ap_ipi_msg_enc_ext_34);
-> =20
-> -	mtk_vcodec_debug(vpu, "bs_mode %d ->", bs_mode);
-> +	mtk_venc_debug(vpu->ctx, "bs_mode %d ->", bs_mode);
-> =20
->  	memset(&out, 0, sizeof(out));
->  	out.msg_id =3D AP_IPIMSG_ENC_ENCODE;
-> @@ -286,7 +282,7 @@ static int vpu_enc_encode_34bits(struct venc_vpu_inst=
- *vpu,
->  			out.input_addr[1] =3D frm_buf->fb_addr[1].dma_addr;
->  			out.input_addr[2] =3D frm_buf->fb_addr[2].dma_addr;
->  		} else {
-> -			mtk_vcodec_err(vpu, "dma_addr not align to 16");
-> +			mtk_venc_err(vpu->ctx, "dma_addr not align to 16");
->  			return -EINVAL;
->  		}
->  	}
-> @@ -301,8 +297,7 @@ static int vpu_enc_encode_34bits(struct venc_vpu_inst=
- *vpu,
->  		out.data[2] =3D frame_info->frm_type;
->  	}
->  	if (vpu_enc_send_msg(vpu, &out, msg_size)) {
-> -		mtk_vcodec_err(vpu, "AP_IPIMSG_ENC_ENCODE %d fail",
-> -			       bs_mode);
-> +		mtk_venc_err(vpu->ctx, "AP_IPIMSG_ENC_ENCODE %d fail", bs_mode);
->  		return -EINVAL;
->  	}
-> =20
-> @@ -326,8 +321,8 @@ int vpu_enc_encode(struct venc_vpu_inst *vpu, unsigne=
-d int bs_mode,
->  	if (ret)
->  		return ret;
-> =20
-> -	mtk_vcodec_debug(vpu, "bs_mode %d state %d size %d key_frm %d <-",
-> -			 bs_mode, vpu->state, vpu->bs_size, vpu->is_key_frm);
-> +	mtk_venc_debug(vpu->ctx, "bs_mode %d state %d size %d key_frm %d <-",
-> +		       bs_mode, vpu->state, vpu->bs_size, vpu->is_key_frm);
-> =20
->  	return 0;
->  }
-> @@ -340,7 +335,7 @@ int vpu_enc_deinit(struct venc_vpu_inst *vpu)
->  	out.msg_id =3D AP_IPIMSG_ENC_DEINIT;
->  	out.vpu_inst_addr =3D vpu->inst_addr;
->  	if (vpu_enc_send_msg(vpu, &out, sizeof(out))) {
-> -		mtk_vcodec_err(vpu, "AP_IPIMSG_ENC_DEINIT fail");
-> +		mtk_venc_err(vpu->ctx, "AP_IPIMSG_ENC_DEINIT fail");
->  		return -EINVAL;
 >  	}
 > =20
 
