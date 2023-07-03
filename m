@@ -2,130 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ACC57745D8A
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jul 2023 15:35:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40610745DCE
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jul 2023 15:52:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231570AbjGCNfP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jul 2023 09:35:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56876 "EHLO
+        id S229719AbjGCNw2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jul 2023 09:52:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229585AbjGCNfO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jul 2023 09:35:14 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67BBEE3;
-        Mon,  3 Jul 2023 06:35:13 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 062E060F33;
-        Mon,  3 Jul 2023 13:35:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CD0CC433C8;
-        Mon,  3 Jul 2023 13:35:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1688391312;
-        bh=lPbmeFzhOOGrIsy8r8petL2/X1NI/8eaQFwx0o3iMv0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KlnBad0Gn0TJ3ilZMv9LBQVhdDz5bsVYW6GySkYYRxy8SlBqqtzBeDchQM7eF10RQ
-         go8sp2tWfbkv3q5EFTo6wZZdY4UCIJlB/tVkaj+mGZSFzhNoz2/KiEvkKiz95K5Sxo
-         JOHNl/y5mB4dlbUwO09v6D3qbvUlE6INjBMhffmc=
-Date:   Mon, 3 Jul 2023 15:29:58 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Umang Jain <umang.jain@ideasonboard.com>
-Cc:     linux-staging@lists.linux.dev,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stefan.wahren@i2se.com,
-        f.fainelli@gmail.com, athierry@redhat.com, error27@gmail.com,
-        dave.stevenson@raspberrypi.com, kieran.bingham@ideasonboard.com,
-        laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH v8 3/5] staging: bcm2835-camera: Register bcm2835-camera
- with vchiq_bus_type
-Message-ID: <2023070319-daycare-pointless-abba@gregkh>
-References: <20230627201628.207483-1-umang.jain@ideasonboard.com>
- <20230627201628.207483-4-umang.jain@ideasonboard.com>
+        with ESMTP id S231147AbjGCNw0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jul 2023 09:52:26 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E638E58;
+        Mon,  3 Jul 2023 06:52:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688392345; x=1719928345;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=d7GySrGTjr8ZNAoiest4xrB1TTCUEMZaaC1CRETXOOo=;
+  b=FBb5wQWs6EIBby+7ju/n0GLWoXmdi5adiPfzkecNuRPgtUtSN0Z9XIts
+   kHTG2OYlPpbp1uvXfIjJ4ehndOZKNiE3Yym/UFgoPt0mTVZ5a477jBgbr
+   AMoxDAaWgkFRMq9VFwMEe8YFYLeVmAkTioo5J/IH0T15bCDx8HtKaYbOP
+   m+PQT46fZ96V92inKQvIfeyaQ+oWhzAQNsr7Uk86OGoSWyejI9FCQvnyZ
+   OmFi720uLUBEkjBji7+rN0EpBrHw21t7kW+I+1/t8X0Bx1GNXTyZdkTBE
+   ow1TXFe4hN+glO+ZsiPpNFxiT8PqjttzTzoZwbDjCuG4EgULCENE/BpdW
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="365457290"
+X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
+   d="scan'208";a="365457290"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2023 06:52:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="721773868"
+X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
+   d="scan'208";a="721773868"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga007.fm.intel.com with ESMTP; 03 Jul 2023 06:52:19 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id ADCC9170; Mon,  3 Jul 2023 16:52:22 +0300 (EEST)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Mark Brown <broonie@kernel.org>,
+        David Lin <CTLIN0@nuvoton.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        alsa-devel@alsa-project.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, Antti Palosaari <crope@iki.fi>,
+        Sergey Kozlov <serjk@netup.ru>, Abylay Ospan <aospan@netup.ru>,
+        Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>,
+        Michael Krufky <mkrufky@linuxtv.org>,
+        Matthias Schwarzott <zzam@gentoo.org>,
+        Akihiro Tsukada <tskd08@gmail.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Subject: [PATCH v2 0/4] ASoC: remove copy of intlog10()
+Date:   Mon,  3 Jul 2023 16:52:07 +0300
+Message-Id: <20230703135211.87416-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.40.0.1.gaa8946217a0b
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230627201628.207483-4-umang.jain@ideasonboard.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 27, 2023 at 10:16:26PM +0200, Umang Jain wrote:
-> Register the bcm2835-camera with the vchiq_bus_type instead of using
-> platform driver/device.
-> 
-> Also the VCHIQ firmware doesn't support device enumeration, hence
-> one has to maintain a list of devices to be registered in the interface.
-> 
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->  .../bcm2835-camera/bcm2835-camera.c           | 16 +++++++-------
->  .../interface/vchiq_arm/vchiq_arm.c           | 21 ++++++++++++++++---
->  2 files changed, 26 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> index 346d00df815a..f37b2a881d92 100644
-> --- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> +++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> @@ -24,8 +24,9 @@
->  #include <media/v4l2-event.h>
->  #include <media/v4l2-common.h>
->  #include <linux/delay.h>
-> -#include <linux/platform_device.h>
->  
-> +#include "../interface/vchiq_arm/vchiq_arm.h"
-> +#include "../interface/vchiq_arm/vchiq_device.h"
->  #include "../vchiq-mmal/mmal-common.h"
->  #include "../vchiq-mmal/mmal-encodings.h"
->  #include "../vchiq-mmal/mmal-vchiq.h"
-> @@ -1841,7 +1842,7 @@ static struct v4l2_format default_v4l2_format = {
->  	.fmt.pix.sizeimage = 1024 * 768,
->  };
->  
-> -static int bcm2835_mmal_probe(struct platform_device *pdev)
-> +static int bcm2835_mmal_probe(struct vchiq_device *device)
->  {
->  	int ret;
->  	struct bcm2835_mmal_dev *dev;
-> @@ -1896,7 +1897,7 @@ static int bcm2835_mmal_probe(struct platform_device *pdev)
->  						       &camera_instance);
->  		ret = v4l2_device_register(NULL, &dev->v4l2_dev);
->  		if (ret) {
-> -			dev_err(&pdev->dev, "%s: could not register V4L2 device: %d\n",
-> +			dev_err(&device->dev, "%s: could not register V4L2 device: %d\n",
->  				__func__, ret);
->  			goto free_dev;
->  		}
-> @@ -1976,7 +1977,7 @@ static int bcm2835_mmal_probe(struct platform_device *pdev)
->  	return ret;
->  }
->  
-> -static void bcm2835_mmal_remove(struct platform_device *pdev)
-> +static void bcm2835_mmal_remove(struct vchiq_device *device)
->  {
->  	int camera;
->  	struct vchiq_mmal_instance *instance = gdev[0]->instance;
-> @@ -1988,17 +1989,16 @@ static void bcm2835_mmal_remove(struct platform_device *pdev)
->  	vchiq_mmal_finalise(instance);
->  }
->  
-> -static struct platform_driver bcm2835_camera_driver = {
-> +static struct vchiq_driver bcm2835_camera_driver = {
->  	.probe		= bcm2835_mmal_probe,
-> -	.remove_new	= bcm2835_mmal_remove,
-> +	.remove		= bcm2835_mmal_remove,
+The first three patches moves intlog10() to be available in entire
+kernel. The last one removes copy of it in one driver. Besides already
+good Lines of Code (LoC) statistics the upcoming users, if any, can
+utilize the exported functions.
 
-No need to change this here, right?  That's independant of this patch
-series.
+The series can be routed via ASoC tree (as Mauro suggested).
 
-thanks,
+Note, int_log.h is separated from math.h due to licensing.
+I dunno if we can mix two in a single header file. In any
+case we may do it later on.
 
-greg k-h
+Changelog v2:
+- moved kernel doc inclusion to the generic place (Mauro)
+- added tags (Mauro, Mark)
+
+Andy Shevchenko (4):
+  lib/math: Move dvb_math.c into lib/math/int_log.c
+  lib/math/int_log: Use ARRAY_SIZE(logtable) where makes sense
+  lib/math/int_log: Replace LGPL-2.1-or-later boilerplate with SPDX
+    identifier
+  ASoC: nau8825: Replace copied'n'pasted intlog10()
+
+ Documentation/core-api/kernel-api.rst         |  7 +-
+ Documentation/driver-api/media/dtv-common.rst |  9 --
+ drivers/media/dvb-core/Makefile               |  2 +-
+ drivers/media/dvb-frontends/af9013_priv.h     |  2 +-
+ drivers/media/dvb-frontends/af9033_priv.h     |  2 +-
+ drivers/media/dvb-frontends/cxd2820r_priv.h   |  2 +-
+ drivers/media/dvb-frontends/cxd2841er.c       |  2 +-
+ .../cxd2880/cxd2880_tnrdmd_dvbt2_mon.c        |  2 +-
+ .../cxd2880/cxd2880_tnrdmd_dvbt_mon.c         |  2 +-
+ .../media/dvb-frontends/cxd2880/cxd2880_top.c |  2 +-
+ drivers/media/dvb-frontends/dib7000p.c        |  2 +-
+ drivers/media/dvb-frontends/dib8000.c         |  2 +-
+ drivers/media/dvb-frontends/dib9000.c         |  2 +-
+ drivers/media/dvb-frontends/drxk_hard.c       |  2 +-
+ drivers/media/dvb-frontends/lgdt3305.c        |  2 +-
+ drivers/media/dvb-frontends/lgdt3306a.c       |  2 +-
+ drivers/media/dvb-frontends/lgdt330x.c        |  2 +-
+ drivers/media/dvb-frontends/m88ds3103_priv.h  |  2 +-
+ drivers/media/dvb-frontends/mn88443x.c        |  2 +-
+ drivers/media/dvb-frontends/mn88472_priv.h    |  2 +-
+ drivers/media/dvb-frontends/mn88473_priv.h    |  2 +-
+ drivers/media/dvb-frontends/or51132.c         |  2 +-
+ drivers/media/dvb-frontends/or51211.c         |  2 +-
+ drivers/media/dvb-frontends/rtl2830_priv.h    |  2 +-
+ drivers/media/dvb-frontends/rtl2832_priv.h    |  2 +-
+ drivers/media/dvb-frontends/si2165.c          |  2 +-
+ drivers/media/dvb-frontends/stv0367.c         |  2 +-
+ drivers/media/dvb-frontends/tc90522.c         |  2 +-
+ drivers/media/dvb-frontends/tda10048.c        |  2 +-
+ include/{media/dvb_math.h => linux/int_log.h} | 18 +---
+ lib/math/Makefile                             |  2 +-
+ .../dvb-core/dvb_math.c => lib/math/int_log.c | 26 ++----
+ sound/soc/codecs/nau8825.c                    | 93 +------------------
+ 33 files changed, 49 insertions(+), 160 deletions(-)
+ rename include/{media/dvb_math.h => linux/int_log.h} (63%)
+ rename drivers/media/dvb-core/dvb_math.c => lib/math/int_log.c (84%)
+
+-- 
+2.40.0.1.gaa8946217a0b
+
