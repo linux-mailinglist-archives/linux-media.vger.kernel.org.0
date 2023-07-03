@@ -2,83 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A9A02745D1A
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jul 2023 15:25:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9E4F745D48
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jul 2023 15:29:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231553AbjGCNZn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jul 2023 09:25:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49116 "EHLO
+        id S231334AbjGCN3P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jul 2023 09:29:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230016AbjGCNZk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jul 2023 09:25:40 -0400
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D30C3E72
-        for <linux-media@vger.kernel.org>; Mon,  3 Jul 2023 06:25:34 -0700 (PDT)
-Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-3fb4146e8ceso54193205e9.0
-        for <linux-media@vger.kernel.org>; Mon, 03 Jul 2023 06:25:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1688390733; x=1690982733;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :to:content-language:subject:reply-to:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=IOndpcYQZRei86HjTSa6sLCOIMedJ10F8ZmbDKThl2M=;
-        b=vd7G70PqJmphoqcC5/iGI9byEgifXwK6Rj3mJrKjAIB8uLw1hpzkudZj36bLUzAfkk
-         CjzNWks5k2enqZ83uiheJk1bPKP4uBNGIYPZq9fUuff3p2KtuZ3rqJncJyFJqF58Wk11
-         z3wyE/Lpomy7vrHjrlZWBHS1lrFctL5sXDGQirjHnrOynrP0Lsyxy/RUFfpaiizpZ15D
-         m2niLhmeobmjKoqyeci4H11VdTtxm8S2YpJ4x7pVGDNNw+N9JpOT8TaCH2LRBE6AMkMV
-         2n86A3zQAeyy55sfLbSPXNIM5/Y7R6C5jvxqBMMqtnupqZrKysuVl4uSym0zdS0BCsLV
-         ydtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688390733; x=1690982733;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :to:content-language:subject:reply-to:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IOndpcYQZRei86HjTSa6sLCOIMedJ10F8ZmbDKThl2M=;
-        b=EmzQUZAkTwS8oqYV6B+cYH79JAcKOmYNKjv5/zWvCbV6ZlhfO2ayXMH5r8YEAEJ4AU
-         1VTYzje4xWtY56zojbMj3zkwzS3vXKxjCx405wPaRBuLx5NrjMVdbKYfw2d+Ej37D1A4
-         eLcGmAr9+rmhXZXLsxcLsoalXoizpDnlgFxLcMhnS1cvddgLurylfworlL6cU1awlOHF
-         ukl6pf8IdVVnFw6vs7s9UEHhOfMszOoMBhlalBXcyhTxZGNtAptXWmXY0VZz2XAedrzc
-         MsGYAXNAKyaKhnJMhc1JfsY0y3rUbbrFnIAYT/UEXALxgIbYJWvyKax4ZeeBDNIUg4T7
-         qWcQ==
-X-Gm-Message-State: ABy/qLbspiXOyeL5NmvCzBaZ+nuyztebO/Sc7cytho17q5wA+2sso87+
-        OiiAQWPRP3vI3Crg1VMrdSe0Ww==
-X-Google-Smtp-Source: APBJJlFRFQcvat3EQxFgB5SI6iSmXIGa31iU1VkZvt3I+z99Hnaof/6yj4+br2u7++97LUjZHWQZuw==
-X-Received: by 2002:a1c:790e:0:b0:3fb:db66:8332 with SMTP id l14-20020a1c790e000000b003fbdb668332mr1599049wme.40.1688390733118;
-        Mon, 03 Jul 2023 06:25:33 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:cf0b:9dd4:190:b74f? ([2a01:e0a:982:cbb0:cf0b:9dd4:190:b74f])
-        by smtp.gmail.com with ESMTPSA id p19-20020a05600c205300b003fbc2c0addbsm10279849wmg.42.2023.07.03.06.25.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Jul 2023 06:25:32 -0700 (PDT)
-Message-ID: <1ed2eca7-b5bf-8d25-d38e-15022a8c8a39@linaro.org>
-Date:   Mon, 3 Jul 2023 15:25:31 +0200
+        with ESMTP id S229925AbjGCN3O (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jul 2023 09:29:14 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E87DE3;
+        Mon,  3 Jul 2023 06:29:13 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3311C60DCF;
+        Mon,  3 Jul 2023 13:29:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C280C433C8;
+        Mon,  3 Jul 2023 13:28:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1688390952;
+        bh=RepaxfoshajN3K+86IX/ZsnlByloWQVwfP5afn9bAIo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=a01/bBaTvRO7151qPYjGovg7X61pYNS8WuLngBl/R/ygEsWml/MFCD8ti68mDbRfR
+         /gqr12qZAVTOQnBot19XMqUwR5iE6Rg75i6WTree65eTIT6H43SHHWztQYTEMxsU4u
+         2pWe7hivCrxhExrQAW0S3fMWl+1MWjjGjSrym8g4=
+Date:   Mon, 3 Jul 2023 15:28:34 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Umang Jain <umang.jain@ideasonboard.com>
+Cc:     linux-staging@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, stefan.wahren@i2se.com,
+        f.fainelli@gmail.com, athierry@redhat.com, error27@gmail.com,
+        dave.stevenson@raspberrypi.com, kieran.bingham@ideasonboard.com,
+        laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH v8 1/5] staging: vc04_services: vchiq_arm: Add new bus
+ type and device type
+Message-ID: <2023070302-gallon-unison-2b9c@gregkh>
+References: <20230627201628.207483-1-umang.jain@ideasonboard.com>
+ <20230627201628.207483-2-umang.jain@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH] dt-bindings: cleanup DTS example whitespaces
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, coresight@lists.linaro.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        linux-rockchip@lists.infradead.org, linux-iio@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-amlogic@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
-        linux-remoteproc@vger.kernel.org, linux-usb@vger.kernel.org
-References: <20230702182308.7583-1-krzysztof.kozlowski@linaro.org>
-From:   Neil Armstrong <neil.armstrong@linaro.org>
-Organization: Linaro Developer Services
-In-Reply-To: <20230702182308.7583-1-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230627201628.207483-2-umang.jain@ideasonboard.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -86,41 +58,130 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 02/07/2023 20:23, Krzysztof Kozlowski wrote:
-> The DTS code coding style expects spaces around '=' sign.
+On Tue, Jun 27, 2023 at 10:16:24PM +0200, Umang Jain wrote:
+> The devices that the vchiq interface registers (bcm2835-audio,
+> bcm2835-camera) are implemented and exposed by the VC04 firmware.
+> The device tree describes the VC04 itself with the resources required
+> to communicate with it through a mailbox interface. However, the
+> vchiq interface registers these devices as platform devices. This
+> also means the specific drivers for these devices are getting
+> registered as platform drivers. This is not correct and a blatant
+> abuse of platform device/driver.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Add a new bus type, vchiq_bus_type and device type (struct vchiq_device)
+> which will be used to migrate child devices that the vchiq interfaces
+> creates/registers from the platform device/driver.
 > 
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 > ---
+>  drivers/staging/vc04_services/Makefile        |  1 +
+>  .../interface/vchiq_arm/vchiq_device.c        | 78 +++++++++++++++++++
+>  .../interface/vchiq_arm/vchiq_device.h        | 43 ++++++++++
+>  3 files changed, 122 insertions(+)
+>  create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+>  create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
 > 
-> Rob,
-> 
-> Maybe this could go via your tree? Rebased on your for-next:
-> v6.4-rc2-45-gf0ac35049606
-> ---
->   .../bindings/arm/arm,coresight-cti.yaml        | 18 +++++++++---------
->   .../bindings/arm/keystone/ti,sci.yaml          |  8 ++++----
->   .../devicetree/bindings/display/msm/gmu.yaml   |  2 +-
->   .../display/panel/samsung,s6e8aa0.yaml         |  2 +-
->   .../display/rockchip/rockchip-vop.yaml         |  4 ++--
->   .../bindings/iio/adc/ti,adc108s102.yaml        |  2 +-
->   .../bindings/media/renesas,rzg2l-cru.yaml      |  4 ++--
->   .../devicetree/bindings/media/renesas,vin.yaml |  4 ++--
->   .../devicetree/bindings/mtd/mtd-physmap.yaml   |  2 +-
->   .../bindings/net/mediatek-dwmac.yaml           |  2 +-
->   .../bindings/perf/amlogic,g12-ddr-pmu.yaml     |  4 ++--
->   .../bindings/phy/mediatek,dsi-phy.yaml         |  2 +-
->   .../remoteproc/amlogic,meson-mx-ao-arc.yaml    |  2 +-
+> diff --git a/drivers/staging/vc04_services/Makefile b/drivers/staging/vc04_services/Makefile
+> index 44794bdf6173..2d071e55e175 100644
+> --- a/drivers/staging/vc04_services/Makefile
+> +++ b/drivers/staging/vc04_services/Makefile
+> @@ -5,6 +5,7 @@ vchiq-objs := \
+>     interface/vchiq_arm/vchiq_core.o  \
+>     interface/vchiq_arm/vchiq_arm.o \
+>     interface/vchiq_arm/vchiq_debugfs.o \
+> +   interface/vchiq_arm/vchiq_device.o \
+>     interface/vchiq_arm/vchiq_connected.o \
+>  
+>  ifdef CONFIG_VCHIQ_CDEV
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+> new file mode 100644
+> index 000000000000..dff312e9735c
+> --- /dev/null
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+> @@ -0,0 +1,78 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * vchiq_device.c - VCHIQ generic device and bus-type
+> + *
+> + * Copyright (c) 2023 Ideas On Board Oy
+> + */
+> +
+> +#include <linux/device/bus.h>
+> +#include <linux/slab.h>
+> +#include <linux/string.h>
+> +
+> +#include "vchiq_device.h"
+> +
+> +static int vchiq_bus_type_match(struct device *dev, struct device_driver *drv);
+> +
+> +struct bus_type vchiq_bus_type = {
+> +	.name   = "vchiq-bus",
+> +	.match  = vchiq_bus_type_match,
+> +};
+> +
+> +static int vchiq_bus_type_match(struct device *dev, struct device_driver *drv)
+> +{
+> +	if (dev->bus == &vchiq_bus_type &&
+> +	    strcmp(dev_name(dev), drv->name) == 0)
+> +		return 1;
+> +	return 0;
+> +}
+> +
+> +static void vchiq_device_release(struct device *dev)
+> +{
+> +	struct vchiq_device *device;
+> +
+> +	device = container_of(dev, struct vchiq_device, dev);
+> +	kfree(device);
+> +}
+> +
+> +int vchiq_device_register(struct device *parent, const char *name)
+> +{
+> +	struct vchiq_device *device = NULL;
 
-For amlogic ones:
+No need to set this to NULL.
 
-Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
+> +	int ret;
+> +
+> +	device = kzalloc(sizeof(*device), GFP_KERNEL);
+> +	if (!device)
+> +		return -ENOMEM;
+> +
+> +	device->dev.init_name = name;
+> +	device->dev.parent = parent;
+> +	device->dev.bus = &vchiq_bus_type;
+> +	device->dev.release = vchiq_device_release;
+> +
+> +	ret = device_register(&device->dev);
+> +	if (ret) {
+> +		put_device(&device->dev);
+> +		return -EINVAL;
+
+Why not return the error given to you?
+
+> +	}
+> +
+> +	return 0;
+
+You create a new device, shouldn't you return it?  How is it going to be
+looked up again?
+
+> +}
+> +
+> +int vchiq_device_unregister(struct device *dev, void *data)
+
+You should be passing in a sruct vchiq_device *device here, right?
+
+And why the void pointer you do nothing with?
 
 
->   .../devicetree/bindings/usb/mediatek,mtu3.yaml |  2 +-
->   .../devicetree/bindings/usb/ti,am62-usb.yaml   |  2 +-
->   15 files changed, 30 insertions(+), 30 deletions(-)
-> 
+> +{
+> +	device_unregister(dev);
+> +	return 0;
+> +}
 
-<snip>
+No need to export this?
 
+thanks,
+
+greg k-h
