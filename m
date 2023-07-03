@@ -2,142 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CF6FA7452FA
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jul 2023 00:33:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 908D774545A
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jul 2023 05:59:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229992AbjGBWdW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 2 Jul 2023 18:33:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55198 "EHLO
+        id S230027AbjGCD7Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 2 Jul 2023 23:59:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229954AbjGBWdV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 2 Jul 2023 18:33:21 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07B4DE50;
-        Sun,  2 Jul 2023 15:33:17 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (dkzdf0gkyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4506:4f15::1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4QvP2x1Wcqz49Q2n;
-        Mon,  3 Jul 2023 01:33:12 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1688337195;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=1Vq7iQBrN69OxuE9bJ+ZN+drPsjGsqsr4TGpW7XKLJ8=;
-        b=v/FxeuxfV5OpR4gn+E627WvcIv5wlYTO3C20TZwQpt2RzBrhYB87gzCeMls2pp0Z3GRpyx
-        fOVeiajOp1F7w+AML3CI7vRlBluOOMhHNlFLX/Nevkyqhry4awIQAJzoN703dl/db8O1ba
-        UrAY06sL6osKJVsDZ/rMLZy+wO+XYcrjlysTWBcOO/4IvIL4a2ANnKkH2JW8PZUbp2BE+y
-        X13PvrwQw33scXQzIVuwtHDlzaVQ0ypzCmL7ERYsyd/MmVemyb861H5DPmKhLwD9aTssPA
-        8Qt1d/ItBF0pVkw6mRCaNI9+houqW1T3b8f8GEX2ngnbim5MeIExtqnEpM0ZNw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1688337195;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=1Vq7iQBrN69OxuE9bJ+ZN+drPsjGsqsr4TGpW7XKLJ8=;
-        b=ZROHnp98O8v5MWk/P0Fry6ZKqhBbuY1ZConJS516gx3SypeJe+U0GQIGicEXUGBIDhMMYz
-        Mn6EdM9f4FQwHnlO0pKR/S5YMMoWomAYpbS7lbOm3JTodsxvaeW0Cyi5Rm1oqa7emjaDQ5
-        sRaplBzoNhk9AdFYvOw+XnOlO59+1I6sIuJmPpGLsDH+QbtT2M+htrgCQehCUN/krE6SY8
-        1JDd1B5LQuo8hQvZKOemgPvzbqeJr1Rg7jhE9/MVNBY+aWVMzo8QukWMbvkldftyrPJL90
-        fyNuCM9/QpLO0SfVJxYTdh58nYkvO1+2eyeERUUUdEcYozN5HNWwxZSeAeEkOA==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1688337195; a=rsa-sha256;
-        cv=none;
-        b=PHCOUO8gdh1WhwQ4tZcMqX7EQS+3r9LGgAw9yGv1DuaaiRfP+PDWsPr8gFlNM4mW/iWaAg
-        oZrwrWaF01f9nCj8MkLKXF5IpiKtlgdPVnjrMEbTKWFWqptkUoC9pUK5+GUZTEP0BmK1vh
-        q2fLfcHcxPJ9RqoGCyOIodsTvdaUWgeSHBiz00dxeJYtfTEHstoav1HHDJ0xQrjlwuRqLX
-        eRGPAgWOkC2KqWCMAmDgQI7GsASSdaEoCsiSmgpe8hRNYlJztubf4Hc56ar6uZ4Boc/x7e
-        79YnRdq6mYO8GTc/w9UrrgLul639/Q4a1nwpLnP+3QUzZS17+LG0ogSypwFFpA==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 9315A634C93;
-        Mon,  3 Jul 2023 01:33:12 +0300 (EEST)
-Date:   Sun, 2 Jul 2023 22:33:12 +0000
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
-        dave.stevenson@raspberrypi.com, devicetree@vger.kernel.org,
-        kernel-list@raspberrypi.com, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org, lukasz@jany.st,
-        mchehab@kernel.org, naush@raspberrypi.com, robh@kernel.org,
-        tomi.valkeinen@ideasonboard.com,
-        bcm-kernel-feedback-list@broadcom.com, stefan.wahren@i2se.com
-Subject: Re: [PATCH v5 04/11] media: bcm2835-unicam: Add support for
- CCP2/CSI2 camera interface
-Message-ID: <ZKH7KOtlGElmHjIm@valkosipuli.retiisi.eu>
-References: <20220208155027.891055-5-jeanmichel.hautbois@ideasonboard.com>
- <YhihbncnSlmvrn/D@valkosipuli.retiisi.eu>
- <20230702152356.GA16995@pendragon.ideasonboard.com>
- <ZKG/bej80eL13Qqp@valkosipuli.retiisi.eu>
- <20230702214505.GB16995@pendragon.ideasonboard.com>
- <20230702214711.GC16995@pendragon.ideasonboard.com>
- <ZKHye/4kARSHqsIJ@valkosipuli.retiisi.eu>
- <20230702220138.GE9285@pendragon.ideasonboard.com>
- <ZKH4LXKHX8G1WK7a@valkosipuli.retiisi.eu>
- <20230702222803.GF9285@pendragon.ideasonboard.com>
+        with ESMTP id S229696AbjGCD7W (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 2 Jul 2023 23:59:22 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 252901B5;
+        Sun,  2 Jul 2023 20:59:14 -0700 (PDT)
+X-UUID: f667c956195511ee9cb5633481061a41-20230703
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=3aA7hDmn2+eYJqtz3awtG5Y2HfWiSGYOPPozwjtep1Q=;
+        b=abqW7nfj96QOok0S6qbqhX/XecpEYxqXNQR//KQRSedjAOBwG3cN9i0m2YF4KrnxQOST3kxr91KBmsZycMzXIHdaL6vlLNsU51mLWfYudS38rRFXYDWozDdkO42lMDrNmElY5lJoZyHPg0rjhFtVEDIFPVLSHt4TzPpQJA4mPD4=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.27,REQID:2dbfb483-0e03-4e08-b7bf-5822efcd7c1c,IP:0,U
+        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+        N:release,TS:100
+X-CID-INFO: VERSION:1.1.27,REQID:2dbfb483-0e03-4e08-b7bf-5822efcd7c1c,IP:0,URL
+        :0,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTIO
+        N:quarantine,TS:100
+X-CID-META: VersionHash:01c9525,CLOUDID:0d829f82-5a99-42ae-a2dd-e4afb731b474,B
+        ulkID:230703115909H5L3126B,BulkQuantity:1,Recheck:0,SF:48|38|29|28|17|19,T
+        C:nil,Content:0,EDM:-3,IP:nil,URL:11|1,File:nil,Bulk:40,QS:nil,BEC:nil,COL
+        :0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_ULN,TF_CID_SPAM_SNR,
+        TF_CID_SPAM_SDM,TF_CID_SPAM_ASC
+X-UUID: f667c956195511ee9cb5633481061a41-20230703
+Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by mailgw01.mediatek.com
+        (envelope-from <irui.wang@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1573200431; Mon, 03 Jul 2023 11:59:09 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Mon, 3 Jul 2023 11:59:07 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Mon, 3 Jul 2023 11:59:07 +0800
+From:   Irui Wang <irui.wang@mediatek.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+CC:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        Irui Wang <irui.wang@mediatek.com>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>
+Subject: [PATCH v2] media: mediatek: vcodec: Return NULL if no vdec_fb is found
+Date:   Mon, 3 Jul 2023 11:59:05 +0800
+Message-ID: <20230703035905.28247-1-irui.wang@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230702222803.GF9285@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK:  N
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,
+        T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jul 03, 2023 at 01:28:03AM +0300, Laurent Pinchart wrote:
-> On Sun, Jul 02, 2023 at 10:20:29PM +0000, Sakari Ailus wrote:
-> > On Mon, Jul 03, 2023 at 01:01:38AM +0300, Laurent Pinchart wrote:
-> > > > > > > > > If the hardware doesn't support lane remapping for CCP2, then that should
-> > > > > > > > > be reflected in DT bindings, i.e. data-lanes isn't relevant. There's no
-> > > > > > > > > need to check that here.
-> > > > > > > > 
-> > > > > > > > Should the above check for CSI-2 be dropped as well then ?
-> > > > > > > 
-> > > > > > > Same for CSI-2, too: if there's nothing to configure there (lane remapping)
-> > > > > > > there's no need to validate that part of the DT either.
-> > > > > > 
-> > > > > > OK, I'll drop that.
-> > > > > 
-> > > > > Actually, I'm wondering if it would make sense to tell the parsing
-> > > > > functions whether lane reordering is supported or not. The checks could
-> > > > > then be moved to the framework. What do you think ?
-> > > > 
-> > > > I'm not sure how useful this check would be in the first place: if you have
-> > > > hardware that can reorder the lanes, the framework doesn't know what to
-> > > > check there (if anything) and otherwise there's little point in the
-> > > > entire check.
-> > > 
-> > > Isn't it good to tell users that something is wrong instead of accepting
-> > > the invalid configuration and let them wonder why the device isn't
-> > > working ? Users in this case would be system integrators, not end
-> > > users, but we have lots of debugging information in the kernel aimed for
-> > > them already.
-> > 
-> > In which of the two cases above the framework could do something useful
-> > there? For devices where you can reorder the lanes or for those where you
-> > can't?
-> 
-> For devices where you can't, to detect DT that reorders lanes.
+"fb_use_list" is used to store used or referenced frame buffers for
+vp9 stateful decoder. "NULL" should be returned when getting target
+frame buffer failed from "fb_use_list", not a random unexpected one.
 
-I'd suggest to ignore that. The data-lanes property is only used to tell
-the number of lanes in that case, even bindings just specify the number of
-entries in general.
+Signed-off-by: Irui Wang <irui.wang@mediatek.com>
+---
+changed with v1:
+- remove the added flag variable.
+- update commit message.
+---
+ drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-The parser notifies about that, though, if the numbers clash, using a debug
-messages --- since it's not an error (or even worth warning about).
-
+diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c
+index 70b8383f7c8e..a27a109d8d14 100644
+--- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c
++++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c
+@@ -226,10 +226,11 @@ static struct vdec_fb *vp9_rm_from_fb_use_list(struct vdec_vp9_inst
+ 		if (fb->base_y.va == addr) {
+ 			list_move_tail(&node->list,
+ 				       &inst->available_fb_node_list);
+-			break;
++			return fb;
+ 		}
+ 	}
+-	return fb;
++
++	return NULL;
+ }
+ 
+ static void vp9_add_to_fb_free_list(struct vdec_vp9_inst *inst,
 -- 
-Sakari Ailus
+2.18.0
+
