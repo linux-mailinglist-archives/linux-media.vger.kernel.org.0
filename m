@@ -2,185 +2,578 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AB637462A6
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jul 2023 20:43:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE6D8746354
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jul 2023 21:32:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230417AbjGCSnH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jul 2023 14:43:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56772 "EHLO
+        id S230144AbjGCTcH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jul 2023 15:32:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231287AbjGCSnD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jul 2023 14:43:03 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01olkn2080e.outbound.protection.outlook.com [IPv6:2a01:111:f403:700c::80e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F528137;
-        Mon,  3 Jul 2023 11:43:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RJrptUx+I20i+TlDSgVZpRkSxhH67KlE/epSjxkHV7Lyc60brjClTLF2++vhXP9UARXMlEL7d07qKiXgx7Ofp/ILuOJoY7SrKq3tVh2YNbJSgHUvgW+kB6zCbBXq8rEiWUwPSi46BGjys4oxJknqNFa/CtSl5zvL5PnnCI8pK1iunNQek3RhO9XccAAvhUqFxOI/Au2ck2sW3xLsqYhUWOFFRCyErZfnBMKMnG0syVXdFmpcBDvsExWkxfsuo63w+LE4pm5VhvNA5aDxCDh5O5jiUCU+27nk1OsmjH3ANKm2rIvhkYEJc1i6tqATf/FMgJ7R9HN/51ivfrdI7Isbag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=H4QNl/4WBAhGEr3QZsJyNdTP66uQmdeiM5my31f8JGI=;
- b=jjkJN5zzCSUf2gUzawVBaq5f8q/MIlODlT1wFafr0M6cv3OfDh9JoEwT0dTD7UDqoOAP1XRU/JnEEtttCAj7Q7GMx5ATHtEwdoGWCR/ZyeknvvXQjlsGyuswKTcNrUkWKLb6bRK+9N5mxqneDq+QfeKvWUIv7hyZx4yOz58xtBaFL4dDXvsZqjDSxubz1V2/chc1v7TaIc880GCBeirlVwPPBkuvYapjv+pMVwH3aJxKDC9unH7Jr+C9okotBUoLYeCOFQWoL0+v7i+5nVgCzL2aw7mIZfxiQqwZYmQ3XGFCYzXZW6HyBY6EIJ3R97iq+sFl7g1YcI5ptqVMaxJPdw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H4QNl/4WBAhGEr3QZsJyNdTP66uQmdeiM5my31f8JGI=;
- b=M+VF4mPa7rBu+w53/vGTVCGdsLr2b7BAQ1yrrckXVfdeoxcfntNjb0cgQZwNKDnICA5zMeoyWyGOS4TnmD04g+4S8ctx1UNtUXOGywOMGmG0aBPGl1bKtk/kjvKy7BiIZb3Ih+I2in/OUExLFne5egrksc2nxt+74kZTlpuckxWBZrISm3QTvQ6e7pwjY/BCYJo+e3Wo86JH++H6dbR0mZ4mZc69Im4LNNx8W7ngBi6dKa1slhbvsL6LiinAzD9h0qHnFobfLMGpNFmHgUKX08YlkYRKwZkfWL3FuuinVDUp5tJBh8HcF+WuDCSel3PachGbeSC5fGi/NMuVwqdKxg==
-Received: from TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:23e::10)
- by TYCP286MB1658.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:183::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.24; Mon, 3 Jul
- 2023 18:42:53 +0000
-Received: from TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM
- ([fe80::3794:d6cb:1aa2:342e]) by TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM
- ([fe80::3794:d6cb:1aa2:342e%7]) with mapi id 15.20.6544.024; Mon, 3 Jul 2023
- 18:42:53 +0000
-Message-ID: <TY3P286MB2611AF9B43017A0AE3C938249829A@TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM>
-Date:   Tue, 4 Jul 2023 02:42:43 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Cc:     wiagn233@outlook.com, David Airlie <airlied@gmail.com>,
+        with ESMTP id S229750AbjGCTcH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jul 2023 15:32:07 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30931E62;
+        Mon,  3 Jul 2023 12:32:05 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:10:88d9::7a9])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nicolas)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id ACA656606F85;
+        Mon,  3 Jul 2023 20:32:01 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1688412723;
+        bh=hm6Oqy5VZrzjam2MNHj2pZd7QfzxyjY/WqW5sFRcPek=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=kH0k5LLHAio6G9bWp+fNR/mNY/yQ/BnQFjA+Fo0h+iRBUh6PKO1EvA5nc5j5z0mMi
+         0W/OHed2j+AoBqkQf7gSMjyDsghaj5nfvIH38BT0YUzFcAzrJHjCsbX+nF8UtDmZp9
+         CcqYjsKoh+oLPxcMoM/+tylLXy9u1ZD4NSJdGKib6tv7v8Km5KaU4Yox91MRFV+3wX
+         g07nWLSvFCLvuycOV2MVeB3plTulfY4oU60ec6nK1vJblVfIosWjU1Mtd6N1sB2yZ7
+         k6KD1Er1/qm0+mhGv8mPrcqiw+zn7/B1REECMGy5eiadFEMUsr01lt20tklXD2dhPR
+         G25bKmHx/6a4g==
+Message-ID: <85ad91de30fc61fe5b2b8633bebd53a358308a7d.camel@collabora.com>
+Subject: Re: [PATCH v4,04/11] media: mediatek: vcodec: Removing useless
+ debug log
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        =?ISO-8859-1?Q?N=EDcolas?= "F . R . A . Prado" 
+        <nfraprado@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Nathan Hebert <nhebert@chromium.org>
+Cc:     Chen-Yu Tsai <wenst@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
         Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Emil Renner Berthing <kernel@esmil.dk>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        christian.koenig@amd.com, Bjorn Andersson <andersson@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Shawn Guo <shawnguo@kernel.org>, Jagan Teki <jagan@edgeble.ai>,
-        Chris Morgan <macromorgan@hotmail.com>,
-        Jack Zhu <jack.zhu@starfivetech.com>,
-        Shengyang Chen <shengyang.chen@starfivetech.com>,
-        Changhuang Liang <changhuang.liang@starfivetech.com>
-To:     Keith Zhao <keith.zhao@starfivetech.com>,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20230602074043.33872-1-keith.zhao@starfivetech.com>
- <20230602074043.33872-4-keith.zhao@starfivetech.com>
-From:   Shengyu Qu <wiagn233@outlook.com>
-Subject: Re: [PATCH 3/9] drm/verisilicon: Add basic drm driver
-In-Reply-To: <20230602074043.33872-4-keith.zhao@starfivetech.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TMN:  [q8eRu4Dy9Z5z6mkXn2/ZpWEKAyQXX1esgPGeERBNNAfCStz7UAT7Xd4A8uJwCTlC]
-X-ClientProxiedBy: SI2PR01CA0005.apcprd01.prod.exchangelabs.com
- (2603:1096:4:191::23) To TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:23e::10)
-X-Microsoft-Original-Message-ID: <668f4051-2922-ff16-d1ea-c18b5e733588@outlook.com>
+        Steve Cho <stevecho@chromium.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Project_Global_Chrome_Upstream_Group@mediatek.com
+Date:   Mon, 03 Jul 2023 15:31:52 -0400
+In-Reply-To: <20230626035346.30654-5-yunfei.dong@mediatek.com>
+References: <20230626035346.30654-1-yunfei.dong@mediatek.com>
+         <20230626035346.30654-5-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.3 (3.48.3-1.fc38) 
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3P286MB2611:EE_|TYCP286MB1658:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7c90bf83-1ac5-4091-abb1-08db7bf54f96
-X-MS-Exchange-SLBlob-MailProps: Cq7lScuPrnrElUEZnFnVRdo5Pxi6wtKSuSdeKCL4PGYuIi4b7D8GhI+m7s9ptLDS33Nmh3lirtYB9OqdpntMbpGsnQchuqWMfNs40XY4G0D2rdeOFquDzjxWnc25neQPyVi39xSlfaBrzab3i8H5LqZtZuN3gG4nomiLIMDwFO6jdffULv56so71x5aV4THSBt0SO0PlNytccOVZoyts7ObYvIzN6/jPeeHBfJ8lumzTPmKVG3iOpCJGnO8LGAQDNaV8n6PjRPFWmKnUU713EUS76MJ5BpIPdQ0W+TwFt00m66ozJ2sy+VIDc0g1RfqJVGKinh0Pqk7US/6vHlwrLgstmIj1n2EfjiPjRKAKqmpVZ9Xo3NF0eVI8SJ0WpwiSVCk510FtP8yNR0MQYnztaPTMc9L26Pzl67OA3PPp4uu8pgBmkdDxGaGhqcBNJDenxX8Or7iXz5lES2wEYt3o1MDzGARNtypxG8CT9W+idDmyBIKkRYLXcpyQmoa1GDRd6aGQ/Kfr6J+QaBkpBmnNaIq9Ti6eaVYU173NBUTSuWzSjKEY63f8IRFfmLGHVJZp/NiY9DqCPZNJui0NgKWoBfM+Gp3UPqtEUhlnkfaiNAEC6lYpUhUn3UKVF6GKyHDAjO6QnlAwBevmj44Tx/lH91ia5xhRxptpYbYQcUayb0Nq2CAOoQQbf+i7cGD500LX/+RDZydEsOC1QpyPtjxErtke3yF/aAnMgq/EuArTVA0j12U8NOokJVKWpiVB6TV4SdY8jIUx4q0=
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xzst3SETXDcv6Cd3Q6BdHdoQRyXwljhu2qnXRiz6ySccxPHToTQ+bxmrjXYKUVmjhPhTVo+4/6pDTJ2tZnOWRViTICPT8ALqqHTXNdMxOmbu0B13Z5qY3WgQBNCFjWtqjjfCEHOSBV6uZxvpJJMbYRj0/DfBOeFUrsJwKHhCtX9B3bm6IH9lEqAR6V7Cwd52suS44yXuj7NFhNcG/F/d0uQQ1O/O7fBeNefKZzDqMC0zNC+ECuvMwhFDBlaqm+DXbgiSReUFc50FUyNya15neh5Hh/zCE4k90b9bVI33xeLRSl9qjoNhNgQSyBI5hqAJzkGhMW037g5u1XiBhRqUGFgaCiiYC6ezzZxahR/nXzy5tLwrILEheZXn3ee5bclo9IclFKaq9yvTnIgiYWe2zn3LPG9crYqFUE6HWOYB9LsZ16RPkKS3yokAZaGqOXzKxnxSCcoIuzTSwybLKPw5i9o7Si9+8ai0XXTqnluGu8rXn6DtFJGF1Db1uwxqNI/AzEeCGqetxiSiiHoPK16LBFq9SeZkUNofMv46z08CIUaMusloViQqv3K5BTw9Hmp+4F+jkRAvKAwvgiBo3MH+xoCpUCgCUNLggjm3JQV5pmBnnImG4bxsmP189bS6/HHO
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RDRLSms5bENheXVYMkdkdmJHbFMzV0l5Yzg0akRxVVZQemlJeTIwZkM5K2Mx?=
- =?utf-8?B?WDNFNEc2ZEQ3bXdjNlppdWxIaHRZTm5CQXRrMnlSbjVEUlUrNTVYMXRLTHJn?=
- =?utf-8?B?TnBtYmtuVXBybkJSanJUZXlhZEZQM0ZmbXpFMFpXSkd6TEVsTzhFN0FLVjlG?=
- =?utf-8?B?S0RGSjJoSitIOXByR0xMYkNXenBqTzVzQlpxN3JaTTlzaDRJbFkyWS93ODNS?=
- =?utf-8?B?WjNnMHE4K1NpL29KWFJiZS9sTFp2UEZTaFFlUHZONTYzNzhIUHkxSXNhZWxY?=
- =?utf-8?B?UFZXYkpLbi92aDE2ekNVRENSZnhVN3p1ZXYyenc2QzZVdEF3YUZtbE91Z05n?=
- =?utf-8?B?d0NFVGhlL25EckxlSEdYcy9sQXdKbjFxM2Z4VHlEYVZucEF2MGprbHN5ZHRZ?=
- =?utf-8?B?dnQ3UTB2Q25kL3FGZFRLTkJpTXRDc2U5NHFkSUJRSmMrQlk2TzBzQVBsdi9W?=
- =?utf-8?B?QWgyL00zVDRhTUJFMUpUTWZETW8vNDdWclBXR1o4bG5UaDBieUR2RFVERURM?=
- =?utf-8?B?b0dYKzN4YU14SzQrZDU2VXpsaXdkd1lSa3R3VVdmZzkxOG5NbVhRVFROOVZT?=
- =?utf-8?B?K05LM0VPTXJhQ2kxQm9yS1FLSFVuV3ZIQ2l3VDNIYU9raElGbStsVE9UZWpW?=
- =?utf-8?B?ZjZmdUVjUmZvNGZGS2w4c1VHUUFpcHhoZG05TFFpc0hUajNSelZjbXZtbXN0?=
- =?utf-8?B?OVhldEkwcTFpREVaeFA5Sy8vY3NrOVhiNlZqZmMyUnRWVXNLeGx2MnZkeEpK?=
- =?utf-8?B?M3ZOZGZqZVVwWU1PQXB0eWk3QUF3Wm5ENkIzTTJUUEhRVkhtYitIZUhuaCth?=
- =?utf-8?B?YUMvTEltMHlCS2FoT1VYazRxampvdmtDMTdKcndmL0NvdkM2TjhOWXRnaDhU?=
- =?utf-8?B?QmhFVnFzbnpuMUxJTlFEK0hIOTNvNUlzekhzQlRGUitScnN3YjNMc1ZJZHAw?=
- =?utf-8?B?VFJib3grb1cvS2x3cXBxd2kzTU0wMGhaQ3hDT0U2MFdLYzB5c0RRTEkvUlM3?=
- =?utf-8?B?Mm1UTlI4VlgweHhwd2NQT3hYVnlhMmo0WjBCMWJsNFY3T092ZXNkYXFJeUVK?=
- =?utf-8?B?YlhZNnNwRkJQQU1NbWN6OCs2ODgvejJqckloQ1ZxOG1SSXo3KzBnTWNQMlBD?=
- =?utf-8?B?SXY5RUdxY2k5SlZlLzliejhnL1lWdEVQVnkxbmVaelpiM1Y1aElkQ1hzYW5t?=
- =?utf-8?B?bkR5cmNZMXZYUE1KNTg0ZlVIZUszL0pmSld6UUVDWTZYUll6bktDVUIrWGwx?=
- =?utf-8?B?NjRBaUdPb3pid0hYYmZYaVlBYTV3QzcxQ1FmK2EzOC9sTlcyNHBJTTVEeWVF?=
- =?utf-8?B?am5zRWE2a2FaM3JpSkF6TnpSSXAyNE1OdVdnWTl1TVVUU0tGam5UVmJLQmFL?=
- =?utf-8?B?OWVtUCtuV2gwbDFOdmFKZmFkQW5qemJiTnB6d3lHT0FzOXBUR080aHVJKzBl?=
- =?utf-8?B?OHk2anlvNTlXQWtKS1AwaWZqcDc5OC9lYTA5NE1NbHcxUkpJc1NMMkxGMVFE?=
- =?utf-8?B?WkZpeXd3VDdpeFdXbnVvZTBETUxpMWtJV1U4WGNiT0F1clZaR3hTMTdNbUQy?=
- =?utf-8?B?Tmlya2FlUVVZeVIycUd5aUVKWGxaQUdjMVdRUnQ3aldZeEdUQ2Fjd0xkVGhO?=
- =?utf-8?B?V0YzbWhXNUN3REh5RWhoWS9UakhKQURkdDZ3SHp6dEdvd295WWhnWkNsWGFR?=
- =?utf-8?B?VFpyb3BTZktHR0pQMmkybms5L09NMW9EdmZ3aHlNOEhoejlqN29RelF3PT0=?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7c90bf83-1ac5-4091-abb1-08db7bf54f96
-X-MS-Exchange-CrossTenant-AuthSource: TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2023 18:42:53.8707
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCP286MB1658
-X-Spam-Status: No, score=0.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_MUA_MOZILLA,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Keith,
+Le lundi 26 juin 2023 =C3=A0 11:53 +0800, Yunfei Dong a =C3=A9crit=C2=A0:
+> Removing unresonable and useless debug log enter and leave
+> in order to simply the log message.
+>=20
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 
-While compiling this driver as a module, a error happens:
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-drivers/gpu/drm/verisilicon/vs_drm: struct of_device_id is 200 bytes.  
-The last of 1 is:
-0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 
-0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 
-0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 
-0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 
-0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x76 0x65 0x72 0x69 0x73 0x69 
-0x6c 0x69 0x63 0x6f 0x6e 0x2c 0x64 0x69 0x73 0x70 0x6c 0x61 0x79 0x2d 
-0x73 0x75 0x62 0x73 0x79 0x73 0x74 0x65 0x6d 0x00 0x00 0x00 0x00 0x00 
-0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 
-0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 
-0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 
-0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 
-0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 
-0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 
-0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 
-0x00 0x00 0x00 0x00
-FATAL: modpost: drivers/gpu/drm/verisilicon/vs_drm: struct of_device_id 
-is not terminated with a NULL entry!
-
-> +
-> +static const struct of_device_id vs_drm_dt_ids[] = {
-> +	{ .compatible = "verisilicon,display-subsystem", },
-> +};
-> +
-
-So, this should be:
-
-static const struct of_device_id vs_drm_dt_ids[] = {
-	{ .compatible = "verisilicon,display-subsystem", },
-	{ },
-};
-
-After fixing this problem, another error happens:
-
-ERROR: modpost: module vs_drm uses symbol dma_buf_mmap from namespace 
-DMA_BUF, but does not import it.
-
-Please fix.
-
-Best regards,
-Shengyu
+> ---
+>  .../mediatek/vcodec/mtk_vcodec_enc_drv.c      |  1 -
+>  .../mediatek/vcodec/mtk_vcodec_util.h         |  6 -----
+>  .../mediatek/vcodec/vdec/vdec_h264_if.c       |  4 ----
+>  .../mediatek/vcodec/vdec/vdec_h264_req_if.c   |  4 ----
+>  .../vcodec/vdec/vdec_h264_req_multi_if.c      |  2 --
+>  .../vcodec/vdec/vdec_hevc_req_multi_if.c      |  2 --
+>  .../mediatek/vcodec/vdec/vdec_vp8_if.c        |  2 --
+>  .../mediatek/vcodec/vdec/vdec_vp8_req_if.c    |  2 --
+>  .../platform/mediatek/vcodec/vdec_vpu_if.c    |  6 -----
+>  .../mediatek/vcodec/venc/venc_h264_if.c       | 22 -------------------
+>  .../mediatek/vcodec/venc/venc_vp8_if.c        | 22 -------------------
+>  .../platform/mediatek/vcodec/venc_vpu_if.c    | 21 ++++--------------
+>  12 files changed, 4 insertions(+), 90 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c =
+b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
+> index a56652e476c2..0db81e150b18 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_enc_drv.c
+> @@ -459,7 +459,6 @@ static void mtk_vcodec_enc_remove(struct platform_dev=
+ice *pdev)
+>  {
+>  	struct mtk_vcodec_dev *dev =3D platform_get_drvdata(pdev);
+> =20
+> -	mtk_v4l2_debug_enter();
+>  	destroy_workqueue(dev->encode_workqueue);
+>  	if (dev->m2m_dev_enc)
+>  		v4l2_m2m_release(dev->m2m_dev_enc);
+> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h b/d=
+rivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h
+> index 827937bcb4b4..a356f42362e4 100644
+> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h
+> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h
+> @@ -62,12 +62,6 @@ extern int mtk_vcodec_dbg;
+>  		((struct mtk_vcodec_ctx *)(h)->ctx)->id, ##args)
+>  #endif
+> =20
+> -#define mtk_v4l2_debug_enter()  mtk_v4l2_debug(3, "+")
+> -#define mtk_v4l2_debug_leave()  mtk_v4l2_debug(3, "-")
+> -
+> -#define mtk_vcodec_debug_enter(h)  mtk_vcodec_debug(h, "+")
+> -#define mtk_vcodec_debug_leave(h)  mtk_vcodec_debug(h, "-")
+> -
+>  void __iomem *mtk_vcodec_get_reg_addr(void __iomem **reg_base, unsigned =
+int reg_idx);
+>  int mtk_vcodec_mem_alloc(void *priv, struct mtk_vcodec_mem *mem);
+>  void mtk_vcodec_mem_free(void *priv, struct mtk_vcodec_mem *mem);
+> diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_if.c b=
+/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_if.c
+> index 481655bb6016..24312a90afbb 100644
+> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_if.c
+> @@ -156,8 +156,6 @@ static void free_predication_buf(struct vdec_h264_ins=
+t *inst)
+>  {
+>  	struct mtk_vcodec_mem *mem =3D NULL;
+> =20
+> -	mtk_vcodec_debug_enter(inst);
+> -
+>  	inst->vsi->pred_buf_dma =3D 0;
+>  	mem =3D &inst->pred_buf;
+>  	if (mem->va)
+> @@ -311,8 +309,6 @@ static void vdec_h264_deinit(void *h_vdec)
+>  {
+>  	struct vdec_h264_inst *inst =3D (struct vdec_h264_inst *)h_vdec;
+> =20
+> -	mtk_vcodec_debug_enter(inst);
+> -
+>  	vpu_dec_deinit(&inst->vpu);
+>  	free_predication_buf(inst);
+>  	free_mv_buf(inst);
+> diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_if=
+.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_if.c
+> index 4bc05ab5afea..dc6ee266f232 100644
+> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_if.c
+> @@ -174,8 +174,6 @@ static void free_predication_buf(struct vdec_h264_sli=
+ce_inst *inst)
+>  {
+>  	struct mtk_vcodec_mem *mem =3D &inst->pred_buf;
+> =20
+> -	mtk_vcodec_debug_enter(inst);
+> -
+>  	inst->vsi_ctx.pred_buf_dma =3D 0;
+>  	if (mem->va)
+>  		mtk_vcodec_mem_free(inst->ctx, mem);
+> @@ -322,8 +320,6 @@ static void vdec_h264_slice_deinit(void *h_vdec)
+>  {
+>  	struct vdec_h264_slice_inst *inst =3D h_vdec;
+> =20
+> -	mtk_vcodec_debug_enter(inst);
+> -
+>  	vpu_dec_deinit(&inst->vpu);
+>  	free_predication_buf(inst);
+>  	free_mv_buf(inst);
+> diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_mu=
+lti_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_=
+if.c
+> index a7e8e3257b7f..3cb5b967f48a 100644
+> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.=
+c
+> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.=
+c
+> @@ -444,8 +444,6 @@ static void vdec_h264_slice_deinit(void *h_vdec)
+>  {
+>  	struct vdec_h264_slice_inst *inst =3D h_vdec;
+> =20
+> -	mtk_vcodec_debug_enter(inst);
+> -
+>  	vpu_dec_deinit(&inst->vpu);
+>  	vdec_h264_slice_free_mv_buf(inst);
+>  	vdec_msg_queue_deinit(&inst->ctx->msg_queue, inst->ctx);
+> diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_hevc_req_mu=
+lti_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_hevc_req_multi_=
+if.c
+> index 1e6ab138b0bb..0bb5b54578e9 100644
+> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_hevc_req_multi_if.=
+c
+> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_hevc_req_multi_if.=
+c
+> @@ -911,8 +911,6 @@ static void vdec_hevc_slice_deinit(void *h_vdec)
+>  	struct vdec_hevc_slice_inst *inst =3D h_vdec;
+>  	struct mtk_vcodec_mem *mem;
+> =20
+> -	mtk_vcodec_debug_enter(inst);
+> -
+>  	vpu_dec_deinit(&inst->vpu);
+>  	vdec_hevc_slice_free_mv_buf(inst);
+> =20
+> diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_if.c b/=
+drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_if.c
+> index 5edbccc9ae68..fb5bc30b113b 100644
+> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_if.c
+> @@ -601,8 +601,6 @@ static void vdec_vp8_deinit(void *h_vdec)
+>  {
+>  	struct vdec_vp8_inst *inst =3D (struct vdec_vp8_inst *)h_vdec;
+> =20
+> -	mtk_vcodec_debug_enter(inst);
+> -
+>  	vpu_dec_deinit(&inst->vpu);
+>  	free_working_buf(inst);
+>  	kfree(inst);
+> diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_req_if.=
+c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_req_if.c
+> index e1fe2603e92e..f7181f4a4d2a 100644
+> --- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_req_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_req_if.c
+> @@ -421,8 +421,6 @@ static void vdec_vp8_slice_deinit(void *h_vdec)
+>  {
+>  	struct vdec_vp8_slice_inst *inst =3D h_vdec;
+> =20
+> -	mtk_vcodec_debug_enter(inst);
+> -
+>  	vpu_dec_deinit(&inst->vpu);
+>  	vdec_vp8_slice_free_working_buf(inst);
+>  	kfree(inst);
+> diff --git a/drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c b/drive=
+rs/media/platform/mediatek/vcodec/vdec_vpu_if.c
+> index df309e8e9379..60e5b70fa127 100644
+> --- a/drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c
+> @@ -183,8 +183,6 @@ int vpu_dec_init(struct vdec_vpu_inst *vpu)
+>  	struct vdec_ap_ipi_init msg;
+>  	int err;
+> =20
+> -	mtk_vcodec_debug_enter(vpu);
+> -
+>  	init_waitqueue_head(&vpu->wq);
+>  	vpu->handler =3D vpu_dec_ipi_handler;
+> =20
+> @@ -223,8 +221,6 @@ int vpu_dec_start(struct vdec_vpu_inst *vpu, uint32_t=
+ *data, unsigned int len)
+>  	int i;
+>  	int err =3D 0;
+> =20
+> -	mtk_vcodec_debug_enter(vpu);
+> -
+>  	if (len > ARRAY_SIZE(msg.data)) {
+>  		mtk_vcodec_err(vpu, "invalid len =3D %d\n", len);
+>  		return -EINVAL;
+> @@ -252,8 +248,6 @@ int vpu_dec_get_param(struct vdec_vpu_inst *vpu, uint=
+32_t *data,
+>  	struct vdec_ap_ipi_get_param msg;
+>  	int err;
+> =20
+> -	mtk_vcodec_debug_enter(vpu);
+> -
+>  	if (len > ARRAY_SIZE(msg.data)) {
+>  		mtk_vcodec_err(vpu, "invalid len =3D %d\n", len);
+>  		return -EINVAL;
+> diff --git a/drivers/media/platform/mediatek/vcodec/venc/venc_h264_if.c b=
+/drivers/media/platform/mediatek/vcodec/venc/venc_h264_if.c
+> index 10365c95ebbe..c821ed427537 100644
+> --- a/drivers/media/platform/mediatek/vcodec/venc/venc_h264_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/venc/venc_h264_if.c
+> @@ -298,8 +298,6 @@ static void h264_enc_free_work_buf(struct venc_h264_i=
+nst *inst)
+>  {
+>  	int i;
+> =20
+> -	mtk_vcodec_debug_enter(inst);
+> -
+>  	/* Except the SKIP_FRAME buffers,
+>  	 * other buffers need to be freed by AP.
+>  	 */
+> @@ -309,8 +307,6 @@ static void h264_enc_free_work_buf(struct venc_h264_i=
+nst *inst)
+>  	}
+> =20
+>  	mtk_vcodec_mem_free(inst->ctx, &inst->pps_buf);
+> -
+> -	mtk_vcodec_debug_leave(inst);
+>  }
+> =20
+>  static int h264_enc_alloc_work_buf(struct venc_h264_inst *inst, bool is_=
+34bit)
+> @@ -321,8 +317,6 @@ static int h264_enc_alloc_work_buf(struct venc_h264_i=
+nst *inst, bool is_34bit)
+>  	u32 vpua, wb_size;
+>  	int ret =3D 0;
+> =20
+> -	mtk_vcodec_debug_enter(inst);
+> -
+>  	if (is_34bit)
+>  		wb_34 =3D inst->vsi_34->work_bufs;
+>  	else
+> @@ -406,8 +400,6 @@ static int h264_enc_alloc_work_buf(struct venc_h264_i=
+nst *inst, bool is_34bit)
+>  		goto err_alloc;
+>  	}
+> =20
+> -	mtk_vcodec_debug_leave(inst);
+> -
+>  	return ret;
+> =20
+>  err_alloc:
+> @@ -452,8 +444,6 @@ static int h264_encode_sps(struct venc_h264_inst *ins=
+t,
+>  	int ret =3D 0;
+>  	unsigned int irq_status;
+> =20
+> -	mtk_vcodec_debug_enter(inst);
+> -
+>  	ret =3D vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_SPS, NULL, bs_buf,=
+ NULL);
+>  	if (ret)
+>  		return ret;
+> @@ -478,8 +468,6 @@ static int h264_encode_pps(struct venc_h264_inst *ins=
+t,
+>  	int ret =3D 0;
+>  	unsigned int irq_status;
+> =20
+> -	mtk_vcodec_debug_enter(inst);
+> -
+>  	ret =3D vpu_enc_encode(&inst->vpu_inst, H264_BS_MODE_PPS, NULL, bs_buf,=
+ NULL);
+>  	if (ret)
+>  		return ret;
+> @@ -531,7 +519,6 @@ static int h264_encode_frame(struct venc_h264_inst *i=
+nst,
+>  	struct venc_frame_info frame_info;
+>  	struct mtk_vcodec_ctx *ctx =3D inst->ctx;
+> =20
+> -	mtk_vcodec_debug_enter(inst);
+>  	mtk_vcodec_debug(inst, "frm_cnt =3D %d\n ", inst->frm_cnt);
+> =20
+>  	if (MTK_ENC_IOVA_IS_34BIT(ctx)) {
+> @@ -614,8 +601,6 @@ static int h264_enc_init(struct mtk_vcodec_ctx *ctx)
+>  	inst->vpu_inst.id =3D is_ext ? SCP_IPI_VENC_H264 : IPI_VENC_H264;
+>  	inst->hw_base =3D mtk_vcodec_get_reg_addr(inst->ctx->dev->reg_base, VEN=
+C_SYS);
+> =20
+> -	mtk_vcodec_debug_enter(inst);
+> -
+>  	ret =3D vpu_enc_init(&inst->vpu_inst);
+> =20
+>  	if (MTK_ENC_IOVA_IS_34BIT(ctx))
+> @@ -623,8 +608,6 @@ static int h264_enc_init(struct mtk_vcodec_ctx *ctx)
+>  	else
+>  		inst->vsi =3D (struct venc_h264_vsi *)inst->vpu_inst.vsi;
+> =20
+> -	mtk_vcodec_debug_leave(inst);
+> -
+>  	if (ret)
+>  		kfree(inst);
+>  	else
+> @@ -811,8 +794,6 @@ static int h264_enc_set_param(void *handle,
+>  		break;
+>  	}
+> =20
+> -	mtk_vcodec_debug_leave(inst);
+> -
+>  	return ret;
+>  }
+> =20
+> @@ -821,14 +802,11 @@ static int h264_enc_deinit(void *handle)
+>  	int ret =3D 0;
+>  	struct venc_h264_inst *inst =3D (struct venc_h264_inst *)handle;
+> =20
+> -	mtk_vcodec_debug_enter(inst);
+> -
+>  	ret =3D vpu_enc_deinit(&inst->vpu_inst);
+> =20
+>  	if (inst->work_buf_allocated)
+>  		h264_enc_free_work_buf(inst);
+> =20
+> -	mtk_vcodec_debug_leave(inst);
+>  	kfree(inst);
+> =20
+>  	return ret;
+> diff --git a/drivers/media/platform/mediatek/vcodec/venc/venc_vp8_if.c b/=
+drivers/media/platform/mediatek/vcodec/venc/venc_vp8_if.c
+> index 73ebc35d7c99..ddcdb565db17 100644
+> --- a/drivers/media/platform/mediatek/vcodec/venc/venc_vp8_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/venc/venc_vp8_if.c
+> @@ -141,16 +141,12 @@ static void vp8_enc_free_work_buf(struct venc_vp8_i=
+nst *inst)
+>  {
+>  	int i;
+> =20
+> -	mtk_vcodec_debug_enter(inst);
+> -
+>  	/* Buffers need to be freed by AP. */
+>  	for (i =3D 0; i < VENC_VP8_VPU_WORK_BUF_MAX; i++) {
+>  		if (inst->work_bufs[i].size =3D=3D 0)
+>  			continue;
+>  		mtk_vcodec_mem_free(inst->ctx, &inst->work_bufs[i]);
+>  	}
+> -
+> -	mtk_vcodec_debug_leave(inst);
+>  }
+> =20
+>  static int vp8_enc_alloc_work_buf(struct venc_vp8_inst *inst)
+> @@ -159,8 +155,6 @@ static int vp8_enc_alloc_work_buf(struct venc_vp8_ins=
+t *inst)
+>  	int ret =3D 0;
+>  	struct venc_vp8_vpu_buf *wb =3D inst->vsi->work_bufs;
+> =20
+> -	mtk_vcodec_debug_enter(inst);
+> -
+>  	for (i =3D 0; i < VENC_VP8_VPU_WORK_BUF_MAX; i++) {
+>  		if (wb[i].size =3D=3D 0)
+>  			continue;
+> @@ -206,8 +200,6 @@ static int vp8_enc_alloc_work_buf(struct venc_vp8_ins=
+t *inst)
+>  				 inst->work_bufs[i].size);
+>  	}
+> =20
+> -	mtk_vcodec_debug_leave(inst);
+> -
+>  	return ret;
+> =20
+>  err_alloc:
+> @@ -338,14 +330,10 @@ static int vp8_enc_init(struct mtk_vcodec_ctx *ctx)
+>  	inst->vpu_inst.id =3D IPI_VENC_VP8;
+>  	inst->hw_base =3D mtk_vcodec_get_reg_addr(inst->ctx->dev->reg_base, VEN=
+C_LT_SYS);
+> =20
+> -	mtk_vcodec_debug_enter(inst);
+> -
+>  	ret =3D vpu_enc_init(&inst->vpu_inst);
+> =20
+>  	inst->vsi =3D (struct venc_vp8_vsi *)inst->vpu_inst.vsi;
+> =20
+> -	mtk_vcodec_debug_leave(inst);
+> -
+>  	if (ret)
+>  		kfree(inst);
+>  	else
+> @@ -364,8 +352,6 @@ static int vp8_enc_encode(void *handle,
+>  	struct venc_vp8_inst *inst =3D (struct venc_vp8_inst *)handle;
+>  	struct mtk_vcodec_ctx *ctx =3D inst->ctx;
+> =20
+> -	mtk_vcodec_debug_enter(inst);
+> -
+>  	enable_irq(ctx->dev->enc_irq);
+> =20
+>  	switch (opt) {
+> @@ -386,8 +372,6 @@ static int vp8_enc_encode(void *handle,
+>  encode_err:
+> =20
+>  	disable_irq(ctx->dev->enc_irq);
+> -	mtk_vcodec_debug_leave(inst);
+> -
+>  	return ret;
+>  }
+> =20
+> @@ -437,8 +421,6 @@ static int vp8_enc_set_param(void *handle,
+>  		break;
+>  	}
+> =20
+> -	mtk_vcodec_debug_leave(inst);
+> -
+>  	return ret;
+>  }
+> =20
+> @@ -447,16 +429,12 @@ static int vp8_enc_deinit(void *handle)
+>  	int ret =3D 0;
+>  	struct venc_vp8_inst *inst =3D (struct venc_vp8_inst *)handle;
+> =20
+> -	mtk_vcodec_debug_enter(inst);
+> -
+>  	ret =3D vpu_enc_deinit(&inst->vpu_inst);
+> =20
+>  	if (inst->work_buf_allocated)
+>  		vp8_enc_free_work_buf(inst);
+> =20
+> -	mtk_vcodec_debug_leave(inst);
+>  	kfree(inst);
+> -
+>  	return ret;
+>  }
+> =20
+> diff --git a/drivers/media/platform/mediatek/vcodec/venc_vpu_if.c b/drive=
+rs/media/platform/mediatek/vcodec/venc_vpu_if.c
+> index 09e7eaa25aab..63ebab28242c 100644
+> --- a/drivers/media/platform/mediatek/vcodec/venc_vpu_if.c
+> +++ b/drivers/media/platform/mediatek/vcodec/venc_vpu_if.c
+> @@ -55,8 +55,10 @@ static void vpu_enc_ipi_handler(void *data, unsigned i=
+nt len, void *priv)
+> =20
+>  	vpu->signaled =3D 1;
+>  	vpu->failure =3D (msg->status !=3D VENC_IPI_MSG_STATUS_OK);
+> -	if (vpu->failure)
+> -		goto failure;
+> +	if (vpu->failure) {
+> +		mtk_vcodec_err(vpu, "vpu enc status failure %d", vpu->failure);
+> +		return;
+> +	}
+> =20
+>  	switch (msg->msg_id) {
+>  	case VPU_IPIMSG_ENC_INIT_DONE:
+> @@ -73,9 +75,6 @@ static void vpu_enc_ipi_handler(void *data, unsigned in=
+t len, void *priv)
+>  		mtk_vcodec_err(vpu, "unknown msg id %x", msg->msg_id);
+>  		break;
+>  	}
+> -
+> -failure:
+> -	mtk_vcodec_debug_leave(vpu);
+>  }
+> =20
+>  static int vpu_enc_send_msg(struct venc_vpu_inst *vpu, void *msg,
+> @@ -83,8 +82,6 @@ static int vpu_enc_send_msg(struct venc_vpu_inst *vpu, =
+void *msg,
+>  {
+>  	int status;
+> =20
+> -	mtk_vcodec_debug_enter(vpu);
+> -
+>  	if (!vpu->ctx->dev->fw_handler) {
+>  		mtk_vcodec_err(vpu, "inst dev is NULL");
+>  		return -EINVAL;
+> @@ -100,8 +97,6 @@ static int vpu_enc_send_msg(struct venc_vpu_inst *vpu,=
+ void *msg,
+>  	if (vpu->failure)
+>  		return -EINVAL;
+> =20
+> -	mtk_vcodec_debug_leave(vpu);
+> -
+>  	return 0;
+>  }
+> =20
+> @@ -110,8 +105,6 @@ int vpu_enc_init(struct venc_vpu_inst *vpu)
+>  	int status;
+>  	struct venc_ap_ipi_msg_init out;
+> =20
+> -	mtk_vcodec_debug_enter(vpu);
+> -
+>  	init_waitqueue_head(&vpu->wq_hd);
+>  	vpu->signaled =3D 0;
+>  	vpu->failure =3D 0;
+> @@ -132,8 +125,6 @@ int vpu_enc_init(struct venc_vpu_inst *vpu)
+>  		return -EINVAL;
+>  	}
+> =20
+> -	mtk_vcodec_debug_leave(vpu);
+> -
+>  	return 0;
+>  }
+> =20
+> @@ -345,8 +336,6 @@ int vpu_enc_deinit(struct venc_vpu_inst *vpu)
+>  {
+>  	struct venc_ap_ipi_msg_deinit out;
+> =20
+> -	mtk_vcodec_debug_enter(vpu);
+> -
+>  	memset(&out, 0, sizeof(out));
+>  	out.msg_id =3D AP_IPIMSG_ENC_DEINIT;
+>  	out.vpu_inst_addr =3D vpu->inst_addr;
+> @@ -355,7 +344,5 @@ int vpu_enc_deinit(struct venc_vpu_inst *vpu)
+>  		return -EINVAL;
+>  	}
+> =20
+> -	mtk_vcodec_debug_leave(vpu);
+> -
+>  	return 0;
+>  }
 
