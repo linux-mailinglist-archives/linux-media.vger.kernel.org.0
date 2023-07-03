@@ -2,113 +2,185 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C7627461B2
-	for <lists+linux-media@lfdr.de>; Mon,  3 Jul 2023 19:59:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AB637462A6
+	for <lists+linux-media@lfdr.de>; Mon,  3 Jul 2023 20:43:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230292AbjGCR7H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 3 Jul 2023 13:59:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59510 "EHLO
+        id S230417AbjGCSnH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 3 Jul 2023 14:43:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230030AbjGCR7E (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jul 2023 13:59:04 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6665EE42;
-        Mon,  3 Jul 2023 10:59:03 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id EF0A460FFB;
-        Mon,  3 Jul 2023 17:59:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A2F4C433C8;
-        Mon,  3 Jul 2023 17:58:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1688407142;
-        bh=XiKFb7V3OWMEwZYvzGXbVzuxPSM8FbOxPhs9OT74TMw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FhW9voFlWsg2QeJzEydQBhtOwjlMm8fZzCdy3Jg6bgRw3Esqh+f8rsZBYIA3SCaPx
-         AQz+Oc9EBN6nn93BEoFFPSg+57WrZmANomGNefAIrNciFIsppxAehBRnMqXAt/ywjm
-         z7iqgzyrENrfpeSnG308kL3EU9gR+y4v6L3MlpiOyNoivVjA3mh4bTEnyioySkQzgM
-         GxeHgvOxN6ShRkFj3TRimrwaeLvgUIl10cAmpoOAJRCAw3PSjPMnrlQB4GB7fHJBUf
-         S3+AIOJVoJNcN8mVzU6/cDqq2x4yEOq0egDriSpyLBXZ5+3puLj3beKYTz+4YpegCI
-         Yid4vMQ3ucBZQ==
-Date:   Mon, 3 Jul 2023 18:58:55 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Takashi Iwai <tiwai@suse.de>,
-        Shengjiu Wang <shengjiu.wang@gmail.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Shengjiu Wang <shengjiu.wang@nxp.com>, tfiga@chromium.org,
-        m.szyprowski@samsung.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
-        lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-        alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org,
-        Jacopo Mondi <jacopo@jmondi.org>
-Subject: Re: [PATCH 1/6] media: v4l2: Add audio capture and output support
-Message-ID: <090cc065-b078-4f2c-9b2d-3b0b7418461d@sirena.org.uk>
-References: <1688002673-28493-1-git-send-email-shengjiu.wang@nxp.com>
- <1688002673-28493-2-git-send-email-shengjiu.wang@nxp.com>
- <ZJ6o5fT4V4HXivFa@valkosipuli.retiisi.eu>
- <CAA+D8AND1yZ7eZLjBGxVF=i3hLMecUm-j7AVHN9npJi-4=3VrA@mail.gmail.com>
- <87h6ql5hch.wl-tiwai@suse.de>
- <43f0ecdf-7454-49ae-96b3-2eae5487e9a5@sirena.org.uk>
- <d78e6ec3-a531-8fd4-a785-29b6712f83ae@xs4all.nl>
+        with ESMTP id S231287AbjGCSnD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 3 Jul 2023 14:43:03 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01olkn2080e.outbound.protection.outlook.com [IPv6:2a01:111:f403:700c::80e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F528137;
+        Mon,  3 Jul 2023 11:43:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RJrptUx+I20i+TlDSgVZpRkSxhH67KlE/epSjxkHV7Lyc60brjClTLF2++vhXP9UARXMlEL7d07qKiXgx7Ofp/ILuOJoY7SrKq3tVh2YNbJSgHUvgW+kB6zCbBXq8rEiWUwPSi46BGjys4oxJknqNFa/CtSl5zvL5PnnCI8pK1iunNQek3RhO9XccAAvhUqFxOI/Au2ck2sW3xLsqYhUWOFFRCyErZfnBMKMnG0syVXdFmpcBDvsExWkxfsuo63w+LE4pm5VhvNA5aDxCDh5O5jiUCU+27nk1OsmjH3ANKm2rIvhkYEJc1i6tqATf/FMgJ7R9HN/51ivfrdI7Isbag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=H4QNl/4WBAhGEr3QZsJyNdTP66uQmdeiM5my31f8JGI=;
+ b=jjkJN5zzCSUf2gUzawVBaq5f8q/MIlODlT1wFafr0M6cv3OfDh9JoEwT0dTD7UDqoOAP1XRU/JnEEtttCAj7Q7GMx5ATHtEwdoGWCR/ZyeknvvXQjlsGyuswKTcNrUkWKLb6bRK+9N5mxqneDq+QfeKvWUIv7hyZx4yOz58xtBaFL4dDXvsZqjDSxubz1V2/chc1v7TaIc880GCBeirlVwPPBkuvYapjv+pMVwH3aJxKDC9unH7Jr+C9okotBUoLYeCOFQWoL0+v7i+5nVgCzL2aw7mIZfxiQqwZYmQ3XGFCYzXZW6HyBY6EIJ3R97iq+sFl7g1YcI5ptqVMaxJPdw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=H4QNl/4WBAhGEr3QZsJyNdTP66uQmdeiM5my31f8JGI=;
+ b=M+VF4mPa7rBu+w53/vGTVCGdsLr2b7BAQ1yrrckXVfdeoxcfntNjb0cgQZwNKDnICA5zMeoyWyGOS4TnmD04g+4S8ctx1UNtUXOGywOMGmG0aBPGl1bKtk/kjvKy7BiIZb3Ih+I2in/OUExLFne5egrksc2nxt+74kZTlpuckxWBZrISm3QTvQ6e7pwjY/BCYJo+e3Wo86JH++H6dbR0mZ4mZc69Im4LNNx8W7ngBi6dKa1slhbvsL6LiinAzD9h0qHnFobfLMGpNFmHgUKX08YlkYRKwZkfWL3FuuinVDUp5tJBh8HcF+WuDCSel3PachGbeSC5fGi/NMuVwqdKxg==
+Received: from TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:23e::10)
+ by TYCP286MB1658.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:183::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.24; Mon, 3 Jul
+ 2023 18:42:53 +0000
+Received: from TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::3794:d6cb:1aa2:342e]) by TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::3794:d6cb:1aa2:342e%7]) with mapi id 15.20.6544.024; Mon, 3 Jul 2023
+ 18:42:53 +0000
+Message-ID: <TY3P286MB2611AF9B43017A0AE3C938249829A@TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM>
+Date:   Tue, 4 Jul 2023 02:42:43 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Cc:     wiagn233@outlook.com, David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        christian.koenig@amd.com, Bjorn Andersson <andersson@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Shawn Guo <shawnguo@kernel.org>, Jagan Teki <jagan@edgeble.ai>,
+        Chris Morgan <macromorgan@hotmail.com>,
+        Jack Zhu <jack.zhu@starfivetech.com>,
+        Shengyang Chen <shengyang.chen@starfivetech.com>,
+        Changhuang Liang <changhuang.liang@starfivetech.com>
+To:     Keith Zhao <keith.zhao@starfivetech.com>,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20230602074043.33872-1-keith.zhao@starfivetech.com>
+ <20230602074043.33872-4-keith.zhao@starfivetech.com>
+From:   Shengyu Qu <wiagn233@outlook.com>
+Subject: Re: [PATCH 3/9] drm/verisilicon: Add basic drm driver
+In-Reply-To: <20230602074043.33872-4-keith.zhao@starfivetech.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TMN:  [q8eRu4Dy9Z5z6mkXn2/ZpWEKAyQXX1esgPGeERBNNAfCStz7UAT7Xd4A8uJwCTlC]
+X-ClientProxiedBy: SI2PR01CA0005.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:191::23) To TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:23e::10)
+X-Microsoft-Original-Message-ID: <668f4051-2922-ff16-d1ea-c18b5e733588@outlook.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="lxJuGwNgfQ7aT3CA"
-Content-Disposition: inline
-In-Reply-To: <d78e6ec3-a531-8fd4-a785-29b6712f83ae@xs4all.nl>
-X-Cookie: Please go away.
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY3P286MB2611:EE_|TYCP286MB1658:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7c90bf83-1ac5-4091-abb1-08db7bf54f96
+X-MS-Exchange-SLBlob-MailProps: Cq7lScuPrnrElUEZnFnVRdo5Pxi6wtKSuSdeKCL4PGYuIi4b7D8GhI+m7s9ptLDS33Nmh3lirtYB9OqdpntMbpGsnQchuqWMfNs40XY4G0D2rdeOFquDzjxWnc25neQPyVi39xSlfaBrzab3i8H5LqZtZuN3gG4nomiLIMDwFO6jdffULv56so71x5aV4THSBt0SO0PlNytccOVZoyts7ObYvIzN6/jPeeHBfJ8lumzTPmKVG3iOpCJGnO8LGAQDNaV8n6PjRPFWmKnUU713EUS76MJ5BpIPdQ0W+TwFt00m66ozJ2sy+VIDc0g1RfqJVGKinh0Pqk7US/6vHlwrLgstmIj1n2EfjiPjRKAKqmpVZ9Xo3NF0eVI8SJ0WpwiSVCk510FtP8yNR0MQYnztaPTMc9L26Pzl67OA3PPp4uu8pgBmkdDxGaGhqcBNJDenxX8Or7iXz5lES2wEYt3o1MDzGARNtypxG8CT9W+idDmyBIKkRYLXcpyQmoa1GDRd6aGQ/Kfr6J+QaBkpBmnNaIq9Ti6eaVYU173NBUTSuWzSjKEY63f8IRFfmLGHVJZp/NiY9DqCPZNJui0NgKWoBfM+Gp3UPqtEUhlnkfaiNAEC6lYpUhUn3UKVF6GKyHDAjO6QnlAwBevmj44Tx/lH91ia5xhRxptpYbYQcUayb0Nq2CAOoQQbf+i7cGD500LX/+RDZydEsOC1QpyPtjxErtke3yF/aAnMgq/EuArTVA0j12U8NOokJVKWpiVB6TV4SdY8jIUx4q0=
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: xzst3SETXDcv6Cd3Q6BdHdoQRyXwljhu2qnXRiz6ySccxPHToTQ+bxmrjXYKUVmjhPhTVo+4/6pDTJ2tZnOWRViTICPT8ALqqHTXNdMxOmbu0B13Z5qY3WgQBNCFjWtqjjfCEHOSBV6uZxvpJJMbYRj0/DfBOeFUrsJwKHhCtX9B3bm6IH9lEqAR6V7Cwd52suS44yXuj7NFhNcG/F/d0uQQ1O/O7fBeNefKZzDqMC0zNC+ECuvMwhFDBlaqm+DXbgiSReUFc50FUyNya15neh5Hh/zCE4k90b9bVI33xeLRSl9qjoNhNgQSyBI5hqAJzkGhMW037g5u1XiBhRqUGFgaCiiYC6ezzZxahR/nXzy5tLwrILEheZXn3ee5bclo9IclFKaq9yvTnIgiYWe2zn3LPG9crYqFUE6HWOYB9LsZ16RPkKS3yokAZaGqOXzKxnxSCcoIuzTSwybLKPw5i9o7Si9+8ai0XXTqnluGu8rXn6DtFJGF1Db1uwxqNI/AzEeCGqetxiSiiHoPK16LBFq9SeZkUNofMv46z08CIUaMusloViQqv3K5BTw9Hmp+4F+jkRAvKAwvgiBo3MH+xoCpUCgCUNLggjm3JQV5pmBnnImG4bxsmP189bS6/HHO
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RDRLSms5bENheXVYMkdkdmJHbFMzV0l5Yzg0akRxVVZQemlJeTIwZkM5K2Mx?=
+ =?utf-8?B?WDNFNEc2ZEQ3bXdjNlppdWxIaHRZTm5CQXRrMnlSbjVEUlUrNTVYMXRLTHJn?=
+ =?utf-8?B?TnBtYmtuVXBybkJSanJUZXlhZEZQM0ZmbXpFMFpXSkd6TEVsTzhFN0FLVjlG?=
+ =?utf-8?B?S0RGSjJoSitIOXByR0xMYkNXenBqTzVzQlpxN3JaTTlzaDRJbFkyWS93ODNS?=
+ =?utf-8?B?WjNnMHE4K1NpL29KWFJiZS9sTFp2UEZTaFFlUHZONTYzNzhIUHkxSXNhZWxY?=
+ =?utf-8?B?UFZXYkpLbi92aDE2ekNVRENSZnhVN3p1ZXYyenc2QzZVdEF3YUZtbE91Z05n?=
+ =?utf-8?B?d0NFVGhlL25EckxlSEdYcy9sQXdKbjFxM2Z4VHlEYVZucEF2MGprbHN5ZHRZ?=
+ =?utf-8?B?dnQ3UTB2Q25kL3FGZFRLTkJpTXRDc2U5NHFkSUJRSmMrQlk2TzBzQVBsdi9W?=
+ =?utf-8?B?QWgyL00zVDRhTUJFMUpUTWZETW8vNDdWclBXR1o4bG5UaDBieUR2RFVERURM?=
+ =?utf-8?B?b0dYKzN4YU14SzQrZDU2VXpsaXdkd1lSa3R3VVdmZzkxOG5NbVhRVFROOVZT?=
+ =?utf-8?B?K05LM0VPTXJhQ2kxQm9yS1FLSFVuV3ZIQ2l3VDNIYU9raElGbStsVE9UZWpW?=
+ =?utf-8?B?ZjZmdUVjUmZvNGZGS2w4c1VHUUFpcHhoZG05TFFpc0hUajNSelZjbXZtbXN0?=
+ =?utf-8?B?OVhldEkwcTFpREVaeFA5Sy8vY3NrOVhiNlZqZmMyUnRWVXNLeGx2MnZkeEpK?=
+ =?utf-8?B?M3ZOZGZqZVVwWU1PQXB0eWk3QUF3Wm5ENkIzTTJUUEhRVkhtYitIZUhuaCth?=
+ =?utf-8?B?YUMvTEltMHlCS2FoT1VYazRxampvdmtDMTdKcndmL0NvdkM2TjhOWXRnaDhU?=
+ =?utf-8?B?QmhFVnFzbnpuMUxJTlFEK0hIOTNvNUlzekhzQlRGUitScnN3YjNMc1ZJZHAw?=
+ =?utf-8?B?VFJib3grb1cvS2x3cXBxd2kzTU0wMGhaQ3hDT0U2MFdLYzB5c0RRTEkvUlM3?=
+ =?utf-8?B?Mm1UTlI4VlgweHhwd2NQT3hYVnlhMmo0WjBCMWJsNFY3T092ZXNkYXFJeUVK?=
+ =?utf-8?B?YlhZNnNwRkJQQU1NbWN6OCs2ODgvejJqckloQ1ZxOG1SSXo3KzBnTWNQMlBD?=
+ =?utf-8?B?SXY5RUdxY2k5SlZlLzliejhnL1lWdEVQVnkxbmVaelpiM1Y1aElkQ1hzYW5t?=
+ =?utf-8?B?bkR5cmNZMXZYUE1KNTg0ZlVIZUszL0pmSld6UUVDWTZYUll6bktDVUIrWGwx?=
+ =?utf-8?B?NjRBaUdPb3pid0hYYmZYaVlBYTV3QzcxQ1FmK2EzOC9sTlcyNHBJTTVEeWVF?=
+ =?utf-8?B?am5zRWE2a2FaM3JpSkF6TnpSSXAyNE1OdVdnWTl1TVVUU0tGam5UVmJLQmFL?=
+ =?utf-8?B?OWVtUCtuV2gwbDFOdmFKZmFkQW5qemJiTnB6d3lHT0FzOXBUR080aHVJKzBl?=
+ =?utf-8?B?OHk2anlvNTlXQWtKS1AwaWZqcDc5OC9lYTA5NE1NbHcxUkpJc1NMMkxGMVFE?=
+ =?utf-8?B?WkZpeXd3VDdpeFdXbnVvZTBETUxpMWtJV1U4WGNiT0F1clZaR3hTMTdNbUQy?=
+ =?utf-8?B?Tmlya2FlUVVZeVIycUd5aUVKWGxaQUdjMVdRUnQ3aldZeEdUQ2Fjd0xkVGhO?=
+ =?utf-8?B?V0YzbWhXNUN3REh5RWhoWS9UakhKQURkdDZ3SHp6dEdvd295WWhnWkNsWGFR?=
+ =?utf-8?B?VFpyb3BTZktHR0pQMmkybms5L09NMW9EdmZ3aHlNOEhoejlqN29RelF3PT0=?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7c90bf83-1ac5-4091-abb1-08db7bf54f96
+X-MS-Exchange-CrossTenant-AuthSource: TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2023 18:42:53.8707
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCP286MB1658
+X-Spam-Status: No, score=0.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_MUA_MOZILLA,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hello Keith,
 
---lxJuGwNgfQ7aT3CA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+While compiling this driver as a module, a error happens:
 
-On Mon, Jul 03, 2023 at 03:12:55PM +0200, Hans Verkuil wrote:
+drivers/gpu/drm/verisilicon/vs_drm: struct of_device_id is 200 bytes.  
+The last of 1 is:
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x76 0x65 0x72 0x69 0x73 0x69 
+0x6c 0x69 0x63 0x6f 0x6e 0x2c 0x64 0x69 0x73 0x70 0x6c 0x61 0x79 0x2d 
+0x73 0x75 0x62 0x73 0x79 0x73 0x74 0x65 0x6d 0x00 0x00 0x00 0x00 0x00 
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 
+0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 
+0x00 0x00 0x00 0x00
+FATAL: modpost: drivers/gpu/drm/verisilicon/vs_drm: struct of_device_id 
+is not terminated with a NULL entry!
 
-> My main concern is that these cross-subsystem drivers are a pain to
-> maintain. So there have to be good reasons to do this.
+> +
+> +static const struct of_device_id vs_drm_dt_ids[] = {
+> +	{ .compatible = "verisilicon,display-subsystem", },
+> +};
+> +
 
-> Also it is kind of weird to have to use the V4L2 API in userspace to
-> deal with a specific audio conversion. Quite unexpected.
+So, this should be:
 
-> But in the end, that's a decision I can't make.
+static const struct of_device_id vs_drm_dt_ids[] = {
+	{ .compatible = "verisilicon,display-subsystem", },
+	{ },
+};
 
-> So I wait for that feedback. Note that if the decision is made that this
-> can use V4L2, then there is quite a lot more that needs to be done:
-> documentation, new compliance tests, etc. It's adding a new API, and that
-> comes with additional work...
+After fixing this problem, another error happens:
 
-Absolutely, I agree with all of this - my impression was that the target
-here would be bypass of audio streams to/from a v4l2 device, without
-bouncing through an application layer.  If it's purely for audio usage
-with no other tie to v4l2 then involving v4l2 does just seem like
-complication.
+ERROR: modpost: module vs_drm uses symbol dma_buf_mmap from namespace 
+DMA_BUF, but does not import it.
 
---lxJuGwNgfQ7aT3CA
-Content-Type: application/pgp-signature; name="signature.asc"
+Please fix.
 
------BEGIN PGP SIGNATURE-----
+Best regards,
+Shengyu
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmSjDF4ACgkQJNaLcl1U
-h9C2qQf/T1bo/x5kzUxZUiZwHmeGiBJp44klM7V/tJxivlJLnJasmtd1XuabJOck
-svgGpJOHeeAAIAQIleix37Lwq5hMLYgRdPPAHw3+uw4mYtDzqo5dx8t7Wb8d7+px
-152zx6Cv8YdJ1mK/UOKXC/+knHpkW0r9PtzwItAAnCTPpAIPjB0FAjSkhRuQr2bl
-tlzLcAepTA/uPQYuK1FbwUZEcm0i/qo/aFpE5T7hYpY3IlFYrtMz8uNyqhXMsuM2
-SMREMMIMF84hMJkJ3sRrf6609xv86w+Rkh6illa8jX/GCKDHQRNR0xa+0Gky5cah
-eOW+Q5lSP6NtzVnkBdM3DUDl/+IaRg==
-=ImD6
------END PGP SIGNATURE-----
-
---lxJuGwNgfQ7aT3CA--
