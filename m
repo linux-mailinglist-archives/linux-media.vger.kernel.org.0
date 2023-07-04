@@ -2,122 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A269747448
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 16:42:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72310747471
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 16:51:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231230AbjGDOmo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jul 2023 10:42:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54440 "EHLO
+        id S231833AbjGDOvM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jul 2023 10:51:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229469AbjGDOmo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 10:42:44 -0400
-Received: from mail-vs1-xe29.google.com (mail-vs1-xe29.google.com [IPv6:2607:f8b0:4864:20::e29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D36B110CB;
-        Tue,  4 Jul 2023 07:42:42 -0700 (PDT)
-Received: by mail-vs1-xe29.google.com with SMTP id ada2fe7eead31-440b9d60606so1920733137.1;
-        Tue, 04 Jul 2023 07:42:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688481762; x=1691073762;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=cxhjD7KY5JD674i+41mIILyrwvbeMopv+PbB7rT3+IE=;
-        b=qXoDuKf7tijC6nBenqA4HmNXCVz12f5ddVrWo/iBC08Xy5X/GCcU43sZ0mtpwstHzz
-         GGG4rED1L0Z3jHx0ObuuPnqTWgOV3lvgb0UgCTp0CeJLzQJEGAmTwNjVcNLWi2mplii/
-         gTzcErjfLOJvdkMr/rbh3rwy+y80EnZd7ymGi3sD7e4+hc0QpRfU1gEicpQvVZGtzAVf
-         6EUu76BBqp0jaLUX1ZJLF1j0K7hxvYq5PwkFk8Ccvmvlcutquq7I+RgTWyWu/YG1H3fa
-         w3VIu5zXhiZjEGvEfADAqF0uBRfL7T9poR368enlmGkLswEIk/idT17/IjIAC8boz7sh
-         McZA==
+        with ESMTP id S229603AbjGDOvL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 10:51:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70D6F10CB
+        for <linux-media@vger.kernel.org>; Tue,  4 Jul 2023 07:50:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1688482221;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=y3/VF2FnlDhUD34ly0PvgL18UBW2Q5KYjAtzB/5J254=;
+        b=LxG+LY0DTMbe43xIPhRNgSqEaMmHJXDvttiBmnfCW+GijPU8kKYFuAI6QBYK8NXpNJMsOC
+        2aY+drHzKCYMHE2EJyaWcI0BP4VoTvlNP3r0sKXkHc3EWSsuIf7T73gW1cao3PxlfP2Apt
+        WuvOwMC3zORempIlMItfYKeqFeAv2KQ=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-97-7ZBVGk6OODmwOgCll74CMQ-1; Tue, 04 Jul 2023 10:50:20 -0400
+X-MC-Unique: 7ZBVGk6OODmwOgCll74CMQ-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-9835bf83157so382438566b.2
+        for <linux-media@vger.kernel.org>; Tue, 04 Jul 2023 07:50:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688481762; x=1691073762;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cxhjD7KY5JD674i+41mIILyrwvbeMopv+PbB7rT3+IE=;
-        b=NVqUSAuRHHcB89RqYVobleynYC2hVcXKjZa8hF9UHv20t+JZuHBw4KMzAVhfMiLve+
-         9AoHRnQrrkwS0z2Rn9mnK2p5g7xA9+xvVMtfRZSrJU+LJC1RqHCjcQc6miGc7rXAsG0l
-         B6tZDB7ywdvo6TNJbwjUyntJEaFKVocVNK0gxKPUZruwfi9IypU0EPa7Cjy8xeVpV4bD
-         SylalahU12wYgHPNFPGtUv5QWXjnoGcz6qsCN3+hfwDjgNbcl/bFK2z4bI4fyKdIhQw6
-         qQJFXyohRZb2nHLmOFf6+fh9m3m8O/nvglgaLJGSaSfC6Mnm89iIVXjVjZe7S/O0zdRV
-         fXmg==
-X-Gm-Message-State: ABy/qLZ2Ae9Aizb2N12lDTaYnR9kFA75bm+s+CSMZYT/BXOIeN+jxK9L
-        r+OhSYS7talt7d1xA3zKSxtA4Kw9647eKCy3ibY=
-X-Google-Smtp-Source: APBJJlEzBfrRFFxw3waM7f1ipL7WWKBgZ8jQmyUjVtnbM0TCNsn4+zGfKdFXtaZmMtcuMEXY1XjZXuAM/dQift4uNtI=
-X-Received: by 2002:a67:f3d5:0:b0:443:7170:b048 with SMTP id
- j21-20020a67f3d5000000b004437170b048mr6639880vsn.27.1688481761915; Tue, 04
- Jul 2023 07:42:41 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1688482219; x=1691074219;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=y3/VF2FnlDhUD34ly0PvgL18UBW2Q5KYjAtzB/5J254=;
+        b=eXgKI3934sKzpqEtNip0YRAw41BZCIKUHuMN7+leBmBMUDiF1DvQJ6Gq+D8vmQKmFL
+         Kn0bH4dQogkZpWqZVp36AZIObNkWMoiMKcEYDq3Zsd16balVUxkUd0oJ0fR5fvOtylBj
+         POKFvlm93JyOZAypTKMSFfu3H+gin/DidDd/r2IelG1LrvGQnc7UplmXiuAX6BfN3ONX
+         mFHwoxVjbw6F2C18yD+f0T8xypo0EiYsKRCiWs6Cddde0QfDfIDhYfu6gc+mLL75Bd3J
+         npvnjOPKBxrTJs4y8/e37lkApgwCvdD+/wP6kYqy0eHVBayvHpabMLbnjfbB45Zg6jXm
+         mP4Q==
+X-Gm-Message-State: ABy/qLYFTgznnGsaqLXBbtbihpitM8RQXpIW5X3Iw4bjhWu5e0k2Ao4j
+        4BpTbfw3JL46q25BfHLcYSHKvDNiwU9kHz6FRzgtjecqjYlTo6PjPE+Ld0I7zZ5dKabaoqlxi5z
+        1ZfAcsBk7Y0QNwhEBoPRRZoc=
+X-Received: by 2002:aa7:d0d0:0:b0:51d:df35:3818 with SMTP id u16-20020aa7d0d0000000b0051ddf353818mr9685525edo.5.1688482219398;
+        Tue, 04 Jul 2023 07:50:19 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlEdQHTMbaLJfAoNgthDL2fhXlJvUkTyp2iqPq3PlhoX8Gr/pbDV85+AwYPLk8/tJVqOJAVr4g==
+X-Received: by 2002:aa7:d0d0:0:b0:51d:df35:3818 with SMTP id u16-20020aa7d0d0000000b0051ddf353818mr9685510edo.5.1688482219092;
+        Tue, 04 Jul 2023 07:50:19 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:2a07:3a01:67e5:daf9:cec0:df6? (2001-1c00-2a07-3a01-67e5-daf9-cec0-0df6.cable.dynamic.v6.ziggo.nl. [2001:1c00:2a07:3a01:67e5:daf9:cec0:df6])
+        by smtp.gmail.com with ESMTPSA id u17-20020aa7d0d1000000b0051e0f8aac74sm2764520edo.8.2023.07.04.07.50.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Jul 2023 07:50:18 -0700 (PDT)
+Message-ID: <41999c8a-6465-587a-d77c-313a424b7f21@redhat.com>
+Date:   Tue, 4 Jul 2023 16:50:17 +0200
 MIME-Version: 1.0
-References: <20230702182308.7583-1-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230702182308.7583-1-krzysztof.kozlowski@linaro.org>
-From:   Jonas Gorski <jonas.gorski@gmail.com>
-Date:   Tue, 4 Jul 2023 16:42:30 +0200
-Message-ID: <CAOiHx=kreUEnqssO7y_+UqAxsnXaLPbwBz8h3JRkdEq+pkdW2A@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: cleanup DTS example whitespaces
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Leo Yan <leo.yan@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, coresight@lists.linaro.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        linux-rockchip@lists.infradead.org, linux-iio@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-amlogic@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
-        linux-remoteproc@vger.kernel.org, linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v2 01/15] media: ipu-bridge: Fix null pointer deref on
+ SSDB/PLD parsing warnings
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Dan Scally <dan.scally@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kate Hsuan <hpa@redhat.com>, Hao Yao <hao.yao@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
+        =?UTF-8?Q?Fabian_W=c3=bcthrich?= <me@fabwu.ch>
+References: <20230630110643.209761-1-hdegoede@redhat.com>
+ <20230630110643.209761-2-hdegoede@redhat.com>
+ <CAHp75VdQAJyfYj63pU4DaD5EhWpW-k5jJ-AUv7QNyPM1MJ4-eA@mail.gmail.com>
+ <18b44c72-1873-4756-3fa3-55d6ca4c3984@ideasonboard.com>
+ <ZKQsglq1DmM5sgq6@smile.fi.intel.com>
+Content-Language: en-US
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <ZKQsglq1DmM5sgq6@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, 2 Jul 2023 at 20:24, Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> The DTS code coding style expects spaces around '=' sign.
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->
-> ---
->
-> Rob,
->
-> Maybe this could go via your tree? Rebased on your for-next:
-> v6.4-rc2-45-gf0ac35049606
-> ---
->  .../bindings/arm/arm,coresight-cti.yaml        | 18 +++++++++---------
->  .../bindings/arm/keystone/ti,sci.yaml          |  8 ++++----
->  .../devicetree/bindings/display/msm/gmu.yaml   |  2 +-
->  .../display/panel/samsung,s6e8aa0.yaml         |  2 +-
->  .../display/rockchip/rockchip-vop.yaml         |  4 ++--
->  .../bindings/iio/adc/ti,adc108s102.yaml        |  2 +-
->  .../bindings/media/renesas,rzg2l-cru.yaml      |  4 ++--
->  .../devicetree/bindings/media/renesas,vin.yaml |  4 ++--
->  .../devicetree/bindings/mtd/mtd-physmap.yaml   |  2 +-
->  .../bindings/net/mediatek-dwmac.yaml           |  2 +-
->  .../bindings/perf/amlogic,g12-ddr-pmu.yaml     |  4 ++--
->  .../bindings/phy/mediatek,dsi-phy.yaml         |  2 +-
->  .../remoteproc/amlogic,meson-mx-ao-arc.yaml    |  2 +-
->  .../devicetree/bindings/usb/mediatek,mtu3.yaml |  2 +-
->  .../devicetree/bindings/usb/ti,am62-usb.yaml   |  2 +-
->  15 files changed, 30 insertions(+), 30 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/arm/arm,coresight-cti.yaml b/Documentation/devicetree/bindings/arm/arm,coresight-cti.yaml
-> index 0c5b875cb654..d6c84b6e7fe6 100644
-> --- a/Documentation/devicetree/bindings/arm/arm,coresight-cti.yaml
-> +++ b/Documentation/devicetree/bindings/arm/arm,coresight-cti.yaml
-> @@ -287,7 +287,7 @@ examples:
->              arm,trig-in-sigs = <0 1>;
->              arm,trig-in-types = <PE_DBGTRIGGER
->                                   PE_PMUIRQ>;
-> -            arm,trig-out-sigs=<0 1 2 >;
-> +            arm,trig-out-sigs = <0 1 2 >;
+Hi,
 
-There's a space before the closing > you could drop as well.
+On 7/4/23 16:28, Andy Shevchenko wrote:
+> On Tue, Jul 04, 2023 at 12:02:00PM +0100, Dan Scally wrote:
+>> On 30/06/2023 16:23, Andy Shevchenko wrote:
+>>> On Fri, Jun 30, 2023 at 2:06 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>>>> When ipu_bridge_parse_rotation() and ipu_bridge_parse_orientation() run
+>>>> sensor->adev is not set yet.
+>>>>
+>>>> So if either of the dev_warn() calls about unknown values are hit this
+>>>> will lead to a NULL pointer deref.
+>>>>
+>>>> Set sensor->adev earlier, with a borrowed ref to avoid making unrolling
+>>>> on errors harder, to fix this.
+>>> TBH, I don't like this approach, it seems a bit dirty to me.
+>>>
+>>> First of all, why do we need pci_dev to be a parameter in this function?
+>>> Second, why don't we consistently use the ACPI handle (with respective
+>>> acpi_handle_*() macros to print messages)?
+>>>
+>>> So, my proposal here is to actually save the ACPI device handle in the
+>>> sensor object and use it for the messaging. It makes it consistent and
+>>> doesn't require to rewrite adev field which seems the dirty part to
+>>> me.
+>>
+>> It's a bit finicky but I don't think it's so bad; the refcounting is all
+>> fine, the later acpi_dev_get() is only to hold a reference once the next
+>> loop iteration frees the existing one and the rewrite should store the exact
+>> same pointer...we could just not store the result of the acpi_dev_get() call
+>> to avoid that weird rewrite perhaps?
+> 
+> For short term solution in between the patches I might agree with you, but
+> backporting. Backporting a bad code doesn't make it better even if it fixes
+> nasty bug. And I proposed the solution. We may kill the handle same way as
+> we are killing the awkwardness of this assignment later in the series.
 
-Best Regards,
-Jonas
+Yeah, no sorry. As Dan pointed out this fix is fine and I don't feel
+like re-writing it just because you don't like it.
+
+I don't see any real technical arguments against this approach, just
+you not liking it.
+
+Regards,
+
+Hans
+
+
