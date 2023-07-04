@@ -2,57 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E13B747749
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 18:54:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5816B747892
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 21:11:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231367AbjGDQyi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jul 2023 12:54:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53194 "EHLO
+        id S230466AbjGDTLN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jul 2023 15:11:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230197AbjGDQyF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 12:54:05 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 115F710DA;
-        Tue,  4 Jul 2023 09:53:43 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7D729612AC;
-        Tue,  4 Jul 2023 16:53:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D59F4C433C7;
-        Tue,  4 Jul 2023 16:53:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1688489622;
-        bh=Cj7gCKeIhlKX9Bg5MTAssGlsntg4j/nabWNl6WhYMoU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cX8dXWcW7HmNNFWxKCUdt7bArqhgIrKRzRywc+hKD9JaxAkeWH5DKBPpbMIymbrgP
-         x5BSJNXlIDrMygVEGW6IzQ3R9+Y3u2hg02J1sy8hM5K248RvBRRzvw/16iZYNTVwEY
-         DzYEvGzoZlQe4N/HD2c4kV7wQZBx6hvQnLUuk29SWk/ZRuYlYOlO1EeTjYCKgzpevM
-         cglWF9oUfUTj2XMsldVd1LYMzCgx/7vQmWcn8WUzR97do1iY8yOh2/imTKRSqWULYq
-         7MNFAGL0kKdZBeL9Elx/W2h3CR6dVb8Kdw4rfN3BWWxaEeSWjJjbkX7z6jQrcNysK6
-         bZHxmyqPiueuQ==
-Date:   Tue, 4 Jul 2023 17:53:38 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     guoniu.zhou@oss.nxp.com
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-imx@nxp.com, mchehab@kernel.org,
-        laurent.pinchart@ideasonboard.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        jacopo.mondi@ideasonboard.com
-Subject: Re: [PATCH 1/2] media: dt-bindings: Add binding doc for i.MX93 MIPI
- CSI-2
-Message-ID: <20230704-unnamable-sandpaper-01fd3631e1df@spud>
-References: <20230703113734.762307-1-guoniu.zhou@oss.nxp.com>
- <20230703113734.762307-2-guoniu.zhou@oss.nxp.com>
+        with ESMTP id S229615AbjGDTLM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 15:11:12 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6ADD010D5;
+        Tue,  4 Jul 2023 12:11:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688497870; x=1720033870;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=N+jEsHLauGx61KnltWviK6hcwVBEgkMktElW+SHC/C4=;
+  b=CBAoVYrSBzLcjIK6rmsU6x2mGdfCJN//bvOyFU+UkCRr5nisHmeK8BmO
+   dm+kNZaLPkuije4+YOZ6umn8MFyGTDLbVarPJw/JXhlYVHO4dNyAH2Wv6
+   5AQROg2oB0bX2+1ObntNDsAeCLb6fA1lVQJZ4IfL2ZJI2JMocFmi6op6B
+   Mgu26sdPATayzYZkHsHHoTU4vsUudXPF6fI+hrv2nnbroTSIUOrhygwKG
+   odK28OvvKeSzCjPdxwek3THDFJ9iwuqhggAbffJVBz99CBWymS6lw1xUC
+   blBlVSNTFMGsdNsG2El1+TJsEa8AOotcTMurMudYV/TFKEToN9bizBjmX
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="429218477"
+X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
+   d="scan'208";a="429218477"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2023 12:11:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="832249738"
+X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
+   d="scan'208";a="832249738"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 04 Jul 2023 12:11:05 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qGlQW-000ITj-28;
+        Tue, 04 Jul 2023 19:11:04 +0000
+Date:   Wed, 5 Jul 2023 03:11:03 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Yongqiang Niu <yongqiang.niu@mediatek.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        CK Hu <ck.hu@mediatek.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Project_Global_Chrome_Upstream_Group@mediatek.com,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Yongqiang Niu <yongqiang.niu@mediatek.com>,
+        linaro-mm-sig@lists.linaro.org, linux-mediatek@lists.infradead.org,
+        Maxime Ripard <maxime@cerno.tech>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-media@vger.kernel.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-arm-kernel@lists.infradead.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Subject: Re: [v4, PATCH] drm/mediatek: add dma buffer control for drm plane
+ disable
+Message-ID: <202307050325.QZv71se7-lkp@intel.com>
+References: <20230704090432.5844-1-yongqiang.niu@mediatek.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="0vkLt1MxvRFe9G4g"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230703113734.762307-2-guoniu.zhou@oss.nxp.com>
+In-Reply-To: <20230704090432.5844-1-yongqiang.niu@mediatek.com>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -60,80 +80,33 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Yongqiang,
 
---0vkLt1MxvRFe9G4g
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+kernel test robot noticed the following build errors:
 
-Hey,
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on linus/master v6.4 next-20230704]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I know little about media bindings, so only got a single comment for
-you.
+url:    https://github.com/intel-lab-lkp/linux/commits/Yongqiang-Niu/drm-mediatek-add-dma-buffer-control-for-drm-plane-disable/20230704-170623
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230704090432.5844-1-yongqiang.niu%40mediatek.com
+patch subject: [v4, PATCH] drm/mediatek: add dma buffer control for drm plane disable
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230705/202307050325.QZv71se7-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230705/202307050325.QZv71se7-lkp@intel.com/reproduce)
 
-On Mon, Jul 03, 2023 at 07:37:33PM +0800, guoniu.zhou@oss.nxp.com wrote:
-> From: "Guoniu.zhou" <guoniu.zhou@nxp.com>
->=20
-> Add new binding documentation for DesignWare Core MIPI CSI-2 receiver
-> and DPHY found on NXP i.MX93.
->=20
-> Signed-off-by: Guoniu.zhou <guoniu.zhou@nxp.com>
-> ---
->  .../bindings/media/nxp,dwc-mipi-csi2.yaml     | 140 ++++++++++++++++++
->  1 file changed, 140 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/media/nxp,dwc-mipi-csi2.ya=
-ml b/Documentation/devicetree/bindings/media/nxp,dwc-mipi-csi2.yaml
-> new file mode 100644
-> index 000000000000..ece6fb8991d4
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/nxp,dwc-mipi-csi2.yaml
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307050325.QZv71se7-lkp@intel.com/
 
-The filename of the binding should match the compatible.
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-> @@ -0,0 +1,140 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/nxp,dwc-mipi-csi2.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: NXP i.MX93 MIPI CSI-2 Host Controller receiver
-> +
-> +maintainers:
-> +  - G.N. Zhou <guoniu.zhou@nxp.com>
-> +
-> +description: |-
-> +  The MIPI CSI-2 receiver found on i.MX93 originates from Synopsys
-> +  DesignWare Core and it implements the CSI-2 protocol on the host
-> +  side and a DPHY configured as a Slave acts as the physical layer.
-> +  Two data lanes are supported on i.MX93 family devices and the data
-> +  rate of each lane support up to 1.5Gbps.
-> +
-> +  While the CSI-2 receiver is separate from the MIPI D-PHY IP core,
-> +  the PHY is completely wrapped by the CSI-2 controller and expose
-> +  a control interface which only can communicate with CSI-2 controller
-> +  This binding thus covers both IP cores.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - fsl,imx93-mipi-csi2
+>> ERROR: modpost: module mediatek-drm uses symbol dma_buf_put from namespace DMA_BUF, but does not import it.
 
-Everywhere else you say NXP, why use Freescale here?
-
-Cheers,
-Conor.
-
---0vkLt1MxvRFe9G4g
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZKROkgAKCRB4tDGHoIJi
-0gFoAQCkF7VyY/YHAFelWFT4H+ZrXgG0yMz3Lcj8TjP+cm903QD9GW03vJS2sg/n
-jF2PFbD4McoZAJO2c0I8BHHMeUwOhgs=
-=3dTI
------END PGP SIGNATURE-----
-
---0vkLt1MxvRFe9G4g--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
