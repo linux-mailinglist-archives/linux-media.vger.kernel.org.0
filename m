@@ -2,35 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4032B746FDB
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 13:26:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE197746FE3
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 13:27:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230490AbjGDL0n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jul 2023 07:26:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43632 "EHLO
+        id S231140AbjGDL1I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jul 2023 07:27:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231127AbjGDL0n (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 07:26:43 -0400
+        with ESMTP id S231127AbjGDL1H (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 07:27:07 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C7AEF2
-        for <linux-media@vger.kernel.org>; Tue,  4 Jul 2023 04:26:39 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBFE19D
+        for <linux-media@vger.kernel.org>; Tue,  4 Jul 2023 04:27:06 -0700 (PDT)
 Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B56079B9;
-        Tue,  4 Jul 2023 13:25:52 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 759059B9;
+        Tue,  4 Jul 2023 13:26:21 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1688469953;
-        bh=o4d93Dx9cGncrhb4wsi764uok9c7lNEVK7B0hAUJFF4=;
+        s=mail; t=1688469981;
+        bh=5MVIxe0rd7pkVsIRI6H2Mg2hm3huQwP+2sM+u/kICw0=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=eWVVvTNs4uk6acXuygQvs59Z9qPIVqDV27BfbnuDdL/NH57WgYFnwLfo2/9wnDYrF
-         yVp9Zbta57v/Za+FVgGCcZLnpuTzlbDSQmUNUPl1HbJqfemqaLu/jZMuiq9qw3FXXZ
-         3hmxYUMVZm8YPUAUg6x4npV8r+AnMuxYzIRv7p5U=
-Message-ID: <c2136a12-3907-5cba-a87d-2d2b86dbfd40@ideasonboard.com>
-Date:   Tue, 4 Jul 2023 12:26:33 +0100
+        b=ibVQq6D878KBTKwJ4nPCHOlFV8d8XwM4PL8n8azCZXTJpVopkg6b1NPQ52+mH84vU
+         7nyGMaYC5+hRPYllTWhotk2XCQVOXCiUxwzKxIiXyStf4nWy1Le3D3BLX1ArfFUHbb
+         O/OvnvQpDTxTNQu2t8iKlPqPwuvInGr6kzQjUdiE=
+Message-ID: <b9724c94-8b9b-72e5-9c69-da0cf17a93af@ideasonboard.com>
+Date:   Tue, 4 Jul 2023 12:27:02 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH v2 08/15] media: ipu-bridge: Add a ipu_bridge_parse_ssdb()
- helper function
+Subject: Re: [PATCH v2 05/15] media: ipu-bridge: Make ipu_bridge_init() take a
+ regular struct device as argument
 Content-Language: en-US
 To:     Hans de Goede <hdegoede@redhat.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -40,9 +40,9 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hao Yao <hao.yao@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
         linux-media@vger.kernel.org
 References: <20230630110643.209761-1-hdegoede@redhat.com>
- <20230630110643.209761-9-hdegoede@redhat.com>
+ <20230630110643.209761-6-hdegoede@redhat.com>
 From:   Dan Scally <dan.scally@ideasonboard.com>
-In-Reply-To: <20230630110643.209761-9-hdegoede@redhat.com>
+In-Reply-To: <20230630110643.209761-6-hdegoede@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -57,16 +57,8 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 
 On 30/06/2023 13:06, Hans de Goede wrote:
-> The code to go from ACPI sensor info to a fwnode-tree with connector
-> nodes and endpoint properties is 99% the same for the atomisp2 and
-> the IPU3.
->
-> The main difference is that atomisp2 devices do not have a SSDB table
-> with various info.
->
-> Abstract out the parsing of the sensor's ACPI fwnode into a helper
-> function and store the parsed results, rather then the raw SSDB
-> in struct ipu_sensor.
+> Make ipu_bridge_init() take a regular struct device, rather then
+> a pci_dev as argument.
 >
 > This is a preparation patch for making the ipu-bridge code more generic
 > so that it can be shared with the atomisp driver.
@@ -78,227 +70,117 @@ On 30/06/2023 13:06, Hans de Goede wrote:
 
 Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
 
->   drivers/media/pci/intel/ipu-bridge.c | 96 +++++++++++++++-------------
->   drivers/media/pci/intel/ipu-bridge.h |  8 ++-
->   2 files changed, 59 insertions(+), 45 deletions(-)
+
+And same for 6/15.
+
+>   drivers/media/pci/intel/ipu-bridge.c     | 16 +++++++---------
+>   drivers/media/pci/intel/ipu-bridge.h     |  4 ++--
+>   drivers/media/pci/intel/ipu3/ipu3-cio2.c |  2 +-
+>   3 files changed, 10 insertions(+), 12 deletions(-)
 >
 > diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
-> index 3a984d688b42..daa9dde78c64 100644
+> index 97b544736af2..9027a8d2d176 100644
 > --- a/drivers/media/pci/intel/ipu-bridge.c
 > +++ b/drivers/media/pci/intel/ipu-bridge.c
-> @@ -97,17 +97,18 @@ static int ipu_bridge_read_acpi_buffer(struct acpi_device *adev, char *id,
->   	return ret;
->   }
+> @@ -4,7 +4,6 @@
+>   #include <linux/acpi.h>
+>   #include <linux/device.h>
+>   #include <linux/i2c.h>
+> -#include <linux/pci.h>
+>   #include <linux/property.h>
+>   #include <media/v4l2-fwnode.h>
 >   
-> -static u32 ipu_bridge_parse_rotation(struct ipu_sensor *sensor)
-> +static u32 ipu_bridge_parse_rotation(struct acpi_device *adev,
-> +				     struct ipu_sensor_ssdb *ssdb)
+> @@ -288,7 +287,7 @@ static void ipu_bridge_unregister_sensors(struct ipu_bridge *bridge)
+>   
+>   static int ipu_bridge_connect_sensor(const struct ipu_sensor_config *cfg,
+>   				     struct ipu_bridge *bridge,
+> -				     struct pci_dev *ipu)
+> +				     struct device *dev)
 >   {
-> -	switch (sensor->ssdb.degree) {
-> +	switch (ssdb->degree) {
->   	case IPU_SENSOR_ROTATION_NORMAL:
->   		return 0;
->   	case IPU_SENSOR_ROTATION_INVERTED:
->   		return 180;
->   	default:
-> -		dev_warn(&sensor->adev->dev,
-> +		dev_warn(&adev->dev,
->   			 "Unknown rotation %d. Assume 0 degree rotation\n",
-> -			 sensor->ssdb.degree);
-> +			 ssdb->degree);
->   		return 0;
->   	}
->   }
-> @@ -147,17 +148,43 @@ static enum v4l2_fwnode_orientation ipu_bridge_parse_orientation(struct acpi_dev
->   	return orientation;
+>   	struct fwnode_handle *fwnode, *primary;
+>   	struct ipu_sensor *sensor;
+> @@ -302,7 +301,7 @@ static int ipu_bridge_connect_sensor(const struct ipu_sensor_config *cfg,
+>   
+>   		if (bridge->n_sensors >= IPU_MAX_PORTS) {
+>   			acpi_dev_put(adev);
+> -			dev_err(&ipu->dev, "Exceeded available IPU ports\n");
+> +			dev_err(dev, "Exceeded available IPU ports\n");
+>   			return -EINVAL;
+>   		}
+>   
+> @@ -362,7 +361,7 @@ static int ipu_bridge_connect_sensor(const struct ipu_sensor_config *cfg,
+>   
+>   		ipu_bridge_instantiate_vcm_i2c_client(sensor);
+>   
+> -		dev_info(&ipu->dev, "Found supported sensor %s\n",
+> +		dev_info(dev, "Found supported sensor %s\n",
+>   			 acpi_dev_name(adev));
+>   
+>   		bridge->n_sensors++;
+> @@ -380,7 +379,7 @@ static int ipu_bridge_connect_sensor(const struct ipu_sensor_config *cfg,
 >   }
 >   
-> +static int ipu_bridge_parse_ssdb(struct acpi_device *adev,
-> +				 struct ipu_sensor *sensor)
-> +{
-> +	struct ipu_sensor_ssdb ssdb = {};
-> +	int ret;
-> +
-> +	ret = ipu_bridge_read_acpi_buffer(adev, "SSDB", &ssdb, sizeof(ssdb));
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (ssdb.vcmtype > ARRAY_SIZE(ipu_vcm_types)) {
-> +		dev_warn(&adev->dev, "Unknown VCM type %d\n", ssdb.vcmtype);
-> +		ssdb.vcmtype = 0;
-> +	}
-> +
-> +	if (ssdb.lanes > IPU_MAX_LANES) {
-> +		dev_err(&adev->dev, "Number of lanes in SSDB is invalid\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	sensor->link = ssdb.link;
-> +	sensor->lanes = ssdb.lanes;
-> +	sensor->mclkspeed = ssdb.mclkspeed;
-> +	sensor->rotation = ipu_bridge_parse_rotation(adev, &ssdb);
-> +	sensor->orientation = ipu_bridge_parse_orientation(adev);
-> +
-> +	if (ssdb.vcmtype)
-> +		sensor->vcm_type = ipu_vcm_types[ssdb.vcmtype - 1];
-> +
-> +	return 0;
-> +}
-> +
->   static void ipu_bridge_create_fwnode_properties(
->   	struct ipu_sensor *sensor,
->   	struct ipu_bridge *bridge,
->   	const struct ipu_sensor_config *cfg)
+>   static int ipu_bridge_connect_sensors(struct ipu_bridge *bridge,
+> -				      struct pci_dev *ipu)
+> +				      struct device *dev)
 >   {
-> -	u32 rotation;
-> -	enum v4l2_fwnode_orientation orientation;
-> -
-> -	rotation = ipu_bridge_parse_rotation(sensor);
-> -	orientation = ipu_bridge_parse_orientation(sensor->adev);
-> -
->   	sensor->prop_names = prop_names;
+>   	unsigned int i;
+>   	int ret;
+> @@ -389,7 +388,7 @@ static int ipu_bridge_connect_sensors(struct ipu_bridge *bridge,
+>   		const struct ipu_sensor_config *cfg =
+>   			&ipu_supported_sensors[i];
 >   
->   	sensor->local_ref[0] = SOFTWARE_NODE_REFERENCE(&sensor->swnodes[SWNODE_IPU_ENDPOINT]);
-> @@ -165,14 +192,14 @@ static void ipu_bridge_create_fwnode_properties(
->   
->   	sensor->dev_properties[0] = PROPERTY_ENTRY_U32(
->   					sensor->prop_names.clock_frequency,
-> -					sensor->ssdb.mclkspeed);
-> +					sensor->mclkspeed);
->   	sensor->dev_properties[1] = PROPERTY_ENTRY_U32(
->   					sensor->prop_names.rotation,
-> -					rotation);
-> +					sensor->rotation);
->   	sensor->dev_properties[2] = PROPERTY_ENTRY_U32(
->   					sensor->prop_names.orientation,
-> -					orientation);
-> -	if (sensor->ssdb.vcmtype) {
-> +					sensor->orientation);
-> +	if (sensor->vcm_type) {
->   		sensor->vcm_ref[0] =
->   			SOFTWARE_NODE_REFERENCE(&sensor->swnodes[SWNODE_VCM]);
->   		sensor->dev_properties[3] =
-> @@ -184,8 +211,7 @@ static void ipu_bridge_create_fwnode_properties(
->   					V4L2_FWNODE_BUS_TYPE_CSI2_DPHY);
->   	sensor->ep_properties[1] = PROPERTY_ENTRY_U32_ARRAY_LEN(
->   					sensor->prop_names.data_lanes,
-> -					bridge->data_lanes,
-> -					sensor->ssdb.lanes);
-> +					bridge->data_lanes, sensor->lanes);
->   	sensor->ep_properties[2] = PROPERTY_ENTRY_REF_ARRAY(
->   					sensor->prop_names.remote_endpoint,
->   					sensor->local_ref);
-> @@ -198,8 +224,7 @@ static void ipu_bridge_create_fwnode_properties(
->   
->   	sensor->ipu_properties[0] = PROPERTY_ENTRY_U32_ARRAY_LEN(
->   					sensor->prop_names.data_lanes,
-> -					bridge->data_lanes,
-> -					sensor->ssdb.lanes);
-> +					bridge->data_lanes, sensor->lanes);
->   	sensor->ipu_properties[1] = PROPERTY_ENTRY_REF_ARRAY(
->   					sensor->prop_names.remote_endpoint,
->   					sensor->remote_ref);
-> @@ -209,18 +234,17 @@ static void ipu_bridge_init_swnode_names(struct ipu_sensor *sensor)
->   {
->   	snprintf(sensor->node_names.remote_port,
->   		 sizeof(sensor->node_names.remote_port),
-> -		 SWNODE_GRAPH_PORT_NAME_FMT, sensor->ssdb.link);
-> +		 SWNODE_GRAPH_PORT_NAME_FMT, sensor->link);
->   	snprintf(sensor->node_names.port,
->   		 sizeof(sensor->node_names.port),
->   		 SWNODE_GRAPH_PORT_NAME_FMT, 0); /* Always port 0 */
->   	snprintf(sensor->node_names.endpoint,
->   		 sizeof(sensor->node_names.endpoint),
->   		 SWNODE_GRAPH_ENDPOINT_NAME_FMT, 0); /* And endpoint 0 */
-> -	if (sensor->ssdb.vcmtype) {
-> -		/* append ssdb.link to distinguish nodes with same model VCM */
-> +	if (sensor->vcm_type) {
-> +		/* append link to distinguish nodes with same model VCM */
->   		snprintf(sensor->node_names.vcm, sizeof(sensor->node_names.vcm),
-> -			 "%s-%u", ipu_vcm_types[sensor->ssdb.vcmtype - 1],
-> -			 sensor->ssdb.link);
-> +			 "%s-%u", sensor->vcm_type, sensor->link);
->   	}
->   }
->   
-> @@ -233,7 +257,7 @@ static void ipu_bridge_init_swnode_group(struct ipu_sensor *sensor)
->   	sensor->group[SWNODE_SENSOR_ENDPOINT] = &nodes[SWNODE_SENSOR_ENDPOINT];
->   	sensor->group[SWNODE_IPU_PORT] = &nodes[SWNODE_IPU_PORT];
->   	sensor->group[SWNODE_IPU_ENDPOINT] = &nodes[SWNODE_IPU_ENDPOINT];
-> -	if (sensor->ssdb.vcmtype)
-> +	if (sensor->vcm_type)
->   		sensor->group[SWNODE_VCM] =  &nodes[SWNODE_VCM];
->   }
->   
-> @@ -268,13 +292,12 @@ static void ipu_bridge_instantiate_vcm_i2c_client(struct ipu_sensor *sensor)
->   	struct i2c_board_info board_info = { };
->   	char name[16];
->   
-> -	if (!sensor->ssdb.vcmtype)
-> +	if (!sensor->vcm_type)
->   		return;
->   
->   	snprintf(name, sizeof(name), "%s-VCM", acpi_dev_name(sensor->adev));
->   	board_info.dev_name = name;
-> -	strscpy(board_info.type, ipu_vcm_types[sensor->ssdb.vcmtype - 1],
-> -		ARRAY_SIZE(board_info.type));
-> +	strscpy(board_info.type, sensor->vcm_type, ARRAY_SIZE(board_info.type));
->   	board_info.swnode = &sensor->swnodes[SWNODE_VCM];
->   
->   	sensor->vcm_i2c_client =
-> @@ -325,27 +348,12 @@ static int ipu_bridge_connect_sensor(const struct ipu_sensor_config *cfg,
->   		 */
->   		sensor->adev = adev;
->   
-> -		ret = ipu_bridge_read_acpi_buffer(adev, "SSDB",
-> -						  &sensor->ssdb,
-> -						  sizeof(sensor->ssdb));
-> +		ret = ipu_bridge_parse_ssdb(adev, sensor);
+> -		ret = ipu_bridge_connect_sensor(cfg, bridge, ipu);
+> +		ret = ipu_bridge_connect_sensor(cfg, bridge, dev);
 >   		if (ret)
->   			goto err_put_adev;
+>   			goto err_unregister_sensors;
+>   	}
+> @@ -435,9 +434,8 @@ static int ipu_bridge_sensors_are_ready(void)
+>   	return ready;
+>   }
 >   
->   		snprintf(sensor->name, sizeof(sensor->name), "%s-%u",
-> -			 cfg->hid, sensor->ssdb.link);
-> -
-> -		if (sensor->ssdb.vcmtype > ARRAY_SIZE(ipu_vcm_types)) {
-> -			dev_warn(&adev->dev, "Unknown VCM type %d\n",
-> -				 sensor->ssdb.vcmtype);
-> -			sensor->ssdb.vcmtype = 0;
-> -		}
-> -
-> -		if (sensor->ssdb.lanes > IPU_MAX_LANES) {
-> -			dev_err(&adev->dev,
-> -				"Number of lanes in SSDB is invalid\n");
-> -			ret = -EINVAL;
-> -			goto err_put_adev;
-> -		}
-> +			 cfg->hid, sensor->link);
+> -int ipu_bridge_init(struct pci_dev *ipu)
+> +int ipu_bridge_init(struct device *dev)
+>   {
+> -	struct device *dev = &ipu->dev;
+>   	struct fwnode_handle *fwnode;
+>   	struct ipu_bridge *bridge;
+>   	unsigned int i;
+> @@ -470,7 +468,7 @@ int ipu_bridge_init(struct pci_dev *ipu)
+>   	for (i = 0; i < IPU_MAX_LANES; i++)
+>   		bridge->data_lanes[i] = i + 1;
 >   
->   		ipu_bridge_create_fwnode_properties(sensor, bridge, cfg);
->   		ipu_bridge_create_connection_swnodes(bridge, sensor);
+> -	ret = ipu_bridge_connect_sensors(bridge, ipu);
+> +	ret = ipu_bridge_connect_sensors(bridge, dev);
+>   	if (ret || bridge->n_sensors == 0)
+>   		goto err_unregister_ipu;
+>   
 > diff --git a/drivers/media/pci/intel/ipu-bridge.h b/drivers/media/pci/intel/ipu-bridge.h
-> index 907ca833a7c1..a8b89c4b95bc 100644
+> index 6cce712a0f34..8c1437f252d2 100644
 > --- a/drivers/media/pci/intel/ipu-bridge.h
 > +++ b/drivers/media/pci/intel/ipu-bridge.h
-> @@ -5,6 +5,7 @@
+> @@ -144,9 +144,9 @@ struct ipu_bridge {
+>   };
 >   
->   #include <linux/property.h>
->   #include <linux/types.h>
-> +#include <media/v4l2-fwnode.h>
+>   #if IS_ENABLED(CONFIG_IPU_BRIDGE)
+> -int ipu_bridge_init(struct pci_dev *ipu);
+> +int ipu_bridge_init(struct device *dev);
+>   #else
+> -static inline int ipu_bridge_init(struct pci_dev *ipu) { return 0; }
+> +static inline int ipu_bridge_init(struct device *dev) { return 0; }
+>   #endif
 >   
->   struct i2c_client;
+>   #endif
+> diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+> index dc09fbdb062b..4068fa0a5ecf 100644
+> --- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+> +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+> @@ -1725,7 +1725,7 @@ static int cio2_pci_probe(struct pci_dev *pci_dev,
+>   			return -EINVAL;
+>   		}
 >   
-> @@ -123,7 +124,12 @@ struct ipu_sensor {
->   	struct software_node swnodes[SWNODE_COUNT];
->   	struct ipu_node_names node_names;
->   
-> -	struct ipu_sensor_ssdb ssdb;
-> +	u8 link;
-> +	u8 lanes;
-> +	u32 mclkspeed;
-> +	u32 rotation;
-> +	enum v4l2_fwnode_orientation orientation;
-> +	const char *vcm_type;
->   
->   	struct ipu_property_names prop_names;
->   	struct property_entry ep_properties[5];
+> -		r = ipu_bridge_init(pci_dev);
+> +		r = ipu_bridge_init(dev);
+>   		if (r)
+>   			return r;
+>   	}
