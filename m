@@ -2,198 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 66943746CB9
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 11:04:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABB23746D35
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 11:23:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231593AbjGDJE4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jul 2023 05:04:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37260 "EHLO
+        id S231888AbjGDJXL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jul 2023 05:23:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231628AbjGDJEy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 05:04:54 -0400
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA449E7D;
-        Tue,  4 Jul 2023 02:04:43 -0700 (PDT)
-X-UUID: cd32611e1a4911eeb20a276fd37b9834-20230704
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=EeeCzi6ljX+yHjCEA1XGs6HbrLUAR9Zd/iDelBuY6Do=;
-        b=qxx8YWwIyVDvcQqj3f1TtEd3KIYIeIob9K8lR6lolMhSy4eGiIqS7hzq1v/S425IcDxNJIKLh60ll3I6H3Alknkr4ReZmetwngzzG7pu0mOGw6qdL+i+R6zfzOxr6sVbMVeLevaNifBGM5R/1jlW9IXmBKtKhqfHSp2dXj9tDNs=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.27,REQID:b02294c7-33cf-4eb9-82f4-3ec83946058d,IP:0,U
-        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-        release,TS:0
-X-CID-META: VersionHash:01c9525,CLOUDID:d4ded70d-c22b-45ab-8a43-3004e9216b56,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: cd32611e1a4911eeb20a276fd37b9834-20230704
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw02.mediatek.com
-        (envelope-from <yongqiang.niu@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1522435105; Tue, 04 Jul 2023 17:04:37 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
- MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Tue, 4 Jul 2023 17:04:35 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Tue, 4 Jul 2023 17:04:33 +0800
-From:   Yongqiang Niu <yongqiang.niu@mediatek.com>
-To:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        CK Hu <ck.hu@mediatek.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-CC:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        <dri-devel@lists.freedesktop.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>,
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Yongqiang Niu <yongqiang.niu@mediatek.com>
-Subject: [v4, PATCH] drm/mediatek: add dma buffer control for drm plane disable
-Date:   Tue, 4 Jul 2023 17:04:32 +0800
-Message-ID: <20230704090432.5844-1-yongqiang.niu@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S231985AbjGDJWb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 05:22:31 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EC2D139
+        for <linux-media@vger.kernel.org>; Tue,  4 Jul 2023 02:22:26 -0700 (PDT)
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D2525D4A;
+        Tue,  4 Jul 2023 11:21:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1688462500;
+        bh=9feSFhiSI+buCWE7AD7N8doRYH2hwVBbgMvWMlxQsAA=;
+        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
+        b=iMmOAATUO5iT7FZfHZ8bYn+/jvis8h50uWmNoCXyWjH7fN9d8Pwpd0LtGDlakSBfC
+         8PIkVglU0KiEumqNBfu89nEBK7nJStxCFnNfr3SRVC0gxiM3kMQqIGO9t3nuFwD5r0
+         F6ouDwvTJvS7bvzkd8yaNi7ebOzhFfcOtVCtw368=
+Message-ID: <6f3d903c-acdc-983c-216b-45792a71d603@ideasonboard.com>
+Date:   Tue, 4 Jul 2023 10:22:20 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK:  N
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,MAY_BE_FORGED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,UNPARSEABLE_RELAY,URIBL_BLOCKED
-        autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Content-Language: en-US
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+        Tommaso Merciai <tomm.merciai@gmail.com>,
+        linux-media@vger.kernel.org
+References: <20230627131830.54601-1-hdegoede@redhat.com>
+ <20230627131830.54601-29-hdegoede@redhat.com>
+From:   Dan Scally <dan.scally@ideasonboard.com>
+Subject: Re: [PATCH v3 28/29] media: ov2680: Add link-freq and pixel-rate
+ controls
+In-Reply-To: <20230627131830.54601-29-hdegoede@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-dma buffer release before overlay disable, that will cause
-m4u translation fault warning.
+Morning Hans
 
-add dma buffer control flow in mediatek driver:
-get dma buffer when drm plane disable
-put dma buffer when overlay really disable
+On 27/06/2023 15:18, Hans de Goede wrote:
+> Add read-only link-freq and pixel-rate controls. This is necessary for
+> the sensor to work with the ipu3-cio2 driver and for libcamera.
+>
+> Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>   drivers/media/i2c/ov2680.c | 23 +++++++++++++++++++++++
+>   1 file changed, 23 insertions(+)
+>
+> diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
+> index 8bc542df1890..95d3152ddd22 100644
+> --- a/drivers/media/i2c/ov2680.c
+> +++ b/drivers/media/i2c/ov2680.c
+> @@ -75,6 +75,12 @@
+>   #define OV2680_MIN_CROP_WIDTH			2
+>   #define OV2680_MIN_CROP_HEIGHT			2
+>   
+> +/* Fixed pre-div of 1/2 */
+> +#define OV2680_PLL_PREDIV0			2
+> +
+> +/* Pre-div configurable through reg 0x3080, left at its default of 0x02 : 1/2 */
+> +#define OV2680_PLL_PREDIV			2
+> +
+>   /* 66MHz pixel clock: 66MHz / 1704 * 1294 = 30fps */
+>   #define OV2680_PIXELS_PER_LINE			1704
+>   #define OV2680_LINES_PER_FRAME			1294
+> @@ -118,6 +124,8 @@ struct ov2680_ctrls {
+>   	struct v4l2_ctrl *hflip;
+>   	struct v4l2_ctrl *vflip;
+>   	struct v4l2_ctrl *test_pattern;
+> +	struct v4l2_ctrl *link_freq;
+> +	struct v4l2_ctrl *pixel_rate;
+>   };
+>   
+>   struct ov2680_mode {
+> @@ -145,6 +153,8 @@ struct ov2680_dev {
+>   	struct clk			*xvclk;
+>   	u32				xvclk_freq;
+>   	u8				pll_mult;
+> +	s64				link_freq[1];
+> +	s64				pixel_rate;
+>   	struct regulator_bulk_data	supplies[OV2680_NUM_SUPPLIES];
+>   
+>   	struct gpio_desc		*pwdn_gpio;
+> @@ -906,6 +916,12 @@ static int ov2680_v4l2_register(struct ov2680_dev *sensor)
+>   	ctrls->gain = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_GAIN,
+>   					0, 1023, 1, 250);
+>   
+> +	ctrls->link_freq = v4l2_ctrl_new_int_menu(hdl, NULL, V4L2_CID_LINK_FREQ,
+> +						  0, 0, sensor->link_freq);
+> +	ctrls->pixel_rate = v4l2_ctrl_new_std(hdl, NULL, V4L2_CID_PIXEL_RATE,
+> +					      0, sensor->pixel_rate,
+> +					      1, sensor->pixel_rate);
+> +
+>   	if (hdl->error) {
+>   		ret = hdl->error;
+>   		goto cleanup_entity;
+> @@ -913,6 +929,7 @@ static int ov2680_v4l2_register(struct ov2680_dev *sensor)
+>   
+>   	ctrls->vflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
+>   	ctrls->hflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
+> +	ctrls->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+>   
+>   	sensor->sd.ctrl_handler = hdl;
+>   
+> @@ -1030,6 +1047,12 @@ static int ov2680_parse_dt(struct ov2680_dev *sensor)
+>   
+>   	sensor->pll_mult = ov2680_pll_multipliers[i];
+>   
+> +	sensor->link_freq[0] = sensor->xvclk_freq / OV2680_PLL_PREDIV0 /
+> +			       OV2680_PLL_PREDIV * sensor->pll_mult;
+> +
+> +	/* CSI-2 is double data rate, bus-format is 10 bpp */
+> +	sensor->pixel_rate = sensor->link_freq[0] * 2 / 10;
 
-Fixes: 41016fe1028e4 ("drm: Rename plane->state variables in atomic update and disable")
-Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c  | 25 ++++++++++++++++++++++++
- drivers/gpu/drm/mediatek/mtk_drm_plane.c | 12 ++++++++++++
- drivers/gpu/drm/mediatek/mtk_drm_plane.h |  1 +
- 3 files changed, 38 insertions(+)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index d40142842f85..49d671100785 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -4,6 +4,7 @@
-  */
- 
- #include <linux/clk.h>
-+#include <linux/dma-buf.h>
- #include <linux/dma-mapping.h>
- #include <linux/mailbox_controller.h>
- #include <linux/pm_runtime.h>
-@@ -283,6 +284,23 @@ struct mtk_ddp_comp *mtk_drm_ddp_comp_for_plane(struct drm_crtc *crtc,
- 	return NULL;
- }
- 
-+static void mtk_drm_dma_buf_put(struct mtk_drm_crtc *mtk_crtc)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < mtk_crtc->layer_nr; i++) {
-+		struct drm_plane *plane = &mtk_crtc->planes[i];
-+		struct mtk_plane_state *plane_state;
-+
-+		plane_state = to_mtk_plane_state(plane->state);
-+
-+		if (plane_state && plane_state->pending.dma_buf) {
-+			dma_buf_put(plane_state->pending.dma_buf);
-+			plane_state->pending.dma_buf = NULL;
-+		}
-+	}
-+}
-+
- #if IS_REACHABLE(CONFIG_MTK_CMDQ)
- static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
- {
-@@ -323,6 +341,8 @@ static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
- 		mtk_crtc->pending_async_planes = false;
- 	}
- 
-+	mtk_drm_dma_buf_put(mtk_crtc);
-+
- 	mtk_crtc->cmdq_vblank_cnt = 0;
- 	wake_up(&mtk_crtc->cb_blocking_queue);
- }
-@@ -624,9 +644,14 @@ static void mtk_crtc_ddp_irq(void *data)
- 	else if (mtk_crtc->cmdq_vblank_cnt > 0 && --mtk_crtc->cmdq_vblank_cnt == 0)
- 		DRM_ERROR("mtk_crtc %d CMDQ execute command timeout!\n",
- 			  drm_crtc_index(&mtk_crtc->base));
-+
-+	if (!mtk_crtc->cmdq_client.chan)
-+		mtk_drm_dma_buf_put(mtk_crtc);
- #else
- 	if (!priv->data->shadow_register)
- 		mtk_crtc_ddp_config(crtc, NULL);
-+
-+	mtk_drm_dma_buf_put(mtk_crtc);
- #endif
- 	mtk_drm_finish_page_flip(mtk_crtc);
- }
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-index 31f9420aff6f..66e6393e45ee 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-@@ -12,6 +12,7 @@
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_gem_atomic_helper.h>
- #include <linux/align.h>
-+#include <linux/dma-buf.h>
- 
- #include "mtk_drm_crtc.h"
- #include "mtk_drm_ddp_comp.h"
-@@ -266,6 +267,17 @@ static void mtk_plane_atomic_disable(struct drm_plane *plane,
- 	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
- 									   plane);
- 	struct mtk_plane_state *mtk_plane_state = to_mtk_plane_state(new_state);
-+	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-+									   plane);
-+
-+	if (old_state && old_state->fb) {
-+		struct drm_gem_object *gem = old_state->fb->obj[0];
-+
-+		if (gem && gem->dma_buf) {
-+			get_dma_buf(gem->dma_buf);
-+			mtk_plane_state->pending.dma_buf = gem->dma_buf;
-+		}
-+	}
- 	mtk_plane_state->pending.enable = false;
- 	wmb(); /* Make sure the above parameter is set before update */
- 	mtk_plane_state->pending.dirty = true;
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.h b/drivers/gpu/drm/mediatek/mtk_drm_plane.h
-index 99aff7da0831..3aba0b58ef3c 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_plane.h
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.h
-@@ -33,6 +33,7 @@ struct mtk_plane_pending_state {
- 	bool				async_dirty;
- 	bool				async_config;
- 	enum drm_color_encoding		color_encoding;
-+	struct dma_buf			*dma_buf;
- };
- 
- struct mtk_plane_state {
--- 
-2.25.1
+I'm a little unsure on this one. My understanding is that the link frequency really ought to come 
+from the endpoint properties (which in our case would be set by the ipu-bridge; though it doesn't 
+for this sensor at the moment because I didn't understand it properly back then) because it's a 
+platform specific thing. What the value should be, I have been determining by reading the PLL 
+settings for the sensor whilst the laptop's running Windows. So whilst this is probably technically 
+fine in supporting the link frequency that the driver already expects to configure for whatever 
+platform this was originally designed for, my guess would be that the Miix expects a different link 
+frequency and ideally we'd support that instead. For example see these commits for the ov7251:
 
+
+ed9566ce1946 media: i2c: Add support for new frequencies to ov7251
+df057b0dd99b media: i2c: Add ov7251_pll_configure()
+1757b44eb6bb media: i2c: Remove per-mode frequencies from ov7251
+cc125aaa5a78 media: i2c: Provide ov7251_check_hwcfg()
+
+
+Which keeps support for the link frequency that the driver already configured and adds support for 
+the new one, for both 19.2 and 24MHz input clocks.
+
+
+What would be your thoughts on moving #15 and this patch to something like that?
+
+
+> +
+>   	return 0;
+>   }
+>   
