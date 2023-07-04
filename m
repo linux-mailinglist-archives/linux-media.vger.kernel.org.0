@@ -2,168 +2,250 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 46CBB746A8C
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 09:25:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45CEB746C21
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 10:39:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230318AbjGDHZa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jul 2023 03:25:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46202 "EHLO
+        id S230206AbjGDIjR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jul 2023 04:39:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229647AbjGDHZ3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 03:25:29 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02A3D199
-        for <linux-media@vger.kernel.org>; Tue,  4 Jul 2023 00:25:27 -0700 (PDT)
-Received: from [IPV6:2a01:e0a:120:3210:4004:7029:e9d0:4fb5] (unknown [IPv6:2a01:e0a:120:3210:4004:7029:e9d0:4fb5])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        with ESMTP id S231140AbjGDIiy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 04:38:54 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63E98101;
+        Tue,  4 Jul 2023 01:38:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1688459931; x=1719995931;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=66rmVFF6mOeNiOClvPDq6VuPrHLwsEe57/SioeogkQA=;
+  b=VtyHCwDb1wohM2TD06MR0BDSR7y4X3jtUyKEiU0dSLWjEf+Uvd+XNtYu
+   PAl5+AmbgGucKc6QM38fUovxST6g6IwafPJbvc/NKvwvMshUl48+uzVMq
+   dPubAXb+Kg767qnYaQTWtem+SXmJhuHiVYXHGhNfKp4JN2AL1JOoK+mQ9
+   YOQk21awhwtjLcCxpOxSW8FbdTZE6FyLoa4/BzCVu/4rkk2fxoVyufEBZ
+   U3tRcaRDCxXqyQRUIHrpo3EWkod5yyvRtZoQ7eldTugHioOhAsYfWos2H
+   2vtG3WZJ1+EskaPpiWS1llXm8VMz6d8iU7zAbjjGNWEHUnD7Xmpju8SPt
+   w==;
+X-IronPort-AV: E=Sophos;i="6.01,180,1684792800"; 
+   d="scan'208";a="31741766"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 04 Jul 2023 10:38:49 +0200
+Received: from steina-w.localnet (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id A82F26606F62;
-        Tue,  4 Jul 2023 08:25:25 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1688455525;
-        bh=2q/4L5hciz2ggZ1t2Z3WwVMh1AIANxAxCXBk1pjMMOk=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=YEAR3PQMyYh0gLR4d0SnDmZFC+Iv3RaXAuUtAxKKe/692jOINj0sAwIDkv92Syibh
-         Fs7Zch9PulHSWesouSbvVuQHif9c9g+BSoQL/i1Xgz5LBrDqaSVfVLP6miI7BwwMRj
-         cysKbHLVRq2EbWaSqRDsKK7Tu+HZaXDbe7VAEy73pereTMyy1riXYPnZSALZuU+Mqx
-         7/RHt7ylqI4X8gA3I7lA6QhLtucHwrBn4PggjqXNkcFvRIlSONRPXE87/27nK84//l
-         nvuWKlHxudjjAZ09w/H+qil59pjGbaKEZGZ1SFwttaOjwxpnwm0V2E8M9DCfWBQfdo
-         mzymAkYHRnJ6w==
-Message-ID: <408859fe-89b9-cfb6-ef5b-01513e64bee1@collabora.com>
-Date:   Tue, 4 Jul 2023 09:25:23 +0200
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 44526280087;
+        Tue,  4 Jul 2023 10:38:49 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-imx@nxp.com, guoniu.zhou@oss.nxp.com
+Cc:     mchehab@kernel.org, laurent.pinchart@ideasonboard.com,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, jacopo.mondi@ideasonboard.com
+Subject: Re: [PATCH 1/2] media: dt-bindings: Add binding doc for i.MX93 MIPI CSI-2
+Date:   Tue, 04 Jul 2023 10:38:49 +0200
+Message-ID: <2292421.ElGaqSPkdT@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20230703113734.762307-2-guoniu.zhou@oss.nxp.com>
+References: <20230703113734.762307-1-guoniu.zhou@oss.nxp.com> <20230703113734.762307-2-guoniu.zhou@oss.nxp.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [linux-next:master 7313/12815]
- drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1888:5:
- warning: stack frame size (2208) exceeds limit (2048) in
- 'rockchip_vpu981_av1_dec_run'
-Content-Language: en-US
-To:     kernel test robot <lkp@intel.com>
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-References: <202307010357.sY3iLanr-lkp@intel.com>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <202307010357.sY3iLanr-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Guoniu,
 
-Le 30/06/2023 à 21:45, kernel test robot a écrit :
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   6352a698ca5bf26a9199202666b16cf741f579f6
-> commit: 727a400686a2c0d25015c9e44916a59b72882f83 [7313/12815] media: verisilicon: Add Rockchip AV1 decoder
-> config: riscv-randconfig-r021-20230701 (https://download.01.org/0day-ci/archive/20230701/202307010357.sY3iLanr-lkp@intel.com/config)
-> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-> reproduce: (https://download.01.org/0day-ci/archive/20230701/202307010357.sY3iLanr-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202307010357.sY3iLanr-lkp@intel.com/
+thanks for posting this driver.
 
-Arnd have already send a patch to fix this kind of problem:
-https://lore.kernel.org/lkml/20230616144854.3818934-2-arnd@kernel.org/T/
+Am Montag, 3. Juli 2023, 13:37:33 CEST schrieb guoniu.zhou@oss.nxp.com:
+> ********************
+> Achtung externe E-Mail: =D6ffnen Sie Anh=E4nge und Links nur, wenn Sie wi=
+ssen,
+> dass diese aus einer sicheren Quelle stammen und sicher sind. Leiten Sie
+> die E-Mail im Zweifelsfall zur Pr=FCfung an den IT-Helpdesk weiter.
+> Attention external email: Open attachments and links only if you know that
+> they are from a secure source and are safe. In doubt forward the email to
+> the IT-Helpdesk to check it. ********************
+>=20
+> From: "Guoniu.zhou" <guoniu.zhou@nxp.com>
+>=20
+> Add new binding documentation for DesignWare Core MIPI CSI-2 receiver
+> and DPHY found on NXP i.MX93.
+>=20
+> Signed-off-by: Guoniu.zhou <guoniu.zhou@nxp.com>
+> ---
+>  .../bindings/media/nxp,dwc-mipi-csi2.yaml     | 140 ++++++++++++++++++
+>  1 file changed, 140 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/media/nxp,dwc-mipi-csi2.ya=
+ml
+> b/Documentation/devicetree/bindings/media/nxp,dwc-mipi-csi2.yaml new file
+> mode 100644
+> index 000000000000..ece6fb8991d4
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/nxp,dwc-mipi-csi2.yaml
+> @@ -0,0 +1,140 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/nxp,dwc-mipi-csi2.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: NXP i.MX93 MIPI CSI-2 Host Controller receiver
+> +
+> +maintainers:
+> +  - G.N. Zhou <guoniu.zhou@nxp.com>
+> +
+> +description: |-
+> +  The MIPI CSI-2 receiver found on i.MX93 originates from Synopsys
+> +  DesignWare Core and it implements the CSI-2 protocol on the host
+> +  side and a DPHY configured as a Slave acts as the physical layer.
+> +  Two data lanes are supported on i.MX93 family devices and the data
+> +  rate of each lane support up to 1.5Gbps.
+> +
+> +  While the CSI-2 receiver is separate from the MIPI D-PHY IP core,
+> +  the PHY is completely wrapped by the CSI-2 controller and expose
+> +  a control interface which only can communicate with CSI-2 controller
+> +  This binding thus covers both IP cores.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - fsl,imx93-mipi-csi2
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: The peripheral clock (a.k.a. APB clock)
+> +      - description: The pixel clock
+> +      - description: The MIPI D-PHY clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: per
+> +      - const: pixel
+> +      - const: phy_cfg
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port node, single endpoint describing the CSI-2
+> transmitter. +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              data-lanes:
+> +                minItems: 1
+> +                items:
+> +                  - const: 1
+> +                  - const: 2
+> +
+> +              fsl,hsfreqrange:
+> +                $ref: /schemas/types.yaml#/definitions/uint32
+> +                description:
+> +                  Used to select the desired high speed frequency range
+> +                  according to data lane bit rate. Please refer to i.MX93
+> +                  reference manual MIPI CSI-2 DPHY chapter to get a valid
+> +                  value.
 
-Regards,
-Benjamin
+If this is data lane bit rate specific, shouldn't it be set in s_stream=20
+callback or similar?
 
->
-> All warnings (new ones prefixed by >>):
->
->>> drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1888:5: warning: stack frame size (2208) exceeds limit (2048) in 'rockchip_vpu981_av1_dec_run' [-Wframe-larger-than]
->     int rockchip_vpu981_av1_dec_run(struct hantro_ctx *ctx)
->         ^
->     375/2208 (16.98%) spills, 1833/2208 (83.02%) variables
->     1 warning generated.
->
->
-> vim +/rockchip_vpu981_av1_dec_run +1888 drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
->
->    1887	
->> 1888	int rockchip_vpu981_av1_dec_run(struct hantro_ctx *ctx)
->    1889	{
->    1890		struct hantro_dev *vpu = ctx->dev;
->    1891		struct vb2_v4l2_buffer *vb2_src;
->    1892		int ret;
->    1893	
->    1894		hantro_start_prepare_run(ctx);
->    1895	
->    1896		ret = rockchip_vpu981_av1_dec_prepare_run(ctx);
->    1897		if (ret)
->    1898			goto prepare_error;
->    1899	
->    1900		vb2_src = hantro_get_src_buf(ctx);
->    1901		if (!vb2_src) {
->    1902			ret = -EINVAL;
->    1903			goto prepare_error;
->    1904		}
->    1905	
->    1906		rockchip_vpu981_av1_dec_clean_refs(ctx);
->    1907		rockchip_vpu981_av1_dec_frame_ref(ctx, vb2_src->vb2_buf.timestamp);
->    1908	
->    1909		rockchip_vpu981_av1_dec_set_parameters(ctx);
->    1910		rockchip_vpu981_av1_dec_set_global_model(ctx);
->    1911		rockchip_vpu981_av1_dec_set_tile_info(ctx);
->    1912		rockchip_vpu981_av1_dec_set_reference_frames(ctx);
->    1913		rockchip_vpu981_av1_dec_set_segmentation(ctx);
->    1914		rockchip_vpu981_av1_dec_set_loopfilter(ctx);
->    1915		rockchip_vpu981_av1_dec_set_picture_dimensions(ctx);
->    1916		rockchip_vpu981_av1_dec_set_cdef(ctx);
->    1917		rockchip_vpu981_av1_dec_set_lr(ctx);
->    1918		rockchip_vpu981_av1_dec_set_prob(ctx);
->    1919	
->    1920		hantro_reg_write(vpu, &av1_dec_mode, AV1_DEC_MODE);
->    1921		hantro_reg_write(vpu, &av1_dec_out_ec_byte_word, 0);
->    1922		hantro_reg_write(vpu, &av1_write_mvs_e, 1);
->    1923		hantro_reg_write(vpu, &av1_dec_out_ec_bypass, 1);
->    1924		hantro_reg_write(vpu, &av1_dec_clk_gate_e, 1);
->    1925	
->    1926		hantro_reg_write(vpu, &av1_dec_abort_e, 0);
->    1927		hantro_reg_write(vpu, &av1_dec_tile_int_e, 0);
->    1928	
->    1929		hantro_reg_write(vpu, &av1_dec_alignment, 64);
->    1930		hantro_reg_write(vpu, &av1_apf_disable, 0);
->    1931		hantro_reg_write(vpu, &av1_apf_threshold, 8);
->    1932		hantro_reg_write(vpu, &av1_dec_buswidth, 2);
->    1933		hantro_reg_write(vpu, &av1_dec_max_burst, 16);
->    1934		hantro_reg_write(vpu, &av1_error_conceal_e, 0);
->    1935		hantro_reg_write(vpu, &av1_axi_rd_ostd_threshold, 64);
->    1936		hantro_reg_write(vpu, &av1_axi_wr_ostd_threshold, 64);
->    1937	
->    1938		hantro_reg_write(vpu, &av1_ext_timeout_cycles, 0xfffffff);
->    1939		hantro_reg_write(vpu, &av1_ext_timeout_override_e, 1);
->    1940		hantro_reg_write(vpu, &av1_timeout_cycles, 0xfffffff);
->    1941		hantro_reg_write(vpu, &av1_timeout_override_e, 1);
->    1942	
->    1943		rockchip_vpu981_av1_dec_set_output_buffer(ctx);
->    1944		rockchip_vpu981_av1_dec_set_input_buffer(ctx, vb2_src);
->    1945	
->    1946		hantro_end_prepare_run(ctx);
->    1947	
->    1948		hantro_reg_write(vpu, &av1_dec_e, 1);
->    1949	
->    1950		return 0;
->    1951	
->    1952	prepare_error:
->    1953		hantro_end_prepare_run(ctx);
->    1954		hantro_irq_done(vpu, VB2_BUF_STATE_ERROR);
->    1955		return ret;
->    1956	}
->    1957	
->
+Best regards,
+Alexander
+
+> +
+> +            required:
+> +              - data-lanes
+> +              - fsl,hsfreqrange
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Output port node
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - power-domains
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/imx93-clock.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/power/fsl,imx93-power.h>
+> +
+> +    mipi-csi@4ae00000 {
+> +        compatible =3D "fsl,imx93-mipi-csi2";
+> +        reg =3D <0x4ae00000 0x10000>;
+> +        interrupts =3D <GIC_SPI 175 IRQ_TYPE_LEVEL_HIGH>;
+> +        clocks =3D <&clks IMX93_CLK_MIPI_CSI_GATE>,
+> +                 <&clks IMX93_CLK_CAM_PIX>,
+> +                 <&clks IMX93_CLK_MIPI_PHY_CFG>;
+> +        clock-names =3D "per", "pixel", "phy_cfg";
+> +        power-domains =3D <&media_blk_ctrl IMX93_MEDIABLK_PD_MIPI_CSI>;
+> +
+> +        ports {
+> +            #address-cells =3D <1>;
+> +            #size-cells =3D <0>;
+> +
+> +            port@0 {
+> +                reg =3D <0>;
+> +
+> +                mipi_from_sensor: endpoint {
+> +                    remote-endpoint =3D <&ap1302_to_mipi>;
+> +                    data-lanes =3D <1 2>;
+> +                    fsl,hsfreqrange =3D <0x2c>;
+> +                };
+> +            };
+> +
+> +            port@1 {
+> +                reg =3D <1>;
+> +
+> +                mipi_to_isi: endpoint {
+> +                    remote-endpoint =3D <&isi_in>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +...
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
+
