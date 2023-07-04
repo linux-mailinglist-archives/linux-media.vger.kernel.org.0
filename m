@@ -2,68 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 663EB746F78
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 13:12:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94A4F746F81
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 13:13:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231446AbjGDLMM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jul 2023 07:12:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34664 "EHLO
+        id S231481AbjGDLNn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jul 2023 07:13:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231137AbjGDLMK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 07:12:10 -0400
-Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com [IPv6:2607:f8b0:4864:20::e2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E823BDA
-        for <linux-media@vger.kernel.org>; Tue,  4 Jul 2023 04:12:08 -0700 (PDT)
-Received: by mail-vs1-xe2f.google.com with SMTP id ada2fe7eead31-4435fa903f2so1299408137.1
-        for <linux-media@vger.kernel.org>; Tue, 04 Jul 2023 04:12:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1688469128; x=1691061128;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tkz59f0Y9h6n96jKqifZxfAwM41yCtGPSf6Bmmpi3aE=;
-        b=A26W+Hmf/XT4xE8IA9anV3En2EScl9tBwIYj9CXlSviyqqrWHbK6pGtNAkAd2F3xEx
-         CQbWezJjc4gMvc7Pxgfk0YkISmi0E9bGFIX1X987KAM4mjjtzixL5hZVxUtCwuW7ZHo2
-         N0SRDk+n/PbuHJxcvY/0D5cNP0vTYUhuhGkzHWlwzqsuiWbJMZiB91vEqWYJSvWwRL3V
-         nfEZoYLmr3571czKM55H49wxabejO5izUhNp4oUe++2JmgK1+AJiU3N1/iQjvMzeGlh6
-         xwFgNOxWcjbl/ZED1lEc5sfZlrMojjW0/Cs7RmG2WbTEqtKoOqq3VMWk1RvwrFqDZT1z
-         UguQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688469128; x=1691061128;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Tkz59f0Y9h6n96jKqifZxfAwM41yCtGPSf6Bmmpi3aE=;
-        b=dSL3muzyQcwZd9yF08I7lek2wgw9/Fd7QE834dnP2wzuKxr8bpq1Kw5z3tQGjjiT6n
-         HRTyORqH9KFokU2xbs3uOQhFUWQcqcJskkDJkGE3StYEmU6ZtJvYrsCCyAb0wEAqdQHL
-         uJqFVLVoQCA1s2pw3VDm/oro0kzlPhxbqTYdzD3w5vXFMCbRvW09E1fiQBbAgdYRGKqN
-         XwKcthi89aIfPD9zoJv1+XkM7RPjVAyW+GqcDCHqM7U6TNyNYcNGj8uGID659rUUN7mW
-         SjtRg5bT0oEpZNbEF5ddXHQ/OBCml41/OBWkIIJQTXXILC/jxchuTCK6NoFI0XRaNLCr
-         9Ieg==
-X-Gm-Message-State: ABy/qLYGIghrupnf2pPBrrT44ly99RCjnpYdDLeR0X/k0pcD75rXWPxs
-        uxgzySw7xokQShpxkw2XwwAXzyhbemniDLKTv1IP9w==
-X-Google-Smtp-Source: APBJJlGF6G0bksNtxADUt6M4LdJMdXtbP46bogbUdHqyUtRdrDoKz6LQOKPRboIpjTCBJm9TIcrcyXbH513bNTA5nSk=
-X-Received: by 2002:a67:b14b:0:b0:43f:4af8:d39d with SMTP id
- z11-20020a67b14b000000b0043f4af8d39dmr4173595vsl.4.1688469127998; Tue, 04 Jul
- 2023 04:12:07 -0700 (PDT)
+        with ESMTP id S231469AbjGDLNl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 07:13:41 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2956FC;
+        Tue,  4 Jul 2023 04:13:39 -0700 (PDT)
+X-UUID: ce75194c1a5b11eeb20a276fd37b9834-20230704
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=akRBPfhOJWUvaypafUXBKZwY+0u1iM0Hm6QDFi8IWMw=;
+        b=jf3qjop8yN9SEMQUPseFfYxrx/YsyYfUSXgKF0MXdm799zHlzFs0HoEGo44vnr/r6D6tsTpVl5e1skIie4WHJqxnN42s+P5CRMKPTjdtyiNxs3D31x30Oh2rfwuOZl1AG5SLxDHftE9/dySeKAZrj8IRhVxbrKtLQD8hIHluJzA=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.27,REQID:38d94feb-c7f1-4b56-a55b-a30b9b4e8a03,IP:0,U
+        RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+        ON:release,TS:70
+X-CID-INFO: VERSION:1.1.27,REQID:38d94feb-c7f1-4b56-a55b-a30b9b4e8a03,IP:0,URL
+        :0,TC:0,Content:-25,EDM:0,RT:0,SF:95,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTI
+        ON:quarantine,TS:70
+X-CID-META: VersionHash:01c9525,CLOUDID:2825d90d-c22b-45ab-8a43-3004e9216b56,B
+        ulkID:2307041913334UQKIMXV,BulkQuantity:0,Recheck:0,SF:38|29|28|17|19|48,T
+        C:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+        ,OSI:0,OSA:0,AV:0,LES:1,SPR:NO
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_SDM,TF_CID_SPAM_ASC,TF_CID_SPAM_FAS,
+        TF_CID_SPAM_FSD
+X-UUID: ce75194c1a5b11eeb20a276fd37b9834-20230704
+Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by mailgw02.mediatek.com
+        (envelope-from <yunfei.dong@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 491486158; Tue, 04 Jul 2023 19:13:30 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 4 Jul 2023 19:13:29 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Tue, 4 Jul 2023 19:13:28 +0800
+From:   Yunfei Dong <yunfei.dong@mediatek.com>
+To:     =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?= 
+        <nfraprado@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Nathan Hebert <nhebert@chromium.org>
+CC:     Yunfei Dong <yunfei.dong@mediatek.com>,
+        Chen-Yu Tsai <wenst@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Steve Cho <stevecho@chromium.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH v5,0/11] media: mediatek: vcodec: separate encoder and decoder
+Date:   Tue, 4 Jul 2023 19:13:16 +0800
+Message-ID: <20230704111327.7140-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20230704103611.149631-1-jacopo.mondi@ideasonboard.com>
- <20230704104057.149837-1-jacopo.mondi@ideasonboard.com> <20230704104057.149837-3-jacopo.mondi@ideasonboard.com>
-In-Reply-To: <20230704104057.149837-3-jacopo.mondi@ideasonboard.com>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Tue, 4 Jul 2023 12:11:52 +0100
-Message-ID: <CAPY8ntCNdRW-C7-Fm1y-v6-e+CjMmktER045qd-thnqmVTG4Rw@mail.gmail.com>
-Subject: Re: [PATCH 2/5] media: i2c: imx219: Switch from open to init_cfg
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
-        Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK:  N
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,123 +83,180 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo
+With the driver more and more complex, encoder and decoder need to add more parameter
+in shared struct 'mtk_vcodec_ctx' and 'mtk_vcodec_dev'. Encoder use about 40% and
+decoder use 60% parameter. Need to allocate extra unused memory when encoder and decoder
+working.
 
-Thanks for the patch.
+Separate encoder and decoder in different folder and use independent data struct.
 
-On Tue, 4 Jul 2023 at 11:41, Jacopo Mondi <jacopo.mondi@ideasonboard.com> wrote:
->
-> From: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
->
-> Use the init_cfg pad level operation instead of the internal subdev
-> open operation to set default formats on the pads.
->
-> Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+patch 1 remove unused parameter.
+patch 2~3 align fw and interrupt related interface.
+patch 4~6 remove the dependency of debug log
+patch 7~8 separate mtk_vcodec_ctx and mtk_vcodec_dev
+patch 9 fix unreasonable parameter
+patch 10 removed unused header files
+patch 11 separate encoder and decoder in different folder
+---
+Changed from v4:
+- add one parameter to record register base for reg_base for patch 3.
+- add debug string for non ctx log for patch 6.
+- change the comment of struct mtk_vcodec_dec_ctx and struct mtk_vcodec_enc_ctx for patch 7.
+- prefer to use struct mtk_vcodec_dec_dev an current period, will re-construct in the future for patch 8.
+Changed from v3:
+- re-write commit message for patch 3.
+Changed from v2:
+- This patch main changed:
+  1: add different macro mtk_dec_debug and mtk_enc_debug calling common
+     macro mtk_vcodec_debug in order to use dev_dbg instead of pr_debug.
+  2: add different macro mtk_v4l2_venc_dbg and mtk_v4l2_vdec_dbg calling common
+     macro  in order to use dev_dbg instead of pr_debug.
+Changed from v1:
+- Change pr_dbg to dev_dbg for mtk_v4l2_level and mtk_vcodec_dbg for patch 4.
+- Change pr_err to dev_err for mtk_v4l2_err and mtk_vcodec_err for patch 5.
+- Fix unreasonable parameter for patch 8.
+---
+Yunfei Dong (11):
+  media: mediatek: vcodec: remove unused parameter
+  media: mediatek: vcodec: align fw interface
+  media: mediatek: vcodec: Removing struct 'mtk_vcodec_ctx/dev' for
+    shared interface
+  media: mediatek: vcodec: Removing useless debug log
+  media: mediatek: vcodec: remove the dependency of vcodec debug log
+  media: mediatek: vcodec: replace pr_* with dev_* for v4l2 debug
+    message
+  media: mediatek: vcodec: separate struct 'mtk_vcodec_ctx'
+  media: mediatek: vcodec: separate struct mtk_vcodec_dev
+  media: mediatek: vcodec: fix unreasonable parameter definition and
+    style
+  media: mediatek: vcodec: remove unused include header
+  media: mediatek: vcodec: separete decoder and encoder
 
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+ .../media/platform/mediatek/vcodec/Makefile   |  55 +-
+ .../platform/mediatek/vcodec/common/Makefile  |  21 +
+ .../vcodec/common/mtk_vcodec_com_drv.h        | 147 +++++
+ .../vcodec/{ => common}/mtk_vcodec_dbgfs.c    |  57 +-
+ .../vcodec/{ => common}/mtk_vcodec_dbgfs.h    |  24 +-
+ .../vcodec/{ => common}/mtk_vcodec_fw.c       |  21 +-
+ .../vcodec/{ => common}/mtk_vcodec_fw.h       |   8 +-
+ .../vcodec/{ => common}/mtk_vcodec_fw_priv.h  |  14 +-
+ .../vcodec/{ => common}/mtk_vcodec_fw_scp.c   |  26 +-
+ .../vcodec/{ => common}/mtk_vcodec_fw_vpu.c   |  64 +-
+ .../mediatek/vcodec/common/mtk_vcodec_intr.c  |  68 +++
+ .../vcodec/{ => common}/mtk_vcodec_intr.h     |   6 +-
+ .../vcodec/{ => common}/mtk_vcodec_util.c     |  67 +--
+ .../mediatek/vcodec/common/mtk_vcodec_util.h  |  73 +++
+ .../platform/mediatek/vcodec/decoder/Makefile |  25 +
+ .../vcodec/{ => decoder}/mtk_vcodec_dec.c     | 182 +++---
+ .../vcodec/{ => decoder}/mtk_vcodec_dec.h     |  10 +-
+ .../vcodec/{ => decoder}/mtk_vcodec_dec_drv.c |  84 ++-
+ .../vcodec/decoder/mtk_vcodec_dec_drv.h       | 315 ++++++++++
+ .../vcodec/{ => decoder}/mtk_vcodec_dec_hw.c  |  19 +-
+ .../vcodec/{ => decoder}/mtk_vcodec_dec_hw.h  |   6 +-
+ .../vcodec/{ => decoder}/mtk_vcodec_dec_pm.c  |  38 +-
+ .../vcodec/{ => decoder}/mtk_vcodec_dec_pm.h  |   6 +-
+ .../{ => decoder}/mtk_vcodec_dec_stateful.c   | 176 +++---
+ .../{ => decoder}/mtk_vcodec_dec_stateless.c  |  91 +--
+ .../{ => decoder}/vdec/vdec_av1_req_lat_if.c  | 158 +++--
+ .../vcodec/{ => decoder}/vdec/vdec_h264_if.c  |  79 ++-
+ .../{ => decoder}/vdec/vdec_h264_req_common.c |   4 +-
+ .../{ => decoder}/vdec/vdec_h264_req_common.h |   6 +-
+ .../{ => decoder}/vdec/vdec_h264_req_if.c     |  75 ++-
+ .../vdec/vdec_h264_req_multi_if.c             | 157 +++--
+ .../vdec/vdec_hevc_req_multi_if.c             | 129 ++---
+ .../vcodec/{ => decoder}/vdec/vdec_vp8_if.c   |  72 ++-
+ .../{ => decoder}/vdec/vdec_vp8_req_if.c      |  81 ++-
+ .../vcodec/{ => decoder}/vdec/vdec_vp9_if.c   | 132 ++---
+ .../{ => decoder}/vdec/vdec_vp9_req_lat_if.c  | 129 ++---
+ .../vcodec/{ => decoder}/vdec_drv_base.h      |   2 +-
+ .../vcodec/{ => decoder}/vdec_drv_if.c        |  12 +-
+ .../vcodec/{ => decoder}/vdec_drv_if.h        |  10 +-
+ .../vcodec/{ => decoder}/vdec_ipi_msg.h       |   0
+ .../vcodec/{ => decoder}/vdec_msg_queue.c     |  64 +-
+ .../vcodec/{ => decoder}/vdec_msg_queue.h     |  14 +-
+ .../vcodec/{ => decoder}/vdec_vpu_if.c        |  57 +-
+ .../vcodec/{ => decoder}/vdec_vpu_if.h        |   6 +-
+ .../platform/mediatek/vcodec/encoder/Makefile |  11 +
+ .../vcodec/{ => encoder}/mtk_vcodec_enc.c     | 296 +++++-----
+ .../vcodec/{ => encoder}/mtk_vcodec_enc.h     |  12 +-
+ .../vcodec/{ => encoder}/mtk_vcodec_enc_drv.c |  73 +--
+ .../vcodec/encoder/mtk_vcodec_enc_drv.h       | 246 ++++++++
+ .../vcodec/{ => encoder}/mtk_vcodec_enc_pm.c  |  12 +-
+ .../vcodec/{ => encoder}/mtk_vcodec_enc_pm.h  |   4 +-
+ .../vcodec/{ => encoder}/venc/venc_h264_if.c  | 110 ++--
+ .../vcodec/{ => encoder}/venc/venc_vp8_if.c   |  69 +--
+ .../vcodec/{ => encoder}/venc_drv_base.h      |   4 +-
+ .../vcodec/{ => encoder}/venc_drv_if.c        |  10 +-
+ .../vcodec/{ => encoder}/venc_drv_if.h        |  11 +-
+ .../vcodec/{ => encoder}/venc_ipi_msg.h       |   0
+ .../vcodec/{ => encoder}/venc_vpu_if.c        |  75 +--
+ .../vcodec/{ => encoder}/venc_vpu_if.h        |   3 +-
+ .../platform/mediatek/vcodec/mtk_vcodec_drv.h | 548 ------------------
+ .../mediatek/vcodec/mtk_vcodec_intr.c         |  43 --
+ .../mediatek/vcodec/mtk_vcodec_util.h         |  83 ---
+ 62 files changed, 2217 insertions(+), 2183 deletions(-)
+ create mode 100644 drivers/media/platform/mediatek/vcodec/common/Makefile
+ create mode 100644 drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_com_drv.h
+ rename drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_dbgfs.c (76%)
+ rename drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_dbgfs.h (62%)
+ rename drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_fw.c (75%)
+ rename drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_fw.h (86%)
+ rename drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_fw_priv.h (75%)
+ rename drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_fw_scp.c (70%)
+ rename drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_fw_vpu.c (58%)
+ create mode 100644 drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_intr.c
+ rename drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_intr.h (68%)
+ rename drivers/media/platform/mediatek/vcodec/{ => common}/mtk_vcodec_util.c (55%)
+ create mode 100644 drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_util.h
+ create mode 100644 drivers/media/platform/mediatek/vcodec/decoder/Makefile
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec.c (83%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec.h (91%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec_drv.c (83%)
+ create mode 100644 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec_hw.c (91%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec_hw.h (92%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec_pm.c (81%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec_pm.h (61%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec_stateful.c (73%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/mtk_vcodec_dec_stateless.c (84%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_av1_req_lat_if.c (93%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_h264_if.c (84%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_h264_req_common.c (98%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_h264_req_common.h (97%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_h264_req_if.c (86%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_h264_req_multi_if.c (85%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_hevc_req_multi_if.c (90%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_vp8_if.c (87%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_vp8_req_if.c (81%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_vp9_if.c (87%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec/vdec_vp9_req_lat_if.c (94%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_drv_base.h (95%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_drv_if.c (86%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_drv_if.h (89%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_ipi_msg.h (100%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_msg_queue.c (82%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_msg_queue.h (95%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_vpu_if.c (79%)
+ rename drivers/media/platform/mediatek/vcodec/{ => decoder}/vdec_vpu_if.h (97%)
+ create mode 100644 drivers/media/platform/mediatek/vcodec/encoder/Makefile
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/mtk_vcodec_enc.c (82%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/mtk_vcodec_enc.h (78%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/mtk_vcodec_enc_drv.c (86%)
+ create mode 100644 drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/mtk_vcodec_enc_pm.c (83%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/mtk_vcodec_enc_pm.h (78%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/venc/venc_h264_if.c (88%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/venc/venc_vp8_if.c (88%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/venc_drv_base.h (94%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/venc_drv_if.c (86%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/venc_drv_if.h (94%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/venc_ipi_msg.h (100%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/venc_vpu_if.c (82%)
+ rename drivers/media/platform/mediatek/vcodec/{ => encoder}/venc_vpu_if.h (96%)
+ delete mode 100644 drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h
+ delete mode 100644 drivers/media/platform/mediatek/vcodec/mtk_vcodec_intr.c
+ delete mode 100644 drivers/media/platform/mediatek/vcodec/mtk_vcodec_util.h
 
-> ---
->  drivers/media/i2c/imx219.c | 58 +++++++++++++++++---------------------
->  1 file changed, 26 insertions(+), 32 deletions(-)
->
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index 998a673a4290..191cb4a427cc 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -608,34 +608,6 @@ static void imx219_set_default_format(struct imx219 *imx219)
->         fmt->field = V4L2_FIELD_NONE;
->  }
->
-> -static int imx219_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-> -{
-> -       struct imx219 *imx219 = to_imx219(sd);
-> -       struct v4l2_mbus_framefmt *try_fmt =
-> -               v4l2_subdev_get_try_format(sd, fh->state, 0);
-> -       struct v4l2_rect *try_crop;
-> -
-> -       mutex_lock(&imx219->mutex);
-> -
-> -       /* Initialize try_fmt */
-> -       try_fmt->width = supported_modes[0].width;
-> -       try_fmt->height = supported_modes[0].height;
-> -       try_fmt->code = imx219_get_format_code(imx219,
-> -                                              MEDIA_BUS_FMT_SRGGB10_1X10);
-> -       try_fmt->field = V4L2_FIELD_NONE;
-> -
-> -       /* Initialize try_crop rectangle. */
-> -       try_crop = v4l2_subdev_get_try_crop(sd, fh->state, 0);
-> -       try_crop->top = IMX219_PIXEL_ARRAY_TOP;
-> -       try_crop->left = IMX219_PIXEL_ARRAY_LEFT;
-> -       try_crop->width = IMX219_PIXEL_ARRAY_WIDTH;
-> -       try_crop->height = IMX219_PIXEL_ARRAY_HEIGHT;
-> -
-> -       mutex_unlock(&imx219->mutex);
-> -
-> -       return 0;
-> -}
-> -
->  static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
->  {
->         struct imx219 *imx219 =
-> @@ -725,6 +697,31 @@ static const struct v4l2_ctrl_ops imx219_ctrl_ops = {
->         .s_ctrl = imx219_set_ctrl,
->  };
->
-> +static int imx219_init_cfg(struct v4l2_subdev *sd,
-> +                          struct v4l2_subdev_state *state)
-> +{
-> +       struct imx219 *imx219 = to_imx219(sd);
-> +       struct v4l2_mbus_framefmt *format;
-> +       struct v4l2_rect *try_crop;
-> +
-> +       /* Initialize try_fmt */
-> +       format = v4l2_subdev_get_try_format(sd, state, 0);
-> +       format->width = supported_modes[0].width;
-> +       format->height = supported_modes[0].height;
-> +       format->code = imx219_get_format_code(imx219,
-> +                                             MEDIA_BUS_FMT_SRGGB10_1X10);
-> +       format->field = V4L2_FIELD_NONE;
-> +
-> +       /* Initialize try_crop rectangle. */
-> +       try_crop = v4l2_subdev_get_try_crop(sd, state, 0);
-> +       try_crop->top = IMX219_PIXEL_ARRAY_TOP;
-> +       try_crop->left = IMX219_PIXEL_ARRAY_LEFT;
-> +       try_crop->width = IMX219_PIXEL_ARRAY_WIDTH;
-> +       try_crop->height = IMX219_PIXEL_ARRAY_HEIGHT;
-> +
-> +       return 0;
-> +}
-> +
->  static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
->                                  struct v4l2_subdev_state *sd_state,
->                                  struct v4l2_subdev_mbus_code_enum *code)
-> @@ -1235,6 +1232,7 @@ static const struct v4l2_subdev_video_ops imx219_video_ops = {
->  };
->
->  static const struct v4l2_subdev_pad_ops imx219_pad_ops = {
-> +       .init_cfg = imx219_init_cfg,
->         .enum_mbus_code = imx219_enum_mbus_code,
->         .get_fmt = imx219_get_pad_format,
->         .set_fmt = imx219_set_pad_format,
-> @@ -1248,9 +1246,6 @@ static const struct v4l2_subdev_ops imx219_subdev_ops = {
->         .pad = &imx219_pad_ops,
->  };
->
-> -static const struct v4l2_subdev_internal_ops imx219_internal_ops = {
-> -       .open = imx219_open,
-> -};
->
->  static unsigned long imx219_get_pixel_rate(struct imx219 *imx219)
->  {
-> @@ -1509,7 +1504,6 @@ static int imx219_probe(struct i2c_client *client)
->                 goto error_power_off;
->
->         /* Initialize subdev */
-> -       imx219->sd.internal_ops = &imx219_internal_ops;
->         imx219->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
->                             V4L2_SUBDEV_FL_HAS_EVENTS;
->         imx219->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-> --
-> 2.40.1
->
+-- 
+2.18.0
+
