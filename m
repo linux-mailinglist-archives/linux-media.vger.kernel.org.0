@@ -2,116 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B01474738D
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 16:05:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 743BE747412
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 16:26:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230477AbjGDOFv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jul 2023 10:05:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37026 "EHLO
+        id S231439AbjGDO0h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jul 2023 10:26:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229539AbjGDOFu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 10:05:50 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4CDFF2
-        for <linux-media@vger.kernel.org>; Tue,  4 Jul 2023 07:05:49 -0700 (PDT)
-Received: from ideasonboard.com (85-160-42-71.reb.o2.cz [85.160.42.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 04E496DF;
-        Tue,  4 Jul 2023 16:05:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1688479504;
-        bh=cIjhcDJVdDdinlPukCbEMmuKkfIwPWr6zU4WI0Vmr4M=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=u4pjJ70wKkvHeb0PlV6nw+Qyv9p1WgudkgtQkh0oW/eTmMAXCuXf1vTBTtsHynLyp
-         hO1PEXSiq/ZKAEkfhPEBHySrv5XHmK/Tb4M8fvTbgp3QB/jtTzhP5jzgS87jv/9y+d
-         Gtzo3rsslFBz6W4Y4B7T7LotwukAG4sutdnPAvCI=
-Date:   Tue, 4 Jul 2023 16:05:44 +0200
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Tommaso Merciai <tomm.merciai@gmail.com>
-Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 2/2] Documentation: v4l: Exposure/gain for camera sensor
-Message-ID: <ni2n6flcaxap64dff7hdwmhzfdbbyklxx376xx44wforssu3jm@4yv4xj4caohr>
-References: <20230703202910.31142-1-jacopo.mondi@ideasonboard.com>
- <20230703202910.31142-3-jacopo.mondi@ideasonboard.com>
- <ZKQj78i94MecEfDe@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+        with ESMTP id S231375AbjGDO0g (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 10:26:36 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D96EE49
+        for <linux-media@vger.kernel.org>; Tue,  4 Jul 2023 07:26:36 -0700 (PDT)
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="343466775"
+X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
+   d="scan'208";a="343466775"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2023 07:26:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="808955779"
+X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
+   d="scan'208";a="808955779"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by FMSMGA003.fm.intel.com with ESMTP; 04 Jul 2023 07:26:33 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andy.shevchenko@gmail.com>)
+        id 1qGgz9-0002iU-1Z;
+        Tue, 04 Jul 2023 17:26:31 +0300
+Date:   Tue, 4 Jul 2023 17:26:31 +0300
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kate Hsuan <hpa@redhat.com>, Hao Yao <hao.yao@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 09/15] media: ipu-bridge: Drop early setting of
+ sensor->adev
+Message-ID: <ZKQsF4Spx5MEtKnD@smile.fi.intel.com>
+References: <20230630110643.209761-1-hdegoede@redhat.com>
+ <20230630110643.209761-10-hdegoede@redhat.com>
+ <CAHp75VfH1nE3KxOTVpJ6=7naMvU-wpjai1Gg0JPSUXkWADqRaw@mail.gmail.com>
+ <0dc01c91-dfe0-a422-06f2-0f6ae8257a5f@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ZKQj78i94MecEfDe@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0dc01c91-dfe0-a422-06f2-0f6ae8257a5f@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+        FORGED_GMAIL_RCVD,FREEMAIL_FROM,NML_ADSP_CUSTOM_MED,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tommaso
+On Tue, Jul 04, 2023 at 01:20:33PM +0200, Hans de Goede wrote:
+> On 6/30/23 16:30, Andy Shevchenko wrote:
+> > On Fri, Jun 30, 2023 at 2:07 PM Hans de Goede <hdegoede@redhat.com> wrote:
+> >>
+> >> sensor->adev is no longer dereferenced before it is permanently set by:
+> >>
+> >>         sensor->adev = acpi_dev_get(adev);
+> >>
+> >> So the early assignment with a borrowed reference can be dropped.
+> > 
+> > Ah, now I see that that change was temporary.
+> 
+> Ack
+> 
+> > Can we avoid backporting
+> > it please?
+> 
+> Patch 1/15 does fix a NULL pointer deref oops, so backporting it would
+> be a good thing to do IMHO.
 
-On Tue, Jul 04, 2023 at 03:51:43PM +0200, Tommaso Merciai wrote:
-> Hi Jacopo,
->
-> On Mon, Jul 03, 2023 at 10:29:10PM +0200, Jacopo Mondi wrote:
-> > Document the suggested way to exposure controls for exposure and gain
-> > for camera sensor drivers.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > ---
-> >  .../driver-api/media/camera-sensor.rst        | 19 +++++++++++++++++++
-> >  1 file changed, 19 insertions(+)
-> >
-> > diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
-> > index ee4a7fe5f72a..dfe8f35aecea 100644
-> > --- a/Documentation/driver-api/media/camera-sensor.rst
-> > +++ b/Documentation/driver-api/media/camera-sensor.rst
-> > @@ -189,3 +189,22 @@ the ``V4L2_CID_VFLIP`` and ``V4L2_CID_HFLIP`` controls with the
-> >  a flip can potentially change the output buffer content layout. Flips should
-> >  also be taken into account when enumerating and handling media bus formats
-> >  on the camera sensor source pads.
-> > +
-> > +Exposure and Gain Control
-> > +-------------------------
-> > +
-> > +Camera sensor drivers that allows applications to control the image exposure
-> > +and gain should do so by exposing dedicated controls to applications.
-> > +
-> > +Exposure time is controlled by registering the ``V4L2_CID_EXPOSURE`` control.
-> > +The control definition does not specify a unit to allow maximum flexibility
-> > +for multiple device types, but when used for camera sensor driver it should be
->
-> > +expressed in unit of lines whenever possible.
->
-> Same comment here.
+Then better to go with ACPI handle. I don't like the rewriting same field
+(even if it's the same information). It's prone to errors which might be
+hard to find.
 
-I might have missed what other comment you are referring to :)
+-- 
+With Best Regards,
+Andy Shevchenko
 
->
-> Can you add formula/references about this point I think you are referring on "tline" units (maybe I'm completely wrong :) ),
 
-Is "tline" the line duration ? If that's the case then no, I am
-referring to the number of lines, not their duration.
-
-> but to be honest checking also the some sensors datasheet I don't find to much infos about this units.
-> Would be really helpfull to add some details on this point.
->
-> > +
-> > +Camera sensor driver should try whenever possible to distinguish between the
-> > +analogue and digital gain control functions. Analogue gain is a multiplier
-> > +factor applied to all color channels on the pixel array before they get
-> > +converted in the digital domain. It should be be made controllable by
-> > +registering the ``V4L2_CID_ANALOGUE_GAIN`` control, expressed as a device
-> > +specific gain code. Digital gain control is optional and should be exposed to
-> > +applications by registering ``V4L2_CID_DIGITAL_GAIN``. Camera sensor drivers are
-> > --
->
-> This part looks good to me.
->
-> Thanks,
-> Tommaso
->
-> > 2.40.1
-> >
