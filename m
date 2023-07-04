@@ -2,226 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 71893746C30
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 10:41:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66943746CB9
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 11:04:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231320AbjGDIlz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jul 2023 04:41:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55200 "EHLO
+        id S231593AbjGDJE4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jul 2023 05:04:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230519AbjGDIlx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 04:41:53 -0400
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2081.outbound.protection.outlook.com [40.107.220.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEB4FBE
-        for <linux-media@vger.kernel.org>; Tue,  4 Jul 2023 01:41:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J/vQ31Ls7ZMyGCOjYGBqFPiiAJza03JOU7FbYjb+DeYw8LDbycpdcTYteuFWO3Yqjf8TB8nw51mmrn68OsKBG/gduFUx8wX6lWaIGTcvysKf6w1ixvWz/xuPW7R3F5fR6+a4gNJp3eowx1NgqQ+cA8PDPBx39J+IevIFzfQhZ9+IabYjAOC0x190J0b/XEjYiwEveYK3VSZrsrQl6MWDZ+slTmDEkJDlrltm+51mAAtR3TRA3XbhKj7TwB9xGGJ4rffFT6xyvCBhkDDMCrR2wA4kTLHhJAqVvhflM/yRQmDwaf4/05NwpAbEmyYQ36DNG+rrdBlmSztnvJ6I38TQ6Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1CNEN0Fh1HDum+wB7k1sFqgPPVjOe5++LCBeZcy9QVQ=;
- b=FryTQ8R6ZpI4EOHq5TPNrYiWvNbOPN/Tm5CTaXChjV9Q6RcDaXvmIdTLoMbmJ/uHIqMN/cxw9QUlYn6OTPEDoeqzvUiC4s2xTRwjB3QDvDSEnu8xVXKRDu9T+bkUrHgFc46ABnxH3Fbs41i1ysGjeFIH+4huwyXt5eS//k+RREPtywT/vsS02+mg1t6ggpGYy9R0Mc8Xel5wBrDouuA0qvVzQndxW6PyMZVa6wVFJnlvrRNIDibqHNbJs1ETSSf3IQCo8jLsPggeLUmA+8FtABSpbgKyevRVfHhHql47+OYrUooFyeYzf3kOf3RZrAiH398iqM8xNTFBtLOkEcGPog==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synaptics.com; dmarc=pass action=none
- header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1CNEN0Fh1HDum+wB7k1sFqgPPVjOe5++LCBeZcy9QVQ=;
- b=REoP23VOJgFuZ6+MAf6qS/yK+JaIJE+0kswM+7gPk7a8pKWgyq280ofmtCOp/vyNi86oPEnkMcpgu9kOCdi4VPZtAHkgFKFjQGyGPUKNIJC2XNWHwxJ8Ik9q1xLIecnPIN9ylBHc+5hMxIHAboGU2GiFULZvNE7evbYSULqW+ZA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=synaptics.com;
-Received: from DM6PR03MB5196.namprd03.prod.outlook.com (2603:10b6:5:24a::19)
- by DM6PR03MB5145.namprd03.prod.outlook.com (2603:10b6:5:1e9::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.24; Tue, 4 Jul
- 2023 08:41:51 +0000
-Received: from DM6PR03MB5196.namprd03.prod.outlook.com
- ([fe80::6882:b9c1:2b2d:998d]) by DM6PR03MB5196.namprd03.prod.outlook.com
- ([fe80::6882:b9c1:2b2d:998d%5]) with mapi id 15.20.6544.024; Tue, 4 Jul 2023
- 08:41:50 +0000
-Message-ID: <3df23ff7-7a62-ed92-b9fb-a988e96c9790@synaptics.com>
-Date:   Tue, 4 Jul 2023 16:41:37 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-From:   Hsia-Jun Li <Randy.Li@synaptics.com>
-Content-Language: en-GB
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: [RFC]: media: mc: storing query status in variable length buffer
- likes blob in DRM
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        ayaka <ayaka@soulik.info>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>, Brian.Starkey@arm.com,
-        boris.brezillon@collabora.com, frkoenig@chromium.org,
-        hans.verkuil@cisco.com, hiroh@chromium.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Helen Koike <helen.koike@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PH8PR07CA0017.namprd07.prod.outlook.com
- (2603:10b6:510:2cd::28) To DM6PR03MB5196.namprd03.prod.outlook.com
- (2603:10b6:5:24a::19)
+        with ESMTP id S231628AbjGDJEy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 05:04:54 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA449E7D;
+        Tue,  4 Jul 2023 02:04:43 -0700 (PDT)
+X-UUID: cd32611e1a4911eeb20a276fd37b9834-20230704
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=EeeCzi6ljX+yHjCEA1XGs6HbrLUAR9Zd/iDelBuY6Do=;
+        b=qxx8YWwIyVDvcQqj3f1TtEd3KIYIeIob9K8lR6lolMhSy4eGiIqS7hzq1v/S425IcDxNJIKLh60ll3I6H3Alknkr4ReZmetwngzzG7pu0mOGw6qdL+i+R6zfzOxr6sVbMVeLevaNifBGM5R/1jlW9IXmBKtKhqfHSp2dXj9tDNs=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.27,REQID:b02294c7-33cf-4eb9-82f4-3ec83946058d,IP:0,U
+        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+        release,TS:0
+X-CID-META: VersionHash:01c9525,CLOUDID:d4ded70d-c22b-45ab-8a43-3004e9216b56,B
+        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+        RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: cd32611e1a4911eeb20a276fd37b9834-20230704
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw02.mediatek.com
+        (envelope-from <yongqiang.niu@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1522435105; Tue, 04 Jul 2023 17:04:37 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
+ MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 4 Jul 2023 17:04:35 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Tue, 4 Jul 2023 17:04:33 +0800
+From:   Yongqiang Niu <yongqiang.niu@mediatek.com>
+To:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        CK Hu <ck.hu@mediatek.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+CC:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        <dri-devel@lists.freedesktop.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Yongqiang Niu <yongqiang.niu@mediatek.com>
+Subject: [v4, PATCH] drm/mediatek: add dma buffer control for drm plane disable
+Date:   Tue, 4 Jul 2023 17:04:32 +0800
+Message-ID: <20230704090432.5844-1-yongqiang.niu@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR03MB5196:EE_|DM6PR03MB5145:EE_
-X-MS-Office365-Filtering-Correlation-Id: 192a50aa-ab99-4420-b589-08db7c6a82c4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: voJji+pKjMw/8pYRQ1hFU5101w1vjgmG2S88epc8xaHEyYe/fCFKlMkPiKqif6AIXUhbnZymMeDn4uEGMZvzHh/DJAMduDlDXLKsJ2Rg8wlb8lANcnplwr8Jy1Mjk0cStEGp+l4HJzgqff4NtQk7ABcDhzudFl/b9N7DMtRUnoORW9E89ykkQ3xGNyo6FJ7+OCs6oh7K8CQfsIOWAPoqxEoKwG2tICSPoXlaR+ul9AR5smYNEBkVLGposUXnp3tSfgClMkaww3CgD3ero+9YT3EBCn6tyb/vtXng2TpoK/TdIAL3esrmiFj6ACa3U0l6RS4qibIHLIlQSaB/5mMXJgKQzHBAfcJQ1y9StrHPOUuagH8mUpY7fENCrj1fjgcjqJAlywBMcjnXBOPbCajIb7UoNfEu9DXqttwfbzXXGijNhDJJpvb2AXXXxYb/3+1QVLVy3//zOx1N2voXRedkXdo2cjsdLKV00ZBuFZnLBs+3iCT/zxXKCo5aQeWbwLzVw51xjUqRBSpwEP3qW0UaVgiKW+rMg/gSNoXhTOtUQ3nK7u+N6KKB3bFmlaIU+h0rXy2Kgh4QIP+t/Gf1LE660Vtg0/tZBlL/Omy5hMios5ECVcuTvVxg49PitAtEFYy6DKXezktpBhWns3+d1+xZIGi303iiR4Z8aLatspDIXzcJr+p8wg7nRtQySnamaczV
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR03MB5196.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(366004)(396003)(136003)(346002)(39850400004)(376002)(451199021)(2906002)(41300700001)(8936002)(8676002)(7416002)(36756003)(5660300002)(86362001)(31696002)(186003)(2616005)(31686004)(478600001)(26005)(6506007)(6512007)(6666004)(6486002)(52116002)(316002)(6916009)(66556008)(4326008)(66946007)(38100700002)(38350700002)(54906003)(66476007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZXhDYVplZnJiYVZiTFh5dllXZGFNS1hxUHJjbktsWldpYnA4aEdpaDBmS1ZX?=
- =?utf-8?B?TUFtRWdDbkgyN3RRMjU0Q3pBRUhXY2hmOFNkUHRCSFFsZngzTXIzN1NWak9U?=
- =?utf-8?B?QUhmM2lhZms3SUhBRE9Pb012OHVjUzhINGhWa0htME5aMTNSdG9TRE90TXhl?=
- =?utf-8?B?eS9MaHlTSUo4Y1YxeGgwbEN2THZsQXZ3cmptc0RURFJQdFRUeUFSM05obHNy?=
- =?utf-8?B?SlcvazZ5RkRWNFB2ZENZd0dSN2VUUzVGc0pjQ0paSFQ4cGhTVi9oNDRQWjRJ?=
- =?utf-8?B?eUlINlVXZVAzeTVOdm9RUHl4anMrckxBWVpPSEZ1Z3J1SExPVXBpTXhyaFVo?=
- =?utf-8?B?b2VyWE4zU3lSaGdHNVk3SlJpcmtXWUZ1VGc1TERKd2p5VmlCNjZiSDJoY1RF?=
- =?utf-8?B?UmUvN2szOTlGQ2g5MGk1TFp1U2NzeUMwVkVkOW5Ib01SZmxFWVhKbDRiRUR1?=
- =?utf-8?B?YUp1N3d0Y2huRnhOdllKV0tnUkVoc0hJcEszMkpxaDZRT1FKTlc0cGYwZ3N2?=
- =?utf-8?B?UXFXYlZ0YVF4Vm1GcS96bW8xS0JkWEY0d05LWlV5elJId0twNk5KR3k3UFpD?=
- =?utf-8?B?MDllZFFOdU52TFRzRWMyWW9INEk3UEI1N2FSWnN4V1I4a29vcm52ajNBVTRD?=
- =?utf-8?B?a1BvZlRUV3ZMSzVMdklwR2Rmci9hb0x5WGVxOTRwWlRsbnk3OHNDWDluTFd1?=
- =?utf-8?B?S0NIcEdka1NvTGZYMEwrMGNXeDNLZ3F1YXlVOTc4aHBzYmUxSmtHVEMzcm1D?=
- =?utf-8?B?UXlERnBrR2cvUHc5QWYwN1RHSklPa1JNK2JWTGlOdEh1Z01EYlU1NXZIWjdt?=
- =?utf-8?B?MDdMcW1oSnkwZ1BaNUN2WVZDUkRiYjNPdjFnbGZzNDhvQ0Zvb2NySzJhWHl5?=
- =?utf-8?B?aGI5QXBSTFN0WGpLaFJjOGRFTERYVjZ2MFpUNUxkR0Npdkd6bVJObVdFV1Fq?=
- =?utf-8?B?SEhuQWNWMFVpL3NuWVV4MmowVVArbE1tYTRXR1FkZjNONFEwQmxhSTkvMm1F?=
- =?utf-8?B?ZiszQlY1NGdTSXE4QXZhbm1WT1Q1emE2OGFIZklJZVNxVW5ZamJocWhPbXVO?=
- =?utf-8?B?cDZtZzFSdTltZXUvOXY5ZVZneHJabE8wZXhVbm5oemw0dUhncjE5bGYxNGFt?=
- =?utf-8?B?eXNpQmxGTlZ1azZweElzNmM5VTBEc293c2FGQWczUlpnWTA1cDZ1Wm5kbEs1?=
- =?utf-8?B?akQzdkVhWGpSVCswUzE0Vm03YnYyc0w1NHJjREl0RUMwRUNBVUgwbytCbkFC?=
- =?utf-8?B?U1E0T3FYbDZhMnRvOW1PeTNKR2RqcjZpdkVBbnJpVHl0YWZzTHNjZFhhcVhE?=
- =?utf-8?B?YmlwRjYzZXQ1YWlySHB5UzNEeUxSbitUYm8wT2dWNmdmVlRKZkhzOFpCMGN0?=
- =?utf-8?B?dzl1cmhHMDRIOUxrc1paSUc1ejhYQ3pPYUZ5dk9SWEErOThWMS9RdGl6V3NU?=
- =?utf-8?B?bmcwY0NBc2VNcjRKWG14dERzUDArZmF4YmFOc2h3K2p6Z1ZGajVDNmFzdDJy?=
- =?utf-8?B?NG5sVzJnbFE4MWprUlRRRVNpYnI3dkpDTkFuMjh5Wm0wY2VIU1krQnVxV1Va?=
- =?utf-8?B?NE5GLzhzQmYrNHI4dEVBalRkcEV4SEdRTGpSaVhDa3pMdDZSNjQvbG11Skox?=
- =?utf-8?B?by9wTktpUkNBc0tONDdJVzZ6ZDBZL2pjbVRoZ2FnMitHcVgra0VYN0pZdkRN?=
- =?utf-8?B?S043NlU1eHhXb1N3UytEVWdiSnJabmFyYXlla3lZSnhMT0ZEbDJZVHBCaXlT?=
- =?utf-8?B?UmY4QjQ3UzJwRVQ4b3BITk96RkZFbEF6VjFVTGhlOThhTG12aVo4MzVxQnVv?=
- =?utf-8?B?Rnc0THRURjFPeVI5S1M1ME5NQlNjRkoxV08wVTljdnlGemU0Mm1Ndit3NmRM?=
- =?utf-8?B?ckxhVFgzbFBKdEFjbXdZRElJYVFnT3RMZUtVazRESHl2TWxOTEpRWVdSTTJJ?=
- =?utf-8?B?TmQvSTV4V0Y0dTRSS0dLc2RyUHI0cW1OUU1nMEkwRlNmS0FqWnZtdDRVR09j?=
- =?utf-8?B?Z2pjS0U1YmNua1UwUlo1cVUzQll6MW1la2F4UENPcTdZTlViRDdmaEVGUFpr?=
- =?utf-8?B?T2xFNnJHUWJtRlNVNVM0UDlwbnRjaUlwZnF3ZkV0VndPdFRjR0s4cWVEeUd0?=
- =?utf-8?Q?zzy7JKEMNy4mrvXK6QsMtgw4O?=
-X-OriginatorOrg: synaptics.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 192a50aa-ab99-4420-b589-08db7c6a82c4
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR03MB5196.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jul 2023 08:41:50.6209
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pR+CilBbe35/PBKvQfdTU3fJbCQmxQxz+f4Ga8EyCQsVnqIWkTTr9DY30INys03FMCEn2CPkWpBtbfIoOkybuQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR03MB5145
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK:  N
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,MAY_BE_FORGED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,UNPARSEABLE_RELAY,URIBL_BLOCKED
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello All
+dma buffer release before overlay disable, that will cause
+m4u translation fault warning.
 
-This RFC will address the problem that some ioctl() commands would be 
-called many times until that command got all the all its entries. Those 
-ioctl() command are:
+add dma buffer control flow in mediatek driver:
+get dma buffer when drm plane disable
+put dma buffer when overlay really disable
 
-- VIDIOC_ENUM_FMT
+Fixes: 41016fe1028e4 ("drm: Rename plane->state variables in atomic update and disable")
+Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+---
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c  | 25 ++++++++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c | 12 ++++++++++++
+ drivers/gpu/drm/mediatek/mtk_drm_plane.h |  1 +
+ 3 files changed, 38 insertions(+)
 
-- VIDIOC_QUERYCTRL
-
-- VIDIOC_ENUMSTD and VIDIOC_SUBDEV_ENUMSTD
-
-Generally speaking, all enumeration type commands would lead to 
-frequently context switch between userspace  and kernel space. A few 
-enumeration commands listed below may not meet this problem in some 
-cases, as they could present their entries in a step wise way.
-
-- VIDIOC_ENUM_FRAMESIZES
-
-- VIDIOC_ENUM_FRAMEINTERVALS
-
-
-A simple solution that we could bring and improve from DRM is the blob 
-object(struct drm_property_blob).
-
-We could extend the existing ioctl() in this way:
-
-1. VIDIOC_ENUM_EXT_FMT would turn a blob id and the memory size 
-requirement that usespace should prepare
-
-for storing.
-
-2. Appication call VIDIOC_GETPROPBLOB with blob id and a userspace 
-pointer which should be enough for storing.
-
-3. V4L2 framework fill the that userptr with context likes this:
-
-struct v4l2_blob_prop {
-
-__u32 version;
-
-__u32 payload_size;
-
-__u32 payload[];
-
-};
-
-4. The parsing of payload would depend on its version which 
-v4l2_blob_prop.version says, and each entry in the payload could be 
-variable length, likes this:
-
-struct v4l2_ext_pix_mod_desc {
-
-__u64 modifier;
-
-__u64 allocate_hints; /* heap flags shard by DMA-heap */
-
-__u32 num_of_planes;
-
-__u32 plane_sizes[8];
-
-__u32 colorimetry_flags;
-
-};
-
-struct v4l2_ext_pix_desc {
-
-__u32 fourcc;
-
-__u32 num_of_modifies;
-
-struct v4l2_ext_pix_mod_desc[];
-
-};
-
-
-In this design, we could avoid the problem that we could hardly extend 
-our uAPI for V4L2, all the structure must be a fixed size.
-
-Here are some options design that people want for this RFC:
-
-1. Do we need to call the ioctl() command itself(likes 
-VIDIOC_ENUM_EXT_FMT) which let the driver to flush its internal property 
-cache or calling VIDIOC_GETPROPBLOB is enough?
-
-2. Should we make MC node support this feature only or standard video 
-node could? A thought from pinchartl is that every driver should have a 
-MC node even for the stateful driver.
-
-
-The implementation of RFC could be a foundation for ext pixel and ext 
-buffer APIs. I would like to know your feedback before we settle the 
-problem with the ext pixel format.
-
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+index d40142842f85..49d671100785 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+@@ -4,6 +4,7 @@
+  */
+ 
+ #include <linux/clk.h>
++#include <linux/dma-buf.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/mailbox_controller.h>
+ #include <linux/pm_runtime.h>
+@@ -283,6 +284,23 @@ struct mtk_ddp_comp *mtk_drm_ddp_comp_for_plane(struct drm_crtc *crtc,
+ 	return NULL;
+ }
+ 
++static void mtk_drm_dma_buf_put(struct mtk_drm_crtc *mtk_crtc)
++{
++	unsigned int i;
++
++	for (i = 0; i < mtk_crtc->layer_nr; i++) {
++		struct drm_plane *plane = &mtk_crtc->planes[i];
++		struct mtk_plane_state *plane_state;
++
++		plane_state = to_mtk_plane_state(plane->state);
++
++		if (plane_state && plane_state->pending.dma_buf) {
++			dma_buf_put(plane_state->pending.dma_buf);
++			plane_state->pending.dma_buf = NULL;
++		}
++	}
++}
++
+ #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+ static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
+ {
+@@ -323,6 +341,8 @@ static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
+ 		mtk_crtc->pending_async_planes = false;
+ 	}
+ 
++	mtk_drm_dma_buf_put(mtk_crtc);
++
+ 	mtk_crtc->cmdq_vblank_cnt = 0;
+ 	wake_up(&mtk_crtc->cb_blocking_queue);
+ }
+@@ -624,9 +644,14 @@ static void mtk_crtc_ddp_irq(void *data)
+ 	else if (mtk_crtc->cmdq_vblank_cnt > 0 && --mtk_crtc->cmdq_vblank_cnt == 0)
+ 		DRM_ERROR("mtk_crtc %d CMDQ execute command timeout!\n",
+ 			  drm_crtc_index(&mtk_crtc->base));
++
++	if (!mtk_crtc->cmdq_client.chan)
++		mtk_drm_dma_buf_put(mtk_crtc);
+ #else
+ 	if (!priv->data->shadow_register)
+ 		mtk_crtc_ddp_config(crtc, NULL);
++
++	mtk_drm_dma_buf_put(mtk_crtc);
+ #endif
+ 	mtk_drm_finish_page_flip(mtk_crtc);
+ }
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+index 31f9420aff6f..66e6393e45ee 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+@@ -12,6 +12,7 @@
+ #include <drm/drm_framebuffer.h>
+ #include <drm/drm_gem_atomic_helper.h>
+ #include <linux/align.h>
++#include <linux/dma-buf.h>
+ 
+ #include "mtk_drm_crtc.h"
+ #include "mtk_drm_ddp_comp.h"
+@@ -266,6 +267,17 @@ static void mtk_plane_atomic_disable(struct drm_plane *plane,
+ 	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
+ 									   plane);
+ 	struct mtk_plane_state *mtk_plane_state = to_mtk_plane_state(new_state);
++	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
++									   plane);
++
++	if (old_state && old_state->fb) {
++		struct drm_gem_object *gem = old_state->fb->obj[0];
++
++		if (gem && gem->dma_buf) {
++			get_dma_buf(gem->dma_buf);
++			mtk_plane_state->pending.dma_buf = gem->dma_buf;
++		}
++	}
+ 	mtk_plane_state->pending.enable = false;
+ 	wmb(); /* Make sure the above parameter is set before update */
+ 	mtk_plane_state->pending.dirty = true;
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.h b/drivers/gpu/drm/mediatek/mtk_drm_plane.h
+index 99aff7da0831..3aba0b58ef3c 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_plane.h
++++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.h
+@@ -33,6 +33,7 @@ struct mtk_plane_pending_state {
+ 	bool				async_dirty;
+ 	bool				async_config;
+ 	enum drm_color_encoding		color_encoding;
++	struct dma_buf			*dma_buf;
+ };
+ 
+ struct mtk_plane_state {
 -- 
-Hsia-Jun(Randy) Li
+2.25.1
 
