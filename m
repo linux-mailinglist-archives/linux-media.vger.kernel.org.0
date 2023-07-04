@@ -2,68 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 33317747441
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 16:40:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A269747448
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 16:42:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231179AbjGDOkC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jul 2023 10:40:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54044 "EHLO
+        id S231230AbjGDOmo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jul 2023 10:42:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229610AbjGDOkB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 10:40:01 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31DAEB2
-        for <linux-media@vger.kernel.org>; Tue,  4 Jul 2023 07:40:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688481600; x=1720017600;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5hYH7tLrYTCicGEb2ZU/Jy0zLcHGqGEEfkxY390VHa0=;
-  b=gAH+RVMM6agq6KPhr2fnPmny3vNAuRP+ZAggxMy3TouH1tQvBmB3jqG+
-   cLEW/CNnQMPCx+jqqt+7zD9DX3BmigleW8SRb5ia+rvegZsq6pu5/CpUX
-   WjKZFlPi+BYiQdEhBCQJ7mFnbHp9cKiFMTEg3q2q4TY6Dd/v+ao493/Kw
-   VJqK9ssdMol7jXtGPTPIAE/eRUXQPjVxE8UEQPPwQaqSrYAHrTH/AzC9Q
-   Oek/K046/O/kw46oZHwmd6W4WK2IaoOGTJbKl/Ry0uFVPbsWjOlhhc9GZ
-   8l7HCb2TgBp63GW2IRle0QoU+AA/qrDhw+MrWSkkuWpGWkVrRi07eUpRE
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="343469963"
-X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="343469963"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2023 07:39:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="718940903"
-X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="718940903"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 04 Jul 2023 07:39:55 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qGhC7-000IIp-2s;
-        Tue, 04 Jul 2023 14:39:55 +0000
-Date:   Tue, 4 Jul 2023 22:39:22 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>
-Subject: Re: [PATCH 5/5] media: i2c: imx219: Simplify code handling in s_fmt
-Message-ID: <202307042233.nrNvmP4V-lkp@intel.com>
-References: <20230704104057.149837-6-jacopo.mondi@ideasonboard.com>
+        with ESMTP id S229469AbjGDOmo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 10:42:44 -0400
+Received: from mail-vs1-xe29.google.com (mail-vs1-xe29.google.com [IPv6:2607:f8b0:4864:20::e29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D36B110CB;
+        Tue,  4 Jul 2023 07:42:42 -0700 (PDT)
+Received: by mail-vs1-xe29.google.com with SMTP id ada2fe7eead31-440b9d60606so1920733137.1;
+        Tue, 04 Jul 2023 07:42:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1688481762; x=1691073762;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=cxhjD7KY5JD674i+41mIILyrwvbeMopv+PbB7rT3+IE=;
+        b=qXoDuKf7tijC6nBenqA4HmNXCVz12f5ddVrWo/iBC08Xy5X/GCcU43sZ0mtpwstHzz
+         GGG4rED1L0Z3jHx0ObuuPnqTWgOV3lvgb0UgCTp0CeJLzQJEGAmTwNjVcNLWi2mplii/
+         gTzcErjfLOJvdkMr/rbh3rwy+y80EnZd7ymGi3sD7e4+hc0QpRfU1gEicpQvVZGtzAVf
+         6EUu76BBqp0jaLUX1ZJLF1j0K7hxvYq5PwkFk8Ccvmvlcutquq7I+RgTWyWu/YG1H3fa
+         w3VIu5zXhiZjEGvEfADAqF0uBRfL7T9poR368enlmGkLswEIk/idT17/IjIAC8boz7sh
+         McZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688481762; x=1691073762;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cxhjD7KY5JD674i+41mIILyrwvbeMopv+PbB7rT3+IE=;
+        b=NVqUSAuRHHcB89RqYVobleynYC2hVcXKjZa8hF9UHv20t+JZuHBw4KMzAVhfMiLve+
+         9AoHRnQrrkwS0z2Rn9mnK2p5g7xA9+xvVMtfRZSrJU+LJC1RqHCjcQc6miGc7rXAsG0l
+         B6tZDB7ywdvo6TNJbwjUyntJEaFKVocVNK0gxKPUZruwfi9IypU0EPa7Cjy8xeVpV4bD
+         SylalahU12wYgHPNFPGtUv5QWXjnoGcz6qsCN3+hfwDjgNbcl/bFK2z4bI4fyKdIhQw6
+         qQJFXyohRZb2nHLmOFf6+fh9m3m8O/nvglgaLJGSaSfC6Mnm89iIVXjVjZe7S/O0zdRV
+         fXmg==
+X-Gm-Message-State: ABy/qLZ2Ae9Aizb2N12lDTaYnR9kFA75bm+s+CSMZYT/BXOIeN+jxK9L
+        r+OhSYS7talt7d1xA3zKSxtA4Kw9647eKCy3ibY=
+X-Google-Smtp-Source: APBJJlEzBfrRFFxw3waM7f1ipL7WWKBgZ8jQmyUjVtnbM0TCNsn4+zGfKdFXtaZmMtcuMEXY1XjZXuAM/dQift4uNtI=
+X-Received: by 2002:a67:f3d5:0:b0:443:7170:b048 with SMTP id
+ j21-20020a67f3d5000000b004437170b048mr6639880vsn.27.1688481761915; Tue, 04
+ Jul 2023 07:42:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230704104057.149837-6-jacopo.mondi@ideasonboard.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+References: <20230702182308.7583-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230702182308.7583-1-krzysztof.kozlowski@linaro.org>
+From:   Jonas Gorski <jonas.gorski@gmail.com>
+Date:   Tue, 4 Jul 2023 16:42:30 +0200
+Message-ID: <CAOiHx=kreUEnqssO7y_+UqAxsnXaLPbwBz8h3JRkdEq+pkdW2A@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: cleanup DTS example whitespaces
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Leo Yan <leo.yan@linaro.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>, coresight@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+        linux-rockchip@lists.infradead.org, linux-iio@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-mtd@lists.infradead.org, linux-amlogic@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
+        linux-remoteproc@vger.kernel.org, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,89 +75,49 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+On Sun, 2 Jul 2023 at 20:24, Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> The DTS code coding style expects spaces around '=' sign.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>
+> ---
+>
+> Rob,
+>
+> Maybe this could go via your tree? Rebased on your for-next:
+> v6.4-rc2-45-gf0ac35049606
+> ---
+>  .../bindings/arm/arm,coresight-cti.yaml        | 18 +++++++++---------
+>  .../bindings/arm/keystone/ti,sci.yaml          |  8 ++++----
+>  .../devicetree/bindings/display/msm/gmu.yaml   |  2 +-
+>  .../display/panel/samsung,s6e8aa0.yaml         |  2 +-
+>  .../display/rockchip/rockchip-vop.yaml         |  4 ++--
+>  .../bindings/iio/adc/ti,adc108s102.yaml        |  2 +-
+>  .../bindings/media/renesas,rzg2l-cru.yaml      |  4 ++--
+>  .../devicetree/bindings/media/renesas,vin.yaml |  4 ++--
+>  .../devicetree/bindings/mtd/mtd-physmap.yaml   |  2 +-
+>  .../bindings/net/mediatek-dwmac.yaml           |  2 +-
+>  .../bindings/perf/amlogic,g12-ddr-pmu.yaml     |  4 ++--
+>  .../bindings/phy/mediatek,dsi-phy.yaml         |  2 +-
+>  .../remoteproc/amlogic,meson-mx-ao-arc.yaml    |  2 +-
+>  .../devicetree/bindings/usb/mediatek,mtu3.yaml |  2 +-
+>  .../devicetree/bindings/usb/ti,am62-usb.yaml   |  2 +-
+>  15 files changed, 30 insertions(+), 30 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/arm/arm,coresight-cti.yaml b/Documentation/devicetree/bindings/arm/arm,coresight-cti.yaml
+> index 0c5b875cb654..d6c84b6e7fe6 100644
+> --- a/Documentation/devicetree/bindings/arm/arm,coresight-cti.yaml
+> +++ b/Documentation/devicetree/bindings/arm/arm,coresight-cti.yaml
+> @@ -287,7 +287,7 @@ examples:
+>              arm,trig-in-sigs = <0 1>;
+>              arm,trig-in-types = <PE_DBGTRIGGER
+>                                   PE_PMUIRQ>;
+> -            arm,trig-out-sigs=<0 1 2 >;
+> +            arm,trig-out-sigs = <0 1 2 >;
 
-kernel test robot noticed the following build warnings:
+There's a space before the closing > you could drop as well.
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on linus/master v6.4 next-20230704]
-[cannot apply to sailus-media-tree/streams]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jacopo-Mondi/media-i2c-imx219-Rename-mbus-codes-array/20230704-184252
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230704104057.149837-6-jacopo.mondi%40ideasonboard.com
-patch subject: [PATCH 5/5] media: i2c: imx219: Simplify code handling in s_fmt
-config: i386-randconfig-r005-20230704 (https://download.01.org/0day-ci/archive/20230704/202307042233.nrNvmP4V-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230704/202307042233.nrNvmP4V-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307042233.nrNvmP4V-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/media/i2c/imx219.c:755:15: warning: unused variable 'i' [-Wunused-variable]
-           unsigned int i;
-                        ^
-   1 warning generated.
-
-
-vim +/i +755 drivers/media/i2c/imx219.c
-
-1283b3b8f82b90 Dave Stevenson 2020-01-20  747  
-1283b3b8f82b90 Dave Stevenson 2020-01-20  748  static int imx219_set_pad_format(struct v4l2_subdev *sd,
-0d346d2a6f54f0 Tomi Valkeinen 2021-06-10  749  				 struct v4l2_subdev_state *sd_state,
-1283b3b8f82b90 Dave Stevenson 2020-01-20  750  				 struct v4l2_subdev_format *fmt)
-1283b3b8f82b90 Dave Stevenson 2020-01-20  751  {
-1283b3b8f82b90 Dave Stevenson 2020-01-20  752  	struct imx219 *imx219 = to_imx219(sd);
-1283b3b8f82b90 Dave Stevenson 2020-01-20  753  	const struct imx219_mode *mode;
-1283b3b8f82b90 Dave Stevenson 2020-01-20  754  	int exposure_max, exposure_def, hblank;
-22da1d56e98215 Lad Prabhakar  2020-03-10 @755  	unsigned int i;
-1283b3b8f82b90 Dave Stevenson 2020-01-20  756  
-1283b3b8f82b90 Dave Stevenson 2020-01-20  757  	mode = v4l2_find_nearest_size(supported_modes,
-1283b3b8f82b90 Dave Stevenson 2020-01-20  758  				      ARRAY_SIZE(supported_modes),
-1283b3b8f82b90 Dave Stevenson 2020-01-20  759  				      width, height,
-1283b3b8f82b90 Dave Stevenson 2020-01-20  760  				      fmt->format.width, fmt->format.height);
-563219f153d5f7 Jacopo Mondi   2023-07-04  761  
-7471d0495584f7 Jacopo Mondi   2023-07-04  762  	imx219_update_pad_format(imx219, mode, &fmt->format, fmt->format.code);
-563219f153d5f7 Jacopo Mondi   2023-07-04  763  
-563219f153d5f7 Jacopo Mondi   2023-07-04  764  	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-1283b3b8f82b90 Dave Stevenson 2020-01-20  765  		imx219->mode = mode;
-1283b3b8f82b90 Dave Stevenson 2020-01-20  766  		/* Update limits and set FPS to default */
-1283b3b8f82b90 Dave Stevenson 2020-01-20  767  		__v4l2_ctrl_modify_range(imx219->vblank, IMX219_VBLANK_MIN,
-1283b3b8f82b90 Dave Stevenson 2020-01-20  768  					 IMX219_VTS_MAX - mode->height, 1,
-1283b3b8f82b90 Dave Stevenson 2020-01-20  769  					 mode->vts_def - mode->height);
-1283b3b8f82b90 Dave Stevenson 2020-01-20  770  		__v4l2_ctrl_s_ctrl(imx219->vblank,
-1283b3b8f82b90 Dave Stevenson 2020-01-20  771  				   mode->vts_def - mode->height);
-1283b3b8f82b90 Dave Stevenson 2020-01-20  772  		/* Update max exposure while meeting expected vblanking */
-1283b3b8f82b90 Dave Stevenson 2020-01-20  773  		exposure_max = mode->vts_def - 4;
-1283b3b8f82b90 Dave Stevenson 2020-01-20  774  		exposure_def = (exposure_max < IMX219_EXPOSURE_DEFAULT) ?
-1283b3b8f82b90 Dave Stevenson 2020-01-20  775  			exposure_max : IMX219_EXPOSURE_DEFAULT;
-1283b3b8f82b90 Dave Stevenson 2020-01-20  776  		__v4l2_ctrl_modify_range(imx219->exposure,
-1283b3b8f82b90 Dave Stevenson 2020-01-20  777  					 imx219->exposure->minimum,
-1283b3b8f82b90 Dave Stevenson 2020-01-20  778  					 exposure_max, imx219->exposure->step,
-1283b3b8f82b90 Dave Stevenson 2020-01-20  779  					 exposure_def);
-1283b3b8f82b90 Dave Stevenson 2020-01-20  780  		/*
-1283b3b8f82b90 Dave Stevenson 2020-01-20  781  		 * Currently PPL is fixed to IMX219_PPL_DEFAULT, so hblank
-1283b3b8f82b90 Dave Stevenson 2020-01-20  782  		 * depends on mode->width only, and is not changeble in any
-1283b3b8f82b90 Dave Stevenson 2020-01-20  783  		 * way other than changing the mode.
-1283b3b8f82b90 Dave Stevenson 2020-01-20  784  		 */
-1283b3b8f82b90 Dave Stevenson 2020-01-20  785  		hblank = IMX219_PPL_DEFAULT - mode->width;
-1283b3b8f82b90 Dave Stevenson 2020-01-20  786  		__v4l2_ctrl_modify_range(imx219->hblank, hblank, hblank, 1,
-1283b3b8f82b90 Dave Stevenson 2020-01-20  787  					 hblank);
-1283b3b8f82b90 Dave Stevenson 2020-01-20  788  	}
-1283b3b8f82b90 Dave Stevenson 2020-01-20  789  
-563219f153d5f7 Jacopo Mondi   2023-07-04  790  	*v4l2_subdev_get_pad_format(sd, sd_state, 0) = fmt->format;
-1283b3b8f82b90 Dave Stevenson 2020-01-20  791  
-1283b3b8f82b90 Dave Stevenson 2020-01-20  792  	return 0;
-1283b3b8f82b90 Dave Stevenson 2020-01-20  793  }
-1283b3b8f82b90 Dave Stevenson 2020-01-20  794  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best Regards,
+Jonas
