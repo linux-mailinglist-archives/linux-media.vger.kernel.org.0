@@ -2,250 +2,226 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 45CEB746C21
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 10:39:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71893746C30
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 10:41:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230206AbjGDIjR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jul 2023 04:39:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52464 "EHLO
+        id S231320AbjGDIlz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jul 2023 04:41:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231140AbjGDIiy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 04:38:54 -0400
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63E98101;
-        Tue,  4 Jul 2023 01:38:51 -0700 (PDT)
+        with ESMTP id S230519AbjGDIlx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 04:41:53 -0400
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2081.outbound.protection.outlook.com [40.107.220.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEB4FBE
+        for <linux-media@vger.kernel.org>; Tue,  4 Jul 2023 01:41:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=J/vQ31Ls7ZMyGCOjYGBqFPiiAJza03JOU7FbYjb+DeYw8LDbycpdcTYteuFWO3Yqjf8TB8nw51mmrn68OsKBG/gduFUx8wX6lWaIGTcvysKf6w1ixvWz/xuPW7R3F5fR6+a4gNJp3eowx1NgqQ+cA8PDPBx39J+IevIFzfQhZ9+IabYjAOC0x190J0b/XEjYiwEveYK3VSZrsrQl6MWDZ+slTmDEkJDlrltm+51mAAtR3TRA3XbhKj7TwB9xGGJ4rffFT6xyvCBhkDDMCrR2wA4kTLHhJAqVvhflM/yRQmDwaf4/05NwpAbEmyYQ36DNG+rrdBlmSztnvJ6I38TQ6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1CNEN0Fh1HDum+wB7k1sFqgPPVjOe5++LCBeZcy9QVQ=;
+ b=FryTQ8R6ZpI4EOHq5TPNrYiWvNbOPN/Tm5CTaXChjV9Q6RcDaXvmIdTLoMbmJ/uHIqMN/cxw9QUlYn6OTPEDoeqzvUiC4s2xTRwjB3QDvDSEnu8xVXKRDu9T+bkUrHgFc46ABnxH3Fbs41i1ysGjeFIH+4huwyXt5eS//k+RREPtywT/vsS02+mg1t6ggpGYy9R0Mc8Xel5wBrDouuA0qvVzQndxW6PyMZVa6wVFJnlvrRNIDibqHNbJs1ETSSf3IQCo8jLsPggeLUmA+8FtABSpbgKyevRVfHhHql47+OYrUooFyeYzf3kOf3RZrAiH398iqM8xNTFBtLOkEcGPog==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synaptics.com; dmarc=pass action=none
+ header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1688459931; x=1719995931;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=66rmVFF6mOeNiOClvPDq6VuPrHLwsEe57/SioeogkQA=;
-  b=VtyHCwDb1wohM2TD06MR0BDSR7y4X3jtUyKEiU0dSLWjEf+Uvd+XNtYu
-   PAl5+AmbgGucKc6QM38fUovxST6g6IwafPJbvc/NKvwvMshUl48+uzVMq
-   dPubAXb+Kg767qnYaQTWtem+SXmJhuHiVYXHGhNfKp4JN2AL1JOoK+mQ9
-   YOQk21awhwtjLcCxpOxSW8FbdTZE6FyLoa4/BzCVu/4rkk2fxoVyufEBZ
-   U3tRcaRDCxXqyQRUIHrpo3EWkod5yyvRtZoQ7eldTugHioOhAsYfWos2H
-   2vtG3WZJ1+EskaPpiWS1llXm8VMz6d8iU7zAbjjGNWEHUnD7Xmpju8SPt
-   w==;
-X-IronPort-AV: E=Sophos;i="6.01,180,1684792800"; 
-   d="scan'208";a="31741766"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 04 Jul 2023 10:38:49 +0200
-Received: from steina-w.localnet (unknown [10.123.53.21])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 44526280087;
-        Tue,  4 Jul 2023 10:38:49 +0200 (CEST)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-imx@nxp.com, guoniu.zhou@oss.nxp.com
-Cc:     mchehab@kernel.org, laurent.pinchart@ideasonboard.com,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, jacopo.mondi@ideasonboard.com
-Subject: Re: [PATCH 1/2] media: dt-bindings: Add binding doc for i.MX93 MIPI CSI-2
-Date:   Tue, 04 Jul 2023 10:38:49 +0200
-Message-ID: <2292421.ElGaqSPkdT@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20230703113734.762307-2-guoniu.zhou@oss.nxp.com>
-References: <20230703113734.762307-1-guoniu.zhou@oss.nxp.com> <20230703113734.762307-2-guoniu.zhou@oss.nxp.com>
+ d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1CNEN0Fh1HDum+wB7k1sFqgPPVjOe5++LCBeZcy9QVQ=;
+ b=REoP23VOJgFuZ6+MAf6qS/yK+JaIJE+0kswM+7gPk7a8pKWgyq280ofmtCOp/vyNi86oPEnkMcpgu9kOCdi4VPZtAHkgFKFjQGyGPUKNIJC2XNWHwxJ8Ik9q1xLIecnPIN9ylBHc+5hMxIHAboGU2GiFULZvNE7evbYSULqW+ZA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=synaptics.com;
+Received: from DM6PR03MB5196.namprd03.prod.outlook.com (2603:10b6:5:24a::19)
+ by DM6PR03MB5145.namprd03.prod.outlook.com (2603:10b6:5:1e9::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6544.24; Tue, 4 Jul
+ 2023 08:41:51 +0000
+Received: from DM6PR03MB5196.namprd03.prod.outlook.com
+ ([fe80::6882:b9c1:2b2d:998d]) by DM6PR03MB5196.namprd03.prod.outlook.com
+ ([fe80::6882:b9c1:2b2d:998d%5]) with mapi id 15.20.6544.024; Tue, 4 Jul 2023
+ 08:41:50 +0000
+Message-ID: <3df23ff7-7a62-ed92-b9fb-a988e96c9790@synaptics.com>
+Date:   Tue, 4 Jul 2023 16:41:37 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+From:   Hsia-Jun Li <Randy.Li@synaptics.com>
+Content-Language: en-GB
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: [RFC]: media: mc: storing query status in variable length buffer
+ likes blob in DRM
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        ayaka <ayaka@soulik.info>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>, Brian.Starkey@arm.com,
+        boris.brezillon@collabora.com, frkoenig@chromium.org,
+        hans.verkuil@cisco.com, hiroh@chromium.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Helen Koike <helen.koike@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PH8PR07CA0017.namprd07.prod.outlook.com
+ (2603:10b6:510:2cd::28) To DM6PR03MB5196.namprd03.prod.outlook.com
+ (2603:10b6:5:24a::19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR03MB5196:EE_|DM6PR03MB5145:EE_
+X-MS-Office365-Filtering-Correlation-Id: 192a50aa-ab99-4420-b589-08db7c6a82c4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: voJji+pKjMw/8pYRQ1hFU5101w1vjgmG2S88epc8xaHEyYe/fCFKlMkPiKqif6AIXUhbnZymMeDn4uEGMZvzHh/DJAMduDlDXLKsJ2Rg8wlb8lANcnplwr8Jy1Mjk0cStEGp+l4HJzgqff4NtQk7ABcDhzudFl/b9N7DMtRUnoORW9E89ykkQ3xGNyo6FJ7+OCs6oh7K8CQfsIOWAPoqxEoKwG2tICSPoXlaR+ul9AR5smYNEBkVLGposUXnp3tSfgClMkaww3CgD3ero+9YT3EBCn6tyb/vtXng2TpoK/TdIAL3esrmiFj6ACa3U0l6RS4qibIHLIlQSaB/5mMXJgKQzHBAfcJQ1y9StrHPOUuagH8mUpY7fENCrj1fjgcjqJAlywBMcjnXBOPbCajIb7UoNfEu9DXqttwfbzXXGijNhDJJpvb2AXXXxYb/3+1QVLVy3//zOx1N2voXRedkXdo2cjsdLKV00ZBuFZnLBs+3iCT/zxXKCo5aQeWbwLzVw51xjUqRBSpwEP3qW0UaVgiKW+rMg/gSNoXhTOtUQ3nK7u+N6KKB3bFmlaIU+h0rXy2Kgh4QIP+t/Gf1LE660Vtg0/tZBlL/Omy5hMios5ECVcuTvVxg49PitAtEFYy6DKXezktpBhWns3+d1+xZIGi303iiR4Z8aLatspDIXzcJr+p8wg7nRtQySnamaczV
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR03MB5196.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(366004)(396003)(136003)(346002)(39850400004)(376002)(451199021)(2906002)(41300700001)(8936002)(8676002)(7416002)(36756003)(5660300002)(86362001)(31696002)(186003)(2616005)(31686004)(478600001)(26005)(6506007)(6512007)(6666004)(6486002)(52116002)(316002)(6916009)(66556008)(4326008)(66946007)(38100700002)(38350700002)(54906003)(66476007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZXhDYVplZnJiYVZiTFh5dllXZGFNS1hxUHJjbktsWldpYnA4aEdpaDBmS1ZX?=
+ =?utf-8?B?TUFtRWdDbkgyN3RRMjU0Q3pBRUhXY2hmOFNkUHRCSFFsZngzTXIzN1NWak9U?=
+ =?utf-8?B?QUhmM2lhZms3SUhBRE9Pb012OHVjUzhINGhWa0htME5aMTNSdG9TRE90TXhl?=
+ =?utf-8?B?eS9MaHlTSUo4Y1YxeGgwbEN2THZsQXZ3cmptc0RURFJQdFRUeUFSM05obHNy?=
+ =?utf-8?B?SlcvazZ5RkRWNFB2ZENZd0dSN2VUUzVGc0pjQ0paSFQ4cGhTVi9oNDRQWjRJ?=
+ =?utf-8?B?eUlINlVXZVAzeTVOdm9RUHl4anMrckxBWVpPSEZ1Z3J1SExPVXBpTXhyaFVo?=
+ =?utf-8?B?b2VyWE4zU3lSaGdHNVk3SlJpcmtXWUZ1VGc1TERKd2p5VmlCNjZiSDJoY1RF?=
+ =?utf-8?B?UmUvN2szOTlGQ2g5MGk1TFp1U2NzeUMwVkVkOW5Ib01SZmxFWVhKbDRiRUR1?=
+ =?utf-8?B?YUp1N3d0Y2huRnhOdllKV0tnUkVoc0hJcEszMkpxaDZRT1FKTlc0cGYwZ3N2?=
+ =?utf-8?B?UXFXYlZ0YVF4Vm1GcS96bW8xS0JkWEY0d05LWlV5elJId0twNk5KR3k3UFpD?=
+ =?utf-8?B?MDllZFFOdU52TFRzRWMyWW9INEk3UEI1N2FSWnN4V1I4a29vcm52ajNBVTRD?=
+ =?utf-8?B?a1BvZlRUV3ZMSzVMdklwR2Rmci9hb0x5WGVxOTRwWlRsbnk3OHNDWDluTFd1?=
+ =?utf-8?B?S0NIcEdka1NvTGZYMEwrMGNXeDNLZ3F1YXlVOTc4aHBzYmUxSmtHVEMzcm1D?=
+ =?utf-8?B?UXlERnBrR2cvUHc5QWYwN1RHSklPa1JNK2JWTGlOdEh1Z01EYlU1NXZIWjdt?=
+ =?utf-8?B?MDdMcW1oSnkwZ1BaNUN2WVZDUkRiYjNPdjFnbGZzNDhvQ0Zvb2NySzJhWHl5?=
+ =?utf-8?B?aGI5QXBSTFN0WGpLaFJjOGRFTERYVjZ2MFpUNUxkR0Npdkd6bVJObVdFV1Fq?=
+ =?utf-8?B?SEhuQWNWMFVpL3NuWVV4MmowVVArbE1tYTRXR1FkZjNONFEwQmxhSTkvMm1F?=
+ =?utf-8?B?ZiszQlY1NGdTSXE4QXZhbm1WT1Q1emE2OGFIZklJZVNxVW5ZamJocWhPbXVO?=
+ =?utf-8?B?cDZtZzFSdTltZXUvOXY5ZVZneHJabE8wZXhVbm5oemw0dUhncjE5bGYxNGFt?=
+ =?utf-8?B?eXNpQmxGTlZ1azZweElzNmM5VTBEc293c2FGQWczUlpnWTA1cDZ1Wm5kbEs1?=
+ =?utf-8?B?akQzdkVhWGpSVCswUzE0Vm03YnYyc0w1NHJjREl0RUMwRUNBVUgwbytCbkFC?=
+ =?utf-8?B?U1E0T3FYbDZhMnRvOW1PeTNKR2RqcjZpdkVBbnJpVHl0YWZzTHNjZFhhcVhE?=
+ =?utf-8?B?YmlwRjYzZXQ1YWlySHB5UzNEeUxSbitUYm8wT2dWNmdmVlRKZkhzOFpCMGN0?=
+ =?utf-8?B?dzl1cmhHMDRIOUxrc1paSUc1ejhYQ3pPYUZ5dk9SWEErOThWMS9RdGl6V3NU?=
+ =?utf-8?B?bmcwY0NBc2VNcjRKWG14dERzUDArZmF4YmFOc2h3K2p6Z1ZGajVDNmFzdDJy?=
+ =?utf-8?B?NG5sVzJnbFE4MWprUlRRRVNpYnI3dkpDTkFuMjh5Wm0wY2VIU1krQnVxV1Va?=
+ =?utf-8?B?NE5GLzhzQmYrNHI4dEVBalRkcEV4SEdRTGpSaVhDa3pMdDZSNjQvbG11Skox?=
+ =?utf-8?B?by9wTktpUkNBc0tONDdJVzZ6ZDBZL2pjbVRoZ2FnMitHcVgra0VYN0pZdkRN?=
+ =?utf-8?B?S043NlU1eHhXb1N3UytEVWdiSnJabmFyYXlla3lZSnhMT0ZEbDJZVHBCaXlT?=
+ =?utf-8?B?UmY4QjQ3UzJwRVQ4b3BITk96RkZFbEF6VjFVTGhlOThhTG12aVo4MzVxQnVv?=
+ =?utf-8?B?Rnc0THRURjFPeVI5S1M1ME5NQlNjRkoxV08wVTljdnlGemU0Mm1Ndit3NmRM?=
+ =?utf-8?B?ckxhVFgzbFBKdEFjbXdZRElJYVFnT3RMZUtVazRESHl2TWxOTEpRWVdSTTJJ?=
+ =?utf-8?B?TmQvSTV4V0Y0dTRSS0dLc2RyUHI0cW1OUU1nMEkwRlNmS0FqWnZtdDRVR09j?=
+ =?utf-8?B?Z2pjS0U1YmNua1UwUlo1cVUzQll6MW1la2F4UENPcTdZTlViRDdmaEVGUFpr?=
+ =?utf-8?B?T2xFNnJHUWJtRlNVNVM0UDlwbnRjaUlwZnF3ZkV0VndPdFRjR0s4cWVEeUd0?=
+ =?utf-8?Q?zzy7JKEMNy4mrvXK6QsMtgw4O?=
+X-OriginatorOrg: synaptics.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 192a50aa-ab99-4420-b589-08db7c6a82c4
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR03MB5196.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jul 2023 08:41:50.6209
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pR+CilBbe35/PBKvQfdTU3fJbCQmxQxz+f4Ga8EyCQsVnqIWkTTr9DY30INys03FMCEn2CPkWpBtbfIoOkybuQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR03MB5145
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Guoniu,
+Hello All
 
-thanks for posting this driver.
+This RFC will address the problem that some ioctl() commands would be 
+called many times until that command got all the all its entries. Those 
+ioctl() command are:
 
-Am Montag, 3. Juli 2023, 13:37:33 CEST schrieb guoniu.zhou@oss.nxp.com:
-> ********************
-> Achtung externe E-Mail: =D6ffnen Sie Anh=E4nge und Links nur, wenn Sie wi=
-ssen,
-> dass diese aus einer sicheren Quelle stammen und sicher sind. Leiten Sie
-> die E-Mail im Zweifelsfall zur Pr=FCfung an den IT-Helpdesk weiter.
-> Attention external email: Open attachments and links only if you know that
-> they are from a secure source and are safe. In doubt forward the email to
-> the IT-Helpdesk to check it. ********************
->=20
-> From: "Guoniu.zhou" <guoniu.zhou@nxp.com>
->=20
-> Add new binding documentation for DesignWare Core MIPI CSI-2 receiver
-> and DPHY found on NXP i.MX93.
->=20
-> Signed-off-by: Guoniu.zhou <guoniu.zhou@nxp.com>
-> ---
->  .../bindings/media/nxp,dwc-mipi-csi2.yaml     | 140 ++++++++++++++++++
->  1 file changed, 140 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/media/nxp,dwc-mipi-csi2.ya=
-ml
-> b/Documentation/devicetree/bindings/media/nxp,dwc-mipi-csi2.yaml new file
-> mode 100644
-> index 000000000000..ece6fb8991d4
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/nxp,dwc-mipi-csi2.yaml
-> @@ -0,0 +1,140 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/nxp,dwc-mipi-csi2.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: NXP i.MX93 MIPI CSI-2 Host Controller receiver
-> +
-> +maintainers:
-> +  - G.N. Zhou <guoniu.zhou@nxp.com>
-> +
-> +description: |-
-> +  The MIPI CSI-2 receiver found on i.MX93 originates from Synopsys
-> +  DesignWare Core and it implements the CSI-2 protocol on the host
-> +  side and a DPHY configured as a Slave acts as the physical layer.
-> +  Two data lanes are supported on i.MX93 family devices and the data
-> +  rate of each lane support up to 1.5Gbps.
-> +
-> +  While the CSI-2 receiver is separate from the MIPI D-PHY IP core,
-> +  the PHY is completely wrapped by the CSI-2 controller and expose
-> +  a control interface which only can communicate with CSI-2 controller
-> +  This binding thus covers both IP cores.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - fsl,imx93-mipi-csi2
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: The peripheral clock (a.k.a. APB clock)
-> +      - description: The pixel clock
-> +      - description: The MIPI D-PHY clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: per
-> +      - const: pixel
-> +      - const: phy_cfg
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description:
-> +          Input port node, single endpoint describing the CSI-2
-> transmitter. +
-> +        properties:
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              data-lanes:
-> +                minItems: 1
-> +                items:
-> +                  - const: 1
-> +                  - const: 2
-> +
-> +              fsl,hsfreqrange:
-> +                $ref: /schemas/types.yaml#/definitions/uint32
-> +                description:
-> +                  Used to select the desired high speed frequency range
-> +                  according to data lane bit rate. Please refer to i.MX93
-> +                  reference manual MIPI CSI-2 DPHY chapter to get a valid
-> +                  value.
+- VIDIOC_ENUM_FMT
 
-If this is data lane bit rate specific, shouldn't it be set in s_stream=20
-callback or similar?
+- VIDIOC_QUERYCTRL
 
-Best regards,
-Alexander
+- VIDIOC_ENUMSTD and VIDIOC_SUBDEV_ENUMSTD
 
-> +
-> +            required:
-> +              - data-lanes
-> +              - fsl,hsfreqrange
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Output port node
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - power-domains
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/imx93-clock.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/power/fsl,imx93-power.h>
-> +
-> +    mipi-csi@4ae00000 {
-> +        compatible =3D "fsl,imx93-mipi-csi2";
-> +        reg =3D <0x4ae00000 0x10000>;
-> +        interrupts =3D <GIC_SPI 175 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks =3D <&clks IMX93_CLK_MIPI_CSI_GATE>,
-> +                 <&clks IMX93_CLK_CAM_PIX>,
-> +                 <&clks IMX93_CLK_MIPI_PHY_CFG>;
-> +        clock-names =3D "per", "pixel", "phy_cfg";
-> +        power-domains =3D <&media_blk_ctrl IMX93_MEDIABLK_PD_MIPI_CSI>;
-> +
-> +        ports {
-> +            #address-cells =3D <1>;
-> +            #size-cells =3D <0>;
-> +
-> +            port@0 {
-> +                reg =3D <0>;
-> +
-> +                mipi_from_sensor: endpoint {
-> +                    remote-endpoint =3D <&ap1302_to_mipi>;
-> +                    data-lanes =3D <1 2>;
-> +                    fsl,hsfreqrange =3D <0x2c>;
-> +                };
-> +            };
-> +
-> +            port@1 {
-> +                reg =3D <1>;
-> +
-> +                mipi_to_isi: endpoint {
-> +                    remote-endpoint =3D <&isi_in>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +...
+Generally speaking, all enumeration type commands would lead to 
+frequently context switch between userspace  and kernel space. A few 
+enumeration commands listed below may not meet this problem in some 
+cases, as they could present their entries in a step wise way.
+
+- VIDIOC_ENUM_FRAMESIZES
+
+- VIDIOC_ENUM_FRAMEINTERVALS
 
 
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
+A simple solution that we could bring and improve from DRM is the blob 
+object(struct drm_property_blob).
 
+We could extend the existing ioctl() in this way:
+
+1. VIDIOC_ENUM_EXT_FMT would turn a blob id and the memory size 
+requirement that usespace should prepare
+
+for storing.
+
+2. Appication call VIDIOC_GETPROPBLOB with blob id and a userspace 
+pointer which should be enough for storing.
+
+3. V4L2 framework fill the that userptr with context likes this:
+
+struct v4l2_blob_prop {
+
+__u32 version;
+
+__u32 payload_size;
+
+__u32 payload[];
+
+};
+
+4. The parsing of payload would depend on its version which 
+v4l2_blob_prop.version says, and each entry in the payload could be 
+variable length, likes this:
+
+struct v4l2_ext_pix_mod_desc {
+
+__u64 modifier;
+
+__u64 allocate_hints; /* heap flags shard by DMA-heap */
+
+__u32 num_of_planes;
+
+__u32 plane_sizes[8];
+
+__u32 colorimetry_flags;
+
+};
+
+struct v4l2_ext_pix_desc {
+
+__u32 fourcc;
+
+__u32 num_of_modifies;
+
+struct v4l2_ext_pix_mod_desc[];
+
+};
+
+
+In this design, we could avoid the problem that we could hardly extend 
+our uAPI for V4L2, all the structure must be a fixed size.
+
+Here are some options design that people want for this RFC:
+
+1. Do we need to call the ioctl() command itself(likes 
+VIDIOC_ENUM_EXT_FMT) which let the driver to flush its internal property 
+cache or calling VIDIOC_GETPROPBLOB is enough?
+
+2. Should we make MC node support this feature only or standard video 
+node could? A thought from pinchartl is that every driver should have a 
+MC node even for the stateful driver.
+
+
+The implementation of RFC could be a foundation for ext pixel and ext 
+buffer APIs. I would like to know your feedback before we settle the 
+problem with the ext pixel format.
+
+-- 
+Hsia-Jun(Randy) Li
 
