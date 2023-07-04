@@ -2,231 +2,303 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A12B0746FD1
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 13:23:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4032B746FDB
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 13:26:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229895AbjGDLXq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jul 2023 07:23:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42572 "EHLO
+        id S230490AbjGDL0n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jul 2023 07:26:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbjGDLXp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 07:23:45 -0400
-Received: from mail-vk1-xa33.google.com (mail-vk1-xa33.google.com [IPv6:2607:f8b0:4864:20::a33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7BF69D
-        for <linux-media@vger.kernel.org>; Tue,  4 Jul 2023 04:23:42 -0700 (PDT)
-Received: by mail-vk1-xa33.google.com with SMTP id 71dfb90a1353d-47e3d3e859dso626975e0c.3
-        for <linux-media@vger.kernel.org>; Tue, 04 Jul 2023 04:23:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1688469822; x=1691061822;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ok5HgP9Tq50/Zh37AN740soKJISQQJG03hKFvbCGzOY=;
-        b=VAEnlMLb9CARaWu8F+M+/usshyX8zM+k0/ohhyf822G3YL/GIv/ZmFHhuyeLq/6L0b
-         d2Ww80ZCnBatZkr04eNKdEOdEH7FnDC3dxI4WWx4QguvVPUy9UCliY6tlt4R0Yn9x1YF
-         BV1jnrDE1+H+RRpQOJ5a1EGyZ71utc9aBq6tEoT3VaNBqWIJmFiOIxVzaR+Q6FG9eRYs
-         Zx3oEb6ezrdyQEfG54lIwDVpwh7G0nmVYYrtg+NYREji1gzd2RYP4GnrT6+JOYbnyytS
-         9QMAr19cVKTp3RFa4pb0XeitZMUf6IEpP0If0+i/JobpKWJHG6HsLPqp5A/Hry5LTfOr
-         K7VQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688469822; x=1691061822;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ok5HgP9Tq50/Zh37AN740soKJISQQJG03hKFvbCGzOY=;
-        b=CvciCjSMVdaXuFnKoHVC5jduv5+2Kv1y0LoHWubJqmglJyS7JAI6Z57LAvF7Yz51ev
-         GpWpaEf80IvNfm2pQASHOqmJHkz/UacIEo2SznQI1nshja5eiB3nxZpQJaKWZgFD5Rn+
-         7F+aSwPvFkS3AyfYKSBmNYqt9pie7ZAQzaXUeZStWRLwHMgQ/vM0FEABnjPnKsMwZfXH
-         Af9Da6UH8XOfiq3C5Cm7mNzwt8wJxpLFq2+LxM8ymIl472XiVZV9oRthpf6CkT6Sb1Xu
-         M6RrQzrgFwNWh0+uxN5mhOQbeXvlPJ33x3aITq/5vRzmuW9aRitIMlK1yXhBsxCKAKI4
-         ed4Q==
-X-Gm-Message-State: ABy/qLa8fmzN1oVa/gfkBP035Nlm91fYeIno186HeMk9Jy8GRIa0yAdH
-        qAN0p2hoyXx45Ch6aFt/GzTLIVjzH1PAGlqsGRyTFg==
-X-Google-Smtp-Source: APBJJlFQg5WKPsbWIq70ifVM3SQd5vpHatQ6L0d9DZdUD0FEqLnQ7GHmjyEkCqhccIvqOGGZZZHWcdqztHpC7J305SQ=
-X-Received: by 2002:a1f:5ed6:0:b0:47e:fd6:6d77 with SMTP id
- s205-20020a1f5ed6000000b0047e0fd66d77mr5293245vkb.3.1688469821737; Tue, 04
- Jul 2023 04:23:41 -0700 (PDT)
+        with ESMTP id S231127AbjGDL0n (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 07:26:43 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C7AEF2
+        for <linux-media@vger.kernel.org>; Tue,  4 Jul 2023 04:26:39 -0700 (PDT)
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B56079B9;
+        Tue,  4 Jul 2023 13:25:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1688469953;
+        bh=o4d93Dx9cGncrhb4wsi764uok9c7lNEVK7B0hAUJFF4=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=eWVVvTNs4uk6acXuygQvs59Z9qPIVqDV27BfbnuDdL/NH57WgYFnwLfo2/9wnDYrF
+         yVp9Zbta57v/Za+FVgGCcZLnpuTzlbDSQmUNUPl1HbJqfemqaLu/jZMuiq9qw3FXXZ
+         3hmxYUMVZm8YPUAUg6x4npV8r+AnMuxYzIRv7p5U=
+Message-ID: <c2136a12-3907-5cba-a87d-2d2b86dbfd40@ideasonboard.com>
+Date:   Tue, 4 Jul 2023 12:26:33 +0100
 MIME-Version: 1.0
-References: <20230627131830.54601-1-hdegoede@redhat.com> <20230627131830.54601-29-hdegoede@redhat.com>
- <6f3d903c-acdc-983c-216b-45792a71d603@ideasonboard.com> <750f6763-d08a-efe1-f75e-b8c3a10b7c46@redhat.com>
-In-Reply-To: <750f6763-d08a-efe1-f75e-b8c3a10b7c46@redhat.com>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Tue, 4 Jul 2023 12:23:25 +0100
-Message-ID: <CAPY8ntA4NexYVDuuw6-vqLJ33zz7jx+qN9bzx6c3wVGgF51ZfQ@mail.gmail.com>
-Subject: Re: [PATCH v3 28/29] media: ov2680: Add link-freq and pixel-rate controls
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Dan Scally <dan.scally@ideasonboard.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2 08/15] media: ipu-bridge: Add a ipu_bridge_parse_ssdb()
+ helper function
+Content-Language: en-US
+To:     Hans de Goede <hdegoede@redhat.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-        Tommaso Merciai <tomm.merciai@gmail.com>,
+        Hao Yao <hao.yao@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
         linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20230630110643.209761-1-hdegoede@redhat.com>
+ <20230630110643.209761-9-hdegoede@redhat.com>
+From:   Dan Scally <dan.scally@ideasonboard.com>
+In-Reply-To: <20230630110643.209761-9-hdegoede@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans and Dan
 
-On Tue, 4 Jul 2023 at 10:45, Hans de Goede <hdegoede@redhat.com> wrote:
+On 30/06/2023 13:06, Hans de Goede wrote:
+> The code to go from ACPI sensor info to a fwnode-tree with connector
+> nodes and endpoint properties is 99% the same for the atomisp2 and
+> the IPU3.
 >
-> Hi Dan,
+> The main difference is that atomisp2 devices do not have a SSDB table
+> with various info.
 >
-> On 7/4/23 11:22, Dan Scally wrote:
-> > Morning Hans
-> >
-> > On 27/06/2023 15:18, Hans de Goede wrote:
-> >> Add read-only link-freq and pixel-rate controls. This is necessary for
-> >> the sensor to work with the ipu3-cio2 driver and for libcamera.
-> >>
-> >> Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
-> >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> >> ---
-> >>   drivers/media/i2c/ov2680.c | 23 +++++++++++++++++++++++
-> >>   1 file changed, 23 insertions(+)
-> >>
-> >> diff --git a/drivers/media/i2c/ov2680.c b/drivers/media/i2c/ov2680.c
-> >> index 8bc542df1890..95d3152ddd22 100644
-> >> --- a/drivers/media/i2c/ov2680.c
-> >> +++ b/drivers/media/i2c/ov2680.c
-> >> @@ -75,6 +75,12 @@
-> >>   #define OV2680_MIN_CROP_WIDTH            2
-> >>   #define OV2680_MIN_CROP_HEIGHT            2
-> >>   +/* Fixed pre-div of 1/2 */
-> >> +#define OV2680_PLL_PREDIV0            2
-> >> +
-> >> +/* Pre-div configurable through reg 0x3080, left at its default of 0x=
-02 : 1/2 */
-> >> +#define OV2680_PLL_PREDIV            2
-> >> +
-> >>   /* 66MHz pixel clock: 66MHz / 1704 * 1294 =3D 30fps */
-> >>   #define OV2680_PIXELS_PER_LINE            1704
-> >>   #define OV2680_LINES_PER_FRAME            1294
-> >> @@ -118,6 +124,8 @@ struct ov2680_ctrls {
-> >>       struct v4l2_ctrl *hflip;
-> >>       struct v4l2_ctrl *vflip;
-> >>       struct v4l2_ctrl *test_pattern;
-> >> +    struct v4l2_ctrl *link_freq;
-> >> +    struct v4l2_ctrl *pixel_rate;
-> >>   };
-> >>     struct ov2680_mode {
-> >> @@ -145,6 +153,8 @@ struct ov2680_dev {
-> >>       struct clk            *xvclk;
-> >>       u32                xvclk_freq;
-> >>       u8                pll_mult;
-> >> +    s64                link_freq[1];
-> >> +    s64                pixel_rate;
-> >>       struct regulator_bulk_data    supplies[OV2680_NUM_SUPPLIES];
-> >>         struct gpio_desc        *pwdn_gpio;
-> >> @@ -906,6 +916,12 @@ static int ov2680_v4l2_register(struct ov2680_dev=
- *sensor)
-> >>       ctrls->gain =3D v4l2_ctrl_new_std(hdl, ops, V4L2_CID_GAIN,
-> >>                       0, 1023, 1, 250);
-> >>   +    ctrls->link_freq =3D v4l2_ctrl_new_int_menu(hdl, NULL, V4L2_CID=
-_LINK_FREQ,
-> >> +                          0, 0, sensor->link_freq);
-> >> +    ctrls->pixel_rate =3D v4l2_ctrl_new_std(hdl, NULL, V4L2_CID_PIXEL=
-_RATE,
-> >> +                          0, sensor->pixel_rate,
-> >> +                          1, sensor->pixel_rate);
-> >> +
-> >>       if (hdl->error) {
-> >>           ret =3D hdl->error;
-> >>           goto cleanup_entity;
-> >> @@ -913,6 +929,7 @@ static int ov2680_v4l2_register(struct ov2680_dev =
-*sensor)
-> >>         ctrls->vflip->flags |=3D V4L2_CTRL_FLAG_MODIFY_LAYOUT;
-> >>       ctrls->hflip->flags |=3D V4L2_CTRL_FLAG_MODIFY_LAYOUT;
-> >> +    ctrls->link_freq->flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
-> >>         sensor->sd.ctrl_handler =3D hdl;
-> >>   @@ -1030,6 +1047,12 @@ static int ov2680_parse_dt(struct ov2680_dev =
-*sensor)
-> >>         sensor->pll_mult =3D ov2680_pll_multipliers[i];
-> >>   +    sensor->link_freq[0] =3D sensor->xvclk_freq / OV2680_PLL_PREDIV=
-0 /
-> >> +                   OV2680_PLL_PREDIV * sensor->pll_mult;
-> >> +
-> >> +    /* CSI-2 is double data rate, bus-format is 10 bpp */
-> >> +    sensor->pixel_rate =3D sensor->link_freq[0] * 2 / 10;
-> >
-> >
-> > I'm a little unsure on this one. My understanding is that the link freq=
-uency really ought to come from the endpoint properties (which in our case =
-would be set by the ipu-bridge; though it doesn't for this sensor at the mo=
-ment because I didn't understand it properly back then) because it's a plat=
-form specific thing. What the value should be, I have been determining by r=
-eading the PLL settings for the sensor whilst the laptop's running Windows.=
- So whilst this is probably technically fine in supporting the link frequen=
-cy that the driver already expects to configure for whatever platform this =
-was originally designed for, my guess would be that the Miix expects a diff=
-erent link frequency and ideally we'd support that instead. For example see=
- these commits for the ov7251:
+> Abstract out the parsing of the sensor's ACPI fwnode into a helper
+> function and store the parsed results, rather then the raw SSDB
+> in struct ipu_sensor.
 >
-> The datasheet is clear that the ov2680 is intended to be used with
-> a fixed pixelclock of 66 MHz:
+> This is a preparation patch for making the ipu-bridge code more generic
+> so that it can be shared with the atomisp driver.
 >
-> "2.2 architecture
->
-> The OV2680 sensor core generates streaming pixel data at a constant
-> frame rate to a pixel clock of 66 MHz."
->
-> and the ov2680 always operates in single lane mode. So there really is
-> not much to configure here.
->
-> Also the datasheet only contains a rudimentary description of the PLL,
-> which is not really enough to write a function to configure the PLL for
-> arbitrary link-frequencies.
+> Reviewed-by: Andy Shevchenko <andy@kernel.org>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
 
-Working from an OV2680 datasheet I've found on the internet [1] I'll
-agree with you that the pixel clock is intended only ever to be 66MHz.
 
-With the FIFO at the front of the "image output interface" in fig 2-1,
-and the dividers shown in fig 2-8, the link frequencies could differ
-from one fixed ratio from the pixel clock.
-Not being able to produce fully arbitrary link frequencies is totally
-acceptable in a driver, so there's no obligation to understand or
-control those dividers.
+Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
 
-> The adjustment to make the sensor work with a 19.2MHz xvclk instead
-> of the default 24 MHz comes from the atomisp code. How to make other
-> adjustments would pretty much be guess work.
+>   drivers/media/pci/intel/ipu-bridge.c | 96 +++++++++++++++-------------
+>   drivers/media/pci/intel/ipu-bridge.h |  8 ++-
+>   2 files changed, 59 insertions(+), 45 deletions(-)
 >
-> I guess we could add code to check the link-frequencies and check
-> that there is only 1 and it matches the expected 330 MHz then the driver
-> still honors the link-frequencies property while at the same time
-> sticking with the fixed setup the sensor is intended to be used with.
->
-> Would adding a link-frequency check like that work for you ?
-
-This is the approach taken in other drivers - see imx214 and imx219
-for 2 examples (I've not gone looking for more).
-
-> And if yes what should the link-frequency control return then,
-> the actual achieved frequency (this would be better IMHO) or
-> the one from the property ?
-
-You've checked that the link-frequency matches the expected 330MHz, so
-isn't the actual achieved frequency the same as the one configured?
-I'm confused by your statement.
-
-I'm assuming that it's the ipu3-cio that needs link-frequency, as
-AFAIK libcamera doesn't.
-
-  Dave
-
-[1] http://www.datasheet.es/PDF/1045403/OV2680-pdf.html
-
-> Regards,
->
-> Hans
->
->
+> diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
+> index 3a984d688b42..daa9dde78c64 100644
+> --- a/drivers/media/pci/intel/ipu-bridge.c
+> +++ b/drivers/media/pci/intel/ipu-bridge.c
+> @@ -97,17 +97,18 @@ static int ipu_bridge_read_acpi_buffer(struct acpi_device *adev, char *id,
+>   	return ret;
+>   }
+>   
+> -static u32 ipu_bridge_parse_rotation(struct ipu_sensor *sensor)
+> +static u32 ipu_bridge_parse_rotation(struct acpi_device *adev,
+> +				     struct ipu_sensor_ssdb *ssdb)
+>   {
+> -	switch (sensor->ssdb.degree) {
+> +	switch (ssdb->degree) {
+>   	case IPU_SENSOR_ROTATION_NORMAL:
+>   		return 0;
+>   	case IPU_SENSOR_ROTATION_INVERTED:
+>   		return 180;
+>   	default:
+> -		dev_warn(&sensor->adev->dev,
+> +		dev_warn(&adev->dev,
+>   			 "Unknown rotation %d. Assume 0 degree rotation\n",
+> -			 sensor->ssdb.degree);
+> +			 ssdb->degree);
+>   		return 0;
+>   	}
+>   }
+> @@ -147,17 +148,43 @@ static enum v4l2_fwnode_orientation ipu_bridge_parse_orientation(struct acpi_dev
+>   	return orientation;
+>   }
+>   
+> +static int ipu_bridge_parse_ssdb(struct acpi_device *adev,
+> +				 struct ipu_sensor *sensor)
+> +{
+> +	struct ipu_sensor_ssdb ssdb = {};
+> +	int ret;
+> +
+> +	ret = ipu_bridge_read_acpi_buffer(adev, "SSDB", &ssdb, sizeof(ssdb));
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (ssdb.vcmtype > ARRAY_SIZE(ipu_vcm_types)) {
+> +		dev_warn(&adev->dev, "Unknown VCM type %d\n", ssdb.vcmtype);
+> +		ssdb.vcmtype = 0;
+> +	}
+> +
+> +	if (ssdb.lanes > IPU_MAX_LANES) {
+> +		dev_err(&adev->dev, "Number of lanes in SSDB is invalid\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	sensor->link = ssdb.link;
+> +	sensor->lanes = ssdb.lanes;
+> +	sensor->mclkspeed = ssdb.mclkspeed;
+> +	sensor->rotation = ipu_bridge_parse_rotation(adev, &ssdb);
+> +	sensor->orientation = ipu_bridge_parse_orientation(adev);
+> +
+> +	if (ssdb.vcmtype)
+> +		sensor->vcm_type = ipu_vcm_types[ssdb.vcmtype - 1];
+> +
+> +	return 0;
+> +}
+> +
+>   static void ipu_bridge_create_fwnode_properties(
+>   	struct ipu_sensor *sensor,
+>   	struct ipu_bridge *bridge,
+>   	const struct ipu_sensor_config *cfg)
+>   {
+> -	u32 rotation;
+> -	enum v4l2_fwnode_orientation orientation;
+> -
+> -	rotation = ipu_bridge_parse_rotation(sensor);
+> -	orientation = ipu_bridge_parse_orientation(sensor->adev);
+> -
+>   	sensor->prop_names = prop_names;
+>   
+>   	sensor->local_ref[0] = SOFTWARE_NODE_REFERENCE(&sensor->swnodes[SWNODE_IPU_ENDPOINT]);
+> @@ -165,14 +192,14 @@ static void ipu_bridge_create_fwnode_properties(
+>   
+>   	sensor->dev_properties[0] = PROPERTY_ENTRY_U32(
+>   					sensor->prop_names.clock_frequency,
+> -					sensor->ssdb.mclkspeed);
+> +					sensor->mclkspeed);
+>   	sensor->dev_properties[1] = PROPERTY_ENTRY_U32(
+>   					sensor->prop_names.rotation,
+> -					rotation);
+> +					sensor->rotation);
+>   	sensor->dev_properties[2] = PROPERTY_ENTRY_U32(
+>   					sensor->prop_names.orientation,
+> -					orientation);
+> -	if (sensor->ssdb.vcmtype) {
+> +					sensor->orientation);
+> +	if (sensor->vcm_type) {
+>   		sensor->vcm_ref[0] =
+>   			SOFTWARE_NODE_REFERENCE(&sensor->swnodes[SWNODE_VCM]);
+>   		sensor->dev_properties[3] =
+> @@ -184,8 +211,7 @@ static void ipu_bridge_create_fwnode_properties(
+>   					V4L2_FWNODE_BUS_TYPE_CSI2_DPHY);
+>   	sensor->ep_properties[1] = PROPERTY_ENTRY_U32_ARRAY_LEN(
+>   					sensor->prop_names.data_lanes,
+> -					bridge->data_lanes,
+> -					sensor->ssdb.lanes);
+> +					bridge->data_lanes, sensor->lanes);
+>   	sensor->ep_properties[2] = PROPERTY_ENTRY_REF_ARRAY(
+>   					sensor->prop_names.remote_endpoint,
+>   					sensor->local_ref);
+> @@ -198,8 +224,7 @@ static void ipu_bridge_create_fwnode_properties(
+>   
+>   	sensor->ipu_properties[0] = PROPERTY_ENTRY_U32_ARRAY_LEN(
+>   					sensor->prop_names.data_lanes,
+> -					bridge->data_lanes,
+> -					sensor->ssdb.lanes);
+> +					bridge->data_lanes, sensor->lanes);
+>   	sensor->ipu_properties[1] = PROPERTY_ENTRY_REF_ARRAY(
+>   					sensor->prop_names.remote_endpoint,
+>   					sensor->remote_ref);
+> @@ -209,18 +234,17 @@ static void ipu_bridge_init_swnode_names(struct ipu_sensor *sensor)
+>   {
+>   	snprintf(sensor->node_names.remote_port,
+>   		 sizeof(sensor->node_names.remote_port),
+> -		 SWNODE_GRAPH_PORT_NAME_FMT, sensor->ssdb.link);
+> +		 SWNODE_GRAPH_PORT_NAME_FMT, sensor->link);
+>   	snprintf(sensor->node_names.port,
+>   		 sizeof(sensor->node_names.port),
+>   		 SWNODE_GRAPH_PORT_NAME_FMT, 0); /* Always port 0 */
+>   	snprintf(sensor->node_names.endpoint,
+>   		 sizeof(sensor->node_names.endpoint),
+>   		 SWNODE_GRAPH_ENDPOINT_NAME_FMT, 0); /* And endpoint 0 */
+> -	if (sensor->ssdb.vcmtype) {
+> -		/* append ssdb.link to distinguish nodes with same model VCM */
+> +	if (sensor->vcm_type) {
+> +		/* append link to distinguish nodes with same model VCM */
+>   		snprintf(sensor->node_names.vcm, sizeof(sensor->node_names.vcm),
+> -			 "%s-%u", ipu_vcm_types[sensor->ssdb.vcmtype - 1],
+> -			 sensor->ssdb.link);
+> +			 "%s-%u", sensor->vcm_type, sensor->link);
+>   	}
+>   }
+>   
+> @@ -233,7 +257,7 @@ static void ipu_bridge_init_swnode_group(struct ipu_sensor *sensor)
+>   	sensor->group[SWNODE_SENSOR_ENDPOINT] = &nodes[SWNODE_SENSOR_ENDPOINT];
+>   	sensor->group[SWNODE_IPU_PORT] = &nodes[SWNODE_IPU_PORT];
+>   	sensor->group[SWNODE_IPU_ENDPOINT] = &nodes[SWNODE_IPU_ENDPOINT];
+> -	if (sensor->ssdb.vcmtype)
+> +	if (sensor->vcm_type)
+>   		sensor->group[SWNODE_VCM] =  &nodes[SWNODE_VCM];
+>   }
+>   
+> @@ -268,13 +292,12 @@ static void ipu_bridge_instantiate_vcm_i2c_client(struct ipu_sensor *sensor)
+>   	struct i2c_board_info board_info = { };
+>   	char name[16];
+>   
+> -	if (!sensor->ssdb.vcmtype)
+> +	if (!sensor->vcm_type)
+>   		return;
+>   
+>   	snprintf(name, sizeof(name), "%s-VCM", acpi_dev_name(sensor->adev));
+>   	board_info.dev_name = name;
+> -	strscpy(board_info.type, ipu_vcm_types[sensor->ssdb.vcmtype - 1],
+> -		ARRAY_SIZE(board_info.type));
+> +	strscpy(board_info.type, sensor->vcm_type, ARRAY_SIZE(board_info.type));
+>   	board_info.swnode = &sensor->swnodes[SWNODE_VCM];
+>   
+>   	sensor->vcm_i2c_client =
+> @@ -325,27 +348,12 @@ static int ipu_bridge_connect_sensor(const struct ipu_sensor_config *cfg,
+>   		 */
+>   		sensor->adev = adev;
+>   
+> -		ret = ipu_bridge_read_acpi_buffer(adev, "SSDB",
+> -						  &sensor->ssdb,
+> -						  sizeof(sensor->ssdb));
+> +		ret = ipu_bridge_parse_ssdb(adev, sensor);
+>   		if (ret)
+>   			goto err_put_adev;
+>   
+>   		snprintf(sensor->name, sizeof(sensor->name), "%s-%u",
+> -			 cfg->hid, sensor->ssdb.link);
+> -
+> -		if (sensor->ssdb.vcmtype > ARRAY_SIZE(ipu_vcm_types)) {
+> -			dev_warn(&adev->dev, "Unknown VCM type %d\n",
+> -				 sensor->ssdb.vcmtype);
+> -			sensor->ssdb.vcmtype = 0;
+> -		}
+> -
+> -		if (sensor->ssdb.lanes > IPU_MAX_LANES) {
+> -			dev_err(&adev->dev,
+> -				"Number of lanes in SSDB is invalid\n");
+> -			ret = -EINVAL;
+> -			goto err_put_adev;
+> -		}
+> +			 cfg->hid, sensor->link);
+>   
+>   		ipu_bridge_create_fwnode_properties(sensor, bridge, cfg);
+>   		ipu_bridge_create_connection_swnodes(bridge, sensor);
+> diff --git a/drivers/media/pci/intel/ipu-bridge.h b/drivers/media/pci/intel/ipu-bridge.h
+> index 907ca833a7c1..a8b89c4b95bc 100644
+> --- a/drivers/media/pci/intel/ipu-bridge.h
+> +++ b/drivers/media/pci/intel/ipu-bridge.h
+> @@ -5,6 +5,7 @@
+>   
+>   #include <linux/property.h>
+>   #include <linux/types.h>
+> +#include <media/v4l2-fwnode.h>
+>   
+>   struct i2c_client;
+>   
+> @@ -123,7 +124,12 @@ struct ipu_sensor {
+>   	struct software_node swnodes[SWNODE_COUNT];
+>   	struct ipu_node_names node_names;
+>   
+> -	struct ipu_sensor_ssdb ssdb;
+> +	u8 link;
+> +	u8 lanes;
+> +	u32 mclkspeed;
+> +	u32 rotation;
+> +	enum v4l2_fwnode_orientation orientation;
+> +	const char *vcm_type;
+>   
+>   	struct ipu_property_names prop_names;
+>   	struct property_entry ep_properties[5];
