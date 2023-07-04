@@ -2,122 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E3337475A8
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 17:53:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2218747648
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 18:17:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231481AbjGDPxe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jul 2023 11:53:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53442 "EHLO
+        id S231367AbjGDQRK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jul 2023 12:17:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230379AbjGDPxd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 11:53:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 674D8E76
-        for <linux-media@vger.kernel.org>; Tue,  4 Jul 2023 08:52:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1688485968;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Zk3Vv8BnZlJ+Djwrcd1Wi7b1Ft5eDNE/4tdeZJe6nkg=;
-        b=WOiv6y8TzvXwtnPSe4ioGMGi/zmRppjsbw8ua8qtmYcDxgsyWlhbjaqToJcvABtfcZeib0
-        bBMtR+cmH6XhWGwVAA2HiX211AFXky8YOclQwXeI+h9i2ngVEd00ZKiWi0L1c+eHZCUgMn
-        iIbgsj/nuZQWWxPnQI8SNfgrf1UaxVw=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-138-d3Alqp7_MY-K2LnryLwYig-1; Tue, 04 Jul 2023 11:52:47 -0400
-X-MC-Unique: d3Alqp7_MY-K2LnryLwYig-1
-Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-51dede4f01eso3073732a12.0
-        for <linux-media@vger.kernel.org>; Tue, 04 Jul 2023 08:52:46 -0700 (PDT)
+        with ESMTP id S230316AbjGDQRK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 12:17:10 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4511DA
+        for <linux-media@vger.kernel.org>; Tue,  4 Jul 2023 09:17:08 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-977e0fbd742so674337666b.2
+        for <linux-media@vger.kernel.org>; Tue, 04 Jul 2023 09:17:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=semihalf.com; s=google; t=1688487427; x=1691079427;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0zoSLxvXdWi/Yl+BEgvp6RDAlMoTsWmGbOp6gCR7ij0=;
+        b=IvxDZs5FZwr/WzKLQBOPETWNGRsTF6HYbMFn0CA4Rn6PX6e94Z0KzCbI46ct5SNPVC
+         ZFSay5Q+Bcevmw2q5h3dvgLXq53rthbmWoJkH/qKb0W31EbZZj2D6AN4gcBL3yJlxgIB
+         w3xcNxYg/ddD/es0NxpN1vd5LovJvOdD92AiYBbKibxM/fWGE1sLubha+vgKeM3eaKTW
+         Guw89lFVcKe1sOZDjPmk3oUq5ImJ4KhwlKWH1SwRDyFOAxQh16vkF9nirBx6a/G0DMrL
+         FCZ7kvsrIHo9To5kP6rjdqJZ0LO3deobSvbqjthhmG8YyAPT/EyDjoZPg9jcTwXXPmuR
+         QHUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688485966; x=1691077966;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zk3Vv8BnZlJ+Djwrcd1Wi7b1Ft5eDNE/4tdeZJe6nkg=;
-        b=hhVEGZCZEuW5qrboGRgYHhhAQjxY7ueH7UpmD5Qu6DIShhJTwekqOjbEUuZvWu2+PB
-         gieoOhUD9r2kXi/k7yI8vK7AScXiBi8HC/ehHpBQcdbg9x2p0tLCdGn3GNBpcwOnLyfK
-         2mniw8uwR5oXaaykuSATxQJ2252DQb1lZbdamOnvCQS0bZDsxCTLNt6ofGKXHlSbQ/k8
-         LLH3jZ9q6WfFz5wnzAAEymd9RE/LFCjMp32m96bng1N049WyHazzUrpFMbckWONwgwyn
-         iVJMAbpoCciml8BZ3dUZKWfIPzv4vNEUZutdkxspHC0c9D9ccjA5KSba5nNE1MALVy7D
-         k/VA==
-X-Gm-Message-State: ABy/qLad/pZLMUQ4oCYYSM41SWn9YTiKXIsX1tG+p3i0ht8zUr/bFttg
-        Nq8slMO2081rBOI9QCR5yG61plowfFxwaIFRGkuWmMJdowQtYkNHMzy67AAsS3oRzsTqgpp8h/Y
-        mUquciYihYbSj/+6CRABbBQY=
-X-Received: by 2002:a05:6402:1848:b0:51d:8967:325f with SMTP id v8-20020a056402184800b0051d8967325fmr10877455edy.36.1688485966059;
-        Tue, 04 Jul 2023 08:52:46 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlFGyibRynp1R5wJWG/NiCVmeWM0Hj+SLuWoYaoQBaohH6BEtp9wk10RROxqOgCdIy5GHNwV9g==
-X-Received: by 2002:a05:6402:1848:b0:51d:8967:325f with SMTP id v8-20020a056402184800b0051d8967325fmr10877447edy.36.1688485965828;
-        Tue, 04 Jul 2023 08:52:45 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:2a07:3a01:67e5:daf9:cec0:df6? (2001-1c00-2a07-3a01-67e5-daf9-cec0-0df6.cable.dynamic.v6.ziggo.nl. [2001:1c00:2a07:3a01:67e5:daf9:cec0:df6])
-        by smtp.gmail.com with ESMTPSA id j18-20020a50ed12000000b0051dada80305sm8362992eds.63.2023.07.04.08.52.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Jul 2023 08:52:45 -0700 (PDT)
-Message-ID: <e5cda25d-ca1f-63b2-4c4b-db6cb7ccb8e7@redhat.com>
-Date:   Tue, 4 Jul 2023 17:52:44 +0200
+        d=1e100.net; s=20221208; t=1688487427; x=1691079427;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0zoSLxvXdWi/Yl+BEgvp6RDAlMoTsWmGbOp6gCR7ij0=;
+        b=FMxeJoDWEnc+iY6XLrJu1OrP3SEHU7m1BG2i4ghqtvCnLG9KQZJqffFbMsCrXJnIgC
+         Dzp7d3iiRHqPCCRjI6TfBTXGCumw9CIsJLy6/tJPUUxJ/qeXWhbYee2FdHN3HdGexZmK
+         5V9GsYBUzH+2c6glSOb5IGmN+2edPLszmfI/YkBB709a2sbxiKLoEoYR7HGKVOA3UaJR
+         uvxc2gh7kYGei1svjkq6Gr7Ghe5ZPFbcxnnd26Q9bt1Hzcr9rZwCkwQytl1D5i3cE5ES
+         Nytzzy7mt03LEKEReYRUSROjB4QYvW4va/HH2wTq8wySnOC0A5pdrvynkdUtOwQwmKlU
+         C8Rg==
+X-Gm-Message-State: ABy/qLZJcpXXj3Wf0Q0gsW60lxj4oLS7mpBQ/Hc2qgQTLxMpU7msdFwJ
+        SS1d4XMDf0EzkrCwJh2ThH3vUSYRE8CgoY7m7lZ9Iw==
+X-Google-Smtp-Source: ACHHUZ72Trq3ak3feJZfX2mvIRzadW3AAT3MBnGmwqh3StyYxyK0jn9H0wssJNSY2G6F09VwGyGhf4P+t7Iyad6P0Qs=
+X-Received: by 2002:a17:906:86d1:b0:988:a0d6:c4fa with SMTP id
+ j17-20020a17090686d100b00988a0d6c4famr10290333ejy.13.1688487427344; Tue, 04
+ Jul 2023 09:17:07 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2 14/15] media: ipu-bridge: Add a runtime-pm device-link
- between VCM and sensor
-Content-Language: en-US
-To:     Andy Shevchenko <andy@kernel.org>,
-        Dan Scally <dan.scally@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kate Hsuan <hpa@redhat.com>, Hao Yao <hao.yao@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org
-References: <20230630110643.209761-1-hdegoede@redhat.com>
- <20230630110643.209761-15-hdegoede@redhat.com>
- <24dc6ebe-0dd7-4f71-50af-c51ccb3714d5@ideasonboard.com>
- <ZKQ6aVxZupe61i9T@smile.fi.intel.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <ZKQ6aVxZupe61i9T@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20230630144006.1513270-1-pan@semihalf.com> <20230630144006.1513270-4-pan@semihalf.com>
+ <20230630-scrimmage-antelope-7d1f82d491fc@spud> <CAF9_jYT1Fz4hBQrNtgkM6mU-JVH=ZxsJnkaLDsa5uoEV_hTLVA@mail.gmail.com>
+ <df7440e2-58b0-9f12-8f37-4f0d9050f934@linaro.org>
+In-Reply-To: <df7440e2-58b0-9f12-8f37-4f0d9050f934@linaro.org>
+From:   =?UTF-8?Q?Pawe=C5=82_Anikiel?= <pan@semihalf.com>
+Date:   Tue, 4 Jul 2023 18:16:56 +0200
+Message-ID: <CAF9_jYSwDdyE6mj8+1bA23MWmFHdm16jTSYaRQiF1kzpUtkMNQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 3/3] ARM: dts: Add Chameleon v3 video node
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Conor Dooley <conor@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dinguyen@kernel.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        mchehab@kernel.org, upstream@semihalf.com, amstan@chromium.org,
+        ribalda@chromium.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On Mon, Jul 3, 2023 at 2:33=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 03/07/2023 13:44, Pawe=C5=82 Anikiel wrote:
+> >>> diff --git a/arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleo=
+nv3.dts b/arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dts
+> >>> index 422d00cd4c74..5e66363d4ab5 100644
+> >>> --- a/arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dts
+> >>> +++ b/arch/arm/boot/dts/intel/socfpga/socfpga_arria10_chameleonv3.dts
+> >>> @@ -10,6 +10,60 @@ / {
+> >>>       compatible =3D "google,chameleon-v3", "enclustra,mercury-aa1",
+> >>>                    "altr,socfpga-arria10", "altr,socfpga";
+> >>>
+> >>> +     soc {
+> >>> +             video@c0060500 {
+> >>> +                     compatible =3D "google,chv3-video";
+> >>
+> >> This compatible does not seem to be documented & I did not see a comme=
+nt
+> >> about the lack of a binding in the cover letter. What am I missing?
+> >
+> > Yes, the compatible is not documented for now (I'll do that in a later
+> > patchset), sorry for not mentioning that in the cover letter.
+>
+> You cannot add undocumented compatible. This cannot be fixed in "a later
+> patchset".
 
-On 7/4/23 17:27, Andy Shevchenko wrote:
-> On Tue, Jul 04, 2023 at 04:07:43PM +0100, Dan Scally wrote:
->> On 30/06/2023 13:06, Hans de Goede wrote:
-> 
-> ...
-> 
->>> +	strscpy(work->board_info.type, fwnode_get_name(vcm_fwnode),
->>> +		I2C_NAME_SIZE);
->>> +	/* Strip "-<link>" postfix */
->>> +	sep = strchrnul(work->board_info.type, '-');
->>> +	*sep = 0;
->>
->> I think strreplace(work->board_info.type, '-', '\0') here would be cleaner,
->> and either way probably we need #include <linux/string.h> for the str* funcs
->> here
-> 
-> What we need is something like strcut(str, '<$CHAR>').
-> 
-> But related to the above code we can (besides using sizeof() instead
-> of I2C_NAME_SIZE):
-> 
-> 	snprintf(work->board_info.type, sizeof(work->board_info.type),
-> 		 "%pfwP", vcm_fwnode);
-
-"%pfwP" ? what on earth does that do ?
-
-Regards,
-
-Hans
-
+I meant later revision, I'm certainly not expecting this one to land
+(I sent is as an RFC). Is it really necessary to document the
+compatible to get any form of feedback on the overall structure of the
+driver?
