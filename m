@@ -2,128 +2,623 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 77A90747354
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 15:51:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9676E74735C
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 15:55:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231140AbjGDNvv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jul 2023 09:51:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59544 "EHLO
+        id S231403AbjGDNzM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jul 2023 09:55:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230469AbjGDNvt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 09:51:49 -0400
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78298DA
-        for <linux-media@vger.kernel.org>; Tue,  4 Jul 2023 06:51:48 -0700 (PDT)
-Received: by mail-lj1-x230.google.com with SMTP id 38308e7fff4ca-2b6a16254a4so84354031fa.0
-        for <linux-media@vger.kernel.org>; Tue, 04 Jul 2023 06:51:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688478706; x=1691070706;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zH3CH+DM3qfo1yN+y42L63tXWCPurSgrmHhOX1fkuxk=;
-        b=D1L/FDKHi/9x9KFk5ZSu1I4IGhd1ZvgZjS0y9ghljE9g7kvygHOYdZZSWW0j26+yR9
-         juWGSKJoRqG4mmlBwezl1IysI7umjsGWsqpK+p7yz1nKT7DI6CHuSubJaezz9Jeizb1P
-         ZHEM6p8vYlSp+Mz2pa2Av1jrE65oZ77RkgTk3Z6G0KAPy3DndyGmo+tkm4dc8+FrbIPe
-         YwWzRw3WcidAcwwzGyCAlYzK6JdKSiMxKd1b1ACkb+hPVZf6bcCjYr0olAH2mXOZFKkP
-         +6GH8PQrWRU/x5OlrYBNmJFD+6ugolzsX1vG5Gh4BYIH0xVyqXZaSmh0cEzSDK9mvqgW
-         TrmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688478706; x=1691070706;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zH3CH+DM3qfo1yN+y42L63tXWCPurSgrmHhOX1fkuxk=;
-        b=XiDRYaYoAnjdx6EZ6rgswdmomRerrGJEX5fgA85D3NCXwfG4vDoZ2PNFsVkLUQoQHm
-         m81Cx6e94Jie5YjdXsIrAo9cQSfokQsf+sbPwzV1zM11Y1T9qTIpUSHTfk5C+z5tBxGI
-         O8gqAt+WcxknAsbV49hLtxum4DHIp5bPaPEqQu6ybmGLrucf/nxydECFFjl/Sb51yNlS
-         ft9XwJ3/W4S7t7TsXCkbeeGWUvKJjYAOKsSGLOIUU/CJzVVeQFiOpycIw5N862L+78lK
-         jSdZLdHkQKBIy8ueXWPphwRZVLWm8VS6A7OkiC2HWmw4x74MJKii4pURGcnKGCqOfoKG
-         I2HQ==
-X-Gm-Message-State: ABy/qLZX1KgDjuvK/I6Wfexg8Fp0xp5Y7bMTsLYTKLMPmuETdVzN3ZRz
-        pmYPGS6/iBmjwB6/kjP8KXo=
-X-Google-Smtp-Source: APBJJlEIHyz7LNTgVyQhBVkEpjCC0IrynZQcUyLXNxfQN6pUvfZvg0b48pAuYN01QQ0j1aRt71qQfw==
-X-Received: by 2002:a2e:980c:0:b0:2b4:8168:2050 with SMTP id a12-20020a2e980c000000b002b481682050mr9056846ljj.29.1688478706297;
-        Tue, 04 Jul 2023 06:51:46 -0700 (PDT)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-59-106.cust.vodafonedsl.it. [188.217.59.106])
-        by smtp.gmail.com with ESMTPSA id k19-20020a170906971300b009929c09abdfsm7669170ejx.70.2023.07.04.06.51.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jul 2023 06:51:45 -0700 (PDT)
-Date:   Tue, 4 Jul 2023 15:51:43 +0200
-From:   Tommaso Merciai <tomm.merciai@gmail.com>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 2/2] Documentation: v4l: Exposure/gain for camera sensor
-Message-ID: <ZKQj78i94MecEfDe@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-References: <20230703202910.31142-1-jacopo.mondi@ideasonboard.com>
- <20230703202910.31142-3-jacopo.mondi@ideasonboard.com>
+        with ESMTP id S230375AbjGDNzL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 09:55:11 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 443C2BE
+        for <linux-media@vger.kernel.org>; Tue,  4 Jul 2023 06:55:09 -0700 (PDT)
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4358E9B9;
+        Tue,  4 Jul 2023 15:54:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1688478862;
+        bh=oYXT2250nSTS25ZJSDWj+KdPVn89wG6YJdr6aEzrhdk=;
+        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
+        b=TWZS6uYXTdF2C75BeMzZ/UwN5yKbduDnDoDa9RhfcByRkYHwGgwvXzNhAbWMPAtZ7
+         lE42cXBStY2v3VHUu4IhczkbSmsFLhnV53Oarm+Zdvz+1Fz5r2eHV5MEgyctIbCqbS
+         4ry24zRaJRGb8UKU7EY7Xite3tmtGyJMR71qCeLk=
+Message-ID: <51c9a63b-915b-c128-916e-b84e1fe659fa@ideasonboard.com>
+Date:   Tue, 4 Jul 2023 14:55:02 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230703202910.31142-3-jacopo.mondi@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Content-Language: en-US
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+        Hao Yao <hao.yao@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
+        linux-media@vger.kernel.org
+References: <20230630110643.209761-1-hdegoede@redhat.com>
+ <20230630110643.209761-14-hdegoede@redhat.com>
+ <CAHp75Vcp9aoKOw-gPeXvJ9VuO5nGN=g5HHjAxWwNyNzo6J2Amw@mail.gmail.com>
+From:   Dan Scally <dan.scally@ideasonboard.com>
+Subject: Re: [PATCH v2 13/15] media: atomisp: csi2-bridge: Switch to new
+ common ipu_bridge_init()
+In-Reply-To: <CAHp75Vcp9aoKOw-gPeXvJ9VuO5nGN=g5HHjAxWwNyNzo6J2Amw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hi Both
 
-On Mon, Jul 03, 2023 at 10:29:10PM +0200, Jacopo Mondi wrote:
-> Document the suggested way to exposure controls for exposure and gain
-> for camera sensor drivers.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> ---
->  .../driver-api/media/camera-sensor.rst        | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
-> 
-> diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
-> index ee4a7fe5f72a..dfe8f35aecea 100644
-> --- a/Documentation/driver-api/media/camera-sensor.rst
-> +++ b/Documentation/driver-api/media/camera-sensor.rst
-> @@ -189,3 +189,22 @@ the ``V4L2_CID_VFLIP`` and ``V4L2_CID_HFLIP`` controls with the
->  a flip can potentially change the output buffer content layout. Flips should
->  also be taken into account when enumerating and handling media bus formats
->  on the camera sensor source pads.
-> +
-> +Exposure and Gain Control
-> +-------------------------
-> +
-> +Camera sensor drivers that allows applications to control the image exposure
-> +and gain should do so by exposing dedicated controls to applications.
-> +
-> +Exposure time is controlled by registering the ``V4L2_CID_EXPOSURE`` control.
-> +The control definition does not specify a unit to allow maximum flexibility
-> +for multiple device types, but when used for camera sensor driver it should be
+On 30/06/2023 16:45, Andy Shevchenko wrote:
+> On Fri, Jun 30, 2023 at 2:07 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>> Remove the duplicate IPU ACPI bridge code and use the new
+>> shared ipu_bridge_init() functionality.
+>>
+>> Note this will also use / assume v4l2-async device instantation for
+> instantiation
+>
+>> ov5693 sensors on atomisp devices since ipu_supported_sensors[]
+>> already contains a match for this.
+>>
+>> This is fine since recent atomisp improvements allow the atomisp code
+>> to work with generic v4l2 sensor drivers and using an unmodified
+>> drivers/media/i2c/ov5693.c has been successfully tested on
+>> an Acer Iconia W4 820 tablet with Bay an ISP2400 + OV5693 sensor.
+> with an?
+> with Bay Trail and ?
+>
+> This is a cool patch!
+>
+> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+>
+> A few remarks below.
+>
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
+>>   drivers/staging/media/atomisp/Kconfig         |   2 +
+>>   .../staging/media/atomisp/pci/atomisp_csi2.h  |  67 ----
+>>   .../media/atomisp/pci/atomisp_csi2_bridge.c   | 326 +++---------------
+>>   .../staging/media/atomisp/pci/atomisp_v4l2.c  |   1 +
+>>   4 files changed, 48 insertions(+), 348 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/atomisp/Kconfig b/drivers/staging/media/atomisp/Kconfig
+>> index e9b168ba97bf..1c1007362e21 100644
+>> --- a/drivers/staging/media/atomisp/Kconfig
+>> +++ b/drivers/staging/media/atomisp/Kconfig
+>> @@ -12,9 +12,11 @@ menuconfig INTEL_ATOMISP
+>>   config VIDEO_ATOMISP
+>>          tristate "Intel Atom Image Signal Processor Driver"
+>>          depends on VIDEO_DEV && INTEL_ATOMISP
+>> +       depends on MEDIA_PCI_SUPPORT && I2C
+> These two on a single "depends on" line makes me confused.
+> I would split the PCI part from the I2C one. However, I haven't
+> checked the context of other media drivers, maybe this is an existing
+> idiom, in that case let it be.
+>
+>>          depends on PMIC_OPREGION
+>>          select V4L2_FWNODE
+>>          select IOSF_MBI
+>> +       select IPU_BRIDGE
+>>          select VIDEOBUF2_VMALLOC
+>>          select VIDEO_V4L2_SUBDEV_API
+>>          help
+>> diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2.h b/drivers/staging/media/atomisp/pci/atomisp_csi2.h
+>> index 16ddb3ab2963..8a112acba1e0 100644
+>> --- a/drivers/staging/media/atomisp/pci/atomisp_csi2.h
+>> +++ b/drivers/staging/media/atomisp/pci/atomisp_csi2.h
+>> @@ -30,9 +30,6 @@
+>>   #define CSI2_PAD_SOURCE                1
+>>   #define CSI2_PADS_NUM          2
+>>
+>> -#define CSI2_MAX_LANES         4
+>> -#define CSI2_MAX_LINK_FREQS    3
+>> -
+>>   #define CSI2_MAX_ACPI_GPIOS    2u
+>>
+>>   struct acpi_device;
+>> @@ -55,70 +52,6 @@ struct atomisp_csi2_acpi_gpio_parsing_data {
+>>          unsigned int map_count;
+>>   };
+>>
+>> -enum atomisp_csi2_sensor_swnodes {
+>> -       SWNODE_SENSOR,
+>> -       SWNODE_SENSOR_PORT,
+>> -       SWNODE_SENSOR_ENDPOINT,
+>> -       SWNODE_CSI2_PORT,
+>> -       SWNODE_CSI2_ENDPOINT,
+>> -       SWNODE_COUNT
+>> -};
+>> -
+>> -struct atomisp_csi2_property_names {
+>> -       char clock_frequency[16];
+>> -       char rotation[9];
+>> -       char bus_type[9];
+>> -       char data_lanes[11];
+>> -       char remote_endpoint[16];
+>> -       char link_frequencies[17];
+>> -};
+>> -
+>> -struct atomisp_csi2_node_names {
+>> -       char port[7];
+>> -       char endpoint[11];
+>> -       char remote_port[7];
+>> -};
+>> -
+>> -struct atomisp_csi2_sensor_config {
+>> -       const char *hid;
+>> -       int lanes;
+>> -       int nr_link_freqs;
+>> -       u64 link_freqs[CSI2_MAX_LINK_FREQS];
+>> -};
+>> -
+>> -struct atomisp_csi2_sensor {
+>> -       /* Append port in "-%u" format as suffix of HID */
+>> -       char name[ACPI_ID_LEN + 4];
+>> -       struct acpi_device *adev;
+>> -       int port;
+>> -       int lanes;
+>> -
+>> -       /* SWNODE_COUNT + 1 for terminating NULL */
+>> -       const struct software_node *group[SWNODE_COUNT + 1];
+>> -       struct software_node swnodes[SWNODE_COUNT];
+>> -       struct atomisp_csi2_node_names node_names;
+>> -       struct atomisp_csi2_property_names prop_names;
+>> -       /* "clock-frequency", "rotation" + terminating entry */
+>> -       struct property_entry dev_properties[3];
+>> -       /* "bus-type", "data-lanes", "remote-endpoint" + "link-freq" + terminating entry */
+>> -       struct property_entry ep_properties[5];
+>> -       /* "data-lanes", "remote-endpoint" + terminating entry */
+>> -       struct property_entry csi2_properties[3];
+>> -       struct software_node_ref_args local_ref[1];
+>> -       struct software_node_ref_args remote_ref[1];
+>> -       struct software_node_ref_args vcm_ref[1];
+>> -       /* GPIO mappings storage */
+>> -       struct atomisp_csi2_acpi_gpio_map gpio_map;
+>> -};
+>> -
+>> -struct atomisp_csi2_bridge {
+>> -       struct software_node csi2_node;
+>> -       char csi2_node_name[14];
+>> -       u32 data_lanes[CSI2_MAX_LANES];
+>> -       unsigned int n_sensors;
+>> -       struct atomisp_csi2_sensor sensors[ATOMISP_CAMERA_NR_PORTS];
+>> -};
+>> -
+>>   struct atomisp_mipi_csi2_device {
+>>          struct v4l2_subdev subdev;
+>>          struct media_pad pads[CSI2_PADS_NUM];
+>> diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
+>> index 0d12ba78d9c1..d7b8c3de0e17 100644
+>> --- a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
+>> +++ b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
+>> @@ -14,31 +14,14 @@
+>>   #include <linux/device.h>
+>>   #include <linux/dmi.h>
+>>   #include <linux/property.h>
+>> +
+>> +#include <media/ipu-bridge.h>
+>>   #include <media/v4l2-fwnode.h>
+>>
+>>   #include "atomisp_cmd.h"
+>>   #include "atomisp_csi2.h"
+>>   #include "atomisp_internal.h"
+>>
+>> -#define NODE_SENSOR(_HID, _PROPS)              \
+>> -       ((const struct software_node) {         \
+>> -               .name = _HID,                   \
+>> -               .properties = _PROPS,           \
+>> -       })
+>> -
+>> -#define NODE_PORT(_PORT, _SENSOR_NODE)         \
+>> -       ((const struct software_node) {         \
+>> -               .name = _PORT,                  \
+>> -               .parent = _SENSOR_NODE,         \
+>> -       })
+>> -
+>> -#define NODE_ENDPOINT(_EP, _PORT, _PROPS)      \
+>> -       ((const struct software_node) {         \
+>> -               .name = _EP,                    \
+>> -               .parent = _PORT,                \
+>> -               .properties = _PROPS,           \
+>> -       })
+>> -
+>>   #define PMC_CLK_RATE_19_2MHZ                   19200000
+>>
+>>   /*
+>> @@ -83,21 +66,6 @@ static const guid_t atomisp_dsm_guid =
+>>          GUID_INIT(0xdc2f6c4f, 0x045b, 0x4f1d,
+>>                    0x97, 0xb9, 0x88, 0x2a, 0x68, 0x60, 0xa4, 0xbe);
+>>
+>> -/*
+>> - * Extend this array with ACPI Hardware IDs of sensors known to be working
+>> - * plus the default number of links + link-frequencies.
+>> - *
+>> - * Do not add an entry for a sensor that is not actually supported,
+>> - * or which have not yet been converted to work without atomisp_gmin
+>> - * power-management and with v4l2-async probing.
+>> - */
+>> -static const struct atomisp_csi2_sensor_config supported_sensors[] = {
+>> -       /* GalaxyCore GC0310 */
+>> -       { "INT0310", 1 },
+>> -       /* Omnivision OV2680 */
+>> -       { "OVTI2680", 1 },
+>> -};
+>> -
+>>   /*
+>>    * gmin_cfg parsing code. This is a cleaned up version of the gmin_cfg parsing
+>>    * code from atomisp_gmin_platform.c.
+>> @@ -400,8 +368,7 @@ static int atomisp_csi2_handle_acpi_gpio_res(struct acpi_resource *ares, void *_
+>>    * the INT3472 discrete.c code and there is some overlap, but there are
+>>    * enough differences that it is difficult to share the code.
+>>    */
+>> -static int atomisp_csi2_add_gpio_mappings(struct atomisp_csi2_sensor *sensor,
+>> -                                         struct acpi_device *adev)
+>> +static int atomisp_csi2_add_gpio_mappings(struct acpi_device *adev)
+>>   {
+>>          struct atomisp_csi2_acpi_gpio_parsing_data data = { };
+>>          LIST_HEAD(resource_list);
+>> @@ -469,9 +436,12 @@ static int atomisp_csi2_add_gpio_mappings(struct atomisp_csi2_sensor *sensor,
+>>                  }
+>>          }
+>>
+>> +       data.map = kzalloc(sizeof(*data.map), GFP_KERNEL);
+>> +       if (!data.map)
+>> +               return -ENOMEM;
+>> +
+>>          /* Now parse the ACPI resources and build the lookup table */
+>>          data.adev = adev;
+>> -       data.map = &sensor->gpio_map;
+>>          ret = acpi_dev_get_resources(adev, &resource_list,
+>>                                       atomisp_csi2_handle_acpi_gpio_res, &data);
+>>          if (ret < 0)
+>> @@ -491,220 +461,59 @@ static int atomisp_csi2_add_gpio_mappings(struct atomisp_csi2_sensor *sensor,
+>>          return ret;
+>>   }
+>>
+>> -static const struct atomisp_csi2_property_names prop_names = {
+>> -       .clock_frequency = "clock-frequency",
+>> -       .rotation = "rotation",
+>> -       .bus_type = "bus-type",
+>> -       .data_lanes = "data-lanes",
+>> -       .remote_endpoint = "remote-endpoint",
+>> -       .link_frequencies = "link-frequencies",
+>> -};
+>> -
+>> -static void atomisp_csi2_create_fwnode_properties(struct atomisp_csi2_sensor *sensor,
+>> -                                                 struct atomisp_csi2_bridge *bridge,
+>> -                                                 const struct atomisp_csi2_sensor_config *cfg)
+>> +static int atomisp_csi2_parse_sensor_fwnode(struct acpi_device *adev,
+>> +                                           struct ipu_sensor *sensor)
+>>   {
+>> -       sensor->prop_names = prop_names;
+>> +       static const struct acpi_device_id dual_lane_sensors[] = {
+>> +               { "INT33BE" },  /* OV5693 */
+>> +               {}
+>> +       };
+>> +       int ret, clock_num, lanes;
+>>
+>> -       sensor->local_ref[0] = SOFTWARE_NODE_REFERENCE(&sensor->swnodes[SWNODE_CSI2_ENDPOINT]);
+>> -       sensor->remote_ref[0] = SOFTWARE_NODE_REFERENCE(&sensor->swnodes[SWNODE_SENSOR_ENDPOINT]);
+>> +       /*
+>> +        * ACPI takes care of turning the PMC clock on and off, but on BYT
+>> +        * the clock defaults to 25 MHz instead of the expected 19.2 MHz.
+>> +        * Get the PMC-clock number from ACPI PR0 method and set it to 19.2 MHz.
+>> +        * The PMC-clock number is also used to determine the default CSI port.
+>> +        */
+>> +       clock_num = atomisp_csi2_get_pmc_clk_nr_from_acpi_pr0(adev);
+>>
+>> -       sensor->dev_properties[0] = PROPERTY_ENTRY_U32(sensor->prop_names.clock_frequency,
+>> -                                                      PMC_CLK_RATE_19_2MHZ);
+>> -       sensor->dev_properties[1] = PROPERTY_ENTRY_U32(sensor->prop_names.rotation, 0);
+>> +       ret = atomisp_csi2_set_pmc_clk_freq(adev, clock_num);
+>> +       if (ret)
+>> +               return ret;
+>>
+>> -       sensor->ep_properties[0] = PROPERTY_ENTRY_U32(sensor->prop_names.bus_type,
+>> -                                                     V4L2_FWNODE_BUS_TYPE_CSI2_DPHY);
+>> -       sensor->ep_properties[1] = PROPERTY_ENTRY_U32_ARRAY_LEN(sensor->prop_names.data_lanes,
+>> -                                                               bridge->data_lanes,
+>> -                                                               sensor->lanes);
+>> -       sensor->ep_properties[2] = PROPERTY_ENTRY_REF_ARRAY(sensor->prop_names.remote_endpoint,
+>> -                                                           sensor->local_ref);
+>> -       if (cfg->nr_link_freqs > 0)
+>> -               sensor->ep_properties[3] =
+>> -                       PROPERTY_ENTRY_U64_ARRAY_LEN(sensor->prop_names.link_frequencies,
+>> -                                                    cfg->link_freqs, cfg->nr_link_freqs);
+>> -
+>> -       sensor->csi2_properties[0] = PROPERTY_ENTRY_U32_ARRAY_LEN(sensor->prop_names.data_lanes,
+>> -                                                                 bridge->data_lanes,
+>> -                                                                 sensor->lanes);
+>> -       sensor->csi2_properties[1] = PROPERTY_ENTRY_REF_ARRAY(sensor->prop_names.remote_endpoint,
+>> -                                                             sensor->remote_ref);
+>> -}
+>> -
+>> -static void atomisp_csi2_init_swnode_names(struct atomisp_csi2_sensor *sensor)
+>> -{
+>> -       snprintf(sensor->node_names.remote_port,
+>> -                sizeof(sensor->node_names.remote_port),
+>> -                SWNODE_GRAPH_PORT_NAME_FMT, sensor->port);
+>> -       snprintf(sensor->node_names.port,
+>> -                sizeof(sensor->node_names.port),
+>> -                SWNODE_GRAPH_PORT_NAME_FMT, 0); /* Always port 0 */
+>> -       snprintf(sensor->node_names.endpoint,
+>> -                sizeof(sensor->node_names.endpoint),
+>> -                SWNODE_GRAPH_ENDPOINT_NAME_FMT, 0); /* And endpoint 0 */
+>> -}
+>> -
+>> -static void atomisp_csi2_init_swnode_group(struct atomisp_csi2_sensor *sensor)
+>> -{
+>> -       struct software_node *nodes = sensor->swnodes;
+>> -
+>> -       sensor->group[SWNODE_SENSOR] = &nodes[SWNODE_SENSOR];
+>> -       sensor->group[SWNODE_SENSOR_PORT] = &nodes[SWNODE_SENSOR_PORT];
+>> -       sensor->group[SWNODE_SENSOR_ENDPOINT] = &nodes[SWNODE_SENSOR_ENDPOINT];
+>> -       sensor->group[SWNODE_CSI2_PORT] = &nodes[SWNODE_CSI2_PORT];
+>> -       sensor->group[SWNODE_CSI2_ENDPOINT] = &nodes[SWNODE_CSI2_ENDPOINT];
+>> -}
+>> -
+>> -static void atomisp_csi2_create_connection_swnodes(struct atomisp_csi2_bridge *bridge,
+>> -                                                  struct atomisp_csi2_sensor *sensor)
+>> -{
+>> -       struct software_node *nodes = sensor->swnodes;
+>> -
+>> -       atomisp_csi2_init_swnode_names(sensor);
+>> -
+>> -       nodes[SWNODE_SENSOR] = NODE_SENSOR(sensor->name,
+>> -                                          sensor->dev_properties);
+>> -       nodes[SWNODE_SENSOR_PORT] = NODE_PORT(sensor->node_names.port,
+>> -                                             &nodes[SWNODE_SENSOR]);
+>> -       nodes[SWNODE_SENSOR_ENDPOINT] = NODE_ENDPOINT(sensor->node_names.endpoint,
+>> -                                                     &nodes[SWNODE_SENSOR_PORT],
+>> -                                                     sensor->ep_properties);
+>> -       nodes[SWNODE_CSI2_PORT] = NODE_PORT(sensor->node_names.remote_port,
+>> -                                           &bridge->csi2_node);
+>> -       nodes[SWNODE_CSI2_ENDPOINT] = NODE_ENDPOINT(sensor->node_names.endpoint,
+>> -                                                   &nodes[SWNODE_CSI2_PORT],
+>> -                                                   sensor->csi2_properties);
+>> -
+>> -       atomisp_csi2_init_swnode_group(sensor);
+>> -}
+>> -
+>> -static void atomisp_csi2_unregister_sensors(struct atomisp_csi2_bridge *bridge)
+>> -{
+>> -       struct atomisp_csi2_sensor *sensor;
+>> -       unsigned int i;
+>> -
+>> -       for (i = 0; i < bridge->n_sensors; i++) {
+>> -               sensor = &bridge->sensors[i];
+>> -               software_node_unregister_node_group(sensor->group);
+>> -               acpi_dev_remove_driver_gpios(sensor->adev);
+>> -               acpi_dev_put(sensor->adev);
+>> +       sensor->link = atomisp_csi2_get_port(adev, clock_num);
+>> +       if (sensor->link >= ATOMISP_CAMERA_NR_PORTS) {
+>> +               dev_err(&adev->dev, "Invalid port: %u\n", sensor->link);
+>> +               return -EINVAL;
+>>          }
+>> -}
+>>
+>> -static int atomisp_csi2_connect_sensor(const struct atomisp_csi2_sensor_config *cfg,
+>> -                                      struct atomisp_csi2_bridge *bridge,
+>> -                                      struct atomisp_device *isp)
+>> -{
+>> -       struct fwnode_handle *fwnode, *primary;
+>> -       struct atomisp_csi2_sensor *sensor;
+>> -       struct acpi_device *adev;
+>> -       int ret, clock_num;
+>> +       if (!acpi_match_device_ids(adev, dual_lane_sensors))
+>> +               lanes = 2;
+>> +       else
+>> +               lanes = 1;
+> Can we use positive conditional?
+>
+>         if (acpi_match_device_ids(adev, dual_lane_sensors))
+>                 lanes = 1;
+>         else
+>                 lanes = 2;
 
-> +expressed in unit of lines whenever possible.
 
-Same comment here. 
+Or perhaps "if (acpi_match_device_ids(adev, dual_lane_sensors) == 0)"?
 
-Can you add formula/references about this point I think you are referring on "tline" units (maybe I'm completely wrong :) ),
-but to be honest checking also the some sensors datasheet I don't find to much infos about this units.
-Would be really helpfull to add some details on this point.
 
-> +
-> +Camera sensor driver should try whenever possible to distinguish between the
-> +analogue and digital gain control functions. Analogue gain is a multiplier
-> +factor applied to all color channels on the pixel array before they get
-> +converted in the digital domain. It should be be made controllable by
-> +registering the ``V4L2_CID_ANALOGUE_GAIN`` control, expressed as a device
-> +specific gain code. Digital gain control is optional and should be exposed to
-> +applications by registering ``V4L2_CID_DIGITAL_GAIN``. Camera sensor drivers are
-> -- 
+Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
 
-This part looks good to me.
-
-Thanks,
-Tommaso
-
-> 2.40.1
-> 
+>
+>> -       for_each_acpi_dev_match(adev, cfg->hid, NULL, -1) {
+>> -               if (!adev->status.enabled)
+>> -                       continue;
+>> -
+>> -               if (bridge->n_sensors >= ATOMISP_CAMERA_NR_PORTS) {
+>> -                       dev_err(isp->dev, "Exceeded available CSI2 ports\n");
+>> -                       ret = -EOVERFLOW;
+>> -                       goto err_put_adev;
+>> -               }
+>> -
+>> -               sensor = &bridge->sensors[bridge->n_sensors];
+>> -
+>> -               /*
+>> -                * ACPI takes care of turning the PMC clock on and off, but on BYT
+>> -                * the clock defaults to 25 MHz instead of the expected 19.2 MHz.
+>> -                * Get the PMC-clock number from ACPI _PR0 method and set it to 19.2 MHz.
+>> -                * The PMC-clock number is also used to determine the default CSI port.
+>> -                */
+>> -               clock_num = atomisp_csi2_get_pmc_clk_nr_from_acpi_pr0(adev);
+>> -
+>> -               ret = atomisp_csi2_set_pmc_clk_freq(adev, clock_num);
+>> -               if (ret)
+>> -                       goto err_put_adev;
+>> -
+>> -               sensor->port = atomisp_csi2_get_port(adev, clock_num);
+>> -               if (sensor->port >= ATOMISP_CAMERA_NR_PORTS) {
+>> -                       acpi_handle_err(adev->handle, "Invalid port: %d\n", sensor->port);
+>> -                       ret = -EINVAL;
+>> -                       goto err_put_adev;
+>> -               }
+>> -
+>> -               sensor->lanes = gmin_cfg_get_int(adev, "CsiLanes", cfg->lanes);
+>> -               if (sensor->lanes > CSI2_MAX_LANES) {
+>> -                       acpi_handle_err(adev->handle, "Invalid number of lanes: %d\n", sensor->lanes);
+>> -                       ret = -EINVAL;
+>> -                       goto err_put_adev;
+>> -               }
+>> -
+>> -               ret = atomisp_csi2_add_gpio_mappings(sensor, adev);
+>> -               if (ret)
+>> -                       goto err_put_adev;
+>> -
+>> -               snprintf(sensor->name, sizeof(sensor->name), "%s-%u",
+>> -                        cfg->hid, sensor->port);
+>> -
+>> -               atomisp_csi2_create_fwnode_properties(sensor, bridge, cfg);
+>> -               atomisp_csi2_create_connection_swnodes(bridge, sensor);
+>> -
+>> -               ret = software_node_register_node_group(sensor->group);
+>> -               if (ret)
+>> -                       goto err_remove_mappings;
+>> -
+>> -               fwnode = software_node_fwnode(&sensor->swnodes[SWNODE_SENSOR]);
+>> -               if (!fwnode) {
+>> -                       ret = -ENODEV;
+>> -                       goto err_free_swnodes;
+>> -               }
+>> -
+>> -               sensor->adev = acpi_dev_get(adev);
+>> -
+>> -               primary = acpi_fwnode_handle(adev);
+>> -               primary->secondary = fwnode;
+>> -
+>> -               bridge->n_sensors++;
+>> +       sensor->lanes = gmin_cfg_get_int(adev, "CsiLanes", lanes);
+>> +       if (sensor->lanes > IPU_MAX_LANES) {
+>> +               dev_err(&adev->dev, "Invalid lane-count: %d\n", sensor->lanes);
+> Yeah, I think we would be consistent in using the ACPI handle to print
+> the messages from ACPI sensor devices.
+>
+>> +               return -EINVAL;
+>>          }
+>>
+>> +       ret = atomisp_csi2_add_gpio_mappings(adev);
+>> +       if (ret)
+>> +               return ret;
+>> +
+>> +       sensor->mclkspeed = PMC_CLK_RATE_19_2MHZ;
+>> +       sensor->rotation = 0;
+>> +       sensor->orientation = V4L2_FWNODE_ORIENTATION_EXTERNAL;
+>> +
+>>          return 0;
+>> -
+>> -err_free_swnodes:
+>> -       software_node_unregister_node_group(sensor->group);
+>> -err_remove_mappings:
+>> -       acpi_dev_remove_driver_gpios(adev);
+>> -err_put_adev:
+>> -       acpi_dev_put(adev);
+>> -       return ret;
+>> -}
+>> -
+>> -static int atomisp_csi2_connect_sensors(struct atomisp_csi2_bridge *bridge,
+>> -                                       struct atomisp_device *isp)
+>> -{
+>> -       unsigned int i;
+>> -       int ret;
+>> -
+>> -       for (i = 0; i < ARRAY_SIZE(supported_sensors); i++) {
+>> -               const struct atomisp_csi2_sensor_config *cfg = &supported_sensors[i];
+>> -
+>> -               ret = atomisp_csi2_connect_sensor(cfg, bridge, isp);
+>> -               if (ret)
+>> -                       goto err_unregister_sensors;
+>> -       }
+>> -
+>> -       return 0;
+>> -
+>> -err_unregister_sensors:
+>> -       atomisp_csi2_unregister_sensors(bridge);
+>> -       return ret;
+>>   }
+>>
+>>   int atomisp_csi2_bridge_init(struct atomisp_device *isp)
+>>   {
+>> -       struct atomisp_csi2_bridge *bridge;
+>>          struct device *dev = isp->dev;
+>>          struct fwnode_handle *fwnode;
+>> -       int i, ret;
+>>
+>>          /*
+>>           * This function is intended to run only once and then leave
+>> @@ -716,52 +525,7 @@ int atomisp_csi2_bridge_init(struct atomisp_device *isp)
+>>          if (fwnode && fwnode->secondary)
+>>                  return 0;
+>>
+>> -       bridge = kzalloc(sizeof(*bridge), GFP_KERNEL);
+>> -       if (!bridge)
+>> -               return -ENOMEM;
+>> -
+>> -       strscpy(bridge->csi2_node_name, "atomisp-csi2", sizeof(bridge->csi2_node_name));
+>> -       bridge->csi2_node.name = bridge->csi2_node_name;
+>> -
+>> -       ret = software_node_register(&bridge->csi2_node);
+>> -       if (ret < 0) {
+>> -               dev_err(dev, "Failed to register the CSI2 HID node\n");
+>> -               goto err_free_bridge;
+>> -       }
+>> -
+>> -       /*
+>> -        * Map the lane arrangement, which is fixed for the ISP2 (meaning we
+>> -        * only need one, rather than one per sensor). We include it as a
+>> -        * member of the bridge struct rather than a global variable so
+>> -        * that it survives if the module is unloaded along with the rest of
+>> -        * the struct.
+>> -        */
+>> -       for (i = 0; i < CSI2_MAX_LANES; i++)
+>> -               bridge->data_lanes[i] = i + 1;
+>> -
+>> -       ret = atomisp_csi2_connect_sensors(bridge, isp);
+>> -       if (ret || bridge->n_sensors == 0)
+>> -               goto err_unregister_csi2;
+>> -
+>> -       fwnode = software_node_fwnode(&bridge->csi2_node);
+>> -       if (!fwnode) {
+>> -               dev_err(dev, "Error getting fwnode from csi2 software_node\n");
+>> -               ret = -ENODEV;
+>> -               goto err_unregister_sensors;
+>> -       }
+>> -
+>> -       set_secondary_fwnode(dev, fwnode);
+>> -
+>> -       return 0;
+>> -
+>> -err_unregister_sensors:
+>> -       atomisp_csi2_unregister_sensors(bridge);
+>> -err_unregister_csi2:
+>> -       software_node_unregister(&bridge->csi2_node);
+>> -err_free_bridge:
+>> -       kfree(bridge);
+>> -
+>> -       return ret;
+>> +       return ipu_bridge_init(dev, atomisp_csi2_parse_sensor_fwnode);
+>>   }
+>>
+>>   /******* V4L2 sub-device asynchronous registration callbacks***********/
+>> diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+>> index c43b916a006e..0d80f0893a2e 100644
+>> --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+>> +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+>> @@ -1615,3 +1615,4 @@ MODULE_AUTHOR("Wen Wang <wen.w.wang@intel.com>");
+>>   MODULE_AUTHOR("Xiaolin Zhang <xiaolin.zhang@intel.com>");
+>>   MODULE_LICENSE("GPL");
+>>   MODULE_DESCRIPTION("Intel ATOM Platform ISP Driver");
+>> +MODULE_IMPORT_NS(INTEL_IPU_BRIDGE);
+>> --
+>> 2.41.0
+>>
+>
