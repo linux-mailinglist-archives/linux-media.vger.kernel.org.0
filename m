@@ -2,96 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF88D746EF5
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 12:41:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4AEA746F10
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 12:49:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231828AbjGDKlr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jul 2023 06:41:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53632 "EHLO
+        id S230402AbjGDKtV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jul 2023 06:49:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231680AbjGDKlP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 06:41:15 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51584184
-        for <linux-media@vger.kernel.org>; Tue,  4 Jul 2023 03:41:14 -0700 (PDT)
-Received: from uno.localdomain (85-160-42-71.reb.o2.cz [85.160.42.71])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC49A6DF;
-        Tue,  4 Jul 2023 12:40:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1688467227;
-        bh=OZoM7ukDkf+Zcgcf0A2sr6bk5C9jADHgi+1fDPn9Q9E=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Gp8lIUQBF39ZhqcH80xrxKnHH4Orv9hVvKjBm3aTYex8t9p6jLnkqobfIdjksRVLi
-         01AFWGf8Q6bRutrh27O6i7LLZl3Yi9J0R0MiaBWy1XMdX/OwNy748BLEGJXWGBAnfK
-         beRJVCRgnagKz/XjmqZuNRlxGzslmOuZM7tmN3wo=
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>
-Subject: [PATCH 5/5] media: i2c: imx219: Simplify code handling in s_fmt
-Date:   Tue,  4 Jul 2023 12:40:57 +0200
-Message-Id: <20230704104057.149837-6-jacopo.mondi@ideasonboard.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230704104057.149837-1-jacopo.mondi@ideasonboard.com>
-References: <20230704103611.149631-1-jacopo.mondi@ideasonboard.com>
- <20230704104057.149837-1-jacopo.mondi@ideasonboard.com>
+        with ESMTP id S229793AbjGDKtU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 06:49:20 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EC31E62
+        for <linux-media@vger.kernel.org>; Tue,  4 Jul 2023 03:49:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688467759; x=1720003759;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Fv5vSrN6EwcPnxhzxW6ssWiLfBF/EoGd++Ms4YzZQ2I=;
+  b=WV78XooCNMWAIXFYdf5gE4hM6EQh8idipM3L5YOLNzE1KJy7qT4ny0jZ
+   Q8jSEItfjdmlJnjwwb200rIEHiW7kRsJqgw4DKGqbx6w1RH3mPe4n1L2l
+   ZgCm9nTsmF0X3l9HoFT1LOt8+bSshh010vhxfG0+/G9iwgopRhyhCCRrF
+   arOXYJBi/xe6e4MFsamWJ00yLRcnB4PPTYyxXz00PNffw/lJ1BmcV3a4W
+   6oNvqaIAA8ayj3DA8NU40hYnEtE0i480yF9MyVKogy2rkQkPy8+sZep4k
+   7IYslqN9HXdbKp3+FOhSv5FUFZah74mpnK0pCReFaQSDGx0e5AsTqBcIY
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="361957345"
+X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
+   d="scan'208";a="361957345"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2023 03:49:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="748387660"
+X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
+   d="scan'208";a="748387660"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2023 03:49:16 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 09E9311FBCE;
+        Tue,  4 Jul 2023 13:49:13 +0300 (EEST)
+Date:   Tue, 4 Jul 2023 10:49:12 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+        Hao Yao <hao.yao@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 12/15] media: ipu-bridge: Add GalaxyCore GC0310 to
+ ipu_supported_sensors[]
+Message-ID: <ZKP5KIXBVaLWetVH@kekkonen.localdomain>
+References: <20230630110643.209761-1-hdegoede@redhat.com>
+ <20230630110643.209761-13-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230630110643.209761-13-hdegoede@redhat.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The imx219_set_pad_format() function adjusts the media bus code provided
-through the v4l2_subdev_format parameter to a media bus code known
-to be supported by the sensor.
+Hi Hans,
 
-The same exact operation is performed by the imx219_get_format_code()
-function which called by imx219_update_pad_format(), which is in the
-imx219_set_pad_format() call path.
+On Fri, Jun 30, 2023 at 01:06:40PM +0200, Hans de Goede wrote:
+> The GalaxyCore GC0310 is used together with the atomisp no various
+> devices, add it to ipu_supported_sensors[].
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/media/pci/intel/ipu-bridge.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
+> index eb7c56e8ef9f..07a34f20af8e 100644
+> --- a/drivers/media/pci/intel/ipu-bridge.c
+> +++ b/drivers/media/pci/intel/ipu-bridge.c
+> @@ -36,6 +36,8 @@ static const struct ipu_sensor_config ipu_supported_sensors[] = {
+>  	IPU_SENSOR_CONFIG("INT3537", 1, 437000000),
+>  	/* Omnivision ov13b10 */
+>  	IPU_SENSOR_CONFIG("OVTIDB10", 1, 560000000),
+> +	/* GalaxyCore GC0310 */
+> +	IPU_SENSOR_CONFIG("INT0310", 0),
 
-Remove the duplicated operation and simplify imx219_set_pad_format().
 
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
----
- drivers/media/i2c/imx219.c | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+Where is this HID from? A DSDT somewhere??
 
-diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index c1246bd23b0d..37630e173040 100644
---- a/drivers/media/i2c/imx219.c
-+++ b/drivers/media/i2c/imx219.c
-@@ -754,19 +754,12 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
- 	int exposure_max, exposure_def, hblank;
- 	unsigned int i;
- 
--	for (i = 0; i < ARRAY_SIZE(imx219_mbus_formats); i++)
--		if (imx219_mbus_formats[i] == fmt->format.code)
--			break;
--	if (i >= ARRAY_SIZE(imx219_mbus_formats))
--		i = 0;
--
- 	mode = v4l2_find_nearest_size(supported_modes,
- 				      ARRAY_SIZE(supported_modes),
- 				      width, height,
- 				      fmt->format.width, fmt->format.height);
- 
--	imx219_update_pad_format(imx219, mode, &fmt->format,
--				 imx219_mbus_formats[i]);
-+	imx219_update_pad_format(imx219, mode, &fmt->format, fmt->format.code);
- 
- 	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
- 		imx219->mode = mode;
+>  };
+>  
+>  static const struct ipu_property_names prop_names = {
+
 -- 
-2.40.1
+Kind regards,
 
+Sakari Ailus
