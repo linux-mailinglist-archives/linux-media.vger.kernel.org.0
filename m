@@ -2,110 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E9F8E747434
-	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 16:36:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33317747441
+	for <lists+linux-media@lfdr.de>; Tue,  4 Jul 2023 16:40:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231340AbjGDOgY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 4 Jul 2023 10:36:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52406 "EHLO
+        id S231179AbjGDOkC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 4 Jul 2023 10:40:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230200AbjGDOgX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 10:36:23 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A84EE5B
-        for <linux-media@vger.kernel.org>; Tue,  4 Jul 2023 07:36:21 -0700 (PDT)
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="365704047"
+        with ESMTP id S229610AbjGDOkB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 4 Jul 2023 10:40:01 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31DAEB2
+        for <linux-media@vger.kernel.org>; Tue,  4 Jul 2023 07:40:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688481600; x=1720017600;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5hYH7tLrYTCicGEb2ZU/Jy0zLcHGqGEEfkxY390VHa0=;
+  b=gAH+RVMM6agq6KPhr2fnPmny3vNAuRP+ZAggxMy3TouH1tQvBmB3jqG+
+   cLEW/CNnQMPCx+jqqt+7zD9DX3BmigleW8SRb5ia+rvegZsq6pu5/CpUX
+   WjKZFlPi+BYiQdEhBCQJ7mFnbHp9cKiFMTEg3q2q4TY6Dd/v+ao493/Kw
+   VJqK9ssdMol7jXtGPTPIAE/eRUXQPjVxE8UEQPPwQaqSrYAHrTH/AzC9Q
+   Oek/K046/O/kw46oZHwmd6W4WK2IaoOGTJbKl/Ry0uFVPbsWjOlhhc9GZ
+   8l7HCb2TgBp63GW2IRle0QoU+AA/qrDhw+MrWSkkuWpGWkVrRi07eUpRE
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="343469963"
 X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="365704047"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2023 07:36:20 -0700
+   d="scan'208";a="343469963"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2023 07:39:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="712903072"
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="718940903"
 X-IronPort-AV: E=Sophos;i="6.01,180,1684825200"; 
-   d="scan'208";a="712903072"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga007.jf.intel.com with ESMTP; 04 Jul 2023 07:36:17 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andy@kernel.org>)
-        id 1qGh8Z-0002q6-1z;
-        Tue, 04 Jul 2023 17:36:15 +0300
-Date:   Tue, 4 Jul 2023 17:36:15 +0300
-From:   Andy Shevchenko <andy@kernel.org>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Dan Scally <dan.scally@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kate Hsuan <hpa@redhat.com>,
-        Tommaso Merciai <tomm.merciai@gmail.com>,
+   d="scan'208";a="718940903"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 04 Jul 2023 07:39:55 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qGhC7-000IIp-2s;
+        Tue, 04 Jul 2023 14:39:55 +0000
+Date:   Tue, 4 Jul 2023 22:39:22 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
         linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 28/29] media: ov2680: Add link-freq and pixel-rate
- controls
-Message-ID: <ZKQuX1atvHib9Xf4@smile.fi.intel.com>
-References: <20230627131830.54601-1-hdegoede@redhat.com>
- <20230627131830.54601-29-hdegoede@redhat.com>
- <6f3d903c-acdc-983c-216b-45792a71d603@ideasonboard.com>
- <750f6763-d08a-efe1-f75e-b8c3a10b7c46@redhat.com>
- <CAPY8ntA4NexYVDuuw6-vqLJ33zz7jx+qN9bzx6c3wVGgF51ZfQ@mail.gmail.com>
- <04b22ece-84e0-22de-071b-55d77628c091@redhat.com>
- <5b2d0bfd-c074-c511-d583-56bad00787c1@redhat.com>
- <CAPY8ntC0R4PvQ02EH1b-5E2z8Nh0mDUjENbnSfgUQPCy=ck_tQ@mail.gmail.com>
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>
+Subject: Re: [PATCH 5/5] media: i2c: imx219: Simplify code handling in s_fmt
+Message-ID: <202307042233.nrNvmP4V-lkp@intel.com>
+References: <20230704104057.149837-6-jacopo.mondi@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAPY8ntC0R4PvQ02EH1b-5E2z8Nh0mDUjENbnSfgUQPCy=ck_tQ@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_SOFTFAIL,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230704104057.149837-6-jacopo.mondi@ideasonboard.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 04, 2023 at 01:19:28PM +0100, Dave Stevenson wrote:
-> On Tue, 4 Jul 2023 at 12:32, Hans de Goede <hdegoede@redhat.com> wrote:
-> > On 7/4/23 13:29, Hans de Goede wrote:
-> > > On 7/4/23 13:23, Dave Stevenson wrote:
+Hi Jacopo,
 
-...
+kernel test robot noticed the following build warnings:
 
-> > > So my question is do we make the link-frequency control
-> > > return 331.2 MHz or 330 MHz when a 19.2 MHz xvclk is used ?
-> > >
-> > > 330 MHz is what will be requested in the link-frequency
-> > > device property. 331.2 MHz will be what is actually used.
-> > >
-> > > (the 24MHz xvclk scenario results in an exact link-freq of
-> > > 330MHz)
-> 
-> OK, that wasn't clear from the earlier discussion.
-> 
-> > I just realized that since both the xvclk frequency and the
-> > link-frequency property will both come from the same ACPI
-> > glue we could fix this be actually putting  331.2 MHz
-> > in the property and making the driver accept this as valid
-> > when a 19.2 MHz xvclk is used.
-> >
-> > That would make the property and the actually achieved
-> > link-frequency be in sync again. So this is probably the
-> > best way to handle this.
-> >
-> > Does this solution work for everyone ?
-> 
-> Yes, asking for the right thing sounds like a good solution.
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on linus/master v6.4 next-20230704]
+[cannot apply to sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-+1 here.
+url:    https://github.com/intel-lab-lkp/linux/commits/Jacopo-Mondi/media-i2c-imx219-Rename-mbus-codes-array/20230704-184252
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230704104057.149837-6-jacopo.mondi%40ideasonboard.com
+patch subject: [PATCH 5/5] media: i2c: imx219: Simplify code handling in s_fmt
+config: i386-randconfig-r005-20230704 (https://download.01.org/0day-ci/archive/20230704/202307042233.nrNvmP4V-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230704/202307042233.nrNvmP4V-lkp@intel.com/reproduce)
 
-> It's the same route as I went for with imx258 in [1]. There 24MHz
-> results in a slightly different link freq to the existing 19.2MHz
-> configuration.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307042233.nrNvmP4V-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/media/i2c/imx219.c:755:15: warning: unused variable 'i' [-Wunused-variable]
+           unsigned int i;
+                        ^
+   1 warning generated.
+
+
+vim +/i +755 drivers/media/i2c/imx219.c
+
+1283b3b8f82b90 Dave Stevenson 2020-01-20  747  
+1283b3b8f82b90 Dave Stevenson 2020-01-20  748  static int imx219_set_pad_format(struct v4l2_subdev *sd,
+0d346d2a6f54f0 Tomi Valkeinen 2021-06-10  749  				 struct v4l2_subdev_state *sd_state,
+1283b3b8f82b90 Dave Stevenson 2020-01-20  750  				 struct v4l2_subdev_format *fmt)
+1283b3b8f82b90 Dave Stevenson 2020-01-20  751  {
+1283b3b8f82b90 Dave Stevenson 2020-01-20  752  	struct imx219 *imx219 = to_imx219(sd);
+1283b3b8f82b90 Dave Stevenson 2020-01-20  753  	const struct imx219_mode *mode;
+1283b3b8f82b90 Dave Stevenson 2020-01-20  754  	int exposure_max, exposure_def, hblank;
+22da1d56e98215 Lad Prabhakar  2020-03-10 @755  	unsigned int i;
+1283b3b8f82b90 Dave Stevenson 2020-01-20  756  
+1283b3b8f82b90 Dave Stevenson 2020-01-20  757  	mode = v4l2_find_nearest_size(supported_modes,
+1283b3b8f82b90 Dave Stevenson 2020-01-20  758  				      ARRAY_SIZE(supported_modes),
+1283b3b8f82b90 Dave Stevenson 2020-01-20  759  				      width, height,
+1283b3b8f82b90 Dave Stevenson 2020-01-20  760  				      fmt->format.width, fmt->format.height);
+563219f153d5f7 Jacopo Mondi   2023-07-04  761  
+7471d0495584f7 Jacopo Mondi   2023-07-04  762  	imx219_update_pad_format(imx219, mode, &fmt->format, fmt->format.code);
+563219f153d5f7 Jacopo Mondi   2023-07-04  763  
+563219f153d5f7 Jacopo Mondi   2023-07-04  764  	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+1283b3b8f82b90 Dave Stevenson 2020-01-20  765  		imx219->mode = mode;
+1283b3b8f82b90 Dave Stevenson 2020-01-20  766  		/* Update limits and set FPS to default */
+1283b3b8f82b90 Dave Stevenson 2020-01-20  767  		__v4l2_ctrl_modify_range(imx219->vblank, IMX219_VBLANK_MIN,
+1283b3b8f82b90 Dave Stevenson 2020-01-20  768  					 IMX219_VTS_MAX - mode->height, 1,
+1283b3b8f82b90 Dave Stevenson 2020-01-20  769  					 mode->vts_def - mode->height);
+1283b3b8f82b90 Dave Stevenson 2020-01-20  770  		__v4l2_ctrl_s_ctrl(imx219->vblank,
+1283b3b8f82b90 Dave Stevenson 2020-01-20  771  				   mode->vts_def - mode->height);
+1283b3b8f82b90 Dave Stevenson 2020-01-20  772  		/* Update max exposure while meeting expected vblanking */
+1283b3b8f82b90 Dave Stevenson 2020-01-20  773  		exposure_max = mode->vts_def - 4;
+1283b3b8f82b90 Dave Stevenson 2020-01-20  774  		exposure_def = (exposure_max < IMX219_EXPOSURE_DEFAULT) ?
+1283b3b8f82b90 Dave Stevenson 2020-01-20  775  			exposure_max : IMX219_EXPOSURE_DEFAULT;
+1283b3b8f82b90 Dave Stevenson 2020-01-20  776  		__v4l2_ctrl_modify_range(imx219->exposure,
+1283b3b8f82b90 Dave Stevenson 2020-01-20  777  					 imx219->exposure->minimum,
+1283b3b8f82b90 Dave Stevenson 2020-01-20  778  					 exposure_max, imx219->exposure->step,
+1283b3b8f82b90 Dave Stevenson 2020-01-20  779  					 exposure_def);
+1283b3b8f82b90 Dave Stevenson 2020-01-20  780  		/*
+1283b3b8f82b90 Dave Stevenson 2020-01-20  781  		 * Currently PPL is fixed to IMX219_PPL_DEFAULT, so hblank
+1283b3b8f82b90 Dave Stevenson 2020-01-20  782  		 * depends on mode->width only, and is not changeble in any
+1283b3b8f82b90 Dave Stevenson 2020-01-20  783  		 * way other than changing the mode.
+1283b3b8f82b90 Dave Stevenson 2020-01-20  784  		 */
+1283b3b8f82b90 Dave Stevenson 2020-01-20  785  		hblank = IMX219_PPL_DEFAULT - mode->width;
+1283b3b8f82b90 Dave Stevenson 2020-01-20  786  		__v4l2_ctrl_modify_range(imx219->hblank, hblank, hblank, 1,
+1283b3b8f82b90 Dave Stevenson 2020-01-20  787  					 hblank);
+1283b3b8f82b90 Dave Stevenson 2020-01-20  788  	}
+1283b3b8f82b90 Dave Stevenson 2020-01-20  789  
+563219f153d5f7 Jacopo Mondi   2023-07-04  790  	*v4l2_subdev_get_pad_format(sd, sd_state, 0) = fmt->format;
+1283b3b8f82b90 Dave Stevenson 2020-01-20  791  
+1283b3b8f82b90 Dave Stevenson 2020-01-20  792  	return 0;
+1283b3b8f82b90 Dave Stevenson 2020-01-20  793  }
+1283b3b8f82b90 Dave Stevenson 2020-01-20  794  
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
