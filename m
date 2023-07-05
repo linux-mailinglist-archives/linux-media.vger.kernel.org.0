@@ -2,57 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 60F5B74850F
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jul 2023 15:34:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11FF7748553
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jul 2023 15:45:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231147AbjGENeq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Jul 2023 09:34:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42226 "EHLO
+        id S229720AbjGENpk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Jul 2023 09:45:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229645AbjGENep (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jul 2023 09:34:45 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D65E171B
-        for <linux-media@vger.kernel.org>; Wed,  5 Jul 2023 06:34:43 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (dkzdf0gkyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4506:4f15::1])
+        with ESMTP id S232186AbjGENpi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jul 2023 09:45:38 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58834171B
+        for <linux-media@vger.kernel.org>; Wed,  5 Jul 2023 06:45:35 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 4Qx0y66H5PzyWs;
-        Wed,  5 Jul 2023 16:34:38 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1688564079;
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Qx1Bg0f6dz49Q6j;
+        Wed,  5 Jul 2023 16:45:30 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1688564731;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=qRoCdtJKW0jrkDkC1ZNublNkd+XngAj735lnRAg9bbU=;
-        b=v0bk6O4K4snmMMaIeKitkEyQOYTiCMUU6athD9tBtAg0h8QA/7MVn7bb76hsK/8O+iigdP
-        xNPi/X44UUN9piwpGDghC1yBc4hSGAazb0dKu63WOMpTAZN/qp6hL45Q942+S/hwAiMkNW
-        PKTqOaCTIXbMOkGADvJ9p1rE3IsHI7c=
+        bh=puj1uIPdJ4ZCoFcXtZAIsv9hM1yeoJmRMEkHXSHwEKU=;
+        b=gYSqL8awrO/byRxEm9rm3TurunGaLlZuELtQ6MEJY2JGMN2fEdhlG+BWH/qCVOxo2wjmyV
+        EBHaLlQb7KHAH4W0V9MqNZU7s6jTBnm3DAysK/8PbYV2LzOyBD3kcP/B7ZGegRdTowCgiN
+        5pmtb7647tDiofFOwxajyBZ3bEMbgWDcNYkY2KxfdigxspPqv0ZLS9JXtGIIT1pfQSHpUR
+        8SGyfcMsGnUb1wpgGbMiNIojhmky6mXLSUGWDgRz5VTnmCuUm+xRkBZiLGuEZOiS1K/qvz
+        hBZhsBqB781ymE5PgOy25oc3yb/bpE7aKGLX46taaF9tNI+LY2jMEcLQ12qqSw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1688564079;
+        s=lahtoruutu; t=1688564731;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=qRoCdtJKW0jrkDkC1ZNublNkd+XngAj735lnRAg9bbU=;
-        b=ahjTDr6Jx4e5Xf+x457CphLfegVREBKjiDbun12d9CesWz4j8o+ILr9tyMOqYY2/w4G39F
-        jDflswTsQduDSW//0P0YXCRFSdhrywHJdj9es75o6V/lSiFBUcCE0RZkaaXKwZrwz0Q0AZ
-        hpkWa737isu2Xhog15AS75zk9N/WoFA=
+        bh=puj1uIPdJ4ZCoFcXtZAIsv9hM1yeoJmRMEkHXSHwEKU=;
+        b=e0g3GETquS4TaLeXPhG0mtteycGciR7gRB5I1ihOKZzEqRlESiyO4vOOjrQUEcQd9aA9Qk
+        +nSaX6i7cPWrGXSZN4NF5IMgxCk0OyqUNYimEd/P/ODbHNoCxohA3tV4IPqcRwSMyzBa3A
+        KLZLpPakHtBFH3cQmXXq8ykPoaT6J/MVmY+6Qop9hFHwvgF/npwWqiCH8x/z5l6At/zHEf
+        91eDOeea0ecTogwrBN+f0RZwSf93rEkQhULjMT3PT1YofWp70vnoabAnOgjXnS92M8QGgh
+        MwZu/iMUqCIXQcrCp1cNkAHjMmTeTZcZvpG57CGHqC9JDhnD4cSVtsQeu5h2wQ==
 ARC-Authentication-Results: i=1;
         ORIGINATING;
         auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1688564079; a=rsa-sha256; cv=none;
-        b=Ky6HN2jYaOFoMTSyHp4Q3FJEf8XK831tG3tdzn4fryKESSRc71TAlDcHoEDgdTNXCiyH1q
-        8MzLOG/ZkfxzWydv7/78ro81QecibXGte05uSkdyVa4xjO5AULwfpjYhO6CaLTsRvXCObK
-        kdjj90+4XaOM7AGwj6jb4GPj9XsE3xo=
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1688564731; a=rsa-sha256;
+        cv=none;
+        b=IKAAETH0Zcsq1LyirDrkBorcrsnlAKTz5HFX7eXeugVsm7foZKBwiNrBbKslH7m2YZc2Eb
+        wh5J7wjXKhGBO/WaF1vthB4gM+8yS7srb+V/0uX+/1irNDLFmC9t/0nnCy0xSSTdWPRaua
+        M5BIpiYOsc9/gcCDcxCnEh5A5puL3p8k5BazPm3Fb+dwN9pLlWooRbpxN+mZG5jZzyYEfc
+        +ooacFU6nEwA6yxS4qLM5wqjMrxkDkiXTfepZhKXoYvuqn3bqU80/mAx904Ons9JBh8rDl
+        ilIUqfGf2Wz2Y7INVg45fJ6OdL9Gol8zr3+ZMIAGqiaOHriuZxktzu+dS35pzQ==
 Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 6B5F8634C97;
-        Wed,  5 Jul 2023 16:34:38 +0300 (EEST)
-Date:   Wed, 5 Jul 2023 13:34:38 +0000
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 95EEF634C98;
+        Wed,  5 Jul 2023 16:45:30 +0300 (EEST)
+Date:   Wed, 5 Jul 2023 13:45:30 +0000
 From:   Sakari Ailus <sakari.ailus@iki.fi>
 To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -63,19 +70,20 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         Dan Scally <djrscally@gmail.com>, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 2/5] media: atomisp: ov2680: Turn into standard v4l2
+        linux-staging@lists.linux.dev, Jacopo Mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH v2 3/5] media: atomisp: gc0310: Turn into standard v4l2
  sensor driver
-Message-ID: <ZKVxbt6F28wb8RWn@valkosipuli.retiisi.eu>
+Message-ID: <ZKVz+u9kTdcpq87p@valkosipuli.retiisi.eu>
 References: <20230525190100.130010-1-hdegoede@redhat.com>
- <20230525190100.130010-3-hdegoede@redhat.com>
+ <20230525190100.130010-4-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230525190100.130010-3-hdegoede@redhat.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20230525190100.130010-4-hdegoede@redhat.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -84,21 +92,11 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Hans,
 
-Thanks for the set and sorry for the late review. I had originally thought
-this was about atomisp driver itself (but was not).
-
-On Thu, May 25, 2023 at 09:00:57PM +0200, Hans de Goede wrote:
-> Turn the atomisp-ov2680 driver into a standard v4l2 sensor driver:
-> 
-> 1. Stop filling camera_mipi_info
-> 2. Stop calling v4l2_get_acpi_sensor_info() this will be done by
->    atomisp_csi2_bridge_parse_firmware() now
-> 3. Switch to v4l2 async device registration
+On Thu, May 25, 2023 at 09:00:58PM +0200, Hans de Goede wrote:
+> Switch the atomisp-gc0310 driver to v4l2 async device registration.
 > 
 > After this change this driver no longer depends on
 > atomisp_gmin_platform and all atomisp-isms are gone.
-> 
-> While at it, also add missing mutex_destroy() to ov2680_remove().
 > 
 > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 > ---
@@ -109,150 +107,127 @@ On Thu, May 25, 2023 at 09:00:57PM +0200, Hans de Goede wrote:
 >   before probing the sensor
 > - Switch to endpoint matching
 > ---
->  .../media/atomisp/i2c/atomisp-ov2680.c        | 38 ++++++++-----------
->  drivers/staging/media/atomisp/i2c/ov2680.h    |  3 +-
->  .../media/atomisp/pci/atomisp_csi2_bridge.c   |  2 +
->  3 files changed, 18 insertions(+), 25 deletions(-)
+>  .../media/atomisp/i2c/atomisp-gc0310.c        | 29 ++++++++++++-------
+>  .../media/atomisp/pci/atomisp_csi2_bridge.c   |  2 ++
+>  2 files changed, 20 insertions(+), 11 deletions(-)
 > 
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> index b5d93a96d588..b35ddf611e2b 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> @@ -28,17 +28,8 @@
->  #include <media/ov_16bit_addr_reg_helpers.h>
+> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> index 1829ba419e3e..9a11793f34f7 100644
+> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+> @@ -29,8 +29,6 @@
+>  #include <media/v4l2-ctrls.h>
 >  #include <media/v4l2-device.h>
 >  
 > -#include "../include/linux/atomisp_gmin_platform.h"
 > -
->  #include "ov2680.h"
+>  #define GC0310_NATIVE_WIDTH			656
+>  #define GC0310_NATIVE_HEIGHT			496
 >  
-> -static enum atomisp_bayer_order ov2680_bayer_order_mapping[] = {
-> -	atomisp_bayer_order_bggr,
-> -	atomisp_bayer_order_grbg,
-> -	atomisp_bayer_order_gbrg,
-> -	atomisp_bayer_order_rggb,
-> -};
-> -
->  static int ov2680_write_reg_array(struct i2c_client *client,
->  				  const struct ov2680_reg *reglist)
->  {
-> @@ -62,7 +53,6 @@ static void ov2680_set_bayer_order(struct ov2680_device *sensor, struct v4l2_mbu
->  		MEDIA_BUS_FMT_SGBRG10_1X10,
->  		MEDIA_BUS_FMT_SRGGB10_1X10,
->  	};
-> -	struct camera_mipi_info *ov2680_info;
->  	int hv_flip = 0;
+> @@ -85,6 +83,7 @@ struct gc0310_device {
+>  	struct mutex input_lock;
+>  	bool is_streaming;
 >  
->  	if (sensor->ctrls.vflip->val)
-> @@ -72,11 +62,6 @@ static void ov2680_set_bayer_order(struct ov2680_device *sensor, struct v4l2_mbu
->  		hv_flip += 2;
+> +	struct fwnode_handle *ep_fwnode;
+>  	struct gpio_desc *reset;
+>  	struct gpio_desc *powerdown;
 >  
->  	fmt->code = ov2680_hv_flip_bayer_order[hv_flip];
-> -
-> -	/* TODO atomisp specific custom API, should be removed */
-> -	ov2680_info = v4l2_get_subdev_hostdata(&sensor->sd);
-> -	if (ov2680_info)
-> -		ov2680_info->raw_bayer_order = ov2680_bayer_order_mapping[hv_flip];
->  }
+> @@ -596,11 +595,11 @@ static void gc0310_remove(struct i2c_client *client)
 >  
->  static int ov2680_set_vflip(struct ov2680_device *sensor, s32 val)
-> @@ -609,10 +594,11 @@ static void ov2680_remove(struct i2c_client *client)
->  
->  	dev_dbg(&client->dev, "ov2680_remove...\n");
+>  	dev_dbg(&client->dev, "gc0310_remove...\n");
 >  
 > -	atomisp_unregister_subdev(sd);
 > -	v4l2_device_unregister_subdev(sd);
-> +	v4l2_async_unregister_subdev(&sensor->sd);
->  	media_entity_cleanup(&sensor->sd.entity);
->  	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
-> +	mutex_destroy(&sensor->input_lock);
-> +	fwnode_handle_put(sensor->ep_fwnode);
+> +	v4l2_async_unregister_subdev(sd);
+>  	media_entity_cleanup(&dev->sd.entity);
+>  	v4l2_ctrl_handler_free(&dev->ctrls.handler);
+>  	mutex_destroy(&dev->input_lock);
+> +	fwnode_handle_put(dev->ep_fwnode);
 >  	pm_runtime_disable(&client->dev);
 >  }
 >  
-> @@ -631,13 +617,19 @@ static int ov2680_probe(struct i2c_client *client)
->  	sensor->client = client;
->  	v4l2_i2c_subdev_init(&sensor->sd, client, &ov2680_ops);
+> @@ -613,19 +612,27 @@ static int gc0310_probe(struct i2c_client *client)
+>  	if (!dev)
+>  		return -ENOMEM;
 >  
-> -	ret = v4l2_get_acpi_sensor_info(dev, NULL);
+> -	ret = v4l2_get_acpi_sensor_info(&client->dev, NULL);
 > -	if (ret)
 > -		return ret;
 > +	/*
 > +	 * Sometimes the fwnode graph is initialized by the bridge driver.
 > +	 * Bridge drivers doing this may also add GPIO mappings, wait for this.
 > +	 */
-> +	sensor->ep_fwnode = fwnode_graph_get_next_endpoint(dev_fwnode(dev), NULL);
-> +	if (!sensor->ep_fwnode)
-> +		return dev_err_probe(dev, -EPROBE_DEFER, "waiting for fwnode graph endpoint\n");
+> +	dev->ep_fwnode = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev), NULL);
+> +	if (!dev->ep_fwnode)
+> +		return dev_err_probe(&client->dev, -EPROBE_DEFER, "waiting for fwnode graph endpoint\n");
 >  
->  	sensor->powerdown = devm_gpiod_get_optional(dev, "powerdown", GPIOD_OUT_HIGH);
-> -	if (IS_ERR(sensor->powerdown))
-> +	if (IS_ERR(sensor->powerdown)) {
-> +		fwnode_handle_put(sensor->ep_fwnode);
->  		return dev_err_probe(dev, PTR_ERR(sensor->powerdown), "getting powerdown GPIO\n");
+>  	dev->reset = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_HIGH);
+> -	if (IS_ERR(dev->reset))
+> +	if (IS_ERR(dev->reset)) {
+> +		fwnode_handle_put(dev->ep_fwnode);
+>  		return dev_err_probe(&client->dev, PTR_ERR(dev->reset),
+>  				     "getting reset GPIO\n");
 > +	}
 >  
->  	pm_runtime_set_suspended(dev);
->  	pm_runtime_enable(dev);
-> @@ -653,6 +645,7 @@ static int ov2680_probe(struct i2c_client *client)
->  	sensor->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
->  	sensor->pad.flags = MEDIA_PAD_FL_SOURCE;
->  	sensor->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-> +	sensor->sd.fwnode = sensor->ep_fwnode;
+>  	dev->powerdown = devm_gpiod_get(&client->dev, "powerdown", GPIOD_OUT_HIGH);
+> -	if (IS_ERR(dev->powerdown))
+> +	if (IS_ERR(dev->powerdown)) {
+> +		fwnode_handle_put(dev->ep_fwnode);
+>  		return dev_err_probe(&client->dev, PTR_ERR(dev->powerdown),
+>  				     "getting powerdown GPIO\n");
+> +	}
+>  
+>  	mutex_init(&dev->input_lock);
+>  	v4l2_i2c_subdev_init(&dev->sd, client, &gc0310_ops);
+> @@ -645,6 +652,7 @@ static int gc0310_probe(struct i2c_client *client)
+>  	dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+>  	dev->pad.flags = MEDIA_PAD_FL_SOURCE;
+>  	dev->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+> +	dev->sd.fwnode = dev->ep_fwnode;
 
-You can drop this change: when
-<URL:https://lore.kernel.org/linux-media/20230622114028.908825-1-sakari.ailus@linux.intel.com/T/#t>
-gets merged (for 6.6 presumably), the async sub-devices should register the
-device fwnode. Right now it works with device node albeit a warning
-remains.
+Same for this one: leave as-is --- the v4l2_async_register_subdev()
+function will set the device fwnode for this.
 
 >  
->  	ret = ov2680_init_controls(sensor);
+>  	ret = gc0310_init_controls(dev);
 >  	if (ret) {
-> @@ -668,8 +661,7 @@ static int ov2680_probe(struct i2c_client *client)
->  
->  	ov2680_fill_format(sensor, &sensor->mode.fmt, OV2680_NATIVE_WIDTH, OV2680_NATIVE_HEIGHT);
->  
-> -	ret = atomisp_register_sensor_no_gmin(&sensor->sd, 1, ATOMISP_INPUT_FORMAT_RAW_10,
-> -					      atomisp_bayer_order_bggr);
-> +	ret = v4l2_async_register_subdev_sensor(&sensor->sd);
->  	if (ret) {
->  		ov2680_remove(client);
+> @@ -658,8 +666,7 @@ static int gc0310_probe(struct i2c_client *client)
 >  		return ret;
-> diff --git a/drivers/staging/media/atomisp/i2c/ov2680.h b/drivers/staging/media/atomisp/i2c/ov2680.h
-> index baf49eb0659e..a3eeb0c2de5c 100644
-> --- a/drivers/staging/media/atomisp/i2c/ov2680.h
-> +++ b/drivers/staging/media/atomisp/i2c/ov2680.h
-> @@ -30,8 +30,6 @@
->  #include <linux/v4l2-mediabus.h>
->  #include <media/media-entity.h>
+>  	}
+
+This driver should (as well as ov2680) check for the link frequencies. This
+is an old sensor so if all users eventually use this via firmware that
+lacks this information, there's little benefit for adding the code. But
+otherwise this is seen as a bug.
+
+<URL:https://hverkuil.home.xs4all.nl/spec/driver-api/camera-sensor.html#handling-clocks
+
+The raw cameras should use pixel rate and blanking controls for configuring
+the frame interval. This one uses s_frame_interval instead, and it may be
+difficult to find the information needed for the pixel rate based API.
+
+Cc Jacopo.
+
 >  
-> -#include "../include/linux/atomisp_platform.h"
-> -
->  #define OV2680_NATIVE_WIDTH			1616
->  #define OV2680_NATIVE_HEIGHT			1216
->  
-> @@ -114,6 +112,7 @@ struct ov2680_device {
->  	struct mutex input_lock;
->  	struct i2c_client *client;
->  	struct gpio_desc *powerdown;
-> +	struct fwnode_handle *ep_fwnode;
->  	bool is_streaming;
->  
->  	struct ov2680_mode {
+> -	ret = atomisp_register_sensor_no_gmin(&dev->sd, 1, ATOMISP_INPUT_FORMAT_RAW_8,
+> -					      atomisp_bayer_order_grbg);
+> +	ret = v4l2_async_register_subdev_sensor(&dev->sd);
+>  	if (ret) {
+>  		gc0310_remove(client);
+>  		return ret;
 > diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
-> index c80754755d9e..d7d9cac2c3b8 100644
+> index d7d9cac2c3b8..5268a0d25051 100644
 > --- a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
 > +++ b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
 > @@ -89,6 +89,8 @@ static const guid_t atomisp_dsm_guid =
 >   * power-management and with v4l2-async probing.
 >   */
 >  static const struct atomisp_csi2_sensor_config supported_sensors[] = {
-> +	/* Omnivision OV2680 */
-> +	{ "OVTI2680", 1 },
+> +	/* GalaxyCore GC0310 */
+> +	{ "INT0310", 1 },
+>  	/* Omnivision OV2680 */
+>  	{ "OVTI2680", 1 },
 >  };
->  
->  /*
 
 -- 
 Kind regards,
