@@ -2,81 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD118748E0D
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jul 2023 21:39:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BF6D748F86
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jul 2023 23:08:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234311AbjGETjx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Jul 2023 15:39:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46610 "EHLO
+        id S231598AbjGEVIL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Jul 2023 17:08:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233841AbjGETjr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jul 2023 15:39:47 -0400
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF3A71732;
-        Wed,  5 Jul 2023 12:39:43 -0700 (PDT)
-Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-77acb04309dso353633939f.2;
-        Wed, 05 Jul 2023 12:39:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688585983; x=1691177983;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=OR44xsl8dcDDRHket6JLRoRPh10jvQanfxZD4Qq5o5A=;
-        b=a0CEu5mqjWGo8IGRyJ6e667dY3I/m6XXzpZ51tZxpu8RysCYjJU+tN6Pmka10t+tNL
-         oooNFqm83WP8oryCBd8YKBj9BGnVaA9OJp1YeceXV9c20ivZJK6m0jULeeECNW/v4GG9
-         x8dCy734zSFeG39mJzXskDlPq5eZtaJ+lGTdENV6NPvjk6UoBywYPERS2lDOF5BJFYp3
-         kJ+DjiwGB/OgmAVLJvysrHDOJSw+JkZTes4lHWGKWo/RqD2xbITtUJZHuTLoO01u2VQB
-         IzhWhU7AKfZVJpNIPEp9FzfucL57i3weprBCaPDmCMWC9t7laGKYAoKamyGJQhOZlKRp
-         nh+Q==
-X-Gm-Message-State: ABy/qLbAA2KurpshNzjgaeeDFzqBEK03cTCXm7X3AdjyVDtdNsxFYJrP
-        9baxSsRd22kpom7bJP+cPg==
-X-Google-Smtp-Source: APBJJlFTsATQZZbeDYi05vWkxMhLO+2kIHQFYrmGtwqcASMsu98qNuBpLmP0dT/ZyPLVLU0YF4GwxA==
-X-Received: by 2002:a6b:f208:0:b0:77e:3598:e511 with SMTP id q8-20020a6bf208000000b0077e3598e511mr177308ioh.2.1688585983078;
-        Wed, 05 Jul 2023 12:39:43 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id l10-20020a056638220a00b0042b1cd4c096sm3797893jas.74.2023.07.05.12.39.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Jul 2023 12:39:42 -0700 (PDT)
-Received: (nullmailer pid 1714650 invoked by uid 1000);
-        Wed, 05 Jul 2023 19:39:32 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S229532AbjGEVIK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jul 2023 17:08:10 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D27A01700;
+        Wed,  5 Jul 2023 14:08:09 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3096F6171F;
+        Wed,  5 Jul 2023 21:08:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A188C433C8;
+        Wed,  5 Jul 2023 21:08:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1688591288;
+        bh=NajrxupDFZ59vM47Ffnp1c/E2get+RZ4lYixh1lFIgU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=sOa84jHRbktKJPfJ6am6rrZ1gSN2lSZIkXIK+uzYn6gZPLkr2Br6KyPn4fUqk88pE
+         8fosqhnlThm9cNIAeIyUXA1XokLy71hbSuV75uqB9tQ81PKDt0ygKSxLPnPY6VGG+j
+         XvQFxvhqIa33g0XifRdoX9h3IkWDhMlukLUyzrcm6EcU4GpmgtLt2kZ+a8GyObx/Gx
+         V6KLWVy/tyqGwIhlZA8HcV/hKak0wym20hq+dCeLOYzKya0kbp5ZIDXtBruUKBF6dw
+         pt+EdaMSmlJvwpTLqAV6bbzppbb4bhP3Sqih+31ET10Pw7LhgcJj7/ZJX1AF7XF1SF
+         dfqnOPzrEz8/A==
+Date:   Wed, 5 Jul 2023 22:08:04 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     "G.N. Zhou (OSS)" <guoniu.zhou@oss.nxp.com>
+Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "laurent.pinchart@ideasonboard.com" 
+        <laurent.pinchart@ideasonboard.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "jacopo.mondi@ideasonboard.com" <jacopo.mondi@ideasonboard.com>
+Subject: Re: [PATCH 1/2] media: dt-bindings: Add binding doc for i.MX93 MIPI
+ CSI-2
+Message-ID: <20230705-edition-fiftieth-83c3875df1ab@spud>
+References: <20230703113734.762307-1-guoniu.zhou@oss.nxp.com>
+ <20230703113734.762307-2-guoniu.zhou@oss.nxp.com>
+ <20230704-unnamable-sandpaper-01fd3631e1df@spud>
+ <AS8PR04MB9080CED9E49E7D7BDD41F26BFA2FA@AS8PR04MB9080.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
-From:   Rob Herring <robh@kernel.org>
-To:     Gatien Chevallier <gatien.chevallier@foss.st.com>
-Cc:     hugues.fruchet@foss.st.com, vkoul@kernel.org,
-        linux-media@vger.kernel.org, gregkh@linuxfoundation.org,
-        linux-phy@lists.infradead.org, lee@kernel.org,
-        linux-kernel@vger.kernel.org, arnd@kernel.org,
-        linux-serial@vger.kernel.org, mchehab@kernel.org,
-        edumazet@google.com, arnaud.pouliquen@foss.st.com,
-        herbert@gondor.apana.org.au, davem@davemloft.net,
-        linux-crypto@vger.kernel.org, jic23@kernel.org, pabeni@redhat.com,
-        linux-usb@vger.kernel.org, alsa-devel@alsa-project.org,
-        olivier.moysan@foss.st.com, fabrice.gasnier@foss.st.com,
-        kuba@kernel.org, andi.shyti@kernel.org,
-        alexandre.torgue@foss.st.com, conor+dt@kernel.org,
-        richardcochran@gmail.com, will@kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-mmc@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        linux-arm-kernel@lists.infradead.org, catalin.marinas@arm.com,
-        dmaengine@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Oleksii_Moisieiev@epam.com, linux-spi@vger.kernel.org,
-        linux-iio@vger.kernel.org, netdev@vger.kernel.org,
-        ulf.hansson@linaro.org, devicetree@vger.kernel.org,
-        robh+dt@kernel.org
-In-Reply-To: <20230705172759.1610753-3-gatien.chevallier@foss.st.com>
-References: <20230705172759.1610753-1-gatien.chevallier@foss.st.com>
- <20230705172759.1610753-3-gatien.chevallier@foss.st.com>
-Message-Id: <168858597155.1714560.12250834903693245143.robh@kernel.org>
-Subject: Re: [PATCH 02/10] dt-bindings: bus: add device tree bindings for
- RIFSC
-Date:   Wed, 05 Jul 2023 13:39:32 -0600
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="2ordbauYosi8OQ95"
+Content-Disposition: inline
+In-Reply-To: <AS8PR04MB9080CED9E49E7D7BDD41F26BFA2FA@AS8PR04MB9080.eurprd04.prod.outlook.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -84,41 +69,70 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-On Wed, 05 Jul 2023 19:27:51 +0200, Gatien Chevallier wrote:
-> Document RIFSC (RIF security controller). RIFSC is a firewall controller
-> composed of different kinds of hardware resources.
-> 
-> Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
-> ---
->  .../bindings/bus/st,stm32-rifsc.yaml          | 101 ++++++++++++++++++
->  1 file changed, 101 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/bus/st,stm32-rifsc.yaml
-> 
+--2ordbauYosi8OQ95
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+On Wed, Jul 05, 2023 at 01:30:38AM +0000, G.N. Zhou (OSS) wrote:
 
-yamllint warnings/errors:
+> > > diff --git
+> > > a/Documentation/devicetree/bindings/media/nxp,dwc-mipi-csi2.yaml
+> > > b/Documentation/devicetree/bindings/media/nxp,dwc-mipi-csi2.yaml
+> > > new file mode 100644
+> > > index 000000000000..ece6fb8991d4
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/nxp,dwc-mipi-csi2.yaml
+> >=20
+> > The filename of the binding should match the compatible.
+> >=20
+> > > @@ -0,0 +1,140 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/nxp,dwc-mipi-csi2.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: NXP i.MX93 MIPI CSI-2 Host Controller receiver
+> > > +
+> > > +maintainers:
+> > > +  - G.N. Zhou <guoniu.zhou@nxp.com>
+> > > +
+> > > +description: |-
+> > > +  The MIPI CSI-2 receiver found on i.MX93 originates from Synopsys
+> > > +  DesignWare Core and it implements the CSI-2 protocol on the host
+> > > +  side and a DPHY configured as a Slave acts as the physical layer.
+> > > +  Two data lanes are supported on i.MX93 family devices and the data
+> > > +  rate of each lane support up to 1.5Gbps.
+> > > +
+> > > +  While the CSI-2 receiver is separate from the MIPI D-PHY IP core,
+> > > + the PHY is completely wrapped by the CSI-2 controller and expose  a
+> > > + control interface which only can communicate with CSI-2 controller
+> > > + This binding thus covers both IP cores.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    enum:
+> > > +      - fsl,imx93-mipi-csi2
+> >=20
+> > Everywhere else you say NXP, why use Freescale here?
+>=20
+> Due to history reason, all i.MX platforms of NXP use "fsl" as vendor abbr=
+eviation prefix.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/bus/st,stm32-rifsc.yaml: title: 'STM32 Resource isolation framework security controller bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
-	hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
-	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+Okay. Please update the filename to patch the "fsl" compatible then.
 
-doc reference errors (make refcheckdocs):
+Cheers,
+Conor.
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230705172759.1610753-3-gatien.chevallier@foss.st.com
+--2ordbauYosi8OQ95
+Content-Type: application/pgp-signature; name="signature.asc"
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+-----BEGIN PGP SIGNATURE-----
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZKXbswAKCRB4tDGHoIJi
+0rqDAQD2o8q/HPtI3O9v9iTqcw3JPiCMaC4xvDuqKsZs/eisXwD/SmxI/pBth0Tj
+j3YkXH7uku2hQmh9N4ssl5uWlnmMvwo=
+=hZ6x
+-----END PGP SIGNATURE-----
 
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+--2ordbauYosi8OQ95--
