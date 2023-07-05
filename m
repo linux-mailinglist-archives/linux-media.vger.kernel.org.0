@@ -2,134 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB5B774829B
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jul 2023 12:58:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D6777482CB
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jul 2023 13:17:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232266AbjGEK6R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Jul 2023 06:58:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33798 "EHLO
+        id S231822AbjGELRK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Jul 2023 07:17:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232265AbjGEK6Q (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jul 2023 06:58:16 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C3FE171C
-        for <linux-media@vger.kernel.org>; Wed,  5 Jul 2023 03:58:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688554694; x=1720090694;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nBRBi+JdBBAiMGr8rBOADbhHbi2IjtFkDGVAklUcFDs=;
-  b=WBCLnKsCo3dLJCoGZ+rQuvJaszBJw+158lh1r/WjLuW+7b87E3fFf0aP
-   2uCtCB8LwE3g/mst/gSJ2WmzfaRofJEp1E+wmLr60mWXqjMg03k9py8oC
-   Y6k3bGW44rtoYNq790bOMr3p2u3bL/QRACTBCmCgSYsaAC6wUCo6reUDd
-   dsV1mCSZEMk+VaK3kXzFbkEHlrIjR1fbarwD2LQTy5Gvuot5FCWQicFqL
-   IwnZGl5QfNh4KfUyq10Pawk8mlKDAbm/vJIBPcsgs5beCOOclAaNhlY5/
-   OtsY1d0zYDtb3gsci3br1CtW6Xj3fwIPn9Fn0F0lRmigl9jeR31OJq+XN
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="348098980"
-X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
-   d="scan'208";a="348098980"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2023 03:58:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="722357207"
-X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
-   d="scan'208";a="722357207"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2023 03:58:10 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id D5BBF11FB8E;
-        Wed,  5 Jul 2023 13:58:07 +0300 (EEST)
-Date:   Wed, 5 Jul 2023 10:58:07 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-        Hao Yao <hao.yao@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 13/15] media: atomisp: csi2-bridge: Switch to new
- common ipu_bridge_init()
-Message-ID: <ZKVMvwtJXzFr6YxL@kekkonen.localdomain>
-References: <20230630110643.209761-1-hdegoede@redhat.com>
- <20230630110643.209761-14-hdegoede@redhat.com>
- <CAHp75Vcp9aoKOw-gPeXvJ9VuO5nGN=g5HHjAxWwNyNzo6J2Amw@mail.gmail.com>
- <26ce49af-1267-0a9d-5eb7-f15a94395328@redhat.com>
- <ZKVIIVCNKHebrnt1@kekkonen.localdomain>
- <90079327-2d9c-8286-b1d9-a972567d7e60@redhat.com>
+        with ESMTP id S231479AbjGELRK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jul 2023 07:17:10 -0400
+Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62393116
+        for <linux-media@vger.kernel.org>; Wed,  5 Jul 2023 04:17:08 -0700 (PDT)
+Received: by mail-qv1-xf2b.google.com with SMTP id 6a1803df08f44-635f1c7412cso45354356d6.0
+        for <linux-media@vger.kernel.org>; Wed, 05 Jul 2023 04:17:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1688555826; x=1691147826;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gLYbyyTNl2Zb/qjIIe6Qi+9jxk/pFwwBytcz2lbXZbY=;
+        b=n9q+aZJ92FmViihc3PgbYyXboMxqgX5yjUrMehgL2YkOKQS8Q124VGBlFT6SrvnHQ+
+         FablCQ64bt4FPIsq+6T+zM1U2uSZk+mykldx4YDRN4HB7hyl7mrTutmoG2joPgBVdX6S
+         LqgbcrUJ30u/txmD+jETyZSSFXwImstD/opJ0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688555826; x=1691147826;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gLYbyyTNl2Zb/qjIIe6Qi+9jxk/pFwwBytcz2lbXZbY=;
+        b=FGKvqNVkWHpeebQiRGtEXPSWXt8DqWsYsgwvOxc3S5XP+umD/SNFbqihfiK2I3RojE
+         rutgItpNYGWNqNvfVjU4KNoHQfdSgMwHbUkDFY3uzjQzaF+ynk1nzQdNFIG166JXguOc
+         D23/Q4MTvNZ4MF89xqGHJ3I10sYvYwy7vmkiKQ5dM2XqfY3kKaBIAfJtmEWw5m6oQrrw
+         x7uhciUlysIruK+qCJmDiIAfXctz6bW9TaVucfQC5iBn6OWNgd1jBs0tYVK05BlovuLq
+         I7mVLiVu2b9+pWMCQbU9mxzlpsGJoi84P2uhH63kReBuBDqfkFHL6hhxk8H7+2U1D5zp
+         Zzig==
+X-Gm-Message-State: ABy/qLZcGgkQs5ehsVCy8csRBXhsG5SFg0T0NrvOdoEoCLtBcJ9nLFyd
+        MvOdJvqEDNAqt2Y/rjdPUKsvjARgOMZxiesyefOjRQ==
+X-Google-Smtp-Source: APBJJlFMJFwOOe+3G7RyhrIi88gZ3zI1YvoxrFHxUuJue5/gqlRQOIj7Ui0S4q7L7hU38kNKQNmrIw==
+X-Received: by 2002:a05:6214:4408:b0:636:14d4:4481 with SMTP id oj8-20020a056214440800b0063614d44481mr14526264qvb.1.1688555825859;
+        Wed, 05 Jul 2023 04:17:05 -0700 (PDT)
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com. [209.85.222.172])
+        by smtp.gmail.com with ESMTPSA id b8-20020a0ccd08000000b00637615a1f33sm402500qvm.20.2023.07.05.04.17.04
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Jul 2023 04:17:05 -0700 (PDT)
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-765a4ff26cdso586364685a.0
+        for <linux-media@vger.kernel.org>; Wed, 05 Jul 2023 04:17:04 -0700 (PDT)
+X-Received: by 2002:a05:6214:15ce:b0:626:2e65:cb2b with SMTP id
+ p14-20020a05621415ce00b006262e65cb2bmr15434310qvz.4.1688555824535; Wed, 05
+ Jul 2023 04:17:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <90079327-2d9c-8286-b1d9-a972567d7e60@redhat.com>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20210301085236.947011-1-hch@lst.de> <20210301085236.947011-4-hch@lst.de>
+ <94d4b082-7b08-82e0-bb42-6ac36821ea61@arm.com>
+In-Reply-To: <94d4b082-7b08-82e0-bb42-6ac36821ea61@arm.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Wed, 5 Jul 2023 20:16:54 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5AeoRwuXo9j0=AK-eBhUQx-S8qvJVHDoOf0=B+20FAn9g@mail.gmail.com>
+Message-ID: <CAAFQd5AeoRwuXo9j0=AK-eBhUQx-S8qvJVHDoOf0=B+20FAn9g@mail.gmail.com>
+Subject: Re: [PATCH 3/6] dma-mapping: add a dma_alloc_noncontiguous API
+To:     Robin Murphy <robin.murphy@arm.com>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@google.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        iommu@lists.linux-foundation.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+On Fri, Jun 30, 2023 at 2:21=E2=80=AFAM Robin Murphy <robin.murphy@arm.com>=
+ wrote:
+>
+> [Archaeology ensues...]
+>
+> On 2021-03-01 08:52, Christoph Hellwig wrote:
+> [...]
+> > +static struct sg_table *alloc_single_sgt(struct device *dev, size_t si=
+ze,
+> > +             enum dma_data_direction dir, gfp_t gfp)
+> > +{
+> > +     struct sg_table *sgt;
+> > +     struct page *page;
+> > +
+> > +     sgt =3D kmalloc(sizeof(*sgt), gfp);
+> > +     if (!sgt)
+> > +             return NULL;
+> > +     if (sg_alloc_table(sgt, 1, gfp))
+> > +             goto out_free_sgt;
+> > +     page =3D __dma_alloc_pages(dev, size, &sgt->sgl->dma_address, dir=
+, gfp);
+> > +     if (!page)
+> > +             goto out_free_table;
+> > +     sg_set_page(sgt->sgl, page, PAGE_ALIGN(size), 0);
+> > +     sg_dma_len(sgt->sgl) =3D sgt->sgl->length;
+> > +     return sgt;
+> > +out_free_table:
+> > +     sg_free_table(sgt);
+> > +out_free_sgt:
+> > +     kfree(sgt);
+> > +     return NULL;
+> > +}
+> > +
+> > +struct sg_table *dma_alloc_noncontiguous(struct device *dev, size_t si=
+ze,
+> > +             enum dma_data_direction dir, gfp_t gfp, unsigned long att=
+rs)
+> > +{
+> > +     const struct dma_map_ops *ops =3D get_dma_ops(dev);
+> > +     struct sg_table *sgt;
+> > +
+> > +     if (WARN_ON_ONCE(attrs & ~DMA_ATTR_ALLOC_SINGLE_PAGES))
+> > +             return NULL;
+> > +
+> > +     if (ops && ops->alloc_noncontiguous)
+> > +             sgt =3D ops->alloc_noncontiguous(dev, size, dir, gfp, att=
+rs);
+> > +     else
+> > +             sgt =3D alloc_single_sgt(dev, size, dir, gfp);
+> > +
+> > +     if (sgt) {
+> > +             sgt->nents =3D 1;
+> > +             debug_dma_map_sg(dev, sgt->sgl, sgt->orig_nents, 1, dir);
+>
+> It turns out this is liable to trip up DMA_API_DEBUG_SG (potentially
+> even in the alloc_single_sgt() case), since we've filled in sgt without
+> paying attention to the device's segment boundary/size parameters.
+>
+> Now, it would be entirely possible to make the allocators "properly"
+> partition the pages into multiple segments per those constraints, but
+> given that there's no actual dma_map_sg() operation involved, and AFAIR
+> the intent here is really only to describe a single DMA-contiguous
+> buffer as pages, rather than represent a true scatter-gather operation,
 
-On Wed, Jul 05, 2023 at 12:51:50PM +0200, Hans de Goede wrote:
-> Hi,
-> 
-> On 7/5/23 12:38, Sakari Ailus wrote:
-> > Hi Hans,
-> > 
-> > On Tue, Jul 04, 2023 at 09:21:47PM +0200, Hans de Goede wrote:
-> >> Hi,
-> >>
-> >> On 6/30/23 16:45, Andy Shevchenko wrote:
-> >>>> +       sensor->lanes = gmin_cfg_get_int(adev, "CsiLanes", lanes);
-> >>>> +       if (sensor->lanes > IPU_MAX_LANES) {
-> >>>> +               dev_err(&adev->dev, "Invalid lane-count: %d\n", sensor->lanes);
-> >>>
-> >>> Yeah, I think we would be consistent in using the ACPI handle to print
-> >>> the messages from ACPI sensor devices.
-> >>
-> >> I do agree that we need to be consistent, but I regret having switched
-> >> to using the handle for this in the csi2-bridge code. The dmesg logs
-> >> this results in are much harder to read. Most devices typically have
-> >> 2 different sensors and normally it is quite easy to see in the logs
-> >> which GPIOs, etc. are being used for the sensor.
-> >>
-> >> But after the move to using the ACPI handle for logging the logs
-> >> show up prefixed with \_SB_.I2C2.CAM8 resp CAM2 rather then with
-> >> OVTI2680 and INT0310 making it much harder to figure on what
-> >> is going on (first need to do
-> >> "cat /sys/bus/i2c/devices/i2c-OVTI2680:00/firmware_node/path"
-> >> to find out which path belongs to which sensor).
-> > 
-> > In cases such as the above, the developer probably needs to address issues
-> > not in the sensor driver but in the ACPI tables (or in IPU bridge code). So
-> > for this reason I'd prefer printing the device path instead of the HID
-> > (which is also somewhat opaque).
-> > 
-> >>
-> >> So I would rather get rid of the handle based logging, because it
-> >> is very cumbersome to use.
-> > 
-> > The V4L2 async and fwnode frameworks use handles, too, for the same reason.
-> > 
-> > That said, I don't mind printing device names either. AFAIR Laurent
-> > actually proposed that recently for the V4L2 fwnode and even promised to
-> > send a patch. :-)
-> 
-> Hmm, ok. I'll keep the acpi_handle logging then and add a " %s:", dev_name() to
-> the logs so that we log both the ACPI handle path and the dev-name / HID.
-> 
-> >> I'll add an extra patch to the next version of the set to switch all
-> >> the logging to using the acpi_device for logging.
-> 
-> So this extra patch is going to add logging of the dev_name() instead then.
+Yeah, the name noncontiguous comes from potentially allocating
+non-contiguous physical pages, which based on a few people I talked
+with, ended up being quite confusing, but I can't really think of a
+better name either.
 
-Sounds good to me.
+Do we know how common devices with segment boundary/size constraints
+are and how likely they are to use this API?
 
--- 
-Sakari Ailus
+> I'm now wondering whether it makes more sense to just make dma-debug a
+> bit cleverer instead. Any other opinions?
+
+If we could assume that drivers for those devices shouldn't use this
+API, we could just fail if the segment boundary/size are set to
+something other than unlimited.
+
+Best regards,
+Tomasz
+
+>
+> Thanks,
+> Robin.
+>
+> > +     }
+> > +     return sgt;
+> > +}
