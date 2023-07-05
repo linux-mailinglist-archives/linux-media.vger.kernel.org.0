@@ -2,148 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FDE47483CF
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jul 2023 14:10:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E52107483D1
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jul 2023 14:11:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231626AbjGEMK1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Jul 2023 08:10:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34294 "EHLO
+        id S231963AbjGEMLH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Jul 2023 08:11:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230100AbjGEMK0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jul 2023 08:10:26 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D1EABE
-        for <linux-media@vger.kernel.org>; Wed,  5 Jul 2023 05:10:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688559025; x=1720095025;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xNfXy1B/JSRSyHqorjL9CDpCm7PR4mXsrkVHE6ajxdk=;
-  b=Vzehtf7IL6BOrL74fS48Iz+jOreJ/YdYNTSmu7m47QQBI01JfVDJoyog
-   oAE58AUPiMaR4//BHyOW8s7snH+Oa0SLWp72MQJXOQubcLiV5yGuSXCUy
-   jJaHY2me/dexugZqB4OgHoYOAWi3Zf5q88PeHPtDw4k0anBkDxT+X+2ON
-   8n3oPMg1JK9uWP3wec0MbrrDFLcX87A+B5c2CSntFdL5BkGV8Gz9UU4y0
-   onM6p5OMMEMfgMkjCzqS8t7FfJDsDnLL8LUHC1Tsrvl1XgYSeAEaArkfs
-   a/CkE/RG0KUjbVHzYZqr0OS7HyCfwjvOmaO/KKrJ3kbxAFM5UT23L+qGd
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="360799011"
-X-IronPort-AV: E=Sophos;i="6.01,183,1684825200"; 
-   d="scan'208";a="360799011"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2023 05:10:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="713172452"
-X-IronPort-AV: E=Sophos;i="6.01,183,1684825200"; 
-   d="scan'208";a="713172452"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2023 05:10:22 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 4B08F11FB8E;
-        Wed,  5 Jul 2023 15:10:19 +0300 (EEST)
-Date:   Wed, 5 Jul 2023 12:10:19 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-        Hao Yao <hao.yao@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 12/15] media: ipu-bridge: Add GalaxyCore GC0310 to
- ipu_supported_sensors[]
-Message-ID: <ZKVdq+SWLnhWAYE6@kekkonen.localdomain>
-References: <20230630110643.209761-1-hdegoede@redhat.com>
- <20230630110643.209761-13-hdegoede@redhat.com>
- <ZKP5KIXBVaLWetVH@kekkonen.localdomain>
- <80024c5b-d35b-96ac-ff5b-1e013c3ef113@redhat.com>
- <ZKVWSzKrddTNe048@kekkonen.localdomain>
- <b1130616-404c-ddac-22e3-517a4440782a@redhat.com>
+        with ESMTP id S230100AbjGEMLG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jul 2023 08:11:06 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44C87BE;
+        Wed,  5 Jul 2023 05:11:05 -0700 (PDT)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:cbfb:e358:222c:d8c1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: benjamin.gaignard)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 354B266020F5;
+        Wed,  5 Jul 2023 13:11:03 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1688559063;
+        bh=0EkrhqfP9XUDXvCh3iJ2AF/1rs8GBjnfIgfGSYhPJMo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=e6SFTrA/Jj+0xACBNA/LjXYY9LHtlF9uNFamKrovQoUdpxcuDIYTWlQSlXqaRrpcZ
+         Dq/N3wsdZeHPIrDsTpHSteNF04Q+7zKvF4sJM6Wv8kZmIw0TME12eRRkqOSUrySuoz
+         IqcVmjQQpgDuHQEZtVa6hhfAClSumhkjq7+Kjs5pWAwt/U/qkATMvIothDaB90hsby
+         wcsNZuJ9PtKJhAiuVkuFd4j3T7F1QxCo9TC5y2utZmibmDhAqxTjpCVGk4CrNbEsN+
+         n+Ouqv0/ZvYpSMoeB3Bp9OLkxm/Aja9VtC4x9ANyRK7exm3NQd4fx4A1m03koZg2Bo
+         z2ZmREQ30ZsHw==
+From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To:     mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v4 00/10]  Add DELETE_BUF ioctl
+Date:   Wed,  5 Jul 2023 14:10:46 +0200
+Message-Id: <20230705121056.37017-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b1130616-404c-ddac-22e3-517a4440782a@redhat.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Unlike when resolution change on keyframes, dynamic resolution change
+on inter frames doesn't allow to do a stream off/on sequence because
+it is need to keep all previous references alive to decode inter frames.
+This constraint have two main problems:
+- more memory consumption.
+- more buffers in use.
+To solve these issue this series introduce DELETE_BUFS ioctl and remove
+the 32 buffers limit per queue.
 
-On Wed, Jul 05, 2023 at 01:50:27PM +0200, Hans de Goede wrote:
-> Hi,
-> 
-> On 7/5/23 13:38, Sakari Ailus wrote:
-> > Hi Hans,
-> > 
-> > On Tue, Jul 04, 2023 at 12:59:53PM +0200, Hans de Goede wrote:
-> >> Hi Sakari,
-> >>
-> >> On 7/4/23 12:49, Sakari Ailus wrote:
-> >>> Hi Hans,
-> >>>
-> >>> On Fri, Jun 30, 2023 at 01:06:40PM +0200, Hans de Goede wrote:
-> >>>> The GalaxyCore GC0310 is used together with the atomisp no various
-> >>>> devices, add it to ipu_supported_sensors[].
-> >>>>
-> >>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> >>>> ---
-> >>>>  drivers/media/pci/intel/ipu-bridge.c | 2 ++
-> >>>>  1 file changed, 2 insertions(+)
-> >>>>
-> >>>> diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
-> >>>> index eb7c56e8ef9f..07a34f20af8e 100644
-> >>>> --- a/drivers/media/pci/intel/ipu-bridge.c
-> >>>> +++ b/drivers/media/pci/intel/ipu-bridge.c
-> >>>> @@ -36,6 +36,8 @@ static const struct ipu_sensor_config ipu_supported_sensors[] = {
-> >>>>  	IPU_SENSOR_CONFIG("INT3537", 1, 437000000),
-> >>>>  	/* Omnivision ov13b10 */
-> >>>>  	IPU_SENSOR_CONFIG("OVTIDB10", 1, 560000000),
-> >>>> +	/* GalaxyCore GC0310 */
-> >>>> +	IPU_SENSOR_CONFIG("INT0310", 0),
-> >>>
-> >>>
-> >>> Where is this HID from? A DSDT somewhere??
-> >>
-> >> This is used in many atomisp DSDTs on many atomisp devices,
-> >> see below for a quick grep to my no disk "database" of DSDTs.
-> >>
-> >> This is also already used by the existing gc0310 driver for
-> >> atomisp:
-> >>
-> >> https://git.linuxtv.org/media_stage.git/tree/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> >>
-> >> Note with the latest media_stage.git branch, which has
-> >> my "[GIT PULL] media: atomisp: Changes for 6.5-1" merged:
-> >>
-> >> https://lore.kernel.org/linux-media/4177be8a-7a77-c452-7b98-91d5e5af8e8b@redhat.com/
-> >>
-> >> The gc0310 driver is now a fully standard v4l2 driver no longer using any
-> >> atomisp-isms / custom API. As such I have a patch pending to move
-> >> it to drivers/media/i2c :
-> >>
-> >> https://lore.kernel.org/linux-media/20230525190100.130010-6-hdegoede@redhat.com/
-> >>
-> >> that patch is waiting for you to ack (or merge) it. Note if you chose to merge this
-> >> yourself, this should be applied on top of the latest media_stage/master
-> >> not on top of 6.4-rc1 .
-> > 
-> > Ack, thanks for the info.
-> 
-> Does this count as your Acked-by for the patch to mv gc0310.c to
-> drivers/media/i2c in my next media-atomisp pull-req ?
-> 
-> or ... ?
+VP9 conformance tests using fluster give a score of 210/305.
+The 24 resize inter tests (vp90-2-21-resize_inter_* files) are ok
+but require to use postprocessor.
 
-Can I take the set once others think it's good? I have Wentong's patch that
-goes on top.
+Kernel branch is available here:
+https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/remove_vb2_queue_limit_v4
+
+GStreamer branch to use DELETE_BUF ioctl and testing dynamic resolution
+change is here:
+https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/commits/VP9_drc
+
+changes in version 4:
+- Stop using Xarray, instead let queues decide about their own maximum
+  number of buffer and allocate bufs array given that value.
+- Rework offset cookie encoding pattern.
+- Change DELETE_BUF to DELETE_BUFS because it now usable for
+  range of buffer to be symetrical of CREATE_BUFS.
+- Add fixes tags on couple of Verisilicon related patches.
+- Be smarter in Verisilicon postprocessor buffers management.
+- Rebase on top of v6.4
+
+changes in version 3:
+- Use Xarray API to store allocated video buffers.
+- No module parameter to limit the number of buffer per queue.
+- Use Xarray inside Verisilicon driver to store postprocessor buffers
+  and remove VB2_MAX_FRAME limit.
+- Allow Versilicon driver to change of resolution while streaming
+- Various fixes the Verisilicon VP9 code to improve fluster score.
+ 
+changes in version 2:
+- Use a dynamic array and not a list to keep trace of allocated buffers.
+  Not use IDR interface because it is marked as deprecated in kernel
+  documentation.
+- Add a module parameter to limit the number of buffer per queue.
+- Add DELETE_BUF ioctl and m2m helpers.
+ 
+Benjamin Gaignard (10):
+  media: videobuf2: Access vb2_queue bufs array through helper functions
+  media: videobuf2: Be more flexible on the number of queue stored
+    buffers
+  media: videobuf2: Rework offset 'cookie' encoding pattern
+  media: verisilicon: Refactor postprocessor to store more buffers
+  media: verisilicon: Store chroma and motion vectors offset
+  media: verisilicon: vp9: Use destination buffer height to compute
+    chroma offset
+  media: verisilicon: postproc: Fix down scale test
+  media: verisilicon: vp9: Allow to change resolution while streaming
+  media: v4l2: Add DELETE_BUFS ioctl
+  media: v4l2: Add mem2mem helpers for DELETE_BUFS ioctl
+
+ .../userspace-api/media/v4l/user-func.rst     |   1 +
+ .../media/v4l/vidioc-delete-bufs.rst          |  73 +++++
+ .../media/common/videobuf2/videobuf2-core.c   | 304 +++++++++++++-----
+ .../media/common/videobuf2/videobuf2-v4l2.c   |  44 ++-
+ drivers/media/platform/amphion/vpu_dbg.c      |  22 +-
+ .../platform/mediatek/jpeg/mtk_jpeg_core.c    |   6 +-
+ .../vcodec/vdec/vdec_vp9_req_lat_if.c         |   2 +-
+ drivers/media/platform/st/sti/hva/hva-v4l2.c  |   4 +
+ drivers/media/platform/verisilicon/hantro.h   |   9 +-
+ .../media/platform/verisilicon/hantro_drv.c   |   4 +-
+ .../platform/verisilicon/hantro_g2_vp9_dec.c  |  10 +-
+ .../media/platform/verisilicon/hantro_hw.h    |   2 +-
+ .../platform/verisilicon/hantro_postproc.c    | 105 ++++--
+ .../media/platform/verisilicon/hantro_v4l2.c  |  27 +-
+ drivers/media/test-drivers/vim2m.c            |   1 +
+ drivers/media/test-drivers/visl/visl-dec.c    |  28 +-
+ drivers/media/v4l2-core/v4l2-dev.c            |   1 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  17 +
+ drivers/media/v4l2-core/v4l2-mem2mem.c        |  20 ++
+ .../staging/media/atomisp/pci/atomisp_ioctl.c |   2 +-
+ include/media/v4l2-ioctl.h                    |   4 +
+ include/media/v4l2-mem2mem.h                  |  12 +
+ include/media/videobuf2-core.h                |  13 +-
+ include/media/videobuf2-v4l2.h                |  11 +
+ include/uapi/linux/videodev2.h                |  17 +
+ 25 files changed, 592 insertions(+), 147 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/vidioc-delete-bufs.rst
 
 -- 
-Kind regards,
+2.39.2
 
-Sakari Ailus
