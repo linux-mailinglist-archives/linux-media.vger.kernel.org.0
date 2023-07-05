@@ -2,109 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AF195747D75
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jul 2023 08:50:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E845747D7B
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jul 2023 08:52:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231594AbjGEGur (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Jul 2023 02:50:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50418 "EHLO
+        id S231778AbjGEGwB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Jul 2023 02:52:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231493AbjGEGu2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jul 2023 02:50:28 -0400
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2112.outbound.protection.outlook.com [40.107.255.112])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4885F19A8;
-        Tue,  4 Jul 2023 23:49:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nCNPrWJ40aYDOJMD9npyNN0AZ6vzAq9BtRe0ws+7pcSVrqLuLvcRYLgLFDMipQF6TfGDMg6WPHLwraM9SDnpsYCpLgQu5djOxWvrJ5E0GmjPUd/VulTgPgQl1o/EFCFXdN57iqp7jwz6WJ3TzcYXqvfhD0zwdOq/v3s/Eg4VCHm8o5Og/nBKmmf7YD8p5stDHxhAWLpgLpjx+DOnv2hRnGPNNew8bvoaUqv+Nm7CfkGVumjdqZyzIC9W90FYIT+nNyYKyPjQeQCtgD5V1Bg61Ut12Y/cHDmOEUhlO41L8p0W8KaTsuQ5RhjxbDARKaRmohBxLnKgJVWu8UK3oRe1NA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sXDH/6DTTLo+zICPLM6Nl+bZVNQETElZNZDf8Bxr/Dw=;
- b=gODN2CbTRhB710sTjGrEnPfjTZeXfeeA0hO/FicRbbFcrRE4rDz2wzyRjK6fpwDczHBgddJD8Db5h3rgHYH5/zMiTbkNZGAflQbYkiJ10R87mMGf849NtxJmRn/TAuMGX4jbuxEhi4kdzQHL7yPK2N/iYgkkPTJaCzngVw4MnFLyYjgYVmLGjXKcttVe3xIU1DFJwpHzm8jBfVGqhWSvmQajMZC3dyzCsLa9rsHaevtEycdpL5VhZhtGZEfPPlHJ4R21UhDBAeQX0Z41i3dL7r5IRgi586yPIFvqD7sPGqNkvnVzxC2rI0fO2o3ldBda/9DVqDB6yuVIKXNHGHhJnw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sXDH/6DTTLo+zICPLM6Nl+bZVNQETElZNZDf8Bxr/Dw=;
- b=oW11tY4c5teWA0DKK835G+jRTHcVGydJipibsXwLdMMi/zu+cGd3b4Gkmc4S41yBnG7FmzDLSj2j+hIMoMQnxSTw+oOYeoSnfU3/RFMxgChNPB1LlLiR/rFUdIRwZWpATDO4Vi4m1uU6mE0i/KtrdED3105xHgAMtwjafpstVjCWP6gBNj84jVgBpeRjsXxlDWabvnEZjwQ8lrj3UbaDd2q5dLD01PuJpd5Wo78ubkM97ATp7zTT5BsQhUqnyZA9IYWo0ku03YSJ/raliAbX6+Eg6rL/EP1MGp1nZ+kplLSEPWUqqafbgWRBbo2C2VTJE10DyBCOwuy0KCTzyWAw4g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SEZPR06MB5269.apcprd06.prod.outlook.com (2603:1096:101:78::6)
- by SI2PR06MB4140.apcprd06.prod.outlook.com (2603:1096:4:f1::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.17; Wed, 5 Jul
- 2023 06:49:32 +0000
-Received: from SEZPR06MB5269.apcprd06.prod.outlook.com
- ([fe80::fa0e:6c06:7474:285c]) by SEZPR06MB5269.apcprd06.prod.outlook.com
- ([fe80::fa0e:6c06:7474:285c%5]) with mapi id 15.20.6565.016; Wed, 5 Jul 2023
- 06:49:32 +0000
-From:   Minjie Du <duminjie@vivo.com>
-To:     hverkuil@xs4all.nl, Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Minjie Du <duminjie@vivo.com>,
-        linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
-        (V4L/DVB)), linux-kernel@vger.kernel.org (open list)
-Cc:     opensource.kernel@vivo.com
-Subject: [PATCH v2] drivers: saa7164: remove duplicate assignments
-Date:   Wed,  5 Jul 2023 14:49:22 +0800
-Message-Id: <20230705064922.10165-1-duminjie@vivo.com>
-X-Mailer: git-send-email 2.39.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYCPR01CA0004.jpnprd01.prod.outlook.com (2603:1096:405::16)
- To SEZPR06MB5269.apcprd06.prod.outlook.com (2603:1096:101:78::6)
+        with ESMTP id S231917AbjGEGvn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jul 2023 02:51:43 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9D7E1FE7;
+        Tue,  4 Jul 2023 23:51:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1688539870; x=1720075870;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=28127WmhPdXIffq01bC4UTVxGf0bt0dWHpenO+PH6I0=;
+  b=VkVZZAuBgTIrRmdGG2D+brk6mrkp2CJ0IG9v/kcXtP86hYbGcvjy+Gbc
+   C7cIVu5j6AdSsSQeYZ5BgRnL+rip24iNz1KzqazOumU/o71ONJ2yV/+pE
+   gU+71bhhb8E24zAXVyJdp8WBitCntSdr9/NjtEzbW2W8H8cOZA7NUbdf7
+   tjMBhX+XfYR99ryAX65rFteOv5CEdrDhrlJd4XwEnh0jgjb+Xx6V/Jo1K
+   j7UQ3uonAUXiWFaktgxxeWkiW01v7BvRd03Jk4PncPJvymDXM9uz5NG8/
+   E8ZsQSafp3VVuawxeNGm7pNl6esJdQM6MIbQK+IPKMvRPyCpCxfYj7yIh
+   g==;
+X-IronPort-AV: E=Sophos;i="6.01,182,1684792800"; 
+   d="scan'208";a="31759915"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 05 Jul 2023 08:50:25 +0200
+Received: from steina-w.localnet (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 7317A280087;
+        Wed,  5 Jul 2023 08:50:25 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        "G.N. Zhou (OSS)" <guoniu.zhou@oss.nxp.com>,
+        "G.N. Zhou (OSS)" <guoniu.zhou@oss.nxp.com>
+Cc:     "mchehab@kernel.org" <mchehab@kernel.org>,
+        "laurent.pinchart@ideasonboard.com" 
+        <laurent.pinchart@ideasonboard.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "jacopo.mondi@ideasonboard.com" <jacopo.mondi@ideasonboard.com>
+Subject: Re: [PATCH 2/2] media: nxp: add driver for i.MX93 MIPI CSI-2 controller and D-PHY
+Date:   Wed, 05 Jul 2023 08:50:25 +0200
+Message-ID: <9364454.T7Z3S40VBb@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <AS8PR04MB908081139CF737C06AAD1284FA2FA@AS8PR04MB9080.eurprd04.prod.outlook.com>
+References: <20230703113734.762307-1-guoniu.zhou@oss.nxp.com> <10303134.nUPlyArG6x@steina-w> <AS8PR04MB908081139CF737C06AAD1284FA2FA@AS8PR04MB9080.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEZPR06MB5269:EE_|SI2PR06MB4140:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7bde4747-ba8e-4b48-0f30-08db7d23fceb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: P+3XbwQAPe8BDdFzMqGjsx6/ID/EWmC5f+9xMyuigyAUkRmQCrcuuwTEZ6xRY4aNOOINIp3yqcZhA1CmNyl7QzfVwBM3B6jONYsohT/9apV+KyF0pHezk5lg0ngGt5tLeSj0gW7P0LGJdExn6YX1KC7bu+todAzQiYbUzUAty2yOGN1pFS52Mw4qSydSKzqwhUlYjw3x8VMDOgCuwpFrI+PJM83efDEBan3Pd6O3vYXobNiOiVIam1ZeHIzyoEQ7c/CMdDppynB/Y/SULJqLt3bElFj+xXJ5n7j3JWM1lC377f9uWHrUiiHKA4PP6b60GYTpp1cs0ecuLUUQ3oU6f/5i/BsTXmo0BPZQVyB4HtNs5zl0ZSkhsecn/a5JDQaNt/Eh3c7nLgeU8s6jvcJEDFciQ9GKD8Q7+feBmfizDMwJDL2X1cc30qs+IF4IpNRzgmwWhLIjhdgqkqOgetlayD35DhA6aoGe+2NzEsX1AyMxzto767lBsmL9dK0ksniFLM43Vxw9ufUfLRyDz1PiRe0u8FJhszfHIzPIKkiRg2IP+PNF1BgGJ+IYX3k3Q+7xeL0qxGlhpjo0qlcmmbNsjG3KkQK0LNruNEFI4yG5e1LqoJAc4MxwADXnCaBbXnp5
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5269.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(376002)(39860400002)(396003)(346002)(366004)(451199021)(41300700001)(8936002)(8676002)(110136005)(36756003)(6486002)(4744005)(316002)(5660300002)(2906002)(66476007)(4326008)(66556008)(52116002)(6666004)(478600001)(6512007)(38100700002)(107886003)(38350700002)(186003)(86362001)(66946007)(2616005)(83380400001)(6506007)(1076003)(26005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qpjr65LW1rnFAdw6dQzbhM1/WDWT8QVkz99NBXPwzEqHSsZvf5UZEvHBoyD5?=
- =?us-ascii?Q?PJlml9aqJF5Jr1yLNwctRhCq42rudkgW7pRxx1zTCPI3QSYTCNgcKQHVYLWQ?=
- =?us-ascii?Q?HJo3wK0b6iE0sFYt3DM8sF4VWAbJWKplHUxet6ZfZSvsdJ2QsUK0RPs20RS/?=
- =?us-ascii?Q?AEnK/FRX9kBDjLfoQ6zRj7zdRdG/fLXfCHgHFbdOH/3hmI7NthDBIQ3vUlp4?=
- =?us-ascii?Q?SefnotHf+0IL8QlZJSdAVrbXng8N2UN66l+TSH0ti2IvZrMP8AfZ7JtN/haO?=
- =?us-ascii?Q?sQ97MK3Qv+GdLkdQuT2yAWlA3Q+DS1JI0wn2ysVmfbvKuhE2dzCb5JcDtWdy?=
- =?us-ascii?Q?byABhs3U/jtqvFVKolBGEw2eChforlCoUL1VmCKWMDc9NSr2XEFy/B0ZhHJ3?=
- =?us-ascii?Q?oeuI1wLKEuME4scbI4mZr5qoxTMS3BqnGnsANf6oogZv+zIvGEuj0QLUbFbp?=
- =?us-ascii?Q?ABYFnAajj3QL/FreT8klByR7yfjQ7q0s1sMVytZjeDhARZ24OuhEiGeLPPYM?=
- =?us-ascii?Q?+PouCwRjEQVo9s54dIIrA/aZu/9YMf52s5w4ZsZXZgaamEdFzrlSV9/hrd+9?=
- =?us-ascii?Q?89mmz3UIQRhZnqZN8CYhRB7stPIOSbYic91al2O9Kl1xcI1WWiQVLdHpTY/T?=
- =?us-ascii?Q?MdFicb8Hle77DkNAWEjzb7zi1nIrjjDPSj9qiZXjkI71eA5ddL5rmjCkndSF?=
- =?us-ascii?Q?dbw1K+fA3KiJ7Ro/oMO09O0Qj/012aMG8AKOYD/KnfLqZkli6x3V6x2TLYX4?=
- =?us-ascii?Q?QPKaB9bjRm2Wl4H5mINel21FI4Vd4e6gxlTv8YbzvfRKscKMW0Ra/kI1FB7x?=
- =?us-ascii?Q?kiG3FHmJGJLlFl6yhai49w4FOW/NnBHbTL7URXjnMTOCdoOjGisFjEOmc3D/?=
- =?us-ascii?Q?Zj5g9SVZ11sREhnR/GJRhOUpuQ14frKErwc14/R0IVYwZMj8jP679tN5wh0f?=
- =?us-ascii?Q?Ir7Cn8Ka/bQOf4qIgZF0jHY5sjwuyQBr9bMYbKHIv13DT3LxDQ3gHUr9uURC?=
- =?us-ascii?Q?ENUf0QOhZ/L+Vpb5gmmqwOdf0289v1Ny8Cbg44lYxLu8Aif+YvOl5TEcqTmb?=
- =?us-ascii?Q?VrNJdC1xO3hKRXgXRtSNg7XKOtpzj5oBjzGufdA7O00NhjoxPMZPpVyTb3CL?=
- =?us-ascii?Q?5QoqWnf2csO27d1BEr5ZxJ3vapHm4SMXZJe22WoI+j0ut+dUWtVVuHzT6jEl?=
- =?us-ascii?Q?E9MrsXQ2iu8/mNf9874H9v31rDvltbfNfqZBVHteh7F+BZDaGGrSBMN+mO6x?=
- =?us-ascii?Q?r1joI6W0RhAz3TTMo7P/6OPO5s+SZw9+o5r9muSKaZsVcBR807TN9eZMLU0y?=
- =?us-ascii?Q?7h5pwgzsakDWkzI7AIYC72EDfDcw+/ifHwAEQspSDodKCQRmT6OXzTz1zOdh?=
- =?us-ascii?Q?oS/loYQ/FjSUpidHybcWzs5SZcH32OiMWoqRL+vD482wppAeLYd266V91ZLD?=
- =?us-ascii?Q?YTZzToYUIQCjajX/9cOFusY2BX67aLUb4cCPUtySQU/Z44WQtx8SafnO0TPE?=
- =?us-ascii?Q?PlZwylKgc8o2VkN1krx68dG/iodqqMm40d3DERZU1M/feAvaWpgNHbUesAlF?=
- =?us-ascii?Q?uxnyBszW/Pttzsw1MJb5aLLza/O1DhHs+JWh586R?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7bde4747-ba8e-4b48-0f30-08db7d23fceb
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5269.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2023 06:49:32.5946
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yCfEBaZRR7yJOOK+6xp+ELSRtn8D70zhVin0CGPJftrhKGMFEZkitu4YyQZC7LRosED/ELBEr6WbVWhNtpcVyQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR06MB4140
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
         URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -112,26 +69,473 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-make second_timeout avoid double assignment.
-Thank you for your reply.
+Hi Guoniu,
 
-Signed-off-by: Minjie Du <duminjie@vivo.com>
----
- drivers/media/pci/saa7164/saa7164-fw.c | 1 -
- 1 file changed, 1 deletion(-)
+thanks for the fast response.
 
-diff --git a/drivers/media/pci/saa7164/saa7164-fw.c b/drivers/media/pci/saa7164/saa7164-fw.c
-index 363689484..cc9f384f7 100644
---- a/drivers/media/pci/saa7164/saa7164-fw.c
-+++ b/drivers/media/pci/saa7164/saa7164-fw.c
-@@ -271,7 +271,6 @@ int saa7164_downloadfirmware(struct saa7164_dev *dev)
- 			dprintk(DBGLVL_FW, "%s() Loader 1 has loaded.\n",
- 				__func__);
- 			first_timeout = SAA_DEVICE_TIMEOUT;
--			second_timeout = 60 * SAA_DEVICE_TIMEOUT;
- 			second_timeout = 100;
- 
- 			err_flags = saa7164_readl(SAA_SECONDSTAGEERROR_FLAGS);
--- 
-2.39.0
+Am Mittwoch, 5. Juli 2023, 05:52:05 CEST schrieb G.N. Zhou (OSS):
+> Hi Alexander,
+>=20
+> Thanks for your comments.
+>=20
+> [snip]
+> > > +
+> > > +/* Set default high speed frequency range to 1.5Gbps  */
+> > > +#define DPHY_DEFAULT_FREQRANGE               0x2c
+> > > +
+> > > +enum imx93_csi_clks {
+> > > +     PER,
+> > > +     PIXEL,
+> > > +     PHY_CFG,
+> > > +};
+> > > +
+> > > +enum model {
+> > > +     DWC_CSI2RX_IMX93,
+> > > +};
+> > > +
+> > > +enum dwc_csi2rx_intf {
+> > > +     DWC_CSI2RX_INTF_IDI,
+> >=20
+> >=20
+> > This is unused, what is it intented for?
+>=20
+>=20
+> DesignWare Core MIPI CSI-2 support both IDI and IPI interface. For i.MX93=
+ it
+> use IPI as interface with ISI(gasket) and I reserved IDI here on the one
+> hand support full features of the MIPI CSI-2 IP as more as possible, on t=
+he
+> other hand, NXP i.MX95 MIPI CSI-2 remove IPI and use IDI as the interface=
+=2E=20
+
+I don't know about the differences on IPI and IDI, but it looks like both=20
+i.MX93 and i.MX95 use the same MIPI-CSI2 IP core, but have a different glue=
+=20
+layer. So IPI and IDI specifics seem to be SoC specific as well. Did I get=
+=20
+something wrong?
+
+> [snip]
+
+> > > ---------------------------------------------------------------------=
+=2D--
+> > > ---
+ -- + * Debug
+> > > + */
+> > > +
+> > > +static void dwc_csi_clear_counters(struct dwc_csi_device *csidev)
+> > > +{
+> > > +     unsigned long flags;
+> > > +     unsigned int i;
+> > > +
+> > > +     spin_lock_irqsave(&csidev->slock, flags);
+> > > +
+> > > +     for (i =3D 0; i < csidev->pdata->num_events; ++i)
+> > > +             csidev->events[i].counter =3D 0;
+> > > +
+> > > +     spin_unlock_irqrestore(&csidev->slock, flags);
+> > > +}
+> > > +
+> > > +static void dwc_csi_log_counters(struct dwc_csi_device *csidev)
+> > > +{
+> > > +     unsigned int num_events =3D csidev->pdata->num_events;
+> > > +     unsigned long flags;
+> > > +     unsigned int i;
+> > > +
+> > > +     spin_lock_irqsave(&csidev->slock, flags);
+> > > +
+> > > +     for (i =3D 0; i < num_events; ++i) {
+> > > +             if (csidev->events[i].counter > 0)
+> > > +                     dev_info(csidev->dev, "%s events: %d\n",
+> > > +                              csidev->events[i].name,
+> > > +                              csidev->events[i].counter);
+> > > +     }
+> > > +
+> > > +     spin_unlock_irqrestore(&csidev->slock, flags);
+> > > +}
+> > > +
+> > > +static void dwc_csi_dump_regs(struct dwc_csi_device *csidev)
+> > > +{
+> > > +#define DWC_MIPI_CSIS_DEBUG_REG(name)                {name,
+> >=20
+> > #name}
+> >=20
+> > > +     static const struct {
+> > > +             u32 offset;
+> > > +             const char * const name;
+> > > +     } registers[] =3D {
+> > > +             DWC_MIPI_CSIS_DEBUG_REG(CSI2RX_VERSION),
+> > > +             DWC_MIPI_CSIS_DEBUG_REG(CSI2RX_N_LANES),
+> > > +             DWC_MIPI_CSIS_DEBUG_REG(CSI2RX_HOST_RESETN),
+> > > +             DWC_MIPI_CSIS_DEBUG_REG(CSI2RX_INT_ST_MAIN),
+> > > +             DWC_MIPI_CSIS_DEBUG_REG(CSI2RX_DPHY_SHUTDOWNZ),
+> > > +             DWC_MIPI_CSIS_DEBUG_REG(CSI2RX_DPHY_RSTZ),
+> > > +             DWC_MIPI_CSIS_DEBUG_REG(CSI2RX_DPHY_RX_STATUS),
+> > > +             DWC_MIPI_CSIS_DEBUG_REG(CSI2RX_DPHY_STOPSTATE),
+> > > +             DWC_MIPI_CSIS_DEBUG_REG(CSI2RX_DPHY_TEST_CTRL0),
+> > > +             DWC_MIPI_CSIS_DEBUG_REG(CSI2RX_DPHY_TEST_CTRL1),
+> > > +
+> >=20
+> > DWC_MIPI_CSIS_DEBUG_REG(CSI2RX_PPI_PG_PATTERN_VRES),
+> >=20
+> > > +
+> >=20
+> > DWC_MIPI_CSIS_DEBUG_REG(CSI2RX_PPI_PG_PATTERN_HRES),
+> >=20
+> > > +             DWC_MIPI_CSIS_DEBUG_REG(CSI2RX_PPI_PG_CONFIG),
+> > > +             DWC_MIPI_CSIS_DEBUG_REG(CSI2RX_PPI_PG_ENABLE),
+> > > +             DWC_MIPI_CSIS_DEBUG_REG(CSI2RX_PPI_PG_STATUS),
+> > > +             DWC_MIPI_CSIS_DEBUG_REG(CSI2RX_IPI_MODE),
+> > > +             DWC_MIPI_CSIS_DEBUG_REG(CSI2RX_IPI_VCID),
+> > > +             DWC_MIPI_CSIS_DEBUG_REG(CSI2RX_IPI_DATA_TYPE),
+> > > +             DWC_MIPI_CSIS_DEBUG_REG(CSI2RX_IPI_MEM_FLUSH),
+> > > +             DWC_MIPI_CSIS_DEBUG_REG(CSI2RX_IPI_SOFTRSTN),
+> > > +             DWC_MIPI_CSIS_DEBUG_REG(CSI2RX_IPI_ADV_FEATURES),
+> > > +
+> >=20
+> > DWC_MIPI_CSIS_DEBUG_REG(CSI2RX_INT_ST_DPHY_FATAL),
+> >=20
+> > > +             DWC_MIPI_CSIS_DEBUG_REG(CSI2RX_INT_ST_PKT_FATAL),
+> > > +
+> >=20
+> > DWC_MIPI_CSIS_DEBUG_REG(CSI2RX_INT_ST_DPHY_FATAL),
+> >=20
+> > > +             DWC_MIPI_CSIS_DEBUG_REG(CSI2RX_INT_ST_IPI_FATAL),
+> > > +     };
+> > > +
+> > > +     unsigned int i;
+> > > +     u32 cfg;
+> > > +
+> > > +     dev_dbg(csidev->dev, "--- REGISTERS ---\n");
+> > > +
+> > > +     for (i =3D 0; i < ARRAY_SIZE(registers); i++) {
+> > > +             cfg =3D dwc_csi_read(csidev, registers[i].offset);
+> > > +             dev_dbg(csidev->dev, "%14s[0x%02x]: 0x%08x\n",
+> > > +                     registers[i].name, registers[i].offset, cfg);
+> > > +     }
+> > > +}
+
+These register dumps also look like a good candidate for=20
+v4l2_subdev_core_ops.log_status callback. VIDIOC_LOG_STATUS ioctl that is.
+
+> [snip]
+
+> > > +static int dwc_csi_subdev_set_fmt(struct v4l2_subdev *sd,
+> > > +                                struct v4l2_subdev_state *sd_state,
+> > > +                                struct v4l2_subdev_format
+> >=20
+> > *sdformat)
+> >=20
+> > > +{
+> > > +     struct dwc_csi_device *csidev =3D sd_to_dwc_csi_device(sd);
+> > > +     struct dwc_csi_pix_format const *csi_fmt;
+> > > +     struct v4l2_mbus_framefmt *fmt;
+> > > +     unsigned int align;
+> > > +
+> > > +     /*
+> > > +      * The CSIS can't transcode in any way, the source format can't
+> > > be
+> > > +      * modified.
+> > > +      */
+> > > +     if (sdformat->pad =3D=3D DWC_CSI2RX_PAD_SOURCE)
+> > > +             return dwc_csi_subdev_get_fmt(sd, sd_state, sdformat);
+> > > +
+> > > +     if (sdformat->pad !=3D DWC_CSI2RX_PAD_SINK)
+> > > +             return -EINVAL;
+> > > +
+> > > +     /*
+> > > +      * Validate the media bus code and clamp and align the size.
+> > > +      *
+> > > +      * The total number of bits per line must be a multiple of 8. We
+> >=20
+> > thus
+> >=20
+> > > +      * need to align the width for formats that are not multiples of
+> > > 8
+> > > +      * bits.
+> > > +      */
+> > > +     csi_fmt =3D find_csi_format(sdformat->format.code);
+> > > +     if (!csi_fmt)
+> > > +             csi_fmt =3D &dwc_csi_formats[0];
+> > > +
+> > > +     switch (csi_fmt->width % 8) {
+> > > +     case 0:
+> > > +             align =3D 0;
+> > > +             break;
+> > > +     case 4:
+> > > +             align =3D 1;
+> > > +             break;
+> > > +     case 2:
+> > > +     case 6:
+> > > +             align =3D 2;
+> > > +             break;
+> > > +     default:
+> > > +             /* 1, 3, 5, 7 */
+> > > +             align =3D 3;
+> > > +             break;
+> > > +     }
+> >=20
+> >=20
+> > Is this switch-case actually necessary? If the bits per line have to be=
+ a
+> > multiple of 8, IMHO calling v4l_bound_align_image() with walign=3D3 sho=
+uld
+> > be enough for all cases.
+>=20
+>=20
+> Yes it's. walign=3D3 can cover all cases as you said but can't handle pre=
+cise
+> control and cause unnecessary memory waste.
+
+Right, it's about _bits_ per line, not pixel per line. So your calculation=
+=20
+seems sensible.
+
+> [snip]
+
+> > > +static int dwc_csi_async_register(struct dwc_csi_device *csidev)
+> > > +{
+> > > +     struct v4l2_fwnode_endpoint vep =3D {
+> > > +             .bus_type =3D V4L2_MBUS_CSI2_DPHY,
+> > > +     };
+> > > +     struct v4l2_async_subdev *asd;
+> > > +     struct fwnode_handle *ep;
+> > > +     unsigned int i;
+> > > +     int ret;
+> > > +
+> > > +     v4l2_async_nf_init(&csidev->notifier);
+> > > +
+> > > +     ep =3D fwnode_graph_get_endpoint_by_id(dev_fwnode(csidev->dev),=
+ 0,
+> >=20
+> > 0,
+> >=20
+> > > +
+> >=20
+> > FWNODE_GRAPH_ENDPOINT_NEXT);
+> >=20
+> > > +     if (!ep)
+> > > +             return -ENOTCONN;
+> > > +
+> > > +     ret =3D v4l2_fwnode_endpoint_parse(ep, &vep);
+> > > +     if (ret)
+> > > +             goto err_parse;
+> > > +
+> > > +     for (i =3D 0; i < vep.bus.mipi_csi2.num_data_lanes; ++i) {
+> > > +             if (vep.bus.mipi_csi2.data_lanes[i] !=3D i + 1) {
+> > > +                     dev_err(csidev->dev,
+> > > +                             "data lanes reordering is not
+> >=20
+> > supported");
+> >=20
+> > > +                     ret =3D -EINVAL;
+> > > +                     goto err_parse;
+> > > +             }
+> > > +     }
+> > > +
+> > > +     csidev->bus =3D vep.bus.mipi_csi2;
+> > > +
+> > > +     if (fwnode_property_read_u32(ep, "fsl,hsfreqrange",
+> > > +                                  &csidev->hsfreqrange))
+> > > +             csidev->hsfreqrange =3D DPHY_DEFAULT_FREQRANGE;
+> > > +
+> > > +     dev_dbg(csidev->dev, "data lanes: %d\n", csidev-
+> > >
+> > >bus.num_data_lanes);
+> > >
+> > > +     dev_dbg(csidev->dev, "flags: 0x%08x\n", csidev->bus.flags);
+> > > +     dev_dbg(csidev->dev, "high speed frequency range: 0x%X\n",
+> > > csidev->hsfreqrange); +
+> > > +     asd =3D v4l2_async_nf_add_fwnode_remote(&csidev->notifier, ep,
+> > > +                                           struct
+> >=20
+> > v4l2_async_subdev);
+> >=20
+> > > +     if (IS_ERR(asd)) {
+> > > +             ret =3D PTR_ERR(asd);
+> > > +             goto err_parse;
+> > > +     }
+> > > +
+> > > +     fwnode_handle_put(ep);
+> > > +
+> > > +     csidev->notifier.ops =3D &dwc_csi_notify_ops;
+> > > +
+> > > +     ret =3D v4l2_async_subdev_nf_register(&csidev->sd,
+> > > &csidev->notifier);
+> > > +     if (ret)
+> > > +             return ret;
+> >=20
+> >=20
+> > I'm not sure which part causes the following message:
+> >=20
+> > > dwc-mipi-csi2 4ae00000.mipi-csi: Consider updating driver dwc-mipi-cs=
+i2
+> > > to
+> >=20
+> > match on endpoints
+> >=20
+> > But as this is a new driver, this should be addressed.
+>=20
+>=20
+> Sure. Could you help to share the steps about how to reproduce it?
+
+Sure, I assume this depends how your OF graph looks like. This is the one I=
+=20
+used, stripped some of the (irrelevant) camera properties.
+
+&lpi2c5 {
+  camera@1a {
+    compatible =3D "sony,imx327lqr";
+    reg =3D <0x1a>;
+
+    port {
+      sony_imx327: endpoint {
+        remote-endpoint =3D <&mipi_to_isi>;
+        data-lanes =3D <1 2>;
+        clock-lanes =3D <0>;
+        clock-noncontinuous =3D <1>;
+        link-frequencies =3D /bits/ 64 <445500000 297000000>;
+      };
+    };
+  };
+};
+
+/ {
+  soc@0 {
+    mipi_csi: mipi-csi@4ae00000 {
+      compatible =3D "fsl,imx93-mipi-csi2";
+      reg =3D <0x4ae00000 0x10000>;
+      interrupts =3D <GIC_SPI 175 IRQ_TYPE_LEVEL_HIGH>;
+      clocks =3D <&clk IMX93_CLK_MIPI_CSI_GATE>,
+         <&clk IMX93_CLK_CAM_PIX>,
+         <&clk IMX93_CLK_MIPI_PHY_CFG>;
+      clock-names =3D "per", "pixel", "phy_cfg";
+      power-domains =3D <&media_blk_ctrl IMX93_MEDIABLK_PD_MIPI_CSI>;
+
+      ports {
+        #address-cells =3D <1>;
+        #size-cells =3D <0>;
+
+        port@0 {
+          reg =3D <0>;
+
+          mipi_from_sensor: endpoint {
+            data-lanes =3D <1 2>;
+            fsl,hsfreqrange =3D <0x2c>;
+          };
+        };
+
+        port@1 {
+          reg =3D <1>;
+
+          mipi_to_isi: endpoint {
+            remote-endpoint =3D <&isi_in>;
+          };
+        };
+      };
+    };
+  };
+};
+
+As you can see the link speed is either 445.5MHz or 297Mhz. Does this mean =
+I=20
+have to set fsl,hsfreqrange to 0x16 or 0x14?
+
+> [snip]
+
+> > > +void dphy_rx_test_code_config(struct dwc_csi_device *csidev)
+> > > +{
+> > > +     u32 val;
+> > > +     u8 dphy_val;
+> > > +
+> > > +     /* Set testclr=3D1'b0 */
+> > > +     val =3D dwc_csi_read(csidev, CSI2RX_DPHY_TEST_CTRL0);
+> > > +     val &=3D ~CSI2RX_DPHY_TEST_CTRL0_TEST_CLR;
+> > > +     dwc_csi_write(csidev, CSI2RX_DPHY_TEST_CTRL0, val);
+> > > +
+> > > +     /* Enable hsfreqrange_ovr_en and set hsfreqrange */
+> > > +     dphy_rx_write(csidev, DPHY_RX_SYS_0,
+> >=20
+> > HSFREQRANGE_OVR_EN_RW);
+> >=20
+> > > +     dphy_rx_write(csidev, DPHY_RX_SYS_1,
+> > > +                   HSFREQRANGE_OVR_RW(csidev->hsfreqrange));
+> > > +
+> > > +     /* Enable timebase_ovr_en */
+> > > +     dphy_val =3D dphy_rx_read(csidev, DPHY_RX_SYS_1);
+> > > +     dphy_val |=3D TIMEBASE_OVR_EN_RW;
+> > > +     dphy_rx_write(csidev, DPHY_RX_SYS_1, dphy_val);
+> > > +
+> > > +     /* Set cfgclkfreqrange */
+> > > +     dphy_rx_write(csidev, DPHY_RX_SYS_2,
+> > > +                   TIMEBASE_OVR_RW(csidev->cfgclkfreqrange + 0x44));
+> >=20
+> >=20
+> > RM Rev 2. mentions that depending on cfgclkfreqrange another
+> > configuration,
+ called counter_for_des_en_config_if, also needs to be
+> > set. Is this missing here?
+>=20
+>=20
+> It isn't needed from my experiment result.
+
+Okay, I'm just doing guesswork trying to figure out why I get those D-PHY=20
+errors.
+
+> >=20
+> >=20
+> > > +}
+> > > +
+> > > +void dphy_rx_power_off(struct dwc_csi_device *csidev)
+> > > +{
+> > > +     dwc_csi_write(csidev, CSI2RX_DPHY_RSTZ, 0x0);
+> > > +     dwc_csi_write(csidev, CSI2RX_DPHY_SHUTDOWNZ, 0x0);
+> > > +}
+> > > +
+> > > +void dphy_rx_test_code_dump(struct dwc_csi_device *csidev)
+> > > +{
+> > > +#define DPHY_DEBUG_REG(name)         {name, #name}
+> > > +     static const struct {
+> > > +             u32 offset;
+> > > +             const char * const name;
+> > > +     } test_codes[] =3D {
+> > > +             DPHY_DEBUG_REG(DPHY_RX_SYS_0),
+> > > +             DPHY_DEBUG_REG(DPHY_RX_SYS_1),
+> > > +             DPHY_DEBUG_REG(DPHY_RX_SYS_2),
+> > > +     };
+> > > +     unsigned int i;
+> > > +
+> > > +     for (i =3D 0; i < ARRAY_SIZE(test_codes); i++)
+> > > +             dev_dbg(csidev->dev, "%14s[0x%02x]: 0x%02x\n",
+> > > +                     test_codes[i].name, test_codes[i].offset,
+> > > +                     dphy_rx_read(csidev, test_codes[i].offset));
+> > > +}
+> >=20
+> >=20
+> > Could you also provide a complete DT configuration? I tried myself, but=
+ I
+> > just ended up in getting errors while trying to use a MIPI-CSI camera
+> > dwc-mipi-csi2 4ae00000.mipi-csi: IPI Interface Fatal Error events:
+> > 2800064
+> > dwc-mipi-csi2 4ae00000.mipi-csi: PHY Error events: 2174
+> > dwc-mipi-csi2 4ae00000.mipi-csi: IPI Interface Fatal Error events:
+> > 2800064
+> > dwc-mipi-csi2 4ae00000.mipi-csi: PHY Error events: 2174
+>=20
+>=20
+> Sure, I can provide full patches that use i.MX93 platform with AP1302 if =
+you
+> are interested.
+> Will send you in another mails.
+
+Thanks.
+
+Best regards,
+Alexander
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
