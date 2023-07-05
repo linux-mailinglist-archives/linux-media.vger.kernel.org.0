@@ -2,199 +2,259 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E3142748502
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jul 2023 15:31:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60F5B74850F
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jul 2023 15:34:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231147AbjGENbl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Jul 2023 09:31:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39418 "EHLO
+        id S231147AbjGENeq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Jul 2023 09:34:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230285AbjGENbk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jul 2023 09:31:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA4B81737
-        for <linux-media@vger.kernel.org>; Wed,  5 Jul 2023 06:30:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1688563844;
+        with ESMTP id S229645AbjGENep (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jul 2023 09:34:45 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D65E171B
+        for <linux-media@vger.kernel.org>; Wed,  5 Jul 2023 06:34:43 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkzdf0gkyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4506:4f15::1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4Qx0y66H5PzyWs;
+        Wed,  5 Jul 2023 16:34:38 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1688564079;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=lU/rjQzFUSeVppDil3cSXVxJrFIHYKB33zQ2NXE/anU=;
-        b=HWuZRuOSnfUy/QbYJFq74ObBhnkRp1UWcT4jct6uNmQHOKjE8d3BGdRH1cj1QHIQWDllIT
-        wuX1/UNp7knAU+43Iw4PKuonR50M22tFBQg9sRJHy5tIbxIWFx3RUxvRo2weNVxNBvPvp+
-        TNY7pi9k9NVlsYVUFmpm59nZ5aEox6Y=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-149-g1wPipTOMz6PAwuuy0glsA-1; Wed, 05 Jul 2023 09:30:43 -0400
-X-MC-Unique: g1wPipTOMz6PAwuuy0glsA-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-9835bf83157so461260866b.2
-        for <linux-media@vger.kernel.org>; Wed, 05 Jul 2023 06:30:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688563841; x=1691155841;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lU/rjQzFUSeVppDil3cSXVxJrFIHYKB33zQ2NXE/anU=;
-        b=PoiJaGWhBPecRS1dcuvhCJhfDXH+h4QeBER+0714YoqQt2mGY3PbyYxCzzDrtxHNz9
-         uerfupQRWOp6rLoiLLvnAeE3jIb9zfFlzGiR6Z+0MgaQPgGlwwbsPBGvnVCghIjqD99B
-         pM10YgF9RhsAEqlzDn+/92Gwc7IZLe9M6r5IB80YTrfpyV4TI+uWX8a940PZozHl8pv+
-         TRYzidE/4iNGd2lUSyGp/6vNFfTnu1vuEv92GfNwt+/f6nxz/BgFwS38gUk6d8LO0IHh
-         Sz0T9+6Wta7fDWGDMSMG4+D+Mx0BMUJ/QaidvqzUu/6HZD7S0S75556qOqW1DzdcTvju
-         FAow==
-X-Gm-Message-State: ABy/qLbTPZrlIOAI3pExk63e4ruQIwC5646XwefA8cEFzHR5oDPbUlWm
-        gfD3VDNwmpZy3UW+xO5tK4+yVGOhEpO2xks2an3M+bpl06zVTmFaY3F77kaFQWrCQLCxVK7xr79
-        rnO+1+DNWpbgiXQxBRGwUNupF9+tgqEw=
-X-Received: by 2002:a17:907:7e99:b0:98f:3485:9c44 with SMTP id qb25-20020a1709077e9900b0098f34859c44mr13430771ejc.72.1688563841397;
-        Wed, 05 Jul 2023 06:30:41 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGqVzEfvB7ilXdJTfBv/rWDcK/k1w+86EtAHJ8W7MGC2Nn3bRDeKtOPmRZem18rF1d8RhPasA==
-X-Received: by 2002:a17:907:7e99:b0:98f:3485:9c44 with SMTP id qb25-20020a1709077e9900b0098f34859c44mr13430744ejc.72.1688563840948;
-        Wed, 05 Jul 2023 06:30:40 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id i6-20020a17090685c600b00992ea405a79sm7122109ejy.166.2023.07.05.06.30.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Jul 2023 06:30:40 -0700 (PDT)
-Message-ID: <8d6b0cc2-788d-37f9-dc86-96db15d283dc@redhat.com>
-Date:   Wed, 5 Jul 2023 15:30:39 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2 12/15] media: ipu-bridge: Add GalaxyCore GC0310 to
- ipu_supported_sensors[]
-Content-Language: en-US, nl
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        bh=qRoCdtJKW0jrkDkC1ZNublNkd+XngAj735lnRAg9bbU=;
+        b=v0bk6O4K4snmMMaIeKitkEyQOYTiCMUU6athD9tBtAg0h8QA/7MVn7bb76hsK/8O+iigdP
+        xNPi/X44UUN9piwpGDghC1yBc4hSGAazb0dKu63WOMpTAZN/qp6hL45Q942+S/hwAiMkNW
+        PKTqOaCTIXbMOkGADvJ9p1rE3IsHI7c=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1688564079;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=qRoCdtJKW0jrkDkC1ZNublNkd+XngAj735lnRAg9bbU=;
+        b=ahjTDr6Jx4e5Xf+x457CphLfegVREBKjiDbun12d9CesWz4j8o+ILr9tyMOqYY2/w4G39F
+        jDflswTsQduDSW//0P0YXCRFSdhrywHJdj9es75o6V/lSiFBUcCE0RZkaaXKwZrwz0Q0AZ
+        hpkWa737isu2Xhog15AS75zk9N/WoFA=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1688564079; a=rsa-sha256; cv=none;
+        b=Ky6HN2jYaOFoMTSyHp4Q3FJEf8XK831tG3tdzn4fryKESSRc71TAlDcHoEDgdTNXCiyH1q
+        8MzLOG/ZkfxzWydv7/78ro81QecibXGte05uSkdyVa4xjO5AULwfpjYhO6CaLTsRvXCObK
+        kdjj90+4XaOM7AGwj6jb4GPj9XsE3xo=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 6B5F8634C97;
+        Wed,  5 Jul 2023 16:34:38 +0300 (EEST)
+Date:   Wed, 5 Jul 2023 13:34:38 +0000
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-        Hao Yao <hao.yao@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
-        linux-media@vger.kernel.org
-References: <20230630110643.209761-1-hdegoede@redhat.com>
- <20230630110643.209761-13-hdegoede@redhat.com>
- <ZKP5KIXBVaLWetVH@kekkonen.localdomain>
- <80024c5b-d35b-96ac-ff5b-1e013c3ef113@redhat.com>
- <ZKVWSzKrddTNe048@kekkonen.localdomain>
- <b1130616-404c-ddac-22e3-517a4440782a@redhat.com>
- <ZKVdq+SWLnhWAYE6@kekkonen.localdomain>
- <69cb4b64-ace5-029c-a368-16f3c1e59f1f@redhat.com>
- <ZKVv8zND23bchW9K@kekkonen.localdomain>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <ZKVv8zND23bchW9K@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        Dan Scally <djrscally@gmail.com>, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 2/5] media: atomisp: ov2680: Turn into standard v4l2
+ sensor driver
+Message-ID: <ZKVxbt6F28wb8RWn@valkosipuli.retiisi.eu>
+References: <20230525190100.130010-1-hdegoede@redhat.com>
+ <20230525190100.130010-3-hdegoede@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230525190100.130010-3-hdegoede@redhat.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Hans,
 
-On 7/5/23 15:28, Sakari Ailus wrote:
-> Hi Hans,
+Thanks for the set and sorry for the late review. I had originally thought
+this was about atomisp driver itself (but was not).
+
+On Thu, May 25, 2023 at 09:00:57PM +0200, Hans de Goede wrote:
+> Turn the atomisp-ov2680 driver into a standard v4l2 sensor driver:
 > 
-> On Wed, Jul 05, 2023 at 02:33:30PM +0200, Hans de Goede wrote:
->> Hi,
->>
->> On 7/5/23 14:10, Sakari Ailus wrote:
->>> Hi Hans,
->>>
->>> On Wed, Jul 05, 2023 at 01:50:27PM +0200, Hans de Goede wrote:
->>>> Hi,
->>>>
->>>> On 7/5/23 13:38, Sakari Ailus wrote:
->>>>> Hi Hans,
->>>>>
->>>>> On Tue, Jul 04, 2023 at 12:59:53PM +0200, Hans de Goede wrote:
->>>>>> Hi Sakari,
->>>>>>
->>>>>> On 7/4/23 12:49, Sakari Ailus wrote:
->>>>>>> Hi Hans,
->>>>>>>
->>>>>>> On Fri, Jun 30, 2023 at 01:06:40PM +0200, Hans de Goede wrote:
->>>>>>>> The GalaxyCore GC0310 is used together with the atomisp no various
->>>>>>>> devices, add it to ipu_supported_sensors[].
->>>>>>>>
->>>>>>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->>>>>>>> ---
->>>>>>>>  drivers/media/pci/intel/ipu-bridge.c | 2 ++
->>>>>>>>  1 file changed, 2 insertions(+)
->>>>>>>>
->>>>>>>> diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
->>>>>>>> index eb7c56e8ef9f..07a34f20af8e 100644
->>>>>>>> --- a/drivers/media/pci/intel/ipu-bridge.c
->>>>>>>> +++ b/drivers/media/pci/intel/ipu-bridge.c
->>>>>>>> @@ -36,6 +36,8 @@ static const struct ipu_sensor_config ipu_supported_sensors[] = {
->>>>>>>>  	IPU_SENSOR_CONFIG("INT3537", 1, 437000000),
->>>>>>>>  	/* Omnivision ov13b10 */
->>>>>>>>  	IPU_SENSOR_CONFIG("OVTIDB10", 1, 560000000),
->>>>>>>> +	/* GalaxyCore GC0310 */
->>>>>>>> +	IPU_SENSOR_CONFIG("INT0310", 0),
->>>>>>>
->>>>>>>
->>>>>>> Where is this HID from? A DSDT somewhere??
->>>>>>
->>>>>> This is used in many atomisp DSDTs on many atomisp devices,
->>>>>> see below for a quick grep to my no disk "database" of DSDTs.
->>>>>>
->>>>>> This is also already used by the existing gc0310 driver for
->>>>>> atomisp:
->>>>>>
->>>>>> https://git.linuxtv.org/media_stage.git/tree/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
->>>>>>
->>>>>> Note with the latest media_stage.git branch, which has
->>>>>> my "[GIT PULL] media: atomisp: Changes for 6.5-1" merged:
->>>>>>
->>>>>> https://lore.kernel.org/linux-media/4177be8a-7a77-c452-7b98-91d5e5af8e8b@redhat.com/
->>>>>>
->>>>>> The gc0310 driver is now a fully standard v4l2 driver no longer using any
->>>>>> atomisp-isms / custom API. As such I have a patch pending to move
->>>>>> it to drivers/media/i2c :
->>>>>>
->>>>>> https://lore.kernel.org/linux-media/20230525190100.130010-6-hdegoede@redhat.com/
->>>>>>
->>>>>> that patch is waiting for you to ack (or merge) it. Note if you chose to merge this
->>>>>> yourself, this should be applied on top of the latest media_stage/master
->>>>>> not on top of 6.4-rc1 .
->>>>>
->>>>> Ack, thanks for the info.
->>>>
->>>> Does this count as your Acked-by for the patch to mv gc0310.c to
->>>> drivers/media/i2c in my next media-atomisp pull-req ?
->>>>
->>>> or ... ?
->>>
->>> Can I take the set once others think it's good? I have Wentong's patch that
->>> goes on top.
->>
->> Yes you can and I'm expecting you to take this set, the question about if
->> your "Ack" as your Acked-by is about:
->>
->> https://lore.kernel.org/linux-media/20230525190100.130010-6-hdegoede@redhat.com/
->>
->> which is not part of the set.
->>
->> I hope this helps clarify our little mis-communication which we seem to
->> be heaving here.
+> 1. Stop filling camera_mipi_info
+> 2. Stop calling v4l2_get_acpi_sensor_info() this will be done by
+>    atomisp_csi2_bridge_parse_firmware() now
+> 3. Switch to v4l2 async device registration
 > 
-> Sorry, I somehow ignored this part of your original message.
+> After this change this driver no longer depends on
+> atomisp_gmin_platform and all atomisp-isms are gone.
 > 
-> I'll review the set soon.
+> While at it, also add missing mutex_destroy() to ov2680_remove().
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+> Changes in v2:
+> - Drop v4l2_get_acpi_sensor_info() call in this patch
+> - Wait for fwnode graph endpoint so that the bridge's ACPI
+>   parsing gets a chance to register the GPIO mappings
+>   before probing the sensor
+> - Switch to endpoint matching
+> ---
+>  .../media/atomisp/i2c/atomisp-ov2680.c        | 38 ++++++++-----------
+>  drivers/staging/media/atomisp/i2c/ov2680.h    |  3 +-
+>  .../media/atomisp/pci/atomisp_csi2_bridge.c   |  2 +
+>  3 files changed, 18 insertions(+), 25 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+> index b5d93a96d588..b35ddf611e2b 100644
+> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+> @@ -28,17 +28,8 @@
+>  #include <media/ov_16bit_addr_reg_helpers.h>
+>  #include <media/v4l2-device.h>
+>  
+> -#include "../include/linux/atomisp_gmin_platform.h"
+> -
+>  #include "ov2680.h"
+>  
+> -static enum atomisp_bayer_order ov2680_bayer_order_mapping[] = {
+> -	atomisp_bayer_order_bggr,
+> -	atomisp_bayer_order_grbg,
+> -	atomisp_bayer_order_gbrg,
+> -	atomisp_bayer_order_rggb,
+> -};
+> -
+>  static int ov2680_write_reg_array(struct i2c_client *client,
+>  				  const struct ov2680_reg *reglist)
+>  {
+> @@ -62,7 +53,6 @@ static void ov2680_set_bayer_order(struct ov2680_device *sensor, struct v4l2_mbu
+>  		MEDIA_BUS_FMT_SGBRG10_1X10,
+>  		MEDIA_BUS_FMT_SRGGB10_1X10,
+>  	};
+> -	struct camera_mipi_info *ov2680_info;
+>  	int hv_flip = 0;
+>  
+>  	if (sensor->ctrls.vflip->val)
+> @@ -72,11 +62,6 @@ static void ov2680_set_bayer_order(struct ov2680_device *sensor, struct v4l2_mbu
+>  		hv_flip += 2;
+>  
+>  	fmt->code = ov2680_hv_flip_bayer_order[hv_flip];
+> -
+> -	/* TODO atomisp specific custom API, should be removed */
+> -	ov2680_info = v4l2_get_subdev_hostdata(&sensor->sd);
+> -	if (ov2680_info)
+> -		ov2680_info->raw_bayer_order = ov2680_bayer_order_mapping[hv_flip];
+>  }
+>  
+>  static int ov2680_set_vflip(struct ov2680_device *sensor, s32 val)
+> @@ -609,10 +594,11 @@ static void ov2680_remove(struct i2c_client *client)
+>  
+>  	dev_dbg(&client->dev, "ov2680_remove...\n");
+>  
+> -	atomisp_unregister_subdev(sd);
+> -	v4l2_device_unregister_subdev(sd);
+> +	v4l2_async_unregister_subdev(&sensor->sd);
+>  	media_entity_cleanup(&sensor->sd.entity);
+>  	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
+> +	mutex_destroy(&sensor->input_lock);
+> +	fwnode_handle_put(sensor->ep_fwnode);
+>  	pm_runtime_disable(&client->dev);
+>  }
+>  
+> @@ -631,13 +617,19 @@ static int ov2680_probe(struct i2c_client *client)
+>  	sensor->client = client;
+>  	v4l2_i2c_subdev_init(&sensor->sd, client, &ov2680_ops);
+>  
+> -	ret = v4l2_get_acpi_sensor_info(dev, NULL);
+> -	if (ret)
+> -		return ret;
+> +	/*
+> +	 * Sometimes the fwnode graph is initialized by the bridge driver.
+> +	 * Bridge drivers doing this may also add GPIO mappings, wait for this.
+> +	 */
+> +	sensor->ep_fwnode = fwnode_graph_get_next_endpoint(dev_fwnode(dev), NULL);
+> +	if (!sensor->ep_fwnode)
+> +		return dev_err_probe(dev, -EPROBE_DEFER, "waiting for fwnode graph endpoint\n");
+>  
+>  	sensor->powerdown = devm_gpiod_get_optional(dev, "powerdown", GPIOD_OUT_HIGH);
+> -	if (IS_ERR(sensor->powerdown))
+> +	if (IS_ERR(sensor->powerdown)) {
+> +		fwnode_handle_put(sensor->ep_fwnode);
+>  		return dev_err_probe(dev, PTR_ERR(sensor->powerdown), "getting powerdown GPIO\n");
+> +	}
+>  
+>  	pm_runtime_set_suspended(dev);
+>  	pm_runtime_enable(dev);
+> @@ -653,6 +645,7 @@ static int ov2680_probe(struct i2c_client *client)
+>  	sensor->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+>  	sensor->pad.flags = MEDIA_PAD_FL_SOURCE;
+>  	sensor->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+> +	sensor->sd.fwnode = sensor->ep_fwnode;
 
-Thanks.
+You can drop this change: when
+<URL:https://lore.kernel.org/linux-media/20230622114028.908825-1-sakari.ailus@linux.intel.com/T/#t>
+gets merged (for 6.6 presumably), the async sub-devices should register the
+device fwnode. Right now it works with device node albeit a warning
+remains.
 
-Note patches 1-4 of that set are already in media-staging. Only 5/5 is still
-pending, I did not send that directly to Mauro because it touches files
-outside driver/staging/media/atomisp.
+>  
+>  	ret = ov2680_init_controls(sensor);
+>  	if (ret) {
+> @@ -668,8 +661,7 @@ static int ov2680_probe(struct i2c_client *client)
+>  
+>  	ov2680_fill_format(sensor, &sensor->mode.fmt, OV2680_NATIVE_WIDTH, OV2680_NATIVE_HEIGHT);
+>  
+> -	ret = atomisp_register_sensor_no_gmin(&sensor->sd, 1, ATOMISP_INPUT_FORMAT_RAW_10,
+> -					      atomisp_bayer_order_bggr);
+> +	ret = v4l2_async_register_subdev_sensor(&sensor->sd);
+>  	if (ret) {
+>  		ov2680_remove(client);
+>  		return ret;
+> diff --git a/drivers/staging/media/atomisp/i2c/ov2680.h b/drivers/staging/media/atomisp/i2c/ov2680.h
+> index baf49eb0659e..a3eeb0c2de5c 100644
+> --- a/drivers/staging/media/atomisp/i2c/ov2680.h
+> +++ b/drivers/staging/media/atomisp/i2c/ov2680.h
+> @@ -30,8 +30,6 @@
+>  #include <linux/v4l2-mediabus.h>
+>  #include <media/media-entity.h>
+>  
+> -#include "../include/linux/atomisp_platform.h"
+> -
+>  #define OV2680_NATIVE_WIDTH			1616
+>  #define OV2680_NATIVE_HEIGHT			1216
+>  
+> @@ -114,6 +112,7 @@ struct ov2680_device {
+>  	struct mutex input_lock;
+>  	struct i2c_client *client;
+>  	struct gpio_desc *powerdown;
+> +	struct fwnode_handle *ep_fwnode;
+>  	bool is_streaming;
+>  
+>  	struct ov2680_mode {
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
+> index c80754755d9e..d7d9cac2c3b8 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
+> @@ -89,6 +89,8 @@ static const guid_t atomisp_dsm_guid =
+>   * power-management and with v4l2-async probing.
+>   */
+>  static const struct atomisp_csi2_sensor_config supported_sensors[] = {
+> +	/* Omnivision OV2680 */
+> +	{ "OVTI2680", 1 },
+>  };
+>  
+>  /*
 
-Regards,
+-- 
+Kind regards,
 
-Hans
-
-
+Sakari Ailus
