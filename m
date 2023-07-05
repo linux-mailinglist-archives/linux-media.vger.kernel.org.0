@@ -2,113 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C496747FFC
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jul 2023 10:43:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FF3D74808E
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jul 2023 11:14:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232048AbjGEIn4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Jul 2023 04:43:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59374 "EHLO
+        id S232069AbjGEJOv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Jul 2023 05:14:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231976AbjGEInv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jul 2023 04:43:51 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B65971721
-        for <linux-media@vger.kernel.org>; Wed,  5 Jul 2023 01:43:50 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-9922d6f003cso784954666b.0
-        for <linux-media@vger.kernel.org>; Wed, 05 Jul 2023 01:43:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688546629; x=1691138629;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L3DNzHWORK/hpka9u72cYLeovh/HtyI0Uny8cnoXVr4=;
-        b=F9gk1nn/HL2ztsxYfz56MR8rYdvGD7RljGa/DcZ/wY9laKoORdp/qiOewqdRX893/z
-         8/N+o7aZCo1bVuJ0tMbHDFG8KWZHQz/49+SF84BTFvzNvJSdjb0A80bjRmjwunGPRqNx
-         IvWIe34Gtl5lz+hNPUwvNxZGDVFFH1osMCPYg0AGl1Fca6A8tuFQfhzKGnFx9QOZ4P7g
-         S2IVcQeFPqojFvoq01gXtExG0YSxJMC3jwdArRDZiF6uqlFPpkZoer1xpS3UILQjv9ic
-         sPOV+KA4Og1Y0+633a+C3AqWNA373ORI0ocMIiNgacHvCJB8LPQlqwc/d58ao6eY4Y0f
-         XWYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688546629; x=1691138629;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=L3DNzHWORK/hpka9u72cYLeovh/HtyI0Uny8cnoXVr4=;
-        b=esGaDns5ytcVZw14ZejiQpnc/b0zilM437sUbdUxr2Rr/ZrmY2sm9IVfgsvSNgrr64
-         aYwnKMt12aPACBD2zyC7HryEmPcOV9SAbQQfPzO9h4CYIvDwP4KAs/f/BR7/KBeoLCwh
-         1Eq5LcOjPChGMjIjUH1fMwWRLVSZAE7sxi7wdeZtOlt6eIZ+BRVrdJqd2UYMmiDEwerS
-         eIu3gZj75b/yGMfRwJI+LUpMOpIJCzOwHfsOkW0PMbxnr/MofU7y84Bv4q81MaKAonkL
-         WsNQt54Mq/m1OYdJandQKrIcdwOl4JD6i7gzVdLb545EwO1pcy7u3Tt6ijUAwZ+g8FD4
-         q68w==
-X-Gm-Message-State: ABy/qLa1dWOIQyzF2GYT8OJ+hqP2HnCqYlQXDg162tSH7ShRGMDV9oaW
-        e+W7XMvS6sz6E3zTi0wSkQGaM170BaZrYmYKYD5vxwlIo0w=
-X-Google-Smtp-Source: APBJJlF4Pxulj9ILNJWtaqJKxTed1myHQQY5asSvaWhT1TAjVw+fBSRfXR4WcSxbCozc2A6rpva4M64ZqVKeZPnq2+0=
-X-Received: by 2002:a17:906:eb15:b0:991:e3c4:c135 with SMTP id
- mb21-20020a170906eb1500b00991e3c4c135mr11461030ejb.9.1688546629072; Wed, 05
- Jul 2023 01:43:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230630110643.209761-1-hdegoede@redhat.com> <20230630110643.209761-15-hdegoede@redhat.com>
- <24dc6ebe-0dd7-4f71-50af-c51ccb3714d5@ideasonboard.com> <ZKQ6aVxZupe61i9T@smile.fi.intel.com>
- <e5cda25d-ca1f-63b2-4c4b-db6cb7ccb8e7@redhat.com>
-In-Reply-To: <e5cda25d-ca1f-63b2-4c4b-db6cb7ccb8e7@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 5 Jul 2023 11:43:12 +0300
-Message-ID: <CAHp75VeH-J3OnAnPcYHApgun8NNBorY9J9cPZfy24h_ZLfcc5g@mail.gmail.com>
-Subject: Re: [PATCH v2 14/15] media: ipu-bridge: Add a runtime-pm device-link
- between VCM and sensor
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Andy Shevchenko <andy@kernel.org>,
-        Dan Scally <dan.scally@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        with ESMTP id S231835AbjGEJOu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jul 2023 05:14:50 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 291B6170E;
+        Wed,  5 Jul 2023 02:14:48 -0700 (PDT)
+X-UUID: 624d5c481b1411eeb20a276fd37b9834-20230705
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=se64KQH3gerKnz6HlAf5ClGc47AESPwNkTnbl8HVi8g=;
+        b=YWQ9JoRBZdmLS8nv8rYO9ZB9EVD+SYsX2BcYHf4nkYU2GluDUlUYHr6yAIAG6FH6MfsCpXNen8gd1SwBabFJssrI94NS/zcDxKj3BuidFVDFzStHUQqpUTBHl2tY6t2hfNrD2uh2eog7aHTdBaiqEHQPh4lsSfz3Sh88UDzZCaU=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.27,REQID:3d7cc2ba-6825-4123-9d4f-883b66da2534,IP:0,U
+        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+        release,TS:0
+X-CID-META: VersionHash:01c9525,CLOUDID:b853b982-5a99-42ae-a2dd-e4afb731b474,B
+        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+        RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
+        NO
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-UUID: 624d5c481b1411eeb20a276fd37b9834-20230705
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
+        (envelope-from <irui.wang@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 606305702; Wed, 05 Jul 2023 17:14:45 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Wed, 5 Jul 2023 17:14:44 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Wed, 5 Jul 2023 17:14:43 +0800
+From:   Irui Wang <irui.wang@mediatek.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kate Hsuan <hpa@redhat.com>, Hao Yao <hao.yao@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        <angelogioacchino.delregno@collabora.com>
+CC:     Tiffany Lin <tiffany.lin@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        "Irui Wang" <irui.wang@mediatek.com>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>
+Subject: [PATCH v3] media: mediatek: vcodec: Return NULL if no vdec_fb is found
+Date:   Wed, 5 Jul 2023 17:14:41 +0800
+Message-ID: <20230705091441.16926-1-irui.wang@mediatek.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK:  N
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 4, 2023 at 6:52=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
-wrote:
-> On 7/4/23 17:27, Andy Shevchenko wrote:
-> > On Tue, Jul 04, 2023 at 04:07:43PM +0100, Dan Scally wrote:
-> >> On 30/06/2023 13:06, Hans de Goede wrote:
+"fb_use_list" is used to store used or referenced frame buffers for
+vp9 stateful decoder. "NULL" should be returned when getting target
+frame buffer failed from "fb_use_list", not a random unexpected one.
 
-...
+Fixes: f77e89854b3e ("[media] vcodec: mediatek: Add Mediatek VP9 Video Decoder Driver")
+Signed-off-by: Irui Wang <irui.wang@mediatek.com>
+---
+changed with v2:
+ - add Fixes tag.
 
-> >>> +   strscpy(work->board_info.type, fwnode_get_name(vcm_fwnode),
-> >>> +           I2C_NAME_SIZE);
-> >>> +   /* Strip "-<link>" postfix */
-> >>> +   sep =3D strchrnul(work->board_info.type, '-');
-> >>> +   *sep =3D 0;
-> >>
-> >> I think strreplace(work->board_info.type, '-', '\0') here would be cle=
-aner,
-> >> and either way probably we need #include <linux/string.h> for the str*=
- funcs
-> >> here
-> >
-> > What we need is something like strcut(str, '<$CHAR>').
-> >
-> > But related to the above code we can (besides using sizeof() instead
-> > of I2C_NAME_SIZE):
-> >
-> >       snprintf(work->board_info.type, sizeof(work->board_info.type),
-> >                "%pfwP", vcm_fwnode);
->
-> "%pfwP" ? what on earth does that do ?
+changed with v1:
+ - remove the added flag variable.
+ - updata commit message.
+---
+ drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Prints fwnode name (as you opencoded with strscpy() + fwnode_get_name() abo=
-ve).
+diff --git a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c
+index 70b8383f7c8e..a27a109d8d14 100644
+--- a/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c
++++ b/drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_if.c
+@@ -226,10 +226,11 @@ static struct vdec_fb *vp9_rm_from_fb_use_list(struct vdec_vp9_inst
+ 		if (fb->base_y.va == addr) {
+ 			list_move_tail(&node->list,
+ 				       &inst->available_fb_node_list);
+-			break;
++			return fb;
+ 		}
+ 	}
+-	return fb;
++
++	return NULL;
+ }
+ 
+ static void vp9_add_to_fb_free_list(struct vdec_vp9_inst *inst,
+-- 
+2.18.0
 
---=20
-With Best Regards,
-Andy Shevchenko
