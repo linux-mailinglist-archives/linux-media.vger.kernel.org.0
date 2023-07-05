@@ -2,136 +2,214 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA8F9747C21
-	for <lists+linux-media@lfdr.de>; Wed,  5 Jul 2023 06:48:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE989747CCC
+	for <lists+linux-media@lfdr.de>; Wed,  5 Jul 2023 08:07:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230345AbjGEEsH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 5 Jul 2023 00:48:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45134 "EHLO
+        id S229998AbjGEGHj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 5 Jul 2023 02:07:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229702AbjGEEsF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jul 2023 00:48:05 -0400
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2127.outbound.protection.outlook.com [40.107.255.127])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8EECA1;
-        Tue,  4 Jul 2023 21:48:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Z4WiPcbG/0650XKZsJmk3Cqf6EBu2EXHmnHQxM+KDCk58GQRSfqd7FVwPqz3XtZPir6PbvW10FjiYNiFNAu1IfmI9ZVPTH2iJ7mIhpFwGT53KVihtiZcAx95sL0q2bZ3t8w5xpCuzbhGP3d805z9GKPIVwPt5zogzeETRp/i+xZ+T1wkbky2pt874rhg50Eru/QpBuIoP9OHjoPyivQO7Fg/VyXKzGKECkh0bo8k1dfmTll4C3tpcXZ1aEJ0kOYTgZQ6mpnxLTOPYi8tZ4Nv4dZkDbHwxv1U4u4tIPX2t/E9cfF6xXxG7nDZUY+zLeChpqUrOG3Dov3mbYEZLdQ5Yw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5a3jIrhU5rBDoWWyGOvC05MWGoUyX47GgHbksd193S0=;
- b=fWS7uaJRbS4Usoecuj0VHEb07NT/Y0fQV7Erse/yMKyCD5/zW2zI1VNZNDPsR8+sRTF94JG0lgEhsgz+e6t393z95bv6T7/WOTFFX+S4finEBCDfZtI54g61PJVT2GHkUWkAoLYqJcwL3dhp77UGz5YFSFso9UG9rf9HeqGYm4LgkXPYqvtoObe2fziZ1W2xhbGLtFaUlNysEOHGW834lA6jYN2MX1Lp0Kbx1Lmj6ydQ2knc6N86ETdSCUJx9lxuBoeiNDwbVNPY76NdZVZRjRDSR/UQlPEFggylK7YMTBY4wO1b2WHiHxyr8pp8ITU4/Fa4Kv8Xmw+hJ0d6ReGbmg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5a3jIrhU5rBDoWWyGOvC05MWGoUyX47GgHbksd193S0=;
- b=MNGEBR/8xIYVgnPQJpjNS93kMvsSL4V/yQFsxApMYOfjEIEgbcC4HYCXYRhWqng5UMGjmZHCkuIa7shdIQroZz+dlO8ZTi4g7riemkkxNp+tiTPhTPbDXPkr5kyhAa2fQlTnWhs8JNqeGne2jFexY2qigekEsknLmXnu5dz8Cepta7tX1u3uqgAviyecT1o4lJzCXZ7RXn5vobwu+HR6S3vw8G8S9JaN7WVnwzVP+A1VkWS7MLLpmtmEn2Sq11WvjHOPI/OonMtTP/75SS6Y0PNY8oFgQZxrEibNTaLF39Gh6PUeIHufph01PcmphOItER1MogK4RNZCIpHZE+x58A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SEZPR06MB5269.apcprd06.prod.outlook.com (2603:1096:101:78::6)
- by SEYPR06MB6130.apcprd06.prod.outlook.com (2603:1096:101:db::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.17; Wed, 5 Jul
- 2023 04:48:00 +0000
-Received: from SEZPR06MB5269.apcprd06.prod.outlook.com
- ([fe80::fa0e:6c06:7474:285c]) by SEZPR06MB5269.apcprd06.prod.outlook.com
- ([fe80::fa0e:6c06:7474:285c%5]) with mapi id 15.20.6565.016; Wed, 5 Jul 2023
- 04:48:00 +0000
-From:   Minjie Du <duminjie@vivo.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Minjie Du <duminjie@vivo.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
-        (V4L/DVB)), linux-kernel@vger.kernel.org (open list)
-Cc:     opensource.kernel@vivo.com
-Subject: [PATCH v1] drivers: media: remove duplicate assignments
-Date:   Wed,  5 Jul 2023 12:47:50 +0800
-Message-Id: <20230705044750.8498-1-duminjie@vivo.com>
-X-Mailer: git-send-email 2.39.0
+        with ESMTP id S229635AbjGEGHi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 5 Jul 2023 02:07:38 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B97110C8;
+        Tue,  4 Jul 2023 23:07:28 -0700 (PDT)
+X-UUID: 3537e1a21afa11ee9cb5633481061a41-20230705
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=4TmeHhlrXWGg0KDs/xJCk7og/nzeLtlm1oD/EJ/DP08=;
+        b=GiHkwWzA23yYU84IgIg1l3PWhUlO155KpCJ7DmiecxPqCAwuU4+VXfFOj6Xh6PKI+/4qL5hk3za1nJftBBnQYULXIQHhptwZVQUvthtuYgeSZ2fJyOveOZ7pi+bfCtZ11ySEzwFdgIhQ3QVSg4V2UtoFJu7gtoh5ekNKRcqSJJg=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.27,REQID:a527472b-1a03-47d8-a8f8-eab8c072a996,IP:0,U
+        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+        N:release,TS:100
+X-CID-INFO: VERSION:1.1.27,REQID:a527472b-1a03-47d8-a8f8-eab8c072a996,IP:0,URL
+        :0,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,BULK:0,RULE:Spam_GS981B3D,ACTIO
+        N:quarantine,TS:100
+X-CID-META: VersionHash:01c9525,CLOUDID:93a8e00d-c22b-45ab-8a43-3004e9216b56,B
+        ulkID:230705140726G7TDRFB8,BulkQuantity:0,Recheck:0,SF:38|29|28|17|19|48,T
+        C:nil,Content:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+        ,OSI:0,OSA:0,AV:0,LES:1,SPR:NO
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SDM,TF_CID_SPAM_ASC,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,
+        TF_CID_SPAM_SNR
+X-UUID: 3537e1a21afa11ee9cb5633481061a41-20230705
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
+        (envelope-from <yongqiang.niu@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 731313926; Wed, 05 Jul 2023 14:07:23 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Wed, 5 Jul 2023 14:07:21 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Wed, 5 Jul 2023 14:07:21 +0800
+From:   Yongqiang Niu <yongqiang.niu@mediatek.com>
+To:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        CK Hu <ck.hu@mediatek.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+CC:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Maxime Ripard <maxime@cerno.tech>,
+        "Thomas Zimmermann" <tzimmermann@suse.de>,
+        <dri-devel@lists.freedesktop.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Yongqiang Niu <yongqiang.niu@mediatek.com>
+Subject: [v5, PATCH] drm/mediatek: add dma buffer control for drm plane disable
+Date:   Wed, 5 Jul 2023 14:07:18 +0800
+Message-ID: <20230705060719.14700-1-yongqiang.niu@mediatek.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: SG2PR03CA0105.apcprd03.prod.outlook.com
- (2603:1096:4:7c::33) To SEZPR06MB5269.apcprd06.prod.outlook.com
- (2603:1096:101:78::6)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEZPR06MB5269:EE_|SEYPR06MB6130:EE_
-X-MS-Office365-Filtering-Correlation-Id: e6b57f1c-06a3-43cc-5435-08db7d130258
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LzfRnnM48X4YQCKRpgA53GFClrLcqz3lwNGXzdeHoQ57swPTezDszaQn8J5wEShB+NnnZNfsX0KOXqrepcJTVb9EoGJhi21boIT0BTOKKVtvnrZIb/UAM+Sh+dwQN2JM2ywsnSbfW34+9MfwCiP5UqPj8vMs63aXP/NWwAp2kfDx5u6xevfzX+nOnhQK3Jdyi+q8vIvfjoaGc72OCPkyRoiOVquvUDyE9mWXyzK6O1AsMzKFcMKW85x1zPQYvxCxjURgxban69HaTm7j/Frgc1G2oCtaIiddFVZsd7evUXZaXNhr9ApzPtvrPEqmu+ja2mY0+0dXIu++eDm+s+mEH2W6aCHZ9ikpoYUju8p2i/yrl/daivxfsyLX74VMbit+AAFIMRFZEAhRDEkwJcWu9HH/0eUrgjdlKznSKcweXVs7yyLogR7Pu+lqTTIxovEogmpEzy9+vHbDtCRR6LJZuqb839L8jTijYzwnqSSI1dqVCg2xheZVSpM7DdMeWVu9mmtlqIRCGRJQ2/b8ddK0b3FDo99vmK/G2d7ezE0j9+5/f0IEPqih+bSgTgNu52IcjGlyxeCVIDGX2O8Br/uXWL/xkqgx9eQhRDfFj/vDCLH7wpfGdJZDU9oZ+padJpAJ
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5269.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(376002)(346002)(366004)(136003)(39860400002)(451199021)(38100700002)(38350700002)(8676002)(41300700001)(83380400001)(8936002)(316002)(2616005)(4326008)(66946007)(4744005)(2906002)(5660300002)(86362001)(52116002)(1076003)(66556008)(107886003)(6506007)(36756003)(186003)(6486002)(110136005)(6666004)(26005)(478600001)(6512007)(66476007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qrc1De4e44h/GhvLnEtHbSGckyes1hQAoNzJBHJNnGIRPQTZkpT3XBqmbMA5?=
- =?us-ascii?Q?biQ6/DrZCC57hK44KdEWeKPzsWG0te/uYDU9UY6XkRy4vpT1PzSURhiWcGb+?=
- =?us-ascii?Q?gwpGgKMGw3rlsWEXsBNEm0mJCmF/XlgLle/jjQY/5CLX+GB3KU/ZRd4ialAI?=
- =?us-ascii?Q?RV8q3STSbkMZzkExfTY8DpZfDDcMMDoZswtC09tQ8RJk4OLt5BZEkhlQBeur?=
- =?us-ascii?Q?yD6BulSBcmvgvCOvQpCtUE5Hg0Q14wd5mWsthtzKtDxpNAJZjH57WUqmxHij?=
- =?us-ascii?Q?PsVnovEGUp+AalunPXu5fRPU71K5c5jcYDHUEdBRRo6LEF1uh82VDbHMUXST?=
- =?us-ascii?Q?l3lQCUlxjqOMoVenuVZSf4wJzJuEOhdxKK5wuYtX8/u7esNUtXmtOy2rDT5V?=
- =?us-ascii?Q?wII9wPicxRSeaef3nU/WYepZ+5zCuTvqtx35K76eDhd36h4jSYpg/E1yjZCi?=
- =?us-ascii?Q?zRJJaN8Ku0YzbRzzIFvEK1BrpUx1g4h6QqTAVtG9Z8qIX9JH7ikQaVGrRtw3?=
- =?us-ascii?Q?GRuKhBOfd6dTwk3DNn+sJykzK3XL8HnRfPxR6Kqu3i77Zxr6pkdMhlK0390j?=
- =?us-ascii?Q?kce8v9XcJRmEKaw6Na7U1BoeMC9NAvBHdTfZUFpRSGnhDaOrM0yN0XbJ26fe?=
- =?us-ascii?Q?yyInlSciI1w9jLaplpurUMC58wLJ8J4+OosH134TZMSnfxX/cHfFa72VDIox?=
- =?us-ascii?Q?kKSa2ZwPt6W0l4k6fPMlPzEsGm9+ZpoSpg0ePkYPIgX/oQ7wS2+0RffXWJps?=
- =?us-ascii?Q?fEaxlDNjZoQr4lvyx1picLwptsoJV/S54i9GEdtln/iaKvSzRcbeam0JADj2?=
- =?us-ascii?Q?IP4F57l6RF1a+nlQ8Bqu4WPChLiYca2dPlMV9vf4O99X/GaJOwH4ZNa64qud?=
- =?us-ascii?Q?VI5jyS6BNZ9iCPZWcnaWLasp4eQN4zKafMYZqAFFr+AE28yz3DSCekLicMdd?=
- =?us-ascii?Q?E7ZXLwNhBvuocIesdC2zx1hYGoOrlubpJ+gh7Opnh8sX0o0f9Bqcv0NayTUz?=
- =?us-ascii?Q?3FP+Nav48Hf3UqFXI8uRL4b8AZsqhVJPeXVDx+hnrsrNpe1nLmnGdicFwdl+?=
- =?us-ascii?Q?VB1FkjdovUwexdMz2WZN2UtMBBQa4HBd/fPouGbSt0xf1w1YL8MXY5Mr33D6?=
- =?us-ascii?Q?TeuR2ARlLngWRbRbkfNiseQa9Bn9VmAHB9FybyoWrxld65JLwtQWxUrx+P3j?=
- =?us-ascii?Q?Dpvsx+8cQCU2N8ctsJqIb4dQbj8GGo663tPcTl9ORuHG2Xj9K0BPwL/FNN7J?=
- =?us-ascii?Q?N6tubzakQQMH85G0qQnS4OrQ7yNO/GEFIlu/BbclOuj5aJM1R+BYuhY3NwIV?=
- =?us-ascii?Q?0flLD0S5Z8Wu1HJXYMD3JDLM54PSWSBU8qi1YjFnEkZsJ+3CmG8gtzksjUAR?=
- =?us-ascii?Q?wzx2Ufl3kXqhOr/J2EFR23TWTJhpbwBTkMIpBZeD9HnUAzx0mNQKi3KBy2ob?=
- =?us-ascii?Q?51QEOOMSYs7HbVm1+uDQAV2iaUeVE3vxsekgfSIFPAB8St9S3HyDe/ammRl+?=
- =?us-ascii?Q?LC6Sl5KWpLmWXXMh13C70LxaDcQTb2BRaw6fVB0gtezOu8qUMjffnD6aRvBC?=
- =?us-ascii?Q?FRc7jk3xi7tjDXefVj6fxYsKH9RKLZ4CBkINQEO4?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e6b57f1c-06a3-43cc-5435-08db7d130258
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5269.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2023 04:48:00.2715
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MlbjDvDu4rFMQ30UkSzbf/MTo+hd8SDb6zzj0ncJ1vkF/i8czrccMVKvmjzBz0iB8KsGpZ4RiB0otTGBx9JNfQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB6130
+X-MTK:  N
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,
+        T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,UNPARSEABLE_RELAY,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-make second_timeout avoid double assignment.
+dma buffer release before overlay disable, that will cause
+m4u translation fault warning.
 
-Signed-off-by: Minjie Du <duminjie@vivo.com>
+add dma buffer control flow in mediatek driver:
+get dma buffer when drm plane disable
+put dma buffer when overlay really disable
+
+Fixes: 41016fe1028e ("drm: Rename plane->state variables in atomic update and disable")
+Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 ---
- drivers/media/pci/saa7164/saa7164-fw.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c  | 25 ++++++++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c   |  1 +
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c | 12 ++++++++++++
+ drivers/gpu/drm/mediatek/mtk_drm_plane.h |  1 +
+ 4 files changed, 39 insertions(+)
 
-diff --git a/drivers/media/pci/saa7164/saa7164-fw.c b/drivers/media/pci/saa7164/saa7164-fw.c
-index 363689484..cc9f384f7 100644
---- a/drivers/media/pci/saa7164/saa7164-fw.c
-+++ b/drivers/media/pci/saa7164/saa7164-fw.c
-@@ -271,7 +271,6 @@ int saa7164_downloadfirmware(struct saa7164_dev *dev)
- 			dprintk(DBGLVL_FW, "%s() Loader 1 has loaded.\n",
- 				__func__);
- 			first_timeout = SAA_DEVICE_TIMEOUT;
--			second_timeout = 60 * SAA_DEVICE_TIMEOUT;
- 			second_timeout = 100;
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+index d40142842f85..49d671100785 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+@@ -4,6 +4,7 @@
+  */
  
- 			err_flags = saa7164_readl(SAA_SECONDSTAGEERROR_FLAGS);
+ #include <linux/clk.h>
++#include <linux/dma-buf.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/mailbox_controller.h>
+ #include <linux/pm_runtime.h>
+@@ -283,6 +284,23 @@ struct mtk_ddp_comp *mtk_drm_ddp_comp_for_plane(struct drm_crtc *crtc,
+ 	return NULL;
+ }
+ 
++static void mtk_drm_dma_buf_put(struct mtk_drm_crtc *mtk_crtc)
++{
++	unsigned int i;
++
++	for (i = 0; i < mtk_crtc->layer_nr; i++) {
++		struct drm_plane *plane = &mtk_crtc->planes[i];
++		struct mtk_plane_state *plane_state;
++
++		plane_state = to_mtk_plane_state(plane->state);
++
++		if (plane_state && plane_state->pending.dma_buf) {
++			dma_buf_put(plane_state->pending.dma_buf);
++			plane_state->pending.dma_buf = NULL;
++		}
++	}
++}
++
+ #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+ static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
+ {
+@@ -323,6 +341,8 @@ static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
+ 		mtk_crtc->pending_async_planes = false;
+ 	}
+ 
++	mtk_drm_dma_buf_put(mtk_crtc);
++
+ 	mtk_crtc->cmdq_vblank_cnt = 0;
+ 	wake_up(&mtk_crtc->cb_blocking_queue);
+ }
+@@ -624,9 +644,14 @@ static void mtk_crtc_ddp_irq(void *data)
+ 	else if (mtk_crtc->cmdq_vblank_cnt > 0 && --mtk_crtc->cmdq_vblank_cnt == 0)
+ 		DRM_ERROR("mtk_crtc %d CMDQ execute command timeout!\n",
+ 			  drm_crtc_index(&mtk_crtc->base));
++
++	if (!mtk_crtc->cmdq_client.chan)
++		mtk_drm_dma_buf_put(mtk_crtc);
+ #else
+ 	if (!priv->data->shadow_register)
+ 		mtk_crtc_ddp_config(crtc, NULL);
++
++	mtk_drm_dma_buf_put(mtk_crtc);
+ #endif
+ 	mtk_drm_finish_page_flip(mtk_crtc);
+ }
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+index 6dcb4ba2466c..812f1667e070 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+@@ -993,4 +993,5 @@ module_exit(mtk_drm_exit);
+ 
+ MODULE_AUTHOR("YT SHEN <yt.shen@mediatek.com>");
+ MODULE_DESCRIPTION("Mediatek SoC DRM driver");
++MODULE_IMPORT_NS(DMA_BUF);
+ MODULE_LICENSE("GPL v2");
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+index 31f9420aff6f..66e6393e45ee 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+@@ -12,6 +12,7 @@
+ #include <drm/drm_framebuffer.h>
+ #include <drm/drm_gem_atomic_helper.h>
+ #include <linux/align.h>
++#include <linux/dma-buf.h>
+ 
+ #include "mtk_drm_crtc.h"
+ #include "mtk_drm_ddp_comp.h"
+@@ -266,6 +267,17 @@ static void mtk_plane_atomic_disable(struct drm_plane *plane,
+ 	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
+ 									   plane);
+ 	struct mtk_plane_state *mtk_plane_state = to_mtk_plane_state(new_state);
++	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
++									   plane);
++
++	if (old_state && old_state->fb) {
++		struct drm_gem_object *gem = old_state->fb->obj[0];
++
++		if (gem && gem->dma_buf) {
++			get_dma_buf(gem->dma_buf);
++			mtk_plane_state->pending.dma_buf = gem->dma_buf;
++		}
++	}
+ 	mtk_plane_state->pending.enable = false;
+ 	wmb(); /* Make sure the above parameter is set before update */
+ 	mtk_plane_state->pending.dirty = true;
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.h b/drivers/gpu/drm/mediatek/mtk_drm_plane.h
+index 99aff7da0831..3aba0b58ef3c 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_plane.h
++++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.h
+@@ -33,6 +33,7 @@ struct mtk_plane_pending_state {
+ 	bool				async_dirty;
+ 	bool				async_config;
+ 	enum drm_color_encoding		color_encoding;
++	struct dma_buf			*dma_buf;
+ };
+ 
+ struct mtk_plane_state {
 -- 
-2.39.0
+2.25.1
 
