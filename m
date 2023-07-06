@@ -2,267 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 99F7074963C
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jul 2023 09:20:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 443C674967A
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jul 2023 09:37:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232446AbjGFHUq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Jul 2023 03:20:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42828 "EHLO
+        id S233620AbjGFHhe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Jul 2023 03:37:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229508AbjGFHUp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jul 2023 03:20:45 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77E51DA
-        for <linux-media@vger.kernel.org>; Thu,  6 Jul 2023 00:20:43 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (82-181-192-243.bb.dnainternet.fi [82.181.192.243])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4QxSc70kDtz49Q47;
-        Thu,  6 Jul 2023 10:20:38 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1688628040;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=wOXqJLGsa2+47dStNq72XL1roCNVdI2YxgVQduFdi30=;
-        b=eiasjTlHhEV6fBqXw7MCAIYfuYlQUAygtJAEtA1u+SNM8IenhlSkWsSm0P6ZeO8yWZNKxU
-        9HLtLecVlCSXHF4f8gmi6LzUeY3gjszd7R6pyhu5lxwhwOsukT3XjXaGEsvzKnQfHCg+iL
-        cpNiZiCwXUQZf/U24ndal1qlF7S9Ni0CLEalA/7NvLYwp9y3uM7wxWI2o99RdwJlfR2WmG
-        nOAe7RgK48zNwtIeP2yx4vZVfn6ViZwILblsHyXDXpbvU/Q8NdlMZ52DMnDeAs2xiDoKn8
-        9zuQpnz7Y5kuZ7J31wYfO0hfFqgrd7oga/7Wz+U8OGMknDzFnqCSOIuYUpl18A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1688628040;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=wOXqJLGsa2+47dStNq72XL1roCNVdI2YxgVQduFdi30=;
-        b=lQU9mTERWJpXrjPohVxdq3onlnLs8SQXi7tDLBY38aE/kUYlWwAEE22z1IvSlHywByV8QJ
-        Qj119jSxpepbZFnDLV4kfLN5nZXWY6GjtJPPwcK36ZIbNxdi93yp25cfu+LUpWtkJ6ayhK
-        Pg/YhLQjLdpZtfwtsZTWxupYni8MzNZr2prc2AWGXgsf5+YEbkc4zuzROmJmvKUO8R0aO+
-        mrPzg3z/YrdVC/VNeID8Jya9aUM3zW0DLpDhk8AOnvchEX3QfUnJl2Lp/JHBqMhjBuOh9d
-        raMurPclFhBMbjOe5VlNg/UdGWmFlOiwJpeBRIpL4sUQciOxtxphiADL5cur+g==
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1688628040; a=rsa-sha256;
-        cv=none;
-        b=Y9f9ee6A8ezG9skT5E9C73vTq7RfHwloOBjkLo7HUPl3087KMz18/LTbMejPFGFqcg2WAS
-        +zj9DDlJHvc2J68gZ7Rgv5mAA64QrXassf1++XaTL38V2usdbceUr9LxZ0rKeOVmfCL9lP
-        SCBO5CtAJ5IKwCNISs7atLCekMV+dgrx+yPfvCimCOEFhNO5+nF4on/LCn651oR4rlLPpj
-        0cnBJnKEf7Wt4xye0yS0bl76lCdtlTfx8a4dAPTb8f3yL6T1psbjbgKxzbVA0iY8youfXs
-        DDVSNsBFUreZGjVRJPybmdUZswNTLDXGOHLypbSQ5DAJcz9XcRnJJRbv6xX8Zw==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 8E4B7634CAA;
-        Thu,  6 Jul 2023 10:20:38 +0300 (EEST)
-Date:   Thu, 6 Jul 2023 07:20:38 +0000
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Yury Luneff <yury.lunev@gmail.com>,
-        Nable <nable.maininbox@googlemail.com>,
-        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
-        Dan Scally <djrscally@gmail.com>, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, Jacopo Mondi <jacopo@jmondi.org>
-Subject: Re: [PATCH v2 3/5] media: atomisp: gc0310: Turn into standard v4l2
- sensor driver
-Message-ID: <ZKZrRmHJ/KjmvAUO@valkosipuli.retiisi.eu>
-References: <20230525190100.130010-1-hdegoede@redhat.com>
- <20230525190100.130010-4-hdegoede@redhat.com>
- <ZKVz+u9kTdcpq87p@valkosipuli.retiisi.eu>
- <4mdcekmadayjpvvcyjye5cmda52j75wqixw3c2erl3tz5sped7@ti5shg3puk4p>
- <ZKZiqlEB92lziDYm@valkosipuli.retiisi.eu>
- <gyjk2gfd4pqum57nspncglu2sgyhdr2hpal3up52lghmozftto@eikckzo4huqk>
+        with ESMTP id S233488AbjGFHhd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jul 2023 03:37:33 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67D991990
+        for <linux-media@vger.kernel.org>; Thu,  6 Jul 2023 00:37:32 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1qHJYM-0006DP-4Z; Thu, 06 Jul 2023 09:37:26 +0200
+Received: from mtr by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1qHJYK-0007Ou-CB; Thu, 06 Jul 2023 09:37:24 +0200
+Date:   Thu, 6 Jul 2023 09:37:24 +0200
+From:   Michael Tretter <m.tretter@pengutronix.de>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        mchehab@kernel.org, m.szyprowski@samsung.com,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kernel@collabora.com,
+        kernel@pengutronix.de, nicolas.dufresne@collabora.com,
+        didi.debian@cknow.org, hverkuil-cisco@xs4all.nl
+Subject: Re: [PATCH v2] media: verisilicon: Fix crash when probing encoder
+Message-ID: <20230706073724.GG13288@pengutronix.de>
+Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        mchehab@kernel.org, m.szyprowski@samsung.com,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kernel@collabora.com,
+        kernel@pengutronix.de, nicolas.dufresne@collabora.com,
+        didi.debian@cknow.org, hverkuil-cisco@xs4all.nl
+References: <20230413104756.356695-1-benjamin.gaignard@collabora.com>
+ <20230601132749.GA31313@pengutronix.de>
+ <2a892e71-f1be-41eb-5397-87484db7d592@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <gyjk2gfd4pqum57nspncglu2sgyhdr2hpal3up52lghmozftto@eikckzo4huqk>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2a892e71-f1be-41eb-5397-87484db7d592@collabora.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mtr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
-
-On Thu, Jul 06, 2023 at 09:17:54AM +0200, Jacopo Mondi wrote:
-> Hi Sakari
+On Thu, 01 Jun 2023 16:08:13 +0200, Benjamin Gaignard wrote:
+> Le 01/06/2023 à 15:27, Michael Tretter a écrit :
+> > On Thu, 13 Apr 2023 12:47:56 +0200, Benjamin Gaignard wrote:
+> > > ctx->vpu_dst_fmt is no more initialized before calling hantro_try_fmt()
+> > > so assigne it to vpu_fmt led to crash the kernel.
+> > > Like for decoder case use 'fmt' as format for encoder and clean up
+> > > the code.
+> > > 
+> > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> > > Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> > > Fixes: db6f68b51e5c ("media: verisilicon: Do not set context src/dst formats in reset functions")
+> > > ---
+> > > version 2:
+> > > - Remove useless vpu_fmt.
+> > > 
+> > >   drivers/media/platform/verisilicon/hantro_v4l2.c | 10 +++-------
+> > >   1 file changed, 3 insertions(+), 7 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> > > index 8f1414085f47..d71f79471396 100644
+> > > --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
+> > > +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> > > @@ -275,7 +275,7 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
+> > >   			  struct v4l2_pix_format_mplane *pix_mp,
+> > >   			  enum v4l2_buf_type type)
+> > >   {
+> > > -	const struct hantro_fmt *fmt, *vpu_fmt;
+> > > +	const struct hantro_fmt *fmt;
+> > >   	bool capture = V4L2_TYPE_IS_CAPTURE(type);
+> > >   	bool coded;
+> > > @@ -295,11 +295,7 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
+> > >   	if (coded) {
+> > >   		pix_mp->num_planes = 1;
+> > > -		vpu_fmt = fmt;
+> > > -	} else if (ctx->is_encoder) {
+> > > -		vpu_fmt = ctx->vpu_dst_fmt;
+> > > -	} else {
+> > > -		vpu_fmt = fmt;
+> > > +	} else if (!ctx->is_encoder) {
+> > >   		/*
+> > >   		 * Width/height on the CAPTURE end of a decoder are ignored and
+> > >   		 * replaced by the OUTPUT ones.
+> > > @@ -311,7 +307,7 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
+> > >   	pix_mp->field = V4L2_FIELD_NONE;
+> > >   	v4l2_apply_frmsize_constraints(&pix_mp->width, &pix_mp->height,
+> > > -				       &vpu_fmt->frmsize);
+> > > +				       &fmt->frmsize);
+> > This causes a regression on the OUTPUT device of the encoder. fmt->frmsize is
+> > only valid for coded ("bitstream") formats, but fmt on the OUTPUT of an
+> > encoder will be a raw format. This results in width and height to be clamped
+> > to 0.
+> > 
+> > I think the correct fix would be to apply the frmsize constraints of the
+> > currently configured coded format, but as ctx->vpu_dst_fmt is not initialized
+> > before calling this code, I don't know how to get the coded format.
 > 
-> On Thu, Jul 06, 2023 at 06:43:54AM +0000, Sakari Ailus wrote:
-> > Hi Jacopo,
-> >
-> > On Thu, Jul 06, 2023 at 08:37:24AM +0200, Jacopo Mondi wrote:
-> > > Hi Sakari, Hans
-> > >
-> > > On Wed, Jul 05, 2023 at 01:45:30PM +0000, Sakari Ailus wrote:
-> > > > Hi Hans,
-> > > >
-> > > > On Thu, May 25, 2023 at 09:00:58PM +0200, Hans de Goede wrote:
-> > > > > Switch the atomisp-gc0310 driver to v4l2 async device registration.
-> > > > >
-> > > > > After this change this driver no longer depends on
-> > > > > atomisp_gmin_platform and all atomisp-isms are gone.
-> > > > >
-> > > > > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> > > > > ---
-> > > > > Changes in v2:
-> > > > > - Drop v4l2_get_acpi_sensor_info() call in this patch
-> > > > > - Wait for fwnode graph endpoint so that the bridge's ACPI
-> > > > >   parsing gets a chance to register the GPIO mappings
-> > > > >   before probing the sensor
-> > > > > - Switch to endpoint matching
-> > > > > ---
-> > > > >  .../media/atomisp/i2c/atomisp-gc0310.c        | 29 ++++++++++++-------
-> > > > >  .../media/atomisp/pci/atomisp_csi2_bridge.c   |  2 ++
-> > > > >  2 files changed, 20 insertions(+), 11 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> > > > > index 1829ba419e3e..9a11793f34f7 100644
-> > > > > --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> > > > > +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> > > > > @@ -29,8 +29,6 @@
-> > > > >  #include <media/v4l2-ctrls.h>
-> > > > >  #include <media/v4l2-device.h>
-> > > > >
-> > > > > -#include "../include/linux/atomisp_gmin_platform.h"
-> > > > > -
-> > > > >  #define GC0310_NATIVE_WIDTH			656
-> > > > >  #define GC0310_NATIVE_HEIGHT			496
-> > > > >
-> > > > > @@ -85,6 +83,7 @@ struct gc0310_device {
-> > > > >  	struct mutex input_lock;
-> > > > >  	bool is_streaming;
-> > > > >
-> > > > > +	struct fwnode_handle *ep_fwnode;
-> > > > >  	struct gpio_desc *reset;
-> > > > >  	struct gpio_desc *powerdown;
-> > > > >
-> > > > > @@ -596,11 +595,11 @@ static void gc0310_remove(struct i2c_client *client)
-> > > > >
-> > > > >  	dev_dbg(&client->dev, "gc0310_remove...\n");
-> > > > >
-> > > > > -	atomisp_unregister_subdev(sd);
-> > > > > -	v4l2_device_unregister_subdev(sd);
-> > > > > +	v4l2_async_unregister_subdev(sd);
-> > > > >  	media_entity_cleanup(&dev->sd.entity);
-> > > > >  	v4l2_ctrl_handler_free(&dev->ctrls.handler);
-> > > > >  	mutex_destroy(&dev->input_lock);
-> > > > > +	fwnode_handle_put(dev->ep_fwnode);
-> > > > >  	pm_runtime_disable(&client->dev);
-> > > > >  }
-> > > > >
-> > > > > @@ -613,19 +612,27 @@ static int gc0310_probe(struct i2c_client *client)
-> > > > >  	if (!dev)
-> > > > >  		return -ENOMEM;
-> > > > >
-> > > > > -	ret = v4l2_get_acpi_sensor_info(&client->dev, NULL);
-> > > > > -	if (ret)
-> > > > > -		return ret;
-> > > > > +	/*
-> > > > > +	 * Sometimes the fwnode graph is initialized by the bridge driver.
-> > > > > +	 * Bridge drivers doing this may also add GPIO mappings, wait for this.
-> > > > > +	 */
-> > > > > +	dev->ep_fwnode = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev), NULL);
-> > > > > +	if (!dev->ep_fwnode)
-> > > > > +		return dev_err_probe(&client->dev, -EPROBE_DEFER, "waiting for fwnode graph endpoint\n");
-> > > > >
-> > > > >  	dev->reset = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_HIGH);
-> > > > > -	if (IS_ERR(dev->reset))
-> > > > > +	if (IS_ERR(dev->reset)) {
-> > > > > +		fwnode_handle_put(dev->ep_fwnode);
-> > > > >  		return dev_err_probe(&client->dev, PTR_ERR(dev->reset),
-> > > > >  				     "getting reset GPIO\n");
-> > > > > +	}
-> > > > >
-> > > > >  	dev->powerdown = devm_gpiod_get(&client->dev, "powerdown", GPIOD_OUT_HIGH);
-> > > > > -	if (IS_ERR(dev->powerdown))
-> > > > > +	if (IS_ERR(dev->powerdown)) {
-> > > > > +		fwnode_handle_put(dev->ep_fwnode);
-> > > > >  		return dev_err_probe(&client->dev, PTR_ERR(dev->powerdown),
-> > > > >  				     "getting powerdown GPIO\n");
-> > > > > +	}
-> > > > >
-> > > > >  	mutex_init(&dev->input_lock);
-> > > > >  	v4l2_i2c_subdev_init(&dev->sd, client, &gc0310_ops);
-> > > > > @@ -645,6 +652,7 @@ static int gc0310_probe(struct i2c_client *client)
-> > > > >  	dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> > > > >  	dev->pad.flags = MEDIA_PAD_FL_SOURCE;
-> > > > >  	dev->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-> > > > > +	dev->sd.fwnode = dev->ep_fwnode;
-> > > >
-> > > > Same for this one: leave as-is --- the v4l2_async_register_subdev()
-> > > > function will set the device fwnode for this.
-> > > >
-> > > > >
-> > > > >  	ret = gc0310_init_controls(dev);
-> > > > >  	if (ret) {
-> > > > > @@ -658,8 +666,7 @@ static int gc0310_probe(struct i2c_client *client)
-> > > > >  		return ret;
-> > > > >  	}
-> > > >
-> > > > This driver should (as well as ov2680) check for the link frequencies. This
-> > > > is an old sensor so if all users eventually use this via firmware that
-> > > > lacks this information, there's little benefit for adding the code. But
-> > > > otherwise this is seen as a bug.
-> > > >
-> > > > <URL:https://hverkuil.home.xs4all.nl/spec/driver-api/camera-sensor.html#handling-clocks
-> > > >
-> > > > The raw cameras should use pixel rate and blanking controls for configuring
-> > > > the frame interval. This one uses s_frame_interval instead, and it may be
-> > > > difficult to find the information needed for the pixel rate based API.
-> > > >
-> > > > Cc Jacopo.
-> > >
-> > > Thanks
-> > >
-> > > If you intend to use these devices with libcamera be aware we mandate
-> > > support for the following controls
-> > >
-> > > V4L2_CID_ANALOGUE_GAIN
-> > > V4L2_CID_EXPOSURE
-> > > V4L2_CID_HBLANK
-> > > V4L2_CID_PIXEL_RATE
-> > > V4L2_CID_VBLANK
-> > >
-> > > https://git.libcamera.org/libcamera/libcamera.git/tree/Documentation/sensor_driver_requirements.rst#n20
-> > >
-> > > Do you think it would be possible to at least expose them read-only ?
-> > > This -should- be ok for libcamera. Your s_frame_interval() calls then
-> > > need to update the value of the controls.
-> >
-> > Can libcamera use s_frame_interval or does it just mean the frame rate will
-> > remain whatever it was when libcamera started?
+> if ctx->dst_fmt is correctly set (and it should be) then doing:
 > 
-> Currently if those 'mandatory' controls are not available libcamera
-> refuses to detect the sensor at all.
+> pix_mp->width = ctx->dst_fmt.width;
+> pix_mp->height = ctx->dst_fmt.height;
 > 
-> s_frame_interval could be considered for YUV/RGB sensors, but as both
-> the gc0310 and the ov2680 are RAW sensors, frame rate control should
-> really go through blankings and pixel rate. Read-only values are ok to
+> should solve the issue.
 
-I don't disagree, I was just wondering what libcamera does. :-)
+Using the width and height of dst_fmt for OUTPUT is not correct, since the
+v4l2 stateless encoder spec dictates that the size is set on the OUTPUT device
+and will be ignored on the CAPTURE device.
 
-> start with, framerate will be fixed but that's ok I guess (also
-> because as long as you don't have an IPA and do not support
-> controllable durations, there is no way to change it anyway).
+I sent a patch [0] to apply the frame constraints using dst_fmt.
+
+Michael
+
+[0] https://lore.kernel.org/linux-media/20230706071510.1717684-1-m.tretter@pengutronix.de/
+
+> > >   	if (!coded) {
+> > >   		/* Fill remaining fields */
+> > > -- 
+> > > 2.34.1
+> > > 
 > 
-> Does this sound reasonable for you and Hans ?
-
-Yes.
-
--- 
-Regards,
-
-Sakari Ailus
