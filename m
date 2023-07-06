@@ -2,139 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CCFD4749FD2
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jul 2023 16:51:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E132A74A042
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jul 2023 16:58:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233607AbjGFOvv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Jul 2023 10:51:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40356 "EHLO
+        id S233768AbjGFO66 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Jul 2023 10:58:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229510AbjGFOvc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jul 2023 10:51:32 -0400
-Received: from mail-il1-f181.google.com (mail-il1-f181.google.com [209.85.166.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5D6C1FD5;
-        Thu,  6 Jul 2023 07:51:13 -0700 (PDT)
-Received: by mail-il1-f181.google.com with SMTP id e9e14a558f8ab-3458a08310aso2656835ab.3;
-        Thu, 06 Jul 2023 07:51:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688655073; x=1691247073;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cgnDkKPeeJQpJAr8Igz1bUHZ3qFXqLqwtv/vw0h6laQ=;
-        b=kIozDjF9k2z7Nu63E9sHCTX/pltPyr0bPhA63FccOoxaBohDe7o5lmYjG/52fAyE1/
-         pw79ttNXcoTml/v563MHKkTPkV9v/qNtSQ0SqDPz1yp4m1OYeIQyXZwF8xq4ILkivBBQ
-         bXfd+pRrt+sCq8baYVhVVJuavk4elTRlah/LKJGuMGRwxZFIrfrnqGoPIJ9D+bpkmSad
-         /fypbmbcZgocR+hklnziihUB3EznXMXbuq6bW6cENaToyTI619PeGp/xTI94SHV3rUVf
-         X4Q577jCqu7QWvQ2wpLoYvJKthtvPtkHGj7AnVrz41HF20wlGTtEWMl1SvTi4TbliaTR
-         w/Vw==
-X-Gm-Message-State: ABy/qLapwLmRPxFLgb3Ceiq4EvH2Oo+KK/hGkMaiVRH5ZjhBJ3a69gQg
-        GQ/JQhXe2MMkITqDP3vksA==
-X-Google-Smtp-Source: APBJJlF67lR6D5NqnrBz/z/xaj4p5WF0VZl589v9nUuz7XC/TU588WYs6w03reMlD4UBeRhzLPXgQw==
-X-Received: by 2002:a92:c52c:0:b0:345:d458:d227 with SMTP id m12-20020a92c52c000000b00345d458d227mr2368778ili.7.1688655072884;
-        Thu, 06 Jul 2023 07:51:12 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id g17-20020a0566380bd100b0042b3e2e5ca1sm569170jad.122.2023.07.06.07.51.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jul 2023 07:51:12 -0700 (PDT)
-Received: (nullmailer pid 3861827 invoked by uid 1000);
-        Thu, 06 Jul 2023 14:51:08 -0000
-Date:   Thu, 6 Jul 2023 08:51:08 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Gatien Chevallier <gatien.chevallier@foss.st.com>
-Cc:     Oleksii_Moisieiev@epam.com, gregkh@linuxfoundation.org,
-        herbert@gondor.apana.org.au, davem@davemloft.net,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        alexandre.torgue@foss.st.com, vkoul@kernel.org, jic23@kernel.org,
-        olivier.moysan@foss.st.com, arnaud.pouliquen@foss.st.com,
-        mchehab@kernel.org, fabrice.gasnier@foss.st.com,
-        andi.shyti@kernel.org, ulf.hansson@linaro.org, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com, hugues.fruchet@foss.st.com,
-        lee@kernel.org, will@kernel.org, catalin.marinas@arm.com,
-        arnd@kernel.org, richardcochran@gmail.com,
-        linux-crypto@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        dmaengine@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-iio@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
-        netdev@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH 04/10] dt-bindings: treewide: add feature-domains
- description in binding files
-Message-ID: <20230706145108.GA3858320-robh@kernel.org>
-References: <20230705172759.1610753-1-gatien.chevallier@foss.st.com>
- <20230705172759.1610753-5-gatien.chevallier@foss.st.com>
+        with ESMTP id S233730AbjGFO6v (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jul 2023 10:58:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F219A173F
+        for <linux-media@vger.kernel.org>; Thu,  6 Jul 2023 07:57:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1688655479;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=qfB+L3UTWwHj4FJa02TYHuffrJKL1V5b+b/xQgGIQA8=;
+        b=cQ7ksRwg8D5OWYK1qPhl1wE9oq/5IA8Vd69IVsxsjBLLxjK1Vc2zYfNmbvUabu2vSEx554
+        IYJpHo9lAW4ZFywuoFgCvI+EjyyGh2/Yb9/TcBzJnbT3pvh+XV/m3PP3jXYmgAt7QTjKzJ
+        VOEHy9wwSYGrEtS8shl+kp15gSS0usk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-389-mEIpBAPYPfCdoAOEPlDrGQ-1; Thu, 06 Jul 2023 10:57:54 -0400
+X-MC-Unique: mEIpBAPYPfCdoAOEPlDrGQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5C3A82815E48;
+        Thu,  6 Jul 2023 14:57:52 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.39])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id D917D492C13;
+        Thu,  6 Jul 2023 14:57:50 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Tommaso Merciai <tomm.merciai@gmail.com>,
+        linux-media@vger.kernel.org
+Subject: [PATCH v4 0/1] media: i2c: Add driver for DW9719 VCM
+Date:   Thu,  6 Jul 2023 16:57:44 +0200
+Message-ID: <20230706145745.115719-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230705172759.1610753-5-gatien.chevallier@foss.st.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jul 05, 2023 at 07:27:53PM +0200, Gatien Chevallier wrote:
-> feature-domains is an optional property that allows a peripheral to
-> refer to one or more feature domain controller(s).
-> 
-> Description of this property is added to all peripheral binding files of
-> the peripheral under the STM32 firewall controllers. It allows an accurate
-> representation of the hardware, where various peripherals are connected
-> to this firewall bus. The firewall can then check the peripheral accesses
-> before allowing it to probe.
-> 
-> Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
-> ---
-> 
-> Disclaimer: Some error with dtbs_check will be observed as I've
-> considered the property to be generic, as Rob asked
-> 
->  Documentation/devicetree/bindings/crypto/st,stm32-hash.yaml  | 4 ++++
->  Documentation/devicetree/bindings/dma/st,stm32-dma.yaml      | 4 ++++
->  Documentation/devicetree/bindings/dma/st,stm32-dmamux.yaml   | 4 ++++
->  Documentation/devicetree/bindings/i2c/st,stm32-i2c.yaml      | 4 ++++
->  Documentation/devicetree/bindings/iio/adc/st,stm32-adc.yaml  | 4 ++++
->  .../devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml      | 4 ++++
->  Documentation/devicetree/bindings/iio/dac/st,stm32-dac.yaml  | 4 ++++
->  .../devicetree/bindings/media/cec/st,stm32-cec.yaml          | 4 ++++
->  Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml   | 4 ++++
->  .../bindings/memory-controllers/st,stm32-fmc2-ebi.yaml       | 4 ++++
->  Documentation/devicetree/bindings/mfd/st,stm32-lptimer.yaml  | 4 ++++
->  Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml   | 5 +++++
->  Documentation/devicetree/bindings/mmc/arm,pl18x.yaml         | 4 ++++
->  Documentation/devicetree/bindings/net/stm32-dwmac.yaml       | 4 ++++
->  Documentation/devicetree/bindings/phy/phy-stm32-usbphyc.yaml | 4 ++++
->  .../devicetree/bindings/regulator/st,stm32-vrefbuf.yaml      | 4 ++++
->  Documentation/devicetree/bindings/rng/st,stm32-rng.yaml      | 4 ++++
->  Documentation/devicetree/bindings/serial/st,stm32-uart.yaml  | 4 ++++
->  Documentation/devicetree/bindings/sound/st,stm32-i2s.yaml    | 4 ++++
->  Documentation/devicetree/bindings/sound/st,stm32-sai.yaml    | 4 ++++
->  .../devicetree/bindings/sound/st,stm32-spdifrx.yaml          | 4 ++++
->  Documentation/devicetree/bindings/spi/st,stm32-qspi.yaml     | 4 ++++
->  Documentation/devicetree/bindings/spi/st,stm32-spi.yaml      | 4 ++++
->  Documentation/devicetree/bindings/usb/dwc2.yaml              | 4 ++++
->  24 files changed, 97 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/crypto/st,stm32-hash.yaml b/Documentation/devicetree/bindings/crypto/st,stm32-hash.yaml
-> index b767ec72a999..daf8dcaef627 100644
-> --- a/Documentation/devicetree/bindings/crypto/st,stm32-hash.yaml
-> +++ b/Documentation/devicetree/bindings/crypto/st,stm32-hash.yaml
-> @@ -50,6 +50,10 @@ properties:
->    power-domains:
->      maxItems: 1
->  
-> +  feature-domains:
-> +    minItems: 1
-> +    maxItems: 3
+Hi All,
 
-What are the 3 entries?
+Here is Dan's patch to add DW9719 support now back to
+a standalone patch again for easier reving of the patch
+in response to review comments.
 
-Rob
+Note this now depends on the new CCI helpers:
+
+https://lore.kernel.org/linux-media/20230627125109.52354-1-hdegoede@redhat.com/
+
+Changes in v4:
+- Back to a standalone patch again (instead of being part of a series)
+- Switch to using CCI helpers for register access
+- Use new DEFINE_RUNTIME_DEV_PM_OPS() for pm-ops
+- Make v4l2_subdev first member of dw9719_device
+- Drop v4l2_ctrl_handler_init() ret value check
+- Turn of VCM on dw9719_remove() if necessary
+
+Regards,
+
+Hans
+
+
+Daniel Scally (1):
+  media: i2c: Add driver for DW9719 VCM
+
+ MAINTAINERS                |   7 +
+ drivers/media/i2c/Kconfig  |  12 ++
+ drivers/media/i2c/Makefile |   1 +
+ drivers/media/i2c/dw9719.c | 348 +++++++++++++++++++++++++++++++++++++
+ 4 files changed, 368 insertions(+)
+ create mode 100644 drivers/media/i2c/dw9719.c
+
+-- 
+2.41.0
+
