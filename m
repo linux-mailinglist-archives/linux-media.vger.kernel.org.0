@@ -2,97 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EFA1F7497CE
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jul 2023 10:58:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 155FA749810
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jul 2023 11:14:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231701AbjGFI6J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Jul 2023 04:58:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54572 "EHLO
+        id S231859AbjGFJOf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Jul 2023 05:14:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231532AbjGFI6I (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jul 2023 04:58:08 -0400
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1E261BC8
-        for <linux-media@vger.kernel.org>; Thu,  6 Jul 2023 01:58:07 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-3fbc5d5746cso4623005e9.2
-        for <linux-media@vger.kernel.org>; Thu, 06 Jul 2023 01:58:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688633886; x=1691225886;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9oWpvFaXWNbWtv5Z8o6gjKz8BMlVE51nRL99uOQ6fnQ=;
-        b=QeuYT2PkdgTUCOUL4O4D2faYth767OOKOZSlFWtKs/DYttZxEbkrZsWpfTJ4WuCUVH
-         eyk12RG/m9aQhTpxsULTpuVJKvtyslc2zd2oG+8h/+MWw4IzwZ1NpgU9Dg35tz9ppzea
-         lSR6aNaxZmLxfKMB+3CSEN99Z+MMlfYviM9lSa6bgiHOXtZ6xWwSliVKfRo2ApZUsAhW
-         TfmxwF8XgPbI3Cf4j1zJgFarAoIcvKMFBmUuV4EMhGKVXHgRnfFvMAX9X0FnyhDtJ81O
-         boC58nLtyUd8dEX/jZHEmNvlgjau7vFEhSP/X6Nly1Bwh8Ub3CL6jnGw9bjn3uE+wCui
-         Xbkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688633886; x=1691225886;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9oWpvFaXWNbWtv5Z8o6gjKz8BMlVE51nRL99uOQ6fnQ=;
-        b=VpBNIXH/4v0P0tXMfG2SUylTQAPOsx6S4+gv3LXDIJiLSlby+kQXX+14aN12Q7Fp68
-         B0k1Jq7QFbyBtKSPRCPeYEn3KvKVNh4UcYaJYPBkLT2vpl8cuBX8LiBkAQGFAOpSDWok
-         l4qYnDYoZGFmjl3F+s+dQoYTO9SEY66iBytixlLaZKkMh384SiQN7TiwGqgAfJSMID5F
-         Lq5SDbWtUaqwEYYefgCcVbiOq0nAZqypiyhjcM6wK5Te2WL8qz/m3qdzadqefjIYH9SE
-         zADJbOlj2Dw+I13qPLJFU9wu8sByKDcYmJs7DT7JvTqlepbo7/BYvwPrHAv9EywcIjHs
-         OT7g==
-X-Gm-Message-State: ABy/qLapcN7Ugc/iGui8yqQxuqYczyQ1X2hVhb0HEvzbnxbhZdDtvK/u
-        tm/PVoICB+NRm2d2J6XmLLM=
-X-Google-Smtp-Source: APBJJlEYWzgsfWP+xUxIe+6BNfgOfZb+oEBotlLoSPnfcETLEyQ+bbKGTfQx+2mFTiAtCGm9+I77Wg==
-X-Received: by 2002:a05:6000:137b:b0:314:367a:72cf with SMTP id q27-20020a056000137b00b00314367a72cfmr957288wrz.10.1688633885890;
-        Thu, 06 Jul 2023 01:58:05 -0700 (PDT)
-Received: from localhost.localdomain ([77.243.43.130])
-        by smtp.gmail.com with ESMTPSA id f18-20020adff992000000b003142e438e8csm1314158wrr.26.2023.07.06.01.58.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jul 2023 01:58:05 -0700 (PDT)
-From:   Andreas Helbech Kleist <andreaskleist@gmail.com>
-To:     bingbu.cao@intel.com
-Cc:     bingbu.cao@linux.intel.com, daniel.h.kang@intel.com,
-        hdegoede@redhat.com, hongju.wang@intel.com,
-        ilpo.jarvinen@linux.intel.com, laurent.pinchart@ideasonboard.com,
-        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        senozhatsky@chromium.org, tfiga@chromium.org,
-        tian.shu.qiu@intel.com,
-        Andreas Helbech Kleist <andreaskleist@gmail.com>
-Subject: Re: [RFC PATCH 00/14] Intel IPU6 and IPU6 input system drivers API)
-Date:   Thu,  6 Jul 2023 10:57:36 +0200
-Message-Id: <20230706085736.1915096-1-andreaskleist@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230413100429.919622-1-bingbu.cao@intel.com>
-References: <20230413100429.919622-1-bingbu.cao@intel.com>
+        with ESMTP id S229956AbjGFJOe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jul 2023 05:14:34 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA68BAF;
+        Thu,  6 Jul 2023 02:14:33 -0700 (PDT)
+X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="366126989"
+X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; 
+   d="scan'208";a="366126989"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 02:14:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="843601338"
+X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; 
+   d="scan'208";a="843601338"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga004.jf.intel.com with ESMTP; 06 Jul 2023 02:14:29 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+        (envelope-from <andy@kernel.org>)
+        id 1qHL4F-000Tjz-2M;
+        Thu, 06 Jul 2023 12:14:27 +0300
+Date:   Thu, 6 Jul 2023 12:14:27 +0300
+From:   Andy Shevchenko <andy@kernel.org>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        linux-acpi@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kate Hsuan <hpa@redhat.com>, Hao Yao <hao.yao@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
+        Daniel Scally <djrscally@gmail.com>
+Subject: Re: [PATCH v3 14/18] media: i2c: Add driver for DW9719 VCM
+Message-ID: <ZKaF8ywQqEH2GK8b@smile.fi.intel.com>
+References: <20230705213010.390849-1-hdegoede@redhat.com>
+ <20230705213010.390849-15-hdegoede@redhat.com>
+ <ZKZxmqINU1wIh6ne@kekkonen.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZKZxmqINU1wIh6ne@kekkonen.localdomain>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_SOFTFAIL,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-I tried to build the ipu6 patch series on top of v6.4. I need the
-following change to be able to build it,
+On Thu, Jul 06, 2023 at 07:47:38AM +0000, Sakari Ailus wrote:
+> On Wed, Jul 05, 2023 at 11:30:06PM +0200, Hans de Goede wrote:
 
-Otherwise I get compilation errors on v4l2_subdev_get_try_format.
+...
 
-diff --git a/drivers/media/pci/intel/ipu6/Kconfig b/drivers/media/pci/intel/ipu6/Kconfig
-index c88ef2f40f6d..b7475fdc709f 100644
---- a/drivers/media/pci/intel/ipu6/Kconfig
-+++ b/drivers/media/pci/intel/ipu6/Kconfig
-@@ -6,6 +6,7 @@ config VIDEO_INTEL_IPU6
- 	depends on X86_64
- 	select IOMMU_IOVA
- 	select VIDEOBUF2_DMA_CONTIG
-+	select VIDEO_V4L2_SUBDEV_API
- 	select V4L2_FWNODE
- 	help
- 	  This is the 6th Gen Intel Image Processing Unit, found in Intel SoCs
+> > +static int dw9719_init_controls(struct dw9719_device *dw9719)
+> > +{
+> > +	const struct v4l2_ctrl_ops *ops = &dw9719_ctrl_ops;
+> > +	int ret;
+> > +
+> > +	ret = v4l2_ctrl_handler_init(&dw9719->ctrls.handler, 1);
+> > +	if (ret)
+> > +		return ret;
+> 
+> This check can be dropped.
+
+The obvious question why that API returns int instead of void?
+
+> > +	dw9719->ctrls.focus = v4l2_ctrl_new_std(&dw9719->ctrls.handler, ops,
+> > +						V4L2_CID_FOCUS_ABSOLUTE, 0,
+> > +						DW9719_MAX_FOCUS_POS, 1, 0);
+> > +
+> > +	if (dw9719->ctrls.handler.error) {
+> > +		dev_err(dw9719->dev, "Error initialising v4l2 ctrls\n");
+> > +		ret = dw9719->ctrls.handler.error;
+> > +		goto err_free_handler;
+> > +	}
+> > +
+> > +	dw9719->sd.ctrl_handler = &dw9719->ctrls.handler;
+
+> > +	return ret;
+
+	return 0;
+
+?
+
+> > +err_free_handler:
+> > +	v4l2_ctrl_handler_free(&dw9719->ctrls.handler);
+> > +	return ret;
+> > +}
+
 -- 
-2.34.1
+With Best Regards,
+Andy Shevchenko
+
 
