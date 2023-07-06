@@ -2,133 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 29C7A74986C
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jul 2023 11:30:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B56F74988D
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jul 2023 11:31:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231935AbjGFJaS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Jul 2023 05:30:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41774 "EHLO
+        id S232203AbjGFJbv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Jul 2023 05:31:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231731AbjGFJaR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jul 2023 05:30:17 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5385B171D;
-        Thu,  6 Jul 2023 02:30:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688635816; x=1720171816;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QJcLfFrm3rg4VRuZ4pPQZlY8ks6MLYozy8i4eHaqdz4=;
-  b=b6Ocfi3dzphHyhULSKeKnj5bh10ihLtFMGLNT1nH6u8EI0+8M7PE0AV0
-   FSlVzedd2xK2uBNZP7HoYIJYi266CETPD2iQT25r5146vheH22ZHZHNz6
-   KZUNI7CkfW/J5MckTqYeswvXYzcdGFxvOjK99sTdLEzTapFLbmNGWlxmo
-   QmrYZoiCleD9J4xF+IRXbaFiF8VlSkJqM6qZuKAJNnS+fAy+kFBk6FpmG
-   oP6/TmivinWOXeCoxGhSGjxdkOj2iJ6ACqefhTPduY1HOlSNoofqO37D3
-   gqKoVpHLigFbye/KWgVcASFTJ+oG1X9cxHPRVjasPpPESMraHj60Ecl3s
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="366131093"
-X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; 
-   d="scan'208";a="366131093"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 02:30:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="843610144"
-X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; 
-   d="scan'208";a="843610144"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 02:30:11 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 5FDE211FBCE;
-        Thu,  6 Jul 2023 12:30:09 +0300 (EEST)
-Date:   Thu, 6 Jul 2023 09:30:09 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Andy Shevchenko <andy@kernel.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        linux-acpi@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kate Hsuan <hpa@redhat.com>, Hao Yao <hao.yao@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
-        Daniel Scally <djrscally@gmail.com>, hverkuil@xs4all.nl
-Subject: Re: [PATCH v3 14/18] media: i2c: Add driver for DW9719 VCM
-Message-ID: <ZKaJoerBi4kOTYw3@kekkonen.localdomain>
-References: <20230705213010.390849-1-hdegoede@redhat.com>
- <20230705213010.390849-15-hdegoede@redhat.com>
- <ZKZxmqINU1wIh6ne@kekkonen.localdomain>
- <ZKaF8ywQqEH2GK8b@smile.fi.intel.com>
+        with ESMTP id S231835AbjGFJbq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jul 2023 05:31:46 -0400
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD7A51FF0;
+        Thu,  6 Jul 2023 02:31:15 -0700 (PDT)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3667J8tL028476;
+        Thu, 6 Jul 2023 11:30:49 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=QjdN1V/hI6Mx6jHfQb/2NbbcyfO5P8v8g9k00xWpqD4=;
+ b=DYCthB7alQTQ3lrROhg7wOy4r1QjzIouOx6L/IhrmzziUxxOXE/SAY/s3xl5nbC6MKjP
+ yKTOupwej1UZTT1NzllCw19pAI/ozfW4DzFp93ABJK04vmnrhUVTRSeHfQBMiFRmMCS6
+ RE6I1Z7cJ131NjJJcG1uMwLxnvvWKLJSrY1Ldr2zQqHHRB5gF6YmNXEW5uDS8b7ASW9K
+ 9NavX8kCT/YO35Q8WUwtoqHl0/n1GZUt3sDcUAgcu4R4+QK48NXobdWd0egzTTMZmYXB
+ Fcl1NvDUv2WloUvJGVEtMGRv5s06I3e2+JLxzO7J8eoNhgBH/rQgPUF5qHlO3YrPxajT yQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3rns47s4ud-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 06 Jul 2023 11:30:49 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id F3A43100052;
+        Thu,  6 Jul 2023 11:30:47 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id E997C216ED4;
+        Thu,  6 Jul 2023 11:30:47 +0200 (CEST)
+Received: from [10.201.21.121] (10.201.21.121) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Thu, 6 Jul
+ 2023 11:30:46 +0200
+Message-ID: <997780a9-1cbc-46a2-2743-7fd493682278@foss.st.com>
+Date:   Thu, 6 Jul 2023 11:30:46 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZKaF8ywQqEH2GK8b@smile.fi.intel.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 07/10] arm64: dts: st: add RIFSC as a domain controller
+ for STM32MP25x boards
+Content-Language: en-US
+To:     Alexandre TORGUE <alexandre.torgue@foss.st.com>,
+        <Oleksii_Moisieiev@epam.com>, <gregkh@linuxfoundation.org>,
+        <herbert@gondor.apana.org.au>, <davem@davemloft.net>,
+        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <conor+dt@kernel.org>, <vkoul@kernel.org>, <jic23@kernel.org>,
+        <olivier.moysan@foss.st.com>, <arnaud.pouliquen@foss.st.com>,
+        <mchehab@kernel.org>, <fabrice.gasnier@foss.st.com>,
+        <andi.shyti@kernel.org>, <ulf.hansson@linaro.org>,
+        <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+        <hugues.fruchet@foss.st.com>, <lee@kernel.org>, <will@kernel.org>,
+        <catalin.marinas@arm.com>, <arnd@kernel.org>,
+        <richardcochran@gmail.com>
+CC:     <linux-crypto@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <dmaengine@vger.kernel.org>,
+        <linux-i2c@vger.kernel.org>, <linux-iio@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>, <linux-media@vger.kernel.org>,
+        <linux-mmc@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <linux-phy@lists.infradead.org>, <linux-serial@vger.kernel.org>,
+        <linux-spi@vger.kernel.org>, <linux-usb@vger.kernel.org>
+References: <20230705172759.1610753-1-gatien.chevallier@foss.st.com>
+ <20230705172759.1610753-8-gatien.chevallier@foss.st.com>
+ <61d93738-4ffd-411d-d32c-912c14eea56d@foss.st.com>
+From:   Gatien CHEVALLIER <gatien.chevallier@foss.st.com>
+In-Reply-To: <61d93738-4ffd-411d-d32c-912c14eea56d@foss.st.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.201.21.121]
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-06_06,2023-07-06_01,2023-05-22_02
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andy,
+Hi Alex,
 
-On Thu, Jul 06, 2023 at 12:14:27PM +0300, Andy Shevchenko wrote:
-> On Thu, Jul 06, 2023 at 07:47:38AM +0000, Sakari Ailus wrote:
-> > On Wed, Jul 05, 2023 at 11:30:06PM +0200, Hans de Goede wrote:
+On 7/6/23 11:25, Alexandre TORGUE wrote:
+> Hi Gatien
 > 
-> ...
+> On 7/5/23 19:27, Gatien Chevallier wrote:
+>> RIFSC is a firewall controller. Change its compatible so that is matches
+>> the documentation and reference RIFSC as a feature-domain-controller.
+>>
+>> Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
+>> ---
+>>   arch/arm64/boot/dts/st/stm32mp251.dtsi | 5 ++++-
+>>   1 file changed, 4 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/arch/arm64/boot/dts/st/stm32mp251.dtsi 
+>> b/arch/arm64/boot/dts/st/stm32mp251.dtsi
+>> index 5268a4321841..62101084cab8 100644
+>> --- a/arch/arm64/boot/dts/st/stm32mp251.dtsi
+>> +++ b/arch/arm64/boot/dts/st/stm32mp251.dtsi
+>> @@ -106,17 +106,20 @@ soc@0 {
+>>           ranges = <0x0 0x0 0x0 0x80000000>;
+>>           rifsc: rifsc-bus@42080000 {
+>> -            compatible = "simple-bus";
+>> +            compatible = "st,stm32mp25-rifsc";
 > 
-> > > +static int dw9719_init_controls(struct dw9719_device *dw9719)
-> > > +{
-> > > +	const struct v4l2_ctrl_ops *ops = &dw9719_ctrl_ops;
-> > > +	int ret;
-> > > +
-> > > +	ret = v4l2_ctrl_handler_init(&dw9719->ctrls.handler, 1);
-> > > +	if (ret)
-> > > +		return ret;
-> > 
-> > This check can be dropped.
+> You could keep "simple-bus" compatible (in second position). In case of 
+> the RIFSC is not probed, the platform will be able to boot. If you agree 
+> you can use the same for ETZPC.
 > 
-> The obvious question why that API returns int instead of void?
+> Cheers
+> Alex
 
-I guess it's for historical reasons. The control handler initialisation
-functions won't do anything if the handler is in error state. I guess this
-could be changed.
+Sure, good point.
 
-Cc Hans.
+I'll change that in V2
 
+Best regards,
+Gatien
 > 
-> > > +	dw9719->ctrls.focus = v4l2_ctrl_new_std(&dw9719->ctrls.handler, ops,
-> > > +						V4L2_CID_FOCUS_ABSOLUTE, 0,
-> > > +						DW9719_MAX_FOCUS_POS, 1, 0);
-> > > +
-> > > +	if (dw9719->ctrls.handler.error) {
-> > > +		dev_err(dw9719->dev, "Error initialising v4l2 ctrls\n");
-> > > +		ret = dw9719->ctrls.handler.error;
-> > > +		goto err_free_handler;
-> > > +	}
-> > > +
-> > > +	dw9719->sd.ctrl_handler = &dw9719->ctrls.handler;
+>>               reg = <0x42080000 0x1000>;
+>>               #address-cells = <1>;
+>>               #size-cells = <1>;
+>>               ranges;
+>> +            feature-domain-controller;
+>> +            #feature-domain-cells = <1>;
+>>               usart2: serial@400e0000 {
+>>                   compatible = "st,stm32h7-uart";
+>>                   reg = <0x400e0000 0x400>;
+>>                   interrupts = <GIC_SPI 115 IRQ_TYPE_LEVEL_HIGH>;
+>>                   clocks = <&ck_flexgen_08>;
+>> +                feature-domains = <&rifsc 32>;
+>>                   status = "disabled";
+>>               };
+>>           };
 > 
-> > > +	return ret;
-> 
-> 	return 0;
-> 
-> ?
-
-Makes sense.
-
-> 
-> > > +err_free_handler:
-> > > +	v4l2_ctrl_handler_free(&dw9719->ctrls.handler);
-> > > +	return ret;
-> > > +}
-> 
-
--- 
-Kind regards,
-
-Sakari Ailus
