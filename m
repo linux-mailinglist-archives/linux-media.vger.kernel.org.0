@@ -2,64 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E64A74994A
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jul 2023 12:20:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3C2A749979
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jul 2023 12:28:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230125AbjGFKUs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Jul 2023 06:20:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58836 "EHLO
+        id S230501AbjGFK2Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Jul 2023 06:28:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229518AbjGFKUr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jul 2023 06:20:47 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F90EDD
-        for <linux-media@vger.kernel.org>; Thu,  6 Jul 2023 03:20:46 -0700 (PDT)
+        with ESMTP id S229528AbjGFK2O (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jul 2023 06:28:14 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C64B124;
+        Thu,  6 Jul 2023 03:28:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688638846; x=1720174846;
+  t=1688639283; x=1720175283;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=b2g0Rq7Dh/JNTqpY93Q3NLRNNcLg8Tc0J1kamb0/pC4=;
-  b=acxX6V+u9HKkJHqlXknmvg2doqrYCd/IvLEarK7K1yKDurMqfGlWEAn8
-   hc+slxCf5zZg5n9FJgwE3NaA5/rfVSWjy6kRKH9EDAWZAHG1d9wM5iVqt
-   bXOLgp3L0R+2OtCOYRwqxul7hsdwUo/PoDcV4IQj/wwJvuDjRlks03vpl
-   YNMNB58YSXIprj4Qo2E5+Njrnmpq/PqJJ7Hq03AzXo/J1riP6/Ai8zLDz
-   5KzcWbeoX+jy8BXyzMFcJ5QbGXAtZL8l9EsiiOGGeTIyELu9WyfL3XEWO
-   NXzAxEVbsApHmyKDQvp0/paO2nB3RM3HmJI7aunyy/W92E203DOKtz2UN
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="366141743"
+  bh=13iPjKDynG0EXiyC5iMwzDjb6wWTYRNKZHNMCd8B7TE=;
+  b=j0UQOVphpz8+7OlBxG9HqBhC7AGmUUQzl5tk6J0cqeZDJBGGsH2dHdyB
+   BTb5uB8pNcjcLpFzP4v5yVS468YM6gKzvW8QOpWq/eI9lho30aqHzO+SY
+   pJmfMJRz8sn9DZkAnrF94dHvAbN2aiN5eh3ZRuwf0wMkwPwOiETJIrmH2
+   GUb6sSnySimgApywt/tHAGXFCoGWKJ5046CzhY81gCi+dHq+cLt0Bp1sM
+   2LO2FhYjCqZN2U6+jhtsWnU7IHJAzmIMo5eF2JcXnT3hIvQ8xQf48dv6Z
+   pAkGK2DWW8FLTU5muhHoJOD1iagu20Ci8wyEOb1TeQL8FbM9gOKliN5zf
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="348355044"
 X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; 
-   d="scan'208";a="366141743"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 03:20:46 -0700
+   d="scan'208";a="348355044"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 03:28:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="669712938"
+X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="719541668"
 X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; 
-   d="scan'208";a="669712938"
+   d="scan'208";a="719541668"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 03:20:44 -0700
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 03:27:58 -0700
 Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 105F211F9ED;
-        Thu,  6 Jul 2023 13:20:41 +0300 (EEST)
-Date:   Thu, 6 Jul 2023 10:20:41 +0000
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 4161F11F9ED;
+        Thu,  6 Jul 2023 13:27:55 +0300 (EEST)
+Date:   Thu, 6 Jul 2023 10:27:55 +0000
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
+To:     Andy Shevchenko <andy@kernel.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
-        hongju.wang@intel.com, hverkuil@xs4all.nl
-Subject: Re: [PATCH 4/7] media: uapi: v4l: Document source routes
-Message-ID: <ZKaVeU4TmbFWcIUZ@kekkonen.localdomain>
-References: <20230630204338.126583-1-sakari.ailus@linux.intel.com>
- <20230630204338.126583-5-sakari.ailus@linux.intel.com>
- <qiomumxpmbhtowvpdorruk74gcrsbab6c5vfchcfmdt5cd34pi@i7cdk3g6f2ff>
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        linux-acpi@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kate Hsuan <hpa@redhat.com>, Hao Yao <hao.yao@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
+        Daniel Scally <djrscally@gmail.com>
+Subject: Re: [PATCH v3 14/18] media: i2c: Add driver for DW9719 VCM
+Message-ID: <ZKaXK3uRQxB7UTo0@kekkonen.localdomain>
+References: <20230705213010.390849-1-hdegoede@redhat.com>
+ <20230705213010.390849-15-hdegoede@redhat.com>
+ <ZKaSD0CHRBd+zu/T@smile.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <qiomumxpmbhtowvpdorruk74gcrsbab6c5vfchcfmdt5cd34pi@i7cdk3g6f2ff>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+In-Reply-To: <ZKaSD0CHRBd+zu/T@smile.fi.intel.com>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,100 +71,166 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hi Andy,
 
-Thanks for the review.
-
-On Mon, Jul 03, 2023 at 09:47:37AM +0200, Jacopo Mondi wrote:
-> Hi Sakari
-> 
-> On Fri, Jun 30, 2023 at 11:43:35PM +0300, Sakari Ailus wrote:
-> > Document how internal pads are used on source routes.
-> >
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  .../userspace-api/media/v4l/dev-subdev.rst    | 20 +++++++++++++++++++
-> >  1 file changed, 20 insertions(+)
-> >
-> > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > index a4f1df7093e8..5a46c9a9d352 100644
-> > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > @@ -551,6 +551,26 @@ A stream at a specific point in the media pipeline is identified by the
-> >  sub-device and a (pad, stream) pair. For sub-devices that do not support
-> >  multiplexed streams the 'stream' field is always 0.
-> >
-> > +.. _v4l2-subdev-source-routes:
+On Thu, Jul 06, 2023 at 01:06:07PM +0300, Andy Shevchenko wrote:
+...
+> > +static int dw9719_i2c_rd8(struct i2c_client *client, u8 reg, u8 *val)
+> > +{
+> > +	struct i2c_msg msg[2];
+> > +	u8 buf[2] = { reg };
+> > +	int ret;
 > > +
-> > +Source routes
-> > +^^^^^^^^^^^^^
+> > +	msg[0].addr = client->addr;
+> > +	msg[0].flags = 0;
 > 
-> I always found the concept of source routes a bit confusing, should we
-> instead just present internal pads ?
+> > +	msg[0].len = 1;
+> > +	msg[0].buf = buf;
 > 
+> 	sizeof(buf[0])
+> 	&buf[0]
+> 
+> looks more explicit.
+
+The original seems fine to me. Note that this code will disappear soon.
+
+Same for the other comments regarding register access functions (apart from
+the return one).
+
+> 
+> > +	msg[1].addr = client->addr;
+> > +	msg[1].flags = I2C_M_RD;
+> > +	msg[1].len = 1;
+> > +	msg[1].buf = &buf[1];
+> 
+> Ditto.
+> 
+> > +	*val = 0;
 > > +
-> > +Cases where a single sub-device pad is a source of multiple streams are special
-> > +as there is no external sink pad for such a route. In those cases, the sources
-> > +of the streams are indicated by source routes that have an internal source pad
-> > +as the sink pad of such a route. Internal source pads have the
-> > +:ref:`MEDIA_PAD_FL_INTERNAL <MEDIA-PAD-FL-INTERNAL>` and ``MEDIA_PAD_FL_SINK``
-> > +pad flags set.
+> > +	ret = i2c_transfer(client->adapter, msg, 2);
 > 
-> All this last part is a little bit hard to parse, not your fault but
-> the fact "internal source pads" are actually "SINK" pads is a bit
-> confusing ?
-
-Some confusion is bound to remain as we're using the sink end of the route
-as a source.
-
+> ARRAY_SIZE()
 > 
-> Can we remove the "source route" concept to avoid mixing source/sink ?
-> 
-> This can be rewritten as
-> 
-> Internal pads
-> ^^^^^^^^^^^^^
-> 
-> Cases where a single sub-device pad is a source of multiple streams are special
-> as there is no external sink pad for such a route. A typical example is a
-> sensor device which produces a video stream and a metadata stream of
-> embedded data. To support such cases internal pads are introduced as
-> sink pads of such internally generated streams.
-> Internal source pads have the :ref:`MEDIA_PAD_FL_INTERNAL
-> <MEDIA-PAD-FL-INTERNAL>` and ``MEDIA_PAD_FL_SINK`` pad flags set.
-
-The latter part of this requires some further work.
-
-> 
-> > +Internal source pads have all the properties of a sink pad in such case,
-> 
-> Also here, "Internal source pads" are actually sinks :)
-> 
-> I would drop "source" from "Internal source pads"
-
-Yes, I forgot to rework some of the documentation. I agree internal source
-pads should no longer be mentioned as we no longer have the INTERNAL_SOURCE
-flag.
-
-> 
-> 
-> > +including formats and selections. The format in this case is the source format
-> > +of the stream. An internal pad always has a single stream only (0).
+> > +	if (ret < 0)
+> > +		return ret;
 > > +
-> > +Generally source routes are not modifiable but they can be activated and
-> 
-> s/source routes/internal routes/ ?
-
-I still think source routes make sense. But they should probably be added
-to glossary somewhere.
-
-> 
-> > +deactivated using the :ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> > +<v4l2-subdev-routing-flags>` flag, depending on driver capabilities.
+> > +	*val = buf[1];
 > > +
-> >  Interaction between routes, streams, formats and selections
-> >  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> >
+> > +	return 0;
+> > +}
+> 
+> But as Sakari said this perhaps could go into CCI library.
+> 
+> ...
+> 
+> > +	ret = dw9719_i2c_rd8(dw9719->client, DW9719_INFO, &val);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	if (val != DW9719_ID) {
+> > +		dev_err(dw9719->dev, "Failed to detect correct id\n");
+> > +		ret = -ENXIO;
+> 
+> 		return -ENXIO;
+> 
+> > +	}
+> > +
+> > +	return 0;
+> 
+> ...
+> 
+> > +	/* Need 100us to transit from SHUTDOWN to STANDBY*/
+> 
+> Missing space.
+> 
+> > +	usleep_range(100, 1000);
+> 
+> Perhaps fsleep() would be better, but I'm fine with either here.
+> 
+> ...
+> 
+> > +static int dw9719_t_focus_abs(struct dw9719_device *dw9719, s32 value)
+> > +{
+> > +	int ret;
+> 
+> Redundant?
+> 
+> > +	value = clamp(value, 0, DW9719_MAX_FOCUS_POS);
+
+This is redundant, too, btw., the control framework already handles this.
+
+> 
+> > +	ret = dw9719_i2c_wr16(dw9719->client, DW9719_VCM_CURRENT, value);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	return 0;
+> 
+> 	return _wr16(...);
+> 
+> or can it return positive values?
+> 
+> > +}
+> 
+> ...
+> 
+> > +static int __maybe_unused dw9719_suspend(struct device *dev)
+> 
+> Can we use new PM macros instead of __maybe_unused?
+> 
+> > +{
+> > +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> > +	struct dw9719_device *dw9719 = to_dw9719_device(sd);
+> > +	int ret;
+> > +	int val;
+> > +
+> > +	for (val = dw9719->ctrls.focus->val; val >= 0;
+> > +	     val -= DW9719_CTRL_STEPS) {
+> > +		ret = dw9719_t_focus_abs(dw9719, val);
+> > +		if (ret)
+> > +			return ret;
+> 
+> > +		usleep_range(DW9719_CTRL_DELAY_US, DW9719_CTRL_DELAY_US + 10);
+> 
+> fsleep() ?
+> 
+> > +	}
+> > +
+> > +	return dw9719_power_down(dw9719);
+> > +}
+> 
+> > +static int __maybe_unused dw9719_resume(struct device *dev)
+> > +{
+> 
+> As per above function.
+> 
+> ...
+> 
+> > +err_power_down:
+> 
+> In one functions you use err_ in another fail_, be consistent.
+> 
+> > +	dw9719_power_down(dw9719);
+> > +	return ret;
+> > +}
+> 
+> ...
+> 
+> > +	dw9719->regulator = devm_regulator_get(&client->dev, "vdd");
+> > +	if (IS_ERR(dw9719->regulator))
+> > +		return dev_err_probe(&client->dev, PTR_ERR(dw9719->regulator),
+> 
+> With
+> 
+> 	struct device *dev = &client->dev;
+> 
+> code may look neater.
+
+I prefer it as-is.
+
+> 
+> > +				     "getting regulator\n");
+> 
 
 -- 
 Kind regards,
