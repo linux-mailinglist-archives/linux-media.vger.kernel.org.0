@@ -2,77 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CD56874986A
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jul 2023 11:30:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29C7A74986C
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jul 2023 11:30:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231269AbjGFJaP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Jul 2023 05:30:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41762 "EHLO
+        id S231935AbjGFJaS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Jul 2023 05:30:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229793AbjGFJaO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jul 2023 05:30:14 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D41A171D
-        for <linux-media@vger.kernel.org>; Thu,  6 Jul 2023 02:30:13 -0700 (PDT)
-X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="362426324"
+        with ESMTP id S231731AbjGFJaR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jul 2023 05:30:17 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5385B171D;
+        Thu,  6 Jul 2023 02:30:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688635816; x=1720171816;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QJcLfFrm3rg4VRuZ4pPQZlY8ks6MLYozy8i4eHaqdz4=;
+  b=b6Ocfi3dzphHyhULSKeKnj5bh10ihLtFMGLNT1nH6u8EI0+8M7PE0AV0
+   FSlVzedd2xK2uBNZP7HoYIJYi266CETPD2iQT25r5146vheH22ZHZHNz6
+   KZUNI7CkfW/J5MckTqYeswvXYzcdGFxvOjK99sTdLEzTapFLbmNGWlxmo
+   QmrYZoiCleD9J4xF+IRXbaFiF8VlSkJqM6qZuKAJNnS+fAy+kFBk6FpmG
+   oP6/TmivinWOXeCoxGhSGjxdkOj2iJ6ACqefhTPduY1HOlSNoofqO37D3
+   gqKoVpHLigFbye/KWgVcASFTJ+oG1X9cxHPRVjasPpPESMraHj60Ecl3s
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="366131093"
 X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; 
-   d="scan'208";a="362426324"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 02:30:12 -0700
+   d="scan'208";a="366131093"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 02:30:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="713493380"
+X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="843610144"
 X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; 
-   d="scan'208";a="713493380"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga007.jf.intel.com with ESMTP; 06 Jul 2023 02:30:09 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andy@kernel.org>)
-        id 1qHLJQ-000Tv1-0g;
-        Thu, 06 Jul 2023 12:30:08 +0300
-Date:   Thu, 6 Jul 2023 12:30:07 +0300
-From:   Andy Shevchenko <andy@kernel.org>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+   d="scan'208";a="843610144"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 02:30:11 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 5FDE211FBCE;
+        Thu,  6 Jul 2023 12:30:09 +0300 (EEST)
+Date:   Thu, 6 Jul 2023 09:30:09 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Andy Shevchenko <andy@kernel.org>
 Cc:     Hans de Goede <hdegoede@redhat.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Daniel Scally <dan.scally@ideasonboard.com>,
+        linux-acpi@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Kate Hsuan <hpa@redhat.com>, Hao Yao <hao.yao@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 12/15] media: ipu-bridge: Add GalaxyCore GC0310 to
- ipu_supported_sensors[]
-Message-ID: <ZKaJnz+To8gBPf7o@smile.fi.intel.com>
-References: <20230630110643.209761-1-hdegoede@redhat.com>
- <20230630110643.209761-13-hdegoede@redhat.com>
- <ZKP5KIXBVaLWetVH@kekkonen.localdomain>
- <80024c5b-d35b-96ac-ff5b-1e013c3ef113@redhat.com>
- <ZKVWSzKrddTNe048@kekkonen.localdomain>
+        Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
+        Daniel Scally <djrscally@gmail.com>, hverkuil@xs4all.nl
+Subject: Re: [PATCH v3 14/18] media: i2c: Add driver for DW9719 VCM
+Message-ID: <ZKaJoerBi4kOTYw3@kekkonen.localdomain>
+References: <20230705213010.390849-1-hdegoede@redhat.com>
+ <20230705213010.390849-15-hdegoede@redhat.com>
+ <ZKZxmqINU1wIh6ne@kekkonen.localdomain>
+ <ZKaF8ywQqEH2GK8b@smile.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZKVWSzKrddTNe048@kekkonen.localdomain>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-3.5 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <ZKaF8ywQqEH2GK8b@smile.fi.intel.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jul 05, 2023 at 11:38:51AM +0000, Sakari Ailus wrote:
-> On Tue, Jul 04, 2023 at 12:59:53PM +0200, Hans de Goede wrote:
+Hi Andy,
 
-...
+On Thu, Jul 06, 2023 at 12:14:27PM +0300, Andy Shevchenko wrote:
+> On Thu, Jul 06, 2023 at 07:47:38AM +0000, Sakari Ailus wrote:
+> > On Wed, Jul 05, 2023 at 11:30:06PM +0200, Hans de Goede wrote:
+> 
+> ...
+> 
+> > > +static int dw9719_init_controls(struct dw9719_device *dw9719)
+> > > +{
+> > > +	const struct v4l2_ctrl_ops *ops = &dw9719_ctrl_ops;
+> > > +	int ret;
+> > > +
+> > > +	ret = v4l2_ctrl_handler_init(&dw9719->ctrls.handler, 1);
+> > > +	if (ret)
+> > > +		return ret;
+> > 
+> > This check can be dropped.
+> 
+> The obvious question why that API returns int instead of void?
 
-> Ack, thanks for the info. This seems to be from a different range than
-> the newer ones with INT34 prefix. Must be an older allocation I guess.
+I guess it's for historical reasons. The control handler initialisation
+functions won't do anything if the handler is in error state. I guess this
+could be changed.
 
-I believe it is from Intel Medfield times. Maybe there were even phones on
-marked with that sensor.
+Cc Hans.
+
+> 
+> > > +	dw9719->ctrls.focus = v4l2_ctrl_new_std(&dw9719->ctrls.handler, ops,
+> > > +						V4L2_CID_FOCUS_ABSOLUTE, 0,
+> > > +						DW9719_MAX_FOCUS_POS, 1, 0);
+> > > +
+> > > +	if (dw9719->ctrls.handler.error) {
+> > > +		dev_err(dw9719->dev, "Error initialising v4l2 ctrls\n");
+> > > +		ret = dw9719->ctrls.handler.error;
+> > > +		goto err_free_handler;
+> > > +	}
+> > > +
+> > > +	dw9719->sd.ctrl_handler = &dw9719->ctrls.handler;
+> 
+> > > +	return ret;
+> 
+> 	return 0;
+> 
+> ?
+
+Makes sense.
+
+> 
+> > > +err_free_handler:
+> > > +	v4l2_ctrl_handler_free(&dw9719->ctrls.handler);
+> > > +	return ret;
+> > > +}
+> 
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Kind regards,
 
-
+Sakari Ailus
