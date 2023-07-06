@@ -2,148 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B56F74988D
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jul 2023 11:31:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B0667498A6
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jul 2023 11:39:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232203AbjGFJbv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Jul 2023 05:31:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42966 "EHLO
+        id S229768AbjGFJjf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Jul 2023 05:39:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231835AbjGFJbq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jul 2023 05:31:46 -0400
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD7A51FF0;
-        Thu,  6 Jul 2023 02:31:15 -0700 (PDT)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3667J8tL028476;
-        Thu, 6 Jul 2023 11:30:49 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=QjdN1V/hI6Mx6jHfQb/2NbbcyfO5P8v8g9k00xWpqD4=;
- b=DYCthB7alQTQ3lrROhg7wOy4r1QjzIouOx6L/IhrmzziUxxOXE/SAY/s3xl5nbC6MKjP
- yKTOupwej1UZTT1NzllCw19pAI/ozfW4DzFp93ABJK04vmnrhUVTRSeHfQBMiFRmMCS6
- RE6I1Z7cJ131NjJJcG1uMwLxnvvWKLJSrY1Ldr2zQqHHRB5gF6YmNXEW5uDS8b7ASW9K
- 9NavX8kCT/YO35Q8WUwtoqHl0/n1GZUt3sDcUAgcu4R4+QK48NXobdWd0egzTTMZmYXB
- Fcl1NvDUv2WloUvJGVEtMGRv5s06I3e2+JLxzO7J8eoNhgBH/rQgPUF5qHlO3YrPxajT yQ== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3rns47s4ud-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 06 Jul 2023 11:30:49 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id F3A43100052;
-        Thu,  6 Jul 2023 11:30:47 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id E997C216ED4;
-        Thu,  6 Jul 2023 11:30:47 +0200 (CEST)
-Received: from [10.201.21.121] (10.201.21.121) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Thu, 6 Jul
- 2023 11:30:46 +0200
-Message-ID: <997780a9-1cbc-46a2-2743-7fd493682278@foss.st.com>
-Date:   Thu, 6 Jul 2023 11:30:46 +0200
+        with ESMTP id S229556AbjGFJje (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jul 2023 05:39:34 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75643CE
+        for <linux-media@vger.kernel.org>; Thu,  6 Jul 2023 02:39:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688636373; x=1720172373;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=aYNO0HJ8RKsLGD1VGuihrG14MY5yI0G+rFvZun7WhNw=;
+  b=Bfc5SD3YqTg8qnSZjxs6Fw1C4fbga/EvMcbJNmnBMTIfkUXFRGOYCM/J
+   q/MvtShO6FAjF6DAfFObdylwS+BVrAJHS7haAPBRTfkHdWac4ZoI3Gy8/
+   zv1Eu1vAQqobn7dJHnKFmimp+hOyt7kz+z4tBaFrcWMrahciqx9QKDtHX
+   2tSm0Mxpoe8ChZQw49Stb9QsUDBmfEkfMdgzBOZYPk8Wy/kLTFtpM9ZiW
+   O/K9PO5jVf3TlbRydibUoZzb3dCJl2WfyqA5O5nGhoumPYcZL21qZydRC
+   krMnLY4wxKkuKUhWFzgBMjYavRN5ecsEgScpF/UwAEwrw5epSiAqwpSGt
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="353393395"
+X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; 
+   d="scan'208";a="353393395"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 02:39:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="722741539"
+X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; 
+   d="scan'208";a="722741539"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 02:39:31 -0700
+Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 056E611F9ED;
+        Thu,  6 Jul 2023 12:33:52 +0300 (EEST)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 0/2] Move camera sensor dependencies to top level menu
+Date:   Thu,  6 Jul 2023 12:33:50 +0300
+Message-Id: <20230706093352.193513-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 07/10] arm64: dts: st: add RIFSC as a domain controller
- for STM32MP25x boards
-Content-Language: en-US
-To:     Alexandre TORGUE <alexandre.torgue@foss.st.com>,
-        <Oleksii_Moisieiev@epam.com>, <gregkh@linuxfoundation.org>,
-        <herbert@gondor.apana.org.au>, <davem@davemloft.net>,
-        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <conor+dt@kernel.org>, <vkoul@kernel.org>, <jic23@kernel.org>,
-        <olivier.moysan@foss.st.com>, <arnaud.pouliquen@foss.st.com>,
-        <mchehab@kernel.org>, <fabrice.gasnier@foss.st.com>,
-        <andi.shyti@kernel.org>, <ulf.hansson@linaro.org>,
-        <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
-        <hugues.fruchet@foss.st.com>, <lee@kernel.org>, <will@kernel.org>,
-        <catalin.marinas@arm.com>, <arnd@kernel.org>,
-        <richardcochran@gmail.com>
-CC:     <linux-crypto@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <dmaengine@vger.kernel.org>,
-        <linux-i2c@vger.kernel.org>, <linux-iio@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>, <linux-media@vger.kernel.org>,
-        <linux-mmc@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <linux-phy@lists.infradead.org>, <linux-serial@vger.kernel.org>,
-        <linux-spi@vger.kernel.org>, <linux-usb@vger.kernel.org>
-References: <20230705172759.1610753-1-gatien.chevallier@foss.st.com>
- <20230705172759.1610753-8-gatien.chevallier@foss.st.com>
- <61d93738-4ffd-411d-d32c-912c14eea56d@foss.st.com>
-From:   Gatien CHEVALLIER <gatien.chevallier@foss.st.com>
-In-Reply-To: <61d93738-4ffd-411d-d32c-912c14eea56d@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.201.21.121]
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-06_06,2023-07-06_01,2023-05-22_02
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alex,
+Hi,
 
-On 7/6/23 11:25, Alexandre TORGUE wrote:
-> Hi Gatien
-> 
-> On 7/5/23 19:27, Gatien Chevallier wrote:
->> RIFSC is a firewall controller. Change its compatible so that is matches
->> the documentation and reference RIFSC as a feature-domain-controller.
->>
->> Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
->> ---
->>   arch/arm64/boot/dts/st/stm32mp251.dtsi | 5 ++++-
->>   1 file changed, 4 insertions(+), 1 deletion(-)
->>
->> diff --git a/arch/arm64/boot/dts/st/stm32mp251.dtsi 
->> b/arch/arm64/boot/dts/st/stm32mp251.dtsi
->> index 5268a4321841..62101084cab8 100644
->> --- a/arch/arm64/boot/dts/st/stm32mp251.dtsi
->> +++ b/arch/arm64/boot/dts/st/stm32mp251.dtsi
->> @@ -106,17 +106,20 @@ soc@0 {
->>           ranges = <0x0 0x0 0x0 0x80000000>;
->>           rifsc: rifsc-bus@42080000 {
->> -            compatible = "simple-bus";
->> +            compatible = "st,stm32mp25-rifsc";
-> 
-> You could keep "simple-bus" compatible (in second position). In case of 
-> the RIFSC is not probed, the platform will be able to boot. If you agree 
-> you can use the same for ETZPC.
-> 
-> Cheers
-> Alex
+This set moves selecting the common sensor driver dependencies to the top
+level menu and removes the options from individual driver entries. The
+first patch is cc'd to stable from 6.1. It applies with some fuzz while
+for 5.15 it applies with a fuzz but to a wrong place. I don't think we'll
+need to care much about that version anyway, albeit I'll port one for
+that, too, if there that gets reported. Any thouhgts?
 
-Sure, good point.
+since v1:
 
-I'll change that in V2
+- Also include I2C dependency. Remove also VIDEO_DEV dependency which
+  isn't needed by sensor drivers.
 
-Best regards,
-Gatien
-> 
->>               reg = <0x42080000 0x1000>;
->>               #address-cells = <1>;
->>               #size-cells = <1>;
->>               ranges;
->> +            feature-domain-controller;
->> +            #feature-domain-cells = <1>;
->>               usart2: serial@400e0000 {
->>                   compatible = "st,stm32h7-uart";
->>                   reg = <0x400e0000 0x400>;
->>                   interrupts = <GIC_SPI 115 IRQ_TYPE_LEVEL_HIGH>;
->>                   clocks = <&ck_flexgen_08>;
->> +                feature-domains = <&rifsc 32>;
->>                   status = "disabled";
->>               };
->>           };
-> 
+- Reworded commit messages to account for the changes.
+
+Sakari Ailus (2):
+  media: i2c: Add a camera sensor top level menu
+  media: i2c: Remove common dependencies from sensor drivers
+
+ drivers/media/i2c/Kconfig        | 236 +++----------------------------
+ drivers/media/i2c/ccs/Kconfig    |   5 +-
+ drivers/media/i2c/et8ek8/Kconfig |   4 -
+ 3 files changed, 20 insertions(+), 225 deletions(-)
+
+-- 
+2.39.2
+
