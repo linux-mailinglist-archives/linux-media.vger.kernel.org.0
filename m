@@ -2,66 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F3E7D749BB6
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jul 2023 14:30:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F756749BDB
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jul 2023 14:34:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231642AbjGFMaZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Jul 2023 08:30:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37012 "EHLO
+        id S230054AbjGFMeA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Jul 2023 08:34:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229721AbjGFMaY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jul 2023 08:30:24 -0400
+        with ESMTP id S231636AbjGFMds (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jul 2023 08:33:48 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA46119B
-        for <linux-media@vger.kernel.org>; Thu,  6 Jul 2023 05:29:39 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C70561FE0
+        for <linux-media@vger.kernel.org>; Thu,  6 Jul 2023 05:32:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1688646578;
+        s=mimecast20190719; t=1688646681;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=iNNsAgLd/8S5YeBehDMR1r5KyYGS/cglxlPiEpZL+5s=;
-        b=OrRA5ou9hqPvSjMMWSzLQw+dZwe25qunp2NElQ9wmxXzHpPS/cgDRQKBxTk93NM9NR/Q9F
-        ww5G+h4Bso+T5kGGDJA2PekhghuDNnsKWD9TuwqZUOmAWyqwKAsD/1ktPRpNiuqfcK7Ito
-        83c40nJNHaGHW/ORufznV2y5/3R6Evk=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=/5z9JqhldyDuTdwqsFffsop6ZZ3a2XGMJ/kErkTDhnA=;
+        b=EPg+rS2F5euDY0bzBIo7VnaSaIxMkRY8jgcdOrbl/e0qb4wUVhAdSDPieUth4omBkMkF6C
+        cCWErCJydA2bFRa4l+Czw4nJGYaxvgRwuT4Z5wUQLVJoPUf4U7QPOHj4PMKw73HPK3P5lz
+        crB3uzDu+slB8g7QHUYCvYt06O1Wqf4=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-211-fY6Gsg1OO62A5GmO7R6RFQ-1; Thu, 06 Jul 2023 08:29:37 -0400
-X-MC-Unique: fY6Gsg1OO62A5GmO7R6RFQ-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-988907e1b15so54358266b.3
-        for <linux-media@vger.kernel.org>; Thu, 06 Jul 2023 05:29:37 -0700 (PDT)
+ us-mta-645-vVKyafJAOEmq6kbK9aoaWQ-1; Thu, 06 Jul 2023 08:31:17 -0400
+X-MC-Unique: vVKyafJAOEmq6kbK9aoaWQ-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-9928b4f1612so50799866b.3
+        for <linux-media@vger.kernel.org>; Thu, 06 Jul 2023 05:31:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688646576; x=1691238576;
+        d=1e100.net; s=20221208; t=1688646676; x=1691238676;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iNNsAgLd/8S5YeBehDMR1r5KyYGS/cglxlPiEpZL+5s=;
-        b=bt2vRQuYyep4vaeemjRPpfuAPrZdzXsGcZrBVquAdpm5EwL+UsB4r40PMvb9SXWwxo
-         r6JuKrldS7zhkeK4ISrmy5M6qA40I/CYsroYNJsYLoydOqUO6DrTAB5vGJUaN39KohZ8
-         QBBnyqI0xdSxexGE7iJNauaMgcuytIxilgkI2pNwG3F8biCxO6A2zYfST/YSehiw0vQT
-         wI1CKc+XLKRJ2FTHcaQ+AeQUExjtQ45ZzoPFycmT7D3Fj/E0HLcq8WuN2SsP0O60BBdp
-         ev7/jbe+dcxyb0MG+jXfogGWxomVLuedgLCU9p7AJLNW+IHOE5yKrHoGDan8zn6edL/J
-         Mwtg==
-X-Gm-Message-State: ABy/qLbknB4WOqMAfBUKJkv+O0EMiHbMEO0r6ri1KDe6jlr5KWmYvFRl
-        EWBKXC886FTATk8XHuHDWNEINEP/LF6L2LTPjl0MxW5OCQbhf47UPOwvPL60i75B1QCUcR/fGXu
-        3pwMoODKCExZlcvgKoauj9aQ=
-X-Received: by 2002:a17:906:64d0:b0:98e:43ce:93fa with SMTP id p16-20020a17090664d000b0098e43ce93famr1406702ejn.8.1688646576582;
-        Thu, 06 Jul 2023 05:29:36 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlFBA0gDV322GYWvT4dnBfVBLV56ukKBeESbb0KAL9RD8snA12DvEJ3vdSMxPHn9d2RMoSp6Vw==
-X-Received: by 2002:a17:906:64d0:b0:98e:43ce:93fa with SMTP id p16-20020a17090664d000b0098e43ce93famr1406683ejn.8.1688646576326;
-        Thu, 06 Jul 2023 05:29:36 -0700 (PDT)
+        bh=/5z9JqhldyDuTdwqsFffsop6ZZ3a2XGMJ/kErkTDhnA=;
+        b=ardFIzDA8mTausxS5SwVISCKTHEco+EsCa0nbY+5HiNeMBGuqzLlMMGIPNua7pJOSM
+         X/rGhzhbO/j/YZTuIBvnVa/xwyTJtRlCmPcu6MvaPJmK9eKXmwD0Evu9Z2as7OKeZgAY
+         JsZcW/yMAyJBlMicqR3eL1uGMCkW1txFUi9CKSkd49f66s1SzIPLF00soy/JZhQ8H4cN
+         hRYyw8P7228jtV+trl7tvpqmQaujLRgAta8VI+Zu9uFxWsv8J+r16VJbPmOD8/4ZC4IU
+         tDZkPXmjdmCMAZlbI8mxb5CLjkJMfzuO+pJyDA3B7rFVt6XTVDvsVRH/HOBcZP4SWmBN
+         f5Xg==
+X-Gm-Message-State: ABy/qLaKiVzMbhlybGxbty8peJVE5hC9xLvOVwzqXCo4cc1og6gCdjdh
+        g58g0kn6KFoepR3KO9swFnxgyRMND8admeQAiwZMGbPtYM359h8qqiu/52FiAd2UE6ZB9j3B5sN
+        nVUZfQ8Fu/xD4amZzOWomvcw=
+X-Received: by 2002:a17:906:1013:b0:98d:d26c:e13b with SMTP id 19-20020a170906101300b0098dd26ce13bmr1401913ejm.8.1688646676151;
+        Thu, 06 Jul 2023 05:31:16 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlHUK7MrSYoUIcMPPaXp4KnJW/AjIXj28r+WLLiOHAgQr3MCgXwVBwKwAaKoGunhP1ERR6Vy7g==
+X-Received: by 2002:a17:906:1013:b0:98d:d26c:e13b with SMTP id 19-20020a170906101300b0098dd26ce13bmr1401887ejm.8.1688646675891;
+        Thu, 06 Jul 2023 05:31:15 -0700 (PDT)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id gf3-20020a170906e20300b00992665694f7sm752607ejb.107.2023.07.06.05.29.35
+        by smtp.gmail.com with ESMTPSA id gz3-20020a170906f2c300b009929c09abdfsm765786ejb.70.2023.07.06.05.31.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Jul 2023 05:29:35 -0700 (PDT)
-Message-ID: <08825217-ff29-1f58-220d-617570836542@redhat.com>
-Date:   Thu, 6 Jul 2023 14:29:35 +0200
+        Thu, 06 Jul 2023 05:31:15 -0700 (PDT)
+Message-ID: <500c0f9a-7b81-3c13-6da8-39245282fe46@redhat.com>
+Date:   Thu, 6 Jul 2023 14:31:14 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH v3 15/18] ACPI: bus: Introduce acpi_match_acpi_device()
- function
+Subject: Re: [PATCH v3 18/18] media: atomisp: csi2-bridge: Add support for VCM
+ I2C-client instantiation
 Content-Language: en-US, nl
 To:     Andy Shevchenko <andy@kernel.org>
 Cc:     "Rafael J . Wysocki" <rafael@kernel.org>,
@@ -73,16 +73,16 @@ Cc:     "Rafael J . Wysocki" <rafael@kernel.org>,
         Kate Hsuan <hpa@redhat.com>, Hao Yao <hao.yao@intel.com>,
         Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org
 References: <20230705213010.390849-1-hdegoede@redhat.com>
- <20230705213010.390849-16-hdegoede@redhat.com>
- <ZKaHErGZOVXXDn9c@smile.fi.intel.com>
+ <20230705213010.390849-19-hdegoede@redhat.com>
+ <ZKaUWAAf586ZIRMF@smile.fi.intel.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <ZKaHErGZOVXXDn9c@smile.fi.intel.com>
+In-Reply-To: <ZKaUWAAf586ZIRMF@smile.fi.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
         RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -92,31 +92,53 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi,
 
-On 7/6/23 11:19, Andy Shevchenko wrote:
-> On Wed, Jul 05, 2023 at 11:30:07PM +0200, Hans de Goede wrote:
->> Some ACPI glue code (1) may want to do an acpi_device_id match while
->> it only has a struct acpi_device available because the first physical
->> node may not have been instantiated yet.
+On 7/6/23 12:15, Andy Shevchenko wrote:
+> On Wed, Jul 05, 2023 at 11:30:10PM +0200, Hans de Goede wrote:
+>> Fill sensor->vcm_type and call intel_cio2_bridge_instantiate_vcm() from
+>> the v4l2-async bound op so that an I2C-client will be instatiated for
+>> the VCM.
 >>
->> Add a new acpi_match_acpi_device() helper for this, which takes
->> a "struct acpi_device *" as argument rather then the "struct device *"
->> which acpi_match_device() takes.
->>
->> 1) E.g. code which parses ACPI tables to transforms them
->> into more standard kernel data structures like fwnodes
+>> Note unfortunately on atomisp the _DSM to get the VCM type sometimes
+>> returns a VCM even though there is none. Since VCMs are typically only
+>> used together with certain sensors, work around this by adding a vcm
+>> field to atomisp_sensor_config and only check for a VCM when that is set.
 > 
-> Looks like it's v1 of my original patch, anyway this is now in Linux Next as
-> 2b5ae9604949 ("ACPI: bus: Introduce acpi_match_acpi_device() helper").
+> ...
+> 
+>> +static char *atomisp_csi2_get_vcm_type(struct acpi_device *adev)
+>> +{
+>> +	union acpi_object *obj;
+>> +	char *vcm_type;
+>> +
+>> +	obj = acpi_evaluate_dsm_typed(adev->handle, &vcm_dsm_guid, 0, 0,
+>> +				      NULL, ACPI_TYPE_STRING);
+>> +	if (!obj)
+>> +		return NULL;
+>> +
+>> +	vcm_type = kstrdup(obj->string.pointer, GFP_KERNEL);
+> 
+> Where is the counterpart kfree()?
 
-Ah interesting, it does indeed look a lot like your version.
-but it was developed independently.
-
-Unfortunately it seems that this is headed for 6.6-rc1 and the atomisp
-changes in this series which rely on this are intended for 6.6-rc1 too.
-
-So we still need to figure out how to merge this.
+The vcm-type is stored in one of the generated sw-nodes and the ipu-bridge
+code only creates those once and them leaves them in memory, even on
+a rmmod. So this is deliberately leaked just like that the ipu_bridge
+struct which contains all the swnode-s is deliberately leaked by
+ipu-bridge.c
 
 Regards,
 
 Hans
+
+
+
+> 
+>> +	ACPI_FREE(obj);
+>> +
+>> +	if (!vcm_type)
+>> +		return NULL;
+>> +
+>> +	string_lower(vcm_type, vcm_type);
+>> +	return vcm_type;
+>> +}
+> 
 
