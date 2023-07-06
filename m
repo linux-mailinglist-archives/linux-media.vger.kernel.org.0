@@ -2,571 +2,786 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 859E074A0E2
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jul 2023 17:26:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2641274A110
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jul 2023 17:33:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231642AbjGFP0K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Jul 2023 11:26:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34124 "EHLO
+        id S233061AbjGFPdz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Jul 2023 11:33:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231860AbjGFP0E (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jul 2023 11:26:04 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B2BE1997
-        for <linux-media@vger.kernel.org>; Thu,  6 Jul 2023 08:26:02 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-51e34ad47eeso762014a12.0
-        for <linux-media@vger.kernel.org>; Thu, 06 Jul 2023 08:26:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688657161; x=1691249161;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=shLTqDWBu5XzZYtiN3R9WDzSj66GzB8U95qERMVQSR8=;
-        b=dhNL0mP668p66Vy2cwqRmFJKC+qzlU1gjCTfY8dbW29mneI9wWlBP7EFH5ZjezJFjE
-         iJeauz98yNKJ+EklsCojq0yf4ah5mUop66tUEW/a3mSJLn9aIeHNOkUPLxfMI/BvRR5N
-         bTblhNQB2N0NfCxHzdp4WTTW9py+Hv583cz0ppZ+hUKCTePlNJmvFLmwOlKXQdtPqDe7
-         XY0P1QnZ+Idio9REuBPoxu0lXuRjKe2cjyxwdHrEYZWaIloNo8sLVDPNWLgyHbHS7Pi8
-         W2B48c5WHAGhBJukMBV7cq5anTIcFzlU/7bclE7jw3eE5vTPDGT/q43QLUu7whOUiKEB
-         /7Cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688657161; x=1691249161;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=shLTqDWBu5XzZYtiN3R9WDzSj66GzB8U95qERMVQSR8=;
-        b=IhLjWTkR9hwlU9xnP65TT0DHMTjMeEKJNTbj73n+lobHPnnIfbxMgAVvnw+YL9N7HW
-         IE6CahvkcyuB+dH4ljtXKoc5TYlAR2f585jiGCXvLVRYyMNjAI7z000da/rIc+S1mei+
-         uyWV6QtWWwtDo6jEZe6AsYBFaa/MRGbM4BqdlArP+23P//exJmMx8u+XTUepsp3MbFsT
-         IOa94BHrwsMXXEPyARD06U01LL/Z0vjwfevYK5Cc19iyf/P9qMH6IezqvZwIBYcXwp7B
-         s67OzI1XGdwVP0rdjvlAX6tEKI/nifpxkHnrb1reFtq8fDkjmks+1UI7D8zSTRwkwiCN
-         WQlQ==
-X-Gm-Message-State: ABy/qLa6yMZH/R293GtX6qGMq2NsTYB5u41ee7H3ZavRtwKYLVEMZFX+
-        1vszt1J2q7eC2hMiK3V/BGi/lCjhaWdYgRoWlgNta8kTk7ARQw==
-X-Google-Smtp-Source: APBJJlEa0jiSvpbWf2x8FyOghH4+PIaY7Pq218EVxMOsldKCYlsHziaSwInrPvm6mM9K6mAPkc9W304A1rkcBC6nYVs=
-X-Received: by 2002:a17:906:72de:b0:991:dc98:69ff with SMTP id
- m30-20020a17090672de00b00991dc9869ffmr1674176ejl.67.1688657160522; Thu, 06
- Jul 2023 08:26:00 -0700 (PDT)
+        with ESMTP id S232593AbjGFPdy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jul 2023 11:33:54 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E98CCE
+        for <linux-media@vger.kernel.org>; Thu,  6 Jul 2023 08:33:52 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (85-160-48-60.reb.o2.cz [85.160.48.60])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B1072D01;
+        Thu,  6 Jul 2023 17:33:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1688657584;
+        bh=gm0ffGr+6CxQ2ndRztFgMa8JTxyZtssGrG5RSS493f8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=d/yGOI/LadgMiSmETizy29VNABDQn0oZeVHJ59TkjQBKtP7bfdvIV8D7kNtYv7nCX
+         tfBTEdU4TYmpe8aGX02Zt4fFZlsHmwCKliAiqVolaIjxIgmTp8Zw6C7L129JntAbUn
+         mnK+sOsCZoZ4PHuPO5OoK+9fLxFKS5ZiI4B4o6B4=
+Date:   Thu, 6 Jul 2023 18:33:48 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v2 2/2] media: i2c: Remove common dependencies from
+ sensor drivers
+Message-ID: <20230706153348.GB24758@pendragon.ideasonboard.com>
+References: <20230706093352.193513-1-sakari.ailus@linux.intel.com>
+ <20230706093352.193513-3-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-References: <20230706145745.115719-1-hdegoede@redhat.com> <20230706145745.115719-2-hdegoede@redhat.com>
-In-Reply-To: <20230706145745.115719-2-hdegoede@redhat.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 6 Jul 2023 18:25:24 +0300
-Message-ID: <CAHp75VfXOuUnq720mHgZEbK3Ya8zaBVp86FCELKFxQtLjTmU+g@mail.gmail.com>
-Subject: Re: [PATCH v4 1/1] media: i2c: Add driver for DW9719 VCM
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Tommaso Merciai <tomm.merciai@gmail.com>,
-        linux-media@vger.kernel.org, Daniel Scally <djrscally@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230706093352.193513-3-sakari.ailus@linux.intel.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jul 6, 2023 at 5:58=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
-wrote:
->
-> From: Daniel Scally <djrscally@gmail.com>
->
-> Add a driver for the DW9719 VCM. The driver creates a v4l2 subdevice
-> and registers a control to set the desired focus.
+Hi Sakari,
 
-A few nit-picks below, but looks fine to me
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Thank you for the patch.
 
-> Signed-off-by: Daniel Scally <djrscally@gmail.com>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+On Thu, Jul 06, 2023 at 12:33:52PM +0300, Sakari Ailus wrote:
+> As selecting V4L2_FWNODE, MEDIA_CONTROLLER and VIDEO_V4L2_SUBDEV_API are
+> now done in the top level menu, they can be dropped from individual
+> drivers. Also dropped selecting V4L2_ASYNC for a single driver as this is
+> already implied by V4L2_FWNODE.
+> 
+> Similarly, the I2C dependency is now also in the top level menu, so remove
+> it, as well as VIDEO_DEV which isn't needed by camera sensor drivers.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
 > ---
-> Changes in v4 (Hans de Goede)
-> - Back to a standalone patch again (instead of being part of a series)
-> - Switch to using CCI helpers for register access
-> - Use new DEFINE_RUNTIME_DEV_PM_OPS() for pm-ops
-> - Make v4l2_subdev first member of dw9719_device
-> - Drop v4l2_ctrl_handler_init() ret value check
-> - Turn of VCM on dw9719_remove() if necessary
->
-> Changes in v3 (Hans de Goede)
-> - New patch in v3 of this series based on Dan Scally's initial
->   DW9719 upstream submission:
->   https://lore.kernel.org/all/20211128232115.38833-1-djrscally@gmail.com/
-> - Drop hack to enable "vsio" regulator, this is no longer necessary
->   now that there iscamera a device-link making the VCM a runtime-pm consu=
-mer
->   of the sensor
-> - Add checking of device-properties for sac-mode and vcm-freq,
->   as requested by Sakari, this is done similar to the dw9768:
->   Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.yaml
->   Note no devicetree binding doc is added since currently only
->   i2c_device_id enumeration (instantiated by IPU bridge) is
->   supported
-> ---
->  MAINTAINERS                |   7 +
->  drivers/media/i2c/Kconfig  |  12 ++
->  drivers/media/i2c/Makefile |   1 +
->  drivers/media/i2c/dw9719.c | 348 +++++++++++++++++++++++++++++++++++++
->  4 files changed, 368 insertions(+)
->  create mode 100644 drivers/media/i2c/dw9719.c
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 494682dd437f..cf8e799f6ea2 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6266,6 +6266,13 @@ T:       git git://linuxtv.org/media_tree.git
->  F:     Documentation/devicetree/bindings/media/i2c/dongwoon,dw9714.yaml
->  F:     drivers/media/i2c/dw9714.c
->
-> +DONGWOON DW9719 LENS VOICE COIL DRIVER
-> +M:     Daniel Scally <djrscally@gmail.com>
-> +L:     linux-media@vger.kernel.org
-> +S:     Maintained
-> +T:     git git://linuxtv.org/media_tree.git
-> +F:     drivers/media/i2c/dw9719.c
-> +
->  DONGWOON DW9768 LENS VOICE COIL DRIVER
->  L:     linux-media@vger.kernel.org
->  S:     Orphan
+>  drivers/media/i2c/Kconfig        | 223 ++-----------------------------
+>  drivers/media/i2c/ccs/Kconfig    |   5 +-
+>  drivers/media/i2c/et8ek8/Kconfig |   4 -
+>  3 files changed, 10 insertions(+), 222 deletions(-)
+> 
 > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index 26dc365365d8..9f2331e9836a 100644
+> index ad955bfa6f01..b03b4ffb5eeb 100644
 > --- a/drivers/media/i2c/Kconfig
 > +++ b/drivers/media/i2c/Kconfig
-> @@ -875,6 +875,18 @@ config VIDEO_DW9714
->           capability. This is designed for linear control of
->           voice coil motors, controlled via I2C serial interface.
->
-> +config VIDEO_DW9719
-> +       tristate "DW9719 lens voice coil support"
-> +       depends on I2C && VIDEO_DEV
-> +       select MEDIA_CONTROLLER
-> +       select VIDEO_V4L2_SUBDEV_API
-> +       select V4L2_ASYNC
-> +       select V4L2_CCI_I2C
-> +       help
-> +         This is a driver for the DW9719 camera lens voice coil.
-> +         This is designed for linear control of voice coil motors,
-> +         controlled via I2C serial interface.
-> +
->  config VIDEO_DW9768
->         tristate "DW9768 lens voice coil support"
->         depends on I2C && VIDEO_DEV
-> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-> index d175a2e2fb19..745f8d07e649 100644
-> --- a/drivers/media/i2c/Makefile
-> +++ b/drivers/media/i2c/Makefile
-> @@ -32,6 +32,7 @@ obj-$(CONFIG_VIDEO_DS90UB913) +=3D ds90ub913.o
->  obj-$(CONFIG_VIDEO_DS90UB953) +=3D ds90ub953.o
->  obj-$(CONFIG_VIDEO_DS90UB960) +=3D ds90ub960.o
->  obj-$(CONFIG_VIDEO_DW9714) +=3D dw9714.o
-> +obj-$(CONFIG_VIDEO_DW9719) +=3D dw9719.o
->  obj-$(CONFIG_VIDEO_DW9768) +=3D dw9768.o
->  obj-$(CONFIG_VIDEO_DW9807_VCM) +=3D dw9807-vcm.o
->  obj-$(CONFIG_VIDEO_ET8EK8) +=3D et8ek8/
-> diff --git a/drivers/media/i2c/dw9719.c b/drivers/media/i2c/dw9719.c
-> new file mode 100644
-> index 000000000000..d8975b5bcfa9
-> --- /dev/null
-> +++ b/drivers/media/i2c/dw9719.c
-> @@ -0,0 +1,348 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +// Copyright (c) 2012 Intel Corporation
-> +
-> +/*
-> + * Based on linux/modules/camera/drivers/media/i2c/imx/dw9719.c in this =
-repo:
-> + * https://github.com/ZenfoneArea/android_kernel_asus_zenfone5
-> + */
-> +
-> +#include <linux/delay.h>
-> +#include <linux/i2c.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/regulator/consumer.h>
-> +#include <linux/types.h>
-> +
-> +#include <media/v4l2-cci.h>
-> +#include <media/v4l2-common.h>
-> +#include <media/v4l2-ctrls.h>
-> +#include <media/v4l2-subdev.h>
-> +
-> +#define DW9719_MAX_FOCUS_POS   1023
-> +#define DW9719_CTRL_STEPS      16
-> +#define DW9719_CTRL_DELAY_US   1000
-> +
-> +#define DW9719_INFO                    CCI_REG8(0)
-> +#define DW9719_ID                      0xF1
-> +
-> +#define DW9719_CONTROL                 CCI_REG8(2)
-> +#define DW9719_ENABLE_RINGING          0x02
-> +
-> +#define DW9719_VCM_CURRENT             CCI_REG16(3)
-> +
-> +#define DW9719_MODE                    CCI_REG8(6)
-> +#define DW9719_MODE_SAC_SHIFT          4
-> +#define DW9719_MODE_SAC3               4
-> +
-> +#define DW9719_VCM_FREQ                        CCI_REG8(7)
-> +#define DW9719_DEFAULT_VCM_FREQ                0x60
-> +
-> +#define to_dw9719_device(x) container_of(x, struct dw9719_device, sd)
-> +
-> +struct dw9719_device {
-> +       struct v4l2_subdev sd;
-> +       struct device *dev;
-> +       struct regmap *regmap;
-> +       struct regulator *regulator;
-> +       u32 sac_mode;
-> +       u32 vcm_freq;
-> +
-> +       struct dw9719_v4l2_ctrls {
-> +               struct v4l2_ctrl_handler handler;
-> +               struct v4l2_ctrl *focus;
-> +       } ctrls;
-> +};
-> +
-> +static int dw9719_detect(struct dw9719_device *dw9719)
-> +{
-> +       int ret;
-> +       u64 val;
-> +
-> +       ret =3D cci_read(dw9719->regmap, DW9719_INFO, &val, NULL);
-> +       if (ret < 0)
-> +               return ret;
-> +
-> +       if (val !=3D DW9719_ID) {
-> +               dev_err(dw9719->dev, "Failed to detect correct id\n");
-> +               return -ENXIO;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static int dw9719_power_down(struct dw9719_device *dw9719)
-> +{
-> +       return regulator_disable(dw9719->regulator);
-> +}
-> +
-> +static int dw9719_power_up(struct dw9719_device *dw9719)
-> +{
-> +       int ret;
-> +
-> +       ret =3D regulator_enable(dw9719->regulator);
-> +
-> +       /* Jiggle SCL pin to wake up device */
-> +       cci_write(dw9719->regmap, DW9719_CONTROL, 1, &ret);
-> +
-> +       /* Need 100us to transit from SHUTDOWN to STANDBY*/
+> @@ -43,10 +43,6 @@ config VIDEO_CCS_PLL
+>  
+>  config VIDEO_AR0521
+>  	tristate "ON Semiconductor AR0521 sensor support"
+> -	depends on I2C && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the ON Semiconductor
+>  	  AR0521 camera.
+> @@ -56,10 +52,6 @@ config VIDEO_AR0521
+>  
+>  config VIDEO_HI556
+>  	tristate "Hynix Hi-556 sensor support"
+> -	depends on I2C && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the Hynix
+>  	  Hi-556 camera.
+> @@ -69,10 +61,6 @@ config VIDEO_HI556
+>  
+>  config VIDEO_HI846
+>  	tristate "Hynix Hi-846 sensor support"
+> -	depends on I2C && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the Hynix
+>  	  Hi-846 camera.
+> @@ -82,10 +70,6 @@ config VIDEO_HI846
+>  
+>  config VIDEO_HI847
+>          tristate "Hynix Hi-847 sensor support"
+> -        depends on I2C && VIDEO_DEV
+> -        select MEDIA_CONTROLLER
+> -        select VIDEO_V4L2_SUBDEV_API
+> -        select V4L2_FWNODE
+>          help
+>            This is a Video4Linux2 sensor driver for the Hynix
+>            Hi-847 camera.
+> @@ -95,10 +79,6 @@ config VIDEO_HI847
+>  
+>  config VIDEO_IMX208
+>  	tristate "Sony IMX208 sensor support"
+> -	depends on I2C && VIDEO_DEV
+> -	depends on MEDIA_CAMERA_SUPPORT
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the Sony
+>  	  IMX208 camera.
+> @@ -108,10 +88,7 @@ config VIDEO_IMX208
+>  
+>  config VIDEO_IMX214
+>  	tristate "Sony IMX214 sensor support"
+> -	depends on GPIOLIB && I2C && VIDEO_DEV
+> -	select V4L2_FWNODE
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> +	depends on GPIOLIB
+>  	select REGMAP_I2C
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the Sony
+> @@ -122,10 +99,6 @@ config VIDEO_IMX214
+>  
+>  config VIDEO_IMX219
+>  	tristate "Sony IMX219 sensor support"
+> -	depends on I2C && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the Sony
+>  	  IMX219 camera.
+> @@ -135,9 +108,6 @@ config VIDEO_IMX219
+>  
+>  config VIDEO_IMX258
+>  	tristate "Sony IMX258 sensor support"
+> -	depends on I2C && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the Sony
+>  	  IMX258 camera.
+> @@ -147,9 +117,6 @@ config VIDEO_IMX258
+>  
+>  config VIDEO_IMX274
+>  	tristate "Sony IMX274 sensor support"
+> -	depends on I2C && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+>  	select REGMAP_I2C
+>  	help
+>  	  This is a V4L2 sensor driver for the Sony IMX274
+> @@ -157,11 +124,7 @@ config VIDEO_IMX274
+>  
+>  config VIDEO_IMX290
+>  	tristate "Sony IMX290 sensor support"
+> -	depends on I2C && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+>  	select REGMAP_I2C
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the Sony
+>  	  IMX290 camera sensor.
+> @@ -171,10 +134,6 @@ config VIDEO_IMX290
+>  
+>  config VIDEO_IMX296
+>  	tristate "Sony IMX296 sensor support"
+> -	depends on I2C && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select V4L2_FWNODE
+> -	select VIDEO_V4L2_SUBDEV_API
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the Sony
+>  	  IMX296 camera.
+> @@ -184,9 +143,6 @@ config VIDEO_IMX296
+>  
+>  config VIDEO_IMX319
+>  	tristate "Sony IMX319 sensor support"
+> -	depends on I2C && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the Sony
+>  	  IMX319 camera.
+> @@ -197,10 +153,6 @@ config VIDEO_IMX319
+>  config VIDEO_IMX334
+>  	tristate "Sony IMX334 sensor support"
+>  	depends on OF_GPIO
+> -	depends on I2C && VIDEO_DEV
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select MEDIA_CONTROLLER
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the Sony
+>  	  IMX334 camera.
+> @@ -211,10 +163,6 @@ config VIDEO_IMX334
+>  config VIDEO_IMX335
+>  	tristate "Sony IMX335 sensor support"
+>  	depends on OF_GPIO
+> -	depends on I2C && VIDEO_DEV
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select MEDIA_CONTROLLER
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the Sony
+>  	  IMX335 camera.
+> @@ -224,9 +172,6 @@ config VIDEO_IMX335
+>  
+>  config VIDEO_IMX355
+>  	tristate "Sony IMX355 sensor support"
+> -	depends on I2C && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the Sony
+>  	  IMX355 camera.
+> @@ -237,10 +182,6 @@ config VIDEO_IMX355
+>  config VIDEO_IMX412
+>  	tristate "Sony IMX412 sensor support"
+>  	depends on OF_GPIO
+> -	depends on I2C && VIDEO_DEV
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select MEDIA_CONTROLLER
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the Sony
+>  	  IMX412 camera.
+> @@ -251,10 +192,6 @@ config VIDEO_IMX412
+>  config VIDEO_IMX415
+>  	tristate "Sony IMX415 sensor support"
+>  	depends on OF_GPIO
+> -	depends on I2C && VIDEO_DEV
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select MEDIA_CONTROLLER
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the Sony
+>  	  IMX415 camera.
+> @@ -267,35 +204,25 @@ config VIDEO_MAX9271_LIB
+>  
+>  config VIDEO_MT9M001
+>  	tristate "mt9m001 support"
+> -	depends on I2C && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+>  	help
+>  	  This driver supports MT9M001 cameras from Micron, monochrome
+>  	  and colour models.
+>  
+>  config VIDEO_MT9M111
+>  	tristate "mt9m111, mt9m112 and mt9m131 support"
+> -	depends on I2C && VIDEO_DEV
+> -	select V4L2_FWNODE
+>  	help
+>  	  This driver supports MT9M111, MT9M112 and MT9M131 cameras from
+>  	  Micron/Aptina
+>  
+>  config VIDEO_MT9P031
+>  	tristate "Aptina MT9P031 support"
+> -	depends on I2C && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+>  	select VIDEO_APTINA_PLL
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the Aptina
+>  	  (Micron) mt9p031 5 Mpixel camera.
+>  
+>  config VIDEO_MT9T112
+>  	tristate "Aptina MT9T111/MT9T112 support"
+> -	depends on I2C && VIDEO_DEV
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the Aptina
+>  	  (Micron) MT9T111 and MT9T112 3 Mpixel camera.
+> @@ -305,7 +232,6 @@ config VIDEO_MT9T112
+>  
+>  config VIDEO_MT9V011
+>  	tristate "Micron mt9v011 sensor support"
+> -	depends on I2C && VIDEO_DEV
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the Micron
+>  	  mt0v011 1.3 Mpixel camera.  It currently only works with the
+> @@ -313,18 +239,13 @@ config VIDEO_MT9V011
+>  
+>  config VIDEO_MT9V032
+>  	tristate "Micron MT9V032 sensor support"
+> -	depends on I2C && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+>  	select REGMAP_I2C
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the Micron
+>  	  MT9V032 752x480 CMOS sensor.
+>  
+>  config VIDEO_MT9V111
+>  	tristate "Aptina MT9V111 sensor support"
+> -	depends on I2C && VIDEO_DEV
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the Aptina/Micron
+>  	  MT9V111 sensor.
+> @@ -334,10 +255,6 @@ config VIDEO_MT9V111
+>  
+>  config VIDEO_OG01A1B
+>  	tristate "OmniVision OG01A1B sensor support"
+> -	depends on I2C && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+>  	  OG01A1B camera.
+> @@ -347,10 +264,6 @@ config VIDEO_OG01A1B
+>  
+>  config VIDEO_OV01A10
+>  	tristate "OmniVision OV01A10 sensor support"
+> -	depends on VIDEO_DEV && I2C
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+>  	  OV01A10 camera.
+> @@ -360,10 +273,6 @@ config VIDEO_OV01A10
+>  
+>  config VIDEO_OV02A10
+>  	tristate "OmniVision OV02A10 sensor support"
+> -	depends on VIDEO_DEV && I2C
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+>  	  OV02A10 camera.
+> @@ -373,10 +282,6 @@ config VIDEO_OV02A10
+>  
+>  config VIDEO_OV08D10
+>          tristate "OmniVision OV08D10 sensor support"
+> -        depends on I2C && VIDEO_DEV
+> -        select MEDIA_CONTROLLER
+> -        select VIDEO_V4L2_SUBDEV_API
+> -        select V4L2_FWNODE
+>          help
+>            This is a Video4Linux2 sensor driver for the OmniVision
+>            OV08D10 camera sensor.
+> @@ -386,10 +291,6 @@ config VIDEO_OV08D10
+>  
+>  config VIDEO_OV08X40
+>  	tristate "OmniVision OV08X40 sensor support"
+> -	depends on VIDEO_DEV && I2C
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+>  	  OV08X40 camera.
+> @@ -399,28 +300,18 @@ config VIDEO_OV08X40
+>  
+>  config VIDEO_OV13858
+>  	tristate "OmniVision OV13858 sensor support"
+> -	depends on I2C && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+>  	  OV13858 camera.
+>  
+>  config VIDEO_OV13B10
+>  	tristate "OmniVision OV13B10 sensor support"
+> -	depends on I2C && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+>  	  OV13B10 camera.
+>  
+>  config VIDEO_OV2640
+>  	tristate "OmniVision OV2640 sensor support"
+> -	depends on VIDEO_DEV && I2C
+> -	select V4L2_ASYNC
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+>  	  OV2640 camera.
+> @@ -430,8 +321,7 @@ config VIDEO_OV2640
+>  
+>  config VIDEO_OV2659
+>  	tristate "OmniVision OV2659 sensor support"
+> -	depends on VIDEO_DEV && I2C && GPIOLIB
+> -	select V4L2_FWNODE
+> +	depends on GPIOLIB
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+>  	  OV2659 camera.
+> @@ -441,9 +331,6 @@ config VIDEO_OV2659
+>  
+>  config VIDEO_OV2680
+>  	tristate "OmniVision OV2680 sensor support"
+> -	depends on VIDEO_DEV && I2C
+> -	select MEDIA_CONTROLLER
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+>  	  OV2680 camera.
+> @@ -453,10 +340,6 @@ config VIDEO_OV2680
+>  
+>  config VIDEO_OV2685
+>  	tristate "OmniVision OV2685 sensor support"
+> -	depends on VIDEO_DEV && I2C
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+>  	  OV2685 camera.
+> @@ -466,11 +349,7 @@ config VIDEO_OV2685
+>  
+>  config VIDEO_OV2740
+>  	tristate "OmniVision OV2740 sensor support"
+> -	depends on VIDEO_DEV && I2C
+>  	depends on ACPI || COMPILE_TEST
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select V4L2_FWNODE
+>  	select REGMAP_I2C
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+> @@ -481,10 +360,7 @@ config VIDEO_OV2740
+>  
+>  config VIDEO_OV4689
+>  	tristate "OmniVision OV4689 sensor support"
+> -	depends on GPIOLIB && VIDEO_DEV && I2C
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select V4L2_FWNODE
+> +	depends on GPIOLIB
+>  	help
+>  	  This is a Video4Linux2 sensor-level driver for the OmniVision
+>  	  OV4689 camera.
+> @@ -495,10 +371,7 @@ config VIDEO_OV4689
+>  config VIDEO_OV5640
+>  	tristate "OmniVision OV5640 sensor support"
+>  	depends on OF
+> -	depends on GPIOLIB && VIDEO_DEV && I2C
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select V4L2_FWNODE
+> +	depends on GPIOLIB
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the Omnivision
+>  	  OV5640 camera sensor with a MIPI CSI-2 interface.
+> @@ -506,10 +379,6 @@ config VIDEO_OV5640
+>  config VIDEO_OV5645
+>  	tristate "OmniVision OV5645 sensor support"
+>  	depends on OF
+> -	depends on I2C && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+>  	  OV5645 camera.
+> @@ -519,10 +388,6 @@ config VIDEO_OV5645
+>  
+>  config VIDEO_OV5647
+>  	tristate "OmniVision OV5647 sensor support"
+> -	depends on I2C && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+>  	  OV5647 camera.
+> @@ -532,10 +397,7 @@ config VIDEO_OV5647
+>  
+>  config VIDEO_OV5648
+>  	tristate "OmniVision OV5648 sensor support"
+> -	depends on I2C && PM && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select V4L2_FWNODE
+> +	depends on PM
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+>  	  OV5648 camera.
+> @@ -545,10 +407,6 @@ config VIDEO_OV5648
+>  
+>  config VIDEO_OV5670
+>  	tristate "OmniVision OV5670 sensor support"
+> -	depends on I2C && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+>  	  OV5670 camera.
+> @@ -558,10 +416,6 @@ config VIDEO_OV5670
+>  
+>  config VIDEO_OV5675
+>  	tristate "OmniVision OV5675 sensor support"
+> -	depends on I2C && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+>  	  OV5675 camera.
+> @@ -571,8 +425,6 @@ config VIDEO_OV5675
+>  
+>  config VIDEO_OV5693
+>  	tristate "OmniVision OV5693 sensor support"
+> -	depends on I2C && VIDEO_DEV
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+>  	  OV5693 camera.
+> @@ -582,8 +434,6 @@ config VIDEO_OV5693
+>  
+>  config VIDEO_OV5695
+>  	tristate "OmniVision OV5695 sensor support"
+> -	depends on I2C && VIDEO_DEV
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+>  	  OV5695 camera.
+> @@ -593,7 +443,6 @@ config VIDEO_OV5695
+>  
+>  config VIDEO_OV6650
+>  	tristate "OmniVision OV6650 sensor support"
+> -	depends on I2C && VIDEO_DEV
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+>  	  OV6650 camera.
+> @@ -603,10 +452,6 @@ config VIDEO_OV6650
+>  
+>  config VIDEO_OV7251
+>  	tristate "OmniVision OV7251 sensor support"
+> -	depends on I2C && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+>  	  OV7251 camera.
+> @@ -616,7 +461,6 @@ config VIDEO_OV7251
+>  
+>  config VIDEO_OV7640
+>  	tristate "OmniVision OV7640 sensor support"
+> -	depends on I2C && VIDEO_DEV
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+>  	  OV7640 camera.
+> @@ -626,8 +470,6 @@ config VIDEO_OV7640
+>  
+>  config VIDEO_OV7670
+>  	tristate "OmniVision OV7670 sensor support"
+> -	depends on I2C && VIDEO_DEV
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+>  	  OV7670 VGA camera.  It currently only works with the M88ALP01
+> @@ -635,9 +477,7 @@ config VIDEO_OV7670
+>  
+>  config VIDEO_OV772X
+>  	tristate "OmniVision OV772x sensor support"
+> -	depends on I2C && VIDEO_DEV
+>  	select REGMAP_SCCB
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+>  	  OV772x camera.
+> @@ -647,7 +487,6 @@ config VIDEO_OV772X
+>  
+>  config VIDEO_OV7740
+>  	tristate "OmniVision OV7740 sensor support"
+> -	depends on I2C && VIDEO_DEV
+>  	select REGMAP_SCCB
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+> @@ -655,10 +494,6 @@ config VIDEO_OV7740
+>  
+>  config VIDEO_OV8856
+>  	tristate "OmniVision OV8856 sensor support"
+> -	depends on I2C && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+>  	  OV8856 camera sensor.
+> @@ -668,10 +503,7 @@ config VIDEO_OV8856
+>  
+>  config VIDEO_OV8858
+>  	tristate "OmniVision OV8858 sensor support"
+> -	depends on I2C && PM && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select V4L2_FWNODE
+> +	depends on PM
+>  	help
+>  	  This is a Video4Linux2 sensor driver for OmniVision
+>  	  OV8858 camera sensor.
+> @@ -681,10 +513,7 @@ config VIDEO_OV8858
+>  
+>  config VIDEO_OV8865
+>  	tristate "OmniVision OV8865 sensor support"
+> -	depends on I2C && PM && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select V4L2_FWNODE
+> +	depends on PM
+>  	help
+>  	  This is a Video4Linux2 sensor driver for OmniVision
+>  	  OV8865 camera sensor.
+> @@ -695,10 +524,6 @@ config VIDEO_OV8865
+>  config VIDEO_OV9282
+>  	tristate "OmniVision OV9282 sensor support"
+>  	depends on OF_GPIO
+> -	depends on I2C && VIDEO_DEV
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select MEDIA_CONTROLLER
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+>  	  OV9282 camera sensor.
+> @@ -708,16 +533,12 @@ config VIDEO_OV9282
+>  
+>  config VIDEO_OV9640
+>  	tristate "OmniVision OV9640 sensor support"
+> -	depends on I2C && VIDEO_DEV
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+>  	  OV9640 camera sensor.
+>  
+>  config VIDEO_OV9650
+>  	tristate "OmniVision OV9650/OV9652 sensor support"
+> -	depends on I2C && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+>  	select REGMAP_SCCB
+>  	help
+>  	  This is a V4L2 sensor driver for the Omnivision
+> @@ -725,11 +546,7 @@ config VIDEO_OV9650
+>  
+>  config VIDEO_OV9734
+>  	tristate "OmniVision OV9734 sensor support"
+> -	depends on VIDEO_DEV && I2C
+>  	depends on ACPI || COMPILE_TEST
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the OmniVision
+>  	  OV9734 camera.
+> @@ -739,10 +556,6 @@ config VIDEO_OV9734
+>  
+>  config VIDEO_RDACM20
+>  	tristate "IMI RDACM20 camera support"
+> -	depends on I2C
+> -	select V4L2_FWNODE
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select MEDIA_CONTROLLER
+>  	select VIDEO_MAX9271_LIB
+>  	help
+>  	  This driver supports the IMI RDACM20 GMSL camera, used in
+> @@ -753,10 +566,6 @@ config VIDEO_RDACM20
+>  
+>  config VIDEO_RDACM21
+>  	tristate "IMI RDACM21 camera support"
+> -	depends on I2C
+> -	select V4L2_FWNODE
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select MEDIA_CONTROLLER
+>  	select VIDEO_MAX9271_LIB
+>  	help
+>  	  This driver supports the IMI RDACM21 GMSL camera, used in
+> @@ -767,7 +576,6 @@ config VIDEO_RDACM21
+>  
+>  config VIDEO_RJ54N1
+>  	tristate "Sharp RJ54N1CB0C sensor support"
+> -	depends on I2C && VIDEO_DEV
+>  	help
+>  	  This is a V4L2 sensor driver for Sharp RJ54N1CB0C CMOS image
+>  	  sensor.
+> @@ -777,39 +585,26 @@ config VIDEO_RJ54N1
+>  
+>  config VIDEO_S5C73M3
+>  	tristate "Samsung S5C73M3 sensor support"
+> -	depends on I2C && SPI && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select V4L2_FWNODE
+> +	depends on SPI
+>  	help
+>  	  This is a V4L2 sensor driver for Samsung S5C73M3
+>  	  8 Mpixel camera.
+>  
+>  config VIDEO_S5K5BAF
+>  	tristate "Samsung S5K5BAF sensor support"
+> -	depends on I2C && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a V4L2 sensor driver for Samsung S5K5BAF 2M
+>  	  camera sensor with an embedded SoC image signal processor.
+>  
+>  config VIDEO_S5K6A3
+>  	tristate "Samsung S5K6A3 sensor support"
+> -	depends on I2C && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+>  	help
+>  	  This is a V4L2 sensor driver for Samsung S5K6A3 raw
+>  	  camera sensor.
+>  
+>  config VIDEO_ST_VGXY61
+>  	tristate "ST VGXY61 sensor support"
+> -	depends on OF && GPIOLIB && VIDEO_DEV && I2C
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select V4L2_FWNODE
+> +	depends on OF && GPIOLIB
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the ST VGXY61
+>  	  camera sensor.
+> diff --git a/drivers/media/i2c/ccs/Kconfig b/drivers/media/i2c/ccs/Kconfig
+> index 71671db3d993..b55c93a2e204 100644
+> --- a/drivers/media/i2c/ccs/Kconfig
+> +++ b/drivers/media/i2c/ccs/Kconfig
+> @@ -1,11 +1,8 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  config VIDEO_CCS
+>  	tristate "MIPI CCS/SMIA++/SMIA sensor support"
+> -	depends on I2C && VIDEO_DEV && HAVE_CLK
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> +	depends on HAVE_CLK
+>  	select VIDEO_CCS_PLL
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a generic driver for MIPI CCS, SMIA++ and SMIA compliant
+>  	  camera sensors.
+> diff --git a/drivers/media/i2c/et8ek8/Kconfig b/drivers/media/i2c/et8ek8/Kconfig
+> index 398dd4d21df1..987fc62d5e6b 100644
+> --- a/drivers/media/i2c/et8ek8/Kconfig
+> +++ b/drivers/media/i2c/et8ek8/Kconfig
+> @@ -1,10 +1,6 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  config VIDEO_ET8EK8
+>  	tristate "ET8EK8 camera sensor support"
+> -	depends on I2C && VIDEO_DEV
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select V4L2_FWNODE
+>  	help
+>  	  This is a driver for the Toshiba ET8EK8 5 MP camera sensor.
+>  	  It is used for example in Nokia N900 (RX-51).
+> 
 
-Still missing space before */.
+-- 
+Regards,
 
-> +       fsleep(100);
-> +
-> +       cci_write(dw9719->regmap, DW9719_CONTROL, DW9719_ENABLE_RINGING, =
-&ret);
-> +       cci_write(dw9719->regmap, DW9719_MODE,
-> +                 dw9719->sac_mode << DW9719_MODE_SAC_SHIFT, &ret);
-> +       cci_write(dw9719->regmap, DW9719_VCM_FREQ, dw9719->vcm_freq, &ret=
-);
-> +
-> +       if (ret)
-> +               dw9719_power_down(dw9719);
-> +
-> +       return ret;
-> +}
-> +
-> +static int dw9719_t_focus_abs(struct dw9719_device *dw9719, s32 value)
-> +{
-> +       return cci_write(dw9719->regmap, DW9719_VCM_CURRENT, value, NULL)=
-;
-> +}
-> +
-> +static int dw9719_set_ctrl(struct v4l2_ctrl *ctrl)
-> +{
-> +       struct dw9719_device *dw9719 =3D container_of(ctrl->handler,
-> +                                                   struct dw9719_device,
-> +                                                   ctrls.handler);
-> +       int ret;
-> +
-> +       /* Only apply changes to the controls if the device is powered up=
- */
-> +       if (!pm_runtime_get_if_in_use(dw9719->dev))
-> +               return 0;
-> +
-> +       switch (ctrl->id) {
-> +       case V4L2_CID_FOCUS_ABSOLUTE:
-> +               ret =3D dw9719_t_focus_abs(dw9719, ctrl->val);
-> +               break;
-> +       default:
-> +               ret =3D -EINVAL;
-> +       }
-> +
-> +       pm_runtime_put(dw9719->dev);
-> +
-> +       return ret;
-> +}
-> +
-> +static const struct v4l2_ctrl_ops dw9719_ctrl_ops =3D {
-> +       .s_ctrl =3D dw9719_set_ctrl,
-> +};
-> +
-> +static int dw9719_suspend(struct device *dev)
-> +{
-> +       struct v4l2_subdev *sd =3D dev_get_drvdata(dev);
-> +       struct dw9719_device *dw9719 =3D to_dw9719_device(sd);
-> +       int ret;
-> +       int val;
-> +
-> +       for (val =3D dw9719->ctrls.focus->val; val >=3D 0;
-> +            val -=3D DW9719_CTRL_STEPS) {
-> +               ret =3D dw9719_t_focus_abs(dw9719, val);
-> +               if (ret)
-> +                       return ret;
-
-Maybe have a separate definition for the upper limit and put a comment
-why we need it this way.
-
-> +               usleep_range(DW9719_CTRL_DELAY_US, DW9719_CTRL_DELAY_US +=
- 10);
-> +       }
-> +
-> +       return dw9719_power_down(dw9719);
-> +}
-> +
-> +static int dw9719_resume(struct device *dev)
-> +{
-> +       struct v4l2_subdev *sd =3D dev_get_drvdata(dev);
-> +       struct dw9719_device *dw9719 =3D to_dw9719_device(sd);
-> +       int current_focus =3D dw9719->ctrls.focus->val;
-> +       int ret;
-> +       int val;
-> +
-> +       ret =3D dw9719_power_up(dw9719);
-> +       if (ret)
-> +               return ret;
-> +
-> +       for (val =3D current_focus % DW9719_CTRL_STEPS; val < current_foc=
-us;
-> +            val +=3D DW9719_CTRL_STEPS) {
-> +               ret =3D dw9719_t_focus_abs(dw9719, val);
-> +               if (ret)
-> +                       goto err_power_down;
-> +
-> +               usleep_range(DW9719_CTRL_DELAY_US, DW9719_CTRL_DELAY_US +=
- 10);
-> +       }
-> +
-> +       return 0;
-> +
-> +err_power_down:
-> +       dw9719_power_down(dw9719);
-> +       return ret;
-> +}
-> +
-> +static int dw9719_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh=
-)
-> +{
-> +       return pm_runtime_resume_and_get(sd->dev);
-> +}
-> +
-> +static int dw9719_close(struct v4l2_subdev *sd, struct v4l2_subdev_fh *f=
-h)
-> +{
-> +       pm_runtime_put(sd->dev);
-> +
-> +       return 0;
-> +}
-> +
-> +static const struct v4l2_subdev_internal_ops dw9719_internal_ops =3D {
-> +       .open =3D dw9719_open,
-> +       .close =3D dw9719_close,
-> +};
-> +
-> +static int dw9719_init_controls(struct dw9719_device *dw9719)
-> +{
-> +       const struct v4l2_ctrl_ops *ops =3D &dw9719_ctrl_ops;
-> +       int ret;
-> +
-> +       v4l2_ctrl_handler_init(&dw9719->ctrls.handler, 1);
-> +
-> +       dw9719->ctrls.focus =3D v4l2_ctrl_new_std(&dw9719->ctrls.handler,=
- ops,
-> +                                               V4L2_CID_FOCUS_ABSOLUTE, =
-0,
-> +                                               DW9719_MAX_FOCUS_POS, 1, =
-0);
-> +
-> +       if (dw9719->ctrls.handler.error) {
-> +               dev_err(dw9719->dev, "Error initialising v4l2 ctrls\n");
-> +               ret =3D dw9719->ctrls.handler.error;
-> +               goto err_free_handler;
-> +       }
-> +
-> +       dw9719->sd.ctrl_handler =3D &dw9719->ctrls.handler;
-> +       return 0;
-> +
-> +err_free_handler:
-> +       v4l2_ctrl_handler_free(&dw9719->ctrls.handler);
-> +       return ret;
-> +}
-> +
-> +static const struct v4l2_subdev_ops dw9719_ops =3D { };
-> +
-> +static int dw9719_probe(struct i2c_client *client)
-> +{
-> +       struct dw9719_device *dw9719;
-> +       int ret;
-> +
-> +       dw9719 =3D devm_kzalloc(&client->dev, sizeof(*dw9719), GFP_KERNEL=
-);
-> +       if (!dw9719)
-> +               return -ENOMEM;
-> +
-> +       dw9719->regmap =3D devm_cci_regmap_init_i2c(client, 8);
-> +       if (IS_ERR(dw9719->regmap))
-> +               return PTR_ERR(dw9719->regmap);
-> +
-> +       dw9719->dev =3D &client->dev;
-> +       dw9719->sac_mode =3D DW9719_MODE_SAC3;
-> +       dw9719->vcm_freq =3D DW9719_DEFAULT_VCM_FREQ;
-> +
-> +       /* Optional indication of SAC mode select */
-> +       device_property_read_u32(&client->dev, "dongwoon,sac-mode",
-> +                                &dw9719->sac_mode);
-> +
-> +       /* Optional indication of VCM frequency */
-> +       device_property_read_u32(&client->dev, "dongwoon,vcm-freq",
-> +                                &dw9719->vcm_freq);
-> +
-> +       dw9719->regulator =3D devm_regulator_get(&client->dev, "vdd");
-> +       if (IS_ERR(dw9719->regulator))
-> +               return dev_err_probe(&client->dev, PTR_ERR(dw9719->regula=
-tor),
-> +                                    "getting regulator\n");
-> +
-> +       v4l2_i2c_subdev_init(&dw9719->sd, client, &dw9719_ops);
-> +       dw9719->sd.flags |=3D V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +       dw9719->sd.internal_ops =3D &dw9719_internal_ops;
-> +
-> +       ret =3D dw9719_init_controls(dw9719);
-> +       if (ret)
-> +               return ret;
-> +
-> +       ret =3D media_entity_pads_init(&dw9719->sd.entity, 0, NULL);
-> +       if (ret < 0)
-> +               goto err_free_ctrl_handler;
-> +
-> +       dw9719->sd.entity.function =3D MEDIA_ENT_F_LENS;
-> +
-> +       /*
-> +        * We need the driver to work in the event that pm runtime is dis=
-able in
-> +        * the kernel, so power up and verify the chip now. In the event =
-that
-> +        * runtime pm is disabled this will leave the chip on, so that th=
-e lens
-> +        * will work.
-> +        */
-> +
-> +       ret =3D dw9719_power_up(dw9719);
-> +       if (ret)
-> +               goto err_cleanup_media;
-> +
-> +       ret =3D dw9719_detect(dw9719);
-> +       if (ret)
-> +               goto err_powerdown;
-> +
-> +       pm_runtime_set_active(&client->dev);
-> +       pm_runtime_get_noresume(&client->dev);
-> +       pm_runtime_enable(&client->dev);
-> +
-> +       ret =3D v4l2_async_register_subdev(&dw9719->sd);
-> +       if (ret < 0)
-> +               goto err_pm_runtime;
-> +
-> +       pm_runtime_set_autosuspend_delay(&client->dev, 1000);
-> +       pm_runtime_use_autosuspend(&client->dev);
-> +       pm_runtime_put_autosuspend(&client->dev);
-> +
-> +       return ret;
-> +
-> +err_pm_runtime:
-> +       pm_runtime_disable(&client->dev);
-> +       pm_runtime_put_noidle(&client->dev);
-> +err_powerdown:
-> +       dw9719_power_down(dw9719);
-> +err_cleanup_media:
-> +       media_entity_cleanup(&dw9719->sd.entity);
-> +err_free_ctrl_handler:
-> +       v4l2_ctrl_handler_free(&dw9719->ctrls.handler);
-> +
-> +       return ret;
-> +}
-> +
-> +static void dw9719_remove(struct i2c_client *client)
-> +{
-> +       struct v4l2_subdev *sd =3D i2c_get_clientdata(client);
-> +       struct dw9719_device *dw9719 =3D
-> +               container_of(sd, struct dw9719_device, sd);
-> +
-> +       v4l2_async_unregister_subdev(sd);
-> +       v4l2_ctrl_handler_free(&dw9719->ctrls.handler);
-> +       media_entity_cleanup(&dw9719->sd.entity);
-> +
-> +       pm_runtime_disable(&client->dev);
-> +       if (!pm_runtime_status_suspended(&client->dev))
-> +               dw9719_power_down(dw9719);
-> +       pm_runtime_set_suspended(&client->dev);
-> +}
-> +
-> +static const struct i2c_device_id dw9719_id_table[] =3D {
-> +       { "dw9719" },
-> +       { }
-> +};
-> +MODULE_DEVICE_TABLE(i2c, dw9719_id_table);
-> +
-> +static DEFINE_RUNTIME_DEV_PM_OPS(dw9719_pm_ops, dw9719_suspend, dw9719_r=
-esume,
-> +                                NULL);
-
-I would logically split this, i.e.
-
-static DEFINE_RUNTIME_DEV_PM_OPS(dw9719_pm_ops,
-                                 dw9719_suspend, dw9719_resume,
-                                 NULL);
-
-Or
-
-static DEFINE_RUNTIME_DEV_PM_OPS(dw9719_pm_ops,
-                                 dw9719_suspend, dw9719_resume, NULL);
-
-> +static struct i2c_driver dw9719_i2c_driver =3D {
-> +       .driver =3D {
-> +               .name =3D "dw9719",
-> +               .pm =3D pm_sleep_ptr(&dw9719_pm_ops),
-> +       },
-> +       .probe =3D dw9719_probe,
-> +       .remove =3D dw9719_remove,
-> +       .id_table =3D dw9719_id_table,
-> +};
-> +module_i2c_driver(dw9719_i2c_driver);
-> +
-> +MODULE_AUTHOR("Daniel Scally <djrscally@gmail.com>");
-> +MODULE_DESCRIPTION("DW9719 VCM Driver");
-> +MODULE_LICENSE("GPL");
-> --
-> 2.41.0
->
-
-
---=20
-With Best Regards,
-Andy Shevchenko
+Laurent Pinchart
