@@ -2,110 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E83B749E0D
-	for <lists+linux-media@lfdr.de>; Thu,  6 Jul 2023 15:43:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0096749EBA
+	for <lists+linux-media@lfdr.de>; Thu,  6 Jul 2023 16:13:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232605AbjGFNnd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 6 Jul 2023 09:43:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56168 "EHLO
+        id S233034AbjGFONS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 6 Jul 2023 10:13:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230290AbjGFNna (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jul 2023 09:43:30 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88AEF1BE1;
-        Thu,  6 Jul 2023 06:43:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688650996; x=1720186996;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Z8JzG+0pHRWzsIxrfE6vi7fgy3rjZUBCfJDI1U1jdzs=;
-  b=UqmTOtQ3kmp6DuXRftzEBiX1tZ1ZAsC+1JpbERpU98sF7BPxLDDlNiJ6
-   IvgYfdWyGJxPKzAhA6zDPKD/erD0LQdH2ZJ/kR4WEmPAgnHnLXXJbrt2U
-   o7raXpGjIPZmxacFq0RZsSJake4ZBJvAz7rvhPYGiM3jJNvhWQ5JBdj1g
-   F63PTPF3tfzT0eo3Buj4k8WiuzgKTCHGSeX5BB6cU1O8430cVkbqCn0kJ
-   x/R79N9pgfozFT4i0rv+ojjzUsQ3TN411iL2uT2mW7WL0uJy8z4YpdbAy
-   ljk/Gi6GkCN2MH1RwlXAzFzqHSxmm2i2hBEXddjb59x9yx8OF10ZKVrlj
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="449961696"
-X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; 
-   d="scan'208";a="449961696"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 06:43:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="893554245"
-X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; 
-   d="scan'208";a="893554245"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 06:43:12 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 32E4311F931;
-        Thu,  6 Jul 2023 16:43:09 +0300 (EEST)
-Date:   Thu, 6 Jul 2023 13:43:09 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Andy Shevchenko <andy@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        linux-acpi@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kate Hsuan <hpa@redhat.com>, Hao Yao <hao.yao@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 17/18] media: atomisp: csi2-bridge: Add dev_name() to
- acpi_handle_info() logging
-Message-ID: <ZKbE7dZOtOTH/0vf@kekkonen.localdomain>
-References: <20230705213010.390849-1-hdegoede@redhat.com>
- <20230705213010.390849-18-hdegoede@redhat.com>
- <ZKaS2UbkbkbfYqAe@smile.fi.intel.com>
- <20230706111224.GA20921@pendragon.ideasonboard.com>
- <ZKayRcm83vMImkte@smile.fi.intel.com>
- <20230706130708.GD20921@pendragon.ideasonboard.com>
+        with ESMTP id S229660AbjGFONR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 6 Jul 2023 10:13:17 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 833361BC2
+        for <linux-media@vger.kernel.org>; Thu,  6 Jul 2023 07:13:15 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-4f004cc54f4so957676e87.3
+        for <linux-media@vger.kernel.org>; Thu, 06 Jul 2023 07:13:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1688652794; x=1691244794;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1yEX9Dwmq9IkMrVkFypkMcFrtVKqN7sxBEMnk/SfYko=;
+        b=KIbzE3tBdsBciOOqSRH6/ZZfBehQKzbpLVe1oWyG9ekBBtoqnRWtHPaFa4zHIZkzkG
+         TOFHrh+UvfoOV1vfnabddR9BxdOMEAtBmlcSzgEain4XZ7kx1hKTY7BXWIZjLBd47k5R
+         nXLVu9RK9ofZQfWoICT9wmFOtHcQ0a9b8zgrGnd4RMEKfPahZD5ul67d/y/AwW26YKbP
+         WLqaUtcrBoO+AFwc2zsxOiGq8hKPsYXgPnPO5LkBH4RjehlRPUSl2NXX4ERqCdg40JSt
+         c9zmYv1wziwZPoolLx0EHe9SO0jUlyFYY6pAC9ANzRJzhHdJAWsLak6dYIfoanqP7MuE
+         u0cQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688652794; x=1691244794;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1yEX9Dwmq9IkMrVkFypkMcFrtVKqN7sxBEMnk/SfYko=;
+        b=O92o6jaJLLnKQrLZA383zOe4i+HRKS8W7ZagegqtlOLQWbL9JGsxcepmS4kbE4xIYp
+         YpOC4yD960K7tBHrOU+9YqEi3FX0tqqIV8uNHvpZqU/VS99+c7b6I1MHqbl3lhF4Pqpk
+         arj4hIS3PzgDg2xfUFK/PoeTLGAlDsfTbchKoSBdioGKF32Ads+5bP8bboLKY4YM+Cko
+         N89aqo39lAoWXmfg5JriPI4/fWZ/IjuoUKbhH+9DMiAiBucLfTG3WXJORRd9Ere33KhK
+         Krtb51FRx/m2OB17hTi7G0lQrfLU/7UOm+UQefrHEftCtn/5kWsYQtk3ABqf2ixwGtB9
+         F/sA==
+X-Gm-Message-State: ABy/qLaPX+pbpfZ0srPDpzjhh7VURLWBO8Ruy42NhVww0OkNv8rTc0p2
+        v3dnTpMJLgLsid2WhGPwB9xOtA8xjIiEtPTwIy3HNg==
+X-Google-Smtp-Source: APBJJlF2RWXaT3XjF4XIoYgd+D9lcGt7c9IIXSMJx5LdyPV6oT4nr9r3uapzOVUQJRnkj5wq6GFrBIH0wyFRrEbvlr0=
+X-Received: by 2002:a05:6512:3c9f:b0:4fb:829b:196e with SMTP id
+ h31-20020a0565123c9f00b004fb829b196emr2526477lfv.2.1688652793506; Thu, 06 Jul
+ 2023 07:13:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230706130708.GD20921@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <b09f1996-3838-4fa2-9193-832b68262e43@moroto.mountain> <ed3ef0ec-140d-59f1-b37e-4731d763a11b@amd.com>
+In-Reply-To: <ed3ef0ec-140d-59f1-b37e-4731d763a11b@amd.com>
+From:   Sumit Semwal <sumit.semwal@linaro.org>
+Date:   Thu, 6 Jul 2023 19:43:01 +0530
+Message-ID: <CAO_48GF61m4-RtiTEf9a5ntoX6jY66=hLTWe0A1XRUO8PsZkAw@mail.gmail.com>
+Subject: Re: [PATCH v2] dma-buf: fix an error pointer vs NULL bug
+To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc:     Dan Carpenter <dan.carpenter@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        kernel-janitors@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jul 06, 2023 at 04:07:08PM +0300, Laurent Pinchart wrote:
-> On Thu, Jul 06, 2023 at 03:23:33PM +0300, Andy Shevchenko wrote:
-> > On Thu, Jul 06, 2023 at 02:12:24PM +0300, Laurent Pinchart wrote:
-> > > On Thu, Jul 06, 2023 at 01:09:29PM +0300, Andy Shevchenko wrote:
-> > > > On Wed, Jul 05, 2023 at 11:30:09PM +0200, Hans de Goede wrote:
-> > 
-> > ...
-> > 
-> > > > > -			acpi_handle_info(adev->handle, "Using DSM entry %s=%s\n", key, val);
-> > > > > +			acpi_handle_info(adev->handle, "%s: Using DSM entry %s=%s\n",
-> > > > > +					 dev_name(&adev->dev), key, val);
-> > > > 
-> > > > Maybe (maybe!) it's a candidate to have something like
-> > > > 
-> > > > v4l2_acpi_log_info(adev, ...) which combines both and unloads the code from
-> > > > thinking about it?
-> > > 
-> > > Or acpi_dev_info() that would take an acpi_device pointer.
-> > 
-> > (which is an equivalent to the below)
-> > 
-> > > Or just just dev_info(&adev->dev) ?
-> > 
-> > The point is to print ACPI handle *and* device name. There are no existing
-> > helpers for that.
-> 
-> Then a new acpi_dev_info(struct acpi_device *adev, ...) could do that.
-> It shouldn't be V4L2-specific in my opinion.
+On Thu, 6 Jul 2023 at 18:24, Christian K=C3=B6nig <christian.koenig@amd.com=
+> wrote:
+>
+> Am 06.07.23 um 14:37 schrieb Dan Carpenter:
+> > Smatch detected potential error pointer dereference.
+> >
+> >      drivers/gpu/drm/drm_syncobj.c:888 drm_syncobj_transfer_to_timeline=
+()
+> >      error: 'fence' dereferencing possible ERR_PTR()
+> >
+> > The error pointer comes from dma_fence_allocate_private_stub().  One
+> > caller expected error pointers and one expected NULL pointers.  Change
+> > it to return NULL and update the caller which expected error pointers,
+> > drm_syncobj_assign_null_handle(), to check for NULL instead.
+> >
+> > Fixes: f781f661e8c9 ("dma-buf: keep the signaling time of merged fences=
+ v3")
+> > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+>
+Thanks for catching this!
+> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+Reviewed-by: Sumit Semwal <sumit.semwal@linaro.org>
+>
+> Should I push that one to drm-misc-fixes?
+If you haven't pushed already, I can push it now.
+>
+> Regards,
+> Christian.
 
-I certainy have no objections for having a helper for this, but IMO the
-current code is fine, too.
+Best,
+Sumit.
+>
+> > ---
+> > v2: Fix it in dma_fence_allocate_private_stub() instead of
+> >     __dma_fence_unwrap_merge().
+> >
+> >
+> >   drivers/dma-buf/dma-fence.c   | 2 +-
+> >   drivers/gpu/drm/drm_syncobj.c | 4 ++--
+> >   2 files changed, 3 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> > index ad076f208760..8aa8f8cb7071 100644
+> > --- a/drivers/dma-buf/dma-fence.c
+> > +++ b/drivers/dma-buf/dma-fence.c
+> > @@ -160,7 +160,7 @@ struct dma_fence *dma_fence_allocate_private_stub(k=
+time_t timestamp)
+> >
+> >       fence =3D kzalloc(sizeof(*fence), GFP_KERNEL);
+> >       if (fence =3D=3D NULL)
+> > -             return ERR_PTR(-ENOMEM);
+> > +             return NULL;
+> >
+> >       dma_fence_init(fence,
+> >                      &dma_fence_stub_ops,
+> > diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncob=
+j.c
+> > index 04589a35eb09..e592c5da70ce 100644
+> > --- a/drivers/gpu/drm/drm_syncobj.c
+> > +++ b/drivers/gpu/drm/drm_syncobj.c
+> > @@ -355,8 +355,8 @@ static int drm_syncobj_assign_null_handle(struct dr=
+m_syncobj *syncobj)
+> >   {
+> >       struct dma_fence *fence =3D dma_fence_allocate_private_stub(ktime=
+_get());
+> >
+> > -     if (IS_ERR(fence))
+> > -             return PTR_ERR(fence);
+> > +     if (!fence)
+> > +             return -ENOMEM;
+> >
+> >       drm_syncobj_replace_fence(syncobj, fence);
+> >       dma_fence_put(fence);
+>
 
--- 
-Sakari Ailus
+
+--=20
+Thanks and regards,
+
+Sumit Semwal (he / him)
+Tech Lead - LCG, Vertical Technologies
+Linaro.org =E2=94=82 Open source software for ARM SoCs
