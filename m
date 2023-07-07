@@ -2,70 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B79874B4FF
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jul 2023 18:13:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C495374B51F
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jul 2023 18:31:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229904AbjGGQNr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Jul 2023 12:13:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48286 "EHLO
+        id S231316AbjGGQa6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Jul 2023 12:30:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229480AbjGGQNq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jul 2023 12:13:46 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2ACA1FD9
-        for <linux-media@vger.kernel.org>; Fri,  7 Jul 2023 09:13:44 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-992b2249d82so261789166b.1
-        for <linux-media@vger.kernel.org>; Fri, 07 Jul 2023 09:13:44 -0700 (PDT)
+        with ESMTP id S230516AbjGGQa4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jul 2023 12:30:56 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F528AA
+        for <linux-media@vger.kernel.org>; Fri,  7 Jul 2023 09:30:55 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-51e28cac164so5495600a12.1
+        for <linux-media@vger.kernel.org>; Fri, 07 Jul 2023 09:30:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688746423; x=1691338423;
+        d=gmail.com; s=20221208; t=1688747454; x=1691339454;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ywSqzI74cjHUE6KeQH1mU8Jcokh/l7Hn6rSfzQMd2ww=;
-        b=ADH2m4xehwtx31+2MZvm4dqWoTx1lDYpxdPq+YnrTnHiwXLmgvwli5mQYyQ6koEcWy
-         sR272ygEiP3zMJBeMxxRQpCN3rbPV50Et5Hy4mJxg1o9RgqJWH4w71hO9CKZ/zFiM/33
-         Hoeozw4jm0ap9OYREFYqCaUjII6pQxu4DJQnGjOwh6uMYN70XRseA1xg5K4a8n3NUjr0
-         VHd2oDKsdfTKhhYEIWDTROpMTCYEPXcRPzHIRJwoUSYEMfo3eziOgsy6EtgUEOMG4g1/
-         TV6o2vkNKn3d5zF+fgRr++Qz+ZspvSv1BmdwjcFrqz+ucejiiZXfJ5VYG3pxsn2Ppl3T
-         +KzQ==
+        bh=dqgukRfqrFrhrt1p1hUdzd1Rj1sugUmY3uUdgFTwZOY=;
+        b=etPCTjfls+4IfZLCht+lyZtnRqYY1ZPc8bQDSs2g8aEtBrTuMuM6gi+pA44H/bPh/F
+         fksz6HwUESJeqAvF6KUcN/0m6gaVh+f2n46Z0x6nqxUoEnjuKGDBUCtG1xE6Aqf1inPj
+         9c2X5fQwKMMMSCFavFS1B8N87d05vDGn100cBU7kZ2dzYjX6pHYGzOI4IV6xXQcNHE0p
+         YtDF1RlSjVTt+XSCdE5lSmUCHjhSVX+XP7sZg7vidvlmtWXqxnJK70KoAeYORT53gZws
+         jy/Mbp0iflX8NynFr2cN6C1ERnhRQr3W9rpxQuXeOTw74s4kor6Z8zG1v2WuPtH2s7Tg
+         PDOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688746423; x=1691338423;
+        d=1e100.net; s=20221208; t=1688747454; x=1691339454;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ywSqzI74cjHUE6KeQH1mU8Jcokh/l7Hn6rSfzQMd2ww=;
-        b=RMP5Ka1fv8B0uFJbn5uF+Fu7XPWo8IX7z9T+fPbLwcjmjL5kwvydvOAl8XYHLXdoKR
-         IuH9+yElbTq9w5EfV+mZ1kbyAFijYM0Whmx8PfLX/7B9/Zl4sR5hY93I9btyC5/xnfcV
-         U0sBbCmE41h3Z4kq93929gJg+n8xe4Nny6BNSXCUz7GJIBcp13G/DQb1f9n7dTg70I3a
-         ZTXbEVMx8Rk34na61zXNDez0BEJBJds7i7aMv4JjT2Q5DCUneDmE4yE5hdIOip628T9C
-         MA8TC6PXyN1GhMjsY8KT58p5yW36iS+w3am3fNsD+bnXc4y581K4skYrYJAzPgYbwGa1
-         7pJA==
-X-Gm-Message-State: ABy/qLbP6Wl6Jb5yRdDKhkv65ZaYzf0C1DcyISTRmkpl3L8d+u91baqp
-        OzuyL2eJvNwNw/g1f6hHhyDuu8nqzeHDcA==
-X-Google-Smtp-Source: APBJJlEgtmBORa9GT8x1nEFBNCtRPYuBJewN20a4kFifKYFDSNBGeD02k4wbqiNGn6bOqEkP82haLg==
-X-Received: by 2002:a17:906:8150:b0:992:aab0:533a with SMTP id z16-20020a170906815000b00992aab0533amr4277029ejw.67.1688746422909;
-        Fri, 07 Jul 2023 09:13:42 -0700 (PDT)
+        bh=dqgukRfqrFrhrt1p1hUdzd1Rj1sugUmY3uUdgFTwZOY=;
+        b=D3dfABYBYSGpBPk0CN9dBVxJul9MUy68Derm5ue7s6ggREr548iNrBymJ+Lj3MKbQA
+         NFX244VBXUtCynngEvqCxMaafR6h31WEEkdh7+axRpSp3gvOlhoDFY/EtkpRvuLDM+SR
+         I4AzRp1BwyGRP60ieeZBD3VklHhg1v//q1CeCnMSh1fgaB3ZZSyQ5elfI7Ckk0/nCnwW
+         i9dwyqBwA4CV6KGaNj1bKLs1TS3Nz28uPt9UWoezrywjJI2NR+38n4j0vgy+KPUZ/Gfw
+         2ERCzpS+xI8pWiKeca7LG4st5vDDJ00e+hk/ljMgGatgxK+WkD6txzxZ80GfXNYGWNRJ
+         u6+Q==
+X-Gm-Message-State: ABy/qLZ+dGF4v7MMR2nUGsyqPEryFMHXQl+RSeXb1nrs+VYWaL7PkEm9
+        bfKlj89OlBsjCtllMmseaJc=
+X-Google-Smtp-Source: APBJJlGup1Z/8iiJKNAivMYYr4qYhIPzez7pgXt6+fQsjEIjjHBIvsAwSKY71jneKLo2lPgUTTfVSw==
+X-Received: by 2002:a17:906:530b:b0:973:84b0:b077 with SMTP id h11-20020a170906530b00b0097384b0b077mr5466832ejo.33.1688747453619;
+        Fri, 07 Jul 2023 09:30:53 -0700 (PDT)
 Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-59-106.cust.vodafonedsl.it. [188.217.59.106])
-        by smtp.gmail.com with ESMTPSA id dc15-20020a170906c7cf00b00992e51fecfbsm2374306ejb.64.2023.07.07.09.13.42
+        by smtp.gmail.com with ESMTPSA id o26-20020a17090608da00b00992f1a3b9bfsm2390485eje.170.2023.07.07.09.30.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jul 2023 09:13:42 -0700 (PDT)
-Date:   Fri, 7 Jul 2023 18:13:40 +0200
+        Fri, 07 Jul 2023 09:30:53 -0700 (PDT)
+Date:   Fri, 7 Jul 2023 18:30:51 +0200
 From:   Tommaso Merciai <tomm.merciai@gmail.com>
 To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+Cc:     linux-media@vger.kernel.org,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
         Sakari Ailus <sakari.ailus@iki.fi>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 2/2] Documentation: v4l: Exposure/gain for camera sensor
-Message-ID: <ZKg5tJDz+y/LKZVN@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-References: <20230703202910.31142-1-jacopo.mondi@ideasonboard.com>
- <20230703202910.31142-3-jacopo.mondi@ideasonboard.com>
- <ZKQj78i94MecEfDe@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <ni2n6flcaxap64dff7hdwmhzfdbbyklxx376xx44wforssu3jm@4yv4xj4caohr>
- <ZKQs8WWKfIGx9znI@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <7iefffm7r5pn4dwjgyxq5cz265wsvgawtnj55i3kq3gkvzb6co@vfcmdidj646w>
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
+        Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+Subject: Re: [PATCH 1/5] media: i2c: imx219: Rename mbus codes array
+Message-ID: <ZKg9u04hvr+3qTia@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20230704103611.149631-1-jacopo.mondi@ideasonboard.com>
+ <20230704104057.149837-1-jacopo.mondi@ideasonboard.com>
+ <20230704104057.149837-2-jacopo.mondi@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7iefffm7r5pn4dwjgyxq5cz265wsvgawtnj55i3kq3gkvzb6co@vfcmdidj646w>
+In-Reply-To: <20230704104057.149837-2-jacopo.mondi@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -78,120 +80,103 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Jacopo,
 
-On Tue, Jul 04, 2023 at 05:00:24PM +0200, Jacopo Mondi wrote:
-> Hi Tommaso
+On Tue, Jul 04, 2023 at 12:40:53PM +0200, Jacopo Mondi wrote:
+> From: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
 > 
-> On Tue, Jul 04, 2023 at 04:30:09PM +0200, Tommaso Merciai wrote:
-> > Hi Jacopo,
-> >
-> > On Tue, Jul 04, 2023 at 04:05:44PM +0200, Jacopo Mondi wrote:
-> > > Hi Tommaso
-> > >
-> > > On Tue, Jul 04, 2023 at 03:51:43PM +0200, Tommaso Merciai wrote:
-> > > > Hi Jacopo,
-> > > >
-> > > > On Mon, Jul 03, 2023 at 10:29:10PM +0200, Jacopo Mondi wrote:
-> > > > > Document the suggested way to exposure controls for exposure and gain
-> > > > > for camera sensor drivers.
-> > > > >
-> > > > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > > > > ---
-> > > > >  .../driver-api/media/camera-sensor.rst        | 19 +++++++++++++++++++
-> > > > >  1 file changed, 19 insertions(+)
-> > > > >
-> > > > > diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
-> > > > > index ee4a7fe5f72a..dfe8f35aecea 100644
-> > > > > --- a/Documentation/driver-api/media/camera-sensor.rst
-> > > > > +++ b/Documentation/driver-api/media/camera-sensor.rst
-> > > > > @@ -189,3 +189,22 @@ the ``V4L2_CID_VFLIP`` and ``V4L2_CID_HFLIP`` controls with the
-> > > > >  a flip can potentially change the output buffer content layout. Flips should
-> > > > >  also be taken into account when enumerating and handling media bus formats
-> > > > >  on the camera sensor source pads.
-> > > > > +
-> > > > > +Exposure and Gain Control
-> > > > > +-------------------------
-> > > > > +
-> > > > > +Camera sensor drivers that allows applications to control the image exposure
-> > > > > +and gain should do so by exposing dedicated controls to applications.
-> > > > > +
-> > > > > +Exposure time is controlled by registering the ``V4L2_CID_EXPOSURE`` control.
-> > > > > +The control definition does not specify a unit to allow maximum flexibility
-> > > > > +for multiple device types, but when used for camera sensor driver it should be
-> > > >
-> > > > > +expressed in unit of lines whenever possible.
-> > > >
-> > > > Same comment here.
-> > >
-> > > I might have missed what other comment you are referring to :)
-> >
-> > Sorry, I'm referring to your comment:
-> >
-> > "I think this might be useful yes. A few paragraph above the frame
-> > duration calculation formula is expressed as well, so I guess adding
-> > one for this is helpful too"
-> >
-> 
-> Ah ok, see v2 for that
-> 
-> > >
-> > > >
-> > > > Can you add formula/references about this point I think you are referring on "tline" units (maybe I'm completely wrong :) ),
-> > >
-> > > Is "tline" the line duration ? If that's the case then no, I am
-> > > referring to the number of lines, not their duration.
-> >
-> > Ok. Thanks, need to find some docs regarding this units :'(
-> > For this I think having some good reference/formula here would help users to find the
-> > corrispective value into the sensor datasheet.
-> >
-> 
+> The imx219 is using the name codes[] for the mbus format which is not
+> easy to read and know what it means. Change it to imx219_mbus_formats.
 
-> I'm still not sure if you're talking about the formula to convert from
-> a time duration to the number of lines as Dave suggested (which I
-> added in v2) 
+What about:
 
-This one. I checked v2 thanks for the clarification!
+The imx219 is using the name "codes" for the mbus formats array.
+This is not easy to read and know what it means. Change it to
+"imx219_mbus_formats"
+
+> 
+> Signed-off-by: Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> ---
+>  drivers/media/i2c/imx219.c | 22 +++++++++++-----------
+>  1 file changed, 11 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index f9471c9e3a74..998a673a4290 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -345,7 +345,7 @@ static const char * const imx219_supply_name[] = {
+>   * - v flip
+>   * - h&v flips
+>   */
+> -static const u32 codes[] = {
+> +static const u32 imx219_mbus_formats[] = {
+>  	MEDIA_BUS_FMT_SRGGB10_1X10,
+>  	MEDIA_BUS_FMT_SGRBG10_1X10,
+>  	MEDIA_BUS_FMT_SGBRG10_1X10,
+> @@ -578,17 +578,17 @@ static u32 imx219_get_format_code(struct imx219 *imx219, u32 code)
+>  
+>  	lockdep_assert_held(&imx219->mutex);
+>  
+> -	for (i = 0; i < ARRAY_SIZE(codes); i++)
+> -		if (codes[i] == code)
+> +	for (i = 0; i < ARRAY_SIZE(imx219_mbus_formats); i++)
+> +		if (imx219_mbus_formats[i] == code)
+>  			break;
+>  
+> -	if (i >= ARRAY_SIZE(codes))
+> +	if (i >= ARRAY_SIZE(imx219_mbus_formats))
+>  		i = 0;
+>  
+>  	i = (i & ~3) | (imx219->vflip->val ? 2 : 0) |
+>  	    (imx219->hflip->val ? 1 : 0);
+>  
+> -	return codes[i];
+> +	return imx219_mbus_formats[i];
+>  }
+>  
+>  static void imx219_set_default_format(struct imx219 *imx219)
+> @@ -731,11 +731,11 @@ static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
+>  {
+>  	struct imx219 *imx219 = to_imx219(sd);
+>  
+> -	if (code->index >= (ARRAY_SIZE(codes) / 4))
+> +	if (code->index >= (ARRAY_SIZE(imx219_mbus_formats) / 4))
+>  		return -EINVAL;
+>  
+>  	mutex_lock(&imx219->mutex);
+> -	code->code = imx219_get_format_code(imx219, codes[code->index * 4]);
+> +	code->code = imx219_get_format_code(imx219, imx219_mbus_formats[code->index * 4]);
+>  	mutex_unlock(&imx219->mutex);
+>  
+>  	return 0;
+> @@ -831,14 +831,14 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>  
+>  	mutex_lock(&imx219->mutex);
+>  
+> -	for (i = 0; i < ARRAY_SIZE(codes); i++)
+> -		if (codes[i] == fmt->format.code)
+> +	for (i = 0; i < ARRAY_SIZE(imx219_mbus_formats); i++)
+> +		if (imx219_mbus_formats[i] == fmt->format.code)
+>  			break;
+> -	if (i >= ARRAY_SIZE(codes))
+> +	if (i >= ARRAY_SIZE(imx219_mbus_formats))
+>  		i = 0;
+>  
+>  	/* Bayer order varies with flips */
+> -	fmt->format.code = imx219_get_format_code(imx219, codes[i]);
+> +	fmt->format.code = imx219_get_format_code(imx219, imx219_mbus_formats[i]);
+>  
+>  	mode = v4l2_find_nearest_size(supported_modes,
+>  				      ARRAY_SIZE(supported_modes),
+> -- 
+> 2.40.1
+
+Make sense for use "imx219_mbus_formats" instead of generic name "codes".
+Looks good to me. Thanks for the patch.
+
+Reviewed-by: Tommaso Merciai <tomm.merciai@gmail.com>
 
 Regards,
 Tommaso
 
-
-> or a formula to convert from the number of lines provided
-> by userspace as the value of the V4L2_CID_EXPOSURE control to the
-> actual value to be set in the sensor's registers that control the
-> exposure time. If you're referring to the latter I'm afraid this is
-> device specific and putting any example here might actually be
-> mis-leading. As far as I can tell the sensors I had dealt with,
-> internally represents the exposure control in number of lines or
-> fractions of lines. Doing the conversion in the driver is usually
-> trivial (I'm sure there are devices where this is less trivial of
-> course).
 > 
-> Did I get your question right or am I still missing something ?
-> 
-> > I just proved this to you :)
-> >
-> > Regards,
-> > Tommaso
-> >
-> > >
-> > > > but to be honest checking also the some sensors datasheet I don't find to much infos about this units.
-> > > > Would be really helpfull to add some details on this point.
-> > > >
-> > > > > +
-> > > > > +Camera sensor driver should try whenever possible to distinguish between the
-> > > > > +analogue and digital gain control functions. Analogue gain is a multiplier
-> > > > > +factor applied to all color channels on the pixel array before they get
-> > > > > +converted in the digital domain. It should be be made controllable by
-> > > > > +registering the ``V4L2_CID_ANALOGUE_GAIN`` control, expressed as a device
-> > > > > +specific gain code. Digital gain control is optional and should be exposed to
-> > > > > +applications by registering ``V4L2_CID_DIGITAL_GAIN``. Camera sensor drivers are
-> > > > > --
-> > > >
-> > > > This part looks good to me.
-> > > >
-> > > > Thanks,
-> > > > Tommaso
-> > > >
-> > > > > 2.40.1
-> > > > >
