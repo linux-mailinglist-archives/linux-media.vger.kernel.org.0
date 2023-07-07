@@ -2,183 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 46A4E74B439
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jul 2023 17:27:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9076374B46E
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jul 2023 17:37:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230206AbjGGP1g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Jul 2023 11:27:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58938 "EHLO
+        id S230429AbjGGPhG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Jul 2023 11:37:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233146AbjGGP1c (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jul 2023 11:27:32 -0400
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94BA62695;
-        Fri,  7 Jul 2023 08:27:30 -0700 (PDT)
-Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-3464c774f23so1059095ab.1;
-        Fri, 07 Jul 2023 08:27:30 -0700 (PDT)
+        with ESMTP id S229665AbjGGPhE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jul 2023 11:37:04 -0400
+Received: from mail-pf1-f208.google.com (mail-pf1-f208.google.com [209.85.210.208])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9138B2
+        for <linux-media@vger.kernel.org>; Fri,  7 Jul 2023 08:36:59 -0700 (PDT)
+Received: by mail-pf1-f208.google.com with SMTP id d2e1a72fcca58-66870a96b89so2546372b3a.3
+        for <linux-media@vger.kernel.org>; Fri, 07 Jul 2023 08:36:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688743649; x=1691335649;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iSMX3fbwS3ZdQ14KbIA9PVvNgGYdtwwGwe8Mi8kgYeU=;
-        b=EYdHMusEeHXVsH+mdtqPRDbZm3oh153aO23Ej6SfCO0Qz+ww8sbLAOX5CBPwylFWrR
-         RT22WT+jxy+xBM5avAhrSFmgGThZ717vhOT55JHPKwbMb3MQdfBPHoc6tlOAuobnwGP8
-         azql/ZOSIR9Fj/3wMufgQJWpVU8K6LMLutcj4t2VxN9pEKQhmhCe5BpYofmGeC8w7S7F
-         GYMlpL9OYV1xAkLoo/O5s6XuHjB/I1SK10S+jU1Q4CvyrMzPPfe8AqvHvI/ivyo4tf61
-         rRm3oI3SwuUD9DYBAXXwP5Dv/4GpcHygWPfR3+3ok3u6hskNHOTqPpv2Tt/oHGYDOrbH
-         O+6g==
-X-Gm-Message-State: ABy/qLYyUursuKJvkS/IrwuVaXOjsI1dBsI3MSWKLF10sCV2aev6bkw4
-        xIrOdysTCe67y++X8b8IGQ==
-X-Google-Smtp-Source: APBJJlGQb/+NSo1YY2XQiOfry0niDhsIK8kPOwBt3oTrgIhTVOV41ugAIwkpb1OfmPqwJ646BYkBgA==
-X-Received: by 2002:a92:c70f:0:b0:345:c11e:d1ad with SMTP id a15-20020a92c70f000000b00345c11ed1admr5255201ilp.26.1688743649601;
-        Fri, 07 Jul 2023 08:27:29 -0700 (PDT)
-Received: from robh_at_kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id ee17-20020a056638293100b0042b37080b23sm1279795jab.73.2023.07.07.08.27.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jul 2023 08:27:28 -0700 (PDT)
-Received: (nullmailer pid 334293 invoked by uid 1000);
-        Fri, 07 Jul 2023 15:27:24 -0000
-Date:   Fri, 7 Jul 2023 09:27:24 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Oleksii Moisieiev <Oleksii_Moisieiev@epam.com>
-Cc:     Gatien Chevallier <gatien.chevallier@foss.st.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "herbert@gondor.apana.org.au" <herbert@gondor.apana.org.au>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
-        "vkoul@kernel.org" <vkoul@kernel.org>,
-        "jic23@kernel.org" <jic23@kernel.org>,
-        "olivier.moysan@foss.st.com" <olivier.moysan@foss.st.com>,
-        "arnaud.pouliquen@foss.st.com" <arnaud.pouliquen@foss.st.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "fabrice.gasnier@foss.st.com" <fabrice.gasnier@foss.st.com>,
-        "andi.shyti@kernel.org" <andi.shyti@kernel.org>,
-        "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "hugues.fruchet@foss.st.com" <hugues.fruchet@foss.st.com>,
-        "lee@kernel.org" <lee@kernel.org>,
-        "will@kernel.org" <will@kernel.org>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "arnd@kernel.org" <arnd@kernel.org>,
-        "richardcochran@gmail.com" <richardcochran@gmail.com>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
-        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
-        "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH 04/10] dt-bindings: treewide: add feature-domains
- description in binding files
-Message-ID: <20230707152724.GA329615-robh@kernel.org>
-References: <20230705172759.1610753-1-gatien.chevallier@foss.st.com>
- <20230705172759.1610753-5-gatien.chevallier@foss.st.com>
- <875y6vzuga.fsf@epam.com>
+        d=1e100.net; s=20221208; t=1688744219; x=1691336219;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WMSWFp8IqdtzjWGGpav6HqhyMzA5tdJU+4Q1rqmerQs=;
+        b=k8SEt3bYTDRTeU7YHBqlrJuu4Dp9BU2jnBzSEtwOJK54JQRREo1CLYxYeTHFQyf+p0
+         y4RDw2E/6mbMyOIlw/Wbt1N88HYxDfAJnwFyQOgEE6okhGhDpqGz8lwT1sVXDan+YTY3
+         1ib2PnU80ZYzJUd57yT580TXSalzD0PvdiyJJeIAEJmga+LvrBRPDOnsjU6alS2lMM6s
+         ajFNt47QEqVc1MWC4g1XODumEQ14Vjqh7teWK8FO1G7l0z3xjw3xH98eXpA2DfTOEirU
+         +buV3DPcLzXcaZuc+j2dg00/z5bauo1Gfw2Hl7rfelYu1wtrgpGOyGvQOcnO9lmPIkO8
+         JRsA==
+X-Gm-Message-State: ABy/qLaPy33wJhaOPzXse/0FDEp7ZkbPsrozxFYhYcyLLgwgVvGjudEd
+        KjpzGgpG40qFcQI3gYkVPrqC2n2xdWS113XiCainjyEG3+g5
+X-Google-Smtp-Source: APBJJlFDGMhIUSGN7txEvyL05VyRA+rXUexFGCmLSay5OiA5H71zqlUvE6PBri+pKGRgAyPTXv1Ao8OKaLLd1976xL/F3aDXXtmc
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <875y6vzuga.fsf@epam.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Received: by 2002:a05:6a00:3902:b0:67d:41a8:3e19 with SMTP id
+ fh2-20020a056a00390200b0067d41a83e19mr7579784pfb.3.1688744219328; Fri, 07 Jul
+ 2023 08:36:59 -0700 (PDT)
+Date:   Fri, 07 Jul 2023 08:36:59 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000004f463f05ffe76731@google.com>
+Subject: [syzbot] [media?] [usb?] WARNING in smsusb_start_streaming
+From:   syzbot <syzbot+a7c205f9c1168e2f1dcc@syzkaller.appspotmail.com>
+To:     duoming@zju.edu.cn, hverkuil-cisco@xs4all.nl,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, mchehab@kernel.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jul 07, 2023 at 02:07:18PM +0000, Oleksii Moisieiev wrote:
-> 
-> Gatien Chevallier <gatien.chevallier@foss.st.com> writes:
-> 
-> > feature-domains is an optional property that allows a peripheral to
-> > refer to one or more feature domain controller(s).
-> >
-> > Description of this property is added to all peripheral binding files of
-> > the peripheral under the STM32 firewall controllers. It allows an accurate
-> > representation of the hardware, where various peripherals are connected
-> > to this firewall bus. The firewall can then check the peripheral accesses
-> > before allowing it to probe.
-> >
-> > Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
-> > ---
-> >
-> > Disclaimer: Some error with dtbs_check will be observed as I've
-> > considered the property to be generic, as Rob asked
-> >
-> >  Documentation/devicetree/bindings/crypto/st,stm32-hash.yaml  | 4 ++++
-> >  Documentation/devicetree/bindings/dma/st,stm32-dma.yaml      | 4 ++++
-> >  Documentation/devicetree/bindings/dma/st,stm32-dmamux.yaml   | 4 ++++
-> >  Documentation/devicetree/bindings/i2c/st,stm32-i2c.yaml      | 4 ++++
-> >  Documentation/devicetree/bindings/iio/adc/st,stm32-adc.yaml  | 4 ++++
-> >  .../devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml      | 4 ++++
-> >  Documentation/devicetree/bindings/iio/dac/st,stm32-dac.yaml  | 4 ++++
-> >  .../devicetree/bindings/media/cec/st,stm32-cec.yaml          | 4 ++++
-> >  Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml   | 4 ++++
-> >  .../bindings/memory-controllers/st,stm32-fmc2-ebi.yaml       | 4 ++++
-> >  Documentation/devicetree/bindings/mfd/st,stm32-lptimer.yaml  | 4 ++++
-> >  Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml   | 5 +++++
-> >  Documentation/devicetree/bindings/mmc/arm,pl18x.yaml         | 4 ++++
-> >  Documentation/devicetree/bindings/net/stm32-dwmac.yaml       | 4 ++++
-> >  Documentation/devicetree/bindings/phy/phy-stm32-usbphyc.yaml | 4 ++++
-> >  .../devicetree/bindings/regulator/st,stm32-vrefbuf.yaml      | 4 ++++
-> >  Documentation/devicetree/bindings/rng/st,stm32-rng.yaml      | 4 ++++
-> >  Documentation/devicetree/bindings/serial/st,stm32-uart.yaml  | 4 ++++
-> >  Documentation/devicetree/bindings/sound/st,stm32-i2s.yaml    | 4 ++++
-> >  Documentation/devicetree/bindings/sound/st,stm32-sai.yaml    | 4 ++++
-> >  .../devicetree/bindings/sound/st,stm32-spdifrx.yaml          | 4 ++++
-> >  Documentation/devicetree/bindings/spi/st,stm32-qspi.yaml     | 4 ++++
-> >  Documentation/devicetree/bindings/spi/st,stm32-spi.yaml      | 4 ++++
-> >  Documentation/devicetree/bindings/usb/dwc2.yaml              | 4 ++++
-> >  24 files changed, 97 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/crypto/st,stm32-hash.yaml b/Documentation/devicetree/bindings/crypto/st,stm32-hash.yaml
-> > index b767ec72a999..daf8dcaef627 100644
-> > --- a/Documentation/devicetree/bindings/crypto/st,stm32-hash.yaml
-> > +++ b/Documentation/devicetree/bindings/crypto/st,stm32-hash.yaml
-> > @@ -50,6 +50,10 @@ properties:
-> >    power-domains:
-> >      maxItems: 1
-> >  
-> > +  feature-domains:
-> > +    minItems: 1
-> > +    maxItems: 3
-> > +
-> 
-> I beliewe feature-domains is generic binding. This means that maxItems
-> can be implementation dependend. I would rather drop maxItems so the
-> following format will be possible:
-> 
->           feature-domains = <&etzpc 1>, <&etzpc 2>, <&some_other_domain 1 2 3 4>
->           feature-domain-names = "firewall 1", "firewall 2", "other_domain"
+Hello,
 
-The above already allows this (not -names, but the number of entries).
-> 
-> Also I beliewe driver will handle feature-domain-names property so it
-> will parse feature-domains only related to the firewall.
+syzbot found the following issue on:
 
-Now I'm curious. What's an example that's not a firewall?
+HEAD commit:    d528014517f2 Revert ".gitignore: ignore *.cover and *.mbx"
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=10953308a80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=d576750da57ebbb5
+dashboard link: https://syzkaller.appspot.com/bug?extid=a7c205f9c1168e2f1dcc
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17dd0d94a80000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15ea4fa0a80000
 
-(Note I'm still not happy with the naming of 'feature' as anything is a 
-feature, but that's the least of the issues really.)
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/25611d498c84/disk-d5280145.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/6cd9d0d55a7a/vmlinux-d5280145.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/f0627705b54b/bzImage-d5280145.xz
 
-Rob
+The issue was bisected to:
+
+commit ebad8e731c1c06adf04621d6fd327b860c0861b5
+Author: Duoming Zhou <duoming@zju.edu.cn>
+Date:   Mon Jan 23 02:04:38 2023 +0000
+
+    media: usb: siano: Fix use after free bugs caused by do_submit_urb
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=172533e8a80000
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=14a533e8a80000
+console output: https://syzkaller.appspot.com/x/log.txt?x=10a533e8a80000
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+a7c205f9c1168e2f1dcc@syzkaller.appspotmail.com
+Fixes: ebad8e731c1c ("media: usb: siano: Fix use after free bugs caused by do_submit_urb")
+
+smsusb:smsusb_probe: board id=7, interface number 55
+smsusb:smsusb_probe: board id=7, interface number 147
+smsusb:smsusb_probe: board id=7, interface number 0
+smsusb:siano_media_device_register: media controller created
+smsusb:smsusb_start_streaming: smsusb_submit_urb(...) failed
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 917 at kernel/workqueue.c:3379 __flush_work+0x946/0xb60 kernel/workqueue.c:3379
+Modules linked in:
+CPU: 0 PID: 917 Comm: kworker/0:2 Not tainted 6.4.0-syzkaller-11478-gd528014517f2 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/27/2023
+Workqueue: usb_hub_wq hub_event
+RIP: 0010:__flush_work+0x946/0xb60 kernel/workqueue.c:3379
+Code: 00 48 c7 c6 2b 36 54 81 48 c7 c7 00 27 9a 8c e8 c0 09 12 00 e9 6f fc ff ff e8 16 a9 30 00 0f 0b e9 63 fc ff ff e8 0a a9 30 00 <0f> 0b 45 31 ed e9 54 fc ff ff e8 6b d8 83 00 e9 3e fb ff ff e8 f1
+RSP: 0018:ffffc900050aebf0 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: ffff888071a480e8 RCX: 0000000000000000
+RDX: ffff88801fc05940 RSI: ffffffff81543666 RDI: 0000000000000001
+RBP: ffffc900050aed88 R08: 0000000000000001 R09: 0000000000000000
+R10: 0000000000000001 R11: 1ffffffff21ed137 R12: ffff888071a480e8
+R13: 0000000000000001 R14: 0000000000000001 R15: ffff888071a48100
+FS:  0000000000000000(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000564a82410ac8 CR3: 000000002c52c000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ __cancel_work_timer+0x3f9/0x570 kernel/workqueue.c:3473
+ smsusb_stop_streaming drivers/media/usb/siano/smsusb.c:182 [inline]
+ smsusb_start_streaming+0x33c/0x650 drivers/media/usb/siano/smsusb.c:199
+ smsusb_init_device+0x7f7/0xd20 drivers/media/usb/siano/smsusb.c:476
+ smsusb_probe+0x5b9/0x10b0 drivers/media/usb/siano/smsusb.c:567
+ usb_probe_interface+0x30f/0x960 drivers/usb/core/driver.c:396
+ call_driver_probe drivers/base/dd.c:579 [inline]
+ really_probe+0x240/0xca0 drivers/base/dd.c:658
+ __driver_probe_device+0x1df/0x4b0 drivers/base/dd.c:798
+ driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:828
+ __device_attach_driver+0x1d4/0x2e0 drivers/base/dd.c:956
+ bus_for_each_drv+0x149/0x1d0 drivers/base/bus.c:457
+ __device_attach+0x1e4/0x4b0 drivers/base/dd.c:1028
+ bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
+ device_add+0x112d/0x1a40 drivers/base/core.c:3625
+ usb_set_configuration+0x1196/0x1bc0 drivers/usb/core/message.c:2211
+ usb_generic_driver_probe+0xcf/0x130 drivers/usb/core/generic.c:238
+ usb_probe_device+0xd8/0x2c0 drivers/usb/core/driver.c:293
+ call_driver_probe drivers/base/dd.c:579 [inline]
+ really_probe+0x240/0xca0 drivers/base/dd.c:658
+ __driver_probe_device+0x1df/0x4b0 drivers/base/dd.c:798
+ driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:828
+ __device_attach_driver+0x1d4/0x2e0 drivers/base/dd.c:956
+ bus_for_each_drv+0x149/0x1d0 drivers/base/bus.c:457
+ __device_attach+0x1e4/0x4b0 drivers/base/dd.c:1028
+ bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
+ device_add+0x112d/0x1a40 drivers/base/core.c:3625
+ usb_new_device+0xcb2/0x19d0 drivers/usb/core/hub.c:2590
+ hub_port_connect drivers/usb/core/hub.c:5422 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5566 [inline]
+ port_event drivers/usb/core/hub.c:5726 [inline]
+ hub_event+0x2d9e/0x4e40 drivers/usb/core/hub.c:5808
+ process_one_work+0xa34/0x16f0 kernel/workqueue.c:2597
+ worker_thread+0x67d/0x10c0 kernel/workqueue.c:2748
+ kthread+0x344/0x440 kernel/kthread.c:389
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:308
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+
+If the bug is already fixed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to change bug's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the bug is a duplicate of another bug, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
