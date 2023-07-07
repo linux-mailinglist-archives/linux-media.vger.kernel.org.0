@@ -2,105 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D35974B7E2
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jul 2023 22:33:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9194974B876
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jul 2023 23:06:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231745AbjGGUdX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Jul 2023 16:33:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49174 "EHLO
+        id S232518AbjGGVGu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Jul 2023 17:06:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229571AbjGGUdV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jul 2023 16:33:21 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67B1B1986;
-        Fri,  7 Jul 2023 13:33:20 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 05BCF61A71;
-        Fri,  7 Jul 2023 20:33:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B4ABC433C8;
-        Fri,  7 Jul 2023 20:33:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1688761999;
-        bh=6QgMyrqXqeI6SEHa107HdWgEq35vmLXVAeALwcT+lDs=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Gx9KJf9fL/mmok1L7S1JEw98F7rQhqcE0z1w8BHJD17srLItsZuymDl+Vh6LuOMqc
-         4alUEBZ5opvgHkrhgxf7bnhwEXvTA+lJ+2wjTvLnBj5RIOrUBEqvzoLMwkvr5kKOo5
-         yISOGrruanfS4vCw4yBo4KjJkpCqE5P53NTnagcHPGIOblr6h6cNsX8ys6OcsyQ0H4
-         qrXgMrqCQhWJISUHikJ+H6A9Rt5IkKe3q5S7a3IgZXRpoKmUEEfF3davdWD0SEJOLF
-         x6HLSMnKxFc6bNn9fzW5yjsdHLXCNjC5gVSA2oPohD58IIKPy37fpI2og6S7rvH4ES
-         9S5gMKOibrioQ==
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2b703a0453fso37141861fa.3;
-        Fri, 07 Jul 2023 13:33:19 -0700 (PDT)
-X-Gm-Message-State: ABy/qLZo43p2l+JUdXdAHHLr7x5By9lULZ0gvScQBahF8NzkZ7iGjFNj
-        nBPFbytml/9kUDxgrPNEkwvjdPZ6fJwFGxB1DQ==
-X-Google-Smtp-Source: APBJJlG4YuPBi7t5aJDihdeDntOW9LxmDKsR0D/L3YobFTVh86nYL2PgWf1QDLA9jOV+N7/XaSZs5aykFPftRmtwQjM=
-X-Received: by 2002:a2e:8706:0:b0:2b2:104d:8f89 with SMTP id
- m6-20020a2e8706000000b002b2104d8f89mr5474388lji.0.1688761997303; Fri, 07 Jul
- 2023 13:33:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230705172759.1610753-1-gatien.chevallier@foss.st.com>
- <20230705172759.1610753-5-gatien.chevallier@foss.st.com> <875y6vzuga.fsf@epam.com>
- <20230707152724.GA329615-robh@kernel.org> <87sf9zya79.fsf@epam.com>
-In-Reply-To: <87sf9zya79.fsf@epam.com>
+        with ESMTP id S230134AbjGGVGt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jul 2023 17:06:49 -0400
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2142B1BE8;
+        Fri,  7 Jul 2023 14:06:48 -0700 (PDT)
+Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-78372b895d6so89488939f.2;
+        Fri, 07 Jul 2023 14:06:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688764007; x=1691356007;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LsmkCXtt1/Ie/i62Qx5OYBjxzfr/7TqmjkdxzkTOMHo=;
+        b=aDR2wnuE/5Y8TY4PyXsJKvKpsz7iRQ/su69mK78AdIjHj8DsirM+nzC5Dz5M+Mt5dD
+         zTs7Z7eh3OXqWTnloQe+v9rUEo3DKDfBJwnOvP0X6O5+S2c1go3o4RfA3NQLboAlrTq1
+         8csWit66TmhkqPdnmfQc//V5dOIp/QQOT2Z5YEDb826EkFt/Ha70K5JtC1wh03QK41zA
+         G1AVTADSjQznwQL5xNRmn+2UfdNeWxGJf9NiAlYSn4fItd4/DHOuDVUOMF779UFki627
+         c0jUUoUtejKU2+kmgLNFEpDj55HxjewCsaukgMEk2lZPvOagBKWvLMnI7nVkyHFx3WHS
+         9dxA==
+X-Gm-Message-State: ABy/qLa0Uzy/Q7f7RN4kP54dWLgH4sB2ml1iBE37z1oKFPKUH0nwPfhG
+        lkOq754UUdre89Bl7ezjrPLrveWXRw==
+X-Google-Smtp-Source: APBJJlF0NqZyk+kOePWf4tPR6zQ0SW1fzsw7bbKDzg0TH94gwND+UbwC0Sq8WxQiy3PuHChGbqYNMg==
+X-Received: by 2002:a5e:c005:0:b0:785:5917:a35f with SMTP id u5-20020a5ec005000000b007855917a35fmr6819221iol.8.1688764007306;
+        Fri, 07 Jul 2023 14:06:47 -0700 (PDT)
+Received: from robh_at_kernel.org ([64.188.179.250])
+        by smtp.gmail.com with ESMTPSA id l12-20020a02ccec000000b0042b05586c52sm1538288jaq.25.2023.07.07.14.06.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Jul 2023 14:06:46 -0700 (PDT)
+Received: (nullmailer pid 868731 invoked by uid 1000);
+        Fri, 07 Jul 2023 21:06:44 -0000
 From:   Rob Herring <robh@kernel.org>
-Date:   Fri, 7 Jul 2023 14:33:04 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJkkT4SZcHj-RLPpDpX+t3Oe6RHyjeBNh4arWbMx-J0Og@mail.gmail.com>
-Message-ID: <CAL_JsqJkkT4SZcHj-RLPpDpX+t3Oe6RHyjeBNh4arWbMx-J0Og@mail.gmail.com>
-Subject: Re: [PATCH 04/10] dt-bindings: treewide: add feature-domains
- description in binding files
-To:     Oleksii Moisieiev <Oleksii_Moisieiev@epam.com>,
-        Peng Fan <peng.fan@nxp.com>
-Cc:     Gatien Chevallier <gatien.chevallier@foss.st.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "herbert@gondor.apana.org.au" <herbert@gondor.apana.org.au>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
-        "vkoul@kernel.org" <vkoul@kernel.org>,
-        "jic23@kernel.org" <jic23@kernel.org>,
-        "olivier.moysan@foss.st.com" <olivier.moysan@foss.st.com>,
-        "arnaud.pouliquen@foss.st.com" <arnaud.pouliquen@foss.st.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "fabrice.gasnier@foss.st.com" <fabrice.gasnier@foss.st.com>,
-        "andi.shyti@kernel.org" <andi.shyti@kernel.org>,
-        "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "hugues.fruchet@foss.st.com" <hugues.fruchet@foss.st.com>,
-        "lee@kernel.org" <lee@kernel.org>,
-        "will@kernel.org" <will@kernel.org>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "arnd@kernel.org" <arnd@kernel.org>,
-        "richardcochran@gmail.com" <richardcochran@gmail.com>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
-        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
-        "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Dafna Hirschfeld <dafna@fastmail.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
+        Helen Koike <helen.koike@collabora.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] media: dt-bindings: Merge OV5695 into OV5693 binding
+Date:   Fri,  7 Jul 2023 15:06:04 -0600
+Message-Id: <20230707210604.868002-1-robh@kernel.org>
+X-Mailer: git-send-email 2.40.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -108,149 +68,144 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jul 7, 2023 at 10:10=E2=80=AFAM Oleksii Moisieiev
-<Oleksii_Moisieiev@epam.com> wrote:
->
->
-> Hi Rob,
->
-> Rob Herring <robh@kernel.org> writes:
->
-> > On Fri, Jul 07, 2023 at 02:07:18PM +0000, Oleksii Moisieiev wrote:
-> >>
-> >> Gatien Chevallier <gatien.chevallier@foss.st.com> writes:
-> >>
-> >> > feature-domains is an optional property that allows a peripheral to
-> >> > refer to one or more feature domain controller(s).
-> >> >
-> >> > Description of this property is added to all peripheral binding file=
-s of
-> >> > the peripheral under the STM32 firewall controllers. It allows an ac=
-curate
-> >> > representation of the hardware, where various peripherals are connec=
-ted
-> >> > to this firewall bus. The firewall can then check the peripheral acc=
-esses
-> >> > before allowing it to probe.
-> >> >
-> >> > Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
-> >> > ---
-> >> >
-> >> > Disclaimer: Some error with dtbs_check will be observed as I've
-> >> > considered the property to be generic, as Rob asked
-> >> >
-> >> >  Documentation/devicetree/bindings/crypto/st,stm32-hash.yaml  | 4 ++=
-++
-> >> >  Documentation/devicetree/bindings/dma/st,stm32-dma.yaml      | 4 ++=
-++
-> >> >  Documentation/devicetree/bindings/dma/st,stm32-dmamux.yaml   | 4 ++=
-++
-> >> >  Documentation/devicetree/bindings/i2c/st,stm32-i2c.yaml      | 4 ++=
-++
-> >> >  Documentation/devicetree/bindings/iio/adc/st,stm32-adc.yaml  | 4 ++=
-++
-> >> >  .../devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml      | 4 ++=
-++
-> >> >  Documentation/devicetree/bindings/iio/dac/st,stm32-dac.yaml  | 4 ++=
-++
-> >> >  .../devicetree/bindings/media/cec/st,stm32-cec.yaml          | 4 ++=
-++
-> >> >  Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml   | 4 ++=
-++
-> >> >  .../bindings/memory-controllers/st,stm32-fmc2-ebi.yaml       | 4 ++=
-++
-> >> >  Documentation/devicetree/bindings/mfd/st,stm32-lptimer.yaml  | 4 ++=
-++
-> >> >  Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml   | 5 ++=
-+++
-> >> >  Documentation/devicetree/bindings/mmc/arm,pl18x.yaml         | 4 ++=
-++
-> >> >  Documentation/devicetree/bindings/net/stm32-dwmac.yaml       | 4 ++=
-++
-> >> >  Documentation/devicetree/bindings/phy/phy-stm32-usbphyc.yaml | 4 ++=
-++
-> >> >  .../devicetree/bindings/regulator/st,stm32-vrefbuf.yaml      | 4 ++=
-++
-> >> >  Documentation/devicetree/bindings/rng/st,stm32-rng.yaml      | 4 ++=
-++
-> >> >  Documentation/devicetree/bindings/serial/st,stm32-uart.yaml  | 4 ++=
-++
-> >> >  Documentation/devicetree/bindings/sound/st,stm32-i2s.yaml    | 4 ++=
-++
-> >> >  Documentation/devicetree/bindings/sound/st,stm32-sai.yaml    | 4 ++=
-++
-> >> >  .../devicetree/bindings/sound/st,stm32-spdifrx.yaml          | 4 ++=
-++
-> >> >  Documentation/devicetree/bindings/spi/st,stm32-qspi.yaml     | 4 ++=
-++
-> >> >  Documentation/devicetree/bindings/spi/st,stm32-spi.yaml      | 4 ++=
-++
-> >> >  Documentation/devicetree/bindings/usb/dwc2.yaml              | 4 ++=
-++
-> >> >  24 files changed, 97 insertions(+)
-> >> >
-> >> > diff --git a/Documentation/devicetree/bindings/crypto/st,stm32-hash.=
-yaml b/Documentation/devicetree/bindings/crypto/st,stm32-hash.yaml
-> >> > index b767ec72a999..daf8dcaef627 100644
-> >> > --- a/Documentation/devicetree/bindings/crypto/st,stm32-hash.yaml
-> >> > +++ b/Documentation/devicetree/bindings/crypto/st,stm32-hash.yaml
-> >> > @@ -50,6 +50,10 @@ properties:
-> >> >    power-domains:
-> >> >      maxItems: 1
-> >> >
-> >> > +  feature-domains:
-> >> > +    minItems: 1
-> >> > +    maxItems: 3
-> >> > +
-> >>
-> >> I beliewe feature-domains is generic binding. This means that maxItems
-> >> can be implementation dependend. I would rather drop maxItems so the
-> >> following format will be possible:
-> >>
-> >>           feature-domains =3D <&etzpc 1>, <&etzpc 2>, <&some_other_dom=
-ain 1 2 3 4>
-> >>           feature-domain-names =3D "firewall 1", "firewall 2", "other_=
-domain"
-> >
-> > The above already allows this (not -names, but the number of entries).
-> >>
-> >> Also I beliewe driver will handle feature-domain-names property so it
-> >> will parse feature-domains only related to the firewall.
-> >
-> > Now I'm curious. What's an example that's not a firewall?
-> >
-> > (Note I'm still not happy with the naming of 'feature' as anything is a
-> > feature, but that's the least of the issues really.)
-> >
->
-> The alternative usages of feature-domains was originally proposed by me
-> here:
-> https://lore.kernel.org/lkml/c869d2751125181a55bc8a88c96e3a892b42f37a.166=
-8070216.git.oleksii_moisieiev@epam.com/
->
-> Also I remember Peng Fan also was interested in those bindings.
+The OV5695 binding is almost the same as the OV5693 binding. The only
+difference is 'clock-names' is defined for OV5695. However, the lack of
+clock-names is an omission as the Linux OV5693 driver expects the same
+'xvclk' clock name.
 
-It helps to Cc people when you talk about them.
+'link-frequencies' is required by OV5693, but not OV5695. Just drop it
+from being required. Expressing it conditionally would be ugly. It
+shouldn't really be required either as the driver only supports 1
+frequency anyways.
 
-If the parties interested in this want to see progress on this, you
-all must work together and show this is a solution for multiple
-platforms.
+The rockchip-isp1 binding example is missing required properties, so it
+has to be updated as well.
 
-> I think the use-case when one node is protected by firewall and also is
-> controlled by scmi feature-domain-controller (As was proposed in my
-> patch series) may take place.
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+ .../devicetree/bindings/media/i2c/ov5695.txt  | 41 -------------------
+ .../bindings/media/i2c/ovti,ov5693.yaml       | 19 +++++----
+ .../bindings/media/rockchip-isp1.yaml         |  1 +
+ 3 files changed, 13 insertions(+), 48 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5695.txt
 
-But isn't the SCMI device protection interface the same thing? Some
-interface to say "can I access this device?" and/or control access to
-it.
+diff --git a/Documentation/devicetree/bindings/media/i2c/ov5695.txt b/Documentation/devicetree/bindings/media/i2c/ov5695.txt
+deleted file mode 100644
+index 640a63717d96..000000000000
+--- a/Documentation/devicetree/bindings/media/i2c/ov5695.txt
++++ /dev/null
+@@ -1,41 +0,0 @@
+-* Omnivision OV5695 MIPI CSI-2 sensor
+-
+-Required Properties:
+-- compatible: shall be "ovti,ov5695"
+-- clocks: reference to the xvclk input clock
+-- clock-names: shall be "xvclk"
+-- avdd-supply: Analog voltage supply, 2.8 volts
+-- dovdd-supply: Digital I/O voltage supply, 1.8 volts
+-- dvdd-supply: Digital core voltage supply, 1.2 volts
+-- reset-gpios: Low active reset gpio
+-
+-The device node shall contain one 'port' child node with an
+-'endpoint' subnode for its digital output video port,
+-in accordance with the video interface bindings defined in
+-Documentation/devicetree/bindings/media/video-interfaces.txt.
+-The endpoint optional property 'data-lanes' shall be "<1 2>".
+-
+-Example:
+-&i2c7 {
+-	ov5695: camera-sensor@36 {
+-		compatible = "ovti,ov5695";
+-		reg = <0x36>;
+-		pinctrl-names = "default";
+-		pinctrl-0 = <&clk_24m_cam>;
+-
+-		clocks = <&cru SCLK_TESTCLKOUT1>;
+-		clock-names = "xvclk";
+-
+-		avdd-supply = <&pp2800_cam>;
+-		dovdd-supply = <&pp1800>;
+-		dvdd-supply = <&pp1250_cam>;
+-		reset-gpios = <&gpio2 5 GPIO_ACTIVE_LOW>;
+-
+-		port {
+-			wcam_out: endpoint {
+-				remote-endpoint = <&mipi_in_wcam>;
+-				data-lanes = <1 2>;
+-			};
+-		};
+-	};
+-};
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
+index 359dc08440a8..a3d73a87d797 100644
+--- a/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
+@@ -5,26 +5,29 @@
+ $id: http://devicetree.org/schemas/media/i2c/ovti,ov5693.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+-title: Omnivision OV5693 CMOS Sensor
++title: Omnivision OV5693/OV5695 CMOS Sensors
+ 
+ maintainers:
+   - Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
+ 
+ description: |
+-  The Omnivision OV5693 is a high performance, 1/4-inch, 5 megapixel, CMOS
+-  image sensor that delivers 2592x1944 at 30fps. It provides full-frame,
++  The Omnivision OV5693/OV5695 are high performance, 1/4-inch, 5 megapixel, CMOS
++  image sensors that deliver 2592x1944 at 30fps. It provides full-frame,
+   sub-sampled, and windowed 10-bit MIPI images in various formats via the
+   Serial Camera Control Bus (SCCB) interface.
+ 
+-  OV5693 is controlled via I2C and two-wire Serial Camera Control Bus (SCCB).
+-  The sensor output is available via CSI-2 serial data output (up to 2-lane).
++  OV5693/OV5695 are controlled via I2C and two-wire Serial Camera Control Bus
++  (SCCB). The sensor output is available via CSI-2 serial data output (up to
++  2-lane).
+ 
+ allOf:
+   - $ref: /schemas/media/video-interface-devices.yaml#
+ 
+ properties:
+   compatible:
+-    const: ovti,ov5693
++    enum:
++      - ovti,ov5693
++      - ovti,ov5695
+ 
+   reg:
+     maxItems: 1
+@@ -34,6 +37,9 @@ properties:
+       System input clock (aka XVCLK). From 6 to 27 MHz.
+     maxItems: 1
+ 
++  clock-names:
++    const: xvclk
++
+   dovdd-supply:
+     description:
+       Digital I/O voltage supply, 1.8V.
+@@ -72,7 +78,6 @@ properties:
+ 
+         required:
+           - data-lanes
+-          - link-frequencies
+ 
+ required:
+   - compatible
+diff --git a/Documentation/devicetree/bindings/media/rockchip-isp1.yaml b/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
+index 0bad7e640148..e466dff8286d 100644
+--- a/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
++++ b/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
+@@ -199,6 +199,7 @@ examples:
+             wcam: camera@36 {
+                 compatible = "ovti,ov5695";
+                 reg = <0x36>;
++                clocks = <&cru SCLK_TESTCLKOUT1>;
+ 
+                 port {
+                     wcam_out: endpoint {
+-- 
+2.40.1
 
-The other possible use I'm aware of is system partitioning. OpenAMP or
-similar where an SoC is partitioned into multiple OS instances and
-peripherals are assigned to different partitions.
-
-> As for the naming maybe you have some thoughts about better name?
-
-If I did, I would have. Something with 'access' in it is as far as I've got=
-ten.
-
-Rob
