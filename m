@@ -2,74 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 731D774B65E
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jul 2023 20:34:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 212BD74B6F3
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jul 2023 21:14:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231184AbjGGSeS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Jul 2023 14:34:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38268 "EHLO
+        id S232956AbjGGTO1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Jul 2023 15:14:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229642AbjGGSeR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jul 2023 14:34:17 -0400
-Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com [IPv6:2607:f8b0:4864:20::835])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 415592682
-        for <linux-media@vger.kernel.org>; Fri,  7 Jul 2023 11:34:16 -0700 (PDT)
-Received: by mail-qt1-x835.google.com with SMTP id d75a77b69052e-4039f7e1d3aso3904361cf.0
-        for <linux-media@vger.kernel.org>; Fri, 07 Jul 2023 11:34:16 -0700 (PDT)
+        with ESMTP id S229542AbjGGTO0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jul 2023 15:14:26 -0400
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9274D124
+        for <linux-media@vger.kernel.org>; Fri,  7 Jul 2023 12:14:25 -0700 (PDT)
+Received: by mail-qk1-x733.google.com with SMTP id af79cd13be357-7658752ce2fso182750785a.1
+        for <linux-media@vger.kernel.org>; Fri, 07 Jul 2023 12:14:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1688754855; x=1691346855;
+        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1688757264; x=1691349264;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=q8zzG4W58cY1DMRLw33Pxd069pFxJi7Rdv1xoKGNoM0=;
-        b=I3Gm/yVjt+KbvNaT43A8VDkuPL20ZGVvHXyMa73RzcengqGcVYRMG/tAdYOpNp4OZy
-         v0UznlVB+1Gb+oU477T89Itk1Eyu3LY1L4btT9ObPimuCjof0zg1YkMn+kv8lxjX8Y5Z
-         CkErhUoz5jGbAO+xryLKCNgO4xX/eYQ81QRu+Pit71z7+Adt/r0bgg1v7ArJathd1O3J
-         IGzmJ7/1qhN5jKdOOM4XyaX739ax3j7UCKfN7hUFPvQOh/AJtrSzDDVmIHkzRNxTR+zx
-         RqIdWKNlNSX3cZ5uGHUGk83Joej/nrGVv6yfxtKWcWf+PjU9xid+jEDtiXcFYVPjnthJ
-         xvAA==
+        bh=KLuQdDStQpi/jaL94N6bqspsvqYo+nXtEDwo4gIugYA=;
+        b=si6KcGNrQRxUUZg5lQUXvez9C60lcH1H+FqVMu9R4ytqchdEmXgEYpf3pb0/IaPPQr
+         ol1s49kC7v16l7OH/DVc4QQtNS6JQRFRNYr5gDIbnLOtmtN/87DY8xxqrtIDH0WaikXj
+         tT2wua73pPmOxlyCiahNbMXG4pAS6sWYHo0apovtz6J0ICGyrLIrRUHxddh+YQMsNCYe
+         AyLNO41nmEzHoAR9QlfDmCvtuOpHG7fDTTl7ui+jetd4YIgTXAvXdOmNp3tijZpa+Fl/
+         2QQcP2aEjYL3CV2Pv9cWUub2Ty60YvbkDS89WscC2gb+FdUzVbvG5OB5OwmMjBe9iyj4
+         8/yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688754855; x=1691346855;
+        d=1e100.net; s=20221208; t=1688757264; x=1691349264;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=q8zzG4W58cY1DMRLw33Pxd069pFxJi7Rdv1xoKGNoM0=;
-        b=f/wy7jbXqd/jzJHRYgnbZm99+Q+pq7nneYx6bSD+LutCmHtNW0eEneG6h3/x9ndM6H
-         4tTNQZvRKD+x0cXPOiDTGR4JnNChYnilwBJZRY5BKaSEHRjWtRADuNDADKhLOrWg7Vpl
-         l/LN7ipXRxPkMFXMUGF+FuwIhNXATf9PRllj2xfAFtWrpddYqGZpYd/BIV9nUs9fhrCC
-         fABEX8B4KLPvVawYi8oyhF+V6kedehjeyt0KAfsz8CCTftyfi5p28oZW7V1DoctqMQK+
-         EqjjZah2eLnxqx738/faNEKzvZqiC/xVxuB0WOgZu1n2tGXAkf1oNXzyIIDnQBGVSlvt
-         ufng==
-X-Gm-Message-State: ABy/qLZZbyVmUVsf3ohOK4s9XXUrvOBtbisfIRAH/0Vf7PHX76nrUsvW
-        z+zxMpRkYiQTCeIeFQ4fZTK7oQ==
-X-Google-Smtp-Source: APBJJlEinjEQtqOyggHzF0vaZ+wtg5OXm/r0LgOaCOfbAWEl/c65xrYR8JXPV4S29M58zJAhuA0fLw==
-X-Received: by 2002:a05:622a:111:b0:3fd:de11:d8e4 with SMTP id u17-20020a05622a011100b003fdde11d8e4mr8131217qtw.23.1688754855384;
-        Fri, 07 Jul 2023 11:34:15 -0700 (PDT)
+        bh=KLuQdDStQpi/jaL94N6bqspsvqYo+nXtEDwo4gIugYA=;
+        b=eopyfGwv9zM0iSnXzautoVLe8LlM26jFXV9qtASFCN2BxQWNPkOt8TgKH1LLtpNsis
+         3CjplPYioFoj/xmnBw4TxYRCYyFYqUQkp/IeVT1L0AFmPIjdqFZZZjDuquv6JUEhZ36s
+         bWZf7VjJwHXtH3t8VJhELwDGH9AsAuiH6nJFUJQKR+gxhvK48fgDPz8Z9eTZhY5M1gBb
+         tW4dX0a71tsJ4DjeRWCuAOl3kau2UBDZ+UgLZ4kqiovQ3EJRoWP13lAQvp7c/FDZOw0w
+         IHVYMdJozHmPzZK2ypDfZIN98HILB9rtT4Z3IOw+rXKjYA9+MkRPZpNDC2d6K/BPz3cQ
+         FzoA==
+X-Gm-Message-State: ABy/qLa4PnloMX8ccx9PkIqLm5ZbLHGkQHzZB9wEaf88/HHbl0xO19po
+        IM6kd+ELeILgS+51EVW9LIKXeeUHheL1KbMoJNI39g==
+X-Google-Smtp-Source: APBJJlFxHqmv01ImshKbphUreQDri1BcYEX2ZNnz3g4itQDFDObkICG1TQgCV0kAcIvs9IOSKh+6sw==
+X-Received: by 2002:a05:620a:48a:b0:766:fd15:4c3d with SMTP id 10-20020a05620a048a00b00766fd154c3dmr4832058qkr.63.1688757264598;
+        Fri, 07 Jul 2023 12:14:24 -0700 (PDT)
 Received: from nicolas-tpx395.localdomain (mtl.collabora.ca. [66.171.169.34])
-        by smtp.gmail.com with ESMTPSA id w25-20020ac84d19000000b003f394decd08sm1978812qtv.62.2023.07.07.11.34.14
+        by smtp.gmail.com with ESMTPSA id j28-20020a05620a147c00b00767410d18c3sm2111924qkl.36.2023.07.07.12.14.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jul 2023 11:34:14 -0700 (PDT)
-Message-ID: <626c87dc2aede6998053bf2184f8aacace92ba93.camel@ndufresne.ca>
-Subject: Re: [RFC PATCH 1/3] media: Add 10, 12, and 16 bit RGB formats
+        Fri, 07 Jul 2023 12:14:24 -0700 (PDT)
+Message-ID: <20452e233a9a4b39b58139081d818d3b1454105a.camel@ndufresne.ca>
+Subject: Re: [PATCH 1/2] [RESEND] media: v4l2-mem2mem: allow device run
+ without buf
 From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     =?UTF-8?Q?Pawe=C5=82?= Anikiel <pan@semihalf.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Cc:     dinguyen@kernel.org, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        mchehab@kernel.org, upstream@semihalf.com, amstan@chromium.org,
-        ribalda@chromium.org
-Date:   Fri, 07 Jul 2023 14:34:13 -0400
-In-Reply-To: <20230630144006.1513270-2-pan@semihalf.com>
-References: <20230630144006.1513270-1-pan@semihalf.com>
-         <20230630144006.1513270-2-pan@semihalf.com>
+To:     Hsia-Jun Li <randy.li@synaptics.com>, linux-media@vger.kernel.org
+Cc:     ayaka@soulik.info, hans.verkuil@cisco.com, tfiga@chromium.org,
+        mchehab@kernel.org, laurent.pinchart@ideasonboard.com,
+        hiroh@chromium.org, hverkuil@xs4all.nl,
+        linux-kernel@vger.kernel.org,
+        Sebastian Fricke <sebastian.fricke@collabora.com>
+Date:   Fri, 07 Jul 2023 15:14:23 -0400
+In-Reply-To: <20230704040044.681850-2-randy.li@synaptics.com>
+References: <20230704040044.681850-1-randy.li@synaptics.com>
+         <20230704040044.681850-2-randy.li@synaptics.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.3 (3.48.3-1.fc38) 
 MIME-Version: 1.0
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,72 +77,71 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Randy,
 
-Le vendredi 30 juin 2023 =C3=A0 16:40 +0200, Pawe=C5=82 Anikiel a =C3=A9cri=
-t=C2=A0:
-> Add the RGB30U, RGB30L, RGB36U, RGB36L, and RGB48 pixel formats.
+Le mardi 04 juillet 2023 =C3=A0 12:00 +0800, Hsia-Jun Li a =C3=A9crit=C2=A0=
+:
+> From: Randy Li <ayaka@soulik.info>
 >=20
-> Signed-off-by: Pawe=C5=82 Anikiel <pan@semihalf.com>
+> For the decoder supports Dynamic Resolution Change,
+> we don't need to allocate any CAPTURE or graphics buffer
+> for them at inital CAPTURE setup step.
+>=20
+> We need to make the device run or we can't get those
+> metadata.
+>=20
+> Signed-off-by: Randy Li <ayaka@soulik.info>
 > ---
->  drivers/media/v4l2-core/v4l2-ioctl.c | 5 +++++
->  include/uapi/linux/videodev2.h       | 5 +++++
->  2 files changed, 10 insertions(+)
+>  drivers/media/v4l2-core/v4l2-mem2mem.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-co=
-re/v4l2-ioctl.c
-> index a858acea6547..5ee616704225 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1300,6 +1300,11 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *=
-fmt)
->  	case V4L2_PIX_FMT_ARGB2101010:	descr =3D "32-bit ARGB 2-10-10-10"; brea=
-k;
->  	case V4L2_PIX_FMT_BGR48_12:	descr =3D "12-bit Depth BGR"; break;
->  	case V4L2_PIX_FMT_ABGR64_12:	descr =3D "12-bit Depth BGRA"; break;
-> +	case V4L2_PIX_FMT_RGB30U:	descr =3D "30-bit RXGXBX-10-10-10"; break;
-> +	case V4L2_PIX_FMT_RGB30L:	descr =3D "30-bit XRXGXB-10-10-10"; break;
-> +	case V4L2_PIX_FMT_RGB36U:	descr =3D "36-bit RXGXBX-12-12-12"; break;
-> +	case V4L2_PIX_FMT_RGB36L:	descr =3D "36-bit XRXGXB-12-12-12"; break;
-> +	case V4L2_PIX_FMT_RGB48:	descr =3D "48-bit RGB-16-16-16"; break;
->  	case V4L2_PIX_FMT_GREY:		descr =3D "8-bit Greyscale"; break;
->  	case V4L2_PIX_FMT_Y4:		descr =3D "4-bit Greyscale"; break;
->  	case V4L2_PIX_FMT_Y6:		descr =3D "6-bit Greyscale"; break;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
-2.h
-> index aee75eb9e686..3568819eabeb 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -583,6 +583,11 @@ struct v4l2_pix_format {
->  /* RGB formats (6 or 8 bytes per pixel) */
->  #define V4L2_PIX_FMT_BGR48_12    v4l2_fourcc('B', '3', '1', '2') /* 48  =
-BGR 12-bit per component */
->  #define V4L2_PIX_FMT_ABGR64_12   v4l2_fourcc('B', '4', '1', '2') /* 64  =
-BGRA 12-bit per component */
-> +#define V4L2_PIX_FMT_RGB30U  v4l2_fourcc('R', '3', '0', 'U') /* 30  RXGX=
-BX-10-10-10 */
-> +#define V4L2_PIX_FMT_RGB30L  v4l2_fourcc('R', '3', '0', 'L') /* 30  XRXG=
-XB-10-10-10 */
-> +#define V4L2_PIX_FMT_RGB36U  v4l2_fourcc('R', '3', '6', 'U') /* 36  RXGX=
-BX-12-12-12 */
-> +#define V4L2_PIX_FMT_RGB36L  v4l2_fourcc('R', '3', '6', 'L') /* 36  XRXG=
-XB-12-12-12 */
-> +#define V4L2_PIX_FMT_RGB48   v4l2_fourcc('R', 'G', 'B', '6') /* 48  RGB-=
-16-16-16    */
-
-In a finalize patch, this would also need to be documented in
-Documentation/userspace-api/media/v4l/pixfmt-rgb.rst . About this, what doe=
-s  U
-and L stands for ? Upper/lower for the padded bit placement ? Though, it lo=
-oks
-like the other way around in the comment, which may underline a Linux DRM s=
-tyle
-format documentation.
-
-Nicolas
-
+> diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-=
+core/v4l2-mem2mem.c
+> index 0cc30397fbad..c771aba42015 100644
+> --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
+> +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
+> @@ -301,8 +301,9 @@ static void __v4l2_m2m_try_queue(struct v4l2_m2m_dev =
+*m2m_dev,
 > =20
->  /* Grey formats */
->  #define V4L2_PIX_FMT_GREY    v4l2_fourcc('G', 'R', 'E', 'Y') /*  8  Grey=
-scale     */
+>  	dprintk("Trying to schedule a job for m2m_ctx: %p\n", m2m_ctx);
+> =20
+> -	if (!m2m_ctx->out_q_ctx.q.streaming
+> -	    || !m2m_ctx->cap_q_ctx.q.streaming) {
+> +	if (!(m2m_ctx->out_q_ctx.q.streaming || m2m_ctx->out_q_ctx.buffered)
+> +	    || !(m2m_ctx->cap_q_ctx.q.streaming
+> +		 || m2m_ctx->cap_q_ctx.buffered)) {
+
+I have a two atches with similar goals in my wave5 tree. It will be easier =
+to
+upstream with an actual user, though, I'm probably a month or two away from
+submitting this driver again.
+
+https://gitlab.collabora.com/chipsnmedia/kernel/-/commit/ac59eafd5076c4deb3=
+bfe1fb85b3b776586ef3eb
+https://gitlab.collabora.com/chipsnmedia/kernel/-/commit/5de4fbe0abb20b8e8d=
+862b654f93e3efeb1ef251
+
+Sebastien and I authored this without giving it much thought, but we believ=
+e
+this massively simplify our handling of DRC (dynamic resolution change).
+
+The main difference, is that we added ignore_streaming to the ctx, so that
+drivers can opt-in the mode of operation. Thinking it would avoid any poten=
+tial
+side effects in drivers that aren't prepared to that. We didn't want to tie=
+d it
+up to buffered, this is open to discussion of course, we do use buffered on=
+ both
+queues and use a slightly more advance job_ready function, that take into
+account our driver state.
+
+In short, Sebastien and I agree this small change is the right direction, w=
+e
+simply have a different implementation. I can send it as RFC if one believe=
+ its
+would be useful now (even without a user).
+
+>  		dprintk("Streaming needs to be on for both queues\n");
+>  		return;
+>  	}
 
