@@ -2,146 +2,207 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 212BD74B6F3
-	for <lists+linux-media@lfdr.de>; Fri,  7 Jul 2023 21:14:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1673174B6FE
+	for <lists+linux-media@lfdr.de>; Fri,  7 Jul 2023 21:20:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232956AbjGGTO1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Jul 2023 15:14:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55956 "EHLO
+        id S232956AbjGGTU1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Jul 2023 15:20:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229542AbjGGTO0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jul 2023 15:14:26 -0400
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com [IPv6:2607:f8b0:4864:20::733])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9274D124
-        for <linux-media@vger.kernel.org>; Fri,  7 Jul 2023 12:14:25 -0700 (PDT)
-Received: by mail-qk1-x733.google.com with SMTP id af79cd13be357-7658752ce2fso182750785a.1
-        for <linux-media@vger.kernel.org>; Fri, 07 Jul 2023 12:14:25 -0700 (PDT)
+        with ESMTP id S229515AbjGGTUZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jul 2023 15:20:25 -0400
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6744131
+        for <linux-media@vger.kernel.org>; Fri,  7 Jul 2023 12:20:23 -0700 (PDT)
+Received: by mail-qk1-x736.google.com with SMTP id af79cd13be357-7658752ce2fso183194285a.1
+        for <linux-media@vger.kernel.org>; Fri, 07 Jul 2023 12:20:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1688757264; x=1691349264;
+        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1688757623; x=1691349623;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=KLuQdDStQpi/jaL94N6bqspsvqYo+nXtEDwo4gIugYA=;
-        b=si6KcGNrQRxUUZg5lQUXvez9C60lcH1H+FqVMu9R4ytqchdEmXgEYpf3pb0/IaPPQr
-         ol1s49kC7v16l7OH/DVc4QQtNS6JQRFRNYr5gDIbnLOtmtN/87DY8xxqrtIDH0WaikXj
-         tT2wua73pPmOxlyCiahNbMXG4pAS6sWYHo0apovtz6J0ICGyrLIrRUHxddh+YQMsNCYe
-         AyLNO41nmEzHoAR9QlfDmCvtuOpHG7fDTTl7ui+jetd4YIgTXAvXdOmNp3tijZpa+Fl/
-         2QQcP2aEjYL3CV2Pv9cWUub2Ty60YvbkDS89WscC2gb+FdUzVbvG5OB5OwmMjBe9iyj4
-         8/yw==
+        bh=tI3ZmzlJ8v1yyhdsh409Oan9mJwrZdLHSmF+6lcsYDo=;
+        b=o6gsgUpVHX876p9nKUzMhUuL65DtNUr6D3gts1qCNw+BCcKfdoPowDa56n2Aw9cMWX
+         DQBS5WXsO5GqzKKgQMV0f3A99cUIL78bamPuqTDCAEVOE6P99Y6cw/0Cr8uMDg5ZRXaX
+         9GydJ/5hromEATQK1QXoaPiCSyHeu+D/xXL+r7UHnlLvy/PcKOK3adD1OKeg3A1vRvtP
+         6WoOsDNfyvX/qE3K8vrqEy0RiQ1dhwQer1tFKIyEQAnK4a755igvWykytipr6pmA7Yk3
+         znV2e2Lw7tSiud1OieO9cRl8UbcWVmXYst+8MSRGPzTTrMenVGuedzYCf4oCcGZGkW5H
+         a11g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688757264; x=1691349264;
+        d=1e100.net; s=20221208; t=1688757623; x=1691349623;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=KLuQdDStQpi/jaL94N6bqspsvqYo+nXtEDwo4gIugYA=;
-        b=eopyfGwv9zM0iSnXzautoVLe8LlM26jFXV9qtASFCN2BxQWNPkOt8TgKH1LLtpNsis
-         3CjplPYioFoj/xmnBw4TxYRCYyFYqUQkp/IeVT1L0AFmPIjdqFZZZjDuquv6JUEhZ36s
-         bWZf7VjJwHXtH3t8VJhELwDGH9AsAuiH6nJFUJQKR+gxhvK48fgDPz8Z9eTZhY5M1gBb
-         tW4dX0a71tsJ4DjeRWCuAOl3kau2UBDZ+UgLZ4kqiovQ3EJRoWP13lAQvp7c/FDZOw0w
-         IHVYMdJozHmPzZK2ypDfZIN98HILB9rtT4Z3IOw+rXKjYA9+MkRPZpNDC2d6K/BPz3cQ
-         FzoA==
-X-Gm-Message-State: ABy/qLa4PnloMX8ccx9PkIqLm5ZbLHGkQHzZB9wEaf88/HHbl0xO19po
-        IM6kd+ELeILgS+51EVW9LIKXeeUHheL1KbMoJNI39g==
-X-Google-Smtp-Source: APBJJlFxHqmv01ImshKbphUreQDri1BcYEX2ZNnz3g4itQDFDObkICG1TQgCV0kAcIvs9IOSKh+6sw==
-X-Received: by 2002:a05:620a:48a:b0:766:fd15:4c3d with SMTP id 10-20020a05620a048a00b00766fd154c3dmr4832058qkr.63.1688757264598;
-        Fri, 07 Jul 2023 12:14:24 -0700 (PDT)
+        bh=tI3ZmzlJ8v1yyhdsh409Oan9mJwrZdLHSmF+6lcsYDo=;
+        b=iY5+HQQ1lso6fdgYJO4MJTjOxbEKdMGmbr3slro+3OYxeuZwtvdPwu/2P7Zpj63fLF
+         BZB6g19a7cR8R+KdknaSc6djm/xpWA9c8WqYP/83MgSV5L6PCXz+L2+tddVYK7B7AchT
+         AtzGeVaIHLsTjXoIodWHJZu3hfMKtnEF/3kUUnDDgxIWMhxhgp6i5iZGte3jJ2wRE3Fn
+         NRWoaIQQfCdsT1M3JURoIcaorPq7/YGLKLTvXMfn7Rozus23DakW7En7kiXzq/aUc8OG
+         5BPp/CL5r5TwdIzZl3qp//w4tGzuS7trWsxpoe8YO+mHI7urdTCZp+g+Hvg73GnTW0/L
+         6Q0Q==
+X-Gm-Message-State: ABy/qLYXPql4ei5MYLGFa+kcVZWuHBYGmUHBRzYPZOtR8aUwcTHglnAm
+        LjeZigWDK6orRQzK3fjI2SqLPA==
+X-Google-Smtp-Source: APBJJlG27mC1OWJZZUJrFwnyL6NsblWizZzqY8Es3mmhufpkYjVVzxSpthf8EHPs/Bw2jDKTlPK48g==
+X-Received: by 2002:a37:b441:0:b0:765:6782:cafd with SMTP id d62-20020a37b441000000b007656782cafdmr4172788qkf.69.1688757622996;
+        Fri, 07 Jul 2023 12:20:22 -0700 (PDT)
 Received: from nicolas-tpx395.localdomain (mtl.collabora.ca. [66.171.169.34])
-        by smtp.gmail.com with ESMTPSA id j28-20020a05620a147c00b00767410d18c3sm2111924qkl.36.2023.07.07.12.14.23
+        by smtp.gmail.com with ESMTPSA id w27-20020a05620a129b00b00767c4a1e9d3sm102644qki.76.2023.07.07.12.20.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jul 2023 12:14:24 -0700 (PDT)
-Message-ID: <20452e233a9a4b39b58139081d818d3b1454105a.camel@ndufresne.ca>
-Subject: Re: [PATCH 1/2] [RESEND] media: v4l2-mem2mem: allow device run
- without buf
+        Fri, 07 Jul 2023 12:20:22 -0700 (PDT)
+Message-ID: <575b5a7bd48b3fab7a33c7c25962b36b2ccf6b14.camel@ndufresne.ca>
+Subject: Re: [PATCH 2/2] media: v4l2-mem2mem: add a list for buf used by hw
 From:   Nicolas Dufresne <nicolas@ndufresne.ca>
 To:     Hsia-Jun Li <randy.li@synaptics.com>, linux-media@vger.kernel.org
 Cc:     ayaka@soulik.info, hans.verkuil@cisco.com, tfiga@chromium.org,
         mchehab@kernel.org, laurent.pinchart@ideasonboard.com,
         hiroh@chromium.org, hverkuil@xs4all.nl,
-        linux-kernel@vger.kernel.org,
-        Sebastian Fricke <sebastian.fricke@collabora.com>
-Date:   Fri, 07 Jul 2023 15:14:23 -0400
-In-Reply-To: <20230704040044.681850-2-randy.li@synaptics.com>
+        linux-kernel@vger.kernel.org
+Date:   Fri, 07 Jul 2023 15:20:21 -0400
+In-Reply-To: <20230704040044.681850-3-randy.li@synaptics.com>
 References: <20230704040044.681850-1-randy.li@synaptics.com>
-         <20230704040044.681850-2-randy.li@synaptics.com>
+         <20230704040044.681850-3-randy.li@synaptics.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.3 (3.48.3-1.fc38) 
 MIME-Version: 1.0
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Randy,
-
 Le mardi 04 juillet 2023 =C3=A0 12:00 +0800, Hsia-Jun Li a =C3=A9crit=C2=A0=
 :
-> From: Randy Li <ayaka@soulik.info>
+> From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
 >=20
-> For the decoder supports Dynamic Resolution Change,
-> we don't need to allocate any CAPTURE or graphics buffer
-> for them at inital CAPTURE setup step.
+> Many drivers have to create its own buf_struct for a
+> vb2_queue to track such a state. Also driver has to
+> iterate over rdy_queue every times to find out a buffer
+> which is not sent to hardware(or firmware), this new
+> list just offers the driver a place to store the buffer
+> that hardware(firmware) has acknowledged.
 >=20
-> We need to make the device run or we can't get those
-> metadata.
+> One important advance about this list, it doesn't like
+> rdy_queue which both bottom half of the user calling
+> could operate it, while the v4l2 worker would as well.
+> The v4l2 core could only operate this queue when its
+> v4l2_context is not running, the driver would only
+> access this new hw_queue in its own worker.
+
+That's an interesting proposal. I didn't like leaving decoded frames into t=
+he
+rdy_queue, but removing them required me to have my own list, so that I can
+clean it up if some buffers are never displayed.
+
+We'll see if we can use this into wave5.
+
 >=20
-> Signed-off-by: Randy Li <ayaka@soulik.info>
+> Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
 > ---
->  drivers/media/v4l2-core/v4l2-mem2mem.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  drivers/media/v4l2-core/v4l2-mem2mem.c | 25 +++++++++++++++++--------
+>  include/media/v4l2-mem2mem.h           | 10 +++++++++-
+>  2 files changed, 26 insertions(+), 9 deletions(-)
 >=20
 > diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-=
 core/v4l2-mem2mem.c
-> index 0cc30397fbad..c771aba42015 100644
+> index c771aba42015..b4151147d5bd 100644
 > --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
 > +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-> @@ -301,8 +301,9 @@ static void __v4l2_m2m_try_queue(struct v4l2_m2m_dev =
-*m2m_dev,
-> =20
->  	dprintk("Trying to schedule a job for m2m_ctx: %p\n", m2m_ctx);
-> =20
-> -	if (!m2m_ctx->out_q_ctx.q.streaming
-> -	    || !m2m_ctx->cap_q_ctx.q.streaming) {
-> +	if (!(m2m_ctx->out_q_ctx.q.streaming || m2m_ctx->out_q_ctx.buffered)
-> +	    || !(m2m_ctx->cap_q_ctx.q.streaming
-> +		 || m2m_ctx->cap_q_ctx.buffered)) {
-
-I have a two atches with similar goals in my wave5 tree. It will be easier =
-to
-upstream with an actual user, though, I'm probably a month or two away from
-submitting this driver again.
-
-https://gitlab.collabora.com/chipsnmedia/kernel/-/commit/ac59eafd5076c4deb3=
-bfe1fb85b3b776586ef3eb
-https://gitlab.collabora.com/chipsnmedia/kernel/-/commit/5de4fbe0abb20b8e8d=
-862b654f93e3efeb1ef251
-
-Sebastien and I authored this without giving it much thought, but we believ=
-e
-this massively simplify our handling of DRC (dynamic resolution change).
-
-The main difference, is that we added ignore_streaming to the ctx, so that
-drivers can opt-in the mode of operation. Thinking it would avoid any poten=
-tial
-side effects in drivers that aren't prepared to that. We didn't want to tie=
-d it
-up to buffered, this is open to discussion of course, we do use buffered on=
- both
-queues and use a slightly more advance job_ready function, that take into
-account our driver state.
-
-In short, Sebastien and I agree this small change is the right direction, w=
-e
-simply have a different implementation. I can send it as RFC if one believe=
- its
-would be useful now (even without a user).
-
->  		dprintk("Streaming needs to be on for both queues\n");
->  		return;
+> @@ -321,15 +321,21 @@ static void __v4l2_m2m_try_queue(struct v4l2_m2m_de=
+v *m2m_dev,
+>  		goto job_unlock;
 >  	}
+> =20
+> -	src =3D v4l2_m2m_next_src_buf(m2m_ctx);
+> -	dst =3D v4l2_m2m_next_dst_buf(m2m_ctx);
+> -	if (!src && !m2m_ctx->out_q_ctx.buffered) {
+> -		dprintk("No input buffers available\n");
+> -		goto job_unlock;
+> +	if (list_empty(&m2m_ctx->out_q_ctx.hw_queue)) {
+> +		src =3D v4l2_m2m_next_src_buf(m2m_ctx);
+> +
+> +		if (!src && !m2m_ctx->out_q_ctx.buffered) {
+> +			dprintk("No input buffers available\n");
+> +			goto job_unlock;
+> +		}
+>  	}
+> -	if (!dst && !m2m_ctx->cap_q_ctx.buffered) {
+> -		dprintk("No output buffers available\n");
+> -		goto job_unlock;
+> +
+> +	if (list_empty(&m2m_ctx->cap_q_ctx.hw_queue)) {
+> +		dst =3D v4l2_m2m_next_dst_buf(m2m_ctx);
+> +		if (!dst && !m2m_ctx->cap_q_ctx.buffered) {
+> +			dprintk("No output buffers available\n");
+> +			goto job_unlock;
+> +		}
+>  	}
+> =20
+>  	m2m_ctx->new_frame =3D true;
+> @@ -896,6 +902,7 @@ int v4l2_m2m_streamoff(struct file *file, struct v4l2=
+_m2m_ctx *m2m_ctx,
+>  	INIT_LIST_HEAD(&q_ctx->rdy_queue);
+>  	q_ctx->num_rdy =3D 0;
+>  	spin_unlock_irqrestore(&q_ctx->rdy_spinlock, flags);
+> +	INIT_LIST_HEAD(&q_ctx->hw_queue);
+> =20
+>  	if (m2m_dev->curr_ctx =3D=3D m2m_ctx) {
+>  		m2m_dev->curr_ctx =3D NULL;
+> @@ -1234,6 +1241,8 @@ struct v4l2_m2m_ctx *v4l2_m2m_ctx_init(struct v4l2_=
+m2m_dev *m2m_dev,
+> =20
+>  	INIT_LIST_HEAD(&out_q_ctx->rdy_queue);
+>  	INIT_LIST_HEAD(&cap_q_ctx->rdy_queue);
+> +	INIT_LIST_HEAD(&out_q_ctx->hw_queue);
+> +	INIT_LIST_HEAD(&cap_q_ctx->hw_queue);
+>  	spin_lock_init(&out_q_ctx->rdy_spinlock);
+>  	spin_lock_init(&cap_q_ctx->rdy_spinlock);
+> =20
+> diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
+> index d6c8eb2b5201..2342656e582d 100644
+> --- a/include/media/v4l2-mem2mem.h
+> +++ b/include/media/v4l2-mem2mem.h
+> @@ -53,9 +53,16 @@ struct v4l2_m2m_dev;
+>   *	processed
+>   *
+>   * @q:		pointer to struct &vb2_queue
+> - * @rdy_queue:	List of V4L2 mem-to-mem queues
+> + * @rdy_queue:	List of V4L2 mem-to-mem queues. If v4l2_m2m_buf_queue() i=
+s
+> + *		called in struct vb2_ops->buf_queue(), the buffer enqueued
+> + *		by user would be added to this list.
+>   * @rdy_spinlock: spin lock to protect the struct usage
+>   * @num_rdy:	number of buffers ready to be processed
+> + * @hw_queue:	A list for tracking the buffer is occupied by the hardware
+> + * 		(or device's firmware). A buffer could only be in either
+> + * 		this list or @rdy_queue.
+> + * 		Driver may choose not to use this list while uses its own
+> + * 		private data to do this work.
+
+What's the threading protection around this one ? Also, would it be possibl=
+e to
+opt-in that the driver cleanup that list automatically after streamoff has =
+been
+executed ?
+
+One thing the doc is missing, is that HW buffer are actually flagged as ACT=
+IVE
+buffer vb2, there is a strong link between the two concept, and the doc sho=
+uld
+take care.
+
+>   * @buffered:	is the queue buffered?
+>   *
+>   * Queue for buffers ready to be processed as soon as this
+> @@ -68,6 +75,7 @@ struct v4l2_m2m_queue_ctx {
+>  	struct list_head	rdy_queue;
+>  	spinlock_t		rdy_spinlock;
+>  	u8			num_rdy;
+> +	struct list_head	hw_queue;
+>  	bool			buffered;
+>  };
+> =20
 
