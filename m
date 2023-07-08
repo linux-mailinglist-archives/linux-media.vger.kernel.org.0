@@ -2,203 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 043F074BA3B
-	for <lists+linux-media@lfdr.de>; Sat,  8 Jul 2023 01:55:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66D2174BA8A
+	for <lists+linux-media@lfdr.de>; Sat,  8 Jul 2023 02:28:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230516AbjGGXzt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Jul 2023 19:55:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45444 "EHLO
+        id S229990AbjGHA2N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 7 Jul 2023 20:28:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229515AbjGGXzs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jul 2023 19:55:48 -0400
+        with ESMTP id S229643AbjGHA2M (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jul 2023 20:28:12 -0400
 Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D6122114
-        for <linux-media@vger.kernel.org>; Fri,  7 Jul 2023 16:55:47 -0700 (PDT)
-Received: by mail-lj1-x230.google.com with SMTP id 38308e7fff4ca-2b6f97c7115so37682841fa.2
-        for <linux-media@vger.kernel.org>; Fri, 07 Jul 2023 16:55:47 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4A5C1991
+        for <linux-media@vger.kernel.org>; Fri,  7 Jul 2023 17:28:11 -0700 (PDT)
+Received: by mail-lj1-x230.google.com with SMTP id 38308e7fff4ca-2b703d7ed3aso40536411fa.1
+        for <linux-media@vger.kernel.org>; Fri, 07 Jul 2023 17:28:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gateworks-com.20221208.gappssmtp.com; s=20221208; t=1688774146; x=1691366146;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dso2mcatmgfyOH+exjp6YHYefmmJPBr+6wmnSbURNss=;
-        b=Gla6d4HsaUjJy9WjX1asNY6ZNEdzeEWUwC0Besvq0JkMFcDjgth5Nsz1mFPyH2XE5V
-         gErvv3N/cEctuEZoWhwXOHMEKCR9vFo/UASGbTEZu4qwCOB79pbnXX88Hb0MhGsseomc
-         HhEBddFopoX97m+/9Jgj/kxlZy4KdPiDQyAvsMTdob5f4G/SYFRI36+ijRyNFvL5RnvX
-         +mcoeQIsgWAxZEXHhxnW8JWPd5J/3RJ81jccaAauh9JLV7AmZeIy7qMQzGkwXz4PuvD+
-         zYPg6fVALpmo18QvRcwGMVVU5FUHaOvWSopO84D2ghKJyMVay9VTj05xUjdi3OgxxTvZ
-         coNA==
+        d=gateworks-com.20221208.gappssmtp.com; s=20221208; t=1688776090; x=1691368090;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=/5scLeTRuOJLInnV6UUpK9QZKO8xpvC3qyWzv3ycz0E=;
+        b=2p6N4YTdXt9LoozL+7rAtoW4mrl/qAPP07Az723pbUljbdQOz79PQyprhFQvzWN6o3
+         etCvmXkVWKAWg/sPTsWWtznOTr+7o+Y1riTBfgLP9LwLYRo1zQs7bBuq7VncyO11WWs8
+         6QbiG8+pLkH4klxHZONBMIgiAxF0/zTiBgGNu6bWHZJiBCGJ8wKjAKa3AYipsLjrrdD/
+         lhK1ZosIqulbJTXz6X7pCpuQ2/mK7uVw4NwIngnvVgoGrtahqMwJszptFBZYUNj9cu23
+         wlT1kCNBE7VPMt6+nOl/u4jBvcPoX8+qYN2UG/vUeB2XeXRQFTKLz2fYnDZxR4jy24Bd
+         QUuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688774146; x=1691366146;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dso2mcatmgfyOH+exjp6YHYefmmJPBr+6wmnSbURNss=;
-        b=ImHwT4NMeF9RmpQGQVBEou5/rOWDVhLeefCXXnnnZgLf4jIphYBWoZahXQAT7LU4AA
-         +dVNKPTRtDwGzpCHD8SxhIL0AyW1eZa/iKgqJ3JcA35HWS7tF8OW3jMO5UIfbQi+42ja
-         J6FowdU5XmBbkXy0nefF9vHFH7Ea8HVqZ0DNC32b3SWFuSYIY7/L/+H3NvwSHsJ7kWXT
-         4DSkOE2+SWH9qq6FstrRELG4RYWW/Ngw9l3iRLRcjH09mrf1YYRFX3lewBrfs8JAo3c6
-         7a1fK16STGw6oKhqU1gYTt92UEC8MZmLjUiezQ5MQw2MqaumibgkyvmSCJINVtbyoi9X
-         r9qA==
-X-Gm-Message-State: ABy/qLa9nz83/h0S9Fhsa2Em/hHlr2XIiFeRQc058F7ex2sg1MvxbWJX
-        CS6iQe3zk1Jf1+Nf4Yde7mI/Y7qxtKYYIkN1GZunIA==
-X-Google-Smtp-Source: APBJJlFvAEM84y0BrkAjkxEDlbGpQ9eHri+HEwLLbNnPPKMCG6FZAVzbcMXgOKyPIXnwhr2elBDRxLbN0dCGbUGaDcU=
-X-Received: by 2002:a2e:b163:0:b0:2b6:df6b:84c0 with SMTP id
- a3-20020a2eb163000000b002b6df6b84c0mr4716545ljm.25.1688774145636; Fri, 07 Jul
- 2023 16:55:45 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1688776090; x=1691368090;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/5scLeTRuOJLInnV6UUpK9QZKO8xpvC3qyWzv3ycz0E=;
+        b=Ht/5EypCCGmPzrG1mo+1DQ5egWvgjP/vjHXBasNa8V0EplRXsUQXpDp6M/Pji1DIO/
+         5j9ZeobwrE+xgHmqPR/P1uih75IS+Z1Pu2ELxfCDjqMUyaaFtptm1FqSlu146YGEgPOE
+         6MDxuHqs5Yjr/gJU1+mgTT4ez2rq7B6gP4Ud6N515qSkcaxnAxYtrydHy0PzbnBWcXEK
+         22Nb3HSrce/mdNkSjhG0wDAQgtsAU8OzSCkNGvmSKxSBpko8p4+DDqh66skbRTOG2kzZ
+         2MLOQrF9FNBctHirSuQKE+c9qppmV9+MS9lj5y29uWjBb3XeB6mdGjDpIgL52FJpGnC/
+         iMYw==
+X-Gm-Message-State: ABy/qLYmTMja85uuLLF6szY5fXAQO/5OBqv4+rGPY+PaIBrKk7Emvq8T
+        7NX25ev1zUdKS7ZXHwaSHSgJqJh9RTKafGlwCZtGgA==
+X-Google-Smtp-Source: APBJJlEvYRMg598Y4N5/Mgh3vA6pGobLMUcsAdA7Dt8h8VbMZbD2ha3TDNZHFVx4QDUyaN/MOXclvrHuC5dercnbdRM=
+X-Received: by 2002:a05:6512:4018:b0:4f8:5ede:d452 with SMTP id
+ br24-20020a056512401800b004f85eded452mr5545356lfb.55.1688776089752; Fri, 07
+ Jul 2023 17:28:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230417055627.16482-1-laurent.pinchart@ideasonboard.com>
- <20230417080117.jiqpynebq2we2hh4@pengutronix.de> <20230417081510.GA19964@pendragon.ideasonboard.com>
- <3232774.44csPzL39Z@steina-w> <CAHCN7xJ26TMD4U_5wTtGcGFHZBTTewVRd+mnKa5Ff5cRxBdHPA@mail.gmail.com>
- <20230417131553.bw5kkrpbptdnf6mi@pengutronix.de>
-In-Reply-To: <20230417131553.bw5kkrpbptdnf6mi@pengutronix.de>
 From:   Tim Harvey <tharvey@gateworks.com>
-Date:   Fri, 7 Jul 2023 16:55:33 -0700
-Message-ID: <CAJ+vNU2itUCBBagcHW+LhoLdhOvJQ=QKup8LZJuQu6HD2M6dvg@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] arm64: dts: imx8mp: Add CSIS DT nodes
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Adam Ford <aford173@gmail.com>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        kernel@pengutronix.de,
-        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-        Rob Herring <robh+dt@kernel.org>, linux-imx@nxp.com,
+Date:   Fri, 7 Jul 2023 17:27:58 -0700
+Message-ID: <CAJ+vNU1xHpuFZjG5ySAkg9aPxxMsp581aA+bZzHqhp8c=QGpFg@mail.gmail.com>
+Subject: imx8mp mipi csi camera overlay: Unable to retrieve endpoint for port@1
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linux ARM Mailing List <linux-arm-kernel@lists.infradead.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Sascha Hauer <kernel@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Shawn Guo <shawnguo@kernel.org>, linux-media@vger.kernel.org,
-        Marco Felsch <m.felsch@pengutronix.de>
+        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Adam Ford <aford173@gmail.com>,
+        Schrempf Frieder <frieder.schrempf@kontron.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Apr 17, 2023 at 6:16=E2=80=AFAM Marco Felsch <m.felsch@pengutronix.=
-de> wrote:
->
-> On 23-04-17, Adam Ford wrote:
->
-> ...
->
-> > > > > > > If we would add:
-> > > > > > >                                                 mipi_csi_0_in=
-:
-> > > endpoint {};
-> > > > > > >
-> > > > > > > here we could refernce it from overlays/board dts files more =
-easily.
-> > > > > >
-> > > > > > Isn't there an unwritten rule (or consensus) that an endpoint s=
-hould
-> > > > > > always have a remote-endpoint property ?
-> > > > >
-> > > > > I don't know if there is one.
-> > > > >
-> > > > > > While ports describe hardware properties of a device and should=
- always
-> > > > > > be there regardless of connections, endpoints describe connecti=
-ons and
-> > > > > > I don't think they should be instantiated with a valid
-> > > > > > remote-endpoint.
-> > > > >
-> > > > > I know, therefore I mentioned it as idea to make it 'easier' to a=
-dd
-> > > > > camera nodes.
-> > > >
-> > > > As a middleground, would it be useful to have a label for the port =
-?
-> > > > Something like
-> > > >
-> > > >       mipi_csi_0: csi@32e40000 {
-> > > >               ports {
-> > > >                       mipi_csi_0_port_0: port@0 {
-> > > >                       };
-> > > >               };
-> > > >       };
-> > > >
-> > > > An overlay could then reference that and create the endpoint. I'm n=
-ot
-> > > > entirely sure how useful that would be though, as the overlay would=
- need
-> > > > to enable the CSI node anyway. Compare
-> > > >
-> > > > --------
-> > > > &mipi_csi_0 {
-> > > >       status =3D "okay";
-> > > > };
-> > > >
-> > > > &mipi_csi_0_port_0 {
-> > > >       mipi_csi_0_in: endpoint {
-> > > >               remote-endpoint =3D <&imx327_out>;
-> > > >       };
-> > > > };
-> > > > --------
-> > > >
-> > > > with
-> > > >
-> > > > --------
-> > > > &mipi_csi_0 {
-> > > >       status =3D "okay";
-> > > >
-> > > >       ports {
-> > > >               port@0 {
-> > > >                       mipi_csi_0_in: endpoint {
-> > > >                               remote-endpoint =3D <&imx327_out>;
-> > > >                       };
-> > > >               };
-> > > >       };
-> > > > };
-> > > > --------
-> > > >
-> > > > I have a slight preference for the latter as it groups all the CSI0=
- data
-> > > > in a single overlay target, but if the former is generally preferre=
-d,
-> > > > I'm fine with that too.
-> > >
-> > > The former is more compact, but also raises the following dtc warning=
-s while
-> > > creating the .dtbo:
-> > > Warning (graph_endpoint): /fragment@4/__overlay__: graph endpoint nod=
-e name
-> > > should be 'endpoint'
-> > > Warning (graph_endpoint): /fragment@4/__overlay__: graph connection t=
-o node '/
-> > > fragment@1/__overlay__/ports/port@1/endpoint' is not bidirectional
-> > >
-> > > for the following snippet:
-> > >
-> > > &mipi_csi_0_out {
-> > >         remote-endpoint =3D <&isp1_in>;
-> > > };
-> > >
-> > > I'm not sure if there is a chance to fix at all.
-> >
-> > Once there is consensus on how this should be generically plumbed,
-> > please keep me in the loop, so I can add the corresponding imx8m Nano
-> > trees as well.  I've tested Laurent's work for a while on the Nano
-> > that I have.  I was going to push DT updates for Nano, then I saw this
-> > conversation, so I decided to hold off for now.
->
-> This was just an idea nothing serious. Maybe Krzysztof have a strong
-> opinion on that.
->
-> Regards,
->   Marco
->
+Greetings,
 
-Hi Laurent,
+I have an imx219 camera connected to an imx8mp-venice-gw74xx via the
+following details:
+- camera is a RaspberryPi Camera v2 -
+https://datasheets.raspberrypi.com/camera/camera-v2-schematics.pdf
+- has its own on-board 24MHz osc so no clock is required from the baseboard
+- pin 11 on the camera enables 1.8V and 2.8V LDO which is connected to
+IMX8MP GPIO1_IO1 so we use that as a gpio regulator
+- MIPI_CSI1 lanes 0 and 1 are used
 
-Is there any consensus on this yet?
+I'm using Linux 6.4 with Laurent's pending patch to add the MIPI CSI
+DT nodes to imx8mp.dtsi [1] as follows:
 
-I have a imx219 camera attached to an imx8mp-venice-gw74xx that I'm
-trying to figure out how to connect up via an overlay to test it.
+#include <dt-bindings/gpio/gpio.h>
+#include "imx8mp-pinfunc.h"
+
+/dts-v1/;
+/plugin/;
+
+&{/} {
+        compatible = "gw,imx8mp-gw74xx", "fsl,imx8mp";
+
+        reg_cam: regulator-cam {
+                pinctrl-names = "default";
+                pinctrl-0 = <&pinctrl_reg_cam>;
+                compatible = "regulator-fixed";
+                regulator-name = "reg_cam";
+                gpio = <&gpio1 1 GPIO_ACTIVE_HIGH>;
+                enable-active-high;
+                regulator-min-microvolt = <1800000>;
+                regulator-max-microvolt = <1800000>;
+        };
+
+        cam24m: cam24m {
+                compatible = "fixed-clock";
+                #clock-cells = <0>;
+                clock-frequency = <24000000>;
+                clock-output-names = "cam24m";
+        };
+};
+
+&i2c3 {
+        #address-cells = <1>;
+        #size-cells = <0>;
+
+        imx219: sensor@10 {
+                compatible = "sony,imx219";
+                reg = <0x10>;
+                clocks = <&cam24m>;
+                VDIG-supply = <&reg_cam>;
+
+                port {
+                        /* MIPI CSI-2 bus endpoint */
+                        imx219_to_mipi_csi2: endpoint {
+                                remote-endpoint = <&mipi_csi_0_in>;
+                                clock-lanes = <0>;
+                                data-lanes = <1 2>;
+                                link-frequencies = /bits/ 64 <456000000>;
+                        };
+                };
+        };
+};
+
+&mipi_csi_0 {
+        status = "okay";
+
+        ports {
+                port@0 {
+                        mipi_csi_0_in: endpoint {
+                                remote-endpoint = <&imx219_to_mipi_csi2>;
+                                data-lanes = <1 2>;
+                        };
+                };
+        };
+};
+
+&iomuxc {
+        pinctrl_reg_cam: regcamgrp {
+                fsl,pins = <
+                        MX8MP_IOMUXC_GPIO1_IO01__GPIO1_IO01     0x41
+                >;
+        };
+};
+
+imx-mipi-csis fails to probe due to a missing port1 endpoint and I'm
+not clear what to do with that:
+imx-mipi-csis 32e40000.csi: Unable to retrieve endpoint for port@1
+imx-mipi-csis: probe of 32e40000.csi failed with error -2
+
+Any suggestions?
 
 Best regards,
 
 Tim
+[1] https://patchwork.linuxtv.org/project/linux-media/patch/20230418153104.21337-2-laurent.pinchart@ideasonboard.com/
