@@ -2,75 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC4AE74BAE4
-	for <lists+linux-media@lfdr.de>; Sat,  8 Jul 2023 03:11:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3DC074BD21
+	for <lists+linux-media@lfdr.de>; Sat,  8 Jul 2023 11:38:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229887AbjGHBLD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 7 Jul 2023 21:11:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59258 "EHLO
+        id S229666AbjGHJis (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 Jul 2023 05:38:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229571AbjGHBLB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 7 Jul 2023 21:11:01 -0400
-Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com [IPv6:2001:4860:4864:20::30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0B02210B
-        for <linux-media@vger.kernel.org>; Fri,  7 Jul 2023 18:11:00 -0700 (PDT)
-Received: by mail-oa1-x30.google.com with SMTP id 586e51a60fabf-1b0606bee45so2455689fac.3
-        for <linux-media@vger.kernel.org>; Fri, 07 Jul 2023 18:11:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688778660; x=1691370660;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2y2CScRtMXUgUZCvm8+PZgZsT8tNvD9LAv/sYdlwSPI=;
-        b=FD0Yd4x0ybWf40fZW2wDWAw/v4NLvTpoVu1kiEsq1XLyAZMBcgcoMujBcKDZVTct69
-         zR6pRFs1s8zUXfKiO6A9UXaFRUQLnKdHT2N0Qp3+vTA6lf6kYGis0Klsx11xfdQIPQLE
-         qJMD+y8VPSYm2rftln57cRhiZyLvljrUzx3ByG2nsEUECvqdzZ+tTzVwLwUSR4Z1ZM0M
-         2jdr9OVnpH/h+sy0MXfKwfi/pGtZoCBjswjV2rtsxZjurg9JalLSvlTsZdiRweSSsiVd
-         izjz+d15XRQ4Xsj2S8NpR65IBu9IKhaGCyy+lgXPjI827/wYGUgoRf9d5R+ZBRRhFIHK
-         Z3VQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688778660; x=1691370660;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2y2CScRtMXUgUZCvm8+PZgZsT8tNvD9LAv/sYdlwSPI=;
-        b=CmFiueLFLFPcwq1rrMPGradlcE65d54F+X/bmJK+M5wCC/sZihTbjZYfn9Dm0oHaef
-         rhQofRxcPE6WdLKj4m5SSMNJlvNomdu9j4F30B5DVKctWmJSkJ9IEJu4fnzN5N/6mBcK
-         wTOWTmlyh7JYqxVbnhoS6T4Mt3LuDPUxxnxs7EZOj41RkgWN1JCjJZ9EfrZ/+sic1LAr
-         BdetTF+oJet4cUEvtOryqLV80WgC/CbvmFFjN+zKtoZRiw0iASvcGsAFNKsra60wvMJy
-         LyWrKY1FFsHhPW1ugPPneXCNY4X3cA/okOWLCVGp0/MRTSEtaXCXcHnrlsM41fZZ7fYW
-         zBNw==
-X-Gm-Message-State: ABy/qLbOtjK4vr65DaJvA1mqBb4p3dfyWAF0851Cq6g8jk10X9ZT1mEA
-        KDdSSEk/1Z9ojtOlh1DE6ke5KmuBsKwBt5KZ3jg=
-X-Google-Smtp-Source: APBJJlGmAt3Nth+r+z4aJRB49VruR5eJMMKz7bjc2/3/HODzbi73ra1W6jFnrRxnb6tQkR2lE3lxWpKdnW9uw2DgLoU=
-X-Received: by 2002:a05:6870:171d:b0:19f:202:4fb9 with SMTP id
- h29-20020a056870171d00b0019f02024fb9mr9609554oae.38.1688778659709; Fri, 07
- Jul 2023 18:10:59 -0700 (PDT)
+        with ESMTP id S229582AbjGHJir (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Jul 2023 05:38:47 -0400
+Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com [162.62.57.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8BBA191;
+        Sat,  8 Jul 2023 02:38:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+        s=s201512; t=1688809121;
+        bh=nVLtRRwwceh9fQVqJz+TakQQmvjBJzFSWM3aixOvYTk=;
+        h=From:To:Cc:Subject:Date;
+        b=S+i/ANwoT4jg/ciIhUsYfyjrd3Ub5toXBjQcGqzdU7P+7ncyiDmpHN55ZJcQNp4Cf
+         mIEHNw6msGS1cyjG/4IufleJrrT1x5wCzhqRylkSvohTJScWV7420OswBLas8pE8Oa
+         k3RXBYKm5d5sdz4kTCdc0RhTOzutCR1+tUSRykHE=
+Received: from KernelDevBox.byted.org ([180.184.103.200])
+        by newxmesmtplogicsvrszb6-0.qq.com (NewEsmtp) with SMTP
+        id 77AA503A; Sat, 08 Jul 2023 17:29:58 +0800
+X-QQ-mid: xmsmtpt1688808598tnbevog7l
+Message-ID: <tencent_0CAE84EB4D452DD8560158AD0792021B6A06@qq.com>
+X-QQ-XMAILINFO: NMmJpeSXIGQNlLllWTDWR6ktexkU6Mk4jyf+NPChqp8ijXM2pwsZEQq4jAlfFQ
+         EBriLnLf9C0als78nFj6r3ofJzbc4CvZ+4Jp6jd3ZhU0tCjyPYtG+C/+kVWdOTKhdZKRvVF8o0Bc
+         V6UCdaQlr7usVxhucKINM3q5Xc23v57N6xewsBKq+8InWvMeohRKB6uA0MPxXLBKWSghiTRih0z8
+         aeAxxDV60UY1ripNsFqKWrm0IBnELqw5GsEH6nHBHBfgCsxjNapBM+bm/HwFu+3lJt/qyFs7dsk+
+         T8vKgFA+z4dqOqwW/vZCX3Ja6KYSJswBm/o2bXDRbXUI+Mgb4W5a/gORBCxoSpP4KLxFdm3oIq5E
+         vmg3Xo1dn2bjbIU3LqR2biuhQrnS2xeq1i6PWGQnRq4/5Xe3Eiuxe71UbnYbsd9Xk53qWpHmvm1i
+         yZ67YC7XA56ddkKbTQvMHJnPBHo4ymNwboQ7+FP3maIqDmbmdqtzea3BVX6IK7XcOQaD7H38U1KO
+         fmBw40wMFKNo81taefi7SiTqIjrXxq2bl8u+On4nqVMQR35JbIBII3OEjMItMLW8eCPvFDm9saK0
+         1o86EFx3vD9sX79mLcKUgsNdWRjsdkWqFE4Rq0iZYxBpJzFlpyLaq5GFDwQz6geX5VDA99QLtCs7
+         0WTsOkiIiygzLQhb+PQ0Gh+rPs1POCTnoaRsAVHn3PTO1cBT2pRgNzYgbXUzkdyWnj03JUd8GbdK
+         n24QqB2A9qPk4jm8EIF4J0VkgiKNmu8v5UAR94FwVJrllxi4NJcBrhoSOTv4PVhbeYhJOl9GR2AV
+         OdxHe+bucbywzV4A40WYkAPEdBpf3iiMBSxlmGkUwziTUyDpnkbovFl669kfAcPwM9GRuOCaPX1B
+         /8RP8Af9Z3EkgDGw9Ge1W5u0mMDOgEeJqRmiRrrb+/xMpBEBpGWvv65FdqPyNOgy/jwh4voxxvrM
+         A0thGkrRlxuEPUq5DTOhSwMeSBCnADCXfwKh2AtKAYQMrDbUq29g==
+X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
+From:   Zhang Shurong <zhang_shurong@foxmail.com>
+To:     crope@iki.fi
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Zhang Shurong <zhang_shurong@foxmail.com>
+Subject: [PATCH] media: dvb-usb-v2: gl861: Fix null-ptr-deref in gl861_i2c_master_xfer
+Date:   Sat,  8 Jul 2023 17:29:57 +0800
+X-OQ-MSGID: <20230708092957.3163837-1-zhang_shurong@foxmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <CAJ+vNU1xHpuFZjG5ySAkg9aPxxMsp581aA+bZzHqhp8c=QGpFg@mail.gmail.com>
-In-Reply-To: <CAJ+vNU1xHpuFZjG5ySAkg9aPxxMsp581aA+bZzHqhp8c=QGpFg@mail.gmail.com>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Fri, 7 Jul 2023 20:10:48 -0500
-Message-ID: <CAHCN7xKy8gNz5V+9rdh-GhdYbEAsWpRbhNK-HD-C9D=BSO14+w@mail.gmail.com>
-Subject: Re: imx8mp mipi csi camera overlay: Unable to retrieve endpoint for port@1
-To:     Tim Harvey <tharvey@gateworks.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linux ARM Mailing List <linux-arm-kernel@lists.infradead.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sascha Hauer <kernel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Schrempf Frieder <frieder.schrempf@kontron.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        HELO_DYNAMIC_IPADDR,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H5,
+        RCVD_IN_MSPIKE_WL,RDNS_DYNAMIC,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,122 +64,43 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jul 7, 2023 at 7:28=E2=80=AFPM Tim Harvey <tharvey@gateworks.com> w=
-rote:
->
-> Greetings,
->
-> I have an imx219 camera connected to an imx8mp-venice-gw74xx via the
-> following details:
-> - camera is a RaspberryPi Camera v2 -
-> https://datasheets.raspberrypi.com/camera/camera-v2-schematics.pdf
-> - has its own on-board 24MHz osc so no clock is required from the baseboa=
-rd
-> - pin 11 on the camera enables 1.8V and 2.8V LDO which is connected to
-> IMX8MP GPIO1_IO1 so we use that as a gpio regulator
-> - MIPI_CSI1 lanes 0 and 1 are used
->
-> I'm using Linux 6.4 with Laurent's pending patch to add the MIPI CSI
-> DT nodes to imx8mp.dtsi [1] as follows:
->
-> #include <dt-bindings/gpio/gpio.h>
-> #include "imx8mp-pinfunc.h"
->
-> /dts-v1/;
-> /plugin/;
->
-> &{/} {
->         compatible =3D "gw,imx8mp-gw74xx", "fsl,imx8mp";
->
->         reg_cam: regulator-cam {
->                 pinctrl-names =3D "default";
->                 pinctrl-0 =3D <&pinctrl_reg_cam>;
->                 compatible =3D "regulator-fixed";
->                 regulator-name =3D "reg_cam";
->                 gpio =3D <&gpio1 1 GPIO_ACTIVE_HIGH>;
->                 enable-active-high;
->                 regulator-min-microvolt =3D <1800000>;
->                 regulator-max-microvolt =3D <1800000>;
->         };
->
->         cam24m: cam24m {
->                 compatible =3D "fixed-clock";
->                 #clock-cells =3D <0>;
->                 clock-frequency =3D <24000000>;
->                 clock-output-names =3D "cam24m";
->         };
-> };
->
-> &i2c3 {
->         #address-cells =3D <1>;
->         #size-cells =3D <0>;
->
->         imx219: sensor@10 {
->                 compatible =3D "sony,imx219";
->                 reg =3D <0x10>;
->                 clocks =3D <&cam24m>;
->                 VDIG-supply =3D <&reg_cam>;
->
->                 port {
->                         /* MIPI CSI-2 bus endpoint */
->                         imx219_to_mipi_csi2: endpoint {
->                                 remote-endpoint =3D <&mipi_csi_0_in>;
->                                 clock-lanes =3D <0>;
->                                 data-lanes =3D <1 2>;
->                                 link-frequencies =3D /bits/ 64 <456000000=
->;
->                         };
->                 };
->         };
-> };
->
-> &mipi_csi_0 {
->         status =3D "okay";
->
->         ports {
->                 port@0 {
->                         mipi_csi_0_in: endpoint {
->                                 remote-endpoint =3D <&imx219_to_mipi_csi2=
->;
->                                 data-lanes =3D <1 2>;
->                         };
->                 };
->         };
-> };
->
-> &iomuxc {
->         pinctrl_reg_cam: regcamgrp {
->                 fsl,pins =3D <
->                         MX8MP_IOMUXC_GPIO1_IO01__GPIO1_IO01     0x41
->                 >;
->         };
-> };
->
-> imx-mipi-csis fails to probe due to a missing port1 endpoint and I'm
-> not clear what to do with that:
-> imx-mipi-csis 32e40000.csi: Unable to retrieve endpoint for port@1
-> imx-mipi-csis: probe of 32e40000.csi failed with error -2
->
-> Any suggestions?
+In gl861_i2c_master_xfer, msg is controlled by user. When msg[i].buf
+is null and msg[i].len is zero, former checks on msg[i].buf would be
+passed. Malicious data finally reach gl861_i2c_master_xfer. If accessing
+msg[i].buf[0] without sanity check, null ptr deref would happen.
+We add check on msg[i].len to prevent crash.
 
-I think the port needs to point to an ISI node or a ISP node.
-Linux-next shows port@1 pointing to  isi_in_0.  In the patch you're
-referencing, it appears that node@1 is missing.
+Similar commit:
+commit 0ed554fd769a
+("media: dvb-usb: az6027: fix null-ptr-deref in az6027_i2c_xfer()")
 
-Check out:
+Signed-off-by: Zhang Shurong <zhang_shurong@foxmail.com>
+---
+ drivers/media/usb/dvb-usb-v2/gl861.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/=
-arch/arm64/boot/dts/freescale/imx8mp.dtsi?h=3Dnext-20230707&id=3D9da15c4c85=
-0dd53309e07d5611f33655f8f8c05d
+diff --git a/drivers/media/usb/dvb-usb-v2/gl861.c b/drivers/media/usb/dvb-usb-v2/gl861.c
+index 0c434259c36f..a552b646d407 100644
+--- a/drivers/media/usb/dvb-usb-v2/gl861.c
++++ b/drivers/media/usb/dvb-usb-v2/gl861.c
+@@ -97,7 +97,7 @@ static int gl861_i2c_master_xfer(struct i2c_adapter *adap, struct i2c_msg msg[],
+ 	/* XXX: I2C adapter maximum data lengths are not tested */
+ 	if (num == 1 && !(msg[0].flags & I2C_M_RD)) {
+ 		/* I2C write */
+-		if (msg[0].len < 2 || msg[0].len > sizeof(ctx->buf)) {
++		if (msg[0].len == 0 || msg[0].len > sizeof(ctx->buf)) {
+ 			ret = -EOPNOTSUPP;
+ 			goto err;
+ 		}
+@@ -120,7 +120,7 @@ static int gl861_i2c_master_xfer(struct i2c_adapter *adap, struct i2c_msg msg[],
+ 	} else if (num == 2 && !(msg[0].flags & I2C_M_RD) &&
+ 		   (msg[1].flags & I2C_M_RD)) {
+ 		/* I2C write + read */
+-		if (msg[0].len > 1 || msg[1].len > sizeof(ctx->buf)) {
++		if (msg[0].len != 1 || msg[1].len > sizeof(ctx->buf)) {
+ 			ret = -EOPNOTSUPP;
+ 			goto err;
+ 		}
+-- 
+2.30.2
 
-See if that helps.
-
-adam
-
-
->
-> Best regards,
->
-> Tim
-> [1] https://patchwork.linuxtv.org/project/linux-media/patch/2023041815310=
-4.21337-2-laurent.pinchart@ideasonboard.com/
