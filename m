@@ -2,105 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E3DC074BD21
-	for <lists+linux-media@lfdr.de>; Sat,  8 Jul 2023 11:38:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D34E74BD3A
+	for <lists+linux-media@lfdr.de>; Sat,  8 Jul 2023 12:14:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229666AbjGHJis (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 Jul 2023 05:38:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49328 "EHLO
+        id S229926AbjGHKOs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 Jul 2023 06:14:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229582AbjGHJir (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Jul 2023 05:38:47 -0400
-Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com [162.62.57.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8BBA191;
-        Sat,  8 Jul 2023 02:38:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-        s=s201512; t=1688809121;
-        bh=nVLtRRwwceh9fQVqJz+TakQQmvjBJzFSWM3aixOvYTk=;
-        h=From:To:Cc:Subject:Date;
-        b=S+i/ANwoT4jg/ciIhUsYfyjrd3Ub5toXBjQcGqzdU7P+7ncyiDmpHN55ZJcQNp4Cf
-         mIEHNw6msGS1cyjG/4IufleJrrT1x5wCzhqRylkSvohTJScWV7420OswBLas8pE8Oa
-         k3RXBYKm5d5sdz4kTCdc0RhTOzutCR1+tUSRykHE=
-Received: from KernelDevBox.byted.org ([180.184.103.200])
-        by newxmesmtplogicsvrszb6-0.qq.com (NewEsmtp) with SMTP
-        id 77AA503A; Sat, 08 Jul 2023 17:29:58 +0800
-X-QQ-mid: xmsmtpt1688808598tnbevog7l
-Message-ID: <tencent_0CAE84EB4D452DD8560158AD0792021B6A06@qq.com>
-X-QQ-XMAILINFO: NMmJpeSXIGQNlLllWTDWR6ktexkU6Mk4jyf+NPChqp8ijXM2pwsZEQq4jAlfFQ
-         EBriLnLf9C0als78nFj6r3ofJzbc4CvZ+4Jp6jd3ZhU0tCjyPYtG+C/+kVWdOTKhdZKRvVF8o0Bc
-         V6UCdaQlr7usVxhucKINM3q5Xc23v57N6xewsBKq+8InWvMeohRKB6uA0MPxXLBKWSghiTRih0z8
-         aeAxxDV60UY1ripNsFqKWrm0IBnELqw5GsEH6nHBHBfgCsxjNapBM+bm/HwFu+3lJt/qyFs7dsk+
-         T8vKgFA+z4dqOqwW/vZCX3Ja6KYSJswBm/o2bXDRbXUI+Mgb4W5a/gORBCxoSpP4KLxFdm3oIq5E
-         vmg3Xo1dn2bjbIU3LqR2biuhQrnS2xeq1i6PWGQnRq4/5Xe3Eiuxe71UbnYbsd9Xk53qWpHmvm1i
-         yZ67YC7XA56ddkKbTQvMHJnPBHo4ymNwboQ7+FP3maIqDmbmdqtzea3BVX6IK7XcOQaD7H38U1KO
-         fmBw40wMFKNo81taefi7SiTqIjrXxq2bl8u+On4nqVMQR35JbIBII3OEjMItMLW8eCPvFDm9saK0
-         1o86EFx3vD9sX79mLcKUgsNdWRjsdkWqFE4Rq0iZYxBpJzFlpyLaq5GFDwQz6geX5VDA99QLtCs7
-         0WTsOkiIiygzLQhb+PQ0Gh+rPs1POCTnoaRsAVHn3PTO1cBT2pRgNzYgbXUzkdyWnj03JUd8GbdK
-         n24QqB2A9qPk4jm8EIF4J0VkgiKNmu8v5UAR94FwVJrllxi4NJcBrhoSOTv4PVhbeYhJOl9GR2AV
-         OdxHe+bucbywzV4A40WYkAPEdBpf3iiMBSxlmGkUwziTUyDpnkbovFl669kfAcPwM9GRuOCaPX1B
-         /8RP8Af9Z3EkgDGw9Ge1W5u0mMDOgEeJqRmiRrrb+/xMpBEBpGWvv65FdqPyNOgy/jwh4voxxvrM
-         A0thGkrRlxuEPUq5DTOhSwMeSBCnADCXfwKh2AtKAYQMrDbUq29g==
-X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
-From:   Zhang Shurong <zhang_shurong@foxmail.com>
-To:     crope@iki.fi
-Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Zhang Shurong <zhang_shurong@foxmail.com>
-Subject: [PATCH] media: dvb-usb-v2: gl861: Fix null-ptr-deref in gl861_i2c_master_xfer
-Date:   Sat,  8 Jul 2023 17:29:57 +0800
-X-OQ-MSGID: <20230708092957.3163837-1-zhang_shurong@foxmail.com>
-X-Mailer: git-send-email 2.30.2
+        with ESMTP id S229627AbjGHKOs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Jul 2023 06:14:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C70B1FD7
+        for <linux-media@vger.kernel.org>; Sat,  8 Jul 2023 03:14:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1688811246;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=XXGmlEuZBzEbzd2A9z1rJ8/RME6Slppu1c4BeP/zfx0=;
+        b=cYUpGMUAkSloDTqdbxW/apYYx/xwsld86OrW2nzCbvE8Vira+6ptC0Fic4Z1FGSyDP3dob
+        QI4Xshm65UgIiGYjHXf6PlIvG4sRWkaIhaE+1pDt17b5kOyCkhrD0RBcC3lfQu8Fpr/VNm
+        RjbGYBx2m1uHJhnhMFnhcaxrKR9gvfE=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-122-BtBztMizPQmAFGuiga3NFA-1; Sat, 08 Jul 2023 06:14:04 -0400
+X-MC-Unique: BtBztMizPQmAFGuiga3NFA-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-993d41cbc31so83884766b.1
+        for <linux-media@vger.kernel.org>; Sat, 08 Jul 2023 03:14:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688811243; x=1691403243;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=XXGmlEuZBzEbzd2A9z1rJ8/RME6Slppu1c4BeP/zfx0=;
+        b=ILCCdTk7p20CmVcYyF2pbhmiYt43m/H2IhFWvbRBwkNdbdhmPkAz/KsOxnHAYdO8jy
+         1Q6CViUbwzuf55SjIa2+dE/ftDtGJvK+e5T78c/47Vu703fkmmeObK+mObKmCPReMYVQ
+         VTm8pT9ejLORvNnJBa3pS2XaSN76lETDMPQbWU7InI2bC3AFCz5UvlCD2R+WF9VXUuVP
+         lvWPBsGMvy90GZ9IOHwRCfc6B0I9hNoUnyVPn8HByooK+xaR+OOFy3fOuy44BIDKr4vk
+         uY1fDfclZ3UMYfLCmCJJckfBqI7E2/yMdapBSz2hqR9Bs13G4+mmizEy+VTQiZJaZJpc
+         zf+g==
+X-Gm-Message-State: ABy/qLZx2xHwz8KYVUsx/C1VTkXeLwPQAFk71kefnwJZVneexa/w4ztn
+        vOS+Y4l7ze3302Gk4wqshHvh/VUbfPi/R/TYUjpJSy7EEhnmAT71wyLkjDUgphxvoLb7yBpfN1+
+        ZFFHNb/xB7oF6Z6YySiJj8Io=
+X-Received: by 2002:a17:906:198:b0:98d:f11e:4816 with SMTP id 24-20020a170906019800b0098df11e4816mr6162714ejb.29.1688811243687;
+        Sat, 08 Jul 2023 03:14:03 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlEnPO5MOEVPNi8XrDnbDV6cRBWExTM0iii1cor8uRbhooYXY4SYblFAGJ11OdjQSvw3fBsRNg==
+X-Received: by 2002:a17:906:198:b0:98d:f11e:4816 with SMTP id 24-20020a170906019800b0098df11e4816mr6162697ejb.29.1688811243295;
+        Sat, 08 Jul 2023 03:14:03 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id k13-20020a170906680d00b00977c7566ccbsm3270681ejr.164.2023.07.08.03.14.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 08 Jul 2023 03:14:02 -0700 (PDT)
+Message-ID: <c863b46b-60d3-980e-820d-29bd274dea16@redhat.com>
+Date:   Sat, 8 Jul 2023 12:14:01 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        HELO_DYNAMIC_IPADDR,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H5,
-        RCVD_IN_MSPIKE_WL,RDNS_DYNAMIC,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Content-Language: en-US, nl
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+From:   Hans de Goede <hdegoede@redhat.com>
+Subject: lunux-media build fix missing from 6.5-rc1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In gl861_i2c_master_xfer, msg is controlled by user. When msg[i].buf
-is null and msg[i].len is zero, former checks on msg[i].buf would be
-passed. Malicious data finally reach gl861_i2c_master_xfer. If accessing
-msg[i].buf[0] without sanity check, null ptr deref would happen.
-We add check on msg[i].len to prevent crash.
+Hi Mauro,
 
-Similar commit:
-commit 0ed554fd769a
-("media: dvb-usb: az6027: fix null-ptr-deref in az6027_i2c_xfer()")
+I just checked and this atomisp build fix:
 
-Signed-off-by: Zhang Shurong <zhang_shurong@foxmail.com>
----
- drivers/media/usb/dvb-usb-v2/gl861.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+https://lore.kernel.org/linux-media/20230613165109.111837-1-sakari.ailus@linux.intel.com/
 
-diff --git a/drivers/media/usb/dvb-usb-v2/gl861.c b/drivers/media/usb/dvb-usb-v2/gl861.c
-index 0c434259c36f..a552b646d407 100644
---- a/drivers/media/usb/dvb-usb-v2/gl861.c
-+++ b/drivers/media/usb/dvb-usb-v2/gl861.c
-@@ -97,7 +97,7 @@ static int gl861_i2c_master_xfer(struct i2c_adapter *adap, struct i2c_msg msg[],
- 	/* XXX: I2C adapter maximum data lengths are not tested */
- 	if (num == 1 && !(msg[0].flags & I2C_M_RD)) {
- 		/* I2C write */
--		if (msg[0].len < 2 || msg[0].len > sizeof(ctx->buf)) {
-+		if (msg[0].len == 0 || msg[0].len > sizeof(ctx->buf)) {
- 			ret = -EOPNOTSUPP;
- 			goto err;
- 		}
-@@ -120,7 +120,7 @@ static int gl861_i2c_master_xfer(struct i2c_adapter *adap, struct i2c_msg msg[],
- 	} else if (num == 2 && !(msg[0].flags & I2C_M_RD) &&
- 		   (msg[1].flags & I2C_M_RD)) {
- 		/* I2C write + read */
--		if (msg[0].len > 1 || msg[1].len > sizeof(ctx->buf)) {
-+		if (msg[0].len != 1 || msg[1].len > sizeof(ctx->buf)) {
- 			ret = -EOPNOTSUPP;
- 			goto err;
- 		}
--- 
-2.30.2
+Which is part of this fixes pull-req from Sakari, which also contains
+another build fix:
+
+https://lore.kernel.org/linux-media/ZJAdH+Ftqyd79QF4@valkosipuli.retiisi.eu/
+
+Is currently missing from Linus' master tree. Given all the negative
+feedback we got last cycle from Linus about missing media build-fixes
+it would be good to get these 2 on there way to Linus ASAP.
+
+Regards,
+
+Hans
 
