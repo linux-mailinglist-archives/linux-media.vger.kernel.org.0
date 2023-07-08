@@ -2,252 +2,521 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 743A374BD70
-	for <lists+linux-media@lfdr.de>; Sat,  8 Jul 2023 14:30:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4EBC74BDEB
+	for <lists+linux-media@lfdr.de>; Sat,  8 Jul 2023 16:53:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230039AbjGHMa4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 Jul 2023 08:30:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33954 "EHLO
+        id S229894AbjGHOxX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 Jul 2023 10:53:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229571AbjGHMaz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Jul 2023 08:30:55 -0400
-Received: from mail-pg1-f207.google.com (mail-pg1-f207.google.com [209.85.215.207])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 507A710CE
-        for <linux-media@vger.kernel.org>; Sat,  8 Jul 2023 05:30:54 -0700 (PDT)
-Received: by mail-pg1-f207.google.com with SMTP id 41be03b00d2f7-55b2ab496ecso3288052a12.2
-        for <linux-media@vger.kernel.org>; Sat, 08 Jul 2023 05:30:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688819453; x=1691411453;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wcJhsa4rjQZtF6LqIZDcb4BN7mqpvMNxCAmkIRBATO4=;
-        b=EXtc2IP+24U5t6Z0uCxzHDLPiPwDsAZsIaVdVBQuxojrg2N6eURso8HiL4p34p7fEz
-         VGQLAdyC38tUY6XFlWppDBWGuIMlssHo9ZrSu/JAbSkvwdvOKpCnfVCQdrOz3N7hwZKO
-         9HDS3kIn624JeawTHYdxmT5G8SSnvRL0QkMbFua2X+u8dbj9hu3LyNuzen04Sd2+/YI9
-         MuLnqQKiwW/rpTPX23i6q5K1tG/MNsz/wk8yWjxpWIqpOa2Zpu6Ui0ZOId1hL02NZRXI
-         4rpa6XiDDSkl9ZkEc6s6gdJjGMDyAiOLxtrOEiFbatk9HDzYo1QO+h1GeCsS5YCHElts
-         N5xg==
-X-Gm-Message-State: ABy/qLYq18lOvhRk4uUSknGjz6rkZ+7EgoN+yBLELAtsZpVWf0F/d3Zm
-        Wiw7oFK7b6vfp+ClsY34Ks+XxSRgV9ccP58TMj8pV5znqzIz
-X-Google-Smtp-Source: APBJJlEUddym+XPEotY+FTWOf9YevWKHITuhtvQSlg9VdJb2xHCMGsqVFT7F38vpEC/LT71lmA2h3XXOGjHy2wBrGVEy/JJ9Ibkk
+        with ESMTP id S229666AbjGHOxW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Jul 2023 10:53:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48188E4D
+        for <linux-media@vger.kernel.org>; Sat,  8 Jul 2023 07:52:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1688827946;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=hQYHkGvN6d/v6R7U+p5TM7X2D2iLAQssp45WtVv3MhY=;
+        b=WAMRLgSMHytUPWzlzUodg7o6Kruyz49qbUoAc9+Sd70KL7W/ADctD10Sy5GoLQGRS1pK7M
+        MzD5KV9126U8FCpHf8BgYQ7FIUTuCu2SrLwOKogbakWwdlZakPlxDV2xpZZDJX/J0lhJeh
+        Gc/EQNBukHXabvHU/BvK7thXqOUZQLs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-571-QLntCPrFO6Sb4lI8zL6tvg-1; Sat, 08 Jul 2023 10:52:23 -0400
+X-MC-Unique: QLntCPrFO6Sb4lI8zL6tvg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 62E5085A58A;
+        Sat,  8 Jul 2023 14:52:22 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.37])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 67B8C200AE6F;
+        Sat,  8 Jul 2023 14:52:20 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Tommaso Merciai <tomm.merciai@gmail.com>,
+        linux-media@vger.kernel.org, Daniel Scally <djrscally@gmail.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: [PATCH v5] media: i2c: Add driver for DW9719 VCM
+Date:   Sat,  8 Jul 2023 16:52:14 +0200
+Message-ID: <20230708145214.12940-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-X-Received: by 2002:a63:344a:0:b0:557:33c6:603a with SMTP id
- b71-20020a63344a000000b0055733c6603amr5581628pga.7.1688819453665; Sat, 08 Jul
- 2023 05:30:53 -0700 (PDT)
-Date:   Sat, 08 Jul 2023 05:30:53 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000a02a4205fff8eb92@google.com>
-Subject: [syzbot] [pvrusb2?] [usb?] KASAN: slab-use-after-free Read in pvr2_context_set_notify
-From:   syzbot <syzbot+621409285c4156a009b3@syzkaller.appspotmail.com>
-To:     isely@pobox.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        mchehab@kernel.org, pvrusb2@isely.net,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+From: Daniel Scally <djrscally@gmail.com>
 
-syzbot found the following issue on:
+Add a driver for the DW9719 VCM. The driver creates a v4l2 subdevice
+and registers a control to set the desired focus.
 
-HEAD commit:    24be4d0b46bb arch/arm64/mm/fault: Fix undeclared variable ..
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-console output: https://syzkaller.appspot.com/x/log.txt?x=11383b04a80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=f9122dc1c4589f4c
-dashboard link: https://syzkaller.appspot.com/bug?extid=621409285c4156a009b3
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14e2e43ca80000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=109a3a90a80000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/b64cbb1118f1/disk-24be4d0b.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/568048c1dd0d/vmlinux-24be4d0b.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/84ac264152e7/bzImage-24be4d0b.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+621409285c4156a009b3@syzkaller.appspotmail.com
-
-==================================================================
-BUG: KASAN: slab-use-after-free in pvr2_context_set_notify+0x2c4/0x310 drivers/media/usb/pvrusb2/pvrusb2-context.c:35
-Read of size 4 at addr ffff88810eb986d8 by task kworker/0:0/7
-
-CPU: 0 PID: 7 Comm: kworker/0:0 Not tainted 6.4.0-syzkaller-11311-g24be4d0b46bb #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/27/2023
-Workqueue: usb_hub_wq hub_event
-
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xd9/0x150 lib/dump_stack.c:106
- print_address_description.constprop.0+0x2c/0x3c0 mm/kasan/report.c:364
- print_report mm/kasan/report.c:475 [inline]
- kasan_report+0x11d/0x130 mm/kasan/report.c:588
- pvr2_context_set_notify+0x2c4/0x310 drivers/media/usb/pvrusb2/pvrusb2-context.c:35
- pvr_disconnect+0x80/0xf0 drivers/media/usb/pvrusb2/pvrusb2-main.c:79
- usb_unbind_interface+0x1dc/0x8e0 drivers/usb/core/driver.c:458
- device_remove drivers/base/dd.c:569 [inline]
- device_remove+0x11f/0x170 drivers/base/dd.c:561
- __device_release_driver drivers/base/dd.c:1270 [inline]
- device_release_driver_internal+0x443/0x610 drivers/base/dd.c:1293
- bus_remove_device+0x22c/0x420 drivers/base/bus.c:574
- device_del+0x399/0xa30 drivers/base/core.c:3814
- usb_disable_device+0x360/0x7b0 drivers/usb/core/message.c:1420
- usb_disconnect+0x2db/0x8a0 drivers/usb/core/hub.c:2253
- hub_port_connect drivers/usb/core/hub.c:5261 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5566 [inline]
- port_event drivers/usb/core/hub.c:5726 [inline]
- hub_event+0x2073/0x4ed0 drivers/usb/core/hub.c:5808
- process_one_work+0xa34/0x16f0 kernel/workqueue.c:2597
- process_scheduled_works kernel/workqueue.c:2664 [inline]
- worker_thread+0x881/0x10c0 kernel/workqueue.c:2750
- kthread+0x344/0x440 kernel/kthread.c:389
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:308
- </TASK>
-
-Allocated by task 7:
- kasan_save_stack+0x22/0x40 mm/kasan/common.c:45
- kasan_set_track+0x25/0x30 mm/kasan/common.c:52
- ____kasan_kmalloc mm/kasan/common.c:374 [inline]
- __kasan_kmalloc+0x7b/0x90 mm/kasan/common.c:383
- kmalloc include/linux/slab.h:579 [inline]
- kzalloc include/linux/slab.h:700 [inline]
- pvr2_context_create+0x53/0x2a0 drivers/media/usb/pvrusb2/pvrusb2-context.c:207
- pvr_probe+0x25/0xe0 drivers/media/usb/pvrusb2/pvrusb2-main.c:54
- usb_probe_interface+0x30f/0x960 drivers/usb/core/driver.c:396
- call_driver_probe drivers/base/dd.c:579 [inline]
- really_probe+0x240/0xca0 drivers/base/dd.c:658
- __driver_probe_device+0x1df/0x4b0 drivers/base/dd.c:798
- driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:828
- __device_attach_driver+0x1d4/0x2e0 drivers/base/dd.c:956
- bus_for_each_drv+0x149/0x1d0 drivers/base/bus.c:457
- __device_attach+0x1e4/0x4b0 drivers/base/dd.c:1028
- bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
- device_add+0x112d/0x1a40 drivers/base/core.c:3625
- usb_set_configuration+0x1196/0x1bc0 drivers/usb/core/message.c:2211
- usb_generic_driver_probe+0xcf/0x130 drivers/usb/core/generic.c:238
- usb_probe_device+0xd8/0x2c0 drivers/usb/core/driver.c:293
- call_driver_probe drivers/base/dd.c:579 [inline]
- really_probe+0x240/0xca0 drivers/base/dd.c:658
- __driver_probe_device+0x1df/0x4b0 drivers/base/dd.c:798
- driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:828
- __device_attach_driver+0x1d4/0x2e0 drivers/base/dd.c:956
- bus_for_each_drv+0x149/0x1d0 drivers/base/bus.c:457
- __device_attach+0x1e4/0x4b0 drivers/base/dd.c:1028
- bus_probe_device+0x17c/0x1c0 drivers/base/bus.c:532
- device_add+0x112d/0x1a40 drivers/base/core.c:3625
- usb_new_device+0xcb2/0x19d0 drivers/usb/core/hub.c:2590
- hub_port_connect drivers/usb/core/hub.c:5422 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5566 [inline]
- port_event drivers/usb/core/hub.c:5726 [inline]
- hub_event+0x2e3d/0x4ed0 drivers/usb/core/hub.c:5808
- process_one_work+0xa34/0x16f0 kernel/workqueue.c:2597
- process_scheduled_works kernel/workqueue.c:2664 [inline]
- worker_thread+0x881/0x10c0 kernel/workqueue.c:2750
- kthread+0x344/0x440 kernel/kthread.c:389
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:308
-
-Freed by task 892:
- kasan_save_stack+0x22/0x40 mm/kasan/common.c:45
- kasan_set_track+0x25/0x30 mm/kasan/common.c:52
- kasan_save_free_info+0x2b/0x40 mm/kasan/generic.c:521
- ____kasan_slab_free mm/kasan/common.c:236 [inline]
- ____kasan_slab_free+0x144/0x1b0 mm/kasan/common.c:200
- kasan_slab_free include/linux/kasan.h:162 [inline]
- slab_free_hook mm/slub.c:1792 [inline]
- slab_free_freelist_hook mm/slub.c:1818 [inline]
- slab_free mm/slub.c:3801 [inline]
- __kmem_cache_free+0xa1/0x350 mm/slub.c:3814
- pvr2_context_check drivers/media/usb/pvrusb2/pvrusb2-context.c:137 [inline]
- pvr2_context_thread_func+0x664/0x8e0 drivers/media/usb/pvrusb2/pvrusb2-context.c:158
- kthread+0x344/0x440 kernel/kthread.c:389
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:308
-
-The buggy address belongs to the object at ffff88810eb98600
- which belongs to the cache kmalloc-256 of size 256
-The buggy address is located 216 bytes inside of
- freed 256-byte region [ffff88810eb98600, ffff88810eb98700)
-
-The buggy address belongs to the physical page:
-page:ffffea00043ae600 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x10eb98
-head:ffffea00043ae600 order:1 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-anon flags: 0x200000000010200(slab|head|node=0|zone=2)
-page_type: 0xffffffff()
-raw: 0200000000010200 ffff888100041b40 ffffea00043ae300 0000000000000003
-raw: 0000000000000000 0000000000100010 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 1, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 1, tgid 1 (swapper/0), ts 7338785555, free_ts 0
- set_page_owner include/linux/page_owner.h:31 [inline]
- post_alloc_hook+0x2db/0x350 mm/page_alloc.c:1570
- prep_new_page mm/page_alloc.c:1577 [inline]
- get_page_from_freelist+0x13d5/0x2cb0 mm/page_alloc.c:3221
- __alloc_pages+0x1cb/0x4a0 mm/page_alloc.c:4477
- alloc_page_interleave+0x1e/0x1e0 mm/mempolicy.c:2112
- alloc_pages+0x233/0x270 mm/mempolicy.c:2274
- alloc_slab_page mm/slub.c:1862 [inline]
- allocate_slab+0x25f/0x390 mm/slub.c:2009
- new_slab mm/slub.c:2062 [inline]
- ___slab_alloc+0xbc3/0x15d0 mm/slub.c:3215
- __slab_alloc.constprop.0+0x56/0xa0 mm/slub.c:3314
- __slab_alloc_node mm/slub.c:3367 [inline]
- slab_alloc_node mm/slub.c:3460 [inline]
- __kmem_cache_alloc_node+0x2c3/0x300 mm/slub.c:3509
- __do_kmalloc_node mm/slab_common.c:984 [inline]
- __kmalloc_node_track_caller+0x4f/0x1a0 mm/slab_common.c:1005
- __do_krealloc mm/slab_common.c:1373 [inline]
- krealloc+0x5e/0xf0 mm/slab_common.c:1406
- add_sysfs_param+0xca/0x960 kernel/params.c:652
- kernel_add_sysfs_param kernel/params.c:813 [inline]
- param_sysfs_builtin kernel/params.c:852 [inline]
- param_sysfs_builtin_init+0x241/0x440 kernel/params.c:986
- do_one_initcall+0x105/0x630 init/main.c:1232
- do_initcall_level init/main.c:1294 [inline]
- do_initcalls init/main.c:1310 [inline]
- do_basic_setup init/main.c:1329 [inline]
- kernel_init_freeable+0x649/0xb90 init/main.c:1546
- kernel_init+0x1e/0x2c0 init/main.c:1437
-page_owner free stack trace missing
-
-Memory state around the buggy address:
- ffff88810eb98580: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
- ffff88810eb98600: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->ffff88810eb98680: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                                                    ^
- ffff88810eb98700: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
- ffff88810eb98780: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-==================================================================
-
-
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Signed-off-by: Daniel Scally <djrscally@gmail.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Changes in v5 (Hans de Goede)
+- Fix regulator getting disabled on regulator-enable failure in
+  dw9719_power_up(), messing up the enable count
+- Add missing space to 1 comment, add Andy's Reviewed-by
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Changes in v4 (Hans de Goede)
+- Back to a standalone patch again (instead of being part of a series)
+- Switch to using CCI helpers for register access
+- Use new DEFINE_RUNTIME_DEV_PM_OPS() for pm-ops
+- Make v4l2_subdev first member of dw9719_device
+- Drop v4l2_ctrl_handler_init() ret value check
+- Turn of VCM on dw9719_remove() if necessary
 
-If the bug is already fixed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+Changes in v3 (Hans de Goede)
+- New patch in v3 of this series based on Dan Scally's initial
+  DW9719 upstream submission:
+  https://lore.kernel.org/all/20211128232115.38833-1-djrscally@gmail.com/
+- Drop hack to enable "vsio" regulator, this is no longer necessary
+  now that there is a device-link making the VCM a runtime-pm consumer
+  of the sensor
+- Add checking of device-properties for sac-mode and vcm-freq,
+  as requested by Sakari, this is done similar to the dw9768:
+  Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.yaml
+  Note no devicetree binding doc is added since currently only
+  i2c_device_id enumeration (instantiated by IPU bridge) is
+  supported
+---
+ MAINTAINERS                |   7 +
+ drivers/media/i2c/Kconfig  |  12 ++
+ drivers/media/i2c/Makefile |   1 +
+ drivers/media/i2c/dw9719.c | 350 +++++++++++++++++++++++++++++++++++++
+ 4 files changed, 370 insertions(+)
+ create mode 100644 drivers/media/i2c/dw9719.c
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 494682dd437f..cf8e799f6ea2 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6266,6 +6266,13 @@ T:	git git://linuxtv.org/media_tree.git
+ F:	Documentation/devicetree/bindings/media/i2c/dongwoon,dw9714.yaml
+ F:	drivers/media/i2c/dw9714.c
+ 
++DONGWOON DW9719 LENS VOICE COIL DRIVER
++M:	Daniel Scally <djrscally@gmail.com>
++L:	linux-media@vger.kernel.org
++S:	Maintained
++T:	git git://linuxtv.org/media_tree.git
++F:	drivers/media/i2c/dw9719.c
++
+ DONGWOON DW9768 LENS VOICE COIL DRIVER
+ L:	linux-media@vger.kernel.org
+ S:	Orphan
+diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+index 26dc365365d8..9f2331e9836a 100644
+--- a/drivers/media/i2c/Kconfig
++++ b/drivers/media/i2c/Kconfig
+@@ -875,6 +875,18 @@ config VIDEO_DW9714
+ 	  capability. This is designed for linear control of
+ 	  voice coil motors, controlled via I2C serial interface.
+ 
++config VIDEO_DW9719
++	tristate "DW9719 lens voice coil support"
++	depends on I2C && VIDEO_DEV
++	select MEDIA_CONTROLLER
++	select VIDEO_V4L2_SUBDEV_API
++	select V4L2_ASYNC
++	select V4L2_CCI_I2C
++	help
++	  This is a driver for the DW9719 camera lens voice coil.
++	  This is designed for linear control of voice coil motors,
++	  controlled via I2C serial interface.
++
+ config VIDEO_DW9768
+ 	tristate "DW9768 lens voice coil support"
+ 	depends on I2C && VIDEO_DEV
+diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+index d175a2e2fb19..745f8d07e649 100644
+--- a/drivers/media/i2c/Makefile
++++ b/drivers/media/i2c/Makefile
+@@ -32,6 +32,7 @@ obj-$(CONFIG_VIDEO_DS90UB913) += ds90ub913.o
+ obj-$(CONFIG_VIDEO_DS90UB953) += ds90ub953.o
+ obj-$(CONFIG_VIDEO_DS90UB960) += ds90ub960.o
+ obj-$(CONFIG_VIDEO_DW9714) += dw9714.o
++obj-$(CONFIG_VIDEO_DW9719) += dw9719.o
+ obj-$(CONFIG_VIDEO_DW9768) += dw9768.o
+ obj-$(CONFIG_VIDEO_DW9807_VCM) += dw9807-vcm.o
+ obj-$(CONFIG_VIDEO_ET8EK8) += et8ek8/
+diff --git a/drivers/media/i2c/dw9719.c b/drivers/media/i2c/dw9719.c
+new file mode 100644
+index 000000000000..c626ed845928
+--- /dev/null
++++ b/drivers/media/i2c/dw9719.c
+@@ -0,0 +1,350 @@
++// SPDX-License-Identifier: GPL-2.0
++// Copyright (c) 2012 Intel Corporation
++
++/*
++ * Based on linux/modules/camera/drivers/media/i2c/imx/dw9719.c in this repo:
++ * https://github.com/ZenfoneArea/android_kernel_asus_zenfone5
++ */
++
++#include <linux/delay.h>
++#include <linux/i2c.h>
++#include <linux/pm_runtime.h>
++#include <linux/regulator/consumer.h>
++#include <linux/types.h>
++
++#include <media/v4l2-cci.h>
++#include <media/v4l2-common.h>
++#include <media/v4l2-ctrls.h>
++#include <media/v4l2-subdev.h>
++
++#define DW9719_MAX_FOCUS_POS	1023
++#define DW9719_CTRL_STEPS	16
++#define DW9719_CTRL_DELAY_US	1000
++
++#define DW9719_INFO			CCI_REG8(0)
++#define DW9719_ID			0xF1
++
++#define DW9719_CONTROL			CCI_REG8(2)
++#define DW9719_ENABLE_RINGING		0x02
++
++#define DW9719_VCM_CURRENT		CCI_REG16(3)
++
++#define DW9719_MODE			CCI_REG8(6)
++#define DW9719_MODE_SAC_SHIFT		4
++#define DW9719_MODE_SAC3		4
++
++#define DW9719_VCM_FREQ			CCI_REG8(7)
++#define DW9719_DEFAULT_VCM_FREQ		0x60
++
++#define to_dw9719_device(x) container_of(x, struct dw9719_device, sd)
++
++struct dw9719_device {
++	struct v4l2_subdev sd;
++	struct device *dev;
++	struct regmap *regmap;
++	struct regulator *regulator;
++	u32 sac_mode;
++	u32 vcm_freq;
++
++	struct dw9719_v4l2_ctrls {
++		struct v4l2_ctrl_handler handler;
++		struct v4l2_ctrl *focus;
++	} ctrls;
++};
++
++static int dw9719_detect(struct dw9719_device *dw9719)
++{
++	int ret;
++	u64 val;
++
++	ret = cci_read(dw9719->regmap, DW9719_INFO, &val, NULL);
++	if (ret < 0)
++		return ret;
++
++	if (val != DW9719_ID) {
++		dev_err(dw9719->dev, "Failed to detect correct id\n");
++		return -ENXIO;
++	}
++
++	return 0;
++}
++
++static int dw9719_power_down(struct dw9719_device *dw9719)
++{
++	return regulator_disable(dw9719->regulator);
++}
++
++static int dw9719_power_up(struct dw9719_device *dw9719)
++{
++	int ret;
++
++	ret = regulator_enable(dw9719->regulator);
++	if (ret)
++		return ret;
++
++	/* Jiggle SCL pin to wake up device */
++	cci_write(dw9719->regmap, DW9719_CONTROL, 1, &ret);
++
++	/* Need 100us to transit from SHUTDOWN to STANDBY */
++	fsleep(100);
++
++	cci_write(dw9719->regmap, DW9719_CONTROL, DW9719_ENABLE_RINGING, &ret);
++	cci_write(dw9719->regmap, DW9719_MODE,
++		  dw9719->sac_mode << DW9719_MODE_SAC_SHIFT, &ret);
++	cci_write(dw9719->regmap, DW9719_VCM_FREQ, dw9719->vcm_freq, &ret);
++
++	if (ret)
++		dw9719_power_down(dw9719);
++
++	return ret;
++}
++
++static int dw9719_t_focus_abs(struct dw9719_device *dw9719, s32 value)
++{
++	return cci_write(dw9719->regmap, DW9719_VCM_CURRENT, value, NULL);
++}
++
++static int dw9719_set_ctrl(struct v4l2_ctrl *ctrl)
++{
++	struct dw9719_device *dw9719 = container_of(ctrl->handler,
++						    struct dw9719_device,
++						    ctrls.handler);
++	int ret;
++
++	/* Only apply changes to the controls if the device is powered up */
++	if (!pm_runtime_get_if_in_use(dw9719->dev))
++		return 0;
++
++	switch (ctrl->id) {
++	case V4L2_CID_FOCUS_ABSOLUTE:
++		ret = dw9719_t_focus_abs(dw9719, ctrl->val);
++		break;
++	default:
++		ret = -EINVAL;
++	}
++
++	pm_runtime_put(dw9719->dev);
++
++	return ret;
++}
++
++static const struct v4l2_ctrl_ops dw9719_ctrl_ops = {
++	.s_ctrl = dw9719_set_ctrl,
++};
++
++static int dw9719_suspend(struct device *dev)
++{
++	struct v4l2_subdev *sd = dev_get_drvdata(dev);
++	struct dw9719_device *dw9719 = to_dw9719_device(sd);
++	int ret;
++	int val;
++
++	for (val = dw9719->ctrls.focus->val; val >= 0;
++	     val -= DW9719_CTRL_STEPS) {
++		ret = dw9719_t_focus_abs(dw9719, val);
++		if (ret)
++			return ret;
++
++		usleep_range(DW9719_CTRL_DELAY_US, DW9719_CTRL_DELAY_US + 10);
++	}
++
++	return dw9719_power_down(dw9719);
++}
++
++static int dw9719_resume(struct device *dev)
++{
++	struct v4l2_subdev *sd = dev_get_drvdata(dev);
++	struct dw9719_device *dw9719 = to_dw9719_device(sd);
++	int current_focus = dw9719->ctrls.focus->val;
++	int ret;
++	int val;
++
++	ret = dw9719_power_up(dw9719);
++	if (ret)
++		return ret;
++
++	for (val = current_focus % DW9719_CTRL_STEPS; val < current_focus;
++	     val += DW9719_CTRL_STEPS) {
++		ret = dw9719_t_focus_abs(dw9719, val);
++		if (ret)
++			goto err_power_down;
++
++		usleep_range(DW9719_CTRL_DELAY_US, DW9719_CTRL_DELAY_US + 10);
++	}
++
++	return 0;
++
++err_power_down:
++	dw9719_power_down(dw9719);
++	return ret;
++}
++
++static int dw9719_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
++{
++	return pm_runtime_resume_and_get(sd->dev);
++}
++
++static int dw9719_close(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
++{
++	pm_runtime_put(sd->dev);
++
++	return 0;
++}
++
++static const struct v4l2_subdev_internal_ops dw9719_internal_ops = {
++	.open = dw9719_open,
++	.close = dw9719_close,
++};
++
++static int dw9719_init_controls(struct dw9719_device *dw9719)
++{
++	const struct v4l2_ctrl_ops *ops = &dw9719_ctrl_ops;
++	int ret;
++
++	v4l2_ctrl_handler_init(&dw9719->ctrls.handler, 1);
++
++	dw9719->ctrls.focus = v4l2_ctrl_new_std(&dw9719->ctrls.handler, ops,
++						V4L2_CID_FOCUS_ABSOLUTE, 0,
++						DW9719_MAX_FOCUS_POS, 1, 0);
++
++	if (dw9719->ctrls.handler.error) {
++		dev_err(dw9719->dev, "Error initialising v4l2 ctrls\n");
++		ret = dw9719->ctrls.handler.error;
++		goto err_free_handler;
++	}
++
++	dw9719->sd.ctrl_handler = &dw9719->ctrls.handler;
++	return 0;
++
++err_free_handler:
++	v4l2_ctrl_handler_free(&dw9719->ctrls.handler);
++	return ret;
++}
++
++static const struct v4l2_subdev_ops dw9719_ops = { };
++
++static int dw9719_probe(struct i2c_client *client)
++{
++	struct dw9719_device *dw9719;
++	int ret;
++
++	dw9719 = devm_kzalloc(&client->dev, sizeof(*dw9719), GFP_KERNEL);
++	if (!dw9719)
++		return -ENOMEM;
++
++	dw9719->regmap = devm_cci_regmap_init_i2c(client, 8);
++	if (IS_ERR(dw9719->regmap))
++		return PTR_ERR(dw9719->regmap);
++
++	dw9719->dev = &client->dev;
++	dw9719->sac_mode = DW9719_MODE_SAC3;
++	dw9719->vcm_freq = DW9719_DEFAULT_VCM_FREQ;
++
++	/* Optional indication of SAC mode select */
++	device_property_read_u32(&client->dev, "dongwoon,sac-mode",
++				 &dw9719->sac_mode);
++
++	/* Optional indication of VCM frequency */
++	device_property_read_u32(&client->dev, "dongwoon,vcm-freq",
++				 &dw9719->vcm_freq);
++
++	dw9719->regulator = devm_regulator_get(&client->dev, "vdd");
++	if (IS_ERR(dw9719->regulator))
++		return dev_err_probe(&client->dev, PTR_ERR(dw9719->regulator),
++				     "getting regulator\n");
++
++	v4l2_i2c_subdev_init(&dw9719->sd, client, &dw9719_ops);
++	dw9719->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
++	dw9719->sd.internal_ops = &dw9719_internal_ops;
++
++	ret = dw9719_init_controls(dw9719);
++	if (ret)
++		return ret;
++
++	ret = media_entity_pads_init(&dw9719->sd.entity, 0, NULL);
++	if (ret < 0)
++		goto err_free_ctrl_handler;
++
++	dw9719->sd.entity.function = MEDIA_ENT_F_LENS;
++
++	/*
++	 * We need the driver to work in the event that pm runtime is disable in
++	 * the kernel, so power up and verify the chip now. In the event that
++	 * runtime pm is disabled this will leave the chip on, so that the lens
++	 * will work.
++	 */
++
++	ret = dw9719_power_up(dw9719);
++	if (ret)
++		goto err_cleanup_media;
++
++	ret = dw9719_detect(dw9719);
++	if (ret)
++		goto err_powerdown;
++
++	pm_runtime_set_active(&client->dev);
++	pm_runtime_get_noresume(&client->dev);
++	pm_runtime_enable(&client->dev);
++
++	ret = v4l2_async_register_subdev(&dw9719->sd);
++	if (ret < 0)
++		goto err_pm_runtime;
++
++	pm_runtime_set_autosuspend_delay(&client->dev, 1000);
++	pm_runtime_use_autosuspend(&client->dev);
++	pm_runtime_put_autosuspend(&client->dev);
++
++	return ret;
++
++err_pm_runtime:
++	pm_runtime_disable(&client->dev);
++	pm_runtime_put_noidle(&client->dev);
++err_powerdown:
++	dw9719_power_down(dw9719);
++err_cleanup_media:
++	media_entity_cleanup(&dw9719->sd.entity);
++err_free_ctrl_handler:
++	v4l2_ctrl_handler_free(&dw9719->ctrls.handler);
++
++	return ret;
++}
++
++static void dw9719_remove(struct i2c_client *client)
++{
++	struct v4l2_subdev *sd = i2c_get_clientdata(client);
++	struct dw9719_device *dw9719 =
++		container_of(sd, struct dw9719_device, sd);
++
++	v4l2_async_unregister_subdev(sd);
++	v4l2_ctrl_handler_free(&dw9719->ctrls.handler);
++	media_entity_cleanup(&dw9719->sd.entity);
++
++	pm_runtime_disable(&client->dev);
++	if (!pm_runtime_status_suspended(&client->dev))
++		dw9719_power_down(dw9719);
++	pm_runtime_set_suspended(&client->dev);
++}
++
++static const struct i2c_device_id dw9719_id_table[] = {
++	{ "dw9719" },
++	{ }
++};
++MODULE_DEVICE_TABLE(i2c, dw9719_id_table);
++
++static DEFINE_RUNTIME_DEV_PM_OPS(dw9719_pm_ops, dw9719_suspend, dw9719_resume,
++				 NULL);
++
++static struct i2c_driver dw9719_i2c_driver = {
++	.driver = {
++		.name = "dw9719",
++		.pm = pm_sleep_ptr(&dw9719_pm_ops),
++	},
++	.probe = dw9719_probe,
++	.remove = dw9719_remove,
++	.id_table = dw9719_id_table,
++};
++module_i2c_driver(dw9719_i2c_driver);
++
++MODULE_AUTHOR("Daniel Scally <djrscally@gmail.com>");
++MODULE_DESCRIPTION("DW9719 VCM Driver");
++MODULE_LICENSE("GPL");
+-- 
+2.41.0
 
-If you want to change bug's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the bug is a duplicate of another bug, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
