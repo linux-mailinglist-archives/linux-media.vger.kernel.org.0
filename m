@@ -2,54 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9ED5F74BE59
-	for <lists+linux-media@lfdr.de>; Sat,  8 Jul 2023 18:02:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1E1C74BE73
+	for <lists+linux-media@lfdr.de>; Sat,  8 Jul 2023 18:28:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230143AbjGHQC2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 8 Jul 2023 12:02:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37204 "EHLO
+        id S229941AbjGHQ22 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 8 Jul 2023 12:28:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbjGHQC1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Jul 2023 12:02:27 -0400
-X-Greylist: delayed 2289 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 08 Jul 2023 09:02:25 PDT
-Received: from out203-205-251-80.mail.qq.com (out203-205-251-80.mail.qq.com [203.205.251.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F08A1B9;
-        Sat,  8 Jul 2023 09:02:25 -0700 (PDT)
+        with ESMTP id S229483AbjGHQ21 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 8 Jul 2023 12:28:27 -0400
+Received: from out203-205-221-202.mail.qq.com (out203-205-221-202.mail.qq.com [203.205.221.202])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D373CE50;
+        Sat,  8 Jul 2023 09:28:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-        s=s201512; t=1688832143;
-        bh=BA1iN7Rl5xAhdeMCiTPReGHnDwGFaZmO5OqvBbRDsxI=;
+        s=s201512; t=1688833701;
+        bh=x3AUoKcSqNhyarawC1JJjkAvdYYgLViPABTAWorkKAs=;
         h=From:To:Cc:Subject:Date;
-        b=wFQ9PKVMQx+QvQAmdMiOOdf0ZI4CG934RALerVBXY7b4hXODaoOHQr4BlEa0R4CjE
-         ZhIsSGOZLPS05Kq1ttSqeV5CKjv8W2q/OlPyhpstFtJnPC9WDxFj7YIUHpHf06Q+2d
-         FxQHKQmyQ7J+OdhjGfpoYPiP5F68mpdU+Bz5BWOg=
+        b=olWwJn9WTQk117RaZtS9TqYqreb++yJWa4QLLOyQrfxB5eiG7+Ni17VfRmRmPwyPA
+         cMIR82t5q1gwbV4kmgp/jPLQA5FZs9nNRk12x/25yO1FTgGj4G/wDHeAvz2RA4e22J
+         xC7PEE8Xno9UHJJP792XY+z++f1D0d9X40wVBF2c=
 Received: from KernelDevBox.byted.org ([180.184.51.70])
-        by newxmesmtplogicsvrszc2-0.qq.com (NewEsmtp) with SMTP
-        id 95158D3; Sun, 09 Jul 2023 00:02:21 +0800
-X-QQ-mid: xmsmtpt1688832141te6iu6c0r
-Message-ID: <tencent_9B1C89E61B915A91AD05B04A0F5D8501D407@qq.com>
-X-QQ-XMAILINFO: NyLRYIXSGAqGzyNnM29h6/WWpJgiSe9Ht2gWehetzXiYJcJxUGmXv9yel3OgVy
-         bR9ZXjMFM3D+pWxCCkWCYEiknfYZ7ByTrwZAffuBwb6cOIPl5AK9gGG3Yq51VFWwy6BVyjs6V1qC
-         3ZlJu/8NYO8lL3GQQSIUwRiKJTNgfsQeWGbP6nhT++qkehKrvdz4SvSvEkcLrajli4xPhZx13u2b
-         hZwwaDP0Y7QUXX+zeDBFzo+n5+qoOubGuxeewMmsA3L7FQggELWxAqH2eR8vVOPiey4XKibbnA3O
-         Eao1YpETOeuSzeCEcpcYMqaPI/bSTaqZsgCCVHOT/rML575iU0UasoyGeOrAzBwUCwJy2HjFY+gA
-         LvJSlX+blVIHea1OROkmoUJvKqddaMevSMUvhUadj90CPKQe8y2TKIyfrCTbdWCRXli7wa4EBLhy
-         FbBjs9yfdcqgcxW0/MmpW+pZW2JBg/Ma6BGpqqYzDiu7Zwyms7uERoEd4r6Y5TAb1SZ+qW1+7lGn
-         FlGaONnAMvKodUIKbZFoDt8Gceou8MOHtr8D8r1hUr3QWKaMhLCfPbp/Dvry2twMKaay3tlbBB0R
-         Bwh1MwpF+HxBo27tMcgGuRu3ZDio0h4HD6wwlK58bC+4FBSik3NS4gUWG4gefkAFb+x+XXy6m8PK
-         Q0bl6WzZVTG5mL35gFgU3aTsG+2FOtuS8dzj6QxwGAWDjKfCvoibd4YpE7ytToiWv6aVsQKCcQWa
-         erFzHQ+wkt9n1jCzXhllWSJbOKgtOAn9/mW1XIxc2PQ2lYEn3zzqoYPNpQuXLG0pj/FdqYtTWV7w
-         b+CRarbdmDbXxFA54SnauRxrHfpICJee7jWQetjPr6dBxysLZ5lz0P9xa0ZZhhHwondDvS9DcyQt
-         vRkOdbSZArK8a8yyDsf1aS54g8dH+kL4WVECZj89Z7gQZJDHmdBMycoHH/pBRWfhLzABEM6bpONl
-         yZ8jiZ6Ccix6Rs2H2ayW0k7Dfu9xEO21b6MFM/kVQTgxXNgngzpQ==
-X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
+        by newxmesmtplogicsvrsza12-0.qq.com (NewEsmtp) with SMTP
+        id 7131229E; Sun, 09 Jul 2023 00:28:19 +0800
+X-QQ-mid: xmsmtpt1688833699ti4upo64d
+Message-ID: <tencent_C91402509924D86E026B3BB65AC0523D5609@qq.com>
+X-QQ-XMAILINFO: Md8NwmqZYy3f5vKMkllD00Acay+fZZ/cWNLpWsleYb1Y/PbBxy//MxpKCeZWMq
+         wdPVwWx/K/sp/drr4RbcKVN9fqllhk2kRKy/nqhOAmSXI6hLNSiPGqPp1VUXyV3joMYdlqOUIR41
+         lNG1IWG3JPsMTJm0Xx2SIn7bu04LrHL6CkyIVMfDCpkcRmQT7vhgKwxtVzKzCaixlAtfc/lJETbi
+         6SCWDFBnBlYDS9qAThsgmg31tSwAQ22ws+lnF59VG4xKAc+EGh04z7klr7/SXQDCcm/5w/GKTNEX
+         B1HJNICyLHbP6JLROZGXoAXc9uPeUpsETgdDKZ90QxTooRTKsUWCnDe7LsiuVqyGbQwp6b00okef
+         eMkkOCyHk6AFWu/7P+sjck0hD/hPL9PWPSrdgc1lneRGCauBr2YPfa+AgoKIFSokY1iBfN3Zqh3L
+         8ZoZmg7rvrsYWzlG1BuHydNyrofcqNbAL/4HWQGmRSHs46NKIp8mmlMd3DzTV5ZmVZYB/U2tvWf5
+         nbQetljIQeWbppmQfK564Jmxbdvlj24M3giJc2Ig3dFlXRfVEIV7gDtPwHQ+otpbxHSexCuQVkKS
+         84mTwt1Ei1I0WyB1tKAwKOIdi4q7OhXRauw8vLjF2+vTVTT7IPMA+nwBIe9eGTxfQIqsKMYFrgN2
+         tX15HQ3xW8/3s1wZvuEijMxH7/eRLjtlEmRlp/WEM5SFynajQewxidkM6VgIxnl9ttoBhpjrmf7L
+         3pm23hrU1i2f62/8U6EFt57IkMbwr00FXM/1z5ug/BmhYzN1/hJ6gvQrGpRcBm9FVZqUkVxHAQ1s
+         RiP6LLOuGv8L+ezkU5hpWYuW98XWIFun7fxJ45Z2MYujIM8mCJfrfEz57eeejx/hUgaYDXo18BJF
+         J6QSQFRtzb1MziOyjjGyYzjZs6CkOSAFq4QFUXwa6cadMtukab0SIX20wJ95gUlHwsEb2pwK1Xib
+         bTSDxnEGicX2L2Oz1/amnH47rZTn0ZsW6IXbOaPsFGblM8J52W4cjwyQRymniLaJPFQrRAdauQbF
+         nlQ5W0qQ==
+X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
 From:   Zhang Shurong <zhang_shurong@foxmail.com>
-To:     crope@iki.fi
-Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
+To:     mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Zhang Shurong <zhang_shurong@foxmail.com>
-Subject: [PATCH]  media: anysee: fix null-ptr-deref in anysee_master_xfer
-Date:   Sun,  9 Jul 2023 00:02:20 +0800
-X-OQ-MSGID: <20230708160220.3755131-1-zhang_shurong@foxmail.com>
+Subject: [PATCH] media: az6007: Fix null-ptr-deref in az6007_i2c_xfer()
+Date:   Sun,  9 Jul 2023 00:28:17 +0800
+X-OQ-MSGID: <20230708162817.3797791-1-zhang_shurong@foxmail.com>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -64,9 +63,9 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In anysee_master_xfer, msg is controlled by user. When msg[i].buf
+In az6007_i2c_xfer, msg is controlled by user. When msg[i].buf
 is null and msg[i].len is zero, former checks on msg[i].buf would be
-passed. Malicious data finally reach anysee_master_xfer. If accessing
+passed. Malicious data finally reach az6007_i2c_xfer. If accessing
 msg[i].buf[0] without sanity check, null ptr deref would happen.
 We add check on msg[i].len to prevent crash.
 
@@ -76,22 +75,36 @@ commit 0ed554fd769a
 
 Signed-off-by: Zhang Shurong <zhang_shurong@foxmail.com>
 ---
- drivers/media/usb/dvb-usb-v2/anysee.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/usb/dvb-usb-v2/az6007.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/media/usb/dvb-usb-v2/anysee.c b/drivers/media/usb/dvb-usb-v2/anysee.c
-index aa45b5d263f6..12c16f09a808 100644
---- a/drivers/media/usb/dvb-usb-v2/anysee.c
-+++ b/drivers/media/usb/dvb-usb-v2/anysee.c
-@@ -202,7 +202,7 @@ static int anysee_master_xfer(struct i2c_adapter *adap, struct i2c_msg *msg,
- 
- 	while (i < num) {
- 		if (num > i + 1 && (msg[i+1].flags & I2C_M_RD)) {
--			if (msg[i].len > 2 || msg[i+1].len > 60) {
-+			if (msg[i].len != 2 || msg[i+1].len > 60) {
- 				ret = -EOPNOTSUPP;
- 				break;
- 			}
+diff --git a/drivers/media/usb/dvb-usb-v2/az6007.c b/drivers/media/usb/dvb-usb-v2/az6007.c
+index 2dcbb49d66da..2410054ddb2c 100644
+--- a/drivers/media/usb/dvb-usb-v2/az6007.c
++++ b/drivers/media/usb/dvb-usb-v2/az6007.c
+@@ -788,6 +788,10 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
+ 			if (az6007_xfer_debug)
+ 				printk(KERN_DEBUG "az6007: I2C W addr=0x%x len=%d\n",
+ 				       addr, msgs[i].len);
++			if (msgs[i].len < 1) {
++				ret = -EIO;
++				goto err;
++			}
+ 			req = AZ6007_I2C_WR;
+ 			index = msgs[i].buf[0];
+ 			value = addr | (1 << 8);
+@@ -802,6 +806,10 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
+ 			if (az6007_xfer_debug)
+ 				printk(KERN_DEBUG "az6007: I2C R addr=0x%x len=%d\n",
+ 				       addr, msgs[i].len);
++			if (msgs[i].len < 1) {
++				ret = -EIO;
++				goto err;
++			}
+ 			req = AZ6007_I2C_RD;
+ 			index = msgs[i].buf[0];
+ 			value = addr;
 -- 
 2.30.2
+
 
