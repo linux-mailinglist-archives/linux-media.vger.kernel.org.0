@@ -2,174 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EAA2274D257
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jul 2023 11:57:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CCA0F74D312
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jul 2023 12:13:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231152AbjGJJ5H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Jul 2023 05:57:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38358 "EHLO
+        id S232996AbjGJKN4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Jul 2023 06:13:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230163AbjGJJ4s (ORCPT
+        with ESMTP id S233122AbjGJKNj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Jul 2023 05:56:48 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B6E71994;
-        Mon, 10 Jul 2023 02:53:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1688982793; x=1720518793;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=imnGZ8Whysggi6EP1n673x7W1mjCzRNyQxBVCmQ5C0A=;
-  b=dAogfV52kKNm04UWCbgoLkKQaS3A/Ne4bqoiLwWk06+DZDcfHptTSj2G
-   s8ADWiNyU0PnuNk4VLDW9RC8ZQrvBB273Y4jjdDS55QIrhm6BdT89HbW9
-   3+FhdhjK5wjGABvstBnsym4OhKX3ndMqU22O971VAEapPpNr9ZoNUwWqq
-   yYHQq15hwa6IZAiBaQzmQ7nkrpu7+UuV0xWYFj2lkeGaIUF+m0ypyxx7X
-   n3g83ZfS2Hoav47OGsOOmt99Q+lOOlVvIMsi1j1FeUn9SFZo7Eu6ganed
-   SwJ9CFpcvQk6VdfvKVLiF2jy0woxFvnA0NaA5EhOlv4TRZgiIInU9q+Il
-   Q==;
-X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; 
-   d="scan'208";a="223904194"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 10 Jul 2023 02:51:23 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Mon, 10 Jul 2023 02:51:22 -0700
-Received: from microchip1-OptiPlex-9020.microchip.com (10.10.115.15) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
- 15.1.2507.21 via Frontend Transport; Mon, 10 Jul 2023 02:51:20 -0700
-From:   shravan kumar <shravan.chippa@microchip.com>
-To:     <paul.j.murphy@intel.com>, <daniele.alessandrelli@intel.com>,
-        <mchehab@kernel.org>
-CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        "shravan kumar" <shravan.chippa@microchip.com>
-Subject: [PATCH] media: i2c: imx334: add support for test pattern generator
-Date:   Mon, 10 Jul 2023 15:21:11 +0530
-Message-ID: <20230710095111.2994969-1-shravan.chippa@microchip.com>
-X-Mailer: git-send-email 2.34.1
+        Mon, 10 Jul 2023 06:13:39 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F4AE172E
+        for <linux-media@vger.kernel.org>; Mon, 10 Jul 2023 03:11:39 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:f087:2614:ec9d:569f])
+        by baptiste.telenet-ops.be with bizsmtp
+        id KNBV2A00B1w4dBK01NBVv9; Mon, 10 Jul 2023 12:11:30 +0200
+Received: from geert (helo=localhost)
+        by ramsan.of.borg with local-esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qInrd-0010sR-3d;
+        Mon, 10 Jul 2023 12:11:29 +0200
+Date:   Mon, 10 Jul 2023 12:11:29 +0200 (CEST)
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+To:     linux-kernel@vger.kernel.org
+cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        sparclinux@vger.kernel.org, linux-sh@vger.kernel.org
+Subject: Re: Build regressions/improvements in v6.5-rc1
+In-Reply-To: <20230710100012.2625532-1-geert@linux-m68k.org>
+Message-ID: <bd856932-c2fb-d5f2-17f7-f7f1a1773adf@linux-m68k.org>
+References: <CAHk-=wj8sPDVoWgaceAs1AiwZrHV8mtC3vQNGbeV6-RypJi6aw@mail.gmail.com> <20230710100012.2625532-1-geert@linux-m68k.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Shravan Chippa <shravan.chippa@microchip.com>
+On Mon, 10 Jul 2023, Geert Uytterhoeven wrote:
+> Below is the list of build error/warning regressions/improvements in
+> v6.5-rc1[1] compared to v6.4[2].
+>
+> Summarized:
+>  - build errors: +3/-4
+>  - build warnings: +36/-18
+>
+> Note that there may be false regressions, as some logs are incomplete.
+> Still, they're build errors/warnings.
+>
+> Happy fixing! ;-)
+>
+> Thanks to the linux-next team for providing the build service.
+>
+> [1] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5/ (all 162 configs)
+> [2] http://kisskb.ellerman.id.au/kisskb/branch/linus/head/6995e2de6891c724bfeb2db33d7b87775f913ad1/ (160 out of 162 configs)
+>
+>
+> *** ERRORS ***
+>
+> 3 error regressions:
+>  + /kisskb/src/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c: error: the frame size of 1392 bytes is larger than 1024 bytes [-Werror=frame-larger-than=]:  => 1036:1
 
-Add support for the imx334's test pattern generator.
-By default the test pattern generator is disabled, so add support for
-enabling and disabling horizontal and vertical colour bars.
+m68k-gcc8/m68k-allmodconfig
 
-Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
----
- drivers/media/i2c/imx334.c | 57 +++++++++++++++++++++++++++++++++++++-
- 1 file changed, 56 insertions(+), 1 deletion(-)
+>  + error: modpost: "__xchg_called_with_bad_pointer" [lib/atomic64_test.ko] undefined!:  => N/A
 
-diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-index b65c526a5f1c..248ab65a6725 100644
---- a/drivers/media/i2c/imx334.c
-+++ b/drivers/media/i2c/imx334.c
-@@ -56,6 +56,24 @@
- #define IMX334_REG_MIN		0x00
- #define IMX334_REG_MAX		0xfffff
- 
-+/* Test Pattern Control */
-+#define IMX334_REG_TP		0x329e
-+#define IMX334_TP_COLOR_HBARS	0xA
-+#define IMX334_TP_COLOR_VBARS	0xB
-+
-+#define IMX334_TPG_EN_DOUT	0x329c
-+#define IMX334_TP_ENABLE	0x1
-+#define IMX334_TP_DISABLE	0x0
-+
-+#define IMX334_TPG_COLORW	0x32a0
-+#define IMX334_TPG_COLORW_120P	0x13
-+
-+#define IMX334_TP_CLK_EN	0x3148
-+#define IMX334_TP_CLK_EN_VAL	0x10
-+#define IMX334_TP_CLK_DIS_VAL	0x0
-+
-+#define IMX334_DIG_CLP_MODE	0x3280
-+
- /**
-  * struct imx334_reg - imx334 sensor register
-  * @address: Register address
-@@ -429,6 +447,18 @@ static const struct imx334_reg mode_3840x2160_regs[] = {
- 	{0x3a29, 0x00},
- };
- 
-+static const char * const imx334_test_pattern_menu[] = {
-+	"Disabled",
-+	"Color Bars Ver",
-+	"Color Bars Hor",
-+};
-+
-+static const int imx334_test_pattern_val[] = {
-+	IMX334_TP_DISABLE,
-+	IMX334_TP_COLOR_HBARS,
-+	IMX334_TP_COLOR_VBARS,
-+};
-+
- static const struct imx334_reg raw10_framefmt_regs[] = {
- 	{0x3050, 0x00},
- 	{0x319d, 0x00},
-@@ -711,6 +741,26 @@ static int imx334_set_ctrl(struct v4l2_ctrl *ctrl)
- 	case V4L2_CID_HBLANK:
- 		ret = 0;
- 		break;
-+	case V4L2_CID_TEST_PATTERN:
-+		if (ctrl->val) {
-+			imx334_write_reg(imx334, IMX334_TP_CLK_EN, 1,
-+					 IMX334_TP_CLK_EN_VAL);
-+			imx334_write_reg(imx334, IMX334_DIG_CLP_MODE, 1, 0x0);
-+			imx334_write_reg(imx334, IMX334_TPG_COLORW, 1,
-+					 IMX334_TPG_COLORW_120P);
-+			imx334_write_reg(imx334, IMX334_REG_TP, 1,
-+					 imx334_test_pattern_val[ctrl->val]);
-+			imx334_write_reg(imx334, IMX334_TPG_EN_DOUT, 1,
-+					 IMX334_TP_ENABLE);
-+		} else {
-+			imx334_write_reg(imx334, IMX334_DIG_CLP_MODE, 1, 0x1);
-+			imx334_write_reg(imx334, IMX334_TP_CLK_EN, 1,
-+					 IMX334_TP_CLK_DIS_VAL);
-+			imx334_write_reg(imx334, IMX334_TPG_EN_DOUT, 1,
-+					 IMX334_TP_DISABLE);
-+		}
-+		ret = 0;
-+		break;
- 	default:
- 		dev_err(imx334->dev, "Invalid control %d", ctrl->id);
- 		ret = -EINVAL;
-@@ -1217,7 +1267,7 @@ static int imx334_init_controls(struct imx334 *imx334)
- 	u32 lpfr;
- 	int ret;
- 
--	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 6);
-+	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 7);
- 	if (ret)
- 		return ret;
- 
-@@ -1277,6 +1327,11 @@ static int imx334_init_controls(struct imx334 *imx334)
- 	if (imx334->hblank_ctrl)
- 		imx334->hblank_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
- 
-+	v4l2_ctrl_new_std_menu_items(ctrl_hdlr, &imx334_ctrl_ops,
-+				     V4L2_CID_TEST_PATTERN,
-+				     ARRAY_SIZE(imx334_test_pattern_menu) - 1,
-+				     0, 0, imx334_test_pattern_menu);
-+
- 	if (ctrl_hdlr->error) {
- 		dev_err(imx334->dev, "control init failed: %d",
- 			ctrl_hdlr->error);
--- 
-2.34.1
+sparc64-gcc11/sparc64-allmodconfig
 
+>  + {standard input}: Error: unknown pseudo-op: `.glo':  => 1097
+
+sh4-gcc11/sh-allmodconfig (ICE)
+
+Gr{oetje,eeting}s,
+
+ 						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+ 							    -- Linus Torvalds
