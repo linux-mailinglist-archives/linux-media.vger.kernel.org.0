@@ -2,99 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BA0BD74DA90
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jul 2023 17:54:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7557674DB01
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jul 2023 18:25:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233674AbjGJPyy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Jul 2023 11:54:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52828 "EHLO
+        id S229786AbjGJQZt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Jul 2023 12:25:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233679AbjGJPyu (ORCPT
+        with ESMTP id S229450AbjGJQZs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Jul 2023 11:54:50 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F0AF135
-        for <linux-media@vger.kernel.org>; Mon, 10 Jul 2023 08:54:26 -0700 (PDT)
-Received: from uno.LocalDomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BB6E932D2;
-        Mon, 10 Jul 2023 17:51:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1689004293;
-        bh=lEFVKKW37iKSybKu8oGE2XTUJnZv6OibFkc2bij6VSk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rTgcmqsePVh3mC62ton5OUubCAmI8Wb92Mo7aALBgIQCTWxe6tbZeYyzVapHfTCIQ
-         AZqBtOI7OjWFEueMJaShPp2oPOMmBgAPgp3/qn2U7oO19ZSqbALzZbdiiKF82qoqYI
-         gRRR1Ay/eiCkOzcYd4DVzB5XmzDqA5OvX0JBYOeU=
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>
-Subject: [PATCH v2 7/7] media: i2c: imx219: Simplify code handling in s_fmt
-Date:   Mon, 10 Jul 2023 17:52:03 +0200
-Message-Id: <20230710155203.92366-8-jacopo.mondi@ideasonboard.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230710155203.92366-1-jacopo.mondi@ideasonboard.com>
-References: <20230710155203.92366-1-jacopo.mondi@ideasonboard.com>
+        Mon, 10 Jul 2023 12:25:48 -0400
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B57ED94;
+        Mon, 10 Jul 2023 09:25:46 -0700 (PDT)
+Received: by mail-yb1-xb29.google.com with SMTP id 3f1490d57ef6-bcb6dbc477eso4303050276.1;
+        Mon, 10 Jul 2023 09:25:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689006346; x=1691598346;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rcUxYhRfSgJ6UJMmI4gvN/iDnQgX6gIvJpFELMHmLcE=;
+        b=V8r9oUmNILl8gpI7KePWigjGb6juPhMnDQ/wrv4DQP5As/oXU9XrXK246f9ZHhlBJL
+         NgW9whpWQvfU7c+x8gRKyIabFQLq8y1KB/91koW4cjzXCsMLGDiimO1rnhQ4A+SGtHR5
+         0qPaQafXZZht0IpaBmneBm8MpeuLhudZwHH96ZviOLxHsfACKzldhpgZodjAA0l922q2
+         pnlbiw/dn1xzxjuAiZWozy6KLAqPUfb7KpDVMBORNS1iEcJq7uIR6HeZQpCMJbhktMq6
+         tW+actNpC+n4lGbQUGm2PT9us1+XZ/aHXZ8LEEsgbXOFg1elQLdqT5ptELvD1jDfTUxq
+         L3bA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689006346; x=1691598346;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rcUxYhRfSgJ6UJMmI4gvN/iDnQgX6gIvJpFELMHmLcE=;
+        b=c0iWJCeBeGK5/IGy2EXtqVG60n6LiBsLNY++57l1FYElrynBNw3JrJ8AaUVXQ0mETr
+         fJdIsHL30AUM93ANv7CNFRmukrghVrXP4x5F8JQRlqxFnfLHJmodLrnkCyt0IdO2Cmjp
+         YB7MQHUt7eCkMLTqt9gm4U1MQr939prplMBnh/DlDtXmb6Gvam4DNMNcWIeRSoC1hIJV
+         q2pmZubu117k9gHvAyGoZx6w3nXTBzFl1hT4Phi2xxR6xb0Vv/Wy1oVeJfgJ0R9xbLXm
+         9R74kSTh8eM+JQ5iu59TlxPErkPoX5ZBM9LO9HdfG8AcnU9vIb2SVvcmcjyiXqswOsQg
+         iflw==
+X-Gm-Message-State: ABy/qLZwku94AKpV7VfHah4To9vWD1bkjE6ZCQO3kg/pmGp2MUn8XZgl
+        3ui2ytJToFzcZS7sIlV1zaeR2APk1Lg1xlAW3dk=
+X-Google-Smtp-Source: APBJJlE/krGaema6oAIGHffoO9jr9rNxV2NJ9f2ty64/UeXp1MrrtGwo2Rtyks4ROqL/F/KxuN96NsyBfRrrBujlbXI=
+X-Received: by 2002:a25:c0c8:0:b0:c86:55c7:d053 with SMTP id
+ c191-20020a25c0c8000000b00c8655c7d053mr2292204ybf.25.1689006345894; Mon, 10
+ Jul 2023 09:25:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230710130113.14563-1-tzimmermann@suse.de> <20230710130113.14563-10-tzimmermann@suse.de>
+ <CANiq72=9PoV3FOcXx9FdiSLePKXDG4BSY_5-jddBkqDL=ua3FA@mail.gmail.com> <733273ad-89e1-d952-37ee-bb75c3ab8188@suse.de>
+In-Reply-To: <733273ad-89e1-d952-37ee-bb75c3ab8188@suse.de>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Mon, 10 Jul 2023 18:25:34 +0200
+Message-ID: <CANiq72kPh2KE=ADUxhPyyr7noWhC0fkzmDu8EBn_20focnZqtw@mail.gmail.com>
+Subject: Re: [PATCH 09/17] auxdisplay: Remove flag FBINFO_FLAG_DEFAULT from
+ fbdev drivers
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     deller@gmx.de, javierm@redhat.com, linux-sh@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org,
+        linux-geode@lists.infradead.org, linux-nvidia@lists.surfsouth.com,
+        linux-hyperv@vger.kernel.org, linux-omap@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Robin van der Gracht <robin@protonic.nl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The imx219_set_pad_format() function adjusts the media bus code provided
-through the v4l2_subdev_format parameter to a media bus code known
-to be supported by the sensor.
+On Mon, Jul 10, 2023 at 5:22=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse=
+.de> wrote:
+>
+> I'll append a patch to the series that documents this.
+>
+> Sure.
 
-The same exact operation is performed by the imx219_get_format_code()
-function which called by imx219_update_pad_format(), which is in the
-imx219_set_pad_format() call path.
+Thanks!
 
-Remove the duplicated operation and simplify imx219_set_pad_format().
+If you are planning to take it into some other tree:
 
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/media/i2c/imx219.c | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+Acked-by: Miguel Ojeda <ojeda@kernel.org>
 
-diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index 4f214f10846c..a1136fdfbed2 100644
---- a/drivers/media/i2c/imx219.c
-+++ b/drivers/media/i2c/imx219.c
-@@ -750,21 +750,13 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
- 	const struct imx219_mode *mode;
- 	int exposure_max, exposure_def, hblank;
- 	struct v4l2_mbus_framefmt *format;
--	unsigned int i;
--
--	for (i = 0; i < ARRAY_SIZE(imx219_mbus_formats); i++)
--		if (imx219_mbus_formats[i] == fmt->format.code)
--			break;
--	if (i >= ARRAY_SIZE(imx219_mbus_formats))
--		i = 0;
- 
- 	mode = v4l2_find_nearest_size(supported_modes,
- 				      ARRAY_SIZE(supported_modes),
- 				      width, height,
- 				      fmt->format.width, fmt->format.height);
- 
--	imx219_update_pad_format(imx219, mode, &fmt->format,
--				 imx219_mbus_formats[i]);
-+	imx219_update_pad_format(imx219, mode, &fmt->format, fmt->format.code);
- 	format = v4l2_subdev_get_pad_format(sd, sd_state, 0);
- 
- 	if (imx219->mode == mode && format->code == fmt->format.code)
--- 
-2.40.1
+Otherwise, I can take it into the `auxdisplay` tree.
 
+Cheers,
+Miguel
