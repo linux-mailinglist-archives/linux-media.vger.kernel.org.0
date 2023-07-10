@@ -2,83 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 36B7874CE64
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jul 2023 09:29:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51B4274CEC8
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jul 2023 09:44:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230406AbjGJH3w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Jul 2023 03:29:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37610 "EHLO
+        id S231256AbjGJHou (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Jul 2023 03:44:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229500AbjGJH3k (ORCPT
+        with ESMTP id S231190AbjGJHon (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Jul 2023 03:29:40 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FA0A129;
-        Mon, 10 Jul 2023 00:29:39 -0700 (PDT)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36A5pkKN017489;
-        Mon, 10 Jul 2023 07:29:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=qTuf6lyzXrSV3ccRFP3XK1rgDshzHO6Z5MUtOBKgk3Q=;
- b=lbZyUM/r64rmhfmuwvEy6EHI1LA7PzHWuCqtuXZX7oq2nKB/occUIBtjan8gVgQ6sNos
- SkvQgGmPfnHO31EZSdk+X1AZfyOUfvjM8BT0VFeB29vYWk20DwtcsMmfxNHurgHykIw9
- BytPlOYEwF50hW8VUjWXIePyFvMXd3elkcJs/Aypr2FZzOj3/iI2n0MMoJlUxLEsTDuc
- j1a+NWNwJAAV7oRpfo+gfQnV24J2MZBPj6kqIEXfHEzqKWqgvMlmmistFvm2qUG/tMWd
- 9AEAtdB2YR/bcjbV/TJGDG2Ia211TbXMDA89sdNjmacJraanv4Nj/qetiielx7dZLY3X Kg== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3rpw5u2xnr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 10 Jul 2023 07:29:30 +0000
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 36A7TTOK006500
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 10 Jul 2023 07:29:29 GMT
-Received: from [10.50.37.218] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Mon, 10 Jul
- 2023 00:29:26 -0700
-Message-ID: <7550a762-7b00-514d-07a4-d304a6342ae4@quicinc.com>
-Date:   Mon, 10 Jul 2023 12:59:22 +0530
+        Mon, 10 Jul 2023 03:44:43 -0400
+Received: from EUR02-VI1-obe.outbound.protection.outlook.com (mail-vi1eur02on2064.outbound.protection.outlook.com [40.107.241.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FD08E1;
+        Mon, 10 Jul 2023 00:44:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dCj+3oGNv3mQaIW+wonAfDV/Xa9p0n4KT0wUnFjq8IxCxrEpHNJRA1Xusucav2GKMi89Kv4Y+AzWa7fqwL8AvYTTXk3iqglCxL7uL6r0N2o7bczg7fTTJ+EA4Oa49yLxiC6XAgxYdQj841cP4xiDfymhWWnYBlFkd4OHrnkowqYf005mOgc7TKe+t2z+pFPi9Hh59Oh4IlTXj/WGpoI7xM0XTr1JS0ErapgE4PE5Xqwnl+FVb2IIoHGoVPk7tfCx74DZoIlqnM/6zLKy3rbhhC56MHLXCTW+O1B4T8jOJV7ZYYk1Mu7aoJUTcDy7tnW5T9Mjf7ZVI5mAcFTJetVz0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RyA/8xyzCl3muqcAlRQ2TDG5w/ClrjnijXZdGqv1szA=;
+ b=S/5ziL9PSQX9wcmC3sTyQgQkyw4LrXE2GyN0MEpcFnneLHGjMMfOB5G407gocChaN+hRMtZxPkVcxlt/GbNfWNWmvAJWGVw7CTHS8AIPAfhQp33xHGW/dujNOz+cQnJGRVRcLB3WDHgfjxAXrlOJ9rrn8b8/pfiZhMZsJkDcyZzm4PX81sj/MU8WGD+B0GNNW0Mj6QXpMIlKD8sIfZ9uq8BWFYD1znPkRGmeJewkzKCs9/1Xgs/H+rlmf2yuXaVMBWsKBEl1C0IYfnfVeydRp4b6z4b666m/U15ggIRfqn9nMyLb24uRmEOcsaqD2dTz9tzhvvPXxpyuKu6a3S779Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RyA/8xyzCl3muqcAlRQ2TDG5w/ClrjnijXZdGqv1szA=;
+ b=HAnud100k0EezKUb/Rei+Aa+QBgnOdea57u2RDVhbDSEZI6/3LEG7OP8HHuB+6MyZPSFAuDW3/hDSvgHol8d3UBO40ZH7QQ2Lqe+bKgBu4k3DXlCdmkfpI+Xt+TDXEOhOcMqxysGNGPLCLkr4xDupQXJpSxzsXoFIgbp2dQKljk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
+ by DB9PR04MB8073.eurprd04.prod.outlook.com (2603:10a6:10:24d::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.30; Mon, 10 Jul
+ 2023 07:44:35 +0000
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::5c63:1211:716e:ac60]) by AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::5c63:1211:716e:ac60%6]) with mapi id 15.20.6565.026; Mon, 10 Jul 2023
+ 07:44:35 +0000
+From:   Ming Qian <ming.qian@nxp.com>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl
+Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        xiahong.bao@nxp.com, eagle.zhou@nxp.com, tao.jiang_2@nxp.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] media: amphion: decoder support display delay for all formats
+Date:   Mon, 10 Jul 2023 15:44:11 +0800
+Message-Id: <20230710074411.21558-1-ming.qian@nxp.com>
+X-Mailer: git-send-email 2.38.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR06CA0207.apcprd06.prod.outlook.com
+ (2603:1096:4:68::15) To AM6PR04MB6341.eurprd04.prod.outlook.com
+ (2603:10a6:20b:d8::14)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] Revert "venus: pm_helpers: Fix error check in
- vcodec_domains_get()"
-Content-Language: en-US
-To:     Dan Carpenter <dan.carpenter@linaro.org>,
-        Tang Bin <tangbin@cmss.chinamobile.com>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
-CC:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>
-References: <e1e46cfd-8d95-4792-ac8f-1237d2af7171@moroto.mountain>
-From:   Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <e1e46cfd-8d95-4792-ac8f-1237d2af7171@moroto.mountain>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 3xCI7Rcs7Co5Sxi1hu-x9WP-bfOoE_-2
-X-Proofpoint-GUID: 3xCI7Rcs7Co5Sxi1hu-x9WP-bfOoE_-2
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-10_05,2023-07-06_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 suspectscore=0
- malwarescore=0 mlxlogscore=999 lowpriorityscore=0 bulkscore=0 mlxscore=0
- priorityscore=1501 phishscore=0 impostorscore=0 clxscore=1011 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2305260000
- definitions=main-2307100068
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM6PR04MB6341:EE_|DB9PR04MB8073:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8c05b9bb-1687-465c-8fbd-08db81198174
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: yAYRn3t1FsyCQBfKgONPQXahZdvPUPMUWSwiYEpCh3I+efoCnOOKKwi31XK6JmKTmlLUT1MIZpahIoRaQWIIJGcKuk+XNSxKcmm4z+zDhCFlVrYtM+cgVTJbiKV03E06xKl5977r4rxtmPS+yeQO18brYJhnkJ5LKAFoDTJhfAprtovd1D37TbY0cEZEB8pJ8C4aw+AqWDZP88wTsR7QPJUjZ7YGDccJCtZ93ibxvs6VkNZTsnzkW1Y8kIGN0jocxjIbm8hao+IEitE9ZjlfU9DmkTl1oxdMgnftjWFMkNbwu+F0US/fvPQPJQ4qDPOqjVDldWVmj3qk3WK48G1Hk199mnXS3zGN6SNcz/MX0j4hmMrn8a/Nh6XBdbydt58NjzWgt03r1Ily1+Odax2KJgjCgid3ShwDN4oUeruF1PV2KW8b99OCTeYEjptNkgO+BQC33YedX3TEz3lbynU+RqFOiHDXqzhESEyCOK0UXV6N9R5QFheNY/3SBrx2a3NlsJZW9ZsVoD/ZocvHV3d3Ma/7m76Wg2FJAbmKI4GIlOL8nxcwppzxzpjg/EP5VgVFNgbhuZY68ZyS67Lme0zwBJ0SwwRqWUP2vD56BqrOTsmE7gdl7TEd5oAggCFz3JDR
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(136003)(39860400002)(366004)(346002)(376002)(451199021)(86362001)(38350700002)(38100700002)(36756003)(6666004)(6486002)(52116002)(1076003)(6506007)(186003)(26005)(6512007)(2616005)(44832011)(7416002)(5660300002)(2906002)(66556008)(316002)(66946007)(478600001)(66476007)(8676002)(8936002)(83380400001)(4326008)(41300700001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?7FdREA81EDWLnIJZKmr7tJiNwK8rREN4gugkoKypqvHMBng+bE9Zg5SsLZop?=
+ =?us-ascii?Q?Upp7700CXkr1necE3Pv6rIJy8+imx4VyM8y5JLEoTRxJpGXVQGhowe93dbbl?=
+ =?us-ascii?Q?eaUtWMyu8/VIauZ43hf/Lz2ZhkahEmPSbt+x0BEZTg+E6LptDKmUxN9dada9?=
+ =?us-ascii?Q?GWTfnDeiWDqQI9Ufn4TmJYzmwLPPgksr8mBo/HrNyqIDQahS3Df5J/7YXnob?=
+ =?us-ascii?Q?OwHr3tK1xokA3Ipne/QyS7miwIWzvT7/dfWe+qS+XLbZZ9+lKbaIRQBeIDMn?=
+ =?us-ascii?Q?3NNCEwRKg3VaXrWlOkUCLd7Y9gnZc55+47ekHFUKdmxT7NPMgdCOLssyTZgN?=
+ =?us-ascii?Q?CG65L3AcLcTfAQ7q1mqifx6SJx954vQQ1wQ9lva3KaTxDU98pf3NQdacVzgv?=
+ =?us-ascii?Q?MC/nwO0K0jsTDXOAUEHUHvaDOcAyxnHiv6Z09PxlFXuzpDoWrFFx7j/fSHdo?=
+ =?us-ascii?Q?8zK/v4yOiAIHlZzfXVronhwX22Y12yntlYXmceWPUbLdl5DjqgFz5byH0MIs?=
+ =?us-ascii?Q?OPwLYtU8fF1YH77OhPYho7K3eyCXkdDJ8JOTHVd+DRJzlGkoQYY5cg8XyXiL?=
+ =?us-ascii?Q?J726pBTi9bM66DgQ6K9/lnIJqXH6pgTnr/I8yRtfHBBVp85Kgx91w9N5iv+N?=
+ =?us-ascii?Q?BWjeznfmGVEGZ1COZJvan3418GrOFh7QGF2Wmy463wObnk1B3VeWf/2tZsY1?=
+ =?us-ascii?Q?8yDMmbbSVfHvj0BsIJvro5qJcB1UUxGO5MAXFeFucRKtBbgizOu4vlPTrd/u?=
+ =?us-ascii?Q?1MAc+PH89zi56gp+LdZqiSR0Fjn2BJUUdq7x8yu55AT0nkrN0ZPn60w2C8n+?=
+ =?us-ascii?Q?WNq8N7WI5nB5BrahJ5hJNHV3NemauFWdKvYQ4J5tzS5i0++4sNIiw+Ab61ke?=
+ =?us-ascii?Q?FMTb7z29OUu1rxhu5Lk3XKzGZ54Vi9kyiBx/5y5q7MzO/boQ5WOWq1DO1Fjp?=
+ =?us-ascii?Q?hY+3a9mgzsvjh4ueXdXQLDpdM8Tbp7gERc2dyJp+d6pvzDeNvVken+4UYDVX?=
+ =?us-ascii?Q?NtGyIq/D/mLiaEc4RUrYgzKr1MFGK3HVfoyc5L0hSvznaXfIiZy8+OENjKQ1?=
+ =?us-ascii?Q?VR3m2ttPTgcpM7BBKBGD/T+PpKgEKmWhMRnsHglVeCLg8gzT1qMmxTTcv2Tn?=
+ =?us-ascii?Q?pGtuVvg4qLBdustjUQsaQnJOw6SMK00DrIXz7nmvTIhGFnm+bqPZnmz2a97o?=
+ =?us-ascii?Q?Zpds76zDtlUwS9nTIGUJSDCYqGNVisgyDphebBy7siAVZTxishqG2SHQRsbq?=
+ =?us-ascii?Q?HfyismjxQ1JA5Rbumvcv0vY0B9BEP+5qQoPn8UeXB6viaSOi5HUZkKch9X43?=
+ =?us-ascii?Q?MK+d7MvGEDJ1YupDj2utzluL5Cb0dN1z3+039HFxLDYH2Zw+Pe2mwoCbCsZ7?=
+ =?us-ascii?Q?65bEot0ncCBmizDoXZajq8A86a/OaBdJ30ahmL4Fy2Lp2oZXSIP+8OwXCoFT?=
+ =?us-ascii?Q?dHvdYHDJLhdxqkmTlr/fiDcemOtY/puk+QLqKlDNvpYbGDFBgGvLAmjssXqo?=
+ =?us-ascii?Q?DKYQyEGcFH3nmVhDwITzVrwY20WskrSk70CncS6ozZgh3u7bFumegbvoAegH?=
+ =?us-ascii?Q?pW+X2Hmc7Nv2zh+RyAKktguG2hcJeKgJ4afB2jjw?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8c05b9bb-1687-465c-8fbd-08db81198174
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2023 07:44:35.1514
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mzTOG0nOKkps94VRMaxYoLwdMk+i8l1J14bzrO5ZgariW4JzUzkW3NbdRic405z2kTYUk1961HlmhQAUBK8ZRw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB8073
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -86,51 +114,81 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dan,
+the firmware only support low latency mode for h264,
+but firmware will notify an event to driver
+when one frame is decoded,
+if V4L2_CID_MPEG_VIDEO_DEC_DISPLAY_DELAY_ENABLE is enabled,
+and V4L2_CID_MPEG_VIDEO_DEC_DISPLAY_DELAY is set to 0,
+driver can display the decoded frame immediately.
 
-On 7/3/2023 9:00 PM, Dan Carpenter wrote:
-> This reverts commit 0f6e8d8c94a82e85e1b9b62a7671990740dc6f70.
-> 
-> The reverted commit was based on static analysis and a misunderstanding
-> of how PTR_ERR() and NULLs are supposed to work.  When a function
-> returns both pointer errors and NULL then normally the NULL means
-> "continue operating without a feature because it was deliberately
-> turned off".  The NULL should not be treated as a failure.  If a driver
-> cannot work when that feature is disabled then the KConfig should
-> enforce that the function cannot return NULL.  We should not need to
-> test for it.
-> 
-> In this code, the patch breaks the venus driver if CONFIG_PM is
-> disabled.
-> 
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> ---
-> This patch is also based on static analysis and review so probably best
-> to be cautious.  My guess is that very few people disable CONFIG_PM
-> these days so that's why the bug wasn't caught.
-> 
->  drivers/media/platform/qcom/venus/pm_helpers.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-> index 48c9084bb4db..c93d2906e4c7 100644
-> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
-> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-> @@ -869,8 +869,8 @@ static int vcodec_domains_get(struct venus_core *core)
->  	for (i = 0; i < res->vcodec_pmdomains_num; i++) {
->  		pd = dev_pm_domain_attach_by_name(dev,
->  						  res->vcodec_pmdomains[i]);
-> -		if (IS_ERR_OR_NULL(pd))
-> -			return PTR_ERR(pd) ? : -ENODATA;
-> +		if (IS_ERR(pd))
-> +			return PTR_ERR(pd);
-Trying to understand if pm domains for Venus (pd) is returned NULL here, how
-would the driver be able to enable and disable those power domains at [1]. And
-without that, video usecase would be functional ?
+Fixes: ffa331d9bf94 ("media: amphion: decoder implement display delay enable")
+Signed-off-by: Ming Qian <ming.qian@nxp.com>
+---
+ drivers/media/platform/amphion/vdec.c | 25 ++++++++++++++++++++++---
+ 1 file changed, 22 insertions(+), 3 deletions(-)
 
-[1]
-https://elixir.bootlin.com/linux/latest/source/drivers/media/platform/qcom/venus/pm_helpers.c#L1043
+diff --git a/drivers/media/platform/amphion/vdec.c b/drivers/media/platform/amphion/vdec.c
+index 60f3a73c6a8a..eeb2ef72df5b 100644
+--- a/drivers/media/platform/amphion/vdec.c
++++ b/drivers/media/platform/amphion/vdec.c
+@@ -742,6 +742,21 @@ static int vdec_frame_decoded(struct vpu_inst *inst, void *arg)
+ 		dev_info(inst->dev, "[%d] buf[%d] has been decoded\n", inst->id, info->id);
+ 	vpu_set_buffer_state(vbuf, VPU_BUF_STATE_DECODED);
+ 	vdec->decoded_frame_count++;
++	if (vdec->params.display_delay_enable) {
++		struct vpu_format *cur_fmt;
++
++		cur_fmt = vpu_get_format(inst, inst->cap_format.type);
++		vpu_set_buffer_state(vbuf, VPU_BUF_STATE_READY);
++		for (int i = 0; i < vbuf->vb2_buf.num_planes; i++)
++			vb2_set_plane_payload(&vbuf->vb2_buf,
++					      i, vpu_get_fmt_plane_size(cur_fmt, i));
++		vbuf->field = cur_fmt->field;
++		vbuf->sequence = vdec->sequence++;
++		dev_dbg(inst->dev, "[%d][OUTPUT TS]%32lld\n", inst->id, vbuf->vb2_buf.timestamp);
++
++		v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_DONE);
++		vdec->display_frame_count++;
++	}
+ exit:
+ 	vpu_inst_unlock(inst);
+ 
+@@ -769,14 +784,14 @@ static void vdec_buf_done(struct vpu_inst *inst, struct vpu_frame_info *frame)
+ 	struct vpu_format *cur_fmt;
+ 	struct vpu_vb2_buffer *vpu_buf;
+ 	struct vb2_v4l2_buffer *vbuf;
+-	u32 sequence;
+ 	int i;
+ 
+ 	if (!frame)
+ 		return;
+ 
+ 	vpu_inst_lock(inst);
+-	sequence = vdec->sequence++;
++	if (!vdec->params.display_delay_enable)
++		vdec->sequence++;
+ 	vpu_buf = vdec_find_buffer(inst, frame->luma);
+ 	vpu_inst_unlock(inst);
+ 	if (!vpu_buf) {
+@@ -795,13 +810,17 @@ static void vdec_buf_done(struct vpu_inst *inst, struct vpu_frame_info *frame)
+ 		dev_err(inst->dev, "[%d] buffer id(%d, %d) dismatch\n",
+ 			inst->id, vbuf->vb2_buf.index, frame->id);
+ 
++	if (vpu_get_buffer_state(vbuf) == VPU_BUF_STATE_READY && vdec->params.display_delay_enable)
++		return;
++
+ 	if (vpu_get_buffer_state(vbuf) != VPU_BUF_STATE_DECODED)
+ 		dev_err(inst->dev, "[%d] buffer(%d) ready without decoded\n", inst->id, frame->id);
++
+ 	vpu_set_buffer_state(vbuf, VPU_BUF_STATE_READY);
+ 	for (i = 0; i < vbuf->vb2_buf.num_planes; i++)
+ 		vb2_set_plane_payload(&vbuf->vb2_buf, i, vpu_get_fmt_plane_size(cur_fmt, i));
+ 	vbuf->field = cur_fmt->field;
+-	vbuf->sequence = sequence;
++	vbuf->sequence = vdec->sequence;
+ 	dev_dbg(inst->dev, "[%d][OUTPUT TS]%32lld\n", inst->id, vbuf->vb2_buf.timestamp);
+ 
+ 	v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_DONE);
+-- 
+2.38.1
 
->  		core->pmdomains[i] = pd;
->  	}
-> 
