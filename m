@@ -2,194 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EFDD874CFD0
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jul 2023 10:23:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6ED774D10C
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jul 2023 11:09:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231607AbjGJIXP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Jul 2023 04:23:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43284 "EHLO
+        id S230368AbjGJJJV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Jul 2023 05:09:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232861AbjGJIXF (ORCPT
+        with ESMTP id S230416AbjGJJJT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Jul 2023 04:23:05 -0400
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1765291;
-        Mon, 10 Jul 2023 01:23:03 -0700 (PDT)
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36A8BaDe027592;
-        Mon, 10 Jul 2023 10:22:23 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=GE6zkKpI6t9uY6L4iGZvQGH0DZZlhk/alBlWR2MxhUs=;
- b=G+4K12NnVLRH60fLRSLye1p6QMQOse6GHGYvmcXkLdfiDUaeFSQxdVHB8IuIaLl3hTIj
- cNhrU2X+aizJuhnIEVZGZ3AtqalmKwy1lusGnOvoDtQS3WL/XPW52RrEXjNw6EgYgYRX
- 7ykkxWK3XJLDKaZW3ywfdgnSJd28+A7BuIgG2xvGBzKbVSK1AorcTFJiX/vb2qrSUU7K
- KbGigglmesbBjV7AwerCwSCze7W6exOddeiEWGNQenh3iQE5kIdzdont68RbEOAeqajB
- dsS/sLb1eB5zRqc8iDpTZ5mswkIA4Czb8vK9LHM+wRn2Vrpy2YeSvgiltQE7LfmEfE58 LQ== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3rre8vr37g-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 10 Jul 2023 10:22:23 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id C00B010005A;
-        Mon, 10 Jul 2023 10:22:19 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 58FB521BF6A;
-        Mon, 10 Jul 2023 10:22:19 +0200 (CEST)
-Received: from [10.201.21.121] (10.201.21.121) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Mon, 10 Jul
- 2023 10:22:18 +0200
-Message-ID: <fb72b4e4-d5c6-d9be-269d-29aff996001c@foss.st.com>
-Date:   Mon, 10 Jul 2023 10:22:10 +0200
+        Mon, 10 Jul 2023 05:09:19 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66B69FB
+        for <linux-media@vger.kernel.org>; Mon, 10 Jul 2023 02:09:18 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-3fc04692e20so26319975e9.0
+        for <linux-media@vger.kernel.org>; Mon, 10 Jul 2023 02:09:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1688980157; x=1691572157;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2KujVDHYVUxo9oYyBlDAbR4tdZQxBizaVaIObje0g9I=;
+        b=SXj9Rz4nsv8tsa6nraKDQmFv1NEjRejWmLQwQUVA7Ve3sG8m/jkG3Bxi47Waoppe4F
+         FjJpdtWhJwtCa0T+ie550r4vDGkoJQx4BNlQDYwO1uW0E9aVtF57bYCavOFWFWtFubhv
+         zC3oPEt0uEbrzrFQaHZ8cwKmn0frKa1X19C0fWhc0uKSk4or0qY11CBzYbXYNb5TqgcL
+         oKxqkoUvuxc+N6Fft2Et22Y24nDKvSmZ3qdNH9jtxvlNlpproMgBpSYPJzOQ1XDAT+KV
+         odXJEllBBOZwU4RN3jPVsWkedspCXuQWAnPo5HmLPcgi/kPNAlY6uB8hGqP2KJ3DyZqM
+         vZLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688980157; x=1691572157;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2KujVDHYVUxo9oYyBlDAbR4tdZQxBizaVaIObje0g9I=;
+        b=etpX67+ySxE0+C3ai5ZJZ3Yrzcy3LbxXiayfVm3ridu6t60tUoqppWoy6H6i2Uz3v0
+         4feVKLzeea1vfLoKGLNeQt0mSh9Stejt/vnTLcoNtcRfuP3YCUfY264H7YJMkSaBE1He
+         bZLDINrFwLfyvewDTPQ5kPaI+nnDRzKUP0387nQhkogE8CF2VHDjIYu3u2VjhNADhcw2
+         qHDdMuov6Mne5TrfrVG99lizROfeFdwLQ6hQNnhuH3d1PzvvLSENS+H+w8oZYBruk1K9
+         XBlF01NBG13Vc6aDEpXGDVXl6uCQI3A9Pu5HdAJCno7+n3SxRx0V20q6r+aiVKEatWs2
+         E57g==
+X-Gm-Message-State: ABy/qLZHR79GCY65+fbcAzWnmD5NORi9C6gRQ6Z3TZu9rvm/6ihWPnUj
+        ndDUCXdItKuJ8/d1wGeSFAXYNg==
+X-Google-Smtp-Source: APBJJlGw+SpNS7MUK0khmZtSeZ1AN2xJ7wVJNGsg5GXZzu8g8injjHRG1t4b1w9W/8CiHP7WUddvHQ==
+X-Received: by 2002:a05:600c:2246:b0:3fa:8fc2:3969 with SMTP id a6-20020a05600c224600b003fa8fc23969mr11079304wmm.17.1688980156913;
+        Mon, 10 Jul 2023 02:09:16 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id y12-20020a05600c364c00b003fc04eb92cbsm6637423wmq.44.2023.07.10.02.09.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Jul 2023 02:09:14 -0700 (PDT)
+Date:   Mon, 10 Jul 2023 11:30:52 +0300
+From:   Dan Carpenter <dan.carpenter@linaro.org>
+To:     Vikash Garodia <quic_vgarodia@quicinc.com>
+Cc:     Tang Bin <tangbin@cmss.chinamobile.com>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH] Revert "venus: pm_helpers: Fix error check in
+ vcodec_domains_get()"
+Message-ID: <8215b9e5-e7bb-4739-a39e-e7f39efb053b@kadam.mountain>
+References: <e1e46cfd-8d95-4792-ac8f-1237d2af7171@moroto.mountain>
+ <7550a762-7b00-514d-07a4-d304a6342ae4@quicinc.com>
+ <7d684c80-d9c7-42ca-9ef6-0d4c38ee1876@kadam.mountain>
+ <73e7c244-02da-a275-f187-751c8d5b9816@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 04/10] dt-bindings: treewide: add feature-domains
- description in binding files
-Content-Language: en-US
-To:     Rob Herring <robh@kernel.org>
-CC:     <Oleksii_Moisieiev@epam.com>, <gregkh@linuxfoundation.org>,
-        <herbert@gondor.apana.org.au>, <davem@davemloft.net>,
-        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-        <alexandre.torgue@foss.st.com>, <vkoul@kernel.org>,
-        <jic23@kernel.org>, <olivier.moysan@foss.st.com>,
-        <arnaud.pouliquen@foss.st.com>, <mchehab@kernel.org>,
-        <fabrice.gasnier@foss.st.com>, <andi.shyti@kernel.org>,
-        <ulf.hansson@linaro.org>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>, <hugues.fruchet@foss.st.com>,
-        <lee@kernel.org>, <will@kernel.org>, <catalin.marinas@arm.com>,
-        <arnd@kernel.org>, <richardcochran@gmail.com>,
-        <linux-crypto@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <dmaengine@vger.kernel.org>,
-        <linux-i2c@vger.kernel.org>, <linux-iio@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>, <linux-media@vger.kernel.org>,
-        <linux-mmc@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <linux-phy@lists.infradead.org>, <linux-serial@vger.kernel.org>,
-        <linux-spi@vger.kernel.org>, <linux-usb@vger.kernel.org>
-References: <20230705172759.1610753-1-gatien.chevallier@foss.st.com>
- <20230705172759.1610753-5-gatien.chevallier@foss.st.com>
- <20230706145108.GA3858320-robh@kernel.org>
- <0aaace47-1bb4-82c5-57a5-6f5d27eb4d45@foss.st.com>
- <20230707152056.GA317056-robh@kernel.org>
-From:   Gatien CHEVALLIER <gatien.chevallier@foss.st.com>
-In-Reply-To: <20230707152056.GA317056-robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.201.21.121]
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-10_05,2023-07-06_02,2023-05-22_02
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <73e7c244-02da-a275-f187-751c8d5b9816@quicinc.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Mon, Jul 10, 2023 at 01:48:52PM +0530, Vikash Garodia wrote:
+> > This is a video accelerator.  I would expect that it could still work
+> > without power management.
+> It won't, without those 2 power domains enabled for Venus. Does it work for you
+> when you disabled the config ?
+
+I have not tested this, I'm reviewing static checker bugs, as I
+explained here:
+
+> >>> This patch is also based on static analysis and review so probably best
+> >>> to be cautious.  My guess is that very few people disable CONFIG_PM
+> >>> these days so that's why the bug wasn't caught.
 
 
-On 7/7/23 17:20, Rob Herring wrote:
-> On Fri, Jul 07, 2023 at 02:28:28PM +0200, Gatien CHEVALLIER wrote:
->> Hello Rob,
->>
->> On 7/6/23 16:51, Rob Herring wrote:
->>> On Wed, Jul 05, 2023 at 07:27:53PM +0200, Gatien Chevallier wrote:
->>>> feature-domains is an optional property that allows a peripheral to
->>>> refer to one or more feature domain controller(s).
->>>>
->>>> Description of this property is added to all peripheral binding files of
->>>> the peripheral under the STM32 firewall controllers. It allows an accurate
->>>> representation of the hardware, where various peripherals are connected
->>>> to this firewall bus. The firewall can then check the peripheral accesses
->>>> before allowing it to probe.
->>>>
->>>> Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
->>>> ---
->>>>
->>>> Disclaimer: Some error with dtbs_check will be observed as I've
->>>> considered the property to be generic, as Rob asked
->>>>
->>>>    Documentation/devicetree/bindings/crypto/st,stm32-hash.yaml  | 4 ++++
->>>>    Documentation/devicetree/bindings/dma/st,stm32-dma.yaml      | 4 ++++
->>>>    Documentation/devicetree/bindings/dma/st,stm32-dmamux.yaml   | 4 ++++
->>>>    Documentation/devicetree/bindings/i2c/st,stm32-i2c.yaml      | 4 ++++
->>>>    Documentation/devicetree/bindings/iio/adc/st,stm32-adc.yaml  | 4 ++++
->>>>    .../devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml      | 4 ++++
->>>>    Documentation/devicetree/bindings/iio/dac/st,stm32-dac.yaml  | 4 ++++
->>>>    .../devicetree/bindings/media/cec/st,stm32-cec.yaml          | 4 ++++
->>>>    Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml   | 4 ++++
->>>>    .../bindings/memory-controllers/st,stm32-fmc2-ebi.yaml       | 4 ++++
->>>>    Documentation/devicetree/bindings/mfd/st,stm32-lptimer.yaml  | 4 ++++
->>>>    Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml   | 5 +++++
->>>>    Documentation/devicetree/bindings/mmc/arm,pl18x.yaml         | 4 ++++
->>>>    Documentation/devicetree/bindings/net/stm32-dwmac.yaml       | 4 ++++
->>>>    Documentation/devicetree/bindings/phy/phy-stm32-usbphyc.yaml | 4 ++++
->>>>    .../devicetree/bindings/regulator/st,stm32-vrefbuf.yaml      | 4 ++++
->>>>    Documentation/devicetree/bindings/rng/st,stm32-rng.yaml      | 4 ++++
->>>>    Documentation/devicetree/bindings/serial/st,stm32-uart.yaml  | 4 ++++
->>>>    Documentation/devicetree/bindings/sound/st,stm32-i2s.yaml    | 4 ++++
->>>>    Documentation/devicetree/bindings/sound/st,stm32-sai.yaml    | 4 ++++
->>>>    .../devicetree/bindings/sound/st,stm32-spdifrx.yaml          | 4 ++++
->>>>    Documentation/devicetree/bindings/spi/st,stm32-qspi.yaml     | 4 ++++
->>>>    Documentation/devicetree/bindings/spi/st,stm32-spi.yaml      | 4 ++++
->>>>    Documentation/devicetree/bindings/usb/dwc2.yaml              | 4 ++++
->>>>    24 files changed, 97 insertions(+)
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/crypto/st,stm32-hash.yaml b/Documentation/devicetree/bindings/crypto/st,stm32-hash.yaml
->>>> index b767ec72a999..daf8dcaef627 100644
->>>> --- a/Documentation/devicetree/bindings/crypto/st,stm32-hash.yaml
->>>> +++ b/Documentation/devicetree/bindings/crypto/st,stm32-hash.yaml
->>>> @@ -50,6 +50,10 @@ properties:
->>>>      power-domains:
->>>>        maxItems: 1
->>>> +  feature-domains:
->>>> +    minItems: 1
->>>> +    maxItems: 3
->>>
->>> What are the 3 entries?
->>>
->>> Rob
->>
->> I thought I was benefiting from the description of the pattern-property in
->> the RIFSC YAML file. But yes anyway, it seems like it needs some description
->> here as the dependency does not appear in this file.
-> 
-> Humm, that should limit the maximum entries to 2, so 3 would never work
-> (if RIFSC is the parent).
-> 
->> I picked 3 as a maxItems for our ST needs, I'll give it some more thought
->> when coming back with something clearer.
-> 
-> I'd expect you have 1 entry for register bus and 1 entry for DMA bus if
-> there is one. It's block specific for how many entries, so the RIFSC
-> schema should not be setting that. You could possibly say that
-> 'feature-domains' is required for all the child nodes though.
+> Its better enforced in Kconfig. By allowing NULL for
+> dev_pm_domain_attach_by_name does not still indicate that the functionality is
+> dependent on CONFIG_PM to be enabled.
 
-Ok, I will change to not specifying the number of entries in the
-RIFSC YAML file for V2.
+The way I'm writing it is the correct way.  I explain this better in
+my blog.
 
-> 
-> Rob
-Some hardware blocks may have a firewall ID for their device part and
-another ID for their master part as well. In the end, the number of
-entries could very well vary between different platforms. And the YAML
-files are common to these platforms.
+https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
 
-This property could be used for "extra" arguments as well, that are not
-firewall IDs.
+Currently it looks like the Kconfig does not have a dependency on
+CONFIG_PM.  If we fix the the Kconfig, but leave the "harmless" bug here
+then it will still show up as a static checker warning when COMPILE_TEST
+is enabled.
 
-What do you suggest between picking a high maxItems value that would
-(hopefully) cover all cases and not specifying maxItems at all? Or maybe
-another property dedicated to such arguments?
+We should just do it in the correct way even after we fix the Kconfig.
 
-Best regards,
-Gatien
+regards,
+dan carpenter
