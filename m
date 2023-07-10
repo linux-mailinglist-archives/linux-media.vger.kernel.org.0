@@ -2,64 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E9FB74CC21
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jul 2023 07:22:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29BCC74CC36
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jul 2023 07:32:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230163AbjGJFWf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Jul 2023 01:22:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39614 "EHLO
+        id S229868AbjGJFcY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Jul 2023 01:32:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230013AbjGJFWK (ORCPT
+        with ESMTP id S229830AbjGJFcW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Jul 2023 01:22:10 -0400
-Received: from out203-205-221-231.mail.qq.com (out203-205-221-231.mail.qq.com [203.205.221.231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C521D2
-        for <linux-media@vger.kernel.org>; Sun,  9 Jul 2023 22:20:29 -0700 (PDT)
+        Mon, 10 Jul 2023 01:32:22 -0400
+Received: from out203-205-251-59.mail.qq.com (out203-205-251-59.mail.qq.com [203.205.251.59])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77325CE;
+        Sun,  9 Jul 2023 22:32:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-        s=s201512; t=1688966426;
-        bh=JEWoUYTEZzpsQoXmhw33QwAng/A/xG2ymPiflCgyT6s=;
-        h=Subject:From:In-Reply-To:Date:Cc:References:To;
-        b=gF1xS0eOLjdKBqwWI6OgWnT1KzLfSyhYBIj9my/9fOzy/J1eGO+Ft7Z4EzUh4IPSr
-         V2u6v1h2NEY+BHX2Dxq4oDZjGwJ0bH0CjGNX4W9cq3QnZKfW/bUx8Fxf00GHO4HjvA
-         vy+eHIMa5X5s0E0Y/PzDDIMEBjIQaNBnHPNgiUfI=
-Received: from smtpclient.apple ([240e:6b1:c0:120::1:2])
-        by newxmesmtplogicsvrszb9-0.qq.com (NewEsmtp) with SMTP
-        id 37B2FABB; Mon, 10 Jul 2023 13:13:59 +0800
-X-QQ-mid: xmsmtpt1688966039tvy15icwg
-Message-ID: <tencent_412DF9D61A18A947B3C2232A9944F48D7006@qq.com>
-X-QQ-XMAILINFO: Mwr+zmslTAZDVU18M7S8hoSEcJuKchTy3JAISh6k6Q2ZgdFe8vZScnh7fySDft
-         HcSThmTltGUmhhXRL9WM8p4Xn5WtYw93jZRf7E6rFczLypxerEI+my6gOhTUOfk/eyMZrfDpgNs3
-         QE2pwPOpSZJvgtIVC2l3L32vSLrWYJyCmmiWbNycVBenDiDbBFuzDU7PgCE7hkKHt/Litocbb3mg
-         qazx0T1CVqPLJX4kZES0qvPICS0hKO1mAgnAjLjOELmkAsY2StrwrhVHaMNB8uw1v043nH+ngJuC
-         WVSJ3oBYkvkpEHzE0PQS8mVCQlSP6DabHD91LZjEPmh6EvAN35Joe+//xVFmkmlFigotIXrQ1tXV
-         IQoFkKRBliXIuQ/tIzKU4q3WLTh3oD52Xb3R9MZz6qLJvN22A66r8RUdmgzusPv2Y+/SFo/wZkOY
-         5H0cThLjtaTxRfHtLgzMHsSpDQSsBLsnRH0tIQ9ram/9jtdSyv2Uvy1OgJkvs5mYeEB1KmT81Zbb
-         cW8MHdqoHFWppqNIZVeFrb2grqb6pqG0yVjOyz1SLTmFYtmp/qd8Zf1qB0VGG8x12XwcXMA3J26r
-         GGZC+eSgTdmvDnuIPvedrDpl+OXbuY31rHMLP64gaDih7xscPntaWNBuOoQ5Vr4Af76q6S7ThrlB
-         JM1uGMLQXuaM11l09xaFXF10W/u2zjGqp2LCV8Mk2dAvIf4519rVWpHD2jxDzhsw9PumtLWlom2u
-         ZLyPTACWtOnMe45idOyEllL2uJ47Kytqgd9zEtNPTPyoRIFKpkI32+91wmVJ0Gg159kTDn8eopfi
-         1R3jveaX6IsMy5/8mevEekkGTgFwZT3lUmTAMvYkIa9xBC2VQxf3T++tWX12eZijM692txt1tEDc
-         AwJoTmdU1wsZ5+jgbYw1KyGYMeIFPFCjmzw9zRFUR8l8H7IatGyai3GX6yZwvPry+zSgtLZjHUpq
-         G0f8TOM2yp9GspLBzw2gfOUhkDw7+hBHpttssWnkI=
+        s=s201512; t=1688967137;
+        bh=WJHvz5QCeL90mPeuiGPZf7IOaS3JVSfc/j9Z8sS/Wfw=;
+        h=From:To:Cc:Subject:Date;
+        b=I/uwn//iyyIkVQ1uHOln3g40X8ATnmucGavwvZ5ErwwZnr7bb8LZOf6sD1AmdwOA0
+         sYp3jBd2Uf/2+rEjiuaGjmEBX645SdqXLxvlo2mrVOCZaAFbiE+Ik7MTMLvVGJRRnr
+         JT09C5cabaCweL8emuhf+ByJmJlbuAoL6BEuWw3k=
+Received: from KernelDevBox.byted.org ([180.184.103.200])
+        by newxmesmtplogicsvrszc5-0.qq.com (NewEsmtp) with SMTP
+        id 80EA1640; Mon, 10 Jul 2023 13:32:14 +0800
+X-QQ-mid: xmsmtpt1688967134tv154i24q
+Message-ID: <tencent_B9CA519324166FA06A13B786C0123C7A1409@qq.com>
+X-QQ-XMAILINFO: MB5+LsFw85No4WL3Z6h1jSLIguU5igTiZNAJlMNnsgcxuDuwZn7nFQnXgW6/N3
+         a9gtk0I8Cc/9F+RwZfUOKXSfWD822s3tZWbAsljBrobGlEvi+8olrvSqtymbLNm9shg2uK2UygBW
+         5IV9KKeXG5zhx7x4gJTYyasTWy6py2EtmzFl0tBvs6kMdI2LHepZLhtxsEkNrgbz1Wa4b7/K5mFo
+         oGI5RMSdVV/7a6mP44SzvKyxDxPQ06ud1DxJi8wqOm66MTaJbgPt0BLJWJCtwmXIMozdNa43nGNV
+         I6b6zL3bxoKvKkJgRDwYpPcfh2kv9F5q32Mjfb1lZRLNFElxqRs/FN0UGvQNNsdiIE5s5t5bla7d
+         XIVp/MS3PoYOkISvjpt6aYOJixbNomDOJiUzpZaXk30SgxcR97K0VDQLxE7m6dLZg/yBQ/MpoE81
+         zdOwYm3L9SjizA82gDs+vGzY+StC9+HMoh4ySgAVbsGDZJqp/nPI6SJ5PoZ0EeT6BtPJlCVFJi5+
+         /gIhVjwVIvJQvrJUhMqCVW//othyG2Lv2AWVRBpbyn4L2FGy6mH49HdXK0fhIy8Z2BGOwPePlQKe
+         cxdXVeJM4GJq7HBZdYxEHRKfjaUr16O8F4BN+yLzAs6rC5ZwjJ9FVplUMTE32Di/xhISQa1T1bcz
+         mlIMq5t7cqLQJ8xEzNX1UZrpwq1azFdd0ImlXB9vmSWBKN2o3FnZLlIND5P+elnS+TnDdOGwLnOg
+         BbiOp8FMQi5r4Qr4BJv53PkKG5+pQTJYgfxvujCa9lO4f1tLyMEOuq8F+CGfaLmO6ra3S2daXMYn
+         YdLUbVNRQzlIlAtHsxuN3m0JoRl3PQ0nYSYsngvMYlvD0zSNbv30Jo0jBZhh1z6yZpLnlm+MZJa+
+         VPBBgO7uXPlVnR3DVoMMa+CBr5rLrew+rw360mxdMIqhXVV7NcHfnoB5UBbsWL1zFOQre0mIHUFu
+         9GluurSGaSa411+3YvHF9W4pme91SVfgMO11m3FjZuZlq4LNdbUA==
 X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
-Content-Type: text/plain;
-        charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.600.7\))
-Subject: Re: [PATCH] media: dvb-usb-v2: gl861: Fix null-ptr-deref in
- gl861_i2c_master_xfer
 From:   Zhang Shurong <zhang_shurong@foxmail.com>
-In-Reply-To: <53c0943dc46a8d17ca66d2c028f40e9a80ca7cee.camel@gmail.com>
-Date:   Mon, 10 Jul 2023 13:13:49 +0800
-Cc:     crope@iki.fi, mchehab@kernel.org, linux-media@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-X-OQ-MSGID: <3F6B2576-C5CA-4D83-83D5-66DC30BC5D5E@foxmail.com>
-References: <tencent_0CAE84EB4D452DD8560158AD0792021B6A06@qq.com>
- <53c0943dc46a8d17ca66d2c028f40e9a80ca7cee.camel@gmail.com>
-To:     Akihiro TSUKADA <tskd08@gmail.com>
-X-Mailer: Apple Mail (2.3731.600.7)
+To:     crope@iki.fi
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, tskd08@gmail.com,
+        Zhang Shurong <zhang_shurong@foxmail.com>
+Subject: [PATCH v2] media: dvb-usb-v2: gl861: Fix null-ptr-deref in gl861_i2c_master_xfer
+Date:   Mon, 10 Jul 2023 13:32:13 +0800
+X-OQ-MSGID: <20230710053213.2884871-1-zhang_shurong@foxmail.com>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        HELO_DYNAMIC_IPADDR,RCVD_IN_DNSWL_NONE,RDNS_DYNAMIC,SPF_HELO_NONE,
+        HELO_DYNAMIC_IPADDR,RCVD_IN_DNSWL_BLOCKED,RDNS_DYNAMIC,SPF_HELO_NONE,
         SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -68,30 +64,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-You are right. I am very sorry for my mistake and I will send another =
-patch fix this.
+In gl861_i2c_master_xfer, msg is controlled by user. When msg[i].buf
+is null and msg[i].len is zero, former checks on msg[i].buf would be
+passed. Malicious data finally reach gl861_i2c_master_xfer. If accessing
+msg[i].buf[0] without sanity check, null ptr deref would happen.
+We add check on msg[i].len to prevent crash.
 
-> Is the first chunk of your patch really necessary?
-> `msg[0].len < 2` includes the `msg[0].len =3D=3D 0` case,
-> so the `msg.buf =3D=3D NULL && msg.len =3D=3D 0` case is (seemed to =
-me)
-> safely ejected as it is.
->=20
->> --- a/drivers/media/usb/dvb-usb-v2/gl861.c
->> +++ b/drivers/media/usb/dvb-usb-v2/gl861.c
->> @@ -97,7 +97,7 @@ static int gl861_i2c_master_xfer(struct i2c_adapt
->>=20
->> er *adap, struct i2c_msg msg[],
->> /* XXX: I2C adapter maximum data lengths are not tested */
->> if (num =3D=3D 1 && !(msg[0].flags & I2C_M_RD)) {
->> /* I2C write */
->> - if (msg[0].len < 2 || msg[0].len > sizeof(ctx->buf)) {
->> + if (msg[0].len =3D=3D 0 || msg[0].len > sizeof(ctx->buf)) {
->> ret =3D -EOPNOTSUPP;
->> goto err;
->> }
->=20
-> regards,
-> akihiro
->=20
+Similar commit:
+commit 0ed554fd769a
+("media: dvb-usb: az6027: fix null-ptr-deref in az6027_i2c_xfer()")
+
+Signed-off-by: Zhang Shurong <zhang_shurong@foxmail.com>
+---
+Changes in v2:
+- remove useless check statement
+
+ drivers/media/usb/dvb-usb-v2/gl861.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/media/usb/dvb-usb-v2/gl861.c b/drivers/media/usb/dvb-usb-v2/gl861.c
+index 0c434259c36f..c71e7b93476d 100644
+--- a/drivers/media/usb/dvb-usb-v2/gl861.c
++++ b/drivers/media/usb/dvb-usb-v2/gl861.c
+@@ -120,7 +120,7 @@ static int gl861_i2c_master_xfer(struct i2c_adapter *adap, struct i2c_msg msg[],
+ 	} else if (num == 2 && !(msg[0].flags & I2C_M_RD) &&
+ 		   (msg[1].flags & I2C_M_RD)) {
+ 		/* I2C write + read */
+-		if (msg[0].len > 1 || msg[1].len > sizeof(ctx->buf)) {
++		if (msg[0].len != 1 || msg[1].len > sizeof(ctx->buf)) {
+ 			ret = -EOPNOTSUPP;
+ 			goto err;
+ 		}
+-- 
+2.30.2
 
