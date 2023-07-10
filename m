@@ -2,75 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C849A74D69E
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jul 2023 15:02:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7162D74D607
+	for <lists+linux-media@lfdr.de>; Mon, 10 Jul 2023 14:54:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231493AbjGJNCH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Jul 2023 09:02:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48080 "EHLO
+        id S230197AbjGJMyB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Jul 2023 08:54:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232250AbjGJNB3 (ORCPT
+        with ESMTP id S230078AbjGJMyA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Jul 2023 09:01:29 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C725A8;
-        Mon, 10 Jul 2023 06:01:23 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 0BDD7221C1;
-        Mon, 10 Jul 2023 13:01:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1688994082; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=I0Gm3caehTf+DDNUO7FEiHJTJ/hpEoZRP8IUYE91TXw=;
-        b=Go7brugIegGY+ZVPi6YfHKxGodhrQekZWN2V2ZK6jxPYBTjY635csao0oKFNQYWr11kMz8
-        G39YnLW+q7ItBbkzh7LkyKVTEiNWztYwaEDCGYGHHmSJ6suqKc0jI7HYjJIJ0YgoIdBdUB
-        y0bMj50CzUM97CeHB3sibChMwMXdKNs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1688994082;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=I0Gm3caehTf+DDNUO7FEiHJTJ/hpEoZRP8IUYE91TXw=;
-        b=MsqvxlT6sFr6ha7xHjLd+Ynf+kok1rNaAtXEFt/8fbacjxNPr9mpxokzH4T2unRIgadntW
-        9gKaSCCViPXyQpCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AFEF513A05;
-        Mon, 10 Jul 2023 13:01:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id qGYSKiEBrGTTFAAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Mon, 10 Jul 2023 13:01:21 +0000
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-To:     deller@gmx.de, javierm@redhat.com
-Cc:     linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org,
-        linux-geode@lists.infradead.org, linux-nvidia@lists.surfsouth.com,
-        linux-hyperv@vger.kernel.org, linux-omap@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
-        Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 17/17] fbdev: Remove FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT
-Date:   Mon, 10 Jul 2023 14:50:21 +0200
-Message-ID: <20230710130113.14563-18-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230710130113.14563-1-tzimmermann@suse.de>
-References: <20230710130113.14563-1-tzimmermann@suse.de>
+        Mon, 10 Jul 2023 08:54:00 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBF76C9
+        for <linux-media@vger.kernel.org>; Mon, 10 Jul 2023 05:53:57 -0700 (PDT)
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 76406C85;
+        Mon, 10 Jul 2023 14:53:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1688993586;
+        bh=panw/c0KoOEJq9rd+l3KFCH84hRtaBPTsQskPhGEWkM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LbmUY5tQJpoHYe0HtYuzVjOMWdVGy1OOe8wwCX5gk/aGFPrFWk0NQkhpHNotSGmAM
+         XArhjkcKLVnyO5NUHJIAYqk2agzbh3XNsPh1f3MlZpkS/FvOuRs46KEOMLcf0OPVoa
+         LIunXybdyXSoCYIgf4dfGbRE32o0aNtqvDv6IJa8=
+Date:   Mon, 10 Jul 2023 14:53:50 +0200
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
+        hongju.wang@intel.com, hverkuil@xs4all.nl
+Subject: Re: [PATCH 4/7] media: uapi: v4l: Document source routes
+Message-ID: <wenqkwuulzv45uheym3h2mwkgxfeatmtwh4tabvf7pwmoilfgo@akjhsd7d4bp6>
+References: <20230630204338.126583-1-sakari.ailus@linux.intel.com>
+ <20230630204338.126583-5-sakari.ailus@linux.intel.com>
+ <qiomumxpmbhtowvpdorruk74gcrsbab6c5vfchcfmdt5cd34pi@i7cdk3g6f2ff>
+ <ZKlS3e5BJqvTEk+5@kekkonen.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZKlS3e5BJqvTEk+5@kekkonen.localdomain>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -78,36 +53,146 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Remove the unused flags FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT. No
-functional changes.
+Hi Sakari
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Helge Deller <deller@gmx.de>
----
- include/linux/fb.h | 3 ---
- 1 file changed, 3 deletions(-)
+On Sat, Jul 08, 2023 at 12:13:17PM +0000, Sakari Ailus wrote:
+> Hi Jacopo,
+>
+> On Mon, Jul 03, 2023 at 09:47:37AM +0200, Jacopo Mondi wrote:
+> > Hi Sakari
+> >
+> > On Fri, Jun 30, 2023 at 11:43:35PM +0300, Sakari Ailus wrote:
+> > > Document how internal pads are used on source routes.
+> > >
+> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > ---
+> > >  .../userspace-api/media/v4l/dev-subdev.rst    | 20 +++++++++++++++++++
+> > >  1 file changed, 20 insertions(+)
+> > >
+> > > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > > index a4f1df7093e8..5a46c9a9d352 100644
+> > > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > > @@ -551,6 +551,26 @@ A stream at a specific point in the media pipeline is identified by the
+> > >  sub-device and a (pad, stream) pair. For sub-devices that do not support
+> > >  multiplexed streams the 'stream' field is always 0.
+> > >
+> > > +.. _v4l2-subdev-source-routes:
+> > > +
+> > > +Source routes
+> > > +^^^^^^^^^^^^^
+> >
+> > I always found the concept of source routes a bit confusing, should we
+> > instead just present internal pads ?
+> >
+> > > +
+> > > +Cases where a single sub-device pad is a source of multiple streams are special
+> > > +as there is no external sink pad for such a route. In those cases, the sources
+> > > +of the streams are indicated by source routes that have an internal source pad
+> > > +as the sink pad of such a route. Internal source pads have the
+> > > +:ref:`MEDIA_PAD_FL_INTERNAL <MEDIA-PAD-FL-INTERNAL>` and ``MEDIA_PAD_FL_SINK``
+> > > +pad flags set.
+> >
+> > All this last part is a little bit hard to parse, not your fault but
+> > the fact "internal source pads" are actually "SINK" pads is a bit
+> > confusing ?
+> >
+> > Can we remove the "source route" concept to avoid mixing source/sink ?
+> >
+> > This can be rewritten as
+> >
+> > Internal pads
+> > ^^^^^^^^^^^^^
+> >
+> > Cases where a single sub-device pad is a source of multiple streams are special
+> > as there is no external sink pad for such a route. A typical example is a
+> > sensor device which produces a video stream and a metadata stream of
+> > embedded data. To support such cases internal pads are introduced as
+> > sink pads of such internally generated streams.
+> > Internal source pads have the :ref:`MEDIA_PAD_FL_INTERNAL
+> > <MEDIA-PAD-FL-INTERNAL>` and ``MEDIA_PAD_FL_SINK`` pad flags set.
+> >
+> > > +Internal source pads have all the properties of a sink pad in such case,
+> >
+> > Also here, "Internal source pads" are actually sinks :)
+> >
+> > I would drop "source" from "Internal source pads"
+>
+> How about this (compared to the patch):
+>
+> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> index 5a46c9a9d352..9d544a29e78a 100644
+> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> @@ -553,21 +553,23 @@ multiplexed streams the 'stream' field is always 0.
+>
+>  .. _v4l2-subdev-source-routes:
+>
+> -Source routes
+> -^^^^^^^^^^^^^
+> -
+> -Cases where a single sub-device pad is a source of multiple streams are special
+> -as there is no external sink pad for such a route. In those cases, the sources
+> -of the streams are indicated by source routes that have an internal source pad
+> -as the sink pad of such a route. Internal source pads have the
+> -:ref:`MEDIA_PAD_FL_INTERNAL <MEDIA-PAD-FL-INTERNAL>` and ``MEDIA_PAD_FL_SINK``
+> -pad flags set.
+> -
+> -Internal source pads have all the properties of a sink pad in such case,
+> -including formats and selections. The format in this case is the source format
+> -of the stream. An internal pad always has a single stream only (0).
+> -
+> -Generally source routes are not modifiable but they can be activated and
+> +Internal pads and source routes
+> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +
+> +Cases where a single sub-device source pad is traversed by multiple streams one
+> +or more of which originate from within the sub-device itself are special as
+> +there is no external sink pad for such routes. In those cases, the sources of
 
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index 1d5c13f34b09..43458f582f35 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -383,7 +383,6 @@ struct fb_tile_ops {
- #endif /* CONFIG_FB_TILEBLITTING */
- 
- /* FBINFO_* = fb_info.flags bit flags */
--#define FBINFO_DEFAULT		0
- #define FBINFO_HWACCEL_DISABLED	0x0002
- 	/* When FBINFO_HWACCEL_DISABLED is set:
- 	 *  Hardware acceleration is turned off.  Software implementations
-@@ -504,8 +503,6 @@ struct fb_info {
- 	bool skip_vt_switch; /* no VT switch on suspend/resume required */
- };
- 
--#define FBINFO_FLAG_DEFAULT	FBINFO_DEFAULT
--
- /* This will go away
-  * fbset currently hacks in FB_ACCELF_TEXT into var.accel_flags
-  * when it wants to turn the acceleration engine on.  This is
--- 
-2.41.0
+"external" made me think of "a different entity". Can we just drop it
+or am I too easy to confuse ?
 
+> +the internally generated streams are indicated by internal pads, pads which have
+
+s/indicated by/represented by/ ?
+
+'internal pads, pads...'
+
+or
+
+/internal pads, which are sink pads with the
+:ref:`MEDIA_PAD_FL_INTERNAL` <MEDIA-PAD-FL-INTERNAL> pad flag set.'
+
+and drop the "on the sink pad of the route" ?
+
+
+> +a :ref:`MEDIA_PAD_FL_INTERNAL` <MEDIA-PAD-FL-INTERNAL> pad flag set on the sink
+> +pad of the route. A typical use case for these is a camera sensor device which
+> +produces a pixel data stream and an embedded data stream.
+
+This case is represented with two internal sink pads for the video and
+the data streams and a single multiplexed source pad that connects to
+the next entity in the pipeline.
+
+> +
+> +Internal pads have all the properties of an external pad, including formats and
+> +selections. The format in this case is the source format of the stream. An
+> +internal pad always has a single stream only (0).
+> +
+> +/Source routes/ are routes from an internal sink pad to a(n external) source
+> +pad. Generally source routes are not modifiable but they can be activated and
+>  deactivated using the :ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE
+>  <v4l2-subdev-routing-flags>` flag, depending on driver capabilities.
+
+If you want to keep the part about source routes, this form is ok with
+me!
+
+>
+> I'll also check the ACTIVE route flag, it wasn't merged with the rest of
+> the Tomi's streams series.
+>
+> --
+> Kind regards,
+>
+> Sakari Ailus
