@@ -2,58 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 397D474DED0
-	for <lists+linux-media@lfdr.de>; Mon, 10 Jul 2023 22:08:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7714174E135
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jul 2023 00:33:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231888AbjGJUII (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Jul 2023 16:08:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60840 "EHLO
+        id S229901AbjGJWdj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 10 Jul 2023 18:33:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232107AbjGJUID (ORCPT
+        with ESMTP id S229658AbjGJWdi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Jul 2023 16:08:03 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEBAB198;
-        Mon, 10 Jul 2023 13:07:54 -0700 (PDT)
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E7B66DA7;
-        Mon, 10 Jul 2023 22:07:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1689019622;
-        bh=b6g3oIdEKQxnDikMS0wynyZDArLACBjT5ZIcmeg3v9w=;
-        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
-        b=U0tAI4vNt8LCiXM14focRttedaed7oUBa8A2iflHlEr9m+EGa98Fb6O48OKzLmi/5
-         R7gmg0wgEOS5d2NKXe7a6ZJhxHnzj6L3suk9UwHyJKL1Mv9MkVrtRsw6j9gGUrop0U
-         0BsRYBSaLrIN6VyZkdqzfaarHdfIbAntMYCPEUnc=
-Message-ID: <018f882a-1dc0-c18e-b582-d6616668c720@ideasonboard.com>
-Date:   Mon, 10 Jul 2023 21:07:46 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-To:     Rob Herring <robh@kernel.org>, Conor Dooley <conor@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Daniel Scally <djrscally@gmail.com>,
-        Dafna Hirschfeld <dafna@fastmail.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
-        Helen Koike <helen.koike@collabora.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20230707210604.868002-1-robh@kernel.org>
- <20230710-unsold-simplify-5a339036ff38@spud>
- <CAL_JsqJOW7kxC4m8tCmNrD6pq5y73BjV236nb+ZHAhR4rDrNvw@mail.gmail.com>
-Content-Language: en-US
-From:   Dan Scally <dan.scally@ideasonboard.com>
-Subject: Re: [PATCH] media: dt-bindings: Merge OV5695 into OV5693 binding
-In-Reply-To: <CAL_JsqJOW7kxC4m8tCmNrD6pq5y73BjV236nb+ZHAhR4rDrNvw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        Mon, 10 Jul 2023 18:33:38 -0400
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7588100
+        for <linux-media@vger.kernel.org>; Mon, 10 Jul 2023 15:33:36 -0700 (PDT)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-573cacf4804so55096407b3.1
+        for <linux-media@vger.kernel.org>; Mon, 10 Jul 2023 15:33:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1689028416; x=1691620416;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vww/pYdC1DJeva2AfnXbGu4C5u6TgbMhBMBTAdXoxfg=;
+        b=tYuqkf1i1ML5V4o25T0vWw2AWYvTHmOdYjkPseY2zygasjrULUgRP0lpwslZq4BlNn
+         r1p4R05iJaCaBeDKpj43UQs0ywurMXa8xm/jLGob/nvAh3tjpHM1PVLFapsJwR/ka1YV
+         OCsLUyi/uoR6UBz4oCwsZPYuOl7NB6tSRitea5cmk6T+xQOOyfhtosCAuCmmHP3pASl3
+         FTJcJXa6DUCUieE5FhnpIjd11iJE7Eyy6HtGjsye3wuVkng9TA1g9wlYGDtVF3B0KaVO
+         3HzZZK95D11PQUMva7mNWvWl66mMUrB5ooxHO0g24qTp1JovuF4cWpSDU4WzfBUUTKLM
+         wSig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689028416; x=1691620416;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Vww/pYdC1DJeva2AfnXbGu4C5u6TgbMhBMBTAdXoxfg=;
+        b=QVosqA4wWVoKnAYVWCxYRH2znmfQwtNrUcUxPEJS8co2UtozflvyaT0cezYPdyg9rC
+         lnVJP4ByLJLIRw0/CBBh03F4jjj+7k3jiEnNyQmHzKgT5pC4+F0q6w71tLQwnoumr9aH
+         5pPMwC/4DqdiaC2JB5+ymDextFIzxfQyHA57tQe2Rh0LM/p9Dd8BpoBRJRSiVnrIp17T
+         LO7sNCXQcOe1Bw1BjIxwdBW9Fpa6OnsiE6qqhmgCsOOTSNXgx68sW4lQmzgUjmMoLOJ8
+         XcYn9auCYPaQPwZL4TQGDSg3lm5fU30u5OvMZ5ppq1rALv2wcvaC3KOove71unlj9Q8y
+         UiSw==
+X-Gm-Message-State: ABy/qLanjwrw5aIwmUvVBOTs/J4x7aqmBgIJe6YDEuP0BvSHZfNuGnAd
+        atCL4nZX95ZDoBf1EYiFcydWlyM8Hw7jTVHuLw==
+X-Google-Smtp-Source: APBJJlEO8eLcuFuH8wVnMQWAHkbzZWQHuwFwsGmDwYpzfNPSGiEWAwrAUfjiTOVp1l1HiHVrM6vyb9Q+AKeZ71Ccyg==
+X-Received: from almasrymina.svl.corp.google.com ([2620:15c:2c4:200:4c0f:bfb6:9942:8c53])
+ (user=almasrymina job=sendgmr) by 2002:a81:ad44:0:b0:565:9e73:f937 with SMTP
+ id l4-20020a81ad44000000b005659e73f937mr67586ywk.4.1689028416099; Mon, 10 Jul
+ 2023 15:33:36 -0700 (PDT)
+Date:   Mon, 10 Jul 2023 15:32:51 -0700
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.41.0.390.g38632f3daf-goog
+Message-ID: <20230710223304.1174642-1-almasrymina@google.com>
+Subject: [RFC PATCH 00/10] Device Memory TCP
+From:   Mina Almasry <almasrymina@google.com>
+To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        netdev@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Cc:     Mina Almasry <almasrymina@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Ahern <dsahern@kernel.org>,
+        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        Shuah Khan <shuah@kernel.org>, jgg@ziepe.ca
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -61,167 +82,210 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello both
+* TL;DR:
 
-On 10/07/2023 18:57, Rob Herring wrote:
-> On Mon, Jul 10, 2023 at 11:45 AM Conor Dooley <conor@kernel.org> wrote:
->> On Fri, Jul 07, 2023 at 03:06:04PM -0600, Rob Herring wrote:
->>> The OV5695 binding is almost the same as the OV5693 binding. The only
->>> difference is 'clock-names' is defined for OV5695. However, the lack of
->>> clock-names is an omission as the Linux OV5693 driver expects the same
->>> 'xvclk' clock name.
->>>
->>> 'link-frequencies' is required by OV5693, but not OV5695. Just drop it
->>> from being required. Expressing it conditionally would be ugly. It
->>> shouldn't really be required either as the driver only supports 1
->>> frequency anyways.
->> I suppose the intent here is something like "the driver only supports 1
->> frequency and never bothers to read the property"?
-> It does read it and fails if it doesn't match. I don't really think
-> the driver should if there is only 1 freq. I don't know if it's that
-> the hw only supports 1 frequency or a driver limitation. If the h/w,
-> then the property is pointless.
+Device memory TCP (devmem TCP) is a proposal for transferring data to and/o=
+r
+from device memory efficiently, without bouncing the data to a host memory
+buffer.
 
+* Problem:
 
-It's a driver limitation. If someone needed to run a different link frequency they could add 
-settings to the driver to configure the PLLs differently.
+A large amount of data transfers have device memory as the source and/or
+destination. Accelerators drastically increased the volume of such transfer=
+s.
+Some examples include:
+- ML accelerators transferring large amounts of training data from storage =
+into
+  GPU/TPU memory. In some cases ML training setup time can be as long as 50=
+% of
+  TPU compute time, improving data transfer throughput & efficiency can hel=
+p
+  improving GPU/TPU utilization.
 
->
->
->> Either way,
->> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
->>
->> Cheers,
->> Conor.
->>
->>> The rockchip-isp1 binding example is missing required properties, so it
->>> has to be updated as well.
->>>
->>> Signed-off-by: Rob Herring <robh@kernel.org>
->>> ---
->>>   .../devicetree/bindings/media/i2c/ov5695.txt  | 41 -------------------
->>>   .../bindings/media/i2c/ovti,ov5693.yaml       | 19 +++++----
->>>   .../bindings/media/rockchip-isp1.yaml         |  1 +
->>>   3 files changed, 13 insertions(+), 48 deletions(-)
->>>   delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5695.txt
->>>
->>> diff --git a/Documentation/devicetree/bindings/media/i2c/ov5695.txt b/Documentation/devicetree/bindings/media/i2c/ov5695.txt
->>> deleted file mode 100644
->>> index 640a63717d96..000000000000
->>> --- a/Documentation/devicetree/bindings/media/i2c/ov5695.txt
->>> +++ /dev/null
->>> @@ -1,41 +0,0 @@
->>> -* Omnivision OV5695 MIPI CSI-2 sensor
->>> -
->>> -Required Properties:
->>> -- compatible: shall be "ovti,ov5695"
->>> -- clocks: reference to the xvclk input clock
->>> -- clock-names: shall be "xvclk"
->>> -- avdd-supply: Analog voltage supply, 2.8 volts
->>> -- dovdd-supply: Digital I/O voltage supply, 1.8 volts
->>> -- dvdd-supply: Digital core voltage supply, 1.2 volts
->>> -- reset-gpios: Low active reset gpio
->>> -
->>> -The device node shall contain one 'port' child node with an
->>> -'endpoint' subnode for its digital output video port,
->>> -in accordance with the video interface bindings defined in
->>> -Documentation/devicetree/bindings/media/video-interfaces.txt.
->>> -The endpoint optional property 'data-lanes' shall be "<1 2>".
->>> -
->>> -Example:
->>> -&i2c7 {
->>> -     ov5695: camera-sensor@36 {
->>> -             compatible = "ovti,ov5695";
->>> -             reg = <0x36>;
->>> -             pinctrl-names = "default";
->>> -             pinctrl-0 = <&clk_24m_cam>;
->>> -
->>> -             clocks = <&cru SCLK_TESTCLKOUT1>;
->>> -             clock-names = "xvclk";
->>> -
->>> -             avdd-supply = <&pp2800_cam>;
->>> -             dovdd-supply = <&pp1800>;
->>> -             dvdd-supply = <&pp1250_cam>;
->>> -             reset-gpios = <&gpio2 5 GPIO_ACTIVE_LOW>;
->>> -
->>> -             port {
->>> -                     wcam_out: endpoint {
->>> -                             remote-endpoint = <&mipi_in_wcam>;
->>> -                             data-lanes = <1 2>;
->>> -                     };
->>> -             };
->>> -     };
->>> -};
->>> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
->>> index 359dc08440a8..a3d73a87d797 100644
->>> --- a/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
->>> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
->>> @@ -5,26 +5,29 @@
->>>   $id: http://devicetree.org/schemas/media/i2c/ovti,ov5693.yaml#
->>>   $schema: http://devicetree.org/meta-schemas/core.yaml#
->>>
->>> -title: Omnivision OV5693 CMOS Sensor
->>> +title: Omnivision OV5693/OV5695 CMOS Sensors
->>>
->>>   maintainers:
->>>     - Tommaso Merciai <tommaso.merciai@amarulasolutions.com>
->>>
->>>   description: |
->>> -  The Omnivision OV5693 is a high performance, 1/4-inch, 5 megapixel, CMOS
->>> -  image sensor that delivers 2592x1944 at 30fps. It provides full-frame,
->>> +  The Omnivision OV5693/OV5695 are high performance, 1/4-inch, 5 megapixel, CMOS
->>> +  image sensors that deliver 2592x1944 at 30fps. It provides full-frame,
->>>     sub-sampled, and windowed 10-bit MIPI images in various formats via the
->>>     Serial Camera Control Bus (SCCB) interface.
->>>
->>> -  OV5693 is controlled via I2C and two-wire Serial Camera Control Bus (SCCB).
->>> -  The sensor output is available via CSI-2 serial data output (up to 2-lane).
->>> +  OV5693/OV5695 are controlled via I2C and two-wire Serial Camera Control Bus
->>> +  (SCCB). The sensor output is available via CSI-2 serial data output (up to
->>> +  2-lane).
->>>
->>>   allOf:
->>>     - $ref: /schemas/media/video-interface-devices.yaml#
->>>
->>>   properties:
->>>     compatible:
->>> -    const: ovti,ov5693
->>> +    enum:
->>> +      - ovti,ov5693
->>> +      - ovti,ov5695
->>>
->>>     reg:
->>>       maxItems: 1
->>> @@ -34,6 +37,9 @@ properties:
->>>         System input clock (aka XVCLK). From 6 to 27 MHz.
->>>       maxItems: 1
->>>
->>> +  clock-names:
->>> +    const: xvclk
->>> +
->>>     dovdd-supply:
->>>       description:
->>>         Digital I/O voltage supply, 1.8V.
->>> @@ -72,7 +78,6 @@ properties:
->>>
->>>           required:
->>>             - data-lanes
->>> -          - link-frequencies
->>>
->>>   required:
->>>     - compatible
->>> diff --git a/Documentation/devicetree/bindings/media/rockchip-isp1.yaml b/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
->>> index 0bad7e640148..e466dff8286d 100644
->>> --- a/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
->>> +++ b/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
->>> @@ -199,6 +199,7 @@ examples:
->>>               wcam: camera@36 {
->>>                   compatible = "ovti,ov5695";
->>>                   reg = <0x36>;
->>> +                clocks = <&cru SCLK_TESTCLKOUT1>;
->>>
->>>                   port {
->>>                       wcam_out: endpoint {
->>> --
->>> 2.40.1
->>>
+- Distributed training, where ML accelerators, such as GPUs on different ho=
+sts,
+  exchange data among them.
+
+- Distributed raw block storage applications transfer large amounts of data=
+ with
+  remote SSDs, much of this data does not require host processing.
+
+Today, the majority of the Device-to-Device data transfers the network are
+implemented as the following low level operations: Device-to-Host copy,
+Host-to-Host network transfer, and Host-to-Device copy.
+
+The implementation is suboptimal, especially for bulk data transfers, and c=
+an
+put significant strains on system resources, such as host memory bandwidth,
+PCIe bandwidth, etc. One important reason behind the current state is the
+kernel=E2=80=99s lack of semantics to express device to network transfers.=
+=C2=A0
+
+* Proposal:
+
+In this patch series we attempt to optimize this use case by implementing
+socket APIs that enable the user to:
+
+1. send device memory across the network directly, and
+2. receive incoming network packets directly into device memory.
+
+Packet _payloads_ go directly from the NIC to device memory for receive and=
+ from
+device memory to NIC for transmit.
+Packet _headers_ go to/from host memory and are processed by the TCP/IP sta=
+ck
+normally. The NIC _must_ support header split to achieve this.
+
+Advantages:
+
+- Alleviate host memory bandwidth pressure, compared to existing
+ network-transfer + device-copy semantics.
+
+- Alleviate PCIe BW pressure, by limiting data transfer to the lowest level
+  of the PCIe tree, compared to traditional path which sends data through t=
+he
+  root complex.
+
+With this proposal we're able to reach ~96.6% line rate speeds with data se=
+nt
+and received directly from/to device memory.
+
+* Patch overview:
+
+** Part 1: struct paged device memory
+
+Currently the standard for device memory sharing is DMABUF, which doesn't
+generate struct pages. On the other hand, networking stack (skbs, drivers, =
+and
+page pool) operate on pages. We have 2 options:
+
+1. Generate struct pages for dmabuf device memory, or,
+2. Modify the networking stack to understand a new memory type.
+
+This proposal implements option #1. We implement a small framework to gener=
+ate
+struct pages for an sg_table returned from dma_buf_map_attachment(). The su=
+pport
+added here should be generic and easily extended to other use cases interes=
+ted
+in struct paged device memory. We use this framework to generate pages that=
+ can
+be used in the networking stack.
+
+** Part 2: recvmsg() & sendmsg() APIs
+
+We define user APIs for the user to send and receive these dmabuf pages.
+
+** part 3: support for unreadable skb frags
+
+Dmabuf pages are not accessible by the host; we implement changes throughpu=
+t the
+networking stack to correctly handle skbs with unreadable frags.
+
+** part 4: page pool support
+
+We piggy back on Jakub's page pool memory providers idea:
+https://github.com/kuba-moo/linux/tree/pp-providers
+
+It allows the page pool to define a memory provider that provides the
+page allocation and freeing. It helps abstract most of the device memory TC=
+P
+changes from the driver.
+
+This is not strictly necessary, the driver can choose to allocate dmabuf pa=
+ges
+and use them directly without going through the page pool (if acceptable to
+their maintainers).
+
+Not included with this RFC is the GVE devmem TCP support, just to
+simplify the review. Code available here if desired:
+https://github.com/mina/linux/tree/tcpdevmem
+
+This RFC is built on top of v6.4-rc7 with Jakub's pp-providers changes
+cherry-picked.
+
+* NIC dependencies:
+
+1. (strict) Devmem TCP require the NIC to support header split, i.e. the
+   capability to split incoming packets into a header + payload and to put
+   each into a separate buffer. Devmem TCP works by using dmabuf pages
+   for the packet payload, and host memory for the packet headers.
+
+2. (optional) Devmem TCP works better with flow steering support & RSS supp=
+ort,
+   i.e. the NIC's ability to steer flows into certain rx queues. This allow=
+s the
+   sysadmin to enable devmem TCP on a subset of the rx queues, and steer
+   devmem TCP traffic onto these queues and non devmem TCP elsewhere.
+
+The NIC I have access to with these properties is the GVE with DQO support
+running in Google Cloud, but any NIC that supports these features would suf=
+fice.
+I may be able to help reviewers bring up devmem TCP on their NICs.
+
+* Testing:
+
+The series includes a udmabuf kselftest that show a simple use case of
+devmem TCP and validates the entire data path end to end without
+a dependency on a specific dmabuf provider.
+
+Not included in this series is our devmem TCP benchmark, which
+transfers data to/from GPU dmabufs directly.
+
+With this implementation & benchmark we're able to reach ~96.6% line rate
+speeds with 4 GPU/NIC pairs running bi-direction traffic, with all the
+packet payloads going straight to the GPU memory (no host buffer bounce).
+
+** Test Setup
+
+Kernel: v6.4-rc7, with this RFC and Jakub's memory provider API
+cherry-picked locally.
+
+Hardware: Google Cloud A3 VMs.
+
+NIC: GVE with header split & RSS & flow steering support.
+
+Benchmark: custom devmem TCP benchmark not yet open sourced.
+
+Mina Almasry (10):
+  dma-buf: add support for paged attachment mappings
+  dma-buf: add support for NET_RX pages
+  dma-buf: add support for NET_TX pages
+  net: add support for skbs with unreadable frags
+  tcp: implement recvmsg() RX path for devmem TCP
+  net: add SO_DEVMEM_DONTNEED setsockopt to release RX pages
+  tcp: implement sendmsg() TX path for for devmem tcp
+  selftests: add ncdevmem, netcat for devmem TCP
+  memory-provider: updates core provider API for devmem TCP
+  memory-provider: add dmabuf devmem provider
+
+ drivers/dma-buf/dma-buf.c              | 444 ++++++++++++++++
+ include/linux/dma-buf.h                | 142 +++++
+ include/linux/netdevice.h              |   1 +
+ include/linux/skbuff.h                 |  34 +-
+ include/linux/socket.h                 |   1 +
+ include/net/page_pool.h                |  21 +
+ include/net/sock.h                     |   4 +
+ include/net/tcp.h                      |   6 +-
+ include/uapi/asm-generic/socket.h      |   6 +
+ include/uapi/linux/dma-buf.h           |  12 +
+ include/uapi/linux/uio.h               |  10 +
+ net/core/datagram.c                    |   3 +
+ net/core/page_pool.c                   | 111 +++-
+ net/core/skbuff.c                      |  81 ++-
+ net/core/sock.c                        |  47 ++
+ net/ipv4/tcp.c                         | 262 +++++++++-
+ net/ipv4/tcp_input.c                   |  13 +-
+ net/ipv4/tcp_ipv4.c                    |   8 +
+ net/ipv4/tcp_output.c                  |   5 +-
+ net/packet/af_packet.c                 |   4 +-
+ tools/testing/selftests/net/.gitignore |   1 +
+ tools/testing/selftests/net/Makefile   |   1 +
+ tools/testing/selftests/net/ncdevmem.c | 693 +++++++++++++++++++++++++
+ 23 files changed, 1868 insertions(+), 42 deletions(-)
+ create mode 100644 tools/testing/selftests/net/ncdevmem.c
+
+--=20
+2.41.0.390.g38632f3daf-goog
+
