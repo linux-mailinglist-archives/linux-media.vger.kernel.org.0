@@ -2,68 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3073174E375
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jul 2023 03:33:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8606A74E3A5
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jul 2023 03:44:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229736AbjGKBcz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 10 Jul 2023 21:32:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41296 "EHLO
+        id S229876AbjGKBo1 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 10 Jul 2023 21:44:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230213AbjGKBcw (ORCPT
+        with ESMTP id S229577AbjGKBo0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 10 Jul 2023 21:32:52 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16427E1;
-        Mon, 10 Jul 2023 18:32:52 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-682a5465e9eso783651b3a.1;
-        Mon, 10 Jul 2023 18:32:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689039171; x=1691631171;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4mZl1Y9YHRHZRxB2AgpQIwspSSAT36JhGWtaQr0C5zk=;
-        b=ORPjCFvSenYCY96eSBT3Lb+fHoeLz5RxH+MrnS5b8QRje+4nlRZJYHVnyXnae8CNTn
-         ytX+J7gdtvUwRzHAfgLtAgAA9Drdzn5PCjgbtIF96v8QZs5a4xHoYYx8WpBWQ34ZUHTc
-         OQa0W0ppiu7SXiKx7fchmi8v5W9Ms17wO5pHt43/NgIgUDgaJgl+xuRLMTXJwpaz0DfS
-         Q+cO7UYMYDr5Q4kfu9UqRRHGxSJq14lFmFej1RQquZWaeNseOD5PpZYvaqTJ0ka5A0eZ
-         lSGgC+w68RbLlJrMDOMPoQIY8bmG/u08+Zkzq+5v3F8up7d2RSVcrqGMv1ZhW4ZImXus
-         odyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689039171; x=1691631171;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4mZl1Y9YHRHZRxB2AgpQIwspSSAT36JhGWtaQr0C5zk=;
-        b=byAj2HN6pNdRSDZ5U4tVYPZEznXoMiMu9myAr4OY6Xba4qMkRoe6skcCwPoirjmlVs
-         JN0ixj43WQkEkuyK1t2AF1kMGk0Oh8bu2CROuuTsTZ9tFQByPDngXqGwsdafM2h2VfBV
-         1fAs7i7oy0DQQftA/aIjh6+pYhgMIDtqMHppuprIgkRlu+xQZGHxlT03GUy60rb8W6w5
-         gH/o2ubjeZZ2iwf0RDcGOdiUy5+Xg80sUrYTITvu2hUWEYtGapQ9KenuCoFcKdIoTZCv
-         nW13FKjucWlhcA9R7a7qmojQQcpJd7ZsGLf/6wwmUhmVxZyNQgTVKYpGsUMTphIXXHcP
-         qOuw==
-X-Gm-Message-State: ABy/qLbbR3o3uXI8pYt96hU0Mkvp2v0a3PPuZG4nS9MQe1OI6RL3za9a
-        rEIU/TZolmkiFEmfI33LMcI=
-X-Google-Smtp-Source: APBJJlEGaYXJ5KHiZsA8LKfZ2cmcSR5WIWjv2TGSMfH74oHT48AWQyVZa6UpAh9EZCWTtRzQUvvYZw==
-X-Received: by 2002:aa7:911a:0:b0:67f:ff0a:1bbb with SMTP id 26-20020aa7911a000000b0067fff0a1bbbmr14347641pfh.1.1689039171267;
-        Mon, 10 Jul 2023 18:32:51 -0700 (PDT)
-Received: from localhost.localdomain (sfosm0151r356001-v22.wiline.com. [67.207.106.98])
-        by smtp.gmail.com with ESMTPSA id d190-20020a6336c7000000b005533b6cb3a6sm341815pga.16.2023.07.10.18.32.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Jul 2023 18:32:50 -0700 (PDT)
-From:   Suhrid Subramaniam <suhridsubramaniam@gmail.com>
-X-Google-Original-From: Suhrid Subramaniam <suhrid.subramaniam@mediatek.com>
-To:     mchehab@kernel.org, matthias.bgg@gmail.com,
-        angelogioacchino.delregno@collabora.com
-Cc:     suhrid.subramaniam@mediatek.com, suhridsubramaniam@gmail.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: v4l2: Fix documentation for 12-bit packed Bayer
-Date:   Mon, 10 Jul 2023 18:31:40 -0700
-Message-ID: <20230711013140.54080-1-suhrid.subramaniam@mediatek.com>
-X-Mailer: git-send-email 2.41.0
+        Mon, 10 Jul 2023 21:44:26 -0400
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D151A4;
+        Mon, 10 Jul 2023 18:44:24 -0700 (PDT)
+Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
+        by fd01.gateway.ufhost.com (Postfix) with ESMTP id 5D45A24DE03;
+        Tue, 11 Jul 2023 09:44:16 +0800 (CST)
+Received: from EXMBX061.cuchost.com (172.16.6.61) by EXMBX166.cuchost.com
+ (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 11 Jul
+ 2023 09:44:16 +0800
+Received: from [192.168.60.133] (180.164.60.184) by EXMBX061.cuchost.com
+ (172.16.6.61) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 11 Jul
+ 2023 09:44:15 +0800
+Message-ID: <560ca37f-74c3-8f36-c118-eb17f92e20b3@starfivetech.com>
+Date:   Tue, 11 Jul 2023 09:44:15 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 7/9] drm/verisilicon: Add drm plane funcs
+Content-Language: en-US
+To:     Shengyu Qu <wiagn233@outlook.com>,
+        <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>
+CC:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        "Emil Renner Berthing" <kernel@esmil.dk>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        <christian.koenig@amd.com>, Bjorn Andersson <andersson@kernel.org>,
+        "Heiko Stuebner" <heiko@sntech.de>,
+        Shawn Guo <shawnguo@kernel.org>, Jagan Teki <jagan@edgeble.ai>,
+        Chris Morgan <macromorgan@hotmail.com>,
+        Jack Zhu <jack.zhu@starfivetech.com>,
+        Shengyang Chen <shengyang.chen@starfivetech.com>,
+        Changhuang Liang <changhuang.liang@starfivetech.com>
+References: <20230602074043.33872-1-keith.zhao@starfivetech.com>
+ <20230602074043.33872-8-keith.zhao@starfivetech.com>
+ <TY3P286MB261191B29FB384110094181C9830A@TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM>
+From:   Keith Zhao <keith.zhao@starfivetech.com>
+In-Reply-To: <TY3P286MB261191B29FB384110094181C9830A@TY3P286MB2611.JPNP286.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX061.cuchost.com
+ (172.16.6.61)
+X-YovoleRuleAgent: yovoleflag
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,34 +77,51 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix documentation for R13 and R33 low bits.
 
-Signed-off-by: Suhrid Subramaniam <suhrid.subramaniam@mediatek.com>
----
- Documentation/userspace-api/media/v4l/pixfmt-srggb12p.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-srggb12p.rst b/Documentation/userspace-api/media/v4l/pixfmt-srggb12p.rst
-index b6e79e2f8ce4..7c3810ff783c 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-srggb12p.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-srggb12p.rst
-@@ -60,7 +60,7 @@ Each cell is one byte.
-           G\ :sub:`10low`\ (bits 3--0)
-        -  G\ :sub:`12high`
-        -  R\ :sub:`13high`
--       -  R\ :sub:`13low`\ (bits 3--2)
-+       -  R\ :sub:`13low`\ (bits 7--4)
- 
-           G\ :sub:`12low`\ (bits 3--0)
-     -  -  start + 12:
-@@ -82,6 +82,6 @@ Each cell is one byte.
-           G\ :sub:`30low`\ (bits 3--0)
-        -  G\ :sub:`32high`
-        -  R\ :sub:`33high`
--       -  R\ :sub:`33low`\ (bits 3--2)
-+       -  R\ :sub:`33low`\ (bits 7--4)
- 
-           G\ :sub:`32low`\ (bits 3--0)
--- 
-2.41.0
-
+On 2023/7/11 0:46, Shengyu Qu wrote:
+> Hello Keith,
+>> +
+>> +static void vs_plane_atomic_update(struct drm_plane *plane,
+>> +                   struct drm_atomic_state *state)
+>> +{
+>> +    struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
+>> +                                       plane);
+>> +    unsigned char i, num_planes;
+>> +    struct drm_framebuffer *fb;
+>> +    struct vs_plane *vs_plane = to_vs_plane(plane);
+>> +    //struct drm_plane_state *state = plane->state;
+>> +    struct vs_crtc *vs_crtc = to_vs_crtc(new_state->crtc);
+>> +    struct vs_plane_state *plane_state = to_vs_plane_state(new_state);
+>> +    //struct drm_format_name_buf *name = &plane_state->status.format_name;
+>> +
+>> +    if (!new_state->fb || !new_state->crtc)
+>> +        return;
+>> +
+>> +    fb = new_state->fb;
+>> +
+>> +    num_planes = vs_get_plane_number(fb);
+>> +
+>> +    for (i = 0; i < num_planes; i++) {
+>> +        struct vs_gem_object *vs_obj;
+>> +
+>> +        vs_obj = vs_fb_get_gem_obj(fb, i);
+>> +        vs_plane->dma_addr[i] = vs_obj->iova + fb->offsets[i];
+> 
+> There is a dcache flush operation here in downstream driver. Is that a cache coherence problem?
+> 
+> Best regards,
+> 
+> Shengyu
+> 
+>> +    }
+>> +
+>> +    plane_state->status.src = drm_plane_state_src(new_state);
+>> +    plane_state->status.dest = drm_plane_state_dest(new_state);
+>> +
+>> +    vs_plane->funcs->update(vs_crtc->dev, vs_plane, plane, state);
+>> +}
+>>yes , You can find that the current situation is very professional. 
+This problem exists at present, but the dma interface is not perfect at now, 
+and the dma_sync_single_for_device interface needs to be implemented later. 
+I will consider repairing this problem in the form of patch
