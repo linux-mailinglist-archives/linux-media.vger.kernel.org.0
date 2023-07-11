@@ -2,171 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D7AF74E740
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jul 2023 08:24:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CAA4B74E748
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jul 2023 08:26:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231503AbjGKGYp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jul 2023 02:24:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54126 "EHLO
+        id S230395AbjGKG0r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jul 2023 02:26:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230227AbjGKGYo (ORCPT
+        with ESMTP id S230131AbjGKG0q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jul 2023 02:24:44 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBF28E4D;
-        Mon, 10 Jul 2023 23:24:42 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 514E3203BA;
-        Tue, 11 Jul 2023 06:24:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1689056681; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=9UTTOR73oFSTJb3AbCxsf/F9LdMKM9PZMaPQ/y7iNe8=;
-        b=kY8IJQi52EAVSaT9ihZdWh9AIenGqqZW7o/VDyXKIo95sEj0zTocTTbZ5oqRKUhZ7ttiAb
-        AL5duw/r4GZa1Ru0oA3tKwkrwxRbRq1J2ZaWw2Nco0R99OaW1BO3q4ejrbuQOJh0bXbYzp
-        1oc+CPRVF4Ih0rdJoFwEsGalxINRdl4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1689056681;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=9UTTOR73oFSTJb3AbCxsf/F9LdMKM9PZMaPQ/y7iNe8=;
-        b=mBrGbWs91Pszsd5aoyT8MQRVbY/AEmZfCCJn2mneDCk4xuW4EAJkuRBEh8pfBtPp4mzC0g
-        Vrfx9S5JE1dymjDA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EF5D91390F;
-        Tue, 11 Jul 2023 06:24:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id VlmOOaj1rGSTDQAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Tue, 11 Jul 2023 06:24:40 +0000
-Message-ID: <ab92f8d9-36ab-06bc-b85b-d52b7a1bfe9a@suse.de>
-Date:   Tue, 11 Jul 2023 08:24:40 +0200
+        Tue, 11 Jul 2023 02:26:46 -0400
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 509B0E6B
+        for <linux-media@vger.kernel.org>; Mon, 10 Jul 2023 23:26:43 -0700 (PDT)
+Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-3fc04692e20so37737345e9.0
+        for <linux-media@vger.kernel.org>; Mon, 10 Jul 2023 23:26:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1689056801; x=1691648801;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=aW5+rXuaq7TJXCcRzo6xDmek0tWPICmc1aRt4r1oLPg=;
+        b=SlUO/Mwxym9ydWKE/vvQ1EA0ONlJhRL4g8AyqssMYmCHKOof2daEbgK4J+7J6dFIsz
+         L0EzJYn2MKzJ2qtLzuMHfz25clYpkKQUkG7rUjcmOnH3WJqogCl2K2D25oPWdSvTQGZM
+         fYbXr1z5AamgOSMHL4EjeD+Li49NwjeHS7jxhayQEhDpIllV5Rld+HyvmyMc224f72ds
+         5E1MvqieWtb1ori16wYYI2iHHFVISSTlkkX4xccyD7EoVIlmNzZXVHfdsfwW8wJSQv8g
+         UexWfuGfqWhZe4w2YJiHLalJ4es68+1WSR8owV2ACNLzTD1P7g2unRZq2u/bC50h1QGU
+         bSVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689056801; x=1691648801;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aW5+rXuaq7TJXCcRzo6xDmek0tWPICmc1aRt4r1oLPg=;
+        b=SqHScMWPXNIGrNYilp3bLo4yMgpw0/4i/9H6fsDDzjD1AUt2aXDZAVrMt9VVPm+2XK
+         u1uq4i10GFWA6ww7pG557CSlvYJKARbevEBBaftY+hV03suH55KDQd5gqaHvSIX/lqQv
+         pEhvN4Z6ED0/viLsR1b4HKIDveG8RmEVKlLvPICx3dQbhSxVwN41VHR97lRGZBkBhOdo
+         epoOpYhg2ycigOOd8cELJNZkPYOM2Yawo+VJlx4LGLxebxMQq/mm9RFmLcU5aK9/aA/a
+         nxtcAVtjhPEfb7gxuoHdjW6e8IpuQb2PsNGGXsPdaXxcNdUUjnB5ziKhkQplBe0XwqLI
+         /JFQ==
+X-Gm-Message-State: ABy/qLaKGJdpvHvuIXt+qnnYPKKXW9aYG+oJ6dIZvi8AHRSVwudUwEhT
+        QPyBGd3KmhF1hSdYH19MvXpsog==
+X-Google-Smtp-Source: APBJJlFcygAOFYB5s3BZMDOQA2sdkTpuyxBJ7bP/LLurgp0PUce22pucUbk//Hrnd5VYzgW7/omiSQ==
+X-Received: by 2002:a05:6000:370:b0:313:f9a0:c530 with SMTP id f16-20020a056000037000b00313f9a0c530mr16037477wrf.52.1689056801434;
+        Mon, 10 Jul 2023 23:26:41 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id l6-20020adffe86000000b0031435731dfasm1305600wrr.35.2023.07.10.23.26.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Jul 2023 23:26:40 -0700 (PDT)
+Date:   Tue, 11 Jul 2023 09:26:37 +0300
+From:   Dan Carpenter <dan.carpenter@linaro.org>
+To:     oe-kbuild@lists.linux.dev, Hsia-Jun Li <randy.li@synaptics.com>,
+        linux-media@vger.kernel.org
+Cc:     lkp@intel.com, oe-kbuild-all@lists.linux.dev, ayaka@soulik.info,
+        hans.verkuil@cisco.com, tfiga@chromium.org, mchehab@kernel.org,
+        laurent.pinchart@ideasonboard.com, hiroh@chromium.org,
+        hverkuil@xs4all.nl, linux-kernel@vger.kernel.org,
+        nicolas@ndufresne.ca, "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
+Subject: Re: [PATCH 2/2] media: v4l2-mem2mem: add a list for buf used by hw
+Message-ID: <396eb32d-5016-4eb7-aea2-b6e824aecadf@kadam.mountain>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 00/17] fbdev: Remove FBINFO_DEFAULT and
- FBINFO_FLAG_DEFAULT flags
-Content-Language: en-US
-To:     Sam Ravnborg <sam@ravnborg.org>
-Cc:     deller@gmx.de, javierm@redhat.com, linux-fbdev@vger.kernel.org,
-        kvm@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-sh@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        linux-geode@lists.infradead.org, dri-devel@lists.freedesktop.org,
-        linux-input@vger.kernel.org, linux-nvidia@lists.surfsouth.com,
-        linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-References: <20230710130113.14563-1-tzimmermann@suse.de>
- <20230710171903.GA14712@ravnborg.org>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20230710171903.GA14712@ravnborg.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------N0aJus0T6gb70e5IfP9AME4R"
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230704040044.681850-3-randy.li@synaptics.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------N0aJus0T6gb70e5IfP9AME4R
-Content-Type: multipart/mixed; boundary="------------rTbcb6wQVBeV2BUB8IDvgzl0";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: deller@gmx.de, javierm@redhat.com, linux-fbdev@vger.kernel.org,
- kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, linux-geode@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
- linux-nvidia@lists.surfsouth.com, linux-omap@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
-Message-ID: <ab92f8d9-36ab-06bc-b85b-d52b7a1bfe9a@suse.de>
-Subject: Re: [PATCH 00/17] fbdev: Remove FBINFO_DEFAULT and
- FBINFO_FLAG_DEFAULT flags
-References: <20230710130113.14563-1-tzimmermann@suse.de>
- <20230710171903.GA14712@ravnborg.org>
-In-Reply-To: <20230710171903.GA14712@ravnborg.org>
+Hi Hsia-Jun,
 
---------------rTbcb6wQVBeV2BUB8IDvgzl0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+kernel test robot noticed the following build warnings:
 
-SGkgU2FtDQoNCkFtIDEwLjA3LjIzIHVtIDE5OjE5IHNjaHJpZWIgU2FtIFJhdm5ib3JnOg0K
-PiBIaSBUaG9tYXMsDQo+IA0KPiBPbiBNb24sIEp1bCAxMCwgMjAyMyBhdCAwMjo1MDowNFBN
-ICswMjAwLCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToNCj4+IFJlbW92ZSB0aGUgdW51c2Vk
-IGZsYWdzIEZCSU5GT19ERUZBVUxUIGFuZCBGQklORk9fRkxBR19ERUZBVUxUIGZyb20NCj4+
-IGZiZGV2IGFuZCBkcml2ZXJzLCBhcyBicmllZmx5IGRpc2N1c3NlZCBhdCBbMV0uIEJvdGgg
-ZmxhZ3Mgd2VyZSBtYXliZQ0KPj4gdXNlZnVsIHdoZW4gZmJkZXYgaGFkIHNwZWNpYWwgaGFu
-ZGxpbmcgZm9yIGRyaXZlciBtb2R1bGVzLiBXaXRoDQo+PiBjb21taXQgMzc2YjNmZjU0Yzlh
-ICgiZmJkZXY6IE51a2UgRkJJTkZPX01PRFVMRSIpLCB0aGV5IGFyZSBib3RoIDANCj4+IGFu
-ZCBoYXZlIG5vIGZ1cnRoZXIgZWZmZWN0Lg0KPj4NCj4+IFBhdGNoZXMgMSB0byA3IHJlbW92
-ZSBGQklORk9fREVGQVVMVCBmcm9tIGRyaXZlcnMuIFBhdGNoZXMgMiB0byA1DQo+PiBzcGxp
-dCB0aGlzIGJ5IHRoZSB3YXkgdGhlIGZiX2luZm8gc3RydWN0IGlzIGJlaW5nIGFsbG9jYXRl
-ZC4gQWxsIGZsYWdzDQo+PiBhcmUgY2xlYXJlZCB0byB6ZXJvIGR1cmluZyB0aGUgYWxsb2Nh
-dGlvbi4NCj4+DQo+PiBQYXRjaGVzIDggdG8gMTYgZG8gdGhlIHNhbWUgZm9yIEZCSU5GT19G
-TEFHX0RFRkFVTFQuIFBhdGNoIDggZml4ZXMNCj4+IGFuIGFjdHVhbCBidWcgaW4gaG93IGFy
-Y2gvc2ggdXNlcyB0aGUgdG9rbmUgZm9yIHN0cnVjdCBmYl92aWRlb21vZGUsDQo+PiB3aGlj
-aCBpcyB1bnJlbGF0ZWQuDQo+Pg0KPj4gUGF0Y2ggMTcgcmVtb3ZlcyBib3RoIGZsYWcgY29u
-c3RhbnRzIGZyb20gPGxpbnV4L2ZiLmg+DQo+IA0KPiBXZSBoYXZlIGEgZmV3IG1vcmUgZmxh
-Z3MgdGhhdCBhcmUgdW51c2VkIC0gc2hvdWxkIHRoZXkgYmUgbnVrZWQgdG9vPw0KPiBGQklO
-Rk9fSFdBQ0NFTF9GSUxMUkVDVA0KPiBGQklORk9fSFdBQ0NFTF9ST1RBVEUNCj4gRkJJTkZP
-X0hXQUNDRUxfWFBBTg0KDQpJdCBzZWVtcyB0aG9zZSBhcmUgdGhlcmUgZm9yIGNvbXBsZXRl
-bmVzcy4gTm90aGluZyBzZXRzIF9ST1RBVEUsIHRoZSANCm90aGVycyBhcmUgc2ltcGx5IG5l
-dmVyIGNoZWNrZWQuIEFjY29yZGluZyB0byB0aGUgY29tbWVudHMsIHNvbWUgYXJlIA0KcmVx
-dWlyZWQsIHNvbWUgYXJlIG9wdGlvbmFsLiBJIGRvbid0IGtub3cgd2hhdCB0aGF0IG1lYW5z
-Lg0KDQpJSVJDIHRoZXJlIHdlcmUgY29tcGxhaW5zIGFib3V0IHBlcmZvcm1hbmNlIHdoZW4g
-RGFuaWVsIHRyaWVkIHRvIHJlbW92ZSANCmZiY29uIGFjY2VsZXJhdGlvbiwgc28gbm90IGFs
-bCBfSFdBQ0NFTF8gZmxhZ3MgYXJlIHVubmVlZGVkLg0KDQpMZWF2aW5nIHRoZW0gaW4gZm9y
-IHJlZmVyZW5jZS9jb21wbGV0ZW5lc3MgbWlnaHQgYmUgYW4gb3B0aW9uOyBvciBub3QuIEkg
-DQpoYXZlIG5vIHN0cm9uZyBmZWVsaW5ncyBhYm91dCB0aG9zZSBmbGFncy4NCg0KPiANCj4g
-VW51c2VkIGFzIGluIG5vIHJlZmVyZW5jZXMgZnJvbSBmYmRldi9jb3JlLyoNCj4gDQo+IEkg
-d291bGQgcmF0aGVyIHNlZSBvbmUgc2VyaWVzIG51a2UgYWxsIHVudXNlZCBGQklORk8gZmxh
-Z3MgaW4gb25lIGdvLg0KPiBBc3N1bWluZyBteSBxdWljayBncmVwIGFyZSByaWdodCBhbmQg
-dGhlIGFib3ZlIGNhbiBiZSBkcm9wcGVkLg0KDQpJIHdvdWxkIG5vdCB3YW50IHRvIGV4dGVu
-ZCB0aGlzIHNlcmllcy4gSSdtIHJlbW92aW5nIF9ERUZBVUxUIGFzIGl0J3MgDQphYnNvbHV0
-ZWx5IHBvaW50bGVzcyBhbmQgY29uZnVzaW5nLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0K
-DQo+IA0KPiAJU2FtDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZl
-ciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJh
-bmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90
-ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhS
-QiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
---------------rTbcb6wQVBeV2BUB8IDvgzl0--
+url:    https://github.com/intel-lab-lkp/linux/commits/Hsia-Jun-Li/media-v4l2-mem2mem-allow-device-run-without-buf/20230704-120308
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230704040044.681850-3-randy.li%40synaptics.com
+patch subject: [PATCH 2/2] media: v4l2-mem2mem: add a list for buf used by hw
+config: arm64-randconfig-m041-20230710 (https://download.01.org/0day-ci/archive/20230711/202307110324.A5LMPHou-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230711/202307110324.A5LMPHou-lkp@intel.com/reproduce)
 
---------------N0aJus0T6gb70e5IfP9AME4R
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202307110324.A5LMPHou-lkp@intel.com/
 
------BEGIN PGP SIGNATURE-----
+smatch warnings:
+drivers/media/v4l2-core/v4l2-mem2mem.c:343 __v4l2_m2m_try_queue() error: uninitialized symbol 'src'.
+drivers/media/v4l2-core/v4l2-mem2mem.c:343 __v4l2_m2m_try_queue() error: uninitialized symbol 'dst'.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSs9agFAwAAAAAACgkQlh/E3EQov+AA
-FBAAjEgZXRfNoPCjdkqDPZ9chxzmBV6i2k8QgPiwpivUyCN4sbTShTC2sd08UmqKeXqfcHV0P8qX
-q2NMiTtOfyBZuLqTlMRPbztbYOJIbkUfmc/SI1q+SIj8nYi3SzvE/+TI4TM1jmV8RvykfdN4y9tv
-z4C7BQhfVarR4AERMeSCuI+zicQ/WjGi9XmkKU1LPJq9sz20/9BonVFG3XYGwrH+wxRKQH51em7r
-U/rN+cWCG0/q/mHGzsXc4RfqK140jAczQS4SbY0tCBStdmvoKG6Ps7xdeJnHwXKGn6gnKmCGmstK
-W5QWG2q8UU+X1eppqvQ3t0zYdRkCDvETlHoTlsfHkSgjkf+EyFPP2hf9QpIyOFChPDRmo7vXFero
-XEdAojaSKM037GABmhkXl64d0LgOGy3YHmRPAMNhwMgkfESyQtok89ygiAR3mol9Sk+VH1lmIAiy
-t6iIBhSJG8FRb4k9MRtU+nmCVKwWeu6cI/gYnYk23ENEdErvo12aT79WuoWGJbXp4KyW81n8j6Dx
-ducg1+wueRxDVWQsz1iAbcm4Gdt94VirZ5/FL6Ds/s7D7GumFCtd394TazkGz32fIyL5csJljH+I
-ooEtrvaAJO+jmP7TPAxh1rXcKkIhn2rUPuhutzvOguAikyxcBL/TShsJUv572OYGUcd67xOnfcbM
-+14=
-=3Opk
------END PGP SIGNATURE-----
+vim +/src +343 drivers/media/v4l2-core/v4l2-mem2mem.c
 
---------------N0aJus0T6gb70e5IfP9AME4R--
+9db3bbf58be59a drivers/media/v4l2-core/v4l2-mem2mem.c Ezequiel Garcia    2018-07-25  296  static void __v4l2_m2m_try_queue(struct v4l2_m2m_dev *m2m_dev,
+9db3bbf58be59a drivers/media/v4l2-core/v4l2-mem2mem.c Ezequiel Garcia    2018-07-25  297  				 struct v4l2_m2m_ctx *m2m_ctx)
+7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  298  {
+f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  299  	unsigned long flags_job;
+f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  300  	struct vb2_v4l2_buffer *dst, *src;
+7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  301  
+7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  302  	dprintk("Trying to schedule a job for m2m_ctx: %p\n", m2m_ctx);
+7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  303  
+f3e1a4c9d7a02d drivers/media/v4l2-core/v4l2-mem2mem.c Randy Li           2023-07-04  304  	if (!(m2m_ctx->out_q_ctx.q.streaming || m2m_ctx->out_q_ctx.buffered)
+f3e1a4c9d7a02d drivers/media/v4l2-core/v4l2-mem2mem.c Randy Li           2023-07-04  305  	    || !(m2m_ctx->cap_q_ctx.q.streaming
+f3e1a4c9d7a02d drivers/media/v4l2-core/v4l2-mem2mem.c Randy Li           2023-07-04  306  		 || m2m_ctx->cap_q_ctx.buffered)) {
+7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  307  		dprintk("Streaming needs to be on for both queues\n");
+7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  308  		return;
+7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  309  	}
+7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  310  
+7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  311  	spin_lock_irqsave(&m2m_dev->job_spinlock, flags_job);
+2ad5389b341282 drivers/media/v4l2-core/v4l2-mem2mem.c Shaik Ameer Basha  2013-09-20  312  
+2ad5389b341282 drivers/media/v4l2-core/v4l2-mem2mem.c Shaik Ameer Basha  2013-09-20  313  	/* If the context is aborted then don't schedule it */
+2ad5389b341282 drivers/media/v4l2-core/v4l2-mem2mem.c Shaik Ameer Basha  2013-09-20  314  	if (m2m_ctx->job_flags & TRANS_ABORT) {
+2ad5389b341282 drivers/media/v4l2-core/v4l2-mem2mem.c Shaik Ameer Basha  2013-09-20  315  		dprintk("Aborted context\n");
+cbec2836f8be61 drivers/media/v4l2-core/v4l2-mem2mem.c Sakari Ailus       2018-10-18  316  		goto job_unlock;
+2ad5389b341282 drivers/media/v4l2-core/v4l2-mem2mem.c Shaik Ameer Basha  2013-09-20  317  	}
+2ad5389b341282 drivers/media/v4l2-core/v4l2-mem2mem.c Shaik Ameer Basha  2013-09-20  318  
+7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  319  	if (m2m_ctx->job_flags & TRANS_QUEUED) {
+7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  320  		dprintk("On job queue already\n");
+cbec2836f8be61 drivers/media/v4l2-core/v4l2-mem2mem.c Sakari Ailus       2018-10-18  321  		goto job_unlock;
+7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  322  	}
+7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  323  
+cafbe530b02613 drivers/media/v4l2-core/v4l2-mem2mem.c Hsia-Jun(Randy  Li 2023-07-04  324) 	if (list_empty(&m2m_ctx->out_q_ctx.hw_queue)) {
+f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  325  		src = v4l2_m2m_next_src_buf(m2m_ctx);
+cafbe530b02613 drivers/media/v4l2-core/v4l2-mem2mem.c Hsia-Jun(Randy  Li 2023-07-04  326) 
+f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  327  		if (!src && !m2m_ctx->out_q_ctx.buffered) {
+7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  328  			dprintk("No input buffers available\n");
+f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  329  			goto job_unlock;
+7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  330  		}
+cafbe530b02613 drivers/media/v4l2-core/v4l2-mem2mem.c Hsia-Jun(Randy  Li 2023-07-04  331) 	}
+
+src uninitialized on else path.
+
+cafbe530b02613 drivers/media/v4l2-core/v4l2-mem2mem.c Hsia-Jun(Randy  Li 2023-07-04  332) 
+cafbe530b02613 drivers/media/v4l2-core/v4l2-mem2mem.c Hsia-Jun(Randy  Li 2023-07-04  333) 	if (list_empty(&m2m_ctx->cap_q_ctx.hw_queue)) {
+cafbe530b02613 drivers/media/v4l2-core/v4l2-mem2mem.c Hsia-Jun(Randy  Li 2023-07-04  334) 		dst = v4l2_m2m_next_dst_buf(m2m_ctx);
+f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  335  		if (!dst && !m2m_ctx->cap_q_ctx.buffered) {
+7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  336  			dprintk("No output buffers available\n");
+f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  337  			goto job_unlock;
+f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  338  		}
+cafbe530b02613 drivers/media/v4l2-core/v4l2-mem2mem.c Hsia-Jun(Randy  Li 2023-07-04  339) 	}
+
+dst not initialized if !list_empty()
+
+f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  340  
+f07602ac388723 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  341  	m2m_ctx->new_frame = true;
+f07602ac388723 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  342  
+f07602ac388723 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11 @343  	if (src && dst && dst->is_held &&
+
+Uninitialized.
+
+f07602ac388723 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  344  	    dst->vb2_buf.copied_timestamp &&
+f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  345  	    dst->vb2_buf.timestamp != src->vb2_buf.timestamp) {
+86ef61ad686c17 drivers/media/v4l2-core/v4l2-mem2mem.c Nicolas Dufresne   2022-04-26  346  		dprintk("Timestamp mismatch, returning held capture buffer\n");
+f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  347  		dst->is_held = false;
+f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  348  		v4l2_m2m_dst_buf_remove(m2m_ctx);
+f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  349  		v4l2_m2m_buf_done(dst, VB2_BUF_STATE_DONE);
+f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  350  		dst = v4l2_m2m_next_dst_buf(m2m_ctx);
+f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  351  
+f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  352  		if (!dst && !m2m_ctx->cap_q_ctx.buffered) {
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
