@@ -2,38 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A5B8B74F8CF
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jul 2023 22:12:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DA3774F8E0
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jul 2023 22:16:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231742AbjGKUMV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jul 2023 16:12:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39184 "EHLO
+        id S230133AbjGKUQ0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jul 2023 16:16:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231690AbjGKUMU (ORCPT
+        with ESMTP id S229537AbjGKUQY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jul 2023 16:12:20 -0400
+        Tue, 11 Jul 2023 16:16:24 -0400
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E20EE12F;
-        Tue, 11 Jul 2023 13:12:18 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9882412F;
+        Tue, 11 Jul 2023 13:16:23 -0700 (PDT)
 Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:10:88d9::7a9])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
         (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 3453E66015A0;
-        Tue, 11 Jul 2023 21:12:16 +0100 (BST)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id C19656606F62;
+        Tue, 11 Jul 2023 21:16:20 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1689106337;
-        bh=FhG74NE8si1G+ZAOGq0ZNS37Tth3K0fwaXfGnneex0A=;
+        s=mail; t=1689106582;
+        bh=ovmdJowpN42/SYoQ1qPuSx2Xrj+upHUIDUOy/UIexEo=;
         h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=n/mTwnhaTtC1ySSdp+4xdsjPhc20JBpAaKDt0DXeT8GXLYXkaD5wrcy1qFLT509pT
-         1egRfsfWy5lva+Iu2KarPSZ7H+9/Z4M/is4W3NRFlVwCXz90eQUjfaOU3uWAPXjDe+
-         tCInE4eyBVV7gt6s9OBTcfWnOytLS4xuL4UTIXucLWCIL6Nz4jIVt9lXccKwNCe2+s
-         r4lVf602/vR1mqdnmOu5xY6uUdgsz8O5EsDwfsQgHGDlwH3MSbXrlGz83REV8ToS9C
-         A+jwhailtn204EktVodB+8SVcWoXGFAYQ+n/DLzIhtxl9nzpA1t3YcECcrstlDnwrm
-         g1DjZawBinv5g==
-Message-ID: <fbf227d6a681e9c028a6348dbc6a57658b9c49e1.camel@collabora.com>
-Subject: Re: [PATCH 3/3] media: mediatek: vcodec: Add driver to support 10bit
+        b=P2wABV4/5DuKFdpMw5cXOR4VE6I17sU/p7+weZxlH9MHNQYCDBdrEu9jyQpS7ssdH
+         yPWRFWIBh/xC04Azx3hbDfsT6s12cDRwHZUSbU9r6a8XUBXF9aDhkGvTR7EvzUXhxt
+         lKrer9ywLoE8tQAeSO15tdQcyTTYdRB1BE7FOhoBHPZk1E1YXMjFmf7wYKqFfPzQB2
+         rJ0cpVD/kMZW9AZ/zdmfQVyKD7gTiOwQRrgYEIZ43kAhHIdp593uEyftSzVYWZCx9f
+         dkJUYSPdYipii3YJHBrP4nWagSe7jmQu19tjB74pOkp3kqAOCOBJ96ehnxeNXJQrkU
+         BaHA6TBWTtwCg==
+Message-ID: <c68c63924a2aed6c98818d3ad3b39e065cbd0b15.camel@collabora.com>
+Subject: Re: [PATCH 1/3] media: mediatek: vcodec: Add capture format to
+ support 10bit tile mode
 From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
 To:     Yunfei Dong <yunfei.dong@mediatek.com>,
         =?ISO-8859-1?Q?N=EDcolas?= "F . R . A . Prado" 
@@ -52,10 +53,10 @@ Cc:     Chen-Yu Tsai <wenst@chromium.org>,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org,
         Project_Global_Chrome_Upstream_Group@mediatek.com
-Date:   Tue, 11 Jul 2023 16:12:08 -0400
-In-Reply-To: <20230711125749.15555-4-yunfei.dong@mediatek.com>
+Date:   Tue, 11 Jul 2023 16:16:11 -0400
+In-Reply-To: <20230711125749.15555-2-yunfei.dong@mediatek.com>
 References: <20230711125749.15555-1-yunfei.dong@mediatek.com>
-         <20230711125749.15555-4-yunfei.dong@mediatek.com>
+         <20230711125749.15555-2-yunfei.dong@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
@@ -74,301 +75,113 @@ Le mardi 11 juillet 2023 =C3=A0 20:57 +0800, Yunfei Dong a =C3=A9crit=C2=A0=
 :
 > From: Mingjia Zhang <mingjia.zhang@mediatek.com>
 >=20
-> Adding to support capture formats V4L2_PIX_FMT_MT2110T and
-> V4L2_PIX_FMT_MT2110R for 10bit playback. Need to get the size
-> of each plane again when user space setting syntax to get 10bit
-> information.
->=20
-> V4L2_PIX_FMT_MT2110T for AV1/VP9/HEVC.
-> V4L2_PIX_FMT_MT2110R for H264.
+> Define one uncompressed capture format V4L2_PIX_FMT_MT2110T in order to
+> support 10bit for AV1/VP9/HEVC in mt8195.
 >=20
 > Signed-off-by: Mingjia Zhang <mingjia.zhang@mediatek.com>
 > Co-developed-by: Yunfei Dong <yunfei.dong@mediatek.com>
 > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 > ---
->  .../mediatek/vcodec/decoder/mtk_vcodec_dec.c  |  22 ++-
->  .../vcodec/decoder/mtk_vcodec_dec_drv.h       |   5 +
->  .../vcodec/decoder/mtk_vcodec_dec_stateless.c | 140 +++++++++++++++++-
->  3 files changed, 163 insertions(+), 4 deletions(-)
+>  Documentation/userspace-api/media/v4l/pixfmt-reserved.rst | 8 ++++++++
+>  drivers/media/v4l2-core/v4l2-common.c                     | 2 ++
+>  drivers/media/v4l2-core/v4l2-ioctl.c                      | 1 +
+>  include/uapi/linux/videodev2.h                            | 1 +
+>  4 files changed, 12 insertions(+)
 >=20
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_de=
-c.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
-> index 5acb7dff18f2..91ed576d6821 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
-> @@ -37,7 +37,9 @@ static bool mtk_vdec_get_cap_fmt(struct mtk_vcodec_dec_=
-ctx *ctx, int format_inde
->  {
->  	const struct mtk_vcodec_dec_pdata *dec_pdata =3D ctx->dev->vdec_pdata;
->  	const struct mtk_video_fmt *fmt;
-> +	struct mtk_q_data *q_data;
->  	int num_frame_count =3D 0, i;
-> +	bool ret =3D false;
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst b/=
+Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
+> index 58f6ae25b2e7..b16a7257580c 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
+> @@ -275,6 +275,14 @@ please make a proposal on the linux-media mailing li=
+st.
 > =20
->  	fmt =3D &dec_pdata->vdec_formats[format_index];
->  	for (i =3D 0; i < *dec_pdata->num_formats; i++) {
-> @@ -47,10 +49,26 @@ static bool mtk_vdec_get_cap_fmt(struct mtk_vcodec_de=
-c_ctx *ctx, int format_inde
->  		num_frame_count++;
->  	}
-> =20
-> -	if (num_frame_count =3D=3D 1 || fmt->fourcc =3D=3D V4L2_PIX_FMT_MM21)
-> +	if (num_frame_count =3D=3D 1 || (!ctx->is_10bit_bitstream && fmt->fourc=
-c =3D=3D V4L2_PIX_FMT_MM21))
->  		return true;
-> =20
-> -	return false;
-> +	q_data =3D &ctx->q_data[MTK_Q_DATA_SRC];
-> +	switch (q_data->fmt->fourcc) {
-> +	case V4L2_PIX_FMT_H264_SLICE:
-> +		if (ctx->is_10bit_bitstream && fmt->fourcc =3D=3D V4L2_PIX_FMT_MT2110R=
-)
-> +			ret =3D true;
-> +		break;
-> +	case V4L2_PIX_FMT_VP9_FRAME:
-> +	case V4L2_PIX_FMT_AV1_FRAME:
-> +	case V4L2_PIX_FMT_HEVC_SLICE:
-> +		if (ctx->is_10bit_bitstream && fmt->fourcc =3D=3D V4L2_PIX_FMT_MT2110T=
-)
-> +			ret =3D true;
-> +		break;
-> +	default:
-> +		break;
-> +	}
+>          Decoder's implementation can be found here,
+>          `aspeed_codec <https://github.com/AspeedTech-BMC/aspeed_codec/>`=
+__
+> +    * .. _V4L2-PIX-FMT-MT2110T:
 > +
-> +	return ret;
->  }
-> =20
->  static struct mtk_q_data *mtk_vdec_get_q_data(struct mtk_vcodec_dec_ctx =
-*ctx,
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_de=
-c_drv.h b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv=
-.h
-> index c8b4374c5e6c..cd607e90fe9c 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
-> @@ -31,6 +31,7 @@ enum mtk_vdec_format_types {
->  	MTK_VDEC_FORMAT_AV1_FRAME =3D 0x800,
->  	MTK_VDEC_FORMAT_HEVC_FRAME =3D 0x1000,
->  	MTK_VCODEC_INNER_RACING =3D 0x20000,
-> +	MTK_VDEC_IS_SUPPORT_10BIT =3D 0x40000,
->  };
-> =20
->  /*
-> @@ -160,6 +161,8 @@ struct mtk_vcodec_dec_pdata {
->   * @hw_id: hardware index used to identify different hardware.
->   *
->   * @msg_queue: msg queue used to store lat buffer information.
-> + *
-> + * @is_10bit_bitstream: set to true if it's 10bit bitstream
->   */
->  struct mtk_vcodec_dec_ctx {
->  	enum mtk_instance_type type;
-> @@ -202,6 +205,8 @@ struct mtk_vcodec_dec_ctx {
->  	int hw_id;
-> =20
->  	struct vdec_msg_queue msg_queue;
-> +
-> +	bool is_10bit_bitstream;
->  };
-> =20
->  /**
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_de=
-c_stateless.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_d=
-ec_stateless.c
-> index 99a84c7e1901..cef937fdf462 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_state=
-less.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_state=
-less.c
-> @@ -200,7 +200,7 @@ static const struct mtk_stateless_control mtk_statele=
-ss_controls[] =3D {
-> =20
->  #define NUM_CTRLS ARRAY_SIZE(mtk_stateless_controls)
-> =20
-> -static struct mtk_video_fmt mtk_video_formats[7];
-> +static struct mtk_video_fmt mtk_video_formats[9];
-> =20
->  static struct mtk_video_fmt default_out_format;
->  static struct mtk_video_fmt default_cap_format;
-> @@ -387,6 +387,134 @@ static int mtk_vdec_flush_decoder(struct mtk_vcodec=
-_dec_ctx *ctx)
->  	return vdec_if_decode(ctx, NULL, NULL, &res_chg);
->  }
-> =20
-> +static int mtk_vcodec_get_pic_info(struct mtk_vcodec_dec_ctx *ctx)
-> +{
-> +	struct mtk_q_data *q_data;
-> +	int ret =3D 0;
-> +
-> +	q_data =3D &ctx->q_data[MTK_Q_DATA_DST];
-> +	if (q_data->fmt->num_planes =3D=3D 1) {
-> +		mtk_v4l2_vdec_err(ctx, "[%d]Error!! 10bit mode not support one plane",=
- ctx->id);
-> +		return -EINVAL;
-> +	}
-> +
-> +	ctx->capture_fourcc =3D q_data->fmt->fourcc;
-> +	ret =3D vdec_if_get_param(ctx, GET_PARAM_PIC_INFO, &ctx->picinfo);
-> +	if (ret) {
-> +		mtk_v4l2_vdec_err(ctx, "[%d]Error!! Get GET_PARAM_PICTURE_INFO Fail", =
-ctx->id);
-> +		return ret;
-> +	}
-> +
-> +	ctx->last_decoded_picinfo =3D ctx->picinfo;
-> +
-> +	q_data->sizeimage[0] =3D ctx->picinfo.fb_sz[0];
-> +	q_data->bytesperline[0] =3D ctx->picinfo.buf_w * 5 / 4;
-> +
-> +	q_data->sizeimage[1] =3D ctx->picinfo.fb_sz[1];
-> +	q_data->bytesperline[1] =3D ctx->picinfo.buf_w * 5 / 4;
-> +
-> +	q_data->coded_width =3D ctx->picinfo.buf_w;
-> +	q_data->coded_height =3D ctx->picinfo.buf_h;
-> +	mtk_v4l2_vdec_dbg(1, ctx, "[%d] wxh=3D%dx%d pic wxh=3D%dx%d sz[0]=3D0x%=
-x sz[1]=3D0x%x",
-> +			  ctx->id, ctx->picinfo.buf_w, ctx->picinfo.buf_h,
-> +			  ctx->picinfo.pic_w, ctx->picinfo.pic_h,
-> +			  q_data->sizeimage[0], q_data->sizeimage[1]);
-> +
-> +	return ret;
-> +}
-> +
-> +static int mtk_vdec_s_ctrl(struct v4l2_ctrl *ctrl)
-> +{
-> +	struct mtk_vcodec_dec_ctx *ctx =3D ctrl_to_dec_ctx(ctrl);
-> +	struct v4l2_ctrl_h264_sps *h264;
-> +	struct v4l2_ctrl_hevc_sps *h265;
-> +	struct v4l2_ctrl_vp9_frame *frame;
-> +	struct v4l2_ctrl_av1_sequence *seq;
-> +	struct v4l2_ctrl *hdr_ctrl;
-> +	const struct mtk_vcodec_dec_pdata *dec_pdata =3D ctx->dev->vdec_pdata;
-> +	const struct mtk_video_fmt *fmt;
-> +	int i =3D 0, ret =3D 0;
-> +
-> +	hdr_ctrl =3D ctrl;
-> +	if (!hdr_ctrl || !hdr_ctrl->p_cur.p)
-> +		return -EINVAL;
-> +
-> +	switch (hdr_ctrl->id) {
-> +	case V4L2_CID_STATELESS_H264_SPS:
-> +		h264 =3D (struct v4l2_ctrl_h264_sps *)hdr_ctrl->p_new.p;
-> +		if (h264->bit_depth_chroma_minus8 =3D=3D 2 && h264->bit_depth_luma_min=
-us8 =3D=3D 2) {
-> +			ctx->is_10bit_bitstream =3D true;
-> +		} else if (h264->bit_depth_chroma_minus8 !=3D 0 &&
-> +			   h264->bit_depth_luma_minus8 !=3D 0) {
-> +			mtk_v4l2_vdec_err(ctx, "H264: chroma_minus8:%d, luma_minus8:%d",
-> +					  h264->bit_depth_chroma_minus8,
-> +					  h264->bit_depth_luma_minus8);
-> +			return -EINVAL;
-> +		}
-> +		break;
-> +	case V4L2_CID_STATELESS_HEVC_SPS:
-> +		h265 =3D (struct v4l2_ctrl_hevc_sps *)hdr_ctrl->p_new.p;
-> +		if (h265->bit_depth_chroma_minus8 =3D=3D 2 && h265->bit_depth_luma_min=
-us8 =3D=3D 2) {
-> +			ctx->is_10bit_bitstream =3D true;
-> +		} else if (h265->bit_depth_chroma_minus8 !=3D 0 &&
-> +			   h265->bit_depth_luma_minus8 !=3D 0) {
-> +			mtk_v4l2_vdec_err(ctx, "HEVC: chroma_minus8:%d, luma_minus8:%d",
-> +					  h265->bit_depth_chroma_minus8,
-> +					  h265->bit_depth_luma_minus8);
-> +			return -EINVAL;
-> +		}
-> +		break;
-> +	case V4L2_CID_STATELESS_VP9_FRAME:
-> +		frame =3D (struct v4l2_ctrl_vp9_frame *)hdr_ctrl->p_new.p;
-> +		if (frame->bit_depth =3D=3D 10) {
-> +			ctx->is_10bit_bitstream =3D true;
-> +		} else if (frame->bit_depth !=3D 8) {
-> +			mtk_v4l2_vdec_err(ctx, "VP9: bit_depth:%d", frame->bit_depth);
-> +			return -EINVAL;
-> +		}
-> +		break;
-> +	case V4L2_CID_STATELESS_AV1_SEQUENCE:
-> +		seq =3D (struct v4l2_ctrl_av1_sequence *)hdr_ctrl->p_new.p;
-> +		if (seq->bit_depth =3D=3D 10) {
-> +			ctx->is_10bit_bitstream =3D true;
-> +		} else if (seq->bit_depth !=3D 8) {
-> +			mtk_v4l2_vdec_err(ctx, "AV1: bit_depth:%d", seq->bit_depth);
-> +			return -EINVAL;
-> +		}
-> +		break;
-> +	default:
-> +		mtk_v4l2_vdec_err(ctx, "Not supported ctrl id: 0x%x\n", hdr_ctrl->id);
-> +		return -EINVAL;
+> +      - ``V4L2_PIX_FMT_MT2110T``
+> +      - 'MT2110T'
+> +      - Two-planar 10-Bit tile mode YVU420 format used by Mediatek MT819=
+5, MT8188
+> +        and more. This format have similitude with ``V4L2_PIX_FMT_MM21``=
+.
+> +        It remains an opaque intermediate format and it is used for VP9,=
+ AV1
+> +        and HEVC.
 
-I can confirm we hit this for every single codec and decoding fails. Writte=
-n
-this way, this code should never have worked, even for 10bit decoding.
+Documenting uncompressed video formats as "opaque" is always last resort in
+V4L2. There is no justification here since this format is already implement=
+ed in
+software and pending in GStreamer (so its well understood format). I will t=
+ry
+and provide some better doc for you to include.
 
-> +	}
-> +
-> +	if (!ctx->is_10bit_bitstream)
-> +		return ret;
-> +
-> +	for (i =3D 0; i < *dec_pdata->num_formats; i++) {
-> +		fmt =3D &dec_pdata->vdec_formats[i];
-> +		if (fmt->fourcc =3D=3D V4L2_PIX_FMT_MT2110R &&
-> +		    hdr_ctrl->id =3D=3D V4L2_CID_STATELESS_H264_SPS) {
-> +			ctx->q_data[MTK_Q_DATA_DST].fmt =3D fmt;
-> +			break;
-> +		}
-> +
-> +		if (fmt->fourcc =3D=3D V4L2_PIX_FMT_MT2110T &&
-> +		    (hdr_ctrl->id =3D=3D V4L2_CID_STATELESS_HEVC_SPS ||
-> +		    hdr_ctrl->id =3D=3D V4L2_CID_STATELESS_VP9_FRAME ||
-> +		    hdr_ctrl->id =3D=3D V4L2_CID_STATELESS_AV1_SEQUENCE)) {
-> +			ctx->q_data[MTK_Q_DATA_DST].fmt =3D fmt;
-> +			break;
-> +		}
-> +	}
-> +	ret =3D mtk_vcodec_get_pic_info(ctx);
-> +
-> +	return ret;
-> +}
-> +
-> +static const struct v4l2_ctrl_ops mtk_vcodec_dec_ctrl_ops =3D {
-> +	.s_ctrl =3D mtk_vdec_s_ctrl,
-> +};
-> +
->  static int mtk_vcodec_dec_ctrls_setup(struct mtk_vcodec_dec_ctx *ctx)
->  {
->  	unsigned int i;
-> @@ -399,7 +527,7 @@ static int mtk_vcodec_dec_ctrls_setup(struct mtk_vcod=
-ec_dec_ctx *ctx)
+https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/3444
+
+>  .. raw:: latex
 > =20
->  	for (i =3D 0; i < NUM_CTRLS; i++) {
->  		struct v4l2_ctrl_config cfg =3D mtk_stateless_controls[i].cfg;
-> -
-> +		cfg.ops =3D &mtk_vcodec_dec_ctrl_ops;
->  		v4l2_ctrl_new_custom(&ctx->ctrl_hdl, &cfg, NULL);
->  		if (ctx->ctrl_hdl.error) {
->  			mtk_v4l2_vdec_err(ctx, "Adding control %d failed %d", i,
-> @@ -466,6 +594,8 @@ static void mtk_vcodec_add_formats(unsigned int fourc=
-c,
->  		break;
->  	case V4L2_PIX_FMT_MM21:
->  	case V4L2_PIX_FMT_MT21C:
-> +	case V4L2_PIX_FMT_MT2110T:
-> +	case V4L2_PIX_FMT_MT2110R:
->  		mtk_video_formats[count_formats].fourcc =3D fourcc;
->  		mtk_video_formats[count_formats].type =3D MTK_FMT_FRAME;
->  		mtk_video_formats[count_formats].num_planes =3D 2;
-> @@ -491,6 +621,12 @@ static void mtk_vcodec_get_supported_formats(struct =
-mtk_vcodec_dec_ctx *ctx)
->  		mtk_vcodec_add_formats(V4L2_PIX_FMT_MT21C, ctx);
->  		cap_format_count++;
->  	}
-> +	if (ctx->dev->dec_capability & MTK_VDEC_IS_SUPPORT_10BIT) {
-> +		mtk_vcodec_add_formats(V4L2_PIX_FMT_MT2110T, ctx);
-> +		cap_format_count++;
-> +		mtk_vcodec_add_formats(V4L2_PIX_FMT_MT2110R, ctx);
-> +		cap_format_count++;
-> +	}
->  	if (ctx->dev->dec_capability & MTK_VDEC_FORMAT_MM21) {
->  		mtk_vcodec_add_formats(V4L2_PIX_FMT_MM21, ctx);
->  		cap_format_count++;
+>      \normalsize
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
+ore/v4l2-common.c
+> index bee1535b04d3..869fc09a210b 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -262,6 +262,8 @@ const struct v4l2_format_info *v4l2_format_info(u32 f=
+ormat)
+>  		{ .format =3D V4L2_PIX_FMT_VYUY,    .pixel_enc =3D V4L2_PIXEL_ENC_YUV,=
+ .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, .bpp_div =
+=3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 1 },
+>  		{ .format =3D V4L2_PIX_FMT_Y212,    .pixel_enc =3D V4L2_PIXEL_ENC_YUV,=
+ .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_div =
+=3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 1 },
+>  		{ .format =3D V4L2_PIX_FMT_YUV48_12, .pixel_enc =3D V4L2_PIXEL_ENC_YUV=
+, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 6, 0, 0, 0 }, .bpp_div =
+=3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> +		{ .format =3D V4L2_PIX_FMT_MT2110T, .pixel_enc =3D V4L2_PIXEL_ENC_YUV,=
+ .mem_planes =3D 2, .comp_planes =3D 2, .bpp =3D { 5, 10, 0, 0 }, .bpp_div =
+=3D { 4, 4, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2,
+> +		  .block_w =3D { 16, 8, 0, 0 }, .block_h =3D { 32, 16, 0, 0 }},
+> =20
+>  		/* YUV planar formats */
+>  		{ .format =3D V4L2_PIX_FMT_NV12,    .pixel_enc =3D V4L2_PIXEL_ENC_YUV,=
+ .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, 0 }, .bpp_div =
+=3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2 },
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-co=
+re/v4l2-ioctl.c
+> index 01ba27f2ef87..f465c0e3d6e3 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1508,6 +1508,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *f=
+mt)
+>  		case V4L2_PIX_FMT_QC10C:	descr =3D "QCOM Compressed 10-bit Format"; br=
+eak;
+>  		case V4L2_PIX_FMT_AJPG:		descr =3D "Aspeed JPEG"; break;
+>  		case V4L2_PIX_FMT_AV1_FRAME:	descr =3D "AV1 Frame"; break;
+> +		case V4L2_PIX_FMT_MT2110T:	descr =3D "Mediatek 10bit Tile Mode"; break=
+;
+>  		default:
+>  			if (fmt->description[0])
+>  				return;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
+2.h
+> index 3af6a82d0cad..8c7d71afbdc7 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -796,6 +796,7 @@ struct v4l2_pix_format {
+>  #define V4L2_PIX_FMT_Z16      v4l2_fourcc('Z', '1', '6', ' ') /* Depth d=
+ata 16-bit */
+>  #define V4L2_PIX_FMT_MT21C    v4l2_fourcc('M', 'T', '2', '1') /* Mediate=
+k compressed block mode  */
+>  #define V4L2_PIX_FMT_MM21     v4l2_fourcc('M', 'M', '2', '1') /* Mediate=
+k 8-bit block mode, two non-contiguous planes */
+> +#define V4L2_PIX_FMT_MT2110T  v4l2_fourcc('M', 'T', '2', 'T') /* Mediate=
+k 10-bit block tile mode */
+>  #define V4L2_PIX_FMT_INZI     v4l2_fourcc('I', 'N', 'Z', 'I') /* Intel P=
+lanar Greyscale 10-bit and Depth 16-bit */
+>  #define V4L2_PIX_FMT_CNF4     v4l2_fourcc('C', 'N', 'F', '4') /* Intel 4=
+-bit packed depth confidence information */
+>  #define V4L2_PIX_FMT_HI240    v4l2_fourcc('H', 'I', '2', '4') /* BTTV 8-=
+bit dithered RGB */
 
