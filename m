@@ -2,591 +2,218 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E2F074FB49
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jul 2023 00:50:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A328E74FB68
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jul 2023 00:55:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231373AbjGKWuG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jul 2023 18:50:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39614 "EHLO
+        id S231888AbjGKWzg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jul 2023 18:55:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231202AbjGKWuF (ORCPT
+        with ESMTP id S231932AbjGKWze (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jul 2023 18:50:05 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 219F8E75
-        for <linux-media@vger.kernel.org>; Tue, 11 Jul 2023 15:50:01 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id ABEB0DD9;
-        Wed, 12 Jul 2023 00:49:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1689115748;
-        bh=E9wlOeI6nPCreR70Gj7nDjMwCIaDaQOmikFGEvfCYOI=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=sgJs7SuPh6SiEie7fdfLk/UNqP8Mxliwgi7G4c74dhdkZscf5tybY0iLhgz+vR8SM
-         xnMTjGGMsM7w2/Bvphu7NVj5166RPEcBphrtyKkt7sPl3IQmMskwcfci5PcaoO9uXn
-         PMsUHLYdr38obO7HILHuRiAAVCJ3ZUQnjSOYFnOQ=
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
+        Tue, 11 Jul 2023 18:55:34 -0400
+Received: from EUR02-AM0-obe.outbound.protection.outlook.com (mail-am0eur02on2059.outbound.protection.outlook.com [40.107.247.59])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0978910CF;
+        Tue, 11 Jul 2023 15:55:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Bz6PFfvG5BF7ygTmvUH7QJ64j0R69yoCJk0YMPv9YBI2gnj/Tgl0dw4n6SFjtzX/D1uqd/GRH4fTyILz1AuRo2CEySdSOA6TpetXnfBbEgh83xNoOtSPnTlUUs27s6gMejFawuH+xiOdinRfSgKtkxhkRce732y0PJjF880bVOrRsZLLRVuydLbR7STr5Sc/MLkVjVCy8WuFiMucGZsR1xzbMHQRmWdkKUFyXdwUlXHVCUyvM105Q97XMMgYA9QCi12rRp6fJtOXj4Mu/BZfMvClEOGkL4I1RrBS0rFsYifVN3kkgP9GeVVgcWmu6FfjigU0P1flbavaG1H7xVNfXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zcGAn7WaXKCzNi2oPGaaEckxa3uAWHfAiYlKg9cOa/g=;
+ b=hhPzgMaJZ46s9f3eDnBRUtekz4K0W78/uhcUG8pOU4RSXORq0QJhhYTsNBV/Gpl8B9pirqiyQkqbwfGmfPpRus18yMHzXSs5zXpi+q83IbModZsKKfmlLjgwrPiRIhz5gcGdhgUPar8s3KyqfgIlYlK/F1NUajXsudi531Kg8AzBwOzR7zjTOqilD6wNeT0mKfIaocAZhPuOVDc2hpMjct4qcSjWmRYqMkl87huFVTu066bXC9CLjOF/WdXXEzdGmywAg75DwX7KsGb30Dzf0eHVAoZ08jnnmmCtz+kmLHzVy7aBc0cyr+KSMXYnUGZkE7eDDeClYq8SsPSURNUVMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector2-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zcGAn7WaXKCzNi2oPGaaEckxa3uAWHfAiYlKg9cOa/g=;
+ b=hkyPjYJ+q/XM14Eo0YAyJX0yzXz8J+Cz+P50IQzD7bm16BHCBs/B2Bk01za5kEXmEm9gt0XTYlBga6pZIB3tpCnC2nkg2Hh8RENbg/+Hoz79hwqlEJ+UyXG/XT/woGy+5awEBtPIT4VaqnhbK3TV965stQHP0oFQHsObulgWO+k=
+Received: from AS4PR04MB9244.eurprd04.prod.outlook.com (2603:10a6:20b:4e3::9)
+ by PAXPR04MB8335.eurprd04.prod.outlook.com (2603:10a6:102:1c2::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.20; Tue, 11 Jul
+ 2023 22:55:29 +0000
+Received: from AS4PR04MB9244.eurprd04.prod.outlook.com
+ ([fe80::7920:7c26:e953:83ac]) by AS4PR04MB9244.eurprd04.prod.outlook.com
+ ([fe80::7920:7c26:e953:83ac%7]) with mapi id 15.20.6588.017; Tue, 11 Jul 2023
+ 22:55:22 +0000
+From:   "Mirela Rabulea (OSS)" <mirela.rabulea@oss.nxp.com>
+To:     Ming Qian <ming.qian@nxp.com>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        "Mirela Rabulea (OSS)" <mirela.rabulea@oss.nxp.com>
+CC:     "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] arm64: dts: imx8-ss-img: Assign slot for imx jpeg
+ encoder/decoder
+Thread-Topic: [PATCH] arm64: dts: imx8-ss-img: Assign slot for imx jpeg
+ encoder/decoder
+Thread-Index: AQHZlDIsg2W97I7GdUqCR1rxzYI316+1bSVg
+Date:   Tue, 11 Jul 2023 22:55:22 +0000
+Message-ID: <AS4PR04MB924427436A88CA83D3A8B4278F31A@AS4PR04MB9244.eurprd04.prod.outlook.com>
+References: <20230601023801.25229-1-ming.qian@nxp.com>
+In-Reply-To: <20230601023801.25229-1-ming.qian@nxp.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS4PR04MB9244:EE_|PAXPR04MB8335:EE_
+x-ms-office365-filtering-correlation-id: 481a42d8-e222-484a-f109-08db8261e876
+x-ms-exchange-sharedmailbox-routingagent-processed: True
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: qQpkjcSTizRoCjnFe1miH0wm473ckTFciPpWoPaliJu9QoLZK+VC3iAVf/9duNmGxzakK4+tTQyaz32lq3qmmbpj4fxAwciBzd6ZLEIpPZxXXoMT9+D9Pahw6okmJLMqRfyGAxv81jHIyU+bVmSRWI6xeq0lRNHMfeyJ7YqWwYTlWFThCT3R2eLTxh6DjDDROxAVDgEuMgP3BbnjIbrT92Q30ouN9yHlPf+VlhX0m98kx9uQ3lZItKj26wRWfa2Je4PTCywAUGP5Ht5Z6YuwJQN8vXUyoD9jIUaHhsdDhqjljEUGG1QV7xl9+assEr6BuwXLgJMyh6cBtIWO6cz6EjeEWK15LwYYOKctHCj/3h15i3qp0GIP5szBf238p6Is4321tlqu3nptwtmI8kGwlG+ifNzxhscySBbo+m+zxS2Hg0tS2meosV/nNqD1AvICkZ2r9MbkGRvNN7VXOfV0WADBHnjY1kEnrZC6etjq3ugCAyG6mtMqVMW1ivrgWZzZqnKlxsCx/pajUEPF70Wf5ITHjRIbOzubsGtr6knGV3EjqWiOH/oRMAFDTGhyB81r5mrX4PGfI7hCUHjObBkLjIZ0VsDyQLH6a5+IHuq1+z6NqTQ42+1jLSm8C25mPKcb
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9244.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(376002)(346002)(136003)(396003)(39860400002)(451199021)(66556008)(66946007)(76116006)(4326008)(66476007)(66446008)(64756008)(478600001)(54906003)(110136005)(55016003)(86362001)(38070700005)(26005)(186003)(6506007)(53546011)(71200400001)(33656002)(9686003)(7696005)(83380400001)(122000001)(38100700002)(41300700001)(8936002)(8676002)(5660300002)(52536014)(316002)(2906002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?gUE10VGpHBV6lHVnI1MpvmCK6lwnYb6Y45OVSAOCi0HoEME9/utzXIFXcPwe?=
+ =?us-ascii?Q?QjmB91WtHCswykGwy32HXlhK2WL4DQAcJSqD9YAczDRCn53gJbOixWE8GTcZ?=
+ =?us-ascii?Q?tqizllfH5lPTmsBvikxiu9sp4EBp2rv30i3FTV55hwt3r9ibC8ibYD2fSquI?=
+ =?us-ascii?Q?7N3t21MHYkxOkjR0LEXxMiqE4kMDdk0zakR/+mvLDCZvQtphgvJQzQOwS9rh?=
+ =?us-ascii?Q?UbookMQyXBiePEO4QEtrvSiJ4J6QMfgh3i/6SO7KMruYzR+R8dcBJyc6Wmk2?=
+ =?us-ascii?Q?UXabEWiDkJb1auXpQ1oTXrLdVN280NKS3CHMl9XyvZR/CDl+EIsHO/X4KiBx?=
+ =?us-ascii?Q?l02JH0uzpqjS6QgX+5Sx459ujS1Z59KtQqueV+ACuU5/oy1miZS/BG5vW3TV?=
+ =?us-ascii?Q?lESMvr5qpD9xsSbwSLMBpL2HTiOhkhycIJwvnldYqegEJR4Hudkrh7norCmd?=
+ =?us-ascii?Q?eKdqr8euOHHlb+3EkoT36ja7QlMGeRqTPHQlUOt7JNp7Wu+fOOHVVP7wXS54?=
+ =?us-ascii?Q?I15lC5emdJwuptj7AYQLHdsnVGqKCTe68IRSDSc2CN5TdJa+triagySlY3G8?=
+ =?us-ascii?Q?JxkDXlKOJHePpcg5U28L0/QfeY1xfuHpIekSUM9dzbhpWxxMyQVSRsFkZaNB?=
+ =?us-ascii?Q?iwjAHlY5+QMZ47dV1uVHZSzeqxB1ZdEHkHw8kVl/uyznJyQWjYitZOnfXJFO?=
+ =?us-ascii?Q?V8gCGKabLTTgT8z4NZ4hiLOV9F5W0qdJ5nOWS5iauvpGK/sDlMovSGwufJeI?=
+ =?us-ascii?Q?GDYDxiIg42PBxuAOozqfpTYilGWOFmkKAhLB7NHHP7/YGmJbOOIuP3qWM89I?=
+ =?us-ascii?Q?8rYKhEAfrd55jm9v2aSpPJxEE9X9/XJGvEzSdwEX0o2WP8YBLwU2BFLu4Sai?=
+ =?us-ascii?Q?jJZJtnbcdNjFt4qHw8jtvKUYPWsQGSGClzmYAnqPsZph+CqFsTqRi9sG7A1G?=
+ =?us-ascii?Q?XJ+7fHkBT/ysiqIQ9u/iYUJWlSDa/1Bwx6EFFqGkLkDKOAJs1XjDSs35nJ8+?=
+ =?us-ascii?Q?dIT/r2H5s5rT9nH6vfQLoKl2tX7GeENITmzHnwJhQLBrYVtJ4xJfs2NGZts6?=
+ =?us-ascii?Q?9XxuOEX5hBzjTiGykN0kMPfYG0r3l0m+4Ok3zLHL0g9pqldsCzTg0ZHWbZn2?=
+ =?us-ascii?Q?Jd5PoQp4O3cpd1YIRdyFdjTpfaMmLQGu7+z2bgZTuMsjCcO4t+ceBWzvU/fY?=
+ =?us-ascii?Q?+O7Ahx9A7Uog8EDisH5bfGp2FeVgiP/VVgfXmE64Y0o9W+z1eWgfUmJprgpu?=
+ =?us-ascii?Q?U+J2dLCqtd4s144GW0i0RN5eeEFcNZWV34TuFm3eFOErdWXd+6fafChJGu5V?=
+ =?us-ascii?Q?3+SOtUVHgW3UT0YLlC+rMKMWWMK4WB/qgfdGu18LFk69JFEPHDy/F+pFKYCe?=
+ =?us-ascii?Q?3tvIlhylNFRnV+W6l3t0oomLjStXmS528nnEsE2+V5JeuzyPZCCP4yrQe750?=
+ =?us-ascii?Q?HUJBhvbDt3GMgfUlllndfQEG5dbQRz664m6DJjZNTAy8vNfkLrYJ3AxE0Vcw?=
+ =?us-ascii?Q?UtY82QwEQR9gqfFg/utQpLjyxPOX1W42idBz/zRJeOCZvU2Wcl8Wv9r8m2N4?=
+ =?us-ascii?Q?gW+lqOIwWYlWL22UqT1N4dyvw53nUzGKykGH2XYq?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAJ+vNU1G0Z-4B9-42fgPFcO+ByA_s3Okpw-8ggcJP3a9+_j1-A@mail.gmail.com>
-References: <CAJ+vNU1xHpuFZjG5ySAkg9aPxxMsp581aA+bZzHqhp8c=QGpFg@mail.gmail.com> <CAHCN7xKy8gNz5V+9rdh-GhdYbEAsWpRbhNK-HD-C9D=BSO14+w@mail.gmail.com> <CAJ+vNU3gpU6ESBpn1n8+0KxRDOJGXQmZohkQ-iCULr6CVQKu4g@mail.gmail.com> <CAHCN7xJmSDsxUdazrKM8Qqk+tVRTW951hHL_cUgj-1YWEho4RA@mail.gmail.com> <CAJ+vNU1G0Z-4B9-42fgPFcO+ByA_s3Okpw-8ggcJP3a9+_j1-A@mail.gmail.com>
-Subject: Re: imx8mp mipi csi camera overlay: Unable to retrieve endpoint for port@1
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linux ARM Mailing List <linux-arm-kernel@lists.infradead.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sascha Hauer <kernel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Schrempf Frieder <frieder.schrempf@kontron.de>
-To:     Adam Ford <aford173@gmail.com>, Tim Harvey <tharvey@gateworks.com>
-Date:   Tue, 11 Jul 2023 23:49:54 +0100
-Message-ID: <168911579461.688351.285047948246635641@Monstersaurus>
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+MIME-Version: 1.0
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9244.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 481a42d8-e222-484a-f109-08db8261e876
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jul 2023 22:55:22.6283
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Ti08jTOQp3u6Cdk2geu6kyPArfszzYIE8kiDUQW1PtVhDrsK+X+xX3gyHTEQx9o04g1PGnkL1UgSX7CWLhy+qw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8335
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tim,
+Hi Ming,
 
-Quoting Tim Harvey (2023-07-11 23:16:33)
-> On Mon, Jul 10, 2023 at 6:09=E2=80=AFPM Adam Ford <aford173@gmail.com> wr=
-ote:
-> >
-> > On Mon, Jul 10, 2023 at 7:59=E2=80=AFPM Tim Harvey <tharvey@gateworks.c=
-om> wrote:
-> > >
-> > > On Fri, Jul 7, 2023 at 6:11=E2=80=AFPM Adam Ford <aford173@gmail.com>=
- wrote:
-> > > >
-> > > > On Fri, Jul 7, 2023 at 7:28=E2=80=AFPM Tim Harvey <tharvey@gatework=
-s.com> wrote:
-> > > > >
-> > > > > Greetings,
-> > > > >
-> > > > > I have an imx219 camera connected to an imx8mp-venice-gw74xx via =
-the
-> > > > > following details:
-> > > > > - camera is a RaspberryPi Camera v2 -
-> > > > > https://datasheets.raspberrypi.com/camera/camera-v2-schematics.pdf
-> > > > > - has its own on-board 24MHz osc so no clock is required from the=
- baseboard
-> > > > > - pin 11 on the camera enables 1.8V and 2.8V LDO which is connect=
-ed to
-> > > > > IMX8MP GPIO1_IO1 so we use that as a gpio regulator
-> > > > > - MIPI_CSI1 lanes 0 and 1 are used
-> > > > >
-> > > > > I'm using Linux 6.4 with Laurent's pending patch to add the MIPI =
-CSI
-> > > > > DT nodes to imx8mp.dtsi [1] as follows:
-> > > > >
-> > > > > #include <dt-bindings/gpio/gpio.h>
-> > > > > #include "imx8mp-pinfunc.h"
-> > > > >
-> > > > > /dts-v1/;
-> > > > > /plugin/;
-> > > > >
-> > > > > &{/} {
-> > > > >         compatible =3D "gw,imx8mp-gw74xx", "fsl,imx8mp";
-> > > > >
-> > > > >         reg_cam: regulator-cam {
-> > > > >                 pinctrl-names =3D "default";
-> > > > >                 pinctrl-0 =3D <&pinctrl_reg_cam>;
-> > > > >                 compatible =3D "regulator-fixed";
-> > > > >                 regulator-name =3D "reg_cam";
-> > > > >                 gpio =3D <&gpio1 1 GPIO_ACTIVE_HIGH>;
-> > > > >                 enable-active-high;
-> > > > >                 regulator-min-microvolt =3D <1800000>;
-> > > > >                 regulator-max-microvolt =3D <1800000>;
-> > > > >         };
-> > > > >
-> > > > >         cam24m: cam24m {
-> > > > >                 compatible =3D "fixed-clock";
-> > > > >                 #clock-cells =3D <0>;
-> > > > >                 clock-frequency =3D <24000000>;
-> > > > >                 clock-output-names =3D "cam24m";
-> > > > >         };
-> > > > > };
-> > > > >
-> > > > > &i2c3 {
-> > > > >         #address-cells =3D <1>;
-> > > > >         #size-cells =3D <0>;
-> > > > >
-> > > > >         imx219: sensor@10 {
-> > > > >                 compatible =3D "sony,imx219";
-> > > > >                 reg =3D <0x10>;
-> > > > >                 clocks =3D <&cam24m>;
-> > > > >                 VDIG-supply =3D <&reg_cam>;
-> > > > >
-> > > > >                 port {
-> > > > >                         /* MIPI CSI-2 bus endpoint */
-> > > > >                         imx219_to_mipi_csi2: endpoint {
-> > > > >                                 remote-endpoint =3D <&mipi_csi_0_=
-in>;
-> > > > >                                 clock-lanes =3D <0>;
-> > > > >                                 data-lanes =3D <1 2>;
-> > > > >                                 link-frequencies =3D /bits/ 64 <4=
-56000000>;
-> > > > >                         };
-> > > > >                 };
-> > > > >         };
-> > > > > };
-> > > > >
-> > > > > &mipi_csi_0 {
-> > > > >         status =3D "okay";
-> > > > >
-> > > > >         ports {
-> > > > >                 port@0 {
-> > > > >                         mipi_csi_0_in: endpoint {
-> > > > >                                 remote-endpoint =3D <&imx219_to_m=
-ipi_csi2>;
-> > > > >                                 data-lanes =3D <1 2>;
-> > > > >                         };
-> > > > >                 };
-> > > > >         };
-> > > > > };
-> > > > >
-> > > > > &iomuxc {
-> > > > >         pinctrl_reg_cam: regcamgrp {
-> > > > >                 fsl,pins =3D <
-> > > > >                         MX8MP_IOMUXC_GPIO1_IO01__GPIO1_IO01     0=
-x41
-> > > > >                 >;
-> > > > >         };
-> > > > > };
-> > > > >
-> > > > > imx-mipi-csis fails to probe due to a missing port1 endpoint and =
-I'm
-> > > > > not clear what to do with that:
-> > > > > imx-mipi-csis 32e40000.csi: Unable to retrieve endpoint for port@1
-> > > > > imx-mipi-csis: probe of 32e40000.csi failed with error -2
-> > > > >
-> > > > > Any suggestions?
-> > > >
-> > > > I think the port needs to point to an ISI node or a ISP node.
-> > > > Linux-next shows port@1 pointing to  isi_in_0.  In the patch you're
-> > > > referencing, it appears that node@1 is missing.
-> > > >
-> > > > Check out:
-> > > >
-> > > > https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
-/commit/arch/arm64/boot/dts/freescale/imx8mp.dtsi?h=3Dnext-20230707&id=3D9d=
-a15c4c850dd53309e07d5611f33655f8f8c05d
-> > > >
-> > > > See if that helps.
-> > > >
-> > > > adam
-> > > >
-> > >
-> > > Hi Adam,
-> > >
-> > > Thanks for the info. I didn't realize those patches were already in
-> > > linux-next and I missed the fact that the ISI was related to the CSI
-> > > (so I was missing the ISI patch and enabling that driver).
-> > >
-> > > I'm now using 6.5.0-rc1 which has the patches that add CSI and ISI
-> > > nodes to the imx8mp.dtsi with the following dt fragment:
-> > > #include <dt-bindings/gpio/gpio.h>
-> > >
-> > > #include "imx8mp-pinfunc.h"
-> > >
-> > > /dts-v1/;
-> > > /plugin/;
-> > >
-> > > &{/} {
-> > >         compatible =3D "gw,imx8mp-gw74xx", "fsl,imx8mp";
-> > >
-> > >         reg_cam: regulator-cam {
-> > >                 pinctrl-names =3D "default";
-> > >                 pinctrl-0 =3D <&pinctrl_reg_cam>;
-> > >                 compatible =3D "regulator-fixed";
-> > >                 regulator-name =3D "reg_cam";
-> > >                 gpio =3D <&gpio1 4 GPIO_ACTIVE_HIGH>;
-> > >                 enable-active-high;
-> > >                 regulator-min-microvolt =3D <1800000>;
-> > >                 regulator-max-microvolt =3D <1800000>;
-> > >         };
-> > >
-> > >         cam24m: cam24m {
-> > >                 compatible =3D "fixed-clock";
-> > >                 #clock-cells =3D <0>;
-> > >                 clock-frequency =3D <24000000>;
-> > >                 clock-output-names =3D "cam24m";
-> > >         };
-> > > };
-> > >
-> > > &i2c4 {
-> > >         #address-cells =3D <1>;
-> > >         #size-cells =3D <0>;
-> > >
-> > >         imx219: sensor@10 {
-> > >                 compatible =3D "sony,imx219";
-> > >                 reg =3D <0x10>;
-> > >                 clocks =3D <&cam24m>;
-> > >                 VDIG-supply =3D <&reg_cam>;
-> > >
-> > >                 port {
-> > >                         /* MIPI CSI-2 bus endpoint */
-> > >                         imx219_to_mipi_csi2: endpoint {
-> > >                                 remote-endpoint =3D <&mipi_csi_0_in>;
-> > >                                 clock-lanes =3D <0>;
-> > >                                 data-lanes =3D <1 2>;
-> > >                                 link-frequencies =3D /bits/ 64 <45600=
-0000>;
-> > >                         };
-> > >                 };
-> > >         };
-> > > };
-> > >
-> > > &isi_0 {
-> > >         status =3D "okay";
-> > > };
-> > >
-> > > &mipi_csi_0 {
-> > >         status =3D "okay";
-> > >
-> > >         ports {
-> > >                 port@0 {
-> > >                         mipi_csi_0_in: endpoint {
-> > >                                 remote-endpoint =3D <&imx219_to_mipi_=
-csi2>;
-> > >                                 data-lanes =3D <1 2>;
-> > >                         };
-> > >                 };
-> > >         };
-> > > };
-> > >
-> > > &iomuxc {
-> > >         pinctrl_reg_cam: regcamgrp {
-> > >                 fsl,pins =3D <
-> > >                         MX8MP_IOMUXC_GPIO1_IO04__GPIO1_IO04     0x41
-> > >                 >;
-> > >         };
-> > > };
-> > >
-> > > Now I'm getting:
-> > > # dmesg | grep imx219
-> > > [    1.764111] imx219 2-0010: supply VANA not found, using dummy regu=
-lator
-> > > [    1.770953] imx219 2-0010: supply VDDL not found, using dummy regu=
-lator
-> > > [    5.520396] imx219 2-0010: Consider updating driver imx219 to match
-> > > on endpoints
-> > > # dmesg | grep mipi
-> > > [    2.080468] imx-mipi-csis 32e40000.csi: lanes: 2, freq: 500000000
-> > > # cat /sys/bus/media/devices/media*/model
-> > > FSL Capture Media Device
-> > > hantro-vpu
-> > > hantro-vpu
-> > > # cat /sys/class/video4linux/video*/name
-> > > mxc_isi.0.capture
-> > > mxc_isi.1.capture
-> > > mxc_isi.m2m
-> > > nxp,imx8mm-vpu-g1-dec
-> > > nxp,imx8mq-vpu-g2-dec
-> > > # media-ctl /dev/media0 -p
-> > > Media controller API version 6.5.0
-> > >
-> > > Media device information
-> > > ------------------------
-> > > driver          mxc-isi
-> > > model           FSL Capture Media Device
-> > > serial
-> > > bus info        platform:32e00000.isi
-> > > hw revision     0x0
-> > > driver version  6.5.0
-> > >
-> > > Device topology
-> > > - entity 1: crossbar (5 pads, 4 links)
-> > >             type V4L2 subdev subtype Unknown flags 0
-> > >             device node name /dev/v4l-subdev0
-> > >         pad0: Sink
-> > >                 [fmt:UYVY8_1X16/1920x1080 field:none colorspace:srgb
-> > > xfer:srgb ycbcr:601 quantization:lim-range]
-> > >                 <- "csis-32e40000.csi":1 [ENABLED,IMMUTABLE]
-> > >         pad1: Sink
-> > >                 [fmt:UYVY8_1X16/1920x1080 field:none colorspace:srgb
-> > > xfer:srgb ycbcr:601 quantization:lim-range]
-> > >         pad2: Sink
-> > >                 <- "mxc_isi.output":0 [ENABLED,IMMUTABLE]
-> > >         pad3: Source
-> > >                 [fmt:UYVY8_1X16/1920x1080 field:none colorspace:srgb
-> > > xfer:srgb ycbcr:601 quantization:lim-range]
-> > >                 -> "mxc_isi.0":0 [ENABLED,IMMUTABLE]
-> > >         pad4: Source
-> > >                 [fmt:UYVY8_1X16/1920x1080 field:none colorspace:srgb
-> > > xfer:srgb ycbcr:601 quantization:lim-range]
-> > >                 -> "mxc_isi.1":0 [ENABLED,IMMUTABLE]
-> > >
-> > > - entity 7: mxc_isi.0 (2 pads, 2 links)
-> > >             type V4L2 subdev subtype Unknown flags 0
-> > >             device node name /dev/v4l-subdev1
-> > >         pad0: Sink
-> > >                 [fmt:UYVY8_1X16/1920x1080 field:none colorspace:jpeg
-> > > xfer:srgb ycbcr:601 quantization:full-range
-> > >                  compose.bounds:(0,0)/1920x1080
-> > >                  compose:(0,0)/1920x1080]
-> > >                 <- "crossbar":3 [ENABLED,IMMUTABLE]
-> > >         pad1: Source
-> > >                 [fmt:YUV8_1X24/1920x1080 field:none colorspace:jpeg
-> > > xfer:srgb ycbcr:601 quantization:full-range
-> > >                  crop.bounds:(0,0)/1920x1080
-> > >                  crop:(0,0)/1920x1080]
-> > >                 -> "mxc_isi.0.capture":0 [ENABLED,IMMUTABLE]
-> > >
-> > > - entity 10: mxc_isi.0.capture (1 pad, 1 link)
-> > >              type Node subtype V4L flags 0
-> > >              device node name /dev/video0
-> > >         pad0: Sink
-> > >                 <- "mxc_isi.0":1 [ENABLED,IMMUTABLE]
-> > >
-> > > - entity 18: mxc_isi.1 (2 pads, 2 links)
-> > >              type V4L2 subdev subtype Unknown flags 0
-> > >              device node name /dev/v4l-subdev2
-> > >         pad0: Sink
-> > >                 [fmt:UYVY8_1X16/1920x1080 field:none colorspace:jpeg
-> > > xfer:srgb ycbcr:601 quantization:full-range
-> > >                  compose.bounds:(0,0)/1920x1080
-> > >                  compose:(0,0)/1920x1080]
-> > >                 <- "crossbar":4 [ENABLED,IMMUTABLE]
-> > >         pad1: Source
-> > >                 [fmt:YUV8_1X24/1920x1080 field:none colorspace:jpeg
-> > > xfer:srgb ycbcr:601 quantization:full-range
-> > >                  crop.bounds:(0,0)/1920x1080
-> > >                  crop:(0,0)/1920x1080]
-> > >                 -> "mxc_isi.1.capture":0 [ENABLED,IMMUTABLE]
-> > >
-> > > - entity 21: mxc_isi.1.capture (1 pad, 1 link)
-> > >              type Node subtype V4L flags 0
-> > >              device node name /dev/video1
-> > >         pad0: Sink
-> > >                 <- "mxc_isi.1":1 [ENABLED,IMMUTABLE]
-> > >
-> > > - entity 29: mxc_isi.output (1 pad, 1 link)
-> > >              type Node subtype V4L flags 0
-> > >         pad0: Source
-> > >                 -> "crossbar":2 [ENABLED,IMMUTABLE]
-> > >
-> > > - entity 36: csis-32e40000.csi (2 pads, 2 links)
-> > >              type V4L2 subdev subtype Unknown flags 0
-> > >              device node name /dev/v4l-subdev3
-> > >         pad0: Sink
-> > >                 [fmt:UYVY8_1X16/640x480 field:none
-> > > colorspace:smpte170m xfer:709 ycbcr:601 quantization:lim-range]
-> > >                 <- "imx219 3-0010":0 []
-> > >         pad1: Source
-> > >                 [fmt:UYVY8_1X16/640x480 field:none
-> > > colorspace:smpte170m xfer:709 ycbcr:601 quantization:lim-range]
-> > >                 -> "crossbar":0 [ENABLED,IMMUTABLE]
-> > >
-> > > - entity 41: imx219 3-0010 (1 pad, 1 link)
-> > >              type V4L2 subdev subtype Sensor flags 0
-> > >              device node name /dev/v4l-subdev4
-> > >         pad0: Source
-> > >                 [fmt:SRGGB10_1X10/3280x2464 field:none colorspace:srgb
-> > > xfer:srgb ycbcr:601 quantization:full-range
-> > >                  crop.bounds:(8,8)/3280x2464
-> > >                  crop:(8,8)/3280x2464]
-> > >                 -> "csis-32e40000.csi":0 []
-> > >
-> > > # enable imx219 to csi link
-> > > media-ctl --device /dev/media0 --links "'imx219
-> > > 3-0010':0->'csis-32e40000.csi':0[1]"
-> > >
-> > > # v4l2-ctl --device /dev/video0 --all
-> > > Driver Info:
-> > >         Driver name      : mxc-isi
-> > >         Card type        : mxc-isi-cap
-> > >         Bus info         : platform:32e00000.isi
-> > >         Driver version   : 6.5.0
-> > >         Capabilities     : 0xa4201000
-> > >                 Video Capture Multiplanar
-> > >                 Streaming
-> > >                 Extended Pix Format
-> > >                 Device Capabilities
-> > >         Device Caps      : 0x24201000
-> > >                 Video Capture Multiplanar
-> > >                 Streaming
-> > >                 Extended Pix Format
-> > > Media Driver Info:
-> > >         Driver name      : mxc-isi
-> > >         Model            : FSL Capture Media Device
-> > >         Serial           :
-> > >         Bus info         : platform:32e00000.isi
-> > >         Media version    : 6.5.0
-> > >         Hardware revision: 0x00000000 (0)
-> > >         Driver version   : 6.5.0
-> > > Interface Info:
-> > >         ID               : 0x0300000c
-> > >         Type             : V4L Video
-> > > Entity Info:
-> > >         ID               : 0x0000000a (10)
-> > >         Name             : mxc_isi.0.capture
-> > >         Function         : V4L2 I/O
-> > >         Pad 0x0100000b   : 0: Sink
-> > >           Link 0x0200000e: from remote pad 0x1000009 of entity
-> > > 'mxc_isi.0' (Video Pixel Formatter): Data, Enabled, Immutable
-> > > Priority: 2
-> > > Video input : 0 (mxc_isi.0.capture: ok)
-> > > Format Video Capture Multiplanar:
-> > >         Width/Height      : 640/480
-> > >         Pixel Format      : 'RGGB' (8-bit Bayer RGRG/GBGB)
-> > >         Field             : None
-> > >         Number of planes  : 1
-> > >         Flags             :
-> > >         Colorspace        : sRGB
-> > >         Transfer Function : sRGB
-> > >         YCbCr/HSV Encoding: ITU-R 601
-> > >         Quantization      : Limited Range
-> > >         Plane 0           :
-> > >            Bytes per Line : 640
-> > >            Size Image     : 307200
-> > >
-> > > User Controls
-> > >
-> > >                 horizontal_flip 0x00980914 (bool)   : default=3D0 val=
-ue=3D0
-> > >                   vertical_flip 0x00980915 (bool)   : default=3D0 val=
-ue=3D0
-> > >                 alpha_component 0x00980929 (int)    : min=3D0 max=3D2=
-55
-> > > step=3D1 default=3D0 value=3D0
-> > >
-> > > # try to capture a frame
-> > > v4l2-ctl --device /dev/video0 --stream-mmap --stream-to=3Dx.raw --str=
-eam-count=3D1
-> > >                 VIDIOC_STREAMON returned -1 (Broken pipe)
-> > > ^^^ fails... not sure why
-> > >
-> > > # try to use gstreamer
-> > > gst-launch-1.0 v4l2src device=3D/dev/video0 !
-> > > video/x-bayer,format=3Drggb,width=3D640,height=3D480,framerate=3D10/1=
- !
-> > > fakesink
-> > > Setting pipeline to PAUSED ...
-> > > Pipeline is live and does not need PREROLL ...
-> > > Pipeline is PREROLLED ...
-> > > Setting pipeline to PLAYING ...
-> > > New clock: GstSystemClock
-> > > ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: Failed
-> > > to allocate required memory.
-> > > Additional debug info:
-> > > ../sys/v4l2/gstv4l2src.c(759): gst_v4l2src_decide_allocation ():
-> > > /GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
-> > > Buffer pool activation failed
-> > > ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
-> > > Internal data stream error.
-> > > Execution ended after 0:00:00.005517125
-> > > Additional debug info:
-> > > ../libs/gst/base/gstbasesrc.c(3127): gst_base_src_loop ():
-> > > /GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
-> > > streaming stopped, reason not-negotiated (-4)
-> > > Setting pipeline to NULL ...
-> > > Freeing pipeline ...
-> > > ^^^ not sure what the memory allocation failure is about. It was
-> > > complaining about cma memory until I added cma=3D256M to the cmdline
-> > >
-> > > I'm now at the point where I likely need help from the video4linux and
-> > > linux-media (cc'd) gurus.
-> >
-> >
-> > The video format from the camera doesn't match the video format
-> > through the ISI and the crossbar, so you're getting the broken pipe.
-> > My experience with the ISI is that they all need to match since the
-> > ISI isn't an ISP.
-> > Laurent would likely suggest libcamera, but I haven't used it yet.
-> > I'm waiting for the 8MP's ISP driver to get finalized.  However, the
-> > ISI on the Nano is similar to the ISI on the Plus, so if you want to
-> > take a look at the patch I did for the Beacon Nano board, it might
-> > give you some ideas on how to set the video formats.  The patch I
-> > submitted uses a different video format, but I would expect it to work
-> > if you change the video format to the RGGB from the IMX219 camera.
-> >
-> > Hopefully this patch [1] can give you some idea on how to set the
-> > video formats for each of the subdevs.
-> >
-> > adam
-> >
-> > [1] - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/arch/arm64/boot/dts/freescale/imx8mn-beacon-baseboard.dtsi?h=3Dv6.=
-5-rc1&id=3D6bc3ea47332648a4211926ba7afc1e1fb935c71a
-> >
+> -----Original Message-----
+> From: Ming Qian <ming.qian@nxp.com>
+> Sent: Thursday, June 1, 2023 5:38 AM
+> To: shawnguo@kernel.org; Mirela Rabulea (OSS) <mirela.rabulea@oss.nxp.com=
+>
+> Cc: robh+dt@kernel.org; s.hauer@pengutronix.de; kernel@pengutronix.de; dl=
+-
+> linux-imx <linux-imx@nxp.com>; linux-media@vger.kernel.org;
+> devicetree@vger.kernel.org; linux-arm-kernel@lists.infradead.org; linux-
+> kernel@vger.kernel.org
+> Subject: [PATCH] arm64: dts: imx8-ss-img: Assign slot for imx jpeg
+> encoder/decoder
 >=20
-> Hi Adam,
+> assign a single slot,
+
+As I mentioned for the first patch of this series, I don't think it's ok to=
+ limit the driver to using just one slot, the slot which is hardcoded in th=
+e dts. I suggest to hold off this patch series until we have a more clear p=
+icture how we want to change it for imx9.
+
+Regards,
+Mirela
+
+> configure interrupt and power domain only for 1 slot, not for the all 4 s=
+lots.
 >=20
-> Thanks, this helped point me in the right direction and proves the
-> video capture device works with v4l2.
+> Signed-off-by: Ming Qian <ming.qian@nxp.com>
+> ---
+>  .../arm64/boot/dts/freescale/imx8-ss-img.dtsi | 22 +++++--------------
+>  1 file changed, 6 insertions(+), 16 deletions(-)
 >=20
-> For the imx219 which can capture 640x480 raw 8bit bayer:
-> # configure media entities for 8-bit raw bayer 640x480
-> media-ctl -v -V "'imx219 3-0010':0 [fmt:SRGGB8/640x480 field:none]"
-> media-ctl -v -V "'crossbar':0 [fmt:SRGGB8/640x480 field:none]"
-> media-ctl -v -V "'mxc_isi.0':0 [fmt:SRGGB8/640x480 field:none]"
-> # configure for RGGB (8-bit bayer) 640x480
-> v4l2-ctl --device /dev/video0
-> --set-fmt-video=3Dwidth=3D640,height=3D480,pixelformat=3DRGGB --verbose
-> # capture a frame
-> v4l2-ctl --device /dev/video0 --stream-mmap --stream-to=3Dframe.raw
-> --stream-count=3D1
-> convert -size 640x480 -depth 8 gray:frame.raw frame.png # convert to png
-> # stream to display
-> gst-launch-1.0 v4l2src ! \
->       video/x-bayer,format=3Drggb,width=3D640,height=3D480,framerate=3D10=
-/1 ! \
->       bayer2rgb ! fbdevsink
+> diff --git a/arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi
+> b/arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi
+> index a90654155a88..176dcce24b64 100644
+> --- a/arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi
+> +++ b/arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi
+> @@ -18,10 +18,7 @@ img_ipg_clk: clock-img-ipg {
 >=20
-
-I would expect if that's all working then libcamera with the ISI
-pipeline handler would be able to handle all of the media-ctl
-configuration for you.
-
-You should be able to use this directly (without needing calls to media-ctl=
-):
-
-gst-launch-1.0 libcamerasrc ! \
-	video/x-bayer,format=3Drggb,width=3D640,height=3D480 ! \
-	bayer2rgb ! fbdevsink
-
-in the same way.
-
-If it does work, I'd be interested to hear that, and if it doesn't -
-then lets fix it!
-
-Note I removed the framerate=3D10/1 as that's the part I would suspect
-might cause issues in the libcamerasrc. It's likely worth trying both
-with and without it.
-
-Regards
---
-Kieran
-
-
-
-
-> best regards,
+>  	jpegdec: jpegdec@58400000 {
+>  		reg =3D <0x58400000 0x00050000>;
+> -		interrupts =3D <GIC_SPI 309 IRQ_TYPE_LEVEL_HIGH>,
+> -			     <GIC_SPI 310 IRQ_TYPE_LEVEL_HIGH>,
+> -			     <GIC_SPI 311 IRQ_TYPE_LEVEL_HIGH>,
+> -			     <GIC_SPI 312 IRQ_TYPE_LEVEL_HIGH>;
+> +		interrupts =3D <GIC_SPI 309 IRQ_TYPE_LEVEL_HIGH>;
+>  		clocks =3D <&img_jpeg_dec_lpcg IMX_LPCG_CLK_0>,
+>  			 <&img_jpeg_dec_lpcg IMX_LPCG_CLK_4>;
+>  		clock-names =3D "per", "ipg";
+> @@ -29,18 +26,13 @@ jpegdec: jpegdec@58400000 {
+>  				  <&img_jpeg_dec_lpcg IMX_LPCG_CLK_4>;
+>  		assigned-clock-rates =3D <200000000>, <200000000>;
+>  		power-domains =3D <&pd IMX_SC_R_MJPEG_DEC_MP>,
+> -				<&pd IMX_SC_R_MJPEG_DEC_S0>,
+> -				<&pd IMX_SC_R_MJPEG_DEC_S1>,
+> -				<&pd IMX_SC_R_MJPEG_DEC_S2>,
+> -				<&pd IMX_SC_R_MJPEG_DEC_S3>;
+> +				<&pd IMX_SC_R_MJPEG_DEC_S0>;
+> +		slot =3D <0>;
+>  	};
 >=20
-> Tim
+>  	jpegenc: jpegenc@58450000 {
+>  		reg =3D <0x58450000 0x00050000>;
+> -		interrupts =3D <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>,
+> -			     <GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>,
+> -			     <GIC_SPI 307 IRQ_TYPE_LEVEL_HIGH>,
+> -			     <GIC_SPI 308 IRQ_TYPE_LEVEL_HIGH>;
+> +		interrupts =3D <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
+>  		clocks =3D <&img_jpeg_enc_lpcg IMX_LPCG_CLK_0>,
+>  			 <&img_jpeg_enc_lpcg IMX_LPCG_CLK_4>;
+>  		clock-names =3D "per", "ipg";
+> @@ -48,10 +40,8 @@ jpegenc: jpegenc@58450000 {
+>  				  <&img_jpeg_enc_lpcg IMX_LPCG_CLK_4>;
+>  		assigned-clock-rates =3D <200000000>, <200000000>;
+>  		power-domains =3D <&pd IMX_SC_R_MJPEG_ENC_MP>,
+> -				<&pd IMX_SC_R_MJPEG_ENC_S0>,
+> -				<&pd IMX_SC_R_MJPEG_ENC_S1>,
+> -				<&pd IMX_SC_R_MJPEG_ENC_S2>,
+> -				<&pd IMX_SC_R_MJPEG_ENC_S3>;
+> +				<&pd IMX_SC_R_MJPEG_ENC_S0>;
+> +		slot =3D <0>;
+>  	};
 >=20
->=20
->=20
-> Additional debug info:
-> ../libs/gst/base/gstbasesrc.c(3127): gst_base_src_loop ():
-> /GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
-> streaming stopped, reason not-negotiated (-4)
-> Setting pipeline to NULL ...
-> Freeing pipeline ...
->=20
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+>  	img_jpeg_dec_lpcg: clock-controller@585d0000 {
+> --
+> 2.38.1
+
