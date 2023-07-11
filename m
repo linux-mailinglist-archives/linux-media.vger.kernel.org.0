@@ -2,67 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB25B74F627
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jul 2023 18:53:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83B8974F6A1
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jul 2023 19:12:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233055AbjGKQxl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jul 2023 12:53:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50466 "EHLO
+        id S230464AbjGKRMt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jul 2023 13:12:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231543AbjGKQxg (ORCPT
+        with ESMTP id S229655AbjGKRMs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jul 2023 12:53:36 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2FC3E75;
-        Tue, 11 Jul 2023 09:53:34 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:10:88d9::7a9])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 969366606FD7;
-        Tue, 11 Jul 2023 17:53:31 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1689094413;
-        bh=yy4ifvZ2F/oJLKFYZ6kp2QaX3MbJ59DKrQ3DnoaEWgE=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=ksurskaiz2vuAVX4S9KaBtcMjC5Ln6NxknFPesth65terJoMzvvKmPnjsgKh+zJ8p
-         62u9A4jqAL+yUNL+KOmK6B4Qc4QYDEcYluTfzDXtWydUf2fxKLOggSCK3717ScDQ9c
-         MVF+4EdYnlf4QERCSA/0cwG3P8mfqd2Xr06KYfyLE243CtQUKKBqiNTiaxMXcohyOE
-         adiPEeLhoCgrIlVZgTQ0OKIK6tQdPZGvAl9PCk+J7s/LeUWu1y79chUx2ux+faT10z
-         gDGx2e+MtNV4KB1ompQdQMcVsFmsEnGTJhbZt5TAtdjMYc4IId0ne+BsH6P0oL76Iw
-         cIcF3+qsoLFYw==
-Message-ID: <27d3d68398be482906155dbfa245a23a7d652210.camel@collabora.com>
-Subject: Re: [PATCH 3/3] media: mediatek: vcodec: Add driver to support 10bit
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>,
-        =?ISO-8859-1?Q?N=EDcolas?= "F . R . A . Prado" 
-        <nfraprado@collabora.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Nathan Hebert <nhebert@chromium.org>
-Cc:     Chen-Yu Tsai <wenst@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Steve Cho <stevecho@chromium.org>,
-        Mingjia Zhang <mingjia.zhang@mediatek.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Project_Global_Chrome_Upstream_Group@mediatek.com
-Date:   Tue, 11 Jul 2023 12:53:22 -0400
-In-Reply-To: <20230711125749.15555-4-yunfei.dong@mediatek.com>
-References: <20230711125749.15555-1-yunfei.dong@mediatek.com>
-         <20230711125749.15555-4-yunfei.dong@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        Tue, 11 Jul 2023 13:12:48 -0400
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44427F9;
+        Tue, 11 Jul 2023 10:12:45 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1A5B140003;
+        Tue, 11 Jul 2023 17:12:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1689095563;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+        bh=RAr2OWJj8jpQoBytEBqzyQoKRhzKGkXqx6/ZMK1HS0k=;
+        b=HckTFNcHkqzpgFZDA9ef8m9G2KTnT4auHqxlE96yi487vHm+7lR74cOhx3vu2tcac33VEK
+        e6wuCl8TifiLh9R9nMU4LRCaTsGrCkqw22LRi4b+EoIVuf9BkXW9MgQqyAQGv8V2WzfHsi
+        ROHJsW+j+ogr6kEOorW8nlGWqOtF+OY2UpcunEnevJwXAcuow4+fuEr/jXjVFpl9o1ZtCC
+        VsMHzW2VitwnCtkTtgw9jIbK+ueo/a9Ub5DfvPIQ2/7hp6nee/qqVRRQN3TWz0n13+8GDs
+        ATSglIlcvf7lP4b9MZh4uhmsDrxJ6kNGbgF4NRXmGDPGkbfqChyWCru5n52UdQ==
+Date:   Tue, 11 Jul 2023 19:12:41 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Michael Tretter <m.tretter@pengutronix.de>
+Cc:     Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Stateless Encoding uAPI Discussion and Proposal
+Message-ID: <ZK2NiQd1KnraAr20@aptenodytes>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="cHA3IpzXREBvds8Z"
+Content-Disposition: inline
+X-GND-Sasl: paul.kocialkowski@bootlin.com
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,323 +56,240 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yunfei,
 
-this is a partial drive by review, I'll do more testing and more review soo=
-n.
+--cHA3IpzXREBvds8Z
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Le mardi 11 juillet 2023 =C3=A0 20:57 +0800, Yunfei Dong a =C3=A9crit=C2=A0=
-:
-> From: Mingjia Zhang <mingjia.zhang@mediatek.com>
->=20
-> Adding to support capture formats V4L2_PIX_FMT_MT2110T and
-> V4L2_PIX_FMT_MT2110R for 10bit playback. Need to get the size
-> of each plane again when user space setting syntax to get 10bit
-> information.
->=20
-> V4L2_PIX_FMT_MT2110T for AV1/VP9/HEVC.
-> V4L2_PIX_FMT_MT2110R for H264.
->=20
-> Signed-off-by: Mingjia Zhang <mingjia.zhang@mediatek.com>
-> Co-developed-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> ---
->  .../mediatek/vcodec/decoder/mtk_vcodec_dec.c  |  22 ++-
->  .../vcodec/decoder/mtk_vcodec_dec_drv.h       |   5 +
->  .../vcodec/decoder/mtk_vcodec_dec_stateless.c | 140 +++++++++++++++++-
->  3 files changed, 163 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_de=
-c.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
-> index 5acb7dff18f2..91ed576d6821 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
-> @@ -37,7 +37,9 @@ static bool mtk_vdec_get_cap_fmt(struct mtk_vcodec_dec_=
-ctx *ctx, int format_inde
->  {
->  	const struct mtk_vcodec_dec_pdata *dec_pdata =3D ctx->dev->vdec_pdata;
->  	const struct mtk_video_fmt *fmt;
-> +	struct mtk_q_data *q_data;
->  	int num_frame_count =3D 0, i;
-> +	bool ret =3D false;
-> =20
->  	fmt =3D &dec_pdata->vdec_formats[format_index];
->  	for (i =3D 0; i < *dec_pdata->num_formats; i++) {
-> @@ -47,10 +49,26 @@ static bool mtk_vdec_get_cap_fmt(struct mtk_vcodec_de=
-c_ctx *ctx, int format_inde
->  		num_frame_count++;
->  	}
-> =20
-> -	if (num_frame_count =3D=3D 1 || fmt->fourcc =3D=3D V4L2_PIX_FMT_MM21)
-> +	if (num_frame_count =3D=3D 1 || (!ctx->is_10bit_bitstream && fmt->fourc=
-c =3D=3D V4L2_PIX_FMT_MM21))
->  		return true;
-> =20
-> -	return false;
-> +	q_data =3D &ctx->q_data[MTK_Q_DATA_SRC];
-> +	switch (q_data->fmt->fourcc) {
-> +	case V4L2_PIX_FMT_H264_SLICE:
-> +		if (ctx->is_10bit_bitstream && fmt->fourcc =3D=3D V4L2_PIX_FMT_MT2110R=
-)
-> +			ret =3D true;
-> +		break;
-> +	case V4L2_PIX_FMT_VP9_FRAME:
-> +	case V4L2_PIX_FMT_AV1_FRAME:
-> +	case V4L2_PIX_FMT_HEVC_SLICE:
-> +		if (ctx->is_10bit_bitstream && fmt->fourcc =3D=3D V4L2_PIX_FMT_MT2110T=
-)
-> +			ret =3D true;
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	return ret;
->  }
-> =20
->  static struct mtk_q_data *mtk_vdec_get_q_data(struct mtk_vcodec_dec_ctx =
-*ctx,
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_de=
-c_drv.h b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv=
-.h
-> index c8b4374c5e6c..cd607e90fe9c 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
-> @@ -31,6 +31,7 @@ enum mtk_vdec_format_types {
->  	MTK_VDEC_FORMAT_AV1_FRAME =3D 0x800,
->  	MTK_VDEC_FORMAT_HEVC_FRAME =3D 0x1000,
->  	MTK_VCODEC_INNER_RACING =3D 0x20000,
-> +	MTK_VDEC_IS_SUPPORT_10BIT =3D 0x40000,
->  };
-> =20
->  /*
-> @@ -160,6 +161,8 @@ struct mtk_vcodec_dec_pdata {
->   * @hw_id: hardware index used to identify different hardware.
->   *
->   * @msg_queue: msg queue used to store lat buffer information.
-> + *
-> + * @is_10bit_bitstream: set to true if it's 10bit bitstream
->   */
->  struct mtk_vcodec_dec_ctx {
->  	enum mtk_instance_type type;
-> @@ -202,6 +205,8 @@ struct mtk_vcodec_dec_ctx {
->  	int hw_id;
-> =20
->  	struct vdec_msg_queue msg_queue;
-> +
-> +	bool is_10bit_bitstream;
->  };
-> =20
->  /**
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_de=
-c_stateless.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_d=
-ec_stateless.c
-> index 99a84c7e1901..cef937fdf462 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_state=
-less.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_state=
-less.c
-> @@ -200,7 +200,7 @@ static const struct mtk_stateless_control mtk_statele=
-ss_controls[] =3D {
-> =20
->  #define NUM_CTRLS ARRAY_SIZE(mtk_stateless_controls)
-> =20
-> -static struct mtk_video_fmt mtk_video_formats[7];
-> +static struct mtk_video_fmt mtk_video_formats[9];
-> =20
->  static struct mtk_video_fmt default_out_format;
->  static struct mtk_video_fmt default_cap_format;
-> @@ -387,6 +387,134 @@ static int mtk_vdec_flush_decoder(struct mtk_vcodec=
-_dec_ctx *ctx)
->  	return vdec_if_decode(ctx, NULL, NULL, &res_chg);
->  }
-> =20
-> +static int mtk_vcodec_get_pic_info(struct mtk_vcodec_dec_ctx *ctx)
-> +{
-> +	struct mtk_q_data *q_data;
-> +	int ret =3D 0;
-> +
-> +	q_data =3D &ctx->q_data[MTK_Q_DATA_DST];
-> +	if (q_data->fmt->num_planes =3D=3D 1) {
-> +		mtk_v4l2_vdec_err(ctx, "[%d]Error!! 10bit mode not support one plane",=
- ctx->id);
-> +		return -EINVAL;
-> +	}
-> +
-> +	ctx->capture_fourcc =3D q_data->fmt->fourcc;
-> +	ret =3D vdec_if_get_param(ctx, GET_PARAM_PIC_INFO, &ctx->picinfo);
-> +	if (ret) {
-> +		mtk_v4l2_vdec_err(ctx, "[%d]Error!! Get GET_PARAM_PICTURE_INFO Fail", =
-ctx->id);
-> +		return ret;
-> +	}
-> +
-> +	ctx->last_decoded_picinfo =3D ctx->picinfo;
-> +
-> +	q_data->sizeimage[0] =3D ctx->picinfo.fb_sz[0];
-> +	q_data->bytesperline[0] =3D ctx->picinfo.buf_w * 5 / 4;
-> +
-> +	q_data->sizeimage[1] =3D ctx->picinfo.fb_sz[1];
-> +	q_data->bytesperline[1] =3D ctx->picinfo.buf_w * 5 / 4;
-> +
-> +	q_data->coded_width =3D ctx->picinfo.buf_w;
-> +	q_data->coded_height =3D ctx->picinfo.buf_h;
-> +	mtk_v4l2_vdec_dbg(1, ctx, "[%d] wxh=3D%dx%d pic wxh=3D%dx%d sz[0]=3D0x%=
-x sz[1]=3D0x%x",
-> +			  ctx->id, ctx->picinfo.buf_w, ctx->picinfo.buf_h,
-> +			  ctx->picinfo.pic_w, ctx->picinfo.pic_h,
-> +			  q_data->sizeimage[0], q_data->sizeimage[1]);
-> +
-> +	return ret;
-> +}
-> +
-> +static int mtk_vdec_s_ctrl(struct v4l2_ctrl *ctrl)
-> +{
-> +	struct mtk_vcodec_dec_ctx *ctx =3D ctrl_to_dec_ctx(ctrl);
-> +	struct v4l2_ctrl_h264_sps *h264;
-> +	struct v4l2_ctrl_hevc_sps *h265;
-> +	struct v4l2_ctrl_vp9_frame *frame;
-> +	struct v4l2_ctrl_av1_sequence *seq;
-> +	struct v4l2_ctrl *hdr_ctrl;
-> +	const struct mtk_vcodec_dec_pdata *dec_pdata =3D ctx->dev->vdec_pdata;
-> +	const struct mtk_video_fmt *fmt;
-> +	int i =3D 0, ret =3D 0;
-> +
-> +	hdr_ctrl =3D ctrl;
-> +	if (!hdr_ctrl || !hdr_ctrl->p_cur.p)
-> +		return -EINVAL;
+Hi everyone!
 
-There is a null check for hdr_ctrl->p_cur.p ...
+After various discussions following Andrzej's talk at EOSS, feedback from t=
+he
+Media Summit (which I could not attend unfortunately) and various direct
+discussions, I have compiled some thoughts and ideas about stateless encode=
+rs
+support with various proposals. This is the result of a few years of intere=
+st
+in the topic, after working on a PoC for the Hantro H1 using the hantro dri=
+ver,
+which turned out to have numerous design issues.
 
-> +
-> +	switch (hdr_ctrl->id) {
-> +	case V4L2_CID_STATELESS_H264_SPS:
-> +		h264 =3D (struct v4l2_ctrl_h264_sps *)hdr_ctrl->p_new.p;
-
-But you are using hdr_ctrl->p_new.p. I don't know if the checks are absolut=
+I am now working on a H.264 encoder driver for Allwinner platforms (current=
 ly
-required, I'll have a look.
+focusing on the V3/V3s), which already provides some usable bitstream and w=
+ill
+be published soon.
 
-> +		if (h264->bit_depth_chroma_minus8 =3D=3D 2 && h264->bit_depth_luma_min=
-us8 =3D=3D 2) {
+This is a very long email where I've tried to split things into distinct to=
+pics
+and explain a few concepts to make sure everyone is on the same page.
 
-In the conformance streams, there is a 9bit luma file, which on all decoder=
-s
-I've tried decodes fine inside a 10bit image.
+# Bitstream Headers
 
-> +			ctx->is_10bit_bitstream =3D true;
-> +		} else if (h264->bit_depth_chroma_minus8 !=3D 0 &&
-> +			   h264->bit_depth_luma_minus8 !=3D 0) {
-> +			mtk_v4l2_vdec_err(ctx, "H264: chroma_minus8:%d, luma_minus8:%d",
-> +					  h264->bit_depth_chroma_minus8,
-> +					  h264->bit_depth_luma_minus8);
-> +			return -EINVAL;
-> +		}
-> +		break;
-> +	case V4L2_CID_STATELESS_HEVC_SPS:
-> +		h265 =3D (struct v4l2_ctrl_hevc_sps *)hdr_ctrl->p_new.p;
-> +		if (h265->bit_depth_chroma_minus8 =3D=3D 2 && h265->bit_depth_luma_min=
-us8 =3D=3D 2) {
-> +			ctx->is_10bit_bitstream =3D true;
-> +		} else if (h265->bit_depth_chroma_minus8 !=3D 0 &&
-> +			   h265->bit_depth_luma_minus8 !=3D 0) {
-> +			mtk_v4l2_vdec_err(ctx, "HEVC: chroma_minus8:%d, luma_minus8:%d",
-> +					  h265->bit_depth_chroma_minus8,
-> +					  h265->bit_depth_luma_minus8);
-> +			return -EINVAL;
-> +		}
-> +		break;
-> +	case V4L2_CID_STATELESS_VP9_FRAME:
-> +		frame =3D (struct v4l2_ctrl_vp9_frame *)hdr_ctrl->p_new.p;
-> +		if (frame->bit_depth =3D=3D 10) {
-> +			ctx->is_10bit_bitstream =3D true;
-> +		} else if (frame->bit_depth !=3D 8) {
-> +			mtk_v4l2_vdec_err(ctx, "VP9: bit_depth:%d", frame->bit_depth);
-> +			return -EINVAL;
-> +		}
-> +		break;
-> +	case V4L2_CID_STATELESS_AV1_SEQUENCE:
-> +		seq =3D (struct v4l2_ctrl_av1_sequence *)hdr_ctrl->p_new.p;
-> +		if (seq->bit_depth =3D=3D 10) {
-> +			ctx->is_10bit_bitstream =3D true;
-> +		} else if (seq->bit_depth !=3D 8) {
-> +			mtk_v4l2_vdec_err(ctx, "AV1: bit_depth:%d", seq->bit_depth);
-> +			return -EINVAL;
-> +		}
-> +		break;
-> +	default:
-> +		mtk_v4l2_vdec_err(ctx, "Not supported ctrl id: 0x%x\n", hdr_ctrl->id);
-> +		return -EINVAL;
+Stateless encoders typically do not generate all the bitstream headers and
+sometimes no header at all (e.g. Allwinner encoder does not even produce sl=
+ice
+headers). There's often some hardware block that makes bit-level writing to=
+ the
+destination buffer easier (deals with alignment, etc).
 
-Haven't tested, but it feels like this will prevent setting the PPS among m=
-any
-other controls. This should likely not be an error, and should return 0.
+The values of the bitstream headers must be in line with how the compressed
+data bitstream is generated and generally follow the codec specification.
+Some encoders might allow configuring all the fields found in the headers,
+others may only allow configuring a few or have specific constraints regard=
+ing
+which values are allowed.
 
-> +	}
-> +
-> +	if (!ctx->is_10bit_bitstream)
-> +		return ret;
-> +
-> +	for (i =3D 0; i < *dec_pdata->num_formats; i++) {
-> +		fmt =3D &dec_pdata->vdec_formats[i];
-> +		if (fmt->fourcc =3D=3D V4L2_PIX_FMT_MT2110R &&
-> +		    hdr_ctrl->id =3D=3D V4L2_CID_STATELESS_H264_SPS) {
-> +			ctx->q_data[MTK_Q_DATA_DST].fmt =3D fmt;
-> +			break;
-> +		}
-> +
-> +		if (fmt->fourcc =3D=3D V4L2_PIX_FMT_MT2110T &&
-> +		    (hdr_ctrl->id =3D=3D V4L2_CID_STATELESS_HEVC_SPS ||
-> +		    hdr_ctrl->id =3D=3D V4L2_CID_STATELESS_VP9_FRAME ||
-> +		    hdr_ctrl->id =3D=3D V4L2_CID_STATELESS_AV1_SEQUENCE)) {
-> +			ctx->q_data[MTK_Q_DATA_DST].fmt =3D fmt;
-> +			break;
-> +		}
-> +	}
-> +	ret =3D mtk_vcodec_get_pic_info(ctx);
-> +
-> +	return ret;
-> +}
-> +
-> +static const struct v4l2_ctrl_ops mtk_vcodec_dec_ctrl_ops =3D {
-> +	.s_ctrl =3D mtk_vdec_s_ctrl,
-> +};
-> +
->  static int mtk_vcodec_dec_ctrls_setup(struct mtk_vcodec_dec_ctx *ctx)
->  {
->  	unsigned int i;
-> @@ -399,7 +527,7 @@ static int mtk_vcodec_dec_ctrls_setup(struct mtk_vcod=
-ec_dec_ctx *ctx)
-> =20
->  	for (i =3D 0; i < NUM_CTRLS; i++) {
->  		struct v4l2_ctrl_config cfg =3D mtk_stateless_controls[i].cfg;
-> -
-> +		cfg.ops =3D &mtk_vcodec_dec_ctrl_ops;
->  		v4l2_ctrl_new_custom(&ctx->ctrl_hdl, &cfg, NULL);
->  		if (ctx->ctrl_hdl.error) {
->  			mtk_v4l2_vdec_err(ctx, "Adding control %d failed %d", i,
-> @@ -466,6 +594,8 @@ static void mtk_vcodec_add_formats(unsigned int fourc=
-c,
->  		break;
->  	case V4L2_PIX_FMT_MM21:
->  	case V4L2_PIX_FMT_MT21C:
-> +	case V4L2_PIX_FMT_MT2110T:
-> +	case V4L2_PIX_FMT_MT2110R:
->  		mtk_video_formats[count_formats].fourcc =3D fourcc;
->  		mtk_video_formats[count_formats].type =3D MTK_FMT_FRAME;
->  		mtk_video_formats[count_formats].num_planes =3D 2;
-> @@ -491,6 +621,12 @@ static void mtk_vcodec_get_supported_formats(struct =
-mtk_vcodec_dec_ctx *ctx)
->  		mtk_vcodec_add_formats(V4L2_PIX_FMT_MT21C, ctx);
->  		cap_format_count++;
->  	}
-> +	if (ctx->dev->dec_capability & MTK_VDEC_IS_SUPPORT_10BIT) {
-> +		mtk_vcodec_add_formats(V4L2_PIX_FMT_MT2110T, ctx);
-> +		cap_format_count++;
-> +		mtk_vcodec_add_formats(V4L2_PIX_FMT_MT2110R, ctx);
-> +		cap_format_count++;
-> +	}
->  	if (ctx->dev->dec_capability & MTK_VDEC_FORMAT_MM21) {
->  		mtk_vcodec_add_formats(V4L2_PIX_FMT_MM21, ctx);
->  		cap_format_count++;
+As a result, we cannot expect that any given encoder is able to produce fra=
+mes
+for any set of headers. Reporting related constraints and limitations (beyo=
+nd
+profile/level) seems quite difficult and error-prone.
 
+So it seems that keeping header generation in-kernel only (close to where t=
+he
+hardware is actually configured) is the safest approach.
+
+# Codec Features
+
+Codecs have many variable features that can be enabled or not and specific
+configuration fields that can take various values. There is usually some
+top-level indication of profile/level that restricts what can be used.
+
+This is a very similar situation to stateful encoding, where codec-specific
+controls are used to report and set profile/level and configure these aspec=
+ts.
+A particularly nice thing about it is that we can reuse these existing cont=
+rols
+and add new ones in the future for features that are not yet covered.
+
+This approach feels more flexible than designing new structures with a sele=
+cted
+set of parameters (that could match the existing controls) for each codec.
+
+# Reference and Reconstruction Management
+
+With stateless encoding, we need to tell the hardware which frames need to =
+be
+used as references for encoding the current frame and make sure we have the
+these references available as decoded frames in memory.
+
+Regardless of references, stateless encoders typically need some memory spa=
+ce to
+write the decoded (known as reconstructed) frame while it's being encoded.
+
+One question here is how many slots for decoded pictures should be allocated
+by the driver when starting to stream. There is usually a maximum number of
+reference frames that can be used at a time, although perhaps there is a use
+case to keeping more around and alternative between them for future referen=
+ces.
+
+Another question is how the driver should keep track of which frame will be=
+ used
+as a reference in the future and which one can be evicted from the pool of
+decoded pictures if it's not going to be used anymore.
+
+A restrictive approach would be to let the driver alone manage that, simila=
+rly
+to how stateful encoders behave. However it might provide extra flexibility
+(and memory gain) to allow userspace to configure the maximum number of pos=
+sible
+reference frames. In that case it becomes necessary to indicate if a given
+frame will be used as a reference in the future (maybe using a buffer flag)
+and to indicate which previous reference frames (probably to be identified =
+with
+the matching output buffer's timestamp) should be used for the current enco=
+de.
+This could be done with a new dedicated control (as a variable-sized array =
+of
+timestamps). Note that userspace would have to update it for every frame or=
+ the
+reference frames will remain the same for future encodes.
+
+The driver will then make sure to keep the reconstructed buffer around, in =
+one
+of the slots. When there's no slot left, the driver will drop the oldest
+reference it has (maybe with a bounce buffer to still allow it to be used a=
+s a
+reference for the current encode).
+
+With this behavior defined in the uAPI spec, userspace will also be able to
+keep track of which previous frame is no longer allowed as a reference.
+
+# Frame Types
+
+Stateless encoder drivers will typically instruct the hardware to encode ei=
+ther
+an intra-coded or an inter-coded frame. While a stream composed only of a s=
+ingle
+intra-coded frame followed by only inter-coded frames is possible, it's
+generally not desirable as it is not very robust against data loss and makes
+seeking difficult.
+
+As a result, the frame type is usually decided based on a given GOP size
+(the frequency at which a new intra-coded frame is produced) while intra-co=
+ded
+frames can be explicitly requested upon request. Stateful encoders implement
+these through dedicated controls:
+- V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME
+- V4L2_CID_MPEG_VIDEO_GOP_SIZE
+- V4L2_CID_MPEG_VIDEO_H264_I_PERIOD
+
+It seems that reusing them would be possible, which would let the driver de=
+cide
+of the particular frame type.
+
+However it makes the reference frame management a bit trickier since refere=
+nce
+frames might be requested from userspace for a frame that ends up being
+intra-coded. We can either allow this and silently ignore the info or expect
+that userspace keeps track of the GOP index and not send references on the =
+first
+frame.
+
+In some codecs, there's also a notion of barrier key-frames (IDR frames in
+H.264) that strictly forbid using any past reference beyond the frame.
+There seems to be an assumption that the GOP start uses this kind of frame
+(and not any intra-coded frame), while the force key frame control does not
+particularly specify it.
+
+In that case we should flush the list of references and userspace should no
+longer provide references to them for future frames. This puts a requiremen=
+t on
+userspace to keep track of GOP start in order to know when to flush its
+reference list. It could also check if V4L2_BUF_FLAG_KEYFRAME is set, but t=
+his
+could also indicate a general intra-coded frame that is not a barrier.
+
+So another possibility would be for userspace to explicitly indicate which
+frame type to use (in a codec-specific way) and act accordingly, leaving any
+notion of GOP up to userspace. I feel like this might be the easiest approa=
+ch
+while giving an extra degree of control to userspace.
+
+# Rate Control
+
+Another important feature of encoders is the ability to control the amount =
+of
+data produced following different rate control strategies. Stateful encoders
+typically do this in-firmware and expose controls for selecting the strategy
+and associated targets.
+
+It seems desirable to support both automatic and manual rate-control to
+userspace.
+
+Automatic control would be implemented kernel-side (with algos possibly sha=
+red
+across drivers) and reuse existing stateful controls. The advantage is
+simplicity (userspace does not need to carry its own rate-control
+implementation) and to ensure that there is a built-in mechanism for common
+strategies available for every driver (no mandatory dependency on a proprie=
+tary
+userspace stack). There may also be extra statistics or controls available =
+to
+the driver that allow finer-grain control.
+
+Manual control allows userspace to get creative and requires the ability to=
+ set
+the quantization parameter (QP) directly for each frame (controls are alrea=
+dy
+as many stateful encoders also support it).
+
+# Regions of Interest
+
+Regions of interest (ROIs) allow specifying sub-regions of the frame that s=
+hould
+be prioritized for quality. Stateless encoders typically support a limited
+number and allow setting specific QP values for these regions.
+
+While the QP value should be used directly in manual rate-control, we proba=
+bly
+want to have some "level of importance" setting for kernel-side rate-contro=
+l,
+along with the dimensions/position of each ROI. This could be expressed with
+a new structure containing all these elements and presented as a variable-s=
+ized
+array control with as many elements as the hardware can support.
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--cHA3IpzXREBvds8Z
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmStjYkACgkQ3cLmz3+f
+v9Fn0Qf+PTjAI9+hdMSo2NPRIjYvaAx/BFE9xM6iU1yEacB0J3BWycFUZYakwD7r
+m3pD9NH7bePTCrQtz7FfHArHUw93SmeuiLlAduWQxs+6PRfDZuKmFINl7DXiNGmu
+W1+zSmUNLgFpTGDiPx2TJWVHQprtOdWN45A7yFytbKQ8adm20lRPQ2hxiLB3ky0B
+sZXdahPXJBGvFX4P9Nt6FlWtlvTPbEySw3eNtW0I/M/3tQuWoCzld8wzCrRYxcbi
+jYR0CH3ihl6EkTsRW6N492sphGsMe3NP4qmUD8PZ0AarAjG62qp9vXPxjTXvEWCB
+Kx9tTmyUZmYBZAT6M2uKcbhqvY4pNQ==
+=ldoN
+-----END PGP SIGNATURE-----
+
+--cHA3IpzXREBvds8Z--
