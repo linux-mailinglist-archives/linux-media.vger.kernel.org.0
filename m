@@ -2,54 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A4DA74EFC1
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jul 2023 15:01:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 591FD74F13F
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jul 2023 16:09:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231190AbjGKNBz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jul 2023 09:01:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34112 "EHLO
+        id S233379AbjGKOJc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jul 2023 10:09:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229907AbjGKNBy (ORCPT
+        with ESMTP id S233346AbjGKOJb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jul 2023 09:01:54 -0400
-Received: from mail-oi1-x247.google.com (mail-oi1-x247.google.com [IPv6:2607:f8b0:4864:20::247])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7695B1720
-        for <linux-media@vger.kernel.org>; Tue, 11 Jul 2023 06:01:24 -0700 (PDT)
-Received: by mail-oi1-x247.google.com with SMTP id 5614622812f47-3a3b86821fcso4249332b6e.0
-        for <linux-media@vger.kernel.org>; Tue, 11 Jul 2023 06:01:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689080409; x=1691672409;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZHO68MXPpG0tvQzxAfkPPUuZs9MEkFTVvcLzHBD3OLA=;
-        b=A315ppGj0Yz2LcQllgyFaSFwnALI89tAsXhH5E6jrTqGGubZgIJl/N8REQCFQLiF/l
-         B1E60wdUCscS/PraGkcSlhs4eTZtd5dj8ATEVzPG/JGxAZ2rWiqvvMpPUBcxMUHcgGww
-         7hI3tTs/eSOKBhASDHhQ8JV8KgmIHfalzGGz7/Lo+peBbf5ojT6p3RzYT4xVAhspQg9K
-         bE3/GQQmoEtXlWOltWqViW5nsAxhqCRmQ2hSlP6+OJAinYFiZDFTrl48txxL/4FXgW62
-         2QiaDGVrv2XDifdYcly3oBPHPXE6WCzC9si0bltMFAIcthLFav2yNmu3JdYcDM7Macwg
-         gLvg==
-X-Gm-Message-State: ABy/qLYhJTb2FdS2ZLKNR9m82lu4jKtu1vHxXmzLE8D6d476dQBWmCAG
-        BYG4KEF6hluxBGQehIuRRWx2V0tKrLWeSLwZi53VmcQHiySG
-X-Google-Smtp-Source: APBJJlEM78f3nwOEwdHgjq9Mi44uFvFxi3Se/Jn99rEUe9f1P8TqteqjzvWe8OaMMfEt089MxeYLbUkwtNmaBVqFxUOiFEarLPfK
+        Tue, 11 Jul 2023 10:09:31 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7102F10CA;
+        Tue, 11 Jul 2023 07:09:30 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0390D61516;
+        Tue, 11 Jul 2023 14:09:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62AA9C433CB;
+        Tue, 11 Jul 2023 14:09:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689084569;
+        bh=wPU4WgrILHi9+5F2DlhzPw9Lp0u+27HoJUb3pFKm1oY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=RCuZZ7PXyIN3eOhGs1bf0ErA04156k9Ond9Tt1No7pzS2UVgv5CBkmePw7dDii6xn
+         J+DCbc98kpLrJqwFB9eR8mRpuIIiv7GlvBdbOQSS6FXDOyaeNGkDbF+EK2HrNdroeL
+         D3KHqS3rFWHxUf3cDYoUyolysl/c+Ve4O9pASw++RfxReTh2WliugG/VTRBisxonnx
+         TKxvWb75v4UOiVV8SVOwlp3RzLjpAAvSm7StvrDY1aRrGuuB9EjiuSf595RzfBUyVA
+         TsBCOrEZpdVEIhmZzsL0gqiyax+JdDihy3MfT/FLDVFl826dFDBdqWylF3LT9Vh+PG
+         Nu0EUC32hDt3A==
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2b6fdaf6eefso89775321fa.0;
+        Tue, 11 Jul 2023 07:09:29 -0700 (PDT)
+X-Gm-Message-State: ABy/qLbzKUYjcCt4X5WCk9bi8saNLT2BGmI5+eHzt6gnAFobVXnFBQyn
+        Rtl+EXDN82d3L5oUfMGChWqbaOqSdKlw+1Ks5A==
+X-Google-Smtp-Source: APBJJlFEr5SnwtzLsObTkneUOhTe4Giozatn3QjuQu5+oxJvELnDikg/9hzm9xsBK89Dbapr0ULFsJF5oBzL6l5rJHE=
+X-Received: by 2002:a2e:7a04:0:b0:2b6:eb5a:6504 with SMTP id
+ v4-20020a2e7a04000000b002b6eb5a6504mr13751911ljc.18.1689084567351; Tue, 11
+ Jul 2023 07:09:27 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:e82:b0:3a3:7eca:3022 with SMTP id
- k2-20020a0568080e8200b003a37eca3022mr2139536oil.2.1689080408726; Tue, 11 Jul
- 2023 06:00:08 -0700 (PDT)
-Date:   Tue, 11 Jul 2023 06:00:08 -0700
-In-Reply-To: <0000000000003ee3610599d20096@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000c26a66060035ad18@google.com>
-Subject: Re: [syzbot] KASAN: use-after-free Read in __media_entity_remove_links
-From:   syzbot <syzbot+0b0095300dfeb8a83dc8@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, laurent.pinchart@ideasonboard.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, mchehab@kernel.org, nogikh@google.com,
-        sakari.ailus@linux.intel.com, syzkaller-bugs@googlegroups.com
+References: <20230707210646.868758-1-robh@kernel.org> <20230710-underling-angelfish-c47d363a59f5@spud>
+ <CAL_Jsq+5mtgCAfFZOZTUjqFLW0DM5A6exD+PbznO71A8SDyyTA@mail.gmail.com> <20230710-octane-disarray-44b363c02f73@spud>
+In-Reply-To: <20230710-octane-disarray-44b363c02f73@spud>
+From:   Rob Herring <robh@kernel.org>
+Date:   Tue, 11 Jul 2023 08:09:14 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqLBTGeyJgCgPjQL1SdMc73=DBWRRmcsO6YXQkPSAAvWXQ@mail.gmail.com>
+Message-ID: <CAL_JsqLBTGeyJgCgPjQL1SdMc73=DBWRRmcsO6YXQkPSAAvWXQ@mail.gmail.com>
+Subject: Re: [PATCH] media: dt-bindings: Convert Omnivision OV7251 to DT schema
+To:     Conor Dooley <conor@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SORTED_RECIPS,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -57,34 +68,47 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This bug is marked as fixed by commit:
-media: uvcvideo: Avoid cyclic entity chains due to malformed
+On Mon, Jul 10, 2023 at 12:20=E2=80=AFPM Conor Dooley <conor@kernel.org> wr=
+ote:
+>
+> On Mon, Jul 10, 2023 at 12:03:38PM -0600, Rob Herring wrote:
+> > On Mon, Jul 10, 2023 at 11:57=E2=80=AFAM Conor Dooley <conor@kernel.org=
+> wrote:
+> > >
+> > > On Fri, Jul 07, 2023 at 03:06:46PM -0600, Rob Herring wrote:
+> > > > Convert the OmniVision OV7251 Image Sensor binding to DT schema for=
+mat.
+> > > >
+> > > > vddd-supply was listed as required, but the example and actual user
+> > > > don't have it. Also, the data brief says it has an internal regulat=
+or,
+> > > > so perhaps it is truly optional.
+> > >
+> > > ov7251.c:
+> > >         ov7251->core_regulator =3D devm_regulator_get(dev, "vddd");
+> > >         if (IS_ERR(ov7251->core_regulator)) {
+> > >                 dev_err(dev, "cannot get core regulator\n");
+> > >                 return PTR_ERR(ov7251->core_regulator);
+> > >         }
+> > >
+> > > Looks like the driver's probe function disagrees?
+> >
+> > Doesn't the regulator framework return a dummy regulator if missing?
+>
+> Huh, I think I misunderstood how _regulator_get() worked. Apologies for
+> the noise, I thought it was returning an error when it used a dummy.
+>
+> > > I was going to ask how it worked, but the one user has
+> > > status =3D "disabled"...
+> >
+> > Saw that too, but figured there's some other include with that
+> > overridden. We should really add a built .dts output target to avoid
+> > trying to manually walk includes.
+>
+> Probably gonna sound like an eejit, but the user is in a dts - can an
+> include overwrite that status?
 
-But I can't find it in the tested trees[1] for more than 90 days.
-Is it a correct commit? Please update it by replying:
+Yes, sometimes .dts files are both built into a dtb and included. Say
+you have a board with and without an optional camera sensor.
 
-#syz fix: exact-commit-title
-
-Until then the bug is still considered open and new crashes with
-the same signature are ignored.
-
-Kernel: Linux
-Dashboard link: https://syzkaller.appspot.com/bug?extid=0b0095300dfeb8a83dc8
-
----
-[1] I expect the commit to be present in:
-
-1. for-kernelci branch of
-git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git
-
-2. master branch of
-git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git
-
-3. master branch of
-git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git
-
-4. main branch of
-git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git
-
-The full list of 9 trees can be found at
-https://syzkaller.appspot.com/upstream/repos
+Rob
