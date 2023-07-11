@@ -2,192 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 55A0474EEC7
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jul 2023 14:29:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E40274F037
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jul 2023 15:33:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232201AbjGKM3R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jul 2023 08:29:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60570 "EHLO
+        id S232161AbjGKNdi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jul 2023 09:33:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232969AbjGKM2M (ORCPT
+        with ESMTP id S230252AbjGKNdg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jul 2023 08:28:12 -0400
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA9781BC9
-        for <linux-media@vger.kernel.org>; Tue, 11 Jul 2023 05:27:44 -0700 (PDT)
-Received: by mail-lj1-x22a.google.com with SMTP id 38308e7fff4ca-2b701e1c80fso85847121fa.2
-        for <linux-media@vger.kernel.org>; Tue, 11 Jul 2023 05:27:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1689078348; x=1691670348;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=808cWVgdSJtz5Dx4aZ53MdaH6Vo53NudM0hKAzBS+gA=;
-        b=NWOE0UlOKuwDy0QCKfAc4e3idVdnKINl1aCWDJOemRtNdmuPq4E2L9oATJGRT43RfF
-         aQ3yVgOlOM2r+eqo+IVUZ+ryxfHg/sMu9uvvG8xLYXykD0gFVyoZAxCjnRoEA8TKwbL0
-         NapBAVjL+ignJANMOGe0dk75CbdPpViciVJ+uNcuU9NjSjWtMDdCvEG/p5Q5BZbNnFK0
-         7pvLmqeeeW1uGGzkUki8ZmA1F0tTrSLrz9vYUTonhZv+2zGgMSlsFH503YgU+GyhRPXq
-         3ZmqV+v4/95UjrKZGbmiTM9JJiYSHbxTizUeLQijVkzhkxiT6H6DQRoMQU1lLIAJ/dz9
-         Q8ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689078348; x=1691670348;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=808cWVgdSJtz5Dx4aZ53MdaH6Vo53NudM0hKAzBS+gA=;
-        b=j6vLo/+gwnaJFSYONgG4Kmqpbi+02Ih9DOqtgvKacG7KQ1NNeG4NWTkgzeqBZf6I4c
-         SFxb2QtzxfBv9p6hKoi4KYsY3sfkUEMNQWikz3C3M4fo5gWn8hSAf6HnZ3A0xBlGAqtr
-         3fOWc5NpO0J13CsTH6XXMLuPNG9rQFalTg/C7IIRU0k6E45mTl8xjSeknPhagJ7g3xIp
-         YIBBEYdpGlMoSbg+C3IHFh1v9N3FOMJ35YtyOYU34h04AGI9cfvC0hjUwYeeyS3Hsqch
-         OkVJqvNo/eqI6wH107cztnm/9MIY0KIpSb9KzFUO/PF49sKykDumLgB+KWPX5cOYYS5V
-         /AKw==
-X-Gm-Message-State: ABy/qLbr7EzOphriH0iO2HoGubktDg2uxcaoEq3fGJn7miui59b6EtzW
-        6CJg+OT8Yeiv/jqj8PkIXRNCOg==
-X-Google-Smtp-Source: APBJJlHM7ZpG2kwuJtbfFitGyyFdNrjDc+3x9k+Fj32plpJVwQPrm41SKtcOMRcHWpDyhAxbtC4Pow==
-X-Received: by 2002:a2e:6e0e:0:b0:2b6:eb5a:d377 with SMTP id j14-20020a2e6e0e000000b002b6eb5ad377mr12663043ljc.5.1689078348096;
-        Tue, 11 Jul 2023 05:25:48 -0700 (PDT)
-Received: from [192.168.1.101] (abyl96.neoplus.adsl.tpnet.pl. [83.9.31.96])
-        by smtp.gmail.com with ESMTPSA id y21-20020a2e95d5000000b002b6d4a63cfdsm439953ljh.42.2023.07.11.05.25.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jul 2023 05:25:47 -0700 (PDT)
-Message-ID: <e7be0a03-c980-589a-8b1a-947c467b0bc8@linaro.org>
-Date:   Tue, 11 Jul 2023 14:25:45 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v4 00/17] Venus QoL / maintainability fixes
-Content-Language: en-US
-To:     Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
+        Tue, 11 Jul 2023 09:33:36 -0400
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F253E74;
+        Tue, 11 Jul 2023 06:33:35 -0700 (PDT)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36BCDhnh007024;
+        Tue, 11 Jul 2023 14:33:09 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=selector1;
+ bh=SKaScz94yf4PfXG20hUmoKKPt3qD8ElC55nnnr/MTkY=;
+ b=LNVkDtI3EIJwv8+VZU80lUHnFhI31zqpX7xvuKRZnytL+wMxW6ZUOI0OeZAXywrdhMJK
+ S6OAGSCZKwgocFD2oTtbCwzvNb/fOxvseubteqNQe3AuW53x3amkPlivrhJnttniyssL
+ d9J3JCc2GVHxiVbjMqvRWBHwPoMM/X/BrGFd9+k3rWRw8Y6fWmNvdii3TSKcU6XjkkZx
+ GMCtcoHDqFP1V0DnjzLRfLtUnp5+bvRJQFk8+jqYefS7cTTG0rZbZuWfuA6RgtSbx1Vi
+ C+TNfEAAHJfO6E9Qa9HsUFvPaqVTSvcZyTEnftz26T8/BoAjF6EZDq95835zanc8z/MI lg== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3rs6wb8401-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 11 Jul 2023 14:33:09 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 07BD5100058;
+        Tue, 11 Jul 2023 14:33:09 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 83998222CB6;
+        Tue, 11 Jul 2023 14:33:08 +0200 (CEST)
+Received: from localhost (10.129.178.213) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Tue, 11 Jul
+ 2023 14:33:08 +0200
+From:   Alain Volmat <alain.volmat@foss.st.com>
+To:     Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Sylvain Petinot <sylvain.petinot@foss.st.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dikshita Agarwal <dikshita@qti.qualcomm.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Mansur Alisha Shaik <mansur@codeaurora.org>,
-        Jonathan Marek <jonathan@marek.ca>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        stable@vger.kernel.org
-References: <20230228-topic-venus-v4-0-feebb2f6e9b8@linaro.org>
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20230228-topic-venus-v4-0-feebb2f6e9b8@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
+        Hugues Fruchet <hugues.fruchet@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>
+CC:     <alain.volmat@foss.st.com>, <linux-media@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>
+Subject: [PATCH 0/2] media: stm32: correct s_stream calls in dcmi & st-mipid02
+Date:   Tue, 11 Jul 2023 14:32:08 +0200
+Message-ID: <20230711123211.794838-1-alain.volmat@foss.st.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.129.178.213]
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-11_06,2023-07-11_01,2023-05-22_02
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 30.05.2023 14:30, Konrad Dybcio wrote:
-> v3 -> v4:
-> - Rebase on Stanimir's venus-for-next-v6.5
-> - Collapse 2 identical if-statements in "Sanitize venus_boot_core()
->   per-VPU-version"
-> - Reword "Assign registers based on VPU version"
-> - Check for IS_IRIS2_1() instead of wrongly checking for core->use_tz,
->   update commit msg in "media: venus: firmware: Correct IS_V6() checks"
-> - Access correct struct fields in "Use newly-introduced
->   hfi_buffer_requirements accessors", drop Bryan's r-b
-Stan,
+Currently the stm32 dcmi driver is calling s_stream to all subdevs until
+reaching the sensor subdev.  This serie corrects this by having a subdev
+only calling s_stream on its source subdev.
 
-could you please pick this up?
+Alain Volmat (2):
+  media: i2c: st_mipid02: cascade s_stream call to the source subdev
+  media: stm32: dcmi: only call s_stream on the source subdev
 
-Konrad
-> 
-> v3: https://lore.kernel.org/r/20230228-topic-venus-v3-0-6092ae43b58f@linaro.org
-> 
-> v2 -> v3:
-> - Rephrase "Write to VIDC_CTRL_INIT after unmasking interrupts" commit msg
-> - Drop "Remap bufreq fields on HFI6XX"
-> - Rephrase "Introduce VPU version distinction" commit msg
-> - Better explain "Leave a clue for homegrown porters"
-> - Drop incorrect fixes tags/rephrase version check alternations
-> - Drop AR50L/IRIS1 from if-conditions, they'll be introduced separately
-> - pick up tags
-> - rebase on next-20230517 (no effective changes)
-> 
-> v2: https://lore.kernel.org/r/20230228-topic-venus-v2-0-d95d14949c79@linaro.org
-> 
-> v1 -> v2:
-> - Move "Write to VIDC_CTRL_INIT after unmasking interrupts" up and add
->   a Fixes tag & Cc stable
-> - Reword the comment in "Correct IS_V6() checks"
-> - Move up "media: venus: Remap bufreq fields on HFI6XX", add Fixes and
->   Cc stable
-> - Use better English in "Use newly-introduced hfi_buffer_requirements
->   accessors" commit message
-> - Mention "Restrict writing SCIACMDARG3 to Venus V1/V2" doesn't seem to
->   regress SM8250 in the commit message
-> - Pick up tags (note: I capitalized the R in Dikshita's 'reviewed-by'
->   and removed one occurrence of random '**' to make sure review tools
->   like b4 don't go crazy)
-> - Handle AR50_LITE in "Assign registers based on VPU version"
-> - Drop /* VPUn */ comments, they're invalid as explained by Vikash
-> - Take a different approach to the sys_idle problem in patch 1
-> 
-> v1: https://lore.kernel.org/r/20230228-topic-venus-v1-0-58c2c88384e9@linaro.org
-> 
-> Currently upstream assumes all (well, almost all - see 7280 or CrOS
-> specific checks) Venus implementations using the same version of the
-> Hardware Firmware Interface can be treated the same way. This is
-> however not the case.
-> 
-> This series tries to introduce the groundwork to start differentiating
-> them based on the VPU (Video Processing Unit) hardware type, fixes a
-> couple of issues that were an effect of that generalized assumption
-> and lays the foundation for supporting 8150 (IRIS1) and SM6115/QCM2290
-> (AR50 Lite), which will hopefully come soon.
-> 
-> Tested on 8250, but pretty please test it on your boards too!
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> ---
-> Konrad Dybcio (17):
->       media: venus: hfi_venus: Only consider sys_idle_indicator on V1
->       media: venus: hfi_venus: Write to VIDC_CTRL_INIT after unmasking interrupts
->       media: venus: Introduce VPU version distinction
->       media: venus: Add vpu_version to most SoCs
->       media: venus: firmware: Leave a clue about obtaining CP VARs
->       media: venus: hfi_venus: Sanitize venus_boot_core() per-VPU-version
->       media: venus: core: Assign registers based on VPU version
->       media: venus: hfi_venus: Sanitize venus_halt_axi() per-VPU-version
->       media: venus: hfi_venus: Sanitize venus_isr() per-VPU-version
->       media: venus: hfi_venus: Sanitize venus_cpu_and_video_core_idle() per-VPU-version
->       media: venus: hfi_venus: Sanitize venus_cpu_idle_and_pc_ready() per-VPU-version
->       media: venus: firmware: Sanitize per-VPU-version
->       media: venus: hfi_platform: Check vpu_version instead of device compatible
->       media: venus: vdec: Sanitize vdec_set_work_route() per-VPU-version
->       media: venus: Introduce accessors for remapped hfi_buffer_reqs members
->       media: venus: Use newly-introduced hfi_buffer_requirements accessors
->       media: venus: hfi_venus: Restrict writing SCIACMDARG3 to Venus V1/V2
-> 
->  drivers/media/platform/qcom/venus/core.c           |  7 ++-
->  drivers/media/platform/qcom/venus/core.h           | 15 ++++++
->  drivers/media/platform/qcom/venus/firmware.c       | 18 +++++--
->  drivers/media/platform/qcom/venus/helpers.c        |  7 +--
->  drivers/media/platform/qcom/venus/hfi_helper.h     | 61 +++++++++++++++++++---
->  drivers/media/platform/qcom/venus/hfi_msgs.c       |  2 +-
->  .../media/platform/qcom/venus/hfi_plat_bufs_v6.c   | 22 ++++----
->  drivers/media/platform/qcom/venus/hfi_platform.c   |  2 +-
->  drivers/media/platform/qcom/venus/hfi_venus.c      | 42 +++++++--------
->  drivers/media/platform/qcom/venus/vdec.c           | 10 ++--
->  drivers/media/platform/qcom/venus/vdec_ctrls.c     |  2 +-
->  drivers/media/platform/qcom/venus/venc.c           |  4 +-
->  drivers/media/platform/qcom/venus/venc_ctrls.c     |  2 +-
->  13 files changed, 133 insertions(+), 61 deletions(-)
-> ---
-> base-commit: 9f9f8ca6f012d25428f8605cb36369a449db8508
-> change-id: 20230228-topic-venus-70ea3bc76688
-> 
-> Best regards,
+ drivers/media/i2c/st-mipid02.c               | 11 ++++
+ drivers/media/platform/st/stm32/stm32-dcmi.c | 63 +++++---------------
+ 2 files changed, 25 insertions(+), 49 deletions(-)
+
+-- 
+2.25.1
+
