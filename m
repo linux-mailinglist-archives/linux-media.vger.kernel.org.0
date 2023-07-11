@@ -2,113 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 591FD74F13F
-	for <lists+linux-media@lfdr.de>; Tue, 11 Jul 2023 16:09:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E31E274F291
+	for <lists+linux-media@lfdr.de>; Tue, 11 Jul 2023 16:47:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233379AbjGKOJc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 11 Jul 2023 10:09:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47624 "EHLO
+        id S232537AbjGKOr4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 11 Jul 2023 10:47:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233346AbjGKOJb (ORCPT
+        with ESMTP id S230391AbjGKOrz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 11 Jul 2023 10:09:31 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7102F10CA;
-        Tue, 11 Jul 2023 07:09:30 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0390D61516;
-        Tue, 11 Jul 2023 14:09:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62AA9C433CB;
-        Tue, 11 Jul 2023 14:09:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689084569;
-        bh=wPU4WgrILHi9+5F2DlhzPw9Lp0u+27HoJUb3pFKm1oY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=RCuZZ7PXyIN3eOhGs1bf0ErA04156k9Ond9Tt1No7pzS2UVgv5CBkmePw7dDii6xn
-         J+DCbc98kpLrJqwFB9eR8mRpuIIiv7GlvBdbOQSS6FXDOyaeNGkDbF+EK2HrNdroeL
-         D3KHqS3rFWHxUf3cDYoUyolysl/c+Ve4O9pASw++RfxReTh2WliugG/VTRBisxonnx
-         TKxvWb75v4UOiVV8SVOwlp3RzLjpAAvSm7StvrDY1aRrGuuB9EjiuSf595RzfBUyVA
-         TsBCOrEZpdVEIhmZzsL0gqiyax+JdDihy3MfT/FLDVFl826dFDBdqWylF3LT9Vh+PG
-         Nu0EUC32hDt3A==
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2b6fdaf6eefso89775321fa.0;
-        Tue, 11 Jul 2023 07:09:29 -0700 (PDT)
-X-Gm-Message-State: ABy/qLbzKUYjcCt4X5WCk9bi8saNLT2BGmI5+eHzt6gnAFobVXnFBQyn
-        Rtl+EXDN82d3L5oUfMGChWqbaOqSdKlw+1Ks5A==
-X-Google-Smtp-Source: APBJJlFEr5SnwtzLsObTkneUOhTe4Giozatn3QjuQu5+oxJvELnDikg/9hzm9xsBK89Dbapr0ULFsJF5oBzL6l5rJHE=
-X-Received: by 2002:a2e:7a04:0:b0:2b6:eb5a:6504 with SMTP id
- v4-20020a2e7a04000000b002b6eb5a6504mr13751911ljc.18.1689084567351; Tue, 11
- Jul 2023 07:09:27 -0700 (PDT)
+        Tue, 11 Jul 2023 10:47:55 -0400
+Received: from mailrelay6-1.pub.mailoutpod2-cph3.one.com (mailrelay6-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:405::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2C1010D2
+        for <linux-media@vger.kernel.org>; Tue, 11 Jul 2023 07:47:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ravnborg.org; s=rsa1;
+        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+         from:date:from;
+        bh=IzJnH7tearuxnA6Z+6SlVNN7/HpdHXO6OvjidkyffDc=;
+        b=t1UZoY+OgZB4qloOKAGoPzdxKiYC17C9++ltdd9VkKKSSJf/R5HyAsdaxr5chXo+LcqtCqMpEj2TA
+         b8Z7yF6JHKQOlU7blN+narui79FThKq8hj2VwanKmhandBBtpyfKAhsU889SFEdFbXrVkiKx3hcR7H
+         QKjso83LwxpCtsl1H23jeJIFNxLM2fJZpqpYaWgVJBzgpvhQLjm/hOp65N2Nj7rNyOZMvrxGPI6czh
+         YS0MtrmIYLsQmwRyf7YF8HR5nxe+n7cXTvsKENehLpNtWPbi2L0wAhskoQ5ZCvD2WrQtbyYxsEJ/AP
+         CUbin2WAzk67odxeRHKtnqDopCvMHJA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+        d=ravnborg.org; s=ed1;
+        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+         from:date:from;
+        bh=IzJnH7tearuxnA6Z+6SlVNN7/HpdHXO6OvjidkyffDc=;
+        b=KzzqHm8tLnuEHjgNWidySCjTk6o2+jW4abV9LJjbJcqDWTbuxi74O9whyYkZn2CXMR1EK8Adpr0Tp
+         1xeW/n7CQ==
+X-HalOne-ID: e4c9d52a-1ff9-11ee-be66-6f01c1d0a443
+Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
+        by mailrelay6 (Halon) with ESMTPSA
+        id e4c9d52a-1ff9-11ee-be66-6f01c1d0a443;
+        Tue, 11 Jul 2023 14:47:46 +0000 (UTC)
+Date:   Tue, 11 Jul 2023 16:47:44 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     deller@gmx.de, javierm@redhat.com, linux-fbdev@vger.kernel.org,
+        kvm@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-sh@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        linux-geode@lists.infradead.org, dri-devel@lists.freedesktop.org,
+        linux-input@vger.kernel.org, linux-nvidia@lists.surfsouth.com,
+        linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH 00/17] fbdev: Remove FBINFO_DEFAULT and
+ FBINFO_FLAG_DEFAULT flags
+Message-ID: <20230711144744.GA117276@ravnborg.org>
+References: <20230710130113.14563-1-tzimmermann@suse.de>
+ <20230710171903.GA14712@ravnborg.org>
+ <ab92f8d9-36ab-06bc-b85b-d52b7a1bfe9a@suse.de>
 MIME-Version: 1.0
-References: <20230707210646.868758-1-robh@kernel.org> <20230710-underling-angelfish-c47d363a59f5@spud>
- <CAL_Jsq+5mtgCAfFZOZTUjqFLW0DM5A6exD+PbznO71A8SDyyTA@mail.gmail.com> <20230710-octane-disarray-44b363c02f73@spud>
-In-Reply-To: <20230710-octane-disarray-44b363c02f73@spud>
-From:   Rob Herring <robh@kernel.org>
-Date:   Tue, 11 Jul 2023 08:09:14 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqLBTGeyJgCgPjQL1SdMc73=DBWRRmcsO6YXQkPSAAvWXQ@mail.gmail.com>
-Message-ID: <CAL_JsqLBTGeyJgCgPjQL1SdMc73=DBWRRmcsO6YXQkPSAAvWXQ@mail.gmail.com>
-Subject: Re: [PATCH] media: dt-bindings: Convert Omnivision OV7251 to DT schema
-To:     Conor Dooley <conor@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ab92f8d9-36ab-06bc-b85b-d52b7a1bfe9a@suse.de>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jul 10, 2023 at 12:20=E2=80=AFPM Conor Dooley <conor@kernel.org> wr=
-ote:
->
-> On Mon, Jul 10, 2023 at 12:03:38PM -0600, Rob Herring wrote:
-> > On Mon, Jul 10, 2023 at 11:57=E2=80=AFAM Conor Dooley <conor@kernel.org=
-> wrote:
-> > >
-> > > On Fri, Jul 07, 2023 at 03:06:46PM -0600, Rob Herring wrote:
-> > > > Convert the OmniVision OV7251 Image Sensor binding to DT schema for=
-mat.
-> > > >
-> > > > vddd-supply was listed as required, but the example and actual user
-> > > > don't have it. Also, the data brief says it has an internal regulat=
-or,
-> > > > so perhaps it is truly optional.
-> > >
-> > > ov7251.c:
-> > >         ov7251->core_regulator =3D devm_regulator_get(dev, "vddd");
-> > >         if (IS_ERR(ov7251->core_regulator)) {
-> > >                 dev_err(dev, "cannot get core regulator\n");
-> > >                 return PTR_ERR(ov7251->core_regulator);
-> > >         }
-> > >
-> > > Looks like the driver's probe function disagrees?
-> >
-> > Doesn't the regulator framework return a dummy regulator if missing?
->
-> Huh, I think I misunderstood how _regulator_get() worked. Apologies for
-> the noise, I thought it was returning an error when it used a dummy.
->
-> > > I was going to ask how it worked, but the one user has
-> > > status =3D "disabled"...
-> >
-> > Saw that too, but figured there's some other include with that
-> > overridden. We should really add a built .dts output target to avoid
-> > trying to manually walk includes.
->
-> Probably gonna sound like an eejit, but the user is in a dts - can an
-> include overwrite that status?
+Hi Thomas,
 
-Yes, sometimes .dts files are both built into a dtb and included. Say
-you have a board with and without an optional camera sensor.
+On Tue, Jul 11, 2023 at 08:24:40AM +0200, Thomas Zimmermann wrote:
+> Hi Sam
+> 
+> Am 10.07.23 um 19:19 schrieb Sam Ravnborg:
+> > Hi Thomas,
+> > 
+> > On Mon, Jul 10, 2023 at 02:50:04PM +0200, Thomas Zimmermann wrote:
+> > > Remove the unused flags FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT from
+> > > fbdev and drivers, as briefly discussed at [1]. Both flags were maybe
+> > > useful when fbdev had special handling for driver modules. With
+> > > commit 376b3ff54c9a ("fbdev: Nuke FBINFO_MODULE"), they are both 0
+> > > and have no further effect.
+> > > 
+> > > Patches 1 to 7 remove FBINFO_DEFAULT from drivers. Patches 2 to 5
+> > > split this by the way the fb_info struct is being allocated. All flags
+> > > are cleared to zero during the allocation.
+> > > 
+> > > Patches 8 to 16 do the same for FBINFO_FLAG_DEFAULT. Patch 8 fixes
+> > > an actual bug in how arch/sh uses the tokne for struct fb_videomode,
+> > > which is unrelated.
+> > > 
+> > > Patch 17 removes both flag constants from <linux/fb.h>
+> > 
+> > We have a few more flags that are unused - should they be nuked too?
+> > FBINFO_HWACCEL_FILLRECT
+> > FBINFO_HWACCEL_ROTATE
+> > FBINFO_HWACCEL_XPAN
+> 
+> It seems those are there for completeness. Nothing sets _ROTATE, the others
+> are simply never checked. According to the comments, some are required, some
+> are optional. I don't know what that means.
+> 
+> IIRC there were complains about performance when Daniel tried to remove
+> fbcon acceleration, so not all _HWACCEL_ flags are unneeded.
+> 
+> Leaving them in for reference/completeness might be an option; or not. I
+> have no strong feelings about those flags.
+> 
+> > 
+> > Unused as in no references from fbdev/core/*
+> > 
+> > I would rather see one series nuke all unused FBINFO flags in one go.
+> > Assuming my quick grep are right and the above can be dropped.
+> 
+> I would not want to extend this series. I'm removing _DEFAULT as it's
+> absolutely pointless and confusing.
 
-Rob
+OK, makes sense and thanks for the explanation.
+
+The series is:
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
