@@ -2,89 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F84A75044C
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jul 2023 12:20:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4CDE750428
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jul 2023 12:12:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232890AbjGLKUU convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 12 Jul 2023 06:20:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43220 "EHLO
+        id S232520AbjGLKMJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Jul 2023 06:12:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232476AbjGLKUP (ORCPT
+        with ESMTP id S231615AbjGLKMI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jul 2023 06:20:15 -0400
-X-Greylist: delayed 1202 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 12 Jul 2023 03:20:14 PDT
-Received: from hygieia.sysophe.eu (hygieia.sysophe.eu [138.201.91.14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0588B4;
-        Wed, 12 Jul 2023 03:20:14 -0700 (PDT)
-Received: from hemera.lan.sysophe.eu (unknown [IPv6:2001:a18:2c5:a501:fa75:a4ff:fe28:fe3a])
-        by smtp.sysophe.eu (Postfix) with ESMTPSA id 1A675260A610;
-        Wed, 12 Jul 2023 11:43:42 +0200 (CEST)
-Date:   Wed, 12 Jul 2023 11:43:35 +0200
-From:   Bruno =?UTF-8?B?UHLDqW1vbnQ=?= <bonbons@linux-vserver.org>
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     deller@gmx.de, javierm@redhat.com, linux-sh@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org,
-        linux-geode@lists.infradead.org, linux-nvidia@lists.surfsouth.com,
-        linux-hyperv@vger.kernel.org, linux-omap@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: Re: [PATCH 10/17] hid/picolcd: Remove flag FBINFO_FLAG_DEFAULT from
- fbdev driver
-Message-ID: <20230712114335.42644eab@hemera.lan.sysophe.eu>
-In-Reply-To: <20230710130113.14563-11-tzimmermann@suse.de>
-References: <20230710130113.14563-1-tzimmermann@suse.de>
- <20230710130113.14563-11-tzimmermann@suse.de>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-pc-linux-gnu)
+        Wed, 12 Jul 2023 06:12:08 -0400
+Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3FB01991;
+        Wed, 12 Jul 2023 03:12:06 -0700 (PDT)
+Received: from [141.14.220.45] (g45.guest.molgen.mpg.de [141.14.220.45])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        (Authenticated sender: pmenzel)
+        by mx.molgen.mpg.de (Postfix) with ESMTPSA id 053DF61E5FE01;
+        Wed, 12 Jul 2023 12:09:16 +0200 (CEST)
+Message-ID: <461f3b88-87e6-32f2-3ed8-5764a9a6e162@molgen.mpg.de>
+Date:   Wed, 12 Jul 2023 12:09:15 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_NEUTRAL,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] media: aspeed: Fix memory overwrite if timing is 1600x900
+Content-Language: en-US
+To:     Jammy Huang <jammy_huang@aspeedtech.com>
+References: <20230712092606.2508-1-jammy_huang@aspeedtech.com>
+Cc:     eajames@linux.ibm.com, mchehab@kernel.org, joel@jms.id.au,
+        andrew@aj.id.au, linux-media@vger.kernel.org,
+        openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+From:   Paul Menzel <pmenzel@molgen.mpg.de>
+In-Reply-To: <20230712092606.2508-1-jammy_huang@aspeedtech.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 10 Jul 2023 14:50:14 +0200 Thomas Zimmermann wrote:
-> The flag FBINFO_FLAG_DEFAULT is 0 and has no effect, as struct
-> fbinfo.flags has been allocated to zero by framebuffer_alloc(). So do
-> not set it.
+Dear Jammy,
+
+
+Thank you very much for your patch.
+
+Am 12.07.23 um 11:26 schrieb Jammy Huang:
+> When capturing 1600x900, system could crash when system memory usage is
+> tight.
+
+Please provide part of the trace, and if you have a commend to reproduce 
+it, please also add it. Is it documented somewhere, that it needs to be 
+aligned?
+
+> The size of macro block captured is 8x8. Therefore, we should make sure
+> the height of src-buf is 8 aligned to fix this issue.
 > 
-> Flags should signal differences from the default values. After cleaning
-> up all occurences of FBINFO_FLAG_DEFAULT, the token can be removed.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: "Bruno Prémont" <bonbons@linux-vserver.org>
-> Cc: Jiri Kosina <jikos@kernel.org>
-> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-
-Acked-by: Bruno Prémont <bonbons@linux-vserver.org>
-
-Cheers,
-Bruno
-
-
+> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
 > ---
->  drivers/hid/hid-picolcd_fb.c | 1 -
->  1 file changed, 1 deletion(-)
+>   drivers/media/platform/aspeed/aspeed-video.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/hid/hid-picolcd_fb.c b/drivers/hid/hid-picolcd_fb.c
-> index dabcd054dad9..d726aaafb146 100644
-> --- a/drivers/hid/hid-picolcd_fb.c
-> +++ b/drivers/hid/hid-picolcd_fb.c
-> @@ -527,7 +527,6 @@ int picolcd_init_framebuffer(struct picolcd_data *data)
->  	info->var = picolcdfb_var;
->  	info->fix = picolcdfb_fix;
->  	info->fix.smem_len   = PICOLCDFB_SIZE*8;
-> -	info->flags = FBINFO_FLAG_DEFAULT;
->  
->  	fbdata = info->par;
->  	spin_lock_init(&fbdata->lock);
+> diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
+> index 374eb7781936..14594f55a77f 100644
+> --- a/drivers/media/platform/aspeed/aspeed-video.c
+> +++ b/drivers/media/platform/aspeed/aspeed-video.c
+> @@ -1130,7 +1130,7 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
+>   static void aspeed_video_set_resolution(struct aspeed_video *video)
+>   {
+>   	struct v4l2_bt_timings *act = &video->active_timings;
+> -	unsigned int size = act->width * act->height;
+> +	unsigned int size = act->width * ALIGN(act->height, 8);
+>   
+>   	/* Set capture/compression frame sizes */
+>   	aspeed_video_calc_compressed_size(video, size);
+> @@ -1147,7 +1147,7 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
+>   		u32 width = ALIGN(act->width, 64);
+>   
+>   		aspeed_video_write(video, VE_CAP_WINDOW, width << 16 | act->height);
+> -		size = width * act->height;
+> +		size = width * ALIGN(act->height, 8);
 
+Maybe add a comment.
+
+Excuse my ignorance, but as `width` is already 64 bit aligned, how does 
+aligning the second factor make a difference for `size`? Can you give an 
+example?
+
+>   	} else {
+>   		aspeed_video_write(video, VE_CAP_WINDOW,
+>   				   act->width << 16 | act->height);
+> 
+> base-commit: 2605e80d3438c77190f55b821c6575048c68268e
+
+
+Kind regards,
+
+Paul
