@@ -2,153 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC2F075030A
-	for <lists+linux-media@lfdr.de>; Wed, 12 Jul 2023 11:27:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7684775031F
+	for <lists+linux-media@lfdr.de>; Wed, 12 Jul 2023 11:31:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231472AbjGLJ1b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Jul 2023 05:27:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43654 "EHLO
+        id S233098AbjGLJbg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 12 Jul 2023 05:31:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232772AbjGLJ1a (ORCPT
+        with ESMTP id S233134AbjGLJbe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jul 2023 05:27:30 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB8EAFB
-        for <linux-media@vger.kernel.org>; Wed, 12 Jul 2023 02:27:28 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2AA0557E;
-        Wed, 12 Jul 2023 11:26:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1689153997;
-        bh=VQBawMs5v5Cuzb4i/VMoUE9m4V0htg8NIpT63e9XsZs=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=dQDcmI8XDRM7X+/DXAjS4ANroUKQ3Ye0CeHrQAq9YIegkTeeAvC8mB/fsukJdf5y4
-         mmlMjFIpLkSOGjw50Nd1iGbnfBPoFWVmag7dw9GjfVukMNiBHVb1WfZa7f6y/8XRrY
-         PyoYk3NjzKvmjQYTE+usR+qfQjBTIxz7JC6qXUoI=
-Content-Type: text/plain; charset="utf-8"
+        Wed, 12 Jul 2023 05:31:34 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79A5010CB
+        for <linux-media@vger.kernel.org>; Wed, 12 Jul 2023 02:31:33 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1b9e8e5b12dso19224725ad.3
+        for <linux-media@vger.kernel.org>; Wed, 12 Jul 2023 02:31:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1689154293; x=1691746293;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=bQnl72R0spsZYcBoI4wCFzcXmEugK/BYxGs2uCdUKEk=;
+        b=jmuQENJe+eL4GRUs6ocxCP5//2NiNoeXLcpRr+rdANFE3W/FMFVXeGBj/mQUViFiut
+         NpH6Km2WNEowdr78Y3Fq0hFNAjlxdjlbZFhnU2sRxjqKg5oSNJkzJ/PtptCHubDfCEor
+         gh4gPqiYmD/B/Pn/qnnIfAfwjSyFYYYdjMpSY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689154293; x=1691746293;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bQnl72R0spsZYcBoI4wCFzcXmEugK/BYxGs2uCdUKEk=;
+        b=WuRDjUonU3i7TvMfa3pEiwb+cDUp8VtCc+NPOY+nlFZZVGDPyPv5EEfZpia/TIXoQA
+         uWc3/hsfKmYcXbKdzOFeIIcW8MSGcA961JV13db9Fr8/t1/V8TzpZRtk0EG8PNJUsEqh
+         ICFK/T9r7EO+qsBGBn5fgLxA3Rv2sdG5xwalPCHRN7LyS3KwEAYjeWAN2YBT6TySpzY8
+         fFUpV6zNNf7iqPseYYFl1Z4wmftQmjLgm/3ga5EF3qr6T02aV8M3Hb+5QQg0PUnHDSIh
+         RQ/NnKxFXMGGF2RRlnQwEKtfJzoxxA+O5gMEwEbt4BOhBKcwXeglw+1bA3lm7fJTdDC7
+         rFIQ==
+X-Gm-Message-State: ABy/qLayhBLhjr4MqpkJjj0QtbLh87VP/TLTiJy4YlvLqmH5j6cIzJty
+        crvfHGo1yuHRtbR35RIIIFUycQ==
+X-Google-Smtp-Source: APBJJlGQEPSQ6x++5zBEdx2u4t29KGDmk7exY4cofJfXSbp3xcJjqBiDnyC/tLbze6OW/U/pGrFfzg==
+X-Received: by 2002:a17:902:b110:b0:1b6:76ee:190b with SMTP id q16-20020a170902b11000b001b676ee190bmr16031494plr.35.1689154292849;
+        Wed, 12 Jul 2023 02:31:32 -0700 (PDT)
+Received: from chromium.org (0.223.81.34.bc.googleusercontent.com. [34.81.223.0])
+        by smtp.gmail.com with ESMTPSA id b14-20020a170902b60e00b001ac591b0500sm3478696pls.134.2023.07.12.02.31.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Jul 2023 02:31:32 -0700 (PDT)
+Date:   Wed, 12 Jul 2023 09:31:29 +0000
+From:   Tomasz Figa <tfiga@chromium.org>
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Hsia-Jun Li <randy.li@synaptics.com>, linux-media@vger.kernel.org,
+        ayaka@soulik.info, hans.verkuil@cisco.com, mchehab@kernel.org,
+        laurent.pinchart@ideasonboard.com, hiroh@chromium.org,
+        hverkuil@xs4all.nl, linux-kernel@vger.kernel.org,
+        Sebastian Fricke <sebastian.fricke@collabora.com>
+Subject: Re: [PATCH 1/2] [RESEND] media: v4l2-mem2mem: allow device run
+ without buf
+Message-ID: <20230712093129.pdcbvlxd5zphwr5m@chromium.org>
+References: <20230704040044.681850-1-randy.li@synaptics.com>
+ <20230704040044.681850-2-randy.li@synaptics.com>
+ <20452e233a9a4b39b58139081d818d3b1454105a.camel@ndufresne.ca>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAJ+vNU111GKHpu4pkTUpgXCxV2iOQ-kQ4OL7mHgBRJ+3SX18PA@mail.gmail.com>
-References: <CAJ+vNU1xHpuFZjG5ySAkg9aPxxMsp581aA+bZzHqhp8c=QGpFg@mail.gmail.com> <CAHCN7xKy8gNz5V+9rdh-GhdYbEAsWpRbhNK-HD-C9D=BSO14+w@mail.gmail.com> <CAJ+vNU3gpU6ESBpn1n8+0KxRDOJGXQmZohkQ-iCULr6CVQKu4g@mail.gmail.com> <CAHCN7xJmSDsxUdazrKM8Qqk+tVRTW951hHL_cUgj-1YWEho4RA@mail.gmail.com> <CAJ+vNU1G0Z-4B9-42fgPFcO+ByA_s3Okpw-8ggcJP3a9+_j1-A@mail.gmail.com> <168911579461.688351.285047948246635641@Monstersaurus> <CAJ+vNU111GKHpu4pkTUpgXCxV2iOQ-kQ4OL7mHgBRJ+3SX18PA@mail.gmail.com>
-Subject: Re: imx8mp mipi csi camera overlay: Unable to retrieve endpoint for port@1
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Adam Ford <aford173@gmail.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linux ARM Mailing List <linux-arm-kernel@lists.infradead.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Sascha Hauer <kernel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Schrempf Frieder <frieder.schrempf@kontron.de>
-To:     Tim Harvey <tharvey@gateworks.com>
-Date:   Wed, 12 Jul 2023 10:27:23 +0100
-Message-ID: <168915404389.540247.12034155743376705581@Monstersaurus>
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20452e233a9a4b39b58139081d818d3b1454105a.camel@ndufresne.ca>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Tim Harvey (2023-07-12 00:45:10)
-> On Tue, Jul 11, 2023 at 3:49=E2=80=AFPM Kieran Bingham
-> <kieran.bingham@ideasonboard.com> wrote:
-> >
-> > Hi Tim,
-> >
+On Fri, Jul 07, 2023 at 03:14:23PM -0400, Nicolas Dufresne wrote:
+> Hi Randy,
+> 
+> Le mardi 04 juillet 2023 à 12:00 +0800, Hsia-Jun Li a écrit :
+> > From: Randy Li <ayaka@soulik.info>
+> > 
+> > For the decoder supports Dynamic Resolution Change,
+> > we don't need to allocate any CAPTURE or graphics buffer
+> > for them at inital CAPTURE setup step.
+> > 
+> > We need to make the device run or we can't get those
+> > metadata.
+> > 
+> > Signed-off-by: Randy Li <ayaka@soulik.info>
+> > ---
+> >  drivers/media/v4l2-core/v4l2-mem2mem.c | 5 +++--
+> >  1 file changed, 3 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
+> > index 0cc30397fbad..c771aba42015 100644
+> > --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
+> > +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
+> > @@ -301,8 +301,9 @@ static void __v4l2_m2m_try_queue(struct v4l2_m2m_dev *m2m_dev,
+> >  
+> >  	dprintk("Trying to schedule a job for m2m_ctx: %p\n", m2m_ctx);
+> >  
+> > -	if (!m2m_ctx->out_q_ctx.q.streaming
+> > -	    || !m2m_ctx->cap_q_ctx.q.streaming) {
+> > +	if (!(m2m_ctx->out_q_ctx.q.streaming || m2m_ctx->out_q_ctx.buffered)
+> > +	    || !(m2m_ctx->cap_q_ctx.q.streaming
+> > +		 || m2m_ctx->cap_q_ctx.buffered)) {
+> 
+> I have a two atches with similar goals in my wave5 tree. It will be easier to
+> upstream with an actual user, though, I'm probably a month or two away from
+> submitting this driver again.
+> 
+> https://gitlab.collabora.com/chipsnmedia/kernel/-/commit/ac59eafd5076c4deb3bfe1fb85b3b776586ef3eb
+> https://gitlab.collabora.com/chipsnmedia/kernel/-/commit/5de4fbe0abb20b8e8d862b654f93e3efeb1ef251
+> 
 
-<snip>
+While I'm not going to NAK this series or those 2 patches if you send
+them, I'm not really convinced that adding more and more complexity to
+the mem2mem helpers is a good idea, especially since all of those seem
+to be only needed by stateful video decoders.
 
-> > >
-> > > Hi Adam,
-> > >
-> > > Thanks, this helped point me in the right direction and proves the
-> > > video capture device works with v4l2.
-> > >
-> > > For the imx219 which can capture 640x480 raw 8bit bayer:
-> > > # configure media entities for 8-bit raw bayer 640x480
-> > > media-ctl -v -V "'imx219 3-0010':0 [fmt:SRGGB8/640x480 field:none]"
-> > > media-ctl -v -V "'crossbar':0 [fmt:SRGGB8/640x480 field:none]"
-> > > media-ctl -v -V "'mxc_isi.0':0 [fmt:SRGGB8/640x480 field:none]"
-> > > # configure for RGGB (8-bit bayer) 640x480
-> > > v4l2-ctl --device /dev/video0
-> > > --set-fmt-video=3Dwidth=3D640,height=3D480,pixelformat=3DRGGB --verbo=
-se
-> > > # capture a frame
-> > > v4l2-ctl --device /dev/video0 --stream-mmap --stream-to=3Dframe.raw
-> > > --stream-count=3D1
-> > > convert -size 640x480 -depth 8 gray:frame.raw frame.png # convert to =
-png
-> > > # stream to display
-> > > gst-launch-1.0 v4l2src ! \
-> > >       video/x-bayer,format=3Drggb,width=3D640,height=3D480,framerate=
-=3D10/1 ! \
-> > >       bayer2rgb ! fbdevsink
-> > >
-> >
-> > I would expect if that's all working then libcamera with the ISI
-> > pipeline handler would be able to handle all of the media-ctl
-> > configuration for you.
-> >
-> > You should be able to use this directly (without needing calls to media=
--ctl):
-> >
-> > gst-launch-1.0 libcamerasrc ! \
-> >         video/x-bayer,format=3Drggb,width=3D640,height=3D480 ! \
-> >         bayer2rgb ! fbdevsink
-> >
-> > in the same way.
-> >
-> > If it does work, I'd be interested to hear that, and if it doesn't -
-> > then lets fix it!
-> >
-> > Note I removed the framerate=3D10/1 as that's the part I would suspect
-> > might cause issues in the libcamerasrc. It's likely worth trying both
-> > with and without it.
->=20
-> Hi Kieran,
->=20
-> I've never looked into libcamera before but I love the idea of not
-> needing to deal with media-ctl pipelines. I don't see a libcamerasrc
+The mem2mem framework started as a set of helpers to eliminate boiler
+plate from simple drivers that always get 1 CAPTURE and 1 OUTPUT buffer,
+run 1 processing job on them and then return both of the to the userspace
+and I think it should stay like this.
 
-Indeed, that's one of the key points of libcamera - to handle all this
-complexity of routing, configuration, and format propogation for every
-platform on behalf of each application. (As well as manage any connected
-ISP).
+I think we're strongly in need of a stateful video decoder framework that
+would actually address the exact problems that those have rather than
+bending something that wasn't designed with them in mind to work around the
+differences.
 
-There's a few out of tree patches I believe, but it doesn't take much to
-get libcamera running the ISP on the i.MX8MP as well so then you can
-have hardware accelerated debayering and image processing too.
+Best regards,
+Tomasz
 
-
-> in gstreamer 1.20.3 which I'm using. A quick look at the libcamera
-> docs [1] seems to indicate building from source isn't necessary when
-> libcamera is installed but I've installed libcamera-tools/libcamera0
-> and there is still no libcamerasrc shown in gstreamer?
-
-libcamerasrc is currently built as part of the libcamera project, not
-gstreamer. I don't know what package libcamera-tools/libcamera0 refers
-to - but look to see if your distribution package the gstreamer
-component of libcamera separately. Once that's installed it should be
-available.
-
-Feel free to find us in the IRC/Matrix channels too if you get stuck for
-a realtime support channel to get things running.
-
---
-Kieran
-
-
->=20
-> best regards,
->=20
-> Tim
-> [1] https://libcamera.org/getting-started.html
+> Sebastien and I authored this without giving it much thought, but we believe
+> this massively simplify our handling of DRC (dynamic resolution change).
+> 
+> The main difference, is that we added ignore_streaming to the ctx, so that
+> drivers can opt-in the mode of operation. Thinking it would avoid any potential
+> side effects in drivers that aren't prepared to that. We didn't want to tied it
+> up to buffered, this is open to discussion of course, we do use buffered on both
+> queues and use a slightly more advance job_ready function, that take into
+> account our driver state.
+> 
+> In short, Sebastien and I agree this small change is the right direction, we
+> simply have a different implementation. I can send it as RFC if one believe its
+> would be useful now (even without a user).
+> 
+> >  		dprintk("Streaming needs to be on for both queues\n");
+> >  		return;
+> >  	}
+> 
