@@ -2,240 +2,245 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E1112751F19
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jul 2023 12:39:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80DBB752227
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jul 2023 15:03:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234174AbjGMKjV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jul 2023 06:39:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41488 "EHLO
+        id S234553AbjGMNDr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jul 2023 09:03:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234166AbjGMKjU (ORCPT
+        with ESMTP id S234069AbjGMNDo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Jul 2023 06:39:20 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 227DC1BFB
-        for <linux-media@vger.kernel.org>; Thu, 13 Jul 2023 03:39:18 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-6687096c6ddso350737b3a.0
-        for <linux-media@vger.kernel.org>; Thu, 13 Jul 2023 03:39:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1689244757; x=1691836757;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1RMUdRrYgBqgRdaOkRVx+gnbgFUNeS+s8UkiVmpAYVw=;
-        b=AMcR2tawYF7YHC3lExbXpSpIvXV7FEabeMgTGBRQhbvUaU8z8T3ybhrx+5IU2jSWja
-         VbnD5H9UPRmICfffgdQL4r4K2ngA9Rf6CbopwpfiTC/xO3rGxn2DV1bgzc9lIKHD034i
-         pGODfKic4v/r0oSrreLN4s3PbcS5q1dvIu32o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689244757; x=1691836757;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1RMUdRrYgBqgRdaOkRVx+gnbgFUNeS+s8UkiVmpAYVw=;
-        b=MQS0gqlXWiRELHAwU818LdkI8u4tgp5aN3XnwQXIjP11NQFR8KnWg+uInZhIFqech8
-         Z030fNrTvvNwwqM6AQIpV4aJt9zZJqORazy1ih0jybgFmJ7sWeZbF+NC6u3+pHJ+VJsc
-         WP/00SUFW0QvHh6QCFx51Ka3iCSYfJ4ijcjgREykcDujvZsr52SqlMdzG2gwfayMe4Hn
-         ruz8WOrg0346OlBL9JjF5Z/naXHBrdOLn+amhGVOO3zPCbyFZDk8oJfqjtlKva4oPtbO
-         gqy7KiE/WsYJvUq40YxxGuA0KJpLvOxjy6ZGJVDFp8KLbMC5bFLiNMPB5VbNfoCVWVCn
-         xSJw==
-X-Gm-Message-State: ABy/qLYrGM5gX1cEHIhZhJCuAH27V52RoM92Bc/OeE6mU0nT4bvmhxgl
-        U9otOQp5Cunoo5xo3GiCadVLug==
-X-Google-Smtp-Source: APBJJlGfYB8jCZQ4kYstrs+JEJ8tsTxcaqIq9sCmzpr7ZDgXZaRgds32Y6fBxMHNTEbTdym0bmt6zg==
-X-Received: by 2002:a05:6a00:189c:b0:63d:3339:e967 with SMTP id x28-20020a056a00189c00b0063d3339e967mr890139pfh.19.1689244757497;
-        Thu, 13 Jul 2023 03:39:17 -0700 (PDT)
-Received: from chromium.org (0.223.81.34.bc.googleusercontent.com. [34.81.223.0])
-        by smtp.gmail.com with ESMTPSA id bt19-20020a632913000000b0054ff075fb31sm5196261pgb.42.2023.07.13.03.39.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jul 2023 03:39:16 -0700 (PDT)
-Date:   Thu, 13 Jul 2023 10:39:12 +0000
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     ayaka <ayaka@soulik.info>
-Cc:     linux-media@vger.kernel.org, randy.li@synaptics.com,
-        Brian.Starkey@arm.com, boris.brezillon@collabora.com,
-        frkoenig@chromium.org, hans.verkuil@cisco.com, hiroh@chromium.org,
-        hverkuil@xs4all.nl, kernel@collabora.com,
-        laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org,
-        mchehab@kernel.org, narmstrong@baylibre.com, nicolas@ndufresne.ca,
-        sakari.ailus@iki.fi, stanimir.varbanov@linaro.org,
-        Helen Koike <helen.koike@collabora.com>
-Subject: Re: [PATCH v7 2/9] media: vivid: Convert to v4l2_ext_pix_format
-Message-ID: <20230713103912.favcnhqwjkzvsa6b@chromium.org>
-References: <20230206043308.28365-1-ayaka@soulik.info>
- <20230206043308.28365-3-ayaka@soulik.info>
+        Thu, 13 Jul 2023 09:03:44 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E6C9173B;
+        Thu, 13 Jul 2023 06:03:42 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 9550221D5A;
+        Thu, 13 Jul 2023 13:03:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1689253421; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=N67kus8L150iwAk6cmNTqy6XkNIgTnRqEe54TsDygpI=;
+        b=Xm0uu0VoNAnznojOCJHWRxuZ8jWAnPVvGr3I7nfDF5JPgc6a4f8t2d6acP9+A1DvfK+wVy
+        sqdChB7z1EWOXbY08AYKZ4qsKzII8hKTgwxEM+EEJZlz40bkKdCB3zn2umJVcvMSOmGT2z
+        948k89xorlN/VV9ANwqxCfHcfvnGfpE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1689253421;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=N67kus8L150iwAk6cmNTqy6XkNIgTnRqEe54TsDygpI=;
+        b=Uv+mmec0lIu+mxMNTxiVXmiIuROgLZECy4OsFJzomoWjltP2RfvpBN02QKZ9/KsNtNf4tF
+        822gSS0XJsgHlDAQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 403F613489;
+        Thu, 13 Jul 2023 13:03:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id fbbQDi32r2TVPgAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Thu, 13 Jul 2023 13:03:41 +0000
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+To:     deller@gmx.de, javierm@redhat.com
+Cc:     linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org,
+        linux-geode@lists.infradead.org, linux-nvidia@lists.surfsouth.com,
+        linux-hyperv@vger.kernel.org, linux-omap@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v2 00/18] fbdev: Remove FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT flags
+Date:   Thu, 13 Jul 2023 14:58:20 +0200
+Message-ID: <20230713130338.31086-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230206043308.28365-3-ayaka@soulik.info>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Feb 06, 2023 at 12:33:01PM +0800, ayaka wrote:
-> From: Helen Koike <helen.koike@collabora.com>
-> 
-> Simplify Multi/Single planer API handling by converting to v4l2_ext_pix_format.
-> 
-> Duplicate v4l2_ioctl_ops for touch devices. This is done to force the
-> framework to use the ext hooks when the classic Api is used from
-> userspace in Vid devices, and to keep touch devices with classic hook.
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> ---
-> Changes in v7:
-> - Force the userspace using the new APIs to operate non-touch drivers.
+Remove the unused flags FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT from
+fbdev and drivers, as briefly discussed at [1]. Both flags were maybe
+useful when fbdev had special handling for driver modules. With
+commit 376b3ff54c9a ("fbdev: Nuke FBINFO_MODULE"), they are both 0
+and have no further effect.
 
-The primary objective of Linux development is not to break the
-userspace. We can't just remove the old API, especially not from
-existing drivers.
+Patches 1 to 7 remove FBINFO_DEFAULT from drivers. Patches 2 to 5
+split this by the way the fb_info struct is being allocated. All flags
+are cleared to zero during the allocation.
 
-[snip]
->  int vivid_try_fmt_vid_cap(struct file *file, void *priv,
-> -			struct v4l2_format *f)
-> +			  struct v4l2_ext_pix_format *f)
->  {
-> -	struct v4l2_pix_format_mplane *mp = &f->fmt.pix_mp;
-> -	struct v4l2_plane_pix_format *pfmt = mp->plane_fmt;
->  	struct vivid_dev *dev = video_drvdata(file);
-> +	struct v4l2_plane_pix_format *pfmt = f->plane_fmt;
->  	const struct vivid_fmt *fmt;
->  	unsigned bytesperline, max_bpl;
->  	unsigned factor = 1;
->  	unsigned w, h;
->  	unsigned p;
-> -	bool user_set_csc = !!(mp->flags & V4L2_PIX_FMT_FLAG_SET_CSC);
+Patches 8 to 16 do the same for FBINFO_FLAG_DEFAULT. Patch 8 fixes
+an actual bug in how arch/sh uses the tokne for struct fb_videomode,
+which is unrelated.
 
-Why is this condition being removed?
+Patch 17 removes both flag constants from <linux/fb.h> and patch 18
+documents the zero'ed memory returned by framebuffer_alloc().
 
-Best regards,
-Tomasz
+v2:
+	* sh: use FB_MODE_IS_UNKNOWN (Adrian)
+	* fix commit messages (Miguel)
+	* document framebuffer_alloc()'s zero'ed memory (Miguel)
 
->  
-> -	fmt = vivid_get_format(dev, mp->pixelformat);
-> +	fmt = vivid_get_format(dev, f->pixelformat);
->  	if (!fmt) {
->  		dprintk(dev, 1, "Fourcc format (0x%08x) unknown.\n",
-> -			mp->pixelformat);
-> -		mp->pixelformat = V4L2_PIX_FMT_YUYV;
-> -		fmt = vivid_get_format(dev, mp->pixelformat);
-> +			f->pixelformat);
-> +		f->pixelformat = V4L2_PIX_FMT_YUYV;
-> +		fmt = vivid_get_format(dev, f->pixelformat);
->  	}
->  
-> -	mp->field = vivid_field_cap(dev, mp->field);
-> +	f->field = vivid_field_cap(dev, f->field);
->  	if (vivid_is_webcam(dev)) {
->  		const struct v4l2_frmsize_discrete *sz =
->  			v4l2_find_nearest_size(webcam_sizes,
->  					       VIVID_WEBCAM_SIZES, width,
-> -					       height, mp->width, mp->height);
-> +					       height, f->width, f->height);
->  
->  		w = sz->width;
->  		h = sz->height;
-> @@ -604,14 +603,14 @@ int vivid_try_fmt_vid_cap(struct file *file, void *priv,
->  		w = dev->src_rect.width;
->  		h = dev->src_rect.height;
->  	}
-> -	if (V4L2_FIELD_HAS_T_OR_B(mp->field))
-> +	if (V4L2_FIELD_HAS_T_OR_B(f->field))
->  		factor = 2;
->  	if (vivid_is_webcam(dev) ||
->  	    (!dev->has_scaler_cap && !dev->has_crop_cap && !dev->has_compose_cap)) {
-> -		mp->width = w;
-> -		mp->height = h / factor;
-> +		f->width = w;
-> +		f->height = h / factor;
->  	} else {
-> -		struct v4l2_rect r = { 0, 0, mp->width, mp->height * factor };
-> +		struct v4l2_rect r = { 0, 0, f->width, f->height * factor };
->  
->  		v4l2_rect_set_min_size(&r, &vivid_min_rect);
->  		v4l2_rect_set_max_size(&r, &vivid_max_rect);
-> @@ -624,16 +623,15 @@ int vivid_try_fmt_vid_cap(struct file *file, void *priv,
->  		} else if (!dev->has_scaler_cap && !dev->has_crop_cap) {
->  			v4l2_rect_set_min_size(&r, &dev->src_rect);
->  		}
-> -		mp->width = r.width;
-> -		mp->height = r.height / factor;
-> +		f->width = r.width;
-> +		f->height = r.height / factor;
->  	}
->  
->  	/* This driver supports custom bytesperline values */
->  
-> -	mp->num_planes = fmt->buffers;
->  	for (p = 0; p < fmt->buffers; p++) {
->  		/* Calculate the minimum supported bytesperline value */
-> -		bytesperline = (mp->width * fmt->bit_depth[p]) >> 3;
-> +		bytesperline = (f->width * fmt->bit_depth[p]) >> 3;
->  		/* Calculate the maximum supported bytesperline value */
->  		max_bpl = (MAX_ZOOM * MAX_WIDTH * fmt->bit_depth[p]) >> 3;
->  
-> @@ -642,48 +640,49 @@ int vivid_try_fmt_vid_cap(struct file *file, void *priv,
->  		if (pfmt[p].bytesperline < bytesperline)
->  			pfmt[p].bytesperline = bytesperline;
->  
-> -		pfmt[p].sizeimage = (pfmt[p].bytesperline * mp->height) /
-> +		pfmt[p].sizeimage = (pfmt[p].bytesperline * f->height) /
->  				fmt->vdownsampling[p] + fmt->data_offset[p];
-> -
-> -		memset(pfmt[p].reserved, 0, sizeof(pfmt[p].reserved));
->  	}
-> +
-> +	if (p < VIDEO_MAX_PLANES)
-> +		pfmt[p].sizeimage = 0;
-> +
->  	for (p = fmt->buffers; p < fmt->planes; p++)
-> -		pfmt[0].sizeimage += (pfmt[0].bytesperline * mp->height *
-> +		pfmt[0].sizeimage += (pfmt[0].bytesperline * f->height *
->  			(fmt->bit_depth[p] / fmt->vdownsampling[p])) /
->  			(fmt->bit_depth[0] / fmt->vdownsampling[0]);
->  
-> -	if (!user_set_csc || !v4l2_is_colorspace_valid(mp->colorspace))
-> -		mp->colorspace = vivid_colorspace_cap(dev);
-> +	if (!v4l2_is_colorspace_valid(f->colorspace))
-> +		f->colorspace = vivid_colorspace_cap(dev);
->  
-> -	if (!user_set_csc || !v4l2_is_xfer_func_valid(mp->xfer_func))
-> -		mp->xfer_func = vivid_xfer_func_cap(dev);
-> +	if (!v4l2_is_xfer_func_valid(f->xfer_func))
-> +		f->xfer_func = vivid_xfer_func_cap(dev);
->  
->  	if (fmt->color_enc == TGP_COLOR_ENC_HSV) {
-> -		if (!user_set_csc || !v4l2_is_hsv_enc_valid(mp->hsv_enc))
-> -			mp->hsv_enc = vivid_hsv_enc_cap(dev);
-> +		if (!v4l2_is_hsv_enc_valid(f->hsv_enc))
-> +			f->hsv_enc = vivid_hsv_enc_cap(dev);
->  	} else if (fmt->color_enc == TGP_COLOR_ENC_YCBCR) {
-> -		if (!user_set_csc || !v4l2_is_ycbcr_enc_valid(mp->ycbcr_enc))
-> -			mp->ycbcr_enc = vivid_ycbcr_enc_cap(dev);
-> +		if (!v4l2_is_ycbcr_enc_valid(f->ycbcr_enc))
-> +			f->ycbcr_enc = vivid_ycbcr_enc_cap(dev);
->  	} else {
-> -		mp->ycbcr_enc = vivid_ycbcr_enc_cap(dev);
-> +		f->ycbcr_enc = vivid_ycbcr_enc_cap(dev);
->  	}
->  
->  	if (fmt->color_enc == TGP_COLOR_ENC_YCBCR ||
->  	    fmt->color_enc == TGP_COLOR_ENC_RGB) {
-> -		if (!user_set_csc || !v4l2_is_quant_valid(mp->quantization))
-> -			mp->quantization = vivid_quantization_cap(dev);
-> +		if (!v4l2_is_quant_valid(f->quantization))
-> +			f->quantization = vivid_quantization_cap(dev);
->  	} else {
-> -		mp->quantization = vivid_quantization_cap(dev);
-> +		f->quantization = vivid_quantization_cap(dev);
->  	}
->  
-> -	memset(mp->reserved, 0, sizeof(mp->reserved));
-> +	memset(f->reserved, 0, sizeof(f->reserved));
->  	return 0;
->  }
-[snip]
+[1] https://lore.kernel.org/dri-devel/877crer8fm.fsf@minerva.mail-host-address-is-not-set/
+
+Thomas Zimmermann (18):
+  drm: Remove flag FBINFO_DEFAULT from fbdev emulation
+  fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
+  fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
+  fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
+  fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
+  fbdev/fsl-diu-fb: Remove flag FBINFO_DEFAULT
+  vfio-mdev: Remove flag FBINFO_DEFAULT from fbdev sample driver
+  sh: Assign FB_MODE_IS_UNKNOWN to struct fb_videomode.flag
+  auxdisplay: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
+  hid/picolcd: Remove flag FBINFO_FLAG_DEFAULT from fbdev driver
+  media: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
+  staging: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
+  fbdev: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
+  fbdev: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
+  fbdev/atafb: Remove flag FBINFO_FLAG_DEFAULT
+  fbdev/pxafb: Remove flag FBINFO_FLAG_DEFAULT
+  fbdev: Remove FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT
+  fbdev: Document that framebuffer_alloc() returns zero'ed data
+
+ arch/sh/boards/mach-sh7763rdp/setup.c          | 2 +-
+ drivers/auxdisplay/cfag12864bfb.c              | 1 -
+ drivers/auxdisplay/ht16k33.c                   | 1 -
+ drivers/gpu/drm/drm_fbdev_dma.c                | 1 -
+ drivers/gpu/drm/drm_fbdev_generic.c            | 1 -
+ drivers/gpu/drm/gma500/fbdev.c                 | 2 +-
+ drivers/gpu/drm/radeon/radeon_fbdev.c          | 2 +-
+ drivers/hid/hid-picolcd_fb.c                   | 1 -
+ drivers/media/pci/ivtv/ivtvfb.c                | 1 -
+ drivers/media/test-drivers/vivid/vivid-osd.c   | 1 -
+ drivers/staging/fbtft/fbtft-core.c             | 2 +-
+ drivers/staging/sm750fb/sm750.c                | 1 -
+ drivers/video/fbdev/68328fb.c                  | 2 +-
+ drivers/video/fbdev/acornfb.c                  | 2 +-
+ drivers/video/fbdev/amba-clcd.c                | 1 -
+ drivers/video/fbdev/amifb.c                    | 5 ++---
+ drivers/video/fbdev/arcfb.c                    | 1 -
+ drivers/video/fbdev/asiliantfb.c               | 1 -
+ drivers/video/fbdev/atafb.c                    | 1 -
+ drivers/video/fbdev/atmel_lcdfb.c              | 2 +-
+ drivers/video/fbdev/aty/aty128fb.c             | 1 -
+ drivers/video/fbdev/aty/atyfb_base.c           | 3 +--
+ drivers/video/fbdev/aty/radeon_base.c          | 3 +--
+ drivers/video/fbdev/broadsheetfb.c             | 2 +-
+ drivers/video/fbdev/bw2.c                      | 1 -
+ drivers/video/fbdev/carminefb.c                | 1 -
+ drivers/video/fbdev/cg14.c                     | 2 +-
+ drivers/video/fbdev/cg3.c                      | 1 -
+ drivers/video/fbdev/cg6.c                      | 2 +-
+ drivers/video/fbdev/chipsfb.c                  | 1 -
+ drivers/video/fbdev/cirrusfb.c                 | 3 +--
+ drivers/video/fbdev/clps711x-fb.c              | 1 -
+ drivers/video/fbdev/cobalt_lcdfb.c             | 1 -
+ drivers/video/fbdev/controlfb.c                | 2 +-
+ drivers/video/fbdev/core/fb_info.c             | 3 ++-
+ drivers/video/fbdev/cyber2000fb.c              | 2 +-
+ drivers/video/fbdev/da8xx-fb.c                 | 1 -
+ drivers/video/fbdev/efifb.c                    | 1 -
+ drivers/video/fbdev/ep93xx-fb.c                | 1 -
+ drivers/video/fbdev/ffb.c                      | 3 +--
+ drivers/video/fbdev/fm2fb.c                    | 1 -
+ drivers/video/fbdev/fsl-diu-fb.c               | 2 +-
+ drivers/video/fbdev/g364fb.c                   | 2 +-
+ drivers/video/fbdev/gbefb.c                    | 1 -
+ drivers/video/fbdev/geode/gx1fb_core.c         | 1 -
+ drivers/video/fbdev/geode/gxfb_core.c          | 1 -
+ drivers/video/fbdev/geode/lxfb_core.c          | 1 -
+ drivers/video/fbdev/goldfishfb.c               | 1 -
+ drivers/video/fbdev/grvga.c                    | 2 +-
+ drivers/video/fbdev/gxt4500.c                  | 3 +--
+ drivers/video/fbdev/hecubafb.c                 | 2 +-
+ drivers/video/fbdev/hgafb.c                    | 2 +-
+ drivers/video/fbdev/hitfb.c                    | 2 +-
+ drivers/video/fbdev/hpfb.c                     | 1 -
+ drivers/video/fbdev/hyperv_fb.c                | 2 --
+ drivers/video/fbdev/i740fb.c                   | 2 +-
+ drivers/video/fbdev/i810/i810_main.c           | 4 ++--
+ drivers/video/fbdev/imsttfb.c                  | 3 +--
+ drivers/video/fbdev/imxfb.c                    | 3 +--
+ drivers/video/fbdev/intelfb/intelfbdrv.c       | 5 ++---
+ drivers/video/fbdev/kyro/fbdev.c               | 1 -
+ drivers/video/fbdev/leo.c                      | 1 -
+ drivers/video/fbdev/macfb.c                    | 1 -
+ drivers/video/fbdev/matrox/matroxfb_crtc2.c    | 5 ++---
+ drivers/video/fbdev/maxinefb.c                 | 1 -
+ drivers/video/fbdev/mb862xx/mb862xxfbdrv.c     | 2 +-
+ drivers/video/fbdev/metronomefb.c              | 2 +-
+ drivers/video/fbdev/mmp/fb/mmpfb.c             | 2 +-
+ drivers/video/fbdev/mx3fb.c                    | 1 -
+ drivers/video/fbdev/neofb.c                    | 2 +-
+ drivers/video/fbdev/nvidia/nvidia.c            | 4 ++--
+ drivers/video/fbdev/offb.c                     | 2 +-
+ drivers/video/fbdev/omap/omapfb_main.c         | 1 -
+ drivers/video/fbdev/omap2/omapfb/omapfb-main.c | 1 -
+ drivers/video/fbdev/p9100.c                    | 1 -
+ drivers/video/fbdev/platinumfb.c               | 1 -
+ drivers/video/fbdev/pm2fb.c                    | 3 +--
+ drivers/video/fbdev/pm3fb.c                    | 3 +--
+ drivers/video/fbdev/pmag-aa-fb.c               | 1 -
+ drivers/video/fbdev/pmag-ba-fb.c               | 1 -
+ drivers/video/fbdev/pmagb-b-fb.c               | 1 -
+ drivers/video/fbdev/ps3fb.c                    | 2 +-
+ drivers/video/fbdev/pvr2fb.c                   | 2 +-
+ drivers/video/fbdev/pxa168fb.c                 | 2 +-
+ drivers/video/fbdev/pxafb.c                    | 2 --
+ drivers/video/fbdev/q40fb.c                    | 1 -
+ drivers/video/fbdev/riva/fbdev.c               | 3 +--
+ drivers/video/fbdev/s1d13xxxfb.c               | 4 ++--
+ drivers/video/fbdev/s3c-fb.c                   | 1 -
+ drivers/video/fbdev/sa1100fb.c                 | 1 -
+ drivers/video/fbdev/savage/savagefb_driver.c   | 3 +--
+ drivers/video/fbdev/sh_mobile_lcdcfb.c         | 2 --
+ drivers/video/fbdev/simplefb.c                 | 1 -
+ drivers/video/fbdev/sis/sis_main.c             | 5 +----
+ drivers/video/fbdev/skeletonfb.c               | 2 +-
+ drivers/video/fbdev/sm501fb.c                  | 2 +-
+ drivers/video/fbdev/sm712fb.c                  | 1 -
+ drivers/video/fbdev/smscufx.c                  | 2 +-
+ drivers/video/fbdev/sstfb.c                    | 1 -
+ drivers/video/fbdev/sunxvr1000.c               | 1 -
+ drivers/video/fbdev/sunxvr2500.c               | 1 -
+ drivers/video/fbdev/sunxvr500.c                | 1 -
+ drivers/video/fbdev/tcx.c                      | 1 -
+ drivers/video/fbdev/tdfxfb.c                   | 2 +-
+ drivers/video/fbdev/tgafb.c                    | 2 +-
+ drivers/video/fbdev/tridentfb.c                | 2 +-
+ drivers/video/fbdev/udlfb.c                    | 2 +-
+ drivers/video/fbdev/uvesafb.c                  | 3 +--
+ drivers/video/fbdev/valkyriefb.c               | 1 -
+ drivers/video/fbdev/vermilion/vermilion.c      | 2 +-
+ drivers/video/fbdev/vesafb.c                   | 2 +-
+ drivers/video/fbdev/vfb.c                      | 1 -
+ drivers/video/fbdev/vga16fb.c                  | 2 +-
+ drivers/video/fbdev/via/viafbdev.c             | 2 +-
+ drivers/video/fbdev/vt8500lcdfb.c              | 3 +--
+ drivers/video/fbdev/wm8505fb.c                 | 3 +--
+ drivers/video/fbdev/xen-fbfront.c              | 2 +-
+ drivers/video/fbdev/xilinxfb.c                 | 1 -
+ include/linux/fb.h                             | 3 ---
+ samples/vfio-mdev/mdpy-fb.c                    | 1 -
+ 120 files changed, 68 insertions(+), 151 deletions(-)
+
+-- 
+2.41.0
+
