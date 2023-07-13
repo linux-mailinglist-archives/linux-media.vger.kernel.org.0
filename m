@@ -2,83 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 37CED7516A5
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jul 2023 05:13:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F368751905
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jul 2023 08:47:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233441AbjGMDNs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 12 Jul 2023 23:13:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39712 "EHLO
+        id S234082AbjGMGrG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jul 2023 02:47:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229455AbjGMDNq (ORCPT
+        with ESMTP id S233703AbjGMGrF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 12 Jul 2023 23:13:46 -0400
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CC9B1BF0
-        for <linux-media@vger.kernel.org>; Wed, 12 Jul 2023 20:13:45 -0700 (PDT)
-Received: by mail-qk1-x736.google.com with SMTP id af79cd13be357-767b6d6bb87so17942685a.2
-        for <linux-media@vger.kernel.org>; Wed, 12 Jul 2023 20:13:45 -0700 (PDT)
+        Thu, 13 Jul 2023 02:47:05 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B49611BFA
+        for <linux-media@vger.kernel.org>; Wed, 12 Jul 2023 23:47:03 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-3fbca8935bfso2583855e9.3
+        for <linux-media@vger.kernel.org>; Wed, 12 Jul 2023 23:47:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1689218024; x=1691810024;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Kp01TNBK5W5j9juG4tQlzDEDUZGZwrwMeVA9No2lzd4=;
-        b=BNq85ZZgBzRCzoK/fYZAyElwbVfHkDV9HSaSoQR65ISukRWEoY4aipKyAL+JCHew65
-         6DvU+eI2XrB3URJuBnIGEutP5RHEIvNye95rZzDWb8Y3ne9emnyCE+3Txyn1SHOPHjbI
-         7R23DwCJ+Pqn52jG3VGUGRieHDV8zkLntW44Y=
+        d=linaro.org; s=google; t=1689230822; x=1691822822;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZDXRZ/E9io/51ukbLFISpRHZSMAt3CAsusimpt3aOJ0=;
+        b=Y2TgwIcpW0GqU2VbKjQAsG2KFmUQpWcwvXEXNuJ6lsWeayFiZTSrj4IfIO8+EYOCnK
+         Gs4WcbzE1N9+9N+NWfSBBg6lXMqgPqM/ozQXThnRdqmJxeeSYBRR9ZOhCfXjK1/ghD/C
+         2jIVuUHEKaFCH/bOzsQ6UPnvI9+ulKSXqSts/H0HyXZVcw6Jp03vv3oryA2uheQmnjee
+         4Wc9UkRZRCyyu3j41EcLtEtdMBtli0zmlF3xeIm1GV+mOLW1zNQGSeayCsr74Zkckh1N
+         h1FueLXrFBmE0SxjRIR8ZeG2h86TnAHvk3hwcA+ZUSaULVRORUuPbVWTClnVbgHMxsnt
+         OOGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689218024; x=1691810024;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Kp01TNBK5W5j9juG4tQlzDEDUZGZwrwMeVA9No2lzd4=;
-        b=DaLTRmm86sNZxHWdhgSRiHyq1V68vRcM3ZDAfYvqg9I73ZBzZ7/7BBOEeiVZzMk2rA
-         NVIj54KsD6pISbZo7gwEtDvAnQRBrZQAIK50WvSKTro0I1l3+C0eMPB/juri4RZnYETt
-         2qPfoS3c0GZyCneakjj5LPbnZDTO8woCpWF6R4yUgtfIkvYJj/1OG/4VGwvGfqJn1grC
-         1M/RfDetKnJvCZ3jQTt7nVt0e1JlRA8sxnOblbGXwpYzyT6sPVCWY1Ui6767QMx8uenO
-         vxQ9lGtVQKpcZ4QOl0EnC3SzZ8DnbYGEAZx/vzDNhCnOrFRvdqtMvH73h1hcfIJ7Aauy
-         3DaQ==
-X-Gm-Message-State: ABy/qLbbF9gRSE6yTZcE8+mSSk806Vyhj1qYOsvJ/KdKBrqK40OK+Y+w
-        a28V/6l89TUh7gB2fdJiEZsJEJSS1e1NL2IGZLHZ4ant
-X-Google-Smtp-Source: APBJJlEItL7oOEh04L9rcsGQbBPW7flDI+LLhm5S/cG7PN16AHgFOIZ752WrllzAGpz5A6ZEYVpI7A==
-X-Received: by 2002:a05:620a:458a:b0:767:2e5a:cc with SMTP id bp10-20020a05620a458a00b007672e5a00ccmr285031qkb.26.1689218023926;
-        Wed, 12 Jul 2023 20:13:43 -0700 (PDT)
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com. [209.85.222.174])
-        by smtp.gmail.com with ESMTPSA id h7-20020a05620a10a700b007677f66b160sm2610246qkk.124.2023.07.12.20.13.43
-        for <linux-media@vger.kernel.org>
+        d=1e100.net; s=20221208; t=1689230822; x=1691822822;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZDXRZ/E9io/51ukbLFISpRHZSMAt3CAsusimpt3aOJ0=;
+        b=gFAd+NnLawIn1mI5AoyKYQT29y/N3soCXuRXT8gcdpVk/CwmYoiIiK+1qXJsr7SYgG
+         np/SSmBiVfk/BUu9BJ5Ah48avK+79ezvSbi/B4PH+Vsjhej4G5pn7yhzHDS9hBc23BWC
+         vt/1yHc2cALxkybeGaYxZKDCEAmaQTtL05vfCohZNMYpyv/ldf3BpWQMcQA0GHicAp+u
+         p0GP/iN4yV9JZOjwGSNvKsfltV4uSbRN+LDBTN/hUzQYCbK5nGrwT9D6GhapvfFMYAuu
+         sCTdrtQvsYKyMrdWfC7w8PBm5fd0eUb0zxKMripOVJlCAi6kBrvjzQ4WRmXZey4hsW8s
+         onwg==
+X-Gm-Message-State: ABy/qLbzYfWmCad9v9Aw0T6FkM43KRd9UBl4znEBDDjzyiwOksDQMac6
+        +RKySZ1IfwNP+v8lnBsQRJmGNw==
+X-Google-Smtp-Source: APBJJlH81v8zuibmeCPcWRJ4UoBAP0+rpVBJJvKoujWGteihPBYQ8w1aAtLN/pbTLVkcmOj/G6M4mA==
+X-Received: by 2002:a5d:42cb:0:b0:311:142d:5d97 with SMTP id t11-20020a5d42cb000000b00311142d5d97mr604664wrr.31.1689230822204;
+        Wed, 12 Jul 2023 23:47:02 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.104])
+        by smtp.gmail.com with ESMTPSA id i16-20020adffdd0000000b0030fb4b55c13sm7005237wrs.96.2023.07.12.23.46.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Jul 2023 20:13:43 -0700 (PDT)
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-7673180224bso19421885a.0
-        for <linux-media@vger.kernel.org>; Wed, 12 Jul 2023 20:13:43 -0700 (PDT)
-X-Received: by 2002:a0c:c548:0:b0:634:7c34:6c96 with SMTP id
- y8-20020a0cc548000000b006347c346c96mr207235qvi.7.1689218022590; Wed, 12 Jul
- 2023 20:13:42 -0700 (PDT)
+        Wed, 12 Jul 2023 23:47:01 -0700 (PDT)
+Message-ID: <ce217ae6-6dd5-26ea-2ce7-95d97ef791c4@linaro.org>
+Date:   Thu, 13 Jul 2023 08:46:58 +0200
 MIME-Version: 1.0
-References: <20230704040044.681850-1-randy.li@synaptics.com>
- <20230704040044.681850-2-randy.li@synaptics.com> <20452e233a9a4b39b58139081d818d3b1454105a.camel@ndufresne.ca>
- <20230712093129.pdcbvlxd5zphwr5m@chromium.org> <20230712094426.iot6f4rarlrtouvf@basti-XPS-13-9310>
-In-Reply-To: <20230712094426.iot6f4rarlrtouvf@basti-XPS-13-9310>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Thu, 13 Jul 2023 12:13:32 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5DiB-i+YBt9E8Rh5ngJ9KVCjdjXStV4s-f-m-YdqeCOEQ@mail.gmail.com>
-Message-ID: <CAAFQd5DiB-i+YBt9E8Rh5ngJ9KVCjdjXStV4s-f-m-YdqeCOEQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] [RESEND] media: v4l2-mem2mem: allow device run
- without buf
-To:     Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Hsia-Jun Li <randy.li@synaptics.com>,
-        linux-media@vger.kernel.org, ayaka@soulik.info,
-        hans.verkuil@cisco.com, mchehab@kernel.org,
-        laurent.pinchart@ideasonboard.com, hiroh@chromium.org,
-        hverkuil@xs4all.nl, linux-kernel@vger.kernel.org,
-        mcasas@chromium.org, Steve Cho <stevecho@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        "wenst@chromium.org" <wenst@chromium.org>,
-        "nhebert@chromium.org" <nhebert@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 01/28] media: cec: ch7322: drop of_match_ptr for ID table
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Joe Tessler <jrt@google.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Wenyou Yang <wenyou.yang@microchip.com>,
+        Bin Liu <bin.liu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Patrice Chotard <patrice.chotard@foss.st.com>,
+        Yong Deng <yong.deng@magewell.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-rockchip@lists.infradead.org
+References: <20230312131318.351173-1-krzysztof.kozlowski@linaro.org>
+ <98a77653-ec58-56c4-9893-3b424f67c87e@linaro.org>
+ <5afcec8b-b8f6-35b0-278a-5de185e4a7a2@xs4all.nl>
+ <ZG9XJCD98VWjGjTN@valkosipuli.retiisi.eu>
+ <ZG9ger4WE2VWoVEF@valkosipuli.retiisi.eu>
+ <158425ec-86e8-ca3e-eed8-e14b37c42730@linaro.org>
+In-Reply-To: <158425ec-86e8-ca3e-eed8-e14b37c42730@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -87,134 +121,63 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jul 12, 2023 at 6:44=E2=80=AFPM Sebastian Fricke
-<sebastian.fricke@collabora.com> wrote:
->
-> Hey Tomasz,
->
-> On 12.07.2023 09:31, Tomasz Figa wrote:
-> >On Fri, Jul 07, 2023 at 03:14:23PM -0400, Nicolas Dufresne wrote:
-> >> Hi Randy,
-> >>
-> >> Le mardi 04 juillet 2023 =C3=A0 12:00 +0800, Hsia-Jun Li a =C3=A9crit =
-:
-> >> > From: Randy Li <ayaka@soulik.info>
-> >> >
-> >> > For the decoder supports Dynamic Resolution Change,
-> >> > we don't need to allocate any CAPTURE or graphics buffer
-> >> > for them at inital CAPTURE setup step.
-> >> >
-> >> > We need to make the device run or we can't get those
-> >> > metadata.
-> >> >
-> >> > Signed-off-by: Randy Li <ayaka@soulik.info>
-> >> > ---
-> >> >  drivers/media/v4l2-core/v4l2-mem2mem.c | 5 +++--
-> >> >  1 file changed, 3 insertions(+), 2 deletions(-)
-> >> >
-> >> > diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/=
-v4l2-core/v4l2-mem2mem.c
-> >> > index 0cc30397fbad..c771aba42015 100644
-> >> > --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-> >> > +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-> >> > @@ -301,8 +301,9 @@ static void __v4l2_m2m_try_queue(struct v4l2_m2m=
-_dev *m2m_dev,
-> >> >
-> >> >    dprintk("Trying to schedule a job for m2m_ctx: %p\n", m2m_ctx);
-> >> >
-> >> > -  if (!m2m_ctx->out_q_ctx.q.streaming
-> >> > -      || !m2m_ctx->cap_q_ctx.q.streaming) {
-> >> > +  if (!(m2m_ctx->out_q_ctx.q.streaming || m2m_ctx->out_q_ctx.buffer=
-ed)
-> >> > +      || !(m2m_ctx->cap_q_ctx.q.streaming
-> >> > +           || m2m_ctx->cap_q_ctx.buffered)) {
-> >>
-> >> I have a two atches with similar goals in my wave5 tree. It will be ea=
-sier to
-> >> upstream with an actual user, though, I'm probably a month or two away=
- from
-> >> submitting this driver again.
-> >>
-> >> https://gitlab.collabora.com/chipsnmedia/kernel/-/commit/ac59eafd5076c=
-4deb3bfe1fb85b3b776586ef3eb
-> >> https://gitlab.collabora.com/chipsnmedia/kernel/-/commit/5de4fbe0abb20=
-b8e8d862b654f93e3efeb1ef251
-> >>
-> >
-> >While I'm not going to NAK this series or those 2 patches if you send
-> >them, I'm not really convinced that adding more and more complexity to
-> >the mem2mem helpers is a good idea, especially since all of those seem
-> >to be only needed by stateful video decoders.
-> >
-> >The mem2mem framework started as a set of helpers to eliminate boiler
-> >plate from simple drivers that always get 1 CAPTURE and 1 OUTPUT buffer,
-> >run 1 processing job on them and then return both of the to the userspac=
-e
-> >and I think it should stay like this.
-> >
-> >I think we're strongly in need of a stateful video decoder framework tha=
-t
-> >would actually address the exact problems that those have rather than
-> >bending something that wasn't designed with them in mind to work around =
-the
-> >differences.
->
-> Thanks for the feedback.
->
-> I have recently discussed how we could approach creating a framework for
-> the codecs side, with Hans Verkuil and Nicolas Dufresne.
+On 19/06/2023 16:13, Krzysztof Kozlowski wrote:
+> On 25/05/2023 15:19, Sakari Ailus wrote:
+>> Hi folks,
+>>
+>> On Thu, May 25, 2023 at 03:40:04PM +0300, Sakari Ailus wrote:
+>>> Hi Hans,
+>>>
+>>> On Sat, May 13, 2023 at 11:57:33AM +0200, Hans Verkuil wrote:
+>>>> On 12/05/2023 18:35, Krzysztof Kozlowski wrote:
+>>>>> On 12/03/2023 14:12, Krzysztof Kozlowski wrote:
+>>>>>> The driver can match only via the DT table so the table should be always
+>>>>>> used and the of_match_ptr does not have any sense (this also allows ACPI
+>>>>>> matching via PRP0001, even though it might not be relevant here).
+>>>>>>
+>>>>>>   drivers/media/cec/i2c/ch7322.c:583:34: error: ‘ch7322_of_match’ defined but not used [-Werror=unused-const-variable=]
+>>>>>>
+>>>>>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>>>>>> ---
+>>>>>
+>>>>> Hans, Sakari,
+>>>>>
+>>>>> Can you pick up the patchset? There was positive feedback:
+>>>>> https://patchwork.linuxtv.org/project/linux-media/patch/20230312131318.351173-1-krzysztof.kozlowski@linaro.org/
+>>>>>
+>>>>> but it seems it was not applied.
+>>>>
+>>>> I see it is delegated to Sakari in patchwork and marked Under Review, but I don't
+>>>> see a corresponding pull request for this series.
+>>>>
+>>>> Sakari, did something go wrong?
+>>>
+>>> I spotted this as Hans notified me in IRC, I wasn't cc'd. Apologies for
+>>> this --- I intended to take these but I think I must have missed something
+>>> important in the process. I'll take them now.
+>>>
+>>> Thanks.
+>>
+>> This no longer applied cleanly. Mostly there was fuzz near .of_match_table
+>> changes as probe_new (and remove_new?) changes have been recently merged.
+>> There were other issues as well, I marked a few patches in the set "not
+>> applicable" as other patches had already done equivalent changes earlier.
+>>
+>> There were substance-changing changes in the 20th patch, replied to the
+>> disuccsion there.
+>>
+>> I've pushed the result here and intend to send PR to Mauro soon if there
+>> are no issues:
+>>
+>> <URL:https://git.linuxtv.org/sailus/media_tree.git/log/?h=of-match-ptr>
+> 
+> One month later, I still don't see this set in the linux-next.  What's
+> happening here?
+> 
 
-That's great to hear, thanks. :)
+I don't think this was merged in v6.5-rc1. It's not in linux-next,
+either. Another month passed...
 
->
-> The first step we would have to do is come up with a list of
-> requirements for that framework and expected future needs, maybe we can
-> start a public discussion on the mailing list to generate a list like
-> that.
+Best regards,
+Krzysztof
 
-Makes sense. Let me CC some ChromeOS folks working on video codec
-drivers these days.
-
-> But all in all this endeavor will probably require quite a bit of time
-> and effort, do you think we could modify M2M a bit for our use case and
-> then when we are in the process of creating the new framework, we could
-> maybe think about simplifying the M2M framework again?
-
-Sure, as I said, I'm not NAKing this series.
-
->
-> >
-> >Best regards,
-> >Tomasz
->
-> Greetings,
-> Sebastian
->
-> >
-> >> Sebastien and I authored this without giving it much thought, but we b=
-elieve
-> >> this massively simplify our handling of DRC (dynamic resolution change=
-).
-> >>
-> >> The main difference, is that we added ignore_streaming to the ctx, so =
-that
-> >> drivers can opt-in the mode of operation. Thinking it would avoid any =
-potential
-> >> side effects in drivers that aren't prepared to that. We didn't want t=
-o tied it
-> >> up to buffered, this is open to discussion of course, we do use buffer=
-ed on both
-> >> queues and use a slightly more advance job_ready function, that take i=
-nto
-> >> account our driver state.
-> >>
-> >> In short, Sebastien and I agree this small change is the right directi=
-on, we
-> >> simply have a different implementation. I can send it as RFC if one be=
-lieve its
-> >> would be useful now (even without a user).
-> >>
-> >> >            dprintk("Streaming needs to be on for both queues\n");
-> >> >            return;
-> >> >    }
-> >>
