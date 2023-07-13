@@ -2,102 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BA15752397
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jul 2023 15:23:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39A6D7523CD
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jul 2023 15:32:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235153AbjGMNXk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jul 2023 09:23:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56556 "EHLO
+        id S234545AbjGMNb6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jul 2023 09:31:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235287AbjGMNW7 (ORCPT
+        with ESMTP id S233465AbjGMNb5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Jul 2023 09:22:59 -0400
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BD1835A4;
-        Thu, 13 Jul 2023 06:21:55 -0700 (PDT)
-Received: by mail-oi1-x232.google.com with SMTP id 5614622812f47-3a3373211a1so599566b6e.0;
-        Thu, 13 Jul 2023 06:21:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689254505; x=1691846505;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nMl5dn5Xz12gXOMX3oC+kNdFlWhzCPfH45LFdGwDg+c=;
-        b=eshePJRxBGfoEbxv/HATy/LbMrzsCDpyAiPdPWKP2+7M1zJL3N5KwDGRakUw3RzP4p
-         q0Cnwz0fdaQ+HyxVhl+a/PdVIYgV40UvVYeo6oku2ew3IT0bTt6UYAHjOIS6Vb6t9Mla
-         Zj8EL/FlPFPvHB5g71aE7gFP3zFqlG9d7Fbu8m/nhV/T9INJD8alH0sgU2iXPleyzim5
-         lINS3JcD7J0TOIOFW4pf/x8/SEpIIASy3dTyyqXfKshxdSJS0TlF/u7bPTHA+oWf2AYl
-         SPCY6gZL7ykEOqi+bfIKlTKf4FRPiV/L6IcHOgev/4QAZK/gwKYWQ5RBFTfBsMThGpXg
-         EmsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689254505; x=1691846505;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nMl5dn5Xz12gXOMX3oC+kNdFlWhzCPfH45LFdGwDg+c=;
-        b=j83XsvWDS/59ZRtQNCcRAswIv16C/Ap9bYQ7j7wfNDDqZJGj+9X6PN0myKyTn4wU/i
-         y8lUrBbzN0IGkqFJIGn14itdBwejbJyGcz7lXonJZl1nmaadHFNEFCxwjdSooeEFarSt
-         I0VBTBUo3tKSKckSLv4oAgiPmUDwXMDtg0SWsjnciMEDu6D9tSVCAaimjZYd8ygMiWVn
-         MECXv/JlFjPyRMpIHomXKdSTxE+LEqSJsjSoGQhSW5+qEP9eCn97FpERdTAePvRLc7eQ
-         AIBcHvlK4CXCfHch8yENA+eInOM8R3OhlYuomglfXxtPR4OnRIBf1XICkzYjiANUcfZq
-         lfrQ==
-X-Gm-Message-State: ABy/qLYY6JcJ8DGyhX42Jaab91F5v99cEz0v9EICy2Nf3tor+kPCGGR2
-        URdZJuZIpI2Xxk5dU5zAEHUPOtkhGiETLimmigA=
-X-Google-Smtp-Source: APBJJlG+0WtfiM+r2sXZzO6HNFK4R91MA9ooy29hXDBdzlOr5q/1lWHuWptQzwph8RqHPwzWZYnIoYS2ozC9kDF6TM8=
-X-Received: by 2002:a05:6358:428e:b0:135:5934:2bba with SMTP id
- s14-20020a056358428e00b0013559342bbamr2356344rwc.8.1689254505432; Thu, 13 Jul
- 2023 06:21:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230713130338.31086-1-tzimmermann@suse.de> <20230713130338.31086-19-tzimmermann@suse.de>
-In-Reply-To: <20230713130338.31086-19-tzimmermann@suse.de>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Thu, 13 Jul 2023 15:21:34 +0200
-Message-ID: <CANiq72mbLmMKph8aiz4apNF9n3MtVO-nhM9rEWYApZbSVAO9Qw@mail.gmail.com>
-Subject: Re: [PATCH v2 18/18] fbdev: Document that framebuffer_alloc() returns
- zero'ed data
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     deller@gmx.de, javierm@redhat.com, linux-sh@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org,
-        linux-geode@lists.infradead.org, linux-nvidia@lists.surfsouth.com,
-        linux-hyperv@vger.kernel.org, linux-omap@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
-        Miguel Ojeda <ojeda@kernel.org>
+        Thu, 13 Jul 2023 09:31:57 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CD872721;
+        Thu, 13 Jul 2023 06:31:39 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:10:88d9::7a9])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nicolas)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 4590B6602B7B;
+        Thu, 13 Jul 2023 14:31:36 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1689255097;
+        bh=kDEUD709UYt0FjgiG/msV7myR0LpqdQLMgwbpdW2vWU=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=MsqC4KZJaLsbwjzlNs9FondR2rTs5Uer9WQqF6jh117t04M6NCA5h0LTL6O/Zlmvk
+         xzbP4jWlJLirMvS9Bm6NdM98TWjsBam1fx7oPzx7Jv0GQkU/m0LdKm8EhRXZZlX8dt
+         G+Hg3P9PFpKopraeY47HPne4T1WtbOH2bhYFdE4VMzygrD0aEC6FdvKmkiFeE/JmmJ
+         9hERdEOFoad1su/qEdOXb5M/KnOT2eK5qcYu7xmcCMAlVXxe46SoU0TYJqOXJuHR3V
+         rfuD5n9mzbFZorP0R8wyXTl5dDapFN5l/H0wt9Av+6FZey5745iCgTEF3/vOcM+daA
+         AR2kZ2YT49Ylg==
+Message-ID: <e10baa4d1b7b847b474a0836ca34b9b47098c8f1.camel@collabora.com>
+Subject: Re: [PATCH 0/3] media: mediatek: vcodec: Add driver to support 10bit
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Yunfei Dong =?UTF-8?Q?=28=E8=91=A3=E4=BA=91=E9=A3=9E=29?= 
+        <Yunfei.Dong@mediatek.com>,
+        "nhebert@chromium.org" <nhebert@chromium.org>,
+        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
+        "nfraprado@collabora.com" <nfraprado@collabora.com>,
+        "angelogioacchino.delregno@collabora.com" 
+        <angelogioacchino.delregno@collabora.com>,
+        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "frkoenig@chromium.org" <frkoenig@chromium.org>,
+        "stevecho@chromium.org" <stevecho@chromium.org>,
+        "wenst@chromium.org" <wenst@chromium.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "daniel@ffwll.ch" <daniel@ffwll.ch>,
+        Mingjia Zhang =?UTF-8?Q?=28=E5=BC=A0=E6=98=8E=E4=BD=B3=29?= 
+        <Mingjia.Zhang@mediatek.com>,
+        Project_Global_Chrome_Upstream_Group 
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+        "hsinyi@chromium.org" <hsinyi@chromium.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Date:   Thu, 13 Jul 2023 09:31:27 -0400
+In-Reply-To: <aa042d72211331e2752f6dfd552911a1315a3324.camel@mediatek.com>
+References: <20230711125749.15555-1-yunfei.dong@mediatek.com>
+         <af101e6831affc2e7152455ded1d779d38f1cb35.camel@collabora.com>
+         <aa042d72211331e2752f6dfd552911a1315a3324.camel@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+MIME-Version: 1.0
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jul 13, 2023 at 3:03=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse=
-.de> wrote:
->
-> Most fbdev drivers depend on framebuffer_alloc() to initialize the
-> allocated memory to 0. Document this guarantee.
->
-> Suggested-by: Miguel Ojeda <ojeda@kernel.org>
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Helge Deller <deller@gmx.de>
+Le mercredi 12 juillet 2023 =C3=A0 03:11 +0000, Yunfei Dong (=E8=91=A3=E4=
+=BA=91=E9=A3=9E) a =C3=A9crit=C2=A0:
+> > This cover letter is missing v4l2-compliance report. This is needed
+> > whenever
+> > format mechanism is modified in a driver (not just for new drivers).
+> > Please add
+> > and make sure there is not regression too.
+> >=20
+> Forgot to test v4l2-compliance, will add in next patch.
+>=20
+> The flush test not include H264 for test fail, according to mingjia's
+> information, maybe gstreamer set wrong format. H264 fluster can test
+> pass when kernel driver force h264 in raster mode.
 
-Thanks for sending this! Maybe this would be best earlier in the
-series, so that later patches make more sense (since they use the
-guarantee), but it is not a big deal.
+For everyone interested, I've rebased MT2110R and MT2110T support MR in
+GStreamer. With the offending "return -EINVAL" removed, the test passes for=
+ me.
+Consider updating your GStreamer build, let me know if you see further issu=
+e
+with GStreamer in this regard. I'm only missing a firmware with HEVC and 10=
+bit
+combined to confirm HEVC works too.
 
-> + * aligned to sizeof(long). Both, the instance of struct fb_info and
-> + * the driver private data, are cleared to zero.
+https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/3444
 
-I think both commas may be best omitted (but I am not a native speaker).
+cheer,
+Nicolas
 
-Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
-
-Cheers,
-Miguel
