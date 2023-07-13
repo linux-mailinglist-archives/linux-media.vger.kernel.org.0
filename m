@@ -2,346 +2,727 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 34C3F7524CB
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jul 2023 16:14:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DA1B75265C
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jul 2023 17:14:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234988AbjGMOOZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jul 2023 10:14:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60304 "EHLO
+        id S233471AbjGMPOK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jul 2023 11:14:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234885AbjGMOOW (ORCPT
+        with ESMTP id S233436AbjGMPOI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Jul 2023 10:14:22 -0400
-Received: from mx0a-0039f301.pphosted.com (mx0a-0039f301.pphosted.com [148.163.133.242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1901426B6;
-        Thu, 13 Jul 2023 07:14:15 -0700 (PDT)
-Received: from pps.filterd (m0174676.ppops.net [127.0.0.1])
-        by mx0a-0039f301.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36DE4auH012029;
-        Thu, 13 Jul 2023 14:13:30 GMT
-Received: from eur04-db3-obe.outbound.protection.outlook.com (mail-db3eur04lp2059.outbound.protection.outlook.com [104.47.12.59])
-        by mx0a-0039f301.pphosted.com (PPS) with ESMTPS id 3rtetvs3yb-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 13 Jul 2023 14:13:30 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Dl8hEhHMTD7P5Lp8WEbHMFMnv6FSYltVB1dFiXG50U32RHCbXn4HJVJ3Oi7tCrj+/TIKNZXtMFi2NUCNisWAMRb66ZIwJrGy7y2Iv7kj+1efJYwvilnlVXIVNefbCDt6wHOhP4GA6hf92lOHLUV+7D6m27j+kT4bAjm8GbqRQLXs0hMYMEw3byvF0NeHudfmdlsp+SqW3u0olz2leWh7oDajgxuql3H/glFUy0dXgjHhURK9l+tjb1e5WrbBKWkbiy80KY42DqZ1FkEmzB4JlCczWbFYXLd4gciw5EJ86ikZjwXuCuFrsC4uqtUMLT2y8VH2ML49p9miTvcbgsPi0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9k1Pkkz5L/JY71JXBrTOGYD9xue8eJo/4shjnusDS9k=;
- b=iFY4i+TaqjqaXJxDU4qDhO5bfhhvHP2thcIhA+Wh8SzfvAU/UF+8UM66uqO408ozBS9CRaypRKL+MU/9IzVx7bs7BAHamcBFOTQz21S7GLPczS0wMJW1nwr9x+jb/2wdICSZ2pIYmoumEuHSQjNaHycrfec2i1KpfkfsdXuZ61YGWNQPhpgJBLWH+FsPWCgzr1f3IJPK6l8fNii//IVyNzxmq4k5PvXMy9N0NxKSOj8QO85vW7VfWpuQG0689JFBPIt9i0PfrU3f+3CpC0C3YzNpqGa/EsM03QgFhY2Qx09sylpENRHI9J3T/SJp5okNkIF/OnXYuu4zDOlAR2tTRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=epam.com; dmarc=pass action=none header.from=epam.com;
- dkim=pass header.d=epam.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=epam.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9k1Pkkz5L/JY71JXBrTOGYD9xue8eJo/4shjnusDS9k=;
- b=k6WXRVZdTY7aBCBmM8wJeH7sL9MX3HZnOtLLDxUx/O77SEsFmzl+iCVWXiMkvbGqXlkOYY2NkL3eEaEoj8XRH25sT5GiNqUdvXXs4U/0gpCsQ+WEDAoLnaqDGhgRw+jYsDdpuH58EZlvRqxYhg79UTv8ztS09k6JSFvkfKrio4diydguS6v5sTaEBM5uKW0jkUGkxe3Q892NN2+7c2EhpzkZ5KPt0EstNMWgWYfvQF7BNt/rNwm2JIXdCsG+sHtKR4yM83dcnY1KGQf9QDjvyTRbRJqaj/jDOC/qWm88qF1Z4U3ol4iYcVnJDCGJFPYRkpnIhNlZ/vpVjC79WuDpQg==
-Received: from PA4PR03MB7136.eurprd03.prod.outlook.com (2603:10a6:102:ea::23)
- by AS4PR03MB8556.eurprd03.prod.outlook.com (2603:10a6:20b:583::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.32; Thu, 13 Jul
- 2023 14:13:26 +0000
-Received: from PA4PR03MB7136.eurprd03.prod.outlook.com
- ([fe80::528d:e0b6:ecc6:25e5]) by PA4PR03MB7136.eurprd03.prod.outlook.com
- ([fe80::528d:e0b6:ecc6:25e5%4]) with mapi id 15.20.6588.017; Thu, 13 Jul 2023
- 14:13:26 +0000
-From:   Oleksii Moisieiev <Oleksii_Moisieiev@epam.com>
-To:     Gatien CHEVALLIER <gatien.chevallier@foss.st.com>
-CC:     Rob Herring <robh@kernel.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "herbert@gondor.apana.org.au" <herbert@gondor.apana.org.au>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
-        "vkoul@kernel.org" <vkoul@kernel.org>,
-        "jic23@kernel.org" <jic23@kernel.org>,
-        "olivier.moysan@foss.st.com" <olivier.moysan@foss.st.com>,
-        "arnaud.pouliquen@foss.st.com" <arnaud.pouliquen@foss.st.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "fabrice.gasnier@foss.st.com" <fabrice.gasnier@foss.st.com>,
-        "andi.shyti@kernel.org" <andi.shyti@kernel.org>,
-        "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "hugues.fruchet@foss.st.com" <hugues.fruchet@foss.st.com>,
-        "lee@kernel.org" <lee@kernel.org>,
-        "will@kernel.org" <will@kernel.org>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "arnd@kernel.org" <arnd@kernel.org>,
-        "richardcochran@gmail.com" <richardcochran@gmail.com>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
-        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
-        "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        Peng Fan <peng.fan@oss.nxp.com>
-Subject: Re: [PATCH 05/10] firewall: introduce stm32_firewall framework
-Thread-Topic: [PATCH 05/10] firewall: introduce stm32_firewall framework
-Thread-Index: AQHZr2ZRFR+uG6i0BECeBf17iNfNxq+s2NAAgAF6WICAABeDAIAJWqgAgAADRwA=
-Date:   Thu, 13 Jul 2023 14:13:26 +0000
-Message-ID: <87a5vzdhmv.fsf@epam.com>
-References: <20230705172759.1610753-1-gatien.chevallier@foss.st.com>
- <20230705172759.1610753-6-gatien.chevallier@foss.st.com>
- <20230706150906.GB3858320-robh@kernel.org>
- <d13f935c-568b-3c0d-8e7d-006b7d4e7d50@foss.st.com>
- <20230707150724.GA112541-robh@kernel.org>
- <ba409196-06a1-bf2b-3536-1e1420550ff4@foss.st.com>
-In-Reply-To: <ba409196-06a1-bf2b-3536-1e1420550ff4@foss.st.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PA4PR03MB7136:EE_|AS4PR03MB8556:EE_
-x-ms-office365-filtering-correlation-id: 4afe00ee-382d-4bd1-c7fc-08db83ab5349
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: wigQkDcPP2EYe+ryOo0O2wAt1+FCEVHRxqrFLHGMT7OtXcB08pJ+NLgS/TJyzI3BsnyQpNTSv53nsyFnnp2q95SWgH028ewg1oU2D5APK9HqGb/9ajHjJuJmrUvTBjCsQeR2ZrjwHJsd7/Wvp1Geq1StZE9cqjYmTVvuWXjCPPBFaFLeBpPb3RmI95T6fO8MpdW5Jq6vsHy5zwWtr7kGdpCBBo+tblLyz/nrdQXeRxDsbrbaQHqHu8hWYNwC5m5NGgRv14KqjRoOFXOnq9pGF9NCy8qXCh7qhxwqPeRwGBYxZFpzdmORVGx0OAEai9vkmPSicUUw7QD1xstF/Fw0enDuIZh/sOSW3F3oDk31ljKSIPW4jV3ylXSSkpDIX+GViaLG8O/6n8jOp34iwENDfos0vICYtTgCnNVPTqYu/+Fiketzmre4oXaESnSIgKJQPUDS4kMLqVkCMIrHYl+RsHhW09X/glPOZ9xV+7Am/CPX8wZZiQi2SSsjw7gKv0yon6vmZy6zfl/3D3xl4dI05KzB4sp764MCWI/loCYIwQ0BsnXVLEW1LlJzOr6plv21N1wMDmpblb+GNh/i5kXymzemoMi+3Ddksck2RdvTvtVs7MmxvG2REcR9lZgq0+mh
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR03MB7136.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(346002)(39860400002)(136003)(376002)(396003)(451199021)(38100700002)(38070700005)(86362001)(66899021)(7406005)(71200400001)(6486002)(54906003)(76116006)(91956017)(66946007)(122000001)(36756003)(2616005)(53546011)(26005)(186003)(6512007)(6506007)(5660300002)(7416002)(6916009)(2906002)(66556008)(66476007)(478600001)(4326008)(8936002)(8676002)(66446008)(83380400001)(64756008)(316002)(41300700001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?jQEQBbLU82v9667WSPf3Mpua7oRSk940/bewSuWZxpq1wLTsAtZY8H+B4+?=
- =?iso-8859-1?Q?nGyb8bFqvLuLfUNPHsGHx4M+nZ+QpadLL0hmYvNuuaBJAEVdNsBc2wgdQL?=
- =?iso-8859-1?Q?+ZJi3WUk5hu/h4TwOx27xCWLFn+AMn+w/p4Xf1wCX+c5xlrsAlsB8x4WuE?=
- =?iso-8859-1?Q?RkWY6z9T1cR6mvtL5Qdwf23tVH/8C49zW7qLlDJ5jwdKf1sJTVqQfjuoc5?=
- =?iso-8859-1?Q?ok6ElQDF2IIDoItHHiiEjoJ8Dhwc2NnecN10Jxoq2/1otVHIoq7bxPZ9BW?=
- =?iso-8859-1?Q?9qEClSQslxVilGEb48FLZsKL04lhfqEor/7C0tR/gx9C3ovkhWhkWDPpG/?=
- =?iso-8859-1?Q?RkJ1oDRpTPKt766lWexiOf3ZWCRXt/+wuI2hxdnUimBQcd1ZWokSJbkdfP?=
- =?iso-8859-1?Q?MkNyMtBmJyIpg1iLLrqlUVnrvx7kxNSaoSJOc+XbBWA9+11WcIuZQyhXZX?=
- =?iso-8859-1?Q?Bh55HF5A0hiMncwV8T13Dw7FBr4o52kmEA/JsSrreKGP/w/Th6NwOMi1Ix?=
- =?iso-8859-1?Q?SJcCpzuEW/tn8nGzHQmNrMm0c5o8INec51wFRysonAAnGBDUfJm29+4NAz?=
- =?iso-8859-1?Q?7w8+HmGoGfveDGnu2XrbJXuUx7jyg9KqeioB45F/JG+5eL1TuSzB5oAfJf?=
- =?iso-8859-1?Q?3sX7Mpm7LGkA9kM8fX2aGOMirrLhPNUoZtweE4tZTMnuCDDiIaYometpLu?=
- =?iso-8859-1?Q?HzjCWuoCbglSjT4mEQLoqB5kFlfZ4AwmA3WstUym+fH9sdUq+XMxXWZHW4?=
- =?iso-8859-1?Q?N21gbVCzAQM/F8JEOnCwU3K1jbXunrKEGZESA27ZQj8uHAJ0sf8ezAdwLd?=
- =?iso-8859-1?Q?hjVirfZfvks3oKWFagFiFGqrYuhnQBbS0/XiLgI7n7eYW9kLUyMOJjVamW?=
- =?iso-8859-1?Q?eioNn6UophmNSxx0z/ErQATtAa5w5ZmT4RKAptuZ0PzQ4iKoi/313W0kPv?=
- =?iso-8859-1?Q?aIoBIdVzR7QEZASU5DDecND32Y66bnXlxl4/0FU2oxwh/mlmFOprsIGf02?=
- =?iso-8859-1?Q?gruJRhkhzll231pFkVh42kK3mbQngaE3Yein1a4A00TWzs7ykxbxuciM8p?=
- =?iso-8859-1?Q?gcmafgeJKK10E4Xq0w10qJEZg6a6ZU6plRwaWS7Jwcd2c5sS5z55073QhJ?=
- =?iso-8859-1?Q?BR4E9mpLH6DFVyBaID9RyLZhDRbTQThHhPmdizY9Dp/1xUF5q4/G+CmO4g?=
- =?iso-8859-1?Q?Q/M3C+r9rrPWJZAuxyvWwaC3xpkq09rRXLtg1NJx7JSOprOd6Z3EEgkKxe?=
- =?iso-8859-1?Q?924qn5Zct7r2rYJllSlpjH3v0fZEkUZVo6s5FRLJ7rYma0OJ6q5ZClw/EI?=
- =?iso-8859-1?Q?1sgnuajm912h2k2ZYzYXyduf4024xaQPGrW9AoMZxsKfSy2YxWZQQk10m1?=
- =?iso-8859-1?Q?NLrUuMbsKiJgIfGH+Gfjp4ALgcfW2/KRlg6Yu7kvkUXkrJVgdsbC6Po/oI?=
- =?iso-8859-1?Q?VxXDmPn3R8TOv2u8VMQH5UTcJQqipDNYB8vZqcKVjdv5TBK23c0vUXtwab?=
- =?iso-8859-1?Q?oauR8OpSL7hywgPCZndpMXO5StSiZLhq1o1RTojJOhXiuWytCUe4Q/4eMR?=
- =?iso-8859-1?Q?d8h7h8TGGxPaX7cUOJJw6/h+6L5oUFWOdzPXGBt42N6T0ltFQV2MZzq+bo?=
- =?iso-8859-1?Q?Uh0apWErw24xaeIYMsiUN95qUix+yZMwBrC5qpTM9r7oZL3CSnzNDGBA?=
- =?iso-8859-1?Q?=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
+        Thu, 13 Jul 2023 11:14:08 -0400
+Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51F11270D
+        for <linux-media@vger.kernel.org>; Thu, 13 Jul 2023 08:14:03 -0700 (PDT)
+Received: by mail-qv1-xf35.google.com with SMTP id 6a1803df08f44-635de03a85bso3721786d6.3
+        for <linux-media@vger.kernel.org>; Thu, 13 Jul 2023 08:14:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1689261242; x=1691853242;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=hu4Y654yf/+moCOQ6nBI+OAebVBXDhnU9Fyybq+La8k=;
+        b=S7IZanzC4bac8gE2gokmpEut/HytAwQbmZTXy40cQhl5v/3MwxFxKTT0Ssj5lde3/0
+         HN/5XnJJz/vVwUKvumY4GAIsivLN8wfaQwdRCeT+Th1L2WT9I3MOMItlhTDYK93AKlYt
+         eoA8Zzrpf2DOyJAO1JUrFdjK7aYrWblHuieLA1Iuq+EwQuODlpK8Pnyl1ryYEt6UEfeI
+         wmXbtPK2nx0HXkY6cKC3XVR9Zqbs8V2bivKS4Z8iaIU1SJ5PjJv/X1txuRNxn6xUHhED
+         2QzUpNvbp9zb4uTNNV1lSc2My8LlxikoKTNNHu0kr3kN6OYtYSlfqUOERkxtDRnKOFii
+         M1qA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689261242; x=1691853242;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hu4Y654yf/+moCOQ6nBI+OAebVBXDhnU9Fyybq+La8k=;
+        b=geucBTc8F97MoYjRd+i1pDIXJwL3grkX2Ab8DTZmj7L+w3BmtmUJWPXuW+I5yO666x
+         YKtmwDBiCojXeF2u3QWXi6MOngnjwi49JSHd1YUC38BjGicyZNYX2BydFsRyqVHusvNl
+         L55l504uwqFzktBbqPytKp/DAMPvgeEWpHhoX5WNZ/gT+0wD3JoDUYLBm2PucS79B3YF
+         25muCRO5M41+k/DTFSkklcEkSF/7VXRWLcE6H23sgr5ajrjj5ROyb+USp8uhNhXbDrfF
+         iAdqHMRGguc5pS+sgT+CHAHiMHvROGB/lv7delOUPStrXYDicSj4dOKcxJx1yXaNTGrZ
+         Sg+A==
+X-Gm-Message-State: ABy/qLbMm55dS6Im4FTKldX2S9gARU6y7Q0JE9LzvqAkrMmm6hW05P0q
+        dUDZnIE5dFUDt89g+ELWrkxnww==
+X-Google-Smtp-Source: APBJJlEu6ztk7Cre/0qOTDtwotx1BmTHP3o3EJJjwleloVhjWj/f/lOQFuH4YjEM1+A7DNS6EfKhjg==
+X-Received: by 2002:a0c:aa44:0:b0:620:a1be:c74d with SMTP id e4-20020a0caa44000000b00620a1bec74dmr1424154qvb.37.1689261242238;
+        Thu, 13 Jul 2023 08:14:02 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:10:88d9::7a9])
+        by smtp.gmail.com with ESMTPSA id r4-20020a0c8d04000000b0063c60533c7fsm556828qvb.133.2023.07.13.08.14.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Jul 2023 08:14:01 -0700 (PDT)
+Message-ID: <7b5adb54bcda797e968d86660689de101fee5f62.camel@ndufresne.ca>
+Subject: Re: [PATCH 3/9] drm/verisilicon: Add basic drm driver
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Thomas Zimmermann <tzimmermann@suse.de>,
+        Keith Zhao <keith.zhao@starfivetech.com>,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Cc:     Conor Dooley <conor+dt@kernel.org>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        christian.koenig@amd.com, Bjorn Andersson <andersson@kernel.org>,
+        Chris Morgan <macromorgan@hotmail.com>,
+        Changhuang Liang <changhuang.liang@starfivetech.com>,
+        Jagan Teki <jagan@edgeble.ai>,
+        Jack Zhu <jack.zhu@starfivetech.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Shengyang Chen <shengyang.chen@starfivetech.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>
+Date:   Thu, 13 Jul 2023 11:14:00 -0400
+In-Reply-To: <df8631ad-463e-fab9-eaca-61df1fcc21e8@suse.de>
+References: <20230602074043.33872-1-keith.zhao@starfivetech.com>
+         <20230602074043.33872-4-keith.zhao@starfivetech.com>
+         <ab470eee-1b0c-ff8b-bcab-60de1ea04e39@suse.de>
+         <724640bed4ed5774751d2c1dba61680cc85c0b20.camel@ndufresne.ca>
+         <df8631ad-463e-fab9-eaca-61df1fcc21e8@suse.de>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-X-OriginatorOrg: epam.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR03MB7136.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4afe00ee-382d-4bd1-c7fc-08db83ab5349
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jul 2023 14:13:26.2681
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b41b72d0-4e9f-4c26-8a69-f949f367c91d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: No/A7lGt45kI/3LCLdS7De4pRhFGZsh0hwme3CjD0VCUDTSjGmRxNMwfvUiInIHUiGJdvIv47MERSntxyRALalqs0HX0HOmzV0jtCXNgDo4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR03MB8556
-X-Proofpoint-ORIG-GUID: Md-n9IA6QBC9ohMjvstUs8K04KSXTD1w
-X-Proofpoint-GUID: Md-n9IA6QBC9ohMjvstUs8K04KSXTD1w
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-13_05,2023-07-13_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- suspectscore=0 adultscore=0 spamscore=0 priorityscore=1501 mlxscore=0
- malwarescore=0 clxscore=1011 bulkscore=0 impostorscore=0 phishscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2307130123
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Le samedi 08 juillet 2023 =C3=A0 21:11 +0200, Thomas Zimmermann a =C3=A9cri=
+t=C2=A0:
+> Hi
+>=20
+> Am 07.07.23 um 20:09 schrieb Nicolas Dufresne:
+> [...]
+> > > > +config DRM_VERISILICON
+> > > > +	tristate "DRM Support for VeriSilicon"
+> > >=20
+> > > Can you rename the driver and files? 'VeriSilicon' seems
+> > > unpronounceable. Simply 'StarFive' and starfive/ would be fine.
+> >=20
+> > Are you sure you want to request this ? If the display controller is a
+> > Verisilicon design, it will be super odd to use on other SoC that aren'=
+t from
+> > StarFive. Think about STM network driver, which is DesignWare.
+>=20
+> It's not a hard requirement. If that's the name, so be it.
 
-Hello Gatien,
+If that helps you pronouncing this, it is commonly pronounced has:
 
-Gatien CHEVALLIER <gatien.chevallier@foss.st.com> writes:
+  very-silicon
 
-> Hello Rob,
->
-> On 7/7/23 17:07, Rob Herring wrote:
->> On Fri, Jul 07, 2023 at 03:43:15PM +0200, Gatien CHEVALLIER wrote:
->>>
->>>
->>> On 7/6/23 17:09, Rob Herring wrote:
->>>> On Wed, Jul 05, 2023 at 07:27:54PM +0200, Gatien Chevallier wrote:
->>>>> Introduce a firewall framework that offers to firewall consumers diff=
-erent
->>>>> firewall services such as the ability to check their access rights ag=
-ainst
->>>>> their firewall controller(s).
->>>>>
->>>>> The firewall framework offers a generic API that is defined in firewa=
-ll
->>>>> controllers drivers to best fit the specificity of each firewall.
->>>>>
->>>>> There are various types of firewalls:
->>>>> -Peripheral firewalls that filter accesses to peripherals
->>>>> -Memory firewalls that filter accesses to memories or memory regions
->>>>> -Resource firewalls that filter accesses to internal resources such a=
-s
->>>>> reset and clock controllers
->>>>
->>>> How do resource firewalls work? Access to registers for some clocks in=
- a
->>>> clock controller are disabled? Or something gates off clocks/resets to
->>>> a block?
->>>
->>> To take a practical example:
->>>
->>> A clock controller can be firewall-aware and have its own firewall regi=
-sters
->>> to configure. To access a clock/reset that is handled this way, a devic=
-e
->>> would need to check this "resource firewall". I thought that for these =
-kinds
->>> of hardware blocks, having a common API would help.
->> We already have the concept of 'protected clocks' which are ones
->> controlled by secure mode which limits what Linux can do with them. I
->> think you should extend this mechanism if needed and use the existing
->> clock/reset APIs for managing resources.
->>=20
->
-> Ok, thank you for the input. I'll remove this type of firewall for V2 as
-> I no longer have a use case.
->
->>>>
->>>> It might make more sense for "resource" accesses to be managed within
->>>> those resource APIs (i.e. the clock and reset frameworks) and leave th=
-is
->>>> framework to bus accesses.
->>>>
->>>
->>> Okay, I'll drop this for V2 if you find that the above explaination do =
-not
->>> justify this.
->>>
->>>>> A firewall controller must be probed at arch_initcall level and regis=
-ter
->>>>> to the framework so that consumers can use their services.
->>>>
->>>> initcall ordering hacks should not be needed. We have both deferred
->>>> probe and fw_devlinks to avoid that problem.
->>>>
->>>
->>> Greg also doubts this.
->>>
->>> Drivers like reset/clock controllers drivers (core_initcall level) will=
- have
->>> a dependency on the firewall controllers in order to initialize their
->>> resources. I was not sure how to manage these dependencies.
->>>
->>> Now, looking at init/main.c, I've realized that core_initcall() level c=
-omes
->>> before arch_initcall() level...
->>>
->>> If managed by fw_devlink, the feature-domains property should be suppor=
-ted
->>> as well I suppose? I'm not sure how to handle this properly. I'd welcom=
-e
->>> your suggestion.
->> DT parent/child child dependencies are already handled which might
->> be
->> enough for you. Otherwise, adding a new provider/consumer binding is a
->> couple of lines to add the property names. See drivers/of/property.c.
->>=20
->
-> Ok, I'll try with a modification of drivers/of/property.c as the
-> parent/child dependency won't be enough. Thanks for pointing this out.
->
->>>>> Signed-off-by: Gatien Chevallier <gatien.chevallier@foss.st.com>
->>>>> ---
->>>>>    MAINTAINERS                               |   5 +
->>>>>    arch/arm64/Kconfig.platforms              |   1 +
->>>>>    drivers/bus/Kconfig                       |  10 +
->>>>>    drivers/bus/Makefile                      |   1 +
->>>>>    drivers/bus/stm32_firewall.c              | 252 ++++++++++++++++++=
-++++
->>>>>    drivers/bus/stm32_firewall.h              |  83 +++++++
->>>>
->>>> Why something stm32 specific? We know there are multiple platforms
->>>> wanting something in this area. Wasn't the last attempt common?
->>>>
->>>> For a common binding, I'm not eager to accept anything new with only 1
->>>> user.
->>>>
->>>
->>> Last attempt was common for the feature-domain bindings. The system-bus
->>> driver was ST-specific. I don't know if other platforms needs this kind
->>> of framework. Are you suggesting that this framework should be generic?=
- Or
->>> that this framework should have a st-specific property?
->> Ah right, the posting for SCMI device permissions was the binding
->> only.
->> The binding should be generic and support more than 1 user. That somewha=
-t
->> implies a generic framework, but not necessarily.
->>=20
->>> I've oriented this firewall framework to serve ST purpose. There may be=
- a
->>> need for other platforms but I'm not sure that this framework serves th=
-em
->>> well. One can argue that it is quite minimalist and covers basic purpos=
-es of
->>> a hardware firewall but I would need more feedback from other vendors t=
-o
->>> submit it as a generic one.
->> We already know there are at least 2 users. Why would we make the
->> 2nd
->> user refactor your driver into a common framework?
->> [...]
->>=20
->
-> If one thinks this framework is generic enough so it can be of use for
-> them, so yes, I can submit it as a common framework. I'm not that sure
-> Oleksii finds a use case with it. He seemed interested by the bindings.
-> Maybe I'm wrong Oleksii?
->
+Or just a caulking mess if you really hate it :-D
 
-Correct. I'm interested only in bindings which should be processed by
-the hypervisor and removed from the OS DT the Kernel running in VM wouldn't
-know it exists.
+Nicolas
 
-> For V2, I'd rather submit it again as an ST-specific framework again to
-> address the generic comments. This way, other people have time to
-> manifest themselves.
->
->>>>> +int stm32_firewall_get_firewall(struct device_node *np,
+>=20
+> Best regards
+> Thomas
+>=20
+> >=20
+> > Nicolas
+> >=20
+> > >=20
+> > > > +	depends on DRM
+> > > > +	select DRM_KMS_HELPER
+> > > > +	select CMA
+> > > > +	select DMA_CMA
+> > > > +	help
+> > > > +	  Choose this option if you have a VeriSilicon soc chipset.
+> > > > +	  This driver provides VeriSilicon kernel mode
+> > > > +	  setting and buffer management. It does not
+> > > > +	  provide 2D or 3D acceleration.
+> > > > diff --git a/drivers/gpu/drm/verisilicon/Makefile b/drivers/gpu/drm=
+/verisilicon/Makefile
+> > > > new file mode 100644
+> > > > index 000000000000..64ce1b26546c
+> > > > --- /dev/null
+> > > > +++ b/drivers/gpu/drm/verisilicon/Makefile
+> > > > @@ -0,0 +1,6 @@
+> > > > +# SPDX-License-Identifier: GPL-2.0
+> > > > +
+> > > > +vs_drm-objs :=3D vs_drv.o
+> > > > +
+> > > > +obj-$(CONFIG_DRM_VERISILICON) +=3D vs_drm.o
+> > > > +
+> > > > diff --git a/drivers/gpu/drm/verisilicon/vs_drv.c b/drivers/gpu/drm=
+/verisilicon/vs_drv.c
+> > > > new file mode 100644
+> > > > index 000000000000..24d333598477
+> > > > --- /dev/null
+> > > > +++ b/drivers/gpu/drm/verisilicon/vs_drv.c
+> > > > @@ -0,0 +1,284 @@
+> > > > +// SPDX-License-Identifier: GPL-2.0
+> > > > +/*
+> > > > + * Copyright (C) 2023 VeriSilicon Holdings Co., Ltd.
+> > > > + */
+> > > > +
+> > > > +#include <linux/clk.h>
+> > > > +#include <linux/component.h>
+> > > > +#include <linux/delay.h>
+> > > > +#include <linux/dma-mapping.h>
+> > > > +#include <linux/iommu.h>
+> > > > +#include <linux/of_graph.h>
+> > > > +#include <linux/of_reserved_mem.h>
+> > > > +#include <linux/pm_runtime.h>
+> > > > +#include <linux/reset.h>
+> > > > +#include <linux/version.h>
+> > > > +
+> > > > +#include <drm/drm_aperture.h>
+> > > > +#include <drm/drm_crtc.h>
+> > > > +#include <drm/drm_crtc_helper.h>
+> > > > +#include <drm/drm_debugfs.h>
+> > > > +#include <drm/drm_drv.h>
+> > > > +#include <drm/drm_fb_helper.h>
+> > > > +#include <drm/drm_fbdev_generic.h>
+> > > > +#include <drm/drm_file.h>
+> > > > +#include <drm/drm_fourcc.h>
+> > > > +#include <drm/drm_ioctl.h>
+> > > > +#include <drm/drm_of.h>
+> > > > +#include <drm/drm_prime.h>
+> > > > +#include <drm/drm_probe_helper.h>
+> > > > +#include <drm/drm_vblank.h>
+> > > > +
+> > > > +#include "vs_drv.h"
+> > > > +
+> > > > +#define DRV_NAME	"starfive"
+> > > > +#define DRV_DESC	"Starfive DRM driver"
+> > > > +#define DRV_DATE	"202305161"
+> > > > +#define DRV_MAJOR	1
+> > > > +#define DRV_MINOR	0
+> > > > +
+> > > > +static struct platform_driver vs_drm_platform_driver;
+> > > > +
+> > > > +static const struct file_operations fops =3D {
+> > > > +	.owner			=3D THIS_MODULE,
+> > > > +	.open			=3D drm_open,
+> > > > +	.release		=3D drm_release,
+> > > > +	.unlocked_ioctl	=3D drm_ioctl,
+> > > > +	.compat_ioctl	=3D drm_compat_ioctl,
+> > > > +	.poll			=3D drm_poll,
+> > > > +	.read			=3D drm_read,
+> > > > +};
+> > > > +
+> > > > +static struct drm_driver vs_drm_driver =3D {
+> > > > +	.driver_features	=3D DRIVER_MODESET | DRIVER_ATOMIC | DRIVER_GEM,
+> > > > +	.lastclose		=3D drm_fb_helper_lastclose,
+> > > > +	.prime_handle_to_fd =3D drm_gem_prime_handle_to_fd,
+> > > > +	.prime_fd_to_handle =3D drm_gem_prime_fd_to_handle,
+> > > > +	.fops			=3D &fops,
+> > > > +	.name			=3D DRV_NAME,
+> > > > +	.desc			=3D DRV_DESC,
+> > > > +	.date			=3D DRV_DATE,
+> > > > +	.major			=3D DRV_MAJOR,
+> > > > +	.minor			=3D DRV_MINOR,
+> > > > +};
+> > > > +
+> > > > +void vs_drm_update_pitch_alignment(struct drm_device *drm_dev,
+> > > > +				   unsigned int alignment)
+> > > > +{
+> > > > +	struct vs_drm_private *priv =3D drm_dev->dev_private;
+> > > > +
+> > > > +	if (alignment > priv->pitch_alignment)
+> > > > +		priv->pitch_alignment =3D alignment;
+> > > > +}
+> > > > +
+> > > > +static int vs_drm_bind(struct device *dev)
+> > > > +{
+> > > > +	struct drm_device *drm_dev;
+> > > > +	struct vs_drm_private *priv;
+> > > > +	int ret;
+> > > > +	static u64 dma_mask =3D DMA_BIT_MASK(40);
+> > > > +
+> > > > +	/* Remove existing drivers that may own the framebuffer memory. *=
+/
+> > > > +	ret =3D drm_aperture_remove_framebuffers(false, &vs_drm_driver);
+> > > > +	if (ret) {
+> > > > +		DRM_DEV_ERROR(dev,
+> > >=20
+> > > drm_err(), drm_info(), drm_warn(), etc.  Here and everwhere else. The
+> > > DRM_DEV_*() print macros are obsolete.
+> > >=20
+> > > > +			      "Failed to remove existing framebuffers - %d.\n",
+> > > > +			      ret);
+> > > > +		return ret;
+> > > > +	}
+> > > > +
+> > > > +	drm_dev =3D drm_dev_alloc(&vs_drm_driver, dev);
+> > > > +	if (IS_ERR(drm_dev))
+> > > > +		return PTR_ERR(drm_dev);
+> > > > +
+> > > > +	dev_set_drvdata(dev, drm_dev);
+> > > > +
+> > > > +	priv =3D devm_kzalloc(drm_dev->dev, sizeof(struct vs_drm_private)=
+,
+> > > > +			    GFP_KERNEL);
+> > > > +	if (!priv) {
+> > > > +		ret =3D -ENOMEM;
+> > > > +		goto err_put_dev;
+> > > > +	}
+> > > > +
+> > > > +	priv->pitch_alignment =3D 64;
+> > > > +	priv->dma_dev =3D drm_dev->dev;
+> > > > +	priv->dma_dev->coherent_dma_mask =3D dma_mask;
+> > > > +	drm_dev->dev_private =3D priv;
+> > >=20
+> > > dev_private is obsolete and about to go away at some point.
+> > >=20
+> > > Please embed drm_device in vs_drm_private and allocate the memory wit=
+h
+> > > devm_drm_dev_alloc().
+> > >=20
+> > > > +
+> > > > +	drm_mode_config_init(drm_dev);
+> > >=20
+> > > drmm_mode_config_init() please.
+> > >=20
+> > > > +
+> > > > +	/* Now try and bind all our sub-components */
+> > > > +	ret =3D component_bind_all(dev, drm_dev);
+> > > > +	if (ret)
+> > > > +		goto err_mode;
+> > > > +
+> > > > +	ret =3D drm_vblank_init(drm_dev, drm_dev->mode_config.num_crtc);
+> > > > +	if (ret)
+> > > > +		goto err_bind;
+> > > > +
+> > > > +	drm_mode_config_reset(drm_dev);
+> > > > +
+> > > > +	drm_kms_helper_poll_init(drm_dev);
+> > > > +
+> > > > +	ret =3D drm_dev_register(drm_dev, 0);
+> > > > +	if (ret)
+> > > > +		goto err_helper;
+> > > > +
+> > > > +	drm_fbdev_generic_setup(drm_dev, 32);
+> > > > +
+> > > > +	return 0;
+> > > > +
+> > > > +err_helper:
+> > > > +	drm_kms_helper_poll_fini(drm_dev);
+> > > > +err_bind:
+> > > > +	component_unbind_all(drm_dev->dev, drm_dev);
+> > > > +err_mode:
+> > > > +	drm_mode_config_cleanup(drm_dev);
+> > > > +	if (priv->domain)
+> > > > +		iommu_domain_free(priv->domain);
+> > > > +err_put_dev:
+> > > > +	drm_dev->dev_private =3D NULL;
+> > > > +	dev_set_drvdata(dev, NULL);
+> > > > +	drm_dev_put(drm_dev);
+> > > > +	return ret;
+> > > > +}
+> > > > +
+> > > > +static void vs_drm_unbind(struct device *dev)
+> > > > +{
+> > > > +	struct drm_device *drm_dev =3D dev_get_drvdata(dev);
+> > > > +	struct vs_drm_private *priv =3D drm_dev->dev_private;
+> > > > +
+> > > > +	drm_dev_unregister(drm_dev);
+> > > > +
+> > > > +	drm_kms_helper_poll_fini(drm_dev);
+> > > > +
+> > > > +	component_unbind_all(drm_dev->dev, drm_dev);
+> > > > +
+> > > > +	drm_mode_config_cleanup(drm_dev);
+> > > > +
+> > > > +	if (priv->domain) {
+> > > > +		iommu_domain_free(priv->domain);
+> > > > +		priv->domain =3D NULL;
+> > > > +	}
+> > > > +
+> > > > +	drm_dev->dev_private =3D NULL;
+> > > > +	dev_set_drvdata(dev, NULL);
+> > > > +	drm_dev_put(drm_dev);
+> > >=20
+> > > You rather want to convert the individual steps of this cleanup to
+> > > managed functions (drmm_ and devm_) to automate the cleanup when as p=
+art
+> > > of drm_dev_put().
+> > >=20
+> > > > +}
+> > > > +
+> > > > +static const struct component_master_ops vs_drm_ops =3D {
+> > > > +	.bind =3D vs_drm_bind,
+> > > > +	.unbind =3D vs_drm_unbind,
+> > > > +};
+> > > > +
+> > > > +static struct platform_driver *drm_sub_drivers[] =3D {
+> > > > +};
+> > > > +
+> > > > +#define NUM_DRM_DRIVERS \
+> > > > +	(sizeof(drm_sub_drivers) / sizeof(struct platform_driver *))
+> > >=20
+> > > Does this really work? sizeof(drm_sub_drivers) isn't know at compile
+> > > time. It is always assumed to be 0 AFAICT. Or do you fill this array =
+in
+> > > later patches?
+> > >=20
+> > >=20
+> > > > +
+> > > > +static int compare_dev(struct device *dev, void *data)
+> > > > +{
+> > > > +	return dev =3D=3D (struct device *)data;
+> > > > +}
+> > > > +
+> > > > +static struct component_match *vs_drm_match_add(struct device *dev=
+)
+> > > > +{
+> > > > +	struct component_match *match =3D NULL;
+> > > > +	int i;
+> > > > +
+> > > > +	for (i =3D 0; i < NUM_DRM_DRIVERS; ++i) {
+> > > > +		struct platform_driver *drv =3D drm_sub_drivers[i];
+> > > > +		struct device *p =3D NULL, *d;
+> > > > +
+> > > > +		while ((d =3D platform_find_device_by_driver(p, &drv->driver))) =
+{
+> > > > +			put_device(p);
+> > > > +
+> > > > +			component_match_add(dev, &match, compare_dev, d);
+> > > > +			p =3D d;
+> > > > +		}
+> > > > +		put_device(p);
+> > > > +	}
+> > > > +
+> > > > +	return match ?: ERR_PTR(-ENODEV);
+> > > > +}
+> > > > +
+> > > > +static int vs_drm_platform_probe(struct platform_device *pdev)
+> > > > +{
+> > > > +	struct device *dev =3D &pdev->dev;
+> > > > +	struct component_match *match;
+> > > > +
+> > > > +	match =3D vs_drm_match_add(dev);
+> > > > +	if (IS_ERR(match))
+> > > > +		return PTR_ERR(match);
+> > > > +
+> > > > +	return component_master_add_with_match(dev, &vs_drm_ops, match);
+> > > > +}
+> > > > +
+> > > > +static int vs_drm_platform_remove(struct platform_device *pdev)
+> > > > +{
+> > > > +	component_master_del(&pdev->dev, &vs_drm_ops);
+> > > > +	return 0;
+> > > > +}
+> > > > +
+> > > > +#ifdef CONFIG_PM_SLEEP
+> > > > +static int vs_drm_suspend(struct device *dev)
+> > > > +{
+> > > > +	struct drm_device *drm =3D dev_get_drvdata(dev);
+> > > > +
+> > > > +	return drm_mode_config_helper_suspend(drm);
+> > > > +}
+> > > > +
+> > > > +static int vs_drm_resume(struct device *dev)
+> > > > +{
+> > > > +	struct drm_device *drm =3D dev_get_drvdata(dev);
+> > > > +
+> > > > +	return drm_mode_config_helper_resume(drm);
+> > > > +}
+> > > > +#endif
+> > > > +
+> > > > +static SIMPLE_DEV_PM_OPS(vs_drm_pm_ops, vs_drm_suspend, vs_drm_res=
+ume);
+> > > > +
+> > > > +static const struct of_device_id vs_drm_dt_ids[] =3D {
+> > > > +	{ .compatible =3D "verisilicon,display-subsystem", },
+> > > > +};
+> > > > +
+> > > > +MODULE_DEVICE_TABLE(of, vs_drm_dt_ids);
+> > > > +
+> > > > +static struct platform_driver vs_drm_platform_driver =3D {
+> > > > +	.probe =3D vs_drm_platform_probe,
+> > > > +	.remove =3D vs_drm_platform_remove,
+> > > > +
+> > > > +	.driver =3D {
+> > > > +		.name =3D DRV_NAME,
+> > > > +		.of_match_table =3D vs_drm_dt_ids,
+> > > > +		.pm =3D &vs_drm_pm_ops,
+> > > > +	},
+> > > > +};
+> > > > +
+> > > > +static int __init vs_drm_init(void)
+> > > > +{
+> > > > +	int ret;
+> > > > +
+> > > > +	ret =3D platform_register_drivers(drm_sub_drivers, NUM_DRM_DRIVER=
+S);
+> > > > +	if (ret)
+> > > > +		return ret;
+> > > > +
+> > > > +	ret =3D platform_driver_register(&vs_drm_platform_driver);
+> > > > +	if (ret)
+> > > > +		platform_unregister_drivers(drm_sub_drivers, NUM_DRM_DRIVERS);
+> > > > +
+> > > > +	return ret;
+> > > > +}
+> > > > +
+> > > > +static void __exit vs_drm_fini(void)
+> > > > +{
+> > > > +	platform_driver_unregister(&vs_drm_platform_driver);
+> > > > +	platform_unregister_drivers(drm_sub_drivers, NUM_DRM_DRIVERS);
+> > > > +}
+> > > > +
+> > > > +module_init(vs_drm_init);
+> > > > +module_exit(vs_drm_fini);
+> > > > +
+> > > > +MODULE_DESCRIPTION("VeriSilicon DRM Driver");
+> > > > +MODULE_LICENSE("GPL");
+> > > > diff --git a/drivers/gpu/drm/verisilicon/vs_drv.h b/drivers/gpu/drm=
+/verisilicon/vs_drv.h
+> > > > new file mode 100644
+> > > > index 000000000000..0382b44e3bf0
+> > > > --- /dev/null
+> > > > +++ b/drivers/gpu/drm/verisilicon/vs_drv.h
+> > > > @@ -0,0 +1,48 @@
+> > > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > > +/*
+> > > > + * Copyright (C) 2023 VeriSilicon Holdings Co., Ltd.
+> > > > + */
+> > > > +
+> > > > +#ifndef __VS_DRV_H__
+> > > > +#define __VS_DRV_H__
+> > > > +
+> > > > +#include <linux/module.h>
+> > > > +#include <linux/platform_device.h>
+> > > > +#include <linux/version.h>
+> > > > +#include <drm/drm_drv.h>
+> > > > +#include <drm/drm_gem.h>
+> > > > +
+> > > > +/*
+> > > > + *
+> > > > + * @dma_dev: device for DMA API.
+> > > > + *	- use the first attached device if support iommu
+> > > > +	else use drm device (only contiguous buffer support)
+> > > > + * @domain: iommu domain for DRM.
+> > > > + *	- all DC IOMMU share same domain to reduce mapping
+> > > > + * @pitch_alignment: buffer pitch alignment required by sub-device=
+s.
+> > > > + *
+> > > > + */
+> > > > +struct vs_drm_private {
+> > > > +	struct device *dma_dev;
+> > > > +	struct iommu_domain *domain;
+> > > > +	unsigned int pitch_alignment;
+> > > > +};
+> > >=20
+> > > As mentioned, this struct needs to embed struct drm_device.
+> > >=20
+> > > > +
+> > > > +void vs_drm_update_pitch_alignment(struct drm_device *drm_dev,
+> > > > +				   unsigned int alignment);
+> > > > +
+> > > > +static inline struct device *to_dma_dev(struct drm_device *dev)
+> > > > +{
+> > > > +	struct vs_drm_private *priv =3D dev->dev_private;
+> > > > +
+> > > > +	return priv->dma_dev;
+> > >=20
+> > > And this needs to be an upcast via container_of().
+> > >=20
+> > > > +}
+> > > > +
+> > > > +static inline bool is_iommu_enabled(struct drm_device *dev)
+> > > > +{
+> > > > +	struct vs_drm_private *priv =3D dev->dev_private;
+> > > > +
+> > > > +	return priv->domain ? true : false;
+> > > > +}
+> > > > +
+> > > > +#endif /* __VS_DRV_H__ */
+> > > > diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_f=
+ourcc.h
+> > > > index de703c6be969..af4fb50f9207 100644
+> > > > --- a/include/uapi/drm/drm_fourcc.h
+> > > > +++ b/include/uapi/drm/drm_fourcc.h
+> > >=20
+> > > The UAPI changes shouldn't be needed in this patch?
+> > >=20
+> > > > @@ -419,6 +419,7 @@ extern "C" {
+> > > >    #define DRM_FORMAT_MOD_VENDOR_ARM     0x08
+> > > >    #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
+> > > >    #define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
+> > > > +#define DRM_FORMAT_MOD_VENDOR_VS      0x0b
+> > > >   =20
+> > > >    /* add more to the end as needed */
+> > > >   =20
+> > > > @@ -1519,6 +1520,88 @@ drm_fourcc_canonicalize_nvidia_format_mod(__=
+u64 modifier)
+> > > >    #define AMD_FMT_MOD_CLEAR(field) \
+> > > >    	(~((__u64)AMD_FMT_MOD_##field##_MASK << AMD_FMT_MOD_##field##_S=
+HIFT))
+> > > >   =20
+> > > > +#define DRM_FORMAT_MOD_VS_TYPE_NORMAL        0x00
+> > > > +#define DRM_FORMAT_MOD_VS_TYPE_COMPRESSED    0x01
+> > > > +#define DRM_FORMAT_MOD_VS_TYPE_CUSTOM_10BIT  0x02
+> > > > +#define DRM_FORMAT_MOD_VS_TYPE_MASK     ((__u64)0x3 << 54)
+> > > > +
+> > > > +#define fourcc_mod_vs_code(type, val) \
+> > > > +	fourcc_mod_code(VS, ((((__u64)type) << 54) | (val)))
+> > > > +
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_TILE_MODE_MASK    0x3F
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_TILE_8X8_XMAJOR   0x00
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_TILE_8X8_YMAJOR   0x01
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_TILE_16X4     0x02
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_TILE_8X4      0x03
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_TILE_4X8      0x04
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_RASTER_16X4   0x06
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_TILE_64X4     0x07
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_TILE_32X4     0x08
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_RASTER_256X1  0x09
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_RASTER_128X1  0x0A
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_RASTER_64X4   0x0B
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_RASTER_256X2  0x0C
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_RASTER_128X2  0x0D
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_RASTER_128X4  0x0E
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_RASTER_64X1   0x0F
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_TILE_16X8     0x10
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_TILE_8X16     0x11
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_RASTER_512X1  0x12
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_RASTER_32X4   0x13
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_RASTER_64X2   0x14
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_RASTER_32X2   0x15
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_RASTER_32X1   0x16
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_RASTER_16X1   0x17
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_TILE_128X4    0x18
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_TILE_256X4    0x19
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_TILE_512X4    0x1A
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_TILE_16X16    0x1B
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_TILE_32X16    0x1C
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_TILE_64X16    0x1D
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_TILE_128X8    0x1E
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_TILE_8X4_S    0x1F
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_TILE_16X4_S   0x20
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_TILE_32X4_S   0x21
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_TILE_16X4_LSB 0x22
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_TILE_32X4_LSB 0x23
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_TILE_32X8     0x24
+> > > > +
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_ALIGN_32      (0x01 << 6)
+> > > > +#define DRM_FORMAT_MOD_VS_DEC_ALIGN_64      (0x01 << 7)
+> > > > +
+> > > > +#define fourcc_mod_vs_dec_code(tile, align) \
+> > > > +	fourcc_mod_vs_code(DRM_FORMAT_MOD_VS_TYPE_COMPRESSED, \
+> > > > +				((tile) | (align)))
+> > > > +
+> > > > +#define DRM_FORMAT_MOD_VS_NORM_MODE_MASK        0x1F
+> > > > +#define DRM_FORMAT_MOD_VS_LINEAR                0x00
+> > > > +#define DRM_FORMAT_MOD_VS_TILED4x4              0x01
+> > > > +#define DRM_FORMAT_MOD_VS_SUPER_TILED_XMAJOR    0x02
+> > > > +#define DRM_FORMAT_MOD_VS_SUPER_TILED_YMAJOR    0x03
+> > > > +#define DRM_FORMAT_MOD_VS_TILE_8X8              0x04
+> > > > +#define DRM_FORMAT_MOD_VS_TILE_MODE1            0x05
+> > > > +#define DRM_FORMAT_MOD_VS_TILE_MODE2            0x06
+> > > > +#define DRM_FORMAT_MOD_VS_TILE_8X4              0x07
+> > > > +#define DRM_FORMAT_MOD_VS_TILE_MODE4            0x08
+> > > > +#define DRM_FORMAT_MOD_VS_TILE_MODE5            0x09
+> > > > +#define DRM_FORMAT_MOD_VS_TILE_MODE6            0x0A
+> > > > +#define DRM_FORMAT_MOD_VS_SUPER_TILED_XMAJOR_8X4    0x0B
+> > > > +#define DRM_FORMAT_MOD_VS_SUPER_TILED_YMAJOR_4X8    0x0C
+> > > > +#define DRM_FORMAT_MOD_VS_TILE_Y                0x0D
+> > > > +#define DRM_FORMAT_MOD_VS_TILE_128X1            0x0F
+> > > > +#define DRM_FORMAT_MOD_VS_TILE_256X1            0x10
+> > > > +#define DRM_FORMAT_MOD_VS_TILE_32X1             0x11
+> > > > +#define DRM_FORMAT_MOD_VS_TILE_64X1             0x12
+> > > > +#define DRM_FORMAT_MOD_VS_TILE_MODE4X4          0x15
+> > > > +
+> > > > +#define fourcc_mod_vs_norm_code(tile) \
+> > > > +	fourcc_mod_vs_code(DRM_FORMAT_MOD_VS_TYPE_NORMAL, \
+> > > > +				(tile))
+> > > > +
+> > > > +#define fourcc_mod_vs_custom_code(tile) \
+> > > > +	fourcc_mod_vs_code(DRM_FORMAT_MOD_VS_TYPE_CUSTOM_10BIT, \
+> > > > +				(tile))
+> > > > +
+> > > >    #if defined(__cplusplus)
+> > > >    }
+> > > >    #endif
+> > > > diff --git a/include/uapi/drm/vs_drm.h b/include/uapi/drm/vs_drm.h
+> > > > new file mode 100644
+> > > > index 000000000000..96b7fc95d658
+> > > > --- /dev/null
+> > > > +++ b/include/uapi/drm/vs_drm.h
+> > >=20
+> > > Another UAPI addition that appears to be unused. Please only add thin=
+gs
+> > > that you're using.
+> > >=20
+> > > Best regards
+> > > Thomas
+> > >=20
+> > > > @@ -0,0 +1,50 @@
+> > > > +/* SPDX-License-Identifier: GPL-2.0+ WITH Linux-syscall-note */
+> > > > +/*
+> > > > + * Copyright (C) 2020 VeriSilicon Holdings Co., Ltd.
+> > > > + */
+> > > > +
+> > > > +#ifndef __VS_DRM_H__
+> > > > +#define __VS_DRM_H__
+> > > > +
+> > > > +#include "drm.h"
+> > > > +
+> > > > +enum drm_vs_degamma_mode {
+> > > > +	VS_DEGAMMA_DISABLE =3D 0,
+> > > > +	VS_DEGAMMA_BT709 =3D 1,
+> > > > +	VS_DEGAMMA_BT2020 =3D 2,
+> > > > +};
+> > > > +
+> > > > +enum drm_vs_sync_dc_mode {
+> > > > +	VS_SINGLE_DC =3D 0,
+> > > > +	VS_MULTI_DC_PRIMARY =3D 1,
+> > > > +	VS_MULTI_DC_SECONDARY =3D 2,
+> > > > +};
+> > > > +
+> > > > +enum drm_vs_mmu_prefetch_mode {
+> > > > +	VS_MMU_PREFETCH_DISABLE =3D 0,
+> > > > +	VS_MMU_PREFETCH_ENABLE =3D 1,
+> > > > +};
+> > > > +
+> > > > +struct drm_vs_watermark {
+> > > > +	__u32 watermark;
+> > > > +	__u8 qos_low;
+> > > > +	__u8 qos_high;
+> > > > +};
+> > > > +
+> > > > +struct drm_vs_color_mgmt {
+> > > > +	__u32 colorkey;
+> > > > +	__u32 colorkey_high;
+> > > > +	__u32 clear_value;
+> > > > +	bool  clear_enable;
+> > > > +	bool  transparency;
+> > > > +};
+> > > > +
+> > > > +struct drm_vs_roi {
+> > > > +	bool enable;
+> > > > +	__u16 roi_x;
+> > > > +	__u16 roi_y;
+> > > > +	__u16 roi_w;
+> > > > +	__u16 roi_h;
+> > > > +};
+> > > > +
+> > > > +#endif /* __VS_DRM_H__ */
+> > >=20
+> > > --=20
+> > > Thomas Zimmermann
+> > > Graphics Driver Developer
+> > > SUSE Software Solutions Germany GmbH
+> > > Frankenstrasse 146, 90461 Nuernberg, Germany
+> > > GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+> > > HRB 36809 (AG Nuernberg)
+> >=20
+>=20
+> --=20
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstrasse 146, 90461 Nuernberg, Germany
+> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+> HRB 36809 (AG Nuernberg)
 
-[snip]
-
->
-> Best regards,
-> Gatien
-
-
---=20
-Thanks,
-Oleksii=
