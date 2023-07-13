@@ -2,74 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 39A6D7523CD
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jul 2023 15:32:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD5FA752449
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jul 2023 15:53:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234545AbjGMNb6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jul 2023 09:31:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35596 "EHLO
+        id S231480AbjGMNx4 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 13 Jul 2023 09:53:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233465AbjGMNb5 (ORCPT
+        with ESMTP id S231250AbjGMNxy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Jul 2023 09:31:57 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CD872721;
-        Thu, 13 Jul 2023 06:31:39 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (unknown [IPv6:2606:6d00:10:88d9::7a9])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 4590B6602B7B;
-        Thu, 13 Jul 2023 14:31:36 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1689255097;
-        bh=kDEUD709UYt0FjgiG/msV7myR0LpqdQLMgwbpdW2vWU=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=MsqC4KZJaLsbwjzlNs9FondR2rTs5Uer9WQqF6jh117t04M6NCA5h0LTL6O/Zlmvk
-         xzbP4jWlJLirMvS9Bm6NdM98TWjsBam1fx7oPzx7Jv0GQkU/m0LdKm8EhRXZZlX8dt
-         G+Hg3P9PFpKopraeY47HPne4T1WtbOH2bhYFdE4VMzygrD0aEC6FdvKmkiFeE/JmmJ
-         9hERdEOFoad1su/qEdOXb5M/KnOT2eK5qcYu7xmcCMAlVXxe46SoU0TYJqOXJuHR3V
-         rfuD5n9mzbFZorP0R8wyXTl5dDapFN5l/H0wt9Av+6FZey5745iCgTEF3/vOcM+daA
-         AR2kZ2YT49Ylg==
-Message-ID: <e10baa4d1b7b847b474a0836ca34b9b47098c8f1.camel@collabora.com>
-Subject: Re: [PATCH 0/3] media: mediatek: vcodec: Add driver to support 10bit
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Yunfei Dong =?UTF-8?Q?=28=E8=91=A3=E4=BA=91=E9=A3=9E=29?= 
-        <Yunfei.Dong@mediatek.com>,
-        "nhebert@chromium.org" <nhebert@chromium.org>,
-        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
-        "nfraprado@collabora.com" <nfraprado@collabora.com>,
-        "angelogioacchino.delregno@collabora.com" 
-        <angelogioacchino.delregno@collabora.com>,
-        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "frkoenig@chromium.org" <frkoenig@chromium.org>,
-        "stevecho@chromium.org" <stevecho@chromium.org>,
-        "wenst@chromium.org" <wenst@chromium.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "daniel@ffwll.ch" <daniel@ffwll.ch>,
-        Mingjia Zhang =?UTF-8?Q?=28=E5=BC=A0=E6=98=8E=E4=BD=B3=29?= 
-        <Mingjia.Zhang@mediatek.com>,
-        Project_Global_Chrome_Upstream_Group 
-        <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-        "hsinyi@chromium.org" <hsinyi@chromium.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Date:   Thu, 13 Jul 2023 09:31:27 -0400
-In-Reply-To: <aa042d72211331e2752f6dfd552911a1315a3324.camel@mediatek.com>
-References: <20230711125749.15555-1-yunfei.dong@mediatek.com>
-         <af101e6831affc2e7152455ded1d779d38f1cb35.camel@collabora.com>
-         <aa042d72211331e2752f6dfd552911a1315a3324.camel@mediatek.com>
+        Thu, 13 Jul 2023 09:53:54 -0400
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99E1A211F;
+        Thu, 13 Jul 2023 06:53:51 -0700 (PDT)
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.95)
+          with esmtps (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1qJwlO-003u9E-2D; Thu, 13 Jul 2023 15:53:46 +0200
+Received: from p57bd9f0d.dip0.t-ipconnect.de ([87.189.159.13] helo=suse-laptop.fritz.box)
+          by inpost2.zedat.fu-berlin.de (Exim 4.95)
+          with esmtpsa (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1qJwlN-002pvx-QH; Thu, 13 Jul 2023 15:53:45 +0200
+Message-ID: <4622810f8bceb66f212fa09d34b10f0d2d71a35d.camel@physik.fu-berlin.de>
+Subject: Re: [PATCH v2 08/18] sh: Assign FB_MODE_IS_UNKNOWN to struct
+ fb_videomode.flag
+From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To:     Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
+        javierm@redhat.com
+Cc:     linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org,
+        linux-geode@lists.infradead.org, linux-nvidia@lists.surfsouth.com,
+        linux-hyperv@vger.kernel.org, linux-omap@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>
+Date:   Thu, 13 Jul 2023 15:53:44 +0200
+In-Reply-To: <20230713130338.31086-9-tzimmermann@suse.de>
+References: <20230713130338.31086-1-tzimmermann@suse.de>
+         <20230713130338.31086-9-tzimmermann@suse.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.48.4 
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 87.189.159.13
+X-ZEDAT-Hint: PO
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -78,31 +65,43 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mercredi 12 juillet 2023 =C3=A0 03:11 +0000, Yunfei Dong (=E8=91=A3=E4=
-=BA=91=E9=A3=9E) a =C3=A9crit=C2=A0:
-> > This cover letter is missing v4l2-compliance report. This is needed
-> > whenever
-> > format mechanism is modified in a driver (not just for new drivers).
-> > Please add
-> > and make sure there is not regression too.
-> >=20
-> Forgot to test v4l2-compliance, will add in next patch.
->=20
-> The flush test not include H264 for test fail, according to mingjia's
-> information, maybe gstreamer set wrong format. H264 fluster can test
-> pass when kernel driver force h264 in raster mode.
+On Thu, 2023-07-13 at 14:58 +0200, Thomas Zimmermann wrote:
+> Assign FB_MODE_IS_UNKNOWN to sh7763fb_videomode.flag instead of
+> FBINFO_FLAG_DEFAULT. Both are 0, so the stored value does not change.
+> 
+> FBINFO_FLAG_DEFAULT is a flag for a framebuffer in struct fb_info.
+> Flags for videomodes are prefixed with FB_MODE_.
+> 
+> v2:
+> 	* assign FB_MODE_IS_UNKNOWN (Adrian)
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+> Cc: Rich Felker <dalias@libc.org>
+> Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+> ---
+>  arch/sh/boards/mach-sh7763rdp/setup.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/arch/sh/boards/mach-sh7763rdp/setup.c b/arch/sh/boards/mach-sh7763rdp/setup.c
+> index 97e715e4e9b3..e25193001ea0 100644
+> --- a/arch/sh/boards/mach-sh7763rdp/setup.c
+> +++ b/arch/sh/boards/mach-sh7763rdp/setup.c
+> @@ -119,7 +119,7 @@ static struct fb_videomode sh7763fb_videomode = {
+>  	.vsync_len = 1,
+>  	.sync = 0,
+>  	.vmode = FB_VMODE_NONINTERLACED,
+> -	.flag = FBINFO_FLAG_DEFAULT,
+> +	.flag = FB_MODE_IS_UNKNOWN,
+>  };
+>  
+>  static struct sh7760fb_platdata sh7763fb_def_pdata = {
 
-For everyone interested, I've rebased MT2110R and MT2110T support MR in
-GStreamer. With the offending "return -EINVAL" removed, the test passes for=
- me.
-Consider updating your GStreamer build, let me know if you see further issu=
-e
-with GStreamer in this regard. I'm only missing a firmware with HEVC and 10=
-bit
-combined to confirm HEVC works too.
+Acked-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 
-https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/3444
-
-cheer,
-Nicolas
-
+-- 
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
