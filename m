@@ -2,136 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 145A4752AE9
-	for <lists+linux-media@lfdr.de>; Thu, 13 Jul 2023 21:28:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 170C2752B14
+	for <lists+linux-media@lfdr.de>; Thu, 13 Jul 2023 21:39:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232491AbjGMT2x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 13 Jul 2023 15:28:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33082 "EHLO
+        id S231536AbjGMTjQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 13 Jul 2023 15:39:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231245AbjGMT2w (ORCPT
+        with ESMTP id S231259AbjGMTjP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 13 Jul 2023 15:28:52 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA1622707;
-        Thu, 13 Jul 2023 12:28:51 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 67AFB61B24;
-        Thu, 13 Jul 2023 19:28:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C7CFC433C7;
-        Thu, 13 Jul 2023 19:28:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1689276530;
-        bh=zDVMhROmojmbgyEs2EDFF1j/BJYI67as1OcXUNfcQPg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=xnARUZ0P4IJfcgcPMHZ9Y6DjTZcWfPEqfbjzO+3k0J7MGqLzYYWrIhzbHGrSDjTjP
-         fkROjl9lPL8k4HfEQESuE7ohoRjDo/EzyxGcqEbIhCTW0a3enlxmyy8AFC4kRNnTHf
-         gb37E6ir3PbH3oNe2jOpCLtGi0BIQ7W3ZZZXqmCM=
-Date:   Thu, 13 Jul 2023 21:28:47 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Andrew Davis <afd@ti.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Christian Gmeiner <christian.gmeiner@gmail.com>,
-        John Stultz <jstultz@google.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] misc: sram: Add DMA-BUF Heap exporting of SRAM areas
-Message-ID: <2023071308-squeeze-hamster-d02f@gregkh>
-References: <20230713191316.116019-1-afd@ti.com>
+        Thu, 13 Jul 2023 15:39:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D663A272B
+        for <linux-media@vger.kernel.org>; Thu, 13 Jul 2023 12:38:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1689277108;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=7kGfgvA2AS5FjJRUHn56CMK8f89f2iP8kbTsZQXbun8=;
+        b=aMTXafC8dY5NiaxsRVvMb0DvR4WUaAnG9sjkNQl6vfoeMgp6+HMt5+sOZcmvhL7J4FAMbF
+        62LWeUbu9jXNjZ/eCwYbwxRA3SPHBq+kAXlg3yIOzksbWMXpDUXiRBvm6zcfxpJcm3hxow
+        XUjV1nLdCcJ1rw07TYw6ZcZEjPyJl+c=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-477-XSORcvEJOnyeNwQyQdJlJw-1; Thu, 13 Jul 2023 15:38:26 -0400
+X-MC-Unique: XSORcvEJOnyeNwQyQdJlJw-1
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-993f7b196a5so75243766b.0
+        for <linux-media@vger.kernel.org>; Thu, 13 Jul 2023 12:38:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689277105; x=1691869105;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7kGfgvA2AS5FjJRUHn56CMK8f89f2iP8kbTsZQXbun8=;
+        b=K3dfvtm6wPjjPVpDTQngQPgO7GH2vKJaH0GJxz6QznwxzA9bitWcO4HkYCBtC+HbjD
+         Udt4HcpU2wIp7+Bfkh3OMocingsODlaCUFYXFiVzY8TEUYPkycAZYOg3aaAjzSJ3cURe
+         tuk6XDD0F7O52za94iqHiCfNw6DAnfxZ1mpUawudtnJT5NVmivpoGqvpMjH2AumTv/6E
+         d3gkNBtx+cV8D2N4ZRYtQK3Ju4fVNzVI5l+vv2/fRN1x1PCTfpkiCTSvdN4LiYprkYhU
+         p2w1ikeaK5PVmPvZT7Kv3B80961s0v9mwwjmemj9cfFII23dq2vQcZpUINX15BKNrDzf
+         rxvw==
+X-Gm-Message-State: ABy/qLaepUWaQmi6kPyEKMNq4cfY+ko9nPw+Zr+LLtt7mYeLvWdQQ0X/
+        C09dxvWVIy70ua5ZENqSqrSk2IhBU9meyyoO0XPZbnL3Uzd0dq6hQJXi3wmdkp6h2Bge/lz3djt
+        9JAsXYtFBzycoS5cIOIXDQI4=
+X-Received: by 2002:a17:906:d5:b0:993:d5bd:a757 with SMTP id 21-20020a17090600d500b00993d5bda757mr2592626eji.19.1689277105613;
+        Thu, 13 Jul 2023 12:38:25 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlEIe1VO0PXnwtKsNw2RNboRlrYVlwXGvQbTQvYjKpfglFDFv0ByflJe3JDy4FdPXrbx/t8kWg==
+X-Received: by 2002:a17:906:d5:b0:993:d5bd:a757 with SMTP id 21-20020a17090600d500b00993d5bda757mr2592611eji.19.1689277105332;
+        Thu, 13 Jul 2023 12:38:25 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id dk7-20020a170906f0c700b009931a3adf64sm4439485ejb.17.2023.07.13.12.38.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Jul 2023 12:38:24 -0700 (PDT)
+Message-ID: <74cfe990-d36f-5372-9dc5-33f141f205be@redhat.com>
+Date:   Thu, 13 Jul 2023 21:38:23 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230713191316.116019-1-afd@ti.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH 00/11] #if defined(ISP2401) removal to make driver generic
+Content-Language: en-US, nl
+To:     Kate Hsuan <hpa@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+References: <20230713100231.308923-1-hpa@redhat.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230713100231.308923-1-hpa@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jul 13, 2023 at 02:13:16PM -0500, Andrew Davis wrote:
-> This new export type exposes to userspace the SRAM area as a DMA-BUF Heap,
-> this allows for allocations of DMA-BUFs that can be consumed by various
-> DMA-BUF supporting devices.
+Hi Kate,
 
-What devices exactly?
+On 7/13/23 12:02, Kate Hsuan wrote:
+> This patch set is to remove #if defined(ISP2401) to make the driver
+> generic. We focused on removing the #if defined(ISP2401) in isys and
+> necessary files related to it.
+> 
+> The changes include:
+> 1. Removed #if defined(ISP2401) in isys and related directories.
+> 2. Removed the debug codes for dumping status.
+> 3. Made two individual enum to define the MIPI format for both types of
+>    atomisp.
+> 4. The input system code should include both input system (ISP2400 and
+>    ISP2401) headers since a generic driver should cover all types
+>    of devcices.
+> 5. The initialization codes of the input system was modified to initiate
+>    atomisp input system in a generic manner.
 
-And what userspace tools/programs are going to use this api?
+Thank you very much for all your hard work on this.
+
+The entire series looks good to me:
+
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+
+for the series. I'll merge this into my media-atomisp branch
+when I can make some time to do so.
+
+Regards,
+
+Hans
+
+
 
 > 
-> Signed-off-by: Andrew Davis <afd@ti.com>
-> ---
 > 
-> Changes from v2:
->  - Make sram_dma_heap_allocate static (kernel test robot)
->  - Rebase on v6.5-rc1
+> Kate Hsuan (11):
+>   media: atomisp: ia_css_debug: Removed debug codes for dumping status
+>   media: atomisp: Make two individual enum to define the MIPI format
+>   media: atomisp: Included both input system headers
+>   media: atomisp: css_2401_system: Remove #ifdef ISP2401 to make the
+>     driver generic
+>   media: atomisp: isys: Removed #if defined(ISP2401) to make driver
+>     generic
+>   media: atomisp: hive_isp_css_common: Removed #if defined(ISP2401) to
+>     make driver generic
+>   media: atomisp: pipeline: Removed #if defined(ISP2401) to make driver
+>     generic
+>   media: atomisp: ifmtr: Removed #if defined(ISP2401) to make driver
+>     generic
+>   media: atomisp: Compile the object codes for a generic driver
+>   media: atomisp: rx: Removed #if defined(ISP2401) to make driver
+>     generic
+>   media: atomisp: isys_init: Initiate atomisp in a generic manner
 > 
->  drivers/misc/Kconfig         |   7 +
->  drivers/misc/Makefile        |   1 +
->  drivers/misc/sram-dma-heap.c | 245 +++++++++++++++++++++++++++++++++++
->  drivers/misc/sram.c          |   6 +
->  drivers/misc/sram.h          |  16 +++
->  5 files changed, 275 insertions(+)
->  create mode 100644 drivers/misc/sram-dma-heap.c
+>  drivers/staging/media/atomisp/Makefile        |  12 +-
+>  .../pci/css_2401_system/host/isys_irq_local.h |   3 -
+>  .../css_2401_system/host/isys_irq_private.h   |   2 -
+>  .../pci/css_2401_system/isys_irq_global.h     |   2 -
+>  .../host/input_formatter.c                    |   2 -
+>  .../hive_isp_css_common/host/input_system.c   |  75 -----
+>  .../host/isys_dma_public.h                    |   2 -
+>  .../host/isys_irq_public.h                    |   2 -
+>  .../hive_isp_css_include/host/isys_public.h   |  19 --
+>  .../pci/hive_isp_css_include/isys_irq.h       |   2 -
+>  .../media/atomisp/pci/input_system_local.h    |   7 +-
+>  .../media/atomisp/pci/input_system_private.h  |   7 +-
+>  .../media/atomisp/pci/input_system_public.h   |   4 +-
+>  .../atomisp/pci/isp2400_input_system_local.h  |  89 +++---
+>  .../pci/isp2400_input_system_private.h        |   4 +-
+>  .../atomisp/pci/isp2400_input_system_public.h |  13 +-
+>  .../atomisp/pci/isp2401_input_system_local.h  |  88 +++---
+>  .../pci/isp2401_input_system_private.h        | 112 +-------
+>  .../runtime/debug/interface/ia_css_debug.h    |   6 -
+>  .../pci/runtime/debug/src/ia_css_debug.c      | 256 ------------------
+>  .../atomisp/pci/runtime/ifmtr/src/ifmtr.c     |   2 -
+>  .../pci/runtime/isys/interface/ia_css_isys.h  |   9 +-
+>  .../runtime/isys/interface/ia_css_isys_comm.h |   2 -
+>  .../pci/runtime/isys/src/csi_rx_rmgr.c        |   2 -
+>  .../pci/runtime/isys/src/isys_dma_rmgr.c      |   2 -
+>  .../atomisp/pci/runtime/isys/src/isys_init.c  |  31 +--
+>  .../runtime/isys/src/isys_stream2mmio_rmgr.c  |   2 -
+>  .../media/atomisp/pci/runtime/isys/src/rx.c   | 227 ++++++++++------
+>  .../pci/runtime/isys/src/virtual_isys.c       |   8 +-
+>  .../pipeline/interface/ia_css_pipeline.h      |   2 -
+>  .../pci/runtime/pipeline/src/pipeline.c       |   2 -
+>  drivers/staging/media/atomisp/pci/sh_css.c    |   2 -
+>  drivers/staging/media/atomisp/pci/sh_css_sp.c |   2 -
+>  drivers/staging/media/atomisp/pci/sh_css_sp.h |   2 -
+>  34 files changed, 253 insertions(+), 749 deletions(-)
 > 
-> diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
-> index 75e427f124b28..ee34dfb61605f 100644
-> --- a/drivers/misc/Kconfig
-> +++ b/drivers/misc/Kconfig
-> @@ -448,6 +448,13 @@ config SRAM
->  config SRAM_EXEC
->  	bool
->  
-> +config SRAM_DMA_HEAP
-> +	bool "Export on-chip SRAM pools using DMA-Heaps"
-> +	depends on DMABUF_HEAPS && SRAM
-> +	help
-> +	  This driver allows the export of on-chip SRAM marked as both pool
-> +	  and exportable to userspace using the DMA-Heaps interface.
 
-Module name?
-
->  config DW_XDATA_PCIE
->  	depends on PCI
->  	tristate "Synopsys DesignWare xData PCIe driver"
-> diff --git a/drivers/misc/Makefile b/drivers/misc/Makefile
-> index f2a4d1ff65d46..5e7516bfaa8de 100644
-> --- a/drivers/misc/Makefile
-> +++ b/drivers/misc/Makefile
-> @@ -47,6 +47,7 @@ obj-$(CONFIG_VMWARE_VMCI)	+= vmw_vmci/
->  obj-$(CONFIG_LATTICE_ECP3_CONFIG)	+= lattice-ecp3-config.o
->  obj-$(CONFIG_SRAM)		+= sram.o
->  obj-$(CONFIG_SRAM_EXEC)		+= sram-exec.o
-> +obj-$(CONFIG_SRAM_DMA_HEAP)	+= sram-dma-heap.o
->  obj-$(CONFIG_GENWQE)		+= genwqe/
->  obj-$(CONFIG_ECHO)		+= echo/
->  obj-$(CONFIG_CXL_BASE)		+= cxl/
-> diff --git a/drivers/misc/sram-dma-heap.c b/drivers/misc/sram-dma-heap.c
-> new file mode 100644
-> index 0000000000000..c054c04dff33e
-> --- /dev/null
-> +++ b/drivers/misc/sram-dma-heap.c
-> @@ -0,0 +1,245 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * SRAM DMA-Heap userspace exporter
-> + *
-> + * Copyright (C) 2019-2022 Texas Instruments Incorporated - https://www.ti.com/
-> + *	Andrew Davis <afd@ti.com>
-
-It's 2023 :(
-
-And this needs review from the dma-buf maintainers before I could do
-anything with it.
-
-thanks,
-
-greg k-h
