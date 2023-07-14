@@ -2,126 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BDE21753761
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jul 2023 12:04:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68872753777
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jul 2023 12:06:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235798AbjGNKEY convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 14 Jul 2023 06:04:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50592 "EHLO
+        id S235987AbjGNKGj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Jul 2023 06:06:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231584AbjGNKEV (ORCPT
+        with ESMTP id S235958AbjGNKGi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Jul 2023 06:04:21 -0400
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C127E1989;
-        Fri, 14 Jul 2023 03:04:20 -0700 (PDT)
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-1b730eb017bso1347303fac.1;
-        Fri, 14 Jul 2023 03:04:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689329059; x=1691921059;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cbFWyufa2I/dKrp5bYUBMB1ESShCcC04UZ0ziSB/4oc=;
-        b=WfuT62NAV/KEOKYAM9BHIMuHz6YRXnm7xoKdh+sZy9BOPjP8rgufGPlDP3wS4WSFx4
-         h7WbwjM0kI1vmGswHdrRNY5eqObFdrhpyeePmwzSkCxyCGkNNK5apfe0Z3voHsdHJJT7
-         tb6Wg0LNGs25QAQAkX1XSj9Lv613AXcD2pv8ijii7HM/KEiU5vWBLmIpKnDt7TvPxi9j
-         jSRmulr3xPLJCqwO+J5vysW5lDYIzj+df7ZTVf41ctwTsFcqgHpieUKAnTIIAuUgzyEC
-         qS4C0mddn/PtCJYOIsVReiT5jNn1mRz1CkNrgm0WViRn1vCY19+z6c3ymeQehI9SFa8v
-         1S1A==
-X-Gm-Message-State: ABy/qLasugcuzUO4sK3pOfm7xGhSQJ3QJrvNl2FH27Eqqm1CcAc7M6Zu
-        vOT1Owh1jKH/iaOREVbj2jd+9zh/u3Ruvg==
-X-Google-Smtp-Source: APBJJlHiD3v2u63KmBepFncsWakaeIp+xHYTm685RSMvB9XoC7cFtMO4232Sujt30xadpzbv8+Rh9w==
-X-Received: by 2002:a05:6870:b48b:b0:1b0:7078:58ad with SMTP id y11-20020a056870b48b00b001b0707858admr5618059oap.38.1689329059529;
-        Fri, 14 Jul 2023 03:04:19 -0700 (PDT)
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com. [209.85.210.42])
-        by smtp.gmail.com with ESMTPSA id t2-20020a056870e74200b001a697e75260sm3776688oak.58.2023.07.14.03.04.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Jul 2023 03:04:18 -0700 (PDT)
-Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-6b711c3ad1fso1399321a34.0;
-        Fri, 14 Jul 2023 03:04:18 -0700 (PDT)
-X-Received: by 2002:a05:6358:591d:b0:135:43da:b16d with SMTP id
- g29-20020a056358591d00b0013543dab16dmr4868202rwf.11.1689329058168; Fri, 14
- Jul 2023 03:04:18 -0700 (PDT)
+        Fri, 14 Jul 2023 06:06:38 -0400
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04B502D75;
+        Fri, 14 Jul 2023 03:06:31 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: lina@asahilina.net)
+        by mail.marcansoft.com (Postfix) with ESMTPSA id 117714258C;
+        Fri, 14 Jul 2023 10:06:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+        s=default; t=1689329190;
+        bh=9QWl/AwKkqJIVfZsIvRKT61QtERPUmn6O/Rt/bWA6J8=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=DcwMypG1rCCpo1DjBZULFEiSjm2jugs4+T/om73xJh6DCpNnIBpPnruD4ZMoNlsrk
+         +wBm7aNUIfmDN6W2QzN7gUI3bWehBstiJBVqk+St4UBZhafAaLSx+t8ASGKadHueB2
+         GENvsra5bFsLmWn3ZoWp7xUvTNObvlgyewP7T9SKQw8ySL6jYiU2NYceUxhIfPbhB8
+         QtWbVuQQ9nlnK5WWnBDSYFmkhJST1z4z6rP0ESs26Fx5HtDDeWlaeSDCqvd1jH5mqy
+         553ACgMOQU1nAaP4mvYNKGfYVuvkM0LFuMetqRCkoz7I6k9gGEgD6mhBVCXUynr9q7
+         Aj+UYoO0hiMVA==
+Message-ID: <6b473196-9f87-d6c8-b289-18f80de78f0a@asahilina.net>
+Date:   Fri, 14 Jul 2023 19:06:25 +0900
 MIME-Version: 1.0
-References: <20230714075155.5686-1-tzimmermann@suse.de>
-In-Reply-To: <20230714075155.5686-1-tzimmermann@suse.de>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 14 Jul 2023 12:04:03 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWoeyJPAgPgFi545SJFcaVCgZi1-zW2N5cBeU9BnHgo1w@mail.gmail.com>
-Message-ID: <CAMuHMdWoeyJPAgPgFi545SJFcaVCgZi1-zW2N5cBeU9BnHgo1w@mail.gmail.com>
-Subject: Re: [PATCH v3 00/18] fbdev: Remove FBINFO_DEFAULT and
- FBINFO_FLAG_DEFAULT flags
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     deller@gmx.de, javierm@redhat.com, linux-sh@vger.kernel.org,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 2/3] drm/scheduler: Fix UAF in
+ drm_sched_fence_get_timeline_name
+Content-Language: en-US
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>
+Cc:     Faith Ekstrand <faith.ekstrand@collabora.com>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
         dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org,
-        linux-geode@lists.infradead.org, linux-nvidia@lists.surfsouth.com,
-        linux-hyperv@vger.kernel.org, linux-omap@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+        linux-media@vger.kernel.org, asahi@lists.linux.dev
+References: <20230714-drm-sched-fixes-v1-0-c567249709f7@asahilina.net>
+ <20230714-drm-sched-fixes-v1-2-c567249709f7@asahilina.net>
+ <bef7ef62-3cd9-6ceb-5eb4-5ae0c0236778@amd.com>
+ <de502b41-2864-db1e-16a0-8a5d5e0e4ad3@asahilina.net>
+ <d9dc2fd5-d054-dbf3-72b7-fe9deaa46350@amd.com>
+From:   Asahi Lina <lina@asahilina.net>
+In-Reply-To: <d9dc2fd5-d054-dbf3-72b7-fe9deaa46350@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Thomas,
+On 14/07/2023 18.57, Christian König wrote:
+> Am 14.07.23 um 11:49 schrieb Asahi Lina:
+>> On 14/07/2023 17.43, Christian König wrote:
+>>> Am 14.07.23 um 10:21 schrieb Asahi Lina:
+>>>> A signaled scheduler fence can outlive its scheduler, since fences are
+>>>> independencly reference counted. Therefore, we can't reference the
+>>>> scheduler in the get_timeline_name() implementation.
+>>>>
+>>>> Fixes oopses on `cat /sys/kernel/debug/dma_buf/bufinfo` when shared
+>>>> dma-bufs reference fences from GPU schedulers that no longer exist.
+>>>>
+>>>> Signed-off-by: Asahi Lina <lina@asahilina.net>
+>>>> ---
+>>>>     drivers/gpu/drm/scheduler/sched_entity.c | 7 ++++++-
+>>>>     drivers/gpu/drm/scheduler/sched_fence.c  | 4 +++-
+>>>>     include/drm/gpu_scheduler.h              | 5 +++++
+>>>>     3 files changed, 14 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
+>>>> b/drivers/gpu/drm/scheduler/sched_entity.c
+>>>> index b2bbc8a68b30..17f35b0b005a 100644
+>>>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>>>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>>>> @@ -389,7 +389,12 @@ static bool
+>>>> drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
+>>>>                /*
+>>>>              * Fence is from the same scheduler, only need to wait for
+>>>> -         * it to be scheduled
+>>>> +         * it to be scheduled.
+>>>> +         *
+>>>> +         * Note: s_fence->sched could have been freed and reallocated
+>>>> +         * as another scheduler. This false positive case is okay,
+>>>> as if
+>>>> +         * the old scheduler was freed all of its jobs must have
+>>>> +         * signaled their completion fences.
+>>>
+>>> This is outright nonsense. As long as an entity for a scheduler exists
+>>> it is not allowed to free up this scheduler.
+>>>
+>>> So this function can't be called like this.
+>>
+>> As I already explained, the fences can outlive their scheduler. That
+>> means *this* entity certainly exists for *this* scheduler, but the
+>> *dependency* fence might have come from a past scheduler that was
+>> already destroyed along with all of its entities, and its address reused.
+> 
+> Well this is function is not about fences, this function is a callback
+> for the entity.
 
-On Fri, Jul 14, 2023 at 9:53 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Remove the unused flags FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT from
-> fbdev and drivers, as briefly discussed at [1]. Both flags were maybe
-> useful when fbdev had special handling for driver modules. With
-> commit 376b3ff54c9a ("fbdev: Nuke FBINFO_MODULE"), they are both 0
-> and have no further effect.
->
-> Patches 1 to 7 remove FBINFO_DEFAULT from drivers. Patches 2 to 5
-> split this by the way the fb_info struct is being allocated. All flags
-> are cleared to zero during the allocation.
->
-> Patches 8 to 16 do the same for FBINFO_FLAG_DEFAULT. Patch 8 fixes
-> an actual bug in how arch/sh uses the token for struct fb_videomode,
-> which is unrelated.
->
-> Patch 17 removes both flag constants from <linux/fb.h> and patch 18
-> documents the zero'ed memory returned by framebuffer_alloc().
->
-> v3:
->         * sh: include board name in commit message (Adrian)
->         * docs: reword text (Miguel)
+That deals with dependency fences, which could have come from any 
+arbitrary source, including another entity and another scheduler.
 
-Thanks for the update!
+>>
+>> Christian, I'm really getting tired of your tone. I don't appreciate
+>> being told my comments are "outright nonsense" when you don't even
+>> take the time to understand what the issue is and what I'm trying to
+>> do/document. If you aren't interested in working with me, I'm just
+>> going to give up on drm_sched, wait until Rust gets workqueue support,
+>> and reimplement it in Rust. You can keep your broken fence lifetime
+>> semantics and I'll do my own thing.
+> 
+> I'm certainly trying to help here, but you seem to have unrealistic
+> expectations.
 
->   fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
->   fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
->   fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
->   fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
+I don't think expecting not to be told my changes are "outright 
+nonsense" is an unrealistic expectation. If you think it is, maybe 
+that's yet another indicator of the culture problems the kernel 
+community has...
 
-Four patches with the exact same one-line summary. Please make them
-unique.
+> I perfectly understand what you are trying to do, but you don't seem to
+> understand that this functionality here isn't made for your use case.
 
->   fbdev: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
->   fbdev: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
+I do, that's why I'm trying to change things. Right now, this 
+functionality isn't even properly documented, which is why I thought it 
+could be used for my use case, and slowly discovered otherwise. Daniel 
+suggested documenting it, then fixing the mismatches between 
+documentation and reality, which is what I'm doing here.
 
-Two patches with the exact same one-line summary. Please make them
-unique.
+> We can adjust the functionality to better match your requirements, but
+> you can't say it is broken because it doesn't work when you use it not
+> in the way it is intended to be used.
 
-Gr{oetje,eeting}s,
+I'm saying the idea that a random dma-buf holds onto a chain of 
+references that prevents unloading a driver module that wrote into it 
+(and keeps a bunch of random unrelated objects alive) is a broken state 
+of affairs. It may or may not trickle down to actual problems for users 
+(I would bet it does in some cases but I don't know for sure), but it's 
+a situation that doesn't make any sense.
 
-                        Geert
+I know I'm triggering actual breakage with my new use case due to this, 
+which is why I'm trying to improve things. But the current state of 
+affairs just doesn't make any sense even if it isn't causing kernel 
+oopses today with other drivers.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> You can go ahead and try to re-implement the functionality in Rust, but
+> then I would reject that pointing out that this should probably be an
+> extension to the existing code.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+You keep rejecting my attempts at extending the existing code...
+
+~~ Lina
+
