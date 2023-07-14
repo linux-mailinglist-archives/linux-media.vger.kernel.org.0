@@ -2,125 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0931A754250
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jul 2023 20:11:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8C3D7542B3
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jul 2023 20:42:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236374AbjGNSLX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Jul 2023 14:11:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58372 "EHLO
+        id S235924AbjGNSmb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Jul 2023 14:42:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236339AbjGNSLV (ORCPT
+        with ESMTP id S235463AbjGNSma (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Jul 2023 14:11:21 -0400
-Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com [IPv6:2607:f8b0:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 959D53C3B
-        for <linux-media@vger.kernel.org>; Fri, 14 Jul 2023 11:10:49 -0700 (PDT)
-Received: by mail-il1-x12d.google.com with SMTP id e9e14a558f8ab-3461053677eso5042825ab.0
-        for <linux-media@vger.kernel.org>; Fri, 14 Jul 2023 11:10:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google; t=1689358246; x=1691950246;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ElBmMm1ZevyAKtumVID4tVMI+TD8QnK9EnzezYAZC1A=;
-        b=Mpdbmrnz6XIJWmlHQJGoTmuC7D53w+ptxGvR1qzM5rcUr2yuAkawf06rjkPYMTBpFq
-         l6MjPg1ZjnoCWgc8pvFZw+blKr4qxg2V0sQF1H0WVPdY6+DHII+TihuXYaBMer6Ieai0
-         olDYpMIpFkabUds26CFLUeHKHqIZFPDKt93i0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689358246; x=1691950246;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ElBmMm1ZevyAKtumVID4tVMI+TD8QnK9EnzezYAZC1A=;
-        b=PY7DfFUKS1FVGeo6sJ21sJobZnzI4xQ/2hOce+yuj+oOqzbFmhWZh2AvLAbQ2vC+B+
-         ANNioGT/iLrQN9b3S1LpdGQKCEebqUMN4fxTmar7W8SUMxOuzpkDaf/gWP0NPaiYFd6S
-         TBUINmC1Fo+VdEGlQAijQNS4w6u0EXRPZGHtfG2+wbMQwNklGV2wC0t3CWkcmsrU5TtB
-         8d0jPrEwHiCTCcqrAsvWbRq3ZBztVL9D6V9gaMSZRkjK28/J3ZHFEE1Wz5isp85jQ4hb
-         eO/gwqf+WjSVSRJkzM5CVd5JQmJF0kOxnuQRGQROX2D93lpjWoY3zgCj6Un7gWH4sn1a
-         pMfw==
-X-Gm-Message-State: ABy/qLYhBDYS60Xic89o+rocYfwy35xKfZBsI3GP77N+uXscFdlvZdNx
-        6o5K+aaFdfauaBiBG/FR0gXihg==
-X-Google-Smtp-Source: APBJJlGUGWVq3dRmIhivYzT09y1C8kNKMoIaBZuLBrLyn6F4EFbPgbam3zAfvH0LyeRyezDMUEgn+A==
-X-Received: by 2002:a05:6e02:221e:b0:346:bf9:76fb with SMTP id j30-20020a056e02221e00b003460bf976fbmr2505344ilf.6.1689358246007;
-        Fri, 14 Jul 2023 11:10:46 -0700 (PDT)
-Received: from [172.22.22.28] (c-98-61-227-136.hsd1.mn.comcast.net. [98.61.227.136])
-        by smtp.googlemail.com with ESMTPSA id ee14-20020a056638292e00b0042ad6abe0bbsm2820039jab.20.2023.07.14.11.10.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Jul 2023 11:10:44 -0700 (PDT)
-Message-ID: <2af8ba3f-566a-756e-48bf-3e723bc713da@ieee.org>
-Date:   Fri, 14 Jul 2023 13:10:42 -0500
+        Fri, 14 Jul 2023 14:42:30 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 845482D73
+        for <linux-media@vger.kernel.org>; Fri, 14 Jul 2023 11:42:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689360148; x=1720896148;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=hYKo7su7u2gAY/CVwklV+f6j8aLNS2V8V8EYn5Idbuw=;
+  b=MmwgUVgszODA2h7qX+Gy8wOcN5m40I+ZBn+JwLcM6EEanMxHM2FKAav8
+   CIzq2KmQcSUvD2pjsgx63ryOMvfb/5iBSjgKs2E2R/YxN9FUJNkrA6qFj
+   8UUUQQfdTpOPpwvAdFtICtaLZRiiszcCCwGEQIqoOk4713BZH//nUNARb
+   qknx1psxpYvgIi0FWputttamDaG4ZBCexw8mgJ07x0Hogj4xEAUjFkMGI
+   TF6736eq4iggiobwU3O4V/cK+EUwN86whsRfPBiwx6aljkTVesrxrAokO
+   JbUXgl0/KRLijEJPIfITBrmOcIFmb8ciAnzkw4RT/lRFOrSWnX/A2X949
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="363012983"
+X-IronPort-AV: E=Sophos;i="6.01,206,1684825200"; 
+   d="scan'208";a="363012983"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2023 11:42:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10771"; a="812551454"
+X-IronPort-AV: E=Sophos;i="6.01,206,1684825200"; 
+   d="scan'208";a="812551454"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.70])
+  by FMSMGA003.fm.intel.com with SMTP; 14 Jul 2023 11:42:25 -0700
+Received: by stinkbox (sSMTP sendmail emulation); Fri, 14 Jul 2023 21:42:24 +0300
+Date:   Fri, 14 Jul 2023 21:42:24 +0300
+From:   Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc:     dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH] dma-buf/dma-resv: Stop leaking on krealloc() failure
+Message-ID: <ZLGXEMdvBAVaNICJ@intel.com>
+References: <20230713194745.1751-1-ville.syrjala@linux.intel.com>
+ <defcbed9-7cfc-9499-9e08-02a06390cc8f@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [greybus-dev] [PATCH] staging: Explicitly include correct DT
- includes
-Content-Language: en-US
-To:     Rob Herring <robh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
-        Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-        Christian Gromm <christian.gromm@microchip.com>
-Cc:     devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, greybus-dev@lists.linaro.org,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-tegra@vger.kernel.org
-References: <20230714175002.4064428-1-robh@kernel.org>
-From:   Alex Elder <elder@ieee.org>
-In-Reply-To: <20230714175002.4064428-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <defcbed9-7cfc-9499-9e08-02a06390cc8f@amd.com>
+X-Patchwork-Hint: comment
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 7/14/23 12:50 PM, Rob Herring wrote:
-> The DT of_device.h and of_platform.h date back to the separate
-> of_platform_bus_type before it as merged into the regular platform bus.
-> As part of that merge prepping Arm DT support 13 years ago, they
-> "temporarily" include each other. They also include platform_device.h
-> and of.h. As a result, there's a pretty much random mix of those include
-> files used throughout the tree. In order to detangle these headers and
-> replace the implicit includes with struct declarations, users need to
-> explicitly include the correct includes.
+On Fri, Jul 14, 2023 at 08:56:15AM +0200, Christian König wrote:
+> Am 13.07.23 um 21:47 schrieb Ville Syrjala:
+> > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> >
+> > Currently dma_resv_get_fences() will leak the previously
+> > allocated array if the fence iteration got restarted and
+> > the krealloc_array() fails.
+> >
+> > Free the old array by hand, and make sure we still clear
+> > the returned *fences so the caller won't end up accessing
+> > freed memory. Some (but not all) of the callers of
+> > dma_resv_get_fences() seem to still trawl through the
+> > array even when dma_resv_get_fences() failed. And let's
+> > zero out *num_fences as well for good measure.
+> >
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > Cc: Christian König <christian.koenig@amd.com>
+> > Cc: linux-media@vger.kernel.org
+> > Cc: dri-devel@lists.freedesktop.org
+> > Cc: linaro-mm-sig@lists.linaro.org
+> > Fixes: d3c80698c9f5 ("dma-buf: use new iterator in dma_resv_get_fences v3")
+> > Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 > 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+> Good catch, Reviewed-by: Christian König <christian.koenig@amd.com>
+> 
+> Should I add a CC: stable and push to drm-misc-fixes?
 
-For drivers/staging/greybus/arche-platform.c:
+Sure, if you don't mind. Thanks.
 
-Acked-by: Alex Elder <elder@linaro.org>
+> 
+> Thanks,
+> Christian.
+> 
+> > ---
+> >   drivers/dma-buf/dma-resv.c | 13 +++++++++----
+> >   1 file changed, 9 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+> > index b6f71eb00866..38b4110378de 100644
+> > --- a/drivers/dma-buf/dma-resv.c
+> > +++ b/drivers/dma-buf/dma-resv.c
+> > @@ -571,6 +571,7 @@ int dma_resv_get_fences(struct dma_resv *obj, enum dma_resv_usage usage,
+> >   	dma_resv_for_each_fence_unlocked(&cursor, fence) {
+> >   
+> >   		if (dma_resv_iter_is_restarted(&cursor)) {
+> > +			struct dma_fence **new_fences;
+> >   			unsigned int count;
+> >   
+> >   			while (*num_fences)
+> > @@ -579,13 +580,17 @@ int dma_resv_get_fences(struct dma_resv *obj, enum dma_resv_usage usage,
+> >   			count = cursor.num_fences + 1;
+> >   
+> >   			/* Eventually re-allocate the array */
+> > -			*fences = krealloc_array(*fences, count,
+> > -						 sizeof(void *),
+> > -						 GFP_KERNEL);
+> > -			if (count && !*fences) {
+> > +			new_fences = krealloc_array(*fences, count,
+> > +						    sizeof(void *),
+> > +						    GFP_KERNEL);
+> > +			if (count && !new_fences) {
+> > +				kfree(*fences);
+> > +				*fences = NULL;
+> > +				*num_fences = 0;
+> >   				dma_resv_iter_end(&cursor);
+> >   				return -ENOMEM;
+> >   			}
+> > +			*fences = new_fences;
+> >   		}
+> >   
+> >   		(*fences)[(*num_fences)++] = dma_fence_get(fence);
 
-> ---
->   drivers/staging/axis-fifo/axis-fifo.c             | 6 ++----
->   drivers/staging/greybus/arche-platform.c          | 1 +
-
-. . .
-
+-- 
+Ville Syrjälä
+Intel
