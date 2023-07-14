@@ -2,159 +2,240 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 669377538A8
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jul 2023 12:47:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FF3B753A6B
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jul 2023 14:13:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236152AbjGNKrH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Jul 2023 06:47:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48806 "EHLO
+        id S235357AbjGNMN1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Jul 2023 08:13:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234989AbjGNKrF (ORCPT
+        with ESMTP id S230470AbjGNMN0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Jul 2023 06:47:05 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA67B1720;
-        Fri, 14 Jul 2023 03:47:04 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        Fri, 14 Jul 2023 08:13:26 -0400
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D77B2722;
+        Fri, 14 Jul 2023 05:13:23 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 7ECEB1FD8E;
-        Fri, 14 Jul 2023 10:47:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1689331623; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=i6h55HQftgQvvkADA67nYyBV+C/0slxTlkvYG6YPBpQ=;
-        b=JZN2yI8rzL18Kd+zDHxd/TnFZF8NcWznRSUZbF+sDr4OinPC2cSxFcSkTAzJSwhPTy5GER
-        8RR7GB8vyS+yJ9Vrf2sPB8e5nfnWH646KN34d0NT1VKITWZcIQd3H5Uf54bGaP42JBn9z2
-        caBWuuGKXdn5VW0NsACfB7CapldgqfM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1689331623;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=i6h55HQftgQvvkADA67nYyBV+C/0slxTlkvYG6YPBpQ=;
-        b=/epw2TagvC6JEinSwpHEJxmj1PG/pM/YY2ZPJdrmm2KOfeJr3f2ATmf8+LQH8TDFG9gdkX
-        Z7hM/OF80gyVoJCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 060C213A15;
-        Fri, 14 Jul 2023 10:47:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id qw1yO6YnsWQgHgAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Fri, 14 Jul 2023 10:47:02 +0000
-Message-ID: <12d980f4-e681-378d-6d94-da5cc6be5210@suse.de>
-Date:   Fri, 14 Jul 2023 12:47:02 +0200
+        (Authenticated sender: lina@asahilina.net)
+        by mail.marcansoft.com (Postfix) with ESMTPSA id E69225BC3A;
+        Fri, 14 Jul 2023 12:13:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+        s=default; t=1689336801;
+        bh=DWYGMsjKYj46JY4sKn+xsGrKzmhqcYG/7k01RE2MggE=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=RNhUBcX3s0W+Zvu0qcG7y44YsnhK7RpOcztyyvrMh4jUpqdIFUVdsaAtArdvI1kvF
+         dDnG9Olp8Gy2TsoGTNCL+gDNa2Gw005Qp90wuziuT4GFdKqu5atYBh0k92rJ8CaCem
+         XklwuamNyNKzIhLkHHTkx4hOhA4OvR70m3hKOxwQgKV7w+AUDpmMjVfiItubxZv6TQ
+         8qxRm3K1ajK/2drxgdAttjR3J5mfWIlw66+Taag37MLlrZkYdwOnPOJzdgwMcLZeKW
+         pOtvcCgo4y+pwtfCIVXjlwysoirNNJfRqUHJsMMxwSGFjFTTCKdt8DTT301ONw5dfJ
+         232IHUwkNx4GA==
+Message-ID: <7e53bc1f-7d1e-fb1c-be45-f03c5bbb8965@asahilina.net>
+Date:   Fri, 14 Jul 2023 21:13:16 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v3 00/18] fbdev: Remove FBINFO_DEFAULT and
- FBINFO_FLAG_DEFAULT flags
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 2/3] drm/scheduler: Fix UAF in
+ drm_sched_fence_get_timeline_name
 Content-Language: en-US
-To:     Dan Carpenter <dan.carpenter@linaro.org>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, linux-sh@vger.kernel.org,
-        deller@gmx.de, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        javierm@redhat.com, dri-devel@lists.freedesktop.org,
-        linux-input@vger.kernel.org, linux-nvidia@lists.surfsouth.com,
-        linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-geode@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-References: <20230714075155.5686-1-tzimmermann@suse.de>
- <CAMuHMdWoeyJPAgPgFi545SJFcaVCgZi1-zW2N5cBeU9BnHgo1w@mail.gmail.com>
- <47a3ab8d-5e8c-db2c-fcde-5c2b1bac32aa@suse.de>
- <b3c23ea3-f46c-43b9-b12a-9f55de2294c6@kadam.mountain>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <b3c23ea3-f46c-43b9-b12a-9f55de2294c6@kadam.mountain>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------vCsdIumFTGHoRkqMx9FMKvYN"
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Luben Tuikov <luben.tuikov@amd.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>
+Cc:     Faith Ekstrand <faith.ekstrand@collabora.com>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, asahi@lists.linux.dev
+References: <20230714-drm-sched-fixes-v1-0-c567249709f7@asahilina.net>
+ <20230714-drm-sched-fixes-v1-2-c567249709f7@asahilina.net>
+ <bef7ef62-3cd9-6ceb-5eb4-5ae0c0236778@amd.com>
+ <de502b41-2864-db1e-16a0-8a5d5e0e4ad3@asahilina.net>
+ <d9dc2fd5-d054-dbf3-72b7-fe9deaa46350@amd.com>
+ <6b473196-9f87-d6c8-b289-18f80de78f0a@asahilina.net>
+ <003eb810-654e-3a2b-0756-d62440c2d419@amd.com>
+From:   Asahi Lina <lina@asahilina.net>
+In-Reply-To: <003eb810-654e-3a2b-0756-d62440c2d419@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------vCsdIumFTGHoRkqMx9FMKvYN
-Content-Type: multipart/mixed; boundary="------------Nh1ETrjj519EbQRvF1jjXvLz";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-fbdev@vger.kernel.org,
- kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, linux-sh@vger.kernel.org,
- deller@gmx.de, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, javierm@redhat.com,
- dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
- linux-nvidia@lists.surfsouth.com, linux-omap@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-geode@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Message-ID: <12d980f4-e681-378d-6d94-da5cc6be5210@suse.de>
-Subject: Re: [PATCH v3 00/18] fbdev: Remove FBINFO_DEFAULT and
- FBINFO_FLAG_DEFAULT flags
-References: <20230714075155.5686-1-tzimmermann@suse.de>
- <CAMuHMdWoeyJPAgPgFi545SJFcaVCgZi1-zW2N5cBeU9BnHgo1w@mail.gmail.com>
- <47a3ab8d-5e8c-db2c-fcde-5c2b1bac32aa@suse.de>
- <b3c23ea3-f46c-43b9-b12a-9f55de2294c6@kadam.mountain>
-In-Reply-To: <b3c23ea3-f46c-43b9-b12a-9f55de2294c6@kadam.mountain>
+On 14/07/2023 19.18, Christian König wrote:
+> Am 14.07.23 um 12:06 schrieb Asahi Lina:
+>> On 14/07/2023 18.57, Christian König wrote:
+>>> Am 14.07.23 um 11:49 schrieb Asahi Lina:
+>>>> On 14/07/2023 17.43, Christian König wrote:
+>>>>> Am 14.07.23 um 10:21 schrieb Asahi Lina:
+>>>>>> A signaled scheduler fence can outlive its scheduler, since fences
+>>>>>> are
+>>>>>> independencly reference counted. Therefore, we can't reference the
+>>>>>> scheduler in the get_timeline_name() implementation.
+>>>>>>
+>>>>>> Fixes oopses on `cat /sys/kernel/debug/dma_buf/bufinfo` when shared
+>>>>>> dma-bufs reference fences from GPU schedulers that no longer exist.
+>>>>>>
+>>>>>> Signed-off-by: Asahi Lina <lina@asahilina.net>
+>>>>>> ---
+>>>>>>      drivers/gpu/drm/scheduler/sched_entity.c | 7 ++++++-
+>>>>>>      drivers/gpu/drm/scheduler/sched_fence.c  | 4 +++-
+>>>>>>      include/drm/gpu_scheduler.h              | 5 +++++
+>>>>>>      3 files changed, 14 insertions(+), 2 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
+>>>>>> b/drivers/gpu/drm/scheduler/sched_entity.c
+>>>>>> index b2bbc8a68b30..17f35b0b005a 100644
+>>>>>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>>>>>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>>>>>> @@ -389,7 +389,12 @@ static bool
+>>>>>> drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
+>>>>>>                 /*
+>>>>>>               * Fence is from the same scheduler, only need to wait
+>>>>>> for
+>>>>>> -         * it to be scheduled
+>>>>>> +         * it to be scheduled.
+>>>>>> +         *
+>>>>>> +         * Note: s_fence->sched could have been freed and
+>>>>>> reallocated
+>>>>>> +         * as another scheduler. This false positive case is okay,
+>>>>>> as if
+>>>>>> +         * the old scheduler was freed all of its jobs must have
+>>>>>> +         * signaled their completion fences.
+>>>>>
+>>>>> This is outright nonsense. As long as an entity for a scheduler exists
+>>>>> it is not allowed to free up this scheduler.
+>>>>>
+>>>>> So this function can't be called like this.
+>>>>
+>>>> As I already explained, the fences can outlive their scheduler. That
+>>>> means *this* entity certainly exists for *this* scheduler, but the
+>>>> *dependency* fence might have come from a past scheduler that was
+>>>> already destroyed along with all of its entities, and its address
+>>>> reused.
+>>>
+>>> Well this is function is not about fences, this function is a callback
+>>> for the entity.
+>>
+>> That deals with dependency fences, which could have come from any
+>> arbitrary source, including another entity and another scheduler.
+> 
+> No, they can't. Signaling is certainly mandatory to happen before things
+> are released even if we allow to decouple the dma_fence from it's issuer.
 
---------------Nh1ETrjj519EbQRvF1jjXvLz
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+That's exactly what I'm saying in my comment. That the fence must be 
+signaled if its creator no longer exists, therefore it's okay to 
+inadvertently wait on its scheduled fence instead of its finished fence 
+(if that one was intended) since everything needs to be signaled at that 
+point anyway.
 
-SGkNCg0KQW0gMTQuMDcuMjMgdW0gMTI6Mjkgc2NocmllYiBEYW4gQ2FycGVudGVyOg0KPiBP
-biBGcmksIEp1bCAxNCwgMjAyMyBhdCAxMjoyNDowNVBNICswMjAwLCBUaG9tYXMgWmltbWVy
-bWFubiB3cm90ZToNCj4+Pg0KPj4+PiAgICAgZmJkZXY6IFJlbW92ZSBmbGFnIEZCSU5GT19E
-RUZBVUxUIGZyb20gZmJkZXYgZHJpdmVycw0KPj4+PiAgICAgZmJkZXY6IFJlbW92ZSBmbGFn
-IEZCSU5GT19ERUZBVUxUIGZyb20gZmJkZXYgZHJpdmVycw0KPj4+PiAgICAgZmJkZXY6IFJl
-bW92ZSBmbGFnIEZCSU5GT19ERUZBVUxUIGZyb20gZmJkZXYgZHJpdmVycw0KPj4+PiAgICAg
-ZmJkZXY6IFJlbW92ZSBmbGFnIEZCSU5GT19ERUZBVUxUIGZyb20gZmJkZXYgZHJpdmVycw0K
-Pj4NCj4+DQo+PiBJIHdhc24ndCBoYXBweSBhYm91dCB0aGlzIGVpdGhlci4gQnV0IEkgY291
-bGQgbm90IGNvbWUgdXAgd2l0aCBhIGRlc2NyaXB0aW9uDQo+PiB0aGF0IGZpdHMgaW50byB0
-aGUgNzQtY2hhciBsaW1pdCBmb3IgZWFjaCBjb21taXQuIFRoZXkgb25seSBkaWZmZXIgaW4g
-dGhlDQo+PiBtZXRob2Qgb2YgbWVtb3J5IGFsbG9jYXRpb24uIERvIHlvdSBoYXZlIGFueSBp
-ZGVhcz8NCj4gDQo+IGZiZGV2OiBSZW1vdmUgRkJJTkZPX0RFRkFVTFQgZnJvbSBzdGF0aWMg
-c3RydWN0cw0KPiBmYmRldjogUmVtb3ZlIEZCSU5GT19ERUZBVUxUIGZyb20ga3phbGxvYygp
-IHN0cnVjdHMNCj4gZmJkZXY6IFJlbW92ZSBGQklORk9fREVGQVVMVCBmcm9tIGRldm1fa3ph
-bGxvYygpIHN0cnVjdHMNCg0KU291bmRzIGdvb2QsIEknbGwgdXNlIHRoYXQuIFRoYW5rcyEN
-Cg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gcmVnYXJkcywNCj4gZGFuIGNhcnBl
-bnRlcg0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERl
-dmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vu
-c3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3Rldiwg
-QW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2
-ODA5IChBRyBOdWVybmJlcmcpDQo=
+>>
+>>>>
+>>>> Christian, I'm really getting tired of your tone. I don't appreciate
+>>>> being told my comments are "outright nonsense" when you don't even
+>>>> take the time to understand what the issue is and what I'm trying to
+>>>> do/document. If you aren't interested in working with me, I'm just
+>>>> going to give up on drm_sched, wait until Rust gets workqueue support,
+>>>> and reimplement it in Rust. You can keep your broken fence lifetime
+>>>> semantics and I'll do my own thing.
+>>>
+>>> I'm certainly trying to help here, but you seem to have unrealistic
+>>> expectations.
+>>
+>> I don't think expecting not to be told my changes are "outright
+>> nonsense" is an unrealistic expectation. If you think it is, maybe
+>> that's yet another indicator of the culture problems the kernel
+>> community has...
+> 
+> Well I'm just pointing out that you don't seem to understand the
+> background of the things and just think this is a bug instead of
+> intentional behavior.
 
---------------Nh1ETrjj519EbQRvF1jjXvLz--
+I made a change, I explained why that change works with a portion of the 
+existing code by updating a comment, and you called that nonsense. It's 
+not even a bug, I'm trying to explain why this part isn't a bug even 
+with the expectation that fences don't outlive the scheduler. This is 
+because I went through the code trying to find problems this approach 
+would cause, ran into this tricky case, thought about it for a while, 
+realized it wasn't a problem, and figured it needed a comment.
 
---------------vCsdIumFTGHoRkqMx9FMKvYN
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+>>> I perfectly understand what you are trying to do, but you don't seem to
+>>> understand that this functionality here isn't made for your use case.
+>>
+>> I do, that's why I'm trying to change things. Right now, this
+>> functionality isn't even properly documented, which is why I thought
+>> it could be used for my use case, and slowly discovered otherwise.
+>> Daniel suggested documenting it, then fixing the mismatches between
+>> documentation and reality, which is what I'm doing here.
+> 
+> Well I know Daniel for something like 10-15 years or so, I'm pretty sure
+> that he meant that you document the existing state because otherwise
+> this goes against usual patch submission approaches.
+> 
+>>
+>>> We can adjust the functionality to better match your requirements, but
+>>> you can't say it is broken because it doesn't work when you use it not
+>>> in the way it is intended to be used.
+>>
+>> I'm saying the idea that a random dma-buf holds onto a chain of
+>> references that prevents unloading a driver module that wrote into it
+>> (and keeps a bunch of random unrelated objects alive) is a broken
+>> state of affairs.
+> 
+> Well no, this is intentional design. Otherwise the module and with it
+> the operations pointer the fences rely on go away.
 
------BEGIN PGP SIGNATURE-----
+But this is a drm_sched fence, not a driver fence. That's the point, 
+that they should be decoupled. The driver is free to unload and only 
+drm_sched would need to stay loaded so its fences continue to be valid. 
+Except that's not what happens right now. Right now the drm_sched fence 
+hangs onto the hw fence and the whole thing is supposed to keep the 
+whole scheduler alive for things not to go boom.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSxJ6YFAwAAAAAACgkQlh/E3EQov+Bc
-Ww//WC0tumM5S+EfD4Q3tfllL5EPhego1FSEQVXnQdTPZc8IN3W/NQ8i9WsQ6fo9LKFvVgpf95fb
-Kfd8xqKPvezuQuHVb2IAFP7ibxikAyWlb4WNOFJB4Ah0CMaPvo84TGqc1PsVTLxN4RjfxW1TIWo/
-tTSL1DLFkQcZyyf9Ob45Xhziifbry/gBRBLnFod84polfZ43cqBSY3/Hq2LjXpJCQTj9Hqr46qe6
-B48hMgAHnh80y+nol5nDEpssM51l6ZHeoHTjmyzfZRGqSKVPLWqIj+ptehPA119yW2bUvFILYbJy
-RbZitdzmNooqtDyQ+6Pz4UKvyYr0nROzPQSwNoOLXMl8RZ5THCdy0yS734X7KL5NoVH0CM7O7olG
-5tDK5ZzrMItI+Q1OZALGcEJ6T+gFPn+lIvE8EIeY0aFS+rrtSYA2ATXOjI08LVKAF9ATH7+RiDQX
-owVo7azYHBZshazZ1oYIzErxlpf1eBhF9c8I2+nL7uVgG4QtfFt/xIVifp/DOWfRdRNKgelVhi33
-a9bW51tp/GdqwqIdJ/QeLWUpbJT7kDVinHpA8PqYaTI3Z6TlWR1n+/2UN7pj2QE3YSwIwLBMdgv4
-ZD+RBXHdIo8W4ChCFELPyYjW9ixpmLgCNjta6dhBpYODkuM0XtTLdHmTqOkISlup+qdi9vk/9H8t
-Cbg=
-=ZWbe
------END PGP SIGNATURE-----
+> We already discussed
+> that over 10 years ago when Marten came up with the initial dma_fence
+> design.
+> 
+> The resulting problems are very well known and I completely agree that
+> they are undesirable, but this is how the framework works and not just
+> the scheduler but the rest of the DMA-buf framework as well.
 
---------------vCsdIumFTGHoRkqMx9FMKvYN--
+So it's undesirable but you don't want me to change things...
+
+> 
+>> It may or may not trickle down to actual problems for users (I would
+>> bet it does in some cases but I don't know for sure), but it's a
+>> situation that doesn't make any sense.
+>>
+>> I know I'm triggering actual breakage with my new use case due to
+>> this, which is why I'm trying to improve things. But the current state
+>> of affairs just doesn't make any sense even if it isn't causing kernel
+>> oopses today with other drivers.
+>>
+>>> You can go ahead and try to re-implement the functionality in Rust, but
+>>> then I would reject that pointing out that this should probably be an
+>>> extension to the existing code.
+>>
+>> You keep rejecting my attempts at extending the existing code...
+> 
+> Well I will try to improve here and push you into the right direction
+> instead.
+
+What is the right direction?
+
+So far it's looking more and more like wait until we get workqueues in 
+Rust, write a trivial scheduler in the driver, and give up on this whole 
+drm_sched thing. Please tell me if there is a better way, because so far 
+all you've done is tell me my attempts are not the right way, and 
+demotivated me from working on drm_sched at all.
+
+~~ Lina
+
