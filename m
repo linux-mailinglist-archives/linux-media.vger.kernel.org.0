@@ -2,46 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CF9775371E
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jul 2023 11:51:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8812F753732
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jul 2023 11:57:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235108AbjGNJvz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Jul 2023 05:51:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40306 "EHLO
+        id S235576AbjGNJ5Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Jul 2023 05:57:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235072AbjGNJvu (ORCPT
+        with ESMTP id S232502AbjGNJ5O (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Jul 2023 05:51:50 -0400
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2040.outbound.protection.outlook.com [40.107.100.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79D2A26AE;
-        Fri, 14 Jul 2023 02:51:48 -0700 (PDT)
+        Fri, 14 Jul 2023 05:57:14 -0400
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2057.outbound.protection.outlook.com [40.107.94.57])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8237DE44;
+        Fri, 14 Jul 2023 02:57:13 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZHXACuldUw85iZ/Baxm38CsXH7gGLl3/WBp9FceeuDLAXIvSGgx0sQk04QJLK9X4faazDwe5G05I3TpkRTl7TBHx2zcRqaxl2nG6Iuo4ZIxw39yMNgXIv75+SsskYIogM024kPxOYvivQ1lgnrxmsQFCR1eiAw8QA8QyYVpQzI86JqZ3Wmsid1KUAk/kGlCzNPrILExnZp5zAVdh3lZu4i6TA4wIQZUHrkGXquzSqp35J0WEHCTeW8DOqCNvu7BfenQ10xBNWJ+c4SSKXgJGKrzRWy1zW0kvivaYeGHCtnsu16igckK/eJUG1+WPqdm0bm0ObHOGYtR6HqUiy5JnSQ==
+ b=d2htelgq7Glb6v3CoiwHuJlL3uF9HC+ZxSFSE2xnj1lix2CnPx75M4X7kuGtPE2Vn9kEf2plLtqn1oIMay3LB1QztKBUR67rOLiS8Oj5ZqHbyebK2jAWGvJR9xUXfAhTkzUjlsJOIVpXq7SoR0TSxcZ8H5v8IxtgMx0BpelQ9QOCaEapatEAHZq2BdgBk9bihHjPjpkGd68mUc2SfdjaTCdlbVLAWb4EMkdsLiUB4H3VWMXFxuSC/zn/DmnxNAAwIrdroYqtmXsPaYmRlcZxrfmcnmAr7CdHsvjfiZvvlWE9kgV6dF5dBYald7hg4SKPuenZVdK6rGjlYD/zGFkhSA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P9rgxscsPrYZ28a+FBtaYQZNwOXHAU/qSVl+eW1msuw=;
- b=VHQRaNdZQXl2f+bt4pcdzpkJPBXlq0x1SKjM42e5yvXKNRLB4ffBqM1Yp+dN8Hgxhwvt+NFxMCCV1RQE1D+ej0vKjvpN6iiwZwH47q0Z3+S6qcpuoZoqvOc6qglKzmzWPIrSlNPZosJ5BROeez+7PQCPD97DqJujvZos9X6rOToiWsIBiV6C78JkWXoTFzSDy+JYheRfkiX6bc5i8JvNwHYX1nv9tybUEDZQq0UvIAa5ttSuVZn9HL/YTtasi72Y6nmjilTd99CX9r6wflyL/ner+LJzTFJNxyXOsPOJuFxlQcq8avLuu3OyQosQSBMj4+hdjRZY03NQ/JqrVLxUWg==
+ bh=zowt3R4gpRblp2S1kd007f/Xwd68vk6XjXZWASLYM0I=;
+ b=gnp6m56a5Otdzzp8ieLNYVo705OOm3So4K5QDqjtyPPlh8KndttVnubnKuMTuuL++wudJCaHxBGuw8MvIQ+TTkjY3Hg6443hr8ffCGGtcgvbFzTodmRXC0HarpDY4O43hvsLeBOt6SJuwsfMKKaeC2b4ftWFVlQ6/0PcPjOeKPuxgKxSZHx5q1rkAP8K7RSj+t8+nmFEVnBDGJPWvQeTVAQH+sMaR4feJrqhFO9sOKiJ9x9jc21SiyW6RqDt1y7lN1qPfC2Sj36zp7FkXpibG4MhNfzmcBt9N7JBZchk7IUoO8dguyC/4aKycvrcWnCEarMHyO5vh02HbNxMhFbpVg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P9rgxscsPrYZ28a+FBtaYQZNwOXHAU/qSVl+eW1msuw=;
- b=zlx/WjfVlgYuGm2jO9ZRKEfezWNX12t93qNP73WISsLjaLBx0eo1i8FjEnbZhcATROJYWiABrbhbg2MvHNH9yJu1S36tMYl9C8nNP1+qGEIFtLwUpNPQfD3ZoknMp0Vem9GTzu2Zp2O13o2WEvtLG5yQrXOaf+GaTOlhm3sauRo=
+ bh=zowt3R4gpRblp2S1kd007f/Xwd68vk6XjXZWASLYM0I=;
+ b=1+KAQQZneMJ8sd9mAwFkTbTL3+Ga4Syxm7/7Lc2yKZyiDkzTYb73qWv4gHPK7LP6VczTgnOzHIm89MSGDN5jLNxMulM2wyFRot1eQxasla/JWYLme1pGQEa/GPZPdbzL2G2ShRRQUlLM23IUb978nEYMxkDU6oGdTrIBXzORAfg=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by MN0PR12MB6029.namprd12.prod.outlook.com (2603:10b6:208:3cf::21) with
+ by SA3PR12MB7974.namprd12.prod.outlook.com (2603:10b6:806:307::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.27; Fri, 14 Jul
- 2023 09:51:46 +0000
+ 2023 09:57:08 +0000
 Received: from BN8PR12MB3587.namprd12.prod.outlook.com
  ([fe80::669f:5dca:d38a:9921]) by BN8PR12MB3587.namprd12.prod.outlook.com
  ([fe80::669f:5dca:d38a:9921%4]) with mapi id 15.20.6588.027; Fri, 14 Jul 2023
- 09:51:46 +0000
-Message-ID: <65d5237c-ef85-845f-6a8e-818e78d74bf4@amd.com>
-Date:   Fri, 14 Jul 2023 11:51:40 +0200
+ 09:57:08 +0000
+Message-ID: <d9dc2fd5-d054-dbf3-72b7-fe9deaa46350@amd.com>
+Date:   Fri, 14 Jul 2023 11:57:02 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
 Subject: Re: [PATCH 2/3] drm/scheduler: Fix UAF in
@@ -59,75 +59,75 @@ Cc:     Faith Ekstrand <faith.ekstrand@collabora.com>,
 References: <20230714-drm-sched-fixes-v1-0-c567249709f7@asahilina.net>
  <20230714-drm-sched-fixes-v1-2-c567249709f7@asahilina.net>
  <bef7ef62-3cd9-6ceb-5eb4-5ae0c0236778@amd.com>
- <5c7278b9-e63e-4ddf-1988-1e02087fb988@asahilina.net>
+ <de502b41-2864-db1e-16a0-8a5d5e0e4ad3@asahilina.net>
 From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <5c7278b9-e63e-4ddf-1988-1e02087fb988@asahilina.net>
+In-Reply-To: <de502b41-2864-db1e-16a0-8a5d5e0e4ad3@asahilina.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0173.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9f::8) To BN8PR12MB3587.namprd12.prod.outlook.com
+X-ClientProxiedBy: FR3P281CA0053.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:4a::6) To BN8PR12MB3587.namprd12.prod.outlook.com
  (2603:10b6:408:43::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|MN0PR12MB6029:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7dab142b-8ef2-4599-08da-08db844fefa2
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SA3PR12MB7974:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5e8b3b93-8a35-40c5-50f4-08db8450af49
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QLv2HHHLP39+labWN+yGE+C5GaohidQtCUT3QECG4tuoj5moa3t3kFnxsXf++/X3LV8yN9n1AkyHRu5qG0njXUJFgHaJSAYFr6LQqZGnQDi+0M/7veUfUi6/agIiMpevMuLdlKPpdQTvi8OCxQv5NjhZoK/h0r1EUjv7ARTEaoLIxwQtPgbaZGZN2tgMD8tJ1OwnoBPnITDnoVjundmKeE5ORid4nuFg9CIWGoo9XOORNKVoMD7UnSpX9mwxDJnrrwqjfH6/jevcwDq9H8VyW0EDqPFA9AhNhxaYgU0SE5q0gkEdCOIJTNtBgpFzDKrYLzDaGAQyv9F30tMUt6YuZrBha7AcNZgJZuCz+/x+x3s25fylBVMR7lqj8mMX3Zg1GeVmsPwxflUDh4cCYYJdPImMXEm1pbZAxwm8RIpVPnXVMv6uhMSIa8c48XnUyZtEgZ4U4RPqUBjYhOlDoT/3+7RG+GZwCabkWl2xmANWof0LsROohruiZiXgZ/i/IVNO//fWLOfoVVI67ejTnPuZlCqHEQOfrnAynXqV5Tp1SxMih0m8z3LoKy1uhvDXXTrxJmin5/xUJy5DfNma7tevwDsWhPKs8KPl1lXSzkWOak0WqBxvc3W4zxTXxdqFHgrz4JUsoOr2jiJ4CoMh7gYn8w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(136003)(376002)(39860400002)(366004)(346002)(451199021)(2906002)(54906003)(478600001)(38100700002)(6512007)(83380400001)(66574015)(186003)(2616005)(31696002)(6506007)(86362001)(5660300002)(8936002)(7416002)(36756003)(110136005)(6666004)(41300700001)(66556008)(66946007)(4326008)(66476007)(8676002)(6486002)(316002)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: 2J52WrKfa0XVqVr+zt0VYXceQfjCYKoYR6oMR2DbMRcCnPN8jNOpie9FtJgXGZuTAdj4IiCDJkoIEnMZ5di+w9l++u1wxagy3OcSW5lywpDMzjoxpvlwtkgiOT6BoSDZ6wFQvUDPsxkWz7gSKm1cpyer949597w7RYUJtEzciAki4gKt2JZCOf9UEoJumBIWdJMzxtJMCXY2/Jt9N28a0BiPMrOCCxn8cuLrohSaNVmaei9tSkMWOKqjfwMF0XKdKrFfC9whLZyFJ16Mu/mIQzhWptmJnUOhcFYivrMVX9Nfxr4kphGhda4Iz2piDaiFcYG2lu8IMr6JOB9c/QbCkLtbMDtgB3bdaGd6gS2dpz9z7L1Mn3Rb2AB1hXa84KM5s81tjbXSVTli3dtd1aeVOTNQhxD9zx1ZzkqclSLFZ/Xi42U1hJ4bhbgZ08l5uNVeoJkafpqQFgY8CZmD+BJcnJrlCHiK/TT9IQoiqqljkGRRfy1wVdhJPWHkKuJ5du+XSY9h7rYOpdIkz7Wle6r8a8bO0WWJzSBM08rYUw+LgnamFeTM0dHJ6Jn58PHSwfBwb+kTIu2ovk5MQ9oJFLe8bbptx0AYIFYq5U6JZYiJCRvM0M4dNl0jEMZGY9Y/xtqrF09MpocRlx3vj0/1lNcjrQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(376002)(366004)(39860400002)(396003)(136003)(451199021)(478600001)(66574015)(83380400001)(2616005)(6486002)(6512007)(6666004)(110136005)(4326008)(66946007)(66556008)(66476007)(54906003)(6506007)(186003)(31686004)(8936002)(8676002)(38100700002)(5660300002)(41300700001)(316002)(2906002)(31696002)(7416002)(86362001)(36756003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ei93V1BCZFJpNjNqWUlTWEtPZjJEMGQ5N09YOW1vRk9WUWtIdTBRd3k2Q1Va?=
- =?utf-8?B?QzRnaW1zdDZmUS84bDE3RzN5SEdveERreFVuQldPU1FaRWNJYXpNZVRWY20w?=
- =?utf-8?B?ejRDV2Uza1NuejljcE1qSS8wQTB1UGxpMG1FQ1NKayt1UWhkTm1aTmZGeUcx?=
- =?utf-8?B?Z0dRaFlPN0ZPUkpza2ZCVlZNSmV2RG9yR0czc3Y4VExIRnZ2V1RHZXREWHl4?=
- =?utf-8?B?RCswOWhmODVGeUFURFFoUG94NmZQWE1vd3VsS0lzZXNNdWxpWHBhaHdMTC9U?=
- =?utf-8?B?dmduU3FSOTlkaWJVTFdEd2JJL3oxbzJkU0Z2YjRzV1ZKcHZ4cExiZWY1TTNF?=
- =?utf-8?B?UkpleUZyKzlxNFpuVFNBQkowdE4xTzA1VW5xN1J1V0RvOGI2bVArWG85NE5R?=
- =?utf-8?B?UklkYlk4NUQranpUNEZ3dndseC9RdzJ5SklFVjQ0endqcHdFNmIrNFBMSU5a?=
- =?utf-8?B?RXlBSHdLc3k5VjFpMGR5ODFCMklKa0ZJTXlUS3ArMmEzWGR3ZU5abTN1M0ky?=
- =?utf-8?B?YjUyUkloc1VkV21DVFhlQ1BBTGtWdGhZcmJrMk9lMzJiRlYvUFRpQ25ld0Rl?=
- =?utf-8?B?QzU3KzZ4VzZyZEJqcXlpV3lmNWdVWmxMbmR0ckRVSzRtVDQrWWptWVJIWHJ5?=
- =?utf-8?B?K1BHVjU4RTJUT056NU9YVFpTTWRLT2RFSWgzM1ZRYlYwdVVZV2xJK2pOd2FZ?=
- =?utf-8?B?T2wvQ3gvMkg5YTdYTUtXbVdObk9GL3Z2QjZhK2d4am5uaDhmNFpPT2liM2g0?=
- =?utf-8?B?bDZnRVFFdWdRTlh0bU9HbGxLQzBCSVROQW4rK3F2V0hMMGk0ZUgxaTZPSWZP?=
- =?utf-8?B?b1RMWng4MnZiclVrWWNweTgyRTlnOU9OUzJYOG1GdkdlcXNtRnBKRDFlcDd4?=
- =?utf-8?B?NTJhMTlQL2R4Tjh1VGVaYVBIdHVhbzYya1NrNUJMZXdNU0l2ZzFsZEV3b3dS?=
- =?utf-8?B?TVNNMDA3MHVGWXF1K2x0WmN4YjRlTnlSMmhFVjBEWnU3QS9FR3NXTjYzZC9s?=
- =?utf-8?B?YkFTRWFVc1lYclhQM3pXNHN3UFRqaFVLaG5WK3Y1VDFFNG5WWnFKQi82T1dF?=
- =?utf-8?B?cXZwbjNWMHRtdGFiUHFhK1FVUW9TQ0RuM0djSXluSHAxQ2djQWhnZStKdFJO?=
- =?utf-8?B?bDRpNGJKU2Z6TUx2OGlUN28vckpoaktCZ0dyY2hwVTdKK0pFUGY3NnlhWmlm?=
- =?utf-8?B?UGttYWMxQXNsRVRvSDR0UHg1ZXVwajAzRWFHaVFRSmxSMFd0NDcrTUsyZGNI?=
- =?utf-8?B?dFdCMmh4UDV0WkU2b2lWYVBFeitvaCtpb1pZMU1CRGFrd1RxWHZkeGJWdmRo?=
- =?utf-8?B?dmtHc0dMbEJ3WlkrZUVrb0RJVmkvVVRXTWR4OUZkYmY5QVRoUFFaeDcyUGpx?=
- =?utf-8?B?dGdlVU9pZ2hLcjN3S1EyQUVaS1J6MUlqMU1oUWtzZnpJMTZ0QkliYkgzakpu?=
- =?utf-8?B?WDNNMVVBS2o4eFlEYkVZRHAwRTYrS2FtaEhER3VJRGU0bTFiZkhvYUFha1Ny?=
- =?utf-8?B?aEZpMzJObk5kVUFuOUFZV21BaDZ0bEtnRnpmR25TUHRHRUJTdE1EU293U1ZO?=
- =?utf-8?B?UXlTSUc5MFNGR3dLTkNRNkVneVN6ZmdHVkJJaFNyY2hPTUwvaVdQUVNTQ0kr?=
- =?utf-8?B?Vjd0V3BOQUxqTllmUXEvMk5MOTg4OS9EUmcxckVVRys5MVplbEJLUDFaWlhC?=
- =?utf-8?B?eE9FMit6UWdRUGtNWWYwRS9kS3ZONjJLTmpldFRWL0pqa3B3U09CZS8yc0pq?=
- =?utf-8?B?RElNUFd1YmhDdHgrUUhHWkRwSDJhWTFZSlNTWSs1MnE0am02cFdGWDZzRTBq?=
- =?utf-8?B?aFBuTWxmdFhndWNKUHhzTFlTZU44cHdDU3p6Vy9Rc1p4ZWtEVENTSmt2YjhP?=
- =?utf-8?B?NmhIaHBVeWlYeGFSNFdhRTJoaWgxeTRuS0NQK252N3FvbjdJOXg2cFM0blJC?=
- =?utf-8?B?TEpINGVVREF6TFRhREZtbG9yQVJYQ1M2MitwVlJUV0NlcFdhRzMzdUExa1hO?=
- =?utf-8?B?Q0JHWVFLQTVCVER0cUxRSStFWWVMRWF4c3BReW1OY3hYc1k3dVlsNTVVeFdt?=
- =?utf-8?B?VG9zcmdhcTZRM2VlRlhSa2x2dFh3d3lvak50dGJZbVluM3RWb3JUbEZneFdy?=
- =?utf-8?B?R1ZlM29XZ1Y5N1VmM2dYSXZIRDMrL0djSHpjeTF0UWJTeVZwQUVKS1Z3Q3VR?=
- =?utf-8?Q?I6Uva5TdREckANSaIRkz2GZQ6HI75E9eqnEdsN7o/KPL?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VnArSXA2UnZNalZQOWRVNUxhSXN4b010VGRWb0x1dlhCZ1FYMExkd0FqVjFD?=
+ =?utf-8?B?WUtKWmRYRWVyNk4vN3ZVUjdjUm93RW02blRYandkaG02Q1lwRVJKTjZ6bkxX?=
+ =?utf-8?B?aU9OM0R2V1JldTROQVUwdXJ2MDB3WVppSFNycGJmM0pEckN1OUhpN3FIc3po?=
+ =?utf-8?B?VFRSalJ2b0g3Vk55bXBYS3FsVG9sSS9MQTZUVkJyeE9OM1lpTlc5cjRnTGw1?=
+ =?utf-8?B?ZmxMcEhaOHJhZU9NR1B5SUJzTDhnWFZaUE13MlFSRHBybmxLNkJnOGhhdmo1?=
+ =?utf-8?B?TjdBUy9YR2hqV2p3MmpZYWRwNmZVSi9sMm9FNXFPUUhOcUFhVE9RcjRVYmVB?=
+ =?utf-8?B?NlBFYnkxT043cmsrV1pldk45MnpKTld0MW5qM1QvNHBOZ3dtRm13V1pKRmlB?=
+ =?utf-8?B?akpuRFluWFFCbDJUemh2ZHdEaHpsZmNVdVpVTEc0NktvTmdyZEJ1ZXpRa1Zh?=
+ =?utf-8?B?TlF0TTA1dFhCZzFQWCtCOFBYZnc2L2VOL3QwbndHMXpkZElmczFRTDZCNHA1?=
+ =?utf-8?B?TlhvWkJxa28wL3g4RVVYUW9nRXlrSWZuR2lzanNNMEdoelVVL2RlUGV1RHdw?=
+ =?utf-8?B?SndKeldxSHk3SHBXbU84UlZHL2ZRcm5pdHkxbGplRW02ME9CMzNFcFp3MWZ2?=
+ =?utf-8?B?eXZYVWVVSG9KODJqMFZDbWtjTHdzRGsxbzRWSkpBSGpFU3RRWUZMc0lyeUk2?=
+ =?utf-8?B?d25FY0tKMUV6SHoyelVCQjQvc0xsaDN0TXdhSHk1SUtRbnVseHF4NldzblV3?=
+ =?utf-8?B?Z3hpeGo3UUJnNU4zWnpjZkIwSWFiUk5YUGtrZUNJdW05TGtmd3hhZ00rcFZ0?=
+ =?utf-8?B?VU1VZkdWbUJGeFB5UEVkNHl6dnVySDVMVDNuL01ybnhtallFcllRTzZQZ2kz?=
+ =?utf-8?B?S0IwVHJ6bXNjYXlxbnVkdFRvUUcrR3R6UGRYVWN4a2FOQ3V1ZkppcXI5Nndx?=
+ =?utf-8?B?YnJsTVYxWm5ITFF5OGcwUldtYnF6WGJYd2ZMWnZmSnJ6S2xjRkhJY1E3RVZD?=
+ =?utf-8?B?RzgvTTR1SzVvU0tsTW5SazQ3MWt0azZWaFgyeWtPVmd0d1R0Um10VGp4RDB2?=
+ =?utf-8?B?L1ZiVEYvcCt4Sm9PL3hQMzhJK1lCOCtVZVVMS2VrREZiUTJ3Rk83MUozS2pF?=
+ =?utf-8?B?YlVIb1RET3M5bDc4bnNJYlBFNkFDaWczVDF2MXZkaE5QZHRJbzc1UkdOUUdk?=
+ =?utf-8?B?QnRIQVJvYUJFZHdIYm1MSFBUanpibnFaM0hRNkNSeXQzZFEvejE5cVhyVjNO?=
+ =?utf-8?B?L3R0c3JvaHlhUTBDRXJkbUNmc05oeFJaeWQ1dUFseSt4RmliOTUyb29Nakl2?=
+ =?utf-8?B?ajU5MThzcktnbkJWVDlaZnNSZzFLWUd6UFpWSjhmTk16eHpTb0wzVktHSHg2?=
+ =?utf-8?B?eHJJZUZFcnkrN3hWdUJubzZzbTVWblVvU0lBd2R5SzVieWM3VDVmT1cvZytF?=
+ =?utf-8?B?dXF6MzgycmN6Y3FIMnB6NWVJTFBBRGNoNHEzNDlqaUsvRG5jaXJPbjMrTVJR?=
+ =?utf-8?B?R3RFMjk0R2p5R0hPeE40TWZ6Sm1aU1F6TDZXMjAvc0IweUhZUG1mV2dRSmc0?=
+ =?utf-8?B?NExCdWt4SXhNTHlLRFIzRm40c1RMUW11T3BieFFJZ3VvOHNDNTJtc3Q4Uk85?=
+ =?utf-8?B?QU5EK2l2WC9VNm05aUE1WGhuUkhpRjBJRDVVeG5tSHMzMUFYbGVGY0l4V2ox?=
+ =?utf-8?B?aXBmQ0ZGaTUyVEVzZWs0U1JKQUlKRG9iaGtzeFloUmZWaHlUbEhKTE1FaklM?=
+ =?utf-8?B?Y3dmZ3pJVWVDVjc5OWJNbFFaY1NZblpGQUpoOURHUFJpUFh6OS9HeDBMdnYw?=
+ =?utf-8?B?d0FQeFJkZFZlYzQrZXVENEpVZ3hkaklFL09oeTNvZ3M0RVVhU0RnbVFSaGxQ?=
+ =?utf-8?B?WnJWTzNzTlFIZUxWTEVNeFRYSzZUR0R3Uy8vTmtOcGIxNWxaRVJWamxMcUNH?=
+ =?utf-8?B?MEZlbzc5dGlpV3JaanlkMWRtU1VkWDVFTGsvVzBwRXBOQml0YWEyVkpad0oy?=
+ =?utf-8?B?ZDduSmRvb0tXZHR2QWFqY1kwamk3MXAzVkxMWk5JWDduVHhBTVVjTWNnSm4y?=
+ =?utf-8?B?Nk5venh6eGNvbDFXWTZMVnc0cUNxN3V1OVN0V2JuVUJMQVo0clB0N1czS0J6?=
+ =?utf-8?B?Q0c5OXN6cjhMMnNPQUhzV2orb1ZNcHlVUmZNMm1DdVVjbkZ6aTk1eE9hQTVk?=
+ =?utf-8?Q?sV/4BI/1SYOshFacLhiCD37Ovf4K3JvlH+2Odzr7iMnP?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7dab142b-8ef2-4599-08da-08db844fefa2
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5e8b3b93-8a35-40c5-50f4-08db8450af49
 X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2023 09:51:46.3131
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2023 09:57:07.9736
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ++h5yTs6+ZQGuUmA6uilJbPZTYC/nbmdyYCpnvTRUtXCL/b4Gwunuk7ViL6Hpbgo
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6029
+X-MS-Exchange-CrossTenant-UserPrincipalName: kVfrTz4tkLGi2JRoKNYIocpnGqkptRDHhbL6DKIJkhlz4WdyHmazaW9ZcA9V3bBz
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7974
 X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -136,7 +136,7 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 14.07.23 um 11:44 schrieb Asahi Lina:
+Am 14.07.23 um 11:49 schrieb Asahi Lina:
 > On 14/07/2023 17.43, Christian König wrote:
 >> Am 14.07.23 um 10:21 schrieb Asahi Lina:
 >>> A signaled scheduler fence can outlive its scheduler, since fences are
@@ -175,86 +175,37 @@ Am 14.07.23 um 11:44 schrieb Asahi Lina:
 >> it is not allowed to free up this scheduler.
 >>
 >> So this function can't be called like this.
->>
->>>             */
->>>            fence = dma_fence_get(&s_fence->scheduled);
->>>            dma_fence_put(entity->dependency);
->>> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c 
->>> b/drivers/gpu/drm/scheduler/sched_fence.c
->>> index ef120475e7c6..06a0eebcca10 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_fence.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
->>> @@ -68,7 +68,7 @@ static const char 
->>> *drm_sched_fence_get_driver_name(struct dma_fence *fence)
->>>    static const char *drm_sched_fence_get_timeline_name(struct 
->>> dma_fence *f)
->>>    {
->>>        struct drm_sched_fence *fence = to_drm_sched_fence(f);
->>> -    return (const char *)fence->sched->name;
->>> +    return (const char *)fence->sched_name;
->>>    }
->>>       static void drm_sched_fence_free_rcu(struct rcu_head *rcu)
->>> @@ -216,6 +216,8 @@ void drm_sched_fence_init(struct drm_sched_fence 
->>> *fence,
->>>        unsigned seq;
->>>           fence->sched = entity->rq->sched;
->>> +    strlcpy(fence->sched_name, entity->rq->sched->name,
->>> +        sizeof(fence->sched_name));
->>>        seq = atomic_inc_return(&entity->fence_seq);
->>>        dma_fence_init(&fence->scheduled, 
->>> &drm_sched_fence_ops_scheduled,
->>>                   &fence->lock, entity->fence_context, seq);
->>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
->>> index e95b4837e5a3..4fa9523bd47d 100644
->>> --- a/include/drm/gpu_scheduler.h
->>> +++ b/include/drm/gpu_scheduler.h
->>> @@ -305,6 +305,11 @@ struct drm_sched_fence {
->>>             * @lock: the lock used by the scheduled and the finished 
->>> fences.
->>>             */
->>>        spinlock_t            lock;
->>> +        /**
->>> +         * @sched_name: the name of the scheduler that owns this 
->>> fence. We
->>> +     * keep a copy here since fences can outlive their scheduler.
->>> +         */
->>> +    char sched_name[16];
->>
->> This just mitigates the problem, but doesn't fix it.
 >
-> Could you point out any remaining issues so we can fix them? Right now 
-> this absolutely *is* broken and this fixes the breakage I observed. If 
-> there are other bugs remaining, I'd like to know what they are so I 
-> can fix them.
+> As I already explained, the fences can outlive their scheduler. That 
+> means *this* entity certainly exists for *this* scheduler, but the 
+> *dependency* fence might have come from a past scheduler that was 
+> already destroyed along with all of its entities, and its address reused.
+
+Well this is function is not about fences, this function is a callback 
+for the entity.
+
 >
->> The real issue is that the hw fence is kept around much longer than 
->> that.
->
-> As far as I know, the whole point of scheduler fences is to decouple 
-> the hw fences from the consumers.
+> Christian, I'm really getting tired of your tone. I don't appreciate 
+> being told my comments are "outright nonsense" when you don't even 
+> take the time to understand what the issue is and what I'm trying to 
+> do/document. If you aren't interested in working with me, I'm just 
+> going to give up on drm_sched, wait until Rust gets workqueue support, 
+> and reimplement it in Rust. You can keep your broken fence lifetime 
+> semantics and I'll do my own thing.
 
-Well yes and no. The decoupling is for the signaling, it's not 
-decoupling the lifetime.
+I'm certainly trying to help here, but you seem to have unrealistic 
+expectations.
 
-> I already talked with Daniel about this. The current behavior is 
-> broken. These fences can live forever. It is broken to require that 
-> they outlive the driver that produced them.
->
->> Additional to that I'm not willing to increase the scheduler fence size
->> like that just to decouple them from the scheduler.
->
-> Did you read my explanation on the cover letter as to how this is just 
-> broken right now? We need to fix this. If you have a better suggestion 
-> I'll take it. Doing nothing is not an option.
+I perfectly understand what you are trying to do, but you don't seem to 
+understand that this functionality here isn't made for your use case.
 
-Well this isn't broken at all. This works exactly like intended, you 
-just want to use it for something it wasn't made for.
+We can adjust the functionality to better match your requirements, but 
+you can't say it is broken because it doesn't work when you use it not 
+in the way it is intended to be used.
 
-That scheduler fences could be changed to outlive the scheduler which 
-issued them is possible, but this is certainly a new requirement.
-
-Especially since we need to grab additional references to make sure that 
-the module isn't unloaded in such a case.
+You can go ahead and try to re-implement the functionality in Rust, but 
+then I would reject that pointing out that this should probably be an 
+extension to the existing code.
 
 Christian.
 
