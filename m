@@ -2,198 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B0A9753253
-	for <lists+linux-media@lfdr.de>; Fri, 14 Jul 2023 08:56:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56095753369
+	for <lists+linux-media@lfdr.de>; Fri, 14 Jul 2023 09:46:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234790AbjGNG43 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 14 Jul 2023 02:56:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42346 "EHLO
+        id S235189AbjGNHqB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 14 Jul 2023 03:46:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232239AbjGNG41 (ORCPT
+        with ESMTP id S235321AbjGNHp6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 14 Jul 2023 02:56:27 -0400
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2054.outbound.protection.outlook.com [40.107.244.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC14C1FD4
-        for <linux-media@vger.kernel.org>; Thu, 13 Jul 2023 23:56:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bCMuQpJUOn3cF5ymyWfbkBfCw6x66EmPZUzsKvROd9OwDsezHQgd1Vg3WbPt6rI8FYuOS+LR7/yaT8VvImz7mhI8v6xzFiHwykS4ONhJlBIwBO2aAGNeKOWHCARoEP7zXr6Ybqz3G2NZ1U/RHpPQ3e3jWB9JVtAWF+RgZf5oAO+8xzM9ZcG2EJGey+L0T1KqOcGTrT+tQO6XPdSvFBM3dr3qqSuEN+f5FW6K045D/OGuGlWUaTmH/E4sVzPE2RVPN8vK/SbrMkALLB6K6+T5DDcnaCEzbCbAoXZyjoIS6JXHjKfpLxEEPP2AAhWLHnWWKoMs187Gr5Oqc4WrosWToA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=J3YY9Cu94Q3g2G5osfhDmwLvQiCadQKD2GQg4w0UNp0=;
- b=gnvvk4R7FOV4Y94Ukq6PE/Yjm3g9yJ0IPg+e+LhptpiRQVT+0PyO11kJTl7cro/aAJHwIdV0Jph+jDp+TtrqG7jJWdYyYfElpVk2ST1cM8SVbDDwzFqebCinQccbuC6Uw1fbWkW//siaPSvO6IsCue2dIQRJ1fG+9ymCvyvG1Ue9oqreLxZ5qGJf2UNMQeMp4MB6po3Y/XJnMFs4GXRZdwgEyvajoF9zmXUKkWItkokwjYOKt5QOQqi8VX9IPJFvYsnBV8ftwPwOUDKt4oRLJi+tB4uRyoyRsVpRO4Auvqojwbl/tuQnFR8w10UNJr8huQ0cuXU6gVXMdmt+uDEZjQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J3YY9Cu94Q3g2G5osfhDmwLvQiCadQKD2GQg4w0UNp0=;
- b=hG0dLq99bJjcLSuwU6P/fU9l/QAZ4isUJ7YlzHj6n6HyGPTLxajVIhVs7SjK8PDtm8b07Ed42Xj66POEMk250sKH64sJr4OsuAarIacokTKG52Nsu4t+brGns0whhH6+H6wVPPLzgRqn22gUHvrU7gnEtmna3LwnYtq4/MP30Rg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by CH3PR12MB8509.namprd12.prod.outlook.com (2603:10b6:610:157::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.24; Fri, 14 Jul
- 2023 06:56:21 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::669f:5dca:d38a:9921]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::669f:5dca:d38a:9921%4]) with mapi id 15.20.6588.027; Fri, 14 Jul 2023
- 06:56:20 +0000
-Message-ID: <defcbed9-7cfc-9499-9e08-02a06390cc8f@amd.com>
-Date:   Fri, 14 Jul 2023 08:56:15 +0200
+        Fri, 14 Jul 2023 03:45:58 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E37D2D78;
+        Fri, 14 Jul 2023 00:45:53 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id 4fb4d7f45d1cf-51e344efd75so3221158a12.1;
+        Fri, 14 Jul 2023 00:45:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689320751; x=1691912751;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=N6vuG3HQkEQ7VNeSQ5xmh1TS6CjzB/10WVd0XG/5aiY=;
+        b=gjzet+3EtfmPg0tf8IJHdcqio4lk8hH5r0xGb3jPub9rRkdCMPlN07kjBsFMoNgcUl
+         9scbBglIZZafZTLDAVubtwb6YTanXfnEwyUEE3Xu9iU5qB+whYOrbNEf2ssOHEqvKdeG
+         KC8Fule84HyTin/rpOsFjWQ2PzioUgoterzvoTE5x15sm5L2Pg0UtE4dkeixAfjLmJmw
+         7BUdczbiPnmAM3KnW3ox/dM3xHSlKpcK5eF8Ce6hgLFRp72tDCyneWEOh9w12AX2ZzAp
+         RmVGFDyypB4Tt8gw880ZKOmFh5s0a30KiULcXr8YnPHrT3HuFjh3Whv9ZPZhrOLVxlQ6
+         DLwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689320751; x=1691912751;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=N6vuG3HQkEQ7VNeSQ5xmh1TS6CjzB/10WVd0XG/5aiY=;
+        b=kEns4YZnDS85ecoaXpVOe98NnZjd9Fhof63xzf9W2bl6V1+YJxud64IESSWktI0YFZ
+         H3qkSTwPU48E6terwVxmlnnZVYkOtD2jR+5uwpEqKm83OLTWtVS3jY/ZAYmTHws3/T1O
+         5aOndXgRIE8CY4X203WuvEIiWfYEOfDUxaNp+S6Qu06hVAAWD6AL3e9zJmgjEBuuRyOn
+         sOuMhYwjX5slUUg16BIE1h6izLfC9E8yh6AVo+u7+tn8Y063+JnVE+VrgxexQ1HshST5
+         0JqlIHZvDycA9yHKfBc4oGKNWG/Wwt9J1z4ac5eAadljqNYabNi+YGNnsjihnjbh0K0X
+         SYaA==
+X-Gm-Message-State: ABy/qLaYRTGbD9B1ctUoWYlVmCZhFy28NlvSPq0XZt3sWoEWMTQ3kfFZ
+        rTqPLxV9sfI8xSyZPGbnv9U=
+X-Google-Smtp-Source: APBJJlE9LmJVESEldeBsjKBFMJhkXTV0WWWDsVr7FqxjeFyNg3BVE+QDcTnHHM2SkLqoXFEitTeN4A==
+X-Received: by 2002:a05:6402:518f:b0:51e:4218:b91b with SMTP id q15-20020a056402518f00b0051e4218b91bmr2404203edd.1.1689320750718;
+        Fri, 14 Jul 2023 00:45:50 -0700 (PDT)
+Received: from ?IPV6:2a00:e180:156e:8700:817e:6375:6a13:2da9? ([2a00:e180:156e:8700:817e:6375:6a13:2da9])
+        by smtp.gmail.com with ESMTPSA id n1-20020a056402514100b0051e2cde9e3esm5419862edd.75.2023.07.14.00.45.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Jul 2023 00:45:50 -0700 (PDT)
+Message-ID: <942c0138-e264-88c0-ebb1-cce0604d74ff@gmail.com>
+Date:   Fri, 14 Jul 2023 09:45:48 +0200
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH] dma-buf/dma-resv: Stop leaking on krealloc() failure
+Subject: Re: [Linaro-mm-sig] Re: [PATCH v3] misc: sram: Add DMA-BUF Heap
+ exporting of SRAM areas
 Content-Language: en-US
-To:     Ville Syrjala <ville.syrjala@linux.intel.com>,
-        dri-devel@lists.freedesktop.org
-Cc:     intel-gfx@lists.freedesktop.org,
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Davis <afd@ti.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        John Stultz <jstultz@google.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20230713194745.1751-1-ville.syrjala@linux.intel.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20230713194745.1751-1-ville.syrjala@linux.intel.com>
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+References: <20230713191316.116019-1-afd@ti.com>
+ <2023071308-squeeze-hamster-d02f@gregkh>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <2023071308-squeeze-hamster-d02f@gregkh>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0169.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:99::10) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CH3PR12MB8509:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9fcd6eff-9ef9-4389-2a63-08db84376d74
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Vc2Q4VJO3Zh2jFZzSMHRwnw3XYm7R6MvRAIIL8TtcFExKZYbghT3+xdIV+fAHjbcWWuRRYBb5yoo52NA6NaTaRfMGVUPy2JVojspK1Pkm6WbyH4z9Gr6TQghRmFAAQra104oOGXPu0Hd4xEZK1eCKck19k8gmJirlwF0YkYMKnEhKktxCbWWQb0Rk4ZGxGVySCiZgpBK55sQBUjJqkCrmWC9ONSnIqThkqNRUSokdeRM+2EnGVs3JaV+BEZkln3gbl951HsyJp2Sq+Rxnf5qeyDhl9YX/jC6LFms2YIxVaWpguhM6Sm3IMgWyO1Iw2AMw8kw/hu98/h+nBY3dEHevs79VaWMumI8Od/RsiyJEa6Zzpw7OTQYJzgYscFLreg/f3u2jn5leccFx7VDSLicOlFx/pOJsEzHuRQkwDBwF2qN5jXa0jtE+YUwsDyx8xvKA63DXfGaC0Gu8lFPenfP5t1x0pco+tL2YVRN9z+eUooHyNL5sNhTx9bdKjP5VNnNBFx7dgNn9v1QdXCtRkZtfuXVFqmRC5jzSErZm+lNmbVbkvaHdMLKsLha0bRNsjg59T9HGdELDF96Cl3JTucTJuMq1pqD9BWpSJOAYBv3YLCQ02kIyStnjv7/cKO6FBRiZSmXCQJR9vCTf4Gq07UvDw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(346002)(39860400002)(136003)(376002)(396003)(451199021)(4326008)(66476007)(66946007)(66556008)(41300700001)(316002)(2906002)(478600001)(8676002)(8936002)(5660300002)(31686004)(6666004)(6486002)(6512007)(66574015)(6506007)(186003)(36756003)(83380400001)(2616005)(38100700002)(86362001)(31696002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V3g2bnBsSTF6dVhDQVd5YzE0azROOEJnSCtycTZzcmhCYWMwR3UyamxnckVa?=
- =?utf-8?B?eWQ0bUJBQlQ4UjROeEJSRnMrMWVsanZZZjRnYUZoc0h2NG9lVlE2NC9ubnMy?=
- =?utf-8?B?SkIwWXoyK1FoVkR3bURYWkxLeWk5eUdGay9TYncwS0oycTdCME55cDlFV3hT?=
- =?utf-8?B?dnFkS2ZyRisreTRUQVM1TG1jcUd2SUUyMm1lZ3BKZHhUZFJON0pYeE1mQVl1?=
- =?utf-8?B?UGZJQnNxaVhORjdlbGdIWUtvekNSc0hFL1VYS09kV2NPa2dpNWYrNmVwOFJE?=
- =?utf-8?B?RXRvWEFEYkE2RllmWGRHZXJQNnVsZ2M3TWZkYkNJbkhQZFNMUkptKzRveU02?=
- =?utf-8?B?R05mcTVLTHpKL3Bmdnl2Ny9Gc0JqQ2c3UFFsc0VCcmw2YTRmY09WWTl4SGkw?=
- =?utf-8?B?dUZtNEJ1UE5DUnA1eHpjK3RveXFvamUyUXdPbFRxLzFkY0taL3FaQ0FIdmds?=
- =?utf-8?B?ajVNamhOcEx3dE40NEFac0hwQUprazNpdUdQQXl1MVNFak01QTdGcVh4SzNm?=
- =?utf-8?B?WUFQY2Vma2EwL1JnMVo0OXhibzc2QXRuR3RRYnVBaHplbVJ1V2x3MXBnWWIz?=
- =?utf-8?B?UHB1ajh5cS9HWmVRTGkxNDUxZzNvOGRNOWQ3UlNad3hadnJrVG9zVjNNR3Mz?=
- =?utf-8?B?V21KalJydklKbWFMKzg4eWZSOXA5L3lRR1pGNHZzNU1kWnA1WWVSbWp5eUJq?=
- =?utf-8?B?amlXd0N2QW4vaWNFa3o4NE9JQnFFK1dwcHRxdEdrV1Fmb2lKT2ozck1zb3BY?=
- =?utf-8?B?YlEvWVV5d2dWUFBFeVJBRGdHSTVMdHMvZWsrcDlhanFlOHN2Y0NIS2pWNzdk?=
- =?utf-8?B?N3ZFSGtvb3p6TzU5clF1bHJHanNrZndHWmxLWEVDVDdmeG5RR3ZtZi80Qndm?=
- =?utf-8?B?ZWNEUVkxQmtBTzBZTW9ISlVJdFlCeXNEaDdzUm0zNjhsa3gvOTg5SHlNaHJM?=
- =?utf-8?B?aXVNNnVNTmExUXBqOVpxNzZsMytZZWZRb2MrbEpiSFI0TnM0UWhDcG5GUHg3?=
- =?utf-8?B?N3BiN3BsR3dSdnFwQnh6TS9LaDExVmJ6KytQWGx4bHFxZllRODFDMk9tdHVD?=
- =?utf-8?B?Y3dua01xR0tNVU80VVJXNS9VS2tleWRtUWFDSktxRzJ4YUl3L2Y1bzgzaFZk?=
- =?utf-8?B?bFkyUkc1am5hVXErcUZNTmlrYzR0N09qQzlZbk1lRmxqVXRDMVZiZ1A2QTB2?=
- =?utf-8?B?QkxrNG05d3QvYzRNZTIwN0gwMUR0aVBkNk1GdmVlQ0Y3eEkrWDFFTHk4UW8v?=
- =?utf-8?B?aGsyU2VSSjJtejRyR3owOW4wMm55aXVUWDJZb3Q5U0kyNktReGRzRlRCTFNn?=
- =?utf-8?B?WWZ1T0dGUDhXemhWYUdjWG96WXlwckdKb0tMOWxQYzQ3d0tQUHIxUGZrcEFo?=
- =?utf-8?B?WlJNZlRJK012T09BZFA0ZitJQ1VIMVRLYUNXMEp4SkRxUFJjMG1LdCs4K3Bq?=
- =?utf-8?B?V1A1b25iSXlldHhtTkhKbitFa3hya3NvclEyUEd6ZEJOVTRmS0ZOdmQwR1Ez?=
- =?utf-8?B?NVk3UndnZTBKeWhzMWVReUUvQUhkZkExK2JhWUY3R2pFVkR6RFlJMms4MmtR?=
- =?utf-8?B?L1NoVU44bER4Mm55YWVFTGUrT2c4a1dQMDZGbGovei9MSEthSXZEcjJuWFhX?=
- =?utf-8?B?VCszTXhrdGVkeXovcUFieE8wdE9qK0h3N2k0N2hXcUxDK0l6M1lHRXg0TEU4?=
- =?utf-8?B?OWd1WU83Y1FUdW5aS291aFlFOWpQSXBMY001QWZnSGpFNU5QOGJMWlhXZDZk?=
- =?utf-8?B?UnVTbGt4Z0xjakl6YU5JTzcxUE9LTUhzalVhRnk3ZlNLMndjQU5LcW1CTldi?=
- =?utf-8?B?VHJmaG1Qc094aDVqRjE0U05wMGFRZnR5OE5oVjZIWmZqUmtCaTVtNytHekQw?=
- =?utf-8?B?QjZJZENmYjdNbU5mOFp1djBmOHRWY1QzV25PZzVQNXhUbDdPZ1E2Y0d5QzFV?=
- =?utf-8?B?dmN4eTBiWVBaRmZtc2NudS9VK1NFd25iMmJvV1g4ZmFJai9CL0NKeDNRZVlT?=
- =?utf-8?B?bmNVZXNjQStsM3daSi9zbXpZdXorUmYvOTJhZk45eGtzV2NzakVKY0JOY2Y0?=
- =?utf-8?B?TllFTHZDUkM4UnpLcjQ3VDdwTnZWcGh0Vjk3cEErRWxjVWJOL1I5d1BuZDVP?=
- =?utf-8?B?c29NUXIxZytmMDBNbUFxenhGbXdReXVxa1Y3UE16OWgvWjlHbjhHSmNPc0No?=
- =?utf-8?Q?sycgNExlNaYrD1EtEMe7hl61h03YtljnTlD6/fvbeDU1?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9fcd6eff-9ef9-4389-2a63-08db84376d74
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2023 06:56:20.0042
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tCtob62qVWP7L34u8EGY87kifZEZaFMAcqJUcihIIdEJMs4ZrFGn+bIApRvZKaT4
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8509
-X-Spam-Status: No, score=1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        SUSPICIOUS_RECIPS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 13.07.23 um 21:47 schrieb Ville Syrjala:
-> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Am 13.07.23 um 21:28 schrieb Greg Kroah-Hartman:
+> On Thu, Jul 13, 2023 at 02:13:16PM -0500, Andrew Davis wrote:
+>> This new export type exposes to userspace the SRAM area as a DMA-BUF Heap,
+>> this allows for allocations of DMA-BUFs that can be consumed by various
+>> DMA-BUF supporting devices.
+> What devices exactly?
 >
-> Currently dma_resv_get_fences() will leak the previously
-> allocated array if the fence iteration got restarted and
-> the krealloc_array() fails.
+> And what userspace tools/programs are going to use this api?
 >
-> Free the old array by hand, and make sure we still clear
-> the returned *fences so the caller won't end up accessing
-> freed memory. Some (but not all) of the callers of
-> dma_resv_get_fences() seem to still trawl through the
-> array even when dma_resv_get_fences() failed. And let's
-> zero out *num_fences as well for good measure.
+>> Signed-off-by: Andrew Davis <afd@ti.com>
+>> ---
+>>
+>> Changes from v2:
+>>   - Make sram_dma_heap_allocate static (kernel test robot)
+>>   - Rebase on v6.5-rc1
+>>
+>>   drivers/misc/Kconfig         |   7 +
+>>   drivers/misc/Makefile        |   1 +
+>>   drivers/misc/sram-dma-heap.c | 245 +++++++++++++++++++++++++++++++++++
+>>   drivers/misc/sram.c          |   6 +
+>>   drivers/misc/sram.h          |  16 +++
+>>   5 files changed, 275 insertions(+)
+>>   create mode 100644 drivers/misc/sram-dma-heap.c
+>>
+>> diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
+>> index 75e427f124b28..ee34dfb61605f 100644
+>> --- a/drivers/misc/Kconfig
+>> +++ b/drivers/misc/Kconfig
+>> @@ -448,6 +448,13 @@ config SRAM
+>>   config SRAM_EXEC
+>>   	bool
+>>   
+>> +config SRAM_DMA_HEAP
+>> +	bool "Export on-chip SRAM pools using DMA-Heaps"
+>> +	depends on DMABUF_HEAPS && SRAM
+>> +	help
+>> +	  This driver allows the export of on-chip SRAM marked as both pool
+>> +	  and exportable to userspace using the DMA-Heaps interface.
+> Module name?
 >
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Fixes: d3c80698c9f5 ("dma-buf: use new iterator in dma_resv_get_fences v3")
-> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+>>   config DW_XDATA_PCIE
+>>   	depends on PCI
+>>   	tristate "Synopsys DesignWare xData PCIe driver"
+>> diff --git a/drivers/misc/Makefile b/drivers/misc/Makefile
+>> index f2a4d1ff65d46..5e7516bfaa8de 100644
+>> --- a/drivers/misc/Makefile
+>> +++ b/drivers/misc/Makefile
+>> @@ -47,6 +47,7 @@ obj-$(CONFIG_VMWARE_VMCI)	+= vmw_vmci/
+>>   obj-$(CONFIG_LATTICE_ECP3_CONFIG)	+= lattice-ecp3-config.o
+>>   obj-$(CONFIG_SRAM)		+= sram.o
+>>   obj-$(CONFIG_SRAM_EXEC)		+= sram-exec.o
+>> +obj-$(CONFIG_SRAM_DMA_HEAP)	+= sram-dma-heap.o
+>>   obj-$(CONFIG_GENWQE)		+= genwqe/
+>>   obj-$(CONFIG_ECHO)		+= echo/
+>>   obj-$(CONFIG_CXL_BASE)		+= cxl/
+>> diff --git a/drivers/misc/sram-dma-heap.c b/drivers/misc/sram-dma-heap.c
+>> new file mode 100644
+>> index 0000000000000..c054c04dff33e
+>> --- /dev/null
+>> +++ b/drivers/misc/sram-dma-heap.c
+>> @@ -0,0 +1,245 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * SRAM DMA-Heap userspace exporter
+>> + *
+>> + * Copyright (C) 2019-2022 Texas Instruments Incorporated - https://www.ti.com/
+>> + *	Andrew Davis <afd@ti.com>
+> It's 2023 :(
+>
+> And this needs review from the dma-buf maintainers before I could do
+> anything with it.
 
-Good catch, Reviewed-by: Christian König <christian.koenig@amd.com>
+Yeah, agree. Thanks Greg.
 
-Should I add a CC: stable and push to drm-misc-fixes?
+It would be nice if you explicitly CC the maintainers for DMA-buf and 
+DMA-buf heaps as well.
 
-Thanks,
+Of hand I can only find the version from 2020 in the LKML archives.
+
+Regards,
 Christian.
 
-> ---
->   drivers/dma-buf/dma-resv.c | 13 +++++++++----
->   1 file changed, 9 insertions(+), 4 deletions(-)
 >
-> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> index b6f71eb00866..38b4110378de 100644
-> --- a/drivers/dma-buf/dma-resv.c
-> +++ b/drivers/dma-buf/dma-resv.c
-> @@ -571,6 +571,7 @@ int dma_resv_get_fences(struct dma_resv *obj, enum dma_resv_usage usage,
->   	dma_resv_for_each_fence_unlocked(&cursor, fence) {
->   
->   		if (dma_resv_iter_is_restarted(&cursor)) {
-> +			struct dma_fence **new_fences;
->   			unsigned int count;
->   
->   			while (*num_fences)
-> @@ -579,13 +580,17 @@ int dma_resv_get_fences(struct dma_resv *obj, enum dma_resv_usage usage,
->   			count = cursor.num_fences + 1;
->   
->   			/* Eventually re-allocate the array */
-> -			*fences = krealloc_array(*fences, count,
-> -						 sizeof(void *),
-> -						 GFP_KERNEL);
-> -			if (count && !*fences) {
-> +			new_fences = krealloc_array(*fences, count,
-> +						    sizeof(void *),
-> +						    GFP_KERNEL);
-> +			if (count && !new_fences) {
-> +				kfree(*fences);
-> +				*fences = NULL;
-> +				*num_fences = 0;
->   				dma_resv_iter_end(&cursor);
->   				return -ENOMEM;
->   			}
-> +			*fences = new_fences;
->   		}
->   
->   		(*fences)[(*num_fences)++] = dma_fence_get(fence);
+> thanks,
+>
+> greg k-h
+> _______________________________________________
+> Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
+> To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
 
