@@ -2,102 +2,217 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD55A75489B
-	for <lists+linux-media@lfdr.de>; Sat, 15 Jul 2023 15:07:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F1F4D75494B
+	for <lists+linux-media@lfdr.de>; Sat, 15 Jul 2023 16:20:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229965AbjGONHg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 15 Jul 2023 09:07:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56220 "EHLO
+        id S230207AbjGOOU2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 15 Jul 2023 10:20:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229846AbjGONHf (ORCPT
+        with ESMTP id S229473AbjGOOU0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 15 Jul 2023 09:07:35 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9037B3A81
-        for <linux-media@vger.kernel.org>; Sat, 15 Jul 2023 06:07:34 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id 41be03b00d2f7-55be1ce1669so1829915a12.1
-        for <linux-media@vger.kernel.org>; Sat, 15 Jul 2023 06:07:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689426454; x=1692018454;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=f+GjSl8O12Td8YnKfGOdIwzIbnxBu6tpmFilTH8epCA=;
-        b=EmexBsJX+3aUPPrHk6EH0qMbs/jep+LdXw3spbhqHP2oE+hwCpAM82xKLJzNUTLvzX
-         jAzS2pxvYwBQPz8u53TlN02/jtXtkurLn4Pc+rYsiFcZbjLjnSwbMUq0H+mDJbB/RgfX
-         thvFV+8ungi0QTD8k3gBtz+pQEqTDrDUyz3fpq+E4yij5JoQ0T7FmsBSnFbk/iMCiW3J
-         Q7R7Z6wdtjtQk/nb8ltMIKbpfrLTdmwpbtYSeV2oaTPj7FPfcYAdTsgMlrYxBQmcDUi+
-         g2+Hv+BLvtmje6BFfNZwzTX5rBABndbpLYiQTBdDtoGPaYk+zvLkYpwU6z531kG/hkHX
-         ZgfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689426454; x=1692018454;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=f+GjSl8O12Td8YnKfGOdIwzIbnxBu6tpmFilTH8epCA=;
-        b=CEFCmi8DHISaKHxjpWEW4kLw1UWmBMZS6gCc18AcgD+j6UjVdX5n0eAD8yc0RFXO0V
-         Xb8bX7XYVJn/N3aUXGoxnl8RRNu0nXXdGzg+rO51hzqYq4io9Fdg4v0YUwEwrTLc8/ky
-         xiWTgdbwu63VSR80GueXG/FJW5yELcrx88nqZgmz1y/07PtA4QtUUHdiQqOXtmU2ekYj
-         CqAB4pwIzTizO8Bya+bRszMmkaqJOIaTLYG/v0uDxotUCTg9AWK6IQJ5QG12+yctw4aB
-         MCOYgmmInxqqWPTypRcZt+kQZYXhqOppg+2vaj1rZdAPtcrRHAK78gVnNz0SBck6Vc2+
-         u6pw==
-X-Gm-Message-State: ABy/qLZP8khpePodIapnaCo4cUtQGHdYZPoqnluX5NMUpu57GnTk0E6E
-        iQpMEmJJHmR1qC3uyVvb4JgrKbzun7eyhEjABRI=
-X-Google-Smtp-Source: APBJJlGIS1xxJfG3Z5wHdIFUa086tHAd57GEyn2aDEyzDwcBj5CWTuXvSyXybDnadbDepRjuzB0CWbh4uOvzxkoNCRI=
-X-Received: by 2002:a17:90a:760f:b0:263:e122:1bc7 with SMTP id
- s15-20020a17090a760f00b00263e1221bc7mr6264607pjk.23.1689426453643; Sat, 15
- Jul 2023 06:07:33 -0700 (PDT)
+        Sat, 15 Jul 2023 10:20:26 -0400
+X-Greylist: delayed 343 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 15 Jul 2023 07:20:21 PDT
+Received: from out-25.mta1.migadu.com (out-25.mta1.migadu.com [95.215.58.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4C4D1B6
+        for <linux-media@vger.kernel.org>; Sat, 15 Jul 2023 07:20:21 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a05:7300:a509:b0:d5:1aec:540a with HTTP; Sat, 15 Jul 2023
- 06:07:33 -0700 (PDT)
-Reply-To: Jackkssondavid@gmail.com
-From:   David Jackson <dabiyadigo01@gmail.com>
-Date:   Sat, 15 Jul 2023 13:07:33 +0000
-Message-ID: <CABJnaVinsBJRAMovcP0m6E_cuz0baTazP-K+v_HLiCHzk5zxkA@mail.gmail.com>
-Subject: Hello!
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.7 required=5.0 tests=BAYES_80,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: *  0.0 RCVD_IN_DNSWL_BLOCKED RBL: ADMINISTRATOR NOTICE: The query to
-        *      DNSWL was blocked.  See
-        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
-        *      for more information.
-        *      [2607:f8b0:4864:20:0:0:0:52a listed in]
-        [list.dnswl.org]
-        *  2.0 BAYES_80 BODY: Bayes spam probability is 80 to 95%
-        *      [score: 0.9179]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [dabiyadigo01[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [dabiyadigo01[at]gmail.com]
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  2.7 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
+        s=key1; t=1689430474;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Exn0iOvVonsyS0RrlLSc0WGJin7aNNSG8UVnuWPxU9U=;
+        b=t/W/IPYE3d7Jq/unFMsbXJLxEErOfxhf4yu6/72S9Q+SjRgLquoMqkKQezx0JsO0jec71+
+        yd+XLox94l1Rfe6tP4f0GcgRUtGtt/xPEv/GSU+tBZQvYVqiAN/zt3VjScJGnhmQmSz8m7
+        MMDRXTatfmE2t5WRkGqzmkO7/LO4PLUROW1+MkN1rDaKE7DhehIwcvxF1MR0d9uLTXMfka
+        Ef8flkwck6XqlzG6u4sO0BSYHaVQp2pEPPvulTePYrEPcZP8KhFLY5KLGZpCYWc2o0YCiQ
+        xWXhEW24YGpZ9EVSG627zq5mggx8+PTHVDLZdqxUlRhTv+WXAtsJ43TJhIf2ow==
+Date:   Sat, 15 Jul 2023 14:14:32 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   alyssa@rosenzweig.io
+Message-ID: <236422117088ca854a6717114de73d99b2b9ba2f@rosenzweig.io>
+TLS-Required: No
+Subject: Re: [PATCH 2/3] drm/scheduler: Fix UAF in
+ drm_sched_fence_get_timeline_name
+To:     "Luben Tuikov" <luben.tuikov@amd.com>,
+        "=?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?=" <christian.koenig@amd.com>,
+        "Asahi Lina" <lina@asahilina.net>,
+        "David Airlie" <airlied@gmail.com>,
+        "Daniel Vetter" <daniel@ffwll.ch>,
+        "Sumit Semwal" <sumit.semwal@linaro.org>
+Cc:     "Faith Ekstrand" <faith.ekstrand@collabora.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, asahi@lists.linux.dev
+In-Reply-To: <9c0cff84-45b1-268f-bdad-38c16316dbc3@amd.com>
+References: <9c0cff84-45b1-268f-bdad-38c16316dbc3@amd.com>
+ <20230714-drm-sched-fixes-v1-0-c567249709f7@asahilina.net>
+ <20230714-drm-sched-fixes-v1-2-c567249709f7@asahilina.net>
+ <bef7ef62-3cd9-6ceb-5eb4-5ae0c0236778@amd.com>
+ <de502b41-2864-db1e-16a0-8a5d5e0e4ad3@asahilina.net>
+ <d9dc2fd5-d054-dbf3-72b7-fe9deaa46350@amd.com>
+X-Migadu-Flow: FLOW_OUT
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+15 July 2023 at 00:03, "Luben Tuikov" <luben.tuikov@amd.com> wrote:
 
-I am still waiting for your response regarding my last proposal.
 
-Sincerely,
+>=20
+>=20On 2023-07-14 05:57, Christian K=C3=B6nig wrote:
+>=20
+>=20>=20
+>=20> Am 14.07.23 um 11:49 schrieb Asahi Lina:
+> >=20
+>=20> >=20
+>=20> > On 14/07/2023 17.43, Christian K=C3=B6nig wrote:
+> > >=20
+>=20>=20
+>=20>  Am 14.07.23 um 10:21 schrieb Asahi Lina:
+> >  A signaled scheduler fence can outlive its scheduler, since fences a=
+re
+> >  independencly reference counted. Therefore, we can't reference the
+> >  scheduler in the get_timeline_name() implementation.
+> >=20
+>=20>  Fixes oopses on `cat /sys/kernel/debug/dma_buf/bufinfo` when share=
+d
+> >  dma-bufs reference fences from GPU schedulers that no longer exist.
+> >=20
+>=20>  Signed-off-by: Asahi Lina <lina@asahilina.net>
+> >  ---
+> >  =C2=A0=C2=A0 drivers/gpu/drm/scheduler/sched_entity.c | 7 ++++++-
+> >  =C2=A0=C2=A0 drivers/gpu/drm/scheduler/sched_fence.c=C2=A0 | 4 +++-
+> >  =C2=A0=C2=A0 include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 5 +++++
+> >  =C2=A0=C2=A0 3 files changed, 14 insertions(+), 2 deletions(-)
+> >=20
+>=20>  diff --git a/drivers/gpu/drm/scheduler/sched_entity.c=20
+>=20>  b/drivers/gpu/drm/scheduler/sched_entity.c
+> >  index b2bbc8a68b30..17f35b0b005a 100644
+> >  --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> >  +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> >  @@ -389,7 +389,12 @@ static bool=20
+>=20>  drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity=
+)
+> >  =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 /*
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *=
+ Fence is from the same scheduler, only need to wait for
+> >  -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * it to be schedul=
+ed
+> >  +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * it to be schedul=
+ed.
+> >  +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *
+> >  +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Note: s_fence->s=
+ched could have been freed and reallocated
+> >  +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * as another sched=
+uler. This false positive case is okay,=20
+>=20>  as if
+> >  +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * the old schedule=
+r was freed all of its jobs must have
+> >  +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * signaled their c=
+ompletion fences.
+> >=20
+>=20>  This is outright nonsense. As long as an entity for a scheduler ex=
+ists
+> >  it is not allowed to free up this scheduler.
+> >=20
+>=20>  So this function can't be called like this.
+> >=20
+>=20> >=20
+>=20> > As I already explained, the fences can outlive their scheduler. T=
+hat=20
+>=20> >  means *this* entity certainly exists for *this* scheduler, but t=
+he=20
+>=20> >  *dependency* fence might have come from a past scheduler that wa=
+s=20
+>=20> >  already destroyed along with all of its entities, and its addres=
+s reused.
+> > >=20
+>=20>=20
+>=20>=20=20
+>=20>  Well this is function is not about fences, this function is a call=
+back=20
+>=20>  for the entity.
+> >=20=20
+>=20>=20
+>=20> >=20
+>=20> > Christian, I'm really getting tired of your tone. I don't appreci=
+ate=20
+>=20> >  being told my comments are "outright nonsense" when you don't ev=
+en=20
+>=20> >  take the time to understand what the issue is and what I'm tryin=
+g to=20
+>=20> >  do/document. If you aren't interested in working with me, I'm ju=
+st=20
+>=20> >  going to give up on drm_sched, wait until Rust gets workqueue su=
+pport,=20
+>=20> >  and reimplement it in Rust. You can keep your broken fence lifet=
+ime=20
+>=20> >  semantics and I'll do my own thing.
+> > >=20
+>=20>=20
+>=20>=20=20
+>=20>  I'm certainly trying to help here, but you seem to have unrealisti=
+c=20
+>=20>  expectations.
+> >=20=20
+>=20>  I perfectly understand what you are trying to do, but you don't se=
+em to=20
+>=20>  understand that this functionality here isn't made for your use ca=
+se.
+> >=20=20
+>=20>  We can adjust the functionality to better match your requirements,=
+ but=20
+>=20>  you can't say it is broken because it doesn't work when you use it=
+ not=20
+>=20>  in the way it is intended to be used.
+> >=20
+>=20
+> I believe "adjusting" functionality to fit some external requirements,
+> may have unintended consequences, requiring yet more and more "adjustme=
+nts".
+> (Or may allow (new) drivers to do wild things which may lead to wild re=
+sults. :-) )
+>=20
+>=20We need to be extra careful and wary of this.
 
-Jackson David
+Either drm/scheduler is common code that we should use for our driver, in=
+ which case we need to "adjust" it to fit the requirements of a safe Rust=
+ abstraction usable for AGX. Or, drm/scheduler is not common code intende=
+d for drivers with our requirements, and then we need to be able to write=
+ our own scheduler.
+
+AMD has NAK'd both options, effectively NAK'ing the driver.
+
+I will ask a simple yes/no question: Should we use drm/sched?
+
+If yes, it will need patches like these, and AMD needs to be ok with that=
+ and stop NAK'ing them on sight becuase they don't match the existing req=
+uirements.
+
+If no, we will write our own scheduler in Rust, and AMD needs to be ok wi=
+th that and not NAK it on sight because it's not drm/sched.
+
+Which is it?
+
+Note if we write a Rust scheduler, drm/sched and amdgpu will be unaffecte=
+d. If we do that and AMD comes back and NAKs it -- as said in this thread=
+ would "probably" happen -- then it is impossible for us to upstream a dr=
+iver regardless of whether we use drm/sched.
+
+Lina has been polite and accommodating while AMD calls her code "outright=
+ nonsense" and gets "outright NAK"s, and puts her into an impossible catc=
+h-22 where no matter what she does it's NAK'd.
+
+That's not ok.
