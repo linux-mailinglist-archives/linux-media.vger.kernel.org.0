@@ -2,217 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F1F4D75494B
-	for <lists+linux-media@lfdr.de>; Sat, 15 Jul 2023 16:20:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93A537549D7
+	for <lists+linux-media@lfdr.de>; Sat, 15 Jul 2023 17:38:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230207AbjGOOU2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 15 Jul 2023 10:20:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44684 "EHLO
+        id S230111AbjGOPh6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 15 Jul 2023 11:37:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229473AbjGOOU0 (ORCPT
+        with ESMTP id S229629AbjGOPh5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 15 Jul 2023 10:20:26 -0400
-X-Greylist: delayed 343 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 15 Jul 2023 07:20:21 PDT
-Received: from out-25.mta1.migadu.com (out-25.mta1.migadu.com [95.215.58.25])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4C4D1B6
-        for <linux-media@vger.kernel.org>; Sat, 15 Jul 2023 07:20:21 -0700 (PDT)
+        Sat, 15 Jul 2023 11:37:57 -0400
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B70AD30DC
+        for <linux-media@vger.kernel.org>; Sat, 15 Jul 2023 08:37:55 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id 2adb3069b0e04-4fcd615d7d6so4182697e87.3
+        for <linux-media@vger.kernel.org>; Sat, 15 Jul 2023 08:37:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1689435474; x=1692027474;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=S+djRnUBFZhHAwtTKh2Fe3WK0yWfTrmhbES8+t2drAg=;
+        b=F/WKXblS2846S3vhtFpEb05kbGFFIlENzJ3Y4pcrfI+SbTk2Y4XjeUHeOmPFoQ6m1O
+         x80D1f1lE/oBOzx4W4O1p6tc67btDVnx+2hRulVnDMTiwRXyZQAf9uTj6ZZUtuQ0hAI6
+         yfHqyBm4seFNzJXZZK2fZloLVhR8leFeT9tBIW4yX2I/LTStYE2adgLNut/y49pqkE35
+         MGh8Nro99t/oT8bcG+4SdhtWqUs4KCesMWHLWoD3CjvFEDu/0xpQAYX8BmgCqP4l9nMu
+         1U424Wh7sGKB1YCW3gbgD3V6rlXd60Ajl9A14Wi0fImrx5I7WNAlfiNMlZ2/PcB00GN7
+         EHQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689435474; x=1692027474;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=S+djRnUBFZhHAwtTKh2Fe3WK0yWfTrmhbES8+t2drAg=;
+        b=YkEfKHs/j4yMcCB6Cm14gNFtYURCOhpsOhP4E0V4bI4ncEcoKRqbVk2KU6ofknN6X4
+         4RjGk3/cmC2GjIO5nA8H1jhngw8+EJMxRE2UGqEV6UngMRJVh+xxiXgQE/nZ82GxgxNg
+         ay2BrZPYSYuelqvRwwaTI2RwMf9zEqxpQveOCJe9tB8jqHZd5/GlpKnvOOYbccPUFfcS
+         ZZ4+QMeW1HjhcRWr07H0+D8x+cnb06M3S018s3SQjp0uAnBkbs9pdv/VvCW7RJOT2R80
+         JkFz+00TSW4zeqOab+GK15TLwiG5a/3w9/kx3eQgHbNRATTlABMuCJmwYGrDho0Vpu0V
+         RtZA==
+X-Gm-Message-State: ABy/qLYDxovPpgMu08MwkjgJAwew/KP2Wj649pgsQc5UmB5+SnN3hrv8
+        VLrTQ9727FVT1lZMU/OflFjc8g==
+X-Google-Smtp-Source: APBJJlGnvRzysI6qYnA0eg/NVocOpM6/Wa4ri3O3mzrcMONorQKIeHbh9d9MmdlI//c6wMp6j9RuFg==
+X-Received: by 2002:a05:6512:3f6:b0:4fb:9f93:365f with SMTP id n22-20020a05651203f600b004fb9f93365fmr6291643lfq.38.1689435473901;
+        Sat, 15 Jul 2023 08:37:53 -0700 (PDT)
+Received: from [192.168.1.101] (abxi167.neoplus.adsl.tpnet.pl. [83.9.2.167])
+        by smtp.gmail.com with ESMTPSA id q30-20020ac2511e000000b004fbdeca7b79sm1925808lfb.247.2023.07.15.08.37.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Jul 2023 08:37:53 -0700 (PDT)
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+Date:   Sat, 15 Jul 2023 17:37:52 +0200
+Subject: [PATCH v2] media: camss: Intepret OF graph connections more
+ sensibly
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
-        s=key1; t=1689430474;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Exn0iOvVonsyS0RrlLSc0WGJin7aNNSG8UVnuWPxU9U=;
-        b=t/W/IPYE3d7Jq/unFMsbXJLxEErOfxhf4yu6/72S9Q+SjRgLquoMqkKQezx0JsO0jec71+
-        yd+XLox94l1Rfe6tP4f0GcgRUtGtt/xPEv/GSU+tBZQvYVqiAN/zt3VjScJGnhmQmSz8m7
-        MMDRXTatfmE2t5WRkGqzmkO7/LO4PLUROW1+MkN1rDaKE7DhehIwcvxF1MR0d9uLTXMfka
-        Ef8flkwck6XqlzG6u4sO0BSYHaVQp2pEPPvulTePYrEPcZP8KhFLY5KLGZpCYWc2o0YCiQ
-        xWXhEW24YGpZ9EVSG627zq5mggx8+PTHVDLZdqxUlRhTv+WXAtsJ43TJhIf2ow==
-Date:   Sat, 15 Jul 2023 14:14:32 +0000
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   alyssa@rosenzweig.io
-Message-ID: <236422117088ca854a6717114de73d99b2b9ba2f@rosenzweig.io>
-TLS-Required: No
-Subject: Re: [PATCH 2/3] drm/scheduler: Fix UAF in
- drm_sched_fence_get_timeline_name
-To:     "Luben Tuikov" <luben.tuikov@amd.com>,
-        "=?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?=" <christian.koenig@amd.com>,
-        "Asahi Lina" <lina@asahilina.net>,
-        "David Airlie" <airlied@gmail.com>,
-        "Daniel Vetter" <daniel@ffwll.ch>,
-        "Sumit Semwal" <sumit.semwal@linaro.org>
-Cc:     "Faith Ekstrand" <faith.ekstrand@collabora.com>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, asahi@lists.linux.dev
-In-Reply-To: <9c0cff84-45b1-268f-bdad-38c16316dbc3@amd.com>
-References: <9c0cff84-45b1-268f-bdad-38c16316dbc3@amd.com>
- <20230714-drm-sched-fixes-v1-0-c567249709f7@asahilina.net>
- <20230714-drm-sched-fixes-v1-2-c567249709f7@asahilina.net>
- <bef7ef62-3cd9-6ceb-5eb4-5ae0c0236778@amd.com>
- <de502b41-2864-db1e-16a0-8a5d5e0e4ad3@asahilina.net>
- <d9dc2fd5-d054-dbf3-72b7-fe9deaa46350@amd.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230614-topic-camss_grpah-v2-1-57d9d5e49038@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAE+9smQC/32NQQrCMBAAv1L2bCRJ00o9+Q8pso1Js1CTsqlFK
+ f270Qd4nIFhNsiOyWU4VxuwWylTigX0oQIbMI5O0L0waKlr2SojljSTFRYfOd9GnjGIuvMdGn8
+ yWloo3YDZiYEx2lDK+JymImd2nl6/0bUvHCgvid+/76q+9t9iVUKJxpuhUW2tpMfLRBE5HROP0
+ O/7/gEKWGVNyAAAAA==
+To:     Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Marijn Suijten <marijn.suijten@somainline.org>,
+        Yassine Oudjana <y.oudjana@protonmail.com>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Konrad Dybcio <konrad.dybcio@linaro.org>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1689435472; l=1614;
+ i=konrad.dybcio@linaro.org; s=20230215; h=from:subject:message-id;
+ bh=IWx/Y65eu/NJcdTnG8aoRNmX5OhoUqPGvpZUr4ZM0kY=;
+ b=YaoNNiOpYTAMnAIVRNlPWQcOOz1V+Rx9Cdsp/R84UIJLHhRbIeCqOvBhq1+8s3SEE9pgg6i/M
+ jrYxMVUClulDsZVtzq87Uxvi5GyMWV97Pakq5etA31OhcYG6QKxXGTW
+X-Developer-Key: i=konrad.dybcio@linaro.org; a=ed25519;
+ pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-15 July 2023 at 00:03, "Luben Tuikov" <luben.tuikov@amd.com> wrote:
+Not all endpoints of camss have to be populated. In fact, most of the
+time they shouldn't be as n-th auxilliary cameras are usually ewaste.
 
+Don't fail probing the entire camss even even one endpoint is not
+linked and throw an error when none is found.
 
->=20
->=20On 2023-07-14 05:57, Christian K=C3=B6nig wrote:
->=20
->=20>=20
->=20> Am 14.07.23 um 11:49 schrieb Asahi Lina:
-> >=20
->=20> >=20
->=20> > On 14/07/2023 17.43, Christian K=C3=B6nig wrote:
-> > >=20
->=20>=20
->=20>  Am 14.07.23 um 10:21 schrieb Asahi Lina:
-> >  A signaled scheduler fence can outlive its scheduler, since fences a=
-re
-> >  independencly reference counted. Therefore, we can't reference the
-> >  scheduler in the get_timeline_name() implementation.
-> >=20
->=20>  Fixes oopses on `cat /sys/kernel/debug/dma_buf/bufinfo` when share=
-d
-> >  dma-bufs reference fences from GPU schedulers that no longer exist.
-> >=20
->=20>  Signed-off-by: Asahi Lina <lina@asahilina.net>
-> >  ---
-> >  =C2=A0=C2=A0 drivers/gpu/drm/scheduler/sched_entity.c | 7 ++++++-
-> >  =C2=A0=C2=A0 drivers/gpu/drm/scheduler/sched_fence.c=C2=A0 | 4 +++-
-> >  =C2=A0=C2=A0 include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 5 +++++
-> >  =C2=A0=C2=A0 3 files changed, 14 insertions(+), 2 deletions(-)
-> >=20
->=20>  diff --git a/drivers/gpu/drm/scheduler/sched_entity.c=20
->=20>  b/drivers/gpu/drm/scheduler/sched_entity.c
-> >  index b2bbc8a68b30..17f35b0b005a 100644
-> >  --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> >  +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> >  @@ -389,7 +389,12 @@ static bool=20
->=20>  drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity=
-)
-> >  =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 /*
-> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *=
- Fence is from the same scheduler, only need to wait for
-> >  -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * it to be schedul=
-ed
-> >  +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * it to be schedul=
-ed.
-> >  +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *
-> >  +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Note: s_fence->s=
-ched could have been freed and reallocated
-> >  +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * as another sched=
-uler. This false positive case is okay,=20
->=20>  as if
-> >  +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * the old schedule=
-r was freed all of its jobs must have
-> >  +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * signaled their c=
-ompletion fences.
-> >=20
->=20>  This is outright nonsense. As long as an entity for a scheduler ex=
-ists
-> >  it is not allowed to free up this scheduler.
-> >=20
->=20>  So this function can't be called like this.
-> >=20
->=20> >=20
->=20> > As I already explained, the fences can outlive their scheduler. T=
-hat=20
->=20> >  means *this* entity certainly exists for *this* scheduler, but t=
-he=20
->=20> >  *dependency* fence might have come from a past scheduler that wa=
-s=20
->=20> >  already destroyed along with all of its entities, and its addres=
-s reused.
-> > >=20
->=20>=20
->=20>=20=20
->=20>  Well this is function is not about fences, this function is a call=
-back=20
->=20>  for the entity.
-> >=20=20
->=20>=20
->=20> >=20
->=20> > Christian, I'm really getting tired of your tone. I don't appreci=
-ate=20
->=20> >  being told my comments are "outright nonsense" when you don't ev=
-en=20
->=20> >  take the time to understand what the issue is and what I'm tryin=
-g to=20
->=20> >  do/document. If you aren't interested in working with me, I'm ju=
-st=20
->=20> >  going to give up on drm_sched, wait until Rust gets workqueue su=
-pport,=20
->=20> >  and reimplement it in Rust. You can keep your broken fence lifet=
-ime=20
->=20> >  semantics and I'll do my own thing.
-> > >=20
->=20>=20
->=20>=20=20
->=20>  I'm certainly trying to help here, but you seem to have unrealisti=
-c=20
->=20>  expectations.
-> >=20=20
->=20>  I perfectly understand what you are trying to do, but you don't se=
-em to=20
->=20>  understand that this functionality here isn't made for your use ca=
-se.
-> >=20=20
->=20>  We can adjust the functionality to better match your requirements,=
- but=20
->=20>  you can't say it is broken because it doesn't work when you use it=
- not=20
->=20>  in the way it is intended to be used.
-> >=20
->=20
-> I believe "adjusting" functionality to fit some external requirements,
-> may have unintended consequences, requiring yet more and more "adjustme=
-nts".
-> (Or may allow (new) drivers to do wild things which may lead to wild re=
-sults. :-) )
->=20
->=20We need to be extra careful and wary of this.
+Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+---
+Changes in v2:
+- Use if-else instead of the ternary operator (Bryan)
+- Drop "RFC"
+- Link to v1: https://lore.kernel.org/r/20230614-topic-camss_grpah-v1-1-5f4b516310fa@linaro.org
+---
+ drivers/media/platform/qcom/camss/camss.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-Either drm/scheduler is common code that we should use for our driver, in=
- which case we need to "adjust" it to fit the requirements of a safe Rust=
- abstraction usable for AGX. Or, drm/scheduler is not common code intende=
-d for drivers with our requirements, and then we need to be able to write=
- our own scheduler.
+diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+index 1ef26aea3eae..8b75197fa5d7 100644
+--- a/drivers/media/platform/qcom/camss/camss.c
++++ b/drivers/media/platform/qcom/camss/camss.c
+@@ -1084,9 +1084,8 @@ static int camss_of_parse_ports(struct camss *camss)
+ 
+ 		remote = of_graph_get_remote_port_parent(node);
+ 		if (!remote) {
+-			dev_err(dev, "Cannot get remote parent\n");
+-			ret = -EINVAL;
+-			goto err_cleanup;
++			of_node_put(node);
++			continue;
+ 		}
+ 
+ 		csd = v4l2_async_nf_add_fwnode(&camss->notifier,
+@@ -1105,7 +1104,10 @@ static int camss_of_parse_ports(struct camss *camss)
+ 		num_subdevs++;
+ 	}
+ 
+-	return num_subdevs;
++	if (num_subdevs)
++		return num_subdevs;
++
++	return -EINVAL;
+ 
+ err_cleanup:
+ 	of_node_put(node);
 
-AMD has NAK'd both options, effectively NAK'ing the driver.
+---
+base-commit: 7c2878be573282a9961c359b806ccf70afe1a6b6
+change-id: 20230614-topic-camss_grpah-39f9a4f7420c
 
-I will ask a simple yes/no question: Should we use drm/sched?
+Best regards,
+-- 
+Konrad Dybcio <konrad.dybcio@linaro.org>
 
-If yes, it will need patches like these, and AMD needs to be ok with that=
- and stop NAK'ing them on sight becuase they don't match the existing req=
-uirements.
-
-If no, we will write our own scheduler in Rust, and AMD needs to be ok wi=
-th that and not NAK it on sight because it's not drm/sched.
-
-Which is it?
-
-Note if we write a Rust scheduler, drm/sched and amdgpu will be unaffecte=
-d. If we do that and AMD comes back and NAKs it -- as said in this thread=
- would "probably" happen -- then it is impossible for us to upstream a dr=
-iver regardless of whether we use drm/sched.
-
-Lina has been polite and accommodating while AMD calls her code "outright=
- nonsense" and gets "outright NAK"s, and puts her into an impossible catc=
-h-22 where no matter what she does it's NAK'd.
-
-That's not ok.
