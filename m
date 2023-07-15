@@ -2,117 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DEE5B7549FE
-	for <lists+linux-media@lfdr.de>; Sat, 15 Jul 2023 18:08:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B639B754A62
+	for <lists+linux-media@lfdr.de>; Sat, 15 Jul 2023 19:10:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229683AbjGOQIr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 15 Jul 2023 12:08:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43184 "EHLO
+        id S229621AbjGORKC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 15 Jul 2023 13:10:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229472AbjGOQIq (ORCPT
+        with ESMTP id S229500AbjGORKB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 15 Jul 2023 12:08:46 -0400
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1B5B2D51;
-        Sat, 15 Jul 2023 09:08:45 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1b8a8154f9cso18714415ad.1;
-        Sat, 15 Jul 2023 09:08:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689437325; x=1692029325;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Wj4Cy8RQ6W/zc3QPSV8hmPb4p0rBodU5v6Z12U3dgao=;
-        b=f1Yoji6Lk7hLFrGWvVHMB99I94iqNPLf53nN99C+Euf1eko0lDj6+rwlqw+Dgk8UQQ
-         SRpsuRlsVNHD4H3CtBAY6OqSPEqSJZUwFP+cS9hB5oGMHDh1EVrIAUWdGU5BH6VhjFBW
-         /z1yHF+21yYGgNq9TAwrNx1v4HfpVczxiW79BGFcmf51YVbRm8YkB2rC0PG8Wz14mMZc
-         0CZz2ejtvs3mc6jFez6MjOZAENbTvA1WktKizZDkR7JMqJrAQbPdsIohUFetUtXw+PaF
-         KQoa95Jtgb3QO1zhPcZxPZtw2Jc8U8JccvLv74fIUQ1k70FctgFVnPIiuRT5Ui6YXY5w
-         ivhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689437325; x=1692029325;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Wj4Cy8RQ6W/zc3QPSV8hmPb4p0rBodU5v6Z12U3dgao=;
-        b=IDXezXX+5fsAuzXAeNyV7QwKRoTISnTLuDNNxCKaCecUZXmVJPrDZ2nICAcPl+77hm
-         xREgD8AOKDqIHoUV6cw+92oqddOynyvYXWAaBPFsEfrck2eZU1Ay8hWBGXjRK3kZD5rS
-         9sfnMNNykrhUo+qSWpn7hrNbHVOd0ITTx03nMbaB59OQCCFittAT+8BGhZ/MSGXN+LGY
-         +VQSSdDRa+Lx0O/pL0qt4zK62tpRwbuQKpQg6nC9Nuevd4JEqByOXcS92bkZ77L/fhQa
-         Vcy0sOvP1knyv+exIXRVc4nlbHASz4WHqmRP+Gs1Wwl9IjCcJDNTdFT0DcdBz7qW5LFd
-         jOeQ==
-X-Gm-Message-State: ABy/qLaTDxOehF68+R7OkVIpm1l3m4njo0KncreHKKYeAHs2tWLtF2Oi
-        7YkcNJHiJ/ZLvwqDVga3GcHPxVxoVd0SJeU5mWQ=
-X-Google-Smtp-Source: APBJJlG9cTRO0B/J58Dk72R+ek7gW9xZzMEOglyV1YUlimrJNp3sZdyPb2I4AXwzW/e0UeBY9xyjV4b1/NXsL7lhrN0=
-X-Received: by 2002:a17:902:dac7:b0:1b6:b703:36f8 with SMTP id
- q7-20020a170902dac700b001b6b70336f8mr8179654plx.25.1689437325128; Sat, 15 Jul
- 2023 09:08:45 -0700 (PDT)
+        Sat, 15 Jul 2023 13:10:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EB85B5
+        for <linux-media@vger.kernel.org>; Sat, 15 Jul 2023 10:09:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1689440953;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=oHXr+MtQ2j8i+hspLgMsd1NTyA2+o+iCzUHxpN9ilvo=;
+        b=X5dbAi0UWK+ywBRmaHeDXizoWKenzyVwHHqyYyRBT3ESiF2u5ree81f5dTSOZS0e6E9Ae6
+        EstZVYn7akzXttzNGA5D2ZzupO32KNuDOMAlc5qUVz9mPSlFAEaxuPT6xdvuKchcMu/J7f
+        kvPzvXa+CcnaI84/DsaoCw3efdtz1co=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-59-x-31gPfONuuhBBIE7GBnZw-1; Sat, 15 Jul 2023 13:09:09 -0400
+X-MC-Unique: x-31gPfONuuhBBIE7GBnZw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 47F3C101A54E;
+        Sat, 15 Jul 2023 17:09:09 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.192.5])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 993D21121333;
+        Sat, 15 Jul 2023 17:09:07 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>, Kate Hsuan <hpa@redhat.com>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [PATCH 1/3] media: atomisp: Remove empty isys_public.h
+Date:   Sat, 15 Jul 2023 19:09:04 +0200
+Message-ID: <20230715170906.3627-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-References: <20230707092414.866760-1-zyytlz.wz@163.com> <538096d2-7b24-e1c7-706d-4d4f952d35eb@baylibre.com>
-In-Reply-To: <538096d2-7b24-e1c7-706d-4d4f952d35eb@baylibre.com>
-From:   Zheng Hacker <hackerzheng666@gmail.com>
-Date:   Sun, 16 Jul 2023 00:08:33 +0800
-Message-ID: <CAJedcCzR6DzX_aG1KBgrMHDJ1xh=RTA-FrZ+TJ_4KawWpHyYuA@mail.gmail.com>
-Subject: Re: [RESEND PATCH v2] media: mtk-jpeg: Fix use after free bug due to
- uncanceled work
-To:     Alexandre Mergnat <amergnat@baylibre.com>
-Cc:     Zheng Wang <zyytlz.wz@163.com>, Kyrie.Wu@mediatek.com,
-        bin.liu@mediatek.com, mchehab@kernel.org, matthias.bgg@gmail.com,
-        angelogioacchino.delregno@collabora.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, Irui.Wang@mediatek.com,
-        security@kernel.org, 1395428693sheep@gmail.com,
-        alex000young@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+isys_public.h is empty, remove it.
 
-This issue has not been resolved for a long time. Is there anyone who can h=
-elp?
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ .../hive_isp_css_include/host/isys_public.h   | 19 -------------------
+ .../atomisp/pci/isp2400_input_system_public.h |  1 -
+ 2 files changed, 20 deletions(-)
+ delete mode 100644 drivers/staging/media/atomisp/pci/hive_isp_css_include/host/isys_public.h
 
-Best regards,
-Zheng
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/isys_public.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/isys_public.h
+deleted file mode 100644
+index 9dacef7a5cc1..000000000000
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/isys_public.h
++++ /dev/null
+@@ -1,19 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/*
+- * Support for Intel Camera Imaging ISP subsystem.
+- * Copyright (c) 2015, Intel Corporation.
+- *
+- * This program is free software; you can redistribute it and/or modify it
+- * under the terms and conditions of the GNU General Public License,
+- * version 2, as published by the Free Software Foundation.
+- *
+- * This program is distributed in the hope it will be useful, but WITHOUT
+- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+- * more details.
+- */
+-
+-#ifndef __ISYS_PUBLIC_H_INCLUDED__
+-#define __ISYS_PUBLIC_H_INCLUDED__
+-
+-#endif /* __ISYS_PUBLIC_H_INCLUDED__ */
+diff --git a/drivers/staging/media/atomisp/pci/isp2400_input_system_public.h b/drivers/staging/media/atomisp/pci/isp2400_input_system_public.h
+index 375c0db84b55..b1360eeb58df 100644
+--- a/drivers/staging/media/atomisp/pci/isp2400_input_system_public.h
++++ b/drivers/staging/media/atomisp/pci/isp2400_input_system_public.h
+@@ -17,7 +17,6 @@
+ #define __INPUT_SYSTEM_2400_PUBLIC_H_INCLUDED__
+ 
+ #include <type_support.h>
+-#include "isys_public.h"
+ 
+ typedef struct receiver_state_s			receiver_state_t;
+ 
+-- 
+2.41.0
 
-Alexandre Mergnat <amergnat@baylibre.com> =E4=BA=8E2023=E5=B9=B47=E6=9C=887=
-=E6=97=A5=E5=91=A8=E4=BA=94 22:11=E5=86=99=E9=81=93=EF=BC=9A
->
->
->
-> On 07/07/2023 11:24, Zheng Wang wrote:
-> > In mtk_jpeg_probe, &jpeg->job_timeout_work is bound with
-> > mtk_jpeg_job_timeout_work. Then mtk_jpeg_dec_device_run
-> > and mtk_jpeg_enc_device_run may be called to start the
-> > work.
-> > If we remove the module which will call mtk_jpeg_remove
-> > to make cleanup, there may be a unfinished work. The
-> > possible sequence is as follows, which will cause a
-> > typical UAF bug.
-> >
-> > Fix it by canceling the work before cleanup in the mtk_jpeg_remove
-> >
-> > CPU0                  CPU1
-> >
-> >                      |mtk_jpeg_job_timeout_work
-> > mtk_jpeg_remove     |
-> >    v4l2_m2m_release  |
-> >      kfree(m2m_dev); |
-> >                      |
-> >                      | v4l2_m2m_get_curr_priv
-> >                      |   m2m_dev->curr_ctx //use
->
-> Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
->
-> --
-> Regards,
-> Alexandre
