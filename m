@@ -2,41 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B639B754A62
-	for <lists+linux-media@lfdr.de>; Sat, 15 Jul 2023 19:10:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 531D0754A63
+	for <lists+linux-media@lfdr.de>; Sat, 15 Jul 2023 19:10:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229621AbjGORKC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 15 Jul 2023 13:10:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59616 "EHLO
+        id S229639AbjGORKD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 15 Jul 2023 13:10:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229500AbjGORKB (ORCPT
+        with ESMTP id S229490AbjGORKB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Sat, 15 Jul 2023 13:10:01 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EB85B5
-        for <linux-media@vger.kernel.org>; Sat, 15 Jul 2023 10:09:14 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43C8526B1
+        for <linux-media@vger.kernel.org>; Sat, 15 Jul 2023 10:09:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1689440953;
+        s=mimecast20190719; t=1689440954;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=oHXr+MtQ2j8i+hspLgMsd1NTyA2+o+iCzUHxpN9ilvo=;
-        b=X5dbAi0UWK+ywBRmaHeDXizoWKenzyVwHHqyYyRBT3ESiF2u5ree81f5dTSOZS0e6E9Ae6
-        EstZVYn7akzXttzNGA5D2ZzupO32KNuDOMAlc5qUVz9mPSlFAEaxuPT6xdvuKchcMu/J7f
-        kvPzvXa+CcnaI84/DsaoCw3efdtz1co=
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=KiYOXQR1dfJ4ohFM9TQtektSyJY5vyb0vgtjKDCem0c=;
+        b=OVTX7bDCE1jEHgJmmuPBsKxXhBGRl7V17xKqr3637vfYhp9Idao5l4OgJbdty0wk5ybw7J
+        ATUMwg0eGZQD0pS9OCqrFSeTTPYbDsMrBfvje0/HLmYR1mRyK8d+XVq4bjUyRKCcFcEGnf
+        soXfhekyfY3KlvW+w8a5VD20NoGle7c=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-59-x-31gPfONuuhBBIE7GBnZw-1; Sat, 15 Jul 2023 13:09:09 -0400
-X-MC-Unique: x-31gPfONuuhBBIE7GBnZw-1
+ us-mta-461-Lf0VOJg2NPqr_C38y3bqrA-1; Sat, 15 Jul 2023 13:09:13 -0400
+X-MC-Unique: Lf0VOJg2NPqr_C38y3bqrA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 47F3C101A54E;
-        Sat, 15 Jul 2023 17:09:09 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 568C185A58A;
+        Sat, 15 Jul 2023 17:09:12 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.5])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 993D21121333;
-        Sat, 15 Jul 2023 17:09:07 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7B4D61121333;
+        Sat, 15 Jul 2023 17:09:09 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -47,9 +48,11 @@ Cc:     Hans de Goede <hdegoede@redhat.com>, Kate Hsuan <hpa@redhat.com>,
         Nable <nable.maininbox@googlemail.com>,
         andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
         linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [PATCH 1/3] media: atomisp: Remove empty isys_public.h
-Date:   Sat, 15 Jul 2023 19:09:04 +0200
-Message-ID: <20230715170906.3627-1-hdegoede@redhat.com>
+Subject: [PATCH 2/3] media: atomisp: Remove aliases for MIPI_FORMAT_2400_CUSTOM0
+Date:   Sat, 15 Jul 2023 19:09:05 +0200
+Message-ID: <20230715170906.3627-2-hdegoede@redhat.com>
+In-Reply-To: <20230715170906.3627-1-hdegoede@redhat.com>
+References: <20230715170906.3627-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
@@ -64,52 +67,45 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-isys_public.h is empty, remove it.
+isp2400_input_system_local.h defines 2 aliases for MIPI_FORMAT_2400_CUSTOM0
+MIPI_FORMAT_JPEG, which is entirely unused and MIPI_FORMAT_BINARY_8 which
+is used once in ia_css_isys_2400_set_fmt_type().
+
+Drop these aliases and directly use MIPI_FORMAT_2400_CUSTOM0 in
+ia_css_isys_2400_set_fmt_type().
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../hive_isp_css_include/host/isys_public.h   | 19 -------------------
- .../atomisp/pci/isp2400_input_system_public.h |  1 -
- 2 files changed, 20 deletions(-)
- delete mode 100644 drivers/staging/media/atomisp/pci/hive_isp_css_include/host/isys_public.h
+ drivers/staging/media/atomisp/pci/isp2400_input_system_local.h | 2 --
+ drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c        | 2 +-
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/isys_public.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/isys_public.h
-deleted file mode 100644
-index 9dacef7a5cc1..000000000000
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/isys_public.h
-+++ /dev/null
-@@ -1,19 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--/*
-- * Support for Intel Camera Imaging ISP subsystem.
-- * Copyright (c) 2015, Intel Corporation.
-- *
-- * This program is free software; you can redistribute it and/or modify it
-- * under the terms and conditions of the GNU General Public License,
-- * version 2, as published by the Free Software Foundation.
-- *
-- * This program is distributed in the hope it will be useful, but WITHOUT
-- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-- * more details.
-- */
--
--#ifndef __ISYS_PUBLIC_H_INCLUDED__
--#define __ISYS_PUBLIC_H_INCLUDED__
--
--#endif /* __ISYS_PUBLIC_H_INCLUDED__ */
-diff --git a/drivers/staging/media/atomisp/pci/isp2400_input_system_public.h b/drivers/staging/media/atomisp/pci/isp2400_input_system_public.h
-index 375c0db84b55..b1360eeb58df 100644
---- a/drivers/staging/media/atomisp/pci/isp2400_input_system_public.h
-+++ b/drivers/staging/media/atomisp/pci/isp2400_input_system_public.h
-@@ -17,7 +17,6 @@
- #define __INPUT_SYSTEM_2400_PUBLIC_H_INCLUDED__
+diff --git a/drivers/staging/media/atomisp/pci/isp2400_input_system_local.h b/drivers/staging/media/atomisp/pci/isp2400_input_system_local.h
+index e7b84fdbb4e0..6319d6449f20 100644
+--- a/drivers/staging/media/atomisp/pci/isp2400_input_system_local.h
++++ b/drivers/staging/media/atomisp/pci/isp2400_input_system_local.h
+@@ -200,8 +200,6 @@ typedef enum {
+ 	N_MIPI_FORMAT_2400,
+ } mipi_format_2400_t;
  
- #include <type_support.h>
--#include "isys_public.h"
+-#define MIPI_FORMAT_JPEG	MIPI_FORMAT_2400_CUSTOM0
+-#define MIPI_FORMAT_BINARY_8	MIPI_FORMAT_2400_CUSTOM0
+ #define N_MIPI_FORMAT_CUSTOM	8
  
- typedef struct receiver_state_s			receiver_state_t;
- 
+ /* The number of stores for compressed format types */
+diff --git a/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c b/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
+index c8316e0965d0..deb4130f710c 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
++++ b/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
+@@ -271,7 +271,7 @@ static int ia_css_isys_2400_set_fmt_type(enum atomisp_input_format input_format,
+ 		*fmt_type = MIPI_FORMAT_2400_RAW16;
+ 		break;
+ 	case ATOMISP_INPUT_FORMAT_BINARY_8:
+-		*fmt_type = MIPI_FORMAT_BINARY_8;
++		*fmt_type = MIPI_FORMAT_2400_CUSTOM0;
+ 		break;
+ 	case ATOMISP_INPUT_FORMAT_YUV420_16:
+ 	case ATOMISP_INPUT_FORMAT_YUV422_16:
 -- 
 2.41.0
 
