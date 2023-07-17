@@ -2,261 +2,325 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D99DE755C87
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jul 2023 09:15:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 032FD755D1B
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jul 2023 09:40:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229801AbjGQHP0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jul 2023 03:15:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59450 "EHLO
+        id S230422AbjGQHk3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Jul 2023 03:40:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229471AbjGQHPY (ORCPT
+        with ESMTP id S230205AbjGQHk2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jul 2023 03:15:24 -0400
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2069.outbound.protection.outlook.com [40.107.92.69])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D4431AE;
-        Mon, 17 Jul 2023 00:15:18 -0700 (PDT)
+        Mon, 17 Jul 2023 03:40:28 -0400
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2068.outbound.protection.outlook.com [40.107.22.68])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDA7DE54;
+        Mon, 17 Jul 2023 00:40:26 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MhkIJPqEKUEiLBHvGMYxsdjcoCCeYVPXiizPjseCYc+3kWbRNdUtbcRSxNXjJBga8okZioJlKZpy1LfVkLiHs20jqd/KJ7SzA2zQgexJ8fktI2XTQ/bTsbM0J1KBmvQyA8MtDNCKDy/ccJpRfoHE9vwOPxtxroPniUExcy0C0U9I4Qo9DtDssem0L8OwzKZSPmJITrdm9xTFyixLMH+r2MZqLLe4zkKgBk64eL9V/1YdJuaqZU2XrwwRD/x1Ht+TwHupy9RvyyiH6s7FR6S/TuvGXogaXwOGLj7n4uIugFmrHdrul/nrT+/85pmTeufrlMIB5Wyf47s39U8wuxUx3Q==
+ b=NQaiblVDD8K5PW30B7gT7KkytYLUrRTRJcJLVqeKZKuZKHypHC5q+S/36uLFJa89hjQnfuglzumoHg+J0U9MjkhDVibl76cG5xmbkyHsxDSH5d4vrtX/1UXr2hAz+hNMea0KPY1fnOGzyUEkBhi5G6EsA9OYTRiqRiCt/rqrEVMX9v0BNxQ1bg9ivjaQw8VzAAvlzcmSRwM5R+l0Z/piMPxmOps/u7KbZRbEoQy7F+sfQQF9F8xgcwFQDN6FDkbpFJwWE19uekaUffHHoifefsV5OXkozz6OOA/+xNZqzEfUvgMUC2CdyEj9o3is19/DJR/PNdRTK25q8d7qW50zIg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bUqctDffiXI9RMkxvvPhznU0cPCX60ysOS2+G0Ghrd4=;
- b=XbeZnBOA0JtFyGHiN+0vEYwdZPm8DsWnEDsMNBd5Q6r9UU/dYbkxVuSNYrNeROL9cNfmYGxPZejhp8z2eDSv2hxvsmn+ifzJ9MWwu8OGtC8nkI45iChHZkIHp7nA4mQaZ3O3fWAhDpfQgoQPw9N4duFIFizu7RG4guCZ00vnAIDNi2d7JNlwlFl53SPkAtCQxCOK3Hn2rE0nltqu68tjvDlGDFBgeL+OJYg1bN8EAdUWx9S7Aqtk2g3kDRGv2Iwvig3VBPJLP1at45yKMnykihThaHWM1WolicHHddG4t8AlcQaFhi7F7G9wtXnJ0ZQv0tw6ih6kbinBnr6OGkWwEw==
+ bh=A7ZVSf292lQyl5bMQXznfPAekJ40jy3ZnU2e4QpU5II=;
+ b=HYljuEjKSv4jDe7769YDvH4u2HmqaCz0JooLD9H5ELlHsywG8Imm/pNkbfsYb1DZQUWZJRDntDhPYFfaLyqxwdcfoqgzVvRDOZHlipumAqLUTnXzNjdMnnDeAq5DQ5mW4tJrWbS3nLZY2iYNPHF1Mw+XD71mCZdm9HmLHf2PBb+SITRS1ZvH8tAr+z1gC9ajm6PLmyYypyYcZAG5If/KyPC46dUuwy90VXuemqA88T3a+DsDzwQjGn1/sSU30LCs2mbbsL3zq3QvLsc/c1OGneIB6u1Lpuix55ffHV6SBO6U5AG6LUbov1dD60W2c4YE7Z+kNu5hK89mrKjXEP8iHg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synaptics.com; dmarc=pass action=none
- header.from=synaptics.com; dkim=pass header.d=synaptics.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bUqctDffiXI9RMkxvvPhznU0cPCX60ysOS2+G0Ghrd4=;
- b=CwlApxZZy0d1mtBPEE24BfSNx3rIF/SUzKyYPvof+d4nTCEDworMgXMWYqT8DysNyYW2gcqraWrhNeq0HLK3nEDwgd0aD8h76D18WpynsOfjNz0iMZgnBLrF0HhLxSl3DJu7AFmTIEWCdk/K5eWIC4TsGhyKirN98dF7Nf1Y2m4=
+ bh=A7ZVSf292lQyl5bMQXznfPAekJ40jy3ZnU2e4QpU5II=;
+ b=oh/GmAvbSfCNIDgbrNRXcm/s5tUlnd78YGH3IM6NSz4oMkafu05psWZicZDff1GKZnNVsxYeR51uW9MkQQZ7px5hG1HdLXhAqRCKXZQq3zeD5jmiBOxYnEovm1yHzjv5GbeWXjBymTXuwjhBLe3HWpriGJM8FooLP8ro9hvVhqE=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=synaptics.com;
-Received: from DM6PR03MB5196.namprd03.prod.outlook.com (2603:10b6:5:24a::19)
- by MW4PR03MB6572.namprd03.prod.outlook.com (2603:10b6:303:12b::9) with
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
+ by DU0PR04MB9249.eurprd04.prod.outlook.com (2603:10a6:10:350::20) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.31; Mon, 17 Jul
- 2023 07:15:16 +0000
-Received: from DM6PR03MB5196.namprd03.prod.outlook.com
- ([fe80::6882:b9c1:2b2d:998d]) by DM6PR03MB5196.namprd03.prod.outlook.com
- ([fe80::6882:b9c1:2b2d:998d%5]) with mapi id 15.20.6588.031; Mon, 17 Jul 2023
- 07:15:15 +0000
-Message-ID: <4e70c8b8-d459-2b79-2b3d-40875f701d97@synaptics.com>
-Date:   Mon, 17 Jul 2023 15:14:56 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH 2/2] media: v4l2-mem2mem: add a list for buf used by hw
-Content-Language: en-GB
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     linux-media@vger.kernel.org, ayaka@soulik.info,
-        hans.verkuil@cisco.com, mchehab@kernel.org,
-        laurent.pinchart@ideasonboard.com, hiroh@chromium.org,
-        hverkuil@xs4all.nl, linux-kernel@vger.kernel.org,
-        nicolas@ndufresne.ca
-References: <20230704040044.681850-1-randy.li@synaptics.com>
- <20230704040044.681850-3-randy.li@synaptics.com>
- <20230712093301.nkj2vok2x7esdhb3@chromium.org>
-From:   Hsia-Jun Li <Randy.Li@synaptics.com>
-In-Reply-To: <20230712093301.nkj2vok2x7esdhb3@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0254.namprd03.prod.outlook.com
- (2603:10b6:a03:3a0::19) To DM6PR03MB5196.namprd03.prod.outlook.com
- (2603:10b6:5:24a::19)
+ 2023 07:40:24 +0000
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::cc21:3476:cea7:3436]) by AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::cc21:3476:cea7:3436%4]) with mapi id 15.20.6588.031; Mon, 17 Jul 2023
+ 07:40:23 +0000
+From:   Ming Qian <ming.qian@nxp.com>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl
+Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        xiahong.bao@nxp.com, eagle.zhou@nxp.com, tao.jiang_2@nxp.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] media: amphion: fix some issues reported by coverity
+Date:   Mon, 17 Jul 2023 15:40:06 +0800
+Message-Id: <20230717074006.22372-1-ming.qian@nxp.com>
+X-Mailer: git-send-email 2.38.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR03CA0120.apcprd03.prod.outlook.com
+ (2603:1096:4:91::24) To AM6PR04MB6341.eurprd04.prod.outlook.com
+ (2603:10a6:20b:d8::14)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR03MB5196:EE_|MW4PR03MB6572:EE_
-X-MS-Office365-Filtering-Correlation-Id: f093331b-ba47-43d9-9c87-08db869591a9
+X-MS-TrafficTypeDiagnostic: AM6PR04MB6341:EE_|DU0PR04MB9249:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4d949887-3f69-4240-fb46-08db8699149d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: u2jMkD18iK6DUjiNzaTVAq6kRSbKkUP1fZ5uYJD3VlGvHSH38ds23wy1q0Gx+0anxpREpgrWANJEL6JGxgNQEib3rj9UPvraY33qZ/0WcgdQx0o9SuF97DPVBNa4O2cdU8w2ZXjj8/A0pgR6OMYY5QYg0hkkC0DeO5nU1nIpeOLSLcqucqb/aFZFFi1vY+g5lBEAF/gHIq4RrRIpA+IhIZ8PHkoKzpxphYsTnrvrrBznmYVVe7kUxvz722vvWKcGm9BfmgZ2pp5wzmD8WHRusaX1vgF/QMFijiUrF/PB7CIE3nWOIwEB/tFcXSH4H7ua47LM1eRFxwohsCTxQY4mG5mTCqWlceR/tjLoL8MHhDi3F/4aXZ9NKcNwsmlDqIzHsr7+CKo7TxfT6I6Xt85+F5LQuvJPxZzYncesyXgHCMnlnhohjSkW1nTgvRpc0CBKUzWxT81WBDndywZ0xhVgZUMWK1XU3f33OhEAAYv689D8brftYgm8tOH9dvEL5bKBECP/dpa5xv/0l+0aNACPVLBnkFDOWX374Bx9boMCtcBc2B4iYUGlbrhH3MaxJ635jHydZ42N9gyuc9nkbBQJAz97hw53fvJOJDOljWVS8a+Md29ZkUmBRbvec5HvNqnueQsoHEZosADoTMeXDufuGKoD/PAQRvA+zPBkTY/p+ojUAIB99zL7mGhBC9LrQ/NN
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR03MB5196.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(136003)(39860400002)(396003)(376002)(366004)(346002)(451199021)(31686004)(86362001)(83380400001)(6486002)(6666004)(36756003)(52116002)(38350700002)(38100700002)(2906002)(31696002)(2616005)(7416002)(186003)(5660300002)(66899021)(6506007)(53546011)(26005)(41300700001)(8676002)(8936002)(478600001)(6512007)(66946007)(66476007)(66556008)(316002)(4326008)(6916009)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: /bLgIqcq5Z2oWPLBFGB80GPVA4KF2gm2BfK/qZ8F/PDG3JUIRxpfaYgY6V7eDiOzC9Db8ytbRdzH38CgmpXbUZXxVaQqR3d3HgRL0hR0FShKYO8goMzqQleqjzidYIP2jPBZA55lQtBArV6cV13oQzo7HBZ/CbEvuV7++qgTI/5yahnMWlLTXXkf8456DrEBzDD3hccPQTrCUtLSNnoz8KrxBD/ZQBTaG94A1hlcmhleHAdpcQE7c7haZCQEb2wQnnhZnep5gOyw9dUzRIWJ5niu6xG3NvPBPDnw9h/aVlQasGyGeQAMbubuLxkvMOYfEs9XgzFYR1/5Mg784TMfcjCZpnzb2CagpgsLZsTizcAzD5Fgu81YKQaKS9gWn+WuFKDK6Xg4aX0+140QYeHvcD3qEfMGpePZS13AB4J/nUxRfekvJ8/GYx0QCs7BD5c2BlV+0/KAWZmMGNv47lZaS2JmLOg6sgt0Ngq6TB5KhX8yGsF11gzdZ4ZqY8ABa6nC76H5CI+CLe9o5/vK9z/8CT1qFvetQoRcesl1w42QSjCXfcCle7z8L13EGTI4lhgm4cjz1+Yl+bwblG0Q8EW/yYXnEnGJYJvAvsA5/wk011ZILLG+QDCuyb1FqP0xqixY
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(376002)(39860400002)(136003)(366004)(346002)(451199021)(6486002)(52116002)(26005)(1076003)(6506007)(6512007)(36756003)(2616005)(83380400001)(38350700002)(86362001)(38100700002)(186003)(8936002)(8676002)(2906002)(41300700001)(478600001)(44832011)(7416002)(5660300002)(4326008)(316002)(66556008)(66476007)(66946007)(6666004);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NTdRc05jcnNwcUpNV3NtWVRxdUh0bVBHc3ZZaVhEcE5YQkg1VHlrRW1XUGZ0?=
- =?utf-8?B?NVhEOEN5NWQ1dnVPaEhDZG9CUXpTQVc4WnRZbFNIQ2lQeitWVHF6Y2NWSkYz?=
- =?utf-8?B?Z0hJc1FtN0pLS3JGYlMwajNRWU9NaDgrUGFCOFVaQi9oWG1DWW9CTDc1QTR6?=
- =?utf-8?B?cnJubzZFR2ZmQ2hMQitaNnZFMVh0cEF1VDVvU2MyWTlGQjZhSnlCUFpaZTdI?=
- =?utf-8?B?eGwvUFNkL3paTGtpMmNRNUZHa3YxWUxNSjMyODV3dzdWdkY2dWs5TVk5SEVi?=
- =?utf-8?B?T0Z6UStFQUZiZ1M3a1RlTU9wVlJ1ZUZEY2toMnFkcG9raFZEMmI5aHFXSGhz?=
- =?utf-8?B?cllxcCt2NVNKaVRiWGN3dXJyV1h1QXhWWTl5c0JXV2xVakMva3h5dnVUeUxm?=
- =?utf-8?B?Rm5Rb2hHMWhaTnlGOWYvaUY2S1JhU3A3d2g3NUFOTjIwQnNkWVorN1NPNjA2?=
- =?utf-8?B?YzFYN3NzdXN2OG9RcXdxNS9sa2syeUF1YU9ZR0J1bnVoamkvZ0ZaSm5iaUJw?=
- =?utf-8?B?QWtpdytibjJZOHFnSmJxSWQ2REJXZnF6S3Aydm9QS3l2WTJSTlp3SkdTVWRq?=
- =?utf-8?B?UytPNVFXREFIRnkvdU0vVjFDWWMyZEZTdUtxV2NIZnZpWG42MEM4UGYrK012?=
- =?utf-8?B?V0ltT0pJNFNXL1B2QS9jNFJUcVg2eExZc3FzMGw2Und1b2VmU2RkRmhvK3N5?=
- =?utf-8?B?M1pWN1dSQWF3azlrcEkyZFBlaDhha2QrcHFDckx5OWQyVlR0RG5oK056RThz?=
- =?utf-8?B?TlFEc2l2a056MDhNZ0N4OWp5TStMcTVpOFgyTDFUTmhRRGl5UUpLYUdIYzBL?=
- =?utf-8?B?L2wxTjU5UWtsV3FZSTVHYXNsRjg1RmtTdzczRVg2VitxLzlEVkRoVXh5R1FQ?=
- =?utf-8?B?Q0Z0RHFUc091Qnl1dDhjenFmRzNuWGc1YTJldlg2eURIUWxVQ0ZLVC9udnRv?=
- =?utf-8?B?azNraTdldGlzSHhaUm5aWmdwN2k1Q0svL0d0WXVHbnhWRkRvWnZvQ0E5cUow?=
- =?utf-8?B?WE1zZHNUajFPNGM5Uy9MeE9JS3JJTUQrNkp5bFNvTnVrU0lFelo4dDFwRlph?=
- =?utf-8?B?K1Q5TEJuM0M1U3NsWDJtRVJwWE5hZjU0VjcvUWpsRGdZY2xZZW9GTEhCaXpl?=
- =?utf-8?B?WnNpNm5DMXd5YUU5elgzTWU1cGg2YnhvMS9aejVqbVhuWmxkdmI3TmRybU9o?=
- =?utf-8?B?U2NXRTVmblBSZ2c3czVEcHJqRXdHc3NKSVA5d3hDMHJZYjhMTkg5L3JCNFFB?=
- =?utf-8?B?TjVVMUkwblZVSmlERHdQOXpqaW9TT1k5c25KeTczakRlL25laXF0R1U3OURm?=
- =?utf-8?B?ZUxlODE1SUNQUjVlZmp4T2dIbURjSG1jUGdsRzRVL2dXaEJKK3psV0N4UDMz?=
- =?utf-8?B?Z25VS2tsZ0VwUWRrR2N1QnBOUFgzR0MzYVhYcm4veCtodGEvRmsvdWhVWmJi?=
- =?utf-8?B?TWJVa21xZ201Q1ptSG5JWlVkUFhWMkNCd21Ba2lkcW80aW5PSTh5TktOUXh4?=
- =?utf-8?B?MlBVc0hXYmFiM3VYanMzdHlIL3VpNHYvTVlZSCtvaFZ1SHBKMDZPZUNFSkRB?=
- =?utf-8?B?eDd4RjMrVjBoWHZXSjR6T3lGTkhEVXI0QWxnK0lOaVBRV3FTMzhWWVM3U2NZ?=
- =?utf-8?B?UHpsNVNoUzM3bkF3OCtLY3RhbkFkSTNPNzJ1VEl5SlBMT3J0bXZxeU1qai9X?=
- =?utf-8?B?eFpDWkhMYW9vd0txR1p2MXg2MGtZeW1DdzdQUVlEK1ZMSWhuc1U3eHV2Ykpr?=
- =?utf-8?B?OXVWV3c0TUQ2ODRNcTJrU1NtZW9EZlpFREFvb1ZuODZmcDBBekNjZHQvMFZW?=
- =?utf-8?B?eEM4aE44czNvcVJoWHpwMi9uRDh2c1QwT3liQkJKai9ieWRTNnlFeTJ6bzJo?=
- =?utf-8?B?d2xMTTlFNGg2RS9wa2lna1ZQd2pidDBJWjl5NDhmVVQ0S2hjM2VUaFZWVEZI?=
- =?utf-8?B?VnZrMllaTkhCQlZFL2hsYm0rZ0VYSnNUMEZFblJaRnFCTE1aWC90RkthZnF3?=
- =?utf-8?B?aHh1bUo4U08zQ0FJRUd1SHNucW5YQkxGQ1FIemlOK0dIZHZkRGxrSXEyVzlx?=
- =?utf-8?B?dWRjSlJ3bTlUQjRKc1RMd1l6ODduUzBaNmQyYThLZStidzRsTUNZWlllVTY0?=
- =?utf-8?Q?WZ4pCEc0G+yVAl0mMEQp/9BEB?=
-X-OriginatorOrg: synaptics.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f093331b-ba47-43d9-9c87-08db869591a9
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR03MB5196.namprd03.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?GZwMWIrAYKyaZce+pnJTU5tNMMRGivX6VKKmjLqngrd4REXDSSUqhcjaXey5?=
+ =?us-ascii?Q?TdGZ8pHlWdy8wg4gLYEEyvwFSqLP4dDOup+f6vJHdun7H/nAexQoQXCvQ6fh?=
+ =?us-ascii?Q?Jia935kWc4MSZr86ZsXwk1NNfGBqCmXSYds8KjhYGHeMqdOQdr48udpyZHB+?=
+ =?us-ascii?Q?Sve1CtRoKuZ2sSI56hKgOcZ//JwEnv+W/6nbNifNqH8KcG9uvuEvrTP5uDw+?=
+ =?us-ascii?Q?srWOtEnJQpUk7fCkXRG47kjQqaDeEQclOpMXOIt0ZoDnj40iqZb86cKU4jL0?=
+ =?us-ascii?Q?Fg4Yon6/mLKuykX16Im3tomOQ+X3dklD//RzAtXmffF/jc/xvNLbA0UhvCpR?=
+ =?us-ascii?Q?wacVzCGQA2fHNnyoXJwR42LvtVjt8lGQUDH+epbK9CoBwbuJJRb4Qyw82Aa4?=
+ =?us-ascii?Q?EhGpzkOnPr5SVpbYgDg5xrtAxYi+TOx4P8aMN+aY1CtKddb5NVZ2QiP24M9C?=
+ =?us-ascii?Q?RG37FB5O0rRlB9Iod5/leu8wD8AsgmWTshUDDhAGesd4BFc5KejSC5WMULdW?=
+ =?us-ascii?Q?1soYXPisWTo6Rf++iKYxDF1JelV/ME2ONQPCO6tqqRdrIfZdbcs5Fox/Mi73?=
+ =?us-ascii?Q?9tM8mXbMSO/ZU7FPG7Wts34sNJRQ4ol2/ZrHZxsLBfe2t4OvKfP52RtnJkEd?=
+ =?us-ascii?Q?jAm0NENu+FsfyP/+BeKinDxL14/3oDYcWRbHa7DWMibthfyUDOIRy1Ma8NLa?=
+ =?us-ascii?Q?sBNAEfOzadoXRVDejL1CFU+M3XoMbMAd26gY7wD1bnPjzNoTJbcOSXfeiRWN?=
+ =?us-ascii?Q?ORxy2BsiWWM+TDOQ6dMWsyfEjnY3bi2Q5OR3PdgHTLqR5EjwKUWloAP1q5/2?=
+ =?us-ascii?Q?Prx5beRvzvJPjCby2yvwI8x21kOR4iURKA+4HI0v+OQXDnWAcIx6+TBc+W+j?=
+ =?us-ascii?Q?QXjsaOQUAWkdS1nCuYM9JW1j70jsiA2IFs4BKfgnAFKLo1O+j1weWNmF75Yo?=
+ =?us-ascii?Q?EG/Lhv3Nswl3bQhM/zHrIQmE1JY6BGjyJeZIX4nqAU37ze1TIv8BEKHPPaeh?=
+ =?us-ascii?Q?pQKWkkO2q8c1BEwEcO/bfRm43x+ZaZkKkL2L+KasXMekeqYSYkwnoHsdM+ky?=
+ =?us-ascii?Q?20Ofl/TrCgT6pLEhUVzpEb6I/8vyzoZMATNS783eVK+Vt8XAdhTWzfWi4Sl2?=
+ =?us-ascii?Q?kJ4y0E9eenM5y3cbcsCSxopGN3sQhWfMx1QW59Oa0MEnbUs+4P8nuq7xLdwI?=
+ =?us-ascii?Q?QKXxwhvw0CA2BH6tEgKQqQxQfu+rY4qnI4aRH+VRvvh2j483/Rkxh71tib2j?=
+ =?us-ascii?Q?W7C0VvYgqUideckE/Yjxd45S/fztSl8j38lUnQFTxPs6F4GyRIqVtrPpau11?=
+ =?us-ascii?Q?7Peg8HCa7fG/BxO+TDLUOwRA9BfXCaZJB3bwgNHXpjcUnchK6Kx7P7YK+v+o?=
+ =?us-ascii?Q?d4ZeKQjZk/Xotr8ck6HzLRfVSiZIiwWIVmv3RXhnbomNIBHCmj9++jNAgXz9?=
+ =?us-ascii?Q?OBvcH29IdfHi1MAB7Lyok3/HQ7fDYM3nTtHKGgNP83c5Vw28iHE8JtgEDGhL?=
+ =?us-ascii?Q?nIyDkvtDfOQs9UNyC8XN5IRclFP0GqkBBCNrhWcJSE3fdhWMMrbmbdlfXU9B?=
+ =?us-ascii?Q?ny9bpkwtRCoNzQOVenGc4s5snsRma9alQ3oafT+V?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4d949887-3f69-4240-fb46-08db8699149d
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2023 07:15:15.7305
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2023 07:40:23.8900
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rrtwoeHj7dWZpgAKkZqCnE4GCpITZwG3xjNNwaWqA0pDZA0goNN5SrtFmAxrf8157/SJpYCI9jewDbTHLHIcyQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR03MB6572
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-UserPrincipalName: TgzjHn2cQ80ha7IfZwWsF1+f2JjrUAQLGAGR5EFpwj6T5OJqGRM9dwCpDO6eX3mq/f0Ir4Dd2osFBk51fV7aVA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR04MB9249
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+CHECKED_RETURN: 4 case
+REVERSE_INULL: 2 case
+UNINIT: 6 case
+UNUSED_VALUE: 1 case
 
-On 7/12/23 17:33, Tomasz Figa wrote:
-> CAUTION: Email originated externally, do not click links or open attachments unless you recognize the sender and know the content is safe.
->
->
-> On Tue, Jul 04, 2023 at 12:00:38PM +0800, Hsia-Jun Li wrote:
->> From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
->>
->> Many drivers have to create its own buf_struct for a
->> vb2_queue to track such a state. Also driver has to
->> iterate over rdy_queue every times to find out a buffer
->> which is not sent to hardware(or firmware), this new
->> list just offers the driver a place to store the buffer
->> that hardware(firmware) has acknowledged.
->>
->> One important advance about this list, it doesn't like
->> rdy_queue which both bottom half of the user calling
->> could operate it, while the v4l2 worker would as well.
->> The v4l2 core could only operate this queue when its
->> v4l2_context is not running, the driver would only
->> access this new hw_queue in its own worker.
-> Could you describe in what case such a list would be useful for a
-> mem2mem driver?
+Fixes: 9f599f351e86 ("media: amphion: add vpu core driver")
+Signed-off-by: Ming Qian <ming.qian@nxp.com>
+---
+ drivers/media/platform/amphion/vdec.c     |  5 ++++-
+ drivers/media/platform/amphion/venc.c     |  6 ++++--
+ drivers/media/platform/amphion/vpu_cmds.c |  5 +++--
+ drivers/media/platform/amphion/vpu_core.c |  2 ++
+ drivers/media/platform/amphion/vpu_dbg.c  | 11 +++++++++--
+ drivers/media/platform/amphion/vpu_msgs.c | 12 ++++++------
+ 6 files changed, 28 insertions(+), 13 deletions(-)
 
-This list, as its description, just for saving us from creating a 
-private buffer struct to track buffer state.
-
-The queue in the kernel is not the queue that hardware(codec firmware) 
-are using.
-
-
->> Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
->> ---
->>   drivers/media/v4l2-core/v4l2-mem2mem.c | 25 +++++++++++++++++--------
->>   include/media/v4l2-mem2mem.h           | 10 +++++++++-
->>   2 files changed, 26 insertions(+), 9 deletions(-)
->>
->> diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
->> index c771aba42015..b4151147d5bd 100644
->> --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
->> +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
->> @@ -321,15 +321,21 @@ static void __v4l2_m2m_try_queue(struct v4l2_m2m_dev *m2m_dev,
->>                goto job_unlock;
->>        }
->>
->> -     src = v4l2_m2m_next_src_buf(m2m_ctx);
->> -     dst = v4l2_m2m_next_dst_buf(m2m_ctx);
->> -     if (!src && !m2m_ctx->out_q_ctx.buffered) {
->> -             dprintk("No input buffers available\n");
->> -             goto job_unlock;
->> +     if (list_empty(&m2m_ctx->out_q_ctx.hw_queue)) {
->> +             src = v4l2_m2m_next_src_buf(m2m_ctx);
->> +
->> +             if (!src && !m2m_ctx->out_q_ctx.buffered) {
->> +                     dprintk("No input buffers available\n");
->> +                     goto job_unlock;
->> +             }
->>        }
->> -     if (!dst && !m2m_ctx->cap_q_ctx.buffered) {
->> -             dprintk("No output buffers available\n");
->> -             goto job_unlock;
->> +
->> +     if (list_empty(&m2m_ctx->cap_q_ctx.hw_queue)) {
->> +             dst = v4l2_m2m_next_dst_buf(m2m_ctx);
->> +             if (!dst && !m2m_ctx->cap_q_ctx.buffered) {
->> +                     dprintk("No output buffers available\n");
->> +                     goto job_unlock;
->> +             }
->>        }
-> src and dst would be referenced unitialized below if neither of the
-> above ifs hits...
-I think they have been initialized at v4l2_m2m_ctx_init()
->
-> Best regards,
-> Tomasz
->
->>        m2m_ctx->new_frame = true;
->> @@ -896,6 +902,7 @@ int v4l2_m2m_streamoff(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
->>        INIT_LIST_HEAD(&q_ctx->rdy_queue);
->>        q_ctx->num_rdy = 0;
->>        spin_unlock_irqrestore(&q_ctx->rdy_spinlock, flags);
->> +     INIT_LIST_HEAD(&q_ctx->hw_queue);
->>
->>        if (m2m_dev->curr_ctx == m2m_ctx) {
->>                m2m_dev->curr_ctx = NULL;
->> @@ -1234,6 +1241,8 @@ struct v4l2_m2m_ctx *v4l2_m2m_ctx_init(struct v4l2_m2m_dev *m2m_dev,
->>
->>        INIT_LIST_HEAD(&out_q_ctx->rdy_queue);
->>        INIT_LIST_HEAD(&cap_q_ctx->rdy_queue);
->> +     INIT_LIST_HEAD(&out_q_ctx->hw_queue);
->> +     INIT_LIST_HEAD(&cap_q_ctx->hw_queue);
->>        spin_lock_init(&out_q_ctx->rdy_spinlock);
->>        spin_lock_init(&cap_q_ctx->rdy_spinlock);
->>
->> diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
->> index d6c8eb2b5201..2342656e582d 100644
->> --- a/include/media/v4l2-mem2mem.h
->> +++ b/include/media/v4l2-mem2mem.h
->> @@ -53,9 +53,16 @@ struct v4l2_m2m_dev;
->>    *   processed
->>    *
->>    * @q:               pointer to struct &vb2_queue
->> - * @rdy_queue:       List of V4L2 mem-to-mem queues
->> + * @rdy_queue:       List of V4L2 mem-to-mem queues. If v4l2_m2m_buf_queue() is
->> + *           called in struct vb2_ops->buf_queue(), the buffer enqueued
->> + *           by user would be added to this list.
->>    * @rdy_spinlock: spin lock to protect the struct usage
->>    * @num_rdy: number of buffers ready to be processed
->> + * @hw_queue:        A list for tracking the buffer is occupied by the hardware
->> + *           (or device's firmware). A buffer could only be in either
->> + *           this list or @rdy_queue.
->> + *           Driver may choose not to use this list while uses its own
->> + *           private data to do this work.
->>    * @buffered:        is the queue buffered?
->>    *
->>    * Queue for buffers ready to be processed as soon as this
->> @@ -68,6 +75,7 @@ struct v4l2_m2m_queue_ctx {
->>        struct list_head        rdy_queue;
->>        spinlock_t              rdy_spinlock;
->>        u8                      num_rdy;
->> +     struct list_head        hw_queue;
->>        bool                    buffered;
->>   };
->>
->> --
->> 2.17.1
->>
+diff --git a/drivers/media/platform/amphion/vdec.c b/drivers/media/platform/amphion/vdec.c
+index eeb2ef72df5b..133d77d1ea0c 100644
+--- a/drivers/media/platform/amphion/vdec.c
++++ b/drivers/media/platform/amphion/vdec.c
+@@ -1019,6 +1019,7 @@ static int vdec_response_frame_abnormal(struct vpu_inst *inst)
+ {
+ 	struct vdec_t *vdec = inst->priv;
+ 	struct vpu_fs_info info;
++	int ret;
+ 
+ 	if (!vdec->req_frame_count)
+ 		return 0;
+@@ -1026,7 +1027,9 @@ static int vdec_response_frame_abnormal(struct vpu_inst *inst)
+ 	memset(&info, 0, sizeof(info));
+ 	info.type = MEM_RES_FRAME;
+ 	info.tag = vdec->seq_tag + 0xf0;
+-	vpu_session_alloc_fs(inst, &info);
++	ret = vpu_session_alloc_fs(inst, &info);
++	if (ret)
++		return ret;
+ 	vdec->req_frame_count--;
+ 
+ 	return 0;
+diff --git a/drivers/media/platform/amphion/venc.c b/drivers/media/platform/amphion/venc.c
+index 58480e2755ec..4eb57d793a9c 100644
+--- a/drivers/media/platform/amphion/venc.c
++++ b/drivers/media/platform/amphion/venc.c
+@@ -268,7 +268,7 @@ static int venc_g_parm(struct file *file, void *fh, struct v4l2_streamparm *parm
+ {
+ 	struct vpu_inst *inst = to_inst(file);
+ 	struct venc_t *venc = inst->priv;
+-	struct v4l2_fract *timeperframe = &parm->parm.capture.timeperframe;
++	struct v4l2_fract *timeperframe;
+ 
+ 	if (!parm)
+ 		return -EINVAL;
+@@ -279,6 +279,7 @@ static int venc_g_parm(struct file *file, void *fh, struct v4l2_streamparm *parm
+ 	if (!vpu_helper_check_type(inst, parm->type))
+ 		return -EINVAL;
+ 
++	timeperframe = &parm->parm.capture.timeperframe;
+ 	parm->parm.capture.capability = V4L2_CAP_TIMEPERFRAME;
+ 	parm->parm.capture.readbuffers = 0;
+ 	timeperframe->numerator = venc->params.frame_rate.numerator;
+@@ -291,7 +292,7 @@ static int venc_s_parm(struct file *file, void *fh, struct v4l2_streamparm *parm
+ {
+ 	struct vpu_inst *inst = to_inst(file);
+ 	struct venc_t *venc = inst->priv;
+-	struct v4l2_fract *timeperframe = &parm->parm.capture.timeperframe;
++	struct v4l2_fract *timeperframe;
+ 	unsigned long n, d;
+ 
+ 	if (!parm)
+@@ -303,6 +304,7 @@ static int venc_s_parm(struct file *file, void *fh, struct v4l2_streamparm *parm
+ 	if (!vpu_helper_check_type(inst, parm->type))
+ 		return -EINVAL;
+ 
++	timeperframe = &parm->parm.capture.timeperframe;
+ 	if (!timeperframe->numerator)
+ 		timeperframe->numerator = venc->params.frame_rate.numerator;
+ 	if (!timeperframe->denominator)
+diff --git a/drivers/media/platform/amphion/vpu_cmds.c b/drivers/media/platform/amphion/vpu_cmds.c
+index 647d94554fb5..235b71398d40 100644
+--- a/drivers/media/platform/amphion/vpu_cmds.c
++++ b/drivers/media/platform/amphion/vpu_cmds.c
+@@ -306,7 +306,8 @@ static void vpu_core_keep_active(struct vpu_core *core)
+ 
+ 	dev_dbg(core->dev, "try to wake up\n");
+ 	mutex_lock(&core->cmd_lock);
+-	vpu_cmd_send(core, &pkt);
++	if (vpu_cmd_send(core, &pkt))
++		dev_err(core->dev, "fail to keep active\n");
+ 	mutex_unlock(&core->cmd_lock);
+ }
+ 
+@@ -314,7 +315,7 @@ static int vpu_session_send_cmd(struct vpu_inst *inst, u32 id, void *data)
+ {
+ 	unsigned long key;
+ 	int sync = false;
+-	int ret = -EINVAL;
++	int ret;
+ 
+ 	if (inst->id < 0)
+ 		return -EINVAL;
+diff --git a/drivers/media/platform/amphion/vpu_core.c b/drivers/media/platform/amphion/vpu_core.c
+index 43d85a54268b..6f054700d5db 100644
+--- a/drivers/media/platform/amphion/vpu_core.c
++++ b/drivers/media/platform/amphion/vpu_core.c
+@@ -88,6 +88,8 @@ static int vpu_core_boot_done(struct vpu_core *core)
+ 
+ 		core->supported_instance_count = min(core->supported_instance_count, count);
+ 	}
++	if (core->supported_instance_count >= BITS_PER_TYPE(core->instance_mask))
++		core->supported_instance_count = BITS_PER_TYPE(core->instance_mask);
+ 	core->fw_version = fw_version;
+ 	vpu_core_set_state(core, VPU_CORE_ACTIVE);
+ 
+diff --git a/drivers/media/platform/amphion/vpu_dbg.c b/drivers/media/platform/amphion/vpu_dbg.c
+index adc523b95061..982c2c777484 100644
+--- a/drivers/media/platform/amphion/vpu_dbg.c
++++ b/drivers/media/platform/amphion/vpu_dbg.c
+@@ -50,6 +50,13 @@ static char *vpu_stat_name[] = {
+ 	[VPU_BUF_STATE_ERROR] = "error",
+ };
+ 
++static inline const char *to_vpu_stat_name(int state)
++{
++	if (state <= VPU_BUF_STATE_ERROR)
++		return vpu_stat_name[state];
++	return "unknown";
++}
++
+ static int vpu_dbg_instance(struct seq_file *s, void *data)
+ {
+ 	struct vpu_inst *inst = s->private;
+@@ -141,7 +148,7 @@ static int vpu_dbg_instance(struct seq_file *s, void *data)
+ 		num = scnprintf(str, sizeof(str),
+ 				"output [%2d] state = %10s, %8s\n",
+ 				i, vb2_stat_name[vb->state],
+-				vpu_stat_name[vpu_get_buffer_state(vbuf)]);
++				to_vpu_stat_name(vpu_get_buffer_state(vbuf)));
+ 		if (seq_write(s, str, num))
+ 			return 0;
+ 	}
+@@ -156,7 +163,7 @@ static int vpu_dbg_instance(struct seq_file *s, void *data)
+ 		num = scnprintf(str, sizeof(str),
+ 				"capture[%2d] state = %10s, %8s\n",
+ 				i, vb2_stat_name[vb->state],
+-				vpu_stat_name[vpu_get_buffer_state(vbuf)]);
++				to_vpu_stat_name(vpu_get_buffer_state(vbuf)));
+ 		if (seq_write(s, str, num))
+ 			return 0;
+ 	}
+diff --git a/drivers/media/platform/amphion/vpu_msgs.c b/drivers/media/platform/amphion/vpu_msgs.c
+index f9eb488d1b5e..d0ead051f7d1 100644
+--- a/drivers/media/platform/amphion/vpu_msgs.c
++++ b/drivers/media/platform/amphion/vpu_msgs.c
+@@ -32,7 +32,7 @@ static void vpu_session_handle_start_done(struct vpu_inst *inst, struct vpu_rpc_
+ 
+ static void vpu_session_handle_mem_request(struct vpu_inst *inst, struct vpu_rpc_event *pkt)
+ {
+-	struct vpu_pkt_mem_req_data req_data;
++	struct vpu_pkt_mem_req_data req_data = { 0 };
+ 
+ 	vpu_iface_unpack_msg_data(inst->core, pkt, (void *)&req_data);
+ 	vpu_trace(inst->dev, "[%d] %d:%d %d:%d %d:%d\n",
+@@ -80,7 +80,7 @@ static void vpu_session_handle_resolution_change(struct vpu_inst *inst, struct v
+ 
+ static void vpu_session_handle_enc_frame_done(struct vpu_inst *inst, struct vpu_rpc_event *pkt)
+ {
+-	struct vpu_enc_pic_info info;
++	struct vpu_enc_pic_info info = { 0 };
+ 
+ 	vpu_iface_unpack_msg_data(inst->core, pkt, (void *)&info);
+ 	dev_dbg(inst->dev, "[%d] frame id = %d, wptr = 0x%x, size = %d\n",
+@@ -90,7 +90,7 @@ static void vpu_session_handle_enc_frame_done(struct vpu_inst *inst, struct vpu_
+ 
+ static void vpu_session_handle_frame_request(struct vpu_inst *inst, struct vpu_rpc_event *pkt)
+ {
+-	struct vpu_fs_info fs;
++	struct vpu_fs_info fs = { 0 };
+ 
+ 	vpu_iface_unpack_msg_data(inst->core, pkt, &fs);
+ 	call_void_vop(inst, event_notify, VPU_MSG_ID_FRAME_REQ, &fs);
+@@ -107,7 +107,7 @@ static void vpu_session_handle_frame_release(struct vpu_inst *inst, struct vpu_r
+ 		info.type = inst->out_format.type;
+ 		call_void_vop(inst, buf_done, &info);
+ 	} else if (inst->core->type == VPU_CORE_TYPE_DEC) {
+-		struct vpu_fs_info fs;
++		struct vpu_fs_info fs = { 0 };
+ 
+ 		vpu_iface_unpack_msg_data(inst->core, pkt, &fs);
+ 		call_void_vop(inst, event_notify, VPU_MSG_ID_FRAME_RELEASE, &fs);
+@@ -122,7 +122,7 @@ static void vpu_session_handle_input_done(struct vpu_inst *inst, struct vpu_rpc_
+ 
+ static void vpu_session_handle_pic_decoded(struct vpu_inst *inst, struct vpu_rpc_event *pkt)
+ {
+-	struct vpu_dec_pic_info info;
++	struct vpu_dec_pic_info info = { 0 };
+ 
+ 	vpu_iface_unpack_msg_data(inst->core, pkt, (void *)&info);
+ 	call_void_vop(inst, get_one_frame, &info);
+@@ -130,7 +130,7 @@ static void vpu_session_handle_pic_decoded(struct vpu_inst *inst, struct vpu_rpc
+ 
+ static void vpu_session_handle_pic_done(struct vpu_inst *inst, struct vpu_rpc_event *pkt)
+ {
+-	struct vpu_dec_pic_info info;
++	struct vpu_dec_pic_info info = { 0 };
+ 	struct vpu_frame_info frame;
+ 
+ 	memset(&frame, 0, sizeof(frame));
 -- 
-Hsia-Jun(Randy) Li
+2.38.1
 
