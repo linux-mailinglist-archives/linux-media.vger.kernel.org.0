@@ -2,231 +2,210 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 28A4F756893
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jul 2023 18:00:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13645756A59
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jul 2023 19:29:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229793AbjGQQAk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jul 2023 12:00:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52860 "EHLO
+        id S230317AbjGQR3L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Jul 2023 13:29:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231990AbjGQQAi (ORCPT
+        with ESMTP id S230148AbjGQR3K (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jul 2023 12:00:38 -0400
-Received: from kozue.soulik.info (kozue.soulik.info [IPv6:2001:19f0:7000:8404:5400:ff:fe00:d7d6])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50EA710DD
-        for <linux-media@vger.kernel.org>; Mon, 17 Jul 2023 09:00:36 -0700 (PDT)
-Received: from [192.168.10.7] (unknown [10.0.12.132])
-        by kozue.soulik.info (Postfix) with ESMTPSA id D8768306611;
-        Tue, 18 Jul 2023 01:00:14 +0900 (JST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 kozue.soulik.info D8768306611
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=soulik.info; s=mail;
-        t=1689609620; bh=776fBDlkaGB0OgAkx2pN+APnZKshRnP9nJi9NhjyEfQ=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=cTKmbt6BXWUYpbdyskvd6tiI+PzIfIALqZ1PQcDEQLCToe/cI1Ig9mGubZH8Nzw7S
-         jxTUQsXBoFJUq6xeHmbXo9uSbnWrHzTTplJWT6ERVq1KeKHnCx2GkLSU3kCMJkVvMA
-         JrL5zHEA4hsMsAleDxjaCQsRDyHSuItNOeFrxnQc=
-Message-ID: <46d15120-6e19-e224-47f3-e0dcbf0aeda5@soulik.info>
-Date:   Tue, 18 Jul 2023 00:00:23 +0800
+        Mon, 17 Jul 2023 13:29:10 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DC7010E4
+        for <linux-media@vger.kernel.org>; Mon, 17 Jul 2023 10:28:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689614916; x=1721150916;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kYgGvCiDe31MIMxswYCIn9LkB3/FZBhk16LZ7xosFIE=;
+  b=QnF6ffys6tUdbGX+I9DiIwEnhSv443kf4ukjaA737q8huSyG4N5qoZ2e
+   FDnKGU7DXAqPom8uL90S9omNUnCIw0UBC8htLCek0aeeKBmQ33cQyYv9A
+   RJcw4gFBc7l0RieOV3+xIXPb8bPIpAlt8dNo715uWYeUXGarp7Ct17MXR
+   2J55ocgrra1bdMEm0Ct4XoSprbRrGPBnW+EL/wlT5IdrF6eY/Mb0ohK2x
+   fUfwyf3cqqm+nLTWTbdDrW0uEADx8UDKUnofWlyYYL7vE6e1WXRveyGGi
+   PHSTQYCMW6obhA1JsjwADq3/rwFFnVFNAXwPoa6WZKwDiBA6ME+PX0vmQ
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="396820739"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
+   d="scan'208";a="396820739"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2023 10:28:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="723283017"
+X-IronPort-AV: E=Sophos;i="6.01,211,1684825200"; 
+   d="scan'208";a="723283017"
+Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 17 Jul 2023 10:28:05 -0700
+Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qLS0y-0009lU-0J;
+        Mon, 17 Jul 2023 17:28:04 +0000
+Date:   Tue, 18 Jul 2023 01:27:40 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:async-multi 19/38]
+ drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:819:18: error:
+ initialization of 'int (*)(struct v4l2_async_notifier *, struct v4l2_subdev
+ *, struct v4l2_async_connection *)' from incompatible pointer type 'int
+ (*)(struct v4l2_async_notifier *, st...
+Message-ID: <202307180109.WQuaPuRt-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v7 2/9] media: vivid: Convert to v4l2_ext_pix_format
-Content-Language: en-US
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     linux-media@vger.kernel.org, randy.li@synaptics.com,
-        Brian.Starkey@arm.com, boris.brezillon@collabora.com,
-        frkoenig@chromium.org, hans.verkuil@cisco.com, hiroh@chromium.org,
-        hverkuil@xs4all.nl, kernel@collabora.com,
-        laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org,
-        mchehab@kernel.org, narmstrong@baylibre.com, nicolas@ndufresne.ca,
-        sakari.ailus@iki.fi, stanimir.varbanov@linaro.org,
-        Helen Koike <helen.koike@collabora.com>
-References: <20230206043308.28365-1-ayaka@soulik.info>
- <20230206043308.28365-3-ayaka@soulik.info>
- <20230713103912.favcnhqwjkzvsa6b@chromium.org>
-From:   Randy Li <ayaka@soulik.info>
-In-Reply-To: <20230713103912.favcnhqwjkzvsa6b@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Sakari,
 
-On 2023/7/13 18:39, Tomasz Figa wrote:
-> On Mon, Feb 06, 2023 at 12:33:01PM +0800, ayaka wrote:
->> From: Helen Koike <helen.koike@collabora.com>
->>
->> Simplify Multi/Single planer API handling by converting to v4l2_ext_pix_format.
->>
->> Duplicate v4l2_ioctl_ops for touch devices. This is done to force the
->> framework to use the ext hooks when the classic Api is used from
->> userspace in Vid devices, and to keep touch devices with classic hook.
->>
->> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
->> Signed-off-by: Helen Koike <helen.koike@collabora.com>
->> ---
->> Changes in v7:
->> - Force the userspace using the new APIs to operate non-touch drivers.
-> The primary objective of Linux development is not to break the
-> userspace. We can't just remove the old API, especially not from
-> existing drivers.
-Maybe I should create a new virtual driver here? It is impossible to 
-support the new fourcc modifier with the old APIs.
->
-> [snip]
->>   int vivid_try_fmt_vid_cap(struct file *file, void *priv,
->> -			struct v4l2_format *f)
->> +			  struct v4l2_ext_pix_format *f)
->>   {
->> -	struct v4l2_pix_format_mplane *mp = &f->fmt.pix_mp;
->> -	struct v4l2_plane_pix_format *pfmt = mp->plane_fmt;
->>   	struct vivid_dev *dev = video_drvdata(file);
->> +	struct v4l2_plane_pix_format *pfmt = f->plane_fmt;
->>   	const struct vivid_fmt *fmt;
->>   	unsigned bytesperline, max_bpl;
->>   	unsigned factor = 1;
->>   	unsigned w, h;
->>   	unsigned p;
->> -	bool user_set_csc = !!(mp->flags & V4L2_PIX_FMT_FLAG_SET_CSC);
-> Why is this condition being removed?
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-Because the v4l2_ext_pix has a struct for the colorspace?
+tree:   git://linuxtv.org/sailus/media_tree.git async-multi
+head:   08781366d65974d473692f519e0b4345584d3761
+commit: a34590c7bca91dfd8fce26d5707c6470fd7508f9 [19/38] media: v4l: async: Rename v4l2_async_subdev as v4l2_async_connection
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230718/202307180109.WQuaPuRt-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230718/202307180109.WQuaPuRt-lkp@intel.com/reproduce)
 
-Would you like the idea that driver exports a buffer contains all the 
-info for an enumeration ?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307180109.WQuaPuRt-lkp@intel.com/
 
->
-> Best regards,
-> Tomasz
->
->>   
->> -	fmt = vivid_get_format(dev, mp->pixelformat);
->> +	fmt = vivid_get_format(dev, f->pixelformat);
->>   	if (!fmt) {
->>   		dprintk(dev, 1, "Fourcc format (0x%08x) unknown.\n",
->> -			mp->pixelformat);
->> -		mp->pixelformat = V4L2_PIX_FMT_YUYV;
->> -		fmt = vivid_get_format(dev, mp->pixelformat);
->> +			f->pixelformat);
->> +		f->pixelformat = V4L2_PIX_FMT_YUYV;
->> +		fmt = vivid_get_format(dev, f->pixelformat);
->>   	}
->>   
->> -	mp->field = vivid_field_cap(dev, mp->field);
->> +	f->field = vivid_field_cap(dev, f->field);
->>   	if (vivid_is_webcam(dev)) {
->>   		const struct v4l2_frmsize_discrete *sz =
->>   			v4l2_find_nearest_size(webcam_sizes,
->>   					       VIVID_WEBCAM_SIZES, width,
->> -					       height, mp->width, mp->height);
->> +					       height, f->width, f->height);
->>   
->>   		w = sz->width;
->>   		h = sz->height;
->> @@ -604,14 +603,14 @@ int vivid_try_fmt_vid_cap(struct file *file, void *priv,
->>   		w = dev->src_rect.width;
->>   		h = dev->src_rect.height;
->>   	}
->> -	if (V4L2_FIELD_HAS_T_OR_B(mp->field))
->> +	if (V4L2_FIELD_HAS_T_OR_B(f->field))
->>   		factor = 2;
->>   	if (vivid_is_webcam(dev) ||
->>   	    (!dev->has_scaler_cap && !dev->has_crop_cap && !dev->has_compose_cap)) {
->> -		mp->width = w;
->> -		mp->height = h / factor;
->> +		f->width = w;
->> +		f->height = h / factor;
->>   	} else {
->> -		struct v4l2_rect r = { 0, 0, mp->width, mp->height * factor };
->> +		struct v4l2_rect r = { 0, 0, f->width, f->height * factor };
->>   
->>   		v4l2_rect_set_min_size(&r, &vivid_min_rect);
->>   		v4l2_rect_set_max_size(&r, &vivid_max_rect);
->> @@ -624,16 +623,15 @@ int vivid_try_fmt_vid_cap(struct file *file, void *priv,
->>   		} else if (!dev->has_scaler_cap && !dev->has_crop_cap) {
->>   			v4l2_rect_set_min_size(&r, &dev->src_rect);
->>   		}
->> -		mp->width = r.width;
->> -		mp->height = r.height / factor;
->> +		f->width = r.width;
->> +		f->height = r.height / factor;
->>   	}
->>   
->>   	/* This driver supports custom bytesperline values */
->>   
->> -	mp->num_planes = fmt->buffers;
->>   	for (p = 0; p < fmt->buffers; p++) {
->>   		/* Calculate the minimum supported bytesperline value */
->> -		bytesperline = (mp->width * fmt->bit_depth[p]) >> 3;
->> +		bytesperline = (f->width * fmt->bit_depth[p]) >> 3;
->>   		/* Calculate the maximum supported bytesperline value */
->>   		max_bpl = (MAX_ZOOM * MAX_WIDTH * fmt->bit_depth[p]) >> 3;
->>   
->> @@ -642,48 +640,49 @@ int vivid_try_fmt_vid_cap(struct file *file, void *priv,
->>   		if (pfmt[p].bytesperline < bytesperline)
->>   			pfmt[p].bytesperline = bytesperline;
->>   
->> -		pfmt[p].sizeimage = (pfmt[p].bytesperline * mp->height) /
->> +		pfmt[p].sizeimage = (pfmt[p].bytesperline * f->height) /
->>   				fmt->vdownsampling[p] + fmt->data_offset[p];
->> -
->> -		memset(pfmt[p].reserved, 0, sizeof(pfmt[p].reserved));
->>   	}
->> +
->> +	if (p < VIDEO_MAX_PLANES)
->> +		pfmt[p].sizeimage = 0;
->> +
->>   	for (p = fmt->buffers; p < fmt->planes; p++)
->> -		pfmt[0].sizeimage += (pfmt[0].bytesperline * mp->height *
->> +		pfmt[0].sizeimage += (pfmt[0].bytesperline * f->height *
->>   			(fmt->bit_depth[p] / fmt->vdownsampling[p])) /
->>   			(fmt->bit_depth[0] / fmt->vdownsampling[0]);
->>   
->> -	if (!user_set_csc || !v4l2_is_colorspace_valid(mp->colorspace))
->> -		mp->colorspace = vivid_colorspace_cap(dev);
->> +	if (!v4l2_is_colorspace_valid(f->colorspace))
->> +		f->colorspace = vivid_colorspace_cap(dev);
->>   
->> -	if (!user_set_csc || !v4l2_is_xfer_func_valid(mp->xfer_func))
->> -		mp->xfer_func = vivid_xfer_func_cap(dev);
->> +	if (!v4l2_is_xfer_func_valid(f->xfer_func))
->> +		f->xfer_func = vivid_xfer_func_cap(dev);
->>   
->>   	if (fmt->color_enc == TGP_COLOR_ENC_HSV) {
->> -		if (!user_set_csc || !v4l2_is_hsv_enc_valid(mp->hsv_enc))
->> -			mp->hsv_enc = vivid_hsv_enc_cap(dev);
->> +		if (!v4l2_is_hsv_enc_valid(f->hsv_enc))
->> +			f->hsv_enc = vivid_hsv_enc_cap(dev);
->>   	} else if (fmt->color_enc == TGP_COLOR_ENC_YCBCR) {
->> -		if (!user_set_csc || !v4l2_is_ycbcr_enc_valid(mp->ycbcr_enc))
->> -			mp->ycbcr_enc = vivid_ycbcr_enc_cap(dev);
->> +		if (!v4l2_is_ycbcr_enc_valid(f->ycbcr_enc))
->> +			f->ycbcr_enc = vivid_ycbcr_enc_cap(dev);
->>   	} else {
->> -		mp->ycbcr_enc = vivid_ycbcr_enc_cap(dev);
->> +		f->ycbcr_enc = vivid_ycbcr_enc_cap(dev);
->>   	}
->>   
->>   	if (fmt->color_enc == TGP_COLOR_ENC_YCBCR ||
->>   	    fmt->color_enc == TGP_COLOR_ENC_RGB) {
->> -		if (!user_set_csc || !v4l2_is_quant_valid(mp->quantization))
->> -			mp->quantization = vivid_quantization_cap(dev);
->> +		if (!v4l2_is_quant_valid(f->quantization))
->> +			f->quantization = vivid_quantization_cap(dev);
->>   	} else {
->> -		mp->quantization = vivid_quantization_cap(dev);
->> +		f->quantization = vivid_quantization_cap(dev);
->>   	}
->>   
->> -	memset(mp->reserved, 0, sizeof(mp->reserved));
->> +	memset(f->reserved, 0, sizeof(f->reserved));
->>   	return 0;
->>   }
-> [snip]
+All errors (new ones prefixed by >>):
+
+>> drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:770:34: error: field 'asd' has incomplete type
+     770 |         struct v4l2_async_subdev asd;
+         |                                  ^~~
+   In file included from include/linux/bits.h:21,
+                    from include/linux/ioport.h:13,
+                    from include/linux/acpi.h:12,
+                    from drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:12:
+   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c: In function 'atomisp_notifier_bound':
+   include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
+     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:774:33: note: in expansion of macro 'container_of'
+     774 | #define to_sensor_asd(a)        container_of(a, struct sensor_async_subdev, asd)
+         |                                 ^~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:783:45: note: in expansion of macro 'to_sensor_asd'
+     783 |         struct sensor_async_subdev *s_asd = to_sensor_asd(asd);
+         |                                             ^~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c: In function 'atomisp_notifier_unbind':
+   include/linux/compiler_types.h:338:27: error: expression in static assertion is not an integer
+     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:774:33: note: in expansion of macro 'container_of'
+     774 | #define to_sensor_asd(a)        container_of(a, struct sensor_async_subdev, asd)
+         |                                 ^~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:805:45: note: in expansion of macro 'to_sensor_asd'
+     805 |         struct sensor_async_subdev *s_asd = to_sensor_asd(asd);
+         |                                             ^~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c: At top level:
+>> drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:819:18: error: initialization of 'int (*)(struct v4l2_async_notifier *, struct v4l2_subdev *, struct v4l2_async_connection *)' from incompatible pointer type 'int (*)(struct v4l2_async_notifier *, struct v4l2_subdev *, struct v4l2_async_subdev *)' [-Werror=incompatible-pointer-types]
+     819 |         .bound = atomisp_notifier_bound,
+         |                  ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:819:18: note: (near initialization for 'atomisp_async_ops.bound')
+>> drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:820:19: error: initialization of 'void (*)(struct v4l2_async_notifier *, struct v4l2_subdev *, struct v4l2_async_connection *)' from incompatible pointer type 'void (*)(struct v4l2_async_notifier *, struct v4l2_subdev *, struct v4l2_async_subdev *)' [-Werror=incompatible-pointer-types]
+     820 |         .unbind = atomisp_notifier_unbind,
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:820:19: note: (near initialization for 'atomisp_async_ops.unbind')
+   cc1: some warnings being treated as errors
+
+
+vim +819 drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c
+
+8d28ec7e9145ef Hans de Goede 2023-05-25  768  
+8d28ec7e9145ef Hans de Goede 2023-05-25  769  struct sensor_async_subdev {
+8d28ec7e9145ef Hans de Goede 2023-05-25 @770  	struct v4l2_async_subdev asd;
+8d28ec7e9145ef Hans de Goede 2023-05-25  771  	int port;
+8d28ec7e9145ef Hans de Goede 2023-05-25  772  };
+8d28ec7e9145ef Hans de Goede 2023-05-25  773  
+8d28ec7e9145ef Hans de Goede 2023-05-25  774  #define to_sensor_asd(a)	container_of(a, struct sensor_async_subdev, asd)
+8d28ec7e9145ef Hans de Goede 2023-05-25  775  #define notifier_to_atomisp(n)	container_of(n, struct atomisp_device, notifier)
+8d28ec7e9145ef Hans de Goede 2023-05-25  776  
+8d28ec7e9145ef Hans de Goede 2023-05-25  777  /* .bound() notifier callback when a match is found */
+8d28ec7e9145ef Hans de Goede 2023-05-25  778  static int atomisp_notifier_bound(struct v4l2_async_notifier *notifier,
+8d28ec7e9145ef Hans de Goede 2023-05-25  779  				  struct v4l2_subdev *sd,
+8d28ec7e9145ef Hans de Goede 2023-05-25  780  				  struct v4l2_async_subdev *asd)
+8d28ec7e9145ef Hans de Goede 2023-05-25  781  {
+8d28ec7e9145ef Hans de Goede 2023-05-25  782  	struct atomisp_device *isp = notifier_to_atomisp(notifier);
+8d28ec7e9145ef Hans de Goede 2023-05-25  783  	struct sensor_async_subdev *s_asd = to_sensor_asd(asd);
+8d28ec7e9145ef Hans de Goede 2023-05-25  784  
+8d28ec7e9145ef Hans de Goede 2023-05-25  785  	if (s_asd->port >= ATOMISP_CAMERA_NR_PORTS) {
+8d28ec7e9145ef Hans de Goede 2023-05-25  786  		dev_err(isp->dev, "port %d not supported\n", s_asd->port);
+8d28ec7e9145ef Hans de Goede 2023-05-25  787  		return -EINVAL;
+8d28ec7e9145ef Hans de Goede 2023-05-25  788  	}
+8d28ec7e9145ef Hans de Goede 2023-05-25  789  
+8d28ec7e9145ef Hans de Goede 2023-05-25  790  	if (isp->sensor_subdevs[s_asd->port]) {
+8d28ec7e9145ef Hans de Goede 2023-05-25  791  		dev_err(isp->dev, "port %d already has a sensor attached\n", s_asd->port);
+8d28ec7e9145ef Hans de Goede 2023-05-25  792  		return -EBUSY;
+8d28ec7e9145ef Hans de Goede 2023-05-25  793  	}
+8d28ec7e9145ef Hans de Goede 2023-05-25  794  
+8d28ec7e9145ef Hans de Goede 2023-05-25  795  	isp->sensor_subdevs[s_asd->port] = sd;
+8d28ec7e9145ef Hans de Goede 2023-05-25  796  	return 0;
+8d28ec7e9145ef Hans de Goede 2023-05-25  797  }
+8d28ec7e9145ef Hans de Goede 2023-05-25  798  
+8d28ec7e9145ef Hans de Goede 2023-05-25  799  /* The .unbind callback */
+8d28ec7e9145ef Hans de Goede 2023-05-25  800  static void atomisp_notifier_unbind(struct v4l2_async_notifier *notifier,
+8d28ec7e9145ef Hans de Goede 2023-05-25  801  				    struct v4l2_subdev *sd,
+8d28ec7e9145ef Hans de Goede 2023-05-25  802  				    struct v4l2_async_subdev *asd)
+8d28ec7e9145ef Hans de Goede 2023-05-25  803  {
+8d28ec7e9145ef Hans de Goede 2023-05-25  804  	struct atomisp_device *isp = notifier_to_atomisp(notifier);
+8d28ec7e9145ef Hans de Goede 2023-05-25  805  	struct sensor_async_subdev *s_asd = to_sensor_asd(asd);
+8d28ec7e9145ef Hans de Goede 2023-05-25  806  
+8d28ec7e9145ef Hans de Goede 2023-05-25  807  	isp->sensor_subdevs[s_asd->port] = NULL;
+8d28ec7e9145ef Hans de Goede 2023-05-25  808  }
+8d28ec7e9145ef Hans de Goede 2023-05-25  809  
+8d28ec7e9145ef Hans de Goede 2023-05-25  810  /* .complete() is called after all subdevices have been located */
+8d28ec7e9145ef Hans de Goede 2023-05-25  811  static int atomisp_notifier_complete(struct v4l2_async_notifier *notifier)
+8d28ec7e9145ef Hans de Goede 2023-05-25  812  {
+8d28ec7e9145ef Hans de Goede 2023-05-25  813  	struct atomisp_device *isp = notifier_to_atomisp(notifier);
+8d28ec7e9145ef Hans de Goede 2023-05-25  814  
+8d28ec7e9145ef Hans de Goede 2023-05-25  815  	return atomisp_register_device_nodes(isp);
+8d28ec7e9145ef Hans de Goede 2023-05-25  816  }
+8d28ec7e9145ef Hans de Goede 2023-05-25  817  
+8d28ec7e9145ef Hans de Goede 2023-05-25  818  static const struct v4l2_async_notifier_operations atomisp_async_ops = {
+8d28ec7e9145ef Hans de Goede 2023-05-25 @819  	.bound = atomisp_notifier_bound,
+8d28ec7e9145ef Hans de Goede 2023-05-25 @820  	.unbind = atomisp_notifier_unbind,
+8d28ec7e9145ef Hans de Goede 2023-05-25  821  	.complete = atomisp_notifier_complete,
+8d28ec7e9145ef Hans de Goede 2023-05-25  822  };
+8d28ec7e9145ef Hans de Goede 2023-05-25  823  
+
+:::::: The code at line 819 was first introduced by commit
+:::::: 8d28ec7e9145ef6308ab3438d73308ec6ea14360 media: atomisp: Add support for v4l2-async sensor registration
+
+:::::: TO: Hans de Goede <hdegoede@redhat.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
