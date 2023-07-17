@@ -2,77 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F791756059
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jul 2023 12:24:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA7987560DA
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jul 2023 12:48:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230425AbjGQKY1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jul 2023 06:24:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39198 "EHLO
+        id S230364AbjGQKsH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Jul 2023 06:48:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230306AbjGQKY0 (ORCPT
+        with ESMTP id S229827AbjGQKsG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jul 2023 06:24:26 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 683021BE
-        for <linux-media@vger.kernel.org>; Mon, 17 Jul 2023 03:24:25 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (dkzdf0gkyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4506:4f15::1])
+        Mon, 17 Jul 2023 06:48:06 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45AAA11C;
+        Mon, 17 Jul 2023 03:48:05 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 4R4J9217X1zyTs;
-        Mon, 17 Jul 2023 13:24:21 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1689589463;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=V7hh6AkdtGtk9LsIq45ZVnSVk2WFDPhUiEjlaJwVm9Q=;
-        b=y+AXP5dZUl6UoGxuZPdtFc8ReVDFJ5dcydO+Vt64dIlKuHl6vd3x/p8WbIaBzxx6v/L2B7
-        CBznR+0EP0c9ucJLcCjm3eOs0Gr0mL4mHRMVNUtBmXMO6q058IsVyS9yoiwgt6dmq6uEyg
-        Stwp5D/TWMFWxgUhWFrNV+kyG1+qR3I=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1689589463;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=V7hh6AkdtGtk9LsIq45ZVnSVk2WFDPhUiEjlaJwVm9Q=;
-        b=sSgFgr0uIcddOnDhtPJvlaSRYLJHpGQjjBMFRRLgWtvQr+z99ak4kTB6+X9RSm+VA6/w6B
-        KK60TGVwZV1o/0lKAoAbzhP5/ywWyNo5RCe9DfGpG/4rGKbIdtvfA8kbNVXWT/x1FcxewH
-        GsFrrDhI3vcH0JMFg/DSE6aUCMxAhao=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1689589463; a=rsa-sha256; cv=none;
-        b=jhUnRtdMSun3EA0rOuhyIdqJPqOBE1sY2uwYFqgoAEnpIIJ+G7R1eM+kmTAYgF3fNGcDso
-        suJQzupbf04080KSxXm0sgpXyjzDiNRPqzI4yFh+dGZqNxDgkYRwtP0ZMI5ZT3MiY4vM9r
-        77zjAkmcyPnlPjiTWOTbbhAIiRuizX0=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 66C74634C92;
-        Mon, 17 Jul 2023 13:24:21 +0300 (EEST)
-Date:   Mon, 17 Jul 2023 10:24:21 +0000
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v3 2/2] Documentation: v4l: Exposure/gain for camera
- sensor
-Message-ID: <ZLUW1eBTH3GpnSlW@valkosipuli.retiisi.eu>
-References: <20230710132240.7864-1-jacopo.mondi@ideasonboard.com>
- <20230710132240.7864-3-jacopo.mondi@ideasonboard.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CEA1961022;
+        Mon, 17 Jul 2023 10:48:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FAE1C433C8;
+        Mon, 17 Jul 2023 10:48:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689590884;
+        bh=JgkDVEQnUcZsTjy93XKQFB/XGARPfZgBaldLVAKREBA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LqUU8DAXEdkqhy5bBNxcy4gUOnP3ls2VdQ88D3tVYnKAxRWyLRYfDTaOK1Q2nWgMA
+         dorRX4BAdRwvDPGfa7mB5VDQMt+qajE2Amd/S9bj2eCv82uuZQb5TtTBrb0tDwcjZr
+         fKpDC1jvqLf3j0G1ZgIIQy2gbqTQG7fdca57N3boL6PeI/LD3CJXYq+3uexgxbbYKj
+         DVgfzsHMyW2QXMJwD0Q6HiI7X7K2JuMQqRM6fXTxBvTXS4kqEVdA74Mi4siza8jzkQ
+         KwBmDnN9z9p3DzNerMZ5AP5jj3/kAlwrMKYhsr+goZ/k4Rtal8APtJTxie0XWTPjwM
+         xcPRnRX5K5mjQ==
+Received: from johan by xi.lan with local (Exim 4.96)
+        (envelope-from <johan@kernel.org>)
+        id 1qLLlx-0007Ck-1b;
+        Mon, 17 Jul 2023 12:48:10 +0200
+Date:   Mon, 17 Jul 2023 12:48:09 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc:     Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Yassine Oudjana <y.oudjana@protonmail.com>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: camss: Intepret OF graph connections more
+ sensibly
+Message-ID: <ZLUcaQN6hCjjulTv@hovoldconsulting.com>
+References: <20230614-topic-camss_grpah-v2-1-57d9d5e49038@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230710132240.7864-3-jacopo.mondi@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+In-Reply-To: <20230614-topic-camss_grpah-v2-1-57d9d5e49038@linaro.org>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -81,74 +67,68 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
-
-On Mon, Jul 10, 2023 at 03:22:40PM +0200, Jacopo Mondi wrote:
-> Document the suggested way to exposure controls for exposure and gain
-> for camera sensor drivers.
+On Sat, Jul 15, 2023 at 05:37:52PM +0200, Konrad Dybcio wrote:
+> Not all endpoints of camss have to be populated. In fact, most of the
+> time they shouldn't be as n-th auxilliary cameras are usually ewaste.
 > 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Don't fail probing the entire camss even even one endpoint is not
+> linked and throw an error when none is found.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 > ---
->  .../driver-api/media/camera-sensor.rst        | 27 +++++++++++++++++++
->  1 file changed, 27 insertions(+)
+> Changes in v2:
+> - Use if-else instead of the ternary operator (Bryan)
+> - Drop "RFC"
+> - Link to v1: https://lore.kernel.org/r/20230614-topic-camss_grpah-v1-1-5f4b516310fa@linaro.org
+> ---
+>  drivers/media/platform/qcom/camss/camss.c | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
 > 
-> diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
-> index cd915ca119ea..67fe77b1edb9 100644
-> --- a/Documentation/driver-api/media/camera-sensor.rst
-> +++ b/Documentation/driver-api/media/camera-sensor.rst
-> @@ -189,3 +189,30 @@ the ``V4L2_CID_VFLIP`` and ``V4L2_CID_HFLIP`` controls with the
->  a flip can potentially change the output buffer content layout. Flips should
->  also be taken into account when enumerating and handling media bus formats
->  on the camera sensor source pads.
+> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+> index 1ef26aea3eae..8b75197fa5d7 100644
+> --- a/drivers/media/platform/qcom/camss/camss.c
+> +++ b/drivers/media/platform/qcom/camss/camss.c
+> @@ -1084,9 +1084,8 @@ static int camss_of_parse_ports(struct camss *camss)
+>  
+>  		remote = of_graph_get_remote_port_parent(node);
+>  		if (!remote) {
+> -			dev_err(dev, "Cannot get remote parent\n");
+> -			ret = -EINVAL;
+> -			goto err_cleanup;
+> +			of_node_put(node);
+
+This is broken and could potentially lead to a use after free.
+
+Specifically, the iteration macro already takes care of putting this
+reference.
+
+> +			continue;
+>  		}
+>  
+>  		csd = v4l2_async_nf_add_fwnode(&camss->notifier,
+> @@ -1105,7 +1104,10 @@ static int camss_of_parse_ports(struct camss *camss)
+>  		num_subdevs++;
+>  	}
+>  
+> -	return num_subdevs;
+> +	if (num_subdevs)
+> +		return num_subdevs;
 > +
-> +Exposure and Gain Control
-> +-------------------------
-> +
-> +Camera sensor drivers that allow applications to control the image exposure
-> +and gain should do so by exposing dedicated controls to applications.
-> +
-> +Exposure time is controlled by registering the ``V4L2_CID_EXPOSURE`` control.
-> +The control definition does not specify a unit to allow maximum flexibility
-> +for multiple device types, but when used for camera sensor drivers it should be
-> +expressed in unit of lines whenever possible.
+> +	return -EINVAL;
 
-This part of the documentation applies to both raw and SoC cameras.
+Please change this so that you test for the error condition rather than
+its inverse for symmetry. That is
 
-Should the exposure unit be something more user-friendly for SoC cameras?
+	if (!num_subdevs)
+		return -EINVAL;
 
-We have two exposure controls now, V4L2_CID_EXPOSURE and
-V4L2_CID_EXPOSURE_ABSOLUTE. The former doesn't specity a unit whereas the
-latter suggests the unit of 100 µs.
+	return num_subdevs;
 
-As exposure is specific to cameras, I think at least a part of this should
-make it to the controls documentation. The UVC, for instance, uses
-EXPOSURE_ABSOLUTE.
+Returning EINVAL (invalid argument) is perhaps not the best choice, but
+the driver already does so here and in other places so keeping it for
+now should be fine.
 
-Could we document V4L2_CID_EXPOSURE is in lines (if possible)?
+>  err_cleanup:
+>  	of_node_put(node);
 
-> +
-> +To convert lines into units of time, the total line length (visible and
-> +not visible pixels) has to be divided by the pixel rate::
-> +
-> +        line duration = total line length / pixel rate
-> +                      = (image width + horizontal blanking) / pixel rate
-> +
-> +Camera sensor driver should try whenever possible to distinguish between the
-> +analogue and digital gain control functions. Analogue gain is a multiplication
-> +factor applied to all color channels on the pixel array before they get
-> +converted into the digital domain. It should be made controllable by
-
-The analogue gain may not be linear. This depends on the sensor. I'd thus
-drop the wording related to multiplication factor.
-
-> +registering the ``V4L2_CID_ANALOGUE_GAIN`` control, expressed as a device
-> +specific gain code. Digital gain control is optional and should be exposed to
-> +applications by registering ``V4L2_CID_DIGITAL_GAIN``. Camera sensor drivers are
-> +discouraged from using ``V4L2_CID_GAIN`` as it doesn't allow differentiation of
-> +analogue vs digital gain.
-
--- 
-Kind regards,
-
-Sakari Ailus
+Johan
