@@ -2,63 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE73D7562E3
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jul 2023 14:40:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B12AC756303
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jul 2023 14:45:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229583AbjGQMkP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jul 2023 08:40:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55226 "EHLO
+        id S230274AbjGQMpX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Jul 2023 08:45:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229927AbjGQMkO (ORCPT
+        with ESMTP id S229749AbjGQMpW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jul 2023 08:40:14 -0400
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BA19E48
-        for <linux-media@vger.kernel.org>; Mon, 17 Jul 2023 05:40:12 -0700 (PDT)
-Received: by mail-lf1-x133.google.com with SMTP id 2adb3069b0e04-4fa16c6a85cso6886414e87.3
-        for <linux-media@vger.kernel.org>; Mon, 17 Jul 2023 05:40:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1689597610; x=1692189610;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=X1Ez0XiPLy9JQwhDNp6ZwsehdR2q+I+6iiZpL3yjjI4=;
-        b=UiJVgcZc1um0ymdVxx7Qz8YrMbZ5xB4BACi8gz+pwwXnG8SCdz1jr2Kmrp5155iLft
-         IT2KWs79Usr6aAuifgRs20Ig3dYOu+ilq80T5wCQnnmfsRXUyn0UDGvpjJ7RYbEjcL+T
-         26//kyqqXmVmLy72Ruxc9hZ1We8tFvU0vdM/eBQlNfP7KnpeA4CsRY8V6MN1o4cGUen9
-         Vsgi9HEt5XLD73q6OA166zRAxYn92xicwXaIW+UMjNv9RobRn+MLFe40UrrzOFe/K/k+
-         dCUZmUjXDMzYJWuK0IPGjpsccDVacA5uoL2KrvZnsCVpt6p7TqjCAP6DURAykm7Cjf/6
-         mSrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689597610; x=1692189610;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=X1Ez0XiPLy9JQwhDNp6ZwsehdR2q+I+6iiZpL3yjjI4=;
-        b=gWcu5gGWvH133pQX0Q1OfhfQEC9Gg96G3ZDnBUXTe+iaCiYE0zUHaV+c0GIQFeePoc
-         PqhWymXs5LuBM5hYhUIM5iY/6PCjL0AEHC9eCTzBdnywNn50KWPzKN/KaEVoYyNaTB7h
-         6Cvu4pxI9VjanrgxQStzmDoThDZ7w/mSW6NeVPEUBuCHBNkjEHRfuLAERoRlDGr3O59j
-         UvK95YMuDfBRBIAShwFglZAyZGtz0zKlOrMkSHh/aqCj5MfNusHjlq6r0xlOZXbMLNs6
-         cFi3SJPutnQB7VU+D1wuHl9LWE75cdTLOC3meECFXrwZXeNrVnlzdrgGl30aWkHibN6y
-         IM2w==
-X-Gm-Message-State: ABy/qLY1+9iJVLahrGkKSP4fHI6/z52PPPdukJaVxDZf6kGsztXDurHD
-        mGIN2kLsgB14BWQ4o/vsEyIRdV9Hr/Lok0o0VTCBFg==
-X-Google-Smtp-Source: APBJJlFlrt06OaGdZfNAxWrHT6kvaDJ+IC4DHu/DkSdZ/pXGp9vkEW0W8pzarXiHkMOaSrbKJEzKkg==
-X-Received: by 2002:a05:6512:3e05:b0:4fd:bdf8:930d with SMTP id i5-20020a0565123e0500b004fdbdf8930dmr2076739lfv.22.1689597610213;
-        Mon, 17 Jul 2023 05:40:10 -0700 (PDT)
-Received: from [192.168.1.101] (abyj181.neoplus.adsl.tpnet.pl. [83.9.29.181])
-        by smtp.gmail.com with ESMTPSA id w2-20020a05651203c200b004f87024742fsm2791201lfp.235.2023.07.17.05.40.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Jul 2023 05:40:09 -0700 (PDT)
-Message-ID: <18f2a5b5-5cc2-6bea-ca08-5da218b3192b@linaro.org>
-Date:   Mon, 17 Jul 2023 14:40:05 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2] media: camss: Intepret OF graph connections more
- sensibly
-Content-Language: en-US
-To:     Johan Hovold <johan@kernel.org>
+        Mon, 17 Jul 2023 08:45:22 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8536091;
+        Mon, 17 Jul 2023 05:45:21 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 09E4C6103F;
+        Mon, 17 Jul 2023 12:45:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B46DC433C8;
+        Mon, 17 Jul 2023 12:45:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689597920;
+        bh=H13b/kPtnbPNqTkXh0P646Xi0qWC1YULsU7xxoNFXDw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=r6K3P5tFClIWpj34d+MHBPFy6UlUBif976s68oHmrLN04lY7LhD7hht47BGRezIUA
+         yUmb7+y1oCmtF1ye936kJU5r8VusBrE86uMb1cFwKXBPZLt82lBIvi2idEfeqKW+0R
+         h8kPNuU9UvT/NFTm4cfdKscK571sWITEM8MuiTat0DUfFydekOW2DeVrfF2/yly3z5
+         aubqxJW0S+73OiYo7yDr/eJ3Ei2f7ceGBWqwQy01U1y/3QaU4XuNKSOx3ekHtfslxP
+         IllGMq3bOABvAcXbfqYw4X9YbiHXjrnJrkh0FcNdSGqX8M7ys9zXmHuwzo6ui/6L7u
+         k43KmZlKtLpNg==
+Received: from johan by xi.lan with local (Exim 4.96)
+        (envelope-from <johan@kernel.org>)
+        id 1qLNbR-0000Qa-36;
+        Mon, 17 Jul 2023 14:45:26 +0200
+Date:   Mon, 17 Jul 2023 14:45:25 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Konrad Dybcio <konrad.dybcio@linaro.org>
 Cc:     Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
         Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
         Andy Gross <agross@kernel.org>,
@@ -68,15 +49,19 @@ Cc:     Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
         Yassine Oudjana <y.oudjana@protonmail.com>,
         linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: camss: Intepret OF graph connections more
+ sensibly
+Message-ID: <ZLU35SucePevwU6i@hovoldconsulting.com>
 References: <20230614-topic-camss_grpah-v2-1-57d9d5e49038@linaro.org>
  <ZLUcaQN6hCjjulTv@hovoldconsulting.com>
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <ZLUcaQN6hCjjulTv@hovoldconsulting.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+ <18f2a5b5-5cc2-6bea-ca08-5da218b3192b@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <18f2a5b5-5cc2-6bea-ca08-5da218b3192b@linaro.org>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -84,80 +69,43 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 17.07.2023 12:48, Johan Hovold wrote:
-> On Sat, Jul 15, 2023 at 05:37:52PM +0200, Konrad Dybcio wrote:
->> Not all endpoints of camss have to be populated. In fact, most of the
->> time they shouldn't be as n-th auxilliary cameras are usually ewaste.
->>
->> Don't fail probing the entire camss even even one endpoint is not
->> linked and throw an error when none is found.
->>
->> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->> ---
->> Changes in v2:
->> - Use if-else instead of the ternary operator (Bryan)
->> - Drop "RFC"
->> - Link to v1: https://lore.kernel.org/r/20230614-topic-camss_grpah-v1-1-5f4b516310fa@linaro.org
->> ---
->>  drivers/media/platform/qcom/camss/camss.c | 10 ++++++----
->>  1 file changed, 6 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
->> index 1ef26aea3eae..8b75197fa5d7 100644
->> --- a/drivers/media/platform/qcom/camss/camss.c
->> +++ b/drivers/media/platform/qcom/camss/camss.c
->> @@ -1084,9 +1084,8 @@ static int camss_of_parse_ports(struct camss *camss)
->>  
->>  		remote = of_graph_get_remote_port_parent(node);
->>  		if (!remote) {
->> -			dev_err(dev, "Cannot get remote parent\n");
->> -			ret = -EINVAL;
->> -			goto err_cleanup;
->> +			of_node_put(node);
-> 
-> This is broken and could potentially lead to a use after free.
-> 
-> Specifically, the iteration macro already takes care of putting this
-> reference.
-/**
- * for_each_endpoint_of_node - iterate over every endpoint in a device node
- * @parent: parent device node containing ports and endpoints
- * @child: loop variable pointing to the current endpoint node
- *
- * When breaking out of the loop, of_node_put(child) has to be called manually.
- */
+On Mon, Jul 17, 2023 at 02:40:05PM +0200, Konrad Dybcio wrote:
+> On 17.07.2023 12:48, Johan Hovold wrote:
+> > On Sat, Jul 15, 2023 at 05:37:52PM +0200, Konrad Dybcio wrote:
 
-> 
->> +			continue;
->>  		}
->>  
->>  		csd = v4l2_async_nf_add_fwnode(&camss->notifier,
->> @@ -1105,7 +1104,10 @@ static int camss_of_parse_ports(struct camss *camss)
->>  		num_subdevs++;
->>  	}
->>  
->> -	return num_subdevs;
->> +	if (num_subdevs)
->> +		return num_subdevs;
->> +
->> +	return -EINVAL;
-> 
-> Please change this so that you test for the error condition rather than
-> its inverse for symmetry. That is
-> 
-> 	if (!num_subdevs)
-> 		return -EINVAL;
-> 
-> 	return num_subdevs;
-Right, this makes more sense
+> >> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+> >> index 1ef26aea3eae..8b75197fa5d7 100644
+> >> --- a/drivers/media/platform/qcom/camss/camss.c
+> >> +++ b/drivers/media/platform/qcom/camss/camss.c
+> >> @@ -1084,9 +1084,8 @@ static int camss_of_parse_ports(struct camss *camss)
+> >>  
+> >>  		remote = of_graph_get_remote_port_parent(node);
+> >>  		if (!remote) {
+> >> -			dev_err(dev, "Cannot get remote parent\n");
+> >> -			ret = -EINVAL;
+> >> -			goto err_cleanup;
+> >> +			of_node_put(node);
+> > 
+> > This is broken and could potentially lead to a use after free.
+> > 
+> > Specifically, the iteration macro already takes care of putting this
+> > reference.
 
-Konrad
-> 
-> Returning EINVAL (invalid argument) is perhaps not the best choice, but
-> the driver already does so here and in other places so keeping it for
-> now should be fine.
-> 
->>  err_cleanup:
->>  	of_node_put(node);
-> 
-> Johan
+> /**
+>  * for_each_endpoint_of_node - iterate over every endpoint in a device node
+>  * @parent: parent device node containing ports and endpoints
+>  * @child: loop variable pointing to the current endpoint node
+>  *
+>  * When breaking out of the loop, of_node_put(child) has to be called manually.
+>  */
+
+Please read this comment you just pasted here again as it seems you did
+not understand it.
+
+> > 
+> >> +			continue;
+
+And again, please remember to trim your replies. Including context after
+your reply is almost always wrong.
+
+Johan
