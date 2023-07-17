@@ -2,31 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BA34755954
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jul 2023 04:05:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38BCA755952
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jul 2023 04:05:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230354AbjGQCFf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 16 Jul 2023 22:05:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45888 "EHLO
+        id S230340AbjGQCFa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 16 Jul 2023 22:05:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230348AbjGQCFd (ORCPT
+        with ESMTP id S230225AbjGQCF3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 16 Jul 2023 22:05:33 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87B1BF1
-        for <linux-media@vger.kernel.org>; Sun, 16 Jul 2023 19:05:22 -0700 (PDT)
+        Sun, 16 Jul 2023 22:05:29 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 245DC9D
+        for <linux-media@vger.kernel.org>; Sun, 16 Jul 2023 19:05:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nurfuerspam.de;
  s=s31663417; t=1689559512; x=1690164312; i=herdler@nurfuerspam.de;
- bh=Ttj6vK0l2iFGMGEMKbeOwDXjBJWRYblOs9I8fDNjoyQ=;
+ bh=Kss5ubkzTmur5RmuyIrKijs5qjP5XaPUNd6sW7J8Q7M=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=oD7I/59+tYKZ8D0sfkQ9ZDxAlqTxjWnDzyKtNfX+4aFPM0hQ2QGmNJEVoZ+9U+MkqjVeshp
- 1ykpA1/JRRSV144g0wNMWl91fN1ZCYBTpW3fInXoZZVjl1XcKHdz4Z5yAO1bWVlmzAQaAXaRE
- B5f5U4TOs/9Lk5MR5PSdlPRAHIoRplzE/5GFSkiAIWw1nBES5K6jQ5EglIq8S/xhEUPhIH835
- 3cAbsugV07TLkudex9zcbDpyrgYDx4/x1xioNhxVufLCrvftF0NU0Z2+/MS7uM0Zff5E+QwRI
- oBRxVWZeofbJxlro0NuFqIYKAi4799Z6bddtytFrwwuOGtvuPV1Q==
+ b=TNU4q0t2LHYs4EfLv7+RxtwL33YAzF06fc75YlkUZVxSI0akTI7k1PTGG2VDQIFEE2IwdJU
+ ls4Xz5aRF3lGDd5BV4poA21+qcFvwlqIC3CxwUG9NByusGgPQoxGOfgnkDY921gxRO+HmT1s7
+ V6kHQO00YpBz7J/EjtYWjsQPg8s5M0BSSpYlJmb4X/HSOD+S80btUYHNJsrz7UeQOrmeBxcjn
+ 2P6Lfbcru7OEooEWI1Odx8Yh1iy7O0zZTM720I+SAWbYJu8jRJiEcuhtxH1aOOr3yhSt1MaKU
+ Jtz7QRVUwt6uTQyW5RyjHaZUe2lxF0JcnSupb5GHmcESHZnGWvng==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from astro.haus ([217.113.179.15]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MwwZX-1q2CaK40GR-00yU8a; Mon, 17
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N7zBb-1pr9yN11b1-0153hc; Mon, 17
  Jul 2023 04:05:12 +0200
 From:   Stefan Herdler <herdler@nurfuerspam.de>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -35,491 +35,113 @@ Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Tomasz Maciej Nowak <tmn505@gmail.com>,
         Corinna Vinschen <vinschen@redhat.com>,
         Soeren Moch <smoch@web.de>
-Subject: [PATCH v3 2/6] Add documentation for osd.h
-Date:   Mon, 17 Jul 2023 04:04:42 +0200
-Message-Id: <20230717020446.28877-3-herdler@nurfuerspam.de>
+Subject: [PATCH v3 3/6] Add documentation for audio.h (data types)
+Date:   Mon, 17 Jul 2023 04:04:43 +0200
+Message-Id: <20230717020446.28877-4-herdler@nurfuerspam.de>
 X-Mailer: git-send-email 2.34.0
 In-Reply-To: <20230717020446.28877-1-herdler@nurfuerspam.de>
 References: <20230717020446.28877-1-herdler@nurfuerspam.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:3F01pS3IrE1s8X5obXmQ8aTjWjyYUMskEv8qmrFph/Yv6TeCP2b
- ayZROXMksXZxo1zIPsOKxvQAsTfKpQMKrXSxDnw5oFiNlR7YRGKL1fv1brCOWfVOj6k4kjI
- pCRqfio/64QiCP33wB/WN8zSKWfmNdope9m7rA471egsGYkZYGcc3qbQ9mG+Q1Hz/6kU3Dv
- Y5mrczmf6b05r+FF2MDQQ==
-UI-OutboundReport: notjunk:1;M01:P0:RLEhT0p/oBM=;JeWcgY1Z/MIfo2pQXzeZTK6k+0o
- x23Xcyn4OGmd5bQ976lhMSGmfe6pPBXeX7P/Z5HV3zD7+ks/qZ227NcKW2YICoI/zT/U+JPEr
- 35fNaWUSiZNzROQMWR/WckFpSRWVQyDzGALrEAUNsYl9nLnqYav1K29JhvRsPflA3R8SNMAdJ
- 5Cy7qOZnhdUgiOJwCNmNQ0uZ+KgeliHTwESsdCrkrin2ZePzO7mADYPOq0VCKtipCLgdb0scf
- s7gXwIJNyBac67J7PGVRc444EcSpPLmfMCGIttwHiJjYKA/arHOy5MzudwFe/zWw6gPpZ4+d0
- 8qXVWfStSnO5uZEvka6/NHOyHNgHyI/gnqceg977qCCoO1z2y6KRCtK56aufY5lbYoTncze3/
- G5OKnkyDAyz7KZ0w4yKlpVeDDQqFvuNHQohVpG8a767Am/uG25oMEJ2gXVRGOfXWaoRWX6I87
- 9zA5JnrLq/9zLy7nfNQXoWZrEYMVG5hRJjfKPpT9vVNO1lqlfA1a3z0MOSyjx91n8OqFjCN9W
- TJODZCOlA5YvEEZM9Progw0V6Cv+llNhJ1cq0aFJjsUQ7YyWjtpuL4snu6QnGdbs6w6uRQdE+
- cBlp7XhA5Fpvx+tRAvFrJ2t6X6ABw+b0ydFsxKxx5dp2Sp/DP2VjuluPEs+qdBR4tnWyXq4M/
- Lv2iKNBco+9myc83Fdxq6KPj4dH5ETbnnlgNi7RW+AGZBzyIdf/VUvcY2DpgOS5SHBjSjpAgl
- yT8vy0pSBb9oWYg4tY+xx/YP7b0LppYbD86FUzZqZIeMv1bFFHAIvI+ng9xzbmuvZ3jisfykw
- X6BVznMA6jfYEUT9PcIKUJ+P269X5Si0GqDNjB4OPoQNyoYX9mF+W1GKo2u6LqZjfQqbr56jH
- 6AlvP2nBCjZIhX4iwOTZVwoSoMxaw4js7TZaMHq5jLFx719+Ac+kz5xVS25Ixft+W59xh3493
- j4N1J6kWGcB6K0bwkg2oGQTTQJo=
-X-Spam-Status: No, score=-0.5 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,NO_DNS_FOR_FROM,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_ABUSE_SURBL
-        autolearn=no autolearn_force=no version=3.4.6
+X-Provags-ID: V03:K1:ZTx7sbSeHZyo7TNbVAA19K7daQMirKbHvUWaRKkdWA/7b8SIbE0
+ ympILij097PEsEHHQ3veKghBMxU9FCrm9wIXyCxHD3/U8xn6GVgRPpdB3HqvDeXsibh0TSE
+ sjvgn03MqaOOFtPmtTHs+E0mrCE/v4oAAG7ZA1Lg7jHmhakeVza2wVERGNJlfyGSNnUYeWz
+ IeobN421Fz6jm1tCaZ+Pg==
+UI-OutboundReport: notjunk:1;M01:P0:ayySXucW28o=;l/skPjbCBsXB6ks6nERHjCTYxpX
+ VKePwRh/qD0Bnl+YHeIpuFXO9igBF+yqB22dYQU0BeXJtXgwc7oWexlRO13t7FHDsljmgxaXw
+ ymVx9jR1NuKBAosuYILke9G+wP+VFzbz9TfdMHL+4p7U+dxKXpn6xExFNLp2VFEWKbP9Rv6s3
+ w0mOVJR6OePAZCknIZ6HW0ouWkpRq66EJ75WBG+d2+yVtmsWFTb9EHmz3c0OgOsp7q97XJdzw
+ wR7delkcOBmZuYwyjJ/iR2bqdqJW/3JCDqDP6ItBv9Wl3s3orIQjFhsRtBsCFzv5lQFfHvANk
+ JbinuxNaHfJnpAog1Xm4nQjY9JFIrUZPbA43U6uPc9atchOka4SE86CE7jxjN/HjMVQiwSVDc
+ UKvEfdbTn5TuvCmgS67nnoGZTdw7JV47rYb5cXZYd8LG9h+txGhJH1mAi5xQYENftKiaAENC/
+ LCpjSyRGwOwxn4pJVD0WdwzPI2PHNX8/rJCZffoE6b1fpHVqKuzGOCB8+48ec5zV3fby1d+5/
+ r9IfEwPttrShj6n8Va7InzRdNDzDG5MdR4duJbukb0UfdFS8F0X2mKT6SCNsgWAWK+OWKdIhZ
+ cxNTcr7csEAwV2yDtrFDk0zmF08n1rLNDHqqhs2A9Fxod3W6BVYOQZ+KjGigWl2Dq7x2HI26v
+ /hArrQ/a+4KAfE/gE6AtvqfB4rNmxOshmDaJiide5PfxZSdJxYZRNQ9w3YoLr256FHQPdw5Sn
+ dTrPRR3eOXBj5tYqkyaHPfwVDshdJGg8+3XQfYBS8DeUx9VKJM/IHwmocVBWgJ2Kl1NPlEXF3
+ hk/oJMjm2uCW1jpES2slq+SqgzzdTjVwwXHke8yk1COyStfgG3R7GTwLakFPpbCTLnj014KpI
+ dzGFEJlqSSpRS6set8ZqLGFe6RMpFbsZPNPKBZx2wcOSXRaXXkgoQ4xAbXB3/4+sofCo9csQ7
+ BqmVI/BZzdFimF55TKHT2kwOr4k=
+X-Spam-Status: No, score=-0.4 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
+        T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,URIBL_ABUSE_SURBL autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add new documentation file for osd.h
+Add new documentation file for audio.h
+Step 1: data types only
 
 Signed-off-by: Stefan Herdler <herdler@nurfuerspam.de>
 =2D--
+ .../media/dvb/legacy_dvb_audio.rst            | 447 ++++++++++++++++++
+ 1 file changed, 447 insertions(+)
+ create mode 100644 Documentation/userspace-api/media/dvb/legacy_dvb_audio=
+.rst
 
-Everything is used by the AV7110 driver, except 3 OSD_Commands.
-Remarks has been placed there.
-
-That's probably the best solution.
-Removing would create a gap in the enumeration.
-Omitting in the documentation would make header and documentation
-inconsistent again.
-
-
-
- .../media/dvb/legacy_dvb_osd.rst              | 883 ++++++++++++++++++
- 1 file changed, 883 insertions(+)
- create mode 100644 Documentation/userspace-api/media/dvb/legacy_dvb_osd.r=
-st
-
-diff --git a/Documentation/userspace-api/media/dvb/legacy_dvb_osd.rst b/Do=
-cumentation/userspace-api/media/dvb/legacy_dvb_osd.rst
+diff --git a/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst b/=
+Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst
 new file mode 100644
-index 000000000000..eb4754bb00d0
+index 000000000000..4c994f8c97e5
 =2D-- /dev/null
-+++ b/Documentation/userspace-api/media/dvb/legacy_dvb_osd.rst
-@@ -0,0 +1,883 @@
++++ b/Documentation/userspace-api/media/dvb/legacy_dvb_audio.rst
+@@ -0,0 +1,447 @@
 +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later OR GPL-2.0
 +
-+.. c:namespace:: dtv.legacy.osd
++.. c:namespace:: dtv.legacy.audio
 +
-+.. _dvb_osd:
++.. _dvb_audio:
 +
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+DVB OSD Device
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++DVB Audio Device
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 +
 +.. attention:: Do **not** use in new drivers!
 +             See: :ref:`legacy_dvb_decoder_notes`
 +
-+The DVB OSD device controls the OnScreen-Display of the AV7110 based
-+DVB-cards with hardware MPEG2 decoder. It can be accessed through
-+``/dev/dvb/adapter?/osd0``.
-+Data types and ioctl definitions can be accessed by including
-+``linux/dvb/osd.h`` in your application.
++The DVB audio device controls the MPEG2 audio decoder of the DVB
++hardware. It can be accessed through ``/dev/dvb/adapter?/audio?``. Data
++types and ioctl definitions can be accessed by including
++``linux/dvb/audio.h`` in your application.
 +
-+The OSD is not a frame-buffer like on many other cards.
-+It is a kind of canvas one can draw on.
-+The color-depth is limited depending on the memory size installed.
-+An appropriate palette of colors has to be set up.
-+The installed memory size can be identified with the `OSD_GET_CAPABILITY`=
-_
-+ioctl.
++Please note that most DVB cards don=E2=80=99t have their own MPEG decoder=
+, which
++results in the omission of the audio and video device.
 +
-+OSD Data Types
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++These ioctls were also used by V4L2 to control MPEG decoders implemented
++in V4L2. The use of these ioctls for that purpose has been made obsolete
++and proper V4L2 ioctls or controls have been created to replace that
++functionality. Use :ref:`V4L2 ioctls<video>` for new drivers!
 +
-+OSD_Command
-+-----------
 +
-+Synopsis
-+~~~~~~~~
++Audio Data Types
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 +
-+.. code-block:: c
-+
-+    typedef enum {
-+	/* All functions return -2 on "not open" */
-+	OSD_Close =3D 1,
-+	OSD_Open,
-+	OSD_Show,
-+	OSD_Hide,
-+	OSD_Clear,
-+	OSD_Fill,
-+	OSD_SetColor,
-+	OSD_SetPalette,
-+	OSD_SetTrans,
-+	OSD_SetPixel,
-+	OSD_GetPixel,
-+	OSD_SetRow,
-+	OSD_SetBlock,
-+	OSD_FillRow,
-+	OSD_FillBlock,
-+	OSD_Line,
-+	OSD_Query,
-+	OSD_Test,
-+	OSD_Text,
-+	OSD_SetWindow,
-+	OSD_MoveWindow,
-+	OSD_OpenRaw,
-+    } OSD_Command;
-+
-+Commands
-+~~~~~~~~
-+
-+.. note::  All functions return -2 on "not open"
-+
-+.. flat-table::
-+    :header-rows:  1
-+    :stub-columns: 0
-+
-+    -  ..
-+
-+       -  Command
-+
-+       -  | Used variables of ``struct`` `osd_cmd_t`_.
-+          | Usage{variable} if alternative use.
-+
-+       -  :cspan:`2` Description
-+
-+
-+
-+    -  ..
-+
-+       -  ``OSD_Close``
-+
-+       -  -
-+
-+       -  | Disables OSD and releases the buffers.
-+          | Returns 0 on success.
-+
-+    -  ..
-+
-+       -  ``OSD_Open``
-+
-+       -  | x0,y0,x1,y1,
-+          | BitPerPixel[2/4/8]{color&0x0F},
-+          | mix[0..15]{color&0xF0}
-+
-+       -  | Opens OSD with this size and bit depth
-+          | Returns 0 on success,
-+          | -1 on DRAM allocation error,
-+          | -2 on "already open".
-+
-+    -  ..
-+
-+       -  ``OSD_Show``
-+
-+       - -
-+
-+       -  | Enables OSD mode.
-+          | Returns 0 on success.
-+
-+    -  ..
-+
-+       -  ``OSD_Hide``
-+
-+       - -
-+
-+       -  | Disables OSD mode.
-+          | Returns 0 on success.
-+
-+    -  ..
-+
-+       -  ``OSD_Clear``
-+
-+       - -
-+
-+       -  | Sets all pixel to color 0.
-+          | Returns 0 on success.
-+
-+    -  ..
-+
-+       -  ``OSD_Fill``
-+
-+       -  color
-+
-+       -  | Sets all pixel to color <color>.
-+          | Returns 0 on success.
-+
-+    -  ..
-+
-+       -  ``OSD_SetColor``
-+
-+       -  | color,
-+          | R{x0},G{y0},B{x1},
-+          | opacity{y1}
-+
-+       -  | Set palette entry <num> to <r,g,b>, <mix> and <trans> apply
-+          | R,G,B: 0..255
-+          | R=3DRed, G=3DGreen, B=3DBlue
-+          | opacity=3D0:      pixel opacity 0% (only video pixel shows)
-+          | opacity=3D1..254: pixel opacity as specified in header
-+          | opacity=3D255:    pixel opacity 100% (only OSD pixel shows)
-+          | Returns 0 on success, -1 on error.
-+
-+    -  ..
-+
-+       -  ``OSD_SetPalette``
-+
-+       -  | firstcolor{color},
-+          | lastcolor{x0},data
-+
-+       -  | Set a number of entries in the palette.
-+          | Sets the entries "firstcolor" through "lastcolor" from the
-+            array "data".
-+          | Data has 4 byte for each color:
-+          | R,G,B, and a opacity value: 0->transparent, 1..254->mix,
-+            255->pixel
-+
-+    -  ..
-+
-+       -  ``OSD_SetTrans``
-+
-+       -  transparency{color}
-+
-+       -  | Sets transparency of mixed pixel (0..15).
-+          | Returns 0 on success.
-+
-+    -  ..
-+
-+       -  ``OSD_SetPixel``
-+
-+       -  x0,y0,color
-+
-+       -  | Sets pixel <x>,<y> to color number <color>.
-+          | Returns 0 on success, -1 on error.
-+
-+    -  ..
-+
-+       -  ``OSD_GetPixel``
-+
-+       -  x0,y0
-+
-+       -  | Returns color number of pixel <x>,<y>,  or -1.
-+          | Command currently not supported by the AV7110!
-+
-+    -  ..
-+
-+       -  ``OSD_SetRow``
-+
-+       -  x0,y0,x1,data
-+
-+       -  | Fills pixels x0,y through  x1,y with the content of data[].
-+          | Returns 0 on success, -1 on clipping all pixel (no pixel
-+            drawn).
-+
-+    -  ..
-+
-+       -  ``OSD_SetBlock``
-+
-+       -  | x0,y0,x1,y1,
-+          | increment{color},
-+          | data
-+
-+       -  | Fills pixels x0,y0 through  x1,y1 with the content of data[].
-+          | Inc contains the width of one line in the data block,
-+          | inc<=3D0 uses block width as line width.
-+          | Returns 0 on success, -1 on clipping all pixel.
-+
-+    -  ..
-+
-+       -  ``OSD_FillRow``
-+
-+       -  x0,y0,x1,color
-+
-+       -  | Fills pixels x0,y through  x1,y with the color <color>.
-+          | Returns 0 on success, -1 on clipping all pixel.
-+
-+    -  ..
-+
-+       -  ``OSD_FillBlock``
-+
-+       -  x0,y0,x1,y1,color
-+
-+       -  | Fills pixels x0,y0 through  x1,y1 with the color <color>.
-+          | Returns 0 on success, -1 on clipping all pixel.
-+
-+    -  ..
-+
-+       -  ``OSD_Line``
-+
-+       -  x0,y0,x1,y1,color
-+
-+       -  | Draw a line from x0,y0 to x1,y1 with the color <color>.
-+          | Returns 0 on success.
-+
-+    -  ..
-+
-+       -  ``OSD_Query``
-+
-+       -  | x0,y0,x1,y1,
-+          | xasp{color}; yasp=3D11
-+
-+       -  | Fills parameters with the picture dimensions and the pixel
-+            aspect ratio.
-+          | Returns 0 on success.
-+          | Command currently not supported by the AV7110!
-+
-+    -  ..
-+
-+       -  ``OSD_Test``
-+
-+       -  -
-+
-+       -  | Draws a test picture.
-+          | For debugging purposes only.
-+          | Returns 0 on success.
-+    -  ..
-+
-+       -  ``OSD_Text``
-+
-+       -  x0,y0,size,color,text
-+
-+       -  Draws a text at position x0,y0 with the color <color>.
-+
-+    -  ..
-+
-+       -  ``OSD_SetWindow``
-+
-+       -  x0
-+
-+       -  Set window with number 0<x0<8 as current.
-+
-+    -  ..
-+
-+       -  ``OSD_MoveWindow``
-+
-+       -  x0,y0
-+
-+       -  Move current window to (x0, y0).
-+
-+    -  ..
-+
-+       -  ``OSD_OpenRaw``
-+
-+       -  | x0,y0,x1,y1,
-+          | `osd_raw_window_t`_ {color}
-+
-+       -  Open other types of OSD windows.
-+
-+Description
-+~~~~~~~~~~~
-+
-+The ``OSD_Command`` data type is used with the `OSD_SEND_CMD`_ ioctl to
-+tell the driver which OSD_Command to execute.
-+
-+
-+-----
-+
-+osd_cmd_t
-+---------
-+
-+Synopsis
-+~~~~~~~~
-+
-+.. code-block:: c
-+
-+    typedef struct osd_cmd_s {
-+	OSD_Command cmd;
-+	int x0;
-+	int y0;
-+	int x1;
-+	int y1;
-+	int color;
-+	void __user *data;
-+    } osd_cmd_t;
-+
-+Variables
-+~~~~~~~~~
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    -  ..
-+
-+       -  ``OSD_Command cmd``
-+
-+       -  `OSD_Command`_ to be executed.
-+
-+    -  ..
-+
-+       -  ``int x0``
-+
-+       -  First horizontal position.
-+
-+    -  ..
-+
-+       -  ``int y0``
-+
-+       -  First vertical position.
-+
-+    -  ..
-+
-+       -  ``int x1``
-+
-+       -  Second horizontal position.
-+
-+    -  ..
-+
-+       -  ``int y1``
-+
-+       -  Second vertical position.
-+
-+    -  ..
-+
-+       -  ``int color``
-+
-+       -  Number of the color in the palette.
-+
-+    -  ..
-+
-+       -  ``void __user *data``
-+
-+       -  Command specific Data.
-+
-+Description
-+~~~~~~~~~~~
-+
-+The ``osd_cmd_t`` data type is used with the `OSD_SEND_CMD`_ ioctl.
-+It contains the data for the OSD_Command and the `OSD_Command`_ itself.
-+The structure has to be passed to the driver and the components may be
-+modified by it.
++This section describes the structures, data types and defines used when
++talking to the audio device.
 +
 +
 +-----
 +
 +
-+osd_raw_window_t
-+----------------
++audio_stream_source_t
++---------------------
 +
 +Synopsis
 +~~~~~~~~
 +
++.. c:enum:: audio_stream_source_t
++
 +.. code-block:: c
 +
 +    typedef enum {
-+	OSD_BITMAP1,
-+	OSD_BITMAP2,
-+	OSD_BITMAP4,
-+	OSD_BITMAP8,
-+	OSD_BITMAP1HR,
-+	OSD_BITMAP2HR,
-+	OSD_BITMAP4HR,
-+	OSD_BITMAP8HR,
-+	OSD_YCRCB422,
-+	OSD_YCRCB444,
-+	OSD_YCRCB444HR,
-+	OSD_VIDEOTSIZE,
-+	OSD_VIDEOHSIZE,
-+	OSD_VIDEOQSIZE,
-+	OSD_VIDEODSIZE,
-+	OSD_VIDEOTHSIZE,
-+	OSD_VIDEOTQSIZE,
-+	OSD_VIDEOTDSIZE,
-+	OSD_VIDEONSIZE,
-+	OSD_CURSOR
-+    } osd_raw_window_t;
++    AUDIO_SOURCE_DEMUX,
++    AUDIO_SOURCE_MEMORY
++    } audio_stream_source_t;
 +
 +Constants
 +~~~~~~~~~
@@ -530,147 +152,163 @@ _
 +
 +    -  ..
 +
-+       -  ``OSD_BITMAP1``
++       -  ``AUDIO_SOURCE_DEMUX``
 +
-+       -  :cspan:`1` 1 bit bitmap
-+
-+    -  ..
-+
-+       -  ``OSD_BITMAP2``
-+
-+       -  2 bit bitmap
++       -  :cspan:`1` Selects the demultiplexer (fed either by the fronten=
+d
++          or the DVR device) as the source of the video stream.
 +
 +    -  ..
 +
-+       -  ``OSD_BITMAP4``
++       -  ``AUDIO_SOURCE_MEMORY``
 +
-+       -  4 bit bitmap
-+
-+    -  ..
-+
-+       -  ``OSD_BITMAP8``
-+
-+       -  8 bit bitmap
-+
-+    -  ..
-+
-+       -  ``OSD_BITMAP1HR``
-+
-+       -  1 Bit bitmap half resolution
-+
-+    -  ..
-+
-+       -  ``OSD_BITMAP2HR``
-+
-+       -  2 Bit bitmap half resolution
-+
-+    -  ..
-+
-+       -  ``OSD_BITMAP4HR``
-+
-+       -  4 Bit bitmap half resolution
-+
-+    -  ..
-+
-+       -  ``OSD_BITMAP8HR``
-+
-+       -  8 Bit bitmap half resolution
-+
-+    -  ..
-+
-+       -  ``OSD_YCRCB422``
-+
-+       -  4:2:2 YCRCB Graphic Display
-+
-+    -  ..
-+
-+       -  ``OSD_YCRCB444``
-+
-+       -  4:4:4 YCRCB Graphic Display
-+
-+    -  ..
-+
-+       -  ``OSD_YCRCB444HR``
-+
-+       -  4:4:4 YCRCB graphic half resolution
-+
-+    -  ..
-+
-+       -  ``OSD_VIDEOTSIZE``
-+
-+       -  True Size Normal MPEG Video Display
-+
-+    -  ..
-+
-+       -  ``OSD_VIDEOHSIZE``
-+
-+       -  MPEG Video Display Half Resolution
-+
-+    -  ..
-+
-+       -  ``OSD_VIDEOQSIZE``
-+
-+       -  MPEG Video Display Quarter Resolution
-+
-+    -  ..
-+
-+       -  ``OSD_VIDEODSIZE``
-+
-+       -  MPEG Video Display Double Resolution
-+
-+    -  ..
-+
-+       -  ``OSD_VIDEOTHSIZE``
-+
-+       -  True Size MPEG Video Display Half Resolution
-+
-+    -  ..
-+
-+       -  ``OSD_VIDEOTQSIZE``
-+
-+       -  True Size MPEG Video Display Quarter Resolution
-+
-+    -  ..
-+
-+       -  ``OSD_VIDEOTDSIZE``
-+
-+       -  True Size MPEG Video Display Double Resolution
-+
-+    -  ..
-+
-+       -  ``OSD_VIDEONSIZE``
-+
-+       -  Full Size MPEG Video Display
-+
-+    -  ..
-+
-+       -  ``OSD_CURSOR``
-+
-+       -  Cursor
++       -  Selects the stream from the application that comes through
++          the `write()`_ system call.
 +
 +Description
 +~~~~~~~~~~~
 +
-+The ``osd_raw_window_t`` data type is used with the `OSD_Command`_
-+OSD_OpenRaw to tell the driver which type of OSD to open.
++The audio stream source is set through the `AUDIO_SELECT_SOURCE`_ call
++and can take the following values, depending on whether we are replaying
++from an internal (demux) or external (user write) source.
++
++The data fed to the decoder is also controlled by the PID-filter.
++Output selection: :c:enum:`dmx_output` ``DMX_OUT_DECODER``.
 +
 +
 +-----
 +
 +
-+osd_cap_t
-+---------
++audio_play_state_t
++------------------
 +
 +Synopsis
 +~~~~~~~~
 +
++.. c:enum:: audio_play_state_t
++
 +.. code-block:: c
 +
-+    typedef struct osd_cap_s {
-+	int  cmd;
-+    #define OSD_CAP_MEMSIZE         1
-+	long val;
-+    } osd_cap_t;
++    typedef enum {
++	AUDIO_STOPPED,
++	AUDIO_PLAYING,
++	AUDIO_PAUSED
++    } audio_play_state_t;
++
++Constants
++~~~~~~~~~
++
++.. flat-table::
++    :header-rows:  0
++    :stub-columns: 0
++
++    -  ..
++
++       -  ``AUDIO_STOPPED``
++
++       -  Audio is stopped.
++
++    -  ..
++
++       -  ``AUDIO_PLAYING``
++
++       -  Audio is currently playing.
++
++    -  ..
++
++       -  ``AUDIO_PAUSE``
++
++       -  Audio is frozen.
++
++Description
++~~~~~~~~~~~
++
++This values can be returned by the `AUDIO_GET_STATUS`_ call
++representing the state of audio playback.
++
++
++-----
++
++
++audio_channel_select_t
++----------------------
++
++Synopsis
++~~~~~~~~
++
++.. c:enum:: audio_channel_select_t
++
++.. code-block:: c
++
++    typedef enum {
++	AUDIO_STEREO,
++	AUDIO_MONO_LEFT,
++	AUDIO_MONO_RIGHT,
++	AUDIO_MONO,
++	AUDIO_STEREO_SWAPPED
++    } audio_channel_select_t;
++
++Constants
++~~~~~~~~~
++
++.. flat-table::
++    :header-rows:  0
++    :stub-columns: 0
++
++    -  ..
++
++       -  ``AUDIO_STEREO``
++
++       -  Stereo.
++
++    -  ..
++
++       -  ``AUDIO_MONO_LEFT``
++
++       -  Mono, select left stereo channel as source.
++
++    -  ..
++
++       -  ``AUDIO_MONO_RIGHT``
++
++       -  Mono, select right stereo channel as source.
++
++    -  ..
++
++       -  ``AUDIO_MONO``
++
++       -  Mono source only.
++
++    -  ..
++
++       -  ``AUDIO_STEREO_SWAPPED``
++
++       -  Stereo, swap L & R.
++
++Description
++~~~~~~~~~~~
++
++The audio channel selected via `AUDIO_CHANNEL_SELECT`_ is determined by
++this values.
++
++
++-----
++
++
++audio_mixer_t
++-------------
++
++Synopsis
++~~~~~~~~
++
++.. c:struct:: audio_mixer
++
++.. code-block:: c
++
++    typedef struct audio_mixer {
++	unsigned int volume_left;
++	unsigned int volume_right;
++    } audio_mixer_t;
 +
 +Variables
 +~~~~~~~~~
@@ -681,55 +319,49 @@ _
 +
 +    -  ..
 +
-+       -  ``int  cmd``
++       -  ``unsigned int volume_left``
 +
-+       -  Capability to query.
-+
-+    -  ..
-+
-+       -  ``long val``
-+
-+       -  Used to store the Data.
-+
-+Supported capabilities
-+~~~~~~~~~~~~~~~~~~~~~~
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
++       -  Volume left channel.
++          Valid range: 0 ... 255
 +
 +    -  ..
 +
-+       -  ``OSD_CAP_MEMSIZE``
++       -  ``unsigned int volume_right``
 +
-+       -  Memory size installed on the card.
++       -  Volume right channel.
++          Valid range: 0 ... 255
 +
 +Description
 +~~~~~~~~~~~
 +
-+This structure of data used with the `OSD_GET_CAPABILITY`_ call.
++This structure is used by the `AUDIO_SET_MIXER`_ call to set the
++audio volume.
 +
 +
 +-----
 +
 +
-+OSD Function Calls
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+OSD_SEND_CMD
++audio_status
 +------------
 +
 +Synopsis
 +~~~~~~~~
 +
-+.. c:macro:: OSD_SEND_CMD
++.. c:struct:: audio_status
 +
 +.. code-block:: c
 +
-+    int ioctl(int fd, int request =3D OSD_SEND_CMD, enum osd_cmd_t *cmd)
++    typedef struct audio_status {
++	int AV_sync_state;
++	int mute_state;
++	audio_play_state_t play_state;
++	audio_stream_source_t stream_source;
++	audio_channel_select_t channel_select;
++	int bypass_mode;
++	audio_mixer_t mixer_state;
++    } audio_status_t;
 +
-+
-+Arguments
++Variables
 +~~~~~~~~~
 +
 +.. flat-table::
@@ -738,135 +370,106 @@ _
 +
 +    -  ..
 +
-+       -  ``int fd``
++       -  :rspan:`2` ``int AV_sync_state``
 +
-+       -  :cspan:`1` File descriptor returned by a previous call
-+          to `open()`_.
++       -  :cspan:`1` Shows if A/V synchronization is ON or OFF.
 +
 +    -  ..
 +
-+       -  ``int request``
++       -  TRUE  ( !=3D 0 )
 +
-+       -  Pointer to the location of the structure `osd_cmd_t`_ for this
-+          command.
++       -  AV-sync ON.
++
++    -  ..
++
++       -  FALSE ( =3D=3D 0 )
++
++       -  AV-sync OFF.
++
++    -  ..
++
++       -  :rspan:`2` ``int mute_state``
++
++       -  :cspan:`1` Indicates if audio is muted or not.
++
++    -  ..
++
++       -  TRUE  ( !=3D 0 )
++
++       -  mute audio
++
++    -  ..
++
++       -  FALSE ( =3D=3D 0 )
++
++       -  unmute audio
++
++    -  ..
++
++       -  `audio_play_state_t`_ ``play_state``
++
++       -  Current playback state.
++
++    -  ..
++
++       -  `audio_stream_source_t`_ ``stream_source``
++
++       -  Current source of the data.
++
++    -  ..
++
++       -  :rspan:`2` ``int bypass_mode``
++
++       -  :cspan:`1` Is the decoding of the current Audio stream in
++          the DVB subsystem enabled or disabled.
++
++    -  ..
++
++       -  TRUE  ( !=3D 0 )
++
++       -  Bypass disabled.
++
++    -  ..
++
++       -  FALSE ( =3D=3D 0 )
++
++       -  Bypass enabled.
++
++    -  ..
++
++       -  `audio_mixer_t`_ ``mixer_state``
++
++       -  Current volume settings.
 +
 +Description
 +~~~~~~~~~~~
 +
-+.. attention:: Do **not** use in new drivers!
-+             See: :ref:`legacy_dvb_decoder_notes`
-+
-+This ioctl sends the `OSD_Command`_ to the card.
-+
-+Return Value
-+~~~~~~~~~~~~
-+
-+On success 0 is returned, on error -1 and the ``errno`` variable is set
-+appropriately. The generic error codes are described at the
-+:ref:`Generic Error Codes <gen-errors>` chapter.
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    -  ..
-+
-+       -  ``EINVAL``
-+
-+       -  Command is out of range.
++The `AUDIO_GET_STATUS`_ call returns this structure as information
++about various states of the playback operation.
 +
 +
 +-----
 +
 +
-+OSD_GET_CAPABILITY
-+------------------
-+
-+Synopsis
-+~~~~~~~~
-+
-+.. c:macro:: OSD_GET_CAPABILITY
-+
-+.. code-block:: c
-+
-+    int ioctl(int fd, int request =3D OSD_GET_CAPABILITY,
-+    struct osd_cap_t *cap)
-+
-+Arguments
-+~~~~~~~~~
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    -  ..
-+
-+       -  ``int fd``
-+
-+       -  :cspan:`1` File descriptor returned by a previous call
-+          to `open()`_.
-+
-+    -  ..
-+
-+       -  ``int request``
-+
-+       -  Equals ``OSD_GET_CAPABILITY`` for this command.
-+
-+    -  ..
-+
-+       -  ``unsigned int *cap``
-+
-+       -  Pointer to the location of the structure `osd_cap_t`_ for this
-+          command.
-+
-+Description
-+~~~~~~~~~~~
-+
-+.. attention:: Do **not** use in new drivers!
-+             See: :ref:`legacy_dvb_decoder_notes`
-+
-+This ioctl is used to get the capabilities of the OSD of the AV7110 based
-+DVB-decoder-card in use.
-+
-+.. note::
-+    The structure osd_cap_t has to be setup by the user and passed to the
-+    driver.
-+
-+Return Value
-+~~~~~~~~~~~~
-+
-+On success 0 is returned, on error -1 and the ``errno`` variable is set
-+appropriately. The generic error codes are described at the
-+:ref:`Generic Error Codes <gen-errors>` chapter.
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+
-+    -  ..
-+
-+       -  ``EINVAL``
-+
-+       -  Unsupported capability.
-+
-+
-+-----
-+
-+
-+open()
-+------
++audio encodings
++---------------
 +
 +Synopsis
 +~~~~~~~~
 +
 +.. code-block:: c
 +
-+    #include <fcntl.h>
++     #define AUDIO_CAP_DTS    1
++     #define AUDIO_CAP_LPCM   2
++     #define AUDIO_CAP_MP1    4
++     #define AUDIO_CAP_MP2    8
++     #define AUDIO_CAP_MP3   16
++     #define AUDIO_CAP_AAC   32
++     #define AUDIO_CAP_OGG   64
++     #define AUDIO_CAP_SDDS 128
++     #define AUDIO_CAP_AC3  256
 +
-+.. c:function:: int open(const char *deviceName, int flags)
-+
-+Arguments
++Constants
 +~~~~~~~~~
 +
 +.. flat-table::
@@ -875,114 +478,67 @@ _
 +
 +    -  ..
 +
-+       -  ``const char *deviceName``
++       -  ``AUDIO_CAP_DTS``
 +
-+       -  Name of specific OSD device.
-+
-+    -  ..
-+
-+       -  :rspan:`3` ``int flags``
-+
-+       -  :cspan:`1` A bit-wise OR of the following flags:
++       -  :cspan:`1` The hardware accepts DTS audio tracks.
 +
 +    -  ..
 +
-+       -  ``O_RDONLY``
++       -  ``AUDIO_CAP_LPCM``
 +
-+       -  read-only access
-+
-+    -  ..
-+
-+       -  ``O_RDWR``
-+
-+       -  read/write access
++       -   The hardware accepts uncompressed audio with
++           Linear Pulse-Code Modulation (LPCM)
 +
 +    -  ..
 +
-+       -  ``O_NONBLOCK``
-+       -  | Open in non-blocking mode
-+          | (blocking mode is the default)
++       -  ``AUDIO_CAP_MP1``
++
++       -  The hardware accepts MPEG-1 Audio Layer 1.
++
++    -  ..
++
++       -  ``AUDIO_CAP_MP2``
++
++       -  The hardware accepts MPEG-1 Audio Layer 2.
++          Also known as MUSICAM.
++
++    -  ..
++
++       -  ``AUDIO_CAP_MP3``
++
++       -  The hardware accepts MPEG-1 Audio Layer III.
++          Commomly known as .mp3.
++
++    -  ..
++
++       -  ``AUDIO_CAP_AAC``
++
++       -  The hardware accepts AAC (Advanced Audio Coding).
++
++    -  ..
++
++       -  ``AUDIO_CAP_OGG``
++
++       -  The hardware accepts Vorbis audio tracks.
++
++    -  ..
++
++       -  ``AUDIO_CAP_SDDS``
++
++       -  The hardware accepts Sony Dynamic Digital Sound (SDDS).
++
++    -  ..
++
++       -  ``AUDIO_CAP_AC3``
++
++       -  The hardware accepts Dolby Digital ATSC A/52 audio.
++          Also known as AC-3.
 +
 +Description
 +~~~~~~~~~~~
 +
-+This system call opens a named OSD device (e.g.
-+``/dev/dvb/adapter?/osd0``) for subsequent use.
-+
-+Return Value
-+~~~~~~~~~~~~
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    -  ..
-+
-+       -  ``ENODEV``
-+
-+       -  Device driver not loaded/available.
-+
-+    -  ..
-+
-+       -  ``EINTERNAL``
-+
-+       -  Internal error.
-+
-+    -  ..
-+
-+       -  ``EBUSY``
-+
-+       -  Device or resource busy.
-+
-+    -  ..
-+
-+       -  ``EINVAL``
-+
-+       -  Invalid argument.
-+
-+
-+-----
-+
-+
-+close()
-+-------
-+
-+Synopsis
-+~~~~~~~~
-+
-+.. c:function:: int close(int fd)
-+
-+Arguments
-+~~~~~~~~~
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    -  ..
-+
-+       -  ``int fd``
-+
-+       -  :cspan:`1` File descriptor returned by a previous call
-+          to `open()`_ .
-+
-+Description
-+~~~~~~~~~~~
-+
-+This system call closes a previously opened OSD device.
-+
-+Return Value
-+~~~~~~~~~~~~
-+
-+.. flat-table::
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    -  ..
-+
-+       -  ``EBADF``
-+
-+       -  fd is not a valid open file descriptor.
++A call to `AUDIO_GET_CAPABILITIES`_ returns an unsigned integer with the
++following bits set according to the hardwares capabilities.
 =2D-
 2.34.0
 
