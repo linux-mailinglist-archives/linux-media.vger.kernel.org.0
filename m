@@ -2,31 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F28FD755951
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jul 2023 04:05:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31790755953
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jul 2023 04:05:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230339AbjGQCF3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 16 Jul 2023 22:05:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45872 "EHLO
+        id S230350AbjGQCFd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 16 Jul 2023 22:05:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbjGQCF2 (ORCPT
+        with ESMTP id S230225AbjGQCFd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 16 Jul 2023 22:05:28 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C944F9B
-        for <linux-media@vger.kernel.org>; Sun, 16 Jul 2023 19:05:20 -0700 (PDT)
+        Sun, 16 Jul 2023 22:05:33 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A7C1E58
+        for <linux-media@vger.kernel.org>; Sun, 16 Jul 2023 19:05:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nurfuerspam.de;
  s=s31663417; t=1689559511; x=1690164311; i=herdler@nurfuerspam.de;
- bh=Kb82KV5lTg8m8QoVc1gILeLjYFEsKRsN5m2rGmHJGjk=;
+ bh=csbjK34gRmbdR6Yt6EuftDpK7+w/STqOTQT/+l4j/Ms=;
  h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=N/TtVvfyemv+rXO2G0fjCM3UZ/GxdNgAK2DGS4OihtZcj1yJaRHG3lfRrfawRibfhiDIALN
- Tkf6a/+UVE1MnwUJ+cKehh+N+ek1iS4+TNQU5YukLcUE0xw4Vis4ZNGhY+cwyYCoyBZFsJiMh
- zKRhAZ/4x+9IqXO4veY0fNcCN48E4mCjcBYT0fe5w85eoaApWhW27OXO49R6Z/KGeFhzfIiUj
- pUwqRk9kucDYBsq3Cj2ufJBZKL/naE/9S54pwnS7oTWsf6tlj6M0obdZjyPrRVSxsuFWgtPkE
- o8QPtnLMA6OribmDAhOEarSA8h/eTDHm0/kQ7hoouDkiBkKVabaw==
+ b=gGO44juom2xKH8fKtp0fP6dVaSCozDM/OKeltH2gSkquou8BXjVNq0bfCyeoBPeOwI4J5/L
+ 5EwreBCNyT++DEv3Qyd6DKVH7O/9vM3XA4TOLgidn+v+w7vykuuHOfOG1iVFz7b9tuXsjRbd+
+ AV2uNJinibTHFTAYRzwEV/UAGrpmz7q2fZN1jUdZlsBuaFgOklkBjWyjDyB/lKDIdXzEGxfYu
+ Z0qajix8ePG1c422fFLtuK/6SBWITpVOJMZOlsRTJgSrPlUjJJBNQHxlhzlhjHwHB1Bpl71Yo
+ f4aJAc3mhhWf5bGfBMlovzygCUmrpSPGr+0rG673ejSw5zl0q8XQ==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from astro.haus ([217.113.179.15]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MwQTF-1q2jDe1mfV-00sQ8A; Mon, 17
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1M72oB-1qIm642sxD-008Zs8; Mon, 17
  Jul 2023 04:05:11 +0200
 From:   Stefan Herdler <herdler@nurfuerspam.de>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -35,119 +35,155 @@ Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Tomasz Maciej Nowak <tmn505@gmail.com>,
         Corinna Vinschen <vinschen@redhat.com>,
         Soeren Moch <smoch@web.de>
-Subject: [PATCH v3 0/6] Legacy DVB API: completion of documentation
-Date:   Mon, 17 Jul 2023 04:04:40 +0200
-Message-Id: <20230717020446.28877-1-herdler@nurfuerspam.de>
+Subject: [PATCH v3 1/6] Add documentation for legacy DVB decoder API
+Date:   Mon, 17 Jul 2023 04:04:41 +0200
+Message-Id: <20230717020446.28877-2-herdler@nurfuerspam.de>
 X-Mailer: git-send-email 2.34.0
-In-Reply-To: <20230327192826.65ae299d@sal.lan>
-References: 
+In-Reply-To: <20230717020446.28877-1-herdler@nurfuerspam.de>
+References: <20230717020446.28877-1-herdler@nurfuerspam.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:7Jlv80+TUTQkli00geyV4Lnux5lARPqxdRe5neLsDo1lX1jTtwa
- yKdro+pGX3etQW6aTrVsmE+mQKqZEymt/WXvGz932WAQh5uIgKoZ0EUtqa+dBngNHlFkxP8
- QbKeyyZM7vpiF1eVHBXClmJ7q3uHoMumEeB/T8U5dCHE+2u3I2LTwuFRsTvPZVgd1KuJs6G
- emVuzxEesdajYakgVeBeA==
-UI-OutboundReport: notjunk:1;M01:P0:b+sbG6KBl0Q=;DrQLCD8aJrSqlxJ6i57i0hIjRe+
- 2bSKOmVBAG4ZK5cK6BNaphIdtcy53bVNS5UyAHfPQPbekeHCCC90jJA816e/CkJTWmxXaKo/u
- m6H9bDH6R+8Dri0NQqFKO1FGKxz5PQrrAHuIEERp2P/7/YPhymstXoygi6ufU9hfSneujcioJ
- 7tZvRn4/ZRFEragspIVNiBxRVLbXNslMaLt5GBDu34nxijLwmVkL0n11UHH8BETV/ID8/Sj38
- nARP/HnHfEYNr+HSURrKvymISKwjZFg+UaCfFgE8Ji9mJaYhUMKwlHXuMY0mErqYYzuZjTneA
- s8SR9i1XX1qnJQepaubIxHCiXspwEPiY88njH3AN7vuisu8DXkflIpoqYWPKWcXFuZpHzzVcS
- +0DxcpiksKsiI4u7qMRCqHQiL/8UJGnFDlxK86oRE2hDAFAP+bAVYmepQQwSH2DKb3FctQELT
- YNIo6Ke5uHtkAwyQEpDgWaJYpuJTIApMJWoeD1jk8eLPqQsIvLw04skOqeduerXSJiLZ0kVHd
- MSVcgvpenh9Q5oM+tqftsziL+D+6kqkwx4o5aq6lG8yeuH9+ILNdEWaRNBV9Cj3c1oaZKTgxy
- JVbsh8b8UNVQRUJjQZO5mkK0o7JCq7VkSl7goCaDDazqNffgdypq1r/Uz14z/PWMTVIqRbJUh
- UzZSdcU2hTQyrotycH90DUHWOZRoC2YL40TBOLCZ/NFb5Wy+mGqxS8x2wDQssQ+Ja/HaJGXsU
- 22S8xgAtL1RO5xU8E6Rqd4ev8UyXYmng0f5UrBsTvwDNkNMPsjuZtoDGKZUI/gLuY20AVPxsm
- Chhh1Y87Gjz39I8a2GB/rDocv1dnUu0vRjrmdas+LTaDglRtItlDzDQQUsr7oUsgfN0dJpKQu
- YH1PlVz+r+w/117JxZsxhdU1Wz+2ixr83XgtYBYIJ84s+PbteSak/mvRh/nPzBpgCMmdpBhs0
- 4ksXYA==
-X-Spam-Status: No, score=-0.4 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
-        T_SCC_BODY_TEXT_LINE,T_SPF_TEMPERROR,URIBL_ABUSE_SURBL autolearn=no
-        autolearn_force=no version=3.4.6
+X-Provags-ID: V03:K1:c/ZK7yJ5fXttFEUwq2gib9MSyLM4XdP7U6MYpRu+D3uo/ctcnmQ
+ RoL6JLB9aNUAxD2/+jpAjE0wwBWAsZyljlSQNUdocJ5DxcTiowaHMBFHVJ37YXdieoXQ5/p
+ qyimm0CPjONlj/lxf+iWTlZuSTv/iHc7MGC0xwKfFOF4i3qdpwrn5Rq3bMBllUppKQIE/nI
+ PZWs9XWG6QorVAB7AZmRg==
+UI-OutboundReport: notjunk:1;M01:P0:/J+3w/1GjW8=;72GsUZVSOTEKi3XHgUIozaKHvpC
+ 5iFKxNFnGulNDEp6AODpF99ZYrrLjL2kgVrDmbh6C88d/6Pg/zibiz+FVowQ9v59LMgddNmTP
+ ptiePfn3CsMFbxVLcn+BsjNacvN2WApKv2K8t+hqN5rdZ8x2JOSfLaGYBeF7MKc9iyLyQb/yO
+ 3WmsXara3RxaFC2C9Kkg7sUtCXl7EtTQWHYvuFMvlRvpd9Cak6QAtVKyKwULcX0vH38ACx5CN
+ lNu7mm/YsilURMz2fNpdMlxn4UoN1v5Z7J5iei5wAJBR6pSoib2smCzL+so+QVZZP4yvTJWJB
+ OYhHEoymnFru2VfRdFsUl/nu3tm034xkwWDPvEgGf6O5RJ8CdPnEg3IYZYZ6CR+H8AL6sXplQ
+ F3KP4C0wybQeyRSoS84fvDinIBwIDGDjE6qy7EynjZF6LpBL54KjSHNtXWAAS2iXQU7PnPLka
+ vvau9y8SpD03ZwIGsyNWkJpK9prOmrN8buCmuzV4r+CkNrKy8DhgMd0EokoiKeJiEmJsXlfxl
+ jHV1Z+mHPLH1VdgZmxB5cByo6cpCOICcOzhlYq+ZJK55aHzlMS0TLWu0+hRDexm6C+dtiwKAz
+ rDzoqXC7AnMUd49GvaLgV6dyj1nP1fJXgAEZmEQlDH+HVTHdk5GG6uwRX8SmmaARPl5TybZzf
+ 6ZGzdU2h+DZN8NzzkV5/xASbPeuxAGC4tKbjzE4gshsGCO18w5ImYgeGZRzunuwPo+r4DBNMd
+ 6Et1qmNewgf+iZvERHbyC3ikPrIgUD4m84lgqJlozaY24sLavkiCjDwHJnbxjss9fcr1bzDkf
+ 82s+PlZTEmsC1+puM6PHnG32xB1N+CoCNAzHXaEkjvlS3W/EUterPv98Qy1a7EJC5xlYOPbS/
+ eCyHZawQks9SZZrQo7/zRVr9ebyDc1SgvVfHBcukuirdc1KuL9oVuSV+SZMz2zKhDn8XlEe9D
+ KjiA2Ok2+De1ffn3p7lNymEb3lI=
+X-Spam-Status: No, score=-0.5 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,NO_DNS_FOR_FROM,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_ABUSE_SURBL
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Changes since v2:
-* Split the patch into a patch series.
-* Incorporate the changes requested.
-* Style updates to better match the existing documentation.
-* And a lot of small fixes.
+Add new indexfile and link to it.
 
+Signed-off-by: Stefan Herdler <herdler@nurfuerspam.de>
+=2D--
 
-Hi Mauro,
+>> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+>
+> Please place it dual licensed with GFDL and GPL 2.0.
 
-it took a little longer then expected, but I didn't had much time in spare
-for this. I'm pretty much occupied by other things at the moment.
-The winter season would be better for things like this, but I try to
-finish it as quick as possible.
+Changed to GFDL OR GPL-2.0 like in "media/glossary.rst".
 
-I went through your mail point by point and I'm confident, that I was able
-to sort out your questions now. At least I don't see anything that need to
-be improved anymore.
-The work has been done in a lot of small blocks over a pretty long period
-after my daily work, mostly late at night. Despite double checking
-everything, I maybe still have missed something. I hope it is not too
-much.
-
-For usage it has been checked against the known projects using the DVB
-decoder APIs:
-* The AV7110 kernel driver.
-* The out of tree driver for the HD full featured cards.[1]
-* The "Enigma2" sources from openatv team.[2]
-  (The drivers of the boxes are binary only.)
-
-Possibly unused items have been listed in the comment of the patches.
-Please take this lists with a pinch of salt. With the number of items
-checked, it is pretty easy to miss an occurrence or have a false positive.
-Although I've done my best, there is still the chance that I've missed an
-use case.
-
-I tried to complete the documentation of this unused definition too.
-Most information had been collect anyway and writing it down wasn't that
-much of effort.
-
-Removing the definition and documentation later at once is always an
-option.
-I would prefer to do it this way, if something has to be removed.
-It is easier to revert the change in case of a regression.
-If necessary I can provide the patches too.
-
-Regards
-Stefan
-
-[1: https://github.com/s-moch/linux-saa716x]
-[2: https://github.com/openatv/enigma2/tree/master]
+GPL 2.0 is fine for me too, but the old documentation, my work is based on=
+, was GFDL.
+Can we just change the license?
+That's not mine to judge.
 
 
 
-Stefan Herdler (6):
-  Add documentation for legacy DVB decoder API
-  Add documentation for osd.h
-  Add documentation for audio.h (data types)
-  Add documentation for audio.h (function calls)
-  Add documentation for video.h (data types)
-  Add documentation for video.h (function calls)
-
- .../media/dvb/legacy_dvb_apis.rst             |    1 +
- .../media/dvb/legacy_dvb_audio.rst            | 1642 +++++++++++
- .../media/dvb/legacy_dvb_decoder_api.rst      |   61 +
- .../media/dvb/legacy_dvb_osd.rst              |  883 ++++++
- .../media/dvb/legacy_dvb_video.rst            | 2430 +++++++++++++++++
- 5 files changed, 5017 insertions(+)
- create mode 100644 Documentation/userspace-api/media/dvb/legacy_dvb_audio=
-.rst
+ .../media/dvb/legacy_dvb_apis.rst             |  1 +
+ .../media/dvb/legacy_dvb_decoder_api.rst      | 61 +++++++++++++++++++
+ 2 files changed, 62 insertions(+)
  create mode 100644 Documentation/userspace-api/media/dvb/legacy_dvb_decod=
 er_api.rst
- create mode 100644 Documentation/userspace-api/media/dvb/legacy_dvb_osd.r=
-st
- create mode 100644 Documentation/userspace-api/media/dvb/legacy_dvb_video=
-.rst
 
+diff --git a/Documentation/userspace-api/media/dvb/legacy_dvb_apis.rst b/D=
+ocumentation/userspace-api/media/dvb/legacy_dvb_apis.rst
+index b97d56ee543c..ffe8325749e5 100644
+=2D-- a/Documentation/userspace-api/media/dvb/legacy_dvb_apis.rst
++++ b/Documentation/userspace-api/media/dvb/legacy_dvb_apis.rst
+@@ -23,3 +23,4 @@ DVB-S2, DVB-T2, ISDB, etc.
+     :maxdepth: 1
+
+     frontend_legacy_dvbv3_api
++    legacy_dvb_decoder_api
+diff --git a/Documentation/userspace-api/media/dvb/legacy_dvb_decoder_api.=
+rst b/Documentation/userspace-api/media/dvb/legacy_dvb_decoder_api.rst
+new file mode 100644
+index 000000000000..f6e2f28b1fcb
+=2D-- /dev/null
++++ b/Documentation/userspace-api/media/dvb/legacy_dvb_decoder_api.rst
+@@ -0,0 +1,61 @@
++.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later OR GPL-2.0
++
++.. _legacy_dvb_decoder_api:
++
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
++Legacy DVB MPEG Decoder APIs
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
++
++.. _legacy_dvb_decoder_notes:
++
++General Notes
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++This API has originally been designed for DVB only and is therefore limit=
+ed to
++the :ref:`legacy_dvb_decoder_formats` used in such digital TV-broadcastsy=
+stems.
++
++To circumvent this limitations the more versatile :ref:`V4L2 <v4l2spec>` =
+API has
++been designed. Which replaces this part of the DVB API.
++
++Nevertheless there have been projects build around this API.
++To ensure compatibility this API is kept as it is.
++
++.. attention:: Do **not** use this API in new drivers!
++
++    For audio and video use the :ref:`V4L2 <v4l2spec>` and ALSA APIs.
++
++    Pipelines should be set up using the :ref:`Media Controller  API<medi=
+a_controller>`.
++
++Practically the decoders seem to be treated differently. The application =
+typically
++knows which decoder is in use or it is specially written for one decoder =
+type.
++Querying capabilities are rarely used because they are already known.
++
++
++.. _legacy_dvb_decoder_formats:
++
++Data Formats
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++The API has been designed for DVB and compatible broadcastsystems.
++Because of that fact the only supported data formats are ISO/IEC 13818-1
++compatible MPEG streams. The supported payloads may vary depending on the
++used decoder.
++
++Timestamps are always MPEG PTS as defined in ITU T-REC-H.222.0 /
++ISO/IEC 13818-1, if not otherwise noted.
++
++For storing recordings typically TS streams are used, in lesser extent PE=
+S.
++Both variants are commonly accepted for playback, but it may be driver de=
+pendent.
++
++
++
++
++Table of Contents
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++.. toctree::
++    :maxdepth: 2
++
++    legacy_dvb_video
++    legacy_dvb_audio
++    legacy_dvb_osd
 =2D-
 2.34.0
 
