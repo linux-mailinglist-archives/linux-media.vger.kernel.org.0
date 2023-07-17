@@ -2,142 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 72C127559B5
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jul 2023 04:41:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC7D97559CC
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jul 2023 05:03:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230280AbjGQCli (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 16 Jul 2023 22:41:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60180 "EHLO
+        id S230494AbjGQDCt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 16 Jul 2023 23:02:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229496AbjGQClh (ORCPT
+        with ESMTP id S229705AbjGQDCs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 16 Jul 2023 22:41:37 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 312CEA4;
-        Sun, 16 Jul 2023 19:41:36 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AB7A960F02;
-        Mon, 17 Jul 2023 02:41:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 048DCC433C7;
-        Mon, 17 Jul 2023 02:41:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689561695;
-        bh=BMRFKeXZlpIRSbPMYrVconDlclfefxaU6mHhh2wyjZ0=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=tC0pXdzAqzWC61pPDdl/Dly3pRxNGL9fN4BDm+nuS7/odvvaFkj3p+PHEJfH4KrjC
-         ivN6UF0bRGN3CSU0hlku6KpewVkw3N+ketF6UkIG8T5zgk46mrUAwJluS182IhS1FS
-         evtOZBgtvXSoKbg+V1ocHWiMxb8Iw1bJcQCByj2a+gEBiJ+nIRHCRT2+OfhxHniPnP
-         pvdKPUrRAZ9CT9efe2h1Ly+duTllVj8Cla61AWVPYtBFmfTjYesnWxHimYktLFmr0T
-         PwBpxm93RFEFiT7tMUIS4/zHBBH7BPN1HrTe8L9PoOJiL6rZr+vnsWTEMhycsqx6br
-         D3V282i3tMWeA==
-Message-ID: <12393cd2-4b09-4956-fff0-93ef3929ee37@kernel.org>
-Date:   Sun, 16 Jul 2023 19:41:28 -0700
+        Sun, 16 Jul 2023 23:02:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49D8410D
+        for <linux-media@vger.kernel.org>; Sun, 16 Jul 2023 20:02:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1689562920;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=UbJG4dHyZ5/q/VVWsWG+GOVp19fXI6CF1MdILq4BY4Q=;
+        b=O4G/UFjcm/cJuVjUInr6aPaCz8mSSChSepaarNLCpMjA+s/anNeZuiDpIdQBIqJCotlSgh
+        Q80/zTm6d16jY3A0YWUwjmnEDHusSoDrdpRI0nEzbIbiGkzyY2UCA6DcxHLvOehmrJt4Qh
+        bqLAiQc4Q71slUh/ei+qkG1ihFVZ53E=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-614-YjzX75z8NVqpFxeKdpSZrQ-1; Sun, 16 Jul 2023 23:01:58 -0400
+X-MC-Unique: YjzX75z8NVqpFxeKdpSZrQ-1
+Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-26337f5d2daso3158231a91.0
+        for <linux-media@vger.kernel.org>; Sun, 16 Jul 2023 20:01:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689562918; x=1692154918;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UbJG4dHyZ5/q/VVWsWG+GOVp19fXI6CF1MdILq4BY4Q=;
+        b=FZ6EP0jFsmi8spXqwgJdOxhO6pKbdg84rvdGJVu1BKIWohK51Nqb+HhfNpY3bWzg6c
+         Pt9GPT0X5xrsbMXATzpqNXSYP1CMUE+Sj5OaiV+FdUrmdqQHzreDwuy4ubmGC6gjpq8V
+         LfEy+9K3rdaM5tlufeSfVf7ltCVTWbCUgVhKdoQhA712/VT9kPgxpuO7QJzdJWUZIU1q
+         HU/UyZj7ntiQxv/QdWpP+YkXeL9WCFqhCC/ihnoP5u+5dSUuZpeIX5VK6LnTfqOPVNlu
+         XW4YPiVvwDU7qzxzVCoUQJPM2yfi3Mw75X/PxJ7g/gv7p8Kjl4mZ2e8EA6MJqK2Aw+xb
+         ZWsg==
+X-Gm-Message-State: ABy/qLbRS9ATmqSDIZYMNfaqvTZBjPtTs1ex/a6MeQNz8IV0t7qnJd5p
+        Au8Fw3YTC+oq0mmTvWBE2A3++IeOrfXf1CoYKeN32I3lsS+TkARFLRlWtWv8lWZiq1VlvBLdfW7
+        qrAAh61Vt/lwrsLfdid+aSCzoIWm17rPznctuMDA=
+X-Received: by 2002:a17:90a:6a82:b0:25e:abc9:3cb1 with SMTP id u2-20020a17090a6a8200b0025eabc93cb1mr10509105pjj.4.1689562917793;
+        Sun, 16 Jul 2023 20:01:57 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlHCoix+M+feetdiw/m8iebGWratbh4c0crQs1pPKpXlLg2pIXRiZlnnd7Ed1BSyEI0lfZxeeaD7ifehCYeKxxY=
+X-Received: by 2002:a17:90a:6a82:b0:25e:abc9:3cb1 with SMTP id
+ u2-20020a17090a6a8200b0025eabc93cb1mr10509091pjj.4.1689562917435; Sun, 16 Jul
+ 2023 20:01:57 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [RFC PATCH 00/10] Device Memory TCP
-Content-Language: en-US
-To:     Mina Almasry <almasrymina@google.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        netdev@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        David Ahern <dsahern@kernel.org>,
-        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-        Shuah Khan <shuah@kernel.org>, jgg@ziepe.ca
-References: <20230710223304.1174642-1-almasrymina@google.com>
-From:   Andy Lutomirski <luto@kernel.org>
-In-Reply-To: <20230710223304.1174642-1-almasrymina@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20230715170906.3627-1-hdegoede@redhat.com> <20230715170906.3627-3-hdegoede@redhat.com>
+In-Reply-To: <20230715170906.3627-3-hdegoede@redhat.com>
+From:   Kate Hsuan <hpa@redhat.com>
+Date:   Mon, 17 Jul 2023 11:01:46 +0800
+Message-ID: <CAEth8oG-Hae07g11miFQh0=_KY67ER4vc60L+G9NaGMa9ByqDA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] media: atomisp: Mark ia_css_isys_240?_init() static
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Yury Luneff <yury.lunev@gmail.com>,
+        Nable <nable.maininbox@googlemail.com>,
+        andrey.i.trufanov@gmail.com, Fabio Aiuto <fabioaiuto83@gmail.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        kernel test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 7/10/23 15:32, Mina Almasry wrote:
-> * TL;DR:
-> 
-> Device memory TCP (devmem TCP) is a proposal for transferring data to and/or
-> from device memory efficiently, without bouncing the data to a host memory
-> buffer.
+Hi Hans,
 
-(I'm writing this as someone who might plausibly use this mechanism, but 
-I don't think I'm very likely to end up working on the kernel side, 
-unless I somehow feel extremely inspired to implement it for i40e.)
+On Sun, Jul 16, 2023 at 1:09=E2=80=AFAM Hans de Goede <hdegoede@redhat.com>=
+ wrote:
+>
+> ia_css_isys_240?_init() are only used inside the C file where they are
+> declared, mark them as static fixing:
+>
+> drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c:24:20:
+>    warning: no previous prototype for 'ia_css_isys_2400_init'
+>    24 | input_system_err_t ia_css_isys_2400_init(void)
+>       |                    ^~~~~~~~~~~~~~~~~~~~~
+> drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c:87:20:
+>    warning: no previous prototype for 'ia_css_isys_2401_init'
+>    87 | input_system_err_t ia_css_isys_2401_init(void)
+>       |                    ^~~~~~~~~~~~~~~~~~~~~
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202307152046.rvhFGrbz-lkp@i=
+ntel.com/
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  .../staging/media/atomisp/pci/runtime/isys/src/isys_init.c    | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init=
+.c b/drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c
+> index 1a7b45bb4544..18bfe1010989 100644
+> --- a/drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c
+> +++ b/drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c
+> @@ -21,7 +21,7 @@
+>  #include "isys_dma_public.h"   /* isys2401_dma_set_max_burst_size() */
+>  #include "isys_irq.h"
+>
+> -input_system_err_t ia_css_isys_2400_init(void)
+> +static input_system_err_t ia_css_isys_2400_init(void)
+>  {
+>         backend_channel_cfg_t backend_ch0;
+>         backend_channel_cfg_t backend_ch1;
+> @@ -84,7 +84,7 @@ input_system_err_t ia_css_isys_2400_init(void)
+>         return error;
+>  }
+>
+> -input_system_err_t ia_css_isys_2401_init(void)
+> +static input_system_err_t ia_css_isys_2401_init(void)
+>  {
+>         ia_css_isys_csi_rx_lut_rmgr_init();
+>         ia_css_isys_ibuf_rmgr_init();
+> --
+> 2.41.0
+>
 
-I looked at these patches and the GVE tree, and I'm trying to wrap my 
-head around the data path.  As I understand it, for RX:
+Thank you for working on this.
 
-1. The GVE driver notices that the queue is programmed to use devmem, 
-and it programs the NIC to copy packet payloads to the devmem that has 
-been programmed.
-2. The NIC receives the packet and copies the header to kernel memory 
-and the payload to dma-buf memory.
-3. The kernel tells userspace where in the dma-buf the data is.
-4. Userspace does something with the data.
-5. Userspace does DONTNEED to recycle the memory and make it available 
-for new received packets.
+It looks good to me.
 
-Did I get this right?
-
-This seems a bit awkward if there's any chance that packets not intended 
-for the target device end up in the rxq.
-
-I'm wondering if a more capable if somewhat higher latency model could 
-work where the NIC stores received packets in its own device memory. 
-Then userspace (or the kernel or a driver or whatever) could initiate a 
-separate DMA from the NIC to the final target *after* reading the 
-headers.  Can the hardware support this?
-
-Another way of putting this is: steering received data to a specific 
-device based on the *receive queue* forces the logic selecting a 
-destination device to be the same as the logic selecting the queue.  RX 
-steering logic is pretty limited on most hardware (as far as I know -- 
-certainly I've never had much luck doing anything especially intelligent 
-with RX flow steering, and I've tried on a couple of different brands of 
-supposedly fancy NICs).  But Linux has very nice capabilities to direct 
-packets, in software, to where they are supposed to go, and it would be 
-nice if all that logic could just work, scalably, with device memory. 
-If Linux could examine headers *before* the payload gets DMAed to 
-wherever it goes, I think this could plausibly work quite nicely.  One 
-could even have an easy-to-use interface in which one directs a *socket* 
-to a PCIe device.  I expect, although I've never looked at the 
-datasheets, that the kernel could even efficiently make rx decisions 
-based on data in device memory on upcoming CXL NICs where device memory 
-could participate in the host cache hierarchy.
-
-My real ulterior motive is that I think it would be great to use an 
-ability like this for DPDK-like uses.  Wouldn't it be nifty if I could 
-open a normal TCP socket, then, after it's open, ask the kernel to 
-kindly DMA the results directly to my application memory (via udmabuf, 
-perhaps)?  Or have a whole VLAN or macvlan get directed to a userspace 
-queue, etc?
+Reviewed-by: Kate Hsuan <hpa@redhat.com>
 
 
-It also seems a bit odd to me that the binding from rxq to dma-buf is 
-established by programming the dma-buf.  This makes the security model 
-(and the mental model) awkward -- this binding is a setting on the 
-*queue*, not the dma-buf, and in a containerized or privilege-separated 
-system, a process could have enough privilege to make a dma-buf 
-somewhere but not have any privileges on the NIC.  (And may not even 
-have the NIC present in its network namespace!)
+--
+BR,
+Kate
 
---Andy
