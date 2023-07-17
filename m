@@ -2,125 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F154755FD3
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jul 2023 11:51:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6D74755FE3
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jul 2023 11:57:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230356AbjGQJvX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jul 2023 05:51:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52472 "EHLO
+        id S230039AbjGQJ5e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Jul 2023 05:57:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231293AbjGQJvQ (ORCPT
+        with ESMTP id S229780AbjGQJ5d (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jul 2023 05:51:16 -0400
-Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DD051A3;
-        Mon, 17 Jul 2023 02:51:15 -0700 (PDT)
-Received: by mail-io1-xd2a.google.com with SMTP id ca18e2360f4ac-78360b822abso171917839f.2;
-        Mon, 17 Jul 2023 02:51:15 -0700 (PDT)
+        Mon, 17 Jul 2023 05:57:33 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCDB0188
+        for <linux-media@vger.kernel.org>; Mon, 17 Jul 2023 02:57:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689587474; x=1692179474;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tcwB+50WnrsP8py0GmyCczQm2hmYLGk+1hGHK9Qssd8=;
-        b=H2COhlx61z8Ns4BSCqx04DRIvFD+dsah8oj7ScwfTlakaVfK/hmNgyBgCiEZV9wn49
-         lZnRqqSMNGzqDHsfko26Tvdcjvyv5rnEfk1DNATnd1BSJBNRMonWacSi7kVjl0RESo1u
-         K2vJPh3Asy9Iwt2WYiYU6J5/xjDKA9SIkdkFtNAcGPn6mO6yZZYyINZRVUXyq+iOjAJn
-         k+T4GCyqwrVEix9sUBEblydFtWxmzvWWNa2/qj8XIVisN1vP8fOjGM1ERjz55eIobWtS
-         7JZC6SAieh+l+26E9qWgi9cRFu1ERmFGu4dU7jaNzjMO4wbyRajs1wdvfPoszrnCwNU7
-         Y6ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689587474; x=1692179474;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tcwB+50WnrsP8py0GmyCczQm2hmYLGk+1hGHK9Qssd8=;
-        b=a3mO0B4Wn+vnKGHMK7gegs8gZv9JxwZTqKjG2TgRnq9s+Ly2krP7fs3X2sQMbV7EXy
-         Mbn2nkdN8+D01g0DA9zbNUGETdrmtJhGsQUibt28oGWssZ8/BI4hbkhwOzuAsjw1Mqx/
-         Lwvb4fZVnmE0JO2BFCI+37vYVuVbpCpJt4alKZROP+lYcRzCGWwmEOb+W/pNuBjkKjKx
-         ArVVeATpsy0rtpFqwtZKtObszKywIVTt3QzfuRTcR+4eh9MjBE6hgSwo+urMYC/pXJ5K
-         +ItYMvI+ufnSC4UB1YC/hOL25RyTGw0slclEufeLzC8IBuC9exMLoEkx5A5VzYJEycnt
-         Oj5w==
-X-Gm-Message-State: ABy/qLZE5MA4F658/caXPoDelUUfZKfOFzNzhCLgpeBCSitrtzuLRN8a
-        IT5MntGgbajeE6X1FTKcjea7nTQmnj4yxg==
-X-Google-Smtp-Source: APBJJlFdf/+zUrmvf62IEu/h0Ce8005lr+fBlUd78kDZAW2R9nniW9R9S7bI2n8dcGtTrzCuxGWMQQ==
-X-Received: by 2002:a5e:aa14:0:b0:786:4795:30c9 with SMTP id s20-20020a5eaa14000000b00786479530c9mr10485510ioe.20.1689587474435;
-        Mon, 17 Jul 2023 02:51:14 -0700 (PDT)
-Received: from JammyHuang-PC.aspeed.com ([118.99.208.177])
-        by smtp.gmail.com with ESMTPSA id g11-20020a02b70b000000b0042b3ff53458sm4376819jam.169.2023.07.17.02.51.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jul 2023 02:51:14 -0700 (PDT)
-From:   Jammy Huang <orbit.huang@gmail.com>
-X-Google-Original-From: Jammy Huang <jammy_huang@aspeedtech.com>
-To:     eajames@linux.ibm.com, mchehab@kernel.org, joel@jms.id.au,
-        andrew@aj.id.au, linux-media@vger.kernel.org,
-        openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Cc:     Jammy Huang <jammy_huang@aspeedtech.com>
-Subject: [PATCH v2] media: aspeed: Fix memory overwrite if timing is 1600x900
-Date:   Mon, 17 Jul 2023 17:51:11 +0800
-Message-Id: <20230717095111.1957-1-jammy_huang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1689587849; x=1721123849;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=k8AqfeTIT15pBQHKdrs1BtKxgX246yAD5CipWxKHC2M=;
+  b=VongPd1aEzn4XO4LMWZ2zbERwf8Y00jEL37lBgUKSDDDPv5QufeXG8SB
+   JpLzIkCh40PSnKsSBpqKczkyYFTLh1iFG4mg7X3dy+4xWsJY84gCv43kZ
+   EedJgA48P9h4sKcBsX8INTsV+bpDQHaCYTEJQisr+LTUxezgH3NbVmo3u
+   e/iHDC2PhVB4CMogTu/eCysZzrrkBnhN9+pSm0nUIc2Wgvh6blL2cWreF
+   M5tDgv8RwYjYAp9pZmWIh1e/+6F90DWiYAlfSA+yzSLFO7E34plBgZm6S
+   4FwhvnqJrp7Pxm7ZX6JBrER9AJlKbI0xDILIOx1PfvoXYebwimZcS5hIp
+   Q==;
+X-IronPort-AV: E=Sophos;i="6.01,211,1684792800"; 
+   d="scan'208";a="31960340"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 17 Jul 2023 11:57:27 +0200
+Received: from steina-w.localnet (unknown [10.123.53.21])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 7DFBB280078;
+        Mon, 17 Jul 2023 11:57:26 +0200 (CEST)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Tim Harvey <tharvey@gateworks.com>
+Cc:     Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Linux ARM Mailing List <linux-arm-kernel@lists.infradead.org>,
+        Fabio Estevam <festevam@gmail.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Schrempf Frieder <frieder.schrempf@kontron.de>
+Subject: Re: media: imx: imx7-media-csi: Get rid of superfluous call to imx7_csi_mbus_fm t_to_pix_fmt
+Date:   Mon, 17 Jul 2023 11:57:26 +0200
+Message-ID: <2290635.ElGaqSPkdT@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <CAJ+vNU0BOVLTL17ofgHwtexbpuMYwH_aGUC==EXABUtHHiv_ag@mail.gmail.com>
+References: <CAJ+vNU0BOVLTL17ofgHwtexbpuMYwH_aGUC==EXABUtHHiv_ag@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When capturing 1600x900, system could crash when system memory usage is
-tight.
+Hi Tim,
 
-The way to reproduce this issue:
-1. Use 1600x900 to display on host
-2. Mount ISO through 'Virtual media' on OpenBMC's web
-3. Run script as below on host to do sha continuously
-  #!/bin/bash
-  while [ [1] ];
-  do
-	find /media -type f -printf '"%h/%f"\n' | xargs sha256sum
-  done
-4. Open KVM on OpenBMC's web
+Am Freitag, 14. Juli 2023, 03:34:15 CEST schrieb Tim Harvey:
+> Alexander,
+>=20
+> I found that commit 6f482c4729d9: ("media: imx: imx7-media-csi: Get
+> rid of superfluous call to imx7_csi_mbus_fmt_to_pix_fmt") introduced
+> an issue causing me to not be able to capture anymore on an imx8mm
+> with an imx219 camera.
+>=20
+> I'm using a RaspberryPi Camera v2 which has an IMX219 8MP camera module:
+> - https://datasheets.raspberrypi.com/camera/camera-v2-schematics.pdf
+> - has its own on-board 24MHz osc so no clock required from baseboard
+> - pin 11 enables 1.8V and 2.8V LDO which is connected to a GPIO I use
+> as a regulator enable
+>=20
+> I'm using the imx8mm-venice-gw72xx-0x-imx219 dt overlay [1] to test this.
+>=20
+> Here is some additional information about how I'm using the camera module:
+> # cat /sys/bus/media/devices/media*/model
+> imx-media
+> hantro-vpu
+> hantro-vpu
+> # cat /sys/class/video4linux/video*/name
+> csi capture
+> nxp,imx8mm-vpu-g1-dec
+> nxp,imx8mq-vpu-g2-dec
+> # enable imx219 to csi link
+> media-ctl --reset
+> media-ctl -l "'imx219 2-0010':0 -> 'csis-32e30000.mipi-csi':0 [1]"
+> # configure for 640x480 raw8
+> media-ctl -v -V "'imx219 2-0010':0 [fmt:SRGGB8/640x480 field:none]"
+> media-ctl -v -V "'csis-32e30000.mipi-csi':0 [fmt:SRGGB8/640x480 field:non=
+e]"
+> media-ctl -v -V "'csi':0 [fmt:SRGGB8/640x480 field:none]"
+> # configure for RGGB (8-bit bayer), 640x480 resolution
+> v4l2-ctl --device /dev/video0
+> --set-fmt-video=3Dwidth=3D640,height=3D480,pixelformat=3DRGGB --verbose
+>=20
+> before commit 6f482c4729d9: ("media: imx: imx7-media-csi: Get rid of
+> superfluous call to imx7_csi_mbus_fmt_to_pix_fmt") this would report
+> back 640x480 resolution:
+> VIDIOC_QUERYCAP: ok
+> VIDIOC_G_FMT: ok
+> VIDIOC_S_FMT: ok
+> Format Video Capture:
+>         Width/Height      : 640/480
+>         Pixel Format      : 'RGGB' (8-bit Bayer RGRG/GBGB)
+>         Field             : None
+>         Bytes per Line    : 640
+>         Size Image        : 307200
+>         Colorspace        : Default
+>         Transfer Function : Default (maps to Rec. 709)
+>         YCbCr/HSV Encoding: Default (maps to ITU-R 601)
+>         Quantization      : Default (maps to Full Range)
+>         Flags             :
+>=20
+> And after the commit it reports back an invalid 768x480 resolution:
+> VIDIOC_QUERYCAP: ok
+> VIDIOC_G_FMT: ok
+> VIDIOC_S_FMT: ok
+> Format Video Capture:
+>         Width/Height      : 768/480
+>         Pixel Format      : 'RGGB' (8-bit Bayer RGRG/GBGB)
+>         Field             : None
+>         Bytes per Line    : 768
+>         Size Image        : 368640
+>         Colorspace        : Default
+>         Transfer Function : Default (maps to Rec. 709)
+>         YCbCr/HSV Encoding: Default (maps to ITU-R 601)
+>         Quantization      : Default (maps to Full Range)
+>         Flags             :
+>=20
+> This resolution and frame size mis-match causes issues for example
+> when using gstreamer to capture and stream frames.
 
-The size of macro block captured is 8x8. Therefore, we should make sure
-the height of src-buf is 8 aligned to fix this issue.
+Oh, that's weird. Can you check what the call to v4l_bound_align_image()=20
+inside __imx7_csi_video_try_fmt() is actually doing? Check walign, width=20
+before and after the call. From a glance that seems to be the only way widt=
+h=20
+could be modified.
 
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
----
- v2 changes
-  - Add how to reproduce this issue.
----
- drivers/media/platform/aspeed/aspeed-video.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> I noticed you have several outstanding patches pending for
+> imx7-media-csi... perhaps there is something there you already know of
+> that addresses this issue?
 
-diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
-index 374eb7781936..14594f55a77f 100644
---- a/drivers/media/platform/aspeed/aspeed-video.c
-+++ b/drivers/media/platform/aspeed/aspeed-video.c
-@@ -1130,7 +1130,7 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
- static void aspeed_video_set_resolution(struct aspeed_video *video)
- {
- 	struct v4l2_bt_timings *act = &video->active_timings;
--	unsigned int size = act->width * act->height;
-+	unsigned int size = act->width * ALIGN(act->height, 8);
- 
- 	/* Set capture/compression frame sizes */
- 	aspeed_video_calc_compressed_size(video, size);
-@@ -1147,7 +1147,7 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
- 		u32 width = ALIGN(act->width, 64);
- 
- 		aspeed_video_write(video, VE_CAP_WINDOW, width << 16 | act->height);
--		size = width * act->height;
-+		size = width * ALIGN(act->height, 8);
- 	} else {
- 		aspeed_video_write(video, VE_CAP_WINDOW,
- 				   act->width << 16 | act->height);
+There nothing pending AFAICS. Everything has been integrated into linux-nex=
+t=20
+at least.
 
-base-commit: 2605e80d3438c77190f55b821c6575048c68268e
--- 
-2.25.1
+Best regards,
+Alexander
+
+> best regards,
+>=20
+> Tim
+> [1]
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/a=
+rc
+> h/arm64/boot/dts/freescale/imx8mm-venice-gw72xx-0x-imx219.dtso
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
