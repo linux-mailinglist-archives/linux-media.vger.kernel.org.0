@@ -2,204 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D8EE7755FF1
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jul 2023 12:00:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F791756059
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jul 2023 12:24:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230318AbjGQKAs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jul 2023 06:00:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56594 "EHLO
+        id S230425AbjGQKY1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Jul 2023 06:24:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229652AbjGQKAq (ORCPT
+        with ESMTP id S230306AbjGQKY0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jul 2023 06:00:46 -0400
-Received: from mail.208.org (unknown [183.242.55.162])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B902186
-        for <linux-media@vger.kernel.org>; Mon, 17 Jul 2023 03:00:44 -0700 (PDT)
-Received: from mail.208.org (email.208.org [127.0.0.1])
-        by mail.208.org (Postfix) with ESMTP id 4R4Hdj170RzBR9sV
-        for <linux-media@vger.kernel.org>; Mon, 17 Jul 2023 18:00:41 +0800 (CST)
-Authentication-Results: mail.208.org (amavisd-new); dkim=pass
-        reason="pass (just generated, assumed good)" header.d=208.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
-        content-transfer-encoding:content-type:message-id:user-agent
-        :references:in-reply-to:subject:to:from:date:mime-version; s=
-        dkim; t=1689588041; x=1692180042; bh=czwbeW8H49F0gfKBw9D02MCpsic
-        pEDfqhcKbVAk1Tqg=; b=WHm9+V+njyz8yddNKxintwUkzFe1jhBdNitMwxR7a4n
-        gI0En+IzolFIpoivVGajsuqgirV9aYBSwBvC4rV3ZtUFUq0Cvj2W73fVyuJtUTxx
-        yAYb/Q2LfqK0KC7qXIwYRB/f6683j7UqnVDND0oKEdNbTEl7FMpJdKzoebiDBG4B
-        Lq02gxxjmh7bBemD1HoBwPI12b2jSOn7E3N4QPi+Adh5z4b6CW5qb8zRvNzOMEyw
-        OwGnswa0cGYMjr60rk+q1jlwu/6/6VPhsHTJreEgzUppWaVGW7LngWDte3HCcDvp
-        4hDzGyjVrWVWvUuko9fFZ1aMdS7Gx1Te0eOzcaOkLtA==
-X-Virus-Scanned: amavisd-new at mail.208.org
-Received: from mail.208.org ([127.0.0.1])
-        by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id UYExBBoudZ5O for <linux-media@vger.kernel.org>;
-        Mon, 17 Jul 2023 18:00:41 +0800 (CST)
-Received: from localhost (email.208.org [127.0.0.1])
-        by mail.208.org (Postfix) with ESMTPSA id 4R4Hdh6T7NzBR7b5;
-        Mon, 17 Jul 2023 18:00:40 +0800 (CST)
+        Mon, 17 Jul 2023 06:24:26 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 683021BE
+        for <linux-media@vger.kernel.org>; Mon, 17 Jul 2023 03:24:25 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkzdf0gkyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4506:4f15::1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4R4J9217X1zyTs;
+        Mon, 17 Jul 2023 13:24:21 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1689589463;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=V7hh6AkdtGtk9LsIq45ZVnSVk2WFDPhUiEjlaJwVm9Q=;
+        b=y+AXP5dZUl6UoGxuZPdtFc8ReVDFJ5dcydO+Vt64dIlKuHl6vd3x/p8WbIaBzxx6v/L2B7
+        CBznR+0EP0c9ucJLcCjm3eOs0Gr0mL4mHRMVNUtBmXMO6q058IsVyS9yoiwgt6dmq6uEyg
+        Stwp5D/TWMFWxgUhWFrNV+kyG1+qR3I=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1689589463;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=V7hh6AkdtGtk9LsIq45ZVnSVk2WFDPhUiEjlaJwVm9Q=;
+        b=sSgFgr0uIcddOnDhtPJvlaSRYLJHpGQjjBMFRRLgWtvQr+z99ak4kTB6+X9RSm+VA6/w6B
+        KK60TGVwZV1o/0lKAoAbzhP5/ywWyNo5RCe9DfGpG/4rGKbIdtvfA8kbNVXWT/x1FcxewH
+        GsFrrDhI3vcH0JMFg/DSE6aUCMxAhao=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1689589463; a=rsa-sha256; cv=none;
+        b=jhUnRtdMSun3EA0rOuhyIdqJPqOBE1sY2uwYFqgoAEnpIIJ+G7R1eM+kmTAYgF3fNGcDso
+        suJQzupbf04080KSxXm0sgpXyjzDiNRPqzI4yFh+dGZqNxDgkYRwtP0ZMI5ZT3MiY4vM9r
+        77zjAkmcyPnlPjiTWOTbbhAIiRuizX0=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 66C74634C92;
+        Mon, 17 Jul 2023 13:24:21 +0300 (EEST)
+Date:   Mon, 17 Jul 2023 10:24:21 +0000
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v3 2/2] Documentation: v4l: Exposure/gain for camera
+ sensor
+Message-ID: <ZLUW1eBTH3GpnSlW@valkosipuli.retiisi.eu>
+References: <20230710132240.7864-1-jacopo.mondi@ideasonboard.com>
+ <20230710132240.7864-3-jacopo.mondi@ideasonboard.com>
 MIME-Version: 1.0
-Date:   Mon, 17 Jul 2023 18:00:40 +0800
-From:   sunran001@208suo.com
-To:     mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: stv0299: add missing spaces before '*' and remove
- spaces after '*'
-In-Reply-To: <20230717095932.389-1-xujianghui@cdjrlc.com>
-References: <20230717095932.389-1-xujianghui@cdjrlc.com>
-User-Agent: Roundcube Webmail
-Message-ID: <006749faebbc8d727076152d7e9d1575@208suo.com>
-X-Sender: sunran001@208suo.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,RDNS_NONE,SPF_HELO_FAIL,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230710132240.7864-3-jacopo.mondi@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add missing spaces to clear checkpatch errors.
+Hi Jacopo,
 
-ERROR: "foo* bar" should be "foo *bar"
+On Mon, Jul 10, 2023 at 03:22:40PM +0200, Jacopo Mondi wrote:
+> Document the suggested way to exposure controls for exposure and gain
+> for camera sensor drivers.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> ---
+>  .../driver-api/media/camera-sensor.rst        | 27 +++++++++++++++++++
+>  1 file changed, 27 insertions(+)
+> 
+> diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+> index cd915ca119ea..67fe77b1edb9 100644
+> --- a/Documentation/driver-api/media/camera-sensor.rst
+> +++ b/Documentation/driver-api/media/camera-sensor.rst
+> @@ -189,3 +189,30 @@ the ``V4L2_CID_VFLIP`` and ``V4L2_CID_HFLIP`` controls with the
+>  a flip can potentially change the output buffer content layout. Flips should
+>  also be taken into account when enumerating and handling media bus formats
+>  on the camera sensor source pads.
+> +
+> +Exposure and Gain Control
+> +-------------------------
+> +
+> +Camera sensor drivers that allow applications to control the image exposure
+> +and gain should do so by exposing dedicated controls to applications.
+> +
+> +Exposure time is controlled by registering the ``V4L2_CID_EXPOSURE`` control.
+> +The control definition does not specify a unit to allow maximum flexibility
+> +for multiple device types, but when used for camera sensor drivers it should be
+> +expressed in unit of lines whenever possible.
 
-Signed-off-by: Ran Sun <sunran001@208suo.com>
----
-  drivers/media/dvb-frontends/stv0299.c | 28 +++++++++++++--------------
-  1 file changed, 14 insertions(+), 14 deletions(-)
+This part of the documentation applies to both raw and SoC cameras.
 
-diff --git a/drivers/media/dvb-frontends/stv0299.c 
-b/drivers/media/dvb-frontends/stv0299.c
-index b5263a0ee5aa..f933928eb836 100644
---- a/drivers/media/dvb-frontends/stv0299.c
-+++ b/drivers/media/dvb-frontends/stv0299.c
-@@ -82,9 +82,9 @@ static int stv0299_writeregI (struct stv0299_state* 
-state, u8 reg, u8 data)
-      return (ret != 1) ? -EREMOTEIO : 0;
-  }
+Should the exposure unit be something more user-friendly for SoC cameras?
 
--static int stv0299_write(struct dvb_frontend* fe, const u8 buf[], int 
-len)
-+static int stv0299_write(struct dvb_frontend *fe, const u8 buf[], int 
-len)
-  {
--    struct stv0299_state* state = fe->demodulator_priv;
-+    struct stv0299_state *state = fe->demodulator_priv;
+We have two exposure controls now, V4L2_CID_EXPOSURE and
+V4L2_CID_EXPOSURE_ABSOLUTE. The former doesn't specity a unit whereas the
+latter suggests the unit of 100 µs.
 
-      if (len != 2)
-          return -EINVAL;
-@@ -92,7 +92,7 @@ static int stv0299_write(struct dvb_frontend* fe, 
-const u8 buf[], int len)
-      return stv0299_writeregI(state, buf[0], buf[1]);
-  }
+As exposure is specific to cameras, I think at least a part of this should
+make it to the controls documentation. The UVC, for instance, uses
+EXPOSURE_ABSOLUTE.
 
--static u8 stv0299_readreg (struct stv0299_state* state, u8 reg)
-+static u8 stv0299_readreg (struct stv0299_state *state, u8 reg)
-  {
-      int ret;
-      u8 b0 [] = { reg };
-@@ -109,7 +109,7 @@ static u8 stv0299_readreg (struct stv0299_state* 
-state, u8 reg)
-      return b1[0];
-  }
+Could we document V4L2_CID_EXPOSURE is in lines (if possible)?
 
--static int stv0299_readregs (struct stv0299_state* state, u8 reg1, u8 
-*b, u8 len)
-+static int stv0299_readregs (struct stv0299_state *state, u8 reg1, u8 
-*b, u8 len)
-  {
-      int ret;
-      struct i2c_msg msg [] = { { .addr = state->config->demod_address, 
-.flags = 0, .buf = &reg1, .len = 1 },
-@@ -177,7 +177,7 @@ static enum fe_code_rate stv0299_get_fec(struct 
-stv0299_state *state)
-      return fec_tab [index];
-  }
+> +
+> +To convert lines into units of time, the total line length (visible and
+> +not visible pixels) has to be divided by the pixel rate::
+> +
+> +        line duration = total line length / pixel rate
+> +                      = (image width + horizontal blanking) / pixel rate
+> +
+> +Camera sensor driver should try whenever possible to distinguish between the
+> +analogue and digital gain control functions. Analogue gain is a multiplication
+> +factor applied to all color channels on the pixel array before they get
+> +converted into the digital domain. It should be made controllable by
 
--static int stv0299_wait_diseqc_fifo (struct stv0299_state* state, int 
-timeout)
-+static int stv0299_wait_diseqc_fifo (struct stv0299_state *state, int 
-timeout)
-  {
-      unsigned long start = jiffies;
+The analogue gain may not be linear. This depends on the sensor. I'd thus
+drop the wording related to multiplication factor.
 
-@@ -194,7 +194,7 @@ static int stv0299_wait_diseqc_fifo (struct 
-stv0299_state* state, int timeout)
-      return 0;
-  }
+> +registering the ``V4L2_CID_ANALOGUE_GAIN`` control, expressed as a device
+> +specific gain code. Digital gain control is optional and should be exposed to
+> +applications by registering ``V4L2_CID_DIGITAL_GAIN``. Camera sensor drivers are
+> +discouraged from using ``V4L2_CID_GAIN`` as it doesn't allow differentiation of
+> +analogue vs digital gain.
 
--static int stv0299_wait_diseqc_idle (struct stv0299_state* state, int 
-timeout)
-+static int stv0299_wait_diseqc_idle (struct stv0299_state *state, int 
-timeout)
-  {
-      unsigned long start = jiffies;
+-- 
+Kind regards,
 
-@@ -211,9 +211,9 @@ static int stv0299_wait_diseqc_idle (struct 
-stv0299_state* state, int timeout)
-      return 0;
-  }
-
--static int stv0299_set_symbolrate (struct dvb_frontend* fe, u32 srate)
-+static int stv0299_set_symbolrate (struct dvb_frontend *fe, u32 srate)
-  {
--    struct stv0299_state* state = fe->demodulator_priv;
-+    struct stv0299_state *state = fe->demodulator_priv;
-      u64 big = srate;
-      u32 ratio;
-
-@@ -229,7 +229,7 @@ static int stv0299_set_symbolrate (struct 
-dvb_frontend* fe, u32 srate)
-      return state->config->set_symbol_rate(fe, srate, ratio);
-  }
-
--static int stv0299_get_symbolrate (struct stv0299_state* state)
-+static int stv0299_get_symbolrate (struct stv0299_state *state)
-  {
-      u32 Mclk = state->config->mclk / 4096L;
-      u32 srate;
-@@ -261,10 +261,10 @@ static int stv0299_get_symbolrate (struct 
-stv0299_state* state)
-      return srate;
-  }
-
--static int stv0299_send_diseqc_msg (struct dvb_frontend* fe,
-+static int stv0299_send_diseqc_msg (struct dvb_frontend *fe,
-                      struct dvb_diseqc_master_cmd *m)
-  {
--    struct stv0299_state* state = fe->demodulator_priv;
-+    struct stv0299_state *state = fe->demodulator_priv;
-      u8 val;
-      int i;
-
-@@ -295,7 +295,7 @@ static int stv0299_send_diseqc_msg (struct 
-dvb_frontend* fe,
-  static int stv0299_send_diseqc_burst(struct dvb_frontend *fe,
-                       enum fe_sec_mini_cmd burst)
-  {
--    struct stv0299_state* state = fe->demodulator_priv;
-+    struct stv0299_state *state = fe->demodulator_priv;
-      u8 val;
-
-      dprintk ("%s\n", __func__);
-@@ -323,7 +323,7 @@ static int stv0299_send_diseqc_burst(struct 
-dvb_frontend *fe,
-  static int stv0299_set_tone(struct dvb_frontend *fe,
-                  enum fe_sec_tone_mode tone)
-  {
--    struct stv0299_state* state = fe->demodulator_priv;
-+    struct stv0299_state *state = fe->demodulator_priv;
-      u8 val;
-
-      if (stv0299_wait_diseqc_idle (state, 100) < 0)
-@@ -346,7 +346,7 @@ static int stv0299_set_tone(struct dvb_frontend *fe,
-  static int stv0299_set_voltage(struct dvb_frontend *fe,
-                     enum fe_sec_voltage voltage)
-  {
--    struct stv0299_state* state = fe->demodulator_priv;
-+    struct stv0299_state *state = fe->demodulator_priv;
-      u8 reg0x08;
-      u8 reg0x0c;
+Sakari Ailus
