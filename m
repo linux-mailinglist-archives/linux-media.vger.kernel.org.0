@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C4A37565F4
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jul 2023 16:12:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 176D9756632
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jul 2023 16:19:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232078AbjGQOMm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jul 2023 10:12:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40578 "EHLO
+        id S229986AbjGQOTI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Jul 2023 10:19:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231486AbjGQOMl (ORCPT
+        with ESMTP id S229630AbjGQOTD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jul 2023 10:12:41 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB2E2F7;
-        Mon, 17 Jul 2023 07:12:37 -0700 (PDT)
+        Mon, 17 Jul 2023 10:19:03 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3871398;
+        Mon, 17 Jul 2023 07:19:02 -0700 (PDT)
 Received: from ideasonboard.com (mob-5-90-54-150.net.vodafone.it [5.90.54.150])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 182F32F5E;
-        Mon, 17 Jul 2023 16:11:43 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A353D2F5E;
+        Mon, 17 Jul 2023 16:18:07 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1689603103;
-        bh=u6odHX0nTVyZUtqhWM4gMwha5SYTPCaQgQvA/jKjeCg=;
+        s=mail; t=1689603488;
+        bh=tW5wrM9YsFTrnEVtCnzTgjkk4JqW4DwYkYsrUAcNsQ0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Wvb5hnEzYRJW4AjSyp7cwTL/t/StTxHMLbGH6JTsuNe4zl3ZiqEmonthk1hos7Ygs
-         PRS32OCUfR6TmiGn84br+lOkS9H61Oe4hgXbctgwRM9pNSDwMsYH738oye+MUN2gTJ
-         OkZjNYQpQX2oY3Sf5QpX1V28hQvQDwSYVU2WHlJ8=
-Date:   Mon, 17 Jul 2023 16:12:31 +0200
+        b=iq0u0I1Z6Q+aVtA0B4w0WU/UaE9k98Fmt8c/O+TfbUabkn0p1FY/qoeivrhhooy09
+         P25fROaSItCluwKbwGdSsgERlz18gDaIelrVdTQJlB+Uf6CLZBbyMCR6RYSOp1IMSW
+         YKVVWTYtoHd6ccjlCvtN4WTQrfl4PuVXVX71xeTs=
+Date:   Mon, 17 Jul 2023 16:18:56 +0200
 From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -33,15 +33,15 @@ Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH 2/3] media: subdev: Constify
- v4l2_subdev_set_routing_with_fmt() param
-Message-ID: <kcantpfvjrinnzanv42woj2wlfqvedvzehzuabdmcuq2uvvwkn@3rcl2w2vvvrp>
+Subject: Re: [PATCH 3/3] media: subdev: Add debug prints to
+ enable/disable_streams
+Message-ID: <6yvjiklxzxnlu6dxbp2pobpwgolomyqeqhuhhqax3kxccqirgr@x5ipfgxsbp6q>
 References: <20230619112707.239565-1-tomi.valkeinen@ideasonboard.com>
- <20230619112707.239565-2-tomi.valkeinen@ideasonboard.com>
+ <20230619112707.239565-3-tomi.valkeinen@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230619112707.239565-2-tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20230619112707.239565-3-tomi.valkeinen@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -54,45 +54,62 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Tomi
 
-On Mon, Jun 19, 2023 at 02:27:06PM +0300, Tomi Valkeinen wrote:
-> The routing parameter of v4l2_subdev_set_routing_with_fmt() is missing
-> 'const'. Add it.
+On Mon, Jun 19, 2023 at 02:27:07PM +0300, Tomi Valkeinen wrote:
+> It is often useful to see when streaming for a device is being enabled
+> or disabled. Add debug prints for this to v4l2_subdev_enable_streams()
+> and v4l2_subdev_disable_streams().
 >
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-subdev.c | 14 ++++++++++++--
+>  1 file changed, 12 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index 73f716a42569..0f86a165b202 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -1977,11 +1977,16 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
+>  		goto done;
+>  	}
+>
+> +	dev_dbg(dev, "enable streams %u:%#llx\n", pad, streams_mask);
+
+With the use of the # incantation clarified offline:
 
 Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-> ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 2 +-
->  include/media/v4l2-subdev.h           | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+
+> +
+>  	/* Call the .enable_streams() operation. */
+>  	ret = v4l2_subdev_call(sd, pad, enable_streams, state, pad,
+>  			       streams_mask);
+> -	if (ret)
+> +	if (ret) {
+> +		dev_dbg(dev, "enable streams %u:%#llx failed: %d\n", pad,
+> +			streams_mask, ret);
+>  		goto done;
+> +	}
 >
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index c1ac6d7a63d2..73f716a42569 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -1590,7 +1590,7 @@ EXPORT_SYMBOL_GPL(__v4l2_subdev_next_active_route);
+>  	/* Mark the streams as enabled. */
+>  	for (i = 0; i < state->stream_configs.num_configs; ++i) {
+> @@ -2089,11 +2094,16 @@ int v4l2_subdev_disable_streams(struct v4l2_subdev *sd, u32 pad,
+>  		goto done;
+>  	}
 >
->  int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
->  				     struct v4l2_subdev_state *state,
-> -				     struct v4l2_subdev_krouting *routing,
-> +				     const struct v4l2_subdev_krouting *routing,
->  				     const struct v4l2_mbus_framefmt *fmt)
->  {
->  	struct v4l2_subdev_stream_configs *stream_configs;
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index b325df0d54d6..ca0bacb88537 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -1532,7 +1532,7 @@ __v4l2_subdev_next_active_route(const struct v4l2_subdev_krouting *routing,
->   */
->  int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
->  				     struct v4l2_subdev_state *state,
-> -				     struct v4l2_subdev_krouting *routing,
-> +				     const struct v4l2_subdev_krouting *routing,
->  				     const struct v4l2_mbus_framefmt *fmt);
+> +	dev_dbg(dev, "disable streams %u:%#llx\n", pad, streams_mask);
+> +
+>  	/* Call the .disable_streams() operation. */
+>  	ret = v4l2_subdev_call(sd, pad, disable_streams, state, pad,
+>  			       streams_mask);
+> -	if (ret)
+> +	if (ret) {
+> +		dev_dbg(dev, "disable streams %u:%#llx failed: %d\n", pad,
+> +			streams_mask, ret);
+>  		goto done;
+> +	}
 >
->  /**
+>  	/* Mark the streams as disabled. */
+>  	for (i = 0; i < state->stream_configs.num_configs; ++i) {
 > --
 > 2.34.1
 >
