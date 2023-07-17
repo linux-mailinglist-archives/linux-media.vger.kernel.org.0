@@ -2,114 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 176D9756632
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jul 2023 16:19:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0E22756699
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jul 2023 16:39:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229986AbjGQOTI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jul 2023 10:19:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46312 "EHLO
+        id S230263AbjGQOj2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Jul 2023 10:39:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229630AbjGQOTD (ORCPT
+        with ESMTP id S229517AbjGQOj1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jul 2023 10:19:03 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3871398;
-        Mon, 17 Jul 2023 07:19:02 -0700 (PDT)
-Received: from ideasonboard.com (mob-5-90-54-150.net.vodafone.it [5.90.54.150])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A353D2F5E;
-        Mon, 17 Jul 2023 16:18:07 +0200 (CEST)
+        Mon, 17 Jul 2023 10:39:27 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 657B2E3;
+        Mon, 17 Jul 2023 07:39:26 -0700 (PDT)
+Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D20C62F5E;
+        Mon, 17 Jul 2023 16:38:31 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1689603488;
-        bh=tW5wrM9YsFTrnEVtCnzTgjkk4JqW4DwYkYsrUAcNsQ0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=iq0u0I1Z6Q+aVtA0B4w0WU/UaE9k98Fmt8c/O+TfbUabkn0p1FY/qoeivrhhooy09
-         P25fROaSItCluwKbwGdSsgERlz18gDaIelrVdTQJlB+Uf6CLZBbyMCR6RYSOp1IMSW
-         YKVVWTYtoHd6ccjlCvtN4WTQrfl4PuVXVX71xeTs=
-Date:   Mon, 17 Jul 2023 16:18:56 +0200
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+        s=mail; t=1689604712;
+        bh=yO7sDmvZQbm+SMHldyvvSQ8PrdWk7+FzL/YA7nKQtwk=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=EGINKCysd7Dg/aRCUxecYGFYCDaLybG+uscE//1jMeYhCpxRp919e6nxlKVO5yapg
+         2LWCpegCKuUbKXcaom24H29DY7b0aRGrrV5vF+OnkPgI/Zri3yPDanb9SfWutbvmV7
+         jDvP0OxiE1Rwizmlf1+SdxNaK1V9M9XobwbyUhKY=
+Message-ID: <043ce183-921c-b411-82ba-889a6854fd4e@ideasonboard.com>
+Date:   Mon, 17 Jul 2023 17:39:21 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 1/3] media: subdev: Drop implicit zeroing of stream field
+To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH 3/3] media: subdev: Add debug prints to
- enable/disable_streams
-Message-ID: <6yvjiklxzxnlu6dxbp2pobpwgolomyqeqhuhhqax3kxccqirgr@x5ipfgxsbp6q>
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 References: <20230619112707.239565-1-tomi.valkeinen@ideasonboard.com>
- <20230619112707.239565-3-tomi.valkeinen@ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230619112707.239565-3-tomi.valkeinen@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+ <rzjtzsvk5q5oobh3khtjopn6ssqyf6akw2z3rswihfec3s3syw@xwjamnaqhplh>
+Content-Language: en-US
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <rzjtzsvk5q5oobh3khtjopn6ssqyf6akw2z3rswihfec3s3syw@xwjamnaqhplh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomi
+On 17/07/2023 17:11, Jacopo Mondi wrote:
+> Hi Tomi
+> 
+> On Mon, Jun 19, 2023 at 02:27:05PM +0300, Tomi Valkeinen wrote:
+>> Now that the kernel drivers have been fixed to initialize the stream
+>> field, and we have the client capability which the userspace uses to say
+> 
+> Not sure I got this. Isn't the capabilities flag intended for drivers
+> to tell userspace it support streams ? This seems to suggest it is
+> userspace setting it ?
 
-On Mon, Jun 19, 2023 at 02:27:07PM +0300, Tomi Valkeinen wrote:
-> It is often useful to see when streaming for a device is being enabled
-> or disabled. Add debug prints for this to v4l2_subdev_enable_streams()
-> and v4l2_subdev_disable_streams().
->
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 14 ++++++++++++--
->  1 file changed, 12 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 73f716a42569..0f86a165b202 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -1977,11 +1977,16 @@ int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
->  		goto done;
->  	}
->
-> +	dev_dbg(dev, "enable streams %u:%#llx\n", pad, streams_mask);
+Client capabilities tell the capabilities of the client. It's the new 
+VIDIOC_SUBDEV_S_CLIENT_CAP/VIDIOC_SUBDEV_G_CLIENT_CAP ioctl.
 
-With the use of the # incantation clarified offline:
+>> it has initialized the stream field, we can drop the implicit zeroing of
+>> the stream field in the various check functions.
+>>
+> 
+> I guess this is safe, but I'm not sure why it wasn't before. If a
+> driver doesn't support streams (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
+> then it should have ignored the 'stream' field even if it wasn't
+> zeroed. So I suspect I am missing the reason for zeroing in first
+> place...
 
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+The code being removed here was a quick fix. The issue was that before 
+we had the client capability flag for "userspace supports streams", the 
+'stream' field could contain garbage. Also some kernel drivers were not 
+properly initializing struct v4l2_subdev_format to zero, so again the 
+'stream' field could contain garbage.
 
+The code removed here made sure that if a non-streams-supporting device 
+was used, the 'stream' field would be zero as expected, and the v4l2 
+framework would not get confused by seeing a non-zero stream. The 
+non-streams-enabled drivers themselves would not use the field anyway, 
+of course, but the framework has code that expects the 'stream' to be 
+zero (e.g. check_state() checks that stream == 0 if the device hasn't 
+set V4L2_SUBDEV_FL_STREAMS).
 
-> +
->  	/* Call the .enable_streams() operation. */
->  	ret = v4l2_subdev_call(sd, pad, enable_streams, state, pad,
->  			       streams_mask);
-> -	if (ret)
-> +	if (ret) {
-> +		dev_dbg(dev, "enable streams %u:%#llx failed: %d\n", pad,
-> +			streams_mask, ret);
->  		goto done;
-> +	}
->
->  	/* Mark the streams as enabled. */
->  	for (i = 0; i < state->stream_configs.num_configs; ++i) {
-> @@ -2089,11 +2094,16 @@ int v4l2_subdev_disable_streams(struct v4l2_subdev *sd, u32 pad,
->  		goto done;
->  	}
->
-> +	dev_dbg(dev, "disable streams %u:%#llx\n", pad, streams_mask);
-> +
->  	/* Call the .disable_streams() operation. */
->  	ret = v4l2_subdev_call(sd, pad, disable_streams, state, pad,
->  			       streams_mask);
-> -	if (ret)
-> +	if (ret) {
-> +		dev_dbg(dev, "disable streams %u:%#llx failed: %d\n", pad,
-> +			streams_mask, ret);
->  		goto done;
-> +	}
->
->  	/* Mark the streams as disabled. */
->  	for (i = 0; i < state->stream_configs.num_configs; ++i) {
-> --
-> 2.34.1
->
+Now the kernel drivers have been fixed to initialize the struct 
+properly, and we have the VIDIOC_SUBDEV_S_CLIENT_CAP to handle the 
+userspace part. Thus this code is no longer needed, and, I think, just 
+might confused the reader.
+
+And, in fact, I think it might hide an error. If a subdev is used that 
+does not support streams, but the userspace supports streams. If the 
+userspace uses an ioctl with stream != 0 for that subdev, it's clearly 
+an error. However, with the code removed here, the error would go 
+unnoticed as the kernel clears the stream field.
+
+  Tomi
+
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> ---
+>>   drivers/media/v4l2-core/v4l2-subdev.c | 15 ---------------
+>>   1 file changed, 15 deletions(-)
+>>
+>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+>> index 2ec179cd1264..c1ac6d7a63d2 100644
+>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+>> @@ -200,9 +200,6 @@ static inline int check_format(struct v4l2_subdev *sd,
+>>   	if (!format)
+>>   		return -EINVAL;
+>>
+>> -	if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
+>> -		format->stream = 0;
+>> -
+>>   	return check_which(format->which) ? : check_pad(sd, format->pad) ? :
+>>   	       check_state(sd, state, format->which, format->pad, format->stream);
+>>   }
+>> @@ -230,9 +227,6 @@ static int call_enum_mbus_code(struct v4l2_subdev *sd,
+>>   	if (!code)
+>>   		return -EINVAL;
+>>
+>> -	if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
+>> -		code->stream = 0;
+>> -
+>>   	return check_which(code->which) ? : check_pad(sd, code->pad) ? :
+>>   	       check_state(sd, state, code->which, code->pad, code->stream) ? :
+>>   	       sd->ops->pad->enum_mbus_code(sd, state, code);
+>> @@ -245,9 +239,6 @@ static int call_enum_frame_size(struct v4l2_subdev *sd,
+>>   	if (!fse)
+>>   		return -EINVAL;
+>>
+>> -	if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
+>> -		fse->stream = 0;
+>> -
+>>   	return check_which(fse->which) ? : check_pad(sd, fse->pad) ? :
+>>   	       check_state(sd, state, fse->which, fse->pad, fse->stream) ? :
+>>   	       sd->ops->pad->enum_frame_size(sd, state, fse);
+>> @@ -283,9 +274,6 @@ static int call_enum_frame_interval(struct v4l2_subdev *sd,
+>>   	if (!fie)
+>>   		return -EINVAL;
+>>
+>> -	if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
+>> -		fie->stream = 0;
+>> -
+>>   	return check_which(fie->which) ? : check_pad(sd, fie->pad) ? :
+>>   	       check_state(sd, state, fie->which, fie->pad, fie->stream) ? :
+>>   	       sd->ops->pad->enum_frame_interval(sd, state, fie);
+>> @@ -298,9 +286,6 @@ static inline int check_selection(struct v4l2_subdev *sd,
+>>   	if (!sel)
+>>   		return -EINVAL;
+>>
+>> -	if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
+>> -		sel->stream = 0;
+>> -
+>>   	return check_which(sel->which) ? : check_pad(sd, sel->pad) ? :
+>>   	       check_state(sd, state, sel->which, sel->pad, sel->stream);
+>>   }
+>> --
+>> 2.34.1
+>>
+
