@@ -2,177 +2,225 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DB29C7565A7
-	for <lists+linux-media@lfdr.de>; Mon, 17 Jul 2023 16:00:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 825847565D6
+	for <lists+linux-media@lfdr.de>; Mon, 17 Jul 2023 16:07:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231419AbjGQOAx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jul 2023 10:00:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60716 "EHLO
+        id S232131AbjGQOHt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Jul 2023 10:07:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229722AbjGQOAw (ORCPT
+        with ESMTP id S232085AbjGQOH1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jul 2023 10:00:52 -0400
-Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com [IPv6:2607:f8b0:4864:20::f34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24CC8E1
-        for <linux-media@vger.kernel.org>; Mon, 17 Jul 2023 07:00:50 -0700 (PDT)
-Received: by mail-qv1-xf34.google.com with SMTP id 6a1803df08f44-635e5b06aaeso23496936d6.0
-        for <linux-media@vger.kernel.org>; Mon, 17 Jul 2023 07:00:50 -0700 (PDT)
+        Mon, 17 Jul 2023 10:07:27 -0400
+Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com [IPv6:2607:f8b0:4864:20::f2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AB68E55
+        for <linux-media@vger.kernel.org>; Mon, 17 Jul 2023 07:07:19 -0700 (PDT)
+Received: by mail-qv1-xf2c.google.com with SMTP id 6a1803df08f44-635e54e22d6so31806486d6.2
+        for <linux-media@vger.kernel.org>; Mon, 17 Jul 2023 07:07:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1689602449; x=1692194449;
+        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1689602838; x=1692194838;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=86pGFUJupmtwTHTpb8fR3031C4UxpHPWG3ugQ4iErHk=;
-        b=wWoDGSviZ+r9PuadCbQ87GlGxcRCX8TOW4isThzs9X8FYihl6u/s5uiBgtsmMbAG1H
-         05tswht2rJyqhUvuwrQgLk9OODiOyWtkc9yF/nf5zwiZkg1x/+9fOTabon8iX7J+VBpt
-         ahY3wxM5lDTCTqEiFuIs0bwAbEZjw8vudUsTRLrM0LgYsXA9kLONurxX+E/6PsZpmQOP
-         T+cKmnLdngK6Tki/roAsbfA8j7vTTRUxuz5jBskGuJXns3q6A4dTf4Jz3U51Znu6cAtK
-         Ipo1InNeNzpty3h1iM1nNIHyuY8OPyFt8Lmv1QCs7qr88LN3WyIE8AS4KNNPLNTNgh20
-         Aa8w==
+        bh=g845tNVV3cp9c1Gh8ayXapTBS4zr7NqtwAd6G/kO3uk=;
+        b=pL7JNImg5dQEV9Nmyf415PukLe9HJZbeGMSDcI1xK8A1GhcwP69uNs33E70qu44v2p
+         mU3zZHtJPooZPBV+lXBUoOy1ettetQ+h9XI6ya3yARWw1sFTGwJYdXjdS/AdspS1BChR
+         KnBLZNSbd/B9d6xRjF/ZPOf1F9kprtWYgJB/MtaoM13lDr3M4k7uuoF/GEnMiS2LJuOk
+         aswh6t16aISqU+QSwxVQOo0wuMaOt2sUH8Ig1V83g/b/nw36Eg0I5I1qBk2L4lkIFnvo
+         QspeskZtCakoItNbqtV1YGIRZaBXkcgkkp4y1b+0Tl2+UJo1nA3U4ziW0UNCc47r9HCG
+         pltw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689602449; x=1692194449;
+        d=1e100.net; s=20221208; t=1689602838; x=1692194838;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=86pGFUJupmtwTHTpb8fR3031C4UxpHPWG3ugQ4iErHk=;
-        b=e+yNnJGttDgZ7HSkHAfNi36YTiQWcygNZ5wtpjm77GqoGyLrhA0BamD+DEUcghcYUP
-         8DtabbAjAoYV3PMdSTO5dRD56yACk9eoottLJg7JF6Zs3r1SswgJbUkhMxJtbr2ss9kx
-         RVfx+Jt7U8YOt9ouBKAQlnV5ax/fIU45GvJS3hwjMeugtEFsHv/1hA+FWXphGjLRhzXm
-         WPY8nCKXQPB0oIYKgkBvCgehPUlN9qQ0LxuD5FUXwGIY9J7j3jExDEXHUu2i60YoTLJB
-         NSsqPSrQvCDQu6ER28lDOFUSqnvUg1KVKHjR2DPp3QQkKvSpmGE+E63bh+Y1oz766o5h
-         N2CA==
-X-Gm-Message-State: ABy/qLbp6BD2/tX6vcHEHPc9kuWImCkVS50YlnQJXIeYSdZPj5wKulcu
-        Uy+7H27/QX1jn/rgVlfVpmfDLw==
-X-Google-Smtp-Source: APBJJlFy2BueHga5KIqJLVY4NNcrJRztiGYh+rqKXVsvH85sXWXfghYPwEKfhvq0Rca36ytZr6fXFA==
-X-Received: by 2002:a05:6214:12e:b0:62d:f096:be06 with SMTP id w14-20020a056214012e00b0062df096be06mr11982581qvs.22.1689602449229;
-        Mon, 17 Jul 2023 07:00:49 -0700 (PDT)
+        bh=g845tNVV3cp9c1Gh8ayXapTBS4zr7NqtwAd6G/kO3uk=;
+        b=Tw+j4/V6MT0d5z3EG5x25quPPwN7Yx3Q28djN0vDeTHVmt4r5576Jf+xpcYdeDM7R0
+         Rh8RFW3+XkFw69hTf61xZUoLk27g7Uj0F88TjqLtAiCfJe+0Ww8WeBglhk44zhnsYTaf
+         szWF4f+kL3Y5cVN5/2wxVNM0P2SVw2ru+LyPinKqIjyu9DNXqQpXKD5gdDyyCF2lTLYD
+         1j7XylBmKuvnxUxPUjY//i1zOBQzaXM2yC5j604/KRVaa0o2pIiDw+Gce/DCVfh4oJ7D
+         kfyRBSQPVkeW2w/q0qG3zvHj0NwWmnkZl9qwGqL4Q9Ig+NbdhozaXEqgWXS9+fEvWjlc
+         KuXQ==
+X-Gm-Message-State: ABy/qLZaDYw23S6iUxaQ0yrqZs6YjMtFn7evLAgudBduKFoip2yAnWXc
+        hc8b0WsX0feVduim8Yrlx0CWkA==
+X-Google-Smtp-Source: APBJJlGDjvgQML5x27Ui6nMFAPN9v9qJ+Dc9HBnv9qT0P0ckcIJTA04h2iwUTKff/PksF05BRJ4b1w==
+X-Received: by 2002:a0c:8f11:0:b0:632:80f:4728 with SMTP id z17-20020a0c8f11000000b00632080f4728mr10829416qvd.27.1689602838269;
+        Mon, 17 Jul 2023 07:07:18 -0700 (PDT)
 Received: from nicolas-tpx395.localdomain ([2606:6d00:11:83d4::7a9])
-        by smtp.gmail.com with ESMTPSA id j13-20020a0cf30d000000b0063013c621fasm6340095qvl.68.2023.07.17.07.00.48
+        by smtp.gmail.com with ESMTPSA id j8-20020a0ce008000000b0063645f62bdasm6412426qvk.80.2023.07.17.07.07.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jul 2023 07:00:48 -0700 (PDT)
-Message-ID: <17ca8c5ee31ac8e48bb2ac7f89f6bae84816c893.camel@ndufresne.ca>
-Subject: Re: [PATCH 1/2] [RESEND] media: v4l2-mem2mem: allow device run
- without buf
+        Mon, 17 Jul 2023 07:07:17 -0700 (PDT)
+Message-ID: <f8f766c0166c502e29b06cda71f6531e44a91a17.camel@ndufresne.ca>
+Subject: Re: [PATCH 2/2] media: v4l2-mem2mem: add a list for buf used by hw
 From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Hsia-Jun Li <randy.li@synaptics.com>, linux-media@vger.kernel.org,
-        ayaka@soulik.info, hans.verkuil@cisco.com, mchehab@kernel.org,
+To:     Tomasz Figa <tfiga@chromium.org>,
+        Hsia-Jun Li <randy.li@synaptics.com>
+Cc:     linux-media@vger.kernel.org, ayaka@soulik.info,
+        hans.verkuil@cisco.com, mchehab@kernel.org,
         laurent.pinchart@ideasonboard.com, hiroh@chromium.org,
-        hverkuil@xs4all.nl, linux-kernel@vger.kernel.org,
-        Sebastian Fricke <sebastian.fricke@collabora.com>
-Date:   Mon, 17 Jul 2023 10:00:48 -0400
-In-Reply-To: <20230712093129.pdcbvlxd5zphwr5m@chromium.org>
+        hverkuil@xs4all.nl, linux-kernel@vger.kernel.org
+Date:   Mon, 17 Jul 2023 10:07:17 -0400
+In-Reply-To: <20230712093301.nkj2vok2x7esdhb3@chromium.org>
 References: <20230704040044.681850-1-randy.li@synaptics.com>
-         <20230704040044.681850-2-randy.li@synaptics.com>
-         <20452e233a9a4b39b58139081d818d3b1454105a.camel@ndufresne.ca>
-         <20230712093129.pdcbvlxd5zphwr5m@chromium.org>
+         <20230704040044.681850-3-randy.li@synaptics.com>
+         <20230712093301.nkj2vok2x7esdhb3@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mercredi 12 juillet 2023 =C3=A0 09:31 +0000, Tomasz Figa a =C3=A9crit=C2=
+Le mercredi 12 juillet 2023 =C3=A0 09:33 +0000, Tomasz Figa a =C3=A9crit=C2=
 =A0:
-> On Fri, Jul 07, 2023 at 03:14:23PM -0400, Nicolas Dufresne wrote:
-> > Hi Randy,
+> On Tue, Jul 04, 2023 at 12:00:38PM +0800, Hsia-Jun Li wrote:
+> > From: "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
 > >=20
-> > Le mardi 04 juillet 2023 =C3=A0 12:00 +0800, Hsia-Jun Li a =C3=A9crit=
-=C2=A0:
-> > > From: Randy Li <ayaka@soulik.info>
-> > >=20
-> > > For the decoder supports Dynamic Resolution Change,
-> > > we don't need to allocate any CAPTURE or graphics buffer
-> > > for them at inital CAPTURE setup step.
-> > >=20
-> > > We need to make the device run or we can't get those
-> > > metadata.
-> > >=20
-> > > Signed-off-by: Randy Li <ayaka@soulik.info>
-> > > ---
-> > >  drivers/media/v4l2-core/v4l2-mem2mem.c | 5 +++--
-> > >  1 file changed, 3 insertions(+), 2 deletions(-)
-> > >=20
-> > > diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v=
-4l2-core/v4l2-mem2mem.c
-> > > index 0cc30397fbad..c771aba42015 100644
-> > > --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-> > > +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-> > > @@ -301,8 +301,9 @@ static void __v4l2_m2m_try_queue(struct v4l2_m2m_=
-dev *m2m_dev,
-> > > =20
-> > >  	dprintk("Trying to schedule a job for m2m_ctx: %p\n", m2m_ctx);
-> > > =20
-> > > -	if (!m2m_ctx->out_q_ctx.q.streaming
-> > > -	    || !m2m_ctx->cap_q_ctx.q.streaming) {
-> > > +	if (!(m2m_ctx->out_q_ctx.q.streaming || m2m_ctx->out_q_ctx.buffered=
-)
-> > > +	    || !(m2m_ctx->cap_q_ctx.q.streaming
-> > > +		 || m2m_ctx->cap_q_ctx.buffered)) {
+> > Many drivers have to create its own buf_struct for a
+> > vb2_queue to track such a state. Also driver has to
+> > iterate over rdy_queue every times to find out a buffer
+> > which is not sent to hardware(or firmware), this new
+> > list just offers the driver a place to store the buffer
+> > that hardware(firmware) has acknowledged.
 > >=20
-> > I have a two atches with similar goals in my wave5 tree. It will be eas=
-ier to
-> > upstream with an actual user, though, I'm probably a month or two away =
-from
-> > submitting this driver again.
-> >=20
-> > https://gitlab.collabora.com/chipsnmedia/kernel/-/commit/ac59eafd5076c4=
-deb3bfe1fb85b3b776586ef3eb
-> > https://gitlab.collabora.com/chipsnmedia/kernel/-/commit/5de4fbe0abb20b=
-8e8d862b654f93e3efeb1ef251
-> >=20
+> > One important advance about this list, it doesn't like
+> > rdy_queue which both bottom half of the user calling
+> > could operate it, while the v4l2 worker would as well.
+> > The v4l2 core could only operate this queue when its
+> > v4l2_context is not running, the driver would only
+> > access this new hw_queue in its own worker.
 >=20
-> While I'm not going to NAK this series or those 2 patches if you send
-> them, I'm not really convinced that adding more and more complexity to
-> the mem2mem helpers is a good idea, especially since all of those seem
-> to be only needed by stateful video decoders.
->=20
-> The mem2mem framework started as a set of helpers to eliminate boiler
-> plate from simple drivers that always get 1 CAPTURE and 1 OUTPUT buffer,
-> run 1 processing job on them and then return both of the to the userspace
-> and I think it should stay like this.
+> Could you describe in what case such a list would be useful for a
+> mem2mem driver?
 
-Its a bit late to try and bring that argument. It should have been raised c=
-ouple
-of years ago (before I even started helping with these CODEC). Now that all=
+Today all driver must track buffers that are "owned by the hardware". This =
+is a
+concept dictated by the m2m framework and enforced through the ACTIVE flag.=
+ All
+buffers from this list must be mark as done/error/queued after streamoff of=
  the
-newly written stately decoders uses this framework, it is logical to keep
-reducing the boiler plate for these too. In my opinion, the job_ready()
-callback, should have been a lot more flexible from the start. And allowing
-driver to make it more powerful does not really add that much complexity.
+respective queue in order to acknowledge that they are no longer in use by =
+the
+HW. Not doing so will warn:
 
-Speaking of complexity, driving the output manually (outside of the job
-workqueue) during sequence initialization is a way more complex and risky t=
-hen
-this. Finally, sticking with 1:1 pattern means encoder, detilers, image
-enhancement reducing framerate, etc. would all be unwelcome to use this. Wh=
-ich
-in short, means no one should even use this.
+  videobuf2_common: driver bug: stop_streaming operation is leaving buf ...
 
->=20
-> I think we're strongly in need of a stateful video decoder framework that
-> would actually address the exact problems that those have rather than
-> bending something that wasn't designed with them in mind to work around t=
-he
-> differences.
-
-The bend is already there, of course I'd be happy to help with any new
-framework. Specially on modern stateless, were there is a need to do better
-scheduling. Just ping me if you have some effort starting, I don't currentl=
-y
-have a budget or bandwidth to write new drivers or port existing drivers th=
-em on
-a newly written framework.
+Though, there is no queue to easily iterate them. All driver endup having t=
+heir
+own queue, or just leaving the buffers in the rdy_queue (which isn't better=
+).
 
 Nicolas
+>=20
+> >=20
+> > Signed-off-by: Hsia-Jun(Randy) Li <randy.li@synaptics.com>
+> > ---
+> >  drivers/media/v4l2-core/v4l2-mem2mem.c | 25 +++++++++++++++++--------
+> >  include/media/v4l2-mem2mem.h           | 10 +++++++++-
+> >  2 files changed, 26 insertions(+), 9 deletions(-)
+> >=20
+> > diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l=
+2-core/v4l2-mem2mem.c
+> > index c771aba42015..b4151147d5bd 100644
+> > --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
+> > +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
+> > @@ -321,15 +321,21 @@ static void __v4l2_m2m_try_queue(struct v4l2_m2m_=
+dev *m2m_dev,
+> >  		goto job_unlock;
+> >  	}
+> > =20
+> > -	src =3D v4l2_m2m_next_src_buf(m2m_ctx);
+> > -	dst =3D v4l2_m2m_next_dst_buf(m2m_ctx);
+> > -	if (!src && !m2m_ctx->out_q_ctx.buffered) {
+> > -		dprintk("No input buffers available\n");
+> > -		goto job_unlock;
+> > +	if (list_empty(&m2m_ctx->out_q_ctx.hw_queue)) {
+> > +		src =3D v4l2_m2m_next_src_buf(m2m_ctx);
+> > +
+> > +		if (!src && !m2m_ctx->out_q_ctx.buffered) {
+> > +			dprintk("No input buffers available\n");
+> > +			goto job_unlock;
+> > +		}
+> >  	}
+> > -	if (!dst && !m2m_ctx->cap_q_ctx.buffered) {
+> > -		dprintk("No output buffers available\n");
+> > -		goto job_unlock;
+> > +
+> > +	if (list_empty(&m2m_ctx->cap_q_ctx.hw_queue)) {
+> > +		dst =3D v4l2_m2m_next_dst_buf(m2m_ctx);
+> > +		if (!dst && !m2m_ctx->cap_q_ctx.buffered) {
+> > +			dprintk("No output buffers available\n");
+> > +			goto job_unlock;
+> > +		}
+> >  	}
+>=20
+> src and dst would be referenced unitialized below if neither of the
+> above ifs hits...
+>=20
+> Best regards,
+> Tomasz
+>=20
+> > =20
+> >  	m2m_ctx->new_frame =3D true;
+> > @@ -896,6 +902,7 @@ int v4l2_m2m_streamoff(struct file *file, struct v4=
+l2_m2m_ctx *m2m_ctx,
+> >  	INIT_LIST_HEAD(&q_ctx->rdy_queue);
+> >  	q_ctx->num_rdy =3D 0;
+> >  	spin_unlock_irqrestore(&q_ctx->rdy_spinlock, flags);
+> > +	INIT_LIST_HEAD(&q_ctx->hw_queue);
+> > =20
+> >  	if (m2m_dev->curr_ctx =3D=3D m2m_ctx) {
+> >  		m2m_dev->curr_ctx =3D NULL;
+> > @@ -1234,6 +1241,8 @@ struct v4l2_m2m_ctx *v4l2_m2m_ctx_init(struct v4l=
+2_m2m_dev *m2m_dev,
+> > =20
+> >  	INIT_LIST_HEAD(&out_q_ctx->rdy_queue);
+> >  	INIT_LIST_HEAD(&cap_q_ctx->rdy_queue);
+> > +	INIT_LIST_HEAD(&out_q_ctx->hw_queue);
+> > +	INIT_LIST_HEAD(&cap_q_ctx->hw_queue);
+> >  	spin_lock_init(&out_q_ctx->rdy_spinlock);
+> >  	spin_lock_init(&cap_q_ctx->rdy_spinlock);
+> > =20
+> > diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.=
+h
+> > index d6c8eb2b5201..2342656e582d 100644
+> > --- a/include/media/v4l2-mem2mem.h
+> > +++ b/include/media/v4l2-mem2mem.h
+> > @@ -53,9 +53,16 @@ struct v4l2_m2m_dev;
+> >   *	processed
+> >   *
+> >   * @q:		pointer to struct &vb2_queue
+> > - * @rdy_queue:	List of V4L2 mem-to-mem queues
+> > + * @rdy_queue:	List of V4L2 mem-to-mem queues. If v4l2_m2m_buf_queue()=
+ is
+> > + *		called in struct vb2_ops->buf_queue(), the buffer enqueued
+> > + *		by user would be added to this list.
+> >   * @rdy_spinlock: spin lock to protect the struct usage
+> >   * @num_rdy:	number of buffers ready to be processed
+> > + * @hw_queue:	A list for tracking the buffer is occupied by the hardwa=
+re
+> > + * 		(or device's firmware). A buffer could only be in either
+> > + * 		this list or @rdy_queue.
+> > + * 		Driver may choose not to use this list while uses its own
+> > + * 		private data to do this work.
+> >   * @buffered:	is the queue buffered?
+> >   *
+> >   * Queue for buffers ready to be processed as soon as this
+> > @@ -68,6 +75,7 @@ struct v4l2_m2m_queue_ctx {
+> >  	struct list_head	rdy_queue;
+> >  	spinlock_t		rdy_spinlock;
+> >  	u8			num_rdy;
+> > +	struct list_head	hw_queue;
+> >  	bool			buffered;
+> >  };
+> > =20
+> > --=20
+> > 2.17.1
+> >=20
 
-
-[...]
