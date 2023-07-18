@@ -2,52 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4762E7571AF
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jul 2023 04:16:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 075857571B7
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jul 2023 04:21:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229935AbjGRCQr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jul 2023 22:16:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43896 "EHLO
+        id S230268AbjGRCVZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Jul 2023 22:21:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229517AbjGRCQo (ORCPT
+        with ESMTP id S230195AbjGRCVY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jul 2023 22:16:44 -0400
+        Mon, 17 Jul 2023 22:21:24 -0400
 Received: from mail.208.org (unknown [183.242.55.162])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9E5E11C
-        for <linux-media@vger.kernel.org>; Mon, 17 Jul 2023 19:16:39 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A88DB5
+        for <linux-media@vger.kernel.org>; Mon, 17 Jul 2023 19:21:23 -0700 (PDT)
 Received: from mail.208.org (email.208.org [127.0.0.1])
-        by mail.208.org (Postfix) with ESMTP id 4R4jHk6nJMzBQslX
-        for <linux-media@vger.kernel.org>; Tue, 18 Jul 2023 10:16:34 +0800 (CST)
+        by mail.208.org (Postfix) with ESMTP id 4R4jPB6n7HzBL0tK
+        for <linux-media@vger.kernel.org>; Tue, 18 Jul 2023 10:21:18 +0800 (CST)
 Authentication-Results: mail.208.org (amavisd-new); dkim=pass
         reason="pass (just generated, assumed good)" header.d=208.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
         content-transfer-encoding:content-type:message-id:user-agent
         :references:in-reply-to:subject:to:from:date:mime-version; s=
-        dkim; t=1689646594; x=1692238595; bh=kcQDfIFF3dft+pZX76e0sxAFQ0w
-        CFG18W5YqOSfTYPU=; b=bW0xhFPM5tvAWoF1xmrUAgV9fnw/DCjE9XRYBQrEdQP
-        qK+pL/ioQCKuXX4Af157mOaAjzS9MJFVctN2p+bgQBqcvQ7c2OLwWvu6krI3fx9v
-        iGeTC7BD9GIaeI/s9uCy7XWB3j/zPyIj7gZBrFYX/fHNiFqknlJPGWPoGmEUAl32
-        6j8zO+XeosPE9/ZFfjXgR3glueRmMbWy+vKXtZX7TK0r62ag3mKArW+2m1I5hU49
-        YML0bqBk3E2Mtm+l9B3I6ElpY6zkj6rcGvs2ZQczgkmjXNgbBrZHKXGR6RS4dUvg
-        kceNlSqG/m8p3HcVV9xCONBBPgz/Kp0Fihf9GN08uug==
+        dkim; t=1689646878; x=1692238879; bh=/s4ONzeX2TZEEut5dQIEtGp2JCQ
+        4NK+LHtCx2pTSEdQ=; b=YVZslX3jdF9EqqkIzuB9VFlDmHYM7OqI6yK4QdyGUho
+        7Um0YKNccBUHsmpM3X6pIC0QgqrjraqY4TlHhChJpo7Q5FclQMZPFdzegTyTF1Nd
+        AVsCkS3AQFtPEm0cYlLs92k7Md+LIeq/b/5g4qdh6tGYEXYhbpXHw+IE/XYmLpM7
+        kQoNsokuNyFOiX5L96XUiPBdQthvvBHbOVA42G9YFbMRz+mqFqEFUWlWcWjj53y2
+        dsbLufdz900sULJYLalGi75Uxxckd3wjpWJ9MH9c52u8t/O7NhBkoAG8Z/9YQOzy
+        IdS4d5CZpKCkJux5GLa4skS/b+Ni78FKwo61Yn3BvWw==
 X-Virus-Scanned: amavisd-new at mail.208.org
 Received: from mail.208.org ([127.0.0.1])
         by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id DFbknq5MiwQm for <linux-media@vger.kernel.org>;
-        Tue, 18 Jul 2023 10:16:34 +0800 (CST)
+        with ESMTP id V5gIEZEd0F9r for <linux-media@vger.kernel.org>;
+        Tue, 18 Jul 2023 10:21:18 +0800 (CST)
 Received: from localhost (email.208.org [127.0.0.1])
-        by mail.208.org (Postfix) with ESMTPSA id 4R4jHk4lgWzBJJjN;
-        Tue, 18 Jul 2023 10:16:34 +0800 (CST)
+        by mail.208.org (Postfix) with ESMTPSA id 4R4jPB5FRWzBJJjN;
+        Tue, 18 Jul 2023 10:21:18 +0800 (CST)
 MIME-Version: 1.0
-Date:   Tue, 18 Jul 2023 10:16:34 +0800
+Date:   Tue, 18 Jul 2023 10:21:18 +0800
 From:   sunran001@208suo.com
 To:     mchehab@kernel.org
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: dib8000: remove spaces after '*'
-In-Reply-To: <20230718021448.15551-1-xujianghui@cdjrlc.com>
-References: <20230718021448.15551-1-xujianghui@cdjrlc.com>
+Subject: media: dvb-frontends: add missing spaces before '*' and remove spaces
+ after '*'
+In-Reply-To: <20230718021939.15671-1-xujianghui@cdjrlc.com>
+References: <20230718021939.15671-1-xujianghui@cdjrlc.com>
 User-Agent: Roundcube Webmail
-Message-ID: <627723b2e55bfc71dfbb4e1fe2594521@208suo.com>
+Message-ID: <8d6cde20c1ff815058b5cc7fb757d73e@208suo.com>
 X-Sender: sunran001@208suo.com
 Content-Type: text/plain; charset=US-ASCII;
  format=flowed
@@ -62,59 +63,27 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix four occurrences of the checkpatch error:
+Add missing spaces to clear checkpatch errors.
 
-ERROR: "foo * bar" should be "foo *bar"
+ERROR: "foo* bar" should be "foo *bar"
 
 Signed-off-by: Ran Sun <sunran001@208suo.com>
 ---
-  drivers/media/dvb-frontends/dib8000.c | 8 ++++----
-  1 file changed, 4 insertions(+), 4 deletions(-)
+  drivers/media/dvb-frontends/ds3000.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/dvb-frontends/dib8000.c 
-b/drivers/media/dvb-frontends/dib8000.c
-index 2abda7d1cb6e..43731167146f 100644
---- a/drivers/media/dvb-frontends/dib8000.c
-+++ b/drivers/media/dvb-frontends/dib8000.c
-@@ -3806,7 +3806,7 @@ static int dib8000_read_status(struct dvb_frontend 
-*fe, enum fe_status *stat)
-      return 0;
+diff --git a/drivers/media/dvb-frontends/ds3000.c 
+b/drivers/media/dvb-frontends/ds3000.c
+index 20fcf31af165..ca40234a28fa 100644
+--- a/drivers/media/dvb-frontends/ds3000.c
++++ b/drivers/media/dvb-frontends/ds3000.c
+@@ -456,7 +456,7 @@ static int ds3000_read_status(struct dvb_frontend 
+*fe, enum fe_status *status)
   }
 
--static int dib8000_read_ber(struct dvb_frontend *fe, u32 * ber)
-+static int dib8000_read_ber(struct dvb_frontend *fe, u32 *ber)
+  /* read DS3000 BER value */
+-static int ds3000_read_ber(struct dvb_frontend *fe, u32* ber)
++static int ds3000_read_ber(struct dvb_frontend *fe, u32 *ber)
   {
-      struct dib8000_state *state = fe->demodulator_priv;
-
-@@ -3820,7 +3820,7 @@ static int dib8000_read_ber(struct dvb_frontend 
-*fe, u32 * ber)
-      return 0;
-  }
-
--static int dib8000_read_unc_blocks(struct dvb_frontend *fe, u32 * unc)
-+static int dib8000_read_unc_blocks(struct dvb_frontend *fe, u32 *unc)
-  {
-      struct dib8000_state *state = fe->demodulator_priv;
-
-@@ -3832,7 +3832,7 @@ static int dib8000_read_unc_blocks(struct 
-dvb_frontend *fe, u32 * unc)
-      return 0;
-  }
-
--static int dib8000_read_signal_strength(struct dvb_frontend *fe, u16 * 
-strength)
-+static int dib8000_read_signal_strength(struct dvb_frontend *fe, u16 
-*strength)
-  {
-      struct dib8000_state *state = fe->demodulator_priv;
-      u8 index_frontend;
-@@ -3888,7 +3888,7 @@ static u32 dib8000_get_snr(struct dvb_frontend 
-*fe)
-      return 0xffffffff;
-  }
-
--static int dib8000_read_snr(struct dvb_frontend *fe, u16 * snr)
-+static int dib8000_read_snr(struct dvb_frontend *fe, u16 *snr)
-  {
-      struct dib8000_state *state = fe->demodulator_priv;
-      u8 index_frontend;
+      struct ds3000_state *state = fe->demodulator_priv;
+      struct dtv_frontend_properties *c = &fe->dtv_property_cache;
