@@ -2,99 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A7A347574C2
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jul 2023 08:58:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59AE07574EE
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jul 2023 09:06:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231510AbjGRG6y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Jul 2023 02:58:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55184 "EHLO
+        id S231547AbjGRHGJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Jul 2023 03:06:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230186AbjGRG6x (ORCPT
+        with ESMTP id S229714AbjGRHGI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Jul 2023 02:58:53 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4D501730
-        for <linux-media@vger.kernel.org>; Mon, 17 Jul 2023 23:58:35 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-3143b72c5ffso5316789f8f.3
-        for <linux-media@vger.kernel.org>; Mon, 17 Jul 2023 23:58:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1689663514; x=1692255514;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gkR8qqb+tZbWWWMSMobDqmb6wWe0/8Tvk+eaJzSaNiY=;
-        b=oQzkecp3eDrjKFOrzKgXnZOg5cpVEKRypTPCPmhh/sLLfK0W13xCZzcM/VI70jJFPl
-         Fwa3S8NdvFQKkGQYWJAMR1zHFP5Ysl/ufyEJWlJfgVXFX+JVtc8QPkUM7g/l2DRLV0Xd
-         rXUYg0ZzVPn/Its3B26G9Rh31SHyyUykKmfeL19t3QK1qBu011h7v3SY91KLqbfBHfPn
-         0Vqo0UVhfKmcNde+/yF0AkJzsJTSB75UxChR9fXOS5ItLfBPwN0Ko79me9Esy27HwssM
-         Dyobl8S5JWavMrJgqDtPD9FWeR5bs99rsyeUMNa7SakXrucf4MB9NCgQ6ubHIvXoLpjy
-         NWVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689663514; x=1692255514;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gkR8qqb+tZbWWWMSMobDqmb6wWe0/8Tvk+eaJzSaNiY=;
-        b=ZOhAKktr1icf14dDFFJ6GBXCVIwMaHC6eLzbKBwrJOh4DbV8XeMh8uWbErdNtcmKRd
-         7RTuDDYy121yxGd9wfkxJlLVsioJjrgiyCSbCb4cGcs8+8T3y2r80gwPZ8hOMhvjpsZV
-         DM2G1eEBopz+Wxc1K2rptzheMV/jVXsPA2W6FXpkgAbLqvCvEIh3h2nJYsZtEaE4MC1N
-         DgD1qhUU/kTj4dTI7R+Yjh21rvociqdNvEd00d3cxQnzncIdplCYqPH4LqjRqFQfliHD
-         8ngb/vA9HfiiXMBpy12C8g3s4g4xh++63ycTXCV8vZzhZBJn9bZvT5deaPa3LvUA+fWO
-         lXIw==
-X-Gm-Message-State: ABy/qLYyGVAjy7aLp6I1lb5KvM+qg6Moy+5Ez9PHPrG9oTSEa+NmxNsf
-        0MvSPFQz6uL4FXkJ8ryGJ56gXA==
-X-Google-Smtp-Source: APBJJlED6jt8xHaJu7Q+cJhP4iZsf33uSnbrn3oqSpD8pTr55ZYfnUl37FR46MpOM2b5hdLAdZh5/Q==
-X-Received: by 2002:a5d:4b07:0:b0:315:930a:a962 with SMTP id v7-20020a5d4b07000000b00315930aa962mr14378852wrq.59.1689663514061;
-        Mon, 17 Jul 2023 23:58:34 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id r15-20020adff10f000000b0031437299fafsm1449736wro.34.2023.07.17.23.58.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jul 2023 23:58:31 -0700 (PDT)
-Date:   Tue, 18 Jul 2023 09:58:28 +0300
-From:   Dan Carpenter <dan.carpenter@linaro.org>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH] media: mediatek: vcodec: Fix an error handling path in
- vdec_msg_queue_init()
-Message-ID: <1dcd0fab-eee3-4693-a7d2-4a72baef5c97@kadam.mountain>
-References: <efa0d4910998931a2ec9d933117fa71482d7b33a.1689624542.git.christophe.jaillet@wanadoo.fr>
+        Tue, 18 Jul 2023 03:06:08 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3F5A1A2;
+        Tue, 18 Jul 2023 00:06:06 -0700 (PDT)
+Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 432A7968;
+        Tue, 18 Jul 2023 09:05:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1689663911;
+        bh=yXz2o5tHhvulQoPaP0wC4crrhLPOzgCuB8foIsgwnLg=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=YUPIUgXnVsTPOytm4fG+mmTnBfMcvcUq0QjyJnb85v+DanNxp7vcZ9PwWYPLManoD
+         zQ/I49zcEupV7X5nUnWz+XAxjcHzfja2MVm8Q9xRie5/WSja5y5iKJpBlK82tFtxBz
+         ZSzyHEvxbFj72xDEtw8G4sLMRF6UWRIB7EidwFFQ=
+Message-ID: <843b7912-4e99-652a-ef3f-9fbb231c4c65@ideasonboard.com>
+Date:   Tue, 18 Jul 2023 10:06:01 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <efa0d4910998931a2ec9d933117fa71482d7b33a.1689624542.git.christophe.jaillet@wanadoo.fr>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH -next] media: i2c: No need to set device_driver owner
+To:     Yang Li <yang.lee@linux.alibaba.com>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Abaci Robot <abaci@linux.alibaba.com>
+References: <20230718010154.36550-1-yang.lee@linux.alibaba.com>
+Content-Language: en-US
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20230718010154.36550-1-yang.lee@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jul 17, 2023 at 10:09:19PM +0200, Christophe JAILLET wrote:
-> All errors go to the error handling path, except this one. Be consistent
-> and also branch to it.
+On 18/07/2023 04:01, Yang Li wrote:
+> Remove .owner field if calls are used which set it automatically.
 > 
-> Fixes: 2f5d0aef37c6 ("media: mediatek: vcodec: support stateless AV1 decoder")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> to silence the warning:
+> ./drivers/media/i2c/ds90ub953.c:1390:3-8: No need to set .owner here.  The core will do it.
+> 
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=5902
+> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
 > ---
+>   drivers/media/i2c/ds90ub953.c | 1 -
+>   1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/ds90ub953.c b/drivers/media/i2c/ds90ub953.c
+> index 1e3827a60029..ce1c6f8b656e 100644
+> --- a/drivers/media/i2c/ds90ub953.c
+> +++ b/drivers/media/i2c/ds90ub953.c
+> @@ -1387,7 +1387,6 @@ static struct i2c_driver ds90ub953_driver = {
+>   	.id_table	= ub953_id,
+>   	.driver = {
+>   		.name	= "ds90ub953",
+> -		.owner = THIS_MODULE,
+>   		.of_match_table = ub953_dt_ids,
+>   	},
+>   };
 
-I sent this one a month ago but it hasn't been applied.
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-https://lore.kernel.org/all/b8948d9a-65bc-4f3f-aa90-60addd064819@moroto.mountain/
-
-regards,
-dan carpenter
+  Tomi
 
