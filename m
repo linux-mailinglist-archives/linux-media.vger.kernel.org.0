@@ -2,89 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B4BC5757F46
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jul 2023 16:19:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DAD9C757FF5
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jul 2023 16:45:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233265AbjGROTW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Jul 2023 10:19:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43908 "EHLO
+        id S231670AbjGROpm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Jul 2023 10:45:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231360AbjGROTV (ORCPT
+        with ESMTP id S229868AbjGROpl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Jul 2023 10:19:21 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC8BDE4C;
-        Tue, 18 Jul 2023 07:19:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689689961; x=1721225961;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EoZ4wzTcvybBt6VwW/afQjL0Q4yJDPrwIabLfIL4h8A=;
-  b=WLAmWKSK7qBc8goSpmnuBMeIKxH1Isxxfcx5Yrm5C/uYKG0Y591RNgN4
-   21e3x3NiDna29q3iTfbSrld87b2N896C1LyoiQ2N/tpt3atQLiQNKIZll
-   yjV7lTtOBIpqfA4KBZWI+/Octa6jgVe5g+Vw6NksKDa58dZMLe1X9hcSb
-   zorS00m5bUQO8JyF4SS93FZ1wbHBHmNCSH9JY8es+Qc/5MjM7sOhmgu45
-   MJ5cK0ebpb+LefVoDNGkCR2HFREr82L2J53jiE5fKA/J9fQQ1dGsAJT4e
-   mL3RqwG2H7U/nAM0VKz6ouxXSCx2W0CLhaHt9YCowj/fbSVCzHy0ZGaab
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="429978777"
-X-IronPort-AV: E=Sophos;i="6.01,214,1684825200"; 
-   d="scan'208";a="429978777"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 07:19:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10775"; a="1054301231"
-X-IronPort-AV: E=Sophos;i="6.01,214,1684825200"; 
-   d="scan'208";a="1054301231"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga005.fm.intel.com with ESMTP; 18 Jul 2023 07:19:18 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qLlXo-00Gohu-1K;
-        Tue, 18 Jul 2023 17:19:16 +0300
-Date:   Tue, 18 Jul 2023 17:19:16 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dan.carpenter@linaro.org, kernel-janitors@vger.kernel.org,
-        error27@gmail.com
+        Tue, 18 Jul 2023 10:45:41 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59402EC;
+        Tue, 18 Jul 2023 07:45:36 -0700 (PDT)
+Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 69EBA899;
+        Tue, 18 Jul 2023 16:44:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1689691481;
+        bh=669G/reeV5KFCerQAHZbVYzVd6yogImIgY+avsAUZgA=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=lw2ofPbweF/ExKF68LdNOerYwFT3RXdUenU1XGFHJUibAciq+0suXIiKfxSVyRjBn
+         CUIOeB4Xv9VMAcxvBZNDIqREKEby/wKcV1x2tl4GMG3XvNGJqvrHUKpfD9wy83bsnD
+         JMna4WSZcluc/y94xFkhtO8//xF+4qGcYdw55sOc=
+Message-ID: <0f37556d-629b-93bd-6c6d-60126d714a65@ideasonboard.com>
+Date:   Tue, 18 Jul 2023 17:45:30 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
 Subject: Re: [PATCH v2 next] media: i2c: fix error handling in
  ub960_rxport_add_serializer()
-Message-ID: <ZLafZGjjS0xSGWX5@smile.fi.intel.com>
+Content-Language: en-US
+To:     Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     dan.carpenter@linaro.org, kernel-janitors@vger.kernel.org,
+        error27@gmail.com
 References: <20230718140659.4009167-1-harshit.m.mogalapalli@oracle.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 In-Reply-To: <20230718140659.4009167-1-harshit.m.mogalapalli@oracle.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 18, 2023 at 07:06:58AM -0700, Harshit Mogalapalli wrote:
+On 18/07/2023 17:06, Harshit Mogalapalli wrote:
 > Smatch warns:
->  drivers/media/i2c/ds90ub960.c:1671 ub960_rxport_add_serializer():
->  err: 'rxport->ser.client' dereferencing possible ERR_PTR()
+>   drivers/media/i2c/ds90ub960.c:1671 ub960_rxport_add_serializer():
+>   err: 'rxport->ser.client' dereferencing possible ERR_PTR()
 > 
 > i2c_new_client_device() returns error pointers on failure and in
 > dev_dbg statement we are dereferencing error pointer which is a bug.
 > 
 > Fix this by using IS_ERR() which checks for error pointers.
+> 
+> Fixes: afe267f2d368 ("media: i2c: add DS90UB960 driver")
+> Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+> ---
+> This is based on static analysis and only compile tested.
+> 
+> V1->V2: Suggestion from Tomi Valkeinen: Propogate the error code with
+> PTR_ERR() instead of -EIO.
+> ---
+>   drivers/media/i2c/ds90ub960.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
+> index e101bcf2356a..92aa004a3674 100644
+> --- a/drivers/media/i2c/ds90ub960.c
+> +++ b/drivers/media/i2c/ds90ub960.c
+> @@ -1662,10 +1662,10 @@ static int ub960_rxport_add_serializer(struct ub960_data *priv, u8 nport)
+>   	ser_info.addr = rxport->ser.alias;
+>   	rxport->ser.client =
+>   		i2c_new_client_device(priv->client->adapter, &ser_info);
+> -	if (!rxport->ser.client) {
+> +	if (IS_ERR(rxport->ser.client)) {
+>   		dev_err(dev, "rx%u: cannot add %s i2c device", nport,
+>   			ser_info.type);
+> -		return -EIO;
+> +		return PTR_ERR(rxport->ser.client);
+>   	}
+>   
+>   	dev_dbg(dev, "rx%u: remote serializer at alias 0x%02x (%u-%04x)\n",
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
--- 
-With Best Regards,
-Andy Shevchenko
-
+  Tomi
 
