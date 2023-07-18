@@ -2,120 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 36E827579F5
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jul 2023 12:58:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED66B757A40
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jul 2023 13:16:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232023AbjGRK6X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Jul 2023 06:58:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55940 "EHLO
+        id S230393AbjGRLQq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Jul 2023 07:16:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231901AbjGRK6P (ORCPT
+        with ESMTP id S230450AbjGRLQp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Jul 2023 06:58:15 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C8C0E77;
-        Tue, 18 Jul 2023 03:58:14 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C711B61514;
-        Tue, 18 Jul 2023 10:58:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 626C4C433C8;
-        Tue, 18 Jul 2023 10:58:09 +0000 (UTC)
-Message-ID: <263b3c0f-53cf-14b6-b956-e0f5b03c95b5@xs4all.nl>
-Date:   Tue, 18 Jul 2023 12:58:07 +0200
+        Tue, 18 Jul 2023 07:16:45 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5B5F1705;
+        Tue, 18 Jul 2023 04:16:43 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id 98e67ed59e1d1-26586e824e7so2840358a91.3;
+        Tue, 18 Jul 2023 04:16:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689679003; x=1692271003;
+        h=content-disposition:mime-version:subject:to:date:from:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RDqCEtPP7u4lUuZ9Np/PNRIOxRGuU6kZQY2tiFjWesI=;
+        b=R1b13mbfqdYlno1rEzfx5LoSkAJSZ4myTZ4145u7gLU7tIkMZ1H6QkP+AcW+MbaE6T
+         c+Dkoeor41D1nkVFvRVfUjUXUWep5edmRb0sWAnhxGUyr0GUblOQPo+m+4SQxOSRxx2S
+         rDVuQD0rjNVHptG3czYEL1GTpHsWpeAIF4QL9do43kt2ri2v5Af/qhIOF/+WFbf6rEF9
+         UrI92NJo+RAWtgWxqedqpE76x9zyxAcC5bT81uVLVvDnZGjNcFRyOPKJwWvOzdHsOy5m
+         sVIrhakF1Tfjg7YmUmKgcP8DU6K8Mc3g54JVP7RSe0HT5JbHvg/i/6BCNGt7TOebLKVS
+         1mrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689679003; x=1692271003;
+        h=content-disposition:mime-version:subject:to:date:from:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RDqCEtPP7u4lUuZ9Np/PNRIOxRGuU6kZQY2tiFjWesI=;
+        b=j3FVJoX2ych7RqdDKAXP7fiWVeAbJ967NE2tspMEhDc/NeOSpq0qVZZnpsCqG7dqEO
+         9VUrPvDT0d+fdg2ygcWCVAmZJLrPJVQJvfMmaeA/3uBCozCjMKSEW2EdAg0AQdhRSYDP
+         zTesHnHPOFhyFU+qiAJx578MCBQgSK6+5vwzgUlX25q2R1pfSpkxKqJl3ts8jFAUngvu
+         2aFgzVepPIJ3QMszlmvO7K5o5n0rc2W+y15iGK6stwalcQ+9liQMv+KGUXTgR8CPPECs
+         4IcULzYWqMBkTTwbzD9L4kSPJatdn0/ewz9zFu+bquUQ0X1dB/wK85rXelomMK83+O1m
+         ys2w==
+X-Gm-Message-State: ABy/qLb2c8JpKdqRXgGE6HVgS/ogFT5P2CfL1pwh/MUgL1a4XfM0tC4e
+        VZe/PA4WgXQG/pdEWS/XBPE=
+X-Google-Smtp-Source: APBJJlEst8u9Az2C8TF7X1huLYbv/7A043tSS9ngGKSY788TupNY8qhUi2D7L/U93exBd4YXJmFbjw==
+X-Received: by 2002:a17:90a:62c5:b0:262:d19c:4fee with SMTP id k5-20020a17090a62c500b00262d19c4feemr11645410pjs.19.1689679003309;
+        Tue, 18 Jul 2023 04:16:43 -0700 (PDT)
+Received: from sie-luc. ([1.85.36.133])
+        by smtp.gmail.com with ESMTPSA id 6-20020a17090a194600b00263d3448141sm1329482pjh.8.2023.07.18.04.16.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Jul 2023 04:16:42 -0700 (PDT)
+Message-ID: <64b6749a.170a0220.3acab.2af9@mx.google.com>
+X-Google-Original-Message-ID: <20230718111634.GA8462@sie-luc.>
+From:   Luc Ma <onion0709@gmail.com>
+X-Google-Original-From: Luc Ma <luc@sietium.com>
+Date:   Tue, 18 Jul 2023 19:16:34 +0800
+To:     Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        javierm@redhat.com, onion0709@gmail.com
+Subject: [PATCH v2] dma-buf: Fix the typo in DMA-BUF statistics doc
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v4 11/18] media: Remove flag FBINFO_FLAG_DEFAULT from
- fbdev drivers
-Content-Language: en-US
-To:     Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
-        javierm@redhat.com, geert@linux-m68k.org, dan.carpenter@linaro.org
-Cc:     linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org,
-        linux-geode@lists.infradead.org, linux-hyperv@vger.kernel.org,
-        linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        kvm@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
-        Andy Walls <awalls@md.metrocast.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20230715185343.7193-1-tzimmermann@suse.de>
- <20230715185343.7193-12-tzimmermann@suse.de>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20230715185343.7193-12-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Thomas,
+From: Luc Ma <luc@sietium.com>
 
-On 15/07/2023 20:51, Thomas Zimmermann wrote:
-> The flag FBINFO_FLAG_DEFAULT is 0 and has no effect, as struct
-> fbinfo.flags has been allocated to zero by kzalloc(). So do not
-> set it.
-> 
-> Flags should signal differences from the default values. After cleaning
-> up all occurrences of FBINFO_DEFAULT, the token will be removed.
-> 
-> v2:
-> 	* fix commit message (Miguel)
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Andy Walls <awalls@md.metrocast.net>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Hans Verkuil <hverkuil@xs4all.nl>
-> ---
->  drivers/media/pci/ivtv/ivtvfb.c              | 1 -
->  drivers/media/test-drivers/vivid/vivid-osd.c | 1 -
->  2 files changed, 2 deletions(-)
+The kernel-doc for DMA-BUF statistics mentions /sys/kernel/dma-buf/buffers
+but the correct path is /sys/kernel/dmabuf/buffers instead.
 
-I can take this patches for 6.6, unless you prefer to have this whole series
-merged in one go?
+Signed-off-by: Luc Ma <luc@sietium.com>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+---
+ drivers/dma-buf/dma-buf-sysfs-stats.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-In that case you can use my:
-
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-Regards,
-
-	Hans
-
-> 
-> diff --git a/drivers/media/pci/ivtv/ivtvfb.c b/drivers/media/pci/ivtv/ivtvfb.c
-> index 0aeb9daaee4c..23c8c094e791 100644
-> --- a/drivers/media/pci/ivtv/ivtvfb.c
-> +++ b/drivers/media/pci/ivtv/ivtvfb.c
-> @@ -1048,7 +1048,6 @@ static int ivtvfb_init_vidmode(struct ivtv *itv)
->  	/* Generate valid fb_info */
->  
->  	oi->ivtvfb_info.node = -1;
-> -	oi->ivtvfb_info.flags = FBINFO_FLAG_DEFAULT;
->  	oi->ivtvfb_info.par = itv;
->  	oi->ivtvfb_info.var = oi->ivtvfb_defined;
->  	oi->ivtvfb_info.fix = oi->ivtvfb_fix;
-> diff --git a/drivers/media/test-drivers/vivid/vivid-osd.c b/drivers/media/test-drivers/vivid/vivid-osd.c
-> index ec25edc679b3..051f1805a16d 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-osd.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-osd.c
-> @@ -310,7 +310,6 @@ static int vivid_fb_init_vidmode(struct vivid_dev *dev)
->  	/* Generate valid fb_info */
->  
->  	dev->fb_info.node = -1;
-> -	dev->fb_info.flags = FBINFO_FLAG_DEFAULT;
->  	dev->fb_info.par = dev;
->  	dev->fb_info.var = dev->fb_defined;
->  	dev->fb_info.fix = dev->fb_fix;
+diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-buf-sysfs-stats.c
+index 6cfbbf0720bd..b5b62e40ccc1 100644
+--- a/drivers/dma-buf/dma-buf-sysfs-stats.c
++++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
+@@ -33,7 +33,7 @@
+  * into their address space. This necessitated the creation of the DMA-BUF sysfs
+  * statistics interface to provide per-buffer information on production systems.
+  *
+- * The interface at ``/sys/kernel/dma-buf/buffers`` exposes information about
++ * The interface at ``/sys/kernel/dmabuf/buffers`` exposes information about
+  * every DMA-BUF when ``CONFIG_DMABUF_SYSFS_STATS`` is enabled.
+  *
+  * The following stats are exposed by the interface:
+-- 
+2.25.1
 
