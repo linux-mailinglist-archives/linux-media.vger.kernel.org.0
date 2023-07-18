@@ -2,122 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1653575768F
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jul 2023 10:32:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B1607576A1
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jul 2023 10:35:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231411AbjGRIcG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Jul 2023 04:32:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50518 "EHLO
+        id S231710AbjGRIfH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Jul 2023 04:35:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231262AbjGRIcE (ORCPT
+        with ESMTP id S229891AbjGRIfG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Jul 2023 04:32:04 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EE68E7F;
-        Tue, 18 Jul 2023 01:32:01 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E971A614BF;
-        Tue, 18 Jul 2023 08:32:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B76AC433C8;
-        Tue, 18 Jul 2023 08:31:57 +0000 (UTC)
-Message-ID: <53bb24a3-6aa4-4ece-e837-2cd523e0c1e7@xs4all.nl>
-Date:   Tue, 18 Jul 2023 10:31:56 +0200
+        Tue, 18 Jul 2023 04:35:06 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5121810C;
+        Tue, 18 Jul 2023 01:35:05 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id 98e67ed59e1d1-263253063f9so3825625a91.1;
+        Tue, 18 Jul 2023 01:35:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689669305; x=1692261305;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=eMpOX6C6FYtAsj4g5lQl10VVb5hvzXz095FozRIR5PU=;
+        b=DwimSEDVkIBfU0qaTsE+yPx0nYQT1QCX0UKdyX+stGt2gKMdLu0KxOsi+hCOgdWDnC
+         ejUUJCFRbmMnoaBjAJuuZmDg45yXpoguxMzhG0OFw6yICEBHdMqGTuV3i5/7AXXkmtM2
+         EMJsdQLhmAM5NEMO2yjL7sAkrvao6vMvnnLE8Ub3FAjDDR65QsRnqs+puQSHxFlJnKyv
+         +1kUvk7zLDLOQ/rYuKjv27id8UPUTTFj9R9L9mR2An7OBaz8hL6IgwygCvucSU9Gyd2B
+         RNrosT75Xwnnyt+R1FWxBbab7NHxpIPw/MJJ9QdXZoM2aRr3f72TLZ4hm40DtvLUE2hn
+         J1mA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689669305; x=1692261305;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eMpOX6C6FYtAsj4g5lQl10VVb5hvzXz095FozRIR5PU=;
+        b=dtUElOh2Q9WLDqOZcn3eG46GvxAv7ZNYen8mXqn+TqjDkWzdCX7NiIQOsOb+eSYiaZ
+         iF37IgFxCom5dGIVUZ+217mhnsU7PLICvSEdenGaWlZc1JV9yDHVPAXZBUULkdJpZCK3
+         hTeHPCdAfBVGtqSKu2cVs/V7lt2e/cQg9aWlZrm2Ssf4YrZ4lYy+FP+IFVJgrEGY2cvr
+         nP/7dUy9fbj2gU+El+vRwtZnaX30XSMl0KU1XSASjYTCFoJHAGZj7t4LFE2sbDludDpl
+         dhbbHwj5B/r9VVvx6BxG/zBDqtoOopER/NRwJUL+4Zf0c0v6Of+mOZTG1HLXUvtXdogK
+         7P6Q==
+X-Gm-Message-State: ABy/qLblYNTExoLEInC2OroAA0VY9BH+19W8osz0Uy14Qw3src7pOL2J
+        Lx/ZKcmt9d8Fh0UzeZHU9kdeFAiWiYaEkzb0nps=
+X-Google-Smtp-Source: APBJJlGS8gVNY6wOq3wTAu77YtV4k3kOYTmOgon0h0cxJMmNVVysd6ICAyejQni8l5u9Fm0MnNHYbqxrv1jSa3ue0i0=
+X-Received: by 2002:a17:90a:72ce:b0:267:7743:9850 with SMTP id
+ l14-20020a17090a72ce00b0026777439850mr939949pjk.14.1689669304776; Tue, 18 Jul
+ 2023 01:35:04 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v3 00/14] media: rkisp1: Add support for i.MX8MP
-Content-Language: en-US
-To:     Paul Elder <paul.elder@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     Dafna Hirschfeld <dafna@fastmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Helen Koike <helen.koike@collabora.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20221118093931.1284465-1-paul.elder@ideasonboard.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20221118093931.1284465-1-paul.elder@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+References: <64b5dc93.170a0220.243d5.1d63@mx.google.com> <87zg3tiv08.fsf@minerva.mail-host-address-is-not-set>
+In-Reply-To: <87zg3tiv08.fsf@minerva.mail-host-address-is-not-set>
+From:   Luc Ma <onion0709@gmail.com>
+Date:   Tue, 18 Jul 2023 16:34:50 +0800
+Message-ID: <CAB3Z9RKV4ptbwnyG2T1LsqcAFVmBsTFOGrVS5RR9PNx7FO8OfA@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: remove unintended hyphen in the sysfs path
+To:     Javier Martinez Canillas <javierm@redhat.com>
+Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+Hi,
 
-On 18/11/2022 10:39, Paul Elder wrote:
-> This series depends on v3 of "dt-bindings: media: Add macros for video
-> interface bus types" [1].
-> 
-> This series extends the rkisp1 driver to support the ISP found in the
-> NXP i.MX8MP SoC.
-> 
-> The ISP IP cores in the Rockchip RK3399 (known as the "Rockchip ISP1")
-> and in the NXP i.MX8MP have the same origin, and have slightly diverged
-> over time as they are now independently developed (afaik) by Rockchip
-> and VeriSilicon. The latter is marketed under the name "ISP8000Nano",
-> and is close enough to the RK3399 ISP that it can easily be supported by
-> the same driver.
-> 
-> The last two patches add support for UYVY output format, which can be
-> implemented on the ISP version in the i.MX8MP but not in the one in the
-> RK3399.
-> 
-> This version of the series specifically has been tested on a Polyhex
-> Debix model A with an imx219 (Raspberry Pi cam v2).
 
-There were comments for the first few patches, but I haven't seen a v4.
+On Tue, 18 Jul 2023 at 14:39, Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+>
+> Luc Ma <onion0709@gmail.com> writes:
+>
+> > From: Luc Ma <luc@sietium.com>
+> >
+> > Signed-off-by: Luc Ma <luc@sietium.com>
+> > ---
+>
+> Even when is a trivial change I would add something as commit message, i.e:
+>
+> "The kernel-doc mentions /sys/kernel/dma-buf/buffers but the correct path
+> is /sys/kernel/dmabuf/buffers instead. Fix the typo in the documentation".
+>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+>
 
-I'm marking this series as 'Changes Requested' in patchwork, just so you
-know.
+thank you for the review, I'll add the above to v2
 
-Regards,
-
-	Hans
-
-> 
-> [1] https://lore.kernel.org/linux-media/20220615221410.27459-2-laurent.pinchart@ideasonboard.com/
-> 
-> Laurent Pinchart (3):
->   dt-bindings: media: rkisp1: Add i.MX8MP ISP example
->   media: rkisp1: Add and use rkisp1_has_feature() macro
->   media: rkisp1: Configure gasket on i.MX8MP
-> 
-> Paul Elder (11):
->   dt-bindings: media: rkisp1: Add i.MX8MP ISP to compatible
->   media: rkisp1: Add match data for i.MX8MP ISP
->   media: rkisp1: Add and set registers for crop for i.MX8MP
->   media: rkisp1: Add and set registers for output size config on i.MX8MP
->   media: rkisp1: Add i.MX8MP-specific registers for MI and resizer
->   media: rkisp1: Shift DMA buffer addresses on i.MX8MP
->   media: rkisp1: Add register definitions for the test pattern generator
->   media: rkisp1: Fix RSZ_CTRL bits for i.MX8MP
->   media: rkisp1: Support devices without self path
->   media: rkisp1: Add YC swap capability
->   media: rkisp1: Add UYVY as an output format
-> 
->  .../bindings/media/rockchip-isp1.yaml         |  79 ++++++++++-
->  .../platform/rockchip/rkisp1/rkisp1-capture.c | 102 +++++++++++---
->  .../platform/rockchip/rkisp1/rkisp1-common.h  |  32 +++++
->  .../platform/rockchip/rkisp1/rkisp1-debug.c   |  14 +-
->  .../platform/rockchip/rkisp1/rkisp1-dev.c     |  67 +++++++--
->  .../platform/rockchip/rkisp1/rkisp1-isp.c     | 128 +++++++++++++++++-
->  .../platform/rockchip/rkisp1/rkisp1-regs.h    |  90 ++++++++++++
->  .../platform/rockchip/rkisp1/rkisp1-resizer.c |  35 ++++-
->  include/uapi/linux/rkisp1-config.h            |   2 +
->  9 files changed, 509 insertions(+), 40 deletions(-)
-> 
-
+> --
+> Best regards,
+>
+> Javier Martinez Canillas
+> Core Platforms
+> Red Hat
+>
