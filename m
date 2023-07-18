@@ -2,113 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A9AD0757739
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jul 2023 10:59:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1249757747
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jul 2023 11:00:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231854AbjGRI7J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Jul 2023 04:59:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43500 "EHLO
+        id S231853AbjGRJAd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Jul 2023 05:00:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230285AbjGRI7H (ORCPT
+        with ESMTP id S230373AbjGRJAc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Jul 2023 04:59:07 -0400
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBE131705;
-        Tue, 18 Jul 2023 01:59:03 -0700 (PDT)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36I7DvZC007782;
-        Tue, 18 Jul 2023 08:58:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2023-03-30; bh=I4YvKVAWslmj3NSZw8/OO+TP7pVCUvJA9u3h5VipoFs=;
- b=P6w4e6BdxiSTMD86PlFPeKGtPNAKSvyB4OIGtUZiCkn1UXl1vqxgjexcsqkEEN60z+6K
- KamMMYocRLxNBMUphs5GviDrdJ6GALLN6ZtIE3udUs/cRf0m+HH5TG4wzcUWL6YPcA7t
- sBvm8bqG2M7rcbBkNCEWEo4FCEANwB+kt+alZtqmJDXRIhFJC35Y+jxllnhHtcXXE9Pt
- 19s+Kynx+8Qjb+Dq9AVj+UoGx8ZubdRXOMfvk8c3HfsmTXwoMqn/PSreSNJV738U/fAF
- 6i714VZKYjo8Q7aqsVRKUUA8ZPQatVzFaC4iYY9uIFKrmXwXVjlCgq04wbJDdF00VbQU iw== 
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3run78ck1f-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 18 Jul 2023 08:58:53 +0000
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 36I8JiZ5038203;
-        Tue, 18 Jul 2023 08:58:52 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3ruhw4sdpt-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 18 Jul 2023 08:58:52 +0000
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 36I8wqcv000485;
-        Tue, 18 Jul 2023 08:58:52 GMT
-Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.129.136.47])
-        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3ruhw4sdp7-1;
-        Tue, 18 Jul 2023 08:58:52 +0000
-From:   Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     dan.carpenter@linaro.org, kernel-janitors@vger.kernel.org,
-        error27@gmail.com, harshit.m.mogalapalli@oracle.com
-Subject: [PATCH next] media: i2c: fix error handling in ub960_rxport_add_serializer()
-Date:   Tue, 18 Jul 2023 01:58:46 -0700
-Message-ID: <20230718085846.3988564-1-harshit.m.mogalapalli@oracle.com>
-X-Mailer: git-send-email 2.41.0
+        Tue, 18 Jul 2023 05:00:32 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D01FB5;
+        Tue, 18 Jul 2023 02:00:30 -0700 (PDT)
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2D534838;
+        Tue, 18 Jul 2023 10:59:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1689670774;
+        bh=SRa3+hkSmTe9qdN9cZBlxLf7BK3h4HY/8zpZ2kZMqhg=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=fKLFUgJlVCEOcQU2wvvuAy2dHNJm0/gaB7xFvaICHOxopo1XwZK+v6qX6s/IMXzes
+         pnIaTCxuMbJYSv0r0Ris63CSmR6nswbSs4s5KN4aFi/iBjt44P4IY1RjiQqnYKmVcF
+         JVhrzo9IAHaF6fyP9jmouR0VfwfAfQ1vEuFJXwaY=
+Message-ID: <d2472b65-01c2-7420-0293-a72e3f9b69fa@ideasonboard.com>
+Date:   Tue, 18 Jul 2023 10:00:24 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2 2/2] usb: gadget: uvc: limit isoc_sg to super speed
+ gadgets
+Content-Language: en-US
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Michael Grzeschik <mgr@pengutronix.de>,
+        linux-usb@vger.kernel.org
+Cc:     linux-media@vger.kernel.org, gregkh@linuxfoundation.org,
+        balbi@kernel.org, laurent.pinchart@ideasonboard.com,
+        kernel@pengutronix.de, stable <stable@kernel.org>
+References: <20221125153450.344392-1-m.grzeschik@pengutronix.de>
+ <20221125153450.344392-2-m.grzeschik@pengutronix.de>
+ <20230124223558.GC7611@pengutronix.de>
+ <cab204fc-9efa-379d-1aea-ec462cbcaceb@xs4all.nl>
+From:   Dan Scally <dan.scally@ideasonboard.com>
+In-Reply-To: <cab204fc-9efa-379d-1aea-ec462cbcaceb@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-17_15,2023-07-13_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxscore=0 phishscore=0
- adultscore=0 spamscore=0 bulkscore=0 malwarescore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
- definitions=main-2307180081
-X-Proofpoint-ORIG-GUID: VxS-YW0pBrAOpdbSXyfINvVpZYq5PWlJ
-X-Proofpoint-GUID: VxS-YW0pBrAOpdbSXyfINvVpZYq5PWlJ
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Smatch warns:
- drivers/media/i2c/ds90ub960.c:1671 ub960_rxport_add_serializer():
- err: 'rxport->ser.client' dereferencing possible ERR_PTR()
+Morning Hans
 
-i2c_new_client_device() returns error pointers on failure and in
-dev_dbg statement we are dereferencing error pointer which is a bug.
+On 18/07/2023 09:46, Hans Verkuil wrote:
+> Laurent, Dan,
+>
+> On 24/01/2023 23:35, Michael Grzeschik wrote:
+>> Gentle Ping!
+> Can one of you look at this series? I see that Dan was added as UVC Gadget maintainer
+> earlier this year, so perhaps Dan can look at this? And also other UVC Gadget patches
+> from Michael:
+>
+> https://patchwork.linuxtv.org/project/linux-media/list/?submitter=545
+>
+> Patchwork is messy: think several of the patches in that list are either superseded
+> or are already merged, but the status was never updated.
 
-Fix this by using IS_ERR() which checks for error pointers.
 
-Fixes: afe267f2d368 ("media: i2c: add DS90UB960 driver")
-Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
----
-Found with static analysis, only compile tested. Although in
-drivers/media i2c_client_has_driver() checks are present, IS_ERR() would
-probably be sufficient here.
----
- drivers/media/i2c/ds90ub960.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Sorry; I'll put some time aside and look at the list this week.
 
-diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-index e101bcf2356a..88144e3ec183 100644
---- a/drivers/media/i2c/ds90ub960.c
-+++ b/drivers/media/i2c/ds90ub960.c
-@@ -1662,7 +1662,7 @@ static int ub960_rxport_add_serializer(struct ub960_data *priv, u8 nport)
- 	ser_info.addr = rxport->ser.alias;
- 	rxport->ser.client =
- 		i2c_new_client_device(priv->client->adapter, &ser_info);
--	if (!rxport->ser.client) {
-+	if (IS_ERR(rxport->ser.client)) {
- 		dev_err(dev, "rx%u: cannot add %s i2c device", nport,
- 			ser_info.type);
- 		return -EIO;
--- 
-2.39.3
 
+Thanks
+
+Dan
+
+>
+> Regards,
+>
+> 	Hans
+>
+>> On Fri, Nov 25, 2022 at 04:34:50PM +0100, Michael Grzeschik wrote:
+>>> When calling uvc_video_encode_isoc_sg the function is preparing the sg payload
+>>> by setting the sglist pointers of the videobuffer for the request. The usb
+>>> gadget driver then is parsing the sg list and uses each sg entry to send in one
+>>> urb to the host. Because of the unrelated buffer of the uvc header that buffer
+>>> has to be send separately in an extra sg entry.
+>>>
+>>> When it comes to transfers with an limited payload (e.g. the maximum of 3kB for
+>>> high-speed) this extra payload handling is not justified. A simple memcpy of
+>>> the header and payload is usually faster and does not come with that extra
+>>> runtime overhead.
+>>>
+>>> This patch is changing the uvc_video_encode_isoc_sg encode function only to be
+>>> used for super speed gadgets.
+>>>
+>>> Cc: stable <stable@kernel.org>
+>>> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+>>>
+>>> ---
+>>> v1 -> v2: - left the sg assignment in uvc_buffer_sg under the test for use_sg
+>>>           - rephrased the commit message
+>>>
+>>> drivers/usb/gadget/function/uvc_queue.c | 3 +--
+>>> drivers/usb/gadget/function/uvc_video.c | 9 +++++++--
+>>> 2 files changed, 8 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/usb/gadget/function/uvc_queue.c b/drivers/usb/gadget/function/uvc_queue.c
+>>> index 0aa3d7e1f3cc32..0abb1763faf1b6 100644
+>>> --- a/drivers/usb/gadget/function/uvc_queue.c
+>>> +++ b/drivers/usb/gadget/function/uvc_queue.c
+>>> @@ -87,9 +87,8 @@ static int uvc_buffer_prepare(struct vb2_buffer *vb)
+>>>      if (queue->use_sg) {
+>>>          buf->sgt = vb2_dma_sg_plane_desc(vb, 0);
+>>>          buf->sg = buf->sgt->sgl;
+>>> -    } else {
+>>> -        buf->mem = vb2_plane_vaddr(vb, 0);
+>>>      }
+>>> +    buf->mem = vb2_plane_vaddr(vb, 0);
+>>>      buf->length = vb2_plane_size(vb, 0);
+>>>      if (vb->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
+>>>          buf->bytesused = 0;
+>>> diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
+>>> index dd1c6b2ca7c6f3..b6ea600b011185 100644
+>>> --- a/drivers/usb/gadget/function/uvc_video.c
+>>> +++ b/drivers/usb/gadget/function/uvc_video.c
+>>> @@ -459,6 +459,9 @@ static void uvcg_video_pump(struct work_struct *work)
+>>>   */
+>>> int uvcg_video_enable(struct uvc_video *video, int enable)
+>>> {
+>>> +    struct uvc_device *uvc = video->uvc;
+>>> +    struct usb_composite_dev *cdev = uvc->func.config->cdev;
+>>> +    struct usb_gadget *gadget = cdev->gadget;
+>>>      unsigned int i;
+>>>      int ret;
+>>>
+>>> @@ -490,9 +493,11 @@ int uvcg_video_enable(struct uvc_video *video, int enable)
+>>>      if (video->max_payload_size) {
+>>>          video->encode = uvc_video_encode_bulk;
+>>>          video->payload_size = 0;
+>>> -    } else
+>>> -        video->encode = video->queue.use_sg ?
+>>> +    } else {
+>>> +        video->encode = (video->queue.use_sg &&
+>>> +                 !(gadget->speed <= USB_SPEED_HIGH)) ?
+>>>              uvc_video_encode_isoc_sg : uvc_video_encode_isoc;
+>>> +    }
+>>>
+>>>      video->req_int_count = 0;
+>>>
+>>> -- 
+>>> 2.30.2
+>>>
