@@ -2,96 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 96C5D7570DD
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jul 2023 02:28:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73C63757127
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jul 2023 03:02:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230042AbjGRA2G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 17 Jul 2023 20:28:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40948 "EHLO
+        id S229919AbjGRBCC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 17 Jul 2023 21:02:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229823AbjGRA2F (ORCPT
+        with ESMTP id S229481AbjGRBCA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 17 Jul 2023 20:28:05 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6576B1A8;
-        Mon, 17 Jul 2023 17:28:04 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1b8ad8383faso40786425ad.0;
-        Mon, 17 Jul 2023 17:28:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689640084; x=1692232084;
-        h=content-disposition:mime-version:subject:to:date:from:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gsybScX3TAasEPJeiUR0GnmS4s7meRN3K9Y2WCrLayY=;
-        b=GYPcZnb4RnvOvNBuxEiXWOH2d4Wdug96h8EVX+GOEAgH8Z2WuqXUnvTdvjg8INdLVK
-         DBM6NmczPdhvkoEVgE66kquSab4fELL0UgX9eLK3jBDLcso9kc0kfbYSI3rTcAEJ3QUy
-         SmCoO6rPHbwElTJ7wYlf3BAZrK3VhWaiMlcQYwMtHivHPgIZXc/XTyoNeDOsyH5GOnxQ
-         sjCP1eAzutGHf8lN59Yz1O/JG9GRHP9SnMMYsSu1sdnwHcK+XZl2DsZ31qXrtxnuXZxz
-         /t2hKkm+PnqrDgAoZ+yd+9HBftSE5GVA5rMczzXFjjGU8WsoQTDmwLcGW8AvRgsfSYfg
-         j/QA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689640084; x=1692232084;
-        h=content-disposition:mime-version:subject:to:date:from:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gsybScX3TAasEPJeiUR0GnmS4s7meRN3K9Y2WCrLayY=;
-        b=TlVmmulMeiC4Bu58g4Qe7LztetOXfrxa4KBcZl/sVswl/2heBZ6GPpmPXpa86P3bJx
-         Dx0ChPXetBxi7scbm+ITbnkIzTUKPhnMXoUdPC/HTv12lMuTT6V0iwaOOsZd/3S8P/UM
-         Y86sjbYysxzC/lBzgAlQ7m0m7IvSqGri2ehmytls8u96xZODJyZtOnnNaiyeEzj1F1X1
-         AptkeOuJ+SVMvRFaGImztgIhHguursze6jd88xxPr/qxl4kh8CSqgGUgqbVcsBIPLC/W
-         wqtJJUct/9gOxPzFrElSqDjfiv8WKxZ8Ioa2iIzK6JBQ+RHA5VqAMa9+paKrYB+gBCv0
-         rw1A==
-X-Gm-Message-State: ABy/qLb1RzHJZpXU3Sj++jbS1o8gp3sUgA6v05UMvggSL3moVZBgY7d1
-        hYzThdr2CPbkSruO0rFvIJU=
-X-Google-Smtp-Source: APBJJlGcs3hJOrf1f/Cd0vMFz6Oee0pgYh+6JNHCOG9asryiPrdQHqTUaqPDEil1JR7+YBoerQtMgg==
-X-Received: by 2002:a17:902:e805:b0:1ab:11c8:777a with SMTP id u5-20020a170902e80500b001ab11c8777amr16225639plg.13.1689640083776;
-        Mon, 17 Jul 2023 17:28:03 -0700 (PDT)
-Received: from sie-luc. ([1.85.36.133])
-        by smtp.gmail.com with ESMTPSA id n10-20020a170902e54a00b001b86e17ecacsm452089plf.131.2023.07.17.17.28.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jul 2023 17:28:03 -0700 (PDT)
-Message-ID: <64b5dc93.170a0220.243d5.1d63@mx.google.com>
-X-Google-Original-Message-ID: <20230718002756.GA2558@sie-luc.>
-From:   Luc Ma <onion0709@gmail.com>
-X-Google-Original-From: Luc Ma <luc@sietium.com>
-Date:   Tue, 18 Jul 2023 08:27:56 +0800
-To:     Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        onion0709@gmail.com
-Subject: [PATCH] dma-buf: remove unintended hyphen in the sysfs path
+        Mon, 17 Jul 2023 21:02:00 -0400
+Received: from out30-100.freemail.mail.aliyun.com (out30-100.freemail.mail.aliyun.com [115.124.30.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6F31B5;
+        Mon, 17 Jul 2023 18:01:58 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R411e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046050;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0VnfOa4c_1689642114;
+Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0VnfOa4c_1689642114)
+          by smtp.aliyun-inc.com;
+          Tue, 18 Jul 2023 09:01:55 +0800
+From:   Yang Li <yang.lee@linux.alibaba.com>
+To:     tomi.valkeinen@ideasonboard.com
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>,
+        Abaci Robot <abaci@linux.alibaba.com>
+Subject: [PATCH -next] media: i2c: No need to set device_driver owner
+Date:   Tue, 18 Jul 2023 09:01:54 +0800
+Message-Id: <20230718010154.36550-1-yang.lee@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+        USER_IN_DEF_SPF_WL autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Luc Ma <luc@sietium.com>
+Remove .owner field if calls are used which set it automatically.
 
-Signed-off-by: Luc Ma <luc@sietium.com>
+to silence the warning:
+./drivers/media/i2c/ds90ub953.c:1390:3-8: No need to set .owner here.  The core will do it.
+
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=5902
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
 ---
- drivers/dma-buf/dma-buf-sysfs-stats.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/i2c/ds90ub953.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-buf-sysfs-stats.c
-index 6cfbbf0720bd..b5b62e40ccc1 100644
---- a/drivers/dma-buf/dma-buf-sysfs-stats.c
-+++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
-@@ -33,7 +33,7 @@
-  * into their address space. This necessitated the creation of the DMA-BUF sysfs
-  * statistics interface to provide per-buffer information on production systems.
-  *
-- * The interface at ``/sys/kernel/dma-buf/buffers`` exposes information about
-+ * The interface at ``/sys/kernel/dmabuf/buffers`` exposes information about
-  * every DMA-BUF when ``CONFIG_DMABUF_SYSFS_STATS`` is enabled.
-  *
-  * The following stats are exposed by the interface:
+diff --git a/drivers/media/i2c/ds90ub953.c b/drivers/media/i2c/ds90ub953.c
+index 1e3827a60029..ce1c6f8b656e 100644
+--- a/drivers/media/i2c/ds90ub953.c
++++ b/drivers/media/i2c/ds90ub953.c
+@@ -1387,7 +1387,6 @@ static struct i2c_driver ds90ub953_driver = {
+ 	.id_table	= ub953_id,
+ 	.driver = {
+ 		.name	= "ds90ub953",
+-		.owner = THIS_MODULE,
+ 		.of_match_table = ub953_dt_ids,
+ 	},
+ };
 -- 
-2.25.1
+2.20.1.7.g153144c
 
