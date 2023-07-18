@@ -2,98 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B450757DA8
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jul 2023 15:32:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E5B8757DAC
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jul 2023 15:33:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231986AbjGRNcE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Jul 2023 09:32:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36598 "EHLO
+        id S231193AbjGRNdL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Jul 2023 09:33:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231193AbjGRNcC (ORCPT
+        with ESMTP id S232835AbjGRNdI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Jul 2023 09:32:02 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1924497;
-        Tue, 18 Jul 2023 06:32:00 -0700 (PDT)
-Received: from [192.168.88.20] (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8EB1A7F3;
-        Tue, 18 Jul 2023 15:31:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1689687065;
-        bh=CDlQt/aqwwdzSm2yeQRiyABXS9GNnR7K1F2R3sEC9uE=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=VpvfGkQ3WeiTuXcwWtmEetaO4KTQ5/OwKr1CuGLEQsENY3Vm0XkTb1SUxBLXC/GD0
-         5131USLBvBFhopUH9hbS9QXTT/mRuZUjOvLs924ljQz8KgwhiuikTxLD4F6Wu/UPZs
-         nuMR37HXVkAPFpHm7/gfgxHc84Npvv+tpdigwZFs=
-Message-ID: <159ca9b9-0702-b347-3e4f-66272dfce55e@ideasonboard.com>
-Date:   Tue, 18 Jul 2023 16:31:54 +0300
+        Tue, 18 Jul 2023 09:33:08 -0400
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C048697;
+        Tue, 18 Jul 2023 06:33:07 -0700 (PDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id AF9825C007D;
+        Tue, 18 Jul 2023 09:33:04 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Tue, 18 Jul 2023 09:33:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+        :cc:content-type:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm3; t=1689687184; x=1689773584; bh=Tz
+        mq/nK7eqvFosoiqIm7nW5CF/NRWQWr0Xx7OWV5RoE=; b=JkkS+MKKUpB+gaQfIL
+        0kgHZn8rzCv8rtKiOAx6gJfptEnr5BFquVp0yb6DOeQ3q/6+zT/7Bb7viJoKPhSt
+        vxl+gCSC50gsSYHAixPdpO+S+mdp1DIDVnUDgOyIcFdmTSm4ravuK7pe2Ois83Bf
+        76/4lnHWcOACKGd3+Hb/6DpLA8PivTcP64jOAqYck+I3KNu7eAAFm7KDXv9BMp10
+        x/ljYkpLqFib7XqkgjtNphulJsP0WtkPi4HTkqePoyGbxQKMtic5SWg19d1suVO3
+        q84bbDuJT9eATyPOuFSqqD3GJHFlUSElmaZsT+5IW7C2qLl1l1ZCKs6P/troHxhn
+        Y/PQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; t=1689687184; x=1689773584; bh=Tzmq/nK7eqvFo
+        soiqIm7nW5CF/NRWQWr0Xx7OWV5RoE=; b=Bo4S8QcsCvxMOTn0ymcerE1qVV4/u
+        lLMT/LIRzz60aP5BHUslJsauS1SkOMBOjEbPKOXgQXU+vVvrLUr2zkYpBJNnzLVK
+        euQh8LRGaj4L1rj8298GVuNWh/7r0rWH0ZSs+XtrLuwZMQUKKtBY/bCe2wakGGNY
+        8J5MPB/rThyidywuK1nRiBUrVrjxcWXTkBZspi/3ysVtsxtrc1vXekbhtclgHFf+
+        H7jwt5Vpj8vE4WGGh6kOb0QAc88LU8k8fvQOAokmbyxvKLYXaU/93XAKjbs18U5W
+        9Lz+QdfLJuwewi2mHkRJvQnjwoqsEPNejJy/qsKAr1giuloIxK7/Aen3A==
+X-ME-Sender: <xms:j5S2ZFTxIWcV3FblGUZNORcg1xcl_Yol-HukCFcc-BO5mReEMiKI_g>
+    <xme:j5S2ZOxUqwEyMHRlGAmWXWJUH56CGtkWxxEBq0ZPAqBeGOB4Do9-LcBRHcLuywQTo
+    -hm9q3LlT7SFw>
+X-ME-Received: <xmr:j5S2ZK2IL41LFX77-mfIw_FhspcmzNLByhZi0R5FKPdDPIkz6aLxmsQaDZQj>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrgeeggdeivdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkfhggtggujgesthdtre
+    dttddtvdenucfhrhhomhepifhrvghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheq
+    necuggftrfgrthhtvghrnhepheegvdevvdeljeeugfdtudduhfekledtiefhveejkeejue
+    fhtdeufefhgfehkeetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghi
+    lhhfrhhomhepghhrvghgsehkrhhorghhrdgtohhm
+X-ME-Proxy: <xmx:j5S2ZNALaBy3MWS2P0uxTO6UfiTNsknmmZ1OpvUjMsDfGoFxxPO6Mg>
+    <xmx:j5S2ZOir7RItwwL1ltUmVCHaKLHyKFVrmzMSkar4C2pbWFaGqbM2gQ>
+    <xmx:j5S2ZBo-a8KbYhr__yjXxWKNz8O4MvoAQHTs1fVrIvmP57MaTH8qCA>
+    <xmx:kJS2ZHX2NT7U99Kow2TsEshrsf654Nq1GYgDX1F42aekPBt3gznR4Q>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 18 Jul 2023 09:33:02 -0400 (EDT)
+Date:   Tue, 18 Jul 2023 15:32:58 +0200
+From:   Greg KH <greg@kroah.com>
+To:     hanyu001@208suo.com
+Cc:     mchehab@kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH] wifi: av7110: remove space before ')'
+Message-ID: <2023071830-quotation-gaining-8cbe@gregkh>
+References: <tencent_C61A29FA864A05D9D83277F0CF7721A52D0A@qq.com>
+ <89948b0041b6553b65a8cf8e8f1152b4@208suo.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH next] media: i2c: fix error handling in
- ub960_rxport_add_serializer()
-Content-Language: en-US
-To:     Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     dan.carpenter@linaro.org, kernel-janitors@vger.kernel.org,
-        error27@gmail.com
-References: <20230718085846.3988564-1-harshit.m.mogalapalli@oracle.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <20230718085846.3988564-1-harshit.m.mogalapalli@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <89948b0041b6553b65a8cf8e8f1152b4@208suo.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Tue, Jul 18, 2023 at 03:27:58PM +0800, hanyu001@208suo.com wrote:
+> The patch fixes the following errors detected by checkpatch.pl:
+> 
+> ./drivers/staging/media/av7110/av7110.c:2556: ERROR: space prohibited before
+> that close parenthesis ')'
+> ./drivers/staging/media/av7110/av7110.c:2558: ERROR: space prohibited before
+> that close parenthesis ')'
+> ./drivers/staging/media/av7110/av7110.c:2599: ERROR: space prohibited before
+> that close parenthesis ')'
+> 
+> Signed-off-by: Yu Han <hanyu001@208suo.com>
+> ---
+>  drivers/staging/media/av7110/av7110.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/media/av7110/av7110.c
+> b/drivers/staging/media/av7110/av7110.c
+> index a5a431c1..6b9df2c 100644
+> --- a/drivers/staging/media/av7110/av7110.c
+> +++ b/drivers/staging/media/av7110/av7110.c
+> @@ -2553,9 +2553,9 @@ static int av7110_attach(struct saa7146_dev* dev,
+>           * use 0x03 to track RPS1 interrupts - increase by 1 every gpio3 is
+> toggled
+>           * use 0x15 to track VPE  interrupts - increase by 1 every vpeirq()
+> is called
+>           */
+> -        saa7146_write(dev, EC1SSR, (0x03<<2) | 3 );
+> +        saa7146_write(dev, EC1SSR, (0x03<<2) | 3);
+>          /* set event counter 1 threshold to maximum allowed value
+> (rEC p55) */
+> -        saa7146_write(dev, ECT1R,  0x3fff );
+> +        saa7146_write(dev, ECT1R,  0x3fff);
+>  #endif
+>          /* Setup BUDGETPATCH MAIN RPS1 "program" (p35) */
+>          count = 0;
+> @@ -2596,7 +2596,7 @@ static int av7110_attach(struct saa7146_dev* dev,
+>           * then RPS_THRESH1 should be set to trigger
+>           * every TS_HEIGHT (512) lines.
+>           */
+> -        saa7146_write(dev, RPS_THRESH1, (TS_HEIGHT*1) | MASK_12 );
+> +        saa7146_write(dev, RPS_THRESH1, (TS_HEIGHT*1) | MASK_12);
+> 
+>          /* Enable RPS1
+> (rFC p33) */
+>          saa7146_write(dev, MC1, (MASK_13 | MASK_29));
+> 
+
 Hi,
 
-On 18/07/2023 11:58, Harshit Mogalapalli wrote:
-> Smatch warns:
->   drivers/media/i2c/ds90ub960.c:1671 ub960_rxport_add_serializer():
->   err: 'rxport->ser.client' dereferencing possible ERR_PTR()
-> 
-> i2c_new_client_device() returns error pointers on failure and in
-> dev_dbg statement we are dereferencing error pointer which is a bug.
-> 
-> Fix this by using IS_ERR() which checks for error pointers.
-> 
-> Fixes: afe267f2d368 ("media: i2c: add DS90UB960 driver")
-> Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-> ---
-> Found with static analysis, only compile tested. Although in
-> drivers/media i2c_client_has_driver() checks are present, IS_ERR() would
-> probably be sufficient here.
-> ---
->   drivers/media/i2c/ds90ub960.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-> index e101bcf2356a..88144e3ec183 100644
-> --- a/drivers/media/i2c/ds90ub960.c
-> +++ b/drivers/media/i2c/ds90ub960.c
-> @@ -1662,7 +1662,7 @@ static int ub960_rxport_add_serializer(struct ub960_data *priv, u8 nport)
->   	ser_info.addr = rxport->ser.alias;
->   	rxport->ser.client =
->   		i2c_new_client_device(priv->client->adapter, &ser_info);
-> -	if (!rxport->ser.client) {
-> +	if (IS_ERR(rxport->ser.client)) {
->   		dev_err(dev, "rx%u: cannot add %s i2c device", nport,
->   			ser_info.type);
->   		return -EIO;
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-Good catch. I think this should be modified to return 
-PTR_ERR(rxport->ser.client) instead of -EIO. Do you want to update the 
-patch or shall I do the change?
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-  Tomi
+- Your patch contains warnings and/or errors noticed by the
+  scripts/checkpatch.pl tool.
 
+- Your patch is malformed (tabs converted to spaces, linewrapped, etc.)
+  and can not be applied.  Please read the file,
+  Documentation/process/email-clients.rst in order to fix this.
+
+- You did not specify a description of why the patch is needed, or
+  possibly, any description at all, in the email body.  Please read the
+  section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what is needed in
+  order to properly describe the change.
+
+- You did not write a descriptive Subject: for the patch, allowing Greg,
+  and everyone else, to know what this patch is all about.  Please read
+  the section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what a proper
+  Subject: line should look like.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
