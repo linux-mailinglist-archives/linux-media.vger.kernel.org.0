@@ -2,100 +2,210 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED66B757A40
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jul 2023 13:16:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBAC7757AFE
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jul 2023 13:56:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230393AbjGRLQq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Jul 2023 07:16:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36286 "EHLO
+        id S231147AbjGRL4F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Jul 2023 07:56:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230450AbjGRLQp (ORCPT
+        with ESMTP id S230156AbjGRL4E (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Jul 2023 07:16:45 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5B5F1705;
-        Tue, 18 Jul 2023 04:16:43 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id 98e67ed59e1d1-26586e824e7so2840358a91.3;
-        Tue, 18 Jul 2023 04:16:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689679003; x=1692271003;
-        h=content-disposition:mime-version:subject:to:date:from:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RDqCEtPP7u4lUuZ9Np/PNRIOxRGuU6kZQY2tiFjWesI=;
-        b=R1b13mbfqdYlno1rEzfx5LoSkAJSZ4myTZ4145u7gLU7tIkMZ1H6QkP+AcW+MbaE6T
-         c+Dkoeor41D1nkVFvRVfUjUXUWep5edmRb0sWAnhxGUyr0GUblOQPo+m+4SQxOSRxx2S
-         rDVuQD0rjNVHptG3czYEL1GTpHsWpeAIF4QL9do43kt2ri2v5Af/qhIOF/+WFbf6rEF9
-         UrI92NJo+RAWtgWxqedqpE76x9zyxAcC5bT81uVLVvDnZGjNcFRyOPKJwWvOzdHsOy5m
-         sVIrhakF1Tfjg7YmUmKgcP8DU6K8Mc3g54JVP7RSe0HT5JbHvg/i/6BCNGt7TOebLKVS
-         1mrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689679003; x=1692271003;
-        h=content-disposition:mime-version:subject:to:date:from:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RDqCEtPP7u4lUuZ9Np/PNRIOxRGuU6kZQY2tiFjWesI=;
-        b=j3FVJoX2ych7RqdDKAXP7fiWVeAbJ967NE2tspMEhDc/NeOSpq0qVZZnpsCqG7dqEO
-         9VUrPvDT0d+fdg2ygcWCVAmZJLrPJVQJvfMmaeA/3uBCozCjMKSEW2EdAg0AQdhRSYDP
-         zTesHnHPOFhyFU+qiAJx578MCBQgSK6+5vwzgUlX25q2R1pfSpkxKqJl3ts8jFAUngvu
-         2aFgzVepPIJ3QMszlmvO7K5o5n0rc2W+y15iGK6stwalcQ+9liQMv+KGUXTgR8CPPECs
-         4IcULzYWqMBkTTwbzD9L4kSPJatdn0/ewz9zFu+bquUQ0X1dB/wK85rXelomMK83+O1m
-         ys2w==
-X-Gm-Message-State: ABy/qLb2c8JpKdqRXgGE6HVgS/ogFT5P2CfL1pwh/MUgL1a4XfM0tC4e
-        VZe/PA4WgXQG/pdEWS/XBPE=
-X-Google-Smtp-Source: APBJJlEst8u9Az2C8TF7X1huLYbv/7A043tSS9ngGKSY788TupNY8qhUi2D7L/U93exBd4YXJmFbjw==
-X-Received: by 2002:a17:90a:62c5:b0:262:d19c:4fee with SMTP id k5-20020a17090a62c500b00262d19c4feemr11645410pjs.19.1689679003309;
-        Tue, 18 Jul 2023 04:16:43 -0700 (PDT)
-Received: from sie-luc. ([1.85.36.133])
-        by smtp.gmail.com with ESMTPSA id 6-20020a17090a194600b00263d3448141sm1329482pjh.8.2023.07.18.04.16.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jul 2023 04:16:42 -0700 (PDT)
-Message-ID: <64b6749a.170a0220.3acab.2af9@mx.google.com>
-X-Google-Original-Message-ID: <20230718111634.GA8462@sie-luc.>
-From:   Luc Ma <onion0709@gmail.com>
-X-Google-Original-From: Luc Ma <luc@sietium.com>
-Date:   Tue, 18 Jul 2023 19:16:34 +0800
-To:     Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        javierm@redhat.com, onion0709@gmail.com
-Subject: [PATCH v2] dma-buf: Fix the typo in DMA-BUF statistics doc
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        Tue, 18 Jul 2023 07:56:04 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E77D1A5
+        for <linux-media@vger.kernel.org>; Tue, 18 Jul 2023 04:56:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689681363; x=1721217363;
+  h=date:from:to:cc:subject:message-id;
+  bh=VY/KoLQfoagqEyRpHEYYA3MnH9nDmIb9h8Uf3f+tfgM=;
+  b=IZMXApd4Mio1J6M/ijMEJ+uMqmE/cZEhO0XN0M8kKNL2GuxsMGHGVlZK
+   4+G8AKf3cSByrKBJef7nGgPSQ+cUFLSxLdPIGKOxYIWjox4bf70YQ+P2q
+   pRRByDoc/jDt0SqbgQUjyrY0VN5Vl+56LmlZ04FZgfd70IWvSe6fpYdIx
+   IToj2PzzCNTPkt3tRFNwfCYPKyaOMHXlAPHk31acSCtNgUYAjX5X7z5lA
+   48iodd1ZJpnT9jy7x/s4u6NmgC+ZtgT1dtvj+VAD/Me+rYFDit6zx0EYg
+   Z8EvJJc0JnrxnfIIst8pV2/sfdH2kdPtdTFYjc0znsML34gqsJ2o3xsvr
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="345778143"
+X-IronPort-AV: E=Sophos;i="6.01,214,1684825200"; 
+   d="scan'208";a="345778143"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 04:56:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="700866530"
+X-IronPort-AV: E=Sophos;i="6.01,214,1684825200"; 
+   d="scan'208";a="700866530"
+Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 18 Jul 2023 04:56:01 -0700
+Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qLjIu-0000a9-1S;
+        Tue, 18 Jul 2023 11:55:46 +0000
+Date:   Tue, 18 Jul 2023 19:55:17 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org
+Subject: [sailus-media-tree:master] BUILD SUCCESS
+ a01a7332c3c989e155d02b722fd2b6986e2e7899
+Message-ID: <202307181915.NarWGyqS-lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Luc Ma <luc@sietium.com>
+tree/branch: git://linuxtv.org/sailus/media_tree.git master
+branch HEAD: a01a7332c3c989e155d02b722fd2b6986e2e7899  media: subdev: Add debug prints to enable/disable_streams
 
-The kernel-doc for DMA-BUF statistics mentions /sys/kernel/dma-buf/buffers
-but the correct path is /sys/kernel/dmabuf/buffers instead.
+elapsed time: 916m
 
-Signed-off-by: Luc Ma <luc@sietium.com>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
----
- drivers/dma-buf/dma-buf-sysfs-stats.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+configs tested: 133
+configs skipped: 6
 
-diff --git a/drivers/dma-buf/dma-buf-sysfs-stats.c b/drivers/dma-buf/dma-buf-sysfs-stats.c
-index 6cfbbf0720bd..b5b62e40ccc1 100644
---- a/drivers/dma-buf/dma-buf-sysfs-stats.c
-+++ b/drivers/dma-buf/dma-buf-sysfs-stats.c
-@@ -33,7 +33,7 @@
-  * into their address space. This necessitated the creation of the DMA-BUF sysfs
-  * statistics interface to provide per-buffer information on production systems.
-  *
-- * The interface at ``/sys/kernel/dma-buf/buffers`` exposes information about
-+ * The interface at ``/sys/kernel/dmabuf/buffers`` exposes information about
-  * every DMA-BUF when ``CONFIG_DMABUF_SYSFS_STATS`` is enabled.
-  *
-  * The following stats are exposed by the interface:
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r004-20230718   gcc  
+arc                              allyesconfig   gcc  
+arc                          axs101_defconfig   gcc  
+arc                                 defconfig   gcc  
+arc                            hsdk_defconfig   gcc  
+arc                  randconfig-r012-20230717   gcc  
+arc                  randconfig-r025-20230717   gcc  
+arc                  randconfig-r043-20230717   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                  randconfig-r022-20230717   clang
+arm                  randconfig-r046-20230717   clang
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r023-20230717   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r013-20230717   gcc  
+csky                 randconfig-r034-20230717   gcc  
+hexagon              randconfig-r011-20230717   clang
+hexagon              randconfig-r041-20230717   clang
+hexagon              randconfig-r045-20230717   clang
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-r004-20230717   clang
+i386         buildonly-randconfig-r005-20230717   clang
+i386         buildonly-randconfig-r006-20230717   clang
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-i001-20230717   clang
+i386                 randconfig-i002-20230717   clang
+i386                 randconfig-i003-20230717   clang
+i386                 randconfig-i004-20230717   clang
+i386                 randconfig-i005-20230717   clang
+i386                 randconfig-i006-20230717   clang
+i386                 randconfig-i011-20230717   gcc  
+i386                 randconfig-i012-20230717   gcc  
+i386                 randconfig-i013-20230717   gcc  
+i386                 randconfig-i014-20230717   gcc  
+i386                 randconfig-i015-20230717   gcc  
+i386                 randconfig-i016-20230717   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r033-20230717   gcc  
+m68k                             allmodconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                        m5272c3_defconfig   gcc  
+m68k                        stmark2_defconfig   gcc  
+microblaze           randconfig-r005-20230718   gcc  
+microblaze           randconfig-r006-20230718   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                           ci20_defconfig   gcc  
+mips                      fuloong2e_defconfig   gcc  
+mips                     loongson1b_defconfig   gcc  
+mips                          malta_defconfig   clang
+mips                           mtx1_defconfig   clang
+mips                 randconfig-r031-20230717   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r036-20230717   gcc  
+openrisc                  or1klitex_defconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                     asp8347_defconfig   gcc  
+powerpc                     ksi8560_defconfig   clang
+powerpc                       maple_defconfig   gcc  
+powerpc                   motionpro_defconfig   gcc  
+powerpc                      ppc44x_defconfig   clang
+powerpc                     rainier_defconfig   gcc  
+powerpc              randconfig-r024-20230717   gcc  
+powerpc                     redwood_defconfig   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r042-20230717   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r044-20230717   gcc  
+sh                               allmodconfig   gcc  
+sh                ecovec24-romimage_defconfig   gcc  
+sh                          kfr2r09_defconfig   gcc  
+sh                   randconfig-r003-20230718   gcc  
+sh                   randconfig-r032-20230717   gcc  
+sh                   rts7751r2dplus_defconfig   gcc  
+sh                           se7705_defconfig   gcc  
+sh                   sh7724_generic_defconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r026-20230717   gcc  
+sparc64              randconfig-r015-20230717   gcc  
+sparc64              randconfig-r021-20230717   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-r001-20230717   clang
+x86_64       buildonly-randconfig-r002-20230717   clang
+x86_64       buildonly-randconfig-r003-20230717   clang
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-r035-20230717   clang
+x86_64               randconfig-x001-20230717   gcc  
+x86_64               randconfig-x002-20230717   gcc  
+x86_64               randconfig-x003-20230717   gcc  
+x86_64               randconfig-x004-20230717   gcc  
+x86_64               randconfig-x005-20230717   gcc  
+x86_64               randconfig-x006-20230717   gcc  
+x86_64               randconfig-x011-20230717   clang
+x86_64               randconfig-x012-20230717   clang
+x86_64               randconfig-x013-20230717   clang
+x86_64               randconfig-x014-20230717   clang
+x86_64               randconfig-x015-20230717   clang
+x86_64               randconfig-x016-20230717   clang
+x86_64                           rhel-8.3-bpf   gcc  
+x86_64                          rhel-8.3-func   gcc  
+x86_64                    rhel-8.3-kselftests   gcc  
+x86_64                         rhel-8.3-kunit   gcc  
+x86_64                           rhel-8.3-ltp   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa               randconfig-r001-20230718   gcc  
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
