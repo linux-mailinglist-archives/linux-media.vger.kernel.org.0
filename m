@@ -2,113 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 789EE757879
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jul 2023 11:52:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 533DC7578B1
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jul 2023 12:00:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232355AbjGRJvc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Jul 2023 05:51:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48056 "EHLO
+        id S232422AbjGRKAK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Jul 2023 06:00:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232321AbjGRJvL (ORCPT
+        with ESMTP id S232260AbjGRJ7m (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Jul 2023 05:51:11 -0400
-Received: from EUR02-AM0-obe.outbound.protection.outlook.com (mail-am0eur02on2056.outbound.protection.outlook.com [40.107.247.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EACB5128;
-        Tue, 18 Jul 2023 02:51:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B7rzXGHOoSg8J55eYkXRQyKKmYMHxKz+1CI/xzd0MFkQKy/VnEg9opRlVTHGxmoOuNgWM/YrzjtO7KzrcoUZU6D6L38DFyqB8qlgt26l2E7Vipvtlc4u+8vtSIyoqR26aSB98nfsUeVFldg0riBY3OIlewiLxqrakCUYow6xlmlVDWIoYDB+wZukIDUJzGCAjf8GHoZUGshVCth7dY07nRG43ey0UXNCpCn2rUsnhRtEis3yaeMqfg7R6BWXxS/XydWLunSy9fEuKHWcUar4/TnE+Xfe95NUvoxMzIE95n/WmVPeYbW7KxDbrGwx58VueGiN3R6F4LXGTpLM7SxjvA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=20G3mcqhQwbuDatCJ1tAgjhv5x52jZDh+tZLmUBxvg8=;
- b=D8N7TDRc6lpw+Iueycf5ymzgMlakhbWCFnGjdu85Xa/qhE/ZN2RB3xntLypMohkQes+zyBZvhDgUeXtmXd1xyS/ApRlpRlMsYflMcPeXDjKjdUkbP4a1Kzx1/1dRmQtmhf7G3WAzOqHSkMRxH+lLZBr05ARb2AxcX6eBMCityY7EPb6ZW1/nk1IyzfzxRa0UUrTw9NhQ9+hW/A2tyQvA/8Ofafmf6Mw8vUPVb6abUTv3Qg3OAPCiezrYRA2SXTtkbd5eXpLfDZAZRk2ZfPSGiSMmw3xt6yL//TMCSh4AsxtzFswTVNwRAv8yzVOp6kDasLi4MzzYzNnqK6bKbEGwUg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=20G3mcqhQwbuDatCJ1tAgjhv5x52jZDh+tZLmUBxvg8=;
- b=SLYK/RG0N0+FwhR06ur0H9vcdhVCTj2jjQYwAS2XvngLJAn8J4trXqDmgUfcId9zsU0KUGQyl/gp6mQBAe93g2HbDxY70iygse+7huCGfoBLeljnXhSYMFot3JdC1zbhhULq5xEM4sSZYCtgmXYyX6qYUKWcjFnKCGQMN5u9GPE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
- by AS4PR04MB9243.eurprd04.prod.outlook.com (2603:10a6:20b:4e2::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.33; Tue, 18 Jul
- 2023 09:51:05 +0000
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::613b:e94b:4ccd:f55a]) by AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::613b:e94b:4ccd:f55a%5]) with mapi id 15.20.6588.031; Tue, 18 Jul 2023
- 09:51:04 +0000
-From:   Ming Qian <ming.qian@nxp.com>
-To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl
-Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
-        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-        xiahong.bao@nxp.com, eagle.zhou@nxp.com, tao.jiang_2@nxp.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 5/5] media: amphion: ensure the bitops don't cross boundaries
-Date:   Tue, 18 Jul 2023 17:50:13 +0800
-Message-Id: <f2ae16159150707d350a495711f5767c29a911bf.1689673395.git.ming.qian@nxp.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <cover.1689673395.git.ming.qian@nxp.com>
-References: <cover.1689673395.git.ming.qian@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR04CA0009.apcprd04.prod.outlook.com
- (2603:1096:4:197::8) To AM6PR04MB6341.eurprd04.prod.outlook.com
- (2603:10a6:20b:d8::14)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6PR04MB6341:EE_|AS4PR04MB9243:EE_
-X-MS-Office365-Filtering-Correlation-Id: 015a50e9-ba4e-4059-a296-08db87748034
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QC/lYW0mRy9Fb5j13gF30Vtvq3hQiWxPy1+Qg7Z0L5U99cAEJJmvDY20wQdrlon+RvPhiuuw7UUHd2YFum5HYtjVCOcYXYMF/1XMQvvZk76r/09MA5EbUOnyivJUzx66D9Dpvlmx7gzhWXlgoxXGfYJ9aDavkkeJqBpcL5aYrCFM9n2DY6Wmhz7r+zHCO6mPjvkvbM5xk6n6KmCKPIh1au7nSNfjBYcCAaRr0i8rQgOMGTJQxr+84RYX6s+6bxr5kHCzvVFslEfP2CBzf2ZlOowqiaktWPWN5+jLrwisC1zPnO66ol2rhw+M9CjiGLdJZY/4A3+/fTkXbzTQUxpARXrOQuf6pPMMU0nntTKqYifdU0Xs7tuRZhnDYEAqfHSwlgGyWafsiCC0ZknIuh5AtkMtxOWIdwaIl/t7SW5pokp04SS/EuAQQA1KUEpFfbiiLnJLW7ADWXE6KCEXxi/TVJREw30+IVmVFlNgyDeVQD2poYmHBgvCFfmB6sGC42u9lCEQD08evUb8QaAEbRLXPQxnjW7zJ/YjOjsvdKWWwOwOEPsAmQNcp1OsQjv9GCWqRHvBxmtyyzOUvGVHXECwKc6O2LmHujNiiLohS0MLN872lLkUhPYEMzXiZ0ZaZ0bX
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(376002)(39860400002)(366004)(136003)(396003)(451199021)(26005)(186003)(6506007)(36756003)(83380400001)(86362001)(38100700002)(38350700002)(2616005)(4326008)(66476007)(66946007)(66556008)(316002)(8936002)(8676002)(5660300002)(7416002)(41300700001)(44832011)(2906002)(6486002)(6666004)(6512007)(52116002)(478600001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HoyTVk+/VVt2nI1mu4oDvGVAqEE1IQE9ZzVLjYemyIsh6V2cknsKlGPqxmi9?=
- =?us-ascii?Q?VPT5+ZeRf+hwhzw4KnttUX4NynRh5qELCZuvTDHiKjfryf6jc/XQVGdNmNnL?=
- =?us-ascii?Q?Cjoh1y5cuFGLOqgeBjimmjpnjPrIRNd89kPX487RA97bdVF6QG6DuefrwXLA?=
- =?us-ascii?Q?bTiBYzVsjCYQz/rIfKYz13SjdsQjOBrglusXQeg4HZ/pRgicNE2wDv7/sTO7?=
- =?us-ascii?Q?RO3QFyvrqyJeE4vRzxgFIS/JEyGP8SEEGycDUJ0foGpsqR9WIt6jfTFmr5cy?=
- =?us-ascii?Q?6/Q4JSj1pD42JX4bJUS/LjBLLD+7D42YNgZujjSfKU/DjU/DeHWAkl0/O3Jz?=
- =?us-ascii?Q?mgT9yOeTAxe4HTDElZWRoPFQV+Bin5m/fCLAWP6DILLldS+w1TqC1NmLIW5a?=
- =?us-ascii?Q?IDF145SJBWof7ycO8S5LrHgFZWoFq9LGd8Y7Ie02RmTUoHy5vyPKNA5vM0B8?=
- =?us-ascii?Q?YfIU4TfhM+qypjmLfHH2bzr1r2rcBS75GGF66+HPuyDnsqLXJUhX1buA4RKA?=
- =?us-ascii?Q?vaA0NFbdFlkgbcPOYLPSlxkFVKE0AJyR0Ivm3XLj3lnxq0/jvF0ZUK0h7Cv5?=
- =?us-ascii?Q?JlQXbpKvugV8m0J6tR3T0Epco78w6ou6NfuY8O8mc502+ji3kLE11TAwalb0?=
- =?us-ascii?Q?9IjC6ppfIAjrgDFiVKzAKaHy6NV1rEqTKY2huesWYx96vYETkXT+XQ8S0SQ0?=
- =?us-ascii?Q?5BYKC/Rw7L6TxS7NRWn3Phta+0sYHQlUQe8KtXcbzb0wMfkWAiNYaVzTHCI3?=
- =?us-ascii?Q?/zF5vz4MJ0kFFTmpNcGgXs06BoB7hNnMbV1jfT4iGVbxp6kMcYhNJ0XgpEQC?=
- =?us-ascii?Q?PZPrfVEPi6TLLb9mULs+tgouueL3yL78QVJDSvvEdfjqRAxZ+hYpVnWV4L1v?=
- =?us-ascii?Q?Z1fNYNZVHJhx7moJY4VDfz91hoQID9Iqo6vhTQKzvOeoZrI1sKBxN1SL3vSJ?=
- =?us-ascii?Q?73ct1Dr0K1MG/RDa7vif3inTqt07mSAS60fQ155ge1Wp/wpoj/1/YoRh9GFL?=
- =?us-ascii?Q?DzMdDaUnRZyX7hNNuHAZ4NPVTVjVTw9VpHcCYOYJfq8N2g8xhkJB92NwkAi8?=
- =?us-ascii?Q?8cyQFEirXhqb8enZ+Tq9isS8Z5mfbwqtbra41Ntoe3HeHDuAVsGiMoalXbJE?=
- =?us-ascii?Q?b71sHb+0M78FLKYvqo3HE+5rf71XDC8u9+/hAg1dxj4qg0JTwl2uX7XoOfnl?=
- =?us-ascii?Q?lUm3VCVDe3GuKPTAF+a6oulV4m6NVltCg4NB+rF0RUM6EGnwbwRy+J67gDPV?=
- =?us-ascii?Q?fvBU4auueL9iIn3JkQLD4Jrvak0vweIzKiB3ABpVqgfz1J3a0W5K/L0cRCRN?=
- =?us-ascii?Q?YrpredeDr2qgKgmFXKnhYZmAOI77XFJTbEayrLi+zyF/R9JXr/9nSaelKYzf?=
- =?us-ascii?Q?1Qeh6ptsWOAGnO+o/n8kvC9sveJJpJZlrEGSqmil7QQsJU5wkDXX/1JJp7ps?=
- =?us-ascii?Q?HTPRDsEvsvsFmHcKhkhTyrXA7VM+uziiGpdOgEXlPpydCFuEYoJ6S0A8uwjw?=
- =?us-ascii?Q?ced9WKK013f/sAakGUVvkwXJL+fWJnIoLTD+LKaxzswZjMaNzeBzM/w7lhpC?=
- =?us-ascii?Q?YuHUJBEVIrZi+tBG0oKpqAg2Fp5leSkoL7WGJCHO?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 015a50e9-ba4e-4059-a296-08db87748034
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2023 09:51:04.9083
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 16WIEUkQmofalwWZ+KlMUUXrfltmzo9z19AvRSoKkubKYxmzZnTe2LuoqnEJlFoAgq1lt/+A5tA+WJvW3YpTUA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR04MB9243
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        Tue, 18 Jul 2023 05:59:42 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 193B91986
+        for <linux-media@vger.kernel.org>; Tue, 18 Jul 2023 02:59:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689674376; x=1721210376;
+  h=date:from:to:cc:subject:message-id;
+  bh=nFX24Bhr5KQ1cMDV/yQNx3scOL7WPGiaHsQX91ToGl4=;
+  b=KZWWZW1bKM9ZQbGLmnHixbxNJUQtpPCCwEWC0qCDWZJXaBeTwNnH1UWQ
+   khgJoynwwGWnhnQMWDLC35lDa077HudWq5jjL4wbObMJRQeNuBLgZLikj
+   nt+azm6j/Y4ltGYxmaIfiif8RvPUApvSxkYT2TUHqHVDGVS+l1XGWVoCZ
+   h8Tfw0CX5UitpNGHHPuU6gwdnxYfL/Cn8jX3SzerHRRn1btUgtnFTs5dw
+   f01i82WRFsE6jpEgY2EHMtHDvk66OL3Xx5njsGQe7TQqP2agt4UpuaYoK
+   ED/rBv3OA174ddrRtCSu3SjhvNgk5yMhcJbydMkpvK3NVIIFCa/qoRTSQ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="429924363"
+X-IronPort-AV: E=Sophos;i="6.01,213,1684825200"; 
+   d="scan'208";a="429924363"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2023 02:59:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10774"; a="700846498"
+X-IronPort-AV: E=Sophos;i="6.01,213,1684825200"; 
+   d="scan'208";a="700846498"
+Received: from lkp-server02.sh.intel.com (HELO 36946fcf73d7) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 18 Jul 2023 02:59:34 -0700
+Received: from kbuild by 36946fcf73d7 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qLhUT-0000Sz-2W;
+        Tue, 18 Jul 2023 09:59:33 +0000
+Date:   Tue, 18 Jul 2023 17:59:05 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org
+Subject: [sailus-media-tree:async-multi] BUILD REGRESSION
+ fc1105d215634df27a5ff95ce8505d999e40d8b6
+Message-ID: <202307181703.WLXQdVHW-lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,
         URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -116,30 +60,173 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-the supported_instance_count determine the instance index range,
-it shouldn't exceed the bits number of instance_mask,
-otherwise the bitops of instance_mask may cross boundaries
+tree/branch: git://linuxtv.org/sailus/media_tree.git async-multi
+branch HEAD: fc1105d215634df27a5ff95ce8505d999e40d8b6  debug print
 
-Fixes: 9f599f351e86 ("media: amphion: add vpu core driver")
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Signed-off-by: Ming Qian <ming.qian@nxp.com>
----
- drivers/media/platform/amphion/vpu_core.c | 2 ++
- 1 file changed, 2 insertions(+)
+Error/Warning reports:
 
-diff --git a/drivers/media/platform/amphion/vpu_core.c b/drivers/media/platform/amphion/vpu_core.c
-index 43d85a54268b..6f054700d5db 100644
---- a/drivers/media/platform/amphion/vpu_core.c
-+++ b/drivers/media/platform/amphion/vpu_core.c
-@@ -88,6 +88,8 @@ static int vpu_core_boot_done(struct vpu_core *core)
- 
- 		core->supported_instance_count = min(core->supported_instance_count, count);
- 	}
-+	if (core->supported_instance_count >= BITS_PER_TYPE(core->instance_mask))
-+		core->supported_instance_count = BITS_PER_TYPE(core->instance_mask);
- 	core->fw_version = fw_version;
- 	vpu_core_set_state(core, VPU_CORE_ACTIVE);
- 
+https://lore.kernel.org/oe-kbuild-all/202307180320.jErFaHnP-lkp@intel.com
+
+Error/Warning: (recently discovered and may have been fixed)
+
+drivers/staging/media/atomisp/pci/atomisp_csi2_bridge.c:828:9: error: too few arguments to function 'v4l2_async_nf_init'
+drivers/staging/media/atomisp/pci/atomisp_v4l2.c:1511:15: error: too many arguments to function 'v4l2_async_nf_register'
+drivers/staging/media/atomisp/pci/atomisp_v4l2.c:1511:38: error: passing argument 1 of 'v4l2_async_nf_register' from incompatible pointer type [-Werror=incompatible-pointer-types]
+
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- i386-allyesconfig
+|   |-- drivers-staging-media-atomisp-pci-atomisp_csi2_bridge.c:error:too-few-arguments-to-function-v4l2_async_nf_init
+|   |-- drivers-staging-media-atomisp-pci-atomisp_v4l2.c:error:passing-argument-of-v4l2_async_nf_register-from-incompatible-pointer-type
+|   `-- drivers-staging-media-atomisp-pci-atomisp_v4l2.c:error:too-many-arguments-to-function-v4l2_async_nf_register
+`-- x86_64-allyesconfig
+    |-- drivers-staging-media-atomisp-pci-atomisp_csi2_bridge.c:error:too-few-arguments-to-function-v4l2_async_nf_init
+    |-- drivers-staging-media-atomisp-pci-atomisp_v4l2.c:error:passing-argument-of-v4l2_async_nf_register-from-incompatible-pointer-type
+    `-- drivers-staging-media-atomisp-pci-atomisp_v4l2.c:error:too-many-arguments-to-function-v4l2_async_nf_register
+
+elapsed time: 800m
+
+configs tested: 135
+configs skipped: 3
+
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                          axs101_defconfig   gcc  
+arc                                 defconfig   gcc  
+arc                            hsdk_defconfig   gcc  
+arc                  randconfig-r016-20230717   gcc  
+arc                  randconfig-r043-20230717   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                       aspeed_g5_defconfig   gcc  
+arm                                 defconfig   gcc  
+arm                          exynos_defconfig   gcc  
+arm                  randconfig-r006-20230717   gcc  
+arm                  randconfig-r046-20230717   clang
+arm                         s3c6400_defconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r005-20230717   clang
+arm64                randconfig-r013-20230717   gcc  
+arm64                randconfig-r034-20230717   clang
+csky                                defconfig   gcc  
+csky                 randconfig-r023-20230717   gcc  
+hexagon              randconfig-r041-20230717   clang
+hexagon              randconfig-r045-20230717   clang
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-r004-20230717   clang
+i386         buildonly-randconfig-r005-20230717   clang
+i386         buildonly-randconfig-r006-20230717   clang
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-i001-20230717   clang
+i386                 randconfig-i002-20230717   clang
+i386                 randconfig-i003-20230717   clang
+i386                 randconfig-i004-20230717   clang
+i386                 randconfig-i005-20230717   clang
+i386                 randconfig-i006-20230717   clang
+i386                 randconfig-i011-20230717   gcc  
+i386                 randconfig-i012-20230717   gcc  
+i386                 randconfig-i013-20230717   gcc  
+i386                 randconfig-i014-20230717   gcc  
+i386                 randconfig-i015-20230717   gcc  
+i386                 randconfig-i016-20230717   gcc  
+i386                 randconfig-r035-20230717   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+m68k                             allmodconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                        m5272c3_defconfig   gcc  
+m68k                        stmark2_defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                      fuloong2e_defconfig   gcc  
+mips                     loongson1b_defconfig   gcc  
+mips                malta_qemu_32r6_defconfig   clang
+mips                           mtx1_defconfig   clang
+mips                        qi_lb60_defconfig   clang
+mips                       rbtx49xx_defconfig   clang
+nios2                               defconfig   gcc  
+openrisc             randconfig-r012-20230717   gcc  
+openrisc             randconfig-r021-20230717   gcc  
+openrisc             randconfig-r024-20230717   gcc  
+openrisc             randconfig-r032-20230717   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                generic-32bit_defconfig   gcc  
+parisc               randconfig-r001-20230717   gcc  
+parisc               randconfig-r015-20230717   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                     asp8347_defconfig   gcc  
+powerpc                      katmai_defconfig   clang
+powerpc                       maple_defconfig   gcc  
+powerpc               mpc834x_itxgp_defconfig   clang
+powerpc                     rainier_defconfig   gcc  
+powerpc              randconfig-r026-20230717   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r004-20230717   clang
+riscv                randconfig-r033-20230717   clang
+riscv                randconfig-r042-20230717   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r025-20230717   gcc  
+s390                 randconfig-r044-20230717   gcc  
+sh                               allmodconfig   gcc  
+sh                ecovec24-romimage_defconfig   gcc  
+sh                               j2_defconfig   gcc  
+sh                          kfr2r09_defconfig   gcc  
+sh                   randconfig-r002-20230717   gcc  
+sh                   randconfig-r014-20230717   gcc  
+sh                   rts7751r2dplus_defconfig   gcc  
+sh                           se7705_defconfig   gcc  
+sh                   secureedge5410_defconfig   gcc  
+sh                   sh7724_generic_defconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r022-20230717   gcc  
+sparc                randconfig-r036-20230717   gcc  
+sparc64              randconfig-r003-20230717   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                   randconfig-r031-20230717   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-r001-20230717   clang
+x86_64       buildonly-randconfig-r002-20230717   clang
+x86_64       buildonly-randconfig-r003-20230717   clang
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-r011-20230717   gcc  
+x86_64               randconfig-x001-20230717   gcc  
+x86_64               randconfig-x002-20230717   gcc  
+x86_64               randconfig-x003-20230717   gcc  
+x86_64               randconfig-x004-20230717   gcc  
+x86_64               randconfig-x005-20230717   gcc  
+x86_64               randconfig-x006-20230717   gcc  
+x86_64               randconfig-x011-20230717   clang
+x86_64               randconfig-x012-20230717   clang
+x86_64               randconfig-x013-20230717   clang
+x86_64               randconfig-x014-20230717   clang
+x86_64               randconfig-x015-20230717   clang
+x86_64               randconfig-x016-20230717   clang
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+
 -- 
-2.38.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
