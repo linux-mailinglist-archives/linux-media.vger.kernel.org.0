@@ -2,100 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B1607576A1
-	for <lists+linux-media@lfdr.de>; Tue, 18 Jul 2023 10:35:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 375527576D6
+	for <lists+linux-media@lfdr.de>; Tue, 18 Jul 2023 10:41:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231710AbjGRIfH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 18 Jul 2023 04:35:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52964 "EHLO
+        id S231970AbjGRIlD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 18 Jul 2023 04:41:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229891AbjGRIfG (ORCPT
+        with ESMTP id S229995AbjGRIlD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 18 Jul 2023 04:35:06 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5121810C;
-        Tue, 18 Jul 2023 01:35:05 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id 98e67ed59e1d1-263253063f9so3825625a91.1;
-        Tue, 18 Jul 2023 01:35:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689669305; x=1692261305;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=eMpOX6C6FYtAsj4g5lQl10VVb5hvzXz095FozRIR5PU=;
-        b=DwimSEDVkIBfU0qaTsE+yPx0nYQT1QCX0UKdyX+stGt2gKMdLu0KxOsi+hCOgdWDnC
-         ejUUJCFRbmMnoaBjAJuuZmDg45yXpoguxMzhG0OFw6yICEBHdMqGTuV3i5/7AXXkmtM2
-         EMJsdQLhmAM5NEMO2yjL7sAkrvao6vMvnnLE8Ub3FAjDDR65QsRnqs+puQSHxFlJnKyv
-         +1kUvk7zLDLOQ/rYuKjv27id8UPUTTFj9R9L9mR2An7OBaz8hL6IgwygCvucSU9Gyd2B
-         RNrosT75Xwnnyt+R1FWxBbab7NHxpIPw/MJJ9QdXZoM2aRr3f72TLZ4hm40DtvLUE2hn
-         J1mA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689669305; x=1692261305;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eMpOX6C6FYtAsj4g5lQl10VVb5hvzXz095FozRIR5PU=;
-        b=dtUElOh2Q9WLDqOZcn3eG46GvxAv7ZNYen8mXqn+TqjDkWzdCX7NiIQOsOb+eSYiaZ
-         iF37IgFxCom5dGIVUZ+217mhnsU7PLICvSEdenGaWlZc1JV9yDHVPAXZBUULkdJpZCK3
-         hTeHPCdAfBVGtqSKu2cVs/V7lt2e/cQg9aWlZrm2Ssf4YrZ4lYy+FP+IFVJgrEGY2cvr
-         nP/7dUy9fbj2gU+El+vRwtZnaX30XSMl0KU1XSASjYTCFoJHAGZj7t4LFE2sbDludDpl
-         dhbbHwj5B/r9VVvx6BxG/zBDqtoOopER/NRwJUL+4Zf0c0v6Of+mOZTG1HLXUvtXdogK
-         7P6Q==
-X-Gm-Message-State: ABy/qLblYNTExoLEInC2OroAA0VY9BH+19W8osz0Uy14Qw3src7pOL2J
-        Lx/ZKcmt9d8Fh0UzeZHU9kdeFAiWiYaEkzb0nps=
-X-Google-Smtp-Source: APBJJlGS8gVNY6wOq3wTAu77YtV4k3kOYTmOgon0h0cxJMmNVVysd6ICAyejQni8l5u9Fm0MnNHYbqxrv1jSa3ue0i0=
-X-Received: by 2002:a17:90a:72ce:b0:267:7743:9850 with SMTP id
- l14-20020a17090a72ce00b0026777439850mr939949pjk.14.1689669304776; Tue, 18 Jul
- 2023 01:35:04 -0700 (PDT)
+        Tue, 18 Jul 2023 04:41:03 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D10B110C;
+        Tue, 18 Jul 2023 01:41:01 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 63ED461440;
+        Tue, 18 Jul 2023 08:41:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D91AC433C8;
+        Tue, 18 Jul 2023 08:40:59 +0000 (UTC)
+Message-ID: <481daff2-ee22-e0a9-3583-a3ee828c5c43@xs4all.nl>
+Date:   Tue, 18 Jul 2023 10:40:57 +0200
 MIME-Version: 1.0
-References: <64b5dc93.170a0220.243d5.1d63@mx.google.com> <87zg3tiv08.fsf@minerva.mail-host-address-is-not-set>
-In-Reply-To: <87zg3tiv08.fsf@minerva.mail-host-address-is-not-set>
-From:   Luc Ma <onion0709@gmail.com>
-Date:   Tue, 18 Jul 2023 16:34:50 +0800
-Message-ID: <CAB3Z9RKV4ptbwnyG2T1LsqcAFVmBsTFOGrVS5RR9PNx7FO8OfA@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: remove unintended hyphen in the sysfs path
-To:     Javier Martinez Canillas <javierm@redhat.com>
-Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v2 1/2] media: videobuf2-dma-sg: fix vmap and vunmap
+ callbacks
+Content-Language: en-US
+To:     Michael Grzeschik <mgr@pengutronix.de>, linux-usb@vger.kernel.org
+Cc:     linux-media@vger.kernel.org, gregkh@linuxfoundation.org,
+        balbi@kernel.org, laurent.pinchart@ideasonboard.com,
+        kernel@pengutronix.de, stable <stable@kernel.org>
+References: <20221125153450.344392-1-m.grzeschik@pengutronix.de>
+ <20230124223453.GB7611@pengutronix.de>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20230124223453.GB7611@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Michael,
 
+I'm going through some old patches in patchwork and found this one.
+Is this patch specifically for the uvc gadget driver, or is it a
+generic fix? If it is the latter (I suspect it is), then can you
+post this as a v3 by itself and rebased to the latest kernel?
 
-On Tue, 18 Jul 2023 at 14:39, Javier Martinez Canillas
-<javierm@redhat.com> wrote:
->
-> Luc Ma <onion0709@gmail.com> writes:
->
-> > From: Luc Ma <luc@sietium.com>
-> >
-> > Signed-off-by: Luc Ma <luc@sietium.com>
-> > ---
->
-> Even when is a trivial change I would add something as commit message, i.e:
->
-> "The kernel-doc mentions /sys/kernel/dma-buf/buffers but the correct path
-> is /sys/kernel/dmabuf/buffers instead. Fix the typo in the documentation".
->
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
->
+The fact that it was combined with the uvc gadget patch in the patch
+series is the main reason for this delay (see also my upcoming reply
+to patch 2/2).
 
-thank you for the review, I'll add the above to v2
+Regards,
 
-> --
-> Best regards,
->
-> Javier Martinez Canillas
-> Core Platforms
-> Red Hat
->
+	Hans
+
+On 24/01/2023 23:34, Michael Grzeschik wrote:
+> Gentle Ping!
+> 
+> On Fri, Nov 25, 2022 at 04:34:49PM +0100, Michael Grzeschik wrote:
+>> For dmabuf import users to be able to use the vaddr from another
+>> videobuf2-dma-sg source, the exporter needs to set a proper vaddr on
+>> vb2_dma_sg_dmabuf_ops_vmap callback.
+>>
+>> This patch adds vm_map_ram on map if buf->vaddr was not set, and also
+>> adds the vb2_dma_sg_dmabuf_ops_vunmap function to remove the mapping
+>> afterwards.
+>>
+>> Cc: stable <stable@kernel.org>
+>> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+>>
+>> ---
+>> v1 -> v2: using vmap and vunmap instead of vm_map_ram and vm_unmap_ram
+>>
+>> .../media/common/videobuf2/videobuf2-dma-sg.c    | 16 ++++++++++++++++
+>> 1 file changed, 16 insertions(+)
+>>
+>> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+>> index fa69158a65b1fd..dcb8de5ab3e84a 100644
+>> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+>> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+>> @@ -496,11 +496,26 @@ static int vb2_dma_sg_dmabuf_ops_vmap(struct dma_buf *dbuf,
+>> {
+>>     struct vb2_dma_sg_buf *buf = dbuf->priv;
+>>
+>> +    if (!buf->vaddr)
+>> +        buf->vaddr = vmap(buf->pages, buf->num_pages, VM_MAP,
+>> +                  PAGE_KERNEL);
+>> +
+>>     iosys_map_set_vaddr(map, buf->vaddr);
+>>
+>>     return 0;
+>> }
+>>
+>> +static void vb2_dma_sg_dmabuf_ops_vunmap(struct dma_buf *dbuf,
+>> +                      struct iosys_map *map)
+>> +{
+>> +    struct vb2_dma_sg_buf *buf = dbuf->priv;
+>> +
+>> +    if (buf->vaddr)
+>> +        vunmap(buf->vaddr);
+>> +
+>> +    buf->vaddr = NULL;
+>> +}
+>> +
+>> static int vb2_dma_sg_dmabuf_ops_mmap(struct dma_buf *dbuf,
+>>     struct vm_area_struct *vma)
+>> {
+>> @@ -515,6 +530,7 @@ static const struct dma_buf_ops vb2_dma_sg_dmabuf_ops = {
+>>     .begin_cpu_access = vb2_dma_sg_dmabuf_ops_begin_cpu_access,
+>>     .end_cpu_access = vb2_dma_sg_dmabuf_ops_end_cpu_access,
+>>     .vmap = vb2_dma_sg_dmabuf_ops_vmap,
+>> +    .vunmap = vb2_dma_sg_dmabuf_ops_vunmap,
+>>     .mmap = vb2_dma_sg_dmabuf_ops_mmap,
+>>     .release = vb2_dma_sg_dmabuf_ops_release,
+>> };
+>> -- 
+>> 2.30.2
+>>
+> 
+
