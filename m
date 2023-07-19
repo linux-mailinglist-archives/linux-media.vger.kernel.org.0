@@ -2,44 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 63124758D98
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jul 2023 08:17:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72BC1758DA2
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jul 2023 08:18:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230450AbjGSGRB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Jul 2023 02:17:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49012 "EHLO
+        id S230479AbjGSGSt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Jul 2023 02:18:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230461AbjGSGQ7 (ORCPT
+        with ESMTP id S230480AbjGSGSq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Jul 2023 02:16:59 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A1D8268D
-        for <linux-media@vger.kernel.org>; Tue, 18 Jul 2023 23:16:40 -0700 (PDT)
+        Wed, 19 Jul 2023 02:18:46 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B78B1FC0;
+        Tue, 18 Jul 2023 23:18:44 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 27C1F602F1
-        for <linux-media@vger.kernel.org>; Wed, 19 Jul 2023 06:16:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1409C433C8;
-        Wed, 19 Jul 2023 06:16:38 +0000 (UTC)
-Message-ID: <6fc14d76-a0c6-50a6-e5ea-5099eab4fa9c@xs4all.nl>
-Date:   Wed, 19 Jul 2023 08:16:37 +0200
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E2C3960F89;
+        Wed, 19 Jul 2023 06:18:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11382C433C7;
+        Wed, 19 Jul 2023 06:18:40 +0000 (UTC)
+Message-ID: <21e13f35-5caf-6d60-c388-3386e3540834@xs4all.nl>
+Date:   Wed, 19 Jul 2023 08:18:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH 1/1] media:dvb: check the return value of mb86a16_read()
+Subject: Re: [PATCH v2] media: aspeed: Fix memory overwrite if timing is
+ 1600x900
 Content-Language: en-US
-To:     Yuanjun Gong <ruc_gongyuanjun@163.com>,
-        Antti Palosaari <crope@iki.fi>, linux-media@vger.kernel.org
-References: <20230715094530.36820-1-ruc_gongyuanjun@163.com>
+To:     Jammy Huang <orbit.huang@gmail.com>, eajames@linux.ibm.com,
+        mchehab@kernel.org, joel@jms.id.au, andrew@aj.id.au,
+        linux-media@vger.kernel.org, openbmc@lists.ozlabs.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Cc:     Jammy Huang <jammy_huang@aspeedtech.com>
+References: <20230717095111.1957-1-jammy_huang@aspeedtech.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20230715094530.36820-1-ruc_gongyuanjun@163.com>
+In-Reply-To: <20230717095111.1957-1-jammy_huang@aspeedtech.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
+X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -47,46 +52,64 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yuanjun Gong,
+Hi Jammy,
 
-Please add the name of the driver to the subject line:
-
-"media: dvb: mb86a16: check the return value of mb86a16_read()"
-
-On 15/07/2023 11:45, Yuanjun Gong wrote:
-> return an error code if mb86a16_read() gets an unexpected return
-> value.
+On 17/07/2023 11:51, Jammy Huang wrote:
+> When capturing 1600x900, system could crash when system memory usage is
+> tight.
 > 
-> Signed-off-by: Yuanjun Gong <ruc_gongyuanjun@163.com>
-> ---
->  drivers/media/dvb-frontends/mb86a16.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
+> The way to reproduce this issue:
+> 1. Use 1600x900 to display on host
+> 2. Mount ISO through 'Virtual media' on OpenBMC's web
+> 3. Run script as below on host to do sha continuously
+>   #!/bin/bash
+>   while [ [1] ];
+>   do
+> 	find /media -type f -printf '"%h/%f"\n' | xargs sha256sum
+>   done
+> 4. Open KVM on OpenBMC's web
 > 
-> diff --git a/drivers/media/dvb-frontends/mb86a16.c b/drivers/media/dvb-frontends/mb86a16.c
-> index d3e29937cf4c..f04188a72e7a 100644
-> --- a/drivers/media/dvb-frontends/mb86a16.c
-> +++ b/drivers/media/dvb-frontends/mb86a16.c
-> @@ -1487,9 +1487,12 @@ static int mb86a16_set_fe(struct mb86a16_state *state)
->  		}
->  	}
->  
-> -	mb86a16_read(state, 0x15, &agcval);
-> -	mb86a16_read(state, 0x26, &cnmval);
-> -	dprintk(verbose, MB86A16_INFO, 1, "AGC = %02x CNM = %02x", agcval, cnmval);
-> +	if (mb86a16_read(state, 0x15, &agcval) != 2 ||	mb86a16_read(state, 0x26, &cnmval) != 2){
-> +		dprintk(verbose, MB86A16_ERROR, 1, "I2C transfer error");
-> +		ret = -EREMOTEIO;
-> +	}
-> +	else
-> +		dprintk(verbose, MB86A16_INFO, 1, "AGC = %02x CNM = %02x", agcval, cnmval);
+> The size of macro block captured is 8x8. Therefore, we should make sure
+> the height of src-buf is 8 aligned to fix this issue.
+> 
+> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
 
-And also run 'checkpatch.pl --strict' over your patch and fix the issues it finds.
+Your email address you sent this from differs from your SoB. Can you post
+again from the correct email address? Checkpatch complains about this.
 
-Thank you!
+Regards,
 
 	Hans
 
+> ---
+>  v2 changes
+>   - Add how to reproduce this issue.
+> ---
+>  drivers/media/platform/aspeed/aspeed-video.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
+> index 374eb7781936..14594f55a77f 100644
+> --- a/drivers/media/platform/aspeed/aspeed-video.c
+> +++ b/drivers/media/platform/aspeed/aspeed-video.c
+> @@ -1130,7 +1130,7 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
+>  static void aspeed_video_set_resolution(struct aspeed_video *video)
+>  {
+>  	struct v4l2_bt_timings *act = &video->active_timings;
+> -	unsigned int size = act->width * act->height;
+> +	unsigned int size = act->width * ALIGN(act->height, 8);
 >  
->  	return ret;
->  }
+>  	/* Set capture/compression frame sizes */
+>  	aspeed_video_calc_compressed_size(video, size);
+> @@ -1147,7 +1147,7 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
+>  		u32 width = ALIGN(act->width, 64);
+>  
+>  		aspeed_video_write(video, VE_CAP_WINDOW, width << 16 | act->height);
+> -		size = width * act->height;
+> +		size = width * ALIGN(act->height, 8);
+>  	} else {
+>  		aspeed_video_write(video, VE_CAP_WINDOW,
+>  				   act->width << 16 | act->height);
+> 
+> base-commit: 2605e80d3438c77190f55b821c6575048c68268e
 
