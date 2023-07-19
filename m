@@ -2,190 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B223759E08
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jul 2023 20:58:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9205759FEE
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jul 2023 22:37:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230459AbjGSS6n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Jul 2023 14:58:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40686 "EHLO
+        id S231411AbjGSUhN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Jul 2023 16:37:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229927AbjGSS6k (ORCPT
+        with ESMTP id S231148AbjGSUhL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Jul 2023 14:58:40 -0400
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2072.outbound.protection.outlook.com [40.107.101.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0A9B1734;
-        Wed, 19 Jul 2023 11:58:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=inAVUxXGvogdsG9hq8W6wckaDX+N0iwTnFNdnzxZUwQ9GP2XdPcelSZHFEoUFYKxWei93L3B8d3uc3uqjbPLfkW89TdUzZ3+B4imFq6oH6I8IGMrYImxJ9kfs0KB5LPSJoJ4xTpv8bnt7dMcwAuU6Xjg4y5XLmX2bxjKBJHynepTca+ekuZ7Y1HnDoorkl23LaODliJ6zDMgMkzmGCbqJ3NcQ6DX+4TL8etBIH7ENVaIEv0GatydW+hMFoi79NOR7/BpgFvXpbex64s1gsNXdwVB9DjEJWvBvQ5ZLyonITLRXXHD5U1Eu7Q6+N6JYlJ8Om0+qiCR7wOms6gOvcAvlA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ot+Rq2B+KBj1DCwbFs8/axYgWk50cTOePHBYyhuryFU=;
- b=g3tJ6wLjwwqbPoGdbyqnFR+zfuhjcod6Gl+jFe2jDe/roz5Sd4m9haiO4cLs6B0NqLdeTDGyZ/duhIAaYooFa2cATr4NvzubOnjsh+z434imuDInzdrzlkwstm0lmlNJItISXTT8s9n8dsOrjx8xhKKfLVJ+u1615KGNaIpS5TKh3nsvezLkiGy6HgN+cM58wQevPXAfskf9uDY82Pe9JnypFbIWXR1Z7KUivMVw2WAONy3FlVrePovL1OdxHJ6K/GRytGTxB4kJXQODvG5xrcxgb39EHKKG6BCVtTiD5OXdydR1/hgnHhx/LWHa7y89dPfj9y0kJuJBI5wN8ISQKQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ot+Rq2B+KBj1DCwbFs8/axYgWk50cTOePHBYyhuryFU=;
- b=pwg+lJGl7pi2o5WVaGHEcO8UsFtO+/cgcoYtg9HZ7IOdloMcc6VT4rvyMttIs75KKSqf1Luz0AQSh94RK67m49wCMM4asgtRn2uDSnjZwPagJ9Z68ddm8CrjofyEPPbWQSxriuJW4K/l3rR3Z8P4bGEUm9EqQ4y660J3J+R/XVY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
- LV3PR12MB9168.namprd12.prod.outlook.com (2603:10b6:408:19a::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6609.23; Wed, 19 Jul 2023 18:58:36 +0000
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::8a67:3bbe:8309:4f87]) by DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::8a67:3bbe:8309:4f87%3]) with mapi id 15.20.6609.024; Wed, 19 Jul 2023
- 18:58:36 +0000
-Message-ID: <a6212d8b-a9f5-a3c0-8e0f-a9a7658849ad@amd.com>
-Date:   Wed, 19 Jul 2023 14:58:32 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] drm/scheduler: Clean up jobs when the scheduler is
- torn down.
-Content-Language: en-CA, en-US
-To:     Konstantin Ryabitsev <konstantin.ryabitsev@linux.dev>,
-        Asahi Lina <lina@asahilina.net>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
+        Wed, 19 Jul 2023 16:37:11 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99554171E;
+        Wed, 19 Jul 2023 13:37:02 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2E1A261807;
+        Wed, 19 Jul 2023 20:37:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2BE5C433C8;
+        Wed, 19 Jul 2023 20:37:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1689799021;
+        bh=SL7k8eZ8nRbX0vwXOdVgFN2hRtqQGVAaTbvJqY57BEU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=BuvyrT061YUMSD8cNtGfuZUYzuxPpFcZw8zFsExRkWlWUhjNMtWkE7mxb2izkRBZ9
+         O1WBwZ6bb8drf/uwk8Wa0VszOc7EqWwXPbEuhOssWsbLQP48hw/F10jMiOTwcXPOgD
+         EpO9kWXvGYiD9ZFJolRqG+ZSTPWbFE4Ak23jeb1eBfxk7yZCM9F9dl45vayuudNpRz
+         3lka10SYYniiqESB1Tx8VVwqa/QrJX4KG7lGdFRY2SN14mLkl0k9oEYjJU+zvtG0Cw
+         2AS37/gepyGO5pHewv4AQ8sUuKpeu8scpNrKlFO90A8Nl2c2rIgIuO1PaB2FBj01XT
+         CMknK6m3ulovw==
+Date:   Wed, 19 Jul 2023 13:36:59 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Mina Almasry <almasrymina@google.com>
+Cc:     David Ahern <dsahern@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Andy Lutomirski <luto@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        netdev@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
         Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     Faith Ekstrand <faith.ekstrand@collabora.com>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        asahi@lists.linux.dev, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        linux-media@vger.kernel.org
-References: <41efcbe5-e230-270f-53bb-90c703e9d3ad@amd.com>
- <20230714-drm-sched-fixes-v1-0-c567249709f7@asahilina.net>
- <20230714-drm-sched-fixes-v1-3-c567249709f7@asahilina.net>
- <9343165f-2533-f363-4942-719ee9b7d2a4@amd.com>
- <99f9003f-d959-fff3-361a-25b2f47efc88@asahilina.net>
- <49a33f61-91b5-22ee-78b5-c7dd7c0d4a46@amd.com>
- <4587c699-5a59-d465-01f4-1bc2fbef7a12@asahilina.net>
- <847159ff6d0c01cef2e6308848ea49a732248e42@linux.dev>
-From:   Luben Tuikov <luben.tuikov@amd.com>
-Autocrypt: addr=luben.tuikov@amd.com; keydata=
- xjMEY1i6jxYJKwYBBAHaRw8BAQdAhfD+Cc+P5t/fiF08Vw25EMLiwUuxULYRiDQAP6H50MTN
- I0x1YmVuIFR1aWtvdiA8bHViZW4udHVpa292QGFtZC5jb20+wpkEExYKAEEWIQQyyR05VSHw
- x45E/SoppxulNG8HhgUCY1i6jwIbAwUJCWYBgAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIX
- gAAKCRAppxulNG8Hhk53AP4k4UY5xfcje0c5OF1k22pNv8tErxtVpgKKZgvfetA4xwD+OoAh
- vesLIYumBDxP0BoLiLN84udxdT15HwPFUGiDmwDOOARjWLqPEgorBgEEAZdVAQUBAQdAzSxY
- a2EtvvIwd09NckBLSTarSLNDkUthmqPnwolwiDYDAQgHwn4EGBYKACYWIQQyyR05VSHwx45E
- /SoppxulNG8HhgUCY1i6jwIbDAUJCWYBgAAKCRAppxulNG8HhnBLAP4yjSGpK6PE1mapKhrq
- 8bSl9reo+F6EqdhE8X2TTHPycAEAt8EkTEstSiaOpM66gneU7r+xxzOYULo1b1XjXayGvwM=
-In-Reply-To: <847159ff6d0c01cef2e6308848ea49a732248e42@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQBPR0101CA0059.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c00:1::36) To DM6PR12MB3370.namprd12.prod.outlook.com
- (2603:10b6:5:38::25)
+        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        Shuah Khan <shuah@kernel.org>
+Subject: Re: [RFC PATCH 00/10] Device Memory TCP
+Message-ID: <20230719133659.5529729e@kernel.org>
+In-Reply-To: <CAHS8izPORN=r2-hzYSgN4s_Aoo2dnwoJXrU5Hu=43sb8zsWyhQ@mail.gmail.com>
+References: <20230710223304.1174642-1-almasrymina@google.com>
+        <12393cd2-4b09-4956-fff0-93ef3929ee37@kernel.org>
+        <CAHS8izNPTwtk+zN7XYt-+ycpT+47LMcRrYXYh=suTXCZQ6-rVQ@mail.gmail.com>
+        <ZLbUpdNYvyvkD27P@ziepe.ca>
+        <20230718111508.6f0b9a83@kernel.org>
+        <35f3ec37-11fe-19c8-9d6f-ae5a789843cb@kernel.org>
+        <20230718112940.2c126677@kernel.org>
+        <eb34f812-a866-a1a3-9f9b-7d5054d17609@kernel.org>
+        <20230718154503.0421b4cd@kernel.org>
+        <CAHS8izPORN=r2-hzYSgN4s_Aoo2dnwoJXrU5Hu=43sb8zsWyhQ@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|LV3PR12MB9168:EE_
-X-MS-Office365-Filtering-Correlation-Id: dfb57157-ab37-40b0-8932-08db888a27db
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: G5vJocBzR9Z3g5qTLY+bLi5t+zZi/dK/mEyc2tGfCJbtwf9+1sr3Ty5QdwEgSdEY8WkE9zIgUnRltDeDVir8nPxjh3CMZ7CV2NTmQMFBP2OtELhraOAzRiR0WHmq4LDLAneYkedwW53sOpj+0zFNRGTL/zEgj7wiEkLsgGT4saFsO0i/JW9iahKuZZleZbmnveqvAklc63T8thUKJLC1cCB9azsFNQI6sk9/sWcO38vJTWf38/U5ermG0R/bLsxKlOADIbT174da4hj3X7SGybgAz9ltWiPCXjcj7HZni5oVQvVIuAZzCrFaIOv9Z0y+CVOIbuaSiLgMKoMIf9Mg0I73ce6tow2F0R8RC2/osmrgEkT1VV0k6Gn127LR7/iiKQk5ddD5BOps4yCJsTrojK95BUIgki14U1xGve9UunzLX0043EcmXGZdbuP+UaHTBusxZ6FUgKmSE7VUz1igzmXerlc7ZSJGfED02CcBzFjjTFebUVsd6EDJjj4ThqTuZYJGoFZscPz8r8CYo9A/56FYiCQylgzJC3BseD1d7khH8qhT6tTIcnW6h3rSk2HynodoyrvoRMXihxYiobvpeZqB9eufgMb5TDU8BlVX9USILrGcIzHcsL1n5MSUwPDLbKolcaZgop1qCgu/9DD6zA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3370.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(376002)(136003)(39860400002)(396003)(366004)(451199021)(110136005)(83380400001)(54906003)(478600001)(26005)(6512007)(6506007)(53546011)(36756003)(31696002)(6666004)(6486002)(86362001)(186003)(2616005)(2906002)(6636002)(4326008)(66556008)(66476007)(316002)(5660300002)(66946007)(8676002)(44832011)(31686004)(8936002)(7416002)(41300700001)(38100700002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Ymt0ZmtZU0ZabnByQVMrTWxQM1hRRU8wRk8xV09UYTU1UzhXSFRWSkNWRzdk?=
- =?utf-8?B?R3kxWnE4dXJzM0VEMm1RdnZ2K3dvc1I2R0ppdUhadXJFUHEvOHUvV28vQzlV?=
- =?utf-8?B?US82MHpmdFp3ZmpTMnBVeFE3OHg4dFZkN0ZGaTZoR3hOZEszUnlwMktlVkVi?=
- =?utf-8?B?Wkt1YzJxSzRlSmdkRTFaV0xjVmFvQVp4UTVEQnNpdmk5bi9IaHQ0aHI2eFM2?=
- =?utf-8?B?K1d5VWxrdzFyZm1NTUFlWFpKNTBzV1B6OG5rYmVEc1hUditldjYwNm9wTHpD?=
- =?utf-8?B?MlArV3pXd3dYMmFaVlhZNHh4UGIvMGd1ZmpnK1NoRCsvcXJNejErSGFBUVd3?=
- =?utf-8?B?US9Yb0JWekN4NGhCa2M0dmpsWWhuMFR5V21mUmV0S0JKRHZGS0pwTVJyakFo?=
- =?utf-8?B?aXRwTmVSVkxpelU3UUw5SDliQkJYcUNqcU13N0E3ZUo1ZTBmZnBwNnAvbkhp?=
- =?utf-8?B?aldFVmZ6SElGWXhKVXNQY0ltOGlpWE40YzdQZk9Sb2Y3d1dXL1djQ0VYbWVZ?=
- =?utf-8?B?YUpYQ1JhOHpCRGsvYkxpTGs0bkRpV3F6SFVPQUF0dlRJM1hlY2VsYlQyTk9o?=
- =?utf-8?B?QlVqQUtPaUs0a004RFh3VTBsQTlsVTl6Q05VWmEzMFA5Wm9xR0Z5U0FsaVlZ?=
- =?utf-8?B?a1l2bG5LZFlGTFZaU3FDTm0yazdINXZjZXVrTnkzK0p6dUJqM0JadHFNWGJ4?=
- =?utf-8?B?UTlJdDRrV1MzMGNXWlBtenNNU0lVUHRSQ2Zkek5IR2Vta0tlRXZueDMxbUgr?=
- =?utf-8?B?MmpuQ290ZFB6TzRIVnlXY1dVaW5wNmp6cGNLOENKdkNKc2RFTDM1ekY5S0ZS?=
- =?utf-8?B?MHFnRTl5c29XNEJTZWwyRDgvTUxBL2dudUJESG5qSWZLZy9qTE8xNG1PTkc0?=
- =?utf-8?B?NXVQVGtRdEVqZDFyRHFCMGVaeTRkcWpNbGpFcHJJUTBFcTFXQzlmWndiV09C?=
- =?utf-8?B?aHhSaHgxQ0hqTnlQK3VSV1Y5MTJVeEh4UEE4MzY4R1BxR2F2ZjMrUXIxeFRH?=
- =?utf-8?B?clFQdUgwaDR0aXYvUC9lWDI5VWRodG9ITFgvRXZkNFhqMjJBZTExMjZLVXNr?=
- =?utf-8?B?ajlJQms1dExzWVZ2dDJ1T0xIK2xXWlpIRktraDVWUGVCNXNvRU11VVJWS2d3?=
- =?utf-8?B?MHZHeHkyTEN6SldkSVBPRUFYVDFRMFYzUmpDbVowaUx5VUNSM1MwT0trS1dr?=
- =?utf-8?B?WU1sNmJoSkJ1S2VvYU42UW1MZ1VNMURablhTd0dvRjhMelhCV2dZOTVrR3U2?=
- =?utf-8?B?dzA1OEx6eGIzWnBNOWw5YUM5d1dUVzRnSFNMazB1RzN6RHRoQVBTT0lDMlhV?=
- =?utf-8?B?ZHdBL29YajU2OXZ4cmxMNmkwZjNTM0p2Z2JNd1lSNFp4RnJVdHVJemZ0VnFR?=
- =?utf-8?B?NGVwOGYzS0tLTStRdlU3RVdJVTU0NDM0L2xRMjlMMCs2RGdvRGhZdzd5eWow?=
- =?utf-8?B?R1lpYjd4R1ZDekNFZlNOTC9Bek5mOHRpcUY2eWpjdFgrRE8zUjVaZEJVczcr?=
- =?utf-8?B?Q1hFbDVjVEhFcGNCUjRlWVhPM0plc1RjWEZTUnhNSHFJK3R5cHFyWWRwM3dh?=
- =?utf-8?B?UTFhRkpvditxS1V3TTI0SnJkQkMraGdRa0lMOEdPNitJaHhnUWZGYVUxZy9M?=
- =?utf-8?B?Zm4wVFBSSmpXWm91Zk8ranJsTUZhL0hmbjBSajlMRHN1NnZ0NTl4WWFQa2dj?=
- =?utf-8?B?bUZPSFJObW5EU2RubDJGSk9nV0FRVEVQc3ErWFg1NFMyNDBMZnpCOXVXdzVi?=
- =?utf-8?B?OUl4T0ZLWDlLR3J3YUpqTlkvYVhlMVJ4SHJrMm9nWnhGQ3F4b2RxTVF0V0o0?=
- =?utf-8?B?amVoaFRUKzVSa24yUml5STBxRTRISE5XSkVyb1N4Q3hER3h6UmN5QU41THl2?=
- =?utf-8?B?aTJuWEwyalFGUGlWRE8zMWVtSGQrWFZITHNiUHlEMkFJU0piT2JiaHA2RFlG?=
- =?utf-8?B?SG9aaTRLN2JuL0dZUnBjcS93WUxmeTNhRlFFNVpHL3h4UyttQWZ4QnlremJk?=
- =?utf-8?B?UGNJcDJ1YWNqbGx3V2VkbStWWjI4QnBZRkVNb2dldytwQ0VDc0JwQjdhclRN?=
- =?utf-8?B?OFAzNllEbFJUdjJXRXQ0ZWZkaVV0cU4wQ2tPdThaWjNuQ1JnVnVJNVRGem9W?=
- =?utf-8?Q?K/Bsov/2coNhhyfv8X/QRSC1d?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dfb57157-ab37-40b0-8932-08db888a27db
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jul 2023 18:58:36.2004
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LvqfhHoY0TKiDg6Nrxd5qiIrOj6+WRThKF2ysV3XiEge/Clm8TXBDWQteq0jEqgM
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9168
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2023-07-19 14:16, Konstantin Ryabitsev wrote:
-> July 18, 2023 at 1:14 AM, "Luben Tuikov" <luben.tuikov@amd.com> wrote:
->>>> Not sure about other drivers--they can speak for themselves and the CC list
->>>>  should include them--please use "dim add-missing-cc" and make sure
->>>>  that the Git commit description contains the Cc tags--then git send-email
->>>>  will populate the SMTP CC. Feel free to add more Cc tags on top of that.
->>>  
->>>  I use `b4 prep -c` which I think does the same thing? I just ran it 
->>>  again and it only added 'linaro-mm-sig@lists.linaro.org', not sure why 
->>>  that one wasn't there. Am I missing anything else?
->>
->> Not sure about "b4 prep -c"--using "git send-email" instead, but what is
->> important is to add the Cc: tags as part of the commit message. A "git log" of
->> drm-misc-next shows the proper format. Then maintainers add Link:
->> tag to the correct email thread, which is usually completely automated
->> by "dim" or by "git am", or both.
-> 
-> It's useful to note here that this is not standard practice across the entirety of the Linux tree. In general, Cc: trailers are added to individual commits when get_maintainer.pl wouldn't otherwise include someone in the recipient list. The "dim" tool mentioned here is specific to the DRM subsystem (the "d" stands for "DRM"). Since both tools work on git series, you can use it alongside b4.
-> 
+On Wed, 19 Jul 2023 08:10:58 -0700 Mina Almasry wrote:
+> From Jakub and David's comments it sounds (if I understood correctly),
+> you'd like to tie the dma-buf bind/unbind functions to the lifetime of
+> a netlink socket, rather than a struct file like I was thinking. That
+> does sound cleaner, but I'm not sure how. Can you link me to any
+> existing code examples? Or rough pointers to any existing code?
 
-In DRM we use "dim"--it's just how we do things and everyone complies with this.
-"dim" also includes the Link: tag (which "git am" can also be made add), and this adds
-certain amount of accountability, which is a good thing.
+I don't have a strong preference whether the lifetime is bound to 
+the socket or not. My main point was that if we're binding lifetimes
+to processes, it should be done via netlink sockets, not special-
+-purpose FDs. Inevitably more commands and info will be needed and
+we'll start reinventing the uAPI wheel which is Netlink.
 
-This is why I suggested that a subsequent version of these patches, include
-the Cc: tags, which would normally come from "dim add-missing-cc", which uses
-"scripts/get_maintainer.pl".
-
-DRM maintainers regularly use `git rebase --exec "dim add-missing-cc" ...'.
-
-> DRM folks, if get_maintainer.pl isn't finding someone who should be included on a series of patches, should the MAINTAINERS file be updated to make it easier to submit valid patches without needing to know of "dim"?
-"scripts/get_maintainer.pl" does consult the MAINTAINERS file. There's been no immediate need
-to update the MAINTAINERS file.
-
-Sometimes a single function or a single line in a function (as in some kind of complex calculation),
-might be coming from someone who doesn't normally commit to the subsystem. This is where "git blame"
-and "git log" are helpful to inspect and add a Cc: tag with that email to the commit message, and this
-of course depends on the nature of the incoming patch.
--- 
-Regards,
-Luben
-
+Currently adding state to netlink sockets is a bit raw. You can create
+an Xarray which stores the per socket state using socket's portid
+(genl_info->snd_portid) and use netlink_register_notifier() to get
+notifications when sockets are closed.
