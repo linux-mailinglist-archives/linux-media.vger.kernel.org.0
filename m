@@ -2,45 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA111758D6B
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jul 2023 08:06:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63124758D98
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jul 2023 08:17:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230282AbjGSGGF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Jul 2023 02:06:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42088 "EHLO
+        id S230450AbjGSGRB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Jul 2023 02:17:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbjGSGGD (ORCPT
+        with ESMTP id S230461AbjGSGQ7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Jul 2023 02:06:03 -0400
+        Wed, 19 Jul 2023 02:16:59 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB88A1BF2;
-        Tue, 18 Jul 2023 23:06:01 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A1D8268D
+        for <linux-media@vger.kernel.org>; Tue, 18 Jul 2023 23:16:40 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6A54F60CFB;
-        Wed, 19 Jul 2023 06:06:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E259AC433C7;
-        Wed, 19 Jul 2023 06:05:59 +0000 (UTC)
-Message-ID: <1fe12cc2-0a9f-2a55-7c4d-95f49241c3c0@xs4all.nl>
-Date:   Wed, 19 Jul 2023 08:05:56 +0200
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 27C1F602F1
+        for <linux-media@vger.kernel.org>; Wed, 19 Jul 2023 06:16:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1409C433C8;
+        Wed, 19 Jul 2023 06:16:38 +0000 (UTC)
+Message-ID: <6fc14d76-a0c6-50a6-e5ea-5099eab4fa9c@xs4all.nl>
+Date:   Wed, 19 Jul 2023 08:16:37 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH] media: dvb: remove spaces before '['
+Subject: Re: [PATCH 1/1] media:dvb: check the return value of mb86a16_read()
 Content-Language: en-US
-To:     sunran001@208suo.com, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230714080514.14297-1-xujianghui@cdjrlc.com>
- <ad3e13dcf101ff613c7fc72c99db8dd2@208suo.com>
+To:     Yuanjun Gong <ruc_gongyuanjun@163.com>,
+        Antti Palosaari <crope@iki.fi>, linux-media@vger.kernel.org
+References: <20230715094530.36820-1-ruc_gongyuanjun@163.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <ad3e13dcf101ff613c7fc72c99db8dd2@208suo.com>
+In-Reply-To: <20230715094530.36820-1-ruc_gongyuanjun@163.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,
         HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -48,59 +47,46 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ran Sun,
+Hi Yuanjun Gong,
 
-On 14/07/2023 10:06, sunran001@208suo.com wrote:
-> Remove spaces to clear checkpatch errors.
+Please add the name of the driver to the subject line:
+
+"media: dvb: mb86a16: check the return value of mb86a16_read()"
+
+On 15/07/2023 11:45, Yuanjun Gong wrote:
+> return an error code if mb86a16_read() gets an unexpected return
+> value.
 > 
-> ERROR: space prohibited before open square bracket '['
-> 
-> Signed-off-by: Ran Sun <sunran001@208suo.com>
+> Signed-off-by: Yuanjun Gong <ruc_gongyuanjun@163.com>
 > ---
->  drivers/media/dvb-frontends/tda826x.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  drivers/media/dvb-frontends/mb86a16.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/media/dvb-frontends/tda826x.c b/drivers/media/dvb-frontends/tda826x.c
-> index f9703a1dd758..7f17efe17d11 100644
-> --- a/drivers/media/dvb-frontends/tda826x.c
-> +++ b/drivers/media/dvb-frontends/tda826x.c
-> @@ -38,7 +38,7 @@ static int tda826x_sleep(struct dvb_frontend *fe)
->  {
->      struct tda826x_priv *priv = fe->tuner_priv;
->      int ret;
-> -    u8 buf [] = { 0x00, 0x8d };
-> +    u8 buf[] = { 0x00, 0x8d };
+> diff --git a/drivers/media/dvb-frontends/mb86a16.c b/drivers/media/dvb-frontends/mb86a16.c
+> index d3e29937cf4c..f04188a72e7a 100644
+> --- a/drivers/media/dvb-frontends/mb86a16.c
+> +++ b/drivers/media/dvb-frontends/mb86a16.c
+> @@ -1487,9 +1487,12 @@ static int mb86a16_set_fe(struct mb86a16_state *state)
+>  		}
+>  	}
+>  
+> -	mb86a16_read(state, 0x15, &agcval);
+> -	mb86a16_read(state, 0x26, &cnmval);
+> -	dprintk(verbose, MB86A16_INFO, 1, "AGC = %02x CNM = %02x", agcval, cnmval);
+> +	if (mb86a16_read(state, 0x15, &agcval) != 2 ||	mb86a16_read(state, 0x26, &cnmval) != 2){
+> +		dprintk(verbose, MB86A16_ERROR, 1, "I2C transfer error");
+> +		ret = -EREMOTEIO;
+> +	}
+> +	else
+> +		dprintk(verbose, MB86A16_INFO, 1, "AGC = %02x CNM = %02x", agcval, cnmval);
 
-This patch is corrupt: TABs have been replaced by spaces.
+And also run 'checkpatch.pl --strict' over your patch and fix the issues it finds.
 
-It's not just this patch, but all 7 patches you posted to linux-media.
-
-Also, please mention the name of the driver you fixed in the subject.
-So: "media: dvb: tda826x: remove space before '['".
-
-Regards,
+Thank you!
 
 	Hans
 
->      struct i2c_msg msg = { .addr = priv->i2c_address, .flags = 0, .buf = buf, .len = 2 };
-> 
->      dprintk("%s:\n", __func__);
-> @@ -65,7 +65,7 @@ static int tda826x_set_params(struct dvb_frontend *fe)
->      u32 div;
->      u32 ksyms;
->      u32 bandwidth;
-> -    u8 buf [11];
-> +    u8 buf[11];
->      struct i2c_msg msg = { .addr = priv->i2c_address, .flags = 0, .buf = buf, .len = 11 };
-> 
->      dprintk("%s:\n", __func__);
-> @@ -130,7 +130,7 @@ static const struct dvb_tuner_ops tda826x_tuner_ops = {
->  struct dvb_frontend *tda826x_attach(struct dvb_frontend *fe, int addr, struct i2c_adapter *i2c, int has_loopthrough)
->  {
->      struct tda826x_priv *priv = NULL;
-> -    u8 b1 [] = { 0, 0 };
-> +    u8 b1[] = { 0, 0 };
->      struct i2c_msg msg[2] = {
->          { .addr = addr, .flags = 0,        .buf = NULL, .len = 0 },
->          { .addr = addr, .flags = I2C_M_RD, .buf = b1, .len = 2 }
+>  
+>  	return ret;
+>  }
 
