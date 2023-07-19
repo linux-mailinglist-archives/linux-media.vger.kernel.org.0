@@ -2,102 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F288C759285
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jul 2023 12:16:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 448C1759290
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jul 2023 12:18:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230326AbjGSKQ2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Jul 2023 06:16:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39142 "EHLO
+        id S229746AbjGSKSB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Jul 2023 06:18:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230284AbjGSKQZ (ORCPT
+        with ESMTP id S230490AbjGSKSA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Jul 2023 06:16:25 -0400
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA28B1BFD
-        for <linux-media@vger.kernel.org>; Wed, 19 Jul 2023 03:16:20 -0700 (PDT)
-Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-3fbc63c2e84so66925465e9.3
-        for <linux-media@vger.kernel.org>; Wed, 19 Jul 2023 03:16:20 -0700 (PDT)
+        Wed, 19 Jul 2023 06:18:00 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 834A31BEF
+        for <linux-media@vger.kernel.org>; Wed, 19 Jul 2023 03:17:58 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-31716932093so860985f8f.3
+        for <linux-media@vger.kernel.org>; Wed, 19 Jul 2023 03:17:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1689761779; x=1690366579;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+        d=baylibre-com.20221208.gappssmtp.com; s=20221208; t=1689761877; x=1690366677;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=oTUN50/17AR9wbpM9Qq3N318u2qSEtlvZXw2qFUaUY0=;
-        b=SZwtn00ajOrI5/UUiA0X4OJc07NJAT2mAmuEUcnSa7J6fajC9YQciamJHdZaB4z5Mg
-         VUKacOYsjiBr3IECM9/qhJT3IdzM1hGveZZuplA24QniFFxGen71+QeKETMNIDJ0yzak
-         wExVu/MUzcyXiIE4dNlMKUvipPMlFgsyHwxP4gTK4WAwPieVVoNmQTFBazHPER08fJIL
-         vlyXmgWIsQUaXFDXT7Wx6vApwSBnDSYRQyI4JwB3BAZxOQOecIaQ3rhYiN8mN1Q8mv/t
-         UUY9kJoSb55RhA/OON8IV3yT6W/jYsS4qK0He3+9Nlo9A28ZvjN1HsUXQFE3KuqElgVb
-         9xiQ==
+        bh=/12YzBMxFEuL9z1yWxB+UUCkYX6+8C24FFiPRnVOeYs=;
+        b=h7/WTUUWaoUzOcX86SFAvjDqKxEWUmwu+YhE3cNW33MrssWBI/fbZ8ND6zHNcXjHgw
+         3j8kn05JCeCAbnsife3MAC/9la+wF4PRffF+SRhL+G12LmogFN6K3TioSMpzkLm7KG93
+         gVjWA+5C6tI7mcjQ3QVMply/DRiEnOsagoTEPNoAP+HjDSt0XGtXBYMyYc8kkS5SjFn2
+         nB2tbt0lWG/K5JQ9lgxdCI1H3FEjIOWMaVhNMTK30fySlZYJmq8/VRj0ettvrI9n1cVJ
+         cvsl4W62ZpzX+maxk5mts/VOjiWpHDL2RYFu0v2EkuRPhihuIY+rMNXsS+esJsloML/q
+         a83A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689761779; x=1690366579;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20221208; t=1689761877; x=1690366677;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oTUN50/17AR9wbpM9Qq3N318u2qSEtlvZXw2qFUaUY0=;
-        b=UYBU+8cRyW9GNRE9DvewyYB7lpR0QWTTP5UQAe4LAGY8VFjCNPbEeHBuOvQnm9Q501
-         eMZarTvmu+C+5J3+AAj9tbdTLb93W4/5U2VXZeOia+GGxn9GcaCgkgITOssL+WHlxTW9
-         eKGj2WjcWyHgyK5MZCpyNQcttMi8/Oe2YeMlOeqyzDzMsvICVePXwWhbuNTedfT8190j
-         aoYOznE1yrtJL4iZOXkzHxQYibnfR16XvaRPFlwTcgZq+l8dzzH9KTKFMyt9WaoUTQS+
-         FxaJHnUdp7F2HrA0n1uKAL3giw5EOM1FkKe7bchBPMwN97srGXtj4MkrQpkN1hr31Z9T
-         r8kg==
-X-Gm-Message-State: ABy/qLZzD1N+jgcvL3+zGwzRBboSh3gFIPLERugq+yJzTJaeFzu4Zv30
-        R8Gw+yg7yU8skm9bIRzOUosxOw==
-X-Google-Smtp-Source: APBJJlHAnLgTuIDQBKuxxNCX3qrgDSx988MYKL5jiLsTUFs2svQEUhO3U+rph1zIbWRvMaxwoMfADQ==
-X-Received: by 2002:a05:600c:3787:b0:3fb:1b78:38d2 with SMTP id o7-20020a05600c378700b003fb1b7838d2mr1749085wmr.4.1689761779299;
-        Wed, 19 Jul 2023 03:16:19 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id c16-20020a7bc010000000b003fbe36a4ce6sm1354773wmb.10.2023.07.19.03.16.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jul 2023 03:16:17 -0700 (PDT)
-Date:   Wed, 19 Jul 2023 13:16:10 +0300
-From:   Dan Carpenter <dan.carpenter@linaro.org>
-To:     Bingbu Cao <bingbu.cao@intel.com>
-Cc:     Arec Kao <arec.kao@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Hao Yao <hao.yao@intel.com>, linux-media@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Subject: [PATCH] media: ov13b10: Fix some error checking in probe
-Message-ID: <b7ed2497-35d6-490e-b2a6-089f8099290a@moroto.mountain>
+        bh=/12YzBMxFEuL9z1yWxB+UUCkYX6+8C24FFiPRnVOeYs=;
+        b=UTlWfzBHQcaXVo/bHiLRQyLQu7qWK50YOu242FAWeZFqI2uoMpnVgljnhvO5CZvSf7
+         g/tyNRYpL3LTdaF6jW1vn/bKU8oXbXLVJTus6U7EHxp1vHcffu1P2ZE6b0pa2+GTtjeo
+         0Bo3mKBuPsZA0+lZ2l5TS/0BusdX+8LbU+1WiWEVimL/qTdfPnZGrZyhr/kzzhmgHIoO
+         5L8Roe+z5X/8i6nCHOKjYyQKyRp3q2fg9G7IQpCE+c1kU8EupreILrjVG8laEBLj2kp3
+         GEFOGCs3lUnVhgU9T1/SJFmnOMLt2jW5vWY8bVtpHgFZ/loWhHHCSQzNMnYoxvUFIX2f
+         +goA==
+X-Gm-Message-State: ABy/qLZ0WGRXxMW+8/qTkPUWove1JyEOshgeCI3XOf4+Vq93fDtqEbhQ
+        Pb02gnm5q93hygmeqlTvHmvnlA==
+X-Google-Smtp-Source: APBJJlH/wReuFNESBCfYGmjiyYJIozOQLKMrl6ckmaNf19lwjXmfAOVCoYhJvsQXenBPnI/4zc4muQ==
+X-Received: by 2002:adf:ecd0:0:b0:30f:ca58:a00d with SMTP id s16-20020adfecd0000000b0030fca58a00dmr1786141wro.45.1689761877016;
+        Wed, 19 Jul 2023 03:17:57 -0700 (PDT)
+Received: from [192.168.1.172] ([93.5.22.158])
+        by smtp.gmail.com with ESMTPSA id j8-20020a5d4488000000b0031417b0d338sm4924130wrq.87.2023.07.19.03.17.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Jul 2023 03:17:56 -0700 (PDT)
+Message-ID: <55c336a4-b268-d2d3-47f3-213300e4e623@baylibre.com>
+Date:   Wed, 19 Jul 2023 12:17:55 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [RESEND PATCH v2] media: mtk-jpeg: Fix use after free bug due to
+ uncanceled work
+To:     Zheng Hacker <hackerzheng666@gmail.com>
+Cc:     Zheng Wang <zyytlz.wz@163.com>, Kyrie.Wu@mediatek.com,
+        bin.liu@mediatek.com, mchehab@kernel.org, matthias.bgg@gmail.com,
+        angelogioacchino.delregno@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, Irui.Wang@mediatek.com,
+        security@kernel.org, 1395428693sheep@gmail.com,
+        alex000young@gmail.com
+References: <20230707092414.866760-1-zyytlz.wz@163.com>
+ <538096d2-7b24-e1c7-706d-4d4f952d35eb@baylibre.com>
+ <CAJedcCzR6DzX_aG1KBgrMHDJ1xh=RTA-FrZ+TJ_4KawWpHyYuA@mail.gmail.com>
+ <CAJedcCyKv-hdDhWcogDZrC-kY6qtO-H1fDYqjTXMJvCR19MxYg@mail.gmail.com>
+Content-Language: en-US
+From:   Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <CAJedcCyKv-hdDhWcogDZrC-kY6qtO-H1fDYqjTXMJvCR19MxYg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The "ret = " assignment was missing, so ov13b10_power_on() is not
-checked for errors.  Add the assignment.
 
-Fixes: 6e28afd15228 ("media: ov13b10: add PM control support based on power resources")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
-Adding error handling always risky breaking the driver and I have not
-tested this patch.
 
- drivers/media/i2c/ov13b10.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 18/07/2023 05:07, Zheng Hacker wrote:
+> Friendly ping
+> 
+> Zheng Hacker <hackerzheng666@gmail.com> 于2023年7月16日周日 00:08写道：
+>>
+>> Hi,
+>>
+>> This issue has not been resolved for a long time. Is there anyone who can help?
+>>
+>> Best regards,
+>> Zheng
+>>
+>> Alexandre Mergnat <amergnat@baylibre.com> 于2023年7月7日周五 22:11写道：
+>>>
+>>>
+>>>
+>>> On 07/07/2023 11:24, Zheng Wang wrote:
+>>>> In mtk_jpeg_probe, &jpeg->job_timeout_work is bound with
+>>>> mtk_jpeg_job_timeout_work. Then mtk_jpeg_dec_device_run
+>>>> and mtk_jpeg_enc_device_run may be called to start the
+>>>> work.
+>>>> If we remove the module which will call mtk_jpeg_remove
+>>>> to make cleanup, there may be a unfinished work. The
+>>>> possible sequence is as follows, which will cause a
+>>>> typical UAF bug.
+>>>>
+>>>> Fix it by canceling the work before cleanup in the mtk_jpeg_remove
+>>>>
+>>>> CPU0                  CPU1
+>>>>
+>>>>                       |mtk_jpeg_job_timeout_work
+>>>> mtk_jpeg_remove     |
+>>>>     v4l2_m2m_release  |
+>>>>       kfree(m2m_dev); |
+>>>>                       |
+>>>>                       | v4l2_m2m_get_curr_priv
+>>>>                       |   m2m_dev->curr_ctx //use
+>>>
+>>> Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
+>>>
+>>> --
+>>> Regards,
+>>> Alexandre
 
-diff --git a/drivers/media/i2c/ov13b10.c b/drivers/media/i2c/ov13b10.c
-index dbc642c5995b..8ebdb32dd3db 100644
---- a/drivers/media/i2c/ov13b10.c
-+++ b/drivers/media/i2c/ov13b10.c
-@@ -1501,7 +1501,7 @@ static int ov13b10_probe(struct i2c_client *client)
- 
- 	full_power = acpi_dev_state_d0(&client->dev);
- 	if (full_power) {
--		ov13b10_power_on(&client->dev);
-+		ret = ov13b10_power_on(&client->dev);
- 		if (ret) {
- 			dev_err(&client->dev, "failed to power on\n");
- 			return ret;
+Hi Zheng,
+
+If you asking me to merge patch, sorry but I can't, I'm just a reviewer. 
+I invite you to ping the maintainers directly:
+
+Bin Liu <bin.liu@mediatek.com> (supporter:MEDIATEK JPEG DRIVER)
+Mauro Carvalho Chehab <mchehab@kernel.org> (maintainer:MEDIA INPUT 
+INFRASTRUCTURE (V4L/DVB))
+Matthias Brugger <matthias.bgg@gmail.com> (maintainer:ARM/Mediatek SoC 
+support)
+
+Otherwise, I misunderstood what you asking me. If so, can you rephrase 
+your question please?
+
 -- 
-2.39.2
-
+Regards,
+Alexandre
