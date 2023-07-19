@@ -2,46 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D54D8758F9F
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jul 2023 09:53:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75A1F758FDB
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jul 2023 10:04:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230377AbjGSHxy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Jul 2023 03:53:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45260 "EHLO
+        id S230001AbjGSIEd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Jul 2023 04:04:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230383AbjGSHx3 (ORCPT
+        with ESMTP id S229759AbjGSIEc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Jul 2023 03:53:29 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25E8A2702;
-        Wed, 19 Jul 2023 00:53:11 -0700 (PDT)
+        Wed, 19 Jul 2023 04:04:32 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABBA8BE;
+        Wed, 19 Jul 2023 01:04:31 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A98C5612F0;
-        Wed, 19 Jul 2023 07:53:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09501C433C7;
-        Wed, 19 Jul 2023 07:53:08 +0000 (UTC)
-Message-ID: <b176e4ae-7000-45af-64ba-2a5bd948f1e3@xs4all.nl>
-Date:   Wed, 19 Jul 2023 09:53:07 +0200
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4305A61228;
+        Wed, 19 Jul 2023 08:04:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86E2DC433C8;
+        Wed, 19 Jul 2023 08:04:28 +0000 (UTC)
+Message-ID: <7dcadd80-ae5c-0e53-d91a-2ee5028e51f5@xs4all.nl>
+Date:   Wed, 19 Jul 2023 10:04:26 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.12.0
-Subject: Re: [PATCH v1 1/1] media: drxk: Use %*ph for printing hexdump of a
- small buffer
+Subject: Re: [PATCH v1] media:Fix repeated initialization
 Content-Language: en-US
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+To:     Wang Ming <machel@vivo.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230612212038.3876-1-andriy.shevchenko@linux.intel.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20230612212038.3876-1-andriy.shevchenko@linux.intel.com>
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        linux-media@vger.kernel.org
+Cc:     opensource.kernel@vivo.com
+References: <20230705142142.3526-1-machel@vivo.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20230705142142.3526-1-machel@vivo.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+X-Spam-Status: No, score=-6.8 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -49,80 +56,49 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andy,
-
-On 12/06/2023 23:20, Andy Shevchenko wrote:
-> The kernel already has a helper to print a hexdump of a small
-> buffer via pointer extension. Use that instead of open coded
-> variant.
+On 05/07/2023 16:21, Wang Ming wrote:
+> If the first report returns NULL,
+> there is no need to execute the
+> fimc_capture_try_format() function
+> again.
 > 
-> In long term it helps to kill pr_cont() or at least narrow down
-> its use.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Wang Ming <machel@vivo.com>
 > ---
->  drivers/media/dvb-frontends/drxk_hard.c | 28 ++++++-------------------
->  1 file changed, 6 insertions(+), 22 deletions(-)
+>  .../media/platform/samsung/exynos4-is/fimc-capture.c   | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/media/dvb-frontends/drxk_hard.c b/drivers/media/dvb-frontends/drxk_hard.c
-> index 3301ef75d441..14035deeb6d8 100644
-> --- a/drivers/media/dvb-frontends/drxk_hard.c
-> +++ b/drivers/media/dvb-frontends/drxk_hard.c
-> @@ -229,13 +229,8 @@ static int i2c_write(struct drxk_state *state, u8 adr, u8 *data, int len)
->  	struct i2c_msg msg = {
->  	    .addr = adr, .flags = 0, .buf = data, .len = len };
->  
-> -	dprintk(3, ":");
-> -	if (debug > 2) {
-> -		int i;
-> -		for (i = 0; i < len; i++)
-> -			pr_cont(" %02x", data[i]);
-> -		pr_cont("\n");
-> -	}
-> +	dprintk(3, ": %*ph\n", len, data);
-> +
->  	status = drxk_i2c_transfer(state, &msg, 1);
->  	if (status >= 0 && status != 1)
->  		status = -EIO;
-> @@ -268,14 +263,8 @@ static int i2c_read(struct drxk_state *state,
->  		return status;
->  	}
->  	if (debug > 2) {
-> -		int i;
-> -		dprintk(2, ": read from");
-> -		for (i = 0; i < len; i++)
-> -			pr_cont(" %02x", msg[i]);
-> -		pr_cont(", value = ");
-> -		for (i = 0; i < alen; i++)
-> -			pr_cont(" %02x", answ[i]);
-> -		pr_cont("\n");
-> +		dprintk(2, ": read from %*ph, value = %*ph\n", len, msg,
-> +			alen, answ);
+> diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-capture.c b/drivers/media/platform/samsung/exynos4-is/fimc-capture.c
+> index a0d43bf892e6..5ce2f04afa1e 100644
+> --- a/drivers/media/platform/samsung/exynos4-is/fimc-capture.c
+> +++ b/drivers/media/platform/samsung/exynos4-is/fimc-capture.c
+> @@ -825,10 +825,12 @@ static int fimc_pipeline_try_format(struct fimc_ctx *ctx,
+>  		tfmt->height = mf->height;
+>  		ffmt = fimc_capture_try_format(ctx, &tfmt->width, &tfmt->height,
+>  					NULL, &fcc, FIMC_SD_PAD_SINK_CAM);
+> -		ffmt = fimc_capture_try_format(ctx, &tfmt->width, &tfmt->height,
+> -					NULL, &fcc, FIMC_SD_PAD_SOURCE);
+> -		if (ffmt && ffmt->mbus_code)
+> -			mf->code = ffmt->mbus_code;
+> +		if (ffmt) {
+> +			ffmt = fimc_capture_try_format(ctx, &tfmt->width, &tfmt->height,
+> +				NULL, &fcc, FIMC_SD_PAD_SOURCE);
+> +			if (ffmt && ffmt->mbus_code)
+> +				mf->code = ffmt->mbus_code;
+> +		}
 
-The patch looks good, except here the dprintk debug level should be 3, not 2.
-With that change the 'if (debug > 2)' can be dropped as well.
+I'm not so sure this is a bug at all. I think (not quite certain) that the
+first fimc_capture_try_format() call constrains the width and height to
+whatever is the SINK_CAM pad, then further constrains it to that of the
+SOURCE pad.
+
+But really, someone from Samsung should take a look as well. Adding Marek and
+Sylwester.
 
 Regards,
 
 	Hans
 
->  	}
->  	return 0;
->  }
-> @@ -441,13 +430,8 @@ static int write_block(struct drxk_state *state, u32 address,
->  		}
->  		memcpy(&state->chunk[adr_length], p_block, chunk);
->  		dprintk(2, "(0x%08x, 0x%02x)\n", address, flags);
-> -		if (debug > 1) {
-> -			int i;
-> -			if (p_block)
-> -				for (i = 0; i < chunk; i++)
-> -					pr_cont(" %02x", p_block[i]);
-> -			pr_cont("\n");
-> -		}
-> +		if (p_block)
-> +			dprintk(2, "%*ph\n", chunk, p_block);
->  		status = i2c_write(state, state->demod_address,
->  				   &state->chunk[0], chunk + adr_length);
->  		if (status < 0) {
+>  		if (mf->width != tfmt->width || mf->height != tfmt->height)
+>  			continue;
+>  		tfmt->code = mf->code;
 
