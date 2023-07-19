@@ -2,96 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A9205759FEE
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jul 2023 22:37:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F33CC75A041
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jul 2023 22:58:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231411AbjGSUhN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Jul 2023 16:37:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40042 "EHLO
+        id S230490AbjGSU6C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Jul 2023 16:58:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231148AbjGSUhL (ORCPT
+        with ESMTP id S230445AbjGSU57 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Jul 2023 16:37:11 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99554171E;
-        Wed, 19 Jul 2023 13:37:02 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2E1A261807;
-        Wed, 19 Jul 2023 20:37:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2BE5C433C8;
-        Wed, 19 Jul 2023 20:37:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1689799021;
-        bh=SL7k8eZ8nRbX0vwXOdVgFN2hRtqQGVAaTbvJqY57BEU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=BuvyrT061YUMSD8cNtGfuZUYzuxPpFcZw8zFsExRkWlWUhjNMtWkE7mxb2izkRBZ9
-         O1WBwZ6bb8drf/uwk8Wa0VszOc7EqWwXPbEuhOssWsbLQP48hw/F10jMiOTwcXPOgD
-         EpO9kWXvGYiD9ZFJolRqG+ZSTPWbFE4Ak23jeb1eBfxk7yZCM9F9dl45vayuudNpRz
-         3lka10SYYniiqESB1Tx8VVwqa/QrJX4KG7lGdFRY2SN14mLkl0k9oEYjJU+zvtG0Cw
-         2AS37/gepyGO5pHewv4AQ8sUuKpeu8scpNrKlFO90A8Nl2c2rIgIuO1PaB2FBj01XT
-         CMknK6m3ulovw==
-Date:   Wed, 19 Jul 2023 13:36:59 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Mina Almasry <almasrymina@google.com>
-Cc:     David Ahern <dsahern@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Andy Lutomirski <luto@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        netdev@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-        Shuah Khan <shuah@kernel.org>
-Subject: Re: [RFC PATCH 00/10] Device Memory TCP
-Message-ID: <20230719133659.5529729e@kernel.org>
-In-Reply-To: <CAHS8izPORN=r2-hzYSgN4s_Aoo2dnwoJXrU5Hu=43sb8zsWyhQ@mail.gmail.com>
-References: <20230710223304.1174642-1-almasrymina@google.com>
-        <12393cd2-4b09-4956-fff0-93ef3929ee37@kernel.org>
-        <CAHS8izNPTwtk+zN7XYt-+ycpT+47LMcRrYXYh=suTXCZQ6-rVQ@mail.gmail.com>
-        <ZLbUpdNYvyvkD27P@ziepe.ca>
-        <20230718111508.6f0b9a83@kernel.org>
-        <35f3ec37-11fe-19c8-9d6f-ae5a789843cb@kernel.org>
-        <20230718112940.2c126677@kernel.org>
-        <eb34f812-a866-a1a3-9f9b-7d5054d17609@kernel.org>
-        <20230718154503.0421b4cd@kernel.org>
-        <CAHS8izPORN=r2-hzYSgN4s_Aoo2dnwoJXrU5Hu=43sb8zsWyhQ@mail.gmail.com>
+        Wed, 19 Jul 2023 16:57:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04F171FF5
+        for <linux-media@vger.kernel.org>; Wed, 19 Jul 2023 13:57:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1689800232;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=u8/7gfrcuf8/DAAooprDSDfzeOTJmiOUpVBm/359QlE=;
+        b=Lyt1wzMSYYPBYe6SmQ5Yeeco0Ncvhf/fKBXHAL5mt99GgkJ5uUrq93DEv0EafkRyJ4vmDQ
+        EX7HASjm0CjnqzdrSMkDYAGTHxGQin7bRix1FBnMxGM6RTMDCBlvkDghLOYRyaqtS0tx1Y
+        UWqaoCkUTi3uBEzVQeLyenKS677Cy3k=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-611-i7my2VgFOseIZdEYi80_pQ-1; Wed, 19 Jul 2023 16:57:09 -0400
+X-MC-Unique: i7my2VgFOseIZdEYi80_pQ-1
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-315a03cae87so532127f8f.0
+        for <linux-media@vger.kernel.org>; Wed, 19 Jul 2023 13:57:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689800228; x=1690405028;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=u8/7gfrcuf8/DAAooprDSDfzeOTJmiOUpVBm/359QlE=;
+        b=PLIsm1oUysapTuvUt+O69J3ixA3w66L0FTvMLR6cRt07cQhU4D13kHvW/ebWnz3u/C
+         fUbgnQ31fxq0a0BAELq4IOLfIRV8UPB8Yt4GFcsKl7a9udgTEcVpz6hhb0S6f6lF2grU
+         Jb1DYS7CUsXkgcNIXZnjksQN5z6S7Y/7fJozIUmDmtKR46n578Ym1uXlPvaFQCfB78MY
+         wTLDxwXYIxh67dpKuy2wtnaTG3M8iRj+dDXRCYPXdgCECvZueSiP8kJO1Mo7KOXG1chs
+         3+M1eDRjJ2ZtoXc0RhTkguaOcCpMMuvs4CmQSZ98IOv31pfH1v10yrseAwhh60hsim9j
+         JqHA==
+X-Gm-Message-State: ABy/qLYvs1le4MJbB7Cz+MLYIMcj33VZt55sGQNXljBxTId5jB4QTmuc
+        zyQLLpwESWeiLVi4JSv9ClnPHjfqbQ6pfB1FEQmd+w7RA8N4sUfQ2qLIQBI2xzRlwBdUWZCoJVC
+        qXlAL/XxLykQwQmJnfHf5XoQ=
+X-Received: by 2002:a5d:6808:0:b0:313:ef62:6370 with SMTP id w8-20020a5d6808000000b00313ef626370mr779420wru.10.1689800228320;
+        Wed, 19 Jul 2023 13:57:08 -0700 (PDT)
+X-Google-Smtp-Source: APBJJlFLQI82PXe04TmP/q3eozKaXk38E3F+Qti+S7R2zewTlwbsEDY2//S9hJbdkbY4vyqMa8EZ9Q==
+X-Received: by 2002:a5d:6808:0:b0:313:ef62:6370 with SMTP id w8-20020a5d6808000000b00313ef626370mr779410wru.10.1689800228058;
+        Wed, 19 Jul 2023 13:57:08 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id t14-20020a5d460e000000b0030fb4b55c13sm6150243wrq.96.2023.07.19.13.57.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Jul 2023 13:57:07 -0700 (PDT)
+From:   Javier Martinez Canillas <javierm@redhat.com>
+To:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+        maarten.lankhorst@linux.intel.com
+Cc:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+        tzimmermann@suse.de, Abaci Robot <abaci@linux.alibaba.com>,
+        linux-kernel@vger.kernel.org, sumit.semwal@linaro.org,
+        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+        christian.koenig@amd.com, linux-media@vger.kernel.org
+Subject: Re: [PATCH] drm/shmem-helper: Remove duplicate include
+In-Reply-To: <20230320015829.52988-1-jiapeng.chong@linux.alibaba.com>
+References: <20230320015829.52988-1-jiapeng.chong@linux.alibaba.com>
+Date:   Wed, 19 Jul 2023 22:57:07 +0200
+Message-ID: <871qh3k4bg.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 19 Jul 2023 08:10:58 -0700 Mina Almasry wrote:
-> From Jakub and David's comments it sounds (if I understood correctly),
-> you'd like to tie the dma-buf bind/unbind functions to the lifetime of
-> a netlink socket, rather than a struct file like I was thinking. That
-> does sound cleaner, but I'm not sure how. Can you link me to any
-> existing code examples? Or rough pointers to any existing code?
+Jiapeng Chong <jiapeng.chong@linux.alibaba.com> writes:
 
-I don't have a strong preference whether the lifetime is bound to 
-the socket or not. My main point was that if we're binding lifetimes
-to processes, it should be done via netlink sockets, not special-
--purpose FDs. Inevitably more commands and info will be needed and
-we'll start reinventing the uAPI wheel which is Netlink.
+> ./drivers/gpu/drm/drm_gem_shmem_helper.c: linux/module.h is included more than once.
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Link: https://bugzilla.openanolis.cn/show_bug.cgi?id=4567
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> ---
 
-Currently adding state to netlink sockets is a bit raw. You can create
-an Xarray which stores the per socket state using socket's portid
-(genl_info->snd_portid) and use netlink_register_notifier() to get
-notifications when sockets are closed.
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
