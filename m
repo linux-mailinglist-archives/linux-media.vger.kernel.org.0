@@ -2,189 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC97C759CDF
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jul 2023 19:55:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CB32759CF1
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jul 2023 19:57:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229847AbjGSRzx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Jul 2023 13:55:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40518 "EHLO
+        id S230112AbjGSR50 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Jul 2023 13:57:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229774AbjGSRzv (ORCPT
+        with ESMTP id S230022AbjGSR5T (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Jul 2023 13:55:51 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 871771FC8;
-        Wed, 19 Jul 2023 10:55:49 -0700 (PDT)
-Received: from [192.168.1.141] ([37.4.248.68]) by mrelayeu.kundenserver.de
- (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1N0WsG-1q1VmE3ZMC-00wZJi; Wed, 19 Jul 2023 19:55:34 +0200
-Message-ID: <153d3a8f-26b9-fdf3-e96f-a1e338c977b7@i2se.com>
-Date:   Wed, 19 Jul 2023 19:55:34 +0200
+        Wed, 19 Jul 2023 13:57:19 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E58E81FF3
+        for <linux-media@vger.kernel.org>; Wed, 19 Jul 2023 10:57:14 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-6686a05bc66so5383056b3a.1
+        for <linux-media@vger.kernel.org>; Wed, 19 Jul 2023 10:57:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=networkplumber-org.20221208.gappssmtp.com; s=20221208; t=1689789434; x=1690394234;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4FVEMGAeC4A4acfilWsGklHz88eR5z5EWRCCV9Kst0I=;
+        b=0Q1tzUOb9vYJXHmPeDryrYB5A4pEESrmEqXYj9Hg+90Z5+QCPv2ecrkofZgQVHrh2Q
+         2SmV6ESktQAtsjCYVJZhJojTRHsrQLvYLqNH0EoTgXcN4+EyUGH6ZSXKFYb02Y0hiirh
+         icie1/r4QjaO+Xr/8VrDJJ+t8iIcRUo2snH46DM7aXAbB12rMZS46rJ2h5Z2q3coLAKN
+         GMT7GgUwcUUW4SpZr+6zG8X6fnKROWImTBv7u2v/1CdFXwNuMSzJvhzr6uNXEVsoU8p0
+         jr3ynj+/29rinW5TGGhTFa+uF7yLH222PS2w2a9Iu7qAlX2Am1gjapUEui6PcMe/HT1i
+         pwCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689789434; x=1690394234;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4FVEMGAeC4A4acfilWsGklHz88eR5z5EWRCCV9Kst0I=;
+        b=RJMn/QehzWHY4zTQZSZHn3U8cxfpTPcn3k0aVlU4f5y1ZPgUnzGjbS1ov8dObXfLoe
+         P1v7MWd/Jhxa1LR9TVouUl19uc+pV1zNX2yjlismTz2jQ9vh4x+Op9KP9aTtnwh6gsPJ
+         oDbgjZcGcnV64WpuBFwfPctuaPpT+zeDChRfluCkIwDx58wSQpqz52jFUZ1gIQh0kiMp
+         InQhR9igZklo8Qz9auk8Phjh3w5ZvW0GfH0TSbc7Ooi6W9WlUtJxIjhSL+BXxw1Ni/rX
+         +F0daxCbqXhuSW1fPXS96QgnoEXzX6e8UFHkwooXisncfst8mShotbCLMgkdvfLhqhBj
+         rxFw==
+X-Gm-Message-State: ABy/qLbIbBEmaM1aoScoL1h5eAN++fWTYOVsxnlPfolI8H8FWWnJobGi
+        hRq5GofiVyFFzLqv1GuFdjqwPA==
+X-Google-Smtp-Source: APBJJlEsVXT/riHHb217/IRnC4FkTdrL+WEIRgGEaqW1QkKPQqx7J9SZ2+4YPKCL/Z0Wz9JzjQeyoQ==
+X-Received: by 2002:a17:90a:d598:b0:264:97a:2ba6 with SMTP id v24-20020a17090ad59800b00264097a2ba6mr4560333pju.7.1689789434001;
+        Wed, 19 Jul 2023 10:57:14 -0700 (PDT)
+Received: from hermes.local (204-195-127-207.wavecable.com. [204.195.127.207])
+        by smtp.gmail.com with ESMTPSA id nw17-20020a17090b255100b00263f41a655esm1415304pjb.43.2023.07.19.10.57.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Jul 2023 10:57:13 -0700 (PDT)
+Date:   Wed, 19 Jul 2023 10:57:11 -0700
+From:   Stephen Hemminger <stephen@networkplumber.org>
+To:     Mina Almasry <almasrymina@google.com>
+Cc:     Jakub Kicinski <kuba@kernel.org>, David Ahern <dsahern@kernel.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Andy Lutomirski <luto@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        netdev@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        Shuah Khan <shuah@kernel.org>
+Subject: Re: [RFC PATCH 00/10] Device Memory TCP
+Message-ID: <20230719105711.448f8cad@hermes.local>
+In-Reply-To: <CAHS8izPORN=r2-hzYSgN4s_Aoo2dnwoJXrU5Hu=43sb8zsWyhQ@mail.gmail.com>
+References: <20230710223304.1174642-1-almasrymina@google.com>
+        <12393cd2-4b09-4956-fff0-93ef3929ee37@kernel.org>
+        <CAHS8izNPTwtk+zN7XYt-+ycpT+47LMcRrYXYh=suTXCZQ6-rVQ@mail.gmail.com>
+        <ZLbUpdNYvyvkD27P@ziepe.ca>
+        <20230718111508.6f0b9a83@kernel.org>
+        <35f3ec37-11fe-19c8-9d6f-ae5a789843cb@kernel.org>
+        <20230718112940.2c126677@kernel.org>
+        <eb34f812-a866-a1a3-9f9b-7d5054d17609@kernel.org>
+        <20230718154503.0421b4cd@kernel.org>
+        <CAHS8izPORN=r2-hzYSgN4s_Aoo2dnwoJXrU5Hu=43sb8zsWyhQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v9 4/5] staging: bcm2835-audio: Register bcm2835-audio
- with vchiq_bus_type
-Content-Language: en-US
-To:     Umang Jain <umang.jain@ideasonboard.com>,
-        linux-staging@lists.linux.dev,
-        linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     gregkh@linuxfoundation.org, f.fainelli@gmail.com,
-        athierry@redhat.com, error27@gmail.com,
-        dave.stevenson@raspberrypi.com, kieran.bingham@ideasonboard.com,
-        laurent.pinchart@ideasonboard.com
-References: <20230719164427.1383646-1-umang.jain@ideasonboard.com>
- <20230719164427.1383646-5-umang.jain@ideasonboard.com>
-From:   Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <20230719164427.1383646-5-umang.jain@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:IrHo+yQKjQZP8ufddu3tihy98TNvPWemx/TN6KSs51LFKI15ndm
- DehgGQTo3sRzoiu8PkADCbiwegPb9AUScsHHkA8Cd+C515hHMZEbBesvIcJBs71Zsmrl832
- H9I6UGzhdYd1oJ2RuFHzE9PxIsYWjYdhWtBrC09ZotzgjEGSb5ctMvfiacYdqFGeaso53xq
- wxycDQwuBYj6H956RjmiQ==
-UI-OutboundReport: notjunk:1;M01:P0:FKpyv9qePPA=;adpoBBO3/O2qrN3L9RZuwCT6cST
- xoTVo36MlQL0KyAo39JAWVAOa0OKtdbgFCZMA4DInEalUnLno0HC+vGMhvUhA93ZkklQaDIPS
- /2J1UskIpqkf2L8pvEgJ6g3qdPtEiTYa4NVMFspC6s3Q7BQu49BXE1pRyBBfZQ+k8253l1PfH
- Nj7WWdTRZDKMJjQbRAJRzJlC5f0R0w45hTwXOcBX/1p9GV5l6zY0d6syyBhrbDzY+o3EpiBdT
- dvUHd7RQDb0xVZkvFnTDHr90CuSpwPMXyyWAu0wveA0ciQGh4tp4KQWPmu/qbRThbBP6rxmxw
- fKm3nWpQggn5T50czfHw96yLxgEaiFkSSCT4JEHfluI5fgBEUrZcr4PBPhvtmw5MLDfgd+cPt
- O48M43vi9M42R2DPQOAjm2Nc9ZDFjdM4wpUjsXUFPPHKAdT4lRe5HPlzBIHBeOAPa5HLFWTLU
- rxidgNuqvDi2CauzcHyrNncaH/DFaeiIbbD1IB2iqX027rbQPupGI2POzBM3boHtihn47Baxw
- JUMiwFYQ4rAoWqhTeLIX4I9HinsFZXl3sl9cvi6sHKakncgJ1GYSV2mx11TTQSs+/qGZZ11qM
- 893S4Dx2CO6nvQln9V+FLbVxMETeLkXVr0MAQ3u0+Ai38xMjAdrSLjLWA6uVgy8ArfNmthgbY
- 8kkIFmt3vxAto5kS6ez3PbUkFHTOVxXjxLW0+zphdg==
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Umang,
+On Wed, 19 Jul 2023 08:10:58 -0700
+Mina Almasry <almasrymina@google.com> wrote:
 
-Am 19.07.23 um 18:44 schrieb Umang Jain:
-> Similar to how bcm2385-camera device is registered, register the
-> bcm2835-audio with vchiq_bus_type as well.
-> 
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->   .../vc04_services/bcm2835-audio/bcm2835.c     | 20 +++++++++----------
->   .../interface/vchiq_arm/vchiq_arm.c           |  6 +++---
->   2 files changed, 13 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c b/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c
-> index 00bc898b0189..70e5e0942743 100644
-> --- a/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c
-> +++ b/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c
-> @@ -1,12 +1,12 @@
->   // SPDX-License-Identifier: GPL-2.0
->   /* Copyright 2011 Broadcom Corporation.  All rights reserved. */
->   
-> -#include <linux/platform_device.h>
-> -
->   #include <linux/init.h>
->   #include <linux/slab.h>
->   #include <linux/module.h>
->   
-> +#include "../interface/vchiq_arm/vchiq_arm.h"
-> +#include "../interface/vchiq_arm/vchiq_device.h"
->   #include "bcm2835.h"
->   
->   static bool enable_hdmi;
-> @@ -268,9 +268,9 @@ static int snd_add_child_devices(struct device *device, u32 numchans)
->   	return 0;
->   }
->   
-> -static int snd_bcm2835_alsa_probe(struct platform_device *pdev)
-> +static int snd_bcm2835_alsa_probe(struct vchiq_device *device)
->   {
-> -	struct device *dev = &pdev->dev;
-> +	struct device *dev = &device->dev;
->   	int err;
->   
->   	if (num_channels <= 0 || num_channels > MAX_SUBSTREAMS) {
-> @@ -292,32 +292,32 @@ static int snd_bcm2835_alsa_probe(struct platform_device *pdev)
->   
->   #ifdef CONFIG_PM
->   
-> -static int snd_bcm2835_alsa_suspend(struct platform_device *pdev,
-> +static int snd_bcm2835_alsa_suspend(struct vchiq_device *device,
->   				    pm_message_t state)
->   {
->   	return 0;
->   }
->   
-> -static int snd_bcm2835_alsa_resume(struct platform_device *pdev)
-> +static int snd_bcm2835_alsa_resume(struct vchiq_device *device)
->   {
->   	return 0;
->   }
->   
->   #endif
->   
-> -static struct platform_driver bcm2835_alsa_driver = {
-> +static struct vchiq_driver bcm2835_alsa_driver = {
->   	.probe = snd_bcm2835_alsa_probe,
->   #ifdef CONFIG_PM
->   	.suspend = snd_bcm2835_alsa_suspend,
->   	.resume = snd_bcm2835_alsa_resume,
->   #endif
->   	.driver = {
-> -		.name = "bcm2835_audio",
-> +		.name = "bcm2835-audio",
+> On Tue, Jul 18, 2023 at 3:45=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> =
+wrote:
+> >
+> > On Tue, 18 Jul 2023 16:35:17 -0600 David Ahern wrote: =20
+> > > I do not see how 1 RSS context (or more specifically a h/w Rx queue) =
+can
+> > > be used properly with memory from different processes (or dma-buf
+> > > references). =20
+>=20
+> Right, my experience with dma-bufs from GPUs are that they're
+> allocated from the userspace and owned by the process that allocated
+> the backing GPU memory and generated the dma-buf from it. I.e., we're
+> limited to 1 dma-buf per RX queue. If we enable binding multiple
+> dma-bufs to the same RX queue, we have a problem, because AFAIU the
+> NIC can't decide which dma-buf to put the packet into (it hasn't
+> parsed the packet's destination yet).
+>=20
+> > > When the process dies, that memory needs to be flushed from
+> > > the H/W queues. Queues with interlaced submissions make that more
+> > > complicated. =20
+> > =20
+>=20
+> When the process dies, do we really want to flush the memory from the
+> hardware queues? The drivers I looked at don't seem to have a function
+> to flush the rx queues alone, they usually do an entire driver reset
+> to achieve that. Not sure if that's just convenience or there is some
+> technical limitation there. Do we really want  to trigger a driver
+> reset at the event a userspace process crashes?
 
-At least this change is not mentioned in the commit log.
-
-Thanks
-
->   	},
->   };
-> -module_platform_driver(bcm2835_alsa_driver);
-> +module_vchiq_driver(bcm2835_alsa_driver);
->   
->   MODULE_AUTHOR("Dom Cobley");
->   MODULE_DESCRIPTION("Alsa driver for BCM2835 chip");
->   MODULE_LICENSE("GPL");
-> -MODULE_ALIAS("platform:bcm2835_audio");
-> +MODULE_ALIAS("bcm2835-audio");
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> index d941e9640415..f7c2dce5ab09 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> @@ -67,12 +67,12 @@ int vchiq_susp_log_level = VCHIQ_LOG_ERROR;
->   DEFINE_SPINLOCK(msg_queue_spinlock);
->   struct vchiq_state g_state;
->   
-> -static struct platform_device *bcm2835_audio;
->   /*
->    * The devices implemented in the VCHIQ firmware are not discoverable,
->    * so we need to maintain a list of them in order to register them with
->    * the interface.
->    */
-> +static struct vchiq_device *bcm2835_audio;
->   static struct vchiq_device *bcm2835_camera;
->   
->   struct vchiq_drvdata {
-> @@ -1845,7 +1845,7 @@ static int vchiq_probe(struct platform_device *pdev)
->   		goto error_exit;
->   	}
->   
-> -	bcm2835_audio = vchiq_register_child(pdev, "bcm2835_audio");
-> +	bcm2835_audio = vchiq_device_register(&pdev->dev, "bcm2835-audio");
->   	bcm2835_camera = vchiq_device_register(&pdev->dev, "bcm2835-camera");
->   
->   	return 0;
-> @@ -1858,7 +1858,7 @@ static int vchiq_probe(struct platform_device *pdev)
->   
->   static void vchiq_remove(struct platform_device *pdev)
->   {
-> -	platform_device_unregister(bcm2835_audio);
-> +	vchiq_device_unregister(bcm2835_audio);
->   	vchiq_device_unregister(bcm2835_camera);
->   	vchiq_debugfs_deinit();
->   	vchiq_deregister_chrdev();
+Naive idea.
+Would it be possible for process to use mmap() on the GPU memory and then
+do zero copy TCP receive some how? Or is this what is being proposed.
