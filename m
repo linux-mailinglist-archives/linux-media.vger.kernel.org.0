@@ -2,182 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 055F1759932
-	for <lists+linux-media@lfdr.de>; Wed, 19 Jul 2023 17:11:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F4CE759B36
+	for <lists+linux-media@lfdr.de>; Wed, 19 Jul 2023 18:44:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230376AbjGSPLN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Jul 2023 11:11:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52036 "EHLO
+        id S230239AbjGSQo4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Jul 2023 12:44:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229777AbjGSPLM (ORCPT
+        with ESMTP id S229989AbjGSQoz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Jul 2023 11:11:12 -0400
-Received: from mail-ua1-x935.google.com (mail-ua1-x935.google.com [IPv6:2607:f8b0:4864:20::935])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 448FDB6
-        for <linux-media@vger.kernel.org>; Wed, 19 Jul 2023 08:11:11 -0700 (PDT)
-Received: by mail-ua1-x935.google.com with SMTP id a1e0cc1a2514c-7918b56b1e1so2539341241.2
-        for <linux-media@vger.kernel.org>; Wed, 19 Jul 2023 08:11:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1689779470; x=1690384270;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=13/AwMP/8TITI/rLzUID1fTbfxpoHhwYclFZUG18RHI=;
-        b=W9ugJhbZzcOHBcK1ryGKNlMvfaR4eWFGClQmFa2DEuQjWBhQ6kKehpd1BqB++U5hgw
-         3TWXC4fD7TCBkoX1R5UZTE2yJt6ER7ceOa34DwcVaieTCFsfXsMO7ebD1kKBgUVll/il
-         T5l+Tk+DvcinG+V75/JSeoIsCFQ8k6ObjIad/1StTlViDKPCllGsT3b32oMukAxIX4KN
-         BOqJKyr8il3GkecRMqZu5HqHgWgyu4a5TW8UHq9CwM7tE1s4Y8N0BkYwnbOJf9wDlic2
-         T4I8G+BDJNbgq81Uhd6KHKUJLUl1eRoasPEOq2yCOXKm9K6XKz8GISCzVknnORxoJzmR
-         xWFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689779470; x=1690384270;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=13/AwMP/8TITI/rLzUID1fTbfxpoHhwYclFZUG18RHI=;
-        b=RIzLlIREa+RphhyHAy+ibfdYxh6UcSZRcIMxCKu0zSLizb0QbfIJ8QG2HDJg2LcSbl
-         R1heT88JVlT8ocr/gXzUObX37uEuQIEhinebaG9IZ27wqYWQaZ4wuian7wiO+3WECEOg
-         zCJCwzqd5V/1WyDDjxEYYO2RhhEQ4qF6fEnJ4QGl70UqZRbd+zKvVDiG/PQpMS36klB0
-         BENaGvs+pNAoWJZs2hdPakvSD1BV57CSu7sSYiLVGoIYb0P+rT+bpyQJWur0w5qAGqwd
-         iGXLVhiDN7WYyCQ9QRnFcxbEV1kjbhDb82ujCOWGFv37d2lErLCo5p/h3WgVXOJHVPNP
-         7fdg==
-X-Gm-Message-State: ABy/qLaBWEa8lynI1egwrc17ARGFjLPCtchgPcnEur2dx3wUFNdT0ApZ
-        JWlsj9e2UGokgH217Ny3xDGIerflUy5HFgZ3bYTF0A==
-X-Google-Smtp-Source: APBJJlGxQbcOy4ic7AA7A/45OA6HThArnJbsgb00HIZBBJVKBGnUSyKbwhuM+G0qPaAvZZrzdRo6tS+WQiuUsv4/hcs=
-X-Received: by 2002:a67:f60d:0:b0:443:5d85:99f3 with SMTP id
- k13-20020a67f60d000000b004435d8599f3mr10644906vso.7.1689779470214; Wed, 19
- Jul 2023 08:11:10 -0700 (PDT)
+        Wed, 19 Jul 2023 12:44:55 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 273AE1FED;
+        Wed, 19 Jul 2023 09:44:43 -0700 (PDT)
+Received: from umang.jainideasonboard.com (unknown [103.86.18.219])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 85F9375B;
+        Wed, 19 Jul 2023 18:43:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1689785026;
+        bh=KY0KfMwlJOjWmTN7bkILqIjrm65iQUQb//QhYN5SlzQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Kj3BdlBmQMSUxSe130AvRRQc3vM8N6DYZgyJ8b7OJ+kJaOtXNWMbUjdmxkCMgZ+kW
+         CnYrNiDhR9wgLa7GxxqfOa1NUWyVQZ67yEUpd5VQuBNSMvoEuhJbwkAS0d1uR3o0bw
+         U3Le3N7O1WjPxDHdavVAVuUuk0DdYcXjcoDt7EOM=
+From:   Umang Jain <umang.jain@ideasonboard.com>
+To:     linux-staging@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     stefan.wahren@i2se.com, gregkh@linuxfoundation.org,
+        f.fainelli@gmail.com, athierry@redhat.com, error27@gmail.com,
+        dave.stevenson@raspberrypi.com, kieran.bingham@ideasonboard.com,
+        laurent.pinchart@ideasonboard.com,
+        Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH v9 0/5] staging: vc04_services: vchiq: Register devices with a custom bus_type 
+Date:   Wed, 19 Jul 2023 22:14:22 +0530
+Message-Id: <20230719164427.1383646-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-References: <20230710223304.1174642-1-almasrymina@google.com>
- <12393cd2-4b09-4956-fff0-93ef3929ee37@kernel.org> <CAHS8izNPTwtk+zN7XYt-+ycpT+47LMcRrYXYh=suTXCZQ6-rVQ@mail.gmail.com>
- <ZLbUpdNYvyvkD27P@ziepe.ca> <20230718111508.6f0b9a83@kernel.org>
- <35f3ec37-11fe-19c8-9d6f-ae5a789843cb@kernel.org> <20230718112940.2c126677@kernel.org>
- <eb34f812-a866-a1a3-9f9b-7d5054d17609@kernel.org> <20230718154503.0421b4cd@kernel.org>
-In-Reply-To: <20230718154503.0421b4cd@kernel.org>
-From:   Mina Almasry <almasrymina@google.com>
-Date:   Wed, 19 Jul 2023 08:10:58 -0700
-Message-ID: <CAHS8izPORN=r2-hzYSgN4s_Aoo2dnwoJXrU5Hu=43sb8zsWyhQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/10] Device Memory TCP
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     David Ahern <dsahern@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Andy Lutomirski <luto@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        netdev@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-        Shuah Khan <shuah@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 18, 2023 at 3:45=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
->
-> On Tue, 18 Jul 2023 16:35:17 -0600 David Ahern wrote:
-> > I do not see how 1 RSS context (or more specifically a h/w Rx queue) ca=
-n
-> > be used properly with memory from different processes (or dma-buf
-> > references).
+The patch series added a new bus type vchiq_bus_type and registers
+child devices in order to move them away from using platform
+device/driver.
 
-Right, my experience with dma-bufs from GPUs are that they're
-allocated from the userspace and owned by the process that allocated
-the backing GPU memory and generated the dma-buf from it. I.e., we're
-limited to 1 dma-buf per RX queue. If we enable binding multiple
-dma-bufs to the same RX queue, we have a problem, because AFAIU the
-NIC can't decide which dma-buf to put the packet into (it hasn't
-parsed the packet's destination yet).
+Patch 1/5 and 2/5 adds a new bus_type and registers them to vchiq
+interface
 
-> > When the process dies, that memory needs to be flushed from
-> > the H/W queues. Queues with interlaced submissions make that more
-> > complicated.
->
+Patch 3/5 and 4/5 moves the bcm2835-camera and bcm2835-audio
+to the new bus respectively
 
-When the process dies, do we really want to flush the memory from the
-hardware queues? The drivers I looked at don't seem to have a function
-to flush the rx queues alone, they usually do an entire driver reset
-to achieve that. Not sure if that's just convenience or there is some
-technical limitation there. Do we really want  to trigger a driver
-reset at the event a userspace process crashes?
+Patch 5/5 removes a platform registeration helper which is no
+longer required.
 
-> Agreed, one process, one control path socket.
->
-> FWIW the rtnetlink use of netlink is very basic. genetlink already has
-> some infra which allows associate state with a user socket and cleaning
-> it up when the socket gets closed. This needs some improvements. A bit
-> of a chicken and egg problem, I can't make the improvements until there
-> are families making use of it, and nobody will make use of it until
-> it's in tree... But the basics are already in place and I can help with
-> building it out.
->
+Changes in v9:
+- Fix module autoloading
+- Implement bus_type's probe() callback to load drivers
+- Implement bus_type's uevent() to make sure appropriate drivers are
+  loaded when device are registed from vchiq.
 
-I had this approach in mind (which doesn't need netlink improvements)
-for the next POC. It's mostly inspired by the comments from the cover
-letter of Jakub's memory-provider RFC, if I understood it correctly.
-I'm sure there's going to be some iteration, but roughly:
+Changes in v8:
+- Drop dual licensing. Instead use GPL-2.0 only for patch 1/5
 
-1. A netlink CAP_NET_ADMIN API which binds the dma-buf to any number
-of rx queues on 1 NIC. It will do the dma_buf_attach() and
-dma_buf_map_attachment() and leave some indicator in the struct
-net_device to tell the NIC that it's bound to a dma-buf. The actual
-binding doesn't actuate until the next driver reset. The API, I guess,
-can cause a driver reset (or just a refill of the rx queues, if you
-think that's feasible) as well to streamline things a bit. The API
-returns a file handle to the user representing that binding.
+Changes in v7:
+(5 out of 6 patches from v6 merged)
+- Split the main patch (6/6) as requested.
+- Use struct vchiq_device * instead of struct device * in
+  all bus functions.
+- Drop additional name attribute displayed in sysfs (redundant info)
+- Document vchiq_interface doesn't enumerate device discovery
+- remove EXPORT_SYMBOL_GPL(vchiq_bus_type)
 
-2. On the driver reset, the driver notices that its struct net_device
-is bound to a dma-buf, and sets up the dma-buf memory-provider instead
-of the basic one which provides host memory.
+Changes in v6:
+- Split struct device and struct driver wrappers in vchiq_device.[ch]
+- Move vchiq_bus_type definition to vchiq_device.[ch] as well
+- return error on bus_register() failure
+- drop dma_set_mask_and_coherent
+- trivial variable name change
 
-3. The user can close the file handle received in #1 to unbind the
-dma-buf from the rx queues. Or if the user crashes, the kernel closes
-the handle for us. The unbind doesn't take effect until the next
-flushing or rx queues, or the next driver reset (not sure the former
-is feasible).
+Changes in v5:
+- Fixup missing "staging: " in commits' subject line
+- No code changes from v4
 
-4. The dma-buf memory provider keeps the dma buf mapping alive until
-the next driver reset, where all the dma-buf slices are freed, and the
-dma buf attachment mapping can be unmapped.
+Changes in v4:
+- Introduce patches to drop include directives from Makefile
 
-I'm thinking the user sets up RSS and flow steering outside this API
-using existing ethtool APIs, but things can be streamlined a bit by
-doing some of these RSS/flow steering steps in cohesion with the
-dma-buf binding/unbinding. The complication with setting up flow
-steering in cohesion with dma-buf bind unbind is that the application
-may start more connections after the bind, and it will need to install
-flow steering rules for those too, and use the ethtool api for that.
-May as well use the ethtool apis for all of it...?
+Changes in v3:
+- Rework entirely to replace platform devices/driver model
 
-From Jakub and David's comments it sounds (if I understood correctly),
-you'd like to tie the dma-buf bind/unbind functions to the lifetime of
-a netlink socket, rather than a struct file like I was thinking. That
-does sound cleaner, but I'm not sure how. Can you link me to any
-existing code examples? Or rough pointers to any existing code?
+-v2:
+https://lore.kernel.org/all/20221222191500.515795-1-umang.jain@ideasonboard.com/
 
-> > I guess the devil is in the details; I look forward to the evolution of
-> > the patches.
->
-> +1
+-v1:
+https://lore.kernel.org/all/20221220084404.19280-1-umang.jain@ideasonboard.com/
 
+Umang Jain (5):
+  staging: vc04_services: vchiq_arm: Add new bus type and device type
+  staging: vc04_services: vchiq_arm: Register vchiq_bus_type
+  staging: bcm2835-camera: Register bcm2835-camera with vchiq_bus_type
+  staging: bcm2835-audio: Register bcm2835-audio with vchiq_bus_type
+  staging: vc04_services: vchiq_arm: Remove vchiq_register_child()
 
+ drivers/staging/vc04_services/Makefile        |   1 +
+ .../vc04_services/bcm2835-audio/bcm2835.c     |  20 ++--
+ .../bcm2835-camera/bcm2835-camera.c           |  17 +--
+ .../interface/vchiq_arm/vchiq_arm.c           |  48 ++++-----
+ .../interface/vchiq_arm/vchiq_device.c        | 102 ++++++++++++++++++
+ .../interface/vchiq_arm/vchiq_device.h        |  54 ++++++++++
+ 6 files changed, 196 insertions(+), 46 deletions(-)
+ create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.c
+ create mode 100644 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_device.h
 
---=20
-Thanks,
-Mina
+-- 
+2.39.1
+
