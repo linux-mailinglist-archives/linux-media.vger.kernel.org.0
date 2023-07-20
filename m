@@ -2,125 +2,272 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8627D75B827
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jul 2023 21:39:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F89F75B889
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jul 2023 22:10:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230522AbjGTTjj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Jul 2023 15:39:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46072 "EHLO
+        id S229876AbjGTUKD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Jul 2023 16:10:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229679AbjGTTji (ORCPT
+        with ESMTP id S229488AbjGTUKC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Jul 2023 15:39:38 -0400
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA8301BC1
-        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 12:39:37 -0700 (PDT)
-Received: by mail-qt1-x833.google.com with SMTP id d75a77b69052e-4039f7e1d3aso10390921cf.0
-        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 12:39:37 -0700 (PDT)
+        Thu, 20 Jul 2023 16:10:02 -0400
+Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7C3DED
+        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 13:10:00 -0700 (PDT)
+Received: by mail-qk1-x72a.google.com with SMTP id af79cd13be357-76728ae3162so106819385a.3
+        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 13:10:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1689881977; x=1690486777;
+        d=ndufresne-ca.20221208.gappssmtp.com; s=20221208; t=1689883800; x=1690488600;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=VsRhJr7FcY6scIMyHxPkpixR+U75ZGXGrefwCjTURTo=;
-        b=XzvE7+OHdICE7PEV0/J3stP745/NNNfkJnUDAAy0Bquc/kjJYwmwJAbPz4M9B9qwTL
-         MT1eF92Rce35E9PkT19HKVrlbg48F3M/vHUoWw5brFvShrlrbkvnHvH4HJBwlrNRrI3t
-         O4BA9JdPwbtKcdsjlHZJY36rxdaZ0+QrFaJ5rSpZu+2OB08ab44HvfmP6BRm/lLKl2zC
-         qLiWlu/VhAcaiJTOM0XbyAVlsVqP6U7AbPskt0fNttLVn0fdmnvUxReptFn/7SGRHWZK
-         HFq0YuMULs5QTQGbrEO1ynb9t6YCaM3ZugDtBV2x9ejzFSten3BL9lo9Y15kq8ukvaK4
-         Krog==
+        bh=X6oWLkz6x5qYmjU2JhBWktWGTfXJ8rQEV/60IeqqLVA=;
+        b=vo6kORkz/2I2jOtgIHATmtuOo6e3DA+IzMz4hil4GX1fh8Ec+/wfzvo+70TbP6saPO
+         kjbN2NIRF7veOewuZkHiBIbGlvjogEk0yh2vlUq73EjFTlgCs7Z0zDysgX3jp0lt3+eQ
+         SkhvLw3ZLAEJxB16yRnmDPRNqJT4PWfpscNrrAWmiz8LN4cXGWHkWJtocktZwOnzoSds
+         IZA+DFaGSzSwnQpSEZpttc9XSR+dggKJizrVVqrtCM/+hwNDkS4WEx6MHHOMOGSGWhv6
+         WWzqogkzh2Dauxjp6sOyup2GTAzDPo1cij1OXspycKklONg0zbow156lwuGNckEwwv9t
+         eM1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689881977; x=1690486777;
+        d=1e100.net; s=20221208; t=1689883800; x=1690488600;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=VsRhJr7FcY6scIMyHxPkpixR+U75ZGXGrefwCjTURTo=;
-        b=aWv1vIrvT+eA35SV6PZsKAfanv63fRWT4xU+usXA96XcuoGrevYmZCI7jGgVoWPomL
-         wzAB7jaffv1cXhCtASbmQZzt6flsNqhwJqelNSswyeyZ3v+v5x34NAFXkI1RaAXpfjkE
-         9E5GVMkg1nKFMaRq8apI03HGQ2PdljyhvNKXCV6d+AziftW1HyvD3mUevR+V5fcmG+IQ
-         28Vqe3bbVlJhZTZWKaOXxShLDAAA7Cog9f+Dvn4YwSLXjWreRlWpuGQzt8jBf1uuqXxp
-         ZStl9H/awF3AhWm9z8sFRrlkbqAE6ngxK9T334D2ULbT47q/yr6YGcYhe4zOklYeIZ7G
-         uHag==
-X-Gm-Message-State: ABy/qLaAyFJpEvLz3LBC1XOPuurdgM2gbFH4AQRkzMZNKSPUFalAdE0q
-        Vqj+CUP0XP4VyxpLEdn/4qNooQ==
-X-Google-Smtp-Source: APBJJlHvIsE+gIX66810YXYx0n0V9nlbQz7+vMSGp5n9VGHmJ7qSPjqcY/YQozwfUhbiwtAg2VZ+eA==
-X-Received: by 2002:a05:622a:284:b0:3ff:3013:d2aa with SMTP id z4-20020a05622a028400b003ff3013d2aamr80864qtw.12.1689881976834;
-        Thu, 20 Jul 2023 12:39:36 -0700 (PDT)
+        bh=X6oWLkz6x5qYmjU2JhBWktWGTfXJ8rQEV/60IeqqLVA=;
+        b=DUQuAc2oy17nhlyaTa5SAXRuohVzqV8GCEApv/BrAUFulx7lbQXjqWRMtHXiQpA647
+         aZk6KOGVjn6b+N8z0m4eT+EoTj/bQFCQknGPZtf53DTX1GnBxUGryxqqQvmXkzS39RLp
+         g7aY0turmFHMODR9LAlPfCQXQVJJbpXxEinxC5SnJTC6iMxzSXyTbGt48mFyZnO0E4H6
+         lUuiVqwu+MRP241uyc8IrY0DvCkptQkpEs0IOetgoW8RqwZyjqcmk3mRi4DqswR+s6Uy
+         WpaDqeJMFDwnXUjKHPpdEJg1dVVuCMiRmxM7fdun9tjPe9slIRPo5K2SdzJwIqjqawXp
+         BuaA==
+X-Gm-Message-State: ABy/qLaQVRy+iBdjjjb4DduJzAPsXFZtsKOpEZxIuls1T1+W/wdpYptR
+        YmGSEKAoelgi1/CW8TIuH4Z/Qg==
+X-Google-Smtp-Source: APBJJlHQ5Xb9t19f2pNRk1xu40E1jXT0Vq7glHZjAXEg+udNqCJuq/iNTIp/0aO5H/YuD9KsCT7yuw==
+X-Received: by 2002:a05:620a:2aec:b0:768:3f41:5843 with SMTP id bn44-20020a05620a2aec00b007683f415843mr5481309qkb.50.1689883799854;
+        Thu, 20 Jul 2023 13:09:59 -0700 (PDT)
 Received: from nicolas-tpx395.localdomain ([2606:6d00:11:83d4::7a9])
-        by smtp.gmail.com with ESMTPSA id j7-20020ac84c87000000b00401e04c66fesm658223qtv.37.2023.07.20.12.39.36
+        by smtp.gmail.com with ESMTPSA id j3-20020a37c243000000b00767d7307490sm602968qkm.34.2023.07.20.13.09.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jul 2023 12:39:36 -0700 (PDT)
-Message-ID: <492454f84df67bf70c760142546232a730305330.camel@ndufresne.ca>
-Subject: Re: [PATCH 4/4] media: mediatek: vcodec: Improve an error message
+        Thu, 20 Jul 2023 13:09:59 -0700 (PDT)
+Message-ID: <bbb6660439bb66bd9d81bb8031d9062d3c03fdf0.camel@ndufresne.ca>
+Subject: Re: [PATCH v7 2/9] media: vivid: Convert to v4l2_ext_pix_format
 From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Dan Carpenter <dan.carpenter@linaro.org>,
-        Yunfei Dong <yunfei.dong@mediatek.com>
-Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, kernel-janitors@vger.kernel.org
-Date:   Thu, 20 Jul 2023 15:39:35 -0400
-In-Reply-To: <0cdeeee4-3bd7-4bd5-88a1-c5ecf7f6a1f8@moroto.mountain>
-References: <0cdeeee4-3bd7-4bd5-88a1-c5ecf7f6a1f8@moroto.mountain>
+To:     Randy Li <ayaka@soulik.info>, Tomasz Figa <tfiga@chromium.org>
+Cc:     linux-media@vger.kernel.org, randy.li@synaptics.com,
+        Brian.Starkey@arm.com, boris.brezillon@collabora.com,
+        frkoenig@chromium.org, hans.verkuil@cisco.com, hiroh@chromium.org,
+        hverkuil@xs4all.nl, kernel@collabora.com,
+        laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org,
+        mchehab@kernel.org, narmstrong@baylibre.com, sakari.ailus@iki.fi,
+        stanimir.varbanov@linaro.org,
+        Helen Koike <helen.koike@collabora.com>
+Date:   Thu, 20 Jul 2023 16:09:58 -0400
+In-Reply-To: <46d15120-6e19-e224-47f3-e0dcbf0aeda5@soulik.info>
+References: <20230206043308.28365-1-ayaka@soulik.info>
+         <20230206043308.28365-3-ayaka@soulik.info>
+         <20230713103912.favcnhqwjkzvsa6b@chromium.org>
+         <46d15120-6e19-e224-47f3-e0dcbf0aeda5@soulik.info>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thanks,
+Le mardi 18 juillet 2023 =C3=A0 00:00 +0800, Randy Li a =C3=A9crit=C2=A0:
+> On 2023/7/13 18:39, Tomasz Figa wrote:
+> > On Mon, Feb 06, 2023 at 12:33:01PM +0800, ayaka wrote:
+> > > From: Helen Koike <helen.koike@collabora.com>
+> > >=20
+> > > Simplify Multi/Single planer API handling by converting to v4l2_ext_p=
+ix_format.
+> > >=20
+> > > Duplicate v4l2_ioctl_ops for touch devices. This is done to force the
+> > > framework to use the ext hooks when the classic Api is used from
+> > > userspace in Vid devices, and to keep touch devices with classic hook=
+.
+> > >=20
+> > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > > Signed-off-by: Helen Koike <helen.koike@collabora.com>
+> > > ---
+> > > Changes in v7:
+> > > - Force the userspace using the new APIs to operate non-touch drivers=
+.
+> > The primary objective of Linux development is not to break the
+> > userspace. We can't just remove the old API, especially not from
+> > existing drivers.
+> Maybe I should create a new virtual driver here? It is impossible to=20
+> support the new fourcc modifier with the old APIs.
 
-Le mercredi 14 juin 2023 =C3=A0 16:19 +0300, Dan Carpenter a =C3=A9crit=C2=
-=A0:
-> This is intended to print the error code but there is a typo so it
-> prints IS_ERR() instead of PTR_ERR().
->=20
-> Fixes: 77f3b023f452 ("media: mediatek: vcodec: Add debugfs interface to g=
-et debug information")
+For MPLANE, where backward compatibility was built into libv4l2 LD_PRELOAD
+wrapper, it simply failed the cases that could not be supported (non contig=
+uous
+planes).
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+regards,
+Nicolas
 
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> ---
-> This driver has quite a bit of code to handle the case where DEBUG_FS is
-> turned off.  It's a bit over engineered.  With debugfs you're normally
-> just supposed to call the functions and ignore the errors.
+> >=20
+> > [snip]
+> > >   int vivid_try_fmt_vid_cap(struct file *file, void *priv,
+> > > -			struct v4l2_format *f)
+> > > +			  struct v4l2_ext_pix_format *f)
+> > >   {
+> > > -	struct v4l2_pix_format_mplane *mp =3D &f->fmt.pix_mp;
+> > > -	struct v4l2_plane_pix_format *pfmt =3D mp->plane_fmt;
+> > >   	struct vivid_dev *dev =3D video_drvdata(file);
+> > > +	struct v4l2_plane_pix_format *pfmt =3D f->plane_fmt;
+> > >   	const struct vivid_fmt *fmt;
+> > >   	unsigned bytesperline, max_bpl;
+> > >   	unsigned factor =3D 1;
+> > >   	unsigned w, h;
+> > >   	unsigned p;
+> > > -	bool user_set_csc =3D !!(mp->flags & V4L2_PIX_FMT_FLAG_SET_CSC);
+> > Why is this condition being removed?
 >=20
-> But it's also harmless to do it this way.
+> Because the v4l2_ext_pix has a struct for the colorspace?
 >=20
->  drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Would you like the idea that driver exports a buffer contains all the=20
+> info for an enumeration ?
 >=20
-> diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c b/=
-drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c
-> index 2ebf68d33d57..6957105492ae 100644
-> --- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c
-> +++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dbgfs.c
-> @@ -185,8 +185,8 @@ void mtk_vcodec_dbgfs_init(struct mtk_vcodec_dev *vco=
-dec_dev, bool is_encode)
->  	else
->  		vcodec_dev->dbgfs.vcodec_root =3D debugfs_create_dir("vcodec-dec", NUL=
-L);
->  	if (IS_ERR(vcodec_dev->dbgfs.vcodec_root))
-> -		dev_err(&vcodec_dev->plat_dev->dev, "create vcodec dir err:%d\n",
-> -			IS_ERR(vcodec_dev->dbgfs.vcodec_root));
-> +		dev_err(&vcodec_dev->plat_dev->dev, "create vcodec dir err:%ld\n",
-> +			PTR_ERR(vcodec_dev->dbgfs.vcodec_root));
-> =20
->  	vcodec_root =3D vcodec_dev->dbgfs.vcodec_root;
->  	debugfs_create_x32("mtk_v4l2_dbg_level", 0644, vcodec_root, &mtk_v4l2_d=
-bg_level);
+> >=20
+> > Best regards,
+> > Tomasz
+> >=20
+> > >  =20
+> > > -	fmt =3D vivid_get_format(dev, mp->pixelformat);
+> > > +	fmt =3D vivid_get_format(dev, f->pixelformat);
+> > >   	if (!fmt) {
+> > >   		dprintk(dev, 1, "Fourcc format (0x%08x) unknown.\n",
+> > > -			mp->pixelformat);
+> > > -		mp->pixelformat =3D V4L2_PIX_FMT_YUYV;
+> > > -		fmt =3D vivid_get_format(dev, mp->pixelformat);
+> > > +			f->pixelformat);
+> > > +		f->pixelformat =3D V4L2_PIX_FMT_YUYV;
+> > > +		fmt =3D vivid_get_format(dev, f->pixelformat);
+> > >   	}
+> > >  =20
+> > > -	mp->field =3D vivid_field_cap(dev, mp->field);
+> > > +	f->field =3D vivid_field_cap(dev, f->field);
+> > >   	if (vivid_is_webcam(dev)) {
+> > >   		const struct v4l2_frmsize_discrete *sz =3D
+> > >   			v4l2_find_nearest_size(webcam_sizes,
+> > >   					       VIVID_WEBCAM_SIZES, width,
+> > > -					       height, mp->width, mp->height);
+> > > +					       height, f->width, f->height);
+> > >  =20
+> > >   		w =3D sz->width;
+> > >   		h =3D sz->height;
+> > > @@ -604,14 +603,14 @@ int vivid_try_fmt_vid_cap(struct file *file, vo=
+id *priv,
+> > >   		w =3D dev->src_rect.width;
+> > >   		h =3D dev->src_rect.height;
+> > >   	}
+> > > -	if (V4L2_FIELD_HAS_T_OR_B(mp->field))
+> > > +	if (V4L2_FIELD_HAS_T_OR_B(f->field))
+> > >   		factor =3D 2;
+> > >   	if (vivid_is_webcam(dev) ||
+> > >   	    (!dev->has_scaler_cap && !dev->has_crop_cap && !dev->has_compo=
+se_cap)) {
+> > > -		mp->width =3D w;
+> > > -		mp->height =3D h / factor;
+> > > +		f->width =3D w;
+> > > +		f->height =3D h / factor;
+> > >   	} else {
+> > > -		struct v4l2_rect r =3D { 0, 0, mp->width, mp->height * factor };
+> > > +		struct v4l2_rect r =3D { 0, 0, f->width, f->height * factor };
+> > >  =20
+> > >   		v4l2_rect_set_min_size(&r, &vivid_min_rect);
+> > >   		v4l2_rect_set_max_size(&r, &vivid_max_rect);
+> > > @@ -624,16 +623,15 @@ int vivid_try_fmt_vid_cap(struct file *file, vo=
+id *priv,
+> > >   		} else if (!dev->has_scaler_cap && !dev->has_crop_cap) {
+> > >   			v4l2_rect_set_min_size(&r, &dev->src_rect);
+> > >   		}
+> > > -		mp->width =3D r.width;
+> > > -		mp->height =3D r.height / factor;
+> > > +		f->width =3D r.width;
+> > > +		f->height =3D r.height / factor;
+> > >   	}
+> > >  =20
+> > >   	/* This driver supports custom bytesperline values */
+> > >  =20
+> > > -	mp->num_planes =3D fmt->buffers;
+> > >   	for (p =3D 0; p < fmt->buffers; p++) {
+> > >   		/* Calculate the minimum supported bytesperline value */
+> > > -		bytesperline =3D (mp->width * fmt->bit_depth[p]) >> 3;
+> > > +		bytesperline =3D (f->width * fmt->bit_depth[p]) >> 3;
+> > >   		/* Calculate the maximum supported bytesperline value */
+> > >   		max_bpl =3D (MAX_ZOOM * MAX_WIDTH * fmt->bit_depth[p]) >> 3;
+> > >  =20
+> > > @@ -642,48 +640,49 @@ int vivid_try_fmt_vid_cap(struct file *file, vo=
+id *priv,
+> > >   		if (pfmt[p].bytesperline < bytesperline)
+> > >   			pfmt[p].bytesperline =3D bytesperline;
+> > >  =20
+> > > -		pfmt[p].sizeimage =3D (pfmt[p].bytesperline * mp->height) /
+> > > +		pfmt[p].sizeimage =3D (pfmt[p].bytesperline * f->height) /
+> > >   				fmt->vdownsampling[p] + fmt->data_offset[p];
+> > > -
+> > > -		memset(pfmt[p].reserved, 0, sizeof(pfmt[p].reserved));
+> > >   	}
+> > > +
+> > > +	if (p < VIDEO_MAX_PLANES)
+> > > +		pfmt[p].sizeimage =3D 0;
+> > > +
+> > >   	for (p =3D fmt->buffers; p < fmt->planes; p++)
+> > > -		pfmt[0].sizeimage +=3D (pfmt[0].bytesperline * mp->height *
+> > > +		pfmt[0].sizeimage +=3D (pfmt[0].bytesperline * f->height *
+> > >   			(fmt->bit_depth[p] / fmt->vdownsampling[p])) /
+> > >   			(fmt->bit_depth[0] / fmt->vdownsampling[0]);
+> > >  =20
+> > > -	if (!user_set_csc || !v4l2_is_colorspace_valid(mp->colorspace))
+> > > -		mp->colorspace =3D vivid_colorspace_cap(dev);
+> > > +	if (!v4l2_is_colorspace_valid(f->colorspace))
+> > > +		f->colorspace =3D vivid_colorspace_cap(dev);
+> > >  =20
+> > > -	if (!user_set_csc || !v4l2_is_xfer_func_valid(mp->xfer_func))
+> > > -		mp->xfer_func =3D vivid_xfer_func_cap(dev);
+> > > +	if (!v4l2_is_xfer_func_valid(f->xfer_func))
+> > > +		f->xfer_func =3D vivid_xfer_func_cap(dev);
+> > >  =20
+> > >   	if (fmt->color_enc =3D=3D TGP_COLOR_ENC_HSV) {
+> > > -		if (!user_set_csc || !v4l2_is_hsv_enc_valid(mp->hsv_enc))
+> > > -			mp->hsv_enc =3D vivid_hsv_enc_cap(dev);
+> > > +		if (!v4l2_is_hsv_enc_valid(f->hsv_enc))
+> > > +			f->hsv_enc =3D vivid_hsv_enc_cap(dev);
+> > >   	} else if (fmt->color_enc =3D=3D TGP_COLOR_ENC_YCBCR) {
+> > > -		if (!user_set_csc || !v4l2_is_ycbcr_enc_valid(mp->ycbcr_enc))
+> > > -			mp->ycbcr_enc =3D vivid_ycbcr_enc_cap(dev);
+> > > +		if (!v4l2_is_ycbcr_enc_valid(f->ycbcr_enc))
+> > > +			f->ycbcr_enc =3D vivid_ycbcr_enc_cap(dev);
+> > >   	} else {
+> > > -		mp->ycbcr_enc =3D vivid_ycbcr_enc_cap(dev);
+> > > +		f->ycbcr_enc =3D vivid_ycbcr_enc_cap(dev);
+> > >   	}
+> > >  =20
+> > >   	if (fmt->color_enc =3D=3D TGP_COLOR_ENC_YCBCR ||
+> > >   	    fmt->color_enc =3D=3D TGP_COLOR_ENC_RGB) {
+> > > -		if (!user_set_csc || !v4l2_is_quant_valid(mp->quantization))
+> > > -			mp->quantization =3D vivid_quantization_cap(dev);
+> > > +		if (!v4l2_is_quant_valid(f->quantization))
+> > > +			f->quantization =3D vivid_quantization_cap(dev);
+> > >   	} else {
+> > > -		mp->quantization =3D vivid_quantization_cap(dev);
+> > > +		f->quantization =3D vivid_quantization_cap(dev);
+> > >   	}
+> > >  =20
+> > > -	memset(mp->reserved, 0, sizeof(mp->reserved));
+> > > +	memset(f->reserved, 0, sizeof(f->reserved));
+> > >   	return 0;
+> > >   }
+> > [snip]
+>=20
 
