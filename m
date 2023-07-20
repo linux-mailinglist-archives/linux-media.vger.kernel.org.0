@@ -2,50 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E7B6875A844
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jul 2023 09:52:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 721ED75A842
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jul 2023 09:52:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231822AbjGTHwJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 20 Jul 2023 03:52:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38194 "EHLO
+        id S231826AbjGTHwC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 20 Jul 2023 03:52:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231835AbjGTHwF (ORCPT
+        with ESMTP id S231815AbjGTHv6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 20 Jul 2023 03:52:05 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D83332699
-        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 00:51:54 -0700 (PDT)
-Received: from desky.lan (91-154-35-171.elisa-laajakaista.fi [91.154.35.171])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E32A73484;
-        Thu, 20 Jul 2023 09:50:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1689839413;
-        bh=MqRPujg6bF9Ru7QBQNctvTGvgFxUHZBDyjmGNQ200lc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KhZn5YE/bpFqJaiKYCEwt/4TIOFbZSuJHRCRZm/GU6BPv5LfneRWEBCkwJcconpL5
-         AUsr6OgpMCKjiaPt3CR04dz4wz4knA8SacdhKOKl698ypiRcJU3G7Dg3VoDKsOBaJs
-         QtiJpAtZeoD9bOoeK9qnQwzexnAb97feQg4WHa4Y=
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        niklas.soderlund+renesas@ragnatech.se,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        satish.nagireddy@getcruise.com
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: [PATCH v6 8/8] v4l2-ctl: Check for Streams API support
-Date:   Thu, 20 Jul 2023 10:50:44 +0300
-Message-Id: <20230720075044.442021-9-tomi.valkeinen@ideasonboard.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230720075044.442021-1-tomi.valkeinen@ideasonboard.com>
-References: <20230720075044.442021-1-tomi.valkeinen@ideasonboard.com>
+        Thu, 20 Jul 2023 03:51:58 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D4F326AB;
+        Thu, 20 Jul 2023 00:51:47 -0700 (PDT)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 6F275660707F;
+        Thu, 20 Jul 2023 08:51:45 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1689839506;
+        bh=jIJuDdBqpd9dYlzqbxXjWksr5/fpNfwC3vh0Df86hSA=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=EL6Ox+4ZM/rOi9BxMX+3fzD7YFCPDYUIq8nAOqLAksUJWrXi/UZk1mZ5a/8dB5JH5
+         GsAiXRpSjA4qgNdEmczDV5UHgOC10lPTa/FxhnOkt+7vR8Xb0pC8L81bPMVOtbbz3t
+         LK+na0uWDZrkaMZQaBm1hCC0+KiwPEa1bxIllpfRcYtUcy64NCHRyXWQ3jEW5mQliB
+         nkfZbgYxajjmbRMu2kI9hzmv2/5zDIsqUBVbhqaM4CCLtXHSAjois5vNpQKvBxrl6m
+         xOFbXf4Jc4pU5TcBjgD3ixHcIFw46qTmJ+udO++oq1J2lcJqKbCqwW3tvBdhsOVWJr
+         8JJTIyb8Icxlg==
+Message-ID: <32ae3716-672f-cdc2-f246-d8336ed44a68@collabora.com>
+Date:   Thu, 20 Jul 2023 09:51:43 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,T_PDS_OTHER_BAD_TLD,T_SCC_BODY_TEXT_LINE
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v2] media: mdp3: Fix resource leak in a
+ for_each_child_of_node() loop
+Content-Language: en-US
+To:     Lu Hongfei <luhongfei@vivo.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Moudy Ho <moudy.ho@mediatek.com>,
+        Arnd Bergmann <arnd@arndb.de>, Sun Ke <sunke32@huawei.com>,
+        Deepak R Varma <drv@mailo.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>
+Cc:     "opensource.kernel" <opensource.kernel@vivo.com>
+References: <20230720062248.37906-1-luhongfei@vivo.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230720062248.37906-1-luhongfei@vivo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,149 +70,42 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Return an error if the user tries to use streams related features, but
-streams are not supported.
+Il 20/07/23 08:23, Lu Hongfei ha scritto:
+> for_each_child_of_node should have of_node_put()
+> in error path avoid resource leaks.
+> 
+> Signed-off-by: Lu Hongfei <luhongfei@vivo.com>
+> ---
+> Changelog:
+> v1->v2:
+> 1. Change the subject line of this patch to include driver name.
+> 2. Remove the unneeded of_node_put.
+> 
+>   drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
+> index a605e80c7dc3..40c4b79a5090 100644
+> --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
+> +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c
+> @@ -1135,6 +1135,7 @@ int mdp_comp_config(struct mdp_dev *mdp)
+>   		comp = mdp_comp_create(mdp, node, id);
+>   		if (IS_ERR(comp)) {
+>   			ret = PTR_ERR(comp);
+> +			of_node_put(node);
+>   			goto err_init_comps;
+>   		}
+>   
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
- utils/v4l2-ctl/v4l2-ctl-subdev.cpp | 55 ++++++++++++++++++++++++++++++
- 1 file changed, 55 insertions(+)
+In case mdp_comp_sub_create() fails, we still want to decrease the refcount
+of `node`....
 
-diff --git a/utils/v4l2-ctl/v4l2-ctl-subdev.cpp b/utils/v4l2-ctl/v4l2-ctl-subdev.cpp
-index d906b72d..b6d115fe 100644
---- a/utils/v4l2-ctl/v4l2-ctl-subdev.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-subdev.cpp
-@@ -562,6 +562,11 @@ void subdev_set(cv4l_fd &_fd)
- 	if (options[OptSetSubDevFormat] || options[OptTrySubDevFormat]) {
- 		struct v4l2_subdev_format fmt;
- 
-+		if (!_fd.has_streams() && set_fmt_stream) {
-+			printf("Streams API not supported.\n");
-+			return;
-+		}
-+
- 		memset(&fmt, 0, sizeof(fmt));
- 		fmt.pad = set_fmt_pad;
- 		fmt.stream = set_fmt_stream;
-@@ -610,6 +615,11 @@ void subdev_set(cv4l_fd &_fd)
- 	if (options[OptSetSubDevSelection] || options[OptTrySubDevSelection]) {
- 		struct v4l2_subdev_selection sel;
- 
-+		if (!_fd.has_streams() && vsel.stream) {
-+			printf("Streams API not supported.\n");
-+			return;
-+		}
-+
- 		memset(&sel, 0, sizeof(sel));
- 		sel.pad = vsel.pad;
- 		sel.stream = vsel.stream;
-@@ -642,6 +652,11 @@ void subdev_set(cv4l_fd &_fd)
- 	if (options[OptSetSubDevFPS]) {
- 		struct v4l2_subdev_frame_interval fival;
- 
-+		if (!_fd.has_streams() && set_fps_stream) {
-+			printf("Streams API not supported.\n");
-+			return;
-+		}
-+
- 		memset(&fival, 0, sizeof(fival));
- 		fival.pad = set_fps_pad;
- 		fival.stream = set_fps_stream;
-@@ -667,6 +682,11 @@ void subdev_set(cv4l_fd &_fd)
- 		}
- 	}
- 	if (options[OptSetRouting]) {
-+		if (!_fd.has_streams()) {
-+			printf("Streams API not supported.\n");
-+			return;
-+		}
-+
- 		if (doioctl(fd, VIDIOC_SUBDEV_S_ROUTING, &routing) == 0)
- 			printf("Routing set\n");
- 	}
-@@ -724,6 +744,11 @@ void subdev_get(cv4l_fd &_fd)
- 	if (options[OptGetSubDevFormat]) {
- 		struct v4l2_subdev_format fmt;
- 
-+		if (!_fd.has_streams() && get_fmt_stream) {
-+			printf("Streams API not supported.\n");
-+			return;
-+		}
-+
- 		memset(&fmt, 0, sizeof(fmt));
- 		fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
- 		fmt.pad = get_fmt_pad;
-@@ -738,6 +763,11 @@ void subdev_get(cv4l_fd &_fd)
- 		struct v4l2_subdev_selection sel;
- 		unsigned idx = 0;
- 
-+		if (!_fd.has_streams() && get_sel_stream) {
-+			printf("Streams API not supported.\n");
-+			return;
-+		}
-+
- 		memset(&sel, 0, sizeof(sel));
- 		sel.which = V4L2_SUBDEV_FORMAT_ACTIVE;
- 		sel.pad = get_sel_pad;
-@@ -760,6 +790,11 @@ void subdev_get(cv4l_fd &_fd)
- 	if (options[OptGetSubDevFPS]) {
- 		struct v4l2_subdev_frame_interval fival;
- 
-+		if (!_fd.has_streams() && get_fps_stream) {
-+			printf("Streams API not supported.\n");
-+			return;
-+		}
-+
- 		memset(&fival, 0, sizeof(fival));
- 		fival.pad = get_fps_pad;
- 		fival.stream = get_fps_stream;
-@@ -777,6 +812,11 @@ void subdev_get(cv4l_fd &_fd)
- 	}
- 
- 	if (options[OptGetRouting]) {
-+		if (!_fd.has_streams()) {
-+			printf("Streams API not supported.\n");
-+			return;
-+		}
-+
- 		memset(&routing, 0, sizeof(routing));
- 		memset(routes, 0, sizeof(routes[0]) * NUM_ROUTES_MAX);
- 		routing.which = V4L2_SUBDEV_FORMAT_ACTIVE;
-@@ -860,11 +900,21 @@ void subdev_list(cv4l_fd &_fd)
- 	int fd = _fd.g_fd();
- 
- 	if (options[OptListSubDevMBusCodes]) {
-+		if (!_fd.has_streams() && list_mbus_codes_stream) {
-+			printf("Streams API not supported.\n");
-+			return;
-+		}
-+
- 		printf("ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=%u,stream=%u)\n",
- 		       list_mbus_codes_pad, list_mbus_codes_stream);
- 		print_mbus_codes(fd, list_mbus_codes_pad, list_mbus_codes_stream);
- 	}
- 	if (options[OptListSubDevFrameSizes]) {
-+		if (!_fd.has_streams() && frmsize.stream) {
-+			printf("Streams API not supported.\n");
-+			return;
-+		}
-+
- 		printf("ioctl: VIDIOC_SUBDEV_ENUM_FRAME_SIZE (pad=%u,stream=%u)\n",
- 		       frmsize.pad, frmsize.stream);
- 		frmsize.index = 0;
-@@ -875,6 +925,11 @@ void subdev_list(cv4l_fd &_fd)
- 		}
- 	}
- 	if (options[OptListSubDevFrameIntervals]) {
-+		if (!_fd.has_streams() && frmival.stream) {
-+			printf("Streams API not supported.\n");
-+			return;
-+		}
-+
- 		printf("ioctl: VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL (pad=%u,stream=%u)\n",
- 		       frmival.pad, frmival.stream);
- 		frmival.index = 0;
--- 
-2.34.1
+...so, just call of_node_put(node) just once, at the err_init_comps label.
 
+err_init_comps:
+	mdp_comp_destroy(mdp);
+	of_node_put(node);
+	return ret;
+
+Regards,
+Angelo
