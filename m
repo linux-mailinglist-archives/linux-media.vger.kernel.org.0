@@ -2,53 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F84075A480
-	for <lists+linux-media@lfdr.de>; Thu, 20 Jul 2023 04:47:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57EF275A49A
+	for <lists+linux-media@lfdr.de>; Thu, 20 Jul 2023 05:01:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229776AbjGTCrR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 19 Jul 2023 22:47:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34128 "EHLO
+        id S229756AbjGTDBr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 19 Jul 2023 23:01:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229699AbjGTCrQ (ORCPT
+        with ESMTP id S229690AbjGTDBq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 19 Jul 2023 22:47:16 -0400
+        Wed, 19 Jul 2023 23:01:46 -0400
 Received: from mail.208.org (unknown [183.242.55.162])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 810BC210B
-        for <linux-media@vger.kernel.org>; Wed, 19 Jul 2023 19:47:15 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAF46172A
+        for <linux-media@vger.kernel.org>; Wed, 19 Jul 2023 20:01:44 -0700 (PDT)
 Received: from mail.208.org (email.208.org [127.0.0.1])
-        by mail.208.org (Postfix) with ESMTP id 4R5xt542JmzBRDrr
-        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 10:47:09 +0800 (CST)
+        by mail.208.org (Postfix) with ESMTP id 4R5yBt3cqkzBRDrw
+        for <linux-media@vger.kernel.org>; Thu, 20 Jul 2023 11:01:42 +0800 (CST)
 Authentication-Results: mail.208.org (amavisd-new); dkim=pass
         reason="pass (just generated, assumed good)" header.d=208.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=208.org; h=
         content-transfer-encoding:content-type:message-id:user-agent
         :references:in-reply-to:subject:to:from:date:mime-version; s=
-        dkim; t=1689821229; x=1692413230; bh=0KLRTreuiIUpnVrU58gqyhT7akT
-        3Ptoka1vuCFuY8Ks=; b=yIRU9Jz2MTcaVPUC4gaANxQTLgjPReL1hqyav0gXyo/
-        X0B98wRsya9+bsAKtZqjrX0Eb6Yv1fajhIyxKlU1derntgfNunZ6AD9+1D6KYkTW
-        V0D8hEL0hWCaMXhjKwIsEESgEyFTEszG0cPBARktxfvooo37E+y9VH8tcvhMezqM
-        qnQvI3948bVs04OCVPAXNqo8FM2faimpKOKasQKcLWZRpC/4smO0WyghgUgY7hzj
-        t1VYPr0jJUqGq/6ZNPuGNwAL5I7hlv+a4EO1pQQRTTDmMqJ6VXEzMrkBtSNTb9IJ
-        wy9Rv9xwQBoLGqJsG/GjV5Mnek3a/Polbp44RAjRyQA==
+        dkim; t=1689822102; x=1692414103; bh=7TaMCUMPT1gwp5Zxmj+joOcKEEc
+        ciuWrPqbP1dQvF8k=; b=A4HtVwIyZaYQbnWRDZHTLuFRFrmZ1S+9GPUGP9d96pp
+        VE5JwAB7OFEQFWpEt0/Ug7rxYyEXtsw5Se1mRJxnC3e6lrmnqogBJ5XyALPE+emq
+        SQliwTJ7NCdPmrRXhcrqWbitbqgsELFQfAw17l6stqwNmbvNo1nOQhcKWSPqpVc7
+        2IjMZAY/f6SxS4dysQpthh+GNeCsCtGjsMRgxy4gpUiCf84HI0QoBvRnTb/YNCes
+        UHKI/wuksDl3QqINkMm8vkXPQBufXwt/2YlfbTUR3Jals9DHwsdXniQ37guAKv55
+        XeXqQMol/SEXN0c3xi1Hvrfl1dywEtG2sXdvKTnXeag==
 X-Virus-Scanned: amavisd-new at mail.208.org
 Received: from mail.208.org ([127.0.0.1])
         by mail.208.org (mail.208.org [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id IogvW5U1Adgj for <linux-media@vger.kernel.org>;
-        Thu, 20 Jul 2023 10:47:09 +0800 (CST)
+        with ESMTP id pwwz7j4U38JC for <linux-media@vger.kernel.org>;
+        Thu, 20 Jul 2023 11:01:42 +0800 (CST)
 Received: from localhost (email.208.org [127.0.0.1])
-        by mail.208.org (Postfix) with ESMTPSA id 4R5xt52DFszBRDrS;
-        Thu, 20 Jul 2023 10:47:09 +0800 (CST)
+        by mail.208.org (Postfix) with ESMTPSA id 4R5yBt25TSzBRDrS;
+        Thu, 20 Jul 2023 11:01:42 +0800 (CST)
 MIME-Version: 1.0
-Date:   Thu, 20 Jul 2023 10:47:09 +0800
+Date:   Thu, 20 Jul 2023 11:01:42 +0800
 From:   sunran001@208suo.com
 To:     mchehab@kernel.org
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: dvb-frontends: add missing spaces before '*' and
- remove spaces after '*'
-In-Reply-To: <20230720024545.1230-1-xujianghui@cdjrlc.com>
-References: <20230720024545.1230-1-xujianghui@cdjrlc.com>
+Subject: [PATCH] hv: put parentheses on macros with complex values in hyperv.h
+In-Reply-To: <20230720030009.1369-1-xujianghui@cdjrlc.com>
+References: <20230720030009.1369-1-xujianghui@cdjrlc.com>
 User-Agent: Roundcube Webmail
-Message-ID: <1e9b311ce35bc4a115e4a171a565e415@208suo.com>
+Message-ID: <e4b504ab6a1534cd26be777c9cb0bb6a@208suo.com>
 X-Sender: sunran001@208suo.com
 Content-Type: text/plain; charset=US-ASCII;
  format=flowed
@@ -62,27 +61,27 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add missing spaces to clear checkpatch errors.
-
-ERROR: "foo* bar" should be "foo *bar"
+Fix "Macros with complex values should be enclosed in parentheses"
+checkpatch error.
 
 Signed-off-by: Ran Sun <sunran001@208suo.com>
 ---
-  drivers/media/dvb-frontends/ds3000.c | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
+  include/linux/hyperv.h | 4 ++--
+  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/dvb-frontends/ds3000.c 
-b/drivers/media/dvb-frontends/ds3000.c
-index 20fcf31af165..ca40234a28fa 100644
---- a/drivers/media/dvb-frontends/ds3000.c
-+++ b/drivers/media/dvb-frontends/ds3000.c
-@@ -456,7 +456,7 @@ static int ds3000_read_status(struct dvb_frontend 
-*fe, enum fe_status *status)
-  }
+diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
+index bfbc37ce223b..6f6fdc7cf086 100644
+--- a/include/linux/hyperv.h
++++ b/include/linux/hyperv.h
+@@ -428,9 +428,9 @@ union vmpacket_largest_possible_header {
+  	struct vmdata_gpa_direct data_gpa_direct_hdr;
+  };
 
-  /* read DS3000 BER value */
--static int ds3000_read_ber(struct dvb_frontend *fe, u32* ber)
-+static int ds3000_read_ber(struct dvb_frontend *fe, u32 *ber)
-  {
-  	struct ds3000_state *state = fe->demodulator_priv;
-  	struct dtv_frontend_properties *c = &fe->dtv_property_cache;
+-#define VMPACKET_DATA_START_ADDRESS(__packet)	\
++#define VMPACKET_DATA_START_ADDRESS((__packet)	\
+  	(void *)(((unsigned char *)__packet) +	\
+-	 ((struct vmpacket_descriptor)__packet)->offset8 * 8)
++	 ((struct vmpacket_descriptor)__packet)->offset8 * 8))
+
+  #define VMPACKET_DATA_LENGTH(__packet)		\
+  	((((struct vmpacket_descriptor)__packet)->len8 -	\
